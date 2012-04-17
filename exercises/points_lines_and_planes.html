@@ -1,575 +1,575 @@
 <!DOCTYPE html>
 <html data-require="math graphie math-format graphie-geometry">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Points, Lines, and Planes</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Points, Lines, and Planes</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	
-	<div class="vars">
-			
-			<!--Much of this variables section was repeated many times, each time when making a new problem...-->
-			<!--Couldn't figure out how to separate this section outside of the problem statement for each new problem since it requires graphie-section. -->
-			
-				<var id="TILT">(1/150)*randRange(-100, 100)</var>
-				<var id="TILT2">(1/500)*randRange(-100, 100)</var>
-				
-				<!--Theta and r used to vary the position of point E a bit for variety-->
-				<var id="r">(1/150)*randRange(0, 100)</var>
-				<var id="theta">(1/100)*randRange(-314, 314)</var>
-				
-				<var id="Plane_edgePt1">[6 + (0 - 6)* cos(TILT) - (0 - 2)* sin(TILT), 2 + ( 0 - 6 ) * sin(TILT) + ( 0 - 2 ) * cos(TILT)]</var>
-				<var id="Plane_edgePt2">[6 + (10 - 6)* cos(TILT) - (0 - 2)* sin(TILT), 2 + ( 10 - 6 ) * sin(TILT) + ( 0 - 2 ) * cos(TILT)]</var>
-				<var id="Plane_edgePt3">[6 + (12 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 12 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)]</var>
-				<var id="Plane_edgePt4">[6 + (2 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 2 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)]</var>
-				
-				<var id="Line_endPt1">[6 + (3 - 6)* cos(TILT+TILT2) - (3 - 2)* sin(TILT+TILT2), 2 + ( 3 - 6 ) * sin(TILT+TILT2) + ( 3 - 2 ) * cos(TILT+TILT2)]</var>
-				<var id="Line_endPt2">[6 + (9 - 6)* cos(TILT+TILT2) - (1 - 2)* sin(TILT+TILT2), 2 + ( 9 - 6 ) * sin(TILT+TILT2) + ( 1 - 2 ) * cos(TILT+TILT2)]</var>
-				
-				<var id="Perp1_endPt1">[6 + (6 - 6)* cos(TILT) - (2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( 2 - 2 ) * cos(TILT)]</var>
-				<var id="Perp1_endPt2">[6 + (6 - 6)* cos(TILT) - (6 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( 6 - 2 ) * cos(TILT)]</var>
-				<var id="Perp2_endPt1">[6 + (6 - 6)* cos(TILT) - (0 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( 0 - 2 ) * cos(TILT)]</var>
-				<var id="Perp2_endPt2">[6 + (6 - 6)* cos(TILT) - (-3 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -3 - 2 ) * cos(TILT)]</var>
-				
-				<var id="Line_behindPlane1_Pt1">[6 + (6 - 6)* cos(TILT) - (0.4 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( 0.4 - 2 ) * cos(TILT)]</var>
-				<var id="Line_behindPlane1_Pt2">[6 + (6 - 6)* cos(TILT) - (.8 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( .8 - 2 ) * cos(TILT)]</var>				
-				
-				<var id="Line_behindPlane2_Pt1">[6 + (6 - 6)* cos(TILT) - (1.2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( 1.2 - 2 ) * cos(TILT)]</var>
-				<var id="Line_behindPlane2_Pt2">[6 + (6 - 6)* cos(TILT) - (1.6 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( 1.6 - 2 ) * cos(TILT)]</var>
+    <div class="exercise">
 
-				<var id="A">[6 + (4 - 6)* cos(TILT+TILT2) - (8/3 - 2)* sin(TILT+TILT2), 2 + ( 4 - 6 ) * sin(TILT+TILT2) + ( 8/3 - 2 ) * cos(TILT+TILT2)]</var>
-				<var id="B">[6, 2]</var>
-				<var id="C">[6 + (8 - 6)* cos(TILT+TILT2) - (4/3 - 2)* sin(TILT+TILT2), 2 + ( 8 - 6 ) * sin(TILT+TILT2) + ( 4/3 - 2 ) * cos(TILT+TILT2)]</var>
-				<var id="D">[6 + (6 - 6)* cos(TILT) - (-2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -2 - 2 ) * cos(TILT)]</var>
-				
-				<var id="E">[6 + (17/6 + r*cos(theta) - 6)* cos(TILT) - (1.4 + r*sin(theta) - 2)* sin(TILT), 2 + ( 17/6 + r*cos(theta) - 6 ) * sin(TILT) + ( 1.4 + r*sin(theta) - 2 ) * cos(TILT)]</var>
+    <div class="vars">
 
-				<var id="A_ATTRS">{ r: 0.1, fill: "red", stroke: "none" }</var>
-				<var id="B_ATTRS">{ r: 0.1, fill: "blue", stroke: "none" }</var>
-				<var id="C_ATTRS">{ r: 0.1, fill: "green", stroke: "none" }</var>
-				<var id="D_ATTRS">{ r: 0.1, fill: "orange", stroke: "none" }</var>
-				<var id="E_ATTRS">{ r: 0.1, fill: "purple", stroke: "none" }</var>
+            <!--Much of this variables section was repeated many times, each time when making a new problem...-->
+            <!--Couldn't figure out how to separate this section outside of the problem statement for each new problem since it requires graphie-section. -->
 
-				<!--To vary the letters used in the diagram-->
-				<var id="a">randFromArray( [ "A", "F", "K", "U" ] )</var>
-				<var id="b">randFromArray( [ "B", "G", "L", "V" ] )</var>
-				<var id="c">randFromArray( [ "C", "H", "M", "W" ] )</var>
-				<var id="d">randFromArray( [ "D", "I", "N", "X" ] )</var>
-				<var id="e">randFromArray( [ "E", "J", "O", "Y" ] )</var>
-				<var id="R">randFromArray( [ "R", "S", "T", "P" ] )</var>
+                <var id="TILT">(1/150)*randRange(-100, 100)</var>
+                <var id="TILT2">(1/500)*randRange(-100, 100)</var>
 
-			</div>
-			
-	<div class="problems">
-		<div id="Problem_1">
-		
-			
-			
-			<div class="question1">
-				<p>What is another way to name plane <code>\mathcal{<var>R</var>}</code>? <BR></p>
+                <!--Theta and r used to vary the position of point E a bit for variety-->
+                <var id="r">(1/150)*randRange(0, 100)</var>
+                <var id="theta">(1/100)*randRange(-314, 314)</var>
 
-				<div id = "original" class="graphie">
-					<!--Draw the plane and the lines-->
-					init({
-						range: [ [-1, 15], [-5, 8] ]
-					});					
-					path([ Plane_edgePt1, Plane_edgePt2, Plane_edgePt3, Plane_edgePt4, true ]);
-					line( Line_endPt1, Line_endPt2, { arrows: "->" } );
-					line( Line_endPt2, Line_endPt1, { arrows: "->" } );
-					line( Perp1_endPt1, Perp1_endPt2, {arrows: "->"});
-					line( Perp2_endPt1, Perp2_endPt2, {arrows: "->"});
-					
-					<!--Make it look 3-D-->
-					line( Line_behindPlane1_Pt1, Line_behindPlane1_Pt2);
-					line( Line_behindPlane2_Pt1, Line_behindPlane2_Pt2);
-					
-					<!--Draw the points-->
-					circle( A, A_ATTRS );
-					circle( B, B_ATTRS );
-					circle( C, C_ATTRS );
-					circle( D, D_ATTRS );
-					circle( E, E_ATTRS );
-					
-					<!--Label the points-->
-					label([6 + (4 - 6)* cos(TILT+TILT2) - (8/3 - 2)* sin(TILT+TILT2), 2 + ( 4 - 6 ) * sin(TILT+TILT2) + ( 8/3 - 2 ) * cos(TILT+TILT2)], "<var>a</var>", "above right" );
-					label([6.1, 2], "<var>b</var>", "above right");
-					label([6 + (8 - 6)* cos(TILT+TILT2) - (4/3 - 2)* sin(TILT+TILT2), 2 + ( 8 - 6 ) * sin(TILT+TILT2) + ( 4/3 - 2 ) * cos(TILT+TILT2)], "<var>c</var>", "above right" );
-					label([6 + (6 - 6)* cos(TILT) - (-2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -2 - 2 ) * cos(TILT)], "<var>d</var>", "right" );
-					label([6 + (17/6 + r*cos(theta) - 6)* cos(TILT) - (1.4 + r*sin(theta) - 2)* sin(TILT), 2 + ( 17/6 + r*cos(theta) - 6 ) * sin(TILT) + ( 1.4 + r*sin(theta) - 2 ) * cos(TILT)], "<var>e</var>", "below" );
+                <var id="Plane_edgePt1">[6 + (0 - 6)* cos(TILT) - (0 - 2)* sin(TILT), 2 + ( 0 - 6 ) * sin(TILT) + ( 0 - 2 ) * cos(TILT)]</var>
+                <var id="Plane_edgePt2">[6 + (10 - 6)* cos(TILT) - (0 - 2)* sin(TILT), 2 + ( 10 - 6 ) * sin(TILT) + ( 0 - 2 ) * cos(TILT)]</var>
+                <var id="Plane_edgePt3">[6 + (12 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 12 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)]</var>
+                <var id="Plane_edgePt4">[6 + (2 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 2 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)]</var>
 
-					<!--No.w label the ABC line and the plane-->
-					label([6 + (9.2 - 6)* cos(TILT+TILT2) - (1 - 2)* sin(TILT+TILT2), 2 + ( 9.2 - 6 ) * sin(TILT+TILT2) + ( 1 - 2 ) * cos(TILT+TILT2)], "\\ell", "right");
-					label([6 + (12.1 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 12.1 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)], "\\mathcal{<var>R</var>}", "right");
+                <var id="Line_endPt1">[6 + (3 - 6)* cos(TILT+TILT2) - (3 - 2)* sin(TILT+TILT2), 2 + ( 3 - 6 ) * sin(TILT+TILT2) + ( 3 - 2 ) * cos(TILT+TILT2)]</var>
+                <var id="Line_endPt2">[6 + (9 - 6)* cos(TILT+TILT2) - (1 - 2)* sin(TILT+TILT2), 2 + ( 9 - 6 ) * sin(TILT+TILT2) + ( 1 - 2 ) * cos(TILT+TILT2)]</var>
 
-				</div>
-			</div>
+                <var id="Perp1_endPt1">[6 + (6 - 6)* cos(TILT) - (2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( 2 - 2 ) * cos(TILT)]</var>
+                <var id="Perp1_endPt2">[6 + (6 - 6)* cos(TILT) - (6 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( 6 - 2 ) * cos(TILT)]</var>
+                <var id="Perp2_endPt1">[6 + (6 - 6)* cos(TILT) - (0 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( 0 - 2 ) * cos(TILT)]</var>
+                <var id="Perp2_endPt2">[6 + (6 - 6)* cos(TILT) - (-3 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -3 - 2 ) * cos(TILT)]</var>
 
-			
-			<div class="solution" data-type="set">
-				<div class="set-sol" data-type = "text">	<var>a</var><var>b</var><var>e</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>a</var><var>e</var><var>b</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>e</var><var>b</var><var>a</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>e</var><var>a</var><var>b</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>b</var><var>e</var><var>a</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>b</var><var>a</var><var>e</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>a</var><var>e</var><var>c</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>a</var><var>c</var><var>e</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>e</var><var>c</var><var>a</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>e</var><var>a</var><var>c</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>c</var><var>a</var><var>e</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>c</var><var>e</var><var>a</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>b</var><var>e</var><var>c</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>b</var><var>c</var><var>e</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>e</var><var>b</var><var>c</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>e</var><var>c</var><var>b</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>c</var><var>b</var><var>e</var>	</div>
-				<div class="set-sol" data-type = "text">	<var>c</var><var>e</var><var>b</var>	</div>
+                <var id="Line_behindPlane1_Pt1">[6 + (6 - 6)* cos(TILT) - (0.4 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( 0.4 - 2 ) * cos(TILT)]</var>
+                <var id="Line_behindPlane1_Pt2">[6 + (6 - 6)* cos(TILT) - (.8 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( .8 - 2 ) * cos(TILT)]</var>
 
-				<div class="input-format">
-				<p>Plane <span class="entry"></span></p>
-       			</div>
-			</div>
-				
-				<div class="hints">
-				<p>Planes can be named with three <u>non-collinear</u> points. <BR>
-				Non-collinear points are points not on the same line.</p>
-				<p>Find three points in <code>\mathcal{<var>R</var>}</code> not on the same line. List them in any order.</p>
-				<p>For example, we can write <code>\mathcal{<var>R</var>}</code> as plane <var>a</var><var>b</var><var>e</var> or plane <var>a</var><var>c</var><var>e</var> or plane <var>b</var><var>e</var><var>c</var>.</p>
-			</div>
-		</div>
+                <var id="Line_behindPlane2_Pt1">[6 + (6 - 6)* cos(TILT) - (1.2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( 1.2 - 2 ) * cos(TILT)]</var>
+                <var id="Line_behindPlane2_Pt2">[6 + (6 - 6)* cos(TILT) - (1.6 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( 1.6 - 2 ) * cos(TILT)]</var>
 
-		
-		<!--Next problem-->
-		<div id="Problem_2">
-		
-			<div class="vars">
-			
-				<var id="line_ab"><code>\overleftrightarrow{<var>a</var> <var>b</var>}</code></var>
-				<var id="line_ba"><code>\overleftrightarrow{<var>b</var> <var>a</var>}</code></var>
-				<var id="line_cb"><code>\overleftrightarrow{<var>c</var> <var>b</var>}</code></var>
-				<var id="line_bc"><code>\overleftrightarrow{<var>b</var>  <var>c</var>}</code></var>
-				<var id="line_ca"><code>\overleftrightarrow{<var>c</var>  <var>a</var>}</code></var>
-				<var id="line_ac"><code>\overleftrightarrow{<var>a</var>  <var>c</var>}</code></var>
-								
-				<var id="line_a"><code>\overleftrightarrow{<var>a</var>}</code></var>
-				<var id="line_b"><code>\overleftrightarrow{<var>b</var>}</code></var>
-				<var id="line_c"><code>\overleftrightarrow{<var>c</var>}</code></var>
+                <var id="A">[6 + (4 - 6)* cos(TILT+TILT2) - (8/3 - 2)* sin(TILT+TILT2), 2 + ( 4 - 6 ) * sin(TILT+TILT2) + ( 8/3 - 2 ) * cos(TILT+TILT2)]</var>
+                <var id="B">[6, 2]</var>
+                <var id="C">[6 + (8 - 6)* cos(TILT+TILT2) - (4/3 - 2)* sin(TILT+TILT2), 2 + ( 8 - 6 ) * sin(TILT+TILT2) + ( 4/3 - 2 ) * cos(TILT+TILT2)]</var>
+                <var id="D">[6 + (6 - 6)* cos(TILT) - (-2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -2 - 2 ) * cos(TILT)]</var>
 
-				<var id="seg_ab"><code>\overline{<var>a</var> <var>b</var>}</code></var>
-				<var id="seg_ba"><code>\overline{<var>b</var> <var>a</var>}</code></var>
-				<var id="seg_cb"><code>\overline{<var>c</var> <var>b</var>}</code></var>
-				<var id="seg_bc"><code>\overline{<var>b</var> <var>c</var>}</code></var>
-				<var id="seg_ca"><code>\overline{<var>c</var> <var>a</var>}</code></var>
-				<var id="seg_ac"><code>\overline{<var>a</var> <var>c</var>}</code></var>
+                <var id="E">[6 + (17/6 + r*cos(theta) - 6)* cos(TILT) - (1.4 + r*sin(theta) - 2)* sin(TILT), 2 + ( 17/6 + r*cos(theta) - 6 ) * sin(TILT) + ( 1.4 + r*sin(theta) - 2 ) * cos(TILT)]</var>
 
-				<var id="line_ec"><code>\overleftrightarrow{<var>e</var> <var>c</var>}</code></var>
-				<var id="line_ce"><code>\overleftrightarrow{<var>c</var> <var>e</var>}</code></var>
-				<var id="line_da"><code>\overleftrightarrow{<var>d</var> <var>a</var>}</code></var>
-				<var id="line_db"><code>\overleftrightarrow{<var>d</var> <var>b</var>}</code></var>
-				<var id="line_dc"><code>\overleftrightarrow{<var>d</var> <var>c</var>}</code></var>
-				<var id="line_ad"><code>\overleftrightarrow{<var>a</var> <var>d</var>}</code></var>
+                <var id="A_ATTRS">{ r: 0.1, fill: "red", stroke: "none" }</var>
+                <var id="B_ATTRS">{ r: 0.1, fill: "blue", stroke: "none" }</var>
+                <var id="C_ATTRS">{ r: 0.1, fill: "green", stroke: "none" }</var>
+                <var id="D_ATTRS">{ r: 0.1, fill: "orange", stroke: "none" }</var>
+                <var id="E_ATTRS">{ r: 0.1, fill: "purple", stroke: "none" }</var>
 
-				
-				<var id="SOLUTIONS">
-					[line_ab, line_ba, line_bc, line_cb, line_ac, line_ca]						
-				</var>
-				
-				<var id="IDX">randRange( 0, SOLUTIONS.length - 1 )</var>
-				<var id="SOLUTION">SOLUTIONS[ IDX ]</var>
-				
-				<var id="fake_SOLUTIONS1">
-					[line_a, line_b, line_c]
-				</var>
-				
-				<var id="IDX1">randRange( 0, fake_SOLUTIONS1.length - 1 )</var>
-				<var id="fake_SOLUTION1">fake_SOLUTIONS1[ IDX1 ]</var>
-				
-				<var id="fake_SOLUTIONS2">
-					[seg_ab, seg_ba, seg_bc, seg_cb, seg_ac, seg_ca]	
-				</var>
-				
-				<var id="IDX2">randRange( 0, fake_SOLUTIONS2.length - 1 )</var>
-				<var id="fake_SOLUTION2">fake_SOLUTIONS2[ IDX2 ]</var>
-				
-				<var id="fake_SOLUTIONS3">
-						[line_ec, line_ce, line_da, line_db, line_dc, line_ad]
-				</var>
-				
-				<var id="IDX3">randRange( 0, fake_SOLUTIONS3.length - 1 )</var>
-				<var id="fake_SOLUTION3">fake_SOLUTIONS3[ IDX3 ]</var>
-				
-			</div>
-			
-			<div class="question2">
-				<p>What is another way to name line <code>\ell</code>?</p>
+                <!--To vary the letters used in the diagram-->
+                <var id="a">randFromArray( [ "A", "F", "K", "U" ] )</var>
+                <var id="b">randFromArray( [ "B", "G", "L", "V" ] )</var>
+                <var id="c">randFromArray( [ "C", "H", "M", "W" ] )</var>
+                <var id="d">randFromArray( [ "D", "I", "N", "X" ] )</var>
+                <var id="e">randFromArray( [ "E", "J", "O", "Y" ] )</var>
+                <var id="R">randFromArray( [ "R", "S", "T", "P" ] )</var>
 
-				<div class="graphie">
-					<!--Draw the plane and the lines-->
-					init({
-						range: [ [-1, 15], [-5, 8] ]
-					});					
-					path([ Plane_edgePt1, Plane_edgePt2, Plane_edgePt3, Plane_edgePt4, true ]);
-					line( Line_endPt1, Line_endPt2, { arrows: "->" } );
-					line( Line_endPt2, Line_endPt1, { arrows: "->" } );
-					line( Perp1_endPt1, Perp1_endPt2, {arrows: "->"});
-					line( Perp2_endPt1, Perp2_endPt2, {arrows: "->"});
-					
-					<!--Make it look 3-D-->
-					line( Line_behindPlane1_Pt1, Line_behindPlane1_Pt2);
-					line( Line_behindPlane2_Pt1, Line_behindPlane2_Pt2);
-					
-					<!--Draw the points-->
-					circle( A, A_ATTRS );
-					circle( B, B_ATTRS );
-					circle( C, C_ATTRS );
-					circle( D, D_ATTRS );
-					circle( E, E_ATTRS );
-					
-					<!--Label the points-->
-					label([6 + (4 - 6)* cos(TILT+TILT2) - (8/3 - 2)* sin(TILT+TILT2), 2 + ( 4 - 6 ) * sin(TILT+TILT2) + ( 8/3 - 2 ) * cos(TILT+TILT2)], "<var>a</var>", "above right" );
-					label([6.1, 2], "<var>b</var>", "above right");
-					label([6 + (8 - 6)* cos(TILT+TILT2) - (4/3 - 2)* sin(TILT+TILT2), 2 + ( 8 - 6 ) * sin(TILT+TILT2) + ( 4/3 - 2 ) * cos(TILT+TILT2)], "<var>c</var>", "above right" );
-					label([6 + (6 - 6)* cos(TILT) - (-2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -2 - 2 ) * cos(TILT)], "<var>d</var>", "right" );
-					label([6 + (17/6 + r*cos(theta) - 6)* cos(TILT) - (1.4 + r*sin(theta) - 2)* sin(TILT), 2 + ( 17/6 + r*cos(theta) - 6 ) * sin(TILT) + ( 1.4 + r*sin(theta) - 2 ) * cos(TILT)], "<var>e</var>", "below" );
+            </div>
 
-					<!--No.w label the ABC line and the plane-->
-					label([6 + (9.2 - 6)* cos(TILT+TILT2) - (1 - 2)* sin(TILT+TILT2), 2 + ( 9.2 - 6 ) * sin(TILT+TILT2) + ( 1 - 2 ) * cos(TILT+TILT2)], "\\ell", "right");
-					label([6 + (12.1 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 12.1 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)], "\\mathcal{<var>R</var>}", "right");
+    <div class="problems">
+        <div id="Problem_1">
 
-				</div>
-			</div>
 
-			<div class "solution">
-			<p class="solution"> <var>SOLUTION</var> </p>
 
-		<ul class="choices">
+            <div class="question1">
+                <p>What is another way to name plane <code>\mathcal{<var>R</var>}</code>? <BR></p>
+
+                <div id = "original" class="graphie">
+                    <!--Draw the plane and the lines-->
+                    init({
+                        range: [ [-1, 15], [-5, 8] ]
+                    });
+                    path([ Plane_edgePt1, Plane_edgePt2, Plane_edgePt3, Plane_edgePt4, true ]);
+                    line( Line_endPt1, Line_endPt2, { arrows: "->" } );
+                    line( Line_endPt2, Line_endPt1, { arrows: "->" } );
+                    line( Perp1_endPt1, Perp1_endPt2, {arrows: "->"});
+                    line( Perp2_endPt1, Perp2_endPt2, {arrows: "->"});
+
+                    <!--Make it look 3-D-->
+                    line( Line_behindPlane1_Pt1, Line_behindPlane1_Pt2);
+                    line( Line_behindPlane2_Pt1, Line_behindPlane2_Pt2);
+
+                    <!--Draw the points-->
+                    circle( A, A_ATTRS );
+                    circle( B, B_ATTRS );
+                    circle( C, C_ATTRS );
+                    circle( D, D_ATTRS );
+                    circle( E, E_ATTRS );
+
+                    <!--Label the points-->
+                    label([6 + (4 - 6)* cos(TILT+TILT2) - (8/3 - 2)* sin(TILT+TILT2), 2 + ( 4 - 6 ) * sin(TILT+TILT2) + ( 8/3 - 2 ) * cos(TILT+TILT2)], "<var>a</var>", "above right" );
+                    label([6.1, 2], "<var>b</var>", "above right");
+                    label([6 + (8 - 6)* cos(TILT+TILT2) - (4/3 - 2)* sin(TILT+TILT2), 2 + ( 8 - 6 ) * sin(TILT+TILT2) + ( 4/3 - 2 ) * cos(TILT+TILT2)], "<var>c</var>", "above right" );
+                    label([6 + (6 - 6)* cos(TILT) - (-2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -2 - 2 ) * cos(TILT)], "<var>d</var>", "right" );
+                    label([6 + (17/6 + r*cos(theta) - 6)* cos(TILT) - (1.4 + r*sin(theta) - 2)* sin(TILT), 2 + ( 17/6 + r*cos(theta) - 6 ) * sin(TILT) + ( 1.4 + r*sin(theta) - 2 ) * cos(TILT)], "<var>e</var>", "below" );
+
+                    <!--No.w label the ABC line and the plane-->
+                    label([6 + (9.2 - 6)* cos(TILT+TILT2) - (1 - 2)* sin(TILT+TILT2), 2 + ( 9.2 - 6 ) * sin(TILT+TILT2) + ( 1 - 2 ) * cos(TILT+TILT2)], "\\ell", "right");
+                    label([6 + (12.1 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 12.1 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)], "\\mathcal{<var>R</var>}", "right");
+
+                </div>
+            </div>
+
+
+            <div class="solution" data-type="set">
+                <div class="set-sol" data-type = "text">    <var>a</var><var>b</var><var>e</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>a</var><var>e</var><var>b</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>e</var><var>b</var><var>a</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>e</var><var>a</var><var>b</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>b</var><var>e</var><var>a</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>b</var><var>a</var><var>e</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>a</var><var>e</var><var>c</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>a</var><var>c</var><var>e</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>e</var><var>c</var><var>a</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>e</var><var>a</var><var>c</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>c</var><var>a</var><var>e</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>c</var><var>e</var><var>a</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>b</var><var>e</var><var>c</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>b</var><var>c</var><var>e</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>e</var><var>b</var><var>c</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>e</var><var>c</var><var>b</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>c</var><var>b</var><var>e</var>    </div>
+                <div class="set-sol" data-type = "text">    <var>c</var><var>e</var><var>b</var>    </div>
+
+                <div class="input-format">
+                <p>Plane <span class="entry"></span></p>
+                   </div>
+            </div>
+
+                <div class="hints">
+                <p>Planes can be named with three <u>non-collinear</u> points. <BR>
+                Non-collinear points are points not on the same line.</p>
+                <p>Find three points in <code>\mathcal{<var>R</var>}</code> not on the same line. List them in any order.</p>
+                <p>For example, we can write <code>\mathcal{<var>R</var>}</code> as plane <var>a</var><var>b</var><var>e</var> or plane <var>a</var><var>c</var><var>e</var> or plane <var>b</var><var>e</var><var>c</var>.</p>
+            </div>
+        </div>
+
+
+        <!--Next problem-->
+        <div id="Problem_2">
+
+            <div class="vars">
+
+                <var id="line_ab"><code>\overleftrightarrow{<var>a</var> <var>b</var>}</code></var>
+                <var id="line_ba"><code>\overleftrightarrow{<var>b</var> <var>a</var>}</code></var>
+                <var id="line_cb"><code>\overleftrightarrow{<var>c</var> <var>b</var>}</code></var>
+                <var id="line_bc"><code>\overleftrightarrow{<var>b</var>  <var>c</var>}</code></var>
+                <var id="line_ca"><code>\overleftrightarrow{<var>c</var>  <var>a</var>}</code></var>
+                <var id="line_ac"><code>\overleftrightarrow{<var>a</var>  <var>c</var>}</code></var>
+
+                <var id="line_a"><code>\overleftrightarrow{<var>a</var>}</code></var>
+                <var id="line_b"><code>\overleftrightarrow{<var>b</var>}</code></var>
+                <var id="line_c"><code>\overleftrightarrow{<var>c</var>}</code></var>
+
+                <var id="seg_ab"><code>\overline{<var>a</var> <var>b</var>}</code></var>
+                <var id="seg_ba"><code>\overline{<var>b</var> <var>a</var>}</code></var>
+                <var id="seg_cb"><code>\overline{<var>c</var> <var>b</var>}</code></var>
+                <var id="seg_bc"><code>\overline{<var>b</var> <var>c</var>}</code></var>
+                <var id="seg_ca"><code>\overline{<var>c</var> <var>a</var>}</code></var>
+                <var id="seg_ac"><code>\overline{<var>a</var> <var>c</var>}</code></var>
+
+                <var id="line_ec"><code>\overleftrightarrow{<var>e</var> <var>c</var>}</code></var>
+                <var id="line_ce"><code>\overleftrightarrow{<var>c</var> <var>e</var>}</code></var>
+                <var id="line_da"><code>\overleftrightarrow{<var>d</var> <var>a</var>}</code></var>
+                <var id="line_db"><code>\overleftrightarrow{<var>d</var> <var>b</var>}</code></var>
+                <var id="line_dc"><code>\overleftrightarrow{<var>d</var> <var>c</var>}</code></var>
+                <var id="line_ad"><code>\overleftrightarrow{<var>a</var> <var>d</var>}</code></var>
+
+
+                <var id="SOLUTIONS">
+                    [line_ab, line_ba, line_bc, line_cb, line_ac, line_ca]
+                </var>
+
+                <var id="IDX">randRange( 0, SOLUTIONS.length - 1 )</var>
+                <var id="SOLUTION">SOLUTIONS[ IDX ]</var>
+
+                <var id="fake_SOLUTIONS1">
+                    [line_a, line_b, line_c]
+                </var>
+
+                <var id="IDX1">randRange( 0, fake_SOLUTIONS1.length - 1 )</var>
+                <var id="fake_SOLUTION1">fake_SOLUTIONS1[ IDX1 ]</var>
+
+                <var id="fake_SOLUTIONS2">
+                    [seg_ab, seg_ba, seg_bc, seg_cb, seg_ac, seg_ca]
+                </var>
+
+                <var id="IDX2">randRange( 0, fake_SOLUTIONS2.length - 1 )</var>
+                <var id="fake_SOLUTION2">fake_SOLUTIONS2[ IDX2 ]</var>
+
+                <var id="fake_SOLUTIONS3">
+                        [line_ec, line_ce, line_da, line_db, line_dc, line_ad]
+                </var>
+
+                <var id="IDX3">randRange( 0, fake_SOLUTIONS3.length - 1 )</var>
+                <var id="fake_SOLUTION3">fake_SOLUTIONS3[ IDX3 ]</var>
+
+            </div>
+
+            <div class="question2">
+                <p>What is another way to name line <code>\ell</code>?</p>
+
+                <div class="graphie">
+                    <!--Draw the plane and the lines-->
+                    init({
+                        range: [ [-1, 15], [-5, 8] ]
+                    });
+                    path([ Plane_edgePt1, Plane_edgePt2, Plane_edgePt3, Plane_edgePt4, true ]);
+                    line( Line_endPt1, Line_endPt2, { arrows: "->" } );
+                    line( Line_endPt2, Line_endPt1, { arrows: "->" } );
+                    line( Perp1_endPt1, Perp1_endPt2, {arrows: "->"});
+                    line( Perp2_endPt1, Perp2_endPt2, {arrows: "->"});
+
+                    <!--Make it look 3-D-->
+                    line( Line_behindPlane1_Pt1, Line_behindPlane1_Pt2);
+                    line( Line_behindPlane2_Pt1, Line_behindPlane2_Pt2);
+
+                    <!--Draw the points-->
+                    circle( A, A_ATTRS );
+                    circle( B, B_ATTRS );
+                    circle( C, C_ATTRS );
+                    circle( D, D_ATTRS );
+                    circle( E, E_ATTRS );
+
+                    <!--Label the points-->
+                    label([6 + (4 - 6)* cos(TILT+TILT2) - (8/3 - 2)* sin(TILT+TILT2), 2 + ( 4 - 6 ) * sin(TILT+TILT2) + ( 8/3 - 2 ) * cos(TILT+TILT2)], "<var>a</var>", "above right" );
+                    label([6.1, 2], "<var>b</var>", "above right");
+                    label([6 + (8 - 6)* cos(TILT+TILT2) - (4/3 - 2)* sin(TILT+TILT2), 2 + ( 8 - 6 ) * sin(TILT+TILT2) + ( 4/3 - 2 ) * cos(TILT+TILT2)], "<var>c</var>", "above right" );
+                    label([6 + (6 - 6)* cos(TILT) - (-2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -2 - 2 ) * cos(TILT)], "<var>d</var>", "right" );
+                    label([6 + (17/6 + r*cos(theta) - 6)* cos(TILT) - (1.4 + r*sin(theta) - 2)* sin(TILT), 2 + ( 17/6 + r*cos(theta) - 6 ) * sin(TILT) + ( 1.4 + r*sin(theta) - 2 ) * cos(TILT)], "<var>e</var>", "below" );
+
+                    <!--No.w label the ABC line and the plane-->
+                    label([6 + (9.2 - 6)* cos(TILT+TILT2) - (1 - 2)* sin(TILT+TILT2), 2 + ( 9.2 - 6 ) * sin(TILT+TILT2) + ( 1 - 2 ) * cos(TILT+TILT2)], "\\ell", "right");
+                    label([6 + (12.1 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 12.1 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)], "\\mathcal{<var>R</var>}", "right");
+
+                </div>
+            </div>
+
+            <div class "solution">
+            <p class="solution"> <var>SOLUTION</var> </p>
+
+        <ul class="choices">
     <li><var>fake_SOLUTION1</var></li>
-	<li><var>fake_SOLUTION2</var></li>
+    <li><var>fake_SOLUTION2</var></li>
     <li><var>fake_SOLUTION3</var></li>
     <li><code>\overleftrightarrow{<var>a</var> <var>b</var> <var>c</var>}</code></li>
 
- 		</ul>
-			</div>
+         </ul>
+            </div>
 
-			
-				<div class="hints">
-				<p>You need any two points on the line. </p>
-				<p>Your points must have the <code>\leftrightarrow</code> above. <BR>
-				Lines are named by two points and the <code>\leftrightarrow</code>, and <BR>
-				the order of the letters doesn't matter.</p>
-				<p> <code>\overleftrightarrow{<var>a</var> <var>b</var>}</code>, <code>\overleftrightarrow{<var>b</var> <var>a</var>}</code>, <code>\overleftrightarrow{<var>b</var> <var>c</var>}</code>, <code>\overleftrightarrow{<var>c</var> <var>b</var>}</code>, <code>\overleftrightarrow{<var>a</var> <var>c</var>}</code>, <code>\overleftrightarrow{<var>c</var> <var>a</var>}</code>.</p>
-			</div>
-		</div>
-		
-		
-		<!--Next problem-->
-		<div id="Problem_3">
-		
-			<div class="vars">
 
-			<var id="pts_abc"> <var>a</var>, <var>b</var>, and <var>c</var> </var>
-			<var id="pts_acb"> <var>a</var>, <var>c</var>, and <var>b</var> </var>
-			<var id="pts_bac"> <var>b</var>, <var>a</var>, and <var>c</var> </var>
-			<var id="pts_bca"> <var>b</var>, <var>c</var>, and <var>a</var> </var>
-			<var id="pts_cab"> <var>c</var>, <var>a</var>, and <var>b</var> </var>
-			<var id="pts_cba"> <var>c</var>, <var>b</var>, and <var>a</var> </var>
-			<var id="pts_abd"> <var>a</var>, <var>b</var>, and <var>d</var> </var>
-			<var id="pts_ace"> <var>a</var>, <var>c</var>, and <var>e</var> </var>
-			<var id="pts_bec"> <var>b</var>, <var>e</var>, and <var>c</var> </var>
-			<var id="pts_eca"> <var>e</var>, <var>c</var>, and <var>a</var> </var>
-			<var id="pts_cad"> <var>c</var>, <var>a</var>, and <var>d</var> </var>
-			<var id="pts_cbe"> <var>c</var>, <var>b</var>, and <var>e</var> </var>
-			
-				<!--First six points = Yes., second six points = No.-->
-				<var id="points">
-					[pts_abc, pts_acb, pts_bac, pts_bca, pts_cab, pts_cba, pts_abd, pts_ace, pts_bec, pts_eca, pts_cad, pts_cbe]
-				</var>
-				
-				<var id="IDX">randRange( 0, points.length - 1 )</var>
-				<var id="oppositeIDX">-IDX + 11 </var>
-				
-						
-				<var id="sol">
-					[		'Yes.',
-							'Yes.',
-							'Yes.',
-							'Yes.',
-							'Yes.',
-							'Yes.',
-							'No.',
-							'No.',
-							'No.',
-							'No.',
-							'No.',
-							'No.'							
-					]
-				</var>
-				
-			<var id="pts">points[ IDX ]</var>	
-			<var id="solution">sol[ IDX ]</var>	
-			
-			</div>
-					
-			
-			<div class="question3">
-				<p>Are the points <var>pts</var> collinear?</p>
+                <div class="hints">
+                <p>You need any two points on the line. </p>
+                <p>Your points must have the <code>\leftrightarrow</code> above. <BR>
+                Lines are named by two points and the <code>\leftrightarrow</code>, and <BR>
+                the order of the letters doesn't matter.</p>
+                <p> <code>\overleftrightarrow{<var>a</var> <var>b</var>}</code>, <code>\overleftrightarrow{<var>b</var> <var>a</var>}</code>, <code>\overleftrightarrow{<var>b</var> <var>c</var>}</code>, <code>\overleftrightarrow{<var>c</var> <var>b</var>}</code>, <code>\overleftrightarrow{<var>a</var> <var>c</var>}</code>, <code>\overleftrightarrow{<var>c</var> <var>a</var>}</code>.</p>
+            </div>
+        </div>
 
-				<div class="graphie">
-					<!--Draw the plane and the lines-->
-					init({
-						range: [ [-1, 15], [-5, 8] ]
-					});					
-					path([ Plane_edgePt1, Plane_edgePt2, Plane_edgePt3, Plane_edgePt4, true ]);
-					line( Line_endPt1, Line_endPt2, { arrows: "->" } );
-					line( Line_endPt2, Line_endPt1, { arrows: "->" } );
-					line( Perp1_endPt1, Perp1_endPt2, {arrows: "->"});
-					line( Perp2_endPt1, Perp2_endPt2, {arrows: "->"});
-					
-					<!--Make it look 3-D-->
-					line( Line_behindPlane1_Pt1, Line_behindPlane1_Pt2);
-					line( Line_behindPlane2_Pt1, Line_behindPlane2_Pt2);
-					
-					<!--Draw the points-->
-					circle( A, A_ATTRS );
-					circle( B, B_ATTRS );
-					circle( C, C_ATTRS );
-					circle( D, D_ATTRS );
-					circle( E, E_ATTRS );
-					
-					<!--Label the points-->
-					label([6 + (4 - 6)* cos(TILT+TILT2) - (8/3 - 2)* sin(TILT+TILT2), 2 + ( 4 - 6 ) * sin(TILT+TILT2) + ( 8/3 - 2 ) * cos(TILT+TILT2)], "<var>a</var>", "above right" );
-					label([6.1, 2], "<var>b</var>", "above right");
-					label([6 + (8 - 6)* cos(TILT+TILT2) - (4/3 - 2)* sin(TILT+TILT2), 2 + ( 8 - 6 ) * sin(TILT+TILT2) + ( 4/3 - 2 ) * cos(TILT+TILT2)], "<var>c</var>", "above right" );
-					label([6 + (6 - 6)* cos(TILT) - (-2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -2 - 2 ) * cos(TILT)], "<var>d</var>", "right" );
-					label([6 + (17/6 + r*cos(theta) - 6)* cos(TILT) - (1.4 + r*sin(theta) - 2)* sin(TILT), 2 + ( 17/6 + r*cos(theta) - 6 ) * sin(TILT) + ( 1.4 + r*sin(theta) - 2 ) * cos(TILT)], "<var>e</var>", "below" );
 
-					<!--No.w label the ABC line and the plane-->
-					label([6 + (9.2 - 6)* cos(TILT+TILT2) - (1 - 2)* sin(TILT+TILT2), 2 + ( 9.2 - 6 ) * sin(TILT+TILT2) + ( 1 - 2 ) * cos(TILT+TILT2)], "\\ell", "right");
-					label([6 + (12.1 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 12.1 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)], "\\mathcal{<var>R</var>}", "right");
+        <!--Next problem-->
+        <div id="Problem_3">
 
-				</div>
-			</div>
+            <div class="vars">
 
-			<div class "solution">
-			<p class="solution"> <var>solution</var> </p>
+            <var id="pts_abc"> <var>a</var>, <var>b</var>, and <var>c</var> </var>
+            <var id="pts_acb"> <var>a</var>, <var>c</var>, and <var>b</var> </var>
+            <var id="pts_bac"> <var>b</var>, <var>a</var>, and <var>c</var> </var>
+            <var id="pts_bca"> <var>b</var>, <var>c</var>, and <var>a</var> </var>
+            <var id="pts_cab"> <var>c</var>, <var>a</var>, and <var>b</var> </var>
+            <var id="pts_cba"> <var>c</var>, <var>b</var>, and <var>a</var> </var>
+            <var id="pts_abd"> <var>a</var>, <var>b</var>, and <var>d</var> </var>
+            <var id="pts_ace"> <var>a</var>, <var>c</var>, and <var>e</var> </var>
+            <var id="pts_bec"> <var>b</var>, <var>e</var>, and <var>c</var> </var>
+            <var id="pts_eca"> <var>e</var>, <var>c</var>, and <var>a</var> </var>
+            <var id="pts_cad"> <var>c</var>, <var>a</var>, and <var>d</var> </var>
+            <var id="pts_cbe"> <var>c</var>, <var>b</var>, and <var>e</var> </var>
 
-		<ul class="choices" data-category="true">
-		<li><var>sol[0]</var></li>
-		<li><var>sol[11]</var></li>
- 		</ul>
-			</div>
-			
-			
+                <!--First six points = Yes., second six points = No.-->
+                <var id="points">
+                    [pts_abc, pts_acb, pts_bac, pts_bca, pts_cab, pts_cba, pts_abd, pts_ace, pts_bec, pts_eca, pts_cad, pts_cbe]
+                </var>
 
-			
-				<div class="hints">
-				<p> Collinear means that they lie on the same line.</p>
-				<p> Are the named points all on the same line? </p>
-				</div>
-		</div>		
-		
+                <var id="IDX">randRange( 0, points.length - 1 )</var>
+                <var id="oppositeIDX">-IDX + 11 </var>
 
-		<!--Next problem-->
-		<div id="Problem_4">
-		
-			<div class="vars">
-			
-			<var id="pts_dc"> <var>d</var> and <var>c</var> </var>
-			<var id="pts_eb"> <var>e</var> and <var>b</var> </var>
-			<var id="pts_ac"> <var>a</var> and <var>c</var> </var>
-			<var id="pts_ca"> <var>c</var> and <var>a</var> </var>
-			<var id="pts_ab"> <var>a</var> and <var>b</var> </var>
-			<var id="pts_ba"> <var>b</var> and <var>a</var> </var>
-			<var id="pts_bd"> <var>b</var> and <var>d</var> </var>
-			<var id="pts_ce"> <var>c</var> and <var>e</var> </var>
-			<var id="pts_ec"> <var>e</var> and <var>c</var> </var>
-			<var id="pts_ca"> <var>c</var> and <var>a</var> </var>
-			<var id="pts_ad"> <var>a</var> and <var>d</var> </var>
-			<var id="pts_be"> <var>b</var> and <var>e</var> </var>
-				
-				<var id="points">
-					[pts_dc, pts_eb, pts_ac, pts_ca, pts_ab, pts_ba, pts_bd, pts_ce, pts_ec, pts_ca, pts_ad, pts_be]
-				</var>
-				
-				<var id="IDX">randRange( 0, points.length - 1 )</var>
 
-				
-			<var id="pts">points[ IDX ]</var>	
-			<var id="solution">"Yes."</var>	
-			<var id="wrong">"No."</var>
-			
-			</div>
-					
-			
-			<div class="question4">
-				<p>Are the points <var>pts</var> collinear?</p>
+                <var id="sol">
+                    [        'Yes.',
+                            'Yes.',
+                            'Yes.',
+                            'Yes.',
+                            'Yes.',
+                            'Yes.',
+                            'No.',
+                            'No.',
+                            'No.',
+                            'No.',
+                            'No.',
+                            'No.'
+                    ]
+                </var>
 
-				<div class="graphie">
-					<!--Draw the plane and the lines-->
-					init({
-						range: [ [-1, 15], [-5, 8] ]
-					});					
-					path([ Plane_edgePt1, Plane_edgePt2, Plane_edgePt3, Plane_edgePt4, true ]);
-					line( Line_endPt1, Line_endPt2, { arrows: "->" } );
-					line( Line_endPt2, Line_endPt1, { arrows: "->" } );
-					line( Perp1_endPt1, Perp1_endPt2, {arrows: "->"});
-					line( Perp2_endPt1, Perp2_endPt2, {arrows: "->"});
-					
-					<!--Make it look 3-D-->
-					line( Line_behindPlane1_Pt1, Line_behindPlane1_Pt2);
-					line( Line_behindPlane2_Pt1, Line_behindPlane2_Pt2);
-					
-					<!--Draw the points-->
-					circle( A, A_ATTRS );
-					circle( B, B_ATTRS );
-					circle( C, C_ATTRS );
-					circle( D, D_ATTRS );
-					circle( E, E_ATTRS );
-					
-					<!--Label the points-->
-					label([6 + (4 - 6)* cos(TILT+TILT2) - (8/3 - 2)* sin(TILT+TILT2), 2 + ( 4 - 6 ) * sin(TILT+TILT2) + ( 8/3 - 2 ) * cos(TILT+TILT2)], "<var>a</var>", "above right" );
-					label([6.1, 2], "<var>b</var>", "above right");
-					label([6 + (8 - 6)* cos(TILT+TILT2) - (4/3 - 2)* sin(TILT+TILT2), 2 + ( 8 - 6 ) * sin(TILT+TILT2) + ( 4/3 - 2 ) * cos(TILT+TILT2)], "<var>c</var>", "above right" );
-					label([6 + (6 - 6)* cos(TILT) - (-2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -2 - 2 ) * cos(TILT)], "<var>d</var>", "right" );
-					label([6 + (17/6 + r*cos(theta) - 6)* cos(TILT) - (1.4 + r*sin(theta) - 2)* sin(TILT), 2 + ( 17/6 + r*cos(theta) - 6 ) * sin(TILT) + ( 1.4 + r*sin(theta) - 2 ) * cos(TILT)], "<var>e</var>", "below" );
+            <var id="pts">points[ IDX ]</var>
+            <var id="solution">sol[ IDX ]</var>
 
-					<!--No.w label the ABC line and the plane-->
-					label([6 + (9.2 - 6)* cos(TILT+TILT2) - (1 - 2)* sin(TILT+TILT2), 2 + ( 9.2 - 6 ) * sin(TILT+TILT2) + ( 1 - 2 ) * cos(TILT+TILT2)], "\\ell", "right");
-					label([6 + (12.1 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 12.1 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)], "\\mathcal{<var>R</var>}", "right");
+            </div>
 
-				</div>
-			</div>
 
-			<div class "solution">
-			<p class="solution"> <var>solution</var> </p>
+            <div class="question3">
+                <p>Are the points <var>pts</var> collinear?</p>
 
-		<ul class="choices" data-category="true">
-		<li><var>solution</var></li>
-		<li><var>wrong</var></li>
- 		</ul>
-			</div>
-			
-						
-				<div class="hints">
-				<p> Through any two points, there is exactly one line.</p>
-				<p> Points can be collinear even if the line isn't drawn in the figure. </p>
-				<p> Can you draw a straight line through these two points? <BR>
-				Actually, can you draw a straight line through any two points?</p>
+                <div class="graphie">
+                    <!--Draw the plane and the lines-->
+                    init({
+                        range: [ [-1, 15], [-5, 8] ]
+                    });
+                    path([ Plane_edgePt1, Plane_edgePt2, Plane_edgePt3, Plane_edgePt4, true ]);
+                    line( Line_endPt1, Line_endPt2, { arrows: "->" } );
+                    line( Line_endPt2, Line_endPt1, { arrows: "->" } );
+                    line( Perp1_endPt1, Perp1_endPt2, {arrows: "->"});
+                    line( Perp2_endPt1, Perp2_endPt2, {arrows: "->"});
 
-				</div>
-		</div>
+                    <!--Make it look 3-D-->
+                    line( Line_behindPlane1_Pt1, Line_behindPlane1_Pt2);
+                    line( Line_behindPlane2_Pt1, Line_behindPlane2_Pt2);
 
-		
-		
-		<!--Next problem-->
-		<div id="Problem_5">
-		
-			<div class="vars">
-			
-	<!--First six points = Yes., second six points = No.-->		
-			<var id="pts_abce"> <var>a</var>, <var>b</var>, <var>c</var>, and <var>e</var> </var>
-			<var id="pts_acd"> <var>a</var>, <var>c</var>, and <var>d</var> </var>
-			<var id="pts_bac"> <var>b</var>, <var>a</var>, and <var>c</var> </var>
-			<var id="pts_bcae"> <var>b</var>, <var>c</var>, <var>a</var>, and <var>e</var> </var>
-			<var id="pts_eda"> <var>e</var>, <var>d</var>, and <var>a</var> </var>
-			<var id="pts_cda"> <var>c</var>, <var>d</var>, and <var>a</var> </var>
-			<var id="pts_abde"> <var>a</var>, <var>b</var>, <var>d</var>, and <var>e</var> </var>
-			<var id="pts_acde"> <var>a</var>, <var>c</var>, <var>d</var>, and <var>e</var> </var>
-			<var id="pts_bedc"> <var>b</var>, <var>e</var>, <var>d</var>, and <var>c</var> </var>
-			<var id="pts_ecda"> <var>e</var>, <var>c</var>, <var>d</var>, and <var>a</var> </var>
-			<var id="pts_cadb"> <var>c</var>, <var>a</var>, <var>d</var>, and <var>b</var> </var>
-			<var id="pts_cbde"> <var>c</var>, <var>b</var>, <var>d</var>, and <var>e</var> </var>		
-				
-				<var id="points">
-				[pts_abce, pts_acd, pts_bac, pts_bcae, pts_eda, pts_cda, pts_abde, pts_acde, pts_bedc, pts_ecda, pts_cadb, pts_cbde]
-				</var>
-				
-				<var id="IDX">randRange( 0, points.length - 1 )</var>
-				<var id="oppositeIDX">-IDX + 11 </var>
-				
-						
-				<var id="sol">
-					[		'Yes.',
-							'Yes.',
-							'Yes.',
-							'Yes.',
-							'Yes.',
-							'Yes.',
-							'No.',
-							'No.',
-							'No.',
-							'No.',
-							'No.',
-							'No.'							
-					]
-				</var>
-				
-			<var id="pts">points[ IDX ]</var>	
-			<var id="solution">sol[ IDX ]</var>	
-			
-			</div>
-					
-			
-			<div class="question5">
-				<p>Are the points <var>pts</var> coplanar?</p>
+                    <!--Draw the points-->
+                    circle( A, A_ATTRS );
+                    circle( B, B_ATTRS );
+                    circle( C, C_ATTRS );
+                    circle( D, D_ATTRS );
+                    circle( E, E_ATTRS );
 
-				<div class="graphie">
-					<!--Draw the plane and the lines-->
-					init({
-						range: [ [-1, 15], [-5, 8] ]
-					});					
-					path([ Plane_edgePt1, Plane_edgePt2, Plane_edgePt3, Plane_edgePt4, true ]);
-					line( Line_endPt1, Line_endPt2, { arrows: "->" } );
-					line( Line_endPt2, Line_endPt1, { arrows: "->" } );
-					line( Perp1_endPt1, Perp1_endPt2, {arrows: "->"});
-					line( Perp2_endPt1, Perp2_endPt2, {arrows: "->"});
-					
-					<!--Make it look 3-D-->
-					line( Line_behindPlane1_Pt1, Line_behindPlane1_Pt2);
-					line( Line_behindPlane2_Pt1, Line_behindPlane2_Pt2);
-					
-					<!--Draw the points-->
-					circle( A, A_ATTRS );
-					circle( B, B_ATTRS );
-					circle( C, C_ATTRS );
-					circle( D, D_ATTRS );
-					circle( E, E_ATTRS );
-					
-					<!--Label the points-->
-					label([6 + (4 - 6)* cos(TILT+TILT2) - (8/3 - 2)* sin(TILT+TILT2), 2 + ( 4 - 6 ) * sin(TILT+TILT2) + ( 8/3 - 2 ) * cos(TILT+TILT2)], "<var>a</var>", "above right" );
-					label([6.1, 2], "<var>b</var>", "above right");
-					label([6 + (8 - 6)* cos(TILT+TILT2) - (4/3 - 2)* sin(TILT+TILT2), 2 + ( 8 - 6 ) * sin(TILT+TILT2) + ( 4/3 - 2 ) * cos(TILT+TILT2)], "<var>c</var>", "above right" );
-					label([6 + (6 - 6)* cos(TILT) - (-2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -2 - 2 ) * cos(TILT)], "<var>d</var>", "right" );
-					label([6 + (17/6 + r*cos(theta) - 6)* cos(TILT) - (1.4 + r*sin(theta) - 2)* sin(TILT), 2 + ( 17/6 + r*cos(theta) - 6 ) * sin(TILT) + ( 1.4 + r*sin(theta) - 2 ) * cos(TILT)], "<var>e</var>", "below" );
+                    <!--Label the points-->
+                    label([6 + (4 - 6)* cos(TILT+TILT2) - (8/3 - 2)* sin(TILT+TILT2), 2 + ( 4 - 6 ) * sin(TILT+TILT2) + ( 8/3 - 2 ) * cos(TILT+TILT2)], "<var>a</var>", "above right" );
+                    label([6.1, 2], "<var>b</var>", "above right");
+                    label([6 + (8 - 6)* cos(TILT+TILT2) - (4/3 - 2)* sin(TILT+TILT2), 2 + ( 8 - 6 ) * sin(TILT+TILT2) + ( 4/3 - 2 ) * cos(TILT+TILT2)], "<var>c</var>", "above right" );
+                    label([6 + (6 - 6)* cos(TILT) - (-2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -2 - 2 ) * cos(TILT)], "<var>d</var>", "right" );
+                    label([6 + (17/6 + r*cos(theta) - 6)* cos(TILT) - (1.4 + r*sin(theta) - 2)* sin(TILT), 2 + ( 17/6 + r*cos(theta) - 6 ) * sin(TILT) + ( 1.4 + r*sin(theta) - 2 ) * cos(TILT)], "<var>e</var>", "below" );
 
-					<!--No.w label the ABC line and the plane-->
-					label([6 + (9.2 - 6)* cos(TILT+TILT2) - (1 - 2)* sin(TILT+TILT2), 2 + ( 9.2 - 6 ) * sin(TILT+TILT2) + ( 1 - 2 ) * cos(TILT+TILT2)], "\\ell", "right");
-					label([6 + (12.1 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 12.1 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)], "\\mathcal{<var>R</var>}", "right");
+                    <!--No.w label the ABC line and the plane-->
+                    label([6 + (9.2 - 6)* cos(TILT+TILT2) - (1 - 2)* sin(TILT+TILT2), 2 + ( 9.2 - 6 ) * sin(TILT+TILT2) + ( 1 - 2 ) * cos(TILT+TILT2)], "\\ell", "right");
+                    label([6 + (12.1 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 12.1 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)], "\\mathcal{<var>R</var>}", "right");
 
-				</div>
-			</div>
+                </div>
+            </div>
 
-			<div class "solution">
-			<p class="solution"> <var>solution</var> </p>
+            <div class "solution">
+            <p class="solution"> <var>solution</var> </p>
 
-		<ul class="choices" data-category="true">
-		<li><var>sol[0]</var></li>
-		<li><var>sol[11]</var></li>
- 		</ul>
-			</div>		
+        <ul class="choices" data-category="true">
+        <li><var>sol[0]</var></li>
+        <li><var>sol[11]</var></li>
+         </ul>
+            </div>
 
-			
-				<div class="hints">
-				<p> Coplanar points are points that lie on the same plane.</p>
-				<p> Pick three of the points and connect them. Now pick another three and connect them. <BR>
-				Do both of the triangles lie on the same plane? </p>
-				<p> Can a flat surface pass through all the points without bending? </p>
-				</div>
-		</div>	
-		
-		</div>
-	</div>
+
+
+
+                <div class="hints">
+                <p> Collinear means that they lie on the same line.</p>
+                <p> Are the named points all on the same line? </p>
+                </div>
+        </div>
+
+
+        <!--Next problem-->
+        <div id="Problem_4">
+
+            <div class="vars">
+
+            <var id="pts_dc"> <var>d</var> and <var>c</var> </var>
+            <var id="pts_eb"> <var>e</var> and <var>b</var> </var>
+            <var id="pts_ac"> <var>a</var> and <var>c</var> </var>
+            <var id="pts_ca"> <var>c</var> and <var>a</var> </var>
+            <var id="pts_ab"> <var>a</var> and <var>b</var> </var>
+            <var id="pts_ba"> <var>b</var> and <var>a</var> </var>
+            <var id="pts_bd"> <var>b</var> and <var>d</var> </var>
+            <var id="pts_ce"> <var>c</var> and <var>e</var> </var>
+            <var id="pts_ec"> <var>e</var> and <var>c</var> </var>
+            <var id="pts_ca"> <var>c</var> and <var>a</var> </var>
+            <var id="pts_ad"> <var>a</var> and <var>d</var> </var>
+            <var id="pts_be"> <var>b</var> and <var>e</var> </var>
+
+                <var id="points">
+                    [pts_dc, pts_eb, pts_ac, pts_ca, pts_ab, pts_ba, pts_bd, pts_ce, pts_ec, pts_ca, pts_ad, pts_be]
+                </var>
+
+                <var id="IDX">randRange( 0, points.length - 1 )</var>
+
+
+            <var id="pts">points[ IDX ]</var>
+            <var id="solution">"Yes."</var>
+            <var id="wrong">"No."</var>
+
+            </div>
+
+
+            <div class="question4">
+                <p>Are the points <var>pts</var> collinear?</p>
+
+                <div class="graphie">
+                    <!--Draw the plane and the lines-->
+                    init({
+                        range: [ [-1, 15], [-5, 8] ]
+                    });
+                    path([ Plane_edgePt1, Plane_edgePt2, Plane_edgePt3, Plane_edgePt4, true ]);
+                    line( Line_endPt1, Line_endPt2, { arrows: "->" } );
+                    line( Line_endPt2, Line_endPt1, { arrows: "->" } );
+                    line( Perp1_endPt1, Perp1_endPt2, {arrows: "->"});
+                    line( Perp2_endPt1, Perp2_endPt2, {arrows: "->"});
+
+                    <!--Make it look 3-D-->
+                    line( Line_behindPlane1_Pt1, Line_behindPlane1_Pt2);
+                    line( Line_behindPlane2_Pt1, Line_behindPlane2_Pt2);
+
+                    <!--Draw the points-->
+                    circle( A, A_ATTRS );
+                    circle( B, B_ATTRS );
+                    circle( C, C_ATTRS );
+                    circle( D, D_ATTRS );
+                    circle( E, E_ATTRS );
+
+                    <!--Label the points-->
+                    label([6 + (4 - 6)* cos(TILT+TILT2) - (8/3 - 2)* sin(TILT+TILT2), 2 + ( 4 - 6 ) * sin(TILT+TILT2) + ( 8/3 - 2 ) * cos(TILT+TILT2)], "<var>a</var>", "above right" );
+                    label([6.1, 2], "<var>b</var>", "above right");
+                    label([6 + (8 - 6)* cos(TILT+TILT2) - (4/3 - 2)* sin(TILT+TILT2), 2 + ( 8 - 6 ) * sin(TILT+TILT2) + ( 4/3 - 2 ) * cos(TILT+TILT2)], "<var>c</var>", "above right" );
+                    label([6 + (6 - 6)* cos(TILT) - (-2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -2 - 2 ) * cos(TILT)], "<var>d</var>", "right" );
+                    label([6 + (17/6 + r*cos(theta) - 6)* cos(TILT) - (1.4 + r*sin(theta) - 2)* sin(TILT), 2 + ( 17/6 + r*cos(theta) - 6 ) * sin(TILT) + ( 1.4 + r*sin(theta) - 2 ) * cos(TILT)], "<var>e</var>", "below" );
+
+                    <!--No.w label the ABC line and the plane-->
+                    label([6 + (9.2 - 6)* cos(TILT+TILT2) - (1 - 2)* sin(TILT+TILT2), 2 + ( 9.2 - 6 ) * sin(TILT+TILT2) + ( 1 - 2 ) * cos(TILT+TILT2)], "\\ell", "right");
+                    label([6 + (12.1 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 12.1 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)], "\\mathcal{<var>R</var>}", "right");
+
+                </div>
+            </div>
+
+            <div class "solution">
+            <p class="solution"> <var>solution</var> </p>
+
+        <ul class="choices" data-category="true">
+        <li><var>solution</var></li>
+        <li><var>wrong</var></li>
+         </ul>
+            </div>
+
+
+                <div class="hints">
+                <p> Through any two points, there is exactly one line.</p>
+                <p> Points can be collinear even if the line isn't drawn in the figure. </p>
+                <p> Can you draw a straight line through these two points? <BR>
+                Actually, can you draw a straight line through any two points?</p>
+
+                </div>
+        </div>
+
+
+
+        <!--Next problem-->
+        <div id="Problem_5">
+
+            <div class="vars">
+
+    <!--First six points = Yes., second six points = No.-->
+            <var id="pts_abce"> <var>a</var>, <var>b</var>, <var>c</var>, and <var>e</var> </var>
+            <var id="pts_acd"> <var>a</var>, <var>c</var>, and <var>d</var> </var>
+            <var id="pts_bac"> <var>b</var>, <var>a</var>, and <var>c</var> </var>
+            <var id="pts_bcae"> <var>b</var>, <var>c</var>, <var>a</var>, and <var>e</var> </var>
+            <var id="pts_eda"> <var>e</var>, <var>d</var>, and <var>a</var> </var>
+            <var id="pts_cda"> <var>c</var>, <var>d</var>, and <var>a</var> </var>
+            <var id="pts_abde"> <var>a</var>, <var>b</var>, <var>d</var>, and <var>e</var> </var>
+            <var id="pts_acde"> <var>a</var>, <var>c</var>, <var>d</var>, and <var>e</var> </var>
+            <var id="pts_bedc"> <var>b</var>, <var>e</var>, <var>d</var>, and <var>c</var> </var>
+            <var id="pts_ecda"> <var>e</var>, <var>c</var>, <var>d</var>, and <var>a</var> </var>
+            <var id="pts_cadb"> <var>c</var>, <var>a</var>, <var>d</var>, and <var>b</var> </var>
+            <var id="pts_cbde"> <var>c</var>, <var>b</var>, <var>d</var>, and <var>e</var> </var>
+
+                <var id="points">
+                [pts_abce, pts_acd, pts_bac, pts_bcae, pts_eda, pts_cda, pts_abde, pts_acde, pts_bedc, pts_ecda, pts_cadb, pts_cbde]
+                </var>
+
+                <var id="IDX">randRange( 0, points.length - 1 )</var>
+                <var id="oppositeIDX">-IDX + 11 </var>
+
+
+                <var id="sol">
+                    [        'Yes.',
+                            'Yes.',
+                            'Yes.',
+                            'Yes.',
+                            'Yes.',
+                            'Yes.',
+                            'No.',
+                            'No.',
+                            'No.',
+                            'No.',
+                            'No.',
+                            'No.'
+                    ]
+                </var>
+
+            <var id="pts">points[ IDX ]</var>
+            <var id="solution">sol[ IDX ]</var>
+
+            </div>
+
+
+            <div class="question5">
+                <p>Are the points <var>pts</var> coplanar?</p>
+
+                <div class="graphie">
+                    <!--Draw the plane and the lines-->
+                    init({
+                        range: [ [-1, 15], [-5, 8] ]
+                    });
+                    path([ Plane_edgePt1, Plane_edgePt2, Plane_edgePt3, Plane_edgePt4, true ]);
+                    line( Line_endPt1, Line_endPt2, { arrows: "->" } );
+                    line( Line_endPt2, Line_endPt1, { arrows: "->" } );
+                    line( Perp1_endPt1, Perp1_endPt2, {arrows: "->"});
+                    line( Perp2_endPt1, Perp2_endPt2, {arrows: "->"});
+
+                    <!--Make it look 3-D-->
+                    line( Line_behindPlane1_Pt1, Line_behindPlane1_Pt2);
+                    line( Line_behindPlane2_Pt1, Line_behindPlane2_Pt2);
+
+                    <!--Draw the points-->
+                    circle( A, A_ATTRS );
+                    circle( B, B_ATTRS );
+                    circle( C, C_ATTRS );
+                    circle( D, D_ATTRS );
+                    circle( E, E_ATTRS );
+
+                    <!--Label the points-->
+                    label([6 + (4 - 6)* cos(TILT+TILT2) - (8/3 - 2)* sin(TILT+TILT2), 2 + ( 4 - 6 ) * sin(TILT+TILT2) + ( 8/3 - 2 ) * cos(TILT+TILT2)], "<var>a</var>", "above right" );
+                    label([6.1, 2], "<var>b</var>", "above right");
+                    label([6 + (8 - 6)* cos(TILT+TILT2) - (4/3 - 2)* sin(TILT+TILT2), 2 + ( 8 - 6 ) * sin(TILT+TILT2) + ( 4/3 - 2 ) * cos(TILT+TILT2)], "<var>c</var>", "above right" );
+                    label([6 + (6 - 6)* cos(TILT) - (-2 - 2)* sin(TILT), 2 + ( 6 - 6 ) * sin(TILT) + ( -2 - 2 ) * cos(TILT)], "<var>d</var>", "right" );
+                    label([6 + (17/6 + r*cos(theta) - 6)* cos(TILT) - (1.4 + r*sin(theta) - 2)* sin(TILT), 2 + ( 17/6 + r*cos(theta) - 6 ) * sin(TILT) + ( 1.4 + r*sin(theta) - 2 ) * cos(TILT)], "<var>e</var>", "below" );
+
+                    <!--No.w label the ABC line and the plane-->
+                    label([6 + (9.2 - 6)* cos(TILT+TILT2) - (1 - 2)* sin(TILT+TILT2), 2 + ( 9.2 - 6 ) * sin(TILT+TILT2) + ( 1 - 2 ) * cos(TILT+TILT2)], "\\ell", "right");
+                    label([6 + (12.1 - 6)* cos(TILT) - (4 - 2)* sin(TILT), 2 + ( 12.1 - 6 ) * sin(TILT) + ( 4 - 2 ) * cos(TILT)], "\\mathcal{<var>R</var>}", "right");
+
+                </div>
+            </div>
+
+            <div class "solution">
+            <p class="solution"> <var>solution</var> </p>
+
+        <ul class="choices" data-category="true">
+        <li><var>sol[0]</var></li>
+        <li><var>sol[11]</var></li>
+         </ul>
+            </div>
+
+
+                <div class="hints">
+                <p> Coplanar points are points that lie on the same plane.</p>
+                <p> Pick three of the points and connect them. Now pick another three and connect them. <BR>
+                Do both of the triangles lie on the same plane? </p>
+                <p> Can a flat surface pass through all the points without bending? </p>
+                </div>
+        </div>
+
+        </div>
+    </div>
 </body>
 </html>
