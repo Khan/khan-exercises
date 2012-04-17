@@ -29,6 +29,20 @@ a.show-subhint {
     font-style: italic;
 }
 
+div.definition {
+    position: absolute;
+    border: 1px solid #aaaaaa;
+    background: #f9f9f9;
+    display: none;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 10px;
+    z-index: 1000;
+}
+
 #workarea { margin-left: 30px; }
 #hintsarea { margin-left: 50px; }
 #answer_area ul { list-style: none; }
