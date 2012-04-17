@@ -307,6 +307,20 @@ jQuery.extend(KhanUtil, {
 			return KhanUtil.shuffle( toReturn, count );
 		}
 	},
+	
+	randRangeUniqueExclude: function( min, max, count, excludes ) {
+		if( excludes == null ) {
+				return KhanUtil.randRangeUnique( min, max, count );
+		} else {
+				var toReturn = [];
+				for( var i = min; i < max; i++ ) {
+						if( excludes.indexOf( i ) != -1 ) continue;
+						toReturn.push( i );
+				}
+				
+				return KhanUtil.shuffle( toReturn, count );
+		}
+	},
 
 	// Get a random integer between min and max with a perc chance of hitting
 	// target (which is assumed to be in the range, but it doesn't have to be).
