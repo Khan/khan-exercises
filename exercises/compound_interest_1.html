@@ -14,7 +14,7 @@
 <body>
 	<div class="exercise">
 		<div class="problems">
-			<div id="fv-discrete-subannual">
+			<div id="fv-discrete-subannual" data-weight="3">
 				<div class="vars">
 
 					<var id="PV">randRange( 1, 20 ) * 1000</var>
@@ -30,7 +30,7 @@
 					<var id="FV">roundTo( 0, PV * pow( 1 + r / n, n * T ) )</var>
 					</div>
 		
-					<p class="question">$<var>PV</var> is deposited into an account that pays <var>rate</var>% interest, compounded <var>compounding</var>.  To the nearest dollar, how much money will be in the account at the end of <var>years</var>?</p>
+					<p class="problem">$<var>PV</var> is deposited into an account that pays <var>rate</var>% interest, compounded <var>compounding</var>.  To the nearest dollar, how much money will be in the account at the end of <var>years</var>?</p>
 		
 					<div class="solution" data-type="decimal" data-inexact data-max-error="0.5"><var>FV</var></div>
 		
@@ -54,7 +54,7 @@
 					<var id="FV">roundTo( 0, PV * pow( 1 + r / n, n * T ) )</var>
 					</div>
 		
-					<p class="question">$<var>PV</var> is deposited into an account that pays <var>rate</var>% interest, compounded annually.  To the nearest dollar, how much money will be in the account at the end of <var>years</var>?</p>
+					<p class="problem">$<var>PV</var> is deposited into an account that pays <var>rate</var>% interest, compounded annually.  To the nearest dollar, how much money will be in the account at the end of <var>years</var>?</p>
 		
 					<div class="solution" data-type="decimal" data-inexact data-max-error="0.5"><var>FV</var></div>
 		
@@ -64,7 +64,7 @@
 						<p>So the amount in the account at the end of <var>years</var> is <code><var>expr( [ "*", PV, [ "^", [ "+", 1, r ], T ] ] )</var></code>, or about $<var>FV</var>.</p>
 					</div>
 				</div> <!-- fv-discrete-annual -->
-			<div id="fv-continuous" data-weight="100">
+			<div id="fv-continuous">
 				<div class="vars">
 
 					<var id="PV">randRange( 1, 20 ) * 1000</var>
@@ -76,7 +76,7 @@
 					<var id="FV">roundTo( 0, PV * exp( r * T ) )</var>
 					</div>
 		
-					<p class="question">$<var>PV</var> is deposited into an account that pays <var>rate</var>% interest, compounded continuously.  To the nearest dollar, how much money will be in the account at the end of <var>years</var>?</p>
+					<p class="problem">$<var>PV</var> is deposited into an account that pays <var>rate</var>% interest, compounded continuously.  To the nearest dollar, how much money will be in the account at the end of <var>years</var>?</p>
 		
 					<div class="solution" data-type="decimal" data-inexact data-max-error="0.5"><var>FV</var></div>
 		
