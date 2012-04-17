@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Asymptotes of rational functions</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="problems">
+			<div id ="vertical-no-cancel" data-weight="5">
+				<div class="vars">
+					<var id="a">randRange( -10, 10 )</var>
+					<var id="b">randRange( -10, 10 )</var>
+					<var id="c">randRangeExclude( -10, 10, [ a, b ] )</var>
+					<var id="d">randRangeExclude( -10, 10, [ a, b ] )</var>
+
+					<var id="h1">randRangeNonZero( -10, 10 )</var>
+					<var id="k1">randRange( 1, 10 )</var>
+					
+					<var id="h">h1 / getGCD( h1, k1 )</var>
+					<var id="k">k1 / getGCD( h1, k1 )</var>
+					
+					<var id="num">plus( expr( [ "*", h, [ "^", "x", 2 ] ] ), expr( [ "*", - h * ( a + b ), "x" ] ), expr( h * a * b ) )</var> 
+					<var id="den">plus( expr( [ "*", k, [ "^", "x", 2 ] ] ), expr( [ "*", - k * ( c + d ), "x" ] ), expr( k * c * d ) )</var>
+					<var id="fun">[ "frac", num, den ]</var>
+					
+					<var id="num_factored">exprSimplifyAssociative( [ "*", h, ( a == b ? [ "^", "(" + plus( "x", -a ) + ")", 2 ] : [ "*", plus( "x", -a ), plus( "x", -b ) ] ) ] )</var>
+					<var id="den_factored">exprSimplifyAssociative( [ "*", k, ( c == d ? [ "^", "(" + plus( "x", -c ) + ")", 2 ] : [ "*", plus( "x", -c ), plus( "x", -d ) ] ) ] )</var>
+					<var id="fun_factored">[ "frac", num_factored, den_factored ]</var>
+
+					<var id="wrong_answers">randRangeUniqueExclude( -10, 10, 3, [ c, d ] )</var>
+				</div> <!-- vars -->
+				
+				<p class="problem">Which of the following is a vertical asymptote of <code>\displaystyle<var>expr( fun )</var></code>?</p>
+				
+				<p class="solution"><code>x = <var>c</var></code></p>
+				<ul class="choices" data-none="true">
+					<li><code>x = <var>c</var></code></li>
+					<li data-each="wrong_answers as e"><code>x = <var>e</var></code></li>
+				</ul>
+				
+				<div class="hints">
+					<p>Factoring, this is <code>\displaystyle<var>expr( fun_factored )</var></code>.</p>
+					<p>So the rational function has <var>(c == d ? "a vertical asymptote" : "vertical asymptotes" )</var> at <code>x = <var>c</var></code> <var>( c == d ? "" : " and &lt;code&gt;x = " + d + "&lt;/code&gt;" )</var>.</p>
+				</div>
+			</div> <!-- vertical-no-cancel -->	
+			<div id ="vertical-cancel" data-weight="3">
+				<div class="vars">
+					<var id="a">randRange( -10, 10 )</var>
+					<var id="b">randRange( -10, 10 )</var>
+					<var id="c">randRangeExclude( -10, 10, [ a, b ] )</var>
+					<var id="d">b</var>
+
+					<var id="h1">randRangeNonZero( -10, 10 )</var>
+					<var id="k1">randRange( 1, 10 )</var>
+					
+					<var id="h">h1 / getGCD( h1, k1 )</var>
+					<var id="k">k1 / getGCD( h1, k1 )</var>
+					
+					<var id="num">plus( expr( [ "*", h, [ "^", "x", 2 ] ] ), expr( [ "*", - h * ( a + b ), "x" ] ), expr( h * a * b ) )</var> 
+					<var id="den">plus( expr( [ "*", k, [ "^", "x", 2 ] ] ), expr( [ "*", - k * ( c + d ), "x" ] ), expr( k * c * d ) )</var>
+					<var id="fun">[ "frac", num, den ]</var>
+					
+					<var id="num_factored">exprSimplifyAssociative( [ "*", h, ( a == b ? [ "^", "(" + plus( "x", -a ) + ")", 2 ] : [ "*", plus( "x", -a ), plus( "x", -b ) ] ) ] )</var>
+					<var id="den_factored">exprSimplifyAssociative( [ "*", k, ( c == d ? [ "^", "(" + plus( "x", -c ) + ")", 2 ] : [ "*", plus( "x", -c ), plus( "x", -d ) ] ) ] )</var>
+					<var id="fun_factored">[ "frac", num_factored, den_factored ]</var>
+
+					<var id="fun_simplified">[ "frac", [ "*", h, "(" + plus( "x", -a ) + ")" ], [ "*", k, "(" + plus( "x", -c ) + ")" ] ]</var>
+					<var id="wrong_answers">randRangeUniqueExclude( -10, 10, 3, [ c ] )</var>
+				</div> <!-- vars -->
+				
+				<p class="problem">Which of the following is a vertical asymptote of <code>\displaystyle<var>expr( fun )</var></code>?</p>
+				
+				<p class="solution"><code>x = <var>c</var></code></p>
+				<ul class="choices" data-none="true">
+					<li><code>x = <var>c</var></code></li>
+					<li data-each="wrong_answers as e"><code>x = <var>e</var></code></li>
+				</ul>
+				
+				<div class="hints">
+					<p>Factoring, this is <code>\displaystyle<var>expr( fun_factored )</var></code>.</p>
+					<p>Cancelling the factor of <code><var>plus( "x", -b )</var></code>, this simplifies to <code>\displaystyle<var>expr( fun_simplified )</var></code>.</p>
+					<p>So the rational function has a vertical asymptote at <code>x = <var>c</var></code>.</p>
+				</div>
+			</div> <!-- vertical-cancel -->
+			<div id="horizontal-nonzero" data-weight="3">
+				<div class="vars">
+					<var id="a">randRange( -10, 10 )</var>
+					<var id="b">randRange( -10, 10 )</var>
+					<var id="c">randRangeExclude( -10, 10, [ a, b ] )</var>
+					<var id="d">randRangeExclude( -10, 10, [ a, b ] )</var>
+
+					<var id="h1">randRangeNonZero( -10, 10 )</var>
+					<var id="k1">randRange( 1, 10 )</var>
+					
+					<var id="h">h1 / getGCD( h1, k1 )</var>
+					<var id="k">k1 / getGCD( h1, k1 )</var>
+					
+					<var id="num">plus( expr( [ "*", h, [ "^", "x", 2 ] ] ), expr( [ "*", - h * ( a + b ), "x" ] ), expr( h * a * b ) )</var> 
+					<var id="den">plus( expr( [ "*", k, [ "^", "x", 2 ] ] ), expr( [ "*", - k * ( c + d ), "x" ] ), expr( k * c * d ) )</var>
+					<var id="fun">[ "frac", num, den ]</var>
+					
+					<var id="num_dom">[ "*", h, [ "^", "x", 2 ] ]</var>
+					<var id="den_dom">[ "*", k, [ "^", "x", 2 ] ]</var>
+					<var id="fun_dom">[ "frac", num_dom, den_dom ]</var>
+					<var id="h_asymp">[ "/", h, k ]</var>
+				</div>
+				
+				<p class="problem">Where is the horizontal asymptote of <code>\displaystyle<var>expr( fun )</var></code>?</p>
+				
+				<p class="solution" data-type="rational"><var>h / k</var></p>
+				
+				<div class="hints">
+					<p>For large (positive or negative) values of x, the term <code><var>expr( num_dom )</code> dominates the other terms in the numerator.</p>
+					<p>Similarly, the term <code><var>expr( den_dom )</code> dominates the other terms in the denominator.</p>
+					<p>So, for sufficiently large values of x, the function behaves like <code>\displaystyle<var>expr( fun_dom )</var> = <var>expr( h_asymp )</var></code>.</p>
+				</div>
+			</div> <!-- horizontal-nonzero -->
+			<div id="horizontal-zero">
+				<div class="vars">
+					<var id="a">randRange( -10, 10 )</var>
+					<var id="c">randRangeExclude( -10, 10, [ a ] )</var>
+					<var id="d">randRangeExclude( -10, 10, [ a ] )</var>
+
+					<var id="h1">randRangeNonZero( -10, 10 )</var>
+					<var id="k1">randRange( 1, 10 )</var>
+					
+					<var id="h">h1 / getGCD( h1, k1 )</var>
+					<var id="k">k1 / getGCD( h1, k1 )</var>
+					
+					<var id="num">plus( expr( [ "*", h, "x" ] ), - h * a )</var> 
+					<var id="den">plus( expr( [ "*", k, [ "^", "x", 2 ] ] ), expr( [ "*", - k * ( c + d ), "x" ] ), expr( k * c * d ) )</var>
+					<var id="fun">[ "frac", num, den ]</var>
+					
+					<var id="num_dom">[ "*", h, "x" ]</var>
+					<var id="den_dom">[ "*", k, [ "^", "x", 2 ] ]</var>
+					<var id="fun_dom">[ "frac", num_dom, den_dom ]</var>
+					<var id="fun_simp">[ "frac", h, [ "*", k, "x" ] ]</var>
+					</div>
+				
+				<p class="problem">Where is the horizontal asymptote of <code>\displaystyle<var>expr( fun )</var></code>?</p>
+				
+				<p class="solution" data-type="rational">0</p>
+				
+				<div class="hints">
+					<p>For large (positive or negative) values of x, the term <code><var>expr( num_dom )</code> dominates the other terms in the numerator.</p>
+					<p>Similarly, the term <code><var>expr( den_dom )</code> dominates the other terms in the denominator.</p>
+					<p>So, for sufficiently large values of x, the function behaves like <code>\displaystyle<var>expr( fun_dom )</var> = <var>expr( fun_simp )</var></code>.</p>
+					<p>This function has a horizontal asymptote at <code>y = 0</code>.</p>
+				</div>
+			</div> <!-- horizontal-zero -->			
+		</div> <!-- problems -->
+	</div> <!-- exercise -->
+</body>
+</html>
