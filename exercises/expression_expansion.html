@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Expanding expressions</title>
+    <link id=styles rel="stylesheet" href="http://prooftoys.org/logic.css">
+    <script src="http://yui.yahooapis.com/3.4.1/build/yui/yui.js"></script>
+    <script src="http://prooftoys.org/expr.js"></script>
+    <script src="http://prooftoys.org/step-editor.js"></script>
+    <script src="http://prooftoys.org/proof.js"></script>
+    <script src="http://prooftoys.org/theorems.js"></script>
+    <script src="../khan-exercise.js"></script>
+
+<style type="text/css">
+
+#problem-and-answer {
+   margin-left: 40px;
+   width: 90%;
+}
+
+#problemarea {
+  width: 70%;
+}
+
+#workarea {
+  width: 95%;
+}
+
+.stepEditor {
+  background-color: inherit;
+ }
+
+input.sted-save-restore {
+  display: none;
+}
+
+div.stepsParent, div.stepEditor {
+  font-size: 110%;
+}
+
+/* Autocompleter */
+.yui3-aclist {
+  font-size: 90%;
+}
+
+</style>
+
+</head>
+<body class=yui3-skin-sam>
+    <div class="exercise">
+        <div class="vars">
+        </div>
+        <div class="problems">
+            <div id=problem-type-or-description>
+
+                <p class="question">
+                 Put into the form z = ((a * x) + b
+                </p>
+                <div id=proofEditor></div>
+                <p style="margin-bottom: 20em">
+                See the <a href="http://prooftoys.org/tutorial.html">tutorial</a>
+                 for help using the Proof Builder.
+                </p>
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Use the interactive proof builder to put the expression
+                        into the requested form.
+                    </div>
+                    <div class="guess">
+                      window.proofEditor.getStateString()
+                    </div>
+                    <div class="validator-function">
+                      return Y.checkAnswer();
+                   </div>
+                   <div class="show-guess">
+                     window.proofEditor.setStateFromString(guess);
+                   </div>
+                   <div class="example">acceptable answer format goes here</div>
+            </div>
+        </div>
+    </div>
+<!-- Storage for state to preserve across page unloads -->
+<textarea id=ToyStore rows=20 cols=80 class=hidden></textarea>
+
+<script>
+
+// Remove "filter" to load minified JavaScript.
+YUI({filter: 'raw', insertBefore: 'styles'})
+  .use('node', 'event', 'json', 'expr', 'theorems', 'test', 'console',
+       'proof', 'collection', 'querystring-parse', 'json', 'overlay',
+        // querystring-parse requires "collection" (?!)
+   function(Y) {
+
+    // For debugging and access to YUI/Prooftoys namespace when
+    // checking answers.
+    window.Y = Y;
+
+    function random(min, max) {
+      var range = max - min + 1;
+      var r = Math.floor(range * Math.random()) + min;
+      return r;
+    }
+
+    // Prevent all but the directly relevant rules from being offered
+    // by autocompletion.
+    Y.each(Y.rules, function(value, key) {
+        if (!key.match(/^(assoc|commut|arithmetic$|distribute$|group$)/)) {
+          info = value.info;
+          value.info.saveForm = value.info.form;
+          delete value.info.form;
+        }
+      });
+
+    // Proof editor
+    var editor = new Y.ProofEditor();
+    window.proofEditor = editor;
+    editor.setEditable(true);
+
+    // Create an initial proof step:
+    var c1 = random(2, 10);
+    var c2 = random(2, 10);
+    var wff0 = Y.parse('z = c1 * (c2 + x)');
+    var wff1 = wff0.subFree(new Y.Var(c1 + ''), 'c1')
+    var wff = wff1.subFree(new Y.Var(c2 + ''), 'c2')
+    var step = Y.rules.assume(wff);
+    editor.addStep(step);
+
+    Y.checkAnswer = function() {
+      var steps = editor._mainControl.steps;
+      var answer = steps[steps.length - 1];
+      window.answer = answer;
+      window.schema = Y.parse('h --> v = ((a * x) + b)');
+      var map = Y.matchAsSchema(window.schema, answer);
+      window.map = map;
+      console.log(Y.debugString(map));
+
+      // Test the result.
+
+      // Schema must match.
+      if (!map) { return false; }
+
+      var aOk = map.a instanceof Y.Var && map.a.value == c1;
+      if (!aOk) { return 'Coefficient a is not ' + c1; }
+
+      var xOk = map.x instanceof Y.Var && map.x.name == 'x';
+      if (!xOk) { return 'First term does not have form a * x' ; }
+
+      var bOk = map.b instanceof Y.Var && map.b.value == c1 * c2;
+      if (!bOk) { return 'Coefficient b is not ' + (c1 * c2); }
+
+      var vOk = map.v instanceof Y.Var && map.v.name == 'z';
+      if (!vOk) { return false; }
+
+      return true;
+    };
+
+    // Delay while the exercises framework mucks with the DOM.
+    window.onload = window.setTimeout(function() {
+        Y.one('#proofEditor').setContent(editor.containerNode);
+      },
+      1000);
+
+});
+
+</script>
+</body>
+</html>
