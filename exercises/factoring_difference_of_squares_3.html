@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html data-require="math math-model factoring-expressions simplify subhints">
+<html data-require="math">
 <head>
     <meta charset="UTF-8" />
-    <title>Factoring difference of squares 3</title>
+    <title>Factoring difference of squares 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -10,52 +10,88 @@
         <div class="problems">
             <div>
                 <div class="vars" data-ensure="getGCD( A, B ) === 1">
-                    <var id="F">randFromArray([2,3,5])</var>
-                    <var id="A">randRange(2, 6)</var>
-                    <var id="B">randRange(1, 6)</var>
-                    <var id="SQUARE">F * A * A</var>
-                    <var id="CONSTANT">F * -B * B</var>
-                    <var id="PROBLEM">parse(SQUARE + "x^2" + CONSTANT)</var>
-                    <var id="SOLUTION">solveFactoringExercise(PROBLEM, {factorDiffOfSquares:true})</var>
-                    <var id="a">SOLUTION.solution.args[1].args[0].args[0].args[0]</var>
-                    <var id="b">SOLUTION.solution.args[1].args[1].args[1]</var>
-                    <!-- isEqual doesn't have options to deal with this automatically yet -->
-                    <var id="SOL1">parse(F + "(" + a + "x" + "-" + b + ")(" + a + "x" + "+" + b + ")")</var>
-                    <var id="SOL2">parse(F + "(" + a + "x" + "+" + b + ")(" + a + "x" + "-" + b + ")")</var>
-                    <var id="SOL3">parse(-F + "(" + -a + "x" + "+" + b + ")(" + a + "x" + "+" + b + ")")</var>
-                    <var id="SOL4">parse(-F + "(" + a + "x" + "-" + b + ")(" + -a + "x" + "-" + b + ")")</var>
-                    <var id="SOL5">parse(-F + "(" + a + "x" + "+" + b + ")(" + -a + "x" + "+" + b + ")")</var>
-                    <var id="SOL6">parse(-F + "(" + -a + "x" + "-" + b + ")(" + a + "x" + "-" + b + ")")</var>                    
+                    <var id="A">randRange( 2, 6 )</var>
+                    <var id="B">randRange( 1, 6 )</var>
+                    <var id="F">randFromArray([2, 3, 5])</var>
+                    <var id="SQUARE">A * A</var>
+                    <var id="CONSTANT">-B * B</var>
+                    <var id="TERM1">F</var>
+                    <var id="TERM1N">"[-\\u2212]" + F</var>
+                    <var id="TERM2">"\\(\\s*" + A + "\\s*[xX]\\s*\\+\\s*" + B + "\\s*\\)"</var>
+                    <var id="TERM2N">"\\(\\s*[-\\u2212]" + A + "\\s*[xX]\\s*[-\\u2212]\\s*" + B + "\\s*\\)"</var>
+                    <var id="TERM3">"\\(\\s*" + A + "\\s*[xX]\\s*[-\\u2212]\\s*" + B + "\\s*\\)"</var>
+                    <var id="TERM3N">"\\(\\s*[-\\u2212]" + A + "\\s*[xX]\\s*\\+\\s*" + B + "\\s*\\)"</var>
                 </div>
                 <div>
                     <p class="question">
                         Factor the following expression:
                     </p>
                     <p>
-                        <code><var>format(PROBLEM)</var></code>
+                        <code><var>F * SQUARE</var>x^2 + <var>F * CONSTANT</var></code>
                     </p>
                 </div>
-            <div class="solution" data-type="custom">
-                <div class="instruction">
-                    <input name="response" type="text">
+
+                <div class="solution" data-type="set">
+                    <!-- the three terms can be in any order, and any 2 of them can be negated -->
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1</var>\s*<var>TERM2</var>\s*<var>TERM3</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1</var>\s*<var>TERM3</var>\s*<var>TERM2</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2</var>\s*<var>TERMl</var>\s*<var>TERM3</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2</var>\s*<var>TERM3</var>\s*<var>TERM1</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3</var>\s*<var>TERM1</var>\s*<var>TERM2</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3</var>\s*<var>TERM2</var>\s*<var>TERM1</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1N</var>\s*<var>TERM2N</var>\s*<var>TERM3</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1N</var>\s*<var>TERM3N</var>\s*<var>TERM2</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2N</var>\s*<var>TERMlN</var>\s*<var>TERM3</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*<var>TERM1</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3N</var>\s*<var>TERM1N</var>\s*<var>TERM2</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3N</var>\s*<var>TERM2N</var>\s*<var>TERM1</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1N</var>\s*<var>TERM2</var>\s*<var>TERM3N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1N</var>\s*<var>TERM3</var>\s*<var>TERM2N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2N</var>\s*<var>TERMl</var>\s*<var>TERM3N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2N</var>\s*<var>TERM3</var>\s*<var>TERM1N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3N</var>\s*<var>TERM1</var>\s*<var>TERM2N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3N</var>\s*<var>TERM2</var>\s*<var>TERM1N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1</var>\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1</var>\s*<var>TERM3N</var>\s*<var>TERM2N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2</var>\s*<var>TERMlN</var>\s*<var>TERM3N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2</var>\s*<var>TERM3N</var>\s*<var>TERM1N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3</var>\s*<var>TERM1N</var>\s*<var>TERM2N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3</var>\s*<var>TERM2N</var>\s*<var>TERM1N</var>\s*$</div>
+                    <div class="input-format"><span class="entry"></span></div>
+                    <div class="example">a factored expression, like <b>2(3x+1)(3x+2)</b></div>
                 </div>
-                <div class="guess">$( "div.instruction input" ).val()</div>
-                <div class="validator-function">
-                    var exprGuess = simplify(parse(guess), simplifyOptions.checkInput);
-                    return (isEqual(exprGuess, SOL1) ||    isEqual(exprGuess, SOL2) ||    isEqual(exprGuess, SOL3) ||
-                            isEqual(exprGuess, SOL4) ||    isEqual(exprGuess, SOL5) ||    isEqual(exprGuess, SOL6));
+
+                <div class="hints">
+                    <div>
+                        <p>We can start by factoring a <code>\green{<var>F</var>}</code> out of each term:</p>
+                        <code>\qquad \green{<var>F</var>}(\pink{<var>SQUARE</var>x^2} - \blue{<var>abs(CONSTANT)</var>})</code>
+                    </div>
+                    <p>
+                        The second term is of the form <code>\color{<var>PINK</var>}{a^2} - \color{<var>BLUE</var>}{b^2}</code>,
+                        which is a difference of two squares so we can factor it as
+                        <code>\green{<var>F</var>}(\pink{a} + \blue{b})
+                        (\color{<var>PINK</var>}{a} - \color{<var>BLUE</var>}{b})</code>.
+                    </p>
+                    <p>
+                        What are the values of <code class="hint_pink">a</code> and <code class="hint_blue">b</code>?
+                    </p>
+                    <div>
+                        <p><code class="hint_pink">\qquad a = \sqrt{<var>SQUARE</var>x^2} = <var>A</var>x</code></p>
+                        <p><code class="hint_blue">\qquad b = \sqrt{<var>B * B</var>} = <var>B</var></code></p>
+                    </div>
+                    <p>
+                        Use the values we found for <code class="hint_pink">a</code> and <code class="hint_blue">b</code>
+                        to complete the factored expression,
+                        <code>\green{<var>F</var>}(\color{<var>PINK</var>}{a} + \color{<var>BLUE</var>}{b})
+                        (\color{<var>PINK</var>}{a} - \color{<var>BLUE</var>}{b})</code>.
+                    </p>
+                    <p class="final_answer">
+                        So we can factor the expression as:
+                        <code>\green{<var>F</var>}(\color{<var>PINK</var>}{<var>A</var>x} + \color{<var>BLUE</var>}{<var>B</var>})
+                        (\color{<var>PINK</var>}{<var>A</var>x} - \color{<var>BLUE</var>}{<var>B</var>})</code>
+                    </p>
                 </div>
-                <div class="show-guess">
-                </div>
-                <div class="show-guess-solutionarea">
-                    $( "div.instruction input" ).val( guess );
-                </div>
-                <div class="example">a factored expression, like <b>(x+1)(x+3)</b></div>
             </div>
-            </div>
-        </div>
-        <div class="hints">
-            <div data-each="SOLUTION.hints as key, value"><var>value</var></div>
         </div>
     </div>
 </body>
