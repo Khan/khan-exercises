@@ -14,9 +14,9 @@
 						[ "Actinium-225", 10, "days" ],
 						[ "Americium-242", 16, "hours" ],
 						[ "Antimony-126m", 19, "minutes" ],
-						[ "Argon-41", 2, "hours" ],
-						[ "Astatine-218", 2, "seconds" ],
-						[ "Barium-140", 13, "seconds" ],
+						[ "Argon-41", 110, "minutes" ],
+						[ "Astatine-217", 32, "milliseconds" ],
+						[ "Barium-140", 13, "days" ],
 						[ "Bismuth-214", 20, "minutes" ],
 						[ "Bromine-84", 32, "minutes" ],
 						[ "Calcium-41", 130, "thousand years" ],
@@ -31,9 +31,62 @@
 						[ "Plutonium-238", 88, "years" ],
 						[ "Sodium-22", 950, "days" ],
 						[ "Uranium-235", 700, "million years" ] ] )</var>
-				<						
+					<var id="pct">randRange( 5, 75 )</var>
+					
+					<var id="amt">[ "*", "m_0", [ "^", 2, [ "-", [ "/", "t", halflife ] ] ] ]</var>
+					<var id="answer">round( - halflife * Math.log( pct / 100 ) / Math.log( 2 ), 0 )</var>
 				</div>
-			</div>
-		</div>
+				
+				<p class="problem">A sample of radioactive <var>species</var> has a half-life of <var>halflife</var> <var>period</var>.  How long, in <var>period</var>, will it take until only <var>pct</var>% of the original sample remains?</p>
+
+				<div class="solution" data-max-error="1"><var>answer</var></div>
+				
+				<div class="hints">
+					<div>
+						<p>Let <code>t</code> denote the time, in <var>period</var>, elapsed, and <code>m_0</code> the amount of <var>species</var> we start out with.</p>
+						<p>Then at time <code>t</code>, the remaining mass is given by <code><var>expr( amt )</var></code>.</p>
+					</div>
+					<p>We'd like to know when this reaches <code><var>pct/100</var>m_0</code>.</p>
+					<p>As an equation, <code><var>pct/100</var>m_0 = <var>expr( amt )</var></code>.</p>
+					<p>Divide through by <code>m_0</code>, then take the log of each side, leaving <code>\log_2 <var>pct/100</var> = - t / <var>halflife</var></code>.<p>
+					<p>Solving, <code>t = - <var>halflife</var> \log_2 (<var>pct/100</var>)</code>, or approximately <var>answer</var> <var>period</var>.</p>
+				</div>
+			</div> <!-- radioactive_decay_1 -->
+			<div id="cooling_1">
+				<div class="vars">
+					<var id="adjective, beverage, minTemp, maxTemp, minBase, maxBase">randFromArray( [
+						[ "hot", "coffee", 115, 200, -40, 70 ],
+						[ "hot", "tea", 115, 200, -40, 70 ],
+						[ "cold", "soda", 35, 50, 70, 110 ],
+						[ "tepid", "water", 65, 75, -40, 40 ],
+						[ "tepid", "water", 65, 75, 80, 100 ],
+						[ "delicious", "milkshake", 30, 35, 70, 120 ],
+						[ "iced", "tea", 40, 50, 70, 100 ] ] )</var>
+					<var id="beverageTemp">randRange( minTemp, maxTemp )</var>
+					<var id="baseTemp">randRange( minBase, maxBase )</var>
+					<var id="k">randFromArray( [ 0.04, 0.05, 0.06 ] )</var>
+					<var id="t1">randRange(10, 30)</var>
+					<var id="t2">60</var>
+					
+					<var id="risen_fallen">( baseTemp > beverageTemp ) ? "risen" : "fallen" </var>
+					<var id="T1">round( baseTemp + ( beverageTemp - baseTemp ) * Math.exp ( - k * t1 ), 0 )</var>
+					<var id="T2">round( baseTemp + ( beverageTemp - baseTemp ) * Math.exp ( - k * t2 ), 0 )</var>
+				</div>
+				
+				<p class="problem">Newton's Law of Cooling states that the difference in temperature between an object and its surroundings decays exponentially as time passes.  You take a <code><var>beverageTemp</var>^\circ F</code> cup of <var>adjective</var> <var>beverage</var> outside, where the temperature is a steady <code><var>baseTemp</var>^\circ F</code>.  After <var>t1</var> minutes, the temperature of the <var>beverage</var> has <var>risen_fallen</var> to <code><var>T1</var>^\circ F</code>.  What temperature, in degrees Fahrenheit, will the <var>beverage</var> be after an hour?</p>
+
+				<div class="solution" data-max-error="1"><var>T2</var></div>
+				
+				<div class="hints">
+					<p>The difference in temperature is <code><var>beverageTemp</var>^\circ F - <var>baseTemp</var>^\circ F = <var>beverageTemp - baseTemp</var>^\circ F</var></code> to start with.</p>
+					<p>Since the difference in temperature decays exponentially, it's given by <code><var>beverageTemp - baseTemp</var>e^{-kt}</code> for some constant <code>k</code>.</p>
+					<p>Combining this with the outside temperature <code><var>baseTemp</var>^\circ F</code>, the temperature of the <var>beverage</var> at time <code>t</code> is given by <code><var>baseTemp</var> + <var>beverageTemp - baseTemp</var>e^{-kt}</code>.</p>
+					<p>We can use our knowledge of the temperature after <var>t1</var> minutes to determine k.</p>
+					<p>Specifically, <code><var>baseTemp</var> + <var>beverageTemp - baseTemp</var>e^{-<var>t1</var>k} = <var>T1</var>.</code></p>
+					<p>Solving, <code>k = <var>k</var></code>, so the temperature of the <var>beverage</var> is given by <code><var>baseTemp</var> + <var>beverageTemp - baseTemp</var>e^{-<var>k</var>t}</code>
+					<p>Plugging in <var>t2</var> minutes now gives us a temperature of <code><var>T2</var>^\circ F</code>.</p>
+				</div>
+			</div> <!-- cooling_1 -->
+		</div> <!-- problems -->
 	<div> <!-- exercise -->
 </body>
