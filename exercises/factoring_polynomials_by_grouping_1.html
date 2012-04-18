@@ -22,7 +22,7 @@
                 <span id="question-a"><code><var>A</var></code></span><code>x^2<span data-if="B > 0">+</span></code>
                 <span id="question-b"><code><var>B</var></code></span><code>x<span data-if="C > 0">+</span></code>
                 <span id="question-c"><code><var>C</var></code></span>
-            </code></p>
+            </p>
 
             <div class="solution" data-type="set">
                 <div class="set-sol" data-type="regex">^\s*\(\s*<var>A &lt; 0 ? "[-\u2212]" : ""</var><var>abs(A)</var>[xX]\s*<var>E &lt; 0 ? "[-\u2212]" : "\\+"</var>\s*<var>abs(E)</var>\s*\)\s*\(\s*[xX]\s*<var>F &lt; 0 ? "[-\u2212]" : "\\+"</var>\s*<var>abs(F)</var>\s*\)\s*$</div>
@@ -66,6 +66,7 @@
                                 \green{<var>B</var>}
                         \end{eqnarray}
                     </code>
+                </div>
                 <p>
                     In order to find <code>\purple{a}</code> and <code>\purple{b}</code>, list out the factors of
                     <code><var>A * C</var></code> and add them together.
