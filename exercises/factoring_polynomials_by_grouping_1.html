@@ -12,7 +12,7 @@
             <div class="vars" data-ensure="B !== 0">
                 <var id="A" data-ensure="abs(A) !== 1">randRangeNonZero(-9, 9)</var>
                 <var id="E">randRangeNonZero(-9, 9)</var>
-                <var id="F">randRangeNonZero(-9, 9)</var>
+                <var id="F">randRangeNonZero(-5, 5)</var>
                 <var id="B">E + A * F</var>
                 <var id="C">E * F</var>
             </div>
@@ -27,6 +27,8 @@
             <div class="solution" data-type="set">
                 <div class="set-sol" data-type="regex">^\s*\(\s*<var>A &lt; 0 ? "[-\u2212]" : ""</var><var>abs(A)</var>[xX]\s*<var>E &lt; 0 ? "[-\u2212]" : "\\+"</var>\s*<var>abs(E)</var>\s*\)\s*\(\s*[xX]\s*<var>F &lt; 0 ? "[-\u2212]" : "\\+"</var>\s*<var>abs(F)</var>\s*\)\s*$</div>
                 <div class="set-sol" data-type="regex">^\s*\(\s*[xX]\s*<var>F &lt; 0 ? "[-\u2212]" : "\\+"</var>\s*<var>abs(F)</var>\s*\)\s*\(\s*<var>A &lt; 0 ? "[-\u2212]" : ""</var><var>abs(A)</var>[xX]\s*<var>E &lt; 0 ? "[-\u2212]" : "\\+"</var>\s*<var>abs(E)</var>\s*\)\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*\(\s*<var>A &gt; 0 ? "[-\u2212]" : ""</var><var>abs(A)</var>[xX]\s*<var>E &gt; 0 ? "[-\u2212]" : "\\+"</var>\s*<var>abs(E)</var>\s*\)\s*\(\s*[-\u2212][xX]\s*<var>F &gt; 0 ? "[-\u2212]" : "\\+"</var>\s*<var>abs(F)</var>\s*\)\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*\(\s*[-\u2212][xX]\s*<var>F &gt; 0 ? "[-\u2212]" : "\\+"</var>\s*<var>abs(F)</var>\s*\)\s*\(\s*<var>A &gt; 0 ? "[-\u2212]" : ""</var><var>abs(A)</var>[xX]\s*<var>E &gt; 0 ? "[-\u2212]" : "\\+"</var>\s*<var>abs(E)</var>\s*\)\s*$</div>
                 <div class="input-format"><span class="entry"></span></div>
                 <div class="example">a factored expression, like <b>(2x+1)(x+2)</b></div>
             </div>
@@ -97,9 +99,9 @@
                     </p>
                     <code>
                         \qquad \blue{<var>A</var>}x^2
-                        <span data-if="A * E > 0">+</span>\purple{<var>E</var>}x
-                        <span data-if="F > 0">+</span>\purple{<var>A * F</var>}x
-                        <span data-if="C > 0">+</span>\pink{<var>C</var>}x
+                        <span data-if="E > 0">+</span>\purple{<var>E</var>}x
+                        <span data-if="A * F > 0">+</span>\purple{<var>A * F</var>}x
+                        <span data-if="C > 0">+</span>\pink{<var>C</var>}
                     </code>
                 </div>
                 <div>
@@ -108,7 +110,7 @@
                     </p>
                     <code>
                         \qquad (\blue{<var>A</var>}x^2 <span data-if="E > 0">+</span>\purple{<var>E</var>}x)
-                        + (\purple{<var>A * F</var>}x <span data-if="C > 0">+</span>\pink{<var>C</var>}x)
+                        + (\purple{<var>A * F</var>}x <span data-if="C > 0">+</span>\pink{<var>C</var>})
                     </code>
                 </div>
                 <div>
@@ -116,7 +118,7 @@
                         Factor out the common factors:
                     </p>
                     <code>
-                        \qquad x(<var>A</var>x + <var>E</var>x) + <var>F</var>(<var>A</var>x + <var>E</var>x)
+                        \qquad x(<var>A</var>x + <var>E</var>) + <var>F</var>(<var>A</var>x + <var>E</var>)
                     </code>
                 </div>
                 <p>
