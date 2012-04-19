@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Solid geometry</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+
+        <div id="cylinder-V">
+            <div class="vars">
+                <var id="r">randRange( 2, 4 )</var>
+                <var id="h">randRange( 5, 9 )</var>
+            </div>
+
+            <div class="question">
+                <p>What is the volume of a cylinder with base radius <code><var>r</var></code> and height <code><var>h</var></code>?</p>
+
+                <div class="graphie">
+                    init({
+                        range: [ [-1, 4], [-2, 4] ]
+                    });
+
+                    arc( [1.5, 3], [1.5, 0.4], 0, 48 );
+                    arc( [1.5, 3], [1.5, 0.4], 70, 360 );
+                    path([ [0, -1], [0, 3] ]);
+                    path([ [3, -1], [3, 3] ]);
+                    arc( [1.5, -1], [1.5, 0.4], 0, 180, {
+                        strokeDasharray: "- "
+                    } );
+                    arc( [1.5, -1], [1.5, 0.4], 180, 360 );
+
+                    path([ [1.5, 3], [3, 3] ]);
+                    label( [2.25, 3], r, "above" );
+                    label( [3, 1], h, "right" );
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-forms="pi"><var>Math.PI * r * r * h</var></span> Cubic Units</p>
+            </div>
+
+            <div class="hints">
+                <p>The area of the base is simply the area of a circle: <code>\pi r^2 = \pi \cdot <var>r</var>^2 = <var>r * r</var> \pi</code>.</p>
+                <p>The volume of the cylinder is the area of the base times the height: <code>B \cdot h = <var>r * r</var>\pi \cdot <var>h</var> = <var>r * r * h</var>\pi</code>.</p>
+            </div>
+        </div>
+
+        <div id="cylinder-T">
+            <div class="vars">
+                <var id="r">randRange( 2, 4 )</var>
+                <var id="h">randRange( 5, 9 )</var>
+            </div>
+
+            <div class="question">
+                <p>What is the surface area of a cylinder with base radius <code><var>r</var></code> and height <code><var>h</var></code>?</p>
+
+                <div class="graphie">
+                    init({
+                        range: [ [-1, 4], [-2, 4] ]
+                    });
+
+                    arc( [1.5, 3], [1.5, 0.4], 0, 48 );
+                    arc( [1.5, 3], [1.5, 0.4], 70, 360 );
+                    path([ [0, -1], [0, 3] ]);
+                    path([ [3, -1], [3, 3] ]);
+                    arc( [1.5, -1], [1.5, 0.4], 0, 180, {
+                        strokeDasharray: "- "
+                    } );
+                    arc( [1.5, -1], [1.5, 0.4], 180, 360 );
+
+                    path([ [1.5, 3], [3, 3] ]);
+                    label( [2.25, 3], r, "above" );
+                    label( [3, 1], h, "right" );
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-forms="pi"><var>Math.PI * 2 * r * ( r + h )</var></span> Square Units</p>
+            </div>
+
+            <div class="hints">
+                <p>The areas of the top and the base are simply the area of a circle: <code>\pi r^2 = \pi \cdot <var>r</var>^2 = <var>r * r</var> \pi</code>.</p>
+                <p>The lateral surface area is the same as the area of a rectangle with height <code><var>h</var></code> and width equal to the circumference of the base.</p>
+                <p>That circumference is <code>2 \pi r = 2\pi \cdot <var>r</var> = <var>2 * r</var>\pi</code>.</p>
+                <p>Thus, the lateral surface area is <code>wh = <var>2 * r</var> \pi \cdot <var>h</var> = <var>2 * r * h</var> \pi</code>.</p>
+                <p>The total surface area is <code><var>r * r</var> \pi + <var>r * r</var> \pi + <var>2 * r * h</var> \pi = <var>2 * r * ( r + h )</var>\pi</code>.</p>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</body>
+</html>
