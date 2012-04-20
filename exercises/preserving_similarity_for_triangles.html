@@ -20,7 +20,7 @@
 
         function randomSides(abc_sides) {
             var a = KhanUtil.randFromArray([4, 6, 8, 10]);
-            var b = KhanUtil.randFromArray([4, 6, 8, 10]);
+            var b = KhanUtil.randFromArrayExclude([4, 6, 8, 10], [a]);
             var c = KhanUtil.randRangeExclude(Math.max(a, b), a + b - 2, [a, b]);
 
             return [a, b, c];
@@ -35,7 +35,7 @@
             if (operation === "Add") return [sides[0] + factor, sides[1] + factor, sides[2] + factor];
             if (operation === "Subtract") return [sides[0] - factor, sides[1] - factor, sides[2] - factor];
             if (operation === "Multiply") return [sides[0] * factor, sides[1] * factor, sides[2] * factor];
-            if (operation === "Divide") return [sides[0] / factor, sides[1] / factor, sides[2] / factor];
+            if (operation === "Divide") return [KhanUtil.roundTo(2, sides[0] / factor), KhanUtil.roundTo(2, sides[1] / factor), KhanUtil.roundTo(2, sides[2] / factor)];
         }
 
         function areCongruent(tri_1, tri_2) {
@@ -51,7 +51,7 @@
             <var id="ABC_SIDES">randomSides()</var>
             <var id="ABC_ANGLES">triangleAngles(ABC_SIDES)</var>
 
-            <var id="SCALE_DEF">randFromArray([1, 2, 4])/2</var>
+            <var id="SCALE_DEF">randFromArray([0.5, 2, 1.5])</var>
 
             <var id="DEF_SIDES">scaleSides(ABC_SIDES, SCALE_DEF)</var>
             <var id="DEF_ANGLES">ABC_ANGLES</var>
@@ -105,7 +105,7 @@
                     for (var i = 0; i < 3; i++) {
                         var op = OPERATIONS[randRange(0, 3)];
                         var sides = (op === "Multiply" || op === "Divide") ? SIDES[randRange(3, 4)] : SIDES[randRange(0, 4)];
-                        if (SCALE_DEF === 1) sides = SIDES[0];
+
                         var answer;
                         if (op === "Add") incorrects.push(op + " " + randRange(2, 5) + " to " + sides);
                         else if (op === "Subtract") incorrects.push(op + " " + randRange(2, ANSWER_FACTOR - 1) + " from " + sides);
