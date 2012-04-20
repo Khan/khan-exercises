@@ -76,7 +76,11 @@
 
                     line( [0, 0], [5, 0], { arrows: "->" } );
                     line( [0, 0], polar(5, largeAngle), {arrows: "->"} );
-                    line( [0, 0], polar(5, subAngle2), {arrows: "->"} );
+                    if (ANGLE_ONE === ANGLE_TOP){
+                        line( [0, 0], polar(5, subAngle2), {arrows: "->"} );
+                    } else {
+                        line( [0, 0], polar(5, subAngle1), {arrows: "->"} );
+                    }
 
                     circle( [0, 0] , dotAttr );
                     label( [0, 0], O, "below left" );
@@ -87,8 +91,13 @@
                     circle( [4.5, 0], dotAttr );
                     label( [4.5, 0], C, "below" );
 
-                    circle( polar(4.5, subAngle2), dotAttr );
-                    label( polar(4.5, subAngle2), B, (subAngle2 &gt; 45) ? "right" : "above" );
+                    if (ANGLE_ONE === ANGLE_TOP){
+                        circle( polar(4.5, subAngle2), dotAttr );
+                        label( polar(4.5, subAngle2), B, (subAngle2 &gt; 45) ? "right" : "above" );
+                    } else {
+                        circle( polar(4.5, subAngle1), dotAttr );
+                        label( polar(4.5, subAngle1), B, (subAngle1 &gt; 45) ? "right" : "above" );
+                    }
 
                 </div>
                 <div style="clear: both;"></div>
