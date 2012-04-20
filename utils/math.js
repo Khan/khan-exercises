@@ -78,6 +78,10 @@ $.extend(KhanUtil, {
         return Math.floor(x + 0.001);
     },
 
+    getMinimum: function(array) {
+        return Math.min.apply( Math, array );
+    },
+
     getGCD: function(a, b) {
         if (arguments.length > 2) {
             var rest = [].slice.call(arguments, 1);
