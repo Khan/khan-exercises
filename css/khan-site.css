@@ -600,39 +600,45 @@ footer {
     right: 10px;
     top: 45px;
 }
-#sitewide-navigation {
+.sitewide-navigation {
     float:right;
     font-family: "MuseoSans500", Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 3px 0;
     height: 19px;
     letter-spacing: -1px;
-}
-#sitewide-navigation nav {
     font-size: 16px;
     position: relative;
     width: auto;
-    z-index: 10;
+    /* Position this at 30 so the white triangle appears on top of the page_sub_nav breadcrumbs border */
+    z-index: 30;
 }
-    #sitewide-navigation a {
-        color: #263500;
-        text-transform: uppercase;
-        margin-left: 23px;
-        display: block;
-        float: left;
+.sitewide-navigation a {
+    text-transform: uppercase;
+    margin-left: 23px;
+    display: block;
+    float: left;
+}
+.sitewide-navigation a:link,
+.sitewide-navigation a:visited,
+.sitewide-navigation a:link:hover,
+.sitewide-navigation a:link:focus,
+.sitewide-navigation a:visited:hover,
+.sitewide-navigation a:visited:focus
+{
+    color: #263500;
+}
+    .dark .sitewide-navigation a {
+        color: #ddd;
+        text-shadow: 0 -1px 0 #1A222D;
     }
-            .dark #sitewide-navigation a {
-                color: #ddd;
-                text-shadow: 0 -1px 0 #1A222D;
-            }
-        #sitewide-navigation a.selected, #page_sub_nav a.selected {
-            font-weight: bold;
-            position: relative;
-        }
-            .dark #sitewide-navigation a.selected {
-                color: #fff;
-            }
-
+.sitewide-navigation a.selected, #page_sub_nav a.selected {
+    font-weight: bold;
+    position: relative;
+}
+    .dark .sitewide-navigation a.selected {
+        color: #fff;
+    }
 #page_sub_nav .breadcrumbs_nav {
         font-weight: normal;
         font-size: 16px;
@@ -662,7 +668,7 @@ footer {
 
 /* Visual indicator of selected nav element */
 #page_sub_nav .breadcrumbs_nav a.selected:before,
-#sitewide-navigation a.selected:before,
+.sitewide-navigation a.selected:before,
 #page_sub_nav .breadcrumbs_nav.video-nav span.selected:before {
         position: relative;
         display: block;
@@ -676,14 +682,14 @@ footer {
         position: absolute;
         top: 22px;
     }
-    #sitewide-navigation a.selected:before {
+    .sitewide-navigation a.selected:before {
         border-bottom-color: #ccc;
         top: 32px;
     }
-        #sitewide-navigation a.practice-link.selected:before {left: 29px;}
-        #sitewide-navigation a.coach-link.selected:before {left: 23px;}
-        #sitewide-navigation a.contribute-link.selected:before {left: 40px;}
-        #sitewide-navigation a.about-link.selected:before {left: 23px;}
+        .sitewide-navigation a.practice-link.selected:before {left: 29px;}
+        .sitewide-navigation a.coach-link.selected:before {left: 23px;}
+        .sitewide-navigation a.contribute-link.selected:before {left: 40px;}
+        .sitewide-navigation a.about-link.selected:before {left: 23px;}
         #page_sub_nav .breadcrumbs_nav a#faq.selected:before {left: 9px;}
         #page_sub_nav .breadcrumbs_nav a#getting-started.selected:before {left: 54px;}
         #page_sub_nav .breadcrumbs_nav a#blog.selected:before {left: 14px;}
@@ -697,7 +703,7 @@ footer {
         }
 
 #page_sub_nav .breadcrumbs_nav a.selected:after,
-#sitewide-navigation a.selected:after,
+.sitewide-navigation a.selected:after,
 #page_sub_nav .breadcrumbs_nav.video-nav span.selected:after {
     position: relative;
     display: block;
@@ -711,14 +717,14 @@ footer {
     position: absolute;
     top: 23px;
 }
-#sitewide-navigation a.selected:after {
+.sitewide-navigation a.selected:after {
     border-bottom-color: #fff;
     top: 33px;
 }
-    #sitewide-navigation a.practice-link.selected:after {left: 30px; border-bottom-color: #fafafa;}
-    #sitewide-navigation a.coach-link.selected:after {left: 24px;}
-    #sitewide-navigation a.contribute-link.selected:after {left: 41px;}
-    #sitewide-navigation a.about-link.selected:after {left: 24px;}
+    .sitewide-navigation a.practice-link.selected:after {left: 30px; border-bottom-color: #fafafa;}
+    .sitewide-navigation a.coach-link.selected:after {left: 24px;}
+    .sitewide-navigation a.contribute-link.selected:after {left: 41px;}
+    .sitewide-navigation a.about-link.selected:after {left: 24px;}
     #page_sub_nav .breadcrumbs_nav a#faq.selected:after {left: 10px;}
     #page_sub_nav .breadcrumbs_nav a#getting-started.selected:after {left: 55px;}
     #page_sub_nav .breadcrumbs_nav a#blog.selected:after {left: 15px;}
@@ -791,7 +797,7 @@ footer {
     height: 17px;
 }
 
-#top-header #top-header-links {
+.top-header-links {
     position: absolute;
     top: 0;
     right: 10px;
@@ -799,13 +805,13 @@ footer {
     margin-left: 290px;
     min-width: 680px;
 }
-    #top-header #top-header-links span {
+    .top-header-links span {
         vertical-align: middle;
     }
-    #top-header #top-header-links span img {
+    .top-header-links span img {
         vertical-align: middle;
     }
-    #top-header #top-header-links span.separator, #sitewide-navigation span.separator {
+    .top-header-links span.separator, .sitewide-navigation span.separator {
         border-left: 1px solid #C6D1AD;
         border-right: 1px solid #E9EFDD;
         padding: 0;
@@ -813,74 +819,74 @@ footer {
         display: inline-block;
         height: 20px;
     }
-    .lte7 #top-header #top-header-links span.separator, #sitewide-navigation span.separator {
+    .lte7 .top-header-links span.separator, .sitewide-navigation span.separator {
         top: 0;
     }
-    .dark #top-header #top-header-links span.separator {
+    .dark .top-header-links span.separator {
         border-left: 1px solid #1B242F;
         border-right: 1px solid #37495D;
     }
-    #sitewide-navigation span.separator {
+    .sitewide-navigation span.separator {
         line-height: 0
     }
-    #top-header #top-header-links .page_links a {
+    #top-header .top-header-links .page_links a {
         color: #263500;
     }
-        .dark #top-header #top-header-links .page_links a {
+        .dark #top-header .top-header-links .page_links a {
             text-shadow: 0 -1px 0 #1A222D;
             color: #ddd;
         }
-    #top-header #top-header-links .page_links a:hover {
+    #top-header .top-header-links .page_links a:hover {
         text-decoration: underline;
     }
 
-#top-header #top-header-links #page_auth.page_links {
+.top-header-links #page_auth.page_links {
     float: right;
     display: block;
     position: relative;
     margin: 6px 6px 0 0;
     z-index: 101;
 }
-    #top-header #top-header-links #page_auth.page_links #login-menu {
+    .top-header-links #page_auth.page_links #login-menu {
         margin-top: 9px;
     }
-    #top-header #top-header-links #page_auth .css-menu ul {
+    .top-header-links #page_auth .css-menu ul {
         padding: 0;
     }
-    #top-header #top-header-links #page_auth .css-menu > ul > li {
+    .top-header-links #page_auth .css-menu > ul > li {
         font-size: 12px;
         text-shadow: 0 -1px 0 rgba(0,0,0, .5);
     }
-    #top-header #top-header-links #page_auth .css-menu > ul > li:hover {
+    .top-header-links #page_auth .css-menu > ul > li:hover {
         text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
     }
-    #top-header #top-header-links #page_auth .css-menu.noscript > ul > li:hover
-    #top-header #top-header-links #page_auth .css-menu.noscript > ul > li > a:hover,
-    #top-header #top-header-links #page_auth .css-menu > ul > li.css-menu-js-hover {
+    .top-header-links #page_auth .css-menu.noscript > ul > li:hover
+    .top-header-links #page_auth .css-menu.noscript > ul > li > a:hover,
+    .top-header-links #page_auth .css-menu > ul > li.css-menu-js-hover {
         background: #E1EDC5;
         text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
     }
-    #top-header #top-header-links #page_auth .css-menu ul a {
+    .top-header-links #page_auth .css-menu ul a {
         color: #333;
         font-weight: normal;
         background: #E1EDC5;
     }
-    #top-header #top-header-links #page_auth .css-menu ul a:hover {
+    .top-header-links #page_auth .css-menu ul a:hover {
         background: #fff;
         color: #e45c02;
     }
-    #top-header #top-header-links #page_auth .css-menu > ul > li:after {
+    .top-header-links #page_auth .css-menu > ul > li:after {
         background-image: url(http://www.khanacademy.org/images/pulldown-green.png); /*! data-uri(/images/pulldown-green.png) */
     }
 
-    #top-header #top-header-links span.badge_count_container { vertical-align:baseline; }
-    #top-header #top-header-links span.username_and_notification { vertical-align:baseline; position:relative; top:2px; }
-    #top-header #top-header-links span.username_and_notification span.user-name { vertical-align:baseline; }
-    #top-header #top-header-links span.username_and_notification span.user-notification { vertical-align:baseline; }
-    #top-header #top-header-links span.username_and_notification_shift { left: 12px; }
-    #top-header #user-info img { position:relative; top:-1px; }
+    .top-header-links span.badge_count_container { vertical-align:baseline; }
+    .top-header-links span.username_and_notification { vertical-align:baseline; position:relative; top:2px; }
+    .top-header-links span.username_and_notification span.user-name { vertical-align:baseline; }
+    .top-header-links span.username_and_notification span.user-notification { vertical-align:baseline; }
+    .top-header-links span.username_and_notification_shift { left: 12px; }
+    #user-info img { position:relative; top:-1px; }
 
-    #top-header #top-header-links .page_links a.notification_link {
+    .top-header-links .page_links a.notification_link {
         border-bottom: 0;
     }
 
