@@ -14,10 +14,14 @@
         .fake_header span:first-child {
             width: 200px;
         }
+        .fake_row {
+            width: 420px;
+        }
         #player-stats {
             height: 300px;
-            width: 430px;
+            width: 420px;
             overflow-y: scroll;
+            overflow-x: hidden;
         }
     </style>
 </head>
@@ -84,7 +88,7 @@
                     <var>roundTo(3, pow(PROB, STREAK))</var></code>.
                 </p>
                 <p class="final_answer">
-                    So the chance of <var>PLAYER</var> making his next <var>STREAK</var> free throw
+                    The chance of <var>PLAYER</var> making his next <var>STREAK</var> free throw
                     attempts is approximately <var>SOLUTION</var>%.
                 </p>
             </div>
