@@ -21,7 +21,7 @@
                     <var id="TIME">HOUR + ":" + NICE_MINUTE</var>
                 </div>
 
-                <p class="question">Set the clock to <var>TIME</var>. The <span class="hint_blue" style="font-weight: bold">hour</span> hand is <span class="hint_blue" style="font-weight: bold">blue</span> and the <span class="hint_orange" style="font-weight: bold">minute</span> hand is <span class="hint_orange" style="font-weight: bold">orange</span>.</p>
+                <p class="question">Set the clock to <var>TIME</var>. </p>
 
                 <div class="problem">
 
@@ -42,7 +42,7 @@
                         minuteSnapDegrees = 360 / minuteSnapPoints;
                         hourSnapDegrees = 360 / hourSnapPoints;
 
-                        var clock = addAnalogClock( { radius: clockRadius, minuteTicks: hourSnapPoints } );
+                        var clock = addAnalogClock( { radius: clockRadius, minuteTicks: 60 } );
                         clock.draw();
 
                         addMouseLayer();
@@ -217,7 +217,12 @@
                         if ( minuteAngle === minuteStartAngle &amp;&amp; hourAngle === hourStartAngle) {
                             return "";
                         }
-
+                        if ((minuteAngle === correctHourAngle) && (hourAngle === correctMinuteAngle) ){
+                            return "Remember the hour hand is the short hand and the minute hand is the long hand";
+                        }
+                        else if ((minuteAngle === correctMinuteAngle) && (hourAngle !== correctHourAngle) &&(hourAngle === roundToNearest( hourSnapDegrees, timeToDegrees( 5 * (HOUR) )))) {
+                            return "Remember the hour hand needs to move over the course of the hour";
+                        }
                         return (minuteAngle === correctMinuteAngle) &amp;&amp; (hourAngle === correctHourAngle);
 
                     </div>
@@ -228,6 +233,8 @@
                 </div>
 
                 <div class="hints">
+                
+                    <p>The <span class="hint_blue" style="font-weight: bold">hour</span> hand is the short <span class="hint_blue" style="font-weight: bold">blue</span> bar and the <span class="hint_orange" style="font-weight: bold">minute</span> hand is the long <span class="hint_orange" style="font-weight: bold">orange</span> bar.<p>
 
                     <p>The number after the <code>\Large{:}</code> symbol represents the number of minutes past the hour. So    <code><var>TIME</var></code> represents <code><var>MINUTE</var></code> minutes past hour <code><var>HOUR</var></code>.</p>
 
@@ -242,16 +249,17 @@
 
                     <div>
                         <p>The 12 long tick marks correspond to the hours in the day (assuming AM/PM time).</p>
-                        <p>If it is <code>0</code> minutes, the hour hand belongs directly on the corresponding hour mark. However, for any other number of minutes, the hour hand should be proportionally past the hour mark.</p>
+                        <p>If it is <code>0</code> minutes, the hour hand belongs directly on the corresponding hour mark. But, over the hour, the hour hand must travel so it reaches the next hour by the time the hour changes.</p>
                     </div>
 
                     <div>
                         <p data-if="MINUTE_IS_ZERO">
                             Since it's <code><var>HOUR</var></code> hour<code><var>plural(HOUR)</var></code> and <code>0</code> minutes, the hour hand should be right on the <code class="hint_blue"><var>HOUR</var></code> hour mark.
                         </p>
-                        <p data-else>
-                            Since it's <code><var>HOUR</var></code> hour<var>plural(HOUR)</var> and <code><var>MINUTE</var></code> minutes, the hour hand should be <code class="hint_blue"><var>fraction(MINUTE, 60)</var> = <var>fraction(MINUTE, 60, false, true)</var></code> of the way past the <code class="hint_blue"><var>HOUR</var></code> hour mark.
-                        </p>
+                        <div data-else data-unwrap>
+                            <p>Since it's <code><var>HOUR</var></code> hour<var>plural(HOUR)</var> and <code><var>MINUTE</var></code> minutes, the hour hand will have traveled <code class="hint_blue"><var>fraction(MINUTE, 60)</var> = <var>fraction(MINUTE, 60, false, true)</var></code> of the way to the <code><span data-if="HOUR + 1 ===13">1</span><span data-else> <var>HOUR + 1</var></span></code> hour mark.</p>
+                            <p>So the hour hand needs to be placed <span data-if="MINUTE === 20">just before the second </span><span data-else-if="MINUTE === 40">just past the third </span><span data-else-if="MINUTE === 15">just past the first </span><span data-else-if="MINUTE === 30">between the second and third </span><span data-else="MINUTE === 45">just before the fourth </span> small tick mark past the <code class="hint_blue"><var>HOUR</var></code> hour mark.</p>
+                        </div>
                     </div>
 
                     <div class="graphie" data-update="clock">
