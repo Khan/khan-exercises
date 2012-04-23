@@ -6,21 +6,18 @@
     <script src="../khan-exercise.js"></script>
     <script>
         function scTriangle(){
-            while( ! a || a === b || a === c || b === c ){
+            do{
                 var a = KhanUtil.randRange( 25, 150 );
                 var b = KhanUtil.randRange( 25, 180 - a );
-                if ( a + b > 170 ){
+                if ( a + b > 160 ){
                     a = Math.max( 30, a - 15  );
                     b = Math.max( 30, b - 15  );
                 }
                 var c = 180 - a - b;
-            }
+            }while( ! a || Math.abs( a - b ) < 5 || Math.abs( a - c ) < 5 || Math.abs( b - c ) < 5 )
             var sa = KhanUtil.randRange( 4, 8 );
             var sb = sa * Math.sin( b * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
             var sc = sa * Math.sin( c * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
-            if ( Math.abs( a - b ) < 5 || Math.abs( a - c ) < 5  || Math.abs( b - c ) < 5 ){
-                return scTriangle();
-            }
             return [ [ a, b, c ] , [ sa.toFixed( 1 ), sb.toFixed( 1 ), sc.toFixed( 1 ) ] ];
         }
 
