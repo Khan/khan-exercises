@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Sum of Consecutive Integers</title>
+	<script src="../khan-exercise.js"></script>
+ 	<script>
+ 		function sum_of_consecutive(first_in_series,number_in_series){
+ 			return ((number_in_series / 2.0) * (2 * first_in_series + (number_in_series-1)));
+ 		}
+ 	</script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars">
+			<var id="X">randRange( 1, 40 )</var>
+			<var id="NUM_OF_INTEGERS">randRange( 3, 5 )</var>
+			<var id="SUM">sum_of_consecutive(X,NUM_OF_INTEGERS)</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>The sum of <var>NUM_OF_INTEGERS</var> consecutive integers is <var>SUM</var>.</p>
+					<p>What is the smallest of the consecutive integers?</p>
+				</div>
+				<p class="solution" data-forms="integer"><var>X</var></p>
+			</div>
+		</div>
+
+		<div class="hints">
+			<div>
+				<p data-if="NUM_OF_INTEGERS == 3"><code><VAR>SUM</var> = x + (x + 1) + (x + 2)</code></p>
+				<p data-else-if="NUM_OF_INTEGERS == 4"><code><VAR>SUM</var> = x + (x + 1) + (x + 2) + (x + 3)</code></p>
+				<p data-else><code><VAR>SUM</var> = x + (x + 1) + (x + 2) + (x + 3) + (x + 4)</code></p>
+				<p>Solve for <code>x</code>.</p>
+			</div>
+			<div>
+				<p data-if="NUM_OF_INTEGERS == 3"><code><VAR>SUM</var> = 3x + 3</code></p>
+				<p data-else-if="NUM_OF_INTEGERS == 4"><code><VAR>SUM</var> = 4x + 6</code></p>
+				<p data-else><code><VAR>SUM</var> = 5x + 10</code></p>
+			</div>
+			<div>
+				<p><code>x = <var>X</var></code></p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
