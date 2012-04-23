@@ -214,14 +214,17 @@
                         if (minuteAngle === minuteStartAngle &amp;&amp; hourAngle === hourStartAngle) {
                             return "";
                         }
-                        if ((minuteAngle === correctHourAngle) &amp;&amp; (hourAngle === correctMinuteAngle)) {
-                            return "Remember the hour hand is the short hand and the minute hand is the long hand";
+                        if ((minuteAngle !== correctMinuteAngle) || (hourAngle !== correctHourAngle)) {
+                            if ((minuteAngle === correctHourAngle) &amp;&amp; (hourAngle === correctMinuteAngle)) {
+                                return "Remember the hour hand is the short hand and the minute hand is the long hand";
+                            }
+                            else if ((minuteAngle === correctMinuteAngle) &amp;&amp; (hourAngle !== correctHourAngle)
+                                    &amp;&amp; (hourAngle === roundToNearest(hourSnapDegrees, timeToDegrees(5 * HOUR)))) {
+                                return "Remember the hour hand needs to move over the course of the hour";
+                            }
+                            return false;
                         }
-                        else if ((minuteAngle === correctMinuteAngle) &amp;&amp; (hourAngle !== correctHourAngle)
-                                &amp;&amp; (hourAngle === roundToNearest(hourSnapDegrees, timeToDegrees(5 * HOUR)))) {
-                            return "Remember the hour hand needs to move over the course of the hour";
-                        }
-                        return (minuteAngle === correctMinuteAngle) &amp;&amp; (hourAngle === correctHourAngle);
+                        return true;
                     </div>
                     <div class="show-guess">
                         minutePoint.moveTo(guess[0][0], guess[0][1], true);
