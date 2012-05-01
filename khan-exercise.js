@@ -1943,8 +1943,8 @@ var Khan = (function() {
 
                 hintsUsed += 1;
 
-                $(this)
-								.val($(this).data("buttonText") || "I'd like another hint (" + hints.length + " step(s) left)");
+                var stepsLeft = hints.length + " step" + (hints.length === 1 ? "" : "s") + " left";
+                $(this).val($(this).data("buttonText") || "I'd like another hint (" + stepsLeft + ")");
 
                 var problem = $(hint).parent();
 
