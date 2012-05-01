@@ -677,7 +677,7 @@ var Khan = (function() {
         },
 
         showSolutionButtonText: function() {
-            return hintsUsed ? "Show step (" + hints.length + " left)" : "Show Solution";
+            return hintsUsed ? "Show next step (" + hints.length + " left)" : "Show Solution";
         }
 
     };
@@ -1944,7 +1944,7 @@ var Khan = (function() {
                 hintsUsed += 1;
 
                 $(this)
-                    .val($(this).data("buttonText") || "I'd like another hint (" + hints.length + " remaining)");
+								.val($(this).data("buttonText") || "I'd like another hint (" + hints.length + " step(s) left)");
 
                 var problem = $(hint).parent();
 
