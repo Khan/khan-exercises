@@ -102,6 +102,9 @@ YUI({filter: 'raw', insertBefore: 'styles'})
     // checking answers.
     window.Y = Y;
 
+    // Override default settings.
+    Y.modes.subproofs = false;
+
     function random(min, max) {
       var range = max - min + 1;
       var r = Math.floor(range * Math.random()) + min;
