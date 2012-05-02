@@ -28,7 +28,11 @@
 
 .stepEditor {
   background-color: inherit;
- }
+}
+
+.proofStep {
+  font-family: inherit;
+}
 
 input.sted-save-restore {
   display: none;
@@ -54,17 +58,20 @@ div.stepsParent, div.stepEditor {
             <div id=problem-type-or-description>
 
                 <p class="question">
-                 Put into the form z = ((a * x) + b
+                 Put into the form (a * x) + b<br>
+                 <span style="font-weight: normal">
                 </p>
                 <div id=proofEditor></div>
                 <p style="margin-bottom: 20em">
-                See the <a href="http://prooftoys.org/tutorial.html">tutorial</a>
-                 for help using the Proof Builder.
                 </p>
                 <div class="solution" data-type="custom">
                     <div class="instruction">
-                        Use the interactive proof builder to put the expression
-                        into the requested form.
+                      Use the interactive proof builder to put the expression
+                      into the requested form.<br>
+                      Start by selecting an expression.<br>
+                      See the <a
+                      href="http://prooftoys.org/tutorial.html">
+                      Proof Builder tutorial</a> for help.
                     </div>
                     <div class="guess">
                       window.proofEditor.getStateString()
@@ -104,7 +111,7 @@ YUI({filter: 'raw', insertBefore: 'styles'})
     // Prevent all but the directly relevant rules from being offered
     // by autocompletion.
     Y.each(Y.rules, function(value, key) {
-        if (!key.match(/^(assoc|commut|arithmetic$|distribute$|group$)/)) {
+        if (!key.match(/^(assoc|commut|arithmetic$|distribute$|group$|display$)/)) {
           info = value.info;
           value.info.saveForm = value.info.form;
           delete value.info.form;
@@ -119,10 +126,10 @@ YUI({filter: 'raw', insertBefore: 'styles'})
     // Create an initial proof step:
     var c1 = random(2, 10);
     var c2 = random(2, 10);
-    var wff0 = Y.parse('z = c1 * (c2 + x)');
-    var wff1 = wff0.subFree(new Y.Var(c1 + ''), 'c1')
-    var wff = wff1.subFree(new Y.Var(c2 + ''), 'c2')
-    var step = Y.rules.assume(wff);
+    var term0 = Y.parse('c1 * (c2 + x)');
+    var term1 = term0.subFree(new Y.Var(c1 + ''), 'c1');
+    var term = term1.subFree(new Y.Var(c2 + ''), 'c2');
+    var step = Y.rules.consider(term);
     editor.addStep(step);
 
     Y.checkAnswer = function() {
@@ -146,10 +153,7 @@ YUI({filter: 'raw', insertBefore: 'styles'})
       if (!xOk) { return 'First term does not have form a * x' ; }
 
       var bOk = map.b instanceof Y.Var && map.b.value == c1 * c2;
-      if (!bOk) { return 'Coefficient b is not ' + (c1 * c2); }
-
-      var vOk = map.v instanceof Y.Var && map.v.name == 'z';
-      if (!vOk) { return false; }
+      if (!bOk) { return 'Term b is not ' + (c1 * c2); }
 
       return true;
     };
