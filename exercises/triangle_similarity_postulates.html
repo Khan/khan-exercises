@@ -13,11 +13,13 @@
 
         <div class="vars">
             <var id="SIDEMULT_A">1</var>
-            <var id="SIDEMULT_B" data-ensure="SIDEMULT_A !== SIDEMULT_B">randRange(1, 3) / 2</var>
+            <var id="SIDEMULT_B" data-ensure="SIDEMULT_A !== SIDEMULT_B">randRange(1, 3)</var>
             <var id="B_ROT">randRange(0, 360)</var>
 
             <var id="PLABS_A">["A", "B", "C"]</var>
             <var id="PLABS_B">["X", "Y", "Z"]</var>
+
+            <var id="SCALE_FACTOR">SIDEMULT_B / SIDEMULT_A</var>
         </div>
 
         <div class="graphie" id="triangle">
@@ -51,6 +53,13 @@
                                 sides: trA.niceSideLengths
                             };
                             return trA;
+                        })()
+                    </var>
+                    <var id="TR_B_SIDES">
+                        (function() {
+                            return $.map(TR_A.niceSideLengths, function(o, i) {
+                                return Math.round(parseFloat(o) * SCALE_FACTOR * 10) / 10;
+                            })
                         })()
                     </var>
                     <var id="TR_B">
@@ -94,14 +103,23 @@
                             return trA;
                         })()
                     </var>
+                    <var id="TR_B_SIDES">
+                        (function() {
+                            return $.map(TR_A.niceSideLengths, function(o, i) {
+                                return Math.round(parseFloat(o) * SCALE_FACTOR * 10) / 10;
+                            })
+                        })()
+                    </var>
                     <var id="TR_B">
                         (function() {
                             var trB = new Triangle([0, -4], TR_A.angles, 5 * SIDEMULT_B, {});
+
+
                             trB.rotate(B_ROT);
                             trB.boxOut(TR_A, [0, -0.1]);
                             trB.labels = {
                                 points: PLABS_B,
-                                sides: fillArray(trB.niceSideLengths, SAS_ANGLE_PLUS),
+                                sides: fillArray(TR_B_SIDES, SAS_ANGLE_PLUS),
                                 angles: clearArray(trB.niceAngles, SAS_ANGLE)
                             };
                             return trB;
@@ -149,6 +167,13 @@
                             return trA;
                         })()
                     </var>
+                    <var id="TR_B_SIDES">
+                        (function() {
+                            return $.map(TR_A.niceSideLengths, function(o, i) {
+                                return Math.round(parseFloat(o) * SCALE_FACTOR * 10) / 10;
+                            })
+                        })()
+                    </var>
                     <var id="TR_B">
                         (function() {
                             var trB = new Triangle([0, -4], TR_A.angles, 5 * SIDEMULT_B, {});
@@ -188,6 +213,13 @@
                             return trA;
                         })()
                     </var>
+                    <var id="TR_B_SIDES">
+                        (function() {
+                            return $.map(TR_A.niceSideLengths, function(o, i) {
+                                return Math.round(parseFloat(o) * SCALE_FACTOR * 10) / 10;
+                            })
+                        })()
+                    </var>
                     <var id="TR_B">
                         (function() {
                             var trB = new Triangle([0, -4], randomTriangleAngles.triangle(), 5 * SIDEMULT_B, {});
@@ -206,7 +238,7 @@
                 <div class="solution">The triangles are not similar.</div>
 
                 <div class="hints">
-                    <p>The triangles are not similar.</p>
+                    <p>The triangles do not match up with any similarity postulates; therefore, they are not similar.</p>
                 </div>
             </div>
         </div>
