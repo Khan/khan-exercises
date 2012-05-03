@@ -1461,8 +1461,6 @@ var Khan = (function() {
                 });
             };
 
-            MathJax.Hub.Queue(function() {create(0);});
-
             var activate = function(slideNum) {
                 var hint, thisState,
                     thisSlide = states.eq(slideNum),
@@ -1511,6 +1509,8 @@ var Khan = (function() {
                     }
                 }
             };
+
+            MathJax.Hub.Queue(function() {create(0);});
 
             // Allow users to use arrow keys to move up and down the timeline
             $(document).keydown(function(event) {
