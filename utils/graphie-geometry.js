@@ -115,6 +115,14 @@ function clearArray(arr, i) {
     });
 }
 
+// Takes an array and an array of positions. Performs the inverse of clearArray().
+// For example, fillArray(["x", "x", "x"], [0]) would return ["", "x", "x"].
+function fillArray(arr, i) {
+    return $.map(arr, function(el, index) {
+        return ($.inArray(index, i) !== -1) ? "" : el;
+    });
+}
+
 //Used together with clearArray, for example mergeArray(clearArray(["x", "x", "x"], [ANGLE]), ["a","b","c"]), where ANGLE is 1, gives labels for a triangle ["a", "x", "c"]
 //need to be same length
 function mergeArray(ar1, ar2) {
@@ -219,6 +227,17 @@ function linePathIntersection(l, p) {
         }
     }
     return points;
+}
+
+// Cleans an array of empty values. (Don't use this for arrays with booleans; false gets cleaned out too)
+function cleanArray(arr) {
+    var ret = new Array();
+    for (var i = 0; i < arr.length; i++){
+        if (arr[i]) {
+            ret.push(arr[i]);
+        }
+    }
+    return ret;
 }
 
 function degToRad(deg) {
@@ -496,6 +515,16 @@ function Triangle(center, angles, scale, labels, points) {
 
         return this.set;
     }
+
+    // Generates side names based on labels of points.
+    this.sideNames = function() {
+        if (!this.labels.points) {
+            return null;
+        }
+        return [this.labels.points[0] + this.labels.points[1],
+            this.labels.points[1] + this.labels.points[2],
+            this.labels.points[0] + this.labels.points[2]];
+    };
 
 }
 function Quadrilateral(center, angles, sideRatio, labels, size) {

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Triangle Similarity Postulates</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problem">
+            Which similarity postulate proves that the triangles below are similar?
+        </div>
+
+        <div class="vars">
+            <var id="SIDEMULT_A">1</var>
+            <var id="SIDEMULT_B" data-ensure="SIDEMULT_A !== SIDEMULT_B">randRange(1, 3) / 2</var>
+            <var id="B_ROT">randRange(0, 360)</var>
+
+            <var id="PLABS_A">["A", "B", "C"]</var>
+            <var id="PLABS_B">["X", "Y", "Z"]</var>
+        </div>
+
+        <div class="graphie" id="triangle">
+            init({
+                range: [
+                    [-7, 7],
+                    [-7, 7]
+                ]
+            });
+            TR_A.draw();
+            TR_A.drawLabels();
+            TR_B.draw();
+            TR_B.drawLabels();
+        </div>
+
+        <ul class="choices" data-category="true">
+            <li>Side side side (SSS) similarity</li>
+            <li>Side angle side (SAS) similarity</li>
+            <li>Angle angle (AA) similarity</li>
+            <li>The triangles are not similar.</li>
+        </ul>
+
+        <div class="problems">
+            <div id="SSS">
+                <div class="vars">
+                    <var id="TR_A">
+                        (function() {
+                            var trA = new Triangle([-3, 1], randomTriangleAngles.triangle(), 5 * SIDEMULT_A, {});
+                            trA.labels = {
+                                points: PLABS_A, 
+                                sides: trA.niceSideLengths
+                            };
+                            return trA;
+                        })()
+                    </var>
+                    <var id="TR_B">
+                        (function() {
+                            var trB = new Triangle([0, -4], TR_A.angles, 5 * SIDEMULT_B, {});
+                            trB.rotate(B_ROT);
+                            trB.boxOut(TR_A, [0, -0.1]);
+                            trB.labels = {
+                                points: PLABS_B,
+                                sides: trB.niceSideLengths
+                            };
+                            return trB;
+                        })()
+                    </var>
+                </div>
+
+                <div class="solution">Side side side (SSS) similarity</div>
+
+                <div class="hints">
+                    <p>The lengths of segments AB and XY are at a ratio of <var>SIDEMULT_A</var> to <var>SIDEMULT_B</var>.</p>
+                    <p>Side <code>BC</code> corresponds to side <code>YZ</code> and side <code>AC</code> corresponds to side <code>XZ</code>.</p>
+                    <div>
+                        <code>{AB\over XY} = {<var>SIDEMULT_A</var>\over <var>SIDEMULT_B</var>} = {BC\over YZ} = {AC\over XZ}</code>
+                    </div>
+                    <p>Due to the Side Side Side (SSS) similarity postulate, the triangles are similar to each other.</p>
+                </div>
+            </div>
+
+            <div id="SAS">
+                <div class="vars">
+                    <var id="SAS_ANGLE">[randRange(0, 2)]</var>
+                    <var id="SAS_ANGLE_PLUS">[(SAS_ANGLE[0] + 1) % 3]</var>
+                    <var id="TR_A">
+                        (function() {
+                            var trA = new Triangle([-3, 1], randomTriangleAngles.triangle(), 5 * SIDEMULT_A, {});
+                            trA.labels = {
+                                points: PLABS_A,
+                                sides: fillArray(trA.niceSideLengths, SAS_ANGLE_PLUS),
+                                angles: clearArray(trA.niceAngles, SAS_ANGLE)
+                            };
+                            return trA;
+                        })()
+                    </var>
+                    <var id="TR_B">
+                        (function() {
+                            var trB = new Triangle([0, -4], TR_A.angles, 5 * SIDEMULT_B, {});
+                            trB.rotate(B_ROT);
+                            trB.boxOut(TR_A, [0, -0.1]);
+                            trB.labels = {
+                                points: PLABS_B,
+                                sides: fillArray(trB.niceSideLengths, SAS_ANGLE_PLUS),
+                                angles: clearArray(trB.niceAngles, SAS_ANGLE)
+                            };
+                            return trB;
+                        })()
+                    </var>
+                    <var id="SAS_STRA">cleanArray(fillArray(TR_A.sideNames(), SAS_ANGLE_PLUS))</var>
+                    <var id="SAS_STRB">cleanArray(fillArray(TR_B.sideNames(), SAS_ANGLE_PLUS))</var>
+                    <var id="SAS_LTRA">cleanArray(fillArray(TR_A.niceSideLengths, SAS_ANGLE_PLUS))</var>
+                    <var id="SAS_LTRB">cleanArray(fillArray(TR_B.niceSideLengths, SAS_ANGLE_PLUS))</var>
+                </div>
+
+                <div class="solution">Side angle side (SAS) similarity</div>
+
+                <div class="hints">
+                    <p>The angles <code>\angle <var>PLABS_A[SAS_ANGLE[0]]</var></code> and <code>\angle <var>PLABS_B[SAS_ANGLE[0]]</var></code> are of the same measure.</p>
+                    <p>Side 
+                        <code><var>SAS_STRA[0]</var></code> corresponds with 
+                        <code><var>SAS_STRB[0]</var></code> and side 
+                        <code><var>SAS_STRA[1]</var></code> corresponds with 
+                        <code><var>SAS_STRB[1]</var></code>
+                    </p>
+                    <div>
+                        <p>These sides have the same proportions with each other.</p>
+                        <p>
+                            <code>{<var>SAS_STRA[0]</var>\over <var>SAS_STRB[0]</var>} = {<var>SAS_STRA[1]</var>\over <var>SAS_STRB[1]</var>}</code>
+                            and
+                            <code>{<var>SAS_LTRA[0]</var>\over <var>SAS_LTRB[0]</var>} = {<var>SAS_LTRA[1]</var>\over <var>SAS_LTRB[1]</var>}</code>
+                        </p>
+                    </div>
+                    <p>The segments AC and DF are similar.</p>
+                    <p>Due to the Side angle side (SAS) postulate, the triangles are similar.</p>
+                </div>
+            </div>
+
+            <div id="AA">
+                <div class="vars">
+                    <var id="AA_EXCLUDE">[randRange(0, 2)]</var>
+                    <var id="TR_A">
+                        (function() {
+                            var trA = new Triangle([-3, 1], randomTriangleAngles.triangle(), 5 * SIDEMULT_A, {});
+                            trA.labels = {
+                                points: PLABS_A,
+                                angles: fillArray(trA.niceAngles, AA_EXCLUDE)
+                            };
+                            return trA;
+                        })()
+                    </var>
+                    <var id="TR_B">
+                        (function() {
+                            var trB = new Triangle([0, -4], TR_A.angles, 5 * SIDEMULT_B, {});
+                            trB.rotate(B_ROT);
+                            trB.boxOut(TR_A, [0, -0.1]);
+                            trB.labels = {
+                                points: PLABS_B,
+                                angles: fillArray(trB.niceAngles, AA_EXCLUDE)
+                            };
+                            return trB;
+                        })()
+                    </var>
+                </div>
+
+                <div class="solution">Angle angle (AA) similarity</div>
+
+                <div class="hints">
+                    <p>The segments AB and DE are similar.</p>
+                    <p>The segments BC and EF are similar.</p>
+                    <p>The segments AC and DF are similar.</p>
+                    <p>The triangles are similar because of the SSS postulate.</p>
+                </div>
+            </div>
+
+            <div id="NOT">
+                <div class="vars">
+                    <var id="ANG_EX">[randRange(0, 2)]</var>
+                    <var id="SIDE_EX">[randRange(0, 2)]</var>
+                    <var id="TR_A">
+                        (function() {
+                            var trA = new Triangle([-3, 1], randomTriangleAngles.triangle(), 5 * SIDEMULT_A, {});
+                            trA.labels = {
+                                points: PLABS_A,
+                                sides: clearArray(trA.niceSideLengths, SIDE_EX),
+                                angles: clearArray(trA.niceAngles, ANG_EX)
+                            };
+                            return trA;
+                        })()
+                    </var>
+                    <var id="TR_B">
+                        (function() {
+                            var trB = new Triangle([0, -4], randomTriangleAngles.triangle(), 5 * SIDEMULT_B, {});
+                            trB.rotate(B_ROT);
+                            trB.boxOut(TR_A, [0, -0.1]);
+                            trB.labels = {
+                                points: PLABS_B,
+                                sides: clearArray(trB.niceSideLengths, SIDE_EX),
+                                angles: clearArray(trB.niceAngles, ANG_EX)
+                            };
+                            return trB;
+                        })()
+                    </var>
+                </div>
+
+                <div class="solution">The triangles are not similar.</div>
+
+                <div class="hints">
+                    <p>The triangles are not similar.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
