@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html data-require="math minecraft-all">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>3d Geometry</title>
+    <script src="../khan-exercise.js"></script>
+        <style type="text/css">
+            #minecraft-container {
+                margin: 0 auto;
+                padding: 0;
+                overflow: hidden;
+                width: 800px;
+                height: 600px;
+                position: relative;
+            }
+            #minecraft-blocks {
+                position: relative;
+                top: -32px;
+                left: 240px;
+                background: white;
+                width: 320px;
+                height: 32px;
+            }
+            #minecraft-blocks img {
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="n-eq-d">
+
+                <div class="question">
+                    <p>The brick pyramid below is composed of 6 layers of cubes. The top layer has one cube, and each layer below has one more line of cubes in each 4 directions than the layer above it.
+                    How many cubes does the pyramid have?</p>
+
+                    <p>Note: you can move around with WASD keys, space, and mouse.
+                        More info <a href="http://danielribeiro.github.com/WebGLCraft/" target="_blank">here</a>.</p>
+                    
+                </div>
+                <script>
+                if (window['$']) {
+                    var createPyramid = function(setblockFunc, middle) {
+                        6..times(function(k) {
+                            var i, j, s;
+                            s = 5 - k;
+                            for (i = -s; i <= s; i++ ) {
+                              for (j = -s; j <= s; j++) {
+                                setblockFunc(middle + i, k, middle + j, 'brick');
+                              }
+                            }
+                        });
+                        return [middle - 3, 33, middle + 4];
+                    }
+                    KhanUtil.createMinecraftWorld(createPyramid);
+                }
+                </script>
+                <div id="minecraft-container"></div>
+                <div id="minecraft-blocks"></div>
+
+
+                <p class="solution"><code>268</code></p>
+                <ul class="choices">
+                    <li><code>1331</code></li>
+                    <li><code>216</code></li>
+                    <li><code>147</code></li>
+                    <li><code>600</code></li>
+                </ul>
+
+                <div class="hints">
+                    <p>Each layer can be seen as square.</p>
+                    <p>Think about the area of each layer.</p>
+                    <p>1x1 + 3x3 + 5x5....</p>
+                    <p>1x1 + 3x3 + 5x5 + 7x7 + 9x9 + 11x11</p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+</html>

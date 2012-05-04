@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Jasmine Test Runner</title>
+
+        <script type="text/javascript" src="./jasmine-node/lib/jasmine/jasmine-0.10.2.js"></script>
+        <script type="text/javascript" src="./jasmine-node/lib/jasmine/TrivialReporter.js"></script>
+        <script type="text/javascript" src="./jasmine-node/lib/jasmine/consolex.js"></script>
+        <link rel="stylesheet" type="text/css" href="./jasmine-node/lib/jasmine/jasmine.css">
+
+        <script type="text/javascript">
+            var include = function() {
+                for (var i = 0, n = arguments.length; i < n; i++) {
+                    var arg = arguments[i];
+                    jasmine.include('./javascripts/' + arg + '.js', true);
+                }
+            }
+            jasmine.include('../public/lib/rbcoffee.js', true);
+            jasmine.include('../public/collision.js', true);
+            include('specBrowserAdapter', 'applicationSpec');
+        </script>
+    </head>
+    <body>
+
+        <script type="text/javascript">
+            var jasmineEnv = jasmine.getEnv();
+            jasmineEnv.reporter = new jasmine.TrivialReporter();
+            jasmineEnv.execute();
+        </script>
+
+    </body>
+</html>
+
+

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="text/html;charset=UTF-8" http-equiv="content-type" />
+        <title>MineCraftWebGL</title>
+        <script src='./jquery/jquery-1.7.1.js' type='text/javascript'></script>
+
+        <script src='./minecraft-all.js' type='text/javascript'></script>
+        <script type='text/javascript'>$(function () {
+            var createPyramid = function(setblockFunc, middle) {
+                6..times(function(k) {
+                    var i, j, s;
+                    s = 5 - k;
+                    for (i = -s; i <= s; i++ ) {
+                      for (j = -s; j <= s; j++) {
+                        setblockFunc(middle + i, k, middle + j, 'brick');
+                      }
+                    }
+                });
+                return [middle - 3, 33, middle + 4];
+            }
+            Minecraft.start(createPyramid);
+        });
+        </script>
+        <style type="text/css">
+            body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+            #minecraft-container {
+                margin: 0 auto;
+                padding: 0;
+                overflow: hidden;
+                width: 800px;
+                height: 600px;
+            }
+            #minecraft-blocks {
+                position: relative;
+                top: -32px;
+                margin: auto;
+                background: white;
+                width: 320px;
+                height: 32px;
+            }
+            #minecraft-blocks img {
+                margin: 0;
+                padding: 0;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="minecraft-container"></div>
+        <div id="minecraft-blocks">
+        </div>
+    </body>
+</html>
