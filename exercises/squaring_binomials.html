@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html data-require="math math-format subhints">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Squaring Binomials. A10D</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="r!==v">
+			<var id="LETTERS">"xyzrsqtw"</var>
+			<var id="LETTER_1">randRange( 0, LETTERS.length-1)</var>
+			<var id="LETTER_2">randRange( 0, LETTERS.length-1)</var>
+			<var id="v">LETTERS[ LETTER_1 ]</var>
+			<var id="r">LETTERS[ LETTER_2 ]</var>
+			<var id="A">randRangeExclude(-14,14,[-1,0,1])</var>
+			<var id="B">randRangeExclude(-14,14,[0])</var>
+			<var id="C">randRangeExclude(-9,9,[-8,-6,-4,-2,0,2,4,6,8])</var>
+			<var id="Asqr">A*A</var>
+			<var id="twoA">2*A</var>
+			<var id="mid1">2*A*B</var>
+			<var id="midterm_1">abs(mid1)</var>
+			<var id="Bsqr">B*B</var>
+			<var id="mid2">A*C</var>
+			<var id="midterm_2">abs(mid2)</var>
+		        <var id="Csqr">C*C</var>
+			<var id="Csqr_2">C*C/4</var>
+			
+			<var id="answer_pos1">"^\\s*" + Asqr + v + "[\\^]2" + "\\s*[\\+]\\s*" + midterm_1 + v + "\\s*[\\+]\\s*" + Bsqr +"\\s*$"</var>
+			<var id="answer_neg1">"^\\s*" + Asqr + v + "[\\^]2" + "\\s*[\\-]\\s*" + midterm_1 + v + "\\s*[\\+]\\s*" + Bsqr +"\\s*$"</var>
+			<var id="Ans1">( function() {
+			        if( mid1 &gt; 0) {
+					      return answer_pos1;
+				} else {
+					      return answer_neg1;
+				}
+				})()</var>
+			
+			<var id="answer_pos2">"^\\s*" + Asqr + v + "[\\^]2" + "\\s*[\\+]\\s*" + midterm_2 + v + "\\s*[\\+]\\s*" + "(" + Csqr + "[\\/]"+ 4 + ")|(" + Csqr_2 + ")\\s*$"</var>
+			<var id="answer_neg2">"^\\s*" + Asqr + v + "[\\^]2" + "\\s*[\\-]\\s*" + midterm_2 + v + "\\s*[\\+]\\s*" + "(" + Csqr + "[\\/]"+ 4 + ")|(" + Csqr_2 + ")\\s*$"</var>
+			<var id="Ans2">( function() {
+			        if( mid2 &gt; 0) {
+					      return answer_pos2;
+				} else {
+					      return answer_neg2;
+				}
+				})()</var>
+			
+			<var id="answer_pos3">"^\\s*" + v + "[\\^]2" + "\\s*[\\+]\\s*" + "("+ twoA + v + r + ")|(" + twoA + r + v + ")\\s*[\\+]\\s*" + Asqr + r + "[\\^]2" +"\\s*$"</var>
+			<var id="answer_neg3">"^\\s*" + v + "[\\^]2" + "\\s*[\\-]\\s*" + "("+ twoA + v + r + ")|(" + twoA + r + v + ")\\s*[\\+]\\s*" + Asqr + r + "[\\^]2" +"\\s*$"</var>
+			<var id="Ans3">( function() {
+			        if( A &gt; 0) {
+					      return answer_pos3;
+				} else {
+					      return answer_neg3;
+				}
+				})()</var>
+			
+		</div>
+		
+		<div class="problems">
+			<div id="Type_1" >
+				<p class="question">Evaluate:</p>
+				
+				<p class="problem"><code>(<var>A</var><var>v</var> + <var>B</var>) ^2</code></p>
+				
+				<div class="solution" data-type="regex"><var>Ans1</var></div>
+				
+				<div class="hints">
+					<div>
+						<p>Recall that <code>x^2=x*x</code> and <code>x^3=x*x*x</code>. <a href="#" class="show-subhint" data-subhint="HINT" >Click here more detail.</a></p>
+						<div class="subhint" id="HINT" >
+							<p>If <code>n</code> is the power of some number <code>b</code>  (<code> b^n</code>) then <code>b</code> is multiplied by itself <code>n</code> times.</p>
+							<p> For example if <code>b</code> is raised to the power of 4  (<code> b^4</code>) then <code>b</code> is multiplied by itself four times</p>
+							<p><code> b^4 = b \cdot b \cdot b \cdot b </code></p>
+						</div>
+					</div>
+					<div>
+						<p>So it goes to reason that <code>(<var>A</var><var>v</var> + <var>B</var>)^2=(<var>A+v</var> + <var>B</var>)\cdot(<var>A+v</var> + <var>B</var>)</code>. </p>
+					</div>
+				
+					<div>
+						<p>To evaluate the square of this binomial, we F.O.I.L.</p>
+						<p>Calculate the sum of the products of the <span style="color: #008080;">Front terms</span>, the <span style="color: #000080;">Outside terms</span>, the <span style="color: #800080;">Inside terms</span>, and the <span style="color: #0000ff;">Last terms</span>.</p>
+						<p><code>\color{teal}{(<var>A</var>)^2<var>v</var>^2}+\color{navy}{(<var>A</var>)(<var>B</var>)<var>v</var>}+\color{purple}{(<var>A</var>)(<var>B</var>)<var>v</var>}+\color{blue}{(<var>B</var>)^2}</code>
+					</div>
+					<div>
+						<p><code>\color{teal}{<var>Asqr</var><var>v</var>^2}+\color{navy}{<var>mid1/2</var><var>v</var>}+\color{purple}{<var>mid1/2</var><var>v</var>}+\color{blue}{<var>Bsqr</var>}</code>.</p>
+					</div>
+					<div>
+						<p>After simplifying by combining the like middle terms,  we get: </p>
+						<p data-if="mid1>0 "><b><code><var>Asqr</var><var>v</var>^2+<var>mid1</var><var>v</var>+<var>Bsqr</var></code></b></p>
+						<p data-else><b><code><var>Asqr</var><var>v</var>^2-<var>midterm_1</var><var>v</var>+<var>Bsqr</var></code></b></p>
+						
+					</div>
+				</div>
+			</div>
+			<div id="Type_2">
+				<p class="question">Evaluate:</p>
+				
+				<p class="problem"><code>\left(<var>A</var><var>v</var> + \dfrac{<var>C</var>}{2}\right)^2</code></p>
+				
+				<div class="solution" data-type="regex"><var>Ans2</var></div>
+				
+				<div class="hints">
+					<div>
+						<p>Recall that <code>x^2=x*x</code> and <code>x^3=x*x*x</code>. <a href="#" class="show-subhint" data-subhint="HINT_a" >Click here for hint</a></p>
+						<div class="subhint" id="HINT_a" >
+							<p>If <code>n</code> is the power of some number <code>b</code>  (<code> b^n</code>) then <code>b</code> is multiplied by itself <code>n</code> times.</p>
+							<p> For example if <code>b</code> is raised to the power of 4  (<code> b^4</code>) then <code>b</code> is multiplied by itself four times</p>
+							<p><code> b^4 = b \cdot b \cdot b \cdot b </code></p>
+						</div>
+					</div>
+					<div>
+						<p>So it goes to reason that <code>\left(<var>A</var><var>v</var> + \dfrac{<var>C</var>}{2}\right)^2=\left(<var>A+v</var> + \dfrac{<var>C</var>}{2}\right)*\left(<var>A+v</var> + \dfrac{<var>C</var>}{2}\right)</code>. </p>
+					</div>
+					<div>
+						<p>To evaluate the square of this binomial, we F.O.I.L.</p>
+						<p>Calculate the sum of the products of the <span style="color: #008080;">Front terms</span>, the <span style="color: #000080;">Outside terms</span>, the <span style="color: #800080;">Inside terms</span>, and the <span style="color: #0000ff;">Last terms</span>.</p>
+						<p><code>\color{teal}{(<var>A</var>)^2<var>v</var>^2}+\color{navy}{(<var>A</var>)(\dfrac{<var>C</var>}{2})<var>v</var>}+\color{purple}{(<var>A</var>)(\dfrac{<var>C</var>}{2})<var>v</var>}+\color{blue}{(\dfrac{<var>C</var>}{2})^2}</code>
+					</div>
+					<div>
+						<p><code>\color{teal}{<var>Asqr</var><var>v</var>^2}+\color{navy}{\dfrac{<var>mid2</var>}{2}<var>v</var>}+\color{purple}{\dfrac{<var>mid2</var>}{2}<var>v</var>}+\color{blue}{\dfrac{<var>Csqr</var>}{4}}</code>.</p>
+					</div>
+					<div>
+						<p>After simplifying by combining the like middle terms,  we get: </p>
+						<p data-if="mid2>0 "><b><code><var>Asqr</var><var>v</var>^2+<var>midterm_2</var><var>v</var>+\dfrac{<var>Csqr</var>}{4}</code></b></p>
+						<p data-else><b><code><var>Asqr</var><var>v</var>^2-<var>midterm_2</var><var>v</var>+\dfrac{<var>Csqr</var>}{4}</code></b></p>
+					</div>
+				</div>
+			</div>
+			<div id="Type_3">
+				<p class="question">Evaluate:</p>
+				
+				<p class="problem"><code>(<var>v</var> + <var>A+r</var>)^2</code></p>
+				
+				<div class="solution" data-type="regex"><var>Ans3</var></div>
+				
+				<div class="hints">
+					<div>
+						<p>Recall that <code>x^2=x*x</code> and <code>x^3= x*x*x</code>.<a href="#" class="show-subhint" data-subhint="HINT_b" >Click here for hint</a></p>
+						<div class="subhint" id="HINT_b" >
+							<p>If <code>n</code> is the power of some number <code>b</code>  (<code> b^n</code>) then <code>b</code> is multiplied by itself <code>n</code> times.</p>
+							<p> For example if <code>b</code> is raised to the power of 4  (<code> b^4</code>) then <code>b</code> is multiplied by itself four times</p>
+							<p><code> b^4 = b \cdot b \cdot b \cdot b </code></p>
+						</div>
+					</div>
+					<div>
+						<p>So it goes to reason that <code>(<var>v</var> + <var>A+r</var>)^2 = (<var>v</var> + <var>A+r</var>)*(<var>v</var> + <var>A+r</var>)</code>. </p>
+					</div>
+					<div>
+						<p>To evaluate the square of this binomial, we F.O.I.L.</p>
+						<p>Calculate the sum of the products of the <span style="color: #008080;">Front terms</span>, the <span style="color: #000080;">Outside terms</span>, the <span style="color: #800080;">Inside terms</span>, and the <span style="color: #0000ff;">Last terms</span>.</p>
+						<p><code>\color{teal}{<var>v</var>^2}+\color{navy}{(<var>A</var>)<var>v</var><var>r</var>}+\color{purple}{(<var>A</var>)<var>v</var><var>r</var>}+\color{blue}{(<var>r</var>)^2}</code>
+					</div>
+					<div>
+						<p><code>\color{teal}{<var>v</var>^2}+\color{navy}{<var>A+v+r</var>}+\color{purple}{<var>A+v+r</var>}+\color{blue}{<var>r</var>^2}</code>.</p>
+					</div>
+					<div>
+						<p>After simplifying by combining the like middle terms,  we get: </p>
+						<p data-if="A>0"><b><code><var>v</var>^2+<var>twoA+v+r</var>+<var>r</var>^2</code></b></p>
+						<p data-else><b><code><var>v</var>^2<var>twoA+v+r</var>+<var>r</var>^2</code></b></p>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>
