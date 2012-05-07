@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html data-require="math math-format subhints">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Solving for a variable in a denominator A02J</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="C !== -D && C !== D ">
+			<var id="A">randRangeExclude(-12,11,[-1,0,1])</var>
+			<var id="B">randRange(1,9)</var>
+			<var id="C">randRangeExclude(-9,9,[-1,0,1])</var>
+			<var id="D">randRangeExclude(-9,9,[-1,0,1])</var>
+			<var id="LETTERS">"xyzrsqtw"</var>
+			<var id="LETTER_1">randRange( 0, LETTERS.length-1)</var>
+			<var id="x">LETTERS[ LETTER_1 ]</var>
+			<var id="BC">B*C</var>
+			<var id="ans_1">reduce((-1*A),(B*C))</var>
+			<var id="ans_2">reduce(A,(B*(D-C)))</var>
+			
+			
+			
+			
+		
+			
+			
+		</div>
+		
+		<div class="problems">
+			
+			<div id = "1/x+B=0" >
+				<p class="question"> Solve the following equation for x.</p>
+				<p class="problem"> <code>\dfrac{1}{<var>x</var>} + <var>B</var> = 0</code></p>
+				
+				<div class="solution" data-type="multiple">
+					<p><var>x</var>=<span class="sol"><var> -1 / B  </var></span> </p>
+				</div>
+				<div class="hints">
+					<div>
+						<p>Given <code>\dfrac{1}{<var>x</var>} + <var>B</var> = 0 </code>, our task is to solve for <b><var>x</var></b>.</p>
+					</div>
+					<div>
+						<p> Ultimately we want to isolate <b><var>x</var></b>. This means we begin by moving all terms without  <b><var>x</var></b> to the side of the equation without <b><var>x</var></b>.</p>
+					</div>
+					<div>
+						<p>The term without  <b><var>x</var></b> is <b><var>B</var></b>.</p>
+						<p data-if="B > 0">  To move it to the other side of the equation we must subtract <b><var> B </var></b> from both sides of the equation.</p>
+						<p data-else> To move it to the other side of the equation we must add <b><var>-B </var></b> to both sides of the equation:</p>
+						<p data-if="B > 0"><code>\dfrac{1}{<var>x</var>} + <var>B</var> - <var>B</var>= 0  - <var>B</var></code></p>
+						<p data-else><code>\dfrac{1}{<var>x</var>} + <var>B</var> + <var>-B</var>= <var>B</var> + <var>-C</var></code></p>
+						<p> <code>\dfrac{1}{<var>x</var>} + 0 =  <var>-B </var> </code></p>
+						<p> <code>\dfrac{1}{<var>x</var>}=  <var>-B</var> </code></p>
+						
+					</div>
+					<div>
+						<p>From here we have some options as to how we want to proceed. Please choose one by clicking on the link. <a href="#" class="show-subhint" data-subhint="method1" >  Reciprocal , </a>   <a href="#" class="show-subhint" data-subhint="method2" >  Cross Multiplication ,  </a>  </p>
+						<div class="subhint" id="method1" >
+							<p> We may "flip" both sides to put <b><var>x</var></b> in the numerator:</p>
+							<p></p>
+							<p> <code> \dfrac{<var>x</var>}{1}=  \dfrac{1}{<var>-B</var>} </code>.</p>
+							<p> <code><var>x</var>=  \dfrac{1}{(<var>-B</var>)} </code></p>
+							
+						</div>
+						<div class="subhint" id="method2" >
+							<p> To continue to isolate <b><var>x</var></b>, we could use cross multiplication:</p>
+							<p> Multiply both sides of the equation by the demoniators on either side, ( 1 and <var>x</var>). </p>
+							<p><code>(<var>x</var>)* \dfrac{1}{<var>x</var>} =  (<var>x</var>)(<var>-B</var>) </code> </p>
+							<p>Recall that a number divided by itself is one <code>\dfrac{<var>x</var>}{<var>x</var>}=1.</code></p>
+							<p> This simplifies to: <code><var>1</var> =  (<var>x</var>)(<var>-B</var>) </code> </p>
+							<p> We now divide both sides of the equation by the denominator on the left side <var>-B</var>. </p>
+							<p>Recall that a number divided by itself is one <code>\dfrac{<var>-B</var>}{<var>-B</var>}=1</code>.</p>
+							<p><code>\dfrac{1}{(<var>-B</var>)}=  <var>x</var> </code></p>
+						</div>
+						
+						<div>
+							<p>After simplifying, our final solution for <b><var>x</var></b> is: <a href="#" class="show-subhint" data-subhint="solution" ><b>Solution</b></a></p>
+							<div class="subhint" id="solution" >
+								<p data-if="(-1 / (B) > 0"><code> <var>x</var>=\dfrac{1}{<var>abs(-B)</var>}</code></p>
+								<p data-else><code> <var>x</var>=-\dfrac{1}{<var>abs(-B)</var>}</code></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div id="A/x+C=0">
+				<p class="question"> Solve the following equation for x.</p>
+				<p class="problem"> <code>\dfrac{<var>A</var>}{<var>x</var>} + <var>C</var> = 0</code></p>
+				
+				<div class="solution" data-type="multiple">
+					<p><var>x</var>=<span class="sol"><var> -1*A / C </var></span> </p>
+				</div>
+				<div class="hints">
+					<div>
+						<p>Given <code>\dfrac{<var>A</var>}{<var>x</var>} + <var>C</var> = 0 </code>, our task is to solve for <b><var>x</var></b>.</p>
+					</div>
+					<div>
+						<p> Ultimately we want to isolate <b><var>x</var></b>. This means we begin by moving all terms without <b><var>x</var></b> to the other side of the equation.</p>
+					</div>
+					<div>
+						<p data-if="C > 0"> The term without  <b><var>x</var></b> is <b><var>C</var></b>. To move it to the other side of the equation we must subtract <b><var> C </var></b> from both sides of the equation:</p>
+						<p data-else> The term without  <b><var>x</var>,</b> is <b><var>C</var></b>, to move it to the other side of the equation we must add <b><var>-C </var></b> to both sides of the equation:</p>
+					
+						<p data-if="C > 0"><code>\dfrac{<var>A</var>}{<var>x</var>} + <var>C</var> - <var>C</var>= 0  - <var>C</var></code></p>
+						<p data-else><code>\dfrac{<var>A</var>}{<var>x</var>} + <var>C</var> + <var>-C</var>= 0  + <var>-C</var></code></p>
+						<p> <code>\dfrac{<var>A</var>}{<var>x</var>} + 0 =  <var>-C</var> </code></p>
+						<p> <code>\dfrac{<var>A</var>}{<var>x</var>}=  <var>-C</var> </code></p>
+						
+					</div>
+					<div>
+						<p>From here we have some options as to how we want to proceed. Please choose one by clicking on the link. <a href="#" class="show-subhint" data-subhint="method1a" >  Reciprocal , </a>   <a href="#" class="show-subhint" data-subhint="method2a" >  Cross Multiplication ,  </a> </p>
+						<div class="subhint" id="method1a" >
+							<p> We may "flip" both sides to put <b><var>x</var></b> in the numerator:</p>
+							<p></p>
+							<p> <code> \dfrac{<var>x</var>}{<var>A</var>}=  \dfrac{1}{<var>-C</var>} </code>.</p>
+							<p> Now continuing with <b>reverse order of operations</b> we must move the denominator (<var>A</var>) on the right hand side of the equation to the left hand side of the equation by multiplying both sides of the equaiton by the denominator (<var>A</var>).</p>
+							<p> <code> <var>A</var> * \dfrac{<var>x</var>}{<var>A</var>}=  \dfrac{<var>A</var>}{<var>-C</var>} </code>.</p>
+							<p>Recall that a number divided by itself is one <code>\dfrac{<var>A</var>}{<var>A</var>}=1</code>.</p>
+							<p> <code><var>x</var>=  \dfrac{<var>A</var>}{(<var>-C</var>)} </code></p>
+							
+							
+							
+						</div>
+						<div class="subhint" id="method2a" >
+							<p> To continue to isolate <b><var>x</var></b>, we could use cross multiplication:</p>
+							<p> Multiply both sides of the equation by the demoniators on either side, ( 1 and <var>x</var>). </p>
+							<p><code>(<var>B+x</var>)* \dfrac{<var>A</var>}{<var>x</var>} =  (<var>x</var>)(<var>-C</var>) </code> </p>
+							<p>Recall that a number divided by itself is one <code>\dfrac{<var>x</var>}{<var>x</var>}=1.</code></p>
+							<p> This simplifies to:  <code><var>A</var> =  (<var>x</var>)(<var>-C</var>) </code> </p>
+							<p> We now divide both sides of the equation by <var>-C</var></p>
+							<p><code>\dfrac{<var>A</var>}{(<var>-C</var>)}=  \dfrac{(<var>x</var>)(<var>-C</var>)}{(<var>-C</var>)} </code></p>
+							<p>Recall that a number divided by itself is one <code>\dfrac{<var>-C</var>}{<var>-C</var>}=1</code>).</p>
+							<p> <code> \dfrac{<var>A</var>}{(<var>-C</var>)} = <var>x</var></code> </p>
+						
+						</div>
+						
+						<div>
+							<p>After simplifying, our final solution for <b><var>x</var></b> is: <a href="#" class="show-subhint" data-subhint="solution_a" ><b>Solution</b></a></p>
+							<div class="subhint" id="solution_a" >
+								<p data-if="(-1*A / C ) > 0"><code> <var>x</var>=\dfrac{<var>abs(A)</var>}{<var>abs(C)</var>}</code></p>
+								<p data-else><code> <var>x</var>=-\dfrac{<var>abs(A)</var>}{<var>abs(C)</var>}</code></p>
+							</div>
+						</div>
+					</div>
+						
+					
+				</div>
+			</div>
+			
+			<div id="A/(Bx)+C=0">
+				<p class="question"> Solve the following equation for <var>x</var>.</p>
+				<p class="problem"> <code>\dfrac{<var>A</var>}{<var>B+x</var>} + <var>C</var> = 0</code></p>
+				
+				<div class="solution" data-type="multiple">
+					<p><var>x</var>=<span class="sol"><var> -1*A / (B*C) </var></span> </p>
+				</div>
+				
+				<div class="hints">
+					<div>
+						<p>Given <code>\dfrac{<var>A</var>}{<var>B+x</var>} + <var>C</var> = 0 </code>, our task is to solve for <b><var>x</var></b>.</p>
+					</div>
+					<div>
+						<p> Ultimately we want to isolate <b><var>x</var></b>. This means we begin by moving all terms without <b><var>x</var></b> to the other side of the equation.</p>
+					</div>
+					<div>
+						<p data-if="C > 0"> The term without  <b><var>x</var></b> is <b><var>C</var></b>. To move it to the other side of the equation we must subtract <b><var> C </var></b> from both sides of the equation:</p>
+						<p data-else> The term without  <b><var>x</var>,</b> is <b><var>C</var></b>, to move it to the other side of the equation we must add <b><var>-C </var></b> to both sides of the equation:</p>
+					
+						<p data-if="C > 0"><code>\dfrac{<var>A</var>}{<var>B+x</var>} + <var>C</var> - <var>C</var>= 0  - <var>C</var></code></p>
+						<p data-else><code>\dfrac{<var>A</var>}{<var>B+x</var>} + <var>C</var> + <var>-C</var>= 0  + <var>-C</var></code></p>
+						<p> <code>\dfrac{<var>A</var>}{<var>B+x</var>} + 0 =  <var>-C</var> </code></p>
+						<p> <code>\dfrac{<var>A</var>}{<var>B+x</var>}=  <var>-C</var> </code></p>
+						
+					</div>
+					<div>
+						<p>From here we have some options as to how we want to proceed. Please choose one by clicking on the link. <a href="#" class="show-subhint" data-subhint="method1b" >  Reciprocal , </a>   <a href="#" class="show-subhint" data-subhint="method2b" >  Cross Multiplication ,  </a> </p>
+						<div class="subhint" id="method1b" >
+							<p> We may "flip" both sides to put <b><var>x</var></b> in the numerator:</p>
+							<p></p>
+							<p> <code> \dfrac{<var>B+x</var>}{<var>A</var>}=  \dfrac{1}{<var>-C</var>} </code>.</p>
+							<p> Now continuing with <b>reverse order of operations</b> we must move the denominator (<var>A</var>) on the right hand side of the equation to the left hand side of the equation by multiplying both sides of the equaiton by the denominator (<var>A</var>).</p>
+							<p> <code> <var>A</var> * \dfrac{<var>B+x</var>}{<var>A</var>}=  \dfrac{<var>A</var>}{<var>-C</var>} </code>.</p>
+							<p>Recall that a number divided by itself is one <code>\dfrac{<var>A</var>}{<var>A</var>}=1</code>.</p>
+							<p> This simplifies to:<code><var>B+x</var>=  \dfrac{<var>A</var>}{<var>-C</var>} </code></p>
+							<p> Finally we can solve for <var>x</var> by dividing both sides of the equation by <var>B</var>, leaving only <b><var>x</var></b> on the right hand side of the equation.</p>
+							<p> <code> \dfrac{<var>B+x</var>}{<var>B</var>}=  \dfrac{<var>A</var>}{(<var>-C</var>)(<var>B</var>)} </code> </p>
+							<p> <b><code> <var>x</var>=  \dfrac{<var>A</var>}{(<var>-C</var>)(<var>B</var>)} </code> </b> </p>
+							
+							
+						</div>
+						<div class="subhint" id="method2b" >
+							<p> To continue to isolate <b><var>x</var></b>, we could use cross multiplication:</p>
+							<p> Multiply both sides of the equation by the demoniators on either side, ( 1 and <var>B+x</var>). </p>
+							<p><code>(<var>B+x</var>)* \dfrac{<var>A</var>}{<var>B+x</var>} =  (<var>B+x</var>)(<var>-C</var>) </code> </p>
+							<p>Recall that a number divided by itself is one <code>\dfrac{<var>B+x</var>}{<var>B+x</var>}=1.</code></p>
+							<p> This simplifies to:  <code><var>A</var> =  (<var>B+x</var>)(<var>-C</var>) </code> </p>
+							<p> We now divide both sides of the equation by the product of <var>B</var> and <var>-C</var></p>
+							<p><code>\dfrac{<var>A</var>}{(<var>B</var>)(<var>-C</var>)}=  \dfrac{(<var>B+x</var>)(<var>-C</var>)}{(<var>B</var>)(<var>-C</var>)} </code></p>
+							<p>Recall that a number divided by itself is one <code>\dfrac{<var>BC</var>}{<var>BC</var>}=1</code>).</p>
+							<p> <code> \dfrac{<var>A</var>}{(<var>B*-C</var>)} = <var>x</var></code> </p>
+						
+						</div>
+						
+						<div>
+							<p>After simplifying, our final solution for <b><var>x</var></b> is: <a href="#" class="show-subhint" data-subhint="solution_b" ><b>Solution</b></a></p>
+							<div class="subhint" id="solution_b" >
+								<p data-if="(-1*A / (B*C)) > 0"><code> <var>x</var>=\dfrac{<var>abs(ans_1[0])</var>}{<var>abs(ans_1[1])</var>}</code></p>
+								<p data-else><code> <var>x</var>=-\dfrac{<var>abs(ans_1[0])</var>}{<var>abs(ans_1[1])</var>}</code></p>
+							</div>
+						</div>
+					</div>
+						
+					
+				</div>
+			</div>
+			
+			
+			<div id="A/(Bx)+C=D">
+				<p class="question"> Solve the following equation for x.</p>
+				<p class="problem"> <code>\dfrac{<var>A</var>}{<var>B+x</var>} + <var>C</var> = <var>D</var></code></p>
+				
+				<div class="solution" data-type="multiple">
+					<p><var>x</var>=<span class="sol"><var> A / (B*(D-C)) </var></span> </p>
+				</div>
+				<div class="hints">
+					<div>
+						<p>Given <code>\dfrac{<var>A</var>}{<var>B+x</var>} + <var>C</var> = <var>D</var> </code>, our task is to solve for <b><var>x</var></b>.</p>
+					</div>
+					<div>
+						<p> Ultimately we want to isolate <b><var>x</var></b>. This means we begin by moving all terms without  <b><var>x</var></b> to the side of the equation without <b><var>x</var></b>.</p>
+					</div>
+					<div>
+						<p data-if="C > 0"> The term without  <b><var>x</var></b> is <b><var>C</var></b>. To move it to the other side of the equation we must subtract <b><var> C </var></b> from both sides of the equation:</p>
+						<p data-else> The term without  <b><var>x</var>,</b> is <b><var>C</var></b>, to move it to the other side of the equation we must add <b><var>-C </var></b> to both sides of the equation:</p>
+					
+						<p data-if="C > 0"><code>\dfrac{<var>A</var>}{<var>B+x</var>} + <var>C</var> - <var>C</var>= <var>D</var>  - <var>C</var></code></p>
+						<p data-else><code>\dfrac{<var>A</var>}{<var>B+x</var>} + <var>C</var> + <var>-C</var>= <var>D</var> + <var>-C</var></code></p>
+						<p> <code>\dfrac{<var>A</var>}{<var>B+x</var>} + 0 =  <var>-C + D </var> </code></p>
+						<p> <code>\dfrac{<var>A</var>}{<var>B+x</var>}=  <var>-C + D </var> </code></p>
+						
+					</div>
+					<div>
+						<p>From here we have some options as to how we want to proceed. Please choose one by clicking on the link. <a href="#" class="show-subhint" data-subhint="method1c" >  Reciprocal , </a>   <a href="#" class="show-subhint" data-subhint="method2c" >  Cross Multiplication ,  </a> </p>
+						<div class="subhint" id="method1c" >
+							<p> We may "flip" both sides to put <b><var>x</var></b> in the numerator:</p>
+							<p></p>
+							<p> <code> \dfrac{<var>B+x</var>}{<var>A</var>}=  \dfrac{1}{<var>-C + D </var>} </code>.</p>
+							<p> Now continuing with <b>reverse order of operations</b> we must move the denominator (<var>A</var>) on the right hand side of the equation to the left hand side of the equation by multiplying both sides of the equaiton by the denominator (<var>A</var>).</p>
+							<p> <code> <var>A</var> * \dfrac{<var>B+x</var>}{<var>A</var>}=  \dfrac{<var>A</var>}{<var>-C + D</var>} </code>.</p>
+							<p>Recall that a number divided by itself is one <code>\dfrac{<var>A</var>}{<var>A</var>}=1</code>.</p>
+							<p> This simplifies to:  <code><var>B+x</var>=  \dfrac{<var>A</var>}{<var>-C + D</var>} </code></p>
+							<p> Finally we can solve for <var>x</var> by dividing both sides of the equation by <var>B</var>, leaving only <b><var>x</var></b> on the right hand side of the equation.</p>
+							<p> <code> \dfrac{<var>B+x</var>}{<var>B</var>}=  \dfrac{<var>A</var>}{(<var>-C + D</var>)(<var>B</var>)} </code> </p>
+							<p> <b><code> <var>x</var>=  \dfrac{<var>A</var>}{(<var>-C + D</var>)(<var>B</var>)} </code> </b> </p>
+							
+							
+						</div>
+						<div class="subhint" id="method2c" >
+							<p> To continue to isolate <b><var>x</var></b>, we could use cross multiplication:</p>
+							<p> Multiply both sides of the equation by the demoniators on either side, ( 1 and <var>B+x</var>). </p>
+							<p><code>(<var>B+x</var>)* \dfrac{<var>A</var>}{<var>B+x</var>} =  (<var>B+x</var>)(<var>-C +D </var>) </code> </p>
+							<p>Recall that a number divided by itself is one <code>\dfrac{<var>B+x</var>}{<var>B+x</var>}=1.</code></p>
+							<p> This simplifies to: <code><var>A</var> =  (<var>B+x</var>)(<var>-C + D </var>) </code> </p>
+							<p> We now divide both sides of the equation by the product of <var>B</var> and <var>-C + D</var>. </p>
+							<p><code>\dfrac{<var>A</var>}{(<var>B*(-C+D)</var>)}=  \dfrac{(<var>B+x</var>)(<var>-C+D</var>)}{(<var>B*(-C+D)</var>)} </code></p>
+							<p>Recall that a number divided by itself is one <code>\dfrac{<var>B*(-C+D)</var>}{<var>B*(-C+D)</var>}=1</code>.</p>
+							<p> <code> \dfrac{<var>A</var>}{<var>B*(-C+D)</var>} = <var>x</var></code> </p>
+						
+						</div>
+						
+						<div>
+							<p>After simplifying, our final solution for <b><var>x</var></b> is: <a href="#" class="show-subhint" data-subhint="solution_c" ><b>Solution</b></a></p>
+							<div class="subhint" id="solution_c" >
+								<p data-if="(A / (B*(D-C))) > 0"><code> <var>x</var>=\dfrac{<var>abs(ans_2[0])</var>}{<var>abs(ans_2[1])</var>}</code></p>
+								<p data-else><code> <var>x</var>=-\dfrac{<var>abs(ans_2[0])</var>}{<var>abs(ans_2[1])</var>}</code></p>
+							</div>
+						</div>
+					</div>
+						
+					
+				</div>
+			</div>
+			
+			
+			
+		</div>
+		
+		
+	</div>
+</body>
+</html>
+					
+						
+					
+			
