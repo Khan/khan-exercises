@@ -1,114 +1,181 @@
-jQuery.extend(KhanUtil, {
-	sum: function( values ) {
-		var sum = 0;
+$.extend(KhanUtil, {
+    sum: function(values) {
+        var sum = 0;
 
-		$.each(values, function( index, value ) {
-			sum += value;
-		});
-		return sum;
-	},
+        $.each(values, function(index, value) {
+            sum += value;
+        });
+        return sum;
+    },
 
-	mean: function( values ) {
-		return KhanUtil.sum( values ) / values.length;
-	},
+    mean: function(values) {
+        return KhanUtil.sum(values) / values.length;
+    },
 
-	median: function( values ) {
-		var sortedInts, median;
-		sortedInts = KhanUtil.sortNumbers( values );
+    median: function(values) {
+        var sortedInts, median;
+        sortedInts = KhanUtil.sortNumbers(values);
 
-		if ( values.length % 2 === 0 ) {
-			median = KhanUtil.roundTo( 1,
-				( sortedInts[(values.length / 2) - 1] + sortedInts[values.length / 2] ) / 2 );
-		} else {
-			median = sortedInts[ Math.floor( values.length / 2 ) ];
-		}
-		return median;
-	},
+        if (values.length % 2 === 0) {
+            median = KhanUtil.roundTo(1,
+                (sortedInts[(values.length / 2) - 1] + sortedInts[values.length / 2]) / 2);
+        } else {
+            median = sortedInts[Math.floor(values.length / 2)];
+        }
+        return median;
+    },
 
-	mode: function( values ) {
-		var numInstances = [];
-		var modeInstances = -1;
+    mode: function(values) {
+        var numInstances = [];
+        var modeInstances = -1;
 
-		var mode;
-		for ( var i = 0; i < values.length; i++ ) {
-			if ( !numInstances[ values[i] ] ) {
-				numInstances[ values[i] ] = 1;
-			} else {
-				numInstances[ values[i] ] += 1;
-				if ( numInstances[ values[i] ] > modeInstances ) {
-					modeInstances = numInstances[ values[i] ];
-					mode = values[i];
-				}
-			}
-		}
+        var mode;
+        for (var i = 0; i < values.length; i++) {
+            if (!numInstances[values[i]]) {
+                numInstances[values[i]] = 1;
+            } else {
+                numInstances[values[i]] += 1;
+                if (numInstances[values[i]] > modeInstances) {
+                    modeInstances = numInstances[values[i]];
+                    mode = values[i];
+                }
+            }
+        }
 
-		// iterate again to check for 'no mode'
-		for ( var i = 0; i < numInstances.length; i++ ) {
-			if ( numInstances[i] ) {
-				if ( i !== mode && numInstances[i] >= modeInstances ) {
-					return false;
-				}
-			}
-		}
+        // iterate again to check for 'no mode'
+        for (var i = 0; i < numInstances.length; i++) {
+            if (numInstances[i]) {
+                if (i !== mode && numInstances[i] >= modeInstances) {
+                    return false;
+                }
+            }
+        }
 
-		return mode;
-	},
+        return mode;
+    },
 
-	variance: function( values ) {
-		var xbar = KhanUtil.mean( values );
-		var n = values.length;
+    variance: function(values) {
+        var xbar = KhanUtil.mean(values);
+        var n = values.length;
 
-		var sum = 0;
-		jQuery.each( values, function( i, x_i ) {
-			sum += ( x_i - xbar ) * ( x_i - xbar );
-		});
-		return sum / ( n - 1 );
-	},
+        var sum = 0;
+        $.each(values, function(i, x_i) {
+            sum += (x_i - xbar) * (x_i - xbar);
+        });
+        return sum / (n - 1);
+    },
 
-	variancePop: function( values ) {
-		var xbar = KhanUtil.mean( values );
-		var N = values.length;
+    variancePop: function(values) {
+        var xbar = KhanUtil.mean(values);
+        var N = values.length;
 
-		var sum = 0;
-		jQuery.each( values, function( i, x_i ) {
-			sum += ( x_i - xbar ) * ( x_i - xbar );
-		});
-		return sum / N;
-	},
+        var sum = 0;
+        $.each(values, function(i, x_i) {
+            sum += (x_i - xbar) * (x_i - xbar);
+        });
+        return sum / N;
+    },
 
-	stdDev: function( values ) {
-		return Math.sqrt( KhanUtil.variance( values ) );
-	},
+    stdDev: function(values) {
+        return Math.sqrt(KhanUtil.variance(values));
+    },
 
-	stdDevPop: function( values ) {
-		return Math.sqrt( KhanUtil.variancePop( values ) );
-	},
+    stdDevPop: function(values) {
+        return Math.sqrt(KhanUtil.variancePop(values));
+    },
 
-	// Gaussian distribution using Box-Muller transform
-	// defaults to standard normal unless target mean and stddev are passed
-	// Pass "count" to get an array of data
-	randGaussian: function( tgtMean, tgtStdDev, count ) {
-		if ( count == null ) {
-			var x1, x2, rad, y1;
+    // Gaussian distribution using Box-Muller transform
+    // defaults to standard normal unless target mean and stddev are passed
+    // Pass "count" to get an array of data
+    randGaussian: function(tgtMean, tgtStdDev, count) {
+        if (count == null) {
+            var x1, x2, rad, y1;
 
-			do {
-				x1 = 2 * KhanUtil.random() - 1;
-				x2 = 2 * KhanUtil.random() - 1;
-				rad = x1 * x1 + x2 * x2;
-			} while ( rad >= 1 || rad == 0 );
+            do {
+                x1 = 2 * KhanUtil.random() - 1;
+                x2 = 2 * KhanUtil.random() - 1;
+                rad = x1 * x1 + x2 * x2;
+            } while (rad >= 1 || rad == 0);
 
-			var c = Math.sqrt( -2 * Math.log( rad ) / rad );
+            var c = Math.sqrt(-2 * Math.log(rad) / rad);
 
-			return x1 * c * ( tgtStdDev || 1 ) + ( tgtMean || 0 );
-		} else {
-			return jQuery.map( new Array( count ), function() {
-				return KhanUtil.randGaussian( tgtMean, tgtStdDev );
-			});
-		}
-	},
+            return x1 * c * (tgtStdDev || 1) + (tgtMean || 0);
+        } else {
+            return $.map(new Array(count), function() {
+                return KhanUtil.randGaussian(tgtMean, tgtStdDev);
+            });
+        }
+    },
 
-	gaussianPDF: function( mean, stddev, x ) {
-		return ( 1 / Math.sqrt( 2 * Math.PI * stddev * stddev ) ) * Math.exp( -( ( x - mean ) * ( x - mean ) ) / ( 2 * stddev * stddev ) );
-	}
+    gaussianPDF: function(mean, stddev, x) {
+        return (1 / Math.sqrt(2 * Math.PI * stddev * stddev)) * Math.exp(-((x - mean) * (x - mean)) / (2 * stddev * stddev));
+    },
+
+    zScores: function(z) {
+        return ({
+            "0": 0.5, "1": 0.504, "2": 0.508, "3": 0.512, "4": 0.516,
+            "5": 0.5199, "6": 0.5239, "7": 0.5279, "8": 0.5319, "9": 0.5359,
+            "10": 0.5398, "11": 0.5438, "12": 0.5478, "13": 0.5517, "14": 0.5557,
+            "15": 0.5596, "16": 0.5636, "17": 0.5675, "18": 0.5714, "19": 0.5753,
+            "20": 0.5793, "21": 0.5832, "22": 0.5871, "23": 0.591, "24": 0.5948,
+            "25": 0.5987, "26": 0.6026, "27": 0.6064, "28": 0.6103, "29": 0.6141,
+            "30": 0.6179, "31": 0.6217, "32": 0.6255, "33": 0.6293, "34": 0.6331,
+            "35": 0.6368, "36": 0.6406, "37": 0.6443, "38": 0.648, "39": 0.6517,
+            "40": 0.6554, "41": 0.6591, "42": 0.6628, "43": 0.6664, "44": 0.67,
+            "45": 0.6736, "46": 0.6772, "47": 0.6808, "48": 0.6844, "49": 0.6879,
+            "50": 0.6915, "51": 0.695, "52": 0.6985, "53": 0.7019, "54": 0.7054,
+            "55": 0.7088, "56": 0.7123, "57": 0.7157, "58": 0.719, "59": 0.7224,
+            "60": 0.7257, "61": 0.7291, "62": 0.7324, "63": 0.7357, "64": 0.7389,
+            "65": 0.7422, "66": 0.7454, "67": 0.7486, "68": 0.7517, "69": 0.7549,
+            "70": 0.758, "71": 0.7611, "72": 0.7642, "73": 0.7673, "74": 0.7704,
+            "75": 0.7734, "76": 0.7764, "77": 0.7794, "78": 0.7823, "79": 0.7852,
+            "80": 0.7881, "81": 0.791, "82": 0.7939, "83": 0.7967, "84": 0.7995,
+            "85": 0.8023, "86": 0.8051, "87": 0.8078, "88": 0.8106, "89": 0.8133,
+            "90": 0.8159, "91": 0.8186, "92": 0.8212, "93": 0.8238, "94": 0.8264,
+            "95": 0.8289, "96": 0.8315, "97": 0.834, "98": 0.8365, "99": 0.8389,
+            "100": 0.8413, "101": 0.8438, "102": 0.8461, "103": 0.8485, "104": 0.8508,
+            "105": 0.8531, "106": 0.8554, "107": 0.8577, "108": 0.8599, "109": 0.8621,
+            "110": 0.8643, "111": 0.8665, "112": 0.8686, "113": 0.8708, "114": 0.8729,
+            "115": 0.8749, "116": 0.877, "117": 0.879, "118": 0.881, "119": 0.883,
+            "120": 0.8849, "121": 0.8869, "122": 0.8888, "123": 0.8907, "124": 0.8925,
+            "125": 0.8944, "126": 0.8962, "127": 0.898, "128": 0.8997, "129": 0.9015,
+            "130": 0.9032, "131": 0.9049, "132": 0.9066, "133": 0.9082, "134": 0.9099,
+            "135": 0.9115, "136": 0.9131, "137": 0.9147, "138": 0.9162, "139": 0.9177,
+            "140": 0.9192, "141": 0.9207, "142": 0.9222, "143": 0.9236, "144": 0.9251,
+            "145": 0.9265, "146": 0.9279, "147": 0.9292, "148": 0.9306, "149": 0.9319,
+            "150": 0.9332, "151": 0.9345, "152": 0.9357, "153": 0.937, "154": 0.9382,
+            "155": 0.9394, "156": 0.9406, "157": 0.9418, "158": 0.9429, "159": 0.9441,
+            "160": 0.9452, "161": 0.9463, "162": 0.9474, "163": 0.9484, "164": 0.9495,
+            "165": 0.9505, "166": 0.9515, "167": 0.9525, "168": 0.9535, "169": 0.9545,
+            "170": 0.9554, "171": 0.9564, "172": 0.9573, "173": 0.9582, "174": 0.9591,
+            "175": 0.9599, "176": 0.9608, "177": 0.9616, "178": 0.9625, "179": 0.9633,
+            "180": 0.9641, "181": 0.9649, "182": 0.9656, "183": 0.9664, "184": 0.9671,
+            "185": 0.9678, "186": 0.9686, "187": 0.9693, "188": 0.9699, "189": 0.9706,
+            "190": 0.9713, "191": 0.9719, "192": 0.9726, "193": 0.9732, "194": 0.9738,
+            "195": 0.9744, "196": 0.975, "197": 0.9756, "198": 0.9761, "199": 0.9767,
+            "200": 0.9772, "201": 0.9778, "202": 0.9783, "203": 0.9788, "204": 0.9793,
+            "205": 0.9798, "206": 0.9803, "207": 0.9808, "208": 0.9812, "209": 0.9817,
+            "210": 0.9821, "211": 0.9826, "212": 0.983, "213": 0.9834, "214": 0.9838,
+            "215": 0.9842, "216": 0.9846, "217": 0.985, "218": 0.9854, "219": 0.9857,
+            "220": 0.9861, "221": 0.9864, "222": 0.9868, "223": 0.9871, "224": 0.9875,
+            "225": 0.9878, "226": 0.9881, "227": 0.9884, "228": 0.9887, "229": 0.989,
+            "230": 0.9893, "231": 0.9896, "232": 0.9898, "233": 0.9901, "234": 0.9904,
+            "235": 0.9906, "236": 0.9909, "237": 0.9911, "238": 0.9913, "239": 0.9916,
+            "240": 0.9918, "241": 0.992, "242": 0.9922, "243": 0.9925, "244": 0.9927,
+            "245": 0.9929, "246": 0.9931, "247": 0.9932, "248": 0.9934, "249": 0.9936,
+            "250": 0.9938, "251": 0.994, "252": 0.9941, "253": 0.9943, "254": 0.9945,
+            "255": 0.9946, "256": 0.9948, "257": 0.9949, "258": 0.9951, "259": 0.9952,
+            "260": 0.9953, "261": 0.9955, "262": 0.9956, "263": 0.9957, "264": 0.9959,
+            "265": 0.996, "266": 0.9961, "267": 0.9962, "268": 0.9963, "269": 0.9964,
+            "270": 0.9965, "271": 0.9966, "272": 0.9967, "273": 0.9968, "274": 0.9969,
+            "275": 0.997, "276": 0.9971, "277": 0.9972, "278": 0.9973, "279": 0.9974,
+            "280": 0.9974, "281": 0.9975, "282": 0.9976, "283": 0.9977, "284": 0.9977,
+            "285": 0.9978, "286": 0.9979, "287": 0.9979, "288": 0.998, "289": 0.9981,
+            "290": 0.9981, "291": 0.9982, "292": 0.9982, "293": 0.9983, "294": 0.9984,
+            "295": 0.9984, "296": 0.9985, "297": 0.9985, "298": 0.9986, "299": 0.9986,
+            "300": 0.9987, "301": 0.9987, "302": 0.9987, "303": 0.9988, "304": 0.9988,
+            "305": 0.9989, "306": 0.9989, "307": 0.9989, "308": 0.999, "309": 0.999
+        }[z]);
+    }
 
 });
