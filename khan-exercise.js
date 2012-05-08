@@ -1807,7 +1807,19 @@ var Khan = (function() {
                 topic_mode: (!testMode && !Exercises.reviewMode && !Exercises.practiceMode) ? 1 : 0,
 
                 // Request camelCasing in returned response
-                casing: "camel"
+                casing: "camel",
+
+                // The current card data
+                card: !testMode && JSON.stringify(Exercises.currentCard),
+
+                // The first card done in the stack (for identifying stacks)
+                first_card: !testMode && JSON.stringify(Exercises.completeStack.last() || Exercises.currentCard),
+
+                // The current topic, if any
+                topic_id: !testMode && Exercises.topic && Exercises.topic.id,
+
+                // How many cards the user has left to do
+                cards_left: !testMode && (Exercises.incompleteStack.length - 1)
             };
         }
 
