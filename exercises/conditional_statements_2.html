@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html data-require="word-problems spin answer-types">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Conditional statements 2</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+
+            <div id="angles-problem">
+                <div class="vars">
+                    <var id="INDEX">KhanUtil.randRange( 0, 1)</var>
+                    <var id="ANGLES_TYPE">["vertical", "adjacent"][INDEX]</var>
+                    <var id="SHARE_TEXT">["share a vertex", "share a ray"][INDEX]</var>
+                </div>
+
+                <p class="question">
+                    Write the conditional statement in “if-then” form.<br>
+                    <p class="spin">
+                        {<var>KhanUtil.capitalize(ANGLES_TYPE)</var> angles <var>SHARE_TEXT</var>. | Angles that <var>SHARE_TEXT</var> are <var>ANGLES_TYPE</var>.}
+                    </p>
+                </p>
+
+                <div class="solution" data-type="custom"><!--strings with liberal validation-->
+                    <div class="instruction">
+                        If <input type="text" name="solution" id="angles_sln"></input> are <input type="text" name="solution" id="angles_traits_sln"></input>, then they <input type="text" name="solution" id="share_sln"></input>.
+                    </div>
+                    <div class="guess">[$("#angles_sln").val(), $("#angles_traits_sln").val(), $("#share_sln").val()]</div>
+                    <div class="validator-function">
+                       return  (stringsRoughlyEqual(guess[0], "angles") && 
+                                stringsRoughlyEqual(guess[1], ANGLES_TYPE) &&
+                                stringsRoughlyEqual(guess[2], SHARE_TEXT));
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <div><p>Think of what the condition is (the hypothesis) and what conclusion you get from that condition.</p></div>
+                    <div><p>The conclusion usually, but not always, follows the verb in the sentence.</p></div>
+                    <div><p>When writing the solution, the condition or hypothesis follows the “if” and the conclusion follows the “then”.</p></div>
+                </div>
+            </div> <!-- angles-problem -->
+
+            <div id="animals-problem">
+                <div class="vars">
+                    <var id="ANIMAL_TEXT">KhanUtil.randFromArray(["Dog", "Cat", "Tiger", "Horse", "Elephant"])</var>
+                </div>
+
+                <p class="question">
+                    Write the conditional statement in “if-then” form.<br>
+                    <p><var>ANIMAL_TEXT</var>s have four legs.</p>
+                </p>
+
+                <div class="solution" data-type="custom"><!--strings with liberal validation-->
+                    <div class="instruction">
+                        If an animal is a <input type="text" name="solution" id="animal_sln"></input>, then it has <input type="text" name="solution" id="legs_sln"></input>.
+                    </div>
+                    <div class="guess">[$("#animal_sln").val(), $("#legs_sln").val()]</div>
+                    <div class="validator-function">
+                        return (stringsRoughlyEqual(guess[0], ANIMAL_TEXT) && 
+                                stringsRoughlyEqual(guess[1], "four legs"));
+                    </div>
+                </div><!--solution-->
+
+                <div class="hints">
+                    <div><p>Think of what the condition is (the hypothesis) and what conclusion you get from that condition.</p></div>
+                    <div><p>The conclusion usually, but not always, follows the verb in the sentence.</p></div>
+                    <div><p>When writing the solution, the condition or hypothesis follows the “if” and the conclusion follows the “then”.</p></div>
+                </div>
+            </div> <!-- animals-problem -->
+            
+            <div id="sports-problem">
+                <div class="vars">
+                    <var id="SPORT">KhanUtil.randFromArray(["Basketball", "Football", "Volleyball", "Softball", "Soccer"])</var>
+                </div>
+
+                <p class="question">
+                    Write the conditional statement in “if-then” form.<br>
+                    <p><var>SPORT</var> is a team sport.</p>
+                </p>
+
+                <div class="solution" data-type="custom"><!--strings with liberal validation-->
+                    <div class="instruction">
+                        If an sport is <input type="text" name="solution" id="sport_sln"></input>, then it is <input type="text" name="solution" id="team_sln"></input>.
+                    </div>
+                    <div class="guess">[$("#sport_sln").val(), $("#team_sln").val()]</div>
+                    <div class="validator-function">
+                        return (stringsRoughlyEqual(guess[0], SPORT) && 
+                                (stringsRoughlyEqual(guess[1], "team sport") || <!--I guess both should be accepted-->
+                                 stringsRoughlyEqual(guess[1], "a team sport")));
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <div><p>Think of what the condition is (the hypothesis) and what conclusion you get from that condition.</p></div>
+                    <div><p>The conclusion usually, but not always, follows the verb in the sentence.</p></div>
+                    <div><p>When writing the solution, the condition or hypothesis follows the “if” and the conclusion follows the “then”.</p></div>
+                </div>
+            </div> <!-- sports-problem -->
+
+            <div id="activity-problem">
+                <div class="vars">
+                    <var id="INDEX">KhanUtil.randRange(0,4)</var>
+                    <var id="ACTIVITY">["eat popcorn", "run fast", "shoot a basket", "hit a home run", "eat cake"][INDEX]</var>
+                    <var id="LOCATION">["the movies", "the track meet", "the basketball court", "the softball game", "the birthday party"][INDEX]</var>
+                </div>
+
+                <p class="question">
+                    Write the conditional statement in “if-then” form.<br>
+                    <p>I will <var>ACTIVITY</var> when I go to <var>LOCATION</var>.</p>
+                </p>
+
+                <div class="solution" data-type="custom"><!--strings with liberal validation-->
+                    <div class="instruction">
+                        If I go to <input type="text" name="solution" id="location_sln"></input> then I will <input type="text" name="solution" id="activity_sln"></input>.
+                    </div>
+                    <div class="guess">[$("#location_sln").val(), $("#activity_sln").val()]</div>
+                    <div class="validator-function">
+                        return (stringsRoughlyEqual(guess[0], LOCATION) && 
+                                stringsRoughlyEqual(guess[1], ACTIVITY));
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <div><p>Think of what the condition is (the hypothesis) and what conclusion you get from that condition.</p></div>
+                    <div><p>The conclusion usually, but not always, follows the verb in the sentence.</p></div>
+                    <div><p>When writing the solution, the condition or hypothesis follows the “if” and the conclusion follows the “then”.</p></div>
+                </div>
+            </div> <!-- activity-problem -->
+        </div> <!-- problems -->
+    </div> <!-- exercise -->
+</body>
+</html>

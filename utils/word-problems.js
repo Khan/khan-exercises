@@ -33,6 +33,16 @@ $.extend(KhanUtil, {
         return KhanUtil.toSentence(wrapped, conjunction);
     },
 
+    //capitalize - uppercase the first letter of the word
+    capitalize: function(word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    },
+
+    //liberal comparison of strings: disregards case and leading/trailing/extra spaces
+    stringsRoughlyEqual: function(str1, str2) {
+        return ($.trim(str1.toLowerCase().replace(/ +/g, " ")) === $.trim(str2.toLowerCase().replace(/ +/g, " ")));
+    },
+
     // pluralization helper.  There are five signatures
     // - plural(NUMBER): return "s" if NUMBER is not 1
     // - plural(NUMBER, singular):
