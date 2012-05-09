@@ -1818,6 +1818,9 @@ var Khan = (function() {
                 // The current topic, if any
                 topic_id: !testMode && Exercises.topic && Exercises.topic.id,
 
+                // How many cards the user has already done
+                cards_done: !testMode && Exercises.completeStack.length,
+
                 // How many cards the user has left to do
                 cards_left: !testMode && (Exercises.incompleteStack.length - 1)
             };
@@ -1874,6 +1877,12 @@ var Khan = (function() {
                 }
             }
 
+            if (pass === true) {
+                // Problem has been completed but pending data request being
+                // sent to server.
+                $(Khan).trigger("problemDone");
+            }
+
             // Save the problem results to the server
             var curTime = new Date().getTime();
             var data = buildAttemptData(pass, ++attempts, JSON.stringify(validator.guess), curTime);
@@ -1925,12 +1934,6 @@ var Khan = (function() {
                 // Determine if this attempt qualifies as fast completion
                 fast: (typeof userExercise !== "undefined" && userExercise.secondsPerFastProblem >= data.time_taken)
             });
-
-            if (pass === true) {
-                // Problem has been completed -- now waiting on user to
-                // move to next problem.
-                $(Khan).trigger("problemDone");
-            }
 
             return false;
         }
