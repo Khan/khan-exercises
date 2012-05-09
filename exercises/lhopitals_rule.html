@@ -4,6 +4,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>L'Hopital's rule</title>
     <script src="../khan-exercise.js"></script>
+    <script>
+    //three integer coefficients that sum up to 0
+    function randZeroSumCoefs() {
+        var coefs = [KhanUtil.randRange( 2, 7 ), KhanUtil.randRange( 2, 7 ), KhanUtil.randRange( 2, 7 )];
+        var rand_ind = KhanUtil.randRange(0,2);
+        coefs[rand_ind] = - coefs[(rand_ind + 1) % 3] - coefs[(rand_ind + 2) % 3];
+        return coefs;
+    }
+    </script>
 </head>
 <body>
     <div class="exercise">
@@ -115,6 +124,108 @@
                     </p>
                 </div> <!-- hints -->
             </div> <!-- polynomial -->
+
+            <div id="exp-and-cos">
+                <div class="vars">
+                    <!--x approaches zero. the expression has the form: (a1*e^x + a2*cos(x) + a3)/(b1*e^x + b2*cos(x) + b3), where (a1+a2+a3)=(b1+b2+b3)=0, hence 0/0 indeterminate form. After derivation we get (a1*e^x - a2*sin(x))/(b1*e^x - b2*sin(x)), the indeterminate form is resolved and the answer is a1/b1.-->
+                    <var id="INDETERMINATE_FORM">"\\frac{0}{0}"</var>
+                    <var id="NUMERATOR">randZeroSumCoefs()</var>
+                    <var id="DENOMINATOR">randZeroSumCoefs()</var>
+                    <var id="NUMERATOR_TEXT">expr(["+", ["*", NUMERATOR[0], ["^", "e", "x"]], ["*", NUMERATOR[1], ["cos", "x"]], NUMERATOR[2]])</var>
+                    <var id="DENOMINATOR_TEXT">expr(["+", ["*", DENOMINATOR[0], ["^", "e", "x"]], ["*", DENOMINATOR[1], ["cos", "x"]], DENOMINATOR[2]])</var>
+                    <!--the numerator and denominator after the derivation-->
+                    <var id="SLN_NUMERATOR_TEXT">expr(["+", ["*", NUMERATOR[0], ["^", "e", "x"]], ["*", -NUMERATOR[1], ["sin", "x"]]])</var>
+                    <var id="SLN_DENOMINATOR_TEXT">expr(["+", ["*", DENOMINATOR[0], ["^", "e", "x"]], ["*", -DENOMINATOR[1], ["sin", "x"]]])</var>
+                    <var id="SLN_SIMPLIFIES">reduces( NUMERATOR[0], DENOMINATOR[0] ) || abs( DENOMINATOR[0] ) === 1</var>
+                </div>
+
+                <div>
+                    <!-- Pose question as limit problem.  -->
+                    <p class="question">
+                        <code>\displaystyle \lim_{x \to 0} \frac{<var>NUMERATOR_TEXT</var>}{<var>DENOMINATOR_TEXT</var>} = {?}</code>
+                    </p>
+                    <p class="solution" data-type="rational"><var>NUMERATOR[0] / DENOMINATOR[0]</var></p>
+                </div>
+
+                <div class="hints">
+                    <!-- Remind them of L'Hopital's rule -->
+                    <p>L'Hopital's rule states that since evaluating
+                        <!-- Original problem -->
+                        <code>\displaystyle \lim_{x \to 0} \frac{<var>NUMERATOR_TEXT</var>}{<var>DENOMINATOR_TEXT</var>} = <var>INDETERMINATE_FORM</var></code>,<br />
+                        <!-- Explanation of rule -->
+                        if <code>\displaystyle \lim_{x \to 0} \frac{\frac{d}{dx} (<var>NUMERATOR_TEXT</var>)}{\frac{d}{dx} (<var>DENOMINATOR_TEXT</var>)}</code> exists, evaluating it will give us the actual limit.
+                    </p>
+
+                    <p><!--Do the derivation-->
+                        <code>\displaystyle \frac{\frac{d}{dx} (<var>NUMERATOR_TEXT</var>)}{\frac{d}{dx} (<var>DENOMINATOR_TEXT</var>)} = \frac{<var>SLN_NUMERATOR_TEXT</var>}{<var>SLN_DENOMINATOR_TEXT</var>}</code>
+                    </p>
+
+                    <!-- Evaluate the limit and give the solution in both unsimplified and simplified form (if necessary) -->
+                    <p>
+                        <!-- Restate the problem using the derived, but unevaluated limit-->
+                        Evaluate the limit:
+                        <code>
+                            \displaystyle \lim_{x \to 0} \frac{<var>SLN_NUMERATOR_TEXT</var>}{<var>SLN_DENOMINATOR_TEXT</var>} = \frac{<var>SLN_NUMERATOR_TEXT.replace(/x/g, "0")</var>}{<var>SLN_DENOMINATOR_TEXT.toString().replace(/x/g, "0")</var>} =
+                                <!-- Give the unsimplified answer -->
+                                \frac{<var>NUMERATOR[0]</var>}{<var>DENOMINATOR[0]</var>}
+
+                            <!-- Give the simplified answer, if necessary -->
+                            <span data-if="SLN_SIMPLIFIES">= <var>fractionReduce(NUMERATOR[0], DENOMINATOR[0])</var></span>
+                        </code>
+                    </p>
+                </div> <!-- hints -->
+            </div> <!--exp-and-cos-->
+
+            <div id="sinx-and-x">
+                <div class="vars">
+                    <!--x approaches zero. The expression has the form: (a1*sin(x) + a2*x)/(b1*sin(x) + b2*x), 0/0 indeterminate form. After derivation we get (a1*cos(x) + a2)/(b1*cos(x) + b2), the indeterminate form is resolved and the answer is (a1+a2)/(b1+b2).-->
+                    <var id="INDETERMINATE_FORM">"\\frac{0}{0}"</var>
+                    <var id="NUMERATOR">[KhanUtil.randRange( 2, 7 ), KhanUtil.randRange( 2, 7 )]</var>
+                    <var id="DENOMINATOR">[KhanUtil.randRange( 2, 7 ), KhanUtil.randRange( 2, 7 )]</var>
+                    <var id="NUMERATOR_TEXT">expr(["+", ["*", NUMERATOR[0], ["sin", "x"]], ["*", NUMERATOR[1], "x"]])</var>
+                    <var id="DENOMINATOR_TEXT">expr(["+", ["*", DENOMINATOR[0], ["sin", "x"]], ["*", DENOMINATOR[1], "x"]])</var>
+                    <!--the numerator and denominator after the derivation-->
+                    <var id="SLN_NUMERATOR_TEXT">expr(["+", ["*", NUMERATOR[0], ["cos", "x"]], NUMERATOR[1]])</var>
+                    <var id="SLN_DENOMINATOR_TEXT">expr(["+", ["*", DENOMINATOR[0], ["cos", "x"]], DENOMINATOR[1]] )</var>
+                    <var id="SLN_SIMPLIFIES">reduces( NUMERATOR[0] + NUMERATOR[1], DENOMINATOR[0] + DENOMINATOR[1] )</var>
+                </div>
+
+                <div>
+                    <!-- Pose question as limit problem.  -->
+                    <p class="question">
+                        <code>\displaystyle \lim_{x \to 0} \frac{<var>NUMERATOR_TEXT</var>}{<var>DENOMINATOR_TEXT</var>} = {?}</code>
+                    </p>
+                    <p class="solution" data-type="rational"><var>(NUMERATOR[0] + NUMERATOR[1]) / (DENOMINATOR[0] + DENOMINATOR[1])</var></p>
+                </div>
+
+                <div class="hints">
+                    <!-- Remind them of L'Hopital's rule -->
+                    <p>L'Hopital's rule states that since evaluating
+                        <!-- Original problem -->
+                        <code>\displaystyle \lim_{x \to 0} \frac{<var>NUMERATOR_TEXT</var>}{<var>DENOMINATOR_TEXT</var>} = <var>INDETERMINATE_FORM</var></code>,<br />
+                        <!-- Explanation of rule -->
+                        if <code>\displaystyle \lim_{x \to 0} \frac{\frac{d}{dx} (<var>NUMERATOR_TEXT</var>)}{\frac{d}{dx} (<var>DENOMINATOR_TEXT</var>)}</code> exists, evaluating it will give us the actual limit.
+                    </p>
+
+                    <p><!--Do the derivation-->
+                        <code>\displaystyle \frac{\frac{d}{dx} (<var>NUMERATOR_TEXT</var>)}{\frac{d}{dx} (<var>DENOMINATOR_TEXT</var>)} = \frac{<var>SLN_NUMERATOR_TEXT</var>}{<var>SLN_DENOMINATOR_TEXT</var>}</code>
+                    </p>
+
+                    <!-- Evaluate the limit and give the solution in both unsimplified and simplified form (if necessary) -->
+                    <p>
+                        <!-- Restate the problem using the derived, but unevaluated limit-->
+                        Evaluate the limit:
+                        <code>
+                            \displaystyle \lim_{x \to 0} \frac{<var>SLN_NUMERATOR_TEXT</var>}{<var>SLN_DENOMINATOR_TEXT</var>} = \frac{<var>SLN_NUMERATOR_TEXT.replace("x", "0")</var>}{<var>SLN_DENOMINATOR_TEXT.toString().replace('x', "0")</var>} =
+                                <!-- Give the unsimplified answer -->
+                                \frac{<var>NUMERATOR[0] + NUMERATOR[1]</var>}{<var>DENOMINATOR[0] + DENOMINATOR[1]</var>}
+
+                            <!-- Give the simplified answer, if necessary -->
+                            <span data-if="SLN_SIMPLIFIES">= <var>fractionReduce(NUMERATOR[0] + NUMERATOR[1], DENOMINATOR[0] + DENOMINATOR[1])</var></span>
+                        </code>
+                    </p>
+                </div> <!-- hints -->
+            </div> <!--sinx-and-x-->
         </div> <!-- problems -->
     </div> <!-- exercise -->
 </body>
