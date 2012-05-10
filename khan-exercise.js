@@ -228,10 +228,10 @@ var Khan = (function() {
 
     lastFocusedSolutionInput = null,
 
-    issueError = "Communication with GitHub isn't working. Please file "
-        + "the issue manually at <a href=\""
-        + "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
-        + "Please reference exercise: " + exerciseName + ".",
+    issueError = "Communication with GitHub isn't working. Please file " +
+        "the issue manually at <a href=\"" +
+        "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. " +
+        "Please reference exercise: " + exerciseName + ".",
     issueSuccess = function(url, title, suggestion) {
         return ["Thank you for your feedback! Your issue has been created and can be ",
             "found at the following link:",
@@ -300,8 +300,8 @@ var Khan = (function() {
         },
 
         warnTimeout: function() {
-            warn("Your internet might be too slow to see an exercise. Refresh the page "
-                + 'or <a href="" id="warn-report">report a problem</a>.', false);
+            warn("Your internet might be too slow to see an exercise. Refresh the page " +
+                'or <a href="" id="warn-report">report a problem</a>.', false);
             $("#warn-report").click(function(e) {
                 e.preventDefault();
                 $("#report").click();
@@ -1223,10 +1223,10 @@ var Khan = (function() {
             var timelineEvents, timeline;
 
             var timelinecontainer = $("<div id='timelinecontainer'>")
-                .append("<div>\
-                        <div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\
-                        <div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\
-                        </div>")
+                .append("<div>\n" +
+                        "<div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\n" +
+                        "<div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\n" +
+                        "</div>")
                 .insertBefore("#problem-and-answer");
 
             $.fn.disable = function() {
@@ -1255,10 +1255,10 @@ var Khan = (function() {
             timelineEvents = $("<div id='timeline-events'>").appendTo(timeline);
 
             timelinecontainer
-                .append("<div>\
-                        <div id='next-problem' class='simple-button action-gradient'>Next Problem</div>\
-                        <div id='next-step' class='simple-button action-gradient'><span>Next Step</span></div>\
-                        </div>");
+                .append("<div>\n" +
+                        "<div id='next-problem' class='simple-button action-gradient'>Next Problem</div>\n" +
+                        "<div id='next-step' class='simple-button action-gradient'><span>Next Step</span></div>\n" +
+                        "</div>");
 
             $("<div class='user-activity correct-activity'>Started</div>")
                 .data("hint", false)
@@ -1589,8 +1589,8 @@ var Khan = (function() {
                 }
             });
             var debugWrap = $("#debug").empty();
-            var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname
-                + "?debug&problem=" + problemID;
+            var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname +
+                "?debug&problem=" + problemID;
 
             $("<h3>Debug Info</h3>").appendTo(debugWrap);
 
@@ -2047,9 +2047,8 @@ var Khan = (function() {
                 type = $("input[name=issue-type]:checked").prop("id"),
                 title = $("#issue-title").val(),
                 email = $("#issue-email").val(),
-                path = exerciseName + ".html"
-                    + "?seed=" + problemSeed
-                    + "&problem=" + problemID,
+                path = exerciseName + ".html" + "?seed=" +
+                    problemSeed + "&problem=" + problemID,
                 pathlink = "[" + path + (exercise.data("name") != null && exercise.data("name") !== exerciseName ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
                 historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent(JSON.stringify(userActivityLog)).replace(/\)/g, "\\)") + ")",
                 agent = navigator.userAgent,
@@ -2141,9 +2140,8 @@ var Khan = (function() {
 
                 url: (testMode ? "http://www.khanacademy.org/" : "/") + "githubpost",
                 type: testMode ? "GET" : "POST",
-                data: testMode
-                    ? {json: JSON.stringify(dataObj)}
-                    : JSON.stringify(dataObj),
+                data: testMode ? {json: JSON.stringify(dataObj)} :
+                    JSON.stringify(dataObj),
                 contentType: testMode ? "application/x-www-form-urlencoded" : "application/json",
                 dataType: testMode ? "jsonp" : "json",
                 success: function(json) {
@@ -2238,8 +2236,8 @@ var Khan = (function() {
                 var dump = dataDump.problems.pop(),
                     prettyDump = "```js\n" + JSON.stringify(dump) + "\n```",
                     fileName = window.location.pathname.replace(/^.+\//, ""),
-                    path = fileName + "?problem=" + problemID
-                        + "&seed=" + problemSeed;
+                    path = fileName + "?problem=" + problemID +
+                        "&seed=" + problemSeed;
 
                 var title = encodeURIComponent("Issue Found in Testing - " + $("title").html()),
                     body = encodeURIComponent([description, path, prettyDump, navigator.userAgent].join("\n\n")),
