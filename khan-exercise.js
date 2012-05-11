@@ -1812,8 +1812,8 @@ var Khan = (function() {
                 // The current card data
                 card: !testMode && JSON.stringify(Exercises.currentCard),
 
-                // The first card done in the stack (for identifying stacks)
-                first_card: !testMode && JSON.stringify(Exercises.completeStack.last() || Exercises.currentCard),
+                // Unique ID of the cached stack
+                stack_uid: !testMode && Exercises.completeStack.getUid(),
 
                 // The current topic, if any
                 topic_id: !testMode && Exercises.topic && Exercises.topic.id,
