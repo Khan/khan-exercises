@@ -1,0 +1,33 @@
+//Created by Hengyi Daniel Hu
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Average of Two Integers</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="A">randRange( 1, 100 )</var>
+        <var id="B">randRange( 1, 100 )</var>
+	<var id="C">A+B</var>
+	<var id="D">C/2</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+	      <p>What is the average of <var>A</var> and <var> B</var>?</p>
+            </div>
+            <div class="solution" data-forms="integer"><var>C/2</var></div>
+            <div class="hints">
+	      <p>The sum of <var>A</var> and <var>B</var> is <var>C</var></P>
+	      <p>Divide <var>C</var> by 2</p>
+	      <p>Hence, the answer is <var>D</var></p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
