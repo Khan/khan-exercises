@@ -8,10 +8,24 @@ rescue LoadError
   puts
   puts "-" * 78
   puts "Oops! Some gems are missing; please run:"
-  puts "  sudo gem install nokogiri uglifier therubyracer"
+  puts "  sudo gem install json nokogiri uglifier therubyracer"
   puts "-" * 78
   puts
   exit 1
+end
+
+begin
+  require 'json'
+rescue LoadError
+  puts
+  puts "-" * 78
+  puts "Warning! You don't have json installed, packing might be slow. Try:"
+  puts "  sudo gem install json"
+  puts
+  puts "You can also use another json library.  If you don't do anything,"
+  puts "this script will use the default, ok_json, which is ok, but slow."
+  puts "-" * 78
+  puts
 end
 
 begin
