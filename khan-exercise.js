@@ -228,10 +228,10 @@ var Khan = (function() {
 
     lastFocusedSolutionInput = null,
 
-    issueError = "Communication with GitHub isn't working. Please file "
-        + "the issue manually at <a href=\""
-        + "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. "
-        + "Please reference exercise: " + exerciseName + ".",
+    issueError = "Communication with GitHub isn't working. Please file " +
+        "the issue manually at <a href=\"" +
+        "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. " +
+        "Please reference exercise: " + exerciseName + ".",
     issueSuccess = function(url, title, suggestion) {
         return ["Thank you for your feedback! Your issue has been created and can be ",
             "found at the following link:",
@@ -300,8 +300,8 @@ var Khan = (function() {
         },
 
         warnTimeout: function() {
-            warn("Your internet might be too slow to see an exercise. Refresh the page "
-                + 'or <a href="" id="warn-report">report a problem</a>.', false);
+            warn("Your internet might be too slow to see an exercise. Refresh the page " +
+                'or <a href="" id="warn-report">report a problem</a>.', false);
             $("#warn-report").click(function(e) {
                 e.preventDefault();
                 $("#report").click();
@@ -677,7 +677,7 @@ var Khan = (function() {
         },
 
         showSolutionButtonText: function() {
-            return hintsUsed ? "Show step (" + hints.length + " left)" : "Show Solution";
+            return hintsUsed ? "Show next step (" + hints.length + " left)" : "Show Solution";
         }
 
     };
@@ -1223,10 +1223,10 @@ var Khan = (function() {
             var timelineEvents, timeline;
 
             var timelinecontainer = $("<div id='timelinecontainer'>")
-                .append("<div>\
-                        <div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\
-                        <div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\
-                        </div>")
+                .append("<div>\n" +
+                        "<div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\n" +
+                        "<div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\n" +
+                        "</div>")
                 .insertBefore("#problem-and-answer");
 
             $.fn.disable = function() {
@@ -1255,10 +1255,10 @@ var Khan = (function() {
             timelineEvents = $("<div id='timeline-events'>").appendTo(timeline);
 
             timelinecontainer
-                .append("<div>\
-                        <div id='next-problem' class='simple-button action-gradient'>Next Problem</div>\
-                        <div id='next-step' class='simple-button action-gradient'><span>Next Step</span></div>\
-                        </div>");
+                .append("<div>\n" +
+                        "<div id='next-problem' class='simple-button action-gradient'>Next Problem</div>\n" +
+                        "<div id='next-step' class='simple-button action-gradient'><span>Next Step</span></div>\n" +
+                        "</div>");
 
             $("<div class='user-activity correct-activity'>Started</div>")
                 .data("hint", false)
@@ -1589,8 +1589,8 @@ var Khan = (function() {
                 }
             });
             var debugWrap = $("#debug").empty();
-            var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname
-                + "?debug&problem=" + problemID;
+            var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname +
+                "?debug&problem=" + problemID;
 
             $("<h3>Debug Info</h3>").appendTo(debugWrap);
 
@@ -1807,7 +1807,22 @@ var Khan = (function() {
                 topic_mode: (!testMode && !Exercises.reviewMode && !Exercises.practiceMode) ? 1 : 0,
 
                 // Request camelCasing in returned response
-                casing: "camel"
+                casing: "camel",
+
+                // The current card data
+                card: !testMode && JSON.stringify(Exercises.currentCard),
+
+                // Unique ID of the cached stack
+                stack_uid: !testMode && Exercises.completeStack.getUid(),
+
+                // The current topic, if any
+                topic_id: !testMode && Exercises.topic && Exercises.topic.id,
+
+                // How many cards the user has already done
+                cards_done: !testMode && Exercises.completeStack.length,
+
+                // How many cards the user has left to do
+                cards_left: !testMode && (Exercises.incompleteStack.length - 1)
             };
         }
 
@@ -1862,6 +1877,12 @@ var Khan = (function() {
                 }
             }
 
+            if (pass === true) {
+                // Problem has been completed but pending data request being
+                // sent to server.
+                $(Khan).trigger("problemDone");
+            }
+
             // Save the problem results to the server
             var curTime = new Date().getTime();
             var data = buildAttemptData(pass, ++attempts, JSON.stringify(validator.guess), curTime);
@@ -1914,12 +1935,6 @@ var Khan = (function() {
                 fast: (typeof userExercise !== "undefined" && userExercise.secondsPerFastProblem >= data.time_taken)
             });
 
-            if (pass === true) {
-                // Problem has been completed -- now waiting on user to
-                // move to next problem.
-                $(Khan).trigger("problemDone");
-            }
-
             return false;
         }
 
@@ -1943,8 +1958,8 @@ var Khan = (function() {
 
                 hintsUsed += 1;
 
-                $(this)
-                    .val($(this).data("buttonText") || "I'd like another hint (" + hints.length + " remaining)");
+                var stepsLeft = hints.length + " step" + (hints.length === 1 ? "" : "s") + " left";
+                $(this).val($(this).data("buttonText") || "I'd like another hint (" + stepsLeft + ")");
 
                 var problem = $(hint).parent();
 
@@ -2032,9 +2047,8 @@ var Khan = (function() {
                 type = $("input[name=issue-type]:checked").prop("id"),
                 title = $("#issue-title").val(),
                 email = $("#issue-email").val(),
-                path = exerciseName + ".html"
-                    + "?seed=" + problemSeed
-                    + "&problem=" + problemID,
+                path = exerciseName + ".html" + "?seed=" +
+                    problemSeed + "&problem=" + problemID,
                 pathlink = "[" + path + (exercise.data("name") != null && exercise.data("name") !== exerciseName ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
                 historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent(JSON.stringify(userActivityLog)).replace(/\)/g, "\\)") + ")",
                 agent = navigator.userAgent,
@@ -2126,9 +2140,8 @@ var Khan = (function() {
 
                 url: (testMode ? "http://www.khanacademy.org/" : "/") + "githubpost",
                 type: testMode ? "GET" : "POST",
-                data: testMode
-                    ? {json: JSON.stringify(dataObj)}
-                    : JSON.stringify(dataObj),
+                data: testMode ? {json: JSON.stringify(dataObj)} :
+                    JSON.stringify(dataObj),
                 contentType: testMode ? "application/x-www-form-urlencoded" : "application/json",
                 dataType: testMode ? "jsonp" : "json",
                 success: function(json) {
@@ -2223,8 +2236,8 @@ var Khan = (function() {
                 var dump = dataDump.problems.pop(),
                     prettyDump = "```js\n" + JSON.stringify(dump) + "\n```",
                     fileName = window.location.pathname.replace(/^.+\//, ""),
-                    path = fileName + "?problem=" + problemID
-                        + "&seed=" + problemSeed;
+                    path = fileName + "?problem=" + problemID +
+                        "&seed=" + problemSeed;
 
                 var title = encodeURIComponent("Issue Found in Testing - " + $("title").html()),
                     body = encodeURIComponent([description, path, prettyDump, navigator.userAgent].join("\n\n")),
