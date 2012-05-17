@@ -157,8 +157,8 @@ var Khan = (function() {
     server = typeof apiServer !== "undefined" ? apiServer :
         testMode ? "http://localhost:8080" : "",
 
-    // The name of the exercise -- this will only be set here in testMode
-    exerciseName = ((/([^\/.]+)(?:\.html)?$/.exec(window.location.pathname) || [])[1]),
+    // The ID of the exercise -- this will only be set here in testMode
+    exerciseId = ((/([^\/.]+)(?:\.html)?$/.exec(window.location.pathname) || [])[1]),
 
     // Bin users into a certain number of realms so that
     // there is some level of reproducability in their questions
@@ -213,7 +213,7 @@ var Khan = (function() {
 
     // Debug data dump
     dataDump = {
-        "exercise": exerciseName,
+        "exercise": exerciseId,
         "problems": [],
         "issues": 0
     },
@@ -231,7 +231,7 @@ var Khan = (function() {
     issueError = "Communication with GitHub isn't working. Please file " +
         "the issue manually at <a href=\"" +
         "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. " +
-        "Please reference exercise: " + exerciseName + ".",
+        "Please reference exercise: " + exerciseId + ".",
     issueSuccess = function(url, title, suggestion) {
         return ["Thank you for your feedback! Your issue has been created and can be ",
             "found at the following link:",
@@ -868,35 +868,35 @@ var Khan = (function() {
             .val("Please wait...");
     }
 
-    function isExerciseLoaded(exerciseName) {
+    function isExerciseLoaded(exerciseId) {
         return _.any(exercises, function(exercise) {
-            return $.data(exercise, "rootName") === exerciseName;
+            return $.data(exercise, "rootName") === exerciseId;
         });
     }
 
-    function startLoadingExercise(exerciseName, exerciseFile) {
+    function startLoadingExercise(exerciseId, exerciseFile) {
 
-        if (typeof loadingExercises[exerciseName] !== "undefined") {
+        if (typeof loadingExercises[exerciseId] !== "undefined") {
             // Already started loading this exercise.
             return;
         }
 
-        if (isExerciseLoaded(exerciseName)) {
+        if (isExerciseLoaded(exerciseId)) {
             return;
         }
 
         var exerciseElem = $("<div>")
-            .data("name", exerciseName)
+            .data("name", exerciseId)
             .data("filename", exerciseFile)
-            .data("rootName", exerciseName);
+            .data("rootName", exerciseId);
 
         // Queue up an exercise load
         loadExercise.call(exerciseElem, function() {
 
             // Trigger load completion event for this exercise
-            $(Khan).trigger("exerciseLoaded:" + exerciseName);
+            $(Khan).trigger("exerciseLoaded:" + exerciseId);
 
-            delete loadingExercises[exerciseName];
+            delete loadingExercises[exerciseId];
 
         });
 
@@ -905,14 +905,14 @@ var Khan = (function() {
     function loadAndRenderExercise(nextUserExercise) {
 
         setUserExercise(nextUserExercise);
-        exerciseName = userExercise.exerciseModel.name;
+        exerciseId = userExercise.exerciseModel.name;
         exerciseFile = userExercise.exerciseModel.fileName;
 
         function finishRender() {
 
             // Get all problems of this exercise type...
             var problems = exercises.filter(function() {
-                return $.data(this, "rootName") === exerciseName;
+                return $.data(this, "rootName") === exerciseId;
             }).children(".problems").children();
 
             // ...and create a new problem bag with problems of our new exercise type.
@@ -934,14 +934,14 @@ var Khan = (function() {
 
         }
 
-        if (isExerciseLoaded(exerciseName)) {
+        if (isExerciseLoaded(exerciseId)) {
             finishRender();
         } else {
-            startLoadingExercise(exerciseName, exerciseFile);
+            startLoadingExercise(exerciseId, exerciseFile);
 
             $(Khan)
-                .unbind("exerciseLoaded:" + exerciseName)
-                .bind("exerciseLoaded:" + exerciseName, function() {
+                .unbind("exerciseLoaded:" + exerciseId)
+                .bind("exerciseLoaded:" + exerciseId, function() {
                     finishRender();
                 });
         }
@@ -1794,7 +1794,7 @@ var Khan = (function() {
 
                 // A hash representing the exercise
                 // TODO: Populate this from somewhere
-                sha1: typeof userExercise !== "undefined" ? userExercise.exerciseModel.sha1 : exerciseName,
+                sha1: typeof userExercise !== "undefined" ? userExercise.exerciseModel.sha1 : exerciseId,
 
                 // The seed that was used for generating the problem
                 seed: problemSeed,
@@ -2045,13 +2045,13 @@ var Khan = (function() {
             // don't do anything if the user clicked a second time quickly
             if ($("#issue form").css("display") === "none") return;
 
-            var pretitle = deslugify(exerciseName),
+            var pretitle = deslugify(exerciseId),
                 type = $("input[name=issue-type]:checked").prop("id"),
                 title = $("#issue-title").val(),
                 email = $("#issue-email").val(),
-                path = exerciseName + ".html" + "?seed=" +
+                path = exerciseId + ".html" + "?seed=" +
                     problemSeed + "&problem=" + problemID,
-                pathlink = "[" + path + (exercise.data("name") != null && exercise.data("name") !== exerciseName ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
+                pathlink = "[" + path + (exercise.data("name") != null && exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
                 historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent(JSON.stringify(userActivityLog)).replace(/\)/g, "\\)") + ")",
                 agent = navigator.userAgent,
                 mathjaxInfo = "MathJax is " + (typeof MathJax === "undefined" ? "NOT loaded" :
@@ -2399,7 +2399,7 @@ var Khan = (function() {
                 warn(data.text, data.showClose);
             })
             .bind("upcomingExercise", function(ev, data) {
-                startLoadingExercise(data.exerciseName, data.exerciseFile);
+                startLoadingExercise(data.exerciseId, data.exerciseFile);
             });
     }
 
@@ -2427,7 +2427,7 @@ var Khan = (function() {
         userExercise = data;
 
         if (data && data.exercise) {
-            exerciseName = data.exercise;
+            exerciseId = data.exercise;
         }
 
         $(Khan).trigger("updateUserExercise", userExercise);
@@ -2463,7 +2463,7 @@ var Khan = (function() {
 
         var request = {
             // Do a request to the server API
-            url: server + "/api/v1/user/exercises/" + exerciseName + "/" + method,
+            url: server + "/api/v1/user/exercises/" + exerciseId + "/" + method,
             type: "POST",
             data: data,
             dataType: "json",
