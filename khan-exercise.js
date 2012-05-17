@@ -874,7 +874,7 @@ var Khan = (function() {
         });
     }
 
-    function startLoadingExercise(exerciseName) {
+    function startLoadingExercise(exerciseName, exerciseFile) {
 
         if (typeof loadingExercises[exerciseName] !== "undefined") {
             // Already started loading this exercise.
@@ -887,6 +887,7 @@ var Khan = (function() {
 
         var exerciseElem = $("<div>")
             .data("name", exerciseName)
+            .data("filename", exerciseFile)
             .data("rootName", exerciseName);
 
         // Queue up an exercise load
@@ -905,6 +906,7 @@ var Khan = (function() {
 
         setUserExercise(nextUserExercise);
         exerciseName = userExercise.exerciseModel.name;
+        exerciseFile = userExercise.exerciseModel.fileName;
 
         function finishRender() {
 
@@ -935,7 +937,7 @@ var Khan = (function() {
         if (isExerciseLoaded(exerciseName)) {
             finishRender();
         } else {
-            startLoadingExercise(exerciseName);
+            startLoadingExercise(exerciseName, exerciseFile);
 
             $(Khan)
                 .unbind("exerciseLoaded:" + exerciseName)
@@ -2397,7 +2399,7 @@ var Khan = (function() {
                 warn(data.text, data.showClose);
             })
             .bind("upcomingExercise", function(ev, data) {
-                startLoadingExercise(data.exerciseName);
+                startLoadingExercise(data.exerciseName, data.exerciseFile);
             });
     }
 
@@ -2530,6 +2532,10 @@ var Khan = (function() {
         var name = self.data("name");
         var weight = self.data("weight");
         var rootName = self.data("rootName");
+        var filename = self.data("filename");
+        if (filename == null || filename == "") {
+            filename = name + ".html";
+        }
 
         if (!loadingExercises[rootName]) {
             loadingExercises[rootName] = 0;
@@ -2538,7 +2544,7 @@ var Khan = (function() {
         loadingExercises[rootName]++;
 
         // Packing occurs on the server but at the same "exercises/" URL
-        $.get(urlBase + "exercises/" + name + ".html", function(data, status, xhr) {
+        $.get(urlBase + "exercises/" + filename, function(data, status, xhr) {
             var match, newContents;
 
             if (!(/success|notmodified/).test(status)) {
