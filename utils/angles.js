@@ -1,4 +1,6 @@
-$.extend(KhanUtil, {
+// requires math.js
+KhanUtil.load({
+    NAME: "angles",
     commonAngles: [
         {deg: 15, rad: "\\frac{\\pi}{12}"},
         {deg: 30, rad: "\\frac{\\pi}{6}"},
