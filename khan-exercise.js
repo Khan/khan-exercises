@@ -51,7 +51,7 @@
       outbound or completed, respectively. Listeners can keep track of whether
       or not khan-exercises is still waiting on API responses.
 
-    * exerciseLoaded:[exercise-name] -- when an exercise and all of its
+    * exerciseLoaded:[exercise-id] -- when an exercise and all of its
       dependencies are loaded and ready to render
 
     * updateUserExercise -- when an updated userExercise has been received
@@ -157,8 +157,10 @@ var Khan = (function() {
     server = typeof apiServer !== "undefined" ? apiServer :
         testMode ? "http://localhost:8080" : "",
 
-    // The ID of the exercise -- this will only be set here in testMode
+    // The ID, filename, and name of the exercise -- these will only be set here in testMode
     exerciseId = ((/([^\/.]+)(?:\.html)?$/.exec(window.location.pathname) || [])[1]),
+    exerciseFile = exerciseId + ".html",
+    exerciseName = deslugify(exerciseId),
 
     // Bin users into a certain number of realms so that
     // there is some level of reproducability in their questions
@@ -218,7 +220,7 @@ var Khan = (function() {
         "issues": 0
     },
 
-    // Dict of exercise names that are loading.
+    // Dict of exercise ids that are loading.
     // Values are number of remote exercises that are currently
     // pending in the middle of a load.
     loadingExercises = {},
@@ -874,7 +876,7 @@ var Khan = (function() {
         });
     }
 
-    function startLoadingExercise(exerciseId, exerciseFile) {
+    function startLoadingExercise(exerciseId, exerciseName, exerciseFile) {
 
         if (typeof loadingExercises[exerciseId] !== "undefined") {
             // Already started loading this exercise.
@@ -887,7 +889,8 @@ var Khan = (function() {
 
         var exerciseElem = $("<div>")
             .data("name", exerciseId)
-            .data("filename", exerciseFile)
+            .data("displayName", exerciseName)
+            .data("fileName", exerciseFile)
             .data("rootName", exerciseId);
 
         // Queue up an exercise load
@@ -906,7 +909,12 @@ var Khan = (function() {
 
         setUserExercise(nextUserExercise);
         exerciseId = userExercise.exerciseModel.name;
+        exerciseName = userExercise.exerciseModel.displayName;
         exerciseFile = userExercise.exerciseModel.fileName;
+        // TODO(eater): remove this once all of the exercises in the datastore have filename properties
+        if (exerciseFile == null || exerciseFile == "") {
+            exerciseFile = exerciseId + ".html";
+        }
 
         function finishRender() {
 
@@ -937,7 +945,7 @@ var Khan = (function() {
         if (isExerciseLoaded(exerciseId)) {
             finishRender();
         } else {
-            startLoadingExercise(exerciseId, exerciseFile);
+            startLoadingExercise(exerciseId, exerciseName, exerciseFile);
 
             $(Khan)
                 .unbind("exerciseLoaded:" + exerciseId)
@@ -2045,11 +2053,11 @@ var Khan = (function() {
             // don't do anything if the user clicked a second time quickly
             if ($("#issue form").css("display") === "none") return;
 
-            var pretitle = deslugify(exerciseId),
+            var pretitle = exerciseName,
                 type = $("input[name=issue-type]:checked").prop("id"),
                 title = $("#issue-title").val(),
                 email = $("#issue-email").val(),
-                path = exerciseId + ".html" + "?seed=" +
+                path = exerciseFile + "?seed=" +
                     problemSeed + "&problem=" + problemID,
                 pathlink = "[" + path + (exercise.data("name") != null && exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
                 historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent(JSON.stringify(userActivityLog)).replace(/\)/g, "\\)") + ")",
@@ -2399,7 +2407,7 @@ var Khan = (function() {
                 warn(data.text, data.showClose);
             })
             .bind("upcomingExercise", function(ev, data) {
-                startLoadingExercise(data.exerciseId, data.exerciseFile);
+                startLoadingExercise(data.exerciseId, data.exerciseName, data.exerciseFile);
             });
     }
 
@@ -2529,12 +2537,13 @@ var Khan = (function() {
 
     function loadExercise(callback) {
         var self = $(this).detach();
-        var name = self.data("name");
+        var id = self.data("name");
         var weight = self.data("weight");
         var rootName = self.data("rootName");
-        var filename = self.data("filename");
-        if (filename == null || filename == "") {
-            filename = name + ".html";
+        var fileName = self.data("fileName");
+        // TODO(eater): remove this once all of the exercises in the datastore have filename properties
+        if (fileName == null || fileName == "") {
+            fileName = id + ".html";
         }
 
         if (!loadingExercises[rootName]) {
@@ -2544,12 +2553,12 @@ var Khan = (function() {
         loadingExercises[rootName]++;
 
         // Packing occurs on the server but at the same "exercises/" URL
-        $.get(urlBase + "exercises/" + filename, function(data, status, xhr) {
+        $.get(urlBase + "exercises/" + fileName, function(data, status, xhr) {
             var match, newContents;
 
             if (!(/success|notmodified/).test(status)) {
                 // Maybe loading from a file:// URL?
-                Khan.error("Error loading exercise from file " + name + ".html: " + xhr.status + " " + xhr.statusText);
+                Khan.error("Error loading exercise from file " + fileName + xhr.status + " " + xhr.statusText);
                 return;
             }
 
@@ -2572,9 +2581,9 @@ var Khan = (function() {
             // Throw out divs that just load other exercises
             newContents = newContents.not("[data-name]");
 
-            // Save the filename and weights
+            // Save the id, fileName and weights
             // TODO(david): Make sure weights work for recursively-loaded exercises.
-            newContents.data("name", name).data("weight", weight);
+            newContents.data("name", id).data("fileName", fileName).data("weight", weight);
 
             // Add the new exercise elements to the exercises DOM set
             exercises = exercises.add(newContents);

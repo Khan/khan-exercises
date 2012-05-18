@@ -94,7 +94,7 @@ Dir["exercises/**/*.html"].each do |filename|
   packed_filename = filename.gsub(/^exercises\//, "exercises-packed/")
   next if File.exist?(packed_filename) && File.mtime(packed_filename) > File.mtime(filename)
 
-  FileUtils.mkdir_p(packed_filename.gsub(/\/[^\/]*\.html$/, ""))
+  FileUtils.mkdir_p(File.dirname(packed_filename))
 
   puts filename
   cant = 0
