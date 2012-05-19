@@ -158,7 +158,7 @@ var Khan = (function() {
         testMode ? "http://localhost:8080" : "",
 
     // The ID, filename, and name of the exercise -- these will only be set here in testMode
-    exerciseId = ((/([^\/.]+)(?:\.html)?$/.exec(window.location.pathname) || [])[1]),
+    exerciseId = ((/([^\/.]+)(?:\.html)?$/.exec(window.location.pathname) || [])[1]) || "",
     exerciseFile = exerciseId + ".html",
     exerciseName = deslugify(exerciseId),
 
