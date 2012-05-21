@@ -1951,6 +1951,11 @@ var Khan = (function() {
         // Watch for when the next button is clicked
         $("#next-question-button").click(function(ev) {
             $(Khan).trigger("gotoNextProblem");
+
+            // Disable next question button until next time
+            $(this)
+                .attr("disabled", true)
+                .addClass("buttonDisabled");
         });
 
         // If happy face is clicked, pass click on through.
