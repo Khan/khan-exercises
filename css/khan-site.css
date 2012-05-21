@@ -6402,9 +6402,17 @@ input.goal-title:focus {
 }
 
 #workarea {
-    width: 454px;
+    width: 514px;
+}
+
+body.debug #workarea {
+    outline: 1px dashed #ddd;
 }
 
 #hintsarea {
-    width: 434px;
+    width: 494px;
+}
+
+body.debug #hintsarea {
+    outline: 1px dashed #ddd;
 }
