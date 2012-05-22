@@ -2691,7 +2691,8 @@ var Khan = (function() {
 
         function injectTestModeSite(html, htmlExercise) {
             $("body").prepend(html);
-            $("#container").html(htmlExercise);
+            $("#container").html("<h2 style='padding-left: 20px; margin-left: 80px;'>"
+                    + document.title + "</h2>" + htmlExercise);
 
             if (Khan.query.layout === "lite") {
                 $("html").addClass("lite");
