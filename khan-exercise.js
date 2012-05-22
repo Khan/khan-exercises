@@ -1911,6 +1911,7 @@ var Khan = (function() {
                 // Hide the page so users don't continue
                 $("#problem-and-answer").css("visibility", "hidden");
 
+                // Warn user about problem, encourage to reload page
                 warn(
                     "This page is out of date. You need to <a href='" + window.location.href +
                     "'>reload this page</a>, but don't worry, you haven't lost any progress."
@@ -2499,7 +2500,17 @@ var Khan = (function() {
             },
 
             // Handle error edge case
-            error: fnError
+            error: function() {
+                // Clear the queue so we don't spit out a bunch of
+                // queued up requests after the error
+                if (queue && requestQueue[queue]) {
+                    requestQueue[queue].clearQueue();
+                }
+
+                if ($.isFunction(fnError)) {
+                    fnError();
+                }
+            }
         };
 
         // Send request and return a jqXHR (which implements the Promise interface)
