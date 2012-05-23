@@ -1914,7 +1914,9 @@ var Khan = (function() {
                 // Warn user about problem, encourage to reload page
                 warn(
                     "This page is out of date. You need to <a href='" + window.location.href +
-                    "'>reload this page</a>, but don't worry, you haven't lost any progress."
+                    "'>refresh</a>, but don't worry, you haven't lost progress. " +
+                    "If you think this is a mistake, " + 
+                    "<a href='http://www.khanacademy.org/reportissue?type=Defect&issue_labels='>tell us</a>."
                 );
 
             }, "attempt_hint_queue");
