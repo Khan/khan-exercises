@@ -962,7 +962,7 @@ var Khan = (function() {
         // We don't need to skip duplicate problems in test mode, which allows
         // us to use the LocalStore localStorage abstraction from shared-package
         if (typeof LocalStore === "undefined") {
-            return;
+            return false;
         }
 
         var cacheKey = 'prevProblems:' + user + ':' + exerciseName;
@@ -970,22 +970,20 @@ var Khan = (function() {
         var lastProblemNum = (cached && cached['lastProblemNum']) || 1;
 
         if (lastProblemNum === problemNum) {
-            // Getting here means the user refreshed the page, didn't complete
-            // the last problem, or it's the user's first problem. So, we don't
-            // need to and shouldn't skip this problem.
-            return;
+            // Getting here means the user refreshed the page, returned to this
+            // exercise after being away, or it's the user's first problem. So,
+            // we don't need to and shouldn't skip this problem.
+            return false;
         }
 
         var pastHashes = (cached && cached['history']) || [];
         var varsHash = $.tmpl.getVarsHash();
 
-        // Skip the current problem if we've already seen it in the past few
-        // problems, but not if we've been fruitlessly skipping for a while. The
-        // latter situation could happen if a problem has very few unique
+        // Should skip the current problem if we've already seen it in the past
+        // few problems, but not if we've been fruitlessly skipping for a while.
+        // The latter situation could happen if a problem has very few unique
         // problems (eg. exterior angles problem type of angles_of_a_polygon).
         if (_.contains(pastHashes, varsHash) && consecutiveSkips < dupWindowSize) {
-            // Skip to the next problem by advancing the seed (but not the
-            // problem number).
             consecutiveSkips++;
             return true;
         } else {
@@ -996,9 +994,9 @@ var Khan = (function() {
             }
 
             LocalStore.set(cacheKey, {
-                'lastProblemNum': problemNum,
-                'history': pastHashes
-            })
+                lastProblemNum: problemNum,
+                history: pastHashes
+            });
             return false;
         }
     }
