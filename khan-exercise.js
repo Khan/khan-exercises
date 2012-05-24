@@ -2231,8 +2231,8 @@ var Khan = (function() {
                     '<p><strong>Problem No.</strong> <span class="problem-no"></span></p>' +
                     '<p><strong>Answer:</strong> <span class="answer"></span></p>' +
                     "<p>" +
-                        '<input type="button" class="pass button green" value="This problem was generated correctly.">' +
-                        '<input type="button" class="fail button orange" value="There is an error in this problem.">' +
+                        '<input type="button" class="pass simple-button action-gradient green" value="This problem was generated correctly.">' +
+                        '<input type="button" class="fail simple-button action-gradient orange" value="There is an error in this problem.">' +
                     "</p>" +
                 "</div>"
             );

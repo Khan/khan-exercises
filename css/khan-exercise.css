@@ -364,10 +364,6 @@ div.timeline-total {
 	font-size: 16px;
 }
 
-.lite #answercontent input.button {
-	margin-top: 2px;
-}
-
 .lite #answercontent #examples-show, .lite #answercontent #examples {
 	display: none !important;
 }
