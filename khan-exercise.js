@@ -164,6 +164,9 @@ var Khan = (function() {
     // there is some level of reproducability in their questions
     bins = 200,
 
+    // Number of past problems to consider when avoiding duplicates
+    dupWindowSize = 5,
+
     // The seed information
     randomSeed,
 
@@ -182,6 +185,8 @@ var Khan = (function() {
     seedOffset = 0,
     jumpNum = 1,
     problemSeed = 0,
+    seedsSkipped = 0,
+    consecutiveSkips = 0,
 
     problemID,
 
@@ -368,7 +373,9 @@ var Khan = (function() {
                 seed = ((seed + 0xfd7046c5) + (seed << 3)) & 0xffffffff;
                 seed = ((seed ^ 0xb55a4f09) ^ (seed >>> 16)) & 0xffffffff;
                 return (randomSeed = (seed & 0xfffffff)) / 0x10000000;
-            }
+            },
+
+            crc32: crc32
         },
 
         // Load in a collection of scripts, execute callback upon completion
@@ -946,6 +953,56 @@ var Khan = (function() {
 
     }
 
+    /**
+     * Returns whether we should skip the current problem because it's
+     * a duplicate (or too similar) to a recently done problem in the same
+     * exercise.
+     */
+    function isDuplicatedProblem() {
+        // We don't need to skip duplicate problems in test mode, which allows
+        // us to use the LocalStore localStorage abstraction from shared-package
+        if (typeof LocalStore === "undefined") {
+            return;
+        }
+
+        var cacheKey = 'prevProblems:' + user + ':' + exerciseName;
+        var cached = LocalStore.get(cacheKey);
+        var lastProblemNum = (cached && cached['lastProblemNum']) || 1;
+
+        if (lastProblemNum === problemNum) {
+            // Getting here means the user refreshed the page, didn't complete
+            // the last problem, or it's the user's first problem. So, we don't
+            // need to and shouldn't skip this problem.
+            return;
+        }
+
+        var pastHashes = (cached && cached['history']) || [];
+        var varsHash = $.tmpl.getVarsHash();
+
+        // Skip the current problem if we've already seen it in the past few
+        // problems, but not if we've been fruitlessly skipping for a while. The
+        // latter situation could happen if a problem has very few unique
+        // problems (eg. exterior angles problem type of angles_of_a_polygon).
+        if (_.contains(pastHashes, varsHash) && consecutiveSkips < dupWindowSize) {
+            // Skip to the next problem by advancing the seed (but not the
+            // problem number).
+            consecutiveSkips++;
+            return true;
+        } else {
+            consecutiveSkips = 0;
+            pastHashes.push(varsHash);
+            if (pastHashes.length > dupWindowSize) {
+                pastHashes.shift();
+            }
+
+            LocalStore.set(cacheKey, {
+                'lastProblemNum': problemNum,
+                'history': pastHashes
+            })
+            return false;
+        }
+    }
+
     function makeProblem(id, seed) {
 
         // Enable scratchpad (unless the exercise explicitly disables it later)
@@ -1074,6 +1131,14 @@ var Khan = (function() {
         // Run the main method of any modules
         problem.runModules(problem, "Load");
         problem.runModules(problem);
+
+        if (isDuplicatedProblem()) {
+            // If this is a duplicate problem we should skip, just generate
+            // another problem of the same problem type but w/ a different seed.
+            clearExistingProblem();
+            nextSeed(1);
+            return makeProblem();
+        }
 
         // Store the solution to the problem
         var solution = problem.find(".solution"),
@@ -1694,7 +1759,7 @@ var Khan = (function() {
         return answerType;
     }
 
-    function renderNextProblem(nextUserExercise) {
+    function clearExistingProblem() {
         enableCheckAnswer();
 
         $("#happy").hide();
@@ -1712,6 +1777,10 @@ var Khan = (function() {
         $("#hint").attr("disabled", false);
 
         Khan.scratchpad.clear();
+    }
+
+    function renderNextProblem(nextUserExercise) {
+        clearExistingProblem();
 
         if (testMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount) {
             // Show the dump data
@@ -2408,8 +2477,20 @@ var Khan = (function() {
 
     function setProblemNum(num) {
         problemNum = num;
-        problemSeed = (seedOffset + jumpNum * (problemNum - 1)) % bins;
+        problemSeed = (seedOffset + jumpNum * (problemNum - 1 + seedsSkipped)) % bins;
         problemBagIndex = (problemNum + problemCount - 1) % problemCount;
+    }
+
+    function getSeedsSkippedCacheKey() {
+        return 'seedsSkipped:' + user + ':' + exerciseName;
+    }
+
+    function nextSeed(num) {
+        seedsSkipped += num;
+        if (typeof LocalStore !== "undefined") {
+            LocalStore.set(getSeedsSkippedCacheKey(), seedsSkipped);
+        }
+        setProblemNum(problemNum);
     }
 
     function nextProblem(num) {
@@ -2436,6 +2517,10 @@ var Khan = (function() {
 
             // The starting problem of the user
             seedOffset = userCRC32 % bins;
+
+            // The number of seeds that were skipped due to duplicate problems
+            seedsSkipped = (typeof LocalStore !== "undefined" &&
+                LocalStore.get(getSeedsSkippedCacheKey()) || 0);
 
             // Advance to the current problem seed
             setProblemNum(userExercise.totalDone + 1);
