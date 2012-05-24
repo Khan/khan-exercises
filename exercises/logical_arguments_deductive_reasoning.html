@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html data-require="math word-problems graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Logical arguments and deductive reasoning</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="detachment">
+                <div class="vars">
+                    <var id="Q_TYPE">randRange( 0, 2 )</var>
+                    <var id="QUESTIONS">[ [ person(1)+" misses the bus", he(1) + " will be late for school", [ person(1)+" missed the bus", person(1)+" is late for school", person(1)+" did not miss the bus", person(1)+" is not late for school" ] ], [ "it is Tuesday", "I will have a hamburger for lunch", [ "it is Tuesday", "I will have a hamburger for lunch today", "it is not Tuesday", "I will not have a hamburger for lunch today" ] ], [ "Wiggles are walking", "Tiggles are talking", [ "Wiggles are walking", "Tiggles are talking", "Wiggles are not walking", "Tiggles are not talking" ] ], [ "I go to practice today", "I will play in the game tomorrow", [ "I went to practice today", "I will play in the game tomorrow", "I did not go to practice today", "I will not play in the game tomorrow" ] ] ]</var>
+                    <var id="IF_CLAUSE">QUESTIONS[ Q_TYPE ][ 0 ]</var>
+                    <var id="THEN_CLAUSE">QUESTIONS[ Q_TYPE ][ 1 ]</var>
+                    <var id="TYPE">randRange( 0, 3 )</var>
+                    <var id="IMPLICATION">QUESTIONS[ Q_TYPE ][ 2 ]</var>
+                    <var id="CONCLUSION">[ IMPLICATION[ 1 ], IMPLICATION[ 0 ], IMPLICATION[ 3 ], IMPLICATION[ 2 ] ]</var>
+                    <var id="SOLUTION">( TYPE === 1 || TYPE === 2 ) ? "No logical conclusion possible" : CONCLUSION[ TYPE ]</var>
+                </div>
+
+                <p class="problem">Use the given information to make a logical conclusion, if possible. If a logical conclusion is not possible, choose "no logical conclusion possible."</p>
+                <p class="question">If <span id="if-clause"><var>IF_CLAUSE</var></span>, then <span id="then-clause"><var>THEN_CLAUSE</var></span>. <span id="second-sent"><var>capitalize(IMPLICATION[ TYPE ])</var></span>. </p>
+                <p class="solution"><var>SOLUTION</var></p>
+                <ul class="choices" data-category="true">
+                    <li><var>capitalize( CONCLUSION[ TYPE ] )</var></li>
+                    <li>No logical conclusion possible</li>
+                </ul>
+                <div class="hints">
+                    <div>
+                        <p>Identify the <span class="hint_blue">hypothesis</span>, the <span class="hint_orange">conclusion</span> of the first sentence, and the <span class="hint_purple">second sentence</span>.</p>
+                        <div class="graphie">
+                            $( "#if-clause" ).addClass( "hint_blue" );
+                            $( "#then-clause" ).addClass( "hint_orange" );
+                            $( "#second-sent" ).addClass( "hint_purple" );
+                        </div>
+                    </div>
+                    <p>Does the <span class="hint_purple">second sentence</span> refer to the <span class="hint_blue">hypothesis</span> of the first sentence, or the <span class="hint_orange">conclusion</span> of the first sentence?</p>
+                    <div data-if="TYPE === 0 || TYPE === 2" data-unwrap>
+                        <div>
+                            <p>The <span class="hint_purple">second sentence</span> refers to the <span class="hint_blue">hypothesis</span> of the first sentence, because they both talk about whether or not <var>IMPLICATION[ 0 ]</var>.</p>
+                            <p>Does the <span class="hint_purple">second sentence</span> state the <span class="hint_blue">hypothesis</span>, or the opposite of the <span class="hint_blue">hypothesis</span>?</p>
+                        </div>
+                    </div>
+                    <div data-else data-unwrap>
+                        <div>
+                            <p>The <span class="hint_purple">second sentence</span> refers to the <span class="hint_orange">conclusion</span> of the first sentence, because they both talk about whether or not <var>IMPLICATION[ 1 ]</var>.</p>
+                            <p>Does the <span class="hint_purple">second sentence</span> state the <span class="hint_orange">conclusion</span>, or the opposite of the <span class="hint_orange">conclusion</span>?</p>
+                        </div>
+                    </div>
+                    <div data-if="TYPE === 0" data-unwrap>
+                        <p>The <span class="hint_purple">second sentence</span> states the <span class="hint_blue">hypothesis</span> of the first sentence.</p>
+                        <p>Because the <span class="hint_purple">second sentence</span> states the <span class="hint_blue">hypothesis</span> of the first sentence, the <span class="hint_purple">second sentence</span> implies the first sentence.</p>
+                        <p>Since we are implying the original statement, we can conclude the <span class="hint_orange">conclusion</span> of the first statement.</p>
+                    </div>
+                    <div data-if="TYPE === 1" data-unwrap>
+                        <p>The <span class="hint_purple">second sentence</span> states the <span class="hint_orange">conclusion</span> of the first sentence.</p>
+                        <p>Because the <span class="hint_purple">second sentence</span> states the <span class="hint_orange">conclusion</span> of the first sentence, the <span class="hint_purple">second sentence</span> implies the converse of the first sentence.</p>
+                        <p>Converses are not logically equivalent to their original statements, so we cannot form a logical conclusion.</p>
+                    </div>
+                    <div data-if="TYPE === 2" data-unwrap>
+                        <p>The <span class="hint_purple">second sentence</span> states the opposite of the <span class="hint_blue">hypothesis</span> of the first sentence.</p>
+                        <p>Because the <span class="hint_purple">second sentence</span> states the opposite of the <span class="hint_blue">hypothesis</span> of the first sentence, the <span class="hint_purple">second sentence</span> implies the inverse of the first sentence.</p>
+                        <p>Converses are not logically equivalent to their original statements, so we cannot form a logical conclusion.</p>
+                    </div>
+                    <div data-if="TYPE === 3" data-unwrap>
+                        <p>Because the <span class="hint_purple">second sentence</span> states the opposite of the <span class="hint_orange">conclusion</span> of the first sentence, the <span class="hint_purple">second sentence</span> implies the contrapositive of the first sentence.</p>
+                        <p>Since the contrapositive is implied by the first sentence, the <span class="hint_purple">second sentence</span> implies the opposite of the <span class="hint_blue">hypothesis</span>.</p>
+                    </div>
+                    <p>Thus, the answer is "<var>SOLUTION</var>"</p>
+                </div>
+            </div>
+            <div id="syllogism">
+                <div class="vars">
+                    <var id="QUESTIONS">[ [ true, true, [ "a figure is a square", "it is a rectangle", "a figure is a rectangle", "it has four right angles"] ], [ false, true,  [ "you play basketball", "you are athletic", "you play volleyball", "you are athletic" ] ], [ true, true, [ "it is Saturday", "you don't have to go to school", "you don't have to go to school", "you can play in the park" ] ], [ false, true, [ "you live in Los Angeles", "you live in California", "you live in Sacremento", "you live in California" ] ], [ true, true, [ "a ray bisects an angle", "it creates two congruent angles", "there are two congruent angles", "the two angles have the measure"] ], [ false, false, [ "a shape is a pentagon", "the shape has five sides", "a shape is a pentagon", "the shape has five angles" ] ], [ true, [ "a student is in the twelfth grade", "he or she is in high school", "a student is in high school", "he or she is not in college" ] ], [ false, true, [ "you have a picnic", "you will see ants", "it rains a lot", "you will see ants" ] ] ]</var>
+                    <var id="Q_TYPE">randRange(0, 7)</var>
+                    <var id="CONC_POSSIBLE">QUESTIONS[Q_TYPE][0]</var>
+                    <var id="HYP_DIFF">QUESTIONS[Q_TYPE][1]</var>
+                    <var id="HYP_A">QUESTIONS[Q_TYPE][2][0]</var>
+                    <var id="CONC_A">QUESTIONS[Q_TYPE][2][1]</var>
+                    <var id="HYP_B">QUESTIONS[Q_TYPE][2][2]</var>
+                    <var id="CONC_B">QUESTIONS[Q_TYPE][2][3]</var>
+                    <var id="SOLUTION">CONC_POSSIBLE ? ("If "+HYP_A+", then "+CONC_B+".") : "No logical conclusion possible."</var>
+                </div>
+                <p class="problem">Use the given information to make a logical conclusion, if possible.</p>
+                <p class="question">If <span id="hyp_a"><var>HYP_A</var></span>, then <span id="conc_a"><var>CONC_A</var></span>. If <span id="hyp_b"><var>HYP_B</var></span>, then <span id="conc_b"><var>CONC_B</var></span>.</p>
+                <p class="solution"><var>SOLUTION</var></p>
+                <ul class="choices" data-category="true">
+                    <li data-if="CONC_POSSIBLE">If <var>HYP_A</var>, then <var>CONC_B</var>.</li>
+                    <li data-else-if="HYP_DIFF">If <var>HYP_A</var>, then <var>HYP_B</var>.</li>
+                    <li data-else>If <var>CONC_A</var>, then <var>CONC_B</var>.</li>
+                    <li>No logical conclusion possible.</li>
+                </ul>
+                <div class="hints">
+                    <div>
+                        <p>Identify the <span class="hint_blue">first hypothesis</span>, the <span class="hint_green">first conclusion</span>, the <span class="hint_red">second hypothesis</span>, and the <span class="hint_purple">second conclusion</span>.</p>
+                        <div class="graphie">
+                            $( "#hyp_a" ).addClass( "hint_blue" );
+                            $( "#conc_a" ).addClass( "hint_green" );
+                            $( "#hyp_b" ).addClass( "hint_red" );
+                            $( "#conc_b" ).addClass( "hint_purple" );
+                        </div>
+                    </div>
+                    <div>
+                        <p>Do the two sentences come in the form "If <span class="hint_blue">P</span>, then <span class="hint_green">Q</span>. If <span class="hint_red">Q</span>, then <span class="hint_purple">R</span>", where <span class="hint_green">first conclusion</span> and <span class="hint_red">second hypothesis</span> are the same?</p>
+                        <p>In other words, do the sentences look like <code>\blue{P}\implies \green{Q}</code>. <code>\red{Q}\implies \purple{R}</code>?</p>
+                    </div>
+                    <div data-if="CONC_POSSIBLE" data-unwrap>
+                        <p>Yes. Because the middle two statements both say <span class="hint_green"> <var>HYP_B</var></span>, we can chain the statements together: <code>\blue{P}\implies\green{Q}\implies\purple{R}</code> or <span class="hint_blue">"<var>HYP_A</var>"</span><code>\implies</code><span class="hint_green">"<var>CONC_A</var>"</span><code>\implies</code><span class="hint_purple">"<var>CONC_B</var>"</span>.</p>
+                        <p>We can now remove the middle statement, and arrive at the conclusion <span class="hint_blue">"<var>HYP_A</var>"</span><code>\implies</code><span class="hint_purple">"<var>CONC_B</var>"</span>. So, the answer is "If <span class="hint_blue"> <var>HYP_A</var></span>, then <span class="hint_purple"> <var>CONC_B</var></span>."</p>
+                    </div>
+                    <p data-else>No. So, we cannot form a logical conclusion.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

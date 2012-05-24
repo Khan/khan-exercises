@@ -33,6 +33,10 @@ $.extend(KhanUtil, {
         return KhanUtil.toSentence(wrapped, conjunction);
     },
 
+    capitalize: function(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    },
+
     // pluralization helper.  There are five signatures
     // - plural(NUMBER): return "s" if NUMBER is not 1
     // - plural(NUMBER, singular):
