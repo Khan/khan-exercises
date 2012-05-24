@@ -967,12 +967,12 @@ var Khan = (function() {
 
         var cacheKey = 'prevProblems:' + user + ':' + exerciseName;
         var cached = LocalStore.get(cacheKey);
-        var lastProblemNum = (cached && cached['lastProblemNum']) || 1;
+        var lastProblemNum = (cached && cached['lastProblemNum']) || 0;
 
         if (lastProblemNum === problemNum) {
-            // Getting here means the user refreshed the page, returned to this
-            // exercise after being away, or it's the user's first problem. So,
-            // we don't need to and shouldn't skip this problem.
+            // Getting here means the user refreshed the page or returned to
+            // this exercise after being away. So, we don't need to and
+            // shouldn't skip this problem.
             return false;
         }
 
