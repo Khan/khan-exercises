@@ -144,7 +144,40 @@ $.extend(KhanUtil, {
 });
 
 $.fn["word-problemsLoad"] = function() {
-    var people = KhanUtil.shuffle([
+
+    IncrementalShuffler = function(array) {
+        // Shuffle an array incrementally so we only use as many random calls
+        // as we need, so names can be added/removed without breaking all
+        // random seeds for all word problems
+        // - get(0); get(0); will use only one call
+        // - get(0); get(1); will have each use one random call
+        // - get(1); get(0); will use two random calls then none and each call
+        //   will give the same result as running 0 then 1
+        array = [].slice.call(array, 0);
+        var shuffled = 0;
+
+        this.get = function(i) {
+            if (i < 0 || i >= array.length) {
+                return undefined;
+            }
+
+            while (shuffled <= i) {
+                var top = array.length - shuffled,
+                    newEnd = Math.floor(KhanUtil.random() * top),
+                    tmp = array[newEnd];
+
+                array[newEnd] = array[top - 1];
+                array[top - 1] = tmp;
+                shuffled++;
+            }
+
+            // Since we shuffle items from the end to the front, return the
+            // items in reverse order
+            return array[array.length - i - 1];
+        };
+    };
+
+    var people = new IncrementalShuffler([
         ["Ashley", "f"],
         ["Brandon", "m"],
         ["Christopher", "m"],
@@ -165,7 +198,7 @@ $.fn["word-problemsLoad"] = function() {
         ["William", "m"]
     ]);
 
-    var vehicles = KhanUtil.shuffle([
+    var vehicles = new IncrementalShuffler([
         "bike",
         "car",
         "horse",
@@ -174,7 +207,7 @@ $.fn["word-problemsLoad"] = function() {
         "train"
     ]);
 
-    var courses = KhanUtil.shuffle([
+    var courses = new IncrementalShuffler([
         "algebra",
         "chemistry",
         "geometry",
@@ -183,13 +216,13 @@ $.fn["word-problemsLoad"] = function() {
         "Spanish"
     ]);
 
-    var exams = KhanUtil.shuffle([
+    var exams = new IncrementalShuffler([
         "exam",
         "test",
         "quiz"
     ]);
 
-    var binops = KhanUtil.shuffle([
+    var binops = new IncrementalShuffler([
         "\\barwedge",
         "\\veebar",
         "\\odot",
@@ -207,7 +240,7 @@ $.fn["word-problemsLoad"] = function() {
         "\\triangleright"
     ]);
 
-    var collections = KhanUtil.shuffle([
+    var collections = new IncrementalShuffler([
         ["chair", "row", "make"],
         ["party favor", "bag", "fill"],
         ["jelly bean", "pile", "make"],
@@ -215,50 +248,50 @@ $.fn["word-problemsLoad"] = function() {
         ["can of food", "box", "fill"]
     ]);
 
-    var stores = KhanUtil.shuffle([
+    var stores = new IncrementalShuffler([
         {
             name: "office supply",
-            items: KhanUtil.shuffle(["pen", "pencil", "notebook"])
+            items: new IncrementalShuffler(["pen", "pencil", "notebook"])
         },
         {
             name: "hardware",
-            items: KhanUtil.shuffle(["hammer", "nail", "saw"])
+            items: new IncrementalShuffler(["hammer", "nail", "saw"])
         },
         {
             name: "grocery",
-            items: KhanUtil.shuffle(["banana", "loaf of bread", "gallon of milk", "potato"])
+            items: new IncrementalShuffler(["banana", "loaf of bread", "gallon of milk", "potato"])
         },
         {
             name: "gift",
-            items: KhanUtil.shuffle(["toy", "game", "souvenir"])
+            items: new IncrementalShuffler(["toy", "game", "souvenir"])
         },
         {
             name: "toy",
-            items: KhanUtil.shuffle(["stuffed animal", "video game", "race car", "doll"])
+            items: new IncrementalShuffler(["stuffed animal", "video game", "race car", "doll"])
         }
     ]);
 
-    var pizzas = KhanUtil.shuffle([
+    var pizzas = new IncrementalShuffler([
         "pizza",
         "pie",
         "cake"
     ]);
 
-    var timesofday = KhanUtil.shuffle([
+    var timesofday = new IncrementalShuffler([
         "in the morning",
         "around noon",
         "in the evening",
         "at night"
     ]);
 
-    var exercises = KhanUtil.shuffle([
+    var exercises = new IncrementalShuffler([
         "push-up",
         "sit-up",
         "squat",
         "jumping jack"
     ]);
 
-    var fruits = KhanUtil.shuffle([
+    var fruits = new IncrementalShuffler([
         "apple",
         "banana",
         "coconut",
@@ -272,7 +305,7 @@ $.fn["word-problemsLoad"] = function() {
         "watermelon"
     ]);
 
-    var deskItems = KhanUtil.shuffle([
+    var deskItems = new IncrementalShuffler([
         "binder",
         "crayon",
         "eraser",
@@ -284,7 +317,7 @@ $.fn["word-problemsLoad"] = function() {
         "rubber stamp"
     ]);
 
-    var colors = KhanUtil.shuffle([
+    var colors = new IncrementalShuffler([
         "red",
         "orange",
         "yellow",
@@ -299,7 +332,7 @@ $.fn["word-problemsLoad"] = function() {
         "pink"
     ]);
 
-    var schools = KhanUtil.shuffle([
+    var schools = new IncrementalShuffler([
         "Loyola",
         "Gardner Bullis",
         "Almond",
@@ -309,7 +342,7 @@ $.fn["word-problemsLoad"] = function() {
         "Oak"
     ]);
 
-    var furnitureStore = KhanUtil.shuffle([
+    var furnitureStore = new IncrementalShuffler([
         "chair",
         "table",
         "bed frame",
@@ -319,14 +352,14 @@ $.fn["word-problemsLoad"] = function() {
         "book shelf"
     ]);
 
-    var electronicStore = KhanUtil.shuffle([
+    var electronicStore = new IncrementalShuffler([
         "television",
         "computer",
         "laptop",
         "camera"
     ]);
 
-    var clothes = KhanUtil.shuffle([
+    var clothes = new IncrementalShuffler([
         "hat",
         "pair of pants",
         "belt",
@@ -344,19 +377,19 @@ $.fn["word-problemsLoad"] = function() {
         "dress"
     ]);
 
-    var sides = KhanUtil.shuffle([
+    var sides = new IncrementalShuffler([
         "left",
         "right"
     ]);
 
-    var shirtStyles = KhanUtil.shuffle([
+    var shirtStyles = new IncrementalShuffler([
         "long-sleeved",
         "short-sleeved"
     ]);
 
     // animal, avg-lifespan, stddev-lifespan
     // (data is from cursory google searches and wild guessing)
-    var animals = KhanUtil.shuffle([
+    var animals = new IncrementalShuffler([
         ["alligator", 68, 20],
         ["anteater", 15, 10],
         ["bear", 40, 20],
@@ -374,17 +407,17 @@ $.fn["word-problemsLoad"] = function() {
         ["zebra", 25, 10]
     ]);
 
-    var farmers = KhanUtil.shuffle([
-        {farmer: "farmer", crops: KhanUtil.shuffle(["tomato", "potato", "carrot", "bean", "corn stalk"]), field: "field"},
-        {farmer: "gardener", crops: KhanUtil.shuffle(["rose", "tulip", "daisy", "iris", "lily"]), field: "garden"}
+    var farmers = new IncrementalShuffler([
+        {farmer: "farmer", crops: new IncrementalShuffler(["tomato", "potato", "carrot", "bean", "corn stalk"]), field: "field"},
+        {farmer: "gardener", crops: new IncrementalShuffler(["rose", "tulip", "daisy", "iris", "lily"]), field: "garden"}
     ]);
 
-    var distances = KhanUtil.shuffle([
+    var distances = new IncrementalShuffler([
         "mile",
         "kilometer"
     ]);
 
-    var distanceActivities = KhanUtil.shuffle([
+    var distanceActivities = new IncrementalShuffler([
         {present: "ride", past: "rode", noun: "bike", done: "biked", continuous: "biking"},
         {present: "row", past: "rowed", noun: "boat", done: "rowed", continuous: "rowing"},
         {present: "drive", past: "drove", noun: "car", done: "driven", continuous: "driving"},
@@ -401,31 +434,31 @@ $.fn["word-problemsLoad"] = function() {
 
     $.extend(KhanUtil, {
         person: function(i) {
-            return people[i - 1][0];
+            return people.get(i - 1)[0];
         },
 
         personVar: function(i) {
-            return people[i - 1][0].charAt(0).toLowerCase();
+            return people.get(i - 1)[0].charAt(0).toLowerCase();
         },
 
         he: function(i) {
-            return people[i - 1][1] === "m" ? "he" : "she";
+            return people.get(i - 1)[1] === "m" ? "he" : "she";
         },
 
         He: function(i) {
-            return people[i - 1][1] === "m" ? "He" : "She";
+            return people.get(i - 1)[1] === "m" ? "He" : "She";
         },
 
         him: function(i) {
-            return people[i - 1][1] === "m" ? "him" : "her";
+            return people.get(i - 1)[1] === "m" ? "him" : "her";
         },
 
         his: function(i) {
-            return people[i - 1][1] === "m" ? "his" : "her";
+            return people.get(i - 1)[1] === "m" ? "his" : "her";
         },
 
         His: function(i) {
-            return people[i - 1][1] === "m" ? "His" : "Her";
+            return people.get(i - 1)[1] === "m" ? "His" : "Her";
         },
 
         An: function(word) {
@@ -437,142 +470,143 @@ $.fn["word-problemsLoad"] = function() {
         },
 
         vehicle: function(i) {
-            return vehicles[i - 1];
+            return vehicles.get(i - 1);
         },
 
         vehicleVar: function(i) {
-            return vehicles[i - 1].charAt(0);
+            return vehicles.get(i - 1).charAt(0);
         },
 
         course: function(i) {
-            return courses[i - 1];
+            return courses.get(i - 1);
         },
 
         courseVar: function(i) {
-            return courses[i - 1].charAt(0).toLowerCase();
+            return courses.get(i - 1).charAt(0).toLowerCase();
         },
 
         exam: function(i) {
-            return exams[i - 1];
+            return exams.get(i - 1);
         },
 
         binop: function(i) {
-            return binops[i - 1];
+            return binops.get(i - 1);
         },
 
         item: function(i) {
-            return collections[i - 1][0];
+            return collections.get(i - 1)[0];
         },
 
         group: function(i) {
-                return collections[i - 1][1];
+            return collections.get(i - 1)[1];
         },
 
         groupVerb: function(i) {
-            return collections[i - 1][2];
+            return collections.get(i - 1)[2];
         },
 
         store: function(i) {
-            return stores[i].name;
+            return stores.get(i).name;
         },
 
         storeItem: function(i, j) {
-            return stores[i].items[j];
+            return stores.get(i).items.get(j);
         },
 
         pizza: function(i) {
-            return pizzas[i];
+            return pizzas.get(i);
         },
 
         exercise: function(i) {
-            return exercises[i - 1];
+            return exercises.get(i - 1);
         },
 
         timeofday: function(i) {
-            return timesofday[i - 1];
+            return timesofday.get(i - 1);
         },
 
         school: function(i) {
-            return schools[i - 1];
+            return schools.get(i - 1);
         },
 
         clothing: function(i) {
-            return clothes[i - 1];
+            return clothes.get(i - 1);
         },
 
         color: function(i) {
-            return colors[i - 1];
+            return colors.get(i - 1);
         },
 
         fruit: function(i) {
-            return fruits[i];
+            return fruits.get(i);
         },
 
         deskItem: function(i) {
-            return deskItems[i];
+            return deskItems.get(i);
         },
 
         distance: function(i) {
-            return distances[i - 1];
+            return distances.get(i - 1);
         },
 
         rode: function(i) {
-            return distanceActivities[i - 1].past;
+            return distanceActivities.get(i - 1).past;
         },
 
         ride: function(i) {
-            return distanceActivities[i - 1].present;
+            return distanceActivities.get(i - 1).present;
         },
 
         bike: function(i) {
-            return distanceActivities[i - 1].noun;
+            return distanceActivities.get(i - 1).noun;
         },
 
         biked: function(i) {
-            return distanceActivities[i - 1].done;
+            return distanceActivities.get(i - 1).done;
         },
 
         biking: function(i) {
-            return distanceActivities[i - 1].continuous;
+            return distanceActivities.get(i - 1).continuous;
         },
 
         farmer: function(i) {
-            return farmers[i - 1].farmer;
+            return farmers.get(i - 1).farmer;
         },
 
         crop: function(i) {
-            return farmers[i - 1].crops[0];
+            return farmers.get(i - 1).crops.get(0);
         },
 
         field: function(i) {
-            return farmers[i - 1].field;
+            return farmers.get(i - 1).field;
         },
 
         side: function(i) {
-            return sides[i - 1];
+            return sides.get(i - 1);
         },
 
         shirtStyle: function(i) {
-            return shirtStyles[i - 1];
+            return shirtStyles.get(i - 1);
         },
 
         furniture: function(i) {
-            return furnitureStore[i - 1];
+            return furnitureStore.get(i - 1);
         },
 
         electronic: function(i) {
-            return electronicStore[i - 1];
+            return electronicStore.get(i - 1);
         },
+
         animal: function(i) {
-            return animals[i - 1][0];
+            return animals.get(i - 1)[0];
         },
 
         animalAvgLifespan: function(i) {
-            return animals[i - 1][1];
+            return animals.get(i - 1)[1];
         },
 
         animalStddevLifespan: function(i) {
-            return animals[i - 1][2];
+            return animals.get(i - 1)[2];
         }
     });
 };
