@@ -145,7 +145,7 @@ $.extend(KhanUtil, {
 
 $.fn["word-problemsLoad"] = function() {
 
-    IncrementalShuffler = function(array) {
+    var IncrementalShuffler = function(array) {
         // Shuffle an array incrementally so we only use as many random calls
         // as we need, so names can be added/removed without breaking all
         // random seeds for all word problems
