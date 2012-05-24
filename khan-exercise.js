@@ -958,16 +958,16 @@ var Khan = (function() {
      * a duplicate (or too similar) to a recently done problem in the same
      * exercise.
      */
-    function isDuplicatedProblem() {
+    function shouldSkipProblem() {
         // We don't need to skip duplicate problems in test mode, which allows
         // us to use the LocalStore localStorage abstraction from shared-package
         if (typeof LocalStore === "undefined") {
             return false;
         }
 
-        var cacheKey = 'prevProblems:' + user + ':' + exerciseName;
+        var cacheKey = "prevProblems:" + user + ':' + exerciseName;
         var cached = LocalStore.get(cacheKey);
-        var lastProblemNum = (cached && cached['lastProblemNum']) || 0;
+        var lastProblemNum = (cached && cached["lastProblemNum"]) || 0;
 
         if (lastProblemNum === problemNum) {
             // Getting here means the user refreshed the page or returned to
@@ -976,7 +976,7 @@ var Khan = (function() {
             return false;
         }
 
-        var pastHashes = (cached && cached['history']) || [];
+        var pastHashes = (cached && cached["history"]) || [];
         var varsHash = $.tmpl.getVarsHash();
 
         // Should skip the current problem if we've already seen it in the past
@@ -989,7 +989,7 @@ var Khan = (function() {
         } else {
             consecutiveSkips = 0;
             pastHashes.push(varsHash);
-            if (pastHashes.length > dupWindowSize) {
+            while (pastHashes.length > dupWindowSize) {
                 pastHashes.shift();
             }
 
@@ -1130,7 +1130,7 @@ var Khan = (function() {
         problem.runModules(problem, "Load");
         problem.runModules(problem);
 
-        if (isDuplicatedProblem()) {
+        if (shouldSkipProblem()) {
             // If this is a duplicate problem we should skip, just generate
             // another problem of the same problem type but w/ a different seed.
             clearExistingProblem();
@@ -2480,9 +2480,15 @@ var Khan = (function() {
     }
 
     function getSeedsSkippedCacheKey() {
-        return 'seedsSkipped:' + user + ':' + exerciseName;
+        return "seedsSkipped:" + user + ":" + exerciseName;
     }
 
+    /**
+     * Advances the seed (as if the problem number had been advanced) without
+     * actually changing the problem number. Caches how many seeds we've skipped
+     * so that refreshing does not change the generated problem.
+     * @param {number} num Number of times to advance the seed.
+     */
     function nextSeed(num) {
         seedsSkipped += num;
         if (typeof LocalStore !== "undefined") {
