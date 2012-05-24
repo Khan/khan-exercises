@@ -177,9 +177,10 @@ $.fn["word-problemsLoad"] = function() {
         };
     };
 
-    var people = new IncrementalShuffler([
+    var names = [
         ["Ashley", "f"],
         ["Brandon", "m"],
+        ["Ben", "m"],
         ["Christopher", "m"],
         ["Daniel", "m"],
         ["Emily", "f"],
@@ -196,7 +197,16 @@ $.fn["word-problemsLoad"] = function() {
         ["Umaima", "f"],
         ["Vanessa", "f"],
         ["William", "m"]
-    ]);
+    ];
+
+    // We only want one name per letter of the alphabet, so group people with
+    // the same initial before shuffling the names up
+    var people = _.map(_.groupBy(names, function(name) {
+        return name[0].charAt(0);
+    }), function(group) {
+        return new IncrementalShuffler(group);
+    });
+    people = new IncrementalShuffler(people);
 
     var vehicles = new IncrementalShuffler([
         "bike",
@@ -434,31 +444,31 @@ $.fn["word-problemsLoad"] = function() {
 
     $.extend(KhanUtil, {
         person: function(i) {
-            return people.get(i - 1)[0];
+            return people.get(i - 1).get(0)[0];
         },
 
         personVar: function(i) {
-            return people.get(i - 1)[0].charAt(0).toLowerCase();
+            return people.get(i - 1).get(0)[0].charAt(0).toLowerCase();
         },
 
         he: function(i) {
-            return people.get(i - 1)[1] === "m" ? "he" : "she";
+            return people.get(i - 1).get(0)[1] === "m" ? "he" : "she";
         },
 
         He: function(i) {
-            return people.get(i - 1)[1] === "m" ? "He" : "She";
+            return people.get(i - 1).get(0)[1] === "m" ? "He" : "She";
         },
 
         him: function(i) {
-            return people.get(i - 1)[1] === "m" ? "him" : "her";
+            return people.get(i - 1).get(0)[1] === "m" ? "him" : "her";
         },
 
         his: function(i) {
-            return people.get(i - 1)[1] === "m" ? "his" : "her";
+            return people.get(i - 1).get(0)[1] === "m" ? "his" : "her";
         },
 
         His: function(i) {
-            return people.get(i - 1)[1] === "m" ? "His" : "Her";
+            return people.get(i - 1).get(0)[1] === "m" ? "His" : "Her";
         },
 
         An: function(word) {
