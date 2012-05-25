@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html data-require="math word-problems spin">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Simple Interest</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+
+        <div id="interest-on-savings" data-weight="1">
+            <div class="vars">
+				<var id="GOAL">randRange(5,50) * 1000</var>
+                <var id="INTEREST">randRange(2, 10)</var>
+				<var id="TIME">randRange(3,10)</var>
+				<var id="GOAL_OBJECT">GOAL &lt; 12 ? spin("go on holiday to {New Zealand|Australia|Japan}") : spin("{buy a house|buy a {new|} {car|truck|boat}|go on a world cruise}")</var>
+                <var id="INVESTMENT">roundTo(2, (GOAL / (1+INTEREST/100*TIME))).toFixed(2)</var>
+            </div>
+			
+            <div class="problem spin">
+		        <p><var>person(1)</var>'s goal is to save $<var>GOAL</var> to <var>GOAL_OBJECT</var> in <var>plural(TIME, "year")</var> time.
+				She plans put some of her current savings in a <var>TIME</var> year term investment with an annual interest rate of <var>INTEREST</var>%.</p>
+			</div>
+			
+			<p class="question">Assuming simple interest, how much does <var>person(1)</var> needs to invest in order to <var>GOAL_OBJECT</var> when the investment matures?<br/>(Round to the nearest cent.)</p>			
+			<p class="solution" data-forms="dollar"><var>INVESTMENT</var></p>
+			
+            <div class="hints">
+				<div>
+                    <p>The equation for simple interest is:
+                    <p><code>A = P (1 + r)^t</code>
+					<p>Where <code>P</code> is the principal (amount invested), <code>r</code> is the interest rate, <code>t</code> is the number of years and <code>A</code> is the final amount</p>
+                </div>
+				<div>
+                    <p>The equation can be re-arranged to get:
+                    <p><code>P = \displaystyle\frac{A}{(1 + r)^t}</code>
+                </div>
+				<p>Percent means "out of one hundred," so <code class="hint_blue"><var>INTEREST</var>\%</code> is equivalent to <code class="hint_greeb">\displaystyle\frac{<var>INTEREST</var>}{100}</code> which is equivalent to <code><var>INTEREST / 100</var></code>.</p>
+				<div>
+                    <p>Substituting the values in to the equation gives:
+                    <p><code>P = \displaystyle\frac{$<var>GOAL</var>}{(1 + <var>INTEREST / 100</var>)^<var>TIME</var>}</code>
+                </div>
+				<p class="final_answer"><var>person(1)</var> needs to invest <code class="hint_blue">$<var>INVESTMENT</var></code> to achieve <var>his(1)</var> goal.</p>
+            </div>
+        </div>
+		
+		<div id="interest-on-loan" data-weight="1">
+            <div class="vars">
+                <var id="DOLLARS">randRange(10,25) * 1000</var>
+                <var id="INTEREST">randRange(4, 15)</var>
+				<var id="TIME">randRange(2,6)</var>
+				<var id="VEHICLE">spin("car|motorbike|truck|boat")</var>
+                <var id="TOTAL_PRICE">roundTo(2, (1+(INTEREST/100*TIME))*DOLLARS).toFixed(2)</var>
+            </div>
+            <div class="problem spin">
+		        <p><var>person(1)</var> gets a <var>TIME</var> year loan to by a <span data-if="DOLLARS &gt; 15000">{new|shiny new|}</span><span data-else-if="DOLLARS &lt; 10000">{old|second hand|}</span> <var>VEHICLE</var> for $<var>DOLLARS</var>.</p>
+				<p>The annual interest rate is <var>INTEREST</var>%.</p>
+			</div>
+			<p class="question">Using simple interest, what is the total amount of money that <var>person(1)</var> pays for the <var>VEHICLE</var>?<br/>(Round to the nearest cent.)</p>
+            <p class="solution" data-forms="dollar"><var>TOTAL_PRICE</var></p>
+            <div class="hints">
+                <div>
+                    <p>The amount of interest paid each year is equal to the cost of the <var>VEHICLE</var> multiplied by the interest rate.</p>
+                    <p>Annual interest paid <code>=</code> <code class="hint_blue">$<var>DOLLARS</var></code> <code>\times</code> <code class="hint_green"><var>INTEREST</var>\%</code></p>
+                </div>
+				<div>
+                    <p>Percent means "out of one hundred," so <code class="hint_blue"><var>INTEREST</var>\%</code> is equivalent to <code class="hint_greeb">\displaystyle\frac{<var>INTEREST</var>}{100}</code> which is equivalent to <code><var>INTEREST / 100</var></code>.</p>
+                    <p>Annual interest paid <code>=</code> <code>$<var>DOLLARS</var></code> <code>\times</code> <code class="hint_green"><var>INTEREST / 100</var></code> <code>=</code> <code class="hint_blue">$<var>(INTEREST / 100 * DOLLARS).toFixed(2)</var></code></p>
+                </div>
+                <div>
+                    <p>The total interest paid is the annual interest multiplied by the number of years.</p>
+                    <p>Total interest paid <code>= $<var>DOLLARS</var> \times <var>INTEREST / 100</var> \times <var>TIME</var> =</code> <code class="hint_blue">$<var>(INTEREST / 100 * DOLLARS * TIME).toFixed(2)</var></code></p>
+                </div>
+                <div>
+                    <p>Add the cost of the item to the interest paid to get the total cost.<p>
+                    <p>Total cost <code>= $<var>DOLLARS</var> \times <var>INTEREST / 100</var> \times <var>TIME</var> +</code> <code class="hint_blue">$<var>DOLLARS</var></code></p>
+					<p>Which is equivalent to: <code>$<var>DOLLARS</var> \times </code><code class="hint_blue">(1 + <var>INTEREST / 100</var>)</code><code> \times <var>TIME</var></code></p>
+                </div>
+				<div>
+					<p class="final_answer">In total <var>person(1)</var> will pay <code class="hint_blue">$<var>TOTAL_PRICE</var></code> for the <var>VEHICLE</var>.</p>
+                </div>
+            </div>
+        </div>
+		
+    </div>
+    </div>
+
+</body>
+
+</html>
