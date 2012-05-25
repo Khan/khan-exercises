@@ -1850,7 +1850,7 @@ var Khan = (function() {
             }
 
             // Stop if the form is already disabled and we're waiting for a response.
-            if ($("#answercontent input").not("#hint").is(":disabled")) {
+            if ($("#answercontent input").not("#hint,#next-question-button").is(":disabled")) {
                 return false;
             }
 
