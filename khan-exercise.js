@@ -975,7 +975,7 @@ var Khan = (function() {
             return false;
         }
 
-        var cacheKey = "prevProblems:" + user + ':' + exerciseName;
+        var cacheKey = "prevProblems:" + user + ":" + exerciseName;
         var cached = LocalStore.get(cacheKey);
         var lastProblemNum = (cached && cached["lastProblemNum"]) || 0;
 
@@ -1982,7 +1982,7 @@ var Khan = (function() {
                 warn(
                     "This page is out of date. You need to <a href='" + window.location.href +
                     "'>refresh</a>, but don't worry, you haven't lost progress. " +
-                    "If you think this is a mistake, " + 
+                    "If you think this is a mistake, " +
                     "<a href='http://www.khanacademy.org/reportissue?type=Defect&issue_labels='>tell us</a>."
                 );
 
@@ -2782,8 +2782,8 @@ var Khan = (function() {
 
         function injectTestModeSite(html, htmlExercise) {
             $("body").prepend(html);
-            $("#container").html("<h2 style='padding-left: 20px; margin-left: 80px;'>"
-                    + document.title + "</h2>" + htmlExercise);
+            $("#container").html("<h2 style='padding-left: 20px; margin-left: 80px;'>" +
+                    document.title + "</h2>" + htmlExercise);
 
             if (Khan.query.layout === "lite") {
                 $("html").addClass("lite");
