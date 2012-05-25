@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html data-require="word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Conditional statements 2</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #answer_area input[type=text] {
+            width: 50px;
+        }
+        #answer_area .long input[type=text] {
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="adjective">
+            <div class="vars">
+                <var id="QUESTIONS">
+                    [["angles", "", "adjacent", "share a ", "side", true],
+                     ["numbers", "divisible by ", "10", "have a last digit of ", "0", false]]
+                </var>
+                <var id="Q">randRange(0, QUESTIONS.length - 1)</var>
+
+                <var id="NOUN">QUESTIONS[Q][0]</var>
+                <var id="ADJECTIVE">QUESTIONS[Q][1]+QUESTIONS[Q][2]</var>
+                <var id="CONCLUSION">QUESTIONS[Q][3]+QUESTIONS[Q][4]</var>
+
+                <var id="A_ADJ_PREFIX">QUESTIONS[Q][1]</var>
+                <var id="A_ADJ">QUESTIONS[Q][2]</var>
+                <var id="A_CONC_PREFIX">QUESTIONS[Q][3]</var>
+                <var id="A_CONC">QUESTIONS[Q][4]</var>
+
+                <var id="ADJ_NOUN">QUESTIONS[Q][5]</var>
+                <var id="FLIPPED">random() &gt; 0.5</var>
+            </div>
+            <div class="problem">
+                <p>Write the conditional statement in "if-then" form.</p>
+            </div>
+            <div class="question">
+                <p data-if="FLIPPED"><var>NOUN</var> that <var>CONCLUSION</var> are <var>ADJECTIVE</var>.</p>
+                <p data-else-if="ADJ_NOUN"><var>ADJECTIVE</var> <var>NOUN</var> <var>CONCLUSION</var></p>
+                <p data-else><var>NOUN</var> <var>ADJECTIVE</var> <var>CONCLUSION</var></p>
+            </div>
+            <div class="solution" data-type="multiple">
+                <p>If <span class="sol" data-type="text"><var>NOUN</var></span> are <var>A_ADJ_PREFIX</var><span class="sol" data-type="text"><var>A_ADJ</var></span>, then they <var>A_CONC_PREFIX</var><span class="sol long" data-type="text"><var>A_CONC</var></span>.</p>
+            </div>
+            <div class="hints">
+                 <!--<p>Think of what the condition (hypothesis) is, and what conclusion you get from that condition.</p>-->
+                 <!--<p>The conclusion usually, but not always, follows the verb in the sentence.</p>-->
+                 <!--<p>When writing the answer, the condition follows the "if" and the conclusion follows the "then".</p>-->
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+
+<!--<nouns> <adjective> <verb> <conclusion>-->
+<!--<adjective> <nouns> <verb> <conclusion> -> If a <noun> is <adjective>, then it <conclusion>-->
+<!--<nouns> that <conclusion> are <adjective>-->
+
+<!--<nouns> <verb> <conclusion> => If something is a <noun>, then it <conclusion>-->
+
+<!--I <verb> when I go to <event> => If I go to <event>, then I will <verb>-->
+
+
+<!--Vertical angles share a vertex-->
+<!--angles that share a vertex are vertical-->
+<!--numbers divisible by 10 have a last digit of 0-->
+<!--numbers that have a last digit of 0 are divisble by 10-->
+
