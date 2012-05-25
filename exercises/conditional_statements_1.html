@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Conditional statements 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="CITYSTATE">
+            randFromArray([
+                ["Chicago", "Illinois"],
+                ["Los Angeles", "California"],
+                ["Honolulu", "Hawaii"],
+                ["Miami", "Florida"],
+                ["Philidelphia", "Pennsylvania"],
+                ["Dallas", "Texas"],
+                ["Buffalo", "New York"]
+            ])
+        </var>
+        <var id="LINEPROPERTY">
+            randFromArray([
+                ["parallel", "do not intersect"],
+                ["perpendicular", "form right angles"],
+                ["skew", "do not lie in the same plane"]
+            ])
+        </var>
+        <var id="EXERCISE">
+            randFromArray([
+                "push-up",
+                "sit-up",
+                "squat",
+                "jumping jack"
+            ])
+        </var>
+        <var id="SPORT">
+            randFromArray([
+                "soccer",
+                "baseball",
+                "basketball",
+                "volleyball",
+                "softball",
+                "hockey"
+            ])
+        </var>
+        <var id="EVEN_ODD">randFromArray([["2", "even"], ["3", "odd"]])</var>
+        <var id="PROBLEM_DATA">
+        {
+            cityStates: {
+                statements: [
+                    "If you live in " + CITYSTATE[0] + " then you live in " + CITYSTATE[1] + ".",
+                    "You live in " + CITYSTATE[1] + " if you live in " + CITYSTATE[0] + "."
+                ],
+                choices: [
+                    "If you live in " + CITYSTATE[0],
+                    "You live in " + CITYSTATE[0],
+                    "Then you live in " + CITYSTATE[1],
+                    "You live in " + CITYSTATE[1]
+                ],
+                hypothesis: 1,
+                conclusion: 3
+            },
+            lineTypes: {
+                statements: [
+                      "If two lines are " + LINEPROPERTY[0] + " then they " + LINEPROPERTY[1] + ".",
+                      "Two lines " + LINEPROPERTY[1] + " if two lines are " + LINEPROPERTY[0] + "."
+                ],
+                choices: [
+                    "If two lines are " + LINEPROPERTY[0],
+                    "Two lines are " + LINEPROPERTY[0],
+                    "Then they " + LINEPROPERTY[1],
+                    "They " + LINEPROPERTY[1]
+                ],
+                hypothesis: 1,
+                conclusion: 3
+            },
+            evenOdd: {
+                statements: [
+                    "A number divisible by " + EVEN_ODD[0] + " is " + EVEN_ODD[1] + ".",
+                    "A number is " + EVEN_ODD[1] + " if it is divisible by " + EVEN_ODD[0] + "."
+                ],
+                choices: [
+                    "If a number is divisible by " + EVEN_ODD[0],
+                    "A number is divisible by " + EVEN_ODD[0],
+                    "Then the number is " + EVEN_ODD[1],
+                    "The number is " + EVEN_ODD[1]
+                ],
+                hypothesis: 1,
+                conclusion: 3
+            },
+            exercises: {
+                statements: [
+                    "If you do " + plural(EXERCISE) + " for ten minutes, then you will raise your heart rate.",
+                    "You will raise your heart rate if you do " + plural(EXERCISE) + " for ten minutes."
+                ],
+                choices: [
+                    "If you do " + plural(EXERCISE) + " for ten minutes",
+                    "You do " + plural(EXERCISE) + " for ten minutes",
+                    "Then you will raise your heart rate",
+                    "You will raise your heart rate"
+                ],
+                hypothesis: 1,
+                conclusion: 3
+            },
+            sportingEvents: {
+                statements: [
+                    "If we have a good practice, we will be ready for the " + SPORT + " game.",
+                    "We will be ready for the " + SPORT + " game if we have a good practice."
+                ],
+                choices: [
+                    "If we have a good practice",
+                    "We have a good practice",
+                    "Then we will be ready for the " + SPORT + " game",
+                    "We will be ready for the " + SPORT + " game"
+                ],
+                hypothesis: 1,
+                conclusion: 3
+            },
+        }
+        </var>
+        <var id="PROBLEM_TYPE">randFromArray(["cityStates", "lineTypes", "evenOdd", "exercises", "sportingEvents"])</var>
+        <var id="PROBLEM">PROBLEM_DATA[PROBLEM_TYPE]</var>
+        <var id="FLIPPED">random() &lt; 0.5</var>
+        <var id="STATEMENT">FLIPPED ? PROBLEM["statements"][1] : PROBLEM["statements"][0]</var>
+        <var id="CHOICES">shuffle(PROBLEM["choices"])</var>
+        <var id="SOLUTION_TYPE">random() &lt; 0.5</var>
+        <var id="SOLUTION_WORD">SOLUTION_TYPE ? "hypothesis" : "conclusion"</var>
+        <var id="SOLUTION">PROBLEM["choices"][SOLUTION_TYPE ? 1 : 3]</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <p class="problem"><var>STATEMENT</var></p>
+            <p class="question">Identify the <var>SOLUTION_WORD</var> in the conditional statement above.</p>
+            <p class="solution"><var>SOLUTION</var></p>
+            <ul class="choices" data-category="true">
+                <li data-each="CHOICES as choice"><var>choice</var></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="hints">
+        <p>The hypothesis is the phrase that follows the "if" and the conclusion is the phrase that follows the "then".</p>
+        <p>"If" implies the condition, it is not part of the condition itself.  "Then" implies the conclusion, it is not part of the conclusion itself.</p>
+        <p data-if="FLIPPED">Sometimes "if-then" statements are written in the reverse order with the conclusion written first.</p>
+        <p>The <var>SOLUTION_WORD</var> is "<var>SOLUTION</var>".</p>
+    </div>
+    </div>
+</body>
+</html>
