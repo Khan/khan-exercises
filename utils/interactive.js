@@ -1123,6 +1123,67 @@ $.extend(KhanUtil, {
     },
 
 
+    addArrowWidget: function(options) {
+        var arrowWidget = $.extend({
+            graph: KhanUtil.currentGraph,
+            direction: "up",
+            coord: [0, 0],
+            onClick: function() {}
+        }, options);
+        var graph = arrowWidget.graph;
+
+        if (arrowWidget.direction === "up") {
+            arrowWidget.visibleShape = graph.path([
+                    [arrowWidget.coord[0],                      arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0] - 4 / graph.scale[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0],                      arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0] + 4 / graph.scale[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0],                      arrowWidget.coord[1] - 4 / graph.scale[1]]
+                    ], { stroke: null, fill: KhanUtil.ORANGE });
+        } else if (arrowWidget.direction === "down") {
+            arrowWidget.visibleShape = graph.path([
+                    [arrowWidget.coord[0],                      arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0] - 4 / graph.scale[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0],                      arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0] + 4 / graph.scale[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0],                      arrowWidget.coord[1] + 4 / graph.scale[1]]
+                    ], { stroke: null, fill: KhanUtil.ORANGE });
+        }
+
+        arrowWidget.mouseTarget = graph.mouselayer.circle(
+                graph.scalePoint(arrowWidget.coord)[0], graph.scalePoint(arrowWidget.coord)[1], 15);
+        arrowWidget.mouseTarget.attr({fill: "#000", "opacity": 0.0});
+
+        $(arrowWidget.mouseTarget[0]).css("cursor", "pointer");
+        $(arrowWidget.mouseTarget[0]).bind("vmousedown vmouseover vmouseout", function(event) {
+            if (event.type === "vmouseover") {
+                arrowWidget.visibleShape.animate({ scale: 2, fill: KhanUtil.ORANGE }, 20);
+            } else if (event.type === "vmouseout") {
+                arrowWidget.visibleShape.animate({ scale: 1, fill: KhanUtil.ORANGE }, 20);
+            } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
+                if (!arrowWidget.hidden) {
+                    arrowWidget.onClick();
+                }
+                return false;
+            }
+        });
+
+        arrowWidget.hide = function() {
+            arrowWidget.visibleShape.hide();
+            arrowWidget.hidden = true;
+            $(arrowWidget.mouseTarget[0]).css("cursor", "default");
+        };
+
+        arrowWidget.show = function() {
+            arrowWidget.visibleShape.show();
+            arrowWidget.hidden = false;
+            $(arrowWidget.mouseTarget[0]).css("cursor", "pointer");
+        };
+
+        return arrowWidget;
+    },
+
+
     createSorter: function() {
         var sorter = {};
         var list;
