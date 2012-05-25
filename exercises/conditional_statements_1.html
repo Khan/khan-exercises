@@ -26,14 +26,6 @@
                 ["skew", "do not lie in the same plane"]
             ])
         </var>
-        <var id="EXERCISE">
-            randFromArray([
-                "push-up",
-                "sit-up",
-                "squat",
-                "jumping jack"
-            ])
-        </var>
         <var id="SPORT">
             randFromArray([
                 "soccer",
@@ -91,12 +83,12 @@
             },
             exercises: {
                 statements: [
-                    "If you do " + plural(EXERCISE) + " for ten minutes, then you will raise your heart rate.",
-                    "You will raise your heart rate if you do " + plural(EXERCISE) + " for ten minutes."
+                    "If you do " + plural(exercise(1)) + " for ten minutes, then you will raise your heart rate.",
+                    "You will raise your heart rate if you do " + plural(exercise(1)) + " for ten minutes."
                 ],
                 choices: [
-                    "If you do " + plural(EXERCISE) + " for ten minutes",
-                    "You do " + plural(EXERCISE) + " for ten minutes",
+                    "If you do " + plural(exercise(1)) + " for ten minutes",
+                    "You do " + plural(exercise(1)) + " for ten minutes",
                     "Then you will raise your heart rate",
                     "You will raise your heart rate"
                 ],
