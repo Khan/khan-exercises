@@ -49,9 +49,7 @@
                     "You live in " + CITYSTATE[0],
                     "Then you live in " + CITYSTATE[1],
                     "You live in " + CITYSTATE[1]
-                ],
-                hypothesis: 1,
-                conclusion: 3
+                ]
             },
             lineTypes: {
                 statements: [
@@ -63,9 +61,7 @@
                     "Two lines are " + LINEPROPERTY[0],
                     "Then they " + LINEPROPERTY[1],
                     "They " + LINEPROPERTY[1]
-                ],
-                hypothesis: 1,
-                conclusion: 3
+                ]
             },
             evenOdd: {
                 statements: [
@@ -77,9 +73,7 @@
                     "A number is divisible by " + EVEN_ODD[0],
                     "Then the number is " + EVEN_ODD[1],
                     "The number is " + EVEN_ODD[1]
-                ],
-                hypothesis: 1,
-                conclusion: 3
+                ]
             },
             exercises: {
                 statements: [
@@ -91,9 +85,7 @@
                     "You do " + plural(exercise(1)) + " for ten minutes",
                     "Then you will raise your heart rate",
                     "You will raise your heart rate"
-                ],
-                hypothesis: 1,
-                conclusion: 3
+                ]
             },
             sportingEvents: {
                 statements: [
@@ -105,26 +97,24 @@
                     "We have a good practice",
                     "Then we will be ready for the " + SPORT + " game",
                     "We will be ready for the " + SPORT + " game"
-                ],
-                hypothesis: 1,
-                conclusion: 3
+                ]
             },
         }
         </var>
         <var id="PROBLEM_TYPE">randFromArray(["cityStates", "lineTypes", "evenOdd", "exercises", "sportingEvents"])</var>
         <var id="PROBLEM">PROBLEM_DATA[PROBLEM_TYPE]</var>
-        <var id="FLIPPED">random() &lt; 0.5</var>
+        <var id="FLIPPED">rand(2) == 0</var>
         <var id="STATEMENT">FLIPPED ? PROBLEM["statements"][1] : PROBLEM["statements"][0]</var>
         <var id="CHOICES">shuffle(PROBLEM["choices"])</var>
-        <var id="SOLUTION_TYPE">random() &lt; 0.5</var>
+        <var id="SOLUTION_TYPE">rand(2) == 0</var>
         <var id="SOLUTION_WORD">SOLUTION_TYPE ? "hypothesis" : "conclusion"</var>
         <var id="SOLUTION">PROBLEM["choices"][SOLUTION_TYPE ? 1 : 3]</var>
     </div>
 
     <div class="problems">
         <div>
-            <p class="problem"><var>STATEMENT</var></p>
             <p class="question">Identify the <var>SOLUTION_WORD</var> in the conditional statement above.</p>
+            <p class="problem"><var>STATEMENT</var></p>
             <p class="solution"><var>SOLUTION</var></p>
             <ul class="choices" data-category="true">
                 <li data-each="CHOICES as choice"><var>choice</var></li>
