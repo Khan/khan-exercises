@@ -38,7 +38,7 @@
                     <var id="TYPE">randRange(0, 3)</var>
                     <var id="IMPLICATION">QUESTIONS[Q_TYPE][2]</var>
                     <var id="CONCLUSION">[IMPLICATION[1], IMPLICATION[0], IMPLICATION[3], IMPLICATION[2]]</var>
-                    <var id="SOLUTION">(TYPE === 1 || TYPE === 2) ? "No logical conclusion possible" : CONCLUSION[TYPE]</var>
+                    <var id="SOLUTION">(TYPE === 1 || TYPE === 2) ? "No logical conclusion possible" : capitalize(CONCLUSION[TYPE])</var>
                 </div>
                 <p class="problem">Use the given information to make a logical conclusion, if possible. If a logical conclusion is not possible, choose "no logical conclusion possible."</p>
                 <p class="question">If <span id="if-clause"><var>IF_CLAUSE</var></span>, then <span id="then-clause"><var>THEN_CLAUSE</var></span>. <span id="second-sent"><var>capitalize(IMPLICATION[ TYPE ])</var></span>. </p>
