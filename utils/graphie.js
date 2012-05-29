@@ -259,23 +259,23 @@
                 if (latex) {
                     var code = $("<code>").text(text);
                     span = $("<span>").append(code);
-                    // Add to the MathJax queue
-                    if (typeof MathJax !== "undefined") {
-                        $.tmpl.type.code()(code[0]);
-                    }
                 } else {
                     span = $("<span>").html(text);
                 }
 
                 var pad = currentStyle["label-distance"];
-                span.css({
+                span.css($.extend({}, currentStyle, {
                     position: "absolute",
                     left: scaled[0],
                     top: scaled[1],
                     padding: (pad != null ? pad : 7) + "px"
-                }).appendTo(el);
+                })).appendTo(el);
 
                 if (typeof MathJax !== "undefined") {
+                    // Add to the MathJax queue
+                    if (latex) {
+                        $.tmpl.type.code()(code[0]);
+                    }
                     // Run after MathJax typesetting
                     MathJax.Hub.Queue(function() {
                         // Avoid an icky flash
