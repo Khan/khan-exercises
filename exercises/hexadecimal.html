@@ -56,8 +56,8 @@
                             
                             label([ -NUMDIGITS + PADDING * i, ROW2 ],
                                   "\\large{" + "( \\quad\\enspace" + "\\times" +  "\\enspace" + BASE + "^{" + ( (NUMDIGITS-1) - i ) + "})" + "}" );
-                            //graph.digits[i] = label([ -(NUMDIGITS + .55) + PADDING * i, ROW2 ],
-                            //                        "\\large{" + "0" + "}", { color: BLUE } );
+                            graph.digits[i] = label([ -(NUMDIGITS + .55) + PADDING * i, ROW2 ],
+                                                    "\\large{" + "0" + "}", { color: BLUE } );
                             if( i &lt; (NUMDIGITS - 1)) {
                                 label( [ -((NUMDIGITS - 2) + .25) + PADDING * i, ROW2 ], "+" );
                             }
