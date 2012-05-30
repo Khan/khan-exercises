@@ -1764,6 +1764,20 @@ var Khan = (function() {
 
         $(Khan).trigger("newProblem");
 
+        if (answerType === "text" || answerType === "number"){
+            var checkAnswerButton = $("#check-answer-button")
+            checkAnswerButton.attr("disabled", "disabled");
+            $("#solutionarea").keyup(function() {
+                validator();
+                if ($.trim(validator.guess) === "" ||
+                    (validator.guess instanceof Array && $.trim(validator.guess.join("").replace(/,/g, "")) === "")) {
+                    $("#check-answer-button").attr("disabled", "disabled");
+                } else {
+                    checkAnswerButton.removeAttr("disabled");
+                }
+            });
+        }
+
         return answerType;
     }
 
