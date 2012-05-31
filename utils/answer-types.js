@@ -407,6 +407,15 @@ $.extend(Khan.answerTypes, {
         return Khan.answerTypes.text(solutionarea, solution, fallback, verifier);
     },
 
+    hexadecimal: function(solutionarea, solution, fallback) {
+        var verifier = function(correct, guess) {
+            return $.trim(guess).toLowerCase() === correct.toLowerCase();
+        };
+
+        return Khan.answerTypes.text(solutionarea, solution, fallback, verifier);
+    },
+
+
     decimal: function(solutionarea, solution, fallback) {
         return Khan.answerTypes.number(solutionarea, solution, fallback, "decimal");
     },
