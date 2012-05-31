@@ -1012,7 +1012,7 @@ var Khan = (function() {
     }
 
 
-    function answerIsEmpty(){
+    function checkIfAnswerEmpty() {
         return $.trim(validator.guess) === "" ||
                  (validator.guess instanceof Array && $.trim(validator.guess.join("").replace(/,/g, "")) === "");
     }
@@ -1770,14 +1770,14 @@ var Khan = (function() {
 
         $(Khan).trigger("newProblem");
         
-        //If the textbox is empty disable "Check Answer" button
-        //Note: We don't want to do this for number line etc.
+        // If the textbox is empty disable "Check Answer" button
+        // Note: We don't do this for number line etc.
         if (answerType === "text" || answerType === "number") {  
             var checkAnswerButton = $("#check-answer-button");
             checkAnswerButton.attr("disabled", "disabled");
             $("#solutionarea").keyup(function() {
                 validator();
-                if (answerIsEmpty()) {
+                if (checkIfAnswerEmpty()) {
                     checkAnswerButton.attr("disabled", "disabled");
                 } else {
                     checkAnswerButton.removeAttr("disabled");
@@ -1930,7 +1930,11 @@ var Khan = (function() {
             // Stop if the user didn't enter a response
             // If multiple-answer, join all responses and check if that's empty
             // Remove commas left by joining nested arrays in case multiple-answer is nested
+<<<<<<< HEAD
             if (answerIsEmpty()) {
+=======
+            if (checkIfAnswerEmpty()) {
+>>>>>>> afd2f98d38b94909937d8b30328a8b6e9ca47ff8
                 return false;
             } else {
                 guessLog.push(validator.guess);
