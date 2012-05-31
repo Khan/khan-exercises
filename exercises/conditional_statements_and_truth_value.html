@@ -148,23 +148,13 @@
             <div class="vars">
                 <var id="NAMES">["original statement", "converse", "inverse", "contrapositive"]</var>
                 <var id="CASE">randRange(0, 3)</var>
-                <var id="ANS">"the "+NAMES[3-CASE]</var>
-                <var id="OPTIONS">
-                    shuffle( (function() {
-                        var options = [];
-                        for (var i = 0; i &lt; 4; i++){
-                            if (i !== CASE) {
-                                options.push("the "+NAMES[i]);
-                            }
-                        }
-                        return options;
-                    })() )
-                </var>
+                <var id="ANS">NAMES[3-CASE]</var>
+                <var id="OPTIONS">(function(){var opt = NAMES.slice(); opt.splice(CASE, 1); return opt;})()</var>
             </div>
             <p class="question">If the <var>NAMES[CASE]</var> is true, then which other statement must be true logically?</p>
-            <p class="solution"><var>ANS</var></p>
+            <p class="solution">the <var>ANS</var></p>
             <ul class="choices" data-category="true">
-                <li data-each="OPTIONS as option"><var>option</var></li>
+                <li data-each="OPTIONS as option">the <var>option</var></li>
             </ul>
             <div class="hints">
                 <p>The <span class="hint_blue">original</span> conditional statement and its <span class="hint_blue">contrapositive</span> are logically equivalent, and the <span class="hint_green">converse</span> and the <span class="hint_green">inverse</span> are logically equivalent.</p>
