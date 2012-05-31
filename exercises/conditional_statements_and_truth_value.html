@@ -94,9 +94,9 @@
     <div class="problems">
         <div id="type-1">
             <div class="vars">
-                <var id="PROBLEM">randFromArray(PROBLEMS) </var>
-                <var id="MUST">"Must be true"</var>
-                <var id="MIGHT">"Not necessarily true"</var>
+                <var id="PROBLEM">randFromArray(PROBLEMS)</var>
+                <var id="MUST">"Yes, it can be deduced from the first statement"</var>
+                <var id="MIGHT">"No, it cannot be deduced from the first statement"</var>
                 <var id="SECOND_STATEMENT_TYPE">randRange(1, 3)</var>
                 <var id="SECOND_STATEMENT_TYPE_NAME"> (function(){
                     switch (SECOND_STATEMENT_TYPE){
@@ -109,11 +109,13 @@
                 <var id="ANS">SECOND_STATEMENT === PROBLEM[3] ? MUST : MIGHT</var>
             </div>
             <div class="problem">
-                <p>Assume the original conditional statement below is true.</p>
-                <p>Original Conditional Statement: "<var>PROBLEM[0]</var>"</p>
-                <p>Second Statement: "<var> SECOND_STATEMENT </var>" <br></p>
+                <p>Assume this first statement is true:</p>
+                <p><var>PROBLEM[0]</var></p>
             </div>
-            <p class="question">Logically, can you deduce that the second statement must be true or is not necessarily true?</p>
+            <div class="question">
+                <p>Logically, can you deduce that this second statement must be true from the first one?</p>
+                <p><var>SECOND_STATEMENT</var></p>
+            </div>
             <p class="solution"><var>ANS</var></p>
             <ul class="choices" data-category="true">
                 <li><var>MUST</var></li>
