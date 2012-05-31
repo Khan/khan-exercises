@@ -146,18 +146,15 @@
 
         <div id="type-3">
             <div class="vars">
-                <var id="NAMES">["original conditional statement", "converse", "inverse", "contrapositive"]</var>
+                <var id="NAMES">["original statement", "converse", "inverse", "contrapositive"]</var>
                 <var id="CASE">randRange(0, 3)</var>
-                <var id="ANSWERS">["The original conditional statement", "The converse", "The inverse", "The contrapositive"]</var>
-                <var id="ANS">
-                    ANSWERS[3-CASE]
-                </var>
+                <var id="ANS">"the "+NAMES[3-CASE]</var>
                 <var id="OPTIONS">
                     shuffle( (function() {
                         var options = [];
-                        for (var i = 0; i < ANSWERS.length; i++){
+                        for (var i = 0; i &lt; 4; i++){
                             if (i !== CASE) {
-                                options.push(ANSWERS[i]);
+                                options.push("the "+NAMES[i]);
                             }
                         }
                         return options;
@@ -172,7 +169,7 @@
             <div class="hints">
                 <p>The <span class="hint_blue">original</span> conditional statement and its <span class="hint_blue">contrapositive</span> are logically equivalent, and the <span class="hint_green">converse</span> and the <span class="hint_green">inverse</span> are logically equivalent.</p>
                 <p>Logically equivalent statements have the same truth-value.</p>
-                <p>The <var>NAMES[3-CASE]</var> is true logically.</p>
+                <p>The <var>NAMES[3-CASE]</var> is also true logically.</p>
             </div>
         </div>
     </div>
