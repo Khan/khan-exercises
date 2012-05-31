@@ -1011,6 +1011,12 @@ var Khan = (function() {
         }
     }
 
+
+    function checkIfAnswerEmpty() {
+        return $.trim(validator.guess) === "" ||
+                 (validator.guess instanceof Array && $.trim(validator.guess.join("").replace(/,/g, "")) === "");
+    }
+
     function makeProblem(id, seed) {
 
         // Enable scratchpad (unless the exercise explicitly disables it later)
@@ -1763,15 +1769,16 @@ var Khan = (function() {
         $("#hint").val("I'd like a hint");
 
         $(Khan).trigger("newProblem");
-
-        if (answerType === "text" || answerType === "number"){
-            var checkAnswerButton = $("#check-answer-button")
+        
+        // If the textbox is empty disable "Check Answer" button
+        // Note: We don't do this for number line etc.
+        if (answerType === "text" || answerType === "number") {  
+            var checkAnswerButton = $("#check-answer-button");
             checkAnswerButton.attr("disabled", "disabled");
             $("#solutionarea").keyup(function() {
                 validator();
-                if ($.trim(validator.guess) === "" ||
-                    (validator.guess instanceof Array && $.trim(validator.guess.join("").replace(/,/g, "")) === "")) {
-                    $("#check-answer-button").attr("disabled", "disabled");
+                if (checkIfAnswerEmpty()) {
+                    checkAnswerButton.attr("disabled", "disabled");
                 } else {
                     checkAnswerButton.removeAttr("disabled");
                 }
@@ -1923,8 +1930,7 @@ var Khan = (function() {
             // Stop if the user didn't enter a response
             // If multiple-answer, join all responses and check if that's empty
             // Remove commas left by joining nested arrays in case multiple-answer is nested
-            if ($.trim(validator.guess) === "" ||
-                 (validator.guess instanceof Array && $.trim(validator.guess.join("").replace(/,/g, "")) === "")) {
+            if (checkIfAnswerEmpty()) {
                 return false;
             } else {
                 guessLog.push(validator.guess);
