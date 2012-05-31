@@ -1930,11 +1930,8 @@ var Khan = (function() {
             // Stop if the user didn't enter a response
             // If multiple-answer, join all responses and check if that's empty
             // Remove commas left by joining nested arrays in case multiple-answer is nested
-<<<<<<< HEAD
-            if (answerIsEmpty()) {
-=======
+
             if (checkIfAnswerEmpty()) {
->>>>>>> afd2f98d38b94909937d8b30328a8b6e9ca47ff8
                 return false;
             } else {
                 guessLog.push(validator.guess);
