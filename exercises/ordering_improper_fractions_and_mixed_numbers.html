@@ -10,6 +10,10 @@
             font-size: 1.7em;
             text-align: center
         }
+        .sort-key {
+            visibility: hidden;
+            position: absolute;
+        }
     </style>
 </head>
 <body>
@@ -119,6 +123,7 @@
                     <p>Order the following fractions from least to greatest. </p>
                     <ul id="sortable">
                         <li data-each="NUMS as NUM">
+                            <span class="sort-key"><var>NUM[ 5 ]</var></span>
                             <code><var>NUM[ 5 ]</var></code>
                         </li>
                     </ul>

@@ -1123,6 +1123,67 @@ $.extend(KhanUtil, {
     },
 
 
+    addArrowWidget: function(options) {
+        var arrowWidget = $.extend({
+            graph: KhanUtil.currentGraph,
+            direction: "up",
+            coord: [0, 0],
+            onClick: function() {}
+        }, options);
+        var graph = arrowWidget.graph;
+
+        if (arrowWidget.direction === "up") {
+            arrowWidget.visibleShape = graph.path([
+                    [arrowWidget.coord[0],                      arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0] - 4 / graph.scale[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0],                      arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0] + 4 / graph.scale[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0],                      arrowWidget.coord[1] - 4 / graph.scale[1]]
+                    ], { stroke: null, fill: KhanUtil.ORANGE });
+        } else if (arrowWidget.direction === "down") {
+            arrowWidget.visibleShape = graph.path([
+                    [arrowWidget.coord[0],                      arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0] - 4 / graph.scale[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0],                      arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0] + 4 / graph.scale[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0],                      arrowWidget.coord[1] + 4 / graph.scale[1]]
+                    ], { stroke: null, fill: KhanUtil.ORANGE });
+        }
+
+        arrowWidget.mouseTarget = graph.mouselayer.circle(
+                graph.scalePoint(arrowWidget.coord)[0], graph.scalePoint(arrowWidget.coord)[1], 15);
+        arrowWidget.mouseTarget.attr({fill: "#000", "opacity": 0.0});
+
+        $(arrowWidget.mouseTarget[0]).css("cursor", "pointer");
+        $(arrowWidget.mouseTarget[0]).bind("vmousedown vmouseover vmouseout", function(event) {
+            if (event.type === "vmouseover") {
+                arrowWidget.visibleShape.animate({ scale: 2, fill: KhanUtil.ORANGE }, 20);
+            } else if (event.type === "vmouseout") {
+                arrowWidget.visibleShape.animate({ scale: 1, fill: KhanUtil.ORANGE }, 20);
+            } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
+                if (!arrowWidget.hidden) {
+                    arrowWidget.onClick();
+                }
+                return false;
+            }
+        });
+
+        arrowWidget.hide = function() {
+            arrowWidget.visibleShape.hide();
+            arrowWidget.hidden = true;
+            $(arrowWidget.mouseTarget[0]).css("cursor", "default");
+        };
+
+        arrowWidget.show = function() {
+            arrowWidget.visibleShape.show();
+            arrowWidget.hidden = false;
+            $(arrowWidget.mouseTarget[0]).css("cursor", "pointer");
+        };
+
+        return arrowWidget;
+    },
+
+
     createSorter: function() {
         var sorter = {};
         var list;
@@ -1143,6 +1204,7 @@ $.extend(KhanUtil, {
                         $(tile).addClass("dragging");
                         var tileIndex = $(this).index();
                         placeholder.insertAfter(tile);
+                        placeholder.width($(tile).width());
                         $(this).css("z-index", 100);
                         var offset = $(this).offset();
                         var click = {
@@ -1154,6 +1216,7 @@ $.extend(KhanUtil, {
                             left: offset.left,
                             top: offset.top
                         });
+
                         $(document).bind("vmousemove vmouseup", function(event) {
                             event.preventDefault();
                             if (event.type === "vmousemove") {
@@ -1162,7 +1225,18 @@ $.extend(KhanUtil, {
                                     top: event.pageY - click.top
                                 });
                                 var leftEdge = list.offset().left;
-                                var index = Math.max(0, Math.min(numTiles - 1, Math.floor((event.pageX - leftEdge) / tileWidth)));
+                                var midWidth = $(tile).offset().left - leftEdge;
+                                var index = 0;
+                                var sumWidth = 0;
+                                list.find("li").each(function() {
+                                    if (this === placeholder[0] || this === tile) {
+                                        return;
+                                    }
+                                    if (midWidth > sumWidth + $(this).outerWidth(true) / 2) {
+                                        index += 1;
+                                    }
+                                    sumWidth += $(this).outerWidth(true);
+                                });
                                 if (index !== tileIndex) {
                                     tileIndex = index;
                                     if (index === 0) {
@@ -1175,12 +1249,11 @@ $.extend(KhanUtil, {
                                         placeholder.insertAfter(preceeding);
                                         $(tile).insertAfter(preceeding);
                                     }
-                                    offset.left = leftEdge + tileWidth * index;
                                 }
                             } else if (event.type === "vmouseup") {
                                 $(document).unbind("vmousemove vmouseup");
                                 var position = $(tile).offset();
-                                $(position).animate(offset, {
+                                $(position).animate(placeholder.offset(), {
                                     duration: 150,
                                     step: function(now, fx) {
                                         position[fx.prop] = now;
@@ -1203,17 +1276,24 @@ $.extend(KhanUtil, {
         sorter.getContent = function() {
             content = [];
             list.find("li").each(function(tileNum, tile) {
-                content.push($.trim($(tile).find("code").text()));
+                content.push($.trim($(tile).find(".sort-key").text()));
             });
             return content;
         };
 
         sorter.setContent = function(content) {
-            list.find("li").each(function(tileNum, tile) {
-                $(tile).find("code").text(content[tileNum]);
-                MathJax.Hub.Queue(["Reprocess", MathJax.Hub, tile]);
+            var tiles = [];
+            $.each(content, function(n, sortKey) {
+                var tile = list.find("li .sort-key").filter(function() {
+                    // sort-key must match exactly
+                    return $(this).text() === sortKey;
+                }).closest("li").get(0);
+                $(tile).detach();  // remove matched tile so you can have duplicates
+                tiles.push(tile);
             });
+            list.append(tiles);
         };
+
 
         return sorter;
     }

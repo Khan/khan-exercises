@@ -166,6 +166,9 @@ var Khan = (function() {
     // there is some level of reproducability in their questions
     bins = 200,
 
+    // Number of past problems to consider when avoiding duplicates
+    dupWindowSize = 5,
+
     // The seed information
     randomSeed,
 
@@ -184,6 +187,8 @@ var Khan = (function() {
     seedOffset = 0,
     jumpNum = 1,
     problemSeed = 0,
+    seedsSkipped = 0,
+    consecutiveSkips = 0,
 
     problemID,
 
@@ -370,7 +375,9 @@ var Khan = (function() {
                 seed = ((seed + 0xfd7046c5) + (seed << 3)) & 0xffffffff;
                 seed = ((seed ^ 0xb55a4f09) ^ (seed >>> 16)) & 0xffffffff;
                 return (randomSeed = (seed & 0xfffffff)) / 0x10000000;
-            }
+            },
+
+            crc32: crc32
         },
 
         // Load in a collection of scripts, execute callback upon completion
@@ -956,6 +963,60 @@ var Khan = (function() {
 
     }
 
+    /**
+     * Returns whether we should skip the current problem because it's
+     * a duplicate (or too similar) to a recently done problem in the same
+     * exercise.
+     */
+    function shouldSkipProblem() {
+        // We don't need to skip duplicate problems in test mode, which allows
+        // us to use the LocalStore localStorage abstraction from shared-package
+        if (typeof LocalStore === "undefined") {
+            return false;
+        }
+
+        var cacheKey = "prevProblems:" + user + ":" + exerciseName;
+        var cached = LocalStore.get(cacheKey);
+        var lastProblemNum = (cached && cached["lastProblemNum"]) || 0;
+
+        if (lastProblemNum === problemNum) {
+            // Getting here means the user refreshed the page or returned to
+            // this exercise after being away. So, we don't need to and
+            // shouldn't skip this problem.
+            return false;
+        }
+
+        var pastHashes = (cached && cached["history"]) || [];
+        var varsHash = $.tmpl.getVarsHash();
+
+        // Should skip the current problem if we've already seen it in the past
+        // few problems, but not if we've been fruitlessly skipping for a while.
+        // The latter situation could happen if a problem has very few unique
+        // problems (eg. exterior angles problem type of angles_of_a_polygon).
+        if (_.contains(pastHashes, varsHash) && consecutiveSkips < dupWindowSize) {
+            consecutiveSkips++;
+            return true;
+        } else {
+            consecutiveSkips = 0;
+            pastHashes.push(varsHash);
+            while (pastHashes.length > dupWindowSize) {
+                pastHashes.shift();
+            }
+
+            LocalStore.set(cacheKey, {
+                lastProblemNum: problemNum,
+                history: pastHashes
+            });
+            return false;
+        }
+    }
+
+
+    function checkIfAnswerEmpty() {
+        return $.trim(validator.guess) === "" ||
+                 (validator.guess instanceof Array && $.trim(validator.guess.join("").replace(/,/g, "")) === "");
+    }
+
     function makeProblem(id, seed) {
 
         // Enable scratchpad (unless the exercise explicitly disables it later)
@@ -1084,6 +1145,14 @@ var Khan = (function() {
         // Run the main method of any modules
         problem.runModules(problem, "Load");
         problem.runModules(problem);
+
+        if (shouldSkipProblem()) {
+            // If this is a duplicate problem we should skip, just generate
+            // another problem of the same problem type but w/ a different seed.
+            clearExistingProblem();
+            nextSeed(1);
+            return makeProblem();
+        }
 
         // Store the solution to the problem
         var solution = problem.find(".solution"),
@@ -1700,11 +1769,26 @@ var Khan = (function() {
         $("#hint").val("I'd like a hint");
 
         $(Khan).trigger("newProblem");
+        
+        // If the textbox is empty disable "Check Answer" button
+        // Note: We don't do this for number line etc.
+        if (answerType === "text" || answerType === "number") {  
+            var checkAnswerButton = $("#check-answer-button");
+            checkAnswerButton.attr("disabled", "disabled");
+            $("#solutionarea").keyup(function() {
+                validator();
+                if (checkIfAnswerEmpty()) {
+                    checkAnswerButton.attr("disabled", "disabled");
+                } else {
+                    checkAnswerButton.removeAttr("disabled");
+                }
+            });
+        }
 
         return answerType;
     }
 
-    function renderNextProblem(nextUserExercise) {
+    function clearExistingProblem() {
         enableCheckAnswer();
 
         $("#happy").hide();
@@ -1722,6 +1806,10 @@ var Khan = (function() {
         $("#hint").attr("disabled", false);
 
         Khan.scratchpad.clear();
+    }
+
+    function renderNextProblem(nextUserExercise) {
+        clearExistingProblem();
 
         if (testMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount) {
             // Show the dump data
@@ -1842,8 +1930,8 @@ var Khan = (function() {
             // Stop if the user didn't enter a response
             // If multiple-answer, join all responses and check if that's empty
             // Remove commas left by joining nested arrays in case multiple-answer is nested
-            if ($.trim(validator.guess) === "" ||
-                 (validator.guess instanceof Array && $.trim(validator.guess.join("").replace(/,/g, "")) === "")) {
+
+            if (checkIfAnswerEmpty()) {
                 return false;
             } else {
                 guessLog.push(validator.guess);
@@ -1915,7 +2003,7 @@ var Khan = (function() {
                 warn(
                     "This page is out of date. You need to <a href='" + window.location.href +
                     "'>refresh</a>, but don't worry, you haven't lost progress. " +
-                    "If you think this is a mistake, " + 
+                    "If you think this is a mistake, " +
                     "<a href='http://www.khanacademy.org/reportissue?type=Defect&issue_labels='>tell us</a>."
                 );
 
@@ -2426,8 +2514,26 @@ var Khan = (function() {
 
     function setProblemNum(num) {
         problemNum = num;
-        problemSeed = (seedOffset + jumpNum * (problemNum - 1)) % bins;
+        problemSeed = (seedOffset + jumpNum * (problemNum - 1 + seedsSkipped)) % bins;
         problemBagIndex = (problemNum + problemCount - 1) % problemCount;
+    }
+
+    function getSeedsSkippedCacheKey() {
+        return "seedsSkipped:" + user + ":" + exerciseName;
+    }
+
+    /**
+     * Advances the seed (as if the problem number had been advanced) without
+     * actually changing the problem number. Caches how many seeds we've skipped
+     * so that refreshing does not change the generated problem.
+     * @param {number} num Number of times to advance the seed.
+     */
+    function nextSeed(num) {
+        seedsSkipped += num;
+        if (typeof LocalStore !== "undefined") {
+            LocalStore.set(getSeedsSkippedCacheKey(), seedsSkipped);
+        }
+        setProblemNum(problemNum);
     }
 
     function nextProblem(num) {
@@ -2454,6 +2560,10 @@ var Khan = (function() {
 
             // The starting problem of the user
             seedOffset = userCRC32 % bins;
+
+            // The number of seeds that were skipped due to duplicate problems
+            seedsSkipped = (typeof LocalStore !== "undefined" &&
+                LocalStore.get(getSeedsSkippedCacheKey()) || 0);
 
             // Advance to the current problem seed
             setProblemNum(userExercise.totalDone + 1);
@@ -2693,8 +2803,8 @@ var Khan = (function() {
 
         function injectTestModeSite(html, htmlExercise) {
             $("body").prepend(html);
-            $("#container").html("<h2 style='padding-left: 20px; margin-left: 80px;'>"
-                    + document.title + "</h2>" + htmlExercise);
+            $("#container").html("<h2 style='padding-left: 20px; margin-left: 80px;'>" +
+                    document.title + "</h2>" + htmlExercise);
 
             if (Khan.query.layout === "lite") {
                 $("html").addClass("lite");
