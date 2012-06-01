@@ -253,11 +253,12 @@ $.tmpl = {
     getVarsHash: function() {
         // maybe TODO(david): Can base-64 encode the crc32 integer if we want to
         //     save a few bytes, since localStorage stores strings only.
-        return KhanUtil.crc32(JSON.stringify(VARS, function(key, value) {
-            // Just convert top-level values to strings instead of recursively
-            // stringifying, due to issues with circular references.
-            return key.length ? String(value) : value;
-        }));
+
+        // Just convert top-level values to strings instead of recursively
+        // stringifying, due to issues with circular references.
+        return KhanUtil.crc32(JSON.stringify($.map(VARS, function(value, key) {
+            return [key, String(value)];
+        })));
     },
 
     // Make sure any HTML formatting is stripped
