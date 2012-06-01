@@ -257,7 +257,7 @@ $.tmpl = {
         // Just convert top-level values to strings instead of recursively
         // stringifying, due to issues with circular references.
         return KhanUtil.crc32(JSON.stringify($.map(VARS, function(value, key) {
-            return [key, key.length ? String(value) : value];
+            return [key, String(value)];
         })));
     },
 
