@@ -1204,6 +1204,7 @@ $.extend(KhanUtil, {
                         $(tile).addClass("dragging");
                         var tileIndex = $(this).index();
                         placeholder.insertAfter(tile);
+                        placeholder.width($(tile).width());
                         $(this).css("z-index", 100);
                         var offset = $(this).offset();
                         var click = {
@@ -1215,6 +1216,7 @@ $.extend(KhanUtil, {
                             left: offset.left,
                             top: offset.top
                         });
+
                         $(document).bind("vmousemove vmouseup", function(event) {
                             event.preventDefault();
                             if (event.type === "vmousemove") {
@@ -1223,7 +1225,18 @@ $.extend(KhanUtil, {
                                     top: event.pageY - click.top
                                 });
                                 var leftEdge = list.offset().left;
-                                var index = Math.max(0, Math.min(numTiles - 1, Math.floor((event.pageX - leftEdge) / tileWidth)));
+                                var midWidth = $(tile).offset().left - leftEdge;
+                                var index = 0;
+                                var sumWidth = 0;
+                                list.find("li").each(function() {
+                                    if (this === placeholder[0] || this === tile) {
+                                        return;
+                                    }
+                                    if (midWidth > sumWidth + $(this).outerWidth(true) / 2) {
+                                        index += 1;
+                                    }
+                                    sumWidth += $(this).outerWidth(true);
+                                });
                                 if (index !== tileIndex) {
                                     tileIndex = index;
                                     if (index === 0) {
@@ -1236,12 +1249,11 @@ $.extend(KhanUtil, {
                                         placeholder.insertAfter(preceeding);
                                         $(tile).insertAfter(preceeding);
                                     }
-                                    offset.left = leftEdge + tileWidth * index;
                                 }
                             } else if (event.type === "vmouseup") {
                                 $(document).unbind("vmousemove vmouseup");
                                 var position = $(tile).offset();
-                                $(position).animate(offset, {
+                                $(position).animate(placeholder.offset(), {
                                     duration: 150,
                                     step: function(now, fx) {
                                         position[fx.prop] = now;
@@ -1264,17 +1276,19 @@ $.extend(KhanUtil, {
         sorter.getContent = function() {
             content = [];
             list.find("li").each(function(tileNum, tile) {
-                content.push($.trim($(tile).find("code").text()));
+                content.push($.trim($(tile).find(".sort-key").text()));
             });
             return content;
         };
 
         sorter.setContent = function(content) {
-            list.find("li").each(function(tileNum, tile) {
-                $(tile).find("code").text(content[tileNum]);
-                MathJax.Hub.Queue(["Reprocess", MathJax.Hub, tile]);
+            var tiles = [];
+            $.each(content, function(n, sortKey) {
+                tiles.push(list.find("li .sort-key:contains('" + sortKey + "')").closest("li").get(0));
             });
+            list.append(tiles);
         };
+
 
         return sorter;
     }
