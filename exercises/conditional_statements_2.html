@@ -21,20 +21,21 @@
             }
 
             var s = str.split(" ");
-            var disp = $("<div>").addClass("sort-key");
+            var disp = $("<div>");
             if (s.length > 2) {
                 // add a linebreak after the middle word
-                var sp_index = ((s.length - 1) / 2) | 0;
-                var split = s[sp_index] + "<br> " + s[sp_index+1];
-                s.splice(sp_index, 2, split);
+                s.splice(((s.length + 1) / 2) | 0, 0, "<br>");
             } else {
                 // otherwise, increase the line height
                 disp.addClass("single-line");
             }
-
             addColor(color, disp);
             disp.html(s.join(" "));
-            return disp[0].outerHTML;
+
+            var sort = $("<span>").addClass("sort-key")
+                                  .html(str);
+
+            return $("<div>").append(disp.get(0)).append(sort.get(0)).html();
         }
 
         var makeStatement = function(str) {
@@ -46,7 +47,7 @@
 
                 addColor(color, disp);
 
-                return disp[0].outerHTML;
+                return $("<div>").append(disp.get(0)).html();
             } else {
                 return str;
             }
@@ -71,6 +72,10 @@
             display: table-cell;
             vertical-align: middle;
             line-height: 24px;
+        }
+
+        .sort-key {
+            display: none;
         }
 
         .single-line {
