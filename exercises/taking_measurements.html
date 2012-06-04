@@ -181,8 +181,6 @@
 
                         <div>
                             <div class="graphie" data-update="measure">
-                                graph.ruler.moveTo(W + 1, -10);
-                                graph.ruler.rotateTo(90);
                                 var pos = scalePoint([
                                     graph.ruler.centerPoint.coord[0] - 10 + SOLUTION,
                                     graph.ruler.centerPoint.coord[1] - 1]);
@@ -199,6 +197,8 @@
                                         "L" + (pos[0] + 0) + "," + (pos[1] - 15)
                                     ).attr({"stroke-width": 3, stroke: PINK})
                                 );
+                                graph.ruler.moveTo(W + 1, -10);
+                                graph.ruler.rotateTo(90);
                             </div>
 
                             <div data-if="SOLUTION <= 5 || SOLUTION === 10 || SOLUTION === 15">
