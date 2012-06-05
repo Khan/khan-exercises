@@ -5,7 +5,7 @@ $.extend(KhanUtil, {
 
         $(graph.graph.meanValueLabel).html(mean).tmpl();
 
-        graph.graph.meanArrow.translate((mean * graph.scale[0]) - graph.graph.meanArrow.attr("translation").x, 0);
+        graph.graph.meanArrow.transform("T"+(mean * graph.scale[0])+","+0);
         graph.graph.meanValueLabel.remove();
         graph.graph.meanValueLabel = graph.label([mean, 0.8],
             (mean + "").replace(/-(\d)/g, "\\llap{-}$1"),
@@ -23,7 +23,7 @@ $.extend(KhanUtil, {
     updateMedian: function(median) {
         var graph = KhanUtil.currentGraph;
 
-        graph.graph.medianArrow.translate((median * graph.scale[0]) - graph.graph.medianArrow.attr("translation").x, 0);
+        graph.graph.medianArrow.transform("T"+(median * graph.scale[0])+","+0);
         graph.graph.medianValueLabel.remove();
         graph.graph.medianValueLabel = graph.label([median, -1.2],
             (median + "").replace(/-(\d)/g, "\\llap{-}$1"),
@@ -55,9 +55,9 @@ $.extend(KhanUtil, {
         mean = KhanUtil.roundTo(1, mean);
         stddev = KhanUtil.roundTo(1, stddev);
 
-        graph.graph.stddevLeft.translate(((mean) * graph.scale[0]) - graph.graph.stddevLeft.attr("translation").x, 0);
-        graph.graph.stddevRight.translate(((mean + stddev) * graph.scale[0]) - graph.graph.stddevRight.attr("translation").x, 0);
-        graph.graph.stddevLine.translate(((mean) * graph.scale[0]) - graph.graph.stddevLine.attr("translation").x, 0);
+        graph.graph.stddevLeft.transform("T"+(((mean) * graph.scale[0]))+","+0);
+        graph.graph.stddevRight.transform("T"+(((mean + stddev) * graph.scale[0]))+","+0);
+        graph.graph.stddevLine.transform("T"+(((mean) * graph.scale[0]))+","+0);
         graph.graph.stddevLine.scale(stddev, 1, graph.graph.stddevLine.attr("path")[0][1], graph.graph.stddevLine.attr("path")[0][2]);
 
         graph.graph.stddevValueLabel.remove();
