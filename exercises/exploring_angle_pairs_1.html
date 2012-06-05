@@ -25,28 +25,28 @@
         <var id="LENGTH">[15, 15, 15]</var>
         <var id="INNER_LENGTH">[13, 13, 13]</var>
 
-        <var id="ENDPOINT1">[ [(LENGTH[0]/2) * cos( TILT[0] ), (LENGTH[0]/2) * sin( TILT[0] )],
-        [(LENGTH[1]/2) * cos( TILT[1] ), (LENGTH[1]/2) * sin( TILT[1] )],
-        [(LENGTH[2]/2) * cos( TILT[2] ), (LENGTH[2]/2) * sin( TILT[2] )], ] 
+        <var id="ENDPOINT1">[ [(LENGTH[0]/2) * cos(TILT[0]), (LENGTH[0]/2) * sin(TILT[0])],
+        [(LENGTH[1]/2) * cos(TILT[1]), (LENGTH[1]/2) * sin(TILT[1])],
+        [(LENGTH[2]/2) * cos(TILT[2]), (LENGTH[2]/2) * sin(TILT[2])], ] 
         </var>
-        <var id="ENDPOINT2">[ [-1 * (LENGTH[0]/2) * cos( TILT[0] ), -1 * (LENGTH[0]/2) * sin( TILT[0] )],
-        [-1 * (LENGTH[1]/2) * cos( TILT[1] ), (-1 * LENGTH[1]/2) * sin( TILT[1] )],
-        [-1 * (LENGTH[2]/2) * cos( TILT[2] ), (-1 * LENGTH[2]/2) * sin( TILT[2] )], ] 
-        </var>
-
-        <var id="INNER_ENDPOINT1">[ [(INNER_LENGTH[0]/2) * cos( TILT[0] ), (INNER_LENGTH[0]/2) * sin( TILT[0] )], [(INNER_LENGTH[1]/2) * cos( TILT[1] ), (INNER_LENGTH[1]/2) * sin( TILT[1] )],
-        [(INNER_LENGTH[2]/2) * cos( TILT[2] ), (INNER_LENGTH[2]/2) * sin( TILT[2] )], ] 
-        </var>
-        <var id="INNER_ENDPOINT2">[ [-1 * (INNER_LENGTH[0]/2) * cos( TILT[0] ), -1 * (INNER_LENGTH[0]/2) * sin( TILT[0] )], [-1 * (INNER_LENGTH[1]/2) * cos( TILT[1] ), (-1 * INNER_LENGTH[1]/2) * sin( TILT[1] )], [-1 * (INNER_LENGTH[2]/2) * cos( TILT[2] ), (-1 * INNER_LENGTH[2]/2) * sin( TILT[2] )], ] 
+        <var id="ENDPOINT2">[ [-1 * (LENGTH[0]/2) * cos(TILT[0]), -1 * (LENGTH[0]/2) * sin(TILT[0])],
+        [-1 * (LENGTH[1]/2) * cos(TILT[1]), (-1 * LENGTH[1]/2) * sin(TILT[1])],
+        [-1 * (LENGTH[2]/2) * cos(TILT[2]), (-1 * LENGTH[2]/2) * sin(TILT[2])], ] 
         </var>
 
-        <var id="DOT_ATTRS">{ r: 0.2, fill: "blue", stroke: "none" }</var>
+        <var id="INNER_ENDPOINT1">[ [(INNER_LENGTH[0]/2) * cos(TILT[0]), (INNER_LENGTH[0]/2) * sin(TILT[0])], [(INNER_LENGTH[1]/2) * cos(TILT[1]), (INNER_LENGTH[1]/2) * sin(TILT[1])],
+        [(INNER_LENGTH[2]/2) * cos(TILT[2]), (INNER_LENGTH[2]/2) * sin(TILT[2])], ] 
+        </var>
+        <var id="INNER_ENDPOINT2">[ [-1 * (INNER_LENGTH[0]/2) * cos(TILT[0]), -1 * (INNER_LENGTH[0]/2) * sin(TILT[0])], [-1 * (INNER_LENGTH[1]/2) * cos(TILT[1]), (-1 * INNER_LENGTH[1]/2) * sin(TILT[1])], [-1 * (INNER_LENGTH[2]/2) * cos(TILT[2]), (-1 * INNER_LENGTH[2]/2) * sin(TILT[2])], ] 
+        </var>
+
+        <var id="DOT_ATTRS">{ r: 0.2, fill: "BLUE", stroke: "none" }</var>
     </div>
 
     <div class="problem">
         <div class="graphie">
             init({
-                    range: [ [-10, 10], [-10, 10] ],
+                    range: [[-10, 10], [-10, 10]],
                     scale: 20
                 });
 
@@ -106,7 +106,8 @@
             <div class="hints">
                 <p>Vertical angles form two intersecting straight lines.</p>
                 <p>Name an angle that will combine with the given angle to form a big X of two straight lines.</p>
-                <p><code> \angle <var>OPP_START</var>G<var>OPP_END</var> </code></p>
+                <p><code> \angle <var>OPP_START</var>G<var>OPP_END</var> </code> is vertical to 
+                    <code> \angle <var>ANGLE_START</var>G<var>ANGLE_END</var> </code>.</p>
             </div>
         </div>
 
@@ -174,7 +175,7 @@
             <div class="hints">
                 <p>A linear pair is two adjacent angles that form a straight angle.</p>
                 <p>Name an angle that shares a ray with <code> \angle <var> ANGLE_START </var>G<var> ANGLE_END </var> </code> and will add to 180<code>{}^{\circ}</code> </p>
-                <p> <code> \angle <var>ANGLE_START</var>G<var>OPP_END</var> </code> or 
+                <p> Two such angles are <code> \angle <var>ANGLE_START</var>G<var>OPP_END</var> </code> and 
                     <code> \angle <var>ANGLE_END</var>G<var>OPP_START</var> </code>. </p>
             </div>
 
