@@ -1772,9 +1772,17 @@ var Khan = (function() {
         
         // If the textbox is empty disable "Check Answer" button
         // Note: We don't do this for number line etc.
-        if (answerType === "text" || answerType === "number") {  
+        if (answerType === "text" || answerType === "number") {
             var checkAnswerButton = $("#check-answer-button");
             checkAnswerButton.attr("disabled", "disabled");
+            checkAnswerButton.attr("title", "Type in an answer first.");
+             //enables the check answer button - added so that poeple who type
+             //in a number and hit enter quickly do not have to wait for the
+             //button to be enabled by the key up
+            $("#solutionarea").keypress(function() {
+                checkAnswerButton.removeAttr("disabled");
+                checkAnswerButton.removeAttr("title");
+            });
             $("#solutionarea").keyup(function() {
                 validator();
                 if (checkIfAnswerEmpty()) {
