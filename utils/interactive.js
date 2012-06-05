@@ -937,11 +937,14 @@ $.extend(KhanUtil, {
         for (var i = 0; i < lineSegment.ticks; ++i) {
             lineSegment.tick[i] = KhanUtil.bogusShape;
         }
-        var path = KhanUtil.svgPath([[0, 0], [graph.scale[0], 0]]);
+        var tickpath = "";
         for (var i = 0; i < lineSegment.ticks; ++i) {
-            var tickoffset = (0.5 * graph.scale[0]) - (lineSegment.ticks - 1) * 1 + (i * 2);
-            path += KhanUtil.svgPath([[tickoffset, -7], [tickoffset, 7]]);
+            var tickoffset = (0.5 * graph.scale[0]) + (2 * i - lineSegment.ticks + 1) * 3;
+            tickpath += KhanUtil.svgPath([[tickoffset, -7], [tickoffset, 7]]);
         }
+        lineSegment.tickLines = graph.raphael.path(tickpath);
+        lineSegment.tickLines.attr(lineSegment.normalStyle);
+        var path = KhanUtil.svgPath([[0, 0], [graph.scale[0], 0]]);
         lineSegment.visibleLine = graph.raphael.path(path);
         lineSegment.visibleLine.attr(lineSegment.normalStyle);
         if (!lineSegment.fixed) {
@@ -968,6 +971,7 @@ $.extend(KhanUtil, {
             }
             var angle = KhanUtil.findAngle(this.coordZ, this.coordA);
             var scaledA = graph.scalePoint(this.coordA);
+            var scaledZ = graph.scalePoint(this.coordZ);
             var lineLength = KhanUtil.getDistance(this.coordA, this.coordZ);
             if (this.extendLine) {
                 if (this.coordA[0] !== this.coordZ[0]) {
@@ -976,31 +980,35 @@ $.extend(KhanUtil, {
                     var y2 = slope * (graph.range[0][1] - this.coordA[0]) + this.coordA[1];
                     if (this.coordA[0] < this.coordZ[0]) {
                         scaledA = graph.scalePoint([graph.range[0][0], y1]);
+                        scaledZ = graph.scalePoint([graph.range[0][1], y2]);
                         scaledA[0]++;
+                        scaledZ[0]--;
                     } else {
                         scaledA = graph.scalePoint([graph.range[0][1], y2]);
+                        scaledZ = graph.scalePoint([graph.range[0][0], y1]);
                         scaledA[0]--;
+                        scaledZ[0]++;
                     }
                     lineLength = KhanUtil.getDistance([graph.range[0][0], y1], [graph.range[0][1], y2]);
                 } else {
                     if (this.coordA[1] < this.coordZ[1]) {
                         scaledA = graph.scalePoint([this.coordA[0], graph.range[1][0]]);
+                        scaledZ = graph.scalePoint([this.coordA[0], graph.range[1][1]]);
                     } else {
                         scaledA = graph.scalePoint([this.coordA[0], graph.range[1][1]]);
+                        scaledZ = graph.scalePoint([this.coordA[0], graph.range[1][0]]);
                     }
                     lineLength = graph.range[1][1] - graph.range[1][0];
                 }
             }
-            this.visibleLine.translate(scaledA[0] - this.visibleLine.attr("translation").x,
-                    scaledA[1] - this.visibleLine.attr("translation").y);
-            this.visibleLine.rotate(-angle, scaledA[0], scaledA[1]);
-            this.visibleLine.scale(lineLength, 1, scaledA[0], scaledA[1]);
+
+            var center = [(scaledZ[0]+scaledA[0])/2, (scaledZ[1]+scaledA[1])/2];
+
+            this.visibleLine.transform("T"+(center[0]-graph.scale[0]/2)+","+(center[1])+"R"+(-angle)+"S"+lineLength);
+            this.tickLines.transform("T"+(center[0]-graph.scale[0]/2)+","+(center[1])+"R"+(-angle));
 
             if (!this.fixed) {
-                this.mouseTarget.translate(scaledA[0] - this.mouseTarget.attr("translation").x,
-                        scaledA[1] - this.mouseTarget.attr("translation").y);
-                this.mouseTarget.rotate(-angle, scaledA[0], scaledA[1]);
-                this.mouseTarget.scale(lineLength, 1, scaledA[0], scaledA[1]);
+                this.mouseTarget.transform("T"+(center[0]-graph.scale[0]/2)+","+(center[1])+"R"+(-angle)+"S"+lineLength+","+1);
             }
         };
 
