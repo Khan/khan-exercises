@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive word-problems">
+    <head>
+        <title>Taking measurements</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="W">randRange(3, 16)</var>
+                <var id="H">randRange(3, 16)</var>
+            </div>
+
+            <p class="question"></p>
+            <div>
+                <div class="graphie" id="measure">
+                    init({
+                        range: [[-2, 30], [-21, 4]],
+                        scale: 16
+                    });
+
+                    addMouseLayer();
+                    path([[0, 0], [W, 0], [W, -H], [0, -H], true], {
+                        fill: randFromArray([BLUE, GREEN, ORANGE]),
+                        opacity: 0.5
+                    });
+                    label([W/2, -H], "w", "below");
+                    label([0, -H/2], "h", "left");
+
+                    graph.ruler = new MeasuringTool({ type: "ruler", center: [14, -H - 3] });
+                </div>
+            </div>
+            <div class="solution" data-type="multiple">
+                Drag the ruler to help find the answer
+                <p><span class="sol"><var>SOLUTION</var></span> units</p>
+            </div>
+
+            <div class="problems">
+                <div id="width">
+                    <div class="vars">
+                        <var id="SOLUTION">W</var>
+                    </div>
+                    <p class="question">How wide is the rectangle?</p>
+
+                    <div class="hints">
+                        <p>
+                            Line up the ruler along the width of the rectangle.
+                            <input type="button" onclick="
+                                KhanUtil.currentGraph.graph.ruler.moveTo(10, 1);
+                                KhanUtil.currentGraph.graph.ruler.rotateTo(0);
+                            " value="Show me"/>
+                        </p>
+
+                        <div>
+                            <p>Each mark on the ruler is one unit.</p>
+                            <div class="graphie" data-update="measure">
+                                graph.scale = raphael.set();
+                                graph.ruler.set.push(graph.scale);
+                                graph.scale.push(
+                                    graph.ruler.addText([1, 0.4], "1"),
+                                    graph.ruler.addText([2, 0.4], "2"),
+                                    graph.ruler.addText([3, 0.4], "3"),
+                                    graph.ruler.addText([4, 0.4], "4")
+                                ).attr({"font-size": 15, fill: PINK});
+                            </div>
+                        </div>
+
+                        <div data-if="SOLUTION >= 5">
+                            <p>The ruler has a bigger mark every <code>5</code> units.</p>
+                            <div class="graphie" data-update="measure">
+                                graph.scale.attr({fill: "grey"});
+                                graph.scale.push(
+                                    graph.ruler.addText([5, 0.4], "5", {fill: PINK}),
+                                    graph.ruler.addText([10, 0.4], "10", {fill: PINK}),
+                                    graph.ruler.addText([15, 0.4], "15", {fill: PINK})
+                                ).attr({"font-size": 15});
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="graphie" data-update="measure">
+                                graph.ruler.moveTo(10, 1);
+                                graph.ruler.rotateTo(0);
+                                var pos = scalePoint([
+                                    graph.ruler.centerPoint.coord[0] - 10 + SOLUTION,
+                                    graph.ruler.centerPoint.coord[1] - 1]);
+                                graph.scale.attr({fill: "grey"});
+                                graph.scale.push(
+                                    raphael.path(
+                                        "M" + (pos[0] + 0) + "," + (pos[1] - 1) +
+                                        "L" + (pos[0] - 5) + "," + (pos[1] - 10) +
+                                        "L" + (pos[0] + 5) + "," + (pos[1] - 10) +
+                                        "Z"
+                                    ).attr({stroke: false, fill: PINK}),
+                                    raphael.path(
+                                        "M" + (pos[0] + 0) + "," + (pos[1] - 10) +
+                                        "L" + (pos[0] + 0) + "," + (pos[1] - 15)
+                                    ).attr({"stroke-width": 3, stroke: PINK})
+                                );
+                            </div>
+
+                            <div data-if="SOLUTION <= 5 || SOLUTION === 10 || SOLUTION === 15">
+                                <p>
+                                    When the end of the ruler is lined up with the left edge of the rectangle,
+                                    the right edge of the rectangle is lined up with the mark for
+                                    <code><var>SOLUTION</var></code>, so the rectangle is
+                                    <span class="hint_pink"><code><var>SOLUTION</var></code> units</span>
+                                    wide.
+                                </p>
+                                <div class="graphie" data-update="measure">
+                                    graph.scale.push(
+                                        graph.ruler.addText([SOLUTION, 0.4], SOLUTION, {fill: PINK})
+                                    ).attr({"font-size": 15});
+                                </div>
+                            </div>
+
+                            <p data-else>
+                                When the end of the ruler is lined up with the left edge of the rectangle,
+                                the right edge of the rectangle is lined up <var>plural(SOLUTION % 5, "mark")</var>
+                                past the big mark for <code><var>floor(SOLUTION / 5) * 5</var></code>.
+                            </p>
+                        </div>
+
+                        <div data-if="SOLUTION > 5 && SOLUTION !== 10 && SOLUTION !== 15">
+                            <div class="graphie" data-update="measure">
+                                graph.scale.push(
+                                    graph.ruler.addText([SOLUTION, 0.4], SOLUTION, {fill: PINK})
+                                ).attr({"font-size": 15});
+                            </div>
+                            <p>
+                                <var>plural(SOLUTION % 5, "mark")</var> past the big mark for
+                                <code><var>floor(SOLUTION / 5) * 5</var></code> is
+                                <code><var>SOLUTION</var></code>, so the rectangle is
+                                <span class="hint_pink"><code><var>SOLUTION</var></code> units</span> wide.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="height">
+                    <div class="vars">
+                        <var id="SOLUTION">H</var>
+                    </div>
+                    <p class="question">How high is the rectangle?</p>
+
+                    <div class="hints">
+                        <p>
+                            Line up the ruler along the height of the rectangle.
+                            <input type="button" onclick="
+                                KhanUtil.currentGraph.graph.ruler.moveTo(KhanUtil.tmpl.getVAR('W') + 1, -10);
+                                KhanUtil.currentGraph.graph.ruler.rotateTo(90);
+                            " value="Show me"/>
+                        </p>
+
+                        <div>
+                            <p>Each mark on the ruler is one unit.</p>
+                            <div class="graphie" data-update="measure">
+                                graph.scale = raphael.set();
+                                graph.ruler.set.push(graph.scale);
+                                graph.scale.push(
+                                    graph.ruler.addText([1, 0.4], "1"),
+                                    graph.ruler.addText([2, 0.4], "2"),
+                                    graph.ruler.addText([3, 0.4], "3"),
+                                    graph.ruler.addText([4, 0.4], "4")
+                                ).attr({"font-size": 15, fill: PINK});
+                            </div>
+                        </div>
+
+                        <div data-if="SOLUTION >= 5">
+                            <p>The ruler has a bigger mark every <code>5</code> units.</p>
+                            <div class="graphie" data-update="measure">
+                                graph.scale.attr({fill: "grey"});
+                                graph.scale.push(
+                                    graph.ruler.addText([5, 0.4], "5", {fill: PINK}),
+                                    graph.ruler.addText([10, 0.4], "10", {fill: PINK}),
+                                    graph.ruler.addText([15, 0.4], "15", {fill: PINK})
+                                ).attr({"font-size": 15});
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="graphie" data-update="measure">
+                                var pos = scalePoint([
+                                    graph.ruler.centerPoint.coord[0] - 10 + SOLUTION,
+                                    graph.ruler.centerPoint.coord[1] - 1]);
+                                graph.scale.attr({fill: "grey"});
+                                graph.scale.push(
+                                    raphael.path(
+                                        "M" + (pos[0] + 0) + "," + (pos[1] - 1) +
+                                        "L" + (pos[0] - 5) + "," + (pos[1] - 10) +
+                                        "L" + (pos[0] + 5) + "," + (pos[1] - 10) +
+                                        "Z"
+                                    ).attr({stroke: false, fill: PINK}),
+                                    raphael.path(
+                                        "M" + (pos[0] + 0) + "," + (pos[1] - 10) +
+                                        "L" + (pos[0] + 0) + "," + (pos[1] - 15)
+                                    ).attr({"stroke-width": 3, stroke: PINK})
+                                );
+                                graph.ruler.moveTo(W + 1, -10);
+                                graph.ruler.rotateTo(90);
+                            </div>
+
+                            <div data-if="SOLUTION <= 5 || SOLUTION === 10 || SOLUTION === 15">
+                                <p>
+                                    When the end of the ruler is lined up with the top edge of the rectangle,
+                                    the bottom edge of the rectangle is lined up with the mark for
+                                    <code><var>SOLUTION</var></code>, so the rectangle is
+                                    <span class="hint_pink"><code><var>SOLUTION</var></code> units</span>
+                                    high.
+                                </p>
+                                <div class="graphie" data-update="measure">
+                                    graph.scale.push(
+                                        graph.ruler.addText([SOLUTION, 0.4], SOLUTION, {fill: PINK})
+                                    ).attr({"font-size": 15});
+                                </div>
+                            </div>
+
+                            <p data-else>
+                                When the end of the ruler is lined up with the top edge of the rectangle,
+                                the bottom edge of the rectangle is lined up <var>plural(SOLUTION % 5, "mark")</var>
+                                past the big mark for <code><var>floor(SOLUTION / 5) * 5</var></code>.
+                            </p>
+                        </div>
+
+                        <div data-if="SOLUTION > 5 && SOLUTION !== 10 && SOLUTION !== 15">
+                            <div class="graphie" data-update="measure">
+                                graph.scale.push(
+                                    graph.ruler.addText([SOLUTION, 0.4], SOLUTION, {fill: PINK})
+                                ).attr({"font-size": 15});
+                            </div>
+                            <p>
+                                <var>plural(SOLUTION % 5, "mark")</var> past the big mark for
+                                <code><var>floor(SOLUTION / 5) * 5</var></code> is
+                                <code><var>SOLUTION</var></code>, so the rectangle is
+                                <span class="hint_pink"><code><var>SOLUTION</var></code> units</span> high.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

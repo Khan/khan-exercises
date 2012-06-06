@@ -340,7 +340,8 @@ $.extend(KhanUtil, {
                             var radius = movablePoint.constraints.fixedDistance.dist;
 
                             // get coordinates relative to the fixedDistance center
-                            var centerCoord = movablePoint.constraints.fixedDistance.point;
+                            var centerCoord = movablePoint.constraints.fixedDistance.point.coord
+                                || movablePoint.constraints.fixedDistance.point;
                             var centerX = (centerCoord[0] - graph.range[0][0]) * graph.scale[0];
                             var centerY = (-centerCoord[1] + graph.range[1][1]) * graph.scale[1];
 
@@ -1301,26 +1302,49 @@ $.extend(KhanUtil, {
 });
 
 
-function Protractor(center) {
+function MeasuringTool(options) {
+    options = $.extend({
+        type: "protractor",
+        center: [14, -8]
+    }, options);
+
     var graph = KhanUtil.currentGraph;
     this.set = graph.raphael.set();
 
-    this.cx = center[0];
-    this.cy = center[1];
+    this.cx = options.center[0];
+    this.cy = options.center[1];
     var lineColor = "#789";
     var pro = this;
 
-    var r = 8.05;
-    var imgPos = graph.scalePoint([this.cx - r, this.cy + r - 0.225]);
-    this.set.push(graph.mouselayer.image(Khan.urlBase + "images/protractor.png", imgPos[0], imgPos[1], 322, 161));
-
+    if (options.type === "protractor") {
+        var r = 8.05;
+        var imgPos = graph.scalePoint([this.cx - r, this.cy + r - 0.225]);
+        this.set.push(graph.mouselayer.image(Khan.urlBase + "images/protractor.png", imgPos[0], imgPos[1], 322, 161));
+        this.arrowPosition = 175;
+    } else if (options.type === "ruler") {
+        var r = 10;
+        var imgPos = graph.scalePoint([this.cx - r, this.cy + 1]);
+        this.set.push(graph.raphael.rect(imgPos[0], imgPos[1], 320, 30).attr("fill", "#fff"));
+        var mouseTarget = graph.mouselayer.rect(imgPos[0], imgPos[1], 320, 30).attr("fill", "#fff");
+        this.set.push(mouseTarget);
+        for (var i = 1; i < 20; ++i) {
+            if (i % 5 === 0) {
+                this.set.push(graph.raphael.path("M" + (imgPos[0] + i * 16) + "," + (imgPos[1] + 10)
+                    + "L" + (imgPos[0] + i * 16) + "," + (imgPos[1] + 30)));
+            } else {
+                this.set.push(graph.raphael.path("M" + (imgPos[0] + i * 16) + "," + (imgPos[1] + 20)
+                    + "L" + (imgPos[0] + i * 16) + "," + (imgPos[1] + 30)));
+            }
+        }
+        this.arrowPosition = 180;
+    }
 
     // Customized polar coordinate thingie to make it easier to draw the double-headed arrow thing.
     // angle is what you'd expect -- use that big protractor on your screen :)
     // pixels from edge is relative to the edge of the protractor; it's not the full radius
     var arrowHelper = function(angle, pixelsFromEdge) {
         var scaledRadius = graph.scaleVector(r);
-        var scaledCenter = graph.scalePoint(center);
+        var scaledCenter = graph.scalePoint(options.center);
         var x = Math.sin((angle + 90) * Math.PI / 180) * (scaledRadius[0] + pixelsFromEdge) + scaledCenter[0];
         var y = Math.cos((angle + 90) * Math.PI / 180) * (scaledRadius[1] + pixelsFromEdge) + scaledCenter[1];
         return x + "," + y;
@@ -1328,17 +1352,19 @@ function Protractor(center) {
 
     // Draw the double-headed arrow thing that shows users where to click and drag to rotate
     var arrow = graph.raphael.path(
-        " M" + arrowHelper(180, 6) +
-        " L" + arrowHelper(180, 2) +
-        " L" + arrowHelper(183, 10) +
-        " L" + arrowHelper(180, 18) +
-        " L" + arrowHelper(180, 14) +
-        " A" + (graph.scaleVector(r)[0] + 10) + "," + (graph.scaleVector(r)[1] + 10) + ",0,0,1," + arrowHelper(170, 14) +
-        " L" + arrowHelper(170, 18) +
-        " L" + arrowHelper(167, 10) +
-        " L" + arrowHelper(170, 2) +
-        " L" + arrowHelper(170, 6) +
-        " A" + (graph.scaleVector(r)[0] + 10) + "," + (graph.scaleVector(r)[1] + 10) + ",0,0,0," + arrowHelper(180, 6) +
+        " M" + arrowHelper(this.arrowPosition + 5, 6) +
+        " L" + arrowHelper(this.arrowPosition + 5, 2) +
+        " L" + arrowHelper(this.arrowPosition + 8, 10) +
+        " L" + arrowHelper(this.arrowPosition + 5, 18) +
+        " L" + arrowHelper(this.arrowPosition + 5, 14) +
+        " A" + (graph.scaleVector(r)[0] + 10) + "," + (graph.scaleVector(r)[1] + 10) + ",0,0,1,"
+            + arrowHelper(this.arrowPosition - 5, 14) +
+        " L" + arrowHelper(this.arrowPosition - 5, 18) +
+        " L" + arrowHelper(this.arrowPosition - 8, 10) +
+        " L" + arrowHelper(this.arrowPosition - 5, 2) +
+        " L" + arrowHelper(this.arrowPosition - 5, 6) +
+        " A" + (graph.scaleVector(r)[0] + 10) + "," + (graph.scaleVector(r)[1] + 10) + ",0,0,0,"
+            + arrowHelper(this.arrowPosition + 5, 6) +
         " Z"
     ).attr({
         "stroke": null,
@@ -1349,25 +1375,26 @@ function Protractor(center) {
     this.set.push(arrow);
 
     this.centerPoint = KhanUtil.addMovablePoint({
-        coord: center,
+        coord: options.center,
         visible: false
     });
 
     // Use a movablePoint for rotation
     this.rotateHandle = KhanUtil.addMovablePoint({
         coord: [
-            Math.sin(275 * Math.PI / 180) * (r + 0.5) + this.cx,
-            Math.cos(275 * Math.PI / 180) * (r + 0.5) + this.cy
+            Math.sin((450 - this.arrowPosition) * Math.PI / 180) * (r + 0.5) + this.cx,
+            Math.cos((450 - this.arrowPosition) * Math.PI / 180) * (r + 0.5) + this.cy
         ],
         onMove: function(x, y) {
             var angle = Math.atan2(pro.centerPoint.coord[1] - y, pro.centerPoint.coord[0] - x) * 180 / Math.PI;
-            pro.rotate(-angle - 5, true);
+            pro.rotate(pro.arrowPosition - 180 - angle, true);
         }
     });
 
     // Add a constraint so the point moves in a circle
     this.rotateHandle.constraints.fixedDistance.dist = r + 0.5;
     this.rotateHandle.constraints.fixedDistance.point = this.centerPoint;
+    this.rotateHandle.constraints.fixedDistance.snapPoints = 180;
 
     // Remove the default dot added by the movablePoint since we have our double-arrow thing
     this.rotateHandle.visibleShape.remove();
@@ -1476,7 +1503,20 @@ function Protractor(center) {
         });
     };
 
+    this.addText = function(coord, text, style) {
+        var graph = KhanUtil.currentGraph;
+        var center = graph.scalePoint(this.centerPoint.coord);
+        var pos = graph.scalePoint([pro.centerPoint.coord[0] - r + coord[0], pro.centerPoint.coord[1] + coord[1]]);
+        var text = graph.raphael.text(pos[0], pos[1], text);
+        text.attr(style || {});
+        text.rotate(this.rotation, center[0], center[1]);
+        return text;
+    };
+
     this.set.attr({ opacity: 0.5 });
+    if (options.type === "ruler") {
+        mouseTarget.attr("opacity", 0);
+    }
     this.makeTranslatable();
     return this;
 }
