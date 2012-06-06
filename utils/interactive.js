@@ -196,7 +196,8 @@ $.extend(KhanUtil, {
 
         if (movablePoint.visible) {
             graph.style(movablePoint.normalStyle, function() {
-                movablePoint.visibleShape = graph.ellipse(movablePoint.coord, [4 / graph.scale[0], 4 / graph.scale[1]]);
+                movablePoint.visibleShape = graph.ellipse([1, 1], [4 / graph.scale[0], 4 / graph.scale[1]]);
+                movablePoint.visibleShape.attr({cx: 0, cy: 0});
             });
         }
         movablePoint.normalStyle.scale = 1;
@@ -271,7 +272,6 @@ $.extend(KhanUtil, {
             return newCoord;
         };
 
-
         if (movablePoint.visible && !movablePoint.constraints.fixed) {
             // the invisible shape in front of the point that gets mouse events
             movablePoint.mouseTarget = graph.mouselayer.circle(graph.scalePoint(movablePoint.coord)[0], graph.scalePoint(movablePoint.coord)[1], 15);
@@ -306,33 +306,6 @@ $.extend(KhanUtil, {
                         mouseX = Math.max(10, Math.min(graph.xpixels - 10, mouseX));
                         mouseY = Math.max(10, Math.min(graph.ypixels - 10, mouseY));
 
-                        // snap to grid
-                        if (movablePoint.snapX) {
-                            mouseX = Math.round(mouseX / (graph.scale[0] * movablePoint.snapX)) * (graph.scale[0] * movablePoint.snapX);
-                        }
-                        if (movablePoint.snapY) {
-                            mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
-                        }
-                        // snap mouse to grid
-                        if (movablePoint.snapX !== 0) {
-                            mouseX = Math.round(mouseX / (graph.scale[0] * movablePoint.snapX)) * (graph.scale[0] * movablePoint.snapX);
-                        }
-                        if (movablePoint.snapY !== 0) {
-                            mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
-                        }
-
-                        // coord{X|Y} are the scaled coordinate values
-                        var coordX = mouseX / graph.scale[0] + graph.range[0][0];
-                        var coordY = graph.range[1][1] - mouseY / graph.scale[1];
-
-                        // snap coordinates to grid
-                        if (movablePoint.snapX !== 0) {
-                            coordX = Math.round(coordX / movablePoint.snapX) * movablePoint.snapX;
-                        }
-                        if (movablePoint.snapY !== 0) {
-                            coordY = Math.round(coordY / movablePoint.snapY) * movablePoint.snapY;
-                        }
-
                         // snap to points around circle
                         if (movablePoint.constraints.fixedDistance.snapPoints) {
 
@@ -340,17 +313,16 @@ $.extend(KhanUtil, {
                             var radius = movablePoint.constraints.fixedDistance.dist;
 
                             // get coordinates relative to the fixedDistance center
-                            var centerCoord = movablePoint.constraints.fixedDistance.point;
-                            var centerX = (centerCoord[0] - graph.range[0][0]) * graph.scale[0];
-                            var centerY = (-centerCoord[1] + graph.range[1][1]) * graph.scale[1];
+                            var centerCoord = graph.scalePoint(movablePoint.constraints.fixedDistance.point);
+                            var centerX = centerCoord[0];
+                            var centerY = centerCoord[1];
 
                             var mouseXrel = mouseX - centerX;
                             var mouseYrel = -mouseY + centerY;
                             var radians = Math.atan(mouseYrel / mouseXrel);
-                            var outsideArcTanRange = mouseXrel < 0;
 
                             // adjust so that angles increase from 0 to 2 pi as you go around the circle
-                            if (outsideArcTanRange) {
+                            if (mouseXrel < 0) {
                                 radians += Math.PI;
                             }
 
@@ -363,8 +335,19 @@ $.extend(KhanUtil, {
                             // convert back to coordinates relative to graphie canvas
                             mouseX = mouseXrel + centerX;
                             mouseY = - mouseYrel + centerY;
-                            coordX = KhanUtil.roundTo(5, mouseX / graph.scale[0] + graph.range[0][0]);
-                            coordY = KhanUtil.roundTo(5, graph.range[1][1] - mouseY / graph.scale[1]);
+                        }
+
+                        // coord{X|Y} are the scaled coordinate values
+                        var coords = graph.unscalePoint([mouseX, mouseY]);
+                        var coordX = coords[0];
+                        var coordY = coords[1];
+
+                        // snap coordinates to grid
+                        if (movablePoint.snapX !== 0) {
+                            coordX = Math.round(coordX / movablePoint.snapX) * movablePoint.snapX;
+                        }
+                        if (movablePoint.snapY !== 0) {
+                            coordY = Math.round(coordY / movablePoint.snapY) * movablePoint.snapY;
                         }
 
                         // apply any constraints on movement
@@ -389,20 +372,11 @@ $.extend(KhanUtil, {
                                     coordY = result[1];
                                 }
                             }
-                            // coord{X|Y} may have been modified by constraints or onMove handler; adjust mouse{X|Y} to match
-                            mouseX = (coordX - graph.range[0][0]) * graph.scale[0];
-                            mouseY = (-coordY + graph.range[1][1]) * graph.scale[1];
 
                             if (doMove) {
-                                movablePoint.visibleShape.attr("cx", mouseX);
-                                movablePoint.mouseTarget.attr("cx", mouseX);
-                                movablePoint.visibleShape.attr("cy", mouseY);
-                                movablePoint.mouseTarget.attr("cy", mouseY);
-                                movablePoint.coord = [coordX, coordY];
+                                movablePoint.setCoord([coordX, coordY]);
                                 movablePoint.updateLineEnds();
                             }
-
-
                         } else if (event.type === "vmouseup") {
                             $(document).unbind("vmousemove vmouseup");
                             movablePoint.dragging = false;
@@ -410,15 +384,7 @@ $.extend(KhanUtil, {
                             if ($.isFunction(movablePoint.onMoveEnd)) {
                                 var result = movablePoint.onMoveEnd(coordX, coordY);
                                 if ($.isArray(result)) {
-                                    coordX = result[0];
-                                    coordY = result[1];
-                                    mouseX = (coordX - graph.range[0][0]) * graph.scale[0];
-                                    mouseY = (-coordY + graph.range[1][1]) * graph.scale[1];
-                                    movablePoint.visibleShape.attr("cx", mouseX);
-                                    movablePoint.mouseTarget.attr("cx", mouseX);
-                                    movablePoint.visibleShape.attr("cy", mouseY);
-                                    movablePoint.mouseTarget.attr("cy", mouseY);
-                                    movablePoint.coord = [coordX, coordY];
+                                    movablePoint.setCoord(result);
                                 }
                             }
                             // FIXME: check is commented out since firefox isn't always sending mouseout for some reason
@@ -441,32 +407,26 @@ $.extend(KhanUtil, {
             var time = distance * 5;
 
             var scaled = graph.scalePoint([coordX, coordY]);
-            var end = { cx: scaled[0], cy: scaled[1] };
-            if (updateLines) {
+            var end = { x: coordX, y: coordY };
+            if (true) {
                 var start = {
-                    cx: this.visibleShape.attr("cx"),
-                    cy: this.visibleShape.attr("cy")
+                    x: this.coord[0],
+                    y: this.coord[1]
                 };
                 $(start).animate(end, {
                     duration: time,
                     easing: "linear",
                     step: function(now, fx) {
-                        movablePoint.visibleShape.attr(fx.prop, now);
-                        movablePoint.mouseTarget.attr(fx.prop, now);
-                        if (fx.prop === "cx") {
-                            movablePoint.coord[0] = now / graph.scale[0] + graph.range[0][0];
+                        if (fx.prop === "x") {
+                            movablePoint.coord[0] = now;
                         } else {
-                            movablePoint.coord[1] = graph.range[1][1] - now / graph.scale[1];
+                            movablePoint.coord[1] = now;
                         }
-                        movablePoint.updateLineEnds();
+                        movablePoint.setCoord(movablePoint.coord);
                     }
                 });
 
-            } else {
-                this.visibleShape.animate(end, time);
-                this.mouseTarget.animate(end, time);
             }
-            this.coord = [coordX, coordY];
             if ($.isFunction(this.onMove)) {
                 this.onMove(coordX, coordY);
             }
@@ -487,14 +447,8 @@ $.extend(KhanUtil, {
 
         // Put the point at a new position without any checks, animation, or callbacks
         movablePoint.setCoord = function(coord) {
-            if (this.visible) {
-                var scaledPoint = graph.scalePoint(coord);
-                this.visibleShape.attr({ cx: scaledPoint[0] });
-                this.visibleShape.attr({ cy: scaledPoint[1] });
-                this.mouseTarget.attr({ cx: scaledPoint[0] });
-                this.mouseTarget.attr({ cy: scaledPoint[1] });
-            }
             this.coord = coord.slice();
+            this.transform();
         };
 
         // Change z-order to back
@@ -513,6 +467,15 @@ $.extend(KhanUtil, {
             }
         };
 
+        movablePoint.transform = function() {
+            var scaledPoint = graph.scalePoint(this.coord);
+
+            this.visibleShape.transform("T"+scaledPoint[0]+","+scaledPoint[1]);
+            this.mouseTarget.attr({ cx: scaledPoint[0] });
+            this.mouseTarget.attr({ cy: scaledPoint[1] });
+        }
+
+        movablePoint.transform();
 
         return movablePoint;
     },
