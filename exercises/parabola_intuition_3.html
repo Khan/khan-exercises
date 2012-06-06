@@ -36,12 +36,23 @@
                     initAutoscaledGraph( [ [ -2.5, 2.5 ], [ -2.5, 2.5 ] ], {} );
                     addMouseLayer();
 
-                    graph.directrix = addMovableLine({
-                        coord: -1,
-                        snap: 0.125,
+                    graph.directrix = addMovableLineSegment({
+                        coordA: [0, -1],
+                        coordZ: [1, -1],
+                        snapY: 0.125,
                         vertical: false,
+                        extendLine: true,
+                        normalStyle: {
+                            "stroke": KhanUtil.ORANGE,
+                            "stroke-width": 2
+                        },
+                        highlightStyle: {
+                            "stroke": KhanUtil.ORANGE,
+                            "stroke-width": 4
+                        }
                     });
-                    graph.directrix.onMove = function( coord ) {
+                    graph.directrix.onMove = function( x, y ) {
+                        var coord = this.coordA[1];
                         $("#directrix-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coord, 0.001)) + "&lt;/code&gt;" ).tmpl();
                         $("#directrix input").val(coord);
                     };
