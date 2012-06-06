@@ -1313,22 +1313,20 @@ function Protractor(center) {
     var graph = KhanUtil.currentGraph;
     this.set = graph.raphael.set();
 
-    this.cx = center[0];
-    this.cy = center[1];
     var lineColor = "#789";
     var pro = this;
 
     var r = 8.05;
-    var imgPos = graph.scalePoint([this.cx - r, this.cy + r - 0.225]);
-    this.set.push(graph.mouselayer.image(Khan.urlBase + "images/protractor.png", imgPos[0], imgPos[1], 322, 161));
-
+    var imgPos = graph.scalePoint([-r, r - 0.225]);
+    var protractorImg = graph.mouselayer.image(Khan.urlBase + "images/protractor.png", -161, -156, 322, 161);
+    this.set.push(protractorImg);
 
     // Customized polar coordinate thingie to make it easier to draw the double-headed arrow thing.
     // angle is what you'd expect -- use that big protractor on your screen :)
     // pixels from edge is relative to the edge of the protractor; it's not the full radius
     var arrowHelper = function(angle, pixelsFromEdge) {
         var scaledRadius = graph.scaleVector(r);
-        var scaledCenter = graph.scalePoint(center);
+        var scaledCenter = [0, 0]; //graph.scalePoint(center);
         var x = Math.sin((angle + 90) * Math.PI / 180) * (scaledRadius[0] + pixelsFromEdge) + scaledCenter[0];
         var y = Math.cos((angle + 90) * Math.PI / 180) * (scaledRadius[1] + pixelsFromEdge) + scaledCenter[1];
         return x + "," + y;
@@ -1364,12 +1362,12 @@ function Protractor(center) {
     // Use a movablePoint for rotation
     this.rotateHandle = KhanUtil.addMovablePoint({
         coord: [
-            Math.sin(275 * Math.PI / 180) * (r + 0.5) + this.cx,
-            Math.cos(275 * Math.PI / 180) * (r + 0.5) + this.cy
+            Math.sin(275 * Math.PI / 180) * (r + 0.5) + center[0],
+            Math.cos(275 * Math.PI / 180) * (r + 0.5) + center[1]
         ],
         onMove: function(x, y) {
-            var angle = Math.atan2(pro.centerPoint.coord[1] - y, pro.centerPoint.coord[0] - x) * 180 / Math.PI;
-            pro.rotate(-angle - 5, true);
+            var angle = Math.atan2(pro.center[1] - y, pro.center[0] - x) * 180 / Math.PI;
+            pro.rotate(-angle - 5);
         }
     });
 
@@ -1382,42 +1380,38 @@ function Protractor(center) {
     // Make the mouse target bigger to encompass the whole area around the double-arrow thing
     this.rotateHandle.mouseTarget.attr({ scale: 2.0 });
 
+    // Set the initial arrow size
+    this.arrowscale = 1.0;
+
     // Make the arrow-thing grow and shrink with mouseover/out
     $(this.rotateHandle.mouseTarget[0]).bind("vmouseover", function(event) {
-        arrow.animate({ scale: 1.5 }, 50);
+        pro.arrowscale = 1.5;
+        arrow.animate({ transform: pro.transformString()+"S1.5" }, 50);
     });
     $(this.rotateHandle.mouseTarget[0]).bind("vmouseout", function(event) {
-        arrow.animate({ scale: 1.0 }, 50);
+        pro.arrowscale = 1.0;
+        arrow.animate({ transform: pro.transformString()+"S1.0" }, 50);
     });
 
-
-    var setNodes = $.map(this.set, function(el) { return el.node; });
+    // Add the translation callbacks to the protractor
     this.makeTranslatable = function makeTranslatable() {
-        $(setNodes).css("cursor", "move");
+        // add the "move" cursor
+        $(protractorImg.node).css("cursor", "move");
 
-        $(setNodes).bind("vmousedown", function(event) {
+        $(protractorImg.node).bind("vmousedown", function(event) {
             event.preventDefault();
-            var startx = event.pageX - $(graph.raphael.canvas.parentNode).offset().left;
-            var starty = event.pageY - $(graph.raphael.canvas.parentNode).offset().top;
+
+            // on mousedown, calculate the initial offset from the mouse position to the protractor center
+            var startpt = graph.unscalePoint([event.pageX - $(graph.raphael.canvas.parentNode).offset().left,
+                                              event.pageY - $(graph.raphael.canvas.parentNode).offset().top]);
+            var offsetvec = [pro.center[0] - startpt[0], pro.center[1] - startpt[1]];
 
             $(document).bind("vmousemove", function(event) {
-                // mouse{X|Y} are in pixels relative to the SVG
-                var mouseX = event.pageX - $(graph.raphael.canvas.parentNode).offset().left;
-                var mouseY = event.pageY - $(graph.raphael.canvas.parentNode).offset().top;
-                // can't go beyond 10 pixels from the edge
-                mouseX = Math.max(10, Math.min(graph.xpixels - 10, mouseX));
-                mouseY = Math.max(10, Math.min(graph.ypixels - 10, mouseY));
+                // when moved, calculate the new offset as mousepos + offset, and move there
+                var mousept = graph.unscalePoint([event.pageX - $(graph.raphael.canvas.parentNode).offset().left,
+                                                  event.pageY - $(graph.raphael.canvas.parentNode).offset().top]);
 
-                var dx = mouseX - startx;
-                var dy = mouseY - starty;
-
-                $.each(pro.set.items, function() {
-                    this.translate(dx, dy);
-                });
-                pro.centerPoint.setCoord([pro.centerPoint.coord[0] + dx / graph.scale[0], pro.centerPoint.coord[1] - dy / graph.scale[1]]);
-                pro.rotateHandle.setCoord([pro.rotateHandle.coord[0] + dx / graph.scale[0], pro.rotateHandle.coord[1] - dy / graph.scale[1]]);
-                startx = mouseX;
-                starty = mouseY;
+                pro.move([mousept[0] + offsetvec[0], mousept[1] + offsetvec[1]]);
             });
 
             $(document).one("vmouseup", function(event) {
@@ -1426,48 +1420,69 @@ function Protractor(center) {
         });
     };
 
-
+    // set the initial rotation
     this.rotation = 0;
 
-    this.rotate = function(offset, absolute) {
-        var center = graph.scalePoint(this.centerPoint.coord);
-
-        if (absolute) {
-            this.rotation = 0;
-        }
-
-        this.set.rotate(this.rotation + offset, center[0], center[1]);
-        this.rotation = this.rotation + offset;
-
-        return this;
+    // on rotate, simply set the rotate and transform
+    this.rotate = function(angle) {
+        this.rotation = angle;
+        this.transform();
     };
 
-    this.moveTo = function moveTo(x, y) {
-        var graph = KhanUtil.currentGraph;
-        var start = graph.scalePoint(pro.centerPoint.coord);
-        var end = graph.scalePoint([x, y]);
-        var time = KhanUtil.getDistance(start, end) * 2;  // 2ms per pixel
+    // set the initial center position
+    this.center = center;
 
-        $({ x: start[0], y: start[1] }).animate({ x: end[0], y: end[1] }, {
+    // on move, set the center and transform
+    this.move = function(position) {
+        this.center = position;
+        this.transform();
+    }
+
+    // return the string which is passed to transform, so that things can be appended to it
+    this.transformString = function() {
+        var center = graph.scalePoint(this.center);
+        return "T"+center[0]+","+center[1]+"R"+(this.rotation)+","+center[0]+","+center[1];
+    }
+
+    // transform the protractor to make up for any scale/rotation/position changes
+    this.transform = function() {
+        // stop any current animations
+        this.set.stop();
+        arrow.stop();
+        // transform the entire thing, and apply an additional scale to the arrow
+        this.set.transform(this.transformString());
+        arrow.transform("...S"+this.arrowscale);
+        // manually position the center point and the handle point
+        this.centerPoint.setCoord(this.center);
+        this.rotateHandle.setCoord([Math.sin((this.rotation - 85) * Math.PI / 180) * (r + 0.5) + this.center[0],
+                                    Math.cos((this.rotation - 85)* Math.PI / 180) * (r + 0.5) + this.center[1]]);
+    }
+
+    // move the point to the center, to ensure everything gets set up right
+    this.move(center);
+
+    // animate the protractor moving to a position
+    this.moveTo = function moveTo(x, y) {
+        var start = pro.centerPoint.coord;
+        var end = [x, y];
+        var time = KhanUtil.getDistance(start, end) * 30;  // 2ms per pixel
+
+        $({ x: start[0], y: start[1] }).animate({ x: x, y: y }, {
             duration: time,
             step: function(now, fx) {
-                var dx = 0;
-                var dy = 0;
+                // change the appropriate coordinate using .move
                 if (fx.prop === "x") {
-                    dx = now - graph.scalePoint(pro.centerPoint.coord)[0];
-                } else if (fx.prop === "y") {
-                    dy = now - graph.scalePoint(pro.centerPoint.coord)[1];
+                    pro.move([now, pro.center[1]]);
+                } else {
+                    pro.move([pro.center[0], now]);
                 }
-                $.each(pro.set.items, function() {
-                    this.translate(dx, dy);
-                });
-                pro.centerPoint.setCoord([pro.centerPoint.coord[0] + dx / graph.scale[0], pro.centerPoint.coord[1] - dy / graph.scale[1]]);
-                pro.rotateHandle.setCoord([pro.rotateHandle.coord[0] + dx / graph.scale[0], pro.rotateHandle.coord[1] - dy / graph.scale[1]]);
             }
         });
     };
 
+    // animate the protractor rotating to an angle
     this.rotateTo = function rotateTo(angle) {
+        // make sure it doesn't rotate the wrong way
         if (Math.abs(this.rotation - angle) > 180) {
             this.rotation += 360;
         }
@@ -1475,16 +1490,15 @@ function Protractor(center) {
         $({ 0: this.rotation }).animate({ 0: angle }, {
             duration: time,
             step: function(now, fx) {
-                pro.rotate(now, true);
-                pro.rotateHandle.setCoord([
-                    Math.sin((now + 275) * Math.PI / 180) * (r + 0.5) + pro.centerPoint.coord[0],
-                    Math.cos((now + 275) * Math.PI / 180) * (r + 0.5) + pro.centerPoint.coord[1]
-                ]);
+                // rotate using .rotate
+                pro.rotate(now);
             }
         });
     };
 
+    // make the protractor opaque
     this.set.attr({ opacity: 0.5 });
+    // make translatable
     this.makeTranslatable();
     return this;
 }
