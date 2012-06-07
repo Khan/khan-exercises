@@ -2107,11 +2107,6 @@ var Khan = (function() {
                 );
             }
 
-            // The first hint is free iff the user has already attempted the question
-            if (hintsUsed === 1 && attempts > 0) {
-                gae_bingo.bingo("hints_free_hint");
-                gae_bingo.bingo("hints_free_hint_binary");
-            }
         });
 
         // On an exercise page, replace the "Report a Problem" link with a button
