@@ -159,8 +159,9 @@
                     [6, "hexagon"],
                     [8, "octagon"]
                 ])</var>
-                <var id="RADIUS">((180-(360/SIDES))/2) * S * (SIDES / 360)</var>
                 <var id="ANGLE">(2 * PI) / SIDES</var>
+                <var id="RADIUS">S / (2 * sin(PI / SIDES))</var>
+                <var id="APOTHEM">S / (2 * tan(PI / SIDES))</var>
             </div>
 
             <p class="question">
@@ -177,7 +178,7 @@
                     });
                     graph.path.push(true);
                     path(graph.path, {stroke: BLUE, fill: "#eee"});
-                    graph.label = label([0, RADIUS + 0.2], S + "\\text{ " + UNIT + "}");
+                    graph.label = label([0, APOTHEM + 0.7], S + "\\text{ " + UNIT + "}");
                 </div>
             </div>
 
@@ -193,9 +194,9 @@
                     <div class="graphie" data-update="perimeter">
                         graph.label.remove();
                         _(SIDES).times(function(n) {
-                            label([sin(ANGLE * n) * (RADIUS + 0.2), cos(ANGLE * n)
-                                * (RADIUS + 0.2)], S + "\\text{ " + UNIT + "}",
-                                {color: PINK});
+                            label([sin(ANGLE * n) * (APOTHEM + 0.7), cos(ANGLE * n)
+                                * (APOTHEM + 0.7)], S + "\\text{ " + UNIT + "}",
+                                {color: GREEN});
                         });
                     </div>
                     <p>
@@ -210,11 +211,11 @@
                 <div>
                     <p>
                         Since there are <span class="hint_blue"><code><var>SIDES</var></code> sides</span>
-                        that are all <span class="hint_pink"><code><var>S</var></code>
+                        that are all <span class="hint_green"><code><var>S</var></code>
                         <var>plural(UNIT_TEXT)</var></span> long, we can multiply:
                     </p>
                     <p><code>\qquad\text{perimeter} =
-                        \blue{<var>SIDES</var>} \times \pink{<var>S</var>}
+                        \blue{<var>SIDES</var>} \times \green{<var>S</var>}
                     </code></p>
                 </div>
                 <p><code>\qquad\text{perimeter} = <var>S * SIDES</var>\text{ <var>UNIT</var>}</code></p>
