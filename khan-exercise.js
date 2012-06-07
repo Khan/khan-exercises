@@ -1769,21 +1769,20 @@ var Khan = (function() {
         $("#hint").val("I'd like a hint");
 
         $(Khan).trigger("newProblem");
-        
+
         // If the textbox is empty disable "Check Answer" button
         // Note: We don't do this for number line etc.
         if (answerType === "text" || answerType === "number") {
             var checkAnswerButton = $("#check-answer-button");
-            checkAnswerButton.attr("disabled", "disabled");
-            checkAnswerButton.attr("title", "Type in an answer first.");
-             //enables the check answer button - added so that poeple who type
-             //in a number and hit enter quickly do not have to wait for the
-             //button to be enabled by the key up
+            checkAnswerButton.attr("disabled", "disabled").attr(
+                "title", "Type in an answer first.");
+            // Enables the check answer button - added so that poeple who type
+            // in a number and hit enter quickly do not have to wait for the
+            // button to be enabled by the key up
             $("#solutionarea").keypress(function() {
-                checkAnswerButton.removeAttr("disabled");
-                checkAnswerButton.removeAttr("title");
-            });
-            $("#solutionarea").keyup(function() {
+                checkAnswerButton.removeAttr("disabled").removeAttr("title");
+            })
+            .keyup(function() {
                 validator();
                 if (checkIfAnswerEmpty()) {
                     checkAnswerButton.attr("disabled", "disabled");
