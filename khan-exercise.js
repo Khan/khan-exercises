@@ -1779,8 +1779,10 @@ var Khan = (function() {
             // Enables the check answer button - added so that poeple who type
             // in a number and hit enter quickly do not have to wait for the
             // button to be enabled by the key up
-            $("#solutionarea").keypress(function() {
-                checkAnswerButton.removeAttr("disabled").removeAttr("title");
+            $("#solutionarea").keypress(function(e) {
+                if (e.keyCode !== 13) {
+                    checkAnswerButton.removeAttr("disabled").removeAttr("title");
+                }
             })
             .keyup(function() {
                 validator();
