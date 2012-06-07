@@ -1776,22 +1776,23 @@ var Khan = (function() {
             var checkAnswerButton = $("#check-answer-button");
             checkAnswerButton.attr("disabled", "disabled").attr(
                 "title", "Type in an answer first.");
-            // Enables the check answer button - added so that poeple who type
+            // Enables the check answer button - added so that people who type
             // in a number and hit enter quickly do not have to wait for the
             // button to be enabled by the key up
-            $("#solutionarea").keypress(function(e) {
-                if (e.keyCode !== 13) {
-                    checkAnswerButton.removeAttr("disabled").removeAttr("title");
-                }
-            })
-            .keyup(function() {
-                validator();
-                if (checkIfAnswerEmpty()) {
-                    checkAnswerButton.attr("disabled", "disabled");
-                } else {
-                    checkAnswerButton.removeAttr("disabled");
-                }
-            });
+            $("#solutionarea")
+                .keypress(function(e) {
+                    if (e.keyCode !== 13) {
+                        checkAnswerButton.removeAttr("disabled").removeAttr("title");
+                    }
+                })
+                .keyup(function() {
+                    validator();
+                    if (checkIfAnswerEmpty()) {
+                        checkAnswerButton.attr("disabled", "disabled");
+                    } else {
+                        checkAnswerButton.removeAttr("disabled");
+                    }
+                });
         }
 
         return answerType;
