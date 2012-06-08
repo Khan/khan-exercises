@@ -54,18 +54,18 @@ function initTriangleCongruence(segs, angs, triangles, supplementary_angs) {
     console.log(isRelationPossible([TRIANGLES[0], TRIANGLES[1]]));
     console.log(isRelationPossible([TRIANGLES[1], TRIANGLES[3]]));
 
-    while(true){
-        // pick some triangles to be congruent, this will be the statement to be proven
-        var indices = KhanUtil.randRangeUnique(0, TRIANGLES.length, 2);
-        var triangle1 = TRIANGLES[indices[0]];
-        var triangle2 = TRIANGLES[indices[1]]; 
+    // while(true){
+    //     // pick some triangles to be congruent, this will be the statement to be proven
+    //     var indices = KhanUtil.randRangeUnique(0, TRIANGLES.length, 2);
+    //     var triangle1 = TRIANGLES[indices[0]];
+    //     var triangle2 = TRIANGLES[indices[1]]; 
 
-        //ensure these triangles can be congruent
-        if(isRelationPossible([triangle1, triangle2])){
-            traceBack([triangle1, triangle2], 2);
-            break;
-        }
-    }
+    //     //ensure these triangles can be congruent
+    //     if(isRelationPossible([triangle1, triangle2])){
+    //         traceBack([triangle1, triangle2], 2);
+    //         break;
+    //     }
+    // }
 
     console.log(finishedEqualities);
 
@@ -153,6 +153,8 @@ function addAngs(ang1, ang2) {
 // another step back and, for every new statement that has to be true, either just state it as given
 // or call traceback on that fact with depth - 1
 // traceBack assumes that the given relation is possible
+// if you give traceBack a statement that is impossible because of some fact of the diagram given,
+// no man or God can help you
 function traceBack(statementKey, depth){
     console.log("running traceback with ");
     console.log(statementKey);
@@ -397,7 +399,7 @@ function isRelationPossible(key){
     // if the relation is between two segments, check to make sure one is not part of the other
     if(key[0] instanceof Seg){
         var sharedEndpoint = _.intersection([key[0].end1, key[0].end2], [key[1].end1, key[1].end2]);
-        if(sharedEndpoint.length == 0){
+        if(sharedEndpoint.length != 1){
             return true;
         }
         else{
@@ -407,8 +409,9 @@ function isRelationPossible(key){
             
             // see if any angles given as 180 degrees are of the form shared - end - end
             var tempAng = new Ang(sharedEndpoint, otherSegEnd1, otherSegEnd2);
-            for(i=0; i<supplementary_angles.length; i++){
-                if(supplementary_angles[i].equals(tempAng)){
+            var tempAng2 = new Ang(sharedEndpoint, otherSegEnd2, otherSegEnd1);
+            for(k=0; k<supplementary_angles.length; k++){
+                if(supplementary_angles[k].equals(tempAng) || supplementary_angles[k].equals(tempAng2)){
                     return false;
                 }
             }
@@ -418,13 +421,35 @@ function isRelationPossible(key){
     // if the relation is between two angles, check to make sure one is not part of the other
     else if(key[0] instanceof Ang){
         //angles must share one endpoint and their midpoint, and have one different endpoint
-        
+        return !(key[0].mid == key[1].mid && 
+            ((key[0].end1 == key[1].end1 && key[0].end2 != key[1].end2) || 
+            (key[0].end1 == key[1].end2 && key[0].end2 != key[1].end1) ||
+            (key[0].end2 == key[1].end1 && key[0].end1 != key[1].end2) ||
+            (key[0].end2 == key[1].end2 && key[0].end1 != key[1].end1)))
+
     }
     // if the relation is congruency between two triangles, check to make sure no segment of one
     // triangle is a part of a segment of the other triangle, nor is any angle of one a part of an
     // angle of the other
     else if(key[0] instanceof Triang){
+        for(i=0; i<key[0].segs.length; i++){
+            for(j=0; j<key[1].segs.length; j++){
+                if(!isRelationPossible([key[0].segs[i], key[1].segs[j]])){
+                    return false;
+                }
+            }
+        }
 
+        for(i=0; i<key[0].angs.length; i++){
+            for(j=0; j<key[1].angs.length; j++){
+                if(!isRelationPossible([key[0].angs[i], key[1].angs[j]])){
+                    console.log([key[0].angs[i], key[1].angs[j]]);
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
 
