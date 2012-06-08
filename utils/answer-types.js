@@ -1020,8 +1020,8 @@ $.extend(Khan.answerTypes, {
             'Radius: <span id="current-radius"><code>1</code></span>\n' +
             "</td>")
             .append("<td>\n"+
-            '<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />\n' +
-            '<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />\n' +
+            '<input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />\n' +
+            '<input type="button" class="simple-button mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />\n' +
             "</td>").tmpl();
         table.append(row);
 
@@ -1030,8 +1030,8 @@ $.extend(Khan.answerTypes, {
             'Angle: <span id="current-angle"><code>0</code></span>\n' +
             "</td>")
             .append("<td>\n"+
-            '<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />\n' +
-            '<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />\n' +
+            '<input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />\n' +
+            '<input type="button" class="simple-button mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />\n' +
             "</td>").tmpl();
         table.append(row);
 

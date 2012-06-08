@@ -54,16 +54,16 @@
                 <div class="solution" data-type="multiple">
                     <div style="margin-bottom: 10px;">
                         Cut into
-                        <input type="button" value="-" class="simple-button action-gradient" onclick="KhanUtil.changePieces( false )">
+                        <input type="button" value="-" class="simple-button" onclick="KhanUtil.changePieces( false )">
                         <span id="pieces" style="display: inline-block; width: 54px; text-align: center;">1 piece</span>
-                        <input type="button" value="+" class="simple-button action-gradient" onclick="KhanUtil.changePieces( true )">
+                        <input type="button" value="+" class="simple-button" onclick="KhanUtil.changePieces( true )">
                     </div>
 
                     <div style="margin-bottom: 10px;">
                         <span style="display:inline-block; width: 42px;">Copy</span>
-                        <input type="button" value="-" class="simple-button action-gradient" onclick="KhanUtil.changeTimes( false, 'current_block' )" disabled="disabled">
+                        <input type="button" value="-" class="simple-button" onclick="KhanUtil.changeTimes( false, 'current_block' )" disabled="disabled">
                         <span id="current_block_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
-                        <input type="button" value="+" class="simple-button action-gradient" onclick="KhanUtil.changeTimes( true, 'current_block' )">
+                        <input type="button" value="+" class="simple-button" onclick="KhanUtil.changeTimes( true, 'current_block' )">
                     </div>
 
                     <span class="sol" id="current_block_answer" style="display: none;"><var>roundTo( 3, ANSWER )</var></span>
