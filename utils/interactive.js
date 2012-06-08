@@ -470,9 +470,13 @@ $.extend(KhanUtil, {
         movablePoint.transform = function() {
             var scaledPoint = graph.scalePoint(this.coord);
 
-            this.visibleShape.transform("T"+scaledPoint[0]+","+scaledPoint[1]);
-            this.mouseTarget.attr({ cx: scaledPoint[0] });
-            this.mouseTarget.attr({ cy: scaledPoint[1] });
+            if (this.visible) {
+                this.visibleShape.transform("T"+scaledPoint[0]+","+scaledPoint[1]);
+            }
+            if (!this.fixed && this.visible) {
+                this.mouseTarget.attr({ cx: scaledPoint[0] });
+                this.mouseTarget.attr({ cy: scaledPoint[1] });
+            }
         }
 
         movablePoint.transform();
