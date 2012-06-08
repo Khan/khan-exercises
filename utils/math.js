@@ -311,7 +311,7 @@ $.extend(KhanUtil, {
     // Get a random integer between min and max with a perc chance of hitting
     // target (which is assumed to be in the range, but it doesn't have to be).
     randRangeWeighted: function(min, max, target, perc) {
-        if (KhanUtil.random() < perc) {
+        if (KhanUtil.random() < perc || (target === min && target === max)) {
             return target;
         } else {
             return KhanUtil.randRangeExclude(min, max, [target]);
