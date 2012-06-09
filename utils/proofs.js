@@ -51,6 +51,7 @@ function initTriangleCongruence(segs, angs, triangles, supplementary_angs) {
         finishedSupplementary[supplementary_angs[i]] = "Given";
     }
 
+    console.log(addAngs(ANGLES[2], addAngs(ANGLES[4], ANGLES[5])));
 
     while(true){
         // pick some triangles to be congruent, this will be the statement to be proven
@@ -86,11 +87,19 @@ Seg.prototype.equals = function(otherSeg) {
     return (this.end1 == otherSeg.end1 && this.end2 == otherSeg.end2) || (this.end1 == other.end2 && this.end2 == other.end1);
 }
 
-function Ang(end1, mid, end2) {
+function Ang(end1, mid, end2, parts) {
     this.end1 = end1;
     this.end2 = end2;
     this.mid = mid;
     this.triangles = [];
+    // defined if this angle is made up of other angles
+    // consists of Ang objects
+    if(parts == null){
+        this.angleParts = [this];
+    }
+    else{
+        this.angleParts = _.flatten(parts);
+    }
 }
 
 Ang.prototype.toString = function() {
@@ -132,16 +141,16 @@ Triang.prototype.toString = function() {
 // added to form a larger angle
 function addAngs(ang1, ang2) {
     if(ang1.mid == ang2.mid && ang1.end1 == ang2.end1) {
-        return new Ang(ang1.end2, ang1.mid, ang2.end2);
+        return new Ang(ang1.end2, ang1.mid, ang2.end2, [ang1.angleParts, ang2.angleParts]);
     }
     else if(ang1.mid == ang2.mid && ang1.end1 == ang2.end2) {
-        return new Ang(ang1.end2, ang1.mid, ang2.end1);
+        return new Ang(ang1.end2, ang1.mid, ang2.end1, [ang1.angleParts, ang2.angleParts]);
     }
     else if(ang1.mid == ang2.mid && ang1.end2 == ang2.end1) {
-        return new Ang(ang1.end1, ang1.mid, ang2.end2);
+        return new Ang(ang1.end1, ang1.mid, ang2.end2, [ang1.angleParts, ang2.angleParts]);
     }
     else if(ang1.mid == ang2.mid && ang1.end2 == ang2.end2) {
-        return new Ang(ang1.end1, ang1.mid, ang2.end1);
+        return new Ang(ang1.end1, ang1.mid, ang2.end1, [ang1.angleParts, ang2.angleParts]);
     }
 }
 
@@ -393,6 +402,7 @@ function setGivenOrTraceBack(key, oldKey, dep){
     else{
         console.log("relation " +key+" is not possible, tracing back "+oldKey);
         if(KhanUtil.random() < 0.25){
+            // you have failed me for the last time
             finishedEqualities[oldKey] = "Given";
             finishedEqualities[oldKey.reverse()] = "Given";
         }
@@ -428,12 +438,8 @@ function isRelationPossible(key){
     }
     // if the relation is between two angles, check to make sure one is not part of the other
     else if(key[0] instanceof Ang){
-        //angles must share one endpoint and their midpoint, and have one different endpoint
-        return !(key[0].mid == key[1].mid && 
-            ((key[0].end1 == key[1].end1 && key[0].end2 != key[1].end2) || 
-            (key[0].end1 == key[1].end2 && key[0].end2 != key[1].end1) ||
-            (key[0].end2 == key[1].end1 && key[0].end1 != key[1].end2) ||
-            (key[0].end2 == key[1].end2 && key[0].end1 != key[1].end1)))
+        //angles keep track of their constituent parts in an angleParts field
+        return !(key[0] in key[1].angleParts || key[1] in key[0].angleParts);
 
     }
     // if the relation is congruency between two triangles, check to make sure no segment of one
@@ -451,7 +457,6 @@ function isRelationPossible(key){
         for(var i=0; i<key[0].angs.length; i++){
             for(var j=0; j<key[1].angs.length; j++){
                 if(!isRelationPossible([key[0].angs[i], key[1].angs[j]])){
-                    console.log([key[0].angs[i], key[1].angs[j]]);
                     return false;
                 }
             }

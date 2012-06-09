@@ -46,21 +46,19 @@
                 return segments;
             }), true)</var>
 
-            <var id="ang1">new Ang("B","A","C")</var>
-            <var id="ang2">new Ang("A","B","C")</var>
-            <var id="ang3">new Ang("A","C","B")</var>
-            <var id="ang4">new Ang("C","B","D")</var>
-            <var id="ang5">new Ang("B","C","D")</var>
-            <var id="ang6">new Ang("D","C","E")</var>
-            <var id="ang7">new Ang("B","D","C")</var>
-            <var id="ang8">new Ang("C","D","E")</var>
-            <var id="ang9">new Ang("C","E","D")</var>
-            <var id="ang10">new Ang("A","B","D")</var>
-            <var id="ang11">new Ang("A","C","E")</var>
+            <var id="ang1">new Ang("B","A","C", null)</var>
+            <var id="ang2">new Ang("A","B","C", null)</var>
+            <var id="ang3">new Ang("A","C","B", null)</var>
+            <var id="ang4">new Ang("C","B","D", null)</var>
+            <var id="ang5">new Ang("B","C","D", null)</var>
+            <var id="ang6">new Ang("D","C","E", null)</var>
+            <var id="ang7">new Ang("B","D","C", null)</var>
+            <var id="ang8">new Ang("C","D","E", null)</var>
+            <var id="ang9">new Ang("C","E","D", null)</var>
 
             <var id="ANGS">[ang1, ang2, ang3, ang4, ang5, ang6, ang7, ang8, ang9]</var>
 
-            <var id="SUPPLEMENTARY_ANGS">[ang10, ang11]</var>
+            <var id="SUPPLEMENTARY_ANGS">[addAngs(ang2, ang4), addAngs(ang3, addAngs(ang5, ang6))]</var>
 
             <var id="ADE">new Triang([AD, DE, EA], [addAngs(ang7, ang8), ang9, ang1])</var>
             <var id="ABC">new Triang([BC, CA, AB], [ang3, ang1, ang2])</var>
