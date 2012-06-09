@@ -36,36 +36,34 @@ function initTriangleCongruence(segs, angs, triangles, supplementary_angs) {
     supplementary_angles = supplementary_angs;
 
     //populate knownEqualities based on reflexivity
-    for(i=0; i<SEGMENTS.length; i++){
+    for(var i=0; i<SEGMENTS.length; i++){
         knownEqualities[[SEGMENTS[i], SEGMENTS[i]]] = "Same segment";
         finishedEqualities[[SEGMENTS[i], SEGMENTS[i]]] = "Same segment";
     }
 
-    for(i=0; i<ANGLES.length; i++){
+    for(var i=0; i<ANGLES.length; i++){
         knownEqualities[[ANGLES[i], ANGLES[i]]] = "Same angle";
         finishedEqualities[[ANGLES[i], ANGLES[i]]] = "Same angle";
     }
 
     //populate the known supplementary angles
-    for(i=0; i<supplementary_angs.length; i++){
+    for(var i=0; i<supplementary_angs.length; i++){
         finishedSupplementary[supplementary_angs[i]] = "Given";
     }
 
-    console.log(isRelationPossible([TRIANGLES[0], TRIANGLES[1]]));
-    console.log(isRelationPossible([TRIANGLES[1], TRIANGLES[3]]));
 
-    // while(true){
-    //     // pick some triangles to be congruent, this will be the statement to be proven
-    //     var indices = KhanUtil.randRangeUnique(0, TRIANGLES.length, 2);
-    //     var triangle1 = TRIANGLES[indices[0]];
-    //     var triangle2 = TRIANGLES[indices[1]]; 
+    while(true){
+        // pick some triangles to be congruent, this will be the statement to be proven
+        var indices = KhanUtil.randRangeUnique(0, TRIANGLES.length, 2);
+        var triangle1 = TRIANGLES[indices[0]];
+        var triangle2 = TRIANGLES[indices[1]]; 
 
-    //     //ensure these triangles can be congruent
-    //     if(isRelationPossible([triangle1, triangle2])){
-    //         traceBack([triangle1, triangle2], 2);
-    //         break;
-    //     }
-    // }
+        //ensure these triangles can be congruent
+        if(isRelationPossible([triangle1, triangle2])){
+            traceBack([triangle1, triangle2], 2);
+            break;
+        }
+    }
 
     console.log(finishedEqualities);
 
@@ -108,12 +106,12 @@ Ang.prototype.equals = function(otherAng) {
 // segs[0], angs[0], segs[1], angs[1], segs[2], angs[2] proceeding around the triangle.
 function Triang(segs, angs) {
     this.segs = segs;
-    for(i=0; i<3; i++){
+    for(var i=0; i<3; i++){
         segs[i].triangles.push([this, i]);
     }
 
     this.angs = angs;
-    for(i=0; i<3; i++){
+    for(var i=0; i<3; i++){
         angs[i].triangles.push([this, i]);
     }
 }
@@ -156,8 +154,7 @@ function addAngs(ang1, ang2) {
 // if you give traceBack a statement that is impossible because of some fact of the diagram given,
 // no man or God can help you
 function traceBack(statementKey, depth){
-    console.log("running traceback with ");
-    console.log(statementKey);
+    console.log("running traceback with " + statementKey);
     // if this statement is already known, we don't want to trace it back any more
     if(statementKey in finishedEqualities){
         return;
@@ -193,7 +190,7 @@ function traceBack(statementKey, depth){
                     finishedEqualities[[triangle1, triangle2]] = "SSS";
                     finishedEqualities[[triangle2, triangle1]] = "SSS";
 
-                    for(i=0; i<3; i++){
+                    for(var i=0; i<3; i++){
                         if(! ([triangle1.segs[i], triangle2.segs[i]] in finishedEqualities)){
                             setGivenOrTraceBack([triangle1.segs[i], triangle2.segs[(i+indexDiff)%3]], statementKey, depth-1);
                             
@@ -291,8 +288,8 @@ function traceBack(statementKey, depth){
                     finishedEqualities[[triangle2, triangle1]] = "SSS";
 
                     //the finished proof should include that all the segments are congruent
-                    for(i=0; i<3; i++){
-
+                    for(var i=0; i<3; i++){
+                        console.log("iterating "+[triangle1.segs[i], triangle2.segs[i]]);   
                         setGivenOrTraceBack([triangle1.segs[i], triangle2.segs[i]], statementKey, depth-1);
                     }
                 }
@@ -351,13 +348,15 @@ function traceBack(statementKey, depth){
             // we also don't want triangles which are already known to be congruent
             var newTriangles = [];
 
-            for(i=0; i<seg1.triangles.length; i++){
-                for(j=0; j<seg2.triangles.length; j++){
-                    if(!([seg1.triangles[i], seg2.triangles[j]] in finishedEqualities)){
+            for(var i=0; i<seg1.triangles.length; i++){
+                for(var j=0; j<seg2.triangles.length; j++){
+                    if(!([seg1.triangles[i][0], seg2.triangles[j][0]] in finishedEqualities)){
                         newTriangles.push([seg1.triangles[i][0], seg2.triangles[j][0]]);
                     }
                 }
             }
+
+            console.log(newTriangles);
 
             // if there are no eligible triangle pairs, we simply give the segment equality as given
             if(newTriangles.length == 0){
@@ -381,7 +380,9 @@ function traceBack(statementKey, depth){
 // if it is not, it will pass oldKey to traceBack, since the old statement needs to find new justification
 function setGivenOrTraceBack(key, oldKey, dep){
     if(isRelationPossible(key)){
+        console.log("relation " +key+" is possible");
         if(KhanUtil.random() < 0.5){
+            console.log("setting relation "+key+" to Given");
             finishedEqualities[key] = "Given";
             finishedEqualities[key.reverse()] = "Given";
         }
@@ -390,7 +391,14 @@ function setGivenOrTraceBack(key, oldKey, dep){
         }
     }
     else{
-        traceBack(oldKey, dep+1);
+        console.log("relation " +key+" is not possible, tracing back "+oldKey);
+        if(KhanUtil.random() < 0.25){
+            finishedEqualities[oldKey] = "Given";
+            finishedEqualities[oldKey.reverse()] = "Given";
+        }
+        else{
+            traceBack(oldKey, dep+1);
+        }
     }
 }
 
@@ -410,7 +418,7 @@ function isRelationPossible(key){
             // see if any angles given as 180 degrees are of the form shared - end - end
             var tempAng = new Ang(sharedEndpoint, otherSegEnd1, otherSegEnd2);
             var tempAng2 = new Ang(sharedEndpoint, otherSegEnd2, otherSegEnd1);
-            for(k=0; k<supplementary_angles.length; k++){
+            for(var k=0; k<supplementary_angles.length; k++){
                 if(supplementary_angles[k].equals(tempAng) || supplementary_angles[k].equals(tempAng2)){
                     return false;
                 }
@@ -432,16 +440,16 @@ function isRelationPossible(key){
     // triangle is a part of a segment of the other triangle, nor is any angle of one a part of an
     // angle of the other
     else if(key[0] instanceof Triang){
-        for(i=0; i<key[0].segs.length; i++){
-            for(j=0; j<key[1].segs.length; j++){
+        for(var i=0; i<key[0].segs.length; i++){
+            for(var j=0; j<key[1].segs.length; j++){
                 if(!isRelationPossible([key[0].segs[i], key[1].segs[j]])){
                     return false;
                 }
             }
         }
 
-        for(i=0; i<key[0].angs.length; i++){
-            for(j=0; j<key[1].angs.length; j++){
+        for(var i=0; i<key[0].angs.length; i++){
+            for(var j=0; j<key[1].angs.length; j++){
                 if(!isRelationPossible([key[0].angs[i], key[1].angs[j]])){
                     console.log([key[0].angs[i], key[1].angs[j]]);
                     return false;
@@ -529,8 +537,8 @@ function checkSegEqual(seg1, seg2){
         return true;
     }
 
-    for(i=0; i<seg1.triangles.length; i++){
-        for(j=0; j<seg2.triangles.length; j++){
+    for(var i=0; i<seg1.triangles.length; i++){
+        for(var j=0; j<seg2.triangles.length; j++){
             // if the segments' corresponding triangles are congruent AND they're the same part of those triangles, we add
             // to the known equalities
             if(triangleCongruent(seg1.triangles[i][0], seg2.triangles[j][0]) && seg1.triangles[i][1] == seg2.triangles[j][1]){
@@ -551,8 +559,8 @@ function checkAngEqual(ang1, ang2){
 
     // if the angles' corresponding triangles are congruent AND they're the same part of those triangles, we add
     // to the known equalities
-    for(i=0; i<ang1.triangles.length; i++){
-        for(j=0; j<ang2.triangles.length; j++){
+    for(var i=0; i<ang1.triangles.length; i++){
+        for(var j=0; j<ang2.triangles.length; j++){
             if(triangleCongruent(ang1.triangles[i][0], ang2.triangles[j][0]) && ang1.triangles[i][1] == ang2.triangles[j][1]){
                 knownEqualities[[ang1,ang2]] = "Congruent parts of congruent triangles are equal";
                 knownEqualities[[ang2,ang1]] = "Congruent parts of congruent triangles are equal";
@@ -564,7 +572,7 @@ function checkAngEqual(ang1, ang2){
     //if the angles share a midpoint, and their endpoints are part of two segments, then the angles are vertical
     if(ang1.mid == ang2.mid){
         var sharedLines = 0;
-        for(i=0; i<SEGMENTS.length; i++){
+        for(var i=0; i<SEGMENTS.length; i++){
             if(SEGMENTS[i][0] == ang1.end1 && SEGMENTS[i][1] == ang2.end1 ||
                 SEGMENTS[i][0] == ang1.end1 && SEGMENTS[i][1] == ang2.end2 ||
                 SEGMENTS[i][0] == ang1.end2 && SEGMENTS[i][1] == ang2.end1 ||
