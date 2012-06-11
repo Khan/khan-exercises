@@ -1,5 +1,10 @@
 
-
+/*
+TODO:
+add vertical angles
+add parallel lines
+prune givens
+*/
 // knownEqualities consists of a list of pairs of each object
 // known in the course of proof to be equal
 var knownEqualities;
@@ -51,22 +56,22 @@ function initTriangleCongruence(segs, angs, triangles, supplementary_angs) {
         finishedSupplementary[supplementary_angs[i]] = "Given";
     }
 
-    console.log(addAngs(ANGLES[2], addAngs(ANGLES[4], ANGLES[5])));
 
-    while(true){
-        // pick some triangles to be congruent, this will be the statement to be proven
-        var indices = KhanUtil.randRangeUnique(0, TRIANGLES.length, 2);
-        var triangle1 = TRIANGLES[indices[0]];
-        var triangle2 = TRIANGLES[indices[1]]; 
+    // while(true){
+    //     // pick some triangles to be congruent, this will be the statement to be proven
+    //     var indices = KhanUtil.randRangeUnique(0, TRIANGLES.length, 2);
+    //     var triangle1 = TRIANGLES[indices[0]];
+    //     var triangle2 = TRIANGLES[indices[1]]; 
 
-        //ensure these triangles can be congruent
-        if(isRelationPossible([triangle1, triangle2])){
-            traceBack([triangle1, triangle2], 2);
-            break;
-        }
-    }
+    //     //ensure these triangles can be congruent
+    //     if(isRelationPossible([triangle1, triangle2])){
+    //         traceBack([triangle1, triangle2], 2);
+    //         break;
+    //     }
+    // }
 
     console.log(finishedEqualities);
+    console.log(_.any(SEGMENTS, function(seg){return seg.end1=="A" && seg.end2=="B"}));
 
 }
 
@@ -354,6 +359,9 @@ function traceBack(statementKey, depth){
             var seg1 = statementKey[0];
             var seg2 = statementKey[1];
 
+            finishedEqualities[[seg1, seg2]] = "Corresponding parts of congruent triangles are congruent";
+            finishedEqualities[[seg2, seg1]] = "Corresponding parts of congruent triangles are congruent";
+
             // we also don't want triangles which are already known to be congruent
             var newTriangles = [];
 
@@ -365,8 +373,6 @@ function traceBack(statementKey, depth){
                 }
             }
 
-            console.log(newTriangles);
-
             // if there are no eligible triangle pairs, we simply give the segment equality as given
             if(newTriangles.length == 0){
                 finishedEqualities[statementKey] = "Given";
@@ -376,10 +382,80 @@ function traceBack(statementKey, depth){
                 setGivenOrTraceBack(newTriangles[KhanUtil.randRange(0, newTriangles.length-1)], statementKey, depth-1);
             }
         }
+
         // if we know two angles to be equal
         else if(statementKey[0] instanceof Ang){
-            finishedEqualities[statementKey] = "Given";
-            finishedEqualities[statementKey.reverse()] = "Given";
+            // two angles are equal if they are part of congruent triangles or if they are
+            // vertical, or if they are alternate interior/exterior angles
+            // if the given pair of angles is vertical/alternate etc., we would rather use that than
+            // a triangle congruency
+
+            var ang1 = statementKey[0];
+            var ang2 = statementKey[1]; 
+
+            // check to see if angles are vertical
+            // TODO switch to using _.any
+            var sharedLines = 0;
+            for(var i=0; i<SEGMENTS.length; i++){
+                if(SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end1)) ||
+                    SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end2)) ||
+                    SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end1)) ||
+                    SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end2))){
+                    sharedLines += 1;
+                }
+            }
+            if(ang1.mid == ang2.mid && sharedLines == 2){
+                finishedEqualities[[ang1, ang2]] = "Vertical angles are equal";
+                finishedEqualities[[ang2, ang1]] = "Vertical angles are equal";
+                return;
+            }
+        
+            // check to see if angles are alternate interior
+            // for two angles to be alternate interior, there must be a line from one midpoint to the other
+            var midPointSeg = new Seg(ang1.mid, ang2.mid);
+            if(_.any(SEGMENTS, function(seg){ return seg.equals(midPointSeg); })){
+                // now one side of each angle must be a part of, or all of, this mid point line
+                // and the the side for one angle which is not part of the mid point line
+                // must be parallel to the side for the other angle not part of the mid point line
+                var ang1Segs = [new Seg(ang1.mid, ang1.end1), new Seg(ang1.mid, ang1.end2)];
+                var ang2Segs = [new Seg(ang2.mid, ang2.end1), new Seg(ang2.mid, ang2.end2)];
+                for(var i=0; i<2; i++){
+                    for(var j=0; j<2; j++){
+                        if((!isRelationPossible(ang1Segs[i], midPointSeg) || ang1Segs[i].equals(midPointSeg)) &&
+                            (!isRelationPossible(ang2Segs[j], midPointSeg) || ang2Segs[j].equals(midPointSeg)) &&
+                            [ang1Segs[(i+1) % 2], ang2Segs[(i+1) % 2]] in knownParallel){
+                            finishedEqualities[[ang1, ang2]] = "Alternate interior angles are equal";
+                            finishedEqualities[[ang2, ang1]] = "Alternate interior angles are equal";
+                            return;
+                        }
+                    }
+                }
+            }
+            
+
+            // otherwise, pick two triangles which have these two angles
+            
+            // select only for triangles which are not already known to be congruent
+            var newTriangles = [];
+
+            for(var i=0; i<ang1.triangles.length; i++){
+                for(var j=0; j<ang2.triangles.length; j++){
+                    if(!([ang1.triangles[i][0], ang2.triangles[j][0]] in finishedEqualities)){
+                        newTriangles.push([ang1.triangles[i][0], ang2.triangles[j][0]]);
+                    }
+                }
+            }
+
+            // if there are no eligible triangle pairs, set the angle equality to given
+            if(newTriangles.length == 0){
+                finishedEqualities[statementKey] = "Given";
+                finishedEqualities[statementKey.reverse()] = "Given";
+            }
+            else{
+                setGivenOrTraceBack(newTriangles[KhanUtil.randRange(0, newTriangles.length-1)], statementKey, depth-1);
+            }
+            
+
         }
     }
 }
