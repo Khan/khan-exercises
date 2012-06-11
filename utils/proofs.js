@@ -203,27 +203,32 @@ function traceBack(statementKey, depth){
             // if the triangles share vertical angles, use that fact
             var verticalAngs = null;
             for(var i=0; i<3; i++){
+                var ang1 = triangle1.angs[i];
                 for(var j=0; j<3; j++){
-                    var ang1 = triangle1.angs[i];
                     var ang2 = triangle2.angs[j];
-                    var sharedLines = 0;
-                    for(var i=0; i<SEGMENTS.length; i++){
-                        if(SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end1)) ||
-                            SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end2)) ||
-                            SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end1)) ||
-                            SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end2))){
-                            sharedLines += 1;
+                    if(ang1.mid == ang2.mid){
+                        var sharedLines = 0;
+                        for(var k=0; k<SEGMENTS.length; k++){
+                            if(SEGMENTS[k].equals(new Seg(ang1.end1, ang2.end1)) ||
+                                SEGMENTS[k].equals(new Seg(ang1.end1, ang2.end2)) ||
+                                SEGMENTS[k].equals(new Seg(ang1.end2, ang2.end1)) ||
+                                SEGMENTS[k].equals(new Seg(ang1.end2, ang2.end2))){
+                                sharedLines += 1;
+                            }
                         }
-                    }
 
-                    if(ang1.mid == ang2.mid && sharedLines == 2){
-                        verticalAngs = [i, j];
-                        break;
+                        console.log(sharedLines);
+
+                        // vertical angles should share two sets of lines, counted twice for reasons of
+                        // this being written stupidly
+                        if(sharedLines == 4){
+                            verticalAngs = [i, j];
+                            break;
+                        }
                     }
                 }
             }
 
-            console.log("checked for vertical angles");
 
             // if the triangles have alternate interior angles, use that fact
             var alternateAngs = null;
@@ -353,8 +358,9 @@ function traceBack(statementKey, depth){
 
             // triangle congruence case 2: triangles have vertical angles
             else if(verticalAngs != null){
-                finishedEqualities[[triangle1[verticalAngs[0]], triangle2[verticalAngs[1]]]] = "Vertical angles are equal";
-                finishedEqualities[[triangle1[verticalAngs[1]], triangle2[verticalAngs[0]]]] = "Vertical angles are equal";
+                console.log("in vertical case");
+                finishedEqualities[[triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[1]]]] = "Vertical angles are equal";
+                finishedEqualities[[triangle1.angs[verticalAngs[1]], triangle2.angs[verticalAngs[0]]]] = "Vertical angles are equal";
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
@@ -816,6 +822,8 @@ function checkAngEqual(ang1, ang2){
             return true;
         }
     }
+
+    // TODO check for alternate interior
 
     return false;
 
