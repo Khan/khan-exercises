@@ -10,9 +10,9 @@
     <div class="vars">
         <var id="FACTOR">0</var>
         <!-- ensure equal probability of yes or no -->
-        <var id="SOLUTION">randFromArray(["Yes", "No"])</var>
+        <var id="DIVISIBLE">randFromArray([true, false])</var>
         <var id="NUMBER"
-            data-ensure="SOLUTION === 'No' ^ NUMBER % FACTOR === 0">
+            data-ensure="!DIVISIBLE ^ (NUMBER % FACTOR === 0)">
             randRange(10000, 1000000)
         </var>
     </div>
@@ -22,7 +22,7 @@
         <code><var>FACTOR</var></code>?
     </p>
 
-    <p class="solution"><var>SOLUTION</var></p>
+    <p class="solution"><var>DIVISIBLE ? "Yes" : "No"</var></p>
     <ul class="choices" data-category="true">
         <li>Yes</li>
         <li>No</li>
@@ -36,7 +36,7 @@
 
             <div class="hints">
                 <p>Any even number is divisible by <code>2</code>.</p>
-                <p data-if="SOLUTION === 'Yes'">
+                <p data-if="DIVISIBLE">
                     <code><var>NUMBER</var></code> is even, so yes, it is
                     divisible by <code>2</code>.
                 </p>
@@ -129,8 +129,8 @@
                                 if (placeValue === 1) {
                                     return "";
                                 }
-                                return "&amp;&amp;" + v + "\\cdot" +
-                                    (placeValue - 1);
+                                return "&amp;&amp;\\gray{" + v + "\\cdot" +
+                                    (placeValue - 1) + "}";
                             }).join("+ \\\\")</var>&amp;&amp;
                             \blue{<var>integerToDigits(NUMBER)
                                 .join("}+\\blue{")</var>}
@@ -170,7 +170,7 @@
                         divisible by <code><var>FACTOR</var></code>.
                     </p>
                 </div>
-                <p data-if="SOLUTION === 'Yes'">
+                <p data-if="DIVISIBLE">
                     <code><var>_.last(STEPS).sum</var></code> is divisible
                     by <code><var>FACTOR</var></code>, therefore
                     <code>\blue{<var>NUMBER</var>}</code>
@@ -228,7 +228,7 @@
                     <code><var>NUMBER % 100</var></code>,
                     divisble by <code>4</code>?
                 </p>
-                <p data-if="SOLUTION === 'Yes'">
+                <p data-if="DIVISIBLE">
                     Yes,
                     <code>\blue{<var>NUMBER % 100</var> \div 4 =
                     <var>NUMBER % 100 / 4</var>}</code>, so
@@ -254,7 +254,7 @@
                     A number is divisible by <code>5</code> if the last
                     digit is a <code>0</code> or a <code>5</code>.
                 </p>
-                <p data-if="SOLUTION === 'Yes'">
+                <p data-if="DIVISIBLE">
                     The last digit of <code><var>NUMBER</var></code> is
                     <code><var>NUMBER % 10</var></code>, so yes
                     <code><var>NUMBER</var></code> is divisible by
@@ -285,7 +285,7 @@
                     A number is divisible by <code>10</code> if the last
                     digit is a <code>0</code>.
                 </p>
-                <p data-if="SOLUTION === 'Yes'">
+                <p data-if="DIVISIBLE">
                     The last digit of <code><var>NUMBER</var></code> is
                     <code><var>NUMBER % 10</var></code>, so yes
                     <code><var>NUMBER</var></code> is divisible by
