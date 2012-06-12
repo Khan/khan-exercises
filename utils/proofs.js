@@ -252,7 +252,7 @@ function Triang(segs, angs) {
 }
 
 Triang.prototype.toString = function() {
-    return "\bigtriangleup" + this.segs[0].end1 + this.segs[0].end2 + this.segs[1].end2;
+    return"\bigtriangleup" + this.angs[0].end1 + this.angs[0].mid + this.angs[0].end2;
 }
 
 // If two smaller line segments share an endpoint, we can define a new
@@ -555,6 +555,9 @@ function traceBack(statementKey, depth){
                 finishedEqualities[[triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[1]]]] = "Alternate interior angles are equal";
                 finishedEqualities[[triangle2.angs[alternateAngs[1]], triangle1.angs[alternateAngs[0]]]] = "Alternate interior angles are equal";
 
+                // in this case we actually need to make sure we name the triangles correctly so that the corresponding angles are in
+                // the right places: so if angle BAC is = to angle 
+
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
 
@@ -797,8 +800,21 @@ function isRelationPossible(key){
     }
     // if the relation is between two angles, check to make sure one is not part of the other
     else if(key[0] instanceof Ang){
+
+        for(var i=0; i<key[1].angleParts.length; i++){
+            if(key[0].equals(key[1].angleParts[i])){
+                return false;
+            }
+        }
+
+        for(var i=0; i<key[0].angleParts.length; i++){
+            if(key[1].equals(key[0].angleParts[i])){
+                return false;
+            }
+        }
+
         //angles keep track of their constituent parts in an angleParts field
-        return !(key[0] in key[1].angleParts || key[1] in key[0].angleParts);
+        return true;
 
     }
     // if the relation is congruency between two triangles, check to make sure no segment of one
