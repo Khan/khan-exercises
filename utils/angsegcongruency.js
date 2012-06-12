@@ -1,21 +1,21 @@
 $.extend(KhanUtil, {
-    Angles: function(x1, x2, y1, diff, angle) {
+    Angles: function(x1, x2, y1, y2, angle) {
         var graph = KhanUtil.currentGraph;
 
         // draw the parallel lines
-        graph.line([x1, y1],        [x2, y1]);
-        graph.line([x1, y1 + diff], [x2, y1 + diff]);
+        graph.line([x1, y1], [x2, y1]);
+        graph.line([x1, y2], [x2, y2]);
 
         var slope = Math.tan(KhanUtil.toRadians(angle));
-        var middle = [(x2 - x1) / 2, y1 + diff / 2];
+        var middle = [(x2 - x1) / 2, (y1 + y2) / 2];
 
         // takes a y position, and returns the x position of the point
         var invfunc = function(y) {
             return (y - middle[1]) / slope + middle[0];
         };
 
-        var bottomIntersect = [invfunc(y1),        y1];
-        var topIntersect    = [invfunc(y1 + diff), y1 + diff];
+        var bottomIntersect = [invfunc(y1), y1];
+        var topIntersect    = [invfunc(y2), y2];
 
         // scale = -1: returns end
         // scale =  0: returns (start + end) / 2
