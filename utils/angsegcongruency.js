@@ -128,7 +128,8 @@ $.extend(KhanUtil, {
             // Hint an angle by changing its unset color
             arc.hint = function(color) {
                 this.unsetNormal.stroke = color;
-                this.unsetNormal.opacity = 0.3;
+                this.unsetNormal.opacity = 0.4;
+                this.unsetHighlight.opacity = 0.5;
                 this.arc.attr(this.unsetNormal);
             }
 
