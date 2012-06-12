@@ -11,19 +11,19 @@ from django.utils import simplejson, html, encoding
 from django.conf import settings
 
 def repo(request, template_name="repo.html"):
-    with closing(urlopen("http://github.com/api/v2/json/pulls/%s/%s" % (settings.SANDCASTLE_USER, settings.SANDCASTLE_REPO))) as u:
+    with closing(urlopen("https://api.github.com/repos/%s/%s/pulls" % (settings.SANDCASTLE_USER, settings.SANDCASTLE_REPO))) as u:
         pull_data = u.read()
 
 
-    with closing(urlopen("http://github.com/api/v2/json/repos/show/%s/%s/branches" % (settings.SANDCASTLE_USER, settings.SANDCASTLE_REPO))) as u:
+    with closing(urlopen("https://api.github.com/repos/%s/%s/branches" % (settings.SANDCASTLE_USER, settings.SANDCASTLE_REPO))) as u:
         branch_data = u.read()
 
     pulls = simplejson.loads(pull_data)
     branches = simplejson.loads(branch_data)
 
     context = {
-        'pulls': pulls['pulls'],
-        'branches': branches['branches'],
+        'pulls': pulls,
+        'branches': branches,
     }
 
     return render_to_response(
@@ -37,12 +37,12 @@ def sandcastle(request, number=None, branch=None):
 
     if number:
         try:
-            with closing(urlopen("http://github.com/api/v2/json/pulls/%s/%s/%s" % (settings.SANDCASTLE_USER, settings.SANDCASTLE_REPO, number))) as u:
+            with closing(urlopen("https://api.github.com/repos/%s/%s/pulls/%s" % (settings.SANDCASTLE_USER, settings.SANDCASTLE_REPO, number))) as u:
                 pull_data = u.read()
         except HTTPError:
             raise Http404
         pull_data = simplejson.loads(pull_data)
-        user, branch = pull_data['pull']['head']['label'].split(":")
+        user, branch = pull_data['head']['label'].split(":")
     elif ":" in branch:
         user, branch = branch.split(":")
 
@@ -58,7 +58,7 @@ def sandcastle(request, number=None, branch=None):
         call(["git", "clone", "--branch=%s" % branch, "git://github.com/%s/%s.git" % (user, settings.SANDCASTLE_REPO), name])
 
     if number:
-        with closing(urlopen(pull_data['pull']['diff_url'])) as u:
+        with closing(urlopen(pull_data['diff_url'])) as u:
             patch = encoding.force_unicode(u.read(), errors='ignore')
 
         patch = html.escape(patch)
@@ -68,8 +68,8 @@ def sandcastle(request, number=None, branch=None):
         patch_linked = html.mark_safe(patch)
 
         context = {
-            'title': pull_data['pull']['title'],
-            'body': pull_data['pull']['body'],
+            'title': pull_data['title'],
+            'body': pull_data['body'],
             'patch': patch_linked,
             'all_files': all_files,
             'castle': castle,

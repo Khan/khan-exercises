@@ -4,7 +4,7 @@
 <h2>Branches</h2>
 <ul>
 	{% for branch in branches %}
-	<li><a href="{% url sandcastle branch=branch %}">{{ branch }}</a></li>
+	<li><a href="{% url sandcastle branch=branch.name %}">{{ branch.name }}</a></li>
 	{% endfor %}
 </ul>
 
