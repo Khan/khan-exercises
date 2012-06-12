@@ -2,14 +2,14 @@ $.extend(KhanUtil, {
     Angles: function(x1, x2, y1, y2, angle) {
         var graph = KhanUtil.currentGraph;
 
-        // draw the parallel lines
+        // Draw the parallel lines
         graph.line([x1, y1], [x2, y1]);
         graph.line([x1, y2], [x2, y2]);
 
         var slope = Math.tan(KhanUtil.toRadians(angle));
         var middle = [(x2 - x1) / 2, (y1 + y2) / 2];
 
-        // takes a y position, and returns the x position of the point
+        // Takes a y position, and returns the x position of the point
         var invfunc = function(y) {
             return (y - middle[1]) / slope + middle[0];
         };
@@ -25,13 +25,13 @@ $.extend(KhanUtil, {
                     (scale / 2 + 0.5) * start[1] + (0.5 - scale / 2) * end[1]];
         };
 
-        // draw the diagonal line
+        // Draw the diagonal line
         graph.line(scaleLine(bottomIntersect, topIntersect,  1.6),
                    scaleLine(bottomIntersect, topIntersect, -1.6));
 
-        // add an arc to the diagram
+        // Add an arc to the diagram
         var addArc = function(position, radius, startAng, endAng) {
-            // create the initial arc
+            // Create the initial arc
             var arc = {
                 arc: graph.arc(position, radius, startAng, endAng),
                 position: position,
@@ -51,14 +51,14 @@ $.extend(KhanUtil, {
             arc.point = KhanUtil.addMovablePoint({
                             coord: pointPos,
                         });
-            // increase the point's size
+            // Increase the point's size
             arc.point.mouseTarget.attr({ r: 30.0 });
-            // make it not move
+            // Make it not move
             arc.point.onMove = function(x, y) {
                 return pointPos;
             };
 
-            // replace the shape with our arc
+            // Replace the shape with our arc
             arc.point.visibleShape.remove();
             arc.point.visibleShape = arc.arc;
 
@@ -84,11 +84,11 @@ $.extend(KhanUtil, {
                 opacity: 1.0
             };
 
-            // set the default styles
+            // Set the default styles
             arc.point.normalStyle = arc.unsetNormal;
             arc.point.highlightStyle = arc.unsetHighlight;
 
-            // remake the arc (meaning removing and re-creating it)
+            // Remake the arc (meaning removing and re-creating it)
             arc.remake = function(radius) {
                 this.radius = radius;
                 this.arc.remove();
@@ -97,7 +97,7 @@ $.extend(KhanUtil, {
                 this.point.visibleShape = this.arc;
             };
 
-            // toggle between set and not-set
+            // Toggle between set and not-set
             arc.toggle = function() {
                 if (this.set) {
                     this.point.normalStyle = this.unsetNormal;
@@ -111,20 +111,21 @@ $.extend(KhanUtil, {
                 this.set = !this.set;
             };
 
-            // add a click event
+            // Add a click event
             $(arc.point.mouseTarget[0]).bind("vmousedown", function(event) {
                 arc.toggle();
             });
 
-            // force the arc to be set, for a pre-given point
+            // Force the arc to be set, for a pre-given point
             arc.force = function() {
                 this.point.highlightStyle = this.forceHighlight;
                 this.remake(0.8);
-                // remove the mouse target entirely
+                // Remove the mouse target entirely
                 $(this.point.mouseTarget[0]).unbind();
                 this.point.mouseTarget.remove();
             };
 
+            // Hint an angle by changing its unset color
             arc.hint = function(color) {
                 this.unsetNormal.stroke = color;
                 this.unsetNormal.opacity = 0.3;
@@ -134,11 +135,11 @@ $.extend(KhanUtil, {
             return arc;
         };
 
-        // the default style
+        // The default style
         graph.style({ stroke: KhanUtil.GRAY, opacity: 0.1 });
 
 
-        // Add all four angles, and store in an array
+        // Add all eight angles, and store in an array
         this.angles = [];
 
         this.angles.push(addArc(bottomIntersect, 0.6, 0, angle));
@@ -151,16 +152,17 @@ $.extend(KhanUtil, {
         this.angles.push(addArc(topIntersect, 0.6, 180, 180+angle));
         this.angles.push(addArc(topIntersect, 0.6, 180+angle, 360));
 
-        // exposed function to force setting of arcs
+        // Exposed function to force setting of arcs
         this.setAngle = function(index) {
             this.angles[index].force();
         };
 
-        // exposed function for checking if angles are set
+        // Exposed function for checking if angles are set
         this.isSet = function(index) {
             return this.angles[index].set;
         };
 
+        // Exposed function for hinting an angle
         this.hint = function(index, color) {
             this.angles[index].hint(color);
         };
