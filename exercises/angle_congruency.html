@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive angsegcongruency">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Congruent Angles</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="ANGLE">randRange(40, 140)</var>
+                <var id="GIVEN">randRange(0, 7)</var>
+                <var id="SOLUTION">[(GIVEN + 2) % 8,
+                                    (GIVEN + 4) % 8,
+                                    (GIVEN + 6) % 8]</var>
+            </div>
+            <p class="question">
+                Which angles must be congruent to the <span class="hint_orange">given angle</span>?
+            </p>
+            <div class="problem">
+                <div class="graphie" id="number-line">
+                    init({
+                        range: [[-1, 11], [-1, 4]]
+                    });
+                    addMouseLayer();
+
+                    graph.angles = new Angles(0, 10, 0, 3, ANGLE);
+
+                    graph.angles.setAngle(GIVEN);
+                </div>
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Click on the congruent angles, and then click "check answer" when done.
+                </div>
+                <div class="guess">
+                    [KhanUtil.currentGraph.graph.angles.isSet(0),
+                     KhanUtil.currentGraph.graph.angles.isSet(1),
+                     KhanUtil.currentGraph.graph.angles.isSet(2),
+                     KhanUtil.currentGraph.graph.angles.isSet(3),
+                     KhanUtil.currentGraph.graph.angles.isSet(4),
+                     KhanUtil.currentGraph.graph.angles.isSet(5),
+                     KhanUtil.currentGraph.graph.angles.isSet(6),
+                     KhanUtil.currentGraph.graph.angles.isSet(7)]
+                </div>
+                <div class="validator-function">
+                    if (!_.any(guess, function(e) {
+                            return e;
+                        })) {
+                        return "";
+                    }
+                    return _.all(guess, function(e, i) {
+                                            if (e) {
+                                                return _.include(SOLUTION, i);
+                                            } else {
+                                                return !_.include(SOLUTION, i);
+                                            }
+                                        });
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
