@@ -6,12 +6,7 @@ $.extend(KhanUtil, {
         graph.line([x1, y1],        [x2, y1]);
         graph.line([x1, y1 + diff], [x2, y1 + diff]);
 
-        // converts degrees to radians
-        var toRadians = function(angle) {
-            return Math.PI * angle / 180;
-        };
-
-        var slope = Math.tan(toRadians(angle));
+        var slope = Math.tan(KhanUtil.toRadians(angle));
         var middle = [(x2 - x1) / 2, y1 + diff / 2];
 
         // takes a y position, and returns the x position of the point
@@ -47,7 +42,7 @@ $.extend(KhanUtil, {
             };
 
             // Add a movable point for clicking
-            var aveAngle = toRadians((endAng + startAng) / 2);
+            var aveAngle = KhanUtil.toRadians((endAng + startAng) / 2);
 
             var pointPos = position.slice();
             pointPos[0] += Math.cos(aveAngle) * 0.8;
