@@ -18,6 +18,9 @@ var knownEqualities;
 // the correct reasoning, at the end of the proof
 var finishedEqualities;
 
+var finalEquality;
+var finalRelation;
+
 // need to populate this list in the exercise, needed for vertical angles/
 var SEGMENTS;
 var ANGLES;
@@ -32,6 +35,8 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, parall
     knownEqualities = {};
 
     finishedEqualities = {};
+
+    finalEquality = {};
 
     SEGMENTS = segs;
     ANGLES = angs;
@@ -68,6 +73,7 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, parall
 
         //ensure these triangles can be congruent
         if(isRelationPossible([triangle1, triangle2])){
+            finalRelation = [triangle1, triangle2];
             traceBack([triangle1, triangle2], 2);
             break;
         }
@@ -87,9 +93,21 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, parall
 
     knownEqualities = _.extend(knownEqualities, givens);
 
+
     console.log(finishedEqualities);
 
-    return [givens, finishedEqualities];
+    // display list of givens
+    var newHTML = "";
+    for(var eq in givens){
+        newHTML = newHTML + eq + " because " + givens[eq] + "<br>";
+    }
+
+    console.log(newHTML);
+
+    $(".question").html(newHTML);
+
+
+    return [givens, finalRelation];
 
 }
 
@@ -118,7 +136,41 @@ function verifyStatement(){
 
         console.log(checkTriangleCongruent(triangle1, triangle2));
     }
+
+    else if(category == "angle equality"){
+        var angleStrings = statement.split("=");
+
+        var ang1 = new Ang(angleStrings[0][0], angleStrings[0][1], angleStrings[0][2]);
+        var ang2 = new Ang(angleStrings[1][0], angleStrings[1][1], angleStrings[1][2]);
+
+        console.log(checkAngEqual(ang1, ang2));
+    }
+
+    else if(category == "segment equality"){
+        var segmentStrings = statement.split("=");
+
+        var seg1 = new Seg(segmentStrings[0][0], segmentStrings[0][1]);
+        var seg2 = new Seg(segmentStrings[1][0], segmentStrings[1][1]);
+
+        console.log(checkSegEqual(seg1, seg2));
+    }
+
+    // now update the list of equalities displayed
+
+    console.log($(".question").html());
+
+    var newHTML = "";
+    for(var eq in knownEqualities){
+        if(knownEqualities[eq].substring(0,4) != "Same"){
+            newHTML = newHTML + eq + " because " + knownEqualities[eq] + "<br>";
+        }
+    }
+
+    console.log(newHTML);
+
+    $(".question").html(newHTML);
 }
+
 
 // defines the primitive geometric objects: line segments, angles, and triangles
 // The triangles field consists of pairs (triangle, i), where this segment/angle
@@ -181,7 +233,7 @@ function Triang(segs, angs) {
 }
 
 Triang.prototype.toString = function() {
-    return "triangle" + this.segs[0] + ":" + this.segs[1] + ":" + this.segs[2];
+    return "\bigtriangleup" + this.segs[0].end1 + this.segs[0].end2 + this.segs[1].end2;
 }
 
 // If two smaller line segments share an endpoint, we can define a new
@@ -775,52 +827,56 @@ function checkTriangleCongruent(triangle1, triangle2) {
     }
 
     //ASA
-    else if(eqIn([triangle1.angs[0], triangle2.angs[0]], knownEqualities) && eqIn([triangle1.segs[1], triangle2.segs[1]], knownEqualities)
-        && eqIn([triangle1.angs[1], triangle2.angs[1]], knownEqualities)){
-        knownEqualities[[triangle1,triangle2]] = "Congruent by ASA";
-        knownEqualities[[triangle2,triangle1]] = "Congruent by ASA";
-        return true;
-    }
-    else if(eqIn([triangle1.angs[1], triangle2.angs[1]], knownEqualities) && eqIn([triangle1.segs[2], triangle2.segs[2]], knownEqualities)
-        && eqIn([triangle1.angs[2], triangle2.angs[2]], knownEqualities)){
-        knownEqualities[[triangle1,triangle2]] = "Congruent by ASA";
-        knownEqualities[[triangle2,triangle1]] = "Congruent by ASA";
-        return true;
-    }
-    else if(eqIn([triangle1.angs[2], triangle2.angs[2]], knownEqualities) && eqIn([triangle1.segs[0], triangle2.segs[0]], knownEqualities)
-        && eqIn([triangle1.angs[0], triangle2.angs[0]], knownEqualities)){
-        knownEqualities[[triangle1,triangle2]] = "Congruent by ASA";
-        knownEqualities[[triangle2,triangle1]] = "Congruent by ASA";
-        return true;
+    for(var i=0; i<3; i++){
+        if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
+            && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], knownEqualities)
+            && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)){
+
+            knownEqualities[[triangle1,triangle2]] = "Congruent by ASA";
+            knownEqualities[[triangle2,triangle1]] = "Congruent by ASA";
+            return true;
+        }
     }
 
     //SAS
-    else if(eqIn([triangle1.segs[0], triangle2.segs[0]], knownEqualities) && eqIn([triangle1.angs[0], triangle2.angs[0]], knownEqualities)
-        && eqIn([triangle1.segs[1], triangle2.segs[1]], knownEqualities)){
-        knownEqualities[[triangle1,triangle2]] = "Congruent by SAS";
-        knownEqualities[[triangle2,triangle1]] = "Congruent by SAS";
-        return true;
+    for(var i=0; i<3; i++){
+        if(eqIn([triangle1.segs[i], triangle2.segs[i]], knownEqualities) && eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities)
+        && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], knownEqualities)){
+
+            knownEqualities[[triangle1,triangle2]] = "Congruent by SAS";
+            knownEqualities[[triangle2,triangle1]] = "Congruent by SAS";
+            return true;
+        }
     }
-    else if(eqIn([triangle1.segs[1], triangle2.segs[1]], knownEqualities) && eqIn([triangle1.angs[1], triangle2.angs[1]], knownEqualities)
-        && eqIn([triangle1.segs[2], triangle2.segs[2]], knownEqualities)){
-        knownEqualities[[triangle1,triangle2]] = "Congruent by SAS";
-        knownEqualities[[triangle2,triangle1]] = "Congruent by SAS";
-        return true;
-    }
-    else if(eqIn([triangle1.segs[2], triangle2.segs[2]], knownEqualities) && eqIn([triangle1.angs[2], triangle2.angs[2]], knownEqualities)
-        && eqIn([triangle1.segs[0], triangle2.segs[0]], knownEqualities)){
-        knownEqualities[[triangle1,triangle2]] = "Congruent by SAS";
-        knownEqualities[[triangle2,triangle1]] = "Congruent by SAS";
-        return true;
-    }
+    
 
     //AAS
+    for(var i=0; i<3; i++){
+        if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
+            && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)
+            && eqIn([triangle1.segs[(i+2) % 3], triangle2.segs[(i+2) % 3]], knownEqualities)){
 
-
-
-    else{
-        return false;
+            knownEqualities[[triangle1,triangle2]] = "Congruent by AAS";
+            knownEqualities[[triangle2,triangle1]] = "Congruent by AAS";
+            return true;
+        }
     }
+    
+    //AAS part II
+    for(var i=0; i<3; i++){
+        if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
+            && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)
+            && eqIn([triangle1.segs[i], triangle2.segs[i]], knownEqualities)){
+
+            knownEqualities[[triangle1,triangle2]] = "Congruent by AAS";
+            knownEqualities[[triangle2,triangle1]] = "Congruent by AAS";
+            return true;
+        }
+    }
+
+
+    return false;
+    
 }
 
 
@@ -884,6 +940,29 @@ function checkAngEqual(ang1, ang2){
     }
 
     // TODO check for alternate interior
+    var midPointSeg = new Seg(ang1.mid, ang2.mid);
+    if(_.any(SEGMENTS, function(seg){ return seg.equals(midPointSeg); })){
+        // now one side of each angle must be a part of, or all of, this mid point line
+        // and the the side for one angle which is not part of the mid point line
+        // must be parallel to the side for the other angle not part of the mid point line
+        var ang1Segs = [new Seg(ang1.mid, ang1.end1), new Seg(ang1.mid, ang1.end2)];
+        var ang2Segs = [new Seg(ang2.mid, ang2.end1), new Seg(ang2.mid, ang2.end2)];
+        for(var k=0; k<2; k++){
+            for(var l=0; l<2; l++){
+                if((!isRelationPossible(ang1Segs[k], midPointSeg) || ang1Segs[k].equals(midPointSeg)) &&
+                    (!isRelationPossible(ang2Segs[l], midPointSeg) || ang2Segs[l].equals(midPointSeg)) &&
+                    _.any(parallelSegments, function(pair){ 
+                        return (ang1Segs[(k+1) % 2].equals(pair[0]) && ang2Segs[(l+1) % 2].equals(pair[1])) ||
+                            (ang1Segs[(k+1) % 2].equals(pair[1]) && ang2Segs[(l+1) % 2].equals(pair[0])); })) {
+
+                    knownEqualities[[ang1,ang2]] = "Alternate interior angles are equal";
+                    knownEqualities[[ang2,ang1]] = "Alternate interior angles are equal";
+                    return true;
+                }
+            }
+        }
+    }
+
 
     return false;
 
