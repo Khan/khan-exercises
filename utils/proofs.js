@@ -239,25 +239,39 @@ function traceBack(statementKey, depth){
                     var ang2 = triangle2.angs[j];
 
                     var midPointSeg = new Seg(ang1.mid, ang2.mid);
+                    console.log(midPointSeg+" i = "+i);
                     if(_.any(SEGMENTS, function(seg){ return seg.equals(midPointSeg); })){
+                        console.log("midPointSeg is segment");
                         // now one side of each angle must be a part of, or all of, this mid point line
                         // and the the side for one angle which is not part of the mid point line
                         // must be parallel to the side for the other angle not part of the mid point line
                         var ang1Segs = [new Seg(ang1.mid, ang1.end1), new Seg(ang1.mid, ang1.end2)];
                         var ang2Segs = [new Seg(ang2.mid, ang2.end1), new Seg(ang2.mid, ang2.end2)];
-                        for(var i=0; i<2; i++){
-                            for(var j=0; j<2; j++){
-                                if((!isRelationPossible(ang1Segs[i], midPointSeg) || ang1Segs[i].equals(midPointSeg)) &&
-                                    (!isRelationPossible(ang2Segs[j], midPointSeg) || ang2Segs[j].equals(midPointSeg)) &&
+                        for(var k=0; k<2; k++){
+                            for(var l=0; l<2; l++){
+                                if((!isRelationPossible(ang1Segs[k], midPointSeg) || ang1Segs[k].equals(midPointSeg)) &&
+                                    (!isRelationPossible(ang2Segs[l], midPointSeg) || ang2Segs[l].equals(midPointSeg)) &&
                                     _.any(parallelSegments, function(pair){ 
-                                        return (ang1Segs[(i+1) % 2].equals(pair[0]) && ang2Segs[(j+1) % 2].equals(pair[1])) ||
-                                            (ang1Segs[(i+1) % 2].equals(pair[1]) && ang2Segs[(j+1) % 2].equals(pair[0])); })) {
+                                        return (ang1Segs[(k+1) % 2].equals(pair[0]) && ang2Segs[(l+1) % 2].equals(pair[1])) ||
+                                            (ang1Segs[(k+1) % 2].equals(pair[1]) && ang2Segs[(l+1) % 2].equals(pair[0])); })) {
                                     alternateAngs = [i, j];
                                     break;
                                 }
                             }
                         }
                     }
+                }
+            }
+
+            console.log(alternateAngs);
+
+            // if there are vertical angles and alternate interior angles, use one or the other
+            if(verticalAngs != null && alternateAngs != null){
+                if(KhanUtil.random() < 0.5 ){
+                    verticalAngs = null;
+                }
+                else{
+                    alternateAngs = null;
                 }
             }
 
@@ -360,7 +374,7 @@ function traceBack(statementKey, depth){
             else if(verticalAngs != null){
                 console.log("in vertical case");
                 finishedEqualities[[triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[1]]]] = "Vertical angles are equal";
-                finishedEqualities[[triangle1.angs[verticalAngs[1]], triangle2.angs[verticalAngs[0]]]] = "Vertical angles are equal";
+                finishedEqualities[[triangle2.angs[verticalAngs[1]], triangle1.angs[verticalAngs[0]]]] = "Vertical angles are equal";
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
@@ -424,8 +438,8 @@ function traceBack(statementKey, depth){
 
             // triangle congruence case 3: triangles have alternate interior angles
             else if(alternateAngs != null){
-                finishedEqualities[[triangle1[alternateAngs[0]], triangle2[alternateAngs[1]]]] = "Alternate interior angles are equal";
-                finishedEqualities[[triangle1[alternateAngs[1]], triangle2[alternateAngs[0]]]] = "Alternate interior angles are equal";
+                finishedEqualities[[triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[1]]]] = "Alternate interior angles are equal";
+                finishedEqualities[[triangle2.angs[alternateAngs[1]], triangle1.angs[alternateAngs[0]]]] = "Alternate interior angles are equal";
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
