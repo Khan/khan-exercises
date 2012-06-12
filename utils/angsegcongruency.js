@@ -1,21 +1,28 @@
 $.extend(KhanUtil, {
-    Angles: function(x1, x2, y1, y2, angle) {
+    addAngles: function(options) {
+        var angles = $.extend(true, {
+            x1: 0,
+            x2: 10,
+            y1: 0,
+            y2: 3,
+            angle: 60
+        }, options);
         var graph = KhanUtil.currentGraph;
 
         // Draw the parallel lines
-        graph.line([x1, y1], [x2, y1]);
-        graph.line([x1, y2], [x2, y2]);
+        graph.line([angles.x1, angles.y1], [angles.x2, angles.y1]);
+        graph.line([angles.x1, angles.y2], [angles.x2, angles.y2]);
 
-        var slope = Math.tan(KhanUtil.toRadians(angle));
-        var middle = [(x2 - x1) / 2, (y1 + y2) / 2];
+        var slope = Math.tan(KhanUtil.toRadians(angles.angle));
+        var middle = [(angles.x2 - angles.x1) / 2, (angles.y1 + angles.y2) / 2];
 
         // Takes a y position, and returns the x position of the point
         var invfunc = function(y) {
             return (y - middle[1]) / slope + middle[0];
         };
 
-        var bottomIntersect = [invfunc(y1), y1];
-        var topIntersect    = [invfunc(y2), y2];
+        var bottomIntersect = [invfunc(angles.y1), angles.y1];
+        var topIntersect    = [invfunc(angles.y2), angles.y2];
 
         // scale = -1: returns end
         // scale =  0: returns (start + end) / 2
@@ -141,33 +148,33 @@ $.extend(KhanUtil, {
 
 
         // Add all eight angles, and store in an array
-        this.angles = [];
+        angles.angles = [];
 
-        this.angles.push(addArc(bottomIntersect, 0.6, 0, angle));
-        this.angles.push(addArc(bottomIntersect, 0.6, angle, 180));
-        this.angles.push(addArc(bottomIntersect, 0.6, 180, 180+angle));
-        this.angles.push(addArc(bottomIntersect, 0.6, 180+angle, 360));
+        angles.angles.push(addArc(bottomIntersect, 0.6, 0, angles.angle));
+        angles.angles.push(addArc(bottomIntersect, 0.6, angles.angle, 180));
+        angles.angles.push(addArc(bottomIntersect, 0.6, 180, 180+angles.angle));
+        angles.angles.push(addArc(bottomIntersect, 0.6, 180+angles.angle, 360));
 
-        this.angles.push(addArc(topIntersect, 0.6, 0, angle));
-        this.angles.push(addArc(topIntersect, 0.6, angle, 180));
-        this.angles.push(addArc(topIntersect, 0.6, 180, 180+angle));
-        this.angles.push(addArc(topIntersect, 0.6, 180+angle, 360));
+        angles.angles.push(addArc(topIntersect, 0.6, 0, angles.angle));
+        angles.angles.push(addArc(topIntersect, 0.6, angles.angle, 180));
+        angles.angles.push(addArc(topIntersect, 0.6, 180, 180+angles.angle));
+        angles.angles.push(addArc(topIntersect, 0.6, 180+angles.angle, 360));
 
         // Exposed function to force setting of arcs
-        this.setAngle = function(index) {
+        angles.setAngle = function(index) {
             this.angles[index].force();
         };
 
         // Exposed function for checking if angles are set
-        this.isSet = function(index) {
+        angles.isSet = function(index) {
             return this.angles[index].set;
         };
 
         // Exposed function for hinting an angle
-        this.hint = function(index, color) {
+        angles.hint = function(index, color) {
             this.angles[index].hint(color);
         };
 
-        return this;
+        return angles;
     }
 });
