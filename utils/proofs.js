@@ -10,6 +10,10 @@ TODO:
 
 -verify user proofs
 */
+
+// indicates that the user has finished the proof
+var userProofDone;
+
 // knownEqualities consists of a list of pairs of each object
 // known in the course of proof to be equal
 var knownEqualities;
@@ -32,6 +36,8 @@ var supplementaryAngles;
 var parallelSegments;
 
 function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, parallelSegs) {
+    userProofDone = false;
+
     knownEqualities = {};
 
     finishedEqualities = {};
@@ -115,60 +121,73 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, parall
 
 // use knownequalities to see if the statement follows, if it does, update knownequalities
 function verifyStatement(){
-    var statement = $(".statement").val();
-    var category = $(".statement_type").val();
 
-    if(category == "triangle congruence"){
-        var triangleStrings = statement.split("=");
+    if(!userProofDone){
+        var statement = $(".statement").val();
+        var category = $(".statement_type").val();
 
-        var triangle1 = new Triang([new Seg(triangleStrings[0][0], triangleStrings[0][1]), new Seg(triangleStrings[0][1], triangleStrings[0][2]),
-            new Seg(triangleStrings[0][2], triangleStrings[0][0])], [new Ang(triangleStrings[0][0], triangleStrings[0][1], triangleStrings[0][2]), 
-            new Ang(triangleStrings[0][1], triangleStrings[0][2], triangleStrings[0][0]), new Ang(triangleStrings[0][2], triangleStrings[0][0],
-                triangleStrings[0][1])]);
+        if(category == "triangle congruence"){
+            var triangleStrings = statement.split("=");
 
-        var triangle2 = new Triang([new Seg(triangleStrings[1][0], triangleStrings[1][1]), new Seg(triangleStrings[1][1], triangleStrings[1][2]),
-            new Seg(triangleStrings[1][2], triangleStrings[1][0])], [new Ang(triangleStrings[1][0], triangleStrings[1][1], triangleStrings[1][2]), 
-            new Ang(triangleStrings[1][1], triangleStrings[1][2], triangleStrings[1][0]), new Ang(triangleStrings[1][2], triangleStrings[1][0],
-                triangleStrings[1][1])]);
+            var triangle1 = new Triang([new Seg(triangleStrings[0][0], triangleStrings[0][1]), new Seg(triangleStrings[0][1], triangleStrings[0][2]),
+                new Seg(triangleStrings[0][2], triangleStrings[0][0])], [new Ang(triangleStrings[0][0], triangleStrings[0][1], triangleStrings[0][2]), 
+                new Ang(triangleStrings[0][1], triangleStrings[0][2], triangleStrings[0][0]), new Ang(triangleStrings[0][2], triangleStrings[0][0],
+                    triangleStrings[0][1])]);
 
-        console.log("knownEqualities: ");
-        console.log(knownEqualities);
+            var triangle2 = new Triang([new Seg(triangleStrings[1][0], triangleStrings[1][1]), new Seg(triangleStrings[1][1], triangleStrings[1][2]),
+                new Seg(triangleStrings[1][2], triangleStrings[1][0])], [new Ang(triangleStrings[1][0], triangleStrings[1][1], triangleStrings[1][2]), 
+                new Ang(triangleStrings[1][1], triangleStrings[1][2], triangleStrings[1][0]), new Ang(triangleStrings[1][2], triangleStrings[1][0],
+                    triangleStrings[1][1])]);
 
-        console.log(checkTriangleCongruent(triangle1, triangle2));
-    }
+            console.log("knownEqualities: ");
+            console.log(knownEqualities);
 
-    else if(category == "angle equality"){
-        var angleStrings = statement.split("=");
-
-        var ang1 = new Ang(angleStrings[0][0], angleStrings[0][1], angleStrings[0][2]);
-        var ang2 = new Ang(angleStrings[1][0], angleStrings[1][1], angleStrings[1][2]);
-
-        console.log(checkAngEqual(ang1, ang2));
-    }
-
-    else if(category == "segment equality"){
-        var segmentStrings = statement.split("=");
-
-        var seg1 = new Seg(segmentStrings[0][0], segmentStrings[0][1]);
-        var seg2 = new Seg(segmentStrings[1][0], segmentStrings[1][1]);
-
-        console.log(checkSegEqual(seg1, seg2));
-    }
-
-    // now update the list of equalities displayed
-
-    console.log($(".question").html());
-
-    var newHTML = "";
-    for(var eq in knownEqualities){
-        if(knownEqualities[eq].substring(0,4) != "Same"){
-            newHTML = newHTML + eq + " because " + knownEqualities[eq] + "<br>";
+            console.log(checkTriangleCongruent(triangle1, triangle2));
         }
+
+        else if(category == "angle equality"){
+            var angleStrings = statement.split("=");
+
+            var ang1 = new Ang(angleStrings[0][0], angleStrings[0][1], angleStrings[0][2]);
+            var ang2 = new Ang(angleStrings[1][0], angleStrings[1][1], angleStrings[1][2]);
+
+            console.log(checkAngEqual(ang1, ang2));
+        }
+
+        else if(category == "segment equality"){
+            var segmentStrings = statement.split("=");
+
+            var seg1 = new Seg(segmentStrings[0][0], segmentStrings[0][1]);
+            var seg2 = new Seg(segmentStrings[1][0], segmentStrings[1][1]);
+
+            console.log(checkSegEqual(seg1, seg2));
+        }
+
+        // now update the list of equalities displayed
+
+        console.log($(".question").html());
+
+        var newHTML = "";
+        for(var eq in knownEqualities){
+            if(knownEqualities[eq].substring(0,4) != "Same"){
+                newHTML = newHTML + eq + " because " + knownEqualities[eq] + "<br>";
+            }
+        }
+
+        console.log(newHTML);
+
+        $(".question").html(newHTML);
+
+        // check if the proof is done
+        if(eqIn(finalRelation, knownEqualities)){
+            userProofDone = true;
+            console.log("Proof finished");
+        }
+
     }
 
-    console.log(newHTML);
 
-    $(".question").html(newHTML);
+
 }
 
 
@@ -810,9 +829,6 @@ function isRelationPossible(key){
 // are congruent if they are, and false if they are not.
 function checkTriangleCongruent(triangle1, triangle2) {
     
-    console.log(triangle1.segs[0]+", "+triangle2.segs[0]);
-    console.log(triangle1.angs[0]+", "+triangle2.angs[0]);
-
     //if already known
     if([triangle1,triangle2] in knownEqualities){
         return true;
