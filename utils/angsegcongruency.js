@@ -68,30 +68,30 @@ $.extend(KhanUtil, {
             arc.point.visibleShape = arc.arc;
 
             // Colors for different states
-            var unsetNormal = {
+            arc.unsetNormal = {
                 stroke: KhanUtil.GRAY,
                 opacity: 0.1
             };
-            var unsetHighlight = {
+            arc.unsetHighlight = {
                 stroke: KhanUtil.BLUE,
                 opacity: 0.4
             };
-            var setNormal = {
+            arc.setNormal = {
                 stroke: KhanUtil.BLUE,
                 opacity: 0.9
             };
-            var setHighlight = {
+            arc.setHighlight = {
                 stroke: KhanUtil.BLUE,
                 opacity: 1.0
             };
-            var forceHighlight = {
+            arc.forceHighlight = {
                 stroke: KhanUtil.ORANGE,
                 opacity: 1.0
             };
 
             // set the default styles
-            arc.point.normalStyle = unsetNormal;
-            arc.point.highlightStyle = unsetHighlight;
+            arc.point.normalStyle = arc.unsetNormal;
+            arc.point.highlightStyle = arc.unsetHighlight;
 
             // remake the arc (meaning removing and re-creating it)
             arc.remake = function(radius) {
@@ -105,12 +105,12 @@ $.extend(KhanUtil, {
             // toggle between set and not-set
             arc.toggle = function() {
                 if (this.set) {
-                    this.point.normalStyle = unsetNormal;
-                    this.point.highlightStyle = unsetHighlight;
+                    this.point.normalStyle = this.unsetNormal;
+                    this.point.highlightStyle = this.unsetHighlight;
                     this.remake(0.6);
                 } else {
-                    this.point.normalStyle = setNormal;
-                    this.point.highlightStyle = setHighlight;
+                    this.point.normalStyle = this.setNormal;
+                    this.point.highlightStyle = this.setHighlight;
                     this.remake(0.8);
                 }
                 this.set = !this.set;
@@ -123,12 +123,18 @@ $.extend(KhanUtil, {
 
             // force the arc to be set, for a pre-given point
             arc.force = function() {
-                this.point.highlightStyle = forceHighlight;
+                this.point.highlightStyle = this.forceHighlight;
                 this.remake(0.8);
                 // remove the mouse target entirely
                 $(this.point.mouseTarget[0]).unbind();
                 this.point.mouseTarget.remove();
             };
+
+            arc.hint = function(color) {
+                this.unsetNormal.stroke = color;
+                this.unsetNormal.opacity = 0.3;
+                this.arc.attr(this.unsetNormal);
+            }
 
             return arc;
         };
@@ -158,6 +164,10 @@ $.extend(KhanUtil, {
         // exposed function for checking if angles are set
         this.isSet = function(index) {
             return this.angles[index].set;
+        };
+
+        this.hint = function(index, color) {
+            this.angles[index].hint(color);
         };
 
         return this;

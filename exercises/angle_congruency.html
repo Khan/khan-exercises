@@ -15,6 +15,7 @@
                 <var id="SOLUTION">[(GIVEN + 2) % 8,
                                     (GIVEN + 4) % 8,
                                     (GIVEN + 6) % 8]</var>
+                <var id="GRAPH">null</var>
             </div>
             <p class="question">
                 Which angles must be congruent to the <span class="hint_orange">given angle</span>?
@@ -29,6 +30,8 @@
                     graph.angles = new Angles(0, 10, 0, 3, ANGLE);
 
                     graph.angles.setAngle(GIVEN);
+
+                    GRAPH = graph;
                 </div>
             </div>
             <div class="solution" data-type="custom">
@@ -58,6 +61,47 @@
                                                 return !_.include(SOLUTION, i);
                                             }
                                         });
+                </div>
+            </div>
+            <div class="hints">
+                <p>Three angles are congruent to the given angle.</p>
+                <div>
+                    <p>Vertical angles are congruent, so the angle <span class="hint_red">vertical</span> to the <span class="hint_orange">given</span> is congruent.</p>
+                    <div class="graphie">
+                        if (GIVEN % 4 &lt; 2) {
+                            GRAPH.angles.hint((GIVEN + 2) % 8, RED);
+                        } else {
+                            GRAPH.angles.hint((GIVEN + 6) % 8, RED);
+                        }
+                    </div>
+                </div>
+                <div data-if="GIVEN < 2 || GIVEN > 5">
+                    <p>Opposite interior angles are congruent, so the angle <span class="hint_purple">opposite</span> of the <span class="hint_orange">given</span> is congruent</p>
+                    <div class="graphie">
+                        if (GIVEN &lt; 2) {
+                            GRAPH.angles.hint((GIVEN + 6) % 8, PURPLE);
+                        } else {
+                            GRAPH.angles.hint((GIVEN + 2) % 8, PURPLE);
+                        }
+                    </div>
+                </div>
+                <div data-else>
+                    <p>Opposite interior angles are congruent, so the angle <span class="hint_purple">opposite</span> of the <span class="hint_red">vertical angle</span> is congruent</p>
+                    <div class="graphie">
+                        GRAPH.angles.hint((GIVEN + 4) % 8, PURPLE);
+                    </div>
+                </div>
+                <div>
+                    <p>Vertical angles are congruent, so the angle <span class="hint_pink">vertical</span> to the <span class="hint_purple">opposite interior angle</span> is congruent.</p>
+                    <div class="graphie">
+                        if (GIVEN &lt; 2 || GIVEN &gt; 5) {
+                            GRAPH.angles.hint((GIVEN + 4) % 8, PINK);
+                        } else if (GIVEN &lt; 4) {
+                            GRAPH.angles.hint((GIVEN + 2) % 8, PINK);
+                        } else {
+                            GRAPH.angles.hint((GIVEN + 6) % 8, PINK);
+                        }
+                    </div>
                 </div>
             </div>
         </div>
