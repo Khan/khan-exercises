@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html data-require="math math-format probability word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Probability 3</title>
+    <style>
+    .smallRectangle {
+        position: absolute;
+        border: solid black 1px;
+    }
+    #whiteRectangle {
+        position: relative;
+        border: solid black 1px;
+        width: 200px;
+        height : 200px;
+        margin-left : 10px;
+    }
+    </style>
+    <script src="../khan-exercise.js"></script>
+    <script>
+
+    var genRectangles = function(nbRectangles, x1, y1, x2, y2, color) {
+        var width = x2 - x1;
+        var height = y2 - y1;
+        var rectangles = [];
+        if (nbRectangles === 1) {
+            var rectWidth = KhanUtil.randRange(1, width - 1);
+            var rectHeight = KhanUtil.randRange(1, height - 1);
+            var rectX = x1 + KhanUtil.randRange(0, width - rectWidth - 1);
+            var rectY = y1 + KhanUtil.randRange(0, height - rectHeight - 1);
+            return [{x:rectX, y:rectY, width:rectWidth, height:rectHeight, color:color}];
+        } else {
+            var nbRect1 = Math.floor(nbRectangles / 2);
+            var nbRect2 = nbRectangles - nbRect1;
+            if ((width > height) || ((width === height) && (KhanUtil.randRange(0, 1) === 0))) {
+                var xCut = KhanUtil.randRange(x1 + 2, x2 -2);
+                rectangles = rectangles.concat(genRectangles(nbRect1, x1, y1, xCut, y2, color));  
+                rectangles = rectangles.concat(genRectangles(nbRect2, xCut, y1, x2, y2, color));  
+            } else {
+                var yCut = KhanUtil.randRange(y1 + 2, y2 -2);
+                rectangles = rectangles.concat(genRectangles(nbRect1, x1, y1, x2, yCut, color));  
+                rectangles = rectangles.concat(genRectangles(nbRect2, x1, yCut, x2, y2, color));  
+            }
+        }
+        return rectangles;
+    }
+
+    var drawRectangles = function(rectangles) {
+        var scale = 20;
+        var strDivRects = "";
+        for (var iRect = 0; iRect < rectangles.length; iRect++) {
+            var rect = rectangles[iRect];
+            strDivRects += "<div class='smallRectangle' style='" + 
+                "top:" + (rect.y * scale) + "px;" + 
+                "left:" + (rect.x * scale) + "px;" +
+                "width:" + (rect.width * scale) + "px;" +
+                "height:" + (rect.height * scale) + "px;" +
+                "background-color:" + rect.color + ";" +
+                "z-index:" + iRect + ";'></div>";
+        }
+        $("#whiteRectangle").html(strDivRects);
+    }
+
+    var genRectangleDims = function(rectangles) {
+        var strRects = [];
+        for (var iRect = 0; iRect < rectangles.length; iRect++) {
+            var rect = rectangles[iRect];
+            strRects.push("" + rect.width + "x" + rect.height);
+        }
+        return strRects;
+    }
+
+    var genThreeRectangles = function() {
+        var color = KhanUtil.randFromArray(["yellow", "red", "pink", "blue", "green"]);
+        var rectangles = genRectangles(3, 0, 0, 10, 10, color);
+        var strProducts = [];
+        var strResults = [];
+        var totalSelectedArea = 0;
+        for (var iRect = 0; iRect < rectangles.length; iRect++) {
+            var rect = rectangles[iRect];
+            strProducts.push("(" + rect.width + "*" + rect.height + ")");
+            var area = rect.width * rect.height;
+            strResults.push("" + area);
+            totalSelectedArea += area;
+        }
+        drawRectangles(rectangles);
+        return {
+            selectedColor: color,
+            totalSelectedArea: totalSelectedArea,
+            textSelectedArea:  "<code>\\blue{" + strProducts.join("+") +
+                " = " + strResults.join("+") + " = " + totalSelectedArea + "}</code>" +
+                " <span class='hint_blue'>square inches</span>",
+            textDraw: "draws three " + color + " rectangles on it, of dimensions " +
+                KhanUtil.joinCommaAnd(genRectangleDims(rectangles)) + " inches, "
+        };
+    }
+
+    var genEmbeddedRectangles = function() {
+        var colors = KhanUtil.randFromArray([["green", "yellow"], ["red", "blue"], ["pink", "grey"]]);
+        var rectangles = [];
+        var widthRect1 = KhanUtil.randRange(3, 9);
+        var heightRect1 = KhanUtil.randRange(3, 9);
+        var xRect1 = KhanUtil.randRange(0, 10 - widthRect1);
+        var yRect1 = KhanUtil.randRange(0, 10 - heightRect1);
+        rectangles.push({x:xRect1, y:yRect1, width:widthRect1, height:heightRect1, color:colors[0]});
+        var widthRect2 = KhanUtil.randRange(1, widthRect1 - 1);
+        var heightRect2 = KhanUtil.randRange(1, heightRect1 - 1);
+        var xRect2 = xRect1 + KhanUtil.randRange(0, widthRect1 - widthRect2);
+        var yRect2 = yRect1 + KhanUtil.randRange(0, heightRect1 - heightRect2);
+        rectangles.push({x:xRect2, y:yRect2, width:widthRect2, height:heightRect2, color:colors[1]});
+        drawRectangles(rectangles);
+        var rectangleDims = genRectangleDims(rectangles);
+        var totalSelectedArea = (widthRect1 * heightRect1) - (widthRect2 * heightRect2);
+        return {
+            selectedColor: colors[0],
+            totalSelectedArea: totalSelectedArea,
+            textSelectedArea: "<code>\\blue{(" + widthRect1 + "*" + heightRect1 + ") - (" + widthRect2 + "*" + heightRect2 + ") = " +
+                totalSelectedArea + "}</code> <span class='hint_blue'>square inches</span>",
+            textDraw: "draws a " + colors[0] + " rectangle on it, of dimensions " + rectangleDims[0] + " inches, " +
+                "then draws a " + colors[1] + " rectangle within that " + colors[0] + " rectangle, of dimensions " + rectangleDims[1] + " inches, ",
+        }
+    }
+
+    // TODO: add a problem type with a line and different segments on that line (timeline?)
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="PROBLEM">randFromArray([genEmbeddedRectangles, genThreeRectangles])()</var>
+            </div>
+
+            <div class="question">
+                <div id="whiteRectangle" style="float:right">
+                </div>
+                <p><var>person(1)</var> is doing an experiment: <var>he(1)</var> takes a white sheet of paper of dimensions 10x10 inches
+                and <var>PROBLEM.textDraw</var> as shown on the right.
+                </p>
+                <p><var>He(1)</var> then closes <var>his(1)</var> eyes, and successfuly throws a dart at a random location
+                within the sheet. We assume that the dart is equally likely to hit any location within the sheet.</p>
+                <p><b>What is the probability that the dart hits a <var>PROBLEM.selectedColor</var>
+                area?</b> Write your answer as a percentage.</p>
+            </div>
+
+            <div class="solution" data-forms="percent"><var>PROBLEM.totalSelectedArea</var></div>
+
+            <div class="hints">
+                <div>
+                    <p>The probability of an event described by a condition can be expressed as:</p>
+                    <p><code>P(event) = \dfrac{\blue{\text{number of outcomes that meet the condition}}}
+                            {\orange{\text{total number of equally likely outcomes}}}</code></p>
+                    <p>There is another way to define the probability of an event: if all possible outcomes are equally likely,
+                    the probability of the event is the percentage of these outcomes that meet the condition.</p>
+                </div>
+                <div>
+                    <p>In our example, there is an infinite amount of locations within the sheet of paper that the dart can hit,
+                    so we can't count every outcome. We have to use the second definition: out of all possible locations <var>person(1)</var>
+                    can throw the dart at within the sheet, what percentage is in a <var>PROBLEM.selectedColor</var> area?</p>
+                </div>
+                <div>
+                    <p>The white recangle has a total surface of <span class="hint_orange"><code>10*10</code> or <code>100</code> square inches</span>.<br>
+                    <p>The area that is <var>PROBLEM.selectedColor</var> has a total surface of <var>PROBLEM.textSelectedArea</var>.</p>
+                </div>
+                <div>
+                    <p>So the percentage of the outcomes that are in a <var>PROBLEM.selectedColor</var> area is <b><var>PROBLEM.totalSelectedArea</var>%</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

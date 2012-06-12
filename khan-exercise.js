@@ -303,7 +303,8 @@ var Khan = (function() {
             "interactive": ["jquery.mobile.vmouse"],
             "mean-and-median": ["stat"],
             "math-model": ["ast"],
-            "simplify": ["math-model", "ast", "expr-helpers", "expr-normal-form", "steps-helpers"]
+            "simplify": ["math-model", "ast", "expr-helpers", "expr-normal-form", "steps-helpers"],
+            "probability": ["inheritance"]
         },
 
         warnTimeout: function() {

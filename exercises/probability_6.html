@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html data-require="math math-format inheritance probability word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Probability 6</title>
+    <style>
+    .distribution tr td {
+        border: solid black 1px;
+        padding: 5px;
+        text-align: center;
+    }
+    .bullets li {
+        list-style:disc;
+        margin-left:20px;
+    }
+    </style>
+    <script src="../khan-exercise.js"></script>
+    <script>
+    var getStrListItems = function(itemKind, items, usedSets, withCount, asProbas) {
+        var sumCounts = 0;
+        if (withCount) {
+            for (var iItem = 0; iItem < items.length; iItem++) {
+                sumCounts += usedSets[KhanUtil.criteriasKey(items[iItem])];   
+            }
+        }
+        var strItems = items.map(function(criterias) {
+            var term0 = itemKind.terms[0][criterias[0]];
+            var term1 = itemKind.terms[1][criterias[1]];
+            if (withCount) {
+                var nbOccs = usedSets[KhanUtil.criteriasKey(criterias)];
+                if (asProbas) {
+                    term0 = "a " + nbOccs + "% chance of being " + KhanUtil.an(term0);
+                } else {
+                    if (nbOccs > 1) {
+                        term0 = itemKind.termsPlurals[0][criterias[0]];
+                        term1 = itemKind.termsPlurals[1][criterias[1]];
+                    }
+                    term0 = nbOccs + " " + term0;
+                }
+            } else {
+                term0 = KhanUtil.an(term0);
+            }
+            return term0 + " " + itemKind.prefixes[1] + term1;
+        });
+        return "<ul class='bullets'><li>" + strItems.join("</li><li>") + "</li></ul>";
+    }
+
+    var getListUsedCriteria = function(items) {
+        var isUsed = [];
+        var listUsed = [];
+        for (var iType = 0; iType < 2; iType++) {
+            isUsed[iType] = [];
+            listUsed[iType] = [];
+            for (var iItem = 0; iItem < items.length; iItem++) {
+                var criteriaValue = items[iItem][iType];
+                if (!isUsed[iType][criteriaValue]) {
+                    isUsed[iType][criteriaValue] = true;
+                    listUsed[iType].push(criteriaValue);
+                }
+            }
+        }
+        KhanUtil.shuffle(listUsed);
+        return listUsed;
+    }
+
+    var pickTwoUsedExclusiveCriteriaOfSameType = function(items) {
+        var listUsed = getListUsedCriteria(items);
+        var type = KhanUtil.randRange(0, 1);
+        if (listUsed[type].length < 2) {
+            type = 1 - type;
+        }
+        if (listUsed[type].length < 2) {
+            return [{type:0, value:0}, {type:0, value:1}];
+        }
+        var criteria0 = {type:type, value:KhanUtil.randFromArray(listUsed[type])};
+        var criteria1 = {type:type, value:KhanUtil.randFromArrayExclude(listUsed[type], [criteria0.value])};
+        return [criteria0, criteria1];
+    }
+
+    var pickTwoUsedExclusiveCriteriaOfDifferentTypes = function(items, usedSets) {
+        var listUsed = getListUsedCriteria(items);
+        for (var iUsed0 = 0; iUsed0 < listUsed[0].length; iUsed0++) {
+            var critValue0 = listUsed[0][iUsed0];
+            for (var iUsed1 = 0; iUsed1 < listUsed[1].length; iUsed1++) {
+                var critValue1 = listUsed[1][iUsed1];
+                if (!usedSets[KhanUtil.criteriasKey([critValue0, critValue1])]) {
+                    return [{type:0, value:critValue0}, {type:1, value:critValue1}];
+                }
+            }
+        }
+        return pickTwoUsedExclusiveCriteriaOfSameType(items);        
+    }
+
+    var getFractionLatex = function(fraction) {
+        return "\\dfrac{" + fraction[0] + "}{" + fraction[1] + "}";
+    }
+
+    var getHintsAndSolution = function(itemKind, exclusiveCriteria, strEvents, items, usedSets, asProbas) {
+        var spanA = "<span class='hint_orange'>A</span>";
+        var spanB = "<span class='hint_blue'>B</span>";
+        var hint1 = "<p>There is no " + itemKind.name + " in this " + itemKind.container + " that is both " + 
+            "<span class='hint_orange'>" + strEvents[0] + "</span> and <span class='hint_blue'>" + strEvents[1] + "</span>" +
+            ", so the two events are said to be <b>mutually exclusive</b>.</p>";
+        var hint2 = "<p>When two events " + spanA + " and " + spanB + " are mutually exclusive, the probability of one of " + 
+            "the events occurring is the sum of the probabilities of each event occurring:</p>" +
+            "<p><code>P(\\color{" + KhanUtil.ORANGE + "}{A} \\text{ or } \\color{" + KhanUtil.BLUE + "}{B}) = " +
+            "\\color{" + KhanUtil.ORANGE + "}{P(A)} + \\color{" + KhanUtil.BLUE + "}{P(B)}</code>, " +
+            "if " + spanA + " and " + spanB + " are mutually exclusive.</p>";
+        var sumCriteria = [0, 0];
+        var hint3 = "";
+        var fracs = [];
+        var colors = ["orange", "blue"];
+        for (var iCriteria = 0; iCriteria < 2; iCriteria++) {
+            var detailSumCriteria = [];
+            var sumAll = 0;
+            var type = exclusiveCriteria[iCriteria].type;
+            var value = exclusiveCriteria[iCriteria].value;
+            for (var iItem = 0; iItem < items.length; iItem++) {
+                var item = items[iItem];
+                sumAll += usedSets[KhanUtil.criteriasKey(item)];
+                if (item[type] === value) {
+                    var amount = usedSets[KhanUtil.criteriasKey(item)];
+                    sumCriteria[iCriteria] += amount;
+                    if (asProbas) {
+                        detailSumCriteria.push(amount + "\\%");
+                    } else {
+                        detailSumCriteria.push(amount);
+                    }
+                }
+            }
+            var details = "";
+            if (detailSumCriteria.length > 1) {
+                details = detailSumCriteria.join("+") + "="
+            }
+            hint3 += "<p><span class='hint_" + colors[iCriteria] + "'>";
+            if (asProbas) {
+                hint3 += "There is a <code>" + details + sumCriteria[iCriteria] + "\\%</code>" +
+                    " probability that " + KhanUtil.person(1) + " " + itemKind.verb + "s " +
+                    strEvents[iCriteria] + ".";
+            } else {
+                hint3 += "<code>" + details + sumCriteria[iCriteria] + "</code> of the " + sumAll + " " + itemKind.pluralName;
+                if (sumCriteria[iCriteria] <= 1) {
+                    hint3 += " is " + strEvents[iCriteria];
+                } else  {
+                    hint3 += " are " + itemKind.termsPlurals[type][value];
+                    if (itemKind.suffixes[type] != "") {
+                        hint3 += itemKind.suffixes[type] + "s";
+                    }
+                }
+                fracs[iCriteria] = [sumCriteria[iCriteria], sumAll];
+                hint3 += ", so the probability that " + KhanUtil.person(1) + " " + itemKind.verb  + "s one is " +
+                    "<code>" + getFractionLatex(fracs[iCriteria]) + "</code>.";
+            }
+            hint3 += "</span></p>";
+        }
+        var hint4 = "<p>So the probability that " + KhanUtil.person(1) + " " + itemKind.verb + "s " + KhanUtil.an(itemKind.name) +
+                " that is both " + strEvents[0] + " and " + strEvents[1] + " is:</p><p>";
+        var solution;
+        if (asProbas) {
+            solution = sumCriteria[0] + sumCriteria[1];
+            hint4 += "<code>\\color{" + KhanUtil.ORANGE + "}{" + sumCriteria[0] + "\\%} + " +
+                "\\color{" + KhanUtil.BLUE + "}{" + sumCriteria[1] + "\\%}</code>, or " +
+                "<b>" + solution + "%</b>.</p>";
+        } else {
+            var sumFracs = [fracs[0][0] + fracs[1][0], fracs[0][1]];
+            var solution = Math.floor(100 * sumFracs[0] / sumFracs[1]);
+            hint4 += "<code>\\color{" + KhanUtil.ORANGE + "}{" + getFractionLatex(fracs[0]) + "}+" +
+                "\\color{" + KhanUtil.BLUE + "}{" + getFractionLatex(fracs[1]) + "}=" + getFractionLatex(sumFracs) + "</code>" +
+                " or <b>" + solution + "%</b>.</p>";
+        }
+        return {hints:[hint1, hint2, hint3, hint4], solution:solution};
+        
+    }
+
+    var getSetOfItems = function() {
+        var itemKind = KhanUtil.getRandomItemKind();
+        var usedSets = {};
+        var bag = [];
+        var events = [];
+        var questionType;
+        var reservedEvents = KhanUtil.pickCriterias(itemKind.terms);
+        usedSets[KhanUtil.criteriasKey(reservedEvents)] = true;
+        var nbItems = KhanUtil.randRange(3, 5);
+        var asProbas = KhanUtil.randRange(0, 1);
+        KhanUtil.selectRandomItems(nbItems, itemKind, usedSets, bag, asProbas);
+
+        var exclusiveCriteria;
+        if (KhanUtil.randRange(0, 1) === 0) {
+            exclusiveCriteria = pickTwoUsedExclusiveCriteriaOfSameType(bag);
+        } else {
+            exclusiveCriteria = pickTwoUsedExclusiveCriteriaOfDifferentTypes(bag, usedSets);
+        }
+        var strEvents = [];
+        for (var iEvent = 0; iEvent < 2; iEvent++) {
+            var criteria = exclusiveCriteria[iEvent];
+            strEvents.push(KhanUtil.an(itemKind.terms[criteria.type][criteria.value]) +
+                itemKind.suffixes[criteria.type]);
+        }
+        var question = "What is the probability that " + KhanUtil.person(1) + " " + itemKind.verb + "s " +
+            KhanUtil.an(itemKind.name) + " that is " + strEvents[0] + " or " + strEvents[1] + "?";
+
+        var statement = KhanUtil.person(1) + " randomly " + itemKind.verb + "s one " + itemKind.name + " out of a " +
+            itemKind.container;
+        if (asProbas) {
+            statement += " so that it has:</p>";
+        } else {
+            statement += " that contains the following " + itemKind.pluralName + ":</p>";
+        }
+        statement += "<p>" + getStrListItems(itemKind, bag, usedSets, true, asProbas);
+        statement += itemKind.comment;
+        var hintsAndSol = getHintsAndSolution(itemKind, exclusiveCriteria, strEvents, bag, usedSets, asProbas);
+        return {
+            statement: statement,
+            question: question,
+            hints: hintsAndSol.hints,
+            solution: hintsAndSol.solution
+        };
+    }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="PROBLEM">randFromArray([getSetOfItems])()</var>
+            </div>
+
+            <div class="question">
+                <var>PROBLEM.statement</var>
+                <p><var>PROBLEM.question</var></p>
+            </div>
+
+					<p class="solution" data-forms="percent"><var>PROBLEM.solution</var></p>
+
+    		<div class="hints">
+	    		<div data-each="PROBLEM.hints as key, value"><var>value</var></div>
+	    	</div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

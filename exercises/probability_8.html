@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html data-require="math math-format probability probability-grid word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Probability 8</title>
+    <style>
+    .probaGrid input {
+        width:30px;
+    }
+    .probaGrid td {
+        text-align: center;
+        vertical-align: middle;
+        width: 120px;
+        height: 60px;
+    }
+    .probaGrid .in {
+        border: solid black 3px;
+    }
+    .smallGrid {
+        width:135px;
+    }
+    .smallGrid td {
+        width: 45px;
+        height: 30px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .smallGrid .in {
+        border: solid black 2px;
+    }
+    .bullet li {
+        list-style:disc;
+        margin-left:20px;        
+    }
+    </style>
+    <script src="../khan-exercise.js"></script>
+    <script>
+    var genGridProblem = function() {
+        var itemKind = KhanUtil.getRandomItemKind();
+        var selectedItems = KhanUtil.probaGrid.select2ItemsPerType(itemKind);
+        var solver = KhanUtil.getConstraintSolver();
+        var naming = KhanUtil.probaGrid.getNaming(itemKind, selectedItems, true);
+        var solution = KhanUtil.probaGrid.genSolution(naming);
+        var listVariables = KhanUtil.probaGrid.initSolver(solver, itemKind, naming, solution);
+        var setVariables = KhanUtil.probaGrid.fillKnownVariables(solver, listVariables, naming);
+        solver.findShortestPath();
+        var toughestVariable = solver.getToughestVariable();
+        solver.setOnlyNeededVariable(toughestVariable);
+        solver.findShortestPath();
+        var question = "<p>What is " + toughestVariable.name + "?";
+        var hints = solver.getHints(naming);
+        hints.unshift("<p>You can use the following grid to help you find the answer :</p>" +
+            KhanUtil.probaGrid.getTable(itemKind, naming));
+        hints.push("<p class='final_answer'>Therefore, " + toughestVariable.name + " is " + toughestVariable.value + naming.symbol + ".");
+        var answer = toughestVariable.value;
+        
+        return {
+            statement: "A " + itemKind.container + " contains " + itemKind.pluralName + " that can be described by their " +
+                itemKind.criteriaNames[0] + " and their " + itemKind.criteriaNames[1] + ". Each " + itemKind.name + " is either " +
+                naming.termsSingular[0][0] + " or " + naming.termsSingular[0][1] + ", and each " +
+                itemKind.name + " is  either " + naming.termsSingular[1][0] + " or " +
+                naming.termsSingular[1][1] + ".</p><p>" + naming.introFacts + ":</p>",
+            hints: hints,
+            question: question,
+            facts: KhanUtil.probaGrid.getListFacts(setVariables, naming),
+            answer: answer
+        };
+    };
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="PROBLEM">genGridProblem()</var>
+            </div>
+
+            <div class="question">
+                <var>PROBLEM.statement</var>
+                <p><ul class='bullet'>
+                    <var>PROBLEM.facts</var>
+                </ul></p>
+                <var>PROBLEM.question</var>
+            </div>
+
+            <p class="solution" data-forms="percent"><var>PROBLEM.answer</var></p>
+
+            <div class="hints">
+                <div data-each="PROBLEM.hints as key, value"><var>value</var></div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+

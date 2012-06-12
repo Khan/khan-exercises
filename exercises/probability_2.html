@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html data-require="math math-format probability word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Probability 2</title>
+    <style>
+    #result table tr td{
+       border:solid black 1px;
+       text-align:center;
+       padding:5px;
+    }
+    </style>
+    <script src="../khan-exercise.js"></script>
+    <script>
+
+    var problemData;
+
+    function genRollDie() {
+        var nbSides = KhanUtil.randRange(5, 8);
+        var result = KhanUtil.randRange(1, nbSides);
+        var allOutcomes = [];
+        for (var side = 0; side < nbSides; side++) {
+            allOutcomes.push(side + 1);
+        }
+        problemData = {
+            question:KhanUtil.person(1) + " rolled an unfair " + nbSides + "-sided die, but won't tell you the result.</p>" +
+                 "<p><b>Estimate the probability that " + KhanUtil.he(1) + " rolled a " + result + "</b> as precisely as possible.",
+            condition: KhanUtil.person(1) + " rolled a " + result,
+            experiment: "You can study the die by rolling it 1000 times and analysing the results:",
+            action: "Roll the die 1000 times:",
+            pastAction: "rolled the die",
+            pastValidOutcome: "rolled a " + result,
+            allOutcomes: allOutcomes,
+            nbOutcomes: nbSides,
+            indexOutcome: result - 1,
+            validOutcome: result,
+            results: KhanUtil.genProbabilityDistribution(nbSides, 1000)
+        };
+        return problemData;
+    }
+
+    function genColoredBall() {
+        var nbColors = KhanUtil.randRange(3, 6);
+        var indexOutcome = KhanUtil.randRange(1, nbColors);
+        var validOutcome = KhanUtil.color(indexOutcome);
+        var allOutcomes = [];
+        for (var color = 0; color < nbColors; color++) {
+            allOutcomes.push(KhanUtil.color(color + 1));
+        }
+        problemData = {
+            question:KhanUtil.person(1) + " picked a  ball from a bag full of colored balls and put it back right away. " + KhanUtil.He(1) + " won't tell you what color it was.</p>" +
+                "<p><b>Estimate the probability that the ball " + KhanUtil.he(1) + " picked was " + validOutcome + "</b> as precisely as possible.",
+            condition: "the ball " + KhanUtil.person(1) + " picked was " + validOutcome,
+            experiment: KhanUtil.person(1) + " won't let you look in the bag, but " + KhanUtil.he(1) + " agreed to let you pick a ball, " + 
+                "look at it and put it back, and do this a thousand times if you want. Use this to study the content of the bag and find the answer.</p>",
+            action: "Pick a ball 1000 times:",
+            pastAction: "picked a ball",
+            pastValidOutcome: "picked a ball that was " + validOutcome,
+            allOutcomes: allOutcomes,
+            nbOutcomes: nbColors,
+            indexOutcome: indexOutcome - 1,
+            validOutcome: validOutcome,
+            results: KhanUtil.genProbabilityDistribution(nbColors, 1000)
+        };
+        return problemData;
+    }
+
+    var totalNbExperiments = 0;
+    var nbObtained;
+    function experiment() {
+        var allOutcomes = problemData.allOutcomes;
+        var results = problemData.results;
+        var strTable = "<table class='results'><tr><td><b>Outcome</b>";
+        for (var iOutcome = 0; iOutcome < allOutcomes.length; iOutcome++) {
+            strTable += "<td>" + allOutcomes[iOutcome] + "</td>";
+        }
+        strTable += "</tr><tr><td><b>Number of times it was obtained</b></td>";
+        for (var iOutcome = 0; iOutcome < allOutcomes.length; iOutcome++) {
+            strTable += "<td>" + results[iOutcome] + "</td>";
+        }
+        strTable += "</tr></table>";
+        $("#result").html(strTable);
+    }
+
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="PROBLEM">randFromArray([genColoredBall, genRollDie])()</var>
+            </div>
+
+            <div class="question"><p><var>PROBLEM.question</var></p>
+                <p><var>PROBLEM.experiment</var></p>
+                <p><var>PROBLEM.action</var><input type="button" value="Start your study" onclick="experiment()"/></p>
+                <div id="result"></div>
+                <p>Write your answer as a percentage.</p>
+            </div>
+
+            <div class="solution" data-forms="percent"><var>(PROBLEM.results[PROBLEM.indexOutcome]*100)/1000</var></div>
+
+            <div class="hints">
+                <div>
+                    <p>The probability of an event to occur in an experiment can be estimated by measuring the percentage
+                     of times that this event occurs when running this experiment a great number of times.</p>
+                </div>
+                <div>
+                    <p>You <var>PROBLEM.pastAction</var> 1000 times, and counted that out of these 1000 times, the result <var>PROBLEM.validOutcome</var>
+                    was obtained <var>PROBLEM.results[PROBLEM.indexOutcome]</var> times.</p>
+                </div>
+                <div>
+                    <p>The probability that <var>PROBLEM.condition</var> can be estimated as being equal to the percentage of times
+                    that you <var>PROBLEM.pastValidOutcome</var> during your 1000 experiments.</p>
+                </div>
+                <div>
+                    <p>The percentage of times you <var>PROBLEM.pastValidOutcome</var> is
+                    <code>\dfrac{<var>PROBLEM.results[PROBLEM.indexOutcome]</var>}{1000}</code> or <var>(PROBLEM.results[PROBLEM.indexOutcome]*100)/1000</var>%.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
