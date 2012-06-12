@@ -8,17 +8,18 @@
 <body>
     <div class="exercise">
     <div class="vars">
-        <div data-ensure="A * SOLUTION + B &gt; 30 && A * SOLUTION + B &lt; 150 && C !== A && abs( A - C ) &lt; 6 && abs( A - C ) &gt; 1 && A * SOLUTION + B - C * SOLUTION !== 0">
-            <var id="SOLUTION" data-ensure="abs(SOLUTION) &gt; 5">randRangeNonZero( -20, 20 )</var>
-            <var id="A">randRange( 2, 8 )</var>
-            <var id="B">randRangeNonZero( -200, 200 )</var>
-            <var id="C">randRange( 2, 9 )</var>
+        <div data-ensure="A * SOLUTION + B > 0 && A * SOLUTION + B < 180">
+            <var id="SOLUTION">randRange(6, 20) * randRangeNonZero(-1, 1)</var>
+            <var id="DIFFERENCE">randRange(1, 6)</var>
+            <var id="A">randRangeNonZero(2, 8 - DIFFERENCE) + DIFFERENCE</var>
+            <var id="B">DIFFERENCE * randRange(2, 15)</var>
         </div>
+        <var id="C">A - DIFFERENCE</var>
         <var id="D">A * SOLUTION + B - C * SOLUTION</var>
 
-        <var id="ANCHOR">(A*D-B*C) / (A-C)</var>
-        <var id="KNOWN_INDEX">randRange( 0, 7 )</var>
-        <var id="UNKNOWN_INDEX">( KNOWN_INDEX + 4 ) % 8</var>
+        <var id="ANGLE">max(30, min(150, A * SOLUTION + B))</var>
+        <var id="KNOWN_INDEX">(randRange(0, 3) * 2) + ((ANGLE &lt; 50) ? 1 : ((ANGLE &gt; 130) ? 0 : randRange(0, 1)))</var>
+        <var id="UNKNOWN_INDEX">(KNOWN_INDEX + 4) % 8</var>
     </div>
 
     <div class="problems">
@@ -36,7 +37,7 @@
                 });
                 graph.pl = new ParallelLines( 0, 0, 10, 0, 3 );
                 graph.pl.draw();
-                graph.pl.drawTransverse( ANCHOR );
+                graph.pl.drawTransverse( ANGLE );
                 graph.pl.drawAngle( KNOWN_INDEX, eq1 );
                 graph.pl.drawAngle( UNKNOWN_INDEX, eq2, "#FFA500" );
             </div>
