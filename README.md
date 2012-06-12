@@ -26,3 +26,23 @@ The process for writing exercises is rather well documented. More information ab
 ## More
 
 If you're passionate about creating these exercises and want to apply to be a full-time exercise developer at the Khan Academy, [please do so](http://hire.jobvite.com/CompanyJobs/Careers.aspx?c=qd69Vfw7&page=Job%20Description&j=ohjSVfw7).
+
+sandcastle
+
+This is a Django project which allows you to test pull requests from your browser.
+
+Configuration
+-------------
+
+Specify your repository by setting `SANDCASTLE_USER` and
+`SANDCASTLE_REPO` in `settings.py`. For example, setting up sandcastle
+for this repository would look like:
+
+    SANDCASTLE_USER = 'jpulgarin'
+    SANDCASTLE_REPO = 'sandcastle'
+
+Used At
+-------
+
+It is currently in use at [Khan Academy](http://www.khanacademy.org) to
+test pull requests to their exercise framework. It is hosted at [sandcastle.khanacademy.org](http://sandcastle.khanacademy.org).
