@@ -10,7 +10,7 @@
     <div class="vars">
         <div data-ensure="A * SOLUTION + B > 0 && A * SOLUTION + B < 180">
             <var id="SOLUTION">randRange(6, 20) * randRangeNonZero(-1, 1)</var>
-            <var id="DIFFERENCE">randRange(1, 6)</var>
+            <var id="DIFFERENCE">randRange(2, 6)</var>
             <var id="A">randRangeNonZero(2, 8 - DIFFERENCE) + DIFFERENCE</var>
             <var id="B">DIFFERENCE * randRange(2, 15)</var>
         </div>
@@ -33,13 +33,13 @@
                 var eq2 = C + "x + " + D + "^\\circ";
 
                 init({
-                    range: [ [ -1, 11 ], [-1, 4] ]
+                    range: [[-1, 11], [-1, 4]]
                 });
-                graph.pl = new ParallelLines( 0, 0, 10, 0, 3 );
+                graph.pl = new ParallelLines(0, 0, 10, 0, 3);
                 graph.pl.draw();
-                graph.pl.drawTransverse( ANGLE );
-                graph.pl.drawAngle( KNOWN_INDEX, eq1 );
-                graph.pl.drawAngle( UNKNOWN_INDEX, eq2, "#FFA500" );
+                graph.pl.drawTransverse(ANGLE);
+                graph.pl.drawAngle(KNOWN_INDEX, eq1);
+                graph.pl.drawAngle(UNKNOWN_INDEX, eq2, "#FFA500");
             </div>
         </div>
     </div>
