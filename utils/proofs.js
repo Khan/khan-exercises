@@ -7,8 +7,10 @@ TODO:
 -fix isRelationPossible for triangles, somehow?
 -make sure that we state triangle congruencies in the right order, e.g. ABD = ADE is not the same as ABD = EAD
 -add depth argument to initproof
+-deal with triangle congruence cases where there are both vertical and alt int angles, more than one vertical / alt int angle, etc.
+    (may not be necessary just for tracing back)
 
--verify user proofs
+-verify user proofs (maybe done? pending more extensive testing)
 */
 
 // indicates that the user has finished the proof
@@ -252,12 +254,13 @@ function Triang(segs, angs) {
 }
 
 Triang.prototype.toString = function() {
-    if(this.angs[0].end1 == this.segs[0].end1 || this.angs[0].end1 == this.segs[0].end2){
-        return "triangle" + this.angs[0].end1 + this.angs[0].mid + this.angs[0].end2;
-    }
-    else{
-        return "triangle" + this.angs[0].end2 + this.angs[0].mid + this.angs[0].end1;
-    }
+    // if(this.angs[0].end1 == this.segs[0].end1 || this.angs[0].end1 == this.segs[0].end2){
+    //     return "triangle" + this.angs[0].end1 + this.angs[0].mid + this.angs[0].end2;
+    // }
+    // else{
+    //     return "triangle" + this.angs[0].end2 + this.angs[0].mid + this.angs[0].end1;
+    // }
+    return "triangle" + this.angs[2].mid + this.angs[0].mid + this.angs[1].mid;
 }
 
 // If two smaller line segments share an endpoint, we can define a new
@@ -761,11 +764,13 @@ function traceBack(statementKey, depth){
             for(var i=0; i<ang1.triangles.length; i++){
                 for(var j=0; j<ang2.triangles.length; j++){
                     if(!([ang1.triangles[i][0], ang2.triangles[j][0]] in finishedEqualities) 
-                        && isRelationPossible([seg1.triangles[i][0], seg2.triangles[j][0]])){
+                        && isRelationPossible([ang1.triangles[i][0], ang2.triangles[j][0]])){
                         newTriangles.push([ang1.triangles[i][0], ang2.triangles[j][0]]);
                     }
                 }
             }
+
+            console.log(newTriangles);
 
             
             // if there are no eligible triangle pairs, set the angle equality to given
