@@ -4,7 +4,8 @@ TODO:
 -prune givens
 -change trace back so that if the statement relies on a triangle
     being congruent to itself, and the parts of the triangle are the same, it will do that trace back
--fix isRelationPossible for triangles, somehow?
+-fix isRelationPossible for triangles, somehow? (currently says some triangles cannot be equal when they can,
+    but will never say they can be equal when they can't)
 -make sure that we state triangle congruencies in the right order, e.g. ABD = ADE is not the same as ABD = EAD
 -add depth argument to initproof
 -deal with triangle congruence cases where there are both vertical and alt int angles, more than one vertical / alt int angle, etc.
@@ -129,6 +130,7 @@ function verifyStatement(){
 
     if(!userProofDone){
         var statement = $(".statement").val();
+        var reason = $(".justification").val();
         var category = $(".statement_type").val();
 
         if(category == "triangle congruence"){
@@ -147,7 +149,7 @@ function verifyStatement(){
             console.log("knownEqualities: ");
             console.log(knownEqualities);
 
-            console.log(checkTriangleCongruent(triangle1, triangle2));
+            console.log(checkTriangleCongruent(triangle1, triangle2, reason));
         }
 
         else if(category == "angle equality"){
@@ -163,7 +165,7 @@ function verifyStatement(){
             });
 
 
-            console.log(checkAngEqual(ang1, ang2));
+            console.log(checkAngEqual(ang1, ang2, reason));
         }
 
         else if(category == "segment equality"){
@@ -182,12 +184,11 @@ function verifyStatement(){
 
             console.log(seg1 + ", " + seg2);
 
-            console.log(checkSegEqual(seg1, seg2));
+            console.log(checkSegEqual(seg1, seg2, reason));
         }
 
         // now update the list of equalities displayed
 
-        console.log($(".question").html());
 
         var newHTML = "";
         for(var eq in knownEqualities){
@@ -196,7 +197,6 @@ function verifyStatement(){
             }
         }
 
-        console.log(newHTML);
 
         $(".question").html(newHTML);
 
@@ -943,7 +943,7 @@ function isRelationPossible(key){
 
 // This should return a string representing the reason it is known that these two triangles
 // are congruent if they are, and false if they are not.
-function checkTriangleCongruent(triangle1, triangle2) {
+function checkTriangleCongruent(triangle1, triangle2, reason) {
     // to check if this pair of triangles is already in knownEqualities, we need to check
     // if any corresponding rotation is in knownEqualities
 
@@ -964,9 +964,12 @@ function checkTriangleCongruent(triangle1, triangle2) {
     //SSS
     if(eqIn([triangle1.segs[0], triangle2.segs[0]], knownEqualities) && eqIn([triangle1.segs[1], triangle2.segs[1]], knownEqualities)
         && eqIn([triangle1.segs[2], triangle2.segs[2]], knownEqualities)){
-        knownEqualities[[triangle1,triangle2]] = "Congruent by SSS";
-        knownEqualities[[triangle2,triangle1]] = "Congruent by SSS";
-        return true;
+
+        if(reason == "SSS"){
+            knownEqualities[[triangle1,triangle2]] = "Congruent by SSS";
+            knownEqualities[[triangle2,triangle1]] = "Congruent by SSS";
+            return true;
+        }
     }
 
     //ASA
@@ -974,9 +977,12 @@ function checkTriangleCongruent(triangle1, triangle2) {
         if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
             && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], knownEqualities)
             && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)){
-            knownEqualities[[triangle1,triangle2]] = "Congruent by ASA";
-            knownEqualities[[triangle2,triangle1]] = "Congruent by ASA";
-            return true;
+
+            if(reason == "ASA"){
+                knownEqualities[[triangle1,triangle2]] = "Congruent by ASA";
+                knownEqualities[[triangle2,triangle1]] = "Congruent by ASA";
+                return true;
+            }
         }
     }
 
@@ -985,9 +991,11 @@ function checkTriangleCongruent(triangle1, triangle2) {
         if(eqIn([triangle1.segs[i], triangle2.segs[i]], knownEqualities) && eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities)
         && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], knownEqualities)){
 
-            knownEqualities[[triangle1,triangle2]] = "Congruent by SAS";
-            knownEqualities[[triangle2,triangle1]] = "Congruent by SAS";
-            return true;
+            if(reason == "SAS"){
+                knownEqualities[[triangle1,triangle2]] = "Congruent by SAS";
+                knownEqualities[[triangle2,triangle1]] = "Congruent by SAS";
+                return true;
+            }
         }
     }
     
@@ -998,9 +1006,11 @@ function checkTriangleCongruent(triangle1, triangle2) {
             && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)
             && eqIn([triangle1.segs[(i+2) % 3], triangle2.segs[(i+2) % 3]], knownEqualities)){
 
-            knownEqualities[[triangle1,triangle2]] = "Congruent by AAS";
-            knownEqualities[[triangle2,triangle1]] = "Congruent by AAS";
-            return true;
+            if(reason == "AAS"){
+                knownEqualities[[triangle1,triangle2]] = "Congruent by AAS";
+                knownEqualities[[triangle2,triangle1]] = "Congruent by AAS";
+                return true;
+            }
         }
     }
     
@@ -1010,9 +1020,11 @@ function checkTriangleCongruent(triangle1, triangle2) {
             && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)
             && eqIn([triangle1.segs[i], triangle2.segs[i]], knownEqualities)){
 
-            knownEqualities[[triangle1,triangle2]] = "Congruent by AAS";
-            knownEqualities[[triangle2,triangle1]] = "Congruent by AAS";
-            return true;
+            if(reason == "AAS"){
+                knownEqualities[[triangle1,triangle2]] = "Congruent by AAS";
+                knownEqualities[[triangle2,triangle1]] = "Congruent by AAS";
+                return true;
+            }
         }
     }
 
@@ -1025,7 +1037,7 @@ function checkTriangleCongruent(triangle1, triangle2) {
 // If the two given segments are equal, this function updates the known equalities object.
 // Checks to see if the two given segments are equal by checking to see if they belong to
 // congruent triangles.
-function checkSegEqual(seg1, seg2){
+function checkSegEqual(seg1, seg2, reason){
     //if this is already known
     if(eqIn([seg1,seg2], knownEqualities)){
         return true;
@@ -1038,9 +1050,12 @@ function checkSegEqual(seg1, seg2){
             // to the known equalities
             if(checkTriangleCongruent(seg1.triangles[i][0], seg2.triangles[j][0]) 
                 && _.indexOf(seg1, seg1.triangles[i][0].segs) == _.indexOf(seg2, seg2.triangles[j][0].segs)){
-                knownEqualities[[seg1,seg2]] = "Corresponding parts of congruent triangles are equal";
-                knownEqualities[[seg2,seg1]] = "Corresponding parts of congruent triangles are equal";
-                return true;
+
+                if(reason == "CPCTC"){
+                    knownEqualities[[seg1,seg2]] = "Corresponding parts of congruent triangles are equal";
+                    knownEqualities[[seg2,seg1]] = "Corresponding parts of congruent triangles are equal";
+                    return true;
+                }
             }
             console.log(_.indexOf(seg1, seg1.triangles[i][0].segs));
         }
@@ -1052,7 +1067,7 @@ function checkSegEqual(seg1, seg2){
 // If the two given angles are equal, this function updates the known equalities object.
 // Checks to see if the two given angles are equal by checking if they belong to 
 // congruent triangles, if they are opposite vertical angles, or if they are alternate interior
-function checkAngEqual(ang1, ang2){
+function checkAngEqual(ang1, ang2, reason){
 
     // if the angles' corresponding triangles are congruent AND they're the same part of those triangles, we add
     // to the known equalities
@@ -1060,9 +1075,12 @@ function checkAngEqual(ang1, ang2){
         for(var j=0; j<ang2.triangles.length; j++){
             if(checkTriangleCongruent(ang1.triangles[i][0], ang2.triangles[j][0]) 
                 && _.indexOf(ang1, ang1.triangles[i][0].angs) == _.indexOf(ang2, ang2.triangles[j][0].angs)){
-                knownEqualities[[ang1,ang2]] = "Corresponding parts of congruent triangles are equal";
-                knownEqualities[[ang2,ang1]] = "Corresponding parts of congruent triangles are equal";
-                return true;
+
+                if(reason == "CPCTC"){
+                    knownEqualities[[ang1,ang2]] = "Corresponding parts of congruent triangles are equal";
+                    knownEqualities[[ang2,ang1]] = "Corresponding parts of congruent triangles are equal";
+                    return true;
+                }
             }
         }
     }
@@ -1079,9 +1097,11 @@ function checkAngEqual(ang1, ang2){
             }
         }
         if(sharedLines == 2){
-            knownEqualities[[ang1,ang2]] = "Vertical angles are equal";
-            knownEqualities[[ang2,ang1]] = "Vertical angles are equal";
-            return true;
+            if(reason == "Vertical angles"){
+                knownEqualities[[ang1,ang2]] = "Vertical angles are equal";
+                knownEqualities[[ang2,ang1]] = "Vertical angles are equal";
+                return true;
+            }
         }
     }
 
@@ -1101,9 +1121,11 @@ function checkAngEqual(ang1, ang2){
                         return (ang1Segs[(k+1) % 2].equals(pair[0]) && ang2Segs[(l+1) % 2].equals(pair[1])) ||
                             (ang1Segs[(k+1) % 2].equals(pair[1]) && ang2Segs[(l+1) % 2].equals(pair[0])); })) {
 
-                    knownEqualities[[ang1,ang2]] = "Alternate interior angles are equal";
-                    knownEqualities[[ang2,ang1]] = "Alternate interior angles are equal";
-                    return true;
+                    if(reason == "Alternate angles"){
+                        knownEqualities[[ang1,ang2]] = "Alternate interior angles are equal";
+                        knownEqualities[[ang2,ang1]] = "Alternate interior angles are equal";
+                        return true;
+                    }
                 }
             }
         }
