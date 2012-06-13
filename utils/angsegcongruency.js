@@ -119,7 +119,7 @@ $.extend(KhanUtil, {
             };
 
             // Add a click event
-            $(arc.point.mouseTarget[0]).bind("vmousedown", function(event) {
+            $(arc.point.mouseTarget[0]).bind("vmouseup", function(event) {
                 arc.toggle();
             });
 
