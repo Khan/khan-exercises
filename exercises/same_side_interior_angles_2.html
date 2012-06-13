@@ -8,17 +8,16 @@
 <body>
     <div class="exercise">
     <div class="vars">
-        <div data-ensure="A * SOLUTION + B > 0 && A * SOLUTION + B < 180">
-            <var id="SOLUTION">randRange(6, 20) * randRangeNonZero(-1, 1)</var>
-            <var id="DIFFERENCE">randRange(2, 6)</var>
-            <var id="A">randRangeNonZero(2, 8 - DIFFERENCE) + DIFFERENCE</var>
-            <var id="B">DIFFERENCE * randRange(2, 15)</var>
+        <div data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150 && C !== A && abs( A - C ) < 6 && abs( A - C ) > 1 && 180 - (A + C) * SOLUTION - B !== 0">
+            <var id="SOLUTION" data-ensure="abs(SOLUTION) > 5">randRangeNonZero( -20, 20 )</var>
+            <var id="A">randRange( 2, 8 )</var>
+            <var id="B">randRangeNonZero( -200, 200 )</var>
+            <var id="C">randRange( 2, 9 )</var>
         </div>
-        <var id="C">A - DIFFERENCE</var>
-        <var id="D">A * SOLUTION + B - C * SOLUTION</var>
+        <var id="D">180 - (A + C) * SOLUTION - B</var>
 
-        <var id="ANGLE">max(30, min(150, A * SOLUTION + B))</var>
-        <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle(randFromArray([[1, 6], [0, 7]]))</var>
+        <var id="ANCHOR">A*SOLUTION + B</var>
+        <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 1, 6 ], [ 0, 7 ] ] ) )</var>
     </div>
 
     <div class="problems">
@@ -32,13 +31,13 @@
                 var eq2 = C + "x + " + D + "^\\circ";
 
                 init({
-                    range: [[-1, 11], [-1, 4]]
+                    range: [ [ -1, 11 ], [-1, 4] ]
                 });
-                graph.pl = new ParallelLines(0, 0, 10, 0, 3);
+                graph.pl = new ParallelLines( 0, 0, 10, 0, 3 );
                 graph.pl.draw();
-                graph.pl.drawTransverse(ANGLE);
-                graph.pl.drawAngle(KNOWN_INDEX, eq1);
-                graph.pl.drawAngle(UNKNOWN_INDEX, eq2, "#FFA500");
+                graph.pl.drawTransverse( ANCHOR );
+                graph.pl.drawAngle( KNOWN_INDEX, eq1 );
+                graph.pl.drawAngle( UNKNOWN_INDEX, eq2, "#FFA500" );
             </div>
         </div>
     </div>
