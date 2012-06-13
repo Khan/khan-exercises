@@ -10,7 +10,10 @@ TODO:
 -deal with triangle congruence cases where there are both vertical and alt int angles, more than one vertical / alt int angle, etc.
     (may not be necessary just for tracing back)
 
--verify user proofs (maybe done? pending more extensive testing)
+-verify user proofs (maybe done in terms of statements, still need to add justification checking)
+
+BUGS:
+trace back sometimes goes back to a triangle congruence
 */
 
 // indicates that the user has finished the proof
@@ -254,13 +257,16 @@ function Triang(segs, angs) {
 }
 
 Triang.prototype.toString = function() {
-    // if(this.angs[0].end1 == this.segs[0].end1 || this.angs[0].end1 == this.segs[0].end2){
-    //     return "triangle" + this.angs[0].end1 + this.angs[0].mid + this.angs[0].end2;
-    // }
-    // else{
-    //     return "triangle" + this.angs[0].end2 + this.angs[0].mid + this.angs[0].end1;
-    // }
     return "triangle" + this.angs[2].mid + this.angs[0].mid + this.angs[1].mid;
+}
+
+Triang.prototype.equals = function(otherTriang){
+    var myPoints = [this.angs[0].mid, this.angs[1].mid, this.angs[2].mid];
+    var otherPoints = [otherTriang.angs[0].mid, otherTriang.angs[1].mid, otherTriang.angs[2].mid];
+
+    console.log("running triangle .equals");
+
+    return _.difference(myPoints, otherPoints).length == 0;
 }
 
 // If two smaller line segments share an endpoint, we can define a new
@@ -299,7 +305,7 @@ function addAngs(ang1, ang2) {
 function traceBack(statementKey, depth){
     console.log("running traceback with " + statementKey);
     // if this statement is already known, we don't want to trace it back any more
-    if(statementKey in finishedEqualities){
+    if(eqIn(statementKey, finishedEqualities)){
         return;
     }
 
@@ -358,6 +364,7 @@ function traceBack(statementKey, depth){
             // if the triangles have alternate interior angles, use that fact
             var alternateAngs = null;
             // for two angles to be alternate interior, there must be a line from one midpoint to the other
+            loop1:
             for(var i=0; i<3; i++){
                 for(var j=0; j<3; j++){
                     var ang1 = triangle1.angs[i];
@@ -377,8 +384,9 @@ function traceBack(statementKey, depth){
                                     _.any(parallelSegments, function(pair){ 
                                         return (ang1Segs[(k+1) % 2].equals(pair[0]) && ang2Segs[(l+1) % 2].equals(pair[1])) ||
                                             (ang1Segs[(k+1) % 2].equals(pair[1]) && ang2Segs[(l+1) % 2].equals(pair[0])); })) {
+                                    console.log("found alternate interior " + ang1 + ", " + ang2);
                                     alternateAngs = [i, j];
-                                    break;
+                                    break loop1;
                                 }
                             }
                         }
@@ -563,11 +571,21 @@ function traceBack(statementKey, depth){
 
             // triangle congruence case 3: triangles have alternate interior angles
             else if(alternateAngs != null){
-                finishedEqualities[[triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[1]]]] = "Alternate interior angles are equal";
-                finishedEqualities[[triangle2.angs[alternateAngs[1]], triangle1.angs[alternateAngs[0]]]] = "Alternate interior angles are equal";
-
                 // in this case we actually need to make sure we name the triangles correctly so that the corresponding angles are in
-                // the right places: so if angle BAC is = to angle 
+                // the right places: so if angle BAC is = to angle DEF, don't have the triangle congruence be BAC = FDE
+                triangle2.segs.rotate(alternateAngs[0]-alternateAngs[1]);
+                triangle2.angs.rotate(alternateAngs[0]-alternateAngs[1]);
+
+                console.log(alternateAngs[0]);
+                console.log(alternateAngs[1]);
+                console.log(triangle1);
+                console.log(triangle2);
+
+                console.log(triangle1.angs[alternateAngs[0]]);
+                console.log(triangle2.angs[alternateAngs[1]]);
+
+                finishedEqualities[[triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]]] = "Alternate interior angles are equal";
+                finishedEqualities[[triangle2.angs[alternateAngs[0]], triangle1.angs[alternateAngs[0]]]] = "Alternate interior angles are equal";
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
@@ -579,17 +597,17 @@ function traceBack(statementKey, depth){
                     // with probability 0.5, we choose the congruency to be angle va, side va+1, angle va+1
                     if(KhanUtil.random() < 0.5){
 
-                        setGivenOrTraceBack([triangle1.segs[(alternateAngs[0]+1) % 3], triangle2.segs[(alternateAngs[1]+1) % 3]],
+                        setGivenOrTraceBack([triangle1.segs[(alternateAngs[0]+1) % 3], triangle2.segs[(alternateAngs[0]+1) % 3]],
                             statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.angs[(alternateAngs[0]+1) % 3], triangle2.angs[(alternateAngs[1]+1) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[(alternateAngs[0]+1) % 3], triangle2.angs[(alternateAngs[0]+1) % 3]],
                             statementKey, depth-1);
                     }
 
                     // with probability 0.5, we choose the congruency to be angle va, side va, angle va+2
                     else{
-                        setGivenOrTraceBack([triangle1.segs[alternateAngs[0]], triangle2.segs[alternateAngs[1]]],
+                        setGivenOrTraceBack([triangle1.segs[alternateAngs[0]], triangle2.segs[alternateAngs[0]]],
                             statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.angs[(alternateAngs[0]+2) % 3], triangle2.angs[(alternateAngs[1]+2) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[(alternateAngs[0]+2) % 3], triangle2.angs[(alternateAngs[0]+2) % 3]],
                             statementKey, depth-1);
                     }
                 }
@@ -599,9 +617,9 @@ function traceBack(statementKey, depth){
                     finishedEqualities[[triangle2, triangle1]] = "SAS";
 
                     // only option for SAS is side va, angle va, side va+1
-                    setGivenOrTraceBack([triangle1.segs[alternateAngs[0]], triangle2.segs[alternateAngs[1]]],
+                    setGivenOrTraceBack([triangle1.segs[alternateAngs[0]], triangle2.segs[alternateAngs[0]]],
                         statementKey, depth-1);
-                    setGivenOrTraceBack([triangle1.segs[(alternateAngs[0]+1) % 3], triangle2.segs[(alternateAngs[1]+1) % 3]],
+                    setGivenOrTraceBack([triangle1.segs[(alternateAngs[0]+1) % 3], triangle2.segs[(alternateAngs[0]+1) % 3]],
                         statementKey, depth-1);
                     
                 }
@@ -613,17 +631,17 @@ function traceBack(statementKey, depth){
                     // with probability 0.5, we choose the congruency to be angle va, angle va+1, side va
                     if(KhanUtil.random() < 0.5){
 
-                        setGivenOrTraceBack([triangle1.angs[(alternateAngs[0]+1) % 3], triangle2.angs[(alternateAngs[1]+1) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[(alternateAngs[0]+1) % 3], triangle2.angs[(alternateAngs[0]+1) % 3]],
                             statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.segs[alternateAngs[0]], triangle2.segs[alternateAngs[1]]],
+                        setGivenOrTraceBack([triangle1.segs[alternateAngs[0]], triangle2.segs[alternateAngs[0]]],
                             statementKey, depth-1);
                     }
 
                     // with probability 0.5, we choose the congruency to be angle va, angle va+2, side va+1
                     else{
-                        setGivenOrTraceBack([triangle1.angs[(alternateAngs[0]+2) % 3], triangle2.angs[(alternateAngs[1]+2) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[(alternateAngs[0]+2) % 3], triangle2.angs[(alternateAngs[0]+2) % 3]],
                             statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.segs[(alternateAngs[0]+1) % 3], triangle2.segs[(alternateAngs[1]+1) % 3]],
+                        setGivenOrTraceBack([triangle1.segs[(alternateAngs[0]+1) % 3], triangle2.segs[(alternateAngs[0]+1) % 3]],
                             statementKey, depth-1);
                     }
                 }
@@ -700,7 +718,7 @@ function traceBack(statementKey, depth){
 
             for(var i=0; i<seg1.triangles.length; i++){
                 for(var j=0; j<seg2.triangles.length; j++){
-                    if(!([seg1.triangles[i][0], seg2.triangles[j][0]] in finishedEqualities) 
+                    if(!eqIn([seg1.triangles[i][0], seg2.triangles[j][0]], finishedEqualities) 
                         && isRelationPossible([seg1.triangles[i][0], seg2.triangles[j][0]])){
                         newTriangles.push([seg1.triangles[i][0], seg2.triangles[j][0]]);
                     }
@@ -739,8 +757,6 @@ function traceBack(statementKey, depth){
                 trianglePair[1].segs.rotate(index1 - index2);
                 trianglePair[1].angs.rotate(index1 - index2);
 
-                console.log(trianglePair);
-
                 setGivenOrTraceBack([trianglePair[0],trianglePair[1]], statementKey, depth-1);
             }
         }
@@ -763,14 +779,12 @@ function traceBack(statementKey, depth){
 
             for(var i=0; i<ang1.triangles.length; i++){
                 for(var j=0; j<ang2.triangles.length; j++){
-                    if(!([ang1.triangles[i][0], ang2.triangles[j][0]] in finishedEqualities) 
+                    if(!eqIn([ang1.triangles[i][0], ang2.triangles[j][0]], finishedEqualities) 
                         && isRelationPossible([ang1.triangles[i][0], ang2.triangles[j][0]])){
                         newTriangles.push([ang1.triangles[i][0], ang2.triangles[j][0]]);
                     }
                 }
             }
-
-            console.log(newTriangles);
 
             
             // if there are no eligible triangle pairs, set the angle equality to given
@@ -911,7 +925,6 @@ function isRelationPossible(key){
 // This should return a string representing the reason it is known that these two triangles
 // are congruent if they are, and false if they are not.
 function checkTriangleCongruent(triangle1, triangle2) {
-    
     //if already known
     if([triangle1,triangle2] in knownEqualities){
         return true;
@@ -930,7 +943,6 @@ function checkTriangleCongruent(triangle1, triangle2) {
         if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
             && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], knownEqualities)
             && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)){
-
             knownEqualities[[triangle1,triangle2]] = "Congruent by ASA";
             knownEqualities[[triangle2,triangle1]] = "Congruent by ASA";
             return true;
