@@ -65,6 +65,9 @@ $.extend(KhanUtil, {
                 return pointPos;
             };
 
+            // Make a clicky pointer
+            $(arc.point.mouseTarget[0]).css("cursor", "pointer");
+
             // Replace the shape with our arc
             arc.point.visibleShape.remove();
             arc.point.visibleShape = arc.arc;
