@@ -252,7 +252,12 @@ function Triang(segs, angs) {
 }
 
 Triang.prototype.toString = function() {
-    return"\bigtriangleup" + this.angs[0].end1 + this.angs[0].mid + this.angs[0].end2;
+    if(this.angs[0].end1 == this.segs[0].end1 || this.angs[0].end1 == this.segs[0].end2){
+        return "triangle" + this.angs[0].end1 + this.angs[0].mid + this.angs[0].end2;
+    }
+    else{
+        return "triangle" + this.angs[0].end2 + this.angs[0].mid + this.angs[0].end1;
+    }
 }
 
 // If two smaller line segments share an endpoint, we can define a new
@@ -392,6 +397,12 @@ function traceBack(statementKey, depth){
             // triangle congruence case 1: shared side
             if(!(sharedSeg.length == 0)){
 
+                //rotate the second triangle name to match up with the first triangle
+                triangle2.segs.rotate(indexDiff);
+                triangle2.angs.rotate(indexDiff);
+
+                console.log(congruence);
+
                 //SSS
                 if(congruence == 1) {
                     finishedEqualities[[triangle1, triangle2]] = "SSS";
@@ -399,7 +410,7 @@ function traceBack(statementKey, depth){
 
                     for(var i=0; i<3; i++){
                         if(! ([triangle1.segs[i], triangle2.segs[i]] in finishedEqualities)){
-                            setGivenOrTraceBack([triangle1.segs[i], triangle2.segs[(i+indexDiff)%3]], statementKey, depth-1);
+                            setGivenOrTraceBack([triangle1.segs[i], triangle2.segs[i]], statementKey, depth-1);
                             
                         }
                     }
@@ -718,6 +729,9 @@ function traceBack(statementKey, depth){
 
             var ang1 = statementKey[0];
             var ang2 = statementKey[1]; 
+
+            finishedEqualities[[ang1, ang2]] = "Corresponding parts of congruent triangles are congruent";
+            finishedEqualities[[ang2, ang1]] = "Corresponding parts of congruent triangles are congruent";
             
             // otherwise, pick two triangles which have these two angles
             
@@ -732,13 +746,37 @@ function traceBack(statementKey, depth){
                 }
             }
 
+            
             // if there are no eligible triangle pairs, set the angle equality to given
             if(newTriangles.length == 0){
                 finishedEqualities[statementKey] = "Given";
                 finishedEqualities[statementKey.reverse()] = "Given";
             }
+            // otherwise, change the labeling on the triangle so that the angles given in the
+            // statement key are corresponding
             else{
-                setGivenOrTraceBack(newTriangles[KhanUtil.randRange(0, newTriangles.length-1)], statementKey, depth-1);
+                var trianglePair = newTriangles[KhanUtil.randRange(0, newTriangles.length-1)];
+
+                // there has to be a better way of doing this
+                // _indexOf doesn't work (because of == issues?)
+                var index1;
+                for(var i=0; i<trianglePair[0].angs.length; i++){
+                    if(trianglePair[0].angs[i].equals(ang1)){
+                        index1 = i;
+                    }
+                }
+
+                var index2;
+                for(var i=0; i<trianglePair[1].angs.length; i++){
+                    if(trianglePair[1].angs[i].equals(ang2)){
+                        index2 = i;
+                    }
+                }
+
+                trianglePair[1].segs.rotate(index1 - index2);
+                trianglePair[1].angs.rotate(index1 - index2);
+
+                setGivenOrTraceBack([trianglePair[0],trianglePair[1]], statementKey, depth-1);
             }
             
 
@@ -1017,4 +1055,13 @@ function eqIn(item, object){
     }
     return false;
 }
+
+// utility function to rotate an array
+Array.prototype.rotate = function(n) {
+    var temp = this.slice(0,this.length);
+    for(var i=0; i<this.length; i++){
+        this[(i+n+this.length) % this.length] = temp[i];
+    }
+}
+
 
