@@ -692,15 +692,13 @@ function traceBack(statementKey, depth){
             var seg1 = statementKey[0];
             var seg2 = statementKey[1];
 
-            finishedEqualities[[seg1, seg2]] = "Corresponding parts of congruent triangles are congruent";
-            finishedEqualities[[seg2, seg1]] = "Corresponding parts of congruent triangles are congruent";
-
             // we also don't want triangles which are already known to be congruent
             var newTriangles = [];
 
             for(var i=0; i<seg1.triangles.length; i++){
                 for(var j=0; j<seg2.triangles.length; j++){
-                    if(!([seg1.triangles[i][0], seg2.triangles[j][0]] in finishedEqualities)){
+                    if(!([seg1.triangles[i][0], seg2.triangles[j][0]] in finishedEqualities) 
+                        && isRelationPossible([seg1.triangles[i][0], seg2.triangles[j][0]])){
                         newTriangles.push([seg1.triangles[i][0], seg2.triangles[j][0]]);
                     }
                 }
@@ -714,6 +712,9 @@ function traceBack(statementKey, depth){
             // otherwise, change the labeling on the triangle so that the segments given in the
             // statement key are corresponding
             else{
+                finishedEqualities[[seg1, seg2]] = "Corresponding parts of congruent triangles are congruent";
+                finishedEqualities[[seg2, seg1]] = "Corresponding parts of congruent triangles are congruent";
+
                 var trianglePair = newTriangles[KhanUtil.randRange(0, newTriangles.length-1)];
 
                 // there has to be a better way of doing this
@@ -752,9 +753,6 @@ function traceBack(statementKey, depth){
             var ang1 = statementKey[0];
             var ang2 = statementKey[1]; 
 
-            finishedEqualities[[ang1, ang2]] = "Corresponding parts of congruent triangles are congruent";
-            finishedEqualities[[ang2, ang1]] = "Corresponding parts of congruent triangles are congruent";
-            
             // otherwise, pick two triangles which have these two angles
             
             // select only for triangles which are not already known to be congruent
@@ -762,7 +760,8 @@ function traceBack(statementKey, depth){
 
             for(var i=0; i<ang1.triangles.length; i++){
                 for(var j=0; j<ang2.triangles.length; j++){
-                    if(!([ang1.triangles[i][0], ang2.triangles[j][0]] in finishedEqualities)){
+                    if(!([ang1.triangles[i][0], ang2.triangles[j][0]] in finishedEqualities) 
+                        && isRelationPossible([seg1.triangles[i][0], seg2.triangles[j][0]])){
                         newTriangles.push([ang1.triangles[i][0], ang2.triangles[j][0]]);
                     }
                 }
@@ -777,6 +776,9 @@ function traceBack(statementKey, depth){
             // otherwise, change the labeling on the triangle so that the angles given in the
             // statement key are corresponding
             else{
+                finishedEqualities[[ang1, ang2]] = "Corresponding parts of congruent triangles are congruent";
+                finishedEqualities[[ang2, ang1]] = "Corresponding parts of congruent triangles are congruent";
+
                 var trianglePair = newTriangles[KhanUtil.randRange(0, newTriangles.length-1)];
 
                 // there has to be a better way of doing this
