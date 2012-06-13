@@ -114,7 +114,6 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, parall
         newHTML = newHTML + eq + " because " + givens[eq] + "<br>";
     }
 
-    console.log(newHTML);
 
     $(".question").html(newHTML);
 
@@ -1085,18 +1084,24 @@ function checkAngEqual(ang1, ang2, reason){
         }
     }
 
+    console.log("checking angle congruence with ");
+    console.log(ang1);
+    console.log(ang2);
+    console.log(reason);
+
     //if the angles share a midpoint, and their endpoints are part of two segments, then the angles are vertical
     if(ang1.mid == ang2.mid){
         var sharedLines = 0;
         for(var i=0; i<SEGMENTS.length; i++){
-            if(SEGMENTS[i][0] == ang1.end1 && SEGMENTS[i][1] == ang2.end1 ||
-                SEGMENTS[i][0] == ang1.end1 && SEGMENTS[i][1] == ang2.end2 ||
-                SEGMENTS[i][0] == ang1.end2 && SEGMENTS[i][1] == ang2.end1 ||
-                SEGMENTS[i][0] == ang1.end2 && SEGMENTS[i][1] == ang2.end2){
+            if((SEGMENTS[i].end1 == ang1.end1 && SEGMENTS[i].end2 == ang2.end1) ||
+                (SEGMENTS[i].end1 == ang1.end1 && SEGMENTS[i].end2 == ang2.end2) ||
+                (SEGMENTS[i].end1 == ang1.end2 && SEGMENTS[i].end2 == ang2.end1) ||
+                (SEGMENTS[i].end1 == ang1.end2 && SEGMENTS[i].end2 == ang2.end2)){
                 sharedLines += 1;
+
             }
         }
-        if(sharedLines == 2){
+        if(sharedLines == 4){
             if(reason == "Vertical angles"){
                 knownEqualities[[ang1,ang2]] = "Vertical angles are equal";
                 knownEqualities[[ang2,ang1]] = "Vertical angles are equal";
