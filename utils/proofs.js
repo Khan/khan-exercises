@@ -321,7 +321,7 @@ function traceBack(statementKey, depth){
             var sharedSegIndex = _.indexOf(triangle1.segs, sharedSeg[0]);
             // if the shared segment is segment 1 of triangle 1 and segment 0 of triangle 2, for example,
             // we need to adjust the numbering of those triangles so that they have the same index
-            var indexDiff = _.indexOf(triangle2.segs, sharedSeg[0]) - sharedSegIndex;
+            var indexDiff = sharedSegIndex - _.indexOf(triangle2.segs, sharedSeg[0]);
 
             // if the triangles share vertical angles, use that fact
             var verticalAngs = null;
@@ -401,7 +401,6 @@ function traceBack(statementKey, depth){
                 triangle2.segs.rotate(indexDiff);
                 triangle2.angs.rotate(indexDiff);
 
-                console.log(congruence);
 
                 //SSS
                 if(congruence == 1) {
@@ -423,10 +422,10 @@ function traceBack(statementKey, depth){
                     finishedEqualities[[triangle1, triangle2]] = "ASA";
                     finishedEqualities[[triangle2, triangle1]] = "ASA";
 
-                    setGivenOrTraceBack([triangle1.angs[sharedSegIndex], triangle2.angs[(sharedSegIndex+indexDiff)%3]],
+                    setGivenOrTraceBack([triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex%3]],
                     statementKey, depth-1);
                     
-                    setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2+indexDiff) % 3]],
+                    setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2) % 3]],
                     statementKey, depth-1);
 
                 }
@@ -438,24 +437,22 @@ function traceBack(statementKey, depth){
                     finishedEqualities[[triangle1, triangle2]] = "SAS";
                     finishedEqualities[[triangle2, triangle1]] = "SAS";
 
-                    console.log("SAS with shared side");
-
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi, side ssi + 1
                     if(KhanUtil.random() < 0.5){
 
-                        setGivenOrTraceBack([triangle1.angs[sharedSegIndex], triangle2.angs[(sharedSegIndex+indexDiff) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex % 3]],
                         statementKey, depth-1);
 
-                        setGivenOrTraceBack([triangle1.segs[(sharedSegIndex+1) % 3], triangle2.segs[(sharedSegIndex+1+indexDiff) % 3]],
+                        setGivenOrTraceBack([triangle1.segs[(sharedSegIndex+1) % 3], triangle2.segs[(sharedSegIndex+1) % 3]],
                         statementKey, depth-1);
                         
                     }
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi+2 % 3, side ssi+2 % 3
                     else{
-                        setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2+indexDiff) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2) % 3]],
                         statementKey, depth-1);
 
-                        setGivenOrTraceBack([triangle1.segs[(sharedSegIndex+2) % 3], triangle2.segs[(sharedSegIndex+2+indexDiff) % 3]],
+                        setGivenOrTraceBack([triangle1.segs[(sharedSegIndex+2) % 3], triangle2.segs[(sharedSegIndex+2) % 3]],
                         statementKey, depth-1);
 
                     }
@@ -473,19 +470,19 @@ function traceBack(statementKey, depth){
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi, angle ssi + 1
                     if(KhanUtil.random() < 0.5){
 
-                        setGivenOrTraceBack([triangle1.angs[sharedSegIndex], triangle2.angs[(sharedSegIndex+indexDiff) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex % 3]],
                         statementKey, depth-1);
 
-                        setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+1) % 3], triangle2.angs[(sharedSegIndex+1+indexDiff) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+1) % 3], triangle2.angs[(sharedSegIndex+1) % 3]],
                         statementKey, depth-1);
                     
                     }
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi+2 % 3, angle ssi+1 % 3
                     else{
-                        setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2+indexDiff) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2) % 3]],
                         statementKey, depth-1);
 
-                        setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+1) % 3], triangle2.angs[(sharedSegIndex+1+indexDiff) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+1) % 3], triangle2.angs[(sharedSegIndex+1) % 3]],
                         statementKey, depth-1);
 
                     }
@@ -714,8 +711,33 @@ function traceBack(statementKey, depth){
                 finishedEqualities[statementKey] = "Given";
                 finishedEqualities[statementKey.reverse()] = "Given";
             }
+            // otherwise, change the labeling on the triangle so that the segments given in the
+            // statement key are corresponding
             else{
-                setGivenOrTraceBack(newTriangles[KhanUtil.randRange(0, newTriangles.length-1)], statementKey, depth-1);
+                var trianglePair = newTriangles[KhanUtil.randRange(0, newTriangles.length-1)];
+
+                // there has to be a better way of doing this
+                // _indexOf doesn't work (because of == issues?)
+                var index1;
+                for(var i=0; i<trianglePair[0].segs.length; i++){
+                    if(trianglePair[0].segs[i].equals(seg1)){
+                        index1 = i;
+                    }
+                }
+
+                var index2;
+                for(var i=0; i<trianglePair[1].segs.length; i++){
+                    if(trianglePair[1].segs[i].equals(seg2)){
+                        index2 = i;
+                    }
+                }
+
+                trianglePair[1].segs.rotate(index1 - index2);
+                trianglePair[1].angs.rotate(index1 - index2);
+
+                console.log(trianglePair);
+
+                setGivenOrTraceBack([trianglePair[0],trianglePair[1]], statementKey, depth-1);
             }
         }
 
