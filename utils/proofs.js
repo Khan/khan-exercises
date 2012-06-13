@@ -10,10 +10,11 @@ TODO:
 -deal with triangle congruence cases where there are both vertical and alt int angles, more than one vertical / alt int angle, etc.
     (may not be necessary just for tracing back)
 
--verify user proofs (maybe done in terms of statements, still need to add justification checking)
+-verify user proofs (maybe done in terms of statements (ha), still need to add justification checking)
+-if user proves a different named (not different) triangle congruence than the final one given, still give them credit
+-naming segments non-alphabetically in proof verification seems to cause problems
+-get rid of second field in seg.triangles and ang.triangles (unnecessary, can just call _.indexOf(segment, triangle.segs))
 
-BUGS:
-trace back sometimes goes back to a triangle congruence
 */
 
 // indicates that the user has finished the proof
@@ -162,8 +163,16 @@ function verifyStatement(){
         else if(category == "segment equality"){
             var segmentStrings = statement.split("=");
 
-            var seg1 = new Seg(segmentStrings[0][0], segmentStrings[0][1]);
-            var seg2 = new Seg(segmentStrings[1][0], segmentStrings[1][1]);
+            // look for these segments in the list of known segments
+            var seg1 = _.find(SEGMENTS, function(seg){
+                return seg.end1 == segmentStrings[0][0] && seg.end2 == segmentStrings[0][1];
+            });
+
+            var seg2 = _.find(SEGMENTS, function(seg){
+                return seg.end1 == segmentStrings[1][0] && seg.end2 == segmentStrings[1][1];
+            });
+
+            console.log(seg1 + ", " + seg2);
 
             console.log(checkSegEqual(seg1, seg2));
         }
@@ -254,6 +263,8 @@ function Triang(segs, angs) {
     for(var i=0; i<3; i++){
         angs[i].triangles.push([this, i]);
     }
+
+    this.name = "triangle" + this.angs[2].mid + this.angs[0].mid + this.angs[1].mid;
 }
 
 Triang.prototype.toString = function() {
@@ -925,10 +936,25 @@ function isRelationPossible(key){
 // This should return a string representing the reason it is known that these two triangles
 // are congruent if they are, and false if they are not.
 function checkTriangleCongruent(triangle1, triangle2) {
-    //if already known
-    if([triangle1,triangle2] in knownEqualities){
-        return true;
+    // to check if this pair of triangles is already in knownEqualities, we need to check
+    // if any corresponding rotation is in knownEqualities
+
+    for(var i=0; i<3; i++){
+        triangle1.segs.rotate(1);
+        triangle1.angs.rotate(1);
+
+        triangle2.segs.rotate(1);
+        triangle2.angs.rotate(1);
+
+
+        if(eqIn([triangle1, triangle2], knownEqualities)){
+            console.log(triangle1);
+            console.log(triangle2);
+            console.log("returning true?");
+            return true;
+        }
     }
+
 
     //SSS
     if(eqIn([triangle1.segs[0], triangle2.segs[0]], knownEqualities) && eqIn([triangle1.segs[1], triangle2.segs[1]], knownEqualities)
@@ -973,7 +999,7 @@ function checkTriangleCongruent(triangle1, triangle2) {
         }
     }
     
-    //AAS part II
+    //AAS part II (revenge of the AAS)
     for(var i=0; i<3; i++){
         if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
             && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)
@@ -996,19 +1022,23 @@ function checkTriangleCongruent(triangle1, triangle2) {
 // congruent triangles.
 function checkSegEqual(seg1, seg2){
     //if this is already known
-    if([seg1,seg2] in knownEqualities){
+    if(eqIn([seg1,seg2], knownEqualities)){
         return true;
     }
+
+    console.log(SEGMENTS);
 
     for(var i=0; i<seg1.triangles.length; i++){
         for(var j=0; j<seg2.triangles.length; j++){
             // if the segments' corresponding triangles are congruent AND they're the same part of those triangles, we add
             // to the known equalities
-            if(triangleCongruent(seg1.triangles[i][0], seg2.triangles[j][0]) && seg1.triangles[i][1] == seg2.triangles[j][1]){
-                knownEqualities[[seg1,seg2]] = "Congruent parts of congruent triangles are equal";
-                knownEqualities[[seg2,seg1]] = "Congruent parts of congruent triangles are equal";
+            if(checkTriangleCongruent(seg1.triangles[i][0], seg2.triangles[j][0]) 
+                && _.indexOf(seg1, seg1.triangles[i][0].segs) == _.indexOf(seg2, seg2.triangles[j][0].segs)){
+                knownEqualities[[seg1,seg2]] = "Corresponding parts of congruent triangles are equal";
+                knownEqualities[[seg2,seg1]] = "Corresponding parts of congruent triangles are equal";
                 return true;
             }
+            console.log(_.indexOf(seg1, seg1.triangles[i][0].segs));
         }
     }
     return false;
@@ -1017,16 +1047,16 @@ function checkSegEqual(seg1, seg2){
 
 // If the two given angles are equal, this function updates the known equalities object.
 // Checks to see if the two given angles are equal by checking if they belong to 
-// congruent triangles, if they are opposite vertical angles, ...
+// congruent triangles, if they are opposite vertical angles, or if they are alternate interior
 function checkAngEqual(ang1, ang2){
 
     // if the angles' corresponding triangles are congruent AND they're the same part of those triangles, we add
     // to the known equalities
     for(var i=0; i<ang1.triangles.length; i++){
         for(var j=0; j<ang2.triangles.length; j++){
-            if(triangleCongruent(ang1.triangles[i][0], ang2.triangles[j][0]) && ang1.triangles[i][1] == ang2.triangles[j][1]){
-                knownEqualities[[ang1,ang2]] = "Congruent parts of congruent triangles are equal";
-                knownEqualities[[ang2,ang1]] = "Congruent parts of congruent triangles are equal";
+            if(checkTriangleCongruent(ang1.triangles[i][0], ang2.triangles[j][0]) && ang1.triangles[i][1] == ang2.triangles[j][1]){
+                knownEqualities[[ang1,ang2]] = "Corresponding parts of congruent triangles are equal";
+                knownEqualities[[ang2,ang1]] = "Corresponding parts of congruent triangles are equal";
                 return true;
             }
         }
@@ -1050,7 +1080,7 @@ function checkAngEqual(ang1, ang2){
         }
     }
 
-    // TODO check for alternate interior
+    // check for alternate interior
     var midPointSeg = new Seg(ang1.mid, ang2.mid);
     if(_.any(SEGMENTS, function(seg){ return seg.equals(midPointSeg); })){
         // now one side of each angle must be a part of, or all of, this mid point line
