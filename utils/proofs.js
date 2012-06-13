@@ -12,7 +12,6 @@ TODO:
 
 -verify user proofs (maybe done in terms of statements (ha), still need to add justification checking)
 -if user proves a different named (not different) triangle congruence than the final one given, still give them credit
--naming segments non-alphabetically in proof verification seems to cause problems
 -get rid of second field in seg.triangles and ang.triangles (unnecessary, can just call _.indexOf(segment, triangle.segs))
 
 */
@@ -154,8 +153,15 @@ function verifyStatement(){
         else if(category == "angle equality"){
             var angleStrings = statement.split("=");
 
-            var ang1 = new Ang(angleStrings[0][0], angleStrings[0][1], angleStrings[0][2]);
-            var ang2 = new Ang(angleStrings[1][0], angleStrings[1][1], angleStrings[1][2]);
+            // look for these angles in the list of known angles
+            var ang1 = _.find(ANGLES, function(ang){
+                return ang.equals(new Ang(angleStrings[0][0], angleStrings[0][1], angleStrings[0][2]));
+            });
+
+            var ang2 = _.find(ANGLES, function(ang){
+                return ang.equals(new Ang(angleStrings[1][0], angleStrings[1][1], angleStrings[1][2]));
+            });
+
 
             console.log(checkAngEqual(ang1, ang2));
         }
@@ -165,11 +171,13 @@ function verifyStatement(){
 
             // look for these segments in the list of known segments
             var seg1 = _.find(SEGMENTS, function(seg){
-                return seg.end1 == segmentStrings[0][0] && seg.end2 == segmentStrings[0][1];
+                return (seg.end1 == segmentStrings[0][0] && seg.end2 == segmentStrings[0][1])
+                    || (seg.end1 == segmentStrings[0][1] && seg.end2 == segmentStrings[0][0]);
             });
 
             var seg2 = _.find(SEGMENTS, function(seg){
-                return seg.end1 == segmentStrings[1][0] && seg.end2 == segmentStrings[1][1];
+                return (seg.end1 == segmentStrings[1][0] && seg.end2 == segmentStrings[1][1])
+                    || (seg.end1 == segmentStrings[1][1] && seg.end2 == segmentStrings[1][0]);
             });
 
             console.log(seg1 + ", " + seg2);
@@ -948,9 +956,6 @@ function checkTriangleCongruent(triangle1, triangle2) {
 
 
         if(eqIn([triangle1, triangle2], knownEqualities)){
-            console.log(triangle1);
-            console.log(triangle2);
-            console.log("returning true?");
             return true;
         }
     }
@@ -1026,7 +1031,6 @@ function checkSegEqual(seg1, seg2){
         return true;
     }
 
-    console.log(SEGMENTS);
 
     for(var i=0; i<seg1.triangles.length; i++){
         for(var j=0; j<seg2.triangles.length; j++){
@@ -1054,7 +1058,8 @@ function checkAngEqual(ang1, ang2){
     // to the known equalities
     for(var i=0; i<ang1.triangles.length; i++){
         for(var j=0; j<ang2.triangles.length; j++){
-            if(checkTriangleCongruent(ang1.triangles[i][0], ang2.triangles[j][0]) && ang1.triangles[i][1] == ang2.triangles[j][1]){
+            if(checkTriangleCongruent(ang1.triangles[i][0], ang2.triangles[j][0]) 
+                && _.indexOf(ang1, ang1.triangles[i][0].angs) == _.indexOf(ang2, ang2.triangles[j][0].angs)){
                 knownEqualities[[ang1,ang2]] = "Corresponding parts of congruent triangles are equal";
                 knownEqualities[[ang2,ang1]] = "Corresponding parts of congruent triangles are equal";
                 return true;
