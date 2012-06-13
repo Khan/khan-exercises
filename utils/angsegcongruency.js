@@ -75,22 +75,27 @@ $.extend(KhanUtil, {
             // Colors for different states
             arc.unsetNormal = {
                 stroke: KhanUtil.GRAY,
+                "stroke-width": 2,
                 opacity: 0.1
             };
             arc.unsetHighlight = {
                 stroke: KhanUtil.BLUE,
+                "stroke-width": 2,
                 opacity: 0.4
             };
             arc.setNormal = {
                 stroke: KhanUtil.BLUE,
+                "stroke-width": 3,
                 opacity: 0.9
             };
             arc.setHighlight = {
                 stroke: KhanUtil.BLUE,
+                "stroke-width": 3,
                 opacity: 1.0
             };
             arc.forceHighlight = {
                 stroke: KhanUtil.ORANGE,
+                "stroke-width": 3,
                 opacity: 1.0
             };
 
@@ -116,7 +121,7 @@ $.extend(KhanUtil, {
                 } else {
                     this.point.normalStyle = this.setNormal;
                     this.point.highlightStyle = this.setHighlight;
-                    this.remake(0.8);
+                    this.remake(0.6);
                 }
                 this.set = !this.set;
             };
@@ -129,7 +134,7 @@ $.extend(KhanUtil, {
             // Force the arc to be set, for a pre-given point
             arc.force = function() {
                 this.point.highlightStyle = this.forceHighlight;
-                this.remake(0.8);
+                this.remake(0.6);
                 // Remove the mouse target entirely
                 $(this.point.mouseTarget[0]).unbind();
                 this.point.mouseTarget.remove();
