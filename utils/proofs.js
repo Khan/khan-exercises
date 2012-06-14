@@ -11,7 +11,8 @@ TODO:
 -deal with triangle congruence cases where there are both vertical and alt int angles, more than one vertical / alt int angle, etc.
     (may not be necessary just for tracing back)
 
--verify user proofs (maybe done in terms of statements (ha), still need to add justification checking)
+-mark triangles as "unrotateable" if they are already part of an equality
+
 -if user proves a different named (not different) triangle congruence than the final one given, still give them credit
 -get rid of second field in seg.triangles and ang.triangles (unnecessary, can just call _.indexOf(segment, triangle.segs))
 
@@ -28,7 +29,10 @@ var knownEqualities;
 // the correct reasoning, at the end of the proof
 var finishedEqualities;
 
-var finalEquality;
+// fixedTriangles are already part of an equality, and should not be rotated any further
+// to make some segment/angle congruence true
+var fixedTriangles;
+
 var finalRelation;
 
 // need to populate this list in the exercise, needed for vertical angles/
@@ -48,7 +52,8 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, parall
 
     finishedEqualities = {};
 
-    finalEquality = {};
+    fixedTriangles = {};
+
 
     SEGMENTS = segs;
     ANGLES = angs;
@@ -321,7 +326,7 @@ function addAngs(ang1, ang2) {
 // if you give traceBack a statement that is impossible because of some fact of the diagram given,
 // no man or God can help you
 function traceBack(statementKey, depth){
-    console.log("running traceback with " + statementKey);
+    console.log("running traceback with " + _.clone(statementKey));
     // if this statement is already known, we don't want to trace it back any more
     if(eqIn(statementKey, finishedEqualities)){
         return;
@@ -332,7 +337,11 @@ function traceBack(statementKey, depth){
         console.log("0 depth");
         finishedEqualities[statementKey] = "Given";
         finishedEqualities[statementKey.reverse()] = "Given";
-        return;
+
+        if(statementKey[0] instanceof Triang){
+            fixedTriangles[statementKey[0]] = true;
+            fixedTriangles[statementKey[1]] = true;
+        }
     }
     else{
         // for now, we will assume the known quantity is an equality and try to work backwards...
@@ -349,6 +358,7 @@ function traceBack(statementKey, depth){
             // if the shared segment is segment 1 of triangle 1 and segment 0 of triangle 2, for example,
             // we need to adjust the numbering of those triangles so that they have the same index
             var indexDiff = sharedSegIndex - _.indexOf(triangle2.segs, sharedSeg[0]);
+
 
             // if the triangles share vertical angles, use that fact
             var verticalAngs = null;
@@ -426,9 +436,21 @@ function traceBack(statementKey, depth){
             // triangle congruence case 1: shared side
             if(!(sharedSeg.length == 0)){
 
-                //rotate the second triangle name to match up with the first triangle
-                triangle2.segs.rotate(indexDiff);
-                triangle2.angs.rotate(indexDiff);
+                // determine if we can rotate this triangle without screwing up some already
+                // established equality
+                // one or both triangles must not be in an equality for this relation to be possible
+                if(!triangIn(triangle2, fixedTriangles)){
+                    triangle2.segs.rotate(indexDiff);
+                    triangle2.angs.rotate(indexDiff);
+                }
+
+                else if(!triangIn(triangle1, fixedTriangles)){
+                    triangle1.segs.rotate(-indexDiff);
+                    triangle1.angs.rotate(-indexDiff);
+                }
+
+                fixedTriangles[triangle1] = true;
+                fixedTriangles[triangle2] = true;
 
 
                 //SSS
@@ -523,7 +545,21 @@ function traceBack(statementKey, depth){
 
             // triangle congruence case 2: triangles have vertical angles
             else if(verticalAngs != null){
-                console.log("in vertical case");
+                // in this case we actually need to make sure we name the triangles correctly so that the corresponding angles are in
+                // the right places: so if angle BAC is = to angle DEF, don't have the triangle congruence be BAC = FDE
+                if(!triangIn(triangle2, fixedTriangles)){
+                    triangle2.segs.rotate(verticalAngs[0]-verticalAngs[1]);
+                    triangle2.angs.rotate(verticalAngs[0]-verticalAngs[1]);
+                }
+                else if(!triangIn(triangle1, fixedTriangles)){
+                    triangle1.segs.rotate(verticalAngs[1]-verticalAngs[0]);
+                    triangle1.angs.rotate(verticalAngs[1]-verticalAngs[0]);
+                }
+
+                fixedTriangles[triangle1] = true;
+                fixedTriangles[triangle2] = true;
+
+
                 finishedEqualities[[triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[1]]]] = "Vertical angles are equal";
                 finishedEqualities[[triangle2.angs[verticalAngs[1]], triangle1.angs[verticalAngs[0]]]] = "Vertical angles are equal";
 
@@ -589,18 +625,20 @@ function traceBack(statementKey, depth){
 
             // triangle congruence case 3: triangles have alternate interior angles
             else if(alternateAngs != null){
+
                 // in this case we actually need to make sure we name the triangles correctly so that the corresponding angles are in
                 // the right places: so if angle BAC is = to angle DEF, don't have the triangle congruence be BAC = FDE
-                triangle2.segs.rotate(alternateAngs[0]-alternateAngs[1]);
-                triangle2.angs.rotate(alternateAngs[0]-alternateAngs[1]);
+                if(!triangIn(triangle2, fixedTriangles)){
+                    triangle2.segs.rotate(alternateAngs[0]-alternateAngs[1]);
+                    triangle2.angs.rotate(alternateAngs[0]-alternateAngs[1]);
+                }
+                else if(!triangIn(triangle1, fixedTriangles)){
+                    triangle1.segs.rotate(alternateAngs[1]-alternateAngs[0]);
+                    triangle1.angs.rotate(alternateAngs[1]-alternateAngs[0]);
+                }
 
-                console.log(alternateAngs[0]);
-                console.log(alternateAngs[1]);
-                console.log(triangle1);
-                console.log(triangle2);
-
-                console.log(triangle1.angs[alternateAngs[0]]);
-                console.log(triangle2.angs[alternateAngs[1]]);
+                fixedTriangles[triangle1] = true;
+                fixedTriangles[triangle2] = true;
 
                 finishedEqualities[[triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]]] = "Alternate interior angles are equal";
                 finishedEqualities[[triangle2.angs[alternateAngs[0]], triangle1.angs[alternateAngs[0]]]] = "Alternate interior angles are equal";
@@ -772,8 +810,15 @@ function traceBack(statementKey, depth){
                     }
                 }
 
-                trianglePair[1].segs.rotate(index1 - index2);
-                trianglePair[1].angs.rotate(index1 - index2);
+                if(!triangIn(trianglePair[1], fixedTriangles)){
+                    trianglePair[1].segs.rotate(index1 - index2);
+                    trianglePair[1].angs.rotate(index1 - index2);
+                }
+                else if(!triangIn(trianglePair[0], fixedTriangles)){
+                    trianglePair[0].segs.rotate(index2 - index1);
+                    trianglePair[0].angs.rotate(index2 - index1);
+                }
+
 
                 setGivenOrTraceBack([trianglePair[0],trianglePair[1]], statementKey, depth-1);
             }
@@ -834,8 +879,15 @@ function traceBack(statementKey, depth){
                     }
                 }
 
-                trianglePair[1].segs.rotate(index1 - index2);
-                trianglePair[1].angs.rotate(index1 - index2);
+                if(!triangIn(trianglePair[1], fixedTriangles)){
+                    trianglePair[1].segs.rotate(index1 - index2);
+                    trianglePair[1].angs.rotate(index1 - index2);
+                }
+                else if(!triangIn(trianglePair[0], fixedTriangles)){
+                    trianglePair[0].segs.rotate(index2 - index1);
+                    trianglePair[0].angs.rotate(index2 - index1);
+                }
+
 
                 setGivenOrTraceBack([trianglePair[0],trianglePair[1]], statementKey, depth-1);
             }
@@ -851,6 +903,11 @@ function traceBack(statementKey, depth){
 function setGivenOrTraceBack(key, oldKey, dep){
     if(isRelationPossible(key)){
         console.log("relation " +key+" is possible");
+        if(key[0] instanceof Triang){
+            fixedTriangles[key[0]] = true;
+            fixedTriangles[key[1]] = true;
+        }
+
         if(KhanUtil.random() < 0.5){
             console.log("setting relation "+key+" to Given");
             finishedEqualities[key] = "Given";
@@ -874,6 +931,8 @@ function setGivenOrTraceBack(key, oldKey, dep){
 }
 
 // returns true if this statement can be true in the diagram
+// equalities cannot (will not be set to) be true if a segment is part of another segment, an angle is part of another angle,
+// a triangle has any component which is part of a component of another triangle, or both triangles are already in equalities
 function isRelationPossible(key){
     // if the relation is between two segments, check to make sure one is not part of the other
     if(key[0] instanceof Seg){
@@ -934,6 +993,10 @@ function isRelationPossible(key){
                     return false;
                 }
             }
+        }
+
+        if(triangIn(key[0], fixedTriangles) && triangIn(key[1], fixedTriangles)){
+            return false;
         }
 
         return true;
@@ -1068,6 +1131,11 @@ function checkSegEqual(seg1, seg2, reason){
 // congruent triangles, if they are opposite vertical angles, or if they are alternate interior
 function checkAngEqual(ang1, ang2, reason){
 
+    // if this is already known
+    if(eqIn([ang1, ang2], knownEqualities)){
+        return true;
+    }
+
     // if the angles' corresponding triangles are congruent AND they're the same part of those triangles, we add
     // to the known equalities
     for(var i=0; i<ang1.triangles.length; i++){
@@ -1084,10 +1152,6 @@ function checkAngEqual(ang1, ang2, reason){
         }
     }
 
-    console.log("checking angle congruence with ");
-    console.log(ang1);
-    console.log(ang2);
-    console.log(reason);
 
     //if the angles share a midpoint, and their endpoints are part of two segments, then the angles are vertical
     if(ang1.mid == ang2.mid){
@@ -1101,6 +1165,7 @@ function checkAngEqual(ang1, ang2, reason){
 
             }
         }
+
         if(sharedLines == 4){
             if(reason == "Vertical angles"){
                 knownEqualities[[ang1,ang2]] = "Vertical angles are equal";
@@ -1153,6 +1218,18 @@ function eqIn(item, object){
         var key2 = list[i].split(",")[1];
         if(item1 == (key1) && item2 == (key2) ||
             item1 == (key2) && item2 == (key1)){
+            return true;
+        }
+    }
+    return false;
+}
+
+function triangIn(item, object){
+    var list = _.keys(object);
+    var itemString = item.toString();
+
+    for(var i=0; i<list.length; i++){
+        if(itemString == list[i]){
             return true;
         }
     }
