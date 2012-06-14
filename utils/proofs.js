@@ -44,8 +44,9 @@ var TRIANGLES;
 // other segments, 
 var supplementaryAngles;
 var parallelSegments;
+var altInteriorAngs;
 
-function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, parallelSegs) {
+function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altIntAngs) {
     userProofDone = false;
 
     knownEqualities = {};
@@ -57,11 +58,13 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, parall
 
     SEGMENTS = segs;
     ANGLES = angs;
+
     TRIANGLES = triangles;
 
     supplementaryAngles = supplementaryAngs;
 
-    parallelSegments = parallelSegs;
+    // parallelSegments = parallelSegs;
+    altInteriorAngs = altIntAngs;
 
     //populate knownEqualities based on reflexivity
     for(var i=0; i<SEGMENTS.length; i++){
@@ -287,8 +290,6 @@ Triang.prototype.equals = function(otherTriang){
     var myPoints = [this.angs[0].mid, this.angs[1].mid, this.angs[2].mid];
     var otherPoints = [otherTriang.angs[0].mid, otherTriang.angs[1].mid, otherTriang.angs[2].mid];
 
-    console.log("running triangle .equals");
-
     return _.difference(myPoints, otherPoints).length == 0;
 }
 
@@ -303,17 +304,20 @@ Triang.prototype.equals = function(otherTriang){
 // If two smaller angles share a midpoint and one of two endpoints, they can be
 // added to form a larger angle
 function addAngs(ang1, ang2) {
-    if(ang1.mid == ang2.mid && ang1.end1 == ang2.end1) {
+    if(ang1.mid == ang2.mid && ang1.end1 == ang2.end1 && ang1.end2 != ang2.end2) {
         return new Ang(ang1.end2, ang1.mid, ang2.end2, [ang1.angleParts, ang2.angleParts]);
     }
-    else if(ang1.mid == ang2.mid && ang1.end1 == ang2.end2) {
+    else if(ang1.mid == ang2.mid && ang1.end1 == ang2.end2 && ang1.end2 != ang2.end1) {
         return new Ang(ang1.end2, ang1.mid, ang2.end1, [ang1.angleParts, ang2.angleParts]);
     }
-    else if(ang1.mid == ang2.mid && ang1.end2 == ang2.end1) {
+    else if(ang1.mid == ang2.mid && ang1.end2 == ang2.end1 && ang1.end1 != ang2.end2) {
         return new Ang(ang1.end1, ang1.mid, ang2.end2, [ang1.angleParts, ang2.angleParts]);
     }
-    else if(ang1.mid == ang2.mid && ang1.end2 == ang2.end2) {
+    else if(ang1.mid == ang2.mid && ang1.end2 == ang2.end2 && ang1.end1 != ang2.end1) {
         return new Ang(ang1.end1, ang1.mid, ang2.end1, [ang1.angleParts, ang2.angleParts]);
+    }
+    else{
+        return null;
     }
 }
 
@@ -404,26 +408,30 @@ function traceBack(statementKey, depth){
                     var ang1 = triangle1.angs[i];
                     var ang2 = triangle2.angs[j];
 
-                    var midPointSeg = new Seg(ang1.mid, ang2.mid);
-                    if(_.any(SEGMENTS, function(seg){ return seg.equals(midPointSeg); })){
-                        // now one side of each angle must be a part of, or all of, this mid point line
-                        // and the the side for one angle which is not part of the mid point line
-                        // must be parallel to the side for the other angle not part of the mid point line
-                        var ang1Segs = [new Seg(ang1.mid, ang1.end1), new Seg(ang1.mid, ang1.end2)];
-                        var ang2Segs = [new Seg(ang2.mid, ang2.end1), new Seg(ang2.mid, ang2.end2)];
-                        for(var k=0; k<2; k++){
-                            for(var l=0; l<2; l++){
-                                if((!isRelationPossible(ang1Segs[k], midPointSeg) || ang1Segs[k].equals(midPointSeg)) &&
-                                    (!isRelationPossible(ang2Segs[l], midPointSeg) || ang2Segs[l].equals(midPointSeg)) &&
-                                    _.any(parallelSegments, function(pair){ 
-                                        return (ang1Segs[(k+1) % 2].equals(pair[0]) && ang2Segs[(l+1) % 2].equals(pair[1])) ||
-                                            (ang1Segs[(k+1) % 2].equals(pair[1]) && ang2Segs[(l+1) % 2].equals(pair[0])); })) {
-                                    console.log("found alternate interior " + ang1 + ", " + ang2);
-                                    alternateAngs = [i, j];
-                                    break loop1;
-                                }
-                            }
-                        }
+                    // var midPointSeg = new Seg(ang1.mid, ang2.mid);
+                    // if(_.any(SEGMENTS, function(seg){ return seg.equals(midPointSeg); })){
+                    //     // now one side of each angle must be a part of, or all of, this mid point line
+                    //     // and the the side for one angle which is not part of the mid point line
+                    //     // must be parallel to the side for the other angle not part of the mid point line
+                    //     var ang1Segs = [new Seg(ang1.mid, ang1.end1), new Seg(ang1.mid, ang1.end2)];
+                    //     var ang2Segs = [new Seg(ang2.mid, ang2.end1), new Seg(ang2.mid, ang2.end2)];
+                    //     for(var k=0; k<2; k++){
+                    //         for(var l=0; l<2; l++){
+                    //             if((!isRelationPossible(ang1Segs[k], midPointSeg) || ang1Segs[k].equals(midPointSeg)) &&
+                    //                 (!isRelationPossible(ang2Segs[l], midPointSeg) || ang2Segs[l].equals(midPointSeg)) &&
+                    //                 _.any(parallelSegments, function(pair){ 
+                    //                     return (ang1Segs[(k+1) % 2].equals(pair[0]) && ang2Segs[(l+1) % 2].equals(pair[1])) ||
+                    //                         (ang1Segs[(k+1) % 2].equals(pair[1]) && ang2Segs[(l+1) % 2].equals(pair[0])); })) {
+                    //                 console.log("found alternate interior " + ang1 + ", " + ang2);
+                    //                 alternateAngs = [i, j];
+                    //                 break loop1;
+                    //             }
+                    //         }
+                    //     }
+                    // }
+
+                    if(eqIn([ang1, ang2], altInteriorAngs) || eqIn([ang2, ang1], altInteriorAngs)){
+                        alternateAngs = [i,j];
                     }
                 }
             }
@@ -1137,6 +1145,9 @@ function checkSegEqual(seg1, seg2, reason){
 // Checks to see if the two given angles are equal by checking if they belong to 
 // congruent triangles, if they are opposite vertical angles, or if they are alternate interior
 function checkAngEqual(ang1, ang2, reason){
+    console.log("checkangequal ");
+    console.log(ang1);
+    console.log(ang2);
 
     // if this is already known
     if(eqIn([ang1, ang2], knownEqualities)){
@@ -1189,28 +1200,38 @@ function checkAngEqual(ang1, ang2, reason){
     }
 
     // check for alternate interior
-    var midPointSeg = new Seg(ang1.mid, ang2.mid);
-    if(_.any(SEGMENTS, function(seg){ return seg.equals(midPointSeg); })){
-        // now one side of each angle must be a part of, or all of, this mid point line
-        // and the the side for one angle which is not part of the mid point line
-        // must be parallel to the side for the other angle not part of the mid point line
-        var ang1Segs = [new Seg(ang1.mid, ang1.end1), new Seg(ang1.mid, ang1.end2)];
-        var ang2Segs = [new Seg(ang2.mid, ang2.end1), new Seg(ang2.mid, ang2.end2)];
-        for(var k=0; k<2; k++){
-            for(var l=0; l<2; l++){
-                if((!isRelationPossible(ang1Segs[k], midPointSeg) || ang1Segs[k].equals(midPointSeg)) &&
-                    (!isRelationPossible(ang2Segs[l], midPointSeg) || ang2Segs[l].equals(midPointSeg)) &&
-                    _.any(parallelSegments, function(pair){ 
-                        return (ang1Segs[(k+1) % 2].equals(pair[0]) && ang2Segs[(l+1) % 2].equals(pair[1])) ||
-                            (ang1Segs[(k+1) % 2].equals(pair[1]) && ang2Segs[(l+1) % 2].equals(pair[0])); })) {
+    // var midPointSeg = new Seg(ang1.mid, ang2.mid);
+    // if(_.any(SEGMENTS, function(seg){ return seg.equals(midPointSeg); })){
+    //     // now one side of each angle must be a part of, or all of, this mid point line
+    //     // and the the side for one angle which is not part of the mid point line
+    //     // must be parallel to the side for the other angle not part of the mid point line
+    //     var ang1Segs = [new Seg(ang1.mid, ang1.end1), new Seg(ang1.mid, ang1.end2)];
+    //     var ang2Segs = [new Seg(ang2.mid, ang2.end1), new Seg(ang2.mid, ang2.end2)];
+    //     for(var k=0; k<2; k++){
+    //         for(var l=0; l<2; l++){
+    //             if((!isRelationPossible(ang1Segs[k], midPointSeg) || ang1Segs[k].equals(midPointSeg)) &&
+    //                 (!isRelationPossible(ang2Segs[l], midPointSeg) || ang2Segs[l].equals(midPointSeg)) &&
+    //                 _.any(parallelSegments, function(pair){ 
+    //                     return (ang1Segs[(k+1) % 2].equals(pair[0]) && ang2Segs[(l+1) % 2].equals(pair[1])) ||
+    //                         (ang1Segs[(k+1) % 2].equals(pair[1]) && ang2Segs[(l+1) % 2].equals(pair[0])); })) {
 
-                    if(reason == "Alternate angles"){
-                        knownEqualities[[ang1,ang2]] = "Alternate interior angles are equal";
-                        knownEqualities[[ang2,ang1]] = "Alternate interior angles are equal";
-                        return true;
-                    }
-                }
-            }
+    //                 if(reason == "Alternate angles"){
+    //                     knownEqualities[[ang1,ang2]] = "Alternate interior angles are equal";
+    //                     knownEqualities[[ang2,ang1]] = "Alternate interior angles are equal";
+    //                     return true;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+    console.log([ang1, ang2]);
+    console.log(altInteriorAngs);
+    if(eqIn([ang1, ang2], altInteriorAngs) || eqIn([ang2, ang1], altInteriorAngs)){
+
+        if(reason == "Alternate angles"){
+            knownEqualities[[ang1,ang2]] = "Alternate interior angles are equal";
+            knownEqualities[[ang2,ang1]] = "Alternate interior angles are equal";
+            return true;
         }
     }
 
@@ -1222,18 +1243,45 @@ function checkAngEqual(ang1, ang2, reason){
 // utility function to check if some pair of equalities is in an object without
 // using the == operator
 function eqIn(item, object){
-    var list = _.keys(object);
-    var item1 = item[0].toString();
-    var item2 = item[1].toString();
+    var list;
+    var item1;
+    var item2;
 
-    for(var i=0; i<list.length; i++){
-        var key1 = list[i].split(",")[0];
-        var key2 = list[i].split(",")[1];
-        if(item1 == (key1) && item2 == (key2) ||
-            item1 == (key2) && item2 == (key1)){
-            return true;
+    if(!_.isArray(object)){
+        list = _.keys(object);
+        item1 = item[0].toString();
+        item2 = item[1].toString();
+
+        for(var i=0; i<list.length; i++){
+            var key1 = list[i].split(",")[0];
+            var key2 = list[i].split(",")[1];
+            if(item1 == (key1) && item2 == (key2) ||
+                item1 == (key2) && item2 == (key1)){
+                return true;
+            }
         }
     }
+    else{
+        list = object;
+        item1 = item[0];
+        item2 = item[1];
+
+        for(var i=0; i<list.length; i++){
+            if((item1.equals(list[i][0]) && item2.equals(list[i][1])) || (item1.equals(list[i][1]) && item2.equals(list[i][0]))){
+                return true;
+            }
+        }
+        if(object == altInteriorAngs){
+            console.log("eqIn: " + item1 + ", " + item2 + " :: " + list);
+        }
+
+
+    }
+    
+
+    
+
+    
     return false;
 }
 
@@ -1256,5 +1304,7 @@ Array.prototype.rotate = function(n) {
         this[(i+n+this.length) % this.length] = temp[i];
     }
 }
+
+
 
 
