@@ -11,7 +11,9 @@
         <div>
             <div class="vars">
                 <var id="ANGLE">randRange(40, 140)</var>
-                <var id="GIVEN">randRange(0, 7)</var>
+                <var id="GIVENTOP">rand(2) === 1</var>
+                <var id="GIVENPOS">rand(4)</var>
+                <var id="GIVEN">GIVENPOS + (GIVENTOP ? 4 : 0)</var>
                 <var id="SOLUTION">[(GIVEN + 2) % 8,
                                     (GIVEN + 4) % 8,
                                     (GIVEN + 6) % 8]</var>
@@ -27,9 +29,55 @@
                     });
                     addMouseLayer();
 
-                    graph.angles = addAngles({ angle: ANGLE });
+                    graph.congruency = addCongruency({ y1: -0.7, y2: 3.7 });
 
-                    graph.angles.setAngle(GIVEN);
+                    graph.cross = graph.congruency.addLine({ start: [5, 1.5], angle: ANGLE });
+                    graph.bottom = graph.congruency.addLine({ start: [0, 0], end: [10, 0] });
+                    graph.top = graph.congruency.addLine({ start: [0, 3], end: [10, 3] });
+
+                    graph.topang = graph.congruency.intersect(graph.bottom, graph.cross);
+                    graph.botang = graph.congruency.intersect(graph.top, graph.cross);
+
+                    graph.given = (GIVENTOP) ? graph.botang : graph.topang;
+
+                    graph.given.ang[GIVENPOS].stick();
+                    graph.given.ang[GIVENPOS].set(1);
+                    graph.given.ang[GIVENPOS].styleSet({
+                        stroke: ORANGE
+                    });
+
+                    graph.hint = function(index, color) {
+                        if (index &lt; 4) {
+                            graph.topang.ang[index % 4].styleUnset({
+                                stroke: color,
+                                opacity: 0.4
+                            });
+                        } else {
+                            graph.botang.ang[index % 4].styleUnset({
+                                stroke: color,
+                                opacity: 0.4
+                            });
+                        }
+                    };
+
+                    graph.getGuess = function() {
+                        var top = _.map(graph.topang.ang, function(e, v) {
+                            if (GIVENTOP &amp;&amp; v === GIVENPOS) {
+                                return false;
+                            } else {
+                                return e.state &gt; 0;
+                            }
+                        });
+                        var bot = _.map(graph.botang.ang, function(e, v) {
+                            if (!GIVENTOP &amp;&amp; v === GIVENPOS) {
+                                return false;
+                            } else {
+                                return e.state &gt; 0;
+                            }
+                        });
+
+                        return bot.concat(top);
+                    };
 
                     GRAPH = graph;
                 </div>
@@ -39,28 +87,19 @@
                     Click on the congruent angles, and then click "check answer" when done.
                 </div>
                 <div class="guess">
-                    [KhanUtil.currentGraph.graph.angles.isSet(0),
-                     KhanUtil.currentGraph.graph.angles.isSet(1),
-                     KhanUtil.currentGraph.graph.angles.isSet(2),
-                     KhanUtil.currentGraph.graph.angles.isSet(3),
-                     KhanUtil.currentGraph.graph.angles.isSet(4),
-                     KhanUtil.currentGraph.graph.angles.isSet(5),
-                     KhanUtil.currentGraph.graph.angles.isSet(6),
-                     KhanUtil.currentGraph.graph.angles.isSet(7)]
+                    GRAPH.getGuess()
                 </div>
                 <div class="validator-function">
-                    if (!_.any(guess, function(e) {
-                            return e;
-                        })) {
+                    if (!_.any(guess)) {
                         return "";
                     }
                     return _.all(guess, function(e, i) {
-                                            if (e) {
-                                                return _.include(SOLUTION, i);
-                                            } else {
-                                                return !_.include(SOLUTION, i);
-                                            }
-                                        });
+                        if (e) {
+                            return _.include(SOLUTION, i);
+                        } else {
+                            return !_.include(SOLUTION, i);
+                        }
+                    });
                 </div>
             </div>
             <div class="hints">
@@ -69,9 +108,9 @@
                     <p>Vertical angles are congruent, so the angle <span class="hint_red">vertical</span> to the <span class="hint_orange">given</span> is congruent.</p>
                     <div class="graphie">
                         if (GIVEN % 4 &lt; 2) {
-                            GRAPH.angles.hint((GIVEN + 2) % 8, RED);
+                            GRAPH.hint((GIVEN + 2) % 8, RED);
                         } else {
-                            GRAPH.angles.hint((GIVEN + 6) % 8, RED);
+                            GRAPH.hint((GIVEN + 6) % 8, RED);
                         }
                     </div>
                 </div>
@@ -79,27 +118,27 @@
                     <p>Opposite interior angles are congruent, so the angle <span class="hint_purple">opposite</span> of the <span class="hint_orange">given</span> is congruent</p>
                     <div class="graphie">
                         if (GIVEN &lt; 2) {
-                            GRAPH.angles.hint((GIVEN + 6) % 8, PURPLE);
+                            GRAPH.hint((GIVEN + 6) % 8, PURPLE);
                         } else {
-                            GRAPH.angles.hint((GIVEN + 2) % 8, PURPLE);
+                            GRAPH.hint((GIVEN + 2) % 8, PURPLE);
                         }
                     </div>
                 </div>
                 <div data-else>
                     <p>Opposite interior angles are congruent, so the angle <span class="hint_purple">opposite</span> of the <span class="hint_red">vertical angle</span> is congruent</p>
                     <div class="graphie">
-                        GRAPH.angles.hint((GIVEN + 4) % 8, PURPLE);
+                        GRAPH.hint((GIVEN + 4) % 8, PURPLE);
                     </div>
                 </div>
                 <div>
                     <p>Vertical angles are congruent, so the angle <span class="hint_pink">vertical</span> to the <span class="hint_purple">opposite interior angle</span> is congruent.</p>
                     <div class="graphie">
                         if (GIVEN &lt; 2 || GIVEN &gt; 5) {
-                            GRAPH.angles.hint((GIVEN + 4) % 8, PINK);
+                            GRAPH.hint((GIVEN + 4) % 8, PINK);
                         } else if (GIVEN &lt; 4) {
-                            GRAPH.angles.hint((GIVEN + 2) % 8, PINK);
+                            GRAPH.hint((GIVEN + 2) % 8, PINK);
                         } else {
-                            GRAPH.angles.hint((GIVEN + 6) % 8, PINK);
+                            GRAPH.hint((GIVEN + 6) % 8, PINK);
                         }
                     </div>
                 </div>
