@@ -361,6 +361,9 @@ function traceBack(statementKey, depth){
 
 
             // if the triangles share vertical angles, use that fact
+            // angles are vertical if they share a midpoint, and have two
+            // shared lines from their respective endpoints, each of which
+            // goes through the shared midpoint
             var verticalAngs = null;
             for(var i=0; i<3; i++){
                 var ang1 = triangle1.angs[i];
@@ -373,7 +376,10 @@ function traceBack(statementKey, depth){
                                 SEGMENTS[k].equals(new Seg(ang1.end1, ang2.end2)) ||
                                 SEGMENTS[k].equals(new Seg(ang1.end2, ang2.end1)) ||
                                 SEGMENTS[k].equals(new Seg(ang1.end2, ang2.end2))){
-                                sharedLines += 1;
+
+                                if(!isRelationPossible([SEGMENTS[k], new Seg(SEGMENTS[k].end1, ang1.mid)])){
+                                    sharedLines += 1;
+                                }
                             }
                         }
 
@@ -545,6 +551,7 @@ function traceBack(statementKey, depth){
 
             // triangle congruence case 2: triangles have vertical angles
             else if(verticalAngs != null){
+                console.log("in vertical angles case");
                 // in this case we actually need to make sure we name the triangles correctly so that the corresponding angles are in
                 // the right places: so if angle BAC is = to angle DEF, don't have the triangle congruence be BAC = FDE
                 if(!triangIn(triangle2, fixedTriangles)){
