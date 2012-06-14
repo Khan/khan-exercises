@@ -211,7 +211,7 @@ function Scratchpad(elem) {
     function mousemove(X, Y) {
             if (X <= 40) return;
             if (path && tool == "draw") {
-                pathstr += "L"+ X + ","+ Y;
+                pathstr += "L" + X + "," + Y;
                 path.attr("path", pathstr);
             }else if (tool == "erase" && eraser) {
                 var x1 = Math.min(X, eraser.sx),
