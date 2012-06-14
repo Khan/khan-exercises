@@ -22,7 +22,7 @@ $.extend(KhanUtil, {
         };
 
         var bottomIntersect = [invfunc(angles.y1), angles.y1];
-        var topIntersect    = [invfunc(angles.y2), angles.y2];
+        var topIntersect = [invfunc(angles.y2), angles.y2];
 
         // scale = -1: returns end
         // scale =  0: returns (start + end) / 2
@@ -33,7 +33,7 @@ $.extend(KhanUtil, {
         };
 
         // Draw the diagonal line
-        graph.line(scaleLine(bottomIntersect, topIntersect,  1.6),
+        graph.line(scaleLine(bottomIntersect, topIntersect, 1.6),
                    scaleLine(bottomIntersect, topIntersect, -1.6));
 
         // Add an arc to the diagram
@@ -56,7 +56,7 @@ $.extend(KhanUtil, {
             pointPos[1] += Math.sin(aveAngle) * 0.8;
 
             arc.point = KhanUtil.addMovablePoint({
-                            coord: pointPos,
+                            coord: pointPos
                         });
             // Increase the point's size
             arc.point.mouseTarget.attr({ r: 30.0 });
@@ -160,13 +160,13 @@ $.extend(KhanUtil, {
 
         angles.angles.push(addArc(bottomIntersect, 0.6, 0, angles.angle));
         angles.angles.push(addArc(bottomIntersect, 0.6, angles.angle, 180));
-        angles.angles.push(addArc(bottomIntersect, 0.6, 180, 180+angles.angle));
-        angles.angles.push(addArc(bottomIntersect, 0.6, 180+angles.angle, 360));
+        angles.angles.push(addArc(bottomIntersect, 0.6, 180, 180 + angles.angle));
+        angles.angles.push(addArc(bottomIntersect, 0.6, 180 + angles.angle, 360));
 
         angles.angles.push(addArc(topIntersect, 0.6, 0, angles.angle));
         angles.angles.push(addArc(topIntersect, 0.6, angles.angle, 180));
-        angles.angles.push(addArc(topIntersect, 0.6, 180, 180+angles.angle));
-        angles.angles.push(addArc(topIntersect, 0.6, 180+angles.angle, 360));
+        angles.angles.push(addArc(topIntersect, 0.6, 180, 180 + angles.angle));
+        angles.angles.push(addArc(topIntersect, 0.6, 180 + angles.angle, 360));
 
         // Exposed function to force setting of arcs
         angles.setAngle = function(index) {

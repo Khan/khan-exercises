@@ -646,17 +646,17 @@ $.extend(KhanUtil, {
         });
 
         // Immediately Move to the x or y coodinate that is given
-        movableLine.setCoord = function ( coord ) {
+        movableLine.setCoord = function(coord) {
             if (options.vertical) {
-                this.visibleShape.translate( coord * graph.scale[0] - this.visibleShape.attr("translation").x, 0 );
-                this.mouseTarget.attr( "x", coord / graph.scale[0] + graph.range[0][0] - 10 );
+                this.visibleShape.translate(coord * graph.scale[0] - this.visibleShape.attr("translation").x, 0);
+                this.mouseTarget.attr("x", coord / graph.scale[0] + graph.range[0][0] - 10);
             } else {
-                this.visibleShape.translate( 0, -coord * graph.scale[1] - this.visibleShape.attr("translation").y );
-                this.mouseTarget.attr( "y", (graph.range[1][1] - coord) * graph.scale[1] - 10 );
+                this.visibleShape.translate(0, -coord * graph.scale[1] - this.visibleShape.attr("translation").y);
+                this.mouseTarget.attr("y", (graph.range[1][1] - coord) * graph.scale[1] - 10);
             }
 
             this.coord = coord;
-            if ( jQuery.isFunction( this.onMove ) ) {
+            if (jQuery.isFunction(this.onMove)) {
                 this.onMove(coord);
             }
         }
@@ -1134,19 +1134,19 @@ $.extend(KhanUtil, {
 
         if (arrowWidget.direction === "up") {
             arrowWidget.visibleShape = graph.path([
-                    [arrowWidget.coord[0],                      arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
                     [arrowWidget.coord[0] - 4 / graph.scale[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
-                    [arrowWidget.coord[0],                      arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
                     [arrowWidget.coord[0] + 4 / graph.scale[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
-                    [arrowWidget.coord[0],                      arrowWidget.coord[1] - 4 / graph.scale[1]]
+                    [arrowWidget.coord[0], arrowWidget.coord[1] - 4 / graph.scale[1]]
                     ], { stroke: null, fill: KhanUtil.ORANGE });
         } else if (arrowWidget.direction === "down") {
             arrowWidget.visibleShape = graph.path([
-                    [arrowWidget.coord[0],                      arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
                     [arrowWidget.coord[0] - 4 / graph.scale[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
-                    [arrowWidget.coord[0],                      arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
                     [arrowWidget.coord[0] + 4 / graph.scale[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
-                    [arrowWidget.coord[0],                      arrowWidget.coord[1] + 4 / graph.scale[1]]
+                    [arrowWidget.coord[0], arrowWidget.coord[1] + 4 / graph.scale[1]]
                     ], { stroke: null, fill: KhanUtil.ORANGE });
         }
 

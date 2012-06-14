@@ -121,7 +121,7 @@ $.extend(KhanUtil, {
 //        ["Marcus Thornton", .788],
 //        ["Beno Udrih", .864],
 //        ["Dwyane Wade", .758],
-        ["John Wall", .766],
+        ["John Wall", .766]
 //        ["Gerald Wallace", .746],
 //        ["Hakim Warrick", .721],
 //        ["David West", .807],
