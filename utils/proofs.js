@@ -1164,11 +1164,17 @@ function checkAngEqual(ang1, ang2, reason){
     if(ang1.mid == ang2.mid){
         var sharedLines = 0;
         for(var i=0; i<SEGMENTS.length; i++){
-            if((SEGMENTS[i].end1 == ang1.end1 && SEGMENTS[i].end2 == ang2.end1) ||
-                (SEGMENTS[i].end1 == ang1.end1 && SEGMENTS[i].end2 == ang2.end2) ||
-                (SEGMENTS[i].end1 == ang1.end2 && SEGMENTS[i].end2 == ang2.end1) ||
-                (SEGMENTS[i].end1 == ang1.end2 && SEGMENTS[i].end2 == ang2.end2)){
-                sharedLines += 1;
+            if(SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end1)) ||
+                SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end2)) ||
+                SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end1)) ||
+                SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end2))){
+
+                console.log("candidate for shared line " + SEGMENTS[i]);
+
+                if(!isRelationPossible([SEGMENTS[i], new Seg(SEGMENTS[i].end1, ang1.mid)])){
+                    console.log("actually a shared line " + SEGMENTS[i]);
+                    sharedLines += 1;
+                }
 
             }
         }
