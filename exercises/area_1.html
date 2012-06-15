@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems interactive subhints">
+<html data-require="math graphie graphie-geometry word-problems interactive subhints">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Area 1</title>
@@ -159,96 +159,13 @@
             <div class="vars">
                 <var id="WIDTH">randRange(5, 10)</var>
                 <var id="HEIGHT">randRange(5, 10)</var>
-                <var id="SIDES, SQUARES"
-                    data-ensure="SIDES.length > 4 && SQUARES.length < 15">
-                        (function() {
-                            var sides = [];
-                            var squares = [];
-
-                            var left = randRange(0, WIDTH - 1);
-                            var right = randRange(left + 1, WIDTH);
-
-                            sides.push({
-                                start: [left, HEIGHT - 1],
-                                end: [right, HEIGHT - 1],
-                                length: right - left,
-                                labelPos: "above"
-                            });
-                            var leftStart = HEIGHT - 1;
-                            var rightStart = HEIGHT - 1;
-
-                            _(right - left).times(function(dx) {
-                                squares.push([HEIGHT - 1, left + dx]);
-                            });
-
-                            _(HEIGHT - 3).times(function(y) {
-                                var prevLeft = left;
-                                var prevRight = right;
-                                left = randRangeWeighted(0, prevRight - 1,
-                                    prevLeft, 0.7);
-                                right = randRangeWeighted(max(left, prevLeft)
-                                    + 1, WIDTH, prevRight, 0.7);
-                                _(right - left).times(function(dx) {
-                                    squares.push([HEIGHT - y - 2, left + dx]);
-                                });
-                                if (left !== prevLeft) {
-                                    sides.push({
-                                        start: [prevLeft, leftStart],
-                                        end: [prevLeft, HEIGHT - y - 2],
-                                        length: leftStart - (HEIGHT - y - 2),
-                                        labelPos: "left"
-                                    });
-                                    sides.push({
-                                        start: [prevLeft, HEIGHT - y - 2],
-                                        end: [left, HEIGHT - y - 2],
-                                        length: abs(left - prevLeft),
-                                        labelPos: "center"
-                                    });
-                                    leftStart = HEIGHT - y - 2;
-                                }
-                                if (right !== prevRight) {
-                                    sides.push({
-                                        start: [prevRight, rightStart],
-                                        end: [prevRight, HEIGHT - y - 2],
-                                        length: rightStart - (HEIGHT - y - 2),
-                                        labelPos: "right"
-                                    });
-                                    sides.push({
-                                        start: [prevRight, HEIGHT - y - 2],
-                                        end: [right, HEIGHT - y - 2],
-                                        length: abs(right - prevRight),
-                                        labelPos: "center"
-                                    });
-                                    rightStart = HEIGHT - y - 2;
-                                }
-                            });
-
-                            sides.push({
-                                start: [left, leftStart],
-                                end: [left, 1],
-                                length: leftStart - 1,
-                                labelPos: "left"
-                            });
-                            sides.push({
-                                start: [right, rightStart],
-                                end: [right, 1],
-                                length: rightStart - 1,
-                                labelPos: "right"
-                            });
-                            sides.push({
-                                start: [left, 1],
-                                end: [right, 1],
-                                length: right - left,
-                                labelPos: "below"
-                            });
-
-                            return [sides, squares];
-                    })()
+                <var id="SHAPE" data-ensure="
+                    SHAPE.numSides > 4 &&
+                    SHAPE.area < 15">createOddShape({
+                        width: WIDTH,
+                        height: HEIGHT
+                    })
                 </var>
-                <var id="PERIMETER">_.reduce(SIDES, function(m, v) {
-                    return m + v.length;
-                }, 0)</var>
-                <var id="AREA">SQUARES.length</var>
             </div>
 
             <p class="question">
@@ -270,14 +187,14 @@
                             stroke: "#bbb" });
                     });
 
-                    _.each(SIDES, function(side) {
+                    _.each(SHAPE.sides, function(side) {
                         path([side.start, side.end], {stroke: BLUE});
                     });
                 </div>
             </div>
 
             <div class="solution" data-type="multiple">
-                <span class="sol"><var>AREA</var></span>
+                <span class="sol"><var>SHAPE.area</var></span>
                 square <var>plural(UNIT_TEXT)</var>
             </div>
 
@@ -288,15 +205,12 @@
                 </p>
                 <div>
                     <div class="graphie" data-update="area">
-                        _.each(SQUARES, function(square, n) {
-                            label([square[1] + 0.5, square[0] - 0.5], n + 1,
-                                "center", false);
-                        });
+                        SHAPE.labelSquares();
                     </div>
                     <p>Count the number of squares covered.</p>
                 </div>
                 <p>
-                    The area is <code><var>AREA</var></code> square
+                    The area is <code><var>SHAPE.area</var></code> square
                     <var>plural(UNIT_TEXT)</var>.
                 </p>
             </div>

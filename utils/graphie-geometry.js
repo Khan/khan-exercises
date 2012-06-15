@@ -707,3 +707,142 @@ function newKite(center) {
     var angC = 360 - angB - 2 * angA;
     return new Quadrilateral(center, randomQuadAngles.kite(), 1 , "", 2);
 }
+
+$.extend(KhanUtil, {
+
+    // Creates a representation of a weird blocky shape that you can find
+    // the perimeter or area of
+    createOddShape: function(options) {
+        shape = $.extend({
+            width: 10,
+            height: 10,
+            squares: [],
+            sides: []
+        }, options);
+
+        // Start at the top of the shape and pick a random left and right
+        // edge for the top row.
+        var y = shape.height - 1;
+        var left = KhanUtil.randRange(0, shape.width - 1);
+        var right = KhanUtil.randRange(left + 1, shape.width);
+
+        // Add the top side
+        shape.sides.push({
+            start: [left, y],
+            end: [right, y],
+            length: right - left,
+            labelPos: "above"
+        });
+        // The y-positions where the next vertical line on the left and
+        // right sides of the figure starts.
+        var leftStart = y;
+        var rightStart = y;
+
+        // Add each square in the top row
+        _(right - left).times(function(dx) {
+            shape.squares.push([left + dx, y]);
+        });
+
+        // Iterate through each subsequent row
+        while (y > 2) {
+            y -= 1;
+            // Pick a new left and right edge for each row, with a 70%
+            // probability of continuing on the same row as the row above
+            var prevLeft = left;
+            var prevRight = right;
+            left = KhanUtil.randRangeWeighted(0, prevRight - 1, prevLeft, 0.7);
+            right = KhanUtil.randRangeWeighted(Math.max(left, prevLeft) + 1,
+                shape.width, prevRight, 0.7);
+
+            // Add each square in this row
+            _(right - left).times(function(dx) {
+                shape.squares.push([left + dx, y]);
+            });
+
+            // If the left side isn't the same as the row above,
+            // add a new vertical and horizontal side
+            if (left !== prevLeft) {
+                shape.sides.push({
+                    start: [prevLeft, leftStart],
+                    end: [prevLeft, y],
+                    length: leftStart - y,
+                    labelPos: "left"
+                });
+                shape.sides.push({
+                    start: [prevLeft, y],
+                    end: [left, y],
+                    length: Math.abs(left - prevLeft),
+                    labelPos: "center"
+                });
+                // record where the next vertical side on the left starts
+                leftStart = y;
+            }
+
+            // If the right side isn't the same as the row above,
+            // add a new vertical and horizontal side
+            if (right !== prevRight) {
+                shape.sides.push({
+                    start: [prevRight, rightStart],
+                    end: [prevRight, y],
+                    length: rightStart - y,
+                    labelPos: "right"
+                });
+                shape.sides.push({
+                    start: [prevRight, y],
+                    end: [right, y],
+                    length: Math.abs(right - prevRight),
+                    labelPos: "center"
+                });
+                // record where the next vertical side on the right starts
+                rightStart = y;
+            }
+        }
+
+        // Add the last left and right vertical sides
+        shape.sides.push({
+            start: [left, leftStart],
+            end: [left, 1],
+            length: leftStart - 1,
+            labelPos: "left"
+        });
+        shape.sides.push({
+            start: [right, rightStart],
+            end: [right, 1],
+            length: rightStart - 1,
+            labelPos: "right"
+        });
+
+        // Add the bottom side
+        shape.sides.push({
+            start: [left, 1],
+            end: [right, 1],
+            length: right - left,
+            labelPos: "below"
+        });
+
+        shape.perimeter = _.reduce(shape.sides, function(perimeter, side) {
+                return perimeter + side.length;
+            }, 0);
+
+        shape.area = shape.squares.length;
+
+        shape.numSides = shape.sides.length;
+
+        shape.labelSquares = function() {
+            _.each(shape.squares, function(square, n) {
+                KhanUtil.currentGraph.label([square[0] + 0.5, square[1] - 0.5],
+                    n + 1, "center", false);
+            });
+        };
+
+        shape.labelSides = function() {
+            _.each(shape.sides, function(side) {
+                KhanUtil.currentGraph.label([(side.start[0] + side.end[0]) / 2,
+                    (side.start[1] + side.end[1]) / 2], side.length,
+                    side.labelPos);
+            });
+        };
+
+        return shape;
+    }
+});
