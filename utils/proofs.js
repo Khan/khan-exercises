@@ -1180,10 +1180,11 @@ function checkAngEqual(ang1, ang2, reason){
                 SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end1)) ||
                 SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end2))){
 
-                console.log("candidate for shared line " + SEGMENTS[i]);
+                console.log(SEGMENTS[i]);
+                console.log(new Seg(SEGMENTS[i].end1, ang1.mid));
 
                 if(!isRelationPossible([SEGMENTS[i], new Seg(SEGMENTS[i].end1, ang1.mid)])){
-                    console.log("actually a shared line " + SEGMENTS[i]);
+                    console.log("is a shared line");
                     sharedLines += 1;
                 }
 
@@ -1224,8 +1225,7 @@ function checkAngEqual(ang1, ang2, reason){
     //         }
     //     }
     // }
-    console.log([ang1, ang2]);
-    console.log(altInteriorAngs);
+
     if(eqIn([ang1, ang2], altInteriorAngs) || eqIn([ang2, ang1], altInteriorAngs)){
 
         if(reason == "Alternate angles"){
@@ -1271,16 +1271,9 @@ function eqIn(item, object){
                 return true;
             }
         }
-        if(object == altInteriorAngs){
-            console.log("eqIn: " + item1 + ", " + item2 + " :: " + list);
-        }
 
 
     }
-    
-
-    
-
     
     return false;
 }

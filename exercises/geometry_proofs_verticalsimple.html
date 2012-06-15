@@ -40,13 +40,17 @@
             <var id="ang2">new Ang("C","A","B", null)</var>
             <var id="ang3">new Ang("C","B","A", null)</var>
             <var id="ang5">new Ang("A","C","B", null)</var>
+            <var id="ang6">new Ang("A","C","D", null)</var>
+            <var id="ang7">new Ang("B","C","E", null)</var>
             <var id="ang8">new Ang("D","C","E", null)</var>
             <var id="ang10">new Ang("C","D","E", null)</var>
             <var id="ang11">new Ang("C","E","D", null)</var>
 
-            <var id="ANGS">[ang2, ang3, ang5, ang8, ang10, ang11]</var>
+            <var id="ANGS">[ang2, ang3, ang5, ang6, ang7, ang8, ang10, ang11]</var>
 
-            <var id="SUPPLEMENTARY_ANGS">[]</var>
+            <var id="SUPPLEMENTARY_ANGS">[addAngs(ang5, ang6), addAngs(ang6, ang8), addAngs(ang8, ang7), addAngs(ang7, ang5)]</var>
+
+            <var id="ALTERNATE_INTERIOR_ANGS">[[ang2, ang11], [ang3, ang10]]</var>
 
             <var id="PARALLEL_SEGS">[[AB,DE]]</var>
 
@@ -56,7 +60,7 @@
 
             <var id="TRIANGLES">[ABC, ECD]</var>
 
-            <var id="STATEMENTS">initTriangleCongruence(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, PARALLEL_SEGS)</var>
+            <var id="STATEMENTS">initTriangleCongruence(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS)</var>
             <var id="KNOWN">STATEMENTS[0]</var>
             <var id="FINISHED">STATEMENTS[1]</var>
 
