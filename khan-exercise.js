@@ -2000,7 +2000,15 @@ var Khan = (function() {
                 // TODO: Save locally if offline
                 $(Khan).trigger("attemptSaved");
 
-            }, function() {
+            }, function(xhr) {
+
+                if (xhr.readyState == 0) {
+                    // Ignore errors caused by a broken pipe during page unload
+                    // (browser navigating away during ajax request).
+                    // See http://stackoverflow.com/questions/1370322/jquery-ajax-fires-error-callback-on-window-unload
+                    return;
+                }
+
                 // Error during submit. Disable the page and ask users to
                 // reload in an attempt to get updated data.
 
@@ -2618,7 +2626,7 @@ var Khan = (function() {
             },
 
             // Handle error edge case
-            error: function() {
+            error: function(xhr) {
                 // Clear the queue so we don't spit out a bunch of
                 // queued up requests after the error
                 if (queue && requestQueue[queue]) {
@@ -2626,7 +2634,7 @@ var Khan = (function() {
                 }
 
                 if ($.isFunction(fnError)) {
-                    fnError();
+                    fnError(xhr);
                 }
             }
         };
