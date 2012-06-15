@@ -46,7 +46,7 @@ var supplementaryAngles;
 var parallelSegments;
 var altInteriorAngs;
 
-function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altIntAngs) {
+function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altIntAngs, depth) {
     userProofDone = false;
 
     knownEqualities = {};
@@ -94,7 +94,7 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
         //ensure these triangles can be congruent
         if(isRelationPossible([triangle1, triangle2])){
             finalRelation = [triangle1, triangle2];
-            traceBack([triangle1, triangle2], 2);
+            traceBack([triangle1, triangle2], depth);
             break;
         }
     }
@@ -724,6 +724,10 @@ function traceBack(statementKey, depth){
             // triangle congruence case 4: triangles have neither shared side, vertical angles, nor alternate
             // interior angles
             else{
+
+                fixedTriangles[triangle1] = true;
+                fixedTriangles[triangle2] = true;
+
                 //SSS
                 if(congruence == 1){
                     finishedEqualities[[triangle1, triangle2]] = "SSS";
@@ -925,7 +929,7 @@ function setGivenOrTraceBack(key, oldKey, dep){
             fixedTriangles[key[1]] = true;
         }
 
-        if(KhanUtil.random() < 0.5){
+        if(KhanUtil.random() < 0.25){
             console.log("setting relation "+key+" to Given");
             finishedEqualities[key] = "Given";
             finishedEqualities[key.reverse()] = "Given";
