@@ -58,6 +58,7 @@ $.extend(KhanUtil, {
             "person": "people",
             "is": "are",
             "was": "were",
+            "foot": "feet",
             "square foot": "square feet",
             "tomato": "tomatoes"
         };

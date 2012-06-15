@@ -1,111 +1,72 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-require="math graphie word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Perimeter of squares and rectangles</title>
     <script src="../khan-exercise.js"></script>
-
-    <script type="text/javascript">
-        var L_COLOR = "orange";
-        var W_COLOR = "blue";
-
-        var S_COLOR = "purple";
-
-        var P_COLOR = "green";
-        var K_COLOR = "red";
-
-        function initRect( L, W ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.init({
-                range: [ [-1, L + 1], [-1, W + 1] ],
-                scale: 500 / (2 * L + 2 * W)
-            });
-
-            graph.path( [ [0, 0], [L, 0] ], { "stroke": L_COLOR } );
-            graph.label( [L/2, 0], "\\color{" + L_COLOR + "}{l = " + L + "}", "below" );
-
-            graph.path( [ [L, 0], [L, W] ], { "stroke": W_COLOR } );
-            graph.label( [L, W/2], "\\color{" + W_COLOR + "}{w = " + W + "}", "right" );
-
-            graph.path( [ [L, W], [0, W], [0, 0] ] );
-        }
-
-        function drawRectPerimeter( L, W ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.path( [ [0, 0], [L, 0], [L, W], [0, W], [0, 0] ], { "stroke": P_COLOR } );
-            graph.label( [L/2, W], "\\color{" + P_COLOR + "}{P = " + (2 * L + 2 * W) + "}", "above" );
-        }
-
-        function drawRectArea( L, W ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.path( [ [0, 0], [L, 0], [L, W], [0, W], [0, 0] ], { "stroke-opacity": 0, "fill": "#ffcccc" } );
-            graph.label( [L/2, W/2], "\\color{" + K_COLOR + "}{K = " + L * W + "}", "center" );
-        }
-
-        function initSq( S ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.init({
-                range: [ [-1 * (S / 5), S + (S / 5)], [-1 * (S / 5), S + (S / 5)] ],
-                scale: 200 / S
-            });
-
-            graph.path( [ [0, 0], [S, 0], [S, S], [0, S], [0, 0] ] );
-        }
-
-        function drawSqSide( S ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.path( [ [S, 0], [S, S] ], { "stroke": S_COLOR } );
-            graph.label( [S, S/2], "\\color{" + S_COLOR + "}{s = " + S + "}", "right" );
-        }
-
-        function drawSqPerimeter( S ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.path( [ [0, 0], [0, S], [S, S], [S, 0], [0, 0] ], { "stroke": P_COLOR } );
-            graph.label( [S/2, S], "\\color{" + P_COLOR + "}{P = " + 4*S + "}", "above" );
-        }
-
-        function drawSqArea( S ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.path( [ [0, 0], [S, 0], [S, S], [0, S], [0, 0] ], { "stroke-opacity": 0, "fill": "#ffcccc" } );
-            graph.label( [S/2, S/2], "\\color{" + K_COLOR + "}{K = " + S * S + "}", "center" );
-        }
-    </script>
 </head>
 <body>
-    <div class="exercise">
+<div class="exercise">
+    <div class="vars">
+        <var id="UNIT,UNIT_TEXT">randFromArray([
+            ["in", "inch"],
+            ["ft", "foot"],
+            ["m", "meter"],
+            ["cm", "centimeter"],
+            ["", "unit"]
+        ])</var>
+    </div>
     <div class="problems">
         <div id="square-s-to-P">
             <div class="vars">
                 <var id="S">randRange(1, 8)</var>
             </div>
 
-            <div class="question">
-                <p>Suppose the side length of a square is <code>\color{<var>S_COLOR</var>}{<var>S</var>}</code>. What is its perimeter?</p>
-            </div>
+            <p class="question">
+                One side of a square is <code><var>S</var></code>
+                <var>plural(UNIT_TEXT, S)</var> long. What is its perimeter?
+            </p>
 
-            <div class="solution"><var>4 * S</var></div>
+            <div class="solution" data-type="multiple">
+                <span class="sol"><var>4 * S</var></span>
+                <var>plural(UNIT_TEXT)</var>
+            </div>
 
             <div class="hints">
                 <div class="graphie" id="square">
-                    initSq( S );
-
-                    drawSqSide( S );
+                    init({ range: [[-1, 6], [-1, 6]] });
+                    path([[0, 0], [5, 0], [5, 5], [0, 5], true],
+                        { stroke: BLUE, fill: "#eee" });
+                    path([[0, 0], [0, 5]], { "stroke": PINK });
+                    label([0, 2.5], S + "\\text{ " + UNIT + "}", "left",
+                        { "color": PINK });
                 </div>
-                <p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>.</p>
+                <p>
+                    The perimeter is the total length of all the sides of the
+                    shape added together.
+                </p>
                 <div>
-                    <p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>P = 4\cdot\color{<var>S_COLOR</var>}{<var>S</var>} = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>.</p>
-
                     <div class="graphie" data-update="square">
-                        drawSqPerimeter( S );
+                        path([[0, 0], [0, 5]],
+                            { strokeWidth: 4, stroke: PINK });
+                        path([[0, 5], [5, 5]],
+                            { strokeWidth: 4, stroke: BLUE });
+                        path([[5, 5], [5, 0]],
+                            { strokeWidth: 4, stroke: "purple" });
+                        path([[5, 0], [0, 0]],
+                            { strokeWidth: 4, stroke: GREEN });
                     </div>
+                    <p>
+                        Add up the lengths of the sides:
+                    </p>
+                    <p><code>\qquad\text{perimeter} =
+                        \pink{<var>S</var>} + \blue{<var>S</var>} +
+                        \purple{<var>S</var>} + \green{<var>S</var>}
+                    </code></p>
                 </div>
+                <p><code>\qquad\text{perimeter} =
+                    <var>S * 4</var>\text{ <var>UNIT</var>}
+                </code></p>
             </div>
         </div>
 
@@ -114,25 +75,57 @@
                 <var id="S">randRange(1, 8)</var>
             </div>
 
-            <div class="question">
-                <p>Suppose the perimeter of a square is <code>\color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>. What is its side length?</p>
+            <p class="question">
+                The perimeter of a square is <code><var>4 * S</var></code>
+                <var>plural(UNIT_TEXT)</var>. How long is each side?
+            </p>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol"><var>S</var></span>
+                <var>plural(UNIT_TEXT)</var>
             </div>
 
-            <div class="solution"><var>S</var></div>
-
             <div class="hints">
-                <div class="graphie" id="square">
-                    initSq( S );
-
-                    drawSqPerimeter( S );
-                </div>
-                <p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>, so <code>s = P/4</code>.</p>
                 <div>
-                    <p>Substituting in <code>P = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code> gives <code>s = \color{<var>P_COLOR</var>}{<var>4 * S</var>}/4 = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
-
-                    <div class="graphie" data-update="square">
-                        drawSqSide( S );
+                    <div class="graphie" id="square">
+                        init({ range: [[-1, 6], [-1, 6]] });
+                        path([[0, 0], [5, 0], [5, 5], [0, 5], true],
+                            { stroke: BLUE, fill: "#eee" });
+                        path([[0, 0], [0, 5]], { "stroke": PINK });
+                        label([0, 2.5], "\\text{? " + UNIT + "}", "left",
+                            { "color": PINK });
                     </div>
+                </div>
+                <div>
+                    <div class="graphie" data-update="square">
+                        path([[0, 0], [0, 5]],
+                            { strokeWidth: 4, stroke: PINK });
+                        path([[0, 5], [5, 5]],
+                            { strokeWidth: 4, stroke: BLUE });
+                        path([[5, 5], [5, 0]],
+                            { strokeWidth: 4, stroke: PURPLE });
+                        path([[5, 0], [0, 0]],
+                            { strokeWidth: 4, stroke: GREEN });
+                    </div>
+                    <p>
+                        The perimeter is the total length of all the sides of
+                        the shape added together.
+                    </p>
+                    <p><code>\qquad \pink{\text{?}} + \blue{\text{?}} +
+                        \purple{\text{?}} + \green{\text{?}} =
+                        <var>4 * S</var>\text{ <var>UNIT</var>}
+                    </code></p>
+                </div>
+                <div>
+                    <p><code>\qquad \pink{<var>S</var>} + \blue{<var>S</var>} +
+                        \purple{<var>S</var>} + \green{<var>S</var>} =
+                        <var>4 * S</var>\text{ <var>UNIT</var>}
+                    </code></p>
+                    <p>
+                        The sides of a square are all the same length, so each
+                        side must be <code><var>S</var></code>
+                        <var>plural(UNIT_TEXT, S)</var> long.
+                    </p>
                 </div>
             </div>
         </div>
@@ -143,28 +136,57 @@
                 <var id="W">randRange(1, 8)</var>
             </div>
 
-            <div class="question">
-                <p>Suppose a rectangle has length <code>\color{<var>L_COLOR</var>}{<var>L</var>}</code> and width <code>\color{<var>W_COLOR</var>}{<var>W</var>}</code>. What is its perimeter?</p>
+            <p class="question">
+                A rectangle is
+                <code><var>L</var></code> <var>plural(UNIT_TEXT, L)</var>
+                long and
+                <code><var>W</var></code> <var>plural(UNIT_TEXT, W)</var>
+                wide. What is its perimeter?
+            </p>
 
+            <div class="solution" data-type="multiple">
+                <span class="sol"><var>2 * L + 2 * W</var></span>
+                <var>plural(UNIT_TEXT)</var>
             </div>
-
-            <div class="solution"><var>2 * L + 2 * W</var></div>
 
             <div class="hints">
                 <div class="graphie" id="rectangle">
-                    initRect( L, W );
+                    init({ range: [[-1, L + 1], [-1, W + 1]],
+                        scale: 200 / max(L, W) });
+                    path([[0, 0], [L, 0], [L, W], [0, W], true],
+                        { stroke: BLUE, fill: "#eee" });
+                    label([L / 2, W], L + "\\text{ " + UNIT + "}", "above");
+                    label([L, W / 2], W + "\\text{ " + UNIT + "}", "right");
                 </div>
-                <p>The area of a rectangle is <code>P = l + w + l + w = 2(l + w)</code>.</p>
+                <p>
+                    The perimeter is the total length of all the sides of the
+                    shape added together.
+                </p>
                 <div>
-                    <p>Substituting in <code>l = \color{<var>L_COLOR</var>}{<var>L</var>}</code> and <code>w = \color{<var>W_COLOR</var>}{<var>W</var>}</code> gives <code>P = 2 (\color{<var>L_COLOR</var>}{<var>L</var>} + \color{<var>W_COLOR</var>}{<var>W</var>}) = \color{<var>P_COLOR</var>}{<var>2 * L + 2 * W</var>}</code>.</p>
-
                     <div class="graphie" data-update="rectangle">
-                        drawRectPerimeter( L, W );
+                        path([[0, 0], [0, W]],
+                            { strokeWidth: 4, stroke: PINK });
+                        path([[0, W], [L, W]],
+                            { strokeWidth: 4, stroke: BLUE });
+                        path([[L, W], [L, 0]],
+                            { strokeWidth: 4, stroke: PURPLE });
+                        path([[L, 0], [0, 0]],
+                            { strokeWidth: 4, stroke: GREEN });
                     </div>
+                    <p>
+                        Add up the lengths of the sides:
+                    </p>
+                    <p><code>\qquad\text{perimeter} =
+                        \pink{<var>W</var>} + \blue{<var>L</var>} +
+                        \purple{<var>W</var>} + \green{<var>L</var>}
+                    </code></p>
                 </div>
+                <p><code>\qquad\text{perimeter} =
+                    <var>2 * L + 2 * W</var>\text{ <var>UNIT</var>}
+                </code></p>
             </div>
         </div>
     </div>
-    </div>
+</div>
 </body>
 </html>
