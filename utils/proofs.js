@@ -123,7 +123,7 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
     }
 
 
-    $(".question").html(newHTML);
+    $(".statements").html(newHTML);
 
 
     return [givens, finalRelation];
@@ -205,7 +205,7 @@ function verifyStatement(){
         }
 
 
-        $(".question").html(newHTML);
+        $(".statements").html(newHTML);
 
         // check if the proof is done
         if(eqIn(finalRelation, knownEqualities)){
@@ -279,7 +279,6 @@ function Triang(segs, angs) {
         angs[i].triangles.push([this, i]);
     }
 
-    this.name = "triangle" + this.angs[2].mid + this.angs[0].mid + this.angs[1].mid;
 }
 
 Triang.prototype.toString = function() {
@@ -432,6 +431,7 @@ function traceBack(statementKey, depth){
 
                     if(eqIn([ang1, ang2], altInteriorAngs) || eqIn([ang2, ang1], altInteriorAngs)){
                         alternateAngs = [i,j];
+                        break loop1;
                     }
                 }
             }
@@ -453,6 +453,9 @@ function traceBack(statementKey, depth){
                 // determine if we can rotate this triangle without screwing up some already
                 // established equality
                 // one or both triangles must not be in an equality for this relation to be possible
+
+                console.log("in shared segment case ");
+
                 if(!triangIn(triangle2, fixedTriangles)){
                     triangle2.segs.rotate(indexDiff);
                     triangle2.angs.rotate(indexDiff);
@@ -461,6 +464,7 @@ function traceBack(statementKey, depth){
                 else if(!triangIn(triangle1, fixedTriangles)){
                     triangle1.segs.rotate(-indexDiff);
                     triangle1.angs.rotate(-indexDiff);
+                    sharedSegIndex = (sharedSegIndex - indexDiff) % 3;
                 }
 
                 fixedTriangles[triangle1] = true;
@@ -504,6 +508,8 @@ function traceBack(statementKey, depth){
 
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi, side ssi + 1
                     if(KhanUtil.random() < 0.5){
+
+                        console.log(sharedSegIndex);
 
                         setGivenOrTraceBack([triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex % 3]],
                         statementKey, depth-1);
@@ -569,6 +575,7 @@ function traceBack(statementKey, depth){
                 else if(!triangIn(triangle1, fixedTriangles)){
                     triangle1.segs.rotate(verticalAngs[1]-verticalAngs[0]);
                     triangle1.angs.rotate(verticalAngs[1]-verticalAngs[0]);
+                    verticalAngs[0] = verticalAngs[1];
                 }
 
                 console.log("rotated triangle2 by " + (verticalAngs[0] - verticalAngs[1]));
@@ -652,6 +659,7 @@ function traceBack(statementKey, depth){
                 else if(!triangIn(triangle1, fixedTriangles)){
                     triangle1.segs.rotate(alternateAngs[1]-alternateAngs[0]);
                     triangle1.angs.rotate(alternateAngs[1]-alternateAngs[0]);
+                    alternateAngs[0] = alternateAngs[1];
                 }
 
                 fixedTriangles[triangle1] = true;
@@ -924,10 +932,10 @@ function traceBack(statementKey, depth){
 function setGivenOrTraceBack(key, oldKey, dep){
     if(isRelationPossible(key)){
         console.log("relation " +key+" is possible");
-        if(key[0] instanceof Triang){
-            fixedTriangles[key[0]] = true;
-            fixedTriangles[key[1]] = true;
-        }
+        // if(key[0] instanceof Triang){
+        //     fixedTriangles[key[0]] = true;
+        //     fixedTriangles[key[1]] = true;
+        // }
 
         if(KhanUtil.random() < 0.25){
             console.log("setting relation "+key+" to Given");

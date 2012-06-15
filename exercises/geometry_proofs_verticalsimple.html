@@ -7,102 +7,104 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars">
-            <var id="A">[-4,2]</var>
-            <var id="B">[4,2]</var>
-            <var id="C">[0,0]</var>
-            <var id="D">[-4,-2]</var>
-            <var id="E">[4,-2]</var>
-
-            <var id="POINTS">["A","B","C","D","E"]</var>
-
-            <var id="AB">new Seg("A","B")</var>
-            <var id="BA">AB</var>
-            <var id="AC">new Seg("A","C")</var>
-            <var id="CA">AC</var>
-            <var id="AE">new Seg("A","E")</var>
-            <var id="EA">AE</var>
-            <var id="BC">new Seg("B","C")</var>
-            <var id="CB">BC</var>
-            <var id="BD">new Seg("B","D")</var>
-            <var id="DB">BD</var>
-            <var id="CD">new Seg("C","D")</var>
-            <var id="DC">CD</var>
-            <var id="CE">new Seg("C","E")</var>
-            <var id="EC">CE</var>
-            <var id="DE">new Seg("D","E")</var>
-            <var id="ED">DE</var>
-            
-
-            <var id="SEGS">[AB,BA,AC,CA,AE,EA,BC,CB,BD,DB,CD,DC,CE,EC,DE,ED]</var>
-            
-
-            <var id="ang2">new Ang("C","A","B", null)</var>
-            <var id="ang3">new Ang("C","B","A", null)</var>
-            <var id="ang5">new Ang("A","C","B", null)</var>
-            <var id="ang6">new Ang("A","C","D", null)</var>
-            <var id="ang7">new Ang("B","C","E", null)</var>
-            <var id="ang8">new Ang("D","C","E", null)</var>
-            <var id="ang10">new Ang("C","D","E", null)</var>
-            <var id="ang11">new Ang("C","E","D", null)</var>
-
-            <var id="ANGS">[ang2, ang3, ang5, ang6, ang7, ang8, ang10, ang11]</var>
-
-            <var id="SUPPLEMENTARY_ANGS">[addAngs(ang5, ang6), addAngs(ang6, ang8), addAngs(ang8, ang7), addAngs(ang7, ang5)]</var>
-
-            <var id="ALTERNATE_INTERIOR_ANGS">[[ang2, ang11], [ang3, ang10]]</var>
-
-            <var id="PARALLEL_SEGS">[[AB,DE]]</var>
-
-            <var id="ABC">new Triang([AB, BC, CA], [ang3, ang5, ang2])</var>
-            <var id="ECD">new Triang([EC, CD, DE], [ang8, ang10, ang11])</var>
-            
-
-            <var id="TRIANGLES">[ABC, ECD]</var>
-
-            <var id="STATEMENTS">initTriangleCongruence(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 2)</var>
-            <var id="KNOWN">STATEMENTS[0]</var>
-            <var id="FINISHED">STATEMENTS[1]</var>
-
-
-            <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
-            
-        </div>
-
-        <div class="problem">
-            <div class="graphie">
-                init({
-                    range: [[-10, 10], [-10, 10]],
-                    scale: 20
-                });
-                
-                
-                line(A, E);
-                line(D, E);
-                line(B, D);
-                line(A, B);
-
-                circle(A, DOT_ATTRS);
-                circle(B, DOT_ATTRS);
-                circle(C, DOT_ATTRS);
-                circle(D, DOT_ATTRS);
-                circle(E, DOT_ATTRS);
-
-                label(A, "A", "left");
-                label(B, "B", "right");
-                label(C, "C", "right");
-                label(D, "D", "left");
-                label(E, "E", "right");
-
-
-            </div>
-        </div>
-
         <div class="problems">
         <div>
-            <div class="question">
-                <!-- <var>_.map(STATEMENTS[0], function(value, key){ return key + ": " + value + "&lt;br&gt;"})</var> -->
+            <div class="vars">
+                <var id="A">[-4,2]</var>
+                <var id="B">[4,2]</var>
+                <var id="C">[0,0]</var>
+                <var id="D">[-4,-2]</var>
+                <var id="E">[4,-2]</var>
+
+                <var id="POINTS">["A","B","C","D","E"]</var>
+
+                <var id="AB">new Seg("A","B")</var>
+                <var id="BA">AB</var>
+                <var id="AC">new Seg("A","C")</var>
+                <var id="CA">AC</var>
+                <var id="AE">new Seg("A","E")</var>
+                <var id="EA">AE</var>
+                <var id="BC">new Seg("B","C")</var>
+                <var id="CB">BC</var>
+                <var id="BD">new Seg("B","D")</var>
+                <var id="DB">BD</var>
+                <var id="CD">new Seg("C","D")</var>
+                <var id="DC">CD</var>
+                <var id="CE">new Seg("C","E")</var>
+                <var id="EC">CE</var>
+                <var id="DE">new Seg("D","E")</var>
+                <var id="ED">DE</var>
+                
+
+                <var id="SEGS">[AB,BA,AC,CA,AE,EA,BC,CB,BD,DB,CD,DC,CE,EC,DE,ED]</var>
+                
+
+                <var id="ang2">new Ang("C","A","B", null)</var>
+                <var id="ang3">new Ang("C","B","A", null)</var>
+                <var id="ang5">new Ang("A","C","B", null)</var>
+                <var id="ang6">new Ang("A","C","D", null)</var>
+                <var id="ang7">new Ang("B","C","E", null)</var>
+                <var id="ang8">new Ang("D","C","E", null)</var>
+                <var id="ang10">new Ang("C","D","E", null)</var>
+                <var id="ang11">new Ang("C","E","D", null)</var>
+
+                <var id="ANGS">[ang2, ang3, ang5, ang6, ang7, ang8, ang10, ang11]</var>
+
+                <var id="SUPPLEMENTARY_ANGS">[addAngs(ang5, ang6), addAngs(ang6, ang8), addAngs(ang8, ang7), addAngs(ang7, ang5)]</var>
+
+                <var id="ALTERNATE_INTERIOR_ANGS">[[ang2, ang11], [ang3, ang10]]</var>
+
+                <var id="PARALLEL_SEGS">[[AB,DE]]</var>
+
+                <var id="ABC">new Triang([AB, BC, CA], [ang3, ang5, ang2])</var>
+                <var id="ECD">new Triang([EC, CD, DE], [ang8, ang10, ang11])</var>
+                
+
+                <var id="TRIANGLES">[ABC, ECD]</var>
+
+                <var id="STATEMENTS">initTriangleCongruence(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 2)</var>
+                <var id="KNOWN">STATEMENTS[0]</var>
+                <var id="FINISHED">STATEMENTS[1]</var>
+
+
+                <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
+                
             </div>
+            <p class="question">
+                <p> Prove <code> \bigtriangleup <var>FINISHED[0].toString().substring(8,11)</var>= \bigtriangleup <var>FINISHED[1].toString().substring(8,11)</var></code></p>
+            </p>
+
+            <div class="problem">
+                <div class="graphie">
+                    init({
+                        range: [[-10, 10], [-10, 10]],
+                        scale: 20
+                    });
+                    
+                    
+                    line(A, E);
+                    line(D, E);
+                    line(B, D);
+                    line(A, B);
+
+                    circle(A, DOT_ATTRS);
+                    circle(B, DOT_ATTRS);
+                    circle(C, DOT_ATTRS);
+                    circle(D, DOT_ATTRS);
+                    circle(E, DOT_ATTRS);
+
+                    label(A, "A", "left");
+                    label(B, "B", "right");
+                    label(C, "C", "right");
+                    label(D, "D", "left");
+                    label(E, "E", "right");
+
+
+                </div>
+            </div>
+
+            <p class="statements">
+            </p>
             <div class="solution" data-type="custom">
                 <div class="instruction">
                     Enter a statement, click check to add to proof. Check answer to evaluate the whole proof. <br>
