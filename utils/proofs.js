@@ -571,12 +571,14 @@ function traceBack(statementKey, depth){
                     triangle1.angs.rotate(verticalAngs[1]-verticalAngs[0]);
                 }
 
+                console.log("rotated triangle2 by " + (verticalAngs[0] - verticalAngs[1]));
+
                 fixedTriangles[triangle1] = true;
                 fixedTriangles[triangle2] = true;
 
 
-                finishedEqualities[[triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[1]]]] = "Vertical angles are equal";
-                finishedEqualities[[triangle2.angs[verticalAngs[1]], triangle1.angs[verticalAngs[0]]]] = "Vertical angles are equal";
+                finishedEqualities[[triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[0]]]] = "Vertical angles are equal";
+                finishedEqualities[[triangle2.angs[verticalAngs[0]], triangle1.angs[verticalAngs[0]]]] = "Vertical angles are equal";
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
@@ -588,17 +590,17 @@ function traceBack(statementKey, depth){
                     // with probability 0.5, we choose the congruency to be angle va, side va+1, angle va+1
                     if(KhanUtil.random() < 0.5){
 
-                        setGivenOrTraceBack([triangle1.segs[(verticalAngs[0]+1) % 3], triangle2.segs[(verticalAngs[1]+1) % 3]],
+                        setGivenOrTraceBack([triangle1.segs[(verticalAngs[0]+1) % 3], triangle2.segs[(verticalAngs[0]+1) % 3]],
                             statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.angs[(verticalAngs[0]+1) % 3], triangle2.angs[(verticalAngs[1]+1) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[(verticalAngs[0]+1) % 3], triangle2.angs[(verticalAngs[0]+1) % 3]],
                             statementKey, depth-1);
                     }
 
                     // with probability 0.5, we choose the congruency to be angle va, side va, angle va+2
                     else{
-                        setGivenOrTraceBack([triangle1.segs[verticalAngs[0]], triangle2.segs[verticalAngs[1]]],
+                        setGivenOrTraceBack([triangle1.segs[verticalAngs[0]], triangle2.segs[verticalAngs[0]]],
                             statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.angs[(verticalAngs[0]+2) % 3], triangle2.angs[(verticalAngs[1]+2) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[(verticalAngs[0]+2) % 3], triangle2.angs[(verticalAngs[0]+2) % 3]],
                             statementKey, depth-1);
                     }
                 }
@@ -608,9 +610,9 @@ function traceBack(statementKey, depth){
                     finishedEqualities[[triangle2, triangle1]] = "SAS";
 
                     // only option for SAS is side va, angle va, side va+1
-                    setGivenOrTraceBack([triangle1.segs[verticalAngs[0]], triangle2.segs[verticalAngs[1]]],
+                    setGivenOrTraceBack([triangle1.segs[verticalAngs[0]], triangle2.segs[verticalAngs[0]]],
                         statementKey, depth-1);
-                    setGivenOrTraceBack([triangle1.segs[(verticalAngs[0]+1) % 3], triangle2.segs[(verticalAngs[1]+1) % 3]],
+                    setGivenOrTraceBack([triangle1.segs[(verticalAngs[0]+1) % 3], triangle2.segs[(verticalAngs[0]+1) % 3]],
                         statementKey, depth-1);
                     
                 }
@@ -622,17 +624,17 @@ function traceBack(statementKey, depth){
                     // with probability 0.5, we choose the congruency to be angle va, angle va+1, side va
                     if(KhanUtil.random() < 0.5){
 
-                        setGivenOrTraceBack([triangle1.angs[(verticalAngs[0]+1) % 3], triangle2.angs[(verticalAngs[1]+1) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[(verticalAngs[0]+1) % 3], triangle2.angs[(verticalAngs[0]+1) % 3]],
                             statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.segs[verticalAngs[0]], triangle2.segs[verticalAngs[1]]],
+                        setGivenOrTraceBack([triangle1.segs[verticalAngs[0]], triangle2.segs[verticalAngs[0]]],
                             statementKey, depth-1);
                     }
 
                     // with probability 0.5, we choose the congruency to be angle va, angle va+2, side va+1
                     else{
-                        setGivenOrTraceBack([triangle1.angs[(verticalAngs[0]+2) % 3], triangle2.angs[(verticalAngs[1]+2) % 3]],
+                        setGivenOrTraceBack([triangle1.angs[(verticalAngs[0]+2) % 3], triangle2.angs[(verticalAngs[0]+2) % 3]],
                             statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.segs[(verticalAngs[0]+1) % 3], triangle2.segs[(verticalAngs[1]+1) % 3]],
+                        setGivenOrTraceBack([triangle1.segs[(verticalAngs[0]+1) % 3], triangle2.segs[(verticalAngs[0]+1) % 3]],
                             statementKey, depth-1);
                     }
                 }
