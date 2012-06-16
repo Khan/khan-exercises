@@ -143,15 +143,37 @@ function verifyStatement(){
         if(category == "triangle congruence"){
             var triangleStrings = statement.split("=");
 
-            var triangle1 = new Triang([new Seg(triangleStrings[0][0], triangleStrings[0][1]), new Seg(triangleStrings[0][1], triangleStrings[0][2]),
-                new Seg(triangleStrings[0][2], triangleStrings[0][0])], [new Ang(triangleStrings[0][0], triangleStrings[0][1], triangleStrings[0][2]), 
-                new Ang(triangleStrings[0][1], triangleStrings[0][2], triangleStrings[0][0]), new Ang(triangleStrings[0][2], triangleStrings[0][0],
-                    triangleStrings[0][1])]);
+            // var triangle1 = new Triang([new Seg(triangleStrings[0][0], triangleStrings[0][1]), new Seg(triangleStrings[0][1], triangleStrings[0][2]),
+            //     new Seg(triangleStrings[0][2], triangleStrings[0][0])], [new Ang(triangleStrings[0][0], triangleStrings[0][1], triangleStrings[0][2]), 
+            //     new Ang(triangleStrings[0][1], triangleStrings[0][2], triangleStrings[0][0]), new Ang(triangleStrings[0][2], triangleStrings[0][0],
+            //         triangleStrings[0][1])]);
 
-            var triangle2 = new Triang([new Seg(triangleStrings[1][0], triangleStrings[1][1]), new Seg(triangleStrings[1][1], triangleStrings[1][2]),
-                new Seg(triangleStrings[1][2], triangleStrings[1][0])], [new Ang(triangleStrings[1][0], triangleStrings[1][1], triangleStrings[1][2]), 
-                new Ang(triangleStrings[1][1], triangleStrings[1][2], triangleStrings[1][0]), new Ang(triangleStrings[1][2], triangleStrings[1][0],
-                    triangleStrings[1][1])]);
+            // var triangle2 = new Triang([new Seg(triangleStrings[1][0], triangleStrings[1][1]), new Seg(triangleStrings[1][1], triangleStrings[1][2]),
+            //     new Seg(triangleStrings[1][2], triangleStrings[1][0])], [new Ang(triangleStrings[1][0], triangleStrings[1][1], triangleStrings[1][2]), 
+            //     new Ang(triangleStrings[1][1], triangleStrings[1][2], triangleStrings[1][0]), new Ang(triangleStrings[1][2], triangleStrings[1][0],
+            //         triangleStrings[1][1])]);
+
+            var triangle1 = _.find(TRIANGLES, function(triang){
+                for(var i=0; i<3; i++){
+                    if(triang.segs[0].equals(new Seg(triangleStrings[0][i], triangleStrings[0][(i+1) % 3]))
+                        && triang.segs[1].equals(new Seg(triangleStrings[0][(i+1) % 3], triangleStrings[0][(i+2) % 3]))
+                        && triang.segs[2].equals(new Seg(triangleStrings[0][(i+2) % 3], triangleStrings[0][i]))){
+                        return true;
+                    }
+                }
+                return false;
+            });
+
+            var triangle2 = _.find(TRIANGLES, function(triang){
+                for(var i=0; i<3; i++){
+                    if(triang.segs[0].equals(new Seg(triangleStrings[1][i], triangleStrings[1][(i+1) % 3]))
+                        && triang.segs[1].equals(new Seg(triangleStrings[1][(i+1) % 3], triangleStrings[1][(i+2) % 3]))
+                        && triang.segs[2].equals(new Seg(triangleStrings[1][(i+2) % 3], triangleStrings[1][i]))){
+                        return true;
+                    }
+                }
+                return false;
+            });
 
             console.log("knownEqualities: ");
             console.log(knownEqualities);
