@@ -166,9 +166,12 @@
                         subpath.arrowheadsDrawn = true;
                         path.remove();
 
-                        head.rotate(angle, 0.75, 0).scale(s, s, 0.75, 0)
-                            .translate(almostTheEnd.x, almostTheEnd.y).attr(attrs)
-                            .attr({ "stroke-linejoin": "round", "stroke-linecap": "round" });
+                        head.attr(attrs).attr({
+                            "stroke-linejoin": "round",
+                            "stroke-linecap": "round"
+                        }).transform("t" + almostTheEnd.x + "," +
+                            almostTheEnd.y + "r" + angle + ",0.75,0" +
+                            "s" + s + "," + s + ",0.75,0");
                         head.arrowheadsDrawn = true;
                         set.push(subpath);
                         set.push(head);
