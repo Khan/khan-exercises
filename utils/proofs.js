@@ -467,65 +467,34 @@ function traceBack(statementKey, depth){
                     sharedSegIndex = (sharedSegIndex - indexDiff) % 3;
                 }
 
-                fixedTriangles[triangle1] = true;
-                fixedTriangles[triangle2] = true;
-
 
                 //SSS
                 if(congruence == 1) {
-                    finishedEqualities[[triangle1, triangle2]] = "SSS";
-                    finishedEqualities[[triangle2, triangle1]] = "SSS";
-
-                    for(var i=0; i<3; i++){
-                        if(! ([triangle1.segs[i], triangle2.segs[i]] in finishedEqualities)){
-                            setGivenOrTraceBack([triangle1.segs[i], triangle2.segs[i]], statementKey, depth-1);
-                            
-                        }
-                    }
+                    setGivenOrTraceBack([[triangle1.segs[(sharedSegIndex+1) % 3], triangle2.segs[(sharedSegIndex+1) % 3]], 
+                        [triangle1.segs[(sharedSegIndex+2) % 3], triangle2.segs[(sharedSegIndex+2) % 3]]], "SSS", statementKey, depth-1);
                 }
 
                 //ASA
                 // when we have a shared segment and want to prove congruence by ASA, always have
                 // the shared segment be the S
                 else if(congruence == 2){
-                    finishedEqualities[[triangle1, triangle2]] = "ASA";
-                    finishedEqualities[[triangle2, triangle1]] = "ASA";
-
-                    setGivenOrTraceBack([triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex%3]],
-                    statementKey, depth-1);
-                    
-                    setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2) % 3]],
-                    statementKey, depth-1);
-
+                    setGivenOrTraceBack([[triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex%3]],
+                     [triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2) % 3]]], "ASA", statementKey, depth-1);
                 }
 
                 //SAS
                 // when we have a shared segment and want to prove congruence by SAS, always
                 // have the shared segment be one of the S's
                 else if(congruence == 3){
-                    finishedEqualities[[triangle1, triangle2]] = "SAS";
-                    finishedEqualities[[triangle2, triangle1]] = "SAS";
-
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi, side ssi + 1
                     if(KhanUtil.random() < 0.5){
-
-                        console.log(sharedSegIndex);
-
-                        setGivenOrTraceBack([triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex % 3]],
-                        statementKey, depth-1);
-
-                        setGivenOrTraceBack([triangle1.segs[(sharedSegIndex+1) % 3], triangle2.segs[(sharedSegIndex+1) % 3]],
-                        statementKey, depth-1);
-                        
+                        setGivenOrTraceBack([[triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex % 3]],
+                            [triangle1.segs[(sharedSegIndex+1) % 3], triangle2.segs[(sharedSegIndex+1) % 3]]], "SAS", statementKey, depth-1);                     
                     }
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi+2 % 3, side ssi+2 % 3
                     else{
-                        setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2) % 3]],
-                        statementKey, depth-1);
-
-                        setGivenOrTraceBack([triangle1.segs[(sharedSegIndex+2) % 3], triangle2.segs[(sharedSegIndex+2) % 3]],
-                        statementKey, depth-1);
-
+                        setGivenOrTraceBack([[triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2) % 3]],
+                            [triangle1.segs[(sharedSegIndex+2) % 3], triangle2.segs[(sharedSegIndex+2) % 3]]], "SAS", statementKey, depth-1);
                     }
 
 
@@ -535,27 +504,15 @@ function traceBack(statementKey, depth){
                 // when we have a shared segment and want to prove congruence by AAS, always
                 // have the shared segment be the S
                 else {
-                    finishedEqualities[[triangle1, triangle2]] = "AAS";
-                    finishedEqualities[[triangle2, triangle1]] = "AAS";
-
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi, angle ssi + 1
                     if(KhanUtil.random() < 0.5){
-
-                        setGivenOrTraceBack([triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex % 3]],
-                        statementKey, depth-1);
-
-                        setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+1) % 3], triangle2.angs[(sharedSegIndex+1) % 3]],
-                        statementKey, depth-1);
-                    
+                        setGivenOrTraceBack([[triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex % 3]],
+                            [triangle1.angs[(sharedSegIndex+1) % 3], triangle2.angs[(sharedSegIndex+1) % 3]]], "AAS", statementKey, depth-1);              
                     }
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi+2 % 3, angle ssi+1 % 3
                     else{
-                        setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2) % 3]],
-                        statementKey, depth-1);
-
-                        setGivenOrTraceBack([triangle1.angs[(sharedSegIndex+1) % 3], triangle2.angs[(sharedSegIndex+1) % 3]],
-                        statementKey, depth-1);
-
+                        setGivenOrTraceBack([[triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2) % 3]],
+                            [triangle1.angs[(sharedSegIndex+1) % 3], triangle2.angs[(sharedSegIndex+1) % 3]]], "AAS", statementKey, depth-1);
                     }
 
 
@@ -578,12 +535,6 @@ function traceBack(statementKey, depth){
                     verticalAngs[0] = verticalAngs[1];
                 }
 
-                console.log("rotated triangle2 by " + (verticalAngs[0] - verticalAngs[1]));
-
-                fixedTriangles[triangle1] = true;
-                fixedTriangles[triangle2] = true;
-
-
                 finishedEqualities[[triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[0]]]] = "Vertical angles are equal";
                 finishedEqualities[[triangle2.angs[verticalAngs[0]], triangle1.angs[verticalAngs[0]]]] = "Vertical angles are equal";
 
@@ -591,65 +542,43 @@ function traceBack(statementKey, depth){
                 var congruence = KhanUtil.randRange(1,3);
 
                 if(congruence == 1){
-                    finishedEqualities[[triangle1, triangle2]] = "ASA";
-                    finishedEqualities[[triangle2, triangle1]] = "ASA";
-
                     // with probability 0.5, we choose the congruency to be angle va, side va+1, angle va+1
                     if(KhanUtil.random() < 0.5){
-
-                        setGivenOrTraceBack([triangle1.segs[(verticalAngs[0]+1) % 3], triangle2.segs[(verticalAngs[0]+1) % 3]],
-                            statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.angs[(verticalAngs[0]+1) % 3], triangle2.angs[(verticalAngs[0]+1) % 3]],
-                            statementKey, depth-1);
+                        setGivenOrTraceBack([[triangle1.segs[(verticalAngs[0]+1) % 3], triangle2.segs[(verticalAngs[0]+1) % 3]],
+                            [triangle1.angs[(verticalAngs[0]+1) % 3], triangle2.angs[(verticalAngs[0]+1) % 3]]], "ASA", statementKey, depth-1);
                     }
 
                     // with probability 0.5, we choose the congruency to be angle va, side va, angle va+2
                     else{
-                        setGivenOrTraceBack([triangle1.segs[verticalAngs[0]], triangle2.segs[verticalAngs[0]]],
-                            statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.angs[(verticalAngs[0]+2) % 3], triangle2.angs[(verticalAngs[0]+2) % 3]],
-                            statementKey, depth-1);
+                        setGivenOrTraceBack([[triangle1.segs[verticalAngs[0]], triangle2.segs[verticalAngs[0]]],
+                            [triangle1.angs[(verticalAngs[0]+2) % 3], triangle2.angs[(verticalAngs[0]+2) % 3]]], "ASA", statementKey, depth-1);
                     }
                 }
 
                 else if(congruence == 2){
-                    finishedEqualities[[triangle1, triangle2]] = "SAS";
-                    finishedEqualities[[triangle2, triangle1]] = "SAS";
-
                     // only option for SAS is side va, angle va, side va+1
-                    setGivenOrTraceBack([triangle1.segs[verticalAngs[0]], triangle2.segs[verticalAngs[0]]],
-                        statementKey, depth-1);
-                    setGivenOrTraceBack([triangle1.segs[(verticalAngs[0]+1) % 3], triangle2.segs[(verticalAngs[0]+1) % 3]],
-                        statementKey, depth-1);
-                    
+                    setGivenOrTraceBack([[triangle1.segs[verticalAngs[0]], triangle2.segs[verticalAngs[0]]],
+                     [triangle1.segs[(verticalAngs[0]+1) % 3], triangle2.segs[(verticalAngs[0]+1) % 3]]], "SAS", statementKey, depth-1);
                 }
 
                 else{
-                    finishedEqualities[[triangle1, triangle2]] = "AAS";
-                    finishedEqualities[[triangle2, triangle1]] = "AAS";
-
                     // with probability 0.5, we choose the congruency to be angle va, angle va+1, side va
                     if(KhanUtil.random() < 0.5){
-
-                        setGivenOrTraceBack([triangle1.angs[(verticalAngs[0]+1) % 3], triangle2.angs[(verticalAngs[0]+1) % 3]],
-                            statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.segs[verticalAngs[0]], triangle2.segs[verticalAngs[0]]],
-                            statementKey, depth-1);
+                        setGivenOrTraceBack([[triangle1.angs[(verticalAngs[0]+1) % 3], triangle2.angs[(verticalAngs[0]+1) % 3]],
+                         [triangle1.segs[verticalAngs[0]], triangle2.segs[verticalAngs[0]]]], "AAS", statementKey, depth-1);
                     }
 
                     // with probability 0.5, we choose the congruency to be angle va, angle va+2, side va+1
                     else{
-                        setGivenOrTraceBack([triangle1.angs[(verticalAngs[0]+2) % 3], triangle2.angs[(verticalAngs[0]+2) % 3]],
-                            statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.segs[(verticalAngs[0]+1) % 3], triangle2.segs[(verticalAngs[0]+1) % 3]],
-                            statementKey, depth-1);
+                        setGivenOrTraceBack([[triangle1.angs[(verticalAngs[0]+2) % 3], triangle2.angs[(verticalAngs[0]+2) % 3]],
+                            [triangle1.segs[(verticalAngs[0]+1) % 3], triangle2.segs[(verticalAngs[0]+1) % 3]]], "AAS", statementKey, depth-1);
                     }
                 }
             }
 
             // triangle congruence case 3: triangles have alternate interior angles
             else if(alternateAngs != null){
-
+                console.log("in alternate angles case");
                 // in this case we actually need to make sure we name the triangles correctly so that the corresponding angles are in
                 // the right places: so if angle BAC is = to angle DEF, don't have the triangle congruence be BAC = FDE
                 if(!triangIn(triangle2, fixedTriangles)){
@@ -662,68 +591,44 @@ function traceBack(statementKey, depth){
                     alternateAngs[0] = alternateAngs[1];
                 }
 
-                fixedTriangles[triangle1] = true;
-                fixedTriangles[triangle2] = true;
-
                 finishedEqualities[[triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]]] = "Alternate interior angles are equal";
                 finishedEqualities[[triangle2.angs[alternateAngs[0]], triangle1.angs[alternateAngs[0]]]] = "Alternate interior angles are equal";
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
+                console.log(congruence);
 
                 if(congruence == 1){
-                    finishedEqualities[[triangle1, triangle2]] = "ASA";
-                    finishedEqualities[[triangle2, triangle1]] = "ASA";
-
                     // with probability 0.5, we choose the congruency to be angle va, side va+1, angle va+1
                     if(KhanUtil.random() < 0.5){
-
-                        setGivenOrTraceBack([triangle1.segs[(alternateAngs[0]+1) % 3], triangle2.segs[(alternateAngs[0]+1) % 3]],
-                            statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.angs[(alternateAngs[0]+1) % 3], triangle2.angs[(alternateAngs[0]+1) % 3]],
-                            statementKey, depth-1);
+                        setGivenOrTraceBack([[triangle1.segs[(alternateAngs[0]+1) % 3], triangle2.segs[(alternateAngs[0]+1) % 3]],
+                            [triangle1.angs[(alternateAngs[0]+1) % 3], triangle2.angs[(alternateAngs[0]+1) % 3]]], "ASA", statementKey, depth-1);
                     }
 
                     // with probability 0.5, we choose the congruency to be angle va, side va, angle va+2
                     else{
-                        setGivenOrTraceBack([triangle1.segs[alternateAngs[0]], triangle2.segs[alternateAngs[0]]],
-                            statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.angs[(alternateAngs[0]+2) % 3], triangle2.angs[(alternateAngs[0]+2) % 3]],
-                            statementKey, depth-1);
+                        setGivenOrTraceBack([[triangle1.segs[alternateAngs[0]], triangle2.segs[alternateAngs[0]]],
+                            [triangle1.angs[(alternateAngs[0]+2) % 3], triangle2.angs[(alternateAngs[0]+2) % 3]]], "ASA", statementKey, depth-1);
                     }
                 }
 
                 else if(congruence == 2){
-                    finishedEqualities[[triangle1, triangle2]] = "SAS";
-                    finishedEqualities[[triangle2, triangle1]] = "SAS";
-
                     // only option for SAS is side va, angle va, side va+1
-                    setGivenOrTraceBack([triangle1.segs[alternateAngs[0]], triangle2.segs[alternateAngs[0]]],
-                        statementKey, depth-1);
-                    setGivenOrTraceBack([triangle1.segs[(alternateAngs[0]+1) % 3], triangle2.segs[(alternateAngs[0]+1) % 3]],
-                        statementKey, depth-1);
-                    
+                    setGivenOrTraceBack([[triangle1.segs[alternateAngs[0]], triangle2.segs[alternateAngs[0]]],
+                     [triangle1.segs[(alternateAngs[0]+1) % 3], triangle2.segs[(alternateAngs[0]+1) % 3]]], "SAS", statementKey, depth-1);                 
                 }
 
                 else{
-                    finishedEqualities[[triangle1, triangle2]] = "AAS";
-                    finishedEqualities[[triangle2, triangle1]] = "AAS";
-
                     // with probability 0.5, we choose the congruency to be angle va, angle va+1, side va
                     if(KhanUtil.random() < 0.5){
-
-                        setGivenOrTraceBack([triangle1.angs[(alternateAngs[0]+1) % 3], triangle2.angs[(alternateAngs[0]+1) % 3]],
-                            statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.segs[alternateAngs[0]], triangle2.segs[alternateAngs[0]]],
-                            statementKey, depth-1);
+                        setGivenOrTraceBack([[triangle1.angs[(alternateAngs[0]+1) % 3], triangle2.angs[(alternateAngs[0]+1) % 3]],
+                            [triangle1.segs[alternateAngs[0]], triangle2.segs[alternateAngs[0]]]], "AAS", statementKey, depth-1);
                     }
 
                     // with probability 0.5, we choose the congruency to be angle va, angle va+2, side va+1
                     else{
-                        setGivenOrTraceBack([triangle1.angs[(alternateAngs[0]+2) % 3], triangle2.angs[(alternateAngs[0]+2) % 3]],
-                            statementKey, depth-1);
-                        setGivenOrTraceBack([triangle1.segs[(alternateAngs[0]+1) % 3], triangle2.segs[(alternateAngs[0]+1) % 3]],
-                            statementKey, depth-1);
+                        setGivenOrTraceBack([[triangle1.angs[(alternateAngs[0]+2) % 3], triangle2.angs[(alternateAngs[0]+2) % 3]],
+                            [triangle1.segs[(alternateAngs[0]+1) % 3], triangle2.segs[(alternateAngs[0]+1) % 3]]], "AAS", statementKey, depth-1);
                     }
                 }
 
@@ -732,62 +637,38 @@ function traceBack(statementKey, depth){
             // triangle congruence case 4: triangles have neither shared side, vertical angles, nor alternate
             // interior angles
             else{
-
-                fixedTriangles[triangle1] = true;
-                fixedTriangles[triangle2] = true;
-
                 //SSS
                 if(congruence == 1){
-                    finishedEqualities[[triangle1, triangle2]] = "SSS";
-                    finishedEqualities[[triangle2, triangle1]] = "SSS";
-
-                    //the finished proof should include that all the segments are congruent
-                    for(var i=0; i<3; i++){
-                        setGivenOrTraceBack([triangle1.segs[i], triangle2.segs[i]], statementKey, depth-1);
-                    }
+                    setGivenOrTraceBack([[triangle1.segs[0], triangl2.segs[0]], [triangle1.segs[1], triangle2.segs[1]], 
+                        [triangle1.segs[2], triangle2.segs[2]]], "SSS", statementKey, depth-1);
                 }
 
                 //ASA
                 else if(congruence == 2){
-                    finishedEqualities[[triangle1, triangle2]] = "ASA";
-                    finishedEqualities[[triangle2, triangle1]] = "ASA";
-
                     //great, now we've got to pick a random set of angles/sides
                     var index = KhanUtil.randRange(0,2);
 
-                    setGivenOrTraceBack([triangle1.angs[index], triangle2.angs[index]], statementKey, depth-1);
-
-                    setGivenOrTraceBack([triangle1.segs[(index+1) % 3], triangle2.segs[(index+1) % 3]], statementKey, depth-1);
-
-                    setGivenOrTraceBack([triangle1.angs[(index+1) % 3], triangle2.angs[(index+1) % 3]], statementKey, depth-1);
+                    setGivenOrTraceBack([[triangle1.angs[index], triangle2.angs[index]],
+                        [triangle1.segs[(index+1) % 3], triangle2.segs[(index+1) % 3]],
+                        [triangle1.angs[(index+1) % 3], triangle2.angs[(index+1) % 3]]], "ASA", statementKey, depth-1);
                 }
 
                 //SAS
                 else if(congruence == 3){
-                    finishedEqualities[[triangle1, triangle2]] = "SAS";
-                    finishedEqualities[[triangle2, triangle1]] = "SAS";
-
                     var index = KhanUtil.randRange(0,2);
 
-                    setGivenOrTraceBack([triangle1.segs[index], triangle2.segs[index]], statementKey, depth-1);
-
-                    setGivenOrTraceBack([triangle1.angs[index], triangle2.angs[index]], statementKey, depth-1);
-
-                    setGivenOrTraceBack([triangle1.segs[(index+1) % 3], triangle2.segs[(index+1) % 3]], statementKey, depth-1);
+                    setGivenOrTraceBack([[triangle1.segs[index], triangle2.segs[index]],
+                        [triangle1.angs[index], triangle2.angs[index]],
+                        [triangle1.segs[(index+1) % 3], triangle2.segs[(index+1) % 3]]], "SAS", statementKey, depth-1);
                 }
 
                 //AAS
                 else{
-                    finishedEqualities[[triangle1, triangle2]] = "AAS";
-                    finishedEqualities[[triangle2, triangle1]] = "AAS";
-
                     var index = KhanUtil.randRange(0,2);
 
-                    setGivenOrTraceBack([triangle1.angs[index], triangle2.angs[index]], statementKey, depth-1);
-
-                    setGivenOrTraceBack([triangle1.angs[(index+1) % 3], triangle2.angs[(index+1) % 3]], statementKey, depth-1);
-
-                    setGivenOrTraceBack([triangle1.segs[(index+2) % 3], triangle2.segs[(index+2) % 3]], statementKey, depth-1);
+                    setGivenOrTraceBack([[triangle1.angs[index], triangle2.angs[index]],
+                        [triangle1.angs[(index+1) % 3], triangle2.angs[(index+1) % 3]],
+                        [triangle1.segs[(index+2) % 3], triangle2.segs[(index+2) % 3]]], "AAS", statementKey, depth-1);
                 }
             }
         }
@@ -818,9 +699,6 @@ function traceBack(statementKey, depth){
             // otherwise, change the labeling on the triangle so that the segments given in the
             // statement key are corresponding
             else{
-                finishedEqualities[[seg1, seg2]] = "Corresponding parts of congruent triangles are congruent";
-                finishedEqualities[[seg2, seg1]] = "Corresponding parts of congruent triangles are congruent";
-
                 var trianglePair = newTriangles[KhanUtil.randRange(0, newTriangles.length-1)];
 
                 // there has to be a better way of doing this
@@ -849,7 +727,8 @@ function traceBack(statementKey, depth){
                 }
 
 
-                setGivenOrTraceBack([trianglePair[0],trianglePair[1]], statementKey, depth-1);
+                setGivenOrTraceBack([[trianglePair[0],trianglePair[1]]], "Corresponding parts of congruent triangles are congruent",
+                statementKey, depth-1);
             }
         }
 
@@ -887,9 +766,6 @@ function traceBack(statementKey, depth){
             // otherwise, change the labeling on the triangle so that the angles given in the
             // statement key are corresponding
             else{
-                finishedEqualities[[ang1, ang2]] = "Corresponding parts of congruent triangles are congruent";
-                finishedEqualities[[ang2, ang1]] = "Corresponding parts of congruent triangles are congruent";
-
                 var trianglePair = newTriangles[KhanUtil.randRange(0, newTriangles.length-1)];
 
                 // there has to be a better way of doing this
@@ -918,7 +794,8 @@ function traceBack(statementKey, depth){
                 }
 
 
-                setGivenOrTraceBack([trianglePair[0],trianglePair[1]], statementKey, depth-1);
+                setGivenOrTraceBack([[trianglePair[0],trianglePair[1]]], "Corresponding parts of congruent triangles are congruent",
+                statementKey, depth-1);
             }
             
 
@@ -927,27 +804,44 @@ function traceBack(statementKey, depth){
 }
 
 // setGivenOrTraceBack checks to see if the relation it is supposed to set as true (key) is actually possible
+// AND HASN'T ALREADY BEEN USED IN THE PROOF
 // if it is, it will set that statement as given or it will pass it to traceBack with some probability
 // if it is not, it will pass oldKey to traceBack, since the old statement needs to find new justification
-function setGivenOrTraceBack(key, oldKey, dep){
-    if(isRelationPossible(key)){
-        console.log("relation " +key+" is possible");
-        // if(key[0] instanceof Triang){
-        //     fixedTriangles[key[0]] = true;
-        //     fixedTriangles[key[1]] = true;
-        // }
+function setGivenOrTraceBack(keys, reason, oldKey, dep){
+    var isPossibleAndNew = true;
+    for(var i=0; i<keys.length; i++){
+        isPossibleAndNew = isPossibleAndNew && isRelationPossible(keys[i]) && !eqIn(keys[i], finishedEqualities);
+    }
+    if(isPossibleAndNew){
 
-        if(KhanUtil.random() < 0.25){
-            console.log("setting relation "+key+" to Given");
-            finishedEqualities[key] = "Given";
-            finishedEqualities[key.reverse()] = "Given";
+        finishedEqualities[oldKey] = reason;
+        finishedEqualities[oldKey.reverse()] = reason;
+
+        if(oldKey[0] instanceof Triang){
+            fixedTriangles[oldKey[0]] = true;
+            fixedTriangles[oldKey[1]] = true;
         }
-        else{
-            traceBack(key, dep);
+
+        // set the statements in keys to be true
+        var key;
+        for(var i=0; i<keys.length; i++){
+            key = keys[i];
+            console.log("relation " +key+" is possible");
+
+            if(KhanUtil.random() < 0.25){
+                console.log("setting relation "+key+" to Given");
+                finishedEqualities[key] = "Given";
+                finishedEqualities[key.reverse()] = "Given";
+            }
+            else{
+                traceBack(key, dep);
+            }
         }
+
+        
     }
     else{
-        console.log("relation " +key+" is not possible, tracing back "+oldKey);
+        console.log("relation " +keys+" is not possible, tracing back "+oldKey);
         if(KhanUtil.random() < 0.25){
             // you have failed me for the last time
             finishedEqualities[oldKey] = "Given";
