@@ -33,7 +33,7 @@
 
                     graph.congruency = addCongruency({ y1: -0.7, y2: 3.7 });
 
-                    graph.cross = graph.congruency.addLine({ start: [5, 1.5], angle: ANGLE });
+                    graph.cross = graph.congruency.addLine({ start: [5, 1.5], angle: ((ANGLE===90) ? (Math.floor(Math.random()*2)?ANGLE=91:ANGLE=89 ): ANGLE) });
                     graph.bottom = graph.congruency.addLine({ start: [0, 0], end: [10, 0] });
                     graph.top = graph.congruency.addLine({ start: [0, 3], end: [10, 3] });
 
