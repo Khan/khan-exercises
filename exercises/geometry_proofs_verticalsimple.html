@@ -2,7 +2,7 @@
 <html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Geometry Proofs 1</title>
+    <title>Geometry Proofs 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -56,6 +56,19 @@
 
                 <var id="PARALLEL_SEGS">[[AB,DE]]</var>
 
+                <!-- <var id="PARALLEL_TO_ALTERNATE">(function() {
+                    dict = {};
+                    dict[[AB,DE]] = [[ang2, ang11], [ang3, ang10]];
+                    return dict;
+                })</var>
+
+                <var id="ALTERNATE_TO_PARALLEL">(function() {
+                    dict = {};
+                    dict[[ang2, ang11]] = [AB,DE];
+                    dict[[ang3, ang10]] = [AB,DE];
+                    return dict;
+                })</var> -->
+
                 <var id="ABC">new Triang([AB, BC, CA], [ang3, ang5, ang2])</var>
                 <var id="ECD">new Triang([EC, CD, DE], [ang8, ang10, ang11])</var>
                 
@@ -71,7 +84,7 @@
                 
             </div>
             <p class="question">
-                <p> Prove <code> \bigtriangleup <var>FINISHED[0].toString().substring(8,11)</var>= \bigtriangleup <var>FINISHED[1].toString().substring(8,11)</var></code></p>
+                You are given <var> KNOWN </var> Prove <code> \bigtriangleup <var>FINISHED[0].toString().substring(8,11)</var>= \bigtriangleup <var>FINISHED[1].toString().substring(8,11)</var>.</code>
             </p>
 
             <div class="problem">

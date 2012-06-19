@@ -116,22 +116,20 @@
 
             <var id="ANGS">[ang1, ang2, ang3, ang4, ang5, ang6, ang7, ang8, ang9, ang10, ang11, ang12, ang13, ang14, ang15, ang16, ang17, ang18, ang19, ang20, ang21, ang22, ang23, ang24, ang25, ang26, ang27, ang28, ang29, ang30, ang31, ang32, ang33, ang34]</var>
 
-            <!-- <var id="ANGS">_.union(_.flatten(_.map(SMALL_ANGS, function(ang1, n) {
-                angles = [];
-                _.each(_.rest(SMALL_ANGS, n + 1), function(ang2) {
-                    newAng = addAngs(ang1, ang2);
-                    if(newAng != null){
-                        angles.push(newAng);
-                    }
-                });
-                return angles;
-            }), true), SMALL_ANGS)</var> -->
 
             <var id="SUPPLEMENTARY_ANGS">[addAngs(ang2, addAngs(ang7, addAngs(ang8, ang3))), addAngs(ang6, addAngs(ang10, addAngs(ang14, ang13))), addAngs(ang24, addAngs(ang25, addAngs(ang26, ang27))), addAngs(ang20, addAngs(ang21, ang22)), addAngs(ang9, ang11), addAngs(ang11, ang15), addAngs(ang15, ang12), addAngs(ang12, ang9), addAngs(ang16, ang18), addAngs(ang17, ang19)]</var>
 
             <var id="PARALLEL_SEGS">[[AC, HJ], [AC, HI], [AC, IJ], [AB, HJ], [AB, HI], [AB, IJ], [BC, HJ], [BC, HI], [BC, IJ], [AH, CJ], [AH, CG], [AH, GJ], [AD, CJ], [AD, CG], [AD, GJ], [DH, CJ], [DH, CG], [DH, GJ]]</var>
 
             <var id="ALTERNATE_INTERIOR_ANGS">[[addAngs(ang2, ang7), addAngs(ang26, ang27)], [addAngs(ang3, ang8), addAngs(ang25, ang24)]]</var>
+
+            <!-- <var id="PARALLEL_TO_ALTERNATE">(function() { 
+                dict = {};
+                dict[[AC,HJ]] = [[addAngs(ang2, ang7), addAngs(ang26, ang27)], [addAngs(ang3, ang8), addAngs(ang25, ang24)]];
+                return dict;
+            })</var>
+
+            <var id="ALTERNATE_TO_PARALLEL">{[addAngs(ang2, ang7), addAngs(ang26, ang27)] : [AC,HJ], [addAngs(ang3, ang8), addAngs(ang25, ang24)] : [AC,HJ]}</var> -->
 
             <var id="ABD">new Triang([AB, BD, DA], [ang2, ang6, ang1])</var>
             <var id="BCF">new Triang([BC, CF, FB], [ang4, ang9, ang3])</var>
@@ -206,7 +204,7 @@
         <div class="problems">
         <div>
             <p class="question">
-                <!-- <var>_.map(STATEMENTS[0], function(value, key){ return key + ": " + value + "&lt;br&gt;"})</var> -->
+                Prove <code> \bigtriangleup <var>FINISHED[0].toString().substring(8,11)</var>= \bigtriangleup <var>FINISHED[1].toString().substring(8,11)</var></code>
             </p>
             <p class="statements">
             </p>

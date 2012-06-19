@@ -120,16 +120,40 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
     console.log(finishedEqualities);
 
     // display list of givens
+    // var newHTML = "";
+    // for(var eq in givens){
+    //     newHTML = newHTML + eq + " because " + givens[eq] + "<br>";
+    // }
     var newHTML = "";
-    for(var eq in givens){
-        newHTML = newHTML + eq + " because " + givens[eq] + "<br>";
+    var givenKeys = _.keys(givens);
+    for(var i=0; i<givenKeys.length; i+=2){
+        if(givenKeys[i][0] == "s"){
+            newHTML += "<code> \\overline{"+givenKeys[i].substring(3,5)+"} = \\overline{"+givenKeys[i].substring(9,11)+"}</code>";
+        }
+        else if(givenKeys[i][0] == "a"){
+            newHTML += "<code> \\angle " +givenKeys[i].substring(3,6)+" = \\angle "+givenKeys[i].substring(10,13)+"</code>";
+        }
+        else{
+            newHTML += "<code> \bigtriangleup ";
+        }
+
+        if(i == givenKeys.length-4){
+            newHTML += " and ";
+        }
+        else if(i == givenKeys.length-2){
+            newHTML += "."
+        }
+        else{
+            newHTML += ", ";
+        }
     }
 
+    console.log(newHTML);
+    // $(".statements").html(newHTML);
 
-    $(".statements").html(newHTML);
 
 
-    return [givens, finalRelation];
+    return [newHTML, finalRelation];
 
 }
 
@@ -229,51 +253,6 @@ function verifyStatementArgs(statement, reason, category){
     }
 }
 
-// need custom hint functionality (custom number of hints, need to hide after each step)
-$("#hint").unbind("click");
-
-$("#hint").click(function() {
-
-    console.log("new click");
-
-    if (hintsLeft > 0) {
-        $(Khan).trigger("hintUsed");
-
-        var stepsLeft = hintsLeft + " step" + (hintsLeft === 1 ? "" : "s") + " left";
-        $(this).val($(this).data("buttonText") || "I'd like another hint (" + stepsLeft + ")");
-
-        var problem = $(hint).parent();
-
-        // Append first so MathJax can sense the surrounding CSS context properly
-        // $(hint).appendTo("#hintsarea").runModules(problem);
-        $("<p> stuff </p>").appendTo("#hintsarea");
-
-        // Grow the scratchpad to cover the new hint
-        Khan.scratchpad.resize();
-
-        // Disable the get hint button
-        if (hintsLeft === 0) {
-            $(Khan).trigger("allHintsUsed");
-
-            $(this).attr("disabled", true);
-        }
-    }
-
-    var fProdReadOnly = !testMode && userExercise.readOnly;
-    var fAnsweredCorrectly = $("#next-question-button").is(":visible");
-    if (!fProdReadOnly && !fAnsweredCorrectly) {
-        // Resets the streak and logs history for exercise viewer
-        request(
-            "problems/" + problemNum + "/hint",
-            buildAttemptData(false, attempts, "hint", new Date().getTime()),
-            // Don't do anything on success or failure, silently failing is ok here
-            function() {},
-            function() {},
-            "attempt_hint_queue"
-        );
-    }
-
-});
 
 // give a hint as to the next statement which the user should try to prove
 function nextStatementHint(){
@@ -303,8 +282,11 @@ function nextStatementHint(){
                 return triang.toString() == tryProving.substring(12,23);
             });
 
-            if(checkTriangleForHint(triangle1, triangle2).length > 0){
-                return "Try to see if you can prove " + triangle1 + "=" + triangle2;
+            var useToProve = checkTriangleForHint(triangle1, triangle2);
+            if(useToProve.length > 0){
+                return "You know that " + useToProve[0][0] + "=" + useToProve[0][1] 
+                + ", " + useToProve[1][0] + "=" + useToProve[1][1] 
+                + ", and " + useToProve[2][0] + "=" + useToProve[2][1] + ". What can you prove from this?";
             }
         }
 
@@ -316,8 +298,9 @@ function nextStatementHint(){
                 return seg.toString() == tryProving.substring(6,11);
             });
 
-            if(checkSegForHint(seg1, seg2).length > 0){
-                return "Try to see if you can prove " + seg1 + "=" + seg2;
+            var useToProve = checkSegForHint(seg1, seg2);
+            if(useToProve.length > 0){
+                return "You know that " + useToProve[0] + "=" + useToProve[1] + ". What segments can you prove equal from this?";
             }
         }
 
@@ -329,8 +312,12 @@ function nextStatementHint(){
                 return ang.toString() == tryProving.substring(6,11);
             });
 
-            if(checkAngForHint(ang1, ang2).length > 0){
-                return "Try to see if you can prove " + ang1 + "=" + ang2;
+            var useToProve = checkAngForHint(ang1, ang2);
+            if(useToProve.length > 0 && useToProve[0] instanceof Triang){
+                return "You know that " + useToProve[0] + "=" + useToProve[1] + ". What angles can you prove equal from this?";
+            }
+            else if(useToProve.length > 0){
+                return "Try using " + useToProve + " to prove some useful pair of angles equal.";
             }
         }
         
@@ -1236,14 +1223,14 @@ function checkTriangleForHint(triangle1, triangle2) {
         triangle2.angs.rotate(1);
 
         if(eqIn([triangle1, triangle2], knownEqualities)){
-            return "";
+            return [];
         }
     }
 
     //SSS
     if(eqIn([triangle1.segs[0], triangle2.segs[0]], knownEqualities) && eqIn([triangle1.segs[1], triangle2.segs[1]], knownEqualities)
         && eqIn([triangle1.segs[2], triangle2.segs[2]], knownEqualities)){
-        return "SSS";
+        return [[triangle1.segs[0], triangle2.segs[0]], [triangle1.segs[1], triangle2.segs[1]], [triangle1.segs[2], triangle2.segs[2]]];
     }
 
     //ASA
@@ -1251,7 +1238,8 @@ function checkTriangleForHint(triangle1, triangle2) {
         if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
             && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], knownEqualities)
             && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)){
-            return "ASA";
+            return [[triangle1.angs[i], triangle2.angs[i]],
+             [triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], [triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]]];
         }
     }
 
@@ -1259,7 +1247,8 @@ function checkTriangleForHint(triangle1, triangle2) {
     for(var i=0; i<3; i++){
         if(eqIn([triangle1.segs[i], triangle2.segs[i]], knownEqualities) && eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities)
         && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], knownEqualities)){
-            return "SAS";
+            return [[triangle1.segs[i], triangle2.segs[i]],
+             [triangle1.angs[i], triangle2.angs[i]], [triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]]];
         }
     }
     
@@ -1269,7 +1258,8 @@ function checkTriangleForHint(triangle1, triangle2) {
         if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
             && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)
             && eqIn([triangle1.segs[(i+2) % 3], triangle2.segs[(i+2) % 3]], knownEqualities)){
-            return "AAS";
+            return [[triangle1.angs[i], triangle2.angs[i]],
+             [triangle1.segs[(i+2) % 3], triangle2.segs[(i+2) % 3]], [triangle1.segs[(i+2) % 3], triangle2.segs[(i+2) % 3]]];
         }
     }
     
@@ -1278,12 +1268,13 @@ function checkTriangleForHint(triangle1, triangle2) {
         if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
             && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)
             && eqIn([triangle1.segs[i], triangle2.segs[i]], knownEqualities)){
-            return "AAS";
+            return [[triangle1.angs[i], triangle2.angs[i]],
+             [triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], [triangle1.segs[i], triangle2.segs[i]]];
         }
     }
 
 
-    return false;
+    return [];
     
 }
 
@@ -1291,7 +1282,7 @@ function checkTriangleForHint(triangle1, triangle2) {
 function checkSegForHint(seg1, seg2){
     //if this is already known
     if(eqIn([seg1,seg2], knownEqualities)){
-        return "";
+        return [];
     }
 
 
@@ -1301,18 +1292,18 @@ function checkSegForHint(seg1, seg2){
             // to the known equalities
             if(checkTriangleCongruent(seg1.triangles[i][0], seg2.triangles[j][0]) 
                 && _.indexOf(seg1, seg1.triangles[i][0].segs) == _.indexOf(seg2, seg2.triangles[j][0].segs)){
-                return "CPCTC";
+                return [seg1.triangles[i][0], seg2.triangles[j][0]];
             }
         }
     }
-    return "";
+    return [];
 }
 
 // check to see if this angle equality can be proven, but has not already been proven
 function checkAngForHint(ang1, ang2){
     // if this is already known
     if(eqIn([ang1, ang2], knownEqualities)){
-        return "";
+        return [];
     }
 
     // if the angles' corresponding triangles are congruent AND they're the same part of those triangles, we add
@@ -1321,7 +1312,7 @@ function checkAngForHint(ang1, ang2){
         for(var j=0; j<ang2.triangles.length; j++){
             if(checkTriangleCongruent(ang1.triangles[i][0], ang2.triangles[j][0]) 
                 && _.indexOf(ang1, ang1.triangles[i][0].angs) == _.indexOf(ang2, ang2.triangles[j][0].angs)){
-                return "CPCTC";
+                return [ang1.triangles[i][0], ang2.triangles[j][0]];
             }
         }
     }
@@ -1353,7 +1344,7 @@ function checkAngForHint(ang1, ang2){
     }
 
 
-    return "";
+    return [];
 
 }
 
