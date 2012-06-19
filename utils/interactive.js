@@ -196,11 +196,14 @@ $.extend(KhanUtil, {
 
         if (movablePoint.visible) {
             graph.style(movablePoint.normalStyle, function() {
-                movablePoint.visibleShape = graph.ellipse(movablePoint.coord, [4 / graph.scale[0], 4 / graph.scale[1]]);
+                movablePoint.visibleShape = graph.ellipse([1, 1], [4 / graph.scale[0], 4 / graph.scale[1]]);
+                movablePoint.visibleShape.attr({cx: 0, cy: 0});
             });
         }
-        movablePoint.normalStyle.scale = 1;
-        movablePoint.highlightStyle.scale = 2;
+        movablePoint.normalStyle.rx = 4;
+        movablePoint.highlightStyle.rx = 8;
+        movablePoint.normalStyle.ry = 4;
+        movablePoint.highlightStyle.ry = 8;
 
         // Using the passed coordinates, apply any constraints and return the closest coordinates
         // that match the constraints.
@@ -271,7 +274,6 @@ $.extend(KhanUtil, {
             return newCoord;
         };
 
-
         if (movablePoint.visible && !movablePoint.constraints.fixed) {
             // the invisible shape in front of the point that gets mouse events
             movablePoint.mouseTarget = graph.mouselayer.circle(graph.scalePoint(movablePoint.coord)[0], graph.scalePoint(movablePoint.coord)[1], 15);
@@ -306,33 +308,6 @@ $.extend(KhanUtil, {
                         mouseX = Math.max(10, Math.min(graph.xpixels - 10, mouseX));
                         mouseY = Math.max(10, Math.min(graph.ypixels - 10, mouseY));
 
-                        // snap to grid
-                        if (movablePoint.snapX) {
-                            mouseX = Math.round(mouseX / (graph.scale[0] * movablePoint.snapX)) * (graph.scale[0] * movablePoint.snapX);
-                        }
-                        if (movablePoint.snapY) {
-                            mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
-                        }
-                        // snap mouse to grid
-                        if (movablePoint.snapX !== 0) {
-                            mouseX = Math.round(mouseX / (graph.scale[0] * movablePoint.snapX)) * (graph.scale[0] * movablePoint.snapX);
-                        }
-                        if (movablePoint.snapY !== 0) {
-                            mouseY = Math.round(mouseY / (graph.scale[1] * movablePoint.snapY)) * (graph.scale[1] * movablePoint.snapY);
-                        }
-
-                        // coord{X|Y} are the scaled coordinate values
-                        var coordX = mouseX / graph.scale[0] + graph.range[0][0];
-                        var coordY = graph.range[1][1] - mouseY / graph.scale[1];
-
-                        // snap coordinates to grid
-                        if (movablePoint.snapX !== 0) {
-                            coordX = Math.round(coordX / movablePoint.snapX) * movablePoint.snapX;
-                        }
-                        if (movablePoint.snapY !== 0) {
-                            coordY = Math.round(coordY / movablePoint.snapY) * movablePoint.snapY;
-                        }
-
                         // snap to points around circle
                         if (movablePoint.constraints.fixedDistance.snapPoints) {
 
@@ -340,17 +315,16 @@ $.extend(KhanUtil, {
                             var radius = movablePoint.constraints.fixedDistance.dist;
 
                             // get coordinates relative to the fixedDistance center
-                            var centerCoord = movablePoint.constraints.fixedDistance.point;
-                            var centerX = (centerCoord[0] - graph.range[0][0]) * graph.scale[0];
-                            var centerY = (-centerCoord[1] + graph.range[1][1]) * graph.scale[1];
+                            var centerCoord = graph.scalePoint(movablePoint.constraints.fixedDistance.point);
+                            var centerX = centerCoord[0];
+                            var centerY = centerCoord[1];
 
                             var mouseXrel = mouseX - centerX;
                             var mouseYrel = -mouseY + centerY;
                             var radians = Math.atan(mouseYrel / mouseXrel);
-                            var outsideArcTanRange = mouseXrel < 0;
 
                             // adjust so that angles increase from 0 to 2 pi as you go around the circle
-                            if (outsideArcTanRange) {
+                            if (mouseXrel < 0) {
                                 radians += Math.PI;
                             }
 
@@ -363,8 +337,19 @@ $.extend(KhanUtil, {
                             // convert back to coordinates relative to graphie canvas
                             mouseX = mouseXrel + centerX;
                             mouseY = - mouseYrel + centerY;
-                            coordX = KhanUtil.roundTo(5, mouseX / graph.scale[0] + graph.range[0][0]);
-                            coordY = KhanUtil.roundTo(5, graph.range[1][1] - mouseY / graph.scale[1]);
+                        }
+
+                        // coord{X|Y} are the scaled coordinate values
+                        var coords = graph.unscalePoint([mouseX, mouseY]);
+                        var coordX = coords[0];
+                        var coordY = coords[1];
+
+                        // snap coordinates to grid
+                        if (movablePoint.snapX !== 0) {
+                            coordX = Math.round(coordX / movablePoint.snapX) * movablePoint.snapX;
+                        }
+                        if (movablePoint.snapY !== 0) {
+                            coordY = Math.round(coordY / movablePoint.snapY) * movablePoint.snapY;
                         }
 
                         // apply any constraints on movement
@@ -389,20 +374,11 @@ $.extend(KhanUtil, {
                                     coordY = result[1];
                                 }
                             }
-                            // coord{X|Y} may have been modified by constraints or onMove handler; adjust mouse{X|Y} to match
-                            mouseX = (coordX - graph.range[0][0]) * graph.scale[0];
-                            mouseY = (-coordY + graph.range[1][1]) * graph.scale[1];
 
                             if (doMove) {
-                                movablePoint.visibleShape.attr("cx", mouseX);
-                                movablePoint.mouseTarget.attr("cx", mouseX);
-                                movablePoint.visibleShape.attr("cy", mouseY);
-                                movablePoint.mouseTarget.attr("cy", mouseY);
-                                movablePoint.coord = [coordX, coordY];
+                                movablePoint.setCoord([coordX, coordY]);
                                 movablePoint.updateLineEnds();
                             }
-
-
                         } else if (event.type === "vmouseup") {
                             $(document).unbind("vmousemove vmouseup");
                             movablePoint.dragging = false;
@@ -410,15 +386,7 @@ $.extend(KhanUtil, {
                             if ($.isFunction(movablePoint.onMoveEnd)) {
                                 var result = movablePoint.onMoveEnd(coordX, coordY);
                                 if ($.isArray(result)) {
-                                    coordX = result[0];
-                                    coordY = result[1];
-                                    mouseX = (coordX - graph.range[0][0]) * graph.scale[0];
-                                    mouseY = (-coordY + graph.range[1][1]) * graph.scale[1];
-                                    movablePoint.visibleShape.attr("cx", mouseX);
-                                    movablePoint.mouseTarget.attr("cx", mouseX);
-                                    movablePoint.visibleShape.attr("cy", mouseY);
-                                    movablePoint.mouseTarget.attr("cy", mouseY);
-                                    movablePoint.coord = [coordX, coordY];
+                                    movablePoint.setCoord(result);
                                 }
                             }
                             // FIXME: check is commented out since firefox isn't always sending mouseout for some reason
@@ -441,32 +409,26 @@ $.extend(KhanUtil, {
             var time = distance * 5;
 
             var scaled = graph.scalePoint([coordX, coordY]);
-            var end = { cx: scaled[0], cy: scaled[1] };
-            if (updateLines) {
+            var end = { x: coordX, y: coordY };
+            if (true) {
                 var start = {
-                    cx: this.visibleShape.attr("cx"),
-                    cy: this.visibleShape.attr("cy")
+                    x: this.coord[0],
+                    y: this.coord[1]
                 };
                 $(start).animate(end, {
                     duration: time,
                     easing: "linear",
                     step: function(now, fx) {
-                        movablePoint.visibleShape.attr(fx.prop, now);
-                        movablePoint.mouseTarget.attr(fx.prop, now);
-                        if (fx.prop === "cx") {
-                            movablePoint.coord[0] = now / graph.scale[0] + graph.range[0][0];
+                        if (fx.prop === "x") {
+                            movablePoint.coord[0] = now;
                         } else {
-                            movablePoint.coord[1] = graph.range[1][1] - now / graph.scale[1];
+                            movablePoint.coord[1] = now;
                         }
-                        movablePoint.updateLineEnds();
+                        movablePoint.setCoord(movablePoint.coord);
                     }
                 });
 
-            } else {
-                this.visibleShape.animate(end, time);
-                this.mouseTarget.animate(end, time);
             }
-            this.coord = [coordX, coordY];
             if ($.isFunction(this.onMove)) {
                 this.onMove(coordX, coordY);
             }
@@ -487,14 +449,8 @@ $.extend(KhanUtil, {
 
         // Put the point at a new position without any checks, animation, or callbacks
         movablePoint.setCoord = function(coord) {
-            if (this.visible) {
-                var scaledPoint = graph.scalePoint(coord);
-                this.visibleShape.attr({ cx: scaledPoint[0] });
-                this.visibleShape.attr({ cy: scaledPoint[1] });
-                this.mouseTarget.attr({ cx: scaledPoint[0] });
-                this.mouseTarget.attr({ cy: scaledPoint[1] });
-            }
             this.coord = coord.slice();
+            this.transform();
         };
 
         // Change z-order to back
@@ -513,185 +469,22 @@ $.extend(KhanUtil, {
             }
         };
 
+        movablePoint.transform = function() {
+            var scaledPoint = graph.scalePoint(this.coord);
+
+            if (this.visible) {
+                this.visibleShape.transform("T"+scaledPoint[0]+","+scaledPoint[1]);
+            }
+            if (!this.fixed && this.visible) {
+                this.mouseTarget.attr({ cx: scaledPoint[0] });
+                this.mouseTarget.attr({ cy: scaledPoint[1] });
+            }
+        }
+
+        movablePoint.transform();
 
         return movablePoint;
     },
-
-
-    // Add a horizontal or vertical line to the graph that can be dragged around.
-    //
-    // Options can be set to control how the point behaves:
-    //   vertical:
-    //     Boolean indicating whether the line is horizontal or vertical.
-    //   coord:
-    //     The initial location of the line (x or y value)
-    //   snap:
-    //     The minimum increment the line can be moved
-    //
-    // The return value is an object that can be used to manipulate the line:
-    //   The coord property tells you the current position
-    //
-    //   By adding an onMove() method to the returned object, you can install an
-    //   event handler that gets called every time the user moves the line.
-    //
-    //   The returned object also provides a moveTo(coord) method that will move
-    //   the line to a specific location
-    //
-    addMovableLine: function(options) {
-        options = $.extend({
-            graph: KhanUtil.currentGraph,
-            coord: 0,
-            snap: 0,
-            vertical: false
-        }, options);
-        var graph = options.graph;
-        var movableLine = {
-            highlight: false,
-            dragging: false,
-            coord: options.coord
-        };
-
-        graph.style({
-            fill: KhanUtil.ORANGE,
-            stroke: KhanUtil.ORANGE
-        }, function() {
-            if (!options.vertical) {
-                movableLine.visibleShape = graph.line([graph.range[0][0], 0], [graph.range[0][1], 0]);
-                movableLine.visibleShape.translate(0, -options.coord * graph.scale[0]);
-            } else {
-                movableLine.visibleShape = graph.line([0, graph.range[1][0]], [0, graph.range[1][1]]);
-                movableLine.visibleShape.translate(options.coord * graph.scale[1], 0);
-            }
-        });
-
-        // the invisible rectangle in front of the line that gets mouse events
-        if (!options.vertical) {
-            movableLine.mouseTarget = graph.mouselayer.rect(0, -(graph.range[0][0] + options.coord) * graph.scale[0] - 10, graph.xpixels, 20);
-        } else {
-            movableLine.mouseTarget = graph.mouselayer.rect((graph.range[1][1] + options.coord) * graph.scale[1] - 10, 0, 20, graph.ypixels);
-        }
-        movableLine.mouseTarget.attr({fill: "#000", "opacity": 0.0});
-
-        $(movableLine.mouseTarget[0]).css("cursor", "move");
-        $(movableLine.mouseTarget[0]).bind("vmousedown vmouseover vmouseout", function(event) {
-            if (event.type === "vmouseover") {
-                if (!KhanUtil.dragging) {
-                    movableLine.highlight = true;
-                    movableLine.visibleShape.animate({ "stroke-width": 5 }, 50);
-                }
-
-            } else if (event.type === "vmouseout") {
-                movableLine.highlight = false;
-                if (!movableLine.dragging) {
-                    movableLine.visibleShape.animate({ "stroke-width": 2 }, 50);
-                }
-
-            } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
-                event.preventDefault();
-
-                $(document).bind("vmousemove vmouseup", function(event) {
-                    event.preventDefault();
-                    movableLine.dragging = true;
-                    KhanUtil.dragging = true;
-
-                    // mouse{X|Y} are in pixels relative to the SVG
-                    var mouseX = event.pageX - $(graph.raphael.canvas.parentNode).offset().left;
-                    var mouseY = event.pageY - $(graph.raphael.canvas.parentNode).offset().top;
-                    // can't go beyond 10 pixels from the edge
-                    mouseX = Math.max(10, Math.min(graph.xpixels - 10, mouseX));
-                    mouseY = Math.max(10, Math.min(graph.ypixels - 10, mouseY));
-                    // snap to grid
-                    if (options.snap) {
-                        mouseX = Math.round(mouseX / (graph.scale[0] * options.snap)) * (graph.scale[0] * options.snap);
-                        mouseY = Math.round(mouseY / (graph.scale[1] * options.snap)) * (graph.scale[1] * options.snap);
-                    }
-                    // coord{X|Y} are the scaled coordinate values
-                    var coordX = mouseX / graph.scale[0] + graph.range[0][0];
-                    var coordY = graph.range[1][1] - mouseY / graph.scale[1];
-
-                    if (event.type === "vmousemove") {
-                        if (options.vertical) {
-                            movableLine.visibleShape.translate((coordX * graph.scale[0]) - movableLine.visibleShape.attr("translation").x, 0);
-                            movableLine.mouseTarget.attr("x", mouseX - 10);
-                            movableLine.coord = coordX;
-
-                            // The caller has the option of adding an onMove() method to the
-                            // movablePoint object we return as a sort of event handler
-                            if ($.isFunction(movableLine.onMove)) {
-                                movableLine.onMove(coordX);
-                            }
-                        } else {
-                            movableLine.visibleShape.translate(0, (-coordY * graph.scale[1]) - movableLine.visibleShape.attr("translation").y, 0);
-                            movableLine.mouseTarget.attr("y", mouseY - 10);
-                            movableLine.coord = coordY;
-
-                            // The caller has the option of adding an onMove() method to the
-                            // movablePoint object we return as a sort of event handler
-                            if ($.isFunction(movableLine.onMove)) {
-                                movableLine.onMove(coordY);
-                            }
-                        }
-
-                    } else if (event.type === "vmouseup") {
-                        $(document).unbind("vmousemove vmouseup");
-                        movableLine.dragging = false;
-                        KhanUtil.dragging = false;
-                        if (!movableLine.highlight) {
-                            movableLine.visibleShape.animate({ "stroke-width": 2 }, 50);
-                        }
-
-                    }
-                });
-            }
-        });
-
-        // Immediately Move to the x or y coodinate that is given
-        movableLine.setCoord = function(coord) {
-            if (options.vertical) {
-                this.visibleShape.translate(coord * graph.scale[0] - this.visibleShape.attr("translation").x, 0);
-                this.mouseTarget.attr("x", coord / graph.scale[0] + graph.range[0][0] - 10);
-            } else {
-                this.visibleShape.translate(0, -coord * graph.scale[1] - this.visibleShape.attr("translation").y);
-                this.mouseTarget.attr("y", (graph.range[1][1] - coord) * graph.scale[1] - 10);
-            }
-
-            this.coord = coord;
-            if (jQuery.isFunction(this.onMove)) {
-                this.onMove(coord);
-            }
-        }
-
-        // Method to let the caller animate the line to a new position. Useful
-        // as part of a hint to show the user the correct place to put the line.
-        movableLine.moveTo = function(coord) {
-            if (options.vertical) {
-                // find distance in pixels to move
-                var distance = Math.abs(this.coord - coord) * graph.scale[0];
-                // 5ms per pixel seems good
-                var time = distance * 5;
-
-                this.visibleShape.animate({ translation: [coord * graph.scale[0] - this.visibleShape.attr("translation").x, 0] }, time);
-                this.mouseTarget.animate({ y: coord / graph.scale[0] + graph.range[0][0] - 10 }, time);
-
-            } else {
-                // find distance in pixels to move
-                var distance = Math.abs(this.coord - coord) * graph.scale[1];
-                // 5ms per pixel seems good
-                var time = distance * 5;
-
-                this.visibleShape.animate({ translation: [0, -coord * graph.scale[1] - this.visibleShape.attr("translation").y] }, time);
-                this.mouseTarget.animate({ y: (graph.range[1][1] - coord) * graph.scale[1] - 10 }, time);
-            }
-
-            this.coord = coord;
-            if ($.isFunction(this.onMove)) {
-                movableLine.onMove(coord);
-            }
-        };
-
-        return movableLine;
-    },
-
 
     svgPath: function(points) {
         return $.map(points, function(point, i) {
@@ -937,11 +730,14 @@ $.extend(KhanUtil, {
         for (var i = 0; i < lineSegment.ticks; ++i) {
             lineSegment.tick[i] = KhanUtil.bogusShape;
         }
-        var path = KhanUtil.svgPath([[0, 0], [graph.scale[0], 0]]);
+        var tickpath = "";
         for (var i = 0; i < lineSegment.ticks; ++i) {
-            var tickoffset = (0.5 * graph.scale[0]) - (lineSegment.ticks - 1) * 1 + (i * 2);
-            path += KhanUtil.svgPath([[tickoffset, -7], [tickoffset, 7]]);
+            var tickoffset = (0.5 * graph.scale[0]) + (2 * i - lineSegment.ticks + 1) * 3;
+            tickpath += KhanUtil.svgPath([[tickoffset, -7], [tickoffset, 7]]);
         }
+        lineSegment.tickLines = graph.raphael.path(tickpath);
+        lineSegment.tickLines.attr(lineSegment.normalStyle);
+        var path = KhanUtil.svgPath([[0, 0], [graph.scale[0], 0]]);
         lineSegment.visibleLine = graph.raphael.path(path);
         lineSegment.visibleLine.attr(lineSegment.normalStyle);
         if (!lineSegment.fixed) {
@@ -968,6 +764,7 @@ $.extend(KhanUtil, {
             }
             var angle = KhanUtil.findAngle(this.coordZ, this.coordA);
             var scaledA = graph.scalePoint(this.coordA);
+            var scaledZ = graph.scalePoint(this.coordZ);
             var lineLength = KhanUtil.getDistance(this.coordA, this.coordZ);
             if (this.extendLine) {
                 if (this.coordA[0] !== this.coordZ[0]) {
@@ -976,31 +773,35 @@ $.extend(KhanUtil, {
                     var y2 = slope * (graph.range[0][1] - this.coordA[0]) + this.coordA[1];
                     if (this.coordA[0] < this.coordZ[0]) {
                         scaledA = graph.scalePoint([graph.range[0][0], y1]);
+                        scaledZ = graph.scalePoint([graph.range[0][1], y2]);
                         scaledA[0]++;
+                        scaledZ[0]--;
                     } else {
                         scaledA = graph.scalePoint([graph.range[0][1], y2]);
+                        scaledZ = graph.scalePoint([graph.range[0][0], y1]);
                         scaledA[0]--;
+                        scaledZ[0]++;
                     }
                     lineLength = KhanUtil.getDistance([graph.range[0][0], y1], [graph.range[0][1], y2]);
                 } else {
                     if (this.coordA[1] < this.coordZ[1]) {
                         scaledA = graph.scalePoint([this.coordA[0], graph.range[1][0]]);
+                        scaledZ = graph.scalePoint([this.coordA[0], graph.range[1][1]]);
                     } else {
                         scaledA = graph.scalePoint([this.coordA[0], graph.range[1][1]]);
+                        scaledZ = graph.scalePoint([this.coordA[0], graph.range[1][0]]);
                     }
                     lineLength = graph.range[1][1] - graph.range[1][0];
                 }
             }
-            this.visibleLine.translate(scaledA[0] - this.visibleLine.attr("translation").x,
-                    scaledA[1] - this.visibleLine.attr("translation").y);
-            this.visibleLine.rotate(-angle, scaledA[0], scaledA[1]);
-            this.visibleLine.scale(lineLength, 1, scaledA[0], scaledA[1]);
+
+            var center = [(scaledZ[0]+scaledA[0])/2, (scaledZ[1]+scaledA[1])/2];
+
+            this.visibleLine.transform("T"+(center[0]-graph.scale[0]/2)+","+(center[1])+"R"+(-angle)+"S"+lineLength);
+            this.tickLines.transform("T"+(center[0]-graph.scale[0]/2)+","+(center[1])+"R"+(-angle));
 
             if (!this.fixed) {
-                this.mouseTarget.translate(scaledA[0] - this.mouseTarget.attr("translation").x,
-                        scaledA[1] - this.mouseTarget.attr("translation").y);
-                this.mouseTarget.rotate(-angle, scaledA[0], scaledA[1]);
-                this.mouseTarget.scale(lineLength, 1, scaledA[0], scaledA[1]);
+                this.mouseTarget.transform("T"+(center[0]-graph.scale[0]/2)+","+(center[1])+"R"+(-angle)+"S"+lineLength+","+1);
             }
         };
 
@@ -1305,22 +1106,20 @@ function Protractor(center) {
     var graph = KhanUtil.currentGraph;
     this.set = graph.raphael.set();
 
-    this.cx = center[0];
-    this.cy = center[1];
     var lineColor = "#789";
     var pro = this;
 
     var r = 8.05;
-    var imgPos = graph.scalePoint([this.cx - r, this.cy + r - 0.225]);
-    this.set.push(graph.mouselayer.image(Khan.urlBase + "images/protractor.png", imgPos[0], imgPos[1], 322, 161));
-
+    var imgPos = graph.scalePoint([-r, r - 0.225]);
+    var protractorImg = graph.mouselayer.image(Khan.urlBase + "images/protractor.png", -161, -156, 322, 161);
+    this.set.push(protractorImg);
 
     // Customized polar coordinate thingie to make it easier to draw the double-headed arrow thing.
     // angle is what you'd expect -- use that big protractor on your screen :)
     // pixels from edge is relative to the edge of the protractor; it's not the full radius
     var arrowHelper = function(angle, pixelsFromEdge) {
         var scaledRadius = graph.scaleVector(r);
-        var scaledCenter = graph.scalePoint(center);
+        var scaledCenter = [0, 0]; //graph.scalePoint(center);
         var x = Math.sin((angle + 90) * Math.PI / 180) * (scaledRadius[0] + pixelsFromEdge) + scaledCenter[0];
         var y = Math.cos((angle + 90) * Math.PI / 180) * (scaledRadius[1] + pixelsFromEdge) + scaledCenter[1];
         return x + "," + y;
@@ -1356,12 +1155,12 @@ function Protractor(center) {
     // Use a movablePoint for rotation
     this.rotateHandle = KhanUtil.addMovablePoint({
         coord: [
-            Math.sin(275 * Math.PI / 180) * (r + 0.5) + this.cx,
-            Math.cos(275 * Math.PI / 180) * (r + 0.5) + this.cy
+            Math.sin(275 * Math.PI / 180) * (r + 0.5) + center[0],
+            Math.cos(275 * Math.PI / 180) * (r + 0.5) + center[1]
         ],
         onMove: function(x, y) {
-            var angle = Math.atan2(pro.centerPoint.coord[1] - y, pro.centerPoint.coord[0] - x) * 180 / Math.PI;
-            pro.rotate(-angle - 5, true);
+            var angle = Math.atan2(pro.center[1] - y, pro.center[0] - x) * 180 / Math.PI;
+            pro.rotate(-angle - 5);
         }
     });
 
@@ -1374,42 +1173,38 @@ function Protractor(center) {
     // Make the mouse target bigger to encompass the whole area around the double-arrow thing
     this.rotateHandle.mouseTarget.attr({ scale: 2.0 });
 
+    // Set the initial arrow size
+    this.arrowscale = 1.0;
+
     // Make the arrow-thing grow and shrink with mouseover/out
     $(this.rotateHandle.mouseTarget[0]).bind("vmouseover", function(event) {
-        arrow.animate({ scale: 1.5 }, 50);
+        pro.arrowscale = 1.5;
+        arrow.animate({ transform: pro.transformString()+"S1.5" }, 50);
     });
     $(this.rotateHandle.mouseTarget[0]).bind("vmouseout", function(event) {
-        arrow.animate({ scale: 1.0 }, 50);
+        pro.arrowscale = 1.0;
+        arrow.animate({ transform: pro.transformString()+"S1.0" }, 50);
     });
 
-
-    var setNodes = $.map(this.set, function(el) { return el.node; });
+    // Add the translation callbacks to the protractor
     this.makeTranslatable = function makeTranslatable() {
-        $(setNodes).css("cursor", "move");
+        // add the "move" cursor
+        $(protractorImg.node).css("cursor", "move");
 
-        $(setNodes).bind("vmousedown", function(event) {
+        $(protractorImg.node).bind("vmousedown", function(event) {
             event.preventDefault();
-            var startx = event.pageX - $(graph.raphael.canvas.parentNode).offset().left;
-            var starty = event.pageY - $(graph.raphael.canvas.parentNode).offset().top;
+
+            // on mousedown, calculate the initial offset from the mouse position to the protractor center
+            var startpt = graph.unscalePoint([event.pageX - $(graph.raphael.canvas.parentNode).offset().left,
+                                              event.pageY - $(graph.raphael.canvas.parentNode).offset().top]);
+            var offsetvec = [pro.center[0] - startpt[0], pro.center[1] - startpt[1]];
 
             $(document).bind("vmousemove", function(event) {
-                // mouse{X|Y} are in pixels relative to the SVG
-                var mouseX = event.pageX - $(graph.raphael.canvas.parentNode).offset().left;
-                var mouseY = event.pageY - $(graph.raphael.canvas.parentNode).offset().top;
-                // can't go beyond 10 pixels from the edge
-                mouseX = Math.max(10, Math.min(graph.xpixels - 10, mouseX));
-                mouseY = Math.max(10, Math.min(graph.ypixels - 10, mouseY));
+                // when moved, calculate the new offset as mousepos + offset, and move there
+                var mousept = graph.unscalePoint([event.pageX - $(graph.raphael.canvas.parentNode).offset().left,
+                                                  event.pageY - $(graph.raphael.canvas.parentNode).offset().top]);
 
-                var dx = mouseX - startx;
-                var dy = mouseY - starty;
-
-                $.each(pro.set.items, function() {
-                    this.translate(dx, dy);
-                });
-                pro.centerPoint.setCoord([pro.centerPoint.coord[0] + dx / graph.scale[0], pro.centerPoint.coord[1] - dy / graph.scale[1]]);
-                pro.rotateHandle.setCoord([pro.rotateHandle.coord[0] + dx / graph.scale[0], pro.rotateHandle.coord[1] - dy / graph.scale[1]]);
-                startx = mouseX;
-                starty = mouseY;
+                pro.move([mousept[0] + offsetvec[0], mousept[1] + offsetvec[1]]);
             });
 
             $(document).one("vmouseup", function(event) {
@@ -1418,48 +1213,69 @@ function Protractor(center) {
         });
     };
 
-
+    // set the initial rotation
     this.rotation = 0;
 
-    this.rotate = function(offset, absolute) {
-        var center = graph.scalePoint(this.centerPoint.coord);
-
-        if (absolute) {
-            this.rotation = 0;
-        }
-
-        this.set.rotate(this.rotation + offset, center[0], center[1]);
-        this.rotation = this.rotation + offset;
-
-        return this;
+    // on rotate, simply set the rotate and transform
+    this.rotate = function(angle) {
+        this.rotation = angle;
+        this.transform();
     };
 
-    this.moveTo = function moveTo(x, y) {
-        var graph = KhanUtil.currentGraph;
-        var start = graph.scalePoint(pro.centerPoint.coord);
-        var end = graph.scalePoint([x, y]);
-        var time = KhanUtil.getDistance(start, end) * 2;  // 2ms per pixel
+    // set the initial center position
+    this.center = center;
 
-        $({ x: start[0], y: start[1] }).animate({ x: end[0], y: end[1] }, {
+    // on move, set the center and transform
+    this.move = function(position) {
+        this.center = position;
+        this.transform();
+    }
+
+    // return the string which is passed to transform, so that things can be appended to it
+    this.transformString = function() {
+        var center = graph.scalePoint(this.center);
+        return "T"+center[0]+","+center[1]+"R"+(this.rotation)+","+center[0]+","+center[1];
+    }
+
+    // transform the protractor to make up for any scale/rotation/position changes
+    this.transform = function() {
+        // stop any current animations
+        this.set.stop();
+        arrow.stop();
+        // transform the entire thing, and apply an additional scale to the arrow
+        this.set.transform(this.transformString());
+        arrow.transform("...S"+this.arrowscale);
+        // manually position the center point and the handle point
+        this.centerPoint.setCoord(this.center);
+        this.rotateHandle.setCoord([Math.sin((this.rotation - 85) * Math.PI / 180) * (r + 0.5) + this.center[0],
+                                    Math.cos((this.rotation - 85)* Math.PI / 180) * (r + 0.5) + this.center[1]]);
+    }
+
+    // move the point to the center, to ensure everything gets set up right
+    this.move(center);
+
+    // animate the protractor moving to a position
+    this.moveTo = function moveTo(x, y) {
+        var start = pro.centerPoint.coord;
+        var end = [x, y];
+        var time = KhanUtil.getDistance(start, end) * 30;  // 2ms per pixel
+
+        $({ x: start[0], y: start[1] }).animate({ x: x, y: y }, {
             duration: time,
             step: function(now, fx) {
-                var dx = 0;
-                var dy = 0;
+                // change the appropriate coordinate using .move
                 if (fx.prop === "x") {
-                    dx = now - graph.scalePoint(pro.centerPoint.coord)[0];
-                } else if (fx.prop === "y") {
-                    dy = now - graph.scalePoint(pro.centerPoint.coord)[1];
+                    pro.move([now, pro.center[1]]);
+                } else {
+                    pro.move([pro.center[0], now]);
                 }
-                $.each(pro.set.items, function() {
-                    this.translate(dx, dy);
-                });
-                pro.centerPoint.setCoord([pro.centerPoint.coord[0] + dx / graph.scale[0], pro.centerPoint.coord[1] - dy / graph.scale[1]]);
-                pro.rotateHandle.setCoord([pro.rotateHandle.coord[0] + dx / graph.scale[0], pro.rotateHandle.coord[1] - dy / graph.scale[1]]);
             }
         });
     };
 
+    // animate the protractor rotating to an angle
     this.rotateTo = function rotateTo(angle) {
+        // make sure it doesn't rotate the wrong way
         if (Math.abs(this.rotation - angle) > 180) {
             this.rotation += 360;
         }
@@ -1467,16 +1283,15 @@ function Protractor(center) {
         $({ 0: this.rotation }).animate({ 0: angle }, {
             duration: time,
             step: function(now, fx) {
-                pro.rotate(now, true);
-                pro.rotateHandle.setCoord([
-                    Math.sin((now + 275) * Math.PI / 180) * (r + 0.5) + pro.centerPoint.coord[0],
-                    Math.cos((now + 275) * Math.PI / 180) * (r + 0.5) + pro.centerPoint.coord[1]
-                ]);
+                // rotate using .rotate
+                pro.rotate(now);
             }
         });
     };
 
+    // make the protractor opaque
     this.set.attr({ opacity: 0.5 });
+    // make translatable
     this.makeTranslatable();
     return this;
 }

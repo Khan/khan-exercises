@@ -201,7 +201,7 @@ $.extend(KhanUtil, {
 
     highlightAngle: function() {
         var graph = KhanUtil.currentGraph;
-        graph.dragPoint.animate({ scale: 2 }, 50);
+        graph.dragPoint.animate({ rx: 8, ry: 8 }, 50);
         graph.angleLines.animate({ stroke: KhanUtil.ORANGE }, 100);
         graph.spiral.animate({ stroke: KhanUtil.ORANGE }, 100);
         graph.arrow.animate({ fill: KhanUtil.ORANGE }, 100);
@@ -212,7 +212,7 @@ $.extend(KhanUtil, {
 
     unhighlightAngle: function() {
         var graph = KhanUtil.currentGraph;
-        graph.dragPoint.animate({ scale: 1 }, 50);
+        graph.dragPoint.animate({ rx: 4, ry: 4 }, 50);
         graph.angleLines.animate({ stroke: KhanUtil.BLUE }, 100);
         graph.spiral.animate({ stroke: KhanUtil.BLUE }, 100);
         graph.arrow.animate({ fill: KhanUtil.BLUE }, 100);
