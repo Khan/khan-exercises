@@ -1898,11 +1898,11 @@ var Khan = (function() {
                 // The seed that was used for generating the problem
                 problem_type: problemID,
 
-                // Whether we are currently in review mode
-                review_mode: (!testMode && Exercises.reviewMode) ? 1 : 0,
+                // What mode we're in
+                mode: Exercises.mode,
 
-                // Whether we are currently in topic mode
-                topic_mode: (!testMode && !Exercises.reviewMode && !Exercises.practiceMode) ? 1 : 0,
+                // Whether we are currently working on a topic, as opposed to an exercise
+                topic_mode: (!testMode && Exercises.mode != "review" && !Exercises.practiceMode) ? 1 : 0,
 
                 // Request camelCasing in returned response
                 casing: "camel",
