@@ -107,7 +107,7 @@
                         graph.lines[ index ].pointZ.setCoord([ graph.lines[ index ].pointZ.coord[0], this ]);
                         graph.lines[ index ].pointA.updateLineEnds();
                         graph.lines[ index ].pointZ.updateLineEnds();
-                        graph.lines[ index ].bar.transform("S1,"+"Math.max( 0.01, this * 2 )+","+scalePoint( 0 )[0]+","+scalePoint( 0 )[1] );
+                        graph.lines[ index ].bar.transform("S1,"+Math.max( 0.01, this * 2 )+","+scalePoint( 0 )[0]+","+scalePoint( 0 )[1] );
                     });
                 </div>
             </div>
