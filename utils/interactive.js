@@ -200,8 +200,10 @@ $.extend(KhanUtil, {
                 movablePoint.visibleShape.attr({cx: 0, cy: 0});
             });
         }
-        movablePoint.normalStyle.scale = 1;
-        movablePoint.highlightStyle.scale = 2;
+        movablePoint.normalStyle.rx = 4;
+        movablePoint.highlightStyle.rx = 8;
+        movablePoint.normalStyle.ry = 4;
+        movablePoint.highlightStyle.ry = 8;
 
         // Using the passed coordinates, apply any constraints and return the closest coordinates
         // that match the constraints.
