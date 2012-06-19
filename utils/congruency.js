@@ -40,6 +40,8 @@ $.extend(KhanUtil, {
             line.slope = (line.end[1] - line.start[1]) /
                          (line.end[0] - line.start[0]);
 
+            line.slope = Math.max(-999999, Math.min(999999, line.slope));
+
             line.func = function(x) {
                 return line.start[1] + line.slope * (x - line.start[0]);
             };
