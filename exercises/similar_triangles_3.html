@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Similar Triangles 3</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        function notSoRandomTriangle( trial ){
+	/* Purpose of this exercise is to train the student to visually
+	 * identify similar triangles. 
+	 * Thus, we write a function to produce a set of triangle angles,
+	 *  such that they are significantly different looking. 
+     */
+
+	     var a = [60, 60, 60];
+	     var b = [30, 30, 120];
+	     var c = [90, 45, 45];
+	     var d = [90, 30, 60];
+	     var triangles = [a, b, c, d];
+	     return triangles[trial];
+		
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+	        <var id="ANSWER">randFromArray(["B", "C", "Both", "None"])</var>
+	        <var id="TRIANGLE_INDEX">round(randRange(0,3), 0)</var>
+	        <var id="MAIN">notSoRandomTriangle(TRIANGLE_INDEX)</var>
+    	    <var id="B_INDEX" data-ensure="B_INDEX!==TRIANGLE_INDEX">round(randRange(0,3),0)</var>
+	        <var id="C_INDEX" data-ensure="C_INDEX!==TRIANGLE_INDEX">round(randRange(0,3),0)</var>
+	        <var id="B"> ANSWER ==="B" || ANSWER==="Both" ? shuffle( MAIN ) : notSoRandomTriangle( B_INDEX )</var>
+            <var id="C"> ANSWER === "C" || ANSWER === "Both" ? shuffle( MAIN ) : notSoRandomTriangle( C_INDEX )</var>
+            <var id="TR">
+                function(){
+                    var tr = new Triangle( [ 3, -2 ],  MAIN, randRange(150, 500)/100, {} );
+                    tr.labels = { "name" : "A" };
+                    tr.rotate( randRange( 0, 360 ) );
+                    tr.boxOut( [ [ [ -4, 1.5  ], [ 10, 1.5 ] ] ], [ 0, -0.5 ] );
+                    return tr;
+                }()
+            </var>
+            <var id="TR_B">
+                function(){
+                    var trB = new Triangle( [ 2, -8 ],  B, randRange( 50, 300 )/100, { } );
+                    trB.labels = { "name" : "B" };
+                    trB.rotate( randRange( 0, 360 ) );
+                    trB.color = "blue";
+                    trB.boxOut( [ [ [ -1, -10  ], [ -1, 20 ] ] ], [ 0.5, 0 ] );
+                    trB.boxOut( TR.sides, [ 0, -1 ] );
+                    return trB;
+                }()
+            </var>
+            <var id="TR_C">
+                function(){
+                    var trC = new Triangle( [ 7, -6 ],  C, randRange( 50, 500 )/100, {} );
+                    trC.labels = { "name" : "C" };
+                    trC.rotate( randRange( 0, 360 ) );
+                    trC.color = "red";
+                    trC.boxOut( [ [ [ 13, -10  ], [ 13, 20 ] ] ], [ -0.5, 0 ] );
+                    trC.boxOut( TR.sides, [ 0, -1 ] );
+                    trC.boxOut( TR_B.sides, [ 0, -1 ] );
+                    return trC;
+                }()
+            </var>
+        </div>
+
+        <div class="problems">
+            <div id="similar">
+                <div class="problem">Which triangles are similar to triangle <code>A</code>?</div>
+                <div class="question">
+                    <div class="graphie" id="triangles" >
+                        init({
+                            range: [ [-1, 13 ], [ -14, 2.5 ] ]
+                        })
+
+                        TR.draw();
+                        TR.drawLabels();
+
+                        style({
+                            stroke: "blue",
+                        });
+                        TR_B.draw();
+                        TR_B.drawLabels();
+
+                        style({
+                            stroke: "red",
+                        });
+                        TR_C.draw();
+                        TR_C.drawLabels();
+                    </div>
+                </div>
+                <div class="solution"><var>ANSWER</var></div>
+                <ul class="choices" data-category="true">
+                    <li>B</li>
+                    <li>C</li>
+                    <li>Both</li>
+                    <li>None</li>
+                </ul>
+            <div class="hints">
+                <p>Two triangles are similar if their angles are congruent (equal).</p>
+                    <div class="graphie" data-update="triangles">
+                        TR.labels.angles = TR.niceAngles;
+                        TR.drawLabels();
+                    </div>
+                    <div class="graphie" data-update="triangles">
+                        TR_B.labels.angles = TR_B.niceAngles;
+                        TR_B.drawLabels();
+                    </div>
+                    <div class="graphie" data-update="triangles">
+                        TR_C.labels.angles = TR_C.niceAngles;
+                        TR_C.drawLabels();
+                    </div>
+
+            </div>
+
+        </div>
+        </div>
+    </div>
+</body>
+</html>
