@@ -6,16 +6,14 @@ TODO:
     being congruent to itself, and the parts of the triangle are the same, it will do that trace back
 -fix isRelationPossible for triangles, somehow? (currently says some triangles cannot be equal when they can,
     but will never say they can be equal when they can't)
--make sure that we state triangle congruencies in the right order, e.g. ABD = ADE is not the same as ABD = EAD
--add depth argument to initproof
 -deal with triangle congruence cases where there are both vertical and alt int angles, more than one vertical / alt int angle, etc.
     (may not be necessary just for tracing back)
 
--mark triangles as "unrotateable" if they are already part of an equality
-
 -if user proves a different named (not different) triangle congruence than the final one given, still give them credit
 -get rid of second field in seg.triangles and ang.triangles (unnecessary, can just call _.indexOf(segment, triangle.segs))
+-don't use objects to store the equality hashes (replacement?)
 
+-theorems: midpoint, bisector, alternate interior -> parallel
 */
 
 // indicates that the user has finished the proof
@@ -46,6 +44,9 @@ var supplementaryAngles;
 var parallelSegments;
 var altInteriorAngs;
 
+// keeps track of how many hints are left for the next statement
+var numHints;
+
 function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altIntAngs, depth) {
     userProofDone = false;
 
@@ -65,6 +66,8 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
 
     // parallelSegments = parallelSegs;
     altInteriorAngs = altIntAngs;
+
+    numHints = 3;
 
     //populate knownEqualities based on reflexivity
     for(var i=0; i<SEGMENTS.length; i++){
@@ -130,28 +133,19 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
 
 }
 
-
-
 // use knownequalities to see if the statement follows, if it does, update knownequalities
 function verifyStatement(){
+    var statement = $(".statement").val();
+    var reason = $(".justification").val();
+    var category = $(".statement_type").val();
 
+    verifyStatementArgs(statement, reason, category);
+}
+
+function verifyStatementArgs(statement, reason, category){
     if(!userProofDone){
-        var statement = $(".statement").val();
-        var reason = $(".justification").val();
-        var category = $(".statement_type").val();
-
         if(category == "triangle congruence"){
             var triangleStrings = statement.split("=");
-
-            // var triangle1 = new Triang([new Seg(triangleStrings[0][0], triangleStrings[0][1]), new Seg(triangleStrings[0][1], triangleStrings[0][2]),
-            //     new Seg(triangleStrings[0][2], triangleStrings[0][0])], [new Ang(triangleStrings[0][0], triangleStrings[0][1], triangleStrings[0][2]), 
-            //     new Ang(triangleStrings[0][1], triangleStrings[0][2], triangleStrings[0][0]), new Ang(triangleStrings[0][2], triangleStrings[0][0],
-            //         triangleStrings[0][1])]);
-
-            // var triangle2 = new Triang([new Seg(triangleStrings[1][0], triangleStrings[1][1]), new Seg(triangleStrings[1][1], triangleStrings[1][2]),
-            //     new Seg(triangleStrings[1][2], triangleStrings[1][0])], [new Ang(triangleStrings[1][0], triangleStrings[1][1], triangleStrings[1][2]), 
-            //     new Ang(triangleStrings[1][1], triangleStrings[1][2], triangleStrings[1][0]), new Ang(triangleStrings[1][2], triangleStrings[1][0],
-            //         triangleStrings[1][1])]);
 
             var triangle1 = _.find(TRIANGLES, function(triang){
                 for(var i=0; i<3; i++){
@@ -174,9 +168,6 @@ function verifyStatement(){
                 }
                 return false;
             });
-
-            console.log("knownEqualities: ");
-            console.log(knownEqualities);
 
             console.log(checkTriangleCongruent(triangle1, triangle2, reason));
         }
@@ -211,13 +202,13 @@ function verifyStatement(){
                     || (seg.end1 == segmentStrings[1][1] && seg.end2 == segmentStrings[1][0]);
             });
 
-            console.log(seg1 + ", " + seg2);
-
             console.log(checkSegEqual(seg1, seg2, reason));
         }
 
-        // now update the list of equalities displayed
 
+        console.log(Khan.hints);
+
+        // now update the list of equalities displayed
 
         var newHTML = "";
         for(var eq in knownEqualities){
@@ -236,9 +227,124 @@ function verifyStatement(){
         }
 
     }
+}
 
+// need custom hint functionality (custom number of hints, need to hide after each step)
+$("#hint").unbind("click");
 
+$("#hint").click(function() {
 
+    console.log("new click");
+
+    if (hintsLeft > 0) {
+        $(Khan).trigger("hintUsed");
+
+        var stepsLeft = hintsLeft + " step" + (hintsLeft === 1 ? "" : "s") + " left";
+        $(this).val($(this).data("buttonText") || "I'd like another hint (" + stepsLeft + ")");
+
+        var problem = $(hint).parent();
+
+        // Append first so MathJax can sense the surrounding CSS context properly
+        // $(hint).appendTo("#hintsarea").runModules(problem);
+        $("<p> stuff </p>").appendTo("#hintsarea");
+
+        // Grow the scratchpad to cover the new hint
+        Khan.scratchpad.resize();
+
+        // Disable the get hint button
+        if (hintsLeft === 0) {
+            $(Khan).trigger("allHintsUsed");
+
+            $(this).attr("disabled", true);
+        }
+    }
+
+    var fProdReadOnly = !testMode && userExercise.readOnly;
+    var fAnsweredCorrectly = $("#next-question-button").is(":visible");
+    if (!fProdReadOnly && !fAnsweredCorrectly) {
+        // Resets the streak and logs history for exercise viewer
+        request(
+            "problems/" + problemNum + "/hint",
+            buildAttemptData(false, attempts, "hint", new Date().getTime()),
+            // Don't do anything on success or failure, silently failing is ok here
+            function() {},
+            function() {},
+            "attempt_hint_queue"
+        );
+    }
+
+});
+
+// give a hint as to the next statement which the user should try to prove
+function nextStatementHint(){
+    var hintKeys = [];
+    // filter out all keys with value "same *" or "Given"
+    for(var eq in finishedEqualities){
+        if(finishedEqualities[eq].substring(0,4) != "Same" && finishedEqualities[eq] != "Given"){
+            hintKeys.push(eq);
+        }
+    }
+
+    
+    for(var i=0; i<10; i++){
+        // look for something that can be proven with the statements already known
+        // that is in finishedEqualities
+        var tryProving = hintKeys[KhanUtil.randRange(0,hintKeys.length-1)];
+        console.log(tryProving[0]);
+
+        // awful, terrible hacky way to deal with javascript object hashes
+        if(tryProving[0] == "t"){
+            console.log(TRIANGLES);
+            var triangle1 = _.find(TRIANGLES, function(triang){
+                return triang.toString() == tryProving.substring(0,11);
+            });
+
+            var triangle2 = _.find(TRIANGLES, function(triang){
+                return triang.toString() == tryProving.substring(12,23);
+            });
+
+            if(checkTriangleForHint(triangle1, triangle2).length > 0){
+                return "Try to see if you can prove " + triangle1 + "=" + triangle2;
+            }
+        }
+
+        else if(tryProving[0] == "s"){
+            var seg1 = _.find(SEGMENTS, function(seg){
+                return seg.toString() == tryProving.substring(0,5);
+            });
+            var seg2 = _.find(SEGMENTS, function(seg){
+                return seg.toString() == tryProving.substring(6,11);
+            });
+
+            if(checkSegForHint(seg1, seg2).length > 0){
+                return "Try to see if you can prove " + seg1 + "=" + seg2;
+            }
+        }
+
+        else if(tryProving[0] == "a"){
+            var ang1 = _.find(ANGLES, function(ang){
+                return ang.toString() == tryProving.substring(0,5);
+            });
+            var ang2 = _.find(ANGLES, function(ang){
+                return ang.toString() == tryProving.substring(6,11);
+            });
+
+            if(checkAngForHint(ang1, ang2).length > 0){
+                return "Try to see if you can prove " + ang1 + "=" + ang2;
+            }
+        }
+        
+        else if(tryProving[0] instanceof Seg && checkSegForHint(tryProving).length > 0){
+            console.log("Try to see if you can prove " + tryProving[0] + "=" + tryProving[1]);
+            return "Try to see if you can prove " + tryProving[0] + "=" + tryProving[1];
+        }
+        else if(tryProving[0] instanceof Ang && checkAngForHint(tryProving).length > 0){
+            console.log("Try to see if you can prove " + tryProving[0] + "=" + tryProving[1]);
+            return "Try to see if you can prove " + tryProving[0] + "=" + tryProving[1];
+        }
+
+    }
+    return "Sorry, no hint for now >:[";
 }
 
 
@@ -313,14 +419,6 @@ Triang.prototype.equals = function(otherTriang){
 
     return _.difference(myPoints, otherPoints).length == 0;
 }
-
-// If two smaller line segments share an endpoint, we can define a new
-// segment by adding them. <- not true
-// addSegs: function(seg1, seg2) {
-//     if(seg1.end2 == seg2.end1) {
-//         return new seg(seg1.end1, seg2.end2);
-//     }
-// },
 
 // If two smaller angles share a midpoint and one of two endpoints, they can be
 // added to form a larger angle
@@ -428,28 +526,6 @@ function traceBack(statementKey, depth){
                 for(var j=0; j<3; j++){
                     var ang1 = triangle1.angs[i];
                     var ang2 = triangle2.angs[j];
-
-                    // var midPointSeg = new Seg(ang1.mid, ang2.mid);
-                    // if(_.any(SEGMENTS, function(seg){ return seg.equals(midPointSeg); })){
-                    //     // now one side of each angle must be a part of, or all of, this mid point line
-                    //     // and the the side for one angle which is not part of the mid point line
-                    //     // must be parallel to the side for the other angle not part of the mid point line
-                    //     var ang1Segs = [new Seg(ang1.mid, ang1.end1), new Seg(ang1.mid, ang1.end2)];
-                    //     var ang2Segs = [new Seg(ang2.mid, ang2.end1), new Seg(ang2.mid, ang2.end2)];
-                    //     for(var k=0; k<2; k++){
-                    //         for(var l=0; l<2; l++){
-                    //             if((!isRelationPossible(ang1Segs[k], midPointSeg) || ang1Segs[k].equals(midPointSeg)) &&
-                    //                 (!isRelationPossible(ang2Segs[l], midPointSeg) || ang2Segs[l].equals(midPointSeg)) &&
-                    //                 _.any(parallelSegments, function(pair){ 
-                    //                     return (ang1Segs[(k+1) % 2].equals(pair[0]) && ang2Segs[(l+1) % 2].equals(pair[1])) ||
-                    //                         (ang1Segs[(k+1) % 2].equals(pair[1]) && ang2Segs[(l+1) % 2].equals(pair[0])); })) {
-                    //                 console.log("found alternate interior " + ang1 + ", " + ang2);
-                    //                 alternateAngs = [i, j];
-                    //                 break loop1;
-                    //             }
-                    //         }
-                    //     }
-                    // }
 
                     if(eqIn([ang1, ang2], altInteriorAngs) || eqIn([ang2, ang1], altInteriorAngs)){
                         alternateAngs = [i,j];
@@ -659,9 +735,10 @@ function traceBack(statementKey, depth){
             // triangle congruence case 4: triangles have neither shared side, vertical angles, nor alternate
             // interior angles
             else{
+                console.log(congruence);
                 //SSS
                 if(congruence == 1){
-                    setGivenOrTraceBack([[triangle1.segs[0], triangl2.segs[0]], [triangle1.segs[1], triangle2.segs[1]], 
+                    setGivenOrTraceBack([[triangle1.segs[0], triangle2.segs[0]], [triangle1.segs[1], triangle2.segs[1]], 
                         [triangle1.segs[2], triangle2.segs[2]]], "SSS", statementKey, depth-1);
                 }
 
@@ -1130,32 +1207,6 @@ function checkAngEqual(ang1, ang2, reason){
         }
     }
 
-    // check for alternate interior
-    // var midPointSeg = new Seg(ang1.mid, ang2.mid);
-    // if(_.any(SEGMENTS, function(seg){ return seg.equals(midPointSeg); })){
-    //     // now one side of each angle must be a part of, or all of, this mid point line
-    //     // and the the side for one angle which is not part of the mid point line
-    //     // must be parallel to the side for the other angle not part of the mid point line
-    //     var ang1Segs = [new Seg(ang1.mid, ang1.end1), new Seg(ang1.mid, ang1.end2)];
-    //     var ang2Segs = [new Seg(ang2.mid, ang2.end1), new Seg(ang2.mid, ang2.end2)];
-    //     for(var k=0; k<2; k++){
-    //         for(var l=0; l<2; l++){
-    //             if((!isRelationPossible(ang1Segs[k], midPointSeg) || ang1Segs[k].equals(midPointSeg)) &&
-    //                 (!isRelationPossible(ang2Segs[l], midPointSeg) || ang2Segs[l].equals(midPointSeg)) &&
-    //                 _.any(parallelSegments, function(pair){ 
-    //                     return (ang1Segs[(k+1) % 2].equals(pair[0]) && ang2Segs[(l+1) % 2].equals(pair[1])) ||
-    //                         (ang1Segs[(k+1) % 2].equals(pair[1]) && ang2Segs[(l+1) % 2].equals(pair[0])); })) {
-
-    //                 if(reason == "Alternate angles"){
-    //                     knownEqualities[[ang1,ang2]] = "Alternate interior angles are equal";
-    //                     knownEqualities[[ang2,ang1]] = "Alternate interior angles are equal";
-    //                     return true;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
     if(eqIn([ang1, ang2], altInteriorAngs) || eqIn([ang2, ang1], altInteriorAngs)){
 
         if(reason == "Alternate angles"){
@@ -1169,6 +1220,143 @@ function checkAngEqual(ang1, ang2, reason){
     return false;
 
 }
+
+// check to see if this could be true for any reason, given what is known in knownEqualities, but 
+// that it also has not already been proven, so that it can be used as a hint
+// it should return a list of the statements (in knownEqualities) which can prove this equality
+function checkTriangleForHint(triangle1, triangle2) {
+    // to check if this pair of triangles is already in knownEqualities, we need to check
+    // if any corresponding rotation is in knownEqualities
+
+    for(var i=0; i<3; i++){
+        triangle1.segs.rotate(1);
+        triangle1.angs.rotate(1);
+
+        triangle2.segs.rotate(1);
+        triangle2.angs.rotate(1);
+
+        if(eqIn([triangle1, triangle2], knownEqualities)){
+            return "";
+        }
+    }
+
+    //SSS
+    if(eqIn([triangle1.segs[0], triangle2.segs[0]], knownEqualities) && eqIn([triangle1.segs[1], triangle2.segs[1]], knownEqualities)
+        && eqIn([triangle1.segs[2], triangle2.segs[2]], knownEqualities)){
+        return "SSS";
+    }
+
+    //ASA
+    for(var i=0; i<3; i++){
+        if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
+            && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], knownEqualities)
+            && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)){
+            return "ASA";
+        }
+    }
+
+    //SAS
+    for(var i=0; i<3; i++){
+        if(eqIn([triangle1.segs[i], triangle2.segs[i]], knownEqualities) && eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities)
+        && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], knownEqualities)){
+            return "SAS";
+        }
+    }
+    
+
+    //AAS
+    for(var i=0; i<3; i++){
+        if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
+            && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)
+            && eqIn([triangle1.segs[(i+2) % 3], triangle2.segs[(i+2) % 3]], knownEqualities)){
+            return "AAS";
+        }
+    }
+    
+    //AAS part II (revenge of the AAS)
+    for(var i=0; i<3; i++){
+        if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
+            && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)
+            && eqIn([triangle1.segs[i], triangle2.segs[i]], knownEqualities)){
+            return "AAS";
+        }
+    }
+
+
+    return false;
+    
+}
+
+// check to see if this segment equality can be proven, but has not already been proven
+function checkSegForHint(seg1, seg2){
+    //if this is already known
+    if(eqIn([seg1,seg2], knownEqualities)){
+        return "";
+    }
+
+
+    for(var i=0; i<seg1.triangles.length; i++){
+        for(var j=0; j<seg2.triangles.length; j++){
+            // if the segments' corresponding triangles are congruent AND they're the same part of those triangles, we add
+            // to the known equalities
+            if(checkTriangleCongruent(seg1.triangles[i][0], seg2.triangles[j][0]) 
+                && _.indexOf(seg1, seg1.triangles[i][0].segs) == _.indexOf(seg2, seg2.triangles[j][0].segs)){
+                return "CPCTC";
+            }
+        }
+    }
+    return "";
+}
+
+// check to see if this angle equality can be proven, but has not already been proven
+function checkAngForHint(ang1, ang2){
+    // if this is already known
+    if(eqIn([ang1, ang2], knownEqualities)){
+        return "";
+    }
+
+    // if the angles' corresponding triangles are congruent AND they're the same part of those triangles, we add
+    // to the known equalities
+    for(var i=0; i<ang1.triangles.length; i++){
+        for(var j=0; j<ang2.triangles.length; j++){
+            if(checkTriangleCongruent(ang1.triangles[i][0], ang2.triangles[j][0]) 
+                && _.indexOf(ang1, ang1.triangles[i][0].angs) == _.indexOf(ang2, ang2.triangles[j][0].angs)){
+                return "CPCTC";
+            }
+        }
+    }
+
+
+    //if the angles share a midpoint, and their endpoints are part of two segments, then the angles are vertical
+    if(ang1.mid == ang2.mid){
+        var sharedLines = 0;
+        for(var i=0; i<SEGMENTS.length; i++){
+            if(SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end1)) ||
+                SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end2)) ||
+                SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end1)) ||
+                SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end2))){
+
+                if(!isRelationPossible([SEGMENTS[i], new Seg(SEGMENTS[i].end1, ang1.mid)])){
+                    sharedLines += 1;
+                }
+
+            }
+        }
+
+        if(sharedLines == 4){
+            return "Vertical angles";
+        }
+    }
+
+    if(eqIn([ang1, ang2], altInteriorAngs) || eqIn([ang2, ang1], altInteriorAngs)){
+        return "Alternate interior angles";
+    }
+
+
+    return "";
+
+}
+
 
 // utility function to check if some pair of equalities is in an object without
 // using the == operator
