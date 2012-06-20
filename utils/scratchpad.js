@@ -47,7 +47,7 @@ function Scratchpad(elem) {
         "stroke-linejoin": "round"};
 
     var shapes = pad.set();
-    var history = [[]];
+    var undoHistory = [[]];
 
     function saveState() {
         for (var i = 0, state = []; i < shapes.length; i++) {
@@ -61,7 +61,7 @@ function Scratchpad(elem) {
                 }
             }
         }
-        history.push(state);
+        undoHistory.push(state);
     }
 
     function loadState(state) {
@@ -113,7 +113,7 @@ function Scratchpad(elem) {
         })
         .click(eraseclick).touchstart(eraseclick);
     function undoclick() {
-        loadState(history.pop());
+        loadState(undoHistory.pop());
     }
     pad.rect(2, 2 + 30 * 2, 30, 30)
         .attr({
@@ -150,7 +150,7 @@ function Scratchpad(elem) {
             }
         }
         if (shapes.length == startlen) {
-            history.pop();
+            undoHistory.pop();
         }
     }
 
@@ -263,5 +263,6 @@ function Scratchpad(elem) {
 
     this.clear = function() {
         shapes.remove();
+        undoHistory = [[]];
     }
 }
