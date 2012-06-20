@@ -303,7 +303,8 @@ var Khan = (function() {
             "interactive": ["jquery.mobile.vmouse"],
             "mean-and-median": ["stat"],
             "math-model": ["ast"],
-            "simplify": ["math-model", "ast", "expr-helpers", "expr-normal-form", "steps-helpers"]
+            "simplify": ["math-model", "ast", "expr-helpers", "expr-normal-form", "steps-helpers"],
+            "congruency": ["angles", "interactive"]
         },
 
         warnTimeout: function() {
@@ -1303,8 +1304,8 @@ var Khan = (function() {
 
             var timelinecontainer = $("<div id='timelinecontainer'>")
                 .append("<div>\n" +
-                        "<div id='previous-problem' class='simple-button action-gradient'>Previous Problem</div>\n" +
-                        "<div id='previous-step' class='simple-button action-gradient'><span>Previous Step</span></div>\n" +
+                        "<div id='previous-problem' class='simple-button'>Previous Problem</div>\n" +
+                        "<div id='previous-step' class='simple-button'><span>Previous Step</span></div>\n" +
                         "</div>")
                 .insertBefore("#problem-and-answer");
 
@@ -1335,8 +1336,8 @@ var Khan = (function() {
 
             timelinecontainer
                 .append("<div>\n" +
-                        "<div id='next-problem' class='simple-button action-gradient'>Next Problem</div>\n" +
-                        "<div id='next-step' class='simple-button action-gradient'><span>Next Step</span></div>\n" +
+                        "<div id='next-problem' class='simple-button'>Next Problem</div>\n" +
+                        "<div id='next-step' class='simple-button'><span>Next Step</span></div>\n" +
                         "</div>");
 
             $("<div class='user-activity correct-activity'>Started</div>")
@@ -1769,20 +1770,30 @@ var Khan = (function() {
         $("#hint").val("I'd like a hint");
 
         $(Khan).trigger("newProblem");
-        
+
         // If the textbox is empty disable "Check Answer" button
         // Note: We don't do this for number line etc.
-        if (answerType === "text" || answerType === "number") {  
+        if (answerType === "text" || answerType === "number") {
             var checkAnswerButton = $("#check-answer-button");
-            checkAnswerButton.attr("disabled", "disabled");
-            $("#solutionarea").keyup(function() {
-                validator();
-                if (checkIfAnswerEmpty()) {
-                    checkAnswerButton.attr("disabled", "disabled");
-                } else {
-                    checkAnswerButton.removeAttr("disabled");
-                }
-            });
+            checkAnswerButton.attr("disabled", "disabled").attr(
+                "title", "Type in an answer first.");
+            // Enables the check answer button - added so that people who type
+            // in a number and hit enter quickly do not have to wait for the
+            // button to be enabled by the key up
+            $("#solutionarea")
+                .keypress(function(e) {
+                    if (e.keyCode !== 13) {
+                        checkAnswerButton.removeAttr("disabled").removeAttr("title");
+                    }
+                })
+                .keyup(function() {
+                    validator();
+                    if (checkIfAnswerEmpty()) {
+                        checkAnswerButton.attr("disabled", "disabled");
+                    } else {
+                        checkAnswerButton.removeAttr("disabled");
+                    }
+                });
         }
 
         return answerType;
@@ -1989,7 +2000,15 @@ var Khan = (function() {
                 // TODO: Save locally if offline
                 $(Khan).trigger("attemptSaved");
 
-            }, function() {
+            }, function(xhr) {
+
+                if (xhr.readyState == 0) {
+                    // Ignore errors caused by a broken pipe during page unload
+                    // (browser navigating away during ajax request).
+                    // See http://stackoverflow.com/questions/1370322/jquery-ajax-fires-error-callback-on-window-unload
+                    return;
+                }
+
                 // Error during submit. Disable the page and ask users to
                 // reload in an attempt to get updated data.
 
@@ -2097,17 +2116,12 @@ var Khan = (function() {
                 );
             }
 
-            // The first hint is free iff the user has already attempted the question
-            if (hintsUsed === 1 && attempts > 0) {
-                gae_bingo.bingo("hints_free_hint");
-                gae_bingo.bingo("hints_free_hint_binary");
-            }
         });
 
         // On an exercise page, replace the "Report a Problem" link with a button
         // to be more clear that it won't replace the current page.
         $("<a>Report a Problem</a>")
-            .attr("id", "report").addClass("simple-button action-gradient green")
+            .attr("id", "report").addClass("simple-button green")
             .replaceAll($(".footer-links #report"));
 
         $("#report").click(function(e) {
@@ -2319,8 +2333,8 @@ var Khan = (function() {
                     '<p><strong>Problem No.</strong> <span class="problem-no"></span></p>' +
                     '<p><strong>Answer:</strong> <span class="answer"></span></p>' +
                     "<p>" +
-                        '<input type="button" class="pass simple-button action-gradient green" value="This problem was generated correctly.">' +
-                        '<input type="button" class="fail simple-button action-gradient orange" value="There is an error in this problem.">' +
+                        '<input type="button" class="pass simple-button green" value="This problem was generated correctly.">' +
+                        '<input type="button" class="fail simple-button orange" value="There is an error in this problem.">' +
                     "</p>" +
                 "</div>"
             );
@@ -2612,7 +2626,7 @@ var Khan = (function() {
             },
 
             // Handle error edge case
-            error: function() {
+            error: function(xhr) {
                 // Clear the queue so we don't spit out a bunch of
                 // queued up requests after the error
                 if (queue && requestQueue[queue]) {
@@ -2620,7 +2634,7 @@ var Khan = (function() {
                 }
 
                 if ($.isFunction(fnError)) {
-                    fnError();
+                    fnError(xhr);
                 }
             }
         };

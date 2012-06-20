@@ -243,7 +243,7 @@ $.extend(KhanUtil, {
             return angle;
         }
 
-        this.drawMovablePoint = function(theta, min, max ) {
+        this.drawMovablePoint = function(theta, min, max) {
             var graph = KhanUtil.currentGraph,
                 point = graph.polar(radius, theta);
                 min = min || 0,

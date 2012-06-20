@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems interactive subhints">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Perimeter 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars">
+        <var id="UNIT,UNIT_TEXT">randFromArray([
+            ["in", "inch"],
+            ["ft", "foot"],
+            ["m", "meter"],
+            ["cm", "centimeter"],
+            ["", "unit"]
+        ])</var>
+    </div>
+    <div class="problems">
+        <div id="square" data-weight="1">
+            <div class="vars">
+                <var id="S">randRange(2, 9)</var>
+            </div>
+
+            <p class="question">
+                What is the perimeter of the square?
+            </p>
+            <div class="problem">
+                <div class="graphie" id="perimeter">
+                    init({ range: [[-2, S + 1], [-1, S + 1]], scale: 30 });
+                    path([[0, 0], [0, S], [S, S], [S, 0], true], {stroke: BLUE, fill: "#eee"});
+                    label([S / 2, S], S + "\\text{ " + UNIT + "}", "above");
+                    label([0, S / 2], S + "\\text{ " + UNIT + "}", "left");
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol"><var>4 * S</var></span> <var>plural(UNIT_TEXT)</var>
+            </div>
+
+            <div class="hints">
+                <p>
+                    The perimeter is the total length of all the sides of the shape added together.
+                </p>
+                <div>
+                    <div class="graphie" data-update="perimeter">
+                        path([[0, 0], [0, S]], { strokeWidth: 4, stroke: PINK });
+                        path([[0, S], [S, S]], { strokeWidth: 4, stroke: BLUE });
+                        path([[S, S], [S, 0]], { strokeWidth: 4, stroke: "purple" });
+                        path([[S, 0], [0, 0]], { strokeWidth: 4, stroke: GREEN });
+                    </div>
+                    <p>
+                        Add up the lengths of the sides:
+                    </p>
+                    <p><code>\qquad\text{perimeter} =
+                        \pink{<var>S</var>} + \blue{<var>S</var>} + \purple{<var>S</var>} + \green{<var>S</var>}
+                    </code></p>
+                </div>
+                <p><code>\qquad\text{perimeter} = <var>S * 4</var>\text{ <var>UNIT</var>}</code></p>
+            </div>
+        </div>
+
+        <div id="rectangle" data-weight="1">
+            <div class="vars" data-ensure="L !== W">
+                <var id="L">randRange(2, 9)</var>
+                <var id="W">randRange(2, 9)</var>
+            </div>
+
+            <p class="question">
+                What is the perimeter of the rectangle?
+            </p>
+
+            <div class="problem">
+                <div class="graphie" id="perimeter">
+                    init({ range: [[-2, L + 1], [-1, W + 1]], scale: 30 });
+                    path([[0, 0], [0, W], [L, W], [L, 0], true], {stroke: BLUE, fill: "#eee"});
+                    label([L / 2, W], L + "\\text{ " + UNIT + "}", "above");
+                    label([0, W / 2], W + "\\text{ " + UNIT + "}", "left");
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol"><var>L * 2 + W * 2</var></span> <var>plural(UNIT_TEXT)</var>
+            </div>
+
+            <div class="hints">
+                <p>
+                    The perimeter is the total length of all the sides of the shape added together.
+                </p>
+                <div>
+                    <div class="graphie" data-update="perimeter">
+                        path([[0, 0], [0, W]], { strokeWidth: 4, stroke: PINK });
+                        path([[0, W], [L, W]], { strokeWidth: 4, stroke: BLUE });
+                        path([[L, W], [L, 0]], { strokeWidth: 4, stroke: "purple" });
+                        path([[L, 0], [0, 0]], { strokeWidth: 4, stroke: GREEN });
+                    </div>
+                    <p>
+                        Add up the lengths of the sides:
+                    </p>
+                    <p><code>\qquad\text{perimeter} =
+                        \pink{<var>W</var>} + \blue{<var>L</var>} + \purple{<var>W</var>} + \green{<var>L</var>}
+                    </code></p>
+                </div>
+                <p><code>\qquad\text{perimeter} = <var>L * 2 + W * 2</var>\text{ <var>UNIT</var>}</code></p>
+            </div>
+        </div>
+
+        <div id="triangle" data-weight="2">
+            <div class="vars" data-ensure="A < B + C && B < A + C && C < A + B">
+                <var id="A,B,C">randRange(2, 9, 3)</var>
+                <var id="X">((A * A + B * B - C * C) / (2 * A * B)) * B</var>
+                <var id="Y">sqrt(B * B - X * X)</var>
+            </div>
+
+            <p class="question">
+                What is the perimeter of the triangle?
+            </p>
+
+            <div class="problem">
+                <div class="graphie" id="perimeter">
+                    init({ range: [[min(X, 0) - 2, max(X, A) + 2], [-1, Y + 1]], scale: 30 });
+                    path([[0, 0], [A, 0], [X, Y], true], {stroke: BLUE, fill: "#eee"});
+                    label([A / 2, 0], A + "\\text{ " + UNIT + "}", "below");
+                    label([X / 2 - 0.5, Y / 2], B + "\\text{ " + UNIT + "}", "left");
+                    label([(X + A) / 2 + 0.5, Y / 2], C + "\\text{ " + UNIT + "}", "right");
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol"><var>A + B + C</var></span> <var>plural(UNIT_TEXT)</var>
+            </div>
+
+            <div class="hints">
+                <p>
+                    The perimeter is the total length of all the sides of the shape added together.
+                </p>
+                <div>
+                    <div class="graphie" data-update="perimeter">
+                        path([[X, Y], [0, 0]], { strokeWidth: 4, stroke: PINK });
+                        path([[A, 0], [X, Y]], { strokeWidth: 4, stroke: BLUE });
+                        path([[0, 0], [A, 0]], { strokeWidth: 4, stroke: GREEN });
+                    </div>
+                    <p>
+                        Add up the lengths of the sides:
+                    </p>
+                    <p><code>\qquad\text{perimeter} =
+                        \pink{<var>B</var>} + \blue{<var>C</var>} + \green{<var>A</var>}
+                    </code></p>
+                </div>
+                <p><code>\qquad\text{perimeter} = <var>A + B + C</var>\text{ <var>UNIT</var>}</code></p>
+            </div>
+        </div>
+
+        <div id="polygon" data-weight="2">
+            <div class="vars">
+                <var id="S">randRange(2, 3)</var>
+                <var id="SIDES,POLYGON">randFromArray([
+                    [5, "pentagon"],
+                    [6, "hexagon"],
+                    [8, "octagon"]
+                ])</var>
+                <var id="ANGLE">(2 * PI) / SIDES</var>
+                <var id="RADIUS">S / (2 * sin(PI / SIDES))</var>
+                <var id="APOTHEM">S / (2 * tan(PI / SIDES))</var>
+            </div>
+
+            <p class="question">
+                What is the perimeter of the regular <var>POLYGON</var>?
+            </p>
+
+            <div class="problem">
+                <div class="graphie" id="perimeter">
+                    init({ range: [[-RADIUS - 1, RADIUS + 1], [-RADIUS - 1, RADIUS + 1]], scale: 30 });
+                    graph.path = [];
+
+                    _(SIDES).times(function(n) {
+                        graph.path.push([sin(ANGLE * (n + 0.5)) * RADIUS, cos(ANGLE * (n + 0.5)) * RADIUS]);
+                    });
+                    graph.path.push(true);
+                    path(graph.path, {stroke: BLUE, fill: "#eee"});
+                    graph.label = label([0, APOTHEM + 0.7], S + "\\text{ " + UNIT + "}");
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol"><var>S * SIDES</var></span> <var>plural(UNIT_TEXT)</var>
+            </div>
+
+            <div class="hints">
+                <p>
+                    The perimeter is the total length of all the sides of the shape added together.
+                </p>
+                <div>
+                    <div class="graphie" data-update="perimeter">
+                        graph.label.remove();
+                        _(SIDES).times(function(n) {
+                            label([sin(ANGLE * n) * (APOTHEM + 0.7), cos(ANGLE * n)
+                                * (APOTHEM + 0.7)], S + "\\text{ " + UNIT + "}",
+                                {color: GREEN});
+                        });
+                    </div>
+                    <p>
+                        All of the sides of a
+                        <a href="#" class="show-definition" data-definition="regular-polygon">regular</a>
+                        <var>POLYGON</var> are the same length.
+                    </p>
+                    <div class="definition" id="regular-polygon">
+                        Saying a polygon is <b>regular</b> just means the sides are all the same.
+                    </div>
+                </div>
+                <div>
+                    <p>
+                        Since there are <span class="hint_blue"><code><var>SIDES</var></code> sides</span>
+                        that are all <span class="hint_green"><code><var>S</var></code>
+                        <var>plural(UNIT_TEXT)</var></span> long, we can multiply:
+                    </p>
+                    <p><code>\qquad\text{perimeter} =
+                        \blue{<var>SIDES</var>} \times \green{<var>S</var>}
+                    </code></p>
+                </div>
+                <p><code>\qquad\text{perimeter} = <var>S * SIDES</var>\text{ <var>UNIT</var>}</code></p>
+            </div>
+        </div>
+
+        <div id="odd-shape" data-weight="1">
+            <div class="vars">
+                <var id="WIDTH">randRange(5, 10)</var>
+                <var id="HEIGHT">randRange(5, 10)</var>
+                <var id="SIDES" data-ensure="SIDES.length <= 10 && SIDES.length > 4">(function() {
+                    var sides = [];
+
+                    var left = randRange(0, WIDTH - 1);
+                    var right = randRange(left + 1, WIDTH);
+
+                    sides.push({
+                        start: [left, HEIGHT - 1],
+                        end: [right, HEIGHT - 1],
+                        length: right - left,
+                        labelPos: "above"
+                    });
+                    var leftStart = HEIGHT - 1;
+                    var rightStart = HEIGHT - 1;
+
+                    _(HEIGHT - 3).times(function(y) {
+                        var prevLeft = left;
+                        var prevRight = right;
+                        left = randRangeWeighted(0, prevRight - 1, prevLeft, 0.7);
+                        right = randRangeWeighted(max(left, prevLeft) + 1, WIDTH, prevRight, 0.7);
+                        if (left !== prevLeft) {
+                            sides.push({
+                                start: [prevLeft, leftStart],
+                                end: [prevLeft, HEIGHT - y - 2],
+                                length: leftStart - (HEIGHT - y - 2),
+                                labelPos: "left"
+                            });
+                            sides.push({
+                                start: [prevLeft, HEIGHT - y - 2],
+                                end: [left, HEIGHT - y - 2],
+                                length: abs(left - prevLeft),
+                                labelPos: "center"
+                            });
+                            leftStart = HEIGHT - y - 2;
+                        }
+                        if (right !== prevRight) {
+                            sides.push({
+                                start: [prevRight, rightStart],
+                                end: [prevRight, HEIGHT - y - 2],
+                                length: rightStart - (HEIGHT - y - 2),
+                                labelPos: "right"
+                            });
+                            sides.push({
+                                start: [prevRight, HEIGHT - y - 2],
+                                end: [right, HEIGHT - y - 2],
+                                length: abs(right - prevRight),
+                                labelPos: "center"
+                            });
+                            rightStart = HEIGHT - y - 2;
+                        }
+                    });
+
+                    sides.push({
+                        start: [left, leftStart],
+                        end: [left, 1],
+                        length: leftStart - 1,
+                        labelPos: "left"
+                    });
+                    sides.push({
+                        start: [right, rightStart],
+                        end: [right, 1],
+                        length: rightStart - 1,
+                        labelPos: "right"
+                    });
+                    sides.push({
+                        start: [left, 1],
+                        end: [right, 1],
+                        length: right - left,
+                        labelPos: "below"
+                    });
+
+                    return sides;
+                })()</var>
+                <var id="PERIMETER">_.reduce(SIDES, function(m, v) { return m + v.length; }, 0)</var>
+            </div>
+
+            <p class="question">
+                What is the perimeter of the shape? Each square in the grid is a <code>1 \times 1</code>
+                <var>UNIT_TEXT</var> square.
+            </p>
+
+            <div class="problem">
+                <div class="graphie" id="perimeter">
+                    init({ range: [[-1, WIDTH + 1], [-1, HEIGHT + 1]] });
+                    var shape = [];
+
+                    _(WIDTH + 1).times(function(i) {
+                        line([i, 0], [i, HEIGHT], { "stroke-width": 1, stroke: "#bbb" });
+                    });
+                    _(HEIGHT + 1).times(function(i) {
+                        line([0, i], [WIDTH, i], { "stroke-width": 1, stroke: "#bbb" });
+                    });
+
+
+                    _.each(SIDES, function(side) {
+                        path([side.start, side.end], {stroke: BLUE});
+                    });
+
+
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol"><var>PERIMETER</var></span> <var>plural(UNIT_TEXT)</var>
+            </div>
+
+            <div class="hints">
+                <p>
+                    The perimeter is the total length of all the sides of the shape added together.
+                </p>
+                <div>
+                    <div class="graphie" data-update="perimeter">
+                        _.each(SIDES, function(side) {
+                            label([(side.start[0] + side.end[0]) / 2,
+                                (side.start[1] + side.end[1]) / 2], side.length,
+                                side.labelPos);
+                        });
+                    </div>
+                    <p>Add up the lengths of all <var>SIDES.length</var> sides.</p>
+                    <p><code>\qquad<var>_.map(SIDES, function(v) { return v.length; }).join("+")</var> = \text{ ?}</code></p>
+                </div>
+                <p>The perimeter is <code><var>PERIMETER</var></code> <var>plural(UNIT_TEXT)</var>.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

@@ -512,7 +512,7 @@ $.extend(Khan.answerTypes, {
 
                     // If this is one of the required entries, and it is not filled in
                     // set the flag that indicates that a required entry is not filled in.
-                    if ( jQuery( this ).attr( "required" ) != undefined && validator.guess === "") {
+                    if (jQuery(this).attr("required") != undefined && validator.guess === "") {
                         missing_required_answer = true;
                         // Break out of the each loop since a required item is not set.
                         return false;
@@ -1019,9 +1019,9 @@ $.extend(Khan.answerTypes, {
         row.append('<td style="width: 100px">\n' +
             'Radius: <span id="current-radius"><code>1</code></span>\n' +
             "</td>")
-            .append("<td>\n"+
-            '<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />\n' +
-            '<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />\n' +
+            .append("<td>\n" +
+            '<input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />\n' +
+            '<input type="button" class="simple-button mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />\n' +
             "</td>").tmpl();
         table.append(row);
 
@@ -1029,9 +1029,9 @@ $.extend(Khan.answerTypes, {
         row.append('<td style="width: 100px">\n' +
             'Angle: <span id="current-angle"><code>0</code></span>\n' +
             "</td>")
-            .append("<td>\n"+
-            '<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />\n' +
-            '<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />\n' +
+            .append("<td>\n" +
+            '<input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />\n' +
+            '<input type="button" class="simple-button mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />\n' +
             "</td>").tmpl();
         table.append(row);
 

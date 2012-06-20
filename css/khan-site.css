@@ -162,6 +162,7 @@ hr {
 
 /* A simple 3D button style */
 .simple-button {
+    background: #eee;
     color: #333 !important;
     cursor: pointer !important;
     border: 1px solid #ccc;
@@ -207,6 +208,7 @@ input.simple-button {
 }
 /* A blue color scheme for the simple button */
 .simple-button.blue {
+	background: #3a4759;
 	color: #fff !important;
 	border-color: #2c3747 !important;
 	border-bottom-color: #13181f !important;
@@ -214,6 +216,7 @@ input.simple-button {
 }
 /* A green color scheme for the simple button */
 .simple-button.green {
+	background: #89b908;
 	color: #fff !important;
 	border-color: #76a005 !important;
 	border-bottom-color: #557303 !important;
@@ -221,6 +224,7 @@ input.simple-button {
 }
 /* An orange color scheme for the simple button */
 .simple-button.orange {
+	background: #e35d04;
 	color: #fff !important;
 	border-color: #bf4f04 !important;
 	border-bottom-color: #803503 !important;

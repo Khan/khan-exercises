@@ -76,7 +76,7 @@
                             this.pointZ.setCoord([ this.pointZ.coord[0], this.coordA[1] ]);
                             this.pointA.updateLineEnds();
                             this.pointZ.updateLineEnds();
-                            this.bar.scale( 1, Math.max( 0.01, this.coordA[1] * 2 ), scalePoint( 0 )[0], scalePoint( 0 )[1] );
+                            this.bar.transform("S1,"+Math.max( 0.01, this.coordA[1] * 2 )+","+scalePoint( 0 )[0]+","+scalePoint( 0 )[1]);
                         };
                     }
                     style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 }, function() {
@@ -107,7 +107,7 @@
                         graph.lines[ index ].pointZ.setCoord([ graph.lines[ index ].pointZ.coord[0], this ]);
                         graph.lines[ index ].pointA.updateLineEnds();
                         graph.lines[ index ].pointZ.updateLineEnds();
-                        graph.lines[ index ].bar.scale( 1, Math.max( 0.01, this * 2 ), scalePoint( 0 )[0], scalePoint( 0 )[1] );
+                        graph.lines[ index ].bar.transform("S1,"+Math.max( 0.01, this * 2 )+","+scalePoint( 0 )[0]+","+scalePoint( 0 )[1] );
                     });
                 </div>
             </div>
