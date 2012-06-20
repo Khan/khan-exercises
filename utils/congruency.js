@@ -129,7 +129,7 @@ $.extend(KhanUtil, {
                 });
                 // Make it not move
                 arc.point.onMove = function(x, y) {
-                    return pointPos;
+                    return false;
                 };
 
                 // Make a clicky pointer
