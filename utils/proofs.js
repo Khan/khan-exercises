@@ -127,28 +127,19 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
     var newHTML = "";
     var givenKeys = _.keys(givens);
     for(var i=0; i<givenKeys.length; i+=2){
-        if(givenKeys[i][0] == "s"){
-            newHTML += "<code> \\overline{"+givenKeys[i].substring(3,5)+"} = \\overline{"+givenKeys[i].substring(9,11)+"}</code>";
-        }
-        else if(givenKeys[i][0] == "a"){
-            newHTML += "<code> \\angle " +givenKeys[i].substring(3,6)+" = \\angle "+givenKeys[i].substring(10,13)+"</code>";
-        }
-        else{
-            newHTML += "<code> \bigtriangleup ";
-        }
+        newHTML += prettifyEquality(givenKeys[i]);
 
         if(i == givenKeys.length-4){
             newHTML += " and ";
         }
         else if(i == givenKeys.length-2){
-            newHTML += "."
+            newHTML += ""
         }
         else{
             newHTML += ", ";
         }
     }
 
-    console.log(newHTML);
     // $(".statements").html(newHTML);
 
 
@@ -229,9 +220,6 @@ function verifyStatementArgs(statement, reason, category){
             console.log(checkSegEqual(seg1, seg2, reason));
         }
 
-
-        console.log(Khan.hints);
-
         // now update the list of equalities displayed
 
         var newHTML = "";
@@ -264,7 +252,6 @@ function nextStatementHint(){
         }
     }
 
-    
     for(var i=0; i<10; i++){
         // look for something that can be proven with the statements already known
         // that is in finishedEqualities
@@ -273,7 +260,6 @@ function nextStatementHint(){
 
         // awful, terrible hacky way to deal with javascript object hashes
         if(tryProving[0] == "t"){
-            console.log(TRIANGLES);
             var triangle1 = _.find(TRIANGLES, function(triang){
                 return triang.toString() == tryProving.substring(0,11);
             });
@@ -305,12 +291,15 @@ function nextStatementHint(){
         }
 
         else if(tryProving[0] == "a"){
+            console.log(tryProving.substring(0,6));
             var ang1 = _.find(ANGLES, function(ang){
-                return ang.toString() == tryProving.substring(0,5);
+                return ang.toString() == tryProving.substring(0,6);
             });
             var ang2 = _.find(ANGLES, function(ang){
-                return ang.toString() == tryProving.substring(6,11);
+                return ang.toString() == tryProving.substring(7,13);
             });
+
+            console.log(ang1);
 
             var useToProve = checkAngForHint(ang1, ang2);
             if(useToProve.length > 0 && useToProve[0] instanceof Triang){
@@ -320,18 +309,63 @@ function nextStatementHint(){
                 return "Try using " + useToProve + " to prove some useful pair of angles equal.";
             }
         }
-        
-        else if(tryProving[0] instanceof Seg && checkSegForHint(tryProving).length > 0){
-            console.log("Try to see if you can prove " + tryProving[0] + "=" + tryProving[1]);
-            return "Try to see if you can prove " + tryProving[0] + "=" + tryProving[1];
-        }
-        else if(tryProving[0] instanceof Ang && checkAngForHint(tryProving).length > 0){
-            console.log("Try to see if you can prove " + tryProving[0] + "=" + tryProving[1]);
-            return "Try to see if you can prove " + tryProving[0] + "=" + tryProving[1];
-        }
 
     }
     return "Sorry, no hint for now >:[";
+}
+
+// return the entire proof generated, formatted to look all pretty and etc.
+function outputProof(){
+    var proofText = "";
+
+    var finishedKeys = _.keys(finishedEqualities);
+    finishedKeys.reverse();
+
+    var thing1;
+    var thing2;
+    for(var i=0; i<finishedKeys.length; i+=2){
+        if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same"){
+            proofText += prettifyEquality(finishedKeys[i]);
+
+            proofText += " :: " + finishedEqualities[finishedKeys[i]] + "<br>";
+        }
+
+    }
+
+    proofText += "";
+
+    return proofText;
+}
+
+// pick a statement and change it so that it's wrong
+function subvertProof(){
+    console.log("proof being changed");
+    var finishedKeys = _.keys(finishedEqualities);
+    var prunedKeys = [];
+    for(var i=0; i<finishedKeys.length; i++){
+        if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same" && finishedEqualities[finishedKeys[i]] != "Given"){
+            prunedKeys.push(finishedKeys[i]);
+        }
+    }
+
+    var keyToChange = KhanUtil.randFromArray(prunedKeys);
+    var keyIndex = KhanUtil.randRange(0, finishedKeys.length-3);
+    var reasonToChange = finishedEqualities[keyToChange];
+    // change the statement
+    if(KhanUtil.random() < 0.4){
+        delete finishedEqualities[finishedKeys[keyIndex]];
+        var nextKey = finishedKeys[keyIndex + 2];
+        console.log(nextKey);
+        return prettifyEquality(nextKey) + " is the first wrong statement: it does not follow from the statements before it.";
+    }
+    else{
+        
+        finishedEqualities[keyToChange] = KhanUtil.randFromArray(_.difference(["SSS","ASA","SAS","AAS","Corresponding parts of congruent triangles are congruent",
+            "Vertical angles are equal","Alternate interior angles are equal"], [reasonToChange]));
+        return prettifyEquality(keyToChange) + " is the first wrong statement: it follows from the statements before it, but not because of "
+        + finishedEqualities[keyToChange];
+    }
+
 }
 
 
@@ -1385,6 +1419,19 @@ function eqIn(item, object){
     }
     
     return false;
+}
+
+function prettifyEquality(equality){
+    var eq = equality.toString();
+    if(eq[0] == "s"){
+        return "<code> \\overline{"+eq.substring(3,5)+"} = \\overline{"+eq.substring(9,11)+"}</code>";
+    }
+    else if(eq[0] == "a"){
+        return "<code> \\angle " +eq.substring(3,6)+" = \\angle "+eq.substring(10,13)+"</code>";
+    }
+    else{
+        return "<code> \\bigtriangleup " +eq.substring(8,11)+" = \\bigtriangleup "+eq.substring(20,23)+"</code>";
+    }
 }
 
 function triangIn(item, object){
