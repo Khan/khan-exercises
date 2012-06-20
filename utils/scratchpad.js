@@ -47,7 +47,7 @@ function Scratchpad(elem) {
         "stroke-linejoin": "round"};
 
     var shapes = pad.set();
-    var history = [[]];
+    var undoHistory = [[]];
 
     function saveState() {
         for (var i = 0, state = []; i < shapes.length; i++) {
@@ -61,14 +61,16 @@ function Scratchpad(elem) {
                 }
             }
         }
-        history.push(state);
+        undoHistory.push(state);
     }
 
     function loadState(state) {
-        shapes.remove();
-        for (var i = 0; i < state.length; i++) {
-            if (state[i].type == "path") {
-                shapes.push(pad.path(state[i].path).attr(line_default).attr("stroke", state[i].stroke));
+        if (state != null) {
+            shapes.remove();
+            for (var i = 0; i < state.length; i++) {
+                if (state[i].type == "path") {
+                    shapes.push(pad.path(state[i].path).attr(line_default).attr("stroke", state[i].stroke));
+                }
             }
         }
     }
@@ -85,7 +87,7 @@ function Scratchpad(elem) {
 
     tools.push(pad.path(pen).scale(0.8).translate(0, 0));
     tools.push(pad.path(erase).translate(0, 30));
-    tools.push(pad.path(undo).scale(0.7).translate(1, 60));
+    tools.push(pad.path(undo).scale(0.7).translate(1, 80));
 
     var tool = "draw";
     function penclick() {
@@ -111,7 +113,7 @@ function Scratchpad(elem) {
         })
         .click(eraseclick).touchstart(eraseclick);
     function undoclick() {
-        loadState(history.pop());
+        loadState(undoHistory.pop());
     }
     pad.rect(2, 2 + 30 * 2, 30, 30)
         .attr({
@@ -148,7 +150,7 @@ function Scratchpad(elem) {
             }
         }
         if (shapes.length == startlen) {
-            history.pop();
+            undoHistory.pop();
         }
     }
 
@@ -161,7 +163,8 @@ function Scratchpad(elem) {
     }
 
     function rectsIntersect(r1, r2) {
-        return r2.x < (r1.x + r1.width) &&
+        return _.isObject(r1) && _.isObject(r2) &&
+            r2.x < (r1.x + r1.width) &&
             (r2.x + r2.width) > r1.x &&
             r2.y < (r1.y + r1.height) &&
             (r2.y + r2.height) > r1.y;
@@ -260,5 +263,6 @@ function Scratchpad(elem) {
 
     this.clear = function() {
         shapes.remove();
+        undoHistory = [[]];
     }
 }
