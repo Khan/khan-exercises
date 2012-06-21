@@ -321,16 +321,19 @@ function outputProof(){
     var finishedKeys = _.keys(finishedEqualities);
     finishedKeys.reverse();
 
+    var possibleValids = [];
     for(var i=0; i<finishedKeys.length; i+=2){
         if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same"){
             proofText += prettifyEquality(finishedKeys[i]);
-
+            possibleValids.push(prettifyEquality(finishedKeys[i]));
             proofText += " :: " + finishedEqualities[finishedKeys[i]] + "<br>";
         }
 
     }
 
-    return proofText;
+    var indices = KhanUtil.randRangeUnique(0, possibleValids.length - 1, 2);
+
+    return [proofText, possibleValids[indices[0]], possibleValids[indices[1]]];
 }
 
 // generate a bad proof
@@ -1534,7 +1537,6 @@ function eqIn(item, object){
 }
 
 function prettifyEquality(equality){
-    console.log("prettifying "+equality);
     var eq = equality.toString();
     if(eq[0] == "s"){
         return "<code> \\overline{"+eq.substring(3,5)+"} = \\overline{"+eq.substring(9,11)+"}</code>";
