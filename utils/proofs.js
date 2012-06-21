@@ -102,7 +102,7 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
             var triangle2 = TRIANGLES[indices[1]]; 
 
             //ensure these triangles can be congruent
-            if(isRelationPossible([triangle1, triangle2])){
+            if(isRelationPossible([triangle1, triangle2]) && !triangle1.equals(triangle2)){
                 finalRelation = [triangle1, triangle2];
                 traceBack([triangle1, triangle2], depth);
                 break;
@@ -115,7 +115,7 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
             var angle2 = ANGLES[indices[1]]; 
 
             //ensure these triangles can be congruent
-            if(isRelationPossible([angle1, angle2])){
+            if(isRelationPossible([angle1, angle2]) && !angle1.equals(angle2)){
                 finalRelation = [angle1, angle2];
                 traceBack([angle1, angle2], depth);
                 break;
@@ -128,12 +128,18 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
             var segment2 = SEGMENTS[indices[1]]; 
 
             //ensure these triangles can be congruent
-            if(isRelationPossible([segment1, segment2])){
+            if(isRelationPossible([segment1, segment2]) && !segment1.equals(segment2)){
                 finalRelation = [segment1, segment2];
                 traceBack([segment1, segment2], depth);
                 break;
             }
         }
+    }
+
+    // if an equality was picked that cannot be proved from anything else in the figure, just start over
+    if(finishedEqualities[finalRelation] == "Given"){
+        console.log(finalRelation + " is kaput");
+        initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb);
     }
 
     // prune givens for any statements implied by other statements
@@ -1360,7 +1366,6 @@ function checkAngEqual(ang1, ang2, reason){
                 SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end2))){
 
                 if(!isRelationPossible([SEGMENTS[i], new Seg(SEGMENTS[i].end1, ang1.mid)])){
-                    console.log("is a shared line");
                     sharedLines += 1;
                 }
 
