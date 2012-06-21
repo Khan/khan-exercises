@@ -321,8 +321,6 @@ function outputProof(){
     var finishedKeys = _.keys(finishedEqualities);
     finishedKeys.reverse();
 
-    var thing1;
-    var thing2;
     for(var i=0; i<finishedKeys.length; i+=2){
         if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same"){
             proofText += prettifyEquality(finishedKeys[i]);
@@ -332,39 +330,139 @@ function outputProof(){
 
     }
 
-    proofText += "";
-
     return proofText;
 }
 
-// pick a statement and change it so that it's wrong
+// generate a bad proof
+// 2 options: just change the last statement to something wrong, start with the givens and start
+// adding statements you can derive, throwing in one you can't derive, then put in the last statement
 function subvertProof(){
-    console.log("proof being changed");
-    var finishedKeys = _.keys(finishedEqualities);
-    var prunedKeys = [];
-    for(var i=0; i<finishedKeys.length; i++){
-        if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same" && finishedEqualities[finishedKeys[i]] != "Given"){
-            prunedKeys.push(finishedKeys[i]);
+
+    var validStatements = 0;
+    var invalidStatements = 0;
+    while(validStatements<2){
+        //pick two things to be equal
+        var equalityType = KhanUtil.randRange(1,3);
+        if(equalityType == 1){
+            var seg1 = KhanUtil.randFromArray(SEGMENTS);
+            var seg2 = KhanUtil.randFromArray(SEGMENTS);
+
+            if(checkSegEqual(seg1, seg2, "CPCTC")){
+                validStatements++;
+            }
+        }
+        else if(equalityType == 2){
+            var ang1 = KhanUtil.randFromArray(ANGLES);
+            var ang2 = KhanUtil.randFromArray(ANGLES);
+
+            if(checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles")
+                || checkAngEqual(ang1, ang2, "CPCTC")){
+                validStatements++;
+            }
+        }
+        else{
+            var triangle1 = KhanUtil.randFromArray(TRIANGLES);
+            var triangle2 = KhanUtil.randFromArray(TRIANGLES);
+
+            if(checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
+                || checkTriangleCongruent(triangle1, triangle2, "SAS") || checkTriangleCongruent(triangle1, triangle2, "AAS")){
+                validStatements++;
+            }
         }
     }
 
-    var keyToChange = KhanUtil.randFromArray(prunedKeys);
-    var keyIndex = KhanUtil.randRange(0, finishedKeys.length-3);
-    var reasonToChange = finishedEqualities[keyToChange];
-    // change the statement
-    if(KhanUtil.random() < 0.4){
-        delete finishedEqualities[finishedKeys[keyIndex]];
-        var nextKey = finishedKeys[keyIndex + 2];
-        console.log(nextKey);
-        return prettifyEquality(nextKey) + " is the first wrong statement: it does not follow from the statements before it.";
+    var invalid;
+    // now pick an invalid statement
+    while(invalidStatements<1){
+        //pick two things to be equal
+        var equalityType = KhanUtil.randRange(1,3);
+        if(equalityType == 1){
+            var seg1 = KhanUtil.randFromArray(SEGMENTS);
+            var seg2 = KhanUtil.randFromArray(SEGMENTS);
+
+            if(!checkSegEqual(seg1, seg2, "CPCTC")){
+                invalid = [seg1, seg2];
+                knownEqualities[invalid] = "Corresponding parts of congruent triangles are congruent";
+                invalidStatements++;
+            }
+        }
+        else if(equalityType == 2){
+            var ang1 = KhanUtil.randFromArray(ANGLES);
+            var ang2 = KhanUtil.randFromArray(ANGLES);
+
+            if(!checkAngEqual(ang1, ang2, "Vertical angles") || !checkAngEqual(ang1, ang2, "Alternate angles")
+                || !checkAngEqual(ang1, ang2, "CPCTC")){
+                invalid = [ang1, ang2];
+                knownEqualities[invalid] = KhanUtil.randFromArray(["Corresponding parts of congruent triangles are congruent",
+                 "Vertical angles are equal", "Alternate interior angles are equal"]);
+                invalidStatements++;
+            }
+        }
+        else{
+            var triangle1 = KhanUtil.randFromArray(TRIANGLES);
+            var triangle2 = KhanUtil.randFromArray(TRIANGLES);
+
+            if(!checkTriangleCongruent(triangle1, triangle2, "SSS") || !checkTriangleCongruent(triangle1, triangle2, "ASA")
+                || !checkTriangleCongruent(triangle1, triangle2, "SAS") || !checkTriangleCongruent(triangle1, triangle2, "AAS")){
+                invalid = [triangle1, triangle2];
+                knownEqualities[invalid] = KhanUtil.randFromArray(["SSS","ASA","SAS","AAS"]);
+                invalidStatements++;
+            }
+        }
     }
-    else{
-        
-        finishedEqualities[keyToChange] = KhanUtil.randFromArray(_.difference(["SSS","ASA","SAS","AAS","Corresponding parts of congruent triangles are congruent",
-            "Vertical angles are equal","Alternate interior angles are equal"], [reasonToChange]));
-        return prettifyEquality(keyToChange) + " is the first wrong statement: it follows from the statements before it, but not because of "
-        + finishedEqualities[keyToChange];
+
+    while(validStatements<4){
+        //pick two things to be equal
+        var equalityType = KhanUtil.randRange(1,3);
+        if(equalityType == 1){
+            var seg1 = KhanUtil.randFromArray(SEGMENTS);
+            var seg2 = KhanUtil.randFromArray(SEGMENTS);
+
+            if(checkSegEqual(seg1, seg2, "CPCTC")){
+                validStatements++;
+            }
+        }
+        else if(equalityType == 2){
+            var ang1 = KhanUtil.randFromArray(ANGLES);
+            var ang2 = KhanUtil.randFromArray(ANGLES);
+
+            if(checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles")
+                || checkAngEqual(ang1, ang2, "CPCTC")){
+                validStatements++;
+            }
+        }
+        else{
+            var triangle1 = KhanUtil.randFromArray(TRIANGLES);
+            var triangle2 = KhanUtil.randFromArray(TRIANGLES);
+
+            if(checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
+                || checkTriangleCongruent(triangle1, triangle2, "SAS") || checkTriangleCongruent(triangle1, triangle2, "AAS")){
+                validStatements++;
+            }
+        }
     }
+
+
+    // now construct the proof we want to hand to the exercise
+    var proofText = "";
+
+    var knownKeys = _.keys(knownEqualities);
+    // knownKeys.reverse();
+    var finishedKeys = _.keys(finishedEqualities);
+
+    for(var i=0; i<knownKeys.length; i+=2){
+        if(knownEqualities[knownKeys[i]].substring(0,4) != "Same"){
+            proofText += prettifyEquality(knownKeys[i]);
+
+            proofText += " :: " + knownEqualities[knownKeys[i]] + "<br>";
+        }
+
+    }
+
+    proofText += prettifyEquality(finalRelation);
+    proofText += " :: " + finishedEqualities[finalRelation];
+
+    return [proofText,prettifyEquality(invalid)];
 
 }
 
@@ -1154,7 +1252,7 @@ function checkSegEqual(seg1, seg2, reason){
             // if the segments' corresponding triangles are congruent AND they're the same part of those triangles, we add
             // to the known equalities
             if(checkTriangleCongruent(seg1.triangles[i][0], seg2.triangles[j][0]) 
-                && _.indexOf(seg1, seg1.triangles[i][0].segs) == _.indexOf(seg2, seg2.triangles[j][0].segs)){
+                && _.indexOf(seg1.triangles[i][0].segs, seg1) == _.indexOf(seg2.triangles[j][0].segs, seg2)){
 
                 if(reason == "CPCTC"){
                     knownEqualities[[seg1,seg2]] = "Corresponding parts of congruent triangles are equal";
@@ -1162,7 +1260,6 @@ function checkSegEqual(seg1, seg2, reason){
                     return true;
                 }
             }
-            console.log(_.indexOf(seg1, seg1.triangles[i][0].segs));
         }
     }
     return false;
@@ -1173,10 +1270,7 @@ function checkSegEqual(seg1, seg2, reason){
 // Checks to see if the two given angles are equal by checking if they belong to 
 // congruent triangles, if they are opposite vertical angles, or if they are alternate interior
 function checkAngEqual(ang1, ang2, reason){
-    console.log("checkangequal ");
-    console.log(ang1);
-    console.log(ang2);
-
+    console.log("running checkangequal with " + ang1 + ", " + ang2);
     // if this is already known
     if(eqIn([ang1, ang2], knownEqualities)){
         return true;
@@ -1186,8 +1280,9 @@ function checkAngEqual(ang1, ang2, reason){
     // to the known equalities
     for(var i=0; i<ang1.triangles.length; i++){
         for(var j=0; j<ang2.triangles.length; j++){
+            console.log("triangles " + ang1.triangles[i][0] + " and " + ang2.triangles[j][0] + " are maybe congruent, and " +_.indexOf(ang1.triangles[i][0].angs, ang1) + "?=" + _.indexOf(ang2.triangles[j][0].angs, ang2));
             if(checkTriangleCongruent(ang1.triangles[i][0], ang2.triangles[j][0]) 
-                && _.indexOf(ang1, ang1.triangles[i][0].angs) == _.indexOf(ang2, ang2.triangles[j][0].angs)){
+                && _.indexOf(ang1.triangles[i][0].angs, ang1) == _.indexOf(ang2.triangles[j][0].angs, ang2)){
 
                 if(reason == "CPCTC"){
                     knownEqualities[[ang1,ang2]] = "Corresponding parts of congruent triangles are equal";
