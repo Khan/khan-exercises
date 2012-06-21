@@ -340,6 +340,8 @@ function subvertProof(){
 
     var validStatements = 0;
     var invalidStatements = 0;
+    var valid = null;
+    var before = KhanUtil.random() < 0.5;
     while(validStatements<2){
         //pick two things to be equal
         var equalityType = KhanUtil.randRange(1,3);
@@ -347,26 +349,36 @@ function subvertProof(){
             var seg1 = KhanUtil.randFromArray(SEGMENTS);
             var seg2 = KhanUtil.randFromArray(SEGMENTS);
 
-            if(checkSegEqual(seg1, seg2, "CPCTC")){
+            if(checkSegEqual(seg1, seg2, "CPCTC") && !seg1.equals(seg2)){
                 validStatements++;
+                if(before && valid == null){
+                    valid = [seg1, seg2];   
+                }
             }
         }
         else if(equalityType == 2){
             var ang1 = KhanUtil.randFromArray(ANGLES);
             var ang2 = KhanUtil.randFromArray(ANGLES);
 
-            if(checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles")
-                || checkAngEqual(ang1, ang2, "CPCTC")){
+            if((checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles")
+                || checkAngEqual(ang1, ang2, "CPCTC")) && !ang1.equals(ang2)){
                 validStatements++;
+                if(before && valid == null){
+                   valid = [ang1, ang2]; 
+                }
             }
         }
         else{
             var triangle1 = KhanUtil.randFromArray(TRIANGLES);
             var triangle2 = KhanUtil.randFromArray(TRIANGLES);
 
-            if(checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
-                || checkTriangleCongruent(triangle1, triangle2, "SAS") || checkTriangleCongruent(triangle1, triangle2, "AAS")){
+            if((checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
+                || checkTriangleCongruent(triangle1, triangle2, "SAS") || checkTriangleCongruent(triangle1, triangle2, "AAS"))
+                && !triangle1.equals(triangle2)){
                 validStatements++;
+                if(before && valid == null){
+                    valid = [triangle1, triangle2];
+                }
             }
         }
     }
@@ -418,26 +430,36 @@ function subvertProof(){
             var seg1 = KhanUtil.randFromArray(SEGMENTS);
             var seg2 = KhanUtil.randFromArray(SEGMENTS);
 
-            if(checkSegEqual(seg1, seg2, "CPCTC")){
+            if(checkSegEqual(seg1, seg2, "CPCTC") && !seg1.equals(seg2)){
                 validStatements++;
+                if(!before && valid == null){
+                    valid = [seg1, seg2];   
+                }
             }
         }
         else if(equalityType == 2){
             var ang1 = KhanUtil.randFromArray(ANGLES);
             var ang2 = KhanUtil.randFromArray(ANGLES);
 
-            if(checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles")
-                || checkAngEqual(ang1, ang2, "CPCTC")){
+            if((checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles")
+                || checkAngEqual(ang1, ang2, "CPCTC")) && !ang1.equals(ang2)){
                 validStatements++;
+                if(!before && valid == null){
+                   valid = [ang1, ang2]; 
+                }
             }
         }
         else{
             var triangle1 = KhanUtil.randFromArray(TRIANGLES);
             var triangle2 = KhanUtil.randFromArray(TRIANGLES);
 
-            if(checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
-                || checkTriangleCongruent(triangle1, triangle2, "SAS") || checkTriangleCongruent(triangle1, triangle2, "AAS")){
+            if((checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
+                || checkTriangleCongruent(triangle1, triangle2, "SAS") || checkTriangleCongruent(triangle1, triangle2, "AAS"))
+                && !triangle1.equals(triangle2)){
                 validStatements++;
+                if(!before && valid == null){
+                    valid = [triangle1, triangle2];
+                }
             }
         }
     }
@@ -448,10 +470,10 @@ function subvertProof(){
 
     var knownKeys = _.keys(knownEqualities);
     // knownKeys.reverse();
-    var finishedKeys = _.keys(finishedEqualities);
 
     for(var i=0; i<knownKeys.length; i+=2){
         if(knownEqualities[knownKeys[i]].substring(0,4) != "Same"){
+            console.log("calling prettify on "+knownKeys[i]);
             proofText += prettifyEquality(knownKeys[i]);
 
             proofText += " :: " + knownEqualities[knownKeys[i]] + "<br>";
@@ -462,7 +484,7 @@ function subvertProof(){
     proofText += prettifyEquality(finalRelation);
     proofText += " :: " + finishedEqualities[finalRelation];
 
-    return [proofText,prettifyEquality(invalid)];
+    return [proofText,prettifyEquality(invalid),prettifyEquality(valid)];
 
 }
 
@@ -1270,7 +1292,6 @@ function checkSegEqual(seg1, seg2, reason){
 // Checks to see if the two given angles are equal by checking if they belong to 
 // congruent triangles, if they are opposite vertical angles, or if they are alternate interior
 function checkAngEqual(ang1, ang2, reason){
-    console.log("running checkangequal with " + ang1 + ", " + ang2);
     // if this is already known
     if(eqIn([ang1, ang2], knownEqualities)){
         return true;
@@ -1280,7 +1301,6 @@ function checkAngEqual(ang1, ang2, reason){
     // to the known equalities
     for(var i=0; i<ang1.triangles.length; i++){
         for(var j=0; j<ang2.triangles.length; j++){
-            console.log("triangles " + ang1.triangles[i][0] + " and " + ang2.triangles[j][0] + " are maybe congruent, and " +_.indexOf(ang1.triangles[i][0].angs, ang1) + "?=" + _.indexOf(ang2.triangles[j][0].angs, ang2));
             if(checkTriangleCongruent(ang1.triangles[i][0], ang2.triangles[j][0]) 
                 && _.indexOf(ang1.triangles[i][0].angs, ang1) == _.indexOf(ang2.triangles[j][0].angs, ang2)){
 
@@ -1302,9 +1322,6 @@ function checkAngEqual(ang1, ang2, reason){
                 SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end2)) ||
                 SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end1)) ||
                 SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end2))){
-
-                console.log(SEGMENTS[i]);
-                console.log(new Seg(SEGMENTS[i].end1, ang1.mid));
 
                 if(!isRelationPossible([SEGMENTS[i], new Seg(SEGMENTS[i].end1, ang1.mid)])){
                     console.log("is a shared line");
@@ -1517,6 +1534,7 @@ function eqIn(item, object){
 }
 
 function prettifyEquality(equality){
+    console.log("prettifying "+equality);
     var eq = equality.toString();
     if(eq[0] == "s"){
         return "<code> \\overline{"+eq.substring(3,5)+"} = \\overline{"+eq.substring(9,11)+"}</code>";
