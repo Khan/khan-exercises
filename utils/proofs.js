@@ -47,7 +47,11 @@ var altInteriorAngs;
 // keeps track of how many hints are left for the next statement
 var numHints;
 
-function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altIntAngs, depth) {
+// the probablity any statement, in the course of creating the proof, will be set to given even though
+// it is not at the minimum depth
+var givenProbability;
+
+function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb) {
     userProofDone = false;
 
     knownEqualities = {};
@@ -56,10 +60,8 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
 
     fixedTriangles = {};
 
-
     SEGMENTS = segs;
     ANGLES = angs;
-
     TRIANGLES = triangles;
 
     supplementaryAngles = supplementaryAngs;
@@ -68,6 +70,8 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
     altInteriorAngs = altIntAngs;
 
     numHints = 3;
+
+    givenProbability = givProb;
 
     //populate knownEqualities based on reflexivity
     for(var i=0; i<SEGMENTS.length; i++){
@@ -88,17 +92,47 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
 
 
     // populates finishedEqualities with a proof traced back from the statement to be proven
+    var equalityType;
     while(true){
-        // pick some triangles to be congruent, this will be the statement to be proven
-        var indices = KhanUtil.randRangeUnique(0, TRIANGLES.length, 2);
-        var triangle1 = TRIANGLES[indices[0]];
-        var triangle2 = TRIANGLES[indices[1]]; 
+        equalityType = KhanUtil.randFromArray("triangle", "angle", "segment");
+        if(equalityType == "triangle"){
+            // pick some triangles to be congruent, this will be the statement to be proven
+            var indices = KhanUtil.randRangeUnique(0, TRIANGLES.length, 2);
+            var triangle1 = TRIANGLES[indices[0]];
+            var triangle2 = TRIANGLES[indices[1]]; 
 
-        //ensure these triangles can be congruent
-        if(isRelationPossible([triangle1, triangle2])){
-            finalRelation = [triangle1, triangle2];
-            traceBack([triangle1, triangle2], depth);
-            break;
+            //ensure these triangles can be congruent
+            if(isRelationPossible([triangle1, triangle2])){
+                finalRelation = [triangle1, triangle2];
+                traceBack([triangle1, triangle2], depth);
+                break;
+            }
+        }
+        else if(equalityType == "angle"){
+            // pick some triangles to be congruent, this will be the statement to be proven
+            var indices = KhanUtil.randRangeUnique(0, ANGLES.length, 2);
+            var angle1 = ANGLES[indices[0]];
+            var angle2 = ANGLES[indices[1]]; 
+
+            //ensure these triangles can be congruent
+            if(isRelationPossible([angle1, angle2])){
+                finalRelation = [angle1, angle2];
+                traceBack([angle1, angle2], depth);
+                break;
+            }
+        }
+        else{
+            // pick some triangles to be congruent, this will be the statement to be proven
+            var indices = KhanUtil.randRangeUnique(0, SEGMENTS.length, 2);
+            var segment1 = SEGMENTS[indices[0]];
+            var segment2 = SEGMENTS[indices[1]]; 
+
+            //ensure these triangles can be congruent
+            if(isRelationPossible([segment1, segment2])){
+                finalRelation = [segment1, segment2];
+                traceBack([segment1, segment2], depth);
+                break;
+            }
         }
     }
 
@@ -1070,7 +1104,7 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep){
             key = keys[i];
             console.log("relation " +key+" is possible");
 
-            if(KhanUtil.random() < 0.25){
+            if(KhanUtil.random() < givenProbability){
                 console.log("setting relation "+key+" to Given");
                 finishedEqualities[key] = "Given";
                 finishedEqualities[key.reverse()] = "Given";
@@ -1084,7 +1118,7 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep){
     }
     else{
         console.log("relation " +keys+" is not possible, tracing back "+oldKey);
-        if(KhanUtil.random() < 0.25){
+        if(KhanUtil.random() < givenProbability){
             // you have failed me for the last time
             finishedEqualities[oldKey] = "Given";
             finishedEqualities[oldKey.reverse()] = "Given";
