@@ -476,7 +476,6 @@ function subvertProof(){
 
     for(var i=0; i<knownKeys.length; i+=2){
         if(knownEqualities[knownKeys[i]].substring(0,4) != "Same"){
-            console.log("calling prettify on "+knownKeys[i]);
             proofText += prettifyEquality(knownKeys[i]);
 
             proofText += " :: " + knownEqualities[knownKeys[i]] + "<br>";
