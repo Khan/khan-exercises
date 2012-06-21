@@ -437,7 +437,7 @@ function subvertProof(){
 
             if(!checkSegEqual(seg1, seg2, "CPCTC")){
                 invalid = [seg1, seg2];
-                knownEqualities[invalid] = "Corresponding parts of congruent triangles are congruent";
+                knownEqualities[invalid] = "Corresponding parts of congruent triangles are equal";
                 invalidStatements++;
             }
         }
@@ -448,7 +448,7 @@ function subvertProof(){
             if(!checkAngEqual(ang1, ang2, "Vertical angles") || !checkAngEqual(ang1, ang2, "Alternate angles")
                 || !checkAngEqual(ang1, ang2, "CPCTC")){
                 invalid = [ang1, ang2];
-                knownEqualities[invalid] = KhanUtil.randFromArray(["Corresponding parts of congruent triangles are congruent",
+                knownEqualities[invalid] = KhanUtil.randFromArray(["Corresponding parts of congruent triangles are equal",
                  "Vertical angles are equal", "Alternate interior angles are equal"]);
                 invalidStatements++;
             }
@@ -726,6 +726,18 @@ function traceBack(statementKey, depth){
                 else{
                     alternateAngs = null;
                 }
+            }
+
+            // if both triangles are fixed, don't use shared side / vertical angles / alternate angles
+            // unless they happen to be fixed in the right way
+            if(sharedSeg.length > 0 && indexDiff != 0){
+                sharedSeg = [];
+            }
+            if(verticalAngs != null && verticalAngs[0] != verticalAngs[1]){
+                verticalAngs = null;
+            }
+            if(alternateAngs != null && alternateAngs[0] != alternateAngs[1]){
+                alternateAngs = null;
             }
 
             // triangle congruence case 1: shared side
@@ -1008,7 +1020,6 @@ function traceBack(statementKey, depth){
                     trianglePair[0].angs.rotate(index2 - index1);
                 }
 
-
                 setGivenOrTraceBack([[trianglePair[0],trianglePair[1]]], "Corresponding parts of congruent triangles are congruent",
                 statementKey, depth-1);
             }
@@ -1074,7 +1085,6 @@ function traceBack(statementKey, depth){
                     trianglePair[0].segs.rotate(index2 - index1);
                     trianglePair[0].angs.rotate(index2 - index1);
                 }
-
 
                 setGivenOrTraceBack([[trianglePair[0],trianglePair[1]]], "Corresponding parts of congruent triangles are congruent",
                 statementKey, depth-1);
@@ -1200,9 +1210,13 @@ function isRelationPossible(key){
             }
         }
 
-        if(triangIn(key[0], fixedTriangles) && triangIn(key[1], fixedTriangles)){
-            return false;
-        }
+        // if both triangles are already in equalities, we can't rotate either of them to make a congruence true,
+        // so if they also have a shared segment/vertical angles/alternate angles, we won't use them
+        // to avoid nasty triangle rotation bugs
+        // if(triangIn(key[0], fixedTriangles) && triangIn(key[1], fixedTriangles)){
+
+        //     return false;
+        // }
 
         return true;
     }
