@@ -287,7 +287,7 @@ $.fn.tmplCleanup = function() {
     // This gets called before each problem. In some cases, before the first
     // problem, MathJax isn't loaded yet. No worries--there's nothing to clean
     // up anyway
-    if (!MathJax) {
+    if (typeof MathJax === "undefined") {
         return;
     }
 
