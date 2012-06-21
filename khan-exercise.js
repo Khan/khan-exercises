@@ -919,6 +919,8 @@ var Khan = (function() {
         exerciseId = userExercise.exerciseModel.name;
         exerciseName = userExercise.exerciseModel.displayName;
         exerciseFile = userExercise.exerciseModel.fileName;
+        exerciseType = userExercise.problemType;
+        exerciseSeed = userExercise.seed;
         // TODO(eater): remove this once all of the exercises in the datastore have filename properties
         if (exerciseFile == null || exerciseFile == "") {
             exerciseFile = exerciseId + ".html";
@@ -946,7 +948,7 @@ var Khan = (function() {
             }
 
             // Generate a new problem
-            makeProblem();
+            makeProblem(exerciseType, exerciseSeed);
 
         }
 
@@ -1147,7 +1149,7 @@ var Khan = (function() {
         problem.runModules(problem, "Load");
         problem.runModules(problem);
 
-        if (shouldSkipProblem()) {
+        if (typeof seed === "undefined" && shouldSkipProblem()) {
             // If this is a duplicate problem we should skip, just generate
             // another problem of the same problem type but w/ a different seed.
             clearExistingProblem();
