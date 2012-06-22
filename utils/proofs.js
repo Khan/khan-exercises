@@ -94,7 +94,7 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
     // populates finishedEqualities with a proof traced back from the statement to be proven
     var equalityType;
     while(true){
-        equalityType = KhanUtil.randFromArray("triangle", "angle", "segment");
+        equalityType = KhanUtil.randFromArray(["triangle", "angle", "segment"]);
         if(equalityType == "triangle"){
             // pick some triangles to be congruent, this will be the statement to be proven
             var indices = KhanUtil.randRangeUnique(0, TRIANGLES.length, 2);
@@ -182,7 +182,7 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
 
     // $(".statements").html(newHTML);
 
-
+    console.log(finalRelation);
 
     return [newHTML, finalRelation];
 
@@ -296,7 +296,6 @@ function nextStatementHint(){
         // look for something that can be proven with the statements already known
         // that is in finishedEqualities
         var tryProving = hintKeys[KhanUtil.randRange(0,hintKeys.length-1)];
-        console.log(tryProving[0]);
 
         // awful, terrible hacky way to deal with javascript object hashes
         if(tryProving[0] == "t"){
@@ -331,7 +330,6 @@ function nextStatementHint(){
         }
 
         else if(tryProving[0] == "a"){
-            console.log(tryProving.substring(0,6));
             var ang1 = _.find(ANGLES, function(ang){
                 return ang.toString() == tryProving.substring(0,6);
             });
@@ -339,7 +337,6 @@ function nextStatementHint(){
                 return ang.toString() == tryProving.substring(7,13);
             });
 
-            console.log(ang1);
 
             var useToProve = checkAngForHint(ang1, ang2);
             if(useToProve.length > 0 && useToProve[0] instanceof Triang){
@@ -385,14 +382,18 @@ function subvertProof(){
     var invalidStatements = 0;
     var valid = null;
     var before = KhanUtil.random() < 0.5;
-    while(validStatements<2){
+    var count = 0;
+    while(validStatements<2 && count<100){
+        console.log("count = " + count + " valid statements = "+validStatements);
         //pick two things to be equal
         var equalityType = KhanUtil.randRange(1,3);
         if(equalityType == 1){
             var seg1 = KhanUtil.randFromArray(SEGMENTS);
             var seg2 = KhanUtil.randFromArray(SEGMENTS);
 
-            if(checkSegEqual(seg1, seg2, "CPCTC") && !seg1.equals(seg2)){
+            console.log([seg1,seg2]);
+
+            if(!eqIn([seg1,seg2], knownEqualities) && !seg1.equals(seg2) && checkSegEqual(seg1, seg2, "CPCTC")){
                 validStatements++;
                 if(before && valid == null){
                     valid = [seg1, seg2];   
@@ -403,8 +404,9 @@ function subvertProof(){
             var ang1 = KhanUtil.randFromArray(ANGLES);
             var ang2 = KhanUtil.randFromArray(ANGLES);
 
-            if((checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles")
-                || checkAngEqual(ang1, ang2, "CPCTC")) && !ang1.equals(ang2)){
+            if(!eqIn([ang1,ang2], knownEqualities) && !ang1.equals(ang2) && 
+                (checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles") 
+                    || checkAngEqual(ang1, ang2, "CPCTC"))){
                 validStatements++;
                 if(before && valid == null){
                    valid = [ang1, ang2]; 
@@ -415,15 +417,31 @@ function subvertProof(){
             var triangle1 = KhanUtil.randFromArray(TRIANGLES);
             var triangle2 = KhanUtil.randFromArray(TRIANGLES);
 
-            if((checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
-                || checkTriangleCongruent(triangle1, triangle2, "SAS") || checkTriangleCongruent(triangle1, triangle2, "AAS"))
-                && !triangle1.equals(triangle2)){
+            // in this case you have to also try every rotation (if they aren't fixed)
+            // because honestly, triangles are the devil
+            var rotation = KhanUtil.randRange(0,2);
+            if(!triangIn(triangle1, fixedTriangles)){
+                triangle1.segs.rotate(rotation);
+                triangle1.angs.rotate(rotation);
+            }
+            else if(!triangIn(triangle2, fixedTriangles)){
+                triangle2.segs.rotate(rotation);
+                triangle2.angs.rotate(rotation);
+            }
+
+            if(!eqIn([triangle1,triangle2], knownEqualities) && !triangle1.equals(triangle2) &&
+                (checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
+                || checkTriangleCongruent(triangle1, triangle2, "SAS") || checkTriangleCongruent(triangle1, triangle2, "AAS"))){
                 validStatements++;
+                console.log("adding valid statement " + triangle1 + ", " + triangle2);
+                fixedTriangles[triangle1] = true;
+                fixedTriangles[triangle2] = true;
                 if(before && valid == null){
                     valid = [triangle1, triangle2];
                 }
             }
         }
+        count++;
     }
 
     var invalid;
@@ -457,23 +475,36 @@ function subvertProof(){
             var triangle1 = KhanUtil.randFromArray(TRIANGLES);
             var triangle2 = KhanUtil.randFromArray(TRIANGLES);
 
+            // in this case you have to also try every rotation (if they aren't fixed)
+            // because honestly, triangles are the devil
+            if(!triangIn(triangle1, fixedTriangles)){
+                triangle1.rotate(KhanUtil.randRange(0,2));
+            }
+            else if(!triangIn(triangle2, fixedTriangles)){
+                triangle2.rotate(KhanUtil.randRange(0,2));
+            }
+
             if(!checkTriangleCongruent(triangle1, triangle2, "SSS") || !checkTriangleCongruent(triangle1, triangle2, "ASA")
                 || !checkTriangleCongruent(triangle1, triangle2, "SAS") || !checkTriangleCongruent(triangle1, triangle2, "AAS")){
                 invalid = [triangle1, triangle2];
                 knownEqualities[invalid] = KhanUtil.randFromArray(["SSS","ASA","SAS","AAS"]);
+                fixedTriangles[triangle1] = true;
+                fixedTriangles[triangle2] = true;
                 invalidStatements++;
             }
         }
     }
 
-    while(validStatements<4){
+    count = 0;
+    while(validStatements<4 && count<100){
+        console.log(count);
         //pick two things to be equal
         var equalityType = KhanUtil.randRange(1,3);
         if(equalityType == 1){
             var seg1 = KhanUtil.randFromArray(SEGMENTS);
             var seg2 = KhanUtil.randFromArray(SEGMENTS);
 
-            if(checkSegEqual(seg1, seg2, "CPCTC") && !seg1.equals(seg2)){
+            if(!eqIn([seg1,seg2], knownEqualities) && !seg1.equals(seg2) && checkSegEqual(seg1, seg2, "CPCTC")){
                 validStatements++;
                 if(!before && valid == null){
                     valid = [seg1, seg2];   
@@ -484,8 +515,9 @@ function subvertProof(){
             var ang1 = KhanUtil.randFromArray(ANGLES);
             var ang2 = KhanUtil.randFromArray(ANGLES);
 
-            if((checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles")
-                || checkAngEqual(ang1, ang2, "CPCTC")) && !ang1.equals(ang2)){
+            if(!eqIn([ang1,ang2], knownEqualities) && !ang1.equals(ang2) && 
+                (checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles") 
+                    || checkAngEqual(ang1, ang2, "CPCTC"))){
                 validStatements++;
                 if(!before && valid == null){
                    valid = [ang1, ang2]; 
@@ -496,15 +528,18 @@ function subvertProof(){
             var triangle1 = KhanUtil.randFromArray(TRIANGLES);
             var triangle2 = KhanUtil.randFromArray(TRIANGLES);
 
-            if((checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
-                || checkTriangleCongruent(triangle1, triangle2, "SAS") || checkTriangleCongruent(triangle1, triangle2, "AAS"))
-                && !triangle1.equals(triangle2)){
+            if(!eqIn([triangle1,triangle2], knownEqualities) && !triangle1.equals(triangle2) &&
+                (checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
+                || checkTriangleCongruent(triangle1, triangle2, "SAS") || checkTriangleCongruent(triangle1, triangle2, "AAS"))){
                 validStatements++;
+                fixedTriangles[triangle1] = true;
+                fixedTriangles[triangle2] = true;
                 if(!before && valid == null){
                     valid = [triangle1, triangle2];
                 }
             }
         }
+        count++;
     }
 
 
@@ -525,6 +560,10 @@ function subvertProof(){
 
     proofText += prettifyEquality(finalRelation);
     proofText += " :: " + finishedEqualities[finalRelation];
+
+    if(valid==null){
+        return [proofText,prettifyEquality(invalid),valid];
+    }
 
     return [proofText,prettifyEquality(invalid),prettifyEquality(valid)];
 
