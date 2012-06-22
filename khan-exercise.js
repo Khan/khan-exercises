@@ -915,10 +915,11 @@ var Khan = (function() {
 
     function loadAndRenderExercise(nextUserExercise) {
 
+        setUserExercise(nextUserExercise);
+
         var seedOverride = userExercise.problemType,
             typeOverride = userExercise.seed;
 
-        setUserExercise(nextUserExercise);
         exerciseId = userExercise.exerciseModel.name;
         exerciseName = userExercise.exerciseModel.displayName;
         exerciseFile = userExercise.exerciseModel.fileName;
