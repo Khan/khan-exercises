@@ -915,12 +915,14 @@ var Khan = (function() {
 
     function loadAndRenderExercise(nextUserExercise) {
 
+        var seedOverride = userExercise.problemType,
+            typeOverride = userExercise.seed;
+
         setUserExercise(nextUserExercise);
         exerciseId = userExercise.exerciseModel.name;
         exerciseName = userExercise.exerciseModel.displayName;
         exerciseFile = userExercise.exerciseModel.fileName;
-        exerciseType = userExercise.problemType;
-        exerciseSeed = userExercise.seed;
+
         // TODO(eater): remove this once all of the exercises in the datastore have filename properties
         if (exerciseFile == null || exerciseFile == "") {
             exerciseFile = exerciseId + ".html";
@@ -948,7 +950,7 @@ var Khan = (function() {
             }
 
             // Generate a new problem
-            makeProblem(exerciseType, exerciseSeed);
+            makeProblem(typeOverride, seedOverride);
 
         }
 
