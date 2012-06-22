@@ -279,7 +279,7 @@
                     padding: (pad != null ? pad : 7) + "px"
                 })).appendTo(el);
 
-                if (typeof MathJax !== "undefined" && (text+"").trim() !== "") {
+                if (typeof MathJax !== "undefined" && $.trim(text + "") !== "") {
                     // Add to the MathJax queue
                     if (latex) {
                         $.tmpl.type.code()(code[0]);
