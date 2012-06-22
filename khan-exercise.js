@@ -917,8 +917,8 @@ var Khan = (function() {
 
         setUserExercise(nextUserExercise);
 
-        var seedOverride = userExercise.problemType,
-            typeOverride = userExercise.seed;
+        var typeOverride = userExercise.problemType,
+            seedOverride = userExercise.seed;
 
         exerciseId = userExercise.exerciseModel.name;
         exerciseName = userExercise.exerciseModel.displayName;
