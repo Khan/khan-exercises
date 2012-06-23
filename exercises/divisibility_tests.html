@@ -36,11 +36,11 @@
 
             <div class="hints">
                 <p>Any even number is divisible by <code>2</code>.</p>
-                <p data-if="DIVISIBLE">
+                <p class="final_answer" data-if="DIVISIBLE">
                     <code><var>NUMBER</var></code> is even, so yes, it is
                     divisible by <code>2</code>.
                 </p>
-                <p data-else>
+                <p class="final_answer" data-else>
                     <code><var>NUMBER</var></code> is odd, so it is
                     not divisible by <code>2</code>.
                 </p>
@@ -152,7 +152,7 @@
                             <code>\blue{<var>NUMBER</var>}</code> is divisible
                             by <code><var>FACTOR</var></code> if <code>\blue{
                             <var>integerToDigits(NUMBER).join("}+\\blue{")
-                            </var>}</code> is divisble by
+                            </var>}</code> is divisible by
                             <code><var>FACTOR</var></code>!
                         </p>
                     </div>
@@ -170,13 +170,13 @@
                         divisible by <code><var>FACTOR</var></code>.
                     </p>
                 </div>
-                <p data-if="DIVISIBLE">
+                <p class="final_answer" data-if="DIVISIBLE">
                     <code><var>_.last(STEPS).sum</var></code> is divisible
                     by <code><var>FACTOR</var></code>, therefore
                     <code>\blue{<var>NUMBER</var>}</code>
                     must also be divisible by <code><var>FACTOR</var></code>.
                 </p>
-                <p data-else>
+                <p class="final_answer" data-else>
                     <code><var>_.last(STEPS).sum</var></code> is not divisible
                     by <code><var>FACTOR</var></code>, therefore
                     <code>\blue{<var>NUMBER</var>}</code>
@@ -226,16 +226,16 @@
                 <p>
                     Is the value of the last two digits,
                     <code><var>NUMBER % 100</var></code>,
-                    divisble by <code>4</code>?
+                    divisible by <code>4</code>?
                 </p>
-                <p data-if="DIVISIBLE">
+                <p class="final_answer" data-if="DIVISIBLE">
                     Yes,
                     <code>\blue{<var>NUMBER % 100</var> \div 4 =
                     <var>NUMBER % 100 / 4</var>}</code>, so
                     <code><var>NUMBER</var></code> must also be divisible by
                     <code>4</code>.
                 </p>
-                <p data-else>
+                <p class="final_answer" data-else>
                     No, <code><var>NUMBER % 100</var></code> is not
                     divisible by <code>4</code>, so
                     <code><var>NUMBER</var></code> is also not divisible by
@@ -254,13 +254,13 @@
                     A number is divisible by <code>5</code> if the last
                     digit is a <code>0</code> or a <code>5</code>.
                 </p>
-                <p data-if="DIVISIBLE">
+                <p class="final_answer" data-if="DIVISIBLE">
                     The last digit of <code><var>NUMBER</var></code> is
                     <code><var>NUMBER % 10</var></code>, so yes
                     <code><var>NUMBER</var></code> is divisible by
                     <code>5</code>.
                 </p>
-                <p data-else>
+                <p class="final_answer" data-else>
                     The last digit of <code><var>NUMBER</var></code> is
                     <code><var>NUMBER % 10</var></code>, so no
                     <code><var>NUMBER</var></code> is not divisible by
@@ -285,13 +285,13 @@
                     A number is divisible by <code>10</code> if the last
                     digit is a <code>0</code>.
                 </p>
-                <p data-if="DIVISIBLE">
+                <p class="final_answer" data-if="DIVISIBLE">
                     The last digit of <code><var>NUMBER</var></code> is
                     <code><var>NUMBER % 10</var></code>, so yes
                     <code><var>NUMBER</var></code> is divisible by
                     <code>10</code>.
                 </p>
-                <p data-else>
+                <p class="final_answer" data-else>
                     The last digit of <code><var>NUMBER</var></code> is
                     <code><var>NUMBER % 10</var></code>, so no
                     <code><var>NUMBER</var></code> is not divisible by
