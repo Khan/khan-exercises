@@ -82,7 +82,7 @@
                     <var id="TEST">[ "midterm", "final exam" ][ COLUMN ]</var>
                     <var id="AVERAGE">COLUMN === 0 ? mean( MIDTERM ) : mean( FINAL )</var>
                 </div>
-                <p class="question">What was the average student's score for the <var>TEST</var>?</p>
+                <p class="question">What was the average student score for the <var>TEST</var>?</p>
 
                 <div class="solution" data-forms="integer"><var>AVERAGE</var></div>
 
@@ -106,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-                    <p>To find the average student's score, add up the individual scores and divide by the number of students.</p>
+                    <p>To find the average student score, add up the individual scores and divide by the number of students.</p>
                     <p>
                         <code>
                             \dfrac{<var>plus.apply( null, COLUMN === 0 ? MIDTERM : FINAL )</var>}{<var>NUM_STUDENTS</var>} =
@@ -114,7 +114,7 @@
                             <var>AVERAGE</var>
                         </code>
                     </p>
-                    <p>The average student's score on the <var>TEST</var> was <code><var>AVERAGE</var></code>.</p>
+                    <p class="final_answer">The average student score on the <var>TEST</var> was <code><var>AVERAGE</var></code>.</p>
                 </div>
             </div>
 
@@ -135,50 +135,50 @@
                 </ul>
 
                 <div class="hints">
-                    <div class="hint_blue">
-                        <p>Find each of the midterm scores represented by the blue bars.</p>
+                    <div>
+                        <p>Find each of the <span class="hint_blue">midterm scores</span> represented by the <span class="hint_blue">blue bars</span>.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
                             <div class="graphie" data-update="barchart">
                                     label( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 + 0.2 ], MIDTERM[ INDEX ], "below", false ).css({ fontWeight: "bold" });
                             </div>
                         </div>
                     </div>
-                    <p class="hint_blue">To find the average student's score on the midterm, add up the individual scores and divide by the number of students.</p>
-                    <div class="hint_blue">
+                    <p>To find the average student score on the midterm, add up the individual scores and divide by the number of students.</p>
+                    <div>
                         <p><code>
                             \dfrac{<var>plus.apply( null, MIDTERM )</var>}{<var>NUM_STUDENTS</var>} =
                             \dfrac{<var>sum( MIDTERM )</var>}{<var>NUM_STUDENTS</var>} =
                             <var>MIDTERM_AVG</var>
                         </code></p>
-                        <p>The average student's score on the midterm was <code><var>MIDTERM_AVG</var></code>.</p>
+                        <p>The average student score on the midterm was <code class="hint_blue"><var>MIDTERM_AVG</var></code>.</p>
                     </div>
-                    <div class="hint_orange">
-                        <p>Find each of the final exam scores represented by the orange bars.</p>
+                    <div>
+                        <p>Find each of the <span class="hint_orange">final exam scores</span> represented by the <span class="hint_orange">orange bars</span>.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
                             <div class="graphie" data-update="barchart">
                                     label( [ INDEX * 3 + 2.5, FINAL[ INDEX ] / 10 + 0.2 ], FINAL[ INDEX ], "below", false ).css({ fontWeight: "bold" });
                             </div>
                         </div>
                     </div>
-                    <p class="hint_orange">To find the average student's score on the final exam, add up the individual scores and divide by the number of students.</p>
-                    <div class="hint_orange">
+                    <p>To find the average student score on the final exam, add up the individual scores and divide by the number of students.</p>
+                    <div>
                         <p><code>
                             \dfrac{<var>plus.apply( null, FINAL )</var>}{<var>NUM_STUDENTS</var>} =
                             \dfrac{<var>sum( FINAL )</var>}{<var>NUM_STUDENTS</var>} =
                             <var>FINAL_AVG</var>
                         </code></p>
-                        <p>The average student's score on the final exam was <code><var>FINAL_AVG</var></code>.</p>
+                        <p>The average student score on the final exam was <code class="hint_orange"><var>FINAL_AVG</var></code>.</p>
                     </div>
-                    <p data-if="MIDTERM_AVG > FINAL_AVG">
-                        The average student's score was higher on the <span class="hint_blue">midterm</span>
+                    <p class="final_answer" data-if="MIDTERM_AVG > FINAL_AVG">
+                        The average student score was higher on the <span class="hint_blue">midterm</span>
                         than on the <span class="hint_orange">final exam</span>.
                     </p>
-                    <p data-else-if="MIDTERM_AVG < FINAL_AVG">
-                        The average student's score was higher on the <span class="hint_orange">final exam</span>
+                    <p class="final_answer" data-else-if="MIDTERM_AVG < FINAL_AVG">
+                        The average student score was higher on the <span class="hint_orange">final exam</span>
                         than the <span class="hint_blue">midterm</span>.
                     </p>
-                    <p data-else>
-                        The average student's score was the same on both the <span class="hint_blue">midterm</span>
+                    <p class="final_answer" data-else>
+                        The average student score was the same on both the <span class="hint_blue">midterm</span>
                         and the <span class="hint_orange">final exam</span>.
                     </p>
                 </div>
@@ -226,12 +226,12 @@
                             <code>
                                 \dfrac{
                                 <var>COLUMN === 0 ? sortNumbers( MIDTERM )[ NUM_STUDENTS / 2 - 1 ] : sortNumbers( FINAL )[ NUM_STUDENTS / 2 - 1 ]</var> +
-                                <var>COLUMN === 0 ? sortNumbers( MIDTERM )[ NUM_STUDENTS / 2 + 1 ] : sortNumbers( FINAL )[ NUM_STUDENTS / 2 + 1 ]</var>
+                                <var>COLUMN === 0 ? sortNumbers( MIDTERM )[ NUM_STUDENTS / 2 ] : sortNumbers( FINAL )[ NUM_STUDENTS / 2 ]</var>
                                 }{2} = <var>MEDIAN</var>
                             </code>
                         </p>
                     </div>
-                    <p>The median score on the <var>TEST</var> was <code><var>MEDIAN</var></code>.</p>
+                    <p class="final_answer">The median score on the <var>TEST</var> was <code><var>MEDIAN</var></code>.</p>
                 </div>
             </div>
 
@@ -267,7 +267,7 @@
                     </div>
                     <p>The mode is the most frequently occurring score.</p>
                     <div>
-                        <p><code><var>MODE</var></code> is the most frequently occurring score.</p>
+                        <p class="final_answer"><code><var>MODE</var></code> is the most frequently occurring score.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
                             <div class="graphie" data-update="barchart">
                                 if ( COLUMN === 0 ) {
@@ -327,7 +327,7 @@
                         <p>Find the range by subtracting the smallest score from the largest score.</p>
                         <p><code>\qquad <var>MAX</var> - <var>MIN</var> = <var>RANGE</var></code></p>
                     </div>
-                    <p>The range of <var>TEST</var> scores is <code><var>RANGE</var></code>.</p>
+                    <p class="final_answer">The range of <var>TEST</var> scores is <code><var>RANGE</var></code>.</p>
                 </div>
             </div>
 
@@ -373,7 +373,7 @@
                         <p>Find the midrange by averaging the smallest and largest scores.</p>
                         <p><code>\qquad \dfrac{<var>MIN</var> + <var>MAX</var>}{2} = <var>MIDRANGE</var></code></p>
                     </div>
-                    <p>The midrange of <var>TEST</var> scores is <code><var>MIDRANGE</var></code>.</p>
+                    <p class="final_answer">The midrange of <var>TEST</var> scores is <code><var>MIDRANGE</var></code>.</p>
                 </div>
             </div>
 
