@@ -361,7 +361,8 @@ function outputProof(){
     var possibleValids = [];
     for(var i=0; i<finishedKeys.length; i+=2){
         if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same"){
-            proofText += prettifyEquality(finishedKeys[i]);
+            proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
+            proofText += prettifyEquality(finishedKeys[i]) + "</div>";
             possibleValids.push(prettifyEquality(finishedKeys[i]));
             proofText += " :: " + finishedEqualities[finishedKeys[i]] + "<br>";
         }
@@ -384,14 +385,11 @@ function subvertProof(){
     var before = KhanUtil.random() < 0.5;
     var count = 0;
     while(validStatements<2 && count<100){
-        console.log("count = " + count + " valid statements = "+validStatements);
         //pick two things to be equal
         var equalityType = KhanUtil.randRange(1,3);
         if(equalityType == 1){
             var seg1 = KhanUtil.randFromArray(SEGMENTS);
             var seg2 = KhanUtil.randFromArray(SEGMENTS);
-
-            console.log([seg1,seg2]);
 
             if(!eqIn([seg1,seg2], knownEqualities) && !seg1.equals(seg2) && checkSegEqual(seg1, seg2, "CPCTC")){
                 validStatements++;
@@ -497,7 +495,6 @@ function subvertProof(){
 
     count = 0;
     while(validStatements<4 && count<100){
-        console.log(count);
         //pick two things to be equal
         var equalityType = KhanUtil.randRange(1,3);
         if(equalityType == 1){
@@ -1637,6 +1634,26 @@ function prettifyEquality(equality){
     }
     else{
         return "<code> \\bigtriangleup " +eq.substring(8,11)+" = \\bigtriangleup "+eq.substring(20,23)+"</code>";
+    }
+}
+
+function divName(equalityString){
+    var equality1 = _.find(TRIANGLES, function(t){
+        return t.toString() == equalityString.substring(0,11);
+    });
+    var equality2 = _.find(TRIANGLES, function(t){
+        return t.toString() == equalityString.substring(12,23);
+    });
+    if(equalityString[0] == "s"){
+        return equalityString.substring(3,5) + "-" + equalityString.substring(9,11);
+    }
+    else if(equalityString[0] == "a"){
+        return equalityString.substring(3,6) + "-" + equalityString.substring(10,13);
+    }
+    else{
+        return equality1.segs[0].toString().substring(3,5) + "-" + equality1.segs[1].toString().substring(3,5) + "-" 
+        + equality1.segs[2].toString().substring(3,5) + "-" + equality2.segs[0].toString().substring(3,5) + "-" 
+        + equality2.segs[1].toString().substring(3,5) + "-" + equality2.segs[2].toString().substring(3,5);
     }
 }
 
