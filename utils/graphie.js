@@ -686,7 +686,7 @@
 
                 // Graph could be in either of these
                 var area = $("#problemarea").add(problem);
-                graphie = area.find("#" + id).data("graphie");
+                graphie = area.find("#" + id + ".graphie").data("graphie");
             } else {
                 graphie = createGraph(this);
                 $(this).data("graphie", graphie);
