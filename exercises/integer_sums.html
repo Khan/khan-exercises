@@ -9,44 +9,67 @@
     <div class="exercise">
         <div class="vars">
             <var id="FIRST_NUM">randRange(1, 100)</var>
-            <var id="SEQ_LENGTH">randRange(2, 5)</var>
+            <var id="SEQ_LENGTH">randRange(2, 6)</var>
             <var id="DIFFERENCE">randRange(1, 2)</var>
+            <var id="TARGET_NUMBER">randFromArray(["smallest", "largest"])</var>
 
+            <var id="C">DIFFERENCE * SEQ_LENGTH * (SEQ_LENGTH - 1) / 2</var>
+            <var id="SUM">FIRST_NUM * SEQ_LENGTH + C</var>
+            <var id="SEQ_TYPE">
+            (function() {
+                if (DIFFERENCE === 1) {
+                    return "integer";
+                } else if (isOdd(FIRST_NUM)) {
+                    return "odd number";
+                } else {
+                    return "even number";
+                }
+            })()
+            </var>
             <var id="SEQUENCE">
             (function() {
-                var sequence = [FIRST_NUM];
+                var sequence = "x";
                 for (var i = 1; i &lt;SEQ_LENGTH; i++) {
-                    sequence.push(i, FIRST_NUM + i * DIFFERENCE);
+                    sequence += "+ (x + " + (i * DIFFERENCE) + ")";
                 }
                 return sequence;
             })()
             </var>
-            <var id="SUM">FIRST_NUM * SEQ_LENGTH + DIFFERENCE * SEQ_LENGTH * (SEQ_LENGTH - 1) / 2</var>
+            <var id="ANSWER">
+            (function() {
+                if (TARGET_NUMBER === "smallest") {
+                    return FIRST_NUM
+                } else  {
+                    return FIRST_NUM + (SEQ_LENGTH - 1) * DIFFERENCE
+                }
+            })()
+            </var>
         </div>
 
         <div class="problems">
             <div>
-                <div class="problem">
-                    <p>The sum of <var>SEQ_LENGTH</var> consecutive <var>NUMBER_TYPE</var> is <var>SUM</var>.</p>
-                </div>
-                <p class="question">What is the smallest of the <var>SEQ_LENGTH</var> <var>NUMBER_TYPE</var>?</p>
-                <p class="solution" data-forms="integer"><var>FIRST_NUM</var></p>
+                <p class="problem">The sum of <var>SEQ_LENGTH</var> consecutive <var>SEQ_TYPE</var>s is <var>SUM</var>.</p>
+                <p class="question">What is the <var>TARGET_NUMBER</var> of the <var>SEQ_LENGTH</var> numbers?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
             </div>
         </div>
 
         <div class="hints">
-            <p>The greatest common divisor is the largest number that is a factor (or divisor) of both <var>A</var> and <var>B</var>.</p>
+            <p><code>x =</code> first <var>SEQ_TYPE</var> in the sequence</p>
+            <p><code>x + <var>DIFFERENCE</var> =</code> next <var>SEQ_TYPE</var> in the sequence</p>
             <div>
-                <p data-if="A === 1">The only factor (divisor) of 1 is 1.</p>
-                <p data-else>The factors (divisors) of <var>A</var> are <var>A_FACTORS</var>.</p>
+                <p>The sum of consecutive <var>SEQ_TYPE</var>s is:<p>
+                <p><code><var>SEQUENCE</var> = <var>SUM</var></code></p>
             </div>
-            <div>
-                <p data-if="B === 1">The only factor (divisor) of 1 is 1.</p>
-                <p data-else>The factors (divisors) of <var>B</var> are <var>B_FACTORS</var>.</p>
+            <p><code><var>SEQ_LENGTH</var>x + <var>C</var>= <var>SUM</var></code></p>
+            <p><code><var>SEQ_LENGTH</var>x = <var>SUM-C</var></code></p>
+            <p><code>x = <var>FIRST_NUM</var></code></p>
+            <div data-if="FIRST_NUM===ANSWER">
+                <p>Thus, the <var>TARGET_NUMBER</var> number is <code><var>ANSWER</var></code>.</p>
             </div>
-            <div>
-                <p>Thus, the greatest common divisor of <var>A</var> and <var>B</var> is <var>GCD</var>.</p>
-                <p><code>\gcd(<var>A</var>, <var>B</var>) = <var>GCD</var></code></p>
+            <div data-else>
+                <p>The <var>TARGET_NUMBER</var> number is <code> x + <var>(SEQ_LENGTH - 1) * DIFFERENCE</var></code></p>
+                <p>Thus, the <var>TARGET_NUMBER</var> number is <code><var>ANSWER</var></code>.</p>
             </div>
         </div>
     </div>
