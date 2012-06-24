@@ -13,18 +13,18 @@
 <body>
     <div class="exercise">
 		<div class="vars">
-	            <var id="a">floor(random()*21)</var>
-                <var id="b">floor(random()*21)</var>
-                <var id="c">floor(random()*21)</var>
-                <var id="d">floor(random()*21)</var>
-                <var id="e">floor(random()*21)</var>
-				<var id="f">floor(random()*21)</var>
-				<var id="g">floor(random()*21)</var>
-				<var id="h">floor(random()*21)</var>
-				<var id="i">floor(random()*21)</var>
-				<var id="j">floor(random()*21)</var>
-				<var id="k">floor(random()*21)</var>
-				<var id="l">floor(random()*21)</var>
+	            <var id="a">-5 + rand(10)</var>
+                <var id="b">-5 + rand(10)</var>
+                <var id="c">-5 + rand(10)</var>
+                <var id="d">-5 + rand(10)</var>
+                <var id="e">-5 + rand(10)</var>
+				<var id="f">-5 + rand(10)</var>
+				<var id="g">-5 + rand(10)</var>
+				<var id="h">-5 + rand(10)</var>
+				<var id="i">-5 + rand(10)</var>
+				<var id="j">-5 + rand(10)</var>
+				<var id="k">-5 + rand(10)</var>
+				<var id="l">-5 + rand(10)</var>
 
 		</div>
     <div class="problems">
@@ -42,7 +42,7 @@
             <p>Matrix <strong>B</strong> is defined as: <code> \left[ \begin{array}{ccr} <var>g</var> & <var>h</var> \\ <var>i</var> & <var>j</var> \\<var>k</var> & <var>l</var> \end{array} \right]</code></p>
             <p>Matrix <strong>C</strong> is the sum of matrix <strong>A</strong> and matrix <strong>B</strong>. What is matrix <strong>C</strong>?</p>
             <div class="solution" data-type="multiple">
-                <p>Matrix <strong>C</strong> =<span class="sol"><var>aa</var></span> <span class="sol"><var>bb</var></span></p>
+                <p>Matrix <strong>C</strong> = <span class="sol"><var>aa</var></span> <span class="sol"><var>bb</var></span></p>
 				<p> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <span class="sol"><var>cc</var></span> <span class="sol"><var>dd</var></span> 
 				<p> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <span class="sol"><var>ee</var></span> <span class="sol"><var>ff</var></span> 
             </div>
@@ -52,15 +52,15 @@
                 </div>
 				<div>
 					<p>For example, the first row, first column of matrix <strong>C</strong> is found by adding together the first row, first column of matrix <strong>A</strong> and the first row, first column of matrix <strong>B</strong></p>
-					<p> <code> <var>a</var> + <var>g</var> = <var>aa</var> </code></p>
+					<p> <code class="hint_green"><var>a</var> + <var>g</var> = <var>aa</var></code></p>
 				</div>
 				<div>
 					<p> Continue adding together all the corresponding items. </p>
-					<p><code> \left[ \begin{array}{ccr} <var>a</var> + <var>g</var> & <var>b</var> + <var>h</var> \\ <var>c</var> + <var>i</var> & <var>d</var> + <var>j</var> \\ <var>e</var> + <var>k</var> & <var>f</var> + <var>l</var>  \end{array} \right] </code></p>
+					<p><code>\color{<var>BLUE</var>}{\left[ \begin{array}{ccr} <var>a</var> + <var>g</var> & <var>b</var> + <var>h</var> \\ <var>c</var> + <var>i</var> & <var>d</var> + <var>j</var> \\ <var>e</var> + <var>k</var> & <var>f</var> + <var>l</var>  \end{array}\right]}</code></p>
 				</div>
 				<div>
 					<p>Simplify.</p>
-					<p> <code> \left[ \begin{array}{ccr} <var>aa</var> & <var>bb</var> \\ <var>cc</var> & <var>dd</var> \\ <var>ee</var> & <var>ff</var> \end{array} \right] </code> </p>
+					<p> <code>\color{<var>ORANGE</var>}{\left[ \begin{array}{ccr} <var>aa</var> & <var>bb</var> \\ <var>cc</var> & <var>dd</var> \\ <var>ee</var> & <var>ff</var> \end{array}\right]}</code> </p>
 				</div>
             </div>
         </div>
@@ -79,7 +79,7 @@
             <p>Matrix <strong>B</strong> is defined as: <code> \left[ \begin{array}{ccr} <var>g</var> & <var>h</var> & <var>i</var> \\ <var>j</var> & <var>k</var> & <var>l</var> \end{array} \right]</code></p>
             <p>Matrix <strong>C</strong> is the sum of matrix <strong>A</strong> and matrix <strong>B</strong>. What is matrix <strong>C</strong>?</p>
             <div class="solution" data-type="multiple">
-                <p>Matrix <strong>C</strong> =<span class="sol"><var>aa</var></span> <span class="sol"><var>bb</var></span> <span class="sol"><var>cc</var></span> </p>
+                <p>Matrix <strong>C</strong> = <span class="sol"><var>aa</var></span> <span class="sol"><var>bb</var></span> <span class="sol"><var>cc</var></span> </p>
 				<p> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <span class="sol"><var>dd</var></span> <span class="sol"><var>ee</var></span> <span class="sol"><var>ff</var></span> 
             </div>
             <div class="hints">
@@ -88,15 +88,15 @@
                 </div>
 				<div>
 					<p>For example, the first row, first column of matrix <strong>C</strong> is found by adding together the first row, first column of matrix <strong>A</strong> and the first row, first column of matrix <strong>B</strong></p>
-					<p> <code> <var>a</var> + <var>g</var> = <var>aa</var> </code> </p>
+					<p><code>\color{<var>BLUE</var>}{<var>a</var> + <var>g</var> = <var>aa</var>}</code></p>
 				</div>
 				<div>
 					<p>Continue adding together all the corresponding items. </p>
-					<p><code> \left[ \begin{array}{ccr} <var>a</var> + <var>g</var> & <var>b</var> + <var>h</var> & <var>c</var> + <var>i</var> \\ <var>d</var> + <var>j</var> & <var>e</var> + <var>k</var> & <var>f</var> + <var>l</var>  \end{array} \right] </code></p>
+					<p><code class="hint_green">\left[ \begin{array}{ccr} <var>a</var> + <var>g</var> & <var>b</var> + <var>h</var> & <var>c</var> + <var>i</var> \\ <var>d</var> + <var>j</var> & <var>e</var> + <var>k</var> & <var>f</var> + <var>l</var>  \end{array} \right] </code></p>
 				</div>
 				<div>
 					<p>Simplify.</p>
-					<p><code> \left[ \begin{array}{ccr} <var>aa</var> & <var>bb</var> & <var>cc</var> \\ <var>dd</var> & <var>ee</var> & <var>ff</var> \end{array} \right] </code></p>
+					<p><code>\color{<var>ORANGE</var>}{\left[ \begin{array}{ccr} <var>aa</var> & <var>bb</var> & <var>cc</var> \\ <var>dd</var> & <var>ee</var> & <var>ff</var> \end{array} \right]}</code></p>
 				</div>
             </div>
         </div>
@@ -112,7 +112,7 @@
             <p>Matrix <strong>B</strong> is defined as: <code> \left[ \begin{array}{ccr} <var>g</var> & <var>h</var> \\ <var>i</var> & <var>j</var> \end{array} \right]</code></p>
             <p>Matrix <strong>C</strong> is the sum of matrix <strong>A</strong> and matrix <strong>B</strong>. What is matrix <strong>C</strong>? </p>
             <div class="solution" data-type="multiple">
-                <p>Matrix <strong>C</strong> =<span class="sol"><var>aa</var></span> <span class="sol"><var>bb</var></span></p>
+                <p>Matrix <strong>C</strong> = <span class="sol"><var>aa</var></span> <span class="sol"><var>bb</var></span></p>
 				<p> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <span class="sol"><var>cc</var></span> <span class="sol"><var>dd</var></span>
             </div>
             <div class="hints">
@@ -121,15 +121,15 @@
                 </div>
 				<div>
 					<p>For example, the first row, first column of matrix <strong>C</strong> is found by adding together the first row, first column of matrix <strong>A</strong> and the first row, first column of matrix <strong>B</strong></p>
-					<p> <code> <var>a</var> + <var>g</var> = <var>aa</var> </code> </p>
+					<p><code>\color{<var>ORANGE</var>}{<var>a</var> + <var>g</var> = <var>aa</var>}</code></p>
 				</div>
 				<div>
 					<p>Continue adding together all the corresponding items.</p>
-					<p><code> \left[ \begin{array}{ccr} <var>a</var> + <var>g</var> & <var>b</var> + <var>h</var> \\ <var>c</var> + <var>i</var> & <var>d</var> + <var>j</var> \end{array} \right] </code></p>
+					<p><code>\color{<var>BLUE</var>}{\left[ \begin{array}{ccr} <var>a</var> + <var>g</var> & <var>b</var> + <var>h</var> \\ <var>c</var> + <var>i</var> & <var>d</var> + <var>j</var> \end{array} \right]}</code></p>
 				</div>
 				<div>
 					<p>Simplify.</p>
-					<p><code> \left[ \begin{array}{ccr} <var>aa</var> & <var>bb</var> \\ <var>cc</var> & <var>dd</var> \end{array} \right] </code></p>
+					<p><code class="hint_green">\left[ \begin{array}{ccr} <var>aa</var> & <var>bb</var> \\ <var>cc</var> & <var>dd</var> \end{array} \right] </code></p>
 				</div>
             </div>
         </div>
