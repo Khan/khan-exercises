@@ -51,7 +51,7 @@ var numHints;
 // it is not at the minimum depth
 var givenProbability;
 
-function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb) {
+function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb) {
     userProofDone = false;
 
     knownEqualities = {};
@@ -139,7 +139,8 @@ function initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altInt
     // if an equality was picked that cannot be proved from anything else in the figure, just start over
     if(finishedEqualities[finalRelation] == "Given"){
         console.log(finalRelation + " is kaput");
-        initTriangleCongruence(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb);
+        initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb);
+        return;
     }
 
     // prune givens for any statements implied by other statements
@@ -353,6 +354,7 @@ function nextStatementHint(){
 
 // return the entire proof generated, formatted to look all pretty and etc.
 function outputProof(){
+    console.log("in output proof case");
     var proofText = "";
 
     var finishedKeys = _.keys(finishedEqualities);
@@ -362,9 +364,9 @@ function outputProof(){
     for(var i=0; i<finishedKeys.length; i+=2){
         if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same"){
             proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
-            proofText += prettifyEquality(finishedKeys[i]) + "</div>";
+            proofText += prettifyEquality(finishedKeys[i]);
             possibleValids.push(prettifyEquality(finishedKeys[i]));
-            proofText += " :: " + finishedEqualities[finishedKeys[i]] + "<br>";
+            proofText += " because " + finishedEqualities[finishedKeys[i]] + "</div>" + "<br>";
         }
 
     }
@@ -378,7 +380,7 @@ function outputProof(){
 // 2 options: just change the last statement to something wrong, start with the givens and start
 // adding statements you can derive, throwing in one you can't derive, then put in the last statement
 function subvertProof(){
-
+    console.log("in subvert proof case");
     var validStatements = 0;
     var invalidStatements = 0;
     var valid = null;
@@ -441,7 +443,7 @@ function subvertProof(){
         }
         count++;
     }
-
+    console.log("1");
     var invalid;
     // now pick an invalid statement
     while(invalidStatements<1){
@@ -492,7 +494,7 @@ function subvertProof(){
             }
         }
     }
-
+    console.log("2");
     count = 0;
     while(validStatements<4 && count<100){
         //pick two things to be equal
@@ -538,8 +540,7 @@ function subvertProof(){
         }
         count++;
     }
-
-
+    console.log("3");
     // now construct the proof we want to hand to the exercise
     var proofText = "";
 
@@ -548,21 +549,38 @@ function subvertProof(){
 
     for(var i=0; i<knownKeys.length; i+=2){
         if(knownEqualities[knownKeys[i]].substring(0,4) != "Same"){
+            console.log(knownKeys[i] + "1");
+            proofText += "<div class=\"" + divName(knownKeys[i]) + "\">";
+            console.log(knownKeys[i] + "2");
             proofText += prettifyEquality(knownKeys[i]);
-
-            proofText += " :: " + knownEqualities[knownKeys[i]] + "<br>";
+            proofText += " because " + knownEqualities[knownKeys[i]] + "</div>" + "<br>";
         }
 
     }
+    console.log("4");
 
+    proofText += "<div class=\"" + divName(finalRelation.toString()) + "\">";
     proofText += prettifyEquality(finalRelation);
-    proofText += " :: " + finishedEqualities[finalRelation];
+    proofText += " because " + finishedEqualities[finalRelation] + "</div>" + "<br>";
+
+    console.log("valid = "+ valid + ", invalid = " + invalid);
+    console.log("5");
 
     if(valid==null){
         return [proofText,prettifyEquality(invalid),valid];
     }
 
     return [proofText,prettifyEquality(invalid),prettifyEquality(valid)];
+    // var triangle1 = _.find(TRIANGLES, function(triang){
+    //         return _.difference(equalityString.substring(0,11).split(""), triang.toString().split("")).length == 0;
+    // });
+
+    // var triangle2 = _.find(TRIANGLES, function(triang){
+    //     return _.difference(equalityString.substring(12,23).split(""), triang.toString().split("")).length == 0;
+    // });
+
+    // console.log(triangle1);
+    // console.log(triangle2);
 
 }
 
@@ -1638,12 +1656,7 @@ function prettifyEquality(equality){
 }
 
 function divName(equalityString){
-    var equality1 = _.find(TRIANGLES, function(t){
-        return t.toString() == equalityString.substring(0,11);
-    });
-    var equality2 = _.find(TRIANGLES, function(t){
-        return t.toString() == equalityString.substring(12,23);
-    });
+    console.log("calling divName with " + equalityString);
     if(equalityString[0] == "s"){
         return equalityString.substring(3,5) + "-" + equalityString.substring(9,11);
     }
@@ -1651,9 +1664,21 @@ function divName(equalityString){
         return equalityString.substring(3,6) + "-" + equalityString.substring(10,13);
     }
     else{
-        return equality1.segs[0].toString().substring(3,5) + "-" + equality1.segs[1].toString().substring(3,5) + "-" 
-        + equality1.segs[2].toString().substring(3,5) + "-" + equality2.segs[0].toString().substring(3,5) + "-" 
-        + equality2.segs[1].toString().substring(3,5) + "-" + equality2.segs[2].toString().substring(3,5);
+        console.log("in triangle divName case");
+        var triangle1 = _.find(TRIANGLES, function(triang){
+            return _.difference(equalityString.substring(0,11).split(""), triang.toString().split("")).length == 0;
+        });
+
+        var triangle2 = _.find(TRIANGLES, function(triang){
+            return _.difference(equalityString.substring(12,23).split(""), triang.toString().split("")).length == 0;
+        });
+
+        console.log(triangle1);
+        console.log(triangle2);
+        
+        return triangle1.segs[0].toString().substring(3,5) + "-" + triangle1.segs[1].toString().substring(3,5) + "-" 
+        + triangle1.segs[2].toString().substring(3,5) + "-" + triangle2.segs[0].toString().substring(3,5) + "-" 
+        + triangle2.segs[1].toString().substring(3,5) + "-" + triangle2.segs[2].toString().substring(3,5);
     }
 }
 
