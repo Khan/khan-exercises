@@ -211,7 +211,12 @@
 
                 <var id="SOLUTION">["If", ["I", 1], [EVENT_V, 1], [EVENT_N, 1], "then", ["I", 2],  [CONC_V, 2], [CONC_N, 2]]</var>
 
-                <var id="STATEMENT_LIST">[["I will ", 2], [CONC_V, 2], " ", [CONC_N, 2], " when ", ["I ", 1], [EVENT_V, 1], " ", [EVENT_N, 1], "."]</var>
+                <var id="STATEMENT_LIST">
+                    randFromArray([
+                        [["I will ", 2], [CONC_V, 2], " ", [CONC_N, 2], " when ", ["I ", 1], [EVENT_V, 1], " ", [EVENT_N, 1], "."],
+                        ["When ", ["I ", 1], [EVENT_V, 1], " ", [EVENT_N, 1], [", I will ", 2], [CONC_V, 2], " ", [CONC_N, 2], "."],
+                    ])
+                </var>
                 <var id="STATEMENT">_.map(STATEMENT_LIST, makeStatement).join("")</var>
             </div>
             <div class="hints">
