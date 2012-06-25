@@ -1,0 +1,22 @@
+#problem-and-answer {
+    margin-left: 80px;
+    padding: 20px;
+    width: 864px;
+    background-color: #f8f8f8;
+}
+
+#workarea {
+    width: 514px;
+}
+
+body.debug #workarea {
+    outline: 1px dashed #ddd;
+}
+
+#hintsarea {
+    width: 494px;
+}
+
+body.debug #hintsarea {
+    outline: 1px dashed #ddd;
+}
