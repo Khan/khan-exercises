@@ -207,28 +207,35 @@
                     for(var angle2 in graph.congruency.angles){
                         $(function(){
                             var $statement = $("."+angle+"-"+angle2);
-                            console.log("."+angle+"-"+angle2);
                             var firstAngle = graph.congruency.angles[angle];
                             var secondAngle = graph.congruency.angles[angle2];
-                            if(angle === "CED"){
-                                console.log(firstAngle);
-                            }
 
                             if($statement.length > 0){
                                 $statement.bind("vmouseover", function(event) {
+                                    var firstState = firstAngle.state;
+                                    var secondState = secondAngle.state;
+
                                     firstAngle.styleSet({
                                         stroke: ORANGE,
+                                        "stroke-width": 3
+                                    });
+                                    secondAngle.styleSet({
+                                        stroke: BLUE,
                                         "stroke-width": 3
                                     });
                                     firstAngle.set(1);
                                     secondAngle.set(1);
                                     $(this).bind("vmouseout", function(event) {
                                         firstAngle.styleSet({
-                                            stroke: BLUE,
+                                            stroke: "black",
                                             "stroke-width": 2
                                         });
-                                        firstAngle.set(0);
-                                        secondAngle.set(0);
+                                        secondAngle.styleSet({
+                                            stroke: "black",
+                                            "stroke-width": 2
+                                        });
+                                        firstAngle.set(firstState);
+                                        secondAngle.set(secondState);
                                     });
                                 });
                             }
@@ -348,32 +355,7 @@
                 }
 
 
-                $(".hover").bind("vmouseover", function(event) {
-                    graph.congruency.angles["CED"].normalStyle({
-                        stroke: ORANGE,
-                        "stroke-width": 3
-                    });
-                    $(this).bind("vmouseout", function(event) {
-                        graph.congruency.angles["CED"].normalStyle({
-                            stroke: "black",
-                            "stroke-width": 2
-                        });
-                    });
-                });
-                <!-- $(".hover2").bind("vmouseover", function(event) {
-                    graph.congruency.lines["AC"].normalStyle({
-                        stroke: ORANGE,
-                        "stroke-width": 3
-                    });
-                    $(this).bind("vmouseout", function(event) {
-                        graph.congruency.lines["AC"].normalStyle({
-                            stroke: "black",
-                            "stroke-width": 2
-                        });
-                    });
-                }); -->
             </div>
-            <div class="hover"> asdflkdsfj </div>
         </div>
 
         <div class="problems">

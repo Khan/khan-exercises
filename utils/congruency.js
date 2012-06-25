@@ -315,12 +315,12 @@ $.extend(KhanUtil, {
                     opacity: 0.4
                 };
                 arc.setNormal = {
-                    stroke: KhanUtil.BLUE,
+                    stroke: "black",
                     "stroke-width": 3,
                     opacity: 0.9
                 };
                 arc.setHighlight = {
-                    stroke: KhanUtil.BLUE,
+                    stroke: "black",
                     "stroke-width": 3,
                     opacity: 1.0
                 };
