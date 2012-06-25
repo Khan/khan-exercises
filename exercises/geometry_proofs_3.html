@@ -62,7 +62,7 @@
 
             <var id="TRIANGLES">[ADE, ABC, BCD, CDE]</var>
 
-            <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 3, 0.1)</var>
+            <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 3, 0.1, "all")</var>
             <var id="KNOWN">STATEMENTS[0]</var>
             <var id="FINISHED">STATEMENTS[1]</var>
 
@@ -79,7 +79,7 @@
         </div>
 
         <div class="problem">
-            <p>What's the first wrong statement in the proof below?</p>
+            <p>What's the first wrong statement in the proof below? Remember that a statement shouldn't appear in a proof unless it's both true and justified by the statement before it.</p>
             <div class="graphie" id="number-line">
                 init({
                     range: [[-5, 5], [-5, 5]],

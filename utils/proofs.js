@@ -51,7 +51,7 @@ var numHints;
 // it is not at the minimum depth
 var givenProbability;
 
-function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb) {
+function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb, toProveType) {
     userProofDone = false;
 
     knownEqualities = {};
@@ -94,7 +94,12 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
     // populates finishedEqualities with a proof traced back from the statement to be proven
     var equalityType;
     while(true){
-        equalityType = KhanUtil.randFromArray(["triangle", "angle", "segment"]);
+        if(toProveType == "all"){
+            equalityType = KhanUtil.randFromArray(["triangle", "angle", "segment"]);
+        }
+        else{
+            equalityType = toProveType;
+        }
         if(equalityType == "triangle"){
             // pick some triangles to be congruent, this will be the statement to be proven
             var indices = KhanUtil.randRangeUnique(0, TRIANGLES.length, 2);
@@ -310,9 +315,9 @@ function nextStatementHint(){
 
             var useToProve = checkTriangleForHint(triangle1, triangle2);
             if(useToProve.length > 0){
-                return "You know that " + useToProve[0][0] + "=" + useToProve[0][1] 
-                + ", " + useToProve[1][0] + "=" + useToProve[1][1] 
-                + ", and " + useToProve[2][0] + "=" + useToProve[2][1] + ". What can you prove from this?";
+                return "You know that " + prettifyEquality(useToProve[0][0] + "," + useToProve[0][1]) 
+                + ", " + prettifyEquality(useToProve[1][0] + "," + useToProve[1][1]) 
+                + ", and " + prettifyEquality(useToProve[2][0] + "," + useToProve[2][1]) + ". What can you prove from this?";
             }
         }
 
@@ -326,7 +331,7 @@ function nextStatementHint(){
 
             var useToProve = checkSegForHint(seg1, seg2);
             if(useToProve.length > 0){
-                return "You know that " + useToProve[0] + "=" + useToProve[1] + ". What segments can you prove equal from this?";
+                return "You know that " + prettifyEquality(useToProve[0] + "," + useToProve[1]) + ". What segments can you prove equal from this?";
             }
         }
 
@@ -341,7 +346,7 @@ function nextStatementHint(){
 
             var useToProve = checkAngForHint(ang1, ang2);
             if(useToProve.length > 0 && useToProve[0] instanceof Triang){
-                return "You know that " + useToProve[0] + "=" + useToProve[1] + ". What angles can you prove equal from this?";
+                return "You know that " + prettifyEquality(useToProve[0] + "," + useToProve[1]) + ". What angles can you prove equal from this?";
             }
             else if(useToProve.length > 0){
                 return "Try using " + useToProve + " to prove some useful pair of angles equal.";
@@ -571,16 +576,6 @@ function subvertProof(){
     }
 
     return [proofText,prettifyEquality(invalid),prettifyEquality(valid)];
-    // var triangle1 = _.find(TRIANGLES, function(triang){
-    //         return _.difference(equalityString.substring(0,11).split(""), triang.toString().split("")).length == 0;
-    // });
-
-    // var triangle2 = _.find(TRIANGLES, function(triang){
-    //     return _.difference(equalityString.substring(12,23).split(""), triang.toString().split("")).length == 0;
-    // });
-
-    // console.log(triangle1);
-    // console.log(triangle2);
 
 }
 

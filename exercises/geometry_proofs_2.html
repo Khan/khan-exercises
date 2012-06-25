@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs">
+<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs congruency">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Geometry Proofs 2</title>
@@ -343,7 +343,7 @@
 
                     <var id="TRIANGLES">[BAD, CAD]</var>
 
-                    <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 2, 0.25)</var>
+                    <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 2, 0.25, "triangle")</var>
                     <var id="KNOWN">STATEMENTS[0]</var>
                     <var id="FINISHED">STATEMENTS[1]</var>
 
@@ -359,12 +359,60 @@
                 <div class="problem">
                     <div class="graphie">
                         init({
-                            range: [[-10, 10], [-10, 10]],
-                            scale: 20
+                            range: [[-5, 5], [-5, 5]],
+                            scale: 40
                         });
+                        addMouseLayer();
                         
+                        graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
+
+                        graph.congruency.addPoint("A", [0, 3]);
+                        graph.congruency.addPoint("B", [-4, 0]);
+                        graph.congruency.addPoint("C", [4, 0]);
+                        graph.congruency.addPoint("D", [0, -3]);
+
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "B",
+                            clickable: true,
+                            max: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "B",
+                            end: "D",
+                            clickable: true,
+                            max: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "D",
+                            clickable: true,
+                            max: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "C",
+                            clickable: true,
+                            max: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "D",
+                            clickable: true,
+                            max: 3
+                        });
+
+                        graph.congruency.addAngles("A");
+                        graph.congruency.addAngles("B");
+                        graph.congruency.addAngles("C");
+                        graph.congruency.addAngles("D");
                         
-                        line(A, B);
+                        graph.congruency.addLabel("A", "above");
+                        graph.congruency.addLabel("B", "left");
+                        graph.congruency.addLabel("C", "right");
+                        graph.congruency.addLabel("D", "below");
+
+                        <!-- line(A, B);
                         line(A, C);
                         line(B, D);
                         line(C, D);
@@ -378,7 +426,7 @@
                         label(A, "A", "above");
                         label(B, "B", "left");
                         label(C, "C", "right");
-                        label(D, "D", "below");
+                        label(D, "D", "below"); -->
 
 
                     </div>
@@ -411,7 +459,7 @@
                 <div class="hints">
                     <p>You only have two equalities, but you need three to prove two triangles congruent... What other fact about these two triangles can you use?</p>
                     <p> The triangles have a shared side: <code> \overline{AD} </code> is the same length in <code> \bigtriangleup BAD</code> as it is in <code> \bigtriangleup CAD.</code></p>
-                    <p> The triangles are congruent by 
+                    <p><var>nextStatementHint()</var></p>
                 </div>
             </div>
         </div>
