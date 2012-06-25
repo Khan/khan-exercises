@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems">
+<html data-require="math graphie graphie-geometry word-problems interactive subhints">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Area of squares and rectangles</title>
+    <title>Area 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -17,29 +17,30 @@
         ])</var>
     </div>
     <div class="problems">
-        <div id="square-find-area">
+        <div id="square" data-weight="1">
             <div class="vars">
-                <var id="S">randRange(2, 8)</var>
+                <var id="S">randRange(2, 9)</var>
             </div>
 
             <p class="question">
-                One side of a square is <code><var>S</var></code>
-                <var>plural(UNIT_TEXT, S)</var> long. What is its area?
+                What is the area of the square?
             </p>
-
-            <div class="solution" data-type="multiple">
-                <span class="sol"><var>S * S</var></span> square
-                <var>plural(UNIT_TEXT)</var>
-            </div>
-
-            <div class="hints">
+            <div class="problem">
                 <div class="graphie" id="area">
-                    init({ range: [[-1, S + 1], [-1, S + 1]], scale: 30});
-                    path([[0, 0], [S, 0], [S, S], [0, S], true],
-                        { stroke: BLUE, fill: "#eee" });
+                    init({ range: [[-2, S + 1], [-1, S + 1]], scale: 30 });
+                    path([[0, 0], [0, S], [S, S], [S, 0], true],
+                        {stroke: BLUE, fill: "#eee"});
                     label([S / 2, S], S + "\\text{ " + UNIT + "}", "above");
                     label([0, S / 2], S + "\\text{ " + UNIT + "}", "left");
                 </div>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol"><var>S * S</var></span>
+                square <var>plural(UNIT_TEXT)</var>
+            </div>
+
+            <div class="hints">
                 <p>
                     The area is the length times the width.
                 </p>
@@ -66,7 +67,7 @@
                 <div>
                     <p><code>
                         \qquad\text{area} = <var>S</var> \times <var>S</var>
-                        = <var>S * S</var>
+                        = <var>S*S</var>
                     </code></p>
                     <p>
                         We can also count <var>S * S</var>
@@ -83,88 +84,32 @@
             </div>
         </div>
 
-        <div id="square-find-side">
-            <div class="vars">
-                <var id="S">randRange(2, 8)</var>
-            </div>
-
-            <p class="question">
-                The area of a square is <code><var>S * S</var></code>
-                square <var>plural(UNIT_TEXT)</var>. How long is each side?
-            </p>
-
-            <div class="solution" data-type="multiple">
-                <span class="sol"><var>S</var></span>
-                <var>plural(UNIT_TEXT)</var>
-            </div>
-
-            <div class="hints">
-                <div>
-                    <div class="graphie" id="square">
-                        init({ range: [[-1, 6], [-1, 6]] });
-                        path([[0, 0], [5, 0], [5, 5], [0, 5], true],
-                            { stroke: BLUE, fill: "#eee" });
-                        label([2.5, 5], "\\text{? " + UNIT + "}", "above",
-                            { "color": PINK });
-                        label([0, 2.5], "\\text{? " + UNIT + "}", "left",
-                            { "color": PINK });
-                    </div>
-                </div>
-                <div>
-                    <div class="graphie" data-update="square">
-                        path([[0, 0], [0, 5]],
-                            { strokeWidth: 4, stroke: PINK });
-                        path([[0, 5], [5, 5]],
-                            { strokeWidth: 4, stroke: PINK });
-                    </div>
-                    <p>
-                        The area is the length times the width.
-                    </p>
-                    <p><code>\qquad \pink{\text{?}} \times \pink{\text{?}} =
-                        <var>S * S</var>\text{ <var>UNIT</var>}
-                    </code></p>
-                </div>
-                <div>
-                    <p><code>\qquad \pink{<var>S</var>} \times
-                        \pink{<var>S</var>} =
-                        <var>S * S</var>\text{ <var>UNIT</var>}
-                    </code></p>
-                    <p>
-                        The sides of a square are all the same length, so each
-                        side must be <code><var>S</var></code>
-                        <var>plural(UNIT_TEXT, S)</var> long.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div id="rectangle">
+        <div id="rectangle" data-weight="1">
             <div class="vars" data-ensure="L !== W">
                 <var id="L">randRange(2, 9)</var>
                 <var id="W">randRange(2, 9)</var>
             </div>
 
             <p class="question">
-                A rectangle is
-                <code><var>L</var></code> <var>plural(UNIT_TEXT, L)</var>
-                long and
-                <code><var>W</var></code> <var>plural(UNIT_TEXT, W)</var>
-                wide. What is its area?
+                What is the area of the rectangle?
             </p>
 
+            <div class="problem">
+                <div class="graphie" id="area">
+                    init({ range: [[-2, L + 1], [-1, W + 1]], scale: 30 });
+                    path([[0, 0], [0, W], [L, W], [L, 0], true],
+                        {stroke: BLUE, fill: "#eee"});
+                    label([L / 2, W], L + "\\text{ " + UNIT + "}", "above");
+                    label([0, W / 2], W + "\\text{ " + UNIT + "}", "left");
+                </div>
+            </div>
+
             <div class="solution" data-type="multiple">
-                <span class="sol"><var>L * W</var></span> square
-                <var>plural(UNIT_TEXT)</var>
+                <span class="sol"><var>L * W</var></span>
+                square <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
-                <div class="graphie" id="area">
-                    init({ range: [[-1, L + 1], [-1, W + 1]], scale: 30 });
-                    path([[0, 0], [L, 0], [L, W], [0, W], true],
-                        { stroke: BLUE, fill: "#eee" });
-                    label([L / 2, W], L + "\\text{ " + UNIT + "}", "above");
-                    label([L, W / 2], W + "\\text{ " + UNIT + "}", "right");
-                </div>
                 <p>
                     The area is the length times the width.
                 </p>
@@ -174,7 +119,7 @@
                             stroke: GRAY,
                             strokeWidth: 1,
                             strokeDasharray: "-"
-                        },function() {
+                        }, function() {
                             _(L - 1).times(function(x) {
                                 path([[x + 61 / 60, 0], [x + 61 / 60, W]]);
                             });
@@ -209,6 +154,68 @@
                 </div>
             </div>
         </div>
+
+        <div id="odd-shape" data-weight="1">
+            <div class="vars">
+                <var id="WIDTH">randRange(5, 10)</var>
+                <var id="HEIGHT">randRange(5, 10)</var>
+                <var id="SHAPE" data-ensure="
+                    SHAPE.numSides > 4 &&
+                    SHAPE.area < 15">createOddShape({
+                        width: WIDTH,
+                        height: HEIGHT
+                    })
+                </var>
+            </div>
+
+            <p class="question">
+                What is the area of the shape? Each square in the grid is a
+                <code>1 \times 1</code> <var>UNIT_TEXT</var> square.
+            </p>
+
+            <div class="problem">
+                <div class="graphie" id="area">
+                    init({ range: [[-1, WIDTH + 1], [-1, HEIGHT + 1]] });
+                    var shape = [];
+
+                    _(WIDTH + 1).times(function(i) {
+                        line([i, 0], [i, HEIGHT], { "stroke-width": 1,
+                            stroke: "#bbb" });
+                    });
+                    _(HEIGHT + 1).times(function(i) {
+                        line([0, i], [WIDTH, i], { "stroke-width": 1,
+                            stroke: "#bbb" });
+                    });
+
+                    _.each(SHAPE.sides, function(side) {
+                        path([side.start, side.end], {stroke: BLUE});
+                    });
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol"><var>SHAPE.area</var></span>
+                square <var>plural(UNIT_TEXT)</var>
+            </div>
+
+            <div class="hints">
+                <p>
+                    The area is the number of <code>1 \times 1</code> squares
+                    the shape covers.
+                </p>
+                <div>
+                    <div class="graphie" data-update="area">
+                        SHAPE.labelSquares();
+                    </div>
+                    <p>Count the number of squares covered.</p>
+                </div>
+                <p>
+                    The area is <code><var>SHAPE.area</var></code> square
+                    <var>plural(UNIT_TEXT)</var>.
+                </p>
+            </div>
+        </div>
+
     </div>
 </div>
 </body>
