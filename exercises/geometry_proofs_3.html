@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs">
+<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs congruency">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Geometry Proofs 1</title>
+    <title>Geometry Proofs 3</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -80,7 +80,7 @@
 
             <var id="TRIANGLES">[ABC, BCE, ECD, DCA, ABE, ADE, BED, BAD]</var>
 
-            <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, PARALLEL_SEGS, 2, 0.25, "all")</var>
+            <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, PARALLEL_SEGS, 3, 0.25, "all")</var>
             <var id="KNOWN">STATEMENTS[0]</var>
             <var id="FINISHED">STATEMENTS[1]</var>
 
@@ -89,32 +89,83 @@
         </div>
 
         <div class="problem">
-            <p> You are given <var> KNOWN </var>, that <code> \overline{AB} </code> is parallel to <code> \overline{DE} </code>, and that <code> \overline{AD} </code> is parallel to <code> \overline{BE} </code>. Prove <var> FINISHED </var>. </p>
+            <p> Fill in the blanks in this proof that <var> FINISHED </var>. </p>
             <div class="graphie">
                 init({
-                    range: [[-10, 10], [-10, 10]],
-                    scale: 20
+                    range: [[-5, 5], [-5, 5]],
+                    scale: 40
                 });
-                
-                
-                line(A, E);
-                line(A, D);
-                line(D, E);
-                line(B, D);
-                line(A, B);
-                line(B, E);
+                addMouseLayer();
 
-                circle(A, DOT_ATTRS);
-                circle(B, DOT_ATTRS);
-                circle(C, DOT_ATTRS);
-                circle(D, DOT_ATTRS);
-                circle(E, DOT_ATTRS);
+                graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
 
-                label(A, "A", "left");
-                label(B, "B", "right");
-                label(C, "C", "right");
-                label(D, "D", "left");
-                label(E, "E", "right");
+                graph.congruency.addPoint("A", [-4, 4]);
+                graph.congruency.addPoint("B", [3, 4]);
+                graph.congruency.addPoint("C", [0, 0]);
+                graph.congruency.addPoint("D", [-3, -4]);
+                graph.congruency.addPoint("E", [4, -4]);
+
+                graph.congruency.addLine({
+                    start: "A",
+                    end: "B",
+                    clickable: true,
+                    max: 3
+                });
+                graph.congruency.addLine({
+                    start: "A",
+                    end: "C",
+                    clickable: true,
+                    max: 3
+                });
+                graph.congruency.addLine({
+                    start: "A",
+                    end: "D",
+                    clickable: true,
+                    max: 3
+                });
+                graph.congruency.addLine({
+                    start: "A",
+                    end: "E",
+                    clickable: true,
+                    max: 3
+                });
+                graph.congruency.addLine({
+                    start: "B",
+                    end: "C",
+                    clickable: true,
+                    max: 3
+                });
+                graph.congruency.addLine({
+                    start: "B",
+                    end: "D",
+                    clickable: true,
+                    max: 3
+                });
+                graph.congruency.addLine({
+                    start: "E",
+                    end: "B",
+                    clickable: true,
+                    max: 3
+                });
+                graph.congruency.addLine({
+                    start: "E",
+                    end: "D",
+                    clickable: true,
+                    max: 3
+                });
+
+                graph.congruency.addAngles("A");
+                graph.congruency.addAngles("B");
+                graph.congruency.addAngles("C");
+                graph.congruency.addAngles("D");
+                graph.congruency.addAngles("E");
+
+
+                graph.congruency.addLabel("A", "left");
+                graph.congruency.addLabel("B", "right");
+                graph.congruency.addLabel("C", "right");
+                graph.congruency.addLabel("D", "left");
+                graph.congruency.addLabel("E", "right");
 
             </div>
         </div>

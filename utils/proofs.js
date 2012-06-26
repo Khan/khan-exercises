@@ -143,10 +143,11 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
 
     // if an equality was picked that cannot be proved from anything else in the figure,
     // or the proof is too short, just start over
-    if(finishedEqualities[finalRelation] == "Given" || _.keys(finishedEqualities).length < 3){
+    // TODO: replace the provetype == all shortcut
+    if(finishedEqualities[finalRelation] == "Given" 
+        || (_.keys(finishedEqualities).length < 5 + SEGMENTS.length + ANGLES.length + TRIANGLES.length && toProveType == "all")){
         console.log(finalRelation + " is kaput");
-        initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb);
-        return;
+        return initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb, toProveType);
     }
 
     // prune givens for any statements implied by other statements
@@ -190,6 +191,7 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
     // $(".statements").html(newHTML);
 
     console.log(finalRelation);
+    console.log(newHTML);
 
     return [newHTML, prettifyEquality(finalRelation)];
 
@@ -1691,7 +1693,6 @@ function divName(equalityString){
         return equalityString.substring(3,6) + "-" + equalityString.substring(10,13);
     }
     else{
-        console.log("in triangle divName case");
         var triangle1 = _.find(TRIANGLES, function(triang){
             return _.difference(equalityString.substring(0,11).split(""), triang.toString().split("")).length == 0;
         });
@@ -1699,9 +1700,6 @@ function divName(equalityString){
         var triangle2 = _.find(TRIANGLES, function(triang){
             return _.difference(equalityString.substring(12,23).split(""), triang.toString().split("")).length == 0;
         });
-
-        console.log(triangle1);
-        console.log(triangle2);
         
         return triangle1.segs[0].toString().substring(3,5) + "-" + triangle1.segs[1].toString().substring(3,5) + "-" 
         + triangle1.segs[2].toString().substring(3,5) + "-" + triangle2.segs[0].toString().substring(3,5) + "-" 
