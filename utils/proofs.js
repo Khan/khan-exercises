@@ -141,8 +141,9 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
         }
     }
 
-    // if an equality was picked that cannot be proved from anything else in the figure, just start over
-    if(finishedEqualities[finalRelation] == "Given"){
+    // if an equality was picked that cannot be proved from anything else in the figure,
+    // or the proof is too short, just start over
+    if(finishedEqualities[finalRelation] == "Given" || _.keys(finishedEqualities).length < 3){
         console.log(finalRelation + " is kaput");
         initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb);
         return;
@@ -190,101 +191,115 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
 
     console.log(finalRelation);
 
-    return [newHTML, finalRelation];
+    return [newHTML, prettifyEquality(finalRelation)];
 
 }
 
 // use knownequalities to see if the statement follows, if it does, update knownequalities
+// return true if statement is derivable and has been added to knownEqualities, and the proof
+// isn't already done
 function verifyStatement(){
     var statement = $(".statement").val();
     var reason = $(".justification").val();
     var category = $(".statement_type").val();
 
-    verifyStatementArgs(statement, reason, category);
+    return verifyStatementArgs(statement, reason, category);
 }
 
 function verifyStatementArgs(statement, reason, category){
-    if(!userProofDone){
-        if(category == "triangle congruence"){
-            var triangleStrings = statement.split("=");
-
-            var triangle1 = _.find(TRIANGLES, function(triang){
-                for(var i=0; i<3; i++){
-                    if(triang.segs[0].equals(new Seg(triangleStrings[0][i], triangleStrings[0][(i+1) % 3]))
-                        && triang.segs[1].equals(new Seg(triangleStrings[0][(i+1) % 3], triangleStrings[0][(i+2) % 3]))
-                        && triang.segs[2].equals(new Seg(triangleStrings[0][(i+2) % 3], triangleStrings[0][i]))){
-                        return true;
-                    }
-                }
-                return false;
-            });
-
-            var triangle2 = _.find(TRIANGLES, function(triang){
-                for(var i=0; i<3; i++){
-                    if(triang.segs[0].equals(new Seg(triangleStrings[1][i], triangleStrings[1][(i+1) % 3]))
-                        && triang.segs[1].equals(new Seg(triangleStrings[1][(i+1) % 3], triangleStrings[1][(i+2) % 3]))
-                        && triang.segs[2].equals(new Seg(triangleStrings[1][(i+2) % 3], triangleStrings[1][i]))){
-                        return true;
-                    }
-                }
-                return false;
-            });
-
-            console.log(checkTriangleCongruent(triangle1, triangle2, reason));
-        }
-
-        else if(category == "angle equality"){
-            var angleStrings = statement.split("=");
-
-            // look for these angles in the list of known angles
-            var ang1 = _.find(ANGLES, function(ang){
-                return ang.equals(new Ang(angleStrings[0][0], angleStrings[0][1], angleStrings[0][2]));
-            });
-
-            var ang2 = _.find(ANGLES, function(ang){
-                return ang.equals(new Ang(angleStrings[1][0], angleStrings[1][1], angleStrings[1][2]));
-            });
-
-
-            console.log(checkAngEqual(ang1, ang2, reason));
-        }
-
-        else if(category == "segment equality"){
-            var segmentStrings = statement.split("=");
-
-            // look for these segments in the list of known segments
-            var seg1 = _.find(SEGMENTS, function(seg){
-                return (seg.end1 == segmentStrings[0][0] && seg.end2 == segmentStrings[0][1])
-                    || (seg.end1 == segmentStrings[0][1] && seg.end2 == segmentStrings[0][0]);
-            });
-
-            var seg2 = _.find(SEGMENTS, function(seg){
-                return (seg.end1 == segmentStrings[1][0] && seg.end2 == segmentStrings[1][1])
-                    || (seg.end1 == segmentStrings[1][1] && seg.end2 == segmentStrings[1][0]);
-            });
-
-            console.log(checkSegEqual(seg1, seg2, reason));
-        }
-
-        // now update the list of equalities displayed
-
-        var newHTML = "";
-        for(var eq in knownEqualities){
-            if(knownEqualities[eq].substring(0,4) != "Same"){
-                newHTML = newHTML + eq + " because " + knownEqualities[eq] + "<br>";
-            }
-        }
-
-
-        $(".statements").html(newHTML);
-
-        // check if the proof is done
-        if(eqIn(finalRelation, knownEqualities)){
-            userProofDone = true;
-            console.log("Proof finished");
-        }
-
+    if(userProofDone){
+        return false;
     }
+    var toReturn = false;
+    if(category == "triangle congruence"){
+        var triangleStrings = statement.split("=");
+
+        var triangle1 = _.find(TRIANGLES, function(triang){
+            for(var i=0; i<3; i++){
+                if(triang.segs[0].equals(new Seg(triangleStrings[0][i], triangleStrings[0][(i+1) % 3]))
+                    && triang.segs[1].equals(new Seg(triangleStrings[0][(i+1) % 3], triangleStrings[0][(i+2) % 3]))
+                    && triang.segs[2].equals(new Seg(triangleStrings[0][(i+2) % 3], triangleStrings[0][i]))){
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        var triangle2 = _.find(TRIANGLES, function(triang){
+            for(var i=0; i<3; i++){
+                if(triang.segs[0].equals(new Seg(triangleStrings[1][i], triangleStrings[1][(i+1) % 3]))
+                    && triang.segs[1].equals(new Seg(triangleStrings[1][(i+1) % 3], triangleStrings[1][(i+2) % 3]))
+                    && triang.segs[2].equals(new Seg(triangleStrings[1][(i+2) % 3], triangleStrings[1][i]))){
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        if(triangle1 == null || triangle2 == null){
+            //alert("I don't know what you're talking about, sorry. Make sure you wrote the triangles/angles/segments right.");
+        }
+
+        else{
+            toReturn = checkTriangleCongruent(triangle1, triangle2, reason);
+        }
+    }
+
+    else if(category == "angle equality"){
+        var angleStrings = statement.split("=");
+
+        // look for these angles in the list of known angles
+        var ang1 = _.find(ANGLES, function(ang){
+            return ang.equals(new Ang(angleStrings[0][0], angleStrings[0][1], angleStrings[0][2]));
+        });
+
+        var ang2 = _.find(ANGLES, function(ang){
+            return ang.equals(new Ang(angleStrings[1][0], angleStrings[1][1], angleStrings[1][2]));
+        });
+
+        if(ang1 == null || ang2 == null){
+            //alert("I don't know what you're talking about, sorry. Make sure you wrote the triangles/angles/segments right.")
+        }
+
+        else{
+            toReturn = checkAngEqual(ang1, ang2, reason);
+        }
+    }
+
+    else if(category == "segment equality"){
+        var segmentStrings = statement.split("=");
+
+        // look for these segments in the list of known segments
+        var seg1 = _.find(SEGMENTS, function(seg){
+            return (seg.end1 == segmentStrings[0][0] && seg.end2 == segmentStrings[0][1])
+                || (seg.end1 == segmentStrings[0][1] && seg.end2 == segmentStrings[0][0]);
+        });
+
+        var seg2 = _.find(SEGMENTS, function(seg){
+            return (seg.end1 == segmentStrings[1][0] && seg.end2 == segmentStrings[1][1])
+                || (seg.end1 == segmentStrings[1][1] && seg.end2 == segmentStrings[1][0]);
+        });
+
+        if(seg1 == null || seg2 == null){
+            //alert("I don't know what you're talking about, sorry. Make sure you wrote the triangles/angles/segments right.");
+        }
+
+        else{
+            toReturn = checkSegEqual(seg1, seg2, reason);
+        }
+    }
+
+    // now update the list of equalities displayed
+    $(".statements").html(KhanUtil.cleanMath(outputKnownProof()));
+
+    // check if the proof is done
+    if(eqIn(finalRelation, knownEqualities)){
+        userProofDone = true;
+        console.log("Proof finished");
+    }
+
+    return toReturn;
+
 }
 
 
@@ -357,9 +372,8 @@ function nextStatementHint(){
     return "Sorry, no hint for now >:[";
 }
 
-// return the entire proof generated, formatted to look all pretty and etc.
-function outputProof(){
-    console.log("in output proof case");
+// return the entire finished proof generated, formatted to look all pretty and etc.
+function outputFinishedProof(){
     var proofText = "";
 
     var finishedKeys = _.keys(finishedEqualities);
@@ -381,11 +395,30 @@ function outputProof(){
     return [proofText, possibleValids[indices[0]], possibleValids[indices[1]]];
 }
 
+// return the proof the user has done so far, formatted nicely
+function outputKnownProof(){
+    var proofText = "";
+
+    var knownKeys = _.keys(knownEqualities);
+
+    var possibleValids = [];
+    for(var i=0; i<knownKeys.length; i+=2){
+        if(knownEqualities[knownKeys[i]].substring(0,4) != "Same"){
+            proofText += "<div class=\"" + divName(knownKeys[i]) + "\">";
+            proofText += prettifyEquality(knownKeys[i]);
+            proofText += " because " + knownEqualities[knownKeys[i]] + "</div>" + "<br>";
+        }
+
+    }
+
+    console.log(proofText);
+    return proofText;
+}
+
 // generate a bad proof
 // 2 options: just change the last statement to something wrong, start with the givens and start
 // adding statements you can derive, throwing in one you can't derive, then put in the last statement
 function subvertProof(){
-    console.log("in subvert proof case");
     var validStatements = 0;
     var invalidStatements = 0;
     var valid = null;
@@ -1651,7 +1684,6 @@ function prettifyEquality(equality){
 }
 
 function divName(equalityString){
-    console.log("calling divName with " + equalityString);
     if(equalityString[0] == "s"){
         return equalityString.substring(3,5) + "-" + equalityString.substring(9,11);
     }

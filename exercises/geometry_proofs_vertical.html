@@ -80,7 +80,7 @@
 
             <var id="TRIANGLES">[ABC, BCE, ECD, DCA, ABE, ADE, BED, BAD]</var>
 
-            <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, PARALLEL_SEGS, 2)</var>
+            <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, PARALLEL_SEGS, 2, 0.25, "all")</var>
             <var id="KNOWN">STATEMENTS[0]</var>
             <var id="FINISHED">STATEMENTS[1]</var>
 
@@ -89,6 +89,7 @@
         </div>
 
         <div class="problem">
+            <p> You are given <var> KNOWN </var>, that <code> \overline{AB} </code> is parallel to <code> \overline{DE} </code>, and that <code> \overline{AD} </code> is parallel to <code> \overline{BE} </code>. Prove <var> FINISHED </var>. </p>
             <div class="graphie">
                 init({
                     range: [[-10, 10], [-10, 10]],
@@ -121,7 +122,8 @@
         <div class="problems">
         <div>
             <div class="question">
-                
+            </div>
+            <div class="statements"> <var> outputFinishedProof()[0] </var>
             </div>
             <div class="solution" data-type="custom">
                 <div class="instruction">
