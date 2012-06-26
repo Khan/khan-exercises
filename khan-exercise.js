@@ -715,7 +715,7 @@ var Khan = (function() {
     Khan.loadScripts(scripts, function() {
 
         if (testMode) {
-            Khan.require(["../jquery-ui"]);
+            Khan.require(["../jquery-ui", "../jquery.qtip"]);
         }
 
         // Base modules required for every problem
@@ -1029,7 +1029,7 @@ var Khan = (function() {
 
         // In either of these testing situations,
         } else if ((testMode && Khan.query.test != null) || user == null) {
-            problemSeed = randomSeed;
+            problemSeed = randomSeed % bins;
         }
 
         // Set randomSeed to what problemSeed is (save problemSeed for recall later)
@@ -1686,7 +1686,7 @@ var Khan = (function() {
             }
 
             var links = $("<p>").appendTo(debugWrap);
-            $("<a>Problem permalink</a>")
+            $("<a>Problem permalink (#" + problemSeed + ")</a>")
                 .attr("href", debugURL + "&seed=" + problemSeed)
                 .appendTo(links);
 
@@ -1704,13 +1704,27 @@ var Khan = (function() {
                     .appendTo(links);
             }
 
-            links.append("<br>");
-            links.append("Problem type: ");
+            links.append("<br><b>Problem types:</b><br>");
 
-            $("<a>")
-                .text(problemID)
-                .attr("href", debugURL)
-                .appendTo(links);
+            exercises.children(".problems").children().each(function(n, prob) {
+                var probID = $(prob).attr("id") || n;
+                links.append($("<div>")
+                    .css({
+                        "width": "200px",
+                        "padding-left": "20px",
+                        "outline":
+                            (problemID === probID || problemID === '' + n) ?
+                            "1px dashed gray" : ""
+                    })
+                    .append($("<span>").text(n + ": "))
+                    .append($("<a>")
+                        .text(probID)
+                        .attr("href", window.location.protocol + "//" +
+                            window.location.host + window.location.pathname +
+                            "?debug&problem=" + probID)
+                    ));
+            });
+
 
             if (exercise.data("name") != null) {
                 links.append("<br>");
@@ -2817,8 +2831,9 @@ var Khan = (function() {
 
         function injectTestModeSite(html, htmlExercise) {
             $("body").prepend(html);
-            $("#container").html("<h2 style='padding-left: 20px; margin-left: 80px;'>" +
-                    document.title + "</h2>" + htmlExercise);
+            $("#container .exercises-header h2").append(document.title);
+            $("#container .exercises-body .current-card-contents").html(
+                htmlExercise);
 
             if (Khan.query.layout === "lite") {
                 $("html").addClass("lite");
