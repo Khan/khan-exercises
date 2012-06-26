@@ -1661,6 +1661,13 @@ var Khan = (function() {
         }
 
 
+        if (userExercise == null) {
+            $("#problem-permalink").text("Permalink: "
+                + problemID + " #"
+                + problemSeed)
+                .attr("href", window.location.protocol + "//" + window.location.host + window.location.pathname + "?debug&problem=" + problemID + "&seed=" + problemSeed);
+        }
+
         // Show the debug info
         if (testMode && Khan.query.debug != null) {
             $(document).keypress(function(e) {
@@ -1686,13 +1693,8 @@ var Khan = (function() {
             }
 
             var links = $("<p>").appendTo(debugWrap);
-            $("<a>Problem permalink (#" + problemSeed + ")</a>")
-                .attr("href", debugURL + "&seed=" + problemSeed)
-                .appendTo(links);
-
 
             if (!Khan.query.activity) {
-                links.append("<br>");
                 var historyURL = debugURL + "&seed=" + problemSeed + "&activity=";
                 $("<a>Problem history</a>").attr("href", "javascript:").click(function(event) {
                     window.location.href = historyURL + encodeURIComponent(JSON.stringify(userActivityLog));
