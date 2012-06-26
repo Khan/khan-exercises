@@ -3,8 +3,8 @@
 PACKAGES="shared exercises"
 
 BASE_DIR=".."
-DEV_CSS="${BASE_DIR}/khan-exercises/css/khan-exercise-dev.css"
-OUTPUT="${BASE_DIR}/khan-exercises/css/khan-site.css"
+DEV_CSS="css/khan-exercise-dev.css"
+OUTPUT="css/khan-site.css"
 
 for package in ${PACKAGES}; do
     if [ ! -f ${BASE_DIR}/stylesheets/${package}-package/combined.css ]; then
