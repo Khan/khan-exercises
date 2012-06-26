@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
+    <head>
+        <title>Areas of circles and sectors</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="ANGLE">randRange(5, 355)</var>
+                <var id="R">randRange(5, 10)</var>
+
+                <var id="C">2 * Math.PI * R</var>
+                <var id="PRETTY_C">piFraction(C)</var>
+
+                <var id="S">ANGLE/360 * C</var>
+                <var id="PRETTY_S">piFraction(S)</var>
+
+                <var id="A_C">PI * R * R</var>
+                <var id="A_S">ANGLE/360 * A_C</var>
+
+                <var id="PRETTY_A_C">piFraction(A_C)</var>
+                <var id="PRETTY_A_S">piFraction(A_S)</var>
+
+                <var id="ROTATE_ARC">randRange(0, 359)</var>
+            </div>
+
+            <div class="problems">
+                <div id="Ac-angle-to-As">
+                    <p class="problem">A circle with area <code class="hint_blue"><var>PRETTY_A_C</var></code> has a <span class="hint_red">sector</span> with a <code class="hint_purple"><var>ANGLE</var>^\circ</code> central angle.</p>
+                    <p class="question">What is the area of the sector?</p>
+                    <div class="graphie" id="circle">
+                        init({
+                            range: [[-R - 2, R + 2], [-R - 2, R + 2]],
+                            scale: [15, 15]
+                        });
+
+                        circle([0, 0], R, { stroke: BLUE, fill: BLUE, "fill-opacity": 0.5 });
+
+                        arc([0, 0], R, ROTATE_ARC, ROTATE_ARC + ANGLE, true, { stroke: RED, fill: RED, opacity: 0.5 });
+
+                        graph.cAngle = 180 + ((ROTATE_ARC + ANGLE) + ROTATE_ARC) / 2;
+
+                        graph.aCL = label(polar(R/2, graph.cAngle), "\\color{white}{"+PRETTY_A_C+"}", "below");
+
+                        graph.aAngle = (ROTATE_ARC * 2 + ANGLE) / 2;
+
+                        graph.angle = arc([0, 0], R * 0.12, ROTATE_ARC, ROTATE_ARC + ANGLE, { stroke: PURPLE });
+                        graph.angleL = label([0, 0], "\\color{"+PURPLE+"}{"+ANGLE+"^\\circ}", labelDirection(graph.aAngle));
+
+                        graph.aSL = label(polar(R/2, graph.aAngle), "\\color{white}{"+PRETTY_A_S+"}");
+                        $(graph.aSL).hide();
+
+                        graph.arcL = label(polar(R, graph.aAngle), "\\color{"+RED+"}{"+PRETTY_S+"}", labelDirection(graph.aAngle));
+                        $(graph.arcL).hide();
+                    </div>
+                    <p class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>A_S</var></p>
+
+                    <div class="hints">
+                        <p>The ratio between the sector's central angle <code class="hint_purple">\theta</code> and <code>360^\circ</code> equals the ratio between the sector's area, <code class="hint_red">A_s</code>, and the whole circle's area, <code class="hint_blue">A_c</code>.</p>
+                        <p><code>\dfrac{\theta}{360^\circ} = \dfrac{A_s}{A_c}</code></p>
+                        <p><code>\dfrac{<var>ANGLE</var>^\circ}{360^\circ} = \dfrac{A_s}{<var>PRETTY_A_C</var>}</code></p>
+                        <div>
+                            <p><code><var>PRETTY_A_S</var> = A_s</code></p>
+                            <div class="graphie" data-update="circle">
+                                $(graph.aSL).show();
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="r-angle-to-As" data-type="Ac-angle-to-As">
+                    <p class="problem">A circle with radius <code class="hint_blue"><var>R</var></code> has a sector with a <code class="hint_purple"><var>ANGLE</var>^\circ</code> central angle.</p>
+                    <div class="graphie" data-update="circle">
+                        $(graph.aCL).hide();
+
+                        graph.r = path([[0, 0], polar(R, graph.cAngle)], { stroke: BLUE });
+                        graph.rL = label(polar(R/2, graph.cAngle), "\\color{"+BLUE+"}{"+R+"}", "above");
+                    </div>
+
+                    <div class="hints" data-apply="prependContents">
+                        <p>First, calculate the area of the whole circle.</p>
+                        <p>Then the area of the sector is some fraction of the whole circle's area.</p>
+                        <p><code>A_c = \pi r^2</code></p>
+                        <div>
+                            <p><code>A_c = \pi (<var>R</var>)^2</code></p>
+                            <p><code>A_c = <var>PRETTY_A_C</var></code></p>
+                            <div class="graphie" data-update="circle">
+                                $(graph.aCL).show();
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="As-angle-to-Ac" data-type="Ac-angle-to-As">
+                    <p class="problem">A circle has a <span class="hint_red">sector</span> with area <code class="hint_red"><var>PRETTY_A_S</var></code> and central angle <code class="hint_purple"><var>ANGLE</var>^\circ</code>.</p>
+                    <p class="question">What is the area of the circle?</p>
+                    <div class="graphie" data-update="circle">
+                        $(graph.aCL).hide();
+
+                        $(graph.aSL).show();
+                    </div>
+                    <p class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>A_C</var></p>
+
+                    <div class="hints">
+                        <p>The ratio between the sector's central angle <code class="hint_purple">\theta</code> and <code>360^\circ</code> equals the ratio between the sector's area, <code class="hint_red">A_s</code>, and the whole circle's area, <code class="hint_blue">A_c</code>.</p>
+                        <p><code>\dfrac{\theta}{360^\circ} = \dfrac{A_s}{A_c}</code></p>
+                        <p><code>\dfrac{<var>ANGLE</var>^\circ}{360^\circ} = \dfrac{<var>PRETTY_A_S</var>}{A_c}</code></p>
+                        <div>
+                            <p><code><var>PRETTY_A_C</var> = A_c</code></p>
+                            <div class="graphie" data-update="circle">
+                                $(graph.aCL).show();
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
