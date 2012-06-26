@@ -509,6 +509,16 @@ function checkFillBlanksStatement(divID){
 
 // given a select id with some reason, checks to make sure that the item
 // selected is equal to the id
+function checkFillBlanksReason(select, selectID){
+    console.log(selectID);
+    console.log(select);
+
+    if(selectID.toLowerCase() == select.val()){
+        var parent = $(select.parent());
+        select.remove();
+        parent.append(selectID);
+    }
+}
 
 // generate a bad proof
 // start with the givens and start adding statements you can derive, throwing in one you can't derive, then put in the last statement

@@ -187,13 +187,13 @@
                 graph.congruency.addLabel("D", "left");
                 graph.congruency.addLabel("E", "right");
 
-                
+
                 $(".missingStatement").change(function(){
                     checkFillBlanksStatement($(this).parent()[0].id);
                 });
 
                 $(".missingReason").change(function(){
-                    checkFillBlanksReason(this.id);
+                    checkFillBlanksReason($(this), this.id);
                 });
 
 
