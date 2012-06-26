@@ -153,6 +153,18 @@
                     clickable: true,
                     max: 3
                 });
+                graph.congruency.addLine({
+                    start: "C",
+                    end: "D",
+                    clickable: true,
+                    max: 3
+                });
+                graph.congruency.addLine({
+                    start: "C",
+                    end: "E",
+                    clickable: true,
+                    max: 3
+                });
 
                 graph.congruency.addAngles("A");
                 graph.congruency.addAngles("B");
@@ -174,7 +186,7 @@
         <div>
             <div class="question">
             </div>
-            <div class="statements"> <var> outputFinishedProof()[0] </var>
+            <div class="statements"> <var> outputFillBlanksProof() </var>
             </div>
             <div class="solution" data-type="custom">
                 <div class="instruction">

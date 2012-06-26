@@ -191,7 +191,6 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
     // $(".statements").html(newHTML);
 
     console.log(finalRelation);
-    console.log(newHTML);
 
     return [newHTML, prettifyEquality(finalRelation)];
 
@@ -375,6 +374,7 @@ function nextStatementHint(){
 }
 
 // return the entire finished proof generated, formatted to look all pretty and etc.
+// used in "find the wrong statement" exercise, so also picks two statements for that exercise
 function outputFinishedProof(){
     var proofText = "";
 
@@ -413,8 +413,59 @@ function outputKnownProof(){
 
     }
 
-    console.log(proofText);
     return proofText;
+}
+
+// returns a proof with a few blanks
+function outputFillBlanksProof(){
+    var proofText = "";
+
+    var finishedKeys = _.keys(finishedEqualities);
+    finishedKeys.reverse();
+
+    for(var i=0; i<finishedKeys.length; i+=2){
+        if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same"){
+
+            if(KhanUtil.random() < 0.2 && finishedEqualities[finishedKeys[i]] != "Given"){
+                proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
+                proofText += prettifyEquality(finishedKeys[i]);
+                proofText += " because <select>"
+                +"<option value=\"\"></option>"
+                +"<option value=\"SSS\">side-side-side congruence</option>"
+                +"<option value=\"ASA\">angle-side-angle congruence</option>"
+                +"<option value=\"SAS\">side-angle-side congruence</option>"
+                +"<option value=\"AAS\">angle-angle-side congruence</option>"
+                +"<option value=\"CPCTC\">corresponding parts of congruent triangles are congruent</option>"
+                +"<option value=\"Vertical angles\">vertical angles are equal</option>"
+                +"<option value=\"Alternate angles\">alternate interior angles are equal</option>"
+                +"</select> </div>" + "<br>";
+            }
+            else if(KhanUtil.random() < 0.2 && finishedEqualities[finishedKeys[i]] != "Given"){
+                if(finishedKeys[i][0] == "t"){
+                    proofText += "<code> \\bigtriangleup </code> <input class=\"missingInput\" id=\""+finishedKeys[i].substring(8,11)+"\"></input>";
+                    proofText += "<code> = \\bigtriangleup </code> <input class=\"missingInput\" id=\""+finishedKeys[i].substring(20,23)+"\"></input>";
+                }
+                else if(finishedKeys[i][0] == "s"){
+                    proofText += "<input class=\"missingInput\" id=\""+finishedKeys[i].substring(3,5)+"\"></input>";
+                    proofText += "=<input class=\"missingInput\" id=\""+finishedKeys[i].substring(9,11)+"\"></input>";
+                }
+                else{
+                    proofText += "<code> \\angle </code> <input class=\"missingInput\" id=\""+finishedKeys[i].substring(3,6)+"\"></input>";
+                    proofText += "<code> \\angle </code> <input class=\"missingInput\" id=\""+finishedKeys[i].substring(10,13)+"\"></input>";
+                }
+                proofText += " because " + finishedEqualities[finishedKeys[i]] + "<br>";
+            }
+            else{
+                proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
+                proofText += prettifyEquality(finishedKeys[i]);
+                proofText += " because " + finishedEqualities[finishedKeys[i]] + "</div>" + "<br>";
+            }
+        }
+
+    }
+
+    return proofText;
+
 }
 
 // generate a bad proof
@@ -1014,7 +1065,6 @@ function traceBack(statementKey, depth){
             // triangle congruence case 4: triangles have neither shared side, vertical angles, nor alternate
             // interior angles
             else{
-                console.log(congruence);
                 //SSS
                 if(congruence == 1){
                     setGivenOrTraceBack([[triangle1.segs[0], triangle2.segs[0]], [triangle1.segs[1], triangle2.segs[1]], 
