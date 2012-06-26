@@ -4,6 +4,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Geometry Proofs 3</title>
     <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        .missingStatement {
+            width: 30px;
+        }
+        .missingReason {
+            width: 120px;
+        }
+    </style>
 </head>
 <body>
     <div class="exercise">
@@ -178,6 +186,16 @@
                 graph.congruency.addLabel("C", "right");
                 graph.congruency.addLabel("D", "left");
                 graph.congruency.addLabel("E", "right");
+
+                
+                $(".missingStatement").change(function(){
+                    checkFillBlanksStatement($(this).parent()[0].id);
+                });
+
+                $(".missingReason").change(function(){
+                    checkFillBlanksReason(this.id);
+                });
+
 
             </div>
         </div>

@@ -416,7 +416,7 @@ function outputKnownProof(){
     return proofText;
 }
 
-// returns a proof with a few blanks
+// returns a proof with a few blanks, blank statement fields will be wrapped by a div with id formatted according to divName
 function outputFillBlanksProof(){
     var proofText = "";
 
@@ -429,29 +429,32 @@ function outputFillBlanksProof(){
             if(KhanUtil.random() < 0.2 && finishedEqualities[finishedKeys[i]] != "Given"){
                 proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
                 proofText += prettifyEquality(finishedKeys[i]);
-                proofText += " because <select>"
-                +"<option value=\"\"></option>"
-                +"<option value=\"SSS\">side-side-side congruence</option>"
-                +"<option value=\"ASA\">angle-side-angle congruence</option>"
-                +"<option value=\"SAS\">side-angle-side congruence</option>"
-                +"<option value=\"AAS\">angle-angle-side congruence</option>"
-                +"<option value=\"CPCTC\">corresponding parts of congruent triangles are congruent</option>"
-                +"<option value=\"Vertical angles\">vertical angles are equal</option>"
-                +"<option value=\"Alternate angles\">alternate interior angles are equal</option>"
+                proofText += " because <select class=\"missingReason\" id=\""+finishedEqualities[finishedKeys[i]]+"\">"
+                +"<option></option>"
+                +"<option>side-side-side congruence</option>"
+                +"<option>angle-side-angle congruence</option>"
+                +"<option>side-angle-side congruence</option>"
+                +"<option>angle-angle-side congruence</option>"
+                +"<option>corresponding parts of congruent triangles are congruent</option>"
+                +"<option>vertical angles are equal</option>"
+                +"<option>alternate interior angles are equal</option>"
                 +"</select> </div>" + "<br>";
             }
             else if(KhanUtil.random() < 0.2 && finishedEqualities[finishedKeys[i]] != "Given"){
                 if(finishedKeys[i][0] == "t"){
-                    proofText += "<code> \\bigtriangleup </code> <input class=\"missingInput\" id=\""+finishedKeys[i].substring(8,11)+"\"></input>";
-                    proofText += "<code> = \\bigtriangleup </code> <input class=\"missingInput\" id=\""+finishedKeys[i].substring(20,23)+"\"></input>";
+                    proofText += "<div id=\""+divName(finishedKeys[i]) + "\">"
+                    + "<code> \\bigtriangleup </code> <input class=\"missingStatement\"></input>"
+                    + "<code> = \\bigtriangleup </code> <input class=\"missingStatement\"></input></div>";
                 }
                 else if(finishedKeys[i][0] == "s"){
-                    proofText += "<input class=\"missingInput\" id=\""+finishedKeys[i].substring(3,5)+"\"></input>";
-                    proofText += "=<input class=\"missingInput\" id=\""+finishedKeys[i].substring(9,11)+"\"></input>";
+                    proofText += "<div id=\""+divName(finishedKeys[i])+"\">"
+                    + "<input class=\"missingStatement\"></input>"
+                    + " = <input class=\"missingStatement\"></input></div>";
                 }
                 else{
-                    proofText += "<code> \\angle </code> <input class=\"missingInput\" id=\""+finishedKeys[i].substring(3,6)+"\"></input>";
-                    proofText += "<code> \\angle </code> <input class=\"missingInput\" id=\""+finishedKeys[i].substring(10,13)+"\"></input>";
+                    proofText += "<div id=\""+divName(finishedKeys[i])+"\">"
+                    + "<code> \\angle </code> <input class=\"missingStatement\"></input>"
+                    + "<code> = \\angle </code> <input class=\"missingStatement\"></input></div>";
                 }
                 proofText += " because " + finishedEqualities[finishedKeys[i]] + "<br>";
             }
@@ -468,9 +471,47 @@ function outputFillBlanksProof(){
 
 }
 
+// given a div id (formatted according to divName), checks to make sure that the inputs in that
+// div correspond to that div name, for use in "fill-in-the-blank" proofs
+function checkFillBlanksStatement(divID){
+    var components = divID.split("-");
+    //triangles
+    if(components.length > 2){
+
+    }
+    //angles
+    else if(components[0].length == 3){
+
+    }
+    //segments
+    else{
+        var seg1 = new Seg(components[0][0], components[0][1]);
+        var seg2 = new Seg(components[1][0], components[1][1]);
+
+        var input1 = $($("#"+divID+" input")[0]).val();
+        var input2 = $($("#"+divID+" input")[1]).val();
+
+        if(input1.length != 2 || input2.length != 2){
+            return;
+        }
+
+        var inputSeg1 = new Seg(input1[0], input1[1]);
+        var inputSeg2 = new Seg(input2[0], input2[1]);
+
+
+        if((inputSeg1.equals(seg1) && inputSeg2.equals(seg2)) || (inputSeg1.equals(seg2) && inputSeg2.equals(seg1))){
+            console.log("true");
+            $("#"+divID).html(prettifyEquality([inputSeg1, inputSeg2]));
+            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#"+divID)[0]]);
+        }
+    }
+}
+
+// given a select id with some reason, checks to make sure that the item
+// selected is equal to the id
+
 // generate a bad proof
-// 2 options: just change the last statement to something wrong, start with the givens and start
-// adding statements you can derive, throwing in one you can't derive, then put in the last statement
+// start with the givens and start adding statements you can derive, throwing in one you can't derive, then put in the last statement
 function subvertProof(){
     var validStatements = 0;
     var invalidStatements = 0;
@@ -534,7 +575,7 @@ function subvertProof(){
         }
         count++;
     }
-    console.log("1");
+
     var invalid;
     // now pick an invalid statement
     while(invalidStatements<1){
@@ -585,7 +626,7 @@ function subvertProof(){
             }
         }
     }
-    console.log("2");
+
     count = 0;
     while(validStatements<4 && count<100){
         //pick two things to be equal
@@ -631,7 +672,7 @@ function subvertProof(){
         }
         count++;
     }
-    console.log("3");
+
     // now construct the proof we want to hand to the exercise
     var proofText = "";
 
@@ -648,14 +689,11 @@ function subvertProof(){
         }
 
     }
-    console.log("4");
 
     proofText += "<div class=\"" + divName(finalRelation.toString()) + "\">";
     proofText += prettifyEquality(finalRelation);
     proofText += " because " + finishedEqualities[finalRelation] + "</div>" + "<br>";
 
-    console.log("valid = "+ valid + ", invalid = " + invalid);
-    console.log("5");
 
     if(valid==null){
         return [proofText,prettifyEquality(invalid),valid];
