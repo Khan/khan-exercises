@@ -328,7 +328,7 @@ $.extend(KhanUtil, {
 
             // make the clickable point change the state
             $(line.point.mouseTarget[0]).bind("vmouseup", function(event) {
-                line.setState((line.state === line.max) ? 0 : line.state + 1);
+                line.setState((line.state === line.maxState) ? 0 : line.state + 1);
             });
 
             // make the line stick in the state it is in currently,
