@@ -50,13 +50,13 @@
                 <div>
                     <p>To find the difference of two matrices, take each number in matrix <strong>A</strong> and subtract the corresponding number in matrix <strong>B</strong>.</p>
                 </div>
-				<div>
+	<!--			<div>
 					<p>For example, the first row, first column of matrix <strong>C</strong> is found by subtracting the first row, first column of matrix <strong>A</strong> from the first row, first column of matrix <strong>B</strong>.</p>
 					<p><code>\color{<var>BLUE</var>}{<var>a</var> - <var>g</var> = <var>aa</var>}</code></p>
-				</div>
+				</div>  -->
 				<div>
-					<p> Continue subtracting all the corresponding items. </p>
-					<p><code>\color{<var>ORANGE</var>}{\left[ \begin{array}{ccr} <var>a</var> - <var>g</var> & <var>b</var> - <var>h</var> \\ <var>c</var> - <var>i</var> & <var>d</var> - <var>j</var> \\ <var>e</var> - <var>k</var> & <var>f</var> - <var>l</var> \end{array}\right]}</code></p>
+					<!-- <p> Continue subtracting all the corresponding items. </p> -->
+					<p><code>\color{<var>ORANGE</var>}{\left[ \begin{array}{ccr} <var>a</var> & <var>b</var> \\ <var>c</var> & <var>d</var> \\<var>e</var> & <var>f</var> \end{array} \right]} - \color{<var>BLUE</var>}{\left[ \begin{array}{ccr} <var>g</var> & <var>h</var> \\ <var>i</var> & <var>j</var> \\<var>k</var> & <var>l</var> \end{array} \right]} = \left[ \begin{array}{ccr} \color{<var>ORANGE</var>}{<var>a</var>} - \color{<var>BLUE</var>}{<var>g</var>} & \color{<var>ORANGE</var>}{<var>b</var>} - \color{<var>BLUE</var>}{<var>h</var>} \\ \color{<var>ORANGE</var>}{<var>c</var>} - \color{<var>BLUE</var>}{<var>i</var>} & \color{<var>ORANGE</var>}{<var>d</var>} - \color{<var>BLUE</var>}{<var>j</var>} \\ \color{<var>ORANGE</var>}{<var>e</var>} - \color{<var>BLUE</var>}{<var>k</var>} & \color{<var>ORANGE</var>}{<var>f</var>} - \color{<var>BLUE</var>}{<var>l</var>} \end{array}\right]</code></p>
 				</div>
 				<div>
 					<p>Simplify.</p>
@@ -86,17 +86,17 @@
                 <div>
                     <p>To find the difference of two matrices, take each number in matrix <strong>A</strong> and subtract out the corresponding number in matric <strong>B</strong></p>
                 </div>
-				<div>
+<!--				<div>
 					<p>For example, the first row, first column of matrix <strong>C</strong> is found by subtracting the first row, first column of matrix <strong>A</strong> from the first row, first column of matrix <strong>B</strong>.</p>
 					<p><code class="hint_green"><var>a</var> - <var>g</var> = <var>aa</var> </code></p>
-				</div>
+				</div> -->
 				<div>
-					<p>Continue subtracting all the corresponding items. </p>
-					<p><code>\color{<var>BLUE</var>}{\left[ \begin{array}{ccr} <var>a</var> - <var>g</var> & <var>b</var> - <var>h</var> & <var>c</var> - <var>i</var> \\ <var>d</var> - <var>j</var> & <var>e</var> - <var>k</var> & <var>f</var> - <var>l</var>  \end{array} \right]}</code></p>
+					<!-- <p>Continue subtracting all the corresponding items. </p> -->
+					<p><code>\color{<var>BLUE</var>}{\left[ \begin{array}{ccr} <var>a</var> & <var>b</var> & <var>c</var> \\ <var>d</var> & <var>e</var> & <var>f</var> \end{array} \right]} - \color{<var>ORANGE</var>}{\left[ \begin{array}{ccr} <var>g</var> & <var>h</var> & <var>i</var> \\ <var>j</var> & <var>k</var> & <var>l</var> \end{array}\right]} = \left[ \begin{array}{ccr} \color{<var>BLUE</var>}{<var>a</var>} - \color{<var>ORANGE</var>}{<var>g</var>} & \color{<var>BLUE</var>}{<var>b</var>} - \color{<var>ORANGE</var>}{<var>h</var>} & \color{<var>BLUE</var>}{<var>c</var>} - \color{<var>ORANGE</var>}{<var>i</var>} \\ \color{<var>BLUE</var>}{<var>d</var>} - \color{<var>ORANGE</var>}{<var>j</var>} & \color{<var>BLUE</var>}{<var>e</var>} - \color{<var>ORANGE</var>}{<var>k</var>} & \color{<var>BLUE</var>}{<var>f</var>} - \color{<var>ORANGE</var>}{<var>l</var>} \end{array} \right]</code></p>
 				</div>
 				<div>
 					<p>Simplify.</p>
-					<p><code>\color{<var>ORANGE</var>}{\left[ \begin{array}{ccr} <var>aa</var> & <var>bb</var> & <var>cc</var> \\ <var>dd</var> & <var>ee</var> & <var>ff</var> \end{array} \right]}</code></p>
+					<p><code>\color{<var>GREEN</var>}{\left[ \begin{array}{ccr} <var>aa</var> & <var>bb</var> & <var>cc</var> \\ <var>dd</var> & <var>ee</var> & <var>ff</var> \end{array} \right]}</code></p>
 				</div>
             </div>
         </div>
@@ -113,23 +113,23 @@
             <p>Matrix <strong>C</strong> <code>=</code> matrix <strong>A</strong> <code>-</code> matrix <strong>B</strong>. What is matrix <strong>C</strong>? </p>
             <div class="solution" data-type="multiple">
                 <p>Matrix <strong>C</strong> = <span class="sol"><var>aa</var></span> <span class="sol"><var>bb</var></span></p>
-				<p> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <span class="sol"><var>cc</var></span> <span class="sol"><var>dd</var></span>
+				<p> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <span class="sol"><var>cc</var></span> <span class="sol"><var>dd</var></span></p>
             </div>
             <div class="hints">
                 <div>
                     <p>To find the difference of two matrices, take each number in matrix <strong>A</strong> and subtract the corresponding number in matrix <strong>B</strong></p>
                 </div>
-				<div>
+<!-- 				<div>
 					<p>For example, the first row, first column of matrix <strong>C</strong> is found by subtracting the first row, first column of matrix <strong>A</strong> from the first row, first column of matrix <strong>B</strong>.</p>
 					<p><code>\color{<var>ORANGE</var>}{<var>a</var> - <var>g</var> = <var>aa</var>}</code></p>
-				</div>
+				</div> -->
 				<div>
-					<p>Continue subtracting all the corresponding items.</p>
-					<p><code class="hint_green">\left[ \begin{array}{ccr} <var>a</var> - <var>g</var> & <var>b</var> - <var>h</var> \\ <var>c</var> - <var>i</var> & <var>d</var> - <var>j</var> \end{array}\right]</code></p>
+					<!--<p>Continue subtracting all the corresponding items.</p> -->
+					<p><code>\color{<var>ORANGE</var>}{\left[ \begin{array}{ccr} <var>a</var> & <var>b</var>\\ <var>c</var> & <var>d</var> \end{array} \right]} - \color{<var>BLUE</var>}{\left[ \begin{array}{ccr} <var>g</var> & <var>h</var> \\ <var>i</var> & <var>j</var> \end{array} \right]} = \left[ \begin{array}{ccr} \color{<var>ORANGE</var>}{<var>a</var>} - \color{<var>BLUE</var>}{<var>g</var>} & \color{<var>ORANGE</var>}{<var>b</var>} - \color{<var>BLUE</var>}{<var>h</var>} \\ \color{<var>ORANGE</var>}{<var>c</var>} - \color{<var>BLUE</var>}{<var>i</var>} & \color{<var>ORANGE</var>}{<var>d</var>} - \color{<var>BLUE</var>}{<var>j</var>} \end{array}\right]</code></p>
 				</div>
 				<div>
 					<p>Simplify.</p>
-					<p><code>\color{<var>BLUE</var>}{\left[ \begin{array}{ccr} <var>aa</var> & <var>bb</var> \\ <var>cc</var> & <var>dd</var> \end{array}\right]}</code></p>
+					<p><code>\color{<var>GREEN</var>}{\left[ \begin{array}{ccr} <var>aa</var> & <var>bb</var> \\ <var>cc</var> & <var>dd</var> \end{array}\right]}</code></p>
 				</div>
             </div>
         </div>
