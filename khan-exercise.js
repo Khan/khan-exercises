@@ -1661,7 +1661,7 @@ var Khan = (function() {
         }
 
 
-        if (userExercise == null) {
+        if (userExercise == null || Khan.query.debug != null) {
             $("#problem-permalink").text("Permalink: "
                 + problemID + " #"
                 + problemSeed)
@@ -1700,9 +1700,8 @@ var Khan = (function() {
                     window.location.href = historyURL + encodeURIComponent(JSON.stringify(userActivityLog));
                 }).appendTo(links);
             } else {
-                links.append("<br>");
                 $("<a>Random problem</a>")
-                    .attr("href", debugURL)
+                    .attr("href", window.location.protocol + "//" + window.location.host + window.location.pathname + "?debug")
                     .appendTo(links);
             }
 
