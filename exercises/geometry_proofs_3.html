@@ -92,6 +92,10 @@
             <var id="KNOWN">STATEMENTS[0]</var>
             <var id="FINISHED">STATEMENTS[1]</var>
 
+            <var id="FILL_BLANKS_STUFF">outputFillBlanksProof()</var>
+            <var id="FILL_BLANKS_PROOF">FILL_BLANKS_STUFF[0]</var>
+            <var id="FILL_BLANKS_NUM">FILL_BLANKS_STUFF[1]</var>
+
             <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
             
         </div>
@@ -189,11 +193,15 @@
 
 
                 $(".missingStatement").change(function(){
-                    checkFillBlanksStatement($(this).parent()[0].id);
+                    if(checkFillBlanksStatement($(this).parent()[0].id)){
+                        FILL_BLANKS_NUM--;
+                    }
                 });
 
                 $(".missingReason").change(function(){
-                    checkFillBlanksReason($(this), this.id);
+                    if(checkFillBlanksReason($(this), this.id)){
+                        FILL_BLANKS_NUM--;
+                    }
                 });
 
 
@@ -204,24 +212,15 @@
         <div>
             <div class="question">
             </div>
-            <div class="statements"> <var> outputFillBlanksProof() </var>
+            <div class="statements"> <var> FILL_BLANKS_PROOF </var>
             </div>
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                    Enter a statement, click check to add to proof. Check answer to evaluate the whole proof. <br>
-                    To prove: <var>FINISHED</var>
-                    <select class="statement_type">
-                        <option>triangle congruence</option>
-                        <option>segment equality</option>
-                        <option>angle equality</option>
-                    </select>
-                    <input class="statement"></input>
-                    <input class="justification"></input>
-                    <button class="check-statement" onclick="verifyStatement()">Check</button>
+                    Not sure what to say here...
                 </div>
                 <div class="guess">[]</div>
                 <div class="validator-function">
-                    return true;
+                    return FILL_BLANKS_NUM==0;
                 </div>
                 <div class="show-guess">
                     

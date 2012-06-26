@@ -419,6 +419,7 @@ function outputKnownProof(){
 // returns a proof with a few blanks, blank statement fields will be wrapped by a div with id formatted according to divName
 function outputFillBlanksProof(){
     var proofText = "";
+    var blanks = 0;
 
     var finishedKeys = _.keys(finishedEqualities);
     finishedKeys.reverse();
@@ -439,6 +440,7 @@ function outputFillBlanksProof(){
                 +"<option>vertical angles are equal</option>"
                 +"<option>alternate interior angles are equal</option>"
                 +"</select> </div>" + "<br>";
+                blanks++;
             }
             else if(KhanUtil.random() < 0.2 && finishedEqualities[finishedKeys[i]] != "Given"){
                 if(finishedKeys[i][0] == "t"){
@@ -457,6 +459,7 @@ function outputFillBlanksProof(){
                     + "<code> = \\angle </code> <input class=\"missingStatement\"></input></div>";
                 }
                 proofText += " because " + finishedEqualities[finishedKeys[i]] + "<br>";
+                blanks++;
             }
             else{
                 proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
@@ -467,12 +470,13 @@ function outputFillBlanksProof(){
 
     }
 
-    return proofText;
+    return [proofText,blanks];
 
 }
 
 // given a div id (formatted according to divName), checks to make sure that the inputs in that
 // div correspond to that div name, for use in "fill-in-the-blank" proofs
+// returns true if the statements were filled in correctly, false otherwise
 function checkFillBlanksStatement(divID){
     var components = divID.split("-");
     //triangles
@@ -500,24 +504,25 @@ function checkFillBlanksStatement(divID){
 
 
         if((inputSeg1.equals(seg1) && inputSeg2.equals(seg2)) || (inputSeg1.equals(seg2) && inputSeg2.equals(seg1))){
-            console.log("true");
             $("#"+divID).html(prettifyEquality([inputSeg1, inputSeg2]));
-            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#"+divID)[0]]);
+            $.tmpl.type.code()($("#"+divID+" code")[0]);
+            return true;
         }
     }
+    return false;
 }
 
 // given a select id with some reason, checks to make sure that the item
 // selected is equal to the id
+// returns true if the reason was filled in correctly, false otherwise
 function checkFillBlanksReason(select, selectID){
-    console.log(selectID);
-    console.log(select);
-
     if(selectID.toLowerCase() == select.val()){
         var parent = $(select.parent());
         select.remove();
         parent.append(selectID);
+        return true;
     }
+    return false;
 }
 
 // generate a bad proof
