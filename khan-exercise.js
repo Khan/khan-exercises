@@ -2054,7 +2054,6 @@ var Khan = (function() {
                         .focus();
                     $("#positive-reinforcement").show();
                 }
-                nextProblem(1);
             } else {
                 // Wrong answer. Enable all the input elements
                 $("#answercontent input").not("#hint")
@@ -2075,6 +2074,7 @@ var Khan = (function() {
 
         // Watch for when the next button is clicked
         $("#next-question-button").click(function(ev) {
+            nextProblem(1);
             $(Khan).trigger("gotoNextProblem");
 
             // Disable next question button until next time
