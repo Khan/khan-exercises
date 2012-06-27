@@ -80,12 +80,12 @@
 
                     graph.congruency.angles[GIVEN].stick();
                     graph.congruency.angles[GIVEN].setState(1);
-                    graph.congruency.angles[GIVEN].styleSet({
+                    graph.congruency.angles[GIVEN].setSelectedStyle({
                         stroke: ORANGE
                     });
 
                     graph.hint = function(ang, color) {
-                        graph.congruency.angles[ang].styleUnset({
+                        graph.congruency.angles[ang].setUnselectedStyle({
                             stroke: color,
                             opacity: 0.4
                         });

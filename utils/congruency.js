@@ -122,7 +122,8 @@ $.extend(KhanUtil, {
                 state: 0,
                 maxState: 1,
                 tickDiff: 0.15,
-                tickLength: 0.2
+                tickLength: 0.2,
+                highlighted: false
             }, options);
 
             // look up the start and end points, if they are
@@ -269,7 +270,7 @@ $.extend(KhanUtil, {
                 this.line.push(graph.line(this.start, this.end));
 
                 // set the attributes
-                this.line.attr(this.normal);
+                this.line.attr(this.point.normalStyle);
                 this.point.visibleShape = this.line;
             };
 
@@ -298,24 +299,48 @@ $.extend(KhanUtil, {
                 stroke: "black",
                 "stroke-width": 2
             };
-            line.highlight = {
+            line.hover = {
                 stroke: "black",
                 "stroke-width": 3
             };
+            line.highlight = {};
 
-            // store them in the movable points
-            line.point.normalStyle = line.normal;
-            line.point.highlightStyle = line.highlight;
+            // set the styles depending on the state
+            line.setStyles = function() {
+                if (this.highlighted) {
+                    this.point.normalStyle = this.highlight;
+                    this.point.highlightStyle = this.highlight;
+                } else {
+                    this.point.normalStyle = this.normal;
+                    this.point.highlightStyle = this.hover;
+                }
+            };
 
             // functions to change the styling of the line
-            line.highlightStyle = function(options) {
-                $.extend(true, this.highlight, options);
+            line.setSelectedStyle = function(style) {
+                $.extend(true, this.hover, style);
                 this.draw();
             };
-            line.normalStyle = function(options) {
-                $.extend(true, this.normal, options);
+            line.setUnselectedStyle = function(style) {
+                $.extend(true, this.normal, style);
                 this.draw();
             };
+
+            // change and set highlight
+            line.setHighlighted = function(style) {
+                $.extend(true, this.highlight, style);
+                this.highlighted = true;
+                this.setStyles();
+                this.draw();
+            };
+            line.unsetHighlighted = function() {
+                this.highlighted = false;
+                this.setStyles();
+                this.draw();
+            };
+
+            // set the default styles
+            line.setStyles();
 
             // draw the line
             line.draw();
@@ -353,7 +378,8 @@ $.extend(KhanUtil, {
                 maxState: 1,
                 shown: false,
                 clickable: true,
-                arcDiff: 0.15
+                arcDiff: 0.15,
+                highlighted: false
             }, options);
 
             angle.center = name[1];
@@ -401,32 +427,27 @@ $.extend(KhanUtil, {
             angle.point.visibleShape.remove();
 
             // Styles for different mouse-over states
-            // TODO: come up with a way to set different styles
-            // for normal/highlight
-            angle.unsetNormal = {
+            angle.unselected = {
                 stroke: KhanUtil.GRAY,
                 "stroke-width": 2,
                 opacity: 0.1
             };
-            angle.unsetHighlight = {
+            angle.unselectedHover = {
                 stroke: KhanUtil.GRAY,
                 "stroke-width": 2,
                 opacity: 0.4
             };
-            angle.setNormal = {
+            angle.selected = {
                 stroke: KhanUtil.BLUE,
                 "stroke-width": 3,
                 opacity: 0.9
             };
-            angle.setHighlight = {
+            angle.selectedHover = {
                 stroke: KhanUtil.BLUE,
                 "stroke-width": 3,
                 opacity: 1.0
             };
-
-            // Set the default styles
-            angle.point.normalStyle = angle.unsetNormal;
-            angle.point.highlightStyle = angle.unsetHighlight;
+            angle.highlight = {};
 
             // Draw the arc(s)
             angle.draw = function() {
@@ -453,23 +474,34 @@ $.extend(KhanUtil, {
                 this.arc.attr(this.point.normalStyle);
             };
 
-            // Ensure the angle gets drawn on creation
-            angle.draw();
+            // Set the styles according to the current state
+            angle.setStyles = function() {
+                if (this.highlighted) {
+                    this.point.normalStyle = this.highlight;
+                    this.point.highlightStyle = this.highlight;
+                } else if (this.state === 0) {
+                    this.point.normalStyle = this.unselected;
+                    this.point.highlightStyle = this.unselectedHover;
+                } else {
+                    this.point.normalStyle = this.selected;
+                    this.point.highlightStyle = this.selectedHover;
+                }
+            };
 
             // Set the state of an angle
             angle.setState = function(state) {
                 this.state = state;
 
-                if (this.state === 0) {
-                    this.point.normalStyle = this.unsetNormal;
-                    this.point.highlightStyle = this.unsetHighlight;
-                } else {
-                    this.point.normalStyle = this.setNormal;
-                    this.point.highlightStyle = this.setHighlight;
-                }
+                this.setStyles();
 
                 this.draw();
             }
+
+            // setup the original styles
+            angle.setStyles();
+
+            // Ensure the angle gets drawn on creation
+            angle.draw();
 
             // Bind mouseclick
             $(angle.point.mouseTarget[0]).bind("vmouseup", function(event) {
@@ -487,17 +519,32 @@ $.extend(KhanUtil, {
                 angle.stick();
             }
 
-            // Set the style of angles when unset
-            angle.styleUnset = function(options) {
-                $.extend(true, this.unsetNormal, options);
-                $.extend(true, this.unsetHighlight, options);
+            // Set the style of angles when state == 0
+            angle.setUnselectedStyle = function(style) {
+                $.extend(true, this.unselected, style);
+                $.extend(true, this.unselectedHover, style);
                 this.draw();
             };
 
-            // Set the style of angles when set
-            angle.styleSet = function(options) {
-                $.extend(true, this.setNormal, options);
-                $.extend(true, this.setHighlight, options);
+            // Set the style of angles when state > 0
+            angle.setSelectedStyle = function(style) {
+                $.extend(true, this.selected, style);
+                $.extend(true, this.selectedHover, style);
+                this.draw();
+            };
+
+            // Add a highlighting style and highlight an angle
+            angle.setHighlighted = function(style) {
+                $.extend(true, this.highlight, style);
+                this.highlighted = true;
+                this.setStyles();
+                this.draw();
+            };
+
+            // Unhighlight an angle
+            angle.unsetHighlighted = function() {
+                this.highlighted = false;
+                this.setStyles();
                 this.draw();
             };
 
