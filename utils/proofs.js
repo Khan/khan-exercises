@@ -630,11 +630,14 @@ function subvertProof(){
 
             // in this case you have to also try every rotation (if they aren't fixed)
             // because honestly, triangles are the devil
+            var rotation = KhanUtil.randRange(0,2);
             if(!triangIn(triangle1, fixedTriangles)){
-                triangle1.rotate(KhanUtil.randRange(0,2));
+                triangle1.segs.rotate(rotation);
+                triangle1.angs.rotate(rotation);
             }
             else if(!triangIn(triangle2, fixedTriangles)){
-                triangle2.rotate(KhanUtil.randRange(0,2));
+                triangle2.segs.rotate(rotation);
+                triangle2.angs.rotate(rotation);
             }
 
             if(!checkTriangleCongruent(triangle1, triangle2, "SSS") || !checkTriangleCongruent(triangle1, triangle2, "ASA")
@@ -650,6 +653,7 @@ function subvertProof(){
 
     count = 0;
     while(validStatements<4 && count<100){
+        console.log("count = "+count);
         //pick two things to be equal
         var equalityType = KhanUtil.randRange(1,3);
         if(equalityType == 1){
@@ -680,6 +684,19 @@ function subvertProof(){
             var triangle1 = KhanUtil.randFromArray(TRIANGLES);
             var triangle2 = KhanUtil.randFromArray(TRIANGLES);
 
+            var rotation = KhanUtil.randRange(0,2);
+            if(!triangIn(triangle1, fixedTriangles)){
+                triangle1.segs.rotate(rotation);
+                triangle1.angs.rotate(rotation);
+            }
+            else if(!triangIn(triangle2, fixedTriangles)){
+                triangle2.segs.rotate(rotation);
+                triangle2.angs.rotate(rotation);
+            }
+
+            console.log("trying to prove "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
+            console.log(" = "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
+
             if(!eqIn([triangle1,triangle2], knownEqualities) && !triangle1.equals(triangle2) &&
                 (checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
                 || checkTriangleCongruent(triangle1, triangle2, "SAS") || checkTriangleCongruent(triangle1, triangle2, "AAS"))){
@@ -696,9 +713,7 @@ function subvertProof(){
 
     // now construct the proof we want to hand to the exercise
     var proofText = "";
-
     var knownKeys = _.keys(knownEqualities);
-    // knownKeys.reverse();
 
     for(var i=0; i<knownKeys.length; i+=2){
         if(knownEqualities[knownKeys[i]].substring(0,4) != "Same"){
