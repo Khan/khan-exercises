@@ -68,9 +68,9 @@
 
             <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
 
-            <var id="IS_WRONG">KhanUtil.random() > 0.3</var>
+            <var id="IS_WRONG">KhanUtil.random() > 0.5</var>
 
-            <var id="PROOF_STUFF">IS_WRONG ? subvertProof() : outputFinishedProof()</var>
+            <var id="PROOF_STUFF">IS_WRONG ? outputBadProof() : outputFinishedProof()</var>
             <var id="PROOF">PROOF_STUFF[0]</var>
             <var id="WRONG_STATEMENT">PROOF_STUFF[1]</var>
             <var id="RIGHT_STATEMENT">PROOF_STUFF[2]</var>

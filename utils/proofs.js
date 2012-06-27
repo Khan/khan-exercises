@@ -378,11 +378,11 @@ function nextStatementHint(){
 function outputFinishedProof(){
     var proofText = "<h3>Givens</h3>";
 
-    var finishedKeys = _.keys(finishedEqualities);
-    finishedKeys.reverse();
+    var unsortedFinishedKeys = _.keys(finishedEqualities);
+    unsortedFinishedKeys.reverse();
+    var finishedKeys = sortEqualityList(unsortedFinishedKeys, finishedEqualities);
 
     var possibleValids = [];
-    var givensDone = false;
 
     var numberGivens = 0;
     _.each(finishedKeys, function(key){
@@ -405,14 +405,10 @@ function outputFinishedProof(){
                     proofText += "<code>, \\  </code>and<code>\\  </code></div>";
                 }
                 else{
-                    proofText += "</div>";
+                    proofText += "</div><br><br><h3 style=\"clear:both\">Proof</h3>";
                 }
 
                 possibleValids.push(prettifyEquality(finishedKeys[i]));
-            }
-            else if(!givensDone){
-                givensDone = true;
-                proofText += "<br><br><h3 style=\"clear:both\">Proof</h3>";
             }
             else{
                 proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
@@ -564,7 +560,7 @@ function checkFillBlanksReason(select, selectID){
 
 // generate a bad proof
 // start with the givens and start adding statements you can derive, throwing in one you can't derive, then put in the last statement
-function subvertProof(){
+function outputBadProof(){
     var validStatements = 0;
     var invalidStatements = 0;
     var valid = null;
@@ -746,14 +742,38 @@ function subvertProof(){
     }
 
     // now construct the proof we want to hand to the exercise
-    var proofText = "";
+    var proofText = "<h3>Givens</h3>";
     var knownKeys = _.keys(knownEqualities);
+
+    var numberGivens = 0;
+    _.each(knownKeys, function(key){
+        if(knownEqualities[key] == "given"){
+            numberGivens++;
+        }
+    });
+    numberGivens /= 2;
 
     for(var i=0; i<knownKeys.length; i+=2){
         if(knownEqualities[knownKeys[i]].substring(0,4) != "Same"){
-            proofText += "<div class=\"" + divName(knownKeys[i]) + "\">";
-            proofText += prettifyEquality(knownKeys[i]);
-            proofText += " because " + knownEqualities[knownKeys[i]] + "</div>" + "<br>";
+            if(knownEqualities[knownKeys[i]] == "given"){
+                numberGivens--;
+                proofText += "<div style=\"float:left\" class=\"" + divName(knownKeys[i]) + "\">";
+                proofText += prettifyEquality(knownKeys[i]);
+                if(numberGivens > 1){
+                    proofText += "<code>, \\ </code> </div>";
+                }
+                else if(numberGivens > 0){
+                    proofText += "<code>, \\  </code>and<code>\\  </code></div>";
+                }
+                else{
+                    proofText += "</div><br><br><h3 style=\"clear:both\">Proof</h3>";
+                }
+            }
+            else{
+                proofText += "<div class=\"" + divName(knownKeys[i]) + "\">";
+                proofText += prettifyEquality(knownKeys[i]);
+                proofText += " because " + knownEqualities[knownKeys[i]] + "</div>" + "<br>";
+            }
         }
 
     }
@@ -767,8 +787,7 @@ function subvertProof(){
         return [proofText,prettifyEquality(invalid),valid];
     }
 
-    console.log(valid);
-    console.log(prettifyEquality(valid));
+    
 
     return [proofText,prettifyEquality(invalid),prettifyEquality(valid)];
 
@@ -1877,6 +1896,20 @@ function triangIn(item, object){
         }
     }
     return false;
+}
+
+// takes an equality list and orders it by moving all the givens to the front, and keeping everything else in place
+function sortEqualityList(equalityList, equalityObject){
+    var newEqualityList = [];
+    for(var i=0; i<equalityList.length; i++){
+        if(equalityObject[equalityList[i]] == "given"){
+            newEqualityList.unshift(equalityList[i]);
+        }
+        else{
+            newEqualityList.push(equalityList[i]);
+        }
+    }
+    return newEqualityList;
 }
 
 // utility function to rotate an array
