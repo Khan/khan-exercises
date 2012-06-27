@@ -124,8 +124,8 @@ function changeIntercept(dir) {
     var graph = KhanUtil.currentGraph;
     var prevDenominator = graph.BD;
     graph.BD = KhanUtil.getLCM(prevDenominator, graph.INCR);
-    graph.BN = (graph.BD / prevDenominator * graph.BN)
-        + (dir * graph.BD / graph.INCR);
+    graph.BN = (graph.BD / prevDenominator * graph.BN) +
+        (dir * graph.BD / graph.INCR);
     updateEquation();
 }
 

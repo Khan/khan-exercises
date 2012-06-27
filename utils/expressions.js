@@ -189,8 +189,8 @@ $.extend(KhanUtil, {
 
             if (arguments.length > 1) {
                 var args = [].slice.call(arguments, 0);
-                var parenthesizeRest = KhanUtil.exprType(arguments[0]) === "number"
-                    && KhanUtil.exprType(arguments[1]) === "number";
+                var parenthesizeRest = KhanUtil.exprType(arguments[0]) === "number" &&
+                    KhanUtil.exprType(arguments[1]) === "number";
                 var factors = $.map(args, function(factor, i) {
                     var parenthesize;
                     switch (KhanUtil.exprType(factor)) {

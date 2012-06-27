@@ -91,9 +91,9 @@ $.extend(KhanUtil, {
 
             ang.coord = [0, 0];
 
-            ang.coord[0] = (ang.line1.slope * ang.line1.start[0]
-                            - ang.line2.slope * ang.line2.start[0]
-                            + ang.line2.start[1] - ang.line1.start[1]) /
+            ang.coord[0] = (ang.line1.slope * ang.line1.start[0] -
+                            ang.line2.slope * ang.line2.start[0] +
+                            ang.line2.start[1] - ang.line1.start[1]) /
                            (ang.line1.slope - ang.line2.slope);
             ang.coord[1] = ang.line1.func(ang.coord[0]);
 
@@ -136,8 +136,8 @@ $.extend(KhanUtil, {
                 $(arc.point.mouseTarget[0]).css("cursor", "pointer");
 
                 // Increase the point's size
-                var pointRadius = Math.sin(KhanUtil.toRadians(arc.angle) / 2)
-                                  * arc.radius * graph.scale[0];
+                var pointRadius = Math.sin(KhanUtil.toRadians(arc.angle) / 2) *
+                                  arc.radius * graph.scale[0];
                 arc.point.mouseTarget.attr({ r: pointRadius });
 
                 // replace the shape with our arc
