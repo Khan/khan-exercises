@@ -15,6 +15,7 @@ jquery-ui.js
 jquery.js
 jquery.qtip.js
 utils/d3.js
+utils/jquery.mobile.vmouse.js
 utils/MathJax/
 utils/raphael.js
 utils/underscore.js
@@ -26,16 +27,7 @@ test/exercises/
 build/kathjax-config.js
 khan-exercise.js
 test/exercise-runner.js
-utils/answer-types.js
-utils/congruency.js
-utils/derivative-intuition.js
-utils/exponents.js
-utils/expressions.js
-utils/graphie-helpers-arithmetic.js
-utils/graphie-helpers.js
-utils/graphie.js
 utils/interactive.js
-utils/jquery.mobile.vmouse.js
 utils/math-format.js
 utils/mean-and-median.js
 utils/polynomials.js

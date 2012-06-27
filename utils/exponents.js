@@ -68,8 +68,8 @@ $.extend(KhanUtil, {
 
             steps.unshift(
                 (i === exp - 1 ? parens : noParens)
-                    .call(this, mult_n, mult_d)
-                    + expansion);
+                    .call(this, mult_n, mult_d) +
+                    expansion);
 
             expansion += "\\cdot " + base_str;
         }

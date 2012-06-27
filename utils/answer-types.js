@@ -913,8 +913,8 @@ $.extend(Khan.answerTypes, {
         var choices = $.tmpl.getVAR($(solution).data("choices"));
 
         $.each(choices, function(index, value) {
-            input.append('<option value="' + value + '">'
-                + value + "</option>");
+            input.append('<option value="' + value + '">' + value +
+                "</option>");
         });
 
         var correct = $(solution).text();
