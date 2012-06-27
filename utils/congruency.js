@@ -36,7 +36,7 @@ $.extend(KhanUtil, {
         congruency.points = {};
 
         congruency.getPoint = function(pt) {
-            if (typeof(pt) === "string") {
+            if (typeof pt === "string") {
                 return congruency.points[pt];
             } else {
                 return pt;
@@ -51,7 +51,7 @@ $.extend(KhanUtil, {
             var point = {
                 name: name,
                 pos: position,
-                angles: [],
+                connected: [],
                 arcs: []
             };
 
@@ -92,7 +92,7 @@ $.extend(KhanUtil, {
         //
         // - clickable:
         //      makes the line able to be clicked on to change
-        //      the amount of ticks on it
+        //      the number of ticks on it
         //
         // - state:
         //      the starting number of ticks on the line
@@ -127,11 +127,11 @@ $.extend(KhanUtil, {
 
             // look up the start and end points, if they are
             // given as strings
-            if (typeof(line.start) === "string") {
+            if (typeof line.start === "string") {
                 line.startPt = congruency.points[line.start];
                 line.start = line.startPt.pos;
             }
-            if (typeof(line.end) === "string") {
+            if (typeof line.end === "string") {
                 line.endPt = congruency.points[line.end];
                 line.end = line.endPt.pos;
             }
@@ -160,7 +160,8 @@ $.extend(KhanUtil, {
 
             // the inverse function of the line
             line.invfunc = function(y) {
-                return line.start[0] + (y - line.start[1]) / line.slope;
+                var slope = (line.slope === 0) ? 0.00001 : line.slope
+                return line.start[0] + (y - line.start[1]) / slope;
             };
 
             // extend the line if specified
@@ -218,16 +219,16 @@ $.extend(KhanUtil, {
             // points) add the name of our line to the congruency
             if (line.startPt != null &&
                 line.endPt != null) {
-                congruency.lines[line.startPt.name+line.endPt.name] = line;
-                congruency.lines[line.endPt.name+line.startPt.name] = line;
+                congruency.lines[line.startPt.name + line.endPt.name] = line;
+                congruency.lines[line.endPt.name + line.startPt.name] = line;
             }
 
             // if the points are named, add the other end of the line
-            // to the angles, so they can calculate what angles
+            // to the connected points, so they can calculate what angles
             // they create
             if (line.startPt != null && line.endPt != null) {
-                line.startPt.angles.push(line.endPt);
-                line.endPt.angles.push(line.startPt);
+                line.startPt.connected.push(line.endPt);
+                line.endPt.connected.push(line.startPt);
             }
 
             // actually draw the line with the current styles
@@ -243,8 +244,8 @@ $.extend(KhanUtil, {
                 var startDiff = this.tickDiff * (this.state - 1) / 2;
 
                 var direction = [Math.cos(this.radAngle), Math.sin(this.radAngle)];
-                var normalDir = [-direction[1]*this.tickLength,
-                                  direction[0]*this.tickLength];
+                var normalDir = [-direction[1] * this.tickLength,
+                                  direction[0] * this.tickLength];
 
                 var midpoint = [(this.start[0] + this.end[0]) / 2,
                                 (this.start[1] + this.end[1]) / 2];
@@ -516,16 +517,17 @@ $.extend(KhanUtil, {
 
             // sort the angles that are coming out of
             // the given point by the angle they make to the point
-            var sortAngs = _.sortBy(pt.angles, function(ang) {
-                return pt.angleTo(ang);
+            var sortConnected = _.sortBy(pt.connected, function(cpt) {
+                return pt.angleTo(cpt);
             });
 
-            var numAngs = sortAngs.length;
+            var numAngs = sortConnected.length;
 
-            // go through the angles in order and add the angles
+            // go through the connected points in order and add
+            // the angles between them
             for (var i = 0; i < numAngs; i += 1) {
-                var pt1 = sortAngs[i];
-                var pt2 = sortAngs[(i + 1) % numAngs];
+                var pt1 = sortConnected[i];
+                var pt2 = sortConnected[(i + 1) % numAngs];
 
                 var ang1 = pt.angleTo(pt1);
                 var ang2 = pt.angleTo(pt2);
@@ -564,10 +566,10 @@ $.extend(KhanUtil, {
 
             point = congruency.addPoint(pointName, coord);
 
-            point.angles.push(line1.startPt);
-            point.angles.push(line1.endPt);
-            point.angles.push(line2.startPt);
-            point.angles.push(line2.endPt);
+            point.connected.push(line1.startPt);
+            point.connected.push(line1.endPt);
+            point.connected.push(line2.startPt);
+            point.connected.push(line2.endPt);
 
             if (addAngles) {
                 congruency.addAngles(point.name);
