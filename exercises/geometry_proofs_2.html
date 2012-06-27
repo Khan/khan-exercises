@@ -68,7 +68,7 @@
 
             <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
 
-            <var id="IS_WRONG">KhanUtil.random() < 0.3 ? false : true</var>
+            <var id="IS_WRONG">KhanUtil.random() > 0.3</var>
 
             <var id="PROOF_STUFF">IS_WRONG ? subvertProof() : outputFinishedProof()</var>
             <var id="PROOF">PROOF_STUFF[0]</var>
@@ -223,8 +223,8 @@
                                         stroke: BLUE,
                                         "stroke-width": 3
                                     });
-                                    firstAngle.set(1);
-                                    secondAngle.set(1);
+                                    firstAngle.set(firstState > 0 ? firstState : 1);
+                                    secondAngle.set(secondState > 0 ? secondState : 1);
                                     $(this).bind("vmouseout", function(event) {
                                         firstAngle.styleSet({
                                             stroke: "black",
@@ -362,8 +362,6 @@
         <div>
             <div class="question">
                 <p><var>PROOF</var></p>
-                <var>IS_WRONG</var>
-                <var>WRONG_STATEMENT</var> <br>
             </div>
 
             <div class="solution"><var>ANSWER</var></div>

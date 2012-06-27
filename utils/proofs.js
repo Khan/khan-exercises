@@ -376,18 +376,51 @@ function nextStatementHint(){
 // return the entire finished proof generated, formatted to look all pretty and etc.
 // used in "find the wrong statement" exercise, so also picks two statements for that exercise
 function outputFinishedProof(){
-    var proofText = "";
+    var proofText = "<h3>Givens</h3>";
 
     var finishedKeys = _.keys(finishedEqualities);
     finishedKeys.reverse();
 
     var possibleValids = [];
+    var givensDone = false;
+
+    var numberGivens = 0;
+    _.each(finishedKeys, function(key){
+        if(finishedEqualities[key] == "given"){
+            numberGivens++;
+        }
+    });
+    numberGivens /= 2;
+
     for(var i=0; i<finishedKeys.length; i+=2){
         if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same"){
-            proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
-            proofText += prettifyEquality(finishedKeys[i]);
-            possibleValids.push(prettifyEquality(finishedKeys[i]));
-            proofText += " because " + finishedEqualities[finishedKeys[i]] + "</div>" + "<br>";
+            if(finishedEqualities[finishedKeys[i]] == "given"){
+                numberGivens--;                
+                proofText += "<div style=\"float:left\" class=\"" + divName(finishedKeys[i]) + "\">";
+                proofText += prettifyEquality(finishedKeys[i]);
+                if(numberGivens > 1){
+                    proofText += "<code>, \\ </code> </div>";
+                }
+                else if(numberGivens > 0){
+                    proofText += "<code>, \\  </code>and<code>\\  </code></div>";
+                }
+                else{
+                    proofText += "</div>";
+                }
+
+                possibleValids.push(prettifyEquality(finishedKeys[i]));
+            }
+            else if(!givensDone){
+                givensDone = true;
+                proofText += "<br><br><h3 style=\"clear:both\">Proof</h3>";
+            }
+            else{
+                proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
+                proofText += prettifyEquality(finishedKeys[i]);
+                proofText += " because " + finishedEqualities[finishedKeys[i]] + "</div><br>";
+
+                possibleValids.push(prettifyEquality(finishedKeys[i]));                
+            }
         }
 
     }
@@ -444,7 +477,7 @@ function outputFillBlanksProof(){
             }
             else if(KhanUtil.random() < 0.2 && finishedEqualities[finishedKeys[i]] != "given"){
                 if(finishedKeys[i][0] == "t"){
-                    proofText += "<div id=\""+divName(finishedKeys[i]) + "\">"
+                    proofText += "<div id=\""+ "t-" + finishedKeys[i].substring(8,11) + "-" + finishedKeys[i].substring(20,23) + "\">"
                     + "<code> \\bigtriangleup </code> <input class=\"missingStatement\"></input>"
                     + "<code> = \\bigtriangleup </code> <input class=\"missingStatement\"></input>";
                 }
@@ -479,9 +512,12 @@ function outputFillBlanksProof(){
 // returns true if the statements were filled in correctly, false otherwise
 function checkFillBlanksStatement(divID){
     var components = divID.split("-");
+    var input1 = $($("#"+divID+" input")[0]).val();
+    var input2 = $($("#"+divID+" input")[1]).val();
+    
     //triangles
-    if(components.length > 2){
-
+    if(components.length > 3){
+        
     }
     //angles
     else if(components[0].length == 3){
@@ -492,8 +528,7 @@ function checkFillBlanksStatement(divID){
         var seg1 = new Seg(components[0][0], components[0][1]);
         var seg2 = new Seg(components[1][0], components[1][1]);
 
-        var input1 = $($("#"+divID+" input")[0]).val();
-        var input2 = $($("#"+divID+" input")[1]).val();
+        
 
         if(input1.length != 2 || input2.length != 2){
             return;
@@ -501,7 +536,6 @@ function checkFillBlanksStatement(divID){
 
         var inputSeg1 = new Seg(input1[0], input1[1]);
         var inputSeg2 = new Seg(input2[0], input2[1]);
-
 
         if((inputSeg1.equals(seg1) && inputSeg2.equals(seg2)) || (inputSeg1.equals(seg2) && inputSeg2.equals(seg1))){
             $("#"+divID+" input").remove();
