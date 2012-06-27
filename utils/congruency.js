@@ -346,7 +346,7 @@ $.extend(KhanUtil, {
             return line;
         };
 
-        congruency.addAngle = function(center, left, right, options) {
+        congruency.addAngle = function(name, options) {
             var angle = $.extend({
                 radius: 0.7,
                 state: 0,
@@ -356,9 +356,9 @@ $.extend(KhanUtil, {
                 arcDiff: 0.15
             }, options);
 
-            angle.center = center;
-            angle.left = left;
-            angle.right = right;
+            angle.center = name[1];
+            angle.left = name[0];
+            angle.right = name[2];
 
             angle.centerPt = congruency.getPoint(angle.center);
             angle.leftPt = congruency.getPoint(angle.left);
@@ -543,7 +543,7 @@ $.extend(KhanUtil, {
                 }
 
                 // add the angle
-                congruency.addAngle(pt.name, pt1.name, pt2.name, options);
+                congruency.addAngle(pt1.name + pt.name + pt2.name, options);
             }
         };
 
