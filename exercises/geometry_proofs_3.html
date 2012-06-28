@@ -48,16 +48,6 @@
 
            <var id="SEGS">[AB,BA,AC,CA,AD,DA,AE,EA,BC,CB,BD,DB,CD,DC,CE,EC,DE,ED]</var>
 
-            <!-- generating segments in this way is a terrible idea -->
-            <!-- <var id="SEGS">_.flatten(_.map(POINTS, function(point1, n) {
-                var segments = [];
-                _.each(_.rest(POINTS, n + 1), function(point2) {
-                    segments.push(new Seg(point1,point2));
-                    segments.push(new Seg(point2,point1));
-                });
-                return segments;
-            }), true)</var> -->
-
             <var id="ang1">new Ang("D","A","C", null)</var>
             <var id="ang2">new Ang("C","A","B", null)</var>
             <var id="ang3">new Ang("C","B","A", null)</var>
