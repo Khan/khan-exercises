@@ -756,7 +756,7 @@ function outputBadProof(){
     for(var i=0; i<knownKeys.length; i+=2){
         if(knownEqualities[knownKeys[i]].substring(0,4) != "Same"){
             if(knownEqualities[knownKeys[i]] == "given"){
-                numberGivens--;
+                numberGivens--;                
                 proofText += "<div style=\"float:left\" class=\"" + divName(knownKeys[i]) + "\">";
                 proofText += prettifyEquality(knownKeys[i]);
                 if(numberGivens > 1){
@@ -772,7 +772,7 @@ function outputBadProof(){
             else{
                 proofText += "<div class=\"" + divName(knownKeys[i]) + "\">";
                 proofText += prettifyEquality(knownKeys[i]);
-                proofText += " because " + knownEqualities[knownKeys[i]] + "</div>" + "<br>";
+                proofText += " because " + knownEqualities[knownKeys[i]] + "</div><br>";
             }
         }
 
@@ -787,7 +787,8 @@ function outputBadProof(){
         return [proofText,prettifyEquality(invalid),valid];
     }
 
-    
+    console.log(valid);
+    console.log(prettifyEquality(valid));
 
     return [proofText,prettifyEquality(invalid),prettifyEquality(valid)];
 
@@ -1898,18 +1899,17 @@ function triangIn(item, object){
     return false;
 }
 
-// takes an equality list and orders it by moving all the givens to the front, and keeping everything else in place
+// sort a list of equalities, moving each equality which has reason "given" in equality object to the back
 function sortEqualityList(equalityList, equalityObject){
     var newEqualityList = [];
     for(var i=0; i<equalityList.length; i++){
-        if(equalityObject[equalityList[i]] == "given"){
+        if(equalityObject[equalityList[i]]=="given"){
             newEqualityList.unshift(equalityList[i]);
         }
         else{
             newEqualityList.push(equalityList[i]);
         }
     }
-    return newEqualityList;
 }
 
 // utility function to rotate an array
