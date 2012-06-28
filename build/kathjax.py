@@ -88,7 +88,7 @@ kathjax_js.close()
 # Pack KAthJax.js and copy to mjdir
 
 os.mkdir(os.path.join(mjdir, 'config'))
-os.system('uglifyjs --overwrite --ascii KAthJax.js')
+os.system('uglifyjs --overwrite --ascii --beautify --indent 0 KAthJax.js')
 
 kathjax_js = open('KAthJax.js', 'r')
 md5 = hashlib.md5(kathjax_js.read()).hexdigest()

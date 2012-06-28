@@ -1,0 +1,21 @@
+.exercises-body {
+    /* Activate GPU rendering */
+    -webkit-transform: translatez(0);
+}
+
+#workarea {
+    width: 514px;
+}
+
+#hintsarea {
+    width: 494px;
+}
+
+body.debug #workarea,
+body.debug #hintsarea {
+    outline: 1px dashed #ddd;
+}
+
+body.debug #extras .debug-mode {
+    display: none;
+}
