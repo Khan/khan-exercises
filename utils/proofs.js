@@ -1195,7 +1195,8 @@ function traceBack(statementKey, depth){
             for(var i=0; i<seg1.triangles.length; i++){
                 for(var j=0; j<seg2.triangles.length; j++){
                     if(!eqIn([seg1.triangles[i][0], seg2.triangles[j][0]], finishedEqualities) 
-                        && isRelationPossible([seg1.triangles[i][0], seg2.triangles[j][0]])){
+                        && isRelationPossible([seg1.triangles[i][0], seg2.triangles[j][0]])
+                        && !(triangIn(seg1.triangles[i][0], fixedTriangles) && triangIn(seg2.triangles[j][0], fixedTriangles))){
                         newTriangles.push([seg1.triangles[i][0], seg2.triangles[j][0]]);
                     }
                 }
@@ -1260,7 +1261,8 @@ function traceBack(statementKey, depth){
             for(var i=0; i<ang1.triangles.length; i++){
                 for(var j=0; j<ang2.triangles.length; j++){
                     if(!eqIn([ang1.triangles[i][0], ang2.triangles[j][0]], finishedEqualities) 
-                        && isRelationPossible([ang1.triangles[i][0], ang2.triangles[j][0]])){
+                        && isRelationPossible([ang1.triangles[i][0], ang2.triangles[j][0]])
+                        && !(triangIn(ang1.triangles[i][0], fixedTriangles) && triangIn(ang2.triangles[j][0], fixedTriangles))){
                         newTriangles.push([ang1.triangles[i][0], ang2.triangles[j][0]]);
                     }
                 }
@@ -1304,9 +1306,7 @@ function traceBack(statementKey, depth){
 
                 setGivenOrTraceBack([[trianglePair[0],trianglePair[1]]], "corresponding parts of congruent triangles are congruent",
                 statementKey, depth-1);
-            }
-            
-
+            }    
         }
     }
 }
