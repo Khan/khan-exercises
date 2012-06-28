@@ -576,19 +576,14 @@ function outputBadProof(){
     // a clunky way to filter out duplicate
     var filteredKeys = [];
     for(var i=0; i<filteredDupKeys.length; i+=2){
-        filteredKeys[i%2] = filteredDupKeys[i];
+        filteredKeys[i/2] = filteredDupKeys[i];
     }
     while(validStatements<2 && count<100){
         //pick two things to be equal
-        var newEquality = KhanUtil.randFromArray(filteredKeys);
+        var newEquality = filteredKeys[(filteredKeys.length-validStatements-1)];
         if(!eqIn(newEquality, knownEqualities)){
             knownEqualities[newEquality] = finishedEqualities[newEquality];
             knownEqualities[filteredDupKeys[_.indexOf(filteredDupKeys, newEquality)+1]] = finishedEqualities[newEquality];
-            // if(before && valid == null){
-            //     valid = newEquality;
-            //     console.log("setting valid "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
-            //     console.log(" = "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
-            // }
             validStatements++;
         }
         count++;
@@ -605,7 +600,7 @@ function outputBadProof(){
 
             if(!checkSegEqual(seg1, seg2, "CPCTC")){
                 invalid = [seg1, seg2];
-                knownEqualities[invalid] = "corresponding parts of congruent triangles are equal";
+                knownEqualities[invalid] = "corresponding parts of congruent triangles are congruent";
                 invalidStatements++;
             }
         }
@@ -616,7 +611,7 @@ function outputBadProof(){
             if(!checkAngEqual(ang1, ang2, "Vertical angles") || !checkAngEqual(ang1, ang2, "Alternate angles")
                 || !checkAngEqual(ang1, ang2, "CPCTC")){
                 invalid = [ang1, ang2];
-                knownEqualities[invalid] = KhanUtil.randFromArray(["corresponding parts of congruent triangles are equal",
+                knownEqualities[invalid] = KhanUtil.randFromArray(["corresponding parts of congruent triangles are congruent",
                  "vertical angles are equal", "alternate interior angles are equal"]);
                 invalidStatements++;
             }
@@ -658,9 +653,6 @@ function outputBadProof(){
 
             if(isRelationPossible([seg1,seg2]) && !eqIn([seg1,seg2], knownEqualities) && !seg1.equals(seg2) && checkSegEqual(seg1, seg2, "CPCTC")){
                 validStatements++;
-                // if(!before && valid == null){
-                //     valid = [seg1, seg2];   
-                // }
             }
         }
         else if(equalityType == 2){
@@ -671,9 +663,6 @@ function outputBadProof(){
                 (checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles") 
                     || checkAngEqual(ang1, ang2, "CPCTC"))){
                 validStatements++;
-                // if(!before && valid == null){
-                //    valid = [ang1, ang2]; 
-                // }
             }
         }
         else{
@@ -701,11 +690,6 @@ function outputBadProof(){
                 validStatements++;
                 fixedTriangles[triangle1] = true;
                 fixedTriangles[triangle2] = true;
-                // if(!before && valid == null){
-                //     console.log("setting valid "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
-                //     console.log(" = "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
-                //     valid = [triangle1, triangle2];
-                // }
             }
         }
         count++;
@@ -752,13 +736,7 @@ function outputBadProof(){
     proofText += prettifyEquality(finalRelation);
     proofText += " because " + finishedEqualities[finalRelation] + "</div>" + "<br>";
 
-    console.log("VALID = "+valid);
-    console.log("before = "+before);
-    console.log("INVALID = "+invalid);
 
-    // if(valid==null){
-    //     return [proofText,prettifyEquality(invalid),valid];
-    // }
     valid = KhanUtil.randFromArray(_.filter(_.keys(knownEqualities), function(key){
        return knownEqualities[key] != "given" && knownEqualities[key].substring(0,4) != "Same" && _.difference(key.toString().split(""), invalid.toString().split("")).length>0; 
     }));
@@ -806,18 +784,18 @@ function Ang(end1, mid, end2, parts) {
 
 }
 
-Ang.prototype.toString = function() {
+Ang.prototype.toString = function(){
     return this.end1 < this.end2 ? "ang" + this.end1 + this.mid + this.end2 : "ang" + this.end2 + this.mid + this.end1;
 }
 
-Ang.prototype.equals = function(otherAng) {
+Ang.prototype.equals = function(otherAng){
     return this.mid == otherAng.mid && 
     ((this.end1 == otherAng.end1 && this.end2 == otherAng.end2) || (this.end1 == otherAng.end2 && this.end2 == otherAng.end1));
 }
 
 // When constructing a triangle, the order of the segments and angles should be
 // segs[0], angs[0], segs[1], angs[1], segs[2], angs[2] proceeding around the triangle.
-function Triang(segs, angs) {
+function Triang(segs, angs){
     this.segs = segs;
     for(var i=0; i<3; i++){
         segs[i].triangles.push([this, i]);
@@ -830,7 +808,7 @@ function Triang(segs, angs) {
 
 }
 
-Triang.prototype.toString = function() {
+Triang.prototype.toString = function(){
     return "triangle" + this.angs[2].mid + this.angs[0].mid + this.angs[1].mid;
 }
 
@@ -843,7 +821,7 @@ Triang.prototype.equals = function(otherTriang){
 
 // If two smaller angles share a midpoint and one of two endpoints, they can be
 // added to form a larger angle
-function addAngs(ang1, ang2) {
+function addAngs(ang1, ang2){
     if(ang1.mid == ang2.mid && ang1.end1 == ang2.end1 && ang1.end2 != ang2.end2) {
         return new Ang(ang1.end2, ang1.mid, ang2.end2, [ang1.angleParts, ang2.angleParts]);
     }
@@ -860,6 +838,7 @@ function addAngs(ang1, ang2) {
         return null;
     }
 }
+
 
 // Each call to traceBack takes a pair of objects, determines why they should be equal/congruent/similar/etc.,
 // and using that information finds new pairs of objects to be equal/congruent/similar/etc.
@@ -1257,7 +1236,7 @@ function traceBack(statementKey, depth){
                     trianglePair[0].angs.rotate(index2 - index1);
                 }
 
-                setGivenOrTraceBack([[trianglePair[0],trianglePair[1]]], "Corresponding parts of congruent triangles are congruent",
+                setGivenOrTraceBack([[trianglePair[0],trianglePair[1]]], "corresponding parts of congruent triangles are congruent",
                 statementKey, depth-1);
             }
         }
@@ -1323,7 +1302,7 @@ function traceBack(statementKey, depth){
                     trianglePair[0].angs.rotate(index2 - index1);
                 }
 
-                setGivenOrTraceBack([[trianglePair[0],trianglePair[1]]], "Corresponding parts of congruent triangles are congruent",
+                setGivenOrTraceBack([[trianglePair[0],trianglePair[1]]], "corresponding parts of congruent triangles are congruent",
                 statementKey, depth-1);
             }
             
@@ -1573,8 +1552,8 @@ function checkSegEqual(seg1, seg2, reason){
                 && _.indexOf(seg1.triangles[i][0].segs, seg1) == _.indexOf(seg2.triangles[j][0].segs, seg2)){
 
                 if(reason == "CPCTC"){
-                    knownEqualities[[seg1,seg2]] = "corresponding parts of congruent triangles are equal";
-                    knownEqualities[[seg2,seg1]] = "corresponding parts of congruent triangles are equal";
+                    knownEqualities[[seg1,seg2]] = "corresponding parts of congruent triangles are congruent";
+                    knownEqualities[[seg2,seg1]] = "corresponding parts of congruent triangles are congruent";
                     return true;
                 }
             }
@@ -1601,8 +1580,8 @@ function checkAngEqual(ang1, ang2, reason){
                 && _.indexOf(ang1.triangles[i][0].angs, ang1) == _.indexOf(ang2.triangles[j][0].angs, ang2)){
 
                 if(reason == "CPCTC"){
-                    knownEqualities[[ang1,ang2]] = "corresponding parts of congruent triangles are equal";
-                    knownEqualities[[ang2,ang1]] = "corresponding parts of congruent triangles are equal";
+                    knownEqualities[[ang1,ang2]] = "corresponding parts of congruent triangles are congruent";
+                    knownEqualities[[ang2,ang1]] = "corresponding parts of congruent triangles are congruent";
                     return true;
                 }
             }
