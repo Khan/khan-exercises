@@ -376,12 +376,13 @@ function nextStatementHint(){
 // return the entire finished proof generated, formatted to look all pretty and etc.
 // used in "find the wrong statement" exercise, so also picks two statements for that exercise
 function outputFinishedProof(){
+    console.log("outputFinishedProof");
     var proofText = "<h3>Givens</h3>";
 
     var unsortedFinishedKeys = _.keys(finishedEqualities);
     unsortedFinishedKeys.reverse();
     var finishedKeys = sortEqualityList(unsortedFinishedKeys, finishedEqualities);
-
+    
     var possibleValids = [];
 
     var numberGivens = 0;
@@ -391,7 +392,6 @@ function outputFinishedProof(){
         }
     });
     numberGivens /= 2;
-
     for(var i=0; i<finishedKeys.length; i+=2){
         if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same"){
             if(finishedEqualities[finishedKeys[i]] == "given"){
@@ -420,6 +420,7 @@ function outputFinishedProof(){
         }
 
     }
+    
 
     var indices = KhanUtil.randRangeUnique(0, possibleValids.length - 1, 2);
 
@@ -577,9 +578,7 @@ function outputBadProof(){
     for(var i=0; i<filteredDupKeys.length; i+=2){
         filteredKeys[i%2] = filteredDupKeys[i];
     }
-    console.log("filteredKeys = "+filteredKeys);
     while(validStatements<2 && count<100){
-        console.log(count);
         //pick two things to be equal
         var newEquality = KhanUtil.randFromArray(filteredKeys);
         if(!eqIn(newEquality, knownEqualities)){
@@ -587,6 +586,8 @@ function outputBadProof(){
             knownEqualities[filteredDupKeys[_.indexOf(filteredDupKeys, newEquality)+1]] = finishedEqualities[newEquality];
             if(before && valid == null){
                 valid = newEquality;
+                console.log("setting valid "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
+                console.log(" = "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
             }
             validStatements++;
         }
@@ -752,6 +753,7 @@ function outputBadProof(){
     proofText += " because " + finishedEqualities[finalRelation] + "</div>" + "<br>";
 
     console.log("VALID = "+valid);
+    console.log("before = "+before);
     console.log("INVALID = "+invalid);
 
     if(valid==null){
@@ -1881,6 +1883,7 @@ function sortEqualityList(equalityList, equalityObject){
             newEqualityList.push(equalityList[i]);
         }
     }
+    return newEqualityList;
 }
 
 // utility function to rotate an array
