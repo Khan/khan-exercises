@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Area of parallelograms</title>
+    <script src="../khan-exercise.js"></script>
+
+    <script type="text/javascript">
+        KhanUtil.parallelogram = function(B, H, UNIT, SH) {
+            var graph = KhanUtil.currentGraph;
+
+            graph.init({
+                range: [[-4, B + 4], [-1, H + 1]],
+                scale: [30, 30]
+            });
+
+            var par = graph.path([[0, 0], [B, 0], [B + SH, H], [SH, H], [0, 0]]),
+            base, baseL, height, heightL, slice;
+
+            return {
+                drawBase: function() {
+                    base = graph.path([[0, 0], [B, 0]], { "stroke": KhanUtil.ORANGE });
+                    baseL = graph.label([B/2, 0], "\\color{" + KhanUtil.ORANGE + "}{b = " + B + "\\text{ " + UNIT + "}}", "below");
+                },
+                drawHeight: function() {
+                    height = graph.path([[B, 0], [B, H]], { "stroke": KhanUtil.BLUE, "stroke-dasharray": "." });
+                    heightL = graph.label([B, H/2], "\\color{" + KhanUtil.BLUE + "}{h = " + H + "\\text{ " + UNIT + "}}", "right");
+                },
+                drawArea: function() {
+                    if (SH > 0) {
+                        graph.path([[0, 0], [B, 0], [B, H], [0, H], [0, 0]], { "opacity": 0.5, "fill": KhanUtil.RED });
+                        graph.label([B/2, H/2], B * H);
+                    } else {
+                        graph.path([[SH, 0], [B + SH, 0], [B + SH, H], [SH, H], [SH, 0]], { "opacity": 0.5, "fill": KhanUtil.RED });
+                        graph.label([B/2 + SH, H/2], B * H);
+                    }
+                },
+                sliceHint: function() {
+                    if (SH > 0) {
+                        graph.path([[0, 0], [B, 0], [B, H], [SH, H], [0, 0]]).insertBefore(par);
+                        par.hide();
+
+                        slice = graph.path([[B, 0], [B, H], [B + SH, H], [B, 0]]).insertAfter(par);
+                    } else {
+                        graph.path([[0, 0], [SH, H], [B + SH, H], [B + SH, 0], [0, 0]]).insertBefore(par);
+                        par.hide();
+
+                        slice = graph.path([[B, 0], [B + SH, H], [B + SH, 0], [B, 0]]).insertAfter(par);          
+                    }
+                },
+                animHint: function() {
+                    slice.animate({ transform: "T" + (-B * 30) + ",0" }, 1000, "easeOut");
+
+                    if (SH < 0) {
+                        var st = graph.raphael.set();
+                        st.push(base, height);
+
+                        $(baseL).fadeOut();
+                        $(heightL).fadeOut();
+
+                        st.animate({ transform: "T" + (SH * 30) + ",0" }, 1000, "easeOut", function() {
+                            baseL = graph.label([B/2 + SH, 0], "\\color{" + KhanUtil.ORANGE + "}{b = " + B + "\\text{ " + UNIT + "}}", "below");
+                            heightL = graph.label([B + SH, H/2], "\\color{" + KhanUtil.BLUE + "}{h = " + H + "\\text{ " + UNIT + "}}", "right");
+                            $(baseL).hide().fadeIn();
+                            $(heightL).hide().fadeIn();
+                        });
+                    }
+                }
+            };
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars" data-ensure="Math.abs(SH) &lt;= B">
+            <var id="UNIT,UNIT_TEXT">randFromArray([
+                ["in", "inch"],
+                ["ft", "foot"],
+                ["m", "meter"],
+                ["cm", "centimeter"],
+                ["", "unit"]
+            ])</var>
+
+            <var id="B">randRange(1, 8)</var>
+            <var id="H">randRange(1, 8)</var>
+
+            <var id="SH">randRangeNonZero(-2, 2)</var>
+
+            <var id="K">B * H</var>
+        </div>
+
+        <div class="problems">
+            <div id="par-bh-to-K">
+                <div class="problem">Suppose a parallelogram has base length <code class="hint_orange"><var>B</var> \text{ <var>UNIT</var>}</code> and height <code class="hint_blue"><var>H</var> \text{ <var>UNIT</var>}</code>.</div>
+                <div class="question">What is the parallelogram's area?</div>
+
+                <div class="solution" data-type="multiple">
+                    <span class="sol"><var>K</var></span>
+                    square <var>plural(UNIT_TEXT)</var>
+                </div>
+
+                <div class="hints">
+                    <div class="graphie" id="parallelogram">
+                        graph.p = parallelogram(B, H, UNIT, SH);
+
+                        graph.p.drawBase();
+                        graph.p.drawHeight();
+                    </div>
+                    <div>
+                        <p>By moving a slice of the parallelogram, we can see that its area is equal to that of a rectangle with the same base and height.</p>
+                        <div class="graphie" data-update="parallelogram">
+                            graph.p.sliceHint();
+                            graph.p.animHint();
+                        </div>
+                    </div>
+                    <p>area of rectangle <code> = b \times h</code></p>
+                    <div>
+                        <div class="graphie" data-update="parallelogram">
+                            graph.p.drawArea();
+                        </div>
+                        <p><code>A = <var>B</var> \times <var>H</var> = <var>K</var></code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
