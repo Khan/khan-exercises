@@ -584,11 +584,11 @@ function outputBadProof(){
         if(!eqIn(newEquality, knownEqualities)){
             knownEqualities[newEquality] = finishedEqualities[newEquality];
             knownEqualities[filteredDupKeys[_.indexOf(filteredDupKeys, newEquality)+1]] = finishedEqualities[newEquality];
-            if(before && valid == null){
-                valid = newEquality;
-                console.log("setting valid "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
-                console.log(" = "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
-            }
+            // if(before && valid == null){
+            //     valid = newEquality;
+            //     console.log("setting valid "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
+            //     console.log(" = "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
+            // }
             validStatements++;
         }
         count++;
@@ -658,9 +658,9 @@ function outputBadProof(){
 
             if(isRelationPossible([seg1,seg2]) && !eqIn([seg1,seg2], knownEqualities) && !seg1.equals(seg2) && checkSegEqual(seg1, seg2, "CPCTC")){
                 validStatements++;
-                if(!before && valid == null){
-                    valid = [seg1, seg2];   
-                }
+                // if(!before && valid == null){
+                //     valid = [seg1, seg2];   
+                // }
             }
         }
         else if(equalityType == 2){
@@ -671,9 +671,9 @@ function outputBadProof(){
                 (checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles") 
                     || checkAngEqual(ang1, ang2, "CPCTC"))){
                 validStatements++;
-                if(!before && valid == null){
-                   valid = [ang1, ang2]; 
-                }
+                // if(!before && valid == null){
+                //    valid = [ang1, ang2]; 
+                // }
             }
         }
         else{
@@ -701,11 +701,11 @@ function outputBadProof(){
                 validStatements++;
                 fixedTriangles[triangle1] = true;
                 fixedTriangles[triangle2] = true;
-                if(!before && valid == null){
-                    console.log("setting valid "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
-                    console.log(" = "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
-                    valid = [triangle1, triangle2];
-                }
+                // if(!before && valid == null){
+                //     console.log("setting valid "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
+                //     console.log(" = "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
+                //     valid = [triangle1, triangle2];
+                // }
             }
         }
         count++;
@@ -756,9 +756,12 @@ function outputBadProof(){
     console.log("before = "+before);
     console.log("INVALID = "+invalid);
 
-    if(valid==null){
-        return [proofText,prettifyEquality(invalid),valid];
-    }
+    // if(valid==null){
+    //     return [proofText,prettifyEquality(invalid),valid];
+    // }
+    valid = KhanUtil.randFromArray(_.filter(_.keys(knownEqualities), function(key){
+       return knownEqualities[key] != "given" && knownEqualities[key].substring(0,4) != "Same" && _.difference(key.toString().split(""), invalid.toString().split("")).length>0; 
+    }));
     
 
     return [proofText,prettifyEquality(invalid),prettifyEquality(valid)];
