@@ -215,6 +215,7 @@
                                 $statement.bind("vmouseover", function(event) {
                                     var firstState = firstAngle.state;
                                     var secondState = secondAngle.state;
+                                    var maxState = Math.max(firstState,secondState);
 
                                     firstAngle.styleSet({
                                         stroke: ORANGE,
@@ -224,8 +225,8 @@
                                         stroke: BLUE,
                                         "stroke-width": 3
                                     });
-                                    firstAngle.set(firstState > 0 ? firstState : 1);
-                                    secondAngle.set(secondState > 0 ? secondState : 1);
+                                    firstAngle.set(maxState > 0 ? maxState : 1);
+                                    secondAngle.set(maxState > 0 ? maxState : 1);
                                     $(this).bind("vmouseout", function(event) {
                                         firstAngle.styleSet({
                                             stroke: "black",

@@ -566,66 +566,29 @@ function outputBadProof(){
     var valid = null;
     var before = KhanUtil.random() < 0.5;
     var count = 0;
+
+    var filteredDupKeys = _.filter(_.keys(finishedEqualities), function(key){
+        return finishedEqualities[key] != "given" && finishedEqualities[key].substring(0,4) != "Same";
+    });
+    // can't use reverse to check to duplicate keys because keys are strings, can't use _.difference because 
+    // sometimes difference is 0 between string but they represent different equalities, so for now use
+    // a clunky way to filter out duplicate
+    var filteredKeys = [];
+    for(var i=0; i<filteredDupKeys.length; i+=2){
+        filteredKeys[i%2] = filteredDupKeys[i];
+    }
+    console.log("filteredKeys = "+filteredKeys);
     while(validStatements<2 && count<100){
+        console.log(count);
         //pick two things to be equal
-        var equalityType = KhanUtil.randRange(1,3);
-        if(equalityType == 1){
-            var seg1 = KhanUtil.randFromArray(SEGMENTS);
-            var seg2 = KhanUtil.randFromArray(SEGMENTS);
-
-            if(isRelationPossible([seg1,seg2]) && !eqIn([seg1,seg2], knownEqualities) && !seg1.equals(seg2) && checkSegEqual(seg1, seg2, "CPCTC")){
-                validStatements++;
-                if(before && valid == null){
-                    valid = [seg1, seg2];   
-                }
+        var newEquality = KhanUtil.randFromArray(filteredKeys);
+        if(!eqIn(newEquality, knownEqualities)){
+            knownEqualities[newEquality] = finishedEqualities[newEquality];
+            knownEqualities[filteredDupKeys[_.indexOf(filteredDupKeys, newEquality)+1]] = finishedEqualities[newEquality];
+            if(before && valid == null){
+                valid = newEquality;
             }
-        }
-        else if(equalityType == 2){
-            var ang1 = KhanUtil.randFromArray(ANGLES);
-            var ang2 = KhanUtil.randFromArray(ANGLES);
-
-            if(isRelationPossible([ang1,ang2]) && !eqIn([ang1,ang2], knownEqualities) && !ang1.equals(ang2) && 
-                (checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles") 
-                    || checkAngEqual(ang1, ang2, "CPCTC"))){
-                validStatements++;
-                if(before && valid == null){
-                   valid = [ang1, ang2]; 
-                }
-            }
-        }
-        else{
-            var triangle1 = KhanUtil.randFromArray(TRIANGLES);
-            var triangle2 = KhanUtil.randFromArray(TRIANGLES);
-
-            // in this case you have to also try every rotation (if they aren't fixed)
-            // because honestly, triangles are the devil
-            var rotation = KhanUtil.randRange(0,2);
-            if(!triangIn(triangle1, fixedTriangles)){
-                console.log("rotating " +_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })) + " by "+rotation);
-                triangle1.segs.rotate(rotation);
-                triangle1.angs.rotate(rotation);
-            }
-            else if(!triangIn(triangle2, fixedTriangles)){
-                triangle2.segs.rotate(rotation);
-                triangle2.angs.rotate(rotation);
-            }
-
-            if(isRelationPossible([triangle1, triangle2]) && !eqIn([triangle1,triangle2], knownEqualities) && !triangle1.equals(triangle2) &&
-                (checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
-                || checkTriangleCongruent(triangle1, triangle2, "SAS") || checkTriangleCongruent(triangle1, triangle2, "AAS"))){
-                validStatements++;
-
-                console.log("trying to prove "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
-                console.log(" = "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
-                
-                if(before && valid == null){
-                    console.log("marking "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })) + " as valid");
-                    valid = [triangle1, triangle2];
-                }
-
-                fixedTriangles[triangle1] = true;
-                fixedTriangles[triangle2] = true;
-            }
+            validStatements++;
         }
         count++;
     }
@@ -641,7 +604,7 @@ function outputBadProof(){
 
             if(!checkSegEqual(seg1, seg2, "CPCTC")){
                 invalid = [seg1, seg2];
-                knownEqualities[invalid] = "Corresponding parts of congruent triangles are equal";
+                knownEqualities[invalid] = "corresponding parts of congruent triangles are equal";
                 invalidStatements++;
             }
         }
@@ -652,8 +615,8 @@ function outputBadProof(){
             if(!checkAngEqual(ang1, ang2, "Vertical angles") || !checkAngEqual(ang1, ang2, "Alternate angles")
                 || !checkAngEqual(ang1, ang2, "CPCTC")){
                 invalid = [ang1, ang2];
-                knownEqualities[invalid] = KhanUtil.randFromArray(["Corresponding parts of congruent triangles are equal",
-                 "Vertical angles are equal", "Alternate interior angles are equal"]);
+                knownEqualities[invalid] = KhanUtil.randFromArray(["corresponding parts of congruent triangles are equal",
+                 "vertical angles are equal", "alternate interior angles are equal"]);
                 invalidStatements++;
             }
         }
@@ -686,7 +649,6 @@ function outputBadProof(){
 
     count = 0;
     while(validStatements<4 && count<100){
-        console.log("count = "+count);
         //pick two things to be equal
         var equalityType = KhanUtil.randRange(1,3);
         if(equalityType == 1){
@@ -719,10 +681,12 @@ function outputBadProof(){
 
             var rotation = KhanUtil.randRange(0,2);
             if(!triangIn(triangle1, fixedTriangles)){
+                console.log("rotating "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
                 triangle1.segs.rotate(rotation);
                 triangle1.angs.rotate(rotation);
             }
             else if(!triangIn(triangle2, fixedTriangles)){
+                console.log("rotating "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
                 triangle2.segs.rotate(rotation);
                 triangle2.angs.rotate(rotation);
             }
@@ -737,6 +701,8 @@ function outputBadProof(){
                 fixedTriangles[triangle1] = true;
                 fixedTriangles[triangle2] = true;
                 if(!before && valid == null){
+                    console.log("setting valid "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
+                    console.log(" = "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
                     valid = [triangle1, triangle2];
                 }
             }
