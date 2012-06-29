@@ -201,6 +201,7 @@ function verifyStatement(){
 }
 
 function verifyStatementArgs(statement, reason, category){
+    console.log(statement + ", " + reason + ", " + category);
     if(userProofDone){
         return false;
     }
@@ -256,6 +257,8 @@ function verifyStatementArgs(statement, reason, category){
         }
 
         else{
+            console.log(ang1);
+            console.log(ang2);
             toReturn = checkAngEqual(ang1, ang2, reason);
         }
     }
@@ -283,12 +286,17 @@ function verifyStatementArgs(statement, reason, category){
         }
     }
 
+    else{
+        return "you haven't selected a reason this statement is true";
+    }
+
     // check if the proof is done
     if(eqIn(finalRelation, knownEqualities)){
         userProofDone = true;
         console.log("Proof finished");
     }
 
+    console.log("returning "+toReturn);
     return toReturn;
 
 }
@@ -1578,6 +1586,7 @@ function checkSegEqual(seg1, seg2, reason){
 function checkAngEqual(ang1, ang2, reason){
     // if this is already known
     if(eqIn([ang1, ang2], knownEqualities)){
+        console.log("thinks its already known?");
         return true;
     }
 
@@ -1618,6 +1627,7 @@ function checkAngEqual(ang1, ang2, reason){
             if(reason === "Vertical angles"){
                 knownEqualities[[ang1,ang2]] = "vertical angles are equal";
                 knownEqualities[[ang2,ang1]] = "vertical angles are equal";
+                console.log(_.clone(knownEqualities));
                 return true;
             }
         }

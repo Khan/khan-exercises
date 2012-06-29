@@ -56,19 +56,6 @@
 
                     <var id="PARALLEL_SEGS">[]</var>
 
-                    <!-- <var id="PARALLEL_TO_ALTERNATE">(function() {
-                        dict = {};
-                        dict[[AB,DE]] = [[ang2, ang11], [ang3, ang10]];
-                        return dict;
-                    })</var>
-
-                    <var id="ALTERNATE_TO_PARALLEL">(function() {
-                        dict = {};
-                        dict[[ang2, ang11]] = [AB,DE];
-                        dict[[ang3, ang10]] = [AB,DE];
-                        return dict;
-                    })</var> -->
-
                     <var id="ADC">new Triang([AD, DC, CA], [ang5, ang3, ang1])</var>
                     <var id="BEC">new Triang([BE, EC, CB], [ang6, ang4, ang2])</var>
                     
@@ -79,9 +66,7 @@
                     <var id="KNOWN">STATEMENTS[0]</var>
                     <var id="FINISHED">STATEMENTS[1]</var>
 
-
-                    <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
-                    
+                    <var id="HINT">"you haven't entered anything yet!"</var>                    
                 </div>
                 <p class="question">
                     <p>Prove <var> FINISHED </var>.</p>
@@ -162,12 +147,26 @@
 
 
                         $(".nextStatement input").keyup(function(){
-                            var angles = [];
-                            angles[0] = $("#thing1").val();
-                            angles[1] = $("#thing2").val();
+                            var triangles = [];
+                            triangles[0] = $("#thing1").val();
+                            triangles[1] = $("#thing2").val();
                             var reason = $("#reason").val();
 
-                            var verify = verifyStatementArgs(angles[0]+"="+angles[1], reason, "angle");
+                            var verify = verifyStatementArgs(triangles[0]+"="+triangles[1], reason, "triangle congruence");
+                            if(verify.length > 0){
+                                HINT = verify;
+                            }
+                            else if(!verify){
+                                HINT = "statement isn't true";
+                            }
+                            else{
+                                $(".statements").html(outputKnownProof());
+                                _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
+                                $(".nextStatement").hide();
+                            }
+                        });
+                        $("#reason").change(function(){ 
+                            $(".nextStatement input").keyup(); 
                         });
 
                     </div>
@@ -175,18 +174,18 @@
 
                 <p class="statements"> <var> outputKnownProof() </var></p>
                 <p class="nextStatement">
-                    <code> \angle </code> <input type="text" id="thing1" style="width: 30px"></input> <code> =  \angle </code> <input type="text" id="thing2" style="width: 30px"> </input> because 
+                    <code> \bigtriangleup </code> <input type="text" id="thing1" style="width: 30px"></input> <code> =  \bigtriangleup </code> <input type="text" id="thing2" style="width: 30px"> </input> because 
                     <select id="reason">
                         <option value="">select a reason</option>
-                        <option value="alternate angles">alternate interior angles are equal</option>
-                        <option value="vertical angles">vertical angles are equal</option>
-                        <option value="CPCTC">corresponding parts of congruent triangles are equal</option>
+                        <option value="SSS">side-side-side congruence</option>
+                        <option value="ASA">angle-side-angle congruence</option>
+                        <option value="SAS">side-angle-side congruence</option>
+                        <option value="AAS">angle-angle-side congruence</option>
                     </select>
                 </p>
                 <div class="solution" data-type="custom">
                     <div class="instruction">
-                        Enter a statement, click check to add to proof. Check answer to evaluate the whole proof. <br>
-                        To prove: <var>FINISHED</var>
+                        Enter a statement, and pick a reason that statement is true. You can use the given statements, facts about the figure, or statements you've already proven.
                     </div>
                     <div class="guess">[]</div>
                     <div class="validator-function">
