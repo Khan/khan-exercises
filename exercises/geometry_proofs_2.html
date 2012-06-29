@@ -103,64 +103,64 @@
                             start: "D",
                             end: "E",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "B",
                             end: "C",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "B",
                             end: "D",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "C",
                             end: "D",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "C",
                             end: "E",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "A",
                             end: "B",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "A",
                             end: "C",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
 
-                        graph.congruency.addAngles("A");
-                        graph.congruency.addAngles("B");
-                        graph.congruency.addAngles("C");
-                        graph.congruency.addAngles("D");
-                        graph.congruency.addAngles("E");
+                        graph.congruency.addAngles("A", { maxState: 3 });
+                        graph.congruency.addAngles("B", { maxState: 3 });
+                        graph.congruency.addAngles("C", { maxState: 3 });
+                        graph.congruency.addAngles("D", { maxState: 3 });
+                        graph.congruency.addAngles("E", { maxState: 3 });
 
 
                         graph.congruency.addLine({
                             start: "A",
                             end: "E",
                             clickable: false,
-                            max: 3
+                            maxState: 3
                         });
 
                         graph.congruency.addLine({
                             start: "A",
                             end: "D",
                             clickable: false,
-                            max: 3
+                            maxState: 3
                         });
 
                         graph.congruency.addLabel("A", "above");
@@ -169,7 +169,12 @@
                         graph.congruency.addLabel("D", "left");
                         graph.congruency.addLabel("E", "right");
 
-                        g = graph;
+                        for(var angle in graph.congruency.angles){
+                            graph.congruency.angles[angle].setSelectedStyle({
+                                stroke: "black",
+                                "stroke-width": 3
+                            });
+                        }
 
                         
                         for(var line in graph.congruency.lines){
@@ -182,20 +187,20 @@
 
                                     if($statement.length > 0){
                                         $statement.bind("vmouseover", function(event) {
-                                            firstLine.normalStyle({
+                                            firstLine.setHighlighted({
                                                 stroke: ORANGE,
                                                 "stroke-width": 3
                                             });
-                                            secondLine.normalStyle({
+                                            secondLine.setHighlighted({
                                                 stroke: BLUE,
                                                 "stroke-width": 3
                                             });
                                             $(this).bind("vmouseout", function(event) {
-                                                firstLine.normalStyle({
+                                                firstLine.unsetHighlighted({
                                                     stroke: "black",
                                                     "stroke-width": 2
                                                 });
-                                                secondLine.normalStyle({
+                                                secondLine.unsetHighlighted({
                                                     stroke: "black",
                                                     "stroke-width": 2
                                                 });
@@ -220,27 +225,27 @@
                                             var secondState = secondAngle.state;
                                             var maxState = Math.max(firstState,secondState);
 
-                                            firstAngle.styleSet({
+                                            firstAngle.setHighlighted({
                                                 stroke: ORANGE,
                                                 "stroke-width": 3
                                             });
-                                            secondAngle.styleSet({
+                                            secondAngle.setHighlighted({
                                                 stroke: BLUE,
                                                 "stroke-width": 3
                                             });
-                                            firstAngle.set(maxState > 0 ? maxState : 1);
-                                            secondAngle.set(maxState > 0 ? maxState : 1);
+                                            firstAngle.setState(maxState > 0 ? maxState : 1);
+                                            secondAngle.setState(maxState > 0 ? maxState : 1);
                                             $(this).bind("vmouseout", function(event) {
-                                                firstAngle.styleSet({
+                                                firstAngle.unsetHighlighted({
                                                     stroke: "black",
                                                     "stroke-width": 2
                                                 });
-                                                secondAngle.styleSet({
+                                                secondAngle.unsetHighlighted({
                                                     stroke: "black",
                                                     "stroke-width": 2
                                                 });
-                                                firstAngle.set(firstState);
-                                                secondAngle.set(secondState);
+                                                firstAngle.setState(firstState);
+                                                secondAngle.setState(secondState);
                                             });
                                         });
                                     }
@@ -296,13 +301,13 @@
                                                 for(var l=0; l<3; l++){
                                                 // >
                                                     if(sharedSeg[0] != l){
-                                                        triangleLines[l].normalStyle({
+                                                        triangleLines[l].setUnselectedStyle({
                                                             stroke: ORANGE,
                                                             "stroke-width": 3
                                                         });
                                                     }
                                                     else{
-                                                        triangleLines[l].normalStyle({
+                                                        triangleLines[l].setUnselectedStyle({
                                                             stroke: "black",
                                                             "stroke-width": 3
                                                         });
@@ -312,13 +317,13 @@
                                                 for(var l=0; l<3; l++){
                                                 // >
                                                     if(sharedSeg[1] != l){
-                                                        triangle2Lines[l].normalStyle({
+                                                        triangle2Lines[l].setUnselectedStyle({
                                                             stroke: BLUE,
                                                             "stroke-width": 3
                                                         });
                                                     }
                                                     else{
-                                                        triangle2Lines[l].normalStyle({
+                                                        triangle2Lines[l].setUnselectedStyle({
                                                             stroke: "black",
                                                             "stroke-width": 3
                                                         });
@@ -326,28 +331,28 @@
                                                 }
 
                                                 $(this).bind("vmouseout", function(event) {
-                                                    line1_1.normalStyle({
+                                                    line1_1.setUnselectedStyle({
                                                         stroke: "black",
                                                         "stroke-width": 2
                                                     });
-                                                    line1_2.normalStyle({
+                                                    line1_2.setUnselectedStyle({
                                                         stroke: "black",
                                                         "stroke-width": 2
                                                     });
-                                                    line1_3.normalStyle({
+                                                    line1_3.setUnselectedStyle({
                                                         stroke: "black",
                                                         "stroke-width": 2
                                                     });
 
-                                                    line2_1.normalStyle({
+                                                    line2_1.setUnselectedStyle({
                                                         stroke: "black",
                                                         "stroke-width": 2
                                                     });
-                                                    line2_2.normalStyle({
+                                                    line2_2.setUnselectedStyle({
                                                         stroke: "black",
                                                         "stroke-width": 2
                                                     });
-                                                    line2_3.normalStyle({
+                                                    line2_3.setUnselectedStyle({
                                                         stroke: "black",
                                                         "stroke-width": 2
                                                     });
@@ -489,75 +494,90 @@
                             start: "A",
                             end: "B",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "A",
                             end: "C",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "A",
                             end: "D",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "A",
                             end: "E",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "B",
                             end: "C",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "B",
                             end: "D",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "E",
                             end: "B",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "E",
                             end: "D",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "C",
                             end: "D",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "C",
                             end: "E",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
 
-                        graph.congruency.addAngles("A");
-                        graph.congruency.addAngles("B");
-                        graph.congruency.addAngles("C");
-                        graph.congruency.addAngles("D");
-                        graph.congruency.addAngles("E");
+                        graph.congruency.addAngles("A", { maxState: 3 });
+                        graph.congruency.addAngles("B", { maxState: 3 });
+                        graph.congruency.addAngles("C", { maxState: 3 });
+                        graph.congruency.addAngles("D", { maxState: 3 });
+                        graph.congruency.addAngles("E", { maxState: 3 });
 
+                        graph.congruency.addAngle("DAC", { maxState: 3 });
+                        graph.congruency.addAngle("CAB", { maxState: 3 });
+                        graph.congruency.addAngle("ABC", { maxState: 3 });
+                        graph.congruency.addAngle("CBE", { maxState: 3 });
+                        graph.congruency.addAngle("BEC", { maxState: 3 });
+                        graph.congruency.addAngle("CED", { maxState: 3 });
+                        graph.congruency.addAngle("EDC", { maxState: 3 });
+                        graph.congruency.addAngle("CDA", { maxState: 3 });
 
                         graph.congruency.addLabel("A", "left");
                         graph.congruency.addLabel("B", "right");
                         graph.congruency.addLabel("C", "right");
                         graph.congruency.addLabel("D", "left");
                         graph.congruency.addLabel("E", "right");
+
+                        for(var angle in graph.congruency.angles){
+                            graph.congruency.angles[angle].setSelectedStyle({
+                                stroke: "black",
+                                "stroke-width": 3
+                            });
+                        }
 
                         for(var line in graph.congruency.lines){
                             for(var line2 in graph.congruency.lines){
@@ -569,23 +589,17 @@
 
                                     if($statement.length > 0){
                                         $statement.bind("vmouseover", function(event) {
-                                            firstLine.normalStyle({
+                                            firstLine.setHighlighted({
                                                 stroke: ORANGE,
                                                 "stroke-width": 3
                                             });
-                                            secondLine.normalStyle({
+                                            secondLine.setHighlighted({
                                                 stroke: BLUE,
                                                 "stroke-width": 3
                                             });
                                             $(this).bind("vmouseout", function(event) {
-                                                firstLine.normalStyle({
-                                                    stroke: "black",
-                                                    "stroke-width": 2
-                                                });
-                                                secondLine.normalStyle({
-                                                    stroke: "black",
-                                                    "stroke-width": 2
-                                                });
+                                                firstLine.unsetHighlighted();
+                                                secondLine.unsetHighlighted();
                                             });
                                         });
 
@@ -607,27 +621,21 @@
                                             var secondState = secondAngle.state;
                                             var maxState = Math.max(firstState,secondState);
 
-                                            firstAngle.styleSet({
+                                            firstAngle.setHighlighted({
                                                 stroke: ORANGE,
                                                 "stroke-width": 3
                                             });
-                                            secondAngle.styleSet({
+                                            secondAngle.setHighlighted({
                                                 stroke: BLUE,
                                                 "stroke-width": 3
                                             });
-                                            firstAngle.set(maxState > 0 ? maxState : 1);
-                                            secondAngle.set(maxState > 0 ? maxState : 1);
+                                            firstAngle.setState(maxState > 0 ? maxState : 1);
+                                            secondAngle.setState(maxState > 0 ? maxState : 1);
                                             $(this).bind("vmouseout", function(event) {
-                                                firstAngle.styleSet({
-                                                    stroke: "black",
-                                                    "stroke-width": 2
-                                                });
-                                                secondAngle.styleSet({
-                                                    stroke: "black",
-                                                    "stroke-width": 2
-                                                });
-                                                firstAngle.set(firstState);
-                                                secondAngle.set(secondState);
+                                                firstAngle.unsetHighlighted();
+                                                secondAngle.unsetHighlighted();
+                                                firstAngle.setState(firstState);
+                                                secondAngle.setState(secondState);
                                             });
                                         });
                                     }
@@ -683,13 +691,13 @@
                                                 for(var l=0; l<3; l++){
                                                 // >
                                                     if(sharedSeg[0] != l){
-                                                        triangleLines[l].normalStyle({
+                                                        triangleLines[l].setUnselectedStyle({
                                                             stroke: ORANGE,
                                                             "stroke-width": 3
                                                         });
                                                     }
                                                     else{
-                                                        triangleLines[l].normalStyle({
+                                                        triangleLines[l].setUnselectedStyle({
                                                             stroke: "black",
                                                             "stroke-width": 3
                                                         });
@@ -699,13 +707,13 @@
                                                 for(var l=0; l<3; l++){
                                                 // >
                                                     if(sharedSeg[1] != l){
-                                                        triangle2Lines[l].normalStyle({
+                                                        triangle2Lines[l].setUnselectedStyle({
                                                             stroke: BLUE,
                                                             "stroke-width": 3
                                                         });
                                                     }
                                                     else{
-                                                        triangle2Lines[l].normalStyle({
+                                                        triangle2Lines[l].setUnselectedStyle({
                                                             stroke: "black",
                                                             "stroke-width": 3
                                                         });
@@ -713,28 +721,28 @@
                                                 }
 
                                                 $(this).bind("vmouseout", function(event) {
-                                                    line1_1.normalStyle({
+                                                    line1_1.setUnselectedStyle({
                                                         stroke: "black",
                                                         "stroke-width": 2
                                                     });
-                                                    line1_2.normalStyle({
+                                                    line1_2.setUnselectedStyle({
                                                         stroke: "black",
                                                         "stroke-width": 2
                                                     });
-                                                    line1_3.normalStyle({
+                                                    line1_3.setUnselectedStyle({
                                                         stroke: "black",
                                                         "stroke-width": 2
                                                     });
 
-                                                    line2_1.normalStyle({
+                                                    line2_1.setUnselectedStyle({
                                                         stroke: "black",
                                                         "stroke-width": 2
                                                     });
-                                                    line2_2.normalStyle({
+                                                    line2_2.setUnselectedStyle({
                                                         stroke: "black",
                                                         "stroke-width": 2
                                                     });
-                                                    line2_3.normalStyle({
+                                                    line2_3.setUnselectedStyle({
                                                         stroke: "black",
                                                         "stroke-width": 2
                                                     });
