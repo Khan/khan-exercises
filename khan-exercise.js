@@ -1937,6 +1937,9 @@ var Khan = (function() {
 
                 // How many cards the user has left to do
                 cards_left: !testMode && (Exercises.incompleteStack.length - 1)
+
+                //Get Custom Stack Id if it exists
+                custom_stack_id = Exercises.incompleteStack.getCustomStackID()
             };
         }
 
