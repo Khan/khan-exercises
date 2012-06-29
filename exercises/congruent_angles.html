@@ -50,12 +50,12 @@
 
                     graph.hint = function(index, color) {
                         if (index &lt; 4) {
-                            graph.topang.ang[index % 4].styleUnset({
+                            graph.botang.ang[index % 4].styleUnset({
                                 stroke: color,
                                 opacity: 0.4
                             });
                         } else {
-                            graph.botang.ang[index % 4].styleUnset({
+                            graph.topang.ang[index % 4].styleUnset({
                                 stroke: color,
                                 opacity: 0.4
                             });
@@ -120,30 +120,32 @@
                     </div>
                 </div>
                 <div data-if="GIVEN < 2 || GIVEN > 5">
-                    <p>Opposite interior angles are congruent, so the angle <span class="hint_purple">opposite</span> of the <span class="hint_orange">given</span> is congruent</p>
-                    <div class="graphie">
-                        if (GIVEN &lt; 2) {
-                            GRAPH.hint((GIVEN + 6) % 8, PURPLE);
-                        } else {
-                            GRAPH.hint((GIVEN + 2) % 8, PURPLE);
-                        }
-                    </div>
-                </div>
-                <div data-else>
                     <p>Opposite interior angles are congruent, so the angle <span class="hint_purple">opposite</span> of the <span class="hint_red">vertical angle</span> is congruent</p>
                     <div class="graphie">
                         GRAPH.hint((GIVEN + 4) % 8, PURPLE);
                     </div>
                 </div>
+                <div data-else>
+                    <p>Opposite interior angles are congruent, so the angle <span class="hint_purple">opposite</span> of the <span class="hint_orange">given</span> is congruent</p>
+                    <div class="graphie">
+                        if (GIVEN &lt; 4) {
+                            GRAPH.hint((GIVEN + 2) % 8, PURPLE);
+                        } else {
+                            GRAPH.hint((GIVEN + 6) % 8, PURPLE);
+                        }
+                    </div>
+                </div>
                 <div>
                     <p>Vertical angles are congruent, so the angle <span class="hint_pink">vertical</span> to the <span class="hint_purple">opposite interior angle</span> is congruent.</p>
                     <div class="graphie">
-                        if (GIVEN &lt; 2 || GIVEN &gt; 5) {
-                            GRAPH.hint((GIVEN + 4) % 8, PINK);
-                        } else if (GIVEN &lt; 4) {
-                            GRAPH.hint((GIVEN + 2) % 8, PINK);
-                        } else {
+                        if (GIVEN &lt; 2) {
                             GRAPH.hint((GIVEN + 6) % 8, PINK);
+                        } else if (GIVEN &lt; 4) {
+                            GRAPH.hint((GIVEN + 4) % 8, PINK);
+                        } else if (GIVEN &lt; 6) {
+                            GRAPH.hint((GIVEN + 4) % 8, PINK);
+                        } else {
+                            GRAPH.hint((GIVEN + 2) % 8, PINK);
                         }
                     </div>
                 </div>
