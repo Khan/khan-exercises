@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
+<head>
+	<title>Solving an equation with one unknown</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+<div class="exercise">
+	<div class="problems">
+		<div id="equation">
+			<div class="vars">
+				<div>
+					<var id="X">X</var>
+                                        <var id="A">randRangeNonZero( -5, 5 )</var>
+					<var id="S">roundTo(2, -1/A-2).toFixed(2)</var>
+				</div>
+			</div>
+
+			<div class="problems">
+				<div>
+					<p class="question">Find the value of X (with two decimal places accuracy, for example 2.43) :</p>
+					<p class="question"><code><var>A</var> + \dfrac{1}{X}=\dfrac{1}{X*(X+1)}+\dfrac{1}{(X+1)*(X+2)}</code></p>
+					<div class="solution" data-type="multiple">
+						<p>X = <span class="sol" data-type="rational"><var>S</var></span></p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="hints">
+				<p class="question">Use that : <code>\dfrac{1}{X}-\dfrac{1}{X+1}=\dfrac{1}{X*(X+1)}</code></p>
+				<p class="question"><code><var>A</var> + \dfrac{1}{X}=\dfrac{1}{X}-\dfrac{1}{X+1}+\dfrac{1}{X+1} - \dfrac{1}{X+2}</code></p>
+				<p class="question"><code><var>A</var>= - \dfrac{1}{X+2}</code></p>
+				<p class="question"><code>X+2 = -\dfrac{1}{<var>A</var>}</code></p>
+				<p class="question"><code>X = -\dfrac{1}{<var>A</var>} - 2</code></p>
+				<p>X = <var>S</var></p>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
