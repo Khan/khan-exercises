@@ -179,14 +179,14 @@ $.extend(KhanUtil, {
             if (event.type === "vmouseover") {
                 KhanUtil.highlight = true;
                 if (!KhanUtil.dragging) {
-                    graph.slopePoints[index].animate({ rx: 8, ry: 8 }, 50);
+                    graph.slopePoints[index].animate({ scale: 2 }, 50);
                     graph.tangentLines[index].animate({ "stroke": KhanUtil.DDX_COLOR }, 100);
                 }
 
             } else if (event.type === "vmouseout") {
                 KhanUtil.highlight = false;
                 if (!KhanUtil.dragging) {
-                    graph.slopePoints[index].animate({ rx: 4, ry: 4 }, 50);
+                    graph.slopePoints[index].animate({ scale: 1 }, 50);
                     graph.tangentLines[index].animate({ "stroke": KhanUtil.TANGENT_COLOR }, 100);
                 }
 
@@ -209,7 +209,7 @@ $.extend(KhanUtil, {
                     if (event.type === "vmousemove") {
                         $($("div#solutionarea :text")[index]).val(KhanUtil.roundTo(2, coordY));
                         $($("div#solutionarea .answer-label")[index]).text(KhanUtil.roundTo(2, coordY));
-                        graph.tangentLines[index].transform("R"+(-Math.atan(coordY * (graph.scale[1] / graph.scale[0])) * (180 / Math.PI)));
+                        graph.tangentLines[index].rotate(-Math.atan(coordY * (graph.scale[1] / graph.scale[0])) * (180 / Math.PI), true);
                         graph.slopePoints[index].attr("cy", mouseY);
                         graph.mouseTargets[index].attr("cy", mouseY);
 
@@ -222,7 +222,7 @@ $.extend(KhanUtil, {
 
                         graph.tangentLines[index].animate({ scale: 1 }, 200);
                         if (!KhanUtil.highlight) {
-                            graph.slopePoints[index].animate({ rx: 4, ry: 4 }, 200);
+                            graph.slopePoints[index].animate({ scale: 1 }, 200);
                             graph.tangentLines[index].animate({ "stroke": KhanUtil.TANGENT_COLOR }, 100);
                         }
 
@@ -258,7 +258,7 @@ $.extend(KhanUtil, {
 
         $($("div#solutionarea :text")[index]).val(KhanUtil.roundTo(2, coordY));
         $($("div#solutionarea .answer-label")[index]).text(KhanUtil.roundTo(2, coordY));
-        graph.tangentLines[index].transform("R"+(-Math.atan(coordY * (graph.scale[1] / graph.scale[0])) * (180 / Math.PI)));
+        graph.tangentLines[index].rotate(-Math.atan(coordY * (graph.scale[1] / graph.scale[0])) * (180 / Math.PI), true);
         graph.slopePoints[index].attr("cy", (graph.range[1][1] - coordY) * graph.scale[1]);
         graph.mouseTargets[index].attr("cy", (graph.range[1][1] - coordY) * graph.scale[1]);
     },
