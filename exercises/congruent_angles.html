@@ -13,7 +13,7 @@
                 <var id="ANGLE">randRange(40, 140)</var>
                 <var id="GIVENTOP">rand(2) === 1</var>
                 <var id="GIVENPOS">rand(4)</var>
-                <var id="GIVEN">GIVENPOS + (GIVENTOP ? 4 : 0)</var>
+                <var id="GIVEN">GIVENPOS + (GIVENTOP ? 0 : 4)</var>
                 <var id="SOLUTION">[(GIVEN + 2) % 8,
                                     (GIVEN + 4) % 8,
                                     (GIVEN + 6) % 8]</var>
@@ -64,14 +64,14 @@
 
                     graph.getGuess = function() {
                         var top = _.map(graph.topang.ang, function(e, v) {
-                            if (GIVENTOP &amp;&amp; v === GIVENPOS) {
+                            if (!GIVENTOP &amp;&amp; v === GIVENPOS) {
                                 return false;
                             } else {
                                 return e.state &gt; 0;
                             }
                         });
                         var bot = _.map(graph.botang.ang, function(e, v) {
-                            if (!GIVENTOP &amp;&amp; v === GIVENPOS) {
+                            if (GIVENTOP &amp;&amp; v === GIVENPOS) {
                                 return false;
                             } else {
                                 return e.state &gt; 0;

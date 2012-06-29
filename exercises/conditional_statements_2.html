@@ -162,7 +162,8 @@
                 <var id="QUESTIONS">
                     <!-- category, noun, singular, plural verb, singular, plural adjective -->
                     [["animal", "spider", "has", "have", "eight legs", "eight legs"],
-                     ["vegetable", "potato", "grows", "grow", "in trees", "in trees"],
+                     ["creature", "tiggle", "is", "are", "talking", "talking"],
+                     ["creature", "wiggle", "is", "are", "walking", "walking"],
                      ["animal", "giraffe", "has", "have", "a long neck", "long necks"]]
                 </var>
                 <var id="CATEGORY,TYPE,VERB_S,VERB_P,CONCLUSION_S,CONCLUSION_P">randFromArray(QUESTIONS)</var>
@@ -210,7 +211,12 @@
 
                 <var id="SOLUTION">["If", ["I", 1], [EVENT_V, 1], [EVENT_N, 1], "then", ["I", 2],  [CONC_V, 2], [CONC_N, 2]]</var>
 
-                <var id="STATEMENT_LIST">[["I will ", 2], [CONC_V, 2], " ", [CONC_N, 2], " when ", ["I ", 1], [EVENT_V, 1], " ", [EVENT_N, 1], "."]</var>
+                <var id="STATEMENT_LIST">
+                    randFromArray([
+                        [["I will ", 2], [CONC_V, 2], " ", [CONC_N, 2], " when ", ["I ", 1], [EVENT_V, 1], " ", [EVENT_N, 1], "."],
+                        ["When ", ["I ", 1], [EVENT_V, 1], " ", [EVENT_N, 1], [", I will ", 2], [CONC_V, 2], " ", [CONC_N, 2], "."]
+                    ])
+                </var>
                 <var id="STATEMENT">_.map(STATEMENT_LIST, makeStatement).join("")</var>
             </div>
             <div class="hints">

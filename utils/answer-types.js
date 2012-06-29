@@ -191,32 +191,37 @@ $.extend(Khan.answerTypes, {
                     text = text.replace(/\u2212/, "-");
 
                     // - pi
-                    if (match = text.match(/^([+-]?)\s*(?:pi?|\u03c0)$/i)) {
+                    if (match = text.match(/^([+-]?)\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
                         possibilities = [{ value: parseFloat(match[1] + "1"), exact: true }];
 
                     // 5 / 6 pi
-                    } else if (match = text.match(/^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*(?:pi?|\u03c0)$/i)) {
+                    } else if (match = text.match(/^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
                         possibilities = fractionTransformer(match[1]);
 
                     // 5 pi / 6
-                    } else if (match = text.match(/^([+-]?\d+)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i)) {
-                        possibilities = fractionTransformer(match[1] + "/" + match[2]);
+                    } else if (match = text.match(/^([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i)) {
+                        possibilities = fractionTransformer(match[1] + "/" + match[3]);
 
                     // - pi / 4
-                    } else if (match = text.match(/^([+-]?)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i)) {
-                        possibilities = fractionTransformer(match[1] + "1/" + match[2]);
+                    } else if (match = text.match(/^([+-]?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i)) {
+                        possibilities = fractionTransformer(match[1] + "1/" + match[3]);
 
                     // 0
                     } else if (text === "0") {
                         possibilities = [{ value: 0, exact: true }];
 
                     // 0.5 pi (fallback)
-                    } else if (match = text.match(/^(\S+)\s*\*?\s*(?:pi?|\u03c0)$/i)) {
+                    } else if (match = text.match(/^(\S+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
                         possibilities = forms.decimal.transformer(match[1]);
                     }
 
+                    var multiplier = Math.PI;
+                    if (match && match[2].match(/t(?:au)?|\u03c4/)) {
+                        multiplier = Math.PI * 2;
+                    }
+
                     $.each(possibilities, function(ix, possibility) {
-                        possibility.value *= Math.PI;
+                        possibility.value *= multiplier;
                     });
                     return possibilities;
                 },
