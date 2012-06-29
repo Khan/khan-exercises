@@ -84,8 +84,8 @@
                     
                 </div>
                 <p class="question">
-                    <p>You are given <var> KNOWN </var>.</p>
-                    <p>Prove <var> FINISHED </var> in two steps.</p>
+                    <p>Prove <var> FINISHED </var>.</p>
+                    <p>This figure is not drawn to scale.</p>
                 </p>
 
                 <div class="problem">
@@ -108,44 +108,51 @@
                             start: "A",
                             end: "D",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "A",
                             end: "C",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "C",
                             end: "D",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "C",
                             end: "B",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "C",
                             end: "E",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
                         graph.congruency.addLine({
                             start: "E",
                             end: "B",
                             clickable: true,
-                            max: 3
+                            maxState: 3
                         });
 
-                        graph.congruency.addAngles("A");
-                        graph.congruency.addAngles("B");
-                        graph.congruency.addAngles("C");
-                        graph.congruency.addAngles("D");
-                        graph.congruency.addAngles("E");
+                        graph.congruency.addAngles("A", { maxState: 3 });
+                        graph.congruency.addAngles("B", { maxState: 3 });
+                        graph.congruency.addAngles("C", { maxState: 3 });
+                        graph.congruency.addAngles("D", { maxState: 3 });
+                        graph.congruency.addAngles("E", { maxState: 3 });
+
+                        for(var angle in graph.congruency.angles){
+                            graph.congruency.angles[angle].setSelectedStyle({
+                                stroke: "black",
+                                "stroke-width": 3
+                            });
+                        }
                         
                         graph.congruency.addLabel("A", "left");
                         graph.congruency.addLabel("B", "right");
@@ -153,23 +160,26 @@
                         graph.congruency.addLabel("D", "left");
                         graph.congruency.addLabel("E", "right");
 
-                        $(".anglestuff").change(function(){
-                            if($("#angle_reason").val().length > 0){
-                                verifyStatementArgs($("#angle1").val()+"="+$("#angle2").val(), $("#angle_reason").val(), "angle equality");
-                            }
+
+                        $(".nextStatement input").keyup(function(){
+                            var angles = [];
+                            angles[0] = $("#thing1").val();
+                            angles[1] = $("#thing2").val();
+                            var reason = $("#reason").val();
+
+                            var verify = verifyStatementArgs(angles[0]+"="+angles[1], reason, "angle");
                         });
 
                     </div>
                 </div>
 
-                <p class="statements"> <var> outputKnownProof() </var>
-                </p>
+                <p class="statements"> <var> outputKnownProof() </var></p>
                 <p class="nextStatement">
-                    <code> \angle </code> <input type="text" id="angle1" class="anglestuff" style="width: 30px"></input> <code> =  \angle </code> <input type="text" id="angle2" class="anglestuff" style="width: 30px"> </input> because 
-                    <select id="angle_reason" class="anglestuff">
+                    <code> \angle </code> <input type="text" id="thing1" style="width: 30px"></input> <code> =  \angle </code> <input type="text" id="thing2" style="width: 30px"> </input> because 
+                    <select id="reason">
                         <option value="">select a reason</option>
-                        <option value="Alternate angles">alternate interior angles are equal</option>
-                        <option value="Vertical angles">vertical angles are equal</option>
+                        <option value="alternate angles">alternate interior angles are equal</option>
+                        <option value="vertical angles">vertical angles are equal</option>
                         <option value="CPCTC">corresponding parts of congruent triangles are equal</option>
                     </select>
                 </p>
@@ -177,14 +187,6 @@
                     <div class="instruction">
                         Enter a statement, click check to add to proof. Check answer to evaluate the whole proof. <br>
                         To prove: <var>FINISHED</var>
-                        <select class="statement_type">
-                            <option>triangle congruence</option>
-                            <option>segment equality</option>
-                            <option>angle equality</option>
-                        </select>
-                        <input class="statement"></input>
-                        <input class="justification"></input>
-                        <button class="check-statement" onclick="verifyStatement()">Check</button>
                     </div>
                     <div class="guess">[]</div>
                     <div class="validator-function">
