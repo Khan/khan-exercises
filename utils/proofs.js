@@ -635,7 +635,9 @@ function outputBadProof(){
 
             if(!checkTriangleCongruent(triangle1, triangle2, "SSS") || !checkTriangleCongruent(triangle1, triangle2, "ASA")
                 || !checkTriangleCongruent(triangle1, triangle2, "SAS") || !checkTriangleCongruent(triangle1, triangle2, "AAS")){
-                invalid = [triangle1, triangle2];
+                invalid = [new Triang(_.clone(triangle1.segs), _.clone(triangle1.angs)), new Triang(_.clone(triangle2.segs), _.clone(triangle2.angs))];
+                console.log("setting " +_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })) + " to invalid");
+
                 knownEqualities[invalid] = KhanUtil.randFromArray(["SSS","ASA","SAS","AAS"]);
                 knownEqualities[invalid.reverse()] = KhanUtil.randFromArray(["SSS","ASA","SAS","AAS"]);
                 fixedTriangles[triangle1] = true;
@@ -644,6 +646,7 @@ function outputBadProof(){
             }
         }
     }
+    console.log(_.clone(_.map(invalid[1].angs, function(ang){ return ang.mid; })));
 
     count = 0;
     while(validStatements<4 && count<100){
@@ -696,6 +699,7 @@ function outputBadProof(){
         }
         count++;
     }
+    console.log(_.clone(_.map(invalid[1].angs, function(ang){ return ang.mid; })));
 
     // now construct the proof we want to hand to the exercise
     var proofText = "<h3>Givens</h3>";
@@ -734,9 +738,14 @@ function outputBadProof(){
 
     }
 
-    proofText += "<div class=\"" + divName(finalRelation.toString()) + "\">";
-    proofText += prettifyEquality(finalRelation);
-    proofText += " because " + finishedEqualities[finalRelation] + "</div>" + "<br>";
+    if(!eqIn(finalRelation, knownEqualities)){
+        proofText += "<div class=\"" + divName(finalRelation.toString()) + "\">";
+        proofText += prettifyEquality(finalRelation);
+        proofText += " because " + finishedEqualities[finalRelation] + "</div>" + "<br>";
+    }
+
+    console.log("VALID = "+valid);
+    console.log("INVALID = "+invalid);
 
 
     valid = KhanUtil.randFromArray(_.filter(_.keys(knownEqualities), function(key){
@@ -1444,7 +1453,7 @@ function isRelationPossible(key){
 function checkTriangleCongruent(triangle1, triangle2, reason) {
     // to check if this pair of triangles is already in knownEqualities, we need to check
     // if any corresponding rotation is in knownEqualities
-
+    var isRotation = false;
     for(var i=0; i<3; i++){
         triangle1.segs.rotate(1);
         triangle1.angs.rotate(1);
@@ -1454,8 +1463,11 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
 
 
         if(eqIn([triangle1, triangle2], knownEqualities)){
-            return true;
+            isRotation = true;
         }
+    }
+    if(isRotation){
+        return true;
     }
 
 
