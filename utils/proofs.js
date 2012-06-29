@@ -636,7 +636,6 @@ function outputBadProof(){
             if(!checkTriangleCongruent(triangle1, triangle2, "SSS") || !checkTriangleCongruent(triangle1, triangle2, "ASA")
                 || !checkTriangleCongruent(triangle1, triangle2, "SAS") || !checkTriangleCongruent(triangle1, triangle2, "AAS")){
                 invalid = [new Triang(_.clone(triangle1.segs), _.clone(triangle1.angs)), new Triang(_.clone(triangle2.segs), _.clone(triangle2.angs))];
-                console.log("setting " +_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })) + " to invalid");
 
                 knownEqualities[invalid] = KhanUtil.randFromArray(["SSS","ASA","SAS","AAS"]);
                 knownEqualities[invalid.reverse()] = KhanUtil.randFromArray(["SSS","ASA","SAS","AAS"]);
@@ -646,7 +645,6 @@ function outputBadProof(){
             }
         }
     }
-    console.log(_.clone(_.map(invalid[1].angs, function(ang){ return ang.mid; })));
 
     count = 0;
     while(validStatements<4 && count<100){
@@ -676,18 +674,14 @@ function outputBadProof(){
 
             var rotation = KhanUtil.randRange(0,2);
             if(!triangIn(triangle1, fixedTriangles)){
-                console.log("rotating "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
                 triangle1.segs.rotate(rotation);
                 triangle1.angs.rotate(rotation);
             }
             else if(!triangIn(triangle2, fixedTriangles)){
-                console.log("rotating "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
                 triangle2.segs.rotate(rotation);
                 triangle2.angs.rotate(rotation);
             }
 
-            console.log("trying to prove "+_.clone(_.map(triangle1.angs, function(ang){ return ang.mid; })));
-            console.log(" = "+_.clone(_.map(triangle2.angs, function(ang){ return ang.mid; })));
 
             if(isRelationPossible([triangle1,triangle2]) && !eqIn([triangle1,triangle2], knownEqualities) && !triangle1.equals(triangle2) &&
                 (checkTriangleCongruent(triangle1, triangle2, "SSS") || checkTriangleCongruent(triangle1, triangle2, "ASA")
@@ -699,7 +693,6 @@ function outputBadProof(){
         }
         count++;
     }
-    console.log(_.clone(_.map(invalid[1].angs, function(ang){ return ang.mid; })));
 
     // now construct the proof we want to hand to the exercise
     var proofText = "<h3>Givens</h3>";
@@ -743,9 +736,6 @@ function outputBadProof(){
         proofText += prettifyEquality(finalRelation);
         proofText += " because " + finishedEqualities[finalRelation] + "</div>" + "<br>";
     }
-
-    console.log("VALID = "+valid);
-    console.log("INVALID = "+invalid);
 
 
     valid = KhanUtil.randFromArray(_.filter(_.keys(knownEqualities), function(key){
