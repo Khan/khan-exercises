@@ -599,6 +599,7 @@ function outputBadProof(){
             if(!checkSegEqual(seg1, seg2, "CPCTC")){
                 invalid = [seg1, seg2];
                 knownEqualities[invalid] = "corresponding parts of congruent triangles are congruent";
+                knownEqualities[invalid.reverse()] = "corresponding parts of congruent triangles are congruent";
                 invalidStatements++;
             }
         }
@@ -610,6 +611,8 @@ function outputBadProof(){
                 || !checkAngEqual(ang1, ang2, "CPCTC")){
                 invalid = [ang1, ang2];
                 knownEqualities[invalid] = KhanUtil.randFromArray(["corresponding parts of congruent triangles are congruent",
+                 "vertical angles are equal", "alternate interior angles are equal"]);
+                knownEqualities[invalid.reverse()] = KhanUtil.randFromArray(["corresponding parts of congruent triangles are congruent",
                  "vertical angles are equal", "alternate interior angles are equal"]);
                 invalidStatements++;
             }
@@ -634,6 +637,7 @@ function outputBadProof(){
                 || !checkTriangleCongruent(triangle1, triangle2, "SAS") || !checkTriangleCongruent(triangle1, triangle2, "AAS")){
                 invalid = [triangle1, triangle2];
                 knownEqualities[invalid] = KhanUtil.randFromArray(["SSS","ASA","SAS","AAS"]);
+                knownEqualities[invalid.reverse()] = KhanUtil.randFromArray(["SSS","ASA","SAS","AAS"]);
                 fixedTriangles[triangle1] = true;
                 fixedTriangles[triangle2] = true;
                 invalidStatements++;
