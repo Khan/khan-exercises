@@ -525,8 +525,6 @@ function checkFillBlanksStatement(divID){
         var seg1 = new Seg(components[0][0], components[0][1]);
         var seg2 = new Seg(components[1][0], components[1][1]);
 
-        
-
         if(input1.length != 2 || input2.length != 2){
             return;
         }
@@ -1045,8 +1043,8 @@ function traceBack(statementKey, depth){
                     verticalAngs[0] = verticalAngs[1];
                 }
 
-                finishedEqualities[[triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[0]]]] = "Vertical angles are equal";
-                finishedEqualities[[triangle2.angs[verticalAngs[0]], triangle1.angs[verticalAngs[0]]]] = "Vertical angles are equal";
+                finishedEqualities[[triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[0]]]] = "vertical angles are equal";
+                finishedEqualities[[triangle2.angs[verticalAngs[0]], triangle1.angs[verticalAngs[0]]]] = "vertical angles are equal";
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
@@ -1101,8 +1099,8 @@ function traceBack(statementKey, depth){
                     alternateAngs[0] = alternateAngs[1];
                 }
 
-                finishedEqualities[[triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]]] = "Alternate interior angles are equal";
-                finishedEqualities[[triangle2.angs[alternateAngs[0]], triangle1.angs[alternateAngs[0]]]] = "Alternate interior angles are equal";
+                finishedEqualities[[triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]]] = "alternate interior angles are equal";
+                finishedEqualities[[triangle2.angs[alternateAngs[0]], triangle1.angs[alternateAngs[0]]]] = "alternate interior angles are equal";
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
@@ -1855,6 +1853,8 @@ function triangIn(item, object){
 }
 
 // sort a list of equalities, moving each equality which has reason "given" in equality object to the back
+// also, since we add the vertical angles and alternate angles before the triangles they prove, we need to move these
+// forward in the list
 function sortEqualityList(equalityList, equalityObject){
     var newEqualityList = [];
     for(var i=0; i<equalityList.length; i++){
@@ -1865,7 +1865,15 @@ function sortEqualityList(equalityList, equalityObject){
             newEqualityList.push(equalityList[i]);
         }
     }
-    return newEqualityList;
+    var sortedEqualityList = _.clone(newEqualityList);
+    for(var i=0; i<newEqualityList.length; i++){
+        if(equalityObject[newEqualityList[i]] == "vertical angles are equal" || equalityObject[newEqualityList[i]] == "alternate interior angles are equal"){
+            sortedEqualityList[i-2] = newEqualityList[i];
+            sortedEqualityList[i] = newEqualityList[i-2];
+        }
+    }
+
+    return sortedEqualityList;
 }
 
 // utility function to rotate an array
