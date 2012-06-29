@@ -284,6 +284,13 @@ $.fn.tmplLoad = function(problem, info) {
 };
 
 $.fn.tmplCleanup = function() {
+    // This gets called before each problem. In some cases, before the first
+    // problem, MathJax isn't loaded yet. No worries--there's nothing to clean
+    // up anyway
+    if (typeof MathJax === "undefined") {
+        return;
+    }
+
     this.find("code").each(function() {
         var jax = MathJax.Hub.getJaxFor(this);
         if (jax) {

@@ -279,7 +279,7 @@
                     padding: (pad != null ? pad : 7) + "px"
                 })).appendTo(el);
 
-                if (typeof MathJax !== "undefined") {
+                if (typeof MathJax !== "undefined" && $.trim(text + "") !== "") {
                     // Add to the MathJax queue
                     if (latex) {
                         $.tmpl.type.code()(code[0]);
@@ -686,7 +686,7 @@
 
                 // Graph could be in either of these
                 var area = $("#problemarea").add(problem);
-                graphie = area.find("#" + id).data("graphie");
+                graphie = area.find("#" + id + ".graphie").data("graphie");
             } else {
                 graphie = createGraph(this);
                 $(this).data("graphie", graphie);

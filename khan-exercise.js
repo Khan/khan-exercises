@@ -284,7 +284,7 @@ var Khan = (function() {
 
         moduleDependencies: {
             "math": [{
-                src: urlBase + "utils/MathJax/1.1a/MathJax.js?config=KAthJax-a5c67e8a5046db2ff8dfc2229a228836"
+                src: urlBase + "utils/MathJax/1.1a/MathJax.js?config=KAthJax-62e7a7b628ba168df6b9cd3de8feac38"
             }, "raphael"],
 
             // Load Raphael locally because IE8 has a problem with the 1.5.2 minified release
@@ -715,7 +715,7 @@ var Khan = (function() {
     Khan.loadScripts(scripts, function() {
 
         if (testMode) {
-            Khan.require(["../jquery-ui"]);
+            Khan.require(["../jquery-ui", "../jquery.qtip"]);
         }
 
         // Base modules required for every problem
@@ -1034,7 +1034,7 @@ var Khan = (function() {
 
         // In either of these testing situations,
         } else if ((testMode && Khan.query.test != null) || user == null) {
-            problemSeed = randomSeed;
+            problemSeed = randomSeed % bins;
         }
 
         // Set randomSeed to what problemSeed is (save problemSeed for recall later)
@@ -1666,6 +1666,13 @@ var Khan = (function() {
         }
 
 
+        if (userExercise == null || Khan.query.debug != null) {
+            $("#problem-permalink").text("Permalink: "
+                + problemID + " #"
+                + problemSeed)
+                .attr("href", window.location.protocol + "//" + window.location.host + window.location.pathname + "?debug&problem=" + problemID + "&seed=" + problemSeed);
+        }
+
         // Show the debug info
         if (testMode && Khan.query.debug != null) {
             $(document).keypress(function(e) {
@@ -1691,31 +1698,39 @@ var Khan = (function() {
             }
 
             var links = $("<p>").appendTo(debugWrap);
-            $("<a>Problem permalink</a>")
-                .attr("href", debugURL + "&seed=" + problemSeed)
-                .appendTo(links);
-
 
             if (!Khan.query.activity) {
-                links.append("<br>");
                 var historyURL = debugURL + "&seed=" + problemSeed + "&activity=";
                 $("<a>Problem history</a>").attr("href", "javascript:").click(function(event) {
                     window.location.href = historyURL + encodeURIComponent(JSON.stringify(userActivityLog));
                 }).appendTo(links);
             } else {
-                links.append("<br>");
                 $("<a>Random problem</a>")
-                    .attr("href", debugURL)
+                    .attr("href", window.location.protocol + "//" + window.location.host + window.location.pathname + "?debug")
                     .appendTo(links);
             }
 
-            links.append("<br>");
-            links.append("Problem type: ");
+            links.append("<br><b>Problem types:</b><br>");
 
-            $("<a>")
-                .text(problemID)
-                .attr("href", debugURL)
-                .appendTo(links);
+            exercises.children(".problems").children().each(function(n, prob) {
+                var probID = $(prob).attr("id") || n;
+                links.append($("<div>")
+                    .css({
+                        "width": "200px",
+                        "padding-left": "20px",
+                        "outline":
+                            (problemID === probID || problemID === '' + n) ?
+                            "1px dashed gray" : ""
+                    })
+                    .append($("<span>").text(n + ": "))
+                    .append($("<a>")
+                        .text(probID)
+                        .attr("href", window.location.protocol + "//" +
+                            window.location.host + window.location.pathname +
+                            "?debug&problem=" + probID)
+                    ));
+            });
+
 
             if (exercise.data("name") != null) {
                 links.append("<br>");
@@ -2047,7 +2062,6 @@ var Khan = (function() {
                         .focus();
                     $("#positive-reinforcement").show();
                 }
-                nextProblem(1);
             } else {
                 // Wrong answer. Enable all the input elements
                 $("#answercontent input").not("#hint")
@@ -2068,6 +2082,7 @@ var Khan = (function() {
 
         // Watch for when the next button is clicked
         $("#next-question-button").click(function(ev) {
+            nextProblem(1);
             $(Khan).trigger("gotoNextProblem");
 
             // Disable next question button until next time
@@ -2825,8 +2840,9 @@ var Khan = (function() {
 
         function injectTestModeSite(html, htmlExercise) {
             $("body").prepend(html);
-            $("#container").html("<h2 style='padding-left: 20px; margin-left: 80px;'>" +
-                    document.title + "</h2>" + htmlExercise);
+            $("#container .exercises-header h2").append(document.title);
+            $("#container .exercises-body .current-card-contents").html(
+                htmlExercise);
 
             if (Khan.query.layout === "lite") {
                 $("html").addClass("lite");
