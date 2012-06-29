@@ -32,11 +32,6 @@
             return [(x - xRange[0]) * xScale, (yRange[1] - y) * yScale];
         };
 
-        var unscalePoint = function(point) {
-            var x = point[0], y = point[1];
-            return [x / xScale + xRange[0], yRange[1] - y / yScale];
-        }
-
         var svgPath = function(points) {
             // Bound a number by 1e-6 and 1e20 to avoid exponents after toString
             function boundNumber(num) {
@@ -166,12 +161,9 @@
                         subpath.arrowheadsDrawn = true;
                         path.remove();
 
-                        head.attr(attrs).attr({
-                            "stroke-linejoin": "round",
-                            "stroke-linecap": "round"
-                        }).transform("t" + almostTheEnd.x + "," +
-                            almostTheEnd.y + "r" + angle + ",0.75,0" +
-                            "s" + s + "," + s + ",0.75,0");
+                        head.rotate(angle, 0.75, 0).scale(s, s, 0.75, 0)
+                            .translate(almostTheEnd.x, almostTheEnd.y).attr(attrs)
+                            .attr({ "stroke-linejoin": "round", "stroke-linecap": "round" });
                         head.arrowheadsDrawn = true;
                         set.push(subpath);
                         set.push(head);
@@ -406,7 +398,6 @@
 
             scalePoint: scalePoint,
             scaleVector: scaleVector,
-            unscalePoint: unscalePoint,
 
             polar: polar,
             cartToPolar: cartToPolar
