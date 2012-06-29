@@ -307,14 +307,22 @@
                         var yint1 = slope1 * ( 0 - guess[0][0] ) + guess[0][1];
                         var slope2 = ( guess[5][1] - guess[4][1] ) / ( guess[5][0] - guess[4][0] );
                         var yint2 = slope2 * ( 0 - guess[4][0] ) + guess[4][1];
-                        return abs( SLOPE_1 - slope1 ) &lt; 0.001
-                            &amp;&amp; abs( YINT_1 - yint1 ) &lt; 0.001
+                        return (abs(SLOPE_1 - slope1) &lt; 0.001
+                            &amp;&amp; abs(YINT_1 - yint1) &lt; 0.001
                             &amp;&amp; guess[2] === LESS_THAN_1
                             &amp;&amp; guess[3] === INCLUSIVE_1
-                            &amp;&amp; abs( SLOPE_2 - slope2 ) &lt; 0.001
-                            &amp;&amp; abs( YINT_2 - yint2 ) &lt; 0.001
+                            &amp;&amp; abs(SLOPE_2 - slope2) &lt; 0.001
+                            &amp;&amp; abs(YINT_2 - yint2) &lt; 0.001
                             &amp;&amp; guess[6] === LESS_THAN_2
-                            &amp;&amp; guess[7] === INCLUSIVE_2;
+                            &amp;&amp; guess[7] === INCLUSIVE_2)
+                            || (abs(SLOPE_2 - slope1) &lt; 0.001
+                            &amp;&amp; abs(YINT_2 - yint1) &lt; 0.001
+                            &amp;&amp; guess[2] === LESS_THAN_2
+                            &amp;&amp; guess[3] === INCLUSIVE_2
+                            &amp;&amp; abs(SLOPE_1 - slope2) &lt; 0.001
+                            &amp;&amp; abs(YINT_1 - yint2) &lt; 0.001
+                            &amp;&amp; guess[6] === LESS_THAN_1
+                            &amp;&amp; guess[7] === INCLUSIVE_1)
                     </div>
                     <div class="show-guess">
                         graph.pointA.setCoord( guess[0] );
