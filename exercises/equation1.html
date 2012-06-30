@@ -12,15 +12,17 @@
 			<div class="vars">
 				<div>
 					<var id="X">X</var>
-                                        <var id="A">randRangeNonZero( -5, 5 )</var>
-					<var id="S">roundTo(2, -1/A-2).toFixed(2)</var>
+                                        <var id="A">randRangeNonZero( 2, 5 )</var>
+                                        <var id="B">randRangeNonZero( 3, 6 )</var>
+                                        <var id="C">B-1</var>
+					<var id="S">roundTo(2, -1/A-B).toFixed(2)</var>
 				</div>
 			</div>
 
 			<div class="problems">
 				<div>
 					<p class="question">Find the value of X (with two decimal places accuracy, for example 2.43) :</p>
-					<p class="question"><code><var>A</var> + \dfrac{1}{X}=\dfrac{1}{X*(X+1)}+\dfrac{1}{(X+1)*(X+2)}</code></p>
+					<p class="question"><code>\dfrac{<var>A</var> X + 1}{X}=\dfrac{1}{X(X+1)}+\dfrac{<var>C</var>}{(X+1)(X+<var>B</var>)}</code></p>
 					<div class="solution" data-type="multiple">
 						<p>X = <span class="sol" data-type="rational"><var>S</var></span></p>
 					</div>
@@ -28,12 +30,12 @@
 			</div>
 			
 			<div class="hints">
-				<p class="question">Use that : <code>\dfrac{1}{X}-\dfrac{1}{X+1}=\dfrac{1}{X*(X+1)}</code></p>
-				<p class="question"><code><var>A</var> + \dfrac{1}{X}=\dfrac{1}{X}-\dfrac{1}{X+1}+\dfrac{1}{X+1} - \dfrac{1}{X+2}</code></p>
-				<p class="question"><code><var>A</var>= - \dfrac{1}{X+2}</code></p>
-				<p class="question"><code>X+2 = -\dfrac{1}{<var>A</var>}</code></p>
-				<p class="question"><code>X = -\dfrac{1}{<var>A</var>} - 2</code></p>
-				<p>X = <var>S</var></p>
+				<p class="question">When you see similar fractions try to find their decompositions</p>
+				<p class="question">Use that : <code>\dfrac{1}{X}-\dfrac{1}{X+A}=\dfrac{A}{X(X+A)}</code> for any <code>A\ne 0</code></p>
+				<p class="question">In our case : <code><var>A</var> + \dfrac{1}{X}=\left(\dfrac{1}{X}-\dfrac{1}{X+1}\right)+\left(\dfrac{1}{X+1} - \dfrac{1}{X+<var>B</var>}\right)</code></p>
+				<p class="question">It follows that : <code><var>A</var>= - \dfrac{1}{X+<var>B</var>}</code></p>
+				<p class="question">Then : <code>X+<var>B</var> = -\dfrac{1}{<var>A</var>}</code></p>
+				<p class="question">Finally : <code>X = -\dfrac{1}{<var>A</var>} - <var>B</var> = <var>S</var></code></p>
 			</div>
 		</div>
 	</div>
