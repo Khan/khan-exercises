@@ -66,7 +66,8 @@
                     <var id="KNOWN">STATEMENTS[0]</var>
                     <var id="FINISHED">STATEMENTS[1]</var>
 
-                    <var id="HINT">"you haven't entered anything yet!"</var>                    
+                    <var id="HINT">"you haven't entered anything yet"</var>   
+                    <var id="HINTS_LEFT">3</var>                 
                 </div>
                 <p class="question">
                     <p>Prove <var> FINISHED </var>.</p>
@@ -145,6 +146,11 @@
                         graph.congruency.addLabel("D", "left");
                         graph.congruency.addLabel("E", "right");
 
+                        $(".hint1").hide();
+                        $(".hint2").hide();
+                        $(".hint3").hide();
+
+                        var hint = "you haven't entered anything!";
 
                         $(".nextStatement input").keyup(function(){
                             var triangles = [];
@@ -154,19 +160,32 @@
 
                             var verify = verifyStatementArgs(triangles[0]+"="+triangles[1], reason, "triangle congruence");
                             if(verify.length > 0){
-                                HINT = verify;
+                                hint = verify;
                             }
                             else if(!verify){
-                                HINT = "statement isn't true";
+                                hint = "that statement isn't true";
                             }
                             else{
                                 $(".statements").html(outputKnownProof());
                                 _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
                                 $(".nextStatement").hide();
                             }
+                            console.log(hint);
                         });
                         $("#reason").change(function(){ 
                             $(".nextStatement input").keyup(); 
+                        });
+
+                        $("#hint").click(function(){
+                            console.log("custom hint");
+                            if(HINTS_LEFT === 3){
+                                $(".hint1").show();
+                            }
+                            else if(HINTS_LEFT === 2){
+                                $(".hint2").html("In the step you're working on, "+hint);
+                                $(".hint2").show();
+                            }
+                            HINTS_LEFT--;
                         });
 
                     </div>
@@ -183,6 +202,11 @@
                         <option value="AAS">angle-angle-side congruence</option>
                     </select>
                 </p>
+                <div class="customHints">
+                    <p class="hint1">Given the statements you have, you can prove <var> FINISHED </var> in one step. What triangle congruence postulate should you use?</p>
+                    <p class="hint2"></p>
+                    <p class="hint3">You can prove <var> FINISHED </var> by <var> finishedEqualities[finalRelation] </var>.</p>
+                </div>
                 <div class="solution" data-type="custom">
                     <div class="instruction">
                         Enter a statement, and pick a reason that statement is true. You can use the given statements, facts about the figure, or statements you've already proven.
@@ -196,9 +220,9 @@
                     </div>
                 </div>
                 <div class="hints">
-                    <p>You only have two equalities, but you need three to prove two triangles congruent... What can you use to prove that an angle in one triangle is equal to an angle in the other?</p>
-                    <p> <var>nextStatementHint()</var> </p>
-                    <p> Now, <var> FINISHED </var> by <var> finishedEqualities[finalRelation] </var> </p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
                 </div>
             </div>
             <div id="alternate">

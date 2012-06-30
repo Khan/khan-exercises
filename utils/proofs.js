@@ -67,7 +67,6 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
 
     supplementaryAngles = supplementaryAngs;
 
-    // parallelSegments = parallelSegs;
     altInteriorAngs = altIntAngs;
 
     numHints = 3;
@@ -115,12 +114,12 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
             }
         }
         else if(equalityType === "angle"){
-            // pick some triangles to be congruent, this will be the statement to be proven
+            // pick some angles to be congruent, this will be the statement to be proven
             var indices = KhanUtil.randRangeUnique(0, ANGLES.length, 2);
             var angle1 = ANGLES[indices[0]];
             var angle2 = ANGLES[indices[1]]; 
 
-            //ensure these triangles can be congruent
+            //ensure these angles can be congruent
             if(isRelationPossible([angle1, angle2]) && !angle1.equals(angle2)){
                 finalRelation = [angle1, angle2];
                 traceBack([angle1, angle2], depth);
@@ -128,12 +127,12 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
             }
         }
         else{
-            // pick some triangles to be congruent, this will be the statement to be proven
+            // pick some segments to be congruent, this will be the statement to be proven
             var indices = KhanUtil.randRangeUnique(0, SEGMENTS.length, 2);
             var segment1 = SEGMENTS[indices[0]];
             var segment2 = SEGMENTS[indices[1]]; 
 
-            //ensure these triangles can be congruent
+            //ensure these segments can be congruent
             if(isRelationPossible([segment1, segment2]) && !segment1.equals(segment2)){
                 finalRelation = [segment1, segment2];
                 traceBack([segment1, segment2], depth);
@@ -201,11 +200,13 @@ function verifyStatement(){
 }
 
 function verifyStatementArgs(statement, reason, category){
-    console.log(statement + ", " + reason + ", " + category);
     if(userProofDone){
         return false;
     }
     var toReturn = false;
+    // verifying triangle congruence is a bit tricky: it will return true if the triangle is
+    // a triangle in an equality OR a rotation of a triangle in an equality, BUT if it a permutation
+    // it will return false, and not a "triangle not found" error
     if(category === "triangle congruence"){
         var triangleStrings = statement.split("=");
 
@@ -231,8 +232,37 @@ function verifyStatementArgs(statement, reason, category){
             return false;
         });
 
+        // here we know that the triangles are not equal, however, they may still be valid triangles in the figure
         if(triangle1 == null || triangle2 == null){
-            return "those triangles aren't in this figure...";
+            triangle1 = _.find(TRIANGLES, function(triang){
+                var perms = generateTrianglePermutations(triang);
+                for(var i=0; i<perms.length; i++){
+                    if(perms[i].segs[0].equals(new Seg(triangleStrings[0][0], triangleStrings[0][1]))
+                        && perms[i].segs[1].equals(new Seg(triangleStrings[0][1], triangleStrings[0][2]))
+                        && perms[i].segs[2].equals(new Seg(triangleStrings[0][2], triangleStrings[0][0]))){
+                        return true;
+                    }
+                }
+                return false;
+            });
+            triangle2 = _.find(TRIANGLES, function(triang){
+                var perms = generateTrianglePermutations(triang);
+                for(var i=0; i<perms.length; i++){
+                    if(perms[i].segs[0].equals(new Seg(triangleStrings[1][0], triangleStrings[1][1]))
+                        && perms[i].segs[1].equals(new Seg(triangleStrings[1][1], triangleStrings[1][2]))
+                        && perms[i].segs[2].equals(new Seg(triangleStrings[1][2], triangleStrings[1][0]))){
+                        return true;
+                    }
+                }
+                return false;
+            });
+
+            if(triangle1 != null && triangle2 != null){
+                return false;
+            }
+            else{
+                return "those triangles aren't in this figure...";
+            }
         }
 
         else{
@@ -296,7 +326,6 @@ function verifyStatementArgs(statement, reason, category){
         console.log("Proof finished");
     }
 
-    console.log("returning "+toReturn);
     return toReturn;
 
 }
@@ -894,8 +923,6 @@ function traceBack(statementKey, depth){
         if(statementKey[0] instanceof Triang){
             var triangle1 = statementKey[0];
             var triangle2 = statementKey[1];
-            // pick a triangle congruence theorem
-            var congruence = KhanUtil.randRange(1,4);
 
             // if the triangles share a side, use that fact
             var sharedSeg = _.intersection(triangle1.segs, triangle2.segs);
@@ -911,8 +938,8 @@ function traceBack(statementKey, depth){
             // goes through the shared midpoint
             var verticalAngs = null;
             for(var i=0; i<3; i++){
-                var ang1 = triangle1.angs[i];
                 for(var j=0; j<3; j++){
+                    var ang1 = triangle1.angs[i];
                     var ang2 = triangle2.angs[j];
                     if(ang1.mid === ang2.mid){
                         var sharedLines = 0;
@@ -927,8 +954,6 @@ function traceBack(statementKey, depth){
                                 }
                             }
                         }
-
-
                         // vertical angles should share two sets of lines, counted twice for reasons of
                         // this being written stupidly
                         if(sharedLines === 4){
@@ -979,6 +1004,9 @@ function traceBack(statementKey, depth){
                 alternateAngs = null;
             }
 
+            // pick a triangle congruence theorem
+            var congruence = KhanUtil.randRange(1,4);
+
             // triangle congruence case 1: shared side
             if(!(sharedSeg.length === 0)){
 
@@ -1010,7 +1038,7 @@ function traceBack(statementKey, depth){
                 // when we have a shared segment and want to prove congruence by ASA, always have
                 // the shared segment be the S
                 else if(congruence === 2){
-                    setGivenOrTraceBack([[triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex%3]],
+                    setGivenOrTraceBack([[triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex]],
                      [triangle1.angs[(sharedSegIndex+2) % 3], triangle2.angs[(sharedSegIndex+2) % 3]]], "ASA", statementKey, depth-1);
                 }
 
@@ -1020,7 +1048,7 @@ function traceBack(statementKey, depth){
                 else if(congruence === 3){
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi, side ssi + 1
                     if(KhanUtil.random() < 0.5){
-                        setGivenOrTraceBack([[triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex % 3]],
+                        setGivenOrTraceBack([[triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex]],
                             [triangle1.segs[(sharedSegIndex+1) % 3], triangle2.segs[(sharedSegIndex+1) % 3]]], "SAS", statementKey, depth-1);                     
                     }
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi+2 % 3, side ssi+2 % 3
@@ -1038,7 +1066,7 @@ function traceBack(statementKey, depth){
                 else {
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi, angle ssi + 1
                     if(KhanUtil.random() < 0.5){
-                        setGivenOrTraceBack([[triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex % 3]],
+                        setGivenOrTraceBack([[triangle1.angs[sharedSegIndex], triangle2.angs[sharedSegIndex]],
                             [triangle1.angs[(sharedSegIndex+1) % 3], triangle2.angs[(sharedSegIndex+1) % 3]]], "AAS", statementKey, depth-1);              
                     }
                     // with probability 0.5, we choose the congruency to be side ssi, angle ssi+2 % 3, angle ssi+1 % 3
@@ -1366,9 +1394,7 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep){
             else{
                 traceBack(key, dep);
             }
-        }
-
-        
+        }   
     }
     else{
         console.log("relation " +keys+" is not possible, tracing back "+oldKey);
@@ -1424,7 +1450,6 @@ function isRelationPossible(key){
             }
         }
 
-        //angles keep track of their constituent parts in an angleParts field
         return true;
 
     }
@@ -1903,6 +1928,37 @@ Array.prototype.rotate = function(n) {
     for(var i=0; i<this.length; i++){
         this[(i+n+this.length) % this.length] = temp[i];
     }
+}
+
+// utility function to flip a triangle's arrays
+Array.prototype.flip = function() {
+    var temp = _.clone(this[0]);
+    this[0] = this[2];
+    this[2] = temp;
+}
+
+function generateTrianglePermutations(triangle){
+    var perms = [];
+    triangle.segs.flip();
+    triangle.angs.flip();
+
+    for(var i=0; i<3; i++){
+        triangle.segs.rotate(1);
+        triangle.angs.rotate(1);
+        perms.push(new Triang(_.clone(triangle.segs), _.clone(triangle.angs)));
+    }
+
+    triangle.segs.flip();
+    triangle.angs.flip();
+
+    for(var i=0; i<3; i++){
+        triangle.segs.rotate(1);
+        triangle.angs.rotate(1);
+        perms.push(new Triang(_.clone(triangle.segs), _.clone(triangle.angs)));
+    }
+
+    return perms;
+
 }
 
 
