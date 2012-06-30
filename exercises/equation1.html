@@ -13,16 +13,19 @@
 				<div>
 					<var id="X">X</var>
                                         <var id="A">randRangeNonZero( 2, 5 )</var>
-                                        <var id="B">randRangeNonZero( 3, 6 )</var>
+                                        <var id="B">randRangeNonZero( -3, -8 )</var>
+                                        <var id="M">-B</var>
+                                        <var id="M1">-B+1</var>
                                         <var id="C">B-1</var>
-					<var id="S">roundTo(2, -1/A-B).toFixed(2)</var>
+                                        <var id="T">A*M+1</var>
+					<var id="S">1/A+M</var>
 				</div>
 			</div>
 
 			<div class="problems">
 				<div>
-					<p class="question">Find the value of X (with two decimal places accuracy, for example 2.43) :</p>
-					<p class="question"><code>\dfrac{<var>A</var> X + 1}{X}=\dfrac{1}{X(X+1)}+\dfrac{<var>C</var>}{(X+1)(X+<var>B</var>)}</code></p>
+					<p class="question">Find the value of X :</p>
+					<p class="question"><code>\dfrac{1}{X(X+1)}=\dfrac{1 - <var>A</var> X}{X}+\dfrac{<var>M1</var>}{(X+1)(X-<var>M</var>)}</code></p>
 					<div class="solution" data-type="multiple">
 						<p>X = <span class="sol" data-type="rational"><var>S</var></span></p>
 					</div>
@@ -30,12 +33,12 @@
 			</div>
 			
 			<div class="hints">
-				<p class="question">When you see similar fractions try to find their decompositions</p>
+				<p class="question">When you see similar fractions try to find their partial fraction decomposition</p>
 				<p class="question">Use the following : <code>\dfrac{1}{X}-\dfrac{1}{X+A}=\dfrac{A}{X(X+A)}</code> for any number A</p>
-				<p class="question">In this case : <code><var>A</var> + \dfrac{1}{X}=\left(\dfrac{1}{X}-\dfrac{1}{X+1}\right)+\left(\dfrac{1}{X+1} - \dfrac{1}{X+<var>B</var>}\right)</code></p>
-				<p class="question">It follows that : <code><var>A</var>= - \dfrac{1}{X+<var>B</var>}</code></p>
-				<p class="question">Then : <code>X+<var>B</var> = -\dfrac{1}{<var>A</var>}</code></p>
-				<p class="question">Finally : <code>X = -\dfrac{1}{<var>A</var>} - <var>B</var> = <var>S</var></code></p>
+				<p class="question">In this case : <code>\left(\dfrac{1}{X}-\dfrac{1}{X+1}\right)= \dfrac{1}{X}-<var>A</var> - \left(\dfrac{1}{X+1} - \dfrac{1}{X-<var>M</var>}\right)</code></p>
+				<p class="question">It follows that : <code>0 = -<var>A</var> + \dfrac{1}{X-<var>M</var>}</code></p>
+				<p class="question">Then : <code>X-<var>M</var> = \dfrac{1}{<var>A</var>}</code></p>
+				<p class="question">Finally : <code>X = \dfrac{1}{<var>A</var>} + <var>M</var> = \dfrac{<var>T</var>}{<var>A</var>}</code></p>
 			</div>
 		</div>
 	</div>
