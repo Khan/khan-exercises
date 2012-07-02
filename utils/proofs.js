@@ -26,6 +26,7 @@ var knownEqualities;
 // finishedEqualities denotes all the equalities that should be known, and
 // the correct reasoning, at the end of the proof
 var finishedEqualities;
+var finishedEqualitiesList;
 
 // fixedTriangles are already part of an equality, and should not be rotated any further
 // to make some segment/angle congruence true
@@ -58,6 +59,7 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
     knownEqualities = {};
 
     finishedEqualities = {};
+    finishedEqualitiesList = [];
 
     fixedTriangles = {};
 
@@ -384,9 +386,8 @@ function nextStatementHint(){
 function outputFinishedProof(){
     var proofText = "<h3>Givens</h3>";
 
-    var unsortedFinishedKeys = _.keys(finishedEqualities);
-    unsortedFinishedKeys.reverse();
-    var finishedKeys = sortEqualityList(unsortedFinishedKeys, finishedEqualities);
+    var unsortedKeyList = _.map(finishedEqualitiesList, function(key){ return key.toString(); });
+    var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
     
     var possibleValids = [];
 
@@ -396,8 +397,7 @@ function outputFinishedProof(){
             numberGivens++;
         }
     });
-    numberGivens /= 2;
-    for(var i=0; i<finishedKeys.length; i+=2){
+    for(var i=0; i<finishedKeys.length; i++){
         if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same"){
             if(finishedEqualities[finishedKeys[i]] === "given"){
                 numberGivens--;                
@@ -889,6 +889,7 @@ function traceBack(statementKey, depth){
         console.log("0 depth");
         finishedEqualities[statementKey] = "given";
         finishedEqualities[statementKey.reverse()] = "given";
+        finishedEqualitiesList.push(statementKey);
 
         if(statementKey[0] instanceof Triang){
             fixedTriangles[statementKey[0]] = true;
@@ -1075,6 +1076,7 @@ function traceBack(statementKey, depth){
 
                 finishedEqualities[[triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[0]]]] = "vertical angles are equal";
                 finishedEqualities[[triangle2.angs[verticalAngs[0]], triangle1.angs[verticalAngs[0]]]] = "vertical angles are equal";
+                finishedEqualities.push([triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[0]]]);
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
@@ -1131,6 +1133,7 @@ function traceBack(statementKey, depth){
 
                 finishedEqualities[[triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]]] = "alternate interior angles are equal";
                 finishedEqualities[[triangle2.angs[alternateAngs[0]], triangle1.angs[alternateAngs[0]]]] = "alternate interior angles are equal";
+                finishedEqualitiesList.push([triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]]);
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
@@ -1234,6 +1237,7 @@ function traceBack(statementKey, depth){
             if(newTriangles.length === 0){
                 finishedEqualities[statementKey] = "given";
                 finishedEqualities[statementKey.reverse()] = "given";
+                finishedEqualitiesList.push(statementKey);
             }
             // otherwise, change the labeling on the triangle so that the segments given in the
             // statement key are corresponding
@@ -1301,6 +1305,7 @@ function traceBack(statementKey, depth){
             if(newTriangles.length === 0){
                 finishedEqualities[statementKey] = "given";
                 finishedEqualities[statementKey.reverse()] = "given";
+                finishedEqualitiesList.push(statementKey);
             }
             // otherwise, change the labeling on the triangle so that the angles given in the
             // statement key are corresponding
@@ -1352,6 +1357,7 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep){
 
         finishedEqualities[oldKey] = reason;
         finishedEqualities[oldKey.reverse()] = reason;
+        finishedEqualitiesList.push(oldKey);
 
         if(oldKey[0] instanceof Triang){
             fixedTriangles[oldKey[0]] = true;
@@ -1368,6 +1374,7 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep){
                 console.log("setting relation "+key+" to Given");
                 finishedEqualities[key] = "given";
                 finishedEqualities[key.reverse()] = "given";
+                finishedEqualitiesList.push(key);
             }
             else{
                 traceBack(key, dep);
@@ -1380,6 +1387,7 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep){
             // you have failed me for the last time
             finishedEqualities[oldKey] = "given";
             finishedEqualities[oldKey.reverse()] = "given";
+            finishedEqualitiesList.push(key);
         }
         else{
             traceBack(oldKey, dep+1);
