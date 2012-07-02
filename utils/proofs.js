@@ -204,17 +204,20 @@ function verifyStatementArgs(statement, reason, category){
         return false;
     }
     var toReturn = false;
-    // verifying triangle congruence is a bit tricky: it will return true if the triangle is
-    // a triangle in an equality OR a rotation of a triangle in an equality, BUT if it a permutation
-    // it will return false, and not a "triangle not found" error
+    // verifying triangle congruence is a bit tricky: it will return true if the given triangles
+    // are in an equality OR permuting both triangles with the same permutation results in an equality
     if(category === "triangle congruence"){
         var triangleStrings = statement.split("=");
+        var triangle1Permutation = 0;
+        var triangle2Permutation = 0;
 
         var triangle1 = _.find(TRIANGLES, function(triang){
-            for(var i=0; i<3; i++){
-                if(triang.segs[0].equals(new Seg(triangleStrings[0][i], triangleStrings[0][(i+1) % 3]))
-                    && triang.segs[1].equals(new Seg(triangleStrings[0][(i+1) % 3], triangleStrings[0][(i+2) % 3]))
-                    && triang.segs[2].equals(new Seg(triangleStrings[0][(i+2) % 3], triangleStrings[0][i]))){
+            var perms = generateTrianglePermutations(triang);
+            for(var i=0; i<perms.length; i++){
+                if(perms[i].segs[0].equals(new Seg(triangleStrings[0][0], triangleStrings[0][1]))
+                    && perms[i].segs[1].equals(new Seg(triangleStrings[0][1], triangleStrings[0][2]))
+                    && perms[i].segs[2].equals(new Seg(triangleStrings[0][2], triangleStrings[0][0]))){
+                    triangle1Permutation = i;
                     return true;
                 }
             }
@@ -222,49 +225,24 @@ function verifyStatementArgs(statement, reason, category){
         });
 
         var triangle2 = _.find(TRIANGLES, function(triang){
-            for(var i=0; i<3; i++){
-                if(triang.segs[0].equals(new Seg(triangleStrings[1][i], triangleStrings[1][(i+1) % 3]))
-                    && triang.segs[1].equals(new Seg(triangleStrings[1][(i+1) % 3], triangleStrings[1][(i+2) % 3]))
-                    && triang.segs[2].equals(new Seg(triangleStrings[1][(i+2) % 3], triangleStrings[1][i]))){
+            var perms = generateTrianglePermutations(triang);
+            for(var i=0; i<perms.length; i++){
+                if(perms[i].segs[0].equals(new Seg(triangleStrings[1][0], triangleStrings[1][1]))
+                    && perms[i].segs[1].equals(new Seg(triangleStrings[1][1], triangleStrings[1][2]))
+                    && perms[i].segs[2].equals(new Seg(triangleStrings[1][2], triangleStrings[1][0]))){
+                    triangle2Permutation = i;
                     return true;
                 }
             }
             return false;
         });
 
-        // here we know that the triangles are not equal, however, they may still be valid triangles in the figure
         if(triangle1 == null || triangle2 == null){
-            triangle1 = _.find(TRIANGLES, function(triang){
-                var perms = generateTrianglePermutations(triang);
-                for(var i=0; i<perms.length; i++){
-                    if(perms[i].segs[0].equals(new Seg(triangleStrings[0][0], triangleStrings[0][1]))
-                        && perms[i].segs[1].equals(new Seg(triangleStrings[0][1], triangleStrings[0][2]))
-                        && perms[i].segs[2].equals(new Seg(triangleStrings[0][2], triangleStrings[0][0]))){
-                        return true;
-                    }
-                }
-                return false;
-            });
-            triangle2 = _.find(TRIANGLES, function(triang){
-                var perms = generateTrianglePermutations(triang);
-                for(var i=0; i<perms.length; i++){
-                    if(perms[i].segs[0].equals(new Seg(triangleStrings[1][0], triangleStrings[1][1]))
-                        && perms[i].segs[1].equals(new Seg(triangleStrings[1][1], triangleStrings[1][2]))
-                        && perms[i].segs[2].equals(new Seg(triangleStrings[1][2], triangleStrings[1][0]))){
-                        return true;
-                    }
-                }
-                return false;
-            });
-
-            if(triangle1 != null && triangle2 != null){
-                return false;
-            }
-            else{
-                return "those triangles aren't in this figure...";
-            }
+            return "those triangles aren't in this figure...";
         }
-
+        else if(triangle1Permutation != triangle2Permutation){
+            return false;
+        }
         else{
             toReturn = checkTriangleCongruent(triangle1, triangle2, reason);
         }
