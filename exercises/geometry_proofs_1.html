@@ -4,20 +4,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Geometry Proofs 1</title>
     <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        input[type=text] {
+            width: 30px;
+        }
+    </style>
 </head>
 <body>
     <div class="exercise">
         <div class="problems">
             <div id="vertical">
                 <div class="vars">
-                    <var id="A">[-6,6]</var>
-                    <var id="B">[6,6]</var>
-                    <var id="C">[0,-12/10]</var>
-                    <var id="D">[-4,-6]</var>
-                    <var id="E">[4,-6]</var>
-
-                    <var id="POINTS">["A","B","C","D","E"]</var>
-
                     <var id="AC">new Seg("A","C")</var>
                     <var id="CA">AC</var>
                     <var id="AD">new Seg("A","D")</var>
@@ -163,9 +160,10 @@
                                 hint = verify;
                             }
                             else if(!verify){
-                                hint = "that statement isn't true";
+                                hint = "you've put in triangles that are in the figure, but your reason isn't right.";
                             }
                             else{
+                                hint = "you've already finished! Hit the check answer button."
                                 $(".statements").html(outputKnownProof());
                                 _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
                                 $(".nextStatement").hide();
@@ -196,7 +194,7 @@
 
                 <p class="statements"> <var> outputKnownProof() </var></p>
                 <p class="nextStatement">
-                    <code> \bigtriangleup </code> <input type="text" id="thing1" style="width: 30px"></input> <code> =  \bigtriangleup </code> <input type="text" id="thing2" style="width: 30px"> </input> because 
+                    <code> \bigtriangleup </code> <input type="text" id="thing1"></input> <code> =  \bigtriangleup </code> <input type="text" id="thing2" > </input> because 
                     <select id="reason">
                         <option value="">select a reason</option>
                         <option value="SSS">side-side-side congruence</option>
@@ -212,11 +210,11 @@
                 </div>
                 <div class="solution" data-type="custom">
                     <div class="instruction">
-                        Enter a statement, and pick a reason that statement is true. You can use the given statements, facts about the figure, or statements you've already proven.
+                        When you enter the next statement in the proof, and a valid reason, that statement will be added to the proof. When you're done, hit check answer.
                     </div>
-                    <div class="guess">[]</div>
+                    <div class="guess">[knownEqualities]</div>
                     <div class="validator-function">
-                        return true;
+                        return isProofDone();
                     </div>
                     <div class="show-guess">
                         
@@ -230,18 +228,12 @@
             </div>
             <div id="alternate">
                 <div class="vars">
-                    <var id="A">[-5,6]</var>
-                    <var id="B">[7,6]</var>
-                    <var id="C">[4.2,4]</var>
-                    <var id="D">[-7,-4]</var>
-                    <var id="E">[5,-4]</var>
-
-                    <var id="POINTS">["A","B","C","D","E"]</var>
-
                     <var id="AB">new Seg("A","B")</var>
                     <var id="BA">AB</var>
                     <var id="AC">new Seg("A","C")</var>
                     <var id="CA">AC</var>
+                    <var id="AE">new Seg("A","E")</var>
+                    <var id="EA">AE</var>
                     <var id="BC">new Seg("B","C")</var>
                     <var id="CB">BC</var>
                     <var id="BD">new Seg("B","D")</var>
@@ -251,11 +243,9 @@
                     <var id="CE">new Seg("C","E")</var>
                     <var id="EC">CE</var>
                     <var id="DE">new Seg("D","E")</var>
-                    <var id="ED">DE</var>
-                    
+                    <var id="ED">DE</var>         
 
-                    <var id="SEGS">[AB,BA,AC,CA,BC,CB,BD,DB,CD,DC,CE,EC,DE,ED]</var>
-                    
+                    <var id="SEGS">[AB,BA,AC,CA,AE,EA,BC,CB,BD,DB,CD,DC,CE,EC,DE,ED]</var>
 
                     <var id="ang1">new Ang("C","A","B", null)</var>
                     <var id="ang2">new Ang("C","B","A", null)</var>
@@ -274,19 +264,6 @@
 
                     <var id="PARALLEL_SEGS">[]</var>
 
-                    <!-- <var id="PARALLEL_TO_ALTERNATE">(function() {
-                        dict = {};
-                        dict[[AB,DE]] = [[ang2, ang11], [ang3, ang10]];
-                        return dict;
-                    })</var>
-
-                    <var id="ALTERNATE_TO_PARALLEL">(function() {
-                        dict = {};
-                        dict[[ang2, ang11]] = [AB,DE];
-                        dict[[ang3, ang10]] = [AB,DE];
-                        return dict;
-                    })</var> -->
-
                     <var id="ABC">new Triang([AB, BC, CA], [ang2, ang3, ang1])</var>
                     <var id="CDE">new Triang([CD, DE, EC], [ang5, ang6, ang4])</var>
                     
@@ -302,63 +279,145 @@
                     
                 </div>
                 <p class="question">
-                    <p>You are given <var> KNOWN </var>, and that <code> \overline{AB} </code> is parallel to <code> \overline{DE} </code>.</p>
-                    <p>Prove <var>FINISHED</var></p>
+                    <p>Prove <var> FINISHED </var>.</p>
+                    <p>This figure is not drawn to scale.</p>
                 </p>
 
                 <div class="problem">
                     <div class="graphie">
                         init({
-                            range: [[-10, 10], [-10, 10]],
-                            scale: 20
+                            range: [[-5, 5], [-5, 5]],
+                            scale: 40
                         });
+                        addMouseLayer();
                         
+                        graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
+
+                        graph.congruency.addPoint("A", [-3, 4]);
+                        graph.congruency.addPoint("B", [3, 4]);
+                        graph.congruency.addPoint("C", [0, 0]);
+                        graph.congruency.addPoint("D", [-3, -4]);
+                        graph.congruency.addPoint("E", [3, -4]);
+
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "B",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "C",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "B",
+                            end: "C",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "D",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "E",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "D",
+                            end: "E",
+                            clickable: true,
+                            maxState: 3
+                        });
+
+                        graph.congruency.addAngles("A", { maxState: 3 });
+                        graph.congruency.addAngles("B", { maxState: 3 });
+                        graph.congruency.addAngles("C", { maxState: 3 });
+                        graph.congruency.addAngles("D", { maxState: 3 });
+                        graph.congruency.addAngles("E", { maxState: 3 });
+
+                        for(var angle in graph.congruency.angles){
+                            graph.congruency.angles[angle].setSelectedStyle({
+                                stroke: "black",
+                                "stroke-width": 3
+                            });
+                        }
                         
-                        line(A, B);
-                        line(A, C);
-                        line(B, D);
-                        line(C, E);
-                        line(D, E);
+                        graph.congruency.addLabel("A", "left");
+                        graph.congruency.addLabel("B", "right");
+                        graph.congruency.addLabel("C", "right");
+                        graph.congruency.addLabel("D", "left");
+                        graph.congruency.addLabel("E", "right");
 
-                        circle(A, DOT_ATTRS);
-                        circle(B, DOT_ATTRS);
-                        circle(C, DOT_ATTRS);
-                        circle(D, DOT_ATTRS);
-                        circle(E, DOT_ATTRS);
+                        $(".triangleStatement").hide();
 
-                        label(A, "A", "left");
-                        label(B, "B", "right");
-                        label(C, "C", "right");
-                        label(D, "D", "left");
-                        label(E, "E", "right");
+                        $(".angleStatement input").keyup(function(){
+                            var angles = [];
+                            angles[0] = $(".angleStatement .thing1").val();
+                            angles[1] = $(".angleStatement .thing2").val();
+                            var reason = $(".angleStatement .reason").val();
+
+                            var verify = verifyStatementArgs(angles[0]+"="+angles[1], reason, "angle equality");
+                            if(verify.length > 0){
+                                hint = verify;
+                            }
+                            else if(!verify){
+                                hint = "you've put in angles that are in the figure, but your reason isn't right.";
+                            }
+                            else{
+                                hint = "you've already finished! Hit the check answer button."
+                                $(".statements").html(outputKnownProof());
+                                _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
+                                $(".angleStatement").hide();
+                                $(".triangleStatement").show();
+                            }
+                            console.log(hint);
+                        });
+                        $(".angleStatement select").change(function(){ 
+                            $(".angleStatement input").keyup(); 
+                        });
 
 
                     </div>
+                
+                    <p class="statements"> <var> outputKnownProof() </var></p>
+                    <div class="angleStatement">
+                        <code> \angle </code> <input type="text" maxlength="3" class="thing1"></input> <code> = \angle </code> <input type="text" maxlength="3" class="thing2"> </input> because
+                        <select class="reason">
+                            <option value="">select a reason</option>
+                            <option value="CPCTC">corresp. parts of congruent triangles are congruent</option>
+                            <option value="vertical angles">vertical angles are equal</option>
+                            <option value="alternate angles">alternate interior angles are equal</option>
+                        </select>
+                    </div>
+                    <div class="triangleStatement">
+                        <code> \bigtriangleup </code> <input type="text" maxlength="3"></input> <code> =  \bigtriangleup </code> <input type="text" maxlength="3"> </input> because 
+                        <select>
+                            <option value="">select a reason</option>
+                            <option value="SSS">side-side-side congruence</option>
+                            <option value="ASA">angle-side-angle congruence</option>
+                            <option value="SAS">side-angle-side congruence</option>
+                            <option value="AAS">angle-angle-side congruence</option>
+                        </select>
+                    </div>
                 </div>
-
-                <p class="statements">
-                </p>
                 <div class="solution" data-type="custom">
                     <div class="instruction">
-                        Enter a statement, click check to add to proof. Check answer to evaluate the whole proof. <br>
-                        To prove: <var>FINISHED</var>
-                        <select class="statement_type">
-                            <option>triangle congruence</option>
-                            <option>segment equality</option>
-                            <option>angle equality</option>
-                        </select>
-                        <input class="statement"></input>
-                        <input class="justification"></input>
-                        <button class="check-statement" onclick="verifyStatement()">Check</button>
+                        When you enter the next statement in the proof, and a valid reason, that statement will be added to the proof. When you're done, hit check answer.
                     </div>
                     <div class="guess">[]</div>
                     <div class="validator-function">
-                        return true;
+                        return isProofDone();
                     </div>
                     <div class="show-guess">
                         
                     </div>
-                    <div class="example">acceptable answer format goes here</div>
                 </div>
                 <div class="hints">
                     <p>You only have two equalities, but you need three to prove two triangles congruent... What can you use to prove that an angle in one triangle is equal to an angle in the other?</p>

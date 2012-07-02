@@ -267,8 +267,6 @@ function verifyStatementArgs(statement, reason, category){
         }
 
         else{
-            console.log(ang1);
-            console.log(ang2);
             toReturn = checkAngEqual(ang1, ang2, reason);
         }
     }
@@ -308,6 +306,10 @@ function verifyStatementArgs(statement, reason, category){
 
     return toReturn;
 
+}
+
+function isProofDone(){
+    return userProofDone;
 }
 
 
@@ -817,9 +819,10 @@ Ang.prototype.toString = function(){
     return this.end1 < this.end2 ? "ang" + this.end1 + this.mid + this.end2 : "ang" + this.end2 + this.mid + this.end1;
 }
 
+// === causes problems here
 Ang.prototype.equals = function(otherAng){
-    return this.mid === otherAng.mid && 
-    ((this.end1 === otherAng.end1 && this.end2 === otherAng.end2) || (this.end1 === otherAng.end2 && this.end2 === otherAng.end1));
+    return this.mid == otherAng.mid && 
+    ((this.end1 == otherAng.end1 && this.end2 == otherAng.end2) || (this.end1 == otherAng.end2 && this.end2 == otherAng.end1));
 }
 
 // When constructing a triangle, the order of the segments and angles should be
@@ -1597,7 +1600,6 @@ function checkSegEqual(seg1, seg2, reason){
 function checkAngEqual(ang1, ang2, reason){
     // if this is already known
     if(eqIn([ang1, ang2], knownEqualities)){
-        console.log("thinks its already known?");
         return true;
     }
 
@@ -1622,12 +1624,14 @@ function checkAngEqual(ang1, ang2, reason){
     if(ang1.mid === ang2.mid){
         var sharedLines = 0;
         for(var i=0; i<SEGMENTS.length; i++){
+            console.log("checking segment "+SEGMENTS[i]);
             if(SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end1)) ||
                 SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end2)) ||
                 SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end1)) ||
                 SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end2))){
-
+                console.log("segment is equal to cross-segment");
                 if(!isRelationPossible([SEGMENTS[i], new Seg(SEGMENTS[i].end1, ang1.mid)])){
+                    console.log("incrementing sharedlines");
                     sharedLines += 1;
                 }
 
@@ -1635,10 +1639,9 @@ function checkAngEqual(ang1, ang2, reason){
         }
 
         if(sharedLines === 4){
-            if(reason === "Vertical angles"){
+            if(reason === "vertical angles"){
                 knownEqualities[[ang1,ang2]] = "vertical angles are equal";
                 knownEqualities[[ang2,ang1]] = "vertical angles are equal";
-                console.log(_.clone(knownEqualities));
                 return true;
             }
         }
@@ -1646,7 +1649,7 @@ function checkAngEqual(ang1, ang2, reason){
 
     if(eqIn([ang1, ang2], altInteriorAngs) || eqIn([ang2, ang1], altInteriorAngs)){
 
-        if(reason === "Alternate angles"){
+        if(reason === "alternate angles"){
             knownEqualities[[ang1,ang2]] = "alternate interior angles are equal";
             knownEqualities[[ang2,ang1]] = "alternate interior angles are equal";
             return true;
