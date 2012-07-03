@@ -394,14 +394,6 @@
             </div>
             <div id="parallelogram">
                 <div class="vars">
-                    <var id="A">[-4,2]</var>
-                    <var id="B">[4,2]</var>
-                    <var id="C">[0,0]</var>
-                    <var id="D">[-4,-2]</var>
-                    <var id="E">[4,-2]</var>
-
-                    <var id="POINTS">["A","B","C","D","E"]</var>
-
                     <var id="AB">new Seg("A","B")</var>
                     <var id="BA">AB</var>
                     <var id="AC">new Seg("A","C")</var>
@@ -443,7 +435,7 @@
 
                     <var id="SUPPLEMENTARY_ANGS">[addAngs(ang5, ang6), addAngs(ang6, ang8), addAngs(ang8, ang7), addAngs(ang7, ang5)]</var>
 
-                    <var id="PARALLEL_SEGS">[[AB,DE],[AD,BE]]</var>
+                    <var id="ALTERNATE_INTERIOR_ANGS">[[ang1, ang12], [ang2, ang11], [ang10, ang3], [ang9, ang4]]
 
                     <var id="ABC">new Triang([AB, BC, CA], [ang3, ang5, ang2])</var>
                     <var id="BCE">new Triang([BC, CE, EB], [ang7, ang12, ang4])</var>
@@ -456,7 +448,7 @@
 
                     <var id="TRIANGLES">[ABC, BCE, ECD, DCA, ABE, ADE, BED, BAD]</var>
 
-                    <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, PARALLEL_SEGS, 3, 0.25, "all")</var>
+                    <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 3, 0.25, "all")</var>
                     <var id="KNOWN">STATEMENTS[0]</var>
                     <var id="FINISHED">STATEMENTS[1]</var>
 

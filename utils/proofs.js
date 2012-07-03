@@ -389,9 +389,13 @@ function outputFinishedProof(){
     var proofText = "<h3>Givens</h3>";
 
     var unsortedKeyList = _.map(finishedEqualitiesList, function(key){ return key.toString(); });
+    console.log(unsortedKeyList);
     var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
-    
+
     var possibleValids = [];
+
+    console.log("finishedKeys = ");
+    console.log(finishedKeys);
 
     var numberGivens = 0;
     _.each(finishedKeys, function(key){
@@ -399,7 +403,9 @@ function outputFinishedProof(){
             numberGivens++;
         }
     });
-    for(var i=0; i<finishedKeys.length; i++){
+    numberGivens /= 2;
+    for(var i=0; i<finishedKeys.length; i+=2){
+        console.log(finishedKeys[i]);
         if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same"){
             if(finishedEqualities[finishedKeys[i]] === "given"){
                 numberGivens--;                
@@ -428,7 +434,6 @@ function outputFinishedProof(){
 
     }
     
-
     var indices = KhanUtil.randRangeUnique(0, possibleValids.length - 1, 2);
 
     return [proofText, possibleValids[indices[0]], possibleValids[indices[1]]];
@@ -478,56 +483,82 @@ function outputKnownProof(){
 
 // returns a proof with a few blanks, blank statement fields will be wrapped by a div with id formatted according to divName
 function outputFillBlanksProof(){
-    var proofText = "";
+    var proofText = "<h3>Givens</h3>";
     var blanks = 0;
 
-    var finishedKeys = _.keys(finishedEqualities);
-    finishedKeys.reverse();
+    var unsortedKeyList = _.map(finishedEqualitiesList, function(key){ return key.toString(); });
+    var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
 
-    for(var i=0; i<finishedKeys.length; i+=2){
+    var numberGivens = 0;
+    _.each(finishedKeys, function(key){
+        if(finishedEqualities[key] === "given"){
+            numberGivens++;
+        }
+    });
+
+    for(var i=0; i<finishedKeys.length; i++){
         if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same"){
-
-            if(KhanUtil.random() < 0.2 && finishedEqualities[finishedKeys[i]] != "given"){
-                proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
+            if(finishedEqualities[finishedKeys[i]] === "given"){
+                numberGivens--;                
+                proofText += "<div style=\"float:left\" class=\"" + divName(finishedKeys[i]) + "\">";
                 proofText += prettifyEquality(finishedKeys[i]);
-                proofText += " because <select class=\"missingReason\" id=\""+finishedEqualities[finishedKeys[i]]+"\">"
-                +"<option></option>"
-                +"<option>side-side-side congruence</option>"
-                +"<option>angle-side-angle congruence</option>"
-                +"<option>side-angle-side congruence</option>"
-                +"<option>angle-angle-side congruence</option>"
-                +"<option>corresponding parts of congruent triangles are congruent</option>"
-                +"<option>vertical angles are equal</option>"
-                +"<option>alternate interior angles are equal</option>"
-                +"</select> </div>" + "<br>";
-                blanks++;
-            }
-            else if(KhanUtil.random() < 0.2 && finishedEqualities[finishedKeys[i]] != "given"){
-                if(finishedKeys[i][0] === "t"){
-                    proofText += "<div id=\""+ "t-" + finishedKeys[i].substring(8,11) + "-" + finishedKeys[i].substring(20,23) + "\">"
-                    + "<code> \\bigtriangleup </code> <input class=\"missingStatement\"></input>"
-                    + "<code> = \\bigtriangleup </code> <input class=\"missingStatement\"></input>";
+                if(numberGivens > 1){
+                    proofText += "<code>, \\ </code> </div>";
                 }
-                else if(finishedKeys[i][0] === "s"){
-                    proofText += "<div id=\""+divName(finishedKeys[i])+"\">"
-                    + "<input class=\"missingStatement\"></input>"
-                    + "<code> = </code><input class=\"missingStatement\"></input>";
+                else if(numberGivens > 0){
+                    proofText += "<code>, \\  </code>and<code>\\  </code></div>";
                 }
                 else{
-                    proofText += "<div id=\""+divName(finishedKeys[i])+"\">"
-                    + "<code> \\angle </code> <input class=\"missingStatement\"></input>"
-                    + "<code> = \\angle </code> <input class=\"missingStatement\"></input>";
+                    proofText += "</div><br><br><h3 style=\"clear:both\">Proof</h3>";
                 }
-                proofText += " because " + finishedEqualities[finishedKeys[i]] + "</div><br>";
-                blanks++;
             }
             else{
-                proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
-                proofText += prettifyEquality(finishedKeys[i]);
-                proofText += " because " + finishedEqualities[finishedKeys[i]] + "</div>" + "<br>";
+                if(KhanUtil.random() < 0.2){
+                    proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
+                    proofText += prettifyEquality(finishedKeys[i]);
+                    proofText += " because <select class=\"missingReason\" id=\""+finishedEqualities[finishedKeys[i]]+"\">"
+                    +"<option></option>"
+                    +"<option>side-side-side congruence</option>"
+                    +"<option>angle-side-angle congruence</option>"
+                    +"<option>side-angle-side congruence</option>"
+                    +"<option>angle-angle-side congruence</option>"
+                    +"<option>corresponding parts of congruent triangles are congruent</option>"
+                    +"<option>vertical angles are equal</option>"
+                    +"<option>alternate interior angles are equal</option>"
+                    +"</select> </div>" + "<br>";
+                    blanks++;
+                }
+                else if(KhanUtil.random() < 0.2){
+                    if(finishedKeys[i][0] === "t"){
+                        proofText += "<div id=\""+"t-"+i+"\">"
+                        + "<code> \\bigtriangleup </code> <input class=\"missingStatement\"></input>"
+                        + "<code> = \\bigtriangleup </code> <input class=\"missingStatement\"></input>";
+                    }
+                    else if(finishedKeys[i][0] === "s"){
+                        proofText += "<div id=\""+"s-"+i+"\">"
+                        + "<input class=\"missingStatement\"></input>"
+                        + "<code> = </code><input class=\"missingStatement\"></input>";
+                    }
+                    else{
+                        proofText += "<div id=\""+"a-"+i+"\">"
+                        + "<code> \\angle </code> <input class=\"missingStatement\"></input>"
+                        + "<code> = \\angle </code> <input class=\"missingStatement\"></input>";
+                    }
+                    proofText += " because " + finishedEqualities[finishedKeys[i]] + "</div><br>";
+                    blanks++;
+                }
+                else{
+                    proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
+                    proofText += prettifyEquality(finishedKeys[i]);
+                    proofText += " because " + finishedEqualities[finishedKeys[i]] + "</div>" + "<br>";
+                }
             }
         }
 
+    }
+
+    if(blanks < 2){
+        return outputFillBlanksProof();
     }
 
     return [proofText,blanks];
@@ -538,22 +569,46 @@ function outputFillBlanksProof(){
 // div correspond to that div name, for use in "fill-in-the-blank" proofs
 // returns true if the statements were filled in correctly, false otherwise
 function checkFillBlanksStatement(divID){
+    var unsortedKeyList = _.map(finishedEqualitiesList, function(key){ return _.clone(key); });
+    var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
+
     var components = divID.split("-");
     var input1 = $($("#"+divID+" input")[0]).val();
     var input2 = $($("#"+divID+" input")[1]).val();
     
     //triangles
-    if(components.length > 3){
-        
+    if(components[0] === "t"){
+        var triangle1 = finishedKeys[components[1]][0];
+        var triangle2 = finishedKeys[components[1]][1];
+
+        if(input1.length != 3 || input2.length != 3){
+            return;
+        }
+
+        var inputTriangle1 = new Triang([new Seg(input1[0], input1[1]), new Seg(input1[1], input1[2]), new Seg(input1[2], input1[0])],
+            [new Ang(input1[0], input1[1], input1[2]), new Ang(input1[1], input1[2], input1[0]), new Ang(input1[2], input1[0], input1[1])]);
+        var inputTriangle2 = new Triang([new Seg(input2[0], input2[1]), new Seg(input2[1], input2[2]), new Seg(input2[2], input2[0])],
+            [new Ang(input2[0], input2[1], input2[2]), new Ang(input2[1], input2[2], input2[0]), new Ang(input2[2], input2[0], input2[1])]);
+
+        if((inputTriangle1.equals(triangle1) && inputTriangle2.equals(triangle2)) 
+            || (inputTriangle1.equals(triangle2) && inputTriangle2.equals(triangle1))){
+            $("#"+divID+" input").remove();
+            $("#"+divID+" code").remove();
+            $("#"+divID+" span").remove();
+            var reason = $("#"+divID).html();
+            $("#"+divID).html(prettifyEquality([inputTriangle1, inputTriangle2]) + reason);
+            $.tmpl.type.code()($("#"+divID+" code")[0]);
+            return true;
+        }
     }
     //angles
-    else if(components[0].length === 3){
+    else if(components[0] === "a"){
 
     }
     //segments
     else{
-        var seg1 = new Seg(components[0][0], components[0][1]);
-        var seg2 = new Seg(components[1][0], components[1][1]);
+        var seg1 = finishedKeys[components[1]][0];
+        var seg2 = finishedKeys[components[1]][1];
 
         if(input1.length != 2 || input2.length != 2){
             return;
@@ -565,6 +620,7 @@ function checkFillBlanksStatement(divID){
         if((inputSeg1.equals(seg1) && inputSeg2.equals(seg2)) || (inputSeg1.equals(seg2) && inputSeg2.equals(seg1))){
             $("#"+divID+" input").remove();
             $("#"+divID+" code").remove();
+            $("#"+divID+" span").remove();
             var reason = $("#"+divID).html();
             $("#"+divID).html(prettifyEquality([inputSeg1, inputSeg2]) + reason);
             $.tmpl.type.code()($("#"+divID+" code")[0]);
@@ -637,14 +693,15 @@ function outputBadProof(){
             var ang1 = KhanUtil.randFromArray(ANGLES);
             var ang2 = KhanUtil.randFromArray(ANGLES);
 
-            if(!checkAngEqual(ang1, ang2, "Vertical angles") || !checkAngEqual(ang1, ang2, "Alternate angles")
-                || !checkAngEqual(ang1, ang2, "CPCTC")){
-                invalid = [ang1, ang2];
-                knownEqualities[invalid] = KhanUtil.randFromArray(["corresponding parts of congruent triangles are congruent",
+            var reasons = KhanUtil.shuffle(["corresponding parts of congruent triangles are congruent",
                  "vertical angles are equal", "alternate interior angles are equal"]);
-                knownEqualities[invalid.reverse()] = KhanUtil.randFromArray(["corresponding parts of congruent triangles are congruent",
-                 "vertical angles are equal", "alternate interior angles are equal"]);
-                invalidStatements++;
+            for(var i=0; i<reasons.length; i++){
+                if(!checkAngEqual(ang1, ang2, reasons[i])){
+                    invalid = [ang1, ang2];
+                    knownEqualities[invalid] = reasons[i];
+                    knownEqualities[invalid.reverse()] = reasons[i];
+                    invalidStatements++;
+                }
             }
         }
         else{
@@ -663,15 +720,14 @@ function outputBadProof(){
                 triangle2.angs.rotate(rotation);
             }
 
-            if(!checkTriangleCongruent(triangle1, triangle2, "SSS") || !checkTriangleCongruent(triangle1, triangle2, "ASA")
-                || !checkTriangleCongruent(triangle1, triangle2, "SAS") || !checkTriangleCongruent(triangle1, triangle2, "AAS")){
-                invalid = [new Triang(_.clone(triangle1.segs), _.clone(triangle1.angs)), new Triang(_.clone(triangle2.segs), _.clone(triangle2.angs))];
-
-                knownEqualities[invalid] = KhanUtil.randFromArray(["SSS","ASA","SAS","AAS"]);
-                knownEqualities[invalid.reverse()] = KhanUtil.randFromArray(["SSS","ASA","SAS","AAS"]);
-                fixedTriangles[triangle1] = true;
-                fixedTriangles[triangle2] = true;
-                invalidStatements++;
+            var reasons = KhanUtil.shuffle(["SSS","ASA","SAS","AAS"]);
+            for(var i=0; i<reasons.length; i++){
+                if(!checkTriangleCongruent(triangle1, triangle2, reasons[i])){
+                    invalid = [triangle1, triangle2];
+                    knownEqualities[invalid] = reasons[i];
+                    knownEqualities[invalid.reverse()] = reasons[i];
+                    invalidStatements++;
+                }
             }
         }
     }
@@ -693,7 +749,7 @@ function outputBadProof(){
             var ang2 = KhanUtil.randFromArray(ANGLES);
 
             if(isRelationPossible([ang1,ang2]) && !eqIn([ang1,ang2], knownEqualities) && !ang1.equals(ang2) && 
-                (checkAngEqual(ang1, ang2, "Vertical angles") || checkAngEqual(ang1, ang2, "Alternate angles") 
+                (checkAngEqual(ang1, ang2, "vertical angles") || checkAngEqual(ang1, ang2, "alternate angles") 
                     || checkAngEqual(ang1, ang2, "CPCTC"))){
                 validStatements++;
             }
@@ -726,7 +782,7 @@ function outputBadProof(){
 
     // now construct the proof we want to hand to the exercise
     var proofText = "<h3>Givens</h3>";
-    var knownKeys = _.keys(knownEqualities);
+    var knownKeys = sortEqualityList(_.keys(knownEqualities), knownEqualities);
 
     var numberGivens = 0;
     _.each(knownKeys, function(key){
@@ -735,6 +791,7 @@ function outputBadProof(){
         }
     });
     numberGivens /= 2;
+    console.log(knownKeys);
 
     for(var i=0; i<knownKeys.length; i+=2){
         if(knownEqualities[knownKeys[i]].substring(0,4) != "Same"){
@@ -762,9 +819,26 @@ function outputBadProof(){
     }
 
     if(!eqIn(finalRelation, knownEqualities)){
-        proofText += "<div class=\"" + divName(finalRelation.toString()) + "\">";
-        proofText += prettifyEquality(finalRelation);
-        proofText += " because " + finishedEqualities[finalRelation] + "</div>" + "<br>";
+        if(eqIn(finalRelation, finishedEqualities)){
+            proofText += "<div class=\"" + divName(finalRelation.toString()) + "\">";
+            proofText += prettifyEquality(finalRelation);
+            proofText += " because " + finishedEqualities[finalRelation] + "</div>" + "<br>";
+        }
+        else{
+            proofText += "<div class=\"" + divName(finalRelation.toString()) + "\">";
+            proofText += prettifyEquality(finalRelation);
+            if(finalRelation[0] instanceof Triang){
+                proofText += " because " + KhanUtil.randFromArray(["SSS","ASA","SAS","AAS"]) + "</div>" + "<br>";
+            }
+            else if(finalRelation[0] instanceof Ang){
+                proofText += " because " 
+                + KhanUtil.randFromArray(["vertical angles are equal", "alternate angles are equal", "corresponding parts of congruent triangles are congruent"]) 
+                + "</div>" + "<br>";
+            }
+            else{
+                proofText += " because " + "corresponding parts of congruent triangles are congruent" + "</div>" + "<br>";
+            }
+        }
     }
 
 
@@ -892,7 +966,8 @@ function traceBack(statementKey, depth){
         console.log("0 depth");
         finishedEqualities[statementKey] = "given";
         finishedEqualities[statementKey.reverse()] = "given";
-        finishedEqualitiesList.push(statementKey);
+        finishedEqualitiesList.push(statementKey.toString());
+        finishedEqualitiesList.push(statementKey.reverse().toString());
 
         if(statementKey[0] instanceof Triang){
             fixedTriangles[statementKey[0]] = true;
@@ -976,15 +1051,18 @@ function traceBack(statementKey, depth){
 
             // if both triangles are fixed, don't use shared side / vertical angles / alternate angles
             // unless they happen to be fixed in the right way
-            if(sharedSeg.length > 0 && indexDiff != 0){
-                sharedSeg = [];
+            if(triangIn(triangle1, fixedTriangles) && triangIn(triangle2, fixedTriangles)){
+                if(sharedSeg.length > 0 && indexDiff != 0){
+                    sharedSeg = [];
+                }
+                if(verticalAngs != null && verticalAngs[0] != verticalAngs[1]){
+                    verticalAngs = null;
+                }
+                if(alternateAngs != null && alternateAngs[0] != alternateAngs[1]){
+                    alternateAngs = null;
+                }
             }
-            if(verticalAngs != null && verticalAngs[0] != verticalAngs[1]){
-                verticalAngs = null;
-            }
-            if(alternateAngs != null && alternateAngs[0] != alternateAngs[1]){
-                alternateAngs = null;
-            }
+
 
             // pick a triangle congruence theorem
             var congruence = KhanUtil.randRange(1,4);
@@ -1002,13 +1080,11 @@ function traceBack(statementKey, depth){
                     triangle2.segs.rotate(indexDiff);
                     triangle2.angs.rotate(indexDiff);
                 }
-
                 else if(!triangIn(triangle1, fixedTriangles)){
                     triangle1.segs.rotate(-indexDiff);
                     triangle1.angs.rotate(-indexDiff);
                     sharedSegIndex = (sharedSegIndex - indexDiff) % 3;
                 }
-
 
                 //SSS
                 if(congruence === 1) {
@@ -1079,7 +1155,8 @@ function traceBack(statementKey, depth){
 
                 finishedEqualities[[triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[0]]]] = "vertical angles are equal";
                 finishedEqualities[[triangle2.angs[verticalAngs[0]], triangle1.angs[verticalAngs[0]]]] = "vertical angles are equal";
-                finishedEqualities.push([triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[0]]]);
+                finishedEqualitiesList.push([triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[0]]].toString());
+                finishedEqualitiesList.push([triangle2.angs[verticalAngs[0]], triangle1.angs[verticalAngs[0]]].toString());
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
@@ -1136,7 +1213,8 @@ function traceBack(statementKey, depth){
 
                 finishedEqualities[[triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]]] = "alternate interior angles are equal";
                 finishedEqualities[[triangle2.angs[alternateAngs[0]], triangle1.angs[alternateAngs[0]]]] = "alternate interior angles are equal";
-                finishedEqualitiesList.push([triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]]);
+                finishedEqualitiesList.push([triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]].toString());
+                finishedEqualitiesList.push([triangle2.angs[alternateAngs[0]], triangle1.angs[alternateAngs[0]]].toString());
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
@@ -1240,7 +1318,8 @@ function traceBack(statementKey, depth){
             if(newTriangles.length === 0){
                 finishedEqualities[statementKey] = "given";
                 finishedEqualities[statementKey.reverse()] = "given";
-                finishedEqualitiesList.push(statementKey);
+                finishedEqualitiesList.push(statementKey.toString());
+                finishedEqualitiesList.push(statementKey.reverse().toString());
             }
             // otherwise, change the labeling on the triangle so that the segments given in the
             // statement key are corresponding
@@ -1271,6 +1350,9 @@ function traceBack(statementKey, depth){
                     trianglePair[0].segs.rotate(index2 - index1);
                     trianglePair[0].angs.rotate(index2 - index1);
                 }
+
+                fixedTriangles[trianglePair[0]] = true;
+                fixedTriangles[trianglePair[1]] = true;
 
                 setGivenOrTraceBack([[trianglePair[0],trianglePair[1]]], "corresponding parts of congruent triangles are congruent",
                 statementKey, depth-1);
@@ -1308,7 +1390,8 @@ function traceBack(statementKey, depth){
             if(newTriangles.length === 0){
                 finishedEqualities[statementKey] = "given";
                 finishedEqualities[statementKey.reverse()] = "given";
-                finishedEqualitiesList.push(statementKey);
+                finishedEqualitiesList.push(statementKey.toString());
+                finishedEqualitiesList.push(statementKey.reverse().toString());
             }
             // otherwise, change the labeling on the triangle so that the angles given in the
             // statement key are corresponding
@@ -1340,6 +1423,9 @@ function traceBack(statementKey, depth){
                     trianglePair[0].angs.rotate(index2 - index1);
                 }
 
+                fixedTriangles[trianglePair[0]] = true;
+                fixedTriangles[trianglePair[1]] = true;
+
                 setGivenOrTraceBack([[trianglePair[0],trianglePair[1]]], "corresponding parts of congruent triangles are congruent",
                 statementKey, depth-1);
             }    
@@ -1360,7 +1446,8 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep){
 
         finishedEqualities[oldKey] = reason;
         finishedEqualities[oldKey.reverse()] = reason;
-        finishedEqualitiesList.push(oldKey);
+        finishedEqualitiesList.push(oldKey.toString());
+        finishedEqualitiesList.push(oldKey.reverse().toString());
 
         if(oldKey[0] instanceof Triang){
             fixedTriangles[oldKey[0]] = true;
@@ -1377,7 +1464,13 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep){
                 console.log("setting relation "+key+" to Given");
                 finishedEqualities[key] = "given";
                 finishedEqualities[key.reverse()] = "given";
-                finishedEqualitiesList.push(key);
+                finishedEqualitiesList.push(key.toString());
+                finishedEqualitiesList.push(key.reverse().toString());
+
+                if(key[0] instanceof Triang){
+                    fixedTriangles[key[0]] = true;
+                    fixedTriangles[key[1]] = true;
+                }
             }
             else{
                 traceBack(key, dep);
@@ -1390,7 +1483,13 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep){
             // you have failed me for the last time
             finishedEqualities[oldKey] = "given";
             finishedEqualities[oldKey.reverse()] = "given";
-            finishedEqualitiesList.push(key);
+            finishedEqualitiesList.push(oldKey.toString());
+            finishedEqualitiesList.push(oldKey.reverse().toString());
+
+            if(oldKey[0] instanceof Triang){
+                fixedTriangles[oldKey[0]] = true;
+                fixedTriangles[oldKey[1]] = true;
+            }
         }
         else{
             traceBack(oldKey, dep+1);
@@ -1410,8 +1509,8 @@ function isRelationPossible(key){
         }
         else{
             // assume only one endpoint is shared
-            var otherSegEnd1 = _.difference([key[0].end1, key[0].end2], sharedEndpoint);
-            var otherSegEnd2 = _.difference([key[1].end1, key[1].end2], sharedEndpoint);
+            var otherSegEnd1 = _.difference([key[0].end1, key[0].end2], sharedEndpoint)[0];
+            var otherSegEnd2 = _.difference([key[1].end1, key[1].end2], sharedEndpoint)[0];
             
             // see if any angles given as 180 degrees are of the form shared - end - end
             var tempAng = new Ang(sharedEndpoint, otherSegEnd1, otherSegEnd2);
@@ -1624,14 +1723,11 @@ function checkAngEqual(ang1, ang2, reason){
     if(ang1.mid === ang2.mid){
         var sharedLines = 0;
         for(var i=0; i<SEGMENTS.length; i++){
-            console.log("checking segment "+SEGMENTS[i]);
             if(SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end1)) ||
                 SEGMENTS[i].equals(new Seg(ang1.end1, ang2.end2)) ||
                 SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end1)) ||
                 SEGMENTS[i].equals(new Seg(ang1.end2, ang2.end2))){
-                console.log("segment is equal to cross-segment");
                 if(!isRelationPossible([SEGMENTS[i], new Seg(SEGMENTS[i].end1, ang1.mid)])){
-                    console.log("incrementing sharedlines");
                     sharedLines += 1;
                 }
 
@@ -1880,7 +1976,7 @@ function triangIn(item, object){
     var itemString = item.toString();
 
     for(var i=0; i<list.length; i++){
-        if(_.difference(itemString.split(""), list[i].split("")) === 0){
+        if(_.difference(itemString.split(""), list[i].split("")).length === 0){
             return true;
         }
     }
