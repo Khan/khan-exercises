@@ -28,10 +28,11 @@
         ])</var>
     </div>
     <div class="problems">
-        <div id="right-triangle">
+        <div id="right-triangle" data-weight="1">
             <div class="vars" data-ensure="(B % 2 === 0) || (H % 2 === 0)">
                 <var id="B">randRange(2, 9)</var>
                 <var id="H">randRange(2, 9)</var>
+                <var id="HYP">sqrt(B * B + H * H)</var>
             </div>
 
             <p class="question">
@@ -44,6 +45,11 @@
                         {stroke: BLUE, fill: "#eee"});
                     label([B / 2, 0], B + "\\text{ " + UNIT + "}", "below");
                     label([0, H / 2], H + "\\text{ " + UNIT + "}", "left");
+                    // Label hypotenuse if it's an integer
+                    if (HYP === round(HYP)) {
+                        label([B / 2, H * 0.55], HYP + "\\text{ " + UNIT + "}",
+                            "right");
+                    }
                 </div>
             </div>
 
@@ -88,11 +94,15 @@
             </div>
         </div>
 
-        <div id="acute-triangle">
-            <div class="vars" data-ensure="(B % 2 === 0) || (H % 2 === 0)">
+        <div id="acute-triangle" data-weight="2">
+            <div class="vars" data-ensure="((B % 2 === 0) || (H % 2 === 0)) &&
+                    (H !== HYP)">
                 <var id="B">randRange(3, 9)</var>
                 <var id="H">randRange(2, 9)</var>
-                <var id="TOP">randRange(1, B - 1)</var>
+                <var id="HYP">
+                    randRange(H + 1, floor(sqrt(H * H + B * B) - 1))
+                </var>
+                <var id="TOP">sqrt(HYP * HYP - H * H)</var>
             </div>
 
             <p class="question">
@@ -104,6 +114,8 @@
                     path([[0, 0], [TOP, H], [B, 0], true],
                         {stroke: BLUE, fill: "#eee"});
                     label([B / 2, 0], B + "\\text{ " + UNIT + "}", "below");
+                    graph.hypotenuseLabel = label([TOP * 0.5, H * 0.5],
+                        HYP + "\\text{ " + UNIT + "}", "left");
                     path([[TOP + 1/60, 0], [TOP + 1/60, H]], {
                         stroke: BLUE,
                         strokeWidth: 1,
@@ -123,6 +135,7 @@
             <div class="hints">
                 <div>
                     <div class="graphie" data-update="area">
+                        graph.hypotenuseLabel.remove();
                         graph.grid = raphael.set();
                         style({
                             stroke: GRAY,
@@ -215,7 +228,7 @@
             </div>
         </div>
 
-        <div id="obtuse-triangle">
+        <div id="obtuse-triangle" data-weight="2">
             <div class="vars" data-ensure="(B % 2 === 0) || (H % 2 === 0)">
                 <var id="B">randRange(3, 9)</var>
                 <var id="H">randRange(2, 9)</var>
@@ -235,6 +248,15 @@
                     path([[0, 0], [TOP, H], [B, 0], true],
                         {stroke: BLUE, fill: "#eee"});
                     label([B / 2, 0], B + "\\text{ " + UNIT + "}", "below");
+                    if (TOP &gt; 0) {
+                        label([TOP * 0.5, H * 0.6],
+                            round(sqrt(TOP * TOP + H * H)) +
+                            "\\text{ " + UNIT + "}", "left");
+                    } else {
+                        label([(B + TOP) * 0.5, H * 0.6],
+                            round(sqrt((B - TOP) * (B - TOP) + H * H)) +
+                            "\\text{ " + UNIT + "}", "right");
+                    }
                     path([[TOP + 1/60, 0], [TOP + 1/60, H]], {
                         stroke: BLUE,
                         strokeWidth: 1,
