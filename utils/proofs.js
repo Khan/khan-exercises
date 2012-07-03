@@ -495,8 +495,9 @@ function outputFillBlanksProof(){
             numberGivens++;
         }
     });
+    numberGivens /= 2;
 
-    for(var i=0; i<finishedKeys.length; i++){
+    for(var i=0; i<finishedKeys.length; i+=2){
         if(finishedEqualities[finishedKeys[i]].substring(0,4) != "Same"){
             if(finishedEqualities[finishedKeys[i]] === "given"){
                 numberGivens--;                
@@ -603,7 +604,25 @@ function checkFillBlanksStatement(divID){
     }
     //angles
     else if(components[0] === "a"){
+        var angle1 = finishedKeys[components[1]][0];
+        var angle2 = finishedKeys[components[1]][1];
 
+        if(input1.length != 3 || input2.length != 3){
+            return;
+        }
+
+        var inputAngle1 = new Ang(input1[0],input1[1],input1[2]);
+        var inputAngle2 = new Ang(input2[0],input2[1],input2[2]);
+
+        if((inputAngle1.equals(angle1) && inputAngle2.equals(angle2)) || (inputAngle1.equals(angle2) && inputAngle2.equals(angle1))){
+            $("#"+divID+" input").remove();
+            $("#"+divID+" code").remove();
+            $("#"+divID+" span").remove();
+            var reason = $("#"+divID).html();
+            $("#"+divID).html(prettifyEquality([inputAngle1, inputAngle2]) + reason);
+            $.tmpl.type.code()($("#"+divID+" code")[0]);
+            return true;
+        }
     }
     //segments
     else{
@@ -966,8 +985,8 @@ function traceBack(statementKey, depth){
         console.log("0 depth");
         finishedEqualities[statementKey] = "given";
         finishedEqualities[statementKey.reverse()] = "given";
-        finishedEqualitiesList.push(statementKey.toString());
-        finishedEqualitiesList.push(statementKey.reverse().toString());
+        finishedEqualitiesList.push(statementKey);
+        finishedEqualitiesList.push(statementKey.reverse());
 
         if(statementKey[0] instanceof Triang){
             fixedTriangles[statementKey[0]] = true;
@@ -1155,8 +1174,8 @@ function traceBack(statementKey, depth){
 
                 finishedEqualities[[triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[0]]]] = "vertical angles are equal";
                 finishedEqualities[[triangle2.angs[verticalAngs[0]], triangle1.angs[verticalAngs[0]]]] = "vertical angles are equal";
-                finishedEqualitiesList.push([triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[0]]].toString());
-                finishedEqualitiesList.push([triangle2.angs[verticalAngs[0]], triangle1.angs[verticalAngs[0]]].toString());
+                finishedEqualitiesList.push([triangle1.angs[verticalAngs[0]], triangle2.angs[verticalAngs[0]]]);
+                finishedEqualitiesList.push([triangle2.angs[verticalAngs[0]], triangle1.angs[verticalAngs[0]]]);
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
@@ -1213,8 +1232,8 @@ function traceBack(statementKey, depth){
 
                 finishedEqualities[[triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]]] = "alternate interior angles are equal";
                 finishedEqualities[[triangle2.angs[alternateAngs[0]], triangle1.angs[alternateAngs[0]]]] = "alternate interior angles are equal";
-                finishedEqualitiesList.push([triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]].toString());
-                finishedEqualitiesList.push([triangle2.angs[alternateAngs[0]], triangle1.angs[alternateAngs[0]]].toString());
+                finishedEqualitiesList.push([triangle1.angs[alternateAngs[0]], triangle2.angs[alternateAngs[0]]]);
+                finishedEqualitiesList.push([triangle2.angs[alternateAngs[0]], triangle1.angs[alternateAngs[0]]]);
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1,3);
@@ -1318,8 +1337,8 @@ function traceBack(statementKey, depth){
             if(newTriangles.length === 0){
                 finishedEqualities[statementKey] = "given";
                 finishedEqualities[statementKey.reverse()] = "given";
-                finishedEqualitiesList.push(statementKey.toString());
-                finishedEqualitiesList.push(statementKey.reverse().toString());
+                finishedEqualitiesList.push(statementKey);
+                finishedEqualitiesList.push(statementKey.reverse());
             }
             // otherwise, change the labeling on the triangle so that the segments given in the
             // statement key are corresponding
@@ -1390,8 +1409,8 @@ function traceBack(statementKey, depth){
             if(newTriangles.length === 0){
                 finishedEqualities[statementKey] = "given";
                 finishedEqualities[statementKey.reverse()] = "given";
-                finishedEqualitiesList.push(statementKey.toString());
-                finishedEqualitiesList.push(statementKey.reverse().toString());
+                finishedEqualitiesList.push(statementKey);
+                finishedEqualitiesList.push(statementKey.reverse());
             }
             // otherwise, change the labeling on the triangle so that the angles given in the
             // statement key are corresponding
@@ -1446,8 +1465,8 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep){
 
         finishedEqualities[oldKey] = reason;
         finishedEqualities[oldKey.reverse()] = reason;
-        finishedEqualitiesList.push(oldKey.toString());
-        finishedEqualitiesList.push(oldKey.reverse().toString());
+        finishedEqualitiesList.push(oldKey);
+        finishedEqualitiesList.push(oldKey.reverse());
 
         if(oldKey[0] instanceof Triang){
             fixedTriangles[oldKey[0]] = true;
@@ -1464,8 +1483,8 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep){
                 console.log("setting relation "+key+" to Given");
                 finishedEqualities[key] = "given";
                 finishedEqualities[key.reverse()] = "given";
-                finishedEqualitiesList.push(key.toString());
-                finishedEqualitiesList.push(key.reverse().toString());
+                finishedEqualitiesList.push(key);
+                finishedEqualitiesList.push(key.reverse());
 
                 if(key[0] instanceof Triang){
                     fixedTriangles[key[0]] = true;
@@ -1483,8 +1502,8 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep){
             // you have failed me for the last time
             finishedEqualities[oldKey] = "given";
             finishedEqualities[oldKey.reverse()] = "given";
-            finishedEqualitiesList.push(oldKey.toString());
-            finishedEqualitiesList.push(oldKey.reverse().toString());
+            finishedEqualitiesList.push(oldKey);
+            finishedEqualitiesList.push(oldKey.reverse());
 
             if(oldKey[0] instanceof Triang){
                 fixedTriangles[oldKey[0]] = true;
