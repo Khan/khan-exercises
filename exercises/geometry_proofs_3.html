@@ -211,12 +211,27 @@
                     }
                 });
 
+                var giveAway = false;
                 $("#hint").click(function(){
-                    var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
-                    $(this).val("I'd like a hint (" + stepsLeft + ")");
-                    $(this).attr("disabled", false);
+                    if(!giveAway){
+                        var stepsLeft = (FILL_BLANKS_NUM*2)-1 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                        $(this).val("I'd like a hint (" + stepsLeft + ")");
+                        $(this).attr("disabled", false);
 
-                    console.log(getFillBlanksHint());
+                        $(".actualHints").append("<p>"+getFillBlanksHint(false)+"</p><br><br>");
+                        _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                        giveAway = true;
+                    }
+                    else{
+                        FILL_BLANKS_NUM--;
+                        var stepsLeft = (FILL_BLANKS_NUM*2) + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                        $(this).val("I'd like a hint (" + stepsLeft + ")");
+                        $(this).attr("disabled", false);
+
+                        $(".actualHints").append("<p>The next equality you have to fill in is "+getFillBlanksHint(true)+"</p>");
+                        _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                        giveAway = false;
+                    }
                 });
 
                 for(var line in graph.congruency.lines){
@@ -407,8 +422,6 @@
                         }
 
             </div>
-            <div class="actualHints">
-            </div>
         </div>
 
         <div class="problems">
@@ -416,6 +429,8 @@
             <div class="question">
             </div>
             <div class="statements"> <var> FILL_BLANKS_PROOF </var>
+            </div>
+            <div class="actualHints">
             </div>
             <div class="solution" data-type="custom">
                 <div class="instruction">
