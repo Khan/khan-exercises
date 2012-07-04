@@ -85,8 +85,6 @@
             <var id="FILL_BLANKS_STUFF">outputFillBlanksProof()</var>
             <var id="FILL_BLANKS_PROOF">FILL_BLANKS_STUFF[0]</var>
             <var id="FILL_BLANKS_NUM">FILL_BLANKS_STUFF[1]</var>
-
-            <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
             
         </div>
 
@@ -200,13 +198,25 @@
                 $(".missingStatement").keyup(function(){
                     if(checkFillBlanksStatement($(this).parent()[0].id)){
                         FILL_BLANKS_NUM--;
+                        var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                        $("#hint").val("I'd like a hint (" + stepsLeft + ")");
                     }
                 });
 
                 $(".missingReason").change(function(){
                     if(checkFillBlanksReason($(this), this.id)){
                         FILL_BLANKS_NUM--;
+                        var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                        $("#hint").val("I'd like a hint (" + stepsLeft + ")");
                     }
+                });
+
+                $("#hint").click(function(){
+                    var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                    $(this).val("I'd like a hint (" + stepsLeft + ")");
+                    $(this).attr("disabled", false);
+
+                    console.log(getFillBlanksHint());
                 });
 
                 for(var line in graph.congruency.lines){
@@ -397,6 +407,8 @@
                         }
 
             </div>
+            <div class="actualHints">
+            </div>
         </div>
 
         <div class="problems">
@@ -416,7 +428,9 @@
                 <div class="show-guess">
                     
                 </div>
-                <div class="example">acceptable answer format goes here</div>
+            </div>
+            <div class="hints">
+                <p></p>
             </div>
         </div>
         </div>

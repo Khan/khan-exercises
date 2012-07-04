@@ -338,7 +338,7 @@ function nextStatementHint(){
                 return triang.toString() === tryProving.substring(12,23);
             });
 
-            var useToProve = checkTriangleForHint(triangle1, triangle2);
+            var useToProve = checkTriangleForHint(triangle1, triangle2, knownEqualities);
             if(useToProve.length > 0){
                 return "You know that " + prettifyEquality(useToProve[0][0] + "," + useToProve[0][1]) 
                 + ", " + prettifyEquality(useToProve[1][0] + "," + useToProve[1][1]) 
@@ -354,7 +354,7 @@ function nextStatementHint(){
                 return seg.toString() === tryProving.substring(6,11);
             });
 
-            var useToProve = checkSegForHint(seg1, seg2);
+            var useToProve = checkSegForHint(seg1, seg2, knownEqualities);
             if(useToProve.length > 0){
                 return "You know that " + prettifyEquality(useToProve[0] + "," + useToProve[1]) + ". What segments can you prove equal from this?";
             }
@@ -369,7 +369,7 @@ function nextStatementHint(){
             });
 
 
-            var useToProve = checkAngForHint(ang1, ang2);
+            var useToProve = checkAngForHint(ang1, ang2, knownEqualities);
             if(useToProve.length > 0 && useToProve[0] instanceof Triang){
                 return "You know that " + prettifyEquality(useToProve[0] + "," + useToProve[1]) + ". What angles can you prove equal from this?";
             }
@@ -512,12 +512,14 @@ function outputFillBlanksProof(){
                 else{
                     proofText += "</div><br><br><h3 style=\"clear:both\">Proof</h3>";
                 }
+                knownEqualities[finishedKeys[i]] = "given";
+                //knownEqualities[finishedKeys[i].reverse()] = "given";
             }
             else{
                 if(KhanUtil.random() < 0.2){
                     proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
                     proofText += prettifyEquality(finishedKeys[i]);
-                    proofText += " because <select class=\"missingReason\" id=\""+finishedEqualities[finishedKeys[i]]+"\">"
+                    proofText += " because <select class=\"missing missingReason\" id=\""+finishedEqualities[finishedKeys[i]]+"\">"
                     +"<option></option>"
                     +"<option value=\"SSS\">side-side-side congruence</option>"
                     +"<option value=\"ASA\">angle-side-angle congruence</option>"
@@ -531,17 +533,17 @@ function outputFillBlanksProof(){
                 }
                 else if(KhanUtil.random() < 0.2){
                     if(finishedKeys[i][0] === "t"){
-                        proofText += "<div id=\""+"t-"+i+"\">"
+                        proofText += "<div class=\"missing\" id=\""+"t-"+i+"\">"
                         + "<code> \\bigtriangleup </code> <input class=\"missingStatement\"></input>"
                         + "<code> = \\bigtriangleup </code> <input class=\"missingStatement\"></input>";
                     }
                     else if(finishedKeys[i][0] === "s"){
-                        proofText += "<div id=\""+"s-"+i+"\">"
+                        proofText += "<div class=\"missing\" id=\""+"s-"+i+"\">"
                         + "<input class=\"missingStatement\"></input>"
                         + "<code> = </code><input class=\"missingStatement\"></input>";
                     }
                     else{
-                        proofText += "<div id=\""+"a-"+i+"\">"
+                        proofText += "<div class=\"missing\" id=\""+"a-"+i+"\">"
                         + "<code> \\angle </code> <input class=\"missingStatement\"></input>"
                         + "<code> = \\angle </code> <input class=\"missingStatement\"></input>";
                     }
@@ -552,6 +554,8 @@ function outputFillBlanksProof(){
                     proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
                     proofText += prettifyEquality(finishedKeys[i]);
                     proofText += " because " + finishedEqualities[finishedKeys[i]] + "</div>" + "<br>";
+                    knownEqualities[finishedKeys[i]] = finishedEqualities[finishedKeys[i]];
+                    // knownEqualities[finishedKeys[i].reverse()] = finishedEqualities[finishedKeys[i]];
                 }
             }
         }
@@ -598,6 +602,7 @@ function checkFillBlanksStatement(divID){
             $("#"+divID+" span").remove();
             var reason = $("#"+divID).html();
             $("#"+divID).html(prettifyEquality([inputTriangle1, inputTriangle2]) + reason);
+            $("#"+divID).removeClass("missing");
             $.tmpl.type.code()($("#"+divID+" code")[0]);
             return true;
         }
@@ -620,6 +625,7 @@ function checkFillBlanksStatement(divID){
             $("#"+divID+" span").remove();
             var reason = $("#"+divID).html();
             $("#"+divID).html(prettifyEquality([inputAngle1, inputAngle2]) + reason);
+            $("#"+divID).removeClass("missing");
             $.tmpl.type.code()($("#"+divID+" code")[0]);
             return true;
         }
@@ -642,6 +648,7 @@ function checkFillBlanksStatement(divID){
             $("#"+divID+" span").remove();
             var reason = $("#"+divID).html();
             $("#"+divID).html(prettifyEquality([inputSeg1, inputSeg2]) + reason);
+            $("#"+divID).removeClass("missing");
             $.tmpl.type.code()($("#"+divID+" code")[0]);
             return true;
         }
@@ -660,6 +667,69 @@ function checkFillBlanksReason(select, selectID){
         return true;
     }
     return false;
+}
+
+// for fill-in-the-blanks proofs, this hint function looks for the next missing reason, and generate a hint based
+// on that using nextStatementHint()
+function getFillBlanksHint(){
+    var unsortedKeyList = _.map(finishedEqualitiesList, function(key){ return _.clone(key); });
+    var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
+    if($(".missing").length === 0){
+    }
+    else{
+        var firstMissing = $(".missing").first();
+        console.log(firstMissing);
+        if(firstMissing.children().length > 0){
+            var inputs = _.filter(firstMissing.children(), function(child){
+                return $(child).hasClass("missingStatement");
+            });
+            var components = firstMissing[0].id.split("-");
+
+            //only use equalities before the input
+            finishedKeys = finishedKeys.slice(0,(Number(components[1])+1));
+            var beforeEqualities = {};
+            for(var i=0; i<finishedKeys.length; i++){
+                beforeEqualities[finishedKeys[i]] = finishedEqualities[finishedKeys[i]];
+            }
+
+            if(components[0] === "t"){
+                var triangle1 = finishedKeys[components[1]][0];
+                var triangle2 = finishedKeys[components[1]][1];
+
+                var useToProve = checkTriangleForHint(triangle1, triangle2, beforeEqualities);
+                if(useToProve.length > 0){
+                    return "You know that " + prettifyEquality(useToProve[0][0] + "," + useToProve[0][1]) 
+                    + ", " + prettifyEquality(useToProve[1][0] + "," + useToProve[1][1]) 
+                    + ", and " + prettifyEquality(useToProve[2][0] + "," + useToProve[2][1]) + ". What can you prove from this?";
+                }
+            }
+            else if(components[0] === "a"){
+                var angle1 = finishedKeys[components[1]][0];
+                var angle2 = finishedKeys[components[1]][1];
+
+                console.log(seg1+","+seg2);
+
+                var useToProve = checkAngForHint(ang1, ang2, beforeEqualities);
+                if(useToProve.length > 0 && useToProve[0] instanceof Triang){
+                    return "You know that " + prettifyEquality(useToProve[0] + "," + useToProve[1]) + ". What angles can you prove equal from this?";
+                }
+                else if(useToProve.length > 0){
+                    return "Try using " + useToProve + " to prove some useful pair of angles equal.";
+                }
+            }
+            else{
+                var seg1 = finishedKeys[components[1]][0];
+                var seg2 = finishedKeys[components[1]][1];
+
+                console.log(seg1+","+seg2);
+
+                var useToProve = checkSegForHint(seg1, seg2, beforeEqualities);
+                if(useToProve.length > 0){
+                    return "You know that " + prettifyEquality(useToProve[0] + "," + useToProve[1]) + ". What segments can you prove equal from this?";
+                }
+            }
+        }
+    }
 }
 
 // generate a bad proof
@@ -1779,33 +1849,34 @@ function checkAngEqual(ang1, ang2, reason){
 // check to see if this could be true for any reason, given what is known in knownEqualities, but 
 // that it also has not already been proven, so that it can be used as a hint
 // it should return a list of the statements (in knownEqualities) which can prove this equality
-function checkTriangleForHint(triangle1, triangle2) {
+// this function will only use the equalities in equalityObject to find a hint
+function checkTriangleForHint(triangle1, triangle2, equalityObject) {
     // to check if this pair of triangles is already in knownEqualities, we need to check
     // if any corresponding rotation is in knownEqualities
 
-    for(var i=0; i<3; i++){
-        triangle1.segs.rotate(1);
-        triangle1.angs.rotate(1);
+    // for(var i=0; i<3; i++){
+    //     triangle1.segs.rotate(1);
+    //     triangle1.angs.rotate(1);
 
-        triangle2.segs.rotate(1);
-        triangle2.angs.rotate(1);
+    //     triangle2.segs.rotate(1);
+    //     triangle2.angs.rotate(1);
 
-        if(eqIn([triangle1, triangle2], knownEqualities)){
-            return [];
-        }
-    }
+    //     if(eqIn([triangle1, triangle2], equalityObject)){
+    //         return [];
+    //     }
+    // }
 
     //SSS
-    if(eqIn([triangle1.segs[0], triangle2.segs[0]], knownEqualities) && eqIn([triangle1.segs[1], triangle2.segs[1]], knownEqualities)
-        && eqIn([triangle1.segs[2], triangle2.segs[2]], knownEqualities)){
+    if(eqIn([triangle1.segs[0], triangle2.segs[0]], equalityObject) && eqIn([triangle1.segs[1], triangle2.segs[1]], equalityObject)
+        && eqIn([triangle1.segs[2], triangle2.segs[2]], equalityObject)){
         return [[triangle1.segs[0], triangle2.segs[0]], [triangle1.segs[1], triangle2.segs[1]], [triangle1.segs[2], triangle2.segs[2]]];
     }
 
     //ASA
     for(var i=0; i<3; i++){
-        if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
-            && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], knownEqualities)
-            && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)){
+        if(eqIn([triangle1.angs[i], triangle2.angs[i]], equalityObject) 
+            && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], equalityObject)
+            && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], equalityObject)){
             return [[triangle1.angs[i], triangle2.angs[i]],
              [triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], [triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]]];
         }
@@ -1813,8 +1884,8 @@ function checkTriangleForHint(triangle1, triangle2) {
 
     //SAS
     for(var i=0; i<3; i++){
-        if(eqIn([triangle1.segs[i], triangle2.segs[i]], knownEqualities) && eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities)
-        && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], knownEqualities)){
+        if(eqIn([triangle1.segs[i], triangle2.segs[i]], equalityObject) && eqIn([triangle1.angs[i], triangle2.angs[i]], equalityObject)
+        && eqIn([triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]], equalityObject)){
             return [[triangle1.segs[i], triangle2.segs[i]],
              [triangle1.angs[i], triangle2.angs[i]], [triangle1.segs[(i+1) % 3], triangle2.segs[(i+1) % 3]]];
         }
@@ -1823,9 +1894,9 @@ function checkTriangleForHint(triangle1, triangle2) {
 
     //AAS
     for(var i=0; i<3; i++){
-        if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
-            && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)
-            && eqIn([triangle1.segs[(i+2) % 3], triangle2.segs[(i+2) % 3]], knownEqualities)){
+        if(eqIn([triangle1.angs[i], triangle2.angs[i]], equalityObject) 
+            && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], equalityObject)
+            && eqIn([triangle1.segs[(i+2) % 3], triangle2.segs[(i+2) % 3]], equalityObject)){
             return [[triangle1.angs[i], triangle2.angs[i]],
              [triangle1.segs[(i+2) % 3], triangle2.segs[(i+2) % 3]], [triangle1.segs[(i+2) % 3], triangle2.segs[(i+2) % 3]]];
         }
@@ -1833,9 +1904,9 @@ function checkTriangleForHint(triangle1, triangle2) {
     
     //AAS part II (revenge of the AAS)
     for(var i=0; i<3; i++){
-        if(eqIn([triangle1.angs[i], triangle2.angs[i]], knownEqualities) 
-            && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], knownEqualities)
-            && eqIn([triangle1.segs[i], triangle2.segs[i]], knownEqualities)){
+        if(eqIn([triangle1.angs[i], triangle2.angs[i]], equalityObject) 
+            && eqIn([triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], equalityObject)
+            && eqIn([triangle1.segs[i], triangle2.segs[i]], equalityObject)){
             return [[triangle1.angs[i], triangle2.angs[i]],
              [triangle1.angs[(i+1) % 3], triangle2.angs[(i+1) % 3]], [triangle1.segs[i], triangle2.segs[i]]];
         }
@@ -1847,18 +1918,18 @@ function checkTriangleForHint(triangle1, triangle2) {
 }
 
 // check to see if this segment equality can be proven, but has not already been proven
-function checkSegForHint(seg1, seg2){
+function checkSegForHint(seg1, seg2, equalityObject){
     //if this is already known
-    if(eqIn([seg1,seg2], knownEqualities)){
-        return [];
-    }
+    // if(eqIn([seg1,seg2], equalityObject)){
+    //     return [];
+    // }
 
 
     for(var i=0; i<seg1.triangles.length; i++){
         for(var j=0; j<seg2.triangles.length; j++){
             // if the segments' corresponding triangles are congruent AND they're the same part of those triangles, we add
             // to the known equalities
-            if(checkTriangleCongruent(seg1.triangles[i][0], seg2.triangles[j][0]) 
+            if(eqIn([seg1.triangles[i][0], seg2.triangles[j][0]], equalityObject) 
                 && _.indexOf(seg1, seg1.triangles[i][0].segs) === _.indexOf(seg2, seg2.triangles[j][0].segs)){
                 return [seg1.triangles[i][0], seg2.triangles[j][0]];
             }
@@ -1868,17 +1939,17 @@ function checkSegForHint(seg1, seg2){
 }
 
 // check to see if this angle equality can be proven, but has not already been proven
-function checkAngForHint(ang1, ang2){
+function checkAngForHint(ang1, ang2, equalityObject){
     // if this is already known
-    if(eqIn([ang1, ang2], knownEqualities)){
-        return [];
-    }
+    // if(eqIn([ang1, ang2], equalityObject)){
+    //     return [];
+    // }
 
     // if the angles' corresponding triangles are congruent AND they're the same part of those triangles, we add
     // to the known equalities
     for(var i=0; i<ang1.triangles.length; i++){
         for(var j=0; j<ang2.triangles.length; j++){
-            if(checkTriangleCongruent(ang1.triangles[i][0], ang2.triangles[j][0]) 
+            if(eqIn([ang1.triangles[i][0], ang2.triangles[j][0]], equalityObject) 
                 && _.indexOf(ang1, ang1.triangles[i][0].angs) === _.indexOf(ang2, ang2.triangles[j][0].angs)){
                 return [ang1.triangles[i][0], ang2.triangles[j][0]];
             }
