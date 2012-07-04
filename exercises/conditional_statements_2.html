@@ -119,7 +119,17 @@
                     <!-- noun, adjective, conclusion, adjective-noun or noun-adjective-->
                     [["balloons", "old", "don't float", true],
                      ["trees", "green", "are not dead", true],
-                     ["books", "missing pages", "are unhelpful", false]]
+                     ["boys", "young", "can't drive", true],
+                     ["hot dogs", "green", "are unhealthy", true],
+                     ["batteries", "old", "don't work", true],
+                     ["cars", "new", "smell nice", true],
+                     ["books", "missing pages", "are unhelpful", false],
+                     ["polygons", "square", "are rectangles", false],
+                     ["angles", "vertical", "share a vertex", false],
+                     ["angles", "adjacent", "share a ray", false],
+                     ["angles", "adjacent", "share no interior points", false],
+                     ["rectangles", "square", "are rhombi", false],
+                     ["rectangles", "rhombi", "are square", false]]
                 </var>
                 <var id="NOUN,ADJECTIVE,CONCLUSION,ADJ_NOUN">randFromArray(QUESTIONS)</var>
 
@@ -127,7 +137,7 @@
 
                 <var id="STATEMENT_LIST">
                     ADJ_NOUN ? [[capitalize(ADJECTIVE), 1], " ", [NOUN, 1], " ", [CONCLUSION, 2], "."] :
-                               [[capitalize(NOUN), 1], " ", [ADJECTIVE, 1], " ", [CONCLUSION, 2], "."]
+                               [[capitalize(NOUN), 1], " which are ", [ADJECTIVE, 1], " ", [CONCLUSION, 2], "."]
                 </var>
                 <var id="STATEMENT">_.map(STATEMENT_LIST, makeStatement).join("")</var>
             </div>
@@ -136,7 +146,7 @@
                 <p>The conclusion is always true when the given is true, but not necessarily the other way around.</p>
                 <p>The given part stands by itself. Sometimes it describes an object, and sometimes it is an object itself.</p>
                 <div>
-                    <p>In this sentence, the given part is "<span class="hint_blue"><var>ADJ_NOUN ? ADJECTIVE+" "+NOUN : NOUN+" "+ADJECTIVE</var></span>", which describes what kind of <var>NOUN</var> we are dealing with.</p>
+                    <p>In this sentence, the given part is "<span class="hint_blue"><var>ADJ_NOUN ? ADJECTIVE+" "+NOUN : NOUN+" which are "+ADJECTIVE</var></span>", which describes what kind of <var>NOUN</var> we are dealing with.</p>
                     <div class="graphie">
                         $(".set-blue").addClass("hint_blue");
                     </div>
@@ -164,7 +174,15 @@
                     [["animal", "spider", "has", "have", "eight legs", "eight legs"],
                      ["creature", "tiggle", "is", "are", "talking", "talking"],
                      ["creature", "wiggle", "is", "are", "walking", "walking"],
-                     ["animal", "giraffe", "has", "have", "a long neck", "long necks"]]
+                     ["creature", "wiggle", "is", "are", "a tiggle", "tiggles"],
+                     ["creature", "tiggle", "is", "are", "a wiggle", "wiggles"],
+                     ["animal", "giraffe", "has", "have", "a long neck", "long necks"],
+                     ["animal", "giraffe", "has", "have", "four legs", "four legs"],
+                     ["animal", "cat", "has", "have", "four legs", "four legs"],
+                     ["animal", "dog", "has", "have", "four legs", "four legs"],
+                     ["shape", "isoceles triangle", "has", "have","two equal sides", "two equal sides"],
+                     ["shape", "rectangle", "has", "have", "four right angles", "four right angles"],
+                     ["figure", "quadrilateral", "has", "have", "four sides", "four sides"]]
                 </var>
                 <var id="CATEGORY,TYPE,VERB_S,VERB_P,CONCLUSION_S,CONCLUSION_P">randFromArray(QUESTIONS)</var>
 
@@ -205,7 +223,20 @@
                     <!-- event verb, event noun, conclusion verb, conclusion noun -->
                     [["go to", "a birthday party", "eat", "cake"],
                      ["eat", "a sandwich", "turn into", "superman"],
-                     ["watch", "a movie", "eat", "popcorn"]]
+                     ["turn into", "superman", "eat", "a sandwich"],
+                     ["watch", "a movie", "eat", "popcorn"],
+                     ["miss", "the bus", "ride with", "my dad"],
+                     ["go in", "the rain", "take", "my umbrella"],
+                     ["answer", "the phone", "say", "Hello"],
+                     ["eat", "ice cream", "get", "sick"],
+                     ["get", "sick", "eat", "ice cream"],
+                     ["miss", "my alarm", "run", "late"],
+                     ["go to", "the track meet", "run", "fast"],
+                     ["play", "basketball", "make", "a three point shot"],
+                     ["go to", "the Olympics", "win", "a gold medal"],
+                     ["go to", "the softball game", "hit", "a home run"],
+                     ["finish", "my homework", "play", "on the computer"],
+                     ["win", "a gold medal", "go to", "Disneyland"]]
                 </var>
                 <var id="EVENT_V,EVENT_N,CONC_V,CONC_N">randFromArray(QUESTIONS)</var>
 
@@ -229,7 +260,7 @@
                         $(".set-blue").addClass("hint_blue");
                     </div>
                 </div>
-                <p>The conclusion part is something that also might happen when the given part happens.</p>
+                <p>The conclusion part is something that will happen when the given part happens.</p>
                 <div>
                     <p>In this sentence, the conclusion part is "<span class="hint_green"><var>CONC_V+" "+CONC_N</var></span>", which is another event that might happen when I <var>EVENT_V+" "+EVENT_N</var>.</p>
                     <div class="graphie">
