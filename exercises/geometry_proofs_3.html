@@ -65,7 +65,7 @@
 
             <var id="SUPPLEMENTARY_ANGS">[addAngs(ang5, ang6), addAngs(ang6, ang8), addAngs(ang8, ang7), addAngs(ang7, ang5)]</var>
 
-            <var id="PARALLEL_SEGS">[[AB,DE],[AD,BE]]</var>
+            <var id="ALTERNATE_INTERIOR_ANGS">[[ang1, ang12], [ang2, ang11], [ang10, ang3], [ang9, ang4]]</var>
 
             <var id="ABC">new Triang([AB, BC, CA], [ang3, ang5, ang2])</var>
             <var id="BCE">new Triang([BC, CE, EB], [ang7, ang12, ang4])</var>
@@ -78,7 +78,7 @@
 
             <var id="TRIANGLES">[ABC, BCE, ECD, DCA, ABE, ADE, BED, BAD]</var>
 
-            <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, PARALLEL_SEGS, 3, 0.25, "all")</var>
+            <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 3, 0.25, "all")</var>
             <var id="KNOWN">STATEMENTS[0]</var>
             <var id="FINISHED">STATEMENTS[1]</var>
 

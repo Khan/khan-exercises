@@ -519,10 +519,10 @@ function outputFillBlanksProof(){
                     proofText += prettifyEquality(finishedKeys[i]);
                     proofText += " because <select class=\"missingReason\" id=\""+finishedEqualities[finishedKeys[i]]+"\">"
                     +"<option></option>"
-                    +"<option>side-side-side congruence</option>"
-                    +"<option>angle-side-angle congruence</option>"
-                    +"<option>side-angle-side congruence</option>"
-                    +"<option>angle-angle-side congruence</option>"
+                    +"<option value=\"SSS\">side-side-side congruence</option>"
+                    +"<option value=\"ASA\">angle-side-angle congruence</option>"
+                    +"<option value=\"SAS\">side-angle-side congruence</option>"
+                    +"<option value=\"AAS\">angle-angle-side congruence</option>"
                     +"<option>corresponding parts of congruent triangles are congruent</option>"
                     +"<option>vertical angles are equal</option>"
                     +"<option>alternate interior angles are equal</option>"
@@ -653,7 +653,7 @@ function checkFillBlanksStatement(divID){
 // selected is equal to the id
 // returns true if the reason was filled in correctly, false otherwise
 function checkFillBlanksReason(select, selectID){
-    if(selectID.toLowerCase() === select.val()){
+    if(selectID === select.val()){
         var parent = $(select.parent());
         select.remove();
         parent.append(selectID);
