@@ -689,7 +689,7 @@ function getFillBlanksHint(giveAway) {
             var firstMissing = $(".missing").first();
             console.log(firstMissing);
             // if the next open spot is a statement
-            if (firstMissing.children().length > 0) {
+            if (firstMissing.children().first().hasClass("missingStatement")) {
                 var components = firstMissing[0].id.split("-");
 
                 //only use equalities before the input
@@ -739,7 +739,14 @@ function getFillBlanksHint(giveAway) {
             // if the next open spot is a justification
             else{
                 var correctReasonCode = firstMissing[0].id;
-
+                if(correctReasonCode < 4){
+                    return "You know that triangles are congruent because segments or angles in them are congruent. What segments or angles do you know "
+                    + "are equal? Which can you use?";
+                }
+                else{
+                    return "Is this segment/angle pair part of a pair of congruent triangles? If not, there are only two other reasons they could be equal "
+                    + "(in this exercise).";
+                }
             }
         }
     }
@@ -753,7 +760,7 @@ function getFillBlanksHint(giveAway) {
             if (firstMissing.children().length > 0) {
                 var components = firstMissing[0].id.split("-");
                 firstMissing.removeClass("missing");
-                return prettifyEquality([finishedKeys[components[1]][0], finishedKeys[components[1]][1]]);
+                return "The next equality you have to fill in is " + prettifyEquality([finishedKeys[components[1]][0], finishedKeys[components[1]][1]]);
             }
             else {
                 return "The next equality with a missing reason is true by " + reasonCodes[firstMissing[0].id];
