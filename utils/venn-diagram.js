@@ -71,40 +71,39 @@
 
     function arcString(end, radius, largeAngle, sweep) {
         var radii = KhanUtil.currentGraph.scaleVector(radius);
-        var retstring =  "A" + radii.join(" ") + " 0 " + ( largeAngle ? 1 : 0 ) + " " +( sweep ? 1 : 0 ) + " " + scaleAndJoin(end)  ;
+        var retstring =  "A" + radii.join(" ") + " 0 " + ( largeAngle ? 1 : 0 ) + " " + sweep + " " + scaleAndJoin(end)  ;
         return retstring;
     }
 
-    function pointsAreOnSameSideOfLine(line, points) {
+    function pointIsOnSideOfLineWithCenter(line, point) {
         var a = line[0][1] - line[1][1];
         var b = line[1][0] - line[0][0];
         var c = -a*line[0][0] - b*line[0][1];
-        var retval = ((a*points[0][0] + b*points[0][1] + c) * (a*points[1][0] + b*points[1][1] + c) > 0)
+        var retval = ((a*point[0] + b*point[1] + c)  > 0)
         return retval;
     }
 
-    function vennIntersectionString(points, circles, sweeps, outer) {
+    function vennIntersectionString(points, circles, sweeps) {
         var pathString = "M" + scaleAndJoin(points[0]);
         $.each(points, function(i, point) {
             var c = circles[(i+0) % circles.length];
-            var largeAngle = pointsAreOnSameSideOfLine([points[i], points[(i+1) % points.length]],[[c.x, c.y], points[(i+2) % points.length]]) && outer && sweeps[i];
-            largeAngle = false;
+            var largeAngle = !pointIsOnSideOfLineWithCenter([points[i], points[(i+1) % points.length]],[c.x, c.y]) && !sweeps[i];
             pathString += arcString (points[(i+1) % points.length], circles[i].r, largeAngle, sweeps[i]);
         });
         return pathString;
     }
 
-    function vennIntersection(points, circles, sweeps, label, outer) {
+    function vennIntersection(points, circles, sweeps, label) {
         var graph = KhanUtil.currentGraph;
         var set = graph.raphael.set();
-        var pathString = vennIntersectionString (points, circles, sweeps, outer);
+        var pathString = vennIntersectionString (points, circles, sweeps);
 
-        graph.label(getIntersectionCenter(points, circles, sweeps), '\\color{#555}{' +label+ '}');
+        set.push(graph.label(getIntersectionCenter(points, circles, sweeps), '\\color{#555}{' +label+ '}'));
 
         var pathObject = graph.raphael.path(pathString);
         set.push(pathObject);
         var bbox = pathObject.getBBox();
-        pathObject.attr({fill: '#aaa', 'fill-opacity': 0.1, stroke: 9, 'stroke-fill': "transparent"});
+        pathObject.attr({fill: '#aaa', 'fill-opacity': 0.1, stroke: 0, 'stroke-fill': "transparent"});
         pathObject.hover(function(){
             this.animate({'fill-opacity': 0.5}, 200);
         },
@@ -112,21 +111,21 @@
             this.animate({'fill-opacity': 0.1}, 200);
         }
         );
-        return pathString;
+        return pathObject;
     }
     
     function getIntersectionCenter(points) {
         return [(points[0][0] + points[1][0] + points[2][0])/3, (points[0][1] + points[1][1] + points[2][1])/3];
     }
 
-    function drawIntersection(points, circles, label, i, sweeps, inner, outer) {
+    function drawIntersection(points, circles, label, i,inOrOut, sweeps) {
         var ps = [];
         var cs = [];
         $.each(points, function(j, p2) {
-            ps.push(points[(i+j) % points.length][sweeps[(j+1) % sweeps.length] == inner ? 0 : 1]);
+            ps.push(points[(i+j) % points.length][inOrOut[(j+1) % inOrOut.length]]);
             cs.push(circles[(i+j+1) % circles.length]);
         });
-        vennIntersection(ps,cs, sweeps, label, outer)
+        vennIntersection(ps,cs, sweeps, label)
     }
 
     function drawIntersections(circles, labels) {
@@ -135,11 +134,10 @@
             points.push(intersectingPoints(c, circles[(i+1)%circles.length]));
         });
         $.each(points, function(i, p) {
-            drawIntersection(points, circles, labels[(i+2) % points.length],  i, [true,false,true], true, true);
-            drawIntersection(points, circles, labels[3 + i],  i, [true,false,true], false);
-
+            drawIntersection(points, circles, labels[i],    i,[0,0,1], [1,1,0]);
+            drawIntersection(points, circles, labels[i+3],  i,[0,1,1], [0,1,1]);
         });
-        drawIntersection(points, circles, labels[6],  0, [false,false,false], true);
+        drawIntersection(points, circles, labels[6],  0,[1,1,1], [0,0,0]);
         return points;
     }
 
