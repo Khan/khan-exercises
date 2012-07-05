@@ -69,7 +69,7 @@
     }
 
     function _randSubsetExpression(sets, opps) {
-        if(KhanUtil.randRange(0,3)) {
+        if (KhanUtil.randRange(0,3)) {
             var set = KhanUtil.randFromArray(sets);
             var sections = getSections(set);
             return [set, sections]; 
@@ -105,7 +105,7 @@
     function intersect(s1,s2) {
         var ret = [];
         $.each(s1, function(i, item) {
-            if(s2.indexOf(item) != -1) {
+            if (s2.indexOf(item) != -1) {
                 ret.push(item);
             }
         });
@@ -118,7 +118,7 @@
             ret.push(item);
         });
         $.each(s2, function(i, item) {
-            if(ret.indexOf(item) == -1) {
+            if (ret.indexOf(item) == -1) {
                 ret.push(item);
             }
         });
@@ -131,7 +131,7 @@
             ret.push(item);
         });
         $.each(s2, function(i, item) {
-            if(ret.indexOf(item) != -1) {
+            if (ret.indexOf(item) != -1) {
                 ret.splice(ret.indexOf(item),1);
             }
         });
@@ -149,7 +149,9 @@
     function arraySelect(array, indexes) {
         var ret = [];
         $.each(indexes, function(i, index) {
-            ret.push(array[index]);
+            if (array[index] !== undefined) {
+                ret.push(array[index]);
+            }
         });
         return ret;
     }
