@@ -1,1 +1,5 @@
 exercises-packed
+local_settings.py
+media/*
+apache/*
+*.pyc
