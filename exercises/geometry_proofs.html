@@ -70,19 +70,19 @@
 
                     <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
 
-                    <var id="IS_WRONG">KhanUtil.random() < 0.7</var>
+                    <var id="IS_WRONG">KhanUtil.random() &lt; 0.7</var>
 
                     <var id="PROOF_STUFF">IS_WRONG ? outputBadProof() : outputFinishedProof()</var>
                     <var id="PROOF">PROOF_STUFF[0]</var>
                     <var id="WRONG_STATEMENT">PROOF_STUFF[1]</var>
                     <var id="RIGHT_STATEMENT">PROOF_STUFF[2]</var>
-                    <var id="WRONG_BEFORE_RIGHT">KhanUtil.random() < 0.5</var>
+                    <var id="WRONG_BEFORE_RIGHT">KhanUtil.random() &lt; 0.5</var>
 
                     <var id="ANSWER">IS_WRONG ? WRONG_STATEMENT : "There's no wrong statement: this proof is fine."</var>
                 </div>
 
                 <div class="problem">
-                    <p>What's the first wrong statement in the proof below that <var>FINISHED</var><code> \; ?</code></p>
+                    <p class="question">What's the first wrong statement in the proof below that <var>FINISHED</var><code> \; ?</code></p>
                     <div class="graphie" id="number-line">
                         init({
                             range: [[-5, 5], [-5, 5]],
@@ -184,7 +184,7 @@
                                     var firstLine = graph.congruency.lines[line];
                                     var secondLine = graph.congruency.lines[line2];
 
-                                    if($statement.length > 0){
+                                    if($statement.length &gt; 0){
                                         $statement.bind("vmouseover", function(event) {
                                             firstLine.setHighlighted({
                                                 stroke: ORANGE,
@@ -218,7 +218,7 @@
                                     var firstAngle = graph.congruency.angles[angle];
                                     var secondAngle = graph.congruency.angles[angle2];
 
-                                    if($statement.length > 0){
+                                    if($statement.length &gt; 0){
                                         $statement.bind("vmouseover", function(event) {
                                             var firstState = firstAngle.state;
                                             var secondState = secondAngle.state;
@@ -232,8 +232,8 @@
                                                 stroke: BLUE,
                                                 "stroke-width": 3
                                             });
-                                            firstAngle.setState(maxState > 0 ? maxState : 1);
-                                            secondAngle.setState(maxState > 0 ? maxState : 1);
+                                            firstAngle.setState(maxState &gt; 0 ? maxState : 1);
+                                            secondAngle.setState(maxState &gt; 0 ? maxState : 1);
                                             $(this).bind("vmouseout", function(event) {
                                                 firstAngle.unsetHighlighted({
                                                     stroke: "black",
@@ -252,10 +252,9 @@
                             }
                         }
 
-                        for(var i=0; i<(TRIANGLES.length); i++){
-                            for(var j=0; j<(TRIANGLES.length); j++){
-                                for(var k=0; k<3; k++){
-                                // >
+                        for(var i=0; i &lt; (TRIANGLES.length); i++){
+                            for(var j=0; j &lt; (TRIANGLES.length); j++){
+                                for(var k=0; k &lt; 3; k++){
                                     $(function(){
                                         var triangle = TRIANGLES[i];
                                         var triangle2 = TRIANGLES[j];
@@ -272,9 +271,8 @@
                                         var triangle2Segs = [seg2_1, seg2_2, seg2_3];
                                         var sharedSeg = [-1, -1];
 
-                                        for(var l=0; l<3; l++){
-                                            for(var m=0; m<3; m++){
-                                            // >
+                                        for(var l=0; l &lt; 3; l++){
+                                            for(var m=0; m &lt; 3; m++){
                                                 if(triangleSegs[l] === triangle2Segs[m]){
                                                     sharedSeg = [l,m];
                                                 }
@@ -295,10 +293,9 @@
                                         var triangleLines = [line1_1, line1_2, line1_3];
                                         var triangle2Lines = [line2_1, line2_2, line2_3];
 
-                                        if($statement.length > 0){
+                                        if($statement.length &gt; 0){
                                             $statement.bind("vmouseover", function(event) {
-                                                for(var l=0; l<3; l++){
-                                                // >
+                                                for(var l=0; l &lt; 3; l++){
                                                     if(sharedSeg[0] != l){
                                                         triangleLines[l].setUnselectedStyle({
                                                             stroke: ORANGE,
@@ -313,8 +310,7 @@
                                                     }
                                                 }
 
-                                                for(var l=0; l<3; l++){
-                                                // >
+                                                for(var l=0; l &lt; 3; l++){
                                                     if(sharedSeg[1] != l){
                                                         triangle2Lines[l].setUnselectedStyle({
                                                             stroke: BLUE,
@@ -452,20 +448,20 @@
                     <var id="KNOWN">STATEMENTS[0]</var>
                     <var id="FINISHED">STATEMENTS[1]</var>
 
-                    <var id="IS_WRONG">KhanUtil.random() < 0.7</var>
+                    <var id="IS_WRONG">KhanUtil.random() &lt; 0.7</var>
 
                     <var id="PROOF_STUFF">IS_WRONG ? outputBadProof() : outputFinishedProof()</var>
                     <var id="PROOF">PROOF_STUFF[0]</var>
                     <var id="WRONG_STATEMENT">PROOF_STUFF[1]</var>
                     <var id="RIGHT_STATEMENT">PROOF_STUFF[2]</var>
-                    <var id="WRONG_BEFORE_RIGHT">KhanUtil.random() < 0.5</var>
+                    <var id="WRONG_BEFORE_RIGHT">KhanUtil.random() &lt; 0.5</var>
 
                     <var id="ANSWER">IS_WRONG ? WRONG_STATEMENT : "There's no wrong statement: this proof is fine."</var>
                 </div>
 
                 <div class="problem">
-                    <p>What's the first wrong statement in the proof below that <var>FINISHED</var><code> \; ?</code></p>
-                    <p><code> \overline{AB} </code> is parallel to <code> \overline{DE} </code>, and <code> \overline{AD} </code> is parallel to <code> \overline{BE} </code>.</p>
+                    <p class="question">What's the first wrong statement in the proof below that <var>FINISHED</var><code> \; ?</code></br>
+                    <code> \overline{AB} </code> is parallel to <code> \overline{DE} </code>, and <code> \overline{AD} </code> is parallel to <code> \overline{BE} </code>.</p>
                     <div class="graphie">
                         init({
                             range: [[-5, 5], [-5, 5]],
@@ -578,7 +574,7 @@
                                     var firstLine = graph.congruency.lines[line];
                                     var secondLine = graph.congruency.lines[line2];
 
-                                    if($statement.length > 0){
+                                    if($statement.length &gt; 0){
                                         $statement.bind("vmouseover", function(event) {
                                             firstLine.setHighlighted({
                                                 stroke: ORANGE,
@@ -606,7 +602,7 @@
                                     var firstAngle = graph.congruency.angles[angle];
                                     var secondAngle = graph.congruency.angles[angle2];
 
-                                    if($statement.length > 0){
+                                    if($statement.length &gt; 0){
                                         $statement.bind("vmouseover", function(event) {
                                             var firstState = firstAngle.state;
                                             var secondState = secondAngle.state;
@@ -620,8 +616,8 @@
                                                 stroke: BLUE,
                                                 "stroke-width": 3
                                             });
-                                            firstAngle.setState(maxState > 0 ? maxState : 1);
-                                            secondAngle.setState(maxState > 0 ? maxState : 1);
+                                            firstAngle.setState(maxState &gt; 0 ? maxState : 1);
+                                            secondAngle.setState(maxState &gt; 0 ? maxState : 1);
                                             $(this).bind("vmouseout", function(event) {
                                                 firstAngle.unsetHighlighted();
                                                 secondAngle.unsetHighlighted();
@@ -634,10 +630,9 @@
                             }
                         }
 
-                        for(var i=0; i<(TRIANGLES.length); i++){
-                            for(var j=0; j<(TRIANGLES.length); j++){
-                                for(var k=0; k<3; k++){
-                                // >
+                        for(var i=0; i&lt;(TRIANGLES.length); i++){
+                            for(var j=0; j&lt;(TRIANGLES.length); j++){
+                                for(var k=0; k&lt;3; k++){
                                     $(function(){
                                         var triangle = TRIANGLES[i];
                                         var triangle2 = TRIANGLES[j];
@@ -654,9 +649,8 @@
                                         var triangle2Segs = [seg2_1, seg2_2, seg2_3];
                                         var sharedSeg = [-1, -1];
 
-                                        for(var l=0; l<3; l++){
-                                            for(var m=0; m<3; m++){
-                                            // >
+                                        for(var l=0; l&lt;3; l++){
+                                            for(var m=0; m&lt;3; m++){
                                                 if(triangleSegs[l] === triangle2Segs[m]){
                                                     sharedSeg = [l,m];
                                                 }
@@ -677,10 +671,9 @@
                                         var triangleLines = [line1_1, line1_2, line1_3];
                                         var triangle2Lines = [line2_1, line2_2, line2_3];
 
-                                        if($statement.length > 0){
+                                        if($statement.length &gt; 0){
                                             $statement.bind("vmouseover", function(event) {
-                                                for(var l=0; l<3; l++){
-                                                // >
+                                                for(var l=0; l&lt;3; l++){
                                                     if(sharedSeg[0] != l){
                                                         triangleLines[l].setUnselectedStyle({
                                                             stroke: ORANGE,
@@ -695,8 +688,7 @@
                                                     }
                                                 }
 
-                                                for(var l=0; l<3; l++){
-                                                // >
+                                                for(var l=0; l&lt;3; l++){
                                                     if(sharedSeg[1] != l){
                                                         triangle2Lines[l].setUnselectedStyle({
                                                             stroke: BLUE,
