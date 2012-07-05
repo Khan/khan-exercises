@@ -12,8 +12,8 @@
         <var id="B">randRange( 1, 10 )</var>
         <var id="C">randRange( 1, 10 )</var>
         <var id="AB">randRange( 1, 10 )</var>
-        <var id="AC">randRange( 1, 10 )</var>
         <var id="BC">randRange( 1, 10 )</var>
+        <var id="AC">randRange( 1, 10 )</var>
         <var id="ABC">randRange( 1, 10 )</var>
         <var id="_EXPR">randSubsetExpression(2,2)</var>
         <var id="EXPR">_EXPR.split(';')[0]</var>
@@ -31,12 +31,12 @@
                     });
                     drawVenn(["A","B","C"],
                        [A,B,C,
-                       AB,AC,BC,
+                       AB,BC,AC,
                        ABC] 
                     );
                 </div>
             </div>
-            <div class="solution" data-forms="integer"><var>arraySum(arraySelect([A,B,C, AB,AC,BC, ABC],SECTIONS.split(',') ))</var></div>
+            <div class="solution" data-forms="integer"><var>arraySum(arraySelect([A,B,C, AB,BC,AC, ABC],SECTIONS.split(',') ))</var></div>
 
 
         </div>
