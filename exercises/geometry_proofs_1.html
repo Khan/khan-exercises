@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs congruency">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Geometry Proofs 1</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        input[type=text] {
+            width: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="vertical">
+                <div class="vars">
+                    <var id="AC">new Seg("A","C")</var>
+                    <var id="CA">AC</var>
+                    <var id="AD">new Seg("A","D")</var>
+                    <var id="DA">AD</var>
+                    <var id="BE">new Seg("B","E")</var>
+                    <var id="EB">BE</var>
+                    <var id="AE">new Seg("A","E")</var>
+                    <var id="EA">AE</var>
+                    <var id="BC">new Seg("B","C")</var>
+                    <var id="CB">BC</var>
+                    <var id="BD">new Seg("B","D")</var>
+                    <var id="DB">BD</var>
+                    <var id="CD">new Seg("C","D")</var>
+                    <var id="DC">CD</var>
+                    <var id="CE">new Seg("C","E")</var>
+                    <var id="EC">CE</var>
+                    
+
+                    <var id="SEGS">[AC,CA,AE,EA,BC,CB,BD,DB,CD,DC,CE,EC]</var>
+                    
+
+                    <var id="ang1">new Ang("D","A","C", null)</var>
+                    <var id="ang2">new Ang("C","B","E", null)</var>
+                    <var id="ang3">new Ang("A","C","D", null)</var>
+                    <var id="ang4">new Ang("B","C","E", null)</var>
+                    <var id="ang5">new Ang("A","D","C", null)</var>
+                    <var id="ang6">new Ang("C","E","B", null)</var>
+                    <var id="ang7">new Ang("A","C","B", null)</var>
+                    <var id="ang8">new Ang("D","C","E", null)</var>
+
+                    <var id="ANGS">[ang1, ang2, ang3, ang4, ang5, ang6, ang7, ang8]</var>
+
+                    <var id="SUPPLEMENTARY_ANGS">[addAngs(ang3, ang7), addAngs(ang7, ang4), addAngs(ang4, ang8), addAngs(ang8, ang3)]</var>
+
+                    <var id="ALTERNATE_INTERIOR_ANGS">[]</var>
+
+                    <var id="PARALLEL_SEGS">[]</var>
+
+                    <var id="ADC">new Triang([AD, DC, CA], [ang5, ang3, ang1])</var>
+                    <var id="BEC">new Triang([BE, EC, CB], [ang6, ang4, ang2])</var>
+                    
+
+                    <var id="TRIANGLES">[ADC, BEC]</var>
+
+                    <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 2, 0.25, "triangle")</var>
+                    <var id="KNOWN">STATEMENTS[0]</var>
+                    <var id="FINISHED">STATEMENTS[1]</var>
+
+                    <var id="HINT">"you haven't entered anything yet"</var>   
+                    <var id="HINTS_LEFT">3</var>                 
+                </div>
+                <p class="question">
+                    <p>Prove <var> FINISHED </var>.</p>
+                    <p>This figure is not drawn to scale.</p>
+                </p>
+
+                <div class="problem">
+                    <div class="graphie">
+                        init({
+                            range: [[-5, 5], [-5, 5]],
+                            scale: 40
+                        });
+                        addMouseLayer();
+                        
+                        graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
+
+                        graph.congruency.addPoint("A", [-4, 4]);
+                        graph.congruency.addPoint("B", [4, 4]);
+                        graph.congruency.addPoint("C", [0, -(4/3)]);
+                        graph.congruency.addPoint("D", [-2, -4]);
+                        graph.congruency.addPoint("E", [2, -4]);
+
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "D",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "C",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "D",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "B",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "E",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "E",
+                            end: "B",
+                            clickable: true,
+                            maxState: 3
+                        });
+
+                        graph.congruency.addAngles("A", { maxState: 3 });
+                        graph.congruency.addAngles("B", { maxState: 3 });
+                        graph.congruency.addAngles("C", { maxState: 3 });
+                        graph.congruency.addAngles("D", { maxState: 3 });
+                        graph.congruency.addAngles("E", { maxState: 3 });
+
+                        for(var angle in graph.congruency.angles){
+                            graph.congruency.angles[angle].setSelectedStyle({
+                                stroke: "black",
+                                "stroke-width": 3
+                            });
+                        }
+                        
+                        graph.congruency.addLabel("A", "left");
+                        graph.congruency.addLabel("B", "right");
+                        graph.congruency.addLabel("C", "right");
+                        graph.congruency.addLabel("D", "left");
+                        graph.congruency.addLabel("E", "right");
+
+                        $(".hint1").hide();
+                        $(".hint2").hide();
+                        $(".hint3").hide();
+
+                        var hint = "you haven't entered anything!";
+
+                        $(".nextStatement input").keyup(function(){
+                            var triangles = [];
+                            triangles[0] = $("#thing1").val();
+                            triangles[1] = $("#thing2").val();
+                            var reason = $("#reason").val();
+
+                            var verify = verifyStatementArgs(triangles[0]+"="+triangles[1], reason, "triangle congruence");
+                            if(verify.length > 0){
+                                hint = verify;
+                            }
+                            else if(!verify){
+                                hint = "you've put in triangles that are in the figure, but your reason isn't right.";
+                            }
+                            else{
+                                hint = "you've already finished! Hit the check answer button."
+                                $(".statements").html(outputKnownProof());
+                                _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
+                                $(".nextStatement").hide();
+                            }
+                            console.log(hint);
+                        });
+                        $("#reason").change(function(){ 
+                            $(".nextStatement input").keyup(); 
+                        });
+
+                        $("#hint").click(function(){
+                            console.log("custom hint");
+                            if(HINTS_LEFT === 3){
+                                $(".hint1").show();
+                            }
+                            else if(HINTS_LEFT === 2){
+                                $(".hint2").html("In the step you're working on, "+hint);
+                                $(".hint2").show();
+                            }
+                            else{
+                                $(".hint3").show();
+                            }
+                            HINTS_LEFT--;
+                        });
+
+                    </div>
+                </div>
+
+                <p class="statements"> <var> outputKnownProof() </var></p>
+                <p class="nextStatement">
+                    <code> \bigtriangleup </code> <input type="text" id="thing1"></input> <code> =  \bigtriangleup </code> <input type="text" id="thing2" > </input> because 
+                    <select id="reason">
+                        <option value="">select a reason</option>
+                        <option value="SSS">side-side-side congruence</option>
+                        <option value="ASA">angle-side-angle congruence</option>
+                        <option value="SAS">side-angle-side congruence</option>
+                        <option value="AAS">angle-angle-side congruence</option>
+                    </select>
+                </p>
+                <div class="customHints">
+                    <p class="hint1">Given the statements you have, you can prove <var> FINISHED </var> in one step. What triangle congruence postulate should you use?</p>
+                    <p class="hint2"></p>
+                    <p class="hint3">You can prove <var> FINISHED </var> by <var> finishedEqualities[finalRelation] </var>.</p>
+                </div>
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        When you enter the next statement in the proof, and a valid reason, that statement will be added to the proof. When you're done, hit check answer.
+                    </div>
+                    <div class="guess">[knownEqualities]</div>
+                    <div class="validator-function">
+                        return isProofDone();
+                    </div>
+                    <div class="show-guess">
+                        
+                    </div>
+                </div>
+                <div class="hints">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </div>
+            <div id="alternate">
+                <div class="vars">
+                    <var id="AB">new Seg("A","B")</var>
+                    <var id="BA">AB</var>
+                    <var id="AC">new Seg("A","C")</var>
+                    <var id="CA">AC</var>
+                    <var id="AE">new Seg("A","E")</var>
+                    <var id="EA">AE</var>
+                    <var id="BC">new Seg("B","C")</var>
+                    <var id="CB">BC</var>
+                    <var id="BD">new Seg("B","D")</var>
+                    <var id="DB">BD</var>
+                    <var id="CD">new Seg("C","D")</var>
+                    <var id="DC">CD</var>
+                    <var id="CE">new Seg("C","E")</var>
+                    <var id="EC">CE</var>
+                    <var id="DE">new Seg("D","E")</var>
+                    <var id="ED">DE</var>         
+
+                    <var id="SEGS">[AB,BA,AC,CA,AE,EA,BC,CB,BD,DB,CD,DC,CE,EC,DE,ED]</var>
+
+                    <var id="ang1">new Ang("C","A","B", null)</var>
+                    <var id="ang2">new Ang("C","B","A", null)</var>
+                    <var id="ang3">new Ang("A","C","B", null)</var>
+                    <var id="ang4">new Ang("D","C","E", null)</var>
+                    <var id="ang5">new Ang("C","D","E", null)</var>
+                    <var id="ang6">new Ang("C","E","D", null)</var>
+                    <var id="ang7">new Ang("A","C","D", null)</var>
+                    <var id="ang8">new Ang("B","C","E", null)</var>
+
+                    <var id="ANGS">[ang1, ang2, ang3, ang4, ang5, ang6, ang7, ang8]</var>
+
+                    <var id="SUPPLEMENTARY_ANGS">[addAngs(ang3, ang7), addAngs(ang7, ang4), addAngs(ang4, ang8), addAngs(ang8, ang3)]</var>
+
+                    <var id="ALTERNATE_INTERIOR_ANGS">[[ang2, ang5]]</var>
+
+                    <var id="PARALLEL_SEGS">[]</var>
+
+                    <var id="ABC">new Triang([AB, BC, CA], [ang2, ang3, ang1])</var>
+                    <var id="CDE">new Triang([CD, DE, EC], [ang5, ang6, ang4])</var>
+                    
+
+                    <var id="TRIANGLES">[ABC, CDE]</var>
+
+                    <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 2, 0.25, "triangle")</var>
+                    <var id="KNOWN">STATEMENTS[0]</var>
+                    <var id="FINISHED">STATEMENTS[1]</var>
+
+
+                    <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
+                    
+                </div>
+                <p class="question">
+                    <p>Prove <var> FINISHED </var>.</p>
+                    <p>This figure is not drawn to scale.</p>
+                </p>
+
+                <div class="problem">
+                    <div class="graphie">
+                        init({
+                            range: [[-5, 5], [-5, 5]],
+                            scale: 40
+                        });
+                        addMouseLayer();
+                        
+                        graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
+
+                        graph.congruency.addPoint("A", [-3, 4]);
+                        graph.congruency.addPoint("B", [3, 4]);
+                        graph.congruency.addPoint("C", [0, 0]);
+                        graph.congruency.addPoint("D", [-3, -4]);
+                        graph.congruency.addPoint("E", [3, -4]);
+
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "B",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "C",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "B",
+                            end: "C",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "D",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "E",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "D",
+                            end: "E",
+                            clickable: true,
+                            maxState: 3
+                        });
+
+                        graph.congruency.addAngles("A", { maxState: 3 });
+                        graph.congruency.addAngles("B", { maxState: 3 });
+                        graph.congruency.addAngles("C", { maxState: 3 });
+                        graph.congruency.addAngles("D", { maxState: 3 });
+                        graph.congruency.addAngles("E", { maxState: 3 });
+
+                        for(var angle in graph.congruency.angles){
+                            graph.congruency.angles[angle].setSelectedStyle({
+                                stroke: "black",
+                                "stroke-width": 3
+                            });
+                        }
+                        
+                        graph.congruency.addLabel("A", "left");
+                        graph.congruency.addLabel("B", "right");
+                        graph.congruency.addLabel("C", "right");
+                        graph.congruency.addLabel("D", "left");
+                        graph.congruency.addLabel("E", "right");
+
+                        $(".triangleStatement").hide();
+
+                        $(".angleStatement input").keyup(function(){
+                            var angles = [];
+                            angles[0] = $(".angleStatement .thing1").val();
+                            angles[1] = $(".angleStatement .thing2").val();
+                            var reason = $(".angleStatement .reason").val();
+
+                            var verify = verifyStatementArgs(angles[0]+"="+angles[1], reason, "angle equality");
+                            if(verify.length > 0){
+                                hint = verify;
+                            }
+                            else if(!verify){
+                                hint = "you've put in angles that are in the figure, but your reason isn't right.";
+                            }
+                            else{
+                                hint = "you've already finished! Hit the check answer button."
+                                $(".statements").html(outputKnownProof());
+                                _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
+                                $(".angleStatement").hide();
+                                $(".triangleStatement").show();
+                            }
+                            console.log(hint);
+                        });
+                        $(".angleStatement select").change(function(){ 
+                            $(".angleStatement input").keyup(); 
+                        });
+
+
+                    </div>
+                
+                    <p class="statements"> <var> outputKnownProof() </var></p>
+                    <div class="angleStatement">
+                        <code> \angle </code> <input type="text" maxlength="3" class="thing1"></input> <code> = \angle </code> <input type="text" maxlength="3" class="thing2"> </input> because
+                        <select class="reason">
+                            <option value="">select a reason</option>
+                            <option value="CPCTC">corresp. parts of congruent triangles are congruent</option>
+                            <option value="vertical angles">vertical angles are equal</option>
+                            <option value="alternate angles">alternate interior angles are equal</option>
+                        </select>
+                    </div>
+                    <div class="triangleStatement">
+                        <code> \bigtriangleup </code> <input type="text" maxlength="3"></input> <code> =  \bigtriangleup </code> <input type="text" maxlength="3"> </input> because 
+                        <select>
+                            <option value="">select a reason</option>
+                            <option value="SSS">side-side-side congruence</option>
+                            <option value="ASA">angle-side-angle congruence</option>
+                            <option value="SAS">side-angle-side congruence</option>
+                            <option value="AAS">angle-angle-side congruence</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        When you enter the next statement in the proof, and a valid reason, that statement will be added to the proof. When you're done, hit check answer.
+                    </div>
+                    <div class="guess">[]</div>
+                    <div class="validator-function">
+                        return isProofDone();
+                    </div>
+                    <div class="show-guess">
+                        
+                    </div>
+                </div>
+                <div class="hints">
+                    <p>You only have two equalities, but you need three to prove two triangles congruent... What can you use to prove that an angle in one triangle is equal to an angle in the other?</p>
+                    <p> <var>nextStatementHint()</var> </p>
+
+                </div>
+            </div>
+            <div id="shared">
+                <div class="vars">
+                    <var id="A">[0,6]</var>
+                    <var id="B">[-8,0]</var>
+                    <var id="C">[8,0]</var>
+                    <var id="D">[0,-6]</var>
+
+                    <var id="POINTS">["A","B","C","D"]</var>
+
+                    <var id="AB">new Seg("A","B")</var>
+                    <var id="BA">AB</var>
+                    <var id="AC">new Seg("A","C")</var>
+                    <var id="CA">AC</var>
+                    <var id="BD">new Seg("B","D")</var>
+                    <var id="DB">BD</var>
+                    <var id="CD">new Seg("C","D")</var>
+                    <var id="DC">CD</var>
+                    <var id="AD">new Seg("A","D")</var>
+                    <var id="DA">AD</var>
+                    
+
+                    <var id="SEGS">[AB,BA,AC,CA,BD,DB,CD,DC,AD,DA]</var>
+                    
+
+                    <var id="ang1">new Ang("A","B","D", null)</var>
+                    <var id="ang2">new Ang("B","A","D", null)</var>
+                    <var id="ang3">new Ang("D","A","C", null)</var>
+                    <var id="ang4">new Ang("A","C","D", null)</var>
+                    <var id="ang5">new Ang("A","D","B", null)</var>
+                    <var id="ang6">new Ang("A","D","C", null)</var>
+
+                    <var id="ANGS">[ang1, ang2, ang3, ang4, ang5, ang6]</var>
+
+                    <var id="SUPPLEMENTARY_ANGS">[]</var>
+
+                    <var id="ALTERNATE_INTERIOR_ANGS">[]</var>
+
+                    <var id="PARALLEL_SEGS">[]</var>
+
+                    <!-- <var id="PARALLEL_TO_ALTERNATE">(function() {
+                        dict = {};
+                        dict[[AB,DE]] = [[ang2, ang11], [ang3, ang10]];
+                        return dict;
+                    })</var>
+
+                    <var id="ALTERNATE_TO_PARALLEL">(function() {
+                        dict = {};
+                        dict[[ang2, ang11]] = [AB,DE];
+                        dict[[ang3, ang10]] = [AB,DE];
+                        return dict;
+                    })</var> -->
+
+                    <var id="BAD">new Triang([BA, AD, DB], [ang2, ang5, ang1])</var>
+                    <var id="CAD">new Triang([CA, AD, DC], [ang3, ang6, ang4])</var>
+                    
+
+                    <var id="TRIANGLES">[BAD, CAD]</var>
+
+                    <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 2, 0.25, "triangle")</var>
+                    <var id="KNOWN">STATEMENTS[0]</var>
+                    <var id="FINISHED">STATEMENTS[1]</var>
+
+
+                    <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
+                    
+                </div>
+                <p class="question">
+                    <p>You are given <var> KNOWN </var>.</p>
+                    <p>Prove <var> FINISHED </var></p>
+                </p>
+
+                <div class="problem">
+                    <div class="graphie">
+                        init({
+                            range: [[-5, 5], [-5, 5]],
+                            scale: 40
+                        });
+                        addMouseLayer();
+                        
+                        graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
+
+                        graph.congruency.addPoint("A", [0, 3]);
+                        graph.congruency.addPoint("B", [-4, 0]);
+                        graph.congruency.addPoint("C", [4, 0]);
+                        graph.congruency.addPoint("D", [0, -3]);
+
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "B",
+                            clickable: true,
+                            max: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "B",
+                            end: "D",
+                            clickable: true,
+                            max: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "D",
+                            clickable: true,
+                            max: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "C",
+                            clickable: true,
+                            max: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "D",
+                            clickable: true,
+                            max: 3
+                        });
+
+                        graph.congruency.addAngles("A");
+                        graph.congruency.addAngles("B");
+                        graph.congruency.addAngles("C");
+                        graph.congruency.addAngles("D");
+                        
+                        graph.congruency.addLabel("A", "above");
+                        graph.congruency.addLabel("B", "left");
+                        graph.congruency.addLabel("C", "right");
+                        graph.congruency.addLabel("D", "below");
+
+                    </div>
+                </div>
+
+                <p class="statements">
+                    <code> \overline{ <input>sdfjlsdfkj</input> } </code>
+                </p>
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        <p> <var> FINISHED </var> by 
+                        <select class="statement_type">
+                            <option>Side-Side-Side Congruence</option>
+                            <option>Side-Angle-Side Congruence</option>
+                            <option>Angle-Side-Angle Congruence</option>
+                            <option>Angle-Angle-Side Congruence</option>
+                        </select> </p>
+                    </div>
+                    <div class="guess">[]</div>
+                    <div class="validator-function">
+                        return userProofDone;
+                    </div>
+                    <div class="show-guess">
+                        
+                    </div>
+                </div>
+                <div class="hints">
+                    <p>You only have two equalities, but you need three to prove two triangles congruent... What other fact about these two triangles can you use?</p>
+                    <p> The triangles have a shared side: <code> \overline{AD} </code> is the same length in <code> \bigtriangleup BAD</code> as it is in <code> \bigtriangleup CAD.</code></p>
+                    <p><var>nextStatementHint()</var> Using what congruence theorem?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
