@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<p>{{ body }}</p>
+<ul>
+{% for filename in all_files %}
+<li><a href="{{ castle }}/{{ filename }}">{{ filename }}</a></li>
+{% endfor %}
+</ul>
+<pre><code>{{ patch }}</code></pre>
+{% endblock %}
