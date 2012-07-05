@@ -217,24 +217,29 @@
 
                 var giveAway = false;
                 $("#hint").click(function(){
-                    if(!giveAway){
-                        var stepsLeft = (FILL_BLANKS_NUM*2)-1 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
-                        $(this).val("I'd like a hint (" + stepsLeft + ")");
-                        $(this).attr("disabled", false);
+                    if(FILL_BLANKS_NUM > 0){
+                        if(!giveAway){
+                            var stepsLeft = (FILL_BLANKS_NUM*2)-1 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                            $(this).val("I'd like a hint (" + stepsLeft + ")");
+                            $(this).attr("disabled", false);
 
-                        $(".actualHints").append("<p>"+getFillBlanksHint(false)+"</p> <code> \angle </code>");
-                        _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
-                        giveAway = true;
-                    }
-                    else{
-                        FILL_BLANKS_NUM--;
-                        var stepsLeft = (FILL_BLANKS_NUM*2) + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
-                        $(this).val("I'd like a hint (" + stepsLeft + ")");
-                        $(this).attr("disabled", false);
+                            $(".actualHints").append("&lt;p&gt;"+getFillBlanksHint(false)+"&lt;/p&gt;");
+                            _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                            giveAway = true;
+                        }
+                        else{
+                            FILL_BLANKS_NUM--;
+                            var stepsLeft = (FILL_BLANKS_NUM*2) + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                            $(this).val("I'd like a hint (" + stepsLeft + ")");
+                            $(this).attr("disabled", false);
 
-                        $(".actualHints").append("<p>The next equality you have to fill in is "+getFillBlanksHint(true)+"</p>");
-                        _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
-                        giveAway = false;
+                            $(".actualHints").append("&lt;p&gt;The next equality you have to fill in is "+getFillBlanksHint(true)+"&lt;/p&gt;");
+                            _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                            giveAway = false;
+                        }
+                        if(FILL_BLANKS_NUM === 0){
+                            $("#hint").attr("disabled", true);
+                        }
                     }
                 });
 
@@ -449,6 +454,7 @@
                 </div>
             </div>
             <div class="hints">
+                <p></p>
                 <p></p>
             </div>
         </div>

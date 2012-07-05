@@ -483,6 +483,8 @@ function outputKnownProof() {
 
 // returns a proof with a few blanks, blank statement fields will be wrapped by a div with id formatted according to divName
 function outputFillBlanksProof() {
+    var reasonCodes = {"SSS" : 0, "ASA" : 1, "SAS" : 2, "AAS" : 3, "corresponding parts of congruent triangles are congruent" : 4,
+     "vertical angles are equal" : 5, "alternate interior angles are equal" : 6};
     var proofText = "<h3>Givens</h3>";
     var blanks = 0;
 
@@ -519,7 +521,7 @@ function outputFillBlanksProof() {
                 if (KhanUtil.random() < 0.2) {
                     proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
                     proofText += prettifyEquality(finishedKeys[i]);
-                    proofText += " because <select class=\"missing missingReason\" id=\"" + finishedEqualities[finishedKeys[i]] + "\">"
+                    proofText += " because <select class=\"missing missingReason\" id=\"" + reasonCodes[finishedEqualities[finishedKeys[i]]] + "\">"
                     + "<option></option>"
                     + "<option value=\"SSS\">side-side-side congruence</option>"
                     + "<option value=\"ASA\">angle-side-angle congruence</option>"
@@ -660,7 +662,9 @@ function checkFillBlanksStatement(divID) {
 // selected is equal to the id
 // returns true if the reason was filled in correctly, false otherwise
 function checkFillBlanksReason(select, selectID) {
-    if (selectID === select.val()) {
+    var reasonCodes = {"SSS" : 0, "ASA" : 1, "SAS" : 2, "AAS" : 3, "corresponding parts of congruent triangles are congruent" : 4,
+     "vertical angles are equal" : 5, "alternate interior angles are equal" : 6};
+    if (selectID === reasonCodes[select.val()]) {
         var parent = $(select.parent());
         select.remove();
         parent.append(selectID);
@@ -672,6 +676,8 @@ function checkFillBlanksReason(select, selectID) {
 // for fill-in-the-blanks proofs, this hint function looks for the next missing reason, and generate a hint based
 // on that using nextStatementHint()
 function getFillBlanksHint(giveAway) {
+    var reasonCodes = ["SSS", "ASA", "SAS", "AAS", "corresponding parts of congruent triangles are congruent",
+     "vertical angles are equal", "alternate interior angles are equal"];
     var unsortedKeyList = _.map(finishedEqualitiesList, function(key) { return _.clone(key); });
     var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
 
@@ -682,11 +688,8 @@ function getFillBlanksHint(giveAway) {
         else {
             var firstMissing = $(".missing").first();
             console.log(firstMissing);
-            // if the next open spots are statements, not justifications
+            // if the next open spot is a statement
             if (firstMissing.children().length > 0) {
-                var inputs = _.filter(firstMissing.children(), function(child) {
-                    return $(child).hasClass("missingStatement");
-                });
                 var components = firstMissing[0].id.split("-");
 
                 //only use equalities before the input
@@ -733,6 +736,11 @@ function getFillBlanksHint(giveAway) {
                     }
                 }
             }
+            // if the next open spot is a justification
+            else{
+                var correctReasonCode = firstMissing[0].id;
+
+            }
         }
     }
     else {
@@ -743,15 +751,12 @@ function getFillBlanksHint(giveAway) {
             console.log(firstMissing);
             // if the next open spots are statements, not justifications
             if (firstMissing.children().length > 0) {
-                var inputs = _.filter(firstMissing.children(), function(child) {
-                    return $(child).hasClass("missingStatement");
-                });
                 var components = firstMissing[0].id.split("-");
                 firstMissing.removeClass("missing");
                 return prettifyEquality([finishedKeys[components[1]][0], finishedKeys[components[1]][1]]);
             }
             else {
-
+                return "The next equality with a missing reason is true by " + reasonCodes[firstMissing[0].id];
             }
         }
     }
