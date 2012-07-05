@@ -9,7 +9,7 @@
             width: 30px;
         }
         .missingReason {
-            width: 120px;
+            width: 150px;
         }
     </style>
 </head>
@@ -200,6 +200,9 @@
                         FILL_BLANKS_NUM--;
                         var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
                         $("#hint").val("I'd like a hint (" + stepsLeft + ")");
+                        giveAway = false;
+
+                        
                     }
                 });
 
@@ -208,6 +211,7 @@
                         FILL_BLANKS_NUM--;
                         var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
                         $("#hint").val("I'd like a hint (" + stepsLeft + ")");
+                        giveAway = false;
                     }
                 });
 
@@ -218,7 +222,7 @@
                         $(this).val("I'd like a hint (" + stepsLeft + ")");
                         $(this).attr("disabled", false);
 
-                        $(".actualHints").append("<p>"+getFillBlanksHint(false)+"</p><br><br>");
+                        $(".actualHints").append("<p>"+getFillBlanksHint(false)+"</p> <code> \angle </code>");
                         _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
                         giveAway = true;
                     }
