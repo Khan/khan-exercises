@@ -38,6 +38,15 @@
         $.each(labels, function(i, label) {
             set.push(graph.label(lCenter[i],"\\color{"+ COLORS[i] +"}{" + label +"}"));
         });
+
+        var labelPos = [];
+        labelPos.push([c[0].x - c[0].r/2, c[0].y - c[0].r/2]);
+        labelPos.push([c[1].x + c[1].r/2, c[1].y - c[1].r/2]);
+        labelPos.push([c[2].x, c[2].y + c[2].r/2]);
+
+        $.each(labelPos, function(i, pos) {
+            set.push(graph.label(pos,"\\color{#333}{" + data[i] +"}"));
+        });
     }
     /*
     * source: http://code.google.com/p/js-venn/
@@ -97,9 +106,9 @@
         var graph = KhanUtil.currentGraph;
         var set = graph.raphael.set();
         var pathString = vennIntersectionString (points, circles, sweeps);
-
-        set.push(graph.label(getIntersectionCenter(points, circles, sweeps), '\\color{#555}{' +label+ '}'));
-
+        if (sweeps[0] == 0) {
+            set.push(graph.label(getIntersectionCenter(points, circles, sweeps), '\\color{#555}{' +label+ '}'));
+        }
         var pathObject = graph.raphael.path(pathString);
         set.push(pathObject);
         var bbox = pathObject.getBBox();
