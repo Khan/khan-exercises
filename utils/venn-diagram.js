@@ -143,45 +143,25 @@
         return points;
     }
 
-    function randSubsetExpression(min,max) {
+    function randSubsetExpression() {
         var sets = ['A','B','C'];
         var opps = ['\\cup', '\\cap', '-'];
-        var i = 0;
-        do {
-            i++;
-            var expr = _randSubsetExpression(sets, opps);
-            var str = expr[0];
-            var sections = expr[1];
-            var length = str.replace(/[^ABC]/g, "").length;
-        } while (0||length < min || length > max );
-        str = str.substring(1, str.length-1);
+        var rsets = KhanUtil.shuffle(sets);
+        opps = KhanUtil.shuffle(opps);
+        var str = rsets[0] + opps[0] + ' ' + rsets[1];
+        var sections = getSections(opps[0], getSections(rsets[0]), getSections(rsets[1]));
         $.each (sets, function(i, set) { 
             str = str.replace(new RegExp(set, 'g'),"\\color{"+COLORS[i] +"}{"+ set +"}");
         });
-        return  "|" + str+"|;"+ sections.join();
-    }
-
-    function _randSubsetExpression(sets, opps) {
-        if (KhanUtil.randRange(0,3)) {
-            var set = KhanUtil.randFromArray(sets);
-            var sections = getSections(set);
-            return [set, sections]; 
-        } else {
-            var e1 = _randSubsetExpression(sets,opps);
-            var e2 = _randSubsetExpression(sets,opps);
-            var opp = KhanUtil.randFromArray(opps);
-            var ret = '(' + e1[0] + opp + ' ' + e2[0] + ')' ;
-            var sections = getSections(opp, e1[1], e2[1]);
-            return [ret, sections];
-        }
+        return  "n(" + str+");"+ sections.join();
     }
 
     function getSections(symbol, set1, set2) {
-        switch(symbol) {
+        switch (symbol) {
             case 'A': 
-                return [0,3,4,6];
+                return [0,3,5,6];
             case 'B': 
-                return [1,3,5,6];
+                return [1,3,4,6];
             case 'C': 
                 return [2,4,5,6];
             case '\\cup': 
