@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Geometry Proofs 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="A">[-4, 4]</var>
+            <var id="B">[0,4]</var>
+            <var id="C">[4,4]</var>
+            <var id="D">[-4,1]</var>
+            <var id="E">[0,-1]</var>
+            <var id="F">[2,1]</var>
+            <var id="G">[4,-2]</var>
+            <var id="H">[-4,-4]</var>
+            <var id="I">[0,-4]</var>
+            <var id="J">[4,-4]</var>
+
+
+            <var id="AB">new Seg("A","B")</var>
+            <var id="BA">AB</var>
+            <var id="AC">new Seg("A","C")</var>
+            <var id="CA">AC</var>
+            <var id="AD">new Seg("A","D")</var>
+            <var id="DA">AD</var>
+            <var id="AH">new Seg("A","H")</var>
+            <var id="HA">AH</var>
+            <var id="BC">new Seg("B","C")</var>
+            <var id="CB">BC</var>
+            <var id="BD">new Seg("B","D")</var>
+            <var id="DB">BD</var>
+            <var id="BE">new Seg("B","E")</var>
+            <var id="EB">BE</var>
+            <var id="BF">new Seg("B","F")</var>
+            <var id="FB">BF</var>
+            <var id="BG">new Seg("B","G")</var>
+            <var id="GB">BG</var>
+            <var id="BI">new Seg("B","I")</var>
+            <var id="IB">BI</var>
+            <var id="CE">new Seg("C","E")</var>
+            <var id="EC">CE</var>
+            <var id="CF">new Seg("C","F")</var>
+            <var id="FC">CF</var>
+            <var id="CG">new Seg("C","G")</var>
+            <var id="GC">CG</var>
+            <var id="CJ">new Seg("C","J")</var>
+            <var id="JC">CJ</var>
+            <var id="DE">new Seg("D","E")</var>
+            <var id="ED">DE</var>
+            <var id="DI">new Seg("D","I")</var>
+            <var id="ID">DI</var>
+            <var id="DH">new Seg("D","H")</var>
+            <var id="HD">DH</var>
+            <var id="EF">new Seg("E","F")</var>
+            <var id="FE">EF</var>
+            <var id="EI">new Seg("E","I")</var>
+            <var id="IE">EI</var>
+            <var id="FG">new Seg("F","G")</var>
+            <var id="GF">FG</var>
+            <var id="GI">new Seg("G","I")</var>
+            <var id="IG">GI</var>
+            <var id="GJ">new Seg("G","J")</var>
+            <var id="JG">GJ</var>
+            <var id="HI">new Seg("H","I")</var>
+            <var id="IH">HI</var>
+            <var id="HJ">new Seg("H","J")</var>
+            <var id="JH">HJ</var>
+            <var id="IJ">new Seg("I","J")</var>
+            <var id="JI">IJ</var>
+
+            
+            
+
+            <var id="SEGS">[AB,BA,AC,CA,AD,DA,AH,HA,BC,CB,BD,DB,BE,EB,BF,FB,BG,GB,BI,IB,CE,EC,CF,FC,CG,GC,CJ,JC,DE,ED,DI,ID,DH,HD,EF,FE,EI,IE,FG,GF,GI,IG,GJ,JG,HI,IH,HJ,JH,IJ,JI]</var>
+
+
+            <var id="ang1">new Ang("D","A","B", null)</var>
+            <var id="ang2">new Ang("A","B","D", null)</var>
+            <var id="ang3">new Ang("C","B","F", null)</var>
+            <var id="ang4">new Ang("B","C","F", null)</var>
+            <var id="ang5">new Ang("F","C","G", null)</var>
+            <var id="ang6">new Ang("A","D","B", null)</var>
+            <var id="ang7">new Ang("D","B","E", null)</var>
+            <var id="ang8">new Ang("E","B","F", null)</var>
+            <var id="ang9">new Ang("B","F","C", null)</var>
+            <var id="ang10">new Ang("B","D","E", null)</var>
+            <var id="ang11">new Ang("B","F","E", null)</var>
+            <var id="ang12">new Ang("C","F","G", null)</var>
+            <var id="ang13">new Ang("H","D","I", null)</var>
+            <var id="ang14">new Ang("I","D","E", null)</var>
+            <var id="ang15">new Ang("E","F","G", null)</var>
+            <var id="ang16">new Ang("D","E","B", null)</var>
+            <var id="ang17">new Ang("B","E","F", null)</var>
+            <var id="ang18">new Ang("D","E","I", null)</var>
+            <var id="ang19">new Ang("I","E","F", null)</var>
+            <var id="ang20">new Ang("F","G","C", null)</var>
+            <var id="ang21">new Ang("F","G","I", null)</var>
+            <var id="ang22">new Ang("I","G","J", null)</var>
+            <var id="ang23">new Ang("D","H","I", null)</var>
+            <var id="ang24">new Ang("H","I","D", null)</var>
+            <var id="ang25">new Ang("D","I","E", null)</var>
+            <var id="ang26">new Ang("E","I","G", null)</var>
+            <var id="ang27">new Ang("G","I","J", null)</var>
+            <var id="ang28">new Ang("I","J","G", null)</var>
+            <var id="ang29">addAngs(ang2, ang7)</var>
+            <var id="ang30">addAngs(ang26, ang27)</var>
+            <var id="ang31">addAngs(ang3, ang8)</var>
+            <var id="ang32">addAngs(ang24, ang25)</var>
+            <var id="ang33">addAngs(ang10, ang14)</var>
+            <var id="ang34">addAngs(ang4, ang5)</var>
+
+
+
+            <var id="ANGS">[ang1, ang2, ang3, ang4, ang5, ang6, ang7, ang8, ang9, ang10, ang11, ang12, ang13, ang14, ang15, ang16, ang17, ang18, ang19, ang20, ang21, ang22, ang23, ang24, ang25, ang26, ang27, ang28, ang29, ang30, ang31, ang32, ang33, ang34]</var>
+
+
+            <var id="SUPPLEMENTARY_ANGS">[addAngs(ang2, addAngs(ang7, addAngs(ang8, ang3))), addAngs(ang6, addAngs(ang10, addAngs(ang14, ang13))), addAngs(ang24, addAngs(ang25, addAngs(ang26, ang27))), addAngs(ang20, addAngs(ang21, ang22)), addAngs(ang9, ang11), addAngs(ang11, ang15), addAngs(ang15, ang12), addAngs(ang12, ang9), addAngs(ang16, ang18), addAngs(ang17, ang19)]</var>
+
+            <var id="PARALLEL_SEGS">[[AC, HJ], [AC, HI], [AC, IJ], [AB, HJ], [AB, HI], [AB, IJ], [BC, HJ], [BC, HI], [BC, IJ], [AH, CJ], [AH, CG], [AH, GJ], [AD, CJ], [AD, CG], [AD, GJ], [DH, CJ], [DH, CG], [DH, GJ]]</var>
+
+            <var id="ALTERNATE_INTERIOR_ANGS">[[addAngs(ang2, ang7), addAngs(ang26, ang27)], [addAngs(ang3, ang8), addAngs(ang25, ang24)]]</var>
+
+            <!-- <var id="PARALLEL_TO_ALTERNATE">(function() { 
+                dict = {};
+                dict[[AC,HJ]] = [[addAngs(ang2, ang7), addAngs(ang26, ang27)], [addAngs(ang3, ang8), addAngs(ang25, ang24)]];
+                return dict;
+            })</var>
+
+            <var id="ALTERNATE_TO_PARALLEL">{[addAngs(ang2, ang7), addAngs(ang26, ang27)] : [AC,HJ], [addAngs(ang3, ang8), addAngs(ang25, ang24)] : [AC,HJ]}</var> -->
+
+            <var id="ABD">new Triang([AB, BD, DA], [ang2, ang6, ang1])</var>
+            <var id="BCF">new Triang([BC, CF, FB], [ang4, ang9, ang3])</var>
+            <var id="DBE">new Triang([DB, BE, ED], [ang7, ang16, ang10])</var>
+            <var id="FBE">new Triang([FB, BE, EF], [ang8, ang17, ang11])</var>
+            <var id="CFG">new Triang([CF, FG, GC], [ang12, ang20, ang5])</var>
+            <var id="DEI">new Triang([DE, EI, ID], [ang18, ang25, ang14])</var>
+            <var id="DHI">new Triang([DH, HI, ID], [ang23, ang24, ang13])</var>
+            <var id="GIJ">new Triang([GI, IJ, JG], [ang27, ang28, ang22])</var>
+            <var id="DIB">new Triang([DI, IB, BD], [ang25, ang7, addAngs(ang10, ang14)])</var>
+            <var id="BEC">new Triang([BE, EC, CB], [ang17, ang4, addAngs(ang3, ang8)])</var>
+            <var id="CGB">new Triang([CG, GB, BC], [ang20, ang3, addAngs(ang4, ang5)])</var>
+
+
+            <var id="TRIANGLES">[ABD, BCF, DBE, FBE, CFG, DEI, DHI, GIJ, DIB, BEC, CGB]</var>
+
+            <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 3, 0.25)</var>
+            <var id="KNOWN">STATEMENTS[0]</var>
+            <var id="TOPROVE">STATEMENTS[1]</var>
+
+            <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
+
+            <var id="TEST">1</var>
+            
+        </div>
+
+        <div class="problem">
+            <div class="graphie">
+                init({
+                    range: [[-10, 10], [-10, 10]],
+                    scale: 20
+                });
+                
+                
+                line(A,C);
+                line(A,H);
+                line(H,J);
+                line(C,J);
+                line(D,B);
+                line(D,I);
+                line(B,G);
+                line(I,G);
+                line(D,E);
+                line(E,C);
+                line(B,I);
+
+                circle(A, DOT_ATTRS);
+                circle(B, DOT_ATTRS);
+                circle(C, DOT_ATTRS);
+                circle(D, DOT_ATTRS);
+                circle(E, DOT_ATTRS);
+                circle(F, DOT_ATTRS);
+                circle(G, DOT_ATTRS);
+                circle(H, DOT_ATTRS);
+                circle(I, DOT_ATTRS);
+                circle(J, DOT_ATTRS);
+
+                label(A, "A", "above");
+                label(B, "B", "above");
+                label(C, "C", "above");
+                label(D, "D", "left");
+                label(E, "E", "right");
+                label(F, "F", "right");
+                label(G, "G", "right");
+                label(H, "H", "below");
+                label(I, "I", "below");
+                label(J, "J", "below");
+
+            </div>
+        </div>
+
+        <div class="problems">
+        <div>
+            <p class="question">
+                Prove <var>prettifyEquality(TOPROVE)</var>
+            </p>
+            <p class="statements">
+            </p>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Enter a statement, click check to add to proof. Check answer to evaluate the whole proof. <br>
+                    To prove: <var>TOPROVE</var>
+                    <select class="statement_type">
+                        <option>triangle congruence</option>
+                        <option>segment equality</option>
+                        <option>angle equality</option>
+                    </select>
+                    <input class="statement"></input>
+                    <input class="justification"></input>
+                    <button class="check-statement" onclick="verifyStatement()">Check</button>
+                </div>
+                <div class="guess">[]</div>
+                <div class="validator-function">
+                    return true;
+                </div>
+                <div class="show-guess">
+                    
+                </div>
+                <div class="example">acceptable answer format goes here</div>
+            </div>
+            <div class="hints">
+                <p><var>nextStatementHint()</var></p>
+           </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>
