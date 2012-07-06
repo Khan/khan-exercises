@@ -584,6 +584,9 @@ function outputFillBlanksProof() {
 // div correspond to that div name, for use in "fill-in-the-blank" proofs
 // returns true if the statements were filled in correctly, false otherwise
 function checkFillBlanksStatement(divID) {
+    // for now, hardcode these
+    var equivAngles = {"BAE" : "BAC", "EAB" : "CAB", "DAE" : "DAC", "EAD" : "CAD", "ABD" : "ABC", "DBA" : "CBA", "EBD" : "EBC", "DBE" : "CBE",
+                        "BEA" : "BEC", "AEB" : "CEB", "DEA" : "DEC", "AED" : "CED", "BDE" : "CDE", "EDB" : "EDC", "ADB" : "ADC", "BDA" : "CDA"};
     var unsortedKeyList = _.map(finishedEqualitiesList, function(key) { return _.clone(key); });
     var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
 
@@ -624,6 +627,13 @@ function checkFillBlanksStatement(divID) {
 
         if (input1.length != 3 || input2.length != 3) {
             return;
+        }
+
+        if(input1 in equivAngles){
+            input1 = equivAngles[input1];
+        }
+        if(input2 in equivAngles){
+            input2 = equivAngles[input2];
         }
 
         var inputAngle1 = new Ang(input1[0], input1[1], input1[2]);
