@@ -15,28 +15,23 @@
         <var id="BC">randRange( 1, 10 )</var>
         <var id="AC">randRange( 1, 10 )</var>
         <var id="ABC">randRange( 1, 10 )</var>
-        <var id="_EXPR">randSubsetExpression()</var>
-        <var id="EXPR">_EXPR.split(';')[0]</var>
-        <var id="SECTIONS">_EXPR.split(';')[1]</var>
+        <var id="EXPR">randSubsetExpression()</var>
+        <var id="DATA">[A,B,C, AB,BC,AC, ABC]</var>
     </div>
 
     <div class="problems">
         <div>
             <div class="question">
-            <code><var>EXPR</var> = ?</code>
+            How many items are in <code><var>colorSets(EXPR.join(' '))</var>?</code>
                 <div id="canvas1"></div>
                 <div class="graphie">
                     init({
                         range: [ [0, 10], [0, 10] ]
                     });
-                    drawVenn(["A","B","C"],
-                       [A,B,C,
-                       AB,BC,AC,
-                       ABC] 
-                    );
+                    drawVenn(SETS, DATA);
                 </div>
             </div>
-            <div class="solution" data-forms="integer"><var>arraySum(arraySelect([A,B,C, AB,BC,AC, ABC],SECTIONS.split(',') ))</var></div>
+            <div class="solution" data-forms="integer"><var>arraySum(arraySelect(DATA,getSections(EXPR)))</var></div>
 
 
         </div>

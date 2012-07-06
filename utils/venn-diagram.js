@@ -1,4 +1,12 @@
     var COLORS = [KhanUtil.BLUE, KhanUtil.GREEN, KhanUtil.ORANGE];
+    var SETS = ['A','B','C'];
+    var OPPS = ['\\cup', '\\cap', '-'];
+    var SUBSETS = {
+        'A': [0,3,5,6],
+        'B': [1,3,4,6],
+        'C': [2,4,5,6]
+    };
+
 
     function drawVenn(labels, data) {
         var graph = KhanUtil.currentGraph;
@@ -151,26 +159,25 @@
     }
 
     function randSubsetExpression() {
-        var sets = ['A','B','C'];
-        var opps = ['\\cup', '\\cap', '-'];
-        var rsets = KhanUtil.shuffle(sets);
-        opps = KhanUtil.shuffle(opps);
-        var str = rsets[0] + opps[0] + ' ' + rsets[1];
-        var sections = getSections(opps[0], getSections(rsets[0]), getSections(rsets[1]));
-        $.each (sets, function(i, set) { 
+        var sets = KhanUtil.shuffle(SETS);
+        var opps = KhanUtil.shuffle(OPPS);
+        var ret = [sets[0], opps[0], sets[1]];
+        return  ret;
+    }
+
+    function colorSets(str) {
+        $.each (SETS, function(i, set) { 
             str = str.replace(new RegExp(set, 'g'),"\\color{"+COLORS[i] +"}{"+ set +"}");
         });
-        return  "n(" + str+");"+ sections.join();
+        return str;
     }
 
     function getSections(symbol, set1, set2) {
         switch (symbol) {
             case 'A': 
-                return [0,3,5,6];
             case 'B': 
-                return [1,3,4,6];
             case 'C': 
-                return [2,4,5,6];
+                return SUBSETS[symbol];
             case '\\cup': 
                 return union(set1,set2);
             case '\\cap': 
@@ -178,6 +185,11 @@
             case '-': 
                 return substract(set1,set2);
             default:
+                if (symbol.length == 3) {
+                    var set1 = getSections(symbol[0]);
+                    var set2 = getSections(symbol[2]);
+                    return getSections(symbol[1], set1, set2);
+                }
                 return [];
         }
     }
