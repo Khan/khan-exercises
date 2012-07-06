@@ -196,32 +196,37 @@
                 graph.congruency.addLabel("D", "left");
                 graph.congruency.addLabel("E", "right");
 
-
+                var hintsLeft = FILL_BLANKS_NUM*2;
                 $(".missingStatement").keyup(function(){
                     if(checkFillBlanksStatement($(this).parent()[0].id)){
                         FILL_BLANKS_NUM--;
-                        var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
-                        $("#hint").val("I'd like a hint (" + stepsLeft + ")");
-                        giveAway = false;
-
-                        
+                        if(hintsLeft>FILL_BLANKS_NUM*2){
+                            var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                            $("#hint").val("I'd like a hint (" + stepsLeft + ")");
+                            giveAway = false;
+                            hintsLeft = FILL_BLANKS_NUM*2;
+                        }
                     }
                 });
 
                 $(".missingReason").change(function(){
                     if(checkFillBlanksReason($(this), this.id)){
                         FILL_BLANKS_NUM--;
-                        var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
-                        $("#hint").val("I'd like a hint (" + stepsLeft + ")");
-                        giveAway = false;
+                        if(hintsLeft>FILL_BLANKS_NUM*2){
+                            var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                            $("#hint").val("I'd like a hint (" + stepsLeft + ")");
+                            giveAway = false;
+                            hintsLeft = FILL_BLANKS_NUM*2;
+                        }
                     }
                 });
 
                 var giveAway = false;
                 $("#hint").click(function(){
-                    if(FILL_BLANKS_NUM > 0){
+                    if(hintsLeft > 0){
+                        hintsLeft--;
                         if(!giveAway){
-                            var stepsLeft = (FILL_BLANKS_NUM*2)-1 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                            var stepsLeft = hintsLeft + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
                             $(this).val("I'd like a hint (" + stepsLeft + ")");
                             $(this).attr("disabled", false);
 
@@ -230,8 +235,7 @@
                             giveAway = true;
                         }
                         else{
-                            FILL_BLANKS_NUM--;
-                            var stepsLeft = (FILL_BLANKS_NUM*2) + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                            var stepsLeft = hintsLeft + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
                             $(this).val("I'd like a hint (" + stepsLeft + ")");
                             $(this).attr("disabled", false);
 
@@ -239,7 +243,7 @@
                             _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
                             giveAway = false;
                         }
-                        if(FILL_BLANKS_NUM === 0){
+                        if(hintsLeft === 0){
                             $("#hint").attr("disabled", true);
                         }
                     }

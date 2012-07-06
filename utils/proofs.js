@@ -2012,12 +2012,12 @@ function checkAngForHint(ang1, ang2, equalityObject) {
         }
 
         if (sharedLines === 4) {
-            return "Vertical angles";
+            return "vertical angles";
         }
     }
 
     if (eqIn([ang1, ang2], altInteriorAngs) || eqIn([ang2, ang1], altInteriorAngs)) {
-        return "Alternate interior angles";
+        return "alternate interior angles";
     }
 
 
