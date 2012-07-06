@@ -184,10 +184,16 @@
 
     }
 
-    function randSubsetExpression() {
+    function randSubsetExpression(count) {
         var sets = KhanUtil.shuffle(SETS);
-        var opps = KhanUtil.shuffle(OPPS);
-        var ret = [sets[0], opps[0], sets[1]];
+        var ret = [sets[0]];
+        for (var i = 1; i < count; i++) {
+            ret.push(KhanUtil.randFromArray(OPPS));
+            ret.push(sets[i % sets.length]);
+        }
+        if (count == 3) {
+            ret.splice(3,0,')');
+        }
         return  ret;
     }
 
@@ -211,10 +217,18 @@
             case '-': 
                 return substract(set1,set2);
             default:
-                if (symbol.length == 3) {
-                    var set1 = getSections(symbol[0]);
-                    var set2 = getSections(symbol[2]);
-                    return getSections(symbol[1], set1, set2);
+                switch (symbol.length) {
+                    case 1:
+                        return getSections(symbol[0]);
+                    case 3:
+                        var set1 = getSections(symbol[0]);
+                        var set2 = getSections(symbol[2]);
+                        return getSections(symbol[1], set1, set2);
+                    case 6:
+                        var set1 = getSections(symbol.slice(0,3));
+                        var set2 = getSections(symbol[5]);
+                        return getSections(symbol[4], set1, set2);
+
                 }
                 return [];
         }

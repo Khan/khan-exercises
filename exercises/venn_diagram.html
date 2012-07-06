@@ -15,14 +15,14 @@
         <var id="BC">randRange( 1, 10 )</var>
         <var id="AC">randRange( 1, 10 )</var>
         <var id="ABC">randRange( 1, 10 )</var>
-        <var id="EXPR">randSubsetExpression()</var>
+        <var id="EXPR">randSubsetExpression(randRangeWeighted(1, 3, 2, 3/4))</var>
         <var id="DATA">[A,B,C, AB,BC,AC, ABC]</var>
     </div>
 
     <div class="problems">
         <div class="problem">
             <p class="question">
-            How many items are in <code><var>colorSets(EXPR.join(' '))</var></code> ?
+            How many items are in <code><var>(EXPR.length > 3 ? '(' : '') + colorSets(EXPR.join(' '))</var></code> ?
             </p>
             <div id="canvas1"></div>
             <div class="graphie" id="venn-diagram">
@@ -42,7 +42,7 @@
                         graph.venn.selectRegions(getSections(EXPR[0]),true);
                     </div>
                 </div>
-                <div>
+                <div data-if="EXPR[2]">
                     <p>
                         <code><var>colorSets(EXPR[2])</var></code> means the four regions that are withing circle 
                         <code><var>colorSets(EXPR[2])</var></code>
@@ -51,12 +51,32 @@
                         graph.venn.selectRegions(getSections(EXPR[2]),true);
                     </div>
                 </div>
-                <div>
+                <div data-if="EXPR[1]">
                     <p>
-                        <code><var>colorSets(EXPR.join(' '))</var></code> means the regions that are withing circle
+                        <code><var>colorSets(EXPR.slice(0,3).join(' '))</var></code> means the regions that are withing circle
                         <code><var>colorSets(EXPR[0])</var></code> 
                         <b><var>MEANINGS[EXPR[1]]</var> </b>
                         within circle <code><var>colorSets(EXPR[2])</var></code>
+                    </p>
+                    <div class="graphie" data-update="venn-diagram">
+                        graph.venn.selectRegions(getSections(EXPR.slice(0,3)),true);
+                    </div>
+                </div>
+                <div data-if="EXPR[5]">
+                    <p>
+                        <code><var>colorSets(EXPR[5])</var></code> means the four regions that are withing circle 
+                        <code><var>colorSets(EXPR[5])</var></code>
+                    </p>
+                    <div class="graphie" data-update="venn-diagram">
+                        graph.venn.selectRegions(getSections(EXPR[5]),true);
+                    </div>
+                </div>
+                <div data-if="EXPR[5]">
+                    <p>
+                        <code>(<var>colorSets(EXPR.join(' '))</var></code> means the regions that are withing
+                        <code><var>colorSets(EXPR.slice(0,3).join(' '))</var></code> 
+                        <b><var>MEANINGS[EXPR[4]]</var> </b>
+                        within circle <code><var>colorSets(EXPR[5])</var></code>
                     </p>
                     <div class="graphie" data-update="venn-diagram">
                         graph.venn.selectRegions(getSections(EXPR),true);
