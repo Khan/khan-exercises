@@ -241,10 +241,6 @@ function verifyStatementArgs(statement, reason, category) {
             return false;
         }
         else {
-            console.log("gets to checkTriangleCongruent");
-            console.log(triangle1);
-            console.log(triangle2);
-            console.log(reason);
             toReturn = checkTriangleCongruent(triangle1, triangle2, reason);
         }
     }
@@ -677,7 +673,6 @@ function checkFillBlanksStatement(divID) {
 // selected is equal to the id
 // returns true if the reason was filled in correctly, false otherwise
 function checkFillBlanksReason(select, selectID) {
-    console.log(verifyStatementArgs(selectID.split(",")[0].substring(8,11) + "=" + selectID.split(",")[1].substring(8,11), select.val(), "triangle congruence"));
     if (verifyStatementArgs(selectID.split(",")[0].substring(8,11) + "=" + selectID.split(",")[1].substring(8,11), select.val(), "triangle congruence") === true
         || verifyStatementArgs(selectID.split(",")[0].substring(3,6) + "=" + selectID.split(",")[1].substring(3,6), select.val(), "angle equality") === true
         || verifyStatementArgs(selectID.split(",")[0].substring(3,5) + "=" + selectID.split(",")[1].substring(3,5), select.val(), "segment equality") === true) {
