@@ -662,12 +662,13 @@ function checkFillBlanksStatement(divID) {
 // selected is equal to the id
 // returns true if the reason was filled in correctly, false otherwise
 function checkFillBlanksReason(select, selectID) {
-    var reasonCodes = {"SSS" : 0, "ASA" : 1, "SAS" : 2, "AAS" : 3, "corresponding parts of congruent triangles are congruent" : 4,
-     "vertical angles are equal" : 5, "alternate interior angles are equal" : 6};
+    var reasonCodes = {"SSS" : "0", "ASA" : "1", "SAS" : "2", "AAS" : "3", "corresponding parts of congruent triangles are congruent" : "4",
+     "vertical angles are equal" : "5", "alternate interior angles are equal" : "6"};
+     console.log("checking " + selectID + "=" + select.val());
     if (selectID === reasonCodes[select.val()]) {
         var parent = $(select.parent());
         select.remove();
-        parent.append(selectID);
+        parent.append(select.val());
         return true;
     }
     return false;
@@ -688,7 +689,7 @@ function getFillBlanksHint(giveAway) {
         else {
             var firstMissing = $(".missing").first();
             // if the next open spot is a statement
-            if (firstMissing.children().first().hasClass("missingStatement")) {
+            if (!firstMissing.hasClass("missingReason")) {
                 var components = firstMissing[0].id.split("-");
 
                 //only use equalities before the input
@@ -756,12 +757,13 @@ function getFillBlanksHint(giveAway) {
             var firstMissing = $(".missing").first();
             console.log(firstMissing);
             // if the next open spots are statements, not justifications
-            if (firstMissing.children().length > 0) {
+            if (!firstMissing.hasClass("missingReason")) {
                 var components = firstMissing[0].id.split("-");
                 firstMissing.removeClass("missing");
                 return "The next equality you have to fill in is " + prettifyEquality([finishedKeys[components[1]][0], finishedKeys[components[1]][1]]);
             }
             else {
+                firstMissing.removeClass("missing");
                 return "The next equality with a missing reason is true by " + reasonCodes[firstMissing[0].id];
             }
         }
