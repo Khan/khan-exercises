@@ -8,7 +8,7 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="bigTriangle">
+            <!-- <div id="bigTriangle">
                 <div class="vars">
                     <var id="A">[0,8]</var>
                     <var id="B">[-4,0]</var>
@@ -57,6 +57,8 @@
 
                     <var id="PARALLEL_SEGS">[]</var>
 
+                    <var id="BLACKLIST">[[ang6, ang7]]</var>
+
                     <var id="ADE">new Triang([AD, DE, EA], [addAngs(ang7, ang8), ang9, ang1])</var>
                     <var id="ABC">new Triang([BC, CA, AB], [ang3, ang1, ang2])</var>
                     <var id="BCD">new Triang([BC, CD, DB], [ang5, ang7, ang4])</var>
@@ -64,7 +66,7 @@
 
                     <var id="TRIANGLES">[ADE, ABC, BCD, CDE]</var>
 
-                    <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 3, 0.1, "all")</var>
+                    <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, BLACKLIST, 3, 0.1, "all")</var>
                     <var id="KNOWN">STATEMENTS[0]</var>
                     <var id="FINISHED">STATEMENTS[1]</var>
 
@@ -82,7 +84,8 @@
                 </div>
 
                 <div class="problem">
-                    <p class="question">What's the first wrong statement in the proof below that <var>FINISHED</var><code> \; ?</code></p>
+                    <p class="question">What's the first wrong statement in the proof below that <var>FINISHED</var><code> \; ?</code><br><br>
+                        This figure is not drawn to scale.</p>
                     <div class="graphie" id="number-line">
                         init({
                             range: [[-5, 5], [-5, 5]],
@@ -93,7 +96,7 @@
                         graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
 
                         graph.congruency.addPoint("A", [0, 4]);
-                        graph.congruency.addPoint("B", [-2, 0]);
+                        graph.congruency.addPoint("B", [-1.5, 1]);
                         graph.congruency.addPoint("C", [2, 0]);
                         graph.congruency.addPoint("D", [-4, -4]);
                         graph.congruency.addPoint("E", [4, -4]);
@@ -387,7 +390,7 @@
                     <p data-if="IS_WRONG"><var>WRONG_STATEMENT</var> is the first wrong statement.</p>
                     <p data-else>There is no wrong statement in this proof.</p>
                 </div>
-            </div>
+            </div> -->
             <div id="parallelogram">
                 <div class="vars">
                     <var id="AB">new Seg("A","B")</var>
@@ -460,8 +463,8 @@
                 </div>
 
                 <div class="problem">
-                    <p class="question">What's the first wrong statement in the proof below that <var>FINISHED</var><code> \; ?</code></br>
-                    <code> \overline{AB} </code> is parallel to <code> \overline{DE} </code>, and <code> \overline{AD} </code> is parallel to <code> \overline{BE} </code>.</p>
+                    <p class="question">What's the first wrong statement in the proof below that <var>FINISHED</var><code> \; ?</code></br></br>
+                    <code> \overline{AB} </code> is parallel to <code> \overline{DE} </code>, and <code> \overline{AD} </code> is parallel to <code> \overline{BE} </code>. This diagram is not drawn to scale.</p>
                     <div class="graphie">
                         init({
                             range: [[-5, 5], [-5, 5]],
