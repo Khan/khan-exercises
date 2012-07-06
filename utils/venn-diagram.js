@@ -65,7 +65,7 @@ $.extend(KhanUtil, {
             return retval;
         }
 
-        var vennIntersectionString = function(points, circles, sweeps) {
+        var vennRegionString = function(points, circles, sweeps) {
             var pathString = "M" + scaleAndJoin(points[0]);
             $.each(points, function(i, point) {
                 var c = circles[(i+0) % circles.length];
@@ -75,12 +75,12 @@ $.extend(KhanUtil, {
             return pathString;
         }
 
-        var vennIntersection = function(points, circles, sweeps, label, clickable) {
+        var vennRegion = function(points, circles, sweeps, label, clickable) {
             var graph = KhanUtil.currentGraph;
             var set = graph.raphael.set();
-            var pathString = vennIntersectionString (points, circles, sweeps);
+            var pathString = vennRegionString (points, circles, sweeps);
             if (sweeps[0] == 0 && !clickable) {
-                set.push(graph.label(getIntersectionCenter(points, circles, sweeps), '\\color{#555}{' +label+ '}'));
+                set.push(graph.label(getRegionCenter(points, circles, sweeps), '\\color{#555}{' +label+ '}'));
             }
             var pathObject = graph.raphael.path(pathString);
             set.push(pathObject);
@@ -108,32 +108,32 @@ $.extend(KhanUtil, {
             return pathObject;
         }
         
-        var getIntersectionCenter = function(points) {
+        var getRegionCenter = function(points) {
             return [(points[0][0] + points[1][0] + points[2][0])/3, (points[0][1] + points[1][1] + points[2][1])/3];
         }
 
-        var drawIntersection = function(points, circles, label, i,inOrOut, sweeps, clickable) {
+        var drawRegion = function(points, circles, label, i,inOrOut, sweeps, clickable) {
             var ps = [];
             var cs = [];
             $.each(points, function(j, p2) {
-                ps.push(points[(i+j) % points.length][inOrOut[(j+1) % inOrOut.length]]);
+                ps.push(points[(i+j) % points.length][(inOrOut + sweeps[(j+1) % sweeps.length] +1) % 2]);
                 cs.push(circles[(i+j+1) % circles.length]);
             });
-            var intersection = vennIntersection(ps,cs, sweeps, label, clickable)
+            var intersection = vennRegion(ps,cs, sweeps, label, clickable)
             return intersection;
         }
 
-        var drawIntersections = function(circles, labels, clickable) {
+        var drawRegions = function(circles, labels, clickable) {
             var points = [];
             $.each(circles, function(i, c) {
                 points.push(intersectingPoints(c, circles[(i+1)%circles.length]));
             });
             var intersections = [];
             $.each(points, function(i, p) {
-                intersections[i] = (drawIntersection(points, circles, labels[i],    i,[0,0,1], [1,1,0], clickable));
-                intersections[(i+2) % 3 + 3] = (drawIntersection(points, circles, labels[(i+2) % 3 + 3],  i,[0,1,1], [0,1,1], clickable));
+                intersections[i] = (drawRegion(points, circles, labels[i],    i, 0, [1,1,0], clickable));
+                intersections[(i+2) % 3 + 3] = (drawRegion(points, circles, labels[(i+2) % 3 + 3],  i, 1, [0,1,1], clickable));
             });
-            intersections.push(drawIntersection(points, circles, labels[6],  0,[1,1,1], [0,0,0], clickable));
+            intersections.push(drawRegion(points, circles, labels[6],  0, 0, [0,0,0], clickable));
             return intersections;
         }
 
@@ -153,7 +153,7 @@ $.extend(KhanUtil, {
         c[2].x = c[0].r + c[2].r/2 + 1;
         c[2].y = c[0].r + c[2].r + 1;
 
-        var regions = drawIntersections(c, data, clickable);
+        var regions = drawRegions(c, data, clickable);
 
         $.each(c, function(i, circle) {
             set.push(graph.circle([circle.x, circle.y],circle.r, {
