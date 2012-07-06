@@ -6,6 +6,12 @@
         'B': [1,3,4,6],
         'C': [2,4,5,6]
     };
+    var MEANINGS = {
+        '\\cup': 'or',
+        '\\cap': 'and',
+        '-': 'but not'
+        };
+    var SELECTED_OPACITY = 0.5;
 
 
     function drawVenn(labels, data) {
@@ -24,7 +30,7 @@
         c[2].x = c[0].r + c[2].r/2 + 1;
         c[2].y = c[0].r + c[2].r + 1;
 
-        var intersections = drawIntersections(c, data);
+        var regions = drawIntersections(c, data);
 
         $.each(c, function(i, circle) {
             set.push(graph.circle([circle.x, circle.y],circle.r, {
@@ -52,7 +58,23 @@
         $.each(labelPos, function(i, pos) {
             set.push(graph.label(pos,"\\color{#333}{" + data[i] +"}"));
         });
-        return intersections;
+        var venn = {
+            regions: regions,
+            selectRegions: function(indexes, reset) {
+               if (reset) {
+                   $.each(this.regions, function(i, region) {
+                       region.highlight(0);
+                   });
+               }
+               $.each(this.getRegions(indexes), function(i, region) {
+                   region.highlight(SELECTED_OPACITY);
+               });
+            },
+            getRegions: function(indexes) {
+                return arraySelect(this.regions, indexes);
+            }
+        }
+        return venn;
     }
     /*
     * source: http://code.google.com/p/js-venn/
@@ -120,11 +142,15 @@
         var bbox = pathObject.getBBox();
         pathObject.attr({fill: '#aaa', 'fill-opacity': 0.0, stroke: 0, 'stroke-fill': "transparent"});
         pathObject.hover(function(){
-            this.animate({'fill-opacity': 0.5}, 200);
+            this.opacity = this.attr('fill-opacity');
+            this.highlight(this.opacity + 0.3)
         },
         function(){
-            this.animate({'fill-opacity': 0.0}, 200);
+            this.highlight(this.opacity);
         });
+        pathObject.highlight = function(opacity) {
+            this.animate({'fill-opacity': opacity}, 200);
+        }
         return pathObject;
     }
     
@@ -150,8 +176,8 @@
         });
         var intersections = [];
         $.each(points, function(i, p) {
-            intersections.push(drawIntersection(points, circles, labels[i],    i,[0,0,1], [1,1,0]));
-            intersections.push(drawIntersection(points, circles, labels[(i+2) % 3 + 3],  i,[0,1,1], [0,1,1]));
+            intersections[i] = (drawIntersection(points, circles, labels[i],    i,[0,0,1], [1,1,0]));
+            intersections[(i+2) % 3 + 3] = (drawIntersection(points, circles, labels[(i+2) % 3 + 3],  i,[0,1,1], [0,1,1]));
         });
         intersections.push(drawIntersection(points, circles, labels[6],  0,[1,1,1], [0,0,0]));
         return intersections;
