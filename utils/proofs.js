@@ -203,7 +203,7 @@ function verifyStatement() {
 
 function verifyStatementArgs(statement, reason, category) {
     if (userProofDone) {
-        return false;
+        //return false;
     }
     var toReturn = false;
     // verifying triangle congruence is a bit tricky: it will return true if the given triangles
@@ -253,6 +253,8 @@ function verifyStatementArgs(statement, reason, category) {
     else if (category === "angle equality") {
         var angleStrings = statement.split("=");
 
+        console.log(angleStrings[0]);
+        console.log(angleStrings[1]);
         // look for these angles in the list of known angles
         var ang1 = _.find(ANGLES, function(ang) {
             return ang.equals(new Ang(angleStrings[0][0], angleStrings[0][1], angleStrings[0][2]));
@@ -286,7 +288,7 @@ function verifyStatementArgs(statement, reason, category) {
         });
 
         if (seg1 == null || seg2 == null) {
-            return "those segments aren't in this figure";
+            return "those segments aren't in this figure...";
         }
 
         else {
@@ -668,8 +670,10 @@ function checkFillBlanksStatement(divID) {
 // selected is equal to the id
 // returns true if the reason was filled in correctly, false otherwise
 function checkFillBlanksReason(select, selectID) {
+    console.log(selectID.split(",")[0].substring(3,6) + "=" + selectID.split(",")[1].substring(3,6));
+    console.log(verifyStatementArgs(selectID.split(",")[0].substring(3,6) + "=" + selectID.split(",")[1].substring(3,6), select.val(), "angle equality"));
     if (verifyStatementArgs(selectID.split(",")[0].substring(8,11) + "=" + selectID.split(",")[1].substring(8,11), select.val(), "triangle congruence") === true
-        || verifyStatementArgs(selectID.split(",")[0].substring(5,8) + "=" + selectID.split(",")[1].substring(5,8), select.val(), "angle equality") === true
+        || verifyStatementArgs(selectID.split(",")[0].substring(3,6) + "=" + selectID.split(",")[1].substring(3,6), select.val(), "angle equality") === true
         || verifyStatementArgs(selectID.split(",")[0].substring(3,5) + "=" + selectID.split(",")[1].substring(3,5), select.val(), "segment equality") === true) {
         var parent = $(select.parent());
         select.remove();
@@ -1805,7 +1809,7 @@ function checkSegEqual(seg1, seg2, reason) {
             if (checkTriangleCongruent(seg1.triangles[i][0], seg2.triangles[j][0])
                 && _.indexOf(seg1.triangles[i][0].segs, seg1) === _.indexOf(seg2.triangles[j][0].segs, seg2)) {
 
-                if (reason === "CPCTC") {
+                if (reason === "CPCTC" || reason === "corresponding parts of congruent triangles are congruent") {
                     knownEqualities[[seg1, seg2]] = "corresponding parts of congruent triangles are congruent";
                     knownEqualities[[seg2, seg1]] = "corresponding parts of congruent triangles are congruent";
                     return true;
@@ -1833,7 +1837,7 @@ function checkAngEqual(ang1, ang2, reason) {
             if (checkTriangleCongruent(ang1.triangles[i][0], ang2.triangles[j][0])
                 && _.indexOf(ang1.triangles[i][0].angs, ang1) === _.indexOf(ang2.triangles[j][0].angs, ang2)) {
 
-                if (reason === "CPCTC") {
+                if (reason === "CPCTC" || reason === "corresponding parts of congruent triangles are congruent") {
                     knownEqualities[[ang1, ang2]] = "corresponding parts of congruent triangles are congruent";
                     knownEqualities[[ang2, ang1]] = "corresponding parts of congruent triangles are congruent";
                     return true;
@@ -1859,7 +1863,7 @@ function checkAngEqual(ang1, ang2, reason) {
         }
 
         if (sharedLines === 4) {
-            if (reason === "vertical angles") {
+            if (reason === "vertical angles" || reason === "vertical angles are equal") {
                 knownEqualities[[ang1, ang2]] = "vertical angles are equal";
                 knownEqualities[[ang2, ang1]] = "vertical angles are equal";
                 return true;
@@ -1869,7 +1873,7 @@ function checkAngEqual(ang1, ang2, reason) {
 
     if (eqIn([ang1, ang2], altInteriorAngs) || eqIn([ang2, ang1], altInteriorAngs)) {
 
-        if (reason === "alternate angles") {
+        if (reason === "alternate angles" || reason === "alternate interior angles are equal") {
             knownEqualities[[ang1, ang2]] = "alternate interior angles are equal";
             knownEqualities[[ang2, ang1]] = "alternate interior angles are equal";
             return true;
