@@ -580,8 +580,8 @@ function checkFillBlanksStatement(divID) {
     var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
 
     var components = divID.split("-");
-    var input1 = $($("#" + divID + " input")[0]).val();
-    var input2 = $($("#" + divID + " input")[1]).val();
+    var input1 = $($("#" + divID + " input")[0]).val().toUpperCase();
+    var input2 = $($("#" + divID + " input")[1]).val().toUpperCase();
 
     //triangles
     if (components[0] === "t") {
@@ -687,7 +687,6 @@ function getFillBlanksHint(giveAway) {
         }
         else {
             var firstMissing = $(".missing").first();
-            console.log(firstMissing);
             // if the next open spot is a statement
             if (firstMissing.children().first().hasClass("missingStatement")) {
                 var components = firstMissing[0].id.split("-");

@@ -7,6 +7,7 @@
     <style type="text/css">
         .missingStatement {
             width: 30px;
+            text-transform: uppercase;
         }
         .missingReason {
             width: 150px;
@@ -89,7 +90,8 @@
         </div>
 
         <div class="problem">
-            <p> Fill in the blanks in this proof that <var> FINISHED </var>. </p>
+            <p class="question"> Fill in the blanks in this proof that <var> FINISHED </var>. </br></br>
+                <code> \overline{AB} </code> is parallel to <code> \overline{DE} </code>, and <code> \overline{AD} </code> is parallel to <code> \overline{BE} </code>. Figure not drawn to scale. </p>
             <div class="graphie">
                 init({
                     range: [[-5, 5], [-5, 5]],
@@ -233,7 +235,7 @@
                             $(this).val("I'd like a hint (" + stepsLeft + ")");
                             $(this).attr("disabled", false);
 
-                            $(".actualHints").append("&lt;p&gt;The next equality you have to fill in is "+getFillBlanksHint(true)+"&lt;/p&gt;");
+                            $(".actualHints").append("&lt;p&gt;"+getFillBlanksHint(true)+"&lt;/p&gt;");
                             _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
                             giveAway = false;
                         }
