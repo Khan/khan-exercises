@@ -2,7 +2,7 @@
 <html data-require="math graphie venn-diagram">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Venn diagram 1</title>
+    <title>Venn diagrams 0.5</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -23,16 +23,37 @@
     <div class="problems">
         <div class="problem">
             <p class="question">
-            How many items are in <code><var>SHOW_EXPR</var></code> ?
+            Select regions that are within <code><var>SHOW_EXPR</var></code>. 
             </p>
             <div id="canvas1"></div>
             <div class="graphie" id="venn-diagram">
                 init({
                     range: [ [0, 10], [0, 10] ]
                 });
-                graph.venn = vennDiagram(DATA);
+                graph.venn = vennDiagram(DATA,true);
             </div>
-            <div class="solution" data-forms="integer"><var>arraySum(arraySelect(DATA,getSections(EXPR)))</var></div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Click on the areas in the Venn Diagram to shade the matching regions.
+                </div>
+                <div class="guess">true
+                </div>
+                <div class="validator-function">
+                    var isCorrect = true;
+                    var guess = graph.venn.getSelectedRegionIndexes();
+                    var expected = sortNumbers(getSections(EXPR));
+                    $.each(expected, function(i, e) {
+                        isCorrect = isCorrect && e === guess[i];
+                    });
+                    isCorrect =  isCorrect && guess.length === expected.length;
+                    return isCorrect;
+                </div>
+
+                <div class="show-guess">
+                </div>
+                <div class="example">click a region to select it</div>
+                <div class="example">click a region again to deselect it</div>
+            </div>
             <div class="hints">
                 <div>
                     <p>
@@ -82,12 +103,6 @@
                     <div class="graphie" data-update="venn-diagram">
                         graph.venn.selectRegions(getSections(EXPR),true);
                     </div>
-                </div>
-                <div>
-                    <p>
-                        Sum of items in this regions is <code><var>arraySelect(DATA,getSections(EXPR)).join(' + ')</var></code> = 
-                        <code><var>arraySum(arraySelect(DATA,getSections(EXPR)))</var></code>
-                    </p>
                 </div>
             </div>
 
