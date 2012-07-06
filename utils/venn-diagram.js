@@ -11,14 +11,11 @@
     function drawVenn(labels, data) {
         var graph = KhanUtil.currentGraph;
         var set = graph.raphael.set();
-        var height = graph.raphael.height;
-        var defRad = height/2;
-
 
         var c =[];
-        c[0] = {r: Math.sqrt(data[0] + data[3] + data[4] + data[6])/2};
-        c[1] = {r: Math.sqrt(data[1] + data[3] + data[5] + data[6])/2};
-        c[2] = {r: Math.sqrt(data[2] + data[4] + data[5] + data[6])/2};
+        $.each(labels, function(i, l) {
+            c[i] = {r: Math.sqrt(arraySum(arraySelect(data,SUBSETS[l])))/2};
+        });
 
         c[0].x = c[0].r + 1;
         c[0].y = c[0].r + 1;
@@ -27,7 +24,7 @@
         c[2].x = c[0].r + c[2].r/2 + 1;
         c[2].y = c[0].r + c[2].r + 1;
 
-        drawIntersections(c, data);
+        var intersections = drawIntersections(c, data);
 
         $.each(c, function(i, circle) {
             set.push(graph.circle([circle.x, circle.y],circle.r, {
@@ -55,6 +52,7 @@
         $.each(labelPos, function(i, pos) {
             set.push(graph.label(pos,"\\color{#333}{" + data[i] +"}"));
         });
+        return intersections;
     }
     /*
     * source: http://code.google.com/p/js-venn/
@@ -120,14 +118,13 @@
         var pathObject = graph.raphael.path(pathString);
         set.push(pathObject);
         var bbox = pathObject.getBBox();
-        pathObject.attr({fill: '#aaa', 'fill-opacity': 0.1, stroke: 0, 'stroke-fill': "transparent"});
+        pathObject.attr({fill: '#aaa', 'fill-opacity': 0.0, stroke: 0, 'stroke-fill': "transparent"});
         pathObject.hover(function(){
             this.animate({'fill-opacity': 0.5}, 200);
         },
         function(){
-            this.animate({'fill-opacity': 0.1}, 200);
-        }
-        );
+            this.animate({'fill-opacity': 0.0}, 200);
+        });
         return pathObject;
     }
     
@@ -142,7 +139,8 @@
             ps.push(points[(i+j) % points.length][inOrOut[(j+1) % inOrOut.length]]);
             cs.push(circles[(i+j+1) % circles.length]);
         });
-        vennIntersection(ps,cs, sweeps, label)
+        var intersection = vennIntersection(ps,cs, sweeps, label)
+        return intersection;
     }
 
     function drawIntersections(circles, labels) {
@@ -150,12 +148,14 @@
         $.each(circles, function(i, c) {
             points.push(intersectingPoints(c, circles[(i+1)%circles.length]));
         });
+        var intersections = [];
         $.each(points, function(i, p) {
-            drawIntersection(points, circles, labels[i],    i,[0,0,1], [1,1,0]);
-            drawIntersection(points, circles, labels[(i+2) % 3 + 3],  i,[0,1,1], [0,1,1]);
+            intersections.push(drawIntersection(points, circles, labels[i],    i,[0,0,1], [1,1,0]));
+            intersections.push(drawIntersection(points, circles, labels[(i+2) % 3 + 3],  i,[0,1,1], [0,1,1]));
         });
-        drawIntersection(points, circles, labels[6],  0,[1,1,1], [0,0,0]);
-        return points;
+        intersections.push(drawIntersection(points, circles, labels[6],  0,[1,1,1], [0,0,0]));
+        return intersections;
+
     }
 
     function randSubsetExpression() {
@@ -247,3 +247,4 @@
         });
         return ret;
     }
+

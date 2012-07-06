@@ -20,16 +20,16 @@
     </div>
 
     <div class="problems">
-        <div>
-            <div class="question">
-            How many items are in <code><var>colorSets(EXPR.join(' '))</var>?</code>
-                <div id="canvas1"></div>
-                <div class="graphie">
-                    init({
-                        range: [ [0, 10], [0, 10] ]
-                    });
-                    drawVenn(SETS, DATA);
-                </div>
+        <div class="problem">
+            <p class="question">
+            How many items are in <code><var>colorSets(EXPR.join(' '))</var></code> ?
+            </p>
+            <div id="canvas1"></div>
+            <div class="graphie">
+                init({
+                    range: [ [0, 10], [0, 10] ]
+                });
+                drawVenn(SETS, DATA);
             </div>
             <div class="solution" data-forms="integer"><var>arraySum(arraySelect(DATA,getSections(EXPR)))</var></div>
 
