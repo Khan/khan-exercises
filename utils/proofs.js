@@ -597,6 +597,8 @@ function checkFillBlanksStatement(divID) {
 
         if ((inputTriangle1.equals(triangle1) && inputTriangle2.equals(triangle2))
             || (inputTriangle1.equals(triangle2) && inputTriangle2.equals(triangle1))) {
+            knownEqualities[[triangle1, triangle2]] = "given";
+            knownEqualities[[triangle2, triangle1]] = "given";
             $("#" + divID + " input").remove();
             $("#" + divID + " code").remove();
             $("#" + divID + " span").remove();
@@ -627,6 +629,8 @@ function checkFillBlanksStatement(divID) {
         var inputAngle2 = new Ang(input2[0], input2[1], input2[2]);
 
         if ((inputAngle1.equals(angle1) && inputAngle2.equals(angle2)) || (inputAngle1.equals(angle2) && inputAngle2.equals(angle1))) {
+            knownEqualities[[angle1, angle2]] = "given";
+            knownEqualities[[angle2, angle1]] = "given";
             $("#" + divID + " input").remove();
             $("#" + divID + " code").remove();
             $("#" + divID + " span").remove();
@@ -650,6 +654,8 @@ function checkFillBlanksStatement(divID) {
         var inputSeg2 = new Seg(input2[0], input2[1]);
 
         if ((inputSeg1.equals(seg1) && inputSeg2.equals(seg2)) || (inputSeg1.equals(seg2) && inputSeg2.equals(seg1))) {
+            knownEqualities[[seg1, seg2]] = "given";
+            knownEqualities[[seg2, seg1]] = "given";
             $("#" + divID + " input").remove();
             $("#" + divID + " code").remove();
             $("#" + divID + " span").remove();
