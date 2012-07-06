@@ -487,6 +487,7 @@ function outputFillBlanksProof() {
      "vertical angles are equal" : 5, "alternate interior angles are equal" : 6};
     var proofText = "<h3>Givens</h3>";
     var blanks = 0;
+    var blankStatements = 0;
 
     var unsortedKeyList = _.map(finishedEqualitiesList, function(key) { return key.toString(); });
     var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
@@ -551,6 +552,7 @@ function outputFillBlanksProof() {
                     }
                     proofText += " because " + finishedEqualities[finishedKeys[i]] + "</div><br>";
                     blanks++;
+                    blankStatements++;
                 }
                 else {
                     proofText += "<div class=\"" + divName(finishedKeys[i]) + "\">";
@@ -564,7 +566,7 @@ function outputFillBlanksProof() {
 
     }
 
-    if (blanks < 2) {
+    if (blanks < 2 || blankStatements < 1) {
         return outputFillBlanksProof();
     }
 

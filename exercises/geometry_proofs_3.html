@@ -205,6 +205,9 @@
                             $("#hint").val("I'd like a hint (" + stepsLeft + ")");
                             giveAway = false;
                             hintsLeft = FILL_BLANKS_NUM*2;
+                            if(hintsLeft === 0){
+                                $("#hint").attr("disabled", true);
+                            }
                         }
                     }
                 });
@@ -217,6 +220,9 @@
                             $("#hint").val("I'd like a hint (" + stepsLeft + ")");
                             giveAway = false;
                             hintsLeft = FILL_BLANKS_NUM*2;
+                            if(hintsLeft === 0){
+                                $("#hint").attr("disabled", true);
+                            }
                         }
                     }
                 });
