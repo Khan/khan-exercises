@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers word-problems venn-diagram">
+<html data-require="math graphie venn-diagram">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Venn diagram 1</title>
@@ -29,7 +29,7 @@
                 init({
                     range: [ [0, 10], [0, 10] ]
                 });
-                graph.venn = drawVenn(SETS, DATA);
+                graph.venn = vennDiagram(SETS, DATA);
             </div>
             <div class="solution" data-forms="integer"><var>arraySum(arraySelect(DATA,getSections(EXPR)))</var></div>
             <div class="hints">
