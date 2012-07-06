@@ -2007,7 +2007,8 @@ function eqIn(item, object) {
         item2 = item[1];
 
         for (var i = 0; i < list.length; i++) {
-            if ((item1.equals(list[i][0]) && item2.equals(list[i][1])) || (item1.equals(list[i][1]) && item2.equals(list[i][0]))) {
+            if ((item1.toString() === (list[i][0]).toString() && item2.toString() === (list[i][1]).toString())
+             || (item1.toString() === (list[i][1]).toString() && item2.toString() === (list[i][0]).toString())) {
                 return true;
             }
         }
