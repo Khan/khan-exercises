@@ -148,7 +148,6 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
     // TODO: replace the provetype === all shortcut
     if (finishedEqualities[finalRelation] === "given"
         || (_.keys(finishedEqualities).length < 5 + SEGMENTS.length + ANGLES.length + TRIANGLES.length && toProveType === "all")) {
-        console.log(finalRelation + " is kaput");
         return initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb, toProveType);
     }
 
@@ -166,8 +165,6 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
 
     knownEqualities = _.extend(knownEqualities, givens);
 
-    console.log(finishedEqualities);
-
     var newHTML = "";
     var givenKeys = _.keys(givens);
     for (var i = 0; i < givenKeys.length; i += 2) {
@@ -183,8 +180,6 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
             newHTML += ", ";
         }
     }
-
-    console.log(finalRelation);
 
     return [newHTML, prettifyEquality(finalRelation)];
 }
@@ -253,8 +248,6 @@ function verifyStatementArgs(statement, reason, category) {
     else if (category === "angle equality") {
         var angleStrings = statement.split("=");
 
-        console.log(angleStrings[0]);
-        console.log(angleStrings[1]);
         // look for these angles in the list of known angles
         var ang1 = _.find(ANGLES, function(ang) {
             return ang.equals(new Ang(angleStrings[0][0], angleStrings[0][1], angleStrings[0][2]));
@@ -303,7 +296,6 @@ function verifyStatementArgs(statement, reason, category) {
     // check if the proof is done
     if (eqIn(finalRelation, knownEqualities)) {
         userProofDone = true;
-        console.log("Proof finished");
     }
 
     return toReturn;
@@ -391,13 +383,9 @@ function outputFinishedProof() {
     var proofText = "<h3>Givens</h3>";
 
     var unsortedKeyList = _.map(finishedEqualitiesList, function(key) { return key.toString(); });
-    console.log(unsortedKeyList);
     var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
 
     var possibleValids = [];
-
-    console.log("finishedKeys = ");
-    console.log(finishedKeys);
 
     var numberGivens = 0;
     _.each(finishedKeys, function(key) {
@@ -407,7 +395,6 @@ function outputFinishedProof() {
     });
     numberGivens /= 2;
     for (var i = 0; i < finishedKeys.length; i += 2) {
-        console.log(finishedKeys[i]);
         if (finishedEqualities[finishedKeys[i]].substring(0, 4) != "Same") {
             if (finishedEqualities[finishedKeys[i]] === "given") {
                 numberGivens--;
@@ -680,8 +667,6 @@ function checkFillBlanksStatement(divID) {
 // selected is equal to the id
 // returns true if the reason was filled in correctly, false otherwise
 function checkFillBlanksReason(select, selectID) {
-    console.log(selectID.split(",")[0].substring(3,6) + "=" + selectID.split(",")[1].substring(3,6));
-    console.log(verifyStatementArgs(selectID.split(",")[0].substring(3,6) + "=" + selectID.split(",")[1].substring(3,6), select.val(), "angle equality"));
     if (verifyStatementArgs(selectID.split(",")[0].substring(8,11) + "=" + selectID.split(",")[1].substring(8,11), select.val(), "triangle congruence") === true
         || verifyStatementArgs(selectID.split(",")[0].substring(3,6) + "=" + selectID.split(",")[1].substring(3,6), select.val(), "angle equality") === true
         || verifyStatementArgs(selectID.split(",")[0].substring(3,5) + "=" + selectID.split(",")[1].substring(3,5), select.val(), "segment equality") === true) {
@@ -727,8 +712,6 @@ function getFillBlanksHint(giveAway) {
                 var angle1 = finishedKeys[components[1]][0];
                 var angle2 = finishedKeys[components[1]][1];
 
-                console.log(angle1 + "," + angle2);
-
                 var useToProve = checkAngForHint(angle1, angle2, beforeEqualities);
                 if (useToProve.length > 0 && useToProve[0] instanceof Triang) {
                     return "You know that " + prettifyEquality(useToProve[0] + "," + useToProve[1]) + ". What angles can you prove equal from this?";
@@ -740,8 +723,6 @@ function getFillBlanksHint(giveAway) {
             else {
                 var seg1 = finishedKeys[components[1]][0];
                 var seg2 = finishedKeys[components[1]][1];
-
-                console.log(seg1 + "," + seg2);
 
                 var useToProve = checkSegForHint(seg1, seg2, beforeEqualities);
                 if (useToProve.length > 0) {
@@ -766,7 +747,6 @@ function getFillBlanksHint(giveAway) {
         }
         else {
             var firstMissing = $(".missing").first();
-            console.log(firstMissing);
             // if the next open spots are statements, not justifications
             if (!firstMissing.hasClass("missingReason")) {
                 var components = firstMissing[0].id.split("-");
@@ -929,7 +909,6 @@ function outputBadProof() {
         }
     });
     numberGivens /= 2;
-    console.log(knownKeys);
 
     for (var i = 0; i < knownKeys.length; i += 2) {
         if (knownEqualities[knownKeys[i]].substring(0, 4) != "Same") {
@@ -1093,7 +1072,6 @@ function addAngs(ang1, ang2) {
 // if you give traceBack a statement that is impossible because of some fact of the diagram given,
 // no man or God can help you
 function traceBack(statementKey, depth) {
-    console.log("running traceback with " + _.clone(statementKey));
     // if this statement is already known, we don't want to trace it back any more
     if (eqIn(statementKey, finishedEqualities)) {
         return;
@@ -1101,7 +1079,6 @@ function traceBack(statementKey, depth) {
 
     // if we have reached the depth we wanted to reach back in this proof, we don't trace it back any more
     if (depth === 0) {
-        console.log("0 depth");
         finishedEqualities[statementKey] = "given";
         finishedEqualities[statementKey.reverse()] = "given";
         finishedEqualitiesList.push(statementKey);
@@ -1212,8 +1189,6 @@ function traceBack(statementKey, depth) {
                 // established equality
                 // one or both triangles must not be in an equality for this relation to be possible
 
-                console.log("in shared segment case ");
-
                 if (!triangIn(triangle2, fixedTriangles)) {
                     triangle2.segs.rotate(indexDiff);
                     triangle2.angs.rotate(indexDiff);
@@ -1278,7 +1253,6 @@ function traceBack(statementKey, depth) {
 
             // triangle congruence case 2: triangles have vertical angles
             else if (verticalAngs != null) {
-                console.log("in vertical angles case");
                 // in this case we actually need to make sure we name the triangles correctly so that the corresponding angles are in
                 // the right places: so if angle BAC is = to angle DEF, don't have the triangle congruence be BAC = FDE
                 if (!triangIn(triangle2, fixedTriangles)) {
@@ -1336,7 +1310,6 @@ function traceBack(statementKey, depth) {
 
             // triangle congruence case 3: triangles have alternate interior angles
             else if (alternateAngs != null) {
-                console.log("in alternate angles case");
                 // in this case we actually need to make sure we name the triangles correctly so that the corresponding angles are in
                 // the right places: so if angle BAC is = to angle DEF, don't have the triangle congruence be BAC = FDE
                 if (!triangIn(triangle2, fixedTriangles)) {
@@ -1356,7 +1329,6 @@ function traceBack(statementKey, depth) {
 
                 // only use congruence theorems with angles (no SSS)
                 var congruence = KhanUtil.randRange(1, 3);
-                console.log(congruence);
 
                 if (congruence === 1) {
                     // with probability 0.5, we choose the congruency to be angle va, side va+1, angle va+1
@@ -1596,10 +1568,8 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep) {
         var key;
         for (var i = 0; i < keys.length; i++) {
             key = keys[i];
-            console.log("relation " + key + " is possible");
 
             if (KhanUtil.random() < givenProbability) {
-                console.log("setting relation " + key + " to Given");
                 finishedEqualities[key] = "given";
                 finishedEqualities[key.reverse()] = "given";
                 finishedEqualitiesList.push(key);
@@ -1616,7 +1586,6 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep) {
         }
     }
     else {
-        console.log("relation " + keys + " is not possible, tracing back " + oldKey);
         if (KhanUtil.random() < givenProbability) {
             // you have failed me for the last time
             finishedEqualities[oldKey] = "given";
@@ -1785,10 +1754,6 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
             && eqIn([triangle1.segs[i], triangle2.segs[i]], knownEqualities)) {
 
             if (reason === "AAS") {
-                console.log(i);
-                console.log(_.clone(_.map(triangle1.angs, function(ang) { return ang.mid; })));
-                console.log(_.clone(_.map(triangle2.angs, function(ang) { return ang.mid; })));
-                console.log(_.clone(knownEqualities));
                 knownEqualities[[triangle1, triangle2]] = "AAS";
                 knownEqualities[[triangle2, triangle1]] = "AAS";
                 return true;
