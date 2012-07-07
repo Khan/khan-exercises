@@ -1,50 +1,21 @@
-    var OPPS = ['\\cup', '\\cap', '-'];
-    var COLORS = [KhanUtil.BLUE, KhanUtil.GREEN, KhanUtil.ORANGE];
-
-    var SUBSETS = {
+$.extend(KhanUtil, {
+    SETS: ['A','B','C'],
+    OPPS: ['\\cup', '\\cap', '-'],
+    COLORS: [KhanUtil.BLUE, KhanUtil.GREEN, KhanUtil.ORANGE],
+    SUBSETS: {
         'A': [0,3,5,6],
         'B': [1,3,4,6],
         'C': [2,4,5,6]
-    };
-    var MEANINGS = {
+    },
+    MEANINGS: {
         '\\cup': 'or',
         '\\cap': 'and',
         '-': 'but not'
-        };
+    },
 
-$.extend(KhanUtil, {
-    SETS: ['A','B','C'],
-
-    vennDiagram: function(data, clickable) {
-        // @param data is array of amounts in regions in format: [A,B,C, AB,BC,AC, ABC]
+    vennRegion: function(points, circles, sweeps, label, clickable) {
 
         var SELECTED_OPACITY = 0.5;
-
-
-        /*
-        * gets the intersecting points between two circles
-        * source: http://code.google.com/p/js-venn/
-        */
-        var intersectingPoints = function(c1,c2) {
-            // serious maths follow... Beware
-            // Formulas nabbed from http://2000clicks.com/mathhelp/GeometryConicSectionCircleIntersection.aspx
-            var d = Math.sqrt(Math.pow((c2.x - c1.x),2) + Math.pow(c2.y - c1.y,2));
-            var d_sq = Math.pow(d,2); // d squared
-            var K = (.25)*Math.sqrt((Math.pow(c1.r+c2.r,2)-d_sq)*(d_sq-Math.pow(c1.r-c2.r,2)));
-            // split up the equations for readability
-            var xpart1 = (.5)*(c2.x+c1.x) + ((.5)*(c2.x-c1.x)*(Math.pow(c1.r,2) - Math.pow(c2.r,2))/d_sq);
-            var xpart2 = 2*(c2.y-c1.y)*K/d_sq;
-
-            var ypart1 = (.5)*(c2.y+c1.y) + ((.5)*(c2.y-c1.y)*(Math.pow(c1.r,2) - Math.pow(c2.r,2))/d_sq);
-            var ypart2 = 2*(c2.x-c1.x)*K/d_sq;
-            
-            var points = [];
-            points.push([xpart1 + xpart2, 
-                         ypart1 - ypart2]);
-            points.push([xpart1 - xpart2,
-                         ypart1 + ypart2]);
-            return points;
-        }
 
         var scaleAndJoin = function(x) {
             var temp = KhanUtil.currentGraph.scalePoint(x);
@@ -75,42 +46,73 @@ $.extend(KhanUtil, {
             return pathString;
         }
 
-        var vennRegion = function(points, circles, sweeps, label, clickable) {
-            var graph = KhanUtil.currentGraph;
-            var set = graph.raphael.set();
-            var pathString = vennRegionString (points, circles, sweeps);
-            if (sweeps[0] == 0 && !clickable) {
-                set.push(graph.label(getRegionCenter(points, circles, sweeps), '\\color{#555}{' +label+ '}'));
-            }
-            var pathObject = graph.raphael.path(pathString);
-            set.push(pathObject);
-            var bbox = pathObject.getBBox();
-            pathObject.attr({fill: '#aaa', 'fill-opacity': 0.0, stroke: 0, 'stroke-fill': "transparent"});
-            pathObject.hover(function(){
-                this.highlight((this.selected ? SELECTED_OPACITY : 0) + 0.3)
-            },
-            function(){
-                this.highlight(this.selected ? SELECTED_OPACITY : 0);
-            });
-            pathObject.highlight = function(opacity) {
-                this.animate({'fill-opacity': opacity}, 200);
-            }
-            pathObject.select = function(bool) {
-                this.selected = bool;
-                this.highlight(this.selected ? SELECTED_OPACITY : 0);
-            }
-            if (clickable) {
-                pathObject.attr({cursor: 'pointer'});
-                pathObject.click(function(){
-                    this.select(!this.selected);
-                });
-            }
-            return pathObject;
-        }
-        
         var getRegionCenter = function(points) {
             return [(points[0][0] + points[1][0] + points[2][0])/3, (points[0][1] + points[1][1] + points[2][1])/3];
         }
+
+        var graph = KhanUtil.currentGraph;
+        var set = graph.raphael.set();
+        var pathString = vennRegionString (points, circles, sweeps);
+        if (sweeps[0] == 0 && !clickable) {
+            set.push(graph.label(getRegionCenter(points, circles, sweeps), '\\color{#555}{' +label+ '}'));
+        }
+        var region = graph.raphael.path(pathString);
+        set.push(region);
+
+        region.attr({fill: '#aaa', 'fill-opacity': 0.0, stroke: 0, 'stroke-fill': "transparent"});
+        region.hover(function(){
+            this.highlight((this.selected ? SELECTED_OPACITY : 0) + 0.3)
+        },
+        function(){
+            this.highlight(this.selected ? SELECTED_OPACITY : 0);
+        });
+
+        region.highlight = function(opacity) {
+            this.animate({'fill-opacity': opacity}, 200);
+        }
+        region.select = function(bool) {
+            this.selected = bool;
+            this.highlight(this.selected ? SELECTED_OPACITY : 0);
+        }
+
+        if (clickable) {
+            region.attr({cursor: 'pointer'});
+            region.click(function(){
+                this.select(!this.selected);
+            });
+        }
+        return region;
+    },
+
+    vennDiagram: function(data, clickable) {
+        // @param data is array of amounts in venn diagram regions in format: [A,B,C, AB,BC,AC, ABC]
+
+        /*
+        * gets the intersecting points between two circles
+        * source: http://code.google.com/p/js-venn/
+        */
+        var intersectingPoints = function(c1,c2) {
+            // serious maths follow... Beware
+            // Formulas nabbed from http://2000clicks.com/mathhelp/GeometryConicSectionCircleIntersection.aspx
+            var d = Math.sqrt(Math.pow((c2.x - c1.x),2) + Math.pow(c2.y - c1.y,2));
+            var d_sq = Math.pow(d,2); // d squared
+            var K = (.25)*Math.sqrt((Math.pow(c1.r+c2.r,2)-d_sq)*(d_sq-Math.pow(c1.r-c2.r,2)));
+            // split up the equations for readability
+            var xpart1 = (.5)*(c2.x+c1.x) + ((.5)*(c2.x-c1.x)*(Math.pow(c1.r,2) - Math.pow(c2.r,2))/d_sq);
+            var xpart2 = 2*(c2.y-c1.y)*K/d_sq;
+
+            var ypart1 = (.5)*(c2.y+c1.y) + ((.5)*(c2.y-c1.y)*(Math.pow(c1.r,2) - Math.pow(c2.r,2))/d_sq);
+            var ypart2 = 2*(c2.x-c1.x)*K/d_sq;
+            
+            var points = [];
+            points.push([xpart1 + xpart2, 
+                         ypart1 - ypart2]);
+            points.push([xpart1 - xpart2,
+                         ypart1 + ypart2]);
+            return points;
+        }
+
+
 
         var drawRegion = function(points, circles, label, i,inOrOut, sweeps, clickable) {
             var ps = [];
@@ -119,7 +121,7 @@ $.extend(KhanUtil, {
                 ps.push(points[(i+j) % points.length][(inOrOut + sweeps[(j+1) % sweeps.length] +1) % 2]);
                 cs.push(circles[(i+j+1) % circles.length]);
             });
-            var intersection = vennRegion(ps,cs, sweeps, label, clickable)
+            var intersection = KhanUtil.vennRegion(ps,cs, sweeps, label, clickable)
             return intersection;
         }
 
@@ -143,7 +145,7 @@ $.extend(KhanUtil, {
 
         var c =[];
         $.each(labels, function(i, l) {
-            c[i] = {r: Math.sqrt(KhanUtil.arraySum(KhanUtil.arraySelect(data,SUBSETS[l])))/2};
+            c[i] = {r: Math.sqrt(KhanUtil.arraySum(KhanUtil.arraySelect(data,KhanUtil.SUBSETS[l])))/2};
         });
 
         c[0].x = c[0].r + 1;
@@ -157,7 +159,7 @@ $.extend(KhanUtil, {
 
         $.each(c, function(i, circle) {
             set.push(graph.circle([circle.x, circle.y],circle.r, {
-                stroke: COLORS[i],
+                stroke: KhanUtil.COLORS[i],
                 'stroke-width': 3,
                 fill: "none"
             }));
@@ -170,7 +172,7 @@ $.extend(KhanUtil, {
         lCenter[2] = [c[2].x + c[2].r, c[2].y + c[2].r];
 
         $.each(labels, function(i, label) {
-            set.push(graph.label(lCenter[i],"\\color{"+ COLORS[i] +"}{" + label +"}"));
+            set.push(graph.label(lCenter[i],"\\color{"+ KhanUtil.COLORS[i] +"}{" + label +"}"));
         });
 
         var labelPos = [];
@@ -217,7 +219,7 @@ $.extend(KhanUtil, {
         var sets = this.shuffle(this.SETS);
         var ret = [sets[0]];
         for (var i = 1; i < count; i++) {
-            ret.push(this.randFromArray(OPPS));
+            ret.push(this.randFromArray(this.OPPS));
             ret.push(sets[i % sets.length]);
         }
         if (count == 3) {
@@ -228,7 +230,7 @@ $.extend(KhanUtil, {
 
     colorSets: function(str) {
         $.each (this.SETS, function(i, set) { 
-            str = str.replace(new RegExp(set, 'g'),"\\color{"+COLORS[i] +"}{"+ set +"}");
+            str = str.replace(new RegExp(set, 'g'),"\\color{"+KhanUtil.COLORS[i] +"}{"+ set +"}");
         });
         return str;
     },
@@ -275,7 +277,7 @@ $.extend(KhanUtil, {
             case 'A': 
             case 'B': 
             case 'C': 
-                return SUBSETS[symbol];
+                return this.SUBSETS[symbol];
             case '\\cup': 
                 return union(set1,set2);
             case '\\cap': 
