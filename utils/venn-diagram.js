@@ -1,16 +1,14 @@
 $.extend(KhanUtil, {
-    SETS: ['A','B','C'],
     OPPS: ['\\cup', '\\cap', '-'],
-    COLORS: [KhanUtil.BLUE, KhanUtil.GREEN, KhanUtil.ORANGE],
-    SUBSETS: {
-        'A': [0,3,5,6],
-        'B': [1,3,4,6],
-        'C': [2,4,5,6]
-    },
     MEANINGS: {
         '\\cup': 'or',
         '\\cap': 'and',
         '-': 'but not'
+    },
+    setColors: {
+        'A': KhanUtil.BLUE, 
+        'B': KhanUtil.GREEN, 
+        'C': KhanUtil.ORANGE,
     },
 
     vennRegion: function(points, circles, sweeps, label, clickable) {
@@ -93,7 +91,7 @@ $.extend(KhanUtil, {
         return region;
     },
 
-    vennDiagram: function(data, clickable) {
+    vennDiagram: function(labels, data, clickable) {
         // @param data is array of amounts in venn diagram regions in format: [A,B,C, AB,BC,AC, ABC]
 
         /*
@@ -128,62 +126,79 @@ $.extend(KhanUtil, {
                 ps.push(points[(i+j) % points.length][(inOrOut + sweeps[(j+1) % sweeps.length] +1) % 2]);
                 cs.push(circles[(i+j+1) % circles.length]);
             });
-            var intersection = KhanUtil.vennRegion(ps,cs, sweeps, label, clickable)
-            return intersection;
+            var region = KhanUtil.vennRegion(ps,cs, sweeps, label, clickable)
+            return region;
+        }
+
+        var draw2partVennRegions = function(circles, labels, clickable) {
+            var points = intersectingPoints(circles[1], circles[0]);
+            var sweeps = [[0,1],[1,0],[1,1]];
+
+            var regions = [];
+            $.each(labels, function(i, label) {
+                regions.push(KhanUtil.vennRegion(points,circles, sweeps[i], labels[i], clickable));
+            });
+            return regions;
         }
 
         var drawRegions = function(circles, labels, clickable) {
+            if (circles.length == 2) {
+                return draw2partVennRegions(circles, labels, clickable);
+
+            }
             var points = [];
             $.each(circles, function(i, c) {
                 points.push(intersectingPoints(c, circles[(i+1)%circles.length]));
             });
-            var intersections = [];
+            var regions = [];
             $.each(points, function(i, p) {
-                intersections[i] = (drawRegion(points, circles, labels[i],    i, 0, [1,1,0], clickable));
-                intersections[(i+2) % 3 + 3] = (drawRegion(points, circles, labels[(i+2) % 3 + 3],  i, 1, [0,1,1], clickable));
+                regions[i] = (drawRegion(points, circles, labels[i],    i, 0, [1,1,0], clickable));
+                regions[(i+2) % 3 + 3] = (drawRegion(points, circles, labels[(i+2) % 3 + 3],  i, 1, [0,1,1], clickable));
             });
-            intersections.push(drawRegion(points, circles, labels[6],  0, 0, [0,0,0], clickable));
-            return intersections;
+            regions.push(drawRegion(points, circles, labels[6],  0, 0, [0,0,0], clickable));
+            return regions;
         }
         
         var getCircles = function(data, labels) {
             var c =[];
             $.each(labels, function(i, l) {
-                c[i] = {r: Math.sqrt(KhanUtil.arraySum(KhanUtil.arraySelect(data,KhanUtil.SUBSETS[l])))/2};
+                c[i] = {r: Math.sqrt(KhanUtil.arraySum(KhanUtil.arraySelect(data,KhanUtil.regions[l])))/2};
+                c[i].x = 1 + c[0].r;
+                c[i].y = 1 + c[0].r;
+                if (i == 1) {
+                    c[i].x += Math.max(c[i].r,c[i-1].r);
+                } else if (i == 2) {
+                    c[i].x += c[i].r/2;
+                    c[i].y += c[i].r;
+                }
             });
-
-            c[0].x = c[0].r + 1;
-            c[0].y = c[0].r + 1;
-            c[1].x = c[0].r + c[1].r + 1;
-            c[1].y = c[0].r + 1;
-            c[2].x = c[0].r + c[2].r/2 + 1;
-            c[2].y = c[0].r + c[2].r + 1;
             return c;
         }
 
         var drawCircles = function(c, labels) {
             var graph = KhanUtil.currentGraph;
             var set = graph.raphael.set();
-            var lCenter =[];
-            lCenter[0] = [c[0].x - c[0].r, c[0].y - c[0].r];
-            lCenter[1] = [c[1].x + c[1].r, c[1].y - c[1].r];
-            lCenter[2] = [c[2].x + c[2].r, c[2].y + c[2].r];
+            var sign = [
+                [-1,-1],
+                [1,-1],
+                [1,1]
+            ];
             
             var circles = []
             $.each(c, function(i, circle) {
-                var circle = graph.circle([circle.x, circle.y],circle.r, { stroke: KhanUtil.COLORS[i], 'stroke-width': 3, });
+                var circle = graph.circle([circle.x, circle.y],circle.r, { stroke: KhanUtil.setColors[labels[i]], 'stroke-width': 3, });
                 circles.push(circle);
                 set.push(circle);
-                set.push(graph.label(lCenter[i],"\\color{"+ KhanUtil.COLORS[i] +"}{" + labels[i] +"}"));
+                set.push(graph.label([c[i].x + sign[i][0] * c[i].r, c[i].y + sign[i][1]* c[i].r],"\\color{"+ KhanUtil.setColors[labels[i]] +"}{" + labels[i] +"}"));
             });
             return circles;
         }
 
-        var c = getCircles(data, this.SETS);
+        var c = getCircles(data, labels);
 
         var venn = {
             regions: drawRegions(c, data, clickable),
-            circles: drawCircles(c, this.SETS),
+            circles: drawCircles(c, labels),
 
             selectRegions: function(indexes, reset) {
                if (reset) {
@@ -211,8 +226,10 @@ $.extend(KhanUtil, {
         return venn;
     },
 
-    randSubsetExpression: function(count) {
-        var sets = this.shuffle(this.SETS);
+    randSubsetExpression: function(sets, count) {
+        this.initSubsets(sets);
+        this.sets = sets;
+        var sets = this.shuffle(sets);
         var ret = [sets[0]];
         for (var i = 1; i < count; i++) {
             ret.push(this.randFromArray(this.OPPS));
@@ -225,8 +242,8 @@ $.extend(KhanUtil, {
     },
 
     colorSets: function(str) {
-        $.each (this.SETS, function(i, set) { 
-            str = str.replace(new RegExp(set, 'g'),"\\color{"+KhanUtil.COLORS[i] +"}{"+ set +"}");
+        $.each (this.sets, function(i, set) { 
+            str = str.replace(new RegExp(set, 'g'),"\\color{"+KhanUtil.setColors[set] +"}{"+ set +"}");
         });
         return str;
     },
@@ -273,7 +290,7 @@ $.extend(KhanUtil, {
             case 'A': 
             case 'B': 
             case 'C': 
-                return this.SUBSETS[symbol];
+                return this.regions[symbol];
             case '\\cup': 
                 return union(set1,set2);
             case '\\cap': 
@@ -295,6 +312,21 @@ $.extend(KhanUtil, {
 
                 }
                 return [];
+        }
+    },
+
+    initSubsets: function(sets) {
+        if (sets.length == 3) {
+        this.regions = {
+            'A': [0,3,5,6],
+            'B': [1,3,4,6],
+            'C': [2,4,5,6]
+        }
+        } else {
+        this.regions = {
+            'A': [0,2],
+            'B': [1,2]
+        }
         }
     },
 
