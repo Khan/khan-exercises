@@ -46,16 +46,21 @@ $.extend(KhanUtil, {
             return pathString;
         }
 
-        var getRegionCenter = function(points) {
-            return [(points[0][0] + points[1][0] + points[2][0])/3, (points[0][1] + points[1][1] + points[2][1])/3];
+        var getRegionCenter = function(path) {
+            var parts = 10;
+            var step = path.getTotalLength() / parts;
+            var points = [0,0];
+            for (var i = 0; i < parts; i++) {
+                var point = path.getPointAtLength(i*step);
+                points[0] += point.x;
+                points[1] += point.y;
+            }
+            return [points[0]/parts, points[1]/parts];
         }
 
         var graph = KhanUtil.currentGraph;
         var set = graph.raphael.set();
         var pathString = vennRegionString (points, circles, sweeps);
-        if (sweeps[0] == 0 && !clickable) {
-            set.push(graph.label(getRegionCenter(points, circles, sweeps), '\\color{#555}{' +label+ '}'));
-        }
         var region = graph.raphael.path(pathString);
         set.push(region);
 
@@ -80,6 +85,9 @@ $.extend(KhanUtil, {
             region.click(function(){
                 this.select(!this.selected);
             });
+        } else {
+            var center = getRegionCenter(region);
+            set.push(graph.raphael.text(center[0], center[1], label).attr({'font-size': 15}).toBack());
         }
         return region;
     },
@@ -161,7 +169,6 @@ $.extend(KhanUtil, {
             set.push(graph.circle([circle.x, circle.y],circle.r, {
                 stroke: KhanUtil.COLORS[i],
                 'stroke-width': 3,
-                fill: "none"
             }));
         });
 
@@ -173,17 +180,6 @@ $.extend(KhanUtil, {
 
         $.each(labels, function(i, label) {
             set.push(graph.label(lCenter[i],"\\color{"+ KhanUtil.COLORS[i] +"}{" + label +"}"));
-        });
-
-        var labelPos = [];
-        labelPos.push([c[0].x - c[0].r/2, c[0].y - c[0].r/2]);
-        labelPos.push([c[1].x + c[1].r/2, c[1].y - c[1].r/2]);
-        labelPos.push([c[2].x, c[2].y + c[2].r/2]);
-
-        $.each(labelPos, function(i, pos) {
-            if (!clickable) {
-                set.push(graph.label(pos,"\\color{#333}{" + data[i] +"}"));
-            }
         });
 
         var venn = {
