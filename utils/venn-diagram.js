@@ -87,6 +87,7 @@ $.extend(KhanUtil, {
             });
         } else {
             var center = getRegionCenter(region);
+            // KhanUtil.label cannot be used here for two reasons: 1) toBack() doesn't work; 2) can't get untrasformed center coordinates
             set.push(graph.raphael.text(center[0], center[1], label).attr({'font-size': 15}).toBack());
         }
         return region;
@@ -120,8 +121,6 @@ $.extend(KhanUtil, {
             return points;
         }
 
-
-
         var drawRegion = function(points, circles, label, i,inOrOut, sweeps, clickable) {
             var ps = [];
             var cs = [];
@@ -146,44 +145,45 @@ $.extend(KhanUtil, {
             intersections.push(drawRegion(points, circles, labels[6],  0, 0, [0,0,0], clickable));
             return intersections;
         }
+        
+        var getCircles = function(data, labels) {
+            var c =[];
+            $.each(labels, function(i, l) {
+                c[i] = {r: Math.sqrt(KhanUtil.arraySum(KhanUtil.arraySelect(data,KhanUtil.SUBSETS[l])))/2};
+            });
 
-        var labels = this.SETS;
-        var graph = this.currentGraph;
-        var set = graph.raphael.set();
+            c[0].x = c[0].r + 1;
+            c[0].y = c[0].r + 1;
+            c[1].x = c[0].r + c[1].r + 1;
+            c[1].y = c[0].r + 1;
+            c[2].x = c[0].r + c[2].r/2 + 1;
+            c[2].y = c[0].r + c[2].r + 1;
+            return c;
+        }
 
-        var c =[];
-        $.each(labels, function(i, l) {
-            c[i] = {r: Math.sqrt(KhanUtil.arraySum(KhanUtil.arraySelect(data,KhanUtil.SUBSETS[l])))/2};
-        });
+        var drawCircles = function(c, labels) {
+            var graph = KhanUtil.currentGraph;
+            var set = graph.raphael.set();
+            var lCenter =[];
+            lCenter[0] = [c[0].x - c[0].r, c[0].y - c[0].r];
+            lCenter[1] = [c[1].x + c[1].r, c[1].y - c[1].r];
+            lCenter[2] = [c[2].x + c[2].r, c[2].y + c[2].r];
+            
+            var circles = []
+            $.each(c, function(i, circle) {
+                var circle = graph.circle([circle.x, circle.y],circle.r, { stroke: KhanUtil.COLORS[i], 'stroke-width': 3, });
+                circles.push(circle);
+                set.push(circle);
+                set.push(graph.label(lCenter[i],"\\color{"+ KhanUtil.COLORS[i] +"}{" + labels[i] +"}"));
+            });
+            return circles;
+        }
 
-        c[0].x = c[0].r + 1;
-        c[0].y = c[0].r + 1;
-        c[1].x = c[0].r + c[1].r + 1;
-        c[1].y = c[0].r + 1;
-        c[2].x = c[0].r + c[2].r/2 + 1;
-        c[2].y = c[0].r + c[2].r + 1;
-
-        var regions = drawRegions(c, data, clickable);
-
-        $.each(c, function(i, circle) {
-            set.push(graph.circle([circle.x, circle.y],circle.r, {
-                stroke: KhanUtil.COLORS[i],
-                'stroke-width': 3,
-            }));
-        });
-
-
-        var lCenter =[];
-        lCenter[0] = [c[0].x - c[0].r, c[0].y - c[0].r];
-        lCenter[1] = [c[1].x + c[1].r, c[1].y - c[1].r];
-        lCenter[2] = [c[2].x + c[2].r, c[2].y + c[2].r];
-
-        $.each(labels, function(i, label) {
-            set.push(graph.label(lCenter[i],"\\color{"+ KhanUtil.COLORS[i] +"}{" + label +"}"));
-        });
+        var c = getCircles(data, this.SETS);
 
         var venn = {
-            regions: regions,
+            regions: drawRegions(c, data, clickable),
+            circles: drawCircles(c, this.SETS),
 
             selectRegions: function(indexes, reset) {
                if (reset) {
