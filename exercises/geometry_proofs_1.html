@@ -259,14 +259,13 @@
 
                 for(var line in graph.congruency.lines){
                     for(var line2 in graph.congruency.lines){
-
-                        $(function(){
+                        (function() {
                             var $statement = $("."+line+"-"+line2);
                             var firstLine = graph.congruency.lines[line];
                             var secondLine = graph.congruency.lines[line2];
 
                             if($statement.length &gt; 0){
-                                $statement.bind("vmouseover", function(event) {
+                                $statement.live("vmouseover", function(event) {
                                     firstLine.setHighlighted({
                                         stroke: ORANGE,
                                         "stroke-width": 3
@@ -291,19 +290,19 @@
                                     "stroke-width": 2
                                 });
                             }
-                        });
+                        })();
                     }
                 }
 
                 for(var angle in graph.congruency.angles){
                     for(var angle2 in graph.congruency.angles){
-                        $(function(){
+                        (function(){
                             var $statement = $("."+angle+"-"+angle2);
                             var firstAngle = graph.congruency.angles[angle];
                             var secondAngle = graph.congruency.angles[angle2];
 
                             if($statement.length &gt; 0){
-                                $statement.bind("vmouseover", function(event) {
+                                $statement.live("vmouseover", function(event) {
                                     var firstState = firstAngle.state;
                                     var secondState = secondAngle.state;
                                     var maxState = Math.max(firstState,secondState);
@@ -332,18 +331,18 @@
                                     });
                                 });
                             }
-                        });
+                        })();
                     }
                 }
 
                 for(var line in graph.congruency.lines){
-                    $(function(){
+                    (function(){
                         var $statements = $("."+line);
                         for(var i = 0; i&lt;$statements.length; i++){
                             var highlightLine = graph.congruency.lines[line];
                             var highlightDiv = $($statements[i]);
 
-                            highlightDiv.bind("vmouseover", function(event) {
+                            highlightDiv.live("vmouseover", function(event) {
                                 highlightLine.setHighlighted({
                                     stroke: ORANGE,
                                     "stroke-width": 3
@@ -356,17 +355,17 @@
                                 });
                             });
                         }
-                    });
+                    })();
                 }
 
                 for(var line in graph.congruency.lines){
-                    $(function(){
+                    (function(){
                         var $statements = $("."+line + "2");
                         for(var i = 0; i&lt;$statements.length; i++){
                             var highlightLine = graph.congruency.lines[line];
                             var highlightDiv = $($statements[i]);
 
-                            highlightDiv.bind("vmouseover", function(event) {
+                            highlightDiv.live("vmouseover", function(event) {
                                 highlightLine.setHighlighted({
                                     stroke: BLUE,
                                     "stroke-width": 3
@@ -380,7 +379,7 @@
                                 });
                             });
                         }
-                    });
+                    })();
                 }
 
             </div>
