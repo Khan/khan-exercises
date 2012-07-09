@@ -148,30 +148,53 @@
                         $(".hint2").hide();
                         $(".hint3").hide();
 
-                        var hint = "you haven't entered anything!";
+                        var hint = nextStatementHint();
 
                         $(".nextStatement input").keyup(function(){
-                            var triangles = [];
-                            triangles[0] = $("#thing1").val();
-                            triangles[1] = $("#thing2").val();
+                            var thing1 = $("#thing1").val().toUpperCase();
+                            var thing2 = $("#thing2").val().toUpperCase();
                             var reason = $("#reason").val();
 
-                            var verify = verifyStatementArgs(triangles[0]+"="+triangles[1], reason, "triangle congruence");
-                            if(verify.length > 0){
-                                hint = verify;
+                            if(thing1.length === 0 && thing2.length === 0){
+                                hint = nextStatementHint();
+                                return;
                             }
-                            else if(!verify){
-                                hint = "you've put in triangles that are in the figure, but your reason isn't right.";
-                            }
-                            else{
-                                hint = "you've already finished! Hit the check answer button."
+
+                            var verifyTriangles = verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence");
+                            var verifyAngles = verifyStatementArgs(thing1+"="+thing2, reason, "angle equality");
+                            var verifySegments = verifyStatementArgs(thing1+"="+thing2, reason, "segment equality");
+
+                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
                                 _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
-                                $(".nextStatement").hide();
+                                console.log("thinks statement is true");
+                                $("#thing1").val("");
+                                $("#thing2").val("");
+                                $("#reason").val("");
+                                if(userProofDone === true){
+                                    $(".nextStatement").hide();
+                                    $("#hint").attr("disabled", true);
+                                }
+                                else{
+                                    hint = nextStatementHint();
+                                }
+                            }
+                            else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
+                                hint = nextStatementHint();
+                            }
+                            else{
+                                hint = "The things you've entered aren't valid segments, angles, or triangles in the figure.";
                             }
                             console.log(hint);
                         });
                         $("#reason").change(function(){ 
+                            var curVal = $("#reason").val();
+                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
+                                $("#symbol1").html(" \\triangle ");
+                                $("#symbol2").html(" \\triangle ");
+                            }
+                            $("#symbol1").html(" \\angle ");
+                            $.tmpl.type.code()($("#symbol1")[0]);
                             $(".nextStatement input").keyup(); 
                         });
 
@@ -195,13 +218,16 @@
 
                 <p class="statements"> <var> outputKnownProof() </var></p>
                 <p class="nextStatement">
-                    <code> \bigtriangleup </code> <input type="text" id="thing1"></input> <code> =  \bigtriangleup </code> <input type="text" id="thing2" > </input> because 
+                    <code id="symbol1"></code> <input type="text" id="thing1"></input> <code> \cong </code> <code id="symbol2"></code> <input type="text" id="thing2" > </input> because 
                     <select id="reason">
                         <option value="">select a reason</option>
                         <option value="SSS">side-side-side congruence</option>
                         <option value="ASA">angle-side-angle congruence</option>
                         <option value="SAS">side-angle-side congruence</option>
                         <option value="AAS">angle-angle-side congruence</option>
+                        <option value="vertical angles">vertical angles are equal</option>
+                        <option value="alternate angles">alternate interior angles are equal</option>
+                        <option value="CPCTC">corresp. parts of congruent triangles are congruent</option>
                     </select>
                 </p>
                 <div class="customHints">

@@ -373,7 +373,7 @@ function nextStatementHint() {
         }
 
     }
-    return "Sorry, no hint for now >:[";
+    return "Sorry, there seems to be a problem with the hint system. Please report this bug.";
 }
 
 
@@ -382,8 +382,9 @@ function nextStatementHint() {
 function outputFinishedProof() {
     var proofText = "<h3>Givens</h3>";
 
-    var unsortedKeyList = _.map(finishedEqualitiesList, function(key) { return key.toString(); });
-    var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
+    var unsortedKeyList = _.clone(finishedEqualitiesList);
+    var finishedKeysList = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
+    var finishedKeys = _.map(finishedKeysList, function(key) { return key.toString(); });
 
     var possibleValids = [];
 
@@ -432,7 +433,7 @@ function outputFinishedProof() {
 function outputKnownProof() {
     var proofText = "<h3>Givens</h3>";
 
-    var knownKeys = sortEqualityList(_.keys(knownEqualities), knownEqualities);
+    var knownKeys = sortEqualityStringList(_.keys(knownEqualities), knownEqualities);
 
     var numberGivens = 0;
     _.each(knownKeys, function(key) {
@@ -478,8 +479,9 @@ function outputFillBlanksProof() {
     var blanks = 0;
     var blankStatements = 0;
 
-    var unsortedKeyList = _.map(finishedEqualitiesList, function(key) { return key.toString(); });
-    var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
+    var unsortedKeyList = _.clone(finishedEqualitiesList);
+    var finishedKeysList = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
+    var finishedKeys = _.map(finishedKeysList, function(key) { return key.toString(); });
 
     var numberGivens = 0;
     _.each(finishedKeys, function(key) {
@@ -487,11 +489,10 @@ function outputFillBlanksProof() {
             numberGivens++;
         }
     });
-    numberGivens /= 2;
 
     var newEqualities = {};
 
-    for (var i = 0; i < finishedKeys.length; i += 2) {
+    for (var i = 0; i < finishedKeys.length; i++) {
         if (finishedEqualities[finishedKeys[i]].substring(0, 4) != "Same") {
             if (finishedEqualities[finishedKeys[i]] === "given") {
                 numberGivens--;
@@ -574,7 +575,7 @@ function checkFillBlanksStatement(divID) {
     // for now, hardcode these
     var equivAngles = {"BAE" : "BAC", "EAB" : "CAB", "DAE" : "DAC", "EAD" : "CAD", "ABD" : "ABC", "DBA" : "CBA", "EBD" : "EBC", "DBE" : "CBE",
                         "BEA" : "BEC", "AEB" : "CEB", "DEA" : "DEC", "AED" : "CED", "BDE" : "CDE", "EDB" : "EDC", "ADB" : "ADC", "BDA" : "CDA"};
-    var unsortedKeyList = _.map(finishedEqualitiesList, function(key) { return _.clone(key); });
+    var unsortedKeyList = _.clone(finishedEqualitiesList);
     var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
 
     var components = divID.split("-");
@@ -687,7 +688,7 @@ function checkFillBlanksReason(select, selectID) {
 // for fill-in-the-blanks proofs, this hint function looks for the next missing reason, and generate a hint based
 // on that using nextStatementHint()
 function getFillBlanksHint(giveAway) {
-    var unsortedKeyList = _.map(finishedEqualitiesList, function(key) { return _.clone(key); });
+    var unsortedKeyList = _.clone(finishedEqualitiesList);
     var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
 
     if (!giveAway) {
@@ -701,6 +702,17 @@ function getFillBlanksHint(giveAway) {
             var beforeEqualities = {};
             for (var i = 0; i < finishedKeys.length; i++) {
                 beforeEqualities[finishedKeys[i]] = finishedEqualities[finishedKeys[i]];
+            }
+            for (var i = 0; i < SEGMENTS.length; i++) {
+                beforeEqualities[[SEGMENTS[i], SEGMENTS[i]]] = "Same segment";
+            }
+
+            for (var i = 0; i < ANGLES.length; i++) {
+                beforeEqualities[[ANGLES[i], ANGLES[i]]] = "Same angle";
+            }
+
+            for (var i = 0; i < TRIANGLES.length; i++) {
+                beforeEqualities[[TRIANGLES[i], TRIANGLES[i]]] = "Same triangle";
             }
 
             if (components[0] === "t") {
@@ -906,7 +918,7 @@ function outputBadProof() {
 
     // now construct the proof we want to hand to the exercise
     var proofText = "<h3>Givens</h3>";
-    var knownKeys = sortEqualityList(_.keys(knownEqualities), knownEqualities);
+    var knownKeys = sortEqualityStringList(_.keys(knownEqualities), knownEqualities);
 
     var numberGivens = 0;
     _.each(knownKeys, function(key) {
@@ -1443,7 +1455,7 @@ function traceBack(statementKey, depth) {
                 var trianglePair = newTriangles[KhanUtil.randRange(0, newTriangles.length - 1)];
 
                 // there has to be a better way of doing this
-                // _indexOf doesn't work (because of === issues?)
+                // _.indexOf doesn't work (because of === issues?)
                 var index1;
                 for (var i = 0; i < trianglePair[0].segs.length; i++) {
                     if (trianglePair[0].segs[i].equals(seg1)) {
@@ -1918,7 +1930,7 @@ function checkTriangleForHint(triangle1, triangle2, equalityObject) {
             && eqIn([triangle1.angs[(i + 1) % 3], triangle2.angs[(i + 1) % 3]], equalityObject)
             && eqIn([triangle1.segs[(i + 2) % 3], triangle2.segs[(i + 2) % 3]], equalityObject)) {
             return [[triangle1.angs[i], triangle2.angs[i]],
-             [triangle1.segs[(i + 2) % 3], triangle2.segs[(i + 2) % 3]], [triangle1.segs[(i + 2) % 3], triangle2.segs[(i + 2) % 3]]];
+             [triangle1.angs[(i + 1) % 3], triangle2.angs[(i + 1) % 3]], [triangle1.segs[(i + 2) % 3], triangle2.segs[(i + 2) % 3]]];
         }
     }
 
@@ -1944,13 +1956,27 @@ function checkSegForHint(seg1, seg2, equalityObject) {
     //     return [];
     // }
 
-
     for (var i = 0; i < seg1.triangles.length; i++) {
         for (var j = 0; j < seg2.triangles.length; j++) {
+            var index1;
+            for (var k = 0; k < seg1.triangles[i][0].segs.length; k++) {
+                if (seg1.triangles[i][0].segs[k].equals(seg1)) {
+                    index1 = k;
+                }
+            }
+
+            var index2;
+            for (var k = 0; k < seg2.triangles[j][0].segs.length; k++) {
+                if (seg2.triangles[j][0].segs[k].equals(seg2)) {
+                    index2 = k;
+                }
+            }
+
             // if the segments' corresponding triangles are congruent AND they're the same part of those triangles, we add
             // to the known equalities
             if (eqIn([seg1.triangles[i][0], seg2.triangles[j][0]], equalityObject)
-                && _.indexOf(seg1, seg1.triangles[i][0].segs) === _.indexOf(seg2, seg2.triangles[j][0].segs)) {
+                && index1 === index2) {
+
                 return [seg1.triangles[i][0], seg2.triangles[j][0]];
             }
         }
@@ -1969,8 +1995,23 @@ function checkAngForHint(ang1, ang2, equalityObject) {
     // to the known
     for (var i = 0; i < ang1.triangles.length; i++) {
         for (var j = 0; j < ang2.triangles.length; j++) {
+
+            var index1;
+            for (var k = 0; k < ang1.triangles[i][0].angs.length; k++) {
+                if (ang1.triangles[i][0].angs[k].equals(ang1)) {
+                    index1 = k;
+                }
+            }
+
+            var index2;
+            for (var k = 0; k < ang2.triangles[j][0].angs.length; k++) {
+                if (ang2.triangles[j][0].angs[k].equals(ang2)) {
+                    index2 = k;
+                }
+            }
+
             if (eqIn([ang1.triangles[i][0], ang2.triangles[j][0]], equalityObject)
-                && _.indexOf(ang1, ang1.triangles[i][0].angs) === _.indexOf(ang2, ang2.triangles[j][0].angs)) {
+                && index1 === index2) {
                 return [ang1.triangles[i][0], ang2.triangles[j][0]];
             }
         }
@@ -2097,6 +2138,30 @@ function triangIn(item, object) {
 // also, since we add the vertical angles and alternate angles before the triangles they prove, we need to move these
 // forward in the list
 function sortEqualityList(equalityList, equalityObject) {
+    var dupCheck = {};
+    var newEqualityList = [];
+    for (var i = 0; i < equalityList.length; i++) {
+        if (equalityObject[equalityList[i]] === "given" && !(equalityList[i] in dupCheck || equalityList[i].reverse() in dupCheck)) {
+            newEqualityList.unshift(equalityList[i]);
+            dupCheck[equalityList[i]] = true;
+        }
+        else if(!(equalityList[i] in dupCheck || equalityList[i].reverse() in dupCheck)) {
+            newEqualityList.push(equalityList[i]);
+            dupCheck[equalityList[i]] = true;
+        }
+    }
+    var sortedEqualityList = _.clone(newEqualityList);
+    for (var i = 0; i < newEqualityList.length; i++) {
+        if (equalityObject[newEqualityList[i]] === "vertical angles are equal" || equalityObject[newEqualityList[i]] === "alternate interior angles are equal") {
+            sortedEqualityList[i - 1] = newEqualityList[i];
+            sortedEqualityList[i] = newEqualityList[i - 1];
+        }
+    }
+
+    return sortedEqualityList;
+}
+
+function sortEqualityStringList(equalityList, equalityObject) {
     var newEqualityList = [];
     for (var i = 0; i < equalityList.length; i++) {
         if (equalityObject[equalityList[i]] === "given") {
