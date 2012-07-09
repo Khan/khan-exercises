@@ -1930,7 +1930,7 @@ var Khan = (function() {
                 problem_type: problemID,
 
                 // What mode we're in
-                mode: Exercises.mode,
+                mode: !testMode && Exercises.mode,
 
                 // Whether we are currently working on a topic, as opposed to an exercise
                 topic_mode: (!testMode && Exercises.mode != "review" && !Exercises.practiceMode) ? 1 : 0,
@@ -1954,7 +1954,7 @@ var Khan = (function() {
                 cards_left: !testMode && (Exercises.incompleteStack.length - 1),
 
                 //Get Custom Stack Id if it exists
-                custom_stack_id: Exercises.completeStack.getCustomStackID()
+                custom_stack_id: !testMode && Exercises.completeStack.getCustomStackID()
             };
         }
 
