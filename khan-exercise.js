@@ -1954,7 +1954,7 @@ var Khan = (function() {
                 cards_left: !testMode && (Exercises.incompleteStack.length - 1),
 
                 //Get Custom Stack Id if it exists
-                custom_stack_id: testMode ? 0 : Exercises.completeStack.getCustomStackID()
+                custom_stack_id: testMode ? 0 : (Exercises.completeStack.getCustomStackID != null ? Exercises.completeStack.getCustomStackID() : 0)
             };
         }
 
