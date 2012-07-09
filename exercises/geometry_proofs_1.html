@@ -255,33 +255,27 @@
                 });
 
                 for(var line in graph.congruency.lines){
-                            for(var line2 in graph.congruency.lines){
+                    for(var line2 in graph.congruency.lines){
 
-                                $(function(){
-                                    var $statement = $("."+line+"-"+line2);
-                                    var firstLine = graph.congruency.lines[line];
-                                    var secondLine = graph.congruency.lines[line2];
+                        $(function(){
+                            var $statement = $("."+line+"-"+line2);
+                            var firstLine = graph.congruency.lines[line];
+                            var secondLine = graph.congruency.lines[line2];
 
-                                    if($statement.length &gt; 0){
-                                        $statement.bind("vmouseover", function(event) {
-                                            firstLine.setHighlighted({
-                                                stroke: ORANGE,
-                                                "stroke-width": 3
-                                            });
-                                            secondLine.setHighlighted({
-                                                stroke: BLUE,
-                                                "stroke-width": 3
-                                            });
-                                            $(this).bind("vmouseout", function(event) {
-                                                firstLine.unsetHighlighted({
-                                                    stroke: "black",
-                                                    "stroke-width": 2
-                                                });
-                                                secondLine.unsetHighlighted({
-                                                    stroke: "black",
-                                                    "stroke-width": 2
-                                                });
-                                            });
+                            if($statement.length &gt; 0){
+                                $statement.bind("vmouseover", function(event) {
+                                    firstLine.setHighlighted({
+                                        stroke: ORANGE,
+                                        "stroke-width": 3
+                                    });
+                                    secondLine.setHighlighted({
+                                        stroke: BLUE,
+                                        "stroke-width": 3
+                                    });
+                                    $(this).bind("vmouseout", function(event) {
+                                        firstLine.unsetHighlighted({
+                                            stroke: "black",
+                                            "stroke-width": 2
                                         });
                                         secondLine.unsetHighlighted({
                                             stroke: "black",
@@ -289,47 +283,42 @@
                                         });
                                     });
                                 });
-
+                                secondLine.unsetHighlighted({
+                                    stroke: "black",
+                                    "stroke-width": 2
+                                });
                             }
                         });
                     }
                 }
 
-                        for(var angle in graph.congruency.angles){
-                            for(var angle2 in graph.congruency.angles){
-                                $(function(){
-                                    var $statement = $("."+angle+"-"+angle2);
-                                    var firstAngle = graph.congruency.angles[angle];
-                                    var secondAngle = graph.congruency.angles[angle2];
+                for(var angle in graph.congruency.angles){
+                    for(var angle2 in graph.congruency.angles){
+                        $(function(){
+                            var $statement = $("."+angle+"-"+angle2);
+                            var firstAngle = graph.congruency.angles[angle];
+                            var secondAngle = graph.congruency.angles[angle2];
 
-                                    if($statement.length &gt; 0){
-                                        $statement.bind("vmouseover", function(event) {
-                                            var firstState = firstAngle.state;
-                                            var secondState = secondAngle.state;
-                                            var maxState = Math.max(firstState,secondState);
+                            if($statement.length &gt; 0){
+                                $statement.bind("vmouseover", function(event) {
+                                    var firstState = firstAngle.state;
+                                    var secondState = secondAngle.state;
+                                    var maxState = Math.max(firstState,secondState);
 
-                                            firstAngle.setHighlighted({
-                                                stroke: ORANGE,
-                                                "stroke-width": 3
-                                            });
-                                            secondAngle.setHighlighted({
-                                                stroke: BLUE,
-                                                "stroke-width": 3
-                                            });
-                                            firstAngle.setState(maxState &gt; 0 ? maxState : 1);
-                                            secondAngle.setState(maxState &gt; 0 ? maxState : 1);
-                                            $(this).bind("vmouseout", function(event) {
-                                                firstAngle.unsetHighlighted({
-                                                    stroke: "black",
-                                                    "stroke-width": 2
-                                                });
-                                                secondAngle.unsetHighlighted({
-                                                    stroke: "black",
-                                                    "stroke-width": 2
-                                                });
-                                                firstAngle.setState(firstState);
-                                                secondAngle.setState(secondState);
-                                            });
+                                    firstAngle.setHighlighted({
+                                        stroke: ORANGE,
+                                        "stroke-width": 3
+                                    });
+                                    secondAngle.setHighlighted({
+                                        stroke: BLUE,
+                                        "stroke-width": 3
+                                    });
+                                    firstAngle.setState(maxState &gt; 0 ? maxState : 1);
+                                    secondAngle.setState(maxState &gt; 0 ? maxState : 1);
+                                    $(this).bind("vmouseout", function(event) {
+                                        firstAngle.unsetHighlighted({
+                                            stroke: "black",
+                                            "stroke-width": 2
                                         });
                                         secondAngle.unsetHighlighted({
                                             stroke: "black",
