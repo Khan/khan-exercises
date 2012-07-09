@@ -2075,9 +2075,9 @@ function divName(equalityString) {
             return _.difference(equalityString.substring(12, 23).split(""), triang.toString().split("")).length === 0;
         });
 
-        return triangle1.segs[0].toString().substring(3, 5) + "-" + triangle1.segs[1].toString().substring(3, 5) + "-"
-        + triangle1.segs[2].toString().substring(3, 5) + "-" + triangle2.segs[0].toString().substring(3, 5) + "-"
-        + triangle2.segs[1].toString().substring(3, 5) + "-" + triangle2.segs[2].toString().substring(3, 5);
+        return triangle1.segs[0].toString().substring(3, 5) + " " + triangle1.segs[1].toString().substring(3, 5) + " "
+        + triangle1.segs[2].toString().substring(3, 5) + " " + triangle2.segs[0].toString().substring(3, 5) + "2 "
+        + triangle2.segs[1].toString().substring(3, 5) + "2 " + triangle2.segs[2].toString().substring(3, 5) + "2";
     }
 }
 

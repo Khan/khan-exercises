@@ -255,191 +255,126 @@
                 });
 
                 for(var line in graph.congruency.lines){
-                            for(var line2 in graph.congruency.lines){
+                    for(var line2 in graph.congruency.lines){
 
-                                $(function(){
-                                    var $statement = $("."+line+"-"+line2);
-                                    var firstLine = graph.congruency.lines[line];
-                                    var secondLine = graph.congruency.lines[line2];
+                        $(function(){
+                            var $statement = $("."+line+"-"+line2);
+                            var firstLine = graph.congruency.lines[line];
+                            var secondLine = graph.congruency.lines[line2];
 
-                                    if($statement.length > 0){
-                                        $statement.bind("vmouseover", function(event) {
-                                            firstLine.setHighlighted({
-                                                stroke: ORANGE,
-                                                "stroke-width": 3
-                                            });
-                                            secondLine.setHighlighted({
-                                                stroke: BLUE,
-                                                "stroke-width": 3
-                                            });
-                                            $(this).bind("vmouseout", function(event) {
-                                                firstLine.unsetHighlighted({
-                                                    stroke: "black",
-                                                    "stroke-width": 2
-                                                });
-                                                secondLine.unsetHighlighted({
-                                                    stroke: "black",
-                                                    "stroke-width": 2
-                                                });
-                                            });
-                                        });
-
-                                    }
-                                });
-                            }
-                        }
-
-                        for(var angle in graph.congruency.angles){
-                            for(var angle2 in graph.congruency.angles){
-                                $(function(){
-                                    var $statement = $("."+angle+"-"+angle2);
-                                    var firstAngle = graph.congruency.angles[angle];
-                                    var secondAngle = graph.congruency.angles[angle2];
-
-                                    if($statement.length > 0){
-                                        $statement.bind("vmouseover", function(event) {
-                                            var firstState = firstAngle.state;
-                                            var secondState = secondAngle.state;
-                                            var maxState = Math.max(firstState,secondState);
-
-                                            firstAngle.setHighlighted({
-                                                stroke: ORANGE,
-                                                "stroke-width": 3
-                                            });
-                                            secondAngle.setHighlighted({
-                                                stroke: BLUE,
-                                                "stroke-width": 3
-                                            });
-                                            firstAngle.setState(maxState > 0 ? maxState : 1);
-                                            secondAngle.setState(maxState > 0 ? maxState : 1);
-                                            $(this).bind("vmouseout", function(event) {
-                                                firstAngle.unsetHighlighted({
-                                                    stroke: "black",
-                                                    "stroke-width": 2
-                                                });
-                                                secondAngle.unsetHighlighted({
-                                                    stroke: "black",
-                                                    "stroke-width": 2
-                                                });
-                                                firstAngle.setState(firstState);
-                                                secondAngle.setState(secondState);
-                                            });
-                                        });
-                                    }
-                                });
-                            }
-                        }
-
-                        for(var i=0; i<(TRIANGLES.length); i++){
-                            for(var j=0; j<(TRIANGLES.length); j++){
-                                for(var k=0; k<3; k++){
-                                // >
-                                    $(function(){
-                                        var triangle = TRIANGLES[i];
-                                        var triangle2 = TRIANGLES[j];
-
-                                        var seg1_1 = triangle.segs[k].toString().substring(3,5);
-                                        var seg1_2 = triangle.segs[(k+1) % 3].toString().substring(3,5);
-                                        var seg1_3 = triangle.segs[(k+2) % 3].toString().substring(3,5);
-
-                                        var seg2_1 = triangle2.segs[k].toString().substring(3,5);
-                                        var seg2_2 = triangle2.segs[(k+1) % 3].toString().substring(3,5);
-                                        var seg2_3 = triangle2.segs[(k+2) % 3].toString().substring(3,5);
-
-                                        var triangleSegs = [seg1_1, seg1_2, seg1_3];
-                                        var triangle2Segs = [seg2_1, seg2_2, seg2_3];
-                                        var sharedSeg = [-1, -1];
-
-                                        for(var l=0; l<3; l++){
-                                            for(var m=0; m<3; m++){
-                                            // >
-                                                if(triangleSegs[l] === triangle2Segs[m]){
-                                                    sharedSeg = [l,m];
-                                                }
-                                            }
-                                        }
-
-
-                                        var $statement = $("."+seg1_1+"-"+seg1_2+"-"+seg1_3+"-"+seg2_1+"-"+seg2_2+"-"+seg2_3);
-
-                                        var line1_1 = graph.congruency.lines[seg1_1];
-                                        var line1_2 = graph.congruency.lines[seg1_2];
-                                        var line1_3 = graph.congruency.lines[seg1_3];
-
-                                        var line2_1 = graph.congruency.lines[seg2_1];
-                                        var line2_2 = graph.congruency.lines[seg2_2];
-                                        var line2_3 = graph.congruency.lines[seg2_3];
-
-                                        var triangleLines = [line1_1, line1_2, line1_3];
-                                        var triangle2Lines = [line2_1, line2_2, line2_3];
-
-                                        if($statement.length > 0){
-                                            $statement.bind("vmouseover", function(event) {
-                                                for(var l=0; l<3; l++){
-                                                // >
-                                                    if(sharedSeg[0] != l){
-                                                        triangleLines[l].setUnselectedStyle({
-                                                            stroke: ORANGE,
-                                                            "stroke-width": 3
-                                                        });
-                                                    }
-                                                    else{
-                                                        triangleLines[l].setUnselectedStyle({
-                                                            stroke: "black",
-                                                            "stroke-width": 3
-                                                        });
-                                                    }
-                                                }
-
-                                                for(var l=0; l<3; l++){
-                                                // >
-                                                    if(sharedSeg[1] != l){
-                                                        triangle2Lines[l].setUnselectedStyle({
-                                                            stroke: BLUE,
-                                                            "stroke-width": 3
-                                                        });
-                                                    }
-                                                    else{
-                                                        triangle2Lines[l].setUnselectedStyle({
-                                                            stroke: "black",
-                                                            "stroke-width": 3
-                                                        });
-                                                    }
-                                                }
-
-                                                $(this).bind("vmouseout", function(event) {
-                                                    line1_1.setUnselectedStyle({
-                                                        stroke: "black",
-                                                        "stroke-width": 2
-                                                    });
-                                                    line1_2.setUnselectedStyle({
-                                                        stroke: "black",
-                                                        "stroke-width": 2
-                                                    });
-                                                    line1_3.setUnselectedStyle({
-                                                        stroke: "black",
-                                                        "stroke-width": 2
-                                                    });
-
-                                                    line2_1.setUnselectedStyle({
-                                                        stroke: "black",
-                                                        "stroke-width": 2
-                                                    });
-                                                    line2_2.setUnselectedStyle({
-                                                        stroke: "black",
-                                                        "stroke-width": 2
-                                                    });
-                                                    line2_3.setUnselectedStyle({
-                                                        stroke: "black",
-                                                        "stroke-width": 2
-                                                    });
-                                                });
-                                            });
-                                        }
+                            if($statement.length > 0){
+                                $statement.bind("vmouseover", function(event) {
+                                    firstLine.setHighlighted({
+                                        stroke: ORANGE,
+                                        "stroke-width": 3
                                     });
-                                }
+                                    secondLine.setHighlighted({
+                                        stroke: BLUE,
+                                        "stroke-width": 3
+                                    });
+                                    $(this).bind("vmouseout", function(event) {
+                                        firstLine.unsetHighlighted({
+                                            stroke: "black",
+                                            "stroke-width": 2
+                                        });
+                                        secondLine.unsetHighlighted({
+                                            stroke: "black",
+                                            "stroke-width": 2
+                                        });
+                                    });
+                                });
+
                             }
+                        });
+                    }
+                }
+
+                for(var angle in graph.congruency.angles){
+                    for(var angle2 in graph.congruency.angles){
+                        $(function(){
+                            var $statement = $("."+angle+"-"+angle2);
+                            var firstAngle = graph.congruency.angles[angle];
+                            var secondAngle = graph.congruency.angles[angle2];
+
+                            if($statement.length > 0){
+                                $statement.bind("vmouseover", function(event) {
+                                    var firstState = firstAngle.state;
+                                    var secondState = secondAngle.state;
+                                    var maxState = Math.max(firstState,secondState);
+
+                                    firstAngle.setHighlighted({
+                                        stroke: ORANGE,
+                                        "stroke-width": 3
+                                    });
+                                    secondAngle.setHighlighted({
+                                        stroke: BLUE,
+                                        "stroke-width": 3
+                                    });
+                                    firstAngle.setState(maxState > 0 ? maxState : 1);
+                                    secondAngle.setState(maxState > 0 ? maxState : 1);
+                                    $(this).bind("vmouseout", function(event) {
+                                        firstAngle.unsetHighlighted({
+                                            stroke: "black",
+                                            "stroke-width": 2
+                                        });
+                                        secondAngle.unsetHighlighted({
+                                            stroke: "black",
+                                            "stroke-width": 2
+                                        });
+                                        firstAngle.setState(firstState);
+                                        secondAngle.setState(secondState);
+                                    });
+                                });
+                            }
+                        });
+                    }
+                }
+
+                for(var line in graph.congruency.lines){
+                    $(function(){
+                        var $statements = $("."+line);
+                        for(var i = 0; i&lt;$statements.length; i++){
+                            var highlightLine = graph.congruency.lines[line];
+                            var highlightDiv = $($statements[i]);
+
+                            highlightDiv.bind("vmouseover", function(event) {
+                                highlightLine.setHighlighted({
+                                    stroke: ORANGE,
+                                    "stroke-width": 3
+                                });
+                                $(this).bind("vmouseout", function(event) {
+                                    highlightLine.unsetHighlighted({
+                                        stroke: "black",
+                                        "stroke-width": 2
+                                    });
+                                });
+                            });
                         }
+                    });
+                }
+
+                for(var line in graph.congruency.lines){
+                    $(function(){
+                        var $statements = $("."+line + "2");
+                        for(var i = 0; i&lt;$statements.length; i++){
+                            var highlightLine = graph.congruency.lines[line];
+                            var highlightDiv = $($statements[i]);
+
+                            highlightDiv.bind("vmouseover", function(event) {
+                                highlightLine.setHighlighted({
+                                    stroke: BLUE,
+                                    "stroke-width": 3
+                                });
+                                $(this).bind("vmouseout", function(event) {
+                                    highlightLine.unsetHighlighted({
+                                        stroke: "black",
+                                        "stroke-width": 2
+                                    });
+                                });
+                            });
+                        }
+                    });
+                }
 
             </div>
         </div>
