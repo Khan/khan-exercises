@@ -42,42 +42,8 @@
             <var id="EF">new Seg("E","F")</var>
             <var id="FE">EF</var>
 
-            <!-- <var id="AB">new Seg("A","B")</var>
-            <var id="BA">AB</var>
-            <var id="AC">new Seg("A","C")</var>
-            <var id="CA">AC</var>
-            <var id="AD">new Seg("A","D")</var>
-            <var id="DA">AD</var>
-            <var id="AE">new Seg("A","E")</var>
-            <var id="EA">AE</var>
-            <var id="BC">new Seg("B","C")</var>
-            <var id="CB">BC</var>
-            <var id="BD">new Seg("B","D")</var>
-            <var id="DB">BD</var>
-            <var id="BE">new Seg("B","E")</var>
-            <var id="EB">BE</var>
-            <var id="CD">new Seg("C","D")</var>
-            <var id="DC">CD</var>
-            <var id="CE">new Seg("C","E")</var>
-            <var id="EC">CE</var>
-            <var id="DE">new Seg("D","E")</var>
-            <var id="ED">DE</var> -->
-
-            <!-- <var id="SEGS">[AB,BA,AC,CA,AD,DA,AE,EA,BC,CB,BD,DB,BE,EB,CD,DC,CE,EC,DE,ED]</var> -->
             <var id="SEGS">[AB,BA,AC,CA,AD,DA,AF,FA,BC,CB,BD,DB,BE,EB,CE,EC,CF,FC,DE,ED,DF,FD,EF,FE]</var>
 
-            <!-- <var id="ang1">new Ang("D","A","C", null)</var>
-            <var id="ang2">new Ang("C","A","B", null)</var>
-            <var id="ang3">new Ang("C","B","A", null)</var>
-            <var id="ang4">new Ang("C","B","E", null)</var>
-            <var id="ang5">new Ang("A","C","B", null)</var>
-            <var id="ang6">new Ang("A","C","D", null)</var>
-            <var id="ang7">new Ang("B","C","E", null)</var>
-            <var id="ang8">new Ang("D","C","E", null)</var>
-            <var id="ang9">new Ang("A","D","C", null)</var>
-            <var id="ang10">new Ang("C","D","E", null)</var>
-            <var id="ang11">new Ang("C","E","D", null)</var>
-            <var id="ang12">new Ang("C","E","B", null)</var> -->
             <var id="ang1">new Ang("B","A","C")</var>
             <var id="ang2">new Ang("A","B","C")</var>
             <var id="ang3">new Ang("A","C","B")</var>
@@ -93,27 +59,16 @@
 
             <var id="ANGS">[ang1, ang2, ang3, ang4, ang5, ang6, ang7, ang8, ang9, ang10, ang11, ang12]</var>
 
-            <!-- <var id="SUPPLEMENTARY_ANGS">[addAngs(ang5, ang6), addAngs(ang6, ang8), addAngs(ang8, ang7), addAngs(ang7, ang5)]</var> -->
             <var id="SUPPLEMENTARY_ANGS">[addAngs(ang2, addAngs(ang5, ang4)), addAngs(ang3, addAngs(ang6, ang7)), addAngs(ang9, addAngs(ang10,ang11))]</var>
 
-            <!-- <var id="ALTERNATE_INTERIOR_ANGS">[[ang1, ang12], [ang2, ang11], [ang10, ang3], [ang9, ang4]]</var> -->
             <var id="ALTERNATE_INTERIOR_ANGS">[[ang5, ang9], [ang6, ang11]]</var>
 
-            <!-- <var id="ABC">new Triang([AB, BC, CA], [ang3, ang5, ang2])</var>
-            <var id="BCE">new Triang([BC, CE, EB], [ang7, ang12, ang4])</var>
-            <var id="ECD">new Triang([EC, CD, DE], [ang8, ang10, ang11])</var>
-            <var id="DCA">new Triang([DC, CA, AD], [ang6, ang1, ang9])</var>
-            <var id="ABE">new Triang([AB, BE, EA], [addAngs(ang3, ang4), ang12, ang2])</var>
-            <var id="ADE">new Triang([AD, DE, EA], [addAngs(ang9, ang10), ang11, ang1])</var>
-            <var id="BED">new Triang([BE, ED, DB], [addAngs(ang12, ang11), ang10, ang4])</var>
-            <var id="BAD">new Triang([BA, AD, DB], [addAngs(ang2, ang1), ang9, ang3])</var> -->
             <var id="ABC">new Triang([AB, BC, CA], [ang2, ang3, ang1])</var>
             <var id="BDE">new Triang([BD, DE, EB], [ang8, ang9, ang4])</var>
             <var id="BCE">new Triang([BC, CE, EB], [ang6, ang10, ang5])</var>
             <var id="CEF">new Triang([CE, EF, FC], [ang11, ang12, ang7])</var>
             <var id="ADF">new Triang([AD, DF, FA], [ang8, ang12, ang1])</var>
 
-            <!-- <var id="TRIANGLES">[ABC, BCE, ECD, DCA, ABE, ADE, BED, BAD]</var> -->
             <var id="TRIANGLES">[ABC, BDE, BCE, CEF]</var>
 
             <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 3, 0.25, "all")</var>
@@ -127,7 +82,7 @@
         </div>
 
         <div class="problem">
-            <p class="question"> <code> \overline{AB} </code> is parallel to <code> \overline{DE} </code>, and <code> \overline{AD} </code> is parallel to <code> \overline{BE} </code>. Figure not drawn to scale. </p>
+            <p class="question"> <code> \overline{BC} </code> is parallel to <code> \overline{DF} </code>. Figure not drawn to scale. </p>
             <div class="graphie">
                 init({
                     range: [[-5, 5], [-5, 5]],
