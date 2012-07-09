@@ -65,12 +65,10 @@ function Scratchpad(elem) {
     }
 
     function loadState(state) {
-        if (state != null) {
-            shapes.remove();
-            for (var i = 0; i < state.length; i++) {
-                if (state[i].type == "path") {
-                    shapes.push(pad.path(state[i].path).attr(line_default).attr("stroke", state[i].stroke));
-                }
+        shapes.remove();
+        for (var i = 0; i < state.length; i++) {
+            if (state[i].type == "path") {
+                shapes.push(pad.path(state[i].path).attr(line_default).attr("stroke", state[i].stroke));
             }
         }
     }
@@ -87,7 +85,7 @@ function Scratchpad(elem) {
 
     tools.push(pad.path(pen).scale(0.8).translate(0, 0));
     tools.push(pad.path(erase).translate(0, 30));
-    tools.push(pad.path(undo).scale(0.7).translate(1, 80));
+    tools.push(pad.path(undo).scale(0.7).translate(1, 60));
 
     var tool = "draw";
     function penclick() {
@@ -163,8 +161,7 @@ function Scratchpad(elem) {
     }
 
     function rectsIntersect(r1, r2) {
-        return _.isObject(r1) && _.isObject(r2) &&
-            r2.x < (r1.x + r1.width) &&
+        return r2.x < (r1.x + r1.width) &&
             (r2.x + r2.width) > r1.x &&
             r2.y < (r1.y + r1.height) &&
             (r2.y + r2.height) > r1.y;

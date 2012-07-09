@@ -40,65 +40,53 @@
 
                 <div class="graphie" id="barchart">
                     init({
-                        range: [[-2, 17], [-3, 12]],
-                        scale: [30, 30]
+                        range: [ [ -2, 17 ], [ -3, 12 ] ],
+                        scale: [ 30, 30 ]
                     });
                     addMouseLayer();
 
-                    for (var y = 1; y &lt; 11; ++y) {
-                        label([0, y], y, "left", false);
-                        line([0, y], [16, y], { stroke: "black", strokeWidth: 1, opacity: 0.3} );
+                    for ( var y = 1; y &lt;= 10; ++y ) {
+                        label( [ 0, y ], y, "left", false );
+                        style({ stroke: "#000", strokeWidth: 1, opacity: 0.3 }, function() {
+                            line( [ 0, y ], [ 16, y ] )
+                        });
                     }
-
                     graph.leftPoints = [];
                     graph.rightPoints = [];
                     graph.lines = [];
-                    var axes = [];
-
-                    for (var index = 0; index &lt; CATEGORIES.length; ++index) {
-                        graph.leftPoints[index] = addMovablePoint({ coord: [index * 3 + 1, 0.5], visible: false });
-                        graph.rightPoints[index] = addMovablePoint({ coord: [index * 3 + 3, 0.5], visible: false });
-                        graph.lines[index] = addMovableLineSegment({
-                            pointA: graph.leftPoints[index],
-                            pointZ: graph.rightPoints[index],
-                            snapY: 0.5,
-                            constraints: { constrainX: true }
+                    for ( var index = 0; index &lt; CATEGORIES.length; ++index ) {
+                        graph.leftPoints[ index ] = addMovablePoint({ coord: [ index * 3 + 1, 0.5 ], visible: false });
+                        graph.rightPoints[ index ] = addMovablePoint({ coord: [ index * 3 + 3, 0.5 ], visible: false });
+                        graph.lines[ index ] = addMovableLineSegment({ pointA: graph.leftPoints[ index ], pointZ: graph.rightPoints[ index ], snapY: 0.5, constraints: { constrainX: true } });
+//                        graph.lines[ index ] = {};
+                        style({ stroke: "none", fill: "#9ab8ed", opacity: 1.0 }, function() {
+                            graph.lines[ index ].bar = path([ [ index * 3 + 1, 0 ], [ index * 3 + 1, 0.5 ], [ index * 3 + 3, 0.5 ], [ index * 3 + 3, 0 ], [ index * 3 + 1, 0 ] ]);
                         });
+//                        graph.lines[ index ].toFront();
 
-                        graph.lines[index].bar = path([[graph.lines[index].coordA[0], 0],
-                                                       [graph.lines[index].coordZ[0], 0],
-                                                       graph.lines[index].coordZ,
-                                                       graph.lines[index].coordA, true],
-                                                      { stroke: BLUE, fill: BLUE });
-
-                        label([index * 3 + 2, 0], capitalize(CATEGORIES[index]), "below", false);
+                        label( [ index * 3 + 2, 0 ], CATEGORIES[ index ], "below", false ).css( "text-transform", "capitalize" );
 
                         var bar = index;
-                        graph.lines[index].onMove = function(dX, dY) {
-                            if (this.coordA[1] &lt; 0 || this.coordA[1] &gt; 10) {
+                        graph.lines[ index ].onMove = function( dX, dY ) {
+                            if ( this.coordA[1] &lt; 0 || this.coordA[1] &gt; 10 ) {
                                 this.coordA[1] -= dY;
                                 this.coordZ[1] -= dY;
                             }
-                            this.pointA.setCoord([this.pointA.coord[0], this.coordA[1]]);
-                            this.pointZ.setCoord([this.pointZ.coord[0], this.coordA[1]]);
+                            this.pointA.setCoord([ this.pointA.coord[0], this.coordA[1] ]);
+                            this.pointZ.setCoord([ this.pointZ.coord[0], this.coordA[1] ]);
                             this.pointA.updateLineEnds();
                             this.pointZ.updateLineEnds();
-                            var oldBar = this.bar;
-                            this.bar = path([[this.coordA[0], 0], [this.coordZ[0], 0],
-                                             this.coordZ, this.coordA, true],
-                                            { stroke: BLUE, fill: BLUE });
-                            oldBar.remove();
-                            _.invoke(axes, "toFront");
+                            this.bar.scale( 1, Math.max( 0.01, this.coordA[1] * 2 ), scalePoint( 0 )[0], scalePoint( 0 )[1] );
                         };
                     }
                     style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 }, function() {
-                        axes.push(line([0, 0], [16, 0]));
-                        axes.push(line([0, 0], [0, 10]));
+                        line( [ 0, 0 ], [ 16, 0 ] );
+                        line( [ 0, 0 ], [ 0, 10 ] );
                     });
 
-                    label([8, -0.8], "&lt;b&gt;" + capitalize(SUBJECT) + "&lt;/b&gt;", "below", false );
-                    $(label([-1.5, 5], "&lt;b&gt;Number of " + plural(RESPONDENT) + "&lt;/b&gt;", "center", false)).addClass("rotate");
-                    label([8, 10.5], "&lt;b&gt;Favorite " + SUBJECT + "s&lt;/b&gt;", "above", false);
+                    label( [ 8, -0.8 ], "&lt;b&gt;" + SUBJECT + "&lt;/b&gt;", "below", false ).css( "text-transform", "capitalize" );
+                    $( label( [ -1.5, 5 ], "&lt;b&gt;Number of " + plural( RESPONDENT ) + "&lt;/b&gt;", "center", false ) ).addClass( "rotate" );
+                    label( [ 8, 10.5 ], "&lt;b&gt;Favorite " + SUBJECT + "s&lt;/b&gt;", "above", false );
                 </div>
 
             </div>
@@ -114,17 +102,12 @@
                     return _.isEqual( guess, DATA );
                 </div>
                 <div class="show-guess">
-                    $.each(guess, function(index) {
-                        graph.lines[index].pointA.setCoord([graph.lines[index].pointA.coord[0], this]);
-                        graph.lines[index].pointZ.setCoord([graph.lines[index].pointZ.coord[0], this]);
-                        graph.lines[index].pointA.updateLineEnds();
-                        graph.lines[index].pointZ.updateLineEnds();
-                        graph.lines[index].bar.remove();
-                        graph.lines[index].bar = path([[graph.lines[index].coordA[0], 0],
-                                                       [graph.lines[index].coordZ[0], 0],
-                                                       graph.lines[index].coordZ,
-                                                       graph.lines[index].coordA, true],
-                                                      { stroke: BLUE, fill: BLUE });
+                    $.each( guess, function( index ) {
+                        graph.lines[ index ].pointA.setCoord([ graph.lines[ index ].pointA.coord[0], this ]);
+                        graph.lines[ index ].pointZ.setCoord([ graph.lines[ index ].pointZ.coord[0], this ]);
+                        graph.lines[ index ].pointA.updateLineEnds();
+                        graph.lines[ index ].pointZ.updateLineEnds();
+                        graph.lines[ index ].bar.scale( 1, Math.max( 0.01, this * 2 ), scalePoint( 0 )[0], scalePoint( 0 )[1] );
                     });
                 </div>
             </div>
@@ -134,29 +117,21 @@
     <div class="hints">
         <div data-each="DATA as INDEX, NUM">
             <p>
-                <code><var>NUM</var></code> <var>plural(RESPONDENT, NUM)</var> said <var>plural(randFromArray(["his", "her"]), "their", NUM)</var>
-                favorite <var>SUBJECT</var> was <var>CATEGORIES[INDEX]</var>.
+                <code><var>NUM</var></code> <var>plural( RESPONDENT, NUM )</var> said <var>plural( randFromArray([ "his", "her" ]), "their", NUM )</var>
+                favorite <var>SUBJECT</var> was <var>CATEGORIES[ INDEX ]</var>.
                 <span data-if="NUM > 0">
-                    So the top of the bar for "<var>capitalize(CATEGORIES[INDEX])</var>" should line up with the number
+                    So the top of the bar for "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>" should line up with the number
                     <code><var>NUM</var></code> on the left side of the chart.
                 </span>
                 <span data-else>
-                    So there should be no bar above "<var>capitalize(CATEGORIES[INDEX])</var>". Drag the top of the bar all
+                    So there should be no bar above "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>". Drag the top of the bar all
                     the way to the bottom to get rid of the bar.
                 </span>
             </p>
             <div data-if="NUM > 0" class="graphie" data-update="barchart">
-                path([[INDEX * 3 + 1, 0],
-                      [INDEX * 3 + 1, NUM],
-                      [INDEX * 3 + 3, NUM],
-                      [INDEX * 3 + 3, 0]],
-                     {
-                         stroke: ORANGE,
-                         fill: "none",
-                         strokeWidth: 1,
-                         strokeDasharray: "- "
-                     }
-                ).toBack();
+                style({ stroke: ORANGE, fill: "none", strokeWidth: 1, strokeDasharray: "- " }, function() {
+                    path([ [ INDEX * 3 + 1, 0 ], [ INDEX * 3 + 1, NUM ], [ INDEX * 3 + 3, NUM ], [ INDEX * 3 + 3, 0 ] ]).toBack();
+                });
             </div>
         </div>
     </div>
