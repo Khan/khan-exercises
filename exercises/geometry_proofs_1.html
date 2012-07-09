@@ -45,7 +45,7 @@
             <var id="EC">CE</var>
             <var id="DE">new Seg("D","E")</var>
             <var id="ED">DE</var>
-            
+
 
             <var id="SEGS">[AB,BA,AC,CA,AD,DA,AE,EA,BC,CB,BD,DB,CD,DC,CE,EC,DE,ED]</var>
 
@@ -86,7 +86,7 @@
             <var id="FILL_BLANKS_STUFF">outputFillBlanksProof()</var>
             <var id="FILL_BLANKS_PROOF">FILL_BLANKS_STUFF[0]</var>
             <var id="FILL_BLANKS_NUM">FILL_BLANKS_STUFF[1]</var>
-            
+
         </div>
 
         <div class="problem">
@@ -199,7 +199,7 @@
                 $(".missingStatement").keyup(function(){
                     if(checkFillBlanksStatement($(this).parent()[0].id)){
                         FILL_BLANKS_NUM--;
-                        if(hintsLeft>FILL_BLANKS_NUM*2){
+                        if(hintsLeft &gt; FILL_BLANKS_NUM*2){
                             var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
                             $("#hint").val("I'd like a hint (" + stepsLeft + ")");
                             giveAway = false;
@@ -214,7 +214,7 @@
                 $(".missingReason").change(function(){
                     if(checkFillBlanksReason($(this), this.id)){
                         FILL_BLANKS_NUM--;
-                        if(hintsLeft>FILL_BLANKS_NUM*2){
+                        if(hintsLeft &gt; FILL_BLANKS_NUM*2){
                             var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
                             $("#hint").val("I'd like a hint (" + stepsLeft + ")");
                             giveAway = false;
@@ -228,7 +228,7 @@
 
                 var giveAway = false;
                 $("#hint").click(function(){
-                    if(hintsLeft > 0){
+                    if(hintsLeft &gt; 0){
                         hintsLeft--;
                         if(!giveAway){
                             var stepsLeft = hintsLeft + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
@@ -255,27 +255,33 @@
                 });
 
                 for(var line in graph.congruency.lines){
-                    for(var line2 in graph.congruency.lines){
+                            for(var line2 in graph.congruency.lines){
 
-                        $(function(){
-                            var $statement = $("."+line+"-"+line2);
-                            var firstLine = graph.congruency.lines[line];
-                            var secondLine = graph.congruency.lines[line2];
+                                $(function(){
+                                    var $statement = $("."+line+"-"+line2);
+                                    var firstLine = graph.congruency.lines[line];
+                                    var secondLine = graph.congruency.lines[line2];
 
-                            if($statement.length > 0){
-                                $statement.bind("vmouseover", function(event) {
-                                    firstLine.setHighlighted({
-                                        stroke: ORANGE,
-                                        "stroke-width": 3
-                                    });
-                                    secondLine.setHighlighted({
-                                        stroke: BLUE,
-                                        "stroke-width": 3
-                                    });
-                                    $(this).bind("vmouseout", function(event) {
-                                        firstLine.unsetHighlighted({
-                                            stroke: "black",
-                                            "stroke-width": 2
+                                    if($statement.length &gt; 0){
+                                        $statement.bind("vmouseover", function(event) {
+                                            firstLine.setHighlighted({
+                                                stroke: ORANGE,
+                                                "stroke-width": 3
+                                            });
+                                            secondLine.setHighlighted({
+                                                stroke: BLUE,
+                                                "stroke-width": 3
+                                            });
+                                            $(this).bind("vmouseout", function(event) {
+                                                firstLine.unsetHighlighted({
+                                                    stroke: "black",
+                                                    "stroke-width": 2
+                                                });
+                                                secondLine.unsetHighlighted({
+                                                    stroke: "black",
+                                                    "stroke-width": 2
+                                                });
+                                            });
                                         });
                                         secondLine.unsetHighlighted({
                                             stroke: "black",
@@ -289,33 +295,41 @@
                     }
                 }
 
-                for(var angle in graph.congruency.angles){
-                    for(var angle2 in graph.congruency.angles){
-                        $(function(){
-                            var $statement = $("."+angle+"-"+angle2);
-                            var firstAngle = graph.congruency.angles[angle];
-                            var secondAngle = graph.congruency.angles[angle2];
+                        for(var angle in graph.congruency.angles){
+                            for(var angle2 in graph.congruency.angles){
+                                $(function(){
+                                    var $statement = $("."+angle+"-"+angle2);
+                                    var firstAngle = graph.congruency.angles[angle];
+                                    var secondAngle = graph.congruency.angles[angle2];
 
-                            if($statement.length > 0){
-                                $statement.bind("vmouseover", function(event) {
-                                    var firstState = firstAngle.state;
-                                    var secondState = secondAngle.state;
-                                    var maxState = Math.max(firstState,secondState);
+                                    if($statement.length &gt; 0){
+                                        $statement.bind("vmouseover", function(event) {
+                                            var firstState = firstAngle.state;
+                                            var secondState = secondAngle.state;
+                                            var maxState = Math.max(firstState,secondState);
 
-                                    firstAngle.setHighlighted({
-                                        stroke: ORANGE,
-                                        "stroke-width": 3
-                                    });
-                                    secondAngle.setHighlighted({
-                                        stroke: BLUE,
-                                        "stroke-width": 3
-                                    });
-                                    firstAngle.setState(maxState > 0 ? maxState : 1);
-                                    secondAngle.setState(maxState > 0 ? maxState : 1);
-                                    $(this).bind("vmouseout", function(event) {
-                                        firstAngle.unsetHighlighted({
-                                            stroke: "black",
-                                            "stroke-width": 2
+                                            firstAngle.setHighlighted({
+                                                stroke: ORANGE,
+                                                "stroke-width": 3
+                                            });
+                                            secondAngle.setHighlighted({
+                                                stroke: BLUE,
+                                                "stroke-width": 3
+                                            });
+                                            firstAngle.setState(maxState &gt; 0 ? maxState : 1);
+                                            secondAngle.setState(maxState &gt; 0 ? maxState : 1);
+                                            $(this).bind("vmouseout", function(event) {
+                                                firstAngle.unsetHighlighted({
+                                                    stroke: "black",
+                                                    "stroke-width": 2
+                                                });
+                                                secondAngle.unsetHighlighted({
+                                                    stroke: "black",
+                                                    "stroke-width": 2
+                                                });
+                                                firstAngle.setState(firstState);
+                                                secondAngle.setState(secondState);
+                                            });
                                         });
                                         secondAngle.unsetHighlighted({
                                             stroke: "black",
@@ -369,6 +383,7 @@
                                     highlightLine.unsetHighlighted({
                                         stroke: "black",
                                         "stroke-width": 2
+
                                     });
                                 });
                             });
@@ -396,7 +411,7 @@
                     return FILL_BLANKS_NUM==0;
                 </div>
                 <div class="show-guess">
-                    
+
                 </div>
             </div>
             <div class="hints">
