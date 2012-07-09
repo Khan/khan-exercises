@@ -18,7 +18,7 @@
         <var id="SETS">['A','B','C'].slice(0,randRange(2,3))</var>
         <var id="EXPR">randSubsetExpression(SETS, randRange(1,randRange(2, 3)))</var>
         <var id="SHOW_EXPR">colorSets((EXPR.length > 3 ? '(' : '') + EXPR.join(' '))</var>
-        <var id="DATA">SETS.length == 3 ? [A,B,C, AB,BC,AC, ABC] : [A,B,AB]</var>
+        <var id="DATA">SETS.length == 3 ? [A,B,C, AB,BC,AC, ABC] : [A+AC, B+BC, AB+ABC]</var>
         <var id="HINT_TEXT">'means the regions that are withing circle'</var>
     </div>
 
