@@ -496,7 +496,12 @@ function outputFillBlanksProof() {
         if (finishedEqualities[finishedKeys[i]].substring(0, 4) != "Same") {
             if (finishedEqualities[finishedKeys[i]] === "given") {
                 numberGivens--;
-                proofText += "<div style=\"float:left\" class=\"" + divName(finishedKeys[i]) + "\">";
+                if(i % 3 != 2){
+                    proofText += "<div style=\"float:left\" class=\"" + divName(finishedKeys[i]) + "\">";
+                } 
+                else{
+                    proofText += "<div style=\"float:left\" class=\"" + divName(finishedKeys[i]) + "\">";
+                }
                 proofText += prettifyEquality(finishedKeys[i]);
                 if (numberGivens > 1) {
                     proofText += "<code>, \\ </code> </div>";
@@ -573,8 +578,7 @@ function outputFillBlanksProof() {
 // returns true if the statements were filled in correctly, false otherwise
 function checkFillBlanksStatement(divID) {
     // for now, hardcode these
-    var equivAngles = {"BAE" : "BAC", "EAB" : "CAB", "DAE" : "DAC", "EAD" : "CAD", "ABD" : "ABC", "DBA" : "CBA", "EBD" : "EBC", "DBE" : "CBE",
-                        "BEA" : "BEC", "AEB" : "CEB", "DEA" : "DEC", "AED" : "CED", "BDE" : "CDE", "EDB" : "EDC", "ADB" : "ADC", "BDA" : "CDA"};
+    var equivAngles = {"ADE" : "BDE", "BDF" : "BDE", "ADF" : "BDE", "BAF" : "BAC", "DAC" : "BAC", "DAF" : "BAC", "CFD" : "CFE", "AFE" : "CFE", "AFD" : "CFE"};
     var unsortedKeyList = _.clone(finishedEqualitiesList);
     var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
 
