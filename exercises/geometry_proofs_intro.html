@@ -160,17 +160,19 @@
                                 return;
                             }
 
-                            var verifyTriangles = verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence");
-                            var verifyAngles = verifyStatementArgs(thing1+"="+thing2, reason, "angle equality");
-                            var verifySegments = verifyStatementArgs(thing1+"="+thing2, reason, "segment equality");
+                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
 
                             if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
                                 _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
-                                console.log("thinks statement is true");
+                                console.log("thinks statement is true " + reason);
                                 $("#thing1").val("");
                                 $("#thing2").val("");
                                 $("#reason").val("");
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
                                 if(userProofDone === true){
                                     $(".nextStatement").hide();
                                     $("#hint").attr("disabled", true);
@@ -193,8 +195,16 @@
                                 $("#symbol1").html(" \\triangle ");
                                 $("#symbol2").html(" \\triangle ");
                             }
-                            $("#symbol1").html(" \\angle ");
+                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
+                                $("#symbol1").html(" \\angle ");
+                                $("#symbol2").html(" \\angle ");
+                            }
+                            else{
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                            }
                             $.tmpl.type.code()($("#symbol1")[0]);
+                            $.tmpl.type.code()($("#symbol2")[0]);
                             $(".nextStatement input").keyup(); 
                         });
 
@@ -239,12 +249,12 @@
                     <div class="instruction">
                         When you enter the next statement in the proof, and a valid reason, that statement will be added to the proof. When you're done, hit check answer.
                     </div>
-                    <div class="guess">[knownEqualities]</div>
+                    <div class="guess">1</div>
                     <div class="validator-function">
                         return isProofDone();
                     </div>
                     <div class="show-guess">
-                        
+                        return knownEqualities;
                     </div>
                 </div>
                 <div class="hints">

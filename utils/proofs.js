@@ -197,6 +197,7 @@ function verifyStatement() {
 }
 
 function verifyStatementArgs(statement, reason, category) {
+    console.log("verifyStatementArgs with ", statement, reason, category);
     if (userProofDone) {
         //return false;
     }
@@ -240,6 +241,9 @@ function verifyStatementArgs(statement, reason, category) {
         else if (triangle1Permutation != triangle2Permutation) {
             return false;
         }
+        else if (eqIn([triangle1, triangle2], knownEqualities)){
+            return "that's already in the proof!";
+        }
         else {
             toReturn = checkTriangleCongruent(triangle1, triangle2, reason);
         }
@@ -260,7 +264,9 @@ function verifyStatementArgs(statement, reason, category) {
         if (ang1 == null || ang2 == null) {
             return "those angles aren't in this figure...";
         }
-
+        else if (eqIn([ang1, ang2], knownEqualities)){
+            return "that's already in the proof!";
+        }
         else {
             toReturn = checkAngEqual(ang1, ang2, reason);
         }
@@ -283,7 +289,9 @@ function verifyStatementArgs(statement, reason, category) {
         if (seg1 == null || seg2 == null) {
             return "those segments aren't in this figure...";
         }
-
+        else if (eqIn([seg1, seg2], knownEqualities)){
+            return "that's already in the proof!";
+        }
         else {
             toReturn = checkSegEqual(seg1, seg2, reason);
         }
