@@ -197,7 +197,6 @@ function verifyStatement() {
 }
 
 function verifyStatementArgs(statement, reason, category) {
-    console.log("verifyStatementArgs with ", statement, reason, category);
     if (userProofDone) {
         //return false;
     }
@@ -289,6 +288,11 @@ function verifyStatementArgs(statement, reason, category) {
         if (seg1 == null || seg2 == null) {
             return "those segments aren't in this figure...";
         }
+        else if(seg1.equals(seg2) && reason === "reflexive property"){
+            knownEqualities[[seg1, seg2]] = "reflexive property";
+            knownEqualities[[seg2, seg1]] = "reflexive property";  
+            return true;
+        }
         else if (eqIn([seg1, seg2], knownEqualities)){
             return "that's already in the proof!";
         }
@@ -318,9 +322,9 @@ function isProofDone() {
 // give a hint as to the next statement which the user should try to prove
 function nextStatementHint() {
     var hintKeys = [];
-    // filter out all keys with value "same *" or "given"
+    // filter out all keys with value "same *" or "given," as well as those values already in the proof
     for (var eq in finishedEqualities) {
-        if (finishedEqualities[eq].substring(0, 4) != "Same" && finishedEqualities[eq] != "given") {
+        if (finishedEqualities[eq].substring(0, 4) != "Same" && finishedEqualities[eq] != "given" && !(eq in knownEqualities)) {
             hintKeys.push(eq);
         }
     }
@@ -329,6 +333,9 @@ function nextStatementHint() {
         // look for something that can be proven with the statements already known
         // that is in finishedEqualities
         var tryProving = hintKeys[KhanUtil.randRange(0, hintKeys.length - 1)];
+        console.log("trying hint for " + tryProving);
+        console.log(tryProving in knownEqualities);
+        console.log(hintKeys);
 
         // awful, terrible hacky way to deal with javascript object hashes
         if (tryProving[0] === "t") {
@@ -342,9 +349,10 @@ function nextStatementHint() {
 
             var useToProve = checkTriangleForHint(triangle1, triangle2, knownEqualities);
             if (useToProve.length > 0) {
-                return "You know that " + prettifyEquality(useToProve[0][0] + "," + useToProve[0][1])
+                return ["You know that " + prettifyEquality(useToProve[0][0] + "," + useToProve[0][1])
                 + ", " + prettifyEquality(useToProve[1][0] + "," + useToProve[1][1])
-                + ", and " + prettifyEquality(useToProve[2][0] + "," + useToProve[2][1]) + ". What can you prove from this?";
+                + ", and " + prettifyEquality(useToProve[2][0] + "," + useToProve[2][1]) + ". What can you prove from this?", 
+                "A useful thing to prove here is " + prettifyEquality(triangle1 + "," + triangle2)];
             }
         }
 
@@ -358,7 +366,8 @@ function nextStatementHint() {
 
             var useToProve = checkSegForHint(seg1, seg2, knownEqualities);
             if (useToProve.length > 0) {
-                return "You know that " + prettifyEquality(useToProve[0] + "," + useToProve[1]) + ". What segments can you prove equal from this?";
+                return ["You know that " + prettifyEquality(useToProve[0] + "," + useToProve[1]) + ". What segments can you prove equal from this?",
+                "A useful thing to prove here is " + prettifyEquality(seg1 + "," + seg2)];
             }
         }
 
@@ -373,10 +382,12 @@ function nextStatementHint() {
 
             var useToProve = checkAngForHint(ang1, ang2, knownEqualities);
             if (useToProve.length > 0 && useToProve[0] instanceof Triang) {
-                return "You know that " + prettifyEquality(useToProve[0] + "," + useToProve[1]) + ". What angles can you prove equal from this?";
+                return ["You know that " + prettifyEquality(useToProve[0] + "," + useToProve[1]) + ". What angles can you prove equal from this?",
+                "A useful thing to prove here is " + prettifyEquality(ang1 + "," + ang2)];
             }
             else if (useToProve.length > 0) {
-                return "Try using " + useToProve + " to prove some useful pair of angles equal.";
+                return ["Try using " + useToProve + " to prove some useful pair of angles equal.",
+                 "A useful thing to prove here is " + prettifyEquality(ang1 + "," + ang2)];
             }
         }
 
@@ -697,7 +708,7 @@ function checkFillBlanksReason(select, selectID) {
 }
 
 // for fill-in-the-blanks proofs, this hint function looks for the next missing reason, and generate a hint based
-// on that using nextStatementHint()
+// on that
 function getFillBlanksHint(giveAway) {
     var unsortedKeyList = _.clone(finishedEqualitiesList);
     var finishedKeys = sortEqualityList(unsortedKeyList.reverse(), finishedEqualities);
@@ -1800,6 +1811,7 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
 // Checks to see if the two given segments are equal by checking to see if they belong to
 // congruent triangles.
 function checkSegEqual(seg1, seg2, reason) {
+    console.log("cse");
     //if this is already known
     if (eqIn([seg1, seg2], knownEqualities)) {
         return true;
