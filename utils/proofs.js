@@ -402,8 +402,7 @@ function outputFinishedProof() {
             numberGivens++;
         }
     });
-    numberGivens /= 2;
-    for (var i = 0; i < finishedKeys.length; i += 2) {
+    for (var i = 0; i < finishedKeys.length; i ++) {
         if (finishedEqualities[finishedKeys[i]].substring(0, 4) != "Same") {
             if (finishedEqualities[finishedKeys[i]] === "given") {
                 numberGivens--;
