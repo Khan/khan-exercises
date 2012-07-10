@@ -90,45 +90,6 @@ function rectchart(divisions, colors, y) {
     return set;
 }
 
-// for line graph intuition
-function updateEquation() {
-    var graph = KhanUtil.currentGraph;
-    graph.plot.remove();
-    graph.style({
-        clipRect: [[-10, -10], [20, 20]]
-    }, function() {
-        var ell = function(x) {
-            return x * graph.MN / graph.MD + graph.BN / graph.BD;
-        };
-        graph.plot = graph.line([-10, ell(-10)], [10, ell(10)]);
-    });
-
-    graph.labelHolder.remove();
-
-    $("#equationAnswer").html("<code>y =" + KhanUtil.fractionReduce(graph.MN, graph.MD) + "x +" + KhanUtil.fractionReduce(graph.BN, graph.BD) + "</code>").tmpl();
-    $("#slope-sol input").val((graph.MN / graph.MD) + "");
-    $("#intercept-sol input").val((graph.BN / graph.BD) + "");
-}
-
-// for line graph intuition
-function changeSlope(dir) {
-    var graph = KhanUtil.currentGraph;
-    var prevDenominator = graph.MD;
-    graph.MD = KhanUtil.getLCM(prevDenominator, graph.INCR);
-    graph.MN = (graph.MD / prevDenominator * graph.MN) + (dir * graph.MD / graph.INCR);
-    updateEquation();
-}
-
-// for line graph intuition
-function changeIntercept(dir) {
-    var graph = KhanUtil.currentGraph;
-    var prevDenominator = graph.BD;
-    graph.BD = KhanUtil.getLCM(prevDenominator, graph.INCR);
-    graph.BN = (graph.BD / prevDenominator * graph.BN)
-        + (dir * graph.BD / graph.INCR);
-    updateEquation();
-}
-
 function Parabola(lc, x, y) {
     var leadingCoefficient = lc;
     var x1 = x;
