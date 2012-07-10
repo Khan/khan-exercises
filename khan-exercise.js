@@ -1929,11 +1929,11 @@ var Khan = (function() {
                 // The seed that was used for generating the problem
                 problem_type: problemID,
 
-                // What mode we're in
-                mode: Exercises.mode,
+                // Whether we're currently in review mode
+                review_mode: (!testMode && Exercises.reviewMode) ? 1 : 0,
 
                 // Whether we are currently working on a topic, as opposed to an exercise
-                topic_mode: (!testMode && Exercises.mode != "review" && !Exercises.practiceMode) ? 1 : 0,
+                topic_mode: (!testMode && !Exercises.reviewMode && !Exercises.practiceMode) ? 1 : 0,
 
                 // Request camelCasing in returned response
                 casing: "camel",
@@ -1951,7 +1951,10 @@ var Khan = (function() {
                 cards_done: !testMode && Exercises.completeStack.length,
 
                 // How many cards the user has left to do
-                cards_left: !testMode && (Exercises.incompleteStack.length - 1)
+                cards_left: !testMode && (Exercises.incompleteStack.length - 1),
+
+                //Get Custom Stack Id if it exists
+                custom_stack_id: !testMode && Exercises.completeStack.getCustomStackID()
             };
         }
 
