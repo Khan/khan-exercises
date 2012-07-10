@@ -335,9 +335,6 @@ function nextStatementHint() {
         // look for something that can be proven with the statements already known
         // that is in finishedEqualities
         var tryProving = hintKeys[KhanUtil.randRange(0, hintKeys.length - 1)];
-        console.log("trying hint for " + tryProving);
-        console.log(tryProving in knownEqualities);
-        console.log(hintKeys);
 
         // awful, terrible hacky way to deal with javascript object hashes
         if (tryProving[0] === "t") {
@@ -1829,7 +1826,6 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
 // Checks to see if the two given segments are equal by checking to see if they belong to
 // congruent triangles.
 function checkSegEqual(seg1, seg2, reason) {
-    console.log("cse");
     //if this is already known
     if (eqIn([seg1, seg2], knownEqualities)) {
         return true;
@@ -2195,12 +2191,17 @@ function sortEqualityList(equalityList, equalityObject) {
             dupCheck[equalityList[i]] = true;
         }
     }
-    var sortedEqualityList = _.clone(newEqualityList);
-    for (var i = 0; i < newEqualityList.length; i++) {
-        if (equalityObject[newEqualityList[i]] === "vertical angles are equal" || equalityObject[newEqualityList[i]] === "alternate interior angles are equal") {
-            sortedEqualityList[i - 1] = newEqualityList[i];
-            sortedEqualityList[i] = newEqualityList[i - 1];
+    if(equalityObject === finishedEqualities) {
+        var sortedEqualityList = _.clone(newEqualityList);
+        for (var i = 0; i < newEqualityList.length; i++) {
+            if (equalityObject[newEqualityList[i]] === "vertical angles are equal" || equalityObject[newEqualityList[i]] === "alternate interior angles are equal") {
+                sortedEqualityList[i - 1] = newEqualityList[i];
+                sortedEqualityList[i] = newEqualityList[i - 1];
+            }
         }
+    }
+    else{
+        var sortedEqualityList = newEqualityList;
     }
 
     return sortedEqualityList;

@@ -2,7 +2,7 @@
 <html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs congruency">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Geometry Proofs 1</title>
+    <title>Simple Geometry Proofs</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
         input[type=text] {
@@ -169,7 +169,6 @@
                             if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
                                 _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
-                                console.log("thinks statement is true " + reason);
                                 $("#thing1").val("");
                                 $("#thing2").val("");
                                 $("#reason").val("");
@@ -193,7 +192,6 @@
                             else{
                                 hintCategory = "bad format";
                             }
-                            console.log(hintCategory);
                         });
                         $("#reason").change(function(){ 
                             <!-- var curVal = $("#reason").val();
@@ -438,7 +436,6 @@
                             if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
                                 _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
-                                console.log("thinks statement is true " + reason);
                                 $("#thing1").val("");
                                 $("#thing2").val("");
                                 $("#reason").val("");
@@ -462,7 +459,6 @@
                             else{
                                 hintCategory = "bad format";
                             }
-                            console.log(hintCategory);
                         });
                         $("#reason").change(function(){ 
                             <!-- var curVal = $("#reason").val();
@@ -717,7 +713,6 @@
                                 }                            
                                 $(".statements").html(outputKnownProof());
                                 _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
-                                console.log("thinks statement is true " + reason);
                                 $("#thing1").val("");
                                 $("#thing2").val("");
                                 $("#reason").val("");
@@ -741,7 +736,6 @@
                             else{
                                 hintCategory = "bad format";
                             }
-                            console.log(hintCategory);
                         });
                         $("#reason").change(function(){ 
                             <!-- var curVal = $("#reason").val();
