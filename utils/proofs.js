@@ -22,6 +22,7 @@ var userProofDone;
 // knownEqualities is an object with key-value pairs corresponding to statement-justification pairs
 // of statements known in the course of proof to be equal
 var knownEqualities;
+var knownEqualitiesList;
 
 // finishedEqualities denotes all the equalities that should be known, and
 // the correct reasoning, at the end of the proof
@@ -62,6 +63,7 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
     finishedEqualitiesList = [];
 
     fixedTriangles = {};
+    knownEqualitiesList = [];
 
     SEGMENTS = segs;
     ANGLES = angs;
@@ -290,7 +292,7 @@ function verifyStatementArgs(statement, reason, category) {
         }
         else if(seg1.equals(seg2) && reason === "reflexive property"){
             knownEqualities[[seg1, seg2]] = "reflexive property";
-            knownEqualities[[seg2, seg1]] = "reflexive property";  
+            knownEqualitiesList.push([seg1, seg2]);
             return true;
         }
         else if (eqIn([seg1, seg2], knownEqualities)){
@@ -451,7 +453,8 @@ function outputFinishedProof() {
 function outputKnownProof() {
     var proofText = "<h3>Givens</h3>";
 
-    var knownKeys = sortEqualityStringList(_.keys(knownEqualities), knownEqualities);
+    var knownKeysList = sortEqualityList(knownEqualitiesList, knownEqualities);
+    var knownKeys = _.map(knownKeysList, function(key){ return key.toString(); });
 
     var numberGivens = 0;
     _.each(knownKeys, function(key) {
@@ -459,8 +462,8 @@ function outputKnownProof() {
             numberGivens++;
         }
     });
-    numberGivens /= 2;
-    for (var i = 0; i < knownKeys.length; i += 2) {
+
+    for (var i = 0; i < knownKeys.length; i ++) {
         if (knownEqualities[knownKeys[i]].substring(0, 4) != "Same") {
             if (knownEqualities[knownKeys[i]] === "given") {
                 numberGivens--;
@@ -1123,6 +1126,8 @@ function traceBack(statementKey, depth) {
         finishedEqualities[statementKey.reverse()] = "given";
         finishedEqualitiesList.push(statementKey);
         finishedEqualitiesList.push(statementKey.reverse());
+        knownEqualitiesList.push(statementKey);
+        knownEqualitiesList.push(statementKey.reverse());
 
         if (statementKey[0] instanceof Triang) {
             fixedTriangles[statementKey[0]] = true;
@@ -1470,6 +1475,8 @@ function traceBack(statementKey, depth) {
                 finishedEqualities[statementKey.reverse()] = "given";
                 finishedEqualitiesList.push(statementKey);
                 finishedEqualitiesList.push(statementKey.reverse());
+                knownEqualitiesList.push(statementKey);
+                knownEqualitiesList.push(statementKey.reverse());
             }
             // otherwise, change the labeling on the triangle so that the segments given in the
             // statement key are corresponding
@@ -1542,6 +1549,8 @@ function traceBack(statementKey, depth) {
                 finishedEqualities[statementKey.reverse()] = "given";
                 finishedEqualitiesList.push(statementKey);
                 finishedEqualitiesList.push(statementKey.reverse());
+                knownEqualitiesList.push(statementKey);
+                knownEqualitiesList.push(statementKey.reverse());
             }
             // otherwise, change the labeling on the triangle so that the angles given in the
             // statement key are corresponding
@@ -1614,6 +1623,8 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep) {
                 finishedEqualities[key.reverse()] = "given";
                 finishedEqualitiesList.push(key);
                 finishedEqualitiesList.push(key.reverse());
+                knownEqualitiesList.push(key);
+                knownEqualitiesList.push(key.reverse());
 
                 if (key[0] instanceof Triang) {
                     fixedTriangles[key[0]] = true;
@@ -1632,6 +1643,8 @@ function setGivenOrTraceBack(keys, reason, oldKey, dep) {
             finishedEqualities[oldKey.reverse()] = "given";
             finishedEqualitiesList.push(oldKey);
             finishedEqualitiesList.push(oldKey.reverse());
+            knownEqualitiesList.push(oldKey);
+            knownEqualitiesList.push(oldKey.reverse());
 
             if (oldKey[0] instanceof Triang) {
                 fixedTriangles[oldKey[0]] = true;
@@ -1741,6 +1754,7 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
         if (reason === "SSS") {
             knownEqualities[[triangle1, triangle2]] = "SSS";
             knownEqualities[[triangle2, triangle1]] = "SSS";
+            knownEqualitiesList.push([triangle1, triangle2]);
             return true;
         }
     }
@@ -1754,6 +1768,7 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
             if (reason === "ASA") {
                 knownEqualities[[triangle1, triangle2]] = "ASA";
                 knownEqualities[[triangle2, triangle1]] = "ASA";
+                knownEqualitiesList.push([triangle1, triangle2]);
                 return true;
             }
         }
@@ -1767,6 +1782,7 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
             if (reason === "SAS") {
                 knownEqualities[[triangle1, triangle2]] = "SAS";
                 knownEqualities[[triangle2, triangle1]] = "SAS";
+                knownEqualitiesList.push([triangle1, triangle2]);
                 return true;
             }
         }
@@ -1782,6 +1798,7 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
             if (reason === "AAS") {
                 knownEqualities[[triangle1, triangle2]] = "AAS";
                 knownEqualities[[triangle2, triangle1]] = "AAS";
+                knownEqualitiesList.push([triangle1, triangle2]);
                 return true;
             }
         }
@@ -1796,6 +1813,7 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
             if (reason === "AAS") {
                 knownEqualities[[triangle1, triangle2]] = "AAS";
                 knownEqualities[[triangle2, triangle1]] = "AAS";
+                knownEqualitiesList.push([triangle1, triangle2]);
                 return true;
             }
         }
@@ -1828,6 +1846,7 @@ function checkSegEqual(seg1, seg2, reason) {
                 if (reason === "CPCTC" || reason === "corresponding parts of congruent triangles are congruent") {
                     knownEqualities[[seg1, seg2]] = "corresponding parts of congruent triangles are congruent";
                     knownEqualities[[seg2, seg1]] = "corresponding parts of congruent triangles are congruent";
+                    knownEqualitiesList.push([seg1, seg2]);
                     return true;
                 }
             }
@@ -1856,6 +1875,7 @@ function checkAngEqual(ang1, ang2, reason) {
                 if (reason === "CPCTC" || reason === "corresponding parts of congruent triangles are congruent") {
                     knownEqualities[[ang1, ang2]] = "corresponding parts of congruent triangles are congruent";
                     knownEqualities[[ang2, ang1]] = "corresponding parts of congruent triangles are congruent";
+                    knownEqualitiesList.push([ang1, ang2]);
                     return true;
                 }
             }
@@ -1882,6 +1902,7 @@ function checkAngEqual(ang1, ang2, reason) {
             if (reason === "vertical angles" || reason === "vertical angles are equal") {
                 knownEqualities[[ang1, ang2]] = "vertical angles are equal";
                 knownEqualities[[ang2, ang1]] = "vertical angles are equal";
+                knownEqualitiesList.push([ang1, ang2]);
                 return true;
             }
         }
@@ -1892,6 +1913,7 @@ function checkAngEqual(ang1, ang2, reason) {
         if (reason === "alternate angles" || reason === "alternate interior angles are equal") {
             knownEqualities[[ang1, ang2]] = "alternate interior angles are equal";
             knownEqualities[[ang2, ang1]] = "alternate interior angles are equal";
+            knownEqualitiesList.push([ang1, ang2]);
             return true;
         }
     }
