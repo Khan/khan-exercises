@@ -2,11 +2,12 @@
 <html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs congruency">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Geometry Proofs 1</title>
+    <title>Simple Geometry Proofs</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
         input[type=text] {
             width: 30px;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -147,46 +148,101 @@
                         $(".hint2").hide();
                         $(".hint3").hide();
 
-                        var hint = "you haven't entered anything!";
+                        var hintCategory = "good format but wrong";
+                        var hintsLeft = 2;
+                        var giveAway = false;
 
                         $(".nextStatement input").keyup(function(){
-                            var triangles = [];
-                            triangles[0] = $("#thing1").val();
-                            triangles[1] = $("#thing2").val();
+                            var thing1 = $("#thing1").val().toUpperCase();
+                            var thing2 = $("#thing2").val().toUpperCase();
                             var reason = $("#reason").val();
 
-                            var verify = verifyStatementArgs(triangles[0]+"="+triangles[1], reason, "triangle congruence");
-                            if(verify.length > 0){
-                                hint = verify;
+                            if(thing1.length === 0 && thing2.length === 0){
+                                hintCategory = "good format but wrong";
+                                return;
                             }
-                            else if(!verify){
-                                hint = "you've put in triangles that are in the figure, but your reason isn't right.";
-                            }
-                            else{
-                                hint = "you've already finished! Hit the check answer button."
+
+                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
+
+                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
                                 _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
-                                $(".nextStatement").hide();
+                                $("#thing1").val("");
+                                $("#thing2").val("");
+                                $("#reason").val("");
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                                if(userProofDone === true){
+                                    $(".nextStatement").hide();
+                                    $("#hint").attr("disabled", true);
+                                }
+                                else{
+                                    hintsLeft = 2;
+                                    $("#hint").val("I'd like a hint (2 hints left for this step)");
+                                    $("#hint").attr("disabled", false);
+                                    hintCategory = "good format but wrong";
+                                    giveAway = false;
+                                }
                             }
-                            console.log(hint);
+                            else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
+                                hintCategory = "good format but wrong";
+                            }
+                            else{
+                                hintCategory = "bad format";
+                            }
                         });
                         $("#reason").change(function(){ 
+                            <!-- var curVal = $("#reason").val();
+                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
+                                $("#symbol1").html(" \\triangle ");
+                                $("#symbol2").html(" \\triangle ");
+                            }
+                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
+                                $("#symbol1").html(" \\angle ");
+                                $("#symbol2").html(" \\angle ");
+                            }
+                            else{
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                            }
+                            $.tmpl.type.code()($("#symbol1")[0]);
+                            $.tmpl.type.code()($("#symbol2")[0]); -->
                             $(".nextStatement input").keyup(); 
                         });
 
+                        var storedHint = "";
                         $("#hint").click(function(){
-                            console.log("custom hint");
-                            if(HINTS_LEFT === 3){
-                                $(".hint1").show();
+                            if(hintsLeft &gt; 0){
+                                hintsLeft--;
+                                if(hintCategory === "bad format"){
+                                    hintsLeft++;
+                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                    $(this).attr("disabled", false);
+                                    $(".actualHints").append("&lt;p&gt; The things you've entered aren't segments, angles, or triangles in the figure. &lt;/p&gt;");
+                                }
+                                else{
+                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                    $(this).attr("disabled", false);
+                                    if(!giveAway){
+                                        var nextHintSet = nextStatementHint();
+                                        $(".actualHints").append("&lt;p&gt;"+nextHintSet[0]+"&lt;/p&gt;");
+                                        storedHint = nextHintSet[1];
+                                    }
+                                    else{
+                                        $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
+                                        storedHint = "";
+                                    }
+                                    _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                                    giveAway = !giveAway;
+                                }
+                                if(hintsLeft === 0){
+                                    $("#hint").attr("disabled", true);
+                                }
                             }
-                            else if(HINTS_LEFT === 2){
-                                $(".hint2").html("In the step you're working on, "+hint);
-                                $(".hint2").show();
-                            }
-                            else{
-                                $(".hint3").show();
-                            }
-                            HINTS_LEFT--;
                         });
 
                     </div>
@@ -194,30 +250,30 @@
 
                 <p class="statements"> <var> outputKnownProof() </var></p>
                 <p class="nextStatement">
-                    <code> \bigtriangleup </code> <input type="text" id="thing1"></input> <code> =  \bigtriangleup </code> <input type="text" id="thing2" > </input> because 
+                    <input type="text" id="thing1"></input> <code> \cong </code> <input type="text" id="thing2" > </input> because 
                     <select id="reason">
                         <option value="">select a reason</option>
                         <option value="SSS">side-side-side congruence</option>
                         <option value="ASA">angle-side-angle congruence</option>
                         <option value="SAS">side-angle-side congruence</option>
                         <option value="AAS">angle-angle-side congruence</option>
+                        <option value="vertical angles">vertical angles are equal</option>
+                        <option value="alternate angles">alternate interior angles are equal</option>
+                        <option value="CPCTC">corresp. parts of congruent triangles are congruent</option>
                     </select>
                 </p>
-                <div class="customHints">
-                    <p class="hint1">Given the statements you have, you can prove <var> FINISHED </var> in one step. What triangle congruence postulate should you use?</p>
-                    <p class="hint2"></p>
-                    <p class="hint3">You can prove <var> FINISHED </var> by <var> finishedEqualities[finalRelation] </var>.</p>
+                <div class="actualHints">
                 </div>
                 <div class="solution" data-type="custom">
                     <div class="instruction">
                         When you enter the next statement in the proof, and a valid reason, that statement will be added to the proof. When you're done, hit check answer.
                     </div>
-                    <div class="guess">[knownEqualities]</div>
+                    <div class="guess">1</div>
                     <div class="validator-function">
                         return isProofDone();
                     </div>
                     <div class="show-guess">
-                        
+                        return knownEqualities;
                     </div>
                 </div>
                 <div class="hints">
@@ -280,7 +336,7 @@
                 </div>
                 <p class="question">
                     <p>Prove <var> FINISHED </var>.</p>
-                    <p>This figure is not drawn to scale.</p>
+                    <p> <code> \overline{AB} </code> is parallel to <code> \overline{DE} </code>. This figure is not drawn to scale.</p>
                 </p>
 
                 <div class="problem">
@@ -355,74 +411,144 @@
                         graph.congruency.addLabel("D", "left");
                         graph.congruency.addLabel("E", "right");
 
-                        $(".triangleStatement").hide();
+                        $(".hint1").hide();
+                        $(".hint2").hide();
+                        $(".hint3").hide();
 
-                        $(".angleStatement input").keyup(function(){
-                            var angles = [];
-                            angles[0] = $(".angleStatement .thing1").val();
-                            angles[1] = $(".angleStatement .thing2").val();
-                            var reason = $(".angleStatement .reason").val();
+                        var hintCategory = "good format but wrong";
+                        var hintsLeft = 2;
+                        var giveAway = false;
 
-                            var verify = verifyStatementArgs(angles[0]+"="+angles[1], reason, "angle equality");
-                            if(verify.length > 0){
-                                hint = verify;
+                        $(".nextStatement input").keyup(function(){
+                            var thing1 = $("#thing1").val().toUpperCase();
+                            var thing2 = $("#thing2").val().toUpperCase();
+                            var reason = $("#reason").val();
+
+                            if(thing1.length === 0 && thing2.length === 0){
+                                hintCategory = "good format but wrong";
+                                return;
                             }
-                            else if(!verify){
-                                hint = "you've put in angles that are in the figure, but your reason isn't right.";
-                            }
-                            else{
-                                hint = "you've already finished! Hit the check answer button."
+
+                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
+
+                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
                                 _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
-                                $(".angleStatement").hide();
-                                $(".triangleStatement").show();
+                                $("#thing1").val("");
+                                $("#thing2").val("");
+                                $("#reason").val("");
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                                if(userProofDone === true){
+                                    $(".nextStatement").hide();
+                                    $("#hint").attr("disabled", true);
+                                }
+                                else{
+                                    hintsLeft = 2;
+                                    $("#hint").val("I'd like a hint (2 hints left for this step)");
+                                    $("#hint").attr("disabled", false);
+                                    hintCategory = "good format but wrong";
+                                    giveAway = false;
+                                }
                             }
-                            console.log(hint);
+                            else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
+                                hintCategory = "good format but wrong";
+                            }
+                            else{
+                                hintCategory = "bad format";
+                            }
                         });
-                        $(".angleStatement select").change(function(){ 
-                            $(".angleStatement input").keyup(); 
+                        $("#reason").change(function(){ 
+                            <!-- var curVal = $("#reason").val();
+                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
+                                $("#symbol1").html(" \\triangle ");
+                                $("#symbol2").html(" \\triangle ");
+                            }
+                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
+                                $("#symbol1").html(" \\angle ");
+                                $("#symbol2").html(" \\angle ");
+                            }
+                            else{
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                            }
+                            $.tmpl.type.code()($("#symbol1")[0]);
+                            $.tmpl.type.code()($("#symbol2")[0]); -->
+                            $(".nextStatement input").keyup(); 
+                        });
+
+                        
+                        var storedHint = "";
+                        $("#hint").click(function(){
+                            if(hintsLeft &gt; 0){
+                                hintsLeft--;
+                                if(hintCategory === "bad format"){
+                                    hintsLeft++;
+                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                    $(this).attr("disabled", false);
+                                    $(".actualHints").append("&lt;p&gt; The things you've entered aren't segments, angles, or triangles in the figure. &lt;/p&gt;");
+                                }
+                                else{
+                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                    $(this).attr("disabled", false);
+                                    if(!giveAway){
+                                        var nextHintSet = nextStatementHint();
+                                        $(".actualHints").append("&lt;p&gt;"+nextHintSet[0]+"&lt;/p&gt;");
+                                        storedHint = nextHintSet[1];
+                                    }
+                                    else{
+                                        $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
+                                        storedHint = "";
+                                    }
+                                    _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                                    giveAway = !giveAway;
+                                }
+                                if(hintsLeft === 0){
+                                    $("#hint").attr("disabled", true);
+                                }
+                            }
                         });
 
 
                     </div>
+                </div>
                 
-                    <p class="statements"> <var> outputKnownProof() </var></p>
-                    <div class="angleStatement">
-                        <code> \angle </code> <input type="text" maxlength="3" class="thing1"></input> <code> = \angle </code> <input type="text" maxlength="3" class="thing2"> </input> because
-                        <select class="reason">
-                            <option value="">select a reason</option>
-                            <option value="CPCTC">corresp. parts of congruent triangles are congruent</option>
-                            <option value="vertical angles">vertical angles are equal</option>
-                            <option value="alternate angles">alternate interior angles are equal</option>
-                        </select>
-                    </div>
-                    <div class="triangleStatement">
-                        <code> \bigtriangleup </code> <input type="text" maxlength="3"></input> <code> =  \bigtriangleup </code> <input type="text" maxlength="3"> </input> because 
-                        <select>
-                            <option value="">select a reason</option>
-                            <option value="SSS">side-side-side congruence</option>
-                            <option value="ASA">angle-side-angle congruence</option>
-                            <option value="SAS">side-angle-side congruence</option>
-                            <option value="AAS">angle-angle-side congruence</option>
-                        </select>
-                    </div>
+                <p class="statements"> <var> outputKnownProof() </var></p>
+                <p class="nextStatement">
+                    <input type="text" id="thing1"></input> <code> \cong </code> <input type="text" id="thing2" > </input> because 
+                    <select id="reason">
+                        <option value="">select a reason</option>
+                        <option value="SSS">side-side-side congruence</option>
+                        <option value="ASA">angle-side-angle congruence</option>
+                        <option value="SAS">side-angle-side congruence</option>
+                        <option value="AAS">angle-angle-side congruence</option>
+                        <option value="vertical angles">vertical angles are equal</option>
+                        <option value="alternate angles">alternate interior angles are equal</option>
+                        <option value="CPCTC">corresp. parts of congruent triangles are congruent</option>
+                    </select>
+                </p>
+                <div class="actualHints">
                 </div>
                 <div class="solution" data-type="custom">
                     <div class="instruction">
                         When you enter the next statement in the proof, and a valid reason, that statement will be added to the proof. When you're done, hit check answer.
                     </div>
-                    <div class="guess">[]</div>
+                    <div class="guess">1</div>
                     <div class="validator-function">
                         return isProofDone();
                     </div>
                     <div class="show-guess">
-                        
+                        return knownEqualities;
                     </div>
                 </div>
                 <div class="hints">
-                    <p>You only have two equalities, but you need three to prove two triangles congruent... What can you use to prove that an angle in one triangle is equal to an angle in the other?</p>
-                    <p> <var>nextStatementHint()</var> </p>
-
+                    <p></p>
+                    <p></p>
+                    <p></p>
                 </div>
             </div>
             <div id="shared">
@@ -546,40 +672,160 @@
                         graph.congruency.addAngles("B");
                         graph.congruency.addAngles("C");
                         graph.congruency.addAngles("D");
+
+                        for(var angle in graph.congruency.angles){
+                            graph.congruency.angles[angle].setSelectedStyle({
+                                stroke: "black",
+                                "stroke-width": 3
+                            });
+                        }
                         
                         graph.congruency.addLabel("A", "above");
                         graph.congruency.addLabel("B", "left");
                         graph.congruency.addLabel("C", "right");
                         graph.congruency.addLabel("D", "below");
 
+                        $(".hint1").hide();
+                        $(".hint2").hide();
+                        $(".hint3").hide();
+
+                        var hintCategory = "good format but wrong";
+                        var hintsLeft = 2;
+                        var giveAway = false;
+
+                        $(".nextStatement input").keyup(function(){
+                            var thing1 = $("#thing1").val().toUpperCase();
+                            var thing2 = $("#thing2").val().toUpperCase();
+                            var reason = $("#reason").val();
+
+                            if(thing1.length === 0 && thing2.length === 0){
+                                hintCategory = "good format but wrong";
+                                return;
+                            }
+
+                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
+
+                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
+                                if($("#thing1").val() === $("#thing2").val() || $("#thing1").val() === $("#thing2").val().split("").reverse().join("")){
+
+                                }                            
+                                $(".statements").html(outputKnownProof());
+                                _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
+                                $("#thing1").val("");
+                                $("#thing2").val("");
+                                $("#reason").val("");
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                                if(userProofDone === true){
+                                    $(".nextStatement").hide();
+                                    $("#hint").attr("disabled", true);
+                                }
+                                else{
+                                    hintsLeft = 2;
+                                    $("#hint").val("I'd like a hint (2 hints left for this step)");
+                                    $("#hint").attr("disabled", false);
+                                    hintCategory = "good format but wrong";
+                                    giveAway = false;
+                                }
+                            }
+                            else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
+                                hintCategory = "good format but wrong";
+                            }
+                            else{
+                                hintCategory = "bad format";
+                            }
+                        });
+                        $("#reason").change(function(){ 
+                            <!-- var curVal = $("#reason").val();
+                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
+                                $("#symbol1").html(" \\triangle ");
+                                $("#symbol2").html(" \\triangle ");
+                            }
+                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
+                                $("#symbol1").html(" \\angle ");
+                                $("#symbol2").html(" \\angle ");
+                            }
+                            else{
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                            }
+                            $.tmpl.type.code()($("#symbol1")[0]);
+                            $.tmpl.type.code()($("#symbol2")[0]); -->
+                            $(".nextStatement input").keyup(); 
+                        });
+
+                        
+                        var storedHint = "";
+                        $("#hint").click(function(){
+                            if(hintsLeft &gt; 0){
+                                hintsLeft--;
+                                if(hintCategory === "bad format"){
+                                    hintsLeft++;
+                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                    $(this).attr("disabled", false);
+                                    $(".actualHints").append("&lt;p&gt; The things you've entered aren't segments, angles, or triangles in the figure. &lt;/p&gt;");
+                                }
+                                else{
+                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                    $(this).attr("disabled", false);
+                                    if(!giveAway){
+                                        var nextHintSet = nextStatementHint();
+                                        $(".actualHints").append("&lt;p&gt;"+nextHintSet[0]+"&lt;/p&gt;");
+                                        storedHint = nextHintSet[1];
+                                    }
+                                    else{
+                                        $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
+                                        storedHint = "";
+                                    }
+                                    _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                                    giveAway = !giveAway;
+                                }
+                                if(hintsLeft === 0){
+                                    $("#hint").attr("disabled", true);
+                                }
+                            }
+                        });
+
                     </div>
                 </div>
 
-                <p class="statements">
-                    <code> \overline{ <input>sdfjlsdfkj</input> } </code>
+                <p class="statements"> <var> outputKnownProof() </var></p>
+                <p class="nextStatement">
+                    <input type="text" id="thing1"></input> <code> \cong </code> <input type="text" id="thing2" > </input> because 
+                    <select id="reason">
+                        <option value="">select a reason</option>
+                        <option value="SSS">side-side-side congruence</option>
+                        <option value="ASA">angle-side-angle congruence</option>
+                        <option value="SAS">side-angle-side congruence</option>
+                        <option value="AAS">angle-angle-side congruence</option>
+                        <option value="vertical angles">vertical angles are equal</option>
+                        <option value="alternate angles">alternate interior angles are equal</option>
+                        <option value="CPCTC">corresp. parts of congruent triangles are congruent</option>
+                        <option value="reflexive property">reflexive property</option>
+                    </select>
                 </p>
+                <div class="actualHints">
+                </div>
                 <div class="solution" data-type="custom">
                     <div class="instruction">
-                        <p> <var> FINISHED </var> by 
-                        <select class="statement_type">
-                            <option>Side-Side-Side Congruence</option>
-                            <option>Side-Angle-Side Congruence</option>
-                            <option>Angle-Side-Angle Congruence</option>
-                            <option>Angle-Angle-Side Congruence</option>
-                        </select> </p>
+                        When you enter the next statement in the proof, and a valid reason, that statement will be added to the proof. When you're done, hit check answer.
                     </div>
-                    <div class="guess">[]</div>
+                    <div class="guess">1</div>
                     <div class="validator-function">
-                        return userProofDone;
+                        return isProofDone();
                     </div>
                     <div class="show-guess">
-                        
+                        return knownEqualities;
                     </div>
                 </div>
                 <div class="hints">
-                    <p>You only have two equalities, but you need three to prove two triangles congruent... What other fact about these two triangles can you use?</p>
-                    <p> The triangles have a shared side: <code> \overline{AD} </code> is the same length in <code> \bigtriangleup BAD</code> as it is in <code> \bigtriangleup CAD.</code></p>
-                    <p><var>nextStatementHint()</var> Using what congruence theorem?</p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
                 </div>
             </div>
         </div>
