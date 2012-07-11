@@ -604,7 +604,7 @@ function checkFillBlanksStatement(divID) {
     var input1 = $($("#" + divID + " input")[0]).val().toUpperCase();
     var input2 = $($("#" + divID + " input")[1]).val().toUpperCase();
 
-    //triangles
+    //triangles: in this case, we need to make sure that the triangles input were any permutation of the correct triangles
     if (components[0] === "t") {
         var triangle1 = finishedKeys[components[1]][0];
         var triangle2 = finishedKeys[components[1]][1];
@@ -618,8 +618,17 @@ function checkFillBlanksStatement(divID) {
         var inputTriangle2 = new Triang([new Seg(input2[0], input2[1]), new Seg(input2[1], input2[2]), new Seg(input2[2], input2[0])],
             [new Ang(input2[0], input2[1], input2[2]), new Ang(input2[1], input2[2], input2[0]), new Ang(input2[2], input2[0], input2[1])]);
 
-        if ((inputTriangle1.equals(triangle1) && inputTriangle2.equals(triangle2))
-            || (inputTriangle1.equals(triangle2) && inputTriangle2.equals(triangle1))) {
+        var perms1 = generateTrianglePermutations(inputTriangle1);
+        var perms2 = generateTrianglePermutations(inputTriangle2);
+        var isPermutation = false;
+        
+        for(var i = 0; i < perms1.length; i++) {
+            if(perms1[i].equals(triangle1) && perms2[i].equals(triangle2)){
+                isPermutation = true;
+            }
+        }
+
+        if (isPermutation) {
             knownEqualities[[triangle1, triangle2]] = "given";
             knownEqualities[[triangle2, triangle1]] = "given";
             $("#" + divID + " input").remove();
@@ -1079,7 +1088,7 @@ Triang.prototype.equals = function(otherTriang) {
     var myPoints = [this.angs[0].mid, this.angs[1].mid, this.angs[2].mid];
     var otherPoints = [otherTriang.angs[0].mid, otherTriang.angs[1].mid, otherTriang.angs[2].mid];
 
-    return _.difference(myPoints, otherPoints).length === 0;
+    return myPoints[0] === otherPoints[0] && myPoints[1] === otherPoints[1] && myPoints[2] === otherPoints[2];
 };
 
 // If two smaller angles share a midpoint and one of two endpoints, they can be
