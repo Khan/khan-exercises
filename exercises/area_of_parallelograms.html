@@ -49,7 +49,7 @@
                     }
                 },
                 animHint: function() {
-                    slice.animate({ transform: "T" + (-B * 30) + ",0" }, 1000, "easeOut");
+                    slice.animate({ translation: (-B * 30) + ",0" }, 1000, "easeOut");
 
                     if (SH < 0) {
                         var st = graph.raphael.set();
@@ -58,7 +58,7 @@
                         $(baseL).fadeOut();
                         $(heightL).fadeOut();
 
-                        st.animate({ transform: "T" + (SH * 30) + ",0" }, 1000, "easeOut", function() {
+                        st.animate({ translation: (SH * 30) + ",0" }, 1000, "easeOut", function() {
                             baseL = graph.label([B/2 + SH, 0], "\\color{" + KhanUtil.ORANGE + "}{b = " + B + "\\text{ " + UNIT + "}}", "below");
                             heightL = graph.label([B + SH, H/2], "\\color{" + KhanUtil.BLUE + "}{h = " + H + "\\text{ " + UNIT + "}}", "right");
                             $(baseL).hide().fadeIn();
