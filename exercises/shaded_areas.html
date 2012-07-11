@@ -79,7 +79,7 @@
 
                     triangle: function(x, y, size) {
                         var s = 2*size,
-                        v = [[x, y], [x + s, y], [x + s/2, y + sqrt(3)*s/2], [x, y]],
+                        v = [[x, y], [x + s, y], [x + s/2, y + sqrt(3)*s/2]],
                         centroid = [(v[0][0] + v[1][0] + v[2][0]) / 3,
                                     (v[0][1] + v[1][1] + v[2][1]) / 3];
 
@@ -87,13 +87,14 @@
                         v = _.map(v, function(vertex) {
                             return [vertex[0] - centroid[0], vertex[1] - centroid[1]];
                         });
+                        v.push(true);
 
                         var sign = function(p1, p2, p3) {
                             return (p1[0] - p3[0]) * (p2[1] - p3[1]) - (p2[0] - p3[0]) * (p1[1] - p3[1]);
                         };
 
                         return {
-                            vertices: v,
+                            vertices: _.initial(v),
                             contains: function(point) {
                                 var b1, b2, b3;
 
@@ -148,8 +149,8 @@
                     <div class="graphie" id="shapes">
                         var g = init({ range: [[-14, 14], [-14, 14]], scale: [11, 11] });
 
-                        graph.outerShape = OUTER.drawShape(g, { fill: GRAY, stroke: "black" });
-                        graph.innerShape = INNER.drawShape(g, { fill: "white", stroke: "black" });
+                        graph.outerShape = OUTER.drawShape(g, { fill: BLUE, stroke: BLUE, "fill-opacity": 0.5 });
+                        graph.innerShape = INNER.drawShape(g, { fill: "#f8f8f8", stroke: BLUE });
 
                         graph.outerSize = OUTER.drawSize(g, { stroke: BLUE, opacity: 1 });
                         graph.innerSize = INNER.drawSize(g, { stroke: ORANGE, opacity: 1 }, true);
