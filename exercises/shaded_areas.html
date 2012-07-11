@@ -22,10 +22,10 @@
                     square: function(x, y, size) {
                         var s = 2*size,
                         v = [[x - size, y + size], [x + size, y + size], [x + size, y - size],
-                             [x - size, y - size]];
+                             [x - size, y - size], true];
 
                         return {
-                            vertices: v,
+                            vertices: _.initial(v),
                             contains: function(point) {
                                 return (point[0] &gt;= (x - size)) && (point[0] &lt;= (x + size)) &&
                                        (point[1] &gt;= (y - size)) && (point[1] &lt;= (y + size));
@@ -144,6 +144,7 @@
                 <div>
                     <div class="question">What is the area of the shaded region?</div>
                     <div class="extra-info">(Round to the nearest hundredth.)</div>
+                    <div class="solution" data-inexact data-max-error="0.01" data-type="decimal"><var>SHADED_AREA</var></div>
                     <div class="graphie" id="shapes">
                         var g = init({ range: [[-14, 14], [-14, 14]], scale: [11, 11] });
 
