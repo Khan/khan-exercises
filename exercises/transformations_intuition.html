@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Transformations Intuition</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        input[type=text] #xTrans #yTrans {
+            width: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        var transformPoint = function(xDiff,yDiff){
+            var x = Number(xDiff);
+            var y = Number(yDiff);
+            console.log(x,y);
+            if(isNaN(x) || isNaN(y)){
+                return;
+            }
+            else{
+                cp = KhanUtil.currentGraph.graph.curPoint;
+                KhanUtil.currentGraph.graph.curPoint = [cp[0] + x, cp[1] + y];
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars" data-ensure="INIT_POINT != END_POINT">
+                <var id="INIT_POINT">[randRange(-10,10), randRange(-10,10)]</var>
+                <var id="END_POINT">[randRange(-10,10), randRange(-10,10)]</var>
+
+                <var id="DOT_ATTRS">{ r: 0.3, fill: GRAY, stroke: "none" }</var>
+
+                <!-- <var id="SLOPE_FRAC">reduce( randRangeNonZero( -5, 5 ), randRange( 1, 5 ) )</var>
+                <var id="YINT">randRangeNonZero( max( -10, -10 - SLOPE_FRAC[0] ), min( 10, 10 - SLOPE_FRAC[0] ) )</var>
+                <var id="SLOPE">SLOPE_FRAC[0] / SLOPE_FRAC[1]</var>
+                <var id="PRETTY_SLOPE">SLOPE === 1 ? "" : ( SLOPE === -1 ? "-" : fraction( SLOPE_FRAC[0], SLOPE_FRAC[1], true, true ) )</var>
+                <var id="MULT">randRangeNonZero( -3, 3 )</var>
+                <var id="A">SLOPE_FRAC[0] * -MULT</var>
+                <var id="B">SLOPE_FRAC[1] * MULT</var>
+                <var id="C">SLOPE_FRAC[1] * YINT * MULT</var>
+                <var id="STD_FORM">randFromArray([ true, false ])</var>
+                <var id="COMP">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
+                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;" }[ COMP ] : COMP</var>
+                <var id="LESS_THAN">COMP === "&lt;" || COMP === "&le;"</var>
+                <var id="INCLUSIVE">COMP === "&ge;" || COMP === "&le;"</var> -->
+
+            </div>
+
+            <p class="question">Move the given point to (<var> END_POINT </var>) using the three kinds of transformations given.</p>
+
+            <div class="problem">
+                <form>
+                    <input type="button" value="Translate" onClick="javascript:
+                        transformPoint($('#xTrans').val(), $('#yTrans').val());
+                        KhanUtil.currentGraph.graph.update();
+                    " />
+                    <label>x:</label>
+                    <input type="text" id="xTrans" style="width: 15px"></input>
+                    <label>y:</label>
+                    <input type="text" id="yTrans" style="width: 15px"></input>
+                    <input type="button" value="Rotate" onClick="javascript:
+                        KhanUtil.currentGraph.graph.dasharray = '';
+                        KhanUtil.currentGraph.graph.update();
+                    " />
+                    <input type="text" id="degRotate" style="width: 20px"></input>
+                    <label><code> {}^{\circ} </code> </label>
+                    <input type="button" value="Reflect" onClick="javascript:
+                        KhanUtil.currentGraph.graph.dasharray = '- ';
+                        KhanUtil.currentGraph.graph.update();
+                    " />
+                    <label>
+                        <input name="reflectRadio" type="radio" value="xAxis" checked onClick="javascript:
+                            KhanUtil.currentGraph.graph.dasharray = '';
+                            KhanUtil.currentGraph.graph.update();
+                        " />
+                        x-axis
+                    </label>
+                    <label>
+                        <input name="reflectRadio" type="radio" value="yAxis" onClick="javascript:
+                            KhanUtil.currentGraph.graph.dasharray = '- ';
+                            KhanUtil.currentGraph.graph.update();
+                        " />
+                        y-axis
+                    </label>
+                </form>
+                </br></br>
+                <div class="graphie" id="grid">
+                    graphInit({
+                        range: 11,
+                        scale: 20,
+                        axisArrows: "&lt;-&gt;",
+                        tickStep: 1,
+                        labelStep: 1,
+                        gridOpacity: 0.05,
+                        axisOpacity: 0.2,
+                        tickOpacity: 0.4,
+                        labelOpacity: 0.5
+                    });
+
+                    label( [ 0, 11 ], "y", "above" );
+                    label( [ 11, 0 ], "x", "right" );
+
+                    circle(END_POINT, { r: 0.3, fill: GRAY, stroke: "none" });
+
+                    graph.myPoint = circle(INIT_POINT, { r: 0.3, fill: BLUE, stroke: "none" });
+
+                    graph.curPoint = INIT_POINT;
+
+                    graph.update = function() {
+                        graph.myPoint.remove();
+                        graph.myPoint = circle(graph.curPoint, { r: 0.3, fill: BLUE, stroke: "none" });
+                    };
+
+                    <!-- addMouseLayer();
+                    graph.pointA = addMovablePoint({
+                        coord: INIT_POINT,
+                        snapX: 1,
+                        snapY: 1,
+                        normalStyle: {
+                            stroke: KhanUtil.BLUE,
+                            fill: KhanUtil.BLUE
+                        }
+                    }); -->
+
+                    
+
+                </div>
+
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Drag the two points to move the line into the correct position.
+                </div>
+                <div class="guess">[ graph.pointA.coord, graph.pointB.coord,
+                    graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? graph.shadetop : !graph.shadetop,
+                    graph.dasharray === "- " ? false : true ]
+                </div>
+                <div class="validator-function">
+                    var slope = ( guess[1][1] - guess[0][1] ) / ( guess[1][0] - guess[0][0] );
+                    var yint = slope * ( 0 - guess[0][0] ) + guess[0][1];
+                    return abs( SLOPE - slope ) &lt; 0.001
+                        &amp;&amp; abs( YINT - yint ) &lt; 0.001
+                        &amp;&amp; guess[2] === LESS_THAN
+                        &amp;&amp; guess[3] === INCLUSIVE;
+                </div>
+                <div class="show-guess">
+                    graph.pointA.setCoord( guess[0] );
+                    graph.pointB.setCoord( guess[1] );
+                    graph.shadetop = graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? guess[2] : !guess[2];
+                    if ( guess[3] ) {
+                        graph.dasharray = "";
+                        $( "input[name=dashradio][value=solid]" ).attr( "checked", true );
+                    } else {
+                        graph.dasharray = "- ";
+                        $( "input[name=dashradio][value=dashed]" ).attr( "checked", true );
+                    }
+                    graph.update();
+                </div>
+                <div class="example">graph the inequality</div>
+                <div class="example">make sure the correct side is shaded</div>
+                <div class="example">make sure the line is correctly shown as solid or dashed</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hints">
+        
+    </div>
+
+</div>
+</body>
+</html>
