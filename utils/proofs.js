@@ -149,7 +149,7 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
     // or the proof is too short, just start over
     // TODO: replace the provetype === all shortcut
     if (finishedEqualities[finalRelation] === "given"
-        || (_.keys(finishedEqualities).length < 5 + SEGMENTS.length + ANGLES.length + TRIANGLES.length && toProveType === "all")) {
+        || (_.keys(finishedEqualities).length < 5 + SEGMENTS.length/2 + ANGLES.length + TRIANGLES.length && toProveType === "all")) {
         return initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb, toProveType);
     }
 
@@ -235,6 +235,8 @@ function verifyStatementArgs(statement, reason, category) {
             }
             return false;
         });
+
+        console.log(triangle1,triangle2);
 
         if (triangle1 == null || triangle2 == null) {
             return "those triangles aren't in this figure...";
@@ -1465,7 +1467,7 @@ function traceBack(statementKey, depth) {
                     }
                 }
             }
-
+            console.log(newTriangles);
             // if there are no eligible triangle pairs, we simply give the segment equality as given
             if (newTriangles.length === 0) {
                 finishedEqualities[statementKey] = "given";
