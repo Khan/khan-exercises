@@ -143,9 +143,13 @@ $.extend(KhanUtil, {
      * If niceAngle is truthy, it also delivers more natural values for 0 (0 instead
      * of 0 \pi) and 1 (\pi instead of 1 \pi).
      * */
-    piFraction: function(num, niceAngle) {
+    piFraction: function(num, niceAngle, tolerance) {
         if (num.constructor === Number) {
-            var f = KhanUtil.toFraction(num / Math.PI, 0.001),
+            if (tolerance == null) {
+                tolerance = 0.001;
+            }
+
+            var f = KhanUtil.toFraction(num / Math.PI, tolerance),
              n = f[0],
              d = f[1];
 

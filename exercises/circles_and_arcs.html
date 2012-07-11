@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers">
+    <head>
+        <title>Circles and arcs</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="ANGLE">randRange(5, 355)</var>
+                <var id="R">randRange(5, 10)</var>
+                <var id="C">2 * Math.PI * R</var>
+
+                <var id="PRETTY_C">piFraction(C)</var>
+
+                <var id="ROTATE_ARC">randRange(0, 359)</var>
+
+                <var id="A">ANGLE/360 * C</var>
+
+                <var id="PRETTY_A">piFraction(A)</var>
+            </div>
+
+            <div class="problems">
+                <div id="c-angle-to-a">
+                    <p class="problem">A circle with circumference <code class="hint_blue"><var>PRETTY_C</var></code> has an arc with a <code class="hint_pink"><var>ANGLE</var>^\circ</code> central angle.</p>
+                    <p class="question">What is the length of the arc?</p>
+                    <div class="graphie" id="circle">
+                        init({
+                            range: [[-R - 2, R + 2], [-R - 2, R + 2]],
+                            scale: [15, 15]
+                        });
+
+                        circle([0, 0], R, { stroke: BLUE });
+
+                        path([polar(R, ROTATE_ARC + ANGLE), [0, 0], polar(R, ROTATE_ARC)], { stroke: RED, "stroke-dasharray": "." });
+                        arc([0, 0], R, ROTATE_ARC, ROTATE_ARC + ANGLE, { stroke: RED, "stroke-dasharray": "-" });
+
+                        graph.cAngle = 180 + ((ROTATE_ARC + ANGLE) + ROTATE_ARC) / 2;
+
+                        graph.cL = label(polar(R, graph.cAngle), "\\color{"+BLUE+"}{"+PRETTY_C+"}", labelDirection(graph.cAngle));
+
+                        graph.aAngle = (ROTATE_ARC * 2 + ANGLE) / 2;
+
+                        graph.angle = arc([0, 0], R * 0.12, ROTATE_ARC, ROTATE_ARC + ANGLE, { stroke: PINK });
+                        graph.angleL = label([0, 0], "\\color{"+PINK+"}{"+ANGLE+"^\\circ}", labelDirection(graph.aAngle));
+
+                        graph.arcL = label(polar(R, graph.aAngle), "\\color{"+RED+"}{"+PRETTY_A+"}", labelDirection(graph.aAngle));
+                        $(graph.arcL).hide();
+                    </div>
+                    <p class="solution" data-forms="integer, proper, improper, mixed, pi"><var>A</var></p>
+
+                    <div class="hints">
+                        <p>The ratio between the arc's central angle <code class="hint_pink">\theta</code> and <code>360^\circ</code> is equal to the ratio between the arc length <code class="hint_red">s</code> and the circle's circumference <code class="hint_blue">c</code>.</p>
+                        <p><code>\dfrac{\theta}{360^\circ} = \dfrac{s}{c}</code></p>
+                        <p><code>\dfrac{<var>ANGLE</var>^\circ}{360^\circ} = \dfrac{s}{<var>PRETTY_C</var>}</code></p>
+                        <div>
+                            <p><code><var>PRETTY_A</var> = s</code></p>
+                            <div class="graphie" data-update="circle">
+                                $(graph.arcL).show();
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="r-angle-to-a" data-type="c-angle-to-a">
+                    <p class="problem">A circle has a radius of <code class="hint_blue"><var>R</var></code>. An arc in this circle has a central angle of <code class="hint_pink"><var>ANGLE</var>^\circ</code>.</p>
+                    <div class="graphie" data-update="circle">
+                        $(graph.cL).hide();
+
+                        graph.r = path([[0, 0], polar(R, graph.cAngle)], { stroke: BLUE });
+                        graph.rL = label(polar(R/2, graph.cAngle), "\\color{"+BLUE+"}{"+R+"}", "above");
+                    </div>
+                    <div class="hints" data-apply="prependContents">
+                        <div>
+                            <p>First, calculate the circumference of the circle.</p>
+                            <p><code>c = 2\pi r = 2\pi (<var>R</var>) = <var>PRETTY_C</var></code></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="c-a-to-angle" data-type="c-angle-to-a">
+                    <p class="problem">A circle has a circumference of <code class="hint_blue"><var>PRETTY_C</var></code>. It has an arc of length <code class="hint_red"><var>PRETTY_A</var></code>.</p>
+                    <p class="question">What is the central angle of the arc, in degrees?</p>
+                    <div class="graphie" data-update="circle">
+                        $(graph.angle).hide();
+                        $(graph.angleL).hide();
+
+                        $(graph.arcL).show();
+                    </div>
+                    <div class="solution" data-forms="integer"><var>ANGLE</var></div>
+
+                    <div class="hints">
+                        <p>The ratio between the arc's central angle <code class="hint_pink">\theta</code> and <code>360^\circ</code> is equal to the ratio between the arc length <code class="hint_red">s</code> and the circle's circumference <code class="hint_blue">c</code>.</p>
+                        <p><code>\dfrac{\theta}{360^\circ} = \dfrac{s}{c}</code></p>
+                        <p><code>\dfrac{\theta}{360^\circ} = \dfrac{<var>PRETTY_A</var>}{<var>PRETTY_C</var>}</code></p>
+                        <div>
+                            <p><code>\theta = <var>ANGLE</var>^\circ</code></p>
+                            <div class="graphie" data-update="circle">
+                                $(graph.angle).show();
+                                $(graph.angleL).show();
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
