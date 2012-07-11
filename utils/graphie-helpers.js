@@ -581,3 +581,24 @@ function redrawComplexPolarForm(angle, radius) {
     $("#current-radius").html("<code>" + radius + "</code>").tmpl();
     $("#current-angle").html("<code>" + KhanUtil.piFraction(angle, true) + "</code>").tmpl();
 }
+
+function labelDirection(angle) {
+    angle = angle % 360;
+    if (angle == 0) {
+        return "right";
+    } else if (angle > 0 && angle < 90) {
+        return "above right";
+    } else if (angle == 90) {
+        return "above";
+    } else if (angle > 90 && angle < 180) {
+        return "above left";
+    } else if (angle == 180) {
+        return "left";
+    } else if (angle > 180 && angle < 270) {
+        return "below left";
+    } else if (angle == 270) {
+        return "below";
+    } else if (angle > 270 && angle < 360) {
+        return "below right";
+    }
+}
