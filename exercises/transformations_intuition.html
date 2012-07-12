@@ -10,7 +10,12 @@
         }
     </style>
     <script type="text/javascript">
-        var transformPoint = function(xDiff,yDiff){
+        var makeShape = function(){
+            var points = [];
+            points[0] = [randRange(-10, 10), randRange(-10,10)];
+        }
+
+        var translatePoint = function(xDiff,yDiff){
             var x = Number(xDiff);
             var y = Number(yDiff);
             console.log(x,y);
@@ -20,6 +25,27 @@
             else{
                 cp = KhanUtil.currentGraph.graph.curPoint;
                 KhanUtil.currentGraph.graph.curPoint = [cp[0] + x, cp[1] + y];
+            }
+        }
+
+        var rotatePoint = function(degrees){
+            var deg = Number(degrees);
+            if(isNaN(deg)){
+                return;
+            }
+            else{
+                var rad = deg * Math.PI / 180;
+                cp = KhanUtil.currentGraph.graph.curPoint;
+                KhanUtil.currentGraph.graph.curPoint = [cp[0]*Math.cos(rad) - cp[1]*Math.sin(rad), cp[0]*Math.sin(rad) + cp[1]*Math.cos(rad)];
+            }
+        }
+
+        var reflectPoint = function(axis){
+            if(axis === "x"){
+                KhanUtil.currentGraph.graph.curPoint[1] *= -1;
+            }
+            else{
+                KhanUtil.currentGraph.graph.curPoint[0] *= -1;
             }
         }
     </script>
@@ -34,28 +60,14 @@
 
                 <var id="DOT_ATTRS">{ r: 0.3, fill: GRAY, stroke: "none" }</var>
 
-                <!-- <var id="SLOPE_FRAC">reduce( randRangeNonZero( -5, 5 ), randRange( 1, 5 ) )</var>
-                <var id="YINT">randRangeNonZero( max( -10, -10 - SLOPE_FRAC[0] ), min( 10, 10 - SLOPE_FRAC[0] ) )</var>
-                <var id="SLOPE">SLOPE_FRAC[0] / SLOPE_FRAC[1]</var>
-                <var id="PRETTY_SLOPE">SLOPE === 1 ? "" : ( SLOPE === -1 ? "-" : fraction( SLOPE_FRAC[0], SLOPE_FRAC[1], true, true ) )</var>
-                <var id="MULT">randRangeNonZero( -3, 3 )</var>
-                <var id="A">SLOPE_FRAC[0] * -MULT</var>
-                <var id="B">SLOPE_FRAC[1] * MULT</var>
-                <var id="C">SLOPE_FRAC[1] * YINT * MULT</var>
-                <var id="STD_FORM">randFromArray([ true, false ])</var>
-                <var id="COMP">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
-                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;" }[ COMP ] : COMP</var>
-                <var id="LESS_THAN">COMP === "&lt;" || COMP === "&le;"</var>
-                <var id="INCLUSIVE">COMP === "&ge;" || COMP === "&le;"</var> -->
-
             </div>
 
-            <p class="question">Move the given point to (<var> END_POINT </var>) using the three kinds of transformations given.</p>
+            <p class="question">Move the blue shape to the grey shape using the three kinds of transformations given.</p>
 
             <div class="problem">
                 <form>
                     <input type="button" value="Translate" onClick="javascript:
-                        transformPoint($('#xTrans').val(), $('#yTrans').val());
+                        translatePoint($('#xTrans').val(), $('#yTrans').val());
                         KhanUtil.currentGraph.graph.update();
                     " />
                     <label>x:</label>
@@ -63,29 +75,31 @@
                     <label>y:</label>
                     <input type="text" id="yTrans" style="width: 15px"></input>
                     <input type="button" value="Rotate" onClick="javascript:
-                        KhanUtil.currentGraph.graph.dasharray = '';
+                        rotatePoint($('#degRotate').val());
                         KhanUtil.currentGraph.graph.update();
                     " />
                     <input type="text" id="degRotate" style="width: 20px"></input>
                     <label><code> {}^{\circ} </code> </label>
                     <input type="button" value="Reflect" onClick="javascript:
-                        KhanUtil.currentGraph.graph.dasharray = '- ';
+                        reflectPoint(KhanUtil.currentGraph.graph.reflectAxis);
                         KhanUtil.currentGraph.graph.update();
                     " />
                     <label>
-                        <input name="reflectRadio" type="radio" value="xAxis" checked onClick="javascript:
-                            KhanUtil.currentGraph.graph.dasharray = '';
-                            KhanUtil.currentGraph.graph.update();
+                        <input name="reflectRadio" type="radio" id="xAxis" checked onClick="javascript:
+                            KhanUtil.currentGraph.graph.reflectAxis = 'x';
                         " />
                         x-axis
                     </label>
                     <label>
-                        <input name="reflectRadio" type="radio" value="yAxis" onClick="javascript:
-                            KhanUtil.currentGraph.graph.dasharray = '- ';
-                            KhanUtil.currentGraph.graph.update();
+                        <input name="reflectRadio" type="radio" id="yAxis" onClick="javascript:
+                            KhanUtil.currentGraph.graph.reflectAxis = 'y';
                         " />
                         y-axis
                     </label>
+                    <input type="button" value="Recover Original Point" onClick="javascript:
+                        KhanUtil.currentGraph.graph.resetPoint();
+                        KhanUtil.currentGraph.graph.update();
+                    " />
                 </form>
                 </br></br>
                 <div class="graphie" id="grid">
@@ -107,26 +121,18 @@
                     circle(END_POINT, { r: 0.3, fill: GRAY, stroke: "none" });
 
                     graph.myPoint = circle(INIT_POINT, { r: 0.3, fill: BLUE, stroke: "none" });
-
                     graph.curPoint = INIT_POINT;
+                    graph.reflectAxis = "x";
+
+                    graph.resetPoint = function() {
+                        graph.curPoint = INIT_POINT;
+                        graph.update();
+                    };
 
                     graph.update = function() {
                         graph.myPoint.remove();
                         graph.myPoint = circle(graph.curPoint, { r: 0.3, fill: BLUE, stroke: "none" });
                     };
-
-                    <!-- addMouseLayer();
-                    graph.pointA = addMovablePoint({
-                        coord: INIT_POINT,
-                        snapX: 1,
-                        snapY: 1,
-                        normalStyle: {
-                            stroke: KhanUtil.BLUE,
-                            fill: KhanUtil.BLUE
-                        }
-                    }); -->
-
-                    
 
                 </div>
 
