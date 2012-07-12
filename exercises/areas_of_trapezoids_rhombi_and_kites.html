@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems subhints graphie-geometry">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Areas of trapezoids, rhombi, and kites</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="UNIT,UNIT_TEXT">randFromArray([
+                ["in", "inch"],
+                ["ft", "foot"],
+                ["m", "meter"],
+                ["cm", "centimeter"],
+                ["", "unit"]
+            ])</var>
+        </div>
+
+        <div class="problems">
+            <div id="trapezoid">
+                <div class="vars">
+                    <var id="B1">randRange(2, 8)</var>
+                    <var id="B2">randRange(2, 8)</var>
+                    <var id="H">randRange(1, 6)</var>
+
+                    <var id="SH">randRangeNonZero(-2, 2)</var>
+
+                    <var id="K">1/2 * (B1 + B2) * H</var>
+                </div>
+
+                <div class="question">What is the area of this figure?</div>
+
+                <div class="graphie" id="figure">
+                    init({
+                        range: [[-4, max(B1, B2) + 4], [-1, H + 1]],
+                        scale: [30, 30]
+                    });
+
+                    var v = [[0, 0], [B1, 0], [B2 + SH, H], [SH, H], [0, 0]];
+
+                    style({ stroke: BLUE, fill: "#eee"},
+                          function() {
+                              path(v);
+
+                              label([B1/2, 0], B1 + "\\text{ " + UNIT + "}", "below");
+                              label([B2/2 + SH, H], B2 + "\\text{ " + UNIT + "}", "above");
+
+                              path([[B1, 0], [B1, H]], H, { strokeDasharray: "." });
+                              label([B1, H/2], H + "\\text{ " + UNIT + "}", "right");
+
+                              parallel([[0, 0], [B1, 0]], 1);
+                              parallel([[SH, H], [B2 + SH, H]], 1);
+                          });
+
+                   rightAngleBox([[0, 0], [B1, 0]], [[B1, 0], [B1, H]], { stroke: GRAY, opacity: 0.5 });
+                </div>
+
+                <div class="solution" data-type="multiple">
+                    <span class="sol"><var>K</var></span>
+                    square <var>plural(UNIT_TEXT)</var>
+                </div>
+
+                <div class="hints">
+                    <p>This figure is a quadrilateral with a pair of parallel sides (the top and bottom sides), so it&#39;s a trapezoid.</p>
+                    <div>
+                        <p>
+                            area of a trapezoid <code>= \dfrac12 \cdot (b_1 + b_2) \cdot h</code>
+                            [<a href="#" class="show-subhint" data-subhint="area-trapezoid">Show me why</a>]
+                        </p>
+                        <div class="subhint" id="area-trapezoid">
+                            <p>Let&#39;s draw a line between the opposite ends of the two bases.</p>
+                            <div class="graphie" data-update="figure">
+                                var showSubHint = function() {
+                                    graph.subhint.show();
+
+                                    $("a[data-subhint='area-trapezoid']")
+                                        .unbind("click", showSubHint)
+                                        .click(hideSubHint);
+                                };
+
+                                var hideSubHint = function() {
+                                    graph.subhint.hide();
+
+                                    $("a[data-subhint='area-trapezoid']")
+                                        .unbind("click", hideSubHint)
+                                        .click(showSubHint);
+                                };
+
+                                graph.subhint = raphael.set().push(
+                                    path([[0, 0], [B1, 0], [B2 + SH, H]], { stroke: BLUE, fill: ORANGE, opacity: 0.5 }),
+                                    path([[SH, H], [B2 + SH, H], [0, 0]], { stroke: BLUE, fill: RED, opacity: 0.5 })
+                                );
+                                hideSubHint();
+                            </div>
+                            <p>Notice that the line divides the trapezoid into two triangles: one triangle with base <code>b_1 = <var>B1</var></code>, and another triangle with base <code>b_2 = <var>B2</var></code>. Both triangles have height <code>h = <var>H</var></code>.</p>
+                            <p>The area of the trapezoid is equal to the sum of the areas of the two trapezoids.</p>
+                            <p><code>A = \dfrac12 \cdot b_1 \cdot h + \dfrac12 \cdot b_2 \cdot h</code></p>
+                            <p>Factor out <code>\dfrac12 \cdot h</code> to get the formula for the area of a trapezoid:</p>
+                            <p><code>A = \dfrac12 \cdot h \cdot (b_1 + b_2) = \dfrac12 \cdot (b_1 + b_2) \cdot h</code></p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Now use this formula to calculate the trapezoid&#39;s area.</p>
+                        <p><code>b_1 = <var>B1</var></code></p>
+                        <p><code>b_2 = <var>B2</var></code></p>
+                        <p><code>h = <var>H</var></code></p>
+                        <p><code>A = \dfrac12 \cdot (<var>B1</var> + <var>B2</var>) \cdot <var>H</var> = <var>K</var></code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="kite">
+                <div class="vars" data-ensure="D1 &gt; SH">
+                    <var id="D1">randRange(1, 7) * 2</var>
+                    <var id="D2">randRange(1, 7) * 2</var>
+
+                    <var id="ORIENT">randFromArray(["v", "h"])</var>
+                    <var id="SH">rand(3) !== 0 ? randRange(1, 5) : D1/2</var>
+
+                    <var id="K">1/2 * D1 * D2</var>
+
+                    <var id="RHOMBUS">SH === D1/2</var>
+                </div>
+
+                <div class="question">What is the area of this figure?</div>
+
+                <div class="graphie" id="figure">
+                    var range, v;
+                    var drawCongruencies, drawD1, drawD2;
+                    if (ORIENT === "h") {
+                        range = [[-1, D1 + 2], [-D2/2 - 1, D2/2 + 1]];
+                        v = [[0, 0], [SH, D2/2], [D1, 0], [SH, -D2/2], [0, 0]];
+
+                        drawCongruencies = function(style) {
+                            congruent([[0, 0], [SH, D2/2]], 1, style);
+                            congruent([[0, 0], [SH, -D2/2]], 1, style);
+
+                            congruent([[SH, D2/2], [D1, 0]], RHOMBUS ? 1 : 2, style);
+                            congruent([[SH, -D2/2], [D1, 0]], RHOMBUS ? 1 : 2, style);
+                        };
+                        drawD1 = function(style) {
+                            return {
+                                label: label([D1/2, 0], D1 + "\\text{ " + UNIT + "}", style),
+                                path: path([[0, 0], [D1, 0]], style)
+                            };
+                        };
+                        drawD2 = function(style) {
+                            return {
+                                label: label([D1, 0], D2 + "\\text{ " + UNIT + "}", "right", style),
+                                path: path([[D1, -D2/2], [D1, D2/2]], style)
+                            };
+                        };
+                    } else {
+                        range = [[-D2/2 - 1, D2/2 + 1], [-1, D1 + 2]];
+                        v = [[0, 0], [D2/2, SH], [0, D1], [-D2/2, SH], [0, 0]];
+
+                        drawCongruencies = function(style) {
+                            congruent([[0, 0], [D2/2, SH]], 1);
+                            congruent([[0, 0], [-D2/2, SH]], 1);
+
+                            congruent([[D2/2, SH], [0, D1]], RHOMBUS ? 1 : 2);
+                            congruent([[0, D1], [-D2/2, SH]], RHOMBUS ? 1 : 2);
+                        };
+                        drawD1 = function(style) {
+                            return {
+                                label: label([0, D1/2], D1 + "\\text{ " + UNIT + "}", style),
+                                path: path([[0, 0], [0, D1]], style)
+                            };
+                        };
+                        drawD2 = function(style) {
+                            return {
+                                label: label([0, D1], D2 + "\\text{ " + UNIT + "}", "above", style),
+                                path: path([[-D2/2, D1], [D2/2, D1]], style)
+                            };
+                        };
+                    }
+
+                    init({ range: range, scale: 20 });
+
+                    path(v, { stroke: BLUE, fill: "#eee" });
+                    drawCongruencies({ stroke: BLUE });
+
+                    style({ stroke: BLUE, strokeDasharray: "." }, function() {
+                        graph.d1 = drawD1();
+                        graph.d2 = drawD2();
+                    });
+                    rightAngleBox(graph.d1.path.graphiePath, graph.d2.path.graphiePath, { stroke: GRAY, opacity: 0.5 });
+                </div>
+
+                <div class="solution" data-type="multiple">
+                    <span class="sol"><var>K</var></span>
+                    square <var>plural(UNIT_TEXT)</var>
+                </div>
+
+                <div class="hints">
+                    <div>
+                        <p>This figure is a quadrilateral with perpendicular diagonals and two pairs of congruent, adjacent sides, so it is a kite.</p>
+                        <p data-if="SH === D1/2">In fact, because this shape's sides are all congruent, it is also a rhombus.</p>
+                    </div>
+                    <div>
+                        <p>
+                            area of a kite <code>= \dfrac12 \cdot d_1 \cdot d_2</code>
+                            [<a href="#" class="show-subhint" data-subhint="area-kite">Show me why</a>]
+                        </p>
+                        <div class="subhint" id="area-kite">
+                            <p>The <span data-if="ORIENT === 'h'">horizontal</span><span data-else>vertical</span> diagonal in the center splits the kite into two congruent triangles.</p>
+                            <div class="graphie" data-update="figure">
+                                var showSubHint = function() {
+                                    graph.subhint.show();
+
+                                    $("a[data-subhint='area-kite']")
+                                        .unbind("click", showSubHint)
+                                        .click(hideSubHint);
+                                };
+
+                                var hideSubHint = function() {
+                                    graph.subhint.hide();
+
+                                    $("a[data-subhint='area-kite']")
+                                        .unbind("click", hideSubHint)
+                                        .click(showSubHint);
+                                };
+
+                                if (ORIENT === "h") {
+                                    graph.subhint = raphael.set().push(
+                                        path([[0, 0], [SH, D2/2], [D1, 0], [0, 0]], { fill: ORANGE, opacity: 0.5 }),
+                                        path([[0, 0], [SH, -D2/2], [D1, 0], [0, 0]], { fill: GREEN, opacity: 0.5 })
+                                    );
+                                } else {
+                                    graph.subhint = raphael.set().push(
+                                        path([[0, 0], [D2/2, SH], [0, D1], [0, 0]], { fill: ORANGE, opacity: 0.5 }),
+                                        path([[0, 0], [-D2/2, SH], [0, D1], [0, 0]], { fill: GREEN, opacity: 0.5 })
+                                    );
+                                }
+                                hideSubHint();
+                            </div>
+                            <p>Let <code>d_1 = <var>D1</var></code>, the diagonal that bisects the kite. Then let <code>d_2 = <var>D2</var></code>.</p>
+                            <p>Notice that <code>d_1</code> is the base of both triangles, and <code>d_2</code> is the combined height of the two triangles, so <code>\dfrac{d_2}{2}</code> is the height of each triangle.</p>
+                            <p>So the area of each triangle is:</p>
+                            <p><code>A_T = \dfrac12 \cdot b \cdot h = \dfrac12 \cdot d_1 \cdot \dfrac{d_2}{2} = \dfrac14 \cdot d_1 \cdot d_2</code></p>
+                            <p>The area of both triangles combined, <code>2A_T</code>, is the total area of the kite:</p>
+                            <p><code>2A_T = 2(\dfrac14 \cdot d_1 \cdot d_2) = \dfrac12 \cdot d_1 \cdot d_2 = A</code></p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Now use this formula to calculate the kite's area.</p>
+                        <p><code>d_1 = <var>D1</var></code></p>
+                        <p><code>d_2 = <var>D2</var></code></p>
+                        <p><code>A = \dfrac12 \cdot <var>D1</var> \cdot <var>D2</var> = <var>K</var></code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

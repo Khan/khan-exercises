@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs congruency">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Simple Geometry Proofs</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        input[type=text] {
+            width: 30px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="vertical">
+                <div class="vars">
+                    <var id="AC">new Seg("A","C")</var>
+                    <var id="CA">AC</var>
+                    <var id="AD">new Seg("A","D")</var>
+                    <var id="DA">AD</var>
+                    <var id="BE">new Seg("B","E")</var>
+                    <var id="EB">BE</var>
+                    <var id="AE">new Seg("A","E")</var>
+                    <var id="EA">AE</var>
+                    <var id="BC">new Seg("B","C")</var>
+                    <var id="CB">BC</var>
+                    <var id="BD">new Seg("B","D")</var>
+                    <var id="DB">BD</var>
+                    <var id="CD">new Seg("C","D")</var>
+                    <var id="DC">CD</var>
+                    <var id="CE">new Seg("C","E")</var>
+                    <var id="EC">CE</var>
+                    
+
+                    <var id="SEGS">[AC,CA,AE,EA,BC,CB,BD,DB,CD,DC,CE,EC]</var>
+                    
+
+                    <var id="ang1">new Ang("D","A","C", null)</var>
+                    <var id="ang2">new Ang("C","B","E", null)</var>
+                    <var id="ang3">new Ang("A","C","D", null)</var>
+                    <var id="ang4">new Ang("B","C","E", null)</var>
+                    <var id="ang5">new Ang("A","D","C", null)</var>
+                    <var id="ang6">new Ang("C","E","B", null)</var>
+                    <var id="ang7">new Ang("A","C","B", null)</var>
+                    <var id="ang8">new Ang("D","C","E", null)</var>
+
+                    <var id="ANGS">[ang1, ang2, ang3, ang4, ang5, ang6, ang7, ang8]</var>
+
+                    <var id="SUPPLEMENTARY_ANGS">[addAngs(ang3, ang7), addAngs(ang7, ang4), addAngs(ang4, ang8), addAngs(ang8, ang3)]</var>
+
+                    <var id="ALTERNATE_INTERIOR_ANGS">[]</var>
+
+                    <var id="PARALLEL_SEGS">[]</var>
+
+                    <var id="ADC">new Triang([AD, DC, CA], [ang5, ang3, ang1])</var>
+                    <var id="BEC">new Triang([BE, EC, CB], [ang6, ang4, ang2])</var>
+                    
+
+                    <var id="TRIANGLES">[ADC, BEC]</var>
+
+                    <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 2, 0.25, "triangle")</var>
+                    <var id="KNOWN">STATEMENTS[0]</var>
+                    <var id="FINISHED">STATEMENTS[1]</var>
+
+                    <var id="HINT">"you haven't entered anything yet"</var>   
+                    <var id="HINTS_LEFT">3</var>                 
+                </div>
+                <p class="question">
+                    <p>Prove <var> FINISHED </var>.</p>
+                    <p>This figure is not drawn to scale.</p>
+                </p>
+
+                <div class="problem">
+                    <div class="graphie">
+                        init({
+                            range: [[-5, 5], [-5, 5]],
+                            scale: 40
+                        });
+                        addMouseLayer();
+                        
+                        graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
+
+                        graph.congruency.addPoint("A", [-4, 4]);
+                        graph.congruency.addPoint("B", [4, 4]);
+                        graph.congruency.addPoint("C", [0, -(4/3)]);
+                        graph.congruency.addPoint("D", [-2, -4]);
+                        graph.congruency.addPoint("E", [2, -4]);
+
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "D",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "C",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "D",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "B",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "E",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "E",
+                            end: "B",
+                            clickable: true,
+                            maxState: 3
+                        });
+
+                        graph.congruency.addAngles("A", { maxState: 3 });
+                        graph.congruency.addAngles("B", { maxState: 3 });
+                        graph.congruency.addAngles("C", { maxState: 3 });
+                        graph.congruency.addAngles("D", { maxState: 3 });
+                        graph.congruency.addAngles("E", { maxState: 3 });
+
+                        for(var angle in graph.congruency.angles){
+                            graph.congruency.angles[angle].setSelectedStyle({
+                                stroke: "black",
+                                "stroke-width": 3
+                            });
+                        }
+                        
+                        graph.congruency.addLabel("A", "left");
+                        graph.congruency.addLabel("B", "right");
+                        graph.congruency.addLabel("C", "right");
+                        graph.congruency.addLabel("D", "left");
+                        graph.congruency.addLabel("E", "right");
+
+                        $(".hint1").hide();
+                        $(".hint2").hide();
+                        $(".hint3").hide();
+
+                        var hintCategory = "good format but wrong";
+                        var hintsLeft = 2;
+                        var giveAway = false;
+
+                        $(".nextStatement input").keyup(function(){
+                            var thing1 = $("#thing1").val().toUpperCase();
+                            var thing2 = $("#thing2").val().toUpperCase();
+                            var reason = $("#reason").val();
+
+                            if(thing1.length === 0 && thing2.length === 0){
+                                hintCategory = "good format but wrong";
+                                return;
+                            }
+
+                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
+
+                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
+                                $(".statements").html(outputKnownProof());
+                                _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
+                                $("#thing1").val("");
+                                $("#thing2").val("");
+                                $("#reason").val("");
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                                if(userProofDone === true){
+                                    $(".nextStatement").hide();
+                                    $("#hint").attr("disabled", true);
+                                }
+                                else{
+                                    hintsLeft = 2;
+                                    $("#hint").val("I'd like a hint (2 hints left for this step)");
+                                    $("#hint").attr("disabled", false);
+                                    hintCategory = "good format but wrong";
+                                    giveAway = false;
+                                }
+                            }
+                            else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
+                                hintCategory = "good format but wrong";
+                            }
+                            else{
+                                hintCategory = "bad format";
+                            }
+                        });
+                        $("#reason").change(function(){ 
+                            <!-- var curVal = $("#reason").val();
+                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
+                                $("#symbol1").html(" \\triangle ");
+                                $("#symbol2").html(" \\triangle ");
+                            }
+                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
+                                $("#symbol1").html(" \\angle ");
+                                $("#symbol2").html(" \\angle ");
+                            }
+                            else{
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                            }
+                            $.tmpl.type.code()($("#symbol1")[0]);
+                            $.tmpl.type.code()($("#symbol2")[0]); -->
+                            $(".nextStatement input").keyup(); 
+                        });
+
+                        var storedHint = "";
+                        $("#hint").click(function(){
+                            if(hintsLeft &gt; 0){
+                                hintsLeft--;
+                                if(hintCategory === "bad format"){
+                                    hintsLeft++;
+                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                    $(this).attr("disabled", false);
+                                    $(".actualHints").append("&lt;p&gt; The things you've entered aren't segments, angles, or triangles in the figure. &lt;/p&gt;");
+                                }
+                                else{
+                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                    $(this).attr("disabled", false);
+                                    if(!giveAway){
+                                        var nextHintSet = nextStatementHint();
+                                        $(".actualHints").append("&lt;p&gt;"+nextHintSet[0]+"&lt;/p&gt;");
+                                        storedHint = nextHintSet[1];
+                                    }
+                                    else{
+                                        $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
+                                        storedHint = "";
+                                    }
+                                    _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                                    giveAway = !giveAway;
+                                }
+                                if(hintsLeft === 0){
+                                    $("#hint").attr("disabled", true);
+                                }
+                            }
+                        });
+
+                    </div>
+                </div>
+
+                <p class="statements"> <var> outputKnownProof() </var></p>
+                <p class="nextStatement">
+                    <input type="text" id="thing1"></input> <code> \cong </code> <input type="text" id="thing2" > </input> because 
+                    <select id="reason">
+                        <option value="">select a reason</option>
+                        <option value="SSS">side-side-side congruence</option>
+                        <option value="ASA">angle-side-angle congruence</option>
+                        <option value="SAS">side-angle-side congruence</option>
+                        <option value="AAS">angle-angle-side congruence</option>
+                        <option value="vertical angles">vertical angles are equal</option>
+                        <option value="alternate angles">alternate interior angles are equal</option>
+                        <option value="CPCTC">corresp. parts of congruent triangles are congruent</option>
+                    </select>
+                </p>
+                <div class="actualHints">
+                </div>
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        When you enter the next statement in the proof, and a valid reason, that statement will be added to the proof. When you're done, hit check answer.
+                    </div>
+                    <div class="guess">1</div>
+                    <div class="validator-function">
+                        return isProofDone();
+                    </div>
+                    <div class="show-guess">
+                        return knownEqualities;
+                    </div>
+                </div>
+                <div class="hints">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </div>
+            <div id="alternate">
+                <div class="vars">
+                    <var id="AB">new Seg("A","B")</var>
+                    <var id="BA">AB</var>
+                    <var id="AC">new Seg("A","C")</var>
+                    <var id="CA">AC</var>
+                    <var id="AE">new Seg("A","E")</var>
+                    <var id="EA">AE</var>
+                    <var id="BC">new Seg("B","C")</var>
+                    <var id="CB">BC</var>
+                    <var id="BD">new Seg("B","D")</var>
+                    <var id="DB">BD</var>
+                    <var id="CD">new Seg("C","D")</var>
+                    <var id="DC">CD</var>
+                    <var id="CE">new Seg("C","E")</var>
+                    <var id="EC">CE</var>
+                    <var id="DE">new Seg("D","E")</var>
+                    <var id="ED">DE</var>         
+
+                    <var id="SEGS">[AB,BA,AC,CA,AE,EA,BC,CB,BD,DB,CD,DC,CE,EC,DE,ED]</var>
+
+                    <var id="ang1">new Ang("C","A","B", null)</var>
+                    <var id="ang2">new Ang("C","B","A", null)</var>
+                    <var id="ang3">new Ang("A","C","B", null)</var>
+                    <var id="ang4">new Ang("D","C","E", null)</var>
+                    <var id="ang5">new Ang("C","D","E", null)</var>
+                    <var id="ang6">new Ang("C","E","D", null)</var>
+                    <var id="ang7">new Ang("A","C","D", null)</var>
+                    <var id="ang8">new Ang("B","C","E", null)</var>
+
+                    <var id="ANGS">[ang1, ang2, ang3, ang4, ang5, ang6, ang7, ang8]</var>
+
+                    <var id="SUPPLEMENTARY_ANGS">[addAngs(ang3, ang7), addAngs(ang7, ang4), addAngs(ang4, ang8), addAngs(ang8, ang3)]</var>
+
+                    <var id="ALTERNATE_INTERIOR_ANGS">[[ang2, ang5]]</var>
+
+                    <var id="PARALLEL_SEGS">[]</var>
+
+                    <var id="ABC">new Triang([AB, BC, CA], [ang2, ang3, ang1])</var>
+                    <var id="CDE">new Triang([CD, DE, EC], [ang5, ang6, ang4])</var>
+                    
+
+                    <var id="TRIANGLES">[ABC, CDE]</var>
+
+                    <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 2, 0.25, "triangle")</var>
+                    <var id="KNOWN">STATEMENTS[0]</var>
+                    <var id="FINISHED">STATEMENTS[1]</var>
+
+
+                    <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
+                    
+                </div>
+                <p class="question">
+                    <p>Prove <var> FINISHED </var>.</p>
+                    <p> <code> \overline{AB} </code> is parallel to <code> \overline{DE} </code>. This figure is not drawn to scale.</p>
+                </p>
+
+                <div class="problem">
+                    <div class="graphie">
+                        init({
+                            range: [[-5, 5], [-5, 5]],
+                            scale: 40
+                        });
+                        addMouseLayer();
+                        
+                        graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
+
+                        graph.congruency.addPoint("A", [-3, 4]);
+                        graph.congruency.addPoint("B", [3, 4]);
+                        graph.congruency.addPoint("C", [0, 0]);
+                        graph.congruency.addPoint("D", [-3, -4]);
+                        graph.congruency.addPoint("E", [3, -4]);
+
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "B",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "C",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "B",
+                            end: "C",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "D",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "E",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "D",
+                            end: "E",
+                            clickable: true,
+                            maxState: 3
+                        });
+
+                        graph.congruency.addAngles("A", { maxState: 3 });
+                        graph.congruency.addAngles("B", { maxState: 3 });
+                        graph.congruency.addAngles("C", { maxState: 3 });
+                        graph.congruency.addAngles("D", { maxState: 3 });
+                        graph.congruency.addAngles("E", { maxState: 3 });
+
+                        for(var angle in graph.congruency.angles){
+                            graph.congruency.angles[angle].setSelectedStyle({
+                                stroke: "black",
+                                "stroke-width": 3
+                            });
+                        }
+                        
+                        graph.congruency.addLabel("A", "left");
+                        graph.congruency.addLabel("B", "right");
+                        graph.congruency.addLabel("C", "right");
+                        graph.congruency.addLabel("D", "left");
+                        graph.congruency.addLabel("E", "right");
+
+                        $(".hint1").hide();
+                        $(".hint2").hide();
+                        $(".hint3").hide();
+
+                        var hintCategory = "good format but wrong";
+                        var hintsLeft = 2;
+                        var giveAway = false;
+
+                        $(".nextStatement input").keyup(function(){
+                            var thing1 = $("#thing1").val().toUpperCase();
+                            var thing2 = $("#thing2").val().toUpperCase();
+                            var reason = $("#reason").val();
+
+                            if(thing1.length === 0 && thing2.length === 0){
+                                hintCategory = "good format but wrong";
+                                return;
+                            }
+
+                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
+
+                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
+                                $(".statements").html(outputKnownProof());
+                                _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
+                                $("#thing1").val("");
+                                $("#thing2").val("");
+                                $("#reason").val("");
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                                if(userProofDone === true){
+                                    $(".nextStatement").hide();
+                                    $("#hint").attr("disabled", true);
+                                }
+                                else{
+                                    hintsLeft = 2;
+                                    $("#hint").val("I'd like a hint (2 hints left for this step)");
+                                    $("#hint").attr("disabled", false);
+                                    hintCategory = "good format but wrong";
+                                    giveAway = false;
+                                }
+                            }
+                            else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
+                                hintCategory = "good format but wrong";
+                            }
+                            else{
+                                hintCategory = "bad format";
+                            }
+                        });
+                        $("#reason").change(function(){ 
+                            <!-- var curVal = $("#reason").val();
+                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
+                                $("#symbol1").html(" \\triangle ");
+                                $("#symbol2").html(" \\triangle ");
+                            }
+                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
+                                $("#symbol1").html(" \\angle ");
+                                $("#symbol2").html(" \\angle ");
+                            }
+                            else{
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                            }
+                            $.tmpl.type.code()($("#symbol1")[0]);
+                            $.tmpl.type.code()($("#symbol2")[0]); -->
+                            $(".nextStatement input").keyup(); 
+                        });
+
+                        
+                        var storedHint = "";
+                        $("#hint").click(function(){
+                            if(hintsLeft &gt; 0){
+                                hintsLeft--;
+                                if(hintCategory === "bad format"){
+                                    hintsLeft++;
+                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                    $(this).attr("disabled", false);
+                                    $(".actualHints").append("&lt;p&gt; The things you've entered aren't segments, angles, or triangles in the figure. &lt;/p&gt;");
+                                }
+                                else{
+                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                    $(this).attr("disabled", false);
+                                    if(!giveAway){
+                                        var nextHintSet = nextStatementHint();
+                                        $(".actualHints").append("&lt;p&gt;"+nextHintSet[0]+"&lt;/p&gt;");
+                                        storedHint = nextHintSet[1];
+                                    }
+                                    else{
+                                        $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
+                                        storedHint = "";
+                                    }
+                                    _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                                    giveAway = !giveAway;
+                                }
+                                if(hintsLeft === 0){
+                                    $("#hint").attr("disabled", true);
+                                }
+                            }
+                        });
+
+
+                    </div>
+                </div>
+                
+                <p class="statements"> <var> outputKnownProof() </var></p>
+                <p class="nextStatement">
+                    <input type="text" id="thing1"></input> <code> \cong </code> <input type="text" id="thing2" > </input> because 
+                    <select id="reason">
+                        <option value="">select a reason</option>
+                        <option value="SSS">side-side-side congruence</option>
+                        <option value="ASA">angle-side-angle congruence</option>
+                        <option value="SAS">side-angle-side congruence</option>
+                        <option value="AAS">angle-angle-side congruence</option>
+                        <option value="vertical angles">vertical angles are equal</option>
+                        <option value="alternate angles">alternate interior angles are equal</option>
+                        <option value="CPCTC">corresp. parts of congruent triangles are congruent</option>
+                    </select>
+                </p>
+                <div class="actualHints">
+                </div>
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        When you enter the next statement in the proof, and a valid reason, that statement will be added to the proof. When you're done, hit check answer.
+                    </div>
+                    <div class="guess">1</div>
+                    <div class="validator-function">
+                        return isProofDone();
+                    </div>
+                    <div class="show-guess">
+                        return knownEqualities;
+                    </div>
+                </div>
+                <div class="hints">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </div>
+            <div id="shared">
+                <div class="vars">
+                    <var id="A">[0,6]</var>
+                    <var id="B">[-8,0]</var>
+                    <var id="C">[8,0]</var>
+                    <var id="D">[0,-6]</var>
+
+                    <var id="POINTS">["A","B","C","D"]</var>
+
+                    <var id="AB">new Seg("A","B")</var>
+                    <var id="BA">AB</var>
+                    <var id="AC">new Seg("A","C")</var>
+                    <var id="CA">AC</var>
+                    <var id="BD">new Seg("B","D")</var>
+                    <var id="DB">BD</var>
+                    <var id="CD">new Seg("C","D")</var>
+                    <var id="DC">CD</var>
+                    <var id="AD">new Seg("A","D")</var>
+                    <var id="DA">AD</var>
+                    
+
+                    <var id="SEGS">[AB,BA,AC,CA,BD,DB,CD,DC,AD,DA]</var>
+                    
+
+                    <var id="ang1">new Ang("A","B","D", null)</var>
+                    <var id="ang2">new Ang("B","A","D", null)</var>
+                    <var id="ang3">new Ang("D","A","C", null)</var>
+                    <var id="ang4">new Ang("A","C","D", null)</var>
+                    <var id="ang5">new Ang("A","D","B", null)</var>
+                    <var id="ang6">new Ang("A","D","C", null)</var>
+
+                    <var id="ANGS">[ang1, ang2, ang3, ang4, ang5, ang6]</var>
+
+                    <var id="SUPPLEMENTARY_ANGS">[]</var>
+
+                    <var id="ALTERNATE_INTERIOR_ANGS">[]</var>
+
+                    <var id="PARALLEL_SEGS">[]</var>
+
+                    <!-- <var id="PARALLEL_TO_ALTERNATE">(function() {
+                        dict = {};
+                        dict[[AB,DE]] = [[ang2, ang11], [ang3, ang10]];
+                        return dict;
+                    })</var>
+
+                    <var id="ALTERNATE_TO_PARALLEL">(function() {
+                        dict = {};
+                        dict[[ang2, ang11]] = [AB,DE];
+                        dict[[ang3, ang10]] = [AB,DE];
+                        return dict;
+                    })</var> -->
+
+                    <var id="BAD">new Triang([BA, AD, DB], [ang2, ang5, ang1])</var>
+                    <var id="CAD">new Triang([CA, AD, DC], [ang3, ang6, ang4])</var>
+                    
+
+                    <var id="TRIANGLES">[BAD, CAD]</var>
+
+                    <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 2, 0.25, "triangle")</var>
+                    <var id="KNOWN">STATEMENTS[0]</var>
+                    <var id="FINISHED">STATEMENTS[1]</var>
+
+
+                    <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
+                    
+                </div>
+                <p class="question">
+                    <p>You are given <var> KNOWN </var>.</p>
+                    <p>Prove <var> FINISHED </var></p>
+                </p>
+
+                <div class="problem">
+                    <div class="graphie">
+                        init({
+                            range: [[-5, 5], [-5, 5]],
+                            scale: 40
+                        });
+                        addMouseLayer();
+                        
+                        graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
+
+                        graph.congruency.addPoint("A", [0, 3]);
+                        graph.congruency.addPoint("B", [-4, 0]);
+                        graph.congruency.addPoint("C", [4, 0]);
+                        graph.congruency.addPoint("D", [0, -3]);
+
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "B",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "B",
+                            end: "D",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "D",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "A",
+                            end: "C",
+                            clickable: true,
+                            maxState: 3
+                        });
+                        graph.congruency.addLine({
+                            start: "C",
+                            end: "D",
+                            clickable: true,
+                            maxState: 3
+                        });
+
+                        graph.congruency.addAngles("A");
+                        graph.congruency.addAngles("B");
+                        graph.congruency.addAngles("C");
+                        graph.congruency.addAngles("D");
+
+                        for(var angle in graph.congruency.angles){
+                            graph.congruency.angles[angle].setSelectedStyle({
+                                stroke: "black",
+                                "stroke-width": 3
+                            });
+                        }
+                        
+                        graph.congruency.addLabel("A", "above");
+                        graph.congruency.addLabel("B", "left");
+                        graph.congruency.addLabel("C", "right");
+                        graph.congruency.addLabel("D", "below");
+
+                        $(".hint1").hide();
+                        $(".hint2").hide();
+                        $(".hint3").hide();
+
+                        var hintCategory = "good format but wrong";
+                        var hintsLeft = 2;
+                        var giveAway = false;
+
+                        $(".nextStatement input").keyup(function(){
+                            var thing1 = $("#thing1").val().toUpperCase();
+                            var thing2 = $("#thing2").val().toUpperCase();
+                            var reason = $("#reason").val();
+
+                            if(thing1.length === 0 && thing2.length === 0){
+                                hintCategory = "good format but wrong";
+                                return;
+                            }
+
+                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
+
+                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
+                                if($("#thing1").val() === $("#thing2").val() || $("#thing1").val() === $("#thing2").val().split("").reverse().join("")){
+
+                                }                            
+                                $(".statements").html(outputKnownProof());
+                                _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
+                                $("#thing1").val("");
+                                $("#thing2").val("");
+                                $("#reason").val("");
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                                if(userProofDone === true){
+                                    $(".nextStatement").hide();
+                                    $("#hint").attr("disabled", true);
+                                }
+                                else{
+                                    hintsLeft = 2;
+                                    $("#hint").val("I'd like a hint (2 hints left for this step)");
+                                    $("#hint").attr("disabled", false);
+                                    hintCategory = "good format but wrong";
+                                    giveAway = false;
+                                }
+                            }
+                            else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
+                                hintCategory = "good format but wrong";
+                            }
+                            else{
+                                hintCategory = "bad format";
+                            }
+                        });
+                        $("#reason").change(function(){ 
+                            <!-- var curVal = $("#reason").val();
+                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
+                                $("#symbol1").html(" \\triangle ");
+                                $("#symbol2").html(" \\triangle ");
+                            }
+                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
+                                $("#symbol1").html(" \\angle ");
+                                $("#symbol2").html(" \\angle ");
+                            }
+                            else{
+                                $("#symbol1").html("");
+                                $("#symbol2").html("");
+                            }
+                            $.tmpl.type.code()($("#symbol1")[0]);
+                            $.tmpl.type.code()($("#symbol2")[0]); -->
+                            $(".nextStatement input").keyup(); 
+                        });
+
+                        
+                        var storedHint = "";
+                        $("#hint").click(function(){
+                            if(hintsLeft &gt; 0){
+                                hintsLeft--;
+                                if(hintCategory === "bad format"){
+                                    hintsLeft++;
+                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                    $(this).attr("disabled", false);
+                                    $(".actualHints").append("&lt;p&gt; The things you've entered aren't segments, angles, or triangles in the figure. &lt;/p&gt;");
+                                }
+                                else{
+                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                    $(this).attr("disabled", false);
+                                    if(!giveAway){
+                                        var nextHintSet = nextStatementHint();
+                                        $(".actualHints").append("&lt;p&gt;"+nextHintSet[0]+"&lt;/p&gt;");
+                                        storedHint = nextHintSet[1];
+                                    }
+                                    else{
+                                        $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
+                                        storedHint = "";
+                                    }
+                                    _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                                    giveAway = !giveAway;
+                                }
+                                if(hintsLeft === 0){
+                                    $("#hint").attr("disabled", true);
+                                }
+                            }
+                        });
+
+                    </div>
+                </div>
+
+                <p class="statements"> <var> outputKnownProof() </var></p>
+                <p class="nextStatement">
+                    <input type="text" id="thing1"></input> <code> \cong </code> <input type="text" id="thing2" > </input> because 
+                    <select id="reason">
+                        <option value="">select a reason</option>
+                        <option value="SSS">side-side-side congruence</option>
+                        <option value="ASA">angle-side-angle congruence</option>
+                        <option value="SAS">side-angle-side congruence</option>
+                        <option value="AAS">angle-angle-side congruence</option>
+                        <option value="vertical angles">vertical angles are equal</option>
+                        <option value="alternate angles">alternate interior angles are equal</option>
+                        <option value="CPCTC">corresp. parts of congruent triangles are congruent</option>
+                        <option value="reflexive property">reflexive property</option>
+                    </select>
+                </p>
+                <div class="actualHints">
+                </div>
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        When you enter the next statement in the proof, and a valid reason, that statement will be added to the proof. When you're done, hit check answer.
+                    </div>
+                    <div class="guess">1</div>
+                    <div class="validator-function">
+                        return isProofDone();
+                    </div>
+                    <div class="show-guess">
+                        return knownEqualities;
+                    </div>
+                </div>
+                <div class="hints">
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

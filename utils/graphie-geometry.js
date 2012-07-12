@@ -14,6 +14,67 @@ function rotatePoint(p, deg, c) {
     return [KhanUtil.roundTo(9, x), KhanUtil.roundTo(9, y)];
 }
 
+function getSideMidpoint(path) {
+    return [(path[0][0] + path[1][0]) / 2,
+            (path[0][1] + path[1][1]) / 2];
+}
+
+$.extend(KhanUtil, {
+    rightAngleBox: function(path1, path2, style) {
+        var graph = KhanUtil.currentGraph;
+
+        var size = 0.5;
+
+        var intersection = findIntersection(path1, path2),
+        path = [intersection],
+        curr = graph.cartToPolar(intersection)[1],
+        offset;
+
+        for (var i = 1; i < 4; i++) {
+            offset = graph.polar(size, curr);
+
+            path.push([path[i - 1][0] - offset[0],
+                       path[i - 1][1] - offset[1]]);
+
+            curr -= 90;
+        }
+
+        path.push(intersection);
+
+        return graph.path(path, style);
+    },
+
+    parallel: function(path, num, style) {
+        var graph = KhanUtil.currentGraph;
+
+        var spacing = 0.5;
+
+        point = getSideMidpoint(path);
+
+        graph.path([path[0], point], $.extend(style, { arrows: "->" }));
+    },
+
+    congruent: function(path, num, style) {
+        var graph = KhanUtil.currentGraph;
+
+        var spacing = 5, scale = 5;
+
+        for (var i = 0; i < num; i++) {
+            var sPath = _.map(path, graph.scalePoint),
+            sPoint = getSideMidpoint(sPath),
+            angle = Math.atan((sPath[0][1] - sPath[1][1]) / (sPath[0][0] - sPath[1][0])),
+            perpangle = angle + Math.PI / 2;
+
+            var sMarkPath = [[sPoint[0] + Math.cos(angle)*spacing*i + Math.cos(perpangle)*scale,
+                              sPoint[1] + Math.sin(angle)*spacing*i + Math.sin(perpangle)*scale],
+                             [sPoint[0] + Math.cos(angle)*spacing*i - Math.cos(perpangle)*scale,
+                              sPoint[1] + Math.sin(angle)*spacing*i - Math.sin(perpangle)*scale]];
+
+            graph.path(_.map(sMarkPath, graph.unscalePoint), style);
+        }
+    }
+});
+
 function RegularPolygon(center, numSides, radius, rotation, fillColor) {
     var graph = KhanUtil.currentGraph;
     rotation = rotation || 0;
@@ -51,6 +112,69 @@ function RegularPolygon(center, numSides, radius, rotation, fillColor) {
             angle = 360 / numSides / 2,
             fudge = KhanUtil.randRange(10, angle - 10) * KhanUtil.randFromArray([-1, 1]);
         return graph.line(rotatePoint(coords[0], fudge), rotatePoint(coords[1], fudge), { stroke: color });
+    }
+
+    this.drawSide = function(style) {
+        return graph.line(this.path.graphiePath[0], this.path.graphiePath[1], style);
+    }
+
+    this.drawSideLabel = function(s, color) {
+        var path = this.path.graphiePath;
+        return graph.label(getSideMidpoint(path), "\\color{"+color+"}{"+s+"}", "right");
+    }
+
+    this.drawRadius = function(style) {
+        var vertex = this.path.graphiePath[0];
+
+        return graph.line(center, vertex, style);
+    }
+
+    this.drawRadiusLabel = function(r, color) {
+        var vertex = this.path.graphiePath[0];
+
+        return graph.label([(vertex[0] - center[0]) / 2, (vertex[1] - center[1]) / 2], "\\color{"+color+"}{"+r+"}", "below");
+    }
+
+    this.drawApothem = function(style) {
+        return graph.line(center, getSideMidpoint(this.path.graphiePath), style);
+    }
+
+    this.drawApothemLabel = function(a, color) {
+        var midpoint = getSideMidpoint(this.path.graphiePath);
+
+        return graph.label([(midpoint[0] - center[0]) / 2, (midpoint[1] - center[1]) / 2], "\\color{"+color+"}{"+a+"}", "above");
+    }
+
+    this.drawRightBox = function(style) {
+
+    }
+
+    this.drawCentralAngle = function(style) {
+        return graph.arc(center, 0.5, 0, 180 / numSides, null, style);
+    }
+
+    this.drawCentralAngleLabel = function(t, color) {
+        return graph.label(center, "\\color{"+color+"}{"+t+"}", "above right");
+    }
+
+    this.drawIncircle = function(style) {
+        return graph.circle(center, KhanUtil.getDistance(center, getSideMidpoint(this.path.graphiePath)), style);
+    }
+
+    this.drawCircumcircle = function(style) {
+        return graph.circle(center, radius, style);
+    }
+
+    this.drawRightTriangle = function(i, fromMidpoint, style) {
+        var vertex = this.path.graphiePath[i],
+        vertex2 = this.path.graphiePath[i + 1],
+        midpoint = lineMidpoint([vertex, vertex2]);
+
+        if (fromMidpoint) {
+            return graph.path([center, midpoint, vertex2, center], style);
+        } else {
+            return graph.path([center, vertex, midpoint, center], style);
+        }
     }
 
     // Does not currently work with 2 points on one side

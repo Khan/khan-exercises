@@ -32,6 +32,11 @@
             return [(x - xRange[0]) * xScale, (yRange[1] - y) * yScale];
         };
 
+        var unscalePoint = function(point) {
+            var x = point[0], y = point[1];
+            return [x / xScale + xRange[0], yRange[1] - y / yScale];
+        }
+
         var svgPath = function(points) {
             // Bound a number by 1e-6 and 1e20 to avoid exponents after toString
             function boundNumber(num) {
@@ -399,9 +404,10 @@
             scalePoint: scalePoint,
             scaleVector: scaleVector,
 
+            unscalePoint: unscalePoint,
+
             polar: polar,
             cartToPolar: cartToPolar
-
         };
 
         $.each(drawingTools, function(name) {

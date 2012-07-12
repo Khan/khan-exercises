@@ -916,9 +916,14 @@ var Khan = (function() {
     function loadAndRenderExercise(nextUserExercise) {
 
         setUserExercise(nextUserExercise);
+
+        var typeOverride = userExercise.problemType,
+            seedOverride = userExercise.seed;
+
         exerciseId = userExercise.exerciseModel.name;
         exerciseName = userExercise.exerciseModel.displayName;
         exerciseFile = userExercise.exerciseModel.fileName;
+
         // TODO(eater): remove this once all of the exercises in the datastore have filename properties
         if (exerciseFile == null || exerciseFile == "") {
             exerciseFile = exerciseId + ".html";
@@ -946,7 +951,7 @@ var Khan = (function() {
             }
 
             // Generate a new problem
-            makeProblem();
+            makeProblem(typeOverride, seedOverride);
 
         }
 
@@ -1147,7 +1152,7 @@ var Khan = (function() {
         problem.runModules(problem, "Load");
         problem.runModules(problem);
 
-        if (shouldSkipProblem()) {
+        if (typeof seed === "undefined" && shouldSkipProblem()) {
             // If this is a duplicate problem we should skip, just generate
             // another problem of the same problem type but w/ a different seed.
             clearExistingProblem();
@@ -1924,10 +1929,10 @@ var Khan = (function() {
                 // The seed that was used for generating the problem
                 problem_type: problemID,
 
-                // Whether we are currently in review mode
+                // Whether we're currently in review mode
                 review_mode: (!testMode && Exercises.reviewMode) ? 1 : 0,
 
-                // Whether we are currently in topic mode
+                // Whether we are currently working on a topic, as opposed to an exercise
                 topic_mode: (!testMode && !Exercises.reviewMode && !Exercises.practiceMode) ? 1 : 0,
 
                 // Request camelCasing in returned response
@@ -1946,7 +1951,10 @@ var Khan = (function() {
                 cards_done: !testMode && Exercises.completeStack.length,
 
                 // How many cards the user has left to do
-                cards_left: !testMode && (Exercises.incompleteStack.length - 1)
+                cards_left: !testMode && (Exercises.incompleteStack.length - 1),
+
+                //Get Custom Stack Id if it exists
+                custom_stack_id: !testMode && Exercises.completeStack.getCustomStackID()
             };
         }
 
