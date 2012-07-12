@@ -9,79 +9,76 @@
     <div class="exercise">
         <div class="vars">
             <!-- mix of integer side lengths and those with one digit after decimal -->
-            <var id="INT">randRange( 0, 1 )</var>
-            <var id="TILDA">INT ? "" : "~"</var>
-            <var id="SIDE">INT ? randRange( 1, 10 ) :randRange( 10, 100 ) / 10.0</var>
-            <var id="AREA">INT ? SIDE * SIDE : ( SIDE * SIDE ).toFixed( 1 )</var>
+            <var id="INT">randRange(0, 1)</var>
+            <var id="TILDE">INT ? "" : "\\sim"</var>
+            <var id="SIDE">INT ? randRange(1, 10) : randRange(1, 9) + randRange(1, 9)/10.0</var>
+            <var id="AREA">SIDE*SIDE</var>
+            <var id="SIDESTRING">SIDE.toFixed(INT ? 0 : 1)</var>
+            <var id="AREASTRING">AREA.toFixed(INT ? 0 : 1)</var>
         </div>
         <div class="problems">
         
             <div id="find-side-from-area">
                 <div class="question">
-                    The area of a square is <var>AREA</var> cm². How long is each side?
+                    The area of a square is <var>AREASTRING</var> cm<code>^{2}</code>.
+                    How long is each side?
                 </div>
-                <div class="solution">
-                    <var>SIDE</var>
-                </div>
+                <div class="solution"><var>SIDE</var></div>
                 <div class="hints">
-                    <p>You can adjust the diagram to find the answer. (Move the orange dots.)</p>
                     <p>The side length is the square root of the area.</p>
-                    <p>The side length is <code>\sqrt{<var>AREA</var>}</code>.</p>
-                    <p>The side length is <var>TILDA</var><var>SIDE</var>.</p>
+                    <p>The side length is <code>\sqrt{<var>AREASTRING</var>}</code></p>
+                    <p>The side length is <code><var>TILDE</var><var>SIDESTRING</var></code></p>
                 </div>
-
                 <div class="problem">
+                    <div><br>(You can adjust the diagram to find the answer: move an orange dot.)</div>
                     <div class="graphie">
                         init({ range: [ [ -6, 6 ], [ -6, 6 ] ] });
-                        addMouseLayer();
-                        var area = 1;
-                        var size = 1;
-                        var halfsize = 0.5;
-                        var sideLabel = label([ 0, halfsize ], size, "above");
-                        var areaLabel = label([ 0, 0], area, "center");
-                        
-                        function moveFourPoints (x, y) {
-                            var newsize = abs( x ) + abs( y );
-                            size = newsize.toFixed( 1 );
+                        var area = 9;
+                        var size = 3;
+                        var halfsize = size*0.5;
+                        var sideLabel = null;
+                        var areaLabel = null;
+                        var newLabels = function (size) {
+                            if (sideLabel) sideLabel.remove();
+                            sideLabel = label([0, size*0.5], "\\text{side}="+size, "above");
+                            var areaPrefix = (size &gt;= 2.5) ? "\\text{area}=" : "";
+                            if (areaLabel) areaLabel.remove();
+                            areaLabel = label([0, 0], areaPrefix+(size*size).toFixed(1), "center");
+                        };
+                        var moveFourPoints = function(x, y) {
+                            var newsize = abs(x) + abs(y);
+                            size = newsize.toFixed(1);
                             halfsize = size * 0.5;
-                            
-                            point0.setCoord([ -halfsize, -halfsize ]);
-                            point1.setCoord([ -halfsize, +halfsize ]);
-                            point2.setCoord([ +halfsize, +halfsize ]);
-                            point3.setCoord([ +halfsize, -halfsize ]);
-                            
-                            line0.transform( true );
-                            line1.transform( true );
-                            line2.transform( true );
-                            line3.transform( true );
-                            
-                            sideLabel.remove();
-                            sideLabel = label([ 0, halfsize, ], "side="+size, "above");
-                            area = size*size;
-                            var labelPrefix = (area &gt; 3.5) ? "area=" : "";
-                            areaLabel.remove();
-                            areaLabel = label([ 0, 0], labelPrefix+area.toFixed( 1 ), "center");
-                            
+                            area = size * size;
+                            point0.setCoord([-halfsize, -halfsize]);
+                            point1.setCoord([-halfsize,  halfsize]);
+                            point2.setCoord([ halfsize,  halfsize]);
+                            point3.setCoord([ halfsize, -halfsize]);
+                            line0.transform(true);
+                            line1.transform(true);
+                            line2.transform(true);
+                            line3.transform(true);
+                            newLabels (size);
                             return false;
-                        }
-
+                        };
+                        addMouseLayer();
+                        //newLabels (size);                        
                         point0 = addMovablePoint({
-                            coord: [ -halfsize, -halfsize ],
-                            onMove: function(x, y) { return moveFourPoints( x, y ); }
+                            coord: [-halfsize, -halfsize],
+                            onMove: function(x, y) {return moveFourPoints(x, y);}
                         });
                         point1 = addMovablePoint({
-                            coord: [ -halfsize, +halfsize ],
-                            onMove: function(x, y) { return moveFourPoints( x, y ); }
+                            coord: [-halfsize, halfsize],
+                            onMove: function(x, y) {return moveFourPoints(x, y);}
                         });
                         point2 = addMovablePoint({
-                            coord: [ +halfsize, +halfsize ],
-                            onMove: function(x, y) { return moveFourPoints( x, y ); }
+                            coord: [halfsize, halfsize],
+                            onMove: function(x, y) {return moveFourPoints(x, y);}
                         });
                         point3 = addMovablePoint({
-                            coord: [ +halfsize, -halfsize ],
-                            onMove: function(x, y) { return moveFourPoints( x, y ); }
+                            coord: [halfsize, -halfsize],
+                            onMove: function(x, y) {return moveFourPoints(x, y);}
                         });
-
                         line0 = addMovableLineSegment({
                             pointA: point0,
                             pointZ: point1,
@@ -105,22 +102,21 @@
                     </div>
                 </div>
             </div>
-
+            
             <div id="find-area-from-side" data-type="find-side-from-area">
                 <div class="question">
-                    A square's side is <var>SIDE</var> centimeters long. What is its area?
+                    A square's side is <var>SIDESTRING</var> centimeters long. What is its area?
                 </div>
                 <div class="solution" data-inexact data-max-error="0.1" data-type="decimal">
-                    <var>SIDE * SIDE</var>
+                    <var>SIDE*SIDE</var>
                 </div>
                 <div class="hints">
-                    <p>You can adjust the diagram to find the answer. (Move the orange dots.)</p>
-                    <p>The area is <code><var>SIDE</var>^{2}</code>.</p>
-                    <p>The area is the side length squared: <code><var>SIDE</var>\times<var>SIDE</var></code>.</p>
-                    <p>The area is <var>TILDA</var><var>AREA</var>.</p>
+                    <p>The area is <code><var>SIDESTRING</var>^{2}</code>.</p>
+                    <p>The area is the side length squared:
+                       <code><var>SIDESTRING</var>\times<var>SIDESTRING</var></code>.</p>
+                    <p>The area is <code><var>TILDE</var><var>AREASTRING</var></code></p>
                 </div>
             </div>
-                        
         </div>
     </div>
 </body>
