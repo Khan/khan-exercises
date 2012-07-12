@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Transformations Intuition</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        input[type=text] #xTrans #yTrans {
+            width: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        var makeShape = function(){
+            var points = [];
+            points[0] = [randRange(-10, 10), randRange(-10,10)];
+            var shape = randFromArray(["boomerang", ])
+        }
+
+        var translatePoint = function(xDiff,yDiff){
+            var x = Number(xDiff);
+            var y = Number(yDiff);
+            console.log(x,y);
+            if(isNaN(x) || isNaN(y)){
+                return;
+            }
+            else{
+                cp = KhanUtil.currentGraph.graph.curPoint;
+                KhanUtil.currentGraph.graph.curPoint = [cp[0] + x, cp[1] + y];
+            }
+        }
+
+        var rotatePoint = function(degrees){
+            var deg = Number(degrees);
+            if(isNaN(deg)){
+                return;
+            }
+            else{
+                var rad = deg * Math.PI / 180;
+                cp = KhanUtil.currentGraph.graph.curPoint;
+                KhanUtil.currentGraph.graph.curPoint = [cp[0]*Math.cos(rad) - cp[1]*Math.sin(rad), cp[0]*Math.sin(rad) + cp[1]*Math.cos(rad)];
+            }
+        }
+
+        var reflectPoint = function(axis){
+            if(axis === "x"){
+                KhanUtil.currentGraph.graph.curPoint[1] *= -1;
+            }
+            else{
+                KhanUtil.currentGraph.graph.curPoint[0] *= -1;
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars" data-ensure="INIT_POINT != END_POINT">
+                <var id="INIT_POINT">[randRange(-10,10), randRange(-10,10)]</var>
+                <var id="END_POINT">[randRange(-10,10), randRange(-10,10)]</var>
+
+                <var id="DOT_ATTRS">{ r: 0.3, fill: GRAY, stroke: "none" }</var>
+
+            </div>
+
+            <p class="question">Move the blue shape to the grey shape using the three kinds of transformations given.</p>
+
+            <div class="problem">
+                <form>
+                    <input type="button" value="Translate" onClick="javascript:
+                        translatePoint($('#xTrans').val(), $('#yTrans').val());
+                        KhanUtil.currentGraph.graph.update();
+                    " />
+                    <label>x:</label>
+                    <input type="text" id="xTrans" style="width: 15px"></input>
+                    <label>y:</label>
+                    <input type="text" id="yTrans" style="width: 15px"></input>
+                    <input type="button" value="Rotate" onClick="javascript:
+                        rotatePoint($('#degRotate').val());
+                        KhanUtil.currentGraph.graph.update();
+                    " />
+                    <input type="text" id="degRotate" style="width: 20px"></input>
+                    <label><code> {}^{\circ} </code> </label>
+                    <input type="button" value="Reflect" onClick="javascript:
+                        reflectPoint(KhanUtil.currentGraph.graph.reflectAxis);
+                        KhanUtil.currentGraph.graph.update();
+                    " />
+                    <label>
+                        <input name="reflectRadio" type="radio" id="xAxis" checked onClick="javascript:
+                            KhanUtil.currentGraph.graph.reflectAxis = 'x';
+                        " />
+                        x-axis
+                    </label>
+                    <label>
+                        <input name="reflectRadio" type="radio" id="yAxis" onClick="javascript:
+                            KhanUtil.currentGraph.graph.reflectAxis = 'y';
+                        " />
+                        y-axis
+                    </label>
+                    <input type="button" value="Recover Original Point" onClick="javascript:
+                        KhanUtil.currentGraph.graph.resetPoint();
+                        KhanUtil.currentGraph.graph.update();
+                    " />
+                </form>
+                </br></br>
+                <div class="graphie" id="grid">
+                    graphInit({
+                        range: 11,
+                        scale: 20,
+                        axisArrows: "&lt;-&gt;",
+                        tickStep: 1,
+                        labelStep: 1,
+                        gridOpacity: 0.05,
+                        axisOpacity: 0.2,
+                        tickOpacity: 0.4,
+                        labelOpacity: 0.5
+                    });
+
+                    label( [ 0, 11 ], "y", "above" );
+                    label( [ 11, 0 ], "x", "right" );
+
+                    circle(END_POINT, { r: 0.3, fill: GRAY, stroke: "none" });
+
+                    graph.myPoint = circle(INIT_POINT, { r: 0.3, fill: BLUE, stroke: "none" });
+                    graph.curPoint = INIT_POINT;
+                    graph.reflectAxis = "x";
+
+                    graph.resetPoint = function() {
+                        graph.curPoint = INIT_POINT;
+                        graph.update();
+                    };
+
+                    graph.update = function() {
+                        graph.myPoint.remove();
+                        graph.myPoint = circle(graph.curPoint, { r: 0.3, fill: BLUE, stroke: "none" });
+                    };
+
+                </div>
+
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Drag the two points to move the line into the correct position.
+                </div>
+                <div class="guess">[ graph.pointA.coord, graph.pointB.coord,
+                    graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? graph.shadetop : !graph.shadetop,
+                    graph.dasharray === "- " ? false : true ]
+                </div>
+                <div class="validator-function">
+                    var slope = ( guess[1][1] - guess[0][1] ) / ( guess[1][0] - guess[0][0] );
+                    var yint = slope * ( 0 - guess[0][0] ) + guess[0][1];
+                    return abs( SLOPE - slope ) &lt; 0.001
+                        &amp;&amp; abs( YINT - yint ) &lt; 0.001
+                        &amp;&amp; guess[2] === LESS_THAN
+                        &amp;&amp; guess[3] === INCLUSIVE;
+                </div>
+                <div class="show-guess">
+                    graph.pointA.setCoord( guess[0] );
+                    graph.pointB.setCoord( guess[1] );
+                    graph.shadetop = graph.pointA.coord[0] &gt; graph.pointB.coord[0] ? guess[2] : !guess[2];
+                    if ( guess[3] ) {
+                        graph.dasharray = "";
+                        $( "input[name=dashradio][value=solid]" ).attr( "checked", true );
+                    } else {
+                        graph.dasharray = "- ";
+                        $( "input[name=dashradio][value=dashed]" ).attr( "checked", true );
+                    }
+                    graph.update();
+                </div>
+                <div class="example">graph the inequality</div>
+                <div class="example">make sure the correct side is shaded</div>
+                <div class="example">make sure the line is correctly shown as solid or dashed</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hints">
+        
+    </div>
+
+</div>
+</body>
+</html>
