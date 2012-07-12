@@ -73,8 +73,11 @@
                     goalPoints.push(point);
                 }
             }
-            while(!_.all(goalPoints, function(point){ return Math.abs(point[0]) <= 10 && Math.abs(point[1]) <= 10; }))
-            return goalPoints;
+            while(!_.all(goalPoints, function(point){ 
+                return Math.abs(point[0]) <= 10 && Math.abs(point[1]) <= 10 
+                && Math.abs(point[0] - startShape[_.indexOf(goalPoints, point)][0]) > 0.001
+                && Math.abs(point[1] - startShape[_.indexOf(goalPoints, point)][1]) > 0.001; }))
+            return [goalPoints, transformations];
         }
 
         var translatePoints = function(xDiff,yDiff){
@@ -109,6 +112,27 @@
                 _.each(KhanUtil.currentGraph.graph.curPoints, function(point) { point[0] *= -1; });
             }
         }
+
+        var explainTransform = function(trans){
+            if(trans[0] === "t"){
+                return "translate the shape by " + trans.substring(1,3) + " in the x direction and " + trans.substring(3,5) + " in the y direction";
+            }
+            else if (trans[0] === "o"){
+                return "rotate the shape by " + trans.slice(1, trans.length) + " degrees";
+            }
+            else{
+                return "reflect the shape over the " + trans[1] + "-axis";
+            }
+        }
+
+        var explainTransforms = function(translations){
+            var explanation = "first ";
+            for(t in translations){
+                trans = translations[t];
+                explanation += explainTransform(trans) + ", then ";
+            }
+            return explanation.slice(0, explanation.length-7) + ".";
+        }
     </script>
 </head>
 <body>
@@ -117,7 +141,7 @@
         <div>
             <div class="vars">
                 <var id="INIT_POINTS">makeShape()</var>
-                <var id="END_POINTS">goalShape(INIT_POINTS)</var>
+                <var id="END_POINTS, TRANSFORMS">goalShape(INIT_POINTS)</var>
 
                 <var id="DOT_ATTRS">{ r: 0.3, fill: GRAY, stroke: "none" }</var>
 
@@ -130,6 +154,8 @@
                     <input type="button" value="Translate" onClick="javascript:
                         translatePoints($('#xTrans').val(), $('#yTrans').val());
                         KhanUtil.currentGraph.graph.update();
+                        $('#xTrans').val('');
+                        $('#yTrans').val('');
                     " />
                     <label>x:</label>
                     <input type="text" id="xTrans" style="width: 15px"></input>
@@ -179,17 +205,17 @@
                     label( [ 0, 11 ], "y", "above" );
                     label( [ 11, 0 ], "x", "right" );
 
-                    _.each(END_POINTS, function(point) { circle(point, { r: 0.3, fill: GRAY, stroke: "none" }); });
+                    //_.each(END_POINTS, function(point) { circle(point, { r: 0.3, fill: GRAY, stroke: "none" }); });
                     for(var i = 0; i &lt; END_POINTS.length; i++){
-                        line(END_POINTS[i], END_POINTS[(i+1) % 4]);
+                        line(END_POINTS[i], END_POINTS[(i+1) % 4], {stroke: GRAY, "stroke-width": 3 });
                     }
 
                     graph.myPoints = [];
                     graph.myLines = [];
 
                     for(var i = 0; i &lt; INIT_POINTS.length; i++){
-                        graph.myPoints[i] = circle(INIT_POINTS[i], { r: 0.3, fill: BLUE, stroke: "none" });
-                        graph.myLines[i] = line(INIT_POINTS[i], INIT_POINTS[(i+1) % 4]);
+                        //graph.myPoints[i] = circle(INIT_POINTS[i], { r: 0.3, fill: BLUE, stroke: "none" });
+                        graph.myLines[i] = line(INIT_POINTS[i], INIT_POINTS[(i+1) % 4], { stroke: BLUE, "stroke-width": 3 });
                     }
                     
                     graph.curPoints = INIT_POINTS;
@@ -201,11 +227,11 @@
                     };
 
                     graph.update = function() {
-                        _.each(graph.myPoints, function(point) { point.remove(); });
+                        //_.each(graph.myPoints, function(point) { point.remove(); });
                         _.each(graph.myLines, function(line) { line.remove(); });
                         for(var i = 0; i &lt; INIT_POINTS.length; i++){
-                            graph.myPoints[i] = circle(graph.curPoints[i], { r: 0.3, fill: BLUE, stroke: "none" });
-                            graph.myLines[i] = line(graph.curPoints[i], graph.curPoints[(i+1) % 4]);
+                            //graph.myPoints[i] = circle(graph.curPoints[i], { r: 0.3, fill: BLUE, stroke: "none" });
+                            graph.myLines[i] = line(graph.curPoints[i], graph.curPoints[(i+1) % 4], { stroke: BLUE, "stroke-width": 3 });
                         }
                     };
 
@@ -220,23 +246,23 @@
                 </div>
                 <div class="validator-function">
                     return _.all(KhanUtil.currentGraph.graph.curPoints, function(point){
-                        return (Math.abs(point[0] - END_POINTS[_.indexOf(KhanUtil.currentGraph.graph.curPoints, point)][0]) &lt; 0.0001)
-                            &amp;&amp; (Math.abs(point[1] - END_POINTS[_.indexOf(KhanUtil.currentGraph.graph.curPoints, point)][1]) &lt; 0.0001);
+                        return (Math.abs(point[0] - END_POINTS[_.indexOf(KhanUtil.currentGraph.graph.curPoints, point)][0]) &lt; 0.001)
+                            &amp;&amp; (Math.abs(point[1] - END_POINTS[_.indexOf(KhanUtil.currentGraph.graph.curPoints, point)][1]) &lt; 0.001);
                     });
                 </div>
                 <div class="show-guess">
                     KhanUtil.currentGraph.graph.curPoints = guess[0];
                     KhanUtil.currentGraph.graph.update();
                 </div>
-                <div class="example">graph the inequality</div>
-                <div class="example">make sure the correct side is shaded</div>
-                <div class="example">make sure the line is correctly shown as solid or dashed</div>
             </div>
         </div>
     </div>
 
     <div class="hints">
-        
+        <p> A translation will move the blue shape that many units in the x and y direction. For example, applying a translation with <code> x=5 </code> and <code> y=-3 </code> will move the shape five units right and three units down.</p>
+        <p> A rotation will rotate the shape around <code> (0,0) </code>.</p>
+        <p> A reflection across an axis will move the shape to the other side of that axis, without changing anything else.</p>
+        <p> One way to move the blue shape to the grey shape is to <var> explainTransforms(TRANSFORMS) </var> </p>
     </div>
 
 </div>
