@@ -59,17 +59,17 @@
             }
             else{
                 var rad = deg * Math.PI / 180;
-                cp = KhanUtil.currentGraph.graph.curPoint;
-                KhanUtil.currentGraph.graph.curPoint = [cp[0]*Math.cos(rad) - cp[1]*Math.sin(rad), cp[0]*Math.sin(rad) + cp[1]*Math.cos(rad)];
+                cp = KhanUtil.currentGraph.graph.curPoints;
+                KhanUtil.currentGraph.graph.curPoints = _.map(cp, function(point) { return [point[0]*Math.cos(rad) - point[1]*Math.sin(rad), point[0]*Math.sin(rad) + point[1]*Math.cos(rad)]; });
             }
         }
 
         var reflectPoints = function(axis){
             if(axis === "x"){
-                KhanUtil.currentGraph.graph.curPoint[1] *= -1;
+                _.each(KhanUtil.currentGraph.graph.curPoints, function(point) { point[1] *= -1; });
             }
             else{
-                KhanUtil.currentGraph.graph.curPoint[0] *= -1;
+                _.each(KhanUtil.currentGraph.graph.curPoints, function(point) { point[0] *= -1; });
             }
         }
     </script>
@@ -145,9 +145,11 @@
                     _.each(END_POINTS, function(point) { circle(point, { r: 0.3, fill: GRAY, stroke: "none" }); });
 
                     graph.myPoints = [];
+                    graph.myLines = [];
 
                     for(var i = 0; i &lt; INIT_POINTS.length; i++){
                         graph.myPoints[i] = circle(INIT_POINTS[i], { r: 0.3, fill: BLUE, stroke: "none" });
+                        graph.myLines[i] = line(INIT_POINTS[i], INIT_POINTS[(i+1) % 4]);
                     }
                     
                     graph.curPoints = INIT_POINTS;
@@ -160,8 +162,10 @@
 
                     graph.update = function() {
                         _.each(graph.myPoints, function(point) { point.remove(); });
+                        _.each(graph.myLines, function(line) { line.remove(); });
                         for(var i = 0; i &lt; INIT_POINTS.length; i++){
                             graph.myPoints[i] = circle(graph.curPoints[i], { r: 0.3, fill: BLUE, stroke: "none" });
+                            graph.myLines[i] = line(graph.curPoints[i], graph.curPoints[(i+1) % 4]);
                         }
                     };
 
