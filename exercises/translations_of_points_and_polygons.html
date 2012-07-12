@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html data-require="math graphie geom interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Translation of points and polygons</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+
+        <div>
+            <div class="vars">
+                <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">randRange(-4, 4, 4)</var>
+                <var id="DX,DY">[EX - SX, EY - SY]</var>
+                <var id="POINTS">_.map(_.range(6), function() {
+                    return {x: randRange(-4, 4), y: randRange(-4, 4)};
+                })</var>
+                <var id="HULL">_.map(Geom.convexhull(POINTS), function(p) {
+                    return [p.x + SX, p.y + SY];
+                })</var>
+            </div>
+
+            <p class="question">
+                What is the image of the polygon below after the translation <code>T_{(<var>DX</var>, <var>DY</var>)}</code>?
+            </p>
+
+            <div class="problem">
+                <div class="graphie">
+                    graphInit({
+                        range: 11,
+                        scale: 20,
+                        axisArrows: "&lt;-&gt;",
+                        tickStep: 1,
+                        labelStep: 1,
+                        gridOpacity: 0.05,
+                        axisOpacity: 0.2,
+                        tickOpacity: 0.4,
+                        labelOpacity: 0.5
+                    });
+
+                    //path(HULL, {stroke: BLUE});
+                    console.log(HULL);
+
+                    for(var i=0; i &lt; HULL.length; i++){
+                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: GRAY });
+                    }
+
+                    addMouseLayer();
+                    graph.points = _.map(HULL, function(point){ return addMovablePoint({ coord: point, visible: false }); });
+                    graph.lines = [];
+                    for(var i=0; i &lt; graph.points.length; i++){
+                        graph.lines.push(addMovableLineSegment({ pointA: graph.points[i], pointZ: graph.points[(i+1) % graph.points.length], snapX: 1, snapY: 1}));
+                    }
+
+                    _.each(graph.lines, function(line){ line.onMove = function(dX, dY){ graph.updatePolygon(dX, dY); }});
+
+                    graph.updatePolygon = function(dX, dY){
+                        _.each(graph.points, function(point){ point.setCoord([point.coord[0] + dX, point.coord[1] + dY]); point.updateLineEnds(); });
+                    }
+                </div>
+            </div>
+
+            <div class="solution"></div>
+
+            <div class="hints">
+                <p>
+                    The area is the number of <code>1 \times 1</code> squares
+                    the shape covers.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
