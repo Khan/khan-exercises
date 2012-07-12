@@ -11,12 +11,35 @@
     </style>
     <script type="text/javascript">
         var makeShape = function(){
-            var points = [];
-            points[0] = [randRange(-10, 10), randRange(-10,10)];
-            var shape = randFromArray(["boomerang", ])
+            var points = [0,0,0,0];
+            points[0] = [KhanUtil.randRange(-10, 10), KhanUtil.randRange(-10,10)];
+            var shape = KhanUtil.randFromArray(["boomerang", "blob"]);
+            if(shape === "boomerang"){
+                points[1] = [points[0][0] + 2, points[0][1]];
+                points[2] = [points[0][0] + 1, points[0][1] + 1];
+                points[3] = [points[0][0], points[0][1] + 3];
+            }
+            else{
+                points[1] = [points[0][0] + 2, points[0][1]];
+                points[2] = [points[0][0] + 2, points[0][1] + 2];
+                points[3] = [points[0][0] + 1, points[0][1] + 3];
+            }
+            return points;
         }
 
-        var translatePoint = function(xDiff,yDiff){
+        var goalShape = function(startShape){
+            var transformations = ["t35"];
+
+            return _.map(startShape, function(point){ 
+                for(fun in transformations){
+                    if(transformations[fun][0] === "t"){
+                        return [point[0] + Number(transformations[fun][1]), point[1] + Number(transformations[fun][2])];
+                    }
+                }
+            });
+        }
+
+        var translatePoints = function(xDiff,yDiff){
             var x = Number(xDiff);
             var y = Number(yDiff);
             console.log(x,y);
@@ -24,12 +47,12 @@
                 return;
             }
             else{
-                cp = KhanUtil.currentGraph.graph.curPoint;
-                KhanUtil.currentGraph.graph.curPoint = [cp[0] + x, cp[1] + y];
+                cp = KhanUtil.currentGraph.graph.curPoints;
+                KhanUtil.currentGraph.graph.curPoints = _.map(cp, function(point) { return [point[0] + x, point[1] + y]; });
             }
         }
 
-        var rotatePoint = function(degrees){
+        var rotatePoints = function(degrees){
             var deg = Number(degrees);
             if(isNaN(deg)){
                 return;
@@ -41,7 +64,7 @@
             }
         }
 
-        var reflectPoint = function(axis){
+        var reflectPoints = function(axis){
             if(axis === "x"){
                 KhanUtil.currentGraph.graph.curPoint[1] *= -1;
             }
@@ -55,9 +78,9 @@
 <div class="exercise">
     <div class="problems">
         <div>
-            <div class="vars" data-ensure="INIT_POINT != END_POINT">
-                <var id="INIT_POINT">[randRange(-10,10), randRange(-10,10)]</var>
-                <var id="END_POINT">[randRange(-10,10), randRange(-10,10)]</var>
+            <div class="vars">
+                <var id="INIT_POINTS">makeShape()</var>
+                <var id="END_POINTS">goalShape(INIT_POINTS)</var>
 
                 <var id="DOT_ATTRS">{ r: 0.3, fill: GRAY, stroke: "none" }</var>
 
@@ -68,7 +91,7 @@
             <div class="problem">
                 <form>
                     <input type="button" value="Translate" onClick="javascript:
-                        translatePoint($('#xTrans').val(), $('#yTrans').val());
+                        translatePoints($('#xTrans').val(), $('#yTrans').val());
                         KhanUtil.currentGraph.graph.update();
                     " />
                     <label>x:</label>
@@ -76,13 +99,13 @@
                     <label>y:</label>
                     <input type="text" id="yTrans" style="width: 15px"></input>
                     <input type="button" value="Rotate" onClick="javascript:
-                        rotatePoint($('#degRotate').val());
+                        rotatePoints($('#degRotate').val());
                         KhanUtil.currentGraph.graph.update();
                     " />
                     <input type="text" id="degRotate" style="width: 20px"></input>
                     <label><code> {}^{\circ} </code> </label>
                     <input type="button" value="Reflect" onClick="javascript:
-                        reflectPoint(KhanUtil.currentGraph.graph.reflectAxis);
+                        reflectPoints(KhanUtil.currentGraph.graph.reflectAxis);
                         KhanUtil.currentGraph.graph.update();
                     " />
                     <label>
@@ -97,8 +120,8 @@
                         " />
                         y-axis
                     </label>
-                    <input type="button" value="Recover Original Point" onClick="javascript:
-                        KhanUtil.currentGraph.graph.resetPoint();
+                    <input type="button" value="Recover Original Location" onClick="javascript:
+                        KhanUtil.currentGraph.graph.resetPoints();
                         KhanUtil.currentGraph.graph.update();
                     " />
                 </form>
@@ -119,20 +142,27 @@
                     label( [ 0, 11 ], "y", "above" );
                     label( [ 11, 0 ], "x", "right" );
 
-                    circle(END_POINT, { r: 0.3, fill: GRAY, stroke: "none" });
+                    _.each(END_POINTS, function(point) { circle(point, { r: 0.3, fill: GRAY, stroke: "none" }); });
 
-                    graph.myPoint = circle(INIT_POINT, { r: 0.3, fill: BLUE, stroke: "none" });
-                    graph.curPoint = INIT_POINT;
+                    graph.myPoints = [];
+
+                    for(var i = 0; i &lt; INIT_POINTS.length; i++){
+                        graph.myPoints[i] = circle(INIT_POINTS[i], { r: 0.3, fill: BLUE, stroke: "none" });
+                    }
+                    
+                    graph.curPoints = INIT_POINTS;
                     graph.reflectAxis = "x";
 
-                    graph.resetPoint = function() {
-                        graph.curPoint = INIT_POINT;
+                    graph.resetPoints = function() {
+                        graph.curPoints = INIT_POINTS;
                         graph.update();
                     };
 
                     graph.update = function() {
-                        graph.myPoint.remove();
-                        graph.myPoint = circle(graph.curPoint, { r: 0.3, fill: BLUE, stroke: "none" });
+                        _.each(graph.myPoints, function(point) { point.remove(); });
+                        for(var i = 0; i &lt; INIT_POINTS.length; i++){
+                            graph.myPoints[i] = circle(graph.curPoints[i], { r: 0.3, fill: BLUE, stroke: "none" });
+                        }
                     };
 
                 </div>
