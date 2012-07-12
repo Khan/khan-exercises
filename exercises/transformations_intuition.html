@@ -100,7 +100,8 @@
             else{
                 var rad = deg * Math.PI / 180;
                 cp = KhanUtil.currentGraph.graph.curPoints;
-                KhanUtil.currentGraph.graph.curPoints = _.map(cp, function(point) { return [point[0]*Math.cos(rad) - point[1]*Math.sin(rad), point[0]*Math.sin(rad) + point[1]*Math.cos(rad)]; });
+                KhanUtil.currentGraph.graph.curPoints = _.map(cp, function(point) { 
+                    return [point[0]*Math.cos(rad) - point[1]*Math.sin(rad), point[0]*Math.sin(rad) + point[1]*Math.cos(rad)]; });
             }
         }
 
