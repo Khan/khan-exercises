@@ -73,6 +73,12 @@
                             graph.lines.push(addMovableLineSegment({ pointA: graph.points[i], pointZ: graph.points[(i+1) % graph.points.length], snapX: 1, snapY: 1}));
                         }
                     }
+
+                    graph.drawAnswer = function(){
+                        for(var i=0; i &lt; TARGET.length; i++){
+                            line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
+                        }
+                    }
                 </div>
             </div>
 
@@ -96,10 +102,19 @@
             </div>
 
             <div class="hints">
-                <p>
-                    The area is the number of <code>1 \times 1</code> squares
-                    the shape covers.
-                </p>
+                <div>
+                    Applying the translation <code>T_{(<var>DX</var>, <var>DY</var>)}</code> to a polygon is the same thing as moving that polygon 
+                    <var> DX </var> units to the <var> DX &gt; 0 ? "right" : "left" </var> and <var> DY </var> units <var> DY &gt; 0 ? "up" : "down" </var>.
+                </div>
+                <div>
+                    The orange outline shows where the polygon ends up after the translation.
+                    <div class="graphie" data-update="grid">
+                        for(var i=0; i &lt; TARGET.length; i++){
+                            console.log(i);
+                            line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
+                        }
+                    </div>
+                </div>
             </div>
         </div>
 
