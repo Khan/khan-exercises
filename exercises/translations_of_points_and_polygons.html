@@ -19,6 +19,9 @@
                 <var id="HULL">_.map(Geom.convexhull(POINTS), function(p) {
                     return [p.x + SX, p.y + SY];
                 })</var>
+                <var id="TARGET"> _.map(HULL, function(p) {
+                    return [p[0] + DX, p[1] + DY];
+                })</var>
             </div>
 
             <p class="question">
@@ -26,7 +29,7 @@
             </p>
 
             <div class="problem">
-                <div class="graphie">
+                <div class="graphie" id="grid">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -47,21 +50,50 @@
                     }
 
                     addMouseLayer();
+
                     graph.points = _.map(HULL, function(point){ return addMovablePoint({ coord: point, visible: false }); });
                     graph.lines = [];
                     for(var i=0; i &lt; graph.points.length; i++){
                         graph.lines.push(addMovableLineSegment({ pointA: graph.points[i], pointZ: graph.points[(i+1) % graph.points.length], snapX: 1, snapY: 1}));
                     }
 
+                    graph.curPoints = _.map(graph.points, function(point){ return point.coord; });
+
                     _.each(graph.lines, function(line){ line.onMove = function(dX, dY){ graph.updatePolygon(dX, dY); }});
 
                     graph.updatePolygon = function(dX, dY){
                         _.each(graph.points, function(point){ point.setCoord([point.coord[0] + dX, point.coord[1] + dY]); point.updateLineEnds(); });
+                        graph.curPoints = _.map(graph.points, function(point){ return point.coord; });
+                    }
+
+                    graph.showGuess = function(){
+                        graph.points = _.map(graph.curPoints, function(point){ return addMovablePoint({ coord: point, visible: false }); });
+                        graph.lines = [];
+                        for(var i=0; i &lt; graph.points.length; i++){
+                            graph.lines.push(addMovableLineSegment({ pointA: graph.points[i], pointZ: graph.points[(i+1) % graph.points.length], snapX: 1, snapY: 1}));
+                        }
                     }
                 </div>
             </div>
 
-            <div class="solution"></div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Drag the blue polygon to its image under the given translation.
+                </div>
+                <div class="guess"> KhanUtil.currentGraph.graph.curPoints
+                </div>
+                <div class="validator-function">
+                    coordList = _.map(KhanUtil.currentGraph.graph.points, function(point){ return point.coord; });
+                    return _.all(coordList, function(point){
+                        return (point[0] === TARGET[_.indexOf(coordList, point)][0])
+                            &amp;&amp; (point[1] === TARGET[_.indexOf(coordList, point)][1]);
+                    });
+                </div>
+                <div class="show-guess">
+                    KhanUtil.currentGraph.graph.curPoints = guess;
+                    KhanUtil.currentGraph.graph.showGuess();
+                </div>
+            </div>
 
             <div class="hints">
                 <p>
