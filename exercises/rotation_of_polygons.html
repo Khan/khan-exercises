@@ -28,7 +28,7 @@
             <div class="vars">
                 <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">randRange(-4, 4, 4)</var>
                 <!-- <var id="DX,DY">[EX - SX, EY - SY]</var> -->
-                <var id="ROTDEG">45*randRange(1, 7)</var>
+                <var id="ROTDEG">90*randRange(1, 3)</var>
                 <var id="ROTRAD">ROTDEG * Math.PI / 180 </var>
                 <var id="POINTS">_.map(_.range(6), function() {
                     return {x: randRange(-4, 4), y: randRange(-4, 4)};
@@ -85,7 +85,6 @@
                         }
                     });
 
-
                     graph.updatePolygon = function(rad){
                         _.each(graph.points, function(point){ 
                             point.setCoord([point.coord[0] * Math.cos(rad) - point.coord[1] * Math.sin(rad), point.coord[0] * Math.sin(rad) + point.coord[1] * Math.cos(rad)]); 
@@ -112,15 +111,16 @@
 
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                    Drag the blue polygon to its image under the given translation.
+                    Rotate the blue polygon to its image under the given translation.
                 </div>
                 <div class="guess"> KhanUtil.currentGraph.graph.curPoints
                 </div>
                 <div class="validator-function">
                     coordList = _.map(KhanUtil.currentGraph.graph.points, function(point){ return point.coord; });
+                    console.log(coordList, TARGET);
                     return _.all(coordList, function(point){
-                        return (point[0] === TARGET[_.indexOf(coordList, point)][0])
-                            &amp;&amp; (point[1] === TARGET[_.indexOf(coordList, point)][1]);
+                        return Math.abs(point[0] - TARGET[_.indexOf(coordList, point)][0]) &lt; 0.1
+                            &amp;&amp; Math.abs(point[1] - TARGET[_.indexOf(coordList, point)][1]) &lt; 0.1;
                     });
                 </div>
                 <div class="show-guess">
@@ -130,16 +130,15 @@
             </div>
 
             <div class="hints">
-                <!-- <p>
-                    Translating a polygon slides it to somewhere else in the plane.
+                <p>
+                    Applying a rotation
                 </p>
                 <p>
                     To find the image of a polygon under a translation, you have to add the value of the translation's x- and y-components to each 
                     point in that polygon.
                 </p>
                 <p>
-                    For the translation <code>T_{(<var>DX</var>, <var>DY</var>)}</code>, you move the polygon <var> Math.abs(DX) </var>
-                    units to the <var> DX &gt; 0 ? "right" : "left" </var> and <var> Math.abs(DY) </var> units <var> DY &gt; 0 ? "up" : "down" </var>.
+                    For the translation <code>T_{<var>ROTDEG</var> {}^\circ{} }</code>, you blah.
                 </p>
                 <div>
                     The orange outline shows where the polygon ends up after the translation.
@@ -148,7 +147,7 @@
                             line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
                         }
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
