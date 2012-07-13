@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html data-require="math graphie geom interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Rotating Polygons</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+    var rotatePoints = function(degrees){
+            var deg = Number(degrees);
+            if(isNaN(deg)){
+                return;
+            }
+            else{
+                var rad = deg * Math.PI / 180;
+                _.each(KhanUtil.currentGraph.graph.points, function(point) {
+
+                });
+                KhanUtil.currentGraph.graph.points = _.map(cp, function(point) { 
+                    return [point[0]*Math.cos(rad) - point[1]*Math.sin(rad), point[0]*Math.sin(rad) + point[1]*Math.cos(rad)]; });
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">randRange(-4, 4, 4)</var>
+                <!-- <var id="DX,DY">[EX - SX, EY - SY]</var> -->
+                <var id="ROTDEG">45*randRange(1, 7)</var>
+                <var id="ROTRAD">ROTDEG * Math.PI / 180 </var>
+                <var id="POINTS">_.map(_.range(6), function() {
+                    return {x: randRange(-4, 4), y: randRange(-4, 4)};
+                })</var>
+                <var id="HULL">_.map(Geom.convexhull(POINTS), function(p) {
+                    return [p.x, p.y];
+                })</var>
+                <var id="HULL_DISTS">_.map(HULL, function(p){ 
+                    return Math.pow(p[0],2) + Math.pow(p[1],2);
+                })</var>
+                <var id="TARGET"> _.map(HULL, function(p) {
+                    return [p[0]*Math.cos(ROTRAD) - p[1]*Math.sin(ROTRAD), p[0]*Math.sin(ROTRAD) + p[1]*Math.cos(ROTRAD)];
+                })</var>
+            </div>
+
+            <p class="question">
+                What is the image of the polygon below after the translation <code>T_{<var>ROTDEG</var> {}^\circ{} }</code>?
+            </p>
+
+            <div class="problem">
+                <div class="graphie" id="grid">
+                    graphInit({
+                        range: 11,
+                        scale: 20,
+                        axisArrows: "&lt;-&gt;",
+                        tickStep: 1,
+                        labelStep: 1,
+                        gridOpacity: 0.05,
+                        axisOpacity: 0.2,
+                        tickOpacity: 0.4,
+                        labelOpacity: 0.5
+                    });
+
+                    for(var i=0; i &lt; HULL.length; i++){
+                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: GRAY });
+                    }
+
+                    addMouseLayer();
+
+                    graph.points = _.map(HULL, function(point){ return addMovablePoint({ coord: point }); });
+                    graph.lines = [];
+                    for(var i=0; i &lt; graph.points.length; i++){
+                        graph.lines.push(addMovableLineSegment({ pointA: graph.points[i], pointZ: graph.points[(i+1) % graph.points.length], fixed: true}));
+                    }
+
+                    graph.curPoints = _.map(graph.points, function(point){ return point.coord; });
+
+                    _.each(graph.points, function(point){ 
+                        point.onMove = function(x, y){
+                            myAng = this.coord[0] > 0 ? Math.atan(this.coord[1]/this.coord[0]) : Math.atan(this.coord[1]/this.coord[0]) + Math.PI;
+                            newAng = x > 0 ? Math.atan(y/x) : Math.atan(y/x) + Math.PI;
+                            graph.updatePolygon(newAng-myAng);
+                            return false;
+                        }
+                    });
+
+
+                    graph.updatePolygon = function(rad){
+                        _.each(graph.points, function(point){ 
+                            point.setCoord([point.coord[0] * Math.cos(rad) - point.coord[1] * Math.sin(rad), point.coord[0] * Math.sin(rad) + point.coord[1] * Math.cos(rad)]); 
+                            point.updateLineEnds(); 
+                        });
+                        graph.curPoints = _.map(graph.points, function(point){ return point.coord; });
+                    }
+
+                    graph.showGuess = function(){
+                        graph.points = _.map(graph.curPoints, function(point){ return addMovablePoint({ coord: point }); });
+                        graph.lines = [];
+                        for(var i=0; i &lt; graph.points.length; i++){
+                            graph.lines.push(addMovableLineSegment({ pointA: graph.points[i], pointZ: graph.points[(i+1) % graph.points.length], snapX: 1, snapY: 1}));
+                        }
+                    }
+
+                    graph.drawAnswer = function(){
+                        for(var i=0; i &lt; TARGET.length; i++){
+                            line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Drag the blue polygon to its image under the given translation.
+                </div>
+                <div class="guess"> KhanUtil.currentGraph.graph.curPoints
+                </div>
+                <div class="validator-function">
+                    coordList = _.map(KhanUtil.currentGraph.graph.points, function(point){ return point.coord; });
+                    return _.all(coordList, function(point){
+                        return (point[0] === TARGET[_.indexOf(coordList, point)][0])
+                            &amp;&amp; (point[1] === TARGET[_.indexOf(coordList, point)][1]);
+                    });
+                </div>
+                <div class="show-guess">
+                    KhanUtil.currentGraph.graph.curPoints = guess;
+                    KhanUtil.currentGraph.graph.showGuess();
+                </div>
+            </div>
+
+            <div class="hints">
+                <!-- <p>
+                    Translating a polygon slides it to somewhere else in the plane.
+                </p>
+                <p>
+                    To find the image of a polygon under a translation, you have to add the value of the translation's x- and y-components to each 
+                    point in that polygon.
+                </p>
+                <p>
+                    For the translation <code>T_{(<var>DX</var>, <var>DY</var>)}</code>, you move the polygon <var> Math.abs(DX) </var>
+                    units to the <var> DX &gt; 0 ? "right" : "left" </var> and <var> Math.abs(DY) </var> units <var> DY &gt; 0 ? "up" : "down" </var>.
+                </p>
+                <div>
+                    The orange outline shows where the polygon ends up after the translation.
+                    <div class="graphie" data-update="grid">
+                        for(var i=0; i &lt; TARGET.length; i++){
+                            line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
+                        }
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
