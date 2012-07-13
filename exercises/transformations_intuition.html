@@ -168,22 +168,14 @@
                     " />
                     <input type="text" id="degRotate" style="width: 20px"></input>
                     <label><code> {}^{\circ} </code> </label>
-                    <input type="button" value="Reflect" onClick="javascript:
-                        reflectPoints(KhanUtil.currentGraph.graph.reflectAxis);
+                    <input type="button" value="X-Axis Reflect" onClick="javascript:
+                        reflectPoints('x');
                         KhanUtil.currentGraph.graph.update();
                     " />
-                    <label>
-                        <input name="reflectRadio" type="radio" id="xAxis" checked onClick="javascript:
-                            KhanUtil.currentGraph.graph.reflectAxis = 'x';
-                        " />
-                        x-axis
-                    </label>
-                    <label>
-                        <input name="reflectRadio" type="radio" id="yAxis" onClick="javascript:
-                            KhanUtil.currentGraph.graph.reflectAxis = 'y';
-                        " />
-                        y-axis
-                    </label>
+                    <input type="button" value="Y-Axis Reflect" onClick="javascript:
+                        reflectPoints('y');
+                        KhanUtil.currentGraph.graph.update();
+                    " />
                     <input type="button" value="Recover Original Location" onClick="javascript:
                         KhanUtil.currentGraph.graph.resetPoints();
                         KhanUtil.currentGraph.graph.update();
