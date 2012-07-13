@@ -2,7 +2,7 @@
 <html data-require="math graphie geom interactive">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Translation of points and polygons</title>
+    <title>Translating Polygons</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -43,7 +43,6 @@
                     });
 
                     //path(HULL, {stroke: BLUE});
-                    console.log(HULL);
 
                     for(var i=0; i &lt; HULL.length; i++){
                         line(HULL[i], HULL[(i+1) % HULL.length], { stroke: GRAY });
@@ -117,7 +116,6 @@
                     The orange outline shows where the polygon ends up after the translation.
                     <div class="graphie" data-update="grid">
                         for(var i=0; i &lt; TARGET.length; i++){
-                            console.log(i);
                             line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
                         }
                     </div>
