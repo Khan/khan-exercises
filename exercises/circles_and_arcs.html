@@ -11,13 +11,13 @@
                 <var id="R">randRange(5, 10)</var>
                 <var id="C">2 * Math.PI * R</var>
 
-                <var id="PRETTY_C">piFraction(C)</var>
+                <var id="PRETTY_C">2 * R + "\\pi"</var>
 
                 <var id="ROTATE_ARC">randRange(0, 359)</var>
 
                 <var id="A">ANGLE/360 * C</var>
 
-                <var id="PRETTY_A">piFraction(A)</var>
+                <var id="PRETTY_A">fractionReduce(ANGLE * 2 * R, 360) + "\\pi"</var>
             </div>
 
             <div class="problems">
