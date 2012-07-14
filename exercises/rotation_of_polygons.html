@@ -78,19 +78,38 @@
 
                     _.each(graph.points, function(point){ 
                         point.onMove = function(x, y){
-                            myAng = this.coord[0] > 0 ? Math.atan(this.coord[1]/this.coord[0]) : Math.atan(this.coord[1]/this.coord[0]) + Math.PI;
-                            newAng = x > 0 ? Math.atan(y/x) : Math.atan(y/x) + Math.PI;
+                            <!-- myAng = this.coord[0] > 0 ? Math.atan(this.coord[1]/this.coord[0]) : Math.atan(this.coord[1]/this.coord[0]) + Math.PI;
+                            newAng = x > 0 ? Math.atan(y/x) : Math.atan(y/x) + Math.PI; -->
+                            myAng = Math.atan2(this.coord[1], this.coord[0]);
+                            newAng = Math.atan2(y, x);
                             graph.updatePolygon(newAng-myAng);
                             return false;
+                        }
+                        point.onMoveEnd = function(x, y){
+                            if(_.all(graph.points, function(point){
+                                targetCoords =  TARGET[_.indexOf(graph.points, point)];
+                                return (Math.abs(point.coord[0] - targetCoords[0]) &lt; 1 &amp;&amp; Math.abs(point.coord[1] - targetCoords[1]) &lt; 1)
+                            })){
+                                _.each(graph.points, function(point){
+                                    targetCoords =  TARGET[_.indexOf(graph.points, point)];
+                                    point.setCoord([targetCoords[0], targetCoords[1]]);
+                                    point.updateLineEnds();
+                                });
+                            }
                         }
                     });
 
                     graph.updatePolygon = function(rad){
                         _.each(graph.points, function(point){ 
-                            point.setCoord([point.coord[0] * Math.cos(rad) - point.coord[1] * Math.sin(rad), point.coord[0] * Math.sin(rad) + point.coord[1] * Math.cos(rad)]); 
+                            point.setCoord([point.coord[0] * Math.cos(rad) - point.coord[1] * Math.sin(rad), point.coord[0] * Math.sin(rad) + point.coord[1] * Math.cos(rad)]);
                             point.updateLineEnds(); 
                         });
+
                         graph.curPoints = _.map(graph.points, function(point){ return point.coord; });
+                    }
+
+                    graph.snapPolygon = function(){
+
                     }
 
                     graph.showGuess = function(){
