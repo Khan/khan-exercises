@@ -4,12 +4,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Translating Polygons</title>
     <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #answer_area input[type=text] {
+            width: 30px;
+        }
+    </style>
 </head>
 <body>
 <div class="exercise">
     <div class="problems">
-
-        <div>
+        <div id="drag">
             <div class="vars">
                 <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">randRange(-4, 4, 4)</var>
                 <var id="DX,DY">[EX - SX, EY - SY]</var>
@@ -122,7 +126,79 @@
                 </div>
             </div>
         </div>
+        <div id="reverse">
+            <div class="vars">
+                <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">randRange(-4, 4, 4)</var>
+                <var id="DX,DY">[EX - SX, EY - SY]</var>
+                <var id="POINTS">_.map(_.range(6), function() {
+                    return {x: randRange(-4, 4), y: randRange(-4, 4)};
+                })</var>
+                <var id="HULL">_.map(Geom.convexhull(POINTS), function(p) {
+                    return [p.x + SX, p.y + SY];
+                })</var>
+                <var id="TARGET"> _.map(HULL, function(p) {
+                    return [p[0] + DX, p[1] + DY];
+                })</var>
+            </div>
 
+            <p class="question">
+                What was the translation applied to move the grey shape to the blue shape?
+            </p>
+
+            <div class="problem">
+                <div class="graphie" id="grid">
+                    graphInit({
+                        range: 11,
+                        scale: 20,
+                        axisArrows: "&lt;-&gt;",
+                        tickStep: 1,
+                        labelStep: 1,
+                        gridOpacity: 0.05,
+                        axisOpacity: 0.2,
+                        tickOpacity: 0.4,
+                        labelOpacity: 0.5
+                    });
+
+                    for(var i=0; i &lt; HULL.length; i++){
+                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: GRAY });
+                    }
+
+                    for(var i=0; i &lt; TARGET.length; i++){
+                        line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: BLUE });
+                    }
+
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple"><code>{\LARGE T } \;(</code>
+                <span class="sol" style="width:15px" data-fallback="1"><var>DX</var></span>
+                <code>,</code>
+                <span class="sol" style="width:15px" data-fallback="1"><var>DY</var></span>
+                <code>)</code>
+            </div>
+
+            <div class="hints">
+                <p>
+                    Translating a polygon slides it to somewhere else in the plane.
+                </p>
+                <p>
+                    To find the image of a polygon under a translation, you have to add the value of the translation's x- and y-components to each 
+                    point in that polygon.
+                </p>
+                <p>
+                    For the translation <code>T_{(<var>DX</var>, <var>DY</var>)}</code>, you move the polygon <var> Math.abs(DX) </var>
+                    units to the <var> DX &gt; 0 ? "right" : "left" </var> and <var> Math.abs(DY) </var> units <var> DY &gt; 0 ? "up" : "down" </var>.
+                </p>
+                <div>
+                    The orange outline shows where the polygon ends up after the translation.
+                    <div class="graphie" data-update="grid">
+                        for(var i=0; i &lt; TARGET.length; i++){
+                            line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
