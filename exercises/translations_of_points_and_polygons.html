@@ -142,7 +142,7 @@
             </div>
 
             <p class="question">
-                What was the translation applied to move the grey shape to the blue shape?
+                What was the translation applied to move the orange shape to the blue shape?
             </p>
 
             <div class="problem">
@@ -160,7 +160,7 @@
                     });
 
                     for(var i=0; i &lt; HULL.length; i++){
-                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: GRAY });
+                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: ORANGE });
                     }
 
                     for(var i=0; i &lt; TARGET.length; i++){
@@ -186,17 +186,12 @@
                     point in that polygon.
                 </p>
                 <p>
-                    For the translation <code>T_{(<var>DX</var>, <var>DY</var>)}</code>, you move the polygon <var> Math.abs(DX) </var>
+                    The orange polygon in the figure has been moved <var> Math.abs(DX) </var>
                     units to the <var> DX &gt; 0 ? "right" : "left" </var> and <var> Math.abs(DY) </var> units <var> DY &gt; 0 ? "up" : "down" </var>.
                 </p>
-                <div>
-                    The orange outline shows where the polygon ends up after the translation.
-                    <div class="graphie" data-update="grid">
-                        for(var i=0; i &lt; TARGET.length; i++){
-                            line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
-                        }
-                    </div>
-                </div>
+                <p>
+                    The translation used was <code>T_{(<var>DX</var>,<var>DY</var>)}</code>.  
+                </p>
             </div>
         </div>
     </div>
