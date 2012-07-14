@@ -131,12 +131,34 @@
 
             <div class="hints">
                 <p>
-                    Applying a rotation
+                    Applying a rotation rotates a shape around <code>(0,0)</code>.
                 </p>
-                <p>
-                    To find the image of a polygon under a translation, you have to add the value of the translation's x- and y-components to each 
-                    point in that polygon.
-                </p>
+                <div>
+                    To find the image of a polygon under a rotation, try taking one point and moving it <code>{90}^\circ{}</code> at a time.
+                    Remember that rotating a point <code>{90}^\circ{}</code> is the same as switching that point's coordinates and making
+                    the x component negative: 
+                    <div class="graphie">
+                        graphInit({
+                            range: 5,
+                            scale: 20,
+                            axisArrows: "&lt;-&gt;",
+                            tickStep: 1,
+                            labelStep: 1,
+                            gridOpacity: 0.05,
+                            axisOpacity: 0.2,
+                            tickOpacity: 0.4,
+                            labelOpacity: 0.5
+                        });
+
+                        circle([1,2], { r: 0.2, fill: ORANGE, stroke: "none" });
+                        circle([-2,1], { r: 0.2, fill: ORANGE, stroke: "none" });
+                        label([1,2], "(1,2)", "right");
+                        label([-2,1], "(-2,1)", "left");
+
+                        arc([0,0], Math.sqrt(5), 70, 150, { stroke: BLUE, arrows: "->" } );
+
+                    </div>
+                </div>
                 <p>
                     For the translation <code>T_{<var>ROTDEG</var> {}^\circ{} }</code>, you blah.
                 </p>
