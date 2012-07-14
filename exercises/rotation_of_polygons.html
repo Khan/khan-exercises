@@ -20,11 +20,16 @@
             }
         }
     </script>
+    <style type="text/css">
+        #answer_area input[type=text] {
+            width: 30px;
+        }
+    </style>
 </head>
 <body>
 <div class="exercise">
     <div class="problems">
-        <div>
+        <div id="drag">
             <div class="vars">
                 <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">randRange(-4, 4, 4)</var>
                 <!-- <var id="DX,DY">[EX - SX, EY - SY]</var> -->
@@ -193,6 +198,101 @@
                         }
                     </div>
                 </div>
+            </div>
+        </div>
+        <div id="reverse">
+            <div class="vars">
+                <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">randRange(-4, 4, 4)</var>
+                <!-- <var id="DX,DY">[EX - SX, EY - SY]</var> -->
+                <var id="ROTDEG">90*randRange(1, 3)</var>
+                <var id="ROTRAD">ROTDEG * Math.PI / 180 </var>
+                <var id="POINTS">_.map(_.range(6), function() {
+                    return {x: randRange(-4, 4), y: randRange(-4, 4)};
+                })</var>
+                <var id="HULL">_.map(Geom.convexhull(POINTS), function(p) {
+                    return [p.x, p.y];
+                })</var>
+                <var id="HULL_DISTS">_.map(HULL, function(p){ 
+                    return Math.pow(p[0],2) + Math.pow(p[1],2);
+                })</var>
+                <var id="TARGET"> _.map(HULL, function(p) {
+                    return [p[0]*Math.cos(ROTRAD) - p[1]*Math.sin(ROTRAD), p[0]*Math.sin(ROTRAD) + p[1]*Math.cos(ROTRAD)];
+                })</var>
+                <var id="GRAPH">0</var>
+            </div>
+
+            <p class="question">
+                What is the tranformation that rotates the orange shape to the blue shape?
+            </p>
+
+            <div class="problem">
+                <div class="graphie" id="grid">
+                    graphInit({
+                        range: 11,
+                        scale: 20,
+                        axisArrows: "&lt;-&gt;",
+                        tickStep: 1,
+                        labelStep: 1,
+                        gridOpacity: 0.05,
+                        axisOpacity: 0.2,
+                        tickOpacity: 0.4,
+                        labelOpacity: 0.5
+                    });
+
+                    GRAPH = graph;
+
+                    for(var i=0; i &lt; HULL.length; i++){
+                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: ORANGE });
+                    }
+
+                    for(var i=0; i &lt; TARGET.length; i++){
+                        line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: BLUE });
+                    }
+
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple"><code>{\LARGE T } \;</code>
+                <span class="sol" style="width:15px" data-fallback="1"><var>ROTDEG</var></span>
+                <code>{}^\circ{}</code>
+            </div>
+
+            <div class="hints">
+                <p>
+                    Applying a rotation rotates a shape around <code>(0,0)</code>.
+                </p>
+                <div>
+                    To find the image of a polygon under a rotation, try taking one point and moving it <code>{90}^\circ{}</code> at a time.
+                    Remember that rotating a point <code>{90}^\circ{}</code> is the same as switching that point's coordinates and making
+                    the x component negative: 
+                    <div class="graphie">
+                        graphInit({
+                            range: 5,
+                            scale: 20,
+                            axisArrows: "&lt;-&gt;",
+                            tickStep: 1,
+                            labelStep: 1,
+                            gridOpacity: 0.05,
+                            axisOpacity: 0.2,
+                            tickOpacity: 0.4,
+                            labelOpacity: 0.5
+                        });
+
+                        circle([1,2], { r: 0.2, fill: ORANGE, stroke: "none" });
+                        circle([-2,1], { r: 0.2, fill: ORANGE, stroke: "none" });
+                        label([1,2], "(1,2)", "right");
+                        label([-2,1], "(-2,1)", "left");
+
+                        arc([0,0], Math.sqrt(5), 70, 150, { stroke: BLUE, arrows: "->" } );
+                    </div>
+                </div>
+                <p>
+                    To see how much the polygon has been rotated, you should pick one point, and rotate it <code>{90}^\circ{}</code>,
+                    then see if it matches the blue polygon. If it doesn't, try rotating another <code>{90}^\circ{}</code>.
+                </p>
+                <p>
+                    The transformation used was <code>T_{<var>ROTDEG</var> {}^\circ{}}</code>.
+                </p>
             </div>
         </div>
     </div>
