@@ -12,10 +12,10 @@
             }
             else{
                 var rad = deg * Math.PI / 180;
-                _.each(KhanUtil.currentGraph.graph.points, function(point) {
+                _.each(GRAPH.points, function(point) {
 
                 });
-                KhanUtil.currentGraph.graph.points = _.map(cp, function(point) { 
+                GRAPH.points = _.map(cp, function(point) { 
                     return [point[0]*Math.cos(rad) - point[1]*Math.sin(rad), point[0]*Math.sin(rad) + point[1]*Math.cos(rad)]; });
             }
         }
@@ -42,6 +42,7 @@
                 <var id="TARGET"> _.map(HULL, function(p) {
                     return [p[0]*Math.cos(ROTRAD) - p[1]*Math.sin(ROTRAD), p[0]*Math.sin(ROTRAD) + p[1]*Math.cos(ROTRAD)];
                 })</var>
+                <var id="GRAPH">0</var>
             </div>
 
             <p class="question">
@@ -61,6 +62,8 @@
                         tickOpacity: 0.4,
                         labelOpacity: 0.5
                     });
+
+                    GRAPH = graph;
 
                     for(var i=0; i &lt; HULL.length; i++){
                         line(HULL[i], HULL[(i+1) % HULL.length], { stroke: GRAY });
@@ -125,6 +128,8 @@
                             line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
                         }
                     }
+
+                    
                 </div>
             </div>
 
@@ -132,19 +137,18 @@
                 <div class="instruction">
                     Rotate the blue polygon to its image under the given translation.
                 </div>
-                <div class="guess"> KhanUtil.currentGraph.graph.curPoints
+                <div class="guess"> GRAPH.curPoints
                 </div>
                 <div class="validator-function">
-                    coordList = _.map(KhanUtil.currentGraph.graph.points, function(point){ return point.coord; });
-                    console.log(coordList, TARGET);
+                    coordList = _.map(GRAPH.points, function(point){ return point.coord; });
                     return _.all(coordList, function(point){
                         return Math.abs(point[0] - TARGET[_.indexOf(coordList, point)][0]) &lt; 0.1
                             &amp;&amp; Math.abs(point[1] - TARGET[_.indexOf(coordList, point)][1]) &lt; 0.1;
                     });
                 </div>
                 <div class="show-guess">
-                    KhanUtil.currentGraph.graph.curPoints = guess;
-                    KhanUtil.currentGraph.graph.showGuess();
+                    GRAPH.curPoints = guess;
+                    GRAPH.showGuess();
                 </div>
             </div>
 
@@ -175,7 +179,6 @@
                         label([-2,1], "(-2,1)", "left");
 
                         arc([0,0], Math.sqrt(5), 70, 150, { stroke: BLUE, arrows: "->" } );
-
                     </div>
                 </div>
                 <p>
