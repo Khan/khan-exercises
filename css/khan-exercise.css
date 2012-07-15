@@ -10,7 +10,7 @@ var { font-style: normal; }
 .hint_gray { color: gray; }
 .hint_purple{ color: purple; }
 
-.final_answer{ font-weight:bold; }
+.final_answer { font-weight: bold; }
 
 div.subhint {
     border: 1px solid #aaaaaa;
