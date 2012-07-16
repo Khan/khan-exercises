@@ -6,19 +6,29 @@
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
     var rotatePoints = function(degrees){
-            var deg = Number(degrees);
-            if(isNaN(deg)){
-                return;
-            }
-            else{
-                var rad = deg * Math.PI / 180;
-                _.each(GRAPH.points, function(point) {
-
-                });
-                GRAPH.points = _.map(cp, function(point) { 
-                    return [point[0]*Math.cos(rad) - point[1]*Math.sin(rad), point[0]*Math.sin(rad) + point[1]*Math.cos(rad)]; });
-            }
+        var deg = Number(degrees);
+        if(isNaN(deg)){
+            return;
         }
+        else{
+            var rad = deg * Math.PI / 180;
+            _.each(GRAPH.points, function(point) {
+
+            });
+            GRAPH.points = _.map(cp, function(point) { 
+                return [point[0]*Math.cos(rad) - point[1]*Math.sin(rad), point[0]*Math.sin(rad) + point[1]*Math.cos(rad)]; });
+        }
+    }
+
+    var equivAngle = function(degrees){
+        if(degrees < 0){
+            return degrees + 360;
+        }
+        else{
+            return degrees
+        }
+    }
+
     </script>
     <style type="text/css">
         #answer_area input[type=text] {
@@ -222,7 +232,7 @@
             </div>
 
             <p class="question">
-                What is the tranformation that rotates the orange shape to the blue shape?
+                What is the tranformation that rotates the blue shape to the orange shape?
             </p>
 
             <div class="problem">
@@ -242,20 +252,42 @@
                     GRAPH = graph;
 
                     for(var i=0; i &lt; HULL.length; i++){
-                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: ORANGE });
+                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: BLUE });
                     }
 
                     for(var i=0; i &lt; TARGET.length; i++){
-                        line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: BLUE });
+                        line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
                     }
 
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple"><code>{\LARGE T } \;</code>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    <code>{\LARGE T } \quad</code> <input style="width: 22px" id="ans"></input> <code>{}^\circ{}</code>
+                </div>
+                <div class="guess">$("#ans").val()</div>
+                <div class="validator-function">
+                    answer = Number($("#ans").val());
+                    if(isNaN(answer)){
+                        return false;
+                    }
+                    else if(answer > 0){
+                        return answer % 360 === ROTDEG;
+                    }
+                    else{
+                        return answer % 360 + 360 === ROTDEG;
+                    }
+                </div>
+                <div class="show-guess">
+                    $("#ans").val(guess);
+                </div>
+            </div>
+
+            <!-- <div class="solution" data-type="multiple"><code>{\LARGE T } \;</code>
                 <span class="sol" style="width:15px" data-fallback="1"><var>ROTDEG</var></span>
                 <code>{}^\circ{}</code>
-            </div>
+            </div> -->
 
             <div class="hints">
                 <p>
@@ -288,7 +320,7 @@
                 </div>
                 <p>
                     To see how much the polygon has been rotated, you should pick one point, and rotate it <code>{90}^\circ{}</code>,
-                    then see if it matches the blue polygon. If it doesn't, try rotating another <code>{90}^\circ{}</code>.
+                    then see if it matches the orange polygon. If it doesn't, try rotating another <code>{90}^\circ{}</code>.
                 </p>
                 <p>
                     The transformation used was <code>T_{<var>ROTDEG</var> {}^\circ{}}</code>.
