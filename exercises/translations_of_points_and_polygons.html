@@ -126,6 +126,10 @@
                     </br></br>
                 </div>
                 <div>
+                    To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> TARGET[0][0] </var>,<var> TARGET[0][1] </var>)</code>, we changed the x-coordinate by <var>DX</var> and the y-coordinate by <var>DY</var>. To translate the whole polygon, we need
+                    to do the same thing to all of its points.
+                </div>
+                <div>
                     The orange outline shows where the polygon ends up after the translation.
                     <div class="graphie" data-update="grid">
                         for(var i=0; i &lt; TARGET.length; i++){
@@ -151,7 +155,7 @@
             </div>
 
             <p class="question">
-                What was the translation applied to move the orange shape to the blue shape?
+                What was the translation applied to move the blue shape to the orange shape?
             </p>
 
             <div class="problem">
@@ -169,11 +173,11 @@
                     });
 
                     for(var i=0; i &lt; HULL.length; i++){
-                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: ORANGE });
+                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: BLUE });
                     }
 
                     for(var i=0; i &lt; TARGET.length; i++){
-                        line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: BLUE });
+                        line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
                     }
 
                 </div>
@@ -188,19 +192,31 @@
 
             <div class="hints">
                 <p>
-                    Translating a polygon slides it to somewhere else in the plane.
+                    A translation <code>T_{(a, b)}</code> moves points a units in the x direction (right if a is positive, left if a is negative) and
+                    b units in the y direction (up if b is positive, down if b is negative).
                 </p>
-                <p>
-                    To find the image of a polygon under a translation, you have to add the value of the translation's x- and y-components to each 
-                    point in that polygon.
-                </p>
-                <p>
-                    The orange polygon in the figure has been moved <var> Math.abs(DX) </var>
-                    units to the <var> DX &gt; 0 ? "right" : "left" </var> and <var> Math.abs(DY) </var> units <var> DY &gt; 0 ? "up" : "down" </var>.
-                </p>
-                <p>
-                    The translation used was <code>T_{(<var>DX</var>,<var>DY</var>)}</code>.  
-                </p>
+                <div>
+                    To see what translation moved the blue polygon, pick one point and translate it. For example, what happened to 
+                    <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this translation?
+                    <div class="graphie" data-update="grid">
+                        circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
+                    </div>
+                    </br></br>
+                </div> 
+                <div>
+                    Under the translation <code>T_{(<var>DX</var>, <var>DY</var>)}</code>, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> was translated to <code>(<var> TARGET[0][0] </var>,<var> TARGET[0][1] </var>)</code>. What does this tell you about the translation used?
+                    <div class="graphie" data-update="grid">
+                        circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
+                        line(HULL[0], TARGET[0], { stroke: "black", arrows: "->"});
+                    </div>
+                    </br></br>
+                </div>
+                <div>
+                    To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> TARGET[0][0] </var>,<var> TARGET[0][1] </var>)</code>, we changed the x-coordinate by <var>DX</var> and the y-coordinate by <var>DY</var>.
+                </div>
+                <div>
+                    The translation used was <code>T_{(<var>DX</var>, <var>DY</var>)}</code>.
+                </div>
             </div>
         </div>
     </div>

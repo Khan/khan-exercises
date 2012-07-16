@@ -167,7 +167,7 @@
                 </div>
             </div>
 
-            <div class="hints">
+            <!-- <div class="hints">
                 <p>
                     Applying a rotation rotates a shape around <code>(0,0)</code>.
                 </p>
@@ -208,7 +208,41 @@
                         }
                     </div>
                 </div>
+            </div> -->
+            <div class="hints">
+                <p>
+                    A rotation <code>T_{r}^\circ{}</code> rotates points by r degrees around <code>(0,0)</code> counter-clockwise.
+                </p>
+                <div>
+                    To see where a rotation moved this polygon, pick one point and translate it. For example, what happens to 
+                    <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this translation?
+                    <div class="graphie" data-update="grid">
+                        circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
+                    </div>
+                    </br></br>
+                </div> 
+                <div>
+                    Under the translation <code>T_{(<var>DX</var>, <var>DY</var>)}</code>, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> is translated to <code>(<var> TARGET[0][0] </var>,<var> TARGET[0][1] </var>)</code>. Where is the rest of the polygon translated?
+                    <div class="graphie" data-update="grid">
+                        circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
+                        line(HULL[0], TARGET[0], { stroke: "black", arrows: "->"});
+                    </div>
+                    </br></br>
+                </div>
+                <div>
+                    To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> TARGET[0][0] </var>,<var> TARGET[0][1] </var>)</code>, we changed the x-coordinate by <var>DX</var> and the y-coordinate by <var>DY</var>. To translate the whole polygon, we need
+                    to do the same thing to all of its points.
+                </div>
+                <div>
+                    The orange outline shows where the polygon ends up after the translation.
+                    <div class="graphie" data-update="grid">
+                        for(var i=0; i &lt; TARGET.length; i++){
+                            line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
+                        }
+                    </div>
+                </div>
             </div>
+        </div>
         </div>
         <div id="reverse">
             <div class="vars">
