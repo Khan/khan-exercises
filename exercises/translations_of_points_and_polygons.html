@@ -106,16 +106,25 @@
 
             <div class="hints">
                 <p>
-                    Translating a polygon slides it to somewhere else in the plane.
+                    A translation <code>T_{(a, b)}</code> moves points a units in the x direction (right if a is positive, left if a is negative) and
+                    b units in the y direction (up if b is positive, down if b is negative).
                 </p>
-                <p>
-                    To find the image of a polygon under a translation, you have to add the value of the translation's x- and y-components to each 
-                    point in that polygon.
-                </p>
-                <p>
-                    For the translation <code>T_{(<var>DX</var>, <var>DY</var>)}</code>, you move the polygon <var> Math.abs(DX) </var>
-                    units to the <var> DX &gt; 0 ? "right" : "left" </var> and <var> Math.abs(DY) </var> units <var> DY &gt; 0 ? "up" : "down" </var>.
-                </p>
+                <div>
+                    To see where a translation moved this polygon, pick one point and translate it. For example, what happens to 
+                    <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this translation?
+                    <div class="graphie" data-update="grid">
+                        circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
+                    </div>
+                    </br></br>
+                </div> 
+                <div>
+                    Under the translation <code>T_{(<var>DX</var>, <var>DY</var>)}</code>, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> is translated to <code>(<var> TARGET[0][0] </var>,<var> TARGET[0][1] </var>)</code>. Where is the rest of the polygon translated?
+                    <div class="graphie" data-update="grid">
+                        circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
+                        line(HULL[0], TARGET[0], { stroke: "black", arrows: "->"});
+                    </div>
+                    </br></br>
+                </div>
                 <div>
                     The orange outline shows where the polygon ends up after the translation.
                     <div class="graphie" data-update="grid">
