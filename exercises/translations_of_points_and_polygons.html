@@ -49,7 +49,7 @@
                     //path(HULL, {stroke: BLUE});
 
                     for(var i=0; i &lt; HULL.length; i++){
-                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: GRAY });
+                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: GRAY, strokeDasharray: "- " });
                     }
 
                     addMouseLayer();

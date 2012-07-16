@@ -81,7 +81,7 @@
                     GRAPH = graph;
 
                     for(var i=0; i &lt; HULL.length; i++){
-                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: GRAY });
+                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: GRAY, strokeDasharray: "- " });
                     }
 
                     addMouseLayer();
@@ -284,10 +284,6 @@
                 </div>
             </div>
 
-            <!-- <div class="solution" data-type="multiple"><code>{\LARGE T } \;</code>
-                <span class="sol" style="width:15px" data-fallback="1"><var>ROTDEG</var></span>
-                <code>{}^\circ{}</code>
-            </div> -->
 
             <div class="hints">
                 <p>
