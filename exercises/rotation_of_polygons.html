@@ -167,71 +167,30 @@
                 </div>
             </div>
 
-            <!-- <div class="hints">
-                <p>
-                    Applying a rotation rotates a shape around <code>(0,0)</code>.
-                </p>
-                <div>
-                    To find the image of a polygon under a rotation, try taking one point and moving it <code>{90}^\circ{}</code> at a time.
-                    Remember that rotating a point <code>{90}^\circ{}</code> is the same as switching that point's coordinates and making
-                    the x component negative: 
-                    <div class="graphie">
-                        graphInit({
-                            range: 5,
-                            scale: 20,
-                            axisArrows: "&lt;-&gt;",
-                            tickStep: 1,
-                            labelStep: 1,
-                            gridOpacity: 0.05,
-                            axisOpacity: 0.2,
-                            tickOpacity: 0.4,
-                            labelOpacity: 0.5
-                        });
-
-                        circle([1,2], { r: 0.2, fill: ORANGE, stroke: "none" });
-                        circle([-2,1], { r: 0.2, fill: ORANGE, stroke: "none" });
-                        label([1,2], "(1,2)", "right");
-                        label([-2,1], "(-2,1)", "left");
-
-                        arc([0,0], Math.sqrt(5), 70, 150, { stroke: BLUE, arrows: "->" } );
-                    </div>
-                </div>
-                <p>
-                    For the translation <code>T_{<var>ROTDEG</var> {}^\circ{} }</code>, you should pick one point, and rotate it <code>{90}^\circ{}</code>
-                    <var> ["once", "twice", "three times"][ROTDEG/90 - 1] </var>. The rest of the polygon will rotate along with that point.
-                </p>
-                <div>
-                    The orange outline shows where the polygon ends up after the translation.
-                    <div class="graphie" data-update="grid">
-                        for(var i=0; i &lt; TARGET.length; i++){
-                            line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
-                        }
-                    </div>
-                </div>
-            </div> -->
             <div class="hints">
                 <p>
-                    A rotation <code>T_{r}^\circ{}</code> rotates points by r degrees around <code>(0,0)</code> counter-clockwise.
+                    A rotation <code>T_{r^\circ{}}</code> rotates points by r degrees around <code>(0,0)</code> counter-clockwise.
                 </p>
                 <div>
-                    To see where a rotation moved this polygon, pick one point and translate it. For example, what happens to 
-                    <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this translation?
+                    To see where a rotation moved this polygon, pick one point and rotate it. For example, what happens to 
+                    <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this rotation?
                     <div class="graphie" data-update="grid">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
                     </br></br>
                 </div> 
                 <div>
-                    Under the translation <code>T_{(<var>DX</var>, <var>DY</var>)}</code>, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> is translated to <code>(<var> TARGET[0][0] </var>,<var> TARGET[0][1] </var>)</code>. Where is the rest of the polygon translated?
+                    Under the rotation <code>T_{<var>ROTDEG</var> {}^\circ{} }</code>, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> is translated to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>. Where is the rest of the polygon rotated?
                     <div class="graphie" data-update="grid">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
-                        line(HULL[0], TARGET[0], { stroke: "black", arrows: "->"});
+                        arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "->" });
                     </div>
                     </br></br>
                 </div>
                 <div>
-                    To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> TARGET[0][0] </var>,<var> TARGET[0][1] </var>)</code>, we changed the x-coordinate by <var>DX</var> and the y-coordinate by <var>DY</var>. To translate the whole polygon, we need
-                    to do the same thing to all of its points.
+                    To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>, we rotated it <var>ROTDEG</var><code>{}^\circ{}</code> counter-clockwise, or
+                    through <var>["one quarter","one half","three quarters"][ROTDEG/90-1]</var> of a circle.
+                    </br></br>
                 </div>
                 <div>
                     The orange outline shows where the polygon ends up after the translation.
@@ -242,7 +201,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        
         </div>
         <div id="reverse">
             <div class="vars">
@@ -321,40 +280,31 @@
 
             <div class="hints">
                 <p>
-                    Applying a rotation rotates a shape around <code>(0,0)</code>.
+                    A rotation <code>T_{r^\circ{}}</code> rotates points by r degrees around <code>(0,0)</code> counter-clockwise.
                 </p>
                 <div>
-                    To find the image of a polygon under a rotation, try taking one point and moving it <code>{90}^\circ{}</code> at a time.
-                    Remember that rotating a point <code>{90}^\circ{}</code> is the same as switching that point's coordinates and making
-                    the x component negative: 
-                    <div class="graphie">
-                        graphInit({
-                            range: 5,
-                            scale: 20,
-                            axisArrows: "&lt;-&gt;",
-                            tickStep: 1,
-                            labelStep: 1,
-                            gridOpacity: 0.05,
-                            axisOpacity: 0.2,
-                            tickOpacity: 0.4,
-                            labelOpacity: 0.5
-                        });
-
-                        circle([1,2], { r: 0.2, fill: ORANGE, stroke: "none" });
-                        circle([-2,1], { r: 0.2, fill: ORANGE, stroke: "none" });
-                        label([1,2], "(1,2)", "right");
-                        label([-2,1], "(-2,1)", "left");
-
-                        arc([0,0], Math.sqrt(5), 70, 150, { stroke: BLUE, arrows: "->" } );
+                    To see what rotation moved the blue polygon, pick one point and rotate it. For example, what happened to 
+                    <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this rotation?
+                    <div class="graphie" data-update="grid">
+                        circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
+                    </br></br>
+                </div> 
+                <div>
+                    Under this rotation, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> was rotated to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>. What does this tell you about the rotation used?
+                    <div class="graphie" data-update="grid">
+                        circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
+                        arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "->" });
+                    </div>
+                    </br></br>
                 </div>
-                <p>
-                    To see how much the polygon has been rotated, you should pick one point, and rotate it <code>{90}^\circ{}</code>,
-                    then see if it matches the orange polygon. If it doesn't, try rotating another <code>{90}^\circ{}</code>.
-                </p>
-                <p>
-                    The transformation used was <code>T_{<var>ROTDEG</var> {}^\circ{}}</code>.
-                </p>
+                <div>
+                    To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>, we rotated it around <code>(0,0)</code> <var>ROTDEG</var><code>{}^\circ{}</code> counterclockwise.
+                    </br></br>
+                </div>
+                <div>
+                    The rotation used was <code>T_{<var>ROTDEG</var>^\circ{}}</code>.
+                </div>
             </div>
         </div>
     </div>
