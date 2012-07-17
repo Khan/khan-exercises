@@ -157,14 +157,14 @@
                             var thing2 = $("#thing2").val().toUpperCase();
                             var reason = $("#reason").val();
 
-                            if(thing1.length === 0 && thing2.length === 0){
+                            if(thing1.length === 0 &amp;&amp; thing2.length === 0){
                                 hintCategory = "good format but wrong";
                                 return;
                             }
 
-                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
-                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
-                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
+                            var verifyTriangles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 &amp;&amp; thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
 
                             if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
@@ -426,7 +426,7 @@
                             var thing2 = $("#thing2").val().toUpperCase();
                             var reason = $("#reason").val();
 
-                            if(thing1.length === 0 && thing2.length === 0){
+                            if(thing1.length === 0 &amp;&amp; thing2.length === 0){
                                 hintCategory = "good format but wrong";
                                 return;
                             }
@@ -436,9 +436,9 @@
                             if(thing1 in filteredAngles){ thing1 = filteredAngles[thing1]; }
                             if(thing2 in filteredAngles){ thing2 = filteredAngles[thing2]; }
 
-                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
-                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
-                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
+                            var verifyTriangles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 &amp;&amp; thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
 
                             if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
@@ -678,10 +678,10 @@
                             maxState: 3
                         });
 
-                        graph.congruency.addAngles("A");
-                        graph.congruency.addAngles("B");
-                        graph.congruency.addAngles("C");
-                        graph.congruency.addAngles("D");
+                        graph.congruency.addAngles("A", { maxState: 3 });
+                        graph.congruency.addAngles("B", { maxState: 3 });
+                        graph.congruency.addAngles("C", { maxState: 3 });
+                        graph.congruency.addAngles("D", { maxState: 3 });
 
                         for(var angle in graph.congruency.angles){
                             graph.congruency.angles[angle].setSelectedStyle({
@@ -708,14 +708,14 @@
                             var thing2 = $("#thing2").val().toUpperCase();
                             var reason = $("#reason").val();
 
-                            if(thing1.length === 0 && thing2.length === 0){
+                            if(thing1.length === 0 &amp;&amp; thing2.length === 0){
                                 hintCategory = "good format but wrong";
                                 return;
                             }
 
-                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
-                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
-                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
+                            var verifyTriangles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 &amp;&amp; thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
 
                             if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 if($("#thing1").val() === $("#thing2").val() || $("#thing1").val() === $("#thing2").val().split("").reverse().join("")){
