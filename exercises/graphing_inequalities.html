@@ -336,29 +336,16 @@
                     One way to find the equation of this line is to choose two points on the line and find the slope and y-intercept from there.
                     Two points on this line are <code>(<var>X1</var>,<var>Y1</var>)</code> and <code>(<var>X2</var>,<var>Y2</var>)</code>.
                 </p>
-                <!-- <p>The equation for the slope is <code>m = \dfrac{y_2 - y_1}{x_2 - x_1}</code>.</p>
                 <div>
-                    <p>Substitute both points.</p>
+                    <p>Substitute both points into the equation for the slope of a line.</p>
                     <p><code>m = \dfrac{<var>Y2</var> - <var>negParens(Y1)</var>}{<var>X2</var> - <var>negParens(X1)</var>} = <var>fractionReduce( Y2 - Y1, X2 - X1 )</var></code></p>
                 </div>
-                <p>
-                    Writing the equation of the line, we have <code>y = <var>( SLOPE === -1 ? "-" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + b</code>
-                    <span data-if="abs( SLOPE ) === 1"> (the value of <code>m</code> is <code><var>SLOPE</var></code>)</span>.
-                </p>
-                <p>To find <code>b</code>, we can substitute in either of the two points into the above equation. Let's go through both cases:</p>
+                <p>To find <code>b</code>, we can substitute in either of the two points into the equation with solved slope.</p>
                 <div>
                     <p>Using the first point <code>(<var>X1</var>, <var>Y1</var>)</code>, substitute <code>y = <var>Y1</var></code> and <code>x = <var>X1</var></code>:</p>
                     <p><code><var>Y1</var> = (<var>fractionReduce( Y2 - Y1, X2 - X1 )</var>)(<var>X1</var>) + b</code></p>
                     <p><code>b = <var>Y1</var> - <var>fractionReduce( X1 * ( Y2 - Y1 ), X2 - X1 )</var> = <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
                 </div>
-                <div>
-                    <p>Using the second point <code>(<var>X2</var>, <var>Y2</var>)</code>, substitute <code>y = <var>Y2</var></code> and <code>x = <var>X2</var></code>:</p>
-                    <p><code><var>Y2</var> = (<var>fractionReduce( Y2 - Y1, X2 - X1 )</var>)(<var>X2</var>) + b</code></p>
-                    <p><code>b = <var>Y2</var> - <var>fractionReduce( X2 * ( Y2 - Y1 ), X2 - X1 )</var> = <var>fractionReduce( Y2 * (X2 - X1) - X2 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
-                </div> -->
-                <p>
-                    If you forget how to derive the equation of a line, try going back to <a href="http://www.khanacademy.org/math/algebra/equation-of-a-line/e/slope_intercept_form">Slope-intercept form.</a> 
-                </p>
                 <p>
                     The equation of the line is <code>y = <var>( SLOPE === -1 ? "-" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code><span data-if="abs( SLOPE ) === 1"> (the value of <code>m</code> is <code><var>SLOPE</var></code>)</span>.
                 </p>
