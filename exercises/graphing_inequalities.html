@@ -287,7 +287,6 @@
                 <var id="Y1">YINT + SLOPE_FRAC[0]</var>
                 <var id="X2">-SLOPE_FRAC[1]</var>
                 <var id="Y2">YINT - SLOPE_FRAC[0]</var>
-                <var id="SIGN">YINT &lt; 0 ? "-" : "+"</var>
             </div>
 
             <p class="question">What is the inequality with this graph?</p>
@@ -318,13 +317,12 @@
                     style({ fill: BLUE, stroke: null, opacity: KhanUtil.FILL_OPACITY }, function() {
                         graph.shading = path([ [ 11, graph.shadeEdge ], [ 11, 11 * SLOPE + YINT ], [ -11, -11 * SLOPE + YINT ], [ -11, graph.shadeEdge ] ]);
                     });
-                    console.log(SIGN);
 
                 </div>
             </div>
             <div class="solution" data-type="multiple">
                 <p class="short"><code>y</code><span class="sol" data-type="list" data-choices="['', '&lt;', '&le;', '&gt;', '&ge;']"><var>COMP</var></span>
-                <span class="sol"><var>SLOPE</var></span><code>\enspace\cdot\enspace x + </code>
+                <span class="sol" data-fallback="1"><var>SLOPE</var></span><code>\enspace\cdot\enspace x + </code>
                 <span class="sol"><var>YINT</var></span></p>
             </div>
 
@@ -373,10 +371,18 @@
                 <div> 
                     Another way to see this is to try plugging in a point. The easiest point to plug in is <code>(0,0)</code>:
                     <p><code>y \; ? \; <var>( SLOPE === -1 ? "-" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
-                    <p><code>0 \; ? \; <var>( SLOPE === -1 ? "-" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> 0 + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
+                    <p><code>0 \; ? \; <var>( SLOPE === -1 ? "-1*" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 ) + "*"))</var> <var> 0 + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
                     For this to be true, the ? must be either <var>LESS_THAN ? "&lt; or &le;" : "&gt; or &ge;" </var>.
+                    </br></br>
                 </div>
-
+                <p>
+                    The line of the graph is <var>INCLUSIVE ? "solid" : "dashed"</var>, so the points on the boundary are <var>INCLUSIVE ? "" : "not"</var>
+                    in the set of solutions for this inequality.
+                </p>
+                <p>
+                    So, we choose the <var>COMP</var> sign, and the final inequality is
+                    <code>y <var>COMP</var> <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>.
+                </p>
             </div>
         </div>
     </div>
