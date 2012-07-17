@@ -11,7 +11,7 @@
         }
     </style>
     <script>
-        var animateSegmentPair = function(seg1, seg2){
+        var animateSegmentPair = function(seg1, seg2, next){
             (function(){
                 var highlightLine1 = KhanUtil.currentGraph.graph.congruency.lines[seg1];
                 var highlightLine2 = KhanUtil.currentGraph.graph.congruency.lines[seg2];
@@ -33,12 +33,13 @@
                         stroke: "black",
                         "stroke-width": 2
                     });
+                    next();
                 }, 500);
                 
             })();
         }
 
-        var animateAnglePair = function(ang1, ang2){
+        var animateAnglePair = function(ang1, ang2, next){
             (function(){
                 var highlightAng1 = KhanUtil.currentGraph.graph.congruency.angles[ang1];
                 var highlightAng2 = KhanUtil.currentGraph.graph.congruency.angles[ang2];
@@ -69,10 +70,16 @@
                     });
                     highlightAng1.setState(firstState);
                     highlightAng2.setState(secondState);
+                    next();
                 }, 500);
                 
             })();
         }
+
+        var animatePair = function(thing1, thing2, next){
+            thing1.length === 2 ? animateSegmentPair(thing1, thing2, next) : animateAnglePair(thing1, thing2, next);
+        }
+
     </script>
 </head>
 <body>
@@ -249,6 +256,31 @@
                                     hintCategory = "good format but wrong";
                                     giveAway = false;
                                 }
+
+                                if(verifySegments === true){
+                                    animateSegmentPair(thing1, thing2, function(){});
+                                }
+
+                                if(verifyAngles === true){
+                                    animateAnglePair(thing1, thing2, function(){});
+                                }
+
+                                if(verifyTriangles === true){
+                                    aniNames = _.map(animationObjects, function(pair){
+                                        if(pair[0] instanceof Seg){
+                                            return [pair[0].toString().substring(3,5), pair[1].toString().substring(3,5)];
+                                        }
+                                        else{
+                                            return [pair[0].toString().substring(3,6), pair[1].toString().substring(3,6)];
+                                        }
+                                    });
+                                    animatePair(aniNames[0][0], aniNames[0][1], function(){
+                                        animatePair(aniNames[1][0], aniNames[1][1], function(){
+                                            animatePair(aniNames[2][0], aniNames[2][1], function(){});
+                                        });
+                                    });
+                                }
+                                
                             }
                             else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
                                 hintCategory = "good format but wrong";
@@ -258,21 +290,6 @@
                             }
                         });
                         $("#reason").change(function(){ 
-                            <!-- var curVal = $("#reason").val();
-                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
-                                $("#symbol1").html(" \\triangle ");
-                                $("#symbol2").html(" \\triangle ");
-                            }
-                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
-                                $("#symbol1").html(" \\angle ");
-                                $("#symbol2").html(" \\angle ");
-                            }
-                            else{
-                                $("#symbol1").html("");
-                                $("#symbol2").html("");
-                            }
-                            $.tmpl.type.code()($("#symbol1")[0]);
-                            $.tmpl.type.code()($("#symbol2")[0]); -->
                             $(".nextStatement input").keyup(); 
                         });
 
@@ -523,6 +540,30 @@
                                     hintCategory = "good format but wrong";
                                     giveAway = false;
                                 }
+
+                                if(verifySegments === true){
+                                    animateSegmentPair(thing1, thing2, function(){});
+                                }
+
+                                if(verifyAngles === true){
+                                    animateAnglePair(thing1, thing2, function(){});
+                                }
+
+                                if(verifyTriangles === true){
+                                    aniNames = _.map(animationObjects, function(pair){
+                                        if(pair[0] instanceof Seg){
+                                            return [pair[0].toString().substring(3,5), pair[1].toString().substring(3,5)];
+                                        }
+                                        else{
+                                            return [pair[0].toString().substring(3,6), pair[1].toString().substring(3,6)];
+                                        }
+                                    });
+                                    animatePair(aniNames[0][0], aniNames[0][1], function(){
+                                        animatePair(aniNames[1][0], aniNames[1][1], function(){
+                                            animatePair(aniNames[2][0], aniNames[2][1], function(){});
+                                        });
+                                    });
+                                }
                             }
                             else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
                                 hintCategory = "good format but wrong";
@@ -532,21 +573,6 @@
                             }
                         });
                         $("#reason").change(function(){ 
-                            <!-- var curVal = $("#reason").val();
-                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
-                                $("#symbol1").html(" \\triangle ");
-                                $("#symbol2").html(" \\triangle ");
-                            }
-                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
-                                $("#symbol1").html(" \\angle ");
-                                $("#symbol2").html(" \\angle ");
-                            }
-                            else{
-                                $("#symbol1").html("");
-                                $("#symbol2").html("");
-                            }
-                            $.tmpl.type.code()($("#symbol1")[0]);
-                            $.tmpl.type.code()($("#symbol2")[0]); -->
                             $(".nextStatement input").keyup(); 
                         });
 
@@ -787,20 +813,28 @@
                                     giveAway = false;
                                 }
 
-                                if(verifySegments){
-                                    animateSegmentPair(thing1, thing2);
+                                if(verifySegments === true){
+                                    animateSegmentPair(thing1, thing2, function(){});
                                 }
 
-                                if(verifyAngles){
-                                    animateAnglePair(thing1, thing2);
+                                if(verifyAngles === true){
+                                    animateAnglePair(thing1, thing2, function(){});
                                 }
 
-                                if(verifyTriangles){
-                                    if(reason === "SSS"){
-                                        animateSegmentPair(thing1.substring(0,2), thing2.substring(0,2));
-                                        setTimeout(function(){ animateSegmentPair(thing1.substring(1,3), thing2.substring(1,3)); }, 500);
-                                        setTimeout(function(){ animateSegmentPair(thing1[2]+thing1[0], thing2[2]+thing2[0]); }, 1000);
-                                    }
+                                if(verifyTriangles === true){
+                                    aniNames = _.map(animationObjects, function(pair){
+                                        if(pair[0] instanceof Seg){
+                                            return [pair[0].toString().substring(3,5), pair[1].toString().substring(3,5)];
+                                        }
+                                        else{
+                                            return [pair[0].toString().substring(3,6), pair[1].toString().substring(3,6)];
+                                        }
+                                    });
+                                    animatePair(aniNames[0][0], aniNames[0][1], function(){
+                                        animatePair(aniNames[1][0], aniNames[1][1], function(){
+                                            animatePair(aniNames[2][0], aniNames[2][1], function(){});
+                                        });
+                                    });
                                 }
                             }
                             else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
