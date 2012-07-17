@@ -213,37 +213,39 @@
                         });
 
                         var storedHint = "";
-                        $("#hint").click(function(){
-                            if(hintsLeft &gt; 0){
-                                hintsLeft--;
-                                if(hintCategory === "bad format"){
-                                    hintsLeft++;
-                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
-                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
-                                    $(this).attr("disabled", false);
-                                    $(".actualHints").append("&lt;p&gt; The things you've entered aren't segments, angles, or triangles in the figure. &lt;/p&gt;");
-                                }
-                                else{
-                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
-                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
-                                    $(this).attr("disabled", false);
-                                    if(!giveAway){
-                                        var nextHintSet = nextStatementHint();
-                                        $(".actualHints").append("&lt;p&gt;"+nextHintSet[0]+"&lt;/p&gt;");
-                                        storedHint = nextHintSet[1];
+                        if($("#hint").data("events").click.length &lt; 2){
+                            $("#hint").click(function(){
+                                if(hintsLeft &gt; 0){
+                                    hintsLeft--;
+                                    if(hintCategory === "bad format"){
+                                        hintsLeft++;
+                                        var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                        $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                        $(this).attr("disabled", false);
+                                        $(".actualHints").append("&lt;p&gt; The things you've entered aren't segments, angles, or triangles in the figure. &lt;/p&gt;");
                                     }
                                     else{
-                                        $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
-                                        storedHint = "";
+                                        var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                        $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                        $(this).attr("disabled", false);
+                                        if(!giveAway){
+                                            var nextHintSet = nextStatementHint();
+                                            $(".actualHints").append("&lt;p&gt;"+nextHintSet[0]+"&lt;/p&gt;");
+                                            storedHint = nextHintSet[1];
+                                        }
+                                        else{
+                                            $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
+                                            storedHint = "";
+                                        }
+                                        _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                                        giveAway = !giveAway;
                                     }
-                                    _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
-                                    giveAway = !giveAway;
+                                    if(hintsLeft === 0){
+                                        $("#hint").attr("disabled", true);
+                                    }
                                 }
-                                if(hintsLeft === 0){
-                                    $("#hint").attr("disabled", true);
-                                }
-                            }
-                        });
+                            });
+                        }
 
                     </div>
                 </div>
@@ -483,39 +485,42 @@
                             $(".nextStatement input").keyup(); 
                         });
 
-                        
+                        $(".actualHints").html("");
+
                         var storedHint = "";
-                        $("#hint").click(function(){
-                            if(hintsLeft &gt; 0){
-                                hintsLeft--;
-                                if(hintCategory === "bad format"){
-                                    hintsLeft++;
-                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
-                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
-                                    $(this).attr("disabled", false);
-                                    $(".actualHints").append("&lt;p&gt; The things you've entered aren't segments, angles, or triangles in the figure. &lt;/p&gt;");
-                                }
-                                else{
-                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
-                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
-                                    $(this).attr("disabled", false);
-                                    if(!giveAway){
-                                        var nextHintSet = nextStatementHint();
-                                        $(".actualHints").append("&lt;p&gt;"+nextHintSet[0]+"&lt;/p&gt;");
-                                        storedHint = nextHintSet[1];
+                        if($("#hint").data("events").click.length &lt; 2){
+                            $("#hint").click(function(){
+                                if(hintsLeft &gt; 0){
+                                    hintsLeft--;
+                                    if(hintCategory === "bad format"){
+                                        hintsLeft++;
+                                        var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                        $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                        $(this).attr("disabled", false);
+                                        $(".actualHints").append("&lt;p&gt; The things you've entered aren't segments, angles, or triangles in the figure. &lt;/p&gt;");
                                     }
                                     else{
-                                        $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
-                                        storedHint = "";
+                                        var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                        $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                        $(this).attr("disabled", false);
+                                        if(!giveAway){
+                                            var nextHintSet = nextStatementHint();
+                                            $(".actualHints").append("&lt;p&gt;"+nextHintSet[0]+"&lt;/p&gt;");
+                                            storedHint = nextHintSet[1];
+                                        }
+                                        else{
+                                            $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
+                                            storedHint = "";
+                                        }
+                                        _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                                        giveAway = !giveAway;
                                     }
-                                    _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
-                                    giveAway = !giveAway;
+                                    if(hintsLeft === 0){
+                                        $("#hint").attr("disabled", true);
+                                    }
                                 }
-                                if(hintsLeft === 0){
-                                    $("#hint").attr("disabled", true);
-                                }
-                            }
-                        });
+                            });
+                        }
 
 
                     </div>
@@ -543,6 +548,9 @@
                     </div>
                     <div class="guess">1</div>
                     <div class="validator-function">
+                        if(isProofDone()){
+
+                        }
                         return isProofDone();
                     </div>
                     <div class="show-guess">
@@ -761,37 +769,39 @@
 
                         
                         var storedHint = "";
-                        $("#hint").click(function(){
-                            if(hintsLeft &gt; 0){
-                                hintsLeft--;
-                                if(hintCategory === "bad format"){
-                                    hintsLeft++;
-                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
-                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
-                                    $(this).attr("disabled", false);
-                                    $(".actualHints").append("&lt;p&gt; The things you've entered aren't segments, angles, or triangles in the figure. &lt;/p&gt;");
-                                }
-                                else{
-                                    var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
-                                    $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
-                                    $(this).attr("disabled", false);
-                                    if(!giveAway){
-                                        var nextHintSet = nextStatementHint();
-                                        $(".actualHints").append("&lt;p&gt;"+nextHintSet[0]+"&lt;/p&gt;");
-                                        storedHint = nextHintSet[1];
+                        if($("#hint").data("events").click.length &lt; 2){
+                            $("#hint").click(function(){
+                                if(hintsLeft &gt; 0){
+                                    hintsLeft--;
+                                    if(hintCategory === "bad format"){
+                                        hintsLeft++;
+                                        var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                        $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                        $(this).attr("disabled", false);
+                                        $(".actualHints").append("&lt;p&gt; The things you've entered aren't segments, angles, or triangles in the figure. &lt;/p&gt;");
                                     }
                                     else{
-                                        $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
-                                        storedHint = "";
+                                        var stepsLeft = hintsLeft + " hint" + (hintsLeft === 1 ? "" : "s") + " left";
+                                        $(this).val("I'd like a hint (" + stepsLeft + " for this step)");
+                                        $(this).attr("disabled", false);
+                                        if(!giveAway){
+                                            var nextHintSet = nextStatementHint();
+                                            $(".actualHints").append("&lt;p&gt;"+nextHintSet[0]+"&lt;/p&gt;");
+                                            storedHint = nextHintSet[1];
+                                        }
+                                        else{
+                                            $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
+                                            storedHint = "";
+                                        }
+                                        _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                                        giveAway = !giveAway;
                                     }
-                                    _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
-                                    giveAway = !giveAway;
+                                    if(hintsLeft === 0){
+                                        $("#hint").attr("disabled", true);
+                                    }
                                 }
-                                if(hintsLeft === 0){
-                                    $("#hint").attr("disabled", true);
-                                }
-                            }
-                        });
+                            });
+                        }
 
                     </div>
                 </div>

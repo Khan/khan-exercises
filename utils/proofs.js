@@ -199,7 +199,6 @@ function verifyStatement() {
 }
 
 function verifyStatementArgs(statement, reason, category) {
-    console.log("verifying with cat "+category);
     if (userProofDone) {
         //return false;
     }
@@ -263,8 +262,6 @@ function verifyStatementArgs(statement, reason, category) {
             return ang.equals(new Ang(angleStrings[1][0], angleStrings[1][1], angleStrings[1][2]));
         });
 
-        console.log(ang1,ang2);
-
         if (ang1 == null || ang2 == null) {
             return "those angles aren't in this figure...";
         }
@@ -272,7 +269,6 @@ function verifyStatementArgs(statement, reason, category) {
             return "that's already in the proof!";
         }
         else {
-            console.log("checking angles " + angleStrings);
             toReturn = checkAngEqual(ang1, ang2, reason);
         }
     }
