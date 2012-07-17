@@ -10,6 +10,70 @@
             text-transform: uppercase;
         }
     </style>
+    <script>
+        var animateSegmentPair = function(seg1, seg2){
+            (function(){
+                var highlightLine1 = KhanUtil.currentGraph.graph.congruency.lines[seg1];
+                var highlightLine2 = KhanUtil.currentGraph.graph.congruency.lines[seg2];
+
+                highlightLine1.setHighlighted({
+                    stroke: KhanUtil.ORANGE,
+                    "stroke-width": 3
+                });
+                highlightLine2.setHighlighted({
+                    stroke: KhanUtil.ORANGE,
+                    "stroke-width": 3
+                });
+                setTimeout(function(){
+                    highlightLine1.unsetHighlighted({
+                        stroke: "black",
+                        "stroke-width": 2
+                    });
+                    highlightLine2.unsetHighlighted({
+                        stroke: "black",
+                        "stroke-width": 2
+                    });
+                }, 500);
+                
+            })();
+        }
+
+        var animateAnglePair = function(ang1, ang2){
+            (function(){
+                var highlightAng1 = KhanUtil.currentGraph.graph.congruency.angles[ang1];
+                var highlightAng2 = KhanUtil.currentGraph.graph.congruency.angles[ang2];
+
+                var firstState = highlightAng1.state;
+                var secondState = highlightAng2.state;
+                var maxState = Math.max(firstState,secondState);
+
+                highlightAng1.setHighlighted({
+                    stroke: KhanUtil.ORANGE,
+                    "stroke-width": 3
+                });
+                highlightAng2.setHighlighted({
+                    stroke: KhanUtil.ORANGE,
+                    "stroke-width": 3
+                });
+                highlightAng1.setState(maxState > 0 ? maxState : 1);
+                highlightAng2.setState(maxState > 0 ? maxState : 1);
+
+                setTimeout(function(){
+                    highlightAng1.unsetHighlighted({
+                        stroke: "black",
+                        "stroke-width": 2
+                    });
+                    highlightAng2.unsetHighlighted({
+                        stroke: "black",
+                        "stroke-width": 2
+                    });
+                    highlightAng1.setState(firstState);
+                    highlightAng2.setState(secondState);
+                }, 500);
+                
+            })();
+        }
+    </script>
 </head>
 <body>
     <div class="exercise">
@@ -724,70 +788,19 @@
                                 }
 
                                 if(verifySegments){
-                                    (function(){
-                                        var highlightLine1 = graph.congruency.lines[thing1];
-                                        var highlightLine2 = graph.congruency.lines[thing2];
-
-                                        highlightLine1.setHighlighted({
-                                            stroke: ORANGE,
-                                            "stroke-width": 3
-                                        });
-                                        highlightLine2.setHighlighted({
-                                            stroke: ORANGE,
-                                            "stroke-width": 3
-                                        });
-                                        setTimeout(function(){
-                                            highlightLine1.unsetHighlighted({
-                                                stroke: "black",
-                                                "stroke-width": 2
-                                            });
-                                            highlightLine2.unsetHighlighted({
-                                                stroke: "black",
-                                                "stroke-width": 2
-                                            });
-                                        }, 1000);
-                                        
-                                    })();
+                                    animateSegmentPair(thing1, thing2);
                                 }
 
                                 if(verifyAngles){
-                                    (function(){
-                                        var highlightAng1 = graph.congruency.angles[thing1];
-                                        var highlightAng2 = graph.congruency.angles[thing2];
-
-                                        var firstState = highlightAng1.state;
-                                        var secondState = highlightAng2.state;
-                                        var maxState = Math.max(firstState,secondState);
-
-                                        highlightAng1.setHighlighted({
-                                            stroke: ORANGE,
-                                            "stroke-width": 3
-                                        });
-                                        highlightAng2.setHighlighted({
-                                            stroke: BLUE,
-                                            "stroke-width": 3
-                                        });
-                                        highlightAng1.setState(maxState &gt; 0 ? maxState : 1);
-                                        highlightAng2.setState(maxState &gt; 0 ? maxState : 1);
-
-                                        setTimeout(function(){
-                                            highlightAng1.unsetHighlighted({
-                                                stroke: "black",
-                                                "stroke-width": 2
-                                            });
-                                            highlightAng2.unsetHighlighted({
-                                                stroke: "black",
-                                                "stroke-width": 2
-                                            });
-                                            highlightAng1.setState(firstState);
-                                            highlightAng2.setState(secondState);
-                                        }, 1000);
-                                        
-                                    })();
+                                    animateAnglePair(thing1, thing2);
                                 }
 
                                 if(verifyTriangles){
-
+                                    if(reason === "SSS"){
+                                        animateSegmentPair(thing1.substring(0,2), thing2.substring(0,2));
+                                        setTimeout(function(){ animateSegmentPair(thing1.substring(1,3), thing2.substring(1,3)); }, 500);
+                                        setTimeout(function(){ animateSegmentPair(thing1[2]+thing1[0], thing2[2]+thing2[0]); }, 1000);
+                                    }
                                 }
                             }
                             else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
