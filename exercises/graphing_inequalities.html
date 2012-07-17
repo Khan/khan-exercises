@@ -287,6 +287,7 @@
                 <var id="Y1">YINT + SLOPE_FRAC[0]</var>
                 <var id="X2">-SLOPE_FRAC[1]</var>
                 <var id="Y2">YINT - SLOPE_FRAC[0]</var>
+                <var id="ORI_IN">(YINT &lt; 0 &amp;&amp; !LESS_THAN) || (YINT &gt; 0 &amp;&amp; LESS_THAN)</var>
             </div>
 
             <p class="question">What is the inequality with this graph?</p>
@@ -356,7 +357,7 @@
                     <p><code>b = <var>Y2</var> - <var>fractionReduce( X2 * ( Y2 - Y1 ), X2 - X1 )</var> = <var>fractionReduce( Y2 * (X2 - X1) - X2 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
                 </div> -->
                 <p>
-                    If you forget how to derive the equation of a line, try going back to Slope-Intercept form. 
+                    If you forget how to derive the equation of a line, try going back to <a href="http://www.khanacademy.org/math/algebra/equation-of-a-line/e/slope_intercept_form">Slope-intercept form.</a> 
                 </p>
                 <p>
                     The equation of the line is <code>y = <var>( SLOPE === -1 ? "-" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code><span data-if="abs( SLOPE ) === 1"> (the value of <code>m</code> is <code><var>SLOPE</var></code>)</span>.
@@ -372,8 +373,8 @@
                     Another way to see this is to try plugging in a point. The easiest point to plug in is <code>(0,0)</code>:
                     <p><code>y \; ? \; <var>( SLOPE === -1 ? "-" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
                     <p><code>0 \; ? \; <var>( SLOPE === -1 ? "-1*" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 ) + "*"))</var> <var> 0 + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
-                    For this to be true, the ? must be either <var>LESS_THAN ? "&lt; or &le;" : "&gt; or &ge;" </var>.
-                    </br></br>
+                    Since <code>(0,0)</code> is <var> ORI_IN ? "" : "not"</var> in the shaded area, this expression must be <var> ORI_IN ? "true" : "false"</var> So, the ? must be either <var>LESS_THAN ? "&lt; or &le;" : "&gt; or &ge;" </var>.
+                    </br>
                 </div>
                 <p>
                     The line of the graph is <var>INCLUSIVE ? "solid" : "dashed"</var>, so the points on the boundary are <var>INCLUSIVE ? "" : "not"</var>
