@@ -600,18 +600,6 @@
 
                     <var id="PARALLEL_SEGS">[]</var>
 
-                    <!-- <var id="PARALLEL_TO_ALTERNATE">(function() {
-                        dict = {};
-                        dict[[AB,DE]] = [[ang2, ang11], [ang3, ang10]];
-                        return dict;
-                    })</var>
-
-                    <var id="ALTERNATE_TO_PARALLEL">(function() {
-                        dict = {};
-                        dict[[ang2, ang11]] = [AB,DE];
-                        dict[[ang3, ang10]] = [AB,DE];
-                        return dict;
-                    })</var> -->
 
                     <var id="BAD">new Triang([BA, AD, DB], [ang2, ang5, ang1])</var>
                     <var id="CAD">new Triang([CA, AD, DC], [ang3, ang6, ang4])</var>
@@ -717,17 +705,12 @@
                             var verifyAngles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
                             var verifySegments = thing1.length === 2 &amp;&amp; thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
 
-                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
-                                if($("#thing1").val() === $("#thing2").val() || $("#thing1").val() === $("#thing2").val().split("").reverse().join("")){
-
-                                }                            
+                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){                          
                                 $(".statements").html(outputKnownProof());
                                 _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
                                 $("#thing1").val("");
                                 $("#thing2").val("");
                                 $("#reason").val("");
-                                $("#symbol1").html("");
-                                $("#symbol2").html("");
                                 if(userProofDone === true){
                                     $(".nextStatement").hide();
                                     $("#hint").attr("disabled", true);
@@ -739,6 +722,73 @@
                                     hintCategory = "good format but wrong";
                                     giveAway = false;
                                 }
+
+                                if(verifySegments){
+                                    (function(){
+                                        var highlightLine1 = graph.congruency.lines[thing1];
+                                        var highlightLine2 = graph.congruency.lines[thing2];
+
+                                        highlightLine1.setHighlighted({
+                                            stroke: ORANGE,
+                                            "stroke-width": 3
+                                        });
+                                        highlightLine2.setHighlighted({
+                                            stroke: ORANGE,
+                                            "stroke-width": 3
+                                        });
+                                        setTimeout(function(){
+                                            highlightLine1.unsetHighlighted({
+                                                stroke: "black",
+                                                "stroke-width": 2
+                                            });
+                                            highlightLine2.unsetHighlighted({
+                                                stroke: "black",
+                                                "stroke-width": 2
+                                            });
+                                        }, 1000);
+                                        
+                                    })();
+                                }
+
+                                if(verifyAngles){
+                                    (function(){
+                                        var highlightAng1 = graph.congruency.angles[thing1];
+                                        var highlightAng2 = graph.congruency.angles[thing2];
+
+                                        var firstState = highlightAng1.state;
+                                        var secondState = highlightAng2.state;
+                                        var maxState = Math.max(firstState,secondState);
+
+                                        highlightAng1.setHighlighted({
+                                            stroke: ORANGE,
+                                            "stroke-width": 3
+                                        });
+                                        highlightAng2.setHighlighted({
+                                            stroke: BLUE,
+                                            "stroke-width": 3
+                                        });
+                                        highlightAng1.setState(maxState &gt; 0 ? maxState : 1);
+                                        highlightAng2.setState(maxState &gt; 0 ? maxState : 1);
+
+                                        setTimeout(function(){
+                                            highlightAng1.unsetHighlighted({
+                                                stroke: "black",
+                                                "stroke-width": 2
+                                            });
+                                            highlightAng2.unsetHighlighted({
+                                                stroke: "black",
+                                                "stroke-width": 2
+                                            });
+                                            highlightAng1.setState(firstState);
+                                            highlightAng2.setState(secondState);
+                                        }, 1000);
+                                        
+                                    })();
+                                }
+
+                                if(verifyTriangles){
+
+                                }
                             }
                             else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
                                 hintCategory = "good format but wrong";
@@ -748,21 +798,6 @@
                             }
                         });
                         $("#reason").change(function(){ 
-                            <!-- var curVal = $("#reason").val();
-                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
-                                $("#symbol1").html(" \\triangle ");
-                                $("#symbol2").html(" \\triangle ");
-                            }
-                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
-                                $("#symbol1").html(" \\angle ");
-                                $("#symbol2").html(" \\angle ");
-                            }
-                            else{
-                                $("#symbol1").html("");
-                                $("#symbol2").html("");
-                            }
-                            $.tmpl.type.code()($("#symbol1")[0]);
-                            $.tmpl.type.code()($("#symbol2")[0]); -->
                             $(".nextStatement input").keyup(); 
                         });
 
