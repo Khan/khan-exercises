@@ -80,11 +80,11 @@
                     <p data-if="!IS_IRREDUCIBLE">
                         We can factor out the <code><var>GCD</var></code> and put it before the parenthesis.
                     </p>
-                    <p>
+                    <p data-if="!IS_IRREDUCIBLE">
                         If we divide each of the terms in the original
                         expression by <code><var>GCD</var></code> we get
                         <code>\frac{<var>A</var>}{<var>GCD</var>} x = <var>plus((A/GCD) + "x")</var></code> and
-                        <code>\frac{<var>B</var>}{<var>GCD</var>} = <var>B/GCD</var></code>,
+                        <code>\frac{<var>B</var>}{<var>GCD</var>} = <var>B/GCD</var></code>.
                     </p>
                     <p data-if="!IS_IRREDUCIBLE" class="final_answer">
                         So the final answer should be <code><var>SOLUTION</var></code>.
