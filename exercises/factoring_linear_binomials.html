@@ -11,18 +11,25 @@
             <div>
                 <div class="vars">
                     <var id="A">randRange(2, 9)</var>
-                    <var id="B" data-ensure="getGCD(A, B) > 1">randRangeExclude(-20, 20, [-1, 0, 1])</var>
-                    <var id="GCD">getGCD(A, B)</var>
+
+                    <!-- 20% of the time, we want the binomial to be irreducible -->
+                    <var id="IS_IRREDUCIBLE">random() < 0.2</var>
+
+                    <div data-ensure="(GCD === 1) === IS_IRREDUCIBLE">
+                        <var id="B">randRangeExclude(-20, 20, [-1, 0, 1])</var>
+                        <var id="GCD">getGCD(A, B)</var>
+                    </div>
+
                     <var id="PROBLEM">simplify(polynomial([A, B], "x"), simplifyOptions.basic)</var>
                     <!-- use parse so that the ast matches the parsed user input -->
-                    <var id="SOLUTION">GCD + "(" + plus(A / GCD + "x", B / GCD) + ")"</var>
+                    <var id="SOLUTION">IS_IRREDUCIBLE ? plus(A + "x", B) : GCD + "(" + plus(A / GCD + "x", B / GCD) + ")"</var>
 
                     <var id="Ax_FACTORS">toSentenceTex(getFactors(abs(A)).concat(["x"]))</var>
                     <var id="B_FACTORS">toSentenceTex(getFactors(abs(B)))</var>
                 </div>
                 <div>
                     <p class="question">
-                        Factor the following expression:
+                        Write the following expression in its most factored form:
                     </p>
                     <p>
                         <code><var>format(PROBLEM, "large")</var></code>
@@ -34,7 +41,10 @@
                     </div>
                     <div class="guess">jQuery("div.instruction input").val()</div>
                     <div class="validator-function">
-                        return isEqual(parse(guess), parse(SOLUTION));
+                        // The expressions have to be equivalent, and if the
+                        // expression is irreducible, there should be no
+                        // parens in the answer.
+                        return isEqual(parse(guess), parse(SOLUTION)) && !(IS_IRREDUCIBLE && /\)/.test(guess))
                     </div>
                     <div class="show-guess">
                     </div>
@@ -57,16 +67,28 @@
                         and <code><var>B</var></code> is
                         <code><var>GCD</var></code>.
                     </div>
+
                     <div>
-                        We can factor out the <code><var>GCD</var></code> and put it before the parenthesis.
+                        <div data-if="IS_IRREDUCIBLE">
+                            Since the greatest common factor is 1, the expression is already in its
+                            most factored form.
+                        </div><div data-else>
+                            We can factor out the <code><var>GCD</var></code> and put it before the parenthesis.
+                        </div>
                     </div>
                     <div class='final_answer'>
-                        If we divide each of the terms in the original
-                        expression by <code><var>GCD</var></code> we get
-                        <code>\frac{<var>A</var>}{<var>GCD</var>} x = <var>plus((A/GCD) + "x")</var></code> and
-                        <code>\frac{<var>B</var>}{<var>GCD</var>} = <var>B/GCD</var></code>,
-                        so the final answer should be
-                        <code><var>SOLUTION</var></code>.
+                        <div data-if="IS_IRREDUCIBLE">
+                            Therefore the answer is the original expression,
+                            <code><var>SOLUTION</var></code>.
+                        </div>
+                        <div data-else>
+                            If we divide each of the terms in the original
+                            expression by <code><var>GCD</var></code> we get
+                            <code>\frac{<var>A</var>}{<var>GCD</var>} x = <var>plus((A/GCD) + "x")</var></code> and
+                            <code>\frac{<var>B</var>}{<var>GCD</var>} = <var>B/GCD</var></code>,
+                            so the final answer should be
+                            <code><var>SOLUTION</var></code>.
+                        </div>
                     </div>
                 </div>
             </div>
