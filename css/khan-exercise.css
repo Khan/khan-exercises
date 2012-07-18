@@ -12,6 +12,11 @@ var { font-style: normal; }
 
 .final_answer{ font-weight:bold; }
 
+/* Override MathJax's behavior of always using font-weight: normal.
+ * Instead, inherit the font-weight (which is bold for question/final_answer).
+ */
+.MathJax { font-weight:inherit !important; }
+
 div.subhint {
     border: 1px solid #aaaaaa;
     background: #f9f9f9;
@@ -82,6 +87,7 @@ table.limit th:first-child { text-align: right; }
 
 .radical .surd { font: 150% Arial; padding: 0 0 0 5px; }
 .radical .overline { border-top: 1px solid #000; padding: 6px 1px 0 3px; margin-left: -1px; }
+#answer_area .radical input[type=text] { width: 30px; }
 
 body.debug .graphie { outline: 1px dashed red; }
 .graphie svg { position: absolute; top: 0; left: 0; }
