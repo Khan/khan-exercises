@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-model simplify word-problems">
+<html data-require="math math-model math-format simplify word-problems">
 <head>
     <meta charset="UTF-8" />
     <title>Factoring linear binomials</title>
@@ -15,10 +15,10 @@
                     <var id="GCD">getGCD(A, B)</var>
                     <var id="PROBLEM">simplify(polynomial([A, B], "x"), simplifyOptions.basic)</var>
                     <!-- use parse so that the ast matches the parsed user input -->
-                    <var id="SOLUTION">GCD + "(" + A / GCD + "x+" + B / GCD + ")"</var>
+                    <var id="SOLUTION">GCD + "(" + plus(A / GCD + "x", B / GCD) + ")"</var>
 
-                    <var id="Ax_FACTORS">toSentenceTex(getFactors(A).concat(["x"]))</var>
-                    <var id="B_FACTORS">toSentenceTex(getFactors(B))</var>
+                    <var id="Ax_FACTORS">toSentenceTex(getFactors(abs(A)).concat(["x"]))</var>
+                    <var id="B_FACTORS">toSentenceTex(getFactors(abs(B)))</var>
                 </div>
                 <div>
                     <p class="question">
@@ -63,7 +63,7 @@
                     <div class='final_answer'>
                         If we divide each of the terms in the original
                         expression by <code><var>GCD</var></code> we get
-                        <code>\frac{<var>A</var>}{<var>GCD</var>} x = <var>A/GCD</var>x</code> and
+                        <code>\frac{<var>A</var>}{<var>GCD</var>} x = <var>plus((A/GCD) + "x")</var></code> and
                         <code>\frac{<var>B</var>}{<var>GCD</var>} = <var>B/GCD</var></code>,
                         so the final answer should be
                         <code><var>SOLUTION</var></code>.
