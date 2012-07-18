@@ -20,7 +20,7 @@ $.extend(KhanUtil, {
             // Draw a line from the vertex to the highlighted point on the parabola
             vertexLine = graph.line([coordX, coordY], vertex.coord);
             // Draw the horizontal line from the highlighted point on the parabola towards the directrix
-            if (directrix.coord < coordY) {
+            if (directrix.coordA[1] < coordY) {
                 directrixLine = graph.line([coordX, coordY], [coordX, coordY - vertexDistance]);
                 lineEndcap = graph.line([coordX - 0.05, coordY - vertexDistance], [coordX + 0.05, coordY - vertexDistance]);
             } else {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie">
 <head>
-    <title>Square roots and cube roots</title>
+    <title>Cube roots</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -15,7 +15,10 @@
         </div>
 
         <div class="hints">
-            <p>The best thing is to do a prime factorization of this number and look for groups of numbers.</p>
+            <p>
+                If you can't think of that number, you can break down <code><var>Q</var></code> into
+                its prime factorization and look for equal groups of numbers.
+            </p>
             <div>
                 <p>Let's draw a factor tree.</p>
                 <div class="graphie" id="factor-tree">
@@ -49,52 +52,7 @@
         </div>
 
         <div class="problems">
-
-            <div id="square">
-
-                <div class="vars">
-                    <var id="Q">N * N</var>
-                    <var id="PRIMES">getPrimeFactorization( Q )</var>
-                    <var id="FACTORIZATION">PRIMES.slice( 0, PRIMES.length - 1 )</var>
-                    <var id="curr">Q</var>
-                </div>
-
-                <p class="question">What is the square root of <code><var>Q</var></code>?</p>
-
-                <p class="solution"><var>N</var></p>
-
-                <div class="hints" data-apply="appendContents">
-
-                    <p>We're looking for the square root of <code><var>Q</var></code>, so we want to split the prime factors into two identical groups.</p>
-
-                    <div data-if="PRIMES.length === 2" data-unwrap>
-
-                        <p>We only have two prime factors, and we want to split them into two groups, so this is easy.</p>
-                        <p><code><var>Q</var> = <var>PRIMES.join( "\\times " )</var></code>, so <code><var>N</var>^2 = <var>Q</var></code>.</p>
-
-                    </div><div data-else data-unwrap>
-
-                        <div>
-                            <p>Notice that we can rearrange the factors like so:</p>
-                            <p><code><var>Q</var> = <var>PRIMES.join(" &times; ")</var> = \left(<var>F_N.join( "\\times " )</var>\right) \times \left(<var>F_N.join(" &times; ")</var>\right)</code></p>
-                        </div>
-
-                        <p data-if="F_N.length > 1">
-                            So <code>\left(<var>F_N.join( "\\times " )</var>\right)^2 = <var>N</var>^2 = <var>Q</var></code>.
-                        </p><p data-else>
-                            So <code><var>N</var>^2 = <var>Q</var></code>.
-                        </p>
-
-                    </div>
-
-                    <p>So the square root of <code><var>Q</var></code> is <code><var>N</var></code>.</p>
-
-                </div>
-
-            </div>
-
             <div id="cube">
-
                 <div class="vars">
                     <var id="Q">N * N * N</var>
                     <var id="PRIMES">getPrimeFactorization( Q )</var>
@@ -106,8 +64,14 @@
 
                 <p class="solution"><var>N</var></p>
 
-                <div class="hints" data-apply="appendContents">
+                <div class="hints" data-apply="prependContents">
+                    <p>
+                        The cube root of <code><var>Q</var></code> is the number that, when
+                        multiplied by itself three times, equals <code><var>Q</var></code>.
+                    </p>
+                </div>
 
+                <div class="hints" data-apply="appendContents">
                     <p>We're looking for the cube root of <code><var>Q</var></code>, so we want to split the prime factors into three identical groups.</p>
 
                     <div data-if="PRIMES.length === 3" data-unwrap>
@@ -131,13 +95,10 @@
                     </div>
 
                     <p>So the cube root of <code><var>Q</var></code> is <code><var>N</var></code>.</p>
-
                 </div>
 
             </div>
-
         </div>
-
     </div>
 </body>
 </html>

@@ -10,6 +10,10 @@
             font-size: 1.7em;
             text-align: center
         }
+        .sort-key {
+            visibility: hidden;
+            position: absolute;
+        }
     </style>
 </head>
 <body>
@@ -62,6 +66,7 @@
                     <p>Order the following negative numbers from least to greatest:</p>
                     <ul id="sortable">
                         <li data-each="NUMS as NUM">
+                            <span class="sort-key"><var>NUM[0]</var></span>
                             <code><var>NUM[0]</var></code>
                         </li>
                     </ul>

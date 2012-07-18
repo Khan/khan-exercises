@@ -32,6 +32,11 @@
             return [(x - xRange[0]) * xScale, (yRange[1] - y) * yScale];
         };
 
+        var unscalePoint = function(point) {
+            var x = point[0], y = point[1];
+            return [x / xScale + xRange[0], yRange[1] - y / yScale];
+        }
+
         var svgPath = function(points) {
             // Bound a number by 1e-6 and 1e20 to avoid exponents after toString
             function boundNumber(num) {
@@ -259,23 +264,23 @@
                 if (latex) {
                     var code = $("<code>").text(text);
                     span = $("<span>").append(code);
-                    // Add to the MathJax queue
-                    if (typeof MathJax !== "undefined") {
-                        $.tmpl.type.code()(code[0]);
-                    }
                 } else {
                     span = $("<span>").html(text);
                 }
 
                 var pad = currentStyle["label-distance"];
-                span.css({
+                span.css($.extend({}, currentStyle, {
                     position: "absolute",
                     left: scaled[0],
                     top: scaled[1],
                     padding: (pad != null ? pad : 7) + "px"
-                }).appendTo(el);
+                })).appendTo(el);
 
-                if (typeof MathJax !== "undefined") {
+                if (typeof MathJax !== "undefined" && $.trim(text + "") !== "") {
+                    // Add to the MathJax queue
+                    if (latex) {
+                        $.tmpl.type.code()(code[0]);
+                    }
                     // Run after MathJax typesetting
                     MathJax.Hub.Queue(function() {
                         // Avoid an icky flash
@@ -399,9 +404,10 @@
             scalePoint: scalePoint,
             scaleVector: scaleVector,
 
+            unscalePoint: unscalePoint,
+
             polar: polar,
             cartToPolar: cartToPolar
-
         };
 
         $.each(drawingTools, function(name) {
@@ -677,7 +683,7 @@
 
                 // Graph could be in either of these
                 var area = $("#problemarea").add(problem);
-                graphie = area.find("#" + id).data("graphie");
+                graphie = area.find("#" + id + ".graphie").data("graphie");
             } else {
                 graphie = createGraph(this);
                 $(this).data("graphie", graphie);

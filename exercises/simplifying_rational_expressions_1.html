@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html data-require="math graphie ast math-model simplifying-expressions expr-helpers expr-normal-form simplify steps-helpers factoring-expressions subhints">
+<head>
+    <meta charset="UTF-8" />
+    <title>Simplifying rational expressions 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="W">{op:"var", args:["w"]}</var>
+            <var id="X">{op:"var", args:["x"]}</var>
+            <var id="Y">{op:"var", args:["y"]}</var>
+            <var id="Z">{op:"var", args:["z"]}</var>
+            <var id="PROBLEM">genSimplifyingExpressionsExercise(4, 2, [2, 3, 5, 7], [X, Y], [0, 1, 2, 3])</var>
+            <var id="SOLUTION">solveSimplifyingExpressionsExercise(PROBLEM)</var>-->
+        </div>
+        <div class="problems">
+            <div>
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question"><code><var>format(PROBLEM)</var></code></p>
+                <p class="solution"><code><var>format(SOLUTION.solution)</var></code></p>
+
+                <ul class="choices" data-none="true" data-show="5">
+                    <li data-each="SOLUTION.choices as key, value"><code><var>format(value)</var></code></li>
+                </ul>
+            </div>
+        </div>
+        <div class="hints">
+            <div data-each="SOLUTION.hints as key, value"><var>value</var></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -21,7 +21,7 @@
                 }
             }
 
-            return pre + "\\color{" + ( blue === 0 ? "<var>BLUE</var>" : ( blue === 1 ? "<var>ORANGE</var>" : "<var>BLACK</var>" ) ) + "}{" + str + "}";
+            return pre + "\\color{" + ( blue === 0 ? "<var>BLUE</var>" : ( blue === 1 ? "<var>ORANGE</var>" : "#000" ) ) + "}{" + str + "}";
         }
     </script>
     <style type="text/css">
@@ -61,7 +61,8 @@
                 <p><code>\large{<var>TERMS</var>}</code></p>
             <div class="solution" data-type="set">
                 <div class="set-sol" data-type="multiple">
-                    <span class="sol" data-fallback="1"><var>ANSWER1</var></span>
+                    <span class="sol" data-if="ANSWER1 === -1" data-type="regex">^\s*[-\u2212]1?\s*$</span>
+                    <span class="sol" data-else data-fallback="1"><var>ANSWER1</var></span>
                     <span data-if="INDEX !== 0"><span class="sol"><var>ANSWER2</var></span></span>
                 </div>
                 <div class="input-format">

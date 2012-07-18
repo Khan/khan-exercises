@@ -242,6 +242,25 @@ $.tmpl = {
         }
     },
 
+    /**
+     * Get a hash of the problem variables for duplication detection purposes.
+     */
+    // TODO(david): Allow exercise developers to specify which variables are not
+    //     important for duplicate determination purposes.
+    // TODO(david): Just a possibility, but allow exercise developers to specify
+    //     their own variable hash function, so that, eg. for addition 1, 2 + 3
+    //     could hash to the same value as 3 + 2.
+    getVarsHash: function() {
+        // maybe TODO(david): Can base-64 encode the crc32 integer if we want to
+        //     save a few bytes, since localStorage stores strings only.
+
+        // Just convert top-level values to strings instead of recursively
+        // stringifying, due to issues with circular references.
+        return KhanUtil.crc32(JSON.stringify($.map(VARS, function(value, key) {
+            return [key, String(value)];
+        })));
+    },
+
     // Make sure any HTML formatting is stripped
     cleanHTML: function(text) {
         return ("" + text).replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&");
@@ -265,6 +284,13 @@ $.fn.tmplLoad = function(problem, info) {
 };
 
 $.fn.tmplCleanup = function() {
+    // This gets called before each problem. In some cases, before the first
+    // problem, MathJax isn't loaded yet. No worries--there's nothing to clean
+    // up anyway
+    if (typeof MathJax === "undefined") {
+        return;
+    }
+
     this.find("code").each(function() {
         var jax = MathJax.Hub.getJaxFor(this);
         if (jax) {

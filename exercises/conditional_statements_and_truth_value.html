@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Conditional Statements and Truth Value</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars">
+        <var id="PROBLEMS">
+            [
+                {   <!-- [ normal, converse, inverse, contrapositive ] -->
+                    original: "If it rains today, soccer practice will be canceled.",
+                    converse: "If soccer practice is canceled today, then it did rain.",
+                    inverse: "If it does not rain today, soccer practice will not be cancelled.",
+                    contrapositive: "If soccer practice is not canceled today, then it did not rain."
+                },
+                {
+                    original: "When I'm hungry, I eat pizza.",
+                    converse: "If I eat pizza, then I am hungry.",
+                    inverse: "If I am not hungry, then I do not eat pizza.",
+                    contrapositive: "If I do not eat pizza, then I am not hungry."
+                },
+                {
+                    original: "If I study really hard, I will ace the test.",
+                    converse: "If I aced the test, then I studied really hard.",
+                    inverse: "If I do not study really hard, then I will not ace the test.",
+                    contrapositive: "If I did not ace the test, then I did not study really hard."
+                },
+                {
+                    original: "John likes sushi.",
+                    converse: "If a person likes sushi, then the person is John.",
+                    inverse: "If a person is not John, then the person does not like sushi.",
+                    contrapositive: "If a person does not like sushi, then the person is not John."
+                },
+                {
+                    original: "If two angles are vertical angles, then the two angles are congruent.",
+                    converse: "If two angles are congruent angles, then the two angles are vertical angles.",
+                    inverse: "If two angles are not vertical angles, then the two angles are not congruent.",
+                    contrapositive: "If two angles are not congruent, then the angles cannot be vertical angles."
+                },
+                {
+                    original: "My dad has to take me to school when I miss the bus.",
+                    converse: "If my dad takes me to school, then I must have missed the bus.",
+                    inverse: "If I do not miss the bus, then my dad does not have to take me to school.",
+                    contrapositive: "If my dad does not have to take me to school, then I did not miss the bus."
+                },
+                {
+                    original: "All squares are four-sided polygons.",
+                    converse: "All four-sided polygons are squares.",
+                    inverse: "All polygons that are not squares do not have four sides.",
+                    contrapositive: "If a polygon does not have four sides, then it is not a square."
+                },
+                {
+                    original: "All bicycles have two wheels.",
+                    converse: "All vehicles with two wheels are bicycles.",
+                    inverse: "All vehicles that are not bicycles do not have two wheels.",
+                    contrapositive: "If a vehicle does not have two wheels, it is not a bicycle."
+                },
+                {
+                    original: "If it is Thanksgiving, then I will have a big dinner.",
+                    converse: "If I have a big dinner, then it is Thanksgiving.",
+                    inverse: "If it is not Thanksgiving, then I will not have a big dinner.",
+                    contrapositive: "If I did not have a big dinner, then it is not Thanksgiving."
+                },
+                {
+                    original: "If I go to the Yankees game, I will have a hot dog.",
+                    converse: "If I don't go to the Yankees game, I will not have a hot dog.",
+                    inverse: "If I have a hot dog, then I will go to the Yankees game.",
+                    contrapositive: "If I don't have a hot dog, then I did not go to the Yankees game."
+                },
+                {
+                    original: "Eating spinach makes you stronger.",
+                    converse: "If you are getting stronger, then you must be eating spinach.",
+                    inverse: "If you are not eating spinach, then you will not get stronger.",
+                    contrapositive: "If you are not getting stronger, then you are not eating spinach."
+                },
+                {
+                    original: "You should not use your cell phone when driving a car.",
+                    converse: "If you are not using your cell phone, then you are driving a car.",
+                    inverse: "If you are not driving a car, then you should use your cell phone.",
+                    contrapositive: "If you are using your cell phone, then you should not be driving a car."
+                },
+                {
+                    original: "If a number is divisible by 10, then it is an even number.",
+                    converse: "If a number is even, then it is divisible by 10.",
+                    inverse: "If a number is not divisible by ten, then it is not an even number.",
+                    contrapositive: "If a number is not even, then it is not divisible by 10."
+                }
+            ]
+        </var>
+    </div>
+    <div class="problems">
+        <div id="deduce">
+            <div class="vars">
+                <var id="PROBLEM">randFromArray(PROBLEMS)</var>
+                <var id="MUST">"Yes, it can be deduced from the first statement"</var>
+                <var id="MIGHT">"No, it cannot be deduced from the first statement"</var>
+                <var id="STATEMENT_TYPE">randFromArray(["converse", "inverse", "contrapositive"])</var>
+                <var id="STATEMENT">PROBLEM[STATEMENT_TYPE]</var>
+                <var id="ANS">STATEMENT_TYPE === "contrapositive" ? MUST : MIGHT</var>
+            </div>
+            <div class="problem">
+                <p>Assume this first statement is true:</p>
+                <p class="question"><var>PROBLEM.original</var></p>
+            </div>
+            <div class="question">
+                <p>Logically, can you deduce that this second statement must be true from the first one?</p>
+                <p class="question"><var>STATEMENT</var></p>
+            </div>
+            <p class="solution"><var>ANS</var></p>
+            <ul class="choices" data-category="true">
+                <li><var>MUST</var></li>
+                <li><var>MIGHT</var></li>
+            </ul>
+            <div class="hints">
+                <p>Is the second statement the converse, inverse, or contrapositive of the original statement?</p>
+                <p>The second statement is the <var>STATEMENT_TYPE</var> of the original statement.</p>
+                <p data-if="STATEMENT_TYPE === 'contrapositive'">The <var>STATEMENT_TYPE</var> is logically equivalent to the original statement, so yes, the second statement can be deduced from the first statement.</p>
+                <p data-else>The <var>STATEMENT_TYPE</var> is not logically equivalent to the original statement, so no, the second statement cannot be deduced from the first statement.</p>
+            </div>
+        </div>
+
+        <div id="choose">
+            <div class="vars">
+                <var id="PROBLEM">randFromArray(PROBLEMS)</var>
+                <var id="ANS">PROBLEM.contrapositive</var>
+                <var id="OPTIONS">[PROBLEM.converse, PROBLEM.inverse]</var>
+            </div>
+            <div class="question">
+                <p>Assume this original statement below is true:</p>
+                <p class="question"><var>PROBLEM.original</var></p>
+            </div>
+            <p class="problem">Choose the statement that must also be true logically:</p>
+            <p class="solution"><var>ANS</var></p>
+            <ul class="choices">
+                <li data-each="OPTIONS as option"><var>option</var></li>
+            </ul>
+            <div class="hints">
+                <p>Only the contrapositive of the original statement must be true.</p>
+                <p>Find the contrapositive. In other words, find the statement that reverses and negates both the hypothesis and conclusion.</p>
+                <p>In this case, the contrapositive is <strong>"<var>PROBLEM.contrapositive</var>"</strong></p>
+            </div>
+        </div>
+
+        <div id="equivalent">
+            <div class="vars">
+                <var id="NAMES">["original statement", "converse", "inverse", "contrapositive"]</var>
+                <var id="CASE">randRange(0, 3)</var>
+                <var id="ANS">NAMES[3-CASE]</var>
+                <var id="OPTIONS">shuffle((function(){var opt = NAMES.slice(); opt.splice(CASE, 1); return opt;})())</var>
+            </div>
+            <p class="question">If the <var>NAMES[CASE]</var> is true, then which other statement must be true logically?</p>
+            <p class="solution">the <var>ANS</var></p>
+            <ul class="choices" data-category="true">
+                <li data-each="OPTIONS as option">the <var>option</var></li>
+            </ul>
+            <div class="hints">
+                <p>The <span class="hint_blue">original</span> conditional statement and its <span class="hint_blue">contrapositive</span> are logically equivalent, and the <span class="hint_green">converse</span> and the <span class="hint_green">inverse</span> are logically equivalent.</p>
+                <p>Logically equivalent statements have the same truth-value.</p>
+                <p>Because the <var>NAMES[CASE]</var> is true, the <strong><var>NAMES[3-CASE]</var></strong> is also logically true.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

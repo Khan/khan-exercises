@@ -191,32 +191,37 @@ $.extend(Khan.answerTypes, {
                     text = text.replace(/\u2212/, "-");
 
                     // - pi
-                    if (match = text.match(/^([+-]?)\s*(?:pi?|\u03c0)$/i)) {
+                    if (match = text.match(/^([+-]?)\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
                         possibilities = [{ value: parseFloat(match[1] + "1"), exact: true }];
 
                     // 5 / 6 pi
-                    } else if (match = text.match(/^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*(?:pi?|\u03c0)$/i)) {
+                    } else if (match = text.match(/^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
                         possibilities = fractionTransformer(match[1]);
 
                     // 5 pi / 6
-                    } else if (match = text.match(/^([+-]?\d+)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i)) {
-                        possibilities = fractionTransformer(match[1] + "/" + match[2]);
+                    } else if (match = text.match(/^([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i)) {
+                        possibilities = fractionTransformer(match[1] + "/" + match[3]);
 
                     // - pi / 4
-                    } else if (match = text.match(/^([+-]?)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i)) {
-                        possibilities = fractionTransformer(match[1] + "1/" + match[2]);
+                    } else if (match = text.match(/^([+-]?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i)) {
+                        possibilities = fractionTransformer(match[1] + "1/" + match[3]);
 
                     // 0
                     } else if (text === "0") {
                         possibilities = [{ value: 0, exact: true }];
 
                     // 0.5 pi (fallback)
-                    } else if (match = text.match(/^(\S+)\s*\*?\s*(?:pi?|\u03c0)$/i)) {
+                    } else if (match = text.match(/^(\S+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
                         possibilities = forms.decimal.transformer(match[1]);
                     }
 
+                    var multiplier = Math.PI;
+                    if (match && match[2].match(/t(?:au)?|\u03c4/)) {
+                        multiplier = Math.PI * 2;
+                    }
+
                     $.each(possibilities, function(ix, possibility) {
-                        possibility.value *= Math.PI;
+                        possibility.value *= multiplier;
                     });
                     return possibilities;
                 },
@@ -500,6 +505,7 @@ $.extend(Khan.answerTypes, {
 
         var ret = function() {
             var valid = true,
+                missing_required_answer = false,
                 guess = [];
 
             solutionarea.find(".sol").each(function() {
@@ -509,11 +515,24 @@ $.extend(Khan.answerTypes, {
                     // Don't short-circuit so we can record all guesses
                     valid = validator() && valid;
 
+                    // If this is one of the required entries, and it is not filled in
+                    // set the flag that indicates that a required entry is not filled in.
+                    if (jQuery(this).attr("required") != undefined && validator.guess === "") {
+                        missing_required_answer = true;
+                        // Break out of the each loop since a required item is not set.
+                        return false;
+                    }
                     guess.push(validator.guess);
                 }
             });
 
-            ret.guess = guess;
+            // If a required answer was not provided, return "". This keeps the problem
+            // from being submitted.
+            if (missing_required_answer === true) {
+                ret.guess = "";
+            } else {
+                ret.guess = guess;
+            }
 
             return valid;
         };
@@ -1005,9 +1024,9 @@ $.extend(Khan.answerTypes, {
         row.append('<td style="width: 100px">\n' +
             'Radius: <span id="current-radius"><code>1</code></span>\n' +
             "</td>")
-            .append("<td>\n"+
-            '<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />\n' +
-            '<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />\n' +
+            .append("<td>\n" +
+            '<input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />\n' +
+            '<input type="button" class="simple-button mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />\n' +
             "</td>").tmpl();
         table.append(row);
 
@@ -1015,9 +1034,9 @@ $.extend(Khan.answerTypes, {
         row.append('<td style="width: 100px">\n' +
             'Angle: <span id="current-angle"><code>0</code></span>\n' +
             "</td>")
-            .append("<td>\n"+
-            '<input type="button" class="simple-button action-gradient mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />\n' +
-            '<input type="button" class="simple-button action-gradient mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />\n' +
+            .append("<td>\n" +
+            '<input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />\n' +
+            '<input type="button" class="simple-button mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />\n' +
             "</td>").tmpl();
         table.append(row);
 

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Radius diameter and circumference</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        var R_COLOR = "purple";
+        var D_COLOR = "green";
+        var C_COLOR = "blue";
+        var K_COLOR = "red";
+
+        function initCircle( R ) {
+            var graph = KhanUtil.currentGraph;
+
+            graph.init({
+                range: [ [-1.1, 1.1], [-1.1, 1.1] ],
+                scale: 100
+            });
+
+            graph.circle( [0, 0], 1, { "fill-opacity": 0 } );
+        }
+
+        function drawRadius( R ) {
+            var graph = KhanUtil.currentGraph;
+
+            graph.line( [0, 0], [1, 0], { "fill": "none", "stroke": R_COLOR } );
+            graph.label( [1/2, 0], "\\color{" + R_COLOR + "}{r = " + R + "}", "below" );
+        }
+
+        function drawDiameter( R ) {
+            var graph = KhanUtil.currentGraph;
+
+            graph.line( [-1, 0], [1, 0], { "stroke": D_COLOR } );
+            graph.label( [0, 0], "\\color{" + D_COLOR + "}{d = " + 2 * R + "}", "above" );
+        }
+
+        function drawCircumference( R ) {
+            var graph = KhanUtil.currentGraph;
+
+            graph.circle( [0, 0], 1, { "stroke": C_COLOR } );
+            graph.label( [0, -1], "\\color{" + C_COLOR + "}{c = " + 2 * R + "\\pi}", "below" );
+        }
+
+        function drawArea( R ) {
+            var graph = KhanUtil.currentGraph;
+
+            var c = graph.circle( [0, 0], 1, { "fill": "#ffcccc", "stroke-width": 0 } );
+            $(c.node).insertBefore($(graph.raphael.canvas).find("ellipse")[0]);
+
+            graph.label( [0, 0.5], "\\color{" + K_COLOR + "}{K = " + R*R + "\\pi}", "above" );
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="circle-r-to-d">
+            <div class="vars">
+                <var id="R">randRange(1, 8)</var>
+            </div>
+
+            <div class="question">
+                <p>Suppose the radius of a circle is <code>\color{<var>R_COLOR</var>}{<var>R</var>}</code>. What is its diameter?</p>
+            </div>
+
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>2 * R</var></div>
+
+            <div class="hints">
+                <div class="graphie" id="circle">
+                    initCircle( R );
+
+                    drawRadius( R );
+                </div>
+                <div>
+                    <p>We know <code>d = 2r</code>, so <code>d = 2 \cdot \color{<var>R_COLOR</var>}{<var>R</var>} = \color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>.</p>
+
+                    <div class="graphie" data-update="circle">
+                        drawDiameter( R );
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="circle-d-to-r">
+            <div class="vars">
+                <var id="R">randRange(1, 8)</var>
+            </div>
+
+            <div class="question">
+                <p>Suppose the diameter of a circle is <code>\color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>. What is its radius?</p>
+            </div>
+
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>R</var></div>
+
+            <div class="hints">
+                <div class="graphie" id="circle">
+                    initCircle( R );
+
+                    drawDiameter( R );
+                </div>
+                <div>
+                    <p>We know <code>d = 2r</code>, so <code>r = d / 2</code> and <code>r = \color{<var>D_COLOR</var>}{<var>2 * R</var>} / 2 = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
+
+                    <div class="graphie" data-update="circle">
+                        drawRadius( R );
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="circle-r-to-c">
+            <div class="vars">
+                <var id="R">randRange(1, 8)</var>
+            </div>
+
+            <div class="question">
+                <p>Suppose the radius of a circle is <code>\color{<var>R_COLOR</var>}{<var>R</var>}</code>. What is its circumference?</p>
+            </div>
+
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>Math.PI * 2 * R</var></div>
+
+            <div class="hints">
+                <div class="graphie" id="circle">
+                    initCircle( R );
+
+                    drawRadius( R );
+                </div>
+                <div>
+                    <p>We know <code>c = 2\pi r</code>, so <code>c = 2 \pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>} = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>.</p>
+
+                    <div class="graphie" data-update="circle">
+                        drawCircumference( R );
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="circle-c-to-r">
+            <div class="vars">
+                <var id="R">randRange(1, 8)</var>
+            </div>
+
+            <div class="question">
+                <p>Suppose the circumference of a circle is <code>\color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>. What is its radius?</p>
+            </div>
+
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>R</var></div>
+
+            <div class="hints">
+                <div class="graphie" id="circle">
+                    initCircle( R );
+
+                    drawCircumference( R );
+                </div>
+                <div>
+                    <p>We know <code>c = 2\pi r</code>, so <code>r = c / 2\pi = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi} / 2 \pi = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
+
+                    <div class="graphie" data-update="circle">
+                        drawRadius( R );
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="circle-d-to-c">
+            <div class="vars">
+                <var id="R">randRange(2, 16) / 2</var>
+            </div>
+
+            <div class="question">
+                <p>Suppose the diameter of a circle is <code>\color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>. What is its circumference?</p>
+            </div>
+
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>Math.PI * 2 * R</var></div>
+
+            <div class="hints">
+                <div class="graphie" id="circle">
+                    initCircle( R );
+
+                    drawDiameter( R );
+                </div>
+                <div>
+                    <p>We know <code>c = \pi d</code>, so <code>c = \pi \cdot \color{<var>D_COLOR</var>}{<var>2 * R</var>} = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>.</p>
+
+                    <div class="graphie" data-update="circle">
+                        drawCircumference( R );
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="circle-c-to-d">
+            <div class="vars">
+                <var id="R">randRange(2, 16) / 2</var>
+            </div>
+
+            <div class="question">
+                <p>Suppose the circumference of a circle is <code>\color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>. What is its diameter?</p>
+            </div>
+
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>2 * R</var></div>
+
+            <div class="hints">
+                <div class="graphie" id="circle">
+                    initCircle( R );
+
+                    drawCircumference( R );
+                </div>
+                <div>
+                    <p>We know <code>c = \pi d</code>, so <code>d = c / \pi = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi} / \pi = \color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>.</p>
+
+                    <div class="graphie" data-update="circle">
+                        drawDiameter( R );
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</body>
+</html>

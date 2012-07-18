@@ -24,6 +24,11 @@
         return false;
     });
 
+    $("a.show-definition").live("hover", function(event) {
+        $("#" + $(this).data("definition")).toggle(200);
+        return false;
+    });
+
     $.extend(KhanUtil, {
         getSubHints: getSubHints
     });

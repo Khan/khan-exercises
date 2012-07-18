@@ -33,37 +33,48 @@
                     the orange point and line to their correct positions. Then use that information to find the equation of the parabola.
                 </p>
                 <div class="graphie" id="grid">
+                    graph.A = A;
+                    graph.X1 = X1;
+                    graph.Y1 = Y1;
                     initAutoscaledGraph( [ [ -2.5, 2.5 ], [ -2.5, 2.5 ] ], {} );
                     addMouseLayer();
 
-                    this.directrix = addMovableLine({
-                        coord: -1,
-                        snap: 0.125,
+                    graph.directrix = addMovableLineSegment({
+                        coordA: [0, -1],
+                        coordZ: [1, -1],
+                        snapY: 0.125,
                         vertical: false,
+                        extendLine: true,
+                        normalStyle: {
+                            "stroke": KhanUtil.ORANGE,
+                            "stroke-width": 2
+                        },
+                        highlightStyle: {
+                            "stroke": KhanUtil.ORANGE,
+                            "stroke-width": 4
+                        }
                     });
-                    this.directrix.onMove = function( coord ) {
+                    graph.directrix.onMove = function( x, y ) {
+                        var coord = this.coordA[1];
                         $("#directrix-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coord, 0.001)) + "&lt;/code&gt;" ).tmpl();
-                        $("#directrix input").val(coord);
                     };
 
-                    this.vertex = addMovablePoint({
+                    graph.vertex = addMovablePoint({
                         coordX: 0,
                         coordY: 1,
                         snapX: 0.125,
                         snapY: 0.125,
                     });
-                    this.vertex.onMove = function( coordX, coordY ) {
+                    graph.vertex.onMove = function( coordX, coordY ) {
                         $("#focus-x-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coordX, 0.001)) + "&lt;/code&gt;" ).tmpl();
                         $("#focus-y-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coordY, 0.001)) + "&lt;/code&gt;" ).tmpl();
-                        $("#focus-x input").val(coordX);
-                        $("#focus-y input").val(coordY);
                     };
 
-                    this.func = addInteractiveFn( function(x) {
+                    graph.func = addInteractiveFn( function(x) {
                         return ( A * ( x - X1 ) * ( x - X1 ) ) + Y1;
                     }, {});
 
-                    doParabolaInteraction( this.func, this.vertex, this.directrix );
+                    doParabolaInteraction( graph.func, graph.vertex, graph.directrix );
                 </div>
                 <p>
                     The <span class="hint_green">two green line segments</span> you see when you point to the parabola are always the same
@@ -71,18 +82,33 @@
                 </p>
 
                 <div class="solution" data-type="multiple">
+                    <div class="sol" data-type="custom">
+                        <div class="guess"> [ graph.vertex.coord, graph.directrix.coordA[1] ] </div>
+                        <div class="validator-function">
+                            if (_.isEqual(guess, [[0, 1], -1])) {
+                                return "";
+                            }
+                            return guess[0][0] === X1
+                                &amp;&amp; guess[0][1] === Y1 + 1 / (4 * A)
+                                &amp;&amp; guess[1] === Y1 - 1 / (4 * A)
+                        </div>
+                        <div class="show-guess">
+                            graph.vertex.setCoord( guess[0] );
+                            graph.directrix.coordA = [0, guess[1]];
+                            graph.directrix.coordZ = [1, guess[1]];
+                            graph.directrix.transform();
+                        </div>
+                    </div>
+
                     <p><span>Focus: </span><code>(</code><span id="focus-x-label"><code>0</code></span><code>\text{, }</code><span id="focus-y-label"><code>1</code></span><code>)</code></p>
                     <p>Directrix: <code>y = </code><span id="directrix-label"><code>-1</code></span></p>
                     <p>
                         Equation of the parabola:<br />
-                        <code>y - </code><span class="sol" data-fallback="0"><var>Y1</var></span>
-                        <code> = </code><span class="sol" data-fallback="1"><var>A</var></span>
-                        <code>(x - </code><span class="sol" data-fallback="0"><var>X1</var></span>
+                        <code>y - </code><span class="sol" data-fallback="0" required><var>Y1</var></span>
+                        <code> = </code><span class="sol" data-fallback="1" required><var>A</var></span>
+                        <code>(x - </code><span class="sol" data-fallback="0" required><var>X1</var></span>
                         <code>)^2</code>
                     </p>
-                    <span class="sol" id="focus-x" style="display: none"><var>X1</var></span>
-                    <span class="sol" id="focus-y" style="display: none"><var>Y1 + 1/(4*A)</var></span>
-                    <span class="sol" id="directrix" style="display: none" data-fallback="-1"><var>Y1 - 1/(4*A)</var></span>
 
                     <p class="example">set the focus and directrix by moving them around the graph</p>
                     <p class="example">for the equation of the parabola, you may enter integers, fractions, or exact decimals for each term</p>
@@ -94,8 +120,16 @@
                     All points on a parabola are equidistant from the focus and directrix. There is only one place to put the orange focus point
                     and directrix line where this is true.
                     <button onClick="javascript:
-                        vertex.moveTo(KhanUtil.tmpl.getVAR('X1'), KhanUtil.tmpl.getVAR('Y1') + 1/(4*KhanUtil.tmpl.getVAR('A')));
-                        directrix.moveTo(KhanUtil.tmpl.getVAR('Y1') - 1/(4*KhanUtil.tmpl.getVAR('A')));
+                        graph = KhanUtil.currentGraph.graph;
+                        graph.vertex.moveTo(graph.X1, graph.Y1 + 1 / (4 * graph.A));
+                        $({ y: graph.directrix.coordA[1] }).animate({ y: graph.Y1 - 1 / (4 * graph.A) }, {
+                            duration: Math.abs(graph.directrix.coordA[1] - (graph.Y1 - 1 / (4 * graph.A))) * 300,
+                            step: function(now, fx) {
+                                graph.directrix.coordA = [0, now];
+                                graph.directrix.coordZ = [1, now];
+                                graph.directrix.transform();
+                            }
+                        });
                     ">Show me</button>
                 </p>
                 <p>
@@ -119,7 +153,8 @@
                     in what direction the parabola opens. It's always the reciprocal of 2 times the distance from the directrix to the focus.
                 </p>
                 <p>
-                    <code>a = \dfrac{1}{2 \times (<var>PRETTY_FOCUS_Y</var> - <var>PRETTY_DIR_Y</var>)} = <var>PRETTY_A</var></code>
+                    <code data-if="A >= 0">a = \dfrac{1}{2 \times (<var>PRETTY_FOCUS_Y</var> {-} <var>PRETTY_DIR_Y</var>)} = <var>PRETTY_A</var></code>
+                    <code data-else>a = \dfrac{1}{2 \times (<var>PRETTY_DIR_Y</var> {-} <var>PRETTY_FOCUS_Y</var>)} = <var>PRETTY_A</var></code>
                 </p>
                 <p>
                     So the equation of the parabola is <code>y - <var>PRETTY_Y1</var> = <var>PRETTY_A</var>(x - <var>PRETTY_X1</var>)^2</code>.

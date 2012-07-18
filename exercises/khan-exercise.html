@@ -19,19 +19,20 @@
     <div id="answer_area_wrap"><div id="answer_area">
         <form id="answerform" action="/exercisedashboard" method="get" name="answerform">
             <div id="answercontent" class="info-box fancy-scrollbar">
+                <a id="examples-show">Acceptable formats</a>
+                <ul id="examples" style="display: none"></ul>
                 <span class="info-box-header">Answer</span>
                 <div id="solutionarea"></div>
-                <input type="submit" class="simple-button action-gradient green" id="check-answer-button" value="Check Answer"/>
-                <input type="button" class="simple-button action-gradient green" id="next-question-button" style="display:none;" name="correctnextbutton" value="Correct! Next Question..."/>
-                <span id="show-solution-button-container"></span>
-                <div id="check-answer-results">
-                    <img id="sad" style="display: none;"/>
-                    <img id="happy" style="display: none;"/>
-                    <p class="check-answer-message info-box-sub-description"></p>
+                <div class="answer-buttons">
+                    <input type="submit" class="simple-button green full-width" id="check-answer-button" value="Check Answer"/>
+                    <input type="button" class="simple-button green full-width" id="next-question-button" style="display:none;" name="correctnextbutton" value="Correct! Next Question..."/>
+                    <span id="show-solution-button-container"></span>
+                    <div id="check-answer-results">
+                        <img id="sad" style="display: none;"/>
+                        <img id="happy" style="display: none;"/>
+                        <p class="check-answer-message info-box-sub-description"></p>
+                    </div>
                 </div>
-                <a id="examples-show" href="">Show acceptable answer formats</a>
-                <ul id="examples" style="display: none">
-                </ul>
             </div>
             <div id="readonly" class="info-box">
                 <span id="readonly-problem" class="info-box-header"></span>
@@ -41,7 +42,7 @@
             <div class="info-box hint-box">
                 <span class="info-box-header">Need help? Get a hint.</span>
                 <div id="get-hint-button-container">
-                    <input id="hint" type="button" class="simple-button action-gradient orange" value="I'd like a hint" name="hint"/>
+                    <input id="hint" type="button" class="simple-button orange full-width" value="I'd like a hint" name="hint"/>
                 </div>
                 <span id="hint-remainder"></span>
             </div>
@@ -83,9 +84,8 @@
                     </ul>
                 </fieldset>
                 <label for="issue-title">Issue Title:<input type="text" name="issue-title" id="issue-title" /></label>
-                <label for="issue-email">Your Email (optional):<input type="text" name="issue-email" id="issue-email" /></label>
                 <label for="issue-body">Description of Issue:<textarea name="issue-body" id="issue-body"></textarea></label>
-                <input type="submit" class="simple-button action-gradient" value="Submit Issue">
+                <input type="submit" class="simple-button" value="Submit Issue">
                 <a href="/#" id="issue-cancel">Cancel</a>
                 <img id="issue-throbber" style="display:none;" name="issue-throbber">
             </form>

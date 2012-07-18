@@ -4,6 +4,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Ordering numbers</title>
     <script src="../khan-exercise.js"></script>
+    <style>
+        .sort-key {
+            visibility: hidden;
+            position: absolute;
+        }
+    </style>
 </head>
 <body>
     <div class="exercise">
@@ -79,6 +85,7 @@
                     <p>Order the following numbers from least to greatest:</p>
                     <ul id="sortable">
                         <li data-each="NUMS as NUM">
+                            <span class="sort-key"><var>NUM[2]</var></span>
                             <code><var>NUM[2]</var></code>
                         </li>
                     </ul>

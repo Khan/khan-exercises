@@ -517,166 +517,6 @@ $.extend(KhanUtil, {
         return movablePoint;
     },
 
-
-    // Add a horizontal or vertical line to the graph that can be dragged around.
-    //
-    // Options can be set to control how the point behaves:
-    //   vertical:
-    //     Boolean indicating whether the line is horizontal or vertical.
-    //   coord:
-    //     The initial location of the line (x or y value)
-    //   snap:
-    //     The minimum increment the line can be moved
-    //
-    // The return value is an object that can be used to manipulate the line:
-    //   The coord property tells you the current position
-    //
-    //   By adding an onMove() method to the returned object, you can install an
-    //   event handler that gets called every time the user moves the line.
-    //
-    //   The returned object also provides a moveTo(coord) method that will move
-    //   the line to a specific location
-    //
-    addMovableLine: function(options) {
-        options = $.extend({
-            graph: KhanUtil.currentGraph,
-            coord: 0,
-            snap: 0,
-            vertical: false
-        }, options);
-        var graph = options.graph;
-        var movableLine = {
-            highlight: false,
-            dragging: false,
-            coord: options.coord
-        };
-
-        graph.style({
-            fill: KhanUtil.ORANGE,
-            stroke: KhanUtil.ORANGE
-        }, function() {
-            if (!options.vertical) {
-                movableLine.visibleShape = graph.line([graph.range[0][0], 0], [graph.range[0][1], 0]);
-                movableLine.visibleShape.translate(0, -options.coord * graph.scale[0]);
-            } else {
-                movableLine.visibleShape = graph.line([0, graph.range[1][0]], [0, graph.range[1][1]]);
-                movableLine.visibleShape.translate(options.coord * graph.scale[1], 0);
-            }
-        });
-
-        // the invisible rectangle in front of the line that gets mouse events
-        if (!options.vertical) {
-            movableLine.mouseTarget = graph.mouselayer.rect(0, -(graph.range[0][0] + options.coord) * graph.scale[0] - 10, graph.xpixels, 20);
-        } else {
-            movableLine.mouseTarget = graph.mouselayer.rect((graph.range[1][1] + options.coord) * graph.scale[1] - 10, 0, 20, graph.ypixels);
-        }
-        movableLine.mouseTarget.attr({fill: "#000", "opacity": 0.0});
-
-        $(movableLine.mouseTarget[0]).css("cursor", "move");
-        $(movableLine.mouseTarget[0]).bind("vmousedown vmouseover vmouseout", function(event) {
-            if (event.type === "vmouseover") {
-                if (!KhanUtil.dragging) {
-                    movableLine.highlight = true;
-                    movableLine.visibleShape.animate({ "stroke-width": 5 }, 50);
-                }
-
-            } else if (event.type === "vmouseout") {
-                movableLine.highlight = false;
-                if (!movableLine.dragging) {
-                    movableLine.visibleShape.animate({ "stroke-width": 2 }, 50);
-                }
-
-            } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
-                event.preventDefault();
-
-                $(document).bind("vmousemove vmouseup", function(event) {
-                    event.preventDefault();
-                    movableLine.dragging = true;
-                    KhanUtil.dragging = true;
-
-                    // mouse{X|Y} are in pixels relative to the SVG
-                    var mouseX = event.pageX - $(graph.raphael.canvas.parentNode).offset().left;
-                    var mouseY = event.pageY - $(graph.raphael.canvas.parentNode).offset().top;
-                    // can't go beyond 10 pixels from the edge
-                    mouseX = Math.max(10, Math.min(graph.xpixels - 10, mouseX));
-                    mouseY = Math.max(10, Math.min(graph.ypixels - 10, mouseY));
-                    // snap to grid
-                    if (options.snap) {
-                        mouseX = Math.round(mouseX / (graph.scale[0] * options.snap)) * (graph.scale[0] * options.snap);
-                        mouseY = Math.round(mouseY / (graph.scale[1] * options.snap)) * (graph.scale[1] * options.snap);
-                    }
-                    // coord{X|Y} are the scaled coordinate values
-                    var coordX = mouseX / graph.scale[0] + graph.range[0][0];
-                    var coordY = graph.range[1][1] - mouseY / graph.scale[1];
-
-                    if (event.type === "vmousemove") {
-                        if (options.vertical) {
-                            movableLine.visibleShape.translate((coordX * graph.scale[0]) - movableLine.visibleShape.attr("translation").x, 0);
-                            movableLine.mouseTarget.attr("x", mouseX - 10);
-                            movableLine.coord = coordX;
-
-                            // The caller has the option of adding an onMove() method to the
-                            // movablePoint object we return as a sort of event handler
-                            if ($.isFunction(movableLine.onMove)) {
-                                movableLine.onMove(coordX);
-                            }
-                        } else {
-                            movableLine.visibleShape.translate(0, (-coordY * graph.scale[1]) - movableLine.visibleShape.attr("translation").y, 0);
-                            movableLine.mouseTarget.attr("y", mouseY - 10);
-                            movableLine.coord = coordY;
-
-                            // The caller has the option of adding an onMove() method to the
-                            // movablePoint object we return as a sort of event handler
-                            if ($.isFunction(movableLine.onMove)) {
-                                movableLine.onMove(coordY);
-                            }
-                        }
-
-                    } else if (event.type === "vmouseup") {
-                        $(document).unbind("vmousemove vmouseup");
-                        movableLine.dragging = false;
-                        KhanUtil.dragging = false;
-                        if (!movableLine.highlight) {
-                            movableLine.visibleShape.animate({ "stroke-width": 2 }, 50);
-                        }
-
-                    }
-                });
-            }
-        });
-
-        // Method to let the caller animate the line to a new position. Useful
-        // as part of a hint to show the user the correct place to put the line.
-        movableLine.moveTo = function(coord) {
-            if (options.vertical) {
-                // find distance in pixels to move
-                var distance = Math.abs(this.coord - coord) * graph.scale[0];
-                // 5ms per pixel seems good
-                var time = distance * 5;
-
-                this.visibleShape.animate({ translation: [coord * graph.scale[0] - this.visibleShape.attr("translation").x, 0] }, time);
-                this.mouseTarget.animate({ y: coord / graph.scale[0] + graph.range[0][0] - 10 }, time);
-
-            } else {
-                // find distance in pixels to move
-                var distance = Math.abs(this.coord - coord) * graph.scale[1];
-                // 5ms per pixel seems good
-                var time = distance * 5;
-
-                this.visibleShape.animate({ translation: [0, -coord * graph.scale[1] - this.visibleShape.attr("translation").y] }, time);
-                this.mouseTarget.animate({ y: (graph.range[1][1] - coord) * graph.scale[1] - 10 }, time);
-            }
-
-            this.coord = coord;
-            if ($.isFunction(this.onMove)) {
-                movableLine.onMove(coord);
-            }
-        };
-
-        return movableLine;
-    },
-
-
     svgPath: function(points) {
         return $.map(points, function(point, i) {
             if (point === true) {
@@ -1107,6 +947,67 @@ $.extend(KhanUtil, {
     },
 
 
+    addArrowWidget: function(options) {
+        var arrowWidget = $.extend({
+            graph: KhanUtil.currentGraph,
+            direction: "up",
+            coord: [0, 0],
+            onClick: function() {}
+        }, options);
+        var graph = arrowWidget.graph;
+
+        if (arrowWidget.direction === "up") {
+            arrowWidget.visibleShape = graph.path([
+                    [arrowWidget.coord[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0] - 4 / graph.scale[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0] + 4 / graph.scale[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0], arrowWidget.coord[1] - 4 / graph.scale[1]]
+                    ], { stroke: null, fill: KhanUtil.ORANGE });
+        } else if (arrowWidget.direction === "down") {
+            arrowWidget.visibleShape = graph.path([
+                    [arrowWidget.coord[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0] - 4 / graph.scale[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0], arrowWidget.coord[1] - 4 / graph.scale[1]],
+                    [arrowWidget.coord[0] + 4 / graph.scale[0], arrowWidget.coord[1] + 4 / graph.scale[1]],
+                    [arrowWidget.coord[0], arrowWidget.coord[1] + 4 / graph.scale[1]]
+                    ], { stroke: null, fill: KhanUtil.ORANGE });
+        }
+
+        arrowWidget.mouseTarget = graph.mouselayer.circle(
+                graph.scalePoint(arrowWidget.coord)[0], graph.scalePoint(arrowWidget.coord)[1], 15);
+        arrowWidget.mouseTarget.attr({fill: "#000", "opacity": 0.0});
+
+        $(arrowWidget.mouseTarget[0]).css("cursor", "pointer");
+        $(arrowWidget.mouseTarget[0]).bind("vmousedown vmouseover vmouseout", function(event) {
+            if (event.type === "vmouseover") {
+                arrowWidget.visibleShape.animate({ scale: 2, fill: KhanUtil.ORANGE }, 20);
+            } else if (event.type === "vmouseout") {
+                arrowWidget.visibleShape.animate({ scale: 1, fill: KhanUtil.ORANGE }, 20);
+            } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
+                if (!arrowWidget.hidden) {
+                    arrowWidget.onClick();
+                }
+                return false;
+            }
+        });
+
+        arrowWidget.hide = function() {
+            arrowWidget.visibleShape.hide();
+            arrowWidget.hidden = true;
+            $(arrowWidget.mouseTarget[0]).css("cursor", "default");
+        };
+
+        arrowWidget.show = function() {
+            arrowWidget.visibleShape.show();
+            arrowWidget.hidden = false;
+            $(arrowWidget.mouseTarget[0]).css("cursor", "pointer");
+        };
+
+        return arrowWidget;
+    },
+
+
     createSorter: function() {
         var sorter = {};
         var list;
@@ -1127,6 +1028,7 @@ $.extend(KhanUtil, {
                         $(tile).addClass("dragging");
                         var tileIndex = $(this).index();
                         placeholder.insertAfter(tile);
+                        placeholder.width($(tile).width());
                         $(this).css("z-index", 100);
                         var offset = $(this).offset();
                         var click = {
@@ -1138,6 +1040,7 @@ $.extend(KhanUtil, {
                             left: offset.left,
                             top: offset.top
                         });
+
                         $(document).bind("vmousemove vmouseup", function(event) {
                             event.preventDefault();
                             if (event.type === "vmousemove") {
@@ -1146,7 +1049,18 @@ $.extend(KhanUtil, {
                                     top: event.pageY - click.top
                                 });
                                 var leftEdge = list.offset().left;
-                                var index = Math.max(0, Math.min(numTiles - 1, Math.floor((event.pageX - leftEdge) / tileWidth)));
+                                var midWidth = $(tile).offset().left - leftEdge;
+                                var index = 0;
+                                var sumWidth = 0;
+                                list.find("li").each(function() {
+                                    if (this === placeholder[0] || this === tile) {
+                                        return;
+                                    }
+                                    if (midWidth > sumWidth + $(this).outerWidth(true) / 2) {
+                                        index += 1;
+                                    }
+                                    sumWidth += $(this).outerWidth(true);
+                                });
                                 if (index !== tileIndex) {
                                     tileIndex = index;
                                     if (index === 0) {
@@ -1159,12 +1073,11 @@ $.extend(KhanUtil, {
                                         placeholder.insertAfter(preceeding);
                                         $(tile).insertAfter(preceeding);
                                     }
-                                    offset.left = leftEdge + tileWidth * index;
                                 }
                             } else if (event.type === "vmouseup") {
                                 $(document).unbind("vmousemove vmouseup");
                                 var position = $(tile).offset();
-                                $(position).animate(offset, {
+                                $(position).animate(placeholder.offset(), {
                                     duration: 150,
                                     step: function(now, fx) {
                                         position[fx.prop] = now;
@@ -1187,17 +1100,24 @@ $.extend(KhanUtil, {
         sorter.getContent = function() {
             content = [];
             list.find("li").each(function(tileNum, tile) {
-                content.push($.trim($(tile).find("code").text()));
+                content.push($.trim($(tile).find(".sort-key").text()));
             });
             return content;
         };
 
         sorter.setContent = function(content) {
-            list.find("li").each(function(tileNum, tile) {
-                $(tile).find("code").text(content[tileNum]);
-                MathJax.Hub.Queue(["Reprocess", MathJax.Hub, tile]);
+            var tiles = [];
+            $.each(content, function(n, sortKey) {
+                var tile = list.find("li .sort-key").filter(function() {
+                    // sort-key must match exactly
+                    return $(this).text() === sortKey;
+                }).closest("li").get(0);
+                $(tile).detach();  // remove matched tile so you can have duplicates
+                tiles.push(tile);
             });
+            list.append(tiles);
         };
+
 
         return sorter;
     }

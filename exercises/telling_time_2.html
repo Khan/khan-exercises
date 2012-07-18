@@ -11,22 +11,22 @@
             <div id="set-hands" data-weight="3">
 
                 <div class="vars">
-                    <div data-ensure="!( HOUR === 1 && MINUTE === 0 )">
-                        <var id="HOUR">randRange( 1, 12 )</var>
+                    <div data-ensure="!(HOUR === 1 && MINUTE === 0)">
+                        <var id="HOUR">randRange(1, 12)</var>
                         <var id="MINUTE_INCREMENT">15</var>
-                        <var id="MINUTE">randRange( 0, (60 / MINUTE_INCREMENT) - 1 ) * MINUTE_INCREMENT</var>
+                        <var id="MINUTE">randRange(0, (60 / MINUTE_INCREMENT) - 1) * MINUTE_INCREMENT</var>
                     </div>
                     <var id="MINUTE_IS_ZERO">MINUTE === 0</var>
-                    <var id="NICE_MINUTE"> MINUTE &gt; 5 ? MINUTE : "0" + MINUTE</var>
+                    <var id="NICE_MINUTE">MINUTE &gt; 5 ? MINUTE : "0" + MINUTE</var>
                     <var id="TIME">HOUR + ":" + NICE_MINUTE</var>
                 </div>
 
-                <p class="question">Set the clock to <var>TIME</var>. The <span class="hint_blue" style="font-weight: bold">hour</span> hand is <span class="hint_blue" style="font-weight: bold">blue</span> and the <span class="hint_orange" style="font-weight: bold">minute</span> hand is <span class="hint_orange" style="font-weight: bold">orange</span>.</p>
+                <p class="question">Set the clock to <var>TIME</var>.</p>
 
                 <div class="problem">
 
                     <div class="graphie" id="clock">
-                        init({ range: [ [-4, 4 ], [ -4, 4 ] ], scale: 45 });
+                        init({ range: [[-4, 4], [-4, 4]], scale: 45 });
 
                         var clockRadius = 3.75;
                         var minuteSnapPoints = 12;
@@ -42,12 +42,12 @@
                         minuteSnapDegrees = 360 / minuteSnapPoints;
                         hourSnapDegrees = 360 / hourSnapPoints;
 
-                        var clock = addAnalogClock( { radius: clockRadius, minuteTicks: hourSnapPoints } );
+                        var clock = addAnalogClock({ radius: clockRadius, minuteTicks: 60 });
                         clock.draw();
 
                         addMouseLayer();
 
-                        function movePartnerPoint( options ) {
+                        function movePartnerPoint(options) {
 
                             var x = options.x;
                             var y = options.y;
@@ -59,11 +59,11 @@
 
                             if (isOuterPoint) {
                                 ratio = 1 / ratio;
-                                point.setCoord( [ x * ratio , y * ratio ] );
-                                outerPoint.setCoord( [ x, y ] );
+                                point.setCoord([x * ratio , y * ratio]);
+                                outerPoint.setCoord([x, y]);
                             } else {
-                                point.setCoord( [ x, y ] );
-                                outerPoint.setCoord( [ x * ratio, y * ratio ] );
+                                point.setCoord([x, y]);
+                                outerPoint.setCoord([x * ratio, y * ratio]);
                             }
 
                             point.updateLineEnds();
@@ -75,12 +75,12 @@
                             constraints: {
                                 fixedDistance: {
                                     dist: minuteRadius,
-                                    point: [ 0, 0 ],
+                                    point: [0, 0],
                                     snapPoints: 12
                                 }
                             },
-                            onMove: function( x, y ) {
-                                return movePartnerPoint( { x: x, y: y, point: this, outerPoint: outerMinutePoint, isOuterPoint: false } );
+                            onMove: function(x, y) {
+                                return movePartnerPoint({ x: x, y: y, point: this, outerPoint: outerMinutePoint, isOuterPoint: false });
                             },
                             normalStyle: {
                                 fill: ORANGE,
@@ -93,16 +93,16 @@
                         });
 
                         outerMinutePoint = addMovablePoint({
-                            coord: polar( outerPointRadius, minuteStartAngle ),
+                            coord: polar(outerPointRadius, minuteStartAngle),
                             constraints: {
                                 fixedDistance: {
                                     dist: outerPointRadius,
-                                    point: [ 0, 0 ],
+                                    point: [0, 0],
                                     snapPoints: 12
                                 }
                             },
-                            onMove: function( x, y ) {
-                                return movePartnerPoint( { x: x, y: y, point: minutePoint, outerPoint: this, isOuterPoint: true } );
+                            onMove: function(x, y) {
+                                return movePartnerPoint({ x: x, y: y, point: minutePoint, outerPoint: this, isOuterPoint: true });
                             },
                             normalStyle: {
                                 fill: ORANGE,
@@ -115,16 +115,16 @@
                         });
 
                         hourPoint = addMovablePoint({
-                            coord: polar( hourRadius, hourStartAngle ),
+                            coord: polar(hourRadius, hourStartAngle),
                             constraints: {
                                 fixedDistance: {
                                     dist: hourRadius,
-                                    point: [ 0, 0 ],
+                                    point: [0, 0],
                                     snapPoints: hourSnapPoints
                                 }
                             },
-                            onMove: function( x, y ) {
-                                return movePartnerPoint( { x: x, y: y, point: this, outerPoint: outerHourPoint, isOuterPoint: false } );
+                            onMove: function(x, y) {
+                                return movePartnerPoint({ x: x, y: y, point: this, outerPoint: outerHourPoint, isOuterPoint: false });
                             },
                             normalStyle: {
                                 fill: BLUE,
@@ -137,16 +137,16 @@
                         });
 
                         outerHourPoint = addMovablePoint({
-                            coord: polar( outerPointRadius, hourStartAngle ),
+                            coord: polar(outerPointRadius, hourStartAngle),
                             constraints: {
                                 fixedDistance: {
                                     dist: outerPointRadius,
-                                    point: [ 0, 0 ],
+                                    point: [0, 0],
                                     snapPoints: hourSnapPoints
                                 }
                             },
-                            onMove: function( x, y ) {
-                                return movePartnerPoint( { x: x, y: y, point: hourPoint, outerPoint: this, isOuterPoint: true } );
+                            onMove: function(x, y) {
+                                return movePartnerPoint({ x: x, y: y, point: hourPoint, outerPoint: this, isOuterPoint: true });
                             },
                             normalStyle: {
                                 fill: BLUE,
@@ -160,7 +160,7 @@
 
                         minuteHand = addMovableLineSegment({
                             pointA: minutePoint,
-                            coordZ: [ 0, 0 ],
+                            coordZ: [0, 0],
                             fixed: true,
                             normalStyle: {
                                 stroke: ORANGE,
@@ -170,7 +170,7 @@
 
                         hourHand = addMovableLineSegment({
                             pointA: hourPoint,
-                            coordZ: [ 0, 0 ],
+                            coordZ: [0, 0],
                             fixed: true,
                             normalStyle: {
                                 stroke: BLUE,
@@ -179,7 +179,7 @@
                         });
 
                         centerPoint = addMovablePoint({
-                            coord: [ 0, 0 ],
+                            coord: [0, 0],
                             constraints: {
                                 fixed: true
                             },
@@ -190,11 +190,11 @@
                             }
                         });
 
-                        correctMinuteAngle = timeToDegrees( MINUTE );
-                        correctHourAngle = timeToDegrees( 5 * (HOUR + MINUTE/60) );
+                        correctMinuteAngle = timeToDegrees(MINUTE);
+                        correctHourAngle = timeToDegrees(5 * (HOUR + MINUTE / 60));
 
-                        correctMinuteAngle = roundToNearest( minuteSnapDegrees, correctMinuteAngle );
-                        correctHourAngle = roundToNearest( hourSnapDegrees, correctHourAngle );
+                        correctMinuteAngle = roundToNearest(minuteSnapDegrees, correctMinuteAngle);
+                        correctHourAngle = roundToNearest(hourSnapDegrees, correctHourAngle);
                     </div>
                 </div>
 
@@ -202,71 +202,123 @@
                     <div class="instruction">
                         Drag the two hands so the clock reads <var>HOUR</var>:<var>NICE_MINUTE</var>.
                     </div>
-                    <div class="guess">
-                        [ minutePoint.coord, hourPoint.coord ]
-                    </div>
+                    <div class="guess">[minutePoint.coord, hourPoint.coord]</div>
                     <div class="validator-function">
+                        var minuteAngle = cartToPolar(guess[0])[1];
+                        var hourAngle = cartToPolar(guess[1])[1];
 
-                        var minuteAngle = cartToPolar( guess[0] )[1];
-                        var hourAngle = cartToPolar( guess[1] )[1];
-
-                        minuteAngle = roundToNearest( minuteSnapDegrees, minuteAngle );
-                        hourAngle = roundToNearest( hourSnapDegrees, hourAngle );
+                        minuteAngle = roundToNearest(minuteSnapDegrees, minuteAngle);
+                        hourAngle = roundToNearest(hourSnapDegrees, hourAngle);
 
                         // if hands have not been moved, return `""`
-                        if ( minuteAngle === minuteStartAngle &amp;&amp; hourAngle === hourStartAngle) {
+                        if (minuteAngle === minuteStartAngle &amp;&amp; hourAngle === hourStartAngle) {
                             return "";
                         }
-
-                        return (minuteAngle === correctMinuteAngle) &amp;&amp; (hourAngle === correctHourAngle);
-
+                        if ((minuteAngle !== correctMinuteAngle) || (hourAngle !== correctHourAngle)) {
+                            if ((minuteAngle === correctHourAngle) &amp;&amp; (hourAngle === correctMinuteAngle)) {
+                                return "Remember the hour hand is the short hand and the minute hand is the long hand";
+                            }
+                            else if ((minuteAngle === correctMinuteAngle) &amp;&amp; (hourAngle !== correctHourAngle)
+                                    &amp;&amp; (hourAngle === roundToNearest(hourSnapDegrees, timeToDegrees(5 * HOUR)))) {
+                                return "Remember the hour hand needs to move over the course of the hour";
+                            }
+                            return false;
+                        }
+                        return true;
                     </div>
                     <div class="show-guess">
-                        minutePoint.moveTo( guess[0][0], guess[0][1], true );
-                        hourPoint.moveTo( guess[1][0], guess[1][1], true );
+                        minutePoint.moveTo(guess[0][0], guess[0][1], true);
+                        hourPoint.moveTo(guess[1][0], guess[1][1], true);
                     </div>
                 </div>
 
                 <div class="hints">
+                    <p>
+                        The <span class="hint_blue" style="font-weight: bold">hour</span> hand is the short
+                        <span class="hint_blue" style="font-weight: bold">blue</span> bar and the
+                        <span class="hint_orange" style="font-weight: bold">minute</span> hand is the long
+                        <span class="hint_orange" style="font-weight: bold">orange</span> bar.
+                    </p>
 
-                    <p>The number after the <code>\Large{:}</code> symbol represents the number of minutes past the hour. So    <code><var>TIME</var></code> represents <code><var>MINUTE</var></code> minutes past hour <code><var>HOUR</var></code>.</p>
+                    <p>
+                        The number after the <code>\Large{:}</code> symbol represents the number of minutes past
+                        the hour. So <code><var>TIME</var></code> represents <code><var>MINUTE</var></code>
+                        minutes past hour <code><var>HOUR</var></code>.
+                    </p>
 
-                    <p>First, let's set the <span class="hint_orange" style="font-weight: bold">minute</span> hand.</p>
+                    <p>
+                        First, let's set the <span class="hint_orange" style="font-weight: bold">minute</span> hand.
+                    </p>
 
                     <div>
-                        <p>Each long tick mark is an increment of 5 minutes, because 60 minutes / 12 tick marks = 5 minutes per tick mark.</p>
-                        <p>Since we are <code><var>MINUTE</var></code> minutes past the hour, <span data-if="MINUTE_IS_ZERO">the minute hand should be at the mark numbered <code class="hint_orange">12</code>, which is the first tick mark on the clock and represents <code>0</code> minutes past the hour</span><span data-else>and there are 5 minutes per tick mark, the minute hand should be at the mark numbered <code class="hint_orange"><var>fraction(MINUTE, 5)</var> = <var>MINUTE/5</var></code></span>.</p>
+                        <p>
+                            Each long tick mark is an increment of 5 minutes, because
+                            60 minutes / 12 tick marks = 5 minutes per tick mark.
+                        </p>
+                        <p>
+                            Since we are <code><var>MINUTE</var></code> minutes past the hour,
+                            <span data-if="MINUTE_IS_ZERO">
+                                the minute hand should be at the mark numbered
+                                <code class="hint_orange">12</code>, which is the first tick mark on the clock
+                                and represents <code>0</code> minutes past the hour
+                            </span><span data-else>
+                                and there are 5 minutes per tick mark, the minute hand should be at the mark numbered
+                                <code class="hint_orange"><var>fraction(MINUTE, 5)</var> = <var>MINUTE/5</var></code>
+                            </span>.
+                        </p>
                     </div>
 
-                    <p>Next, let's set the <span class="hint_blue" style="font-weight: bold">hour</span> hand.</p>
+                    <p>
+                        Next, let's set the <span class="hint_blue" style="font-weight: bold">hour</span> hand.
+                    </p>
 
                     <div>
                         <p>The 12 long tick marks correspond to the hours in the day (assuming AM/PM time).</p>
-                        <p>If it is <code>0</code> minutes, the hour hand belongs directly on the corresponding hour mark. However, for any other number of minutes, the hour hand should be proportionally past the hour mark.</p>
+                        <p>
+                            If it is <code>0</code> minutes past the hour, the hour hand belongs directly on the
+                            corresponding hour mark. But, over the hour, the hour hand must travel so it reaches
+                            the next hour by the time the hour changes.
+                        </p>
                     </div>
 
                     <div>
                         <p data-if="MINUTE_IS_ZERO">
-                            Since it's <code><var>HOUR</var></code> hour<code><var>plural(HOUR)</var></code> and <code>0</code> minutes, the hour hand should be right on the <code class="hint_blue"><var>HOUR</var></code> hour mark.
+                            Since it's <code>0</code> minutes past the hour, the hour hand should be right on the
+                            <code class="hint_blue"><var>HOUR</var></code> hour mark.
                         </p>
-                        <p data-else>
-                            Since it's <code><var>HOUR</var></code> hour<var>plural(HOUR)</var> and <code><var>MINUTE</var></code> minutes, the hour hand should be <code class="hint_blue"><var>fraction(MINUTE, 60)</var> = <var>fraction(MINUTE, 60, false, true)</var></code> of the way past the <code class="hint_blue"><var>HOUR</var></code> hour mark.
-                        </p>
+                        <div data-else data-unwrap>
+                            <p>
+                                Since it's <code><var>MINUTE</var></code> minutes past the hour, the hour hand will have
+                                traveled <code class="hint_blue"><var>fraction(MINUTE, 60)</var> =
+                                <var>fraction(MINUTE, 60, false, true)</var></code> of the way to the
+                                <code><span data-if="HOUR + 1 ===13">1</span><span data-else><var>HOUR + 1</var></span>
+                                </code> hour mark.
+                            </p>
+                            <p>
+                                So the hour hand needs to be placed
+                                <span data-if="MINUTE === 20">just before the second
+                                </span><span data-else-if="MINUTE === 40">just past the third
+                                </span><span data-else-if="MINUTE === 15">just past the first
+                                </span><span data-else-if="MINUTE === 30">between the second and third
+                                </span><span data-else>just before the fourth </span>
+                                small tick mark past the <code class="hint_blue"><var>HOUR</var></code> hour mark.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="graphie" data-update="clock">
                             var minuteRadius = minutePoint.constraints.fixedDistance.dist;
                             var hourRadius = hourPoint.constraints.fixedDistance.dist;
 
-                            var minuteCoord = polar( minuteRadius, correctMinuteAngle );
-                            var hourCoord = polar( hourRadius, correctHourAngle );
+                            var minuteCoord = polar(minuteRadius, correctMinuteAngle);
+                            var hourCoord = polar(hourRadius, correctHourAngle);
 
                             var dotOpacity = 0.4;
                             var handOpacity = 0.3;
 
                             addMovableLineSegment({
                                 coordA: minuteCoord,
-                                coordZ: [ 0, 0 ],
+                                coordZ: [0, 0],
                                 fixed: true,
                                 normalStyle: {
                                     stroke: ORANGE,
@@ -279,7 +331,7 @@
 
                             addMovableLineSegment({
                                 coordA: minuteCoord,
-                                coordZ: [ 0, 0 ],
+                                coordZ: [0, 0],
                                 fixed: true,
                                 normalStyle: {
                                     stroke: ORANGE,
@@ -291,7 +343,7 @@
 
                             addMovableLineSegment({
                                 coordA: hourCoord,
-                                coordZ: [ 0, 0 ],
+                                coordZ: [0, 0],
                                 fixed: true,
                                 normalStyle: {
                                     stroke: BLUE,
@@ -304,7 +356,7 @@
 
                             addMovableLineSegment({
                                 coordA: hourCoord,
-                                coordZ: [ 0, 0 ],
+                                coordZ: [0, 0],
                                 fixed: true,
                                 normalStyle: {
                                     stroke: BLUE,
@@ -317,7 +369,7 @@
                             // for some reason this doesn't work, so for now, create another center point
                             // centerPoint.toFront();
                             addMovablePoint({
-                                coord: [ 0, 0 ],
+                                coord: [0, 0],
                                 constraints: {
                                     fixed: true
                                 },
