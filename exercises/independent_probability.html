@@ -39,7 +39,7 @@
             </div>
 
             <p class="question">
-                What is the percent probability of <var>PLAYER</var> making ALL of his next
+                What is the probability of <var>PLAYER</var> making ALL of his next
                 <var>STREAK</var> free throw attempts?
             </p>
             <div class="problem">
@@ -54,12 +54,28 @@
                 <div id="player-stats" class="fancy-scrollbar">
                     <div data-each="freeThrows as PLAYER_STAT" class="fake_row">
                         <span><var>PLAYER_STAT[0]</var></span><span>
-                        <var>roundTo(1, PLAYER_STAT[1] * 100).toFixed(1)</var></span>
+                        <var>roundTo(1, PLAYER_STAT[1] * 100).toFixed(1)</var>%</span>
                     </div>
                 </div>
             </div>
 
-            <div class="solution" data-forms="percent"><var>SOLUTION</var></div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                </div>
+                <span id="prob"></span>
+                <div class="guess">$("#prob").val()</div>
+                <div class="validator-function">
+                    
+                </div>
+                <div class="show-guess">
+                    outputKnownProof();
+                </div>
+                <div class="example">
+                    
+                </div>
+            </div>
+
+            <!-- <div class="solution" data-forms="percent"><var>SOLUTION</var></div> -->
             <div class="hints">
                 <p>
                     By looking through the table, we know that the probability of
