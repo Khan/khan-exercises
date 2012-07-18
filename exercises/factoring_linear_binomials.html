@@ -54,42 +54,41 @@
                     <div class="example">a factored expression, like <b>5(x+2)</b></div>
                 </div>
                 <div class="hints">
-                    <div>
+                    <p>
                         To factor any polynomial you should first check to see if there are any common factors.
-                    </div>
-                    <div>
+                    </p>
+                    <p>
                         The factors of <code><var>A</var>x</code> are
                         <var>Ax_FACTORS</var> and the factors of
                         <code><var>B</var></code> are <var>B_FACTORS</var>.
-                    </div>
-                    <div>
+                    </p>
+                    <p>
                         The greatest common factor of <code><var>A</var>x</code>
                         and <code><var>B</var></code> is
                         <code><var>GCD</var></code>.
-                    </div>
+                    </p>
 
-                    <div>
-                        <div data-if="IS_IRREDUCIBLE">
-                            Since the greatest common factor is 1, the expression is already in its
-                            most factored form.
-                        </div><div data-else>
-                            We can factor out the <code><var>GCD</var></code> and put it before the parenthesis.
-                        </div>
-                    </div>
-                    <div class='final_answer'>
-                        <div data-if="IS_IRREDUCIBLE">
-                            Therefore the answer is the original expression,
-                            <code><var>SOLUTION</var></code>.
-                        </div>
-                        <div data-else>
-                            If we divide each of the terms in the original
-                            expression by <code><var>GCD</var></code> we get
-                            <code>\frac{<var>A</var>}{<var>GCD</var>} x = <var>plus((A/GCD) + "x")</var></code> and
-                            <code>\frac{<var>B</var>}{<var>GCD</var>} = <var>B/GCD</var></code>,
-                            so the final answer should be
-                            <code><var>SOLUTION</var></code>.
-                        </div>
-                    </div>
+                    <p data-if="IS_IRREDUCIBLE">
+                        Since the greatest common factor is 1, the expression is already in its
+                        most factored form.
+                    </p>
+                    <p data-if="IS_IRREDUCIBLE" class="final_answer">
+                        Therefore the answer is the original expression,
+                        <code><var>SOLUTION</var></code>.
+                    </p>
+
+                    <p data-if="!IS_IRREDUCIBLE">
+                        We can factor out the <code><var>GCD</var></code> and put it before the parenthesis.
+                    </p>
+                    <p>
+                        If we divide each of the terms in the original
+                        expression by <code><var>GCD</var></code> we get
+                        <code>\frac{<var>A</var>}{<var>GCD</var>} x = <var>plus((A/GCD) + "x")</var></code> and
+                        <code>\frac{<var>B</var>}{<var>GCD</var>} = <var>B/GCD</var></code>,
+                    </p>
+                    <p data-if="!IS_IRREDUCIBLE" class="final_answer">
+                        So the final answer should be <code><var>SOLUTION</var></code>.
+                    </p>
                 </div>
             </div>
         </div>
