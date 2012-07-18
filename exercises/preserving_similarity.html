@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Preserving similarity</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<!--
+    A very quick and dirty prototype exercise on "preserving similarity"
+    
+    * based on https://trello.com/card/2-preserving-similarity/4d87e664967a0775082939ab/350
+    * very much "not production quality"
+    * for now, triangles only
+    * for now, only two cases/transforms (of others mentioned on the Trello card):
+        * multiply all side lengths by constant (preserves similarity)
+        * add constant to all side lengths (removes similarity (expect special cases))
+    * uses an interactive slider to incrementally apply one of those transformations to
+      help visualize whether or not it preserves similarity
+    * there should probably be a label on the slider, and perhaps labels indicating the 
+      lengths of each side and the angle of each vertex.
+    * many of the triangles based on independent random points are too small or too skinny. 
+      I wonder if it would work better to generate three side lengths and construct the 
+      triangles from that. 
+    * note: adding a constant to the side lengths of an equilateral triangle DOES preserve 
+      similarity, and for nearly equilateral triangles the visual effect is subtle
+    * only the dot/knob of the slider is mouse-sensitive, maybe the whole "track" should be.
+    * parts of this ("mini 2d library", the slider) probably duplicate Khan library code...
+    * This should be a multiple problem exercise structure (instead of using CASE below) but
+      I found myself having to dispatch, inside javascript code, on which "problems type" is 
+      currently selected (see CASE below). Is there a way to do that? Or do I need to move 
+      the javascript code into a separate .js file and call it from each of the multiple 
+      problem types?
+-->
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="CASE">randRange(0, 1)</var>
+            <var id="ANSWER">(CASE==0) ? "True" : "False"</var>
+            <var id="QUESTION">(CASE==0) ? 
+                "Take any triangle (A), make a copy (B), then multiply the length of each "+
+                "side of B by the same number (k). Is A similar to B?" :
+                "Take any triangle (A), make a copy (B), then add a constant (k) to the "+
+                "length of each side of B. Is A similar to B?"
+            </var>
+            <var id="V0">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
+            <var id="V1">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
+            <var id="V2">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
+        </div>
+        <div class="problems">
+            <div id="scale_sides">
+                <div class="question"><var>QUESTION</var></div>
+                <div class="solution"><var>ANSWER</var></div>
+                <ul class="choices" data-category="true">
+                    <li>True</li>
+                    <li>False</li>
+                </ul>
+                <div class="hints">
+                    <p>Similar triangles are the same shape,
+                       but not necessarily the same size or orientation.</p>
+                    <p>As you move the slider, do the vertex angles seem to change?
+                       Corresponding angles of similar triangles are identical.</p>
+                    <p>As you move the slider, do the sides remain parallel?
+                       If so the triangles are probably similar.</p>
+                </div>
+                <div class="problem">
+                    <div>(Move the slider's orange dot to help visualize the result.)</div>
+                    <div class="graphie">
+                        init({ range: [ [ -1, 1 ], [ -1, 1 ] ], scale: 250 });
+                        addMouseLayer();
+                        var sliderHeight = 0.9;
+                        var adjust;
+                        var v0 = [<var>V0</var>]; <!-- should these be called a0,a1,a2 ? -->
+                        var v1 = [<var>V1</var>];
+                        var v2 = [<var>V2</var>];
+                        <!-- draw original triangle A -->
+                        style({stroke: "rgb(100,50,100)"});
+                        var triangleA = path([v0, v1, v2, v0]);
+                        <!-- draw slider track and tick mark -->
+                        style({stroke: "rgb(127,127,127)"});
+                        path([[-sliderHeight, sliderHeight], [sliderHeight, sliderHeight]]);
+                        path([[0, sliderHeight+0.04], [0, sliderHeight-0.04]]);
+                        path([[-sliderHeight, sliderHeight+0.04], [-sliderHeight, sliderHeight-0.04]]);
+                        path([[sliderHeight, sliderHeight+0.04], [sliderHeight, sliderHeight-0.04]]);
+                        <!-- mini 2d library -->
+                        var add2d = function (a, b) {return [a[0]+b[0], a[1]+b[1]];}
+                        var sub2d = function (a, b) {return [a[0]-b[0], a[1]-b[1]];}
+                        var scale2d = function (s, v) {return [s*v[0], s*v[1]];}
+                        var length2d = function (v) {return sqrt((v[0]*v[0]) + (v[1]*v[1]));}
+                        var interpolate = function (alpha, value0, value1) {
+                            return (value0 + (alpha * (value1 - value0)));
+                        }
+                        var interpolate2d = function (alpha, value0, value1) {
+                            return [interpolate(alpha, value0[0], value1[0]),
+                                    interpolate(alpha, value0[1], value1[1])];
+                        }
+                        <!-- shared variable -->
+                        var length0 = length2d(sub2d(v0,v1));
+                        var length1 = length2d(sub2d(v1,v2));
+                        var length2 = length2d(sub2d(v2,v0));
+                        var perimeter = length0 + length1 + length2;
+                        var center = scale2d(1.0/3.0, add2d(v0, add2d(v1, v2)));
+                        var triangleB = path([]);
+                        var drawTriangleB = function (b0, b1, b2) {
+                            style({stroke: "rgb(75,75,150)"});
+                            triangleB.remove();
+                            triangleB = path([b0, b1, b2, b0]);
+                        }
+                        <!-- draw animation of scaling side lengths -->
+                        var scaleTriangleSides = function (scale) {
+                            var b0 = interpolate2d (scale, center, v0);
+                            var b1 = interpolate2d (scale, center, v1);
+                            var b2 = interpolate2d (scale, center, v2);
+                            drawTriangleB(b0, b1, b2);
+                        }
+                        <!-- return new v0 which better approximates desired side lengths -->
+                        var addSideAdjustVertex = function (delta, v0, v1, v2, len0, len1, len2) {
+                            var side0 = sub2d(v0,v1);
+                            var side2 = sub2d(v0,v2);
+                            var currentLength0 = length2d(side0);
+                            var currentLength2 = length2d(side2);
+                            var error0 = (len0 + delta) - currentLength0;
+                            var error2 = (len2 + delta) - currentLength2;
+                            var desiredSide0 = scale2d(1.0 + error0, side0)
+                            var desiredSide2 = scale2d(1.0 + error2, side2)
+                            var dif0 = sub2d(desiredSide0, side0);
+                            var dif2 = sub2d(desiredSide2, side2);
+                            return add2d(v0, scale2d(0.25, add2d(dif0, dif2)));
+                        }
+                        <!-- draw animation of adding k to side lengths -->
+                        var addToTriangleSides = function (delta) {
+                            var b0 = v0, b1 = v1, b2 = v2;
+                            for (var i = 0; i &LT; 10; i++) {
+                                b0 = addSideAdjustVertex (delta, b0, b1, b2, length0, length1, length2);
+                                b1 = addSideAdjustVertex (delta, b1, b2, b0, length1, length2, length0);
+                                b2 = addSideAdjustVertex (delta, b2, b0, b1, length2, length0, length1);
+                            }
+                            drawTriangleB(b0, b1, b2);
+                        }
+                        <!-- draw slider "knob" as dot -->
+                        var sliderKnob = addMovablePoint({
+                            coord: [0, sliderHeight],
+                            onMove: function(x, y) {
+                                        var h = x;
+                                        if (x &GT; sliderHeight) h = sliderHeight;
+                                        if (x &LT; -sliderHeight) h = -sliderHeight;
+                                        adjust = (h+sliderHeight)/(2*sliderHeight);
+                                        sliderKnob.setCoord([h, sliderHeight]);
+                                        if (<var>CASE</var> == 0)
+                                            scaleTriangleSides(interpolate(adjust, 0.2, 1.8));
+                                        else
+                                            addToTriangleSides(interpolate(adjust, perimeter*-0.4, perimeter*0.4));
+                                        return false;
+                                    }
+                        });
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
