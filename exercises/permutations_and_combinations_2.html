@@ -109,12 +109,13 @@
 
             <div id="reindeer">
                 <div class="vars" data-ensure="PAIR[0] != PAIR[1]">
-                    <var id="NAMES">randFromArray([["Bloopin", "Gloopin", "Prancer", "Lancer", "Quentin"],["Balthazar", "Ezekiel", "Orrin", "Rudy"]])</var>
+                    <var id="NAMES">randFromArray([["Bloopin", "Gloopin", "Prancer", "Lancer", "Quentin"],["Balthazar", "Ezekiel", "Rudy", "Horace"]])</var>
                     <var id="FIGHTING">random() &gt; 0.5</var>
                     <var id="PAIR">randFromArray(NAMES, 2)</var>
                     <var id="ANSWER">FIGHTING ? factorial(NAMES.length) - factorial(NAMES.length-1)*2 : factorial(NAMES.length-1)*2</var>
                 </div>
-                <p>You need to put your reindeer, <var>NAMES.join(", ")</var>, in a single-file line to pull your sleigh. However,
+                <p>You need to put your reindeer, <var>_.map(NAMES, function(n){ return n === "Quentin" || n === "Horace" ? "and "+n : n; }).join(", ")</var>
+                    , in a single-file line to pull your sleigh. However,
                     <var>PAIR[0]</var> and <var>PAIR[1]</var> are <var>FIGHTING ? "fighting" : "best friends"</var>, so you have to
                     <var>FIGHTING ? "keep them apart" : "put them next to each other"</var>, or they won't fly.</p>
                 <p class="question">How many ways can you arrange your reindeer?</p>

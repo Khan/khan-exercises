@@ -49,7 +49,7 @@
                     <var id="ANSWER">factorial(NAMES.length)/factorial(NAMES.length-SLOTS)</var>
                 </div>
                 <p>
-                    You have <var>NAMES.length</var> reindeer, <var>NAMES.join(", ")</var>, and you want to have <var>SLOTS</var> fly your sleigh.
+                    You have <var>NAMES.length</var> reindeer, <var>_.map(NAMES, function(n){ return n === "Quentin" || n === "Horace" ? "and "+n : n; }).join(", ")</var>, and you want to have <var>SLOTS</var> fly your sleigh.
                     You always have your reindeer fly in a single-file line.
                 </p>
 
