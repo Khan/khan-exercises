@@ -2110,17 +2110,19 @@ var Khan = (function() {
                 $(this).val($(this).data("buttonText") || "I'd like another hint (" + stepsLeft + ")");
 
                 var problem = $(hint).parent();
-
-                // Append first so MathJax can sense the surrounding CSS context properly
-                $(hint).appendTo("#hintsarea").runModules(problem);
+								
+				// Append first so MathJax can sense the surrounding CSS context properly
+				$(hint).appendTo("#hintsarea").runModules(problem);
 
                 // Grow the scratchpad to cover the new hint
                 Khan.scratchpad.resize();
 
-                // Disable the get hint button
+                // Disable the get hint button & add final_answer class
                 if (hints.length === 0) {
-                    $(Khan).trigger("allHintsUsed");
+                    $(hint).addClass("final_answer");
 
+					$(Khan).trigger("allHintsUsed");
+					
                     $(this).attr("disabled", true);
                 }
             }
@@ -2174,7 +2176,7 @@ var Khan = (function() {
             e.preventDefault();
 
             $("#issue").hide(500);
-            $("#issue-title, #issue-email, #issue-body").val("");
+            $("#issue-title, #issue-body").val("");
 
         });
 
@@ -2189,7 +2191,6 @@ var Khan = (function() {
             var pretitle = exerciseName,
                 type = $("input[name=issue-type]:checked").prop("id"),
                 title = $("#issue-title").val(),
-                email = $("#issue-email").val(),
                 path = exerciseFile + "?seed=" +
                     problemSeed + "&problem=" + problemID,
                 pathlink = "[" + path + (exercise.data("name") != null && exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
@@ -2199,7 +2200,7 @@ var Khan = (function() {
                     ("loaded, " + (MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length)),
                 sessionStorageInfo = (typeof sessionStorage === "undefined" || typeof sessionStorage.getItem === "undefined" ? "sessionStorage NOT enabled" : null),
                 warningInfo = $("#warning-bar-content").text(),
-                parts = [email ? "Reporter: " + email : null, $("#issue-body").val() || null, pathlink, historyLink, "    " + JSON.stringify(guessLog), agent, sessionStorageInfo, mathjaxInfo, warningInfo],
+                parts = [$("#issue-body").val() || null, pathlink, historyLink, "    " + JSON.stringify(guessLog), agent, sessionStorageInfo, mathjaxInfo, warningInfo],
                 body = $.grep(parts, function(e) { return e != null; }).join("\n\n");
 
             var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {

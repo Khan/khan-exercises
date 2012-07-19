@@ -10,7 +10,7 @@ var { font-style: normal; }
 .hint_gray { color: gray; }
 .hint_purple{ color: purple; }
 
-.final_answer{ font-weight:bold; }
+.final_answer { font-weight: bold; }
 
 /* Override MathJax's behavior of always using font-weight: normal.
  * Instead, inherit the font-weight (which is bold for question/final_answer).
