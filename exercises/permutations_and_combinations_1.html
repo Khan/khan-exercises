@@ -11,7 +11,7 @@
             <div id="letters">
                 <div class="vars">
                     <var id="INDEX">randRange(0,4)</var>
-                    <var id="WORD">["CLAW", "OPAL", "APE", "RULES", "ANGER"][INDEX]</var>
+                    <var id="WORD">["CLAW", "OPAL", "APE", "RULES", "ANGER", "SLIME", "FEAT", "FANCY"][INDEX]</var>
                     <var id="PERM">shuffle(WORD).join("")</var>
                     <var id="ANSWER">factorial(WORD.length)</var>
                 </div>
@@ -44,16 +44,16 @@
 
             <div id="reindeer">
                 <div class="vars">
-                    <var id="NAMES">randFromArray([["Bloopin", "Gloopin", "Prancer", "Lancer", "Quentin"],["Balthazar", "Ezekiel", "Rudy", "Horace"]])</var>
+                    <var id="NAMES">randFromArray([["Bloopin", "Gloopin", "Prancer", "Lancer", "Quentin"],["Balthazar", "Ezekiel", "Jebediah", "Rudy"]])</var>
                     <var id="SLOTS">randRange(3, NAMES.length-1)</var>
                     <var id="ANSWER">factorial(NAMES.length)/factorial(NAMES.length-SLOTS)</var>
                 </div>
                 <p>
-                    You have <var>NAMES.length</var> reindeer, <var>_.map(NAMES, function(n){ return n === "Quentin" || n === "Horace" ? "and "+n : n; }).join(", ")</var>, and you want to have <var>SLOTS</var> fly your sleigh.
+                    You have <var>NAMES.length</var> reindeer, <var>_.map(NAMES, function(n){ return n === "Quentin" || n === "Rudy" ? "and "+n : n; }).join(", ")</var>, and you want to have <var>SLOTS</var> fly your sleigh.
                     You always have your reindeer fly in a single-file line.
                 </p>
 
-                <p class="question">How many ways can you arrange your reindeer?</p>
+                <p class="question">If you always fly them in a single-file line, how many different ways can you arrange your reindeer?</p>
                 <p class="solution" data-forms="integer"><var>ANSWER</var></p>
 
                 <div class="hints">

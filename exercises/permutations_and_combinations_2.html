@@ -53,12 +53,12 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="letters">
+            <div id="letters" data-weight="0.7">
                 <div class="vars">
                     <var id="INDEX">randRange(0,4)</var>
-                    <var id="WORD">["HATTER", "PRIOR", "BUMMED", "SASSY", "TISSUES"][INDEX]</var>
-                    <var id="REPLETTER">["T","R","M","S","S"][INDEX]</var>
-                    <var id="REPTIMES">[2,2,2,3,3][INDEX]</var>
+                    <var id="WORD">["HATTER", "PRIOR", "BUMMED", "SASSY", "TISSUES", "PLOP", "ERROR"][INDEX]</var>
+                    <var id="REPLETTER">["T","R","M","S","S","P","R"][INDEX]</var>
+                    <var id="REPTIMES">[2,2,2,3,3,2,3][INDEX]</var>
                     <var id="PERM">shuffle(WORD).join("")</var>
                     <var id="LET_COLS">["hint_pink", "hint_blue", "hint_orange"]</var>
                     <var id="PERM_UNIQUE">permUnique(PERM, REPLETTER, REPTIMES)</var>
@@ -107,14 +107,14 @@
                 </div>
             </div>
 
-            <div id="reindeer">
+            <div id="reindeer" data-weight="0.3">
                 <div class="vars" data-ensure="PAIR[0] != PAIR[1]">
-                    <var id="NAMES">randFromArray([["Bloopin", "Gloopin", "Prancer", "Lancer", "Quentin"],["Balthazar", "Ezekiel", "Rudy", "Horace"]])</var>
+                    <var id="NAMES">randFromArray([["Bloopin", "Gloopin", "Prancer", "Lancer", "Quentin"],["Balthazar", "Ezekiel", "Jebediah", "Rudy"]])</var>
                     <var id="FIGHTING">random() &gt; 0.5</var>
                     <var id="PAIR">randFromArray(NAMES, 2)</var>
                     <var id="ANSWER">FIGHTING ? factorial(NAMES.length) - factorial(NAMES.length-1)*2 : factorial(NAMES.length-1)*2</var>
                 </div>
-                <p>You need to put your reindeer, <var>_.map(NAMES, function(n){ return n === "Quentin" || n === "Horace" ? "and "+n : n; }).join(", ")</var>
+                <p>You need to put your reindeer, <var>_.map(NAMES, function(n){ return n === "Quentin" || n === "Rudy" ? "and "+n : n; }).join(", ")</var>
                     , in a single-file line to pull your sleigh. However,
                     <var>PAIR[0]</var> and <var>PAIR[1]</var> are <var>FIGHTING ? "fighting" : "best friends"</var>, so you have to
                     <var>FIGHTING ? "keep them apart" : "put them next to each other"</var>, or they won't fly.</p>
@@ -158,7 +158,7 @@
                             of arrangements, we get <var>ANSWER</var> arrangements of reindeer where they will fly.
                         </p>
                     </div>
-                    <div data-else>
+                    <div data-else data-unwrap>
                         <p>
                             We can count the number of arrangements where <var>PAIR[0]</var> and <var>PAIR[1]</var> are together by treating them as one double-reindeer. Now we can use the same idea as before to come up with <code><var>_.map(_.range(NAMES.length-1).reverse(), function(l){ return (++l) + "*";}).join("").substring(0, (NAMES.length-1)*2-1)</var> = <var>factorial(NAMES.length-1)</var></code> different arrangements. But that's not quite right.
                         </p>
