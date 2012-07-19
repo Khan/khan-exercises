@@ -5,16 +5,48 @@
     <title>Permutations and combinations 2</title>
     <script src="../khan-exercise.js"></script>
     <script>
-        var permUnique = function(word, repletter){
-            colors = [" \\pink", " \\blue", " \\orange"];
-            p = "<code>";
+        var permUnique = function(word, repletter, numperms){
+            if(numperms === 2){
+                colors1 = [" \\blue", " \\orange"];
+                colors2 = [" \\orange", " \\blue"];
 
-            _.each(word.split(""), function(l){
-                p += (l === repletter ? colors.pop() + "{" + l + "}" : l);
-                
-            });
+                p1 = "<code>";
+                _.each(word.split(""), function(l){
+                    p1 += (l === repletter ? colors1.pop() + "{" + l + "}" : l);  
+                });
+                p1 += "</code>";
 
-            return p + "</code>";
+                p2 = "<code>";
+                _.each(word.split(""), function(l){
+                    p2 += (l === repletter ? colors2.pop() + "{" + l + "}" : l);  
+                });
+                p2 += "</code>";
+                return [p1,p2];
+            }
+            else{
+                colorPerms = arrayPerms([" \\pink", " \\blue", " \\orange"]);
+                perms = [];
+                _.each(colorPerms, function(cp){
+                    p = "<code>";
+                    _.each(word.split(""), function(l){
+                        p += (l === repletter ? cp.pop() + "{" + l + "}" : l);      
+                    });
+                    p += "</code>";
+                    perms.push(p);
+                });
+                return perms;
+            }
+        }
+
+        var arrayPerms = function(arr){
+            perms = [];
+            perms.push(arr);
+            perms.push([arr[0],arr[2],arr[1]]);
+            perms.push([arr[1],arr[0],arr[2]]);
+            perms.push([arr[1],arr[2],arr[0]]);
+            perms.push([arr[2],arr[0],arr[1]]);
+            perms.push([arr[2],arr[1],arr[0]]);
+            return perms;
         }
     </script>
 </head>
@@ -24,13 +56,12 @@
             <div id="letters">
                 <div class="vars">
                     <var id="INDEX">randRange(0,4)</var>
-                    <var id="WORD">["HATTER", "STRANGER", "BUMMED", "SASSY", "MADNESS"][INDEX]</var>
+                    <var id="WORD">["HATTER", "PRIOR", "BUMMED", "SASSY", "TISSUES"][INDEX]</var>
                     <var id="REPLETTER">["T","R","M","S","S"][INDEX]</var>
-                    <var id="REPTIMES">[2,2,2,3,2][INDEX]</var>
+                    <var id="REPTIMES">[2,2,2,3,3][INDEX]</var>
                     <var id="PERM">shuffle(WORD).join("")</var>
                     <var id="LET_COLS">["hint_pink", "hint_blue", "hint_orange"]</var>
-                    <var id="PERM_UNIQUE">permUnique(PERM, REPLETTER)
-                    </var>
+                    <var id="PERM_UNIQUE">permUnique(PERM, REPLETTER, REPTIMES)</var>
                     <var id="ANSWER">factorial(WORD.length)/factorial(REPTIMES)</var>
                 </div>
                 <p class="question">How many unique ways are there to re-arrange the letters in the word <var>WORD</var>?</p>
@@ -54,18 +85,24 @@
                     </br></br>
                     </div>
                     <div>
-                        Using this method, the total number of unique arrangements is <code><var>_.map(_.range(WORD.length).reverse(), function(l){ return (++l) + "*";}).join("").substring(0, WORD.length*2-1)</var> = <var>ANSWER</var>.</code> Another way of writing this is <code><var>WORD.length</var>!</code>, 
+                        Using this method, the total number of unique arrangements is <code><var>_.map(_.range(WORD.length).reverse(), function(l){ return (++l) + "*";}).join("").substring(0, WORD.length*2-1)</var> = <var>factorial(WORD.length)</var>.</code> Another way of writing this is <code><var>WORD.length</var>!</code>, 
                         or <var>WORD.length</var> factorial, but this isn't quite the right answer.
+                    </br></br>
                     </div>
                     <div>
                         Using the above method, we assumed that all the letters were unique. But they're not! There are <var>REPTIMES</var>
-                        <var>REPLETTER</var>s, so we're counting every permutation multiple times. Instead of this:
+                        <var>REPLETTER</var>s, so we're counting every permutation multiple times. So every time we have these <var>factorial(REPTIMES)</var> permutations:
                             <p>
-                                <var>PERM_UNIQUE</var>
+                                <var>PERM_UNIQUE.join("&lt;/br&gt;")</var>
+                            </p>
+                        We actually should have only one permutation:
+                            <p>
+                                <code><var>PERM</var></code>
                             </p>
                     </div>
                     <div>
-                        We need to divide the number of permutations we got by the number of times we're overcounting each permutation.
+                        When we divide the number of permutations we got by the number of times we're overcounting each permutation, we get
+                        <code> \frac{<var>WORD.length</var>!}{<var>REPTIMES</var>!} = \frac{<var>factorial(WORD.length)</var>}{<var>factorial(REPTIMES)</var>} = <var>ANSWER</var></code>
                     </div>
                 </div>
             </div>
