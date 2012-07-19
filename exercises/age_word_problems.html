@@ -31,7 +31,8 @@
                 <p><var>person(2)</var> is <code><var>personVar(1)</var> - <var>A</var></code> years old right now, so <var>B</var> years ago, <var>he(2)</var> was <code>(<var>personVar(1)</var> - <var>A</var>) - <var>B</var> = <var>personVar(1)</var> - <var>A + B</var></code> years old.</p>
                 <p><var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>, so that means <code><var>personVar(1)</var> - <var>B</var> = <var>C</var> (<var>personVar(1)</var> - <var>A + B</var>)</code>.</p>
                 <p>Expand: <code><var>personVar(1)</var> - <var>B</var> = <var>C</var> <var>personVar(1)</var> - <var>C * (A + B)</var></code>.</p>
-                <p>Solve for <code><var>personVar(1)</var></code> to get <code><var>C - 1</var> <var>personVar(1)</var> = <var>C * (A + B) - B</var></code>; <code><var>personVar(1)</var> = <var>(C * (B + A) - B) / (C - 1)</var></code>.</p>
+                <p>Solve for <code><var>personVar(1)</var></code> to get <code><var>C - 1</var> <var>personVar(1)</var> = <var>C * (A + B) - B</var></code>.</p>
+				<p><code><var>personVar(1)</var> = <var>(C * (B + A) - B) / (C - 1)</var></code>.</p>
             </div>
         </div>
 
@@ -51,7 +52,8 @@
                 <p><var>Cardinal(B)</var> years ago, <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
                 <p><var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>, so that means <code><var>personVar(2)</var> + <var>A - B</var> = <var>C</var> (<var>personVar(2)</var> - <var>B</var>)</code>.</p>
                 <p>Expand: <code><var>personVar(2)</var> + <var>A - B</var> = <var>C</var> <var>personVar(2)</var> - <var>C * B</var></code>.</p>
-                <p>Solve for <code><var>personVar(2)</var></code> to get <code><var>C - 1</var> <var>personVar(2)</var> = <var>A - B + C * B</var></code>; <code><var>personVar(2)</var> = <var>(A - B + C * B) / (C - 1)</var></code>.</p>
+                <p>Solve for <code><var>personVar(2)</var></code> to get <code><var>C - 1</var> <var>personVar(2)</var> = <var>A - B + C * B</var></code>.</p>
+				<p><code><var>personVar(2)</var> = <var>(A - B + C * B) / (C - 1)</var></code>.</p>
             </div>
         </div>
 
@@ -76,7 +78,8 @@
                 <p><var>His(2)</var> age can also be written as <code><var>personVar(1)</var> - <var>A</var></code>.</p>
                 <p>Set the two expressions for <var>person(2)</var>'s age equal to each other: <code><var>personVar(1)</var> / <var>C</var> = <var>personVar(1)</var> - <var>A</var></code>.</p>
                 <p>Multiply both sides by <code><var>C</var></code> to get <code><var>personVar(1)</var> = <var>C</var> <var>personVar(1)</var> - <var>A * C</var></code>.</p>
-                <p>Solve for <code><var>personVar(1)</var></code> to get <code><var>C - 1</var> <var>personVar(1)</var> = <var>A * C</var></code>; <code><var>personVar(1)</var> = <var>A * C / (C - 1)</var></code>.</p>
+                <p>Solve for <code><var>personVar(1)</var></code> to get <code><var>C - 1</var> <var>personVar(1)</var> = <var>A * C</var></code>.</p>
+				<p><code><var>personVar(1)</var> = <var>A * C / (C - 1)</var></code>.</p>
             </div>
         </div>
 
@@ -95,7 +98,8 @@
                 <p>We know <var>person(1)</var> is <var>C</var> times as old as <var>person(2)</var>, so <var>person(1)</var>'s age can be written as <code><var>C</var> <var>personVar(2)</var></code>.</p>
                 <p><var>His(1)</var> age can also be written as <code><var>personVar(2)</var> + <var>A</var></code>.</p>
                 <p>Set the two expressions for <var>person(1)</var>'s age equal to each other: <code><var>C</var> <var>personVar(2)</var> = <var>personVar(2)</var> + <var>A</var></code>.</p>
-                <p>Solve for <code><var>personVar(2)</var></code> to get <code><var>C - 1</var> <var>personVar(2)</var> = <var>A</var></code>; <code><var>personVar(2)</var> = <var>A / (C - 1)</var></code>.</p>
+                <p>Solve for <code><var>personVar(2)</var></code> to get <code><var>C - 1</var> <var>personVar(2)</var> = <var>A</var></code>.</p>
+				<p><code><var>personVar(2)</var> = <var>A / (C - 1)</var></code>.</p>
             </div>
         </div>
 
@@ -119,7 +123,8 @@
                 <p><var>B</var> years ago, <var>person(1)</var> was <code><var>personVar(1)</var> - <var>B</var></code> years old and <var>person(2)</var> was <code><var>personVar(1)</var> / <var>A</var> - <var>B</var></code> years old.</p>
                 <p>At that time, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>, so we can write <code><var>personVar(1)</var> - <var>B</var> = <var>C</var> (<var>personVar(1)</var> / <var>A</var> - <var>B</var>)</code>.</p>
                 <p>Expand: <code><var>personVar(1)</var> - <var>B</var> = <var>fractionReduce(C, A)</var> <var>personVar(1)</var> - <var>C * B</var></code>.</p>
-                <p>Solve for <code><var>personVar(1)</var></code> to get <code><var>fractionReduce(C - A, A)</var> <var>personVar(1)</var> = <var>B * (C - 1)</var></code>; <code><var>personVar(1)</var> = <var>fractionReduce(A, C - A)</var> \cdot <var>B * (C - 1)</var> = <var>A * B * (C - 1) / (C - A)</var></code>.</p>
+                <p>Solve for <code><var>personVar(1)</var></code> to get <code><var>fractionReduce(C - A, A)</var> <var>personVar(1)</var> = <var>B * (C - 1)</var></code>.</p>
+				<p><code><var>personVar(1)</var> = <var>fractionReduce(A, C - A)</var> \cdot <var>B * (C - 1)</var> = <var>A * B * (C - 1) / (C - A)</var></code>.</p>
             </div>
         </div>
 
@@ -137,7 +142,8 @@
                 <p><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <code><var>A</var> <var>personVar(2)</var> - <var>B</var></code> years old and <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
                 <p>At that time, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>, so we can write <code><var>A</var> <var>personVar(2)</var> - <var>B</var> = <var>C</var> (<var>personVar(2)</var> - <var>B</var>)</code>.</p>
                 <p>Expand: <code><var>A</var> <var>personVar(2)</var> - <var>B</var> = <var>C</var> <var>personVar(2)</var> - <var>B * C</var></code>.</p>
-                <p>Solve for <code><var>personVar(2)</var></code> to get <code><var>C - A</var> <var>personVar(2)</var> = <var>B * (C - 1)</var></code>; <code><var>personVar(2)</var> = <var>B * (C - 1) / (C - A)</var></code>.</p>
+                <p>Solve for <code><var>personVar(2)</var></code> to get <code><var>C - A</var> <var>personVar(2)</var> = <var>B * (C - 1)</var></code>
+				<p><code><var>personVar(2)</var> = <var>B * (C - 1) / (C - A)</var></code>.</p>
             </div>
         </div>
 
@@ -159,7 +165,8 @@
                 <p>In <var>B</var> years, <var>he(1)</var> will be <code><var>personVar(1)</var> + <var>B</var></code> years old.</p>
                 <p>At that time, <var>he(1)</var> will also be <code><var>A</var> <var>personVar(1)</var></code> years old.</p>
                 <p>We write <code><var>personVar(1)</var> + <var>B</var> = <var>A</var> <var>personVar(1)</var></code>.</p>
-                <p>Solve for <code><var>personVar(1)</var></code> to get <code><var>A - 1</var> <var>personVar(1)</var> = <var>B</var></code>; <code><var>personVar(1)</var> = <var>B / (A - 1)</var></code>.</p>
+                <p>Solve for <code><var>personVar(1)</var></code> to get <code><var>A - 1</var> <var>personVar(1)</var> = <var>B</var></code></p>
+				<p><code><var>personVar(1)</var> = <var>B / (A - 1)</var></code>.</p>
             </div>
         </div>
 
@@ -183,7 +190,8 @@
                 <p>At that time, <var>person(1)</var> will be <var>C</var> times as old as <var>person(2)</var>.</p>
                 <p>We write <code><var>A</var> + y = <var>C</var> (<var>B</var> + y)</code>.</p>
                 <p>Expand to get <code><var>A</var> + y = <var>C * B</var> + <var>C</var> y</code>.</p>
-                <p>Solve for <code>y</code> to get <code><var>C - 1</var> y = <var>A - C * B</var></code>; <code>y = <var>(A - C * B) / (C - 1)</var></code>.</p>
+                <p>Solve for <code>y</code> to get <code><var>C - 1</var> y = <var>A - C * B</var></code></p>
+				<p><code>y = <var>(A - C * B) / (C - 1)</var></code>.</p>
             </div>
         </div>
     </div>
