@@ -2,8 +2,21 @@
 <html data-require="math math-format word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Permutations and combinations 1</title>
+    <title>Permutations and combinations 2</title>
     <script src="../khan-exercise.js"></script>
+    <script>
+        var permUnique = function(word, repletter){
+            colors = [" \\pink", " \\blue", " \\orange"];
+            p = "<code>";
+
+            _.each(word.split(""), function(l){
+                p += (l === repletter ? colors.pop() + "{" + l + "}" : l);
+                
+            });
+
+            return p + "</code>";
+        }
+    </script>
 </head>
 <body>
     <div class="exercise">
@@ -15,7 +28,10 @@
                     <var id="REPLETTER">["T","R","M","S","S"][INDEX]</var>
                     <var id="REPTIMES">[2,2,2,3,2][INDEX]</var>
                     <var id="PERM">shuffle(WORD).join("")</var>
-                    <var id="ANSWER">factorial(WORD.length)</var>
+                    <var id="LET_COLS">["hint_pink", "hint_blue", "hint_orange"]</var>
+                    <var id="PERM_UNIQUE">permUnique(PERM, REPLETTER)
+                    </var>
+                    <var id="ANSWER">factorial(WORD.length)/factorial(REPTIMES)</var>
                 </div>
                 <p class="question">How many unique ways are there to re-arrange the letters in the word <var>WORD</var>?</p>
                 <p class="solution" data-forms="integer"><var>ANSWER</var></p>
@@ -42,7 +58,14 @@
                         or <var>WORD.length</var> factorial, but this isn't quite the right answer.
                     </div>
                     <div>
-                        Using the above method, we assumed that all the letters were unique. But they're not! There are <var>REPTIMES</var> 
+                        Using the above method, we assumed that all the letters were unique. But they're not! There are <var>REPTIMES</var>
+                        <var>REPLETTER</var>s, so we're counting every permutation multiple times. Instead of this:
+                            <p>
+                                <var>PERM_UNIQUE</var>
+                            </p>
+                    </div>
+                    <div>
+                        We need to divide the number of permutations we got by the number of times we're overcounting each permutation.
                     </div>
                 </div>
             </div>
