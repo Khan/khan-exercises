@@ -53,11 +53,11 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="letters" data-weight="0.7">
+            <div id="letters" data-weight="0.4">
                 <div class="vars">
                     <var id="INDEX">randRange(0,4)</var>
-                    <var id="WORD">["HATTER", "PRIOR", "BUMMED", "SASSY", "TISSUES", "PLOP", "ERROR"][INDEX]</var>
-                    <var id="REPLETTER">["T","R","M","S","S","P","R"][INDEX]</var>
+                    <var id="WORD">["HATTER", "PRIOR", "BUMMED", "SASSY", "CANNON", "PLOP", "ERROR"][INDEX]</var>
+                    <var id="REPLETTER">["T","R","M","S","N","P","R"][INDEX]</var>
                     <var id="REPTIMES">[2,2,2,3,3,2,3][INDEX]</var>
                     <var id="PERM">shuffle(WORD).join("")</var>
                     <var id="LET_COLS">["hint_pink", "hint_blue", "hint_orange"]</var>
@@ -107,7 +107,7 @@
                 </div>
             </div>
 
-            <div id="reindeer" data-weight="0.3">
+            <div id="reindeer" data-weight="0.2">
                 <div class="vars" data-ensure="PAIR[0] != PAIR[1]">
                     <var id="NAMES">randFromArray([["Bloopin", "Gloopin", "Prancer", "Lancer", "Quentin"],["Balthazar", "Ezekiel", "Jebediah", "Rudy"]])</var>
                     <var id="FIGHTING">random() &gt; 0.5</var>
@@ -168,6 +168,51 @@
                             and <var>PAIR[1]</var> together is <code><var>factorial(NAMES.length-1)</var>*2 = <var>factorial(NAMES.length-1)*2</var></code>
                         </p>
                     </div>
+                </div>
+            </div>
+            <div id="combination" data-weight="0.4">
+                <div class="vars">
+                    <var id="FRIENDS">randRange(5,6)</var>
+                    <var id="SLOTS">randRange(2,FRIENDS-2)</var>
+                    <var id="ANSWER">factorial(FRIENDS)/(factorial(FRIENDS-SLOTS)*factorial(SLOTS))</var>
+                    <var id="NAMES">["Sal","Andy","Ethel","Zaphod","Sidney"]</var>
+                </div>
+                <p>
+                    You just got a free ticket for a boat ride, and you can bring along <var>SLOTS</var> friends! Unfortunately, you have <var>FRIENDS</var>
+                    friends who want to come along... 
+                </p>
+                <p class="question">How many different groups of friends could you take with you?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+
+                <div class="hints">
+                    <p>
+                        There are <var>SLOTS</var> places for your friends on the boat, so let's fill those slots one by one. For the first slot, we
+                        have <var>FRIENDS</var> different choices we can make (because <var>FRIENDS</var> different friends could be in that slot).
+                    </p>
+                    <p>
+                        Once we've filled the first slot, there are <var>FRIENDS-1</var> friends who could fill the second. So far, if we've filled
+                        the first two slots, and it seems like there are <code><var>FRIENDS</var>*<var>FRIENDS-1</var> = <var>FRIENDS * (FRIENDS-1)</var>
+                        </code> different choices we could have made. But that's not quite true.
+                    </p>
+                    <p>
+                        Why? Because if we picked Andy, then Sal, that's the same thing as picking Sal, then Andy. They both get to be on the same boat.
+                    </p>
+                    <p>
+                        So, if we continue filling the slots on our boat, making <code><var>_.map(_.range(SLOTS), function(l){ return (FRIENDS - l) + "*";}).join("").substring(0, SLOTS*2-1)</var> = \frac{<var>FRIENDS</var>!}{<var>FRIENDS-SLOTS</var>!} = <var> factorial(FRIENDS)/factorial(FRIENDS-SLOTS)</var></code> decisions altogether, we've overcounted a bunch of groups.
+                    </p>
+                    <p>
+                        How much have we overcounted? Well, for every group of <var>SLOTS</var>, we've counted them as if the order we chose them in 
+                        matters, when really it doesn't. How many ways are there to order <var>SLOTS</var> things?
+                    </p>
+                    <p>
+                        There are <code><var>SLOTS</var>! = <var>factorial(SLOTS)</var></code> ways of ordering <var>SLOTS</var> things, so we've counted
+                        each group of <var>SLOTS</var> friends <var>factorial(SLOTS)</var> times.
+                    </p>
+                    <p>
+                        So, we have to divide the number of ways we could have filled the boat in order by number of times we've overcounted our groups:
+                        </br>
+                        <code> \frac{<var>FRIENDS</var>!}{<var>FRIENDS-SLOTS</var>!} * \frac{1}{<var>SLOTS</var>!} = <var>ANSWER</var></code> is the number of groups we can bring on the boat trip.
+                    </p>
                 </div>
             </div>
         </div>
