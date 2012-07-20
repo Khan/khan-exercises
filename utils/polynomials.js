@@ -301,7 +301,7 @@ $.extend(KhanUtil, {
 
     },
 
-    //Generates random coefficients with at most maxTerms non-zero terms
+    // Generates random coefficients with at most maxTerms non-zero terms
     randCoefs: function randCoefs(minDegree, maxDegree, maxTerms) {
         var coefs = [];
         var allZero = true;
