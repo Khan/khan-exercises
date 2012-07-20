@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Plotting the line of best fit</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        .graphie.float {
+            float: left;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div id="linear">
+            <div class="vars">
+                <var id="SLOPE">randRange(-80, 80) / 20</var>
+                <var id="INTERCEPT">randRange(-5, 5)</var>
+                <var id="FUNC">function(x) { return SLOPE * x + INTERCEPT }</var>
+                <var id="TOP">((SLOPE &lt; 0 ? -1 : 1) * 11 - INTERCEPT) / SLOPE</var>
+                <var id="BOTTOM">((SLOPE &lt; 0 ? 1 : -1) * 11 - INTERCEPT) / SLOPE</var>
+                <var id="BOUND">function(x, low, high) {
+                    return (x &lt; low) ? low : (x &gt; high) ? high : x;
+                }</var>
+                <var id="OFFSET">random() + 0.5</var>
+                <var id="LEFT">(BOTTOM &lt; -11) ? -11 : BOTTOM</var>
+                <var id="RIGHT">(TOP &gt; 11) ? 11 : TOP</var>
+                <var id="XS">sortNumbers((function() {
+                    var range = (RIGHT - LEFT) / 20;
+
+                    return _.map(shuffle(_.range(-8, 9), 9), function(x) {
+                        return x * range;
+                    });
+                })())</var>
+                <var id="UNIQARRAYS">function(a) {
+                    // make sure the points are unique in a
+                    for (var i = 0; i &lt; a.length; ++i) {
+                        for (var j = i + 1; j &lt; a.length; ++j) {
+                            if (_.isEqual(a[i], a[j])) {
+                                a.splice(j, 1);
+                                --j;
+                            }
+                        }
+                    }
+                    return a;
+                }</var>
+                <var id="RANDRANGE">function(low, high) {
+                    return random() * (high - low) + low;
+                }</var>
+                <var id="ANG">atan2(SLOPE, 1) + PI / 2</var>
+                <var id="PERP">[cos(ANG), sin(ANG)]</var>
+                <var id="TOTALOFFSET">[]</var>
+                <var id="POINTS">UNIQARRAYS(_.map(XS, function(x, index) {
+                    // calculate the sum of the offsets so far
+                    var total = _.reduce(TOTALOFFSET, function(sum, num) {
+                        return sum + num;
+                    }, 0);
+
+                    var offset;
+                    if (index &lt; 2 || index &gt; 6) {
+                        // make sure the first two and last
+                        // two points are on the same side
+                        offset = RANDRANGE(OFFSET/2, OFFSET);
+                    } else if (total &lt; 0) {
+                        // if the offset is negative, choose less
+                        // negative numbers
+                        offset = RANDRANGE(-OFFSET - total, OFFSET);
+                    } else {
+                        // if it is positive, choose less
+                        //positive numbers
+                        offset = RANDRANGE(-OFFSET, OFFSET - total);
+                    }
+
+                    // store this offset
+                    TOTALOFFSET.push(offset);
+
+                    // calculate the rounded point created by this offset
+                    return [BOUND(round(x + PERP[0] * offset), -9, 9),
+                            BOUND(round(FUNC(x) + PERP[1] * offset), -9, 9)];
+                    }))</var>
+                <var id="REALSLOPE,REALINTERCEPT">(function() {
+                    // calculate the linear square regression
+                    // line for our points
+                    var xAve = _.reduce(POINTS, function(sum, pt) {
+                        return sum + pt[0];
+                    }, 0) / POINTS.length;
+
+                    var yAve = _.reduce(POINTS, function(sum, pt) {
+                        return sum + pt[1];
+                    }, 0) / POINTS.length;
+
+                    var xi2 = _.reduce(POINTS, function(sum, pt) {
+                        return sum + pow(pt[0], 2);
+                    }, 0);
+
+                    var xiyi = _.reduce(POINTS, function(sum, pt) {
+                        return sum + pt[0] * pt[1];
+                    }, 0);
+
+                    var realIntercept = (yAve * xi2 - xAve * xiyi) /
+                        (xi2 - POINTS.length * pow(xAve, 2));
+                    var realSlope = (xiyi - POINTS.length * xAve * yAve) /
+                        (xi2 - POINTS.length * pow(xAve, 2));
+
+                    return [realSlope, realIntercept];
+                })()</var>
+                <var id="GRAPH">{}</var>
+            </div>
+
+            <p class="question">Find the line of best fit,
+                or mark that there is no linear correlation.</p>
+            <div class="problem">
+                <div class="graphie">
+                    graphInit({
+                        range: 11,
+                        scale: 20,
+                        axisArrows: "&lt;-&gt;",
+                        tickStep: 1,
+                        labelStep: 1,
+                        gridOpacity: 0.05,
+                        axisOpacity: 0.2,
+                        tickOpacity: 0.4,
+                        labelOpacity: 0.5
+                    });
+                    addMouseLayer();
+
+                    // add the points
+                    _.each(POINTS, function(pt) {
+                        circle(pt, 0.2, { fill: "black" });
+                    });
+
+                    // add our movable line
+                    graph.pointA = addMovablePoint({
+                        coord: [-5, 5],
+                        snapX: 0.5,
+                        snapY: 0.5,
+                        normalStyle: {
+                            stroke: KhanUtil.BLUE,
+                            fill: KhanUtil.BLUE
+                        }
+                    });
+                    graph.pointB = addMovablePoint({
+                        coord: [5, 5],
+                        snapX: 0.5,
+                        snapY: 0.5,
+                        normalStyle: {
+                            stroke: KhanUtil.BLUE,
+                            fill: KhanUtil.BLUE
+                        }
+                    });
+                    graph.line1 = addMovableLineSegment({
+                        pointA: graph.pointA,
+                        pointZ: graph.pointB,
+                        fixed: true,
+                        extendLine: true
+                    });
+
+                    // A and B can't be in the same place
+                    graph.pointA.onMove = function(x, y) {
+                        return (x != graph.pointB.coord[0] ||
+                            y != graph.pointB.coord[1]);
+                    };
+                    graph.pointB.onMove = function(x, y) {
+                        return (x != graph.pointA.coord[0] ||
+                            y != graph.pointA.coord[1]);
+                    };
+
+                    graph.pointA.toFront();
+                    graph.pointB.toFront();
+
+                    var shown = false;
+
+                    graph.showLine = function() {
+                        graph.pointA.visibleShape.show();
+                        graph.pointA.mouseTarget.show();
+                        graph.pointB.visibleShape.show();
+                        graph.pointB.mouseTarget.show();
+                        graph.line1.visibleLine.show();
+                    };
+
+                    graph.hideLine = function() {
+                        graph.pointA.visibleShape.hide();
+                        graph.pointA.mouseTarget.hide();
+                        graph.pointB.visibleShape.hide();
+                        graph.pointB.mouseTarget.hide();
+                        graph.line1.visibleLine.hide();
+                    };
+
+                    // show the true least square regression line
+                    graph.showSolution = function() {
+                        if (shown) {
+                            return;
+                        } else {
+                            shown = true;
+                        }
+                        var roundToHalf = function(x) {
+                            return round(x * 2) / 2;
+                        };
+
+                        var realFunc = function(x) {
+                            return REALSLOPE * x + REALINTERCEPT;
+                        };
+
+                        $("html, body").animate({
+                            scrollTop: $(".question").offset().top
+                        }, {
+                            duration: 500,
+                            easing: "swing",
+                            complete: function() {
+                                line([-11, realFunc(-11)],
+                                     [11, realFunc(11)],
+                                     { stroke: ORANGE, opacity: 0 })
+                                    .animate({ opacity: 1 }, 750);
+                            }
+                        });
+                    };
+
+                    GRAPH = graph;
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Move the line on the graph to show a best fit line,
+                    if it exists.<br>
+                    <ul>
+                        <li>
+                            <label>
+                                <input type="radio" name="linear" id="exists"
+                                    onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()"
+                                    checked>
+                                <span>A good best fit line exists</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="radio" name="linear" id="notexists"
+                                    onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()">
+                                <span>No good best fit line exists</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="guess">[
+                    GRAPH.pointA.coord, GRAPH.pointB.coord,
+                    $("input[@name='linear']:checked").attr("id")
+                ]</div>
+                <div class="validator-function">
+                    if (_.isEqual(guess, [[-5, 5], [5, 5], "exists"])) {
+                        return "";
+                    }
+
+                    var low = _.first(POINTS), high = _.last(POINTS);
+
+                    var slopeadd = 1 / REALSLOPE + REALSLOPE;
+
+                    lowx = (1 / REALSLOPE * low[0] + low[1] - REALINTERCEPT) /
+                        slopeadd;
+                    highx = (1 / REALSLOPE * high[0] + high[1] - REALINTERCEPT) /
+                        slopeadd;
+
+                    var lowfunc = function(x) {
+                        return -1 / REALSLOPE * (x - low[0]) + low[1];
+                    };
+
+                    var highfunc = function(x) {
+                        return -1 / REALSLOPE * (x - high[0]) + high[1];
+                    };
+
+                    var slope = (guess[1][1] - guess[0][1]) /
+                                (guess[1][0] - guess[0][0]);
+                    var intercept = slope * -guess[0][0] + guess[0][1];
+
+                    lowIntersectx = (1 / REALSLOPE * low[0] +
+                                        low[1] - intercept) /
+                                    (slope + 1 / REALSLOPE);
+                    highIntersectx = (1 / REALSLOPE * high[0] +
+                                         high[1] - intercept) /
+                                     (slope + 1 / REALSLOPE);
+
+                    // the differences between the least squares line and the
+                    // given line, at the highest and lowest points
+                    var lowDiff = sqrt(pow(lowfunc(lowx) -
+                                           lowfunc(lowIntersectx), 2) +
+                                       pow(lowx - lowIntersectx, 2));
+                    var highDiff = sqrt(pow(highfunc(highx) -
+                                            highfunc(highIntersectx), 2) +
+                                        pow(highx - highIntersectx, 2));
+
+                    // whether or not each of the points are above or below
+                    // the given line
+                    var updown = _.map(POINTS, function(pt) {
+                        var x = pt[0], y = pt[1],
+                            est = slope * x + intercept;
+                        return y &gt;= est ? 1 : -1;
+                    });
+
+                    // sort and reverse-sort updown
+                    var updownSorted = sortNumbers(updown);
+                    var updownReversed = updownSorted.slice(0).reverse();
+
+                    var normLength = pow((guess[1][0] - guess[0][0]), 2) +
+                        pow((guess[1][1] - guess[0][1]), 2);
+                    // calculate the distance from a point to the line
+                    var distTo = function(pt) {
+                        return abs((pt[0] - guess[0][0]) * (guess[1][1] - guess[0][1]) -
+                                   (pt[1] - guess[0][1]) * (guess[1][0] - guess[0][0])) / normLength;
+                    };
+
+                    // ensure:
+                    // all the points are not up, ..., up, down, ..., down
+                    return !_.isEqual(updown, updownSorted) &amp;&amp;
+                        // all the points are not down, ..., down, up, ..., up
+                        !_.isEqual(updown, updownReversed) &amp;&amp;
+                        // one point is above/below
+                        _.include(updown, 1) &amp;&amp;
+                        _.include(updown, -1) &amp;&amp;
+                        // the differences are between some proportion
+                        // of the offset
+                        lowDiff &lt; 1.3 * OFFSET &amp;&amp;
+                        highDiff &lt; 1.3 * OFFSET &amp;&amp;
+                        // they left 'a line exists' checked
+                        guess[2] === "exists";
+                </div>
+                <div class="show-guess">
+                    GRAPH.pointA.setCoord(guess[0]);
+                    GRAPH.pointB.setCoord(guess[1]);
+
+                    GRAPH.line1.transform(true);
+                </div>
+                <div class="show-guess-solutionarea">
+                    $("#"+guess[2]).attr('checked', 'checked');
+                </div>
+            </div>
+
+            <div class="hints">
+                <p>The line of best fit is the line that best approximates
+                    the data points.</p>
+                <div>
+                    <p>There are three main criteria to use when finding a good
+                        best fit line.</p>
+                    <p>First, make sure that your line passes through the points,
+                        and does not lie completely above or below the points.</p>
+                    <div class="clearfix">
+                        <div class="graphie float">
+                            init({ range: [[-5, 5], [-5, 5]], scale: [20, 20] });
+
+                            circle([-2, -3], 0.2, { fill: "black" });
+                            circle([ 0, -1], 0.2, { fill: "black" });
+                            circle([-1,  1], 0.2, { fill: "black" });
+                            circle([ 1,  1], 0.2, { fill: "black" });
+                            circle([ 0,  2], 0.2, { fill: "black" });
+
+                            line([-5, -4], [5, -3], { stroke: BLUE });
+
+                            label([0, 4], "Bad", "center", false)
+                                .css("color", "red")
+                                .css("font-size", "20px");
+                        </div>
+                        <div class="graphie float">
+                            init({ range: [[-5, 5], [-5, 5]], scale: [20, 20] });
+
+                            circle([-2, -3], 0.2, { fill: "black" });
+                            circle([ 0, -1], 0.2, { fill: "black" });
+                            circle([-1,  1], 0.2, { fill: "black" });
+                            circle([ 1,  1], 0.2, { fill: "black" });
+                            circle([ 0,  2], 0.2, { fill: "black" });
+
+                            line([-5, -2.5], [5, -1.5], { stroke: BLUE });
+
+                            label([0, 4], "Okay", "center", false)
+                                .css("color", "orange")
+                                .css("font-size", "20px");
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p>Next, make sure that your line alternates between
+                        passing above and then below points, and doesn't simply
+                        go above some points and then below the rest.</p>
+                    <div class="clearfix">
+                        <div class="graphie float">
+                            init({ range: [[-5, 5], [-5, 5]], scale: [20, 20] });
+
+                            circle([-2, -3], 0.2, { fill: "black" });
+                            circle([ 0, -1], 0.2, { fill: "black" });
+                            circle([-1,  1], 0.2, { fill: "black" });
+                            circle([ 1,  1], 0.2, { fill: "black" });
+                            circle([ 0,  2], 0.2, { fill: "black" });
+
+                            line([-5, -2.5], [5, -1.5], { stroke: BLUE });
+
+                            label([0, 4], "Okay", "center", false)
+                                .css("color", "orange")
+                                .css("font-size", "20px");
+                        </div>
+                        <div class="graphie float">
+                            init({ range: [[-5, 5], [-5, 5]], scale: [20, 20] });
+
+                            circle([-2, -3], 0.2, { fill: "black" });
+                            circle([ 0, -1], 0.2, { fill: "black" });
+                            circle([-1,  1], 0.2, { fill: "black" });
+                            circle([ 1,  1], 0.2, { fill: "black" });
+                            circle([ 0,  2], 0.2, { fill: "black" });
+
+                            line([-5, -3.5], [3, 5], { stroke: BLUE });
+
+                            label([0, 4], "Better", "center", false)
+                                .css("color", "#8EEB00")
+                                .css("font-size", "20px");
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p>Last, make sure that the line goes through the middle
+                        of all the points, so that it is close to all of
+                        the points.</p>
+                    <div class="clearfix">
+                        <div class="graphie float">
+                            init({ range: [[-5, 5], [-5, 5]], scale: [20, 20] });
+
+                            circle([-2, -3], 0.2, { fill: "black" });
+                            circle([ 0, -1], 0.2, { fill: "black" });
+                            circle([-1,  1], 0.2, { fill: "black" });
+                            circle([ 1,  1], 0.2, { fill: "black" });
+                            circle([ 0,  2], 0.2, { fill: "black" });
+
+                            line([-5, -3.5], [3, 5], { stroke: BLUE });
+
+                            label([0, 4], "Better", "center", false)
+                                .css("color", "#9FEE00")
+                                .css("font-size", "20px");
+                        </div>
+                        <div class="graphie float">
+                            init({ range: [[-5, 5], [-5, 5]], scale: [20, 20] });
+
+                            circle([-2, -3], 0.2, { fill: "black" });
+                            circle([ 0, -1], 0.2, { fill: "black" });
+                            circle([-1,  1], 0.2, { fill: "black" });
+                            circle([ 1,  1], 0.2, { fill: "black" });
+                            circle([ 0,  2], 0.2, { fill: "black" });
+
+                            line([-4, -5], [3, 5], { stroke: BLUE });
+
+                            label([0, 4], "Good", "center", false)
+                                .css("color", "#00C322")
+                                .css("font-size", "20px");
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    There are several lines that satisfy this.
+                    <input type="submit" value="Click here"
+                        onclick="javascript:KhanUtil.tmpl
+                            .getVAR('GRAPH').showSolution()"/>
+                    to show one of them.
+                </p>
+            </div>
+        </div>
+        <div id="nonlinear" data-type="linear">
+            <div class="vars">
+                <var id="SLOPE">0</var>
+                <var id="INTERCEPT">0</var>
+                <var id="OFFSET">11</var>
+                <var id="GRAPH">{}</var>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Move the line on the graph to show a best fit line,
+                    if it exists.<br>
+                    <ul>
+                        <li>
+                            <label>
+                                <input type="radio" name="nonlinear" id="exists"
+                                    onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()"
+                                    checked>
+                                <span>A good best fit line exists</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="radio" name="nonlinear" id="notexists"
+                                    onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()">
+                                <span>No good best fit line exists</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="guess">[
+                    GRAPH.pointA.coord, GRAPH.pointB.coord,
+                    $("input[@name='linear']:checked").attr("id")
+                ]</div>
+                <div class="validator-function">
+                    if (_.isEqual(guess, [[-5, 5], [5, 5], "exists"])) {
+                        return "";
+                    }
+
+                    return guess[2] === "notexists";
+                </div>
+                <div class="show-guess">
+                    GRAPH.pointA.setCoord(guess[0]);
+                    GRAPH.pointB.setCoord(guess[1]);
+
+                    GRAPH.line1.transform(true);
+                </div>
+                <div class="show-guess-solutionarea">
+                    $("#"+guess[2]).attr('checked', 'checked');
+                </div>
+            </div>
+
+            <div class="hints">
+                <p>Look at the data, and try to figure out if there is
+                    a linear relationship.</p>
+                <p>Because these data are mostly random, there is no
+                    correlation, so no good best fit line exists.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
