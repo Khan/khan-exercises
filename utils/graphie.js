@@ -255,8 +255,6 @@
                     "above left": [-1.0, -1.0]
                 };
 
-                var scaled = scalePoint(point);
-
                 latex = (typeof latex === "undefined") || latex;
 
                 var span;
@@ -268,13 +266,22 @@
                     span = $("<span>").html(text);
                 }
 
-                var pad = currentStyle["label-distance"];
-                span.css($.extend({}, currentStyle, {
-                    position: "absolute",
-                    left: scaled[0],
-                    top: scaled[1],
-                    padding: (pad != null ? pad : 7) + "px"
-                })).appendTo(el);
+                // function to reposition the label
+                span.setPosition = function(pt) {
+                    var scaled = scalePoint(pt);
+
+                    var pad = currentStyle["label-distance"];
+                    this.css($.extend({}, currentStyle, {
+                        position: "absolute",
+                        left: scaled[0],
+                        top: scaled[1],
+                        padding: (pad != null ? pad : 7) + "px"
+                    }));
+
+                    return this;
+                };
+
+                span.setPosition(point).appendTo(el);
 
                 if (typeof MathJax !== "undefined" && $.trim(text + "") !== "") {
                     // Add to the MathJax queue

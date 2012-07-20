@@ -304,7 +304,8 @@ var Khan = (function() {
             "mean-and-median": ["stat"],
             "math-model": ["ast"],
             "simplify": ["math-model", "ast", "expr-helpers", "expr-normal-form", "steps-helpers"],
-            "congruency": ["angles", "interactive"]
+            "congruency": ["angles", "interactive"],
+            "graphie-3d": ["graphie", "matrix"]
         },
 
         warnTimeout: function() {
