@@ -175,7 +175,6 @@
                     <var id="FRIENDS">randRange(5,6)</var>
                     <var id="SLOTS">randRange(2,FRIENDS-2)</var>
                     <var id="ANSWER">factorial(FRIENDS)/(factorial(FRIENDS-SLOTS)*factorial(SLOTS))</var>
-                    <var id="NAMES">["Sal","Andy","Ethel","Zaphod","Sidney"]</var>
                 </div>
                 <p>
                     You just got a free ticket for a boat ride, and you can bring along <var>SLOTS</var> friends! Unfortunately, you have <var>FRIENDS</var>
@@ -212,6 +211,8 @@
                         So, we have to divide the number of ways we could have filled the boat in order by number of times we've overcounted our groups:
                         </br>
                         <code> \frac{<var>FRIENDS</var>!}{<var>FRIENDS-SLOTS</var>!} * \frac{1}{<var>SLOTS</var>!} = <var>ANSWER</var></code> is the number of groups we can bring on the boat trip.
+                        </br>
+                        Another way to write this is <code> \binom{<var>FRIENDS</var>}{<var>SLOTS</var>} </code>, or <var>FRIENDS</var> choose <var>SLOTS</var>.
                     </p>
                 </div>
             </div>
