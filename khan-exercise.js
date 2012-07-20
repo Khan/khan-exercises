@@ -212,6 +212,12 @@ var Khan = (function() {
     lastAction,
     attempts,
 
+    // Bug-hunting "undefined" attempt content
+    debugLogLog = ["start of log"],
+    debugLog = function(l) {
+        debugLogLog.push(l);
+    },
+
     guessLog,
     userActivityLog,
 
@@ -761,7 +767,11 @@ var Khan = (function() {
                     $.each(Khan.modules, function(src, mod) {
                         var name = mod.name;
                         if ($.fn[name + type]) {
+                            debugLog("running " + name + type);
                             elem[name + type](problem, info);
+                            debugLog("ran " + name + type);
+                        } else {
+                            debugLog("(" + name + type + " not a fn; src " + mod.src + ")");
                         }
                     });
                 });
@@ -1025,6 +1035,7 @@ var Khan = (function() {
     }
 
     function makeProblem(id, seed) {
+        debugLog("start of makeProblem");
 
         // Enable scratchpad (unless the exercise explicitly disables it later)
         Khan.scratchpad.enable();
@@ -1073,8 +1084,12 @@ var Khan = (function() {
         // Find which exercise this problem is from
         exercise = problem.parents("div.exercise").eq(0);
 
+        debugLog("chose problem type and seed");
+
         // Work with a clone to avoid modifying the original
         problem = problem.clone();
+
+        debugLog("cloned problem");
 
         // problem has to be child of visible #workarea for MathJax metrics to all work right
         $("#workarea").append(problem);
@@ -1094,6 +1109,8 @@ var Khan = (function() {
         // Add any global exercise defined elements
         problem.prepend(exercise.children(":not(.problems)").clone().data("inherited", true));
 
+        debugLog("cloned global elements");
+
         // Apply templating
         var children = problem
             // var blocks append their contents to the parent
@@ -1106,12 +1123,16 @@ var Khan = (function() {
             // ignoring graphie and spin blocks
             .children("[class][class!='graphie'][class!='spin']").tmplApply({attribute: "class"});
 
+        debugLog("ran tmplApply to vars and main elements");
+
         // Finally we do any inheritance to the individual child blocks (such as problem, question, etc.)
         children.each(function() {
             // Apply while adding problem.children() to include
             // template definitions within problem scope
             $(this).find("[id]").add(children).tmplApply();
         });
+
+        debugLog("ran tmplApply to [id]");
 
         // Remove and store hints to delay running modules on it
         hints = problem.children(".hints").remove();
@@ -1121,10 +1142,14 @@ var Khan = (function() {
             $(".hint-box").remove();
         }
 
+        debugLog("removed hints from DOM");
+
         // Evaluate any inline script tags in this exercise's source
         $.each(exercise.data("script") || [], function(i, scriptContents) {
             $.globalEval(scriptContents);
         });
+
+        debugLog("evaled inline scripts");
 
         // ...and inline style tags.
         if (exercise.data("style")) {
@@ -1149,13 +1174,18 @@ var Khan = (function() {
             });
         }
 
+        debugLog("added inline styles");
+
         // Run the main method of any modules
         problem.runModules(problem, "Load");
+        debugLog("done with runModules Load");
         problem.runModules(problem);
+        debugLog("done with runModules");
 
         if (typeof seed === "undefined" && shouldSkipProblem()) {
             // If this is a duplicate problem we should skip, just generate
             // another problem of the same problem type but w/ a different seed.
+            debugLog("duplicate problem!");
             clearExistingProblem();
             nextSeed(1);
             return makeProblem();
@@ -1198,7 +1228,9 @@ var Khan = (function() {
         // if this fails then we will need to try generating another one.)
         guessLog = [];
         userActivityLog = [];
+        debugLog("decided on answer type " + answerType);
         validator = Khan.answerTypes[answerType](solutionarea, solution);
+        debugLog("validator created");
 
         // A working solution was generated
         if (validator) {
@@ -1221,6 +1253,7 @@ var Khan = (function() {
             });
         } else {
             // Making the problem failed, let's try again
+            debugLog("validator was falsey");
             problem.remove();
             makeProblem(id, randomSeed);
             return;
@@ -2019,6 +2052,7 @@ var Khan = (function() {
             // Save the problem results to the server
             var curTime = new Date().getTime();
             var data = buildAttemptData(pass, ++attempts, JSON.stringify(validator.guess), curTime);
+            debugLog("attempt " + JSON.stringify(data));
             request("problems/" + problemNum + "/attempt", data, function() {
 
                 // TODO: Save locally if offline
@@ -2201,7 +2235,7 @@ var Khan = (function() {
                     ("loaded, " + (MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length)),
                 sessionStorageInfo = (typeof sessionStorage === "undefined" || typeof sessionStorage.getItem === "undefined" ? "sessionStorage NOT enabled" : null),
                 warningInfo = $("#warning-bar-content").text(),
-                parts = [$("#issue-body").val() || null, pathlink, historyLink, "    " + JSON.stringify(guessLog), agent, sessionStorageInfo, mathjaxInfo, warningInfo],
+                parts = [$("#issue-body").val() || null, pathlink, historyLink, "    " + JSON.stringify(guessLog), agent, sessionStorageInfo, mathjaxInfo, warningInfo, debugLogLog.join("\n")],
                 body = $.grep(parts, function(e) { return e != null; }).join("\n\n");
 
             var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {
