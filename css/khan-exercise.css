@@ -12,11 +12,6 @@ var { font-style: normal; }
 
 .final_answer { font-weight: bold; }
 
-/* Override MathJax's behavior of always using font-weight: normal.
- * Instead, inherit the font-weight (which is bold for question/final_answer).
- */
-.MathJax { font-weight:inherit !important; }
-
 div.subhint {
     border: 1px solid #aaaaaa;
     background: #f9f9f9;
