@@ -54,6 +54,9 @@ var numHints;
 // it is not at the minimum depth
 var givenProbability;
 
+// used to animate the last true statement proven
+var animationObjects;
+
 function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, givProb, toProveType) {
     userProofDone = false;
 
@@ -76,6 +79,8 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
     numHints = 3;
 
     givenProbability = givProb;
+
+    animationObjects = [];
 
     //populate knownEqualities based on reflexivity
     for (var i = 0; i < SEGMENTS.length; i++) {
@@ -1752,6 +1757,7 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
             knownEqualities[[triangle1, triangle2]] = "SSS";
             knownEqualities[[triangle2, triangle1]] = "SSS";
             knownEqualitiesList.push([triangle1, triangle2]);
+            animationObjects = [[triangle1.segs[0], triangle2.segs[0]],[triangle1.segs[1], triangle2.segs[1]],[triangle1.segs[2], triangle2.segs[2]]];
             return true;
         }
     }
@@ -1766,6 +1772,8 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
                 knownEqualities[[triangle1, triangle2]] = "ASA";
                 knownEqualities[[triangle2, triangle1]] = "ASA";
                 knownEqualitiesList.push([triangle1, triangle2]);
+                animationObjects = [[triangle1.angs[i], triangle2.angs[i]],[triangle1.segs[(i + 1) % 3], triangle2.segs[(i + 1) % 3]],
+                                    [triangle1.angs[(i + 1) % 3], triangle2.angs[(i + 1) % 3]]];
                 return true;
             }
         }
@@ -1780,6 +1788,8 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
                 knownEqualities[[triangle1, triangle2]] = "SAS";
                 knownEqualities[[triangle2, triangle1]] = "SAS";
                 knownEqualitiesList.push([triangle1, triangle2]);
+                animationObjects = [[triangle1.segs[i], triangle2.segs[i]], [triangle1.angs[i], triangle2.angs[i]],
+                                    [triangle1.segs[(i + 1) % 3], triangle2.segs[(i + 1) % 3]]];
                 return true;
             }
         }
@@ -1796,6 +1806,8 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
                 knownEqualities[[triangle1, triangle2]] = "AAS";
                 knownEqualities[[triangle2, triangle1]] = "AAS";
                 knownEqualitiesList.push([triangle1, triangle2]);
+                animationObjects = [[triangle1.angs[i], triangle2.angs[i]], [triangle1.angs[(i + 1) % 3], triangle2.angs[(i + 1) % 3]],
+                                    [triangle1.segs[(i + 2) % 3], triangle2.segs[(i + 2) % 3]]];
                 return true;
             }
         }
@@ -1811,6 +1823,8 @@ function checkTriangleCongruent(triangle1, triangle2, reason) {
                 knownEqualities[[triangle1, triangle2]] = "AAS";
                 knownEqualities[[triangle2, triangle1]] = "AAS";
                 knownEqualitiesList.push([triangle1, triangle2]);
+                animationObjects = [[triangle1.angs[i], triangle2.angs[i]], [triangle1.angs[(i + 1) % 3], triangle2.angs[(i + 1) % 3]],
+                                    [triangle1.segs[i], triangle2.segs[i]]]
                 return true;
             }
         }
