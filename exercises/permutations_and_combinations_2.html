@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Permutations and combinations 2</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        var permUnique = function(word, repletter, numperms){
+            if(numperms === 2){
+                colors1 = [" \\blue", " \\orange"];
+                colors2 = [" \\orange", " \\blue"];
+
+                p1 = "<code>";
+                _.each(word.split(""), function(l){
+                    p1 += (l === repletter ? colors1.pop() + "{" + l + "}" : l);  
+                });
+                p1 += "</code>";
+
+                p2 = "<code>";
+                _.each(word.split(""), function(l){
+                    p2 += (l === repletter ? colors2.pop() + "{" + l + "}" : l);  
+                });
+                p2 += "</code>";
+                return [p1,p2];
+            }
+            else{
+                colorPerms = arrayPerms([" \\pink", " \\blue", " \\orange"]);
+                perms = [];
+                _.each(colorPerms, function(cp){
+                    p = "<code>";
+                    _.each(word.split(""), function(l){
+                        p += (l === repletter ? cp.pop() + "{" + l + "}" : l);      
+                    });
+                    p += "</code>";
+                    perms.push(p);
+                });
+                return perms;
+            }
+        }
+
+        var arrayPerms = function(arr){
+            perms = [];
+            perms.push(arr);
+            perms.push([arr[0],arr[2],arr[1]]);
+            perms.push([arr[1],arr[0],arr[2]]);
+            perms.push([arr[1],arr[2],arr[0]]);
+            perms.push([arr[2],arr[0],arr[1]]);
+            perms.push([arr[2],arr[1],arr[0]]);
+            return perms;
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="letters" data-weight="0.4">
+                <div class="vars">
+                    <var id="INDEX">randRange(0,4)</var>
+                    <var id="WORD">["HATTER", "PRIOR", "BUMMED", "SASSY", "CANNON", "PLOP", "ERROR"][INDEX]</var>
+                    <var id="REPLETTER">["T","R","M","S","N","P","R"][INDEX]</var>
+                    <var id="REPTIMES">[2,2,2,3,3,2,3][INDEX]</var>
+                    <var id="PERM">shuffle(WORD).join("")</var>
+                    <var id="LET_COLS">["hint_pink", "hint_blue", "hint_orange"]</var>
+                    <var id="PERM_UNIQUE">permUnique(PERM, REPLETTER, REPTIMES)</var>
+                    <var id="ANSWER">factorial(WORD.length)/factorial(REPTIMES)</var>
+                </div>
+                <p class="question">How many unique ways are there to re-arrange the letters in the word <var>WORD</var>?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <div class="hints">
+                    <div>
+                        Let's try building the re-arrangements (or permutations) letter by letter. The word is <var>WORD.length</var>
+                        letters long, so there are <var>WORD.length</var> blank spaces to put letters.
+                        <p><var>_.map(_.range(WORD.length), function(l){ return "_ "; }).join("")</var></p>
+                        <p>Now, for the first blank, we have <var>WORD.length</var> choices of letters to put in.
+                    </div>
+                    <div>
+                        After we put in the first letter, let's say it's <var>PERM[0]</var>, we have <var>WORD.length-1</var> blanks left.
+                        <p><var>PERM[0]+" "+_.map(_.range(WORD.length-1), function(l){ return "_ "; }).join("")</var></p>
+                        <p>For the second blank, we only have <var>WORD.length-1</var> choices of letters left to put in. So far, there were
+                            <code><var>WORD.length</var>*<var>WORD.length-1</var></code> unique choices we could have made.</p>
+                    </div>
+                    <div>
+                        We can continue in this fashion to put in a third letter, then a fourth, and so on. At each step, we have one fewer unique choice to
+                        make, until we get to the last letter, and there's only one we can put in.
+                    </br></br>
+                    </div>
+                    <div>
+                        Using this method, the total number of unique arrangements is <code><var>_.map(_.range(WORD.length).reverse(), function(l){ return (++l) + "*";}).join("").substring(0, WORD.length*2-1)</var> = <var>factorial(WORD.length)</var>.</code> Another way of writing this is <code><var>WORD.length</var>!</code>, 
+                        or <var>WORD.length</var> factorial, but this isn't quite the right answer.
+                    </br></br>
+                    </div>
+                    <div>
+                        Using the above method, we assumed that all the letters were unique. But they're not! There are <var>REPTIMES</var>
+                        <var>REPLETTER</var>s, so we're counting every permutation multiple times. So every time we have these <var>factorial(REPTIMES)</var> permutations:
+                            <p>
+                                <var>PERM_UNIQUE.join("&lt;/br&gt;")</var>
+                            </p>
+                        We actually should have only one permutation:
+                            <p>
+                                <code><var>PERM</var></code>
+                            </p>
+                    </div>
+                    <div>
+                        When we divide the number of permutations we got by the number of times we're overcounting each permutation, we get
+                        <code> \frac{<var>WORD.length</var>!}{<var>REPTIMES</var>!} = \frac{<var>factorial(WORD.length)</var>}{<var>factorial(REPTIMES)</var>} = <var>ANSWER</var></code>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reindeer" data-weight="0.2">
+                <div class="vars" data-ensure="PAIR[0] != PAIR[1]">
+                    <var id="NAMES">randFromArray([["Bloopin", "Gloopin", "Prancer", "Lancer", "Quentin"],["Balthazar", "Ezekiel", "Jebediah", "Rudy"]])</var>
+                    <var id="FIGHTING">random() &gt; 0.5</var>
+                    <var id="PAIR">randFromArray(NAMES, 2)</var>
+                    <var id="ANSWER">FIGHTING ? factorial(NAMES.length) - factorial(NAMES.length-1)*2 : factorial(NAMES.length-1)*2</var>
+                </div>
+                <p>You need to put your reindeer, <var>_.map(NAMES, function(n){ return n === "Quentin" || n === "Rudy" ? "and "+n : n; }).join(", ")</var>
+                    , in a single-file line to pull your sleigh. However,
+                    <var>PAIR[0]</var> and <var>PAIR[1]</var> are <var>FIGHTING ? "fighting" : "best friends"</var>, so you have to
+                    <var>FIGHTING ? "keep them apart" : "put them next to each other"</var>, or they won't fly.</p>
+                <p class="question">How many ways can you arrange your reindeer?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+
+                <div class="hints">
+                    <div>
+                        <p>Forget about the reindeer that <var>FIGHTING ? "can't be" : "have to be"</var> together for a second, and let's try and
+                        figure out how many ways we can arrange the reindeer if we don't have to worry about that.</p>
+                        <p>We can build our line of reindeer one by one: there are <var>NAMES.length</var> slots, and we have <var>NAMES.length</var>
+                        different reindeer we can put in the first slot.</p>
+                    </div>
+                    <p>
+                        Once we fill the first slot, we only have <var>NAMES.length-1</var> reindeer left, so we only have <var>NAMES.length-1</var>
+                        choices for the second slot. So far, there are <code><var>NAMES.length</var>*<var>NAMES.length-1</var> = <var>NAMES.length*(NAMES.length-1)</var></code> unique choices we can make.
+                    </p>
+                    <p>
+                        We can continue in this way for the third reindeer, then the fourth, and so on, until we reach the last slot, where we only have
+                        one reindeer left and so we can only make one choice.
+                    </p>
+                    <p>
+                        So, the total number of unique choices we could make to get to an arrangement of reindeer is <code><var>_.map(_.range(NAMES.length).reverse(), function(l){ return (++l) + "*";}).join("").substring(0, NAMES.length*2-1)</var> = <var>factorial(NAMES.length)</var>.</code> Another way of writing this is <code><var>NAMES.length</var>!</code>, 
+                        or <var>NAMES.length</var> factorial. But we haven't thought about the two reindeer who <var>FIGHTING ? "can't be together" : "have to be together"</var> yet.
+                    </p>
+                    <div data-if="FIGHTING" data-unwrap>
+                        <p>
+                            There are <var>factorial(NAMES.length)</var> different arrangements of reindeer altogether, so we just need to subtract
+                            all the arrangements where <var>PAIR[0]</var> and <var>PAIR[1]</var> are together. How many of these are there?
+                        </p>
+                        <p>
+                            We can count the number of arrangements where <var>PAIR[0]</var> and <var>PAIR[1]</var> are together by treating them as one double-reindeer. Now we can use the same idea as before to come up with <code><var>_.map(_.range(NAMES.length-1).reverse(), function(l){ return (++l) + "*";}).join("").substring(0, (NAMES.length-1)*2-1)</var> = <var>factorial(NAMES.length-1)</var></code> different arrangements. But that's not quite right.
+                        </p>
+                        <p>
+                            Why? Because you can arrange the double-reindeer with <var>PAIR[0]</var> in front or with
+                            <var>PAIR[1]</var> in front, and those are different arrangements! So the actual number of arrangements with <var>PAIR[0]</var>
+                            and <var>PAIR[1]</var> together is <code><var>factorial(NAMES.length-1)</var>*2 = <var>factorial(NAMES.length-1)*2</var></code>
+                        </p>
+                        <p>
+                            So, subtracting the number of arrangements where <var>PAIR[0]</var> and <var>PAIR[1]</var> are together from the total number
+                            of arrangements, we get <var>ANSWER</var> arrangements of reindeer where they will fly.
+                        </p>
+                    </div>
+                    <div data-else data-unwrap>
+                        <p>
+                            We can count the number of arrangements where <var>PAIR[0]</var> and <var>PAIR[1]</var> are together by treating them as one double-reindeer. Now we can use the same idea as before to come up with <code><var>_.map(_.range(NAMES.length-1).reverse(), function(l){ return (++l) + "*";}).join("").substring(0, (NAMES.length-1)*2-1)</var> = <var>factorial(NAMES.length-1)</var></code> different arrangements. But that's not quite right.
+                        </p>
+                        <p>
+                            Why? Because you can arrange the double-reindeer with <var>PAIR[0]</var> in front or with
+                            <var>PAIR[1]</var> in front, and those are different arrangements! So the actual number of arrangements with <var>PAIR[0]</var>
+                            and <var>PAIR[1]</var> together is <code><var>factorial(NAMES.length-1)</var>*2 = <var>factorial(NAMES.length-1)*2</var></code>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div id="combination" data-weight="0.4">
+                <div class="vars">
+                    <var id="FRIENDS">randRange(5,6)</var>
+                    <var id="SLOTS">randRange(2,FRIENDS-2)</var>
+                    <var id="ANSWER">factorial(FRIENDS)/(factorial(FRIENDS-SLOTS)*factorial(SLOTS))</var>
+                </div>
+                <p>
+                    You just got a free ticket for a boat ride, and you can bring along <var>SLOTS</var> friends! Unfortunately, you have <var>FRIENDS</var>
+                    friends who want to come along... 
+                </p>
+                <p class="question">How many different groups of friends could you take with you?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+
+                <div class="hints">
+                    <p>
+                        There are <var>SLOTS</var> places for your friends on the boat, so let's fill those slots one by one. For the first slot, we
+                        have <var>FRIENDS</var> different choices we can make (because <var>FRIENDS</var> different friends could be in that slot).
+                    </p>
+                    <p>
+                        Once we've filled the first slot, there are <var>FRIENDS-1</var> friends who could fill the second. So far, if we've filled
+                        the first two slots, and it seems like there are <code><var>FRIENDS</var>*<var>FRIENDS-1</var> = <var>FRIENDS * (FRIENDS-1)</var>
+                        </code> different choices we could have made. But that's not quite true.
+                    </p>
+                    <p>
+                        Why? Because if we picked Andy, then Sal, that's the same thing as picking Sal, then Andy. They both get to be on the same boat.
+                    </p>
+                    <p>
+                        So, if we continue filling the slots on our boat, making <code><var>_.map(_.range(SLOTS), function(l){ return (FRIENDS - l) + "*";}).join("").substring(0, SLOTS*2-1)</var> = \frac{<var>FRIENDS</var>!}{<var>FRIENDS-SLOTS</var>!} = <var> factorial(FRIENDS)/factorial(FRIENDS-SLOTS)</var></code> decisions altogether, we've overcounted a bunch of groups.
+                    </p>
+                    <p>
+                        How much have we overcounted? Well, for every group of <var>SLOTS</var>, we've counted them as if the order we chose them in 
+                        matters, when really it doesn't. How many ways are there to order <var>SLOTS</var> things?
+                    </p>
+                    <p>
+                        There are <code><var>SLOTS</var>! = <var>factorial(SLOTS)</var></code> ways of ordering <var>SLOTS</var> things, so we've counted
+                        each group of <var>SLOTS</var> friends <var>factorial(SLOTS)</var> times.
+                    </p>
+                    <p>
+                        So, we have to divide the number of ways we could have filled the boat in order by number of times we've overcounted our groups:
+                        </br>
+                        <code> \frac{<var>FRIENDS</var>!}{<var>FRIENDS-SLOTS</var>!} * \frac{1}{<var>SLOTS</var>!} = <var>ANSWER</var></code> is the number of groups we can bring on the boat trip.
+                        </br>
+                        Another way to write this is <code> \binom{<var>FRIENDS</var>}{<var>SLOTS</var>} </code>, or <var>FRIENDS</var> choose <var>SLOTS</var>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
