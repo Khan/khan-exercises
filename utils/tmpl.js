@@ -188,9 +188,13 @@ $.tmpl = {
 
                     // Stick the processing request onto the queue
                     if (typeof MathJax !== "undefined") {
+                        KhanUtil.debugLog("adding " + text + " to MathJax typeset queue");
                         MathJax.Hub.Queue(["Typeset", MathJax.Hub, elem]);
+                    } else {
+                        KhanUtil.debugLog("not adding " + text + " to queue because MathJax is undefined");
                     }
                 } else {
+                    KhanUtil.debugLog("reprocessing MathJax: " + text);
                     MathJax.Hub.Queue(["Reprocess", MathJax.Hub, elem]);
                 }
             };
@@ -288,13 +292,24 @@ $.fn.tmplCleanup = function() {
     // problem, MathJax isn't loaded yet. No worries--there's nothing to clean
     // up anyway
     if (typeof MathJax === "undefined") {
+        KhanUtil.debugLog("MathJax undefined in Cleanup");
         return;
     }
 
     this.find("code").each(function() {
+        KhanUtil.debugLog("cleaning up: " + $(this).text());
         var jax = MathJax.Hub.getJaxFor(this);
+        KhanUtil.debugLog("got jax of type " + $.type(jax));
         if (jax) {
+            var e = jax.SourceElement();
+            KhanUtil.debugLog("source element is type " + $.type(e));
+            if ("outerHTML" in e) {
+                KhanUtil.debugLog("source element " + e.outerHTML);
+            } else {
+                KhanUtil.debugLog("no source element");
+            }
             jax.Remove();
+            KhanUtil.debugLog("removed!");
         }
     });
 };

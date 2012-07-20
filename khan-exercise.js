@@ -371,6 +371,8 @@ var Khan = (function() {
 
         // Populate this with modules
         Util: {
+            debugLog: debugLog,
+
             // http://burtleburtle.net/bob/hash/integer.html
             // This is also used as a PRNG in the V8 benchmark suite
             random: function() {
