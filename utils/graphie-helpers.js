@@ -293,6 +293,32 @@ function ParallelLines(x1, y1, x2, y2, distance) {
         graph.line([x1, y1 + distance], [x2, y2 + distance]);
     };
 
+    this.drawMarkers = function(position) {
+        var graph = KhanUtil.currentGraph;
+        var pmarkX = (x2 - x1) / 2 + x1;
+        if (position === "right" || (position >= 40 && position <= 140)) {
+            pmarkX = x2 - 55 / graph.scaleVector([1, 1])[0];
+        } else if (position === "left") {
+            pmarkX = x1 + 50 / graph.scaleVector([1, 1])[0];
+        }
+        var pmarkX1 = pmarkX;
+        var pmarkX2 = pmarkX + 5 / graph.scaleVector([1, 1])[0];
+        var pmarkW = 5 / graph.scaleVector([1, 1])[0];
+        var pmarkH = 5 / graph.scaleVector([1, 1])[1];
+        graph.path([[pmarkX1 - pmarkW, y1 + pmarkH],
+            [pmarkX1, y1],
+            [pmarkX1 - pmarkW, y1 - pmarkH]]);
+        graph.path([[pmarkX2 - pmarkW, y1 + pmarkH],
+            [pmarkX2, y1],
+            [pmarkX2 - pmarkW, y1 - pmarkH]]);
+        graph.path([[pmarkX1 - pmarkW, y1 + pmarkH + distance],
+            [pmarkX1, y1 + distance],
+            [pmarkX1 - pmarkW, y1 - pmarkH + distance]]);
+        graph.path([[pmarkX2 - pmarkW, y1 + pmarkH + distance],
+            [pmarkX2, y1 + distance],
+            [pmarkX2 - pmarkW, y1 - pmarkH + distance]]);
+    };
+
     this.drawTransverse = function(angleDeg) {
         anchorAngle = angleDeg;
         var graph = KhanUtil.currentGraph;
