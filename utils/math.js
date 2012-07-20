@@ -4,8 +4,8 @@ $.extend(KhanUtil, {
     cleanMath: function(expr) {
         return typeof expr === "string" ?
             KhanUtil.tmpl.cleanHTML(expr)
-                .replace(/\+ -/g, "- ")
-                .replace(/- -/g, "+ ")
+                .replace(/\+\s*-/g, "- ")
+                .replace(/-\s*-/g, "+ ")
                 .replace(/\^1/g, "") :
             expr;
     },
