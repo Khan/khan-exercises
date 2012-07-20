@@ -10,6 +10,77 @@
             text-transform: uppercase;
         }
     </style>
+    <script>
+        var animateSegmentPair = function(seg1, seg2, next){
+            (function(){
+                var highlightLine1 = KhanUtil.currentGraph.graph.congruency.lines[seg1];
+                var highlightLine2 = KhanUtil.currentGraph.graph.congruency.lines[seg2];
+
+                highlightLine1.setHighlighted({
+                    stroke: KhanUtil.ORANGE,
+                    "stroke-width": 3
+                });
+                highlightLine2.setHighlighted({
+                    stroke: KhanUtil.ORANGE,
+                    "stroke-width": 3
+                });
+                setTimeout(function(){
+                    highlightLine1.unsetHighlighted({
+                        stroke: "black",
+                        "stroke-width": 2
+                    });
+                    highlightLine2.unsetHighlighted({
+                        stroke: "black",
+                        "stroke-width": 2
+                    });
+                    next();
+                }, 800);
+                
+            })();
+        }
+
+        var animateAnglePair = function(ang1, ang2, next){
+            (function(){
+                var highlightAng1 = KhanUtil.currentGraph.graph.congruency.angles[ang1];
+                var highlightAng2 = KhanUtil.currentGraph.graph.congruency.angles[ang2];
+
+                var firstState = highlightAng1.state;
+                var secondState = highlightAng2.state;
+                var maxState = Math.max(firstState,secondState);
+
+                highlightAng1.setHighlighted({
+                    stroke: KhanUtil.ORANGE,
+                    "stroke-width": 3
+                });
+                highlightAng2.setHighlighted({
+                    stroke: KhanUtil.ORANGE,
+                    "stroke-width": 3
+                });
+                highlightAng1.setState(maxState > 0 ? maxState : 1);
+                highlightAng2.setState(maxState > 0 ? maxState : 1);
+
+                setTimeout(function(){
+                    highlightAng1.unsetHighlighted({
+                        stroke: "black",
+                        "stroke-width": 2
+                    });
+                    highlightAng2.unsetHighlighted({
+                        stroke: "black",
+                        "stroke-width": 2
+                    });
+                    highlightAng1.setState(firstState);
+                    highlightAng2.setState(secondState);
+                    next();
+                }, 800);
+                
+            })();
+        }
+
+        var animatePair = function(thing1, thing2, next){
+            thing1.length === 2 ? animateSegmentPair(thing1, thing2, next) : animateAnglePair(thing1, thing2, next);
+        }
+
+    </script>
 </head>
 <body>
     <div class="exercise">
@@ -157,14 +228,14 @@
                             var thing2 = $("#thing2").val().toUpperCase();
                             var reason = $("#reason").val();
 
-                            if(thing1.length === 0 && thing2.length === 0){
+                            if(thing1.length === 0 &amp;&amp; thing2.length === 0){
                                 hintCategory = "good format but wrong";
                                 return;
                             }
 
-                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
-                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
-                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
+                            var verifyTriangles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 &amp;&amp; thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
 
                             if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
@@ -177,6 +248,7 @@
                                 if(userProofDone === true){
                                     $(".nextStatement").hide();
                                     $("#hint").attr("disabled", true);
+                                    $("#hint").unbind("click", giveHint);
                                 }
                                 else{
                                     hintsLeft = 2;
@@ -185,6 +257,31 @@
                                     hintCategory = "good format but wrong";
                                     giveAway = false;
                                 }
+
+                                if(verifySegments === true){
+                                    animateSegmentPair(thing1, thing2, function(){});
+                                }
+
+                                if(verifyAngles === true){
+                                    animateAnglePair(thing1, thing2, function(){});
+                                }
+
+                                if(verifyTriangles === true){
+                                    aniNames = _.map(animationObjects, function(pair){
+                                        if(pair[0] instanceof Seg){
+                                            return [pair[0].toString().substring(3,5), pair[1].toString().substring(3,5)];
+                                        }
+                                        else{
+                                            return [pair[0].toString().substring(3,6), pair[1].toString().substring(3,6)];
+                                        }
+                                    });
+                                    animatePair(aniNames[0][0], aniNames[0][1], function(){
+                                        animatePair(aniNames[1][0], aniNames[1][1], function(){
+                                            animatePair(aniNames[2][0], aniNames[2][1], function(){});
+                                        });
+                                    });
+                                }
+
                             }
                             else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
                                 hintCategory = "good format but wrong";
@@ -194,26 +291,11 @@
                             }
                         });
                         $("#reason").change(function(){ 
-                            <!-- var curVal = $("#reason").val();
-                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
-                                $("#symbol1").html(" \\triangle ");
-                                $("#symbol2").html(" \\triangle ");
-                            }
-                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
-                                $("#symbol1").html(" \\angle ");
-                                $("#symbol2").html(" \\angle ");
-                            }
-                            else{
-                                $("#symbol1").html("");
-                                $("#symbol2").html("");
-                            }
-                            $.tmpl.type.code()($("#symbol1")[0]);
-                            $.tmpl.type.code()($("#symbol2")[0]); -->
                             $(".nextStatement input").keyup(); 
                         });
 
-                        var storedHint = "";
-                        $("#hint").click(function(){
+                        var giveHint = function(){
+                            console.log(hintsLeft);
                             if(hintsLeft &gt; 0){
                                 hintsLeft--;
                                 if(hintCategory === "bad format"){
@@ -243,14 +325,19 @@
                                     $("#hint").attr("disabled", true);
                                 }
                             }
-                        });
+                        }
+
+                        var storedHint = "";
+                        if($("#hint").data("events").click.length &lt; 2){
+                            $("#hint").click(giveHint);
+                        }
 
                     </div>
                 </div>
 
                 <p class="statements"> <var> outputKnownProof() </var></p>
                 <p class="nextStatement">
-                    <input type="text" id="thing1"></input> <code> \cong </code> <input type="text" id="thing2" > </input> because 
+                    <input type="text" id="thing1" maxlength="3"></input> <code> \cong </code> <input type="text" id="thing2" maxlength="3"> </input> because 
                     <select id="reason">
                         <option value="">select a reason</option>
                         <option value="SSS">side-side-side congruence</option>
@@ -273,6 +360,7 @@
                         return isProofDone();
                     </div>
                     <div class="show-guess">
+                        outputKnownProof();
                     </div>
                 </div>
                 <div class="hints">
@@ -315,7 +403,7 @@
 
                     <var id="SUPPLEMENTARY_ANGS">[addAngs(ang3, ang7), addAngs(ang7, ang4), addAngs(ang4, ang8), addAngs(ang8, ang3)]</var>
 
-                    <var id="ALTERNATE_INTERIOR_ANGS">[[ang2, ang5]]</var>
+                    <var id="ALTERNATE_INTERIOR_ANGS">[[ang2, ang5], [ang1, ang6]]</var>
 
                     <var id="PARALLEL_SEGS">[]</var>
 
@@ -423,14 +511,19 @@
                             var thing2 = $("#thing2").val().toUpperCase();
                             var reason = $("#reason").val();
 
-                            if(thing1.length === 0 && thing2.length === 0){
+                            if(thing1.length === 0 &amp;&amp; thing2.length === 0){
                                 hintCategory = "good format but wrong";
                                 return;
                             }
 
-                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
-                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
-                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
+                            filteredAngles = {"BAE" : "BAC", "EAB" : "CAB", "BDE" : "CDE", "EDB" : "EDC",
+                                              "ABD" : "ABC", "DBA" : "CBA", "AED" : "CED", "DEA" : "DEC"};
+                            if(thing1 in filteredAngles){ thing1 = filteredAngles[thing1]; }
+                            if(thing2 in filteredAngles){ thing2 = filteredAngles[thing2]; }
+
+                            var verifyTriangles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 &amp;&amp; thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
 
                             if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
@@ -443,6 +536,7 @@
                                 if(userProofDone === true){
                                     $(".nextStatement").hide();
                                     $("#hint").attr("disabled", true);
+                                    $("#hint").unbind("click", giveHint);
                                 }
                                 else{
                                     hintsLeft = 2;
@@ -450,6 +544,30 @@
                                     $("#hint").attr("disabled", false);
                                     hintCategory = "good format but wrong";
                                     giveAway = false;
+                                }
+
+                                if(verifySegments === true){
+                                    animateSegmentPair(thing1, thing2, function(){});
+                                }
+
+                                if(verifyAngles === true){
+                                    animateAnglePair(thing1, thing2, function(){});
+                                }
+
+                                if(verifyTriangles === true){
+                                    aniNames = _.map(animationObjects, function(pair){
+                                        if(pair[0] instanceof Seg){
+                                            return [pair[0].toString().substring(3,5), pair[1].toString().substring(3,5)];
+                                        }
+                                        else{
+                                            return [pair[0].toString().substring(3,6), pair[1].toString().substring(3,6)];
+                                        }
+                                    });
+                                    animatePair(aniNames[0][0], aniNames[0][1], function(){
+                                        animatePair(aniNames[1][0], aniNames[1][1], function(){
+                                            animatePair(aniNames[2][0], aniNames[2][1], function(){});
+                                        });
+                                    });
                                 }
                             }
                             else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
@@ -460,27 +578,13 @@
                             }
                         });
                         $("#reason").change(function(){ 
-                            <!-- var curVal = $("#reason").val();
-                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
-                                $("#symbol1").html(" \\triangle ");
-                                $("#symbol2").html(" \\triangle ");
-                            }
-                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
-                                $("#symbol1").html(" \\angle ");
-                                $("#symbol2").html(" \\angle ");
-                            }
-                            else{
-                                $("#symbol1").html("");
-                                $("#symbol2").html("");
-                            }
-                            $.tmpl.type.code()($("#symbol1")[0]);
-                            $.tmpl.type.code()($("#symbol2")[0]); -->
                             $(".nextStatement input").keyup(); 
                         });
 
-                        
-                        var storedHint = "";
-                        $("#hint").click(function(){
+                        $(".actualHints").html("");
+
+                        var giveHint = function(){
+                            console.log(hintsLeft);
                             if(hintsLeft &gt; 0){
                                 hintsLeft--;
                                 if(hintCategory === "bad format"){
@@ -510,7 +614,12 @@
                                     $("#hint").attr("disabled", true);
                                 }
                             }
-                        });
+                        }
+
+                        var storedHint = "";
+                        if($("#hint").data("events").click.length &lt; 2){
+                            $("#hint").click(giveHint);
+                        }
 
 
                     </div>
@@ -541,6 +650,7 @@
                         return isProofDone();
                     </div>
                     <div class="show-guess">
+                        outputKnownProof();
                     </div>
                 </div>
                 <div class="hints">
@@ -569,10 +679,8 @@
                     <var id="AD">new Seg("A","D")</var>
                     <var id="DA">AD</var>
                     
-
                     <var id="SEGS">[AB,BA,AC,CA,BD,DB,CD,DC,AD,DA]</var>
                     
-
                     <var id="ang1">new Ang("A","B","D", null)</var>
                     <var id="ang2">new Ang("B","A","D", null)</var>
                     <var id="ang3">new Ang("D","A","C", null)</var>
@@ -588,32 +696,14 @@
 
                     <var id="PARALLEL_SEGS">[]</var>
 
-                    <!-- <var id="PARALLEL_TO_ALTERNATE">(function() {
-                        dict = {};
-                        dict[[AB,DE]] = [[ang2, ang11], [ang3, ang10]];
-                        return dict;
-                    })</var>
-
-                    <var id="ALTERNATE_TO_PARALLEL">(function() {
-                        dict = {};
-                        dict[[ang2, ang11]] = [AB,DE];
-                        dict[[ang3, ang10]] = [AB,DE];
-                        return dict;
-                    })</var> -->
-
                     <var id="BAD">new Triang([BA, AD, DB], [ang2, ang5, ang1])</var>
                     <var id="CAD">new Triang([CA, AD, DC], [ang3, ang6, ang4])</var>
                     
-
                     <var id="TRIANGLES">[BAD, CAD]</var>
 
                     <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 2, 0.25, "triangle")</var>
                     <var id="KNOWN">STATEMENTS[0]</var>
-                    <var id="FINISHED">STATEMENTS[1]</var>
-
-
-                    <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
-                    
+                    <var id="FINISHED">STATEMENTS[1]</var>                    
                 </div>
                 <p class="question">
                     <p>You are given <var> KNOWN </var>.</p>
@@ -666,10 +756,10 @@
                             maxState: 3
                         });
 
-                        graph.congruency.addAngles("A");
-                        graph.congruency.addAngles("B");
-                        graph.congruency.addAngles("C");
-                        graph.congruency.addAngles("D");
+                        graph.congruency.addAngles("A", { maxState: 3 });
+                        graph.congruency.addAngles("B", { maxState: 3 });
+                        graph.congruency.addAngles("C", { maxState: 3 });
+                        graph.congruency.addAngles("D", { maxState: 3 });
 
                         for(var angle in graph.congruency.angles){
                             graph.congruency.angles[angle].setSelectedStyle({
@@ -696,29 +786,25 @@
                             var thing2 = $("#thing2").val().toUpperCase();
                             var reason = $("#reason").val();
 
-                            if(thing1.length === 0 && thing2.length === 0){
+                            if(thing1.length === 0 &amp;&amp; thing2.length === 0){
                                 hintCategory = "good format but wrong";
                                 return;
                             }
 
-                            var verifyTriangles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
-                            var verifyAngles = thing1.length === 3 && thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
-                            var verifySegments = thing1.length === 2 && thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
+                            var verifyTriangles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "triangle congruence") : false;
+                            var verifyAngles = thing1.length === 3 &amp;&amp; thing2.length === 3 ? verifyStatementArgs(thing1+"="+thing2, reason, "angle equality") : false;
+                            var verifySegments = thing1.length === 2 &amp;&amp; thing2.length === 2 ? verifyStatementArgs(thing1+"="+thing2, reason, "segment equality") : false;
 
-                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
-                                if($("#thing1").val() === $("#thing2").val() || $("#thing1").val() === $("#thing2").val().split("").reverse().join("")){
-
-                                }                            
+                            if(verifyTriangles === true || verifyAngles === true || verifySegments === true){                          
                                 $(".statements").html(outputKnownProof());
                                 _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
                                 $("#thing1").val("");
                                 $("#thing2").val("");
                                 $("#reason").val("");
-                                $("#symbol1").html("");
-                                $("#symbol2").html("");
                                 if(userProofDone === true){
                                     $(".nextStatement").hide();
                                     $("#hint").attr("disabled", true);
+                                    $("#hint").unbind("click", giveHint);
                                 }
                                 else{
                                     hintsLeft = 2;
@@ -726,6 +812,30 @@
                                     $("#hint").attr("disabled", false);
                                     hintCategory = "good format but wrong";
                                     giveAway = false;
+                                }
+
+                                if(verifySegments === true){
+                                    animateSegmentPair(thing1, thing2, function(){});
+                                }
+
+                                if(verifyAngles === true){
+                                    animateAnglePair(thing1, thing2, function(){});
+                                }
+
+                                if(verifyTriangles === true){
+                                    aniNames = _.map(animationObjects, function(pair){
+                                        if(pair[0] instanceof Seg){
+                                            return [pair[0].toString().substring(3,5), pair[1].toString().substring(3,5)];
+                                        }
+                                        else{
+                                            return [pair[0].toString().substring(3,6), pair[1].toString().substring(3,6)];
+                                        }
+                                    });
+                                    animatePair(aniNames[0][0], aniNames[0][1], function(){
+                                        animatePair(aniNames[1][0], aniNames[1][1], function(){
+                                            animatePair(aniNames[2][0], aniNames[2][1], function(){});
+                                        });
+                                    });
                                 }
                             }
                             else if(verifyTriangles === false || verifyAngles === false || verifySegments === false){
@@ -736,27 +846,11 @@
                             }
                         });
                         $("#reason").change(function(){ 
-                            <!-- var curVal = $("#reason").val();
-                            if(curVal === "SSS" || curVal === "ASA" || curVal === "SAS" || curVal === "AAS"){
-                                $("#symbol1").html(" \\triangle ");
-                                $("#symbol2").html(" \\triangle ");
-                            }
-                            else if(curVal === "vertical angles" || curVal === "alternate angles"){
-                                $("#symbol1").html(" \\angle ");
-                                $("#symbol2").html(" \\angle ");
-                            }
-                            else{
-                                $("#symbol1").html("");
-                                $("#symbol2").html("");
-                            }
-                            $.tmpl.type.code()($("#symbol1")[0]);
-                            $.tmpl.type.code()($("#symbol2")[0]); -->
                             $(".nextStatement input").keyup(); 
                         });
 
-                        
-                        var storedHint = "";
-                        $("#hint").click(function(){
+                        var giveHint = function(){
+                            console.log(hintsLeft);
                             if(hintsLeft &gt; 0){
                                 hintsLeft--;
                                 if(hintCategory === "bad format"){
@@ -786,7 +880,12 @@
                                     $("#hint").attr("disabled", true);
                                 }
                             }
-                        });
+                        }
+
+                        var storedHint = "";
+                        if($("#hint").data("events").click.length &lt; 2){
+                            $("#hint").click(giveHint);
+                        }
 
                     </div>
                 </div>
@@ -817,6 +916,7 @@
                         return isProofDone();
                     </div>
                     <div class="show-guess">
+                        outputKnownProof();
                     </div>
                 </div>
                 <div class="hints">
