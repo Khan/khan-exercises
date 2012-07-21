@@ -22,37 +22,29 @@
                 <var id="X1">[ -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 ]</var>
                 <var id="Y1">$.map( X1, function( x ){ return ( C - A * x ) / B; } )</var>
                 <var id="HINT_X1">randRange( -5, 5 )</var>
-                <var id="HINT_Y1">( C - A * HINT_X1 ) / B</var>
-                <var id="SLOPE">-A / B</var>
+                <var id="HINT_Y1_NUM">C - A * HINT_X1</var>
+                <var id="HINT_Y1_DEM">B</var>
+                <var id="SLOPE_NUMERATOR">-A</var>
+                <var id="SLOPE_DENOMINATOR">B</var>
+                <var id="SLOPE">SLOPE_NUMERATOR / SLOPE_DENOMINATOR</var>
                 <var id="Y_INTERCEPT">C / B</var>
             </div>
-            <p class="question">Convert the following equation from standard form to point-slope.</p>
+            <p class="question">Convert the following equation from standard form to point-slope.  For the <code>x - x_1</code> term, make <code>x_1</code> an integer between -5 and 5.</p>
             <code><var>expr([ '*', A, 'x' ])</var> + <var>expr([ '*', B, 'y' ])</var> = <var>C</var></code>
 
-            <!-- Custom validation is used to allow for x to be any value. If we allowed a finite range for x, then we could have a set of solutions.-->
-            <div class="solution" data-type="custom">
-                <div class="instruction">
-                    <p><code>y - \space</code><input id="solution_y" type="text"></input><code> \quad = \quad</code><input id="solution_m" type="text"></input><code>(x - \space</code><input id="solution_x" type="text"></input><code>)</code></p>
+            <!-- TODO: When there is a equation based answer type, use that instead of having an arbitrary restriction on x. -->
+            <div class="solution" data-type="set">
+                <div class="set-sol" data-type="multiple" data-each="X1 as x">
+                    <span class="sol"><var>(C-A*x)/B</var></span>
+                    <span class="sol"><var>SLOPE</var></span>
+                    <span class="sol"><var>x</var></span>
                 </div>
-                <div class="guess">
-                    [ $( '#solution_x' ).val(), $( '#solution_y' ).val(), $( '#solution_m' ).val() ]
+
+                <div class="input-format">
+                    <div class="entry" data-type="multiple">
+                        <p><code>y - \space</code><span class="sol"></span><code> \quad =</code></p><p><span class="sol"></span><code>(x - \space</code><span class="sol"></span><code>)</code></p>
+                    </div>
                 </div>
-                <div class="validator-function">
-                    var answer_x = guess[ 0 ];
-                    var answer_y = guess[ 1 ];
-                    var answer_slope = guess[ 2 ];
-                    return abs( ( ( C - A * answer_x ) / B ) - answer_y ) &lt; 0.001 &amp;&amp; abs( answer_slope - SLOPE ) &lt; 0.001;
-                </div>
-                <div class="show-guess-solutionarea">
-                    $( '#solution_x' ).val( guess[ 0 ] );
-                    $( '#solution_y' ).val( guess[ 1 ] );
-                    $( '#solution_m' ).val( guess[ 2 ] );
-                </div>
-                <p class="example">integers, like <code>6</code></p>
-                <p class="example"><em>simplified proper</em> fractions, like <code>3/5</code></p>
-                <p class="example"><em>simplified improper</em> fractions, like <code>7/4</code></p>
-                <p class="example">and/or <em>exact</em> decimals, like <code>0.75</code></p>
-                <p class="example">pay attention to the sign of each number you enter to be sure the entire equation is correct</p>
             </div>
 
             <div class="hints">
@@ -63,7 +55,7 @@
                 </div>
                 <div>
                     <p>Find the slope of the line:</p>
-                    <p><code>\color{<var>PINK</var>}{m} = -\dfrac{A}{B} = -\dfrac{<var>A</var>}{<var>B</var>} = \color{<var>PINK</var>}{<var>SLOPE</var>}</code></p>
+                    <p><code>\color{<var>PINK</var>}{m} = -\dfrac{A}{B} = -\dfrac{<var>A</var>}{<var>B</var>} = \color{<var>PINK</var>}{<var>fraction(SLOPE_NUMERATOR, SLOPE_DENOMINATOR, true, true)</var>}</code></p>
                 </div>
                 <p>
                     We can pick any point we want on the line by plugging in any value for <code class="hint_blue">x_{1}</code>.
@@ -77,15 +69,15 @@
                     <p><code><var>A</var>\color{<var>BLUE</var>}{(<var>HINT_X1</var>)} <span data-if="B > 0">+</span><span data-else>-</span>
                     <span data-if="abs( B ) !== 1"><var>abs( B )</var></span>\color{<var>BLUE</var>}{y_1} = <var>C</var></code></p>
                 </div>
-                <p><code class="hint_blue">y_1 = <var>( -A * HINT_X1 + C ) / B</var></code></p>
+                <p><code class="hint_blue">y_1 = <var>fraction( HINT_Y1_NUM, HINT_Y1_DEM, true, true )</var></code></p>
                 <div>
                     <p class="final_answer">Thus, the equation can be written in point-slope form as:</p>
-                    <p><code>\qquad y - \color{<var>BLUE</var>}{(<var>HINT_Y1</var>)} = \color{<var>PINK</var>}{<var>SLOPE</var>}(x - \color{<var>BLUE</var>}{(<var>HINT_X1</var>)})</code></p>
-                    <p><code>\qquad <var>plus( "y", -HINT_Y1 )</var> = <span data-if="SLOPE < 0">-</span><span data-if="abs( SLOPE ) !== 1">
-                    <var>abs( SLOPE )</var></span>( <var>plus( "x", -HINT_X1 )</var> )</code></p>
+                    <p><code>\qquad y - \color{<var>BLUE</var>}{(<var>fraction( -A * HINT_X1 + C, B, true, true )</var>)} = \color{<var>PINK</var>}{<var><var>fraction(SLOPE_NUMERATOR, SLOPE_DENOMINATOR, true, true)</var></var>}(x - \color{<var>BLUE</var>}{(<var>HINT_X1</var>)})</code></p>
+                    <p><code>\qquad <var>plus( "y", fraction( -1 * HINT_Y1_NUM, HINT_Y1_DEM, true, true ) )</var> = <span data-if="SLOPE < 0">-</span><span data-if="abs( SLOPE ) !== 1">
+                    <var><var>fraction(abs(SLOPE_NUMERATOR), abs(SLOPE_DENOMINATOR), true, true)</var></var></span>( <var>plus( "x", -HINT_X1 )</var> )</code></p>
                 </div>
                 <div>
-                    <p>Behold the magic of math! The given point <code>(<var>HINT_X1</var>,<var>HINT_Y1</var>)</code> is on the line with slope <code><var>SLOPE</var></code>!</p>
+                    <p>Behold the magic of math! The given point <code>(<var>HINT_X1</var>,<var>fraction( HINT_Y1_NUM, HINT_Y1_DEM, true, true )</var>)</code> is on the line with slope <code><var>fraction(SLOPE_NUMERATOR, SLOPE_DENOMINATOR, true, true)</var></code>!</p>
                     <div class="graphie" id="grid">
                         graphInit({
                             range: 10,
