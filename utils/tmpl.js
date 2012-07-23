@@ -190,12 +190,18 @@ $.tmpl = {
                     if (typeof MathJax !== "undefined") {
                         KhanUtil.debugLog("adding " + text + " to MathJax typeset queue");
                         MathJax.Hub.Queue(["Typeset", MathJax.Hub, elem]);
+                        MathJax.Hub.Queue(function() {
+                            KhanUtil.debugLog("MathJax done typesetting " + text);
+                        });
                     } else {
                         KhanUtil.debugLog("not adding " + text + " to queue because MathJax is undefined");
                     }
                 } else {
                     KhanUtil.debugLog("reprocessing MathJax: " + text);
                     MathJax.Hub.Queue(["Reprocess", MathJax.Hub, elem]);
+                    MathJax.Hub.Queue(function() {
+                        KhanUtil.debugLog("MathJax done reprocessing " + text);
+                    });
                 }
             };
         }
