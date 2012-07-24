@@ -78,6 +78,14 @@ $.extend(KhanUtil, {
         return Math.floor(x + 0.001);
     },
 
+    factorial: function(x) {
+        if (x <= 1) {
+            return x;
+        } else {
+            return x * KhanUtil.factorial(x-1);
+        }
+    },
+
     getGCD: function(a, b) {
         if (arguments.length > 2) {
             var rest = [].slice.call(arguments, 1);
