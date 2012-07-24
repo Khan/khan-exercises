@@ -8,6 +8,7 @@
 <body>
     <div class="exercise">
     <div class="problems">
+        <!-- basic versions -->
         <div id="simple-percentages">
             <div class="vars">
                 <var id="A_SIMPLE">randRange(1, 150)</var>
@@ -84,6 +85,88 @@
                 </p>
             </div>
         </div>
+        <!-- word problems -->
+        <div id="test-percentages">
+            <div class="vars">
+                <var id="TOTAL">randRange(5, 100)</var>
+                <var id="RIGHT">randRange(1, TOTAL)</var>
+                <var id="PERCENT">round(RIGHT*100 / TOTAL)</var>
+            </div>
+            <p class="question">
+                <var>person(1)</var> answered approximately <var>PERCENT</var>% of the questions right on <var>his(1)</var> <var>TOTAL</var>-item <var>exam(1)</var>.  How many questions did <var>person(1)</var> get correct? 
+            </p>
+            <p class="solution" data-forms="integer"><var>RIGHT</var></p>
+            <div class="hints">
+                <div>
+                    <p>We can set up a proportion to solve this problem.</p>
+                    <p><code>\qquad \dfrac{a}{b} = \dfrac{p}{100}</code></p>
+                </div>
+                <p>The <code>a</code> is the part, the <code>b</code> is the whole, and the <code>p</code> is the percentage.</p>
+                <p>We are given <code><var>PERCENT</var></code> as our percentage and the <code><var>TOTAL</var></code> questions on the <var>exam(1)</var> is our whole.</p>
+                <div>
+                    <p>Substituting this into the equation gives us</p>
+                    <p><code>\qquad \dfrac{a}{<var>TOTAL</var>} = \dfrac{<var>PERCENT</var>}{100}</code></p>
+                </div>
+                <div>
+                    <p>Cross multiplying gives us</p>
+                    <p><code>\qquad 100 \cdot a = <var>TOTAL</var>\cdot<var>PERCENT</var></code></p>
+                </div>
+                <p> Dividing both sides by 100 gives us <code><var>PERCENT</var></code>% of <code><var>TOTAL</var></code> is approximately <code><var>round((PERCENT * TOTAL) )/100</var></code>
+                <p class="final_answer"> So <var>person(1)</var> answered <code>\blue{<var>RIGHT</var>}</code> questions correctly.</p>
+            </div>
+        </div>
+        <div id="test-backward" data-type="test-percentages">
+            <p class="question">
+                <var>person(1)</var> answered <var>RIGHT</var> questions right on <var>his(1)</var> <var>exam(1)</var> scoring approximately <var>PERCENT</var>%.  How many questions were on the <var>exam(1)</var>? 
+            </p>
+            <p class="solution" data-forms="decimal"><var>TOTAL</var></p>
+            <div class="hints">
+                <div>
+                    <p>We can set up a proportion to solve this problem.</p>
+                    <p><code>\qquad \dfrac{a}{b} = \dfrac{p}{100}</code></p>
+                </div>
+                <p>The <code>a</code> is the part, the <code>b</code> is the whole, and the <code>p</code> is the percentage.</p>
+                <p>We are given <code><var>PERCENT</var></code> as our percentage and the <code><var>RIGHT</var></code> correct answers is our part.</p>
+                <div>
+                    <p>Substituting this into the equation gives us</p>
+                    <p><code>\qquad \dfrac{<var>RIGHT</var>}{b} = \dfrac{<var>PERCENT</var>}{100}</code></p>
+                </div>
+                <div>
+                    <p>Cross multiplying gives us</p>
+                    <p><code>\qquad 100 \cdot <var>RIGHT</var> = <var>PERCENT</var> \cdot b</code></p>
+                </div>
+                <p> Dividing both sides by <code><var>PERCENT</var></code> is approximately <code><var>round((RIGHT * 10000 / PERCENT) )/100</var></code></p>
+                <p class="final_answer"> So <var>person(1)</var>'s <var>exam(1)</var> had <var>TOTAL</var> questions.</p>
+                
+                
+            </div>
+        </div>
+        <!-- continue here
+        <div id="find-percentages" data-type="simple-percentages">
+            <p class="question">
+                <var>B_SIMPLE</var> is what percent of <var>A_SIMPLE</var>? (Round to the nearest percent.)
+            </p>
+            <p class="solution" data-forms="percent"><var>round((B_SIMPLE * 100) / A_SIMPLE)</var></p>
+            <div class="hints">
+                <div>
+                    <p>We can set up a proportion to solve this problem.</p>
+                    <p><code>\qquad \dfrac{a}{b} = \dfrac{p}{100}</code></p>
+                </div>
+                <p>The <code>a</code> is the part, the <code>b</code> is the whole, and the <code>p</code> is the percentage.</p>
+                <p>We are given <code><var>A_SIMPLE</var></code> as our whole and <code><var>B_SIMPLE</var></code> as the part.</p>
+                <div>
+                    <p>Substituting this into the equation gives us</p>
+                    <p><code>\qquad \dfrac{<var>B_SIMPLE</var>}{<var>A_SIMPLE</var>} = \dfrac{p}{100}</code></p>
+                </div>
+                <div>
+                    <p>Cross multiplying gives us</p>
+                    <p><code>\qquad 100 \cdot <var>B_SIMPLE</var> = <var>A_SIMPLE</var> \cdot p</code></p>
+                </div>
+                <p class="final_answer"> Dividing both sides by <var>A_SIMPLE</var> gives us <code><var>B_SIMPLE</var></code> is approximately <code>\blue{<var>round(B_SIMPLE * 100/A_SIMPLE)</var>}</code>%  of <code><var>A_SIMPLE</var></code>.
+                </p>
+            </div>
+        </div>
+        -->
         </div>
     </div>
 </body>
