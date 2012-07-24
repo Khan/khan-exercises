@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html data-require="math-model math graphie graphie-helpers graphie-geometry math-format simplify">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Preserving Similarity in Triangles</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        function triangleAngles(sides){
+            var a = sides[0];
+            var b = sides[1];
+            var c = sides[2];
+
+            var A = KhanUtil.roundTo(0, Math.acos((b*b + c*c - a*a) / (2*b*c)) * 180 / Math.PI);
+
+            var B = KhanUtil.roundTo(0, Math.acos((a*a + c*c - b*b) / (2*a*c)) * 180 / Math.PI);
+            var C = 180 - A - B;
+
+            return [A, B, C];
+        }
+
+        function randomSides(abc_sides) {
+            var a = KhanUtil.randFromArray([4, 6, 8, 10]);
+            var b = KhanUtil.randFromArrayExclude([4, 6, 8, 10], [a]);
+            var c = KhanUtil.randRangeExclude(Math.max(a, b), a + b - 2, [a, b]);
+
+            return [a, b, c];
+
+        }
+
+        function scaleSides(sides, scale) {
+            return [sides[0] * scale, sides[1] * scale, sides[2] * scale];
+        }
+
+        function applyOperation(sides, operation, factor) {
+            if (operation === "Add") return [sides[0] + factor, sides[1] + factor, sides[2] + factor];
+            if (operation === "Subtract") return [sides[0] - factor, sides[1] - factor, sides[2] - factor];
+            if (operation === "Multiply") return [sides[0] * factor, sides[1] * factor, sides[2] * factor];
+            if (operation === "Divide") return [KhanUtil.roundTo(2, sides[0] / factor), KhanUtil.roundTo(2, sides[1] / factor), KhanUtil.roundTo(2, sides[2] / factor)];
+        }
+
+        function areCongruent(tri_1, tri_2) {
+            return tri_1[0] === tri_2[0] && tri_1[1] === tri_2[1] && tri_1[2] === tri_2[2];
+        }
+
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+
+            <var id="ABC_SIDES">randomSides()</var>
+            <var id="ABC_ANGLES">triangleAngles(ABC_SIDES)</var>
+
+            <var id="SCALE_DEF">randFromArray([0.5, 2, 1.5])</var>
+
+            <var id="DEF_SIDES">scaleSides(ABC_SIDES, SCALE_DEF)</var>
+            <var id="DEF_ANGLES">ABC_ANGLES</var>
+
+            <var id="ABC_SIDES_NAMES">["BC", "CA", "AB"]</var>
+            <var id="DEF_SIDES_NAMES">["EF", "FD", "DE"]</var>
+
+            <var id="OPERATIONS">["Add", "Subtract", "Multiply", "Divide"]</var>
+            <var id="OPS">{
+                "Add": "+",
+                "Subtract": "-",
+                "Multiply": "*",
+                "Divide": "/"
+            }</var>
+            <var id="SIDES">["all sides of triangle &lt;code&gt;DEF&lt;/code&gt;", "sides &lt;code&gt;AB&lt;/code&gt; and &lt;code&gt;DE&lt;/code&gt;", "sides &lt;code&gt;BC&lt;/code&gt; and &lt;code&gt;EF&lt;/code&gt;", "sides &lt;code&gt;AB&lt;/code&gt; and &lt;code&gt;FD&lt;/code&gt;", "sides &lt;code&gt;BC&lt;/code&gt; and &lt;code&gt;DE&lt;/code&gt;"]</var>
+
+            <var id="ANSWER_OPERATION">
+                function() {
+                    if (areCongruent(ABC_SIDES, DEF_SIDES)) return OPERATIONS[randRange(0, 3)];
+                    else return OPERATIONS[randRange(2, 3)];
+                }()
+            </var>
+            <var id="ANSWER_SIDES">
+                function() {
+                    if (randRange(0, 1) === 0 && (ANSWER_OPERATION === "Multiply" || ANSWER_OPERATION === "Divide")) return [DEF_SIDES_NAMES[0], DEF_SIDES_NAMES[1], DEF_SIDES_NAMES[2]];
+                    else {
+                        var index = randRange(0, 2);
+                        return [ABC_SIDES_NAMES[index], DEF_SIDES_NAMES[index]];
+                    }
+                }()
+            </var>
+            <var id="ANSWER_FACTOR" data-ensure="ANSWER_FACTOR < getMinimum(ABC_SIDES.concat(DEF_SIDES))">randRange(2, 10)</var>
+            <var id="ANSWER">
+                function() {
+                    var sides;
+                    if (ANSWER_SIDES.length === 3 && (ANSWER_OPERATION === "Multiply" || ANSWER_OPERATION === "Divide")) {
+                        sides = " all sides of triangle &lt;code&gt;DEF&lt;/code&gt;";
+                    }
+                    else {
+                        sides = " sides &lt;code&gt;" + ANSWER_SIDES[0] + "&lt;/code&gt; and &lt;code&gt;" + ANSWER_SIDES[1] + "&lt;/code&gt;";
+                    }
+
+                    if (ANSWER_OPERATION === "Add") return [ANSWER_OPERATION + " " + ANSWER_FACTOR + " to " + sides, ANSWER_OPERATION.toLowerCase() + " " + ANSWER_FACTOR + " to " + sides];
+                    if (ANSWER_OPERATION === "Subtract") return [ANSWER_OPERATION + " " + ANSWER_FACTOR + " from " + sides, ANSWER_OPERATION.toLowerCase() + " " + ANSWER_FACTOR + " from " + sides];
+                    else return [ANSWER_OPERATION + " " + sides + " by "  + ANSWER_FACTOR, ANSWER_OPERATION.toLowerCase() + " " + sides + " by "  + ANSWER_FACTOR];
+                }()
+            </var>
+            <var id="INCORRECTS">
+                function() {
+                    var incorrects = [];
+                    for (var i = 0; i < 3; i++) {
+                        var op = OPERATIONS[randRange(0, 3)];
+                        var sides = (op === "Multiply" || op === "Divide") ? SIDES[randRange(3, 4)] : SIDES[randRange(0, 4)];
+
+                        var answer;
+                        if (op === "Add") incorrects.push(op + " " + randRange(2, 5) + " to " + sides);
+                        else if (op === "Subtract") incorrects.push(op + " " + randRange(2, ANSWER_FACTOR - 1) + " from " + sides);
+                        else incorrects.push(op + " " + sides + " by " + randRange(2, 5));
+                    }
+                    return incorrects;
+                }()
+            </var>
+            <var id="FINAL_FRAC">
+                function() {
+                    var ABC = {
+                        "AB": ABC_SIDES[2],
+                        "BC": ABC_SIDES[0],
+                        "CA": ABC_SIDES[1]
+                    };
+
+                    var ABC_LATEX = {
+                        "AB": ABC_SIDES[2],
+                        "BC": ABC_SIDES[0],
+                        "CA": ABC_SIDES[1]
+                    };
+
+                    var DEF = {
+                        "DE": DEF_SIDES[2],
+                        "EF": DEF_SIDES[0],
+                        "FD": DEF_SIDES[1]
+                    };
+
+                    var DEF_LATEX = {
+                        "DE": DEF_SIDES[2],
+                        "EF": DEF_SIDES[0],
+                        "FD": DEF_SIDES[1]
+                    };
+
+                    if (ANSWER_SIDES.length === 3) {
+                        var DE_expr = KhanUtil.parse(DEF_SIDES[2] + OPS[ANSWER_OPERATION] + ANSWER_FACTOR);
+                        var DE_genLatex = KhanUtil.format(KhanUtil.simplify(DE_expr, {evalBasicNumOps:false}));
+                        DE_genLatex = ("" + DE_genLatex).replace(/\\/g, "\\");
+
+                        var EF_expr = KhanUtil.parse(DEF_SIDES[0] + OPS[ANSWER_OPERATION] + ANSWER_FACTOR);
+                        var EF_genLatex = KhanUtil.format(KhanUtil.simplify(EF_expr, {evalBasicNumOps:false}));
+                        EF_genLatex = ("" + EF_genLatex).replace(/\\/g, "\\");
+
+                        var FD_expr = KhanUtil.parse(DEF_SIDES[1] + OPS[ANSWER_OPERATION] + ANSWER_FACTOR);
+                        var FD_genLatex = KhanUtil.format(KhanUtil.simplify(FD_expr, {evalBasicNumOps:false}));
+                        FD_genLatex = ("" + FD_genLatex).replace(/\\/g, "\\");
+
+                        DEF_TRANS = applyOperation([DEF_SIDES[2], DEF_SIDES[0], DEF_SIDES[1]], ANSWER_OPERATION, ANSWER_FACTOR);
+
+                        DEF["DE"] = "\\color{red}{" + DEF_TRANS[0] + "}";
+                        DEF["EF"] = "\\color{red}{" + DEF_TRANS[1] + "}";
+                        DEF["FD"] = "\\color{red}{" + DEF_TRANS[2] + "}";
+
+                        DEF_LATEX = {
+                            "DE": "\\color{red}{" + DE_genLatex + "}",
+                            "EF": "\\color{red}{" + EF_genLatex + "}",
+                            "FD": "\\color{red}{" + FD_genLatex + "}"
+                        };
+                    } else {
+                        var pos = -1;
+                        if (ANSWER_SIDES[0] === ABC_SIDES_NAMES[0]) pos = 0;
+                        if (ANSWER_SIDES[0] === ABC_SIDES_NAMES[1]) pos = 1;
+                        if (ANSWER_SIDES[0] === ABC_SIDES_NAMES[2]) pos = 2;
+
+                        var ABC_expr = KhanUtil.parse(ABC_SIDES[pos] + OPS[ANSWER_OPERATION] + ANSWER_FACTOR);
+                        console.log(ABC_expr);
+                        var ABC_genLatex = KhanUtil.format(KhanUtil.simplify(ABC_expr, {evalBasicNumOps:false}));
+                        console.log(ABC_genLatex);
+                        ABC_genLatex = ("" + ABC_genLatex).replace(/\\/g, "\\");
+                        console.log(ABC_genLatex);
+
+                        var DEF_expr = KhanUtil.parse(DEF_SIDES[pos] + OPS[ANSWER_OPERATION] + ANSWER_FACTOR );
+                        var DEF_genLatex = KhanUtil.format(KhanUtil.simplify(DEF_expr, {evalBasicNumOps:false}));
+                        DEF_genLatex = ("" + DEF_genLatex).replace(/\\/g, "\\");
+
+                        ABC[ABC_SIDES_NAMES[pos]] = "\\color{red}{" + applyOperation([ABC_SIDES[pos]], ANSWER_OPERATION, ANSWER_FACTOR)[0] + "}";
+                        ABC_LATEX[ABC_SIDES_NAMES[pos]] = "\\color{red}{" + ABC_genLatex + "}";
+
+                        DEF[DEF_SIDES_NAMES[pos]] = "\\color{red}{" + applyOperation([DEF_SIDES[pos]], ANSWER_OPERATION, ANSWER_FACTOR)[0] + "}";
+                        DEF_LATEX[DEF_SIDES_NAMES[pos]] = "\\color{red}{" + DEF_genLatex + "}";
+                    }
+
+                    return [ABC, DEF, ABC_LATEX, DEF_LATEX];
+                }()
+            </var>
+
+            <var id="TR">
+                function(){
+                    var tr = new Triangle([2, -1],  ABC_ANGLES, 7, {});
+                    tr.labels = {"sides": [ABC_SIDES[2], ABC_SIDES[0], ABC_SIDES[1]], "points" : ["A", "B", "C"]};
+                    tr.rotate(randRange(0, 360));
+                    tr.boxOut([[[-4, 1.5], [10, 1.5]]], [0, -0.5]);
+                    return tr;
+                }()
+            </var>
+            <var id="TR_A">
+                function(){
+                    var trA = new Triangle([1, -8],  DEF_ANGLES, 7*SCALE_DEF, {});
+                    trA.labels = {"sides": [DEF_SIDES[2], DEF_SIDES[0], DEF_SIDES[1]], "points" : ["D", "E", "F"]};
+                    trA.rotate(randRange(0, 360));
+                    trA.color = "blue";
+                    trA.boxOut([[[-1, -10], [-1, 20]]], [0.5, 0]);
+                    trA.boxOut(TR.sides, [0, -1]);
+                    return trA;
+                }()
+            </var>
+        </div>
+
+        <div class="problems">
+        <div id="similar">
+            <div class="problem">
+                <code>ABC</code> and <code>DEF</code> are similar triangles. What operation would preserve their similarity?
+            </div>
+            <div class="question">
+                <div class="graphie" id="triangles" >
+                    init({
+                        range: [[-1, 13], [-14, 2.5]]
+                    })
+
+                    TR.draw();
+                    TR.drawLabels();
+
+                    style({
+                        stroke: "blue",
+                    });
+                    TR_A.draw();
+                    TR_A.drawLabels();
+                </div>
+            </div>
+            <div class="solution"><var>ANSWER[0]</var></div>
+            <ul class="choices" data-show="4">
+                <li><var>ANSWER[0]</var></li>
+                <li><var>INCORRECTS[0]</var></li>
+                <li><var>INCORRECTS[1]</var></li>
+                <li><var>INCORRECTS[2]</var></li>
+            </ul>
+            <div class="hints">
+                <div>
+                    <p>Remember that the corresponding sides of similar triangles are always proportional. This is known as <code>\color{orange}{Side-Side-Side (SSS) Similarity}</code>.</p>
+                </div>
+                <div>
+                    <p>Since the corresponding sides of similar triangles <code>ABC</code> and <code>DEF</code> are proportional,</p>
+                    <p><code>\dfrac{AB}{\color{blue}{DE}} = \dfrac{BC}{\color{blue}{EF}} = \dfrac{CA}{\color{blue}{FD}}</code></p>
+                </div>
+                <div>
+                    <p>Substituting in the values for each side, we see that</p>
+                    <p><code>\dfrac{<var>ABC_SIDES[2]</var>}{\color{blue}{<var>DEF_SIDES[2]</var>}} = \dfrac{<var>ABC_SIDES[0]</var>}{\color{blue}{<var>DEF_SIDES[0]</var>}} = \dfrac{<var>ABC_SIDES[1]</var>}{\color{blue}{<var>DEF_SIDES[1]</var>}}</code></p>
+                </div>
+                <div>
+                    <p>Since we want to keep the corresponding sides of similar triangles <code>ABC</code> and <code>DEF</code> proportional, if we <var>ANSWER[1]</var>, we get</p>
+                    <p><code>\dfrac{<var>FINAL_FRAC[2]["AB"]</var>}{<var>FINAL_FRAC[3]["DE"]</var>} = \dfrac{<var>FINAL_FRAC[2]["BC"]</var>}{<var>FINAL_FRAC[3]["EF"]</var>} = \dfrac{<var>FINAL_FRAC[2]["CA"]</var>}{<var>FINAL_FRAC[3]["FD"]</var>}</code> 
+                    </p>
+                </div>
+                <div class="final_answer">
+                    <p><code>\dfrac{<var>FINAL_FRAC[0]["AB"]</var>}{<var>FINAL_FRAC[1]["DE"]</var>} = \dfrac{<var>FINAL_FRAC[0]["BC"]</var>}{<var>FINAL_FRAC[1]["EF"]</var>} = \dfrac{<var>FINAL_FRAC[0]["CA"]</var>}{<var>FINAL_FRAC[1]["FD"]</var>}</code></p>
+                    <p>The corresponding sides of triangles <code>ABC</code> and <code>DEF</code> are proportional, so they are similar triangles.<p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
