@@ -34,10 +34,14 @@
 
             <div class="hints">
                 <p>To name a polynomial, you need to find its degree and number of terms.</p>
-                <p>When there is only one variable, the degree of a polynomial is found by finding the highest exponent in each term and choosing the largest one.</p>
-                <p>The term with the highest exponent is <code><var>HIGHEST_TERM</var></code>. Its exponent is <code><var>DEGREE</var></code>, so the degree of the entire polynomial is <code><var>DEGREE</var></code>.
+                <p>When there is only one variable, the degree of a polynomial is found by finding the term with the largest exponent.</p>
+                <p>The term with the highest exponent is <code><var>HIGHEST_TERM</var></code>. 
+                <span data-if="DEGREE < 2">
+                    This can be rewritten as <code><var>HIGHEST.coef</var>x^{<var>HIGHEST.degree</var>}</code>.
+                </span>
+                Its exponent is <code><var>DEGREE</var></code>, so the degree of the entire polynomial is <code><var>DEGREE</var></code>.
                 <p>Polynomials with degree <code><var>DEGREE</var></code> are known as <var>DEGREE_WORD</var>.</p>
-                <p>A term is a product of numbers and variables. Terms are separated by <code>+</code> and <code>-</code> signs.</p>
+                <p>A term is a product of numbers and variables. Different terms are separated by <code>+</code> and <code>-</code> signs.</p>
                 <p>This polynomial has <var>plural(NUM_TERMS, "term")</var>.</p>
                 <p>Polynomials with <var>plural(NUM_TERMS, "term")</var> are called <var>TERM_WORD</var>s.</p>
                 <p><code><var>POLY</var></code> is a <var>DEGREE_WORD</var> <var>TERM_WORD</var>.</p>
