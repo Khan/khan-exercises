@@ -8,8 +8,8 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="letters" data-weight="0.6" data-ensure="WORD != PERM">
-                <div class="vars">
+            <div id="letters" data-weight="0.6">
+                <div class="vars" data-ensure="WORD != PERM">
                     <var id="INDEX">randRange(0,11)</var>
                     <var id="WORD">["CLAW", "OPAL", "APE", "RULES", "ANGER", "SLIME", "FEAT", "FANCY", "SONG", "DEN", "TIGER", "IRON"][INDEX]</var>
                     <var id="PERM">shuffle(WORD).join("")</var>
