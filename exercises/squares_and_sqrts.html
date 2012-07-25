@@ -32,9 +32,10 @@
                     <p>The side length is <code><var>TILDE</var><var>SIDESTRING</var></code></p>
                 </div>
                 <div class="problem">
-                    <div><br>(You can adjust the diagram to find the answer: move an orange dot.)</div>
+                    <div><br>(You can adjust the diagram with your mouse to find the answer.)</div>
                     <div class="graphie">
                         init({ range: [ [ -6, 6 ], [ -6, 6 ] ] });
+                        addMouseLayer();
                         var area = 9;
                         var size = 3;
                         var halfsize = size*0.5;
@@ -47,10 +48,9 @@
                             if (areaLabel) areaLabel.remove();
                             areaLabel = label([0, 0], areaPrefix+(size*size).toFixed(1), "center");
                         };
-                        var moveFourPoints = function(x, y) {
-                            var newsize = abs(x) + abs(y);
-                            size = newsize.toFixed(1);
-                            halfsize = size * 0.5;
+                        var adjustSquareByVertex = function(x, y) {
+                            halfsize = (abs(x) &GT; abs(y)) ? abs(x) : abs(y);
+                            size = halfsize * 2;
                             area = size * size;
                             point0.setCoord([-halfsize, -halfsize]);
                             point1.setCoord([-halfsize,  halfsize]);
@@ -60,46 +60,49 @@
                             line1.transform(true);
                             line2.transform(true);
                             line3.transform(true);
-                            newLabels (size);
+                            newLabels (size.toFixed(1));
                             return false;
                         };
-                        addMouseLayer();
-                        //newLabels (size);                        
+                        var adjustSquareByEdge = function (dx, dy) {
+                            var centerX = (this.coordA[0] + this.coordZ[0]) * 0.5;
+                            var centerY = (this.coordA[1] + this.coordZ[1]) * 0.5;
+                            return adjustSquareByVertex(centerX, centerY);
+                        }
                         point0 = addMovablePoint({
                             coord: [-halfsize, -halfsize],
-                            onMove: function(x, y) {return moveFourPoints(x, y);}
+                            onMove: adjustSquareByVertex
                         });
                         point1 = addMovablePoint({
                             coord: [-halfsize, halfsize],
-                            onMove: function(x, y) {return moveFourPoints(x, y);}
+                            onMove: adjustSquareByVertex
                         });
                         point2 = addMovablePoint({
                             coord: [halfsize, halfsize],
-                            onMove: function(x, y) {return moveFourPoints(x, y);}
+                            onMove: adjustSquareByVertex
                         });
                         point3 = addMovablePoint({
                             coord: [halfsize, -halfsize],
-                            onMove: function(x, y) {return moveFourPoints(x, y);}
+                            onMove: adjustSquareByVertex
                         });
                         line0 = addMovableLineSegment({
                             pointA: point0,
                             pointZ: point1,
-                            fixed: true
+                            onMove: adjustSquareByEdge
                         });
                         line1 = addMovableLineSegment({
                             pointA: point1,
                             pointZ: point2,
-                            fixed: true
+                            onMove: adjustSquareByEdge
                         });
                         line2 = addMovableLineSegment({
                             pointA: point2,
                             pointZ: point3,
-                            fixed: true
+                            onMove: adjustSquareByEdge
                         });
                         line3 = addMovableLineSegment({
                             pointA: point3,
                             pointZ: point0,
-                            fixed: true
+                            onMove: adjustSquareByEdge
                         });
                     </div>
                 </div>
