@@ -12,8 +12,8 @@
     -->
     <div class="exercise">
         <div class="vars">
-            <var id="NUM_1">randRange( 1, 8 )</var>
-            <var id="DEN_1">randRange( NUM_1 + 1, 9 )</var>
+            <var id="NUM_1">randRange(1, 8)</var>
+            <var id="DEN_1">randRange(NUM_1 + 1, 9)</var>
         </div>
         <div class="problems">
             <div id="pie-chart">
@@ -21,16 +21,16 @@
                         <p>What fraction of this circle is shaded red?</p>
                         <div class="graphie">
                             init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-                            piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
+                            piechart([NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2);
                         </div>
                 </div>
                 <p class="solution" data-simplify="optional"><var>NUM_1 / DEN_1</var></p>
                 <div class="hints">
                     <p>Count the red slices for the numerator.</p>
                     <p>There <var>plural( "is", NUM_1 )</var> <var>plural( NUM_1, "red slice")</var>.</p>
-                    <p>Count the total slices (<code>\color{#e00}{\text{Red Slices}}</code> + <code>\color{#999}{\text{Gray Slices}}</code>) for the denominator.</p>
-                    <p>There are <var>DEN_1</var> slices total.</p>
-                    <p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#666}{\text{<var>DEN_1</var>}}}</code>.</p>
+                    <p>Count the total slices <code>\left(\color{#e00}{\text{Red Slices}} + \color{#999}{\text{Gray Slices}}\right)</code> for the denominator.</p>
+                    <p>There are <code>\color{#000}{<var>DEN_1</var>\text{ Slices}}</code> in total.</p>
+                    <p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#000}{\text{<var>DEN_1</var>}}}</code>.</p>
                 </div>
             </div>
 
@@ -39,17 +39,17 @@
                     <p>What fraction of the bar is shaded red?</p>
                     <div class="graphie">
                         init({ range: [ [0, 1], [0, 1] ], scale: [250, 25] });
-                        rectchart( [NUM_1, DEN_1-NUM_1], ["#e00", "#999"] );
+                        rectchart([NUM_1, DEN_1-NUM_1], ["#e00", "#999"]);
                     </div>
                 </div>
                 <p class="solution" data-simplify="optional"><var>NUM_1 / DEN_1</var></p>
 
                 <div class="hints">
-                        <p>Count the red blocks for the numerator.</p>
-                        <p>There <var>plural( "is", NUM_1 )</var> <var>plural( NUM_1, "red block")</var>.</p>
-                        <p>Count the total blocks (<code>\color{#e00}{\text{Red Blocks}}</code> + <code>\color{#999}{\text{Gray Blocks}}</code>) for the denominator.</p>
-                        <p>There are <var>DEN_1</var> blocks total.</p>
-                        <p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#666}{\text{<var>DEN_1</var>}}}</code>.</p>
+                    <p>Count the red blocks for the numerator.</p>
+                    <p>There <var>plural( "is", NUM_1 )</var> <var>plural( NUM_1, "red block")</var>.</p>
+                    <p>Count the total slices <code>\left(\color{#e00}{\text{Red Blocks}} + \color{#999}{\text{Gray Blocks}}\right)</code> for the denominator.</p>
+                    <p>There are <code>\color{#000}{<var>DEN_1</var>\text{ Blocks}}</code> in total.</p>
+                    <p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#000}{\text{<var>DEN_1</var>}}}</code>.</p>
                 </div>
             </div>
 
