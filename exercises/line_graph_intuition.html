@@ -1,86 +1,475 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
+<html data-require="math math-format expressions graphie graphie-helpers interactive word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Line graph intuition</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
-    <div class="exercise">
-        <div class="vars" data-ensure="X1 !== X2 && !(M === 1 && B === 0) && abs(M) < 10 && abs(B) < 10">
-            <var id="X1">randRange( -8, 8 )</var>
-            <var id="X2">randRange( -8, 8 )</var>
-            <var id="Y1">randRange( -8, 8 )</var>
-            <var id="Y2">randRange( -8, 8 )</var>
-            <var id="RISE">Y1 - Y2</var>
-            <var id="RUN">X1 - X2</var>
-            <var id="M">RISE / RUN</var>
-            <var id="B">Y1 - X1 * M</var>
-            <var id="INCR">abs( RUN ) / getGCD( abs( RISE), abs( RUN ) )</var>
+<div class="exercise">
+    <div class="problems">
+        <div id="graph-slope" data-weight="1">
+            <div class="vars">
+                <var id="SLOPE">randFromArray([
+                    "positive", "negative", "zero", "undefined"
+                ])</var>
+                <var id="POINTS">{}</var>
+            </div>
+
+            <p class="question">
+                Graph a line that has <var>an(SLOPE)</var> slope:
+            </p>
+
+            <div class="graphie" id="grid">
+                graphInit({
+                    range: 11,
+                    scale: 20,
+                    axisArrows: "&lt;-&gt;",
+                    tickStep: 1,
+                    labelStep: 1,
+                    gridOpacity: 0.05,
+                    axisOpacity: 0.2,
+                    tickOpacity: 0.4,
+                    labelOpacity: 0.5
+                });
+
+                label([0, 11], "y", "above");
+                label([11, 0], "x", "right");
+
+                addMouseLayer();
+                POINTS.pointA = addMovablePoint({
+                    coord: [-5, 5],
+                    snapX: 0.5,
+                    snapY: 0.5,
+                });
+                POINTS.pointB = addMovablePoint({
+                    coord: [5, 5],
+                    snapX: 0.5,
+                    snapY: 0.5,
+                });
+                graph.line1 = addMovableLineSegment({
+                    pointA: POINTS.pointA,
+                    pointZ: POINTS.pointB,
+                    fixed: true,
+                    extendLine: true,
+                    normalStyle: {
+                        stroke: KhanUtil.ORANGE,
+                        "stroke-width": 2
+                    }
+                });
+
+                // A and B can't be in the same place
+                POINTS.pointA.onMove = function(x, y) {
+                    return (x !== POINTS.pointB.coord[0] ||
+                        y !== POINTS.pointB.coord[1]);
+                }
+                POINTS.pointB.onMove = function(x, y) {
+                    return (x !== POINTS.pointA.coord[0] ||
+                        y !== POINTS.pointA.coord[1]);
+                }
+
+                POINTS.pointA.toFront();
+                POINTS.pointB.toFront();
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Drag the two points to move the line into the correct
+                    position.
+                </div>
+                <div class="guess">
+                    [POINTS.pointA.coord, POINTS.pointB.coord]
+                </div>
+                <div class="validator-function">
+                    if (SLOPE !== "zero" &amp;&amp;
+                            guess[0][0] === -5 &amp;&amp;
+                            guess[0][1] === 5 &amp;&amp;
+                            guess[1][0] === 5 &amp;&amp;
+                            guess[1][1] === 5) {
+                        return "";
+                    }
+                    var slope = (guess[1][1] - guess[0][1]) /
+                        (guess[1][0] - guess[0][0]);
+                    if (SLOPE === "positive") {
+                        return slope &gt; 0;
+                    } else if (SLOPE === "negative") {
+                        return slope &lt; 0;
+                    } else if (SLOPE === "zero") {
+                        return abs(slope) &lt; 0.001;
+                    } else if (SLOPE === "undefined") {
+                        return guess[1][0] === guess[0][0];
+                    }
+                </div>
+                <div class="show-guess">
+                    POINTS.pointA.setCoord(guess[0]);
+                    POINTS.pointB.setCoord(guess[1]);
+                    graph.line1.transform(true);
+                </div>
+            </div>
+
+            <div class="hints">
+                <p>
+                    The slope of a line is the ratio of the change in
+                    <code>y</code> over the change in <code>x</code>. Also
+                    known as rise over run.
+                </p>
+                <p data-if="SLOPE === 'positive'">
+                    For a positive slope, if the change in <code>y</code> from
+                    one point to another is positive then the change in
+                    <code>x</code> should also be positive.
+                </p>
+                <p data-else-if="SLOPE === 'negative'">
+                    For a negative slope, if the change in <code>y</code> from
+                    one point to another is positive then the change in
+                    <code>x</code> should be negative.
+                </p>
+                <p data-else-if="SLOPE === 'zero'">
+                    For a zero slope, the change in <code>y</code> should be
+                    zero from any point to another point.
+                </p>
+                <p data-else>
+                    For an undefined slope, the change in <code>x</code> should
+                    be zero from any point to another point.
+                </p>
+                <div>
+                    <p>
+                        A line with <var>an(SLOPE)</var> slope looks like:
+                    <p>
+                    <div class="graphie" style="margin-left: 30px">
+                        graphInit({
+                            range: 6,
+                            scale: 20,
+                            axisArrows: "&lt;-&gt;",
+                            tickStep: 1,
+                            labelStep: 10,
+                            gridOpacity: 0.05,
+                            axisOpacity: 0.2,
+                            tickOpacity: 0.4,
+                            labelOpacity: 0.5
+                        });
+
+                        style({ stroke: ORANGE }, function() {
+                            var intercept = randRange(-3, 3);
+                            if (SLOPE === "positive") {
+                                plot(function(x) {
+                                    return x + intercept;
+                                }, [-6, 6]);
+                            } else if (SLOPE === "negative") {
+                                var yInt = randRange(-3, 3);
+                                plot(function(x) {
+                                    return -x + intercept;
+                                }, [-6, 6]);
+                            } else if (SLOPE === "zero") {
+                                var y = randRangeNonZero(-3, 3);
+                                path([[-6, intercept], [6, intercept]]);
+                            } else if (SLOPE === "undefined") {
+                                var x = randRangeNonZero(-3, 3);
+                                path([[intercept, -6], [intercept, 6]]);
+                            }
+                        });
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="problems">
-            <div>
-                <div class="question">
-                    Adjust the slope and y-intercept until it connects the two points. How do the slope and y-intercept values affect the line?
+        <div id="graph-compare" data-type="graph-slope" data-weight="1">
+            <div class="vars">
+                <var id="SLOPE_N">randRangeNonZero(-5, 5)</var>
+                <var id="SLOPE_D">randRange(1, 5)</var>
+                <var id="Y_INT">randRange(-5, 5)</var>
+                <var id="GOAL">SLOPE_N &lt; 0 ? "negative" : "positive"</var>
+                <var id="CHANGE">randFromArray(["greater", "less"])</var>
+                <var id="NEW_SLOPE">(function() {
+                    if (SLOPE_N &lt; 0) {
+                        if (CHANGE === "greater") {
+                            return (SLOPE_N / SLOPE_D) / 2;
+                        } else {
+                            return (SLOPE_N / SLOPE_D) * 2;
+                        }
+                    } else {
+                        if (CHANGE === "less") {
+                            return (SLOPE_N / SLOPE_D) / 2;
+                        } else {
+                            return (SLOPE_N / SLOPE_D) * 2;
+                        }
+                    }
+                })()</var>
+            </div>
+            <p class="question">
+                Graph a line that has a slope that is <em><var>GOAL</var></em>
+                and <em><var>CHANGE</var> than</em> the slope of the blue line.
+            </p>
+            <div class="graphie" data-update="grid">
+                plot(function(x) {
+                    return (SLOPE_N / SLOPE_D) * x + Y_INT;
+                }, [-11, 11], {
+                    stroke: BLUE
+                }).toBack();
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Drag the two points to move the line into the correct
+                    position.
                 </div>
+                <div class="guess">
+                    [POINTS.pointA.coord, POINTS.pointB.coord]
+                </div>
+                <div class="validator-function">
+                    if (guess[0][0] === -5 &amp;&amp;
+                            guess[0][1] === 5 &amp;&amp;
+                            guess[1][0] === 5 &amp;&amp;
+                            guess[1][1] === 5) {
+                        return "";
+                    }
+                    var slope = (guess[1][1] - guess[0][1]) /
+                        (guess[1][0] - guess[0][0]);
 
-                <div class="graphie" id="grid">
-                    init({
-                        range: [[-10, 10], [-10, 12]],
-                        scale: [30, 30]
-                    });
+                    if (GOAL === "positive" &amp;&amp;
+                            CHANGE === "less") {
+                        return (slope &gt; 0) &amp;&amp;
+                            (slope &lt; SLOPE_N / SLOPE_D);
+                    } else if (GOAL === "positive" &amp;&amp;
+                            CHANGE === "greater") {
+                        return (slope &gt; 0) &amp;&amp;
+                            (slope &gt; SLOPE_N / SLOPE_D);
+                    } else if (GOAL === "negative" &amp;&amp;
+                            CHANGE === "less") {
+                        return (slope &lt; 0) &amp;&amp;
+                            (slope &lt; SLOPE_N / SLOPE_D);
+                    } else if (GOAL === "negative" &amp;&amp;
+                            CHANGE === "greater") {
+                        return (slope &lt; 0) &amp;&amp;
+                            (slope &gt; SLOPE_N / SLOPE_D);
+                    }
+                </div>
+                <div class="show-guess">
+                    POINTS.pointA.setCoord(guess[0]);
+                    POINTS.pointB.setCoord(guess[1]);
+                    graph.line1.transform(true);
+                </div>
+            </div>
+            <div class="hints">
+                <p>
+                    The slope of the original line is
+                    <span data-if="SLOPE_N > 0">positive.</span>
+                    <span data-else>negative.</span>
+                </p>
+                <div data-if="GOAL === 'negative'">
+                    <div data-if="CHANGE === 'greater'">
+                        <p>
+                            If the slope of the new line is negative and
+                            greater than the slope of the original line with
+                            negative slope then the new line should be less
+                            steep.
+                        </p>
+                    </div>
+                    <div data-else>
+                        <p>
+                            If the slope of the new line is negative and less
+                            than the slope of the original line with negative
+                            slope, then the new line should be steeper.
+                        </p>
+                    </div>
+                </div>
+                <div data-else>
+                    <div data-if="CHANGE === 'greater'">
+                        <p>
+                            If the slope of the new line is positive and greater
+                            than the slope of the original line with positive
+                            slope, then the new line should be steeper.
+                        </p>
+                    </div>
+                    <div data-else>
+                        <p>
+                            If the slope of the new line is positive and less
+                            than the slope of the original line with positive
+                            slope, then the new line should be less steep.
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <p>
+                        Since the original slope is <code>
+                        <var>fractionReduce(SLOPE_N, SLOPE_D)</var></code>,
+                        the slope of the new line could be <code>
+                        <var>decimalFraction(NEW_SLOPE, true, true)</var>
+                        </code> and could look like this:
+                    <p>
+                    <div class="graphie" style="margin-left: 30px">
+                        graphInit({
+                            range: 11,
+                            scale: 10,
+                            axisArrows: "&lt;-&gt;",
+                            tickStep: 1,
+                            labelStep: 20,
+                            gridOpacity: 0.05,
+                            axisOpacity: 0.2,
+                            tickOpacity: 0.4,
+                            labelOpacity: 0.5
+                        });
 
-                    grid( [-10, 10], [-10, 10], {
-                        stroke: "#ccc"
-                    });
+                        style({ stroke: BLUE }, function() {
+                            plot(function(x) {
+                                return x * (SLOPE_N / SLOPE_D) + Y_INT;
+                            }, [-11, 11]);
+                        });
 
-                    style({
-                        stroke: "#888",
-                        strokeWidth: 2,
-                        arrows: "->"
-                    });
-                    path( [ [-10, 0], [10, 0] ] );
-                    path( [ [0, -10], [0, 10] ] );
+                        style({ stroke: ORANGE }, function() {
+                            plot(function(x) {
+                                return x * NEW_SLOPE + 2;
+                            }, [-11, 11]);
+                        });
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    style({
-                        stroke: "#6495ED",
-                        fill: "#6495ED",
-                        arrows: null
-                    });
+        <div id="find-slope-and-yint" data-weight="1">
+            <div class="vars" data-ensure="!(M === 1 && B === 0) &&
+                    abs(M) < 10 && abs(B) < 10 && INCR < 6">
+                <var id="X1, X2">randRangeUnique(-8, 8, 2)</var>
+                <var id="Y1, Y2">randRangeUnique(-8, 8, 2)</var>
+                <var id="RISE">Y2 - Y1</var>
+                <var id="RUN">X2 - X1</var>
+                <var id="M">RISE / RUN</var>
+                <var id="B">Y1 - X1 * M</var>
+                <var id="INCR">abs(RUN) / getGCD(abs(RISE), abs(RUN))</var>
+                <var id="GRAPH">{}</var>
+            </div>
 
-                    circle( [X1, Y1], 0.15 );
-                    circle( [X2, Y2], 0.15 );
-                    var graph = KhanUtil.currentGraph;
-                    style({
-                        clipRect:[ [-10, -10], [20, 20] ]
-                    }, function() {
-                        var ell = function( x ) {
-                            return x;
+            <p class="question">
+                Adjust the slope and y-intercept until it connects the two
+                points. How do the slope and y-intercept values affect the line?
+            </p>
+
+            <div class="graphie" id="grid">
+                graphInit({
+                    range: 11,
+                    scale: 20,
+                    axisArrows: "&lt;-&gt;",
+                    tickStep: 1,
+                    labelStep: 1,
+                    gridOpacity: 0.05,
+                    axisOpacity: 0.2,
+                    tickOpacity: 0.4,
+                    labelOpacity: 0.5
+                });
+
+                label([0, 11], "y", "above");
+                label([11, 0], "x", "right");
+
+                style({
+                    stroke: BLUE,
+                    fill: BLUE
+                }, function() {
+                    circle([X1, Y1], 0.2);
+                    circle([X2, Y2], 0.2);
+                });
+
+                GRAPH.MN = 1;
+                GRAPH.MD = 1;
+                GRAPH.BN = 1;
+                GRAPH.BD = 1;
+                var plot = line([-11, -11 * GRAPH.MN / GRAPH.MD +
+                    GRAPH.BN / GRAPH.BD], [11, 11 * GRAPH.MN / GRAPH.MD +
+                    GRAPH.BN / GRAPH.BD], { stroke: BLUE });
+
+                GRAPH.redraw = function() {
+                    plot.remove();
+                    plot = line([-11, -11 * GRAPH.MN / GRAPH.MD +
+                        GRAPH.BN / GRAPH.BD], [11, 11 * GRAPH.MN / GRAPH.MD +
+                        GRAPH.BN / GRAPH.BD], { stroke: BLUE });
+                    GRAPH.updateLabels();
+                };
+
+                GRAPH.changeSlope = function(dir) {
+                    var prevDenom = GRAPH.MD;
+                    GRAPH.MD = getLCM(prevDenom, INCR);
+                    GRAPH.MN = (GRAPH.MD / prevDenom * GRAPH.MN) +
+                        (dir * GRAPH.MD / INCR);
+                    GRAPH.redraw();
+                };
+
+                GRAPH.changeIntercept = function(dir) {
+                    var prevDenom = GRAPH.BD;
+                    GRAPH.BD = getLCM(prevDenom, INCR)
+                    GRAPH.BN = (GRAPH.BD / prevDenom * GRAPH.BN) +
+                        (dir * GRAPH.BD / INCR);
+                    GRAPH.redraw();
+                };
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    <div style="clear: left;">
+                        Adjust this equation by clicking on the arrows:
+                    </div>
+                    <div class="graphie">
+                        init({
+                            range: [[0, 4], [0.5, 2.5]]
+                        });
+                        label([0, 1.5], "y = ", "right");
+                        var slopeLabel = label([1.7, 1.5], "1", "left");
+                        label([1.45, 1.5], "x", "right");
+                        signLabel = label([1.8, 1.5], "+", "right");
+                        var interceptLabel = label([2.2, 1.5], "1", "right");
+                        addMouseLayer();
+                        addArrowWidget({
+                            coord: [1.4, 2.1],
+                            direction: "up",
+                            onClick: function() {
+                                GRAPH.changeSlope(1);
+                            }
+                        });
+                        addArrowWidget({
+                            coord: [1.4, 0.8],
+                            direction: "down",
+                            onClick: function() {
+                                GRAPH.changeSlope(-1);
+                            }
+                        });
+                        addArrowWidget({
+                            coord: [2.5, 2.1],
+                            direction: "up",
+                            onClick: function() {
+                                GRAPH.changeIntercept(1);
+                            }
+                        });
+                        addArrowWidget({
+                            coord: [2.5, 0.8],
+                            direction: "down",
+                            onClick: function() {
+                                GRAPH.changeIntercept(-1);
+                            }
+                        });
+                        GRAPH.updateLabels = function() {
+                            slopeLabel.remove();
+                            signLabel.remove();
+                            interceptLabel.remove();
+                            slopeLabel = label([1.7, 1.5],
+                                fractionReduce(GRAPH.MN, GRAPH.MD), "left");
+                            signLabel = label([1.8, 1.5],
+                                (GRAPH.BN &lt; 0 ? "-" : "+"), "right");
+                            interceptLabel = label([2.2, 1.5],
+                                fractionReduce(abs(GRAPH.BN), GRAPH.BD),
+                                "right");
                         };
-                        graph.plot = line( [ -10, ell( -10 ) ], [ 10, ell( 10 ) ] );
-                    });
-
-                    graph.labelHolder = label( [1, 11], "y = " + KhanUtil.fractionReduce( 1, 1 ) + "x +" + KhanUtil.fractionReduce( 1, 1 ));
-                    graph.MN = 1;
-                    graph.MD = 1;
-                    graph.BN = 1;
-                    graph.BD = 1;
-                    graph.INCR = INCR;
-                    updateEquation();
+                    </div>
                 </div>
-                <div class="solution" data-type="multiple">
-                    <div id="equationAnswer" style="height: 45px"><code>y = x + 1</code></div>
-                    <div><input type="button" value="Increase slope" onclick="changeSlope(1)"></div>
-                    <div><input type="button" value="Decrease slope" onclick="changeSlope(-1)"></div>
-                    <div><input type="button" value="Increase y-intercept" onclick="changeIntercept(1)"></div>
-                    <div style="padding: 0px 0px 10px 0px"><input type="button" value="Decrease y-intercept" onclick="changeIntercept(-1)"></div>
-
-                    <span class="sol" data-type="decimal" data-inexact style="display: none" id="slope-sol"><var>M</var></span>
-                    <span class="sol" data-type="decimal" data-inexact style="display: none" id="intercept-sol"><var>B</var></span>
+                <div class="guess">
+                    [GRAPH.MN / GRAPH.MD, GRAPH.BN / GRAPH.BD]
+                </div>
+                <div class="validator-function">
+                    if (guess[0] === 1 &amp;&amp; guess[1] === 1) {
+                        return "";
+                    }
+                    return ((abs(guess[0] - M) &lt; 0.001) &amp;&amp;
+                        (abs(guess[1] - B) &lt; 0.001));
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
