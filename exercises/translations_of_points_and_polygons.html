@@ -46,37 +46,37 @@
                         labelOpacity: 0.5
                     });
 
-                    for(var i=0; i &lt; HULL.length; i++){
+                    for (var i=0; i &lt; HULL.length; i++) {
                         line(HULL[i], HULL[(i+1) % HULL.length], { stroke: GRAY, strokeDasharray: "- " });
                     }
 
                     addMouseLayer();
 
-                    graph.points = _.map(HULL, function(point){ return addMovablePoint({ coord: point, visible: false }); });
+                    graph.points = _.map(HULL, function(point) { return addMovablePoint({ coord: point, visible: false }); });
                     graph.lines = [];
-                    for(var i=0; i &lt; graph.points.length; i++){
+                    for (var i=0; i &lt; graph.points.length; i++) {
                         graph.lines.push(addMovableLineSegment({ pointA: graph.points[i], pointZ: graph.points[(i+1) % graph.points.length], snapX: 1, snapY: 1}));
                     }
 
-                    _.each(graph.lines, function(line){ line.onMove = function(dX, dY){ graph.updatePolygon(dX, dY); }});
+                    _.each(graph.lines, function(line) { line.onMove = function(dX, dY){ graph.updatePolygon(dX, dY); }});
 
-                    graph.updatePolygon = function(dX, dY){
+                    graph.updatePolygon = function(dX, dY) {
                         _.each(graph.points, function(point){ point.setCoord([point.coord[0] + dX, point.coord[1] + dY]); point.updateLineEnds(); });
                         graph.curPoints = _.map(graph.points, function(point){ return point.coord; });
                     }
 
-                    graph.showGuess = function(){
-                        _.each(graph.points, function(point){ point.remove(); });
-                        _.each(graph.lines, function(line){ line.remove(); });
-                        graph.points = _.map(graph.curPoints, function(point){ return addMovablePoint({ coord: point, visible: false }); });
+                    graph.showGuess = function() {
+                        _.each(graph.points, function(point) { point.remove(); });
+                        _.each(graph.lines, function(line) { line.remove(); });
+                        graph.points = _.map(graph.curPoints, function(point) { return addMovablePoint({ coord: point, visible: false }); });
                         graph.lines = [];
-                        for(var i=0; i &lt; graph.points.length; i++){
+                        for (var i=0; i &lt; graph.points.length; i++) {
                             graph.lines.push(addMovableLineSegment({ pointA: graph.points[i], pointZ: graph.points[(i+1) % graph.points.length], snapX: 1, snapY: 1}));
                         }
                     }
 
-                    graph.drawAnswer = function(){
-                        for(var i=0; i &lt; TARGET.length; i++){
+                    graph.drawAnswer = function() {
+                        for (var i=0; i &lt; TARGET.length; i++) {
                             line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
                         }
                     }
@@ -91,7 +91,7 @@
                 </div>
                 <div class="validator-function">
                     coordList = _.map(KhanUtil.currentGraph.graph.points, function(point){ return point.coord; });
-                    return _.all(coordList, function(point){
+                    return _.all(coordList, function(point) {
                         return (point[0] === TARGET[_.indexOf(coordList, point)][0])
                             &amp;&amp; (point[1] === TARGET[_.indexOf(coordList, point)][1]);
                     });
@@ -132,7 +132,7 @@
                 <div>
                     The orange outline shows where the polygon ends up after the translation.
                     <div class="graphie" data-update="grid">
-                        for(var i=0; i &lt; TARGET.length; i++){
+                        for (var i=0; i &lt; TARGET.length; i++) {
                             line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
                         }
                     </div>
@@ -155,7 +155,7 @@
             </div>
 
             <p class="question">
-                What was the translation applied to move the blue shape to the orange shape?
+                What was the translation applied to move the blue solid shape to the orange dashed shape?
             </p>
 
             <div class="problem">
@@ -172,12 +172,12 @@
                         labelOpacity: 0.5
                     });
 
-                    for(var i=0; i &lt; HULL.length; i++){
+                    for (var i=0; i &lt; HULL.length; i++) {
                         line(HULL[i], HULL[(i+1) % HULL.length], { stroke: BLUE });
                     }
 
-                    for(var i=0; i &lt; TARGET.length; i++){
-                        line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
+                    for (var i=0; i &lt; TARGET.length; i++) {
+                        line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE, strokeDasharray: "- " });
                     }
 
                 </div>
