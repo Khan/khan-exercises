@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format graphie">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Local minima</title>
@@ -15,10 +15,22 @@
     <div class="vars">
         <var id="signD">2*randRange(0, 1) - 1</var>
 
+        <var id="polCoef0">0</var>
         <var id="polCoef1">-rootA*rootB*rootC*signD</var>
         <var id="polCoef2">1/2*(rootA*rootB+rootB*rootC+rootC*rootA)*signD</var>
         <var id="polCoef3">-1/3*(rootA+rootB+rootC)*signD</var>
         <var id="polCoef4">signD / 4</var>
+
+        <var id="PolRootA">polCoef0 + polCoef1* rootA + polCoef2 * rootA*rootA + polCoef3 * rootA * rootA * rootA + polCoef4 * rootA * rootA * rootA * rootA</var>
+        <var id="PolRootB">polCoef0 + polCoef1* rootB + polCoef2 * rootB*rootB + polCoef3 * rootB * rootB * rootB + polCoef4 * rootB * rootB * rootB * rootB</var>
+        <var id="PolRootC">polCoef0 + polCoef1* rootC + polCoef2 * rootC*rootC + polCoef3 * rootC * rootC * rootC + polCoef4 * rootC * rootC * rootC * rootC</var>
+
+		<var id="minVal">min(PolRootA, PolRootB, PolRootC) - 1</var>
+		<var id="maxVal">max(PolRootA, PolRootB, PolRootC) + 1</var>
+
+        <var id="FUNC">function( x ) {
+            return (polCoef1*x + polCoef2*x*x + polCoef3*x*x*x + polCoef4*x*x*x*x) * 5 / (maxVal - minVal);
+        }</var>
 
         <var id="prettyPolCoef1">fractionReduce.apply(KhanUtil, toFraction(polCoef1, 0.001))</var>
         <var id="prettyPolCoef2">fractionReduce.apply(KhanUtil, toFraction(polCoef2, 0.001))</var>
@@ -44,7 +56,24 @@
             <div class="question">
                 <p>Locate local minima of  
                     <code>p(x) = <var>prettyPolCoef1</var>x + <var>prettyPolCoef2</var>x^2 + <var>prettyPolCoef3</var> x^3 + <var>prettyPolCoef4</var> x^4</code>
-                <p>TODO: Show graph of function</p>
+                <div id="graph" class="graphie">
+                        graphInit({
+                            range: 5,
+                            scale: 40,
+                            tickStep: 1,
+                            axisArrows: "<->"
+                        });
+
+                        style({
+                            stroke: "#6495ED",
+                        });
+
+                        plot( FUNC, [-5, 5]);
+
+                        style({
+                            stroke: "#05ca00"
+                        });
+                 </div>
             </div>
 
             <div class="solution" data-type="set">
