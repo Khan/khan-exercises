@@ -1048,7 +1048,7 @@ var Khan = (function() {
 
         // In either of these testing situations,
         } else if ((testMode && Khan.query.test != null) || user == null) {
-            problemSeed = randomSeed % bins;
+            problemSeed = Math.abs(randomSeed % bins);
         }
 
         // Set randomSeed to what problemSeed is (save problemSeed for recall later)
