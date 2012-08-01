@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie interactive">
+   <head>
+        <title>Hexadecimals: Convert Decimal to Hexadecimal</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <!-- Your variables in here... -->
+                <var id="NUMDIGITS">3</var>
+                <var id="BASE">16</var>
+                <var id="BASE10">randRange(0, (pow(BASE, NUMDIGITS)-1))</var>
+                <var id="BASE16">decimalToHex(BASE10)</var>
+                <var id="LINEHEIGHT">2</var>
+                <var id="TICKHEIGHT">LINEHEIGHT/(BASE - 1)</var>
+                <var id="QUOTIENTS">
+                (function() {
+                    var quotients = [];
+                    for (var i = 0; i &lt; NUMDIGITS; i++) {
+                      quotients.push(pow(BASE, i));
+                    }
+                    return quotients.reverse();
+                })()
+                </var>
+            </div>
+
+            <div class="problems">
+                <div>
+                    <p class="question">
+                    Convert <code><var>BASE10</var></code> to base-16 (hexadecimal).
+                    To help you convert it, you can use the tool below. Drag the points up and down to change the digits of the hexadecimal number.
+                    </p>
+
+                    <div class="problem">
+                    <div class="graphie" id="hexadecimal">
+                        var NUMWIDTH = 2;
+                        var PADDING = 3.5;
+                        var ROW1 = LINEHEIGHT + 1.5;
+                        var ROW2   = LINEHEIGHT + .7;
+
+                        init({
+                            range: [ [ -5, (NUMDIGITS*NUMWIDTH + PADDING)], [ -2, LINEHEIGHT+2 ] ]
+                        });
+                        
+                        graph.digits       = [];
+                        graph.digitArray   = [];
+                        graph.greenNums    = [];
+                        graph.decimalTotal = [];
+                        graph.digitPoints  = [];
+
+                        
+                        for ( var i = 0; i &lt; NUMDIGITS; i++ ) {
+                            graph.digitArray[i] = 0;
+
+                            // Row 1: The values for each of the places
+                            graph.greenNums[i] = label([ -NUMDIGITS + PADDING * i, ROW1 ],
+                                                "\\large{" + pow( BASE, (NUMDIGITS-1) - i ) + "}", { color: "#bbb" } );
+
+                            // Row 2: The equations for each of the places
+                            
+                            label([ -NUMDIGITS + PADDING * i, ROW2 ],
+                                  "\\large{" + "( \\quad\\enspace" + "\\times" +  "\\enspace" + BASE + "^{" + ( (NUMDIGITS-1) - i ) + "})" + "}" );
+                            graph.digits[i] = label([ -(NUMDIGITS + .55) + PADDING * i, ROW2 ],
+                                                    "\\large{" + "0" + "}", { color: BLUE } );
+                            if( i &lt; (NUMDIGITS - 1)) {
+                                label( [ -((NUMDIGITS - 2) + .25) + PADDING * i, ROW2 ], "+" );
+                            }
+
+                            // The line
+                            line([ -NUMDIGITS + PADDING * i, 0 ], [ -NUMDIGITS + PADDING * i, LINEHEIGHT], { stroke: "#bbb" } );
+                        }
+                            
+                        label( [ NUMDIGITS*2.2, 2.2 ], "=" );
+                        label( [ 2.75, -1.3 ], "\\Huge{" + "=" + "}" );
+                        graph.decimalTotal[0] = label( [ NUMDIGITS * PADDING + .4, 2.15 ], "\\large{" + "0" + "}", { color: GREEN } );
+                        graph.binaryDisplay = label( [ 2, -1.2 ], "\\Huge{" + "0" + "_{" + BASE + "}}", "left", {color: BLUE } );
+                        graph.decimalTotal[1] = label( [ 3.48, -1.18 ], "\\Huge{" + "0" + "}", "right", { color: GREEN } );
+
+                        addMouseLayer();
+
+                        for ( var i = 0; i &lt; NUMDIGITS; i++ ) {
+                            
+                            graph.digitPoints[i] = addMovablePoint(
+                                   {coord: [-NUMDIGITS + PADDING * i, 0],
+                                    constraints: { constrainX: true },
+                                    snapY: TICKHEIGHT});
+                            graph.digitPoints[i].onMove = function( x, y ) {
+                                if ( y &lt; 0 || y &gt; LINEHEIGHT) {
+                                    return false; // don't allow the point to move past the bounds
+                                } else {
+                                    var digitPos = roundTo( 0, ( this.coord[0] + NUMDIGITS ) / PADDING );
+                                    var digitVal = y / TICKHEIGHT;
+                                    graph.digitArray[digitPos] = digitVal;
+                                    updateBlueNums(digitPos, y);
+                                    updateGreenNums(digitPos, y);
+                                    return [this.coord[0], y];
+                                }
+                            };
+                        }
+                        
+                        function toChar(num) {
+                            if (BASE === 16) {
+                                var ALPHA = "0123456789ABCDEF";
+                                return ALPHA.charAt(num);
+                            } else {
+                                return num;
+                            }
+                        }
+
+                        // converted base nums
+                        function updateBlueNums( x, y ) {
+
+                            var graph = KhanUtil.currentGraph;
+                            
+                            if (graph.graph.digits[x]) {
+                              graph.graph.digits[x].remove();
+                            }
+                            graph.graph.binaryDisplay.remove();
+                            
+                            graph.graph.digits[x] = graph.label( [ ( PADDING * x ) - (NUMDIGITS + .55), ROW2 ], "\\large{" + graph.graph.digitArray[x] + "}", { color: KhanUtil.BLUE } );
+                            
+                            var binaryDigits = "";
+                            var i = 0;
+                            while( graph.graph.digitArray[i] === 0 &amp;&amp; i &lt; NUMDIGITS ) {
+                                i++;
+                            }
+                            if( i === NUMDIGITS ) {
+                                binaryDigits += "" + 0;
+                            } else {
+                                for( var j = i; j &lt; NUMDIGITS; j++ ) {
+                                    binaryDigits += "" + toChar(graph.graph.digitArray[j]);
+                                }
+                            }
+                            
+                            graph.graph.binaryDisplay = graph.label( [ 2, -1.2 ], "\\Huge{" + binaryDigits + "_{" + BASE + "}}", "left", {color: KhanUtil.BLUE } );
+                        }
+
+                        // base place nums (1, 2, 4, 8, 16), (1, 16, 16*16, etc)
+                        function updateGreenNums( x, y ) {
+                            var graph = KhanUtil.currentGraph;
+                            
+                            graph.graph.decimalTotal[0].remove();
+                            graph.graph.decimalTotal[1].remove();
+                            var binaryTotal = 0;
+                            for( var i = 0; i &lt; NUMDIGITS; i++ ) {
+                                binaryTotal += ( graph.graph.digitArray[i] * Math.pow( BASE, (NUMDIGITS-1) - i ) );
+                            }
+                            
+                            if( graph.graph.digitArray[x] > 0 ) {
+                                graph.graph.greenNums[ x ].css({ color: KhanUtil.GREEN });
+                            } else {
+                                graph.graph.greenNums[ x ].css({ color: "#bbb" });
+                            }
+                            
+                            graph.graph.decimalTotal[0] = graph.label( [ NUMDIGITS * PADDING, 2.15 ], "\\large{" + binaryTotal + "}", { color: KhanUtil.GREEN } );
+                            graph.graph.decimalTotal[1] = graph.label( [ 3.48, -1.18 ], "\\Huge{" + binaryTotal + "}", "right", { color: KhanUtil.GREEN } );
+                        }
+                        
+                    </div>
+                </div>
+
+                    <p class="solution" data-type="hexadecimal"><var>BASE16</var></p>
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <div class="graphie" data-update="hexadecimal">
+                        for(var i = 0; i &lt; NUMDIGITS; i++) {
+                            graph.digitPoints[i].moveTo( graph.digitPoints[i].coord[0], 0 );
+                        }
+                    </div>
+                    <p>
+                    To convert a decimal number into base-<var>BASE</var>, you need to figure
+                    out what digit belongs in each place. 
+                    </p>
+                </div>
+                <div>
+                    Divide the decimal number (<var>BASE10</var>) by <var>QUOTIENTS[0]</var>: <br>
+                    <code>\large{<var>BASE10</var> \div <var>QUOTIENTS[0]</var> = 
+                    <var>floorTo( 0, BASE10 / QUOTIENTS[0] )</var> \enspace \text{R} \enspace {<var>BASE10 % QUOTIENTS[0]</var>}}
+                    </code>
+                    <br>
+                    The quotient is the first digit. Since this is hexadecimal, any digit that is two characters (10-15) is represented as a single character letter (A-F). We'll drag the slider to show you that first digit.
+
+                    <div class="graphie" data-update="hexadecimal">
+                    graph.digitPoints[0].moveTo(graph.digitPoints[0].coord[0], 
+                      floorTo( 0, BASE10 / QUOTIENTS[0]) * TICKHEIGHT);
+                    </div>
+                </div>
+                <div data-each="QUOTIENTS as index, quotient">
+                  <div data-if="index > 0">
+                    <p>
+                    Divide the remainder from the last step (<var>BASE10 % QUOTIENTS[index-1]</var>) by <var>quotient</var>: <br>
+                    <code>\large{<var>BASE10 % QUOTIENTS[index-1]</var> \div <var>quotient</var> = 
+                    <var>floorTo(0, (BASE10 % QUOTIENTS[index-1])/quotient)</var> \enspace \text{R} \enspace {<var>BASE10 % quotient</var>}}
+                    </code>
+                    <br>The quotient is the <var>ordinal(index+1)</var> digit. Drag the appropriate slider.
+                    </p>
+                    <!--<div class="graphie" data-update="hexadecimal">
+                    graph.digitPoints[index].moveTo( graph.digitPoints[index].coord[0], 
+                        floorTo(0, (BASE10 % QUOTIENTS[index-1])/quotient) * TICKHEIGHT); 
+                    </div>-->
+                  </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

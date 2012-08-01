@@ -232,6 +232,13 @@ $.extend(KhanUtil, {
         return KhanUtil.formattedSquareRootOf(n) !== ("\\sqrt{" + n + "}");
     },
 
+    ordinal: function(n) {
+       var s=["th","st","nd","rd"],
+           v=n%100;
+       return n+(s[(v-20)%10]||s[v]||s[0]);
+    },
+
+
     // Ported from https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L285
     cardinal: function(n) {
         var cardinalScales = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"];

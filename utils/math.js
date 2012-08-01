@@ -402,6 +402,29 @@ $.extend(KhanUtil, {
         return Math.ceil((num * factor).toFixed(5)) / factor;
     },
 
+    decimalToHex: function(num) {
+    
+       
+        function toChar(num) {
+            var ALPHA = "0123456789ABCDEF";
+            return ALPHA.charAt(num);
+        }
+
+        function toHex(num) {
+            var BASE = 16;
+            var remainder = num % BASE;
+            var result;
+            if ( num - remainder === 0) {
+                result = toChar(remainder);
+            } else {
+                result = toHex( (num - remainder)/BASE ) + toChar(remainder);
+            }
+            return result;
+        }
+        
+        return toHex(num);
+    },
+ 
     // toFraction(4/8) => [1, 2]
     // toFraction(0.666) => [333, 500]
     // toFraction(0.666, 0.001) => [2, 3]
