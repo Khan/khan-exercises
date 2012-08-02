@@ -1,141 +1,411 @@
 <!DOCTYPE html>
-<html data-require="math">
+<html data-require="math word-problems math-format">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dependent probability</title>
     <script src="../khan-exercise.js"></script>
-
-    <style>
-        .fair {
-            color: #33cc33;
-        }
-
-        .unfair {
-            color: #cc3333;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="PERCENT_CHANCE_UNFAIR_HEADS !== 50">
-            <!-- CONSTANTS -->
-            <!-- random range for % chance heads shows on the unfair coin -->
-            <var id="PERCENT_UNFAIR_HEADS_MIN">30</var>
-            <var id="PERCENT_UNFAIR_HEADS_MAX">70</var>
-
-            <!-- increment of selected random value (i.e. 20, 25, 30, 35... are possible values for incr of 5 -->
-            <var id="PERCENT_UNFAIR_HEADS_INCR">5</var>
-
-
-            <!-- PROBLEM-SPECIFIC VALUES -->
-            <!-- random range for total coins in bag -->
-            <var id="NUM_COINS">randRange(5, 15)</var>
-
-            <!-- random range for unfair coins -->
-            <!-- NOTE: MAX must be <= COINS_MIN -->
-            <var id="NUM_UNFAIR_COINS">randRange(2, 4)</var>
-
-            <var id="NUM_INCR">(PERCENT_UNFAIR_HEADS_MAX - PERCENT_UNFAIR_HEADS_MIN) / PERCENT_UNFAIR_HEADS_INCR</var>
-
-            <var id="PERCENT_CHANCE_UNFAIR_HEADS">PERCENT_UNFAIR_HEADS_MIN + rand(NUM_INCR + 1) * PERCENT_UNFAIR_HEADS_INCR</var>
-
-            <!-- random range for number of coin flips -->
-            <var id="NUM_FLIPS">randRange(2, 4)</var>
-
-            <var id="UNFAIR_COIN_FRACTION_STRING">"\\frac{" + NUM_UNFAIR_COINS + "}{" + NUM_COINS + "}"</var>
-
-            <!-- create some convenience variables for forming the hint text -->
-            <var id="UNFAIR_COIN_FRACTION_STRING">"\\frac{" + NUM_UNFAIR_COINS + "}{" + NUM_COINS + "}"</var>
-            <var id="FAIR_COIN_FRACTION_STRING">"\\frac{" + (NUM_COINS-NUM_UNFAIR_COINS) + "}{" + NUM_COINS + "}"</var>
-            <var id="DECIMAL_CHANCE_UNFAIR_HEADS">PERCENT_CHANCE_UNFAIR_HEADS / 100</var>
-            <var id="UNFAIR_HEADS_DECIMAL_FORMULA">
-                (function() {
-                    var uhdf = DECIMAL_CHANCE_UNFAIR_HEADS.toString();
-                    for (var i = 0; i &lt; NUM_FLIPS - 1; i++) {
-                        uhdf += " \\times " + DECIMAL_CHANCE_UNFAIR_HEADS;
-                    }
-                    return uhdf;
-                })()
-            </var>
-            <var id="UNFAIR_HEADS_PERCENT_FORMULA">
-                (function() {
-                    var uhpf = PERCENT_CHANCE_UNFAIR_HEADS + "\\%";
-                    for (var i = 0; i &lt; NUM_FLIPS - 1; i++) {
-                        uhpf += " \\times " + PERCENT_CHANCE_UNFAIR_HEADS + "\\%";
-                    }
-                    return uhpf;
-                })()
-            </var>
-            <var id="DECIMAL_CHANCE_FAIR_HEADS">0.5</var>
-            <var id="FAIR_HEADS_DECIMAL_FORMULA">
-                (function() {
-                    var fhdf = DECIMAL_CHANCE_FAIR_HEADS.toString();
-                    for (var i = 0; i &lt; NUM_FLIPS - 1; i++) {
-                        fhdf += " \\times " + DECIMAL_CHANCE_FAIR_HEADS;
-                    }
-                    return fhdf;
-                })()
-            </var>
-
-            <!-- For answer computing -->
-            <var id="CHANCE_UNFAIR_PICKED">NUM_UNFAIR_COINS / NUM_COINS</var>
-            <var id="CHANCE_FAIR_PICKED">1 - CHANCE_UNFAIR_PICKED</var>
-
-            <var id="ANSWER">round(10000 * (CHANCE_UNFAIR_PICKED * pow((PERCENT_CHANCE_UNFAIR_HEADS / 100), NUM_FLIPS) +
-                CHANCE_FAIR_PICKED * pow(0.5,NUM_FLIPS))) / 100</var>
-
-        </div>
-
         <div class="problems">
-            <div>
-                <p class="problem">You have <code><var>NUM_COINS</var></code> coins in a bag. <code><var>NUM_UNFAIR_COINS</var></code> of them are unfair in that they have a <code><var>PERCENT_CHANCE_UNFAIR_HEADS</var>\%</code> chance of coming up heads when flipped (the rest are fair coins). You randomly choose one coin from the bag and flip it <code><var>NUM_FLIPS</var></code> times.</p>
-                <p class="question">What is the probability, written as a percentage, of getting <code><var>NUM_FLIPS</var></code> heads? Round your answer to the nearest hundredth of a percent.</p>
-                <p class="solution" data-forms="percent" data-max-error="0.01"><var>ANSWER</var></p>
+            <div id="students">
+                <div class="vars">
+                    <var id="TOTAL">randRange(6, 10)</var>
+                    <var id="SPECIAL">randRange(2, TOTAL-2)</var>
+                    <var id="ALL">random() &lt; 0.5</var>
+                    <var id="CHOSEN">randRange(2, 
+                        Math.min(ALL ? SPECIAL : TOTAL-SPECIAL,4))
+                    </var>
+                    <var id="EVENT_PY, EVENT_PN, EVENT_Y, EVENT_N">
+                    randFromArray(
+                        [["will be eaten by bears",
+                            "will not be eaten by bears",
+                            "will be eaten by bears",
+                            "will not be eaten by bears"],
+                         ["have done their homework",
+                            "have not done their homework",
+                            "has done his homework",
+                            "has not done his homework"],
+                         ["are secretly robots",
+                            "are not secretly robots",
+                            "is secretly a robot",
+                            "is not secretly a robot"],
+                         ["forgot their lunch",
+                            "remembered their lunch",
+                            "forgot his lunch",
+                            "remembered his lunch"],
+                         ["are martial arts masters",
+                                "are not martial arts masters",
+                                "is a martial arts master",
+                                "is not a martial arts master"],
+                         ["play soccer",
+                                "do not play soccer",
+                                "plays soccer",
+                                "does not play soccer"]])
+                    </var>
+                    <var id="EVENT_P">ALL ? EVENT_PY : EVENT_PN</var>
+                    <var id="EVENT_S">ALL ? EVENT_Y : EVENT_N</var>
+                    <var id="PROBS">
+                        (function(){
+                            prs = [];
+                            _.each(_.range(CHOSEN), function(i) {
+                                if(ALL) {
+                                    num = (SPECIAL - i);
+                                    den = (TOTAL - i);
+                                    prs.push([num,den]);
+                                } else {
+                                    num = (TOTAL - SPECIAL - i);
+                                    den = (TOTAL - i);
+                                    prs.push([num,den]);
+                                }
+                            });
+                            return prs;
+                        })()
+                    </var>
+                    <var id="ANS_N,ANS_D">
+                        (function(){
+                            n = d = 1;
+                            _.each(PROBS, function(frac) {
+                                n *= frac[0];
+                                d *= frac[1];
+                            });
+                            gcd = getGCD(n, d);
+                            n = n/gcd;
+                            d = d/gcd;
+                            return [n, d];
+                        })()
+                    </var>
+                </div>
+
+                <p class="problem">
+                    In a class of <code><var>TOTAL</var></code>, 
+                    there are <code><var>SPECIAL</var></code> students who
+                    <var>EVENT_PY</var>.
+                </p>
+
+                <p class="question">
+                    If the teacher chooses <code><var>CHOSEN</var></code>
+                    students, what is the probability that 
+                    <var>ALL ? ((CHOSEN === 2) ? "both" : "all") : "none"</var>
+                     of them <var>EVENT_PY</var>?
+                </p>
+
+                <div class="solution" data-forms="proper">
+                    <var>ANS_N/ANS_D</var>
+                </div>
+
+                <div class="hints">
+                    <p>
+                        We can think about this problem as the probability of 
+                        <code><var>CHOSEN</var></code> events happening.
+                        </br></br>
+                        The first event is the teacher choosing one student
+                        who <var>EVENT_S</var>. The second event is the teacher
+                        choosing another student who <var>EVENT_S</var>, given
+                        that the teacher already chose someone who 
+                        <var>EVENT_S</var> 
+                        <var>CHOSEN > 2 ? ", and so on." : "."</var>
+                    </p>
+                    <p>
+                        The probabilty that the teacher will choose someone
+                        who <var>EVENT_S</var> is the number of students who
+                        <var>EVENT_P</var> divided by the total number of
+                        students: <code>\dfrac{<var>PROBS[0][0]</var>}
+                            {<var>PROBS[0][1]</var>}</code>.
+                    </p>
+                    <p>
+                        Once the teacher's chosen one student, there are only
+                        <code><var>TOTAL-1</var></code> left.
+                    </p>
+                    <p>
+                        There's also one fewer student who <var>EVENT_S</var>,
+                        since the teacher isn't going to pick the same student
+                        twice.
+                    </p>
+                    <p>
+                        So, the probability that the teacher picks a second
+                        student who also <var>EVENT_S</var> is 
+                        <code>\dfrac{<var>PROBS[1][0]</var>}
+                                    {<var>PROBS[1][1]</var>}</code>.
+                    </p>
+                    <p data-if="CHOSEN &gt; 2">
+                        The probability of the teacher picking two
+                        students who <var>EVENT_P</var> must then be
+                        <code>\dfrac{<var>PROBS[0][0]</var>}
+                                    {<var>PROBS[0][1]</var>} \cdot
+                              \dfrac{<var>PROBS[1][0]</var>}
+                                    {<var>PROBS[1][1]</var>}</code>.
+                    </p>
+                    <p data-if="CHOSEN &gt; 2">
+                        We can continue using the same logic for the rest of
+                        the students the teacher picks.
+                    </p>
+                    <p>
+                        So, the probability of the teacher picking 
+                        <code><var>CHOSEN</var></code> students such that
+                        <var>ALL ? ((CHOSEN === 2) ? "both" : "all") 
+                                 : "none"</var> of them 
+                        <var>EVENT_PY</var> is 
+                        <code><var>_.map(PROBS, function(p){
+                            return "\\dfrac{"+p[0]+"}{"+p[1]+"}";
+                        }).join("\\cdot")</var> =
+                        \dfrac{<var>ANS_N</var>}{<var>ANS_D</var>}</code>
+                    </p>
+                </div>
             </div>
-        </div>
+            <div id="marbles">
+                <div class="vars">
+                    <var id="CONTAINER">
+                        randFromArray(["bag", "jar", "box", "goblet"])
+                    </var>
+                    <var id="MARBLE">
+                        randFromArray(["marble", "ball", "jelly bean"])
+                    </var>
+                    <var id="REDMAR">randRange(2, 6)</var>
+                    <var id="GREENMAR">randRange(2, 6)</var>
+                    <var id="BLUEMAR">randRange(2, 6)</var>
+                    <var id="TOTAL">REDMAR + GREENMAR + BLUEMAR</var>
+                    <var id="COLOR_ONE,NUM_ONE">
+                        randFromArray([["red", REDMAR], ["green", GREENMAR],
+                         ["blue", BLUEMAR]])
+                    </var>
+                    <var id="COLOR_T,NUM_TWO">
+                        randFromArray([["red", REDMAR], ["green", GREENMAR],
+                        ["blue", BLUEMAR]])
+                    </var>
+                    <var id="COLOR_TWO">
+                        COLOR_ONE === COLOR_T ? 
+                        "another " + COLOR_T : "a " + COLOR_T
+                    </var>
+                    <var id="AFTER_NUM">
+                        COLOR_ONE === COLOR_T ? 
+                        NUM_TWO - 1 : NUM_TWO
+                    </var>
+                    <var id="ANS_N">
+                        NUM_ONE*AFTER_NUM/
+                        getGCD(NUM_ONE*AFTER_NUM,TOTAL*(TOTAL-1))
+                    </var>
+                    <var id="ANS_D">
+                        TOTAL*(TOTAL-1)/
+                        getGCD(NUM_ONE*AFTER_NUM,TOTAL*(TOTAL-1))
+                    </var>
+                </div>
 
-        <div class="hints">
-            <!-- hint indicating different coin types -->
-            <p>You can only pick a fair coin or pick an unfair coin. There is no other outcome.</p>
+                <p class="problem">
+                    <p>A <var>CONTAINER</var> contains 
+                    <code><var>REDMAR</var></code> red <var>MARBLE</var>s,
+                    <code><var>GREENMAR</var></code> green <var>MARBLE</var>s,
+                    and <code><var>BLUEMAR</var></code>
+                    blue <var>MARBLE</var>s.</p>
+                </p>
+                <div class="question">
+                    <p>If we choose a <var>MARBLE</var>, then another <var>
+                    MARBLE</var>
+                    <em>without putting the first one back in the <var>
+                    CONTAINER</var></em>, what is the probability that 
+                    the first <var>MARBLE</var> will be <var>COLOR_ONE</var> 
+                     and the second will be <var>COLOR_T</var><var>COLOR_ONE === COLOR_T ? " as well?" : "?"</var> Write 
+                    your answer as a simplified fraction.</p>
+                </div>
+                <div class="solution" data-forms="proper">
+                    <var>(NUM_ONE/TOTAL)*(AFTER_NUM/(TOTAL-1))</var>
+                </div>
+                <div class="hints">
+                    <p>
+                        The probability of event A happening, then event B, is
+                        the probability of event A happening times
+                        the probability of event B happening <em>given that
+                        event A already happened</em>. 
+                        </br></br>
+                        In this case, event A is picking a <var>COLOR_ONE</var>
+                        <var>MARBLE</var> and leaving it out.
+                        Event B is picking <var>COLOR_TWO</var> 
+                        <var>MARBLE</var>.
+                    </p>
+                    <p>
+                        Let's take the events one at at time. 
+                        What is the probability that the first marble chosen 
+                        will be <var>COLOR_ONE</var>?
+                    </p>
+                    <p>
+                        There are <code><var>NUM_ONE</var></code> 
+                        <var>COLOR_ONE</var> <var>MARBLE</var>s, 
+                        and <code><var>TOTAL</var></code> total, so the 
+                        probability we will pick a <var>COLOR_ONE</var> 
+                        <var>MARBLE</var> is 
+                        <code>\dfrac{<var>NUM_ONE</var>}
+                            {<var>TOTAL</var>}</code>.
+                    </p>
+                    <p>
+                        After we take out the first <var>MARBLE</var>, we 
+                        don't put it back in, so there are only 
+                        <code><var>TOTAL-1</var></code> <var>MARBLE</var>s
+                        left.
+                    </p>
+                    <p data-if="COLOR_ONE === COLOR_T">
+                        Also, we've taken out one of the <var>COLOR_ONE</var> 
+                        <var>MARBLE</var>s, so there are only 
+                        <code><var>AFTER_NUM</var></code> left altogether.
+                    </p>
+                    <p data-else>
+                        Since the first <var>MARBLE</var> was 
+                        <var>COLOR_ONE</var>, there are still 
+                        <code><var>AFTER_NUM</var></code> 
+                        <var>COLOR_T</var> <var>MARBLE</var>s
+                        left.
+                    </p>
+                    <p>
+                        So, the probability of picking <var>COLOR_TWO</var> 
+                        <var>MARBLE</var> after taking out a 
+                        <var>COLOR_ONE</var> <var>MARBLE</var> is 
+                        <code>\dfrac{<var>AFTER_NUM</var>}
+                            {<var>TOTAL-1</var>}</code>.
+                    </p>
+                    <p>
+                        Therefore, the probability of picking a 
+                        <var>COLOR_ONE</var> <var>MARBLE</var>, then 
+                        <var>COLOR_TWO</var> <var>MARBLE</var>
+                        is <code>\dfrac{<var>NUM_ONE</var>}{<var>TOTAL</var>} 
+                        \cdot \dfrac{<var>AFTER_NUM</var>}{<var>TOTAL-1</var>}
+                        = \dfrac{<var>ANS_N</var>}{<var>ANS_D</var>}</code>
+                    </p>
+                </div>
+            </div>
+            <div id="YARR">
+                <div class="vars" data-ensure="CAPTAIN_PROB > PIRATE_PROB">
+                    <var id="C_FIRST">random() &lt; 0.5</var>
+                    <var id="CAPTAIN_NUM">randRange(1,4)</var>
+                    <var id="CAPTAIN_DEM">CAPTAIN_NUM + randRange(1,6)</var>
+                    <var id="CAPTAIN_PROB">CAPTAIN_NUM/CAPTAIN_DEM</var>
+                    <var id="PIRATE_NUM">randRange(1,4)</var>
+                    <var id="PIRATE_DEM">PIRATE_NUM + randRange(4,6)</var>
+                    <var id="PIRATE_PROB">PIRATE_NUM/PIRATE_DEM</var>
+                    <var id="CGCD, PGCD">[getGCD(CAPTAIN_NUM,CAPTAIN_DEM), getGCD(PIRATE_NUM,PIRATE_DEM)]</var>
+                    <var id="C_HIT_PRETTY">"\\dfrac{" + CAPTAIN_NUM/CGCD + "}{" + CAPTAIN_DEM/CGCD + "}"</var>
+                    <var id="C_MISS_PRETTY">"\\dfrac{" + (CAPTAIN_DEM/CGCD - CAPTAIN_NUM/CGCD) + "}{" + CAPTAIN_DEM/CGCD + "}"</var>
+                    <var id="P_HIT_PRETTY">"\\dfrac{" + PIRATE_NUM/PGCD + "}{" + PIRATE_DEM/PGCD + "}"</var>
+                    <var id="P_MISS_PRETTY">"\\dfrac{" + (PIRATE_DEM/PGCD - PIRATE_NUM/PGCD) + "}{" + PIRATE_DEM/PGCD + "}"</var>
+                    <var id="INDEX">randRange(0,2)</var>
+                    <var id="QUESTION">
+                        (function(){
+                            if(C_FIRST) {
+                                return ["the Captain hits the pirate ship, but the pirate misses",
+                                "the Captain misses the pirate ship, but the pirate hits",
+                                "both the Captain and the pirate hit each other's ships"][INDEX];
+                            } else {
+                                return ["the pirate misses the Captain's ship, but the Captain hits",
+                                "the pirate hits the Captain's ship, but the Captain misses",
+                                "both the pirate and the Captain hit each other's ships"][INDEX];
+                            }
+                        })()
+                    </var>
+                    <var id="ANS_N, ANS_D, ANSWER">
+                        (function(){
+                            if(C_FIRST) {
+                                return [[CAPTAIN_NUM, CAPTAIN_DEM, CAPTAIN_PROB],
+                                [(CAPTAIN_DEM-CAPTAIN_NUM) * PIRATE_NUM, CAPTAIN_DEM*PIRATE_DEM, (1-CAPTAIN_PROB)*PIRATE_PROB],
+                                [0,1,0]][INDEX];
+                            } else {
+                                return [[CAPTAIN_NUM * (PIRATE_DEM-PIRATE_NUM), CAPTAIN_DEM*PIRATE_DEM, CAPTAIN_PROB*(1-PIRATE_PROB)],
+                                [PIRATE_NUM, PIRATE_DEM, PIRATE_PROB],
+                                [0,1,0]][INDEX];
+                            }
+                        })()
+                    </var>
+                    <var id="C">INDEX === 0 || INDEX === 2</var>
+                    <var id="P">INDEX === 1 || INDEX === 2</var>
+                    <var id="EV_A, PR_A">
+                       [C_FIRST ? (C ? "the Captain hitting the pirate ship" : "the Captain missing the pirate ship")
+                                : (P ? "the pirate hitting the Captain's ship" : "the pirate missing the Captain's ship"),
+                        C_FIRST ? (C ? C_HIT_PRETTY : C_MISS_PRETTY) : (P ? P_HIT_PRETTY : P_MISS_PRETTY)]
+                    </var>
+                    <var id="EV_B, PR_B">
+                        (function(){
+                            if(C_FIRST) {
+                                if(P &amp;&amp; C) { 
+                                    return ["the pirate hitting the Captain's ship", 0];
+                                } else if(P) {
+                                    return ["the pirate hitting the Captain's ship", P_HIT_PRETTY];
+                                } else if(!P &amp;&amp; C) {
+                                    return ["the pirate missing the Captain's ship", 1];
+                                } else {
+                                    return ["the pirate missing the Captain's ship", P_MISS_PRETTY];
+                                }
+                            } else {
+                                if(C &amp;&amp; P) { 
+                                    return ["the Captain hitting the pirate ship", 0];
+                                } else if(C) {
+                                    return ["the Captain hitting the pirate ship", C_HIT_PRETTY];
+                                } else if(!C &amp;&amp; P) {
+                                    return ["the Captain missing the pirate ship", 1];
+                                } else {
+                                    return ["the Captain missing the pirate ship", C_MISS_PRETTY];
+                                }
+                            }
+                        })()
+                    </var>
+                </div>
 
-            <!-- hint questioning coin type selection chances -->
-            <p>What chance do you have of picking an unfair coin? How about a fair coin?</p>
+                <p>
+                    Captain <var>person(1)</var> and <var>his(1)</var> ship, the H.M.S Crimson Lynx, are two furlongs
+                    from the dread pirate <var>person(2)</var> and <var>his(2)</var> merciless band of scallawags.
+                </p>
+                <p>
+                    The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship, if <var>his(1)</var>
+                    ship hasn't already been hit. If it has been hit, <var>he(1)</var> will always miss.
+                    The pirate has probability <code><var>P_HIT_PRETTY</var></code> of hitting the
+                    Captain's ship, if <var>his(2)</var> ship hasn't already been hit. If it has been hit, <var>he(2)</var> will always
+                    miss as well.
+                </p>
 
-            <!-- hint showing chance of unfair coin picked -->
-            <p>An unfair coin occurs <code class="unfair"><var>UNFAIR_COIN_FRACTION_STRING</var></code> of the time.</p>
+                <p class="question">
+                    If the <var>C_FIRST ? "Captain" : "pirate"</var> shoots first, what is the probability that
+                    <var>QUESTION</var>?
+                </p>
 
-            <!-- hint showing chance of fair coin picked -->
-            <p>A fair coin occurs the rest of the time, or <code class="unfair"><var>FAIR_COIN_FRACTION_STRING</var></code> of the time.</p>
+                <div class="solution" data-forms="proper">
+                    <var>ANSWER</var>
+                </div>
 
-            <!-- hint questioning head-flipping chances for unfair coin -->
-            <p>For that <code class="unfair"><var>UNFAIR_COIN_FRACTION_STRING</var></code> of the time that you pick an unfair coin,
-            what is the chance of flipping <code class="unfair"><var>NUM_FLIPS</var></code> heads using that unfair coin?</p>
-
-            <!-- hint showing chance of flipping all heads for unfair coin -->
-            <p>The chance is <code class="unfair"><var>UNFAIR_HEADS_PERCENT_FORMULA</var></code>, or
-            <code class="unfair"><var>UNFAIR_HEADS_DECIMAL_FORMULA</var></code>.</p>
-
-            <!-- hint suggesting combining unfair coin selection with all-heads-flip event -->
-            <p>Now, then, your chance of both picking the unfair coin and also flipping
-            <code class="unfair"><var>NUM_FLIPS</var></code> heads--the chance that both these events occur--is what?</p>
-
-            <!-- hint revealing computed chance with unfair coin -->
-            <p>It is <code class="unfair"><var>UNFAIR_COIN_FRACTION_STRING</var> \times <var>UNFAIR_HEADS_DECIMAL_FORMULA</var></code>.</p>
-
-            <!-- hint questioning the fair coin computation -->
-            <p>Now, the other possibility, picking the fair coin and flipping <code class="fair"><var>NUM_FLIPS</var></code> heads is what?</p>
-
-            <!-- hint showing the fair coin computation -->
-            <p>It is <code class="fair"><var>FAIR_COIN_FRACTION_STRING</var> \times <var>FAIR_HEADS_DECIMAL_FORMULA</var></code>.</p>
-
-            <!-- hint questioning how to combine previously computed events -->
-            <p>How do you combine these two mutually exclusive events to find the chance that either occurs?</p>
-
-            <!-- hint revealing the answer -->
-            <p>Add them! So your answer is
-                <code class="unfair"><var>UNFAIR_COIN_FRACTION_STRING</var> \times <var>UNFAIR_HEADS_DECIMAL_FORMULA</var></code>+
-                <code class="fair"><var>FAIR_COIN_FRACTION_STRING</var> \times <var>FAIR_HEADS_DECIMAL_FORMULA</var></code>, or
-                <code><var>ANSWER</var>\%</code>.</p>
+                <div class="hints">
+                    <p>
+                        The probability of event A happening, then event B, is the probability of 
+                        event A happening times
+                        the probability of event B happening <em>given that event A already happened</em>. 
+                        </br></br>
+                        In this case, event A is <var>EV_A</var> and event B is <var>EV_B</var>.
+                    </p>
+                    <p>
+                        The <var>C_FIRST ? "Captain" : "pirate"</var> fires first, so 
+                        <var>his(C_FIRST ? 1 : 2)</var> ship can't be sunk before
+                        <var>he(C_FIRST ? 1 : 2)</var> fires his cannons.
+                    </p>
+                    <p>
+                        So, the probability of <var>EV_A</var> is <code><var>PR_A</var></code>.
+                    </p>
+                    <p data-if="PR_B === 0 || PR_B === 1">
+                        If the <var>C_FIRST ? "Captain" : "pirate"</var> hit the <var>C_FIRST ? "pirate" : "Captain's"</var> ship,
+                        the <var>C_FIRST ? "pirate" : "Captain"</var> has no chance of firing back.
+                    </p>
+                    <p data-else>
+                        If the <var>C_FIRST ? "Captain" : "pirate"</var> 
+                         missed the <var>C_FIRST ? "pirate" : "Captain's"</var>
+                         ship,
+                        the <var>C_FIRST ? "pirate" : "Captain"</var> has a normal chance to fire back.
+                    </p>
+                    <p>
+                        So, the probability of <var>EV_B</var> given <var>EV_A</var> is <code><var>PR_B</var></code>.
+                    </p>
+                    <p>
+                        The probability that <var>QUESTION</var> is then the probability of <var>EV_A</var> times
+                        the probability of <var>EV_B</var> given <var>EV_A</var>.
+                    </p>
+                    <p>
+                        This is <code><var>PR_A</var> \cdot <var>PR_B</var> 
+                        = <var>fraction(ANS_N, ANS_D, true, true)</var></code>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </body>
