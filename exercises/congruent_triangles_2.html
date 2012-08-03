@@ -9,7 +9,7 @@
 <body>
     <div class="exercise">
         <div class="problem">
-            What is the value of the angle x?
+            What is the value of <code>\angle x</code>?
         </div>
         <div class="vars">
             <var id="RAND_ANG">randRange( 0, 2 )</var>
@@ -52,23 +52,27 @@
                 TR_B.drawLabels();
             </div>
         </div>
-        <div class="solution"><var>ANSWER</var></div>
 
+        <div class="solution" data-type="multiple">
+            <span class="sol" data-forms="integer"><var>ANSWER</var></span>
+            <code>\Large{{}^\circ}</code>
+        </div>
+        
         <div class="problems">
             <div id="parr">
                 <div class="vars">
                     <var id="ANG_FIRST">randRangeUnique( 0, 3, 2 )</var>
                     <var id="ANG_LEFT">randFromArray( ANG_FIRST )</var>
                     <var id="ANGLES_A">ANG_FIRST</var>
-                    <var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ ANG_LEFT ] )</var>
-                    <var id="ANSWER">TR_B.angles[ ANG_LEFT ]</var>
+                    <var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ANG_LEFT] )</var>
+                    <var id="ANSWER">TR_B.angles[ANG_LEFT]</var>
                 </div>
                 <div class="hints">
                     <p>These two triangles have three sides equal (they share one of them).</p>
                     <p>Therefore they are congruent.</p>
                     <p>Congruent triangles also have congruent (equal) angles.</p>
-                    <p>If we superimpose these two triangles, by rotating triangle ABC, we see that angle x corresponds to angle <var>ANGLE_LABELS[ ANG_LEFT ]</var></p>
-                    <p>Angle x is therefore equal to <var>ANSWER</var>.</p>
+                    <p>If we superimpose these two triangles, by rotating <code>\triangle ABC</code>, we see that <code>\angle x</code> corresponds to <code>\angle <var>ANGLE_LABELS[ANG_LEFT]</var></code>.</p>
+                    <p class="final_answer">Therefore, <code>m\angle x = <var>ANSWER</var>{{}^\circ}</code>.</p>
                 </div>
             </div>
 
@@ -77,23 +81,29 @@
                     <var id="ANG_FIRST">randRangeUnique( 0, 3, 2 )</var>
                     <var id="ANG_LEFT">randRangeExclude( 0, 2, ANG_FIRST )</var>
                     <var id="ANGLES_A">ANG_FIRST</var>
-                    <var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ ANG_LEFT ] )</var>
+                    <var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ANG_LEFT] )</var>
                 </div>
-                <div class="solution"><var>TR_B.angles[ ANG_LEFT ]</var></div>
+                
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer"><var>TR_B.angles[ANG_LEFT]</var></span>
+                    <code>\Large{{}^\circ}</code>
+                </div>
+                
                 <div class="hints">
                     <p>These two triangles have three sides equal (they share one of them).</p>
                     <p>Therefore they are congruent.</p>
                     <p>Congruent triangles also have congruent (equal) angles.</p>
-                    <p>If we superimpose these two triangles, by rotating triangle ABC, we see that angle x corresponds to angle <var>ANGLE_LABELS[ ANG_LEFT ]</var>.</p>
-                    <p><code><var>ANGLE_LABELS[ ANG_LEFT ]</var> = 180 - <var>TR_A.angles[ ANG_FIRST[ 0 ] ]</var> -  <var>TR_A.angles[ ANG_FIRST[ 1 ] ]</var></code></p>
+                    <p>If we superimpose these two triangles, by rotating <code>\triangle ABC</code>, we see that <code>\angle x</code> corresponds to <code>\angle <var>ANGLE_LABELS[ANG_LEFT]</var></code>.</p>
+                    <p><code>m \angle <var>ANGLE_LABELS[ANG_LEFT]</var> = 180{{}^\circ} - <var>TR_A.angles [ANG_FIRST[0]]</var>{{}^\circ} -  <var>TR_A.angles[ANG_FIRST[1]]</var>{{}^\circ}</code></p>
                     <div>
-                        <p><code><var>ANGLE_LABELS[ ANG_LEFT ]</var> = x = <var>TR_B.angles[ ANG_LEFT ]</var></code></p>
+                        <p><code>m \angle <var>ANGLE_LABELS[ANG_LEFT]</var> = <var>TR_B.angles[ANG_LEFT]</var>{{}^\circ}</code></p>
                         <div class="graphie" data-update="triangle">
                             TR_A.labels.angles = TR_A.niceAngles;
                             TR_A.drawLabels();
                         </div>
 
                     </div>
+                    <p class="final_answer">Therefore, <code>m\angle x = <var>TR_B.angles[ANG_LEFT]</var>{{}^\circ}</code>.</p>
                 </div>
             </div>
 
@@ -127,7 +137,7 @@
                     </var>
                     <var id="SAME_ANGLE">( $.inArray( SHOW_ANGLE, ANG_FIRST ) !== -1 )</var>
                     <var id="ANGLES_A">ANG_FIRST</var>
-                    <var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ ANG_LEFT ] )</var>
+                    <var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ANG_LEFT] )</var>
                     <var id="ANG">ANGLES[ 0 ] / 2</var>
                     <var id="TR_A">
                         function(){
@@ -147,7 +157,7 @@
                             return trB;
                         }()
                     </var>
-                    <var id="ANSWER">TR_B.angles[ ANG_LEFT ]</var>
+                    <var id="ANSWER">TR_B.angles[ANG_LEFT]</var>
                 </div>
                 <div class="question">
                     <div class="graphie" id="oppTriangle">
@@ -161,23 +171,28 @@
                     label( TR_B.points[ 1 ], "A", "above" );
                     </div>
                 </div>
-                <div class="solution"><var>ANSWER</var></div>
+                
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer"><var>ANSWER</var></span>
+                    <code>\Large{{}^\circ}</code>
+                </div>
+                
                 <div class="hints">
                     <p>These two triangles have two sides and an angle equal.</p>
-                    <p>Therefore they are congruent.</p>
+                    <p>Therefore, they are congruent.</p>
                     <p>Congruent triangles also have congruent (equal) angles.</p>
-                    <p>If we superimpose these two triangles, by flipping triangle <code>EDA</code>, we see that angle x corresponds to angle <var>ANGLE_LABELS[ SHOW_ANGLE ]</var></p>
+                    <p>If we superimpose these two triangles, by flipping <code>\triangle EDA</code>, we see that <code>\angle x</code> corresponds to <code>\angle <var>ANGLE_LABELS[SHOW_ANGLE]</var></code>.</p>
                     <div data-if="! SAME_ANGLE">
-                        <p><code><var>ANGLE_LABELS[ SHOW_ANGLE ]</var> = 180 - <var>TR_A.angles[ ANG_FIRST[ 0 ] ]</var> -  <var>TR_A.angles[ ANG_FIRST[ 1 ] ]</var></code></p>
+                        <p><code>m \angle <var>ANGLE_LABELS[SHOW_ANGLE]</var> = 180 {{}^\circ} - <var>TR_A.angles [ANG_FIRST[0]]</var>{{}^\circ} -  <var>TR_A.angles[ANG_FIRST[1]]</var>{{}^\circ}</code></p>
                         <div>
-                            <p><code><var>ANGLE_LABELS[ SHOW_ANGLE ]</var> = x = <var>TR_B.angles[ ANG_LEFT ]</var></code></p>
+                            <p><code>m \angle <var>ANGLE_LABELS[SHOW_ANGLE]</var> = <var>TR_B.angles[ANG_LEFT]</var>{{}^\circ}</code></p>
                             <div class="graphie" data-update="oppTriangle">
                                 TR_A.labels.angles = TR_A.niceAngles;
                                 TR_A.drawLabels();
                             </div>
                         </div>
                     </div>
-                    <p>Angle x is therefore equal to <var>ANSWER</var></p>
+                    <p class="final_answer">Therefore, <code>m\angle x = <var>ANSWER</var>{{}^\circ}</code>.</p>
                 </div>
             </div>
         </div>
