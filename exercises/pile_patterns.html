@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Pile patterns</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars" data-ensure="USEA || USEB || USEC">
+                    <var id="USEA">random() < 0.5</var>
+                    <var id="A">randRange(1, 3)</var>
+                    <var id="USEB">random() < 0.5</var>
+                    <var id="B">randRange(1, 3)</var>
+                    <var id="USEC">random() < 0.5</var>
+                    <var id="C">randRange(1, 3)</var>
+                </div>
+                <div class="question"></div>
+                <div class="problem">
+                    <div class="graphie">
+                        init({
+                            range: [[-1, 15], [-16, 1]]
+                        });
+
+                        addMouseLayer();
+
+                        label([0, 0.2], "x=", "above left");
+                        line([0, 0], [8, 0]);
+                        for (var x = 0; x &lt;= 8; x += 2) {
+                            line([x, -0.2], [x, 0.2]);
+                            label([x, 0.2], x / 2 + 1, "above");
+                        }
+
+                        var drawBox = function(x, y) {
+                            y = -y - 2;
+
+                            return path([
+                                [x, y],
+                                [x + 1, y],
+                                [x + 1, y + 1],
+                                [x, y + 1],
+                                true
+                            ]);
+                        };
+
+                        var drawPile = function(x, y, dir, num) {
+                            var set = raphael.set();
+
+                            var offset = [
+                                [1, 0],
+                                [0, 1],
+                                [-1, 0],
+                                [0, -1]
+                            ][dir];
+
+                            for (var i = 0; i < num; ++i) {
+                                set.push(
+                                    drawBox(x + offset[0] * i,
+                                            y + offset[1] * i)
+                                );
+                            }
+
+                            return set;
+                        };
+
+                        var boxes = raphael.set();
+
+                        var drawPattern = function(num) {
+                            boxes.remove();
+                            boxes = raphael.set();
+                            if (USEA)
+                                boxes.push(drawPile(5, 2, 0, num + A));
+                            if (USEB)
+                                boxes.push(drawPile(5, 3, 1, num + B));
+                            if (USEC)
+                                boxes.push(drawPile(5, 1, 2, num + C));
+                        };
+
+                        drawPattern(1);
+
+                        graph.slider = addMovablePoint({
+                            coord: [0, 0],
+                            constraints: {
+                                constrainY: true
+                            }
+                        });
+
+                        graph.slider.onMove = function(x, y) {
+                            if (x < 0) return false;
+                            if (x > 8) return false;
+
+                            var newx = round(x / 2);
+
+                            drawPattern(newx + 1);
+
+                            return [newx * 2, y];
+                        };
+                    </div>
+                </div>
+                <div class="solution" data-forms="integer"></div>
+                <div class="hints"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
