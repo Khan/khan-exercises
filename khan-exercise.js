@@ -2237,7 +2237,7 @@ var Khan = (function() {
                     ("loaded, " + (MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length)),
                 sessionStorageInfo = (typeof sessionStorage === "undefined" || typeof sessionStorage.getItem === "undefined" ? "sessionStorage NOT enabled" : null),
                 warningInfo = $("#warning-bar-content").text(),
-                parts = [$("#issue-body").val() || null, pathlink, historyLink, "    " + JSON.stringify(guessLog), agent, sessionStorageInfo, mathjaxInfo, warningInfo, debugLogLog.join("\n")],
+                parts = [$("#issue-body").val() || null, pathlink, historyLink, "    " + JSON.stringify(guessLog), agent, sessionStorageInfo, mathjaxInfo, warningInfo],
                 body = $.grep(parts, function(e) { return e != null; }).join("\n\n");
 
             var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {
