@@ -54,7 +54,7 @@
                         line([1, 0], [9, 0]);
                         for (var x = 1; x &lt;= 9; x += 2) {
                             line([x, -0.2], [x, 0.2]);
-                            label([x, 0.2], (x - 1) / 2 + 1, "above");
+                            label([x, 0.2], (x - 1) / 2, "above");
                         }
 
                         var drawBox = function(x, y) {
@@ -119,7 +119,7 @@
                         drawPattern(1);
 
                         graph.slider = addMovablePoint({
-                            coord: [1, 0],
+                            coord: [3, 0],
                             constraints: {
                                 constrainY: true
                             }
@@ -131,7 +131,7 @@
 
                             var newx = round((x - 1) / 2);
 
-                            drawPattern(newx + 1);
+                            drawPattern(newx);
 
                             return [newx * 2 + 1, y];
                         };
