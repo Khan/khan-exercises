@@ -9,21 +9,36 @@
     <div class="exercise">
         <div class="problems">
             <div>
-                <div class="vars" data-ensure="USEA || USEB || USEC">
+                <div class="vars"
+                    data-ensure="(USEA || USEB || USEC || USED)
+                    &amp;&amp; A + B + C + D > 0">
                     <var id="USEA">random() < 0.5</var>
-                    <var id="A">randRange(1, 3)</var>
+                    <var id="A">USEA ? randRange(0, 3) : 0</var>
                     <var id="USEB">random() < 0.5</var>
-                    <var id="B">randRange(1, 3)</var>
+                    <var id="B">USEB ? randRange(0, 3) : 0</var>
                     <var id="USEC">random() < 0.5</var>
-                    <var id="C">randRange(1, 3)</var>
-                    <var id="LEFTMAX">USEC ? (C + 5 - 1) : 0</var>
-                    <var id="TOPMAX">0</var>
+                    <var id="C">USEC ? randRange(0, 3) : 0</var>
+                    <var id="USED">random() < 0.5</var>
+                    <var id="D">USED ? randRange(0, 3) : 0</var>
+                    <var id="LEFTMAX">USEC ? (C + 4) : 0</var>
+                    <var id="TOPMAX">USED ? (D + 4) : 0</var>
                 </div>
                 <div class="question"></div>
                 <div class="problem">
                     <div class="graphie">
+                        var vertscale = -2;
+
+                        if (USEB)
+                            vertscale -= B + 5;
+                        if (USED)
+                            vertscale -= D + 5;
+                        if (USEA)
+                            vertscale -= 1;
+                        if (USEC)
+                            vertscale -= 1;
+
                         init({
-                            range: [[-1, 15], [-16, 1]]
+                            range: [[-1, 15], [vertscale, 1]]
                         });
 
                         addMouseLayer();
@@ -76,6 +91,10 @@
 
                             var y = 0;
 
+                            if (USED) {
+                                boxes.push(drawPile(0, y, 3, num + D));
+                                y += 1;
+                            }
                             if (USEC) {
                                 boxes.push(drawPile(0, y, 2, num + C));
                                 y += 1;
