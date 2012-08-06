@@ -50,11 +50,11 @@
 
                         addMouseLayer();
 
-                        label([0, 0.2], "x=", "above left");
-                        line([0, 0], [8, 0]);
-                        for (var x = 0; x &lt;= 8; x += 2) {
+                        label([1, 0.2], "\\text{step}:", "above left");
+                        line([1, 0], [9, 0]);
+                        for (var x = 1; x &lt;= 9; x += 2) {
                             line([x, -0.2], [x, 0.2]);
-                            label([x, 0.2], x / 2 + 1, "above");
+                            label([x, 0.2], (x - 1) / 2 + 1, "above");
                         }
 
                         var drawBox = function(x, y) {
@@ -119,21 +119,21 @@
                         drawPattern(1);
 
                         graph.slider = addMovablePoint({
-                            coord: [0, 0],
+                            coord: [1, 0],
                             constraints: {
                                 constrainY: true
                             }
                         });
 
                         graph.slider.onMove = function(x, y) {
-                            if (x < 0) return false;
-                            if (x > 8) return false;
+                            if (x < 1) return false;
+                            if (x > 9) return false;
 
-                            var newx = round(x / 2);
+                            var newx = round((x - 1) / 2);
 
                             drawPattern(newx + 1);
 
-                            return [newx * 2, y];
+                            return [newx * 2 + 1, y];
                         };
                     </div>
                 </div>
