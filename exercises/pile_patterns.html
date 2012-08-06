@@ -22,8 +22,15 @@
                     <var id="D">USED ? randRange(0, 3) : 0</var>
                     <var id="LEFTMAX">USEC ? (C + 4) : 0</var>
                     <var id="TOPMAX">USED ? (D + 4) : 0</var>
+                    <var id="XS">_.reduce([USEA, USEB, USEC, USED],
+                    function(sum, e) {
+                        return sum + (e ? 1 : 0);
+                    }, 0)</var>
+                    <var id="START">A + B + C + D</var>
                 </div>
-                <div class="question"></div>
+                <p class="question">
+                    How many blocks are in the diagram for each step? You can see how the pile looks for the first five steps by moving the slider.
+                </p>
                 <div class="problem">
                     <div class="graphie">
                         var vertscale = -2;
@@ -130,7 +137,11 @@
                         };
                     </div>
                 </div>
-                <div class="solution" data-forms="integer"></div>
+                <div class="solution" data-type="multiple">
+                    <span class="sol"><var>XS</var></span>
+                    <code>x +</code>
+                    <span class="sol"><var>START</var></span>
+                </div>
                 <div class="hints"></div>
             </div>
         </div>
