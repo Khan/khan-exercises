@@ -156,3 +156,5 @@ Dir["exercises/**/*.html"].each do |filename|
     f.write doc.to_html
   end
 end
+
+exit!
