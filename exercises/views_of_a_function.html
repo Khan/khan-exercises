@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Views of a function</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        chooseXValues = function(func, scale) {
+            var xs = [];
+            _.each(_.range(-9, 10), function(x) {
+                var y = func(x);
+                if (Math.abs(y) > 9) {
+                    return;
+                }
+                if (Math.abs(y - Math.round(y * scale) / scale) < 0.1) {
+                    xs.push(x);
+                }
+            });
+            return xs;
+        };
+    </script>
+    <style type="text/css">
+        .ttable {
+            text-align: left;
+            margin-top: 30px;
+            margin-left: 30px;
+        }
+
+        .ttable tr {
+            height: 23px;
+        }
+
+        .ttable td {
+            padding: 0px 5px;
+            text-align: right;
+        }
+
+        .ttable .labels td {
+            padding-left: 10px;
+            text-align: left;
+            border-bottom: 2px solid black;
+        }
+
+        .ttable .cross-bar td {
+            padding-top: 5px;
+        }
+
+        .ttable .second-col {
+            border-left: 2px solid black;
+        }
+
+        .ttable .data-col {
+            min-width: 40px;
+        }
+
+        #table-to-graph .ttable {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars" data-ensure="EXAMPLES.length === 5">
+        <var id="A">randRangeNonZero(-3, 3)</var>
+        <var id="B">randRangeNonZero(-3, 3)</var>
+        <var id="C">randRangeNonZero(-3, 3)</var>
+        <var id="SIGNIFY">function(a) {
+            return (a === 1) ? "" : (a === -1) ? "-" : a;
+        }</var>
+        <var id="ASHOW,BSHOW,CSHOW">[SIGNIFY(A), SIGNIFY(B), SIGNIFY(C)]</var>
+        <var id="FUNC,FUNCSHOW">randFromArray([
+            [function(x) {
+                return B * x + C;
+            }, BSHOW + " x + " + C],
+            [function(x) {
+                return B / 2 * x * x + A * x + C;
+            }, ((B === 2) ? "" : (B === -2) ? "-" : (B / 2)) +
+                " x^2 + " + ASHOW + " x + " + C],
+            [function(x) {
+                return B * sin(C * x / Math.PI) + A;
+            }, BSHOW + " \\sin\\left(" + CSHOW + " x / \\pi\\right) + " + A],
+            [function(x) {
+                return B * pow(Math.E, C * x / 3) + A;
+            }, BSHOW + "e^{" +
+                ((abs(C) === 3) ? SIGNIFY(C/3) + "x" : CSHOW + " x / 3") +
+                "} + " + A]
+        ])</var>
+        <var id="EXAMPLES">(function() {
+            var xs = chooseXValues(FUNC, 1);
+            if (xs.length &gt;= 5) {
+                return sortNumbers(shuffle(xs, 5));
+            } else {
+                xs = chooseXValues(FUNC, 2);
+                return sortNumbers(shuffle(xs, 5));
+            }
+        })()</var>
+    </div>
+    <div class="problems">
+        <div id="graph-to-table">
+            <div class="vars">
+                <var id="CORRECTOFFSET">0.5</var>
+            </div>
+            <p class="question">
+                Create a table of values for the function in the graph below.
+                Use at least 5 different points. Enter the values in the table
+                as decimals.
+            </p>
+            <div class="problem">
+                <div class="graphie" id="main">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function(s) {
+                            return "\\small{" + s + "}";
+                        },
+                        axisArrows: "&lt;-&gt;"
+                    });
+
+                    plot(FUNC, [-10, 10], { stroke: BLUE });
+                </div>
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    <span>Enter your data in the table below.</span>
+                    <table class="ttable">
+                        <tr class="labels">
+                            <td><code>x</code></td>
+                            <td class="second-col"><code>y</code></td>
+                        </tr>
+                        <tr class="cross-bar">
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="guess">
+                    (function(){
+                        var guess = [];
+                        $(".ttable tr").each(function() {
+                            var input = [];
+                            $(this).children().each(function() {
+                                input.push($(this).children().val());
+                            });
+                            guess.push(input);
+                        });
+                        return guess;
+                    })()
+                </div>
+                <div class="validator-function">
+                    var attempted = 0;
+                    var correct = 0;
+                    var xs = [];
+
+                    for (var i = 0; i &lt; 8; ++i) {
+                        if ($.trim(guess[i][0]) !== "" &amp;&amp;
+                            $.trim(guess[i][1]) !== "") {
+                            attempted += 1;
+
+                            var x = parseFloat(guess[i][0]),
+                                y = parseFloat(guess[i][1]);
+
+                            if (abs(FUNC(x) - y) &lt; CORRECTOFFSET) {
+                                correct += 1;
+                                xs.push(x);
+                            }
+                        }
+                    }
+
+                    if (attempted &lt; 5) {
+                        return "You must enter 5 or more points";
+                    }
+
+                    xs = KhanUtil.sortNumbers(xs);
+                    var different = 1;
+
+                    for (var i = 0; i &lt; correct - 1; ++i) {
+                        if (xs[i + 1] - xs[i] &gt;= 0.5) {
+                            different += 1;
+                        }
+                    }
+
+                    return different === attempted;
+                </div>
+            </div>
+
+            <div class="hints">
+                <p>You can look at function in many different ways, including a
+                    graph and a table. Here, we have a function modeled in a
+                    graph, and we want to store some information about it at a
+                    couple points by modeling it as a table.</p>
+                <p>To represent it as a table, take any five points on the
+                    graph, and list them in the table.</p>
+                <p>For example, we can look at the point with an
+                    <code>x</code>-value of
+                    <code><var>EXAMPLES[0]</var></code>.</p>
+                <div>
+                    <p>The <code>y</code>-value at this point is
+                        <code><var>round(2 * FUNC(EXAMPLES[0])) / 2</var></code>,
+                        which we find from the graph.</p>
+                    <div class="graphie" data-update="main">
+                        line([EXAMPLES[0], -11], [EXAMPLES[0], 11],
+                            { strokeWidth: 1, stroke: ORANGE });
+                        circle([EXAMPLES[0], FUNC(EXAMPLES[0])], 0.2,
+                            { stroke: ORANGE, fill: ORANGE });
+                    </div>
+                </div>
+                <p>
+                    To record this in our table, put
+                    <code><var>EXAMPLES[0]</var></code> in the <code>x</code>
+                    column, and
+                    <code><var>round(2 * FUNC(EXAMPLES[0])) / 2</var></code>
+                    in the <code>y</code> column.
+                </p>
+                <p>
+                    We can do this with 4 other <code>x</code>-values, such as
+                    <code><var>EXAMPLES[1]</var></code>,
+                    <code><var>EXAMPLES[2]</var></code>,
+                    <code><var>EXAMPLES[3]</var></code>,
+                    and <code><var>EXAMPLES[4]</var></code>.
+                </p>
+                <div>
+                    <p>We can find the <code>y</code>-values at these points
+                        by finding them on the graph as well.</p>
+                    <div class="graphie" data-update="main">
+                        for (var i = 1; i &lt; 5; ++i) {
+                            line([EXAMPLES[i], -11], [EXAMPLES[i], 11],
+                                { strokeWidth: 1, stroke: ORANGE });
+                            circle([EXAMPLES[i], FUNC(EXAMPLES[i])], 0.2,
+                                { stroke: ORANGE, fill: ORANGE });
+                        }
+                    </div>
+                </div>
+                <div>
+                    <p>From this, five points on the graph are:</p>
+                    <div data-each="EXAMPLES as x">
+                        <p><code>
+                            (<var>x</var>, <var>round(FUNC(x) * 2) / 2</var>)
+                        </code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="table-to-graph">
+            <p class="question">Create a graph for the function that is modeled
+                below by plotting the points on the graph.</p>
+
+            <div class="problem">
+                <table class="ttable">
+                    <tr class="labels">
+                        <td class="data-col">
+                            <code>x</code>
+                        </td>
+                        <td class="second-col data-col">
+                            <code>y</code>
+                        </td>
+                    </tr>
+                    <tr data-each="EXAMPLES as x">
+                        <td class="data-col">
+                            <code><var>x+"\\hphantom{.0}"</var></code>
+                        </td>
+                        <td class="second-col data-col">
+                            <code><var>
+                                roundToNearest(0.5, FUNC(x)).toFixed(1)
+                                    .replace(/\.0$/, "\\hphantom{.0}")
+                            </var></code>
+                        </td>
+                    </tr>
+                </table>
+                <div class="graphie" id="main">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function(s) {
+                            return "\\small{" + s + "}";
+                        },
+                        axisArrows: "&lt;-&gt;"
+                    });
+
+                    addMouseLayer();
+
+                    graph.points = [];
+
+                    var drawn = false;
+
+                    graph.graphFunc = function() {
+                        if (!drawn) {
+                            drawn = true;
+                            var func = plot(FUNC, [-10, 10],
+                                { stroke: ORANGE, opacity: 0.0 });
+                            func.animate({ opacity: 1.0 }, 800);
+                        }
+
+                        _.invoke(graph.points, "toFront");
+                    };
+
+                    graph.checkAnswer = function() {
+                        var used = [false, false, false, false, false];
+
+                        _.each(EXAMPLES, function(x) {
+                            var y = roundToNearest(0.5, FUNC(x));
+                            var done = false;
+                            _.each(graph.points, function(pt, i) {
+                                if (!done) {
+                                    var coord = pt.coord;
+                                    if (coord[0] === x &amp;&amp;
+                                        coord[1] === y) {
+                                        used[i] = true;
+                                        done = true;
+                                    }
+                                }
+                            });
+                        });
+
+                        return _.all(used, _.identity);
+                    };
+
+                    graph.moved = false;
+
+                    graph.checkPoints = function() {
+                        if (graph.checkAnswer()) {
+                            graph.graphFunc();
+                        }
+
+                        graph.moved = true;
+
+                        return true;
+                    };
+
+                    for (var i = 0; i &lt; 5; ++i) {
+                        graph.points.push(addMovablePoint({
+                            coord: [2 * i - 4, 0],
+                            snapX: 0.5,
+                            snapY: 0.5,
+                            onMoveEnd: graph.checkPoints
+                        }));
+                    }
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Plot the points given in the table on the graph,
+                    then check your answer.
+                </div>
+                <div class="guess">
+                    [
+                        graph.moved,
+                        graph.checkAnswer(),
+                        _.pluck(graph.points, "coord")
+                    ]
+                </div>
+                <div class="validator-function">
+                    console.log(guess);
+                    if (!guess[0]) {
+                        return "";
+                    } else {
+                        return guess[1];
+                    }
+                </div>
+                <div class="show-guess">
+                    _.each(graph.points, function(pt, i) {
+                        pt.setCoord(guess[2][i]);
+                    });
+                </div>
+            </div>
+            <div class="hints">
+                <p>We can look at a function in many different ways, including
+                    a table and a graph. Here, we have information about a
+                    function at a few points, and we are trying to gain a more
+                    general view of the function by plotting those points in a
+                    graph.</p>
+                <p>
+                    To represent it as a graph, take all the points listed in
+                    the table, and plot them on the graph.</p>
+                    <p>For example, let's look at the point
+                    <code>
+                        (<var>EXAMPLES[0]</var>,
+                        <var>roundToNearest(0.5, FUNC(EXAMPLES[0]))</var>)
+                    </code>.
+                </p>
+                <div>
+                    <p>We need to move one of the points to this position to
+                    represent plotting it on the graph.</p>
+                    <div class="graphie" data-update="main">
+                        var endpt = [EXAMPLES[0],
+                            roundToNearest(0.5, FUNC(EXAMPLES[0]))];
+
+                        line([-4, 0], endpt, { arrows: "->" });
+                        graph.points[0].moveTo(endpt[0], endpt[1]);
+
+                        graph.points[0].toFront();
+                    </div>
+                </div>
+                <div>
+                    <p>Now, plot the remaining four points by placing the
+                        remaining points on the given 'X's.</p>
+                    <div class="graphie" data-update="main">
+                        for (var i = 1; i < 5; ++i) {
+                            var x = EXAMPLES[i];
+                            var y = roundToNearest(0.5, FUNC(x));
+
+                            line([x - 0.5, y - 0.5], [x + 0.5, y + 0.5], {
+                                stroke: PINK
+                            });
+                            line([x + 0.5, y - 0.5], [x - 0.5, y + 0.5], {
+                                stroke: PINK
+                            });
+
+                            _.invoke(graph.points, "toFront");
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="equation-to-table" data-type="graph-to-table">
+            <div class="vars">
+                <var id="FUNC,FUNCSHOW">randFromArray([
+                    [function(x) {
+                        return B * x + C;
+                    }, BSHOW + " x + " + C],
+                    [function(x) {
+                        return B / 2 * x * x + A * x + C;
+                    }, ((B === 2) ? "" : (B === -2) ? "-" : (B / 2)) +
+                        " x^2 + " + ASHOW + " x + " + C]
+                ])</var>
+                <var id="EXAMPLES">(function() {
+                    var xs = chooseXValues(FUNC, 1);
+                    if (xs.length &gt;= 5) {
+                        return sortNumbers(shuffle(xs, 5));
+                    } else {
+                        xs = chooseXValues(FUNC, 2);
+                        return sortNumbers(shuffle(xs, 5));
+                    }
+                })()</var>
+                <var id="CORRECTOFFSET">0.01</var>
+            </div>
+            <p class="question">
+                Create a table with at least five different points in it
+                created from the function. Enter the values in the table as
+                decimals.
+            </p>
+            <p class="problem"><code><var>FUNCSHOW</var></code></p>
+            <div class="hints">
+                <p>You can look at a function in many different ways,
+                    including an equation and a table. We have an equation,
+                    and in order to see more clearly how the function acts at
+                    few points, we are going to record information about it in
+                    a table.</p>
+                <p>To represent it as a table, pick some <code>x</code> values
+                    to plug into the equation, and record that <code>x</code>
+                    and the result of plugging it into the equation
+                    in the table.</p>
+                <p>For example, try plugging in
+                    <code><var>EXAMPLES[0]</var></code> to the equation.</p>
+                <p>
+                    The result of <code>f(<var>EXAMPLES[0]</var>)</code> is
+                    <code><var>roundToNearest(0.1, FUNC(EXAMPLES[0]))</var></code>.
+                    Record this in the table by putting
+                    <code><var>EXAMPLES[0]</var></code> in the <code>x</code>
+                    column, and
+                    <code><var>roundToNearest(0.1, FUNC(EXAMPLES[0]))</var></code>
+                    in the cooresponding <code>y</code> column.
+                </p>
+                <p>
+                    Now, choose four more <code>x</code> values to plug into
+                    the equation. Let's try the numbers
+                    <code><var>EXAMPLES[1]</var></code>,
+                    <code><var>EXAMPLES[2]</var></code>,
+                    <code><var>EXAMPLES[3]</var></code>,
+                    and <code><var>EXAMPLES[4]</var></code>.
+                </p>
+                <div>
+                    <p>By plugging into the equation, we get:</p>
+                    <p data-each="EXAMPLES.slice(1) as x">
+                        <code>f(<var>x</var>) =
+                            <var>roundToNearest(0.1, FUNC(x))</var></code>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
