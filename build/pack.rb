@@ -157,4 +157,4 @@ Dir["exercises/**/*.html"].each do |filename|
   end
 end
 
-exit!
+exit! 0
