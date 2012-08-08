@@ -11,7 +11,8 @@
             <div>
                 <div class="vars"
                     data-ensure="(USEA || USEB || USEC || USED)
-                    &amp;&amp; A + B + C + D > 0">
+                    &amp;&amp; A + B + C + D > 0 &amp;&amp;
+                    XS !== START">
                     <var id="USEA">random() < 0.5</var>
                     <var id="A">USEA ? randRange(1, 3) : 0</var>
                     <var id="USEB">random() < 0.5</var>
@@ -32,7 +33,7 @@
                     How many blocks are in the diagram for each step? You can see how the pile looks for the first five steps by moving the slider.
                 </p>
                 <div class="problem">
-                    <div class="graphie">
+                    <div class="graphie" id="main">
                         var vertscale = -2;
 
                         if (USEB)
@@ -137,13 +138,15 @@
                         var currStep = 1;
 
                         var showStep = function(step) {
-                            if (currStep < step) {
-                                steps[step].animate({ "opacity": 1 }, 200);
-                            } else if (currStep > step) {
-                                steps[currStep].animate({ "opacity": 0 }, 200);
+                            while (currStep < step) {
+                                // add blocks
+                                steps[currStep + 1].animate({ "opacity": 1 }, 200);
+                                currStep++;
                             }
-
-                            currStep = step;
+                            while (currStep > step) {
+                                steps[currStep].animate({ "opacity": 0 }, 200);
+                                currStep--;
+                            }
                         };
 
                         graph.slider = addMovablePoint({
@@ -166,10 +169,46 @@
                     </div>
                 </div>
                 <div class="solution" data-type="multiple">
-                    In step <code>0</code>, we have <span class="sol"><var>START</var></span> blocks. At each step, we add <span class="sol"><var>XS</var></span> more blocks.<br><br>
+                    In step 0, we have <span class="sol"><var>START</var></span> blocks. At each step, we add <span class="sol"><var>XS</var></span> more blocks.<br><br>
                     So, at step number <code>S</code>, we have <br><span class="sol"><var>XS</var></span> <code>\times S +</code> <span class="sol"><var>START</var></span> blocks.
                 </div>
-                <div class="hints"></div>
+                <div class="hints">
+                    <p>The number of blocks in the pile make an arithmetic progression. This means that at each step, the same number of blocks are added. We want to find a way to figure out how many blocks there would be at any step.</p>
+                    <p>First, we need to find out how many blocks there are at the beginning. To do this, look how many blocks there are in step 0 by dragging the slider all the way to the left.</p>
+                    <div>
+                        <p>We see that there are <code><var>START</var></code> blocks in step 0. Fill this in the answer box.</p>
+                        <div class="graphie" data-update="main">
+                            graph.slider.moveTo(1, 0);
+                        </div>
+                    </div>
+                    <p>Next, let's figure out how many blocks are added in each step. The easiest way to do that is to see how many blocks are added from step 0 to step 1.</p>
+                    <div>
+                        <p>There are <code><var>START + XS</var></code> blocks in step 1. To find how many blocks are added in each steps we just subtract this number from the number of blocks in step 0. So there are <code><var>START + XS</var> - <var>START</var> = <var>XS</var></code> blocks added in each step. Fill this in the answer box as well.</p>
+                        <div class="graphie" data-update="main">
+                            graph.slider.moveTo(3, 0);
+                        </div>
+                    </div>
+                    <p>Last, we have to figure out how many blocks there would be at any step. We can answer this by thinking "If we are at some step <code>S</code>, how many blocks would there be?"</p>
+                    <p>Because this is an arithmetic progression, we can represent the number of blocks using an expression that looks like: <code>a \times S + b</code> where <code>a</code> and <code>b</code> are numbers that we have to fill in.</p>
+                    <div>
+                        <p>If we are at step 0, we can figure out what <code>b</code> should be. We know that there are <code><var>START</var></code> blocks in step 0. So let's plug into the equation:</p>
+                        <p><code>a \times 0 + b = <var>START</var></code></p>
+                    </div>
+                    <div>
+                        <p>Since <code>0</code> times anything is 0, we can turn this into:</p>
+                        <p><code>0 + b = b = <var>START</var></code></p>
+                    </div>
+                    <p>Now that we know that <code>b = <var>START</var></code>, we can figure out what <code>a</code> is by using what we know about step 1.</p>
+                    <div>
+                        <p>Plugging in again, we get:</p>
+                        <p><code>a \times 1 + <var>START</var> = <var>START + XS</var></code></p>
+                    </div>
+                    <p>By solving for <code>a</code>, we find that <code>a = <var>XS</var></code>. Do you see any similarities between what we got for <code>a</code> and <code>b</code> and the numbers we found above?</p>
+                    <div>
+                        <p>That's right, <code>b</code> is just the number of blocks at the beginning, and <code>a</code> is just the number of blocks we add in each step.</p>
+                        <p>We now have the answer. In step <code>S</code> the number of blocks is <code><var>XS</var> \times S + <var>START</var></code></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
