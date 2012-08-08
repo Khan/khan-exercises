@@ -13,13 +13,13 @@
                     data-ensure="(USEA || USEB || USEC || USED)
                     &amp;&amp; A + B + C + D > 0">
                     <var id="USEA">random() < 0.5</var>
-                    <var id="A">USEA ? randRange(0, 3) : 0</var>
+                    <var id="A">USEA ? randRange(1, 3) : 0</var>
                     <var id="USEB">random() < 0.5</var>
-                    <var id="B">USEB ? randRange(1, 3) : 0</var>
+                    <var id="B">USEB ? randRange(0, 2) : 0</var>
                     <var id="USEC">random() < 0.5</var>
                     <var id="C">USEC ? randRange(1, 3) : 0</var>
                     <var id="USED">random() < 0.5</var>
-                    <var id="D">USED ? randRange(0, 3) : 0</var>
+                    <var id="D">USED ? randRange(0, 2) : 0</var>
                     <var id="LEFTMAX">USEC ? (C + 4) : 0</var>
                     <var id="TOPMAX">USED ? (D + 4) : 0</var>
                     <var id="XS">_.reduce([USEA, USEB, USEC, USED],
