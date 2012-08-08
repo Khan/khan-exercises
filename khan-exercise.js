@@ -76,8 +76,10 @@ var Khan = (function() {
     }
 
     // Numbers which are coprime to the number of bins, used for jumping through
-    // exercises
-    var primes = [3, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
+    // exercises.  To quickly test a number in python use code like:
+    // import fractions
+    // fractions.gcd( 197, 200)
+    var primes = [197, 3, 193, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
     47, 53, 59, 61, 67, 71, 73, 79, 83],
 
     /*
