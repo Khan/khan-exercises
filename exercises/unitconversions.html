@@ -12,46 +12,46 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="BASE1 !== BASE2">
-			<var id="VALUE">1.2</var>
-            <var id="BASE1">randVar( )</var>
-            <var id="BASE2">randVar( )</var>
-            <var id="EXPNUM1">randRangeNonZero( -5, 5 )</var>
-            <var id="EXPNUM3">randRangeNonZero( -5, 5 )</var>
-            <var id="EXPDEN1">randRangeNonZero( -5, 5 )</var>
-            <var id="EXPDEN2">randRangeNonZero( -5, 5 )</var>
-            <var id="EXPDEN3">randRangeNonZero( -5, 5 )</var>
+        <div class="vars">
+			<var id="VALUE">125</var>
+            <var id="LengthUnits">[
+                { str: "yard", nom: "0.9144 m", denom: "1 yard", factor: 0.9144 },
+                { str: "inch", nom: "0.0254 m", denom: "1 inch", factor: 0.00254} ]</var>
+            <var id="TimeUnits">[
+                { str: "hour", nom: "3600 s", denom: "1 hour", factor: 3600 },
+                { str: "min",  nom: "60 s", denom: "1 min", factor: 60} ]</var>
 
-            <var id="DEN">[ "^", [ "*", [ "^", BASE1, EXPDEN1 ], [ "^", BASE2, EXPDEN2 ] ], EXPDEN3 ]</var>
-            <var id="DENHINT1">[ "*", [ "^", [ "^", BASE1, EXPDEN1 ], EXPDEN3 ],  [ "^", [ "^", BASE2, EXPDEN2 ], EXPDEN3 ] ]</var>
-            <var id="DENHINT2">[ "*", [ "^", BASE1, EXPDEN1 * EXPDEN3 ], [ "^", BASE2, EXPDEN2 * EXPDEN3 ] ]</var>
+            <var id="UNIT1">LengthUnits[randRange(0, 1)]</var>
+            <var id="UNIT2">TimeUnits[randRange(0, 1)]</var>
+
+			<var id="result">VALUE * UNIT1.factor / UNIT2.factor</var>
         </div>
         <div class="problems">
             <div id="simplify-exponential-form-full" data-weight="2">
-                <div class="vars">
-                    <var id="EXPNUM2">randRangeNonZero( -5, 5 )</var>
 
-                    <var id="NUM">[ "^", [ "*", [ "^", BASE1, EXPNUM1 ], [ "^", BASE2, EXPNUM2 ] ], EXPNUM3 ]</var>
+                <p class="question">Convert to SI units.</p>
 
-                    <var id="NUMHINT1">[ "*", [ "^", [ "^", BASE1, EXPNUM1 ], EXPNUM3 ],  [ "^", [ "^", BASE2, EXPNUM2 ], EXPNUM3 ] ]</var>
-                    <var id="NUMHINT2">[ "*", [ "^", BASE1, EXPNUM1 * EXPNUM3 ], [ "^", BASE2, EXPNUM2 * EXPNUM3 ] ]</var>
+				<p><code><var>VALUE</var> \frac{<var>UNIT1.str</var>}{<var>UNIT2.str</var>}</code></p>
+				
+				<p><code><var>VALUE</var> \frac{<var>UNIT1.str</var>}{<var>UNIT2.str</var>} 
+					\cdot \frac{<var>UNIT1.nom</var>}{<var>UNIT1.denom</var>}
+					\cdot \frac{<var>UNIT2.denom</var>}{<var>UNIT2.nom</var>}</code></p>
 
-                    <var id="EXP1">EXPNUM1 * EXPNUM3 - EXPDEN1 * EXPDEN3</var>
-                    <var id="EXP2">EXPNUM2 * EXPNUM3 - EXPDEN2 * EXPDEN3</var>
-                    <var id="ANS">[ "*", [ "^", BASE1, EXP1 ], [ "^", BASE2, EXP2 ] ]</var>
-                </div>
-
-                <p class="question">Simplify; express your answer in exponential form.  Assume <code><var>BASE1</var>\neq 0, <var>BASE2</var>\neq 0</code>.</p>
-
-                <p><code>\dfrac{\color{orange}{<var>expr( NUM )</var>}}{\color{green}{<var>expr( DEN )</var>}}</code></p>
+				<p><code><var>result</var> \frac{m}{s}</code></p>
 
                 <div class="solution" data-type="multiple">
-                    <p><span class="sol exp"><var>VALUE</var><code></span><var>BASE1</var></code><span class="sol exp"><var>EXP1</var></span><code><var>BASE2</var></code><span class="sol exp"><var>EXP2</var></span></p>
+                    <p><span class="sol" data-type="decimal" data-inexact data-max-error="0.15"><var>result</var></span></p>
+                    <!--<p><span class="sol exp"><var>result</var><code></span><var>BASE1</var></code><span class="sol exp"><var>EXP1</var></span><code><var>BASE2</var></code><span class="sol exp"><var>EXP2</var></span></p>-->
                     <p class="example">enter a (possibly negative) integer for each exponent</p>
                 </div>
 
                 <div class="hints">
-                    <p>To start, try simplifying the numerator and the denominator independently.</p>
+				<p><code><var>VALUE</var> \frac{<var>UNIT1.str</var>}{<var>UNIT2.str</var>} 
+					\cdot \frac{<var>UNIT1.nom</var>}{<var>UNIT1.denom</var>}
+					\cdot \frac{<var>UNIT2.denom</var>}{<var>UNIT2.nom</var>}</code></p>
+				<p><code><var>VALUE</var> \frac{<var>UNIT1.str</var>}{<var>UNIT2.str</var>} 
+					\cdot \frac{<var>UNIT1.nom</var>}{<var>UNIT1.denom</var>}
+					\cdot \frac{<var>UNIT2.denom</var>}{<var>UNIT2.nom</var>}</code></p>
                 </div>
             </div> <!-- simplify-exponential-form-full-->
         </div> <!-- problems -->
