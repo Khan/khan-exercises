@@ -75,8 +75,9 @@ var Khan = (function() {
         });
     }
 
-    // Prime numbers used for jumping through exercises
-    var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
+    // Numbers which are coprime to the number of bins, used for jumping through
+    // exercises
+    var primes = [3, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43,
     47, 53, 59, 61, 67, 71, 73, 79, 83],
 
     /*
@@ -163,7 +164,9 @@ var Khan = (function() {
     exerciseName = deslugify(exerciseId),
 
     // Bin users into a certain number of realms so that
-    // there is some level of reproducability in their questions
+    // there is some level of reproducability in their questions.
+    // If you change this, make sure all entries in the array "primes" 
+    // set above are coprime to the new value.
     bins = 200,
 
     // Number of past problems to consider when avoiding duplicates
