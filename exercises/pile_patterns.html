@@ -70,7 +70,7 @@
                             ]);
                         };
 
-                        var drawPile = function(x, y, dir, num) {
+                        var drawPile = function(x, y, dir, start, num) {
                             var set = raphael.set();
 
                             var offset = [
@@ -80,7 +80,7 @@
                                 [0, -1]
                             ][dir];
 
-                            for (var i = 0; i < num; ++i) {
+                            for (var i = start; i < num; ++i) {
                                 set.push(
                                     drawBox(x + offset[0] * i,
                                             y + offset[1] * i)
@@ -93,30 +93,58 @@
                         var boxes = raphael.set();
 
                         var drawPattern = function(num) {
-                            boxes.remove();
-                            boxes = raphael.set();
+                            var boxes = raphael.set();
+
+                            var start = (num === 0);
 
                             var y = 0;
 
                             if (USED) {
-                                boxes.push(drawPile(0, y, 3, num + D));
+                                boxes.push(drawPile(0, y, 3,
+                                    start ? 0 : D + num - 1, num + D));
                                 y += 1;
                             }
                             if (USEC) {
-                                boxes.push(drawPile(0, y, 2, num + C));
+                                boxes.push(drawPile(0, y, 2,
+                                    start ? 0 : C + num - 1, num + C));
                                 y += 1;
                             }
                             if (USEA) {
-                                boxes.push(drawPile(0, y, 0, num + A));
+                                boxes.push(drawPile(0, y, 0,
+                                    start ? 0 : A + num - 1, num + A));
                                 y += 1;
                             }
                             if (USEB) {
-                                boxes.push(drawPile(0, y, 1, num + B));
+                                boxes.push(drawPile(0, y, 1,
+                                    start ? 0 : B + num - 1, num + B));
                                 y += 1;
                             }
+
+                            return boxes;
                         };
 
-                        drawPattern(1);
+                        var steps = [];
+
+                        for (var i = 0; i < 5; i++) {
+                            steps[i] = drawPattern(i);
+
+                            steps[i].attr("opacity", 0);
+                        }
+
+                        steps[0].attr("opacity", 1);
+                        steps[1].attr("opacity", 1);
+
+                        var currStep = 1;
+
+                        var showStep = function(step) {
+                            if (currStep < step) {
+                                steps[step].animate({ "opacity": 1 }, 200);
+                            } else if (currStep > step) {
+                                steps[currStep].animate({ "opacity": 0 }, 200);
+                            }
+
+                            currStep = step;
+                        };
 
                         graph.slider = addMovablePoint({
                             coord: [3, 0],
@@ -131,7 +159,7 @@
 
                             var newx = round((x - 1) / 2);
 
-                            drawPattern(newx);
+                            showStep(newx);
 
                             return [newx * 2 + 1, y];
                         };
