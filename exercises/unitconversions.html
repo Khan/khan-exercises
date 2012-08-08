@@ -12,46 +12,50 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars">
-			<var id="VALUE">125</var>
+        <div class="vars" data-ensure="result > 0.00001">
+			<var id="VALUE">randRange(0, 12500)</var>
             <var id="LengthUnits">[
-                { str: "yard", nom: "0.9144 m", denom: "1 yard", factor: 0.9144 },
-                { str: "inch", nom: "0.0254 m", denom: "1 inch", factor: 0.00254} ]</var>
+                { str: "cm", nomval: 0.01,  denomval: 1, nomunit: "m", denomunit: "cm", factor: 0.01 },
+                { str: "feet", nomval: 0.3048,  denomval: 1, nomunit: "m", denomunit: "feet", factor: 0.3048 },
+                { str: "yard", nomval: 0.9144,  denomval: 1, nomunit: "m", denomunit: "yard", factor: 0.9144 },
+                { str: "inch", nomval: 0.00254, denomval: 1, nomunit: "m", denomunit: "inch", factor: 0.00254 }]</var>
             <var id="TimeUnits">[
-                { str: "hour", nom: "3600 s", denom: "1 hour", factor: 3600 },
-                { str: "min",  nom: "60 s", denom: "1 min", factor: 60} ]</var>
+                { str: "hour", nomval: 3600, denomval: 1, nomunit: "s", denomunit: "hour", factor: 3600 },
+                { str: "min",  nomval: 60,   denomval: 1, nomunit: "s", denomunit: "min",  factor: 60 }]</var>
 
-            <var id="UNIT1">LengthUnits[randRange(0, 1)]</var>
+            <var id="UNIT1">LengthUnits[randRange(0, 3)]</var>
             <var id="UNIT2">TimeUnits[randRange(0, 1)]</var>
 
 			<var id="result">VALUE * UNIT1.factor / UNIT2.factor</var>
+			<var id="resultAllowedDeviance">0.05 * VALUE * UNIT1.factor / UNIT2.factor</var>
         </div>
         <div class="problems">
             <div id="simplify-exponential-form-full" data-weight="2">
 
-                <p class="question">Convert to SI units.</p>
+                <p class="question">Convert the following quantity to SI units.</p>
 
 				<p><code><var>VALUE</var> \frac{<var>UNIT1.str</var>}{<var>UNIT2.str</var>}</code></p>
 				
-				<p><code><var>VALUE</var> \frac{<var>UNIT1.str</var>}{<var>UNIT2.str</var>} 
-					\cdot \frac{<var>UNIT1.nom</var>}{<var>UNIT1.denom</var>}
-					\cdot \frac{<var>UNIT2.denom</var>}{<var>UNIT2.nom</var>}</code></p>
-
-				<p><code><var>result</var> \frac{m}{s}</code></p>
-
                 <div class="solution" data-type="multiple">
-                    <p><span class="sol" data-type="decimal" data-inexact data-max-error="0.15"><var>result</var></span></p>
-                    <!--<p><span class="sol exp"><var>result</var><code></span><var>BASE1</var></code><span class="sol exp"><var>EXP1</var></span><code><var>BASE2</var></code><span class="sol exp"><var>EXP2</var></span></p>-->
-                    <p class="example">enter a (possibly negative) integer for each exponent</p>
+					<!-- The following would be nice to be able to do. Define data uncertainty on the fly. -->
+                    <!--<p><span class="sol" data-type="decimal" data-inexact data-max-error="resultAllowedDeviance"><var>result</var></span> <code>\frac{m}{s}</code></p>-->
+                    <p><span class="sol" data-type="decimal" data-inexact data-max-error=0.00001><var>result</var></span> <code>\frac{m}{s}</code></p>
+                    <p class="example">enter a decimal value</p>
                 </div>
 
                 <div class="hints">
-				<p><code><var>VALUE</var> \frac{<var>UNIT1.str</var>}{<var>UNIT2.str</var>} 
-					\cdot \frac{<var>UNIT1.nom</var>}{<var>UNIT1.denom</var>}
-					\cdot \frac{<var>UNIT2.denom</var>}{<var>UNIT2.nom</var>}</code></p>
-				<p><code><var>VALUE</var> \frac{<var>UNIT1.str</var>}{<var>UNIT2.str</var>} 
-					\cdot \frac{<var>UNIT1.nom</var>}{<var>UNIT1.denom</var>}
-					\cdot \frac{<var>UNIT2.denom</var>}{<var>UNIT2.nom</var>}</code></p>
+					<p>Multiply with fractions with the value one.</p>
+					<p><code><var>VALUE</var> \frac{<var>UNIT1.str</var>}{<var>UNIT2.str</var>} 
+						\cdot \frac{<var>UNIT1.nomval</var><var>UNIT1.nomunit</var>}{<var>UNIT1.denomval</var><var>UNIT1.denomunit</var>}
+						\cdot \frac{<var>UNIT2.denomval</var><var>UNIT2.denomunit</var>}{<var>UNIT2.nomval</var><var>UNIT2.nomunit</var>}</code></p>
+					<p>Let the units cancel out.</p>
+					<p><code><var>VALUE</var> 
+						\cdot \frac{<var>UNIT1.nomval</var>}{<var>UNIT1.denomval</var>}
+						\cdot \frac{<var>UNIT2.denomval</var>}{<var>UNIT2.nomval</var>}
+						\frac{<var>UNIT1.nomunit</var>}{<var>UNIT2.nomunit</var>} </code></p>
+					<p>Multiply the numbers.</p>
+					<p><code><var>result</var> 
+						\frac{<var>UNIT1.nomunit</var>}{<var>UNIT2.nomunit</var>} </code></p>
                 </div>
             </div> <!-- simplify-exponential-form-full-->
         </div> <!-- problems -->
