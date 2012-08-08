@@ -36,14 +36,18 @@
                     <div class="graphie" id="main">
                         var vertscale = -2;
 
-                        if (USEB)
+                        if (USEB) {
                             vertscale -= B + 5;
-                        if (USED)
+                        }
+                        if (USED) {
                             vertscale -= D + 5;
-                        if (USEA)
+                        }
+                        if (USEA) {
                             vertscale -= 1;
-                        if (USEC)
+                        }
+                        if (USEC) {
                             vertscale -= 1;
+                        }
 
                         init({
                             range: [[-1, 15], [vertscale, 1]]
@@ -90,8 +94,6 @@
 
                             return set;
                         };
-
-                        var boxes = raphael.set();
 
                         var drawPattern = function(num) {
                             var boxes = raphael.set();
