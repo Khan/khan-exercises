@@ -26,7 +26,7 @@
                     <var id="C">USEC ? randRange(1, 3) : 0</var>
                     <var id="USED">random() &lt; 0.5</var>
                     <var id="D">USED ? randRange(0, 2) : 0</var>
-                    <var id="LEFTMAX">USEC ? (C + 4) : 0</var>
+                    <var id="LEFTMAX">USEC ? (C + 4) : 2</var>
                     <var id="TOPMAX">USED ? (D + 4) : 0</var>
                     <var id="XS">_.reduce([USEA, USEB, USEC, USED],
                     function(sum, e) {
@@ -42,10 +42,10 @@
                         var vertscale = -2;
 
                         if (USEB) {
-                            vertscale -= B + 5;
+                            vertscale -= B + 4;
                         }
                         if (USED) {
-                            vertscale -= D + 5;
+                            vertscale -= D + 4;
                         }
                         if (USEA) {
                             vertscale -= 1;
@@ -105,13 +105,13 @@
 
                             var start = (num === 0);
 
+                            if (USED) {
+                                boxes.push(drawPile(0, -1, 3,
+                                    start ? 0 : D + num - 1, num + D));
+                            }
+
                             var y = 0;
 
-                            if (USED) {
-                                boxes.push(drawPile(0, y, 3,
-                                    start ? 0 : D + num - 1, num + D));
-                                y += 1;
-                            }
                             if (USEC) {
                                 boxes.push(drawPile(0, y, 2,
                                     start ? 0 : C + num - 1, num + C));
