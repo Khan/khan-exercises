@@ -117,9 +117,9 @@
 
                     <div class="graphie" data-update="angleGraph">
                         style({ stroke: GREEN, strokeWidth: 3 });
-                        arc( [ 0, 0 ], 1, 0, subAngle2 );
+                        arc([0, 0], 1, 0, ANGLE_ONE === ANGLE_TOP ? subAngle2 : subAngle1).toBack();
                         style({ stroke: BLUE, strokeWidth: 3 });
-                        arc( [ 0, 0 ], 1, subAngle2, largeAngle );
+                        arc([0, 0], 1, ANGLE_ONE === ANGLE_TOP ? subAngle2 : subAngle1, largeAngle).toBack();
 
                         if (PROBLEM === 0){
                             style({ stroke: "purple", strokeWidth: 3 });
