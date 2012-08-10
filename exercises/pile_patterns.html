@@ -147,7 +147,9 @@
                         var showStep = function(step) {
                             while (currStep &lt; step) {
                                 // add blocks
-                                steps[currStep + 1].animate({ "opacity": 1 }, 200);
+                                steps[currStep + 1].attr("fill", "#ddddff");
+                                steps[currStep + 1].animate({ "opacity": 1 }, 300);
+                                steps[currStep + 1].animate({ "fill": "#ffffff" }, 200);
                                 currStep++;
                             }
                             while (currStep > step) {
