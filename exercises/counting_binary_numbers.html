@@ -5,21 +5,50 @@
           <script src="../khan-exercise.js"></script>
       </head>
       <body>
+      	<script type='text/javascript'>
+      		// Convert userIntInput to desired base, in this case, 2 (binary) 
+    		function userAnswer(userIntInput) {
+    			var base = 2; // We want to stick to binary only.
+    			var answer = parseInt(userIntInput, base);
+        		return answer;
+    		}    
+    		
+    		function ourSolution(randInt) {
+    			var base = 2;
+    			var solution = parseInt(randInt, base);
+    			return solution;
+    		}
+    
+    		function validate() {
+    			if (answer != solution) {
+    				return false;
+    			} else {
+    				return true;
+    			}
+    		}
+		</script>
           <div class="exercise">
               <div class="vars">
-                  <!-- Your variables in here... -->
+                  <var id='INTEGER'>randRange(1, 10)</var>
+                  <var id='ANSWER'>userAnswer($('solutionarea').text)</var>
+                  <var id='SOLUTION'>ourSolution(INTEGER)</var>
+                  <var id='VALIDATE'>validate(ANSWER, SOLUTION)</var>
               </div>
 
               <div class="problems">
                   <div id="problem-type-or-description">
-                      <p class="problem"><!-- An overview of the problem including all needed info. --></p>
-                      <p class="question"><!-- The question to ask the student. --></p>
-                      <p class="solution"><!-- The correct answer expected of the student. --></p>
+                      <p class="problem"> Represent the following Base 10 (Decimal) number in Base 2 (Binary).</p>
+                      <p class="question"> What is <var>INTEGER</var> in Base 2?</p>
+                      <p class="solution"><var>SOLUTION</var></p>
                   </div>
               </div>
 
               <div class="hints">
-                  <!-- Any hints to show to the student. -->
+                  <p>Remember, in Base 2 we have a 'twos' place instead of a 'tens' place.</p>
+                  <p>If the number provided is larger than 2, you'll have to add places.</p>
+                  <p>Base 2 is often represented with four places, example: 0000.  From right to left the places are: 
+                  	ones, twos, fours, eights.</p>
+                  <p>How many of each place do you have? Try adding them up.</p> 
               </div>
           </div>
       </body>
