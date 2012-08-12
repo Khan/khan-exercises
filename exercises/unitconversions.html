@@ -27,8 +27,8 @@
                 { str: "pound", nomval: 0.4536, denomval: 1, nomunit: "kg", denomunit: "lb", factor: 0.4536 },
                 { str: "stone", nomval: 6.350,  denomval: 1, nomunit: "kg", denomunit: "st",  factor: 6.350 }]</var>
 
-            <var id="UNIT1">LengthUnits[randRange(0, 3)]</var>
-            <var id="UNIT2">TimeUnits[randRange(0, 1)]</var>
+            <var id="UNIT1">randFromArray(LengthUnits)</var>
+            <var id="UNIT2">randFromArray(TimeUnits)</var>
 
 			<var id="result">VALUE * UNIT1.factor / UNIT2.factor</var>
 			<var id="resultAllowedDeviance">0.05 * VALUE * UNIT1.factor / UNIT2.factor</var>
