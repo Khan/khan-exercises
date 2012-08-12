@@ -19,7 +19,6 @@
                 { str: "yard", nomval: 0.9144,  denomval: 1, nomunit: "m", denomunit: "yard", factor: 0.9144 },
                 { str: "inch", nomval: 0.00254, denomval: 1, nomunit: "m", denomunit: "inch", factor: 0.00254 }]</var>
             <var id="TimeUnits">[
-                { str: "day",  nomval: 86400, denomval: 1, nomunit: "s", denomunit: "day", factor: 86400 },
                 { str: "hour", nomval: 3600,  denomval: 1, nomunit: "s", denomunit: "hour", factor: 3600 },
                 { str: "min",  nomval: 60,    denomval: 1, nomunit: "s", denomunit: "min",  factor: 60 }]</var>
             <var id="WeightUnits">[
@@ -27,20 +26,23 @@
                 { str: "stone", nomval: 6.350,  denomval: 1, nomunit: "kg", denomunit: "st",  factor: 6.350 }]</var>
 
             <var id="LengthUNIT1">randFromArray(LengthUnits)</var>
+            <var id="LengthUNIT2">randFromArray(LengthUnits)</var>
+            <var id="TimeUNIT1">randFromArray(TimeUnits)</var>
             <var id="TimeUNIT2">randFromArray(TimeUnits)</var>
 
-			<div data-ensure="result > 0.01 && result < 1000">
-				<var id="VALUE">randRange(0, 1250000)</var>
-				<var id="result">VALUE * LengthUNIT1.factor / TimeUNIT2.factor</var>
-				<var id="resultAllowedDeviance">0.05 * VALUE * LengthUNIT1.factor / TimeUNIT2.factor</var>
-			</div>
         </div>
         <div class="problems">
-            <div id="velocity-conversion">
+            <div id="velocity-conversion-to-si-units">
+            	<div class="vars">
+					<div data-ensure="result > 0.01 && result < 1000">
+						<var id="VALUE">ceil(randRange(0, 100) * TimeUNIT1.factor / LengthUNIT1.factor)</var>
+						<var id="result">VALUE * LengthUNIT1.factor / TimeUNIT1.factor</var>
+					</div>
+				</div>
 
                 <p class="question">Convert the following velocity to SI units.</p>
 
-				<p><code><var>VALUE</var> \frac{<var>LengthUNIT1.str</var>}{<var>TimeUNIT2.str</var>}</code></p>
+				<p><code><var>VALUE</var> \frac{<var>LengthUNIT1.str</var>}{<var>TimeUNIT1.str</var>}</code></p>
 				
                 <div class="solution" data-type="multiple">
 					<!-- The following would be nice to be able to do. Define data uncertainty on the fly. -->
@@ -51,17 +53,54 @@
 
                 <div class="hints">
 					<p>Multiply with fractions with the value one.</p>
-					<p><code><var>VALUE</var> \frac{<var>LengthUNIT1.str</var>}{<var>TimeUNIT2.str</var>} 
+					<p><code><var>VALUE</var> \frac{<var>LengthUNIT1.str</var>}{<var>TimeUNIT1.str</var>} 
 						\cdot \frac{<var>LengthUNIT1.nomval</var><var>LengthUNIT1.nomunit</var>}{<var>LengthUNIT1.denomval</var><var>LengthUNIT1.denomunit</var>}
-						\cdot \frac{<var>TimeUNIT2.denomval</var><var>TimeUNIT2.denomunit</var>}{<var>TimeUNIT2.nomval</var><var>TimeUNIT2.nomunit</var>}</code></p>
+						\cdot \frac{<var>TimeUNIT1.denomval</var><var>TimeUNIT1.denomunit</var>}{<var>TimeUNIT1.nomval</var><var>TimeUNIT1.nomunit</var>}</code></p>
 					<p>Let the units cancel out.</p>
 					<p><code><var>VALUE</var> 
 						\cdot \frac{<var>LengthUNIT1.nomval</var>}{<var>LengthUNIT1.denomval</var>}
-						\cdot \frac{<var>TimeUNIT2.denomval</var>}{<var>TimeUNIT2.nomval</var>}
-						\frac{<var>LengthUNIT1.nomunit</var>}{<var>TimeUNIT2.nomunit</var>} </code></p>
+						\cdot \frac{<var>TimeUNIT1.denomval</var>}{<var>TimeUNIT1.nomval</var>}
+						\frac{<var>LengthUNIT1.nomunit</var>}{<var>TimeUNIT1.nomunit</var>} </code></p>
 					<p>Multiply the numbers.</p>
 					<p><code><var>result</var> 
-						\frac{<var>LengthUNIT1.nomunit</var>}{<var>TimeUNIT2.nomunit</var>} </code></p>
+						\frac{<var>LengthUNIT1.nomunit</var>}{<var>TimeUNIT1.nomunit</var>} </code></p>
+                </div>
+            </div> <!-- simplify-exponential-form-full-->
+            <div id="velocity-conversion-to-specified-units">
+            	<div class="vars">
+					<div data-ensure="result > 0.01 && result < 1000">
+						<var id="VALUE">ceil(randRange(0, 100) * TimeUNIT1.factor * LengthUNIT2.factor / (LengthUNIT1.factor * TimeUNIT2.factor))</var>
+						<var id="result">VALUE * LengthUNIT1.factor * TimeUNIT2.factor / (TimeUNIT1.factor * LengthUNIT2.factor)</var>
+					</div>
+				</div>
+
+                <p class="question">Express the following velocity in <code>\frac{<var>LengthUNIT2.str</var>}{<var>TimeUNIT2.str</var>}</code>.</p>
+
+				<p><code><var>VALUE</var> \frac{<var>LengthUNIT1.str</var>}{<var>TimeUNIT1.str</var>}</code></p>
+				
+                <div class="solution" data-type="multiple">
+                    <p><span class="sol" data-type="decimal" data-inexact data-max-error=0.02><var>result</var></span> <code>\frac{<var>LengthUNIT2.str</var>}{<var>TimeUNIT2.str</var>}</code></p>
+                    <p class="example">enter a decimal value with two correct decimals (eg. 13.23)</p>
+                </div>
+
+                <div class="hints">
+					<p>Multiply with fractions with the value one.</p>
+					<p><code><var>VALUE</var> \frac{<var>LengthUNIT1.str</var>}{<var>TimeUNIT1.str</var>} 
+						\cdot \frac{<var>LengthUNIT1.nomval</var><var>LengthUNIT1.nomunit</var>}{<var>LengthUNIT1.denomval</var><var>LengthUNIT1.denomunit</var>}
+						\cdot \frac{<var>TimeUNIT1.denomval</var><var>TimeUNIT1.denomunit</var>}{<var>TimeUNIT1.nomval</var><var>TimeUNIT1.nomunit</var>}
+						\cdot \frac{<var>LengthUNIT2.denomval</var><var>LengthUNIT2.denomunit</var>}{<var>LengthUNIT2.nomval</var><var>LengthUNIT2.nomunit</var>}
+						\cdot \frac{<var>TimeUNIT2.nomval</var><var>TimeUNIT2.nomunit</var>}{<var>TimeUNIT2.denomval</var><var>TimeUNIT2.denomunit</var>}
+					</code></p>
+					<p>Let the units cancel out.</p>
+					<p><code><var>VALUE</var> \frac{1}{<var>1</var>} 
+						\cdot \frac{<var>LengthUNIT1.nomval</var>}{<var>LengthUNIT1.denomval</var>}
+						\cdot \frac{<var>TimeUNIT1.denomval</var>}{<var>TimeUNIT1.nomval</var>}
+						\cdot \frac{<var>LengthUNIT2.denomval</var><var>LengthUNIT2.denomunit</var>}{<var>LengthUNIT2.nomval</var></var>}
+						\cdot \frac{<var>TimeUNIT2.nomval</var>}{<var>TimeUNIT2.denomval</var><var>TimeUNIT2.denomunit</var>}
+					</code></p>
+					<p>Multiply the numbers.</p>
+					<p><code><var>result</var> 
+						\frac{<var>LengthUNIT1.nomunit</var>}{<var>TimeUNIT1.nomunit</var>} </code></p>
                 </div>
             </div> <!-- simplify-exponential-form-full-->
         </div> <!-- problems -->
