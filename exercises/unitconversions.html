@@ -26,13 +26,13 @@
                 { str: "pound", nomval: 0.4536, denomval: 1, nomunit: "kg", denomunit: "lb", factor: 0.4536 },
                 { str: "stone", nomval: 6.350,  denomval: 1, nomunit: "kg", denomunit: "st",  factor: 6.350 }]</var>
 
-            <var id="UNIT1">randFromArray(LengthUnits)</var>
-            <var id="UNIT2">randFromArray(TimeUnits)</var>
+            <var id="LengthUNIT1">randFromArray(LengthUnits)</var>
+            <var id="TimeUNIT2">randFromArray(TimeUnits)</var>
 
 			<div data-ensure="result > 0.01 && result < 1000">
 				<var id="VALUE">randRange(0, 1250000)</var>
-				<var id="result">VALUE * UNIT1.factor / UNIT2.factor</var>
-				<var id="resultAllowedDeviance">0.05 * VALUE * UNIT1.factor / UNIT2.factor</var>
+				<var id="result">VALUE * LengthUNIT1.factor / TimeUNIT2.factor</var>
+				<var id="resultAllowedDeviance">0.05 * VALUE * LengthUNIT1.factor / TimeUNIT2.factor</var>
 			</div>
         </div>
         <div class="problems">
@@ -40,7 +40,7 @@
 
                 <p class="question">Convert the following velocity to SI units.</p>
 
-				<p><code><var>VALUE</var> \frac{<var>UNIT1.str</var>}{<var>UNIT2.str</var>}</code></p>
+				<p><code><var>VALUE</var> \frac{<var>LengthUNIT1.str</var>}{<var>TimeUNIT2.str</var>}</code></p>
 				
                 <div class="solution" data-type="multiple">
 					<!-- The following would be nice to be able to do. Define data uncertainty on the fly. -->
@@ -51,17 +51,17 @@
 
                 <div class="hints">
 					<p>Multiply with fractions with the value one.</p>
-					<p><code><var>VALUE</var> \frac{<var>UNIT1.str</var>}{<var>UNIT2.str</var>} 
-						\cdot \frac{<var>UNIT1.nomval</var><var>UNIT1.nomunit</var>}{<var>UNIT1.denomval</var><var>UNIT1.denomunit</var>}
-						\cdot \frac{<var>UNIT2.denomval</var><var>UNIT2.denomunit</var>}{<var>UNIT2.nomval</var><var>UNIT2.nomunit</var>}</code></p>
+					<p><code><var>VALUE</var> \frac{<var>LengthUNIT1.str</var>}{<var>TimeUNIT2.str</var>} 
+						\cdot \frac{<var>LengthUNIT1.nomval</var><var>LengthUNIT1.nomunit</var>}{<var>LengthUNIT1.denomval</var><var>LengthUNIT1.denomunit</var>}
+						\cdot \frac{<var>TimeUNIT2.denomval</var><var>TimeUNIT2.denomunit</var>}{<var>TimeUNIT2.nomval</var><var>TimeUNIT2.nomunit</var>}</code></p>
 					<p>Let the units cancel out.</p>
 					<p><code><var>VALUE</var> 
-						\cdot \frac{<var>UNIT1.nomval</var>}{<var>UNIT1.denomval</var>}
-						\cdot \frac{<var>UNIT2.denomval</var>}{<var>UNIT2.nomval</var>}
-						\frac{<var>UNIT1.nomunit</var>}{<var>UNIT2.nomunit</var>} </code></p>
+						\cdot \frac{<var>LengthUNIT1.nomval</var>}{<var>LengthUNIT1.denomval</var>}
+						\cdot \frac{<var>TimeUNIT2.denomval</var>}{<var>TimeUNIT2.nomval</var>}
+						\frac{<var>LengthUNIT1.nomunit</var>}{<var>TimeUNIT2.nomunit</var>} </code></p>
 					<p>Multiply the numbers.</p>
 					<p><code><var>result</var> 
-						\frac{<var>UNIT1.nomunit</var>}{<var>UNIT2.nomunit</var>} </code></p>
+						\frac{<var>LengthUNIT1.nomunit</var>}{<var>TimeUNIT2.nomunit</var>} </code></p>
                 </div>
             </div> <!-- simplify-exponential-form-full-->
         </div> <!-- problems -->
