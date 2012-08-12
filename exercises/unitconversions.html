@@ -12,8 +12,7 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="result > 0.00001">
-			<var id="VALUE">randRange(0, 12500)</var>
+        <div class="vars">
             <var id="LengthUnits">[
                 { str: "cm", nomval: 0.01,  denomval: 1, nomunit: "m", denomunit: "cm", factor: 0.01 },
                 { str: "feet", nomval: 0.3048,  denomval: 1, nomunit: "m", denomunit: "feet", factor: 0.3048 },
@@ -30,8 +29,11 @@
             <var id="UNIT1">randFromArray(LengthUnits)</var>
             <var id="UNIT2">randFromArray(TimeUnits)</var>
 
-			<var id="result">VALUE * UNIT1.factor / UNIT2.factor</var>
-			<var id="resultAllowedDeviance">0.05 * VALUE * UNIT1.factor / UNIT2.factor</var>
+			<div data-ensure="result > 0.01 && result < 1000">
+				<var id="VALUE">randRange(0, 1250000)</var>
+				<var id="result">VALUE * UNIT1.factor / UNIT2.factor</var>
+				<var id="resultAllowedDeviance">0.05 * VALUE * UNIT1.factor / UNIT2.factor</var>
+			</div>
         </div>
         <div class="problems">
             <div id="velocity-conversion">
