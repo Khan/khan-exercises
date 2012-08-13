@@ -336,15 +336,35 @@
                 currentStyle.strokeLinejoin || (currentStyle.strokeLinejoin = "round");
                 currentStyle.strokeLinecap || (currentStyle.strokeLinecap = "round");
 
-                var points = [];
-
                 var min = range[0], max = range[1];
                 var step = (max - min) / (currentStyle["plot-points"] || 800);
+
+                var paths = raphael.set(), points = [], lastVal = fn(min);
+
                 for (var t = min; t <= max; t += step) {
-                    points.push(fn(t));
+                    var funcVal = fn(t);
+
+                    if (
+                        // if there is an asymptote here, meaning that the graph switches signs and has a large difference
+                        ((funcVal[1] < 0) !== (lastVal[1] < 0)) && Math.abs(funcVal[1] - lastVal[1]) > 2 * yScale ||
+                        // or the function value gets really high (which breaks raphael)
+                        Math.abs(funcVal[1]) > 1e7
+                       ) {
+                        // split the path at this point, and draw it
+                        paths.push(this.path(points));
+                        // restart the path, excluding this point
+                        points = [];
+                    } else {
+                        // otherwise, just add the point to the path
+                        points.push(funcVal);
+                    }
+
+                    lastVal = funcVal;
                 }
 
-                return this.path(points);
+                paths.push(this.path(points));
+
+                return paths;
             },
 
             plotPolar: function(fn, range) {
@@ -365,6 +385,27 @@
                 return this.plotParametric(function(x) {
                     return [x, fn(x)];
                 }, range);
+            },
+
+            plotAsymptotes: function(fn, range) {
+                var min = range[0], max = range[1];
+                var step = (max - min) / (currentStyle["plot-points"] || 800);
+
+                var asymptotes = raphael.set(), lastVal = fn(min);
+
+                for (var t = min; t <= max; t += step) {
+                    var funcVal = fn(t);
+
+                    if (((funcVal < 0) !== (lastVal < 0)) && Math.abs(funcVal - lastVal) > 2 * yScale) {
+                        asymptotes.push(
+                            this.line([t, yScale], [t, -yScale])
+                        );
+                    }
+
+                    lastVal = funcVal;
+                }
+
+                return asymptotes;
             }
         };
 
