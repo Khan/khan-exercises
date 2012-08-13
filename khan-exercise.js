@@ -1540,7 +1540,12 @@ var Khan = (function() {
                     maxHeight = Math.max(maxHeight, $(this).outerHeight(true));
                 });
 
-                if (maxHeight > timelinecontainer.height()) {
+                // This thing looks ridiculous above about 100px
+                if (maxHeight > 100) {
+                    timelineEvents.children('.correct-activity, .incorrect-activity').each(function() {
+                        $(this).text('Answer');
+                    });
+                } else if (maxHeight > timelinecontainer.height()) {
                     timelinecontainer.height(maxHeight);
                     timeline.height(maxHeight);
                 }
@@ -1647,16 +1652,15 @@ var Khan = (function() {
 
             MathJax.Hub.Queue(function() {create(0);});
 
-            // Allow users to use arrow keys to move up and down the timeline
+            // Allow users to use arrow keys to move left and right in the
+            // timeline
             $(document).keydown(function(event) {
-                if (event.keyCode !== 37 && event.keyCode !== 39) {
-                    return;
-                }
-
                 if (event.keyCode === 37) { // left
                     currentSlide -= 1;
-                } else { // right
+                } else if (event.keyCode === 39) { // right
                     currentSlide += 1;
+                } else {
+                    return;
                 }
 
                 currentSlide = Math.min(currentSlide, numSlides - 1);
