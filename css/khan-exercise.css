@@ -266,18 +266,13 @@ div.timeline-total {
   width: 10000px;
 }
 
-#timeline-events:first-child {
-  margin-left: 5px;
-}
-
-#timeline-events:last-child {
-  margin-right: 5px;
-}
-
-#timeline-events:last-child:after {
-	content: "";
-	height: 1px;
-	display: block;
+/* Allow the timeline to scroll all the way to the end with a little margin */
+#timeline-events:after, #timeline-events:before {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 1px;
+  float: left;
 }
 
 #timeline p {

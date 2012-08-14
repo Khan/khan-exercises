@@ -1562,7 +1562,7 @@ var Khan = (function() {
                     itemMiddle = itemOffset + thisSlide.width() / 2,
                     offset = timelineMiddle - itemMiddle,
                     currentScroll = timeline.scrollLeft(),
-                    timelineMax = states.eq(-1).position().left + states.eq(-1).width(),
+                    timelineMax = states.eq(-1).position().left + states.eq(-1).width() + 5,
                     scroll = Math.min(currentScroll - offset, currentScroll + timelineMax - timeline.width() + 25);
 
                 if (hintNum >= 0) {
