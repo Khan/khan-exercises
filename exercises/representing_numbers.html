@@ -23,7 +23,7 @@
             <div class="graphie" data-if="C !== 0" id="ones-graph">
                 init({
                     range: [ [-1, 21], [-0.5, 1.5] ],
-                    scale: 28
+                    scale: 24
                 });
 
                 style({
@@ -41,7 +41,7 @@
             <div class="graphie" data-if="B !== 0" id="tens-graph">
                 init({
                     range: [ [-1, 21], [-1.5 * B, 0.5] ],
-                    scale: 28
+                    scale: 24
                 });
 
                 style({
@@ -60,7 +60,7 @@
             <div class="graphie" data-if="A !== 0" id="hundreds-graph">
                 init({
                     range: [ [-1, 21], [-0.5, 10.5] ],
-                    scale: 28
+                    scale: 24
                 });
 
                 style({
@@ -72,7 +72,7 @@
 
                 for ( var i = 0; i &lt; A; i++ ) {
                     path([ [10.5 * i + 0, 0], [10.5 * i + 0, 10], [10.5 * i + 10, 10], [10.5 * i + 10, 0], true ]);
-                    grid( [0, 10], [0, 10], { strokeWidth: 1 } ).translate( 28 * 10.5 * i - 0.5, 0 );
+                    grid( [0, 10], [0, 10], { strokeWidth: 1 } ).translate( 24 * 10.5 * i - 0.5, 0 );
                 }
             </div>
 

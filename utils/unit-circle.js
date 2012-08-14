@@ -4,8 +4,8 @@ $.extend(KhanUtil, {
 
         // Create a properly scaled 600x600px graph
         var options = {
-            xpixels: 600,
-            ypixels: 600,
+            xpixels: 514,
+            ypixels: 514,
             range: [[-1.2, 1.2], [-1.2, 1.2]]
         };
         options.scale = [options.xpixels / (options.range[0][1] - options.range[0][0]),
