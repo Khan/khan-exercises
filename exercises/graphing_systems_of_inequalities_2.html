@@ -510,10 +510,11 @@
         </div>
         <div>
             <p>
-                Plot each of the points to determine which are solutions:
-                <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> and
-                <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code>
+                To determine if a point is a solution to <b>both</b> inequalities, plot it on the
+                graph and see if it lies within <b>both</b> shaded areas.
             </p>
+        </div>
+        <div>
             <div class="graphie" data-update="grid">
                 style({ stroke: PINK, fill: PINK }, function() {
                     circle( POINT_1, 0.2 ).toBack();
@@ -522,8 +523,6 @@
                     label( POINT_2, "\\color{" + PINK + "}{(" + POINT_2[0] + ", " + POINT_2[1] + ")}", "right" );
                 });
             </div>
-        </div>
-        <div>
             <p data-if="POINT_1_SOLUTION && !POINT_2_SOLUTION">
                 <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is a solution because it's inside both shaded areas, but
                 <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is not.
