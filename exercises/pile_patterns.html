@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Pile patterns</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #answer_area input[type=text] {
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars"
+                    data-ensure="(USEA || USEB || USEC || USED)
+                    &amp;&amp; A + B + C + D > 0 &amp;&amp;
+                    XS !== START">
+                    <var id="USEA">random() &lt; 0.5</var>
+                    <var id="A">USEA ? randRange(1, 3) : 0</var>
+                    <var id="USEB">random() &lt; 0.5</var>
+                    <var id="B">USEB ? randRange(0, 2) : 0</var>
+                    <var id="USEC">random() &lt; 0.5</var>
+                    <var id="C">USEC ? randRange(1, 3) : 0</var>
+                    <var id="USED">random() &lt; 0.5</var>
+                    <var id="D">USED ? randRange(0, 2) : 0</var>
+                    <var id="LEFTMAX">USEC ? (C + 4) : 2</var>
+                    <var id="TOPMAX">USED ? (D + 4) : 0</var>
+                    <var id="XS">_.reduce([USEA, USEB, USEC, USED],
+                    function(sum, e) {
+                        return sum + (e ? 1 : 0);
+                    }, 0)</var>
+                    <var id="START">A + B + C + D</var>
+                </div>
+                <p class="question">
+                    How many blocks are in the diagram for each step? You can see how the diagram looks for the first five steps by moving the slider.
+                </p>
+                <div class="problem">
+                    <div class="graphie" id="main">
+                        var vertscale = -2;
+
+                        if (USEB) {
+                            vertscale -= B + 4;
+                        }
+                        if (USED) {
+                            vertscale -= D + 4;
+                        }
+                        if (USEA) {
+                            vertscale -= 1;
+                        }
+                        if (USEC) {
+                            vertscale -= 1;
+                        }
+
+                        init({
+                            range: [[-1, 15], [vertscale, 1]]
+                        });
+
+                        addMouseLayer();
+
+                        label([1, 0.2], "\\text{step}:", "above left");
+                        line([1, 0], [9, 0]);
+                        for (var x = 1; x &lt;= 9; x += 2) {
+                            line([x, -0.2], [x, 0.2]);
+                            label([x, 0.2], (x - 1) / 2, "above");
+                        }
+
+                        var drawBox = function(x, y) {
+                            y = -y - 2 - TOPMAX;
+                            x = x + LEFTMAX;
+
+                            return path([
+                                [x, y],
+                                [x + 1, y],
+                                [x + 1, y + 1],
+                                [x, y + 1],
+                                true
+                            ]);
+                        };
+
+                        var drawPile = function(x, y, dir, start, num) {
+                            var set = raphael.set();
+
+                            var offset = [
+                                [1, 0],
+                                [0, 1],
+                                [-1, 0],
+                                [0, -1]
+                            ][dir];
+
+                            for (var i = start; i &lt; num; ++i) {
+                                set.push(
+                                    drawBox(x + offset[0] * i,
+                                            y + offset[1] * i)
+                                );
+                            }
+
+                            return set;
+                        };
+
+                        var drawPattern = function(num) {
+                            var boxes = raphael.set();
+
+                            var start = (num === 0);
+
+                            if (USED) {
+                                boxes.push(drawPile(0, -1, 3,
+                                    start ? 0 : D + num - 1, num + D));
+                            }
+
+                            var y = 0;
+
+                            if (USEC) {
+                                boxes.push(drawPile(0, y, 2,
+                                    start ? 0 : C + num - 1, num + C));
+                                y += 1;
+                            }
+                            if (USEA) {
+                                boxes.push(drawPile(0, y, 0,
+                                    start ? 0 : A + num - 1, num + A));
+                                y += 1;
+                            }
+                            if (USEB) {
+                                boxes.push(drawPile(0, y, 1,
+                                    start ? 0 : B + num - 1, num + B));
+                                y += 1;
+                            }
+
+                            return boxes;
+                        };
+
+                        var steps = [];
+
+                        for (var i = 0; i &lt; 5; i++) {
+                            steps[i] = drawPattern(i);
+
+                            steps[i].attr("opacity", 0);
+                        }
+
+                        steps[0].attr("opacity", 1);
+                        steps[1].attr("opacity", 1);
+
+                        var currStep = 1;
+
+                        var showStep = function(step) {
+                            while (currStep &lt; step) {
+                                // add blocks
+                                steps[currStep + 1].attr("fill", "#ddddff");
+                                steps[currStep + 1].animate({ "opacity": 1 }, 300);
+                                steps[currStep + 1].animate({ "fill": "#ffffff" }, 200);
+                                currStep++;
+                            }
+                            while (currStep > step) {
+                                steps[currStep].animate({ "opacity": 0 }, 200);
+                                currStep--;
+                            }
+                        };
+
+                        graph.slider = addMovablePoint({
+                            coord: [3, 0],
+                            constraints: {
+                                constrainY: true
+                            }
+                        });
+
+                        graph.slider.onMove = function(x, y) {
+                            if (x &lt; 1) return false;
+                            if (x > 9) return false;
+
+                            var newx = round((x - 1) / 2);
+
+                            showStep(newx);
+
+                            return [newx * 2 + 1, y];
+                        };
+                    </div>
+                </div>
+                <div class="solution" data-type="multiple">
+                    In step 0, we have <span class="sol"><var>START</var></span> blocks. At each step, we add <span class="sol"><var>XS</var></span> more blocks.<br><br>
+                    So, at step number <code>S</code>, we have<br><span class="sol"><var>START</var></span> <code>+</code> <span class="sol"><var>XS</var></span> <code>\times S</code>  blocks.
+                </div>
+                <div class="hints">
+                    <p>The number of blocks in the diagram make an arithmetic progression. This means that at each step, the same number of blocks are added. We want to find a way to know how many blocks there will be at any step.</p>
+                    <p>First, we need to find out how many blocks we start out with. Count how many blocks there are in step 0 by dragging the slider all the way to the left.</p>
+                    <div>
+                        <p>We see that there <var>plural("is", START)</var> <var>pluralTex(START, "block")</var> in step 0. Fill this in the answer box.</p>
+                        <div class="graphie" data-update="main">
+                            graph.slider.moveTo(1, 0);
+                        </div>
+                    </div>
+                    <p>Next, let's figure out how many blocks are added in each step. The easiest way to do that is to see how many blocks are added from step 0 to step 1.</p>
+                    <div>
+                        <p>There are <code><var>START + XS</var></code> blocks in step 1. To find how many blocks are added in each steps we just subtract this number from the number of blocks in step 0. So there are <code><var>START + XS</var> - <var>START</var> = <var>XS</var></code> <var>plural("block", XS)</var> added in each step. Fill this in the answer box.</p>
+                        <div class="graphie" data-update="main">
+                            graph.slider.moveTo(3, 0);
+                        </div>
+                    </div>
+                    <p>Last, we have to figure out how many blocks there would be at any step. We can answer this by thinking "If we are at some step <code>S</code>, how many blocks would there be?"</p>
+                    <p>Well, let's start looking at how many blocks there are, and we'll see if there's a pattern.</p>
+                    <p>Step 0: <span class="const"><var>pluralTex(START, "block")</var></span></p>
+                    <div>
+                        <p>We know step 1 has <code><var>START + XS</var></code> blocks, but we can also write it as the number of blocks in step 0, plus the number of blocks we add from step 0 to step 1:</p>
+                        <p>Step 1: <code>(</code>Number of blocks in step 0<code>) + <var>XS</var> =</code> <span class="const"><code><var>START</var> + </code></span><span class="lin"><code><var>XS</var></code></span> blocks</p>
+                    </div>
+                    <p>We can do the same thing with steps 2 and 3, because we know we add the same amount of blocks in each step:</p>
+                    <p>Step 2: <code>(</code>Number of blocks in step 1<code>) + <var>XS</var> =</code> <span class="const"><code><var>START</var> + </code></span><span class="lin"><code><var>XS</var> + <var>XS</var></code></span> blocks</p>
+                    <p>Step 3: <code>(</code>Number of blocks in step 2<code>) + <var>XS</var> =</code> <span class="const"><code><var>START</var> + </code></span><span class="lin"><code><var>XS</var> + <var>XS</var> + <var>XS</var></code></span> blocks</p>
+                    <div>
+                        <p>Here, we can see a pattern! The number of blocks in each step can be represented as the sum of <span class="const"><var>pluralTex(START, "block")</var></span> and some number of groups of <span class="lin"><var>pluralTex(XS, "block")</var></span>. How many groups of <var>pluralTex(XS, "block")</var> are there in each step?</p>
+                        <div class="graphie">
+                            $(".const").addClass("hint_blue");
+                            $(".lin").addClass("hint_orange");
+                        </div>
+                    </div>
+                    <p>That's right, the same number as the step they are on!</p>
+                    <p>So, we can combine the groups of blocks together to look something like <code><var>START</var> + <var>XS</var> \times S</code>, where S represents which step we are on.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
