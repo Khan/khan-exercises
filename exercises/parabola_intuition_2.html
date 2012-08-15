@@ -66,22 +66,49 @@
                     graph.currParabola.plot( true );
                 </div>
 
-                <div class="solution" data-type="multiple">
-                    <p class="parabola-answer">focus x coordinate: <span id="focus-x-label"><code>0</code></span><span class="mini-buttons">
-                        <input type="button" class="simple-button" value="+" onclick="updateFocusDirectrix( 1, 0, 0 )" />
-                        <input type="button" class="simple-button" value="-" onclick="updateFocusDirectrix( -1, 0, 0 )" /></span></p>
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        <p class="parabola-answer">focus x coordinate: <span id="focus-x-label"><code>0</code></span><span class="mini-buttons">
+                            <input type="button" class="simple-button" value="+" onclick="updateFocusDirectrix( 1, 0, 0 )" />
+                            <input type="button" class="simple-button" value="-" onclick="updateFocusDirectrix( -1, 0, 0 )" /></span></p>
 
-                    <p class="parabola-answer">focus y coordinate: <span id="focus-y-label"><code>0.25</code></span><span class="mini-buttons">
-                        <input type="button" class="simple-button" value="+" onclick="updateFocusDirectrix( 0, 1/8, 0 )" />
-                        <input type="button" class="simple-button" value="-" onclick="updateFocusDirectrix( 0, -1/8, 0 )" /></span></p>
+                        <p class="parabola-answer">focus y coordinate: <span id="focus-y-label"><code>0.25</code></span><span class="mini-buttons">
+                            <input type="button" class="simple-button" value="+" onclick="updateFocusDirectrix( 0, 1/8, 0 )" />
+                            <input type="button" class="simple-button" value="-" onclick="updateFocusDirectrix( 0, -1/8, 0 )" /></span></p>
 
-                    <p class="parabola-answer">directrix: <span id="directrix-label"><code>y=-0.25</code></span><span class="mini-buttons">
-                        <input type="button" class="simple-button" value="+" onclick="updateFocusDirectrix( 0, 0, 1/8 )" />
-                        <input type="button" class="simple-button" value="-" onclick="updateFocusDirectrix( 0, 0, -1/8 )" /></span></p>
+                        <p class="parabola-answer">directrix: <span id="directrix-label"><code>y=-0.25</code></span><span class="mini-buttons">
+                            <input type="button" class="simple-button" value="+" onclick="updateFocusDirectrix( 0, 0, 1/8 )" />
+                            <input type="button" class="simple-button" value="-" onclick="updateFocusDirectrix( 0, 0, -1/8 )" /></span></p>
+                    </div>
 
-                    <span class="sol" id="leading-coefficient" style="display: none"><var>A</var></span>
-                    <span class="sol" id="vertex-x" style="display: none"><var>X1</var></span>
-                    <span class="sol" id="vertex-y" style="display: none"><var>Y1</var></span>
+                    <div class="guess">[A, X1, Y1]</div>
+                    <div class="validator-function">
+                        var parab = graph.currParabola;
+                        return parab.getLeadingCoefficient() === A &amp;&amp;
+                               parab.getVertexX() === X1 &amp;&amp;
+                               parab.getVertexY() === Y1;
+                    </div>
+                    <div class="show-guess">
+                        guess = guess.length ? guess : [1, 0, 0];
+                        var parab = graph.currParabola;
+                        parab.update.apply(parab, guess);
+                        redrawParabola(true);
+                    </div>
+                    <div class="show-guess-solutionarea">
+                        guess = guess.length ? guess : [1, 0, 0];
+
+                        // Update the graph parabola so we can use its methods
+                        // to get focus and directrix
+                        var parab = graph.currParabola;
+                        parab.update.apply(parab, guess);
+
+                        var fX = parab.getFocusX(),
+                            fY = parab.getFocusY(),
+                            dK = parab.getDirectrixK();
+                        $("#focus-x-label").html("&lt;code&gt;" + fX + "&lt;/code&gt;").tmpl();
+                        $("#focus-y-label").html("&lt;code&gt;" + fY + "&lt;/code&gt;").tmpl();
+                        $("#directrix-label").html("&lt;code&gt;" + dK + "&lt;/code&gt;").tmpl();
+                    </div>
                 </div>
             </div>
         </div>
