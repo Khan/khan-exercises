@@ -467,6 +467,15 @@
                     return ((abs(guess[0] - M) &lt; 0.001) &amp;&amp;
                         (abs(guess[1] - B) &lt; 0.001));
                 </div>
+                <div class="show-guess">
+                    guess = guess.length ? guess : [1, 1, 1, 1];
+                    GRAPH.MN = guess[0];
+                    GRAPH.MD = 1;
+                    GRAPH.BN = guess[1];
+                    GRAPH.BD = 1;
+                    GRAPH.updateLabels();
+                    GRAPH.redraw();
+                </div>
             </div>
         </div>
     </div>
