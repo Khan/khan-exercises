@@ -401,3 +401,4 @@ $.extend(KhanUtil, {
         }
     }
 });
+
