@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Modular Arithmetic 2</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+            <var id="MODULUS">randRange( 2, 9 )</var>
+            <var id="SUMMAND1">randRange( 0, MODULUS-1 )</var>
+            <var id="SUMMAND2">randRange( 0, MODULUS-1 )</var>
+            <var id="SUM">SUMMAND1+SUMMAND2</var>
+            <var id="REMAINDER">SUM-floor(SUM/MODULUS)*MODULUS</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>What is <code><var>SUMMAND1</var>+<var>SUMMAND2</var>\text{ mod }<var>MODULUS</var></code>?</p>
+            </div>
+            <div class="solution"><var>REMAINDER</var></div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <p>The sum of <var>SUMMAND1</var> and <var>SUMMAND2</var> is <var>SUM</var>.</p>
+        <p>The remainder when dividing <var>SUM</var> by <var>MODULUS</var> is <var>REMAINDER</var>.</p>
+    </div>
+    </div>
+</body>
+</html>
