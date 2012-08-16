@@ -50,6 +50,7 @@
                         label([B / 2, H * 0.55], HYP + "\\text{ " + UNIT + "}",
                             "right");
                     }
+                    path([[0, 0.3], [0.3, 0.3], [0.3, 0]], { stroke: BLUE });
                 </div>
             </div>
 
@@ -96,7 +97,7 @@
 
         <div id="acute-triangle" data-weight="2">
             <div class="vars" data-ensure="((B % 2 === 0) || (H % 2 === 0)) &&
-                    (H !== HYP)">
+                    (H !== HYP) && B !== TOP">
                 <var id="B">randRange(3, 9)</var>
                 <var id="H">randRange(2, 9)</var>
                 <var id="HYP">
