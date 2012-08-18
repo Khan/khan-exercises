@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Absolute Value Inequalities</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="VARIABLE_NAME">randVar()</var>
+	    <var id="OP">randFromArray(["+", "-"])</var>
+	    <var id="FOP">{"+": "-", "-": "+"}[ OP ]</var>
+	    <var id="A">randRange(1, 10)</var>
+	    <var id="B">randRangeNonZero(11, 20)</var>	
+	    <var id="B_FOP_A">(FOP == "+") ?    B+A : B-A</var>
+	    <var id="FOPTEXT">(FOP == "+") ? "Add " : "Subtract "</var>
+	    <var id="FOPTO">(FOP == "+")   ? " to"  : " from"</var>
+	    <var id="RP">B_FOP_A</var>
+	    <var id="LP">-1*RP</var>
+	    <var id="REL">randFromArray(["&lt;", "&gt;","&le;", "&ge;"])</var>
+	    <var id="FREL">{"&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;"}[ REL ]</var>
+	    <var id="INCLUSIVE">REL === "&le;" || REL === "&ge;"</var>
+	    <var id="LESS_THAN">REL === "&lt;" || REL === "&le;"</var>
+	    <var id="CONJ">(LESS_THAN) ? "and " : "or "</var>
+	    <var id="FCONJ">(LESS_THAN) ? "or " : "and "</var>
+	    <var id="RTEXT">(LESS_THAN) ? "less than" : "greater than"</var>
+	    <var id="EQTEXT">(INCLUSIVE) ? " or equal to " : " "</var>	    
+	</div>
+	<div class="problems">
+	    <div>
+		<p class="question">Solve for <code><var>VARIABLE_NAME</var></code>:</p>
+		<div><code>\lvert <var>VARIABLE_NAME</var> \rvert <var>OP</var> <var>A</var> <var>REL</var> <var>B</var></code></div>
+
+		<p class="solution">
+		  <code><var>LP</var> <var>REL</var> <var>VARIABLE_NAME</var> \text{ <var>CONJ</var>} <var>VARIABLE_NAME</var> <var>REL</var> <var>RP</var></code>
+		</p>
+
+		<ul class="choices" data-show="4">
+			<li><code><var>LP</var> <var>REL</var> <var>VARIABLE_NAME</var> \text{ <var>CONJ</var>} <var>VARIABLE_NAME</var> <var>REL</var> <var>RP</var></code></li>
+			<li><code><var>LP</var> <var>REL</var> <var>VARIABLE_NAME</var> \text{ <var>FCONJ</var>} <var>VARIABLE_NAME</var> <var>REL</var> <var>RP</var></code></li>
+			<li><code><var>LP</var> <var>FREL</var> <var>VARIABLE_NAME</var> \text{ <var>CONJ</var>} <var>VARIABLE_NAME</var> <var>FREL</var> <var>RP</var></code></li>
+			<li><code><var>LP</var> <var>FREL</var> <var>VARIABLE_NAME</var> \text{ <var>FCONJ</var>} <var>VARIABLE_NAME</var> <var>FREL</var> <var>RP</var></code></li>
+		</ul>
+	    </div>
+	</div>
+	<div class="hints">
+	    <div>		
+		<p><var>FOPTEXT</var><var>A</var><var>FOPTO</var> both sides:</p>
+		<p><code>\lvert <var>VARIABLE_NAME</var> \rvert <var>OP</var> <var>A</var><var>FOP</var><var>A</var> <var>REL</var> <var>B</var> <var>FOP</var><var>A</var></code></p>
+		<p><code>\lvert <var>VARIABLE_NAME</var> \rvert <var>REL</var> <var>B_FOP_A</var></code></p>
+	    </div>
+	    <div>
+		<p>The distance from 0 to <code><var>VARIABLE_NAME</var></code> is <var>RTEXT</var><var>EQTEXT</var><var>B_FOP_A</var></p>
+	    </div>
+	    <div>
+		<p>For negative values of <var>VARIABLE_NAME</var>, the solution space is:</p> 
+		<p><code><var>LP</var> <var>REL</var> <var>VARIABLE_NAME</var></code></p>
+	    </div>
+	    <div>
+		<p>For positive values of <var>VARIABLE_NAME</var>, the solution space is:</p> 
+		<p><code><var>VARIABLE_NAME</var><var>REL</var> <var>RP</var></code></p>
+	    </div>
+	    <div>
+		<p>Since the inequality operator is <var>REL</var>, you must <b><var>CONJ</var></b>the two inequalities above</p>
+	    </div>
+	    <div>
+		<p>Therefore, the answer is:</p>
+		<p><code><var>LP</var> <var>REL</var> <var>VARIABLE_NAME</var> \text{ <var>CONJ</var>} <var>VARIABLE_NAME</var> <var>REL</var> <var>RP</var></code></p>
+	    </div>
+	</div>
+    </div>
+</body>
+</html>
