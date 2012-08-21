@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems interactive soroban">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Soroban Basic Addition</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+  <div class="exercise">
+    <div class="vars">
+      <var id="LOWER_BOUND">100</var>
+      <var id="UPPER_BOUND">999</var>
+      <var id="NUMBER">randRangeNonZero( LOWER_BOUND, UPPER_BOUND )</var>
+      <var id="ADDEND">randRangeNonZero( LOWER_BOUND, UPPER_BOUND )</var>
+      <var id="TOTAL">ADDEND + NUMBER</var>
+      <var id="HUNDREDS">parseInt(ADDEND/100)</var>
+      <var id="TENS">parseInt((ADDEND - HUNDREDS * 100)/10)</var>
+      <var id="UNITS">ADDEND - HUNDREDS * 100 - TENS * 10</var>
+    </div>
+    <div class="problems">
+      <div>
+        <div class="question">
+          <p><strong>What is <var>NUMBER</var> + <var>ADDEND</var>?</strong></p>
+          <div class="graphie" id="sb1">
+            initSoroban(4, 0);
+          </div>
+        </div>
+
+        <div class="solution" data-type="custom">
+          <div class="instruction"> Use the soroban to add the numbers.
+            <div class="answer-label">0</div>
+          </div>
+          <div class="guess"> getSorobanVal() </div>
+          <div class="validator-function">
+            if (guess === 0) {
+                return "";
+            }
+            return NUMBER + ADDEND == guess;
+          </div>
+        </div>
+
+        <div class="hints">
+          <div>
+            <p>Set the soroban to the first number, <var>NUMBER</var>.</p>
+            <div class="graphie">
+              KhanUtil.setSoroban(<var>NUMBER</var>, 3);
+            </div>
+          </div>
+          <p>Add each digit of <var>ADDEND</var> to the corresponding column used for that digit of <var>NUMBER</var>. When the number to add to a column is greater than the available beads, you will need to perform "carry" operations by adding one to the column on the left.</p>
+          <div>
+            <p>Add <var>HUNDREDS</var> to the hundreds column</p>
+            <div class="graphie">
+              KhanUtil.setSoroban(KhanUtil.getSorobanVal() + <var>HUNDREDS</var> * 100, 3);
+            </div>
+          </div>
+          <div>
+            <p>Add <var>TENS</var> to the tens column</p>
+            <div class="graphie">
+              KhanUtil.setSoroban(KhanUtil.getSorobanVal() + <var>TENS</var> * 10, 3);
+            </div>
+          </div>
+          <div>
+            <p>Add <var>UNITS</var> to the units column, giving a final answer of <var>TOTAL</var></p>
+            <div class="graphie">
+              KhanUtil.setSoroban(<var>TOTAL</var>, 3);
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
