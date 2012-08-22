@@ -354,7 +354,7 @@ $.extend(KhanUtil, {
 
             return this;
         }else {
-            return new KhanUtil.PowerRule();
+            return new KhanUtil.IntegralOfPolynomial();
         }
     },
     CalcFunctions: [
