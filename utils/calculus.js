@@ -110,7 +110,78 @@ $.extend(KhanUtil, {
         return new KhanUtil.Polynomial(poly.minDegree, poly.maxDegree, ddxCoefs, poly.variable);
     },
 
-    funcNotation: function(variable, index) {
+    integralPolynomial: function(poly) {
+        var integralCoefs = [];
+
+        for (var i = poly.minDegree; i <= poly.maxDegree; i++) {
+            integralCoefs[i+1] = KhanUtil.roundTo(3, poly.coefs[i]/(i+1));
+        }
+        integralCoefs[0] = 'C';
+
+        return new KhanUtil.Polynomial(0, poly.maxDegree + 1, integralCoefs, poly.variable);
+    },
+    
+    // doesn't increment exponents
+    integralPolynomialWrong1: function(poly) {
+        var integralCoefs = [];
+
+        for (var i = poly.minDegree; i <= poly.maxDegree; i++) {
+            integralCoefs[i] = KhanUtil.roundTo(3, poly.coefs[i]/(i+1));
+        }
+        integralCoefs[0] = 'C';
+
+        return new KhanUtil.Polynomial(0, poly.maxDegree + 1, integralCoefs, poly.variable);
+    },
+    
+    // decrements exponents
+    integralPolynomialWrong2: function(poly) {
+        var integralCoefs = [];
+
+        for (var i = poly.minDegree; i <= poly.maxDegree; i++) {
+            integralCoefs[i-1] = KhanUtil.roundTo(3, poly.coefs[i]/(i+1));
+        }
+        integralCoefs[0] = 'C';
+
+        return new KhanUtil.Polynomial(0, poly.maxDegree + 1, integralCoefs, poly.variable);
+    },
+    
+    // flips the signs
+    integralPolynomialWrong3: function(poly) {
+        var integralCoefs = [];
+
+        for (var i = poly.minDegree; i <= poly.maxDegree; i++) {
+            integralCoefs[i+1] = KhanUtil.roundTo(3, -1*poly.coefs[i]/(i+1));
+        }
+        integralCoefs[0] = 'C';
+
+        return new KhanUtil.Polynomial(0, poly.maxDegree + 1, integralCoefs, poly.variable);
+    },
+    
+    // multiplies coefficients
+    integralPolynomialWrong4: function(poly) {
+        var integralCoefs = [];
+
+        for (var i = poly.minDegree; i <= poly.maxDegree; i++) {
+            integralCoefs[i+1] = poly.coefs[i]*(i+1);
+        }
+        integralCoefs[0] = 'C';
+
+        return new KhanUtil.Polynomial(0, poly.maxDegree + 1, integralCoefs, poly.variable);
+    },
+    
+    // divides coefficients by wrong number
+    integralPolynomialWrong5: function(poly) {
+        var integralCoefs = [];
+
+        for (var i = poly.minDegree; i <= poly.maxDegree; i++) {
+            integralCoefs[i+1] = KhanUtil.roundTo(3, poly.coefs[i]/Math.max(i,1));
+        }
+        integralCoefs[0] = 'C';
+
+        return new KhanUtil.Polynomial(0, poly.maxDegree + 1, integralCoefs, poly.variable);
+    },
+
+    derivNotation: function(variable, index) {
         variable = (typeof variable !== "undefined") ? variable : "x";
         var notations = [
             ["y", "\\frac{dy}{d" + variable + "}", function(term) {
@@ -144,6 +215,44 @@ $.extend(KhanUtil, {
         };
     },
 
+    integralNotation: function(variable, index) {
+        variable = (typeof variable !== "undefined") ? variable : "x";
+
+        function getIntegralText(integrand) {
+            return "\\displaystyle \\int \\!" + integrand + "\\, \\mathrm{d}" + variable;
+        }
+
+        var notations = [
+            ["y", getIntegralText("y"), function(term) {
+                return "y=" + term + " \\implies" + getIntegralText(term);
+            }],
+            ["f(" + variable + ")", getIntegralText("f"), function(term) {
+                return getIntegralText(term);
+            }],
+            ["g(" + variable + ")", getIntegralText("g(" + variable + ")"), function(term) {
+                return getIntegralText(term);
+            }],
+            ["y", getIntegralText("y(" + variable + ")"), function(term) {
+                return "y=" + term + " \\implies" + getIntegralText(term);
+            }],
+            ["f(" + variable + ")", getIntegralText("f(" + variable + ")"), function(term) {
+                return "f(" + variable + ")=" + term + " \\implies" + getIntegralText(term);
+            }],
+            ["a", getIntegralText("a(" + variable + ")"), function(term) {
+                return "a=" + term + " \\implies" + getIntegralText(term);
+            }],
+            ["a", getIntegralText("a"), function(term) {
+                return "a=" + term + " \\implies" +  getIntegralText(term);
+            }]
+        ];
+        var n_idx = (typeof index == "number" && index >= 0 && index < notations.length) ? index : KhanUtil.rand(notations.length);
+        return {
+            f: notations[n_idx][0],
+            integralF: notations[n_idx][1],
+            integralHint: notations[n_idx][2]("A" + variable + "^{n}") + "=\\frac{A}{n+1}" + variable + "^{n+1} + C, \\hspace{5 mm} \\text{for } n \\not= -1", //this is the overall hint in the notation of the problem
+            integralHintFunction: notations[n_idx][2] //this is the hint function used by each hint.  It renders the hint per term in the appropriate format
+        };
+    },
     PowerRule: function(minDegree, maxDegree, coefs, variable, funcNotation) {
         if (this instanceof KhanUtil.PowerRule) { //avoid mistakenly calling without a new
             // power rule, polynomials
@@ -156,7 +265,7 @@ $.extend(KhanUtil, {
             this.ddxF = KhanUtil.ddxPolynomial(poly).expr();
             this.fText = KhanUtil.expr(this.f);
             this.ddxFText = KhanUtil.expr(this.ddxF);
-            this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.funcNotation(variable);
+            this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.derivNotation(variable);
 
             this.hints = [];
 
@@ -197,6 +306,57 @@ $.extend(KhanUtil, {
         }
     },
 
+    IntegralOfPolynomial: function(minDegree, maxDegree, coefs, variable, funcNotation) {
+        if (this instanceof KhanUtil.IntegralOfPolynomial) { //avoid mistakenly calling without a new
+            var minDegree = (typeof minDegree == "number") ? minDegree : KhanUtil.randRange(0, 2);
+            var maxDegree = (typeof maxDegree == "number") ? maxDegree : KhanUtil.randRange(2, 4);
+            var coefs = (typeof coefs == "object") ? coefs : KhanUtil.randCoefs(minDegree, maxDegree);
+            var poly = new KhanUtil.Polynomial(minDegree, maxDegree, coefs, variable);
+
+            this.f = poly.expr();
+            this.integralF = KhanUtil.integralPolynomial(poly).expr();
+            this.fText = KhanUtil.expr(this.f);
+            this.integralFText = KhanUtil.expr(this.integralF);
+            this.notation = (typeof funcNotation == "object") ? funcNotation : KhanUtil.integralNotation(variable);
+
+            this.hints = [];
+
+            for (var i = 0; i < poly.getNumberOfTerms(); i = i + 1) {
+                var term = poly.getCoefAndDegreeForTerm(i);
+                var integralCoef = KhanUtil.roundTo(3, term.coef / (term.degree + 1));
+                var integralDegree = term.degree + 1;
+                var integralCoefText = (integralCoef == 1) ? "" : integralCoef + "";
+                var integralText = (integralDegree == 0) ? integralCoef : integralCoefText + poly.variable + ((integralDegree == 1) ? "" : "^{" + integralDegree + "}");
+
+                this.hints[i] = "\\displaystyle \\int \\!" + KhanUtil.expr(this.f[i + 1]) + "\\mathrm{d}" + poly.variable + "\\implies  \\frac{" + term.coef + "}{" + term.degree + " + 1}" + poly.variable + "^{" + term.degree + "+1} = " + integralText;
+            }
+
+            this.wrongs = [
+                KhanUtil.integralPolynomialWrong1(poly).expr(),
+                KhanUtil.integralPolynomialWrong2(poly).expr(),
+                KhanUtil.integralPolynomialWrong3(poly).expr(),
+                KhanUtil.integralPolynomialWrong4(poly).expr(),
+                KhanUtil.integralPolynomialWrong5(poly).expr()
+            ];
+
+            // Remove empty choices, if any
+            this.wrongs = $.map(this.wrongs, function(value, index) {
+                if (value.length > 1) {
+                    return [value];
+                } else {
+                    return [];
+                }
+            });
+
+            this.wrongsText = $.map(this.wrongs, function(value, index) {
+                return KhanUtil.expr(value);
+            });
+
+            return this;
+        }else {
+            return new KhanUtil.PowerRule();
+        }
+    },
     CalcFunctions: [
         function(variable) {
             // power rule, polynomials
