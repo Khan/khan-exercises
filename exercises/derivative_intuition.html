@@ -12,16 +12,16 @@
             <div id="polynomial" data-weight="4">
                 <div class="vars">
                     <var id="SCENARIO">{}</var>
-                    <var id="POLYNOMIAL">new Polynomial( randRange(0, 3), randRange(2, 4) )</var>
+                    <var id="POLYNOMIAL">new Polynomial(randRange(0, 3), randRange(2, 4))</var>
                     <var id="FNXTEXT">POLYNOMIAL.text()</var>
                     <var id="DDXTEXT">ddxPolynomial(POLYNOMIAL).text()</var>
-                    <var id="FNX">function(x) { return POLYNOMIAL.evalOf(x); }</var>
-                    <var id="DDX">function(x) { return ddxPolynomial(POLYNOMIAL).evalOf(x); }</var>
-                    <var id="POINTS">[ -2, -1.5, -1, 0, 1, 1.5, 2 ]</var>
-                    <var id="XRANGE">[ -2.5, 2.5 ]</var>
-                    <var id="YMIN">min.apply( Math, $.map(POINTS, FNX).concat( $.map(POINTS, DDX )))</var>
-                    <var id="YMAX">max.apply( Math, $.map(POINTS, FNX).concat( $.map(POINTS, DDX )))</var>
-                    <var id="YRANGE"> [ floorTo(-1, YMIN - (YMAX-YMIN)*0.05 ), ceilTo(-1, YMAX + (YMAX-YMIN)*0.05) ] </var>
+                    <var id="FNX">function(x) {return POLYNOMIAL.evalOf(x);}</var>
+                    <var id="DDX">function(x) {return ddxPolynomial(POLYNOMIAL).evalOf(x);}</var>
+                    <var id="POINTS">[-2, -1.5, -1, 0, 1, 1.5, 2]</var>
+                    <var id="XRANGE">[-2.5, 2.5]</var>
+                    <var id="YMIN">min.apply(Math, $.map(POINTS, FNX).concat( $.map(POINTS, DDX)))</var>
+                    <var id="YMAX">max.apply(Math, $.map(POINTS, FNX).concat( $.map(POINTS, DDX)))</var>
+                    <var id="YRANGE">[floorTo(-1, YMIN - (YMAX-YMIN)*0.05 ), ceilTo(-1, YMAX + (YMAX-YMIN)*0.05)]</var>
                     <var id="OPTIONS">{}</var>
                 </div>
 
@@ -43,7 +43,7 @@
 
                 <div class="problem">
                     <div class="graphie" id="ddxplot">
-                        initAutoscaledGraph( [ XRANGE,    YRANGE ], OPTIONS );
+                        initAutoscaledGraph([ XRANGE, YRANGE], OPTIONS);
 
                         style({
                             stroke: "#6495ED",
@@ -54,19 +54,53 @@
                                 }, XRANGE );
                         });
 
-                        initDerivativeIntuition( FNX, DDX, POINTS );
+                        initDerivativeIntuition(FNX, DDX, POINTS);
                     </div>
                 </div>
 
-                <div class="solution" data-type="multiple">
-                    <table>
-                        <tr data-each="POINTS as X">
-                            <td class="sol" style="display: none" data-fallback="0"><var>roundTo(2, DDX(X))</var></td>
-                            <td style="text-align: right" data-if="OPTIONS.xLabelFormat"><code>\frac{d}{dx} f(<var>OPTIONS.xLabelFormat(X)</var>) = </code></td>
-                            <td style="text-align: right" data-else><code>\frac{d}{dx} f(<var>X</var>) = </code></td>
-                            <td class="answer-label">0</td>
-                        </tr>
-                    </table>
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        <table id="answers">
+                            <tr data-each="POINTS as X">
+                                <td class="sol" style="display: none" data-fallback="0"><var>roundTo(2, DDX(X))</var></td>
+                                <td style="text-align: right" data-if="OPTIONS.xLabelFormat"><code>\frac{d}{dx} f(<var>OPTIONS.xLabelFormat(X)</var>) = </code></td>
+                                <td style="text-align: right" data-else><code>\frac{d}{dx} f(<var>X</var>) = </code></td>
+                                <td class="answer-label">0</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="guess">
+                        (function(){
+                            var guess = [];
+                            $(answers).find('.answer-label').each(function(label) {
+                                guess.push(parseFloat($(this).text()));
+                            });
+                            return guess;
+                        })()
+                    </div>
+                    <div class="validator-function">
+                        var correct = _(KhanUtil.points).map(function(x) {
+                            return KhanUtil.roundTo(2, KhanUtil.ddx(x));
+                        });
+                        return guess.join() === correct.join();
+                    </div>
+                    <div class="show-guess">
+                        _(guess).each(function(coordY, i) {
+                            KhanUtil.setSlope(i, coordY);
+                        });
+                        var correct = _(KhanUtil.points).map(function(x) {
+                            return KhanUtil.roundTo(2, KhanUtil.ddx(x));
+                        });
+                        if (guess.join() === correct.join()) {
+                            KhanUtil.revealDerivative(0);
+                        }
+                    </div>
+                    <div class="show-guess-solutionarea">
+                        $(answers).find('.answer-label').each(function(index, label) {
+                            $(label).text(guess.length ? guess[index] : 0);
+                        });
+                    </div>
                 </div>
 
                 <div class="hints">
