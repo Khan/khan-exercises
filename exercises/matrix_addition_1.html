@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Matrix Multiplication 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+		<var id="VALUES">shuffle([0,1,2,3,4,5,6,7])</var>
+		<var id="VALUES3"></var>
+		<var id="A11">VALUES[0]</var>
+		<var id="A12">VALUES[1]</var>
+        <var id="A21">VALUES[2]</var>
+        <var id="A22">VALUES[3]</var>
+        <var id="B11">VALUES[4]</var>
+        <var id="B12">VALUES[5]</var>
+        <var id="B21">VALUES[6]</var>
+        <var id="B22">VALUES[7]</var>
+        <var id="C11">A11 + B11</var>
+        <var id="C12">A12 + B12</var>
+        <var id="C21">A21 + B21</var>
+        <var id="C22">A22 + B22</var>
+	</div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>What is the sum of the two matrices?</p><p>
+				<code>\left[\begin{array}{cccc}<var>A11</var>& <var>A12</var>\\<var>A21</var> & <var>A22</var>\end{array}\right]
+				+\left[\begin{array}{cccc}<var>B11</var>& <var>B12</var>\\<var>B21</var> & <var>B22</var>\end{array}\right]</code></p>
+            </div>
+			<div class="solution" data-type="multiple">
+				<p>
+				<span class="sol" data-type="rational"><var>C11</var></span>
+				<span class="sol" data-type="rational"><var>C12</var></span></p>
+				<p>
+				<span class="sol" data-type="rational"><var>C21</var></span>
+				<span class="sol" data-type="rational"><var>C22</var></span></p>
+			</div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div><p>The sum of two matrices is given by the following formula:</p>
+		<p>
+		<code>
+		\left[\begin{array}{cccc}a_{11}& a_{12}\\a_{21} & a_{22}\end{array}\right]+
+		\left[\begin{array}{cccc}b_{11}& b_{12}\\b_{21} & b_{22}\end{array}\right]=
+		\left[\begin{array}{cccc}
+		a_{11}+b_{11}& 
+		a_{12}+b_{12}\\
+		a_{21}+b_{21} & 
+		a_{22}+b_{22}\end{array}\right]</code>
+		</p></div>
+        <div><p>Using the formula, we get:</p>
+		<p>
+		<code>
+		\left[\begin{array}{cccc}<var>A11</var>& <var>A12</var>\\<var>A21</var> & <var>A22</var>\end{array}\right]+
+		\left[\begin{array}{cccc}<var>B11</var>& <var>B12</var>\\<var>B21</var> & <var>B22</var>\end{array}\right]=
+		\left[\begin{array}{cccc}
+		<var>A11</var> + <var>B11</var>& 
+		<var>A12</var> + <var>B12</var>\\
+		<var>A21</var> + <var>B21</var>& 
+		<var>A22</var> + <var>B12</var>
+		\end{array}\right]</code>
+		</p></div>
+        <div><p>Calculating each term in the matrix, we get:</p>
+		<p>
+		<code>\left[\begin{array}{cccc}
+		<var>A11</var> + <var>B11</var>& 
+		<var>A12</var> + <var>B12</var>\\
+		<var>A21</var> + <var>B21</var>& 
+		<var>A22</var> + <var>B22</var>
+		\end{array}\right]
+		=
+		\left[\begin{array}{cccc}
+		<var>C11</var>& 
+		<var>C12</var>\\
+		<var>C21</var>& 
+		<var>C22</var>
+		\end{array}\right]</code>
+		</p></div>
+    </div>
+    </div>
+</body>
+</html>
