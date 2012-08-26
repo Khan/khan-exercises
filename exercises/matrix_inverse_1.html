@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Matrix Inverse 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars" data-ensure="DET !== 0">
+		<var id="VALUES">shuffle([0,1,2,3,4,5,6,7])</var>
+		<var id="VALUES3"></var>
+		<var id="A11">VALUES[0]</var>
+		<var id="A12">VALUES[1]</var>
+        <var id="A21">VALUES[2]</var>
+        <var id="A22">VALUES[3]</var>
+        <var id="DET">A11*A22-A12*A21</var>
+        <var id="C11">A22 / DET</var>
+        <var id="C12">-1 *A12 / DET</var>
+        <var id="C21">-1 *A21 / DET</var>
+        <var id="C22">A11 / DET</var>
+		
+	</div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>What is:</p>
+				<p><code>\left[\begin{array}{cccc}<var>A11</var>& <var>A12</var>\\<var>A21</var> & <var>A22</var>\end{array}\right]^{-1}</code></p>
+            </div>
+			<div class="solution" data-type="multiple">
+				<p>
+				<span class="sol" data-type="rational"><var>C11</var></span>
+				<span class="sol" data-type="rational"><var>C12</var></span></p>
+				<p>
+				<span class="sol" data-type="rational"><var>C21</var></span>
+				<span class="sol" data-type="rational"><var>C22</var></span></p>
+			</div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div><p>The inverse of a 2x2 matrix is given by the following formula:</p>
+			<p><code>\left[\begin{array}{cccc} a & b \\ c & d \end{array}\right]^{-1}=
+			\frac{1}{a * d - b * c} \left[\begin{array}{cccc} d & -b \\ -c & a\end{array}\right]</code></p>
+		</div>
+        <div><p>Using the formula, we get:</p>
+			<p><code>\left[\begin{array}{cccc} <var>A11</var> & <var>A12</var> \\ <var>A21</var> & <var>A22</var> \end{array}\right]^{-1}=
+			\frac{1}{<var>A11</var> * <var>A22</var> - <var>A12</var> * <var>A21</var>} 
+			\left[\begin{array}{cccc} <var>A22</var> & <var>-A12</var> \\ <var>-A21</var> & <var>A11</var>\end{array}\right]</code></p>
+		</div>
+        <div><p>Calculating the right-hand side above, we get:</p><p>
+		<code>\frac{1}{<var>A11</var> * <var>A22</var> - <var>A12</var> * <var>A21</var>} 
+		\left[\begin{array}{cccc} <var>A22</var> & <var>-A12</var> \\ <var>-A21</var> & <var>A11</var>\end{array}\right]=
+		\frac{1}{<var>DET</var>}\left[\begin{array}{cccc}
+		<var> A22 </var> & 
+		<var>-A12 </var>\\
+		<var>-A21</var>& 
+		<var>A11</var>
+		\end{array}\right]</code>
+		</p></div>
+    </div>
+    </div>
+</body>
+</html>
