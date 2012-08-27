@@ -80,6 +80,13 @@
                         })()
                     </div>
                     <div class="validator-function">
+                        var allDefault = _(guess).all(function(x) {
+                            return x === 0;
+                        });
+                        if (allDefault) {
+                            return "";
+                        }
+
                         var correct = _(KhanUtil.points).map(function(x) {
                             return KhanUtil.roundTo(2, KhanUtil.ddx(x));
                         });
