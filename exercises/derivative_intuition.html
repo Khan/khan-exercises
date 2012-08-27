@@ -73,7 +73,7 @@
                     <div class="guess">
                         (function(){
                             var guess = [];
-                            $(answers).find('.answer-label').each(function(label) {
+                            $("#answers").find('.answer-label').each(function(label) {
                                 guess.push(parseFloat($(this).text()));
                             });
                             return guess;
@@ -97,7 +97,7 @@
                         }
                     </div>
                     <div class="show-guess-solutionarea">
-                        $(answers).find('.answer-label').each(function(index, label) {
+                        $("#answers").find('.answer-label').each(function(index, label) {
                             $(label).text(guess.length ? guess[index] : 0);
                         });
                     </div>
