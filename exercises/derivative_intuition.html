@@ -87,20 +87,20 @@
                             return "";
                         }
 
-                        var correct = _(KhanUtil.points).map(function(x) {
-                            return KhanUtil.roundTo(2, KhanUtil.ddx(x));
+                        var correct = _(points).map(function(x) {
+                            return roundTo(2, ddx(x));
                         });
                         return guess.join() === correct.join();
                     </div>
                     <div class="show-guess">
                         _(guess).each(function(coordY, i) {
-                            KhanUtil.setSlope(i, coordY);
+                            setSlope(i, coordY);
                         });
-                        var correct = _(KhanUtil.points).map(function(x) {
-                            return KhanUtil.roundTo(2, KhanUtil.ddx(x));
+                        var correct = _(points).map(function(x) {
+                            return roundTo(2, ddx(x));
                         });
                         if (guess.join() === correct.join()) {
-                            KhanUtil.revealDerivative(0);
+                            revealDerivative(0);
                         }
                     </div>
                     <div class="show-guess-solutionarea">
