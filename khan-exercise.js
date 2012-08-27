@@ -167,7 +167,7 @@ var Khan = (function() {
 
     // Bin users into a certain number of realms so that
     // there is some level of reproducability in their questions.
-    // If you change this, make sure all entries in the array "primes" 
+    // If you change this, make sure all entries in the array "primes"
     // set above are coprime to the new value.
     bins = 200,
 
@@ -924,6 +924,7 @@ var Khan = (function() {
 
             // Trigger load completion event for this exercise
             $(Khan).trigger("exerciseLoaded:" + exerciseId);
+            $(Khan).trigger("contentLoaded");
 
             delete loadingExercises[exerciseId];
 
@@ -2152,7 +2153,7 @@ var Khan = (function() {
                 $(this).val($(this).data("buttonText") || "I'd like another hint (" + stepsLeft + ")");
 
                 var problem = $(hint).parent();
-								
+
 				// Append first so MathJax can sense the surrounding CSS context properly
 				$(hint).appendTo("#hintsarea").runModules(problem);
 
@@ -2164,7 +2165,7 @@ var Khan = (function() {
                     $(hint).addClass("final_answer");
 
 					$(Khan).trigger("allHintsUsed");
-					
+
                     $(this).attr("disabled", true);
                 }
             }
