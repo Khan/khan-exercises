@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Vector Dot Product</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+		<var id="VALUES">shuffle([0,1,2,3,4,5,6,7])</var>
+		<var id="VALUES3"></var>
+		<var id="A1">VALUES[0]</var>
+		<var id="A2">VALUES[1]</var>
+        <var id="A3">VALUES[2]</var>
+        <var id="A4">VALUES[3]</var>
+        <var id="B1">VALUES[4]</var>
+        <var id="B2">VALUES[5]</var>
+        <var id="B3">VALUES[6]</var>
+        <var id="B4">VALUES[7]</var>
+        <var id="SOLUTION">A1 * B1 + A2 * B2 + A3 * B3 + A4 * B4</var>
+	</div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                What is the dot product <code>\boldsymbol{a}\cdot\boldsymbol{b}</code> of the vectors 
+				<code>\boldsymbol{a}=\left[\begin{array}{cccc}<var>A1</var> \\ <var>A2</var>\\<var>A3</var> \\ <var>A4</var>\end{array}\right]</code>
+				and 
+				<code>\boldsymbol{b}=\left[\begin{array}{cccc}<var>B1</var> \\ <var>B2</var>\\<var>B3</var> \\ <var>B4</var>\end{array}\right]</code>?</p><p>
+            </div>
+			<div class="solution" ><var>SOLUTION</var></div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div><p>The dot product of two vectors is given by the following formula:</p>
+		<p>
+		<code>
+		\left[\begin{array}{cccc}a_1 \\ a_2 \\ a_3 \\ a_4\end{array}\right]\cdot
+		\left[\begin{array}{cccc}b_1 \\ b_2 \\ b_3 \\ b_4\end{array}\right]=
+		a_1 * b_1 +
+		a_2 * b_2 +
+		a_3 * b_3 + 
+		a_4 * b_4</code>
+		</p></div>
+        <div><p>Using the formula, we get:</p>
+		<p>
+		<code>
+		\left[\begin{array}{cccc}<var>A1</var> \\ <var>A2</var> \\ <var>A3</var> \\ <var>A4</var>\end{array}\right]\cdot
+		\left[\begin{array}{cccc}<var>B1</var> \\ <var>B2</var> \\ <var>B3</var> \\ <var>B4</var>\end{array}\right]=
+		<var>A1</var> * <var>B1</var> +
+		<var>A2</var> * <var>B2</var> +
+		<var>A3</var> * <var>B3</var> + 
+		<var>A4</var> * <var>B4</var>
+		</code>
+		</p></div>
+        <div><p>Calculating the right hand side, we get:</p>
+		<p>
+		<code>
+		<var>A1</var> * <var>B1</var> +
+		<var>A2</var> * <var>B2</var> +
+		<var>A3</var> * <var>B3</var> + 
+		<var>A4</var> * <var>B4</var>
+		=
+		<var>SOLUTION</var>
+		</code>
+		</p></div>
+    </div>
+    </div>
+</body>
+</html>
