@@ -461,11 +461,14 @@
                     [GRAPH.MN / GRAPH.MD, GRAPH.BN / GRAPH.BD]
                 </div>
                 <div class="validator-function">
+                    if ((abs(guess[0] - M) &lt; 0.001) &amp;&amp;
+                        (abs(guess[1] - B) &lt; 0.001)) {
+                        return true;
+                    }
                     if (guess[0] === 1 &amp;&amp; guess[1] === 1) {
                         return "";
                     }
-                    return ((abs(guess[0] - M) &lt; 0.001) &amp;&amp;
-                        (abs(guess[1] - B) &lt; 0.001));
+                    return false;
                 </div>
             </div>
         </div>
