@@ -1834,7 +1834,7 @@ var Khan = (function() {
         $(Khan).trigger("newProblem");
 
         // If the textbox is empty disable "Check Answer" button
-        // Note: We don't do this for number line etc.
+        // Note: We don't do this for multiple choice, number line, etc.
         if (answerType === "text" || answerType === "number") {
             var checkAnswerButton = $("#check-answer-button");
             checkAnswerButton.attr("disabled", "disabled").attr(
@@ -1843,12 +1843,12 @@ var Khan = (function() {
             // in a number and hit enter quickly do not have to wait for the
             // button to be enabled by the key up
             $("#solutionarea")
-                .keypress(function(e) {
+                .on("keypress.emptyAnswer", function(e) {
                     if (e.keyCode !== 13) {
                         checkAnswerButton.removeAttr("disabled").removeAttr("title");
                     }
                 })
-                .keyup(function() {
+                .on("keyup.emptyAnswer", function() {
                     validator();
                     if (checkIfAnswerEmpty()) {
                         checkAnswerButton.attr("disabled", "disabled");
@@ -1877,6 +1877,10 @@ var Khan = (function() {
         // Wipe out any previous problem
         $("#workarea, #hintsarea").runModules(problem, "Cleanup").empty();
         $("#hint").attr("disabled", false);
+
+        // Take off the event handlers for disabling check answer; we'll rebind
+        // if we actually want them
+        $("#solutionarea").off(".emptyAnswer");
 
         Khan.scratchpad.clear();
     }
