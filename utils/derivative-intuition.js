@@ -274,7 +274,7 @@ $.extend(KhanUtil, {
             graph.style({
                 stroke: KhanUtil.DDX_COLOR,
                 strokeWidth: 1,
-                opacity: 0
+                opacity: duration === 0 ? 1 : 0
             }, function() {
                 ddxplot = graph.plot(function(x) {
                     return KhanUtil.ddx(x);
