@@ -10,9 +10,9 @@
     <div class="vars">
         <var id="LOWER_BOUND">-5</var>
         <var id="UPPER_BOUND">5</var>
-        <var id="REAL">randRange( LOWER_BOUND, UPPER_BOUND )</var>
-        <var id="IMAG" data-ensure="IMAG != 0">randRange( LOWER_BOUND, UPPER_BOUND )</var>
-        <var id="REP">complexNumber( REAL, IMAG )</var>
+        <var id="REAL">randRange(LOWER_BOUND, UPPER_BOUND)</var>
+        <var id="IMAG" data-ensure="IMAG != 0">randRange(LOWER_BOUND, UPPER_BOUND)</var>
+        <var id="REP">complexNumber(REAL, IMAG)</var>
     </div>
 
     <div class="problems">
@@ -20,28 +20,33 @@
             <p class="question">Move the orange dot to <code><var>REP</var></code>.</p>
             <div class="graphie" id="gauss-plane">
                 graphInit({
-                    range: [ [ LOWER_BOUND - 1, UPPER_BOUND + 1], [ LOWER_BOUND - 1, UPPER_BOUND + 1 ] ],
+                    range: [[LOWER_BOUND - 1, UPPER_BOUND + 1], [LOWER_BOUND - 1, UPPER_BOUND + 1]],
                     tickStep: 1,
                     labelStep: 1,
                     scale: 30
                 });
 
-                label( [6, 0.5], "Re", "left");
-                label( [0.5, 5], "Im", "right");
+                label([6, 0.5], "Re", "left");
+                label([0.5, 5], "Im", "right");
 
                 addMouseLayer();
-                this.movablePoint = addMovablePoint({ constraints: {}, snapX: 0.5, snapY: 0.5 });
+                this.movablePoint = addMovablePoint({constraints: {}, snapX: 0.5, snapY: 0.5});
                 movablePoint.onMove = function(x, y) {
-                    if ( x &lt; LOWER_BOUND || x > UPPER_BOUND || y &lt; LOWER_BOUND || y > UPPER_BOUND ) {
+                    if (x &lt; LOWER_BOUND || x > UPPER_BOUND || y &lt; LOWER_BOUND || y > UPPER_BOUND) {
                         return false;
                     }
-                    $( "#real-part input" ).val( x );
-                    $( "#imaginary-part input" ).val( y );
                 };
             </div>
-            <div class="solution" data-type="multiple">
-                <span class="sol" id="real-part" style="display: none"><var>REAL</var></span>
-                <span class="sol" id="imaginary-part" style="display: none"><var>IMAG</var></span>
+            <div class="solution" data-type="custom">
+                <div class="guess">
+                    movablePoint.coord
+                </div>
+                <div class="validator-function">
+                    return movablePoint.coord.join() === [REAL, IMAG].join();
+                </div>
+                <div class="show-guess">
+                    movablePoint.setCoord(guess);
+                </div>
             </div>
             <div class="hints">
                 <p>
@@ -53,23 +58,23 @@
                 </p>
                 <div>
                     <div class="graphie" data-update="gauss-plane">
-                        style({ stroke: KhanUtil.ORANGE, strokeWidth: 2.0 });
-                        line( [ REAL, LOWER_BOUND - 1 ], [ REAL, UPPER_BOUND + 1 ] );
-                        movablePoint.visibleShape().toFront();
+                        style({stroke: ORANGE, strokeWidth: 2.0});
+                        line([REAL, LOWER_BOUND - 1], [REAL, UPPER_BOUND + 1]);
+                        movablePoint.visibleShape.toFront();
                     </div>
                     <p>The vertical <strong class="hint_orange">orange</strong> line represents all complex numbers with real part <code><var>REAL</var></code> (including <code><var>REP</var></code>).
                 </div>
                 <div>
                     <div class="graphie" data-update="gauss-plane">
-                        style({ stroke: KhanUtil.BLUE, strokeWidth: 2.0 });
-                        line( [ LOWER_BOUND - 1, IMAG ], [ UPPER_BOUND + 1, IMAG ] );
+                        style({stroke: BLUE, strokeWidth: 2.0});
+                        line([LOWER_BOUND - 1, IMAG], [UPPER_BOUND + 1, IMAG]);
                         movablePoint.visibleShape.toFront();
                     </div>
                     <p>The horizontal <strong class="hint_blue">blue</strong> line represents all complex numbers with imaginary part <code><var>IMAG</var></code>, also including <code><var>REP</var></code>.
                 </div>
                 <div>
                     <div class="graphie" data-update="gauss-plane">
-                        movablePoint.moveTo( REAL, IMAG );
+                        movablePoint.moveTo(REAL, IMAG);
                     </div>
                     <p>
                         The only complex number with real part <code><var>REAL</var></code> and imaginary part <code><var>IMAG</var></code> is <code><var>REP</var></code>,

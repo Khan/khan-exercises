@@ -9,20 +9,20 @@
     <div class="exercise">
         <div class="vars">
             <!-- An integer will be a starting or ending quantity 1/3 of the time -->
-            <var id="D_PARENT">randRangeWeighted( 3, 12, 1, 1 / 6 )</var>
-            <var id="D_OFFSPRING">D_PARENT === 1 ? randRange( 3, 12 ) : ( rand( 5 ) > 0 ? D_PARENT : 1 )</var>
+            <var id="D_PARENT">randRangeWeighted(3, 12, 1, 1 / 6)</var>
+            <var id="D_OFFSPRING">D_PARENT === 1 ? randRange(3, 12) : (rand(5) > 0 ? D_PARENT : 1)</var>
             <div data-ensure="getGCD( N_PARENT * ( D_PARENT === 1 ? D_OFFSPRING : 1 ), N_OFFSPRING * ( D_OFFSPRING === 1 ? D_PARENT : 1 ) ) === 1 && N_PARENT / D_PARENT > N_OFFSPRING / D_OFFSPRING">
-                <var id="N_PARENT">D_PARENT === 1 ? randRange( 1, 4 ) : randRangeExclude( 2,  2 * D_PARENT - 1, [ D_PARENT ] )</var>
-                <var id="N_OFFSPRING">D_OFFSPRING === 1 ? randRange( 1, 4 ) : randRangeExclude( 2, 2 * D_OFFSPRING - 1, [ D_OFFSPRING ] )</var>
+                <var id="N_PARENT">D_PARENT === 1 ? randRange(1, 4) : randRangeExclude(2, 2 * D_PARENT - 1, [D_PARENT])</var>
+                <var id="N_OFFSPRING">D_OFFSPRING === 1 ? randRange(1, 4) : randRangeExclude(2, 2 * D_OFFSPRING - 1, [D_OFFSPRING])</var>
             </div>
-            <var id="CODE_PARENT">D_PARENT === 1 ? N_PARENT : mixedOrImproper( N_PARENT, D_PARENT )</var>
-            <var id="CODE_OFFSPRING">D_OFFSPRING === 1 ? N_OFFSPRING : mixedOrImproper( N_OFFSPRING, D_OFFSPRING )</var>
+            <var id="CODE_PARENT">D_PARENT === 1 ? N_PARENT : mixedOrImproper(N_PARENT, D_PARENT)</var>
+            <var id="CODE_OFFSPRING">D_OFFSPRING === 1 ? N_OFFSPRING : mixedOrImproper(N_OFFSPRING, D_OFFSPRING)</var>
             <var id="PARENT">N_PARENT / D_PARENT</var>
             <var id="OFFSPRING">N_OFFSPRING / D_OFFSPRING</var>
             <var id="ANSWER">OFFSPRING / PARENT</var>
             <var id="D">D_PARENT === 1 ? D_OFFSPRING : D_PARENT</var>
-            <var id="N_PARENT_EXPANDED">N_PARENT * ( D_PARENT === 1 ? D : 1 )</var>
-            <var id="N_OFFSPRING_EXPANDED">N_OFFSPRING * ( D_OFFSPRING === 1 ? D : 1 )</var>
+            <var id="N_PARENT_EXPANDED">N_PARENT * (D_PARENT === 1 ? D : 1)</var>
+            <var id="N_OFFSPRING_EXPANDED">N_OFFSPRING * (D_OFFSPRING === 1 ? D : 1)</var>
         </div>
 
         <div class="problems">
@@ -32,48 +32,64 @@
                 <p>Starting Block:</p>
 
                 <div class="graphie" id="parent_block">
-                    initSliceClone([ "current_block" ]);
-                    init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600, 25 ] });
-                    rectchart( [ 1, 0 ], [ "#e00", "#999" ] );
+                    initSliceClone(["current_block"]);
+                    init({range: [[0, 1], [0, 1]], scale: [600, 25 ]});
+                    rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Current Block:</p>
 
                 <div class="graphie" id="current_block">
-                    init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600, 25 ] });
-                    rectchart( [ 1, 0 ], [ "#e00", "#999" ] );
+                    init({ range: [[0, 1], [0, 1] ], scale: [600, 25]});
+                    rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Goal Block:</p>
 
                 <div class="graphie" id="goal_block">
-                    init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600 * ANSWER, 25 ] });
-                    rectchart( [ 1, 0 ], [ BLUE, "#999" ] );
+                    init({range: [[0, 1], [0, 1]], scale: [600 * ANSWER, 25]});
+                    rectchart([1, 0], [BLUE, "#999"]);
                 </div>
 
-                <div class="solution" data-type="multiple">
-                    <div style="margin-bottom: 10px;">
-                        Cut into
-                        <input type="button" value="-" class="simple-button" onclick="KhanUtil.changePieces( false )">
-                        <span id="pieces" style="display: inline-block; width: 54px; text-align: center;">1 piece</span>
-                        <input type="button" value="+" class="simple-button" onclick="KhanUtil.changePieces( true )">
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        <div style="margin-bottom: 10px;">
+                            Cut into
+                            <input type="button" value="-" class="simple-button" onclick="KhanUtil.changePieces(false)">
+                            <span id="pieces" style="display: inline-block; width: 54px; text-align: center;">1 piece</span>
+                            <input type="button" value="+" class="simple-button" onclick="KhanUtil.changePieces(true)">
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <span style="display:inline-block; width: 42px;">Copy</span>
+                            <input type="button" value="-" class="simple-button" onclick="KhanUtil.changeTimes(false, 'current_block')" disabled="disabled">
+                            <span id="current_block_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
+                            <input type="button" value="+" class="simple-button" onclick="KhanUtil.changeTimes(true, 'current_block')">
+                        </div>
                     </div>
 
-                    <div style="margin-bottom: 10px;">
-                        <span style="display:inline-block; width: 42px;">Copy</span>
-                        <input type="button" value="-" class="simple-button" onclick="KhanUtil.changeTimes( false, 'current_block' )" disabled="disabled">
-                        <span id="current_block_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
-                        <input type="button" value="+" class="simple-button" onclick="KhanUtil.changeTimes( true, 'current_block' )">
+                    <div class="guess">
+                        [pieces, times['current_block']]
                     </div>
-
-                    <span class="sol" id="current_block_answer" style="display: none;"><var>roundTo( 3, ANSWER )</var></span>
+                    <div class="validator-function">
+                        return roundTo(3, guess[1] / guess[0]) === roundTo(3, ANSWER);
+                    </div>
+                    <div class="show-guess">
+                        pieces = guess[0];
+                        times['current_block'] = guess[1];
+                        updateGraphAndAnswer();
+                    </div>
+                    <div class="show-guess-solutionarea">
+                        $('#pieces').text(plural(guess[0], 'piece'));
+                        $('#current_block_times').text(plural(guess[1], 'time'));
+                    </div>
                 </div>
 
                 <div class="hints">
-                    <p data-if="CODE_PARENT !== fraction( N_PARENT, D)">The starting block of length <code><var>CODE_PARENT</var></code> units
-                    can be rewritten as <code><var>fraction( N_PARENT_EXPANDED, D )</var></code>.</p>
-                    <p data-if="CODE_OFFSPRING !== fraction( N_OFFSPRING, D)">The goal block of length <code><var>CODE_OFFSPRING</var></code> units
-                    can be rewritten as <code><var>fraction( N_OFFSPRING_EXPANDED, D )</var></code>.</p>
+                    <p data-if="CODE_PARENT !== fraction(N_PARENT, D)">The starting block of length <code><var>CODE_PARENT</var></code> units
+                    can be rewritten as <code><var>fraction(N_PARENT_EXPANDED, D)</var></code>.</p>
+                    <p data-if="CODE_OFFSPRING !== fraction(N_OFFSPRING, D)">The goal block of length <code><var>CODE_OFFSPRING</var></code> units
+                    can be rewritten as <code><var>fraction(N_OFFSPRING_EXPANDED, D)</var></code>.</p>
                     <p>Cutting the starting block into <code>x</code> pieces is the same as dividing it by <code>x</code>.</p>
                     <div>
                         <p>Therefore cutting the starting block into <code><var>N_PARENT_EXPANDED</var></code> pieces is the same as:</p>

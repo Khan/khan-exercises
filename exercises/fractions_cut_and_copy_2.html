@@ -9,23 +9,23 @@
     <div class="exercise">
         <div class="vars">
             <div data-ensure="SLICES < 20 && isInt( SLICES )">
-                <var id="D_PARENT">randRangeWeighted( 3, 8, 1, 1 / 6 )</var>
-                <var id="N_PARENT" data-ensure="getGCD( D_PARENT, N_PARENT ) === 1">D_PARENT === 1 ? randRange( 1, 2 ) : randRange( D_PARENT + 1,  2 * D_PARENT - 1 )</var>
+                <var id="D_PARENT">randRangeWeighted(3, 8, 1, 1 / 6)</var>
+                <var id="N_PARENT" data-ensure="getGCD( D_PARENT, N_PARENT ) === 1">D_PARENT === 1 ? randRange(1, 2) : randRange(D_PARENT + 1,  2 * D_PARENT - 1)</var>
                 <var id="PARENT">N_PARENT / D_PARENT</var>
-                <var id="D_OFFSPRING_1">randRange( 3, 8 )</var>
-                <var id="D_OFFSPRING_2" data-ensure="D_OFFSPRING_1 !== D_OFFSPRING_2">randRange( 3, 8 )</var>
-                <var id="N_OFFSPRING_1" data-ensure="getGCD( D_OFFSPRING_1, N_OFFSPRING_1 ) === 1 && PARENT > N_OFFSPRING_1 / D_OFFSPRING_1">randRangeExclude( 2, 2 * D_OFFSPRING_1 - 1, [ D_OFFSPRING_1 ] )</var>
-                <var id="N_OFFSPRING_2" data-ensure="getGCD( D_OFFSPRING_2, N_OFFSPRING_2 ) === 1 && PARENT > N_OFFSPRING_2 / D_OFFSPRING_2">randRangeExclude( 2, 2 * D_OFFSPRING_2 - 1, [ D_OFFSPRING_2 ] )</var>
+                <var id="D_OFFSPRING_1">randRange(3, 8)</var>
+                <var id="D_OFFSPRING_2" data-ensure="D_OFFSPRING_1 !== D_OFFSPRING_2">randRange(3, 8)</var>
+                <var id="N_OFFSPRING_1" data-ensure="getGCD( D_OFFSPRING_1, N_OFFSPRING_1 ) === 1 && PARENT > N_OFFSPRING_1 / D_OFFSPRING_1">randRangeExclude(2, 2 * D_OFFSPRING_1 - 1, [D_OFFSPRING_1])</var>
+                <var id="N_OFFSPRING_2" data-ensure="getGCD( D_OFFSPRING_2, N_OFFSPRING_2 ) === 1 && PARENT > N_OFFSPRING_2 / D_OFFSPRING_2">randRangeExclude(2, 2 * D_OFFSPRING_2 - 1, [ D_OFFSPRING_2])</var>
                 <var id="SLICES">N_PARENT * getLCM(D_OFFSPRING_1, D_OFFSPRING_2) / D_PARENT</var>
             </div>
-            <var id="CODE_PARENT">D_PARENT === 1 ? N_PARENT : mixedOrImproper( N_PARENT, D_PARENT )</var>
-            <var id="CODE_OFFSPRING_1">mixedOrImproper( N_OFFSPRING_1, D_OFFSPRING_1 )</var>
-            <var id="CODE_OFFSPRING_2">mixedOrImproper( N_OFFSPRING_2, D_OFFSPRING_2 )</var>
+            <var id="CODE_PARENT">D_PARENT === 1 ? N_PARENT : mixedOrImproper(N_PARENT, D_PARENT)</var>
+            <var id="CODE_OFFSPRING_1">mixedOrImproper(N_OFFSPRING_1, D_OFFSPRING_1)</var>
+            <var id="CODE_OFFSPRING_2">mixedOrImproper(N_OFFSPRING_2, D_OFFSPRING_2)</var>
             <var id="OFFSPRING_1">N_OFFSPRING_1 / D_OFFSPRING_1</var>
             <var id="OFFSPRING_2">N_OFFSPRING_2 / D_OFFSPRING_2</var>
             <var id="ANSWER_1">OFFSPRING_1 / PARENT</var>
             <var id="ANSWER_2">OFFSPRING_2 / PARENT</var>
-            <var id="LCM">getLCM( D_OFFSPRING_1, D_OFFSPRING_2 )</var>
+            <var id="LCM">getLCM(D_OFFSPRING_1, D_OFFSPRING_2)</var>
         </div>
 
         <div class="problems">
@@ -35,70 +35,92 @@
                 <p>Starting Block:</p>
 
                 <div class="graphie" id="parent_block">
-                    initSliceClone([ "current_block_1", "current_block_2" ]);
-                    init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600, 25 ] });
-                    rectchart( [ 1, 0 ], [ "#e00", "#999" ] );
+                    initSliceClone(["current_block_1", "current_block_2"]);
+                    init({range: [[0, 1], [0, 1]], scale: [ 600, 25]});
+                    rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Current Block 1:</p>
 
                 <div class="graphie" id="current_block_1">
-                    init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600, 25 ] });
-                    rectchart( [ 1, 0 ], [ "#e00", "#999" ] );
+                    init({range: [[0, 1], [0, 1]], scale: [600, 25]});
+                    rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Goal Block 1:</p>
 
                 <div class="graphie" id="goal_block_2">
-                    init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600 * ANSWER_1, 25 ] });
-                    rectchart( [ 1, 0 ], [ BLUE, "#999" ] );
+                    init({range: [[0, 1], [0, 1]], scale: [600 * ANSWER_1, 25]});
+                    rectchart([1, 0], [BLUE, "#999"]);
                 </div>
 
                 <p>Current Block 2:</p>
 
                 <div class="graphie" id="current_block_2">
-                    init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600, 25 ] });
-                    rectchart( [ 1, 0 ], [ "#e00", "#999" ] );
+                    init({range: [[0, 1], [0, 1]], scale: [600, 25]});
+                    rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Goal Block 2:</p>
 
                 <div class="graphie" id="goal_block_2">
-                    init({ range: [ [ 0, 1 ], [ 0, 1 ] ],scale: [ 600 * ANSWER_2, 25 ] });
-                    rectchart( [ 1, 0 ], [ ORANGE, "#999" ] );
+                    init({range: [[0, 1], [0, 1]], scale: [600 * ANSWER_2, 25]});
+                    rectchart([1, 0], [ORANGE, "#999"]);
                 </div>
 
-                <div class="solution" data-type="multiple">
-                    <div style="margin-bottom: 10px;">
-                        <span>Cut Starting Block into</span>
-                        <input type="button" value="-" class="simple-button" onclick="KhanUtil.changePieces( false )">
-                        <span id="pieces" style="display: inline-block; width: 54px; text-align: center;">1 piece</span>
-                        <input type="button" value="+" class="simple-button" onclick="KhanUtil.changePieces( true )">
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        <div style="margin-bottom: 10px;">
+                            <span>Cut Starting Block into</span>
+                            <input type="button" value="-" class="simple-button" onclick="KhanUtil.changePieces(false)">
+                            <span id="pieces" style="display: inline-block; width: 54px; text-align: center;">1 piece</span>
+                            <input type="button" value="+" class="simple-button" onclick="KhanUtil.changePieces(true)">
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 1</span>
+                            <input type="button" value="-" class="simple-button" onclick="KhanUtil.changeTimes(false, 'current_block_1')" disabled="disabled">
+                            <span id="current_block_1_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
+                            <input type="button" value="+" class="simple-button" onclick="KhanUtil.changeTimes(true, 'current_block_1')">
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 2</span>
+                            <input type="button" value="-" class="simple-button" onclick="KhanUtil.changeTimes(false, 'current_block_2')" disabled="disabled">
+                            <span id="current_block_2_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
+                            <input type="button" value="+" class="simple-button" onclick="KhanUtil.changeTimes(true, 'current_block_2')">
+                        </div>
                     </div>
 
-                    <div style="margin-bottom: 10px;">
-                        <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 1</span>
-                        <input type="button" value="-" class="simple-button" onclick="KhanUtil.changeTimes( false, 'current_block_1' )" disabled="disabled">
-                        <span id="current_block_1_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
-                        <input type="button" value="+" class="simple-button" onclick="KhanUtil.changeTimes( true, 'current_block_1' )">
+                    <div class="guess">
+                        [pieces, times['current_block_1'], times['current_block_2']]
                     </div>
-
-                    <div style="margin-bottom: 10px;">
-                        <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 2</span>
-                        <input type="button" value="-" class="simple-button" onclick="KhanUtil.changeTimes( false, 'current_block_2' )" disabled="disabled">
-                        <span id="current_block_2_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
-                        <input type="button" value="+" class="simple-button" onclick="KhanUtil.changeTimes( true, 'current_block_2' )">
+                    <div class="validator-function">
+                        var guess1 = roundTo(3, guess[1] / guess[0]),
+                            guess2 = roundTo(3, guess[2] / guess[0]),
+                            answer1 = roundTo(3, ANSWER_1);
+                            answer2 = roundTo(3, ANSWER_2);
+                        return guess1 === answer1 &amp;&amp; guess2 === answer2;
                     </div>
-
-                    <span class="sol" id="current_block_1_answer" style="display: none;"><var>roundTo( 3, ANSWER_1 )</var></span>
-                    <span class="sol" id="current_block_2_answer" style="display: none;"><var>roundTo( 3, ANSWER_2 )</var></span>
+                    <div class="show-guess">
+                        pieces = guess[0];
+                        times['current_block_1'] = guess[1];
+                        times['current_block_2'] = guess[2];
+                        updateGraphAndAnswer();
+                    </div>
+                    <div class="show-guess-solutionarea">
+                        guess = guess.length ? guess : [1, 1, 1];
+                        $('#pieces').text(plural(guess[0], 'piece'));
+                        $('#current_block_1_times').text(plural(guess[1], 'time'));
+                        $('#current_block_2_times').text(plural(guess[2], 'time'));
+                    </div>
                 </div>
 
                 <div class="hints">
                     <p data-if="CODE_OFFSPRING_1 !== fraction( N_OFFSPRING_1, D_OFFSPRING_1)">The goal block 1 of length <code><var>CODE_OFFSPRING_1</var></code> units
-                    can be rewritten as <code><var>fraction( N_OFFSPRING_1, D_OFFSPRING_1 )</var></code>.</p>
+                    can be rewritten as <code><var>fraction(N_OFFSPRING_1, D_OFFSPRING_1)</var></code>.</p>
                     <p data-if="CODE_OFFSPRING_2 !== fraction( N_OFFSPRING_2, D_OFFSPRING_2)">The goal block 1 of length <code><var>CODE_OFFSPRING_2</var></code> units
-                    can be rewritten as <code><var>fraction( N_OFFSPRING_2, D_OFFSPRING_2 )</var></code>.</p>
+                    can be rewritten as <code><var>fraction(N_OFFSPRING_2, D_OFFSPRING_2)</var></code>.</p>
                     <p>Cutting the starting block into <code>x</code> pieces is the same as dividing it by <code>x</code>.</p>
                     <p>We want to cut the starting block into a piece that can be copied into both goal block 1 and goal block 2.</p>A
                     <p>The least common denominator of <code><var>D_OFFSPRING_1</var></code> and <code><var>D_OFFSPRING_2</var></code> (the denominators of the goal blocks) is
