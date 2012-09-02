@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+    <title>Uncertainty of function evaluation</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="A">randRange(10,25) / 10</var>
+        <var id="dA">randRange(1,4) / 10</var>
+
+		<var id="fA">roundTo(3, exp(A))</var>
+		<var id="dfA">roundTo(3, dA*abs(exp(A)))</var>
+    </div>
+        
+
+	<div class="problems">
+        <div>
+            <div class="question">
+			<p>Express 
+				<code>
+					\exp(<var>A</var> \pm <var>dA</var>)
+				</code>
+				as <code>x \pm \Delta x</code>
+			</p>
+			</div>
+            <div class="solution" data-type="multiple">
+                <span class="sol"><var>fA</var></span> <code>\pm</code> <span class="sol"><var>dfA</var></span>
+			</div>
+			<div class="hints">
+				<p>Add the values and the uncertainties separate.</p>
+				<p><code>
+					(<var>A</var> + <var>B</var>)
+					\pm (<var>dA</var> + <var>dB</var>)
+				</code></p>
+				<p><code>
+					<var>AB</var>
+					\pm <var>dAB</var>
+				</code></p>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</body>
+</html>
