@@ -1,41 +1,59 @@
 <!DOCTYPE html>
 <html data-require="math graphie">
 <head>
-    <title>Uncertainty scaling</title>
+    <title>Multiplication of values with uncertainties</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
     <div class="vars">
-        <var id="A">randRange(30,95) / 10</var>
-        <var id="dA">randRange(1,9) / 10</var>
-        <var id="S">randRange(1, 5)</var>
+        <var id="A">randRange(10,75) / 10</var>
+        <var id="dA">randRange(1,4) / 10</var>
+        <var id="B">randRange(10,75) / 10</var>
+        <var id="dB">randRange(1,4) / 10</var>
 
-		<var id="SA">roundTo(3, S*A)</var>
-		<var id="dSA">roundTo(3, S*dA)</var>
+		<var id="dArel">dA / A</var>
+		<var id="dBrel">dB / B</var>
+		<var id="dArelShow">roundTo(3, dArel)</var>
+		<var id="dBrelShow">roundTo(3, dBrel)</var>
+
+		<var id="relError">dArel + dBrel</var>
+		<var id="relErrorShow">roundTo(3, dArel + dBrel)</var>
+
+		<var id="product">A*B</var>
+		<var id="productShow">roundTo(3, product)</var>
+		<var id="productError">product*relError</var>
+		<var id="productErrorShow">roundTo(3, productError)</var>
     </div>
         
 
 	<div class="problems">
         <div>
             <div class="question">
-			<p>Determine 
+			<p>Express 
 				<code>
-					<var>S</var> \cdot (<var>A</var> \pm <var>dA</var>)
-				</code></p>
+					(<var>A</var> \pm <var>dA</var>) \cdot 
+					(<var>B</var> \pm <var>dB</var>)
+				</code>
+				as <code>x \pm \Delta x</code>
+			</p>
 			</div>
             <div class="solution" data-type="multiple">
-                <span class="sol"><var>SA</var></span> <code>\pm</code> <span class="sol"><var>dSA</var></span>
+                <span class="sol" data-inexact data-max-error="0.005"><var>product</var></span> 
+					<code>\pm</code> <span class="sol" data-inexact data-max-error="0.005"><var>productError</var></span>
 			</div>
 			<div class="hints">
-				<p>Multiply the value and the uncertainty with the common factor.</p>
-				<p><code>
-					(<var>S</var> \cdot <var>A</var>) \pm (<var>S</var> \cdot <var>dA</var>)
-				</code></p>
-				<p><code>
-					<var>SA</var>
-					\pm <var>dSA</var>
-				</code></p>
+				<p>Calculate the relative uncertainties of the multiplicands</p>
+				<p><code>\frac{<var>dA</var>}{<var>A</var>} = <var>dArelShow</var></code></p>
+				<p><code>\frac{<var>dB</var>}{<var>B</var>} = <var>dBrelShow</var></code></p>
+				<p>Add the relative uncertainties.</p>
+				<p><code><var>dArelShow</var> + <var>dBrelShow</var> = <var>relErrorShow</var></code></p>
+				<p>Multiply the two values neglecting the uncertainties.</p>
+				<p><code><var>A</var> \cdot <var>B</var> = <var>productShow</var></code></p>
+				<p>Multiply the result with the sum of the relative uncertainties.</p>
+				<p><code><var>productShow</var> \cdot <var>relErrorShow</var> = <var>productErrorShow</var></code></p>
+				<p>The answer is then</p>
+				<p><code><var>productShow</var> \pm <var>productErrorShow</var></code></p>
 			</div>
 		</div>
 	</div>
