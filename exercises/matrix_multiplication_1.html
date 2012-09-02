@@ -27,8 +27,8 @@
         <div>
             <div class="question">
                 <p>What is the product of the two matrices?</p><p>
-				<code>\left[\begin{array}{cccc}<var>A11</var>& <var>A12</var>\\<var>A21</var> & <var>A22</var>\end{array}\right]</code>
-				<code>\left[\begin{array}{cccc}<var>B11</var>& <var>B12</var>\\<var>B21</var> & <var>B22</var>\end{array}\right]</code></p>
+				<code>\left[\begin{array}{cccc}<var>A11</var>& <var>A12</var>\\<var>A21</var> & <var>A22</var>\end{array}\right]
+				\left[\begin{array}{cccc}<var>B11</var>& <var>B12</var>\\<var>B21</var> & <var>B22</var>\end{array}\right]</code></p>
             </div>
 			<div class="solution" data-type="multiple">
 				<p>
@@ -42,36 +42,63 @@
     </div>
 
     <div class="hints">
-        <div><p>The product of two matrices is given by the following formula:</p>
+		<p>Multiplying two matrices entails multiplying each row of the first matrix by each column of the second matrix.
+		To multiply a row times a column, one computes the product of the first entries of each plus the 
+		product of the second entries of each and so on.</p>
+		<div><p>For this exercise, when multiplying the matrices
+		<code>\left[\begin{array}{cccc}\color{orange}{<var>A11</var>}& \color{orange}{<var>A12</var>}\\ \color{green}{<var>A21</var>} & \color{green}{<var>A22</var>}\end{array}\right]
+		\left[\begin{array}{cccc}\color{blue}{<var>B11</var>}& \color{red}{<var>B12</var>} \\ \color{blue}{<var>B21</var>} & \color{red}{<var>B22</var>}\end{array}\right]</code></p>
+		the first row of the first matrix is 
+		<code>\color{orange}{\left[\begin{array}{cccc}<var>A11</var>& <var>A12</var>\end{array}\right]}</code>
+		and the first column of the second matrix is 
+		<code>\color{blue}{\left[\begin{array}{cccc}<var>B11</var>\\<var>B21</var> \end{array}\right]}</code>
+		and their product is given by </p>
+		<p><code>\color{orange}{\left[\begin{array}{cccc}<var>A11</var>& <var>A12</var>\end{array}\right]}
+		\color{blue}{\left[\begin{array}{cccc}<var>B11</var>\\<var>B21</var> \end{array}\right]}=
+		\color{orange}{<var>A11</var>} * \color{blue}{<var>B11</var>} + \color{orange}{<var>A12</var>} * \color{blue}{<var>B21</var>} = <var>C11</var></code></p>
+		<p>Thus, the upper left entry in the answer is <code><var>C11</var></code>. To recap, the first row times the first column of the respective matrices
+		gives the entry first row of the first column of the answer.</p></div>
+		<div><p>Similarly, the first row, second column of the answer is given by the first row <code>\color{orange}{\left[\begin{array}{cccc}<var>A11</var>& <var>A12</var>\end{array}\right]}</code>
+		times the second column <code>\color{red}{\left[\begin{array}{cccc}<var>B12</var>\\<var>B22</var> \end{array}\right]}</code>:
+		<p><code>\color{orange}{\left[\begin{array}{cccc}<var>A11</var>& <var>A12</var>\end{array}\right]}
+		\color{red}{\left[\begin{array}{cccc}<var>B12</var>\\<var>B22</var> \end{array}\right]}=
+		\color{orange}{<var>A11</var>} * \color{red}{<var>B12</var>} + \color{orange}{<var>A12</var>} * \color{red}{<var>B22</var>} = <var>C12</var></code></p>
+		</div>
+		<div><p>The second row, first column of the answer is given by the second row 
+		<code>\color{green}{\left[\begin{array}{cccc}<var>A21</var>& <var>A22</var>\end{array}\right]}</code>
+		times the first column <code>\color{blue}{\left[\begin{array}{cccc}<var>B11</var>\\<var>B21</var> \end{array}\right]}</code>:
+		<p><code>\color{green}{\left[\begin{array}{cccc}<var>A21</var>& <var>A22</var>\end{array}\right]}
+		\color{blue}{\left[\begin{array}{cccc}<var>B11</var>\\<var>B21</var> \end{array}\right]}=
+		\color{green}{<var>A21</var>} * \color{blue}{<var>B11</var>} + \color{green}{<var>A22</var>} * \color{blue}{<var>B21</var>} = <var>C21</var></code></p>
+		</div>
+		<div><p>The second row, second column of the answer is given by the second row 
+		<code>\color{green}{\left[\begin{array}{cccc}<var>A21</var>& <var>A22</var>\end{array}\right]}</code>
+		times the second column <code>\color{red}{\left[\begin{array}{cccc}<var>B12</var>\\<var>B22</var> \end{array}\right]}</code>:
+		<p><code>\color{green}{\left[\begin{array}{cccc}<var>A21</var>& <var>A22</var>\end{array}\right]}
+		\color{red}{\left[\begin{array}{cccc}<var>B12</var>\\<var>B22</var> \end{array}\right]}=
+		\color{green}{<var>A21</var>} * \color{red}{<var>B12</var>} + \color{green}{<var>A22</var>} * \color{red}{<var>B22</var>} = <var>C22</var></code></p>
+		</div>
+        <div><p>Summing up, the product of two matrices is given by the following formula:</p>
 		<p>
 		<code>
-		\left[\begin{array}{cccc}a_{11}& a_{12}\\a_{21} & a_{22}\end{array}\right]
-		\left[\begin{array}{cccc}b_{11}& b_{12}\\b_{21} & b_{22}\end{array}\right]=
+		\left[\begin{array}{cccc}\color{orange}{a_{11}}& \color{orange}{a_{12}}\\\color{green}{a_{21}} & \color{green}{a_{22}}\end{array}\right]
+		\left[\begin{array}{cccc}\color{blue}{b_{11}}& \color{red}{b_{12}}\\\color{blue}{b_{21}} & \color{red}{b_{22}}\end{array}\right]=
 		\left[\begin{array}{cccc}
-		a_{11}b_{11}+a_{12}b_{21}& 
-		a_{11}b_{12}+a_{12}b_{22}\\
-		a_{21}b_{12}+a_{22}b_{22} & 
-		a_{21}b_{12}+a_{22}b_{22}\end{array}\right]</code>
+		\color{orange}{a_{11}}\color{blue}{b_{11}}+\color{orange}{a_{12}}\color{blue}{b_{21}}& 
+		\color{orange}{a_{11}}\color{red}{b_{12}}+\color{orange}{a_{12}}\color{red}{b_{22}}\\
+		\color{green}{a_{21}}\color{blue}{b_{11}}+\color{green}{a_{22}}\color{blue}{b_{21}} & 
+		\color{green}{a_{21}}\color{red}{b_{12}}+\color{green}{a_{22}}\color{red}{b_{22}}\end{array}\right]</code>
 		</p></div>
         <div><p>Using the formula, we get:</p>
 		<p>
 		<code>
-		\left[\begin{array}{cccc}<var>A11</var>& <var>A12</var>\\<var>A21</var> & <var>A22</var>\end{array}\right]
-		\left[\begin{array}{cccc}<var>B11</var>& <var>B12</var>\\<var>B21</var> & <var>B22</var>\end{array}\right]=
+		\left[\begin{array}{cccc}\color{orange}{<var>A11</var>}& \color{orange}{<var>A12</var>}\\\color{green}{<var>A21</var>} & \color{green}{<var>A22</var>}\end{array}\right]
+		\left[\begin{array}{cccc}\color{blue}{<var>B11</var>}& \color{red}{<var>B12</var>}\\\color{blue}{<var>B21</var>} & \color{red}{<var>B22</var>}\end{array}\right]=
 		\left[\begin{array}{cccc}
-		<var>A11</var> * <var>B11</var>+ <var>A12</var> * <var>B21</var>& 
-		<var>A11</var> * <var>B12</var>+ <var>A12</var> * <var>B22</var>\\
-		<var>A21</var> * <var>B11</var>+ <var>A22</var> * <var>B21</var>& 
-		<var>A21</var> * <var>B12</var>+ <var>A22</var> * <var>B22</var>
-		\end{array}\right]</code>
-		</p></div>
-        <div><p>Calculating each term in the matrix, we get:</p>
-		<p>
-		<code>\left[\begin{array}{cccc}
-		<var>A11</var> * <var>B11</var> + <var>A12</var> * <var>B21</var>& 
-		<var>A11</var> * <var>B12</var> + <var>A12</var> * <var>B22</var>\\
-		<var>A21</var> * <var>B11</var> + <var>A22</var> * <var>B21</var>& 
-		<var>A21</var> * <var>B12</var> + <var>A22</var> * <var>B22</var>
+		\color{orange}{<var>A11</var>} * \color{blue}{<var>B11</var>} + \color{orange}{<var>A12</var>} * \color{blue}{<var>B21</var>}& 
+		\color{orange}{<var>A11</var>} * \color{red}{<var>B12</var>} + \color{orange}{<var>A12</var>} * \color{red}{<var>B22</var>}\\
+		\color{green}{<var>A21</var>} * \color{blue}{<var>B11</var>} + \color{green}{<var>A22</var>} * \color{blue}{<var>B21</var>}& 
+		\color{green}{<var>A21</var>} * \color{red}{<var>B12</var>} + \color{green}{<var>A22</var>} * \color{red}{<var>B22</var>}
 		\end{array}\right]
 		=
 		\left[\begin{array}{cccc}
