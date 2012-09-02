@@ -36,16 +36,16 @@
                     <div class="graphie">
                         init({ range: [ [ -6, 6 ], [ -6, 6 ] ] });
                         addMouseLayer();
-                        var area = 9;
-                        var size = 3;
+                        var area = 16;
+                        var size = 4;
                         var halfsize = size*0.5;
-                        var sideLabel = null;
-                        var areaLabel = null;
+                        var sideLabel = label([0, halfsize], "\\text{side}=\\sqrt{\\text{area}}", "above");
+                        var areaLabel = label([0, 0], "\\text{area}=\\text{side}^{2}", "center");
                         var newLabels = function (size) {
-                            if (sideLabel) sideLabel.remove();
-                            sideLabel = label([0, size*0.5], "\\text{side}="+size, "above");
+                            sideLabel.remove();
+                            sideLabel = label([0, halfsize], "\\text{side}="+size, "above");
                             var areaPrefix = (size &gt;= 2.5) ? "\\text{area}=" : "";
-                            if (areaLabel) areaLabel.remove();
+                            areaLabel.remove();
                             areaLabel = label([0, 0], areaPrefix+(size*size).toFixed(1), "center");
                         };
                         var adjustSquareByVertex = function(x, y) {
