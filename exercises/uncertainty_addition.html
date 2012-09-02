@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+    <title>Uncertainty addition</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="A">randRange(30,95) / 10</var>
+        <var id="dA">randRange(1,9) / 10</var>
+        <var id="B">randRange(30,95) / 10</var>
+        <var id="dB">randRange(1,9) / 10</var>
+
+		<var id="AB">roundTo(3, A + B)</var>
+		<var id="dAB">roundTo(3, dA + dB)</var>
+    </div>
+        
+
+	<div class="problems">
+        <div>
+            <div class="question">
+			<p>Determine 
+				<code>
+					(<var>A</var> \pm <var>dA</var>)
+					+ (<var>B</var> \pm <var>dB</var>)
+				</code></p>
+			</div>
+            <div class="solution" data-type="multiple">
+                <span class="sol"><var>AB</var></span> <code>\pm</code> <span class="sol"><var>dAB</var></span>
+			</div>
+			<div class="hints">
+				<p>Add the values and the uncertainties separate.</p>
+				<p><code>
+					(<var>A</var> + <var>B</var>)
+					\pm (<var>dA</var> + <var>dB</var>)
+				</code></p>
+				<p><code>
+					<var>AB</var>
+					\pm <var>dAB</var>
+				</code></p>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</body>
+</html>
