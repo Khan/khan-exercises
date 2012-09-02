@@ -42,43 +42,39 @@
     </div>
 
     <div class="hints">
-        <div><p>The sum of two matrices is given by the following formula:</p>
+        <div><p>The sum of two matrices is a matrix obtained by adding the respective components, i.e., adding 
+		the upper left components to get the upper left component of the answer, the upper right components, and so on.
+		</p></div>
+		<div><p>So the upper left component of the answer is <code>\color{orange}{<var>A11</var> + <var>B11</var>=<var>C11</var>}</code></p>
+		</div>
+		<div><p>Thus, the sum of two matrices is given by the following formula:</p>
 		<p>
 		<code>
-		\left[\begin{array}{cccc}a_{11}& a_{12}\\a_{21} & a_{22}\end{array}\right]+
-		\left[\begin{array}{cccc}b_{11}& b_{12}\\b_{21} & b_{22}\end{array}\right]=
+		\left[\begin{array}{cccc}\color{orange}{a_{11}}& \color{blue}{a_{12}}\\ \color{red}{a_{21}} & \color{green}{a_{22}}\end{array}\right]+
+		\left[\begin{array}{cccc}\color{orange}{b_{11}}& \color{blue}{b_{12}}\\ \color{red}{b_{21}} & \color{green}{b_{22}}\end{array}\right]=
 		\left[\begin{array}{cccc}
-		a_{11}+b_{11}& 
-		a_{12}+b_{12}\\
-		a_{21}+b_{21} & 
-		a_{22}+b_{22}\end{array}\right]</code>
+		\color{orange}{a_{11}+b_{11}}& 
+		\color{blue}{a_{12}+b_{12}}\\
+		\color{red}{a_{21}+b_{21}} & 
+		\color{green}{a_{22}+b_{22}}\end{array}\right]</code>
 		</p></div>
-        <div><p>Using the formula, we get:</p>
+        <div><p>Using the formula, we get the answer:</p>
 		<p>
 		<code>
-		\left[\begin{array}{cccc}<var>A11</var>& <var>A12</var>\\<var>A21</var> & <var>A22</var>\end{array}\right]+
-		\left[\begin{array}{cccc}<var>B11</var>& <var>B12</var>\\<var>B21</var> & <var>B22</var>\end{array}\right]=
+		\left[\begin{array}{cccc}\color{orange}{<var>A11</var>}& \color{blue}{<var>A12</var>}\\\color{red}{<var>A21</var>} & \color{green}{<var>A22</var>}\end{array}\right]+
+		\left[\begin{array}{cccc}\color{orange}{<var>B11</var>}& \color{blue}{<var>B12</var>}\\\color{red}{<var>B21</var>} & \color{green}{<var>B22</var>}\end{array}\right]=
 		\left[\begin{array}{cccc}
-		<var>A11</var> + <var>B11</var>& 
-		<var>A12</var> + <var>B12</var>\\
-		<var>A21</var> + <var>B21</var>& 
-		<var>A22</var> + <var>B22</var>
-		\end{array}\right]</code>
-		</p></div>
-        <div><p>Calculating each term in the matrix, we get:</p>
-		<p>
-		<code>\left[\begin{array}{cccc}
-		<var>A11</var> + <var>B11</var>& 
-		<var>A12</var> + <var>B12</var>\\
-		<var>A21</var> + <var>B21</var>& 
-		<var>A22</var> + <var>B22</var>
+		\color{orange}{<var>A11</var> + <var>B11</var>}& 
+		\color{blue}{<var>A12</var> + <var>B12</var>}\\
+		\color{red}{<var>A21</var> + <var>B21</var>}& 
+		\color{green}{<var>A22</var> + <var>B22</var>}
 		\end{array}\right]
 		=
 		\left[\begin{array}{cccc}
-		<var>C11</var>& 
-		<var>C12</var>\\
-		<var>C21</var>& 
-		<var>C22</var>
+		\color{orange}{<var>C11</var>}& 
+		\color{blue}{<var>C12</var>}\\
+		\color{red}{<var>C21</var>}& 
+		\color{green}{<var>C22</var>}
 		\end{array}\right]</code>
 		</p></div>
     </div>
