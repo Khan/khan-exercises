@@ -9,9 +9,24 @@
     <div class="vars">
         <var id="A">randRange(10,25) / 10</var>
         <var id="dA">randRange(1,4) / 10</var>
+		<var id="Functions">[
+			{funcname: "\\exp", 
+				dfuncname: "\\exp", 
+				func: function(x) {return exp(x);}, 
+				dfunc: function(x) {return exp(x);}},
+			{funcname: "\\sin", 
+				dfuncname: "\\cos", 
+				func: function(x) {return sin(x);}, 
+				dfunc: function(x) {return cos(x);}}]</var>
+		<var id="selectedFunction">randFromArray(Functions)</var>
+		<var id="FuncName">selectedFunction.funcname</var>
+		<var id="dFuncName">selectedFunction.dfuncname</var>
+		<var id="Func">selectedFunction.func</var>
+		<var id="dFunc">selectedFunction.dfunc</var>
 
-		<var id="fA">roundTo(3, exp(A))</var>
-		<var id="dfA">roundTo(3, dA*abs(exp(A)))</var>
+		<var id="fA">roundTo(3, Func(A))</var>
+		<var id="dfdx">roundTo(3, dFunc(A))</var>
+		<var id="dfA">roundTo(3, dA*abs(dFunc(A)))</var>
     </div>
         
 
@@ -20,24 +35,29 @@
             <div class="question">
 			<p>Express 
 				<code>
-					\exp(<var>A</var> \pm <var>dA</var>)
+					<var>FuncName</var>(<var>A</var> \pm <var>dA</var>)
 				</code>
 				as <code>x \pm \Delta x</code>
 			</p>
 			</div>
             <div class="solution" data-type="multiple">
-                <span class="sol"><var>fA</var></span> <code>\pm</code> <span class="sol"><var>dfA</var></span>
+                <span class="sol" data-inexact data-max-error="0.005"><var>fA</var></span> 
+					<code>\pm</code> <span class="sol" data-inexact data-max-error="0.005"><var>dfA</var></span>
 			</div>
 			<div class="hints">
-				<p>Add the values and the uncertainties separate.</p>
+				<p>Evaluate the function at the value (neglect the uncertainty).</p>
 				<p><code>
-					(<var>A</var> + <var>B</var>)
-					\pm (<var>dA</var> + <var>dB</var>)
+					<var>FuncName</var> (<var>A</var>) = <var>fA</var>
 				</code></p>
+				<p>Calculate the derivative of the function at the given value</p>
 				<p><code>
-					<var>AB</var>
-					\pm <var>dAB</var>
+					\frac{d}{dx}<var>FuncName</var>(x)|_{x = <var>A</var>} = 
+					<var>dFuncName</var>(<var>A</var>) = <var>dfdx</var>
 				</code></p>
+	 			<p>The size of the uncertainty is then given by the absolute value of the function derivative multiplied with the uncertainty.</p>
+				<p><code>|<var>dfdx</var>| \cdot <var>dA</var> = <var>dfA</var></code></p>
+				<p>The answer is then</p>
+				<p><code><var>fA</var> \pm <var>dfA</var></code></p>
 			</div>
 		</div>
 	</div>
