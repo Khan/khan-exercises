@@ -3,12 +3,8 @@
     -webkit-transform: translatez(0);
 }
 
-#workarea {
-    width: 514px;
-}
-
-#hintsarea {
-    width: 494px;
+div.exercises-card {
+    width: 753px;
 }
 
 body.debug #workarea,

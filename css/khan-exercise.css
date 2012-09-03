@@ -84,7 +84,7 @@ table.limit th:first-child { text-align: right; }
 .radical .overline { border-top: 1px solid #000; padding: 6px 1px 0 3px; margin-left: -1px; }
 #answer_area .radical input[type=text] { width: 30px; }
 
-body.debug .graphie { outline: 1px dashed red; }
+body.debug .graphie { outline: 1px dashed #fdd; }
 .graphie svg { position: absolute; top: 0; left: 0; }
 
 #scratchpad { padding-left: 30px; overflow: hidden; display: none; }

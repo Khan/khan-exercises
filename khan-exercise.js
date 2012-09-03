@@ -1735,7 +1735,7 @@ var Khan = (function() {
                     $("#hint").click();
                 }
             });
-            var debugWrap = $("#debug").empty();
+            var debugWrap = $("#debug").css({"margin-right": "15px"}).empty();
             var debugURL = window.location.protocol + "//" + window.location.host + window.location.pathname +
                 "?debug&problem=" + problemID;
 
@@ -1771,7 +1771,6 @@ var Khan = (function() {
                 var probID = $(prob).attr("id") || n;
                 links.append($("<div>")
                     .css({
-                        "width": "200px",
                         "padding-left": "20px",
                         "outline":
                             (problemID === probID || problemID === '' + n) ?
@@ -2922,6 +2921,7 @@ var Khan = (function() {
                 problemBag = makeProblemBag(problems, 10);
             }
 
+            $("#positive-reinforcement").hide();
             // Generate the initial problem when dependencies are done being loaded
             var answerType = makeProblem();
         }
