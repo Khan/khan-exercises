@@ -37,8 +37,8 @@ $.extend(KhanUtil, {
             graph.line([0, -1.1], [0, 1.1]);
             graph.line([1.1, 0], [-1.1, 0]);
             graph.line([0, 1.1], [0, -1.1]);
-            graph.line([1.2, 0], [2.4, 0]);
-            graph.line([0, -1.2], [0, -2.4]);
+            graph.sineCurveAngleAxis = graph.line([1.2, 0], [2.4, 0]);
+            graph.cosineCurveAngleAxis = graph.line([0, -1.2], [0, -2.4]);
         });
 
         // Tick marks at -1, 1
@@ -53,7 +53,7 @@ $.extend(KhanUtil, {
         
         // Faint tick marks at -1, 1 on sine and cosine curves
         graph.style({
-            stroke: "#ddd",
+            stroke: "#ccc",
             strokeWidth: 2
         }, function() {
             graph.line([-5 / graph.scale[0] + 1.8, 1], [5 / graph.scale[0] + 1.8, 1]);
@@ -62,6 +62,7 @@ $.extend(KhanUtil, {
             graph.line([1, -5 / graph.scale[0] - 1.8], [1, 5 / graph.scale[0] - 1.8]);
         });
 
+        // Consider adding labels for axes
 
 
         // Declare all the graphic elements that get manipulated each time the angle changes
@@ -119,16 +120,16 @@ $.extend(KhanUtil, {
             fill: KhanUtil.ORANGE,
         }, function() {
             graph.dragPoint = graph.circle([1, 0], 4 / graph.scale[0]);
-            graph.dragPointS = graph.circle([1.8, 0], 4 / graph.scale[0]);
-            graph.dragPointC = graph.circle([1, -1.8], 4 / graph.scale[0]);
         });
         
-        // Visible blue lines under orange points in curves
+        // Visible blue lines and points for the sine and cosine curves
         graph.style({
             stroke: KhanUtil.BLUE,
             fill: KhanUtil.BLUE,
             strokeWidth: 1
         }, function() {
+            graph.dragPointS = graph.circle([1.8, 0], 4 / graph.scale[0]);
+            graph.dragPointC = graph.circle([1, -1.8], 4 / graph.scale[0]);
             graph.dragLineS = graph.line([1.8,1], [1.8,-1]);
             graph.dragLineC = graph.line([-1,-1.8], [1,-1.8]);
         });
@@ -138,28 +139,55 @@ $.extend(KhanUtil, {
                 (1 - graph.range[0][0]) * graph.scale[0],
                 (graph.range[1][1] - 0) * graph.scale[1], 15);
         graph.mouseTarget.attr({fill: "#000", "opacity": 0.0});
-        
-        // The invisible rectangle that gets mouse events from the sine curve
-        graph.mouseTargetS = graph.mouselayer.rect(
-                (1.8 - graph.range[0][0]) * graph.scale[0] - 8,
-                0,
-                15,
-                (1 + graph.range[1][1]) * graph.scale[1] + 15);
+
+        // The invisible area that gets mouse events from the sine curve.
+        // Use SVG, not list of points. graph.mouselayer uses Raphael. See interactive.js
+        var sinePoints = '';
+        for (var i = 0; i <= 50; ++i) {
+            if (i==0) {
+                sinePoints += 'M';
+            } else {
+                sinePoints += 'L';
+            }
+            sinePoints += (1.2 - graph.range[0][0] + i * (2.4-1.2) / 50) * graph.scale[0];
+            sinePoints += ','
+            sinePoints += ((-Math.sin(i * 3 * Math.PI / 50 - 1/2 * 3 * Math.PI) + graph.range[1][1]) * graph.scale[1] - 10);
+        }
+        for (var i = 0; i <= 50; ++i) {
+            sinePoints += 'L' + (1.2 - graph.range[0][0] + (50-i) * (2.4-1.2) / 50) * graph.scale[0];
+            sinePoints += ',' + ((-Math.sin((50-i) * 3 * Math.PI / 50 - 1/2 * 3 * Math.PI) + graph.range[1][1]) * graph.scale[1] + 10);
+        }
+        sinePoints += 'Z';
+        graph.mouseTargetS = graph.mouselayer.path(sinePoints);
         graph.mouseTargetS.attr({fill: "#000", "opacity": 0.0});
         
-        // The invisible rectangle that gets mouse events from the cosine curve
-        graph.mouseTargetC = graph.mouselayer.rect(
-                0,
-                (1.8 + graph.range[1][1]) * graph.scale[1] - 8,
-                (1 - graph.range[0][0]) * graph.scale[0] + 15,
-                15);
+        // The invisible area that gets mouse events from the cosine curve.
+        var cosinePoints = '';
+        for (var i = 0; i <= 50; ++i) {
+            if (i==0) {
+                cosinePoints += 'M';
+            } else {
+                cosinePoints += 'L';
+            }
+            cosinePoints += ((Math.cos(i * 3 * Math.PI / 50 - 1/2 * 3 * Math.PI) - graph.range[0][0]) * graph.scale[1] - 10);
+            cosinePoints += ','
+            cosinePoints += (1.2 + graph.range[1][1] + i * (2.4-1.2) / 50) * graph.scale[0];
+        }
+        for (var i = 0; i <= 50; ++i) {
+            cosinePoints += 'L' + ((Math.cos((50-i) * 3 * Math.PI / 50 - 1/2 * 3 * Math.PI) - graph.range[0][0]) * graph.scale[1] + 10);
+            cosinePoints += ',' + (1.2 + graph.range[1][1] + (50-i) * (2.4-1.2) / 50) * graph.scale[0];
+        }
+        cosinePoints += 'Z';
+        graph.mouseTargetC = graph.mouselayer.path(cosinePoints);
         graph.mouseTargetC.attr({fill: "#000", "opacity": 0.0});
-
+        
         // Change the cursor when it can interact with things
         $(graph.mouseTarget[0]).css("cursor", "move");
         $(graph.mouseTargetS[0]).css("cursor", "move");
         $(graph.mouseTargetC[0]).css("cursor", "move");
         
+        
+        // Mouse bindings for the point on the circle
         $(graph.mouseTarget[0]).bind("vmousedown vmouseover vmouseout", function(event) {
             var graph = KhanUtil.currentGraph;
             if (event.type === "vmouseover") {
@@ -257,147 +285,224 @@ $.extend(KhanUtil, {
             }
         });
         
+        
+        // Mouse bindings for the sine curve
         $(graph.mouseTargetS[0]).bind("vmousedown vmouseover vmouseout", function(event) {
             var graph = KhanUtil.currentGraph;
             var mouseDownX = undefined;
-            var mouseDownY = undefined;
+            var mouseDownAngle = graph.angle;
             if (event.type === "vmouseover") {
-                graph.highlight = true;
-                if (!graph.dragging) {
-                    KhanUtil.highlightAngle();
+                graph.highlightS = true;
+                if (!graph.draggingS) {
+                    KhanUtil.highlightSCurve();
                 }
 
             } else if (event.type === "vmouseout") {
-                graph.highlight = false;
-                if (!graph.dragging) {
-                    KhanUtil.unhighlightAngle();
+                graph.highlightS = false;
+                if (!graph.draggingS) {
+                    KhanUtil.unhighlightSCurve();
                 }
 
             } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
                 event.preventDefault();
                 mouseDownX = event.pageX - $("#unitcircle").offset().left;
+                
                 $(document).bind("vmousemove vmouseup", function(event) {
                     event.preventDefault();
-                    graph.dragging = true;
+                    graph.draggingS = true;
 
                     var mouseX = event.pageX - $("#unitcircle").offset().left;
-
                     if (event.type === "vmousemove") {
-                        var angle = graph.angle;
-                        var angleNumber = undefined;
-                        if (mouseX > mouseDownX + 1) {
-                        	mouseDownX = mouseX;
-                            angleNumber = Math.round(angle / (Math.PI / 36)) + 1
-                        } else if (mouseX < mouseDownX - 1) {
-                            mouseDownX = mouseX;
-                            angleNumber = Math.round(angle / (Math.PI / 36)) - 1
+                        var changeInAngle = 3 * Math.PI * (-mouseX+mouseDownX) / graph.scale[0] / 1.2;
+                        var angle = Math.round((mouseDownAngle + changeInAngle) / (Math.PI/36)) * (Math.PI/36);
+                        
+                        // Limit the number of revolutions to 2 in either direction.
+                        if (angle > 4 * Math.PI) {
+                            angle = 4 * Math.PI;
+                        } else if (angle < -4 * Math.PI) {
+                            angle = -4 * Math.PI;
                         }
-                        if (angleNumber !== undefined) {
-                        	angle = angleNumber * (Math.PI/36);
 
-                            // Limit the number of revolutions to 2 in either direction.
-                            if (angle > 4 * Math.PI) {
-                                angle = 4 * Math.PI;
-                            } else if (angle < -4 * Math.PI) {
-                                angle = -4 * Math.PI;
-                            }
-
-                            // Redraw the angle only if it's changed
-                            if (graph.angle != angle) {
-                                KhanUtil.setAngle(angle);
-                            }
+                        // Redraw the angle only if it's changed
+                        if (graph.angle != angle) {
+                            KhanUtil.setAngle(angle);
                         }
 
                     } else if (event.type === "vmouseup") {
                         $(document).unbind("vmousemove vmouseup");
-                        graph.dragging = false;
-                        if (!graph.highlight) {
-                            KhanUtil.unhighlightAngle();
+                        graph.draggingS = false;
+                        if (!graph.highlightS) {
+                            KhanUtil.unhighlightSCurve();
                         }
                     }
                 });
             }
         });
-        
+
+
+        // Mouse bindings for the cosine curve
         $(graph.mouseTargetC[0]).bind("vmousedown vmouseover vmouseout", function(event) {
             var graph = KhanUtil.currentGraph;
-            if (graph.timeoutForMove !== undefined) {
-                clearTimeout(graph.timeoutForMove);
-            }
-            var mouseDownX = undefined;
             var mouseDownY = undefined;
+            var mouseDownAngle = graph.angle;
             if (event.type === "vmouseover") {
-                graph.highlight = true;
-                if (!graph.dragging) {
-                    KhanUtil.highlightAngle();
+                graph.highlightC = true;
+                if (!graph.draggingC) {
+                    KhanUtil.highlightCCurve();
                 }
 
             } else if (event.type === "vmouseout") {
-                graph.highlight = false;
-                if (!graph.dragging) {
-                    KhanUtil.unhighlightAngle();
+                graph.highlightC = false;
+                if (!graph.draggingC) {
+                    KhanUtil.unhighlightCCurve();
                 }
 
             } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
                 event.preventDefault();
                 mouseDownY = event.pageY - $("#unitcircle").offset().top;
+                
                 $(document).bind("vmousemove vmouseup", function(event) {
-                    var graph = KhanUtil.currentGraph;
                     event.preventDefault();
-                    graph.dragging = true;
-                    clearTimeout(graph.timeoutForMove);
-                    console.log(graph.timeoutForMove);
+                    graph.draggingC = true;
+
                     var mouseY = event.pageY - $("#unitcircle").offset().top;
                     if (event.type === "vmousemove") {
-                        var angle = undefined;
-                        var angleNumber = undefined;
-                        var	movePauseLength = 1000 - 50 * Math.abs(mouseDownY - mouseY);
-                        if (movePauseLength < 100) {
-                            movePauseLength = 100;
+                    ///// asdfasdf might require changing direction
+                        var changeInAngle = 3 * Math.PI * (-mouseY+mouseDownY) / graph.scale[1] / 1.2;
+                        var angle = Math.round((mouseDownAngle + changeInAngle) / (Math.PI/36)) * (Math.PI/36);
+                        
+                        // Limit the number of revolutions to 2 in either direction.
+                        if (angle > 4 * Math.PI) {
+                            angle = 4 * Math.PI;
+                        } else if (angle < -4 * Math.PI) {
+                            angle = -4 * Math.PI;
                         }
-                        var moveFunc = function() {
-                            if (mouseY > mouseDownY) {
-                                angleNumber = Math.round(angle / (Math.PI / 36)) + 1
-                            } else if (mouseY < mouseDownY) {
-                                angleNumber = Math.round(angle / (Math.PI / 36)) - 1
-                            }
-                            if (angleNumber !== undefined) {
-                        	    angle = angleNumber * (Math.PI/36);
 
-                                // Limit the number of revolutions to 2 in either direction.
-                                if (angle > 4 * Math.PI) {
-                                    angle = 4 * Math.PI;
-                                } else if (angle < -4 * Math.PI) {
-                                    angle = -4 * Math.PI;
-                                }
-
-                                // Redraw the angle only if it's changed
-                                if (graph.angle != angle) {
-                                    KhanUtil.setAngle(angle);
-                                }
-                            }
-                            clearTimeout(graph.timeoutForMove);
-                            graph.timeoutForMove = setTimeout(moveFunc, movePauseLength);
+                        // Redraw the angle only if it's changed
+                        if (graph.angle != angle) {
+                            KhanUtil.setAngle(angle);
                         }
-                        console.log('original call');
-                        moveFunc();
-                        //graph.timeoutForMove = setTimeout(moveFunc, movePauseLength);
-                        //clearTimeout(graph.timeoutForMove);
-                        console.log(graph.timeoutForMove);
+
                     } else if (event.type === "vmouseup") {
                         $(document).unbind("vmousemove vmouseup");
-                        clearTimeout(graph.timeoutForMove);
-                        graph.dragging = false;
-                        if (!graph.highlight) {
-                            KhanUtil.unhighlightAngle();
+                        graph.draggingC = false;
+                        if (!graph.highlightC) {
+                            KhanUtil.unhighlightCCurve();
                         }
                     }
                 });
             }
         });
+     },
 
+//         $(graph.mouseTargetC[0]).bind("vmousedown vmouseover vmouseout", function(event) {
+//             var graph = KhanUtil.currentGraph;
+//             if (graph.timeoutForMove !== undefined) {
+//                 clearTimeout(graph.timeoutForMove);
+//             }
+//             var mouseDownX = undefined;
+//             var mouseDownY = undefined;
+//             if (event.type === "vmouseover") {
+//                 graph.highlightC = true;
+//                 if (!graph.draggingC) {
+//                     KhanUtil.highlightAngle();
+//                 }
+// 
+//             } else if (event.type === "vmouseout") {
+//                 graph.highlightC = false;
+//                 if (!graph.draggingC) {
+//                     KhanUtil.unhighlightAngle();
+//                 }
+// 
+//             } else if (event.type === "vmousedown" && (event.which === 1 || event.which === 0)) {
+//                 event.preventDefault();
+//                 mouseDownY = event.pageY - $("#unitcircle").offset().top;
+//                 $(document).bind("vmousemove vmouseup", function(event) {
+//                     var graph = KhanUtil.currentGraph;
+//                     event.preventDefault();
+//                     graph.draggingC = true;
+//                     clearTimeout(graph.timeoutForMove);
+//                     console.log(graph.timeoutForMove);
+//                     var mouseY = event.pageY - $("#unitcircle").offset().top;
+//                     if (event.type === "vmousemove") {
+//                         var angle = undefined;
+//                         var angleNumber = undefined;
+//                         var	movePauseLength = 1000 - 50 * Math.abs(mouseDownY - mouseY);
+//                         if (movePauseLength < 100) {
+//                             movePauseLength = 100;
+//                         }
+//                         var moveFunc = function() {
+//                             if (mouseY > mouseDownY) {
+//                                 angleNumber = Math.round(angle / (Math.PI / 36)) + 1
+//                             } else if (mouseY < mouseDownY) {
+//                                 angleNumber = Math.round(angle / (Math.PI / 36)) - 1
+//                             }
+//                             if (angleNumber !== undefined) {
+//                         	    angle = angleNumber * (Math.PI/36);
+// console.log('partway through moveFunc');
+//                                 // Limit the number of revolutions to 2 in either direction.
+//                                 if (angle > 4 * Math.PI) {
+//                                     angle = 4 * Math.PI;
+//                                 } else if (angle < -4 * Math.PI) {
+//                                     angle = -4 * Math.PI;
+//                                 }
+// 
+//                                 // Redraw the angle only if it's changed
+//                                 if (graph.angle != angle) {
+//                                     KhanUtil.setAngle(angle);
+//                                 }
+//                                 console.log('all the way through');
+//                             }
+//                             clearTimeout(graph.timeoutForMove);
+//                             graph.timeoutForMove = setTimeout(moveFunc, movePauseLength);
+//                             console.log('cleared and set the timeout');
+//                         }
+//                         console.log('original call');
+//                         moveFunc();
+//                         //graph.timeoutForMove = setTimeout(moveFunc, movePauseLength);
+//                         //clearTimeout(graph.timeoutForMove);
+//                         console.log(graph.timeoutForMove);
+//                     } else if (event.type === "vmouseup") {
+//                         $(document).unbind("vmousemove vmouseup");
+//                         clearTimeout(graph.timeoutForMove);
+//                         graph.draggingC = false;
+//                         if (!graph.highlightC) {
+//                             KhanUtil.unhighlightAngle();
+//                         }
+//                     }
+//                 });
+//             }
+//         });
+// 
+
+
+    highlightSCurve: function() {
+        var graph = KhanUtil.currentGraph;
+        graph.sineCurve.animate({ 'stroke-width': 3, stroke: KhanUtil.ORANGE }, 50);
+        graph.sineCurveAxis.animate({ 'stroke-width': 3 }, 50);
+        graph.sineCurveAngleAxis.animate({ 'stroke-width': 3 }, 50);
     },
-
+    
+    unhighlightSCurve: function() {
+        var graph = KhanUtil.currentGraph;
+        graph.sineCurve.animate({ 'stroke-width': 1, stroke: '#777' }, 50);
+        graph.sineCurveAxis.animate({ 'stroke-width': 1 }, 50);
+        graph.sineCurveAngleAxis.animate({ 'stroke-width': 1 }, 50);
+    },
+    
+    highlightCCurve: function() {
+        var graph = KhanUtil.currentGraph;
+        graph.cosineCurve.animate({ 'stroke-width': 3, stroke: KhanUtil.ORANGE }, 50);
+        graph.cosineCurveAxis.animate({ 'stroke-width': 3 }, 50);
+        graph.cosineCurveAngleAxis.animate({ 'stroke-width': 3 }, 50);
+    },
+    
+    unhighlightCCurve: function() {
+        var graph = KhanUtil.currentGraph;
+        graph.cosineCurve.animate({ 'stroke-width': 1, stroke: '#777' }, 50);
+        graph.cosineCurveAxis.animate({ 'stroke-width': 1 }, 50);
+        graph.cosineCurveAngleAxis.animate({ 'stroke-width': 1 }, 50);
+    },
 
     highlightAngle: function() {
         var graph = KhanUtil.currentGraph;
@@ -452,10 +557,10 @@ $.extend(KhanUtil, {
         graph.sineCurve.remove();
         graph.sineCurveLabel.remove();
         graph.sineCurveLine.remove();
-        graph.cosineCurve.remove();
         graph.sineCurveAxis.remove();
         graph.sineCurveTick1.remove();
         graph.sineCurveTick2.remove();
+        graph.cosineCurve.remove();
         graph.cosineCurveLabel.remove();
         graph.cosineCurveLine.remove();
         graph.cosineCurveAxis.remove();
@@ -488,7 +593,6 @@ $.extend(KhanUtil, {
             "0.5": "\\frac{1}{2}\\;(0.5)",
             "-0.5": "-\\frac{1}{2}\\;(-0.5)"
         };
-
         cosText = prettyAngles[cosText] ? prettyAngles[cosText] : cosText;
         sinText = prettyAngles[sinText] ? prettyAngles[sinText] : sinText;
 
@@ -519,10 +623,12 @@ $.extend(KhanUtil, {
             graph.rightangle = graph.path([[Math.cos(angle) - 0.04, 0], [Math.cos(angle) - 0.04, -0.04], [Math.cos(angle), -0.04]]);
         }
 
-        graph.sineCurveLabel = graph.label([1.8, Math.sin(angle)], sinText, "right");
-        graph.cosineCurveLabel = graph.label([Math.cos(angle), -1.8], cosText, "below right");
+        // Position the other labels
+        graph.sineCurveLabel = graph.label([1.8, Math.sin(angle) / 2], sinText, "right");
+        graph.cosineCurveLabel = graph.label([Math.cos(angle) / 2, -1.8], cosText, "below");
 
-        // Draw the spiral angle indicator. Make it farther from the center when the angle is small.
+        // Draw the spiral angle indicator. 
+        // Make it farther from the center when the angle is small.
         var points = [];
         for (var i = 0; i <= 50; ++i) {
             if (Math.abs(angle) < Math.PI) {
@@ -573,56 +679,114 @@ $.extend(KhanUtil, {
 
         // Put the angle value somewhere obvious, but not in the way of anything else. This
         // could probably be improved, but it at least prevents text on top of other text.
-        // Currently asymmetric at angles between 2.5pi and 3.5pi vs -2.5pi and -3.5pi.
-        // Which is better?
         if (angle < -3.5 * Math.PI) {
             graph.angleLabel = graph.label([-0.25, 0.25], angleText, "center");
         } else if (angle < -0.24 * Math.PI) {
             graph.angleLabel = graph.label([Math.cos(angle / 2) / 3, Math.sin(angle / 2) / 3], angleText, "center");
         } else if (angle < 0.24 * Math.PI) {
             graph.angleLabel = graph.label([0, 0], angleText, "left");
-        } else if (angle < 2.5 * Math.PI) {
-            graph.angleLabel = graph.label([Math.cos(angle / 2) / 3, Math.sin(angle / 2) / 3], angleText, "center");
         } else if (angle < 3.5 * Math.PI) {
-            graph.angleLabel = graph.label([0.25, -0.25], angleText, "center");
+            graph.angleLabel = graph.label([Math.cos(angle / 2) / 3, Math.sin(angle / 2) / 3], angleText, "center");
         } else {
             graph.angleLabel = graph.label([-0.25, -0.25], angleText, "center");
         }
         $(graph.angleLabel).css("color", highlightColor);
 
+        // Reposition the mouse target for the curves
+        var sinePoints = '';
+        for (var i = 0; i <= 50; ++i) {
+            if (i==0) {
+                sinePoints += 'M';
+            } else {
+                sinePoints += 'L';
+            }
+            sinePoints += (1.2 - graph.range[0][0] + i * (2.4-1.2) / 50) * graph.scale[0];
+            sinePoints += ','
+            sinePoints += ((-Math.sin(i * 3 * Math.PI / 50 - 1/2 * 3 * Math.PI + graph.angle) + graph.range[1][1]) * graph.scale[1] - 10);
+        }
+        for (var i = 0; i <= 50; ++i) {
+            sinePoints += 'L' + (1.2 - graph.range[0][0] + (50-i) * (2.4-1.2) / 50) * graph.scale[0];
+            sinePoints += ',' + ((-Math.sin((50-i) * 3 * Math.PI / 50 - 1/2 * 3 * Math.PI + graph.angle) + graph.range[1][1]) * graph.scale[1] +10);
+        }
+        sinePoints += 'Z';
+        graph.mouseTargetS.attr("path", sinePoints);
+        graph.mouseTargetS.attr({fill: "#000", "opacity": 0.0});
 
-        // Draw the sine and cosine curves, line at zero, and 
+        var cosinePoints = '';
+        for (var i = 0; i <= 50; ++i) {
+            if (i==0) {
+                cosinePoints += 'M';
+            } else {
+                cosinePoints += 'L';
+            }
+            cosinePoints += ((Math.cos(i * 3 * Math.PI / 50 - 1/2 * 3 * Math.PI + graph.angle) - graph.range[0][0]) * graph.scale[1] - 10);
+            cosinePoints += ','
+            cosinePoints += (1.2 + graph.range[1][1] + i * (2.4-1.2) / 50) * graph.scale[0];
+        }
+        for (var i = 0; i <= 50; ++i) {
+            cosinePoints += 'L' + ((Math.cos((50-i) * 3 * Math.PI / 50 - 1/2 * 3 * Math.PI + graph.angle) - graph.range[0][0]) * graph.scale[1] + 10);
+            cosinePoints += ',' + (1.2 + graph.range[1][1] + (50-i) * (2.4-1.2) / 50) * graph.scale[0];
+        }
+        cosinePoints += 'Z';
+        graph.mouseTargetC.attr("path", cosinePoints);
+        graph.mouseTargetC.attr({fill: "#000", "opacity": 0.0});
+        
+
+        // Draw the sine and cosine curves
         var sinePoints = [];
         var cosinePoints = [];
         for (var i = 0; i <= 50; ++i) {
             sinePoints.push([1.2 + i * (2.4-1.2) / 50, Math.sin(i * 3 * Math.PI / 50 - 1/2 * 3 * Math.PI + graph.angle)]);
             cosinePoints.push([Math.cos(i * 3 * Math.PI / 50 - 1/2 * 3 * Math.PI + graph.angle), -1.2 - i * (2.4-1.2) / 50]);
         }
-        graph.style({ strokeWidth: 1, stroke: '#777' });
+        if (graph.highlightS || graph.draggingS) {
+            graph.style({ strokeWidth: 3, stroke: KhanUtil.ORANGE });
+        } else {
+            graph.style({ strokeWidth: 1, stroke: '#777' });
+        }
         graph.sineCurve = graph.path(sinePoints);
+        if (graph.highlightC || graph.draggingC) {
+            graph.style({ strokeWidth: 3, stroke: KhanUtil.ORANGE });
+        } else {
+            graph.style({ strokeWidth: 1, stroke: '#777' });
+        }
         graph.cosineCurve = graph.path(cosinePoints);
-        graph.style({ strokeWidth: 1, stroke: '#ddd' });
-        // working here
-        graph.sineCurveAxis = graph.line([1.8 - graph.angle * 2.4 / (3 * Math.PI) / 2, 1], 
-                                         [1.8 - graph.angle * 2.4 / (3 * Math.PI) / 2, -1]);
-        graph.cosineCurveAxis = graph.line([-1, -1.8 + graph.angle * 2.4 / (3 * Math.PI) / 2], 
-                                           [1, -1.8 + graph.angle * 2.4 / (3 * Math.PI) / 2]);
-        graph.style({ strokeWidth: 2, stroke: '#000' });
-        graph.sineCurveTick1 = graph.line([-5 / graph.scale[0] + 1.8 - graph.angle * 2.4 / (3 * Math.PI) / 2, 1], 
-                                          [5 / graph.scale[0] + 1.8 - graph.angle * 2.4 / (3 * Math.PI) / 2, 1]);
-        graph.sineCurveTick2 = graph.line([-5 / graph.scale[0] + 1.8 - graph.angle * 2.4 / (3 * Math.PI) / 2, -1], 
-                                          [5 / graph.scale[0] + 1.8 - graph.angle * 2.4 / (3 * Math.PI) / 2, -1]);
-        graph.cosineCurveTick1 = graph.line([-1, -5 / graph.scale[0] - 1.8 + graph.angle * 2.4 / (3 * Math.PI) / 2], 
-                                            [-1, 5 / graph.scale[0] - 1.8 + graph.angle * 2.4 / (3 * Math.PI) / 2]);
-        graph.cosineCurveTick2 = graph.line([1, -5 / graph.scale[0] - 1.8 + graph.angle * 2.4 / (3 * Math.PI) / 2], 
-                                            [1, 5 / graph.scale[0] - 1.8 + graph.angle * 2.4 / (3 * Math.PI) / 2]);
+        
+        // Draw moving axes if they are needed
+        if (Math.round(Math.abs(graph.angle)/(Math.PI/36)) <= 54) {
+            if (graph.highlightS || graph.draggingS) {
+                graph.style({ strokeWidth: 3, stroke: '#ddd' });
+            } else {
+                graph.style({ strokeWidth: 1, stroke: '#ddd' });
+            }
+            graph.sineCurveAxis = graph.line([1.8 - graph.angle * 2.4 / (3 * Math.PI) / 2, 1], 
+                                             [1.8 - graph.angle * 2.4 / (3 * Math.PI) / 2, -1]);
+            if (graph.highlightC || graph.draggingC) {
+                graph.style({ strokeWidth: 3, stroke: '#ddd' });
+            } else {
+                graph.style({ strokeWidth: 1, stroke: '#ddd' });
+            }
+            graph.cosineCurveAxis = graph.line([-1, -1.8 + graph.angle * 2.4 / (3 * Math.PI) / 2], 
+                                               [1, -1.8 + graph.angle * 2.4 / (3 * Math.PI) / 2]);
+        
+            // Draw tick marks for the moving axes
+            graph.style({ strokeWidth: 2, stroke: '#000' });
+            graph.sineCurveTick1 = graph.line([-5 / graph.scale[0] + 1.8 - graph.angle * 2.4 / (3 * Math.PI) / 2, 1], 
+                                              [5 / graph.scale[0] + 1.8 - graph.angle * 2.4 / (3 * Math.PI) / 2, 1]);
+            graph.sineCurveTick2 = graph.line([-5 / graph.scale[0] + 1.8 - graph.angle * 2.4 / (3 * Math.PI) / 2, -1], 
+                                              [5 / graph.scale[0] + 1.8 - graph.angle * 2.4 / (3 * Math.PI) / 2, -1]);
+            graph.cosineCurveTick1 = graph.line([-1, -5 / graph.scale[0] - 1.8 + graph.angle * 2.4 / (3 * Math.PI) / 2], 
+                                                [-1, 5 / graph.scale[0] - 1.8 + graph.angle * 2.4 / (3 * Math.PI) / 2]);
+            graph.cosineCurveTick2 = graph.line([1, -5 / graph.scale[0] - 1.8 + graph.angle * 2.4 / (3 * Math.PI) / 2], 
+                                                [1, 5 / graph.scale[0] - 1.8 + graph.angle * 2.4 / (3 * Math.PI) / 2]);
+        }
 
         // Reposition the mouse target and indicator
         graph.mouseTarget.attr("cx", (Math.cos(angle) - graph.range[0][0]) * graph.scale[0]);
         graph.mouseTarget.attr("cy", (graph.range[1][1] - Math.sin(angle)) * graph.scale[1]);
         graph.dragPoint.attr("cx", (Math.cos(angle) - graph.range[0][0]) * graph.scale[0]);
         graph.dragPoint.attr("cy", (graph.range[1][1] - Math.sin(angle)) * graph.scale[1]);
-        
+
         // Reposition the other orange dots
         graph.dragPointS.attr("cy", (graph.range[1][1] - Math.sin(angle)) * graph.scale[1]);
         graph.dragPointC.attr("cx", (Math.cos(angle) - graph.range[0][0]) * graph.scale[0]);
@@ -630,6 +794,8 @@ $.extend(KhanUtil, {
         // Put the right things on top
         graph.sineCurveLine.toFront();
         graph.cosineCurveLine.toFront();
+        graph.sineCurve.toFront();
+        graph.cosineCurve.toFront();
         graph.angleLines.toFront();
         graph.dragPoint.toFront();
         graph.dragPointS.toFront();
