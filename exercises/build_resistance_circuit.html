@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie word-problems interactive circuits">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Build Resistance Circuit</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="APPLIED_VOLTAGE"> randRange(5,10)</var>
+        <var id="MEASURED_RESISTANCE"> randRange(1,10)</var>
+        <var id="MEASURED_VOLTAGE"> 0</var>
+        <var id="EFFECTIVE_RESISTANCE"> 0</var>
+        <var id="TOTAL_RESISTANCE"> 0</var>
+        <var id="SOLUTION_ARRAY"> 0</var>
+        <var id="RESISTORS_USED"> 0</var>
+        <var id="PARALLEL_SECTIONS"> 0</var>
+        <div data-ensure="RESISTOR[0][0] == RESISTOR[1][0] && RESISTOR[0][1] != RESISTOR[1][1]">
+            <var id="RESISTOR"> [[randRange(0, 2),randRange(0, 2),randRange(1, 10)],
+                                 [randRange(0, 2),randRange(0, 2),randRange(1, 10)],
+                                 [randRange(0, 2),randRange(0, 2),randRange(1, 10)],
+                                 [randRange(-1, 1),randRange(0, 2),randRange(1, 10)],
+                                 [randRange(-1, 0),randRange(0, 2),randRange(1, 10)]]</var>
+        </div>
+    </div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p> The battery supplies a voltage of 
+                    <strong><code>\color{red}{\text{<var>APPLIED_VOLTAGE</var>}}</code></strong> V.
+                    The voltmeter is measuring a component with resistance 
+                    <strong><code>\color{orange}{\text{<var>MEASURED_RESISTANCE</var>}}</code></strong>.
+                    Add resistors to the blue sections of wire to make the voltmeter read
+                    <var id="voltmeter"><code>0</code></var>V (within 0.1V)
+                </p>
+                <div class="graphie" id="mainCircuit">
+                    RESISTOR=shuffle(RESISTOR);
+                    answer=calculateResistance(RESISTOR,false,true);
+                    SOLUTION_ARRAY=answer[0];
+                    EFFECTIVE_RESISTANCE=answer[1];
+                    TOTAL_RESISTANCE=Math.round((EFFECTIVE_RESISTANCE+MEASURED_RESISTANCE)*100)/100.0;
+                    MEASURED_VOLTAGE=calculateVoltage(APPLIED_VOLTAGE,EFFECTIVE_RESISTANCE,MEASURED_RESISTANCE);
+                    RESISTORS_USED=calculateResistorsUsed(RESISTOR);
+                    PARALLEL_SECTIONS=calculateParallelSections(SOLUTION_ARRAY);
+                    $("#voltmeter code").text(MEASURED_VOLTAGE);
+                    MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#voltmeter")[0]]);
+
+                    OFFSET = 4;
+                    displaySize=[[0,42],[0,22]];
+                    
+                    init({range: displaySize, scale:[15,15]});
+                    addMouseLayer();
+
+                    circuitWidth = 14;
+                    circuitHeight = displaySize[1][1]-2*OFFSET;
+                    circuitBox=[[displaySize[0][0]+2*OFFSET,displaySize[0][0]+2*OFFSET+circuitWidth],
+                                [displaySize[1][0]+OFFSET,displaySize[1][0]+OFFSET+circuitHeight]];
+
+                    mainCircuit=initMainCircuit({
+                        circuitBox:circuitBox,
+                        appliedVoltage:APPLIED_VOLTAGE,
+                        measuredResistance:MEASURED_RESISTANCE
+                    });
+                    resistorSet=initResistorSet({
+                        init:RESISTOR,
+                        measuredResistance:MEASURED_RESISTANCE
+                    });
+
+                    calculateResistance(resistorSet.circuitArray,true,true)[0]
+                </div>
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Resistance of circuit
+                    <p id="answer-resistance"><code>0</code></p>
+                    Measured Voltage
+                    <p id="answer-preview"><code>0</code>V</p>
+                </div>
+                <div class="guess">
+                     calculateVoltage(mainCircuit.appliedVoltage,circuitResistance,mainCircuit.measuredResistance)
+                </div>
+                <div class="validator-function">
+                    if(Math.abs(guess-MEASURED_VOLTAGE)<=0.099){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    };
+                </div>
+            </div>
+            <div class="hints">
+                <p> The resistance of the entire circuit is <var>TOTAL_RESISTANCE</var> </p>
+                <p> There are <var>RESISTORS_USED</var> resistors used</p>
+                <p> There <span data-if="PARALLEL_SECTIONS > 1">are</span> <span data-else>is</span>
+                    <var>PARALLEL_SECTIONS</var> parallel 
+                    <span data-if="PARALLEL_SECTIONS > 1">sections</span> <span data-else>section</span>
+                </p>
+                <div>
+                    <div class="graphie" data-update="mainCircuit">
+                        showVoltageSolution(RESISTOR);
+                    </div>
+                    <p>Place the appropriate resistors over the ones in purple</p>
+                    <p>(and remove the rest from the circuit)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
