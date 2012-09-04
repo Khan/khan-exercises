@@ -543,7 +543,8 @@ var Khan = (function() {
                         // because it was removed from the DOM, recreate a new
                         // scratchpad.
                         if (!pad || !$("#scratchpad div").children().length) {
-                            pad = new Scratchpad($("#scratchpad div")[0]);
+                            pad = new DrawingScratchpad(
+                                $("#scratchpad div")[0]);
                         }
                     };
 
