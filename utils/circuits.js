@@ -7,7 +7,7 @@ $.extend(KhanUtil, {
             measuredResistance:0
         },options);
 
-        resistorInit=[[40,20],[40,18],[40,16],[40,14],[40,12],[40,10],[40,8],[40,6]];
+        resistorInit=[[32,16],[32,14],[32,12],[32,10],[32,8],[32,6],[32,20],[32,18],];
         resistorSet.resistors = [];
         for(index=1;index<=resistorSet.init.length;index++){
             resistorSet.resistors.push(KhanUtil.addResistor({
