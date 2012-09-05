@@ -62,7 +62,7 @@ div.definition {
 #examples { color: #777; margin-left: 20px; list-style-type: disc; }
 #examples li { margin: 5px 0; }
 
-#problemarea { font-size: 14px; width: 63%; min-height: 378px; position: relative; float: left; padding-bottom: 38px; }
+#problemarea { font-size: 14px; width: 70%; min-height: 378px; position: relative; float: left; padding-bottom: 38px; }
 
 #solution { font-size: 14px; }
 #solution label { display: block; white-space: nowrap; }
