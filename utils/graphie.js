@@ -712,7 +712,7 @@
     };
 
     $.fn.graphie = function(problem) {
-        return this.find(".graphie").andSelf().filter(".graphie").each(function() {
+        return this.find(".graphie, script[type='text/graphie']").andSelf().filter(".graphie, script[type='text/graphie']").each(function() {
             // Grab code for later execution
             var code = $(this).text(), graphie;
 
@@ -733,8 +733,14 @@
                 var area = $("#problemarea").add(problem);
                 graphie = area.find("#" + id + ".graphie").data("graphie");
             } else {
-                graphie = createGraph(this);
-                $(this).data("graphie", graphie);
+                var el = this;
+                if ($(this).filter("script")[0] != null) {
+                    el = $("<div>").addClass("graphie")
+                        .attr("id", $(this).attr("id")).insertAfter(this)[0];
+                    $(this).remove();
+                }
+                graphie = createGraph(el);
+                $(el).data("graphie", graphie);
             }
 
             // So we can write graph.bwahahaha = 17 to save stuff between updates
