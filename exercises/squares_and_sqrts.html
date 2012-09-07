@@ -4,20 +4,23 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Squares and square roots</title>
     <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        var oneDecimal = function (n) { return(Math.round(n*10))/10; };
+    </script>
 </head>
 <body>
     <div class="exercise">
         <div class="vars">
             <!-- mix of integer side lengths and those with one digit after decimal -->
             <var id="INT">randRange(0, 1)</var>
-            <var id="TILDE">INT ? "" : "\\sim"</var>
             <var id="SIDE">INT ? randRange(1, 10) : randRange(1, 9) + randRange(1, 9)/10.0</var>
             <var id="AREA">SIDE*SIDE</var>
-            <var id="SIDESTRING">SIDE.toFixed(INT ? 0 : 1)</var>
-            <var id="AREASTRING">AREA.toFixed(INT ? 0 : 1)</var>
+            <var id="AREASTRING">oneDecimal(AREA)</var>
+            <var id="SHOWSQUARE">randRange(1, 3) != 1</var>
+            <var id="TILDE">INT ? "" : "\\sim"</var>
         </div>
         <div class="problems">
-        
+
             <div id="find-side-from-area">
                 <div class="question">
                     The area of a square is <var>AREASTRING</var> cm<code>{}^{2}</code>.
@@ -29,96 +32,130 @@
                 <div class="hints">
                     <p>The side length is the square root of the area.</p>
                     <p>The side length is <code>\sqrt{<var>AREASTRING</var>}</code></p>
-                    <p>The side length is <code><var>TILDE</var><var>SIDESTRING</var></code></p>
+                    <p>The side length is <code><var>TILDE</var><var>SIDE</var></code></p>
                 </div>
                 <div class="problem">
                     <div><br>(You can adjust the diagram with your mouse to find the answer.)</div>
                     <div class="graphie">
-                        init({ range: [ [ -6, 6 ], [ -6, 6 ] ] });
-                        addMouseLayer();
-                        var area = 16;
-                        var size = 4;
-                        var halfsize = size*0.5;
-                        var sideLabel = label([0, halfsize], "\\text{side}=\\sqrt{\\text{area}}", "above");
-                        var areaLabel = label([0, 0], "\\text{area}=\\text{side}^{2}", "center");
-                        var newLabels = function (size) {
-                            sideLabel.remove();
-                            sideLabel = label([0, halfsize], "\\text{side}="+size, "above");
-                            var areaPrefix = (size &gt;= 2.5) ? "\\text{area}=" : "";
-                            areaLabel.remove();
-                            areaLabel = label([0, 0], areaPrefix+(size*size).toFixed(1), "center");
-                        };
-                        var adjustSquareByVertex = function(x, y) {
-                            halfsize = (abs(x) &GT; abs(y)) ? abs(x) : abs(y);
-                            size = halfsize * 2;
-                            area = size * size;
-                            point0.setCoord([-halfsize, -halfsize]);
-                            point1.setCoord([-halfsize,  halfsize]);
-                            point2.setCoord([ halfsize,  halfsize]);
-                            point3.setCoord([ halfsize, -halfsize]);
-                            line0.transform(true);
-                            line1.transform(true);
-                            line2.transform(true);
-                            line3.transform(true);
-                            newLabels (size.toFixed(1));
-                            return false;
-                        };
-                        var adjustSquareByEdge = function (dx, dy) {
-                            var centerX = (this.coordA[0] + this.coordZ[0]) * 0.5;
-                            var centerY = (this.coordA[1] + this.coordZ[1]) * 0.5;
-                            return adjustSquareByVertex(centerX, centerY);
+                        if (<var>SHOWSQUARE</var>) {
+                            init({ range: [ [ -6, 6 ], [ -6, 6 ] ] });
+                            addMouseLayer();
+                            var area = 16;
+                            var size = 4;
+                            var halfsize = size*0.5;
+                            var sideLabel = label([0, halfsize], "\\text{side}=\\sqrt{\\text{area}}", "above");
+                            var areaLabel = label([0, 0], "\\text{area}=\\text{side}^{2}", "center");
+                            var newLabels = function (size) {
+                                sideLabel.remove();
+                                sideLabel = label([0, halfsize], "\\text{side}="+size, "above");
+                                var areaPrefix = (size &gt;= 2.5) ? "\\text{area}=" : "";
+                                areaLabel.remove();
+                                areaLabel = label([0, 0], areaPrefix+(size*size).toFixed(1), "center");
+                            };
+                            var adjustSquareByVertex = function(x, y) {
+                                halfsize = (abs(x) &GT; abs(y)) ? abs(x) : abs(y);
+                                size = halfsize * 2;
+                                area = size * size;
+                                point0.setCoord([-halfsize, -halfsize]);
+                                point1.setCoord([-halfsize,  halfsize]);
+                                point2.setCoord([ halfsize,  halfsize]);
+                                point3.setCoord([ halfsize, -halfsize]);
+                                line0.transform(true);
+                                line1.transform(true);
+                                line2.transform(true);
+                                line3.transform(true);
+                                newLabels (oneDecimal(size));
+                                return false;
+                            };
+                            var adjustSquareByEdge = function (dx, dy) {
+                                var centerX = (this.coordA[0] + this.coordZ[0]) * 0.5;
+                                var centerY = (this.coordA[1] + this.coordZ[1]) * 0.5;
+                                return adjustSquareByVertex(centerX, centerY);
+                            }
+                            point0 = addMovablePoint({
+                                coord: [-halfsize, -halfsize],
+                                onMove: adjustSquareByVertex
+                            });
+                            point1 = addMovablePoint({
+                                coord: [-halfsize, halfsize],
+                                onMove: adjustSquareByVertex
+                            });
+                            point2 = addMovablePoint({
+                                coord: [halfsize, halfsize],
+                                onMove: adjustSquareByVertex
+                            });
+                            point3 = addMovablePoint({
+                                coord: [halfsize, -halfsize],
+                                onMove: adjustSquareByVertex
+                            });
+                            line0 = addMovableLineSegment({
+                                pointA: point0,
+                                pointZ: point1,
+                                onMove: adjustSquareByEdge
+                            });
+                            line1 = addMovableLineSegment({
+                                pointA: point1,
+                                pointZ: point2,
+                                onMove: adjustSquareByEdge
+                            });
+                            line2 = addMovableLineSegment({
+                                pointA: point2,
+                                pointZ: point3,
+                                onMove: adjustSquareByEdge
+                            });
+                            line3 = addMovableLineSegment({
+                                pointA: point3,
+                                pointZ: point0,
+                                onMove: adjustSquareByEdge
+                            });
                         }
-                        point0 = addMovablePoint({
-                            coord: [-halfsize, -halfsize],
-                            onMove: adjustSquareByVertex
-                        });
-                        point1 = addMovablePoint({
-                            coord: [-halfsize, halfsize],
-                            onMove: adjustSquareByVertex
-                        });
-                        point2 = addMovablePoint({
-                            coord: [halfsize, halfsize],
-                            onMove: adjustSquareByVertex
-                        });
-                        point3 = addMovablePoint({
-                            coord: [halfsize, -halfsize],
-                            onMove: adjustSquareByVertex
-                        });
-                        line0 = addMovableLineSegment({
-                            pointA: point0,
-                            pointZ: point1,
-                            onMove: adjustSquareByEdge
-                        });
-                        line1 = addMovableLineSegment({
-                            pointA: point1,
-                            pointZ: point2,
-                            onMove: adjustSquareByEdge
-                        });
-                        line2 = addMovableLineSegment({
-                            pointA: point2,
-                            pointZ: point3,
-                            onMove: adjustSquareByEdge
-                        });
-                        line3 = addMovableLineSegment({
-                            pointA: point3,
-                            pointZ: point0,
-                            onMove: adjustSquareByEdge
-                        });
+                        else {
+                            graphInit({
+                                range: [ [ -1, 11 ], [ -10, 110 ] ],
+                                scale: [35, 3.5],
+                                gridStep: [1, 10],
+                                tickStep: 1
+                            });
+                            addMouseLayer();
+                            plot(function(x) { return x * x; }, [0, 10], { stroke: "red" });
+                            var sideLabel = null, areaLabel = null, sideArrow = null, areaArrow = null;                            
+                            var makeAnnotation = function(x, y) {
+                                if (sideLabel) sideLabel.remove();
+                                if (areaLabel) areaLabel.remove();
+                                if (sideArrow) sideArrow.remove();
+                                if (areaArrow) areaArrow.remove();
+                                sideLabel = label([x, 0], "\\text{side}="+x, "below");
+                                areaLabel = label([0, y], "\\text{area}="+y, "left");
+                                sideArrow = line([x, y], [x, 0], {arrows: "-&gt;", stroke: "blue"});
+                                areaArrow = line([x, y], [0, y], {arrows: "-&gt;", stroke: "blue"});
+                            }
+                            var knob = addMovablePoint({
+                                coord: [0, 0],
+                                onMove: function(x, y) {
+                                    var clipX = oneDecimal((x &gt; 10) ? 10 : ((x &lt; 0) ? 0 : x));
+                                    var clipY = oneDecimal(clipX * clipX);
+                                    knob.setCoord([clipX, clipY]);
+                                    makeAnnotation (clipX, clipY);
+                                    return false;
+                                }
+                            });
+                            makeAnnotation (0, 0);
+                        }
                     </div>
                 </div>
             </div>
             
             <div id="find-area-from-side" data-type="find-side-from-area">
                 <div class="question">
-                    A square's side is <var>SIDESTRING</var> centimeters long. What is its area?
+                    A square's side is <var>SIDE</var> centimeters long. What is its area?
                 </div>
                 <div class="solution" data-inexact data-max-error="0.1" data-type="decimal">
                     <var>SIDE*SIDE</var>
                 </div>
                 <div class="hints">
-                    <p>The area is <code><var>SIDESTRING</var>^{2}</code>.</p>
+                    <p>The area is <code><var>SIDE</var>^{2}</code>.</p>
                     <p>The area is the side length squared:
-                       <code><var>SIDESTRING</var>\times<var>SIDESTRING</var></code>.</p>
+                       <code><var>SIDE</var>\times<var>SIDE</var></code>.</p>
                     <p>The area is <code><var>TILDE</var><var>AREASTRING</var></code></p>
                 </div>
             </div>
