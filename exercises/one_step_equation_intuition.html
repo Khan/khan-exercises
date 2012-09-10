@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html data-require="math graphie algebra-intuition">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>One-step equation intuition</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        div.description {
+            border: 1px dashed #aaaaaa;
+            background: #f5f5f5;
+            -moz-border-radius: 8px;
+            -webkit-border-radius: 8px;
+            border-radius: 8px;
+            margin-left: 20px;
+            margin-right: 20px;
+            padding: 0px 22px;
+        }
+        a.small-button {
+            font-size: 12px;
+        }
+        input.small-button {
+            padding: 5px 10px;
+            line-height: 15px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="A">randRange(1, 6)</var>
+            <var id="B">randRange(A + 1, 10)</var>
+            <var id="X">B - A</var>
+            <var id="UNKNOWN, IMAGE">randFromArray([
+                ["Spunky Sam",         "/images/avatars/spunky-sam.png"],
+                /*
+                ["Marcimus",           "/images/avatars/marcimus.png"],
+                */
+                ["Mr. Pink",           "/images/avatars/mr-pink.png"],
+                ["Orange Juice Squid", "/images/avatars/orange-juice-squid.png"],
+                ["Purple Pi",          "/images/avatars/purple-pi.png"],
+                ["Pants",              "/images/avatars/mr-pants.png"],
+                ["Old Spice Man",      "/images/avatars/old-spice-man.png"],
+            ])</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <p class="question">
+                    How much does <var>UNKNOWN</var> weigh?
+                </p>
+
+                <div style="width: 480px;" class="clearfix">
+                    <div style="float: left; margin-left: 130px;">
+                        <form>
+                            <input id="sub-left" type="button"
+                                class="simple-button small-button" value="- 1"
+                                onClick="javascript:
+                                    KhanUtil.scale.subtractLeftWeight();
+                                ">
+                            <input id="add-left" type="button"
+                                class="simple-button small-button" value="+ 1"
+                                onClick="javascript:
+                                    KhanUtil.scale.addLeftWeight();
+                                ">
+                        </form>
+                    </div>
+                    <div style="float: right; margin-right: 130px;">
+                        <form>
+                            <input id="sub-right" type="button"
+                                class="simple-button small-button" value="- 1"
+                                onClick="javascript:
+                                    KhanUtil.scale.subtractRightWeight();
+                                ">
+                            <input id="add-right" type="button"
+                                class="simple-button small-button" value="+ 1"
+                                onClick="javascript:
+                                    KhanUtil.scale.addRightWeight();
+                                ">
+                        </form>
+                    </div>
+                </div>
+                <script type="text/graphie" id="scale">
+
+                    scale.onChange = function(leftCoef, a, rightCoef, b) {
+                        $("#sub-left").prop("disabled", a === 0);
+                        $("#add-left").prop("disabled", a === 10);
+                        $("#sub-right").prop("disabled", b === 0);
+                        $("#add-right").prop("disabled", b === 10);
+
+                        var desc1 = "You";
+                        var leftOp = "";
+                        var rightOp = "";
+                        if (a - A < 0) {
+                            desc1 += " <span class='hint_blue'>subtracted " +
+                                abs(a - A) + " from the left side</span>";
+                            leftOp = " \\blue{- " + abs(a - A) + "}"
+                        } else if (a - A > 0) {
+                            desc1 += " <span class='hint_blue'>added " +
+                                abs(a - A) + " to the left side</span>";
+                            leftOp = " \\blue{+ " + abs(a - A) + "}"
+                        }
+                        if (a - A !== 0 && b - B !== 0) {
+                            desc1 += " and";
+                        }
+                        if (b - B < 0) {
+                            desc1 += " <span class='hint_green'>subtracted " +
+                                abs(b - B) + " from the right side</span>";
+                            rightOp = " \\green{- " + abs(b - B) + "}"
+                        } else if (b - B > 0) {
+                            desc1 += " <span class='hint_green'>added " +
+                                abs(b - B) + " to the right side</span>";
+                            rightOp = " \\green{+ " + abs(b - B) + "}"
+                        }
+                        if (a - A === 0 && b - B === 0) {
+                            desc1 = "You haven't added or removed "
+                                + "anything from either side, so we can't "
+                                + "directly tell what " + UNKNOWN + "'s "
+                                + "weight is from the equation.";
+                            $("#description2").parent().hide();
+                        } else {
+                            desc1 += ":";
+                            $("#description2").text("\\qquad x + " + A +
+                                leftOp +
+                                (a - A === b - B ?
+                                    " \\quad=\\quad " :
+                                    " \\quad\\ne\\quad ") + B + rightOp);
+                            $("#description2").parent().show();
+                        }
+                        $("#description1").html(desc1);
+
+
+
+                        if (a - A === b - B) {
+                            if (a - A !== 0) {
+                                if (a === 0) {
+                                    $("#description3").html("Simplifying, we "
+                                        + "can see " + UNKNOWN + "'s weight:");
+                                    $("#description4").text(
+                                        "\\qquad x \\quad=\\quad " + X);
+                                } else {
+                                    $("#description3").html("Simplifying, we "
+                                        + "still can't directly see " +
+                                        UNKNOWN + "'s weight:");
+                                    $("#description4").text(
+                                        "\\qquad x + " + a + " \\quad=\\quad "
+                                        + b);
+                                }
+                                $("#description3").show()
+                                $("#description4").parent().show();
+                            } else {
+                                $("#description3").hide()
+                                $("#description4").parent().hide();
+                            }
+                        } else {
+                            $("#description3").html("Since you did "
+                                + "something different to each side of the "
+                                + "equation, the left and right side are no "
+                                + "longer equal and you can't tell what "
+                                + UNKNOWN + "'s weight is.");
+                            $("#description3").show()
+                            $("#description4").parent().hide();
+                        }
+                        MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
+                            $("#description2")[0]]);
+                        MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
+                            $("#description4")[0]]);
+                    };
+
+                    scale.init({
+                        unknown: X,
+                        leftConst: A,
+                        rightConst: B,
+                        image: IMAGE
+                    });
+                </script>
+                </p>
+                <div style="width: 480px; position: relative; top: -60px; right: 50px;">
+                    <div style="text-align: center; float: right;">
+                        <a class="simple-button small-button" href="#" onClick="javascript:
+                            KhanUtil.scale.resetProblem();
+                        ">reset</a>
+                    </div>
+                </div>
+
+                <div class="description" style="clear: both;">
+                    <p><b>This is algebra?</b></p>
+                    <p>
+                        Yep! We can represent the problem with an equation if
+                        we let the letter <code>x</code> represent
+                        <var>UNKNOWN</var>'s weight:
+                    </p>
+                    <p><code>
+                        \qquad x + <var>A</var> \quad=\quad <var>B</var>
+                    </code></p>
+                    <p id="description1"></p>
+                    <p><code id="description2"></code></p>
+                    <p id="description3"></p>
+                    <p><code id="description4"></code></p>
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Balance the scale with <var>UNKNOWN</var> <b>alone on
+                        one side</b> and enter the weight:
+                        <p><input id="answer" type="text" /></p>
+                    </div>
+                    <div class="guess">[
+                        $("input#answer").val(),
+                        scale.leftConst,
+                        scale.rightConst
+                    ]</div>
+                    <div class="validator-function">
+                        if (guess[0] === "") {
+                            return "";
+                        }
+                        if (guess[1] !== 0) {
+                            return "Make sure " + UNKNOWN + " is alone on " +
+                                "one side of the scale.";
+                        }
+                        if (guess[1] + X !== guess[2]) {
+                            return "Make sure the scale is balanced.";
+                        }
+                        return +guess[0] === X;
+                    </div>
+                    <div class="show-guess">
+                        scale.setLeftWeight(guess[1]);
+                        scale.setRightWeight(guess[2]);
+                    </div>
+                    <div class="show-guess-solutionarea">
+                        $("input#answer").val(guess[0]);
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
