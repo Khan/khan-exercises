@@ -535,7 +535,6 @@ var Khan = (function() {
                     }
 
                     var makeVisible = function() {
-                        $("#workarea, #hintsarea").css("padding-left", 60);
                         $("#scratchpad").show();
                         $("#scratchpad-show").text("Hide scratchpad");
 
@@ -560,7 +559,6 @@ var Khan = (function() {
                         return;
                     }
 
-                    $("#workarea, #hintsarea").css("padding-left", 0);
                     $("#scratchpad").hide();
                     $("#scratchpad-show").text("Show scratchpad");
                 },

@@ -23,17 +23,17 @@ function DrawingScratchpad(elem) {
         (function(color) {
             var setcolor = function(e) {
                 stroke = color;
-                palette.animate({x: 7}, 100);
-                this.animate({x: 15}, 100);
+                palette.animate({y: 7}, 100);
+                this.animate({y: 15}, 100);
                 penclick();
             };
-            palette.push(pad.rect(7, 90 + i * 24, 24, 24).attr({
+            palette.push(pad.rect(90 + i * 24, 7, 24, 24).attr({
                 fill: color,
                 stroke: ""
                 }).touchstart(setcolor).click(setcolor));
         })(colors[i]);
     }
-    palette[0].attr({x: 15});
+    palette[0].attr({y: 15});
 
     var selected = pad.rect(2, 2, 30, 30).attr({
         r: 5,
@@ -84,12 +84,12 @@ function DrawingScratchpad(elem) {
     var tools = pad.set();
 
     tools.push(pad.path(pen).scale(0.8).translate(0, 0));
-    tools.push(pad.path(erase).translate(0, 30));
-    tools.push(pad.path(undo).scale(0.7).translate(1, 60));
+    tools.push(pad.path(erase).translate(30, 0));
+    tools.push(pad.path(undo).scale(0.7).translate(60, 1));
 
     var tool = "draw";
     function penclick() {
-        selected.animate({y: 2}, 100);
+        selected.animate({x: 2}, 100);
         tool = "draw";
     }
     pad.rect(2, 2, 30, 30)
@@ -100,10 +100,10 @@ function DrawingScratchpad(elem) {
         })
         .click(penclick).touchstart(penclick);
     function eraseclick() {
-        selected.animate({y: 2 + 30}, 100);
+        selected.animate({x: 2 + 30}, 100);
         tool = "erase";
     }
-    pad.rect(2, 2 + 30, 30, 30)
+    pad.rect(2 + 30, 2, 30, 30)
         .attr({
             stroke: "",
             fill: "black",
@@ -111,9 +111,11 @@ function DrawingScratchpad(elem) {
         })
         .click(eraseclick).touchstart(eraseclick);
     function undoclick() {
-        loadState(undoHistory.pop());
+        if (undoHistory.length) {
+            loadState(undoHistory.pop());
+        }
     }
-    pad.rect(2, 2 + 30 * 2, 30, 30)
+    pad.rect(2 + 30 * 2, 2, 30, 30)
         .attr({
             stroke: "",
             fill: "black",
@@ -135,7 +137,7 @@ function DrawingScratchpad(elem) {
         saveState();
         var startlen = shapes.length;
 
-        if (X > 40) {
+        if (Y > 40) {
             if (tool == "draw") {
                 startPen(X, Y);
             }else if (tool == "erase") {
@@ -209,7 +211,7 @@ function DrawingScratchpad(elem) {
     }
 
     function mousemove(X, Y) {
-            if (X <= 40) return;
+            if (Y <= 40) return;
             if (path && tool == "draw") {
                 pathstr += "L" + X + "," + Y;
                 path.attr("path", pathstr);

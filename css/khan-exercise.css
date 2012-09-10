@@ -87,8 +87,8 @@ table.limit th:first-child { text-align: right; }
 body.debug .graphie { outline: 1px dashed #fdd; }
 .graphie svg { position: absolute; top: 0; left: 0; }
 
-#scratchpad { padding-left: 30px; overflow: hidden; display: none; }
-#scratchpad div { position: absolute; z-index: 1; min-height: 378px; width: 100%; height: 98%; outline: 1px solid #ccc; }
+#scratchpad { padding-left: 20px; overflow: hidden; display: none; }
+#scratchpad div { position: absolute; margin-top: -20px; z-index: 1; min-width: 514px; height: 98%; outline: 1px solid #ccc; }
 #scratchpad-not-available { display: none; }
 
 #tester-info.info-box { background: #f2e4bf; }
