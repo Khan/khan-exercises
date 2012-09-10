@@ -35,7 +35,11 @@
         var unscalePoint = function(point) {
             var x = point[0], y = point[1];
             return [x / xScale + xRange[0], yRange[1] - y / yScale];
-        }
+        };
+
+        var unscaleVector = function(point) {
+            return [point[0] / xScale, point[1] / yScale];
+        };
 
         var svgPath = function(points) {
             // Bound a number by 1e-6 and 1e20 to avoid exponents after toString
@@ -180,6 +184,7 @@
                     arrows(path.items[i]);
                 }
             }
+            return path;
         };
 
         var drawingTools = {
@@ -453,6 +458,7 @@
             scaleVector: scaleVector,
 
             unscalePoint: unscalePoint,
+            unscaleVector: unscaleVector,
 
             polar: polar,
             cartToPolar: cartToPolar
