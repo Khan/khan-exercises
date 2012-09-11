@@ -80,7 +80,7 @@
                         </form>
                     </div>
                 </div>
-                <script type="text/graphie" id="scale">
+                <div class="graphie" id="scale">
 
                     scale.onChange = function(leftCoef, a, rightCoef, b) {
                         $("#sub-left").prop("disabled", a === 0);
@@ -91,28 +91,28 @@
                         var desc1 = "You";
                         var leftOp = "";
                         var rightOp = "";
-                        if (a - A < 0) {
-                            desc1 += " <span class='hint_blue'>subtracted " +
-                                abs(a - A) + " from the left side</span>";
+                        if (a - A &lt; 0) {
+                            desc1 += " &lt;span class='hint_blue'&gt;subtracted " +
+                                abs(a - A) + " from the left side&lt;/span&gt;";
                             leftOp = " \\blue{- " + abs(a - A) + "}"
-                        } else if (a - A > 0) {
-                            desc1 += " <span class='hint_blue'>added " +
-                                abs(a - A) + " to the left side</span>";
+                        } else if (a - A &lt; 0) {
+                            desc1 += " &lt;span class='hint_blue'&gt;added " +
+                                abs(a - A) + " to the left side&lt;/span&gt;";
                             leftOp = " \\blue{+ " + abs(a - A) + "}"
                         }
-                        if (a - A !== 0 && b - B !== 0) {
+                        if (a - A !== 0 &amp;&amp; b - B !== 0) {
                             desc1 += " and";
                         }
-                        if (b - B < 0) {
-                            desc1 += " <span class='hint_green'>subtracted " +
-                                abs(b - B) + " from the right side</span>";
+                        if (b - B &lt; 0) {
+                            desc1 += " &lt;span class='hint_green'&gt;subtracted " +
+                                abs(b - B) + " from the right side&lt;/span&gt;";
                             rightOp = " \\green{- " + abs(b - B) + "}"
-                        } else if (b - B > 0) {
-                            desc1 += " <span class='hint_green'>added " +
-                                abs(b - B) + " to the right side</span>";
+                        } else if (b - B &gt; 0) {
+                            desc1 += " &lt;span class='hint_green'&gt;added " +
+                                abs(b - B) + " to the right side&lt;/span&gt;";
                             rightOp = " \\green{+ " + abs(b - B) + "}"
                         }
-                        if (a - A === 0 && b - B === 0) {
+                        if (a - A === 0 &amp;&amp; b - B === 0) {
                             desc1 = "You haven't added or removed "
                                 + "anything from either side, so we can't "
                                 + "directly tell what " + UNKNOWN + "'s "
@@ -173,7 +173,7 @@
                         rightConst: B,
                         image: IMAGE
                     });
-                </script>
+                </div>
                 </p>
                 <div style="width: 480px; position: relative; top: -60px; right: 50px;">
                     <div style="text-align: center; float: right;">

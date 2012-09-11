@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie khanscript">
+<html data-require="math math-format graphie">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Solutions to quadratic equations</title>
@@ -50,12 +50,12 @@
                         </code>
                     </div>
                     <div>
-                        <script type="text/khanscript">
+                        <div class="graphie">
                             $("#quadratic").text("\\qquad x = \\dfrac{-b \\pm" +
                                 " \\sqrt{\\blue{b^2 - 4ac}}}{2a}");
                             MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
                                 $("#quadratic")[0]]);
-                        </script>
+                        </div>
                         <div>
                             Think about what the part of the quadratic
                             formula <span class="hint_blue">under the
