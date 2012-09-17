@@ -13,10 +13,9 @@
     <script src="qunit/qunit/qunit.js"></script>
     <script src="utils/unit-tests.js"></script>
     <script type="text/javascript" charset="utf-8">
-    var tests = {}
-    files = ["math", "angles"];
-    $.getScript("../utils/test/angles.js", function(){
-        KhanTests.init(files)
+    KhanTests.run({
+      tests: "angles",
+      deps: ["math", "angles"]
     })
     </script>
 

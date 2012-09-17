@@ -1,6 +1,10 @@
 
 var KhanTests = (function(){
 
+  // the tests object is populated by loadTest and contains the names
+  // of all the functions to run in the module you care about
+  var tests = {};
+
   // set up bare bones Khan module
   var Khan = {
     "Util": {
@@ -73,9 +77,36 @@ var KhanTests = (function(){
     })
   }
 
+  // create a simple setter for loading in tests without having to deal with window
+  var loadTest = function(obj){
+    $.extend(tests, obj);
+  }
+
+  // a wrapper for loading tests
+  // wants {tests:"basepath", deps: ["basepath", "basepath"]}
+  // where for `tests`, basepath is located in /utils/test/basepath.js
+  // and for deps, the basepath is located in /utils/basepath.js
+  var setupTests = function(spec){
+    if(!spec){ return; }
+
+    // reset the tests object when starting a new test
+    tests = {};
+
+    var testPath = "../utils/test/" + spec.tests + ".js";
+    var deps = spec.deps;
+    $.ajax({
+      dataType: "script",
+      url: testPath,
+      success: function(){ init(deps); },
+      error: function(){ console.error(arguments); }
+    })
+  }
+
   var exported = {
     init: init,
-    util: Khan.Util
+    util: Khan.Util,
+    run: setupTests,
+    loadTest: loadTest
   };
 
   return exported;
