@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html data-require="math graphie expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Transforming Functions</title>
+    <script src="../khan-exercise.js"></script>
+
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+             
+            <var id="X_ORIG">randRange( -8, 8 )</var>
+            <var id="Y_ORIG">randRange( -8, 8 )</var>
+            <var id="UP_ORIG">randRangeNonZero( -1, 1 ) </var>
+            
+            <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange( -6, -1 ) : randRange( 1, 6 )</var>
+            <var id="X_SCALE">randRangeNonZero(-1, 1)</var>
+            <var id="Y_SCALE">randRangeNonZero(-1, 1)</var>
+            <var id="Y_SHIFT" data-ensure="abs (Y_ORIG * FLIP + Y_SHIFT) < 9 && (Y_ORIG * FLIP + Y_SHIFT) * UP_ORIG * FLIP < 7">randRangeNonZero( -6 , 6 )</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <div class="problem">
+                    <p><code>\color{red}{f(x)}</code> is graphed in <span class="hint_red">red</span>.</p>
+                    <p><code>\color{blue}{g(x)}</code> is graphed in <span class="hint_blue">blue</span>.</p>
+                    <p>What is <code>\color{blue}{g(x)}</code> in terms of <code>\color{red}{f(x)}</code>?</p>
+                </div>
+                <div class="graphie" id="G">
+                    graphInit({
+                        range: 20,
+                        scale: 10,
+                        labelStep: 1,
+                        axisArrows: "<->"
+                    })
+
+                    style({
+                        stroke: "red",
+                        strokeWidth: 2,
+                        arrows: null
+                    });
+
+                    plot( function( x ) {
+                        return UP_ORIG * pow(( x + X_ORIG), 2 ) + Y_ORIG;
+                    }, [-20, 20]);
+
+                    style({
+                        stroke: "blue"
+                    });
+
+                    plot( function( x ) {
+                        return FLIP * UP_ORIG * pow(( x + X_ORIG + X_SHIFT), 2 ) + FLIP * Y_ORIG + Y_SHIFT;
+                    }, [-20, 20]);
+                </div>
+
+                <p class="solution"><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></p>
+                <ul class="choices" data-show="5" data-none="true">
+                    <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],-Y_SHIFT])</var></code></li>
+                    <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", -X_SHIFT]]],Y_SHIFT])</var></code></li>
+                    <li><code><var>expr(["+",["*", -FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></li>
+                    <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", -X_SHIFT]]],-Y_SHIFT])</var></code></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="hints">
+            <div data-if="FLIP === -1">
+                <p>To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by <code>-1</code>, giving <code class="hint_purple">-f(x)</code>.</p>
+
+                <div class="graphie" data-update="G">
+                    style({
+                        stroke: "purple"
+                    });
+                    plot( function( x ) {
+                        return FLIP * UP_ORIG * pow(( x + X_ORIG ), 2 ) - Y_ORIG;
+                    }, [-10, 10]);
+                </div>
+            </div>
+
+            <div>
+                <p>Shift the function <code>-f(x)</code> <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> <var>(abs(Y_SHIFT) === 1 ? "unit" : "units")</var>, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</p>
+
+                <div class="graphie" data-update="G">
+                    style({
+                        strokeWidth: 2,
+                        stroke: "green",
+                        arrows: "->",
+                        strokeDasharray: "- "
+                    });
+
+                    plot( function( x ) {
+                        return FLIP * UP_ORIG * pow(( x + X_ORIG ), 2 ) + FLIP * Y_ORIG + Y_SHIFT;
+                    }, [-10, 10]); strokeDasharray: "- "
+
+                    style({
+                        strokeWidth: 2,
+                        strokeDasharray: ""
+                    });
+
+                    path([ [-X_ORIG, FLIP * Y_ORIG], [-X_ORIG, FLIP * Y_ORIG + Y_SHIFT] ]);
+                </div>
+            </div>
+
+            <div>
+                <p>Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>(X_SHIFT &gt; 0 ? "left " : "right ") + abs(X_SHIFT)</var> <var>(abs(X_SHIFT) === 1 ? "unit" : "units")</var>, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</p>
+
+                <p>We now know that <code>g(x)</code> = <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
+
+                <div class="graphie" data-update="G">
+                    style({
+                        stroke: "blue",
+                        strokeWidth: 2,
+                        strokeDasharray: ""
+                    });
+
+                    path([ [ -X_ORIG, FLIP * Y_ORIG + Y_SHIFT ], [ -X_ORIG - X_SHIFT , FLIP * Y_ORIG + Y_SHIFT] ]);
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
