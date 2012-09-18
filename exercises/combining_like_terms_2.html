@@ -43,11 +43,11 @@
             + (E * A + F * B === 1 ? "|" : "" ) + (E * A + F * B === -1 ?
             "|[-\\u2212]" : "") + ")\\s*" + X
         </var>
-        <var id="TERM_C">(C &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(C)</var>
-        <var id="TERM_C_D">((C + D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(C + D)</var>
-        <var id="TERM_FD">((F * D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(F * D)</var>
-        <var id="TERM_C_FD">((C + F * D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(C + F * D)</var>
-        <var id="TERM_EC_FD">((E * C + F * D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(E * C + F * D)</var>
+        <var id="TERM_C">C === 0 ? "" : ((C &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(C))</var>
+        <var id="TERM_C_D">(C + D) === 0 ? "" : ((C + D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(C + D)</var>
+        <var id="TERM_FD">(F * D) === 0 ? "" : ((F * D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(F * D)</var>
+        <var id="TERM_C_FD">(C + F * D) === 0 ? "" : ((C + F * D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(C + F * D)</var>
+        <var id="TERM_EC_FD">(E * C + F * D) === 0 ? "" : ((E * C + F * D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(E * C + F * D)</var>
     </div>
     <p class="question">
         Simplify the following expression:
@@ -101,7 +101,8 @@
                         <code>\qquad\pink{<var>expr(["*", A + (F * B), X])</var>} + <var>F * D</var></code>
                     </p>
                 </div>
-                <p>The simplified expression is <code><var>expr(["+", ["*", A + (F * B), X], F * D])</var></code>
+                <p data-if="F * D === 0">The simplified expression is <code><var>expr(["*", A + (F * B), X])</var></code>
+                <p data-else>The simplified expression is <code><var>expr(["+", ["*", A + (F * B), X], F * D])</var></code>
             </div>
         </div>
 
@@ -157,7 +158,8 @@
                         \blue{<var>C + F * D</var>}</code>
                     </p>
                 </div>
-                <p>The simplified expression is <code><var>expr(["+", ["*", F * B, X], C + F * D])</var></code>
+                <p data-if="C + F * D === 0">The simplified expression is <code><var>expr(["*", F * B, X])</var></code>
+                <p data-else>The simplified expression is <code><var>expr(["+", ["*", F * B, X], C + F * D])</var></code>
             </div>
         </div>
 
@@ -243,7 +245,8 @@
                         \blue{<var>E * C + F * D</var>}</code>
                     </p>
                 </div>
-                <p>The simplified expression is <code><var>expr(["+", ["*", E * A + F * B, X], E * C + F * D])</var></code>
+                <p data-if="E * C + F * D === 0">The simplified expression is <code><var>expr(["*", E * A + F * B, X])</var></code>
+                <p data-else>The simplified expression is <code><var>expr(["+", ["*", E * A + F * B, X], E * C + F * D])</var></code>
             </div>
         </div>
 
@@ -323,7 +326,8 @@
                         \blue{<var>E * C + F * D</var>}</code>
                     </p>
                 </div>
-                <p>The simplified expression is <code><var>expr(["+", ["*", E * A + F * B, X], E * C + F * D])</var></code>
+                <p data-if="E * C + F * D">The simplified expression is <code><var>expr(["*", E * A + F * B, X])</var></code>
+                <p data-else>The simplified expression is <code><var>expr(["+", ["*", E * A + F * B, X], E * C + F * D])</var></code>
             </div>
         </div>
 
