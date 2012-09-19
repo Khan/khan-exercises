@@ -8,8 +8,8 @@
 <body>
     <div class="exercise">
         <div class="vars" data-ensure="FUNCN.fText !== FUNCD.fText">
-            <var id="FUNCN">generateSpecialFunction("x")</var>
-            <var id="FUNCD">generateSpecialFunction("x")</var>
+            <var id="FUNCN" data-ensure="FUNCN.hints == null || FUNCN.hints.length <= 4">generateSpecialFunction("x")</var>
+            <var id="FUNCD" data-ensure="FUNCD.hints == null || FUNCD.hints.length <= 4">generateSpecialFunction("x")</var>
 
             <var id="N_F">FUNCN.fText</var>
             <var id="N_DF">FUNCN.ddxFText</var>

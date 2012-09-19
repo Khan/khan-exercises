@@ -10,8 +10,8 @@ $.extend(KhanUtil, {
     initAutoscaledGraph: function(range, options) {
         var graph = KhanUtil.currentGraph;
         options = $.extend({
-            xpixels: 514,
-            ypixels: 514,
+            xpixels: 500,
+            ypixels: 500,
             xdivisions: 20,
             ydivisions: 20,
             labels: true,

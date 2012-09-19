@@ -979,6 +979,7 @@ $.extend(Khan.answerTypes, {
 
         var area = $("<div />");
         area.append(realArea).append(imagArea).tmpl();
+        area.find("input").css("width", "50px");
         solutionarea.append(area);
 
         var ret = function() {

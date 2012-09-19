@@ -36,56 +36,56 @@
 
                 <div class="graphie" id="parent_block">
                     initSliceClone(["current_block_1", "current_block_2"]);
-                    init({range: [[0, 1], [0, 1]], scale: [ 600, 25]});
+                    init({range: [[0, 1], [0, 1]], scale: [ 500, 25]});
                     rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Current Block 1:</p>
 
                 <div class="graphie" id="current_block_1">
-                    init({range: [[0, 1], [0, 1]], scale: [600, 25]});
+                    init({range: [[0, 1], [0, 1]], scale: [500, 25]});
                     rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Goal Block 1:</p>
 
                 <div class="graphie" id="goal_block_2">
-                    init({range: [[0, 1], [0, 1]], scale: [600 * ANSWER_1, 25]});
+                    init({range: [[0, 1], [0, 1]], scale: [500 * ANSWER_1, 25]});
                     rectchart([1, 0], [BLUE, "#999"]);
                 </div>
 
                 <p>Current Block 2:</p>
 
                 <div class="graphie" id="current_block_2">
-                    init({range: [[0, 1], [0, 1]], scale: [600, 25]});
+                    init({range: [[0, 1], [0, 1]], scale: [500, 25]});
                     rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Goal Block 2:</p>
 
                 <div class="graphie" id="goal_block_2">
-                    init({range: [[0, 1], [0, 1]], scale: [600 * ANSWER_2, 25]});
+                    init({range: [[0, 1], [0, 1]], scale: [500 * ANSWER_2, 25]});
                     rectchart([1, 0], [ORANGE, "#999"]);
                 </div>
 
                 <div class="solution" data-type="custom">
                     <div class="instruction">
                         <div style="margin-bottom: 10px;">
-                            <span>Cut Starting Block into</span>
+                            <span>Cut Starting Block into</span><br>
                             <input type="button" value="-" class="simple-button" onclick="KhanUtil.changePieces(false)">
                             <span id="pieces" style="display: inline-block; width: 54px; text-align: center;">1 piece</span>
                             <input type="button" value="+" class="simple-button" onclick="KhanUtil.changePieces(true)">
                         </div>
 
                         <div style="margin-bottom: 10px;">
-                            <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 1</span>
+                            <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 1</span><br>
                             <input type="button" value="-" class="simple-button" onclick="KhanUtil.changeTimes(false, 'current_block_1')" disabled="disabled">
                             <span id="current_block_1_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
                             <input type="button" value="+" class="simple-button" onclick="KhanUtil.changeTimes(true, 'current_block_1')">
                         </div>
 
                         <div style="margin-bottom: 10px;">
-                            <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 2</span>
+                            <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 2</span><br>
                             <input type="button" value="-" class="simple-button" onclick="KhanUtil.changeTimes(false, 'current_block_2')" disabled="disabled">
                             <span id="current_block_2_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
                             <input type="button" value="+" class="simple-button" onclick="KhanUtil.changeTimes(true, 'current_block_2')">

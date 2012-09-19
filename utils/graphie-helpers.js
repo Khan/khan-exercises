@@ -27,10 +27,10 @@ function numberLine(start, end, step, x, y, denominator) {
                     lab = base + "\\frac{" + Math.abs(Math.round(frac * denominator)) + "}{" + denominator + "}";
                 }
             }
-            graph.label([x + i, y - 0.2], lab, "below", { labelDistance: 3 });
+            graph.label([x + i, y - 0.2], "\\small{" + lab + "}", "below", { labelDistance: 3 });
         }
         else {
-            graph.label([x + i, y - 0.2], (start + i).toFixed(decPlaces), "below", { labelDistance: 3 });
+            graph.label([x + i, y - 0.2], "\\small{" + (start + i).toFixed(decPlaces) + "}", "below", { labelDistance: 3 });
         }
     }
     return set;
@@ -76,7 +76,7 @@ function rectchart(divisions, colors, y) {
     $.each(divisions, function(i, slice) {
         var x = partial / sum, w = slice / sum;
         set.push(graph.path([[x, y], [x + w, y], [x + w, y + 1], [x, y + 1]], {
-            stroke: "#fff",
+            stroke: KhanUtil.BACKGROUND,
             fill: colors[i]
         }));
         partial += slice;
@@ -84,7 +84,7 @@ function rectchart(divisions, colors, y) {
 
     for (var i = 0; i <= sum; i++) {
         var x = i / sum;
-        set.push(graph.line([x, y + 0], [x, y + 1], { stroke: "#fff" }));
+        set.push(graph.line([x, y + 0], [x, y + 1], { stroke: KhanUtil.BACKGROUND }));
     }
 
     return set;
