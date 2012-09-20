@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<!-- TODO: Improve hints -->
+<html data-require="math graphie math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Trigonometry 2.5</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        function fractionSQRoot(b, root){
+            var natRoot = KhanUtil.splitRadical(root)[0];
+            var underRoot =  KhanUtil.splitRadical(root)[1];
+            var d = KhanUtil.reduce(natRoot*underRoot, b)[0];
+            var n = KhanUtil.reduce(natRoot*underRoot,b)[1];
+            if ( d === 1 ){
+                if(n != 1){
+                    return   n + "\\sqrt{" + underRoot +"}";
+                }
+                else{
+                    return  "\\sqrt{" +underRoot + "}";
+                }
+
+            }
+            else if( underRoot != 1 ){
+                if(n != 1){
+                    return  "\\frac{" + n + "\\sqrt{" + underRoot +"} }{"+ d + "}";
+                }
+                else{
+                    return  "\\frac{ \\sqrt{" +underRoot + "}}{" + d + "}";
+                }
+            }
+            else{
+                return "\\frac{" + n + "}{" + d + "}";
+            }
+        }
+
+        function bestTriangle(width, height, A, B, C, a, b, c, whichAngle, keyValues) {
+            var scale = 8 / Math.sqrt(width * width + height * height);
+            width *= scale;
+            height *= scale;
+
+            with ( KhanUtil.currentGraph ) {
+                // Leave some space for the labels
+                init({ range: [[-1.5, width + 1], [-1, height + 1]] });
+                path([ [0, 0], [width, 0], [0, height], true ]);
+
+                var ang=Math.round(Math.atan(height/width) *(180/Math.PI));
+                if ( whichAngle === "ACB" || whichAngle === "BCA" ){
+                    arc( [0, 0], 0.5, 0, 90 );
+                }
+                else if ( whichAngle === "ABC" || whichAngle === "CBA" ){
+                    arc( [width, 0], 0.5, 180 - ang, 180 )
+                    
+                    //add degrees label
+                    if( height > width){
+                        label( [width-0.25, 0.3], keyValues.ANGLE_DEGREES+"^\\circ" , "left" );;
+                    }else{
+                        label( [width-0.4*width/height, 0.2], keyValues.ANGLE_DEGREES+"^\\circ" , "left" );;
+                    }
+                    
+                }
+                else if ( whichAngle === "CAB" || whichAngle === "BAC" ){
+                    arc( [0, height], 0.5, 270, -ang );
+                    
+                    //add degrees label
+                    if( height > width){
+                        label( [scale*width/height,height], keyValues.ANGLE_DEGREES+"^\\circ" , "below right" );;
+                    }else{
+                        label( [0, 0.87*height], keyValues.ANGLE_DEGREES+"^\\circ" , "below right" );;
+                    }
+                    
+                }
+
+                label( [0, height], A, "above left" );
+                label( [0, 0], C, "below left" );
+                label( [width, 0], B, "below right" );
+                if( "AB" in keyValues ){
+                    label( [width/2, height/2], keyValues.AB, "above right", {
+                        labelDistance: 3
+                    } );
+                }
+                if ( "AC" in keyValues ){
+                    label( [0, height/2],keyValues.AC , "left" );
+                }
+                if ( "CA" in keyValues ){
+                    label( [0, height/2],keyValues.CA , "left" );
+                }
+
+                if ( "BC" in keyValues ){
+                    label( [width/2, 0], keyValues.BC, "below" );
+                }
+                if ( "CB" in keyValues ){
+                    label( [width/2, 0], keyValues.CB, "below" );
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="AC, BC">shuffle(randFromArray([[6,8], [8, 15], [10, 24], [12,16], [14, 48], [20, 48], [16, 30]]))</var>
+            <var id="CB">BC</var>
+            <var id="AB">sqrt(AC * AC + BC * BC)</var>
+            <var id="ANGLE">randFromArray([
+                "ABC",
+                "BAC"
+            ])</var>
+            
+            <var id="WRONG_A" data-ensure="WRONG_A !== AC && WRONG_A !== BC && WRONG_A !== sqrt(AB)">randRange(1, 10)</var>
+            <var id="WRONG_B" data-ensure="WRONG_B !== AC && WRONG_B !== BC && WRONG_B !== WRONG_A && WRONG_B !== sqrt(AB)">randRange(1, 10)</var>
+
+            <var id="OPPOSITE_NAME">(ANGLE.substring(0,1)+ANGLE.substring(2))</var>
+            <var id="OPPOSITE_VALUE">
+                (function(){
+                    if( OPPOSITE_NAME === "AC" ){
+                        return AC;
+                    }
+                    else if( OPPOSITE_NAME === "BC" ){
+                        return CB;
+                    }
+                    return AB;
+                })()
+            </var>
+
+            <var id="HYPOTENUSE_NAME">"AB"</var>
+            <var id="HYPOTENUSE_VALUE">AB</var>
+
+            <var id="ADJACENT_NAME">ANGLE.substring(1)</var>
+            <var id="ADJACENT_VALUE">
+                (function(){
+                    if( ADJACENT_NAME === "AC" ){
+                        return AC;
+                    }
+                    else if( ADJACENT_NAME === "BC" ){
+                        return BC;
+                    }
+
+                    return AB;
+                })()
+            </var>
+            <var id="SIMPLE_TAN">fraction( reduce(OPPOSITE_VALUE, ADJACENT_VALUE)[0], reduce(OPPOSITE_VALUE, ADJACENT_VALUE)[1] , false, false, false, false)</var>
+            <var id="TAN">OPPOSITE_VALUE / ADJACENT_VALUE</var>
+            <var id="SIMPLE_SIN">fraction(reduce(OPPOSITE_VALUE, AB)[0], reduce(OPPOSITE_VALUE, AB)[1])</var>
+            <var id="SIN">OPPOSITE_VALUE / AB</var>
+            <var id="SIMPLE_COS">fraction(reduce(ADJACENT_VALUE, AB)[0], reduce(ADJACENT_VALUE, AB)[1])</var>
+            <var id="COS">ADJACENT_VALUE / AB</var>
+            <var id="ANGLE_DEGREES">round(Math.asin(OPPOSITE_VALUE/AB)*360/2/3.14159*10)/10</var>
+            
+        </div>
+
+        <div class="problems">
+
+            <div id="sin">
+                <div class="problem">
+                    <p><code>\overline{AB}</code> = <code><var>AB</var></code></p>
+                    <p><code>\displaystyle \angle <var>ANGLE</var> = <var>ANGLE_DEGREES</var> ^{\circ} </code></p>
+                </div>
+                <div class="question">
+                    <p><code>\overline{<var>OPPOSITE_NAME</var>} = {?}</code></p>
+
+                    <div class="graphie">
+                        var options = {};
+                        options[ OPPOSITE_NAME ] = "?";
+                        options[ "AB" ] = AB;
+                        options[ "ANGLE_DEGREES" ] = ANGLE_DEGREES;
+                        bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
+                        path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
+                    </div>
+                    <p>Round your answer to the nearest whole number</p>
+                </div>
+
+                <p class="solution" data-type="rational"><var>OPPOSITE_VALUE</var></p>
+
+                <div class="hints" data-apply="appendContents">
+                    <p><code>\overline{AB}</code> is the <b>hypotenuse</b></p>
+                    <p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
+                    <p>SOH CAH TOA</p>
+                    <p>We know the hypotenuse and need to solve for the opposite side so we can use the sine function (SOH)</p>
+                    <p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = \frac{\text{opposite}}{\text{hypotenuse}} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{<var>HYPOTENUSE_NAME</var>}}</code></p>
+                    <p><code>\displaystyle \sin(<var>ANGLE_DEGREES</var>^{\circ}) = \frac{\overline{<var>OPPOSITE_NAME</var>}}{<var>HYPOTENUSE_VALUE</var>}</code></p>
+                    <p><code>\displaystyle <var>AB</var> \times \sin(<var>ANGLE_DEGREES</var>^{\circ}) = \text{ } \overline{<var>OPPOSITE_NAME</var>}</code></p>
+                    <div>
+                        <p>Simplify, rounding to the nearest whole number</p>
+                        <p class="final_answer"><code>\overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sin2">
+                <div class="problem">
+                    <p><code>\overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
+                    <p><code>\displaystyle \angle <var>ANGLE</var> = <var>ANGLE_DEGREES</var> ^{\circ} </code></p>
+                </div>
+                <div class="question">
+                    <p><code>\overline{AB} = {?}</code></p>
+
+                    <div class="graphie">
+                        var options = {};
+                        options[ OPPOSITE_NAME ] = OPPOSITE_VALUE;
+                        options[ "AB" ] = "?";
+                        options[ "ANGLE_DEGREES" ] = ANGLE_DEGREES;
+                        bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
+                        path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
+                    </div>
+                    <p>Round your answer to the nearest whole number</p>
+                </div>
+
+                <div class="solution" data-type="rational"><var>AB</var></div>
+
+                <div class="hints" data-apply="appendContents">
+                    <p><code>\overline{AB}</code> is the <b>hypotenuse</b></p>
+                    <p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
+                    <p>SOH CAH TOA</p>
+                    <p>We know the opposite side and need to solve for the hypotenuse so we can use the sin function (SOH).</p>
+                    <p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = \frac{\text{opposite}}{\text{hypotenuse}}  = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{<var>HYPOTENUSE_NAME</var>}}</code></p>
+                    <p><code>\displaystyle \sin(<var>ANGLE_DEGREES</var>^{\circ}) = \frac{<var>OPPOSITE_VALUE</var>}{\overline{<var>HYPOTENUSE_NAME</var>}}</code></p>
+                    <p><code>\displaystyle \overline{<var>HYPOTENUSE_NAME</var>} = \frac{<var>OPPOSITE_VALUE</var>}{\sin(<var>ANGLE_DEGREES</var>^{\circ})}</code></p>
+                    <div>
+                        <p>Simplify, rounding to the nearest whole number</p>
+                        <p class="final_answer"><code>\overline{<var>HYPOTENUSE_NAME</var>} = <var>HYPOTENUSE_VALUE</var></code></p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="cos">
+                <div class="problem">
+                    <p><code>\overline{AB} = <var>AB</var></code></p>
+                    <p><code>\displaystyle \angle <var>ANGLE</var> = <var>ANGLE_DEGREES</var> ^{\circ} </code></p>
+                </div>
+                <div class="question">
+                    <p><code>\overline{<var>ADJACENT_NAME</var>} = {?}</code></p>
+
+                    <div class="graphie">
+                        var options = {};
+                        options[ ADJACENT_NAME ] = "?";
+                        options[ "AB" ] = AB;
+                        options[ "ANGLE_DEGREES" ] = ANGLE_DEGREES;
+                        bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
+                        path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
+                    </div>
+                    <p>Round your answer to the nearest whole number</p>
+                </div>
+
+                <div class="solution" data-type="rational"><var>ADJACENT_VALUE</var></div>
+
+                <div class="hints" data-apply="appendContents">
+                    <p><code>\overline{AB}</code> is the <b>hypotenuse</b></p>
+                    <p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
+                    <p>SOH CAH TOA</p>
+                    <p>We know the hypotenuse and need to solve for the adjacent side so we can use the cos function (CAH)</p>>
+                    <p><code>\displaystyle \cos( \angle <var>ANGLE</var> ) = \frac{\text{adjacent}}{\text{hypotenuse}}  = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{<var>HYPOTENUSE_NAME</var>}}</code></p>
+                    <p><code>\displaystyle \cos(<var>ANGLE_DEGREES</var>^{\circ}) = \frac{\overline{<var>ADJACENT_NAME</var>}}{<var>AB</var>}</code></p>
+                    <p><code>\displaystyle <var>AB</var> \times \cos(<var>ANGLE_DEGREES</var>^{\circ}) = \text{ } \overline{<var>ADJACENT_NAME</var>}</code></p>
+                    <div>
+                        <p>Simplify, rounding to the nearest whole number</p>
+                        <p class="final_answer"><code>\overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cos2">
+                <div class="problem">
+                    <p><code>\overline{<var>ADJACENT_NAME</var>}=<var>ADJACENT_VALUE</var></code></p>
+                    <p><code>\displaystyle \angle <var>ANGLE</var> = <var>ANGLE_DEGREES</var> ^{\circ} </code></p>
+                </div>
+                <div class="question">
+                    <p><code>\overline{AB} = {?}</code></p>
+
+                    <div class="graphie">
+                        var options = {};
+                        options[ ADJACENT_NAME ] = ADJACENT_VALUE;
+                        options[ "AB" ] = "?";
+                        options[ "ANGLE_DEGREES" ] = ANGLE_DEGREES;
+                        bestTriangle( BC, AC, "A", "B", "C", "", "","", ANGLE, options );
+                        path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
+                    </div>
+                    <p>Round your answer to the nearest whole number</p>
+                </div>
+
+                <div class="solution" data-type="rational"><var>AB</var></div>
+
+                <div class="hints" data-apply="appendContents">
+                    <p><code>\overline{AB}</code> is the <b>hypotenuse</b></p>
+                    <p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
+                    <p>SOH CAH TOA</p>
+                    <p>We know the adjacent side and need to solve for the hypotenuse so we can use the cos function (CAH)</p>
+                    <p><code>\displaystyle \cos( \angle <var>ANGLE</var> ) = \frac{\text{adjacent}}{\text{hypotenuse}}  = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{<var>HYPOTENUSE_NAME</var>}}</code></p>
+                    <p><code>\displaystyle \cos(<var>ANGLE_DEGREES</var>^{\circ}) = \frac{<var>ADJACENT_VALUE</var>}{\overline{<var>HYPOTENUSE_NAME</var>}}</code></p>
+                    <p><code>\displaystyle \overline{<var>HYPOTENUSE_NAME</var>} = \frac{<var>ADJACENT_VALUE</var>}{\cos(<var>ANGLE_DEGREES</var>^{\circ})}</code></p>
+                    <div>
+                        <p>Simplify, rounding to the nearest whole number</p>
+                        <p class="final_answer"><code>\overline{<var>HYPOTENUSE_NAME</var>} = <var>HYPOTENUSE_VALUE</var></code></p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="tan">
+                <div class="problem">
+                    <p><code>\overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
+                    <p><code>\displaystyle \angle <var>ANGLE</var> = <var>ANGLE_DEGREES</var> ^{\circ} </code></p>
+                </div>
+                <div class="question">
+                    <p><code>\overline{<var>ADJACENT_NAME</var>} = {?}</code></p>
+
+                    <div class="graphie">
+                        var options = {};
+                        options[ ADJACENT_NAME ] = "?";
+                        options[ OPPOSITE_NAME ] = OPPOSITE_VALUE;
+                        options[ "ANGLE_DEGREES" ] = ANGLE_DEGREES;
+                        bestTriangle( BC, AC, "A", "B", "C", "", "", "" , ANGLE, options );
+                        path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
+                    </div>
+                    <p>Round your answer to the nearest whole number</p>
+                </div>
+
+                <div class="solution" data-type="rational"><var>ADJACENT_VALUE</var></div>
+
+                <div class="hints" data-apply="appendContents">
+                    <p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
+                    <p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
+                    <p>SOH CAH TOA</p>
+                    <p>We know the opposite side and need to solve for the adjacent side so we can use the tan function (TOA)</p>
+                    <p><code>\displaystyle \tan( \angle <var>ANGLE</var> ) = \frac{\text{opposite}}{\text{adjacent}} = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{<var>ADJACENT_NAME</var>}}</code></p>
+                    <p><code>\displaystyle \tan(<var>ANGLE_DEGREES</var>^{\circ}) = \frac{<var>OPPOSITE_VALUE</var>}{\overline{<var>ADJACENT_NAME</var>}}</code></p>
+                    <p><code>\displaystyle \overline{<var>ADJACENT_NAME</var>} = \frac{<var>OPPOSITE_VALUE</var>}{\tan(<var>ANGLE_DEGREES</var>^{\circ})}</code></p>
+                    <div>
+                        <p>Simplify, rounding to the nearest whole number</p>
+                        <p class="final_answer"><code>\overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="tan2">
+                <div class="problem">
+                    <p><code>\overline{<var>ADJACENT_NAME</var>} = <var>ADJACENT_VALUE</var></code></p>
+                    <p><code>\displaystyle \angle <var>ANGLE</var> = <var>ANGLE_DEGREES</var> ^{\circ} </code></p>
+                </div>
+                <div class="question">
+                    <p><code>\overline{<var>OPPOSITE_NAME</var>} = </code> ?</p>
+
+                    <div class="graphie">
+                        var options = {};
+                        options[ OPPOSITE_NAME ] = "?";
+                        options[ ADJACENT_NAME ] = ADJACENT_VALUE;
+                        options[ "ANGLE_DEGREES" ] = ANGLE_DEGREES;
+                        bestTriangle( BC, AC, "A", "B", "C", "", "", "", ANGLE, options );
+                        path([ [ 0.4, 0 ], [ 0.4, 0.4 ], [ 0, 0.4 ] ]);
+                    </div>
+                    <p>Round your answer to the nearest whole number</p>
+                </div>
+
+                <div class="solution" data-type="rational"><var>OPPOSITE_VALUE</var></div>
+
+                <div class="hints" data-apply="appendContents">
+                    <p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
+                    <p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
+                    <p>SOH CAH TOA</p>
+                    <p>We know the adjacent side and need to solve for the opposite side so we can use the tan function (TOA)</p>
+                    <p><code>\displaystyle \tan( \angle <var>ANGLE</var> ) = \frac{\text{opposite}}{\text{adjacent}}  = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{<var>ADJACENT_NAME</var>}}</code></p>
+                    <p><code>\displaystyle \tan(<var>ANGLE_DEGREES</var>^{\circ}) = \frac{\overline{<var>OPPOSITE_NAME</var>}}{<var>ADJACENT_VALUE</var>}</code></p>
+                    <p><code>\displaystyle <var>ADJACENT_VALUE</var> \times \tan(<var>ANGLE_DEGREES</var>^{\circ}) = \overline{<var>OPPOSITE_NAME</var>}</code></p>
+                    <div>
+                        <p>Simplify, rounding to the nearest whole number</p>
+                        <p class="final_answer"><code>\overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
