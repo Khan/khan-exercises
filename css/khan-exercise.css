@@ -121,6 +121,73 @@ body.debug .graphie { outline: 1px dashed #fdd; }
   color: #fff;
   text-decoration: none;
 }
+
+#answer_area .calculator .history {
+    font: 14px/1.5 Menlo, Monaco, Courier, monospace;
+    margin: 0 0 10px;
+    width: 183px;
+    max-height: 150px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#answer_area .calculator .history .output {
+    text-align: right;
+}
+
+#answer_area .calculator .history input {
+    box-sizing: border-box;
+    display: block;
+    font: inherit;
+    margin: 5px 3px 3px;
+    width: 169px;
+    padding-right: 25px;
+}
+
+#answer_area .calculator .history .input {
+    position: relative;
+}
+
+#answer_area .calculator .history .status a {
+    position: absolute;
+    font: 10px/1.5 Menlo, Monaco, Courier, monospace;
+    color: #999;
+    text-decoration: none;
+    line-height: 10px;
+    height: 19px;
+    top: 5px;
+    right: 6px;
+}
+
+#answer_area .calculator .keypad .row {
+    margin: 5px 0;
+}
+
+#answer_area .calculator .keypad .row a {
+    background: #ccc;
+    border-radius: 2px;
+    color: #000;
+    display: inline-block;
+    margin: 0 5px 0 0;
+    text-align: center;
+    text-decoration: none;
+    width: 31px;
+}
+
+#answer_area .calculator .keypad .row a.dark {
+    background: #aaa;
+}
+
+#answer_area .calculator .keypad a sup {
+    vertical-align: super;
+    font-size: 85%;
+    line-height: 0;
+}
+
+#answer_area .calculator .keypad a.wide {
+    width: 67px;
+}
+
 #solutionarea {
     min-height: 35px;
     padding: 10px;

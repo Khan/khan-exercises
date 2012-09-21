@@ -732,7 +732,7 @@ var Khan = (function() {
         }
 
         // Base modules required for every problem
-        Khan.require(["answer-types", "tmpl", "underscore", "jquery.adhesion", "hints"]);
+        Khan.require(["answer-types", "tmpl", "underscore", "jquery.adhesion", "hints", "calculator"]);
 
         Khan.require(document.documentElement.getAttribute("data-require"));
 
@@ -1149,6 +1149,11 @@ var Khan = (function() {
             $(".hint-box").remove();
         }
 
+        // Remove the calculator if it's not specifically allowed for this problem
+        if (problem.data("calculator") == null) {
+            $("#calculator").remove();
+        }
+
         debugLog("removed hints from DOM");
 
         // Evaluate any inline script tags in this exercise's source
@@ -1244,6 +1249,9 @@ var Khan = (function() {
             // Focus the first input
             // Use .select() and on a delay to make IE happy
             var firstInput = solutionarea.find(":input").first();
+            if ($(".calculator input").length) {
+                firstInput = $(".calculator input");
+            }
             setTimeout(function() {
                 if (!firstInput.is(":disabled")) {
                     firstInput.focus();
@@ -2137,6 +2145,92 @@ var Khan = (function() {
 
             return false;
         }
+
+        function initializeCalculator() {
+            var calculator = $(".calculator"),
+                history = calculator.children(".history"),
+                inputRow = history.children(".row.input"),
+                input = inputRow.children("input"),
+                buttons = calculator.find("a"),
+                lastInstr = "",
+                ans;
+
+            var evaluate = function() {
+                var instr = input.val();
+                var row, indiv, output, outstr, outdiv;
+                if ($.trim(instr) !== "") {
+                    lastInstr = instr;
+                    row = $("<div>").addClass("row");
+                    indiv = $("<div>").addClass("input").text(instr).appendTo(row);
+                    try {
+                        output = ans = Calculator.calculate(instr, ans);
+                        if (typeof output === "number") {
+                            outstr = Math.round(output * 1000000000) / 1000000000;
+                        } else {
+                            outstr = output;
+                        }
+                    } catch (e) {
+                        if (e instanceof Calculator.CalculatorError) {
+                            outstr = e.message;
+                        } else {
+                            throw e;
+                        }
+                    }
+                    outdiv = $("<div>").addClass("output").text(outstr).appendTo(row);
+                    inputRow.before(row);
+                }
+
+                input.val("");
+                input[0].scrollIntoView(false);
+            };
+
+            input.on("keyup", function(e) {
+                if (e.which === 13) {
+                    evaluate();
+                    return false;
+                } else if (e.which === 38) {
+                    if (lastInstr !== "") {
+                        input.val(lastInstr);
+                    }
+                    return false;
+                }
+            });
+
+            buttons.on("click", function() {
+                var jel = $(this),
+                    behavior = jel.data("behavior");
+
+                if (behavior != null) {
+                    if (behavior === "bs") {
+                        var val = input.val();
+                        input.val(val.slice(0, val.length - 1));
+                    } else if (behavior === "clear") {
+                        input.val("");
+                        history.children().not(inputRow).remove();
+                    } else if (behavior === "angle-mode") {
+                        Calculator.angleMode = Calculator.angleMode === "DEG" ?
+                            "RAD" : "DEG";
+                        jel.html((Calculator.angleMode === "DEG" ? "<br>" : "")
+                            + Calculator.angleMode);
+                    } else if (behavior === "evaluate") {
+                        evaluate();
+                    }
+                } else {
+                    var text = jel.data("text") || jel.text();
+                    input.val(input.val() + text);
+                }
+
+                input.focus();
+                return false;
+            });
+
+            $(Khan).on("gotoNextProblem", function(event) {
+                input.val("");
+                history.children().not(inputRow).remove();
+            });
+        };
+
+        initializeCalculator();
 
         // Watch for when the next button is clicked
         $("#next-question-button").click(function(ev) {
