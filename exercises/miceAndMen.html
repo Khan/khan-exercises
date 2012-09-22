@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Of Mice and Men Vocab</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="WORDS">["scuttled", "derision", "receptive", "reprehensible", "bemused", "wryly", "solemnly", "aloof", "fawning", "disarming", "brutally", 
+							"sullenness", "contemptuously", "indignation", "appraised", "crestfallen"]</var>
+            <var id="DEFS">["ran playfully and nimbly", "an expression of ridicule or contempt", "open and responsive", "deserving of criticism or censure", 
+							"lost in thought", "cleverly, often with ironic or grim humor", "seriously; gravely", "reserved; emotionally detached", 
+							"humble; spiritless", "displaying no criticism or hostility; ingratiating", "harshly; unfeelingly", 
+							"gloominess; disagreeableness; sulkiness", "despisingly; disrespectfully", "anger aroused by something unjust, unworthy, or mean", 
+							"evaluated; judged", "humiliated; ashamed"]</var>			
+			<var id="A,B,C,D">randRangeUnique( 0, 15, 4 )</var>
+			<var id="WRONG_1">DEFS[A]</var>
+			<var id="WRONG_2">DEFS[B]</var>
+            <var id="WRONG_3">DEFS[C]</var>
+            <var id="RIGHT_1">DEFS[D]</var>
+			<var id="WORD">WORDS[D]</var>
+			<var id="LETTER_ARRAY">["A", "B", "C", "D"]</var>
+
+            <var id="CHOICES">shuffle( [ RIGHT_1, WRONG_1, WRONG_2, WRONG_3 ] )</var>
+			<var id="SOLUTION_INDEX">LETTER_ARRAY[CHOICES.indexOf( RIGHT_1 )]</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <div class="question">
+					<p><code>\Huge{\text{<var>WORD</var>}}</code></p><br />
+					<p><code>\text{A. <var>CHOICES[0]</var>}</code></p>
+					<p><code>\text{B. <var>CHOICES[1]</var>}</code></p>
+					<p><code>\text{C. <var>CHOICES[2]</var>}</code></p>
+					<p><code>\text{D. <var>CHOICES[3]</var>}</code></p>
+				</div>
+                <p class="solution"><code>\text{<var>SOLUTION_INDEX</var>}</code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>\text{A}</code></li>
+					<li><code>\text{B}</code></li>
+					<li><code>\text{C}</code></li>
+					<li><code>\text{D}</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p data-if="D === 0">The squirrel <code><var>WORD</var></code> through the forest.</p>
+			<p data-if="D === 1">The audience's reaction was filled with <code><var>WORD</var></code>, as they thought the play was childish and inappropriate.</p>
+			<p data-if="D === 2">We remained <code><var>WORD</var></code> to his ideas because we knew he was very creative.</p>
+			<p data-if="D === 3">John's behavior was <code><var>WORD</var></code>; he was sent straight to the principal's office.</p>
+			<p data-if="D === 4">Brent looked <code><var>WORD</var></code> as he walked lazily through the hallways.</p>
+			<p data-if="D === 5">The girl smirked <code><var>WORD</var></code> at her friend's joke.</p>
+			<p data-if="D === 6">We bowed our heads <code><var>WORD</var></code> during the moment of silence.</p>
+			<p data-if="D === 7">Evelyn seemed <code><var>WORD</var></code> as she wandered through the cafeteria alone.</p>
+			<p data-if="D === 8">His <code><var>WORD</var></code> affection for her was flattering, but still a little weird.</p>
+			<p data-if="D === 9">Michael's <code><var>WORD</var></code> personality makes him easy to talk to.</p>
+			<p data-if="D === 10">The alligator <code><var>WORD</var></code> tore apart the young zebra.</p>
+			<p data-if="D === 11">The <code><var>WORD</var></code> of the event was emphasized by the sad music playing throughout the building.</p>
+			<p data-if="D === 12">Rebecca stared <code><var>WORD</var></code> at the sixth graders who had taken her backpack.</p>
+			<p data-if="D === 13">I looked back in <code><var>WORD</var></code> after I was told I wouldn't be able to enter the theater.</p>
+			<p data-if="D === 14">Although the house was <code><var>WORD</var></code> for $1 million, the Wagners would be happy selling it for less.</p>
+			<p data-if="D === 14">The team looked <code><var>WORD</var></code> after they found out they had missed the playoffs.</p>
+        </div>
+    </div>
+</body>
+</html>
