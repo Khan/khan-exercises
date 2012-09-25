@@ -317,7 +317,9 @@ var Khan = (function() {
             "simplify": ["math-model", "ast", "expr-helpers", "expr-normal-form", "steps-helpers"],
             "congruency": ["angles", "interactive"],
             "graphie-3d": ["graphie", "matrix"],
-            "circuits": ["interactive","graphie","math"]
+            "circuits": ["interactive","graphie","math"],
+            "mechanics":["interactive","graphie","math"],
+            "projectile":["math","mechanics"]
         },
 
         warnTimeout: function() {

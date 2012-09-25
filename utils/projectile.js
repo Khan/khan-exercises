@@ -48,7 +48,7 @@ $.extend(KhanUtil, {
             MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#answer-angle")[0]]);
         };
 
-        launcher.updateDistance=function(textV,fixed=false){
+        launcher.updateDistance=function(textV,fixed){
             if(textV.value){
                 newVelocity=textV.value/3;
                 if(fixed){
@@ -62,7 +62,7 @@ $.extend(KhanUtil, {
             };
         };
 
-        launcher.updateAngle=function(textAngle,fixed=false){
+        launcher.updateAngle=function(textAngle,fixed){
             if(textAngle.value){
                 launcher.angle=textAngle.value;
                 angle=launcher.angle*DEG_TO_RAD;

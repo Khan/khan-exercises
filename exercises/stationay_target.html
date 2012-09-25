@@ -105,23 +105,23 @@
                     <p id="answer-angle">Angle: <code><var>ANGLE+"\u00B0"</var></code></p>
                     <p id="answer1">
                         Velocity 1: <input type="text" id="velocity_1"
-                                           onchange="launcher.updateDistance(this)"/>m/s  
+                                           onchange="launcher.updateDistance(this,false)"/>m/s  
                         Angle 1: <input type="text" id="angle_1"
-                                        onchange="launcher.updateAngle(this)"/><var>"\u00B0"</var>
+                                        onchange="launcher.updateAngle(this,false)"/><var>"\u00B0"</var>
                         <code></code>
                     </p>
                     <p id="answer2">
                         Velocity 2: <input type="text" id="velocity_2"
-                                           onchange="launcher.updateDistance(this)"/>m/s
+                                           onchange="launcher.updateDistance(this,false)"/>m/s
                         Angle 2: <input type="text" id="angle_2" 
-                                        onchange="launcher.updateAngle(this)"/><var>"\u00B0"</var>
+                                        onchange="launcher.updateAngle(this,false)"/><var>"\u00B0"</var>
                         <code></code>
                     </p>
                     <p id="answer3">
                         Velocity 3: <input type="text" id="velocity_3"
-                                           onchange="launcher.updateDistance(this)"/>m/s
+                                           onchange="launcher.updateDistance(this,false)"/>m/s
                         Angle 3: <input type="text" id="angle_3"
-                                 onchange="launcher.updateAngle(this)"/><var>"\u00B0"</var>
+                                 onchange="launcher.updateAngle(this,false)"/><var>"\u00B0"</var>
                         <code></code>
                     </p>
                     <p id="reasonWrong"><code></code></p>
@@ -281,11 +281,11 @@
                     </p>
                     <p id="answer-angle1">Angle 1: 
                         <input type="text" id="angle_1"
-                               onchange="launcher.updateAngle(this)"/><var>"\u00B0"</var><code></code>
+                               onchange="launcher.updateAngle(this,false)"/><var>"\u00B0"</var><code></code>
                     </p>
                     <p id="answer-angle2">Angle 2: 
                         <input type="text" id="angle_2"
-                               onchange="launcher.updateAngle(this)"/><var>"\u00B0"</var><code></code>
+                               onchange="launcher.updateAngle(this,false)"/><var>"\u00B0"</var><code></code>
                     </p>
                     <p id="answer-angle3">90-angle 1: 
                         <input type="text" id="angle_3"/><var>"\u00B0"</var><code></code>
