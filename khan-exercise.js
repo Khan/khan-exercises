@@ -1149,9 +1149,11 @@ var Khan = (function() {
             $(".hint-box").remove();
         }
 
-        // Remove the calculator if it's not specifically allowed for this problem
+        // Only show the calculator if it's specifically allowed for this problem
         if (problem.data("calculator") == null) {
-            $("#calculator").remove();
+            $("#calculator").hide();
+        } else {
+            $("#calculator").show();
         }
 
         debugLog("removed hints from DOM");
@@ -1249,7 +1251,7 @@ var Khan = (function() {
             // Focus the first input
             // Use .select() and on a delay to make IE happy
             var firstInput = solutionarea.find(":input").first();
-            if ($(".calculator input").length) {
+            if ($(".calculator input:visible").length) {
                 firstInput = $(".calculator input");
             }
             setTimeout(function() {
@@ -2149,7 +2151,7 @@ var Khan = (function() {
         function initializeCalculator() {
             var calculator = $(".calculator"),
                 history = calculator.children(".history"),
-                inputRow = history.children(".row.input"),
+                inputRow = history.children(".calc-row.input"),
                 input = inputRow.children("input"),
                 buttons = calculator.find("a"),
                 lastInstr = "",
@@ -2160,7 +2162,7 @@ var Khan = (function() {
                 var row, indiv, output, outstr, outdiv;
                 if ($.trim(instr) !== "") {
                     lastInstr = instr;
-                    row = $("<div>").addClass("row");
+                    row = $("<div>").addClass("calc-row");
                     indiv = $("<div>").addClass("input").text(instr).appendTo(row);
                     try {
                         output = ans = Calculator.calculate(instr, ans);

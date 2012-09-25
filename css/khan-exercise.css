@@ -122,6 +122,11 @@ body.debug .graphie { outline: 1px dashed #fdd; }
   text-decoration: none;
 }
 
+#answer_area .calculator {
+    width: 181px;
+    margin: 0 auto;
+}
+
 #answer_area .calculator .history {
     font: 14px/1.5 Menlo, Monaco, Courier, monospace;
     margin: 0 0 10px;
@@ -159,11 +164,11 @@ body.debug .graphie { outline: 1px dashed #fdd; }
     right: 6px;
 }
 
-#answer_area .calculator .keypad .row {
+#answer_area .calculator .keypad .calc-row {
     margin: 5px 0;
 }
 
-#answer_area .calculator .keypad .row a {
+#answer_area .calculator .keypad .calc-row a {
     background: #ccc;
     border-radius: 2px;
     color: #000;
@@ -174,7 +179,7 @@ body.debug .graphie { outline: 1px dashed #fdd; }
     width: 31px;
 }
 
-#answer_area .calculator .keypad .row a.dark {
+#answer_area .calculator .keypad .calc-row a.dark {
     background: #aaa;
 }
 
