@@ -24,7 +24,8 @@
             <var id="X_SCALE">SCALE_TYPE === "x"? SCALE_NUM : 1</var>
             <var id="Y_SCALE">SCALE_TYPE === "y"? SCALE_NUM : 1</var>
             <var id="X_SHIFT">randRangeNonZero(-10 - ceil(X_ORIG/X_SCALE), 10 - ceil(X_ORIG/X_SCALE))</var>
-
+            <var id="WRONG_Y_SCALE">Y_SCALE === 1? 1 : 1/Y_SCALE</var>
+            <var id="WRONG_X_SCALE">X_SCALE === 1? 1 : 1/X_SCALE </var>
             <var id="MULTIPLIER">FLIP * UP_ORIG * X_SCALE * X_SCALE * Y_SCALE </var>
             <var id="Y_SHIFT" data-ensure="abs(MULTIPLIER+ Y_ORIG * FLIP * Y_SCALE + Y_SHIFT) < 16">
                  randRangeNonZero(-10 - ceil(Y_ORIG * FLIP * Y_SCALE) , 10 - ceil(Y_ORIG * FLIP * Y_SCALE))
@@ -72,7 +73,7 @@
                                   Y_SHIFT])
                     </var></code>
                 </p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-show="8">
                     <li> 
                         <code><var>
                             expr(["+",["*", Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
@@ -127,6 +128,198 @@
                         <code><var>
                             expr(["+",["*", Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
                                             ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                   </li>
+                    <li> 
+                    <code><var>
+                        expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                        ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", X_SHIFT]]]],
+                                  Y_SHIFT])
+                    </var></code>
+                   </li>
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+   
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+   
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                   </li>
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                    </li>
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+   
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+   
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                   </li>
+                    <li> 
+                    <code><var>
+                        expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                        ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", X_SHIFT]]]],
+                                  Y_SHIFT])
+                    </var></code>
+                   </li>
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+   
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+   
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", WRONG_Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * WRONG_Y_SCALE, 
+                                            ["*", "f", ["*", WRONG_X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:WRONG_X_SCALE, ["+","x", X_SHIFT]]]],
                                       Y_SHIFT])
                         </var></code>
                    </li>
@@ -134,60 +327,7 @@
                 </ul>
             </div>
         </div>
-
         <div class="hints">
-            <div data-if="FLIP === -1">
-                <p>To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by <code>-1</code>, giving <code class="hint_purple">-f(x)</code>.</p>
-
-                <div class="graphie" data-update="G">
-                    style({
-                        stroke: "purple"
-                    });
-                    plot( function( x ) {
-                        return FLIP * UP_ORIG * pow(( x + X_ORIG ), 2 ) - Y_ORIG;
-                    }, [-10, 10]);
-                </div>
-            </div>
-
-            <div>
-                <p>Shift the function <code>-f(x)</code> <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> <var>(abs(Y_SHIFT) === 1 ? "unit" : "units")</var>, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</p>
-
-                <div class="graphie" data-update="G">
-                    style({
-                        strokeWidth: 2,
-                        stroke: "green",
-                        arrows: "->",
-                        strokeDasharray: "- "
-                    });
-
-                    plot( function( x ) {
-                        return FLIP * UP_ORIG * pow(( x + X_ORIG ), 2 ) + FLIP * Y_ORIG + Y_SHIFT;
-                    }, [-10, 10]); strokeDasharray: "- "
-
-                    style({
-                        strokeWidth: 2,
-                        strokeDasharray: ""
-                    });
-
-                    path([ [-X_ORIG, FLIP * Y_ORIG], [-X_ORIG, FLIP * Y_ORIG + Y_SHIFT] ]);
-                </div>
-            </div>
-
-            <div>
-                <p>Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>(X_SHIFT &gt; 0 ? "left " : "right ") + abs(X_SHIFT)</var> <var>(abs(X_SHIFT) === 1 ? "unit" : "units")</var>, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</p>
-
-                <p>We now know that <code>g(x)</code> = <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
-
-                <div class="graphie" data-update="G">
-                    style({
-                        stroke: "blue",
-                        strokeWidth: 2,
-                        strokeDasharray: ""
-                    });
-
-                    path([ [ -X_ORIG, FLIP * Y_ORIG + Y_SHIFT ], [ -X_ORIG - X_SHIFT , FLIP * Y_ORIG + Y_SHIFT] ]);
-                </div>
-            </div>
         </div>
     </div>
 </body>
