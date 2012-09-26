@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems interactive subhints">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Biology Vocab</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+		<var id="WORDS">["antibiotic resistance", "zoonosis", "bioremediation", "virus", "capsid", "envelope", "provirus", "retrovirus", "reverse transcriptase", 
+						"bacteriophage", "lytic cycle", "virulent", "lysis", "lysogenic cycle", "temperate virus", "prophage", "vector", "protease inhibitor", 
+						"oncogene", "emerging disease", "inactivated virus", "attenuated virus", "viroid", "prion", "proto-oncogene"]</var>
+        <var id="DEFS">["the ability of a population of bacteria to survive the lethal effects of an antibiotic", "a disease that can pass from animals to humans, such as lyme disease", 
+						"the biological treatment of hazardous waste through the use of genetically engineered microorganisms", 
+						"a non-living infectious particle consisting of a nucleic acid and a protein coat, which can destroy a cell", "a protein sheath that surrounds the nucleic acid core of a virus", 
+						"a membrane-like layer that covers the capsids of some viruses", "viral DNA that has attached to a host cell's chromosome and is replicated with the host's DNA", 
+						"a virus that contains single-stranded RNA and produces reverse transcriptase, which converts RNA into DNA", "an enzyme that catalyzes DNA from an RNA template", "a virus that infects bacteria", 
+						"a method of viral replication that results in the destruction of the host cell", "highly destructive; referring to viruses that replicate only through the lytic cycle", 
+						"the disintegration of a cell via the disruption of its membrane", "a method of replication in which a viral genome is replicated as a provirus, keeping the host cell intact", 
+						"describing a virus that replicates through the lysogenic cycle", "the viral DNA of a bacteriophage that has become integrated with the host bacteria's DNA", 
+						"any agent that can incorporate foreign DNA", "a type of drug that blocks the synthesis of new viral capsids; used to treat AIDS", "a gene that causes cancer or uncontrolled cell reproduction", 
+						"a disease that is caused by new or reappearing pathogens, and is increasing in the population", "virus particles that have been destroyed and are used in vaccines", 
+						"severely weakened virus particles that are used in vaccines", "an infectious agent that attacks plants", "an infectious particle that consists only of a protein and contains no DNA or RNA", 
+						"a gene that has the potential to become an oncogene"]</var>
+		<var id="INDEX1">randRangeUnique( 0, WORDS.length - 1, 10 )</var>
+		<var id="INDEX2">shuffle( INDEX1 )</var>
+		<var id="LETTERS">["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]</var>
+		<var id="PARTY22">INDEX2.indexOf( INDEX1[0] )</var>
+		<var id="SOLUTION_INDEX">
+		(function() {
+			var wrongs = [];
+            var i = 0;
+            while( i &lt; INDEX1.length ) {
+				wrongs.push( INDEX2.indexOf( INDEX1[i] ) );
+				i++;
+            }
+
+            return wrongs;
+        })()
+		</var>
+    </div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p><b>Match each word with its correct definition by connecting the points.</b></p>
+				<div>
+                    <p>Definitions: [<a href="#" class="show-subhint" data-subhint="A">A</a>] [<a href="#" class="show-subhint" data-subhint="B">B</a>] 
+					[<a href="#" class="show-subhint" data-subhint="C">C</a>] [<a href="#" class="show-subhint" data-subhint="D">D</a>] 
+					[<a href="#" class="show-subhint" data-subhint="E">E</a>] [<a href="#" class="show-subhint" data-subhint="F">F</a>]
+					[<a href="#" class="show-subhint" data-subhint="G">G</a>] [<a href="#" class="show-subhint" data-subhint="H">H</a>]
+					[<a href="#" class="show-subhint" data-subhint="I">I</a>] [<a href="#" class="show-subhint" data-subhint="J">J</a>]</p>
+                    <div class="subhint" id="A">
+						<li><var>DEFS[INDEX2[0]]</var></li>
+					</div>
+					<div class="subhint" id="B">
+						<li><var>DEFS[INDEX2[1]]</var></li>
+					</div>
+					<div class="subhint" id="C">
+						<li><var>DEFS[INDEX2[2]]</var></li>
+					</div>
+					<div class="subhint" id="D">
+						<li><var>DEFS[INDEX2[3]]</var></li>
+					</div>
+					<div class="subhint" id="E">
+						<li><var>DEFS[INDEX2[4]]</var></li>
+					</div>
+					<div class="subhint" id="F">
+						<li><var>DEFS[INDEX2[5]]</var></li>
+					</div>
+					<div class="subhint" id="G">
+						<li><var>DEFS[INDEX2[6]]</var></li>
+					</div>
+					<div class="subhint" id="H">
+						<li><var>DEFS[INDEX2[7]]</var></li>
+					</div>
+					<div class="subhint" id="I">
+						<li><var>DEFS[INDEX2[8]]</var></li>
+					</div>
+					<div class="subhint" id="J">
+						<li><var>DEFS[INDEX2[9]]</var></li>
+					</div>
+                </div>
+                <div class="graphie" id="number-line">
+                    init({
+                        range: [[-1, 8], [-9.5, 1]]
+                    });
+
+                    for( i = 0; i &lt; 10; i++ ) {
+						circle([1, 0 - i], 1/8, {stroke: "none", fill: "#000000"});
+						circle([6, 0 - i], 1/8, {stroke: "none", fill: "#000000"});
+						label([1, 0 - i], "\\small{\\text{" + WORDS[INDEX1[i]] + "}}", "above", { color: "#000000" });
+						label([6.2, 0 - i], "\\small{\\text{" + LETTERS[i] + "}}", "right", { color: "#000000" });
+					}
+
+                    addMouseLayer();
+					graph.smartPoints = [];
+					graph.smartSegs = [];
+					for( i = 0; i &lt; 10; i++ ) {
+						graph.smartPoints[i] = addMovablePoint({ coord: [2, 0 - i] });
+						graph.smartPoints[i].onMove = function( x, y ) {
+							var newx = round(x);
+							var newy = round(y);
+							if ( abs( newx - 6 ) &lt; 0.001 &amp;&amp; newy &gt; -10 &amp;&amp; abs(newx - x) &lt; 0.25 &amp;&amp; abs(newy - y) &lt; 0.25) {
+								x = newx;
+								y = newy;
+							}
+							return [x, y];
+						};
+						graph.smartSegs[i] = addMovableLineSegment({ coordA: [1, 0 - i], pointZ: graph.smartPoints[i], fixed:true });
+					}
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <span class="instruction">Connect the dots and press "Check Answer".</span>
+                <div class="guess">[graph.smartPoints[0].coord[1], graph.smartPoints[1].coord[1], graph.smartPoints[2].coord[1], 
+									graph.smartPoints[3].coord[1], graph.smartPoints[4].coord[1], graph.smartPoints[5].coord[1], 
+									graph.smartPoints[6].coord[1], graph.smartPoints[7].coord[1], graph.smartPoints[8].coord[1], 
+									graph.smartPoints[9].coord[1]]</div>
+                <div class="validator-function">
+					var j = 0;
+                    for( i = 0; i &lt; 10; i++ ) {
+						if( abs( abs( guess[i] ) - SOLUTION_INDEX[i] ) &gt; 0.01 ) {
+							j++;
+						}
+					}
+                    if ( j &lt; 0.5 ) {
+						return true;
+					}
+					else {
+						return "You have " + j + " answers that are incorrect.";
+					}
+                </div>
+                <div class="show-guess">
+                    graph.movablePoint.setCoord([guess, 0]);
+                </div>
+            </div>
+
+            <div class="hints">
+				<div>
+					<p data-each="INDEX2 as index, WORDBANK"><b><var>LETTERS[index]</var>:</b> <var>DEFS[WORDBANK]</var></p>
+				</div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
