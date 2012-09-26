@@ -12,12 +12,23 @@
              
             <var id="X_ORIG">randRange( -8, 8 )</var>
             <var id="Y_ORIG">randRange( -8, 8 )</var>
-            <var id="UP_ORIG">randRangeNonZero( -1, 1 ) </var>
+            <var id="UP_ORIG">randRangeNonZero( -1, 1 )</var>
             
-            <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange( -6, -1 ) : randRange( 1, 6 )</var>
-            <var id="X_SCALE">randRangeNonZero(-1, 1)</var>
-            <var id="Y_SCALE">randRangeNonZero(-1, 1)</var>
-            <var id="Y_SHIFT" data-ensure="abs (Y_ORIG * FLIP + Y_SHIFT) < 9 && (Y_ORIG * FLIP + Y_SHIFT) * UP_ORIG * FLIP < 7">randRangeNonZero( -6 , 6 )</var>
+            <!-- Scale based on either x or y, to avoid ambiguity and students' brain exploded.  -->
+            <var id="FLIP">randRangeNonZero(-1, 1)</var>
+            <var id="SCALE_TYPE">randFromArray(["x", "y"])</var>
+            <var id="SCALE_FACTOR">randRange(1, 4)</var>
+            <var id="SCALE_DIR">randFromArray(["shrink", "expand"])</var>
+            <!-- data-ensure="abs(X_ORIG/X_SCALE + X_SHIFT) <= 10" -->
+            <var id="SCALE_NUM">SCALE_DIR === "shrink" ? SCALE_FACTOR : 1/SCALE_FACTOR</var>
+            <var id="X_SCALE">SCALE_TYPE === "x"? SCALE_NUM : 1</var>
+            <var id="Y_SCALE">SCALE_TYPE === "y"? SCALE_NUM : 1</var>
+            <var id="X_SHIFT">randRangeNonZero(-10 - ceil(X_ORIG/X_SCALE), 10 - ceil(X_ORIG/X_SCALE))</var>
+
+            <var id="MULTIPLIER">FLIP * UP_ORIG * X_SCALE * X_SCALE * Y_SCALE </var>
+            <var id="Y_SHIFT" data-ensure="abs(MULTIPLIER+ Y_ORIG * FLIP * Y_SCALE + Y_SHIFT) < 16">
+                 randRangeNonZero(-10 - ceil(Y_ORIG * FLIP * Y_SCALE) , 10 - ceil(Y_ORIG * FLIP * Y_SCALE))
+            </var>
         </div>
 
         <div class="problems">
@@ -50,16 +61,76 @@
                     });
 
                     plot( function( x ) {
-                        return FLIP * UP_ORIG * pow(( x + X_ORIG + X_SHIFT), 2 ) + FLIP * Y_ORIG + Y_SHIFT;
+                        return FLIP * Y_SCALE * (UP_ORIG * pow(X_SCALE*( x + X_SHIFT) + X_ORIG, 2) +  Y_ORIG) + Y_SHIFT;
                     }, [-20, 20]);
                 </div>
 
-                <p class="solution"><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></p>
+                <p class="solution">
+                    <code><var>
+                        expr(["+",["*", Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                        ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", X_SHIFT]]]],
+                                  Y_SHIFT])
+                    </var></code>
+                </p>
                 <ul class="choices" data-show="5" data-none="true">
-                    <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],-Y_SHIFT])</var></code></li>
-                    <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", -X_SHIFT]]],Y_SHIFT])</var></code></li>
-                    <li><code><var>expr(["+",["*", -FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></li>
-                    <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", -X_SHIFT]]],-Y_SHIFT])</var></code></li>
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+   
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+   
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", -X_SHIFT]]]],
+                                      -Y_SHIFT])
+                        </var></code>
+                   </li>
+
+                    <li> 
+                        <code><var>
+                            expr(["+",["*", Y_SCALE < 1 ? ["frac", -FLIP, SCALE_FACTOR] : FLIP * Y_SCALE, 
+                                            ["*", "f", ["*", X_SCALE < 1 ? ["frac", 1, SCALE_FACTOR]:X_SCALE, ["+","x", X_SHIFT]]]],
+                                      Y_SHIFT])
+                        </var></code>
+                   </li>
+
                 </ul>
             </div>
         </div>
