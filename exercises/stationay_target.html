@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie word-problems interactive mechanics projectile">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Intuitive Projectile Problems</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="g">9.8</var>
+        <var id="X">0</var>
+        <var id="Y">1</var>
+        <var id="DEG_TO_RAD">Math.PI/180</var>
+        <var id="TARGET_COORDS">[randRange(50,90)/10,randRange(20,50)/10]</var>
+        <var id="INIT_X_PROJECTILE">[0,0]</var>
+        <var id="INIT_A_PROJECTILE">[0,-g]</var>
+        <var id="SOLUTION_ARRAY">[]</var>
+        <var id="INIT_VELOCITY">10</var>
+        <var id="ANGLE">45</var>
+    </div>
+    <div class="problems">
+        <div id="original">
+                <p id="initial-question"> A target is at rest at
+                    <strong><code>\color{blue}{\text{[<var>TARGET_COORDS</var>]}}</code></strong>.
+                    Aim the launcher and adjust the inital velocity of the projectile so that 
+                    it collides with the target. Put your answers in order from the shortest
+                    time until collision to the greatest time until collision.
+                </p>
+                <div class="graphie" id="playingField">
+                    displaySize=[[0,10],[-1,6]];
+                    init({range: displaySize, scale:[50,50]});
+                    addMouseLayer();
+
+                    path([[0,0],[0,6],[10,6],[10,0],[0,0]])
+
+                    world=initNewtonWorld({
+                        timebarCoords:[0.5,-0.5],
+                        timebarSize:9.5
+                    });
+
+                    target=initNewtonObject({
+                        initCoord:TARGET_COORDS,
+                        initVelocity:[0,0],
+                        initAccel:[0,0],
+                        radius:0.1
+                    });
+
+                    world.newtonObjects.push(target);
+                    world.newtonObjects.push(initNewtonObject({
+                        initCoord:[0,0],
+                        initVelocity:[INIT_VELOCITY*Math.cos(ANGLE*DEG_TO_RAD),
+                                      INIT_VELOCITY*Math.sin(ANGLE*DEG_TO_RAD)],
+                        initAccel:INIT_A_PROJECTILE,
+                        radius:0.02,
+                        image: function(x,y){
+                            return circle([x,y],this.radius,{stroke:"black"})
+                        }
+                    }));
+                    projectile=world.newtonObjects.length-1;
+                    world.timebar.maxTime=getMaxTime(world.newtonObjects[projectile],10,0);
+                    world.stopCondition=function(){
+                        if(world.time>=world.timebar.maxTime){
+                            return true;
+                        };
+                        return false;
+                    };
+                    startMotion=function(){
+                        world.startMotion(0.1);
+                    };
+                </div>
+                <button id="start_button" onclick="startMotion()" style=display:inline><code>Play</code></button>
+                <button id="reset_button" onclick="world.reset()" style=display:inline>Click to reset</button>
+                <p id="elapsed_time" style=display:inline>Elapsed time <code><var>0</var></code>s</p>
+            <div class="question">
+                <div class="graphie" data-update="playingField">
+                    launcher=initLauncher({
+                        coord:[INIT_X_PROJECTILE[X]+INIT_VELOCITY/3*Math.cos(ANGLE*DEG_TO_RAD),
+                               INIT_X_PROJECTILE[Y]+INIT_VELOCITY/3*Math.sin(ANGLE*DEG_TO_RAD)],
+                        onMove:function(x,y){
+                            launcher.updateLauncher(x,y);
+                            launcher.updateWorld();
+                        },
+                        updateWorld:function(){
+                            world.newtonObjects[projectile].initVelocity=launcher.initVelocity;
+                            world.timebar.maxTime=KhanUtil.getMaxTime(world.newtonObjects[projectile],10,0);
+                            world.motion(world.time,true);
+                        }
+                    });
+                    deltaX=world.newtonObjects[0].coord[X]-launcher.baseCoord[X];
+                    deltaY=world.newtonObjects[0].coord[Y]-launcher.baseCoord[Y];
+                    solutionAngle=Math.atan(deltaY/deltaX)/DEG_TO_RAD;
+                    for(i=1;i<=3;i++){
+                        solutionAngle+=10;
+                        solutionVelocity=getVelocity(deltaX,deltaY,solutionAngle,-g);
+                        SOLUTION_ARRAY.push([Math.round(solutionVelocity*10)/10,
+                                             Math.round(solutionAngle*10)/10]);
+                    };
+                </div>
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Find 3 different angles, at least 5<var>"\u00B0"</var> apart, that will hit the target.
+                    <p id="answer-init_velocity">Initial Velocity: <code><var>INIT_VELOCITY</var></code> m/s</p>
+                    <p id="answer-angle">Angle: <code><var>ANGLE+"\u00B0"</var></code></p>
+                    <p id="answer1">
+                        Velocity 1: <input type="text" id="velocity_1"
+                                           onchange="launcher.updateDistance(this,false)"/>m/s  
+                        Angle 1: <input type="text" id="angle_1"
+                                        onchange="launcher.updateAngle(this,false)"/><var>"\u00B0"</var>
+                        <code></code>
+                    </p>
+                    <p id="answer2">
+                        Velocity 2: <input type="text" id="velocity_2"
+                                           onchange="launcher.updateDistance(this,false)"/>m/s
+                        Angle 2: <input type="text" id="angle_2" 
+                                        onchange="launcher.updateAngle(this,false)"/><var>"\u00B0"</var>
+                        <code></code>
+                    </p>
+                    <p id="answer3">
+                        Velocity 3: <input type="text" id="velocity_3"
+                                           onchange="launcher.updateDistance(this,false)"/>m/s
+                        Angle 3: <input type="text" id="angle_3"
+                                 onchange="launcher.updateAngle(this,false)"/><var>"\u00B0"</var>
+                        <code></code>
+                    </p>
+                    <p id="reasonWrong"><code></code></p>
+                </div>
+                <div class="guess">
+                    0
+                </div>
+                <div class="validator-function">
+                    myProjectile=world.newtonObjects[projectile];
+                    myTarget=world.newtonObjects[0];
+
+                    correct=true;
+                    for(i=1;i<=3;i++){
+                        collisionTime=projectileCollision(myProjectile,myTarget,
+                                  $("#velocity_"+i).val(),$("#angle_"+i).val());
+                        if(collisionTime>0){
+                            $("#answer"+i+" code").text("&#10004");
+                            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#answer"+i)[0]]);
+                        }
+                        else{
+                            correct=false;
+                            $("#answer"+i+" code").text("&#10008");
+                            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#answer"+i)[0]]);
+                        };
+                    };
+                    if(correct){
+                        angle1=parseFloat($("#angle_1").val());
+                        angle2=parseFloat($("#angle_2").val());
+                        angle3=parseFloat($("#angle_3").val());
+                        if(angle1>angle2 || angle2>angle3){
+                            correct=false;
+                            $("#reasonWrong code").text("Reorder");
+                            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("reasonWrong")[0]]);
+                        }
+                        else if( (angle1+5)>angle2 || (angle2+5)>angle3){
+                            correct=false;
+                            $("#reasonWrong code").text("\\text{Angles closer than 5}"+"\u00B0");
+                            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("reasonWrong")[0]]);
+                        }
+                        else{
+                            $("#reasonWrong code").text("");
+                            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("reasonWrong")[0]]);
+                        };
+                    }
+                    else{
+                        $("#reasonWrong code").text("");
+                        MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("reasonWrong")[0]]);
+                    };
+                    return correct;
+                </div>
+            </div>
+            <div class="hints">
+                <p> If the path of the projectile (the grey dashed line) intersects the target then the
+                    projectile will collide with the target. </p>
+                <p> Experiment and see how changing the velocity affects the distance, height, and time the
+                    projectile travels. </p>
+                <p> Experiment and see how changing the angle affects the distance, height, and time the
+                    projectile travels. </p>
+                <div>
+                    <div class="graphie" data-update="playingField">
+                        angle=SOLUTION_ARRAY[0][1];
+                        v=[SOLUTION_ARRAY[0][0]*Math.cos(angle*DEG_TO_RAD),SOLUTION_ARRAY[0][0]*Math.sin(angle*DEG_TO_RAD)];
+                        path1=drawFlightPath(launcher.baseCoord,v,[0,-g],"purple");
+                    </div>
+                    <p>One possible path is shown in purple above, with 
+                        initial velocity
+                        <code>\color{purple}{\text{<var>SOLUTION_ARRAY[0][0]</var>m/s}}</code>
+                        and angle
+                        <code>\color{purple}{\text{<var>SOLUTION_ARRAY[0][1]+"\u00B0"</var>.}}</code>
+                        Find another path with an angle at least 
+                        5 <var>"\u00B0"</var> larger.
+                    </p>
+                </div>
+                <div>
+                    <div class="graphie" data-update="playingField">
+                        angle=SOLUTION_ARRAY[1][1];
+                        v=[SOLUTION_ARRAY[1][0]*Math.cos(angle*DEG_TO_RAD),SOLUTION_ARRAY[1][0]*Math.sin(angle*DEG_TO_RAD)];
+                        path1=drawFlightPath(launcher.baseCoord,v,[0,-g],"red");
+                    </div>
+                    <p>A second possible path is shown in red above, with 
+                        initial velocity
+                        <code>\color{red}{\text{<var>SOLUTION_ARRAY[1][0]</var>m/s}}</code>
+                        and angle
+                        <code>\color{red}{\text{<var>SOLUTION_ARRAY[1][1]+"\u00B0"</var>.}}</code>
+                        Find another path with an angle at least 
+                        5 <var>"\u00B0"</var> larger.
+                    </p>
+                </div>
+                <div>
+                    <div class="graphie" data-update="playingField">
+                        angle=SOLUTION_ARRAY[2][1];
+                        v=[SOLUTION_ARRAY[2][0]*Math.cos(angle*DEG_TO_RAD),SOLUTION_ARRAY[2][0]*Math.sin(angle*DEG_TO_RAD)];
+                        path1=drawFlightPath(launcher.baseCoord,v,[0,-g],"green");
+                    </div>
+                    <p>A third possible path is shown in green above, with 
+                        initial velocity
+                        <code>\color{green}{\text{<var>SOLUTION_ARRAY[2][0]</var>m/s}}</code>
+                        and angle
+                        <code>\color{green}{\text{<var>SOLUTION_ARRAY[2][1]+"\u00B0"</var>.}}</code>
+                        Can you find any more?
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div id="two-angles" data-type="original">
+            <div class="question">
+                <div class="graphie" data-update="playingField">
+                    TARGET_COORDS=[TARGET_COORDS[0],0];
+                    $("#initial-question code").text("\\color{blue}{\\text{["
+                                                +TARGET_COORDS[0]+","+TARGET_COORDS[1]+"]}}");
+                    MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("initial-question")[0]]);
+                    INIT_VELOCITY=10;
+                    launcher=initLauncher({
+                        coord:[INIT_X_PROJECTILE[X]+INIT_VELOCITY/3*Math.cos(ANGLE*DEG_TO_RAD),
+                               INIT_X_PROJECTILE[Y]+INIT_VELOCITY/3*Math.sin(ANGLE*DEG_TO_RAD)],
+                        constraints: {
+                            fixedDistance: {
+                                dist: INIT_VELOCITY/3,
+                                point: INIT_X_PROJECTILE
+                            }
+                        },
+                        onMove:function(x,y){
+                            launcher.updateLauncher(x,y);
+                            launcher.updateWorld();
+                        },
+                        updateWorld:function(){
+                            world.newtonObjects[projectile].initVelocity=launcher.initVelocity;
+                            world.timebar.maxTime=KhanUtil.getMaxTime(world.newtonObjects[projectile],10,0);
+                            world.motion(world.time,true);
+                        }
+                    });
+
+                    target.initCoord=[TARGET_COORDS[X],0];
+                    world.motion(0,true);
+
+                    deltaX=world.newtonObjects[0].coord[X]-launcher.baseCoord[X];
+                    SOLUTION_ARRAY.push(10);
+                    angle1=Math.round(getAngle(deltaX,10)/DEG_TO_RAD*10)/10;
+                    angle2=90-angle1;
+                    if(angle1>angle2){
+                        temp=angle1;
+                        angle1=angle2;
+                        angle2=temp;
+                    };
+                    SOLUTION_ARRAY.push(angle1);
+                    SOLUTION_ARRAY.push(angle2);
+                </div>
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Find 2 different angles with the same velocity that will hit the target.
+                    <p id="answer-init_velocity">Initial Velocity: <code><var>INIT_VELOCITY</var></code> m/s</p>
+                    <p id="answer-angle">Angle: <code><var>ANGLE+"\u00B0"</var></code></p>
+                    <p id="answer-velocity">Velocity 1: 
+                        <input type="text" id="velocity_1" 
+                               onchange="launcher.updateDistance(this,true)" value="10" />m/s
+                    </p>
+                    <p id="answer-angle1">Angle 1: 
+                        <input type="text" id="angle_1"
+                               onchange="launcher.updateAngle(this,false)"/><var>"\u00B0"</var><code></code>
+                    </p>
+                    <p id="answer-angle2">Angle 2: 
+                        <input type="text" id="angle_2"
+                               onchange="launcher.updateAngle(this,false)"/><var>"\u00B0"</var><code></code>
+                    </p>
+                    <p id="answer-angle3">90-angle 1: 
+                        <input type="text" id="angle_3"/><var>"\u00B0"</var><code></code>
+                    </p>
+                    <p id="reasonWrong"><code></code></p>
+                </div>
+                <div class="guess">
+                    0
+                </div>
+                <div class="validator-function">
+                    myProjectile=world.newtonObjects[projectile];
+                    myTarget=world.newtonObjects[0];
+
+                    correct=true;
+                    for(i=1;i<=2;i++){
+                        collisionTime=projectileCollision(myProjectile,myTarget,
+                                  $("#velocity_1").val(),$("#angle_"+i).val());
+                        if(collisionTime>0){
+                            $("#answer-angle"+i+" code").text("&#10004");
+                            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#answer-angle"+i)[0]]);
+                        }
+                        else{
+                            correct=false;
+                            $("#answer-angle"+i+" code").text("&#10008");
+                            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#answer-angle"+i)[0]]);
+                        };
+                    };
+                    if(correct){
+                        angle1=parseFloat($("#angle_1").val());
+                        angle2=parseFloat($("#angle_2").val());
+                        if(angle1>angle2){
+                            correct=false;
+                            $("#reasonWrong code").text("Reorder");
+                            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("reasonWrong")[0]]);
+                        }
+                        else if(angle1==angle2){
+                            correct=false;
+                            $("#reasonWrong code").text("\\text{Angles are the same}");
+                            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("reasonWrong")[0]]);
+                        }
+                        else{
+                            $("#reasonWrong code").text("");
+                            MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("reasonWrong")[0]]);
+                        };
+                    }
+                    else{
+                        $("#reasonWrong code").text("");
+                        MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("reasonWrong")[0]]);
+                    };
+                    if(0.01>Math.abs(parseFloat($("#angle_3").val())+parseFloat($("#angle_1").val())-90)){
+                        $("#answer-angle3 code").text("&#10004");
+                        MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#answer3")[0]]);
+                    }
+                    else{
+                        correct=false;
+                        $("#answer-angle3 code").text("&#10008");
+                        MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#answer-angle3")[0]]);
+                    };
+                    return correct;
+                </div>
+            </div>
+            <div class="hints">
+                <p> If the path of the projectile (the grey dashed line) intersects the target then the
+                    projectile will collide with the target. </p>
+                <p> Experiment and see how changing the velocity affects the distance, height, and time the
+                    projectile travels. </p>
+                <p> Experiment and see how changing the angle affects the distance, height, and time the
+                    projectile travels. </p>
+                <div>
+                    <div class="graphie" data-update="playingField">
+                        initV=SOLUTION_ARRAY[0];
+                        angle=SOLUTION_ARRAY[1]*DEG_TO_RAD;
+                        v=[initV*Math.cos(angle),initV*Math.sin(angle)];
+                        path1=drawFlightPath(launcher.baseCoord,v,[0,-g],"purple");
+                    </div>
+                    <p>One possible path is shown in purple above, with 
+                        initial velocity
+                        <code>\color{purple}{\text{<var>SOLUTION_ARRAY[0]</var>}}</code>
+                        and angle
+                        <code>\color{purple}{\text{<var>SOLUTION_ARRAY[1]+"\u00B0"</var>.}}</code>
+                    </p>
+                </div>
+                <div>
+                    <div class="graphie" data-update="playingField">
+                        initV=SOLUTION_ARRAY[0];
+                        angle=SOLUTION_ARRAY[2]*DEG_TO_RAD;
+                        v=[initV*Math.cos(angle),initV*Math.sin(angle)];
+                        path1=drawFlightPath(launcher.baseCoord,v,[0,-g],"red");
+                    </div>
+                    <p>Another possible path with 
+                        initial velocity
+                        <code>\color{red}{\text{<var>SOLUTION_ARRAY[0]</var>}}</code>
+                        is shown in red above, with angle
+                        <code>\color{red}{\text{<var>SOLUTION_ARRAY[2]+"\u00B0"</var>.}}</code>
+                        Are there any more?
+                    </p>
+                    <p>
+                        You should verify that <code>\color{purple}{\text{<var>SOLUTION_ARRAY[1]+"\u00B0"</var>}}</code>
+                        is in the air for less time than
+                        <code>\color{red}{\text{<var>SOLUTION_ARRAY[2]+"\u00B0"</var>}}</code>.
+                    </p>
+                </div>
+                <p>
+                    Finally, 90-<code>\color{purple}{\text{<var>SOLUTION_ARRAY[1]+"\u00B0"</var>}}</code> is just
+                    <code>\color{red}{\text{<var>SOLUTION_ARRAY[2]+"\u00B0"</var>}}</code>, the other angle.
+                    Is this always true?
+                    Try this with other velocities and angles to find out.
+                </p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

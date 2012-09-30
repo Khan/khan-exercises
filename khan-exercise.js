@@ -316,7 +316,10 @@ var Khan = (function() {
             "math-model": ["ast"],
             "simplify": ["math-model", "ast", "expr-helpers", "expr-normal-form", "steps-helpers"],
             "congruency": ["angles", "interactive"],
-            "graphie-3d": ["graphie", "matrix"]
+            "graphie-3d": ["graphie", "matrix"],
+            "circuits": ["interactive","graphie","math"],
+            "mechanics":["interactive","graphie","math"],
+            "projectile":["math","mechanics"]
         },
 
         warnTimeout: function() {
