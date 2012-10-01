@@ -2,7 +2,7 @@
 <html data-require="math graphie expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Transforming Functions</title>
+    <title>Function Transformations</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
         #answer_area input[type="text"] {
@@ -121,7 +121,8 @@
                            <code class="hint_purple"><var>(Y_SCALE === 1)?"":Y_SCALE_DISPLAY</var>f(x)</code>.</p>
                         <div class="graphie" data-update="G">
                              style({
-                                 stroke: PURPLE
+                                 stroke: PURPLE,
+                                 strokeDasharray: "- "
                                  });
                              plot(function( x ) {
                                       return  Y_SCALE* (UP_ORIG * pow(( x + X_ORIG ), 2 ) + Y_ORIG);
