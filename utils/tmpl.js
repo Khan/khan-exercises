@@ -639,6 +639,16 @@ $.extend({
                 "(" + parentEnsure + ") && (" + childEnsure + ")");
 
             return $.tmplApplyMethods.appendContents.call(this, elem);
+        },
+
+        // Like prependContents but also merges the data-ensures
+        prependVars: function(elem) {
+            var parentEnsure = $(this).data("ensure") || "1";
+            var childEnsure = $(elem).data("ensure") || "1";
+            $(this).data("ensure",
+                "(" + parentEnsure + ") && (" + childEnsure + ")");
+
+            return $.tmplApplyMethods.prependContents.call(this, elem);
         }
     }
 });

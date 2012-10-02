@@ -13,6 +13,63 @@ $.extend(KhanUtil, {
         }
     },
 
+    /**
+     * Given a 2d matrix, return the LaTeX (MathJax) code for printing
+     * the matrix.
+     *
+     * If optional parameters mat2, color2, and operation are included, this
+     * can be used to generate intermediate hint matrices as in
+     * matrix_addition.html.
+     *
+     * @param mat {array} a 2d matrix
+     *      ex: [[0, 2], [1, 3], [4, 5]] (3 x 2 matrix)
+     * @param color {string} (optional) color to format the elements of /mat/,
+            in hexadecimal. ex: "#28AE7B" (KhanUtil.GREEN)
+     * @param mat2 {array} (optional) a 2d matrix w/ same dimensions as /mat/
+     * @param color2 {string} (optional) color to format the elements of /mat2/
+     * @param operation {string} (optional) operation being explained in hints
+     *      ex: "+"
+     */
+    printMatrix: function(mat, color, mat2, color2, operation) {
+        // return prematurely if no matrix included
+        if (!_.isArray(mat) || !mat.length) {
+            return "";
+        }
+
+        var isCombo = (_.isArray(mat2) && mat2.length === mat.length &&
+                        mat2[0].length === mat[0].length &&
+                        _.isString(color2) && _.isString(operation));
+
+        var table = _.map(mat, function(row, i) {
+            if (isCombo) {
+                row = _.map(row, function(elem, j) {
+                    var elem1 = "\\color{" + color + "}{" + elem + "}";
+                    var elem2 = "\\color{" + color2 + "}{" + mat2[i][j] + "}";
+                    return elem1 + operation + elem2;
+                });
+            }
+            return row.join(" & ");
+        }).join(" \\\\ ");
+
+        var prefix = "\\left[ \\begin{array}";
+        var suffix = "\\end{array} \\right]";
+
+        if (!isCombo && color) {
+            prefix = "\\left[ \\color{" + color + "}{\\begin{array}";
+            suffix = "\\end{array}} \\right]";
+        }
+
+        // to generate the alignment info needed for LaTeX table markup
+        var alignment = "{";
+        var cols = mat[0].length;
+        _(cols).times(function (){
+            alignment += "r";
+        });
+        alignment += "}";
+
+        return prefix + alignment + table + suffix;
+    },
+
     // add matrix properties to a 2d matrix
     //   currently only rows and columns
     makeMatrix: function(m) {
