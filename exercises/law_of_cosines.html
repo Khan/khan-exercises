@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-geometry angles">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Law of cosines</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div id="find-side" data-calculator>
+            <div class="vars" data-ensure="
+                    !TRIANGLE.isRight() &&
+                    TRIANGLE.isScalene() &&
+                    TRIANGLE.isNotDegenerate()">
+                <var id="SIDES">shuffle([null].
+                    concat(randRangeUnique(5, 16, 2)))</var>
+                <var id="ANGLES">_.map(SIDES, function(s) {
+                    if (s === null) {
+                        return randRange(20, 140);
+                    }
+                    return null;
+                })</var>
+                <var id="TRIANGLE">solveTriangle({
+                    sides: SIDES.slice(),
+                    angles: ANGLES.slice(),
+                    sideLabels: SIDES.slice(),
+                    angleLabels: _.map(ANGLES, function(a) {
+                        return a == null ? a : a + "^\\circ";
+                    }),
+                    vertexLabels: ["A", "B", "C"]
+                })</var>
+                <var id="UNKNOWN">SIDES.indexOf(null)</var>
+                <var id="UNKNOWN_MEASURE">["BC", "AC", "AB"][UNKNOWN]</var>
+                <var id="UNKNOWN_SIDE">"abc"[UNKNOWN]</var>
+                <var id="KNOWN_SIDE_1">SIDES[(UNKNOWN + 1) % 3]</var>
+                <var id="KNOWN_SIDE_2">SIDES[(UNKNOWN + 2) % 3]</var>
+                <var id="SOLUTION">roundTo(1, sqrt(KNOWN_SIDE_1 * KNOWN_SIDE_1
+                    + KNOWN_SIDE_2 * KNOWN_SIDE_2 - 2 * KNOWN_SIDE_1 *
+                    KNOWN_SIDE_2 * cos(ANGLES[UNKNOWN] * PI / 180)))
+                </var>
+                <!-- Limit rotation such that the final triangle fills up more
+                width than height -->
+                <var id="ROTATION">
+                    rand(2) ? randRange(-20, 20) : randRange(160, 200)
+                </var>
+            </div>
+
+            <p class="question">
+                Find <code><var>UNKNOWN_MEASURE</var></code>.
+            </p>
+
+            <div class="problem">
+                <p>
+                    Round to the nearest tenth.
+                </p>
+                <div class="graphie" id="triangle">
+                    TRIANGLE = addTriangle(_.extend(TRIANGLE, {
+                        xPos: 1,
+                        yPos: 1,
+                        width: 10,
+                        height: 6,
+                        rot: ROTATION
+                    }));
+                    init({
+                        range: [[0, TRIANGLE.width + 2],
+                            [0, TRIANGLE.height + 2]]
+                    });
+
+                    TRIANGLE.draw();
+                </div>
+            </div>
+            <div class="solution" data-forms="decimal"
+                data-inexact data-max-error="0.09"><var>SOLUTION</var>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>You can use the law of cosines:</p>
+                    <p><code>\qquad
+                        \pink{<var>UNKNOWN_SIDE</var>}^2 \quad = \quad
+                        \blue{<var>"abc"[(UNKNOWN + 1) % 3]</var>}^2 +
+                        \green{<var>"abc"[(UNKNOWN + 2) % 3]</var>}^2 -
+                        2\blue{<var>"abc"[(UNKNOWN + 1) % 3]</var>}
+                        \green{<var>"abc"[(UNKNOWN + 2) % 3]</var>}
+                        \space\cos(\pink{<var>"ABC"[UNKNOWN]</var>})
+                    </code></p>
+                    <div class="graphie" data-update="triangle">
+                        TRIANGLE.sideLabels = _.map(SIDES, function(s, n) {
+                            return s == null ? "abc"[n] :
+                                "abc"[n] + " = " + s;
+                        });
+                        TRIANGLE.sideLabels[UNKNOWN] = "\\pink{" +
+                            TRIANGLE.sideLabels[UNKNOWN] + "}";
+                        TRIANGLE.angleLabels[UNKNOWN] = "\\pink{" +
+                            TRIANGLE.angleLabels[UNKNOWN] + "}";
+                        TRIANGLE.sideLabels[(UNKNOWN + 1) % 3] = "\\blue{" +
+                            TRIANGLE.sideLabels[(UNKNOWN + 1) % 3] + "}";
+                        TRIANGLE.sideLabels[(UNKNOWN + 2) % 3] = "\\green{" +
+                            TRIANGLE.sideLabels[(UNKNOWN + 2) % 3] + "}";
+                        TRIANGLE.color = GRAY;
+                        TRIANGLE.draw();
+                    </div>
+                </div>
+
+                <div>
+                    <p>Plug in the known values:</p>
+                    <p><code>\qquad
+                        \pink{<var>UNKNOWN_SIDE</var>}^2 \quad = \quad
+                        \blue{<var>KNOWN_SIDE_1</var>}^2 +
+                        \green{<var>KNOWN_SIDE_2</var>}^2 -
+                        2(\blue{<var>KNOWN_SIDE_1</var>})
+                        (\green{<var>KNOWN_SIDE_2</var>})
+                        \space\cos(\pink{<var>ANGLES[UNKNOWN]</var>^\circ})
+                    </code></p>
+                </div>
+
+                <div>
+                    <p><code>\qquad
+                        \pink{<var>UNKNOWN_SIDE</var>}^2 \quad = \quad
+                        <var>
+                            KNOWN_SIDE_1 * KNOWN_SIDE_1 +
+                            KNOWN_SIDE_2 * KNOWN_SIDE_2
+                        </var> - <var>
+                            2 * KNOWN_SIDE_1 * KNOWN_SIDE_2
+                        </var>
+                        \cdot\cos(\pink{<var>ANGLES[UNKNOWN]</var>^\circ})
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>Evaluate and simplify the right side:</p>
+                    <p><code>\qquad
+                        \pink{<var>UNKNOWN_SIDE</var>}^2 \quad \approx \quad
+                        <var>roundTo(9,
+                            KNOWN_SIDE_1 * KNOWN_SIDE_1 +
+                            KNOWN_SIDE_2 * KNOWN_SIDE_2 -
+                            2 * KNOWN_SIDE_1 * KNOWN_SIDE_2 *
+                            cos(ANGLES[UNKNOWN] * Math.PI / 180))
+                        </var>
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>Take the positive square root of both sides (we only
+                    need to worry about the positive square root because the
+                    side of a triangle can't have negative length):</p>
+                    <p><code>\qquad
+                        \pink{<var>UNKNOWN_SIDE</var>} \quad \approx \quad
+                        \sqrt{<var>roundTo(9,
+                            KNOWN_SIDE_1 * KNOWN_SIDE_1 +
+                            KNOWN_SIDE_2 * KNOWN_SIDE_2 -
+                            2 * KNOWN_SIDE_1 * KNOWN_SIDE_2 *
+                            cos(ANGLES[UNKNOWN] * Math.PI / 180))
+                        </var>}
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>Evaluate and round to the nearest tenth:</p>
+                    <p><code>
+                        \qquad \pink{<var>UNKNOWN_MEASURE</var>}
+                        \quad = \quad \pink{<var>UNKNOWN_SIDE</var>}
+                        \quad \approx \quad <var>SOLUTION</var>
+                    </code></p>
+                    <div class="graphie" data-update="triangle">
+                        TRIANGLE.sideLabels[UNKNOWN] = "\\pink{" +
+                            UNKNOWN_SIDE + " \\approx " + SOLUTION + "}";
+                        TRIANGLE.draw();
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sss-find-angle" data-calculator>
+            <div class="vars" data-ensure="
+                    !TRIANGLE.isRight() &&
+                    TRIANGLE.isScalene() &&
+                    TRIANGLE.isNotDegenerate()">
+                <var id="SIDES" data-ensure="
+                    SIDES[1] + SIDES[2] > SIDES[0] &&
+                    SIDES[0] + SIDES[2] > SIDES[1] &&
+                    SIDES[0] + SIDES[1] > SIDES[2]
+                ">randRange(5, 15, 3)</var>
+                <var id="TRIANGLE">solveTriangle({
+                    sides: SIDES.slice(),
+                    angles: [null, null, null],
+                    sideLabels: SIDES.slice(),
+                    vertexLabels: ["A", "B", "C"]
+                })</var>
+                <var id="UNKNOWN">randRange(0, 2)</var>
+                <var id="UNKNOWN_ANGLE">"ABC"[UNKNOWN]</var>
+                <var id="KNOWN_SIDE_1">SIDES[(UNKNOWN + 1) % 3]</var>
+                <var id="KNOWN_SIDE_2">SIDES[(UNKNOWN + 2) % 3]</var>
+                <var id="COS_UNKNOWN">fraction(
+                    KNOWN_SIDE_1 * KNOWN_SIDE_1 +
+                    KNOWN_SIDE_2 * KNOWN_SIDE_2 -
+                    SIDES[UNKNOWN] * SIDES[UNKNOWN],
+                    2 * KNOWN_SIDE_1 * KNOWN_SIDE_2)
+                </var>
+                <var id="SOLUTION">roundTo(1, acos(
+                    (KNOWN_SIDE_1 * KNOWN_SIDE_1 +
+                    KNOWN_SIDE_2 * KNOWN_SIDE_2 -
+                    SIDES[UNKNOWN] * SIDES[UNKNOWN]) / (2 *
+                    KNOWN_SIDE_1 * KNOWN_SIDE_2)) /
+                    PI * 180)
+                </var>
+                <!-- Limit rotation such that the final triangle fills up more
+                width than height -->
+                <var id="ROTATION">
+                    rand(2) ? randRange(-20, 20) : randRange(160, 200)
+                </var>
+            </div>
+
+            <p class="question">
+                Find <code>m\angle <var>UNKNOWN_ANGLE</var></code>.
+            </p>
+
+            <div class="problem">
+                <p>
+                    Round to the nearest degree.
+                </p>
+                <div class="graphie" id="triangle">
+                    TRIANGLE = addTriangle(_.extend(TRIANGLE, {
+                        xPos: 1,
+                        yPos: 1,
+                        width: 10,
+                        height: 6,
+                        rot: ROTATION
+                    }));
+                    init({
+                        range: [[0, TRIANGLE.width + 2],
+                            [0, TRIANGLE.height + 2]]
+                    });
+
+                    TRIANGLE.draw();
+                </div>
+            </div>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer" data-inexact
+                    data-max-error="0.5"><var>SOLUTION</var>
+                </span><code>\Large{^\circ}</code>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>You can use the law of cosines:</p>
+                    <p><code>\qquad
+                        \pink{<var>"abc"[UNKNOWN]</var>}^2 \quad = \quad
+                        \blue{<var>"abc"[(UNKNOWN + 1) % 3]</var>}^2 +
+                        \green{<var>"abc"[(UNKNOWN + 2) % 3]</var>}^2 -
+                        2\blue{<var>"abc"[(UNKNOWN + 1) % 3]</var>}
+                        \green{<var>"abc"[(UNKNOWN + 2) % 3]</var>}
+                        \space\cos(\pink{<var>"ABC"[UNKNOWN]</var>})
+                    </code></p>
+                    <div class="graphie" data-update="triangle">
+                        TRIANGLE.sideLabels = _.map(SIDES, function(s, n) {
+                            return "abc"[n] + " = " + s;
+                        });
+                        TRIANGLE.sideLabels[UNKNOWN] = "\\pink{" +
+                            TRIANGLE.sideLabels[UNKNOWN] + "}";
+                        TRIANGLE.vertexLabels[UNKNOWN] = "\\pink{" +
+                            "ABC"[UNKNOWN] + "}";
+                        TRIANGLE.sideLabels[(UNKNOWN + 1) % 3] = "\\blue{" +
+                            TRIANGLE.sideLabels[(UNKNOWN + 1) % 3] + "}";
+                        TRIANGLE.sideLabels[(UNKNOWN + 2) % 3] = "\\green{" +
+                            TRIANGLE.sideLabels[(UNKNOWN + 2) % 3] + "}";
+                        TRIANGLE.color = GRAY;
+                        TRIANGLE.draw();
+                    </div>
+                </div>
+
+                <div>
+                    <p>
+                        Rewrite the law of cosines to solve for
+                        <code>\cos(\pink{<var>"ABC"[UNKNOWN]</var>})</code>:
+                    </p>
+                    <p><code>\qquad
+                        \cos(\pink{<var>"ABC"[UNKNOWN]</var>}) \quad = \quad
+                        \dfrac{
+                        \blue{<var>"abc"[(UNKNOWN + 1) % 3]</var>}^2 +
+                        \green{<var>"abc"[(UNKNOWN + 2) % 3]</var>}^2 -
+                        \pink{<var>"abc"[UNKNOWN]</var>}^2
+                        }{2\blue{<var>"abc"[(UNKNOWN + 1) % 3]</var>}
+                        \green{<var>"abc"[(UNKNOWN + 2) % 3]</var>}}
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>Plug in the known values:</p>
+                    <p><code>\qquad
+                        \cos(\pink{<var>"ABC"[UNKNOWN]</var>}) \quad = \quad
+                        \dfrac{
+                        \blue{<var>KNOWN_SIDE_1</var>}^2 +
+                        \green{<var>KNOWN_SIDE_2</var>}^2 -
+                        \pink{<var>SIDES[UNKNOWN]</var>}^2
+                        }{2(\blue{<var>KNOWN_SIDE_1</var>})
+                        (\green{<var>KNOWN_SIDE_2</var>})}
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>Simplify the right side:</p>
+                    <p><code>\qquad
+                        \cos(\pink{<var>"ABC"[UNKNOWN]</var>}) \quad = \quad
+                        <var>COS_UNKNOWN</var>
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>
+                        Evaluate the inverse cosine to find
+                        <code>m\angle <var>UNKNOWN_ANGLE</var></code>
+                        and round to the nearest degree:
+                    </p>
+                    <p><code>\qquad
+                        \pink{m\angle <var>UNKNOWN_ANGLE</var>}
+                        \quad = \quad \cos^{-1}\left(<var>COS_UNKNOWN</var>\right)
+                        \quad \approx \quad \pink{<var>SOLUTION</var>^\circ}
+                    </code></p>
+                    <div class="graphie" data-update="triangle">
+                        TRIANGLE.angleLabels[UNKNOWN] = "\\pink{" +
+                            SOLUTION + "^\\circ}";
+                        TRIANGLE.draw();
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</html>

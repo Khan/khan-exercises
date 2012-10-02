@@ -970,3 +970,271 @@ $.extend(KhanUtil, {
         return shape;
     }
 });
+
+
+// The following triangley code creates hopefully more legible triangles
+// TODO(eater): Collapse this stuff into the existing triangle code above
+//              without breaking a bunch of stuff (and refactor things so
+//              Quadrilateral no longer inherits from Triangle)
+//
+//            angles[0]
+//               /\
+//              /  \
+//    sides[1] /    \ sides[2]
+//            /      \
+//           /________\
+// angles[2]  sides[0]  angles[1]
+//
+
+// The following solves the triangle by filling in any side and angle measures
+// that were not included.
+//
+// The sides and angles included must unambiguously specify one triangle. duh.
+// If not, behavior is undefined.
+//
+KhanUtil.solveTriangle = function(triangle) {
+    var sides = triangle.sides;
+    var angles = triangle.angles;
+    var numSides = _.reduce(sides, function(n, side) {
+        return n + (typeof side === "number" ? 1 : 0);
+    }, 0);
+    var numAngles = _.reduce(angles, function(n, angle) {
+        return n + (typeof angle === "number" ? 1 : 0);
+    }, 0);
+
+    // If we have 2 sides, we must have the angle opposite the unknown side.
+    // (SAS is the only valid postulate in this case)
+    // We can use the law of cosines to find the third side
+    if (numSides === 2) {
+        var missingSide = sides.indexOf(null);
+        var side1 = sides[(missingSide + 1) % 3];
+        var side2 = sides[(missingSide + 2) % 3];
+        sides[missingSide] = Math.sqrt(side1 * side1 + side2 * side2 - 2 *
+            side1 * side2 * Math.cos(angles[missingSide] * Math.PI / 180));
+        numSides = 3;
+    }
+
+    // If we have all three sides, we can use the law of cosines to find all
+    // the angles
+    if (numSides === 3) {
+        // Use law of cosines to find all the angles
+        angles = _.map(angles, function(angle, n) {
+            var oppSide = sides[n];
+            var adjSide1 = sides[(n + 1) % 3];
+            var adjSide2 = sides[(n + 2) % 3];
+            return Math.acos((adjSide1 * adjSide1 + adjSide2 * adjSide2 -
+                oppSide * oppSide) / (2 * adjSide1 * adjSide2));
+        });
+        angles = _.map(angles, KhanUtil.toDegrees);
+    }
+
+    // If we have 2 angles, we can easily fill in the third angle
+    if (numAngles === 2) {
+        var missingAngle = angles.indexOf(null);
+        angles[missingAngle] = 180 - angles[(missingAngle + 1) % 3] -
+            angles[(missingAngle + 2) % 3];
+        numAngles = 3;
+    }
+
+    // 3 angles and 1 side is enough to figure out the rest of the sides using
+    // the law of sines
+    if (numAngles === 3 && numSides >= 1) {
+        var knownSide = sides.indexOf(sides[0] || sides[1] || sides[2]);
+        sides[(knownSide + 1) % 3] = (sides[knownSide] *
+            Math.sin(angles[(knownSide + 1) % 3] * Math.PI / 180))
+            / Math.sin(angles[knownSide] * Math.PI / 180);
+        sides[(knownSide + 2) % 3] = (sides[knownSide] *
+            Math.sin(angles[(knownSide + 2) % 3] * Math.PI / 180))
+            / Math.sin(angles[knownSide] * Math.PI / 180);
+    }
+
+    triangle.sides = sides;
+    triangle.angles = angles;
+
+    triangle.isRight = function() {
+        return (this.angles[0] === 90 || this.angles[1] === 90 ||
+            this.angles[2] === 90);
+    };
+
+    triangle.isScalene = function() {
+        return (this.angles[0] !== this.angles[1] &&
+            this.angles[1] !== this.angles[2] &&
+            this.angles[0] !== this.angles[2]);
+    }
+
+    triangle.isNotDegenerate = function() {
+        return (this.sides[1] + this.sides[2] > this.sides[0] &&
+            this.sides[0] + this.sides[2] > this.sides[1] &&
+            this.sides[0] + this.sides[1] > this.sides[2]);
+    };
+
+    return triangle;
+};
+
+
+KhanUtil.addTriangle = function(triangle) {
+    triangle = $.extend({
+        sides: [],
+        angles: [],
+        points: [],
+        sideLabels: [],
+        angleLabels: [],
+        vertexLabels: [],
+        labels: [],
+        rot: 0,
+        xPos: 0,
+        yPos: 0,
+        width: 10,
+        height: 10,
+        color: KhanUtil.BLUE
+    }, triangle);
+
+    var getDistance = function(point1, point2) {
+        return Math.sqrt((point1[0] - point2[0]) * (point1[0] - point2[0])
+            + (point1[1] - point2[1]) * (point1[1] - point2[1]));
+    };
+
+    var rotatePoint = function(point, angle) {
+        var matrix = KhanUtil.makeMatrix([
+            [Math.cos(angle), -Math.sin(angle), 0],
+            [Math.sin(angle), Math.cos(angle), 0],
+            [0, 0, 1]
+        ]);
+        var vector = KhanUtil.makeMatrix([[point[0]], [point[1]], [1]]);
+        var prod = KhanUtil.matrixMult(matrix, vector);
+        return [prod[0], prod[1]];
+    };
+
+    var findCenterPoints = function(triangle, points) {
+        var Ax = points[0][0];
+        var Ay = points[0][1];
+        var Bx = points[1][0];
+        var By = points[1][1];
+        var Cx = points[2][0];
+        var Cy = points[2][1];
+        var D = 2 * (Ax * (By - Cy) + Bx * (Cy - Ay) + Cx * (Ay - By));
+        var a = triangle.sides[0];
+        var b = triangle.sides[1];
+        var c = triangle.sides[2];
+        var P = a + b + c;
+        var x1 = (a * Ax + b * Bx + c * Cx) / P;
+        var y1 = (a * Ay + b * By + c * Cy) / P;
+        var x = ((Ay * Ay + Ax * Ax) * (By - Cy) + (By * By + Bx * Bx) *
+            (Cy - Ay) + (Cy * Cy + Cx * Cx) * (Ay - By)) / D;
+        var y = ((Ay * Ay + Ax * Ax) * (Cx - Bx) + (By * By + Bx * Bx) *
+            (Ax - Cx) + (Cy * Cy + Cx * Cx) * (Bx - Ax)) / D;
+        return {
+            circumCenter: [x, y],
+            centroid: [1 / 3 * (Ax + Bx + Cx), 1 / 3 * (Ay + By + Cy)],
+            inCenter: [x1, y1]
+        };
+    };
+
+    triangle.draw = function() {
+        var graphie = KhanUtil.currentGraph;
+        if (triangle.set != null) {
+            triangle.set.remove();
+        }
+        _.each(triangle.labels, function(lbl) {
+            lbl.remove();
+        });
+        triangle.set = graphie.raphael.set();
+        triangle.set.push(graphie.path(triangle.points.concat([true]),{
+            stroke: triangle.color
+        }));
+
+        var centerPoints = findCenterPoints(triangle, triangle.points);
+        _(3).times(function(i) {
+            if (triangle.angleLabels[i] != null) {
+                var ang = Math.atan2(centerPoints.inCenter[1] -
+                    triangle.points[i][1], centerPoints.inCenter[0] -
+                    triangle.points[i][0]);
+
+                // The angle measure label needs to be further from the vertex
+                // for small angles and closer for large angles. This is an
+                // empirically determined formula for figuring out how far.
+                var labelDist = (3.51470560176242 - 0.5687298702748785) *
+                    Math.exp(-0.037587715462826674 * triangle.angles[i]) +
+                    0.5687298702748785;
+
+                triangle.labels.push(graphie.label([
+                    triangle.points[i][0] + Math.cos(ang) * labelDist,
+                    triangle.points[i][1] + Math.sin(ang) * labelDist],
+                    triangle.angleLabels[i], "center"));
+            }
+        });
+
+        _(3).times(function(i) {
+            if (triangle.sideLabels[i] != null) {
+                var x = (triangle.points[(i + 1) % 3][0] +
+                    triangle.points[(i + 2) % 3][0]) / 2;
+                var y = (triangle.points[(i + 1) % 3][1] +
+                    triangle.points[(i + 2) % 3][1]) / 2;
+                var ang;
+                var labelDist = 0.4;
+                if (triangle.angles[i] < 90) {
+                    ang = Math.atan2(y - centerPoints.circumCenter[1],
+                        x - centerPoints.circumCenter[0]);
+                } else if (triangle.angles[i] > 90) {
+                    ang = Math.atan2(centerPoints.circumCenter[1] - y,
+                        centerPoints.circumCenter[0] - x);
+                } else {
+                    ang = Math.atan2(y - centerPoints.centroid[1],
+                        x - centerPoints.centroid[0]);
+                }
+
+                triangle.labels.push(graphie.label([x, y],
+                    triangle.sideLabels[i], ang));
+            }
+        });
+
+        _(3).times(function(i) {
+            if (triangle.vertexLabels[i] != null) {
+                var ang = Math.atan2(triangle.points[i][1] -
+                    centerPoints.inCenter[1], triangle.points[i][0] -
+                    centerPoints.inCenter[0]);
+                var labelDist = 0.4;
+
+                var lbl = graphie.label([
+                    triangle.points[i][0] + Math.cos(ang) * labelDist,
+                    triangle.points[i][1] + Math.sin(ang) * labelDist],
+                    triangle.vertexLabels[i], "center");
+                lbl.css("color", triangle.color);
+                triangle.labels.push(lbl);
+            }
+        });
+    };
+
+    triangle.points[2] = [0, 0];
+    triangle.points[1] = [triangle.sides[0], 0];
+    triangle.points[0] = [Math.cos(triangle.angles[2] * Math.PI / 180) *
+        triangle.sides[1], Math.sin(triangle.angles[2] * Math.PI / 180) *
+        triangle.sides[1]];
+
+    // Rotate the triangle
+    triangle.points[0] = rotatePoint(triangle.points[0], triangle.rot *
+        Math.PI / 180);
+    triangle.points[1] = rotatePoint(triangle.points[1], triangle.rot *
+        Math.PI / 180);
+    triangle.points[2] = rotatePoint(triangle.points[2], triangle.rot *
+        Math.PI / 180);
+
+    // Scale and translate the triangle such that it fits within the
+    // specified width/height constraint and is positioned at xPos, yPos
+    var minX = _.min(_.map(triangle.points, function(p) { return p[0]; }));
+    var maxX = _.max(_.map(triangle.points, function(p) { return p[0]; }));
+    var minY = _.min(_.map(triangle.points, function(p) { return p[1]; }));
+    var maxY = _.max(_.map(triangle.points, function(p) { return p[1]; }));
+    var xScale = triangle.width / (maxX - minX);
+    var yScale = triangle.height / (maxY - minY);
+    var scale = _.min([xScale, yScale]);
+    triangle.width = (maxX - minX) * scale;
+    triangle.height = (maxY - minY) * scale;
+
+    triangle.points = _.map(triangle.points, function(p) {
+        return [(p[0] - minX) * scale + triangle.xPos,
+            (p[1] - minY) * scale + triangle.yPos];
+    });
+
+    return triangle;
+};
