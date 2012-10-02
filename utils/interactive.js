@@ -1120,8 +1120,175 @@ $.extend(KhanUtil, {
 
 
         return sorter;
-    }
+    },
 
+    // center: movable point
+    // radius: int
+    // circ: graphie circle
+    // perim: invisible mouse target for dragging/changing radius
+    addCircleGraph: function(options) {
+        var graphie = KhanUtil.currentGraph;
+        var circle = $.extend({
+            center: [0, 0],
+            radius: 2
+        }, options);
+
+        circle.centerPoint = KhanUtil.addMovablePoint({
+            graph: graphie,
+            coord: circle.center,
+            normalStyle: {
+                stroke: KhanUtil.BLUE,
+                fill: KhanUtil.BLUE
+            },
+            snapX: 0.5,
+            snapY: 0.5
+        });
+        circle.circ = graphie.circle(circle.center, circle.radius, {
+            stroke: KhanUtil.BLUE,
+            fill: KhanUtil.ORANGE,
+            fillOpacity: 0
+        });
+        circle.perim = graphie.mouselayer.circle(
+            graphie.scalePoint(circle.center)[0],
+            graphie.scalePoint(circle.center)[1],
+            graphie.scaleVector(circle.radius)[0]).attr({
+                "stroke-width": 20,
+                "opacity": 0.0
+            });
+
+        $(circle.centerPoint.mouseTarget[0]).on(
+            "vmouseover vmouseout", function(event) {
+                if (circle.centerPoint.highlight) {
+                    circle.circ.animate({
+                        stroke: KhanUtil.ORANGE,
+                        "fill-opacity": 0.05
+                    }, 50);
+                } else {
+                    circle.circ.animate({
+                        stroke: KhanUtil.BLUE,
+                        "fill-opacity": 0
+                    }, 50);
+                }
+            });
+
+        circle.toFront = function() {
+            circle.circ.toFront();
+            circle.perim.toFront();
+            circle.centerPoint.visibleShape.toFront();
+            circle.centerPoint.mouseTarget.toFront();
+        };
+
+        circle.centerPoint.onMove = function(x, y) {
+            circle.toFront();
+            circle.circ.attr({
+                cx: graphie.scalePoint(x)[0],
+                cy: graphie.scalePoint(y)[1],
+            });
+            circle.perim.attr({
+                cx: graphie.scalePoint(x)[0],
+                cy: graphie.scalePoint(y)[1],
+            });
+        };
+
+        circle.centerPoint.onMoveEnd = function(x, y) {
+            circle.center = [x, y];
+        };
+
+        // circle.setCenter(x, y) moves the circle to the specified
+        // x, y coordinate as if the user had dragged it there.
+        circle.setCenter = function(x, y) {
+            circle.centerPoint.setCoord([x, y]);
+            circle.centerPoint.onMove(x, y);
+            circle.center = [x, y];
+        };
+
+        // circle.setRadius(r) sets the circle's radius to the specified
+        // value as if the user had dragged it there.
+        circle.setRadius = function(r) {
+            circle.radius = r;
+
+            circle.perim.attr({
+                r: graphie.scaleVector(r)[0],
+            });
+            circle.circ.attr({
+                rx: graphie.scaleVector(r)[0],
+                ry: graphie.scaleVector(r)[1]
+            });
+        };
+
+        $(circle.perim[0]).css("cursor", "move");
+        $(circle.perim[0]).on(
+            "vmouseover vmouseout vmousedown", function(event) {
+                if (event.type === "vmouseover") {
+                    circle.highlight = true;
+                    if (!KhanUtil.dragging) {
+                        circle.circ.animate({
+                            stroke: KhanUtil.ORANGE,
+                            "fill-opacity": 0.05
+                        }, 50);
+                        circle.centerPoint.visibleShape.animate({
+                            stroke: KhanUtil.ORANGE,
+                            fill: KhanUtil.ORANGE
+                        }, 50);
+                    }
+
+                } else if (event.type === "vmouseout") {
+                    circle.highlight = false;
+                    if (!circle.dragging) {
+                        circle.circ.animate({
+                            stroke: KhanUtil.BLUE,
+                            "fill-opacity": 0
+                        }, 50);
+                        circle.centerPoint.visibleShape.animate({
+                            stroke: KhanUtil.BLUE,
+                            fill: KhanUtil.BLUE
+                        }, 50);
+                    }
+
+                } else if (event.type === "vmousedown" &&
+                        (event.which === 1 || event.which === 0)) {
+                    event.preventDefault();
+                    circle.toFront();
+
+                    $(document).on("vmousemove vmouseup", function(event) {
+                        event.preventDefault();
+                        circle.dragging = true;
+                        KhanUtil.dragging = true;
+
+                        if (event.type === "vmousemove") {
+                            // mouse{X|Y} are in pixels relative to the SVG
+                            var mouseX = event.pageX - $(graphie.raphael.
+                                canvas.parentNode).offset().left;
+                            var mouseY = event.pageY - $(graphie.raphael.
+                                canvas.parentNode).offset().top;
+                            // can't go beyond 10 pixels from the edge
+                            mouseX = Math.max(10, Math.min(graphie.xpixels - 10,
+                                mouseX));
+                            mouseY = Math.max(10, Math.min(graphie.ypixels - 10,
+                                mouseY));
+
+                            // coord{X|Y} are the scaled coordinate values
+                            var coordX = mouseX / graphie.scale[0] +
+                                graphie.range[0][0];
+                            var coordY = graphie.range[1][1] - mouseY /
+                                graphie.scale[1];
+
+                            var radius = KhanUtil.getDistance(
+                                circle.centerPoint.coord, [coordX, coordY]);
+                            radius = Math.max(1,
+                                Math.round(radius / 0.5) * 0.5);
+                            circle.setRadius(radius);
+                        } else if (event.type === "vmouseup") {
+                            $(document).off("vmousemove vmouseup");
+                            circle.dragging = false;
+                            KhanUtil.dragging = false;
+                        }
+                    });
+                }
+        });
+
+        return circle;
+    }
 });
 
 
