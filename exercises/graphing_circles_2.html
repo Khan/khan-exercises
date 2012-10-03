@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions interactive graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Graphing circles 2</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars"
+                    data-ensure="!(H === 0 && K === 0 && R === 2)">
+                    <var id="H">randRange(-5, 5)</var>
+                    <var id="K">randRange(-5, 5)</var>
+                    <var id="R">randRange(1, 5)</var>
+                    <var id="X2T">H === 0 ? "x^2" :
+                        expr(["^", ["+", "x", -H], 2])
+                    </var>
+                    <var id="Y2T">K === 0 ? "y^2" :
+                        expr(["^", ["+", "y", -K], 2])
+                    </var>
+                    <var id="D">-2 * H</var>
+                    <var id="E">-2 * K</var>
+                    <var id="F">H * H + K * K - R * R</var>
+                </div>
+
+                <p class="question">
+                    Graph the circle <code><var>expr(["+", "x^2", "y^2",
+                        D === 0 ? null : ["*", D, "x"],
+                        E === 0 ? null : ["*", E, "y"],
+                        F === 0 ? null : F])</var>
+                    = 0</code>.
+                </p>
+
+                <div class="problem">
+                    <br>
+                    <div class="graphie" id="grid">
+                        graphInit({
+                            range: 11,
+                            scale: 20,
+                            axisArrows: "&lt;-&gt;",
+                            tickStep: 1,
+                            labelStep: 1,
+                            gridOpacity: 0.05,
+                            axisOpacity: 0.2,
+                            tickOpacity: 0.4,
+                            labelOpacity: 0.5
+                        });
+
+                        label( [ 0, 11 ], "y", "above" );
+                        label( [ 11, 0 ], "x", "right" );
+
+                        addMouseLayer();
+                        graph.circle = addCircleGraph();
+                    </div>
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Drag the center point and perimeter of the circle
+                        to graph the equation.
+                    </div>
+                    <div class="guess">[
+                        graph.circle.center[0],
+                        graph.circle.center[1],
+                        graph.circle.radius]
+                    </div>
+                    <div class="validator-function">
+                        if (_.isEqual(guess, [0, 0, 2])) {
+                            return "";
+                        }
+                        return _.isEqual(guess, [H, K, R]);
+                    </div>
+                    <div class="show-guess">
+                        graph.circle.setCenter(guess[0], guess[1]);
+                        graph.circle.setRadius(guess[2]);
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <p>
+                        First, convert the equation to standard form by
+                        completing the square.
+                    </p>
+                    <div>
+                        <p>
+                            Group the <code>\blue{x}</code> and
+                            <code>\green{y}</code> terms on the left side and
+                            move the constant term to the right side.
+                        </p>
+                        <p><code>\qquad
+                            \blue{<span data-if="H !== 0">
+                                (<var>expr(["+", "x^2", ["*", D, "x"]])</var>)
+                            </span><span data-else>
+                                (x^2)
+                            </span>} +
+                            \green{<span data-if="K !== 0">
+                                (<var>expr(["+", "y^2", ["*", E, "y"]])</var>)
+                            </span><span data-else>
+                                (y^2)
+                            </span>}
+                            \quad = \quad <var>-F</var>
+                        </code></p>
+                    </div>
+                    <div>
+                        <p>
+                            Add
+                            <span data-if="H !== 0">
+                                <code>\blue{<var>H * H</var>}</code> to both
+                                sides to complete the square for the
+                                <code>\blue{x}</code> term</span
+                            ><span data-if="H !== 0 && K !== 0"> and</span
+                            ><span data-if="K !== 0">
+                                <code>\green{<var>K * K</var>}</code> to both
+                                sides to complete the square for the
+                                <code>\green{y}</code> term</span
+                            >.
+                        </p>
+                        <p><code>\qquad
+                            \blue{<span data-if="H !== 0">
+                                (<var>
+                                    expr(["+", "x^2", ["*", D, "x"], H * H])
+                                </var>)
+                            </span><span data-else>
+                                (x^2)
+                            </span>}
+                            + \green{<span data-if="K !== 0">
+                                (<var>
+                                    expr(["+", "y^2", ["*", E, "y"], K * K])
+                                </var>)
+                            </span><span data-else>
+                                (y^2)
+                            </span>} \quad = \quad <var>-F</var>
+                            <span data-if="H !== 0">
+                                + \blue{<var>H * H</var>}
+                            <span>
+                            <span data-if="K !== 0">
+                                + \green{<var>K * K</var>}
+                            </span>
+                        </code></p>
+                    </div>
+                    <div>
+                        <p>Simplify and write each term as a square:</p>
+                        <p><code>\qquad
+                            \blue{<var>X2T</var>} + \green{<var>Y2T</var>}
+                            \quad = \quad <var>R * R</var>
+                        </code></p>
+                        <p><code>\qquad
+                            (x - \blue{<var>negParens(H)</var>})^2 + (y -
+                            \green{<var>negParens(K)</var>})^2 \quad = \quad
+                            \pink{<var>R</var>}^2
+                        </code></p>
+                    </div>
+                    <p>
+                        The equation of a circle with center
+                        <code>(\blue{h}, \green{k})</code> and radius
+                        <code>\pink{r}</code> is
+                        <code>(x - \blue{h})^2 + (y - \green{k})^2 =
+                        \pink{r}^2</code>.
+                    </p>
+                    <div>
+                        <p>
+                            Thus, the center of the circle should be
+                            <code>(\blue{<var>H</var>}, \green{<var>K</var>})
+                            </code> and the radius should be
+                            <code>\pink{<var>R</var>}</code>.
+                        </p>
+                        <div class="graphie" data-update="grid">
+                            circle([H, K], R, {
+                                stroke: PURPLE,
+                                strokeWidth: 1,
+                                strokeDasharray: "- "
+                            }).toBack();
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
