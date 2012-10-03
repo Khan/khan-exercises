@@ -21,7 +21,7 @@
                     <!-- Ensure Y_SCALE*Y_ORIG is an integer-->
                     <div data-ensure="abs(Y_SCALE*Y_ORIG) < 16 && (abs(Y_SCALE*Y_ORIG) - floor(abs(Y_SCALE*Y_ORIG))) < 0.001">
                         <var id="Y_ORIG">randRange( -8, 8 )</var>
-                        <var id="SCALE_FACTOR">randRangeNonZero(-4, 4)</var>
+                        <var id="SCALE_FACTOR">randRange(1, 4)</var>
                         <var id="SCALE_DIR">randFromArray(["shrink", "expand"])</var>
                         <!-- data-ensure="abs(X_ORIG/X_SCALE + X_SHIFT) <= 10" -->
                         <var id="Y_SCALE">
