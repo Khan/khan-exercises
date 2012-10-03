@@ -50,24 +50,27 @@
                 else if ( whichAngle === "ABC" || whichAngle === "CBA" ){
                     arc( [width, 0], 0.5, 180 - ang, 180 )
                     
-                    //add degrees label
-                    if( height > width){
-                        label( [width-0.25, 0.3], keyValues.ANGLE_DEGREES+"^\\circ" , "left" );;
-                    }else{
-                        label( [width-0.4*width/height, 0.2], keyValues.ANGLE_DEGREES+"^\\circ" , "left" );;
+                    //add degrees label (only for exercises that contain degrees)
+                    if(typeof keyValues.ANGLE_DEGREES != 'undefined'){
+                        if( height > width){
+                            label( [width-0.25, 0.3], keyValues.ANGLE_DEGREES+"^\\circ" , "left" );;
+                        }else{
+                            label( [width-0.4*width/height, 0.2], keyValues.ANGLE_DEGREES+"^\\circ" , "left" );;
+                        }
                     }
                     
                 }
                 else if ( whichAngle === "CAB" || whichAngle === "BAC" ){
                     arc( [0, height], 0.5, 270, -ang );
                     
-                    //add degrees label
-                    if( height > width){
-                        label( [scale*width/height,height], keyValues.ANGLE_DEGREES+"^\\circ" , "below right" );;
-                    }else{
-                        label( [0, 0.87*height], keyValues.ANGLE_DEGREES+"^\\circ" , "below right" );;
+                    //add degrees label (only for exercises that contain degrees)
+                    if(typeof keyValues.ANGLE_DEGREES != 'undefined'){
+                        if( height > width){
+                            label( [scale*width/height,height], keyValues.ANGLE_DEGREES+"^\\circ" , "below right" );;
+                        }else{
+                            label( [0, 0.87*height], keyValues.ANGLE_DEGREES+"^\\circ" , "below right" );;
+                        }
                     }
-                    
                 }
 
                 label( [0, height], A, "above left" );
@@ -217,6 +220,7 @@
                     <p><code>\displaystyle \sin( \angle <var>ANGLE</var> ) = \frac{\text{opposite}}{\text{hypotenuse}}  = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{<var>HYPOTENUSE_NAME</var>}}</code></p>
                     <p><code>\displaystyle \sin(<var>ANGLE_DEGREES</var>^{\circ}) = \frac{<var>OPPOSITE_VALUE</var>}{\overline{<var>HYPOTENUSE_NAME</var>}}</code></p>
                     <p><code>\displaystyle \overline{<var>HYPOTENUSE_NAME</var>} = \frac{<var>OPPOSITE_VALUE</var>}{\sin(<var>ANGLE_DEGREES</var>^{\circ})}</code></p>
+                    <p><code>\displaystyle \overline{<var>HYPOTENUSE_NAME</var>} = \frac{<var>OPPOSITE_VALUE</var>}{<var>SIN_ROUNDED</var>}</code></p>
                     <div>
                         <p>Simplify, rounding to the nearest whole number</p>
                         <p class="final_answer"><code>\overline{<var>HYPOTENUSE_NAME</var>} = <var>HYPOTENUSE_VALUE</var></code></p>
@@ -289,6 +293,7 @@
                     <p><code>\displaystyle \cos( \angle <var>ANGLE</var> ) = \frac{\text{adjacent}}{\text{hypotenuse}}  = \frac{\overline{<var>ADJACENT_NAME</var>}}{\overline{<var>HYPOTENUSE_NAME</var>}}</code></p>
                     <p><code>\displaystyle \cos(<var>ANGLE_DEGREES</var>^{\circ}) = \frac{<var>ADJACENT_VALUE</var>}{\overline{<var>HYPOTENUSE_NAME</var>}}</code></p>
                     <p><code>\displaystyle \overline{<var>HYPOTENUSE_NAME</var>} = \frac{<var>ADJACENT_VALUE</var>}{\cos(<var>ANGLE_DEGREES</var>^{\circ})}</code></p>
+                    <p><code>\displaystyle \overline{<var>HYPOTENUSE_NAME</var>} = \frac{<var>ADJACENT_VALUE</var>}{<var>COS_ROUNDED</var>}</code></p>
                     <div>
                         <p>Simplify, rounding to the nearest whole number</p>
                         <p class="final_answer"><code>\overline{<var>HYPOTENUSE_NAME</var>} = <var>HYPOTENUSE_VALUE</var></code></p>
@@ -362,6 +367,7 @@
                     <p><code>\displaystyle \tan( \angle <var>ANGLE</var> ) = \frac{\text{opposite}}{\text{adjacent}}  = \frac{\overline{<var>OPPOSITE_NAME</var>}}{\overline{<var>ADJACENT_NAME</var>}}</code></p>
                     <p><code>\displaystyle \tan(<var>ANGLE_DEGREES</var>^{\circ}) = \frac{\overline{<var>OPPOSITE_NAME</var>}}{<var>ADJACENT_VALUE</var>}</code></p>
                     <p><code>\displaystyle <var>ADJACENT_VALUE</var> \times \tan(<var>ANGLE_DEGREES</var>^{\circ}) = \overline{<var>OPPOSITE_NAME</var>}</code></p>
+                    <p><code>\displaystyle <var>ADJACENT_VALUE</var> \times <var>TAN_ROUNDED</var> = \overline{<var>OPPOSITE_NAME</var>}</code></p>
                     <div>
                         <p>Simplify, rounding to the nearest whole number</p>
                         <p class="final_answer"><code>\overline{<var>OPPOSITE_NAME</var>} = <var>OPPOSITE_VALUE</var></code></p>
