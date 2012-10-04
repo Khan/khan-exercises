@@ -18,7 +18,7 @@
     <div class="exercise">
 
     <div class="vars">
-        <var id="MAT_A">randRange(-5, 10, ROWS, COLS)</var>
+        <var id="MAT_A">randRange(-2, 4, ROWS, COLS)</var>
         <var id="SCALAR">randRange(-5, 5)</var>
         <var id="OPERATION">"*"</var>
         <var id="SOLN_MAT">
@@ -27,14 +27,15 @@
             }, MAT_A)
         </var>
 
-        <var id="MAT_A_COLOR">KhanUtil.BLUE</var>
-        <var id="SCALAR_COLOR">KhanUtil.GREEN</var>
-        <var id="SOLN_MAT_COLOR">KhanUtil.RED</var>
         <var id="SCALAR_MAT">
             deepZipWith(2, function(a) {
                 return SCALAR;
             }, MAT_A)
         </var>
+
+        <var id="MAT_A_COLOR">BLUE</var>
+        <var id="SCALAR_COLOR">GREEN</var>
+        <var id="SOLN_MAT_COLOR">PINK</var>
 
         <var id="PRETTY_MAT_A">
             printMatrix(MAT_A, MAT_A_COLOR)
@@ -48,26 +49,20 @@
     </div>
 
     <div class="question">
-        <div class="graphie">
-            init({
-                range: [ [0, 12], [-1, 1] ]
-            });
-
-            var color = "\\color{" + SCALAR_COLOR + "}{" + SCALAR + "}";
-
-            label( [0, 0],
-                "\\Large{" + color + OPERATION + PRETTY_MAT_A + " = {?}}",
-                "right" );
-        </div>
+        <code>
+            \Large{
+                \color{<var>SCALAR_COLOR</var>}{<var>SCALAR</var>}
+                <var>OPERATION</var>
+                <var>PRETTY_MAT_A</var> = {?}
+            }
+        </code>
     </div>
 
     <div class="hints">
         <div>
             <p>To multiply a matrix by a number, multiply each item of the matrix by the number.</p>
             <div>
-                <p>
-                    <code>\Large{<var>PRETTY_HINT_MAT</var>}</code>
-                </p>
+                <code>\Large{<var>PRETTY_HINT_MAT</var>}</code>
             </div>
         </div>
         <div>
@@ -78,21 +73,19 @@
         </div>
     </div>
 
+    <div class="solution" data-type="multiple">
+        <p data-each="SOLN_MAT as row" class="row">
+            <span data-each="row as elem" class="sol">
+                <var>elem</var>
+            </span>
+        </p>
+    </div>
+
     <div class="problems">
         <div id="2x2">
             <div class="vars" data-apply="prependVars">
                 <var id="ROWS">2</var>
                 <var id="COLS">2</var>
-            </div>
-            <div class="solution" data-type="multiple">
-                <p class="row">
-                    <span class="sol"><var>SOLN_MAT[0][0]</var></span>
-                    <span class="sol"><var>SOLN_MAT[0][1]</var></span>
-                </p>
-                <p class="row">
-                    <span class="sol"><var>SOLN_MAT[1][0]</var></span>
-                    <span class="sol"><var>SOLN_MAT[1][1]</var></span>
-                </p>
             </div>
         </div>
 
@@ -101,35 +94,12 @@
                 <var id="ROWS">2</var>
                 <var id="COLS">3</var>
             </div>
-            <div class="solution" data-type="multiple">
-                <p class="row">
-                    <span class="sol"><var>SOLN_MAT[0][0]</var></span>
-                    <span class="sol"><var>SOLN_MAT[0][1]</var></span>
-                    <span class="sol"><var>SOLN_MAT[0][2]</var></span>
-                </p>
-                <p class="row">
-                    <span class="sol"><var>SOLN_MAT[1][0]</var></span>
-                    <span class="sol"><var>SOLN_MAT[1][1]</var></span>
-                    <span class="sol"><var>SOLN_MAT[1][2]</var></span>
-                </p>
-            </div>
         </div>
 
         <div id="3x1">
             <div class="vars" data-apply="prependVars">
                 <var id="ROWS">3</var>
                 <var id="COLS">1</var>
-            </div>
-            <div class="solution" data-type="multiple">
-                <p class="row">
-                    <span class="sol"><var>SOLN_MAT[0][0]</var></span>
-                </p>
-                <p class="row">
-                    <span class="sol"><var>SOLN_MAT[1][0]</var></span>
-                </p>
-                <p class="row">
-                    <span class="sol"><var>SOLN_MAT[2][0]</var></span>
-                </p>
             </div>
         </div>
 
@@ -138,22 +108,9 @@
                 <var id="ROWS">3</var>
                 <var id="COLS">2</var>
             </div>
-            <div class="solution" data-type="multiple">
-                <p class="row">
-                    <span class="sol"><var>SOLN_MAT[0][0]</var></span>
-                    <span class="sol"><var>SOLN_MAT[0][1]</var></span>
-                </p>
-                <p class="row">
-                    <span class="sol"><var>SOLN_MAT[1][0]</var></span>
-                    <span class="sol"><var>SOLN_MAT[1][1]</var></span>
-                </p>
-                <p class="row">
-                    <span class="sol"><var>SOLN_MAT[2][0]</var></span>
-                    <span class="sol"><var>SOLN_MAT[2][1]</var></span>
-                </p>
-            </div>
         </div>
     </div>
+
     </div>
 </body>
 </html>

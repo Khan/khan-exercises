@@ -22,6 +22,7 @@
         <var id="MAT_A">randRange(-2, 4, ROWS, COLS)</var>
         <var id="MAT_B">randRange(-2, 4, ROWS, COLS)</var>
         <var id="OPERATION">randFromArray(["+", "-"])</var>
+
         <var id="SOLN_MAT">
             deepZipWith(2, function(a, b) {
                 if (OPERATION === "+") {
@@ -31,17 +32,22 @@
                 }
             }, MAT_A, MAT_B)
         </var>
+
+        <var id="MAT_A_COLOR">BLUE</var>
+        <var id="MAT_B_COLOR">GREEN</var>
+        <var id="SOLN_MAT_COLOR">PINK</var>
+
         <var id="PRETTY_MAT_A">
-            printMatrix(MAT_A, BLUE)
+            printMatrix(MAT_A, MAT_A_COLOR)
         </var>
         <var id="PRETTY_MAT_B">
-            printMatrix(MAT_B, GREEN)
+            printMatrix(MAT_B, MAT_B_COLOR)
         </var>
         <var id="PRETTY_HINT_MAT">
-            printMatrix(MAT_A, BLUE, MAT_B, GREEN, OPERATION)
+            printMatrix(MAT_A, MAT_A_COLOR, MAT_B, MAT_B_COLOR, OPERATION)
         </var>
         <var id="PRETTY_SOLN_MAT">
-            printMatrix(SOLN_MAT, PINK)
+            printMatrix(SOLN_MAT, SOLN_MAT_COLOR)
         </var>
     </div>
 
@@ -64,9 +70,7 @@
                 the corresponding items between each matrix.
             </p>
             <div>
-                <p>
-                    <code>\Large{<var>PRETTY_HINT_MAT</var>}</code>
-                </p>
+                <code>\Large{<var>PRETTY_HINT_MAT</var>}</code>
             </div>
         </div>
         <div>
