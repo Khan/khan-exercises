@@ -458,6 +458,20 @@ $.extend(KhanUtil, {
         return array.slice(beginning);
     },
 
+    //return the sign of a number
+    //"-" if negative, "+" otherwise
+    sign: function(num) {
+        if (num < 0) {
+            return "-";
+        }
+        return "+";
+    },
+
+    // return number with signs as a string
+    signedNum: function(num) {
+      return this.sign(num) + Math.abs(num);
+    },
+
     sortNumbers: function(array) {
         return array.slice(0).sort(function(a, b) {
             return a - b;

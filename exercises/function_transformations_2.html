@@ -19,29 +19,60 @@
                     <var id="X_ORIG">randRange( -8, 8 )</var>
                     <var id="UP_ORIG">randRangeNonZero(-1, 1)</var>
                     <var id="Y_ORIG">randRange( -8, 8 )</var>
-                    <div data-ensure="abs(Y_ORIG + UP_ORIG*X_SCALE*X_SCALE) < 16 && abs(((X_SHIFT + X_ORIG)/X_SCALE) - floor((X_SHIFT + X_ORIG)/X_SCALE)) < 0.01">
+                    <div data-ensure=
+                        "abs(Y_ORIG + UP_ORIG*X_SCALE*X_SCALE) < 16 &&
+                         isInt(roundTo((X_SHIFT + X_ORIG)/X_SCALE, 3))">
                         <var id="SCALE_FACTOR">randRangeNonZero(1, 4)</var>
-                        <var id="SCALE_DIR">randFromArray(["shrink", "expand"])</var>
-                        <!-- data-ensure="abs(X_ORIG/X_SCALE + X_SHIFT) <= 10" -->
-                        <var id="X_SCALE">
-                            SCALE_DIR === "shrink" ? SCALE_FACTOR : 1/SCALE_FACTOR</var>
+                        <var id="SCALE_DIR">
+                            randFromArray(["shrink", "expand"])
                         </var>
-                        <var id="X_SHIFT">randRangeNonZero(-floor(10*abs(X_SCALE))- X_ORIG, floor(10*abs(X_SCALE) - X_ORIG))</var>
+                        <var id="X_SCALE">
+                            SCALE_DIR === "shrink" ? 
+                                SCALE_FACTOR : 1/SCALE_FACTOR
+                        </var>
+                        <var id="X_SHIFT">
+                            randRangeNonZero(-floor(10*abs(X_SCALE))- X_ORIG, 
+                                             floor(10*abs(X_SCALE) - X_ORIG))
+                        </var>
                     </div>
-                    <var id="X_SCALE_DISPLAY"> X_SCALE &lt; 1? "\\dfrac{1}{" + SCALE_FACTOR +"}":X_SCALE</var> 
-                    <var id="X_SCALE_DISPLAY_2"> X_SCALE &lt; 1? "\\dfrac{-1}{" + SCALE_FACTOR +"}":-X_SCALE</var> 
-                    <var id="Y_SHIFT" data-ensure="abs(UP_ORIG*X_SCALE*X_SCALE + Y_ORIG + Y_SHIFT) < 16">
+                    <var id="X_SCALE_DISPLAY"> 
+                        X_SCALE &lt; 1 ? 
+                            "\\dfrac{1}{" + SCALE_FACTOR +"}":X_SCALE
+                    </var> 
+                    <var id="X_SCALE_DISPLAY_2"> 
+                        X_SCALE &lt; 1 ? 
+                            "\\dfrac{-1}{" + SCALE_FACTOR +"}":-X_SCALE
+                    </var> 
+                    <var id="Y_SHIFT" data-ensure=
+                        "abs(UP_ORIG*X_SCALE*X_SCALE + Y_ORIG + Y_SHIFT) < 16">
                         randRangeNonZero(-10 - Y_ORIG, 10 - Y_ORIG)
                     </var>
                     <var id="GX_VERTEX_X">-(X_SHIFT + X_ORIG)/X_SCALE</var>
                     <var id="GX_VERTEX_Y">Y_ORIG + Y_SHIFT</var>
-                    <var id="GX_POINT_X">X_SCALE &gt; 1 ?(1-(X_SHIFT + X_ORIG)/X_SCALE):SCALE_FACTOR*(1 - (X_SHIFT + X_ORIG))</var>
-                    <var id="GX_POINT_Y">UP_ORIG * pow(X_SCALE * GX_POINT_X + X_ORIG + X_SHIFT, 2) + Y_ORIG + Y_SHIFT</var>
+                    <var id="GX_POINT_X">
+                        X_SCALE &gt; 1 ? 
+                        (1-(X_SHIFT + X_ORIG)/X_SCALE):
+                        SCALE_FACTOR*(1 - (X_SHIFT + X_ORIG))
+                    </var>
+                    <var id="GX_POINT_Y">
+                        UP_ORIG * 
+                        pow(X_SCALE * GX_POINT_X + X_ORIG + X_SHIFT, 2) +
+                        Y_ORIG + Y_SHIFT
+                    </var>
                 </div> 
                 <div class="problem">
-                    <p><code>\red{f(x)}</code> is graphed in <span class="hint_red">red</span>.</p>
-                    <p><code>\blue{g(x)}</code> is graphed in <span class="hint_blue">blue</span>.</p>
-                    <p>Given the scaling factor is positive, what is <code>\blue{g(x)}</code> in terms of <code>\red{f(x)}</code>?</p>
+                    <p>
+                        <code>\red{f(x)}</code> is graphed in 
+                        <span class="hint_red">red</span>.
+                     </p>
+                    <p>
+                        <code>\blue{g(x)}</code> is graphed in 
+                        <span class="hint_blue">blue</span>.
+                    </p>
+                    <p>
+                        What is <code>\blue{g(x)}</code> in terms of 
+                        <code>\red{f(x)}</code>?
+                    </p>
                 </div>
                 <div class="graphie" id="G">
                     graphInit({
@@ -66,153 +97,244 @@
                     });
 
                     plot( function( x ) {
-                        return  UP_ORIG * pow( X_SCALE * x + X_SHIFT + X_ORIG, 2) +  Y_ORIG + Y_SHIFT;
+                        return  (UP_ORIG * 
+                                 pow( X_SCALE * x + X_SHIFT + X_ORIG, 2) + 
+                                 Y_ORIG + Y_SHIFT);
                     }, [-20, 20]);
                 </div>
                 <div class="solution" data-type="set">
                     <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="rational"><var>X_SCALE</var></span>
-                        <span class="sol" data-type="decimal"><var>X_SHIFT</var></span>
-                        <span class="sol" data-type="decimal"><var>Y_SHIFT</var></span>
+                        <span class="sol" data-type="rational">
+                            <var>X_SCALE</var>
+                        </span>
+                        <span class="sol" data-type="decimal">
+                            <var>X_SHIFT</var>
+                        </span>
+                        <span class="sol" data-type="decimal">
+                            <var>Y_SHIFT</var>
+                        </span>
                     </div>
                     <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="rational"><var>-X_SCALE</var></span>
-                        <span class="sol" data-type="decimal"><var>-X_SHIFT - 2* X_ORIG</var></span>
-                        <span class="sol" data-type="decimal"><var>Y_SHIFT</var></span>
+                        <span class="sol" data-type="rational">
+                            <var>-X_SCALE</var>
+                        </span>
+                        <span class="sol" data-type="decimal">
+                            <var>-X_SHIFT - 2* X_ORIG</var>
+                        </span>
+                        <span class="sol" data-type="decimal">
+                            <var>Y_SHIFT</var>
+                        </span>
                     </div>
                     <div class="input-format"> 
                         <p class="entry" data-type="multiple">
                             <code>f(</code>
                             <span class="sol" data-type="rational"></span>
-                            <code>x+</code><span class="sol" data-type="decimal"></span>
-                            <code>)+</code><span class="sol" data-type="decimal"></span>
+                            <code>x+</code>
+                            <span class="sol" data-type="decimal"></span>
+                            <code>)+</code>
+                            <span class="sol" data-type="decimal"></span>
                         </p>
                     </div>
                 </div>
                 <div class="hints">
                     <div>
-                        To get from <code>f(x)</code> to <code>g(x)</code>, let's first figure out what f(x) and g(x) are individually. 
-                        Then we can infer the scaling factor and shifts from the functions.
+                        <p>To get from <code>f(x)</code> to <code>g(x)</code>, 
+                        let's first figure out what <code>f(x)</code>
+                        and <code>g(x) </code>are individually. 
+                        Then we can infer the scaling factor and shifts 
+                        from the functions.</p>
                     </div>
                     <div>
-                        Both <code>f(x)</code> and <code>g(x)</code> are parabolas with the form <br/>
-                        <code> a(x-x')^2 + y' </code>, where <code>(x', y') </code> is the vertex.
+                        <p>Both <code>f(x)</code> and <code>g(x)</code> are 
+                        parabolas with the form</p>
+
+                        <p><code> a(x-x')^2 + y' </code>, where 
+                        <code>(x', y') </code> is the vertex.</p>
                     </div>
                     <div> 
-                        To figure out <code>f(x)</code>, with the vertex of <code>f(x)=(<var>-X_ORIG</var>, <var>Y_ORIG</var>)</code>, we know <br/>
-                        <code> f(x) = a_f(x <var> X_ORIG > 0 ?"+":"-"</var><var>abs(X_ORIG)</var>)^2
-                            <var>Y_ORIG &gt; 0 ? "+":"-"</var><var>abs(Y_ORIG)</var> 
-                        </code>
+                        <p>To figure out <code>f(x)</code>, with the vertex of
+                        <code>f(x)=(<var>-X_ORIG</var>, <var>Y_ORIG</var>)
+                        </code>, we know</p>
+                         
+                        <p><code> f(x) = a_f(x <var>signedNum(X_ORIG)</var>)^2
+                        <var>sign(Y_ORIG)</var><var>abs(Y_ORIG)</var></code></p>
                     </div>
                     <div>
-                        <p>
-                        To solve <code>a_f</code>, we can plug in any point on <code>f(x)</code> other than the vertex. 
-                        For example, we can pick <code>(<var>-X_ORIG+1</var>,<var>UP_ORIG + Y_ORIG</var>)</code> into the equation.     
-                        </p>
-                        <p>
-                        This will give us <br/>
-                        <code> <var>UP_ORIG + Y_ORIG</var> = a_f \cdot (<var>-X_ORIG+1</var><var> X_ORIG > 0 ?"+":"-"</var><var>abs(X_ORIG)</var>)^2 
-                            <var>Y_ORIG &gt; 0 ? "+":"-"</var><var>abs(Y_ORIG)</var></code> <br/>
-                        <code> a_f = <var>UP_ORIG</var></code> </br>
-                        <code> f(x) = <var>UP_ORIG === 1?"":"-"</var>(x <var> X_ORIG &gt; 0 ?"+":"-"</var><var>abs(X_ORIG)</var>)^2
-                            <var>Y_ORIG &gt; 0 ? "+":"-"</var><var>abs(Y_ORIG)</var> 
-                        </code>
-                        </p>
+                        <p> To solve <code>a_f</code>, we can plug in any point
+                        on <code>f(x)</code> other than the vertex. 
+                        For example, we can pick <code>
+                        (<var>-X_ORIG+1</var>,<var>UP_ORIG + Y_ORIG</var>)
+                        </code> into the equation.</p>
+
+                        <p> This will give us </p>
+
+                        <p><code> <var>UP_ORIG + Y_ORIG</var> = a_f \cdot 
+                        (<var>-X_ORIG+1</var><var>signedNum(X_ORIG)</var>)^2 
+                        <var>signedNum(Y_ORIG)</var></code></p>
+
+                        <p><code> a_f = <var>UP_ORIG</var></code></p>
+
+                        <p><code> f(x) = <var>UP_ORIG === 1?"":"-"</var>
+                        (x <var>signedNum(X_ORIG)</var>)^2
+                        <var>signedNum(Y_ORIG)</var></code></p>
                     </div>
                     <div>
-                        Similarly, to figure out <code>g(x)</code>, we have the vertex 
-                        <code>(<var>GX_VERTEX_X</var>,<var>GX_VERTEX_Y</var>)</code> and another point on <code>g(x)</code>
-                        <code>(<var>GX_POINT_X</var>,<var>GX_POINT_Y</var>)</code>. 
-                        Plugging the point into the equation gives us <br/>
-                        <code> <var>GX_POINT_Y</var> = a_g \cdot (<var>GX_POINT_X</var><var>GX_VERTEX_X &gt; 0 ? "-":"+"</var><var>abs(GX_VERTEX_X)</var>)^2 
-                            <var>GX_VERTEX_Y &gt; 0 ? "+":"-"</var><var>abs(GX_VERTEX_Y)</var>
-                        </code><br/>
-                        <code>a_g = <var>X_SCALE &lt; 1 ?"\\frac{" + UP_ORIG +"}{" + SCALE_FACTOR*SCALE_FACTOR+"}":(UP_ORIG*X_SCALE*X_SCALE)</var></code> <br/>
-                        Now we know, <br/>
-                        <code>
-                            g(x) = <var>X_SCALE &lt; 1 ?"\\frac{" + UP_ORIG +"}{" + SCALE_FACTOR*SCALE_FACTOR+"}":(UP_ORIG*X_SCALE*X_SCALE)</var>
-                                   (x<var>GX_VERTEX_X &gt; 0 ? "-":"+"</var><var>abs(GX_VERTEX_X)</var>)^2 
-                                   <var>GX_VERTEX_Y &gt; 0 ? "+":"-"</var><var>abs(GX_VERTEX_Y)</var>
-                        </code>
+
+                       <p>Similarly, to figure out <code>g(x)</code>, 
+                       we have the vertex<code>(<var>GX_VERTEX_X</var>, 
+                       <var>GX_VERTEX_Y</var>)</code> and another point 
+                       <code>(<var>GX_POINT_X</var>, 
+                       <var>GX_POINT_Y</var>)</code>.</p> 
+
+                       <p>Plugging the point into the equation gives us</p> 
+
+                       <p><code> <var>GX_POINT_Y</var> = a_g \cdot 
+                       (<var>GX_POINT_X</var>
+                       <var>signedNum(-GX_VERTEX_X)</var>)^2 
+                       <var>signedNum(GX_VERTEX_Y)</var>
+                       </code></p>
+
+                        <p><code>a_g = <var>X_SCALE &lt; 1 ?
+                            "\\frac{" + UP_ORIG +"}{" + 
+                            SCALE_FACTOR*SCALE_FACTOR+"}":
+                        (UP_ORIG*X_SCALE*X_SCALE)</var></code></p>
+                        <p>Now we know,</p>
+                        <p><code> g(x) = <var>X_SCALE &lt; 1 ? 
+                            "\\frac{" + UP_ORIG +"}{" + 
+                            SCALE_FACTOR*SCALE_FACTOR+"}":
+                            (UP_ORIG*X_SCALE*X_SCALE)</var>(x
+                            <var>signedNum(-GX_VERTEX_X)</var>)^2 
+                            <var>signedNum(GX_VERTEX_Y)</var></code></p>
                     </div>
                     <div>
-                        Now we know <code>f(x)</code> and <code>g(x)</code>. <br/>
-                        We also know the solution has the format of <br/>
-                        <code> g(x) = f(s \cdot x + x_s) + y_s</code>,  which gives us  <br/>
-                        <code> g(x) = <var>UP_ORIG === 1?"":"-"</var>(s \cdot x + x_s<var> X_ORIG &gt; 0 ?"+":"-"</var><var>abs(X_ORIG)</var>)^2
-                            <var>Y_ORIG &gt; 0 ? "+":"-"</var><var>abs(Y_ORIG)</var> + y_s
-                        </code> <br/>
-                        We also know that <br/>
-                        <code>
-                            g(x) = <var>X_SCALE &lt; 1 ?"\\frac{" + UP_ORIG +"}{" + SCALE_FACTOR*SCALE_FACTOR+"}":(UP_ORIG*X_SCALE*X_SCALE)</var>
-                                   (x<var>GX_VERTEX_X &gt; 0 ? "-":"+"</var><var>abs(GX_VERTEX_X)</var>)^2 
-                                   <var>GX_VERTEX_Y &gt; 0 ? "+":"-"</var><var>abs(GX_VERTEX_Y)</var>
-                        </code>
+                        <p>Now we know <code>f(x)</code> 
+                        and <code>g(x)</code>.</p>
+
+                        <p>We also know the solution has the format of</p> 
+
+                        <p><code> g(x) = f(s \cdot x + x_s) + y_s</code>, 
+                        which gives us</p>  
+
+                        <p class="hint_pink">
+                        <code> g(x) = <var>UP_ORIG === 1?"":"-"</var>
+                        (s \cdot x + x_s<var>signedNum(X_ORIG)</var>)^2
+                        <var>signedNum(Y_ORIG)</var> + y_s </code></p>
+
+                        <p>We also know that</p> 
+                        <p class="hint_pink">
+                        <code>g(x) = <var>X_SCALE &lt; 1 ?
+                        "\\frac{" + UP_ORIG +"}{"
+                        + SCALE_FACTOR*SCALE_FACTOR+"}":
+                        (UP_ORIG*X_SCALE*X_SCALE)</var>
+                        (x<var>signedNum(-GX_VERTEX_X)</var>)^2 
+                        <var>signedNum(GX_VERTEX_Y)</var></code> 
                     </div>
                     <div>
-                       Compare the two <code>g(x)</code> representations from the previous step, we get <br/>
-                       <code> s^2 = <var>X_SCALE &lt; 1 ?"\\frac{1}{" + SCALE_FACTOR*SCALE_FACTOR+"}":(X_SCALE*X_SCALE)</var></code> <br/>
-                       This gives us <code>s=<var>X_SCALE_DISPLAY</var></code> or <code>s=<var>X_SCALE_DISPLAY_2</var></code> <br/>
+                        <p>Compare the two 
+                        <span class="hint_pink"><code>g(x)</code></span>
+                        representations from the previous step on the Y 
+                        offsets, we get </p>
+
+                        <p><code>
+                        <var>Y_ORIG</var> + y_s = <var>Y_ORIG + Y_SHIFT</var>
+                        </code></p>
+
+                        <p>This gives us</p> 
+
+                        <p><code> y_s = <var>Y_SHIFT</var></code></p>
+                    </div>
+                    <div>   
+                        <p>Compare the two <code>g(x)</code> representations on
+                        coefficients for <code>x^2</code>, we get</p>
+                       
+                        <p><code> s^2 = <var>X_SCALE &lt; 1 ?
+                           "\\frac{1}{" + SCALE_FACTOR*SCALE_FACTOR+"}":
+                           (X_SCALE*X_SCALE)</var></code></p>
+                        
+                        <p>This gives us 
+                        <code>s=<var>X_SCALE_DISPLAY</var></code> or 
+                        <code>s=<var>X_SCALE_DISPLAY_2</var></code></p>
                     </div>
                     <div>
-                        Compare the two <code>g(x)</code> representations, we also get <br/>
-                        <code>
-                            <var>Y_ORIG</var> + y_s = <var>Y_ORIG + Y_SHIFT</var>
-                        </code> <br/>
-                        This gives us <br/>
-                        <code> y_s = <var>Y_SHIFT</var></code>
+                        <p>Now with <code>s=<var>X_SCALE_DISPLAY</var></code>, 
+                        we can rewrite <code>g(x)</code> as</p>
+
+                        <p><code> g(x) = <var>UP_ORIG === 1?"":"-"</var>(
+                        <var>X_SCALE_DISPLAY</var>(x
+                        <var>signedNum(-GX_VERTEX_X)</var>))^2 
+                        <var>signedNum(GX_VERTEX_Y)</var></code></p>
+
+                        <p>,which is equivalent to </p>
+                        <p class="hint_green">
+                        <code>g(x)=<var>UP_ORIG === 1?"":"-"</var>(
+                        <var>X_SCALE_DISPLAY</var>x 
+                        <var>signedNum(-GX_VERTEX_X*X_SCALE)</var>)^2 
+                        <var>signedNum(GX_VERTEX_Y)</var></code> </p>
                     </div>
                     <div>
-                        Now with <code>s = <var>X_SCALE_DISPLAY</var></code>, we can rewrite <code>g(x)</code> as <br/>
-                        <code> g(x) = <var>UP_ORIG === 1?"":"-"</var>(<var>X_SCALE_DISPLAY</var>
-                            (x<var>GX_VERTEX_X &gt; 0 ? "-":"+"</var><var>abs(GX_VERTEX_X)</var>))^2 + <var>GX_VERTEX_Y</var>
-                        </code> <br/>
-                        ,which is equivalent to <br/>
-                        <code> g(x) = <var>UP_ORIG === 1?"":"-"</var>(<var>X_SCALE_DISPLAY</var>x 
-                            <var>GX_VERTEX_X &gt; 0 ? "-":"+"</var><var>abs(X_SCALE*GX_VERTEX_X)</var>)^2 + <var>GX_VERTEX_Y</var>
-                        </code> <br/>
-                        Compare the new <code>g(x)</code> representations with <br/>
-                        <code> g(x) = <var>UP_ORIG === 1?"":"-"</var>(s \cdot x + x_s<var> X_ORIG &gt; 0 ?"+":"-"</var><var>abs(X_ORIG)</var>)^2
-                            <var>Y_ORIG &gt; 0 ? "+":"-"</var><var>abs(Y_ORIG)</var> + y_s
-                        </code> <br/>
-                        We get <br/>
-                        <code>
-                            x_s<var> X_ORIG &gt; 0 ?"+":"-"</var><var>abs(X_ORIG)</var> = <var>-X_SCALE*GX_VERTEX_X</var>
-                        </code> <br/>
-                        This gives us <br/>
-                        <code>x_s = <var>X_SHIFT</var></code> when <code>s= <var>X_SCALE_DISPLAY</var></code>.
+                        <p>Compare the new 
+                        <span class="hint_green"><code>g(x)</code></span> 
+                        representations with </p>
+
+                        <p><code> g(x) = <var>UP_ORIG === 1?"":"-"</var>( 
+                        <var>X_SCALE_DISPLAY</var>
+                        \cdot x + x_s<var>signedNum(X_ORIG)</var>)^2
+                        <var>signedNum(Y_ORIG)</var> + y_s</code></p>
+
+                        <p>We get </p>
+
+                        <p><code>x_s<var>signedNum(X_ORIG)</var> = 
+                        <var>-X_SCALE*GX_VERTEX_X</var> </code></p>
+
+                        <p>This gives us </p>
+
+                        <p><code>x_s = <var>X_SHIFT</var></code> 
+                        when <code>s= <var>X_SCALE_DISPLAY</var></code>.</p>
                     </div>
                     <div>
-                        Similarly, with <code>s=<var>X_SCALE_DISPLAY_2</var></code>, we can rewrite <code>g(x)</code> as <br/>
-                        <code> g(x) = <var>UP_ORIG === 1?"":"-"</var>(<var>X_SCALE_DISPLAY_2</var>
-                            (x<var>GX_VERTEX_X &gt; 0 ? "-":"+"</var><var>abs(GX_VERTEX_X)</var>))^2 + <var>GX_VERTEX_Y</var>
-                        </code> <br/>
-                        ,which is equivalent to <br/>
-                        <code> g(x) = <var>UP_ORIG === 1?"":"-"</var>(<var>X_SCALE_DISPLAY_2</var>x 
-                            <var>GX_VERTEX_X &gt; 0 ? "+":"-"</var><var>abs(X_SCALE*GX_VERTEX_X)</var>)^2 + <var>GX_VERTEX_Y</var>
-                        </code> <br/>
-                        Compare the new <code>g(x)</code> representations with <br/>
-                        <code> g(x) = <var>UP_ORIG === 1?"":"-"</var>(s \cdot x + x_s<var> X_ORIG &gt; 0 ?"+":"-"</var><var>abs(X_ORIG)</var>)^2
-                            <var>Y_ORIG &gt; 0 ? "+":"-"</var><var>abs(Y_ORIG)</var> + y_s
-                        </code> <br/>
-                        We get <br/>
-                        <code>
-                            x_s<var> X_ORIG &gt; 0 ?"+":"-"</var><var>abs(X_ORIG)</var> = <var>X_SCALE*GX_VERTEX_X</var>
-                        </code> <br/>
-                        This gives us <br/>
-                        <code>x_s = <var>-X_SHIFT - 2 * X_ORIG</var></code> when <code>s= <var>X_SCALE_DISPLAY_2</var></code>.
+                        <p>Similarly, with <code>s=<var>X_SCALE_DISPLAY_2</var>
+                        </code>, we can rewrite <code>g(x)</code> as</p> 
+
+                        <p><code> g(x) = <var>UP_ORIG === 1?"":"-"</var>(
+                        <var>X_SCALE_DISPLAY_2</var>(x
+                        <var>signedNum(-GX_VERTEX_X)</var>))^2 
+                        <var>signedNum(GX_VERTEX_Y)</var></code></p>
+
+                        <p>,which is equivalent to</p>
+
+                        <p><code> g(x) = <var>UP_ORIG === 1?"":"-"</var>(
+                        <var>X_SCALE_DISPLAY_2</var>x 
+                        <var>signedNum(X_SCALE*GX_VERTEX_X)</var>)^2 
+                        <var>signedNum(GX_VERTEX_Y)</var></code></p>
                     </div>
                     <div>
-                        From above we know that <br/>
-                        <code> 
-                            g(x) = f(<var>X_SCALE_DISPLAY</var> \cdot x <var>X_SHIFT &gt; 0 ? "+":"-"</var> <var>abs(X_SHIFT)</var>)
-                                   <var>Y_SHIFT &gt; 0? "+" : "-" </var><var>abs(Y_SHIFT)</var>  
-                        </code> ,or <br/>
-                        <code> 
-                            g(x) = f(<var>X_SCALE_DISPLAY_2</var> \cdot x +
-                                   <var>(X_SHIFT + 2* X_ORIG) &gt; 0? "-":"+"</var><var>abs(X_SHIFT + 2* X_ORIG)</var>
-                                   <var>Y_SHIFT &gt;0? "+" : "-" </var><var>abs(Y_SHIFT)</var>  
-                        </code>
+                        <p>Compare the new <code>g(x)</code> representations
+                        with </p> 
+
+                        <p><code> g(x) = <var>UP_ORIG === 1?"":"-"</var>(
+                        <var>X_SCALE_DISPLAY_2</var> \cdot x + x_s<var>
+                        <var>signedNum(X_ORIG)</var>)^2
+                        <var>signedNum(Y_ORIG)</var> + y_s</code></p>
+
+                        <p>We get</p>
+
+                        <p><code> x_s<var>signedNum(X_ORIG)</var> = 
+                        <var>X_SCALE*GX_VERTEX_X</var></code></p>
+
+                        <p>This gives us</p>
+
+                        <p><code>x_s = <var>-X_SHIFT - 2 * X_ORIG</var></code>
+                        when <code>s= <var>X_SCALE_DISPLAY_2</var></code>.</p>
+                    </div>
+                    <div>
+                        From above we know that 
+                        <p><code>g(x) = f(<var>X_SCALE_DISPLAY</var> \cdot x 
+                        <var>signedNum(X_SHIFT)</var>)
+                        <var>signedNum(Y_SHIFT)</var></code>, or</p> 
+
+                        <p><code>g(x) = f(<var>X_SCALE_DISPLAY_2</var> 
+                        \cdot x <var>signedNum(-X_SHIFT - 2* X_ORIG)</var>)
+                        <var>signedNum(Y_SHIFT)</var></code></p>
                     </div>
                 </div>
             </div>
