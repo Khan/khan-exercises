@@ -129,7 +129,8 @@
                     var maxY = Math.max(aBounding[1][1], bBounding[1][1]);
 
                     init({
-                        range: [ [minX, maxX ], [ minY, maxY ] ]
+                        range: [ [minX, maxX ], [ minY, maxY ] ],
+                        scale: 500 / (maxX - minX)
                     })
 
                     style({

@@ -488,5 +488,6 @@ $.extend(KhanUtil, {
     GREEN: "#28AE7B",
     PURPLE: "purple",
     RED: "red",
-    GRAY: "gray"
+    GRAY: "gray",
+    BACKGROUND: "#FAFAFA"
 });

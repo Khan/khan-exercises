@@ -33,21 +33,21 @@
 
                 <div class="graphie" id="parent_block">
                     initSliceClone(["current_block"]);
-                    init({range: [[0, 1], [0, 1]], scale: [600, 25 ]});
+                    init({range: [[0, 1], [0, 1]], scale: [500, 25 ]});
                     rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Current Block:</p>
 
                 <div class="graphie" id="current_block">
-                    init({ range: [[0, 1], [0, 1] ], scale: [600, 25]});
+                    init({ range: [[0, 1], [0, 1] ], scale: [500, 25]});
                     rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Goal Block:</p>
 
                 <div class="graphie" id="goal_block">
-                    init({range: [[0, 1], [0, 1]], scale: [600 * ANSWER, 25]});
+                    init({range: [[0, 1], [0, 1]], scale: [500 * ANSWER, 25]});
                     rectchart([1, 0], [BLUE, "#999"]);
                 </div>
 

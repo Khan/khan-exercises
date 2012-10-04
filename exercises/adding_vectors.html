@@ -4,6 +4,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding vectors</title>
     <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #answer_area input[type=text] {
+            width: 40px;
+        }
+    </style>
 </head>
 <body>
     <div class="exercise">
@@ -17,34 +22,32 @@
 
     <div class="problems">
         <div>
-            <div class="question">
-                <div id="graph" class="graphie" style="float: right">
-                    graphInit({
-                        range: 10,
-                        scale: 20,
-                        tickStep: 1,
-                        labelStep: 1,
-                        unityLabels: false,
-                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "<->"
-                    });
+            <p class="question">What is <code>\vec a + \vec b</code>?</p>
 
-                    line( [0, 0], [AX, AY], { stroke: "#6495ed", arrows: "->" } );
-                    line( [0, 0], [BX, BY], { stroke: "#28ae7b", arrows: "->" } );
+            <p><code>\begin{align*}
+                \vec a &= <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath \\
+                \vec b &= <var>BX</var> \hat\imath + <var>BY</var> \hat\jmath
+            \end{align*}</code></p>
 
-                    var AF = 1 + 0.8 / sqrt( AX * AX + AY * AY );
-                    label( [AF * AX, AF * AY], "\\vec a", { color: "#6495ed" } );
+            <div id="graph" class="graphie">
+                graphInit({
+                    range: 10,
+                    scale: 20,
+                    tickStep: 1,
+                    labelStep: 1,
+                    unityLabels: false,
+                    labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                    axisArrows: "<->"
+                });
 
-                    var BF = 1 + 0.8 / sqrt( BX * BX + BY * BY );
-                    label( [BF * BX, BF * BY], "\\vec b", { color: "#28ae7b" } );
-                </div>
+                line( [0, 0], [AX, AY], { stroke: "#6495ed", arrows: "->" } );
+                line( [0, 0], [BX, BY], { stroke: "#28ae7b", arrows: "->" } );
 
-                <p>What is <code>\vec a + \vec b</code>?</p>
+                var AF = 1 + 0.8 / sqrt( AX * AX + AY * AY );
+                label( [AF * AX, AF * AY], "\\vec a", { color: "#6495ed" } );
 
-                <p><code>\begin{align*}
-                    \vec a &= <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath \\
-                    \vec b &= <var>BX</var> \hat\imath + <var>BY</var> \hat\jmath
-                \end{align*}</code></p>
+                var BF = 1 + 0.8 / sqrt( BX * BX + BY * BY );
+                label( [BF * BX, BF * BY], "\\vec b", { color: "#28ae7b" } );
             </div>
 
             <div class="solution" data-type="multiple">

@@ -137,7 +137,8 @@
                         var end = max( SOLUTION[0], SOLUTION[1] ) + randRange( 2, 5 );
 
                         init({
-                            range: [ [ start - 1, end + 1 ], [ -1, 1 ] ]
+                            range: [ [ start - 1, end + 1 ], [ -1, 1 ] ],
+                            scale: 28
                         });
 
                         numberLine( start, end, null, start );
@@ -148,7 +149,7 @@
                             style({ stroke: COLOR[i], fill: COLOR[i], strokeWidth: 3.5, arrows: "->" });
                             path([ [ SOLUTION[i] + 0.15 * ( LESS_THAN[i] ? -1 : 1  ), y_placement[i] ], [ LESS_THAN[i] ? start : end, y_placement[i] ] ]);
                             style({ stroke: COLOR[i], fill: INCLUSIVE[i] ? COLOR[i] : null });
-                            circle( [ SOLUTION[i], y_placement[i] ], 0.15 );
+                            circle( [ SOLUTION[i], y_placement[i] ], 0.2 );
                         }
                     </div>
                     <div data-if="IS_OR">

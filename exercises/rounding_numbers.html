@@ -32,11 +32,11 @@
                 <div class="graphie">
                     init({
                         range: [ [ -0.06 * pow( 10, -PLACE ) , 1.3 * pow( 10, -PLACE ) ], [-1, 1] ],
-                        scale: [ 600 * pow( 10, PLACE ), 40 ]
+                        scale: [ 450 * pow( 10, PLACE ), 40 ]
                     });
                     numberLine( floorTo( PLACE , NUM   ), ceilTo( PLACE , NUM ) +  pow( 10, -( PLACE+2 ))  , round( pow( 10, -(PLACE + 1 ))) );
                     style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
-                    ellipse( [  10 * pow( 10, -( PLACE+1 )) * (NUM -  floorTo( PLACE , NUM   ))/pow( 10,- (PLACE) ), 0 ], [pow( 10, -PLACE ) / 100, 0.15]);
+                    ellipse( [  10 * pow( 10, -( PLACE+1 )) * (NUM -  floorTo( PLACE , NUM   ))/pow( 10,- (PLACE) ), 0 ], [pow( 10, -PLACE ) / 115, 0.1]);
                     label( [  10 * pow(10, -( PLACE+1 )) * ( NUM -  floorTo( PLACE , NUM ))/pow( 10,- (PLACE) )], NUM, "below");
                     style({ stroke: "#6495ED", "fill": "none", strokeWidth: 3.5 });
                     if( DIGITS[ 5 + PLACE ] >= 5 ) {
@@ -71,11 +71,11 @@
                 <div class="graphie">
                     init({
                         range: [ [ -0.06 * pow( 10, -PLACE ) , 10.3 * pow( 10, -PLACE ) ], [-1, 1] ],
-                        scale: [ 600 * pow( 10, PLACE ), 40 ]
+                        scale: [ 450 * pow( 10, PLACE ), 40 ]
                     });
                     numberLine( floorTo( PLACE , NUM   ), ceilTo( PLACE , NUM ) +  pow( 10,- (PLACE+2 ))  , pow( 10,- (PLACE+1) ) );
                     style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
-                    ellipse( [  10 * pow(10,- (PLACE+1)) * (NUM -  floorTo( PLACE , NUM   ))/pow(10,- (PLACE) ), 0 ], [pow(10, -PLACE) / 100, 0.15]);
+                    ellipse( [  10 * pow(10, -(PLACE+1)) * (NUM -  floorTo( PLACE , NUM   ))/pow(10,- (PLACE) ), 0 ], [pow(10, -PLACE) / 115, 0.1]);
                     label( [  10 * pow(10, -( PLACE+1 )) * ( NUM -  floorTo( PLACE , NUM ))/pow(10, -(PLACE) )], NUM, "below");
                     style({ stroke: "#6495ED", "fill": "none", strokeWidth: 3.5 });
                     if ( DIGITS[ 2 + PLACE ] >= 5 ) {

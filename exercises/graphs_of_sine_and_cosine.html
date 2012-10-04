@@ -14,7 +14,7 @@
     </script>
     <style type="text/css">
         #answer_area input[type=text] {
-            width: 30px;
+            width: 25px;
         }
     </style>
 </head>
@@ -28,10 +28,10 @@
             <var id="PERIOD">2 * PI * HSCALE</var>
 
             <var id="VRANGE">3.5</var>
-            <var id="HRANGE">4.5 * PI * HSCALE</var>
+            <var id="HRANGE">3.5 * PI * HSCALE</var>
 
             <var id="PIXVSCALE">150 / VRANGE</var>
-            <var id="PIXHSCALE">300 / HRANGE</var>
+            <var id="PIXHSCALE">250 / HRANGE</var>
 
             <var id="FUNCS">VSCALE + "*" + FN + "(x/" + HSCALE + ")"</var>
 
@@ -80,14 +80,13 @@
 
                 <p class="question">What is <code>f(x)</code>?</p>
 
-                <p class="solution" data-type="multiple"><code>f(x)=</code>
+                <div class="solution" data-type="multiple"><div style="font-size: 11px;">
+                    <code>f(x)=</code>
                     <span class="sol short" data-fallback="1"><var>VSCALE</var></span>
                     <!-- we make the default fn type blank so users don't think the default value of sin or cos is important, not sure if this is necessary, though -->
                     <span class="sol" data-type="list" data-choices="['', 'cos', 'sin']"><var>FN</var></span>
-                    <code>(\ </code>
-                    <span class="sol short" data-fallback="1"><var>1 / HSCALE</var></span>
-                    <code>\ x)</code>
-                </p>
+                    <code>(</code><span class="sol short" data-fallback="1"><var>1 / HSCALE</var></span><code>x)</code>
+                </div></div>
             </div>
         </div>
 

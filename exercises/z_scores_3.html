@@ -106,7 +106,7 @@
             <div class="fake_row reading" data-each="ROWS as i, row">
                 <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>zgrid</var></span>
             </div>
-            <div class="solution" data-forms="percent">
+            <div class="solution" data-inexact data-max-error="0.01" data-forms="percent">
                 <span><var>roundTo( 2, ANSWER * 100 )</var></span>
             </div>
 

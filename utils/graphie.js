@@ -300,11 +300,25 @@
 
                         var setMargins = function(size) {
                             span.css("visibility", "");
-                            var multipliers = directions[direction || "center"];
-                            span.css({
-                                marginLeft: Math.round(size[0] * multipliers[0]),
-                                marginTop: Math.round(size[1] * multipliers[1])
-                            });
+                            if (typeof direction === "number") {
+                                var x = Math.cos(direction);
+                                var y = Math.sin(direction);
+
+                                var scale = Math.min(
+                                    size[0] / 2 / Math.abs(x),
+                                    size[1] / 2 / Math.abs(y));
+
+                                span.css({
+                                    marginLeft: (-size[0] / 2) + x * scale,
+                                    marginTop: (-size[1] / 2) - y * scale
+                                });
+                            } else {
+                                var multipliers = directions[direction || "center"];
+                                span.css({
+                                    marginLeft: Math.round(size[0] * multipliers[0]),
+                                    marginTop: Math.round(size[1] * multipliers[1])
+                                });
+                            }
                         };
 
                         var callback = MathJax.Callback(function() {});

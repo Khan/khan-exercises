@@ -509,7 +509,7 @@ $.extend(Khan.answerTypes, {
                 guess = [];
 
             solutionarea.find(".sol").each(function() {
-                var validator = $(this).data("validator", validator);
+                var validator = $(this).data("validator");
 
                 if (validator != null) {
                     // Don't short-circuit so we can record all guesses
@@ -541,7 +541,7 @@ $.extend(Khan.answerTypes, {
             guess = $.extend(true, [], guess);
 
             solutionarea.find(".sol").each(function() {
-                var validator = $(this).data("validator", validator);
+                var validator = $(this).data("validator");
 
                 if (validator != null) {
                     // Shift regardless of whether we can show the guess
@@ -558,7 +558,7 @@ $.extend(Khan.answerTypes, {
             guess = $.extend(true, [], guess);
 
             solutionarea.find(".sol").each(function() {
-                var validator = $(this).data("validator", validator);
+                var validator = $(this).data("validator");
 
                 if (validator != null) {
                     // Shift regardless of whether we can show the interactive guess
@@ -979,6 +979,7 @@ $.extend(Khan.answerTypes, {
 
         var area = $("<div />");
         area.append(realArea).append(imagArea).tmpl();
+        area.find("input").css("width", "50px");
         solutionarea.append(area);
 
         var ret = function() {

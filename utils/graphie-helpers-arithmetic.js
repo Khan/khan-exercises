@@ -18,14 +18,14 @@ function Adder(a, b, digitsA, digitsB) {
     this.show = function() {
         graph.init({
             range: [[-1, 11], [pos.sum - 0.5, pos.carry + 0.5]],
-            scale: [30, 45]
+            scale: [20, 40]
         });
 
         drawDigits(digitsA.slice(0).reverse(), pos.max - digitsA.length + 1, pos.first);
         drawDigits(digitsB.slice(0).reverse(), pos.max - digitsB.length + 1, pos.second);
 
         graph.path([[-0.5, pos.second - 0.5], [pos.max + 0.5, pos.second - 0.5]]);
-        graph.label([0, 1] , "\\huge{+\\vphantom{0}}");
+        graph.label([0, 1] , "\\LARGE{+\\vphantom{0}}");
     };
 
     this.showHint = function() {
@@ -84,9 +84,9 @@ function Adder(a, b, digitsA, digitsB) {
     this.showFinalCarry = function() {
         highlights.push(graph.label([pos.max - index, pos.carry],
             "\\color{#6495ED}{" + carry + "}", "below"));
-        graph.label([pos.max - index, pos.sum], "\\Huge{" + carry + "}");
+        graph.label([pos.max - index, pos.sum], "\\LARGE{" + carry + "}");
         highlights.push(graph.label([pos.max - index, pos.sum],
-            "\\Huge{\\color{#28AE7B}{" + carry + "}}"));
+            "\\LARGE{\\color{#28AE7B}{" + carry + "}}"));
 
         this.showSideLabel("\\Large{"
             + "\\color{#6495ED}{" + carry + "}"
@@ -112,7 +112,7 @@ function Adder(a, b, digitsA, digitsB) {
     this.showDecimals = function(deciA, deciB) {
         for (var i = 0; i < 3; i++) {
             graph.style({ fill: "#000" }, function() {
-                graph.ellipse([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.2], [0.09, 0.06]);
+                graph.ellipse([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.2], [0.08, 0.04]);
             });
         }
         this.showSideLabel("\\text{Make sure the decimals are lined up.}");
@@ -146,13 +146,13 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
     this.show = function() {
         graph.init({
             range: [[-1, 11], [pos.diff - 0.5, pos.carry + 0.5]],
-            scale: [30, 45]
+            scale: [20, 40]
         });
         drawDigits(digitsA.slice(0).reverse(), pos.max - digitsA.length + 1, pos.first);
         drawDigits(digitsB.slice(0).reverse(), pos.max - digitsB.length + 1, pos.second);
 
         graph.path([[-0.5, pos.second - 0.5], [pos.max + 0.5, pos.second - 0.5]]);
-        graph.label([0, 1] , "\\huge{-\\vphantom{0}}");
+        graph.label([0, 1] , "\\LARGE{-\\vphantom{0}}");
 
         for (var i = 0; i < digitsA.length; i++) {
             highlights.unshift([]);
@@ -201,7 +201,7 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
             this.borrow(index);
         } else if (workingDigitsA[index] === digitsA[index]) {
             highlights[index].push(graph.label([pos.max - index, pos.first],
-                "\\Huge{\\color{#6495ED}{" + workingDigitsA[index] + "}}"));
+                "\\LARGE{\\color{#6495ED}{" + workingDigitsA[index] + "}}"));
         } else {
             highlights[index].push(graph.label([pos.max - index, pos.carry],
                 "\\color{#6495ED}{" + workingDigitsA[index] + "}", "below"));
@@ -209,16 +209,16 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
 
         if (withinB) {
             highlights[index].push(graph.label([pos.max - index, pos.second],
-                "\\Huge{\\color{#6495ED}{" + workingDigitsB[index] + "}}"));
+                "\\LARGE{\\color{#6495ED}{" + workingDigitsB[index] + "}}"));
             subStr = " - \\color{#6495ED}{" + subtrahend + "}";
         }
 
         var diff = workingDigitsA[index] - subtrahend;
         if (((a - b) / Math.pow(10, index)) > 1 || index < decimalPlaces) {
-            graph.label([pos.max - index, pos.diff], "\\Huge{" + diff + "}");
+            graph.label([pos.max - index, pos.diff], "\\LARGE{" + diff + "}");
         }
 
-        highlights[index].push(graph.label([pos.max - index, pos.diff], "\\Huge{\\color{#28AE7B}{" + diff + "}}"));
+        highlights[index].push(graph.label([pos.max - index, pos.diff], "\\LARGE{\\color{#28AE7B}{" + diff + "}}"));
         if (subStr == "") {
             subStr = "- \\color{#6495ED}{ 0 }";
         }
@@ -254,7 +254,7 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
     this.showDecimals = function(deciA, deciB) {
         for (var i = 0; i < 3; i++) {
             graph.style({ fill: "#000" }, function() {
-                graph.ellipse([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.2], [0.09, 0.06]);
+                graph.ellipse([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.2], [0.08, 0.04]);
             });
         }
         this.showSideLabel("\\text{Make sure the decimals are lined up.}");
@@ -379,7 +379,7 @@ function drawDigits(digits, startX, startY, color) {
     var graph = KhanUtil.currentGraph;
     var set = [];
     $.each(digits, function(index, digit) {
-        var str = "\\Huge{" + digit + "}";
+        var str = "\\LARGE{" + digit + "}";
         set.push(graph.label([startX + index, startY], str, { color: color }));
     });
     return set;
@@ -419,14 +419,14 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
     this.show = function() {
         graph.init({
             range: [[-2 - maxNumDigits, 12], [-1 - digitsB.length * digitsA.length, 3]],
-            scale: [30, 45]
+            scale: [20, 40]
         });
 
         drawDigits(digitsA.slice(0).reverse(), 1 - digitsA.length, 2);
         drawDigits(digitsB.slice(0).reverse(), 1 - digitsB.length, 1);
 
         graph.path([[-1 - digitsProduct.length, 0.5], [1, 0.5]]);
-        graph.label([- (Math.max(digitsA.length, digitsB.length)), 1] , "\\huge{\\times\\vphantom{0}}");
+        graph.label([- (Math.max(digitsA.length, digitsB.length)), 1] , "\\LARGE{\\times\\vphantom{0}}");
     };
 
     this.removeHighlights = function() {
@@ -490,7 +490,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
                 digitsProduct.unshift(0);
             }
             graph.path([[-1 - digitsProduct.length, 0.5 - digitsB.length], [1, 0.5 - digitsB.length]]);
-            graph.label([-1 - digitsProduct.length, 1 - digitsB.length] , "\\huge{+\\vphantom{0}}");
+            graph.label([-1 - digitsProduct.length, 1 - digitsB.length] , "\\LARGE{+\\vphantom{0}}");
             drawDigits(digitsProduct, 1 - digitsProduct.length, -digitsB.length);
         }
     }
@@ -504,9 +504,9 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
             fill: "#000"
         }, function() {
             if (deciA > 0)
-                graph.ellipse([-deciA + 0.5, 1.8], [0.09, 0.06]);
+                graph.ellipse([-deciA + 0.5, 1.8], [0.08, 0.04]);
             if (deciB > 0)
-                graph.ellipse([-deciB + 0.5, 0.8], [0.09, 0.06]);
+                graph.ellipse([-deciB + 0.5, 0.8], [0.08, 0.04]);
         });
     };
 
@@ -523,7 +523,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         graph.style({
             fill: "#000"
         }, function() {
-            graph.ellipse([-deciB - deciA + 0.5, -0.2 - digitsB.length], [0.09, 0.06]);
+            graph.ellipse([-deciB - deciA + 0.5, -0.2 - digitsB.length], [0.08, 0.04]);
         });
     };
 }
@@ -552,16 +552,16 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
         }
         graph.init({
             range: [[-1 - paddedDivisor.length, 17], [(digitsDividend.length + (deciDiff > 0 ? deciDiff : 0)) * -2 - 1, 2]],
-            scale: [30, 45]
+            scale: [20, 40]
         });
         graph.style({
             fill: "#000"
         }, function() {
             if (deciDivisor !== 0) {
-                decimals = decimals.concat(graph.ellipse([-1 - deciDivisor, -0.2], [0.09, 0.06]));
+                decimals = decimals.concat(graph.ellipse([-1 - deciDivisor, -0.2], [0.08, 0.04]));
             }
             if (deciDividend !== 0) {
-                decimals = decimals.concat(graph.ellipse([digitsDividend.length - deciDividend - 0.5, -0.2], [0.09, 0.06]));
+                decimals = decimals.concat(graph.ellipse([digitsDividend.length - deciDividend - 0.5, -0.2], [0.08, 0.04]));
             }
         });
 
@@ -668,8 +668,8 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
         graph.style({
                 fill: "#000"
             }, function() {
-                graph.ellipse([digitsDividend.length + deciDiff - 0.5, -0.2], [0.09, 0.06]);
-                graph.ellipse([digitsDividend.length + deciDiff - 0.5, 0.8], [0.09, 0.06]);
+                graph.ellipse([digitsDividend.length + deciDiff - 0.5, -0.2], [0.08, 0.04]);
+                graph.ellipse([digitsDividend.length + deciDiff - 0.5, 0.8], [0.08, 0.04]);
             });
     }
 
@@ -684,7 +684,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             graph.style({
                 fill: "#000"
             }, function() {
-                graph.ellipse([-1, -0.2], [0.09, 0.06]);
+                graph.ellipse([-1, -0.2], [0.08, 0.04]);
             });
         } else {
             graph.label([digitsDividend.length + 0.5, 1.2],
