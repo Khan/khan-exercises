@@ -7,7 +7,7 @@
     <style type="text/css">
         #answer_area input[type="text"] {
             margin: 0 0 0 3px;
-            width: 25px;
+            width: 22px;
         }
     </style>
 </head>
@@ -158,6 +158,13 @@
                          
                         <p><code> f(x) = a_f(x <var>signedNum(X_ORIG)</var>)^2
                         <var>sign(Y_ORIG)</var><var>abs(Y_ORIG)</var></code></p>
+                        <div class="graphie" data-update="G">
+                            style({stroke: RED});
+                            path([[-X_ORIG-0.4, Y_ORIG+0.4], 
+                                  [-X_ORIG+0.4, Y_ORIG-0.4]]);
+                            path([[-X_ORIG+0.4, Y_ORIG+0.4], 
+                                  [-X_ORIG-0.4, Y_ORIG-0.4]]);
+                        </div>
                     </div>
                     <div>
                         <p> To solve <code>a_f</code>, we can plug in any point
@@ -177,6 +184,13 @@
                         <p><code> f(x) = <var>UP_ORIG === 1?"":"-"</var>
                         (x <var>signedNum(X_ORIG)</var>)^2
                         <var>signedNum(Y_ORIG)</var></code></p>
+                        <div class="graphie" data-update="G">
+                            style({stroke: RED});
+                            path([[-X_ORIG+1-0.4, UP_ORIG+Y_ORIG+0.4], 
+                                  [-X_ORIG+1+0.4, UP_ORIG+Y_ORIG-0.4]]);
+                            path([[-X_ORIG+1+0.4, UP_ORIG+Y_ORIG+0.4], 
+                                  [-X_ORIG+1-0.4, UP_ORIG+Y_ORIG-0.4]]);
+                        </div>
                     </div>
                     <div>
 
@@ -205,6 +219,21 @@
                             (UP_ORIG*X_SCALE*X_SCALE)</var>(x
                             <var>signedNum(-GX_VERTEX_X)</var>)^2 
                             <var>signedNum(GX_VERTEX_Y)</var></code></p>
+
+                        <div class="graphie" data-update="G">
+                            style({stroke: BLUE});
+
+                            path([[GX_VERTEX_X-0.4, GX_VERTEX_Y+0.4], 
+                                  [GX_VERTEX_X+0.4, GX_VERTEX_Y-0.4]]);
+                            path([[GX_VERTEX_X+0.4, GX_VERTEX_Y+0.4], 
+                                  [GX_VERTEX_X-0.4, GX_VERTEX_Y-0.4]]);
+
+                            path([[GX_POINT_X-0.4, GX_POINT_Y+0.4], 
+                                  [GX_POINT_X+0.4, GX_POINT_Y-0.4]]);
+                            path([[GX_POINT_X+0.4, GX_POINT_Y+0.4], 
+                                  [GX_POINT_X-0.4, GX_POINT_Y-0.4]]);
+                        </div>
+
                     </div>
                     <div>
                         <p>Now we know <code>f(x)</code> 
@@ -244,8 +273,9 @@
                         <p><code> y_s = <var>Y_SHIFT</var></code></p>
                     </div>
                     <div>   
-                        <p>Compare the two <code>g(x)</code> representations on
-                        coefficients for <code>x^2</code>, we get</p>
+                        <p>Compare the two <code class="hint_pink">g(x)</code>
+                        representations on coefficients for <code>x^2</code>, 
+                        we get</p>
                        
                         <p><code> s^2 = <var>X_SCALE &lt; 1 ?
                            "\\frac{1}{" + SCALE_FACTOR*SCALE_FACTOR+"}":
@@ -330,7 +360,7 @@
                         From above we know that 
                         <p><code>g(x) = f(<var>X_SCALE_DISPLAY</var> \cdot x 
                         <var>signedNum(X_SHIFT)</var>)
-                        <var>signedNum(Y_SHIFT)</var></code>, or</p> 
+                        <var>signedNum(Y_SHIFT)</var></code> , or</p> 
 
                         <p><code>g(x) = f(<var>X_SCALE_DISPLAY_2</var> 
                         \cdot x <var>signedNum(-X_SHIFT - 2* X_ORIG)</var>)
