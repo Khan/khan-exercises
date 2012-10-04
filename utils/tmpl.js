@@ -646,7 +646,7 @@ $.extend({
             var parentEnsure = $(this).data("ensure") || "1";
             var childEnsure = $(elem).data("ensure") || "1";
             $(this).data("ensure",
-                "(" + parentEnsure + ") && (" + childEnsure + ")");
+                "(" + childEnsure + ") && (" + parentEnsure + ")");
 
             return $.tmplApplyMethods.prependContents.call(this, elem);
         }

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html data-require="math graphie matrix">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Matrix addition and subtraction</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        #answer_area .row input[type=text] {
+            width: 40px;
+            margin-right: 5px;
+        }
+
+        #answer_area .row {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+
+    <div class="vars">
+        <var id="MAT_A">randRange(-2, 4, ROWS, COLS)</var>
+        <var id="MAT_B">randRange(-2, 4, ROWS, COLS)</var>
+        <var id="OPERATION">randFromArray(["+", "-"])</var>
+        <var id="SOLN_MAT">
+            deepZipWith(2, function(a, b) {
+                if (OPERATION === "+") {
+                    return a + b;
+                } else {
+                    return a - b;
+                }
+            }, MAT_A, MAT_B)
+        </var>
+        <var id="PRETTY_MAT_A">
+            printMatrix(MAT_A, BLUE)
+        </var>
+        <var id="PRETTY_MAT_B">
+            printMatrix(MAT_B, GREEN)
+        </var>
+        <var id="PRETTY_HINT_MAT">
+            printMatrix(MAT_A, BLUE, MAT_B, GREEN, OPERATION)
+        </var>
+        <var id="PRETTY_SOLN_MAT">
+            printMatrix(SOLN_MAT, PINK)
+        </var>
+    </div>
+
+    <div class="question">
+        <code>
+            \Large{
+                <var>PRETTY_MAT_A + OPERATION + PRETTY_MAT_B</var> = {?}
+            }
+        </code>
+    </div>
+
+    <div class="hints">
+        <div>
+            <p>To find the
+                <span data-if="OPERATION === '+'">sum</span>
+                <span data-else>difference</span>
+                of two matrices,
+                <span data-if="OPERATION === '+'">add</span>
+                <span data-else>subtract</span>
+                the corresponding items between each matrix.
+            </p>
+            <div>
+                <p>
+                    <code>\Large{<var>PRETTY_HINT_MAT</var>}</code>
+                </p>
+            </div>
+        </div>
+        <div>
+            <p>Now, simplify:</p>
+            <div>
+                <code>\Large{<var>PRETTY_SOLN_MAT</var>}</code>
+            </div>
+        </div>
+    </div>
+
+    <div class="solution" data-type="multiple">
+        <p data-each="SOLN_MAT as row" class="row">
+            <span data-each="row as elem" class="sol">
+                <var>elem</var>
+            </span>
+        </p>
+    </div>
+
+    <div class="problems">
+        <div id="2x2">
+            <div class="vars" data-apply="prependVars">
+                <var id="ROWS">2</var>
+                <var id="COLS">2</var>
+            </div>
+        </div>
+
+        <div id="2x3">
+            <div class="vars" data-apply="prependVars">
+                <var id="ROWS">2</var>
+                <var id="COLS">3</var>
+            </div>
+        </div>
+
+        <div id="3x1">
+            <div class="vars" data-apply="prependVars">
+                <var id="ROWS">3</var>
+                <var id="COLS">1</var>
+            </div>
+        </div>
+
+        <div id="3x2">
+            <div class="vars" data-apply="prependVars">
+                <var id="ROWS">3</var>
+                <var id="COLS">2</var>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
