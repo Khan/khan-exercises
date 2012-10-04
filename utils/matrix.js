@@ -40,16 +40,17 @@ $.extend(KhanUtil, {
                         mat2[0].length === mat[0].length &&
                         _.isString(color2) && _.isString(operation));
 
+        if (isCombo) {
+            mat = KhanUtil.deepZipWith(2, function(a, b) {
+                var elem1 = "\\color{" + color + "}{" + a + "}";
+                var elem2 = "\\color{" + color2 + "}{" + b + "}";
+                return elem1 + operation + elem2;
+            }, mat, mat2);
+        }
+
         var table = _.map(mat, function(row, i) {
-            if (isCombo) {
-                row = _.map(row, function(elem, j) {
-                    var elem1 = "\\color{" + color + "}{" + elem + "}";
-                    var elem2 = "\\color{" + color2 + "}{" + mat2[i][j] + "}";
-                    return elem1 + operation + elem2;
-                });
-            }
-            return row.join(" & ");
-        }).join(" \\\\ ");
+                        return row.join(" & ");
+                    }).join(" \\\\ ");
 
         var prefix = "\\left[ \\begin{array}";
         var suffix = "\\end{array} \\right]";
