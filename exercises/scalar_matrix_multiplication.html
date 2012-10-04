@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html data-require="math graphie matrix">
+<html data-require="math matrix">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Multiplying a matrix by a scalar</title>
+    <title>Scalar matrix multiplication</title>
     <script src="../khan-exercise.js"></script>
     <style>
         #answer_area .row input[type=text] {
@@ -21,12 +21,12 @@
         <var id="MAT_A">randRange(-2, 4, ROWS, COLS)</var>
         <var id="SCALAR">randRange(-5, 5)</var>
         <var id="OPERATION">"*"</var>
+
         <var id="SOLN_MAT">
             deepZipWith(2, function(a) {
                 return a * SCALAR;
             }, MAT_A)
         </var>
-
         <var id="SCALAR_MAT">
             deepZipWith(2, function(a) {
                 return SCALAR;
