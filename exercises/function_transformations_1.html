@@ -179,11 +179,11 @@
                         </div>
                    </div>
                    <div>
-                       <p>Shift the function<code>
+                       <p>Shift the function <code>
                        <var>(Y_SCALE === 1)?"":Y_SCALE_DISPLAY</var>f(x)</code>
                        <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT) +
-                       (abs(Y_SHIFT) === 1 ? "unit" : "units")</var>, giving 
-                       <code class="hint_green">
+                       " " + (abs(Y_SHIFT) === 1 ? "unit" : "units")</var>, 
+                       giving <code class="hint_green">
                        <var>(Y_SCALE === 1)?"":Y_SCALE_DISPLAY</var>f(x)
                        <var>signedNum(Y_SHIFT)</var></code>.</p>
 
@@ -196,16 +196,15 @@
                             });
 
                             plot( function( x ) {
-                                return 
-                                    (Y_SCALE* UP_ORIG * pow(( x + X_ORIG ), 2 ) 
-                                     + Y_SCALE * Y_ORIG + Y_SHIFT);
+                                return (Y_SCALE * UP_ORIG * pow((x + X_ORIG),2) 
+                                    + Y_SCALE * Y_ORIG + Y_SHIFT);
                                 }, [-20, 20]); 
 
                             style({
                                strokeWidth: 2,
                                strokeDasharray: ""
                             });
-                            path([[-X_ORIG,  Y_SCALE* Y_ORIG], 
+                            path([[-X_ORIG, Y_SCALE * Y_ORIG], 
                                   [-X_ORIG, Y_SCALE * Y_ORIG + Y_SHIFT]]);
                        </div>
                    </div>
@@ -214,8 +213,8 @@
                        <code><var>(Y_SCALE === 1)?"":Y_SCALE_DISPLAY</var>
                        f(x)<var>signedNum(Y_SHIFT)</var></code> 
                        <var>(X_SHIFT &gt; 0 ? "left " : "right ") + abs(X_SHIFT)
-                       + (abs(X_SHIFT) === 1 ? "unit" : "units")</var>, giving 
-                       <code class="hint_blue">
+                       + " " + (abs(X_SHIFT) === 1 ? "unit" : "units")</var>, 
+                       giving <code class="hint_blue">
                        <var>(Y_SCALE === 1)?"":Y_SCALE_DISPLAY</var>
                        f(x<var>signedNum(X_SHIFT)</var>)
                        <var>signedNum(Y_SHIFT)</var></code>.</p>
