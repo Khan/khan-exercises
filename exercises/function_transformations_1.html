@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie expressions">
+<html data-require="math graphie expressions word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Function Transformations</title>
@@ -19,9 +19,10 @@
                     <var id="X_ORIG">randRange( -8, 8 )</var>
                     <var id="UP_ORIG">randRangeNonZero(-1, 1)</var>
                     <!-- Ensure Y_SCALE*Y_ORIG is an integer-->
-                    <div data-ensure="abs(Y_SCALE*Y_ORIG) < 16 && 
-                        isInt(roundTo(Y_SCALE*Y_ORIG,3))">
-                        <var id="Y_ORIG">randRange( -8, 8 )</var>
+                    <div data-ensure="abs(Y_SCALE * Y_ORIG) < 16 && 
+                        isInt(roundTo(Y_SCALE * Y_ORIG,3)) &&
+                        abs(Y_SCALE * (UP_ORIG + Y_ORIG) + Y_SHIFT) < 16">
+                        <var id="Y_ORIG">randRange(-8, 8)</var>
                         <var id="SCALE_FACTOR">randRange(1, 4)</var>
                         <var id="SCALE_DIR">
                             randFromArray(["shrink", "expand"])
@@ -30,24 +31,23 @@
                             SCALE_DIR === "shrink" ? 
                             SCALE_FACTOR : 1/SCALE_FACTOR</var>
                         </var>
+                        <var id="Y_SHIFT">
+                            randRangeNonZero(-10 - ceil(Y_ORIG * Y_SCALE), 
+                                              10 - ceil(Y_ORIG * Y_SCALE))
+                        </var>
                     </div>
                     <var id="Y_SCALE_DISPLAY"> 
-                        abs(Y_SCALE) < 1 ? 
+                        abs(Y_SCALE) &gt; 1 ? 
                             "\\dfrac{"+ restoreSign(Y_SCALE) + "}{" 
                             + abs(SCALE_FACTOR) +"}":Y_SCALE
                     </var>
                     <var id="Y_SCALE_DISPLAY_2"> 
-                        abs(Y_SCALE*UP_ORIG) < 1 ? 
+                        abs(Y_SCALE * UP_ORIG) &gt; 1 ? 
                         "\\dfrac{"+ restoreSign(Y_SCALE*UP_ORIG) + "}{" 
                         + abs(SCALE_FACTOR) +"}":Y_SCALE*UP_ORIG
                     </var>
                     <var id="X_SHIFT">
                         randRangeNonZero(-10 - X_ORIG, 10 - X_ORIG)
-                    </var>
-                    <var id="Y_SHIFT" data-ensure=
-                    "abs(Y_SCALE * UP_ORIG + Y_ORIG * Y_SCALE + Y_SHIFT) < 16">
-                        randRangeNonZero(-10 - ceil(abs(Y_ORIG * Y_SCALE)), 
-                            10 - ceil(abs(Y_ORIG * Y_SCALE)))
                     </var>
                 </div> 
                 <div class="problem">
@@ -63,8 +63,8 @@
                 <div class="graphie" id="G">
                     graphInit({
                         range: 20,
-                        scale: 10,
-                        labelStep: 1,
+                        scale: 12,
+                        labelStep: 2,
                         axisArrows: "<->"
                     })
 
@@ -74,17 +74,17 @@
                         arrows: null
                     });
 
-                    plot( function( x ) {
-                        return UP_ORIG * pow(( x + X_ORIG), 2 ) + Y_ORIG;
+                    plot(function(x) {
+                        return UP_ORIG * pow(x + X_ORIG, 2) + Y_ORIG;
                     }, [-20, 20]);
 
                     style({
                         stroke: BLUE
                     });
 
-                    plot( function( x ) {
+                    plot(function(x) {
                         return (Y_SCALE * 
-                            (UP_ORIG * pow( x + X_SHIFT + X_ORIG, 2) +  Y_ORIG) 
+                            (UP_ORIG * pow(x + X_SHIFT + X_ORIG, 2) +  Y_ORIG) 
                             + Y_SHIFT);
                     }, [-20, 20]);
                 </div>
@@ -102,17 +102,18 @@
                     </span>
                 </p>
                 <div class="hints">
-                    <div>
-                        <p>To get from <code>f(x)</code> to <code>g(x)</code>, 
+                    <p>
+                       To get from <code>f(x)</code> to <code>g(x)</code>, 
                         first we figure out what the scaling factor is. 
                         Once the scaling factor is solved, this problem will be 
-                        simplified to a function translation problem.</p>
-                    </div>    
+                        simplified to a function translation problem.
+                    </p>    
                     <div> 
                         <p>The scaling factor can be computed as 
                         <code>\dfrac{\Delta g}{\Delta f}</code> with the same 
-                        amount of change on x-axis from the vertice.</p>
-
+                        amount of change on x-axis from the vertex.</p>
+                    </div>
+                    <div>
                         <p>Let <code>(x_0, y_0)</code> denote the vertex of 
                         <code>f(x)</code>. </p>
 
@@ -125,7 +126,8 @@
                         <p><code>(x_1, y_1) = 
                         (<var>-X_ORIG - X_SHIFT</var>, 
                          <var>Y_SCALE * Y_ORIG + Y_SHIFT</var>)</code></p>
-
+                    </div>
+                    <div>
                         <p>We can calculate the scaling factor as</p>
 
                         <p><code>
@@ -135,7 +137,7 @@
                         <p>,with any arbitrary <code>u</code>.</p>
                     </div>
                     <div>
-                        <p>For simplicity, let's pick u = 1, 
+                        <p>For simplicity, let's pick <code>u = 1</code>, 
                         the scaling factor can be calculated as </p>
 
                         <p><code> 
@@ -158,7 +160,7 @@
                         </code></p>
                     </div>
                     <div>
-		                <p>Now we know the scaling factor 
+                        <p>Now we know the scaling factor 
                         <code><var>Y_SCALE_DISPLAY</var></code>,
                         we can scale f(x) vertifically by multiplying by 
                         <code><var>Y_SCALE_DISPLAY</var></code>, giving 
@@ -170,20 +172,20 @@
                                  stroke: PURPLE,
                                  strokeDasharray: "- "
                                  });
-                             plot(function( x ) {
-                                      return (Y_SCALE * 
-                                          (UP_ORIG * pow(( x + X_ORIG ), 2 ) 
-                                          + Y_ORIG));
-                                  }, 
-                                 [-20, 20]);
+
+                             plot(function(x) {
+                                     return (Y_SCALE * 
+                                         (UP_ORIG * pow(x + X_ORIG, 2) +
+                                          Y_ORIG));
+                                  }, [-20, 20]);
                         </div>
                    </div>
                    <div>
                        <p>Shift the function <code>
                        <var>(Y_SCALE === 1)?"":Y_SCALE_DISPLAY</var>f(x)</code>
-                       <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT) +
-                       " " + (abs(Y_SHIFT) === 1 ? "unit" : "units")</var>, 
-                       giving <code class="hint_green">
+                       <var>(Y_SHIFT &gt; 0 ? "up " : "down ")
+                       + plural(abs(Y_SHIFT), "unit")</var>, giving 
+                       <code class="hint_green">
                        <var>(Y_SCALE === 1)?"":Y_SCALE_DISPLAY</var>f(x)
                        <var>signedNum(Y_SHIFT)</var></code>.</p>
 
@@ -195,10 +197,11 @@
                             strokeDasharray: "- "
                             });
 
-                            plot( function( x ) {
-                                return (Y_SCALE * UP_ORIG * pow((x + X_ORIG),2) 
-                                    + Y_SCALE * Y_ORIG + Y_SHIFT);
-                                }, [-20, 20]); 
+                            plot(function(x) {
+                                     return (Y_SCALE * 
+                                         (UP_ORIG * pow(x + X_ORIG, 2) + 
+                                          Y_ORIG) + Y_SHIFT);
+                                 }, [-20, 20]); 
 
                             style({
                                strokeWidth: 2,
@@ -212,9 +215,9 @@
                        <p>Now shift the function 
                        <code><var>(Y_SCALE === 1)?"":Y_SCALE_DISPLAY</var>
                        f(x)<var>signedNum(Y_SHIFT)</var></code> 
-                       <var>(X_SHIFT &gt; 0 ? "left " : "right ") + abs(X_SHIFT)
-                       + " " + (abs(X_SHIFT) === 1 ? "unit" : "units")</var>, 
-                       giving <code class="hint_blue">
+                       <var>(X_SHIFT &gt; 0 ? "left " : "right ") 
+                       + plural(abs(X_SHIFT), "unit")</var>, giving 
+                       <code class="hint_blue">
                        <var>(Y_SCALE === 1)?"":Y_SCALE_DISPLAY</var>
                        f(x<var>signedNum(X_SHIFT)</var>)
                        <var>signedNum(Y_SHIFT)</var></code>.</p>

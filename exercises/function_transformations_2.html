@@ -77,8 +77,8 @@
                 <div class="graphie" id="G">
                     graphInit({
                         range: 20,
-                        scale: 10,
-                        labelStep: 1,
+                        scale: 12,
+                        labelStep: 2,
                         axisArrows: "<->"
                     })
 
@@ -88,19 +88,19 @@
                         arrows: null
                     });
 
-                    plot( function( x ) {
-                        return UP_ORIG * pow(( x + X_ORIG), 2 ) + Y_ORIG;
+                    plot( function(x) {
+                        return UP_ORIG * pow(x + X_ORIG, 2 ) + Y_ORIG;
                     }, [-20, 20]);
 
                     style({
                         stroke: BLUE
                     });
 
-                    plot( function( x ) {
-                        return  (UP_ORIG * 
+                    plot(function(x) {
+                             return  (UP_ORIG * 
                                  pow( X_SCALE * x + X_SHIFT + X_ORIG, 2) + 
                                  Y_ORIG + Y_SHIFT);
-                    }, [-20, 20]);
+                         }, [-20, 20]);
                 </div>
                 <div class="solution" data-type="set">
                     <div class="set-sol" data-type="multiple">
@@ -137,13 +137,13 @@
                     </div>
                 </div>
                 <div class="hints">
-                    <div>
-                        <p>To get from <code>f(x)</code> to <code>g(x)</code>, 
+                    <p>
+                        To get from <code>f(x)</code> to <code>g(x)</code>, 
                         let's first figure out what <code>f(x)</code>
                         and <code>g(x) </code>are individually. 
                         Then we can infer the scaling factor and shifts 
-                        from the functions.</p>
-                    </div>
+                        from the functions.
+                    </p>
                     <div>
                         <p>Both <code>f(x)</code> and <code>g(x)</code> are 
                         parabolas with the form</p>
