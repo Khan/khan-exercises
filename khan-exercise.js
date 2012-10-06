@@ -2266,8 +2266,8 @@ var Khan = (function() {
 
                 var problem = $(hint).parent();
 
-				// Append first so MathJax can sense the surrounding CSS context properly
-				$(hint).appendTo("#hintsarea").runModules(problem);
+                // Append first so MathJax can sense the surrounding CSS context properly
+                $(hint).appendTo("#hintsarea").runModules(problem);
 
                 // Grow the scratchpad to cover the new hint
                 Khan.scratchpad.resize();
@@ -2276,7 +2276,7 @@ var Khan = (function() {
                 if (hints.length === 0) {
                     $(hint).addClass("final_answer");
 
-					$(Khan).trigger("allHintsUsed");
+                    $(Khan).trigger("allHintsUsed");
 
                     $(this).attr("disabled", true);
                 }
