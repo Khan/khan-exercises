@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems spin graphie graphie-helpers-arithmetic">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Exponential Growth World Problems</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="college_fund" data-calculator>
+            <div class="vars">
+                <var id="DOLLARS">randRange(4,25).toFixed(2)</var>
+                <var id="BEGIN_AMOUNT">randRange(1,5)*100</var>
+                <var id="RATE">randRange(4,12)</var>
+                <var id="PERIODS">randRange(17,20)</var>
+                <var id="MULTIPLIER">1 + (RATE/100)</var>
+                <var id="END_AMOUNT">
+                    roundTo(2, BEGIN_AMOUNT * pow(MULTIPLIER, PERIODS))
+                    .toFixed(2)
+                </var>
+            </div>
+            <div class="question spin">
+                <p>When <var>person(1)</var> was born, 
+                <var>he(2) === "he"? "Uncle":"Auntie"</var> 
+                <var>person(2)</var> contributed $<var>BEGIN_AMOUNT</var> to 
+                <var>his(1)</var> college fund that returned 
+                <var>RATE</var>% a year. Now <var>person(1)</var> is 
+                <var>PERIODS</var> years old and is ready to go to college.
+                What's the amount available right now 
+                from <var>person(2)</var>'s contribution to pay for 
+                <var>person(1)</var>'s college tuition?
+                (Round to the nearest hundredth or cent.)</p>
+           </div>
+           <p class="solution" data-forms="dollar"><var>END_AMOUNT</var></p>
+           <div class="hints">
+               <p>
+               The interest rate is <var>RATE</var>% so the contribution 
+               will multiply by <span color="hint_pink"><var>MULTIPLIER</var>
+               </span> a year.
+               </p>
+
+               <div>
+               <p>With the beginning amount of $<var>BEGIN_AMOUNT</var>, 
+               after one year, the contribution will grow to 
+               <code>$<var>BEGIN_AMOUNT</var> \times <var>MULTIPLIER</var>
+               </code>.</p>
+               </div>
+
+               <div>
+               <p>After 2 years, the contribution will grow to <code>
+               $<var>BEGIN_AMOUNT</var> \times <var>MULTIPLIER</var> \times
+               <var>MULTIPLIER</var> = 
+               $<var>BEGIN_AMOUNT</var> \times <var>MULTIPLIER</var>^2
+               </code>.</p>
+               </div>
+
+               <div>
+               <p>Similarly, after <code>N</code> years, the contribution 
+               will grow to <code>$<var>BEGIN_AMOUNT</var> \times 
+               <var>MULTIPLIER</var>^N</code>.</p>
+               </div>
+
+               <div>
+               <p>So after <var>PERIODS</var> years, 
+               <code>N = <var>PERIODS</var></code>. The contribution will 
+               grow to <code>$<var>BEGIN_AMOUNT</var> \times
+               <var>MULTIPLIER</var>^{<var>PERIODS</var>}=
+               $<var>END_AMOUNT</var></code></p>
+               </div>
+               
+               <div>
+               <p>After <var>PERIODS</var> years, 
+               $<var>END_AMOUNT</var> is available to pay for 
+               <var>person(1)</var>'s college from 
+               <var>he(2) === "he"? "Uncle":"Auntie"</var> <var>person(2)</var> 
+               's initial contribution of $<var>BEGIN_AMOUNT</var>.</p>
+               </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
