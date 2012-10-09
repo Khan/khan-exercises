@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems spin graphie graphie-helpers-arithmetic">
+<html data-require="math math-format word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Exponential Growth World Problems</title>
@@ -10,7 +10,6 @@
     <div class="problems">
         <div id="college_fund" data-calculator>
             <div class="vars">
-                <var id="DOLLARS">randRange(4,25).toFixed(2)</var>
                 <var id="BEGIN_AMOUNT">randRange(1,5)*100</var>
                 <var id="RATE">randRange(4,12)</var>
                 <var id="PERIODS">randRange(17,20)</var>
@@ -20,14 +19,14 @@
                     .toFixed(2)
                 </var>
             </div>
-            <div class="question spin">
+            <div class="question">
                 <p>When <var>person(1)</var> was born, 
                 <var>he(2) === "he"? "Uncle":"Auntie"</var> 
                 <var>person(2)</var> contributed $<var>BEGIN_AMOUNT</var> to 
                 <var>his(1)</var> college fund that returned 
                 <var>RATE</var>% a year. Now <var>person(1)</var> is 
-                <var>PERIODS</var> years old and is ready to go to college.
-                What's the amount available right now 
+                <var>PERIODS</var> years old and is ready to go to college.</p>
+                <p>What's the amount available right now 
                 from <var>person(2)</var>'s contribution to pay for 
                 <var>person(1)</var>'s college tuition?
                 (Round to the nearest hundredth or cent.)</p>
@@ -76,9 +75,151 @@
                <var>he(2) === "he"? "Uncle":"Auntie"</var> <var>person(2)</var> 
                's initial contribution of $<var>BEGIN_AMOUNT</var>.</p>
                </div>
+           </div>    
+       </div>
+       <div id="investment_options_1" data-calculator>
+           <div class="vars">
+               <var id="BEGIN_AMOUNT">randRange(1,5) * 1000</var>
+               <var id="RATE_BANK">randRange(2,5)</var>
+               <var id="RATE_STOCK">RATE_BANK + randRange(1, 4)</var>
+               <var id="PERIODS">randRange(18,22)</var>
+               <var id="MULTIPLIER_BANK">1 + (RATE_BANK/100)</var>
+               <var id="MULTIPLIER_STOCK">1 + (RATE_STOCK/100)</var>
+               <var id="END_AMOUNT_BANK">
+                   roundTo(2, BEGIN_AMOUNT * pow(MULTIPLIER_BANK, PERIODS))
+                   .toFixed(2)
+               </var>
+               <var id="END_AMOUNT_STOCK">
+                   roundTo(2, BEGIN_AMOUNT * pow(MULTIPLIER_STOCK, PERIODS))
+                   .toFixed(2)
+               </var>
+           </div>
+           <div class="question">
+               <p><var>person(1)</var> has $<var>BEGIN_AMOUNT</var> to invest.
+               <var>He(1)</var> is deciding between putting the money into
+               a bank CD or into stocks. The bank CD will pay 
+               <var>RATE_BANK</var>% a year guaranteed while stocks will pay 
+               <var>RATE_STOCK</var>% a year with some volatility. But 
+               <var>person(1)</var> has a very long investment
+               horizon so <var>he(1)</var> decides that the volatility 
+               doesn't matter.</p>
+               <p> If <var>person(1)</var> invests 
+               <var>his(1)</var> money for <var>PERIODS</var> years, 
+               how much more will <var>he(1)</var> earn from investing 
+               in the stock market than from putting it in a bank CD?
+               (Round to the nearest hundredth or cent.)</p>
+           </div>
+           <p class="solution" data-inexact data-max-error="0.01" 
+              data-forms="dollar">
+               <var>END_AMOUNT_STOCK - END_AMOUNT_BANK</var>
+           </p>
+           <div class="hints">
+               <div>
+               <p>The return rate for the bank  CD is <var>RATE_BANK</var>% so
+               the investment will multiply by <var>MULTIPLIER_BANK</var>
+               a year.</p>
+
+               <p>With the beginning amount of $<var>BEGIN_AMOUNT</var>, 
+               after <var>PERIODS</var> years, the investment will grow to 
+               <code>$<var>BEGIN_AMOUNT</var> \times <var>MULTIPLIER_BANK</var>
+               ^{<var>PERIODS</var>}=$<var>END_AMOUNT_BANK</var></code></p>
+               </div>
+
+               <div>
+               <p>Similarly, The return rate for stocks is 
+               <var>RATE_STOCK</var>% so the investment will multiply by
+               <var>MULTIPLIER_STOCK</var> a year.</p>
+               <p>With the beginning amount of $<var>BEGIN_AMOUNT</var>, 
+               after <var>PERIODS</var> years, the investment will grow to 
+               <code>$<var>BEGIN_AMOUNT</var> \times 
+               <var>MULTIPLIER_STOCK</var>^{<var>PERIODS</var>}=
+               $<var>END_AMOUNT_STOCK</var></code></p>
+               </div>
+
+               <div>
+               <p><code>($<var>END_AMOUNT_STOCK</var> - 
+               $<var>END_AMOUNT_BANK</var>) = $<var>roundTo(2, 
+               END_AMOUNT_STOCK-END_AMOUNT_BANK)</var></code></p> 
+               <p><code>$<var>BEGIN_AMOUNT</var></code> invested in stocks 
+               will earn <code>$<var>roundTo(2, 
+               END_AMOUNT_STOCK - END_AMOUNT_BANK)</var></code> more than 
+               investing in the bank CD after <var>PERIODS</var> years.</p>
+               </div>
+           </div>
+        </div>
+        <div id="investment_options_2" data-calculator>
+            <div class="vars">
+                <var id="BEGIN_AMOUNT">randRange(1,5) * 1000</var>
+                <var id="RATE_BONDS">randRange(2,5)</var>
+                <var id="RATE_STOCK">RATE_BONDS + randRange(1, 4)</var>
+                <var id="PERIODS">randRange(18,22)</var>
+                <var id="MULTIPLIER_BONDS">1 + (RATE_BONDS/100)</var>
+                <var id="MULTIPLIER_STOCK">1 + (RATE_STOCK/100)</var>
+                <var id="PERCENT_BONDS">randRange(30, 70)</var>
+                <var id="PERCENT_STOCK">100 - PERCENT_BONDS</var>
+                <var id="END_AMOUNT_BONDS">
+                    roundTo(2, BEGIN_AMOUNT * PERCENT_BONDS/100 *
+                               pow(MULTIPLIER_BONDS, PERIODS))
+                </var>
+                <var id="END_AMOUNT_STOCK">
+                    roundTo(2, BEGIN_AMOUNT * PERCENT_STOCK/100 *
+                               pow(MULTIPLIER_STOCK, PERIODS))
+                </var>
+                <var id="END_AMOUNT">
+                    roundTo(2, END_AMOUNT_BONDS + END_AMOUNT_STOCK)
+                </var>
+            </div>
+            <div class="question">
+                <p><var>person(1)</var> has $<var>BEGIN_AMOUNT</var> to invest.
+                <var>He(1)</var> decided he will put <var>PERCENT_BONDS</var>%
+                into bonds that pay <var>RATE_BONDS</var>% a year and 
+                <var>PERCENT_STOCK</var>% into stocks that pay 
+                <var>RATE_STOCK</var>% a year.</p>
+                <p> With this allocation, after 
+                <var>PERIODS</var> years, how much will <var>person(1)</var>'s
+                initial investment of $<var>BEGIN_AMOUNT</var> grow into?
+                (Round to the nearest hundredth or cent.)</p>
+           </div>
+           <p class="solution" data-inexact data-max-error="0.01" 
+              data-forms="dollar">
+               <var>END_AMOUNT_STOCK + END_AMOUNT_BONDS</var>
+           </p>
+           <div class="hints">
+               <div>
+               <p>The return rate for bonds is <var>RATE_BONDS</var>% so
+               the investment will multiply by <var>MULTIPLIER_BONDS</var>
+               a year.</p>
+               <p> Since <var>PERCENT_BONDS</var>% is allocated into bonds, 
+               with the beginning amount of $<var>BEGIN_AMOUNT</var>, 
+               the investment on bonds will grow to 
+               <code>$<var>BEGIN_AMOUNT</var> \times <var>PERCENT_BONDS</var>\% 
+               \times <var>MULTIPLIER_BONDS</var>^{<var>PERIODS</var>}=
+               $<var>END_AMOUNT_BONDS</var></code></p>
+               </div>
+
+               <div>
+               <p>Similarly, the return rate for stocks is 
+               <var>RATE_STOCK</var>% so the investment will multiply by 
+               <var>MULTIPLIER_STOCK</var> a year.</p>
+               <p> Since <var>PERCENT_STOCK</var>% is allocated into stocks, 
+               with the beginning amount of $<var>BEGIN_AMOUNT</var>, 
+               the investment on stocks will grow to 
+               <code>$<var>BEGIN_AMOUNT</var> \times <var>PERCENT_STOCK</var>\% 
+               \times <var>MULTIPLIER_STOCK</var>^{<var>PERIODS</var>}=
+               $<var>END_AMOUNT_STOCK</var></code></p>
+               </div>
+
+               <div>
+               <p><code>($<var>END_AMOUNT_BONDS</var> + 
+               $<var>END_AMOUNT_STOCK</var>) = 
+               $<var>END_AMOUNT</var></code></p> 
+               <p> The initial investment of <code>$<var>BEGIN_AMOUNT</var>
+               </code> will grow into <code>$<var>END_AMOUNT</var></code>
+               after <var>PERIODS</var> years.</p>
+               </div>
+           </div>
         </div>
     </div>
     </div>
 </body>
-
 </html>
