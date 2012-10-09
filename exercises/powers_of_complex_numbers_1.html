@@ -4,6 +4,20 @@
     <meta charset="UTF-8" />
     <title>Powers of complex numbers 1</title>
     <script src="../khan-exercise.js"></script>
+    <style>
+        .info-box .mini-button {
+            margin: 0px 10px 0px 0px;
+            padding: 0px 5px;
+            width: 25px;
+            height: 18px;
+        }
+
+        #number-label {
+            clear: both;
+            margin: 0px 0px;
+            padding: 14px 0px 0px 0px;
+        }
+    </style>
 </head>
 <body>
     <div class="exercise">
@@ -65,8 +79,45 @@
                 graph.currComplexPolar = new ComplexPolarForm( DENOMINATOR, 5, EULER_FORM );
                 redrawComplexPolarForm();
             </div>
-            <div class="solution" data-type="complexNumberPolarForm">
-                [ <var>ANSWER_ANGLE_NUMERATOR</var>, <var>ANSWER_RADIUS</var> ]
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    <div>
+                        <div style="float: left;">Radius: <span id="current-radius"><code>1</code></span></div>
+                        <div style="float: right;">
+                            <input type="button" class="simple-button mini-button" value="-" onclick="updateComplexPolarForm(0, -1)" />
+                            <input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm(0, 1)" />
+                        </div>
+                    </div>
+                    <div style="clear: both;">
+                        <div style="float: left;">Angle: <span id="current-angle"><code>0</code></span></div>
+                        <div style="float: right;">
+                            <input type="button" class="simple-button mini-button" value="-" onclick="updateComplexPolarForm(-1, 0)" />
+                            <input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm(1, 0)" />
+                        </div>
+                    </div>
+                    <div id="number-label">1</div>
+                </div>
+                <div class="guess">[
+                    graph.currComplexPolar.getAngleNumerator(),
+                    graph.currComplexPolar.getRadius()
+                    ]</div>
+                <div class="validator-function">
+                    var angle = guess[0];
+                    var radius = guess[1];
+
+                    if (angle === 0 &amp;&amp; radius === 1) {
+                    return "";
+                    }
+
+                    return angle === ANSWER_ANGLE_NUMERATOR &amp;&amp;
+                           radius === ANSWER_RADIUS;
+                </div>
+                <div class="show-guess">
+                    redrawComplexPolarForm(guess[0], guess[1]);
+                </div>
+                <div class="show-guess-solutionarea">
+                    redrawComplexPolarForm(guess[0], guess[1]);
+                </div>
             </div>
             <div class="hints">
                 <div data-if="BASE_ANGLE === 0">
