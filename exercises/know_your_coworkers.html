@@ -1,0 +1,75 @@
+<!DOCTYPE html> 
+<html data-require="math graphie graphie-helpers">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Identifying your Co-workers</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars" >
+        <var id="IMG">
+            "img class=flashcard src='" + 
+            "http://www.khanacademy.org/images/headshots/"
+        </var>
+        <var id="F_NAME">randFromArray([
+            ["sal.jpg", "Sal"],
+            ["shantanu.jpg", "Shantanu"],
+            ["bilal.jpg", "Bilal"],
+            ["ben.jpg", "Ben"],
+            ["jason.jpg", "Jason"],
+            ["marcia.jpg", "Marcia"],
+            ["jessica.jpg", "Jessica"],
+            ["john.jpg", "John"],
+            ["desmond.jpg", "Desmond"],
+            ["charlotte.2.jpg", "Charlotte"],
+            ["elizabeth.jpg", "Elizabeth"],
+            ["sundar.jpg", "Sundar"],
+            ["matt.jpg", "Matt"],
+            ["maureen.jpg", "Maureen"],
+            ["marcos.jpg", "Marcos"],
+            ["james.jpg", "James"],
+            ["tom.jpg", "Tom"],
+            ["minli.JPG", "Minli"],
+            ["steven.jpg", "Steven"],
+            ["beth.jpg", "Beth"],
+            ["benkomalo.jpg", "Ben"],
+            ["eater.jpg", "Ben"],
+            ["vi.jpg", "Vi"],
+            ["chris.jpg", "Chris"],
+            ["brit.jpg", "Brit"],
+            ["csilvers.jpg", "Craig"],
+            ["michael.jpg", "Michael"],
+            ["kitt.jpg", "Kitt"],
+            ["stephanie.jpg", "Stephanie"],
+            ["yunfang.jpg", "Yun-Fang"],
+            ["esther.jpg", "Esther"],
+            ["joel.jpg", "Joel"],
+            ["rishi.jpg", "Rishi"],
+            ["jesse.png", "Jesse"],
+            ["karl.jpg", "Karl"],
+            ["toby.jpg", "Toby"]
+        ])</var>
+
+        <var id="IMG_STR">  
+            (function() {
+                 var qstn =  "<"+IMG+F_NAME[0]+"'>";
+                 return qstn;
+             })()
+        </var>
+    </div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p><var>IMG_STR</var></p>
+            </div>
+            <div class="solution" data-type="text"><var>F_NAME[1]</var></div>
+            <div class="hints">
+            <p>Name: <var>F_NAME[1]</var>
+            </p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
