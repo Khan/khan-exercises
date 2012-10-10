@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Combining Like Terms Intuitition</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="original">
+            <div class="question">
+                <p id="initial-question">
+                    Combine like terms in the equation <code><var>0</var></code>
+                    by dragging terms together with the mouse and clicking 
+                    on +/- operators to combine terms
+                </p>
+                <!--This dummy graphie is needed so the hints work properly-->
+                <div class="graphie" id="dummy-graphie">
+                </div>
+                <style>
+                    #sortable1 { list-style-type: none; margin: 0; padding: 0; width: 450px; }
+                    #sortable1 li { margin: 0 0 0 0; padding: 0; font-size: 1.5em; width: auto; 
+                        float:left; border:none;background-color:rgba(0,0,0,0)}
+                </style>                
+                <script>
+                    $(function() {
+                        $("#sortable1").sortable();
+                        $("#sortable1").disableSelection();
+                    });
+                </script>
+
+                <ul id="sortable1">
+                </ul>
+                <script>
+                    varNames=[["a","b","c",""],["x^3","x^2","x",""],["x","y","z",""]];
+                    activeVars=KhanUtil.randFromArray(varNames);
+                    nbrTerms=KhanUtil.randRange(6,8);
+                    var coefficients=[];
+                    var terms=[];
+                    var equation="";
+                    var liOffset=$('li').length;
+
+                    function buildTerm(coefficient,variable){
+                        term="";
+                        if(coefficient>0){
+                            term="+";
+                        };
+                        if(Math.abs(coefficient)>1 || variable ==""){
+                            term=term+coefficient;
+                        }else if(coefficient==-1){
+                            term="-";
+                        };
+                        term=term+variable;
+                        return term;
+                    };
+
+                    function buildEquation(list,offset){
+                        equation = "";
+                        terms=list.toArray();
+                        for(i=0;i<list.length-offset;i++){
+                            equation=equation+buildTerm($(terms[i]).attr("data-coefficient"),$(terms[i]).attr("data-variable"));
+                        };
+                        return equation;
+                    };
+
+                    for(i=1;i<=nbrTerms;i++){
+                        do{
+                            coefficient=KhanUtil.randRange(-10,10)
+                        } while(coefficient==0);
+                        variable = KhanUtil.randFromArray(activeVars);
+                        term=buildTerm(coefficient,variable);
+                        equation=equation+term;
+                        $("#sortable1").append('<li id="term'+i+
+                            '"class="ui-state-default"'+
+                            ' data-variable="'+variable+
+                            '" data-coefficient="'+coefficient+
+                            '" onclick="clickedMe(this)"><code>'
+                            +term+'</code></li>'
+                        );
+
+                        $("#initial-question code").text("\\color{blue}{\\text{"+equation+"}}");
+                        MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("initial-question")[0]]);
+                        $("#answer-equation code").text(equation);
+                        MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#answer-equation")[0]]);
+                    };
+
+                    function clickedMe(myTerm){
+                        myIndex=$('#sortable1 li').index(myTerm);
+                        myId=$('#sortable1 li').toArray()[myIndex].id;
+                        if(myIndex>0){
+                            testTerm=$('#sortable1 li:eq('+(myIndex-1)+')');
+                            myVar=$(myTerm).attr("data-variable");
+                            testVar=$(testTerm).attr("data-variable");
+                            myCoeff=$(myTerm).attr("data-coefficient");
+                            testCoeff=$(testTerm).attr("data-coefficient");
+                            if(myVar==testVar){
+                                newCoefficient=parseFloat(myCoeff)+parseFloat(testCoeff);
+                                if(newCoefficient==0){
+                                    $(myTerm).remove();
+                                }else{
+                                    $(myTerm).attr("data-coefficient",newCoefficient);
+                                    $("#"+myId+" code").text(buildTerm(newCoefficient,myVar));
+                                    MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#"+myId)[0]]);
+                                };
+                                $(testTerm).remove();
+                                equation=buildEquation($('li'),liOffset);
+                                $("#answer-equation code").text(equation);
+                                MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#answer-equation")[0]]);
+                            }else{
+                                $(myTerm).effect("shake", { times:3,distance:3 }, 75);
+                                $(testTerm).effect("shake", { times:3,distance:-3 }, 75);
+                            };
+                        }else{
+                            $(myTerm).effect("shake", { times:3,distance:3 }, 75);
+                        };
+                    };
+                    function groupTogether(i,j,list){
+                        $("#sortable1 li:eq("+j+")").insertAfter($("#sortable1 li:eq("+i+")"));
+                        $('#sortable1').sortable('refresh');
+                        waitTime=setInterval(function(){cancelTerms(j,list)},1000);
+                        clearInterval(groupTime);
+                    };
+                    function cancelTerms(i,list){
+                        clickedMe(list.toArray()[i]);
+                        clearInterval(waitTime);
+                    };
+                    nextHint=function(){
+                        varList=[];
+                        list=$('li');
+                        terms=list.toArray();
+                        for(i=0;i<=$('li').length-liOffset;i++){
+                            varList.push($(terms[i]).attr("data-variable"));
+                        };
+                        for(i=0;i<=varList.length-2;i++){
+                            for(j=i+1;j<=varList.length-1;j++){
+                                if(varList[i]==varList[j]){
+                                    $(terms[i]).effect("highlight",{},2000);
+                                    $(terms[j]).effect("highlight",{},2000);
+                                    groupTime=setInterval(function(){groupTogether(i,j,list)},1000);
+                                    return false;
+                                };
+                            }
+                        };
+                        return true;
+                    };
+                    function getVariables(){
+                        varList=[];
+                        list=$('li');
+                        terms=list.toArray();
+                        noDuplicates=true;
+                        for(i=0;i<=$('li').length-liOffset;i++){
+                            thisVar=$(terms[i]).attr("data-variable");
+                            if(varList.indexOf(thisVar) == -1){
+                                varList.push(thisVar);
+                            }
+                            else{
+                                noDuplicates=false;
+                            };
+                        };
+                        return [varList,noDuplicates];
+                    };
+                    var varList=getVariables()[0];
+                    dummyLen=nbrTerms-varList.length+1;
+                    var DUMMY=Array(dummyLen);
+                </script>
+            </div>            
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    <p id=answer-equation><code>0</code></p>
+                </div>
+                <div class="guess">
+                    0
+                </div>
+                <div class="validator-function">
+                    return getVariables()[1];
+                </div>
+            </div>
+            <div class="hints">
+                <div class="graphie" data-update="dummy-graphie" data-each="DUMMY as dummy">
+                    if(nextHint()){
+                        alert("You already have the correct answer!");
+                    };
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
