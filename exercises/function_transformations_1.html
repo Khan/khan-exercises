@@ -78,6 +78,9 @@
                         return UP_ORIG * pow(x + X_ORIG, 2) + Y_ORIG;
                     }, [-20, 20]);
 
+                    label([-X_ORIG, Y_ORIG], "\\red{f(x)}", 
+                          UP_ORIG > 0 ? "below" : "above");
+
                     style({
                         stroke: BLUE
                     });
@@ -87,6 +90,10 @@
                             (UP_ORIG * pow(x + X_SHIFT + X_ORIG, 2) +  Y_ORIG) 
                             + Y_SHIFT);
                     }, [-20, 20]);
+
+                    label([-X_ORIG - X_SHIFT, 
+                           Y_SCALE * Y_ORIG + Y_SHIFT], "\\blue{g(x)}", 
+                          UP_ORIG * Y_SCALE > 0 ? "below" : "above");
                 </div>
                 <p class="solution" data-type="multiple">
                     <span class="sol" data-type="rational">

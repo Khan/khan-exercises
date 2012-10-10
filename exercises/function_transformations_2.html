@@ -81,6 +81,10 @@
                         labelStep: 2,
                         axisArrows: "<->"
                     })
+                    var labelPosition = "below";
+                    if (UP_ORIG < 0) {
+                        labelPosition = "above";
+                    }
 
                     style({
                         stroke: RED,
@@ -92,6 +96,8 @@
                         return UP_ORIG * pow(x + X_ORIG, 2 ) + Y_ORIG;
                     }, [-20, 20]);
 
+                    label([-X_ORIG, Y_ORIG], "\\red{f(x)}", labelPosition);
+
                     style({
                         stroke: BLUE
                     });
@@ -101,6 +107,10 @@
                                  pow( X_SCALE * x + X_SHIFT + X_ORIG, 2) + 
                                  Y_ORIG + Y_SHIFT);
                          }, [-20, 20]);
+
+                    label([GX_VERTEX_X, GX_VERTEX_Y], "\\blue{g(x)}", 
+                          labelPosition);
+                    
                 </div>
                 <div class="solution" data-type="set">
                     <div class="set-sol" data-type="multiple">
