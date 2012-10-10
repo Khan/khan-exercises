@@ -74,8 +74,17 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
         createValidator: function(solution) {
             var correct = $.trim($(solution).text());
 
+            var caseSensitive = 
+                $(solution).data("case-insensitive") === undefined ? 
+                true : false;
+            if (!caseSensitive) {
+              correct = correct.toLowerCase();
+            }
             return function(guess) {
                 guess = $.trim(guess);
+                if (!caseSensitive) {
+                    guess = guess.toLowerCase();
+                }
                 return correct === guess;
             };
         }
