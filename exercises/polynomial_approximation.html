@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+    <title>Polynomial approximation of a function of several variables</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+
+		<var id="Functions">[
+			{funcname: "x^3 + x^2 y + y", 
+				dxfuncname: "3x^2+2 x y", 
+				dyfuncname: "x^2 + 1", 
+				func: function(x) {return (x*x*x + x*x*y);}, 
+				dxfunc: function(x) {return (3*x*x+2*x*y);},
+				dyfunc: function(x) {return (x*x + 1);}}]</var>
+		<var id="selectedFunction">randFromArray(Functions)</var>
+
+		<var id="x0">randRange(-2,2)</var>
+		<var id="y0">randRange(-2,2)</var>
+		<!-- Ensure that x != x0 and y != y0 -->
+	    <div data-ensure="x !== x0 && y !== y0">
+			<var id="x">x0 + randRange(-2,2) / 10</var>
+			<var id="y">y0 + randRange(-2,2) / 10</var>
+		</div>
+
+		<var id="fval">roundTo(5, selectedFunction.func(x0, y0))</var>
+		<var id="dx">roundTo(5, selectedFunction.dxfunc(x0, y0))</var>
+		<var id="dy">roundTo(5, selectedFunction.dyfunc(x0, y0))</var>
+
+		<var id="solution">roundTo(5, fval + dx * (x - x0) + dy * (y - y0))</var>
+    </div>
+        
+
+	<div class="problems">
+        <div>
+            <div class="question">
+			<p>Approximate  
+				<code>
+					f(x, y) = <var>selectedFunction.funcname</var>
+				</code>
+				around <code>x = <var>x0</var></code> and <code>y = <var>y0</var></code> with a first order polynomial.
+			</p>
+			<p>Use the approximation to estimate the value of <code>f(<var>x</var>, <var>y</var>)</code>.
+			</p>
+			</div>
+			<p class="solution" data-type="decimal"><var>solution</var></p>
+			<div class="hints">
+				<p>Evaluate the function at <code>x = <var>x0</var></code> and <code>y = <var>y0</var></code></p> 
+				<p><code>f(<var>x0</var>, <var>y0</var>) = <var>fval</var></code></p>
+				<p>Determine the partial derivatives</p>
+				<p><code>\frac{\partial}{\partial x} f(x, y) = <var>selectedFunction.dxfuncname</var></code></p>
+				<p><code>\frac{\partial}{\partial y} f(x, y) = <var>selectedFunction.dyfuncname</var></code></p>
+				<p>Evaluate the partial derivaties at <code>x = <var>x0</var></code> and <code>y = <var>y0</var></code></p> 
+				<p><code>\frac{\partial}{\partial x} f(x, y) = <var>dx</var></code></p>
+				<p><code>\frac{\partial}{\partial y} f(x, y) = <var>dy</var></code></p>
+				<p>You now have all the information for writing the first order approximation of <code>f(x, y)</code></p>
+				<p><code>p(x, y) = <var>fval</var> 
+						+ <var>dx</var> \cdot (x - <var>x0</var>)
+						+ <var>dy</var> \cdot (y - <var>y0</var>)
+				</code></p>
+				<p><code>p(<var>x</var>, <var>y</var>) = <var>fval</var> 
+						+ <var>dx</var> \cdot (<var>x</var> - <var>x0</var>)
+						+ <var>dy</var> \cdot (<var>y</var> - <var>y0</var>)
+				</code></p>
+<!--				<p><code>p(<var>x</var>, <var>y</var>) = <var>fval</var> 
+						+ <var>dx</var> \cdot (<var>x - x0</var>)
+						+ <var>dy</var> \cdot (<var>y - y0</var>)
+				</code></p>
+				<p><code>p(<var>x</var>, <var>y</var>) = <var>fval</var> 
+						+ <var>dx * (x - x0)</var>
+						+ <var>dy * (y - y0)</var>
+				</code></p>-->
+				<p>The result is then</p>
+				<p><code>p(<var>x</var>, <var>y</var>) = <var>solution</var></code></p>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</body>
+</html>
