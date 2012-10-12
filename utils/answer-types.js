@@ -1143,7 +1143,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var correct = extractRawCode(solution);
 
             return function(guess) {
-                if (guess[2] && guess[0] === "None of the above.") {
+                if (guess[0] == null) {
+                    return "";
+                } else if (guess[2] && guess[0] === "None of the above.") {
                     // Hacky stuff to make the correct solution appear when
                     // "none of the above" is the correct answer
                     var solutionarea = $("#solutionarea");
@@ -1154,7 +1156,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                 .fadeIn("fast");
                         });
                     return true;
-                } else if (guess[0] === correct) {
+                } else if ($.trim(guess[0]) === $.trim(correct)) {
                     return true;
                 }
 
