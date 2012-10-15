@@ -10,7 +10,7 @@
 <div class="exercise" data-weight="1" data-name="combining_like_terms_1"></div>
 
 <div class="exercise" data-weight="6">
-    <div class="vars" data-ensure="E * A + F * B !== 0 && E * C + F * D !== 0">
+    <div class="vars" data-ensure="E * A + F * B !== 0 && E * C + F * D !== 0 && A + (F * B) !== 0">
         <var id="X">randFromArray("abkmnpvx")</var>
         <var id="A">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
         <var id="B" data-ensure="abs( A ) !== abs( B )">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
@@ -326,7 +326,7 @@
                         \blue{<var>E * C + F * D</var>}</code>
                     </p>
                 </div>
-                <p data-if="E * C + F * D">The simplified expression is <code><var>expr(["*", E * A + F * B, X])</var></code>
+                <p data-if="E * C + F * D === 0">The simplified expression is <code><var>expr(["*", E * A + F * B, X])</var></code>
                 <p data-else>The simplified expression is <code><var>expr(["+", ["*", E * A + F * B, X], E * C + F * D])</var></code>
             </div>
         </div>
