@@ -89,7 +89,7 @@
 
                 <div>
                     <p>Therefore, we know <code>\color{blue}{<var>M_NUMBER</var>}</code> lies between <code>\color{green}{<var>M_WHOLE</var>}</code>
-                    and <code>\color{green}{<var>M_WHOLE + (SOLUTION > 1 ? 1 : -1)</var>}</code> on the number line.</p>
+                    and <code>\color{green}{<var>M_WHOLE + (SOLUTION > 0 ? 1 : -1)</var>}</code> on the number line.</p>
                     <div class="graphie" data-update="number-line">
                         style({ stroke: "#FFA500", strokeWidth: 3.5 });
                         line( [M_WHOLE * abs(DENOMINATOR), -0.2], [M_WHOLE * abs(DENOMINATOR), 0.2]);
