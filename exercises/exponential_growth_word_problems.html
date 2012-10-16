@@ -34,20 +34,23 @@
            <p class="solution" data-forms="dollar"><var>END_AMOUNT</var></p>
            <div class="hints">
                <p>
-               The interest rate is <var>RATE</var>% so the contribution 
-               will multiply by <span color="hint_pink"><var>MULTIPLIER</var>
-               </span> a year.
+               The interest rate is <var>RATE</var>%. So after each year 
+               we have <code>100</code>% of the money we started with, 
+               plus another <var>RATE</var>% in interest. In other words, 
+               we will have <span style="hint_pink"><var>MULTIPLIER</var>
+               </span> times off the money we started with at the end of the year.
                </p>
 
                <div>
-               <p>With the beginning amount of $<var>BEGIN_AMOUNT</var>, 
+               <p>With the beginning amount of 
+               <code>$<var>BEGIN_AMOUNT</var></code>, 
                after one year, the contribution will grow to 
                <code>$<var>BEGIN_AMOUNT</var> \times <var>MULTIPLIER</var>
                </code>.</p>
                </div>
 
                <div>
-               <p>After 2 years, the contribution will grow to <code>
+               <p>After <code>2</code> years, the contribution will grow to <code>
                $<var>BEGIN_AMOUNT</var> \times <var>MULTIPLIER</var> \times
                <var>MULTIPLIER</var> = 
                $<var>BEGIN_AMOUNT</var> \times <var>MULTIPLIER</var>^2
@@ -72,8 +75,8 @@
                <p>After <var>PERIODS</var> years, 
                $<var>END_AMOUNT</var> is available to pay for 
                <var>person(1)</var>'s college from 
-               <var>he(2) === "he"? "Uncle":"Auntie"</var> <var>person(2)</var> 
-               's initial contribution of $<var>BEGIN_AMOUNT</var>.</p>
+               <var>he(2) === "he"? "Uncle":"Auntie"</var> <var>person(2)</var>'s
+                initial contribution of $<var>BEGIN_AMOUNT</var>.</p>
                </div>
            </div>    
        </div>
@@ -115,9 +118,14 @@
            </p>
            <div class="hints">
                <div>
-               <p>The return rate for the bank  CD is <var>RATE_BANK</var>% so
-               the investment will multiply by <var>MULTIPLIER_BANK</var>
-               a year.</p>
+               <p>
+               The return rate for the bank CD is <var>RATE_BANK</var>%. 
+               So after each year we have <code>100</code>% of the money 
+               we started with, plus another <var>RATE_BANK</var>% in interest. 
+               In other words, if we invest the money in the bank CD, we will have 
+               <span style="hint_pink"><var>MULTIPLIER_BANK</var></span> 
+               times off the money we started with at the end of the year.
+               </p>
 
                <p>With the beginning amount of $<var>BEGIN_AMOUNT</var>, 
                after <var>PERIODS</var> years, the investment will grow to 
