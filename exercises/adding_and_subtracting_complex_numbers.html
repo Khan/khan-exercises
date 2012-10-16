@@ -4,11 +4,6 @@
     <meta charset="UTF-8" />
     <title>Adding and subtracting complex numbers</title>
     <script src="../khan-exercise.js"></script>
-    <style type="text/css">
-        #solutionarea input[type="text"] {
-            width: 50px
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -59,21 +54,8 @@
                     (<var>A_REP_COLORED</var>) <var>OPERATOR</var> (<var>B_REP_COLORED</var>)
                 </code>
             </p>
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-fallback="0" data-inexact data-max-error="0.01">
-                    <var>ANSWER_REAL</var>
-                </span>
-                <code>+</code>
-                <span class="sol" data-fallback="0" data-inexact data-max-error="0.01">
-                    <var>ANSWER_IMAG</var>
-                </span>
-                <code>i</code>
-                <div class="example">
-                    Two numbers for both the real and imaginary parts
-                </div>
-                <div class="example">
-                    Example: 2 + 3<code>i</code>
-                </div>
+            <div class="solution" data-type="complexNumberSeparate">
+                [ <var>ANSWER_REAL</var>, <var>ANSWER_IMAG</var> ]
             </div>
             <div class="hints">
                 <p>
@@ -96,7 +78,8 @@
                     which equals <code><var>ANSWER_IMAG</var></code>.
                 </p>
                 <p>
-                    The result is <code><var>complexNumber(ANSWER_REAL, ANSWER_IMAG)</var></code>.
+                    The result is <code><var>complexNumber(ANSWER_REAL, ANSWER_IMAG)</var></code>; its real component is <code><var>ANSWER_REAL</var></code>
+                    and its complex component is <code><var>ANSWER_IMAG</var></code>.
                 </p>
             </div>
         </div>
