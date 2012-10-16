@@ -1090,7 +1090,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 }
                 // Wrap each of the choices in elements and add a radio button
                 choice.contents()
-                    .wrapAll('<li><label><span class="value">')
+                    .wrapAll('<li><label><span class="value"></span></label></li>')
                     .parent()
                     .before(
                         $('<input type="radio" name="solution">')
