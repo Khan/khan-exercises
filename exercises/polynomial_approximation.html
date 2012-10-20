@@ -53,9 +53,14 @@
 				<p><code>\frac{\partial}{\partial x} f(x, y) = <var>selectedFunction.dxfuncname</var></code></p>
 				<p><code>\frac{\partial}{\partial y} f(x, y) = <var>selectedFunction.dyfuncname</var></code></p>
 				<p>Evaluate the partial derivaties at <code>x = <var>x0</var></code> and <code>y = <var>y0</var></code></p> 
-				<p><code>\frac{\partial}{\partial x} f(x, y) = <var>dx</var></code></p>
-				<p><code>\frac{\partial}{\partial y} f(x, y) = <var>dy</var></code></p>
-				<p>You now have all the information for writing the first order approximation of <code>f(x, y)</code></p>
+				<p><code>\frac{\partial}{\partial x} f(<var>x0</var>, <var>y0</var>) = <var>dx</var></code></p>
+				<p><code>\frac{\partial}{\partial y} f(<var>x0</var>, <var>y0</var>) = <var>dy</var></code></p>
+				<p>You now have all the information for writing the first order
+        approximation of <code>f(x, y)</code> </p>
+				<p><code>p(x, y) = f(<var>x0</var>, <var>y0</var>)
+						+ \frac{\partial}{\partial x} f(<var>x0</var>, <var>y0</var>) \cdot (x - <var>x0</var>)
+						+ \frac{\partial}{\partial y} f(<var>x0</var>, <var>y0</var>) \cdot (y - <var>y0</var>)
+				</code></p>
 				<p><code>p(x, y) = <var>fval</var> 
 						+ <var>dx</var> \cdot (x - <var>x0</var>)
 						+ <var>dy</var> \cdot (y - <var>y0</var>)
@@ -64,15 +69,6 @@
 						+ <var>dx</var> \cdot (<var>x</var> - <var>x0</var>)
 						+ <var>dy</var> \cdot (<var>y</var> - <var>y0</var>)
 				</code></p>
-<!--				<p><code>p(<var>x</var>, <var>y</var>) = <var>fval</var> 
-						+ <var>dx</var> \cdot (<var>x - x0</var>)
-						+ <var>dy</var> \cdot (<var>y - y0</var>)
-				</code></p>
-				<p><code>p(<var>x</var>, <var>y</var>) = <var>fval</var> 
-						+ <var>dx * (x - x0)</var>
-						+ <var>dy * (y - y0)</var>
-				</code></p>-->
-				<p>The result is then</p>
 				<p><code>p(<var>x</var>, <var>y</var>) = <var>solution</var></code></p>
 			</div>
 		</div>
