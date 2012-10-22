@@ -27,24 +27,23 @@
                 return a * SCALAR;
             }, MAT_A)
         </var>
-        <var id="SCALAR_MAT">
-            deepZipWith(2, function(a) {
-                return SCALAR;
-            }, MAT_A)
-        </var>
 
         <var id="MAT_A_COLOR">BLUE</var>
         <var id="SCALAR_COLOR">GREEN</var>
         <var id="SOLN_MAT_COLOR">PINK</var>
 
         <var id="PRETTY_MAT_A">
-            printMatrix(MAT_A, MAT_A_COLOR)
+            printSimpleMatrix(MAT_A, MAT_A_COLOR)
         </var>
         <var id="PRETTY_HINT_MAT">
-            printMatrix(SCALAR_MAT, SCALAR_COLOR, MAT_A, MAT_A_COLOR, OPERATION)
+            printMatrix(function(a) {
+                var s = colorMarkup(SCALAR, SCALAR_COLOR);
+                var b = colorMarkup(a, MAT_A_COLOR);
+                return s + OPERATION + b;
+            }, MAT_A)
         </var>
         <var id="PRETTY_SOLN_MAT">
-            printMatrix(SOLN_MAT, SOLN_MAT_COLOR)
+            printSimpleMatrix(SOLN_MAT, SOLN_MAT_COLOR)
         </var>
     </div>
 

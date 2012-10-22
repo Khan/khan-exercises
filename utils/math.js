@@ -482,6 +482,28 @@ $.extend(KhanUtil, {
     isInt: function(num) {
         return parseFloat(num) === parseInt(num, 10) && !isNaN(num);
     },
+
+
+    /**
+     * Add LaTeX color markup to a given value.
+     */
+    colorMarkup: function(val, color) {
+        return "\\color{" + color + "}{" + val + "}";
+    },
+
+    /**
+     * Like _.contains except using _.isEqual to verify if item is present.
+     * (Works for lists of non-primitive values.)
+     */
+    contains: function(list, item) {
+        return _.any(list, function(elem) {
+            if (_.isEqual(item, elem)) {
+                return true;
+            }
+            return false;
+        });
+    },
+
     BLUE: "#6495ED",
     ORANGE: "#FFA500",
     PINK: "#FF00AF",

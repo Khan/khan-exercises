@@ -38,16 +38,20 @@
         <var id="SOLN_MAT_COLOR">PINK</var>
 
         <var id="PRETTY_MAT_A">
-            printMatrix(MAT_A, MAT_A_COLOR)
+            printSimpleMatrix(MAT_A, MAT_A_COLOR)
         </var>
         <var id="PRETTY_MAT_B">
-            printMatrix(MAT_B, MAT_B_COLOR)
+            printSimpleMatrix(MAT_B, MAT_B_COLOR)
         </var>
         <var id="PRETTY_HINT_MAT">
-            printMatrix(MAT_A, MAT_A_COLOR, MAT_B, MAT_B_COLOR, OPERATION)
+            printMatrix(function(a, b) {
+                a = colorMarkup(a, MAT_A_COLOR);
+                b = colorMarkup(b, MAT_B_COLOR);
+                return a + OPERATION + b;
+            }, MAT_A, MAT_B)
         </var>
         <var id="PRETTY_SOLN_MAT">
-            printMatrix(SOLN_MAT, SOLN_MAT_COLOR)
+            printSimpleMatrix(SOLN_MAT, SOLN_MAT_COLOR)
         </var>
     </div>
 

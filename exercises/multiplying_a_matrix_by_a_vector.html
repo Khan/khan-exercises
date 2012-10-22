@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html data-require="math matrix">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying a matrix by a vector</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        #answer_area .row input[type=text] {
+            width: 40px;
+            margin-right: 5px;
+        }
+
+        #answer_area .row {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+
+    <div class="vars">
+        <var id="DIM_3">DIM_2</var>
+        <var id="DIM_4">1</var>
+        <var id="MAT_1">makeMatrix(randRange(-2, 5, DIM_1, DIM_2))</var>
+        <var id="MAT_2">makeMatrix(randRange(-2, 5, DIM_3, DIM_4))</var>
+
+        <var id="SOLN_MAT">
+            matrixMult(MAT_1, MAT_2)
+        </var>
+
+        <var id="PRETTY_MAT_1_ID">"\\textbf " + randFromArray("ABCDEF")</var>
+        <var id="PRETTY_MAT_2_ID">"\\textbf " + randFromArray("vw")</var>
+
+        <!-- For generating hint matrices-->
+        <var id="ROW_COLORS">[GREEN, BLUE, GRAY]</var>
+        <var id="COL_COLORS">[ORANGE]</var>
+
+        <var id="FINAL_HINT_MAT">
+            makeMultHintMatrix(MAT_1, MAT_2, ROW_COLORS, COL_COLORS)
+        </var>
+
+    </div>
+
+    <div class="problem">
+        <p>
+            Let <code><var>PRETTY_MAT_1_ID</var> = <var>printSimpleMatrix(MAT_1)</var></code> and
+            <code><var>PRETTY_MAT_2_ID</var> = <var>printSimpleMatrix(MAT_2)</var></code>.
+        </p>
+    </div>
+
+    <p class="question">
+        What is <code><var>PRETTY_MAT_1_ID + PRETTY_MAT_2_ID</var></code>?
+    </p>
+
+    <div class="hints">
+        <div>
+            <p>
+                Because <code><var>PRETTY_MAT_1_ID</var></code> has dimensions <code>(<var>DIM_1 + "\\times" + DIM_2</var>)</code> and <code><var>PRETTY_MAT_2_ID</var></code> has dimensions <code>(<var>DIM_3 + "\\times" + DIM_4</var>)</code>, the answer matrix will have dimensions <code>(<var>DIM_1 + "\\times" + DIM_4</var>)</code>.
+            </p>
+            <p>
+                <code>
+                    <var>PRETTY_MAT_1_ID + PRETTY_MAT_2_ID</var>
+                    =
+                    <var>printColoredDimMatrix(MAT_1, ROW_COLORS, true)</var>
+                    <var>printColoredDimMatrix(MAT_2, COL_COLORS, false)</var>
+                    =
+                    <var>
+                        printSimpleMatrix(maskMatrix(FINAL_HINT_MAT, []))
+                    </var>
+                </code>
+            </p>
+        </div>
+        <div>
+            <p>
+                To find the element at any row <code>i</code>, column <code>j</code> of the answer matrix, multiply the elements in row <code>i</code> of the first matrix, <code><var>PRETTY_MAT_1_ID</var></code>, with the corresponding elements in column <code>j</code> of the second matrix, <code><var>PRETTY_MAT_2_ID</var></code>, and add the products together.
+            </p>
+        </div>
+        <div>
+            <p>
+                So, to find the element at row 1, column 1 of the answer matrix, multiply the first element in <code><var>colorMarkup("\\text{row }1", ROW_COLORS[0])</var></code> of <code><var>PRETTY_MAT_1_ID</var></code> with the first element in <code><var>colorMarkup("\\text{column }1", COL_COLORS[0])</var></code> of <code><var>PRETTY_MAT_2_ID</var></code>, then multiply the second element in <code><var>colorMarkup("\\text{row }1", ROW_COLORS[0])</var></code> of <code><var>PRETTY_MAT_1_ID</var></code> with the second element in <code><var>colorMarkup("\\text{column }1", COL_COLORS[0])</var></code> of <code><var>PRETTY_MAT_2_ID</var></code>, and so on. Add the products together.
+            </p>
+            <p>
+                <code>
+                    <var>
+                        printSimpleMatrix(
+                            maskMatrix(FINAL_HINT_MAT, [[1, 1]])
+                        )
+                    </var>
+                </code>
+            </p>
+        </div>
+        <div>
+            <p>
+                Likewise, to find the element at row 2, column 1 of the answer matrix, multiply the elements in <code><var>colorMarkup("\\text{row }2", ROW_COLORS[1])</var></code> of <code><var>PRETTY_MAT_1_ID</var></code> with the corresponding elements in <code><var>colorMarkup("\\text{column }1", COL_COLORS[0])</var></code> of <code><var>PRETTY_MAT_2_ID</var></code> and add the products together.
+            </p>
+            <p>
+                <code>
+                    <var>
+                        printSimpleMatrix(
+                            maskMatrix(FINAL_HINT_MAT, [[1, 1], [2, 1]])
+                        )
+                    </var>
+                </code>
+            </p>
+        </div>
+        <div>
+            <p>
+                Fill out the rest:
+            </p>
+            <p>
+                <code>
+                    <var>
+                        printSimpleMatrix(FINAL_HINT_MAT)
+                    </var>
+                </code>
+            </p>
+        </div>
+        <div>
+            <p>After simplifying, we end up with:</p>
+            <div>
+                <code>
+                    <var>printSimpleMatrix(SOLN_MAT)</var>
+                </code>
+            </div>
+        </div>
+    </div>
+
+    <div class="solution" data-type="multiple">
+        <p data-each="SOLN_MAT as row" class="row">
+            <span data-each="row as elem" class="sol">
+                <var>elem</var>
+            </span>
+        </p>
+    </div>
+
+    <div class="problems">
+
+        <!-- 2x1 solution dimensions -->
+        <div id="2x2-2x1">
+            <div class="vars" data-apply="prependVars">
+                <var id="DIM_1">2</var>
+                <var id="DIM_2">2</var>
+            </div>
+        </div>
+        <div id="2x3-3x1">
+            <div class="vars" data-apply="prependVars">
+                <var id="DIM_1">2</var>
+                <var id="DIM_2">3</var>
+            </div>
+        </div>
+
+        <!-- 3x1 solution dimensions -->
+        <div id="3x2-2x1">
+            <div class="vars" data-apply="prependVars">
+                <var id="DIM_1">3</var>
+                <var id="DIM_2">2</var>
+            </div>
+        </div>
+
+        <!-- 4x1 solution dimensions -->
+        <div id="4x2-2x1">
+            <div class="vars" data-apply="prependVars">
+                <var id="DIM_1">4</var>
+                <var id="DIM_2">2</var>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

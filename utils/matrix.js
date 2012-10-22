@@ -14,51 +14,67 @@ $.extend(KhanUtil, {
     },
 
     /**
-     * Given a 2d matrix, return the LaTeX (MathJax) code for printing
-     * the matrix.
-     *
-     * If optional parameters mat2, color2, and operation are included, this
-     * can be used to generate intermediate hint matrices as in
-     * matrix_addition.html.
-     *
-     * @param mat {array} a 2d matrix
-     *      ex: [[0, 2], [1, 3], [4, 5]] (3 x 2 matrix)
-     * @param color {string} (optional) color to format the elements of /mat/,
-            in hexadecimal. ex: "#28AE7B" (KhanUtil.GREEN)
-     * @param mat2 {array} (optional) a 2d matrix w/ same dimensions as /mat/
-     * @param color2 {string} (optional) color to format the elements of /mat2/
-     * @param operation {string} (optional) operation being explained in hints
-     *      ex: "+"
+     * Apply the given function to each element of the given matrix and return
+     * the resulting matrix.
      */
-    printMatrix: function(mat, color, mat2, color2, operation) {
-        // return prematurely if no matrix included
-        if (!_.isArray(mat) || !mat.length) {
-            return "";
-        }
+    matrixMap: function(fn, mat) {
+        return _.map(mat, function(row, i) {
+            return _.map(row, function(elem, j) {
+                return fn(elem, i, j);
+            });
+        });
+    },
 
-        var isCombo = (_.isArray(mat2) && mat2.length === mat.length &&
-                        mat2[0].length === mat[0].length &&
-                        _.isString(color2) && _.isString(operation));
+    /**
+     * Given a matrix and list of row-col indices to exclude from masking,
+     * return a new matrix with all but the elements in excludeList overwritten
+     * by the value "?".
+     *
+     * @param mat {result of makeMatrix}
+     * @param excludeList {array of arrays} List of row-col indices to keep
+     *          from being overwritten. Note that these indices start at 1, not
+     *          0, to match with common math notation.
+     */
+    maskMatrix: function(mat, excludeList) {
+        var result = [];
 
-        if (isCombo) {
-            mat = KhanUtil.deepZipWith(2, function(a, b) {
-                var elem1 = "\\color{" + color + "}{" + a + "}";
-                var elem2 = "\\color{" + color2 + "}{" + b + "}";
-                return elem1 + operation + elem2;
-            }, mat, mat2);
-        }
+        _.times(mat.r, function(i) {
+            var row = [];
+            _.times(mat.c, function(j) {
+                if (KhanUtil.contains(excludeList, [i+1, j+1])) {
+                    row.push(mat[i][j]);
+                } else {
+                    row.push("?");
+                }
+            });
+            result.push(row);
+        });
+        return result;
+    },
+
+    /**
+     * Given one or more same-dimension 2d matrices and a function for
+     * how to combine and format their elements in the output matrix,
+     * return the LaTeX code for rendering the matrix. Inherits syntax from
+     * deepZipWith().
+     *
+     * Example usage:
+     *
+     * printMatrix(function(a, b) {
+     *  return colorMarkup(a, "#FF0000") + "-" + colorMarkup(b, "#00FF00");
+     * }, matA, matB);
+     *
+     */
+    printMatrix: function(fn) {
+        var args = Array.prototype.slice.call(arguments);
+        mat = KhanUtil.deepZipWith.apply(this, [2].concat(args));
 
         var table = _.map(mat, function(row, i) {
                         return row.join(" & ");
                     }).join(" \\\\ ");
 
-        var prefix = "\\left[ \\begin{array}";
-        var suffix = "\\end{array} \\right]";
-
-        if (!isCombo && color) {
-            prefix = "\\left[ \\color{" + color + "}{\\begin{array}";
-            suffix = "\\end{array}} \\right]";
-        }
+        var prefix = "\\left[\\begin{array}";
+        var suffix = "\\end{array}\\right]";
 
         // to generate the alignment info needed for LaTeX table markup
         var alignment = "{";
@@ -69,6 +85,77 @@ $.extend(KhanUtil, {
         alignment += "}";
 
         return prefix + alignment + table + suffix;
+    },
+
+    /**
+     * Given a matrix and a color, format all elements with the given color
+     * (if supplied) and return the LaTeX code for rendering the matrix.
+     *
+     * @param mat {array of arrays} the matrix to format
+     * @param color {string}
+     */
+    printSimpleMatrix: function(mat, color) {
+        return KhanUtil.printMatrix(function(item) {
+            if (color) {
+                return KhanUtil.colorMarkup(item, color);
+            }
+            return item;
+        }, mat);
+    },
+
+    /**
+     * Format the rows or columns of the given matrix with the colors in the
+     * given colors array, and return the LaTeX code for rendering the matrix.
+     *
+     * @param mat {array of arrays} the matrix to format
+     * @param colors {array of strings} list of colors
+     * @param isRow {bool} whether to apply the colors by row or by column
+     */
+    printColoredDimMatrix: function(mat, colors, isRow) {
+        var matrix = KhanUtil.matrixMap(function(item, i, j) {
+            var color = colors[isRow ? i : j];
+            return KhanUtil.colorMarkup(item, color);
+        }, mat);
+        return KhanUtil.printSimpleMatrix(matrix);
+    },
+
+    /**
+     * Generate markup for a color-coded matrix illustrating the calculations
+     * behind each element in matrix multiplication.
+     *
+     * @param a {result of makeMatrix} the first matrix
+     * @param b {result of makeMatrix} the second matrix
+     * @param rowColors {array of strings} list of colors to apply to the
+     *                                     rows of the first matrix
+     * @param colColors {array of strings} list of colors to apply to the
+     *                                     columns of the second matrix
+     */
+    makeMultHintMatrix: function(a, b, rowColors, colColors) {
+        var c = [];
+        // create the new matrix
+        _.times(a.r, function() {
+            c.push([]);
+        });
+
+        // perform the multiply
+        _.times(a.r, function(i) {
+            var c1 = rowColors[i];
+            _.times(b.c, function(j) {
+                var c2 = colColors[j];
+                var temp = "";
+                _.times(a.c, function(k) {
+                    if (k > 0) {
+                        temp += "+";
+                    }
+                    var elem1 = KhanUtil.colorMarkup(a[i][k], c1);
+                    var elem2 = KhanUtil.colorMarkup(b[k][j], c2);
+                    temp += elem1 + "\\cdot" + elem2;
+                });
+                c[i][j] = temp;
+            });
+        });
+
+        return KhanUtil.makeMatrix(c);
     },
 
     // add matrix properties to a 2d matrix
@@ -84,20 +171,20 @@ $.extend(KhanUtil, {
     matrixMult: function(a, b) {
         var c = [];
         // create the new matrix
-        for (var i = 0; i < a.r; ++i) {
+        _.times(a.r, function() {
             c.push([]);
-        }
+        });
 
         // perform the multiply
-        for (var i = 0; i < a.r; ++i) {
-            for (var j = 0; j < b.c; ++j) {
+        _.times(a.r, function(i) {
+            _.times(b.c, function(j) {
                 var temp = 0;
-                for (var k = 0; k < a.c; ++k) {
+                _.times(a.c, function(k) {
                     temp += a[i][k] * b[k][j];
-                }
+                });
                 c[i][j] = temp;
-            }
-        }
+            });
+        });
 
         // add matrix properties to the result
         return KhanUtil.makeMatrix(c);
