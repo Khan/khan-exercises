@@ -182,12 +182,18 @@
                 <div>
                     Plugging into our expression, we get
                     <div data-if="MULT">
-                        <p><code>\qquad (<var>EQUIV</var>)(<var>FUNC</var>) 
-                            </code></p>
+                        <p><code>\qquad
+                            (<var>IDENT</var>)(<var>FUNC</var>)
+                            =
+                            (<var>EQUIV</var>)(<var>FUNC</var>) 
+                        </code></p>
                     </div>
                     <div data-else>
-                        <p><code>\qquad \dfrac{<var>EQUIV</var>}
-                            {<var>FUNC</var>}</code></p>
+                        <p><code>\qquad
+                            \dfrac{<var>IDENT</var>}{<var>FUNC</var>}
+                            =
+                            \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
+                        </code></p>
                     </div>
                 </div>
                 <div data-if="FUNC !== '\\sin^2\\theta' &amp;&amp; FUNC !== '\\cos^2\\theta'">
@@ -197,13 +203,17 @@
                     , so we can plug that in to get
                     <div data-if="MULT">
                         <p><code>\qquad
+                            (<var>EQUIV</var>)(<var>FUNC</var>)
+                            =
                             \left(<var>EQUIV</var>\right)
                             \left(<var>FUNC_SIMP</var>\right) 
                         </code></p>
                     </div>
                     <div data-else>
-                        <p><code>\qquad \dfrac{<var>EQUIV</var>}
-                            {<var>FUNC_SIMP</var>}
+                        <p><code>\qquad
+                            \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
+                            =
+                            \dfrac{<var>EQUIV</var>}{<var>FUNC_SIMP</var>}
                         </code></p>
                     </div>
                 </div>
@@ -217,7 +227,7 @@
                 <var id="MULT">random() &lt; 0.5</var>
                 <var id="TAN">random() &lt; 0.5</var>
                 <var id="IDENT, EQUIV">
-                    TAN ? ["1 + \\tan^2\\theta", "\\sec^2\\theta"]
+                    TAN ? ["\\tan^2\\theta + 1", "\\sec^2\\theta"]
                         : ["\\sec^2\\theta-1", "\\tan^2\\theta"]
                 </var>
                 <var id="OPTIONS, FUNC, ANS">
@@ -304,7 +314,7 @@
                     + \dfrac{\cos^2\theta}{\cos^2\theta} 
                     = \dfrac{1}{\cos^2\theta}</code></p>
                     <div data-if="!TAN">
-                        <code>\qquad 1 + \tan^2\theta = \sec^2\theta</code>
+                        <code>\qquad \tan^2\theta + 1 = \sec^2\theta</code>
                     </div>
                     <p><code>\qquad <var>IDENT</var> 
                         = <var>EQUIV</var></code></p>
@@ -313,14 +323,17 @@
                     Plugging into our expression, we get
                     <div data-if="MULT">
                         <p><code>\qquad
+                            (<var>IDENT</var>)(<var>FUNC</var>)
+                            =
                             \left(<var>EQUIV</var>\right)
                             \left(<var>FUNC</var>\right) 
                         </code></p>
                     </div>
                     <div data-else>
                         <p><code>\qquad
-                            \dfrac{<var>EQUIV</var>}
-                            {<var>FUNC</var>}
+                            \dfrac{<var>IDENT</var>}{<var>FUNC</var>}
+                            = 
+                            \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
                         </code></p>
                     </div>
                 </div>
@@ -334,18 +347,18 @@
                     <div data-if="MULT">
                         <p><code>\qquad 
                             \left(<var>EQUIV</var>\right)
-                            \left(<var>FUNC_SIMP</var>\right) 
-                        </code></p>
-                        <p><code>\qquad 
+                            \left(<var>FUNC</var>\right) 
+                            =
                             \left(<var>EQUIV_SIMP</var>\right)
                             \left(<var>FUNC_SIMP</var>\right) 
                         </code></p>
                     </div>
                     <div data-else>
-                        <p><code>\qquad \dfrac{<var>EQUIV</var>}
-                            {<var>FUNC_SIMP</var>}</code></p>
-                        <p><code>\qquad \dfrac{<var>EQUIV_SIMP</var>}
-                            {<var>FUNC_SIMP</var>}</code></p>
+                        <p><code>\qquad
+                            \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
+                            =
+                            \dfrac{<var>EQUIV_SIMP</var>}{<var>FUNC_SIMP</var>}
+                        </code></p>
                     </div>
                 </div>
                 <div data-else>
@@ -357,21 +370,17 @@
                     <div data-if="MULT">
                         <p><code>\qquad
                             \left(<var>EQUIV</var>\right)
-                            \left(<var>FUNC_SIMP</var>\right) 
-                        </code></p>
-                        <p><code>\qquad
+                            \left(<var>FUNC</var>\right) 
+                            =
                             \left(<var>EQUIV_SIMP</var>\right)
                             \left(<var>FUNC_SIMP</var>\right) 
                         </code></p>
                     </div>
                     <div data-else>
                         <p><code>\qquad
-                            \dfrac{<var>EQUIV</var>}
-                            {<var>FUNC_SIMP</var>}
-                        </code></p>
-                        <p><code>\qquad
-                            \dfrac{<var>EQUIV_SIMP</var>}
-                            {<var>FUNC_SIMP</var>}
+                            \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
+                            =
+                            \dfrac{<var>EQUIV_SIMP</var>}{<var>FUNC_SIMP</var>}
                         </code></p>
                     </div>
                 </div>
@@ -484,14 +493,17 @@
                     Plugging into our expression, we get
                     <div data-if="MULT">
                         <p><code>\qquad
+                            (<var>IDENT</var>)(<var>FUNC</var>)
+                            =
                             \left(<var>EQUIV</var>\right)
                             \left(<var>FUNC</var>\right) 
                         </code></p>
                     </div>
                     <div data-else>
                         <p><code>\qquad
-                            \dfrac{<var>EQUIV</var>}
-                            {<var>FUNC</var>}
+                            \dfrac{<var>IDENT</var>}{<var>FUNC</var>}
+                            = 
+                            \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
                         </code></p>
                     </div>
                 </div>
@@ -505,18 +517,18 @@
                     <div data-if="MULT">
                         <p><code>\qquad 
                             \left(<var>EQUIV</var>\right)
-                            \left(<var>FUNC_SIMP</var>\right) 
-                        </code></p>
-                        <p><code>\qquad 
+                            \left(<var>FUNC</var>\right) 
+                            =
                             \left(<var>EQUIV_SIMP</var>\right)
                             \left(<var>FUNC_SIMP</var>\right) 
                         </code></p>
                     </div>
                     <div data-else>
-                        <p><code>\qquad \dfrac{<var>EQUIV</var>}
-                            {<var>FUNC_SIMP</var>}</code></p>
-                        <p><code>\qquad \dfrac{<var>EQUIV_SIMP</var>}
-                            {<var>FUNC_SIMP</var>}</code></p>
+                        <p><code>\qquad
+                            \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
+                            =
+                            \dfrac{<var>EQUIV_SIMP</var>}{<var>FUNC_SIMP</var>}
+                        </code></p>
                     </div>
                 </div>
                 <div data-else>
@@ -528,21 +540,17 @@
                     <div data-if="MULT">
                         <p><code>\qquad
                             \left(<var>EQUIV</var>\right)
-                            \left(<var>FUNC_SIMP</var>\right) 
-                        </code></p>
-                        <p><code>\qquad
+                            \left(<var>FUNC</var>\right) 
+                            =
                             \left(<var>EQUIV_SIMP</var>\right)
                             \left(<var>FUNC_SIMP</var>\right) 
                         </code></p>
                     </div>
                     <div data-else>
                         <p><code>\qquad
-                            \dfrac{<var>EQUIV</var>}
-                            {<var>FUNC_SIMP</var>}
-                        </code></p>
-                        <p><code>\qquad
-                            \dfrac{<var>EQUIV_SIMP</var>}
-                            {<var>FUNC_SIMP</var>}
+                            \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
+                            =
+                            \dfrac{<var>EQUIV_SIMP</var>}{<var>FUNC_SIMP</var>}
                         </code></p>
                     </div>
                 </div>
