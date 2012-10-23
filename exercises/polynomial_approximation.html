@@ -9,12 +9,24 @@
     <div class="vars">
 
 		<var id="Functions">[
+			{funcname: "\\sin(x-y) - \\cos(x+2y)", 
+				dxfuncname: "\\cos(x-y) + \\sin(x+2y)", 
+				dyfuncname: "-\\cos(x-y) + 2 \\sin(x+2y)", 
+				func: function(x, y) {return (Math.sin(x-y) - Math.cos(x+2*y));}, 
+				dxfunc: function(x, y) {return (Math.cos(x-y)+Math.sin(x+2*y));},
+				dyfunc: function(x, y) {return (-Math.cos(x-y)+2 * Math.sin(x+2*y));}},
 			{funcname: "x^3 + x^2 y + y", 
 				dxfuncname: "3x^2+2 x y", 
 				dyfuncname: "x^2 + 1", 
 				func: function(x, y) {return (x*x*x + x*x*y + y);}, 
 				dxfunc: function(x, y) {return (3*x*x+2*x*y);},
-				dyfunc: function(x, y) {return (x*x + 1);}}]</var>
+				dyfunc: function(x, y) {return (x*x + 1);}},
+			{funcname: "\\exp\\left(-x+y^2\\right)", 
+				dxfuncname: "-\\exp\\left(-x+y^2\\right)", 
+				dyfuncname: "2 \\cdot y \\cdot \\exp\\left( -x + y^2 \\right)", 
+				func: function(x, y) {return (exp(-x+y*y));}, 
+				dxfunc: function(x, y) {return (-exp(-x+y*y));},
+				dyfunc: function(x, y) {return (2 * y * exp(-x+y*y));}}]</var>
 		<var id="selectedFunction">randFromArray(Functions)</var>
 
 		<var id="x0">randRange(-2,2)</var>
