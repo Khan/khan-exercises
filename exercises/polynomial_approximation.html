@@ -12,9 +12,9 @@
 			{funcname: "x^3 + x^2 y + y", 
 				dxfuncname: "3x^2+2 x y", 
 				dyfuncname: "x^2 + 1", 
-				func: function(x) {return (x*x*x + x*x*y + y);}, 
-				dxfunc: function(x) {return (3*x*x+2*x*y);},
-				dyfunc: function(x) {return (x*x + 1);}}]</var>
+				func: function(x, y) {return (x*x*x + x*x*y + y);}, 
+				dxfunc: function(x, y) {return (3*x*x+2*x*y);},
+				dyfunc: function(x, y) {return (x*x + 1);}}]</var>
 		<var id="selectedFunction">randFromArray(Functions)</var>
 
 		<var id="x0">randRange(-2,2)</var>
@@ -30,6 +30,7 @@
 		<var id="dy">roundTo(5, selectedFunction.dyfunc(x0, y0))</var>
 
 		<var id="solution">roundTo(5, fval + dx * (x - x0) + dy * (y - y0))</var>
+		<var id="trueValue">roundTo(5, selectedFunction.func(x, y))</var>
     </div>
         
 
