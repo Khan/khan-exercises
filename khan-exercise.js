@@ -27,7 +27,6 @@
     as the inner Util object.
 
 
-
     Catalog of events fired on the Khan object by khan-exercises:
 
     * newProblem -- when a new problem has completely finished rendering
