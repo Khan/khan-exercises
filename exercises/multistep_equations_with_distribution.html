@@ -30,7 +30,7 @@
     <div class="problems">
         <div id="prob1"> <!-- A = Bx + C(Dx + E) -->
             <div class="vars" data-ensure="(B + C * D !== 0) &&
-                    (A - B * C !== 0) && (B + C * D !== 1)">
+                    (A - C * E !== 0) && (B + C * D !== 1)">
                 <var id="X">randFromArray("abkmnpvx")</var>
                 <var id="A">randRangeNonZero(-10, 10)</var>
                 <var id="B">randRangeNonZero(-10, 10)</var>
@@ -39,7 +39,7 @@
                 </var>
                 <var id="D">randRangeNonZero(-10, 10)</var>
                 <var id="E">randRange(1, 3)</var>
-                <var id="SOLUTION">(A - B * C) / (B + C * D)</var>
+                <var id="SOLUTION">(A - C * E) / (B + C * D)</var>
             </div>
 
             <p class="question">Solve for <code><var>X</var></code>:</p>
@@ -98,24 +98,24 @@
                         <var>A</var> &amp;=&amp;
                         \blue{<var>expr(["+", ["*", B, X], ["*", C * D, X]])</var>} + <var>C * E</var> \\ \\
                         <var>A</var> &amp;=&amp;
-                        \blue{<var>expr(["*", B + C * D, X])</var>} + <var>B * C</var>
+                        \blue{<var>expr(["*", B + C * D, X])</var>} + <var>C * E</var>
                         \end{eqnarray}
                     </code></p>
                 </div>
                 <div>
                     <p>
-                        <var>B * C &lt; 0 ? "Add" : "Subtract"</var>
-                        <code>\green{<var>abs(B * C)</var>}</code>
-                        <var>B * C &lt; 0 ? "to" : "from"</var> both sides
+                        <var>C * E &lt; 0 ? "Add" : "Subtract"</var>
+                        <code>\green{<var>abs(C * E)</var>}</code>
+                        <var>C * E &lt; 0 ? "to" : "from"</var> both sides
                         to isolate the <code><var>X</var></code> term on the
                         right side:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
                         <var>A</var> &amp;=&amp;
-                        <var>expr(["*", B + C * D, X])</var> \green{{} + <var>B * C</var>} \\ \\
-                        \green{{}+<var>-B * C</var>} &amp;&amp;
-                        \green{{}+<var>-B * C</var>} \\ \\
-                        <var>A - B * C</var> &amp;=&amp;
+                        <var>expr(["*", B + C * D, X])</var> \green{{} + <var>C * E</var>} \\ \\
+                        \green{{}+<var>-C * E</var>} &amp;&amp;
+                        \green{{}+<var>-C * E</var>} \\ \\
+                        <var>A - C * E</var> &amp;=&amp;
                         <var>expr(["*", B + C * D, X])</var>
                         \end{eqnarray}
                     </code></p>
@@ -127,9 +127,9 @@
                         to isolate <code><var>X</var></code>:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
-                        <var>A - B * C</var> &amp;=&amp;
+                        <var>A - C * E</var> &amp;=&amp;
                         <var>expr(["*", B + C * D, X])</var> \\ \\
-                        \dfrac{<var>A - B * C</var>}
+                        \dfrac{<var>A - C * E</var>}
                         {\green{<var>B + C * D</var>}} &amp;=&amp;
                         \dfrac{\green{\cancel{<var>B + C * D</var>}}
                         <var>X</var>}{\green{\cancel{<var>B + C * D</var>}}}
@@ -139,7 +139,7 @@
                 <div>
                     <p>Simplify:</p>
                     <p><code>\qquad
-                        <var>fractionReduce(A - B * C, B + C * D)</var>
+                        <var>fractionReduce(A - C * E, B + C * D)</var>
                         = <var>X</var>
                     </code></p>
                 </div>
