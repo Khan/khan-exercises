@@ -444,7 +444,10 @@ $.extend(Khan.answerTypes, {
         solutionarea.addClass("radical")
             .append(inte)
             .append('<span class="surd">&radic;</span>')
-            .append(rad.addClass("overline"));
+            .append(rad.addClass("overline"))
+            if (options.complexRadical !== undefined) {
+                solutionarea.append('<span class="surd">i</span>')
+            };
 
         var ret = function() {
             // Load entered values into inteGuess, radGuess
