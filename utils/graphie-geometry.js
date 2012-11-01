@@ -1102,7 +1102,7 @@ KhanUtil.addTriangle = function(triangle) {
         ]);
         var vector = KhanUtil.makeMatrix([[point[0]], [point[1]], [1]]);
         var prod = KhanUtil.matrixMult(matrix, vector);
-        return [prod[0], prod[1]];
+        return [prod[0][0], prod[1][0]];
     };
 
     var findCenterPoints = function(triangle, points) {
