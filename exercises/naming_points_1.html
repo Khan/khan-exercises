@@ -10,7 +10,7 @@
             <div class="vars">
                 <var id="POINT">
                     (function() {                        
-                        return [ randRange( -9, 9 ), randRange( -9, 9 ) ];                        
+                        return [ randRangeNonZero( -10, 10 ), randRangeNonZero( -10, 10 ) ];                        
                     })()
                 </var>
             </div>
@@ -24,15 +24,22 @@
                     <div class="question">
                         <div class="graphie" id="grid">
                             graphInit({
-                                range: 10,
+                                range: 11,
                                 scale: 20,
-                                axisArrows: "<->",
+                                axisArrows: "&lt;-&gt;",
                                 tickStep: 1,
-                                labelStep: 1
-                            })
+                                labelStep: 1,
+                                gridOpacity: 0.05,
+                                axisOpacity: 0.2,
+                                tickOpacity: 0.4,
+                                labelOpacity: 0.5
+                            });
+
+                            label( [ 0, 11 ], "y", "above" );
+                            label( [ 11, 0 ], "x", "right" );
                             style({
-                                stroke: "#6495ED",
-                                fill: "#6495ED"
+                                stroke: ORANGE,
+                                fill: ORANGE
                               }, function() {
                                   circle( POINT, 0.15 );
                               });                            
@@ -46,34 +53,54 @@
             </div>
 
             <div class="hints">
-                <p>We can find the ordered pair of a point by finding the x and y value that corresponds to the point.</p>                
-                <p> The x value, which goes first, is found by looking first at the horizontal x axis and finding the value on that axis that is lined up vertically with the point.</p>
+                <p>Coordinates are listed as <code>(\blue{x},\green{y})</code>.</p>
+                
                 <div>
-                    For this point that is <code class="hint_orange">x=<var>POINT[0]</var></code>.
+                    <p>
+                        For our <span class="hint_blue"><code>x</code>-coordinate</span> we look to the <span data-if="POINT[0] > 0">right</span><span data-else>left</span> 
+                        of the <span class="hint_green"><code>y</code>-axis</span> and look for which <code>\blue{x}</code> value the point corresponds to.                                        
+                    </p>
                     <div class="graphie" data-update="grid">
-                        line( POINT, [POINT[0], 0], { stroke: "#ffa500", arrows: "->" } )
                         style({
-                                stroke: "#6495ED",
-                                fill: "#6495ED"
-                              }, function() {
-                                  circle( POINT, 0.15 );
-                              });  
-                    </div>                               
+                            stroke: BLUE,
+                            strokeWidth: 3,
+                            arrows: "-&gt;"
+                        }, function() {
+                            line( [ 0, 0 ], [ POINT[0], 0 ])                                
+                        });
+                        style({
+                          stroke: ORANGE,
+                          fill: ORANGE
+                        }, function() {
+                            circle( POINT, 0.15 );
+                        });  
+                    </div>
                 </div>
-                <p> The y value, which always goes second in an ordered pair, is found by looking at the vertical y axis and finding the value on that axis that is lined up horizontally with the point.<br/></p>
-                <div>                    
-                    For this point, that value is <code class="hint_green">y=<var>POINT[1]</var></code>.
+                <div>
+                    <p>
+                        For our <span class="hint_green"><code>y</code>-coordinate</span> we look <span data-if="POINT[1] > 0">above</span><span data-else>below</span> 
+                        the <span class="hint_blue"><code>x</code>-axis</span> and look for which <code>\green{y}</code> value the point corresponds to.                                        
+                    </p>
                     <div class="graphie" data-update="grid">
-                        line( POINT, [0, POINT[1]], { stroke: "#28ae7b", arrows: "->" } )
                         style({
-                                stroke: "#6495ED",
-                                fill: "#6495ED"
-                              }, function() {
-                                  circle( POINT, 0.15 );
-                              });                         
-                    </div>                
+                            stroke: GREEN,
+                            strokeWidth: 3,
+                            arrows: "-&gt;"
+                        }, function() {
+                            line( [ POINT[0], 0 ], POINT )                                
+                        });
+                        style({
+                          stroke: ORANGE,
+                          fill: ORANGE
+                        }, function() {
+                            circle( POINT, 0.15 );
+                        });  
+                    </div>
                 </div>
-                <p> Since we found that <code class="hint_orange">x=<var>POINT[0]</var></code> and <code class="hint_green">y=<var>POINT[1]</var></code> for this point, the ordered pair is <code>(<var>POINT[0]</var>,<var>POINT[1]</var>)</code>. </p>
+                <p>
+                    Since our <span class="hint_blue"><code>x</code>-coordinate</span> is <var>POINT[0]</var> and our <span class="hint_green"><code>y</code>-coordinate</span> 
+                    is <var>POINT[1]</var>, our point is <code>(<var>POINT[0]</var>, <var>POINT[1]</var>)</code>.
+                </p>                
             </div>
         </div>
     </body>
