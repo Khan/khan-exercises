@@ -446,7 +446,7 @@ $.extend(Khan.answerTypes, {
             .append('<span class="surd">&radic;</span>')
             .append(rad.addClass("overline"))
             if (options.complexRadical !== undefined) {
-                solutionarea.append('<span class="surd" style="font-family: MathJax_Math;">i</span>')
+                solutionarea.append('<span class="surd" style="font-family: MathJax_Math; font-style: italic;">i</span>')
             };
 
         var ret = function() {
