@@ -165,7 +165,8 @@
 
         <div id="find-angle" data-calculator>
             <div class="vars" data-apply="replace" data-ensure="
-                !TRIANGLE.isRight() && TRIANGLE.isScalene">
+                !TRIANGLE.isRight() && TRIANGLE.isScalene &&
+                !isNaN(SOLUTION)">
                 <var id="SIDES" data-ensure="
                     SIDES[1] + SIDES[2] > SIDES[0] &&
                     SIDES[0] + SIDES[2] > SIDES[1] &&
