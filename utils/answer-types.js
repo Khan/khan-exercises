@@ -191,19 +191,19 @@ $.extend(Khan.answerTypes, {
                     text = text.replace(/\u2212/, "-");
 
                     // - pi
-                    if (match = text.match(/^([+-]?)\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
+                    if (match = text.match(/^([+-]?)\s*(pi?|\u03c0|t(?:au)?|\u03c4|\u2565)$/i)) {
                         possibilities = [{ value: parseFloat(match[1] + "1"), exact: true }];
 
                     // 5 / 6 pi
-                    } else if (match = text.match(/^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
+                    } else if (match = text.match(/^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4|\u2565)$/i)) {
                         possibilities = fractionTransformer(match[1]);
 
                     // 5 pi / 6
-                    } else if (match = text.match(/^([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i)) {
+                    } else if (match = text.match(/^([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4|\u2565)\s*(?:\/\s*([+-]?\d+))?$/i)) {
                         possibilities = fractionTransformer(match[1] + "/" + match[3]);
 
                     // - pi / 4
-                    } else if (match = text.match(/^([+-]?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i)) {
+                    } else if (match = text.match(/^([+-]?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4|\u2565)\s*(?:\/\s*([+-]?\d+))?$/i)) {
                         possibilities = fractionTransformer(match[1] + "1/" + match[3]);
 
                     // 0
@@ -211,7 +211,7 @@ $.extend(Khan.answerTypes, {
                         possibilities = [{ value: 0, exact: true }];
 
                     // 0.5 pi (fallback)
-                    } else if (match = text.match(/^(\S+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
+                    } else if (match = text.match(/^(\S+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4|\u2565)$/i)) {
                         possibilities = forms.decimal.transformer(match[1]);
                     }
 
