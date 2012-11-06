@@ -2093,7 +2093,7 @@ var Khan = (function() {
 
             }, function(xhr) {
 
-                if (xhr.readyState == 0) {
+                if (xhr && xhr.readyState == 0) {
                     // Ignore errors caused by a broken pipe during page unload
                     // (browser navigating away during ajax request).
                     // See http://stackoverflow.com/questions/1370322/jquery-ajax-fires-error-callback-on-window-unload
