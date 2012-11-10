@@ -444,7 +444,10 @@ $.extend(Khan.answerTypes, {
         solutionarea.addClass("radical")
             .append(inte)
             .append('<span class="surd">&radic;</span>')
-            .append(rad.addClass("overline"));
+            .append(rad.addClass("overline"))
+            if (options.complexRadical !== undefined) {
+                solutionarea.append('<span class="surd" style="font-family: MathJax_Math; font-style: italic;">i</span>')
+            };
 
         var ret = function() {
             // Load entered values into inteGuess, radGuess
@@ -470,7 +473,11 @@ $.extend(Khan.answerTypes, {
             }
         };
         if (options.simplify === "required") {
-            ret.examples = ["a simplified radical, like <code>\\sqrt{2}</code> or <code>3\\sqrt{5}</code>"];
+            if (options.complexRadical !== undefined) {
+                ret.examples = ["a simplified radical, like <code>\\sqrt{2}~i</code> or <code>3\\sqrt{5}~i</code>"];
+            } else {
+                ret.examples = ["a simplified radical, like <code>\\sqrt{2}</code> or <code>3\\sqrt{5}</code>"];
+            }
         } else {
             ret.examples = ["a radical, like <code>\\sqrt{8}</code> or <code>2\\sqrt{2}</code>"];
         }
