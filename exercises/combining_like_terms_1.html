@@ -14,12 +14,12 @@
         <var id="C">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 20))</var>
         <var id="D" data-ensure="abs( C ) !== abs( D )">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
         <var id="TERM_AX">
-            "(?:" + (A &lt; 0 ? "[-\\u2212]" : "") + abs(A)
+            "(?:" + (A &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(A)
             + (A === 1 ? "|" : "" ) + (A === -1 ?
             "|[-\\u2212]" : "") + ")\\s*" + X
         </var>
         <var id="TERM_AX_BX">
-            "(?:" + ((A + B) &lt; 0 ? "[-\\u2212]" : "") + abs(A + B)
+            "(?:" + ((A + B) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(A + B)
             + (A + B === 1 ? "|" : "" ) + (A + B === -1 ?
             "|[-\\u2212]" : "") + ")\\s*" + X
         </var>
