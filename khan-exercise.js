@@ -13,7 +13,7 @@
     exercise template via injectSite which runs prepareSite first then
     makeProblemBag and makeProblem when it finishes loading dependencies.
 
-    pepareSite and makeProblem are both fairly heavyweight functions.
+    prepareSite and makeProblem are both fairly heavyweight functions.
 
     If you are trying to register some behavior when the page loads, you
     probably want it to go in prepareSite. (which also registers server-initiated
