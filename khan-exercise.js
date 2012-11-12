@@ -17,7 +17,7 @@
 
     If you are trying to register some behavior when the page loads, you
     probably want it to go in prepareSite. (which also registers server-initiated
-    behavior via api.js) as well. By the time prepareSite is called, jquery and
+    behavior via api.js) as well. By the time prepareSite is called, jQuery and
     any core plugins are already available.
 
     If you are trying to do something each time a problem loads, you probably
