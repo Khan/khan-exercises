@@ -2110,6 +2110,12 @@ var Khan = (function() {
             var curTime = new Date().getTime();
             var data = buildAttemptData(pass, ++attempts, JSON.stringify(guess), curTime);
             debugLog("attempt " + JSON.stringify(data));
+
+            // Saving the current state of problems done before the attempt so 
+            // that it is stored in a closure and we can rely on resetting to 
+            // this current state if an error is thrown on page exit.
+            var curTotalDone = pass === true ? problemNum : problemNum - 1;
+
             request("problems/" + problemNum + "/attempt", data, function() {
 
                 // TODO: Save locally if offline
@@ -2118,9 +2124,35 @@ var Khan = (function() {
             }, function(xhr) {
 
                 if (xhr && xhr.readyState == 0) {
-                    // Ignore errors caused by a broken pipe during page unload
-                    // (browser navigating away during ajax request).
+                    // This path gets called when there is a broken pipe during
+                    // page unload- browser navigating away during ajax request
                     // See http://stackoverflow.com/questions/1370322/jquery-ajax-fires-error-callback-on-window-unload
+
+                    if(requestQueue["attempt_hint_queue"].queue().length > 1) {
+                        // if there are other requests left in the request 
+                        // queue then they will not ever execute and the user's
+                        // work is lost. In order to avoid problem out of order
+                        // when the page is reloaded we need to reset the 
+                        // totalDone in the SessionStorage to what it would 
+                        // have been when this request finishes executing. 
+                        //
+                        // If we run into problems with resetting the cache
+                        // in the future we can instead do 
+                        // $(Khan).trigger("attemptError", userExercise);
+                        // which will clear the cache. This would not fix the 
+                        // case of users hitting the back button, which would
+                        // cause the cache to be reverted to what it was when
+                        // the page initially loaded and cause out of order
+                        // errors.
+                        //
+                        // If in the future people complain about problems
+                        // being lost we could consider doing a 
+                        // window.onbeforeunload = function (e) {
+                        // return 'Problems are being saved. Are you sure?';
+                        // };
+                        userExercise.totalDone = curTotalDone;
+                        $(Khan).trigger("attemptAborted", userExercise);
+                    }
                     return;
                 }
 
@@ -2830,14 +2862,17 @@ var Khan = (function() {
 
             // Handle error edge case
             error: function(xhr) {
+                // Execute passed error function first in case it wants
+                // different behavior depending upon the length of the request
+                // queue
+                if ($.isFunction(fnError)) {
+                    fnError(xhr);
+                }
+
                 // Clear the queue so we don't spit out a bunch of
                 // queued up requests after the error
                 if (queue && requestQueue[queue]) {
                     requestQueue[queue].clearQueue();
-                }
-
-                if ($.isFunction(fnError)) {
-                    fnError(xhr);
                 }
             }
         };
