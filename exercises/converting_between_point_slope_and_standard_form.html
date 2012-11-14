@@ -38,9 +38,14 @@
                     [ $( '#solution_x' ).val(), $( '#solution_y' ).val(), $( '#solution_m' ).val() ]
                 </div>
                 <div class="validator-function">
-                    var answer_x = guess[ 0 ];
-                    var answer_y = guess[ 1 ];
-                    var answer_slope = guess[ 2 ];
+                     var toDecimal = function(inputString) {
+                        if (inputString.indexOf('/') >= 0) return inputString.split('/')[0] / inputString.split('/')[1];
+                        else                               return inputString;
+                    }
+                
+                    var answer_x = toDecimal( guess[ 0 ] );
+                    var answer_y = toDecimal( guess[ 1 ] );
+                    var answer_slope = toDecimal( guess[ 2 ] );
                     return abs( ( ( C - A * answer_x ) / B ) - answer_y ) &lt; 0.001 &amp;&amp; abs( answer_slope - SLOPE ) &lt; 0.001;
                 </div>
                 <div class="show-guess-solutionarea">
