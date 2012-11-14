@@ -8,10 +8,87 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="letters" data-weight="0.6">
+            <div id="stacking blocks" data-weight="1">
+                <div class="vars">
+                    <var id="INDEX">randRange(0,8)</var>
+                    <var id="KIDNAME">["Tom", "Alan", "Emil", "Andy", "Tony", "Suzie", "Kassandra", "Nicole", "Joceline"][INDEX]</var>
+                    <var id="GENDER">["He","She"][(INDEX<5) ? 0 : 1]</var>
+                    <var id="ALLBLOCKS">[" red"," orange"," blue"," green"," yellow", " purple", " white"]</var>
+                    <var id="NUMBLOCKS">randRange(2, ALLBLOCKS.length)</var>
+                    <var id="FIRSTB">randRange(0, ALLBLOCKS.length-NUMBLOCKS)</var>
+    	            <var id="BLOCKS">ALLBLOCKS.slice(FIRSTB,FIRSTB+NUMBLOCKS-1)</var>
+                    <var id="PERM">shuffle(BLOCKS)</var>
+                    <var id="ANSWER">factorial(BLOCKS.length)</var>
+                </div>
+                <p class="question"><var>KIDNAME</var> is stacking <var>BLOCKS.length</var> colored blocks: <var>BLOCKS</var>.  How many different ways can <var>KIDNAME</var> stack these blocks in a single tower that uses all the blocks?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <div class="hints">
+                    <div>
+                        Let's try building the possible stacks (or permutations) block by block.  <var>KIDNAME</var> has <var>BLOCKS.length</var>
+                        blocks:
+                        <p><var>_.map(_.range(BLOCKS.length), function(l){ return "_ "; }).join("")</var></p>
+                        <p>Now, for the bottom block, we have <var>BLOCKS.length</var> choices of blocks to start with.
+                    </div>
+                    <div>
+                        After we place the first block, let's say it's <var>PERM[0]</var>, we have <var>BLOCKS.length-1</var> blocks left.
+                        <p><var>PERM[0]+" "+_.map(_.range(BLOCKS.length-1), function(l){ return "_ "; }).join("")</var></p>
+                        <p>For the second block, we only have <var>BLOCKS.length-1</var> choices of blocks to use next. So far, there were
+                            <code><var>BLOCKS.length</var> \cdot <var>BLOCKS.length-1</var></code> unique choices we could have made.</p>
+                    </div>
+                    <div>
+                        We can continue in this fashion to stack the  third block, then a fourth, and so on. At each step, we have one fewer unique choice to
+                        make, until we get to the last block, and there's only one we can put on top.
+                    </br></br>
+                    </div>
+                    <div>
+                        So, the total number of unique re-arrangements must be <code><var>_.map(_.range(BLOCKS.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var>.</code> Another way of writing this is <code><var>BLOCKS.length</var>!</code>, 
+                        or <var>BLOCKS.length</var> factorial, which is <var>ANSWER</var>.
+                    </div>
+                </div>
+            </div>
+            <div id="visit stores" data-weight="1">
+                <div class="vars">
+                    <var id="INDEX">randRange(0,8)</var>
+                    <var id="KIDNAME">["Tom", "Alan", "Emil", "Andy", "Tony", "Suzie", "Kassandra", "Nicole", "Joceline"][INDEX]</var>
+                    <var id="GENDER">["He","She"][(INDEX<5) ? 0 : 1]</var>
+                    <var id="PLACES1">randFromArray([
+		                [" grocery store"," toy store"," library"," school"," grandma's house"],
+		                [" library"," school"," toy store"," post office"],
+		                [" grocery store"," library"," post office"],
+		                [" school"," library"]])</var>
+                    <var id="PLACES">shuffle(PLACES1)</var>
+                    <var id="PERM">shuffle(PLACES)</var>
+                    <var id="ANSWER">factorial(PLACES.length)</var>
+                </div>
+                <p class="question"><var>KIDNAME</var> needs to run some errands and visit the following locations: <var>PLACES</var>.  <var>GENDER</var> can visit these locations in any order, but wants to visit each one only once.  How many ways can <var>KIDNAME</var> complete these errands?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <div class="hints">
+                    <div>
+                        Let's try building the possible sequences (or permutations) location by location. The list of errands is <var>PLACES.length</var>
+                        locations long:
+                        <p><var>_.map(_.range(PLACES.length), function(l){ return "_ "; }).join("")</var></p>
+                        <p>Now, for the first errand, we have <var>PLACES.length</var> choices of locations to put in.
+                    </div>
+                    <div>
+                        After we put in the first location, let's say it's <var>PERM[0]</var>, we have <var>PLACES.length-1</var> errands left.
+                        <p><var>PERM[0]+" "+_.map(_.range(PLACES.length-1), function(l){ return "_ "; }).join("")</var></p>
+                        <p>For the second errand, we only have <var>PLACES.length-1</var> choices of locations left to put in. So far, there were
+                            <code><var>PLACES.length</var> \cdot <var>PLACES.length-1</var></code> unique choices we could have made.</p>
+                    </div>
+                    <div>
+                        We can continue in this fashion to put in a third location, then a fourth, and so on. At each step, we have one fewer unique choice to
+                        make, until we get to the last place, and there's only one place <var>KIDNAME</var> still needs to go.
+                    </br></br>
+                    </div>
+                    <div>
+                        So, the total number of unique re-arrangements must be <code><var>_.map(_.range(PLACES.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var>.</code> Another way of writing this is <code><var>PLACES.length</var>!</code>, 
+                        or <var>PLACES.length</var> factorial, which is <var>ANSWER</var>.
+                    </div>
+                </div>
+            </div>
+            <div id="letters" data-weight="1">
                 <div class="vars" data-ensure="WORD != PERM">
-                    <var id="INDEX">randRange(0,11)</var>
-                    <var id="WORD">["CLAW", "OPAL", "APE", "RULES", "ANGER", "SLIME", "FEAT", "FANCY", "SONG", "DEN", "TIGER", "IRON"][INDEX]</var>
+                    <var id="WORD">randFromArray(["CLAW", "OPAL", "APE", "RULES", "ANGER", "SLIME", "FEAT", "FANCY", "SONG", "DEN", "TIGER", "IRON"])</var>
                     <var id="PERM">shuffle(WORD).join("")</var>
                     <var id="ANSWER">factorial(WORD.length)</var>
                 </div>
@@ -42,7 +119,40 @@
                 </div>
             </div>
 
-            <div id="reindeer" data-weight="0.4">
+            <div id="numbers" data-weight="1">
+                <div class="vars" data-ensure="DIGITS != PERM">
+                    <var id="DIGITS">randFromArray(["3692", "3516", "689", "4561", "14703", "76915", "8596", "14937", "1609", "250", "91623", "2074"])</var>
+                    <var id="PERM">shuffle(DIGITS).join("")</var>
+                    <var id="ANSWER">factorial(DIGITS.length)</var>
+                </div>
+                <p class="question">How many unique ways are there to arrange the digits in the number <var>DIGITS</var>?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <div class="hints">
+                    <div>
+                        Let's try building the re-arrangements (or permutations) digit by digit. We have <var>DIGITS.length</var>
+                        digits to choose from:
+                        <p><var>_.map(_.range(DIGITS.length), function(l){ return "_ "; }).join("")</var></p>
+                        <p>Now, for the first blank, we have <var>DIGITS.length</var> choices of digits to put in.
+                    </div>
+                    <div>
+                        After we put in the first digit, let's say it's <var>PERM[0]</var>, we have <var>DIGITS.length-1</var> blanks left.
+                        <p><var>PERM[0]+" "+_.map(_.range(DIGITS.length-1), function(l){ return "_ "; }).join("")</var></p>
+                        <p>For the second blank, we only have <var>DIGITS.length-1</var> choices of digitis left to put in. So far, there were
+                            <code><var>DIGITS.length</var> \cdot <var>DIGITS.length-1</var></code> unique choices we could have made.</p>
+                    </div>
+                    <div>
+                        We can continue in this fashion to put in a third digit, then a fourth, and so on. At each step, we have one fewer unique choice to
+                        make, until we get to the last digit, and there's only one we can put in.
+                    </br></br>
+                    </div>
+                    <div>
+                        So, the total number of unique re-arrangements must be <code><var>_.map(_.range(DIGITS.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var>.</code> Another way of writing this is <code><var>DIGITS.length</var>!</code>, 
+                        or <var>DIGITS.length</var> factorial, which is <var>ANSWER</var>.
+                    </div>
+                </div>
+            </div>
+
+            <div id="reindeer" data-weight="1">
                 <div class="vars">
                     <var id="NUM_NAMES">randRange(4,5)</var>
                     <var id="NAMES">_.map(randRangeUnique(0,8,NUM_NAMES), function(n){
