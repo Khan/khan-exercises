@@ -197,7 +197,9 @@ var Khan = (function() {
     problemID,
 
     // The current validator function
+    answerData,
     validator,
+    getAnswer,
 
     hints,
 
@@ -1036,9 +1038,9 @@ var Khan = (function() {
     }
 
 
-    function checkIfAnswerEmpty() {
-        return $.trim(validator.guess) === "" ||
-                 (validator.guess instanceof Array && $.trim(validator.guess.join("").replace(/,/g, "")) === "");
+    function checkIfAnswerEmpty(guess) {
+        return $.trim(guess) === "" ||
+                 (guess instanceof Array && $.trim(guess.join("").replace(/,/g, "")) === "");
     }
 
     function makeProblem(id, seed) {
@@ -1243,7 +1245,10 @@ var Khan = (function() {
         guessLog = [];
         userActivityLog = [];
         debugLog("decided on answer type " + answerType);
-        validator = Khan.answerTypes[answerType](solutionarea, solution);
+        answerData = Khan.answerTypes[answerType].setup(solutionarea, solution);
+
+        validator = answerData.validator;
+        getAnswer = answerData.answer;
         debugLog("validator created");
 
         // A working solution was generated
@@ -1287,11 +1292,11 @@ var Khan = (function() {
         $("#answercontent input").not("#check-answer-button")
             .removeAttr("disabled");
 
-        if (examples !== null && validator.examples && validator.examples.length > 0) {
+        if (examples !== null && answerData.examples && answerData.examples.length > 0) {
             $("#examples-show").show();
             examples.empty();
 
-            $.each(validator.examples, function(i, example) {
+            $.each(answerData.examples, function(i, example) {
                 examples.append("<li>" + example + "</li>");
             });
 
@@ -1309,7 +1314,7 @@ var Khan = (function() {
 
         // Hook out for exercise test runner
         if (testMode && parent !== window && typeof parent.jQuery !== "undefined") {
-            parent.jQuery(parent.document).trigger("problemLoaded", [makeProblem, validator.solution]);
+            parent.jQuery(parent.document).trigger("problemLoaded", [makeProblem, answerData.solution]);
         }
 
         // Save problem info in dump data for testers
@@ -1321,7 +1326,7 @@ var Khan = (function() {
                 seed: problemSeed,
                 type: problemID,
                 VARS: $.tmpl.VARS,
-                solution: validator.solution
+                solution: answerData.solution
             });
 
             dataDump.problems.push(lastProblem);
@@ -1331,7 +1336,7 @@ var Khan = (function() {
 
             var answer = $(testerInfo).find(".answer").empty();
 
-            var displayedSolution = validator.solution;
+            var displayedSolution = answerData.solution;
             if (!$.isArray(displayedSolution)) {
                 displayedSolution = [displayedSolution];
             }
@@ -1459,10 +1464,12 @@ var Khan = (function() {
                     if (guess === "Activity Unavailable") {
                         thissolutionarea.text(guess);
                     } else {
+                        // radio and custom are the only answer types that
+                        // can't display its own guesses in the activity bar
                         if (answerType === "radio") {
-                            // radio is the only answer type that can't display its own guesses
-                            thissolutionarea.append($(
-                                "<p class='solution'>" + guess + "</p>").tmpl()
+                            thissolutionarea.append(
+                                // Add the guess to the activity bar
+                                $("<p class='solution'>" + guess + "</p>").tmpl()
                             );
 
                             if (index === userExercise.userActivity.length - 1) {
@@ -1474,12 +1481,28 @@ var Khan = (function() {
                             } else {
                                 thissolutionarea.attr("title", "Incorrect Answer");
                             }
+                        } else if (answerType === "custom") {
+                            if (index === userExercise.userActivity.length - 1) {
+                                thissolutionarea
+                                    .removeClass("incorrect-activity")
+                                    .addClass("correct-activity");
+
+                                thissolutionarea.attr("title", "Correct Answer");
+                                thissolutionarea.append(
+                                    $("<p class='solution'>Answer correct</p>")
+                                );
+                            } else {
+                                thissolutionarea.attr("title", "Incorrect Answer");
+                                thissolutionarea.append(
+                                    $("<p class='solution'>Answer incorrect</p>")
+                                );
+                            }
                         } else {
-                            var thisValidator = Khan.answerTypes[answerType](thissolutionarea, solution);
+                            var thisAnswerData = Khan.answerTypes[answerType].setup(thissolutionarea, solution);
 
-                            thisValidator.showGuess(guess);
+                            thisAnswerData.showGuess(guess);
 
-                            if (thisValidator() === true) {
+                            if (thisAnswerData.validator(guess) === true) {
                                 // If the user didn't get the problem right on the first try, all
                                 // answers are labelled incorrect by default
                                 thissolutionarea
@@ -1604,9 +1627,9 @@ var Khan = (function() {
                         }
                     };
 
-                    if (thisSlide.data("guess") !== undefined && $.isFunction(validator.showCustomGuess)) {
+                    if (thisSlide.data("guess") !== undefined && $.isFunction(answerData.showCustomGuess)) {
                         KhanUtil.currentGraph = $(realWorkArea).find(".graphie").data("graphie");
-                        validator.showCustomGuess(thisSlide.data("guess"));
+                        answerData.showCustomGuess(thisSlide.data("guess"));
                         MathJax.Hub.Queue(recordState);
                     } else {
                         recordState();
@@ -1630,13 +1653,13 @@ var Khan = (function() {
                     $("#hintsarea").remove();
                     $("#problemarea").append(thisState.problem).append(thisState.hintArea);
 
-                    if (thisSlide.data("guess")) {
+                    if (thisSlide.data("guess") !== undefined) {
                         solutionarea.effect("highlight", {}, fadeTime);
 
                         // If there is a guess we show it as if it was filled in by the user
-                        validator.showGuess(thisSlide.data("guess"));
+                        answerData.showGuess(thisSlide.data("guess"));
                     } else {
-                        validator.showGuess();
+                        answerData.showGuess();
                     }
 
                     // TODO: still highlight even if hint modifies problem (and highlight following hints)
@@ -1870,8 +1893,8 @@ var Khan = (function() {
                     }
                 })
                 .on("keyup.emptyAnswer", function() {
-                    validator();
-                    if (checkIfAnswerEmpty()) {
+                    var guess = getAnswer();
+                    if (checkIfAnswerEmpty(guess)) {
                         checkAnswerButton.attr("disabled", "disabled");
                     } else {
                         checkAnswerButton.removeAttr("disabled");
@@ -2026,16 +2049,17 @@ var Khan = (function() {
         }
 
         function handleSubmit() {
-            var pass = validator();
+            var guess = getAnswer();
+            var pass = validator(guess);
 
             // Stop if the user didn't enter a response
             // If multiple-answer, join all responses and check if that's empty
             // Remove commas left by joining nested arrays in case multiple-answer is nested
 
-            if (checkIfAnswerEmpty()) {
+            if (checkIfAnswerEmpty(guess) || checkIfAnswerEmpty(pass)) {
                 return false;
             } else {
-                guessLog.push(validator.guess);
+                guessLog.push(guess);
             }
 
             // Stop if the form is already disabled and we're waiting for a response.
@@ -2084,7 +2108,7 @@ var Khan = (function() {
 
             // Save the problem results to the server
             var curTime = new Date().getTime();
-            var data = buildAttemptData(pass, ++attempts, JSON.stringify(validator.guess), curTime);
+            var data = buildAttemptData(pass, ++attempts, JSON.stringify(guess), curTime);
             debugLog("attempt " + JSON.stringify(data));
             request("problems/" + problemNum + "/attempt", data, function() {
 
