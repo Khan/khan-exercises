@@ -54,7 +54,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             // The fallback variable is used in place of the answer, if no
             // answer is provided (i.e. the field is left blank)
-            var fallback = $(solution).data("fallback") + "";
+            var fallback = $(solution).data("fallback");
 
             return {
                 validator: Khan.answerTypes.text.createValidator(solution),
@@ -62,7 +62,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // return the value in the text box, or the fallback
                     return input.val().length > 0 ?
                         input.val() :
-                        (fallback ? fallback : "");
+                        (fallback ? fallback + "" : "");
                 },
                 solution: $.trim($(solution).text()),
                 examples: [],
@@ -173,14 +173,14 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 }
             });
 
-            var fallback = $(solution).data("fallback") + "";
+            var fallback = $(solution).data("fallback");
 
             return {
                 validator: Khan.answerTypes.number.createValidator(solution),
                 answer: function() {
                     return input.val().length > 0 ?
                         input.val() :
-                        (fallback ? fallback : "");
+                        (fallback ? fallback + "" : "");
                 },
                 solution: $.trim($(solution).text()),
                 examples: examples,
@@ -1307,7 +1307,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var input = $('<input type="text">');
             $(solutionarea).append(input);
 
-            var fallback = $(solution).data("fallback") + "";
+            var fallback = $(solution).data("fallback");
 
             return {
                 validator: Khan.answerTypes
@@ -1315,7 +1315,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 answer: function() {
                     return input.val().length > 0 ?
                         input.val() :
-                        (fallback ? fallback : "");
+                        (fallback ? fallback + "" : "");
                 },
                 solution: $.trim($(solution).text()),
                 examples: [
