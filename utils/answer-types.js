@@ -668,14 +668,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var answerDataArray = [];
 
             // Iterate over each of the .sol elements
-            $(solutionarea).find(".sol").each(function() {
+            $(solutionarea).find(".sol").each(function(idx) {
                 var type = $(this).data("type");
                 type = type != null ? type : "number";
 
-                // store the previous answer, then empty it in preperation for
-                // treating it as a solutionarea
-                var sol = $(this).clone(),
-                    solarea = $(this).empty();
+                // find the corresponding answer
+                var sol = $(solution).find(".sol").eq(idx);
+
+                // empty the .sol element in preperation for treating it as a
+                // solutionarea
+                var solarea = $(this).empty();
 
                 // perform setup on each of the areas
                 var answerData = Khan.answerTypes[type].setup(solarea, sol);
