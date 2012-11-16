@@ -710,9 +710,15 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 })(),
                 // Find all the example classes from the solution, and store
                 // those
-                examples: solution.find(".example").map(function(i, el) {
-                    return $(el).html();
-                }),
+                examples: (function() {
+                    var ex = solution.find(".example").map(function(i, el) {
+                        return $(el).html();
+                    });
+                    if (ex.length === 0 && answerDataArray.length === 1) {
+                        ex = answerDataArray[0].examples;
+                    }
+                    return ex;
+                })(),
                 showGuess: function(guess) {
                     // Iterate through each of the answerDatas, and show the
                     // cooresponding guess for each
