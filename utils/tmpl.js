@@ -101,7 +101,41 @@ $.tmpl = {
 
         "data-unwrap": function(elem) {
             return $(elem).contents();
+        },
+
+        "data-video-hint": function(elem) {
+            var youtubeIds = $(elem).data("youtube-id");
+            if (!youtubeIds) {
+                return;
+            }
+
+            youtubeIds = youtubeIds.split(/,\s*/);
+
+            var author = $(elem).data("video-hint-author") || "Sal";
+            var msg = "Watch " + author +
+                      " work through a very similar problem:";
+            var preface = $("<p>").text(msg);
+
+            var wrapper = $("<div>", { "class": "video-hint" });
+            wrapper.append(preface);
+
+            _.each(youtubeIds, function(youtubeId) {
+                var href = "http://www.khanacademy.org/embed_video?v=" +
+                            youtubeId;
+                var iframe = $("<iframe>").attr({
+                    "frameborder": "0",
+                    "scrolling": "no",
+                    "width": "100%",
+                    "height": "360px",
+                    "src": href
+                });
+
+                wrapper.append(iframe);
+            });
+
+            return wrapper;
         }
+
     },
 
     // Processors that act based on tag names

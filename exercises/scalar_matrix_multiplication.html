@@ -1,19 +1,9 @@
 <!DOCTYPE html>
-<html data-require="math matrix">
+<html data-require="math matrix matrix-input">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Scalar matrix multiplication</title>
     <script src="../khan-exercise.js"></script>
-    <style>
-        #answer_area .row input[type=text] {
-            width: 40px;
-            margin-right: 5px;
-        }
-
-        #answer_area .row {
-            margin: 0;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -28,6 +18,7 @@
                 return a * SCALAR;
             }, MAT_A)
         </var>
+        <var id="PADDED_SOLN_MAT">matrixPad(SOLN_MAT, 3, 3)</var>
 
         <var id="MAT_A_COLOR">BLUE</var>
         <var id="SCALAR_COLOR">GREEN</var>
@@ -74,11 +65,16 @@
     </div>
 
     <div class="solution" data-type="multiple">
-        <p data-each="SOLN_MAT as row" class="row">
-            <span data-each="row as elem" class="sol">
-                <var>elem</var>
+        <div data-each="PADDED_SOLN_MAT as row" class="matrix-row">
+            <span data-each="row as elem">
+                <span data-if="elem !== ''" class="sol">
+                    <var>elem</var>
+                </span>
+                <span data-else data-type="text" class="sol">
+                    <var>elem</var>
+                </span>
             </span>
-        </p>
+        </div>
     </div>
 
     <div class="problems">

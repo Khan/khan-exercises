@@ -1,19 +1,9 @@
 <!DOCTYPE html>
-<html data-require="math matrix">
+<html data-require="math matrix matrix-input">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying a matrix by a vector</title>
     <script src="../khan-exercise.js"></script>
-    <style>
-        #answer_area .row input[type=text] {
-            width: 40px;
-            margin-right: 5px;
-        }
-
-        #answer_area .row {
-            margin: 0;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -27,6 +17,7 @@
         <var id="SOLN_MAT">
             matrixMult(MAT_1, MAT_2)
         </var>
+        <var id="PADDED_SOLN_MAT">matrixPad(SOLN_MAT, 3, 3)</var>
 
         <var id="PRETTY_MAT_1_ID">"\\textbf " + randFromArray("ABCDEF")</var>
         <var id="PRETTY_MAT_2_ID">"\\textbf " + randFromArray("vw")</var>
@@ -43,8 +34,10 @@
 
     <div class="problem">
         <p>
-            Let <code><var>PRETTY_MAT_1_ID</var> = <var>printSimpleMatrix(MAT_1)</var></code> and
-            <code><var>PRETTY_MAT_2_ID</var> = <var>printSimpleMatrix(MAT_2)</var></code>.
+            <code><var>PRETTY_MAT_1_ID</var> = <var>printSimpleMatrix(MAT_1)</var></code>
+        </p>
+        <p>
+            <code><var>PRETTY_MAT_2_ID</var> = <var>printSimpleMatrix(MAT_2)</var></code>
         </p>
     </div>
 
@@ -126,11 +119,16 @@
     </div>
 
     <div class="solution" data-type="multiple">
-        <p data-each="SOLN_MAT as row" class="row">
-            <span data-each="row as elem" class="sol">
-                <var>elem</var>
+        <div data-each="PADDED_SOLN_MAT as row" class="matrix-row">
+            <span data-each="row as elem">
+                <span data-if="elem !== ''" class="sol">
+                    <var>elem</var>
+                </span>
+                <span data-else data-type="text" class="sol">
+                    <var>elem</var>
+                </span>
             </span>
-        </p>
+        </div>
     </div>
 
     <div class="problems">
@@ -153,14 +151,6 @@
         <div id="3x2-2x1">
             <div class="vars" data-apply="prependVars">
                 <var id="DIM_1">3</var>
-                <var id="DIM_2">2</var>
-            </div>
-        </div>
-
-        <!-- 4x1 solution dimensions -->
-        <div id="4x2-2x1">
-            <div class="vars" data-apply="prependVars">
-                <var id="DIM_1">4</var>
                 <var id="DIM_2">2</var>
             </div>
         </div>

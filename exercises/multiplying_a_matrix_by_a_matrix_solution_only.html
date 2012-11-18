@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html data-require="math matrix matrix-input">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying a matrix by a matrix</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+
+    <div class="vars" data-ensure="PRETTY_MAT_1_ID !== PRETTY_MAT_2_ID">
+        <var id="DIM_3">DIM_2</var>
+        <var id="MAT_1">makeMatrix(randRange(-2, 5, DIM_1, DIM_2))</var>
+        <var id="MAT_2">makeMatrix(randRange(-2, 5, DIM_3, DIM_4))</var>
+
+        <var id="SOLN_MAT">
+            matrixMult(MAT_1, MAT_2)
+        </var>
+        <var id="PADDED_SOLN_MAT">matrixPad(SOLN_MAT, 3, 3)</var>
+
+        <var id="PRETTY_MAT_1_ID">"\\textbf " + randFromArray("ABCDEF")</var>
+        <var id="PRETTY_MAT_2_ID">"\\textbf " + randFromArray("ABCDEF")</var>
+
+        <!-- For generating hint matrices-->
+        <var id="ROW_COLORS">[GREEN, BLUE, GRAY]</var>
+        <var id="COL_COLORS">[ORANGE, "#DF0030", "#9D38BD"]</var>
+
+        <var id="FINAL_HINT_MAT">
+            makeMultHintMatrix(MAT_1, MAT_2, ROW_COLORS, COL_COLORS)
+        </var>
+
+    </div>
+
+    <div class="problem">
+        <p>
+            <code><var>PRETTY_MAT_1_ID</var> = <var>printSimpleMatrix(MAT_1)</var></code>
+        </p>
+        <p>
+            <code><var>PRETTY_MAT_2_ID</var> = <var>printSimpleMatrix(MAT_2)</var></code>
+        </p>
+    </div>
+
+    <p class="question">
+        What is <code><var>PRETTY_MAT_1_ID + PRETTY_MAT_2_ID</var></code>?
+    </p>
+
+    <div class="hints">
+        <div>
+            <p>The solution is:</p>
+            <div>
+                <code>
+                    <var>printSimpleMatrix(SOLN_MAT)</var>
+                </code>
+            </div>
+        </div>
+    </div>
+
+    <div class="solution" data-type="multiple">
+        <div data-each="PADDED_SOLN_MAT as row" class="matrix-row">
+            <span data-each="row as elem">
+                <span data-if="elem !== ''" class="sol">
+                    <var>elem</var>
+                </span>
+                <span data-else data-type="text" class="sol">
+                    <var>elem</var>
+                </span>
+            </span>
+        </div>
+    </div>
+
+    <div class="problems">
+        <!-- 2x2 solution dimensions -->
+        <div id="2x2-2x2">
+            <div class="vars" data-apply="prependVars">
+                <var id="DIM_1">2</var>
+                <var id="DIM_2">2</var>
+                <var id="DIM_4">2</var>
+            </div>
+        </div>
+        <div id="2x3-3x2">
+            <div class="vars" data-apply="prependVars">
+                <var id="DIM_1">2</var>
+                <var id="DIM_2">3</var>
+                <var id="DIM_4">2</var>
+            </div>
+        </div>
+
+        <!-- 2x3 solution dimensions -->
+        <div id="2x2-2x3">
+            <div class="vars" data-apply="prependVars">
+                <var id="DIM_1">2</var>
+                <var id="DIM_2">2</var>
+                <var id="DIM_4">3</var>
+            </div>
+        </div>
+
+        <!-- 3x2 solution dimensions -->
+        <div id="3x1-1x2">
+            <div class="vars" data-apply="prependVars">
+                <var id="DIM_1">3</var>
+                <var id="DIM_2">1</var>
+                <var id="DIM_4">2</var>
+            </div>
+        </div>
+        <div id="3x2-2x2">
+            <div class="vars" data-apply="prependVars">
+                <var id="DIM_1">3</var>
+                <var id="DIM_2">2</var>
+                <var id="DIM_4">2</var>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</body>
+</html>

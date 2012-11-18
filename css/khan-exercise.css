@@ -655,6 +655,12 @@ div.timeline-total {
 	filter: alpha(opacity = 80);
 }
 
+/* Video hints */
+
+.video-hint {
+  margin-bottom: 20px;
+}
+
 /* Question-based hints */
 
 .qhint {
@@ -683,4 +689,40 @@ div.timeline-total {
 
 .qhint-feedback.incorrect {
   color: #CE4444;
+}
+
+/* Fancy matrix input - goes along with matrix-input.js */
+
+#answer_area .matrix-row .sol {
+    margin: 0;
+    float: left;
+}
+
+#answer_area .matrix-row .sol input[type=text] {
+    width: 45px;
+    height: 30px;
+    border: none;
+    margin: 3px;
+    padding: 1px;
+}
+
+.matrix-input .matrix-bracket {
+    width: 6px;
+    position: absolute;
+    border-top: 2px solid #888;
+    border-bottom: 2px solid #888;
+    /* margin-top must have the same magnitude
+       as the border widths */
+    margin-top: -2px;
+}
+
+.matrix-input .matrix-bracket.bracket-left {
+    border-left: 2px solid #888;
+    /* margin-left for the left bracket must have
+       the same magnitude as the border widths */
+    margin-left: -2px;
+}
+
+.matrix-input .matrix-bracket.bracket-right {
+    border-right: 2px solid #888;
 }

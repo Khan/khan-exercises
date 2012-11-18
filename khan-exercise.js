@@ -56,6 +56,9 @@
     * updateUserExercise -- when an updated userExercise has been received
       and is being used by khan-exercises, either via the result of an API
       call or initialization
+
+    * showGuess -- when a guess is populated in the answer area in problem
+      history mode
 */
 
 var Khan = (function() {
@@ -318,7 +321,8 @@ var Khan = (function() {
             "simplify": ["math-model", "ast", "expr-helpers", "expr-normal-form", "steps-helpers"],
             "congruency": ["angles", "interactive"],
             "graphie-3d": ["graphie", "matrix"],
-            "graphie-geometry": ["graphie", "matrix"]
+            "graphie-geometry": ["graphie", "matrix"],
+            "matrix-input": ["jquery.cursor-position"]
         },
 
         warnTimeout: function() {
@@ -1661,6 +1665,8 @@ var Khan = (function() {
                     } else {
                         answerData.showGuess();
                     }
+                    // fire the "show guess" event
+                    $(Khan).trigger("showGuess");
 
                     // TODO: still highlight even if hint modifies problem (and highlight following hints)
                     if (slideNum > 0 && (thisState.hintNum > statelist[slideNum - 1].hintNum)) {
