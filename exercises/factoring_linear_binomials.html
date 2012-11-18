@@ -28,7 +28,7 @@
                         toSentenceTex(getFactors(abs(B)))
                     </var>
                     <var id="TERM1">GCD</var>
-                    <var id="TERM1N">"[-\\u2212]" + GCD</var>
+                    <var id="TERM1N">"[-\\u2212]\\s*" + GCD</var>
                     <var id="TERM2">"(?:" + (A &lt; 0 ? "[-\\u2212]" : "") + abs(A / GCD) + (A / GCD === 1 ? "|" : "" ) + (A / GCD === -1 ? "|[-\\u2212]" : "") + ")\\s*x"</var>
                     <var id="TERM2N">"(?:" + (A &gt; 0 ? "[-\\u2212]" : "") + abs(A / GCD) + (A / GCD === -1 ? "|" : "" ) + (A / GCD === 1 ? "|[-\\u2212]" : "") + ")\\s*x"</var>
                     <var id="TERM3">(B &lt; 0 ? "[-\\u2212]" : "\\+") + "\\s*" + abs(B / GCD)</var>
