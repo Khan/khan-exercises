@@ -310,11 +310,14 @@ $.extend(KhanUtil, {
     }
 });
 
-$(Khan).on("newProblem", function() {
-    KhanUtil.matrixInput.init();
-});
+$.fn["matrix-input"] = function() {
 
-$(Khan).on("showGuess", function() {
-    KhanUtil.matrixInput.setMaxValsFromScratch();
-    KhanUtil.matrixInput.render();
-});
+    $(Khan).on("newProblem", function() {
+        KhanUtil.matrixInput.init();
+    });
+
+    $(Khan).on("showGuess", function() {
+        KhanUtil.matrixInput.setMaxValsFromScratch();
+        KhanUtil.matrixInput.render();
+    });
+};
