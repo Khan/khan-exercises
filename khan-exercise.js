@@ -290,6 +290,16 @@ var Khan = (function() {
         })();
     }
 
+    // If there are any requests left in the queue when the window unloads
+    // then we will have permanently lost their answers and will need to 
+    // clear the session cache, to make sure we don't override what is 
+    // passed down from the servers
+    $(window).unload(function() {
+        if(requestQueue["attempt_hint_queue"].queue().length) {
+            $(Khan).trigger("attemptError");
+        }   
+    });
+
     // The main Khan Module
     var Khan = {
         modules: {},
@@ -2117,56 +2127,24 @@ var Khan = (function() {
             var data = buildAttemptData(pass, ++attempts, JSON.stringify(guess), curTime);
             debugLog("attempt " + JSON.stringify(data));
 
-            // Saving the current state of problems done before the attempt so 
-            // that it is stored in a closure and we can rely on resetting to 
-            // this current state if an error is thrown on page exit.
-            var curTotalDone = pass === true ? problemNum : problemNum - 1;
-
             request("problems/" + problemNum + "/attempt", data, function() {
 
                 // TODO: Save locally if offline
                 $(Khan).trigger("attemptSaved");
 
             }, function(xhr) {
+                // Alert any listeners of the error before reload
+                $(Khan).trigger("attemptError");
 
                 if (xhr && xhr.readyState == 0) {
                     // This path gets called when there is a broken pipe during
                     // page unload- browser navigating away during ajax request
                     // See http://stackoverflow.com/questions/1370322/jquery-ajax-fires-error-callback-on-window-unload
-
-                    if(requestQueue["attempt_hint_queue"].queue().length > 1) {
-                        // if there are other requests left in the request 
-                        // queue then they will not ever execute and the user's
-                        // work is lost. In order to avoid problem out of order
-                        // when the page is reloaded we need to reset the 
-                        // totalDone in the SessionStorage to what it would 
-                        // have been when this request finishes executing. 
-                        //
-                        // If we run into problems with resetting the cache
-                        // in the future we can instead do 
-                        // $(Khan).trigger("attemptError", userExercise);
-                        // which will clear the cache. This would not fix the 
-                        // case of users hitting the back button, which would
-                        // cause the cache to be reverted to what it was when
-                        // the page initially loaded and cause out of order
-                        // errors.
-                        //
-                        // If in the future people complain about problems
-                        // being lost we could consider doing a 
-                        // window.onbeforeunload = function (e) {
-                        // return 'Problems are being saved. Are you sure?';
-                        // };
-                        userExercise.totalDone = curTotalDone;
-                        $(Khan).trigger("attemptAborted", userExercise);
-                    }
                     return;
                 }
 
                 // Error during submit. Disable the page and ask users to
                 // reload in an attempt to get updated data.
-
-                // Alert any listeners of the error before reload
-                $(Khan).trigger("attemptError", userExercise);
 
                 // Hide the page so users don't continue
                 $("#problem-and-answer").css("visibility", "hidden");
