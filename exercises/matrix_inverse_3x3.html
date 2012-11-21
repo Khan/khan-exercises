@@ -8,10 +8,12 @@
 <body>
     <div class="exercise">
 
-    <div class="vars" data-ensure="DET !== 0">
-        <var id="DIM">3</var>
-        <var id="MAT">makeMatrix(randRange(-2, 5, DIM, DIM))</var>
-        <var id="DET">matrixDet(MAT)</var>
+    <div class="vars">
+        <div data-ensure="DET !== 0">
+            <var id="DIM">3</var>
+            <var id="MAT">makeMatrix(randRange(-2, 5, DIM, DIM))</var>
+            <var id="DET">matrixDet(MAT)</var>
+        </div>
         <var id="SOLN_MAT">matrixInverse(MAT)</var>
         <var id="PADDED_SOLN_MAT">matrixPad(SOLN_MAT, 3, 3)</var>
         <var id="PRETTY_SOLN_MAT">

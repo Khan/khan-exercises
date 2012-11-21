@@ -1,14 +1,24 @@
 $.extend(KhanUtil, {
     // To add two 2-dimensional matrices, use
     //     deepZipWith(2, function(a, b) { return a + b; }, matrixA, matrixB);
-    deepZipWith: function deepZipWith(depth, fn) {
+    deepZipWith: function(depth, fn) {
         var arrays = [].slice.call(arguments, 2);
+
+        // if any of the "array" arguments to deepZipWith are null, return null
+        var hasNullValue = _.any(arrays, function(array) {
+            if (array === null) {
+                return true;
+            }
+        });
+        if (hasNullValue) {
+            return null;
+        }
 
         if (depth === 0) {
             return fn.apply(null, arrays);
         } else {
             return _.map(_.zip.apply(_, arrays), function(els) {
-                return deepZipWith.apply(this, [depth - 1, fn].concat(els));
+                return KhanUtil.deepZipWith.apply(this, [depth - 1, fn].concat(els));
             });
         }
     },
@@ -72,6 +82,10 @@ $.extend(KhanUtil, {
     printMatrix: function(fn) {
         var args = Array.prototype.slice.call(arguments);
         mat = KhanUtil.deepZipWith.apply(this, [2].concat(args));
+
+        if (!mat) {
+            return null;
+        }
 
         var table = _.map(mat, function(row, i) {
                         return row.join(" & ");
@@ -209,7 +223,7 @@ $.extend(KhanUtil, {
         var c = mat.r;
 
         if (!r || !c) {
-            return undefined;
+            return null;
         }
 
         var matT = [];
@@ -237,7 +251,7 @@ $.extend(KhanUtil, {
 
         // determinant is only defined for a square matrix
         if (mat.r !== mat.c) {
-            return undefined;
+            return null;
         }
 
         var a, b, c, d, e, f, g, h, k, det;
@@ -344,13 +358,13 @@ $.extend(KhanUtil, {
 
         // if determinant is undefined or 0, inverse does not exist
         if (!det) {
-            return undefined;
+            return null;
         }
 
         var adj = KhanUtil.matrixAdj(mat);
 
         if (!adj) {
-            return undefined;
+            return null;
         }
 
         var inv = KhanUtil.deepZipWith(2, function(val) {
@@ -376,6 +390,10 @@ $.extend(KhanUtil, {
      * @return {result of makeMatrix}
      */
     matrixPad: function(mat, rows, cols, padVal) {
+        if (!mat) {
+            return null;
+        }
+
         mat = KhanUtil.makeMatrix(mat);
         matP = KhanUtil.matrixCopy(mat);
 

@@ -34,6 +34,8 @@ $.extend(KhanUtil, {
 
     matrixInput: {
 
+        eventsAttached: false,
+
         containerEl: null,
         bracketEls: null,
         cells: null,
@@ -90,6 +92,12 @@ $.extend(KhanUtil, {
             var right = $("<div>").addClass("matrix-bracket bracket-right");
             this.containerEl.append(left).append(right);
             this.bracketEls = [left, right];
+        },
+
+        removeBrackets: function() {
+            _.each(this.bracketEls, function(bracketEl) {
+                $(bracketEl).remove();
+            });
         },
 
         indexToRow: function(i) {
@@ -306,18 +314,39 @@ $.extend(KhanUtil, {
 
         render: function() {
             this.positionBrackets();
+        },
+
+        cleanup: function() {
+            this.removeBrackets();
         }
     }
 });
 
-$.fn["matrix-input"] = function() {
+$.fn["matrix-inputLoad"] = function() {
+    if (KhanUtil.matrixInput.eventsAttached) {
+        return;
+    }
 
-    $(Khan).on("newProblem", function() {
+    $(Khan).on("newProblem.matrix-input", function() {
         KhanUtil.matrixInput.init();
     });
 
-    $(Khan).on("showGuess", function() {
+    $(Khan).on("showGuess.matrix-input", function() {
         KhanUtil.matrixInput.setMaxValsFromScratch();
         KhanUtil.matrixInput.render();
     });
+
+    KhanUtil.matrixInput.eventsAttached = true;
+};
+
+$.fn["matrix-inputCleanup"] = function() {
+    if (!KhanUtil.matrixInput.eventsAttached) {
+        return;
+    }
+
+    KhanUtil.matrixInput.cleanup();
+    $(Khan).off("newProblem.matrix-input");
+    $(Khan).off("showGuess.matrix-input");
+
+    KhanUtil.matrixInput.eventsAttached = false;
 };

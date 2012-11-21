@@ -302,7 +302,19 @@ var Khan = (function() {
 
     // The main Khan Module
     var Khan = {
+
+        // Modules currently in use
         modules: {},
+
+        // Map from exercise filename to a string of required modules
+        // (data-require). These module names are used in runModules(), where
+        // $.fn["module-name"], $.fn["module-nameLoad"], and
+        // $.fn["module-nameCleanup"] are called.
+        exerciseModulesMap: {},
+
+        // Used to retrieve required modules list for current exercise from
+        // exerciseModulesMap
+        currExerciseFilename: "",
 
         // So modules can use file paths properly
         urlBase: urlBase,
@@ -351,6 +363,26 @@ var Khan = (function() {
             }
 
             warn("You should " + enableFontDownload + " to improve the appearance of math expressions.", true);
+        },
+
+        resetModules: function(modules) {
+            Khan.modules = {};
+
+            if (testMode) {
+                Khan.require(["../jquery-ui", "../jquery.qtip"]);
+            }
+
+            // Base modules required for every problem
+            Khan.require(["answer-types", "tmpl", "underscore", "jquery.adhesion", "hints", "calculator"]);
+
+            if (modules) {
+                Khan.require(modules);
+            }
+
+            if (testMode && !modules) {
+                modules = document.documentElement.getAttribute("data-require");
+                Khan.require(modules);
+            }
         },
 
         require: function(mods) {
@@ -743,14 +775,7 @@ var Khan = (function() {
     // Actually load the scripts. This is getting evaluated when the file is loaded.
     Khan.loadScripts(scripts, function() {
 
-        if (testMode) {
-            Khan.require(["../jquery-ui", "../jquery.qtip"]);
-        }
-
-        // Base modules required for every problem
-        Khan.require(["answer-types", "tmpl", "underscore", "jquery.adhesion", "hints", "calculator"]);
-
-        Khan.require(document.documentElement.getAttribute("data-require"));
+        Khan.resetModules();
 
         // Initialize to an empty jQuery set
         exercises = jQuery();
@@ -962,6 +987,10 @@ var Khan = (function() {
         if (exerciseFile == null || exerciseFile == "") {
             exerciseFile = exerciseId + ".html";
         }
+
+        // Store the filename of the current exercise for use as an
+        // index for setting/getting values from the exerciseModulesMap
+        Khan.currExerciseFilename = exerciseFile;
 
         function finishRender() {
 
@@ -1205,6 +1234,9 @@ var Khan = (function() {
         }
 
         debugLog("added inline styles");
+
+        // Reset modules to only those required by the current exercise
+        Khan.resetModules(Khan.exerciseModulesMap[Khan.currExerciseFilename]);
 
         // Run the main method of any modules
         problem.runModules(problem, "Load");
@@ -2959,7 +2991,12 @@ var Khan = (function() {
                 requires = requires[2];
             }
 
-            Khan.require(requires);
+            // Store the module requirements in exerciseModulesMap
+            Khan.exerciseModulesMap[fileName] = requires;
+
+            // Calling resetModules here is necessary for populating
+            // Khan.modules immediately so that required scripts can be fetched
+            Khan.resetModules(requires);
 
             // Extract contents from various tags and save them up for parsing when
             // actually showing this particular exercise.
