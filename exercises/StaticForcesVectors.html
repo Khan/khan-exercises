@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format expressions interactive jquery.easing.1.3 staticForcesHelper">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Static Forces</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="ans">5</var>
+					<var id="v1x">randRange(-9, 9)</var>
+					<var id="v1y">randRange(-9, 9)</var>
+					<var id="v2x">randRange(-9, 9)</var>
+					<var id="v2y">randRange(-9, 9)</var>
+					<var id="v3x">-(v1x+v2x)</var>
+					<var id="v3y">-(v1y+v2y)</var>
+					<var id="v">sqrt(v3x*v3x + v3y*v3y)</var>
+					<var id="theta">thetaGetter(v3x,v3y)</var>
+					<var id="guessV">0</var>
+					<var id="guessTheta">0</var>
+					<var id="net">[111,111]</var>
+						
+                </div>
+				<div>
+				<strong>Drag the blue vector to make the system static. Or you can also enter the values manually at the bottom.</strong></br>
+					<code>
+						v1= [<var>v1x</var>,<var>v1y</var>]</code></br> <code>
+						v2= [<var>v2x</var>,<var>v2y</var>]
+					</code> 
+				</div>
+                <div class="graphie" id="graph" style="position:relative; z-index:5;">
+                  theGraph= graphInit({
+                        range: 13, //how many to put on the graph
+                        scale: 20,  //how big the graph is , zoomed in or out
+                        tickStep: 15, //space between tick marks, if this is greater than , no tick marks appear
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                        axisArrows: "->",
+						axisOpacity: 1,
+						gridOpacity: .2
+                    });
+					
+					//This part makes the draggable part of the graph
+							addMouseLayer(); 
+							graph.point1 = addMovablePoint({
+								coord: [ 0, 0 ],
+								visible: false
+							});
+							paulspoint = addMovablePoint({
+								coord: [ 0, 3 ],
+								onMove: function(x,y){
+									roundTheta=Math.round(thetaGetter(x,y)*10)/10;
+									$("#testAngle").val(roundTheta);
+									
+									roundV=Math.round(sqrt(x*x + y*y)*10)/10;
+									$("#testMag").val(roundV);	
+								}
+							});
+							
+							paulsline = addMovableLineSegment({
+							  pointA: graph.point1,
+							  pointZ: paulspoint,
+							  fixed: true
+							});
+					/////////////////////////////////////////////////
+                    style({
+                        stroke: "#FF0000",
+						strokeWidth: 2.5
+                    }, function() {
+					
+						circle([0,0],.1); //looks better with something in the middle
+						
+						//This chunk draws the first ray
+						line([0,0],[v1x,v1y]);
+						array=arrowPoints([v1x,v1y]);
+						first=[array[0],array[1]];
+						second=[array[2],array[3]];
+						line([v1x,v1y],first);
+						line([v1x,v1y],second);
+						
+						//This chunk draws the second ray
+						line([0,0],[v2x,v2y]);
+						array=arrowPoints([v2x,v2y]);
+						first=[array[0],array[1]];
+						second=[array[2],array[3]];
+						line([v2x,v2y],first);
+						line([v2x,v2y],second);
+                    });
+                </div>
+				<div class="hints">
+					<div class="hint_orange" >
+						<div class="graphie" id="netGraph" style="position:relative; top:-545px; left:-20px; z-index:3;">
+								theGraph= graphInit({
+								range: 13, //how many to put on the graph
+								scale: 20,  //how big the graph is , zoomed in or out
+								tickStep: 15, //space between tick marks, if this is greater than , no tick marks appear
+								labelStep: 1,
+								unityLabels: false,
+								labelFormat: function( s ) { return "\\small{" + s + "}"; },
+								axisArrows: "->",
+								axisOpacity: .0001,
+								gridOpacity: .00002
+							});
+							style({
+								stroke: "#FF0000",
+								strokeWidth: 2.5
+								
+							}, function() {
+							
+							//these create the lines
+								line([0,0],[v1x,v1y]);
+								line([0,0],[v2x,v2y]);
+								
+							
+							//this code draws the arrows to make the lines rays... harder than you think..
+								array=arrowPoints([v1x,v1y]);
+								first=[array[0],array[1]];
+								second=[array[2],array[3]];
+								line([v1x,v1y],first);
+								line([v1x,v1y],second);
+							//draws the circle for the middle
+								circle([0,0],.1);
+							//draws the arrows for the second vector
+								array=arrowPoints([v2x,v2y]);
+								first=[array[0],array[1]];
+								second=[array[2],array[3]];
+								line([v2x,v2y],first);
+								line([v2x,v2y],second);
+							//draws the arrow for where the third vector is currently placed.
+								p=currentXandY();
+								array=arrowPoints(p);
+								first=[array[0],array[1]];
+								second=[array[2],array[3]];
+								line([0,0],p);
+								line(p,first);
+								line(p,second);
+								line([0,0],p);		
+							});
+					style({
+                        stroke: "#FF00FF",
+						strokeWidth: 4
+                    }, function() {	
+							
+								netx=<var>v1x</var>+<var>v2x</var>+p[0];
+								nety=<var>v1y</var>+<var>v2y</var>+p[1];
+								array=arrowPoints([netx,nety]);
+								first=[array[0],array[1]];
+								second=[array[2],array[3]];
+								
+								line([netx,nety],first);
+								line([netx,nety],second);
+
+								
+								line([0,0],[netx,nety]);
+								
+										
+						});
+						//alert("here we go!");
+						
+						animateGraph([netx,nety]);
+					</div>
+					The graph animated in the direction of the net force vector from the three forces.
+					
+				</div>
+				<p> Remember that in order to get the system static, the third force vector must EXACTLY counteract the other two force vectors.</p>
+				<div>When  the system is static (meaning it doesn't move), </br>
+						<code>|v|=</code><var>Math.round(<var>v</var>*10)/10</var>, and <code>&#x3b8 =</code> <var>Math.round(<var>theta</var>*10)/10</var>
+				</div>
+			</div>	
+				<div id="playground">
+					<code>|v|=</code><input id="testMag" value="3" size="2" onchange="updateMyVector()" type="textbox"></input>&nbsp &nbsp <code>&#x3b8 =</code><input id="testAngle" value="90" size="4" type="textbox" onchange="updateMyVector()"></input>	
+				<div class="solution" data-type="custom">
+					<div class="instruction">
+						Place the third vector to make the system static.
+					</div>
+					<div class="guess"> [$("#testAngle").val(),$("#testMag").val()] </div>
+					<div class="validator-function"> 
+						theTruth= abs(v3x-$("#testMag").val()*Math.cos($("#testAngle").val()*(Math.PI/180)))<=0.1 && abs(v3y-$("#testMag").val()*Math.sin($("#testAngle").val()*(Math.PI/180)))<=.5 ;
+						if(theTruth){
+							$("#graph").hide("explode",{ pieces: 25}, 2000, function(){$(this).show("explode", { pieces: 16 }, 500);} );		
+							}
+						return theTruth;
+					</div>
+					<p><code>|v|</code> = <span class="sol" data-inexact data-max-error="0.1" data-type="decimal" ondblclick="hi()"><var>v</var></span></p>
+					<p id="thep"><code>&#x3b8</code> = <span class="sol" data-inexact data-max-error="0.1" id="vMag" data-type="decimal"><var>theta</var></span></p>
+				</div>     
+        </div>
+    </div>
+</body>
+</html>
