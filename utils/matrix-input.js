@@ -90,7 +90,7 @@ $.extend(KhanUtil, {
         addBrackets: function(i) {
             var left = $("<div>").addClass("matrix-bracket bracket-left");
             var right = $("<div>").addClass("matrix-bracket bracket-right");
-            this.containerEl.append(left).append(right);
+            this.containerEl.prepend(left, right);
             this.bracketEls = [left, right];
         },
 

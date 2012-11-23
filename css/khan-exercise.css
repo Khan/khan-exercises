@@ -693,6 +693,11 @@ div.timeline-total {
 
 /* Fancy matrix input - goes along with matrix-input.js */
 
+#answer_area .matrix-row {
+    float: left;  /* contain inner floats */
+    clear: both;
+}
+
 #answer_area .matrix-row .sol {
     margin: 0;
     float: left;
