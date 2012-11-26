@@ -290,16 +290,6 @@ var Khan = (function() {
         })();
     }
 
-    // If there are any requests left in the queue when the window unloads
-    // then we will have permanently lost their answers and will need to 
-    // clear the session cache, to make sure we don't override what is 
-    // passed down from the servers
-    $(window).unload(function() {
-        if(requestQueue["attempt_hint_queue"].queue().length) {
-            $(Khan).trigger("attemptError");
-        }   
-    });
-
     // The main Khan Module
     var Khan = {
 
@@ -776,6 +766,17 @@ var Khan = (function() {
     Khan.loadScripts(scripts, function() {
 
         Khan.resetModules();
+
+        // If there are any requests left in the queue when the window unloads
+        // then we will have permanently lost their answers and will need to
+        // clear the session cache, to make sure we don't override what is
+        // passed down from the servers
+        $(window).unload(function() {
+            if(requestQueue["attempt_hint_queue"] &&
+                    requestQueue["attempt_hint_queue"].queue().length) {
+                $(Khan).trigger("attemptError");
+            }
+        });
 
         // Initialize to an empty jQuery set
         exercises = jQuery();
