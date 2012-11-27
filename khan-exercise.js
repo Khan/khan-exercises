@@ -290,16 +290,6 @@ var Khan = (function() {
         })();
     }
 
-    // If there are any requests left in the queue when the window unloads
-    // then we will have permanently lost their answers and will need to 
-    // clear the session cache, to make sure we don't override what is 
-    // passed down from the servers
-    $(window).unload(function() {
-        if(requestQueue["attempt_hint_queue"].queue().length) {
-            $(Khan).trigger("attemptError");
-        }   
-    });
-
     // The main Khan Module
     var Khan = {
 
@@ -311,10 +301,6 @@ var Khan = (function() {
         // $.fn["module-name"], $.fn["module-nameLoad"], and
         // $.fn["module-nameCleanup"] are called.
         exerciseModulesMap: {},
-
-        // Used to retrieve required modules list for current exercise from
-        // exerciseModulesMap
-        currExerciseFilename: "",
 
         // So modules can use file paths properly
         urlBase: urlBase,
@@ -777,14 +763,28 @@ var Khan = (function() {
 
         Khan.resetModules();
 
+        // If there are any requests left in the queue when the window unloads
+        // then we will have permanently lost their answers and will need to
+        // clear the session cache, to make sure we don't override what is
+        // passed down from the servers
+        $(window).unload(function() {
+            if(requestQueue["attempt_hint_queue"] &&
+                    requestQueue["attempt_hint_queue"].queue().length) {
+                $(Khan).trigger("attemptError");
+            }
+        });
+
         // Initialize to an empty jQuery set
         exercises = jQuery();
 
         $(function() {
+            // Ensure that all local exercises that don't have a data-name
+            // already get tagged with the current, original data-name.
+            $("div.exercise").not("[data-name]").data("name", exerciseId);
+
             var remoteExercises = $("div.exercise[data-name]");
 
             if (remoteExercises.length) {
-
                 remoteExercises.each(loadExercise);
 
             // Only run loadModules if exercises are in the page
@@ -987,10 +987,6 @@ var Khan = (function() {
         if (exerciseFile == null || exerciseFile == "") {
             exerciseFile = exerciseId + ".html";
         }
-
-        // Store the filename of the current exercise for use as an
-        // index for setting/getting values from the exerciseModulesMap
-        Khan.currExerciseFilename = exerciseFile;
 
         function finishRender() {
 
@@ -1235,8 +1231,12 @@ var Khan = (function() {
 
         debugLog("added inline styles");
 
+        // Get the filename of the currently shown exercise so we can look up
+        // what modules are required
+        var currentExercise = exercise.data("name") + ".html";
+
         // Reset modules to only those required by the current exercise
-        Khan.resetModules(Khan.exerciseModulesMap[Khan.currExerciseFilename]);
+        Khan.resetModules(Khan.exerciseModulesMap[currentExercise]);
 
         // Run the main method of any modules
         problem.runModules(problem, "Load");
@@ -1866,7 +1866,8 @@ var Khan = (function() {
             });
 
 
-            if (exercise.data("name") != null) {
+            // If this is a child exercise, show which one it came from
+            if (exercise.data("name") !== exerciseId) {
                 links.append("<br>");
                 links.append("Original exercise: " + exercise.data("name"));
             }
@@ -2422,7 +2423,7 @@ var Khan = (function() {
                 title = $("#issue-title").val(),
                 path = exerciseFile + "?seed=" +
                     problemSeed + "&problem=" + problemID,
-                pathlink = "[" + path + (exercise.data("name") != null && exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
+                pathlink = "[" + path + (exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
                 historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent(JSON.stringify(userActivityLog)).replace(/\)/g, "\\)") + ")",
                 agent = navigator.userAgent,
                 mathjaxInfo = "MathJax is " + (typeof MathJax === "undefined" ? "NOT loaded" :
