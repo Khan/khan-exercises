@@ -691,6 +691,127 @@ div.timeline-total {
   color: #CE4444;
 }
 
+/* CS Exercise Styling */
+
+div.cs-exercise.exercises-card {
+    width: auto;
+}
+
+.cs-exercise #solutionarea,
+.cs-exercise #answerform .info-box-header,
+.cs-exercise #readonly {
+    display: none !important;
+}
+
+.cs-exercise #answer_area .answer-buttons {
+    border-top: 0px;
+    padding-top: 0px;
+}
+
+.cs-exercise.current-card #problemarea {
+    margin-top: 0px;
+    width: auto;
+}
+
+.cs-exercise #workarea {
+    margin-left: 10px;
+}
+
+.cs-exercise #positive-reinforcement {
+    left: -14px;
+    position: absolute;
+    top: -10px;
+}
+
+.cs-exercise #answer_area #check-answer-results {
+    display: none;
+}
+
+.cs-exercise.current-card .question {
+    margin-right: 235px;
+}
+
+.cs-exercise .problem {
+    margin-bottom: 0px;
+}
+
+.cs-exercise #problemarea {
+    float: none;
+    padding-bottom: 0px;
+    margin-right: 10px;
+}
+
+.cs-exercise.current-card #answer_area_wrap {
+    float: none;
+    width: auto;
+    margin-top: 0px;
+}
+
+.cs-exercise.current-card #answer_area .info-box {
+    background: none;
+    border: none;
+    border-bottom: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    display: inline;
+    float: left;
+    margin-bottom: 0px;
+    margin-right: 5px;
+    padding: 0px;
+    overflow: visible;
+    top: 0px !important; /* Stop vertical animations */
+}
+
+.cs-exercise.current-card .info-box:before {
+    display: none;
+}
+
+.cs-exercise #answerform {
+    float: right;
+    margin-bottom: 10px;
+    margin-right: 18px;
+    width: 400px;
+}
+
+.cs-exercise.current-card #answer_area .info-box.restart-box {
+    float: right;
+    margin-right: 0px;
+}
+
+.cs-exercise #hintsarea {
+    float: left;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    width: 520px;
+}
+
+.cs-exercise #debug {
+    float: left;
+    margin-left: 20px;
+}
+
+pre {
+    background: #FFF;
+    border: 1px solid #D4CCB0;
+    font-family: Monaco, Courier New, Courier, monospace;
+    font-weight: normal;
+    margin-left: 10px;
+    padding: 5px;
+}
+
+.final_answer pre {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+tt {
+    background: #FFF;
+    font-family: Monaco, Courier New, Courier, monospace;
+    font-weight: normal;
+    padding: 0px 5px;
+}
+
 /* Fancy matrix input - goes along with matrix-input.js */
 
 #answer_area .matrix-row .sol {

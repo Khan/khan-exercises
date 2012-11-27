@@ -1974,6 +1974,9 @@ var Khan = (function() {
         // if we actually want them
         $("#solutionarea").off(".emptyAnswer");
 
+        // Cleanup any problem-specific markup
+        $(Khan).trigger("cleanupProblem");
+
         Khan.scratchpad.clear();
     }
 
