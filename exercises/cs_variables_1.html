@@ -17,7 +17,12 @@
                         mouth: randRange(110, 130)
                     })[item]</var>
                     <var id="answer">"var " + name + " = " + val + ";"</var>
-                    <var id="program">
+                </div>
+                <p class="question">Let's add a variable to control the size of
+                    <a href="http://www.khanacademy.org/cs/winston/823977317">Winston's</a> <var>item</var>!
+                    Declare a variable named <tt><var>name</var></tt>
+                    and assign it a value of <tt><var>val</var></tt>.</p>
+                <p class="problem">    
 
 // Winston's handsome features don't need outlines
 noStroke();
@@ -33,13 +38,7 @@ ellipse(304, 142, <var>item === "eyes" ? "eyeSize, eyeSize" : "40, 40"</var>);
 
 // mouth
 fill(252, 65, 65);
-ellipse(257, 240, <var>item === "mouth" ? "mouthSize, mouthSize" : "120, 120"</var>);</var>
-                </div>
-                <p class="question">Let's add a variable to control the size of
-                    <a href="http://www.khanacademy.org/cs/winston/823977317">Winston's</a> <var>item</var>!
-                    Declare a variable named <tt><var>name</var></tt>
-                    and assign it a value of <tt><var>val</var></tt>.</p>
-                <p class="problem"><var>program</var></p>
+ellipse(257, 240, <var>item === "mouth" ? "mouthSize, mouthSize" : "120, 120"</var>);</p>
                 <p class="solution" data-type="cs">
                     test("Validate Variable", function() {
                         assert(typeof <var>name</var> !== "undefined", "Variable is defined.");
