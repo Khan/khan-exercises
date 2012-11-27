@@ -302,10 +302,6 @@ var Khan = (function() {
         // $.fn["module-nameCleanup"] are called.
         exerciseModulesMap: {},
 
-        // Used to retrieve required modules list for current exercise from
-        // exerciseModulesMap
-        currExerciseFilename: "",
-
         // So modules can use file paths properly
         urlBase: urlBase,
 
@@ -991,10 +987,6 @@ var Khan = (function() {
         if (exerciseFile == null || exerciseFile == "") {
             exerciseFile = exerciseId + ".html";
         }
-
-        // Store the filename of the current exercise for use as an
-        // index for setting/getting values from the exerciseModulesMap
-        Khan.currExerciseFilename = exerciseFile;
 
         function finishRender() {
 
