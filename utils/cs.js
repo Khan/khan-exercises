@@ -193,7 +193,7 @@
     };
 
     Embed.prototype = {
-        url: "http://labs.khanacademy.org:8082/cs/new/embedded",
+        url: "/cs/new/embedded",
 
         setCode: function(code) {
             this.postFrame(code);
