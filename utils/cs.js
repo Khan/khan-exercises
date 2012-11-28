@@ -25,6 +25,8 @@
     Khan.answerTypes = $.extend(Khan.answerTypes || {}, {
         cs: {
             setup: function(solutionarea, solution) {
+                Khan.scratchpad.disable();
+
                 // Make sure the tutorial page can fit the full exercise
                 $("#tutorial-page").addClass("wide");
 
@@ -54,7 +56,7 @@
                     buttons: false,
                     author: false,
                     blank: true,
-                    background: "#F8F8F8",
+                    background: KhanUtil.BACKGROUND,
                     code: $problem.text(),
                     validate: solution,
                     onrun: function(data) {
@@ -96,6 +98,8 @@
         // If no solution, passes if the code passes without errors
         csPass: {
             setup: function(solutionarea, solution) {
+                Khan.scratchpad.disable();
+
                 solution = typeof solution === "object" ?
                     $(solution).text() :
                     solution;
@@ -109,7 +113,7 @@
                     author: false,
                     output: false,
                     blank: true,
-                    background: "#F8F8F8",
+                    background: KhanUtil.BACKGROUND,
                     code: $problem.text(),
                     onrun: function(data) {
                         guess = data.results.code;
@@ -138,6 +142,8 @@
         // Uses a text area to get the user's answer
         csText: {
             setup: function(solutionarea, solution) {
+                Khan.scratchpad.disable();
+
                 var $problem = $(".problem");
                 var embed = new ScratchpadEmbed({
                     buttons: false,
@@ -146,7 +152,7 @@
                     lines: true,
                     autoFocus: false,
                     blank: true,
-                    background: "#F8F8F8",
+                    background: KhanUtil.BACKGROUND,
                     code: $problem.text()
                 });
                 $problem.html(embed.getIframe());
@@ -159,6 +165,8 @@
         // Uses a multiple choice to get the user's answer
         csRadio: {
             setup: function(solutionarea, solution) {
+                Khan.scratchpad.disable();
+
                 var $problem = $(".problem");
                 var embed = new ScratchpadEmbed({
                     buttons: false,
@@ -167,7 +175,7 @@
                     lines: true,
                     autoFocus: false,
                     blank: true,
-                    background: "#F8F8F8",
+                    background: KhanUtil.BACKGROUND,
                     code: $problem.text()
                 });
                 $problem.html(embed.getIframe());
