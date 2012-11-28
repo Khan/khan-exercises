@@ -693,17 +693,17 @@ div.timeline-total {
 
 /* CS Exercise Styling */
 
-div.cs-exercise.exercises-card {
+.cs-exercise.current-card {
     width: auto;
 }
 
-.cs-exercise #solutionarea,
-.cs-exercise #answerform .info-box-header,
-.cs-exercise #readonly {
+.cs-exercise.current-card #solutionarea,
+.cs-exercise.current-card #answerform .info-box-header,
+.cs-exercise.current-card #readonly {
     display: none !important;
 }
 
-.cs-exercise #answer_area .answer-buttons {
+.cs-exercise.current-card #answer_area .answer-buttons {
     border-top: 0px;
     padding-top: 0px;
 }
@@ -713,17 +713,17 @@ div.cs-exercise.exercises-card {
     width: auto;
 }
 
-.cs-exercise #workarea {
+.cs-exercise.current-card #workarea {
     margin-left: 10px;
 }
 
-.cs-exercise #positive-reinforcement {
+.cs-exercise.current-card #positive-reinforcement {
     left: -14px;
     position: absolute;
     top: -10px;
 }
 
-.cs-exercise #answer_area #check-answer-results {
+.cs-exercise.current-card #answer_area #check-answer-results {
     display: none;
 }
 
@@ -731,11 +731,11 @@ div.cs-exercise.exercises-card {
     margin-right: 235px;
 }
 
-.cs-exercise .problem {
+.cs-exercise.current-card .problem {
     margin-bottom: 0px;
 }
 
-.cs-exercise #problemarea {
+.cs-exercise.current-card #problemarea {
     float: none;
     padding-bottom: 0px;
     margin-right: 10px;
@@ -766,7 +766,7 @@ div.cs-exercise.exercises-card {
     display: none;
 }
 
-.cs-exercise #answerform {
+.cs-exercise.current-card #answerform {
     float: right;
     margin-bottom: 10px;
     margin-right: 18px;
@@ -778,19 +778,19 @@ div.cs-exercise.exercises-card {
     margin-right: 0px;
 }
 
-.cs-exercise #hintsarea {
+.cs-exercise.current-card #hintsarea {
     float: left;
     margin-bottom: 10px;
     margin-left: 10px;
     width: 520px;
 }
 
-.cs-exercise #debug {
+.cs-exercise.current-card #debug {
     float: left;
     margin-left: 20px;
 }
 
-pre {
+.cs-exercise.current-card pre {
     background: #FFF;
     border: 1px solid #D4CCB0;
     font-family: Monaco, Courier New, Courier, monospace;
@@ -799,17 +799,33 @@ pre {
     padding: 5px;
 }
 
-.final_answer pre {
+.cs-exercise.current-card .final_answer pre {
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
 }
 
-tt {
+.cs-exercise.current-card tt {
     background: #FFF;
     font-family: Monaco, Courier New, Courier, monospace;
     font-weight: normal;
     padding: 0px 5px;
+}
+
+/* Styling for wide exercises (such as CS exercises) */
+
+#tutorial-page.wide {
+    padding: 0 11px;
+}
+
+#tutorial-page.wide .tutorial-nav,
+#tutorial-page.wide .nav-container {
+    min-width: 200px;
+    width: 200px;
+}
+
+#tutorial-page.wide .tutorial-content {
+    padding: 22px 0 0 11px;
 }
 
 /* Fancy matrix input - goes along with matrix-input.js */

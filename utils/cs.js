@@ -9,6 +9,8 @@
                 .removeClass("cs-exercise")
                 .find(".restart-box")
                     .remove();
+
+            $("#tutorial-page").removeClass("wide");
         };
 
         $(Khan).bind("cleanupProblem", cleanup);
@@ -23,6 +25,10 @@
     Khan.answerTypes = $.extend(Khan.answerTypes || {}, {
         cs: {
             setup: function(solutionarea, solution) {
+                // Make sure the tutorial page can fit the full exercise
+                $("#tutorial-page").addClass("wide");
+
+                // Remove exercise styling upon completion
                 bindCSCleanup();
 
                 solution = typeof solution === "object" ?
@@ -169,7 +175,7 @@
              }
         }
     });
-    
+
 })();
 
 (function() {
