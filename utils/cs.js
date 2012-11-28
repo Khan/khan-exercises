@@ -102,6 +102,8 @@
             setup: function(solutionarea, solution) {
                 Khan.scratchpad.disable();
 
+                $(solutionarea).append("<div class='instruction'>Change the code in the editor until it is correct.</div>");
+
                 solution = typeof solution === "object" ?
                     $(solution).text() :
                     solution;
