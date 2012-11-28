@@ -99,7 +99,7 @@
                 solution = typeof solution === "object" ?
                     $(solution).text() :
                     solution;
-                solution = solution.replace(/\s+/, "");
+                solution = solution.replace(/\s+/g, "");
 
                 var passing = false;
                 var guess = "";
@@ -122,9 +122,10 @@
                     answer: function() {
                         return guess;
                     },
-                    validator: function() {
+                    validator: function(guess) {
                         return !solution && passing ||
-                            !!solution && guess.replace(/\s+/, "") === solution;
+                            !!solution &&
+                                guess.replace(/\s+/g, "") === solution;
                     },
                     solution: solution,
                     examples: [],
