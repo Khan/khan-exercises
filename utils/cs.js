@@ -88,7 +88,9 @@
                     },
                     solution: solution,
                     examples: [],
-                    showGuess: function(guess) {}
+                    showGuess: function(guess) {
+                        embed.setCode(guess);
+                    }
                 };
             }
         },
@@ -133,7 +135,9 @@
                     },
                     solution: solution,
                     examples: [],
-                    showGuess: function(guess) {}
+                    showGuess: function(guess) {
+                        embed.setCode(guess);
+                    }
                 };
             }
         },
