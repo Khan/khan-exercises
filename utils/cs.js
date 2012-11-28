@@ -200,7 +200,11 @@
     };
 
     Embed.prototype = {
-        url: "/cs/new/embedded",
+        // XXX(jeresig): Temporary solution, for testing. Should probably
+        //               be changed to ka.org once the main code is live.
+        url: (window.Exercise ? "" :
+            "http://znd-cs-exercises-dot-khan-academy.appspot.com") +	
+            "/cs/new/embedded",
 
         setCode: function(code) {
             this.postFrame(code);
