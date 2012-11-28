@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html data-require="math cs">
+    <head>
+          <title>Drawing 2</title>
+          <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="problems">
+                <div id="draw-square">
+                    <div class="vars">
+                        <var id="x">rand(200)</var>
+                        <var id="y">rand(200)</var>
+                        <var id="width">randRange(100,200)</var>
+                        <var id="firstc">rand(2) ? "X" : "Y"</var>
+                        <var id="c1">firstc === "X" ? x : y</var>
+                        <var id="c2">firstc === "X" ? y : x</var>
+                    </div>
+                    <p class="question">Draw a square whose top-left corner's <var>firstc</var> position is <tt><var>c1</var></tt> and <var>firstc === "X" ? "Y" : "X"</var> position is <tt><var>c2</var></tt>. The square should be <tt><var>width</var></tt> wide and tall.</p>
+                    <p class="problem"></p>
+                    <p class="solution" data-type="cs">
+                        test("Validate Square Draw", function() {
+                            hasFnCall("rect",
+                                [<var>x</var>, <var>y</var>, <var>width</var>, <var>width</var>]);
+                        });
+                    </p>
+                    <div class="hints">
+                        <p>Remember: A square is just a rectangle whose sides are of all equal lengths!</p>
+                        <p>A rectangle has one starting point, the top-left corner of the rectangle, and a width and height.</p>
+                        <div>The <a href="http://www.khanacademy.org/cs/rectx-y-width-height/839496660">syntax for drawing a rectangle</a> is as follows:
+                            <pre>rect(x, y, width, height);</pre></div>
+                        <p>Remember: In the arguments to <tt>rect</tt> (and all other drawing functions) the X coordinate comes before the Y coordinate.</p>
+                        <div>The completed code:
+                            <pre>rect(<var>x</var>, <var>y</var>, <var>width</var>, <var>width</var>);</pre></div>
+                    </div>
+                </div>
+                <div id="draw-rectangle">
+                    <div class="vars">
+                        <var id="x">rand(200)</var>
+                        <var id="y">rand(200)</var>
+                        <var id="width">randRange(100,200)</var>
+                        <var id="height">randRange(100,200)</var>
+                        <var id="firstc">rand(2) ? "X" : "Y"</var>
+                        <var id="c1">firstc === "X" ? x : y</var>
+                        <var id="c2">firstc === "X" ? y : x</var>
+                        <var id="firstw">rand(2) ? "width" : "height"</var>
+                        <var id="w1">firstw === "width" ? width : height</var>
+                        <var id="w2">firstw === "width" ? height : width</var>
+                    </div>
+                    <p class="question">Draw a rectangle whose top-left corner's <var>firstc</var> position is <tt><var>c1</var></tt> and <var>firstc === "X" ? "Y" : "X"</var> position is <tt><var>c2</var></tt>. The <var>firstw</var> should be <tt><var>w1</var></tt> and the <var>firstw === "width" ? "height" : "width"</var> should be <tt><var>w2</var></tt>.</p>
+                    <p class="problem"></p>
+                    <p class="solution" data-type="cs">
+                        test("Validate Rectangle Draw", function() {
+                            hasFnCall("rect",
+                                [<var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>]);
+                        });
+                    </p>
+                    <div class="hints">
+                        <p>A rectangle has one starting point, the top-left corner of the rectangle, and a width and height.</p>
+                        <div>The <a href="http://www.khanacademy.org/cs/rectx-y-width-height/839496660">syntax for drawing a rectangle</a> is as follows:
+                            <pre>rect(x, y, width, height);</pre></div>
+                        <p>Remember: In the arguments to <tt>rect</tt> (and all other drawing functions) the X coordinate comes before the Y coordinate.</p>
+                        <div>The completed code:
+                            <pre>rect(<var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>);</pre></div>
+                    </div>
+                </div>
+                <div id="draw-circle">
+                    <div class="vars">
+                        <var id="x">rand(200)</var>
+                        <var id="y">rand(200)</var>
+                        <var id="width">randRange(100,200)</var>
+                        <var id="firstc">rand(2) ? "X" : "Y"</var>
+                        <var id="c1">firstc === "X" ? x : y</var>
+                        <var id="c2">firstc === "X" ? y : x</var>
+                    </div>
+                    <p class="question">Draw a circle which is centered at an <var>firstc</var> position of <tt><var>c1</var></tt> and a <var>firstc === "X" ? "Y" : "X"</var> position of <tt><var>c2</var></tt>. The circle should be <tt><var>width</var></tt> pixels wide and tall.</p>
+                    <p class="problem"></p>
+                    <p class="solution" data-type="cs">
+                        test("Validate Circle Draw", function() {
+                            hasFnCall("ellipse",
+                                [<var>x</var>, <var>y</var>, <var>width</var>, <var>width</var>]);
+                        });
+                    </p>
+                    <div class="hints">
+                        <p>Remember: A circle is just an ellipse whose width and height are equal!</p>
+                        <p>An ellipse is drawn centered on a single point with a width and height.</p>
+                        <div>The <a href="http://www.khanacademy.org/cs/ellipsex-y-width-height/839435680">syntax for drawing an ellipse</a> is as follows:
+                            <pre>ellipse(x, y, width, height);</pre></div>
+                        <p>Remember: In the arguments to <tt>ellipse</tt> (and all other drawing functions) the X coordinate comes before the Y coordinate.</p>
+                        <div>The completed code:
+                            <pre>ellipse(<var>x</var>, <var>y</var>, <var>width</var>, <var>width</var>);</pre></div>
+                    </div>
+                </div>
+                <div id="draw-ellipse">
+                    <div class="vars">
+                        <var id="x">rand(200)</var>
+                        <var id="y">rand(200)</var>
+                        <var id="width">randRange(100,200)</var>
+                        <var id="height">randRange(100,200)</var>
+                        <var id="firstc">rand(2) ? "X" : "Y"</var>
+                        <var id="c1">firstc === "X" ? x : y</var>
+                        <var id="c2">firstc === "X" ? y : x</var>
+                        <var id="firstw">rand(2) ? "width" : "height"</var>
+                        <var id="w1">firstw === "width" ? width : height</var>
+                        <var id="w2">firstw === "width" ? height : width</var>
+                    </div>
+                    <p class="question">Draw an ellipse which is centered at an <var>firstc</var> position of <tt><var>c1</var></tt> and a <var>firstc === "X" ? "Y" : "X"</var> position of <tt><var>c2</var></tt>. The <var>firstw</var> should be <tt><var>w1</var></tt> and the <var>firstw === "width" ? "height" : "width"</var> should be <tt><var>w2</var></tt>.</p>
+                    <p class="problem"></p>
+                    <p class="solution" data-type="cs">
+                        test("Validate Ellipse Draw", function() {
+                            hasFnCall("ellipse",
+                                [<var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>]);
+                        });
+                    </p>
+                    <div class="hints">
+                        <p>An ellipse is drawn centered on a single point with a width and height.</p>
+                        <div>The <a href="http://www.khanacademy.org/cs/ellipsex-y-width-height/839435680">syntax for drawing an ellipse</a> is as follows:
+                            <pre>ellipse(x, y, width, height);</pre></div>
+                        <p>Remember: In the arguments to <tt>ellipse</tt> (and all other drawing functions) the X coordinate comes before the Y coordinate.</p>
+                        <div>The completed code:
+                            <pre>ellipse(<var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>);</pre></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

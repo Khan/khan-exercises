@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html data-require="math cs">
+    <head>
+          <title>Drawing 1</title>
+          <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="problems">
+                <div id="draw-point">
+                    <div class="vars">
+                        <var id="x1">rand(200)</var>
+                        <var id="y1">rand(200)</var>
+                        <var id="firstc">rand(2) ? "X" : "Y"</var>
+                        <var id="c1">firstc === "X" ? x1 : y1</var>
+                        <var id="c2">firstc === "X" ? y1 : x1</var>
+                    </div>
+                    <p class="question">Draw a point at an <var>firstc</var> position of <tt><var>c1</var></tt> and a <var>firstc === "X" ? "Y" : "X"</var> position of <tt><var>c2</var></tt>. A single point can be hard to see! Use <a href="http://www.khanacademy.org/cs/strokeweightsize/877859744">strokeWeight</a> to change the size of the point, as well.</p>
+                    <p class="problem"></p>
+                    <p class="solution" data-type="cs">
+                        test("Validate Point Draw", function() {
+                            orderedFnCalls([
+                                ["strokeWeight", function(fnCall) {
+                                    return fnCall.args[0] > 1;
+                                }],
+                                ["point", [<var>x1</var>, <var>y1</var>]]
+                            ]);
+                        });
+                    </p>
+                    <div class="hints">
+                        <p>A point consists of a single pair of X and Y coordinates.</p>
+                        <div>A <a href="http://www.khanacademy.org/cs/pointx-y/827809834">point</a> is usually a single pixel, drawn using the syntax:
+                            <pre>point(x, y);</pre></div>
+                        <p>Remember: In the arguments to <tt>point</tt> (and all other drawing functions) the X coordinate comes before the Y coordinate.</p>
+                        <div>To draw your point you would need to write:
+                            <pre>point(<var>x1</var>, <var>y1</var>);</pre></div>
+                        <p>However, that's not enough: You need to adjust the <a href="http://www.khanacademy.org/cs/strokeweightsize/877859744">strokeWeight</a> of the point as well!</p>
+                        <p>Remember: If you want to change the strokeWeight it needs to occur before the shape you're drawing.</p>
+                        <div>Your complete code will probably look something like this:
+                            <pre>strokeWeight(10);
+point(<var>x1</var>, <var>y1</var>);</pre></div>
+                    </div>
+                </div>
+                <div id="draw-line">
+                    <div class="vars">
+                        <var id="x1">rand(200)</var>
+                        <var id="y1">rand(200)</var>
+                        <var id="x2">randRange(200,400)</var>
+                        <var id="y2">randRange(200,400)</var>
+                        <var id="pos">rand(2) ? "end" : "start"</var>
+                        <var id="firstc">rand(2) ? "X" : "Y"</var>
+                        <var id="c1">firstc === "X" ? (pos === "start" ? x1 : x2) : (pos === "start" ? y1 : y2)</var>
+                        <var id="c2">firstc === "X" ? (pos === "start" ? y1 : y2) : (pos === "start" ? x1 : x2)</var>
+                    </div>
+                    <p class="question">Draw a line that <var>pos</var>s at an <var>firstc</var> position of <tt><var>c1</var></tt> and a <var>firstc === "X" ? "Y" : "X"</var> position of <tt><var>c2</var></tt> and <var>pos === "start" ? "ends" : "starts"</var> at another position of your choosing.</p>
+                    <p class="problem"></p>
+                    <p class="solution" data-type="cs">
+                        test("Validate Line Draw", function() {
+                            if ("<var>pos</var>" === "start") {
+                                hasFnCall("line",
+                                    [<var>x1</var>, <var>y1</var>, null, null]);
+                            } else {
+                                hasFnCall("line",
+                                    [null, null, <var>x2</var>, <var>y2</var>]);
+                            }
+                        });
+                    </p>
+                    <div class="hints">
+                        <p>A line is drawn using two points, one for the start of the line and one for the end of the line.</p>
+                        <p>A point consists of an X and a Y coordinate. Thus a line will take two pairs of X and Y coordinates.</p>
+                        <div>The <a href="http://www.khanacademy.org/cs/linex1-y1-x2-y2/827916099">syntax for a line</a> is as follows:
+                            <pre>line(x1, y1, x2, y2);</pre></div>
+                        <p>Remember: In the arguments to <tt>line</tt> (and all other drawing functions) the X coordinate comes before the Y coordinate.</p>
+                        <div>Your complete code will probably look something like this:
+                            <pre>line(<var>x1</var>, <var>y1</var>, <var>x2</var>, <var>y2</var>);</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

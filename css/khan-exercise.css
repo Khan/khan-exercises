@@ -694,7 +694,7 @@ div.timeline-total {
 /* CS Exercise Styling */
 
 .cs-exercise.current-card {
-    width: auto;
+    width: 962px;
 }
 
 .cs-exercise.current-card #solutionarea,
