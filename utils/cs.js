@@ -401,7 +401,8 @@
             }
 
             var queryString = {
-                id: this.id
+                id: this.id,
+                origin: window.location.origin
             };
 
             for (var prop in props) {
