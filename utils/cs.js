@@ -293,7 +293,7 @@
                 this.props[prop] = options[prop];
             }
 
-            this.postFrame(options);
+            this.postFrame(this.props);
         },
 
         clear: function() {
