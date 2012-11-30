@@ -33,6 +33,8 @@
                 // Remove exercise styling upon completion
                 bindCSCleanup();
 
+                $(solutionarea).append("<div class='instruction'>Write the code to complete the exercise.</div>");
+
                 solution = typeof solution === "object" ?
                     $(solution).text() :
                     solution;
@@ -52,32 +54,51 @@
                 var passing = false;
                 var guess = "";
                 var $problem = $(".problem");
-                var embed = new ScratchpadEmbed({
-                    buttons: false,
-                    author: false,
-                    blank: true,
-                    background: KhanUtil.BACKGROUND,
-                    code: $problem.text(),
-                    validate: solution,
-                    onrun: function(data) {
-                        guess = data.results.code;
+                var origCode;
+                var embed;
 
-                        if (data.results.errors.length > 0) {
-                            passing = false;
+                if (!$problem.find("iframe").length) {
+                    origCode = $problem.text();
 
-                        } else {
-                            passing = true;
+                    embed = new ScratchpadEmbed({
+                        origCode: origCode,
+                        buttons: false,
+                        author: false,
+                        blank: true,
+                        background: KhanUtil.BACKGROUND,
+                        code: origCode,
+                        validate: solution,
+                        onrun: function(data) {
+                            if (!data.results) {
+                                return;
+                            }
 
-                            var tests = data.results.tests;
-                            for (var i = 0, l = tests.length; i < l; i++) {
-                                if (tests[i].state !== "pass") {
-                                    passing = false;
+                            guess = data.results.code;
+
+                            if (data.results.errors.length > 0) {
+                                passing = false;
+
+                            } else {
+                                passing = true;
+
+                                var tests = data.results.tests;
+                                for (var i = 0, l = tests.length; i < l; i++) {
+                                    if (tests[i].state !== "pass") {
+                                        passing = false;
+                                    }
                                 }
                             }
                         }
-                    }
-                });
-                $problem.html(embed.getIframe());
+                    });
+
+                    var iframe = embed.getIframe();
+                    $(iframe).data("embed", embed);
+                    $problem.html(iframe);
+
+                } else {
+                    embed = $problem.find("iframe").data("embed");
+                    origCode = embed.props.origCode;
+                }
 
                 return {
                     answer: function() {
@@ -89,7 +110,11 @@
                     solution: solution,
                     examples: [],
                     showGuess: function(guess) {
-                        embed.setCode(guess);
+                        if (guess === undefined) {
+                            guess = origCode;
+                        }
+
+                        embed.setOptions({ code: guess });
                     }
                 };
             }
@@ -112,19 +137,38 @@
                 var passing = false;
                 var guess = "";
                 var $problem = $(".problem");
-                var embed = new ScratchpadEmbed({
-                    buttons: false,
-                    author: false,
-                    output: false,
-                    blank: true,
-                    background: KhanUtil.BACKGROUND,
-                    code: $problem.text(),
-                    onrun: function(data) {
-                        guess = data.results.code;
-                        passing = data.results.errors.length === 0;
-                    }
-                });
-                $problem.html(embed.getIframe());
+                var origCode;
+                var embed;
+
+                if (!$problem.find("iframe").length) {
+                    origCode = $problem.text();
+
+                    embed = new ScratchpadEmbed({
+                        origCode: origCode,
+                        buttons: false,
+                        author: false,
+                        output: false,
+                        blank: true,
+                        background: KhanUtil.BACKGROUND,
+                        code: origCode,
+                        onrun: function(data) {
+                            if (!data.results) {
+                                return;
+                            }
+
+                            guess = data.results.code;
+                            passing = data.results.errors.length === 0;
+                        }
+                    });
+
+                    var iframe = embed.getIframe();
+                    $(iframe).data("embed", embed);
+                    $problem.html(iframe);
+
+                } else {
+                    embed = $problem.find("iframe").data("embed");
+                    origCode = embed.props.origCode;
+                }
 
                 return {
                     answer: function() {
@@ -138,7 +182,11 @@
                     solution: solution,
                     examples: [],
                     showGuess: function(guess) {
-                        embed.setCode(guess);
+                        if (guess === undefined) {
+                            guess = origCode;
+                        }
+
+                        embed.setOptions({ code: guess });
                     }
                 };
             }
@@ -151,17 +199,21 @@
                 Khan.scratchpad.disable();
 
                 var $problem = $(".problem");
-                var embed = new ScratchpadEmbed({
-                    buttons: false,
-                    author: false,
-                    output: false,
-                    lines: true,
-                    autoFocus: false,
-                    blank: true,
-                    background: KhanUtil.BACKGROUND,
-                    code: $problem.text()
-                });
-                $problem.html(embed.getIframe());
+
+                // Make sure problem isn't double-embedded in timeline
+                if (!$problem.find("iframe").length) {
+                    var embed = new ScratchpadEmbed({
+                        buttons: false,
+                        author: false,
+                        output: false,
+                        lines: true,
+                        autoFocus: false,
+                        blank: true,
+                        background: KhanUtil.BACKGROUND,
+                        code: $problem.text()
+                    });
+                    $problem.html(embed.getIframe());
+                }
 
                 return Khan.answerTypes.text.setup(solutionarea, solution);
             }
@@ -174,17 +226,21 @@
                 Khan.scratchpad.disable();
 
                 var $problem = $(".problem");
-                var embed = new ScratchpadEmbed({
-                    buttons: false,
-                    author: false,
-                    output: false,
-                    lines: true,
-                    autoFocus: false,
-                    blank: true,
-                    background: KhanUtil.BACKGROUND,
-                    code: $problem.text()
-                });
-                $problem.html(embed.getIframe());
+
+                // Make sure problem isn't double-embedded in timeline
+                if (!$problem.find("iframe").length) {
+                    var embed = new ScratchpadEmbed({
+                        buttons: false,
+                        author: false,
+                        output: false,
+                        lines: true,
+                        autoFocus: false,
+                        blank: true,
+                        background: KhanUtil.BACKGROUND,
+                        code: $problem.text()
+                    });
+                    $problem.html(embed.getIframe());
+                }
 
                 return Khan.answerTypes.radio.setup(solutionarea, solution);
              }
@@ -211,6 +267,18 @@
         if (props.url) {
             this.url = props.url;
         }
+
+        var self = this;
+
+        this.onrun(function(data) {
+            if (data.embedReady) {
+                self.onready();
+            }
+        });
+
+        if (this.props.onrun) {
+            this.onrun(this.props.onrun);
+        }
     };
 
     Embed.prototype = {
@@ -220,18 +288,43 @@
             "http://znd-cs-exercises-dot-khan-academy.appspot.com") +
             "/cs/new/embedded",
 
-        setCode: function(code) {
-            this.postFrame(code);
+        setOptions: function(options) {
+            for (var prop in options) {
+                this.props[prop] = options[prop];
+            }
+
+            this.postFrame(options);
         },
 
         clear: function() {
-            this.setCode({ code: "" });
+            this.setOptions({ code: "" });
         },
 
         onrun: function(callback) {
             this.bindListener();
             this.callbacks.push(callback);
-            this.postFrame({ listen: true, id: this.id });
+        },
+
+        onready: function() {
+            var props = this.props;
+
+            if (props.code !== undefined) {
+                this.setOptions({
+                    code: props.code,
+                    autoFocus: props.autoFocus,
+                    lines: props.lines,
+                    cursor: props.cursor,
+                    validate: props.validate
+                });
+            }
+
+            if (this.onload) {
+                this.onload();
+            }
+
+            if (props.onload) {
+                props.onload();
+            }
         },
 
         restart: function(code) {
@@ -257,6 +350,10 @@
 
                 // Make sure we only listen for reponses that have the right ID
                 if (data && data.id === self.id) {
+                    // Remember the source and origin so that we can reply later
+                    self.frameSource = e.source;
+                    self.frameOrigin = e.origin;
+
                     delete data.id;
 
                     // Call all the listening callbacks
@@ -265,6 +362,8 @@
                     }
                 }
             }, false);
+
+            this.bound = true;
         },
 
         getIframe: function() {
@@ -272,8 +371,7 @@
                 return this.iframe;
             }
 
-            var self = this,
-                props = this.props;
+            var props = this.props;
 
             // Figure out the correct height and width of the embed
             var height = 440;
@@ -302,7 +400,9 @@
                 }
             }
 
-            var queryString = {};
+            var queryString = {
+                id: this.id
+            };
 
             for (var prop in props) {
                 var val = rpropMap[ props[prop] ] || props[prop];
@@ -312,53 +412,23 @@
                 }
             }
 
-            this.iframe = document.createElement("iframe");
-            this.iframe.src = this.url.replace(/\?.*$/, "") +
+            var iframe = this.iframe = document.createElement("iframe");
+            iframe.src = this.url.replace(/\?.*$/, "") +
                 "?" + $.param(queryString);
-            this.iframe.style.border = "0px";
-            this.iframe.style.width = width + "px";
-            this.iframe.style.height = height + "px";
-            this.iframe.frameBorder = 0;
-            this.iframe.scrolling = "no";
-            this.iframe.onload = function() {
-                if (self.props.code !== undefined) {
-                    self.setCode({
-                        code: self.props.code,
-                        autoFocus: self.props.autoFocus,
-                        lines: self.props.lines,
-                        cursor: self.props.cursor,
-                        validate: self.props.validate
-                    });
-                }
-
-                if (self.props.onrun) {
-                    self.onrun(self.props.onrun);
-                }
-
-                if (self.onload) {
-                    self.onload();
-                }
-
-                if (self.props.onload) {
-                    self.props.onload();
-                }
-            };
-            return this.iframe;
-        },
-
-        // Extract the origin from the URL
-        postFrameOrigin: function() {
-            var match = /^.*:\/\/[^\/]*/.exec(this.url);
-
-            return match ?
-                match[0] :
-                window.location.protocol + "//" + window.location.host;
+            iframe.style.border = "0px";
+            iframe.style.width = width + "px";
+            iframe.style.height = height + "px";
+            iframe.frameBorder = 0;
+            iframe.scrolling = "no";
+            return iframe;
         },
 
         postFrame: function(data) {
             // Send the data to the frame using postMessage
-            this.getIframe().contentWindow.postMessage(
-                JSON.stringify(data), this.postFrameOrigin());
+            if (this.frameSource) {
+                this.frameSource.postMessage(
+                    JSON.stringify(data), this.frameOrigin);
+            }
         }
     };
 

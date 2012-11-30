@@ -821,7 +821,7 @@ div.timeline-total {
 #tutorial-page.wide .tutorial-nav,
 #tutorial-page.wide .nav-container {
     min-width: 200px;
-    width: 200px;
+    width: 200px !important; /* width: 250px; is set inline, need to override */
 }
 
 #tutorial-page.wide .tutorial-content {
