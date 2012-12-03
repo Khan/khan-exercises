@@ -26,10 +26,14 @@
                 { str: "pound", nomval: 0.4536, denomval: 1, nomunit: "kg", denomunit: "lb", factor: 0.4536 },
                 { str: "stone", nomval: 6.350,  denomval: 1, nomunit: "kg", denomunit: "st",  factor: 6.350 }]</var>
 
-            <var id="LengthUNIT1">randFromArray(LengthUnits)</var>
-            <var id="LengthUNIT2">randFromArray(LengthUnits)</var>
-            <var id="TimeUNIT1">randFromArray(TimeUnits)</var>
-            <var id="TimeUNIT2">randFromArray(TimeUnits)</var>
+			<div data-ensure="LengthUNIT1 !== LengthUNIT2">
+	            <var id="LengthUNIT1">randFromArray(LengthUnits)</var>
+	            <var id="LengthUNIT2">randFromArray(LengthUnits)</var>
+			</div>
+			<div data-ensure="TimeUNIT1 !== TimeUNIT2">
+    	        <var id="TimeUNIT1">randFromArray(TimeUnits)</var>
+	            <var id="TimeUNIT2">randFromArray(TimeUnits)</var>
+			</div>
 
         </div>
         <div class="problems">
