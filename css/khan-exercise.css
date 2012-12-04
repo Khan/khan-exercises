@@ -5,10 +5,10 @@ var { font-style: normal; }
 .hint_blue { color: #6495ED; }
 .hint_orange { color: #FFA500; }
 .hint_pink { color: #FF00AF; }
-.hint_red { color: red; }
+.hint_red { color: #DF0030; }
 .hint_green { color: #28AE7B; }
 .hint_gray { color: gray; }
-.hint_purple{ color: purple; }
+.hint_purple{ color: #9D38BD; }
 
 .final_answer { font-weight: bold; }
 

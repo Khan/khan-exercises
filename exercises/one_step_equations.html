@@ -7,108 +7,136 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars">
-            <var id="LETTERS">"abkmnpvx"</var>
-            <var id="X">LETTERS.charAt( randRange( 0, LETTERS.length - 1 ) )</var>
+    <div class="summary">
+        <p>Solve equations in the forms:</p>
+        <p><code>\qquad x + 5 = 10</code></p>
+        <p><code>\qquad 5 + x = 10</code></p>
+        <p><code>\qquad 10 = x + 5</code></p>
+        <p><code>\qquad 10 = 5 + x</code></p>
     </div>
+    <div class="vars" data-ensure="A !== B">
+        <var id="X">randFromArray("abkmnpvx")</var>
+        <var id="A">randRangeNonZero(-30, 30)</var>
+        <var id="B">randRangeNonZero(-30, 30)</var>
+    </div>
+    <p class="question">Solve for <code><var>X</var></code>:</p>
+    <div class="solution" data-type="multiple">
+        <p><code><var>X</var>=</code> <span class="sol"><var>B - A</var></code></p>
+    </div>
+
     <div class="problems">
-        <div id="add" data-weight="4">
-            <div class="vars" data-ensure="Y !== Z">
-                <var id="INDEX">randRange( 0, 3 )</var>
-                <var id="Y">randRangeNonZero( -30, 30 )</var>
-                <var id="Z">randRangeNonZero( -30, 30 )</var>
-                <var id="Y_SIGN">Y > 0 ? "-" : "+"</var>
-                <var id="LEFT">[expr( ["+", X, Y] ), expr( ["+", Y, X] ), Z, Z][INDEX]</var>
-                <var id="RIGHT">[Z, Z, expr( ["+", X, Y] ), expr( ["+", Y, X] )][INDEX]</var>
-            </div>
-            <p class="question">Solve for <code><var>X</var></code>.</p>
-                <p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
-            <div class="solution" data-type="rational"></div>
-            <div class="solution" data-type="multiple">
-                    <p><code><var>X</var>=</code> <span class="sol"><var>Z - Y</var></span></p>
-            </div>
+        <div id="a-x-eq-b">
+            <p class="problem"><code><var>A</var> + <var>X</var> = <var>B</var></code></p>
             <div class="hints">
                 <div>
-                    <p><span data-if="Y &lt; 0">Add <var>Y * -1</var> to</span><span data-else>Subtract <var>Y</var> from</span> both sides.</p>
-                    <p data-if="INDEX &lt; 2"><code>\large{<var>X</var> = <var>RIGHT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>}}</code></p>
-                    <p data-else><code>\large{<var>LEFT</var>\color{blue}{<var>Y_SIGN</var><var>abs( Y )</var>} = <var>X</var>}</code></p>
+                    <p>
+                        <span data-if="A < 0"><span class="hint_red">Add <code><var>abs(A)</var></code></span> to both sides:</span>
+                        <span data-else><span class="hint_red">Subtract <code><var>abs(A)</var></code></span> from both sides:</span>
+                    </p><p><code>\qquad
+                        \begin{eqnarray} \\
+                        <var>A</var> + <var>X</var> &amp;=&amp; <var>B</var> \\ \\
+                        \red{<var>A &lt; 0 ? "+" : "-"</var><var>abs(A)</var>} &amp;&amp; \red{<var>A &lt; 0 ? "+" : "-"</var><var>abs(A)</var>}
+                        \end{eqnarray}
+                    </code></p>
+                </div>
+                <div>
+                    </p><p><code>\qquad
+                        \begin{eqnarray}
+                        \hphantom{<var>A</var> + <var>X</var>} &amp;\hphantom{=}&amp; \hphantom{<var>B</var>} \\
+                        <var>X</var> &amp;=&amp; <var>B</var> \red{- <var>A</var>} \\
+                        \end{eqnarray}
+                    </code></p>
                 </div>
                 <div>
                     <p>Simplify.</p>
-                    <p><code>\large{<var>X</var> = <var>Z - Y</var>}</code></p>
+                    <p><code>\qquad <var>X</var> = <var>B - A</var></code></p>
                 </div>
             </div>
         </div>
-        <div id="multiply" data-weight="2">
-            <div class="vars">
-                <var id="INDEX">randRange( 0, 1 )</var>
-                <var id="Y">randRange( 2, 20 ) * randRangeNonZero( -1, 1 )</var>
-                <var id="Z">randRange( 2, 20 - abs( Y ) + 5 ) * randRangeNonZero( -1, 1 ) * Y</var>
-                <var id="Y_SIGN">Y * Z > 0 ? "" : "-"</var>
-                <var id="LEFT">[expr( ["*", Y, X] ), Z][INDEX]</var>
-                <var id="RIGHT">[Z, expr( ["*", Y, X] )][INDEX]</var>
-            </div>
-            <p class="question">Solve for <code><var>X</var></code>.</p>
-            <p><code>\large{<var>LEFT</var> = <var>RIGHT</var>}</code></p>
-            <div class="solution" data-type="multiple">
-                <p><code><var>X</var>=</code> <span class="sol" data-type="rational"><var>Z / Y</var></span></p>
-            </div>
-
+        <div id="x-a-eq-b">
+            <p class="problem"><code><var>X</var> + <var>A</var> = <var>B</var></code></p>
             <div class="hints">
-                <div data-if="INDEX === 0">
-                    <p>Divide both sides by <var>Y</var>.</p>
-                    <p data-if="Y &lt; 0 && Z &lt; 0"><code>\large{<var>X</var> = \dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}}}</code></p>
-                    <p data-else><code>\large{<var>X</var> = <span data-if="Y &lt; 0">\color{blue}{<var>Y_SIGN</var>}</span><span data-else><var>Y_SIGN</var></span>\dfrac{<var>abs( Z )</var>}{\color{blue}{<var>abs( Y )</var>}}}</code></p>
+                <div>
+                    <p>
+                        <span data-if="A < 0"><span class="hint_red">Add <code><var>abs(A)</var></code></span> to both sides:</span>
+                        <span data-else><span class="hint_red">Subtract <code><var>abs(A)</var></code></span> from both sides:</span>
+                    </p><p><code>\qquad
+                        \begin{eqnarray} \\
+                        <var>X</var> + <var>A</var> &amp;=&amp; <var>B</var> \\ \\
+                        \red{<var>A &lt; 0 ? "+" : "-"</var><var>abs(A)</var>} &amp;&amp; \red{<var>A &lt; 0 ? "+" : "-"</var><var>abs(A)</var>}
+                        \end{eqnarray}
+                    </code></p>
                 </div>
-                <div data-else>
-                    <p>Divide both sides by <var>Y</var>.</p>
-                    <p data-if="Y &lt; 0 && Z &lt; 0"><code>\large{\dfrac{<var>Z</var>}{\color{blue}{<var>Y</var>}} = <var>X</var>}</code></p>
-                    <p data-else><code>\large{<span data-if="Y &lt; 0">\color{blue}{<var>Y_SIGN</var>}</span><span data-else><var>Y_SIGN</var></span>\dfrac{<var>abs( Z )</var>}{\color{blue}{<var>abs( Y )</var>}} = <var>X</var>}</code></p>
+                <div>
+                    </p><p><code>\qquad
+                        \begin{eqnarray}
+                        \hphantom{<var>A</var> + <var>X</var>} &amp;\hphantom{=}&amp; \hphantom{<var>B</var>} \\
+                        <var>X</var> &amp;=&amp; <var>B</var> \red{- <var>A</var>} \\
+                        \end{eqnarray}
+                    </code></p>
                 </div>
                 <div>
                     <p>Simplify.</p>
-                    <p><code>\large{<var>X</var> = <var>Z / Y</var>}</code></p>
+                    <p><code>\qquad <var>X</var> = <var>B - A</var></code></p>
                 </div>
             </div>
         </div>
-        <div id="divide" data-weight="1">
-            <div class="vars">
-                <var id="INDEX">randRange( 0, 1 )</var>
-                <var id="Y">randRange( 2, 20 )</var>
-                <var id="Z">randRange( 2, 20 - abs( Y ) + 5 ) * randRangeNonZero( -1, 1 )</var>
-            </div>
-            <p class="problem"><b>Solve for <code><var>X</var></code>.</b></p>
-            <p class="question"><code>\large{\dfrac{<var>X</var>}{<var>Y</var>} = <var>Z</var>}</code></p>
-
-            <div class="solution" data-type="multiple">
-                    <p><code><var>X</var>=</code> <span class="sol" data-type="rational"><var>Z * Y</var></span></p>
-            </div>
-
+        <div id="b-eq-a-x">
+            <p class="problem"><code><var>B</var> = <var>A</var> + <var>X</var></code></p>
             <div class="hints">
                 <div>
-                    <p>Multiply both sides by <var>Y</var>.</p>
-                    <p><code>\large{<var>X</var> = <var>Z</var> \cdot {\color{blue}{<var>Y</var>}}}</code></p>
+                    <p>
+                        <span data-if="A < 0"><span class="hint_red">Add <code><var>abs(A)</var></code></span> to both sides:</span>
+                        <span data-else><span class="hint_red">Subtract <code><var>abs(A)</var></code></span> from both sides:</span>
+                    </p><p><code>\qquad
+                        \begin{eqnarray} \\
+                        \hphantom{<var>B</var> \red{- <var>A</var>}} &amp;\hphantom{=}&amp; \hphantom{<var>X</var>} \\
+                        <var>B</var> &amp;=&amp; <var>A</var> + <var>X</var> \\ \\
+                        \red{<var>A &lt; 0 ? "+" : "-"</var><var>abs(A)</var>} &amp;&amp; \red{<var>A &lt; 0 ? "+" : "-"</var><var>abs(A)</var>} \\
+                        \end{eqnarray}
+                    </code></p>
+                </div>
+                <div>
+                    </p><p><code>\qquad
+                        \begin{eqnarray} \\
+                        <var>B</var> \red{- <var>A</var>} &amp;=&amp; <var>X</var> \\
+                        \end{eqnarray}
+                    </code></p>
                 </div>
                 <div>
                     <p>Simplify.</p>
-                    <p><code>\large{<var>X</var> = <var>Z * Y</var>}</code></p>
+                    <p><code>\qquad <var>X</var> = <var>B - A</var></code></p>
                 </div>
             </div>
         </div>
-        <div id="divide-right" data-type="divide" data-weight="1">
-            <p class="question"><code>\large{<var>Z</var> = \dfrac{<var>X</var>}{<var>Y</var>}}</code></p>
+        <div id="b-eq-x-a">
+            <p class="problem"><code><var>B</var> = <var>X</var> + <var>A</var></code></p>
             <div class="hints">
                 <div>
-                    <p>Multiply both sides by <var>Y</var>.</p>
-                    <p><code>\large{<var>Z</var> \cdot {\color{blue}{<var>Y</var>}} = <var>X</var>}</code></p>
+                    <p>
+                        <span data-if="A < 0"><span class="hint_red">Add <code><var>abs(A)</var></code></span> to both sides:</span>
+                        <span data-else><span class="hint_red">Subtract <code><var>abs(A)</var></code></span> from both sides:</span>
+                    </p><p><code>\qquad
+                        \begin{eqnarray} \\
+                        \hphantom{<var>B</var> \red{- <var>A</var>}} &amp;\hphantom{=}&amp; \hphantom{<var>X</var>} \\
+                        <var>B</var> &amp;=&amp; <var>X</var> + <var>A</var> \\ \\
+                        \red{<var>A &lt; 0 ? "+" : "-"</var><var>abs(A)</var>} &amp;&amp; \red{<var>A &lt; 0 ? "+" : "-"</var><var>abs(A)</var>} \\
+                        \end{eqnarray}
+                    </code></p>
+                </div>
+                <div>
+                    </p><p><code>\qquad
+                        \begin{eqnarray} \\
+                        <var>B</var> \red{- <var>A</var>} &amp;=&amp; <var>X</var> \\
+                        \end{eqnarray}
+                    </code></p>
                 </div>
                 <div>
                     <p>Simplify.</p>
-                    <p><code>\large{<var>X</var> = <var>Z * Y</var>}</code></p>
+                    <p><code>\qquad <var>X</var> = <var>B - A</var></code></p>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </body>
 </html>
