@@ -1,27 +1,30 @@
+
 	function onTestit(){
-		 var $graphagain = $('<div class="graphie" id="netGraph" style="position:relative; z-index:3;"> \
-							 \
-								graphInit({ \
-								range: 13, \
-								scale: 20,  \
-								tickStep: 15,\
-								labelStep: 1,\
-								unityLabels: false,\
-								labelFormat: function( s ) { return "\\small{" + s + "}"; },\
-								axisArrows: "->",\
-								axisOpacity: .80,\
-								gridOpacity: .82\
-							}); </div>');
-        $('body').append( $graphagain );
+		 // var $graphagain = $('<div class="graphie" id="netGraph" style="position:relative; z-index:3;"> \
+							 // \
+								// graphInit({ \
+								// range: 13, \
+								// scale: 20,  \
+								// tickStep: 15,\
+								// labelStep: 1,\
+								// unityLabels: false,\
+								// labelFormat: function( s ) { return "\\small{" + s + "}"; },\
+								// axisArrows: "->",\
+								// axisOpacity: .80,\
+								// gridOpacity: .82\
+							// }); </div>');
+        // $('body').append( $graphagain );
 	
 	
 	
-		$("#graph").after(' <script src="../khan-exercise.js"></script>');
+		// $("#graph").after(' <script src="../khan-exercise.js"></script>');
 	alert("in test it");
 	
 	
 	}
 	
+
+
 	function animateGraph(netF){
 		//threshold I created so that the graph doesn't animate if your net vector is within the 'threshold'. 
 		//I didn't want correct answers to move.

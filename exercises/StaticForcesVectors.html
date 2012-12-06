@@ -4,13 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Static Forces</title>
     <script src="../khan-exercise.js"></script>
-	
-	<script>
-		function onTestitt(){
-		alert("I'm here!");
-			onTestit();
-		}
-	</script>
 </head>
 <body>
     <div class="exercise">
@@ -39,8 +32,7 @@
 					</code> 
 				</div>
                 <div class="graphie" id="graph" style="position:relative; z-index:5;">
-				
-				 theGraph= graphInit({
+                  theGraph= graphInit({
                         range: 13, //how many to put on the graph
                         scale: 20,  //how big the graph is , zoomed in or out
                         tickStep: 15, //space between tick marks, if this is greater than , no tick marks appear
@@ -97,13 +89,8 @@
 						second=[array[2],array[3]];
 						line([v2x,v2y],first);
 						line([v2x,v2y],second);
-                    }); 
-					
+                    });
                 </div>
-				<div id="playground">
-					<code>|v|=</code><input id="testMag" value="3" size="2" onchange="updateMyVector()" type="textbox"></input>&nbsp &nbsp <code>&#x3b8 =</code><input id="testAngle" value="90" size="4" type="textbox" onchange="updateMyVector()"></input>	
-					<button onclick="onTestitt()">Test it!</button></div>
-				</div></div>
 				<div class="hints">
 					<div class="hint_orange" >
 						<div class="graphie" id="netGraph" style="position:relative; top:-545px; left:-20px; z-index:3;">
@@ -176,18 +163,16 @@
 						
 						animateGraph([netx,nety]);
 					</div>
-					The two given force vectors combined give <font style="color:black"><code>Net<sub>x</sub>=<var>v1x+v2x </var> Newtons</code></font> and <font style="color:black"><code>Net<sub>y</sub>=<var>v1y+v2y  </var> Newtons.</code></font>
-					</br>
+					The graph animated in the direction of the net force vector from the three forces.
+					
 				</div>
-				<div> Remember that in order to get the system static, the third force vector must EXACTLY counteract the 2 given force vectors.</br></div>
-				<div>To exactly counteract the 2 force vectors, we need a vector where <code>V<sub>x</sub>=<var>-(v1x+v2x)</var> N</code> and <code>V<sub>y</sub>=<var>-(v1y+v2y)</var> N </code>
+				<p> Remember that in order to get the system static, the third force vector must EXACTLY counteract the other two force vectors.</p>
+				<div>When  the system is static (meaning it doesn't move), </br>
+						<code>|v|=</code><var>Math.round(<var>v</var>*10)/10</var>, and <code>&#x3b8 =</code> <var>Math.round(<var>theta</var>*10)/10</var>
 				</div>
-				<div>When  the system is static (doesn't move), </br>
-						<code>|v|=</code>&radic;<span style="text-decoration: overline">(<var>-(v1x+v2x)</var>)&sup2 + (<var>-(v1y+v2y)</var>)&sup2</span> = <var>Math.round(<var>v</var>*10)/10</var>, and <code>&#x3b8 =</code> <var>Math.round(<var>theta</var>*10)/10</var>
-				</div>
-				
 			</div>	
-				
+				<div id="playground">
+					<code>|v|=</code><input id="testMag" value="3" size="2" onchange="updateMyVector()" type="textbox"></input>&nbsp &nbsp <code>&#x3b8 =</code><input id="testAngle" value="90" size="4" type="textbox" onchange="updateMyVector()"></input>	
 				<div class="solution" data-type="custom">
 					<div class="instruction">
 						Place the third vector to make the system static.
@@ -204,7 +189,6 @@
 					<p id="thep"><code>&#x3b8</code> = <span class="sol" data-inexact data-max-error="0.1" id="vMag" data-type="decimal"><var>theta</var></span></p>
 				</div>     
         </div>
-    
-	
+    </div>
 </body>
 </html>
