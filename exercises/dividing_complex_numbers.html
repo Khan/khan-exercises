@@ -12,129 +12,138 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="B_REAL !== 0 || B_IMAG !== 0"> <!-- safeguard against division by zero -->
-        <var id="A_REAL">randRange( -5, 5 )</var>
-        <var id="A_IMAG">randRange( -5, 5 )</var>
+    <div class="vars" data-ensure="
+            !(B_REAL === 0 && B_IMAG === 0)  /* division by zero */
+            && !(B_REAL === 1 && B_IMAG === 0)  /* division by 1 */
+            && !(B_REAL === 0 && B_IMAG === 1)  /* division by i */
+            && A_IMAG !== 0 && A_REAL !== 0  /* hints with missing terms are hard */">
+        <var id="ANSWER_REAL">randRange( -5, 5 )</var>
+        <var id="ANSWER_IMAG">randRange( -5, 5 )</var>
         <var id="B_REAL">randRange( -5, 5 )</var>
         <var id="B_IMAG">randRange( -5, 5 )</var>
+        <var id="A_REAL">ANSWER_REAL * B_REAL - ANSWER_IMAG * B_IMAG</var>
+        <var id="A_IMAG">ANSWER_REAL * B_IMAG + ANSWER_IMAG * B_REAL</var>
         <var id="DENOMINATOR">B_REAL * B_REAL + B_IMAG * B_IMAG</var>
         <var id="REAL_NUMERATOR">( A_REAL * B_REAL ) + ( A_IMAG * B_IMAG )</var>
         <var id="IMAG_NUMERATOR">( A_IMAG * B_REAL ) - ( A_REAL * B_IMAG )</var>
-        <var id="REAL_FRACTION">fraction( REAL_NUMERATOR, DENOMINATOR, true, true )</var>
-        <var id="IMAG_FRACTION">fraction( IMAG_NUMERATOR, DENOMINATOR, true, true )</var>
-        <var id="ANSWER">complexFraction( REAL_NUMERATOR, DENOMINATOR, IMAG_NUMERATOR, DENOMINATOR )</var>
-        <var id="ANSWER_REAL_UNROUNDED">REAL_NUMERATOR / DENOMINATOR</var>
-        <var id="ANSWER_IMAG_UNROUNDED">IMAG_NUMERATOR / DENOMINATOR</var>
-        <var id="ANSWER_REAL">roundTo( 2, ANSWER_REAL_UNROUNDED )</var>
-        <var id="ANSWER_IMAG">roundTo( 2, ANSWER_IMAG_UNROUNDED )</var>
+        <var id="ANSWER_REP">complexNumber( ANSWER_REAL, ANSWER_IMAG )</var>
         <var id="A_REP">complexNumber( A_REAL, A_IMAG )</var>
         <var id="B_REP">complexNumber( B_REAL, B_IMAG )</var>
-        <var id="A_REP_COLORED">"\\color{" + ORANGE + "}{" + A_REP + "}"</var>
-        <var id="B_REP_COLORED">"\\color{" + BLUE + "}{" + B_REP + "}"</var>
-        <var id="A_REAL_COLORED">"\\color{" + ORANGE + "}{" + A_REAL + "}"</var>
-        <var id="A_IMAG_COLORED">"\\color{" + ORANGE + "}{" + A_IMAG + "}"</var>
-        <var id="B_REAL_COLORED">"\\color{" + BLUE + "}{" + B_REAL + "}"</var>
-        <var id="B_IMAG_COLORED">"\\color{" + BLUE + "}{" + B_IMAG + "}"</var>
         <var id="B_CONJUGATE_IMAG">-B_IMAG</var>
-        <var id="B_CONJUGATE_IMAG_COLORED">"\\color{" + BLUE + "}{" + negParens( B_CONJUGATE_IMAG ) +"}"</var>
         <var id="CONJUGATE">complexNumber( B_REAL, B_CONJUGATE_IMAG )</var>
-        <var id="CONJUGATE_COLORED">"\\color{" + BLUE + "}{" + CONJUGATE + "}"</var>
     </div>
 
     <div class="problems">
         <div>
-            <p class="question">Divide the following complex numbers. You can round the real and imaginary parts of the result to 2 decimal digits.</p>
+            <p class="question">Divide the following complex numbers.</p>
             <p>
-                <code>\qquad \dfrac{<var>A_REP_COLORED</var>}{<var>B_REP_COLORED</var>}</code>
+                <code>\qquad \dfrac{<var>A_REP</var>}{<var>B_REP</var>}</code>
             </p>
             <div class="solution" data-type="multiple">
-                <span class="sol" data-fallback="0" data-inexact data-max-error="0.01">
-                    <var>ANSWER_REAL_UNROUNDED</var>
+                <span class="sol" data-fallback="0">
+                    <var>ANSWER_REAL</var>
                 </span>
                 <code>+</code>
-                <span class="sol" data-fallback="0" data-inexact data-max-error="0.01">
-                    <var>ANSWER_IMAG_UNROUNDED</var>
+                <span class="sol" data-fallback="0">
+                    <var>ANSWER_IMAG</var>
                 </span>
                 <code>i</code>
                 <div class="example">
                     Two numbers for both the real and imaginary parts
                 </div>
                 <div class="example">
-                    Example: 2 + 3<code>i</code>
+                    Example: <code>2 + 3i</code>
                 </div>
             </div>
             <div class="hints">
+                <div data-if="B_REAL === 0 || B_IMAG === 0" data-unwrap>
+                    <p>Since we're dividing by a single term, we can simply divide each term in the numerator separately.</p>
+                    <p><code>\qquad \dfrac{<var>A_REP</var>}{<var>B_REP</var>} = \dfrac{<var>A_REAL</var>}{<var>B_REP</var>} <var>A_IMAG &gt; 0 ? "+" : "-"</var> \dfrac{<var>abs(A_IMAG) === 1 ? "" : abs(A_IMAG)</var>i}{<var>B_REP</var>}</code></p>
+                    <p data-if="B_IMAG === 0">Simplifying the two terms gives <code><var>ANSWER_REP</var></code>.</p>
+                    <div data-else data-unwrap>
+                        <div>
+                            <p>Factor out a <code>1/i</code>.</p>
+                            <p><code>\dfrac{<var>A_REAL</var>}{<var>B_REP</var>} <var>A_IMAG &gt; 0 ? "+" : "-"</var> \dfrac{<var>abs(A_IMAG) === 1 ? "" : abs(A_IMAG)</var>i}{<var>B_REP</var>} = \dfrac 1i \left( \dfrac{<var>A_REAL</var>}{<var>B_IMAG</var>} <var>A_IMAG &gt; 0 ? "+" : "-"</var> \dfrac{<var>abs(A_IMAG) === 1 ? "" : abs(A_IMAG)</var>i}{<var>B_IMAG</var>} \right) = \dfrac 1i (<var>complexNumber(-ANSWER_IMAG, ANSWER_REAL)</var>)</code></p>
+                        </div>
+                        <div>
+                            <p>After simplification, <code>1/i</code> is equal to <code>-i</code>, so we have:</p>
+                            <p><code>\dfrac 1i (<var>complexNumber(-ANSWER_IMAG, ANSWER_REAL)</var>) = -i (<var>complexNumber(-ANSWER_IMAG, ANSWER_REAL)</var>) = <var>ANSWER_IMAG</var>i + <var>-ANSWER_REAL</var>i^2 = <var>ANSWER_REP</var></code></p>
+                        </div>
+                    </div>
+                </div>
+                <div data-else data-unwrap>
                 <p>
-                    Complex number division is converted to complex multiplication using the denominator's complex conjugate.
+                    We can divide complex numbers by multiplying both numerator and denominator by the denominator's <span class="hint_green">complex conjugate</span>, which is <code>\green{<var>CONJUGATE</var>}</code>.
                 </p>
                 <p>
-                    <code>\qquad \dfrac{<var>A_REP_COLORED</var>}{<var>B_REP_COLORED</var>} =
-                        \dfrac{<var>A_REP_COLORED</var>}{<var>B_REP_COLORED</var>} \cdot
-                        \dfrac{<var>CONJUGATE_COLORED</var>}{<var>CONJUGATE_COLORED</var>}
+                    <code>\qquad \dfrac{<var>A_REP</var>}{<var>B_REP</var>} =
+                        \dfrac{<var>A_REP</var>}{<var>B_REP</var>} \cdot
+                        \dfrac{\green{<var>CONJUGATE</var>}}{\green{<var>CONJUGATE</var>}}
                     </code>
                 </p>
                 <div>
                     <p>
-                        The denominator is simplified by <code>(a + b) \cdot (a - b) = a^2 - b^2</code>.
+                        We can simplify the denominator using the fact <code>(a + b) \cdot (a - b) = a^2 - b^2</code>.
                     </p>
                     <code>
-                        \qquad \dfrac{(<var>A_REP_COLORED</var>) \cdot (<var>CONJUGATE_COLORED</var>)}
-                        {(<var>B_REP_COLORED</var>) \cdot (<var>CONJUGATE_COLORED</var>)} =
-                        \dfrac{(<var>A_REP_COLORED</var>) \cdot (<var>CONJUGATE_COLORED</var>)}
-                        {(<var>B_REAL_COLORED</var>)^2 - (\color{<var>BLUE</var>}{<var>B_IMAG</var>i})^2}
+                        \qquad \dfrac{(<var>A_REP</var>) \cdot (<var>CONJUGATE</var>)}
+                        {(<var>B_REP</var>) \cdot (<var>CONJUGATE</var>)} =
+                        \dfrac{(<var>A_REP</var>) \cdot (<var>CONJUGATE</var>)}
+                        {<var>negParens(B_REAL)</var>^2 - (<var>B_IMAG</var>i)^2}
                     </code>
+                </div>
+                <div>
+                    <p>
+                        Evaluate the squares in the denominator and subtract them.
+                    </p>
+                    <p><code>
+                        \qquad \dfrac{(<var>A_REP</var>) \cdot (<var>CONJUGATE</var>)}
+                        {(<var>B_REAL</var>)^2 - (<var>B_IMAG</var>i)^2} =
+                    </code></p>
+                    <p><code>
+                        \qquad \dfrac{(<var>A_REP</var>) \cdot (<var>CONJUGATE</var>)}
+                        {<var>B_REAL * B_REAL</var> + <var>B_IMAG * B_IMAG</var>} =
+                    </code></p>
+                    <p><code>
+                        \qquad \dfrac{(<var>A_REP</var>) \cdot (<var>CONJUGATE</var>)}
+                        {<var>B_REAL * B_REAL + B_IMAG * B_IMAG</var>}
+                    </code></p>
                     <p>
                         Note that the denominator now doesn't contain any imaginary unit multiples, so it is a real number, simplifying the problem to complex number multiplication.<br />
                     </p>
                 </div>
                 <div>
                     <p>
-                        The squares in the denominator are evaluated and subtracted.
+                        Now, we can multiply out the two factors in the numerator.
                     </p>
                     <p><code>
-                        \qquad \dfrac{(<var>A_REP_COLORED</var>) \cdot (<var>CONJUGATE_COLORED</var>)}
-                        {(<var>B_REAL_COLORED</var>)^2 - (<var>B_IMAG_COLORED</var>i)^2} =
-                    </code></p>
-                    <p><code>
-                        \qquad \dfrac{(<var>A_REP_COLORED</var>) \cdot (<var>CONJUGATE_COLORED</var>)}
-                        {<var>B_REAL * B_REAL</var> + <var>B_IMAG * B_IMAG</var>} =
-                    </code></p>
-                    <p><code>
-                        \qquad \dfrac{(<var>A_REP_COLORED</var>) \cdot (<var>CONJUGATE_COLORED</var>)}
-                        {<var>B_REAL * B_REAL + B_IMAG * B_IMAG</var>}
-                    </code></p>
-                </div>
-                <div>
-                    <p>
-                        Afterwards, the numerator is multiplied using the distributive property.
-                    </p>
-                    <p><code>
-                        \qquad \dfrac{(<var>A_REP_COLORED</var>) \cdot (<var>CONJUGATE_COLORED</var>)}
+                        \qquad \dfrac{(\blue{<var>A_REP</var>}) \cdot (\red{<var>CONJUGATE</var>})}
                         {<var>DENOMINATOR</var>} =
                     </code></p>
                     <p><code>
-                        \qquad \dfrac{(<var>A_REAL_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens( B_REAL )</var>}) + (<var>A_IMAG_COLORED</var> \cdot \color{<var>BLUE</var>}{<var>negParens( B_REAL )</var>} i) + (<var>A_REAL_COLORED</var> \cdot \color{<var>BLUE</var>}{<var> B_CONJUGATE_IMAG_COLORED </var>}i) + (<var>A_IMAG_COLORED</var> \cdot \color{<var>BLUE</var>}{<var> B_CONJUGATE_IMAG_COLORED </var>} i^2)}
+                        \qquad \dfrac{\blue{<var>A_REAL</var>} \cdot \red{<var>negParens(B_REAL)</var>} + \blue{<var>A_IMAG</var>} \cdot \red{<var>negParens(B_REAL)</var> i} + \blue{<var>A_REAL</var>} \cdot \red{<var>B_CONJUGATE_IMAG</var> i} + \blue{<var>A_IMAG</var>} \cdot \red{<var>B_CONJUGATE_IMAG</var> i^2}}
                         {<var>DENOMINATOR</var>}
                     </code></p>
                     <p>
-                        All multiplications are evaluated.
+                        Evaluate each product of two numbers.
                     </p>
                     <code>
-                        \qquad \dfrac{(<var>A_REAL * B_REAL</var>) + (<var>A_IMAG * B_REAL</var>i) + (<var>A_REAL * B_CONJUGATE_IMAG</var>i) + (<var>A_IMAG * B_CONJUGATE_IMAG</var> i^2)}
+                        \qquad \dfrac{<var>A_REAL * B_REAL</var> + <var>A_IMAG * B_REAL</var>i + <var>A_REAL * B_CONJUGATE_IMAG</var>i + <var>A_IMAG * B_CONJUGATE_IMAG</var> i^2}
                         {<var>DENOMINATOR</var>}
                     </code>
                 </div>
                 <div>
                     <p>
-                        Finally, the fraction is simplified.
+                        Finally, simplify the fraction.
                     </p>
                     <code>
                         \qquad \dfrac{<var>A_REAL * B_REAL</var> + <var>A_IMAG * B_REAL</var>i + <var>A_REAL * B_CONJUGATE_IMAG</var>i - <var>A_IMAG * B_CONJUGATE_IMAG</var>}
                         {<var>DENOMINATOR</var>} =
                         \dfrac{<var>REAL_NUMERATOR</var> + <var>IMAG_NUMERATOR</var>i}
                         {<var>DENOMINATOR</var>} =
-                        <var>ANSWER</var>
+                        <var>ANSWER_REP</var>
                     </code>
+                </div>
                 </div>
             </div>
         </div>

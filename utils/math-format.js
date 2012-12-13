@@ -485,7 +485,7 @@ $.extend(KhanUtil, {
         if (real === 0 && imaginary === 0) {
             return "0";
         } else if (real === 0) {
-            return imaginary + "i";
+            return (imaginary === 1 ? "" : imaginary === -1 ? "-" : imaginary) + "i";
         } else if (imaginary === 0) {
             return real;
         } else {
