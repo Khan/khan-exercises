@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-polygon interactive">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Name of Your Exercise</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="problems">
+                <div id="radian-to-degree">
+
+                    <div class="vars">					
+                        <var id="RADIUS">3</var>
+                        <var id="ANGLE">randRange(0,360)</var>
+                        <var id="PI_ANGLE">piFraction(Math.PI*ANGLE/180)</var>
+                    </div>
+
+                    <div class="question">
+                        <p>Convert radians to degrees.</p>
+                        <p><code><var>PI_ANGLE</var></code> = ?</p>
+                    </div>
+
+                    <div class="problem">
+                        <div class="graphie">
+                            init({
+                            range: [ [ -RADIUS - 1, RADIUS + 1 ], [ -RADIUS - 1, RADIUS + 1 ] ],
+                            });
+
+                            addMouseLayer();
+                            graph.circle = new Circle( RADIUS );
+                            graph.circle.drawMovableCentralAngle(0,0,0.25);
+                        </div>
+                    </div>
+
+                    <div class="solution" data-type="text" data-forms="integer">
+                        <var>ANGLE</var>
+                    </div>
+
+                    <div class="hints">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
