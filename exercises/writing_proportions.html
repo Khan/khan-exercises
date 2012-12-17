@@ -24,7 +24,7 @@
                         return solutions;
                     })()
                 </var>
-                <var id="IDX">randRange( 0, SOLUTIONS.length - 1 )</var>
+                <var id="IDX">randFromArray([0, 1, 2, 2, 2, 3])</var>
                 <var id="SOLUTION">SOLUTIONS[ IDX ]</var>
             </div>
             <p class="problem"><var>plural( N1, deskItem( 0 ) )</var> cost $<var>C</var>.</p>
@@ -69,7 +69,7 @@
                     <p><code>\dfrac{x}{<var>N2</var>}</code></p>
                     <p>We have to pay $<var>C</var> for <var>plural( N1, deskItem( 0 ) )</var>, and that can be written as a proportion:</p>
                     <p><code>\dfrac{\$<var>C</var>}{<var>N1</var>}</code></p>
-                    <p>Since the price per folder stays the same, these two proportions are equivalent.</p>
+                    <p>Since the price per <var>deskItem(0)</var> stays the same, these two proportions are equivalent.</p>
                 </div>
 
                 <p><code><var>SOLUTIONS[ IDX ]</var></code></p>
