@@ -312,6 +312,8 @@ var Khan = (function() {
         // So modules can use file paths properly
         urlBase: urlBase,
 
+        imageBase: imageBase,
+
         moduleDependencies: {
             "math": [{
                 src: urlBase + "utils/MathJax/1.1a/MathJax.js?config=KAthJax-8a6b08f6f5c97d7c3c310cc909a7a140"
