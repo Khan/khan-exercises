@@ -31,16 +31,16 @@
             <var id="A">randRange(1, 6)</var>
             <var id="B">randRange(A + 1, 10)</var>
             <var id="X">B - A</var>
-            <var id="UNKNOWN, IMAGE">randFromArray([
-                ["Spunky Sam",         "/images/avatars/spunky-sam.png"],
+            <var id="UNKNOWN, AVATAR">randFromArray([
+                ["Spunky Sam",         "spunky-sam.png"],
                 /*
-                ["Marcimus",           "/images/avatars/marcimus.png"],
+                ["Marcimus",           "marcimus.png"],
                 */
-                ["Mr. Pink",           "/images/avatars/mr-pink.png"],
-                ["Orange Juice Squid", "/images/avatars/orange-juice-squid.png"],
-                ["Purple Pi",          "/images/avatars/purple-pi.png"],
-                ["Pants",              "/images/avatars/mr-pants.png"],
-                ["Old Spice Man",      "/images/avatars/old-spice-man.png"],
+                ["Mr. Pink",           "mr-pink.png"],
+                ["Orange Juice Squid", "orange-juice-squid.png"],
+                ["Purple Pi",          "purple-pi.png"],
+                ["Pants",              "mr-pants.png"],
+                ["Old Spice Man",      "old-spice-man.png"],
             ])</var>
         </div>
 
@@ -171,7 +171,7 @@
                         unknown: X,
                         leftConst: A,
                         rightConst: B,
-                        image: IMAGE
+                        image: Khan.urlBase + "images/avatars/" + AVATAR
                     });
                 </div>
                 </p>
