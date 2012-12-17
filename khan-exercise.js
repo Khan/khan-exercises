@@ -248,6 +248,13 @@ var Khan = (function() {
     urlBase = typeof urlBaseOverride !== "undefined" ? urlBaseOverride :
         testMode ? "../" : "/khan-exercises/",
 
+    // In test mode, we use khan-exercises local copy of the /images
+    // directory.  But in production (on www.khanacademy.org), we use
+    // the canonical location of images, which is under '/'.
+    imageBase = typeof urlBaseOverride !== "undefined" ? urlBaseOverride :
+        testMode ? "../" : "/",
+
+
     lastFocusedSolutionInput = null,
 
     issueError = "Communication with GitHub isn't working. Please file " +

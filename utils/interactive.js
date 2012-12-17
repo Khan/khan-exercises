@@ -1288,7 +1288,7 @@ function Protractor(center) {
 
     var r = 8.05;
     var imgPos = graph.scalePoint([this.cx - r, this.cy + r - 0.225]);
-    this.set.push(graph.mouselayer.image(Khan.urlBase + "images/protractor.png", imgPos[0], imgPos[1], 322, 161));
+    this.set.push(graph.mouselayer.image(Khan.imageBase + "images/protractor.png", imgPos[0], imgPos[1], 322, 161));
 
 
     // Customized polar coordinate thingie to make it easier to draw the double-headed arrow thing.
