@@ -251,8 +251,8 @@ var Khan = (function() {
     // In test mode, we use khan-exercises local copy of the /images
     // directory.  But in production (on www.khanacademy.org), we use
     // the canonical location of images, which is under '/'.
-    imageBase = typeof urlBaseOverride !== "undefined" ? urlBaseOverride :
-        testMode ? "../" : "/",
+    imageBase = ((typeof urlBaseOverride !== "undefined" || testMode)
+                 ? (urlBase + "images/") : ("/images/"));
 
 
     lastFocusedSolutionInput = null,
