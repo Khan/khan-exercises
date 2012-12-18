@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Introduction to Modular Arithmetic</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars" data-ensure="2*INT_A !==INT_B  && INT_B < 12">
+        <var id="INT_A">rand(5)</var>
+        <var id="INT_B">2*INT_A+rand(INT_A)</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>What is <var>INT_B</var> <code>\%</code> <var> INT_A</var> ?</p>
+            </div>
+            <div class="solution"><var>INT_B%INT_A</var></div>
+        </div>
+    </div>
+
+    <div class="hints">
+    <p>Try to cover a number line of length <var> INT_B </var> by drawing line segments of length <var>INT_A</var> till the point when drawing of a line segment of length exactly equal to <var> INT_A</var> is impossible.</p>
+       <div class="graphie">
+            init({
+                range: [ [-1,INT_B+1], [1, 1] ]
+            });
+            var start = 0;
+            var end = INT_B;
+	    <!--var step = INT_B/10;
+	    step=step.toFixed(1);-->
+            numberLine( start, end );
+            style({ stroke: "#6495ED", fill: "#6495ED" });
+            graph.pt = circle( [ INT_A, 0 ], 0.15 );
+            style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
+            path( [ [ 0, 0 ], [ INT_A, 0 ] ] );
+            circle( [ 0, 0 ], 0.10 );
+            graph.pt.toFront();
+        </div>
+	<div class="graphie">
+            init({
+                range: [ [-1,INT_B+1], [1, 1] ]
+            });
+            var start = 0;
+            var end = INT_B;
+            <!--var step = INT_B/10;
+	    step=step.toFixed(1);-->
+            numberLine( start, end );
+
+            
+	    style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
+            circle( [ 0, 0 ], 0.10 );
+            
+	    style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
+            path( [ [ 0, 0 ], [ INT_A, 0 ] ] );
+
+	    
+            style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
+            path( [ [ INT_A, 0 ], [ 2*INT_A, 0 ] ] );
+
+	    style({ stroke: "#6495ED", fill: "#6495ED" });
+            graph.pt = circle( [ INT_A, 0 ], 0.15 );
+
+	    style({ stroke: "#6495ED", fill: "#6495ED" });
+	    graph.pt = circle( [ 2*INT_A, 0 ], 0.15 );
+
+        </div>
+	<div class="graphie">
+            init({
+                range: [ [-1,INT_B+1], [1, 1] ]
+            });
+            var start = 0;
+            var end = INT_B;
+
+            <!--var step = INT_B/10;
+	    step=step.toFixed(1);-->
+            numberLine( start, end );
+
+	    style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
+            circle( [ 0, 0 ], 0.10 );
+            
+	    style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
+            path( [ [ 0, 0 ], [ INT_A, 0 ] ] );
+
+            style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5 });
+            path( [ [ INT_A, 0 ], [ 2*INT_A, 0 ] ] );
+	    
+	    style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+            path( [ [ INT_B, 0 ], [ 2*INT_A, 0 ] ] );
+
+	    style({ stroke: "#6495ED", fill: "#6495ED" });
+            graph.pt = circle( [ INT_A, 0 ], 0.15 );
+
+	    style({ stroke: "#6495ED", fill: "#6495ED" });
+	    graph.pt = circle( [ 2*INT_A, 0 ], 0.15 );
+	    
+	    style({ stroke: "#6495ED", fill: "#6495ED" });
+	    graph.pt = circle( [ INT_B, 0 ], 0.15 );
+
+
+    </div>
+
+
+        <p>The distance from <code><var>INT_B</var></code> to <code><var> 2*INT_A </var></code> is <code><var>INT_B%INT_A</var></code>, which equals <var> INT_B </var>&nbsp; <code> \% </code> (modulus) <var>INT_A</var> </p>
+    </div>
+    </div>
+</body>
+</html>
