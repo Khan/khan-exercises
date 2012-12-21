@@ -5,42 +5,42 @@ begin
   require 'uglifier'
   require 'fileutils'
 rescue LoadError
-  puts
-  puts "-" * 78
-  puts "Oops! Some gems are missing; please run:"
-  puts "  sudo gem install json nokogiri uglifier therubyracer"
-  puts "-" * 78
-  puts
+  $stderr.puts
+  $stderr.puts "-" * 78
+  $stderr.puts "Oops! Some gems are missing; please run:"
+  $stderr.puts "  sudo gem install json nokogiri uglifier therubyracer"
+  $stderr.puts "-" * 78
+  $stderr.puts
   exit 1
 end
 
 begin
   require 'json'
 rescue LoadError
-  puts
-  puts "-" * 78
-  puts "Warning! You don't have json installed, packing might be slow. Try:"
-  puts "  sudo gem install json"
-  puts
-  puts "You can also use another json library.  If you don't do anything,"
-  puts "this script will use the default, ok_json, which is ok, but slow."
-  puts "-" * 78
-  puts
+  $stderr.puts
+  $stderr.puts "-" * 78
+  $stderr.puts "Warning! You don't have json installed, packing might be slow. Try:"
+  $stderr.puts "  sudo gem install json"
+  $stderr.puts
+  $stderr.puts "You can also use another json library.  If you don't do anything,"
+  $stderr.puts "this script will use the default, ok_json, which is ok, but slow."
+  $stderr.puts "-" * 78
+  $stderr.puts
 end
 
 begin
   require 'v8'
 rescue LoadError
-  puts
-  puts "-" * 78
-  puts "Warning! You don't have therubyracer installed, packing might be slow. Try:"
-  puts "  sudo gem install therubyracer"
-  puts
-  puts "If you prefer another JS runtime (https://github.com/sstephenson/execjs),"
-  puts "be aware that this script is much faster (around 50x speedup) using"
-  puts "therubyracer, which is based on Chrome's V8 engine."
-  puts "-" * 78
-  puts
+  $stderr.puts
+  $stderr.puts "-" * 78
+  $stderr.puts "Warning! You don't have therubyracer installed, packing might be slow. Try:"
+  $stderr.puts "  sudo gem install therubyracer"
+  $stderr.puts
+  $stderr.puts "If you prefer another JS runtime (https://github.com/sstephenson/execjs),"
+  $stderr.puts "be aware that this script is much faster (around 50x speedup) using"
+  $stderr.puts "therubyracer, which is based on Chrome's V8 engine."
+  $stderr.puts "-" * 78
+  $stderr.puts
 end
 
 JSHINT_ENABLED = false
@@ -55,10 +55,10 @@ def jshint(js)
   if !@jshint.call("JSHINT", js, JSHINT_OPTIONS)
     @jshint.eval("JSHINT.errors").each do |err|
       break if err["reason"] == "Expected ')' to match '(' from line 1 and instead saw ','."
-      # puts "-- #{js}"
-      puts "-- #{err["reason"]} (#{err["line"]}:#{err["character"]})"
-      puts "-- > #{(err["evidence"] || "").strip}"
-      puts "--"
+      # $stderr.puts "-- #{js}"
+      $stderr.puts "-- #{err["reason"]} (#{err["line"]}:#{err["character"]})"
+      $stderr.puts "-- > #{(err["evidence"] || "").strip}"
+      $stderr.puts "--"
     end
   end
 end
@@ -70,12 +70,12 @@ Dir.chdir(File.join(File.dirname(__FILE__), ".."))
 @jshint = ExecJS.compile(File.read("build/jshint.js"))
 
 def uglifier_insane
-  puts
-  puts "-" * 78
-  puts "Error! The uglifier gem is doing weird things that we don't expect."
-  puts "Stopping now so that the children can keep learning."
-  puts "-" * 78
-  puts
+  $stderr.puts
+  $stderr.puts "-" * 78
+  $stderr.puts "Error! The uglifier gem is doing weird things that we don't expect."
+  $stderr.puts "Stopping now so that the children can keep learning."
+  $stderr.puts "-" * 78
+  $stderr.puts
   exit 1
 end
 
@@ -88,73 +88,60 @@ end
   uglifier_insane unless expected.include? output
 end
 
-FileUtils.mkdir_p("exercises-packed")
+# Can specify a filename either on the commandline or piped into stdin
+doc = Nokogiri::HTML::Document.parse(ARGF.read)
 
-Dir["exercises/**/*.html"].sort.each do |filename|
-  packed_filename = filename.gsub(/^exercises\//, "exercises-packed/")
-  next if File.exist?(packed_filename) && File.mtime(packed_filename) > File.mtime(filename)
-
-  FileUtils.mkdir_p(File.dirname(packed_filename))
-
-  puts filename
-  cant = 0
-  doc = Nokogiri::HTML::Document.parse(File.read(filename))
-
-  doc.css("var").each do |var|
-    if var.elements.any?
-      puts "-- error: JS element has children"
-      puts var.inner_html
-      exit 1
-    end
-
-    next if var.content !~ /\S/ # only whitespace
-
-    jshint("return (#{var.content});")
-    exp = "(#{var.content})"
-    var.content = @uglifier.compile(exp).gsub(/;$/, "")
+doc.css("var").each do |var|
+  if var.elements.any?
+    $stderr.puts "-- error: JS element has children"
+    $stderr.puts var.inner_html
+    exit 1
   end
 
-  doc.css(".graphie", "div.guess", "div.show-guess", "div.show-guess-solutionarea").each do |graphie|
-    if graphie.elements.any?
-      puts "-- error: JS element has children"
-      exit 1
-    end
+  next if var.content !~ /\S/ # only whitespace
 
-    js = graphie.content
-    graphie.content = @uglifier.compile(js).gsub(/;$/, "")
+  jshint("return (#{var.content});")
+  exp = "(#{var.content})"
+  var.content = @uglifier.compile(exp).gsub(/;$/, "")
+end
+
+doc.css(".graphie", "div.guess", "div.show-guess", "div.show-guess-solutionarea").each do |graphie|
+  if graphie.elements.any?
+    $stderr.puts "-- error: JS element has children"
+    exit 1
   end
 
-  doc.css("div.validator-function").each do |validator|
-    if validator.elements.any?
-      puts "-- error: JS element has children"
-      exit 1
-    end
+  js = graphie.content
+  graphie.content = @uglifier.compile(js).gsub(/;$/, "")
+end
 
-    # Need to wrap validator-function content in a function, so uglifier
-    # doesn't get confused by the estranged 'return' statement
-    js = "(function(){" + validator.content + "})()"
-    uglified = @uglifier.compile(js)
-
-    # Strip out the anonymous function wrapper to put things back the way they were
-    match = uglified.match(/^\(function\(\)\{(.*)\}\)\(\);?$/)
-    if match
-      validator.content = match[1]
-    else
-      uglifier_insane
-    end
+doc.css("div.validator-function").each do |validator|
+  if validator.elements.any?
+    $stderr.puts "-- error: JS element has children"
+    exit 1
   end
 
-  %w[data-ensure data-if data-else-if].each do |data_attr|
-    doc.css("[#{data_attr}]").each do |el|
-      jshint("return (#{el[data_attr]});")
-      js = el[data_attr]
-      el[data_attr] = @uglifier.compile(js).gsub(/;$/, "")
-    end
-  end
+  # Need to wrap validator-function content in a function, so uglifier
+  # doesn't get confused by the estranged 'return' statement
+  js = "(function(){" + validator.content + "})()"
+  uglified = @uglifier.compile(js)
 
-  File.open(packed_filename, "w") do |f|
-    f.write doc.to_html
+  # Strip out the anonymous function wrapper to put things back the way they were
+  match = uglified.match(/^\(function\(\)\{(.*)\}\)\(\);?$/)
+  if match
+    validator.content = match[1]
+  else
+    uglifier_insane
   end
 end
 
-exit! 0
+%w[data-ensure data-if data-else-if].each do |data_attr|
+  doc.css("[#{data_attr}]").each do |el|
+    jshint("return (#{el[data_attr]});")
+    js = el[data_attr]
+    el[data_attr] = @uglifier.compile(js).gsub(/;$/, "")
+  end
+end
+
+# Done!  Emit the packed html to stdout.
+puts doc.to_html
