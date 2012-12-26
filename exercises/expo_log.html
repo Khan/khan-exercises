@@ -1,0 +1,68 @@
+  <!DOCTYPE html>
+  <html data-require="math math-format expressions interactive graphie">
+  <head>
+    <title>Graphs of Exponential and Logarithmic Functions</title>
+    <!--Plot points to create the graph of y = a*b^x -->
+    <script src="../khan-exercise.js"></script>
+  </head>
+  <body>
+    <div class="exercise">
+      <div class="vars">
+        <var id="A">randRangeNonZero(-10, 10)</var>
+        <var id="B">randRangeNonZero(2, 4)</var>
+      </div>
+
+      <div class="problems">
+
+        <div id="problem-type-or-description">
+          <p class="question"><!-- The question to ask the student. -->
+            Graph the function <code> <var>A</var>x^<var>B</var> </code>
+          </p>
+          <p class="problem"><!-- An overview of the problem including all needed info. -->
+            <br />
+            <div class="graphie" id="grid">
+
+              graphInit({
+              range: [ [-6, 6], [-6, 6] ],
+              scale: 30,
+              axisArrows: "&lt;-&gt;",
+              tickStep: 1,
+              labelStep: 1,
+              gridOpacity: 0.05,
+              axisOpacity: 0.2,
+              tickOpacity: 0.4,
+              labelOpacity: 0.5
+            });
+
+            label( [ 0, 11 ], "y", "above" );
+            label( [ 11, 0 ], "x", "right" );
+
+            addMouseLayer();
+            graph.movablePoint = addMovablePoint({coord: [0,0], snapY: 1, snapX: 1 });
+            graph.pointC = addMovablePoint({
+            coord: [ 0, 5 ],
+            snapX: 0.5,
+            snapY: 0.5,
+            normalStyle: {
+            stroke: KhanUtil.BLUE,
+            fill: KhanUtil.BLUE
+          }
+        });
+        graph.movablePoint.onMove = function( x, y ) {
+        return [ max( 0, min( x, 10 ) ), max( 0, min( y, 10 ) ) ];
+      };
+    </div>
+  </p>
+
+  <p class="solution"><!-- The correct answer expected of the student. --></p>
+</div>
+
+
+</div>
+
+<div class="hints">
+  <!-- Any hints to show to the student. -->
+</div>
+</div>
+</body>
+</html>
