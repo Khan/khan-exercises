@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-polygon graphie-helpers">
+    <head>
+        <title>Circle Terminology</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="TANGENT">"tangent"</var>
+                <var id="SECANT">"secant"</var>
+                <var id="RADIUS">"radius"</var>
+                <var id="CHORD">"chord"</var>
+                <var id="DIAMETER">"diameter"</var>
+                <var id="ARC">"arc"</var>
+
+                <var id="R">randRange(5, 10)</var>
+                <var id="POINT2" data-ensure="POINT2 > 2 || POINT2 < -2">randRange(-R, R)</var>
+                <var id="POINT1" data-ensure="POINT1 > 2 || POINT1 < -2">randRange(-R, R)</var>
+                <var id="START">randRange( 0, 360 )</var>
+                <!--adding 360 to both ends to avoid issues when vars = 0, 360 --!>
+                <var id="CHORD_END" data-ensure="(CHORD_END+360) - (START+360) > 30 || (CHORD_END+360) - (START+360) < -30">randRange( 0, 360 )</var>
+                <var id="ARC_END">START+100</var>
+                <var id="POINT_RADIUS">.2</var>
+
+            </div>
+            <div class="problems">
+                <div id="define-radius">
+                    <p class="question">What is the term for red line below?</p>
+                    <div class="graphie" id="circle">
+                        init({
+                            range: [[-R - 2, R + 2], [-R - 2, R + 2]],
+                            scale: [15, 15]
+                        });
+                        graph.circle = new Circle( R );
+
+                        style({ stroke: BLUE });
+                        graph.circle.drawCenter();
+
+                        style({ stroke: RED, fill: RED });
+                        graph.radius = graph.circle.drawRadius(START);
+                    </div>
+                    <p class="solution" data-type="text"><var>RADIUS</var></p>
+                    <div class="hints">
+                        <div>
+                            <div class="graphie" data-update="circle">
+                                graph.circle.drawPoint(START, POINT_RADIUS);
+                            </div>
+                            <p>Observe that the red line segment starts at the center and ends on the circle.</p>
+                        </div>
+                        <p>This means that the line is half of the diameter.</p>
+                        <p>Remember that a radius is a straight line that starts at the center of the circle and ends on the circumference; therefore, it is half of the diameter.</p>
+                    </div>
+                </div>
+                <div id="define-secant" data-type="define-radius">
+                    <p class="question">What is the term for red line below?</p>
+                    <div class="graphie" data-update="circle">
+                        graph.radius.hide();
+                        path([[POINT1, R], [POINT2, -R]]);
+                    </div>
+                    <p class="solution" data-type="text"><var>SECANT</var></p>
+                    <div class="hints">
+                        <p>Observe that the red line segment goes through two points on the circle.</p>
+                        <p>Remember that a secant is a straight line that goes through two points on a circle.</p>
+                    </div>
+                </div>
+                <div id="define-tangent" data-type="define-radius">
+                    <p class="question">What is the term for red line below?</p>
+                    <div class="graphie" data-update="circle">
+                        graph.radius.hide();
+                        graph.circle.drawTangent(START);
+                    </div>
+                    <p class="solution" data-type="text"><var>TANGENT</var></p>
+                    <div class="hints">
+                        <div>
+                            <div class="graphie" data-update="circle">
+                                graph.circle.drawPoint(START, POINT_RADIUS);
+                            </div>
+                            <p>Observe that there is only one point where the red line touches the circle.</p>
+                        </div>
+                        <p>Remember that a tangent is a straight line that intersects the circle at only one point.</p>
+                    </div>
+                </div>
+                <div id="define-chord" data-type="define-radius">
+                    <p class="question">What is the term for red line below?</p>
+                    <div class="graphie" data-update="circle">
+                        graph.radius.hide();
+                        graph.circle.drawChord(START, CHORD_END);
+                    </div>
+                    <p class="solution" data-type="text"><var>CHORD</var></p>
+                    <div class="hints">
+                        <div>
+                            <div class="graphie" data-update="circle">
+                                graph.circle.drawPoint(START, POINT_RADIUS);
+                                graph.circle.drawPoint(CHORD_END, POINT_RADIUS);
+                            </div>
+                            <p>Observe that the red line segment starts and ends at two points on the circle.</p>
+                        </div>
+                        <p>Remember that a chord is straight line that starts and ends at two different point on the circle.</p>
+                    </div>
+                </div>
+                <div id="define-diameter" data-type="define-radius">
+                    <p class="question">What is the term for red line below?</p>
+                    <div class="graphie" data-update="circle">
+                        graph.radius.hide();
+                        graph.circle.drawDiameter(START);
+                    </div>
+                    <p class="solution" data-type="text"><var>DIAMETER</var></p>
+                    <div class="hints">
+                        <div>
+                            <div class="graphie" data-update="circle">
+                                graph.circle.drawPoint(START, POINT_RADIUS);
+                                graph.circle.drawPoint(START + 180, POINT_RADIUS);
+                            </div>
+                            <p>Observe that the red line segment starts and ends on the circle.</p>
+                        </div>
+                        <p>Also, the line passes through the center.</p>
+                        <p>This is the longest chord in the circle.</p>
+                        <p>Remember that a diameter is a straight line that starts and ends on the circle and passes through the center.  This is the longest possible chord in the circle.</p>
+                    </div>
+                </div>
+                <div id="define-arc" data-type="define-radius">
+                    <p class="question">What is the term for red line below?</p>
+                    <div class="graphie" data-update="circle">
+                        graph.radius.hide();
+                        graph.circle.drawCentralArc(START, ARC_END, R);
+                    </div>
+                    <p class="solution" data-type="text"><var>ARC</var></p>
+                    <div class="hints">
+                        <p>Observe that the red line segment is only on the circle's circumference.</p>
+                        <p>Remember that an arc is a segment of the circle's circumference.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -194,10 +194,11 @@ $.extend(KhanUtil, {
             graph.circle(center, radius);
         })();
 
-        this.drawPoint = function(theta) {
+        this.drawPoint = function(theta, pRadius) {
+            pRadius = pRadius || pointRadius;
             var graph = KhanUtil.currentGraph,
                 point = graph.polar(radius, theta);
-            return graph.circle(point, pointRadius);
+            return graph.circle(point, pRadius);
         }
 
         this.drawCenter = function() {
@@ -211,6 +212,35 @@ $.extend(KhanUtil, {
             var graph = KhanUtil.currentGraph,
                 point = graph.polar(radius, theta);
             return graph.line(center, point);
+        }
+
+        this.drawDiameter = function(theta) {
+            var graph = KhanUtil.currentGraph,
+                point1 = graph.polar(radius, theta);
+                point2 = graph.polar(radius, theta+180);
+            graph.line(center, point1);
+            graph.line(center, point2);
+        }
+
+        this.drawTangent = function(theta) {
+            var graph = KhanUtil.currentGraph,
+                th = theta*(Math.PI/180),
+                xC = radius * Math.cos(th),
+                yC = radius * Math.sin(th),
+                m = -(xC/yC),
+                b = yC - m*xC,
+                y1, y2, x1, x2;
+            if ((theta >= 0 && theta <= 90) || (theta > 270 && theta <= 360)) {
+                x1 = radius;
+                x2 = center[0];
+            }
+            else {
+                x1 = -radius;
+                x2 = center[0];
+            }
+            y1 = m*x1 + b;
+            y2 = m*x2 + b;
+            return graph.line([x1,y1],[x2,y2]);
         }
 
         this.drawChord = function(theta1, theta2) {
@@ -307,5 +337,6 @@ $.extend(KhanUtil, {
                 arc = this.drawInscribedArc(inscribed, start, end, arcRadius);
             return { chords: chords, vertex: vertex, arc: arc };
         }
+
     }
 });
