@@ -8,22 +8,22 @@
   <body>
     <div class="exercise">
       <div class="vars">
-        <var id="A">randRangeNonZero(-10, 10)</var>
-        <var id="B">randRangeNonZero(2, 4)</var>
+        <var id="A">randRangeNonZero(-3, 3)</var>
+        <var id="B">randRangeNonZero(-4, 4)</var>
       </div>
 
       <div class="problems">
 
         <div id="problem-type-or-description">
           <p class="question"><!-- The question to ask the student. -->
-            Graph the function <code> <var>A</var>x^<var>B</var> </code>
+            Graph the function <code> <var>A</var>*<var>B</var>^x </code>
           </p>
           <p class="problem"><!-- An overview of the problem including all needed info. -->
             <br />
             <div class="graphie" id="grid">
 
               graphInit({
-              range: [ [-6, 6], [-6, 6] ],
+              range: [ [-1, 11], [-1, 11] ],
               scale: 30,
               axisArrows: "&lt;-&gt;",
               tickStep: 1,
@@ -32,25 +32,72 @@
               axisOpacity: 0.2,
               tickOpacity: 0.4,
               labelOpacity: 0.5
-            });
+              });
 
-            label( [ 0, 11 ], "y", "above" );
-            label( [ 11, 0 ], "x", "right" );
+              label( [ 0, 11 ], "y", "above" );
+              label( [ 11 , 0 ], "x", "right" );
 
-            addMouseLayer();
-            graph.movablePoint = addMovablePoint({coord: [0,0], snapY: 1, snapX: 1 });
-            graph.pointC = addMovablePoint({
-            coord: [ 0, 5 ],
-            snapX: 0.5,
-            snapY: 0.5,
-            normalStyle: {
-            stroke: KhanUtil.BLUE,
-            fill: KhanUtil.BLUE
-          }
-        });
-        graph.movablePoint.onMove = function( x, y ) {
-        return [ max( 0, min( x, 10 ) ), max( 0, min( y, 10 ) ) ];
-      };
+              addMouseLayer();
+
+              graph.pointA = addMovablePoint({
+                coord: [ 0, 5 ],
+                snapX: 0.5,
+                snapY: 0.5,
+                normalStyle: {
+                  stroke: KhanUtil.BLUE,
+                  fill: KhanUtil.BLUE
+                }
+              });
+
+              graph.pointB = addMovablePoint({
+                coord: [ 5, 0 ],
+                snapX: 0.5,
+                snapY: 0.5,
+                normalStyle: {
+                 stroke: KhanUtil.BLUE,
+                  fill: KhanUtil.BLUE
+                }
+              });
+              
+              graph.pointA.onMove = function( x, y ) {
+                  graph.pointA.coord = [ x, y ];
+                  graph.drawExpo();
+              };
+              graph.pointB.onMove = function( x, y ) {
+                graph.pointB.coord = [ x, y ];
+                graph.drawExpo();
+              };
+         
+              graph.FitExpo = function (p1,p2){
+
+                if(abs(p2[0]-p1[0]) > 0.0001){
+                  var expo = 1/(p2[0]-p1[0]);
+                  var value= p2[1]/p1[1];
+                  var B = pow(value,expo);
+                  var A = p1[1]/(pow(B,p2[1]));
+                  console.log(A*(pow(B,p1[0]))); 
+                  return [A,B];
+                }else{
+                  return [0,0];
+                }
+              };
+              
+              graph.expo = bogusShape;
+
+              graph.drawExpo = function() {
+                graph.expo.remove();
+                var coeffs = graph.FitExpo(graph.pointA.coord,graph.pointB.coord);
+                style({
+                  stroke: KhanUtil.BLUE
+                }, function() {
+                  graph.expo = plot( function( x ) {
+                    return coeffs[0] * ( pow( coeffs[1] , x ) + 0 );
+                  }, [ -1, 11 ] );
+                  graph.expo.toBack();
+                });
+              };
+
+              graph.drawExpo();
     </div>
   </p>
 
