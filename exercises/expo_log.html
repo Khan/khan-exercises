@@ -72,10 +72,10 @@
 
                 if(abs(p2[0]-p1[0]) > 0.0001){
                   var expo = 1/(p2[0]-p1[0]);
-                  var value= p2[1]/p1[1];
-                  var B = pow(value,expo);
-                  var A = p1[1]/(pow(B,p2[1]));
-                  console.log(A*(pow(B,p1[0]))); 
+                  var value = p2[1]/p1[1];
+                  var B = exp(log(value)*expo);
+                  var denom=exp(log(B)*p1[0]);
+                  var A = p1[1]/denom;
                   return [A,B];
                 }else{
                   return [0,0];
@@ -91,7 +91,7 @@
                   stroke: KhanUtil.BLUE
                 }, function() {
                   graph.expo = plot( function( x ) {
-                    return coeffs[0] * ( pow( coeffs[1] , x ) + 0 );
+                    return coeffs[0] * (exp(log(coeffs[1])* x ) + 0 );
                   }, [ -1, 11 ] );
                   graph.expo.toBack();
                 });
