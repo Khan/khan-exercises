@@ -14,10 +14,10 @@
 
       <div class="problems">
         <div id="problem-type-or-description">
-          <p class="question"><!-- The question to ask the student. -->
+          <p class="question">
             Graph the function <code> <var>K</var>*<var>L</var>^x </code>
           </p>
-          <p class="problem"><!-- An overview of the problem including all needed info. -->
+          <p class="problem">
             <br />
             <div class="graphie" id="grid">
 
@@ -111,22 +111,29 @@
     <div class="guess">[ graph.pointA.coord, graph.pointB.coord]</div>
     <div class="validator-function">
       if (graph.CheckPointOnCurve(guess[0])  &amp;&amp; graph.CheckPointOnCurve(guess[1])){
-        console.log("solution");
         return true;
       }else{
-        console.log("fail");
         return false;
       }
+    </div>
+    <div class="show-guess">
+      graph.pointA.setCoord( guess[0] );
+      graph.pointB.setCoord( guess[1] );
+      graph.drawExpo();
     </div>
   </div>
 </div>
 
-
 </div>
 
-<div class="hints">
-  <!-- Any hints to show to the student. -->
-</div>
+  <div class="hints">
+    <p>Remember that you can compute y by replacing x with simple values. <code> y = a * b ^ x</code></p>
+    <p>If you use <code>x = 0</code> in the equation you can find the first point.</p>
+    <p>Then the value of y is: <code> y = <var>K</var> * <var>L</var> ^ 0 =  <var>K</var> </code> </p>
+    <p>If you put <code>x = 1</code> in the equation you can find the second point.</p>
+    <p>Then the value of y is: <code> y = <var>K</var> * <var>L</var> ^ 1 =  <var>K*L</var> </code> </p>
+    <p>The two points are: (0,<var>K</var>) and (1,<var>K*L</var>) </p>
+  </div>
 </div>
 </body>
 </html>
