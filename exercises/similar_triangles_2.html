@@ -11,28 +11,28 @@
             var c = sides[2];
 
             var A = Math.acos( (b*b + c*c - a*a) / (2*b*c) ) * 180 / Math.PI;
-
             var B = Math.acos( (a*a + c*c - b*b) / (2*a*c) ) * 180 / Math.PI;
             var C = 180 - A - B;
 
             return [A, B, C];
-
         }
 
-        function randomSides( scale, abc_sides ) {
+        function isSimilar(abc, def) {
+            abc = KhanUtil.sortNumbers(abc);
+            def = KhanUtil.sortNumbers(def);
+
+            var a = abc[0], b = abc[1], c = abc[2];
+            var d = def[0], e = def[1], f = def[2];
+
+            return a * e === b * d && a * f === c * d;
+        }
+
+        function randomSides(abcSides) {
             var a = KhanUtil.randRange(3, 10);
             var b = KhanUtil.randRange(3, 10);
             var c = KhanUtil.randRange(Math.max(a, b), a + b - 2);
 
-            if (scale && abc_sides[0] / a === abc_sides[1] / b && abc_sides[1] / b === abc_sides[2] / c) {
-                if (scale === 0.5) a = a * 2;
-                if (scale === 1.5) a = a* 2/3;
-                else a = a / 2;
-            }
-
-            if (scale) return [scale*a, scale*b, scale*c];
-            else return [a, b, c];
-
+            return [a, b, c];
         }
 
         function scaleSides( sides, scale ) {
@@ -45,9 +45,6 @@
     <div class="exercise">
         <div class="vars">
 
-            <var id="ABC_SIDES">randomSides()</var>
-            <var id="ABC_ANGLES"> triangleAngles( ABC_SIDES )</var>
-
             <var id="ANSWERS">[ "DEF", "GHI", "Both", "None" ]</var>
             <var id="ANSWER_DISPLAY">{
                 "DEF": "&lt;code&gt;DEF&lt;/code&gt;",
@@ -57,12 +54,18 @@
             }</var>
             <var id="ANSWER">ANSWERS[randRange(0, 3)]</var>
 
-            <var id="SCALE_DEF">randRange(1, 3)/2</var>
-            <var id="SCALE_GHI">randRange(1, 3)/2</var>
+            <div data-ensure='(ANSWER === "DEF" || ANSWER === "Both" || !isSimilar(ABC_SIDES, DEF_SIDES)) && (ANSWER === "GHI" || ANSWER === "Both" || !isSimilar(ABC_SIDES, GHI_SIDES))'>
+                <var id="ABC_SIDES">randomSides()</var>
 
-            <var id="DEF_SIDES">ANSWER === "DEF" || ANSWER === "Both" ? scaleSides(ABC_SIDES, SCALE_DEF) : randomSides(SCALE_DEF, ABC_SIDES)</var>
+                <var id="SCALE_DEF">randRange(1, 3)/2</var>
+                <var id="SCALE_GHI">randRange(1, 3)/2</var>
+
+                <var id="DEF_SIDES">ANSWER === "DEF" || ANSWER === "Both" ? scaleSides(ABC_SIDES, SCALE_DEF) : randomSides(ABC_SIDES)</var>
+                <var id="GHI_SIDES">ANSWER === "GHI" || ANSWER === "Both" ? scaleSides(ABC_SIDES, SCALE_GHI) : randomSides(ABC_SIDES)</var>
+            </div>
+
+            <var id="ABC_ANGLES"> triangleAngles( ABC_SIDES )</var>
             <var id="DEF_ANGLES"> ANSWER === "DEF" || ANSWER === "Both" ? ABC_ANGLES : triangleAngles(DEF_SIDES)</var>
-            <var id="GHI_SIDES">ANSWER === "GHI" || ANSWER === "Both" ? scaleSides(ABC_SIDES, SCALE_GHI) : randomSides(SCALE_DEF, ABC_SIDES)</var>
             <var id="GHI_ANGLES"> ANSWER === "GHI" || ANSWER === "Both" ? ABC_ANGLES : triangleAngles(GHI_SIDES)</var>
 
             <var id="DEF_COMP_1">"\\neq"</var>
