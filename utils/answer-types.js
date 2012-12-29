@@ -511,7 +511,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
     rational: {
         setup: function(solutionarea, solution) {
-            solution.data("forms", "decimal, proper, improper, mixed");
+            solution.data("forms", "integer, proper, improper, mixed");
             return Khan.answerTypes.number.setup(solutionarea, solution);
         },
         createValidator: function(solution) {
