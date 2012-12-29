@@ -62,7 +62,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // return the value in the text box, or the fallback
                     return input.val().length > 0 ?
                         input.val() :
-                        (fallback ? fallback + "" : "");
+                        (fallback != null ? fallback + "" : "");
                 },
                 solution: $.trim($(solution).text()),
                 examples: [],
@@ -180,7 +180,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 answer: function() {
                     return input.val().length > 0 ?
                         input.val() :
-                        (fallback ? fallback + "" : "");
+                        (fallback != null ? fallback + "" : "");
                 },
                 solution: $.trim($(solution).text()),
                 examples: examples,
@@ -1323,7 +1323,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 answer: function() {
                     return input.val().length > 0 ?
                         input.val() :
-                        (fallback ? fallback + "" : "");
+                        (fallback != null ? fallback + "" : "");
                 },
                 solution: $.trim($(solution).text()),
                 examples: [
