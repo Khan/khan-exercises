@@ -610,7 +610,7 @@ div.timeline-total {
 .sortable > ul > li {
 	background-color: #fff;
 	border: 1px solid #b9b9b9;
-	border-bottom-color: #939393
+	border-bottom-color: #939393;
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
