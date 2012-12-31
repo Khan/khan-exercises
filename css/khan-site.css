@@ -1,4 +1,3 @@
-
 /*!
  * jQuery UI CSS Framework 1.8.24
  *
@@ -7928,7 +7927,7 @@ ul.icons li .icon-large:before {
   height: 24px;
   width: 160px;
   outline: none;
-  box-shadow: ;
+  box-shadow: none;
 }
 .simple-input:focus {
   -webkit-box-shadow: 0 0 5px 1px rgba(115, 152, 44, 0.5);
