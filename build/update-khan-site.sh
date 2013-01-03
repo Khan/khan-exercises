@@ -1,27 +1,11 @@
 #!/bin/bash
 
-PACKAGES="shared exercises"
+PACKAGES="shared.css exercises.css"
 
 BASE_DIR=".."
 DEV_CSS="css/khan-exercise-dev.css"
 OUTPUT="css/khan-site.css"
 
-for package in ${PACKAGES}; do
-    if [ ! -f ${BASE_DIR}/stylesheets/${package}-package/combined.css ]; then
-        echo "${BASE_DIR}/stylesheets/${package}-package/combined.css not found!"
-        echo "You should run the deploy script (with --dryrun)"
-        echo
-        exit 66
-    fi
-done
-
 echo > ${OUTPUT}
-
-for package in ${PACKAGES}; do
-    echo ${package}
-    sed 's|url(\(.*images.*\))|url(http://www.khanacademy.org/\1)|' ${BASE_DIR}/stylesheets/${package}-package/combined.css >> ${OUTPUT}
-done
-
+python ${BASE_DIR}/deploy/combine.py ${PACKAGES} | sed 's|url(/*\(.*images.*\))|url(http://www.khanacademy.org/\1)|' >> ${OUTPUT}
 cat ${DEV_CSS} >> ${OUTPUT}
-
-echo
