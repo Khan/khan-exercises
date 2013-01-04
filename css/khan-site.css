@@ -1,4 +1,3 @@
-
 /*!
  * jQuery UI CSS Framework 1.8.24
  *
@@ -57,26 +56,26 @@
 .ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 1.1em; }
 .ui-widget .ui-widget { font-size: 1em; }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif; font-size: 1em; }
-.ui-widget-content { border: 1px solid #aaaaaa; background: #ffffff url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x; color: #222222; }
+.ui-widget-content { border: 1px solid #aaaaaa; background: #ffffff url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-bg_flat_75_ffffff_40x100.png") 50% 50% repeat-x; color: #222222; }
 .ui-widget-content a { color: #222222; }
-.ui-widget-header { border: 1px solid #aaaaaa; background: #cccccc url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x; color: #222222; font-weight: bold; }
+.ui-widget-header { border: 1px solid #aaaaaa; background: #cccccc url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-bg_highlight-soft_75_cccccc_1x100.png") 50% 50% repeat-x; color: #222222; font-weight: bold; }
 .ui-widget-header a { color: #222222; }
 
 /* Interaction states
 ----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #d3d3d3; background: #e6e6e6 url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; }
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #d3d3d3; background: #e6e6e6 url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-bg_glass_75_e6e6e6_1x400.png") 50% 50% repeat-x; font-weight: normal; color: #555555; }
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #555555; text-decoration: none; }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #999999; background: #dadada url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #999999; background: #dadada url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-bg_glass_75_dadada_1x400.png") 50% 50% repeat-x; font-weight: normal; color: #212121; }
 .ui-state-hover a, .ui-state-hover a:hover { color: #212121; text-decoration: none; }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #ffffff url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #ffffff url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x; font-weight: normal; color: #212121; }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #212121; text-decoration: none; }
 .ui-widget :active { outline: none; }
 
 /* Interaction Cues
 ----------------------------------*/
-.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {border: 1px solid #fcefa1; background: #fbf9ee url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-bg_glass_55_fbf9ee_1x400.png) 50% 50% repeat-x; color: #363636; }
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {border: 1px solid #fcefa1; background: #fbf9ee url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-bg_glass_55_fbf9ee_1x400.png") 50% 50% repeat-x; color: #363636; }
 .ui-state-highlight a, .ui-widget-content .ui-state-highlight a,.ui-widget-header .ui-state-highlight a { color: #363636; }
-.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {border: 1px solid #cd0a0a; background: #fef1ec url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-bg_glass_95_fef1ec_1x400.png) 50% 50% repeat-x; color: #cd0a0a; }
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {border: 1px solid #cd0a0a; background: #fef1ec url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-bg_glass_95_fef1ec_1x400.png") 50% 50% repeat-x; color: #cd0a0a; }
 .ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a { color: #cd0a0a; }
 .ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text { color: #cd0a0a; }
 .ui-priority-primary, .ui-widget-content .ui-priority-primary, .ui-widget-header .ui-priority-primary { font-weight: bold; }
@@ -87,14 +86,14 @@
 ----------------------------------*/
 
 /* states and images */
-.ui-icon { width: 16px; height: 16px; background-image: url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-icons_222222_256x240.png); }
-.ui-widget-content .ui-icon {background-image: url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-icons_222222_256x240.png); }
-.ui-widget-header .ui-icon {background-image: url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-icons_222222_256x240.png); }
-.ui-state-default .ui-icon { background-image: url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-icons_888888_256x240.png); }
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-image: url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-icons_454545_256x240.png); }
-.ui-state-active .ui-icon {background-image: url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-icons_454545_256x240.png); }
-.ui-state-highlight .ui-icon {background-image: url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-icons_2e83ff_256x240.png); }
-.ui-state-error .ui-icon, .ui-state-error-text .ui-icon {background-image: url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-icons_cd0a0a_256x240.png); }
+.ui-icon { width: 16px; height: 16px; background-image: url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-icons_222222_256x240.png"); }
+.ui-widget-content .ui-icon {background-image: url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-icons_222222_256x240.png"); }
+.ui-widget-header .ui-icon {background-image: url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-icons_222222_256x240.png"); }
+.ui-state-default .ui-icon { background-image: url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-icons_888888_256x240.png"); }
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-image: url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-icons_454545_256x240.png"); }
+.ui-state-active .ui-icon {background-image: url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-icons_454545_256x240.png"); }
+.ui-state-highlight .ui-icon {background-image: url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-icons_2e83ff_256x240.png"); }
+.ui-state-error .ui-icon, .ui-state-error-text .ui-icon {background-image: url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-icons_cd0a0a_256x240.png"); }
 
 /* positioning */
 .ui-icon-carat-1-n { background-position: 0 0; }
@@ -284,8 +283,8 @@
 .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br { -moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; -khtml-border-bottom-right-radius: 4px; border-bottom-right-radius: 4px; }
 
 /* Overlays */
-.ui-widget-overlay { background: #aaaaaa url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); }
-.ui-widget-shadow { margin: -8px 0 0 -8px; padding: 8px; background: #aaaaaa url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); -moz-border-radius: 8px; -khtml-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px; }/*!
+.ui-widget-overlay { background: #aaaaaa url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-bg_flat_0_aaaaaa_40x100.png") 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); }
+.ui-widget-shadow { margin: -8px 0 0 -8px; padding: 8px; background: #aaaaaa url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-bg_flat_0_aaaaaa_40x100.png") 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); -moz-border-radius: 8px; -khtml-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px; }/*!
  * jQuery UI Resizable 1.8.24
  *
  * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
@@ -357,34 +356,34 @@
  * http://docs.jquery.com/UI/Menu#theming
  */
 .ui-menu {
-	list-style:none;
-	padding: 2px;
-	margin: 0;
-	display:block;
-	float: left;
+  list-style:none;
+  padding: 2px;
+  margin: 0;
+  display:block;
+  float: left;
 }
 .ui-menu .ui-menu {
-	margin-top: -3px;
+  margin-top: -3px;
 }
 .ui-menu .ui-menu-item {
-	margin:0;
-	padding: 0;
-	zoom: 1;
-	float: left;
-	clear: left;
-	width: 100%;
+  margin:0;
+  padding: 0;
+  zoom: 1;
+  float: left;
+  clear: left;
+  width: 100%;
 }
 .ui-menu .ui-menu-item a {
-	text-decoration:none;
-	display:block;
-	padding:.2em .4em;
-	line-height:1.5;
-	zoom:1;
+  text-decoration:none;
+  display:block;
+  padding:.2em .4em;
+  line-height:1.5;
+  zoom:1;
 }
 .ui-menu .ui-menu-item a.ui-state-hover,
 .ui-menu .ui-menu-item a.ui-state-active {
-	font-weight: normal;
-	margin: -1px;
+  font-weight: normal;
+  margin: -1px;
 }
 /*!
  * jQuery UI Button 1.8.24
@@ -569,86 +568,86 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 /* Core qTip styles */
 .qtip, .qtip{
-	position: absolute;
-	left: -28000px;
-	top: -28000px;
-	display: none;
+  position: absolute;
+  left: -28000px;
+  top: -28000px;
+  display: none;
 
-	max-width: 280px;
-	min-width: 50px;
-	
-	font-size: 10.5px;
-	line-height: 12px;
+  max-width: 280px;
+  min-width: 50px;
 
-	direction: ltr;
+  font-size: 10.5px;
+  line-height: 12px;
+
+  direction: ltr;
 }
 
-	.qtip-content{
-		position: relative;
-		padding: 5px 9px;
-		overflow: hidden;
+  .qtip-content{
+    position: relative;
+    padding: 5px 9px;
+    overflow: hidden;
 
-		text-align: left;
-		word-wrap: break-word;
-	}
+    text-align: left;
+    word-wrap: break-word;
+  }
 
-	.qtip-titlebar{
-		position: relative;
-		padding: 5px 35px 5px 10px;
-		overflow: hidden;
+  .qtip-titlebar{
+    position: relative;
+    padding: 5px 35px 5px 10px;
+    overflow: hidden;
 
-		border-width: 0 0 1px;
-		font-weight: bold;
-	}
+    border-width: 0 0 1px;
+    font-weight: bold;
+  }
 
-	.qtip-titlebar + .qtip-content{ border-top-width: 0 !important; }
+  .qtip-titlebar + .qtip-content{ border-top-width: 0 !important; }
 
-	/* Default close button class */
-	.qtip-close{
-		position: absolute;
-		right: -9px; top: -9px;
+  /* Default close button class */
+  .qtip-close{
+    position: absolute;
+    right: -9px; top: -9px;
 
-		cursor: pointer;
-		outline: medium none;
+    cursor: pointer;
+    outline: medium none;
 
-		border-width: 1px;
-		border-style: solid;
-		border-color: transparent;
-	}
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+  }
 
-		.qtip-titlebar .qtip-close{
-			right: 4px; top: 50%;
-			margin-top: -9px;
-		}
-	
-		* html .qtip-titlebar .qtip-close{ top: 16px; } /* IE fix */
+    .qtip-titlebar .qtip-close{
+      right: 4px; top: 50%;
+      margin-top: -9px;
+    }
 
-		.qtip-titlebar .ui-icon,
-		.qtip-icon .ui-icon{
-			display: block;
-			text-indent: -1000em;
-			direction: ltr;
-			vertical-align: middle;
-		}
+    * html .qtip-titlebar .qtip-close{ top: 16px; } /* IE fix */
 
-		.qtip-icon, .qtip-icon .ui-icon{
-			-moz-border-radius: 3px;
-			-webkit-border-radius: 3px;
-			border-radius: 3px;
-			text-decoration: none;
-		}
+    .qtip-titlebar .ui-icon,
+    .qtip-icon .ui-icon{
+      display: block;
+      text-indent: -1000em;
+      direction: ltr;
+      vertical-align: middle;
+    }
 
-			.qtip-icon .ui-icon{
-				width: 18px;
-				height: 14px;
+    .qtip-icon, .qtip-icon .ui-icon{
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      text-decoration: none;
+    }
 
-				text-align: center;
-				text-indent: 0;
-				font: normal bold 10px/13px Tahoma,sans-serif;
+      .qtip-icon .ui-icon{
+        width: 18px;
+        height: 14px;
 
-				color: inherit;
-				background: transparent none no-repeat -100em -100em;
-			}
+        text-align: center;
+        text-indent: 0;
+        font: normal bold 10px/13px Tahoma,sans-serif;
+
+        color: inherit;
+        background: transparent none no-repeat -100em -100em;
+      }
 
 
 /* Applied to 'focused' tooltips e.g. most recently displayed/interacted with */
@@ -659,341 +658,341 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 /* Default tooltip style */
 .qtip-default{
-	border-width: 1px;
-	border-style: solid;
-	border-color: #F1D031;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #F1D031;
 
-	background-color: #FFFFA3;
-	color: #555;
+  background-color: #FFFFA3;
+  color: #555;
 }
 
-	.qtip-default .qtip-titlebar{
-		background-color: #FFEF93;
-	}
+  .qtip-default .qtip-titlebar{
+    background-color: #FFEF93;
+  }
 
-	.qtip-default .qtip-icon{
-		border-color: #CCC;
-		background: #F1F1F1;
-		color: #777;
-	}
-	
-	.qtip-default .qtip-titlebar .qtip-close{
-		border-color: #AAA;
-		color: #111;
-	}
+  .qtip-default .qtip-icon{
+    border-color: #CCC;
+    background: #F1F1F1;
+    color: #777;
+  }
+
+  .qtip-default .qtip-titlebar .qtip-close{
+    border-color: #AAA;
+    color: #111;
+  }
 
 
 /*! Light tooltip style */
 .qtip-light{
-	background-color: white;
-	border-color: #E2E2E2;
-	color: #454545;
+  background-color: white;
+  border-color: #E2E2E2;
+  color: #454545;
 }
 
-	.qtip-light .qtip-titlebar{
-		background-color: #f1f1f1;
-	}
+  .qtip-light .qtip-titlebar{
+    background-color: #f1f1f1;
+  }
 
 
 /*! Dark tooltip style */
 .qtip-dark{
-	background-color: #505050;
-	border-color: #303030;
-	color: #f3f3f3;
+  background-color: #505050;
+  border-color: #303030;
+  color: #f3f3f3;
 }
 
-	.qtip-dark .qtip-titlebar{
-		background-color: #404040;
-	}
+  .qtip-dark .qtip-titlebar{
+    background-color: #404040;
+  }
 
-	.qtip-dark .qtip-icon{
-		border-color: #444;
-	}
+  .qtip-dark .qtip-icon{
+    border-color: #444;
+  }
 
-	.qtip-dark .qtip-titlebar .ui-state-hover{
-		border-color: #303030;
-	}
+  .qtip-dark .qtip-titlebar .ui-state-hover{
+    border-color: #303030;
+  }
 
 
 /*! Cream tooltip style */
 .qtip-cream{
-	background-color: #FBF7AA;
-	border-color: #F9E98E;
-	color: #A27D35;
+  background-color: #FBF7AA;
+  border-color: #F9E98E;
+  color: #A27D35;
 }
 
-	.qtip-cream .qtip-titlebar{
-		background-color: #F0DE7D;
-	}
+  .qtip-cream .qtip-titlebar{
+    background-color: #F0DE7D;
+  }
 
-	.qtip-cream .qtip-close .qtip-icon{
-		background-position: -82px 0;
-	}
+  .qtip-cream .qtip-close .qtip-icon{
+    background-position: -82px 0;
+  }
 
 
 /*! Red tooltip style */
 .qtip-red{
-	background-color: #F78B83;
-	border-color: #D95252;
-	color: #912323;
+  background-color: #F78B83;
+  border-color: #D95252;
+  color: #912323;
 }
 
-	.qtip-red .qtip-titlebar{
-		background-color: #F06D65;
-	}
+  .qtip-red .qtip-titlebar{
+    background-color: #F06D65;
+  }
 
-	.qtip-red .qtip-close .qtip-icon{
-		background-position: -102px 0;
-	}
+  .qtip-red .qtip-close .qtip-icon{
+    background-position: -102px 0;
+  }
 
-	.qtip-red .qtip-icon{
-		border-color: #D95252;
-	}
+  .qtip-red .qtip-icon{
+    border-color: #D95252;
+  }
 
-	.qtip-red .qtip-titlebar .ui-state-hover{
-		border-color: #D95252;
-	}
+  .qtip-red .qtip-titlebar .ui-state-hover{
+    border-color: #D95252;
+  }
 
 
 /*! Green tooltip style */
 .qtip-green{
-	background-color: #CAED9E;
-	border-color: #90D93F;
-	color: #3F6219;
+  background-color: #CAED9E;
+  border-color: #90D93F;
+  color: #3F6219;
 }
 
-	.qtip-green .qtip-titlebar{
-		background-color: #B0DE78;
-	}
+  .qtip-green .qtip-titlebar{
+    background-color: #B0DE78;
+  }
 
-	.qtip-green .qtip-close .qtip-icon{
-		background-position: -42px 0;
-	}
+  .qtip-green .qtip-close .qtip-icon{
+    background-position: -42px 0;
+  }
 
 
 /*! Blue tooltip style */
 .qtip-blue{
-	background-color: #E5F6FE;
-	border-color: #ADD9ED;
-	color: #5E99BD;
+  background-color: #E5F6FE;
+  border-color: #ADD9ED;
+  color: #5E99BD;
 }
 
-	.qtip-blue .qtip-titlebar{
-		background-color: #D0E9F5;
-	}
+  .qtip-blue .qtip-titlebar{
+    background-color: #D0E9F5;
+  }
 
-	.qtip-blue .qtip-close .qtip-icon{
-		background-position: -2px 0;
-	}
+  .qtip-blue .qtip-close .qtip-icon{
+    background-position: -2px 0;
+  }
 
 
 /* Add shadows to your tooltips in: FF3+, Chrome 2+, Opera 10.6+, IE9+, Safari 2+ */
 .qtip-shadow{
-	-webkit-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
-	-moz-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
-	box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
 }
 
 /* Add rounded corners to your tooltips in: FF3+, Chrome 2+, Opera 10.6+, IE9+, Safari 2+ */
 .qtip-rounded,
 .qtip-tipsy,
 .qtip-bootstrap{
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
 }
 
 /* Youtube tooltip style */
 .qtip-youtube{
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	
-	-webkit-box-shadow: 0 0 3px #333;
-	-moz-box-shadow: 0 0 3px #333;
-	box-shadow: 0 0 3px #333;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
 
-	color: white;
-	border-width: 0;
+  -webkit-box-shadow: 0 0 3px #333;
+  -moz-box-shadow: 0 0 3px #333;
+  box-shadow: 0 0 3px #333;
 
-	background: #4A4A4A;
-	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#4A4A4A),color-stop(100%,black));
-	background-image: -webkit-linear-gradient(top,#4A4A4A 0,black 100%);
-	background-image: -moz-linear-gradient(top,#4A4A4A 0,black 100%);
-	background-image: -ms-linear-gradient(top,#4A4A4A 0,black 100%);
-	background-image: -o-linear-gradient(top,#4A4A4A 0,black 100%);
+  color: white;
+  border-width: 0;
+
+  background: #4A4A4A;
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#4A4A4A),color-stop(100%,black));
+  background-image: -webkit-linear-gradient(top,#4A4A4A 0,black 100%);
+  background-image: -moz-linear-gradient(top,#4A4A4A 0,black 100%);
+  background-image: -ms-linear-gradient(top,#4A4A4A 0,black 100%);
+  background-image: -o-linear-gradient(top,#4A4A4A 0,black 100%);
 }
 
-	.qtip-youtube .qtip-titlebar{
-		background-color: #4A4A4A;
-		background-color: rgba(0,0,0,0);
-	}
-	
-	.qtip-youtube .qtip-content{
-		padding: .75em;
-		font: 12px arial,sans-serif;
-		
-		filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#4a4a4a,EndColorStr=#000000);
-		-ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#4a4a4a,EndColorStr=#000000);";
-	}
+  .qtip-youtube .qtip-titlebar{
+    background-color: #4A4A4A;
+    background-color: rgba(0,0,0,0);
+  }
 
-	.qtip-youtube .qtip-icon{
-		border-color: #222;
-	}
+  .qtip-youtube .qtip-content{
+    padding: .75em;
+    font: 12px arial,sans-serif;
 
-	.qtip-youtube .qtip-titlebar .ui-state-hover{
-		border-color: #303030;
-	}
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#4a4a4a,EndColorStr=#000000);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#4a4a4a,EndColorStr=#000000);";
+  }
+
+  .qtip-youtube .qtip-icon{
+    border-color: #222;
+  }
+
+  .qtip-youtube .qtip-titlebar .ui-state-hover{
+    border-color: #303030;
+  }
 
 
 /* jQuery TOOLS Tooltip style */
 .qtip-jtools{
-	background: #232323;
-	background: rgba(0, 0, 0, 0.7);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#717171), to(#232323));
-	background-image: -moz-linear-gradient(top, #717171, #232323);
-	background-image: -webkit-linear-gradient(top, #717171, #232323);
-	background-image: -ms-linear-gradient(top, #717171, #232323);
-	background-image: -o-linear-gradient(top, #717171, #232323);
+  background: #232323;
+  background: rgba(0, 0, 0, 0.7);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#717171), to(#232323));
+  background-image: -moz-linear-gradient(top, #717171, #232323);
+  background-image: -webkit-linear-gradient(top, #717171, #232323);
+  background-image: -ms-linear-gradient(top, #717171, #232323);
+  background-image: -o-linear-gradient(top, #717171, #232323);
 
-	border: 2px solid #ddd;
-	border: 2px solid rgba(241,241,241,1);
+  border: 2px solid #ddd;
+  border: 2px solid rgba(241,241,241,1);
 
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
 
-	-webkit-box-shadow: 0 0 12px #333;
-	-moz-box-shadow: 0 0 12px #333;
-	box-shadow: 0 0 12px #333;
+  -webkit-box-shadow: 0 0 12px #333;
+  -moz-box-shadow: 0 0 12px #333;
+  box-shadow: 0 0 12px #333;
 }
 
-	/* IE Specific */
-	.qtip-jtools .qtip-titlebar{
-		background-color: transparent;
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#717171,endColorstr=#4A4A4A);
-		-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#717171,endColorstr=#4A4A4A)";
-	}
-	.qtip-jtools .qtip-content{
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4A4A4A,endColorstr=#232323);
-		-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#4A4A4A,endColorstr=#232323)";
-	}
+  /* IE Specific */
+  .qtip-jtools .qtip-titlebar{
+    background-color: transparent;
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#717171,endColorstr=#4A4A4A);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#717171,endColorstr=#4A4A4A)";
+  }
+  .qtip-jtools .qtip-content{
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4A4A4A,endColorstr=#232323);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#4A4A4A,endColorstr=#232323)";
+  }
 
-	.qtip-jtools .qtip-titlebar,
-	.qtip-jtools .qtip-content{
-		background: transparent;
-		color: white;
-		border: 0 dashed transparent;
-	}
+  .qtip-jtools .qtip-titlebar,
+  .qtip-jtools .qtip-content{
+    background: transparent;
+    color: white;
+    border: 0 dashed transparent;
+  }
 
-	.qtip-jtools .qtip-icon{
-		border-color: #555;
-	}
+  .qtip-jtools .qtip-icon{
+    border-color: #555;
+  }
 
-	.qtip-jtools .qtip-titlebar .ui-state-hover{
-		border-color: #333;
-	}
+  .qtip-jtools .qtip-titlebar .ui-state-hover{
+    border-color: #333;
+  }
 
 
 /* Cluetip style */
 .qtip-cluetip{
-	-webkit-box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.4);
-	-moz-box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.4);
-	box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.4);
 
-	background-color: #D9D9C2;
-	color: #111;
-	border: 0 dashed transparent;
+  background-color: #D9D9C2;
+  color: #111;
+  border: 0 dashed transparent;
 }
 
-	.qtip-cluetip .qtip-titlebar{
-		background-color: #87876A;
-		color: white;
-		border: 0 dashed transparent;
-	}
-	
-	.qtip-cluetip .qtip-icon{
-		border-color: #808064;
-	}
-	
-	.qtip-cluetip .qtip-titlebar .ui-state-hover{
-		border-color: #696952;
-		color: #696952;
-	}
+  .qtip-cluetip .qtip-titlebar{
+    background-color: #87876A;
+    color: white;
+    border: 0 dashed transparent;
+  }
+
+  .qtip-cluetip .qtip-icon{
+    border-color: #808064;
+  }
+
+  .qtip-cluetip .qtip-titlebar .ui-state-hover{
+    border-color: #696952;
+    color: #696952;
+  }
 
 
 /* Tipsy style */
 .qtip-tipsy{
-	background: black;
-	background: rgba(0, 0, 0, .87);
+  background: black;
+  background: rgba(0, 0, 0, .87);
 
-	color: white;
-	border: 0 solid transparent;
+  color: white;
+  border: 0 solid transparent;
 
-	font-size: 11px;
-	font-family: 'Lucida Grande', sans-serif;
-	font-weight: bold;
-	line-height: 16px;
-	text-shadow: 0 1px black;
+  font-size: 11px;
+  font-family: 'Lucida Grande', sans-serif;
+  font-weight: bold;
+  line-height: 16px;
+  text-shadow: 0 1px black;
 }
 
-	.qtip-tipsy .qtip-titlebar{
-		padding: 6px 35px 0 10;
-		background-color: transparent;
-	}
+  .qtip-tipsy .qtip-titlebar{
+    padding: 6px 35px 0 10;
+    background-color: transparent;
+  }
 
-	.qtip-tipsy .qtip-content{
-		padding: 6px 10;
-	}
-	
-	.qtip-tipsy .qtip-icon{
-		border-color: #222;
-		text-shadow: none;
-	}
+  .qtip-tipsy .qtip-content{
+    padding: 6px 10;
+  }
 
-	.qtip-tipsy .qtip-titlebar .ui-state-hover{
-		border-color: #303030;
-	}
+  .qtip-tipsy .qtip-icon{
+    border-color: #222;
+    text-shadow: none;
+  }
+
+  .qtip-tipsy .qtip-titlebar .ui-state-hover{
+    border-color: #303030;
+  }
 
 
 /* Tipped style */
 .qtip-tipped{
-	border: 3px solid #959FA9;
+  border: 3px solid #959FA9;
 
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
 
-	background-color: #F9F9F9;
-	color: #454545;
+  background-color: #F9F9F9;
+  color: #454545;
 
-	font-weight: normal;
-	font-family: serif;
+  font-weight: normal;
+  font-family: serif;
 }
 
-	.qtip-tipped .qtip-titlebar{
-		border-bottom-width: 0;
+  .qtip-tipped .qtip-titlebar{
+    border-bottom-width: 0;
 
-		color: white;
-		background: #3A79B8;
-		background-image: -webkit-gradient(linear, left top, left bottom, from(#3A79B8), to(#2E629D));
-		background-image: -webkit-linear-gradient(top, #3A79B8, #2E629D);
-		background-image: -moz-linear-gradient(top, #3A79B8, #2E629D);
-		background-image: -ms-linear-gradient(top, #3A79B8, #2E629D);
-		background-image: -o-linear-gradient(top, #3A79B8, #2E629D);
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#3A79B8,endColorstr=#2E629D);
-		-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#3A79B8,endColorstr=#2E629D)";
-	}
+    color: white;
+    background: #3A79B8;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#3A79B8), to(#2E629D));
+    background-image: -webkit-linear-gradient(top, #3A79B8, #2E629D);
+    background-image: -moz-linear-gradient(top, #3A79B8, #2E629D);
+    background-image: -ms-linear-gradient(top, #3A79B8, #2E629D);
+    background-image: -o-linear-gradient(top, #3A79B8, #2E629D);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#3A79B8,endColorstr=#2E629D);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#3A79B8,endColorstr=#2E629D)";
+  }
 
-	.qtip-tipped .qtip-icon{
-		border: 2px solid #285589;
-		background: #285589;
-	}
+  .qtip-tipped .qtip-icon{
+    border: 2px solid #285589;
+    background: #285589;
+  }
 
-		.qtip-tipped .qtip-icon .ui-icon{
-			background-color: #FBFBFB;
-			color: #555;
-		}
+    .qtip-tipped .qtip-icon .ui-icon{
+      background-color: #FBFBFB;
+      color: #555;
+    }
 
 
 /**
@@ -1003,164 +1002,164 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
  * Does not work with IE 7.
  */
 .qtip-bootstrap{
-	/** Taken from Bootstrap body */
-	font-size: 14px;
-	line-height: 20px;
-	color: #333333;
+  /** Taken from Bootstrap body */
+  font-size: 14px;
+  line-height: 20px;
+  color: #333333;
 
-	/** Taken from Bootstrap .popover */
-	padding: 1px;
-	background-color: #ffffff;
-	border: 1px solid #ccc;
-	border: 1px solid rgba(0, 0, 0, 0.2);
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	-webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-	-moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-	-webkit-background-clip: padding-box;
-	-moz-background-clip: padding;
-	background-clip: padding-box;
+  /** Taken from Bootstrap .popover */
+  padding: 1px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
 }
 
-	.qtip-bootstrap .qtip-titlebar{
-		/** Taken from Bootstrap .popover-title */
-		padding: 8px 14px;
-		margin: 0;
-		font-size: 14px;
-		font-weight: normal;
-		line-height: 18px;
-		background-color: #f7f7f7;
-		border-bottom: 1px solid #ebebeb;
-		-webkit-border-radius: 5px 5px 0 0;
-		-moz-border-radius: 5px 5px 0 0;
-		border-radius: 5px 5px 0 0;
-	}
+  .qtip-bootstrap .qtip-titlebar{
+    /** Taken from Bootstrap .popover-title */
+    padding: 8px 14px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 18px;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ebebeb;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+  }
 
-		.qtip-bootstrap .qtip-titlebar .qtip-close{
-			/**
-			 * Overrides qTip2:
-			 * .qtip-titlebar .qtip-close{
-			 *   [...]
-			 *   right: 4px;
-			 *   top: 50%;
-			 *   [...]
-			 *   border-style: solid;
-			 * }
-			 */
-			right: 11px;
-			top: 45%;
-			border-style: none;
-		}
+    .qtip-bootstrap .qtip-titlebar .qtip-close{
+      /**
+       * Overrides qTip2:
+       * .qtip-titlebar .qtip-close{
+       *   [...]
+       *   right: 4px;
+       *   top: 50%;
+       *   [...]
+       *   border-style: solid;
+       * }
+       */
+      right: 11px;
+      top: 45%;
+      border-style: none;
+    }
 
-	.qtip-bootstrap .qtip-content{
-		/** Taken from Bootstrap .popover-content */
-		padding: 9px 14px;
-	}
+  .qtip-bootstrap .qtip-content{
+    /** Taken from Bootstrap .popover-content */
+    padding: 9px 14px;
+  }
 
-	.qtip-bootstrap .qtip-icon{
-		/**
-		 * Overrides qTip2:
-		 * .qtip-default .qtip-icon {
-		 *   border-color: #CCC;
-		 *   background: #F1F1F1;
-		 *   color: #777;
-		 * }
-		 */
-		background: transparent;
-	}
+  .qtip-bootstrap .qtip-icon{
+    /**
+     * Overrides qTip2:
+     * .qtip-default .qtip-icon {
+     *   border-color: #CCC;
+     *   background: #F1F1F1;
+     *   color: #777;
+     * }
+     */
+    background: transparent;
+  }
 
-		.qtip-bootstrap .qtip-icon .ui-icon{
-			/**
-			 * Overrides qTip2:
-			 * .qtip-icon .ui-icon{
-			 *   width: 18px;
-			 *   height: 14px;
-			 * }
-			 */
-			width: auto;
-			height: auto;
+    .qtip-bootstrap .qtip-icon .ui-icon{
+      /**
+       * Overrides qTip2:
+       * .qtip-icon .ui-icon{
+       *   width: 18px;
+       *   height: 14px;
+       * }
+       */
+      width: auto;
+      height: auto;
 
-			/* Taken from Bootstrap .close */
-			float: right;
-			font-size: 20px;
-			font-weight: bold;
-			line-height: 18px;
-			color: #000000;
-			text-shadow: 0 1px 0 #ffffff;
-			opacity: 0.2;
-			filter: alpha(opacity=20);
-		}
+      /* Taken from Bootstrap .close */
+      float: right;
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 18px;
+      color: #000000;
+      text-shadow: 0 1px 0 #ffffff;
+      opacity: 0.2;
+      filter: alpha(opacity=20);
+    }
 
-		.qtip-bootstrap .qtip-icon .ui-icon:hover{
-			/* Taken from Bootstrap .close:hover */
-			color: #000000;
-			text-decoration: none;
-			cursor: pointer;
-			opacity: 0.4;
-			filter: alpha(opacity=40);
-		}
+    .qtip-bootstrap .qtip-icon .ui-icon:hover{
+      /* Taken from Bootstrap .close:hover */
+      color: #000000;
+      text-decoration: none;
+      cursor: pointer;
+      opacity: 0.4;
+      filter: alpha(opacity=40);
+    }
 
 
 /* IE9 fix - removes all filters */
 .qtip:not(.ie9haxors) div.qtip-content,
 .qtip:not(.ie9haxors) div.qtip-titlebar{
-	filter: none;
-	-ms-filter: none;
+  filter: none;
+  -ms-filter: none;
 }
 
 
 /* Tips plugin */
 .qtip .qtip-tip{
-	margin: 0 auto;
-	overflow: hidden;
-	z-index: 10;
+  margin: 0 auto;
+  overflow: hidden;
+  z-index: 10;
 }
 
-	.qtip .qtip-tip,
-	.qtip .qtip-tip .qtip-vml{
-		position: absolute;
+  .qtip .qtip-tip,
+  .qtip .qtip-tip .qtip-vml{
+    position: absolute;
 
-		color: #123456;
-		background: transparent;
-		border: 0 dashed transparent;
-	}
-	
-	.qtip .qtip-tip canvas{ top: 0; left: 0; }
+    color: #123456;
+    background: transparent;
+    border: 0 dashed transparent;
+  }
 
-	.qtip .qtip-tip .qtip-vml{
-		behavior: url(#default#VML);
-		display: inline-block;
-		visibility: visible;
-	}
+  .qtip .qtip-tip canvas{ top: 0; left: 0; }
+
+  .qtip .qtip-tip .qtip-vml{
+    behavior: url(#default#VML);
+    display: inline-block;
+    visibility: visible;
+  }
 /* Modal plugin */
 #qtip-overlay{
-	position: fixed;
-	left: -10000em;
-	top: -10000em;
+  position: fixed;
+  left: -10000em;
+  top: -10000em;
 }
 
-	/* Applied to modals with show.modal.blur set to true */
-	#qtip-overlay.blurs{ cursor: pointer; }
+  /* Applied to modals with show.modal.blur set to true */
+  #qtip-overlay.blurs{ cursor: pointer; }
 
-	/* Change opacity of overlay here */
-	#qtip-overlay div{
-		position: absolute;
-		left: 0; top: 0;
-		width: 100%; height: 100%;
+  /* Change opacity of overlay here */
+  #qtip-overlay div{
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
 
-		background-color: black;
+    background-color: black;
 
-		opacity: 0.7;
-		filter:alpha(opacity=70);
-		-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
-	}
+    opacity: 0.7;
+    filter:alpha(opacity=70);
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+  }
 
 
 /* IE6 Modal plugin fix */
 .qtipmodal-ie6fix{
-	position: absolute !important;
+  position: absolute !important;
 }
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
@@ -1180,35 +1179,35 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-	display: block;
+  display: block;
 }
 body {
-	line-height: 1;
+  line-height: 1;
 }
 ol, ul {
-	list-style: none;
+  list-style: none;
 }
 blockquote, q {
-	quotes: none;
+  quotes: none;
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
-	content: '';
-	content: none;
+  content: '';
+  content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 /* End Reset */
@@ -1231,14 +1230,14 @@ body {
 
 
 #outer-wrapper {
-    background: url(http://www.khanacademy.org//images/light-page-bg.png) repeat-x;
+    background: url("http://www.khanacademy.org/images/light-page-bg.png") repeat-x;
     min-height: 100%;
     height: auto !important;
     height: 100%;
     margin: 0 0 -77px;
 }
 #page-container, #page-container-inner {
-    background: transparent url(http://www.khanacademy.org//images/content-border.1.png) no-repeat right 85px;
+    background: transparent url("http://www.khanacademy.org/images/content-border.1.png") no-repeat right 85px;
 }
 #page-container {
     background-position: 0 85px;
@@ -1416,7 +1415,7 @@ form { display: inline; }
  */
 .ui-autocomplete { position: absolute; cursor: default; }
 
-.ui-widget-content { border: 1px solid #aaaaaa; background: #ffffff url(http://www.khanacademy.org//stylesheets/jqueryui-package/images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x; color: #222222; }
+.ui-widget-content { border: 1px solid #aaaaaa; background: #ffffff url("http://www.khanacademy.org/stylesheets/jqueryui-package/images/ui-bg_flat_75_ffffff_40x100.png") 50% 50% repeat-x; color: #222222; }
 
 .ui-autocomplete.ui-menu {
     padding:0;
@@ -1481,7 +1480,7 @@ header, footer {
 footer {
     height: 208px;
     clear: both;
-    background: url(http://www.khanacademy.org//images/footer-bg.png) repeat-x 0 0;
+    background: url("http://www.khanacademy.org/images/footer-bg.png") repeat-x 0 0;
     min-width: 970px;
     position: relative;
 }
@@ -1492,13 +1491,13 @@ footer {
 
     footer.short {
         color: #555;
-        background: url(http://www.khanacademy.org//images/light-page-bg.png) repeat-x 0 -30px;
+        background: url("http://www.khanacademy.org/images/light-page-bg.png") repeat-x 0 -30px;
         border-top: 1px solid #C6D1AD;
         z-index: 10;
     }
 
     footer #leaves {
-        background-image: url(http://www.khanacademy.org//images/non-repeating-sprites.4.png);
+        background-image: url("http://www.khanacademy.org/images/non-repeating-sprites.4.png");
         background-position: 319px -908px;
         height: 188px;
     }
@@ -1543,7 +1542,7 @@ footer {
     }
 
     footer #creative-commons-link {
-        background-image: url(http://www.khanacademy.org//images/non-repeating-sprites.4.png);
+        background-image: url("http://www.khanacademy.org/images/non-repeating-sprites.4.png");
         background-position: -144px -67px;
         display: inline-block;
         height: 15px;
@@ -1585,17 +1584,17 @@ footer {
     }
 
     footer.short .small-social-links .youtube {
-        background-image: url(http://www.khanacademy.org//images/non-repeating-sprites.4.png);
+        background-image: url("http://www.khanacademy.org/images/non-repeating-sprites.4.png");
         background-position: -10px -67px;
     }
 
     footer.short .small-social-links .twitter {
-        background-image: url(http://www.khanacademy.org//images/non-repeating-sprites.4.png);
+        background-image: url("http://www.khanacademy.org/images/non-repeating-sprites.4.png");
         background-position: -10px -111px;
     }
 
     footer.short .small-social-links .facebook {
-        background-image: url(http://www.khanacademy.org//images/non-repeating-sprites.4.png);
+        background-image: url("http://www.khanacademy.org/images/non-repeating-sprites.4.png");
         background-position: -10px -155px;
     }
 
@@ -1624,13 +1623,13 @@ footer {
     width: 280px;
     height: 68px;
     background-position: 0 0;
-    background-image: url(http://www.khanacademy.org//images/ka-logo.png); /*! data-uri */
+    background-image: url("http://www.khanacademy.org/images/ka-logo.png"); /*! data-uri */
     background-size: 100%;
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
     #logo-image {
-        background-image: url(http://www.khanacademy.org//images/ka-logo_2x.png); /*! data-uri */
+        background-image: url("http://www.khanacademy.org/images/ka-logo_2x.png"); /*! data-uri */
     }
 }
 
@@ -1958,13 +1957,13 @@ footer {
         height: 30px;
         display: inline-block;
         border: 1px solid transparent;
-        background-image: url(http://www.khanacademy.org/"/images/discussions-lo-16px.png");
+        background-image: url("http://www.khanacademy.org/images/discussions-lo-16px.png");
         background-repeat: no-repeat;
         background-position: 5px 10px;
     }
 
     .user-notification .icon:hover {
-        background-image: url(http://www.khanacademy.org/"/images/discussions-hi-16px.png");
+        background-image: url("http://www.khanacademy.org/images/discussions-hi-16px.png");
         background-color: #89B908;
         border: 1px solid #76A005;
         background-position: 5px 9px;
@@ -2019,7 +2018,7 @@ footer {
     }
 
     .page-search .ui-autocomplete-loading {
-        background-image: url(http://www.khanacademy.org/"/images/throbber.gif");
+        background-image: url("http://www.khanacademy.org/images/throbber.gif");
         background-repeat:no-repeat;
         background-position:4px 5px;
     }
@@ -2031,7 +2030,7 @@ footer {
 }
 
 .simple-input.search-input {
-    background-image: url(http://www.khanacademy.org//images/non-repeating-sprites.4.png);
+    background-image: url("http://www.khanacademy.org/images/non-repeating-sprites.4.png");
     background-position: -5px -867px;
     padding-left: 25px;
 }
@@ -2656,7 +2655,7 @@ ul.topic-browser-menu > li > ul > li > a {
         .info-box #related-video-list a .video-title {
             white-space: nowrap;
         }
-        
+
     .info-box #related-video-list .separator {
         display: none;
     }
@@ -3181,15 +3180,15 @@ a.nodeLabel:hover {
     display: inline-block;
 }
 
-.node-icon.node-complete    { background: url(http://www.khanacademy.org//images/node-complete.png?glove); }   /*! data-uri */
-.node-icon.node-review      { background: url(http://www.khanacademy.org//images/node-review.png?glove); }     /*! data-uri */
-.node-icon.node-suggested   { background: url(http://www.khanacademy.org//images/node-suggested.png?glove); }  /*! data-uri */
-.node-icon.node-not-started { background: url(http://www.khanacademy.org//images/node-not-started.png?glove); }  /*! data-uri */
+.node-icon.node-complete    { background: url("http://www.khanacademy.org/images/node-complete.png?glove"); }   /*! data-uri */
+.node-icon.node-review      { background: url("http://www.khanacademy.org/images/node-review.png?glove"); }     /*! data-uri */
+.node-icon.node-suggested   { background: url("http://www.khanacademy.org/images/node-suggested.png?glove"); }  /*! data-uri */
+.node-icon.node-not-started { background: url("http://www.khanacademy.org/images/node-not-started.png?glove"); }  /*! data-uri */
 
-.nodeLabelFiltered .node-icon.node-complete    { background: url(http://www.khanacademy.org//images/node-complete-faded.png?glove); }   /*! data-uri */
-.nodeLabelFiltered .node-icon.node-review      { background: url(http://www.khanacademy.org//images/node-review-faded.png?glove); }     /*! data-uri */
-.nodeLabelFiltered .node-icon.node-suggested   { background: url(http://www.khanacademy.org//images/node-suggested-faded.png?glove); }   /*! data-uri */
-.nodeLabelFiltered .node-icon.node-not-started { background: url(http://www.khanacademy.org//images/node-not-started-faded.png?glove); }  /*! data-uri */
+.nodeLabelFiltered .node-icon.node-complete    { background: url("http://www.khanacademy.org/images/node-complete-faded.png?glove"); }   /*! data-uri */
+.nodeLabelFiltered .node-icon.node-review      { background: url("http://www.khanacademy.org/images/node-review-faded.png?glove"); }     /*! data-uri */
+.nodeLabelFiltered .node-icon.node-suggested   { background: url("http://www.khanacademy.org/images/node-suggested-faded.png?glove"); }   /*! data-uri */
+.nodeLabelFiltered .node-icon.node-not-started { background: url("http://www.khanacademy.org/images/node-not-started-faded.png?glove"); }  /*! data-uri */
 
 .zoom10 .nodeLabel {
     position: relative;
@@ -3222,15 +3221,15 @@ a.nodeLabel:hover {
     height: 40px;
 }
 
-.zoom9 .nodeLabel.exercise .node-icon.node-complete    { background: url(http://www.khanacademy.org//images/node-complete-40.png?glove); }
-.zoom9 .nodeLabel.exercise .node-icon.node-review      { background: url(http://www.khanacademy.org//images/node-review-40.png?glove); }
-.zoom9 .nodeLabel.exercise .node-icon.node-suggested   { background: url(http://www.khanacademy.org//images/node-suggested-40.png?glove); }
-.zoom9 .nodeLabel.exercise .node-icon.node-not-started { background: url(http://www.khanacademy.org//images/node-not-started-40.png?glove); }
+.zoom9 .nodeLabel.exercise .node-icon.node-complete    { background: url("http://www.khanacademy.org/images/node-complete-40.png?glove"); }
+.zoom9 .nodeLabel.exercise .node-icon.node-review      { background: url("http://www.khanacademy.org/images/node-review-40.png?glove"); }
+.zoom9 .nodeLabel.exercise .node-icon.node-suggested   { background: url("http://www.khanacademy.org/images/node-suggested-40.png?glove"); }
+.zoom9 .nodeLabel.exercise .node-icon.node-not-started { background: url("http://www.khanacademy.org/images/node-not-started-40.png?glove"); }
 
-.zoom9 .nodeLabelFiltered.exercise .node-icon.node-complete    { background: url(http://www.khanacademy.org//images/node-complete-40-faded.png?glove); }
-.zoom9 .nodeLabelFiltered.exercise .node-icon.node-review      { background: url(http://www.khanacademy.org//images/node-review-40-faded.png?glove); }
-.zoom9 .nodeLabelFiltered.exercise .node-icon.node-suggested   { background: url(http://www.khanacademy.org//images/node-suggested-40-faded.png?glove); }
-.zoom9 .nodeLabelFiltered.exercise .node-icon.node-not-started { background: url(http://www.khanacademy.org//images/node-not-started-40-faded.png?glove); }
+.zoom9 .nodeLabelFiltered.exercise .node-icon.node-complete    { background: url("http://www.khanacademy.org/images/node-complete-40-faded.png?glove"); }
+.zoom9 .nodeLabelFiltered.exercise .node-icon.node-review      { background: url("http://www.khanacademy.org/images/node-review-40-faded.png?glove"); }
+.zoom9 .nodeLabelFiltered.exercise .node-icon.node-suggested   { background: url("http://www.khanacademy.org/images/node-suggested-40-faded.png?glove"); }
+.zoom9 .nodeLabelFiltered.exercise .node-icon.node-not-started { background: url("http://www.khanacademy.org/images/node-not-started-40-faded.png?glove"); }
 
 .zoom7 .nodeLabel.exercise .node-icon {
     width: 10px;
@@ -3240,15 +3239,15 @@ a.nodeLabel:hover {
     display: none;
 }
 
-.zoom7 .nodeLabel.exercise .node-icon.node-complete    { background: url(http://www.khanacademy.org//images/node-complete-10.png?glove); }
-.zoom7 .nodeLabel.exercise .node-icon.node-review      { background: url(http://www.khanacademy.org//images/node-review-10.png?glove); }
-.zoom7 .nodeLabel.exercise .node-icon.node-suggested   { background: url(http://www.khanacademy.org//images/node-suggested-10.png?glove); }
-.zoom7 .nodeLabel.exercise .node-icon.node-not-started { background: url(http://www.khanacademy.org//images/node-not-started-10.png?glove); }
+.zoom7 .nodeLabel.exercise .node-icon.node-complete    { background: url("http://www.khanacademy.org/images/node-complete-10.png?glove"); }
+.zoom7 .nodeLabel.exercise .node-icon.node-review      { background: url("http://www.khanacademy.org/images/node-review-10.png?glove"); }
+.zoom7 .nodeLabel.exercise .node-icon.node-suggested   { background: url("http://www.khanacademy.org/images/node-suggested-10.png?glove"); }
+.zoom7 .nodeLabel.exercise .node-icon.node-not-started { background: url("http://www.khanacademy.org/images/node-not-started-10.png?glove"); }
 
-.zoom7 .nodeLabelFiltered.exercise .node-icon.node-complete    { background: url(http://www.khanacademy.org//images/node-complete-10-faded.png?glove); }
-.zoom7 .nodeLabelFiltered.exercise .node-icon.node-review      { background: url(http://www.khanacademy.org//images/node-review-10-faded.png?glove); }
-.zoom7 .nodeLabelFiltered.exercise .node-icon.node-suggested   { background: url(http://www.khanacademy.org//images/node-suggested-10-faded.png?glove); }
-.zoom7 .nodeLabelFiltered.exercise .node-icon.node-not-started { background: url(http://www.khanacademy.org//images/node-not-started-10-faded.png?glove); }
+.zoom7 .nodeLabelFiltered.exercise .node-icon.node-complete    { background: url("http://www.khanacademy.org/images/node-complete-10-faded.png?glove"); }
+.zoom7 .nodeLabelFiltered.exercise .node-icon.node-review      { background: url("http://www.khanacademy.org/images/node-review-10-faded.png?glove"); }
+.zoom7 .nodeLabelFiltered.exercise .node-icon.node-suggested   { background: url("http://www.khanacademy.org/images/node-suggested-10-faded.png?glove"); }
+.zoom7 .nodeLabelFiltered.exercise .node-icon.node-not-started { background: url("http://www.khanacademy.org/images/node-not-started-10-faded.png?glove"); }
 
 .lte7 .zoom6 .nodeLabel .node-icon,
 .lte7 .zoom7 .nodeLabel.topic .node-icon,
@@ -3276,15 +3275,15 @@ a.nodeLabel:hover {
     margin-left: 18px;
 }
 
-.zoom8 .nodeLabel.exercise .node-icon.node-complete    { background: url(http://www.khanacademy.org//images/node-complete-26.png?glove); }
-.zoom8 .nodeLabel.exercise .node-icon.node-review      { background: url(http://www.khanacademy.org//images/node-review-26.png?glove); }
-.zoom8 .nodeLabel.exercise .node-icon.node-suggested   { background: url(http://www.khanacademy.org//images/node-suggested-26.png?glove); }
-.zoom8 .nodeLabel.exercise .node-icon.node-not-started { background: url(http://www.khanacademy.org//images/node-not-started-26.png?glove); }
+.zoom8 .nodeLabel.exercise .node-icon.node-complete    { background: url("http://www.khanacademy.org/images/node-complete-26.png?glove"); }
+.zoom8 .nodeLabel.exercise .node-icon.node-review      { background: url("http://www.khanacademy.org/images/node-review-26.png?glove"); }
+.zoom8 .nodeLabel.exercise .node-icon.node-suggested   { background: url("http://www.khanacademy.org/images/node-suggested-26.png?glove"); }
+.zoom8 .nodeLabel.exercise .node-icon.node-not-started { background: url("http://www.khanacademy.org/images/node-not-started-26.png?glove"); }
 
-.zoom8 .nodeLabelFiltered.exercise .node-icon.node-complete    { background: url(http://www.khanacademy.org//images/node-complete-26-faded.png?glove); }
-.zoom8 .nodeLabelFiltered.exercise .node-icon.node-review      { background: url(http://www.khanacademy.org//images/node-review-26-faded.png?glove); }
-.zoom8 .nodeLabelFiltered.exercise .node-icon.node-suggested   { background: url(http://www.khanacademy.org//images/node-suggested-26-faded.png?glove); }
-.zoom8 .nodeLabelFiltered.exercise .node-icon.node-not-started { background: url(http://www.khanacademy.org//images/node-not-started-26-faded.png?glove); }
+.zoom8 .nodeLabelFiltered.exercise .node-icon.node-complete    { background: url("http://www.khanacademy.org/images/node-complete-26-faded.png?glove"); }
+.zoom8 .nodeLabelFiltered.exercise .node-icon.node-review      { background: url("http://www.khanacademy.org/images/node-review-26-faded.png?glove"); }
+.zoom8 .nodeLabelFiltered.exercise .node-icon.node-suggested   { background: url("http://www.khanacademy.org/images/node-suggested-26-faded.png?glove"); }
+.zoom8 .nodeLabelFiltered.exercise .node-icon.node-not-started { background: url("http://www.khanacademy.org/images/node-not-started-26-faded.png?glove"); }
 
 .zoom6 .nodeLabel.exercise {
     display: none;
@@ -3500,7 +3499,7 @@ a:link.google-analytics-link-track
 /* YouTube jump links found in video discussion and on /about */
 span.youTube {
     padding-left: 18px;
-    background: url(http://www.khanacademy.org/'/images/play.png') no-repeat left top;
+    background: url("http://www.khanacademy.org/'/images/play.png'") no-repeat left top;
     color: #005987;
     cursor: pointer;
 }
@@ -3882,9 +3881,9 @@ a.control:hover { color: #DD6900; }
 
  /*==============================================================================
 
-   Based on: http://www.grc.com/mainmenu.css 
+   Based on: http://www.grc.com/mainmenu.css
    Discussed at: http://www.grc.com/menu2/invitro.htm
-    
+
    GRC multi-level script-free pure-CSS menuing system stylesheet.
    This code is hereby placed into the public domain by its author
    Steve Gibson. It may be freely used for any purpose whatsoever.
@@ -3893,10 +3892,10 @@ a.control:hover { color: #DD6900; }
     1px == 0.08333em.
     Thus, our 98px wide Freeware & Research buttons are 8.166666em wide.
 
-                      PUBLIC DOMAIN CONTRIBUTION NOTICE                          
+                      PUBLIC DOMAIN CONTRIBUTION NOTICE
    This work has been explicitly placed into the Public Domain for the
     benefit of anyone who may find it useful for any purpose whatsoever.
-    
+
    Modified by Dean Brettle (dean@brettle.com) for the Khan Academy.
 ==============================================================================*/
 
@@ -3924,13 +3923,13 @@ a.control:hover { color: #DD6900; }
     margin:0;
     list-style-type:none;          /* we don't want to view the list as a list */
     line-height:3ex;            /* globally set the menu's item spacing */
-}                               
+}
 
 .css-menu > ul > li, .css-menu > ul > li > ul > li {
     float:left;    /* this creates the side-by-side array of top-level buttons */
     position:relative;    /* create local positioning contexts for each button */
     margin: 0;
-    white-space: nowrap;    
+    white-space: nowrap;
 }
 
 /*======================== TOP LEVEL MENU DEFINITIONS ========================*/
@@ -3943,7 +3942,7 @@ a.control:hover { color: #DD6900; }
 .css-menu > ul > li {
     border-width: 1px 1px 0 1px;
     border-style: solid;
-    border-color: transparent; 
+    border-color: transparent;
     color: white;
     margin-left: 0ex;
     margin-right: 0ex;
@@ -3952,7 +3951,7 @@ a.control:hover { color: #DD6900; }
     font-weight: bold;
     z-index: 1;
     cursor: pointer;
-    
+
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
     -moz-border-radius-topleft: 5px;
@@ -3965,7 +3964,7 @@ a.control:hover { color: #DD6900; }
     content: "";
     width: 13px;
     height: 12px;
-    background-image: url(http://www.khanacademy.org//images/non-repeating-sprites.4.png);
+    background-image: url("http://www.khanacademy.org/images/non-repeating-sprites.4.png");
     background-position: -72px -67px;
     display: inline-block;
     position: relative;
@@ -4050,7 +4049,7 @@ a.control:hover { color: #DD6900; }
     border: solid 1px #ddd;
     -webkit-box-shadow: 1px 1px 2px rgba(0,0,0, .5);
     -moz-box-shadow: 1px 1px 2px rgba(0,0,0, .5);
-    
+
     -webkit-border-bottom-left-radius: 5px;
     -webkit-border-bottom-right-radius: 5px;
     -webkit-border-top-right-radius: 5px;
@@ -4064,23 +4063,23 @@ a.control:hover { color: #DD6900; }
 
 .css-menu > ul > li > ul li,
 .css-menu > ul > li > ul li > a {
-    width: 100%;    
+    width: 100%;
 }
 
 .css-menu > ul > li > ul li > p,
 .css-menu > ul > li > ul li > a {
-    display: block;    
-    padding-left: 1ex;    
+    display: block;
+    padding-left: 1ex;
     padding-right: 1ex;
     font-weight: normal;
     background-color: #f7f7f7; /* IE7 needs this to workaround http://haslayout.net/css/Hover-White-Background-Ignore-Bug */
-    margin: 0;    
+    margin: 0;
     height:auto;
     color: black;               /* this sets the unselected drop-down text color */
 }
 
 .css-menu > ul > li > ul > li > ul > li > a {
-    padding-left: 2ex !important;    
+    padding-left: 2ex !important;
 }
 
 .css-menu > ul > li > ul > li > ul {
@@ -4516,16 +4515,16 @@ button.close {
   cursor: not-allowed;
 }
 .small-exercise-icon.node-complete {
-  background: url(http://www.khanacademy.org//images/node-complete-20.png);
+  background: url("http://www.khanacademy.org/images/node-complete-20.png");
 }
 .small-exercise-icon.node-review {
-  background: url(http://www.khanacademy.org//images/node-review-20.png);
+  background: url("http://www.khanacademy.org/images/node-review-20.png");
 }
 .small-exercise-icon.node-suggested {
-  background: url(http://www.khanacademy.org//images/node-suggested-20.png);
+  background: url("http://www.khanacademy.org/images/node-suggested-20.png");
 }
 .small-exercise-icon.node-not-started {
-  background: url(http://www.khanacademy.org//images/node-not-started-20.png);
+  background: url("http://www.khanacademy.org/images/node-not-started-20.png");
 }
 .topic-exercise-badge {
   float: left;
@@ -7500,7 +7499,7 @@ ul.icons li .icon-large:before {
   left: 8px;
 }
 .large-search-form .throbber {
-  background-image: url(http://www.khanacademy.org//images/throbber.gif);
+  background-image: url("http://www.khanacademy.org/images/throbber.gif");
   width: 16px;
   height: 16px;
   height: 16px;
@@ -8673,12 +8672,12 @@ ul.inline-list li {
 .goal a.objective.exercise:before,
 .goal a.objective.GoalObjectiveExerciseProficiency:before,
 .goal a.objective.GoalObjectiveAnyExerciseProficiency:before {
-  background: #3a4759 url(http://www.khanacademy.org//images/generic-exercise-icon-inset-small.png) no-repeat 4px 4px;
+  background: #3a4759 url("http://www.khanacademy.org/images/generic-exercise-icon-inset-small.png") no-repeat 4px 4px;
 }
 .goal a.objective.video:before,
 .goal a.objective.GoalObjectiveWatchVideo:before,
 .goal a.objective.GoalObjectiveAnyVideo:before {
-  background: #3a4759 url(http://www.khanacademy.org//images/video-camera-icon-inset-small.png) no-repeat 50% 50%;
+  background: #3a4759 url("http://www.khanacademy.org/images/video-camera-icon-inset-small.png") no-repeat 50% 50%;
 }
 .ie .goal a.objective:before {
   border: none;
@@ -8711,7 +8710,7 @@ ul.inline-list li {
   content: " ";
   width: 20px;
   height: 20px;
-  background: transparent url(http://www.khanacademy.org//images/video-camera-icon-full-small.png) no-repeat 0 1px;
+  background: transparent url("http://www.khanacademy.org/images/video-camera-icon-full-small.png") no-repeat 0 1px;
   position: absolute;
   left: -5px;
   top: 0;
@@ -8728,7 +8727,7 @@ ul.inline-list li {
   content: " ";
   width: 20px;
   height: 20px;
-  background: transparent url(http://www.khanacademy.org//images/generic-exercise-icon-full-small.png) no-repeat 0 0;
+  background: transparent url("http://www.khanacademy.org/images/generic-exercise-icon-full-small.png") no-repeat 0 0;
   position: absolute;
   left: -6px;
   top: 0;
@@ -8781,7 +8780,7 @@ ul.inline-list li {
   content: " ";
   width: 30px;
   height: 30px;
-  background: #c7e5f7 url(http://www.khanacademy.org//images/objective-complete-tick.png) no-repeat 50% 50%;
+  background: #c7e5f7 url("http://www.khanacademy.org/images/objective-complete-tick.png") no-repeat 50% 50%;
   position: absolute;
   left: -12px;
   top: -5px;
@@ -8803,7 +8802,7 @@ ul.inline-list li {
 /* override for create goal page delete hover */
 #create-goal-view .goal a.objective.exercise:hover:before,
 #create-goal-view .goal a.objective.video:hover:before {
-  background: #3a4759 url(http://www.khanacademy.org//images/delete-icon-inset-small.png) no-repeat 50% 50%;
+  background: #3a4759 url("http://www.khanacademy.org/images/delete-icon-inset-small.png") no-repeat 50% 50%;
 }
 #create-goal-view .goal a.objective:hover:before {
   border-color: #C30202;
@@ -9251,7 +9250,7 @@ a.simple-button.seethrough.goal-history {
   z-index: 1;
 }
 .modal.goal-new-custom .progress-bar .ui-progressbar-value {
-  background-image: url(http://www.khanacademy.org/'/images/progress-animated.gif');
+  background-image: url("http://www.khanacademy.org/'/images/progress-animated.gif'");
 }
 #create-goal .section-headline {
   padding-top: 0;
@@ -9530,8 +9529,8 @@ a.simple-button.seethrough.goal-history {
   }
 }
 /* End of stack progress bar animations */
-/** 
- * Leaving out the "to" or 100% state in these keyframe animations 
+/**
+ * Leaving out the "to" or 100% state in these keyframe animations
  * causes the fill to animate based on the inline width.
  */
 @-webkit-keyframes progress-bar {
@@ -10014,7 +10013,7 @@ a.simple-button.seethrough.goal-history {
 }
 /*FIXME(marcos): this seems at leaf.earned */
 .current-card .leaves .leaf {
-  background: transparent url(http://www.khanacademy.org//images/power-mode/card-leaf-empty-large.png) no-repeat 50% 0;
+  background: transparent url("http://www.khanacademy.org/images/power-mode/card-leaf-empty-large.png") no-repeat 50% 0;
   /* data-uri(/images/power-mode/card-leaf-empty-large.png) */
 
   background-size: 40px 40px;
@@ -10025,7 +10024,7 @@ a.simple-button.seethrough.goal-history {
   margin-right: 35px;
 }
 .lte8 .current-card .leaves .leaf {
-  background: transparent url(http://www.khanacademy.org//images/power-mode/card-leaf-empty-small.png) no-repeat 50% 0;
+  background: transparent url("http://www.khanacademy.org/images/power-mode/card-leaf-empty-small.png") no-repeat 50% 0;
   /* data-uri(/images/power-mode/card-leaf-empty-small.png) */
 
 }
@@ -10074,7 +10073,7 @@ a.simple-button.seethrough.goal-history {
   background-color: transparent;
 }
 .leaves .leaf.earned .full-leaf {
-  background: url(http://www.khanacademy.org//images/power-mode/card-leaf-full-large.png) no-repeat;
+  background: url("http://www.khanacademy.org/images/power-mode/card-leaf-full-large.png") no-repeat;
   /* data-uri(/images/power-mode/card-leaf-full-large.png) */
 
   background-size: 40px 40px;
@@ -10097,7 +10096,7 @@ a.simple-button.seethrough.goal-history {
   margin: 0 auto;
 }
 .lte8 .leaves .leaf.earned .full-leaf {
-  background: url(http://www.khanacademy.org//images/power-mode/card-leaf-full-small.png) no-repeat 50% 0;
+  background: url("http://www.khanacademy.org/images/power-mode/card-leaf-full-small.png") no-repeat 50% 0;
   /* data-uri(/images/power-mode/card-leaf-full-small.png) */
 
 }
@@ -10172,7 +10171,7 @@ a.simple-button.seethrough.goal-history {
   z-index: 2;
 }
 .calculating-end-of-stack .card-pocket .slit {
-  background: transparent url(http://www.khanacademy.org/'/images/power-mode/slit.png') no-repeat top left;
+  background: transparent url("http://www.khanacademy.org/'/images/power-mode/slit.png'") no-repeat top left;
   /* data-uri('/images/power-mode/slit.png') */
 
 }
@@ -10574,7 +10573,7 @@ a.simple-button.seethrough.goal-history {
   background: #ffffff;
   background: rgba(255, 255, 255, 0.8);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF);
-  background-image: url(http://www.khanacademy.org/'/images/check-large.png');
+  background-image: url("http://www.khanacademy.org/'/images/check-large.png'");
   background-repeat: no-repeat;
   background-position: 50%;
 }
@@ -10604,7 +10603,7 @@ a.simple-button.seethrough.goal-history {
 }
 .progress-panel.progress-panel-streaks .progress-container .progress-visual .icon-streak-stack {
   display: inline-block;
-  background-image: url(http://www.khanacademy.org/'/images/power-mode/streak-stack.png');
+  background-image: url("http://www.khanacademy.org/'/images/power-mode/streak-stack.png'");
   background-position: -68px 0px;
   width: 68px;
   height: 76px;
@@ -10759,3 +10758,4 @@ body.debug #hintsarea {
 body.debug #extras .debug-mode {
     display: none;
 }
+
