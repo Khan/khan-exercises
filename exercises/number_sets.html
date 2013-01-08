@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html data-require="math sets subhints">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Number Sets</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="SET">randomSet()</var>
+            <var id="INTEGER">randRange(-30, 30)</var>
+            <var id="PRIME">randFromArray([2, 3, 5, 7, 11, 13])</var>
+            <var id="PI_COEFFICIENT">randRangeNonZero(-4, 4)</var>
+            <var id="SIGN">randFromArray(["-", ""])</var>
+            <var id="NUMERATOR">randFromArray([-7,-5,-3,-1,1,3,5,7,9,11,13,15])</var>
+            <var id="DENOMINATOR">randFromArray([2,4,8])</var>
+            <var id="INTEGER_VALUE">{value: INTEGER, toString: function(){ return INTEGER }, isRational: true}</var>
+            <var id="RATIONAL_VALUE">{value: NUMERATOR/DENOMINATOR, toString: function() { return "\\frac{" + NUMERATOR + "}{" + DENOMINATOR + "}";}, isRational: true}</var>
+            <var id="IRRATIONAL_VALUE">randFromArray([
+                {value: PI_COEFFICIENT * PI, toString: function(){ return cleanMath(PI_COEFFICIENT + "\\pi"); }, isRational: false},
+                {value: +(SIGN + sqrt(PRIME)), toString: function(){ return SIGN + "\\sqrt{" + PRIME + "}"; }, isRational: false}])
+            </var>
+            <var id="A,B,C">shuffle([INTEGER_VALUE, RATIONAL_VALUE, IRRATIONAL_VALUE])</var>
+            <var id="isAinSet">SET.contains(A.value, A.isRational)</var>
+            <var id="isBinSet">SET.contains(B.value, B.isRational)</var>
+            <var id="isCinSet">SET.contains(C.value, C.isRational)</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <div class="question">
+                    <p>Which of the following numbers is an element of <code>
+                        <var>SET</var></code>?</p>
+                </div>
+
+                <div class="solution" data-type="multiple">
+                    <div>
+                        <label><span class="sol" data-type="checkbox">
+                            <var>isAinSet</var></span><code><var>A</var></code></label>
+                    </div>
+                    <div>
+                        <label><span class="sol" data-type="checkbox">
+                            <var>isBinSet</var></span><code><var>B</var></code></label>
+                    </div>
+                    <div>
+                        <label><span class="sol" data-type="checkbox">
+                            <var>isCinSet</var></span><code><var>C</var></code></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hints">
+            <div>
+                <code>
+                    <var>SET</var></code> is
+                <span data-if="SET.type === 'empty'">the <a href="#" class="show-definition" data-definition="emptySet">empty set</a>, so it has no elements.</span>
+                <span data-if="SET.type === 'naturals'">the set of <a href="#" class="show-definition" data-definition="naturals">natural numbers</a>.</span>
+                <span data-if="SET.type === 'integers'">the set of <a href="#" class="show-definition" data-definition="integers">integers</a>.</span>
+                <span data-if="SET.type === 'rationals'">the set of <a href="#" class="show-definition" data-definition="rationals">rational numbers</a>.</span>
+                <span data-if="SET.type === 'reals'">the set of <a href="#" class="show-definition" data-definition="reals">real numbers</a>.</span>
+                <span data-if="SET.type === 'interval'">the set of <a href="#" class="show-definition" data-definition="reals">real numbers</a> that are 
+                    <span data-if="SET.minInclusive">greater than or equal to</span>
+                    <span data-else>greater than</span>
+                    <code>
+                        <var>SET.min</var></code> and
+                    <span data-if="SET.maxInclusive">less than or equal to</span>
+                    <span data-else>less than</span>
+                    <code>
+                        <var>SET.max</var></code>.
+                </span>
+                <div class="definition" id="emptySet">
+                    The empty set (commonly written as <code>\emptyset</code> or <code>\{\}</code>) is the set containing no elements.
+                </div>
+                <div class="definition" id="naturals">
+                    The natural numbers are the whole numbers greater than or equal to 1, that is, the set <code>\{1,2,3,4,...\}</code>. For example, <code>1</code> and <code>567</code> are a natural numbers, but <code>-1</code>, <code>\frac{2}{3}</code>, <code>\pi</code>, and <code>\sqrt{3}</code> are not.
+                    The definition of the natural numbers depends on who you ask: some people consider <code>0</code> to be a natural number and others don't. In this excercise, we will not consider <code>0</code> to be a natural number.
+                </div>
+                <div class="definition" id="integers">
+                    The integers are the numbers that can be written a fractional or decimal component, that is, the set <code>\{..., -2, -1, 0, 1, 2,... \}</code>. For example, <code>0</code>, <code>-321</code>, and <code>67</code> are integers, but
+                    <code>\frac{1}{2}</code>, <code>\sqrt{2}</code>, and <code>\pi</code> are not.
+                </div>
+                <div class="definition" id="rationals">
+                    The rational numbers are the numbers that can be written as a fraction <code>p/q</code>, where <code>p</code> and <code>q</code> are integers and <code>q \ne 0</code>. For example, <code>1</code>, <code>\frac{1}{3}</code>, and <code>-\frac{43}{19}</code> are rational numbers, but <code>\pi</code>, and <code>\sqrt{3}</code> are not.
+                </div>
+                <div class="definition" id="reals">
+                    The real numbers are any of the numbers on the number line. Any numbers in the interval <code>(-\infty, \infty)</code> are real numbers. All of the numbers that you will see in this excercise are real numbers, but there do exist numbers that are not real, including imaginary numbers such as <code>\sqrt{-1}</code>.
+                </div>
+            </div>
+            <div>
+                <code><var>A</var></code> is
+                <span data-if="!isAinSet">not</span>
+                an element of <code>
+                    <var>SET</var></code>
+                <span data-if="!isAinSet">because
+                    <span data-if="SET.type === 'empty'">the empty set does not contain any elements.</span>
+                    <span data-if="SET.type === 'naturals'">
+                        <span data-if="A < 1"><code><var>A</var></code> is less than 1.</span>
+                        <span data-else><code><var>A</var></code> is not a whole number.</span>
+                    </span>
+                    <span data-if="SET.type === 'integers'">
+                        <code><var>A</var></code> is not a whole number.
+                    </span>
+                    <span data-if="SET.type === 'rationals'">
+                        <code><var>A</var></code> cannot be expressed as a fraction of two integers.
+                    </span>
+                    <span data-if="SET.type === 'interval'">
+                        <span data-if="A < SET.min && SET.minInclusive">
+                            <code><var>A</var></code> is less than <code><var>SET.min</var></code>.
+                        </span>
+                        <span data-else-if="A <= SET.min && !SET.minInclusive">
+                            <code><var>A</var></code> is less than or equal to <code><var>SET.min</var></code>.
+                        </span>
+                        <span data-if="A > SET.max && SET.maxInclusive">
+                            <code><var>A</var></code> is greater than <code><var>SET.max</var></code>.
+                        </span>
+                        <span data-else-if="A >= SET.max && !SET.maxInclusive">
+                            <code><var>A</var></code> is greater than or equal to <code><var>SET.max</var></code>.
+                        </span>
+                    </span>
+                </span>
+                <span data-else>.</span>
+            </div>
+            <div>
+                <code><var>B</var></code> is
+                <span data-if="!isBinSet">not</span>
+                an element of <code>
+                    <var>SET</var></code>
+                <span data-if="!isBinSet">because
+                    <span data-if="SET.type === 'empty'">the empty set does not contain any elements.</span>
+                    <span data-if="SET.type === 'naturals'">
+                        <span data-if="B < 1"><code><var>B</var></code> is less than 1.</span>
+                        <span data-else><code><var>B</var></code> is not a whole number.</span>
+                    </span>
+                    <span data-if="SET.type === 'integers'">
+                        <code><var>B</var></code> is not a whole number.
+                    </span>
+                    <span data-if="SET.type === 'rationals'">
+                        <code><var>B</var></code> cannot be expressed as a fraction of two integers.
+                    </span>
+                    <span data-if="SET.type === 'interval'">
+                        <span data-if="B < SET.min && SET.minInclusive">
+                            <code><var>B</var></code> is less than <code><var>SET.min</var></code>.
+                        </span>
+                        <span data-else-if="B <= SET.min && !SET.minInclusive">
+                            <code><var>B</var></code> is less than or equal to <code><var>SET.min</var></code>.
+                        </span>
+                        <span data-if="B > SET.max && SET.maxInclusive">
+                            <code><var>B</var></code> is greater than <code><var>SET.max</var></code>.
+                        </span>
+                        <span data-else-if="B >= SET.max && !SET.maxInclusive">
+                            <code><var>B</var></code> is greater than or equal to <code><var>SET.max</var></code>.
+                        </span>
+                    </span>
+                </span>
+                <span data-else>.</span>
+            </div>
+            <div>
+                <code><var>C</var></code> is
+                <span data-if="!isCinSet">not</span>
+                an element of <code>
+                    <var>SET</var></code>
+                <span data-if="!isCinSet">because
+                    <span data-if="SET.type === 'empty'">the empty set does not contain any elements.</span>
+                    <span data-if="SET.type === 'naturals'">
+                        <span data-if="C < 1"><code><var>C</var></code> is less than 1.</span>
+                        <span data-else><code><var>C</var></code> is not a whole number.</span>
+                    </span>
+                    <span data-if="SET.type === 'integers'">
+                        <code><var>C</var></code> is not a whole number.
+                    </span>
+                    <span data-if="SET.type === 'rationals'">
+                        <code><var>C</var></code> cannot be expressed as a fraction of two integers.
+                    </span>
+                    <span data-if="SET.type === 'interval'">
+                        <span data-if="C < SET.min && SET.minInclusive">
+                            <code><var>C</var></code> is less than <code><var>SET.min</var></code>.
+                        </span>
+                        <span data-else-if="C <= SET.min && !SET.minInclusive">
+                            <code><var>C</var></code> is less than or equal to <code><var>SET.min</var></code>.
+                        </span>
+                        <span data-if="C > SET.max && SET.maxInclusive">
+                            <code><var>C</var></code> is greater than <code><var>SET.max</var></code>.
+                        </span>
+                        <span data-else-if="C >= SET.max && !SET.maxInclusive">
+                            <code><var>C</var></code> is greater than or equal to <code><var>SET.max</var></code>.
+                        </span>
+                    </span>
+                </span>
+                <span data-else>.</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
