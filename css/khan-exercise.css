@@ -731,3 +731,20 @@ div.timeline-total {
 .matrix-input .matrix-bracket.bracket-right {
     border-right: 2px solid #888;
 }
+
+table.periodic-table td.element {
+    border: 1px solid;
+    min-width: 37px;
+    min-height: 37px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+table.periodic-table td.element div.atomic-num {
+}
+table.periodic-table td.element div.symbol {
+    font-weight: bold;
+}
+table.periodic-table td.element div.weight {
+    font-size: 10px;
+}

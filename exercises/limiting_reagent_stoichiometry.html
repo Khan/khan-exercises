@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems subhints chemistry">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Limiting reagent stoichiometry</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="ch4-o2---co2-h2o" data-type="template" data-calculator>
+            <div class="vars" data-apply="prependVars">
+                <var id="R1">"\\text{CH}_4"</var>
+                <var id="R1_RATIO">1</var>
+                <var id="R1_MOLAR_MASS">roundTo(3, molarMass("C") + molarMass("H") * 4)</var>
+                <var id="R2">"\\text{O}_2"</var>
+                <var id="R2_RATIO">2</var>
+                <var id="R2_MOLAR_MASS">roundTo(3, molarMass("O") * 2)</var>
+                <var id="P1">"\\text{CO}_2"</var>
+                <var id="P1_RATIO">1</var>
+                <var id="P1_MOLAR_MASS">roundTo(3, molarMass("C") + molarMass("O") * 2)</var>
+                <var id="P2">"\\text{H}_2\\text{O}"</var>
+                <var id="P2_RATIO">2</var>
+            </div>
+        </div>
+        <div id="mgoh2-hcl---mgcl2-h2o" data-type="template" data-calculator>
+            <div class="vars" data-apply="prependVars">
+                <var id="R1">"\\text{Mg(OH)}_2"</var>
+                <var id="R1_RATIO">1</var>
+                <var id="R1_MOLAR_MASS">roundTo(3, molarMass("Mg") + (molarMass("O") + molarMass("H")) * 2)</var>
+                <var id="R2">"\\text{HCl}"</var>
+                <var id="R2_RATIO">2</var>
+                <var id="R2_MOLAR_MASS">roundTo(3, molarMass("H") + molarMass("Cl"))</var>
+                <var id="P1">"\\text{MgCl}_2"</var>
+                <var id="P1_RATIO">1</var>
+                <var id="P1_MOLAR_MASS">roundTo(3, (molarMass("Mg") + molarMass("Cl")) * 2)</var>
+                <var id="P2">"\\text{H}_2\\text{O}"</var>
+                <var id="P2_RATIO">2</var>
+            </div>
+        </div>
+        <div id="nacl-agno3---agcl-nano3" data-type="template" data-calculator>
+            <div class="vars" data-apply="prependVars">
+                <var id="R1">"\\text{NaCl}"</var>
+                <var id="R1_RATIO">1</var>
+                <var id="R1_MOLAR_MASS">roundTo(3, molarMass("Na") + molarMass("Cl"))</var>
+                <var id="R2">"\\text{AgNO}_3"</var>
+                <var id="R2_RATIO">1</var>
+                <var id="R2_MOLAR_MASS">roundTo(3, molarMass("Ag") + molarMass("N") + molarMass("O") * 3)</var>
+                <var id="P1">"\\text{AgCl}"</var>
+                <var id="P1_RATIO">1</var>
+                <var id="P1_MOLAR_MASS">roundTo(3, molarMass("Ag") + molarMass("Cl"))</var>
+                <var id="P2">"\\text{NaNO}_3"</var>
+                <var id="P2_RATIO">1</var>
+            </div>
+        </div>
+        <div id="c3h8-o2---co2-h2o" data-type="template" data-calculator>
+            <div class="vars" data-apply="prependVars">
+                <var id="R1">"\\text{C}_3\\text{H}_8"</var>
+                <var id="R1_RATIO">1</var>
+                <var id="R1_MOLAR_MASS">roundTo(3, molarMass("C") * 3 + molarMass("H") * 8)</var>
+                <var id="R2">"\\text{O}_2"</var>
+                <var id="R2_RATIO">5</var>
+                <var id="R2_MOLAR_MASS">roundTo(3, molarMass("O") * 2)</var>
+                <var id="P1">"\\text{CO}_2"</var>
+                <var id="P1_RATIO">3</var>
+                <var id="P1_MOLAR_MASS">roundTo(3, molarMass("C") + molarMass("O") * 2)</var>
+                <var id="P2">"\\text{H}_2\\text{O}"</var>
+                <var id="P2_RATIO">4</var>
+            </div>
+        </div>
+        <div id="zn-hcl---zncl2-h2" data-type="template" data-calculator>
+            <div class="vars" data-apply="prependVars">
+                <var id="R1">"\\text{Zn}"</var>
+                <var id="R1_RATIO">1</var>
+                <var id="R1_MOLAR_MASS">roundTo(3, molarMass("Zn"))</var>
+                <var id="R2">"\\text{HCl}"</var>
+                <var id="R2_RATIO">2</var>
+                <var id="R2_MOLAR_MASS">roundTo(3, molarMass("H") + molarMass("Cl"))</var>
+                <var id="P1">"\\text{ZnCl}_2"</var>
+                <var id="P1_RATIO">1</var>
+                <var id="P1_MOLAR_MASS">roundTo(3, molarMass("Zn") + molarMass("Cl") * 2)</var>
+                <var id="P2">"\\text{H}_2"</var>
+                <var id="P2_RATIO">1</var>
+            </div>
+        </div>
+        <div id="cu-agno3---ag-cuno32" data-type="template" data-calculator>
+            <div class="vars" data-apply="prependVars">
+                <var id="R1">"\\text{Cu}"</var>
+                <var id="R1_RATIO">1</var>
+                <var id="R1_MOLAR_MASS">roundTo(3, molarMass("Cu"))</var>
+                <var id="R2">"\\text{AgNO}_3"</var>
+                <var id="R2_RATIO">2</var>
+                <var id="R2_MOLAR_MASS">roundTo(3, molarMass("Ag") + molarMass("N") + molarMass("O") * 3)</var>
+                <var id="P1">"\\text{Ag}"</var>
+                <var id="P1_RATIO">2</var>
+                <var id="P1_MOLAR_MASS">roundTo(3, molarMass("Ag"))</var>
+                <var id="P2">"\\text{Cu(NO}_3\\text{)}_2"</var>
+                <var id="P2_RATIO">1</var>
+            </div>
+        </div>
+        <div id="zn-cucl2---zncl2-cu" data-type="template" data-calculator>
+            <div class="vars" data-apply="prependVars">
+                <var id="R1">"\\text{Zn}"</var>
+                <var id="R1_RATIO">1</var>
+                <var id="R1_MOLAR_MASS">roundTo(3, molarMass("Zn"))</var>
+                <var id="R2">"\\text{CuCl}_2"</var>
+                <var id="R2_RATIO">1</var>
+                <var id="R2_MOLAR_MASS">roundTo(3, molarMass("Cu") + molarMass("Cl") * 2)</var>
+                <var id="P1">"\\text{ZnCl}_2"</var>
+                <var id="P1_RATIO">1</var>
+                <var id="P1_MOLAR_MASS">roundTo(3, molarMass("Zn") + molarMass("Cl") * 2)</var>
+                <var id="P2">"\\text{Cu}"</var>
+                <var id="P2_RATIO">1</var>
+            </div>
+        </div>
+        <div id="fe-o2---fe2o3" data-type="template" data-calculator>
+            <div class="vars" data-apply="prependVars">
+                <var id="R1">"\\text{Fe}"</var>
+                <var id="R1_RATIO">4</var>
+                <var id="R1_MOLAR_MASS">roundTo(3, molarMass("Fe"))</var>
+                <var id="R2">"\\text{O}_2"</var>
+                <var id="R2_RATIO">3</var>
+                <var id="R2_MOLAR_MASS">roundTo(3, molarMass("O") * 2)</var>
+                <var id="P1">"\\text{Fe}_2\\text{O}_3"</var>
+                <var id="P1_RATIO">2</var>
+                <var id="P1_MOLAR_MASS">roundTo(3, molarMass("Fe") * 2 + molarMass("O") * 3)</var>
+                <var id="P2">""</var>
+            </div>
+        </div>
+        <div id="na-cl2---nacl" data-type="template" data-calculator>
+            <div class="vars" data-apply="prependVars">
+                <var id="R1">"\\text{Na}"</var>
+                <var id="R1_RATIO">2</var>
+                <var id="R1_MOLAR_MASS">roundTo(3, molarMass("Na"))</var>
+                <var id="R2">"\\text{Cl}_2"</var>
+                <var id="R2_RATIO">1</var>
+                <var id="R2_MOLAR_MASS">roundTo(3, molarMass("Cl") * 2)</var>
+                <var id="P1">"\\text{NaCl}"</var>
+                <var id="P1_RATIO">2</var>
+                <var id="P1_MOLAR_MASS">roundTo(3, molarMass("Na") + molarMass("Cl"))</var>
+                <var id="P2">""</var>
+            </div>
+        </div>
+
+
+        <div id="template" data-calculator data-weight="0">
+            <div class="vars" data-ensure="abs((R1_MOL * R2_RATIO / R1_RATIO) - R2_MOL) > 0.01">
+                <var id="R1_MASS">randRange(1, 40)</var>
+                <var id="R2_MASS">randRange(1, 40 * (R2_RATIO * R2_MOLAR_MASS) / (R1_RATIO * R1_MOLAR_MASS))</var>
+                <var id="R1_MOL">roundTo(3, R1_MASS / R1_MOLAR_MASS)</var>
+                <var id="R2_MOL">roundTo(3, R2_MASS / R2_MOLAR_MASS)</var>
+                <var id="R1_LIMIT">R1_MOL * R2_RATIO / R1_RATIO &lt; R2_MOL</var>
+                <var id="P1_MOL">roundTo(3, R1_LIMIT ? R1_MOL * P1_RATIO / R1_RATIO : R2_MOL * P1_RATIO / R2_RATIO)</var>
+                <var id="P1_MASS">roundTo(3, P1_MOL * P1_MOLAR_MASS)</var>
+            </div>
+            <div class="problem">
+                <p>
+                    Given the following reaction:
+                    <span style="float: right;"><input type="button" class="simple-button" id="show-periodic-table" value="Show periodic table"></span>
+                </p>
+                <p><code>\qquad
+                    <var>R1_RATIO === 1 ? "" : R1_RATIO</var><var>R1</var> +
+                    <var>R2_RATIO === 1 ? "" : R2_RATIO</var><var>R2</var> \rightarrow
+                    <var>P1_RATIO === 1 ? "" : P1_RATIO</var><var>P1</var>
+                    <span data-if="P2 !== ''"> + <var>P2_RATIO === 1 ? "" : P2_RATIO</var><var>P2</var></span>
+                </code></p>
+            </div>
+            <p class="question">
+                How many grams of <code><var>P1</var></code> will be produced from
+                <code><var>R1_MASS</var> \text{g}</code> of <code><var>R1</var></code> and
+                <code><var>R2_MASS</var> \text{g}</code> of <code><var>R2</var></code>?
+            </p>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="decimal" data-inexact data-max-error="1"><var>P1_MASS</var></span> grams
+                <span class="example">a decimal, like <code>0.75</code></span>
+                <span class="example">any answer within 1 gram will be accepted to allow for rounding</span>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p><code>
+                        \dfrac{<var>R1_MASS</var> \cancel{\text{g}}}{<var>R1_MOLAR_MASS</var> \cancel{\text{g}} / \text{mol}} =
+                        \blue{<var>plural(R1_MOL, "\\text{ mole}", "\\text{ moles}")</var>} \text{ of }<var>R1</var>
+                    </code>
+                    <span style="float: right;">[<a href="#" class="show-subhint" data-subhint="expl-ch4-mol">Explain</a>]</span></p>
+                    <div class="subhint" id="expl-ch4-mol">
+                        <p>
+                            First we want to convert the given amount of <code><var>R1</var></code> from grams to moles. To do this, we divide
+                            the given amount of <code><var>R1</var></code> by the molar mass of <code><var>R1</var></code>.
+                        </p><p>
+                             <code>\dfrac{\text{grams of }<var>R1</var>}{\text{molar mass of }<var>R1</var>} = \text{moles of }<var>R1</var></code>
+                        </p><p>
+                            To find the molar mass of <code><var>R1</var></code>, we look up the atomic weight of each atom in a molecule of
+                            <code><var>R1</var></code> in the periodic table and add them together.
+                            In this case, it's <code><var>R1_MOLAR_MASS</var> \text{g/mol}</code>.
+                        </p><p>
+                            Dividing the given <code><var>R1_MASS</var> \text{g}</code> of <code><var>R1</var></code> by the molar mass of
+                            <code><var>R1_MOLAR_MASS</var> \text{g/mol}</code> tells us we're starting with
+                            <code><var>plural(R1_MOL, "\\text{ mole}", "\\text{ moles}")</var> \text{ of }<var>R1</var></code>.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <p><code>
+                        \dfrac{<var>R2_MASS</var> \cancel{\text{g}}}{<var>R2_MOLAR_MASS</var> \cancel{\text{g}} / \text{mol}} =
+                        \green{<var>plural(R2_MOL, "\\text{ mole}", "\\text{ moles}")</var>} \text{ of }<var>R2</var>
+                    </code>
+                    <span style="float: right;">[<a href="#" class="show-subhint" data-subhint="expl-o2-mol">Explain</a>]</span></p>
+                    <div class="subhint" id="expl-o2-mol">
+                        <p>
+                            We want to convert the given amount of <code><var>R2</var></code> from grams to moles. To do this, we divide
+                            the given amount of <code><var>R2</var></code> by the molar mass of <code><var>R2</var></code>.
+                        </p><p>
+                             <code>\dfrac{\text{grams of }<var>R2</var>}{\text{molar mass of }<var>R2</var>} = \text{moles of }<var>R2</var></code>
+                        </p><p>
+                            To find the molar mass of <code><var>R2</var></code>, we look up the atomic weight of each atom in a molecule of
+                            <code><var>R2</var></code> in the periodic table and add them together.
+                            In this case, it's <code><var>R2_MOLAR_MASS</var> \text{g/mol}</code>.
+                        </p><p>
+                            Dividing the given <code><var>R2_MASS</var> \text{g}</code> of <code><var>R2</var></code> by the molar mass of
+                            <code><var>R2_MOLAR_MASS</var> \text{g/mol}</code> tells us we're starting with
+                            <code><var>plural(R2_MOL, "\\text{ mole}", "\\text{ moles}")</var> \text{ of }<var>R2</var></code>.
+                        </p>
+                    </div>
+                </div>
+
+                <div data-if="R1_LIMIT" data-unwrap>
+                    <div>
+                        <p>
+                            The mole ratio of <code>\dfrac{<var>R1</var>}{<var>R2</var>}</code> in the reaction is
+                            <code>\dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>}</code>.
+                            <span style="float: right;">[<a href="#" class="show-subhint" data-subhint="expl-mol-ratio1">Explain</a>]</span>
+                        </p>
+                        <div class="subhint" id="expl-mol-ratio1">
+                            <p>
+                                The reaction is <code>\blue{<var>R1_RATIO</var>}<var>R1</var> +
+                                \red{<var>R2_RATIO</var>}<var>R2</var> \rightarrow
+                                <var>P1_RATIO</var><var>P1</var><span data-if="P2 !== ''"> + <var>P2_RATIO</var><var>P2</var></span></code>.
+                                The coefficients in front of each molecule tell us in what ratios the molecules react. In this case
+                                <span class="hint_blue"><var>cardinal(R1_RATIO)</var></span> <code><var>R1</var></code> for every
+                                <span class="hint_red"><var>cardinal(R2_RATIO)</var></span> <code><var>R2</var></code> <var>plural("molecule", R2_RATIO)</var>
+                            </p>
+                        </div>
+                        <p><code>\qquad
+                            \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
+                            \dfrac{\blue{<var>plural(R1_MOL, "\\text{ mole}", "\\text{ moles}")</var>}}{x}
+                        </code>
+                        <span style="float: right">
+                        [<a href="#" class="show-subhint" data-subhint="expl-alternate1" data-hidden-text="Hide alternate approach">Show alternate approach</a>]
+                        </span>
+                        </p>
+                        <div class="subhint" id="expl-alternate1">
+                            <p>
+                                <code>
+                                \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
+                                \dfrac{x}{\green{<var>plural(R2_MOL, "\\text{ mole}", "\\text{ moles}")</var>}}
+                                </code>
+                            </p>
+                            <p>
+                                Instead of finding out how much <code><var>R2</var></code> we need to react with all of our <code><var>R1</var></code>, we could
+                                figure out how much <code><var>R1</var></code> we need to react with all of our <code><var>R2</var></code>. In this case,
+                                <code>x = <var>plural(roundTo(3, R2_MOL * R1_RATIO / R2_RATIO), "\\text{ mole}", "\\text{ moles}")</var></code> of
+                                <code><var>R1</var></code> needed, which
+                                is more than we have. Therefore <code><var>R1</var></code> is the limiting reagent.
+                            </p>
+                        </div>
+                        <p>
+                            <code>x = <var>plural(roundTo(3, R1_MOL * R2_RATIO / R1_RATIO), "\\text{ mole}", "\\text{ moles}")</var></code> of
+                            <code><var>R2</var></code> needed.
+                            We have <code><var>plural(R2_MOL, "\\text{ mole}", "\\text{ moles}")</var></code> of <code><var>R2</var></code>, which is more
+                            than we need. Therefore <code><var>R1</var></code> is the limiting reagent.
+                        </p>
+                    </div>
+
+                    <div>
+                        <p>
+                            The mole ratio of <code>\dfrac{<var>R1</var>}{<var>P1</var>}</code> in the reaction is
+                            <code>\dfrac{<var>R1_RATIO</var>}{<var>P1_RATIO</var>}</code>.
+                            <span style="float: right;">[<a href="#" class="show-subhint" data-subhint="expl-mol-ratio2">Explain</a>]</span>
+                        </p>
+                        <div class="subhint" id="expl-mol-ratio2">
+                            <p>
+                                The reaction is <code>\blue{<var>R1_RATIO</var>}<var>R1</var> +
+                                <var>R2_RATIO</var><var>R2</var> \rightarrow
+                                \red{<var>P1_RATIO</var>}<var>P1</var>
+                                <span data-if="P2 !== ''"> + <var>P2_RATIO</var><var>P2</var></span></code>.
+                                The coefficients in front of each molecule tell us in what ratios the molecules react. In this case
+                                <span class="hint_blue"><var>cardinal(R1_RATIO)</var></span> <code><var>R1</var></code> for every
+                                <span class="hint_red"><var>cardinal(P1_RATIO)</var></span> <code><var>P1</var></code> <var>plural("molecule", P1_RATIO)</var>.
+                            </p>
+                        </div>
+                        <p><code>\qquad
+                            \dfrac{<var>R1</var>}{<var>P1</var>} = \dfrac{<var>R1_RATIO</var>}{<var>P1_RATIO</var>} =
+                            \dfrac{\blue{<var>plural(R1_MOL, "\\text{ mole}", "\\text{ moles}")</var>}}{x}
+                        </code></p>
+                        <p>
+                            <code>x = <var>plural(P1_MOL, "\\text{ mole}", "\\text{ moles}")</var></code> of <code><var>P1</var></code> produced.
+                        </p>
+                    </div>
+                </div>
+
+                <div data-else data-unwrap>
+                    <div>
+                        <p>
+                            The mole ratio of <code>\dfrac{<var>R1</var>}{<var>R2</var>}</code> in the reaction is
+                            <code>\dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>}</code>.
+                            <span style="float: right;">[<a href="#" class="show-subhint" data-subhint="expl-mol-ratio3">Explain</a>]</span>
+                        </p>
+                        <div class="subhint" id="expl-mol-ratio3">
+                            <p>
+                                The reaction is <code>\blue{<var>R1_RATIO</var>}<var>R1</var> +
+                                \red{<var>R2_RATIO</var>}<var>R2</var> \rightarrow
+                                <var>P1_RATIO</var><var>P1</var><span data-if="P2 !== ''"> + <var>P2_RATIO</var><var>P2</var></span></code>.
+                                The coefficients in front of each molecule tell us in what ratios the molecules react. In this case
+                                <span class="hint_blue"><var>cardinal(R1_RATIO)</var></span> <code><var>R1</var></code> for every
+                                <span class="hint_red"><var>cardinal(R2_RATIO)</var></span> <code><var>R2</var></code> <var>plural("molecule", R2_RATIO)</var>.
+                            </p>
+                        </div>
+                        <p><code>\qquad
+                            \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
+                            \dfrac{x}{\green{<var>plural(R2_MOL, "\\text{ mole}", "\\text{ moles}")</var>}}
+                        \qquad</code>
+                        <span style="float: right;">
+                        [<a href="#" class="show-subhint" data-subhint="expl-alternate2" data-hidden-text="Hide alternate approach">Show alternate approach</a>]
+                        </span></p>
+                        <div class="subhint" id="expl-alternate2">
+                            <p>
+                                <code>
+                                \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
+                                \dfrac{\blue{<var>plural(R1_MOL, "\\text{ mole}", "\\text{ moles}")</var>}}{x}
+                                </code>
+                            </p>
+                            <p>
+                                Instead of finding out how much <code><var>R1</var></code> we need to react with all of our <code><var>R2</var></code>, we could
+                                figure out how much <code><var>R2</var></code> we need to react with all of our <code><var>R1</var></code>. In this case,
+                                <code>x = <var>plural(roundTo(3, R1_MOL * R2_RATIO / R1_RATIO), "\\text{ mole}", "\\text{ moles}")</var></code> of
+                                <code><var>R2</var></code> needed, which
+                                is more than we have. Therefore <code><var>R2</var></code> is the limiting reagent.
+                            </p>
+                        </div>
+                        <p>
+                            <code>x = <var>plural(roundTo(3, R2_MOL * R1_RATIO / R2_RATIO), "\\text{ mole}", "\\text{ moles}")</var></code> of
+                            <code><var>R1</var></code> needed.
+                            We have <code><var>plural(R1_MOL, "\\text{ mole}", "\\text{ moles}")</var></code> of <code><var>R1</var></code>, which is more
+                            than we need. Therefore <code><var>R2</var></code> is the limiting reagent.
+                        </p>
+                    </div>
+
+                    <div>
+                        <p>
+                            The mole ratio of <code>\dfrac{<var>R2</var>}{<var>P1</var>}</code> in the reaction is
+                            <code>\dfrac{<var>R2_RATIO</var>}{<var>P1_RATIO</var>}</code>.
+                            <span style="float: right;">[<a href="#" class="show-subhint" data-subhint="expl-mol-ratio4">Explain</a>]</span>
+                        </p>
+                        <div class="subhint" id="expl-mol-ratio4">
+                            <p>
+                                The reaction is <code><var>R1_RATIO</var><var>R1</var> +
+                                \blue{<var>R2_RATIO</var>}<var>R2</var> \rightarrow
+                                \red{<var>P1_RATIO</var>}<var>P1</var>
+                                <span data-if="P2 !== ''">+ <var>P2_RATIO</var><var>P2</var></span></code>.
+                                The coefficients in front of each molecule tell us in what ratios the molecules react. In this case
+                                <span class="hint_blue"><var>cardinal(R2_RATIO)</var></span> <code><var>R2</var></code> for every
+                                <span class="hint_red"><var>cardinal(P1_RATIO)</var></span> <code><var>P1</var></code> <var>plural("molecule", P1_RATIO)</var>.
+                            </p>
+                        </div>
+                        <p><code>\qquad
+                            \dfrac{<var>R2</var>}{<var>P1</var>} = \dfrac{<var>R2_RATIO</var>}{<var>P1_RATIO</var>} =
+                            \dfrac{\green{<var>plural(R2_MOL, "\\text{ mole}", "\\text{ moles}")</var>}}{x}
+                        </code></p>
+                        <p>
+                            <code>x = <var>plural(P1_MOL, "\\text{ mole}", "\\text{ moles}")</var></code> of <code><var>P1</var></code> produced.
+                        </p>
+                    </div>
+                </div>
+
+                <p><code>
+                    <var>plural(P1_MOL, "\\cancel{\\text{mole}}", "\\cancel{\\text{moles}}")</var>
+                    <var>P1</var> \times \dfrac{<var>P1_MOLAR_MASS</var> \text{g}}{\cancel{\text{mole}}} =
+                    <var>plural(P1_MASS, "\\text{ gram}", "\\text{ grams}")</var> \text{ of }<var>P1</var>
+                </code></p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+
+
