@@ -64,6 +64,51 @@ $.extend(KhanUtil, {
         Khan.scratchpad.disable();
     },
 
+    /**
+     * Get mouse coordinates in pixels
+     */
+    getMousePx: function() {
+        var graphie = KhanUtil.currentGraph;
+
+        // mouse{X|Y} is in pixels relative to the SVG
+        var mouseX = event.pageX - $(graphie.raphael.
+            canvas.parentNode).offset().left;
+        var mouseY = event.pageY - $(graphie.raphael.
+            canvas.parentNode).offset().top;
+
+        // can't go beyond 10 pixels from the edge
+        mouseX = Math.max(10, Math.min(graphie.xpixels - 10,
+            mouseX));
+        mouseY = Math.max(10, Math.min(graphie.ypixels - 10,
+            mouseY));
+        return [mouseX, mouseY];
+    },
+
+    /**
+     * Get mouse coordinates in graph coordinates
+     */
+    getMouseCoord: function() {
+        return KhanUtil.currentGraph.unscalePoint(KhanUtil.getMousePx());
+    },
+
+    /**
+     * Return the difference between two sets of coordinates
+     */
+    coordDiff: function(startCoord, endCoord) {
+        return _.map(endCoord, function(val, i) {
+            return endCoord[i] - startCoord[i];
+        });
+    },
+
+    /**
+     * Round the given coordinates to a given snap value
+     * (e.g., nearest 0.2 increment)
+     */
+    snapCoord: function(coord, snap) {
+        return _.map(coord, function(val, i) {
+            return KhanUtil.roundToNearest(snap[i], val);
+        });
+    },
 
     // Find the angle between two or three points
     findAngle: function(point1, point2, vertex) {
@@ -1105,6 +1150,422 @@ $.extend(KhanUtil, {
 
 
         return sorter;
+    },
+
+
+    addRectGraph: function(options) {
+        // settings
+        var rect = $.extend(true, {
+            x: 0,
+            y: 0,
+            width: 1,
+            height: 1,
+            normalStyle: {
+                points: {
+                    stroke: KhanUtil.BLUE,
+                    fill: KhanUtil.BLUE,
+                    opacity: 1
+                },
+                edges: {
+                    stroke: KhanUtil.BLUE,
+                    opacity: 1,
+                    "stroke-width": 1
+                },
+                area: {
+                    fill: KhanUtil.BLUE,
+                    "fill-opacity": 0.1,
+                    "stroke-width": 0
+                }
+            },
+            hoverStyle: {
+                points: {
+                    color: KhanUtil.BLUE,
+                    opacity: 1,
+                    width: 2
+                },
+                edges: {
+                    stroke: KhanUtil.BLUE,
+                    opacity: 1,
+                    "stroke-width": 1
+                },
+                area: {
+                    fill: KhanUtil.BLUE,
+                    "fill-opacity": 0.2,
+                    "stroke-width": 0
+                }
+            },
+            fixed: {
+                edges: [false, false, false, false]
+                // possible TODO: add fixed.points support
+            },
+            constraints: {
+                constrainX: false, // limit movement to y axis
+                constrainY: false, // limit movement to x axis
+
+                // bounds for translations
+                xmin: null,
+                xmax: null,
+                ymin: null,
+                ymax: null
+            },
+            snapX: 1,
+            snapY: 1,
+
+            // this function will be called whenever .translate(), .snap(), or
+            // .moveTo() are called
+            onMove: function() {}
+        }, options);
+
+
+        // functions
+        rect = $.extend({
+            initialized: function() {
+                return rect.points && rect.points.length;
+            },
+            x2: function() {
+                return this.x + this.width;
+            },
+            y2: function() {
+                return this.y + this.height;
+            },
+            getX: function() {
+                if (rect.initialized()) {
+                    return rect.points[0].coord[0];
+                }
+                return rect.x;
+            },
+            getY: function() {
+                if (rect.initialized()) {
+                    return rect.points[0].coord[1];
+                }
+                return rect.y;
+            },
+            getX2: function() {
+                return rect.getX() + rect.getWidth();
+            },
+            getY2: function() {
+                return rect.getY() + rect.getHeight();
+            },
+            getXLims: function() {
+                var x = rect.getX();
+                return [x, x + rect.getWidth()];
+            },
+            getYLims: function() {
+                var y = rect.getY();
+                return [y, y + rect.getHeight()];
+            },
+            getWidth: function() {
+                if (rect.initialized()) {
+                    var x0 = rect.points[1].coord[0];
+                    var x1 = rect.points[2].coord[0];
+                    return x1 - x0;
+                }
+                return rect.width;
+            },
+            getHeight: function() {
+                if (rect.initialized()) {
+                    var y0 = rect.points[0].coord[1];
+                    var y1 = rect.points[1].coord[1];
+                    return y1 - y0;
+                }
+                return rect.height;
+            },
+            getCoord: function() {
+                return [rect.getX(), rect.getY()];
+            },
+            getRaphaelParamsArr: function() {
+                var width = rect.getWidth();
+                var height = rect.getHeight();
+                var x = rect.getX();
+                var y = rect.getY();
+                var point = graphie.scalePoint([x, y + height]);
+                var dims = graphie.scaleVector([width, height]);
+                return point.concat(dims);
+            },
+            getRaphaelParams: function() {
+                var arr = rect.getRaphaelParamsArr();
+                return {
+                    x: arr[0],
+                    y: arr[1],
+                    width: arr[2],
+                    height: arr[3]
+                };
+            }
+        }, rect);
+
+        var graphie = KhanUtil.currentGraph;
+
+
+
+        // ADD RECTANGLE AND MOUSE TARGET
+
+        rect.fillArea = graphie.rect().attr(rect.normalStyle.area);
+        rect.mouseTarget = graphie.mouselayer.rect()
+            .attr({
+                fill: "#000",
+                opacity: 0,
+                "fill-opacity": 0
+            });
+
+        rect.render = function() {
+            rect.fillArea.attr(rect.getRaphaelParams());
+            rect.mouseTarget.attr(rect.getRaphaelParams());
+        };
+
+        rect.render(); // initialize
+
+
+
+        // ADD POINTS
+
+        rect.points = [];
+
+        var coords = [[rect.x, rect.y], [rect.x, rect.y2()], [rect.x2(), rect.y2()], [rect.x2(), rect.y]];
+        var sames = [[1, 3], [0, 2], [3, 1], [2, 0]];
+        var moveLimits = [[1, 1], [1, 0], [0, 0], [0, 1]];
+
+
+        function adjustNeighboringPoints(x, y, sameX, sameY) {
+            rect.points[sameX].setCoord([x, rect.points[sameX].coord[1]]);
+            rect.points[sameY].setCoord([rect.points[sameY].coord[0], y]);
+            rect.points[sameX].updateLineEnds();
+            rect.points[sameY].updateLineEnds();
+        }
+
+        function coordInBounds(limit, newVal, checkIsGreater) {
+            return checkIsGreater ? newVal < limit : newval > limit;
+        }
+
+        function moveIsInBounds(index, newX, newY) {
+            var xlims = rect.getXLims();
+            var ylims = rect.getYLims();
+
+            var i = moveLimits[index];
+
+            var xInBounds = coordInBounds(xlims[i[0]], newX, i[0] === 1);
+            var yInBounds = coordInBounds(ylims[i[1]], newY, i[1] === 1);
+
+            return xInBounds && yInBounds;
+        }
+
+        _.times(4, function(i) {
+            var sameX = sames[i][0];
+            var sameY = sames[i][1];
+            var coord = coords[i];
+
+            var point = KhanUtil.addMovablePoint({
+                graph: graphie,
+                coord: coord,
+                normalStyle: rect.normalStyle.points,
+                hoverStyle: rect.hoverStyle.points,
+                snapX: rect.snapX,
+                snapY: rect.snapY,
+                onMove: function(x, y) {
+                    if (!moveIsInBounds(i, x, y)) {
+                        return false;
+                    }
+                    adjustNeighboringPoints(x, y, sameX, sameY);
+                    rect.render();
+                }
+            });
+
+            rect.points.push(point);
+        });
+
+
+
+        // ADD EDGES
+
+        rect.edges = [];
+
+        rect.moveEdge = function(dx, dy, edgeIndex) {
+            var a = rect.edges[edgeIndex].pointA;
+            var z = rect.edges[edgeIndex].pointZ;
+            a.setCoord([a.coord[0] + dx, a.coord[1] + dy]);
+            z.setCoord([z.coord[0] + dx, z.coord[1] + dy]);
+            a.updateLineEnds();
+            z.updateLineEnds();
+        };
+
+        _.times(4, function(i) {
+            var pointA = rect.points[i];
+            var pointZ = rect.points[(i + 1) % 4]; // next point
+            var constrainX = (i % 2); // odd edges have X constrained
+            var constrainY = ((i + 1) % 2); // even edges have Y constrained
+
+            var edge = KhanUtil.addMovableLineSegment({
+                graph: graphie,
+                pointA: pointA,
+                pointZ: pointZ,
+                normalStyle: rect.normalStyle.edges,
+                hoverStyle: rect.hoverStyle.edges,
+                snapX: rect.snapX,
+                snapY: rect.snapY,
+                fixed: rect.fixed.edges[i],
+                constraints: {
+                    constrainX: constrainX,
+                    constrainY: constrainY
+                },
+                onMove: function(dx, dy) {
+                    rect.moveEdge(dx, dy, i);
+                    rect.render();
+                }
+            });
+
+            rect.edges.push(edge);
+        });
+
+
+
+        // CREATE COLLECTION OF ALL ELEMENTS (used in toFront)
+        var elems = [rect.fillArea, rect.mouseTarget];
+        rect.elems = elems.concat(rect.edges).concat(rect.points);
+
+
+
+        // MOVING FUNCTIONS
+
+        function constrainTranslation(dx, dy) {
+            var xC = rect.constraints.constrainX;
+            var xLT = rect.getX() + dx < rect.constraints.xmin;
+            var xGT = rect.getX2() + dx > rect.constraints.xmax;
+            var yC = rect.constraints.constrainY;
+            var yLT = rect.getY() + dy < rect.constraints.ymin;
+            var yGT = rect.getY2() + dy > rect.constraints.ymax;
+
+            dx = xC || xLT || xGT ? 0 : dx;
+            dy = yC || yLT || yGT ? 0 : dy;
+
+            return [dx, dy];
+        }
+
+        rect.translate = function(dx, dy) {
+            if (rect.constraints.constrainX && rect.constraints.constrainY) {
+                return;
+            }
+            var d = constrainTranslation(dx, dy);
+            dx = d[0];
+            dy = d[1];
+
+            _.each(rect.points, function(point, i) {
+                var x = point.coord[0] + dx;
+                var y = point.coord[1] + dy;
+                // move points
+                point.setCoord([x, y]);
+                // move edges
+                point.updateLineEnds();
+            });
+
+            // move rectangle & mouseTarget
+            rect.render();
+
+            // fire "on move" event with the new xlims and ylims
+            rect.onMove(dx, dy);
+        };
+
+        rect.moveTo = function(x, y) {
+            var dx = x - rect.getX();
+            var dy = y - rect.getY();
+            rect.translate(dx, dy);
+        };
+
+        rect.snap = function() {
+            var dx;
+            var dy;
+            _.each(rect.points, function(point, i) {
+                var x0 = point.coord[0];
+                var y0 = point.coord[1];
+
+                var x1 = KhanUtil.roundToNearest(rect.snapX, x0);
+                var y1 = KhanUtil.roundToNearest(rect.snapY, y0);
+
+                if (!dx || !dy) {
+                    dx = x1 - x0;
+                    dy = y1 - y0;
+                }
+
+                // move points
+                point.setCoord([x1, y1]);
+                // move edges
+                point.updateLineEnds();
+            });
+
+            // move rectangle & mouseTarget
+            rect.render();
+
+            // fire "on move" event with the new xlims and ylims
+            rect.onMove(dx, dy);
+        };
+
+        // TODO: add support
+        rect.toFront = function() {
+            _.each(rect.elems, function(elem) {
+                elem.toFront();
+            });
+        };
+
+        var setHoverStyle = function() {
+            rect.highlight = true;
+            if (!KhanUtil.dragging) {
+                rect.fillArea.animate(rect.hoverStyle.area, 100);
+            }
+        };
+
+        var setNormalStyle = function() {
+            rect.highlight = false;
+            if (!rect.dragging) {
+                rect.fillArea.animate(rect.normalStyle.area, 100);
+            }
+        };
+
+        // tie actual translation events to the translate function
+        $(rect.mouseTarget[0]).css("cursor", "move");
+        $(rect.mouseTarget[0]).on(
+            "vmouseover vmouseout vmousedown", function(event) {
+                if (event.type === "vmouseover") {
+                    setHoverStyle();
+
+                } else if (event.type === "vmouseout") {
+                    setNormalStyle();
+
+                } else if (event.type === "vmousedown" &&
+                        (event.which === 1 || event.which === 0)) {
+                    event.preventDefault();
+                    rect.toFront();
+                    rect.prevCoord = KhanUtil.getMouseCoord();
+
+                    setHoverStyle();
+
+                    $(document).on("vmousemove vmouseup", function(event) {
+                        event.preventDefault();
+                        rect.dragging = true;
+                        KhanUtil.dragging = true;
+
+                        if (event.type === "vmousemove") {
+                            var currCoord = KhanUtil.getMouseCoord();
+
+                            if (rect.prevCoord && rect.prevCoord.length === 2) {
+                                var diff = KhanUtil.coordDiff(rect.prevCoord, currCoord);
+                                rect.translate(diff[0], diff[1]);
+                            }
+
+                            rect.prevCoord = currCoord;
+
+                        } else if (event.type === "vmouseup") {
+                            $(document).off("vmousemove vmouseup");
+                            rect.dragging = false;
+                            KhanUtil.dragging = false;
+
+                            setNormalStyle();
+
+                            // snap to grid
+                            rect.snap();
+                        }
+                    });
+                }
+        });
+
+        return rect;
     },
 
     // center: movable point

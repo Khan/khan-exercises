@@ -725,6 +725,20 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             answerData.showGuess();
                         }
                     });
+                },
+                showCustomGuess: function(guess) {
+                    // Iterate through each of the answerDatas, and show the
+                    // cooresponding custom guess for each if it exists
+                    $.each(answerDataArray, function(i, answerData) {
+                        if (!$.isFunction(answerData.showCustomGuess)) {
+                            return;
+                        }
+                        if (guess !== undefined) {
+                            answerData.showCustomGuess(guess[i]);
+                        } else {
+                            answerData.showCustomGuess();
+                        }
+                    });
                 }
             };
         },

@@ -42,13 +42,7 @@ $.extend(KhanUtil, {
     },
 
     ddxPolynomial: function(poly) {
-        var ddxCoefs = [];
-
-        for (var i = poly.maxDegree; i >= poly.minDegree; i--) {
-            ddxCoefs[i - 1] = i * poly.coefs[i];
-        }
-
-        return new KhanUtil.Polynomial(poly.minDegree - 1, poly.maxDegree - 1, ddxCoefs, poly.variable);
+        return poly.derivative();
     },
 
     // doesn't decrement exponents

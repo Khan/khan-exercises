@@ -192,6 +192,14 @@
                 return raphael.ellipse.apply(raphael, scalePoint(center).concat(scaleVector([radius, radius])));
             },
 
+            // (x, y) is coordinate of bottom left corner
+            rect: function(x, y, width, height) {
+                // Raphael needs (x, y) to be coordinate of upper left corner
+                var corner = scalePoint([x, y + height]);
+                var dims = scaleVector([width, height]);
+                return raphael.rect.apply(raphael, corner.concat(dims));
+            },
+
             ellipse: function(center, radii) {
                 return raphael.ellipse.apply(raphael, scalePoint(center).concat(scaleVector(radii)));
             },
@@ -223,6 +231,18 @@
             path: function(points) {
                 var p = raphael.path(svgPath(points));
                 p.graphiePath = points;
+
+                p.translate = function(dx, dy) {
+                    var newPoints = [];
+                    _.each(p.graphiePath, function(point, i) {
+                        if (point && point.length === 2) {
+                            newPoints.push([point[0] + dx, point[1] + dy]);
+                        }
+                    });
+                    p.attr("path", svgPath(newPoints));
+                    p.graphiePath = newPoints;
+                };
+
                 return p;
             },
 
@@ -373,6 +393,7 @@
                         paths.push(this.path(points));
                         // restart the path, excluding this point
                         points = [];
+
                     } else {
                         // otherwise, just add the point to the path
                         points.push(funcVal);
@@ -382,6 +403,14 @@
                 }
 
                 paths.push(this.path(points));
+
+                paths.translate = function(dx, dy) {
+                    _.each(paths, function(path) {
+                        if (path.type === "path") {
+                            path.translate(dx, dy);
+                        }
+                    });
+                };
 
                 return paths;
             },
@@ -404,6 +433,65 @@
                 return this.plotParametric(function(x) {
                     return [x, fn(x)];
                 }, range);
+            },
+
+            /**
+             * Given a piecewise function, return a Raphael set of paths that
+             * can be used to draw the function, e.g. using style().
+             * Calls plotParametric.
+             *
+             * @param  {[]} fnArray    array of functions which when called
+             *                         with a parameter i return the value of
+             *                         the function at i
+             * @param  {[]} rangeArray array of ranges over which the
+             *                         corresponding functions are defined
+             * @return {Raphael set}
+             */
+            plotPiecewise: function(fnArray, rangeArray) {
+                var paths = raphael.set();
+                var self = this;
+                _.times(fnArray.length, function(i) {
+                    var fn = fnArray[i];
+                    var range = rangeArray[i];
+                    var fnPaths = self.plotParametric(function(x) {
+                        return [x, fn(x)];
+                    }, range);
+                    _.each(fnPaths, function(fnPath) {
+                        paths.push(fnPath);
+                    });
+                });
+
+                return paths;
+            },
+
+            /**
+             * Given an array of coordinates of the form [x, y], create and
+             * return a Raphael set of Raphael circle objects at those
+             * coordinates
+             *
+             * @param  {Array of arrays} endpointArray
+             * @return {Raphael set}
+             */
+            plotEndpointCircles: function(endpointArray) {
+                var circles = raphael.set();
+                var self = this;
+
+                _.each(endpointArray, function(coord, i) {
+                    circles.push(self.circle(coord, 0.15));
+                });
+
+                circles.translate = function(dx, dy) {
+                    _.each(circles, function(circle) {
+                        var coord = unscalePoint([circle.attr("cx"), circle.attr("cy")]);
+                        coord = scalePoint([coord[0] + dx, coord[1] + dy]);
+                        circle.attr({
+                            cx: coord[0],
+                            cy: coord[1]
+                        });
+                    });
+                };
+
+                return circles;
             },
 
             plotAsymptotes: function(fn, range) {
@@ -461,8 +549,9 @@
                 if (typeof fn === "function") {
                     var oldStyle = currentStyle;
                     currentStyle = $.extend({}, currentStyle, processed);
-                    fn.call(graphie);
+                    var result = fn.call(graphie);
                     currentStyle = oldStyle;
+                    return result;
                 } else {
                     $.extend(currentStyle, processed);
                 }
