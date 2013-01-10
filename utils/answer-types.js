@@ -103,8 +103,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
     number: {
         setup: function(solutionarea, solution) {
             var input;
-            /* TODO(cbhl): Use type=text pi, log, percent, dollar on Android */
-            input = $("<input type='number'>");
+            // If we are on a tablet, display a number keypad
+            if (typeof userExercise !== "undefined" && userExercise.tablet) {
+                input = $("<input type='number'>");
+            } else {
+                input = $("<input type='text'>");
+            }
             $(solutionarea).append(input);
 
             // retrieve the options from the solution data
