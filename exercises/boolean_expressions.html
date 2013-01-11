@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Evaluating expressions 1</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        var booleanExpressions = function () {
+            var or = function (a, b) {
+                return a || b;
+            },
+
+            and = function (a, b) {
+                return a && b;
+            },
+
+            xor = function (a, b) {
+                return !!(a^b);
+            },
+
+            Operators = {
+                AND: '∧',
+                OR: '∨',
+                XOR: '⊕'
+            },
+
+            getOperation = function (operator) {
+                switch (operator) {
+                    case Operators.AND:
+                    return and;
+                    case Operators.OR:
+                    return or;
+                    case Operators.XOR:
+                    return xor;
+                }
+                return undefined;
+            };
+
+            return {
+                or: or,
+                and: and,
+                xor: xor,
+                Operators: Operators,
+                getOperation: getOperation
+            };
+        }();
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="AC">randRange(0, 1)</var>
+            <var id="BC">randRange(0, 1)</var>
+            <var id="CC">randRange(0, 1)</var>
+            <var id="DC">randRange(0, 1)</var>
+            <var id="O1">
+            randFromArray([
+                booleanExpressions.Operators.AND,
+                booleanExpressions.Operators.OR,
+                booleanExpressions.Operators.XOR,
+            ])
+            </var>
+            <var id="O2">
+            randFromArray([
+                booleanExpressions.Operators.AND,
+                booleanExpressions.Operators.OR,
+                booleanExpressions.Operators.XOR,
+            ])
+            </var>
+            <var id="O3">
+            randFromArray([
+                booleanExpressions.Operators.AND,
+                booleanExpressions.Operators.OR,
+                booleanExpressions.Operators.XOR,
+            ])
+            </var>
+            <var id="SOLUTION">
+            (function () {
+                var middle = booleanExpressions.getOperation(O2).call(null, BC, CC),
+                    first = booleanExpressions.getOperation(O1).call(null, AC, middle),
+                    result = booleanExpressions.getOperation(O3).call(null, first, DC);
+                
+                return Number(result); 
+            }())
+            </var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <p class="problem">
+                    Evaluate the following boolean expression:
+                </p>
+                <p class="question">
+                    <code><var>AC</var></code>
+                    <code><var>O1</var></code>
+                    <code>(</code>
+                    <code><var>BC</var></code>
+                    <code><var>O2</var></code>
+                    <code><var>CC</var></code>
+                    <code>)</code>
+                    <code><var>O3</var></code>
+                    <code><var>DC</var></code>
+                </p>
+                <p class="solution"><var>SOLUTION</var></p>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
