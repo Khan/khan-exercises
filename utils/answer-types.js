@@ -102,15 +102,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      */
     number: {
         setup: function(solutionarea, solution) {
-            var input;
-            // If we are on a tablet, display a number keypad
-            if (typeof userExercise !== "undefined" && userExercise.tablet) {
-                input = $("<input type='number'>");
-            } else {
-                input = $("<input type='text'>");
-            }
-            $(solutionarea).append(input);
-
             // retrieve the options from the solution data
             var options = $.extend({
                 simplify: "required",
@@ -119,6 +110,17 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 forms: "literal, integer, proper, improper, mixed, decimal"
             }, $(solution).data());
             var acceptableForms = options.forms.split(/\s*,\s*/);
+
+            // only some answer types can be represented with type=number
+            var inputMarkup = "<input type='number' step='any'>";
+            var numberForms = ["integer", "decimal"];
+            $.each(acceptableForms, function (i,form) {
+                if (numberForms.indexOf(form) < 0) {
+                    inputMarkup = "<input type='text'>";
+                }
+            });
+            var input = $(inputMarkup);
+            $(solutionarea).append(input);
 
             // retrieve the example texts from the different forms
             var exampleForms = {
