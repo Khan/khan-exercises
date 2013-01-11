@@ -67,7 +67,7 @@ $.extend(KhanUtil, {
     /**
      * Get mouse coordinates in pixels
      */
-    getMousePx: function() {
+    getMousePx: function(event) {
         var graphie = KhanUtil.currentGraph;
 
         // mouse{X|Y} is in pixels relative to the SVG
@@ -87,8 +87,8 @@ $.extend(KhanUtil, {
     /**
      * Get mouse coordinates in graph coordinates
      */
-    getMouseCoord: function() {
-        return KhanUtil.currentGraph.unscalePoint(KhanUtil.getMousePx());
+    getMouseCoord: function(event) {
+        return KhanUtil.currentGraph.unscalePoint(KhanUtil.getMousePx(event));
     },
 
     /**
@@ -1532,7 +1532,7 @@ $.extend(KhanUtil, {
                         (event.which === 1 || event.which === 0)) {
                     event.preventDefault();
                     rect.toFront();
-                    rect.prevCoord = KhanUtil.getMouseCoord();
+                    rect.prevCoord = KhanUtil.getMouseCoord(event);
 
                     setHoverStyle();
 
@@ -1542,7 +1542,7 @@ $.extend(KhanUtil, {
                         KhanUtil.dragging = true;
 
                         if (event.type === "vmousemove") {
-                            var currCoord = KhanUtil.getMouseCoord();
+                            var currCoord = KhanUtil.getMouseCoord(event);
 
                             if (rect.prevCoord && rect.prevCoord.length === 2) {
                                 var diff = KhanUtil.coordDiff(rect.prevCoord, currCoord);
