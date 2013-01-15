@@ -309,8 +309,9 @@ $.extend(KhanUtil, {
         };
 
         this.translatePlot = function(dx, dy) {
+            var scaled = KhanUtil.currentGraph.scaleVector([dx, dy]);
             _.each(this._paths, function(pathSet) {
-                pathSet.translate(dx, dy);
+                pathSet.translate(scaled[0], scaled[1]);
             });
         };
 
