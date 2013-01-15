@@ -111,15 +111,21 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }, $(solution).data());
             var acceptableForms = options.forms.split(/\s*,\s*/);
 
-            // only some answer types can be represented with type=number
-            var inputMarkup = "<input type='number' step='any'>";
-            var numberForms = ["integer", "decimal"];
-            $.each(acceptableForms, function (i,form) {
-                if (numberForms.indexOf(form) < 0) {
-                    inputMarkup = "<input type='text'>";
-                }
-            });
-            var input = $(inputMarkup);
+            if (window.Modernizr && Modernizr.touch) {
+                // only some answer types can be represented with type=number
+                var inputMarkup = "<input type='number' step='any'>";
+                var numberForms = ["integer", "decimal"];
+                $.each(acceptableForms, function (i,form) {
+                    if (numberForms.indexOf(form) < 0) {
+                        inputMarkup = "<input type='text'>";
+                    }
+                });
+                var input = $(inputMarkup);
+            } else {
+                // people don't always set their locale right, so use a text
+                // box to allow for alternative radix points
+                var input = $("<input type='text'>");
+            }
             $(solutionarea).append(input);
 
             // retrieve the example texts from the different forms
