@@ -339,7 +339,8 @@ var Khan = (function() {
             "congruency": ["angles", "interactive"],
             "graphie-3d": ["graphie", "matrix"],
             "graphie-geometry": ["graphie", "matrix"],
-            "matrix-input": ["jquery.cursor-position"]
+            "matrix-input": ["jquery.cursor-position"],
+            "chemistry": ["jquery-ui"]
         },
 
         warnTimeout: function() {
@@ -364,7 +365,7 @@ var Khan = (function() {
             Khan.modules = {};
 
             if (testMode) {
-                Khan.require(["../jquery-ui", "../jquery.qtip"]);
+                Khan.require(["../jquery.qtip"]);
             }
 
             // Base modules required for every problem
