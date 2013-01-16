@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+  <html data-require="math subhints">
+      <head>
+          <title>Counting Base-2 (Binary) Numbers</title>
+          <script src="../khan-exercise.js"></script>
+          <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>   
+      </head>
+      <body>
+          <script type='text/javascript'>
+          // Convert userIntInput to desired base, in this case, 2 (binary) 
+        function userAnswer(userIntInput) {
+          var base = 2; // We want to stick to binary only.
+          var x = parseInt(userIntInput);
+          var answer = x.toString(base);
+            return answer;
+        }    
+        
+        function ourSolution(randInt) {
+          var base = 2;
+          var x = parseInt(randInt);
+          var solution = x.toString(base); 
+          return solution;
+        }
+    
+        function validate(answer, solution) {
+          if (answer != solution) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+    </script>
+          <div class="exercise">
+              <div class="problems">
+                <div>
+                  <div class="vars">
+                    <var id='INTEGER'>randRange(1, 31)</var>
+                    <var id='ANSWER'>userAnswer($('solutionarea').text)</var>
+                    <var id='SOLUTION'>ourSolution(INTEGER)</var>
+                    <var id='VALIDATE'>validate(ANSWER, SOLUTION)</var>
+                  </div>
+                    <div id="problem-type-or-description">
+                      <p class="problem"> Represent the following Base-10 (Decimal) number in Base-2 (Binary).</p>
+                      <p class="question"> What is <code class="hint_orange"><var>INTEGER</var></code> in Base-2?</p>
+                    </div>
+                    <div class="solution" data-type="multiple">
+                      <span class="sol"><var>SOLUTION</var></span>
+                      <div class="input-format">
+                      <p><span class="entry"></span></p>
+                      </div>
+                      <p class="example">Your answer format should be in the format of 1's and 0's. Example: 10010</p>
+                    </div>
+              <div class="hints">
+                <div>
+                  Recall that since Base-2 only uses two digits, we have to break the place values into much smaller numbers. In a way similar to Base-10 (in which each place value is 10 times the place value to its right), each place value in Base-2 is 2 times the value to its right. <br><br>
+                    <table border="0">
+                      <tr>
+                        <td><center>___</center></td>
+                        <td><center>___</center></td>
+                        <td><center>___</center></td>
+                        <td><center>___</center></td>
+                        <td><center>___</center></td>
+                      </tr>
+                      <tr>
+                        <td><center><code class="hint_blue">16</code></center></td>
+                        <td><center><code class="hint_pink">8</code></center></td>
+                        <td><center><code class="hint_purple">4</code></center></td>
+                        <td><center><code class="hint_red">2</code></center></td>
+                        <td><center><code class="hint_green">1</code></center></td>
+                      </tr>
+                    </table>
+                  </div>
+                <p>Does <code class="hint_blue">16</code> fit inside <code class="hint_orange"><var>INTEGER</var></code>? In other words, is it less than <code class="hint_orange"><var>INTEGER</var></code>?</p>
+                <div>
+                  <div data-if="INTEGER >= 16">
+                    Because <code class="hint_blue">16</code> fits inside <code class="hint_orange"><var>INTEGER</var></code>, put a <code>1</code> in the 16s-place and subtract <code class="hint_blue">16</code> from <code class="hint_orange"><var>INTEGER</var></code>.
+                    [<a href="#" class="show-subhint" data-subhint="binaryhint">Explain this</a>]
+                  </div>
+                  <div data-else>
+                    Because <code class="hint_blue">16</code> does not fit inside <code class="hint_orange"><var>INTEGER</var></code>, we put a <code>0</code> in the 16s-place and move on to the next lowest place value.
+                    [<a href="#" class="show-subhint" data-subhint="binaryhint">Explain this</a>]
+                  </div>
+                  <div class="subhint" id="binaryhint">
+                    The number in each place value indicates how many times we should add that value to get to the total number. For example, putting a 4 in the 100s place in Base-10 says we have 4 hundreds. Similarly, in binary putting a <code>1</code> in the 16s place would indicate that we have 1 sixteen that fits inside of <var class="hint_orange">INTEGER</var>. Placing a <code>0</code> in the 16s place would indicate that sixteen does not fit inside <var class="hint_orange">INTEGER</var>.
+                  </div>
+                </div>
+                <div data-if="INTEGER % 16 >= 8">
+                  <br> Because <code class="hint_pink">8</code> fits inside <code class="hint_orange"><var>INTEGER % 16</var></code>, we put a <code>1</code> in the <code>8</code>s-place and subtract <code class="hint_pink">8</code> from what is left.<br>
+                </div>
+                <div data-else>
+                  <br>Because <code class="hint_pink">8</code> does not fit inside <code class="hint_orange"><var>INTEGER % 16</var></code>, we put a <code>0</code> in the 8s-place and move on to the next lowest place value.
+                </div>
+                <div data-if="INTEGER % 8 >= 4">
+                  <br> Because <code class="hint_purple">4</code> fits inside <code class="hint_orange"><var>INTEGER % 8</var></code>, we put a <code>1</code> in the 4s-place and subtract <code class="hint_purple">4</code> from what is left.
+                </div>
+                <div data-else>
+                  <br>Because <code class="hint_purple">4</code> does not fit inside <code class="hint_orange"><var>INTEGER%8</var></code>, we put a <code>0</code> in the 4s-place and move on to the next lowest place value.
+                </div> 
+                <div data-if="INTEGER % 4 >= 2">
+                  <br> Because <code class="hint_red">2</code> fits inside <code class="hint_orange"><var>INTEGER % 4</var></code>, we put a <code>1</code> in the 2s-place and subtract <code class="hint_red">2</code> from what is left.
+                </div>
+                <div data-else> 
+                  <br>Because <code class="hint_red">2</code> does not fit inside <code class="hint_orange"><var>INTEGER % 4</var></code>, we put a <code>0</code> in the 2s-place and move on to the last place value.
+                </div>
+                <div data-if="INTEGER % 2 >= 1">
+                  <br> Because <code class="hint_green">1</code> fits inside <code class="hint_orange"><var>INTEGER % 2</var></code>, we put a <code>1</code> in the 1s-place.
+                </div>
+                <div data-else>
+                  <br> Because <code class="hint_green">1</code> does not fit inside <code class="hint_orange"><var>INTEGER % 2</var></code>, we put a <code>0</code> in the 1s-place.
+                </div>
+                <p>The binary representation of <code class="hint_orange"><var>INTEGER</var></code> is <code><var>SOLUTION</var></code>.</p>
+                </div>
+              </div>
+          </div>
+      </body>
+  </html>
