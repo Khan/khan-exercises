@@ -17,7 +17,7 @@ $.extend(KhanUtil, {
 
         this.width = function() {
             var n = this.length();
-            return this.rangeArray[n -1][1] - this.rangeArray[0][0];
+            return this.rangeArray[n - 1][1] - this.rangeArray[0][0];
         };
 
         this.toTextArray = function(fnArray) {
@@ -129,6 +129,7 @@ $.extend(KhanUtil, {
         };
 
         // find matches w/ piecewiseFunction in this object
+        // only compares fnArray, not rangeArray
         this.matches = function(piecewiseFunction, useDerivative) {
 
             var original = this.fnArray;
@@ -312,6 +313,49 @@ $.extend(KhanUtil, {
             _.each(this._paths, function(pathSet) {
                 pathSet.translate(scaled[0], scaled[1]);
             });
+        };
+
+        // simply changes the opacity of the segment and endpoint paths so
+        // they aren't visible
+        this.hide = function(speed) {
+            if (this.hidden) {
+                return;
+            }
+
+            speed = speed || 100;
+
+            _.each(this._paths, function(pathSet) {
+                if (pathSet.length === 0) {
+                    return;
+                }
+                pathSet.animate({
+                    "fill-opacity": 0,
+                    "opacity": 0
+                }, speed);
+            });
+
+            this.hidden = true;
+        };
+
+        // make paths visible again
+        this.show = function(speed) {
+            if (!this.hidden) {
+                return;
+            }
+
+            speed = speed || 100;
+
+            _.each(this._paths, function(pathSet) {
+                if (pathSet.length === 0) {
+                    return;
+                }
+                pathSet.animate({
+                    "fill-opacity": 1,
+                    "opacity": 1
+                }, speed);
+            });
+
+            this.hidden = false;
         };
 
         this.toFront = function() {
@@ -701,9 +745,11 @@ $.extend(KhanUtil, {
             return bogusProblem;
         };
 
-        this.initSliderWindow = function(problem, color) {
+        this.initSliderWindow = function(options) {
 
             KhanUtil.addMouseLayer();
+
+            var problem = options.problem;
 
             // compute lims
             var xlims = this.GRAPH_LIMS[0];
@@ -726,7 +772,7 @@ $.extend(KhanUtil, {
                 normalStyle: {
                     area: {
                         "fill-opacity": 0.08,
-                        fill: color
+                        fill: options.color
                     },
                     edges: {
                         "stroke-width": 0
@@ -735,11 +781,12 @@ $.extend(KhanUtil, {
                 hoverStyle: {
                     area: {
                         "fill-opacity": 0.14,
-                        fill: color
+                        fill: options.color
                     }
                 },
                 fixed: {
-                    edges: [true, true, true, true]
+                    edges: [true, true, true, true],
+                    points: [true, true, true, true]
                 },
                 constraints: {
                     constrainX: false,
@@ -752,6 +799,21 @@ $.extend(KhanUtil, {
                     problem.toFront();
                 }
             });
+
+            // number of milliseconds it takes the sliderWindow to fade in/out
+            var speed = 20;
+
+            sliderWindow.doHide = function() {
+                sliderWindow.hide(speed);
+                problem.hide(speed);
+                options.onHide();
+            };
+
+            sliderWindow.doShow = function() {
+                sliderWindow.show(speed);
+                problem.show(speed);
+                options.onShow();
+            };
 
             // problem graph should be in front of slider window
             sliderWindow.toFront();
@@ -878,7 +940,20 @@ $.extend(KhanUtil, {
             }
 
             // CREATE SLIDING WINDOW
-            this.initSliderWindow(this.problem, windowColor);
+            var checkboxIdentifier = ".sol.no-solution :checkbox";
+            this.initSliderWindow({
+                problem: this.problem,
+                color: windowColor,
+                onHide: function() {
+                    $(checkboxIdentifier).attr("checked", true);
+                },
+                onShow: function() {
+                    $(checkboxIdentifier).attr("checked", false);
+                }
+            });
+
+            // when user clicks "no solution", hide the sliding window
+            this.bindNoSolutionHide(checkboxIdentifier);
 
             return this.sliderWindow;
         };
@@ -948,6 +1023,7 @@ $.extend(KhanUtil, {
             if (this.noSolution) {
                 lastHint = "Because these sections do not appear next to each other in the graph of <code>f(x)</code>, there is no solution.";
                 hints.push("<p>" + lastHint + "</p>");
+                hints.push("<div class='graphie'> PROBLEM.showNoAnswer(); </div>");
             } else {
                 var solnText = this.problemRanges.map(function(range){
                                 return "x <code>\\in</code> [" + range.join(", ") + "]";
@@ -956,7 +1032,8 @@ $.extend(KhanUtil, {
                 lastHint = "The function in the window corresponds to <code>" + fnVar + "</code> where " + solnText + ".";
 
                 var firstAnswer = this.problemRanges[0][0];
-                hints.push("<div class='graphie'> PROBLEM.showAnswer(" + firstAnswer + "); </div><p>" + lastHint + "</p>");
+                hints.push("<p>" + lastHint + "</p>");
+                hints.push("<div class='graphie'> PROBLEM.showAnswer(" + firstAnswer + "); </div>");
             }
 
             return hints;
@@ -1034,8 +1111,29 @@ $.extend(KhanUtil, {
         };
 
         this.showAnswer = function(firstAnswer) {
+            this.sliderWindow.doShow();
             this.sliderWindow.moveTo(firstAnswer, 0);
             this.resetCurrentGraph();
+        };
+
+        this.showNoAnswer = function() {
+            this.sliderWindow.doHide();
+            this.resetCurrentGraph();
+        };
+
+        // hide slider window if "no solution" is selected
+        this.bindNoSolutionHide = function(checkboxIdentifier) {
+            var sliderHidden = false;
+            var slider = this.sliderWindow;
+            $("body").on("click", checkboxIdentifier, function() {
+                sliderHidden = !sliderHidden;
+                // just switched to being hidden
+                if (sliderHidden) {
+                    slider.doHide();
+                } else {
+                    slider.doShow();
+                }
+            });
         };
 
         this.init();

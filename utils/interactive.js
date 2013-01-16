@@ -543,6 +543,13 @@ $.extend(KhanUtil, {
             }
         };
 
+        movablePoint.disableDragging = function() {
+            $(this.mouseTarget[0]).css("display", "none");
+        };
+
+        movablePoint.enableDragging = function() {
+            $(this.mouseTarget[0]).css("display", "block");
+        };
 
         return movablePoint;
     },
@@ -1195,8 +1202,11 @@ $.extend(KhanUtil, {
                 }
             },
             fixed: {
-                edges: [false, false, false, false]
-                // possible TODO: add fixed.points support
+                // if true, users cannot move the edge independently
+                edges: [false, false, false, false],
+
+                // if true, users cannot move the point independently
+                points: [false, false, false, false]
             },
             constraints: {
                 constrainX: false, // limit movement to y axis
@@ -1333,7 +1343,7 @@ $.extend(KhanUtil, {
         }
 
         function coordInBounds(limit, newVal, checkIsGreater) {
-            return checkIsGreater ? newVal < limit : newval > limit;
+            return checkIsGreater ? newVal < limit : newVal > limit;
         }
 
         function moveIsInBounds(index, newX, newY) {
@@ -1368,6 +1378,10 @@ $.extend(KhanUtil, {
                     rect.render();
                 }
             });
+
+            if (rect.fixed.points[i]) {
+                point.disableDragging();
+            }
 
             rect.points.push(point);
         });
@@ -1497,21 +1511,49 @@ $.extend(KhanUtil, {
             rect.onMove(dx, dy);
         };
 
-        // TODO: add support
+        // TODO(stephanie): confirm this works
         rect.toFront = function() {
             _.each(rect.elems, function(elem) {
                 elem.toFront();
             });
         };
 
-        var setHoverStyle = function() {
+        rect.hide = function(speed) {
+            if (rect.hidden) {
+                return;
+            }
+
+            speed = speed || 100;
+
+            rect.fillArea.animate({
+                "fill-opacity": 0
+            }, speed);
+            $(rect.mouseTarget[0]).css("display", "none");
+
+            rect.hidden = true;
+        };
+
+        rect.show = function(speed) {
+            if (!rect.hidden) {
+                return;
+            }
+
+            speed = speed || 100;
+
+            rect.fillArea.animate(rect.normalStyle.area, speed);
+            $(rect.mouseTarget[0]).css("display", "block");
+
+            rect.hidden = false;
+        };
+
+        rect.enableHoverStyle = function() {
             rect.highlight = true;
             if (!KhanUtil.dragging) {
                 rect.fillArea.animate(rect.hoverStyle.area, 100);
             }
         };
 
-        var setNormalStyle = function() {
+        rect.enableNormalStyle = function() {
             rect.highlight = false;
             if (!rect.dragging) {
                 rect.fillArea.animate(rect.normalStyle.area, 100);
@@ -1519,51 +1561,55 @@ $.extend(KhanUtil, {
         };
 
         // tie actual translation events to the translate function
-        $(rect.mouseTarget[0]).css("cursor", "move");
-        $(rect.mouseTarget[0]).on(
-            "vmouseover vmouseout vmousedown", function(event) {
-                if (event.type === "vmouseover") {
-                    setHoverStyle();
+        var bindTranslation = function() {
+            $(rect.mouseTarget[0]).css("cursor", "move");
+            $(rect.mouseTarget[0]).on(
+                "vmouseover vmouseout vmousedown", function(event) {
+                    if (event.type === "vmouseover") {
+                        rect.enableHoverStyle();
 
-                } else if (event.type === "vmouseout") {
-                    setNormalStyle();
+                    } else if (event.type === "vmouseout") {
+                        rect.enableNormalStyle();
 
-                } else if (event.type === "vmousedown" &&
-                        (event.which === 1 || event.which === 0)) {
-                    event.preventDefault();
-                    rect.toFront();
+                    } else if (event.type === "vmousedown" &&
+                            (event.which === 1 || event.which === 0)) {
+                        event.preventDefault();
+                        rect.toFront();
                     rect.prevCoord = KhanUtil.getMouseCoord(event);
 
-                    setHoverStyle();
+                        rect.enableHoverStyle();
 
-                    $(document).on("vmousemove vmouseup", function(event) {
-                        event.preventDefault();
-                        rect.dragging = true;
-                        KhanUtil.dragging = true;
+                        $(document).on("vmousemove vmouseup", function(event) {
+                            event.preventDefault();
+                            rect.dragging = true;
+                            KhanUtil.dragging = true;
 
-                        if (event.type === "vmousemove") {
+                            if (event.type === "vmousemove") {
                             var currCoord = KhanUtil.getMouseCoord(event);
 
-                            if (rect.prevCoord && rect.prevCoord.length === 2) {
-                                var diff = KhanUtil.coordDiff(rect.prevCoord, currCoord);
-                                rect.translate(diff[0], diff[1]);
+                                if (rect.prevCoord && rect.prevCoord.length === 2) {
+                                    var diff = KhanUtil.coordDiff(rect.prevCoord, currCoord);
+                                    rect.translate(diff[0], diff[1]);
+                                }
+
+                                rect.prevCoord = currCoord;
+
+                            } else if (event.type === "vmouseup") {
+                                $(document).off("vmousemove vmouseup");
+                                rect.dragging = false;
+                                KhanUtil.dragging = false;
+
+                                rect.enableNormalStyle();
+
+                                // snap to grid
+                                rect.snap();
                             }
+                        });
+                    }
+            });
+        };
 
-                            rect.prevCoord = currCoord;
-
-                        } else if (event.type === "vmouseup") {
-                            $(document).off("vmousemove vmouseup");
-                            rect.dragging = false;
-                            KhanUtil.dragging = false;
-
-                            setNormalStyle();
-
-                            // snap to grid
-                            rect.snap();
-                        }
-                    });
-                }
-        });
+        bindTranslation();
 
         return rect;
     },
