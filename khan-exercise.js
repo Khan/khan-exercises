@@ -339,7 +339,8 @@ var Khan = (function() {
             "congruency": ["angles", "interactive"],
             "graphie-3d": ["graphie", "matrix"],
             "graphie-geometry": ["graphie", "matrix"],
-            "matrix-input": ["jquery.cursor-position"]
+            "matrix-input": ["jquery.cursor-position"],
+            "chemistry": ["jquery-ui"]
         },
 
         warnTimeout: function() {
@@ -364,7 +365,7 @@ var Khan = (function() {
             Khan.modules = {};
 
             if (testMode) {
-                Khan.require(["../jquery-ui", "../jquery.qtip"]);
+                Khan.require(["../jquery.qtip"]);
             }
 
             // Base modules required for every problem
@@ -1589,7 +1590,7 @@ var Khan = (function() {
             }
 
             var states = timelineEvents.children(".user-activity"),
-                currentSlide = states.length - 1,
+                currentSlide = Math.min(states.length - 1, 1),
                 numSlides = states.length,
                 firstHintIndex = timeline.find(".hint-activity:first")
                     .index(".user-activity"),
@@ -1674,11 +1675,13 @@ var Khan = (function() {
                         statelist[i] = thisState;
 
                         if (i + 1 < states.length) {
+                            // Create the next state
                             MathJax.Hub.Queue(function() {
                                 create(i + 1);
                             });
                         } else {
-                            activate(i);
+                            // Scroll to the starting state
+                            activate(currentSlide);
                         }
                     };
 

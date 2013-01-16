@@ -231,18 +231,6 @@
             path: function(points) {
                 var p = raphael.path(svgPath(points));
                 p.graphiePath = points;
-
-                p.translate = function(dx, dy) {
-                    var newPoints = [];
-                    _.each(p.graphiePath, function(point, i) {
-                        if (point && point.length === 2) {
-                            newPoints.push([point[0] + dx, point[1] + dy]);
-                        }
-                    });
-                    p.attr("path", svgPath(newPoints));
-                    p.graphiePath = newPoints;
-                };
-
                 return p;
             },
 
@@ -404,14 +392,6 @@
 
                 paths.push(this.path(points));
 
-                paths.translate = function(dx, dy) {
-                    _.each(paths, function(path) {
-                        if (path.type === "path") {
-                            path.translate(dx, dy);
-                        }
-                    });
-                };
-
                 return paths;
             },
 
@@ -479,17 +459,6 @@
                 _.each(endpointArray, function(coord, i) {
                     circles.push(self.circle(coord, 0.15));
                 });
-
-                circles.translate = function(dx, dy) {
-                    _.each(circles, function(circle) {
-                        var coord = unscalePoint([circle.attr("cx"), circle.attr("cy")]);
-                        coord = scalePoint([coord[0] + dx, coord[1] + dy]);
-                        circle.attr({
-                            cx: coord[0],
-                            cy: coord[1]
-                        });
-                    });
-                };
 
                 return circles;
             },
