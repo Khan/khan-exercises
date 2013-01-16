@@ -365,7 +365,7 @@ var Khan = (function() {
             Khan.modules = {};
 
             if (testMode) {
-                Khan.require(["../jquery.qtip"]);
+                Khan.require(["jquery-ui", "../jquery.qtip"]);
             }
 
             // Base modules required for every problem
