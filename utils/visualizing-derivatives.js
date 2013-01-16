@@ -255,23 +255,22 @@ $.extend(KhanUtil, {
             }
 
             // plot endpoints
-            var graph = KhanUtil.currentGraph;
             var self = this;
 
-            this._paths["emptyEndpoints"] = graph.style({
+            this._paths["emptyEndpoints"] = this.graphie.style({
                 stroke: color,
                 strokeWidth: 3,
                 fill: "#FFFFFF"
             }, function() {
-                return graph.plotEndpointCircles(emptyEndpoints);
+                return self.graphie.plotEndpointCircles(emptyEndpoints);
             });
 
-            this._paths["filledEndpoints"] = graph.style({
+            this._paths["filledEndpoints"] = this.graphie.style({
                 stroke: color,
                 strokeWidth: 3,
                 fill: color
             }, function() {
-                return graph.plotEndpointCircles(filledEndpoints);
+                return self.graphie.plotEndpointCircles(filledEndpoints);
             });
         };
 
@@ -281,16 +280,14 @@ $.extend(KhanUtil, {
                 shiftedFnArray = this.derivative(shiftedFnArray);
             }
 
-            var graph = KhanUtil.currentGraph;
-
             var plotArray = this._makePlotArray(shiftedFnArray);
 
             var self = this;
-            this._paths["segments"] = graph.style({
+            this._paths["segments"] = this.graphie.style({
                 stroke: color,
                 strokeWidth: 3
             }, function() {
-                return graph.plotPiecewise(plotArray, self.rangeArray);
+                return self.graphie.plotPiecewise(plotArray, self.rangeArray);
             });
         };
 
@@ -301,6 +298,8 @@ $.extend(KhanUtil, {
                 omitEnds: false
             }, options);
 
+            this.graphie = options.graphie || KhanUtil.currentGraph;
+
             // plot segments
             this._plotSegments(options.color, options.plotDerivative);
 
@@ -309,7 +308,7 @@ $.extend(KhanUtil, {
         };
 
         this.translatePlot = function(dx, dy) {
-            var scaled = KhanUtil.currentGraph.scaleVector([dx, dy]);
+            var scaled = this.graphie.scaleVector([dx, dy]);
             _.each(this._paths, function(pathSet) {
                 pathSet.translate(scaled[0], scaled[1]);
             });
@@ -703,7 +702,6 @@ $.extend(KhanUtil, {
         };
 
         this.initSliderWindow = function(problem, color) {
-            var graph = KhanUtil.currentGraph;
 
             KhanUtil.addMouseLayer();
 
@@ -850,24 +848,31 @@ $.extend(KhanUtil, {
             // PLOT BASE GRAPH AND PROBLEM GRAPH
             initRectAutoscaledGraph(this.GRAPH_LIMS, {});
 
+            // store current graph for use by resetCurrentGraph()
+            this.graphie = KhanUtil.currentGraph;
+
             var windowColor = this.derivColor;
             if (this.moveDerivative) {
                 this.graph.plot({
-                    color: this.fnColor
+                    color: this.fnColor,
+                    graphie: this.graphie
                 });
                 this.problem.plot({
                     color: this.derivColor,
                     plotDerivative: true,
-                    omitEnds: false
+                    omitEnds: false,
+                    graphie: this.graphie
                 });
             } else {
                 this.graph.plot({
                     color: this.derivColor,
-                    plotDerivative: true
+                    plotDerivative: true,
+                    graphie: this.graphie
                 });
                 this.problem.plot({
                     color: this.fnColor,
-                    omitEnds: true
+                    omitEnds: true,
+                    graphie: this.graphie
                 });
                 windowColor = this.fnColor;
             }
@@ -875,14 +880,13 @@ $.extend(KhanUtil, {
             // CREATE SLIDING WINDOW
             this.initSliderWindow(this.problem, windowColor);
 
-            // store a pointer to currentGraph to solve bug whereby
-            // the movable window is less responsive after hint graphs are
-            // added to the page
-            this.graphie = KhanUtil.currentGraph;
-
             return this.sliderWindow;
         };
 
+        // after displaying hint, reset KhanUtil.currentGraph to graphie
+        // element containing the problem graph to solve bug whereby the
+        // movable window is less responsive after hint graphs are added to
+        // the page
         this.resetCurrentGraph = function() {
             KhanUtil.currentGraph = this.graphie;
         };
@@ -952,7 +956,7 @@ $.extend(KhanUtil, {
                 lastHint = "The function in the window corresponds to <code>" + fnVar + "</code> where " + solnText + ".";
 
                 var firstAnswer = this.problemRanges[0][0];
-                hints.push("<div class='graphie'> sliderWindow.moveTo(" + firstAnswer + ", 0); PROBLEM.resetCurrentGraph(); </div><p>" + lastHint + "</p>");
+                hints.push("<div class='graphie'> PROBLEM.showAnswer(" + firstAnswer + "); </div><p>" + lastHint + "</p>");
             }
 
             return hints;
@@ -993,13 +997,16 @@ $.extend(KhanUtil, {
             graph.scale = options.scale;
 
             graph.graphInit(options);
+
+            return graph;
         };
 
         this.showHint = function(i, deriv) {
 
             var segment = this.hintproblems[i];
+            var hintGraphie;
             if (deriv) {
-                initHintGraph([[1, 5], [-3, 3]], {
+                hintGraphie = initHintGraph([[1, 5], [-3, 3]], {
                     axisOpacity: 1,
                     labelOpacity: 0.01,
                     tickOpacity: 0.01
@@ -1007,24 +1014,27 @@ $.extend(KhanUtil, {
                 segment.plot({
                     color: this.derivColor,
                     plotDerivative: true,
-                    omitEnds: false
+                    omitEnds: false,
+                    graphie: hintGraphie
                 });
             } else {
-                initHintGraph([[1, 5], [-3, 3]], {
+                hintGraphie = initHintGraph([[1, 5], [-3, 3]], {
                     axisOpacity: 0.01,
                     labelOpacity: 0.01,
                     tickOpacity: 0.01
                 });
                 segment.plot({
                     color: this.fnColor,
-                    omitEnds: true
+                    omitEnds: true,
+                    graphie: hintGraphie
                 });
             }
 
-            // after displaying hint, reset KhanUtil.currentGraph to graphie
-            // element containing the problem graph to solve bug whereby the
-            // movable window is less responsive after hint graphs are added
-            // to the page
+            this.resetCurrentGraph();
+        };
+
+        this.showAnswer = function(firstAnswer) {
+            this.sliderWindow.moveTo(firstAnswer, 0);
             this.resetCurrentGraph();
         };
 
