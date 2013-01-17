@@ -136,7 +136,8 @@
                 <li><code><var>OPTIONS[3]</var></code></li>
             </ul>
 
-            <div class="hints" data-if="ALL">
+            <div class="hints">
+            <div data-unwrap data-if="ALL">
                 <div>
                     We know that <code>\blue{<var>SINGLE_PCT</var> \%}</code> of the time, he'll make
                     his first shot.
@@ -249,7 +250,7 @@
                     The probability of making <var>STREAK</var> free throws in a row is <code><var>PROB</var> ^ <var>STREAK</var></code>.
                 </p>
             </div>
-            <div class="hints" data-else>
+            <div data-unwrap data-else>
                 <div>
                     We know that <code>\blue{<var>SINGLE_PCT</var> \%}</code> of the time, he'll miss
                     his first shot
@@ -362,6 +363,7 @@
                     The probability of missing <var>STREAK</var> free throws in a row is 
                     <code><var>PROB</var> ^ <var>STREAK</var> = <var>ANS</var></code>.
                 </p>
+            </div>
             </div>
         </div>
         <div id="YARR">
