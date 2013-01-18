@@ -86,8 +86,8 @@
                 <p class="question">
                     If the teacher chooses <code><var>CHOSEN</var></code>
                     students, what is the probability that 
-                    <var>ALL ? ((CHOSEN === 2) ? "both" : "all") :
-                    ((CHOSEN === 2) ? "neither" : "none")</var>
+                    <var>ALL ? ((CHOSEN === 2) ? "both" : "all " + cardinal(CHOSEN)) :
+                    ((CHOSEN === 2) ? "neither" : "none of the " + cardinal(CHOSEN))</var>
                     of them <var>EVENT_PY</var>?
                 </p>
 
