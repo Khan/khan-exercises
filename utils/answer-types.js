@@ -112,9 +112,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var acceptableForms = options.forms.split(/\s*,\s*/);
 
             if (window.Modernizr && Modernizr.touch) {
-                // only some answer types can be represented with type=number
+                // Use special HTML5 input element for touch devices, so we can
+                // take advantage of special numeric keyboards...
                 var inputMarkup = "<input type='number' step='any'>";
                 var numberForms = ["integer", "decimal"];
+                // ...except if the answer can be represented as a fraction,
+                // pi, log, percent, dollar, or anything else that isn't a
+                // "floating point number".
                 $.each(acceptableForms, function (i,form) {
                     if (numberForms.indexOf(form) < 0) {
                         inputMarkup = "<input type='text'>";
