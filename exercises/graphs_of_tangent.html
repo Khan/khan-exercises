@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Graphs of tangent</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function decFrac( num ) {
+            return KhanUtil.decimalFraction( num, true, true, true );
+        }
+    </script>
+    <style type="text/css">
+        #answer_area input[type=text] {
+            width: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="HSCALE">random() &lt; 0.5 ? randRange( 1, 4 ) : 1 / randRange( 1, 4 )</var>
+            <var id="PERIOD">PI * HSCALE</var>
+
+            <var id="VRANGE">3.5</var>
+            <var id="HRANGE">3.5 * PI * HSCALE</var>
+
+            <var id="PIXVSCALE">150 / VRANGE</var>
+            <var id="PIXHSCALE">250 / HRANGE</var>
+
+            <var id="FUNCS"> "tan" + "(x/" + HSCALE + ")"</var>
+
+            <!-- this is the distance between grid lines -->
+            <var id="HSTEP">HSCALE * PI / 4</var>
+            <var id="VSTEP">0.5</var>
+
+            <!-- this is how many grid lines are between each tick mark -->
+            <var id="HTICKSTEP">2</var>
+            <var id="VTICKSTEP">1</var>
+
+            <!-- this is how many grid lines there are between each grid label -->
+            <var id="HLABELSTEP">4</var>
+            <var id="VLABELSTEP">2</var>
+
+        </div>
+
+        <div class="problems">
+            <div>
+
+                <div class="problem">
+                    <p><code>f(x)</code> is graphed below. Asymptotes are shown in blue.</p>
+                    <div id="graph" class="graphie">
+                        graphInit({
+                            range: [ HRANGE, VRANGE ],
+                            scale: [ PIXHSCALE, PIXVSCALE ],
+                            axisArrows: "<->",
+                            gridStep: [ HSCALE * PI / 4, .5 ],
+                            tickStep: [ 2, 1 ],
+                            labelStep: [ 2, 2 ],
+                            unityLabels: true,
+                            xLabelFormat: piFraction
+                        });
+
+                        // draw tan curve
+                        style({
+                            stroke: "#9400d3",
+                             strokeWidth: 2
+                        }, function() {
+                            plot( function( x ) {
+                                return eval( FUNCS);
+                            }, [ -HRANGE, HRANGE ] );
+                            
+                        });
+                        
+                        style({
+                        	stroke: "#00bbff",
+                        	strokeWidth: 2
+                        }, function() {
+                        	plotAsymptotes( function( x ){
+                            	return eval (FUNCS);
+                            }, [-HRANGE, HRANGE]);
+                        });
+                    </div>
+                </div>
+
+                <p class="question">What is <code>f(x)</code>?</p>
+
+                <div class="solution" data-type="multiple">
+                    <div style="font-size: 11px;">
+                        <code>f(x)=tan </code>
+                        <code>(</code><span class="sol short" data-fallback="1"><var>1 / HSCALE</var></span><code>x)</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hints">
+           
+            <div>
+                <div class="graphie" data-update="graph">
+                    style({
+                        stroke: "#00d505",
+                        strokeWidth: 2
+                    }, function() {
+                        plot( function( x ) {
+                            return eval( FUNCS );
+                        }, [ -PERIOD/2, PERIOD/2 ] );
+                        line( [ -PERIOD/2, 0 ], [ PERIOD/2 , 0 ], { arrows: "&lt;-&gt;" });
+                    });
+                </div>
+                <p>The distance between every two asymptotes is <code><var> HSCALE </var> \pi</code>, so the period of <code>f(x)</code> is <code><var>HSCALE</var> \pi</code>.</p>
+            </div>
+
+            <div data-if="abs( PERIOD - PI ) < 0.01" data-unwrap>
+                <p>The period of a normal tangent function is <code>\pi</code>, and the period we want is <code><var>cleanMath(piFraction( PERIOD ))</var></code>, so we don't need to worry about scaling the function horizontally.</p>
+            </div>
+
+            <div data-else data-unwrap>
+
+                <p>The period of a normal tangent function is <code>\pi</code>, and the period we want is <code><var>cleanMath(piFraction( PERIOD ))</var></code>, so we need to scale the <var>FNS</var> function horizontally by <code><var>decFrac( PERIOD /  PI )</var></code>.</p>
+
+                <p>To horizontally scale <code>\tan(x)</code> by <code><var>decFrac( PERIOD / PI )</var></code>, we need to substitute <code><var>decFrac( PI / PERIOD )</var>x</code> in for <code>x</code> to get <code>\tan(<var>decFrac(  PI / PERIOD )</var>x)</code>.</p>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
