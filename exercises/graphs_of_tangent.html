@@ -20,8 +20,9 @@
         <div class="vars">
             <var id="HSCALE">random() &lt; 0.5 ? randRange( 1, 4 ) : 1 / randRange( 1, 4 )</var>
             <var id="PERIOD">PI * HSCALE</var>
-
-            <var id="VRANGE">3.5</var>
+            
+           	
+			<var id="VRANGE">3.5</var>
             <var id="HRANGE">3.5 * PI * HSCALE</var>
 
             <var id="PIXVSCALE">150 / VRANGE</var>
@@ -107,21 +108,26 @@
                         line( [ -PERIOD/2, 0 ], [ PERIOD/2 , 0 ], { arrows: "&lt;-&gt;" });
                     });
                 </div>
-                <p>The distance between every two asymptotes is <code><var> HSCALE </var> \pi</code>, so the period of <code>f(x)</code> is <code><var>HSCALE</var> \pi</code>.</p>
+                
+                <p data-if="HSCALE==1">The distance between every two asymptotes is <code> \pi</code> so the period of <code>f(x)</code> is <code> \pi </code>.
+                <p data-else> The distance between every two asymptotes is <code> <var>piFraction( PERIOD) </var></code> so the period of <code>f(x)</code> is <code> <var>piFraction(PERIOD) </var></code>
+                </p>
             </div>
 
             <div data-if="abs( PERIOD - PI ) < 0.01" data-unwrap>
-                <p>The period of a normal tangent function is <code>\pi</code>, and the period we want is <code><var>cleanMath(piFraction( PERIOD ))</var></code>, so we don't need to worry about scaling the function horizontally.</p>
+
+                <p>The period of a normal tangent function is <code>\pi</code>, and the period we want is <code>\pi</code>, so we don't need to worry about scaling the function horizontally.</p>
+            	<p> Then the desired tangent function is <code> \tan(x) </code>. </p>
             </div>
 
             <div data-else data-unwrap>
 
-                <p>The period of a normal tangent function is <code>\pi</code>, and the period we want is <code><var>cleanMath(piFraction( PERIOD ))</var></code>, so we need to scale the <var>FNS</var> function horizontally by <code><var>decFrac( PERIOD /  PI )</var></code>.</p>
+                <p>The period of a normal tangent function is <code>\pi</code>, and the period we want is <code><var>piFraction( PERIOD )</var></code>, so we need to scale the tangent function horizontally by <code><var>decFrac( PERIOD /  PI )</var></code>.</p>
 
                 <p>To horizontally scale <code>\tan(x)</code> by <code><var>decFrac( PERIOD / PI )</var></code>, we need to substitute <code><var>decFrac( PI / PERIOD )</var>x</code> in for <code>x</code> to get <code>\tan(<var>decFrac(  PI / PERIOD )</var>x)</code>.</p>
 
             </div>
-
+            
         </div>
     </div>
 </body>
