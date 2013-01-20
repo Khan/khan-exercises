@@ -32,16 +32,25 @@
     <div class="exercise">
     <div class="problems">
         <div>
-            <div class="vars"
-                data-ensure="A + B !== 0 &amp;&amp; A*D + B*C !== 0">
-                <var id="A">randRangeNonZero(-5, 5)</var>
-                <var id="B">randRangeNonZero(-5, 5)</var>
-                <var id="C">randRangeNonZero(-5, 5)</var>
-                <var id="D">randRangeNonZero(-5, 5)</var>
+            <div class="vars">
+                <div data-ensure="A + B !== 0 &amp;&amp; A*D + B*C !== 0">
+                    <var id="A">randRangeNonZero(-5, 5)</var>
+                    <var id="B">randRangeNonZero(-5, 5)</var>
+                    <var id="C">randRangeNonZero(-5, 5)</var>
+                    <var id="D">randRangeNonZero(-5, 5)</var>
+                </div>
                 <var id="NUMER">expr(["+", ["*", A + B, "x"], A*D + B*C])</var>
-                <var id="DENOM">expr((C === -D) ?
+                <var id="DENOM">expr(C === -D ?
                     ["+", "x^2", C*D] :
                     ["+", "x^2", ["*", -C - D, "x"], C*D]
+                )</var>
+                <var id="ADENOM">expr(C < 0 ?
+                    ["+", "x", -C] :
+                    ["-", "x", C]
+                )</var>
+                <var id="BDENOM">expr(D < 0 ?
+                    ["+", "x", -D] :
+                    ["-", "x", D]
                 )</var>
             </div>
             <div class="question">
@@ -85,8 +94,8 @@
                 <div>
                     <code>
                         \dfrac{<var>NUMER</var>}{<var>DENOM</var>} =
-                        \dfrac{<var>A</var>}{<var>expr(["-", "x", C])</var>} +
-                        \dfrac{<var>B</var>}{<var>expr(["-", "x", D])</var>}
+                        \dfrac{<var>A</var>}{<var>ADENOM</var>} +
+                        \dfrac{<var>B</var>}{<var>BDENOM</var>}
                     </code>
                 </div>
             </div>
