@@ -23,7 +23,7 @@
             padding: 0px 5px;
         }
         #answer_area .soln-bot {
-            padding-top: 2px;
+            padding-top: 1px;
             border-top: 1px solid black;
         }
     </style>
@@ -33,7 +33,9 @@
     <div class="problems">
         <div>
             <div class="vars">
-                <div data-ensure="A + B !== 0 &amp;&amp; A*D + B*C !== 0">
+                <div data-ensure="A + B !== 0 &amp;&amp;
+                                  A*D + B*C !== 0 &amp;&amp;
+                                  C !== D">
                     <var id="A">randRangeNonZero(-5, 5)</var>
                     <var id="B">randRangeNonZero(-5, 5)</var>
                     <var id="C">randRangeNonZero(-5, 5)</var>
@@ -44,14 +46,8 @@
                     ["+", "x^2", C*D] :
                     ["+", "x^2", ["*", -C - D, "x"], C*D]
                 )</var>
-                <var id="ADENOM">expr(C < 0 ?
-                    ["+", "x", -C] :
-                    ["-", "x", C]
-                )</var>
-                <var id="BDENOM">expr(D < 0 ?
-                    ["+", "x", -D] :
-                    ["-", "x", D]
-                )</var>
+                <var id="ADENOM">expr(["+", "x", -C])</var>
+                <var id="BDENOM">expr(["+", "x", -D])</var>
             </div>
             <div class="question">
                 Expand
