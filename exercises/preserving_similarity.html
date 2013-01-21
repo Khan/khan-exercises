@@ -4,9 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Preserving similarity</title>
     <script src="../khan-exercise.js"></script>
-</head>
-<!--
-    A very quick and dirty prototype exercise on "preserving similarity"
+    <!--
+    A prototype exercise on "preserving similarity" [version 2, October 15, 2012]
     
     * based on https://trello.com/card/2-preserving-similarity/4d87e664967a0775082939ab/350
     * very much "not production quality"
@@ -18,11 +17,6 @@
       help visualize whether or not it preserves similarity
     * there should probably be a label on the slider, and perhaps labels indicating the 
       lengths of each side and the angle of each vertex.
-    * many of the triangles based on independent random points are too small or too skinny. 
-      I wonder if it would work better to generate three side lengths and construct the 
-      triangles from that. 
-    * note: adding a constant to the side lengths of an equilateral triangle DOES preserve 
-      similarity, and for nearly equilateral triangles the visual effect is subtle
     * only the dot/knob of the slider is mouse-sensitive, maybe the whole "track" should be.
     * parts of this ("mini 2d library", the slider) probably duplicate Khan library code...
     * This should be a multiple problem exercise structure (instead of using CASE below) but
@@ -30,21 +24,54 @@
       currently selected (see CASE below). Is there a way to do that? Or do I need to move 
       the javascript code into a separate .js file and call it from each of the multiple 
       problem types?
--->
+    -->
+    <script type="text/javascript">
+        // mini 2d library
+        var add2d = function (a, b) {return [a[0]+b[0], a[1]+b[1]];}
+        var sub2d = function (a, b) {return [a[0]-b[0], a[1]-b[1]];}
+        var scale2d = function (s, v) {return [s*v[0], s*v[1]];}
+        var length2d = function (v) {return Math.sqrt((v[0]*v[0]) + (v[1]*v[1]));}
+        var interpolate = function (alpha, value0, value1) {
+            return (value0 + (alpha * (value1 - value0)));
+        }
+        var interpolate2d = function (alpha, value0, value1) {
+            return [interpolate(alpha, value0[0], value1[0]),
+                    interpolate(alpha, value0[1], value1[1])];
+        }
+        var triangleAreaByVerts = function (a, b, c) {
+            return Math.abs((a[0]*(b[1]-c[1]) + b[0]*(c[1]-a[1]) + c[0]*(a[1]-b[1])) / 2.0);
+        }
+        var triangleAreaBySides = function (a, b, c) {
+            var p = (a+b+c)/2; // half the perimeter
+            return Math.sqrt(p*(p-a)*(p-b)*(p-c));
+        }
+        var checkTriangle = function (side0, side1, side2) {
+            var longSide = Math.max (side0, side1, side2);
+            var shortSide = Math.min (side0, side1, side2);
+            return ((longSide/shortSide > 1.2) &&
+                    (triangleAreaBySides(side0, side1, side2) > 0.15));
+        }
+    </script>
+</head>
 <body>
     <div class="exercise">
         <div class="vars">
             <var id="CASE">randRange(0, 1)</var>
             <var id="ANSWER">(CASE==0) ? "True" : "False"</var>
             <var id="QUESTION">(CASE==0) ? 
-                "Take any triangle (A), make a copy (B), then multiply the length of each "+
-                "side of B by the same number (k). Is A similar to B?" :
-                "Take any triangle (A), make a copy (B), then add a constant (k) to the "+
-                "length of each side of B. Is A similar to B?"
+                "Take any triangle (A), make a copy (B), then &LT;b&GT;multiply&LT;/b&GT; "+
+                "the length of each side of B by the same number (k). Is A similar to B?" :
+                "Take any triangle (A), make a copy (B), then &LT;b&GT;add&LT;/b&GT; a "+
+                "constant (k) to the length of each side of B. Is A similar to B?"
             </var>
-            <var id="V0">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
-            <var id="V1">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
-            <var id="V2">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
+            <div data-ensure="checkTriangle(LENGTH0, LENGTH1, LENGTH2)">
+                <var id="VERTEX0">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
+                <var id="VERTEX1">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
+                <var id="VERTEX2">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
+                <var id="LENGTH0">length2d(sub2d(VERTEX0, VERTEX1))</var>
+                <var id="LENGTH1">length2d(sub2d(VERTEX1, VERTEX2))</var>
+                <var id="LENGTH2">length2d(sub2d(VERTEX2, VERTEX0))</var>
+            </div>
         </div>
         <div class="problems">
             <div id="scale_sides">
@@ -69,9 +96,9 @@
                         addMouseLayer();
                         var sliderHeight = 0.9;
                         var adjust;
-                        var v0 = [<var>V0</var>]; <!-- should these be called a0,a1,a2 ? -->
-                        var v1 = [<var>V1</var>];
-                        var v2 = [<var>V2</var>];
+                        var v0 = [<var>VERTEX0</var>]; <!-- should these be called a0,a1,a2 ? -->
+                        var v1 = [<var>VERTEX1</var>];
+                        var v2 = [<var>VERTEX2</var>];
                         <!-- draw original triangle A -->
                         style({stroke: "rgb(100,50,100)"});
                         var triangleA = path([v0, v1, v2, v0]);
@@ -81,23 +108,7 @@
                         path([[0, sliderHeight+0.04], [0, sliderHeight-0.04]]);
                         path([[-sliderHeight, sliderHeight+0.04], [-sliderHeight, sliderHeight-0.04]]);
                         path([[sliderHeight, sliderHeight+0.04], [sliderHeight, sliderHeight-0.04]]);
-                        <!-- mini 2d library -->
-                        var add2d = function (a, b) {return [a[0]+b[0], a[1]+b[1]];}
-                        var sub2d = function (a, b) {return [a[0]-b[0], a[1]-b[1]];}
-                        var scale2d = function (s, v) {return [s*v[0], s*v[1]];}
-                        var length2d = function (v) {return sqrt((v[0]*v[0]) + (v[1]*v[1]));}
-                        var interpolate = function (alpha, value0, value1) {
-                            return (value0 + (alpha * (value1 - value0)));
-                        }
-                        var interpolate2d = function (alpha, value0, value1) {
-                            return [interpolate(alpha, value0[0], value1[0]),
-                                    interpolate(alpha, value0[1], value1[1])];
-                        }
-                        <!-- shared variable -->
-                        var length0 = length2d(sub2d(v0,v1));
-                        var length1 = length2d(sub2d(v1,v2));
-                        var length2 = length2d(sub2d(v2,v0));
-                        var perimeter = length0 + length1 + length2;
+                        var perimeter = LENGTH0 + LENGTH1 + LENGTH2;
                         var center = scale2d(1.0/3.0, add2d(v0, add2d(v1, v2)));
                         var triangleB = path([]);
                         var drawTriangleB = function (b0, b1, b2) {
@@ -130,9 +141,9 @@
                         var addToTriangleSides = function (delta) {
                             var b0 = v0, b1 = v1, b2 = v2;
                             for (var i = 0; i &LT; 10; i++) {
-                                b0 = addSideAdjustVertex (delta, b0, b1, b2, length0, length1, length2);
-                                b1 = addSideAdjustVertex (delta, b1, b2, b0, length1, length2, length0);
-                                b2 = addSideAdjustVertex (delta, b2, b0, b1, length2, length0, length1);
+                                b0 = addSideAdjustVertex (delta, b0, b1, b2, LENGTH0, LENGTH1, LENGTH2);
+                                b1 = addSideAdjustVertex (delta, b1, b2, b0, LENGTH1, LENGTH2, LENGTH0);
+                                b2 = addSideAdjustVertex (delta, b2, b0, b1, LENGTH2, LENGTH0, LENGTH1);
                             }
                             drawTriangleB(b0, b1, b2);
                         }
