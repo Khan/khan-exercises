@@ -5,7 +5,8 @@
     <title>Multiplying complex numbers</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
-        #solutionarea input[type="text"] {
+        #solutionarea input[type="text"],
+        #solutionarea input[type="number"] {
             width: 50px
         }
     </style>
@@ -40,11 +41,11 @@
             <p class="question">Multiply the following complex numbers:</p>
             <p><code>(<var>A_REP</var>) \cdot (<var>B_REP</var>)</code></p>
             <div class="solution" data-type="multiple">
-                <span class="sol" data-fallback="0" data-inexact data-max-error="0.01">
+                <span class="sol" data-forms="integer,decimal" data-fallback="0" data-inexact data-max-error="0.01">
                     <var>ANSWER_REAL</var>
                 </span>
                 <code>+</code>
-                <span class="sol" data-fallback="0" data-inexact data-max-error="0.01">
+                <span class="sol" data-forms="integer,decimal" data-fallback="0" data-inexact data-max-error="0.01">
                     <var>ANSWER_IMAG</var>
                 </span>
                 <code>i</code>
