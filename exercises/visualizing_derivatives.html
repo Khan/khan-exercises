@@ -44,7 +44,7 @@
 
         <div class="problem">
             <div class="graphie">
-                sliderWindow = PROBLEM.render();
+                slidingWindow = PROBLEM.render();
             </div>
         </div>
 
@@ -60,7 +60,7 @@
                     Drag the sliding window to the correct region or indicate there is no solution.
                 </div>
                 <div class="guess">
-                    sliderWindow.getXLims()
+                    slidingWindow.getXLims()
                 </div>
                 <div class="validator-function">
                     if (NO_SOLUTION) {
@@ -71,7 +71,7 @@
                     });
                 </div>
                 <div class="show-guess">
-                    sliderWindow.moveTo(guess[0], 0);
+                    slidingWindow.moveTo(guess[0], 0);
                 </div>
             </div>
             <p></p>
@@ -85,7 +85,7 @@
             </div>
             <div class="sol" data-type="custom" required>
                 <div class="guess">
-                    _.isEqual(sliderWindow.getXLims(), sliderWindow.startRange)
+                    _.isEqual(slidingWindow.getXLims(), slidingWindow.startRange)
                     &amp;&amp;
                     !$("#solutionarea input").eq(0).is(":checked")
                 </div>
