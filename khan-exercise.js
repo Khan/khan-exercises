@@ -1111,7 +1111,7 @@ var Khan = (function() {
             parentType = original.data("type");
         }
 
-	// prepend any motivational text for the growth mindset A/B test
+        // prepend any motivational text for the growth mindset A/B test
         $("#workarea").prepend(Exercises.currentCard.attributes.growthHeader);
 
         // Add any global exercise defined elements
