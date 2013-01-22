@@ -2104,8 +2104,11 @@ var Khan = (function() {
                 // How many cards the user has left to do
                 cards_left: !testMode && (Exercises.incompleteStack.length - 1),
 
-                //Get Custom Stack Id if it exists
-                custom_stack_id: !testMode && Exercises.completeStack.getCustomStackID()
+                // Custom stack ID if it exists
+                custom_stack_id: !testMode && Exercises.completeStack.getCustomStackID(),
+
+                // The domain of the assessment engine model, eg. fractions
+                domain: !testMode && Exercises.domain
             };
         }
 
@@ -2740,8 +2743,8 @@ var Khan = (function() {
         $(Khan)
             .bind("updateUserExercise", function(ev, data) {
                 // Any time we update userExercise, check if we're setting/switching usernames
-                if (data) {
-                    user = data.user || user;
+                if (data && data.userExercise) {
+                    user = data.userExercise.user || user;
                     userCRC32 = user != null ? crc32(user) : null;
                     randomSeed = userCRC32 || randomSeed;
                 }
@@ -2830,7 +2833,7 @@ var Khan = (function() {
             exerciseId = data.exercise;
         }
 
-        $(Khan).trigger("updateUserExercise", userExercise);
+        $(Khan).trigger("updateUserExercise", {userExercise: userExercise});
 
         if (user != null) {
             // How far to jump through the problems
@@ -2865,9 +2868,13 @@ var Khan = (function() {
             xhrFields["withCredentials"] = true;
         }
 
+        // TODO(david): Try harder to decouple Exercises outta this file
+        var apiBaseUrl = (Exercises.assessmentMode ? "api/v1/user/assessments"
+          : "api/v1/user/exercises");
+
         var request = {
             // Do a request to the server API
-            url: server + "/api/v1/user/exercises/" + exerciseId + "/" + method,
+            url: server + "/" + apiBaseUrl + "/" + exerciseId + "/" + method,
             type: "POST",
             data: data,
             dataType: "json",
@@ -2878,7 +2885,10 @@ var Khan = (function() {
 
                 // Tell any listeners that khan-exercises has new
                 // userExercise data
-                $(Khan).trigger("updateUserExercise", data);
+                $(Khan).trigger("updateUserExercise", {
+                    userExercise: data,
+                    source: "serverResponse"
+                });
 
                 if ($.isFunction(fn)) {
                     fn(data);
