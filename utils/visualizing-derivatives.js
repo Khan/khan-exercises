@@ -1026,7 +1026,7 @@ $.extend(KhanUtil, {
                 hints.push("<div class='graphie'> PROBLEM.showNoAnswer(); </div>");
             } else {
                 var solnText = this.problemRanges.map(function(range){
-                                return "x <code>\\in</code> [" + range.join(", ") + "]";
+                                return "<code>x \\in [" + range.join(", ") + "]</code>";
                             }).join(" and ");
                 var fnVar = moveDeriv ? "f'(x)" : "F(x)";
                 lastHint = "The function in the window corresponds to <code>" + fnVar + "</code> where " + solnText + ".";
