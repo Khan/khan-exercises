@@ -5,7 +5,8 @@
     <title>Pile patterns</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
-        #answer_area input[type=text] {
+        #answer_area input[type=text],
+        #answer_area input[type=number] {
             width: 40px;
         }
     </style>
@@ -178,8 +179,8 @@
                     </div>
                 </div>
                 <div class="solution" data-type="multiple">
-                    In step 0, we have <span class="sol"><var>START</var></span> blocks. At each step, we add <span class="sol"><var>XS</var></span> more blocks.<br><br>
-                    So, at step number <code>S</code>, we have<br><span class="sol"><var>START</var></span> <code>+</code> <span class="sol"><var>XS</var></span> <code>\times S</code>  blocks.
+                    In step 0, we have <span class="sol" data-forms="integer"><var>START</var></span> blocks. At each step, we add <span class="sol" data-forms="integer"><var>XS</var></span> more blocks.<br><br>
+                    So, at step number <code>S</code>, we have<br><span class="sol" data-forms="integer"><var>START</var></span> <code>+</code> <span class="sol" data-forms="integer"><var>XS</var></span> <code>\times S</code>  blocks.
                 </div>
                 <div class="hints">
                     <p>The number of blocks in the diagram make an arithmetic progression. This means that at each step, the same number of blocks are added. We want to find a way to know how many blocks there will be at any step.</p>

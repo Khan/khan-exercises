@@ -5,7 +5,8 @@
     <title>Multiplying and dividing scientific notation</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
-        #answer_area input[type=text] {
+        #answer_area input[type=text],
+        #answer_area input[type=number] {
             width: 30px;
         }
     </style>
@@ -27,9 +28,9 @@
                 </p>
 
                 <div class="solution" data-type="multiple">
-                    <span class="sol base"><var>scientificMantissa( 2, QUOTIENT )</var></span>
+                    <span class="sol base" data-forms="integer, decimal"><var>scientificMantissa( 2, QUOTIENT )</var></span>
                     <code> \times 10 </code>
-                    <sup class="sol exp" style="width: 20px;"><var>scientificExponent( QUOTIENT )</var></sup>
+                    <sup class="sol exp" data-forms="integer, decimal" style="width: 20px;"><var>scientificExponent( QUOTIENT )</var></sup>
                 </div>
 
                 <div class="hints">
@@ -74,9 +75,9 @@
                     <code>(<var>scientific( 2, QUOTIENT )</var>)\times (<var>scientific( 2, DENOMINATOR )</var>)</code></p>
 
                 <div class="solution" data-type="multiple">
-                    <span class="sol base"><var>scientificMantissa( 3, NUMERATOR )</var></span>
+                    <span class="sol base" data-forms="integer, decimal"><var>scientificMantissa( 3, NUMERATOR )</var></span>
                     <code> \times 10 </code>
-                    <sup class="sol exp" style="width: 20px;"><var>scientificExponent( NUMERATOR )</var></sup>
+                    <sup class="sol exp" data-forms="integer, decimal" style="width: 20px;"><var>scientificExponent( NUMERATOR )</var></sup>
                 </div>
 
                 <div class="hints">

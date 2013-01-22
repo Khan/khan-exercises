@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars">
+    <div class="vars" data-ensure="ANSWER_IMAG !== -1">
         <var id="A_REAL">randRange( -5, 5 )</var>
         <var id="A_IMAG">randRange( -5, 5 )</var>
         <var id="B_REAL">randRange( -5, 5 )</var>
@@ -65,7 +65,7 @@
                     <var>ANSWER_REAL</var>
                 </span>
                 <code>+</code>
-                <span class="sol" data-forms="integer, decimal" data-fallback="0" data-inexact data-max-error="0.01">
+                <span class="sol" data-forms="integer, decimal" data-fallback="1" data-inexact data-max-error="0.01">
                     <var>ANSWER_IMAG</var>
                 </span>
                 <code>i</code>

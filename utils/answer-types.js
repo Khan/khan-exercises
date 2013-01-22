@@ -211,6 +211,15 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }, $(solution).data());
             var acceptableForms = options.forms.split(/\s*,\s*/);
 
+            // If percent is an acceptable form, make sure it's the last one
+            // in the list so we don't prematurely complain about not having
+            // a percent sign when the user entered the correct answer in a
+            // different form (such as a decimal or fraction)
+            if (_.contains(acceptableForms, "percent")) {
+                acceptableForms = _.without(acceptableForms, "percent");
+                acceptableForms.push("percent");
+            }
+
             // Take text looking like a fraction, and turn it into a number
             var fractionTransformer = function(text) {
                 text = text
@@ -374,6 +383,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     var transformed = forms.decimal(text);
                     $.each(transformed, function(ix, t) {
                         t.exact = hasPercentSign;
+                        t.value = t.value / 100;
                     });
                     return transformed;
                 },
