@@ -96,15 +96,112 @@
                 </div>
             </div>
             <div class="hints">
-                <div>
-                    <div data-video-hint data-youtube-id="S-XKGBesRzk"></div>
-                </div>
-                <div>
+                <p>
+                    First, factor the denominator to find the denominators of
+                    the two fractions we will split our fraction into.
+                </p>
+                <p>
                     <code>
-                        \dfrac{<var>NUMER</var>}{<var>DENOM</var>} =
-                        \dfrac{<var>A</var>}{<var>ADENOM</var>} +
-                        \dfrac{<var>B</var>}{<var>BDENOM</var>}
+                        <var>DENOM</var> =
+                        (<var>ADENOM</var>)(<var>BDENOM</var>)
                     </code>
+                </p>
+                <p>
+                    Because the original denominator can be factored into these
+                    two parts, we can write out our original fraction as the
+                    sum of two fractions whose denominators are the two factors
+                    we just found.
+                </p>
+                <p>
+                    <code>
+                        \dfrac{<var>NUMER</var>}{(<var>ADENOM</var>)(<var>BDENOM</var>)} =
+                        \dfrac{?}{<var>ADENOM</var>} +
+                        \dfrac{?}{<var>BDENOM</var>}
+                    </code>
+                </p>
+                <div>
+                    <p>
+                        Now, we replace the numerators with polynomials of a
+                        degree one less than the degree of the polynomial in
+                        the denominator.
+                    </p>
+                    <p>
+                        In our case, both of the denomiators have a degree of
+                        <code>1</code>, so we replace our numerators with
+                        polynomials of degree <code>0</code>, or constants. We
+                        will use the constants <code>A</code> and
+                        <code>B</code>.
+                    </p>
+                </div>
+                <p>
+                    <code>
+                        \dfrac{<var>NUMER</var>}{(<var>ADENOM</var>)(<var>BDENOM</var>)} =
+                        \dfrac{A}{<var>ADENOM</var>} +
+                        \dfrac{B}{<var>BDENOM</var>}
+                    </code>
+                </p>
+                <p>
+                    Now, to get rid of the fractions, we multiply by the common
+                    denominator,
+                    <code>(<var>ADENOM</var>)(<var>BDENOM</var>)</code>.
+                </p>
+                <p>
+                    <code>
+                        <var>NUMER</var> =
+                        A(<var>BDENOM</var>) + B(<var>ADENOM</var>)
+                    </code>
+                </p>
+                <p>
+                    Now we can solve for <code>A</code> and <code>B</code>. An
+                    easy way to do this is to try to choose values for
+                    <code>x</code> that will get one of <code>A</code> or
+                    <code>B</code> to cancel out, and then solve for the other
+                    one.
+                </p>
+                <div>
+                    <p>
+                        Let's try to cancel out <code>B</code>. We see that if
+                        we plug in <code><var>C</var></code> for
+                        <code>x</code>, the term with <code>B</code> cancels
+                        out, and we are left with:
+                    </p>
+                    <p>
+                        <code><var>expr(["+", E * C, F])</var> = A(<var>expr(["+", C, -D])</var>)</code>
+                    </p>
+                </div>
+                <p>
+                    <code><var>E * C + F</var> = <var>expr(["*", C - D, "A"])</var></code>
+                </p>
+                <p>
+                    <code>A=<var>A</var></code>
+                </p>
+                <div>
+                    <p>
+                        We can do the same thing to solve for <code>B</code>,
+                        but instead plugging in <code><var>D</var></code> for
+                        <code>x</code>:
+                    </p>
+                    <p>
+                        <code><var>expr(["+", E * D, F])</var> = B(<var>expr(["+", D, -C])</var>)</code>
+                    </p>
+                </div>
+                <p>
+                    <code><var>E * D + F</var> = <var>expr(["*", D - C, "B"])</var></code>
+                </p>
+                <p>
+                    <code>B=<var>B</var></code>
+                </p>
+                <div>
+                    <p>
+                        Now, we plug back in to our fractions, and get:
+                    </p>
+                    <p>
+                        <code>
+                            \dfrac{<var>NUMER</var>}{<var>DENOM</var>} =
+                            \dfrac{<var>A</var>}{<var>ADENOM</var>} +
+                            \dfrac{<var>B</var>}{<var>BDENOM</var>}
+                        </code>
+                    </p>
                 </div>
             </div>
         </div>
