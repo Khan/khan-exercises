@@ -114,7 +114,9 @@
                 </p>
                 <p>
                     <code>
-                        \dfrac{<var>NUMER</var>}{(<var>ADENOM</var>)(<var>BDENOM</var>)} =
+                        \dfrac{<var>NUMER</var>}{
+                            (<var>ADENOM</var>)(<var>BDENOM</var>)
+                        } =
                         \dfrac{?}{<var>ADENOM</var>} +
                         \dfrac{?}{<var>BDENOM</var>}
                     </code>
@@ -135,7 +137,9 @@
                 </div>
                 <p>
                     <code>
-                        \dfrac{<var>NUMER</var>}{(<var>ADENOM</var>)(<var>BDENOM</var>)} =
+                        \dfrac{<var>NUMER</var>}{
+                            (<var>ADENOM</var>)(<var>BDENOM</var>)
+                        } =
                         \dfrac{A}{<var>ADENOM</var>} +
                         \dfrac{B}{<var>BDENOM</var>}
                     </code>
@@ -166,11 +170,17 @@
                         out, and we are left with:
                     </p>
                     <p>
-                        <code><var>expr(["+", E * C, F])</var> = A(<var>expr(["+", C, -D])</var>)</code>
+                        <code>
+                            <var>expr(["+", E * C, F])</var> =
+                            A(<var>expr(["+", C, -D])</var>)
+                        </code>
                     </p>
                 </div>
                 <p>
-                    <code><var>E * C + F</var> = <var>expr(["*", C - D, "A"])</var></code>
+                    <code>
+                        <var>E * C + F</var> =
+                        <var>expr(["*", C - D, "A"])</var>
+                    </code>
                 </p>
                 <p>
                     <code>A=<var>A</var></code>
@@ -182,11 +192,17 @@
                         <code>x</code>:
                     </p>
                     <p>
-                        <code><var>expr(["+", E * D, F])</var> = B(<var>expr(["+", D, -C])</var>)</code>
+                        <code>
+                            <var>expr(["+", E * D, F])</var> =
+                            B(<var>expr(["+", D, -C])</var>)
+                        </code>
                     </p>
                 </div>
                 <p>
-                    <code><var>E * D + F</var> = <var>expr(["*", D - C, "B"])</var></code>
+                    <code>
+                        <var>E * D + F</var> =
+                        <var>expr(["*", D - C, "B"])</var>
+                    </code>
                 </p>
                 <p>
                     <code>B=<var>B</var></code>
