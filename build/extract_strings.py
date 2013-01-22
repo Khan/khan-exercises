@@ -35,7 +35,7 @@ _IGNORE_NODES = [
     'code',
     'div[@class="validator-function"]',
     '*[contains(@class,"graphie")]',
-    '*[contains(@class,"show-guess")]'
+    '*[contains(@class,"guess")]'
 ]
 
 # Make an HTML 5 Parser that will be used to turn the HTML documents
@@ -84,7 +84,7 @@ def main():
         print results
 
 
-def make_potfile(files=[]):
+def make_potfile(files):
     """Generate a PO file from a collection of HTML files.
     Returns the string representing the PO file."""
 
@@ -114,7 +114,7 @@ def make_potfile(files=[]):
     return unicode(output_pot).encode('utf-8')
 
 
-def extract_files(files=[]):
+def extract_files(files):
     """Extract a collection of translatable strings from a set of HTML files.
     Returns a dict of found strings, each value containing a set of file
     names in which the string appeared."""
@@ -122,17 +122,21 @@ def extract_files(files=[]):
     matches = {}
 
     # Go through all the exercise files
-    for filename in files:
-        print >>sys.stderr, 'Extracting strings from: %s' % filename
-        extract_file(filename=filename, matches=matches)
+    if files:
+        for filename in files:
+            print >>sys.stderr, 'Extracting strings from: %s' % filename
+            extract_file(filename=filename, matches=matches)
 
     return matches
 
 
-def extract_file(filename='', matches={}):
+def extract_file(filename, matches=None):
     """Extract a collection of translatable strings from an HTML file.
     Returns a dict of found strings, each value containing a set of file
     names in which the string appeared."""
+
+    if matches is None:
+        matches = {}
 
     # Parse the HTML tree
     html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
@@ -175,7 +179,7 @@ class _SetEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def _get_innerhtml(html_string=""):
+def _get_innerhtml(html_string):
     """Strip the leading and trailing tag from an lxml-generated HTML string.
     Also cleanup endlines and extraneous spaces.
 
