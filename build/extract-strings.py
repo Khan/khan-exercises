@@ -45,6 +45,7 @@ _PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
 # The base URL for referencing an exercise
 _EXERCISE_URL = 'https://www.khanacademy.org/exercise/'
 
+
 """Handle running this program from the command-line."""
 def main():
     # Handle parsing the program arguments
@@ -73,13 +74,14 @@ def main():
 
     # If an output location is specified, write the output to that file
     if args.output:
-        output_file = open(arg.output, 'w')
+        output_file = open(args.output, 'w')
         output_file.write(results)
         output_file.close()
 
     # Otherwise just write the output to STDOUT
     else:
         print results
+
 
 """Generate a PO file from a collection of HTML files.
 
@@ -110,7 +112,8 @@ def make_potfile(files=[]):
 
     return unicode(output_pot).encode('utf-8')
 
-"""Extract a collection of translatable strings from a collection of HTML files.
+
+"""Extract a collection of translatable strings from a set of HTML files.
 
 Returns a dict of found strings, each value containing a set of file names in
 which the string appeared."""
@@ -123,6 +126,7 @@ def extract_files(files=[]):
         extract_file(filename=filename, matches=matches)
 
     return matches
+
 
 """Extract a collection of translatable strings from an HTML file.
 
@@ -159,6 +163,7 @@ def extract_file(filename='', matches={}):
 
     return matches
 
+
 """Encode set data structures as lists in JSON encoding.
 
 From: http://stackoverflow.com/a/8230505/6524"""
@@ -167,6 +172,7 @@ class _SetEncoder(json.JSONEncoder):
         if isinstance(obj, set):
             return list(obj)
         return json.JSONEncoder.default(self, obj)
+
 
 """Strip the leading and trailing tag from an lxml-generated HTML string.
 Also cleanup endlines and extraneous spaces.
