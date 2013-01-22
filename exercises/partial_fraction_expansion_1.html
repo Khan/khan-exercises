@@ -41,7 +41,9 @@
                     <var id="C">randRangeNonZero(-5, 5)</var>
                     <var id="D">randRangeNonZero(-5, 5)</var>
                 </div>
-                <var id="NUMER">expr(["+", ["*", A + B, "x"], A*D + B*C])</var>
+                <var id="E">A + B</var>
+                <var id="F">-A * D - B * C</var>
+                <var id="NUMER">expr(["+", ["*", E, "x"], F])</var>
                 <var id="DENOM">expr(C === -D ?
                     ["+", "x^2", C*D] :
                     ["+", "x^2", ["*", -C - D, "x"], C*D]
