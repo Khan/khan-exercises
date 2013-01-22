@@ -16,9 +16,9 @@ _TEST_MULTI_FILES = [
 _TEST_ROOT = 'extract_test'
 _EXERCISE_ROOT = '../exercises'
 
+
 class ExtractStringsText(unittest.TestCase):
     """Handle testing of string extraction."""
-
 
     def test_single_json(self):
         """Test JSON output from a single file."""
@@ -34,7 +34,6 @@ class ExtractStringsText(unittest.TestCase):
 
             self.assertEqual(output, test_json, msg="Testing %s" % test_file)
 
-
     def test_po(self):
         """Test PO output from a single file."""
 
@@ -47,7 +46,6 @@ class ExtractStringsText(unittest.TestCase):
                 ["%s/%s.html" % (_EXERCISE_ROOT, test_file)])
 
             self.assertEqual(output, test_po, msg="Testing %s" % test_file)
-
 
     def test_multi_json(self):
         """Test JSON output from multiple files."""
@@ -65,7 +63,6 @@ class ExtractStringsText(unittest.TestCase):
 
             self.assertEqual(output, test_json, msg="Testing %s" % test_files)
 
-
     def test_multi_po(self):
         """Test PO output from multiple files."""
 
@@ -80,6 +77,7 @@ class ExtractStringsText(unittest.TestCase):
                     for test_file in test_files])
 
             self.assertEqual(output, test_po, msg="Testing %s" % test_files)
+
 
 def _slurp_file(filename):
     """Read in the entire contents of a file, return as a string."""
