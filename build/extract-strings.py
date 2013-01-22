@@ -46,8 +46,9 @@ _PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
 _EXERCISE_URL = 'https://www.khanacademy.org/exercise/'
 
 
-"""Handle running this program from the command-line."""
 def main():
+    """Handle running this program from the command-line."""
+
     # Handle parsing the program arguments
     arg_parser = argparse.ArgumentParser(
         description='Extract translatable strings from HTML exercise files.')
@@ -83,10 +84,10 @@ def main():
         print results
 
 
-"""Generate a PO file from a collection of HTML files.
-
-Returns the string representing the PO file."""
 def make_potfile(files=[]):
+    """Generate a PO file from a collection of HTML files.
+    Returns the string representing the PO file."""
+
     output_pot = polib.POFile(encoding='utf-8')
     matches = extract_files(files=files)
 
@@ -113,11 +114,11 @@ def make_potfile(files=[]):
     return unicode(output_pot).encode('utf-8')
 
 
-"""Extract a collection of translatable strings from a set of HTML files.
-
-Returns a dict of found strings, each value containing a set of file names in
-which the string appeared."""
 def extract_files(files=[]):
+    """Extract a collection of translatable strings from a set of HTML files.
+    Returns a dict of found strings, each value containing a set of file
+    names in which the string appeared."""
+
     matches = {}
 
     # Go through all the exercise files
@@ -128,11 +129,11 @@ def extract_files(files=[]):
     return matches
 
 
-"""Extract a collection of translatable strings from an HTML file.
-
-Returns a dict of found strings, each value containing a set of file names in
-which the string appeared."""
 def extract_file(filename='', matches={}):
+    """Extract a collection of translatable strings from an HTML file.
+    Returns a dict of found strings, each value containing a set of file
+    names in which the string appeared."""
+
     # Parse the HTML tree
     html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
 
@@ -164,23 +165,24 @@ def extract_file(filename='', matches={}):
     return matches
 
 
-"""Encode set data structures as lists in JSON encoding.
-
-From: http://stackoverflow.com/a/8230505/6524"""
 class _SetEncoder(json.JSONEncoder):
+    """Encode set data structures as lists in JSON encoding.
+    From: http://stackoverflow.com/a/8230505/6524"""
+
     def default(self, obj):
         if isinstance(obj, set):
             return list(obj)
         return json.JSONEncoder.default(self, obj)
 
 
-"""Strip the leading and trailing tag from an lxml-generated HTML string.
-Also cleanup endlines and extraneous spaces.
-
-(lxml doesn't provide an easy way to get the 'innerHTML')
-Note: lxml also includes the trailing text for a node when you
-      call tostring on it, we need to snip that off too."""
 def _get_innerhtml(html_string=""):
+    """Strip the leading and trailing tag from an lxml-generated HTML string.
+    Also cleanup endlines and extraneous spaces.
+
+    (lxml doesn't provide an easy way to get the 'innerHTML')
+    Note: lxml also includes the trailing text for a node when you
+          call tostring on it, we need to snip that off too."""
+
     html_string = re.sub(r'^<[^>]*>', '', html_string, count=1)
     html_string = re.sub(r'</[^>]*>[^>]*$', '', html_string, count=1)
     return re.sub(r'\n\s*', ' ', html_string).strip()
