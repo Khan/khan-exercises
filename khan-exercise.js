@@ -3048,8 +3048,8 @@ var Khan = (function() {
     function loadTestModeSite() {
         // TODO(alpert): Is the DOM really not yet ready?
         $(function() {
-            // Inject the site markup, if it doesn't exist
-            if ($("#answer_area").length === 0) {
+            // Inject the site markup
+            if (testMode) {
                 $.get(urlBase + "exercises/khan-site.html", function(site) {
                     $.get(urlBase + "exercises/khan-exercise.html",
                         function(ex) {
