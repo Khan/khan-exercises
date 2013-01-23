@@ -2379,7 +2379,7 @@ $.fn["chemistryLoad"] = function() {
         "Meitnerium": {
             "symbol" : "Mt",
             "atomic_number" : 109,
-            "atomic_weight" : "[268]",
+            "atomic_weight" : "[278]",
             "density g/cm" : "n/a",
             "melting_point K" : "n/a",
             "boiling_point K" : "n/a",
@@ -2398,10 +2398,10 @@ $.fn["chemistryLoad"] = function() {
             "lattice_structure" : "n/a",
             "lattice_constant ang" : "n/a"
         },
-        "Ununnilium": {
-            "symbol" : "Uun",
+        "Darmstadtium": {
+            "symbol" : "Ds",
             "atomic_number" : 110,
-            "atomic_weight" : "[269]",
+            "atomic_weight" : "[281]",
             "density g/cm" : "n/a",
             "melting_point K" : "n/a",
             "boiling_point K" : "n/a",
@@ -2420,10 +2420,10 @@ $.fn["chemistryLoad"] = function() {
             "lattice_structure" : "n/a",
             "lattice_constant ang" : "n/a"
         },
-        "Unununium": {
-            "symbol" : "Uuu",
+        "Roentgenium": {
+            "symbol" : "Rg",
             "atomic_number" : 111,
-            "atomic_weight" : "[272]",
+            "atomic_weight" : "[281]",
             "density g/cm" : "n/a",
             "melting_point K" : "n/a",
             "boiling_point K" : "n/a",
@@ -2442,10 +2442,10 @@ $.fn["chemistryLoad"] = function() {
             "lattice_structure" : "n/a",
             "lattice_constant ang" : "n/a"
         },
-        "Ununbium": {
-            "symbol" : "Uub",
+        "Copernicium": {
+            "symbol" : "Cn",
             "atomic_number" : 112,
-            "atomic_weight" : "[277]",
+            "atomic_weight" : "[285]",
             "density g/cm" : "n/a",
             "melting_point K" : "n/a",
             "boiling_point K" : "n/a",
@@ -2467,7 +2467,7 @@ $.fn["chemistryLoad"] = function() {
         "Ununtrium": {
             "symbol" : "Uut",
             "atomic_number" : 113,
-            "atomic_weight" : "n/a",
+            "atomic_weight" : "[286]",
             "density g/cm" : "n/a",
             "melting_point K" : "n/a",
             "boiling_point K" : "n/a",
@@ -2486,8 +2486,8 @@ $.fn["chemistryLoad"] = function() {
             "lattice_structure" : "n/a",
             "lattice_constant ang" : "n/a"
         },
-        "Ununquadium": {
-            "symbol" : "Uuq",
+        "Flerovium": {
+            "symbol" : "Fl",
             "atomic_number" : 114,
             "atomic_weight" : "[289]",
             "density g/cm" : "n/a",
@@ -2511,7 +2511,7 @@ $.fn["chemistryLoad"] = function() {
         "Ununpentium": {
             "symbol" : "Uup",
             "atomic_number" : 115,
-            "atomic_weight" : "n/a",
+            "atomic_weight" : "[289]",
             "density g/cm" : "n/a",
             "melting_point K" : "n/a",
             "boiling_point K" : "n/a",
@@ -2530,10 +2530,10 @@ $.fn["chemistryLoad"] = function() {
             "lattice_structure" : "n/a",
             "lattice_constant ang" : "n/a"
         },
-        "Ununhexium": {
-            "symbol" : "Uuh",
+        "Livermorium": {
+            "symbol" : "Lv",
             "atomic_number" : 116,
-            "atomic_weight" : "n/a",
+            "atomic_weight" : "[293]",
             "density g/cm" : "n/a",
             "melting_point K" : "n/a",
             "boiling_point K" : "n/a",
@@ -2555,7 +2555,7 @@ $.fn["chemistryLoad"] = function() {
         "Ununseptium": {
             "symbol" : "Uus",
             "atomic_number" : 117,
-            "atomic_weight" : "n/a",
+            "atomic_weight" : "[294]",
             "density g/cm" : "n/a",
             "melting_point K" : "n/a",
             "boiling_point K" : "n/a",
@@ -2577,7 +2577,7 @@ $.fn["chemistryLoad"] = function() {
         "Ununoctium": {
             "symbol" : "Uuo",
             "atomic_number" : 118,
-            "atomic_weight" : "n/a",
+            "atomic_weight" : "[294]",
             "density g/cm" : "n/a",
             "melting_point K" : "n/a",
             "boiling_point K" : "n/a",
@@ -2626,7 +2626,7 @@ $.fn["chemistryLoad"] = function() {
         [19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
         [37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54],
         [55, 56, 57, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86],
-        [87, 88, 89, 104, 105, 106, 107, 108, 109, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [87, 88, 89, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118],
         [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
         [ 0,  0,  0, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71,  0],
         [ 0,  0,  0, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 0]];
