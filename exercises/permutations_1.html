@@ -19,13 +19,13 @@
                 <p class="solution" data-forms="integer"><var>ANSWER</var></p>
                 <div class="hints">
                     <div>
-                        Let's try building the re-arrangements (or permutations) letter by letter. The word is <var>WORD.length</var>
-                        letters long:
+                        <p>Let's try building the re-arrangements (or permutations) letter by letter. The word is <var>WORD.length</var>
+                        letters long:</p>
                         <p><var>_.map(_.range(WORD.length), function(l){ return "_ "; }).join("")</var></p>
                         <p>Now, for the first blank, we have <var>WORD.length</var> choices of letters to put in.
                     </div>
                     <div>
-                        After we put in the first letter, let's say it's <var>PERM[0]</var>, we have <var>WORD.length-1</var> blanks left.
+                        <p>After we put in the first letter, let's say it's <var>PERM[0]</var>, we have <var>WORD.length-1</var> blanks left.</p>
                         <p><var>PERM[0]+" "+_.map(_.range(WORD.length-1), function(l){ return "_ "; }).join("")</var></p>
                         <p>For the second blank, we only have <var>WORD.length-1</var> choices of letters left to put in. So far, there were
                             <code><var>WORD.length</var> \cdot <var>WORD.length-1</var></code> unique choices we could have made.</p>

@@ -755,13 +755,13 @@ $.extend(KhanUtil, {
             var xlims = this.GRAPH_LIMS[0];
             var ylims = this.GRAPH_LIMS[1];
 
-            // window cannot move past (the edges of the graph - 1)
+            // window cannot move past (the edges of the graph area - 1)
             var xmin = xlims[0] + 1;
             var xmax = xlims[1] - 1;
 
-            // window extends past the edges of the graph
-            var ymin = ylims[0] - this.INTERVAL_WIDTH;
-            var ymax = ylims[1] + this.INTERVAL_WIDTH;
+            // window extends to the top and bottom edges of the graph area
+            var ymin = ylims[0];
+            var ymax = ylims[1];
             var height = ymax - ymin;
 
             var slidingWindow = KhanUtil.addRectGraph({
@@ -776,12 +776,18 @@ $.extend(KhanUtil, {
                     },
                     edges: {
                         "stroke-width": 0
+                    },
+                    points: {
+                        opacity: 0
                     }
                 },
                 hoverStyle: {
                     area: {
                         "fill-opacity": 0.14,
                         fill: options.color
+                    },
+                    points: {
+                        opacity: 0
                     }
                 },
                 fixed: {
