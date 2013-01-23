@@ -4,11 +4,6 @@ msgstr ""
 
 #. https://www.khanacademy.org/exercise/combining_like_terms_1
 #: ../exercises/combining_like_terms_1.html:1
-msgid "Combine the <span class=\"hint_blue\">numeric</span> terms:"
-msgstr ""
-
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
 msgid ""
 "Rewrite the expression to group the <span class=\"hint_blue\">numeric</span>"
 " terms:"
@@ -61,7 +56,7 @@ msgstr ""
 
 #. https://www.khanacademy.org/exercise/combining_like_terms_1
 #: ../exercises/combining_like_terms_1.html:1
-msgid "^\\s*<var>SOL</var>\\s*$"
+msgid "Combine the <span class=\"hint_blue\">numeric</span> terms:"
 msgstr ""
 
 #. https://www.khanacademy.org/exercise/combining_like_terms_1

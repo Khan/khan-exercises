@@ -35,6 +35,7 @@ _IGNORE_NODES = [
     'var',
     'code',
     'div[@class="validator-function"]',
+    '*[contains(@data-type,"regex")]',
     '*[contains(@class,"graphie")]',
     '*[contains(@class,"guess")]'
 ]
