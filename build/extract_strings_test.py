@@ -90,7 +90,7 @@ class ExtractStringsTest(unittest.TestCase):
         self.assertGreater(len(output), 4500, 'Too few strings extracted.')
 
         for string in output:
-            # Make sure that no <div> elements are found in the extracted string
+            # Make sure that no <div> are found in the extracted string
             self.assertNotRegexpMatches(string, r'<div',
                 'DIV element found in %s' % list(output[string])[0][0])
 
