@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html data-require="math math-format calculus polynomials expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Implicit Differentiation 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <div data-ensure="coeffX!==coeffY">
+                <var id="coeffX">randRangeNonZero(-20,20)</var>
+                <var id="coeffY">randRangeNonZero(-20,20)</var>
+            </div>
+            <var id="r">randRange(1,1000)</var>
+            <var id="FUNC" data-ensure="FUNC.wrongs.length === 5">new PowerRule()</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <p class="problem"><code><var>coeffX</var>x^2+<var>coeffY</var>y^2 = <var>r</var></code>
+                <p class="question"><code>\frac{dy}{dx} = ?</code></p>
+                <p class="solution"><code>
+                        \frac{<var>reduce(-2*coeffX,2*coeffY)[0]</var>x}
+                        {<var>reduce(-2*coeffX,2*coeffY)[1]</var>y}
+                </code></p>
+
+                <ul class="choices" data-show="4" data-none="true">
+                    <li><code>
+                        <!--Forgot to flip the sign-->
+                        \frac{<var>reduce(2*coeffX,2*coeffY)[0]</var>x}
+                        {<var>reduce(2*coeffX,2*coeffY)[1]</var>y}
+                    </code></li>
+                    <li><code>
+                        <!--Thought d/dx of constant = constant-->
+                        \frac{<var>reduce(r-2*coeffX,2*coeffY)[0]</var>x}
+                        {<var>reduce(r-2*coeffX,2*coeffY)[1]</var>y}
+                    </code></li>
+                    <li><code>
+                        <!--Forgot to flip the sign, AND Thought d/dx of constant = constant-->
+                        \frac{<var>reduce(r+2*coeffX,2*coeffY)[0]</var>x}
+                        {<var>reduce(r+2*coeffX,2*coeffY)[1]</var>y}
+                    </code></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>Let's take the derivative of both sides.</p>
+            <p><code>\frac{d}{dx}<var>coeffX</var>x^2+<var>coeffY</var>y^2=\frac{d}{dx}<var>r</var></code></p>
+            <p><code>\frac{d}{dx}<var>coeffX</var>x^2+\frac{d}{dx}<var>coeffY</var>y^2=\frac{d}{dx}<var>r</var></code></p>
+            <p>
+                Let <code>g=<var>coeffY</var>y^2</code><br>
+                According to the chain rule, <code>\frac{dg}{dx} = \frac{dg}{dy}*\frac{dy}{dx}</code><br>
+            </p>
+            <p>So, <code>\frac{d}{dx}<var>coeffY</var>y^2=\frac{dg}{dx} = \frac{dg}{dy}*\frac{dy}{dx}</code></p>
+            <p><code>\frac{d}{dx}<var>coeffX</var>x^2+\frac{dg}{dy}*\frac{dy}{dx}=\frac{d}{dx}<var>r</var></code></p>
+            <p><code>\frac{dg}{dy}=\frac{d}{dy}<var>coeffY</var>y^2=<var>2*coeffY</var>y</code></p>
+            <p>Now solve for <code>\frac{dy}{dx}</code>:<br></p>
+            <p><code>\frac{d}{dx}<var>coeffX</var>x^2+<var>2*coeffY</var>y*\frac{dy}{dx}=\frac{d}{dx}<var>r</var></code></p>
+            <p><code><var>2*coeffX</var>x+<var>2*coeffY</var>y*\frac{dy}{dx}=0</code></p>
+            <p><code><var>2*coeffY</var>y*\frac{dy}{dx}=<var>-2*coeffX</var>x</code></p>
+            <p><code>\frac{dy}{dx}=\frac{
+                <var>-2*coeffX</var>x}{<var>2*coeffY</var>y}
+            =\frac{<var>reduce(-2*coeffX,2*coeffY)[0]</var>x}
+                {<var>reduce(-2*coeffX,2*coeffY)[1]</var>y}
+            <!--\frac{
+                <var>finalNum</var>x}
+                {<var>finalDen</var>y}-->
+            </code></p>
+            <!--p data-each="FUNC.hints as hint"><code><var>hint</var></code></p>
+            <p><code><var>FUNC.notation.ddxF</var>=<var>FUNC.ddxFText</var></code></p-->
+        </div>
+    </div>
+</body>
+</html>
