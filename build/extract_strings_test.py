@@ -1,3 +1,4 @@
+import glob
 import json
 import os
 import os.path
@@ -77,6 +78,21 @@ class ExtractStringsTest(unittest.TestCase):
                     for test_file in test_files])
 
             self.assertEqual(output, expected_po, test_files)
+
+    def test_json_output_from_all_files(self):
+        # Generate new output to check
+        output = extract_strings.extract_files(
+            glob.glob(os.path.join(_EXERCISE_ROOT, '*.html')))
+
+        # Make sure that we don't cause something bad to happen
+        # and no longer output drastically less results.
+        # As of 2013-01-23 we have 4776 results.
+        self.assertGreater(len(output), 4500, 'Too few strings extracted.')
+
+        for string in output:
+            # Make sure that no <div> elements are found in the extracted string
+            self.assertNotRegexpMatches(string, r'<div',
+                'DIV element found in %s' % list(output[string])[0][0])
 
 
 def _slurp_file(path, filename):
