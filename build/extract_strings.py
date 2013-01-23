@@ -1,7 +1,7 @@
 """Extracts translatable strings from HTML exercise files.
 
 This program is used for extracting translatable strings from
-exercise files and outputting a exercises.po file to be used
+exercise files and optionally outputting a PO or JSON file to be used
 for further translation.
 
 How it works: The script goes through the HTML files and attempts
@@ -10,10 +10,11 @@ extracts the HTML contents of that node and returns it as a translatable
 string. Note that certain nodes are excluded from this list as they
 contain non-translatable text (see _IGNORE_NODES). It is assumed that
 everything that isn't part of _IGNORE_NODES is something that needs to be
-translated."""
-
+translated.
+"""
 import argparse
 import json
+import os.path
 import re
 import sys
 
@@ -43,12 +44,11 @@ _IGNORE_NODES = [
 _PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
 
 # The base URL for referencing an exercise
-_EXERCISE_URL = 'https://www.khanacademy.org/exercise/'
+_EXERCISE_URL = 'https://www.khanacademy.org/exercise/%s'
 
 
 def main():
     """Handle running this program from the command-line."""
-
     # Handle parsing the program arguments
     arg_parser = argparse.ArgumentParser(
         description='Extract translatable strings from HTML exercise files.')
@@ -62,34 +62,29 @@ def main():
 
     args = arg_parser.parse_args()
 
-    results = ""
-
-    # Output a PO file by default
     if args.format == 'po':
-        results = make_potfile(files=args.html_files)
-
-    # Optionally output a JSON-encoded data structure
+        # Output a PO file by default
+        results = make_potfile(args.html_files)
     else:
-        results = json.dumps(extract_files(files=args.html_files),
-            cls=_SetEncoder)
+        # Optionally output a JSON-encoded data structure
+        results = json.dumps(extract_files(args.html_files), cls=_SetEncoder)
 
-    # If an output location is specified, write the output to that file
     if args.output:
+        # If an output location is specified, write the output to that file
         output_file = open(args.output, 'w')
         output_file.write(results)
         output_file.close()
-
-    # Otherwise just write the output to STDOUT
     else:
+        # Otherwise just write the output to STDOUT
         print results
 
 
 def make_potfile(files):
     """Generate a PO file from a collection of HTML files.
-    Returns the string representing the PO file."""
-
+    Returns the string representing the PO file.
+    """
     output_pot = polib.POFile(encoding='utf-8')
-    matches = extract_files(files=files)
+    matches = extract_files(files)
 
     # Get the po info in a reproducible (sorted) order.
     for match in matches:
@@ -101,13 +96,14 @@ def make_potfile(files):
 
     for match in sorted_keys:
         # Get the file name of the exercise, to generate a URL reference
-        file_name = re.sub(r'^.*/([^/]+).html$', r'\1', matches[match][0][0])
+        first_filename = os.path.basename(matches[match][0][0])
+        first_name = os.path.splitext(first_filename)[0]
 
         # Build the PO entry and add it to the PO file
         output_pot.append(polib.POEntry(
             msgid=unicode(match),
             msgstr=u'',
-            comment=unicode(_EXERCISE_URL + file_name),
+            comment=unicode(_EXERCISE_URL % first_name),
             occurrences=matches[match]
         ))
 
@@ -117,15 +113,19 @@ def make_potfile(files):
 def extract_files(files):
     """Extract a collection of translatable strings from a set of HTML files.
     Returns a dict of found strings, each value containing a set of file
-    names in which the string appeared."""
-
+    names in which the string appeared.
+    """
     matches = {}
 
     # Go through all the exercise files
     if files:
         for filename in files:
             print >>sys.stderr, 'Extracting strings from: %s' % filename
-            extract_file(filename=filename, matches=matches)
+            extract_file(filename, matches)
+
+    num_matches = len(matches)
+    print >>sys.stderr, '%s string%s extracted.' % (num_matches,
+        "" if num_matches == 1 else "s")
 
     return matches
 
@@ -133,8 +133,8 @@ def extract_files(files):
 def extract_file(filename, matches=None):
     """Extract a collection of translatable strings from an HTML file.
     Returns a dict of found strings, each value containing a set of file
-    names in which the string appeared."""
-
+    names in which the string appeared.
+    """
     if matches is None:
         matches = {}
 
@@ -171,8 +171,8 @@ def extract_file(filename, matches=None):
 
 class _SetEncoder(json.JSONEncoder):
     """Encode set data structures as lists in JSON encoding.
-    From: http://stackoverflow.com/a/8230505/6524"""
-
+    From: http://stackoverflow.com/a/8230505/6524
+    """
     def default(self, obj):
         if isinstance(obj, set):
             return list(obj)
@@ -185,11 +185,11 @@ def _get_innerhtml(html_string):
 
     (lxml doesn't provide an easy way to get the 'innerHTML')
     Note: lxml also includes the trailing text for a node when you
-          call tostring on it, we need to snip that off too."""
-
+          call tostring on it, we need to snip that off too.
+    """
     html_string = re.sub(r'^<[^>]*>', '', html_string, count=1)
     html_string = re.sub(r'</[^>]*>[^>]*$', '', html_string, count=1)
-    return re.sub(r'\n\s*', ' ', html_string).strip()
+    return re.sub(r'\s+', ' ', html_string).strip()
 
 if __name__ == '__main__':
     main()
