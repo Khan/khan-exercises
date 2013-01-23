@@ -1,7 +1,6 @@
 import glob
 import json
 import os
-import os.path
 import unittest
 
 import extract_strings
@@ -16,12 +15,6 @@ _TEST_MULTI_FILES = [
         'fractions_on_the_number_line_3']
 ]
 
-# Make sure that we're always working from the build directory
-# NOTE: We use chdir here so that we have the same relative path
-# every time the program is run (makes for consistent test output)
-# since the output includes file paths
-os.chdir(os.path.dirname(os.path.realpath(__file__)))
-
 # Directories used for test files
 _TEST_ROOT = 'extract_test'
 _EXERCISE_ROOT = os.path.join('..', 'exercises')
@@ -29,6 +22,20 @@ _EXERCISE_ROOT = os.path.join('..', 'exercises')
 
 class ExtractStringsTest(unittest.TestCase):
     """Handle testing of string extraction."""
+
+    def setUp(self):
+        super(ExtractStringsTest, self).setUp()
+        self.orig_dir = os.getcwd()
+
+        # Make sure that we're always working from the build directory
+        # NOTE: We use chdir here so that we have the same relative path
+        # every time the program is run (makes for consistent test output)
+        # since the output includes file paths
+        os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+    def tearDown(self):
+        os.chdir(self.orig_dir)
+        super(ExtractStringsTest, self).tearDown()
 
     def test_json_output_from_single_file(self):
         for test_file in _TEST_SINGLE_FILES:
@@ -99,9 +106,9 @@ class ExtractStringsTest(unittest.TestCase):
                 'P element found in %s' % list(output[string])[0][0])
 
 
-def _slurp_file(path, filename):
+def _slurp_file(directory, filename):
     """Read in the entire contents of a file, return as a string."""
-    with open(os.path.join(path, filename)) as f:
+    with open(os.path.join(directory, filename)) as f:
         return f.read()
 
 if __name__ == '__main__':
