@@ -82,7 +82,7 @@ class ExtractStringsTest(unittest.TestCase):
 def _slurp_file(path, filename):
     """Read in the entire contents of a file, return as a string."""
     with open(os.path.join(path, filename)) as f:
-      return f.read()
+        return f.read()
 
 if __name__ == '__main__':
     unittest.main()
