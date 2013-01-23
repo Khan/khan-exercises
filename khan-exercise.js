@@ -2869,8 +2869,8 @@ var Khan = (function() {
         }
 
         // TODO(david): Try harder to decouple Exercises outta this file
-        var apiBaseUrl = (Exercises.assessmentMode ? "api/v1/user/assessments"
-          : "api/v1/user/exercises");
+        var apiBaseUrl = (window.Exercises && Exercises.assessmentMode ?
+            "api/v1/user/assessment/exercises" : "api/v1/user/exercises");
 
         var request = {
             // Do a request to the server API
