@@ -94,6 +94,10 @@ class ExtractStringsTest(unittest.TestCase):
             self.assertNotRegexpMatches(string, r'<div',
                 'DIV element found in %s' % list(output[string])[0][0])
 
+            # Make sure that no <p> are found in the extracted string
+            self.assertNotRegexpMatches(string, r'<p',
+                'P element found in %s' % list(output[string])[0][0])
+
 
 def _slurp_file(path, filename):
     """Read in the entire contents of a file, return as a string."""
