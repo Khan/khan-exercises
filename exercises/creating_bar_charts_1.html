@@ -29,10 +29,10 @@
                 <var id="RESPONDENT">randFromArray([ "student", "teacher", "person" ])</var>
             </div>
 
-            <code><var>TOTAL</var></code> <var>plural( RESPONDENT, TOTAL )</var> were asked about their favorite <var>SUBJECT</var>.
+            <p><code><var>TOTAL</var></code> <var>plural( RESPONDENT, TOTAL )</var> were asked about their favorite <var>SUBJECT</var>.
             <var>toSentence( shuffle( $.map( DATA, function( num, i ) {
                 return "&lt;code&gt;" + num + "&lt;/code&gt; " + plural( RESPONDENT, num ) + " said " + CATEGORIES[ i ];
-            }) ) )</var>.
+            }) ) )</var>.</p>
 
             <p class="question">Create a bar chart showing everyone's favorite <var>plural( SUBJECT )</var>:</p>
 

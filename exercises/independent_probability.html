@@ -139,8 +139,8 @@
             <div class="hints">
             <div data-unwrap data-if="ALL">
                 <div>
-                    We know that <code>\blue{<var>SINGLE_PCT</var> \%}</code> of the time, he'll make
-                    his first shot.
+                    <p>We know that <code>\blue{<var>SINGLE_PCT</var> \%}</code> of the time, he'll make
+                    his first shot.</p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -155,11 +155,10 @@
                         line([0,0], [PROB*10,0]);
                         line([PROB*10,-0.2], [PROB*10,0.2]);
                     </div>
-                    </br>
-                    Then <code><var>SINGLE_PCT</var> \%</code> of
+                    <p>Then <code><var>SINGLE_PCT</var> \%</code> of
                     the time he makes his first shot, he will also make his second shot, and 
                     <code><var>((1-PROB)*100).toFixed(0)</var> \%</code> of the time he makes his
-                    first shot, he will miss his second shot.
+                    first shot, he will miss his second shot.</p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -191,9 +190,9 @@
                     <code><var>PROB</var> \cdot <var>PROB</var> = <var>(PROB*PROB).toFixed(3)</var></code>.
                 </p>
                 <div>
-                    We can repeat this process again to get the probability of making <b>three</b> free throws in a row. We simply take
+                    <p>We can repeat this process again to get the probability of making <b>three</b> free throws in a row. We simply take
                     <code><var>SINGLE_PCT</var>\%</code> of probability that he makes two in a row, which we know from the previous step is
-                    <code><var>(PROB*PROB).toFixed(3)</var> \approx \orange{<var>TWO_PCT</var>\%}</code>.
+                    <code><var>(PROB*PROB).toFixed(3)</var> \approx \orange{<var>TWO_PCT</var>\%}</code>.</p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -210,10 +209,9 @@
                         line([0,0], [PROB*PROB*10,0]);
                         line([PROB*PROB*10,-0.2], [PROB*PROB*10,0.2]);
                     </div>
-                    </br>
-                    <code><var>SINGLE_PCT</var>\%</code> of <code>\orange{<var>TWO_PCT</var>\%}</code> is 
+                    <p><code><var>SINGLE_PCT</var>\%</code> of <code>\orange{<var>TWO_PCT</var>\%}</code> is 
                     <code><var>PROB</var> \cdot <var>(PROB*PROB).toFixed(3)</var> = <var>Math.pow(PROB,3).toFixed(3)</var></code>, or
-                    about <code>\green{<var>THREE_PCT</var>\%}</code>:
+                    about <code>\green{<var>THREE_PCT</var>\%}</code>:</p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -252,9 +250,9 @@
             </div>
             <div data-unwrap data-else>
                 <div>
-                    We know that <code>\blue{<var>SINGLE_PCT</var> \%}</code> of the time, he'll miss
+                    <p>We know that <code>\blue{<var>SINGLE_PCT</var> \%}</code> of the time, he'll miss
                     his first shot
-                    <code>(100 \% - <var>(PR*100).toFixed(0)</var> \% = <var>SINGLE_PCT</var> \%)</code>.
+                    <code>(100 \% - <var>(PR*100).toFixed(0)</var> \% = <var>SINGLE_PCT</var> \%)</code>.</p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -269,11 +267,10 @@
                         line([0,0], [PROB*10,0]);
                         line([PROB*10,-0.2], [PROB*10,0.2]);
                     </div>
-                    </br>
-                    Then <code><var>SINGLE_PCT</var> \%</code> of
+                    <p>Then <code><var>SINGLE_PCT</var> \%</code> of
                     the time he misses his first shot, he will also miss his second shot, and 
                     <code><var>((1-PROB)*100).toFixed(0)</var> \%</code> of the time he misses his
-                    first shot, he will make his second shot.
+                    first shot, he will make his second shot.</p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -305,9 +302,9 @@
                     <code><var>PROB</var> \cdot <var>PROB</var> = <var>(PROB*PROB).toFixed(3)</var></code>.
                 </p>
                 <div>
-                    We can repeat this process again to get the probability of missing <b>three</b> free throws in a row. We simply take
+                    <p>We can repeat this process again to get the probability of missing <b>three</b> free throws in a row. We simply take
                     <code><var>SINGLE_PCT</var>\%</code> of probability that he misses two in a row, which we know from the previous step is
-                    <code><var>(PROB*PROB).toFixed(3)</var> \approx \orange{<var>TWO_PCT</var>\%}</code>.
+                    <code><var>(PROB*PROB).toFixed(3)</var> \approx \orange{<var>TWO_PCT</var>\%}</code>.</p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -324,10 +321,9 @@
                         line([0,0], [PROB*PROB*10,0]);
                         line([PROB*PROB*10,-0.2], [PROB*PROB*10,0.2]);
                     </div>
-                    </br>
-                    <code><var>SINGLE_PCT</var>\%</code> of <code>\orange{<var>TWO_PCT</var>\%}</code> is 
+                    <p><code><var>SINGLE_PCT</var>\%</code> of <code>\orange{<var>TWO_PCT</var>\%}</code> is 
                     <code><var>PROB</var> \cdot <var>(PROB*PROB).toFixed(3)</var> = <var>Math.pow(PROB,3).toFixed(3)</var></code>, or
-                    about <code>\green{<var>THREE_PCT</var>\%}</code>:
+                    about <code>\green{<var>THREE_PCT</var>\%}</code>:</p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
