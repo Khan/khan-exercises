@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html data-require="math cs">
+<head>
+    <title>Variables 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="declare-variable" data-weight="3">
+                <div class="vars">
+                    <var id="item">randFromArray(["face","eyes","mouth"])</var>
+                    <var id="name">(item === "eyes" ? "eye" : item) + "Size"</var>
+                    <var id="val">({
+                        face: randRange(280, 320),
+                        eyes: randRange(30, 50),
+                        mouth: randRange(110, 130)
+                    })[item]</var>
+                    <var id="answer">"var " + name + " = " + val + ";"</var>
+                </div>
+                <p class="question">Let's add a variable to control the size of
+                    <a href="http://www.khanacademy.org/cs/winston/823977317">Winston's</a> <var>item</var>!
+                    Declare a variable named <tt><var>name</var></tt>
+                    and assign it a value of <tt><var>val</var></tt>.</p>
+                <p class="problem">
+
+// Winston's handsome features don't need outlines
+noStroke();
+
+// face
+fill(255, 255, 0);
+ellipse(202, 208, <var>item === "face" ? "faceSize, faceSize" : "300, 300"</var>);
+
+// eyes
+fill(46, 46, 41);
+ellipse(157, 151, <var>item === "eyes" ? "eyeSize, eyeSize" : "40, 40"</var>);
+ellipse(304, 142, <var>item === "eyes" ? "eyeSize, eyeSize" : "40, 40"</var>);
+
+// mouth
+fill(252, 65, 65);
+ellipse(257, 240, <var>item === "mouth" ? "mouthSize, mouthSize" : "120, 120"</var>);</p>
+                <p class="solution" data-type="cs">
+                    test("Validate Variable", function() {
+                        assert(typeof <var>name</var> !== "undefined", "Variable is defined.");
+                        isEqual(<var>name</var>, <var>val</var>, "Variable value is set correctly.");
+                    });
+                </p>
+            </div>
+
+            <div id="fix-bug">
+                <div class="vars">
+                    <var id="names">shuffle(["teachers","students","schools","classes","books","lectures"])</var>
+                    <var id="vals">$.map(names, function() {
+                        return randRange(2, 100);
+                    })</var>
+                    <var id="correct">$.map(names, function(name, i) {
+                        return "var " + names[i] + " = " + vals[i] + ";";
+                    })</var>
+                    <var id="incorrect">$.map(correct, function(name, i) {
+                        return randFromArray([
+                            "var " + names[i] + " = " + vals[i], // No semicolon
+                            "var " + names[i] + " " + vals[i] + ";", // No equals sign
+                            "var " + names[i] + " == " + vals[i] + ";", // Too many equals signs
+                            "var" + names[i] + " = " + vals[i] + ";", // Missing space after var
+                            names[i] + " = " + vals[i] + ";", // No var
+                            "var " + names[i] + " = " + vals[i] + ";" // Nothing wrong!
+                        ]);
+                    })</var>
+                    <var id="num">rand(6)</var>
+                    <var id="name">names[num]</var>
+                    <var id="val">vals[num]</var>
+                    <var id="answer">correct.join("\n")</var>
+                </div>
+                <p class="question">Uh oh, this program has a bunch of mistakes in it!
+                    Let's find and fix all the problems in this program.</p>
+                <p class="problem"><var>incorrect.join("\n")</var></p>
+                <p class="solution" data-type="csPass"><var>answer</var></p>
+            </div>
+
+            <div id="find-value">
+                <div class="vars">
+                    <var id="final_names">shuffle(["skis","skateboards","scooters", "skates"])</var>
+                    <var id="final_vals">$.map(final_names, function() {
+                        return randRange(2, 100);
+                    })</var>
+                    <var id="names">shuffle(final_names).concat(shuffle(final_names)).concat(shuffle(final_names))</var>
+                    <var id="all_names">names.concat(final_names)</var>
+                    <var id="all_vals">$.map(names, function() {
+                        return randRange(2, 100);
+                    }).concat(final_vals)</var>
+                    <var id="num">rand(final_names.length)</var>
+                    <var id="name">final_names[num]</var>
+                    <var id="val">final_vals[num]</var>
+                    <var id="correct">$.map(all_names, function(name, i) {
+                        return (i &lt; final_names.length ? "var " : "") +
+                            all_names[i] + " = " + all_vals[i] + ";";
+                    })</var>
+                </div>
+                <p class="question">When this program finishes running, what is the value
+                    of the variable <tt><var>name</var></tt>?</p>
+                <p class="problem"><var>correct.join("\n")</var></p>
+                <p class="solution" data-type="csText"><var>val</var></p>
+                <div class="hints">
+                    <p>When you declare a variable you specify a variable with a given name
+                        (such as <tt><var>name</var></tt>) and assign a value to it.</p>
+                    <div>You can assign a new value to a variable at a later time by doing:
+                        <pre>NAME = VALUE;</pre></div>
+                    <p>New assignments overwrite the old value of the variable.
+                        Look for the last line where <tt><var>name</var></tt> is assigned to.</p>
+                    <div>This is the last line where the variable <tt><var>name</var></tt> is assigned to:
+                        <pre><var>name</var> = <var>val</var>;</pre></div>
+                    <p>The answer is: <tt><var>val</var></tt></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>When you declare a variable you specify a variable with a given name
+                (such as <tt><var>name</var></tt>) and assign a value to it
+                (such as <tt><var>val</var></tt>).</p>
+            <p>You declare a variable by putting <tt>var </tt> in front of the variable name.</p>
+            <p>Variables are assigned to using a single <tt>=</tt> equals sign.</p>
+            <p>Don't forget the space between the <tt>var</tt> and the variable name!</p>
+            <p>Don't forget the semicolon <tt>;</tt> after your declaration!</p>
+            <p>Variables are declared using the format: <tt>var NAME = VALUE;</tt></p>
+            <div>The answer is:
+                <pre><var>answer</var></pre></div>
+        </div>
+    </div>
+</body>
+</html>
