@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html data-require="math calculus polynomials expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Implicit differentiation</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars" data-ensure="FUNCF.fText !== FUNCG.fText">
+            <var id="FUNCF" data-ensure="FUNCF.hints == null || FUNCF.hints.length <= 4">
+            new KhanUtil.CalcFunctions[KhanUtil.randRange(0, 1)*2+1]("y")
+            
+            </var>
+            <var id="FUNCG" data-ensure="FUNCG.hints == null || FUNCG.hints.length <= 4">generateSpecialFunction("x")</var>
+
+
+            <var id="F">FUNCF.fText</var>
+            <var id="DF">FUNCF.ddxFText</var>
+            <var id="G">FUNCG.fText</var>
+            <var id="DG">FUNCG.ddxFText</var>
+
+            <var id="NOTATION">FUNCF.notation = "y" </var>
+
+            <var id="ANSWER">function( f, g, df, dg, minN, minD ) {
+                // create fraction of the form 
+                var term1 = "y" + "(" +dg+")" + minN + "(" +f+ ")",
+                    term2 = "x" + "(" +df+")" + minD + "(" +g+ ")";
+                    
+                return "\\dfrac{" + term1 +"}{" +term2+ "}";
+            }</var>
+
+        </div>
+
+        <div class="problems">
+            <div>
+                <p class="question">Use implicit differentiation to find <code>\displaystyle \frac{dy}{dx}</code> given the trancendental equation : <code> x ( <var>FUNCF.fText</var> ) = y ( <var>FUNCG.fText</var> ) <var> (KhanUtil.randRange(0, 1)!==0) ? "" : "+"+KhanUtil.randRange(1, 10)</var></code></p>
+
+                <!-- (n-df)(d-f) - (d-df)(n-f) / d-f -->
+                <p class="solution"><code><var>ANSWER( F, G, DF, DG, "-", "-" )</var></code></p>
+
+                <ul class="choices" data-show="5" data-none="true">
+                    <!-- (n-df)(d-df) - (d-f)(n-f) / d-f -->
+                    <li data-if="DG !== G"><code><var>ANSWER( G, DG, G, DG, "-", "-" )</var></code></li>
+                    <!-- (n-df)(d-f) - (d-df)(n-f) / n-f -->
+                    <li data-if="F !== G"><code><var>ANSWER( DF, F, DG, G, "-", "+" )</var></code></li>
+                    <!-- (n-df)(d-df) - (d-f)(n-f) / n-f -->
+                    <li data-if="F !== G && DG !== G"><code><var>ANSWER( DF, DG, G, F, "-", "-" )</var></code></li>
+                    <!-- (n-df)(d-f) + (d-df)(n-f) / d-f -->
+                    <li><code><var>ANSWER( DF, G, DG, F, "+", "+")</var></code></li>
+                    <!-- (n-df)(d-df) + (d-f)(n-f) / d-f -->
+                    <li data-if="DG !== G"><code><var>ANSWER( DF, DG, G, F, "+", "-" )</var></code></li>
+                    <!-- (n-df)(d-f) + (d-df)(n-f) / n-f -->
+                    <li data-if="F !== G"><code><var>ANSWER( DF, F, DG, G, "-", "-" )</var></code></li>
+                    <!-- (n-df)(d-df) + (d-f)(n-f) / n-f -->
+                    <li data-if="F !== G && DG !== G"><code><var>ANSWER( DF, DG, F, G, "-", "+" )</var></code></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>Apply the derivative operator <code>\displaystyle \frac{d}{dx\strut}</code> to each side separately. What is <code>\displaystyle \frac{d}{dx\strut} (x <var>FUNCF.fText</var>)</code> ?</p>
+            <div>
+                <p>We can use the product rule so that this becomes <code>\displaystyle <var>FUNCF.fText</var>\frac{d}{dx\strut}x + x \frac{d}{dx\strut}<var>FUNCF.fText</var></code>
+            </div>
+            
+            <p>Now we can use the chain rule to deal with  <code>\displaystyle \frac{d}{dx\strut}<var>FUNCF.fText</var></code></p>
+            <div>
+                <p>Remember, even though we can't <code>\displaystyle explicitly</code> write this equation in the form <code>\displaystyle y = f(x)</code>, when taking the derivative we may still treat <code>\displaystyle y</code> as an ordinary function of <code>\displaystyle x </code></p>
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>
