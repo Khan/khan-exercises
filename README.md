@@ -1,6 +1,6 @@
 # Khan Academy Exercises
 
-Copyright 2012 Khan Academy
+Copyright 2013 Khan Academy
 
 The exercise framework is [MIT licensed](http://en.wikipedia.org/wiki/MIT_License).
 
