@@ -16,6 +16,7 @@ $.extend(KhanUtil, {
         n = n / gcd;
         d = d / gcd;
         if (n<0&&d<0) {return [-n,-d];}
+        else if (n>0&&d<0) {return [-n,-d];} //if function is in form a/-b, converts to -a/b
         return [n, d];
     },
 
