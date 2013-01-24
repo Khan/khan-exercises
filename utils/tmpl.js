@@ -112,8 +112,8 @@ $.tmpl = {
             youtubeIds = youtubeIds.split(/,\s*/);
 
             var author = $(elem).data("video-hint-author") || "Sal";
-            var msg = "Watch " + author +
-                      " work through a very similar problem:";
+            var msg = $._("Watch %s work through a very similar problem:", 
+                author);
             var preface = $("<p>").text(msg);
 
             var wrapper = $("<div>", { "class": "video-hint" });
