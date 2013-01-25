@@ -699,7 +699,8 @@ var Khan = (function() {
 
         showSolutionButtonText: function() {
             return hintsUsed ?
-                $._("Show next step (%s left)", hints.length) :
+                $.ngettext("Show next step (%s left)",
+                    "Show next step (%s left)", hints.length) :
                 $._("Show Solution");
         }
 
@@ -1459,7 +1460,7 @@ var Khan = (function() {
 
                 timelineEvents
                     .append("<div class='timeline-time'>" +
-                        $._("%ss", value[2]) + "</div>");
+                        $.ngettext("%ss", "%ss", value[2]) + "</div>");
 
                 thissolutionarea = $("<div>")
                     .addClass("user-activity " + value[0])
@@ -1469,7 +1470,7 @@ var Khan = (function() {
                     thissolutionarea.attr("title", $._("Hint used"));
                     thissolutionarea
                         .data("hint", hintNumber)
-                        .prepend($._("Hint #%s", hintNumber + 1));
+                        .prepend($.ngettext("Hint #%s", "Hint #%s", hintNumber + 1));
                     hintNumber += 1;
                 } else { // This panel is a solution (or the first panel)
                     thissolutionarea.data("hint", false);
@@ -2316,11 +2317,11 @@ var Khan = (function() {
 
                 hintsUsed += 1;
 
-                // TODO(jeresig): i18n Turn this into a pluralization string
-                var stepsLeft = $._("%s step left", "%s steps left", 
+                var stepsLeft = $.ngettext("%s step left", "%s steps left", 
                     hints.length);
                 $(this).val($(this).data("buttonText") ||
-                    $._("I'd like another hint (%s)", stepsLeft));
+                    $.ngettext("I'd like another hint (%s)",
+                        "I'd like another hint (%s)", stepsLeft));
 
                 var problem = $(hint).parent();
 
