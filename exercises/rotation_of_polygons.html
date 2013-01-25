@@ -166,20 +166,18 @@
                     A rotation <code>T_{\LARGE r^\circ{}}</code> rotates points by <code>r</code> degrees around <code>(0,0)</code> counter-clockwise.
                 </p>
                 <div>
-                    To see where a rotation moved this polygon, pick one point and rotate it. For example, what happens to 
-                    <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this rotation?
+                    <p>To see where a rotation moved this polygon, pick one point and rotate it. For example, what happens to 
+                    <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this rotation?</p>
                     <div class="graphie" data-update="grid">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
-                    </br></br>
                 </div> 
                 <div>
-                    Under the rotation <code>T_{<var>ROTDEG</var> {}^\circ{} }</code>, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> is translated to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>. Where is the rest of the polygon rotated?
+                    <p>Under the rotation <code>T_{<var>ROTDEG</var> {}^\circ{} }</code>, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> is translated to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>. Where is the rest of the polygon rotated?</p>
                     <div class="graphie" data-update="grid">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
                         arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "->" });
                     </div>
-                    </br></br>
                 </div>
                 <div>
                     To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>, we rotated it <code><var>ROTDEG</var>{}^\circ{}</code> counter-clockwise, or
@@ -187,7 +185,7 @@
                     </br></br>
                 </div>
                 <div>
-                    The orange outline shows where the polygon ends up after the translation.
+                    <p>The orange outline shows where the polygon ends up after the translation.</p>
                     <div class="graphie" data-update="grid">
                         for (var i=0; i &lt; TARGET.length; i++) {
                             line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
@@ -276,15 +274,15 @@
                     A rotation <code>T_{\LARGE r^\circ{}}</code> rotates points by r degrees around <code>(0,0)</code> counter-clockwise.
                 </p>
                 <div>
-                    To see what rotation moved the blue polygon, pick one point and rotate it. For example, what happened to 
-                    <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this rotation?
+                    <p>To see what rotation moved the blue polygon, pick one point and rotate it. For example, what happened to 
+                    <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this rotation?</p>
                     <div class="graphie" data-update="grid">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
                 </div> 
                 <div>
                     <p>
-                        Under this rotation, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> was rotated to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>. What does this tell you about the rotation used?
+                        <span>Under this rotation, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> was rotated to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>. What does this tell you about the rotation used?</span>
                         <div class="graphie" data-update="grid">
                             circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
                             arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "->" });

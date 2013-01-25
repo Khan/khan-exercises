@@ -48,35 +48,33 @@
                 <p class="solution" data-forms="integer"><var>ANSWER</var></p>
                 <div class="hints">
                     <div>
-                        Let's try building the arrangements (or permutations) letter by letter. The word is <code><var>WORD.length</var></code>
-                        letters long:
+                        <p>Let's try building the arrangements (or permutations) letter by letter. The word is <code><var>WORD.length</var></code>
+                        letters long:</p>
                         <p><var>_.map(_.range(WORD.length), function(l){ return "_ "; }).join("")</var></p>
                         <p>Now, for the first blank, we have <code><var>WORD.length</var></code> choices of letters to put in.
                     </div>
                     <div>
-                        After we put in the first letter, let's say it's <var>PERM[0]</var>, we have <code><var>WORD.length-1</var></code> blanks left.
+                        <p>After we put in the first letter, let's say it's <var>PERM[0]</var>, we have <code><var>WORD.length-1</var></code> blanks left.</p>
                         <p><var>PERM[0]+" "+_.map(_.range(WORD.length-1), function(l){ return "_ "; }).join("")</var></p>
                         <p>For the second blank, we only have <code><var>WORD.length-1</var></code> choices of letters left to put in. So far, there were
                             <code><var>WORD.length</var> \cdot <var>WORD.length-1</var></code> unique choices we could have made.</p>
                     </div>
                     <div>
-                        We can continue in this fashion to put in a third letter, then a fourth, and so on. At each step, we have one fewer choice to
-                        make, until we get to the last letter, and there's only one we can put in.
-                    </br></br>
+                        <p>We can continue in this fashion to put in a third letter, then a fourth, and so on. At each step, we have one fewer choice to
+                        make, until we get to the last letter, and there's only one we can put in.</p>
                     </div>
                     <div>
-                        Using this method, the total number of arrangements is <code><var>_.map(_.range(WORD.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(WORD.length)</var>.</code> Another way of writing this is <code><var>WORD.length</var>!</code>, 
-                        or <code><var>WORD.length</var></code> factorial, but this isn't quite the right answer.
-                    </br></br>
+                        <p>Using this method, the total number of arrangements is <code><var>_.map(_.range(WORD.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(WORD.length)</var>.</code> Another way of writing this is <code><var>WORD.length</var>!</code>, 
+                        or <code><var>WORD.length</var></code> factorial, but this isn't quite the right answer.</p>
                     </div>
                     <div>
-                        Using the above method, we assumed that all the letters were unique. But they're not! There are <code><var>REPTIMES</var></code>
+                        <p>Using the above method, we assumed that all the letters were unique. But they're not! There are <code><var>REPTIMES</var></code>
                         <var>REPLETTER</var>s, so we're counting every permutation multiple times. So every time we have these 
-                        <code><var>factorial(REPTIMES)</var></code> permutations:
+                        <code><var>factorial(REPTIMES)</var></code> permutations:</p>
                             <p>
                                 <var>PERM_UNIQUE.join("&lt;/br&gt;")</var>
                             </p>
-                        We actually should have only one permutation:
+                        <p>We actually should have only one permutation:</p>
                             <p>
                                 <var>PERM</var>
                             </p>

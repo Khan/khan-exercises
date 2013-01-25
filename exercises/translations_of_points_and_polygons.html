@@ -155,22 +155,22 @@
                     <code>b</code> is negative).
                 </p>
                 <p>
-                    To see where a translation moved this polygon, pick one
+                    <span>To see where a translation moved this polygon, pick one
                     point and translate it. For example, what happens to
                     <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code>
-                    under this translation?
+                    under this translation?</span>
 
                     <div class="graphie" data-update="grid">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
                 </p>
                 <p>
-                    Under the translation
+                    <span>Under the translation
                     <code>T_{(<var>DX</var>, <var>DY</var>)}</code>,
                     <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code>
                     is translated to
                     <code>(<var> TARGET[0][0] </var>,<var> TARGET[0][1] </var>)</code>.
-                    Where is the rest of the polygon translated?
+                    Where is the rest of the polygon translated?</span>
 
                     <div class="graphie" data-update="grid">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
@@ -187,8 +187,8 @@
                     polygon, we need to do the same thing to all of its points.
                 </p>
                 <div>
-                    The orange outline shows where the polygon ends up after
-                    the translation.
+                    <p>The orange outline shows where the polygon ends up after
+                    the translation.</p>
 
                     <div class="graphie" data-update="grid">
                         graph.drawAnswer();
@@ -267,21 +267,21 @@
                     positive, down if b is negative).
                 </p>
                 <p>
-                    To see what translation moved the blue polygon, pick one
+                    <span>To see what translation moved the blue polygon, pick one
                     point and translate it. For example, what happened to
                     <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code>
-                    under this translation?
+                    under this translation?</span>
 
                     <div class="graphie" data-update="grid">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
                 </p>
                 <p>
-                    Under this translation,
+                    <span>Under this translation,
                     <code>(<var>HULL[0][0]</var>,<var>HULL[0][1]</var>)</code>
                     was translated to
                     <code>(<var>TARGET[0][0]</var>,<var>TARGET[0][1]</var>)</code>.
-                    What does this tell you about the translation used?
+                    What does this tell you about the translation used?</span>
 
                     <div class="graphie" data-update="grid">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });

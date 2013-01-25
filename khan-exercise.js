@@ -1,24 +1,23 @@
 /* khan-exercise.js
 
-    The main entry point here is actually the loadScripts method which is defined
-    as Khan.loadScripts and then evaluated around line 500.
+    The main entry point here is essentially the onjQueryLoaded method around
+    line 750. It loads in many of the pre-reqs and then calls, one way or
+    another, setUserExercise and loadModule for each required module in utils/.
 
-    When this loadScripts is called, it loads in many of the pre-reqs and then
-    calls, one way or another, setUserExercise concurrently with loadModules.
+    setProblemNum updates some instance vars that get looked at by other
+    functions.
 
-    setProblemNum updates some instance vars that get looked at by other functions.
-
-    loadModules takes care of loading an individual exercise's prereqs (i.e.
-    word problems, etc). It _also_ loads in the khan academy site skin and
+    loadModule will load an individual exercise util module (e.g.,
+    word-problems.js, etc). It _also_ loads in the Khan Academy site skin and
     exercise template via injectSite which runs prepareSite first then
     makeProblemBag and makeProblem when it finishes loading dependencies.
 
     prepareSite and makeProblem are both fairly heavyweight functions.
 
     If you are trying to register some behavior when the page loads, you
-    probably want it to go in prepareSite. (which also registers server-initiated
-    behavior via api.js) as well. By the time prepareSite is called, jQuery and
-    any core plugins are already available.
+    probably want it to go in prepareSite. (which also registers
+    server-initiated behavior via api.js) as well. By the time prepareSite is
+    called, jQuery and any core plugins are already available.
 
     If you are trying to do something each time a problem loads, you probably
     want to look at makeProblem.
@@ -49,9 +48,6 @@
     * apiRequestStarted / apiRequestEnded -- when an API request is sent
       outbound or completed, respectively. Listeners can keep track of whether
       or not khan-exercises is still waiting on API responses.
-
-    * exerciseLoaded:[exercise-id] -- when an exercise and all of its
-      dependencies are loaded and ready to render
 
     * updateUserExercise -- when an updated userExercise has been received
       and is being used by khan-exercises, either via the result of an API
@@ -240,10 +236,14 @@ var Khan = (function() {
         "issues": 0
     },
 
-    // Dict of exercise ids that are loading.
-    // Values are number of remote exercises that are currently
-    // pending in the middle of a load.
-    loadingExercises = {},
+    // Dictionary of loading and loaded exercises; keys are exercise IDs,
+    // values are promises that are resolved when the exercise is loaded
+    exerciseFilePromises = {},
+
+    // A promise for each loaded or loading module, keyed by module filename
+    // (module.src) -- will be resolved when the module is loaded (on the live
+    // site, immediately)
+    modulePromises = {},
 
     urlBase = typeof urlBaseOverride !== "undefined" ? urlBaseOverride :
         testMode ? "../" : "/khan-exercises/",
@@ -269,14 +269,6 @@ var Khan = (function() {
     },
     issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!",
 
-    // True once we've sent a request to load all modules
-    modulesLoaded = false,
-
-    // jQuery.Deferred object that registers
-    // callbacks to be run when all modules are done
-    // loading.
-    modulesDeferred = null,
-
     gae_bingo = window.gae_bingo || { bingo: function() {} },
 
     // The ul#examples (keep in a global because we need to modify it even when it's out of the DOM)
@@ -300,13 +292,14 @@ var Khan = (function() {
     // The main Khan Module
     var Khan = {
 
-        // Modules currently in use
+        // Set of modules currently in use -- keys are module names, value is
+        // always true
         modules: {},
 
-        // Map from exercise filename to a string of required modules
-        // (data-require). These module names are used in runModules(), where
-        // $.fn["module-name"], $.fn["module-nameLoad"], and
-        // $.fn["module-nameCleanup"] are called.
+        // Map from exercise ID to a list of required modules (data-require),
+        // These module names are used in resetModules() and indirectly by
+        // runModules(), where $.fn["module-name"], $.fn["module-nameLoad"],
+        // and $.fn["module-nameCleanup"] are called.
         exerciseModulesMap: {},
 
         // So modules can use file paths properly
@@ -361,61 +354,45 @@ var Khan = (function() {
             warn("You should " + enableFontDownload + " to improve the appearance of math expressions.", true);
         },
 
-        resetModules: function(modules) {
-            Khan.modules = {};
-
+        // TODO(alpert): This doesn't need to be in the Khan object.
+        getBaseModules: function() {
+            var mods = [];
             if (testMode) {
-                Khan.require(["jquery-ui", "../jquery.qtip"]);
+                mods.push("jquery-ui", "../jquery.qtip");
             }
 
             // Base modules required for every problem
-            Khan.require(["answer-types", "tmpl", "underscore", "jquery.adhesion", "hints", "calculator"]);
+            mods.push(
+                    "answer-types", "tmpl", "underscore", "jquery.adhesion",
+                    "hints", "calculator"
+                );
 
-            if (modules) {
-                Khan.require(modules);
-            }
-
-            if (testMode && !modules) {
-                modules = document.documentElement.getAttribute("data-require");
-                Khan.require(modules);
-            }
+            return mods;
         },
 
-        require: function(mods) {
-            if (mods == null) {
-                return;
-            } else if (typeof mods === "string") {
-                mods = mods.split(" ");
-            } else if (!$.isArray(mods)) {
-                mods = [mods];
-            }
+        resetModules: function(exerciseId) {
+            var modules = Khan.getBaseModules().concat(
+                    Khan.exerciseModulesMap[exerciseId]);
+            var moduleSet = {};
 
-            $.each(mods, function(i, mod) {
-                var src, deps;
-
-                if (typeof mod === "string") {
-                    var cachebust = "";
-                    if (testMode && Khan.query.nocache != null) {
-                        cachebust = "?" + Math.random();
-                    }
-                    src = urlBase + "utils/" + mod + ".js" + cachebust;
-                    deps = Khan.moduleDependencies[mod];
-                    mod = {
-                        src: src,
-                        name: mod
-                    };
-                } else {
-                    src = mod.src;
-                    deps = mod.dependencies;
-                    delete mod.dependencies;
-                }
-
-                if (!Khan.modules[src]) {
-                    Khan.modules[src] = mod;
-                    Khan.require(deps);
-                }
-
+            $.each(modules, function(i, mod) {
+                useModule(mod);
             });
+
+            Khan.modules = moduleSet;
+
+            function useModule(modNameOrObject) {
+                if (typeof modNameOrObject === "string") {
+                    moduleSet[modNameOrObject] = true;
+                    var deps = Khan.moduleDependencies[modNameOrObject] || [];
+
+                    $.each(deps, function(i, mod) {
+                        useModule(mod);
+                    });
+                } else if (modNameOrObject.name) {
+                    moduleSet[modNameOrObject.name] = true;
+                }
+            }
         },
 
         // Populate this with modules
@@ -440,81 +417,59 @@ var Khan = (function() {
         },
 
         // Load in a collection of scripts, execute callback upon completion
-        loadScripts: function(urls, callback) {
-            var loaded = 0,
-                loading = urls.length,
-                head = document.getElementsByTagName("head")[0];
+        loadScript: function(url, callback) {
+            var head = document.getElementsByTagName("head")[0];
+            var isMathJax = url.indexOf("/MathJax/") !== -1;
 
-            callback || (callback = function() {});
-
-            for (var i = 0; i < loading; i++) { (function(mod) {
-
-                var isMathJax = mod.src.indexOf("/MathJax/") !== -1,
-                    onScriptLoad = function() {
-                        // Bump up count of scripts loaded
-                        loaded++;
-
-                        // Run callback in case we're finished loading all
-                        // modules
-                        runCallback();
-                    };
-
-                if (!testMode && mod.src.indexOf("/khan-exercises/") === 0 && !isMathJax) {
-                    // Don't bother loading khan-exercises content in production
-                    // mode, this content is already packaged up and available
-                    // (*unless* it's MathJax, which is silly still needs to be loaded)
-                    loaded++;
-                    return;
-                }
-
-                // Adapted from jQuery getScript (ajax/script.js)
-                var script = document.createElement("script");
-                script.async = "async";
-
-                for (var prop in mod) {
-                    script[prop] = mod[prop];
-                }
-
-                script.onerror = function() {
-                    // No error in IE, but this is mostly for debugging during development so it's probably okay
-                    // http://stackoverflow.com/questions/2027849/how-to-trigger-script-onerror-in-internet-explorer
-                    Khan.error("Error loading script " + script.src);
-                };
-
-                script.onload = script.onreadystatechange = function() {
-                    if (!script.readyState || (/loaded|complete/).test(script.readyState)) {
-                        // Handle memory leak in IE
-                        script.onload = script.onreadystatechange = null;
-
-                        // Remove the script
-                        if (script.parentNode) {
-                            script.parentNode.removeChild(script);
-                        }
-
-                        // Dereference the script
-                        script = undefined;
-
-                        if (isMathJax) {
-                            // If we're loading MathJax, don't bump up the
-                            // count of loaded scripts until MathJax is done
-                            // loading all of its dependencies.
-                            MathJax.Hub.Queue(onScriptLoad);
-                        } else {
-                            onScriptLoad();
-                        }
-                    }
-                };
-
-                head.appendChild(script);
-            })(urls[i]); }
-
-            runCallback();
-
-            function runCallback() {
-                if (callback && loading === loaded) {
-                    callback();
-                }
+            if (!testMode && url.indexOf("/khan-exercises/") === 0 &&
+                    !isMathJax) {
+                // Don't bother loading khan-exercises content in non-local
+                // mode; this content is already packaged up and available
+                // (*unless* it's MathJax, which is silly and still needs
+                // to be loaded)
+                callback();
+                return;
             }
+
+            // Adapted from jQuery getScript (ajax/script.js) -- can't use
+            // jQuery here because we load jQuery using this routine
+            var script = document.createElement("script");
+            script.async = "async";
+            script.src = url;
+
+            script.onerror = function() {
+                // No error in IE, but this is mostly for debugging during
+                // development so it's probably okay
+                // http://stackoverflow.com/questions/2027849/how-to-trigger-script-onerror-in-internet-explorer
+                Khan.error("Error loading script " + script.src);
+            };
+
+            script.onload = script.onreadystatechange = function() {
+                if (!script.readyState ||
+                        (/loaded|complete/).test(script.readyState)) {
+                    // Handle memory leak in IE
+                    script.onload = script.onreadystatechange = null;
+
+                    // Remove the script
+                    if (script.parentNode) {
+                        script.parentNode.removeChild(script);
+                    }
+
+                    // Dereference the script
+                    script = undefined;
+
+                    if (isMathJax) {
+                        // If we're loading MathJax, don't bump up the
+                        // count of loaded scripts until MathJax is done
+                        // loading all of its dependencies.
+                        MathJax.Hub.Queue(callback);
+                    } else {
+                        callback();
+                    }
+                }
+            };
+
+            head.appendChild(script);
         },
 
         // Query String Parser
@@ -591,11 +546,7 @@ var Khan = (function() {
                         }
                     };
 
-                    if (!pad) {
-                        Khan.loadScripts([{src: urlBase + "utils/scratchpad.js"}], makeVisible);
-                    } else {
-                        makeVisible();
-                    }
+                    loadModule("scratchpad").then(makeVisible);
                 },
 
                 hide: function() {
@@ -763,16 +714,17 @@ var Khan = (function() {
     }
 
     // Seed the random number generator with the user's hash
-    randomSeed = testMode && parseFloat(Khan.query.seed) || userCRC32 || (new Date().getTime() & 0xffffffff);
+    randomSeed = testMode && parseFloat(Khan.query.seed) || userCRC32 ||
+            (new Date().getTime() & 0xffffffff);
 
     // Load in jQuery
-    var scripts = (typeof jQuery !== "undefined") ? [] : [{src: "../jquery.js"}];
-
-    // Actually load the scripts. This is getting evaluated when the file is loaded.
-    Khan.loadScripts(scripts, function() {
-
-        Khan.resetModules();
-
+    if (window.jQuery) {
+        onjQueryLoaded();
+    } else {
+        Khan.loadScript("../jquery.js", onjQueryLoaded);
+    }
+        
+    function onjQueryLoaded() {
         // If there are any requests left in the queue when the window unloads
         // then we will have permanently lost their answers and will need to
         // clear the session cache, to make sure we don't override what is
@@ -785,22 +737,41 @@ var Khan = (function() {
         });
 
         // Initialize to an empty jQuery set
-        exercises = jQuery();
+        exercises = $();
 
         $(function() {
+            var promises = [];
+
+            // Load all base modules, and if this is test mode, any specified
+            // in the data-require on <html>
+            var mods = Khan.getBaseModules();
+            if (testMode) {
+                var modString = document.documentElement.getAttribute(
+                        "data-require") || "";
+                var exMods = modString.length ? modString.split(" ") : [];
+
+                Khan.exerciseModulesMap[exerciseId] = exMods;
+                mods.push.apply(mods, exMods);
+            }
+
+            $.each(mods, function(i, mod) {
+                promises.push(loadModule(mod));
+            });
+
             // Ensure that all local exercises that don't have a data-name
             // already get tagged with the current, original data-name.
             $("div.exercise").not("[data-name]").data("name", exerciseId);
 
             var remoteExercises = $("div.exercise[data-name]");
 
-            if (remoteExercises.length) {
-                remoteExercises.each(loadExercise);
+            remoteExercises.each(function() {
+                promises.push(loadExercise(this));
+            });
 
-            // Only run loadModules if exercises are in the page
-            } else if ($("div.exercise").length) {
-                loadModules();
-            }
+            // All remote exercises (if any) have now been loaded
+            $.when.apply($, promises).then(function() {
+                loadTestModeSite();
+            });
         });
 
         $.fn.extend({
@@ -821,14 +792,13 @@ var Khan = (function() {
                     elem = $(elem);
 
                     // Run the main method of any modules
-                    $.each(Khan.modules, function(src, mod) {
-                        var name = mod.name;
-                        if ($.fn[name + type]) {
-                            debugLog("running " + name + type);
-                            elem[name + type](problem, info);
-                            debugLog("ran " + name + type);
+                    $.each(Khan.modules, function(mod) {
+                        if ($.fn[mod + type]) {
+                            debugLog("running " + mod + type);
+                            elem[mod + type](problem, info);
+                            debugLog("ran " + mod + type);
                         } else {
-                            debugLog("(" + name + type + " not a fn; src " + mod.src + ")");
+                            debugLog("(" + mod + type + " not a fn; src " + mod.src + ")");
                         }
                     });
                 });
@@ -839,7 +809,7 @@ var Khan = (function() {
         $.expr[":"].attached = function(elem) {
             return $.contains(elem.ownerDocument.documentElement, elem);
         };
-    });
+    }
 
     // Add up how much total weight is in each exercise so we can adjust for
     // it later
@@ -946,23 +916,15 @@ var Khan = (function() {
             .val("Please wait...");
     }
 
-    function isExerciseLoaded(exerciseId) {
-        return _.any(exercises, function(exercise) {
-            return $.data(exercise, "rootName") === exerciseId;
-        });
-    }
-
+    // TODO(alpert): Merge with loadExercise
     function startLoadingExercise(exerciseId, exerciseName, exerciseFile) {
-
-        if (typeof loadingExercises[exerciseId] !== "undefined") {
-            // Already started loading this exercise.
-            return;
+        var promise = exerciseFilePromises[exerciseId];
+        if (promise != null) {
+            // Already started (or finished) loading this exercise
+            return promise;
         }
 
-        if (isExerciseLoaded(exerciseId)) {
-            return;
-        }
-
+        // TODO(alpert): Creating an HTML element here makes no sense to me
         var exerciseElem = $("<div>")
             .data("name", exerciseId)
             .data("displayName", exerciseName)
@@ -970,16 +932,7 @@ var Khan = (function() {
             .data("rootName", exerciseId);
 
         // Queue up an exercise load
-        loadExercise.call(exerciseElem, function() {
-
-            // Trigger load completion event for this exercise
-            $(Khan).trigger("exerciseLoaded:" + exerciseId);
-            $(Khan).trigger("contentLoaded");
-
-            delete loadingExercises[exerciseId];
-
-        });
-
+        return loadExercise(exerciseElem);
     }
 
     function loadAndRenderExercise(nextUserExercise) {
@@ -999,8 +952,10 @@ var Khan = (function() {
         }
 
         function finishRender() {
-
             // Get all problems of this exercise type...
+            // TODO(alpert): What happens if multiple summatives in topic mode
+            // have the same subexercises? (Or if the subexercises appear in
+            // the topic individually.)
             var problems = exercises.filter(function() {
                 return $.data(this, "rootName") === exerciseId;
             }).children(".problems").children();
@@ -1024,18 +979,10 @@ var Khan = (function() {
 
         }
 
-        if (isExerciseLoaded(exerciseId)) {
-            finishRender();
-        } else {
-            startLoadingExercise(exerciseId, exerciseName, exerciseFile);
-
-            $(Khan)
-                .unbind("exerciseLoaded:" + exerciseId)
-                .bind("exerciseLoaded:" + exerciseId, function() {
-                    finishRender();
-                });
-        }
-
+        startLoadingExercise(exerciseId, exerciseName, exerciseFile).then(
+            function() {
+                finishRender();
+            });
     }
 
     /**
@@ -1164,6 +1111,9 @@ var Khan = (function() {
             parentType = original.data("type");
         }
 
+        // prepend any motivational text for the growth mindset A/B test
+        $("#workarea").prepend(Exercises.currentCard.attributes.growthHeader);
+
         // Add any global exercise defined elements
         problem.prepend(exercise.children(":not(.problems)").clone().data("inherited", true));
 
@@ -1241,12 +1191,10 @@ var Khan = (function() {
 
         debugLog("added inline styles");
 
-        // Get the filename of the currently shown exercise so we can look up
-        // what modules are required
-        var currentExercise = exercise.data("name") + ".html";
-
-        // Reset modules to only those required by the current exercise
-        Khan.resetModules(Khan.exerciseModulesMap[currentExercise]);
+        // Get the filename of the currently shown exercise, then reset modules
+        // to only those required by the current exercise
+        var exerciseId = exercise.data("name");
+        Khan.resetModules(exerciseId);
 
         // Run the main method of any modules
         problem.runModules(problem, "Load");
@@ -2769,12 +2717,9 @@ var Khan = (function() {
     }
 
     if (!testMode) {
-        // testMode automatically prepares itself in loadModules,
-        // where it loads jQuery and the rest of its dependencies
-        // dynamically.
-        //
-        // Integrated mode already has jQuery, so we listen
-        // and wait for the signal to prepare.
+        // In local mode, everything is set up in loadTestModeSite after
+        // loading jQuery. The real mode already has jQuery, so we just listen
+        // for the signal to prepare.
         $(Exercises)
             .bind("problemTemplateRendered", prepareSite)
             .bind("readyForNextProblem", function(ev, data) {
@@ -2954,30 +2899,43 @@ var Khan = (function() {
         $(Khan).trigger("apiRequestStarted");
     }
 
-    function loadExercise(callback) {
-        var self = $(this).detach();
-        var id = self.data("name");
-        var weight = self.data("weight");
-        var rootName = self.data("rootName");
-        var fileName = self.data("fileName");
-        // TODO(eater): remove this once all of the exercises in the datastore have filename properties
+    /**
+     * Load an exercise and return a promise that is resolved when an exercise
+     * is loaded
+     *
+     * @param exerciseElem HTML element with jQuery data properties name,
+     * weight, rootName, and fileName
+     */
+    function loadExercise(exerciseElem) {
+        exerciseElem = $(exerciseElem).detach();
+        var id = exerciseElem.data("name");
+
+        var promise = exerciseFilePromises[id];
+        if (promise != null) {
+            // Already started (or finished) loading this exercise
+            return promise;
+        } else {
+            promise = exerciseFilePromises[id] = $.Deferred();
+        }
+
+        var weight = exerciseElem.data("weight");
+        var rootName = exerciseElem.data("rootName");
+        var fileName = exerciseElem.data("fileName");
+        // TODO(eater): remove this once all of the exercises in the datastore
+        // have filename properties
         if (fileName == null || fileName == "") {
             fileName = id + ".html";
         }
 
-        if (!loadingExercises[rootName]) {
-            loadingExercises[rootName] = 0;
-        }
-
-        loadingExercises[rootName]++;
+        // Promises for remote exercises contained within this one
+        var subpromises = [];
 
         // Packing occurs on the server but at the same "exercises/" URL
         $.get(urlBase + "exercises/" + fileName, function(data, status, xhr) {
-            var match, newContents;
-
             if (!(/success|notmodified/).test(status)) {
                 // Maybe loading from a file:// URL?
-                Khan.error("Error loading exercise from file " + fileName + xhr.status + " " + xhr.statusText);
+                Khan.error("Error loading exercise from file " + fileName +
+                        xhr.status + " " + xhr.statusText);
                 return;
             }
 
@@ -2987,43 +2945,53 @@ var Khan = (function() {
             // See https://github.com/Khan/khan-exercises/issues/10957
             data = data.replace(/<script(\s)+src=([^<])*<\/script>/, "");
 
-            newContents = $(data);
+            var newContents = $(data).filter(".exercise");
 
             // Name of the top-most ancestor exercise
             newContents.data("rootName", rootName);
 
-            // Maybe the exercise we just loaded loads some others
-            newContents.filter("[data-name]").each(function() {
-                loadExercise.call(this, callback);
-            });
-
-            // Throw out divs that just load other exercises
+            // First, remove ones that refer to other files...
+            var remoteExercises = newContents.filter("[data-name]");
             newContents = newContents.not("[data-name]");
 
-            // Save the id, fileName and weights
-            // TODO(david): Make sure weights work for recursively-loaded exercises.
-            newContents.data("name", id).data("fileName", fileName).data("weight", weight);
+            // ...then save the exercise ID, fileName and weights for later
+            // TODO(david): Make sure weights work for recursively-loaded
+            // exercises.
+            newContents.data({
+                name: id,
+                fileName: fileName,
+                weight: weight
+            });
 
             // Add the new exercise elements to the exercises DOM set
             exercises = exercises.add(newContents);
 
-            // Extract data-require
-            var requires = data.match(/<html(?:[^>]+)data-require=(['"])((?:(?!\1).)*)\1/);
+            // Maybe the exercise we just loaded loads some others
+            remoteExercises.each(function() {
+                subpromises.push(loadExercise(this));
+            });
 
-            if (requires != null) {
-                requires = requires[2];
+            // Extract data-require
+            var match = data.match(
+                    /<html(?:[^>]+)data-require=(['"])((?:(?!\1).)*)\1/);
+            var requires;
+            if (match != null) {
+                requires = match[2].length ? match[2].split(" ") : [];
+            } else {
+                requires = [];
             }
 
+            $.each(requires, function(i, mod) {
+                subpromises.push(loadModule(mod));
+            });
+
             // Store the module requirements in exerciseModulesMap
-            Khan.exerciseModulesMap[fileName] = requires;
+            Khan.exerciseModulesMap[id] = requires;
 
-            // Calling resetModules here is necessary for populating
-            // Khan.modules immediately so that required scripts can be fetched
-            Khan.resetModules(requires);
-
-            // Extract contents from various tags and save them up for parsing when
-            // actually showing this particular exercise.
+            // Extract contents from various tags and save them up for parsing
+            // when actually showing this particular exercise.
             var tagsToExtract = {
+                // TODO(alpert): Do we use title?
                 title: /<title>([^<]*(?:(?!<\/title>)<[^<]*)*)<\/title>/gi,
 
                 // Scripts with no src
@@ -3041,89 +3009,96 @@ var Khan = (function() {
                 newContents.data(tag, result);
             });
 
-            loadingExercises[rootName]--;
-
-            if (loadingExercises[rootName] === 0) {
-
-                if (!modulesLoaded) {
-                    modulesDeferred = $.Deferred();
-                    loadModules();
-                }
-
-                if (callback) {
-                    modulesDeferred.done(callback);
-                }
-
-            }
-
-        });
-
-    }
-
-    function loadModules() {
-
-        modulesLoaded = true;
-
-        // Load module dependencies
-        Khan.loadScripts($.map(Khan.modules, function(mod, name) {
-            return mod;
-        }), function() {
-
-            $(function() {
-                // Inject the site markup, if it doesn't exist
-                if ($("#answer_area").length === 0) {
-                    $.ajax({
-                        url: urlBase + "exercises/khan-site.html",
-                        dataType: "html",
-                        success: function(html) {
-
-                            $.ajax({
-                                url: urlBase + "exercises/khan-exercise.html",
-                                dataType: "text",
-                                success: function(htmlExercise) {
-
-                                    injectTestModeSite(html, htmlExercise);
-
-                                }
-                            });
-
-                        }
-                    });
-                } else {
-                    if (modulesDeferred) {
-                        modulesDeferred.resolve();
-                    }
-                }
+            // Wait for any subexercises to load, then resolve the promise
+            $.when.apply($, subpromises).then(function() {
+                // Success; all subexercises loaded
+                promise.resolve();
+            }, function() {
+                // Failure; some subexercises failed to load
+                // TODO(alpert): Find a useful error message
+                promise.reject();
             });
         });
 
-        function injectTestModeSite(html, htmlExercise) {
-            $("body").prepend(html);
-            $("#container .exercises-header h2").append(document.title);
-            $("#container .exercises-body .current-card-contents").html(
-                htmlExercise);
+        return promise;
+    }
 
-            if (Khan.query.layout === "lite") {
-                $("html").addClass("lite");
-            }
+    function loadModule(modNameOrObject) {
+        var src, deps = [];
 
-            prepareSite();
-
-            var problems = exercises.children(".problems").children();
-
-            // Don't make the problem bag when a specific problem is specified
-            // because it messes up problem permalinks (because makeProblemBag
-            // calls KhanUtil.random() and changes the seed)
-            if (Khan.query.problem == null) {
-                weighExercises(problems);
-                problemBag = makeProblemBag(problems, 10);
-            }
-
-            $("#positive-reinforcement").hide();
-            // Generate the initial problem when dependencies are done being loaded
-            var answerType = makeProblem();
+        if (typeof modNameOrObject === "string") {
+            src = urlBase + "utils/" + modNameOrObject + ".js";
+            deps = Khan.moduleDependencies[modNameOrObject] || [];
+        } else {
+            src = modNameOrObject.src;
         }
 
+        // Return the promise if it exists already
+        var selfPromise = modulePromises[src];
+        if (selfPromise) {
+            return selfPromise;
+        } else {
+            selfPromise = $.Deferred();
+        }
+
+        var promises = [];
+
+        // Load module dependencies
+        promises.push(selfPromise);
+        Khan.loadScript(src, function() {
+            selfPromise.resolve();
+        });
+
+        $.each(deps, function(i, dep) {
+            promises.push(loadModule(dep));
+        });
+
+        // Return a multi-promise thing
+        var allLoaded = $.when.apply($, promises);
+        modulePromises[src] = allLoaded;
+        return allLoaded;
+    }
+
+    function loadTestModeSite() {
+        // TODO(alpert): Is the DOM really not yet ready?
+        $(function() {
+            // Inject the site markup
+            if (testMode) {
+                $.get(urlBase + "exercises/khan-site.html", function(site) {
+                    $.get(urlBase + "exercises/khan-exercise.html",
+                        function(ex) {
+                            injectTestModeSite(site, ex);
+                        });
+                });
+            }
+        });
+    }
+
+    function injectTestModeSite(html, htmlExercise) {
+        $("body").prepend(html);
+        $("#container .exercises-header h2").append(document.title);
+        $("#container .exercises-body .current-card-contents").html(
+            htmlExercise);
+
+        if (Khan.query.layout === "lite") {
+            $("html").addClass("lite");
+        }
+
+        prepareSite();
+
+        var problems = exercises.children(".problems").children();
+
+        // Don't make the problem bag when a specific problem is specified
+        // because it messes up problem permalinks (because makeProblemBag
+        // calls KhanUtil.random() and changes the seed)
+        if (Khan.query.problem == null) {
+            weighExercises(problems);
+            problemBag = makeProblemBag(problems, 10);
+        }
+
+        $("#positive-reinforcement").hide();
+        // Generate the initial problem when dependencies are done being loaded
+        var answerType = makeProblem();
     }
 
     return Khan;
