@@ -1112,7 +1112,9 @@ var Khan = (function() {
         }
 
         // prepend any motivational text for the growth mindset A/B test
-        $("#workarea").prepend(Exercises.currentCard.attributes.growthHeader);
+        var growthHeader = (!testMode &&
+                Exercises.currentCard.attributes.growthHeader);
+        $("#workarea").prepend(growthHeader);
 
         // Add any global exercise defined elements
         problem.prepend(exercise.children(":not(.problems)").clone().data("inherited", true));
