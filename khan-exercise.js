@@ -1111,6 +1111,11 @@ var Khan = (function() {
             parentType = original.data("type");
         }
 
+        // prepend any motivational text for the growth mindset A/B test
+        var growthHeader = (!testMode &&
+                Exercises.currentCard.attributes.growthHeader);
+        $("#workarea").prepend(growthHeader);
+
         // Add any global exercise defined elements
         problem.prepend(exercise.children(":not(.problems)").clone().data("inherited", true));
 
@@ -2932,15 +2937,16 @@ var Khan = (function() {
             // See https://github.com/Khan/khan-exercises/issues/10957
             data = data.replace(/<script(\s)+src=([^<])*<\/script>/, "");
 
-            var newContents = $(data);
+            var newContents = $(data).filter(".exercise");
 
             // Name of the top-most ancestor exercise
             newContents.data("rootName", rootName);
 
-            // Throw out divs that just load other exercises
+            // First, remove ones that refer to other files...
+            var remoteExercises = newContents.filter("[data-name]");
             newContents = newContents.not("[data-name]");
 
-            // Save the exercise ID, fileName and weights for later
+            // ...then save the exercise ID, fileName and weights for later
             // TODO(david): Make sure weights work for recursively-loaded
             // exercises.
             newContents.data({
@@ -2953,7 +2959,7 @@ var Khan = (function() {
             exercises = exercises.add(newContents);
 
             // Maybe the exercise we just loaded loads some others
-            newContents.filter("[data-name]").each(function() {
+            remoteExercises.each(function() {
                 subpromises.push(loadExercise(this));
             });
 
