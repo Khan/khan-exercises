@@ -35,7 +35,8 @@
         <div class="problems">
             <div>
                 <!-- Asks user to calculate dy/dx given xf(y) = yg(x) + C -->
-                <p class="question">Use implicit differentiation to find <code>\displaystyle \frac{dy}{dx}</code> given the trancendental equation : <code> x ( <var>FUNCF.fText</var> ) = y ( <var>FUNCG.fText</var> ) <var> (KhanUtil.randRange(0, 1)!==0) ? "" : "+"+KhanUtil.randRange(1, 10)</var></code></p>
+                <p class="question">Use implicit differentiation to find <code>\displaystyle \frac{dy}{dx}</code> as a function of <code>x</code> and <code>y</code> given the trancendental equation : </p>
+                <p><code> x ( <var>FUNCF.fText</var> ) = y ( <var>FUNCG.fText</var> ) <var> (KhanUtil.randRange(0, 1)!==0) ? "" : "+"+KhanUtil.randRange(1, 10)</var></code></p>
 
                 <!-- (ydg - f)/(xdf - g)-->
                 <p class="solution"><code><var>ANSWER( F, G, DF, DG, "-", "-" )</var></code></p>
@@ -61,15 +62,24 @@
         </div>
 
         <div class="hints"> 
-            <p>Apply the derivative operator <code>\displaystyle \frac{d}{dx\strut}</code> to each side separately. What is <code>\displaystyle \frac{d}{dx\strut} (x <var>FUNCF.fText</var>)</code> ?</p>
             <div>
-                <p>We can use the product rule so that this becomes <code>\displaystyle <var>FUNCF.fText</var>\frac{d}{dx\strut}x + x \frac{d}{dx\strut}<var>FUNCF.fText</var></code>
+                <p>Apply the derivative operator <code>\displaystyle \frac{d}{dx\strut}</code> to each side separately. What is </p>
+                <p><code>\displaystyle \frac{d}{dx\strut} (x <var>FUNCF.fText</var>)</code>?</p>
             </div>
-            
-            <p>Now we can use the chain rule to deal with  <code>\displaystyle \frac{d}{dx\strut}<var>FUNCF.fText</var></code></p>
             <div>
-                <!-- Answer is not given on the final hint but encourages the user to think about y in a different way that recalls how the chain rule works -->
-                <p>Remember, even though we can't <code>\displaystyle explicitly</code> write this equation in the form <code>\displaystyle y = f(x)</code>, when taking the derivative we may still treat <code>\displaystyle y</code> as an ordinary function of <code>\displaystyle x </code></p>
+                <p>Using the product rule this becomes </p>
+                <p><code>\displaystyle <var>FUNCF.fText</var>\frac{d}{dx\strut}x + x \frac{d}{dx\strut}<var>FUNCF.fText</var></code></p>
+            </div>
+            <div>
+                <p>Now we can use the chain rule to simplify  <code>\displaystyle \frac{d}{dx\strut}<var>FUNCF.fText</var></code></p>
+            </div>
+            <div>
+                <p>When taking derivatives we're allowed to treat <code>y</code> just like any other ordinary function of <code>x</code>, so we have </p>
+                <p><code>\displaystyle \frac{d}{dx\strut}<var>FUNCF.fText</var> = <var>FUNCF.ddxFText</var>\frac{dy}{dx\strut}</code></p>
+            </div>
+            <div>
+                <p>Following the same steps for the right-hand side and then solving for <code>\displaystyle\frac{dy}{dx\strut}</code> we find the answer: </p>
+                <p><code>\displaystyle \frac{y (<var>FUNCG.ddxFText</var>) - (<var>FUNCF.fText</var>)}{x (<var>FUNCF.ddxFText</var>) - (<var>FUNCG.fText</var>)}</code></p>
             </div>
         </div>
     </div>
