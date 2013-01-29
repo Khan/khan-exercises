@@ -613,8 +613,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // Add two input boxes
             var inte, rad;
             if (window.Modernizr && Modernizr.touch) {
-                inte = '<input type="number" step="any">';
-                rad = '<input type="number" step="any">';
+                inte = $('<input type="number" step="any">');
+                rad = $('<input type="number" step="any">');
             } else {
                 inte = $('<input type="text">');
                 rad = $('<input type="text">');
