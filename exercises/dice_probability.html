@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
+<head>
+    <title>Dice Probability</title>
+    <script src="/khan-exercise.js"></script>
+    <script type="text/javascript">
+        function selectMatching( matchingPairs ) {
+            $(".e-dice").removeClass("e-selected");
+            var matchingIndices = [];
+            for (var i=0,len=matchingPairs.length; i<len; i++)
+            {
+                var mpair = matchingPairs[i];
+                matchingIndices.push((mpair[1]-1)*6+(mpair[0]-1));
+            }
+            $(".e-dice").filter(function(index) {
+                return matchingIndices.indexOf(index) !== -1;
+            }).addClass("e-selected");
+            $("#e-selected").text($(".e-selected").length);
+        }
+    </script>
+    <style>
+        /* Classes and IDs are prefixed with "e-" to avoid conflicts with global CSS. */
+        .e-dice {
+            background: #d9d9d9;
+            float:      left;
+            height:     54px;
+            margin:     0 1px 1px 0;
+            position:   relative;
+            width:      54px;
+        }
+
+        .e-dice:hover {
+            background: #def0fa;
+        }
+
+        .e-dice.e-selected {
+            background: #a9d4eb;
+        }
+
+        .e-die {
+            background: #333;
+            border:     1px solid #4d4d4d;
+            border-radius: 3px;
+            height:     18px;
+            position:   absolute;
+            top:        17px;
+            width:      18px;
+        }
+
+        .e-die.e-black {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGwAAAASCAMAAACJkMtOAAAALVBMVEXMzMxAQEDm5uZzc3OZmZmmpqbZ2dny8vJmZmaAgIBZWVmzs7NNTU3///8zMzMyuWEDAAAA4ElEQVR42s2V4Q6DMAiEdWpbaG/v/7iLTkYrI4saF+9PDX71WiDYPf+oO5gl3ka4eAynLVNkNz3CMK9DeJBrFoDcRjIwWmZ9E1pmlN0FQJwfIoDimCUAaO8lEcvMa1JGI4axZrIt/jDj+tRszFhuvxh0QKjTWOqaTIhk0kjfGYqYWoY+Rehp/cxAfWWWBXC0l7EHUrOCpYSOjjA2sRea2Qa5Oo0B73pOXoOINNciKf6OBsnjCmdpEE/a1ipI5FTrW2murZmth0Z8xjfTUaTSUXR+XFlxMv3GBwfxTX4x1+gFaUFk+Pqj+fIAAAAASUVORK5CYII=');
+            left:             6px;
+        }
+
+        .e-six-by-four .e-black {
+            left: 4px;
+        }
+
+        .e-die.e-white {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGwAAAASCAMAAACJkMtOAAAALVBMVEXy8vJmZmZNTU2/v7+ZmZmMjIxZWVlAQEDMzMyzs7PZ2dmAgIDm5uYzMzP///+mxCSnAAAA4UlEQVR42s2V4Q6DIAyEdSrQwu39H3dhsyvYNcs0Lt4fTP3woG3qcP+jrmCWeBvh4jGctkyR3XQLU12ncCPXLAC5j2Rgtsz6JvTMLLsLgFgfIoDimCUA6O8lEcvUNSmjEcNYM9kWv5hxe2o2Ziy3H+s6AqFNY2lrsiCSSSN9Zihi6Rl6F2Gg9TMTDY1ZFsDRDsYcSMwKniV0tIexiT3RzDbI2WkMeNVzsQ3SS3MtkuL/0CB5XuEsDeJJ21oFiRxqfSvNtTWz9dCIz/hmOopUOoqOjysrTqbfeOcgvsgv5hw9AGlBZPiJk4LrAAAAAElFTkSuQmCC');
+            border-color:     #888;
+            left:             28px;
+        }
+
+        .e-six-by-four .e-die.e-white {
+            background-color: transparent;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAAAUCAMAAABF9cjdAAAArlBMVEWIiIiIiIiIiIiIiIiFhYWIiIiBgYGAgICDg4OIiIiIiIiIiIiIiIgAAADc3NyMjIzGxsazs7Nzc3O1tbXBwcHU1NTn5+fw8PCAgIBZWVm/v79AQEBmZmbe3t5NTU3p6emenp68vLzh4eHExMTy8vLm5ubs7Oz29vbQ0NDS0tLj4+P6+vqZmZnx8fGPj4/Ly8va2trMzMz4+PjZ2dl/f3+Xl5empqYzMzOIiIj///+cFc8QAAAADnRSTlNwoFAws2Db7seAIBBAAIeueasAAAG4SURBVHjardJZb5tAFIZhstmOcZvaTVo2k43NMATjAYbv//+xDtucSoOcG87deYTmFdIxfqi5W6/vaFvK/wts6rcNbUs5BW7rC+pbtS7lFFifgPNarQs5BR4byGkep30Zp8C2+kAoytdqOwJ544rDzxnf+8Ka+x6OYJNT4OY3mC9KvN+MoJyLJ8e1dA9cqxGN7ghdwTA4BXZfFzBLBi5fu0GUMwHYnu4hC7nY6w67kYHBKbD5BFDKAIrpxMjRCGfOmfAD3Z8OkIHeKfBQYwqgfuiJPPB8Z8bDEqFv6S5sT/j7zilgVmcKfFRmZ8oD/xBgxhsRwvZ0Z4wJr1Ru0Gl1ATox5Y2Q4+keuK4tHN3lCAblXWDbvvYelAHk/G23EpWHpRyuO4KGhZhxoCTvA/fvQJZDzee9xNFpvvX5d4zhtJAlA6ZFNJ5Y79mRX3c55PQOuQysijzh/OVPjwXyPD2t5PfSkb08x7jqSYQ4G53eIZcBowYHYj4G+C9wvMmu9PQ5jzmuOtKkyCend8iN7rTygn44T5MU58rsPI6i4/EbR8ajyekdcmPXnqDNud0t5Ya5amdmZS7l/wAsNOvj8l2mDQAAAABJRU5ErkJggg==');
+            border: none;
+            height: 20px;
+            left: 26px;
+            width: 24px;
+        }
+
+        .e-two { background-position: -18px 0 }
+        .e-three { background-position: -36px 0 }
+        .e-four { background-position: -54px 0 }
+        .e-five { background-position: -72px 0 }
+        .e-six { background-position: -90px 0 }
+
+        .e-six-by-four .e-white.e-two { background-position: -24px 0}
+        .e-six-by-four .e-white.e-three { background-position: -48px 0}
+        .e-six-by-four .e-white.e-four { background-position: -72px 0}
+
+        #e-dice-container {
+            margin: 0 auto;
+            width: 330px;
+        }
+
+        #e-dice-container h2 {
+            font:       16px 'Helvetica Neue', Helvetica, Arial, Sans-Serif;
+            margin:     0 0 8px 0;
+            text-align: right;
+        }
+
+        .e-grid {
+            overflow: hidden;
+        }
+
+        .e-grid.e-six-by-four { height: 220px; }
+        .e-grid.e-six-by-six { height: 330px; }
+    </style>
+</head>
+<body>
+<div class="exercise">
+<div class="problems">
+
+<div id="original" data-weight="0">
+    <div class="vars">
+        <var id="initQuestion">
+            function() {
+                // Set .e-grid size.
+                $('.e-grid').addClass('e-' + grid);
+
+                // Toggle cell selection on click.
+                var selected = $('#e-selected');
+
+                $('.e-dice').on('click', function() {
+                    $(this).toggleClass('e-selected');
+                    selected.text($('.e-selected').length);
+                });
+            }
+        </var>
+    </div>
+
+    <div class="question">
+        <p>
+            You are given two
+            <span data-if="grid === 'six-by-four'" data-unwrap>
+                dice to roll. One is black and has six sides, the other is white and has four sides.
+            </span>
+            <span data-else data-unwrap>
+                six-sided dice to roll.
+            </span>
+            For a given roll, what is the probability that <var>question</var>?
+        </p>
+
+        <div id="e-dice-container">
+            <h2>Selected: <span id="e-selected">0</span> / <var>grid === 'six-by-four' ? 24 : 36</var></h2>
+
+            <div class="e-grid">
+                <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-white"></div></div>
+
+                <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-two e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-two e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-two e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-two e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-two e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-two e-white"></div></div>
+
+                <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-three e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-three e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-three e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-three e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-three e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-three e-white"></div></div>
+
+                <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-four e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-four e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-four e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-four e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-four e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-four e-white"></div></div>
+
+                <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-five e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-five e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-five e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-five e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-five e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-five e-white"></div></div>
+
+                <div class="e-dice"><div class="e-black e-die"></div><div class="e-die e-six e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-two"></div><div class="e-die e-six e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-three"></div><div class="e-die e-six e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-four"></div><div class="e-die e-six e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-five "></div><div class="e-die e-six e-white"></div></div>
+                <div class="e-dice"><div class="e-black e-die e-six"></div><div class="e-die e-six e-white"></div></div>
+            </div>
+        </div>
+
+        <var>initQuestion()</var>
+    </div>
+
+    <div class="solution" data-simplify="optional" data-type="rational"><var>solutionN/solutionD</var></div>
+</div>
+
+<div id="d1-and-d2-are-x-and-y" data-type="original" data-weight="2">
+    <div class="vars">
+        <var id="grid">'six-by-four'</var>
+        <var id="x">randRange(1, 6)</var>
+        <var id="y">randRange(1, 4)</var>
+        <var id="question">
+            (function() {
+                var qtext = "the dice are ";
+                if (x !== y) {
+                    qtext += x + " and " + y;
+                    if (x &lt; 5) {
+                        qtext += ", in any order";
+                    }
+                } else {
+                    qtext += "both " + x;
+                }
+                return qtext;
+            })()
+        </var>
+        <var id="solutionN,solutionD">
+            (function() {
+                if (x === y || x &gt; 4) {
+                    return [1,24];
+                } else {
+                    return [1,12];
+                }
+            })()
+        </var>
+    </div>
+
+    <div class="hints">
+        <div>
+            <div data-if="x === y || x > 4">
+                <p>There is <b>one</b> matching outcome.</p>
+            </div>
+            <div data-else>
+                <p>There are <b>two</b> matching outcomes.</p>
+            </div>
+            <div class="graphie">
+                if (x &gt; 4) {
+                    selectMatching([[x,y]]);
+                } else {
+                    selectMatching([[x,y],[y,x]]);
+                }
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-and-d2-are-x-and-y-six-by-six" data-type="original" data-weight="2">
+    <div class="vars">
+        <var id="grid">'six-by-six'</var>
+        <var id="x">randRange(1, 6)</var>
+        <var id="y">randRange(1, 6)</var>
+        <var id="question">
+            (function() {
+                var qtext = "the dice are ";
+                if (x !== y) {
+                    qtext += x + " and " + y + ", in any order";
+                } else {
+                    qtext += "both " + x;
+                }
+                return qtext;
+            })()
+        </var>
+        <var id="solutionN,solutionD">
+            (function() {
+                if (x === y ) {
+                    return [1,36];
+                } else {
+                    return [1,18];
+                }
+            })()
+        </var>
+    </div>
+
+    <div class="hints">
+        <div>
+            <div data-if="x === y">
+                <p>There is <b>one</b> matching outcome.</p>
+            </div>
+            <div data-else>
+                <p>There are <b>two</b> matching outcomes.</p>
+            </div>
+            <div class="graphie">
+                selectMatching([[x,y],[y,x]]);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-is-even-d2-is-x" data-type="original">
+    <div class="vars">
+        <var id="grid">'six-by-four'</var>
+        <var id="x">randRange(1, 4)</var>
+        <var id="evenodd">randFromArray(['even','odd'])</var>
+        <var id="question">
+            'the black die is ' + evenodd + ' and the white die is ' + x
+        </var>
+        <var id="solutionN,solutionD">[1,8]</var>
+        </var>
+    </div>
+
+    <div class="hints">
+        <p>How many <var>evenodd</var> numbers are there on the black die?</p>
+        <div>
+            <p>There are <b>three</b> matching outcomes.</p>
+            <div class="graphie">
+                var offset = (evenodd === "even" ? 1 : 0);
+                var matchingPairs = [[1+offset,x],
+                                    [3+offset,x],
+                                    [5+offset,x]];
+                selectMatching(matchingPairs);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-is-even-d2-is-x-six-by-six" data-type="original">
+    <div class="vars">
+        <var id="grid">'six-by-six'</var>
+        <var id="x">randRange(1, 6)</var>
+        <var id="evenodd">randFromArray(['even','odd'])</var>
+        <var id="question">
+            'the black die is ' + evenodd + ' and the white die is ' + x
+        </var>
+        <var id="solutionN,solutionD">[1,12]</var>
+    </div>
+
+    <div class="hints">
+        <p>How many <var>evenodd</var> numbers are there on the black die?</p>
+        <div>
+            <p>There are <b>three</b> matching outcomes.</p>
+            <div class="graphie">
+                var offset = (evenodd === "even" ? 1 : 0);
+                var matchingPairs = [[1+offset,x],
+                                    [3+offset,x],
+                                    [5+offset,x]];
+                selectMatching(matchingPairs);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-plus-d2-is-x" data-type="original" data-weight="2">
+    <div class="vars">
+        <var id="grid">'six-by-four'</var>
+        <var id="x">randRange(2, 10)</var>
+        <var id="question">'the dice add to ' + x</var>
+        <var id="matchingOutcomes">
+            (function() {
+                if (x === 2 || x === 10) {
+                    return 'one';
+                } else if (x === 3 || x === 9) {
+                    return 'two';
+                } else if (x === 4 || x === 8) {
+                    return 'three';
+                } else {
+                    return 'four';
+                }
+            })()
+        </var>
+        <var id="matchingPairs">
+            (function() {
+                return {
+                    2: [[1,1]],
+                    3: [[1,2],[2,1]],
+                    4: [[1,3],[2,2],[3,1]],
+                    5: [[1,4],[2,3],[3,2],[4,1]],
+                    6: [[2,4],[3,3],[4,2],[5,1]],
+                    7: [[3,4],[4,3],[5,2],[6,1]],
+                    8: [[4,4],[5,3],[6,2]],
+                    9: [[5,4],[6,3]],
+                    10: [[6,4]]
+                }[x];
+            })()
+        </var>
+        <var id="solutionN,solutionD">
+            (function() {
+                if (x === 2 || x === 10) {
+                    // 2:  (1, 1)
+                    // 10: (6, 4)
+                    return [1,24]
+                } else if (x === 3 || x === 9) {
+                    // 3: (1, 2), (2, 1)
+                    // 9: (5, 4), (6, 3)
+                    return [1,12]
+                } else if (x === 4 || x === 8) {
+                    // 4: (1, 3), (2, 2), (3, 1)
+                    // 8: (4, 4), (5, 3), (6, 2)
+                    return [1,8]
+                } else {
+                    // 5: (1, 4), (2, 3), (3, 2), (4, 1)
+                    // 6: (2, 4), (3, 3), (4, 2), (5, 1)
+                    // 7: (3, 4), (4, 3), (5, 2), (6, 1)
+                    return [1,6]
+                }
+            })()
+        </var>
+    </div>
+
+    <div class="hints">
+        <p>For each value on the black die, is there a value on the white die that adds to <var>x</var>?</p>
+        <div>
+            <div data-if="x === 2 || x === 10">
+                <p>There is <b>one</b> matching outcome.</p>
+            </div>
+            <div data-else>
+                <p>There are <b><var>matchingOutcomes</var></b> matching outcomes.</p>
+            </div>
+            <div class="graphie">
+                selectMatching(matchingPairs);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-plus-d2-is-x-six-by-six" data-type="original" data-weight="3">
+    <div class="vars">
+        <var id="grid">'six-by-six'</var>
+        <var id="x">randRange(2, 12)</var>
+        <var id="question">'the dice add to ' + x</var>
+        <var id="matchingOutcomes">
+            (function() {
+                if (x === 2 || x === 12) {
+                    return 'one';
+                } else if (x === 3 || x === 11) {
+                    return 'two';
+                } else if (x === 4 || x === 10) {
+                    return 'three';
+                } else if (x === 5 || x === 9) {
+                    return 'four';
+                } else if (x === 6 || x === 8) {
+                    return 'five';
+                } else {
+                    return 'six';
+                }
+            })()
+        </var>
+        <var id="matchingPairs">
+            (function() {
+                return {
+                    2: [[1,1]],
+                    3: [[1,2],[2,1]],
+                    4: [[1,3],[2,2],[3,1]],
+                    5: [[1,4],[2,3],[3,2],[4,1]],
+                    6: [[1,5],[2,4],[3,3],[4,2],[5,1]],
+                    7: [[1,6],[2,5],[3,4],[4,3],[5,2],[6,1]],
+                    8: [[2,6],[3,5],[4,4],[5,3],[6,2]],
+                    9: [[3,6],[4,5],[5,4],[6,3]],
+                    10: [[4,6],[5,5],[6,4]],
+                    11: [[5,6],[6,5]],
+                    12: [[6,6]]
+                }[x];
+            })()
+        </var>
+        <var id="solutionN,solutionD">
+            (function() {
+                if (x === 2 || x === 12) {
+                    // 2:  (1, 1)
+                    // 12: (6, 6)
+                    return [1,36];
+                } else if (x === 3 || x === 11) {
+                    // 3:  (1, 2), (2, 1)
+                    // 11: (5, 6), (6, 5)
+                    return [1,18];
+                } else if (x === 4 || x === 10) {
+                    // 4:  (1, 3), (2, 2), (3, 1)
+                    // 10: (4, 6), (5, 5), (6, 4)
+                    return [1,12];
+                } else if (x === 5 || x === 9) {
+                    // 5: (1, 4), (2, 3), (3, 2), (4, 1)
+                    // 9: (3, 6), (4, 5), (5, 4), (6, 3)
+                    return [1,9];
+                } else if (x === 6 || x === 8) {
+                    // 6: (1, 5), (2, 4), (3, 3), (4, 2), (5, 1)
+                    // 8: (2, 6), (3, 5), (4, 4), (5, 3), (6, 2)
+                    return [5,36];
+                } else {
+                    // 7: (1, 6), (2, 5), (3, 4), (4, 3), (5, 2), (6, 1)
+                    return [1,6];
+                }
+            })()
+        </var>
+    </div>
+
+    <div class="hints">
+        <p>For each value on the black die, is there a value on the white die that adds to <var>x</var>?</p>
+        <div>
+            <div data-if="x === 2 || x === 12">
+                <p>There is <b>one</b> matching outcome.</p>
+            </div>
+            <div data-else>
+                <p>There are <b><var>matchingOutcomes</var></b> matching outcomes.</p>
+            </div>
+            <div class="graphie">
+                selectMatching(matchingPairs);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-plus-d2-is-less-than-x" data-type="original" data-weight="5">
+    <div class="vars">
+        <var id="grid">'six-by-four'</var>
+        <var id="x">randRange(2, 10)</var>
+        <var id="question">'the outcome is less than or equal to ' + x</var>
+        <var id="matchingOutcomes">
+            (function() {
+                outcomesLookup = {
+                    2: 'one',
+                    3: 'three',
+                    4: 'six',
+                    5: 'ten',
+                    6: 'fourteen',
+                    7: 'eighteen',
+                    8: 'twenty-one',
+                    9: 'twenty-three',
+                    10: 'twenty-four',
+                };
+                return outcomesLookup[x];
+            })()
+        </var>
+        <var id="matchingPairs">
+            (function() {
+                var allMatching = [
+                    [[1,1]],
+                    [[1,2],[2,1]],
+                    [[1,3],[2,2],[3,1]],
+                    [[1,4],[2,3],[3,2],[4,1]],
+                    [[2,4],[3,3],[4,2],[5,1]],
+                    [[3,4],[4,3],[5,2],[6,1]],
+                    [[4,4],[5,3],[6,2]],
+                    [[5,4],[6,3]],
+                    [[6,4]]
+                ];
+                return [].concat.apply([], allMatching.slice(0,x-1));
+            })()
+        </var>
+        <var id="solutionN,solutionD">
+            (function() {
+                answerLookup = {
+                    2: [1,24],
+                    3: [1,8],
+                    4: [1,4],
+                    5: [5,12],
+                    6: [7,12],
+                    7: [3,4],
+                    8: [7,8],
+                    9: [23,24],
+                    10: [1,1]
+                };
+                return answerLookup[x];
+            })()
+        </var>
+    </div>
+
+    <div class="hints">
+        <p>Count all outcomes that are less than or equal to <var>x</var>.</p>
+        <div>
+            <div data-if="x === 2">
+                <p>There is <b>one</b> matching outcome.</p>
+            </div>
+            <div data-else>
+                <p>There are <b><var>matchingOutcomes</var></b> matching outcomes.</p>
+            </div>
+            <div class="graphie">
+                selectMatching(matchingPairs);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-plus-d2-is-less-than-x-six-by-six" data-type="original" data-weight="6">
+    <div class="vars">
+        <var id="grid">'six-by-six'</var>
+        <var id="x">randRange(2, 12)</var>
+        <var id="question">'the outcome is less than or equal to ' + x</var>
+        <var id="matchingOutcomes">
+            (function() {
+                outcomesLookup = {
+                    2: 'one',
+                    3: 'three',
+                    4: 'six',
+                    5: 'ten',
+                    6: 'fifteen',
+                    7: 'twenty-one',
+                    8: 'twenty-six',
+                    9: 'thirty',
+                    10: 'thirty-three',
+                    11: 'thirty-five',
+                    12: 'thirty-six'
+                };
+                return outcomesLookup[x];
+            })()
+        </var>
+        <var id="matchingPairs">
+            (function() {
+                var allMatching = [
+                    [[1,1]],
+                    [[1,2],[2,1]],
+                    [[1,3],[2,2],[3,1]],
+                    [[1,4],[2,3],[3,2],[4,1]],
+                    [[1,5],[2,4],[3,3],[4,2],[5,1]],
+                    [[1,6],[2,5],[3,4],[4,3],[5,2],[6,1]],
+                    [[2,6],[3,5],[4,4],[5,3],[6,2]],
+                    [[3,6],[4,5],[5,4],[6,3]],
+                    [[4,6],[5,5],[6,4]],
+                    [[5,6],[6,5]],
+                    [[6,6]]
+                ];
+                return [].concat.apply([], allMatching.slice(0,x-1));
+            })()
+        </var>
+        <var id="solutionN,solutionD">
+            (function() {
+                answerLookup = {
+                    2: [1,36],
+                    3: [1,12],
+                    4: [1,6],
+                    5: [5,18],
+                    6: [5,12],
+                    7: [7,12],
+                    8: [13,18],
+                    9: [5,6],
+                    10: [11,12],
+                    11: [35,36],
+                    12: [1,1] 
+                };
+                return answerLookup[x];
+            })()
+        </var>
+    </div>
+
+    <div class="hints">
+        <p>Count all outcomes that are less than or equal to <var>x</var>.</p>
+        <div>
+            <div data-if="x === 2">
+                <p>There is <b>one</b> matching outcome.</p>
+            </div>
+            <div data-else>
+                <p>There are <b><var>matchingOutcomes</var></b> matching outcomes.</p>
+            </div>
+            <div class="graphie">
+                selectMatching(matchingPairs);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-same-as-d2" data-type="original">
+    <div class="vars">
+        <var id="grid">'six-by-four'</var>
+        <var id="x">randRange(2, 10)</var>
+        <var id="question">'you roll the same number on each die'</var>
+        <var id="solutionN,solutionD">[1,6]</var>
+    </div>
+
+    <div class="hints">
+        <p>How many different outcomes with the same number are there?</p>
+        <div>
+            <p>There are <b>four</b> matching outcomes.</p>
+            <div class="graphie">
+                selectMatching([[1,1],[2,2],[3,3],[4,4]]);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-same-as-d2-six-by-six" data-type="original">
+    <div class="vars">
+        <var id="grid">'six-by-six'</var>
+        <var id="x">randRange(2, 12)</var>
+        <var id="question">'you roll doubles'</var>
+        <var id="solutionN,solutionD">[1,6]</var>
+    </div>
+
+    <div class="hints">
+        <p>How many different outcomes are doubles?</p>
+        <div>
+            <p>There are <b>six</b> matching outcomes.</p>
+            <div class="graphie">
+                selectMatching([[1,1],[2,2],[3,3],[4,4],[5,5],[6,6]]);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-is-x-d2-is-y" data-type="original">
+    <div class="vars">
+        <var id="grid">'six-by-four'</var>
+        <var id="x">randRange(1, 6)</var>
+        <var id="y">randRange(1, 4)</var>
+        <var id="question">'the black die is ' + x + ' and the white die is ' + y</var>
+        <var id="solutionN,solutionD">[1,24]</var>
+        </var>
+    </div>
+
+    <div class="hints">
+        <div>
+            <p>This is asking you about exactly <b>one</b> matching outcome.</p>
+            <div class="graphie">
+                selectMatching([[x,y]]);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-is-x-d2-is-y-six-by-six" data-type="original">
+    <div class="vars">
+        <var id="grid">'six-by-six'</var>
+        <var id="x">randRange(1, 6)</var>
+        <var id="y">randRange(1, 6)</var>
+        <var id="question">'the black die is ' + x + ' and the white die is ' + y</var>
+        <var id="solutionN,solutionD">[1,36]</var>
+        </var>
+    </div>
+
+    <div class="hints">
+        <div>
+            <p>This is asking you about exactly <b>one</b> matching outcome.</p>
+            <div class="graphie">
+                selectMatching([[x,y]]);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-or-d2-is-x" data-type="original" data-weight="2">
+    <div class="vars">
+        <var id="grid">'six-by-four'</var>
+        <var id="x">randRange(1, 6)</var>
+        <var id="question">'at least one die is ' + x</var>
+        <var id="matchingOutcomes">
+            (function() {
+                if (x &gt; 4) {
+                    return 'four';
+                } else {
+                    return 'nine';
+                }
+            })()
+        </var>
+        <var id="matchingPairs">
+            (function() {
+                var rowArray = [[x,1],[x,2],[x,3],[x,4]];
+                if (x &gt; 4) {
+                    return rowArray;
+                } else {
+                    return rowArray.concat([[1,x],[2,x],[3,x],[4,x],[5,x],[6,x]]);
+                }
+            })()
+        </var>
+        <var id="solutionN,solutionD">
+            (function() {
+                if (x &gt; 4) {
+                    return [1,6];
+                } else {
+                    return [3,8];
+                }
+            })()
+        </var>
+    </div>
+
+    <div class="hints">
+        <p data-if="x < 5">Remember that both dice can be <var>x</var> ("at least one").</p>
+        <div>
+            <p>There are <b><var>matchingOutcomes</var></b> matching outcomes.</p>
+            <div class="graphie">
+                selectMatching(matchingPairs);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+<div id="d1-or-d2-is-x-six-by-six" data-type="original">
+    <div class="vars">
+        <var id="grid">'six-by-six'</var>
+        <var id="x">randRange(1, 6)</var>
+        <var id="question">'at least one die is ' + x</var>
+        <var id="solutionN,solutionD">[11,36]</var>
+        </var>
+    </div>
+
+    <div class="hints">
+        <p>Remember that both dice can be <var>x</var> ("at least one").</p>
+        <div>
+            <p>There are <b>eleven</b> matching outcomes.</p>
+            <div class="graphie">
+                selectMatching([[x,1],[x,2],[x,3],[x,4],[x,5],[x,6],
+                                [1,x],[2,x],[3,x],[4,x],[5,x],[6,x]]);
+            </div>
+        </div>
+        <p>The probability is <b>matching outcomes / all possible outcomes</b>.</p>
+        <p>The probability is <code><var>fractionReduce(solutionN,solutionD)</var></code>.</p>
+    </div>
+</div>
+
+</div>
+</div>
+</body>
+</html>
