@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html data-require="math math-format interactive polynomials graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Graphing Rational Functions</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+
+    <div class="exercise">
+
+        <div class="problems">
+            <div id="polynomial" data-weight="4">
+                <div class="vars">
+                                       
+                    <var id="ZERO">randRange(-6, 3)</var>
+            		<var id="HOLE">randRange(ZERO+1, 3)</var>
+            		<var id="ASYM">HOLE+1</var>
+            		 
+            		<var id="FACTOR1">new Polynomial(0, 1, [ZERO, 1], "x")</var>
+
+            		<var id= "NUMERATOR">new Polynomial(0, 2, [ZERO*HOLE, ZERO+HOLE, 1], "x")</var>
+            		<var id="NUMERATOR_TEXT">NUMERATOR.text()</var>
+            		       		
+            		<var id= "DENOMINATOR">new Polynomial(0, 2, [HOLE*ASYM, HOLE+ASYM, 1], "x")</var>
+            		<var id="DENOMINATOR_TEXT">DENOMINATOR.text()</var>
+            		       		
+                    <var id="DENOM">new Polynomial(0, 1, [ASYM, 1], "x")</var>                
+                                                            
+                    <var id="FNX">function(x) {return NUMERATOR.evalOf(x)/DENOMINATOR.evalOf(x);}</var>
+                    <var id="FNX_NOHOLE">function(x) {return FACTOR1.evalOf(x)/(DENOM.evalOf(x));}</var>
+                    
+                    <var id="XRANGE">[-10, 10]</var>
+                 	<var id="YRANGE">[-10, 10]</var>
+                    <var id="OPTIONS">{}</var>     
+                </div>
+
+                <div class="question">
+                    <p>
+                    	<code class="hint_blue">h(x) = \dfrac{<var>NUMERATOR_TEXT</var>}{<var>DENOMINATOR_TEXT</var>}</code>
+                    </p>
+                    <p>
+                    	This problem has 3 components.
+                    </p>
+                    <p>	
+                       (1) Find the x-intercept of the function, and drag the <span class="hint_red">red</span> 
+                        point to the x-intercept.
+                    </p>
+                    <p>
+                    	(2) Find the vertical asymptote of the function, and drag the <span class="hint_orange">orange vertical</span>
+                    	line (representing the vertical asymptote) to the correct spot.
+                    </p>
+                    <p>
+                    	(3) Find the hole in the function, and drag the <span class="hint_gray">gray</span>
+                    	point to the correct spot on the graph.
+                    </p>
+                </p>
+                </div>
+
+                <div class="problem">
+                    <div class="graphie" id="rationals">
+                       
+                       initAutoscaledGraph([ XRANGE, YRANGE], OPTIONS);
+
+                        addMouseLayer();
+                        
+            			graph.pointA = addMovablePoint({
+                		coord: [ -8, 8 ],
+                		snapX: 0.5,
+                		snapY: 0.5,
+                		normalStyle: {
+                    		stroke: KhanUtil.RED,
+                    		fill: KhanUtil.RED
+              			  }
+            });
+
+            			graph.pointE = addMovablePoint({
+                		coord: [-7, 8],
+                		snapX: 0.5,
+                		snapY: 0.5,
+                		normalStyle: {
+                    		stroke: KhanUtil.GRAY,
+                    		fill: KhanUtil.GRAY,
+              			  }
+            });
+            			
+            			graph.line1 = addMovableLineSegment({
+            			coordA: [-9, 0],
+            			coordZ: [-9, 1],
+            			snapX: 0.5,
+            			extendLine: true,
+            			normalStyle:{
+            				stroke: KhanUtil.ORANGE,
+            				strokeWidth: 1}
+            			});
+
+            				            
+                    </div>
+                </div>
+
+                <div class="solution" data-type="custom">
+                	<div class="instruction">
+                   		
+                   	Find the x-intercept, the vertical asymptote, and the hole of the function.
+                   	<br>
+                   	<br>
+                   	When you correctly answer the question, click "Show Solution" to see
+                   	a sketch of the graph. 
+
+        	        </div>
+
+                    <div class="guess"> [graph.pointA.coord, graph.line1.coordA, graph.pointE.coord]</div>
+
+
+                    <div class="validator-function">
+                    
+                    if (guess[0][0] == -8 && guess[0][1] == 8 && guess[1][0] == -9 && guess[2][0] == -7 && guess[2][1] == 8){
+                  		return "";}
+                    
+                    part1 = (guess[0][1] == 0 && guess[0][0] == -1*<var>ZERO</var>);                   	                  
+                  	part2 = (guess[1][0] == -1*<var>ASYM</var>);
+                  	part3 = ((guess[2][0] == -1*<var>HOLE</var>) && guess[2][1] == FNX_NOHOLE(-1*<var>HOLE</var>))
+                  	
+                  	help = ""
+                  	
+                  	if (!part1){
+                  		help = help + "The x-intercept is incorrect.";}
+                  	if (!part2){
+                  		help = help + "The asymptote is incorrect.";}
+                  	if (!part3){
+                  		help = help + "The hole is incorrect.";}
+					
+					if (help != ""){
+						return help;}
+						
+                  	return true;
+                
+                    </div>
+                    <div class="show-guess">
+                      
+                    graph.pointA.setCoord(guess0]);
+                    graph.line1.setX(guess[1]);
+                    graph.pointE.setCoord(guess[2])
+					</div>                      
+
+                </div>
+
+                <div class="hints">
+                    <div>
+                        <p>
+                            (1) To find the x-intercepts of the function, you are looking for
+                            the values of x that make the numerator equal to zero, but do NOT make
+                            the denominator equal to zero.
+                        </p>
+                	</div>
+                	
+                	<div>
+                		<p>
+                			(2) To find the vertical asymptotes of the function, you are looking
+                			for the values of x that make the denominator equal to zero, but do
+                			NOT make the numerator equal to zero.
+                		</p>
+                	</div>
+                	<div>
+                		<p>
+                			(3) To find the holes of the function, you are looking for the values
+                			of x that make both the numerator AND the denominator equal to zero.
+                		</p>
+                	</div>
+                	
+                        <div class="graphie" data-update="rationals">
+                            style({
+                            stroke: "#6495ED",
+                            strokeWidth: 3
+                        }, function() {
+                                plot( function( x ) {
+                                    return FNX( x );
+                                }, XRANGE );
+                        }); 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
