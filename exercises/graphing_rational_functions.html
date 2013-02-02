@@ -14,10 +14,20 @@
                 <div class="vars">
                                        
                     <var id="ZERO">randRange(-6, 3)</var>
+                    <var id="NEG_ZERO">ZERO*-1</var>
             		<var id="HOLE">randRange(ZERO+1, 3)</var>
+            		<var id="NEG_HOLE">HOLE*-1</var>
             		<var id="ASYM">HOLE+1</var>
+            		<var id="NEG_ASYM">ASYM*-1</var>
             		 
             		<var id="FACTOR1">new Polynomial(0, 1, [ZERO, 1], "x")</var>
+            		<var id="FACTOR1_TEXT">FACTOR1.text()</var>
+            		
+            		<var id="FACTOR2">new Polynomial(0, 1, [HOLE, 1], "x")</var>
+            		<var id="FACTOR2_TEXT">FACTOR2.text()</var>
+            		
+            		<var id="FACTOR3">new Polynomial(0, 1, [ASYM, 1], "x")</var>
+            		<var id="FACTOR3_TEXT">FACTOR3.text()</var>
 
             		<var id= "NUMERATOR">new Polynomial(0, 2, [ZERO*HOLE, ZERO+HOLE, 1], "x")</var>
             		<var id="NUMERATOR_TEXT">NUMERATOR.text()</var>
@@ -29,6 +39,8 @@
                                                             
                     <var id="FNX">function(x) {return NUMERATOR.evalOf(x)/DENOMINATOR.evalOf(x);}</var>
                     <var id="FNX_NOHOLE">function(x) {return FACTOR1.evalOf(x)/(DENOM.evalOf(x));}</var>
+                    <var id="HOLE_Y">FNX_NOHOLE(-1*HOLE)</var>
+                    
                     
                     <var id="XRANGE">[-10, 10]</var>
                  	<var id="YRANGE">[-10, 10]</var>
@@ -148,26 +160,102 @@
                 <div class="hints">
                     <div>
                         <p>
-                            (1) To find the x-intercepts of the function, you are looking for
-                            the values of x that make the numerator equal to zero, but do NOT make
-                            the denominator equal to zero.
+                            (1) Let's start with the x-intercept.  The x-intercept is the place
+                            where the graph crosses the x-axis.  Therefore the y value of the
+                            point has to be zero.  In other words, the point is (?, 0).
+                            
+                            <br>
+                            <br>
+                            How do we figure out the x coordinate?  Well, we need to figure
+                            out what x would have to be in order to make y -- or
+                            f(x) -- equal to zero.  We could try to guess and check.
+                            For instance, if we try plugging in x = 5, what would y equal?
+                            Well f(5) = <var>FNX_NOHOLE(5)</var>, which is not zero.  But
+                            this isn't very efficient.  So let's try factoring the
+                            numerator.
+                            
+                            <br>
+                            <br>
+                            
+                            When you factor the numerator, you find that <var>NUMERATOR_TEXT</var>
+                            can be rewritten as (<var>FACTOR1_TEXT</var>)(<var>FACTOR2_TEXT</var>). Now
+                            if either (<var>FACTOR1_TEXT</var>) or (<var>FACTOR2_TEXT</var>) equalled
+                            zero, the numerator would equal zero, and this happens when x=<var>NEG_ZERO</var> 
+                            or when x = <var>NEG_HOLE</var>.
+                            
+                            <br>
+                            <br>
+                            
+                            But we have to be careful, and factor the denominator first.  Doing that,
+                            we find that <var>DENOMINATOR_TEXT</var>can be rewritten as (<var>FACTOR3_TEXT</var>)
+                            (<var>FACTOR2_TEXT</var>).  That's interesting, because now the numerator and
+                            the denominator are both zero when x equals <var>NEG_HOLE</var>, making f(x) undefined
+                        	there. We'll put that off momentarily.
+                            
+                            <br>
+                            <br>
+                            
+                            What is clear is that when x equals <var>NEG_ZERO</var>, the numerator 
+                            is equal to zero, but the denominator is not, so f(<var>NEG_ZERO</var>)=0.  That
+                            is exactly what we are looking for!
+                            
                         </p>
                 	</div>
                 	
                 	<div>
                 		<p>
-                			(2) To find the vertical asymptotes of the function, you are looking
-                			for the values of x that make the denominator equal to zero, but do
-                			NOT make the numerator equal to zero.
+                			(2) Now let's look at what happens when x = <var>NEG_ASYM</var>. The denominator
+                			is now equal to zero, but the numerator is not, and so f(x) is undefined
+                			at this x coordinate.  OK.  What about when x is a tiny bit larger than 
+                			<var>NEG_ASYM</var>?  Well the denominator would then be a really really
+                			small positive number.  What would y =?  Well, dividing a positive value
+                			in the numerator by a tiny positive value in the denominator makes y a very
+                			large positive value.  A similar analysis can be done for values of x that are
+                			a tiny bit smaller than <var>NEG_ASYM</var>.  The denominator would be a really
+                			really small negative number, so y would be a really large negative number.
+                			In other words, we have a vertical asymptote at x = <var>NEG_ASYM</var>
                 		</p>
                 	</div>
                 	<div>
                 		<p>
-                			(3) To find the holes of the function, you are looking for the values
-                			of x that make both the numerator AND the denominator equal to zero.
+                			(3) Finally, let's tackle the x value of <var>NEG_HOLE</var>.  First, let's
+                			plug into f(x) any value of x that is not equal to <var>NEG_HOLE</var>.  Say, 
+                			x = 5 again.  Notice how we are plugging 5 into <var>FACTOR2_TEXT</var> both
+                			in the numerator and the denominator.  Those two values will cancel out!
+                			So the y value for f(5) can be found by plugging x=5 into a new function: 
+                			(<var>FACTOR1_TEXT</var>)/(<var>FACTOR3_TEXT</var>).  This function clearly has
+                			one zero and one vertical asymptote.  But f(x) is exactly the same, except
+                			for when x = <var>NEG_HOLE</var>!  So f(x) looks exactly like 
+                			(<var>FACTOR1_TEXT</var>)/(<var>FACTOR3_TEXT</var>) except that there is a hole in 
+                			f(x) where the y value would have been.
+                			
+                			<br>
+                			<br>
+                			How do we find the x and y coordinates of that hole? The x coordinate we know -
+                			it is the x value that is making the numerator and the denominator equal
+                			to zero, which is x = <var>NEG_HOLE</var>.  We can't find the y value
+                			just by plugging <var>NEG_HOLE</var> into f(x), since it is undefined.  But
+                			we can plug <var>NEG_HOLE</var> into our new function (<var>FACTOR1_TEXT</var>)/(<var>FACTOR3_TEXT</var>)
+                			to find where the y value is there.  Plugging that in, we find that the
+                			y value is <var>FNX_NOHOLE(NEG_HOLE)</var>.  But f(x) is identical everywhere
+                			except for at x = <var>NEG_HOLE</var>, so that point in the new function
+                			becomes a hole in f(x).
                 		</p>
                 	</div>
                 	
+                	<div>
+                		<p>
+                		
+                		The graph of the function is shown above.  Here are the key features:
+                		
+                		X-Intercept: (<var>NEG_ZERO</var>, 0)
+                		<br>
+                		Vertical Asymptote: x = <var>NEG_ASYM</var>
+                		<br>
+                		Hole: (<var>NEG_HOLE</var>,<var>HOLE_Y</var>)
+                	
+                		</p>
+                		
                         <div class="graphie" data-update="rationals">
                             style({
                             stroke: "#6495ED",
@@ -178,6 +266,10 @@
                                 }, XRANGE );
                         }); 
                         </div>
+                        
+                      
+                        
+                        
                     </div>
                 </div>
             </div>
