@@ -13,6 +13,25 @@
             <var id="DIM">3</var>
             <var id="MAT">makeMatrix(randRange(-2, 5, DIM, DIM))</var>
             <var id="DET">matrixDet(MAT)</var>
+            <var id="MAT_MINORS">matrixMinors(MAT)</var>
+            <var id="MAT_MINORS_DET">
+                matrixMap(function(input) {
+                return matrixDet(input);
+                }, MAT_MINORS)
+            </var>
+            <var id="MAT_MINORS_DET_SIGNS">
+                matrixMap(function(input,row,elem) {
+                return matrixMinorSigns[row][elem]*input;
+                }, MAT_MINORS_DET)
+            </var>
+            <var id="MAT_MINORS_FORMAT">
+                printSimpleMatrix(matrixMap(function(input)
+                    {return printSimpleMatrixDet(input);},
+                MAT_MINORS))
+            </var>
+            <var id="MAT_ADJ">
+                matrixTranspose(MAT_MINORS_DET_SIGNS)
+            </var>
         </div>
         <var id="SOLN_MAT">matrixInverse(MAT)</var>
         <var id="PADDED_SOLN_MAT">matrixPad(SOLN_MAT, 3, 3)</var>
@@ -63,10 +82,70 @@
             </div>
 
             <div class="hints">
+                <!--makematrix([[a,b,c],[d,e,f],[g,h,i]])-->
                 <div>
-                    <div data-video-hint data-youtube-id="xZBbfLLfVV4, ArcrdMkEmKo"></div>
+                    First, find the matrix of minors by taking the minor of each element.
+                </div>
+                <div style="margin-top:5%;margin-bottom:5%;">
+                    <code><var>
+                        MAT_MINORS_FORMAT
+                    </var></code>
                 </div>
                 <div>
+                    Find the determinant of each matrix.
+                </div>
+                <div>
+                    <code><var>
+                        printSimpleMatrix(MAT_MINORS_DET)
+                    </var></code>
+                </div>
+                <div>
+                    Multiply the signs by the pattern
+                    <code><var>
+                        printSimpleMatrix([["+","-","+"],["-","+","-"],["+","-","+"]])
+                    </var></code>
+                </div>
+                <div>
+                    <code><var>
+                        printSimpleMatrix(MAT_MINORS_DET_SIGNS)
+                    </var></code>
+                </div>
+                <div style="margin-top:5%;margin-bottom:5%;">
+                    To find the adjugate of the original matrix, find the transpose of the matrix of minors by switching the rows to columns.
+                    <code>
+                        <var>printSimpleMatrix([["a","b","c"],["d","e","f"],["g","h","i"]])</var>=
+                        <var>printSimpleMatrix([["a","d","g"],["b","e","h"],["c","f","i"]])</var>
+                    </code>
+                </div>
+                <div>
+                    The adjugate is
+                    <code><var>printSimpleMatrix(MAT_ADJ)</var></code>
+                </div>
+                <div>
+                    Find the determinant of the original matrix.
+                </div>
+                <div>
+                    <code>
+                        <var>printSimpleMatrixDet(MAT)</var>=
+                        <var>DET</var>
+                    </code>
+                </div>
+                <div>
+                    Divide the adjugate by the determinant to get the inverse.
+                </div>
+                <div>
+                    <code>
+                        \frac{1}{<var>DET</var>}*
+                        <var>printSimpleMatrix(MAT_ADJ)</var>
+                    </code>
+                </div>
+                <!--<div>
+                    <code><var>printSimpleMatrix(matrixAdj(MAT))</var></code>
+                </div>
+                <div>
+                    <div data-video-hint data-youtube-id="xZBbfLLfVV4, ArcrdMkEmKo"></div>
+                </div-->
+                <div style="margin-top:5%;">
                     <code><var>PRETTY_MAT_ID</var>^{-1} = <var>PRETTY_SOLN_MAT</var></code>
                 </div>
             </div>
