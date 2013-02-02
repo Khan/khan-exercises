@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie interactive">
     <head>
-        <title>Name of Your Exercise</title>
+        <title>Operations in the Complex Plane</title>
         <script src="../khan-exercise.js"></script>
     </head>
   <body>
@@ -11,10 +11,7 @@
                 <var id="REAL2">randRange(-5,5)</var>
                 <var id="COMPLEX1">randRange(-5,5)</var>
                 <var id="COMPLEX2">randRange(-5,5)</var>
-<!--                 <var id="REAL1">-2</var>
-                <var id="REAL2">3</var>
-                <var id="COMPLEX1">2</var>
-                <var id="COMPLEX2">4</var>         -->        
+
                 <var id="ANSWERADD">[(REAL1+REAL2),(COMPLEX1+COMPLEX2)]</var>
                 <var id="ANSWERSUB">[(REAL1-REAL2),(COMPLEX1-COMPLEX2)]</var>
             </div>
@@ -22,7 +19,6 @@
             <div class="problems">
                 <div id="complex-addition">
                     <p class="question">
-                        <!-- The question to ask the student. -->
                         Drag the orange dot to plot the answer to:
                         <code>(<var>REAL1</var>+<var>COMPLEX1</var>i)+(<var>REAL2</var>+<var>COMPLEX2</var>i)</code>
                     </p>
@@ -39,7 +35,7 @@
                             labelOpacity: 0.5
                         });
 
-                        label( [ 0, 11 ], "y", "above" );
+                        label( [ 0, 11 ], "i", "above" );
                         label( [ 11, 0 ], "x", "right" );
 
                         addMouseLayer();
@@ -55,7 +51,7 @@
                     </div>
                     <div class="solution" data-type="custom">
                         <div class="instruction">
-                            Drag the orange points into the correct position.
+                            Drag the orange point into the correct position.
                         </div>
                         <div class="guess">graph.guessPoint.coord</div>
                         <div class="validator-function">
@@ -95,7 +91,7 @@
                         </div>
                         <div>
                             <p>
-                                Now lets do the same with 
+                                Now let's do the same with 
                                 <code class="hint_red">(<var>REAL2</var> + <var>COMPLEX2</var>i)</code>
                             </p>
                             <div class="graphie" data-update="grid">
@@ -119,7 +115,7 @@
                             </div>
                         </div>
                         <p>
-                            The correct answer will create a line exactly like red one, 
+                            The correct answer will create a line exactly like the red one, 
                             but starting from the blue dot. On the graph it will
                             complete a parallelogram.
                         </p>
@@ -146,7 +142,6 @@
                 </div>
                 <div id="complex-subtraction">
                     <p class="question">
-                        <!-- The question to ask the student. -->
                         Drag the orange dot to plot the answer to:
                         <code>(<var>REAL1</var>+<var>COMPLEX1</var>i)-(<var>REAL2</var>+<var>COMPLEX2</var>i)</code>
                     </p>
@@ -163,7 +158,7 @@
                             labelOpacity: 0.5
                         });
 
-                        label( [ 0, 11 ], "y", "above" );
+                        label( [ 0, 11 ], "i", "above" );
                         label( [ 11, 0 ], "x", "right" );
 
                         addMouseLayer();
@@ -179,7 +174,7 @@
                     </div>
                     <div class="solution" data-type="custom">
                         <div class="instruction">
-                            Drag the orange points into the correct position.
+                            Drag the orange point into the correct position.
                         </div>
                         <div class="guess">graph.guessPoint.coord</div>
                         <div class="validator-function">
@@ -246,7 +241,7 @@
                             </div>
                         </div>
                         <p>
-                            The correct answer will create a line exactly like red one, 
+                            The correct answer will create a line exactly like the red one, 
                             but starting from the blue dot. On the graph it will
                             complete a parallelogram.
                         </p>
