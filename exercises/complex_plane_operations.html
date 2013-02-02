@@ -7,14 +7,22 @@
   <body>
         <div class="exercise">
             <div class="vars">
-                <var id="REAL1">randRange(-5,5)</var>
+<!--                 <var id="REAL1">randRange(-5,5)</var>
                 <var id="REAL2">randRange(-5,5)</var>
                 <var id="COMPLEX1">randRange(-5,5)</var>
-                <var id="COMPLEX2">randRange(-5,5)</var>
-<!--                 <var id="REAL1">-2</var>
-                <var id="REAL2">3</var>
-                <var id="COMPLEX1">2</var>
-                <var id="COMPLEX2">4</var>         -->        
+                <var id="COMPLEX2">randRange(-5,5)</var> -->
+                <var id="REAL1">1</var>
+                <var id="REAL2">-1</var>
+                <var id="COMPLEX1">1</var>
+                <var id="COMPLEX2">1</var>
+
+                <var id="LENGTH1">Math.pow(Math.pow(REAL1,2) + Math.pow(COMPLEX1,2),0.5)</var>
+                <var id="LENGTH1_SANSEXP">Math.pow(REAL1,2) + Math.pow(COMPLEX1,2)</var>
+                <var id="LENGTH2">Math.pow(Math.pow(REAL2,2) + Math.pow(COMPLEX2,2),0.5)</var>
+                <var id="LENGTH2_SANSEXP">Math.pow(REAL2,2) + Math.pow(COMPLEX2,2)</var>
+
+                <var id="LENGTH">LENGTH1*LENGTH2</var>
+
                 <var id="ANSWERADD">[(REAL1+REAL2),(COMPLEX1+COMPLEX2)]</var>
                 <var id="ANSWERSUB">[(REAL1-REAL2),(COMPLEX1-COMPLEX2)]</var>
             </div>
@@ -224,6 +232,154 @@
                                 <code class="hint_red">((0-<var>REAL2</var>)+(0i-<var>COMPLEX2</var>i))
                                     =(<var>0-REAL2</var>+<var>0-COMPLEX2</var>i)
                                 </code> 
+                            </p>
+                            <div class="graphie" data-update="grid">
+                                style({
+                                    fill: KhanUtil.RED,
+                                    stroke: KhanUtil.RED,
+                                    strokeWidth: 3,
+                                }, function() {
+                                    line( [ 0, 0 ], [ 0-REAL2, 0-COMPLEX2 ])
+                                    addMovablePoint({
+                                        coord: [0-REAL2,0-COMPLEX2],
+                                        constraints: {
+                                            fixed: true
+                                        },
+                                        normalStyle: {
+                                            stroke: KhanUtil.RED,
+                                            fill: KhanUtil.RED
+                                        }
+                                    });
+                                });
+                            </div>
+                        </div>
+                        <p>
+                            The correct answer will create a line exactly like red one, 
+                            but starting from the blue dot. On the graph it will
+                            complete a parallelogram.
+                        </p>
+                        <div>
+                            <div>
+                                <code class="hint_blue">(<var>REAL1</var>+<var>COMPLEX1</var>i)</code>
+                                <code>-</code>
+                                <code class="hint_red">(<var>REAL2</var>+<var>COMPLEX2</var>i)</code>
+                                <code>=</code>
+                                <code class="hint_orange">(<var>ANSWERSUB[0]</var>+<var>ANSWERSUB[1]</var>i)</code>
+                            <div class="graphie" data-update="grid">
+                                style({
+                                    fill: KhanUtil.ORANGE,
+                                    stroke: KhanUtil.ORANGE,
+                                    strokeWidth: 3,
+                                }, function() {
+                                    line( [ REAL1, COMPLEX1 ], ANSWERSUB),
+                                    line( [ 0-REAL2, 0-COMPLEX2 ], ANSWERSUB);
+                                });
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="complex-multiplication">
+                    <p class="question">
+                        <!-- The question to ask the student. -->
+                        Drag the orange dot to plot the answer to:
+                        <code>(<var>REAL1</var>+<var>COMPLEX1</var>i)(<var>REAL2</var>+<var>COMPLEX2</var>i)</code>
+                    </p>
+                    <div class="graphie" id="grid">
+                        graphInit({
+                            range: 11,
+                            scale: 20,
+                            axisArrows: "&lt;-&gt;",
+                            tickStep: 1,
+                            labelStep: 1,
+                            gridOpacity: 0.05,
+                            axisOpacity: 0.2,
+                            tickOpacity: 0.4,
+                            labelOpacity: 0.5
+                        });
+
+                        label( [ 0, 11 ], "y", "above" );
+                        label( [ 11, 0 ], "x", "right" );
+
+                        addMouseLayer();
+                        graph.guessPoint = addMovablePoint({
+                            coord: [ 0, 0 ],
+                            snapX: 0.5,
+                            snapY: 0.5,
+                            normalStyle: {
+                                stroke: KhanUtil.ORANGE,
+                                fill: KhanUtil.ORANGE
+                            }
+                        });
+                    </div>
+                    <div class="solution" data-type="custom">
+                        <div class="instruction">
+                            Drag the orange points into the correct position.
+                        </div>
+                        <div class="guess">graph.guessPoint.coord</div>
+                        <div class="validator-function">
+                            if (guess[0] === ANSWERSUB[0] && guess[1] === ANSWERSUB[1]) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        </div>
+                        <div class="show-guess">
+                            graph.guessPoint.setCoord(guess);
+                        </div>
+                    </div>
+                    <div class="hints">
+                        <div>
+                            <p>Let's start by plotting both complex numbers, in this case 
+                                <code class="hint_blue">(<var>REAL1</var>+<var>COMPLEX1</var>i)</code> and
+                                <code class="hint_red">(<var>REAL2</var>+<var>COMPLEX2</var>i)</code>.
+                            </p>
+                            <div class="graphie" data-update="grid">
+                                style({
+                                    fill: KhanUtil.BLUE,
+                                    stroke: KhanUtil.BLUE,
+                                    strokeWidth: 3,
+                                }, function() {
+                                    line( [ 0, 0 ], [ REAL1, COMPLEX1 ])
+                                    addMovablePoint({
+                                        coord: [REAL1,COMPLEX1],
+                                        constraints: {
+                                            fixed: true
+                                        },
+                                        normalStyle: {
+                                            stroke: KhanUtil.BLUE,
+                                            fill: KhanUtil.BLUE
+                                        }
+                                    });
+                                });
+                                style({
+                                    fill: KhanUtil.RED,
+                                    stroke: KhanUtil.RED,
+                                    strokeWidth: 3,
+                                }, function() {
+                                    line( [ 0, 0 ], [ REAL2, COMPLEX2 ])
+                                    addMovablePoint({
+                                        coord: [REAL2,COMPLEX2],
+                                        constraints: {
+                                            fixed: true
+                                        },
+                                        normalStyle: {
+                                            stroke: KhanUtil.RED,
+                                            fill: KhanUtil.RED
+                                        }
+                                    });
+                                });
+                            </div>
+                        </div>
+                        <div>
+                            <p>
+                                Now we need to find the length of each of those lines. We do this using 
+                                <code>r=(x^2+y^2)^{0.5}</code></p>
+                                <p><code class="hint_red">(<var>REAL1</var>^2+<var>COMPLEX1</var>^2)^{0.5}</code><code>=<var>LENGTH1_SANSEXP</var>^{0.5}</code><br>
+                                <code class="hint_blue">(<var>REAL2</var>^2+<var>COMPLEX2</var>^2)^{0.5}</code><code>=<var>LENGTH2_SANSEXP</var>^{0.5}</code></p>
+
+                                We now know that our answer is going to lie <code><var>LENGTH1_SANSEXP</var>^{0.5}</code> + <code>=<var>LENGTH2_SANSEXP</var>^{0.5}</code><code> = <var>LENGTH</var></code> </p>
                             </p>
                             <div class="graphie" data-update="grid">
                                 style({
