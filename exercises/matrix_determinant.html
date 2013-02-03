@@ -40,8 +40,22 @@
             <div class="vars" data-apply="prependVars">
                 <var id="DIM">2</var>
             </div>
-            <div class="hints" data-apply="prependContents">
+            <!--<div class="hints" data-apply="prependContents">
                 <div data-video-hint data-youtube-id="OU9sWHk_dlw"></div>
+            </div>-->
+            <div class="hints" data-apply="prependContents">
+                <div>
+                    The determinant of a 2x2 matrix <code><var>
+                    printSimpleMatrix([["a","b"],["c","d"]])</var></code>
+                    is <code>a*d-c*b</code>
+                </div>
+                <div>
+                    <code>
+                        <var>printSimpleMatrixDet(MAT)</var>=
+                        <var>MAT[0][0]</var>*<var>MAT[1][1]</var>-
+                        <var>MAT[1][0]</var>*<var>MAT[0][1]</var>
+                    </code>
+                </div>
             </div>
         </div>
 
