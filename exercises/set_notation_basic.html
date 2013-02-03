@@ -10,9 +10,9 @@
                 <var id="A">randRangeUnique( 1, 15, randRange(2,5))</var>
                 <var id="B">randRangeUnique( 1, 15, randRange(2,5))</var>
                 <div data-ensure="C !== D">
-                <var id="C">randRangeUnique( 1, 10, randRange(2,5))</var>
-                <var id="D">randRangeUnique( 1, 10, randRange(2,5))</var>
-                
+                    <var id="C">randRangeUnique( 1, 10, randRange(2,5))</var>
+                    <var id="D">randRangeUnique( 1, 10, randRange(2,5))</var>
+                </div>
                 <var id="UNION">sortNumbers(_.union(A,B))</var>
                 <div data-ensure="DIFFERENCE.length !== 0">
                     <var id="DIFFERENCE">sortNumbers(_.difference(C,D))</var>
