@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Electric potential and direction of the electric field</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        var point1Style = {
+            color : "#6495ED",
+            stroke : "#6495ED",
+            fill : "#6495ED"
+        };
+        var point2Style = {
+            color : "#28AE7B",
+            stroke : "#28AE7B",
+            fill : "#28AE7B",
+            strokeWidth: 1.5
+        };
+        var point3Style = {
+            color : "#F8AE7B",
+            stroke : "#F8AE7B",
+            fill : "#F8AE7B",
+            strokeWidth: 1.5
+        };
+        var midPtStyle = {
+            color : "#FFA500",
+            stroke : "#FFA500",
+            fill : "#FFA500",
+            strokeWidth: 1.5
+        };
+    </script>
+    <style type="text/css">
+        #answer_area input[type=text] {
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars" data-ensure="abs(X1 - X2) > 2 && abs(Y1 - Y2) > 2">
+            <var id="X1">randRange( 1, 8 )</var>
+            <var id="X2">randRange( 1, 8 )</var>
+            <var id="Y1">randRange( 2, 9 )</var>
+            <var id="Y2">randRange( 2, 9 )</var>
+			<var id="Charge1">randRangeNonZero(-2, 2)</var>
+			<var id="Charge2">randRangeNonZero(-2, 2)</var>
+            <var id="TX">2</var>
+            <var id="TY">2</var>
+
+			<var id="fnc">function(x, y) {
+						return Charge1/Math.pow(Math.pow(x-X1, 2) + Math.pow(y-Y1, 2), 0.5) +
+							Charge2/Math.pow(Math.pow(x-X2, 2) + Math.pow(y-Y2, 2), 0.5);}</var>
+
+			<var id="dx">0.001</var>
+			<var id="dy">0.001</var>
+			<var id="derivX">(fnc(2 + dx, 2) - fnc(2, 2))/dx</var>
+			<var id="derivY">(fnc(2, 2 + dy) - fnc(2, 2))/dy</var>
+			<var id="tempAngle">Math.atan2(-derivX, -derivY)</var>
+        </div>
+
+        <div class="problems">
+            <div id="find-midpoint">
+				<p class="problem">At <span class="hint_blue"><code>(<var>X1</var>, <var>Y1</var>)</code></span> is a particle with charge <var>Charge1</var>
+						and at <span class="hint_green"><code>(<var>X2</var>, <var>Y2</var>)</code></span> is a particle with charge <var>Charge2</var>.</p>
+				<p>Contour lines of the potential are shown.</p>
+                <p class="question">Point the arrow in direction of the electrical field.</p>
+
+                <div class="graphie" id="graph">
+					interpolatedZero = function(f1, f2)
+					{
+						if(abs(f1 - f2) &lt; 0.001)
+						{
+							return 1;
+						}
+						return (-f2 / (f1 - f2));
+					}
+
+					locateZero = function(f1, f2, pos1x, pos1y, pos2x, pos2y)
+					{
+						var a = interpolatedZero(f1, f2);
+						var pt = [a*pos1x+(1-a)*pos2x, a*pos1y+(1-a)*pos2y];
+						return pt;
+					}
+
+					drawContourInTriangle = function(ffnc, level, x, y, stepsize)
+					{
+						level = level + 0.000000001;
+						var dx = stepsize / 2;
+						var dy = stepsize / 2;
+						var x1 = x;
+						var x2 = x + 2*dx;
+						var x3 = x;
+						var y1 = y;
+						var y2 = y;
+						var y3 = y + 2*dy;
+
+						f1 = ffnc(x1, y1) - level;
+						f2 = ffnc(x2, y2) - level;
+						f3 = ffnc(x3, y3) - level;
+						var pt12 = locateZero(f1, f2, x1, y1, x2, y2);
+						var pt13 = locateZero(f1, f3, x1, y1, x3, y3);
+						var pt23 = locateZero(f2, f3, x2, y2, x3, y3);
+						//if(f1 &lt; 0 && f2 &lt; 0 && f3 &lt; 0)
+	                	//    line(pt12, pt23);
+						if(f1 &lt; 0 && f2 &lt; 0 && f3 &gt; 0)
+	                	    line(pt13, pt23);
+						if(f1 &lt; 0 && f2 &gt; 0 && f3 &lt; 0)
+	                	    line(pt12, pt23);
+						if(f1 &lt; 0 && f2 &gt; 0 && f3 &gt; 0)
+	                	    line(pt12, pt13);
+						if(f1 &gt; 0 && f2 &lt; 0 && f3 &lt; 0)
+	                	    line(pt12, pt13);
+						if(f1 &gt; 0 && f2 &lt; 0 && f3 &gt; 0)
+	                	    line(pt12, pt23);
+						if(f1 &gt; 0 && f2 &gt; 0 && f3 &lt; 0)
+	                	    line(pt13, pt23);
+						//if(f1 &gt; 0 && f2 &gt; 0 && f3 &gt; 0)
+	                	//    line(pt12, pt23);
+					
+						x1 = x + 2*dx;
+						x2 = x + 2*dx;
+						x3 = x;
+						y1 = y + 2*dy;
+						y2 = y;
+						y3 = y + 2*dy;
+
+						f1 = ffnc(x1, y1) - level;
+						f2 = ffnc(x2, y2) - level;
+						f3 = ffnc(x3, y3) - level;
+						pt12 = locateZero(f1, f2, x1, y1, x2, y2);
+						pt13 = locateZero(f1, f3, x1, y1, x3, y3);
+						pt23 = locateZero(f2, f3, x2, y2, x3, y3);
+						//if(f1 &lt; 0 && f2 &lt; 0 && f3 &lt; 0)
+	                	//    line(pt12, pt23);
+						if(f1 &lt; 0 && f2 &lt; 0 && f3 &gt; 0)
+	                	    line(pt13, pt23);
+						if(f1 &lt; 0 && f2 &gt; 0 && f3 &lt; 0)
+	                	    line(pt12, pt23);
+						if(f1 &lt; 0 && f2 &gt; 0 && f3 &gt; 0)
+	                	    line(pt12, pt13);
+						if(f1 &gt; 0 && f2 &lt; 0 && f3 &lt; 0)
+	                	    line(pt12, pt13);
+						if(f1 &gt; 0 && f2 &lt; 0 && f3 &gt; 0)
+	                	    line(pt12, pt23);
+						if(f1 &gt; 0 && f2 &gt; 0 && f3 &lt; 0)
+	                	    line(pt13, pt23);
+						//if(f1 &gt; 0 && f2 &gt; 0 && f3 &gt; 0)
+	                	//    line(pt12, pt23);
+					}
+						
+					drawContours = function(ffnc, threshold, xlow, xhigh, ylow, yhigh, stepsize)
+					{
+						for(var xx = xlow; xx &lt;= xhigh; xx += stepsize)
+						{
+							for(var yy = 0; yy &lt;= 10; yy += stepsize)
+							{
+								drawContourInTriangle(fnc, threshold, xx, yy, stepsize);
+							}
+						}
+					}
+
+
+                    graphInit({
+                        range: [[0, 10], [0, 10]],
+                        scale: 20,
+                        tickStep: 10,
+                        labelStep: 5,
+                        unityLabels: false,
+                        axisArrows: "<->",
+                    });
+
+
+
+					var testpointvalue = fnc(2, 2);
+
+	        		style({stroke : "#000000", strokeWidth: 1.0});
+					for(var level = testpointvalue - 1; level &lt; testpointvalue + 1; level += 0.2)
+					{
+						drawContours(fnc, level, 0, 10, 0, 10, 0.25);
+					}
+
+					label( [X1, Y1], Charge1);
+					label( [X2, Y2], Charge2);
+
+					addMouseLayer();
+
+					graph.point1 = addMovablePoint({
+						coord: [ TX, TY ],
+						visible: false
+					});
+
+					graph.point2 = addMovablePoint({
+						coord: [ TX + 4, TY ]
+					});
+
+					graph.point2.constraints.fixedDistance = {
+						dist: 2,
+						point: graph.point1
+					};
+					graph.point2.onMove = function(x, y)
+					{
+						guess = Math.atan2(x - TX, y - TY)
+	                    if(abs(guess - tempAngle) &lt; 0.10) // Correct solution is found, line up.
+						{
+							return [TX + 2*sin(tempAngle), TY + 2*cos(tempAngle)];
+						}
+						return [x, y];
+					}
+
+					graph.line1 = addMovableLineSegment({
+						pointA: graph.point1,
+						pointZ: graph.point2,
+						fixed: true
+					});
+					</div>
+
+
+	            <div class="solution" data-type="custom">
+	                <div class="guess">
+						Math.atan2(graph.point2.coord[0] - TX, graph.point2.coord[1] - TY)
+	                </div>
+	                <div class="validator-function">
+						if(abs(graph.point2.coord[0] - TX - 4) &lt; 0.1) // Point has not been moved at all
+						{
+							return "";	
+						}
+	                    return abs(guess - tempAngle) &lt; 0.10;
+	                </div>
+	                <div class="show-guess">
+						graph.point2.setCoord([TX + 2*sin(guess), TY + 2*cos(guess)]);
+						graph.line1.transform(true);
+	                </div>
+	            </div>
+
+                <div class="hints">
+					<p>The field is directed towards negative charges and away from positive charges.</p>
+					<p>The field is always perpendicular to the contour lines.</p>
+                	<div class="graphie" data-update="graph">
+						graph.point2.setCoord([TX + 2*sin(tempAngle), TY + 2*cos(tempAngle)]);
+						graph.line1.transform(true);
+                	</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
