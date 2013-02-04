@@ -34,8 +34,8 @@
                 <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
                 <p>Because we are looking for <code><var>personVar(1)</var></code>, it might be easiest to solve our first equation for <code><var>personVar(2)</var></code> and substitute it into our second equation.</p>
                 <p>Solving our first equation for <code><var>personVar(2)</var></code>, we get: <code><var>personVar(2)</var> = <var>personVar(1)</var> - <var>A</var></code>. Substituting this into our second equation, we get: <code><var>personVar(1)</var> - <var>B</var> = <var>C</var>( (<var>personVar(1)</var> - <var>A</var>) - <var>B</var>)</code></p>
-                <p>Simplifying the right side of this equation, we get: <code><var>personVar(1)</var> - <var>B</var> = <var>C</var> <var>personVar(1)</var> - <var>C * (A + B)</var></code></p>
-                <p>Solve for <code><var>personVar(1)</var></code> to get <code><var>C - 1</var> <var>personVar(1)</var> = <var>C * (A + B) - B</var></code>.</p>
+                <p>Simplifying the right side of this equation, we get: <code><var>personVar(1)</var> - <var>B</var> = <var>C</var><var>personVar(1)</var> - <var>C * (A + B)</var></code></p>
+                <p>Solving for <code><var>personVar(1)</var></code> we get <code><var>C - 1</var> <var>personVar(1)</var> = <var>C * (A + B) - B</var></code>.</p>
 				<p><code><var>personVar(1)</var> = <var>(C * (B + A) - B) / (C - 1)</var></code>.</p>
             </div>
         </div>
@@ -60,7 +60,7 @@
                 <p>Because we are looking for <code><var>personVar(2)</var></code>, it might be easiest to use our first equation for <code><var>personVar(1)</var></code> and substitute it into our second equation.</p>
                 <p>Our first equation is: <code><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code>. Substituting this into our second equation, we get: <code>(<var>personVar(2)</var> + <var>A</var>) - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code></p>
                 <p>Simplifying both sides of this equation, we get: <code><var>personVar(2)</var> + <var>A - B</var> = <var>C</var> <var>personVar(2)</var> - <var>C * B</var></code></p>
-                <p>Solve for <code><var>personVar(2)</var></code> to get <code><var>C - 1</var> <var>personVar(2)</var> = <var>A - B + C * B</var></code>.</p>
+                <p>Solving for <code><var>personVar(2)</var></code> we get <code><var>C - 1</var> <var>personVar(2)</var> = <var>A - B + C * B</var></code>.</p>
 				<p><code><var>personVar(2)</var> = <var>(A - B + C * B) / (C - 1)</var></code>.</p>
             </div>
         </div>
@@ -81,11 +81,13 @@
             <div class="solution"><var>A * C / (C - 1)</var></div>
 
             <div class="hints">
-                <p>Let <var>person(1)</var>'s age be <code><var>personVar(1)</var></code>.</p>
-                <p>We know <var>person(2)</var> is <code>1/<var>C</var></code> as old as <var>person(1)</var>, so <var>person(2)</var>'s age can be written as <code><var>personVar(1)</var> / <var>C</var></code>.</p>
-                <p><var>His(2)</var> age can also be written as <code><var>personVar(1)</var> - <var>A</var></code>.</p>
-                <p>Set the two expressions for <var>person(2)</var>'s age equal to each other: <code><var>personVar(1)</var> / <var>C</var> = <var>personVar(1)</var> - <var>A</var></code>.</p>
-                <p>Multiply both sides by <code><var>C</var></code> to get <code><var>personVar(1)</var> = <var>C</var> <var>personVar(1)</var> - <var>A * C</var></code>.</p>
+                <p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
+                <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
+                <p>The given information can be written as two independent equations: <code><var>personVar(1)</var> = <var>C</var><var>personVar(2)</var></code> and <code><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code>. </p>
+                <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
+                <p>One way to solve for <code><var>personVar(1)</var></code> is to solve the second equation for <code><var>personVar(2)</var></code> and substitute that value into the first equation.</p>
+                <p>Solving our second equation for <code><var>personVar(2)</var></code>, we get: <code><var>personVar(2)</var> = <var>personVar(1)</var> - <var>A</var></code>. Substituting this into our first equation, we get: <code><var>personVar(1)</var> = <var>C</var>(<var>personVar(1)</var> - <var>A</var>)</code></p>
+                <p>Simplifying the right side of this equation, we get: <code><var>personVar(1)</var> = <var>C</var><var>personVar(1)</var> - <var>C * A</var></code></p>
                 <p>Solve for <code><var>personVar(1)</var></code> to get <code><var>C - 1</var> <var>personVar(1)</var> = <var>A * C</var></code>.</p>
 				<p><code><var>personVar(1)</var> = <var>A * C / (C - 1)</var></code>.</p>
             </div>
