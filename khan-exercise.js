@@ -2066,8 +2066,8 @@ var Khan = (function() {
                 // Custom stack ID if it exists
                 custom_stack_id: !testMode && Exercises.completeStack.getCustomStackID(),
 
-                // The domain of the assessment engine model, eg. fractions
-                domain: !testMode && Exercises.domain
+                // The user assessment key if in assessmentMode
+                user_assessment_key: !testMode && Exercises.userAssessmentKey
             };
         }
 
