@@ -348,7 +348,16 @@ $.fn.tmplCleanup = function() {
             } else {
                 KhanUtil.debugLog("no source element");
             }
-            jax.Remove();
+
+            if (e.previousSibling && e.previousSibling.className) {
+                jax.Remove();
+            } else {
+                // MathJax chokes if e.previousSibling is a text node, which it
+                // is if tmplCleanup is called before MathJax's typesetting
+                // finishes
+                KhanUtil.debugLog("previousSibling isn't an element");
+            }
+
             KhanUtil.debugLog("removed!");
         }
     });
