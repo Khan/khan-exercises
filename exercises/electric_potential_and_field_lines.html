@@ -44,8 +44,8 @@
             <var id="Y2">randRange( 2, 9 )</var>
 			<var id="Charge1">randRangeNonZero(-2, 2)</var>
 			<var id="Charge2">randRangeNonZero(-2, 2)</var>
-            <var id="TX">2</var>
-            <var id="TY">2</var>
+            <var id="TX">randRangeExclude(3, 7, [X1, X2])</var>
+            <var id="TY">randRangeExclude(3, 7, [Y1, Y2])</var>
 
 			<var id="fnc">function(x, y) {
 						return Charge1/Math.pow(Math.pow(x-X1, 2) + Math.pow(y-Y1, 2), 0.5) +
@@ -53,8 +53,8 @@
 
 			<var id="dx">0.001</var>
 			<var id="dy">0.001</var>
-			<var id="derivX">(fnc(2 + dx, 2) - fnc(2, 2))/dx</var>
-			<var id="derivY">(fnc(2, 2 + dy) - fnc(2, 2))/dy</var>
+			<var id="derivX">(fnc(TX + dx, TY) - fnc(TX, TY))/dx</var>
+			<var id="derivY">(fnc(TX, TY + dy) - fnc(TX, TY))/dy</var>
 			<var id="tempAngle">Math.atan2(-derivX, -derivY)</var>
         </div>
 
@@ -171,7 +171,7 @@
 
 
 
-					var testpointvalue = fnc(2, 2);
+					var testpointvalue = fnc(TX, TY);
 
 	        		style({stroke : "#000000", strokeWidth: 1.0});
 					for(var level = testpointvalue - 1; level &lt; testpointvalue + 1; level += 0.2)
@@ -190,7 +190,7 @@
 					});
 
 					graph.point2 = addMovablePoint({
-						coord: [ TX + 4, TY ]
+						coord: [ TX + 2.5, TY ]
 					});
 
 					graph.point2.constraints.fixedDistance = {
