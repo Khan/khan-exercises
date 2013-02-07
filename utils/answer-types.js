@@ -745,7 +745,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 },
                 solution: (function() {
                     // Retrieve each of the solutions from the answerDatas
-                    $.map(answerDataArray, function(answerData) {
+                    return $.map(answerDataArray, function(answerData) {
                         return answerData.solution;
                     });
                 })(),
