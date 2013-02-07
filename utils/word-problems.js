@@ -7,6 +7,7 @@
 // but not across them.
 
 $.extend(KhanUtil, {
+    // TODO(jeresig): i18n: Figure out how this should be converted
     toSentence: function(array, conjunction) {
         if (conjunction == null) {
             conjunction = "and";
@@ -37,112 +38,219 @@ $.extend(KhanUtil, {
         return str.charAt(0).toUpperCase() + str.slice(1);
     },
 
-    // pluralization helper.  There are five signatures
-    // - plural(NUMBER): return "s" if NUMBER is not 1
+    // NOTE(jeresig): If you want to pluralize a word you must add it here!
+    // Look-up table of plural word translations culled from exercise files
+    // Makes it possible to actually extract these words for i18n
+    plurals: {
+        "badge": function(num) {
+            return: $.ngettext("badge", "badges", num);
+        },
+        "basket": function(num) {
+            return: $.ngettext("basket", "baskets", num);
+        },
+        "block": function(num) {
+            return: $.ngettext("block", "blocks", num);
+        },
+        "blue dot": function(num) {
+            return: $.ngettext("blue dot", "blue dots", num);
+        },
+        "car": function(num) {
+            return: $.ngettext("car", "cars", num);
+        },
+        "chocolate chip cookie": function(num) {
+            return: $.ngettext("chocolate chip cookie",
+                "chocolate chip cookies", num);
+        },
+        "circle": function(num) {
+            return: $.ngettext("circle", "circles", num);
+        },
+        "cup": function(num) {
+            return: $.ngettext("cup", "cups", num);
+        },
+        "dollar": function(num) {
+            return: $.ngettext("dollar", "dollars", num);
+        },
+        "dot": function(num) {
+            return: $.ngettext("dot", "dots", num);
+        },
+        "foot": function(num) {
+            return: $.ngettext("foot", "feet", num);
+        },
+        "fourth": function(num) {
+            return: $.ngettext("fourth", "fourths", num);
+        },
+        "full symbol": function(num) {
+            return: $.ngettext("full symbol", "full symbols", num);
+        },
+        "green dot": function(num) {
+            return: $.ngettext("green dot", "green dots", num);
+        },
+        "hour": function(num) {
+            return: $.ngettext("hour", "hours", num);
+        },
+        "house point": function(num) {
+            return: $.ngettext("house point", "house points", num);
+        },
+        "hundred": function(num) {
+            // I18N: As in the HUNDREDS position of a number
+            return: $.ngettext("hundred", "hundreds", num);
+        },
+        "hundredth": function(num) {
+            // I18N: As in the HUNDREDTHS position of a number
+            return: $.ngettext("hundredth", "hundredths", num);
+        },
+        // TODO(jeresig): i18n: This may be a bad thing to pluralize
+        "is": function(num) {
+            return: $.ngettext("is", "are", num);
+        },
+        "loaf": function(num) {
+            return: $.ngettext("loaf", "loaves", num);
+        },
+        "long-distance runner": function(num) {
+            return: $.ngettext("long-distance runner",
+                "long-distance runners", num);
+        },
+        "molecule": function(num) {
+            return: $.ngettext("molecule", "molecules", num);
+        },
+        "number": function(num) {
+            return: $.ngettext("number", "numbers", num);
+        },
+        "oatmeal cookie": function(num) {
+            return: $.ngettext("oatmeal cookie", "oatmeal cookies", num);
+        },
+        "one": function(num) {
+            // I18N: As in the ONES position of a number
+            return: $.ngettext("one", "ones", num);
+        },
+        "outcome": function(num) {
+            return: $.ngettext("outcome", "outcomes", num);
+        },
+        "package": function(num) {
+            return: $.ngettext("package", "packages", num);
+        },
+        "parks": function(num) {
+            // I18N: As in "1 more car parks." vs. "3 more cars park."
+            return: $.ngettext("parks", "park", num);
+        },
+        "person": function(num) {
+            return: $.ngettext("person", "people", num);
+        },
+        "piece": function(num) {
+            return: $.ngettext("piece", "pieces", num);
+        },
+        "place": function(num) {
+            return: $.ngettext("place", "places", num);
+        },
+        "position": function(num) {
+            return: $.ngettext("position", "positions", num);
+        },
+        "potato": function(num) {
+            return: $.ngettext("potato", "potatoes", num);
+        },
+        "row": function(num) {
+            return: $.ngettext("row", "rows", num);
+        },
+        "quiz": function(num) {
+            return: $.ngettext("quiz", "quizzes", num);
+        },
+        "set": function(num) {
+            return: $.ngettext("set", "sets", num);
+        },
+        "shelf": function(num) {
+            return: $.ngettext("shelf", "shelves", num);
+        },
+        "side": function(num) {
+            return: $.ngettext("side", "sides", num);
+        },
+        "slice": function(num) {
+            return: $.ngettext("slice", "slices", num);
+        },
+        "sprinter": function(num) {
+            return: $.ngettext("sprinter", "sprinters", num);
+        },
+        "square foot": function(num) {
+            return: $.ngettext("square foot", "square feet", num);
+        },
+        "standard deviation": function(num) {
+            return: $.ngettext("standard deviation",
+                "standard deviations", num);
+        },
+        "symbol": function(num) {
+            return: $.ngettext("symbol", "symbols", num);
+        },
+        "team": function(num) {
+            return: $.ngettext("team", "teams", num);
+        },
+        "ten": function(num) {
+            // I18N: As in the TENS position of a number
+            return: $.ngettext("ten", "tens", num);
+        },
+        "tenth": function(num) {
+            // I18N: As in the TENTHS position of a number
+            return: $.ngettext("tenth", "tenths", num);
+        },
+        "thousand": function(num) {
+            // I18N: As in the THOUSANDS position of a number
+            return: $.ngettext("thousand", "thousands", num);
+        },
+        "thousandth": function(num) {
+            // I18N: As in the THOUSANDTHS position of a number
+            return: $.ngettext("thousandth", "thousandths", num);
+        },
+        "tick mark": function(num) {
+            return: $.ngettext("tick mark", "tick marks", num);
+        },
+        "time": function(num) {
+            return: $.ngettext("time", "times", num);
+        },
+        "tomato": function(num) {
+            return: $.ngettext("tomato", "tomatoes", num);
+        },
+        "tree": function(num) {
+            return: $.ngettext("tree", "trees", num);
+        },
+        "triangle": function(num) {
+            return: $.ngettext("triangle", "triangles", num);
+        },
+        // TODO(jeresig): i18n: This may be a bad thing to pluralize
+        "was": function(num) {
+            return: $.ngettext("was", "were", num);
+        },
+        "year": function(num) {
+            return: $.ngettext("year", "years", num);
+        }
+    },
+
+    // pluralization helper.  There are three signatures
     // - plural(NUMBER, singular):
     //        - if necessary, magically pluralize <singular>
-    //        - return "NUMBER word"
-    // - plural(NUMBER, singular, plural):
     //        - return "NUMBER word"
     // - plural(singular, NUMBER):
     //        - if necessary, magically pluralize <singular>
     //        - return "word"
-    // - plural(singular, plural, NUMBER):
-    //        - return "word"
     plural: (function() {
-        var oneOffs = {
-            "quiz": "quizzes",
-            "shelf": "shelves",
-            "loaf": "loaves",
-            "potato": "potatoes",
-            "person": "people",
-            "is": "are",
-            "was": "were",
-            "foot": "feet",
-            "square foot": "square feet",
-            "tomato": "tomatoes"
+        var genPlural = function(word, num) {
+            if (word in KhanUtil.plurals) {
+                return KhanUtil.plurals[word](num);
+            }
+
+            // TODO(jeresig): i18n: Eventually remove this?
+            if (typeof console !== "undefined" && console.error) {
+                console.error("Word not in plural dictionary: ", word);
+            }
+
+            return word;
         };
 
-        var pluralizeWord = function(word) {
-
-            // noone really needs extra spaces at the edges, do they?
-            word = $.trim(word);
-
-            // determine if our word is all caps.  If so, we'll need to
-            // re-capitalize at the end
-            var isUpperCase = (word.toUpperCase() === word);
-            var oneOff = oneOffs[word.toLowerCase()];
-            var words = word.split(/\s+/);
-
-            // first handle simple one-offs
-            // ({}).watch is a function in Firefox, blargh
-            if (typeof oneOff === "string") {
-                return oneOff;
-            }
-
-            // multiple words
-            else if (words.length > 1) {
-                // for 3-word phrases where the middle word is 'in' or 'of',
-                // pluralize the first word
-                if (words.length === 3 && /\b(in|of)\b/i.test(words[1])) {
-                    words[0] = KhanUtil.plural(words[0]);
-                }
-
-                // otherwise, just pluraize the last word
-                else {
-                    words[words.length - 1] =
-                        KhanUtil.plural(words[words.length - 1]);
-                }
-
-                return words.join(" ");
-            }
-
-            // single words
-            else {
-                // "-y" => "-ies"
-                if (/[^aeiou]y$/i.test(word)) {
-                    word = word.replace(/y$/i, "ies");
-                }
-
-                // add "es"; things like "fish" => "fishes"
-                else if (/[sxz]$/i.test(word) || /[bcfhjlmnqsvwxyz]h$/.test(word)) {
-                    word += "es";
-                }
-
-                // all the rest, just add "s"
-                else {
-                    word += "s";
-                }
-
-                if (isUpperCase) {
-                    word = word.toUpperCase();
-                }
-                return word;
-            }
-        };
-
-        return function(value, arg1, arg2) {
+        return function(value, arg1) {
             if (typeof value === "number") {
-                var usePlural = (value !== 1);
+                // I18N: This is used to generate the string: NUMBER OBJECT
+                // For example: 5 cats, 1 dog, etc.
+                return $._("%s %s", value, genPlural(arg1, value));
 
-                // if no extra args, just add "s" (if plural)
-                if (arguments.length === 1) {
-                    return usePlural ? "s" : "";
-                }
-
-                if (usePlural) {
-                    arg1 = arg2 || pluralizeWord(arg1);
-                }
-
-                return value + " " + arg1;
             } else if (typeof value === "string") {
-                var plural = pluralizeWord(value);
-                if (typeof arg1 === "string" && arguments.length === 3) {
-                    plural = arg1;
-                    arg1 = arg2;
-                }
-                var usePlural = (arguments.length < 2 || (typeof arg1 === "number" && arg1 !== 1));
-                return usePlural ? plural : value;
+                return genPlural(value, arg1);
             }
         };
     })(),
@@ -197,25 +305,44 @@ $.fn["word-problemsLoad"] = function() {
     };
 
     var names = [
-        ["Ashley", "f"],
-        ["Brandon", "m"],
-        ["Ben", "m"],
-        ["Christopher", "m"],
-        ["Daniel", "m"],
-        ["Emily", "f"],
-        ["Gabriela", "f"],
-        ["Ishaan", "m"],
-        ["Jessica", "f"],
-        ["Kevin", "m"],
-        ["Luis", "m"],
-        ["Michael", "m"],
-        ["Nadia", "f"],
-        ["Omar", "m"],
-        ["Stephanie", "f"],
-        ["Tiffany", "f"],
-        ["Umaima", "f"],
-        ["Vanessa", "f"],
-        ["William", "m"]
+        // I18N: Female name
+        [$._("Ashley"), "f"],
+        // I18N: Male name
+        [$._("Brandon"), "m"],
+        // I18N: Male name
+        [$._("Ben"), "m"],
+        // I18N: Male name
+        [$._("Christopher"), "m"],
+        // I18N: Male name
+        [$._("Daniel"), "m"],
+        // I18N: Female name
+        [$._("Emily"), "f"],
+        // I18N: Female name
+        [$._("Gabriela"), "f"],
+        // I18N: Male name
+        [$._("Ishaan"), "m"],
+        // I18N: Female name
+        [$._("Jessica"), "f"],
+        // I18N: Male name
+        [$._("Kevin"), "m"],
+        // I18N: Male name
+        [$._("Luis"), "m"],
+        // I18N: Male name
+        [$._("Michael"), "m"],
+        // I18N: Female name
+        [$._("Nadia"), "f"],
+        // I18N: Male name
+        [$._("Omar"), "m"],
+        // I18N: Female name
+        [$._("Stephanie"), "f"],
+        // I18N: Female name
+        [$._("Tiffany"), "f"],
+        // I18N: Female name
+        [$._("Umaima"), "f"],
+        // I18N: Female name
+        [$._("Vanessa"), "f"],
+        // I18N: Male name
+        [$._("William"), "m"]
     ];
 
     // We only want one name per letter of the alphabet, so group people with
