@@ -120,6 +120,10 @@ $.extend(KhanUtil, {
             return item;
         }, mat);
     },
+    //prints matrix as determinant, like |matrix| rather than [matrix]
+    printSimpleMatrixDet: function(mat,color) {
+        return KhanUtil.printSimpleMatrix(mat,color).replace("left[","left|").replace("right]","right|");
+    },
 
     /**
      * Format the rows or columns of the given matrix with the colors in the
@@ -209,6 +213,42 @@ $.extend(KhanUtil, {
 
         // add matrix properties to the result
         return KhanUtil.makeMatrix(c);
+    },
+
+    //signs for minors in a matrix
+    matrixMinorSigns: [[1,-1,1],[-1,1,-1],[1,-1,1]],
+    /**
+     * Makes a matrix of minors
+     *
+     * @param m {result of makeMatrix} the matrix
+     */
+     matrixMinors: function(mat) {
+        mat = KhanUtil.makeMatrix(mat);
+        if (!mat.r || !mat.c) {
+            return null;
+        }
+        var rr=KhanUtil.matrixMap(function(input, row, elem) {
+            var r = [];
+            for (var i in mat) {
+                if (i != row) {
+                    var s = [];
+                    var ss = false;
+                    for (var j in mat[i]) {
+                        if (j != elem) {
+                            s.push(mat[i][j]);
+                            ss = true;
+                        }
+                    }
+                    if (ss) {
+                        r.push(s);
+                    }
+                }
+            }
+            //return KhanUtil.matrixMinorSigns[row][elem]+KhanUtil.printSimpleMatrixDet(r);
+            //return KhanUtil.printSimpleMatrixDet(r);
+            return r;
+        }, mat);
+        return rr;
     },
 
     /**
