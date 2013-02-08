@@ -29,21 +29,33 @@
 		<p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
                 <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
                 <div>
-                    <p>The information in the first sentence can be expressed in the following equation: <span class="hint_blue"><code><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code></span>.</p>
+                    <p>The information in the first sentence can be expressed in the following equation:</p>
+                    <div align="center">
+                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code>.</p>
+                    </div>
                     <div class="graphie">
                         $(".first").addClass("hint_blue");
                     </div>
                 </div>
                 <p><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <code><var>personVar(1)</var> - <var>B</var></code> years old, and <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
                 <div>
-                    <p>The information in the second sentence can be expressed in the following equation: <code class="hint_orange"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code>.</p>
+                    <p>The information in the second sentence can be expressed in the following equation:</p>
+                    <div align="center">
+                        <p><code class="hint_orange"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code>.</p>
+                    </div>
                     <div class="graphie">
                         $(".second").addClass("hint_orange");
                     </div>
                 </div>
                 <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
                 <p>Because we are looking for <code><var>personVar(1)</var></code>, it might be easiest to solve our first equation for <code><var>personVar(2)</var></code> and substitute it into our second equation.</p>
-                <p>Solving our first equation for <code><var>personVar(2)</var></code>, we get: <code class="hint_blue"><var>personVar(2)</var> = <var>personVar(1)</var> - <var>A</var></code>. Substituting this into our second equation, we get the equation: </br> <code class="hint_orange"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(</code><code class="hint_blue">(<var>personVar(1)</var> - <var>A</var>)</code></span><code class="hint_orange">- <var>B</var>)</code> </br>which combines the information about <code><var>personVar(1)</var></code> from both of our original equations.</p>
+                <div>
+                    <p>Solving our first equation for <code><var>personVar(2)</var></code>, we get: <code class="hint_blue"><var>personVar(2)</var> = <var>personVar(1)</var> - <var>A</var></code>. Substituting this into our second equation, we get the equation:</p>
+                    <div align="center">
+                        <p><code class="hint_orange"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(</code><code class="hint_blue">(<var>personVar(1)</var> - <var>A</var>)</code></span><code class="hint_orange">- <var>B</var>)</code></p>
+                    </div>
+                    <p>which combines the information about <code><var>personVar(1)</var></code> from both of our original equations.</p>
+                </div>
                 <p>Simplifying the right side of this equation, we get: <code><var>personVar(1)</var> - <var>B</var> = <var>C</var><var>personVar(1)</var> - <var>C * (A + B)</var></code>.</p>
                 <p>Solving for <code><var>personVar(1)</var></code> we get <code><var>C - 1</var> <var>personVar(1)</var> = <var>C * (A + B) - B</var></code>.</p>
 				<p><code><var>personVar(1)</var> = <var>(C * (B + A) - B) / (C - 1)</var></code>.</p>
@@ -64,21 +76,33 @@
                 <p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
                 <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
                 <div>
-                    <p>The information in the first sentence can be expressed in the following equation: <span class="hint_blue"><code><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code></span>.</p>
+                    <p>The information in the first sentence can be expressed in the following equation:</p>
+                    <div align="center">
+                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code>.</p>
+                    </div>
                     <div class="graphie">
                         $(".first").addClass("hint_blue");
                     </div>
                 </div>
                 <p><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <code><var>personVar(1)</var> - <var>B</var></code> years old, and <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
                 <div>
-                    <p>The information in the second sentence can be expressed in the following equation: <code class="hint_orange"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code>.</p>
+                    <p>The information in the second sentence can be expressed in the following equation:</p>
+                    <div align="center">
+                        <p><code class="hint_orange"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code>.</p>
+                    </div>
                     <div class="graphie">
                         $(".second").addClass("hint_orange");
                     </div>
                 </div>
                 <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
                 <p>Because we are looking for <code><var>personVar(2)</var></code>, it might be easiest to use our first equation for <code><var>personVar(1)</var></code> and substitute it into our second equation.</p>
-                <p>Our first equation is: <code class="hint_blue"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code>. Substituting this into our second equation, we get the equation: </br> <code class="hint_blue">(<var>personVar(2)</var> + <var>A</var>)</code><code class="hint_orange"> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code> </br>which combines the information about <code><var>personVar(2)</var></code> from both of our original equations.</p>
+                <div>
+                    <p>Our first equation is: <code class="hint_blue"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code>. Substituting this into our second equation, we get the equation:</p>
+                    <div align="center">
+                        <p><code class="hint_blue">(<var>personVar(2)</var> + <var>A</var>)</code> <code class="hint_orange">-</code> <code class="hint_orange"><var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code></p>
+                    </div>
+                    <p>which combines the information about <code><var>personVar(2)</var></code> from both of our original equations.</p>
+                </div>
                 <p>Simplifying both sides of this equation, we get: <code><var>personVar(2)</var> + <var>A - B</var> = <var>C</var> <var>personVar(2)</var> - <var>C * B</var></code>.</p>
                 <p>Solving for <code><var>personVar(2)</var></code> we get <code><var>C - 1</var> <var>personVar(2)</var> = <var>A - B + C * B</var></code>.</p>
 				<p><code><var>personVar(2)</var> = <var>(A - B + C * B) / (C - 1)</var></code>.</p>
@@ -104,7 +128,12 @@
                 <p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
                 <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
                 <div>
-                    <p>The given information can be written as two independent equations: <code class="hint_blue"><var>personVar(1)</var> = <var>C</var><var>personVar(2)</var></code> and <code class="hint_orange"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code>. </p>
+                    <div align="center">
+                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>C</var><var>personVar(2)</var></code></p>
+                    </div>
+                    <div align="center">
+                        <p><code class="hint_orange"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code>.</p>
+                    </div>
                     <div class="graphie">
                         $(".first").addClass("hint_blue");
                         $(".second").addClass("hint_orange");
@@ -112,9 +141,15 @@
                 </div>
                 <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
                 <p>One way to solve for <code><var>personVar(1)</var></code> is to solve the second equation for <code><var>personVar(2)</var></code> and substitute that value into the first equation.</p>
-                <p>Solving our second equation for <code><var>personVar(2)</var></code>, we get: <code class="hint_orange"><var>personVar(2)</var> = <var>personVar(1)</var> - <var>A</var></code>. Substituting this into our first equation, we get the equation: </br><code class="hint_blue"><var>personVar(1)</var> = <var>C</var></code><code class="hint_orange">(<var>personVar(1)</var> - <var>A</var>)</code></br>which combines the information about <code><var>personVar(1)</var></code> from both of our original equations.</p>
+                <div>
+                    <p>Solving our second equation for <code><var>personVar(2)</var></code>, we get: <code class="hint_orange"><var>personVar(2)</var> = <var>personVar(1)</var> - <var>A</var></code>. Substituting this into our first equation, we get the equation: </p>
+                    <div align="center">
+                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>C</var></code><code class="hint_orange">(<var>personVar(1)</var> - <var>A</var>)</code></p>
+                    </div>
+                    <p>which combines the information about <code><var>personVar(1)</var></code> from both of our original equations.</p>
+                </div>
                 <p>Simplifying the right side of this equation, we get: <code><var>personVar(1)</var> = <var>C</var><var>personVar(1)</var> - <var>C * A</var></code>.</p>
-                <p>Solve for <code><var>personVar(1)</var></code> to get <code><var>C - 1</var> <var>personVar(1)</var> = <var>A * C</var></code>.</p>
+                <p>Solving for <code><var>personVar(1)</var></code>, we get: <code><var>C - 1</var> <var>personVar(1)</var> = <var>A * C</var></code>.</p>
 				<p><code><var>personVar(1)</var> = <var>A * C / (C - 1)</var></code>.</p>
             </div>
         </div>
@@ -133,7 +168,12 @@
                 <p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
                 <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
                 <div>
-                    <p>The given information can be written as two independent equations: <code class="hint_blue"><var>personVar(1)</var> = <var>C</var><var>personVar(2)</var></code> and <code class="hint_orange"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code>. </p>
+                    <div align="center">
+                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>C</var><var>personVar(2)</var></code></p>
+                    </div>
+                    <div align="center">
+                        <p><code class="hint_orange"><var>personVar(1)</var> = <var>personVar(2)</var> + <var>A</var></code>.</p>
+                    </div>
                     <div class="graphie">
                         $(".first").addClass("hint_blue");
                         $(".second").addClass("hint_orange");
@@ -146,9 +186,9 @@
                     <div align="center">
                         <p><code>0 =</code> <code class="hint_blue"><var>C</var><var>personVar(2)</var></code> <code>-</code> <code class="hint_orange"> (<var>personVar(2)</var> + <var>A</var>)</code></p>
                     </div>
-                    <p>which combines the information about <code><var>personVar(1)</var></code> from both of our original equations.</p>
+                    <p>which combines the information about <code><var>personVar(2)</var></code> from both of our original equations.</p>
                 </div>
-                <p>Solve for <code><var>personVar(2)</var></code> to get <code><var>C - 1</var> <var>personVar(2)</var> = <var>A</var></code>.</p>
+                <p>Solving for <code><var>personVar(2)</var></code>, we get: <code><var>C - 1</var> <var>personVar(2)</var> = <var>A</var></code>.</p>
 				<p><code><var>personVar(2)</var> = <var>A / (C - 1)</var></code>.</p>
             </div>
         </div>
@@ -161,7 +201,7 @@
             </div>
 
             <div class="question">
-                <p><var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>. <var>Cardinal(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</p>
+                <p><span class="first"><var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>.</span> <span class="second"><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</span></p>
 
                 <p>How old is <var>person(1)</var> now?</p>
             </div>
@@ -170,21 +210,43 @@
             <div class="hints">
                 <p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
                 <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
-                <p>The information in the first sentence can be expressed in the following equation: <code><var>personVar(1)</var> = <var>A</var><var>personVar(2)</var></code>.</p>
+                <div>
+                    <p>The information in the first sentence can be expressed in the following equation:</p>
+                    <div align="center">
+                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>A</var><var>personVar(2)</var></code>.</p>
+                    </div>
+                    <div class="graphie">
+                        $(".first").addClass("hint_blue");
+                    </div>
+                </div>
                 <p><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <code><var>personVar(1)</var> - <var>B</var></code> years old, and <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
-                <p>The information in the second sentence can be expressed in the following equation: <code><var>personVar(1)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code>.</p>
+                <div>
+                    <p>The information in the second sentence can be expressed in the following equation:</p> 
+                    <div align=center>
+                        <p><code class="hint_orange"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code>.</p>
+                    </div>
+                    <div class="graphie">
+                        $(".second").addClass("hint_orange");
+                    </div>
+                </div>
                 <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
                 <p>Because we are looking for <code><var>personVar(1)</var></code>, it might be easiest to solve our first equation for <code><var>personVar(2)</var></code> and substitute it into our second equation.</p>
-                <p>Solving our first equation for <code><var>personVar(2)</var></code>, we get: <code><var>personVar(2)</var> = <var>personVar(1)</var> / <var>A</var></code>. Substituting this into our second equation, we get: <code><var>personVar(1)</var> - <var>B</var> = <var>C</var>( <var>personVar(1)</var> / <var>A</var> - <var>B</var>)</code>.</p>
+                <div>
+                    <p>Solving our first equation for <code><var>personVar(2)</var></code>, we get: <code class="hint_blue"><var>personVar(2)</var> = <var>personVar(1)</var> / <var>A</var></code>. Substituting this into our second equation, we get: </p>
+                    <div align="center">
+                        <p><code class="hint_orange"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(</code> <code class="hint_blue">(<var>personVar(1)</var> / <var>A</var>)</code> <code class="hint_orange">- <var>B</var>)</code>.</p>
+                    </div>
+                    <p>which combines the information about <code><var>personVar(1)</var></code> from both of our original equations.</p>
+                </div>
                 <p>Simplifying the right side of this equation, we get: <code><var>personVar(1)</var> - <var>B</var> = <var>fractionReduce(C, A)</var> <var>personVar(1)</var> - <var>C * B</var></code>.</p>
-                <p>Solve for <code><var>personVar(1)</var></code> to get <code><var>fractionReduce(C - A, A)</var> <var>personVar(1)</var> = <var>B * (C - 1)</var></code>.</p>
+                <p>Solving for <code><var>personVar(1)</var></code>, we get: <code><var>fractionReduce(C - A, A)</var> <var>personVar(1)</var> = <var>B * (C - 1)</var></code>.</p>
 				<p><code><var>personVar(1)</var> = <var>fractionReduce(A, C - A)</var> \cdot <var>B * (C - 1)</var> = <var>A * B * (C - 1) / (C - A)</var></code>.</p>
             </div>
         </div>
 
         <div id="solve-younger-3" data-type="solve-older-3">
             <div class="question">
-                <p><var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>. <var>Cardinal(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</p>
+                <p><span class="first"><var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>.</span> <span class="second"><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</span></p>
 
                 <p>How old is <var>person(2)</var> now?</p>
             </div>
@@ -193,14 +255,36 @@
             <div class="hints">
                 <p>We can use the given information to write down two equations that describe the ages of <var>person(1)</var> and <var>person(2)</var>.</p>
                 <p>Let <var>person(1)</var>'s current age be <code><var>personVar(1)</var></code> and <var>person(2)</var>'s current age be <code><var>personVar(2)</var></code>.</p>
-                <p>The information in the first sentence can be expressed in the following equation: <code><var>personVar(1)</var> = <var>A</var><var>personVar(2)</var></code>.</p>
+                <div>
+                    <p>The information in the first sentence can be expressed in the following equation:</p>
+                    <div align="center">
+                        <p><code class="hint_blue"><var>personVar(1)</var> = <var>A</var><var>personVar(2)</var></code>.</p>
+                    </div>
+                    <div class="graphie">
+                        $(".first").addClass("hint_blue");
+                    </div>
+                </div>
                 <p><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <code><var>personVar(1)</var> - <var>B</var></code> years old, and <var>person(2)</var> was <code><var>personVar(2)</var> - <var>B</var></code> years old.</p>
-                <p>The information in the second sentence can be expressed in the following equation: <code><var>personVar(1)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code>.</p>
+                <div>
+                    <p>The information in the second sentence can be expressed in the following equation:</p>
+                    <div align="center">
+                        <p><code class="hint_orange"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code>.</p>
+                    </div>
+                    <div class="graphie">
+                        $(".second").addClass("hint_orange");
+                    </div>
+                </div>
                 <p>Now we have two independent equations, and we can solve for our two unknowns.</p>
                 <p>Because we are looking for <code><var>personVar(2)</var></code>, it might be easiest to use our first equation for <code><var>personVar(1)</var></code> and substitute it into our second equation.</p>
-                <p>Our first equation is: <code><var>personVar(1)</var> = <var>A</var><var>personVar(2)</var></code>. Substituting this into our second equation, we get: <code><var>A</var><var>personVar(2)</var> - <var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code>.</p>
+                <div>
+                    <p>Our first equation is: <code class="hint_blue"><var>personVar(1)</var> = <var>A</var><var>personVar(2)</var></code>. Substituting this into our second equation, we get:</p>
+                     <div align="center">
+                        <p><code class="hint_blue"><var>A</var><var>personVar(2)</var></code> <code class="hint_orange">-</code> <code class="hint_orange"><var>B</var> = <var>C</var>(<var>personVar(2)</var> - <var>B</var>)</code>.</p>
+                    </div>
+                    <p>which combines the information about <code><var>personVar(2)</var></code> from both of our original equations.</p>
+                </div>
                 <p>Simplifying the right side of the equation, we get: <code><var>A</var> <var>personVar(2)</var> - <var>B</var> = <var>C</var> <var>personVar(2)</var> - <var>B * C</var></code>.</p>
-                <p>Solve for <code><var>personVar(2)</var></code> to get <code><var>C - A</var> <var>personVar(2)</var> = <var>B * (C - 1)</var>.</code>
+                <p>Solving for <code><var>personVar(2)</var></code>, we get: <code><var>C - A</var> <var>personVar(2)</var> = <var>B * (C - 1)</var>.</code>
 				<p><code><var>personVar(2)</var> = <var>B * (C - 1) / (C - A)</var></code>.</p>
             </div>
         </div>
