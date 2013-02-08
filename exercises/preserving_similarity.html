@@ -5,7 +5,7 @@
     <title>Preserving similarity</title>
     <script src="../khan-exercise.js"></script>
     <!--
-    A prototype exercise on "preserving similarity" [version 2, October 15, 2012]
+    A prototype exercise on "preserving similarity" [version 3, February 8, 2013]
     
     * based on https://trello.com/card/2-preserving-similarity/4d87e664967a0775082939ab/350
     * very much "not production quality"
@@ -19,18 +19,19 @@
       lengths of each side and the angle of each vertex.
     * only the dot/knob of the slider is mouse-sensitive, maybe the whole "track" should be.
     * parts of this ("mini 2d library", the slider) probably duplicate Khan library code...
-    * This should be a multiple problem exercise structure (instead of using CASE below) but
-      I found myself having to dispatch, inside javascript code, on which "problems type" is 
-      currently selected (see CASE below). Is there a way to do that? Or do I need to move 
-      the javascript code into a separate .js file and call it from each of the multiple 
-      problem types?
     -->
     <script type="text/javascript">
         // mini 2d library
         var add2d = function (a, b) {return [a[0]+b[0], a[1]+b[1]];}
         var sub2d = function (a, b) {return [a[0]-b[0], a[1]-b[1]];}
+        var dot2d = function (a, b) {return (a[0]*b[0]) + (a[1]*b[1]);}
         var scale2d = function (s, v) {return [s*v[0], s*v[1]];}
-        var length2d = function (v) {return Math.sqrt((v[0]*v[0]) + (v[1]*v[1]));}
+        var length2d = function (v) {return Math.sqrt(dot2d(v, v));}
+        var normalize2d = function (v) {
+            var d=length2d(v);
+            return (d > 0) ? scale2d(1/d, v) : v;
+        }
+        var normalize2d = function (v) {var d=length2d(v); return (d>0)?scale2d(1/d, v):v;}
         var interpolate = function (alpha, value0, value1) {
             return (value0 + (alpha * (value1 - value0)));
         }
@@ -51,19 +52,19 @@
             return ((longSide/shortSide > 1.2) &&
                     (triangleAreaBySides(side0, side1, side2) > 0.15));
         }
+        // find angle, in degrees, between two vectors defined by three points
+        var vertexAngleDeg = function (v0, v1, v2) {
+            var d0 = normalize2d(sub2d(v1, v0));
+            var d1 = normalize2d(sub2d(v2, v0));
+            var angleInRadians = Math.acos(dot2d(d0, d1));
+            return angleInRadians * 180/Math.PI;
+        }
+        var clip = function (x, min, max) {return (x > max) ? max : ((x < min) ? min : x);}
     </script>
 </head>
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="CASE">randRange(0, 1)</var>
-            <var id="ANSWER">(CASE==0) ? "True" : "False"</var>
-            <var id="QUESTION">(CASE==0) ? 
-                "Take any triangle (A), make a copy (B), then &LT;b&GT;multiply&LT;/b&GT; "+
-                "the length of each side of B by the same number (k). Is A similar to B?" :
-                "Take any triangle (A), make a copy (B), then &LT;b&GT;add&LT;/b&GT; a "+
-                "constant (k) to the length of each side of B. Is A similar to B?"
-            </var>
             <div data-ensure="checkTriangle(LENGTH0, LENGTH1, LENGTH2)">
                 <var id="VERTEX0">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
                 <var id="VERTEX1">[randRange(-50, 50)/100.0, randRange(-50, 50)/100.0]</var>
@@ -74,12 +75,20 @@
             </div>
         </div>
         <div class="problems">
+
+
             <div id="scale_sides">
-                <div class="question"><var>QUESTION</var></div>
-                <div class="solution"><var>ANSWER</var></div>
+                <div class="question">
+                    Given two congruent triangles A and B, then <b>multiply</b> the length of each 
+                    side of B by the same number <em>k</em>.  (To help visualize the result, move 
+                    the orange dot on the slider to adjust <em>k.</em>)  Is A similar to B?
+                </div>
+                <div class="solution">
+                    Yes
+                </div>
                 <ul class="choices" data-category="true">
-                    <li>True</li>
-                    <li>False</li>
+                    <li>Yes</li>
+                    <li>No</li>
                 </ul>
                 <div class="hints">
                     <p>Similar triangles are the same shape,
@@ -87,34 +96,53 @@
                     <p>As you move the slider, do the vertex angles seem to change?
                        Corresponding angles of similar triangles are identical.</p>
                     <p>As you move the slider, do the sides remain parallel?
-                       If so the triangles are probably similar.</p>
+                       If so the triangles are similar.</p>
+                </div>
+                <div class="vars">
+                    <var id="TRIANGLE_ADJUST_TYPE">0</var> <!-- select interactive adjustment of SCALING -->
                 </div>
                 <div class="problem">
-                    <div>(Move the slider's orange dot to help visualize the result.)</div>
                     <div class="graphie">
                         init({ range: [ [ -1, 1 ], [ -1, 1 ] ], scale: 250 });
                         addMouseLayer();
-                        var sliderHeight = 0.9;
-                        var adjust;
                         var v0 = [<var>VERTEX0</var>]; <!-- should these be called a0,a1,a2 ? -->
                         var v1 = [<var>VERTEX1</var>];
                         var v2 = [<var>VERTEX2</var>];
-                        <!-- draw original triangle A -->
-                        style({stroke: "rgb(100,50,100)"});
-                        var triangleA = path([v0, v1, v2, v0]);
+                        var annotationColor = "rgb(127,127,127)";
+                        var colorTriangleA = "rgb(100,50,100)";
+                        var colorTriangleB = "rgb(75,75,150)";
                         <!-- draw slider track and tick mark -->
-                        style({stroke: "rgb(127,127,127)"});
+                        var sliderHeight = 0.9;
+                        style({stroke: annotationColor});
                         path([[-sliderHeight, sliderHeight], [sliderHeight, sliderHeight]]);
                         path([[0, sliderHeight+0.04], [0, sliderHeight-0.04]]);
                         path([[-sliderHeight, sliderHeight+0.04], [-sliderHeight, sliderHeight-0.04]]);
                         path([[sliderHeight, sliderHeight+0.04], [sliderHeight, sliderHeight-0.04]]);
                         var perimeter = LENGTH0 + LENGTH1 + LENGTH2;
                         var center = scale2d(1.0/3.0, add2d(v0, add2d(v1, v2)));
+                        var label0 = label(v0, "", "left", {});
+                        var label1 = label(v1, "", "left", {});
+                        var label2 = label(v2, "", "left", {});
+                        <!-- draw original triangle A -->
+                        style({stroke: colorTriangleA});
+                        var triangleA = path([v0, v1, v2, v0]);
                         var triangleB = path([]);
+                        <!-- draw adjusted triangle B -->
                         var drawTriangleB = function (b0, b1, b2) {
-                            style({stroke: "rgb(75,75,150)"});
+                            style({stroke: colorTriangleB});
                             triangleB.remove();
                             triangleB = path([b0, b1, b2, b0]);
+                            label0 = updatedVertexLabel(label0, b0, b1, b2);
+                            label1 = updatedVertexLabel(label1, b1, b2, b0);
+                            label2 = updatedVertexLabel(label2, b2, b0, b1);
+                        }
+                        <!-- make a new label for a vertex showing its angle in degrees -->
+                        var updatedVertexLabel = function (vertexLabel, b0, b1, b2) {
+                            vertexLabel.remove();
+                            var away = add2d(b0, scale2d(0.1, normalize2d(sub2d(b0, center))));
+                            var angle = vertexAngleDeg(b0, b1, b2);
+                            return label(away, angle.toFixed(1)+"^{\\circ}", "center",
+                                        {labelDistance: 0, color: annotationColor});
                         }
                         <!-- draw animation of scaling side lengths -->
                         var scaleTriangleSides = function (scale) {
@@ -151,21 +179,34 @@
                         var sliderKnob = addMovablePoint({
                             coord: [0, sliderHeight],
                             onMove: function(x, y) {
-                                        var h = x;
-                                        if (x &GT; sliderHeight) h = sliderHeight;
-                                        if (x &LT; -sliderHeight) h = -sliderHeight;
-                                        adjust = (h+sliderHeight)/(2*sliderHeight);
+                                        var h = clip (x, -sliderHeight, sliderHeight);
+                                        var adjust = (h+sliderHeight)/(2*sliderHeight);
                                         sliderKnob.setCoord([h, sliderHeight]);
-                                        if (<var>CASE</var> == 0)
-                                            scaleTriangleSides(interpolate(adjust, 0.2, 1.8));
+                                        if (<var>TRIANGLE_ADJUST_TYPE</var> == 0)
+                                            scaleTriangleSides(interpolate(adjust, 0.1, 1.9));
                                         else
-                                            addToTriangleSides(interpolate(adjust, perimeter*-0.4, perimeter*0.4));
+                                            addToTriangleSides(interpolate(adjust,
+                                                                           perimeter * -0.4,
+                                                                           perimeter * 0.4));
                                         return false;
                                     }
                         });
                     </div>
                 </div>
             </div>
+
+
+            <div id="add_sides" data-type="scale_sides">
+                <div class="question">
+                    Given two congruent triangles A and B, then <b>add</b> a constant 
+                    <em>k</em> to the length of each side of B. (To help visualize the result, 
+                    move the orange dot on the slider to adjust <em>k.</em>) Is A similar to B?
+                </div>
+                <div class="solution">No</div>
+                <div class="vars"><var id="TRIANGLE_ADJUST_TYPE">1</var></div>
+            </div>
+
+
         </div>
     </div>
 </body>
