@@ -369,7 +369,7 @@ var Khan = (function() {
 
             // Base modules required for every problem
             mods.push(
-                    "answer-types", "tmpl", "underscore", "jquery.adhesion",
+                    "answer-types", "tmpl", "jquery.adhesion",
                     "hints", "calculator"
                 );
 
@@ -723,11 +723,13 @@ var Khan = (function() {
     randomSeed = testMode && parseFloat(Khan.query.seed) || userCRC32 ||
             (new Date().getTime() & 0xffffffff);
 
-    // Load in jQuery
-    if (window.jQuery) {
-        onjQueryLoaded();
+    // Load in jQuery and underscore
+    if (testMode) {
+        Khan.loadScript("../jquery.js", function() {
+            Khan.loadScript("../utils/underscore.js", onjQueryLoaded);
+        });
     } else {
-        Khan.loadScript("../jquery.js", onjQueryLoaded);
+        onjQueryLoaded();
     }
         
     function onjQueryLoaded() {
