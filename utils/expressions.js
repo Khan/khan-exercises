@@ -234,6 +234,19 @@ $.extend(KhanUtil, {
             return left + " \\times " + right;
         },
 
+        "dot": function(left, right) {
+            var parenthesizeLeft = !KhanUtil.exprIsShort(left);
+            var parenthesizeRight = !KhanUtil.exprIsShort(right);
+
+            left = KhanUtil.expr(left);
+            right = KhanUtil.expr(right);
+
+            left = parenthesizeLeft ? "(" + left + ")" : left;
+            right = parenthesizeRight ? "(" + right + ")" : right;
+
+            return left + " \\cdot " + right;
+        },
+
         "/": function(num, den) {
             var parenthesizeNum = !KhanUtil.exprIsShort(num);
             var parenthesizeDen = !KhanUtil.exprIsShort(den);

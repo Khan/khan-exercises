@@ -338,6 +338,7 @@ var Khan = (function() {
             "congruency": ["angles", "interactive"],
             "graphie-3d": ["graphie", "matrix"],
             "graphie-geometry": ["graphie", "matrix"],
+            "matrix": ["expressions"],
             "matrix-input": ["jquery.cursor-position"],
             "chemistry": ["jquery-ui"]
         },

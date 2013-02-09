@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math matrix matrix-input">
+<html data-require="math matrix matrix-input subhints">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inverse of a 3x3 matrix</title>
@@ -11,8 +11,32 @@
     <div class="vars">
         <div data-ensure="DET !== 0">
             <var id="DIM">3</var>
-            <var id="MAT">makeMatrix(randRange(-2, 5, DIM, DIM))</var>
+            <var id="HINT_MAT">
+                makeMatrix([["a","b","c"],["d","e","f"],["g","h","i"]])
+            </var>
+            <var id="MAT">makeMatrix(randRange(0, 2, DIM, DIM))</var>
             <var id="DET">matrixDet(MAT)</var>
+            <var id="MAT_MINORS">matrixMinors(MAT)</var>
+            <var id="MAT_MINORS_DET">
+                matrixMap(function(elem) {
+                    return matrixDet(elem);
+                }, MAT_MINORS)
+            </var>
+            <var id="MAT_MINORS_DET_SIGNS">
+                matrixMap(function(elem, row, col) {
+                    var sign = (row + col) % 2 ? -1 : 1;
+                    return sign * elem;
+                }, MAT_MINORS_DET)
+            </var>
+            <var id="MAT_MINORS_FORMAT">
+                printSimpleMatrix(matrixMap(function(elem) {
+                    return printSimpleMatrixDet(elem);
+                },
+                MAT_MINORS))
+            </var>
+            <var id="MAT_ADJ">
+                matrixTranspose(MAT_MINORS_DET_SIGNS)
+            </var>
         </div>
         <var id="SOLN_MAT">matrixInverse(MAT)</var>
         <var id="PADDED_SOLN_MAT">matrixPad(SOLN_MAT, 3, 3)</var>
@@ -41,11 +65,11 @@
                 </p>
             </div>
 
-            <p class="question">
+            <div class="question">
                 <p>
                     What is <code><var>PRETTY_MAT_ID</var>^{-1}</code>?
                 </p>
-            </p>
+            </div>
 
             <div class="solution" data-type="multiple">
                 <div data-each="PADDED_SOLN_MAT as row" class="matrix-row">
@@ -64,10 +88,93 @@
 
             <div class="hints">
                 <div>
-                    <div data-video-hint data-youtube-id="xZBbfLLfVV4, ArcrdMkEmKo"></div>
+                    <p>The inverse of a matrix is equal to the adjugate of the matrix divided by the determinant of the matrix.</p>
+                    <code>
+                        <var>PRETTY_MAT_ID</var>^{-1} = \frac{1}{det(<var>PRETTY_MAT_ID</var>)}adj(<var>PRETTY_MAT_ID</var>)
+                    </code>
                 </div>
                 <div>
-                    <code><var>PRETTY_MAT_ID</var>^{-1} = <var>PRETTY_SOLN_MAT</var></code>
+                    <p><b>Step 1: Find the adjugate</b></p>
+                    <p>First, compute the matrix of minors of <code><var>PRETTY_MAT_ID</var></code>.</p>
+                    <code>
+                        <var>MAT_MINORS_FORMAT</var>
+                    = <var>printSimpleMatrix(MAT_MINORS_DET)</var>
+                    </code>
+                </div>
+                <div>
+                    <p>Next, multiply the elements of the matrix of minors by the following pattern:
+                    </p>
+                    <code><var>
+                        printSimpleMatrix([["+","-","+"],["-","+","-"],["+","-","+"]])
+                    </var></code>
+                    <p>This gives us what is called the matrix of cofactors:</p>
+                    <code>
+                        <var>printSimpleMatrix(MAT_MINORS_DET_SIGNS)</var>
+                    </code>
+                </div>
+                <div>
+                    <p>Next, transpose the matrix of cofactors to get the adjugate.</p>
+                    <code>
+                        adj(<var>PRETTY_MAT_ID</var>) =
+                        <var>printSimpleMatrix(MAT_MINORS_DET_SIGNS)</var>^T =
+                        <var>printSimpleMatrix(MAT_ADJ, KhanUtil.BLUE)</var>
+                    </code>
+                </div>
+                <div>
+                    <p><b>Step 2: Find the determinant</b></p>
+                    <p>Compute the determinant of the original matrix. [<a href="#" class="show-subhint" data-subhint="determinant">Show me how</a>]</p>
+                    <div class="subhint" id="determinant">
+                        <p>The determinant of any 3x3 matrix can be computed the following way:</p>
+                        <p>
+                            <code>
+                                <var>printSimpleMatrixDet(HINT_MAT)</var>
+                                = <var>matrix3x3DetHint(HINT_MAT, true)</var>
+                            </code>
+                        </p>
+                        <p>
+                            <code>
+                                = <var>matrix3x3DetHint(HINT_MAT)</var>
+                            </code>
+                        </p>
+                        <p>In this specific case,</p>
+                        <p>
+                            <code>
+                                <var>printSimpleMatrixDet(MAT)</var>
+                                = <var>matrix3x3DetHint(MAT, true)</var>
+                            </code>
+                        </p>
+                        <p>
+                            <code>
+                                = <var>matrix3x3DetHint(MAT)</var>
+                            </code>
+                        </p>
+                        <p>
+                            <code>
+                                = <var>DET</var>
+                            </code>
+                        </p>
+                    </div>
+                    <p>
+                        <code>
+                            det(<var>PRETTY_MAT_ID</var>) =
+                            <var>printSimpleMatrixDet(MAT)</var>=
+                            <var>expr(["color", KhanUtil.RED, DET])</var>
+                        </code>
+                    </p>
+                </div>
+                <div>
+                    <p><b>Step 3: Put it all together</b></p>
+                    <p>Now that we have both the determinant and the adjugate, we can compute the inverse.</p>
+                    <code>
+                        <var>PRETTY_MAT_ID</var>^{-1} = 
+                        \frac{1}{<var>expr(["color", KhanUtil.RED, DET])</var>}
+                        <var>printSimpleMatrix(MAT_ADJ, KhanUtil.BLUE)</var>
+                    </code>
+                </div>
+                <div>
+                    <p>
+                        <code> = <var>PRETTY_SOLN_MAT</var></code>
+                    </p>
                 </div>
             </div>
         </div>
