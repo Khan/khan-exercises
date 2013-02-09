@@ -9,17 +9,11 @@
             <div class="vars">
                 <var id="A">randRangeUnique( 1, 15, randRange(2,5))</var>
                 <var id="B">randRangeUnique( 1, 15, randRange(2,5))</var>
-                <div data-ensure="C !== D">
-                    <var id="C">randRangeUnique( 1, 10, randRange(2,5))</var>
-                    <var id="D">randRangeUnique( 1, 10, randRange(2,5))</var>
-                </div>
+                <var id="C">randRangeUnique( 1, 10, 5)</var>
+                <var id="D">randRangeUnique( 1, 10, 5)</var>
                 <var id="UNION">sortNumbers(_.union(A,B))</var>
-                <div data-ensure="DIFFERENCE.length !== 0">
-                    <var id="DIFFERENCE">sortNumbers(_.difference(C,D))</var>
-                </div>
-                <div data-ensure="INTERSECTION.length !== 0">
-                    <var id="INTERSECTION">sortNumbers(_.intersection(C,D))</var>
-                </div>
+                <var id="DIFFERENCE">sortNumbers(_.difference(C,D))</var>
+                <var id="INTERSECTION">sortNumbers(_.intersection(A,C))</var>
             </div>
 
             <div class="problems">
@@ -82,13 +76,13 @@
                             return false;
                             }
                         </div>
-                        <div class="guess"> $('#solutionarea input').val() </div>
+                        <div class="guess">$('#solutionarea input').val()</div>
                         <div class="show-guess">$('#solutionarea input').val(guess)</div>
                     </div>
                 </div>
 
                 <div id="set-notation-basic-3">
-                    <p class="problem"><code>X = \{<var>C</var>\}</code><br><code>Y = \{<var>D</var>\}</code></p>
+                    <p class="problem"><code>X = \{<var>A</var>\}</code><br><code>Y = \{<var>C</var>\}</code></p>
                     <p class="question">What is the set <code>X \cap Y</code> ?</p>
                     <div class="hints">
                         <p>Remember that <code>\cap</code> refers to the intersection of sets.</p>
@@ -103,9 +97,6 @@
                             <p><code>\{ </code><input class="text"><code> \}</code></span>
                         </div>
                         <div class="validator-function">
-                            if (guess.length === 0) {
-                                return "";
-                            }
                             var guessArray = guess.replace(/\s/g, "").split(",");
                             if (sortNumbers(guessArray).toString() === INTERSECTION.toString()) {
                                 return true;
@@ -113,7 +104,7 @@
                                 return false;
                             }
                         </div>
-                        <div class="guess">$('#solutionarea input').val() </div>
+                        <div class="guess">$('#solutionarea input').val()</div>
                         <div class="show-guess">$('#solutionarea input').val(guess)</div>
                     </div>
                 </div>
