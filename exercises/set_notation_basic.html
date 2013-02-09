@@ -14,6 +14,7 @@
                 <var id="UNION">sortNumbers(_.union(A,B))</var>
                 <var id="DIFFERENCE">sortNumbers(_.difference(C,D))</var>
                 <var id="INTERSECTION">sortNumbers(_.intersection(A,C))</var>
+                <var id="CDINTERSECTION">sortNumbers(_.intersection(C,D))</var>
             </div>
 
             <div class="problems">
@@ -25,6 +26,8 @@
                     <p class="question">What is the set <code>X \cup Y</code> ?</p>
                     <div class="hints">
                         <p>Remember that <code>\cup</code> refers to the union of sets.</p>
+                        <p>This means a new set which contains all the members of both sets.</p>
+
                         <p>What is <code>\{<var>A</var>\} \cup \{<var>B</var>\}</code> ?</p>
                         <div>
                             <p>Remember that the members of a set must be unique; <em>there can't be duplicates.</em></p>
@@ -57,8 +60,13 @@
                     <p class="question">What is the set <code>X \space \backslash Y</code> ?</p>
                     <div class="hints">
                         <p>Remember that <code>\backslash</code> refers to the difference between sets.</p>
-                        <p>What is <code>\{<var>A</var>\} \backslash \{<var>B</var>\}</code> ?</p>
-                        <p>What members exist in <code>X</code> but aren't in <code>Y</code> ? <em>The order doesn't    matter.</em></p>
+                        <p>What members exist in <code>X</code> but aren't in <code>Y</code> ? <em>The order doesn't matter.</em></p>
+                        <p data-if="CDINTERSECTION.length === 1">
+                            <code><var>CDINTERSECTION</var></code> exists in both <code>X</code> & <code>Y</code>. What is left in <code>X</code>?
+                        </p>
+                        <p data-else>
+                            <code><var>CDINTERSECTION</var></code> exist in both <code>X</code> & <code>Y</code>. What is left in <code>X</code>?
+                        </p>
                         <p><code>X \backslash Y = \{<var>DIFFERENCE</var>\}</code></p>
                     </div>
                     <div class="solution" data-type="custom">
