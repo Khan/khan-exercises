@@ -2068,7 +2068,11 @@ var Khan = (function() {
             // Remove commas left by joining nested arrays in case multiple-answer is nested
 
             if (checkIfAnswerEmpty(guess) || checkIfAnswerEmpty(pass)) {
-                return false;
+                // Ok it's empty, but is it still correct?
+                if (!pass) {
+                    // Nope
+                    return false;
+                }
             } else {
                 guessLog.push(guess);
             }
