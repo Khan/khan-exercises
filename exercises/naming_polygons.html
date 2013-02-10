@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html data-require="math angles graphie graphie-geometry graphie-helpers word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Naming Polygons</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        function levenshteinDistance (s, t) {
+            if (!s.length) return t.length;
+            if (!t.length) return s.length;
+     
+            return Math.min(
+                levenshteinDistance(s.substr(1), t) + 1,
+                levenshteinDistance(t.substr(1), s) + 1,
+                levenshteinDistance(s.substr(1), t.substr(1)) + (s[0] !== t[0] ? 1 : 0)
+            );
+        }
+    </script>
+</head>
+
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div id="all-digits-random" data-weight="2">
+            <div class="vars">
+                <var id="SIDES">randRange(3,8)</var>
+                <var id="ROTATION">randRange(0,360)</var>
+                <var id="WORDS">[null,null,null,["triangle","trigon"],["quadrilateral","quadrangle","tetragon","square"],"pentagon","hexagon","heptagon","octagon"]</var>
+                <var id="ANSWER">WORDS[SIDES]</var>
+                <var id="COLOURS">[KhanUtil.BLUE,null,KhanUtil.GREEN,null,KhanUtil.RED,null,KhanUtil.PURPLE,null,KhanUtil.ORANGE,null,KhanUtil.PINK,null,KhanUtil.GRAY,null,KhanUtil.TEAL]</var>
+            </div>
+            <p class="question">What is the name of the polygon shown below?</p>
+            <div class="graphie" id="polygon">
+                $("#spelling_error").hide();
+                init({
+                    range: [[-5,5],[-5,5]]
+                });
+                graph.polygon = new RegularPolygon( [ 0, 0 ] , SIDES , 3, ROTATION );
+            </div>
+            <div class="solution" data-type="custom">
+            <div class="instruction">
+                <input class="text">
+            </div>
+            <div class="validator-function">
+                if (ANSWER instanceof Array){
+                    for (var i = 0; i &lt; ANSWER.length; i++) {
+                        console.log (levenshteinDistance(ANSWER[i],guess));
+                        if (guess.toLowerCase() === ANSWER[i]) {
+                            return true;
+                        } else if ((levenshteinDistance(ANSWER[i],guess) &lt; 3)) {
+                            return "Close, but check your spelling."
+                        }
+                    }
+                    return false;
+                } else {
+                    if (ANSWER === guess.toLowerCase()) {
+                        return true;
+                    } else if ((levenshteinDistance(ANSWER,guess) &lt; 3)) {
+                            return "Close, but check your spelling." 
+                    } else {
+                        return false;
+                    }
+                }
+            </div>
+            <div class="guess">$('#solutionarea input').val() </div>
+            <div class="show-guess">$('#solutionarea input').val(guess)</div>
+        </div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <p>First, let's count the sides.</p>
+        <div class="graphie" data-update="polygon">
+            for (var i = 0; i &lt; graph.polygon.path.graphiePath.length-1; i++ ) {
+                line( graph.polygon.path.graphiePath[i], graph.polygon.path.graphiePath[i+1],{
+                    stroke: COLOURS[i],
+                    strokeWidth: 3
+                })
+            }
+        </div>
+        <p data-if="ANSWER.constructor == Array">A <var>SIDES</var>-sided polygon can be called a <var>toSentence(ANSWER,"or")</var>.</p>
+        <p data-else>
+            A <var>SIDES</var>-sided polygon is called a <var>ANSWER</var>.
+        </p>
+    </div>
+</div>
+</body>
+</html>
