@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <title>Converting Farenheit to Celcius</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="FARENHEIT"> rand(100) </var>
+                <var id= "DEGREE"> '\xB0' </var>
+                <var id="CELCIUS"> Math.round((FARENHEIT-32) * 5 / 9)</var>
+                <var id="FAR_ID">"\\textbf F"</var>
+                <var id="CEL_ID">"\\textbf C"</var>
+                <var id="RATIO"> fraction(9,5) </var>
+            </div>
+            <p>There is a chemical which is <code><var> FARENHEIT </var><var>DEGREE</var><var>FAR_ID</var></code>. What is its temperature in Celcius? (Round your answer to the nearest whole number)</p>
+            <p class="solution" data-forms="integer"><var>CELCIUS</var></p>
+            <div class="hints">
+                <div>
+                    <p>Remember the formula to convert from Farenheit to Celcius</p>
+                    <p><code><var>FAR_ID</var></code> = <code><var>RATIO</var>*<var>CEL_ID</var>+ 32</code> </p>
+                </div>
+                <div>
+                    <p><code> => <var>FARENHEIT</var><var>DEGREE</var></code> = <code><var>RATIO</var>*<var>CEL_ID</var>+ 32</code> </p>
+                </div>
+                <div>
+                    <p><code> => <var>FARENHEIT-32</var><var>DEGREE</var></code> = <code><var>RATIO</var>*<var>CEL_ID</var></code> </p>
+                </div>
+                <div>
+                    <p><code> => <var>CELCIUS</var><var>DEGREE</var> = </code><code><var>CEL_ID</var></code> </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
