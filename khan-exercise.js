@@ -3100,7 +3100,11 @@ var Khan = (function() {
         $("body").prepend(html);
         $("#container .exercises-header h2").append(document.title);
         $("#container .exercises-body .current-card-contents").html(
-            htmlExercise);
+                htmlExercise);
+
+        // HACK: Make smiley face work on sandcastle
+        $("img[src='/images/face-smiley.png']").attr(
+                "src", "../images/face-smiley.png");
 
         if (Khan.query.layout === "lite") {
             $("html").addClass("lite");
