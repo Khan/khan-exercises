@@ -432,13 +432,15 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 },
 
                 // Decimal numbers -- compare entered text rounded to
-                // 'precision' against the correct answer. We round to 1e-10
-                // by default, which is healthily less than machine epsilon but
-                // should be more than any real decimal answer would use. (The
-                // 'integer' answer type uses precision == 1.)
-                decimal: function(text, precision) {
+                // 'precision' Reciprical of the precision against the correct
+                // answer. We round to 1/1e10 by default, which is healthily
+                // less than machine epsilon but should be more than any real
+                // decimal answer would use. (The 'integer' answer type uses
+                // precision == 1.)
+                // TODO(cbhl): Should precision be a power of two (e.g. 2^10)
+                // by default?
                     if (precision == null) {
-                        precision = 1e-10;
+                        precision = 1e10;
                     }
 
                     var normal = function(text) {
@@ -459,7 +461,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             var x = parseFloat(match[1].replace(/[, ]/g, ""));
 
                             if (options.inexact === undefined) {
-                                x = Math.round(x / precision) * precision;
+                                x = Math.round(x * precision) / precision;
                             }
 
                             return x;
