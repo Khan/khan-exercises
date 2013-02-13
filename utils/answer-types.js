@@ -437,8 +437,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 // less than machine epsilon but should be more than any real
                 // decimal answer would use. (The 'integer' answer type uses
                 // precision == 1.)
-                // TODO(cbhl): Should precision be a power of two (e.g. 2^10)
-                // by default?
+                decimal: function(text, precision) {
                     if (precision == null) {
                         precision = 1e10;
                     }
