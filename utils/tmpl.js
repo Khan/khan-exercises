@@ -223,10 +223,12 @@ $.tmpl = {
                     // Stick the processing request onto the queue
                     if (typeof MathJax !== "undefined") {
                         KhanUtil.debugLog("adding " + text + " to MathJax typeset queue");
-                        MathJax.Hub.Queue(["Typeset", MathJax.Hub, elem]);
-                        MathJax.Hub.Queue(function() {
-                            KhanUtil.debugLog("MathJax done typesetting " + text);
-                        });
+                        setTimeout(function() {
+                            MathJax.Hub.Queue(["Typeset", MathJax.Hub, elem]);
+                            MathJax.Hub.Queue(function() {
+                                KhanUtil.debugLog("MathJax done typesetting " + text);
+                            });
+                        }, 1);
                     } else {
                         KhanUtil.debugLog("not adding " + text + " to queue because MathJax is undefined");
                     }
@@ -348,7 +350,16 @@ $.fn.tmplCleanup = function() {
             } else {
                 KhanUtil.debugLog("no source element");
             }
-            jax.Remove();
+
+            if (e.previousSibling && e.previousSibling.className) {
+                jax.Remove();
+            } else {
+                // MathJax chokes if e.previousSibling is a text node, which it
+                // is if tmplCleanup is called before MathJax's typesetting
+                // finishes
+                KhanUtil.debugLog("previousSibling isn't an element");
+            }
+
             KhanUtil.debugLog("removed!");
         }
     });

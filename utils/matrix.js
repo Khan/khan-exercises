@@ -24,7 +24,7 @@ $.extend(KhanUtil, {
     },
 
     matrixCopy: function(mat) {
-        return jQuery.extend(true, [], mat);
+        return $.extend(true, [], mat);
     },
 
     /**
@@ -122,6 +122,15 @@ $.extend(KhanUtil, {
     },
 
     /**
+     * Prints matrix as determinant, like |matrix| rather than [matrix]
+     */
+    printSimpleMatrixDet: function(mat, color) {
+        return KhanUtil.printSimpleMatrix(mat,color)
+                .replace("left[","left|")
+                .replace("right]","right|");
+    },
+
+    /**
      * Format the rows or columns of the given matrix with the colors in the
      * given colors array, and return the LaTeX code for rendering the matrix.
      *
@@ -185,6 +194,50 @@ $.extend(KhanUtil, {
         return mat;
     },
 
+    // remove specified row and column from the matrix
+    cropMatrix: function(mat, rowIndex, colIndex) {
+        var cropped = KhanUtil.matrixCopy(mat);
+        cropped.splice(rowIndex, 1);
+        _.each(cropped, function(row) {
+            row.splice(colIndex, 1);
+        });
+        return cropped;
+    },
+
+    matrix2x2DetHint: function(mat) {
+        // if terms in the matrix are letters, omit the dot
+        var operator = (typeof mat[0][0] === "string") ? "*" : "dot";
+        var termA = [operator, mat[0][0], mat[1][1]];
+        var termB = [operator, mat[0][1], mat[1][0]];
+        return KhanUtil.expr(["-", termA, termB]);
+    },
+
+    matrix3x3DetHint: function(mat, isIntermediate) {
+        var tex = "";
+
+        // iterate over columns
+        _.times(mat.c, function(j) {
+            var hintMat = KhanUtil.cropMatrix(mat, 0, j);
+
+            var sign = j % 2 ? "-" : "+";
+            sign = j === 0 ? "" : sign;
+
+            var multiplier = mat[0][j];
+
+            var term;
+            if (isIntermediate) {
+                term = KhanUtil.printSimpleMatrixDet(hintMat);
+            } else {
+                term = KhanUtil.matrix2x2DetHint(hintMat);
+                term = KhanUtil.exprParenthesize(term);
+            }
+
+            tex += sign + multiplier + term;
+        });
+
+        return tex;
+    },
+
     // multiply two matrices
     matrixMult: function(a, b) {
         a = KhanUtil.makeMatrix(a);
@@ -209,6 +262,22 @@ $.extend(KhanUtil, {
 
         // add matrix properties to the result
         return KhanUtil.makeMatrix(c);
+    },
+
+    /**
+     * Makes a matrix of minors
+     *
+     * @param m {result of makeMatrix} the matrix
+     */
+    matrixMinors: function(mat) {
+        mat = KhanUtil.makeMatrix(mat);
+        if (!mat.r || !mat.c) {
+            return null;
+        }
+        var rr = KhanUtil.matrixMap(function(input, row, elem) {
+            return KhanUtil.cropMatrix(mat, row, elem);
+        }, mat);
+        return rr;
     },
 
     /**

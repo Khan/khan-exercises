@@ -284,7 +284,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                 // integer, which is encompassed by decimal
                 integer: function(text) {
-                    return forms.decimal(text);
+                    return forms.decimal(text, 1);
                 },
 
                 // A proper fraction
@@ -431,8 +431,17 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     return [];
                 },
 
-                // Decimal numbers
-                decimal: function(text) {
+                // Decimal numbers -- compare entered text rounded to
+                // 'precision' Reciprical of the precision against the correct
+                // answer. We round to 1/1e10 by default, which is healthily
+                // less than machine epsilon but should be more than any real
+                // decimal answer would use. (The 'integer' answer type uses
+                // precision == 1.)
+                decimal: function(text, precision) {
+                    if (precision == null) {
+                        precision = 1e10;
+                    }
+
                     var normal = function(text) {
                         var match = text
 
@@ -451,8 +460,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             var x = parseFloat(match[1].replace(/[, ]/g, ""));
 
                             if (options.inexact === undefined) {
-                                var factor = Math.pow(10, 10);
-                                x = Math.round(x * factor) / factor;
+                                x = Math.round(x * precision) / precision;
                             }
 
                             return x;

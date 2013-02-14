@@ -2,7 +2,7 @@
 <html data-require="math matrix">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Determinant of a 2x2 matrix</title>
+    <title>Determinant of a 3x3 matrix</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -31,18 +31,23 @@
     <div class="problems">
         <div>
             <div class="vars" data-apply="prependVars">
-                <var id="DIM">2</var>
-                <var id="HINT_MAT">makeMatrix([["a","b"],["c","d"]])</var>
+                <var id="DIM">3</var>
+                <var id="HINT_MAT">makeMatrix([["a","b","c"],["d","e","f"],["g","h","i"]])</var>
             </div>
             <div class="hints">
                 <div>
-                    <p>
-                        The determinant of a 2x2 matrix can be computed the following way:
-                    </p>
+                    <p>The determinant of any 3x3 matrix can be computed the following way:</p>
                     <p>
                         <code>
                             <var>printSimpleMatrixDet(HINT_MAT)</var>
-                            = <var>matrix2x2DetHint(HINT_MAT)</var>
+                            = <var>matrix3x3DetHint(HINT_MAT, true)</var>
+                        </code>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <code>
+                            = <var>matrix3x3DetHint(HINT_MAT)</var>
                         </code>
                     </p>
                 </div>
@@ -51,7 +56,14 @@
                     <p>
                         <code>
                             <var>printSimpleMatrixDet(MAT)</var>
-                            = <var>matrix2x2DetHint(MAT)</var>
+                            = <var>matrix3x3DetHint(MAT, true)</var>
+                        </code>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <code>
+                            = <var>matrix3x3DetHint(MAT)</var>
                         </code>
                     </p>
                 </div>

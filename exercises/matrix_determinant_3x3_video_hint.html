@@ -2,7 +2,7 @@
 <html data-require="math matrix">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Determinant of a 2x2 matrix</title>
+    <title>Determinant of a 3x3 matrix</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -31,32 +31,15 @@
     <div class="problems">
         <div>
             <div class="vars" data-apply="prependVars">
-                <var id="DIM">2</var>
-                <var id="HINT_MAT">makeMatrix([["a","b"],["c","d"]])</var>
+                <var id="DIM">3</var>
+                <var id="HINT_MAT">makeMatrix([["a","b","c"],["d","e","f"],["g","h","i"]])</var>
             </div>
             <div class="hints">
-                <div>
-                    <p>
-                        The determinant of a 2x2 matrix can be computed the following way:
-                    </p>
-                    <p>
-                        <code>
-                            <var>printSimpleMatrixDet(HINT_MAT)</var>
-                            = <var>matrix2x2DetHint(HINT_MAT)</var>
-                        </code>
-                    </p>
-                </div>
-                <div>
-                    <p>In this specific case,</p>
-                    <p>
-                        <code>
-                            <var>printSimpleMatrixDet(MAT)</var>
-                            = <var>matrix2x2DetHint(MAT)</var>
-                        </code>
-                    </p>
-                </div>
+                <div data-video-hint data-youtube-id="v4MenooI1J0"></div>
                 <div>
                     <code>
+                        det(<var>PRETTY_MAT_ID</var>)
+                        = <var>printSimpleMatrixDet(MAT)</var>
                         = <var>SOLN</var>
                     </code>
                 </div>
