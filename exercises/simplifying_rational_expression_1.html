@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Simplifying rational expressions 1</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function getExpression( coefficient, degree, vari ) {
+            var expr = "";
+            if (coefficient !== 1 || degree === 0) {
+                expr += coefficient;
+            }
+            if (degree > 1) {
+                expr += vari + " ^ " + degree;
+            } else if (degree === 1) {
+                expr += vari;
+            }
+            return expr
+        }
+
+        function getSolution(c1, c2, x, degree) {
+            var solution = "";
+            if (c1 !== 1) {
+                solution += c1;
+            }
+            if (degree === 0) {
+                solution += x;
+            }
+            if (c2 !== 1) {
+                solution = "\\dfrac{" + solution + "}{" + c2 + "}";
+            }
+            return solution
+        }
+
+        function getSolutionRegex(c1, c2, x, degree) {
+            var regex = '^\\s*';
+            if (c1 !== 1) {
+                regex += c1 + '\\s*';
+            }
+            if (degree === 0) {
+                regex += "[" + x + x.toUpperCase() + "]\\s*";
+            }
+            if (c2 !== 1) {
+                regex += "/\\s*" + c2 + "\\s*";
+            }
+            regex += "$";
+            return regex;
+        }
+    </script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div id="var-on-top">
+            <div class="vars">
+                <var id="X">randVar()</var>
+                <var id="GCD">randRange( 2, 10 )</var>
+                <var id="GCD_FACTORS">getPrimeFactorization( GCD )</var>
+                <var id="MULTIPLEDEGREE">randRange( 1, 4 )</var>
+                <div data-ensure="getGCD(COEFFICIENT1, COEFFICIENT2) === 1">
+                    <var id="COEFFICIENT1">randRange( 1, 12 )</var>
+                    <var id="COEFFICIENT2">randRange( 1, 12 )</var>
+                </div>
+                <var id="DEGREE1">1</var>
+                <var id="DEGREE2">randFromArray( [0, 1] )</var>
+                <var id="POWER1">getExpression(1, DEGREE1 + MULTIPLEDEGREE, X)</var>
+                <var id="POWER2">getExpression(1, DEGREE2 + MULTIPLEDEGREE, X)</var>
+                <var id="NUMERATORCOEFFICIENT">GCD * COEFFICIENT1</var>
+                <var id="DENOMINATORCOEFFICIENT">GCD * COEFFICIENT2</var>
+                <var id="SOLUTION">getSolution(COEFFICIENT1, COEFFICIENT2, X, DEGREE2)</var>
+                <var id="SOLUTIONREGEX">getSolutionRegex(COEFFICIENT1, COEFFICIENT2, X, DEGREE2)</var>
+            </div>
+
+            <p class="problem">Simplify the expression.</p>
+            <p class="question"><code>\dfrac{<var>getExpression(NUMERATORCOEFFICIENT, DEGREE1 + MULTIPLEDEGREE, X)</var>}
+                {<var>getExpression(DENOMINATORCOEFFICIENT, DEGREE2 + MULTIPLEDEGREE, X)</var>}</code></p>
+
+            <div class="solution" data-type="set">
+                <div class="set-sol" data-type="regex"><var>SOLUTIONREGEX</var></div>
+                <div class="input-format"><span class="entry"></span></div>
+                <div class="example">a simplified fraction, like <b>3x/4</b></div>
+            </div>
+
+            <div class="hints">
+                <p>
+                    <code>\dfrac{<var>getExpression(NUMERATORCOEFFICIENT, DEGREE1 + MULTIPLEDEGREE, X)</var>}
+                        {<var>getExpression(DENOMINATORCOEFFICIENT, DEGREE2 + MULTIPLEDEGREE, X)</var>}
+                    = \dfrac{<var>NUMERATORCOEFFICIENT</var>}{<var>DENOMINATORCOEFFICIENT</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}</code>
+                </p>
+
+                <p>What is the greatest common factor (GCD) of <var>NUMERATORCOEFFICIENT</var> and <var>DENOMINATORCOEFFICIENT</var>?</p>
+
+                <p><code><var>NUMERATORCOEFFICIENT</var>   = <var>getPrimeFactorization( NUMERATORCOEFFICIENT ).join( "\\cdot" )</var></code><br />
+                   <code><var>DENOMINATORCOEFFICIENT</var> = <var>getPrimeFactorization( DENOMINATORCOEFFICIENT ).join( "\\cdot" )</var></code></p>
+
+                <p><code>\mbox{GCD}(<var>NUMERATORCOEFFICIENT</var>, <var>DENOMINATORCOEFFICIENT</var>) <span data-if="!isPrime(GCD)"> = <var>GCD_FACTORS.join( "\\cdot" )</var></span> = <var>GCD</var></code></p>
+
+                <p>
+                    <code>\dfrac{<var>NUMERATORCOEFFICIENT</var>}{<var>DENOMINATORCOEFFICIENT</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}
+                    = \dfrac{<var>GCD</var> \cdot <var>COEFFICIENT1</var>}{<var>GCD</var>\cdot <var>COEFFICIENT2</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}</code>
+                </p>
+                <p>
+                    <code>\hphantom{\dfrac{<var>NUMERATORCOEFFICIENT</var>}{<var>DENOMINATORCOEFFICIENT</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}}
+                    = \dfrac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}</code>
+                </p>
+
+                <p>What is <code><var>POWER1</var></code> divided by <code><var>POWER2</var></code>?</p>
+
+                <p><code>\dfrac{<var>POWER1</var>}{<var>POWER2</var>} = <var>getExpression(1, DEGREE1 - DEGREE2, X)</var></code></p>
+
+                <p><code>\dfrac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>} =
+                    \dfrac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>} \cdot <var>getExpression(1, DEGREE1 - DEGREE2, X)</var></code>
+                </p>
+
+                <p><code>\phantom{\dfrac{<var>COEFFICIENT1</var> \cdot <var>POWER1</var>}{<var>COEFFICIENT2</var> \cdot <var>POWER2</var>}} = <var>SOLUTION</var></code></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
