@@ -7,98 +7,149 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="problems">
-        <div>
-            <div class="vars">
-                <div data-ensure="abs(A) !== abs(B)">
-                    <var id="A">randRangeNonZero( -10, 10 )</var>
-                    <var id="B">randRangeNonZero( -10, 10 )</var>
-                </div>
-                <var id="SQUARE">1</var>
-                <var id="CONSTANT">SQUARE*A*B</var>
-                <var id="SIMPLECONSTANT">A*B</var>
-                <var id="LINEAR">SQUARE*(-A-B)</var>
-                <var id="SIMPLELINEAR">-A-B</var>
-            </div>
+        <div class="problems">
 
-            <p class="problem">Simplify the following expression:</p>
-            <p class="question"><code>\dfrac{<var>plus(SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var>}{x + <var>-A</var>}</code></p>
-
-            <div class="solution" data-type="set">
-                <div class="set-sol" data-type="regex">^\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>B &lt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*\+\s*[xX]\s*$</div>
-                <div class="input-format"><span class="entry"></span></div>
-                <div class="example">an expression, like <b>x+1</b></div>
-            </div>
-
-            <div class="hints">
-                <p>First factor the polynomial in the numerator.</p>
-
-                <div>
-                    <p>When we factor a polynomial, we are basically reversing this process of multiplying linear expressions together:</p>
-                    <p><code>
-                        \qquad \begin{eqnarray}
-                            (x + a)(x + b) \quad&amp;=&amp;\quad xx &amp;+&amp; xb + ax &amp;+&amp; ab \\ \\
-                            &amp;=&amp;\quad x^2 &amp;+&amp; \color{<var>GREEN</var>}{(a + b)}x &amp;+&amp; \color{<var>BLUE</var>}{ab}
-                        \end{eqnarray}
-                    </code></p>
+            <div id="perfect-square">
+                <div class="vars">
+                    <div data-ensure="abs(A) !== 1">
+                        <var id="A">randRangeNonZero( -9, 9 )</var>
+                    </div>
+                    <var id="SQUARE">1</var>
+                    <var id="CONSTANT">-A * A</var>
                 </div>
 
-                <div>
-                    <p><code>
-                        \qquad \begin{eqnarray}
-                            \hphantom{(x + a)(x + b) \quad}&amp;\hphantom{=}&amp;\hphantom{\quad xx }&amp;\hphantom{+}&amp;\hphantom{ (a + b)x }&amp;\hphantom{+}&amp; \\
-                            &amp;=&amp;\quad x^2 &amp;
-                            <var>SIMPLELINEAR &gt;= 0 ? "+" : ""</var>&amp;
-                            <var>plus( "\\color{" + GREEN + "}{" + SIMPLELINEAR + "}x" )</var>&amp;
-                            <var>SIMPLECONSTANT &gt;= 0 ? "+" : ""</var>&amp;
-                            <var>plus( "\\color{" + BLUE + "}{" + SIMPLECONSTANT + "}" )</var>
-                        \end{eqnarray}
-                    </code></p>
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question"><code>\dfrac{x^2</var> + <var>CONSTANT</var>}{x + <var>A</var>}</code></p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="regex">^\s*[xX]\s*<var>A &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>A &lt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*\+\s*[xX]\s*$</div>
+                    <div class="input-format"><span class="entry"></span></div>
+                    <div class="example">an expression, like <b>x+1</b></div>
+                </div>
+
+                <div class="hints" data-apply="appendContents">
                     <p>
-                        The coefficient on the <code>x</code> term is <code class="hint_green"><var>SIMPLELINEAR</var></code>
-                        and the constant term is <code class="hint_blue"><var>SIMPLECONSTANT</var></code>, so to reverse the steps above, we need to find two numbers
-                        that <span class="hint_green">add up to <code><var>SIMPLELINEAR</var></code></span> and <span class="hint_blue">multiply to
-                        <code><var>SIMPLECONSTANT</var></code></span>.
+                        The numerator is in the form <code>\color{<var>PINK</var>}{a^2} - \color{<var>BLUE</var>}{b^2}</code>,
+                        which is a difference of two squares so we can factor it as
+                        <code>(\color{<var>PINK</var>}{a} + \color{<var>BLUE</var>}{b})
+                        (\color{<var>PINK</var>}{a} - \color{<var>BLUE</var>}{b})</code>.
                     </p>
+
+                    <div>
+                        <p><code class="hint_pink">\qquad a = x</code></p>
+                        <p><code class="hint_blue">\qquad b = \sqrt{<var>A * A</var>} = <var>A</var></code></p>
+                    </div>
+
+                    <p>
+                        So we can rewrite the expression as:
+                        <code>
+                            \dfrac{(\color{<var>BLUE</var>}{x} <var>A &gt; 0 ? "+" : "" </var> \color{<var>PINK</var>}{<var>A</var>})
+                                   (\color{<var>BLUE</var>}{x} <var>A &lt; 0 ? "+" : "" </var> \color{<var>PINK</var>}{<var>-A</var>})}
+                                   {x + <var>A</var>}
+                        </code>
+                    </p>
+
+                    <p>We can now divide the numerator and denominator by <code>(x + <var>A</var>)</code>.</p>
+
+                    <p>Which leaves us with <code>x + <var>-A</var></code>.</p>
                 </div>
 
-                <div>
-                    <p>You can try out different factors of <code class="hint_blue"><var>SIMPLECONSTANT</var></code> to see if you can find two
-                    that satisfy both conditions. If you're stuck and can't think of any, you can also rewrite the conditions as a system of equations and
-                    try solving for <code class="hint_pink">a</code> and <code class="hint_pink">b</code>:</p>
-                    <p><code>\qquad \color{<var>PINK</var>}{a} + \color{<var>PINK</var>}{b} = \color{<var>GREEN</var>}{<var>SIMPLELINEAR</var>}</code></p>
-                    <p><code>\qquad \color{<var>PINK</var>}{a} \times \color{<var>PINK</var>}{b} = \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}</code></p>
+            </div>
+
+            <div id="not-perfect-square">
+                <div class="vars">
+                    <div data-ensure="abs(A) !== abs(B)">
+                        <var id="A">randRangeNonZero( -10, 10 )</var>
+                        <var id="B">randRangeNonZero( -10, 10 )</var>
+                    </div>
+                    <var id="SQUARE">1</var>
+                    <var id="CONSTANT">SQUARE*A*B</var>
+                    <var id="SIMPLECONSTANT">A*B</var>
+                    <var id="LINEAR">SQUARE*(-A-B)</var>
+                    <var id="SIMPLELINEAR">-A-B</var>
                 </div>
 
-                <div>
-                    <p>The two numbers <code class="hint_pink"><var>-A</var></code> and <code class="hint_pink"><var>-B</var></code> satisfy both conditions:</p>
-                    <p><code>
-                        \qquad \color{<var>PINK</var>}{<var>-A</var>} + \color{<var>PINK</var>}{<var>-B</var>} =
-                        \color{<var>GREEN</var>}{<var>SIMPLELINEAR</var>}
-                    </code></p>
-                    <p><code>
-                        \qquad \color{<var>PINK</var>}{<var>-A</var>} \times \color{<var>PINK</var>}{<var>-B</var>} =
-                        \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}
-                    </code></p>
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question"><code>\dfrac{<var>plus(SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var>}{x + <var>-A</var>}</code></p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="regex">^\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>B &lt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*\+\s*[xX]\s*$</div>
+                    <div class="input-format"><span class="entry"></span></div>
+                    <div class="example">an expression, like <b>x+1</b></div>
                 </div>
 
-                <p>
-                    So we can rewrite the expression as:
-                    <code>
-                        \dfrac{(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
-                               (x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})}
-                               {x + <var>-A</var>}
-                    </code>
-                </p>
+                <div class="hints" data-apply="appendContents">
+                    <div>
+                        <p>When we factor a polynomial, we are basically reversing this process of multiplying linear expressions together:</p>
+                        <p><code>
+                            \qquad \begin{eqnarray}
+                                (x + a)(x + b) \quad&amp;=&amp;\quad xx &amp;+&amp; xb + ax &amp;+&amp; ab \\ \\
+                                &amp;=&amp;\quad x^2 &amp;+&amp; \color{<var>GREEN</var>}{(a + b)}x &amp;+&amp; \color{<var>BLUE</var>}{ab}
+                            \end{eqnarray}
+                        </code></p>
+                    </div>
 
-                <p>We can now divide the numerator and denominator by <code>(x + <var>-A</var>)</code>.</p>
+                    <div>
+                        <p><code>
+                            \qquad \begin{eqnarray}
+                                \hphantom{(x + a)(x + b) \quad}&amp;\hphantom{=}&amp;\hphantom{\quad xx }&amp;\hphantom{+}&amp;\hphantom{ (a + b)x }&amp;\hphantom{+}&amp; \\
+                                &amp;=&amp;\quad x^2 &amp;
+                                <var>SIMPLELINEAR &gt;= 0 ? "+" : ""</var>&amp;
+                                <var>plus( "\\color{" + GREEN + "}{" + SIMPLELINEAR + "}x" )</var>&amp;
+                                <var>SIMPLECONSTANT &gt;= 0 ? "+" : ""</var>&amp;
+                                <var>plus( "\\color{" + BLUE + "}{" + SIMPLECONSTANT + "}" )</var>
+                            \end{eqnarray}
+                        </code></p>
+                        <p>
+                            The coefficient on the <code>x</code> term is <code class="hint_green"><var>SIMPLELINEAR</var></code>
+                            and the constant term is <code class="hint_blue"><var>SIMPLECONSTANT</var></code>, so to reverse the steps above, we need to find two numbers
+                            that <span class="hint_green">add up to <code><var>SIMPLELINEAR</var></code></span> and <span class="hint_blue">multiply to
+                            <code><var>SIMPLECONSTANT</var></code></span>.
+                        </p>
+                    </div>
 
-                <p>Which leaves us with <code>x + <var>-B</var></code>.</p>
+                    <div>
+                        <p>You can try out different factors of <code class="hint_blue"><var>SIMPLECONSTANT</var></code> to see if you can find two
+                        that satisfy both conditions. If you're stuck and can't think of any, you can also rewrite the conditions as a system of equations and
+                        try solving for <code class="hint_pink">a</code> and <code class="hint_pink">b</code>:</p>
+                        <p><code>\qquad \color{<var>PINK</var>}{a} + \color{<var>PINK</var>}{b} = \color{<var>GREEN</var>}{<var>SIMPLELINEAR</var>}</code></p>
+                        <p><code>\qquad \color{<var>PINK</var>}{a} \times \color{<var>PINK</var>}{b} = \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}</code></p>
+                    </div>
 
+                    <div>
+                        <p>The two numbers <code class="hint_pink"><var>-A</var></code> and <code class="hint_pink"><var>-B</var></code> satisfy both conditions:</p>
+                        <p><code>
+                            \qquad \color{<var>PINK</var>}{<var>-A</var>} + \color{<var>PINK</var>}{<var>-B</var>} =
+                            \color{<var>GREEN</var>}{<var>SIMPLELINEAR</var>}
+                        </code></p>
+                        <p><code>
+                            \qquad \color{<var>PINK</var>}{<var>-A</var>} \times \color{<var>PINK</var>}{<var>-B</var>} =
+                            \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}
+                        </code></p>
+                    </div>
+
+                    <p>
+                        So we can rewrite the expression as:
+                        <code>
+                            \dfrac{(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
+                                   (x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})}
+                                   {x + <var>-A</var>}
+                        </code>
+                    </p>
+
+                    <p>We can now divide the numerator and denominator by <code>(x + <var>-A</var>)</code>.</p>
+
+                    <p>Which leaves us with <code>x + <var>-B</var></code>.</p>
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="hints">
+            <p>First factor the polynomial in the numerator.</p>
+        </div>
+
     </div>
 </body>
 </html>
