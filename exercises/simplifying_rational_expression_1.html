@@ -10,18 +10,21 @@
             if (coefficient !== 1 || degree === 0) {
                 expr += coefficient;
             }
-            if (degree > 1) {
-                expr += vari + " ^ " + degree;
-            } else if (degree === 1) {
+            if (degree > 0) {
                 expr += vari;
+            }
+            if (degree > 1) {
+                expr += " ^ " + degree;
             }
             return expr
         }
 
         function getSolution(coefficient1, coefficient2, degree1, degree2, vari) {
+            var numerator, denominator;
+
             if (degree1 === degree2) {
-                numerator = coefficient1;
-                denominator = coefficient2;
+                numerator = ""+coefficient1;
+                denominator = ""+coefficient2;
             } else {
                 numerator = getExpression(coefficient1, degree1, vari);
                 denominator = getExpression(coefficient2, degree2, vari);
@@ -67,18 +70,19 @@
             <div class="vars">
                 <var id="X">randVar()</var>
                 <var id="GCD">randRange( 2, 12 )</var>
-                <var id="GCD_FACTORS">getPrimeFactorization( GCD )</var>
                 <var id="MULTIPLEDEGREE">randRange( 1, 4 )</var>
                 <div data-ensure="getGCD(COEFFICIENT1, COEFFICIENT2) === 1">
                     <var id="COEFFICIENT1">randRange( 1, 12 )</var>
                     <var id="COEFFICIENT2">randRange( 1, 12 )</var>
                 </div>
+                <var id="COEFFICIENTFRACTION">fraction(COEFFICIENT1, COEFFICIENT2, true, true)</var>
                 <var id="NUMERATORCOEFFICIENT">GCD * COEFFICIENT1</var>
                 <var id="DENOMINATORCOEFFICIENT">GCD * COEFFICIENT2</var>
                 <var id="DEGREE1">randFromArray( [0, 1] )</var>
                 <var id="DEGREE2">randFromArray( [0, 1] )</var>
                 <var id="POWER1">getExpression(1, DEGREE1 + MULTIPLEDEGREE, X)</var>
                 <var id="POWER2">getExpression(1, DEGREE2 + MULTIPLEDEGREE, X)</var>
+                <var id="POWERFRACTION">getSolution(1, 1, DEGREE1, DEGREE2, X)</var>
                 <var id="SOLUTION">getSolution(COEFFICIENT1, COEFFICIENT2, DEGREE1, DEGREE2, X)</var>
                 <var id="SOLUTIONREGEX">getSolutionRegex(COEFFICIENT1, COEFFICIENT2, DEGREE1, DEGREE2, X)</var>
             </div>
@@ -105,7 +109,8 @@
                 <p><code><var>NUMERATORCOEFFICIENT</var>   = <var>getPrimeFactorization( NUMERATORCOEFFICIENT ).join( "\\cdot" )</var></code><br />
                    <code><var>DENOMINATORCOEFFICIENT</var> = <var>getPrimeFactorization( DENOMINATORCOEFFICIENT ).join( "\\cdot" )</var></code></p>
 
-                <p><code>\mbox{GCD}(<var>NUMERATORCOEFFICIENT</var>, <var>DENOMINATORCOEFFICIENT</var>) <span data-if="!isPrime(GCD)"> = <var>GCD_FACTORS.join( "\\cdot" )</var></span> = <var>GCD</var></code></p>
+                <p><code>\mbox{GCD}(<var>NUMERATORCOEFFICIENT</var>, <var>DENOMINATORCOEFFICIENT</var>) <span data-if="!isPrime(GCD)"> = 
+                    <var>getPrimeFactorization( GCD ).join( "\\cdot" )</var></span> = <var>GCD</var></code></p>
 
                 <p>
                     <code>\dfrac{<var>NUMERATORCOEFFICIENT</var>}{<var>DENOMINATORCOEFFICIENT</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}
@@ -113,15 +118,13 @@
                 </p>
                 <p>
                     <code>\hphantom{\dfrac{<var>NUMERATORCOEFFICIENT</var>}{<var>DENOMINATORCOEFFICIENT</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}}
-                    = \dfrac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}</code>
+                    = <var>COEFFICIENTFRACTION</var> \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}</code>
                 </p>
 
-                <p>What is <code><var>POWER1</var></code> divided by <code><var>POWER2</var></code>?</p>
+                <p><code>\dfrac{<var>POWER1</var>}{<var>POWER2</var>} = <var>POWERFRACTION</var></code></p>
 
-                <p><code>\dfrac{<var>POWER1</var>}{<var>POWER2</var>} = <var>getSolution(1, 1, DEGREE1, DEGREE2, X)</var></code></p>
-
-                <p><code>\dfrac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>} =
-                    \dfrac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>} \cdot <var>getSolution(1, 1, DEGREE1, DEGREE2, X)</var></code>
+                <p><code><var>COEFFICIENTFRACTION</var> \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>} =
+                    <var>COEFFICIENTFRACTION</var> \cdot <var>POWERFRACTION</var></code>
                 </p>
 
                 <p><code>\phantom{\dfrac{<var>COEFFICIENT1</var> \cdot <var>POWER1</var>}{<var>COEFFICIENT2</var> \cdot <var>POWER2</var>}} = <var>SOLUTION</var></code></p>
