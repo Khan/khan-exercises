@@ -18,32 +18,44 @@
             return expr
         }
 
-        function getSolution(c1, c2, x, degree) {
-            var solution = "";
-            if (c1 !== 1) {
-                solution += c1;
+        function getSolution(coefficient1, coefficient2, degree1, degree2, vari) {
+            if (degree1 === degree2) {
+                numerator = coefficient1;
+                denominator = coefficient2;
+            } else {
+                numerator = getExpression(coefficient1, degree1, vari);
+                denominator = getExpression(coefficient2, degree2, vari);
             }
-            if (degree === 0) {
-                solution += x;
+
+            if (denominator !== 1) {
+                return "\\dfrac{" + numerator + "}{" + denominator + "}";
+            } else {
+                return numerator;
             }
-            if (c2 !== 1) {
-                solution = "\\dfrac{" + solution + "}{" + c2 + "}";
-            }
-            return solution
         }
 
-        function getSolutionRegex(c1, c2, x, degree) {
-            var regex = '^\\s*';
-            if (c1 !== 1) {
-                regex += c1 + '\\s*';
+        function getVariableRegex(coefficient, degree, vari) {
+            var regex = "";
+
+            if (coefficient !== 1 || degree <= 0) {
+                regex += '\\s*' + coefficient;
             }
-            if (degree === 0) {
-                regex += "[" + x + x.toUpperCase() + "]\\s*";
+
+            if (degree > 0) {
+                regex += '\\s*' + "[" + vari + vari.toUpperCase() + "]";
             }
-            if (c2 !== 1) {
-                regex += "/\\s*" + c2 + "\\s*";
+            return regex;
+        }
+
+        function getSolutionRegex(coefficient1, coefficient2, degree1, degree2, vari) {
+            var regex = '^' + getVariableRegex(coefficient1, degree1 - degree2, vari);
+            var denominator = getVariableRegex(coefficient2, degree2 - degree1, vari);
+
+            if (coefficient2 !== 1 || degree2 > degree1) {
+                regex += "\\s*/" + denominator;
             }
-            regex += "$";
+
+            regex += "\\s*$";
             return regex;
         }
     </script>
@@ -51,24 +63,24 @@
 <body>
 <div class="exercise">
     <div class="problems">
-        <div id="var-on-top">
+        <div>
             <div class="vars">
                 <var id="X">randVar()</var>
-                <var id="GCD">randRange( 2, 10 )</var>
+                <var id="GCD">randRange( 2, 12 )</var>
                 <var id="GCD_FACTORS">getPrimeFactorization( GCD )</var>
                 <var id="MULTIPLEDEGREE">randRange( 1, 4 )</var>
                 <div data-ensure="getGCD(COEFFICIENT1, COEFFICIENT2) === 1">
                     <var id="COEFFICIENT1">randRange( 1, 12 )</var>
                     <var id="COEFFICIENT2">randRange( 1, 12 )</var>
                 </div>
-                <var id="DEGREE1">1</var>
+                <var id="NUMERATORCOEFFICIENT">GCD * COEFFICIENT1</var>
+                <var id="DENOMINATORCOEFFICIENT">GCD * COEFFICIENT2</var>
+                <var id="DEGREE1">randFromArray( [0, 1] )</var>
                 <var id="DEGREE2">randFromArray( [0, 1] )</var>
                 <var id="POWER1">getExpression(1, DEGREE1 + MULTIPLEDEGREE, X)</var>
                 <var id="POWER2">getExpression(1, DEGREE2 + MULTIPLEDEGREE, X)</var>
-                <var id="NUMERATORCOEFFICIENT">GCD * COEFFICIENT1</var>
-                <var id="DENOMINATORCOEFFICIENT">GCD * COEFFICIENT2</var>
-                <var id="SOLUTION">getSolution(COEFFICIENT1, COEFFICIENT2, X, DEGREE2)</var>
-                <var id="SOLUTIONREGEX">getSolutionRegex(COEFFICIENT1, COEFFICIENT2, X, DEGREE2)</var>
+                <var id="SOLUTION">getSolution(COEFFICIENT1, COEFFICIENT2, DEGREE1, DEGREE2, X)</var>
+                <var id="SOLUTIONREGEX">getSolutionRegex(COEFFICIENT1, COEFFICIENT2, DEGREE1, DEGREE2, X)</var>
             </div>
 
             <p class="problem">Simplify the expression.</p>
@@ -106,10 +118,10 @@
 
                 <p>What is <code><var>POWER1</var></code> divided by <code><var>POWER2</var></code>?</p>
 
-                <p><code>\dfrac{<var>POWER1</var>}{<var>POWER2</var>} = <var>getExpression(1, DEGREE1 - DEGREE2, X)</var></code></p>
+                <p><code>\dfrac{<var>POWER1</var>}{<var>POWER2</var>} = <var>getSolution(1, 1, DEGREE1, DEGREE2, X)</var></code></p>
 
                 <p><code>\dfrac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>} =
-                    \dfrac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>} \cdot <var>getExpression(1, DEGREE1 - DEGREE2, X)</var></code>
+                    \dfrac{<var>COEFFICIENT1</var>}{<var>COEFFICIENT2</var>} \cdot <var>getSolution(1, 1, DEGREE1, DEGREE2, X)</var></code>
                 </p>
 
                 <p><code>\phantom{\dfrac{<var>COEFFICIENT1</var> \cdot <var>POWER1</var>}{<var>COEFFICIENT2</var> \cdot <var>POWER2</var>}} = <var>SOLUTION</var></code></p>
