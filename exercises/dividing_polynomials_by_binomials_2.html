@@ -30,7 +30,7 @@
 
             <div class="solution" data-type="set">
                 <div class="set-sol" data-type="regex">^\s*<var>C &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( C )</var>\s*[xX]\s*<var>SOLUTIONCONSTANT &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( SOLUTIONCONSTANT )</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>SOLUTIONCONSTANT&lt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( SOLUTIONCONSTANT )</var>\s*\+\s*[xX]\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*<var>SOLUTIONCONSTANT &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( SOLUTIONCONSTANT )</var>\s*<var>C &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( C )</var>\s*[xX]\s*$</div>
                 <div class="input-format"><span class="entry"></span></div>
                 <div class="example">a simplified expression, like <b>2x+2</b></div>
             </div>
@@ -40,7 +40,7 @@
 
                 <div>
                     <p>We can factor out a <code><var>C</var></code> from the numerator:</p>
-                    <p><code>\dfrac{<var>C</var> \cdot (<var>plus(SQUARE + "x^2")</var> + <var>plus(LINEAR + "x" )</var> + <var>CONSTANT</var>)}{x + <var>-A</var>}</code></p>
+                    <p><code>\dfrac{<var>C</var>(<var>plus(SQUARE + "x^2")</var> + <var>plus(LINEAR + "x" )</var> + <var>CONSTANT</var>)}{x + <var>-A</var>}</code></p>
                 </div>
 
                 <div>
@@ -66,13 +66,13 @@
 
                 <div>
                     <p>This gives us a factored expression:</p>
-                    <p><code>\dfrac{<var>C</var> \cdot (x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
+                    <p><code>\dfrac{<var>C</var>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
                     (x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})}{x + <var>-A</var>}</code></p>
                 </div>
 
                 <p>We can now divide the numerator and denominator by <code>(x + <var>-A</var>)</code>.</p>
 
-                <p>This leaves us with <code><var>C</var> \cdot (x + <var>-B</var>)</code></p>
+                <p>This leaves us with <code><var>C</var>(x + <var>-B</var>)</code></p>
 
                 <p>We distribute the <code><var>C</var></code> to give <code><var>C</var>x + <var>SOLUTIONCONSTANT</var></code></p>
 
