@@ -401,10 +401,16 @@ div.timeline-total {
 
 /* Version of the site used by Khan/exercise-browser for the iframe preview */
 
+html.exercise-browser {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
 .exercise-browser body {
   min-width: 0;
-  width: 770px;
+  width: 790px;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .exercise-browser header, .exercise-browser footer, .exercise-browser .topic-exercise-badge, .exercise-browser #extras, .exercise-browser .exercises-stack, .exercise-browser .related-video-box  {
@@ -424,7 +430,7 @@ div.timeline-total {
 }
 
 .exercise-browser #page-container {
-  width: 770px;
+  width: 790px;
   min-width: 0;
 }
 
