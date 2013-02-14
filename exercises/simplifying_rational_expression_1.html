@@ -27,7 +27,7 @@
                 denominator = getExpression(coefficient2, degree2, vari);
             }
 
-            if (denominator !== 1) {
+            if (denominator !== "1") {
                 return "\\dfrac{" + numerator + "}{" + denominator + "}";
             } else {
                 return numerator;
@@ -109,7 +109,7 @@
 
                 <p>
                     <code>\dfrac{<var>NUMERATORCOEFFICIENT</var>}{<var>DENOMINATORCOEFFICIENT</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}
-                    = \dfrac{<var>GCD</var> \cdot <var>COEFFICIENT1</var>}{<var>GCD</var>\cdot <var>COEFFICIENT2</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}</code>
+                    = \dfrac{<var>GCD</var> \cdot <var>COEFFICIENT1</var>}{<var>GCD</var> \cdot <var>COEFFICIENT2</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}</code>
                 </p>
                 <p>
                     <code>\hphantom{\dfrac{<var>NUMERATORCOEFFICIENT</var>}{<var>DENOMINATORCOEFFICIENT</var>} \cdot \dfrac{<var>POWER1</var>}{<var>POWER2</var>}}
