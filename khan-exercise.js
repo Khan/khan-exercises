@@ -1889,6 +1889,28 @@ var Khan = (function() {
             $("body").addClass("debug");
         }
 
+        // Version of the site used by Khan/exercise-browser for the iframe
+        // preview
+        if (testMode && Khan.query.browse != null) {
+            $("html").addClass("exercise-browser");
+
+            var links = $("<div>").addClass("problem-types");
+
+            links.append($("<b>").text("Problem types:"));
+
+            exercises.children(".problems").children().each(function(n, prob) {
+                var probID = $(prob).attr("id") || n;
+                links.append($("<a>").addClass("problem-type-link")
+                        .text(n + ": " + probID)
+                        .attr("href", window.location.protocol + "//" +
+                            window.location.host + window.location.pathname +
+                            "?browse&problem=" + probID)
+                    );
+            });
+
+            $("#answer_area_wrap").append(links);
+        }
+
         hintsUsed = 0;
         attempts = 0;
         lastAction = (new Date).getTime();
