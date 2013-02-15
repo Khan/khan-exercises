@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html data-require="highcharts math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="../khan-exercise.js"></script>
+    <title>Coin flip sequences</title>
+
+    <style>
+        .chart {
+            height: 324px;
+            width:  496px;
+            position: absolute;
+        }
+
+        .heads {
+            background: #a6a6a6;
+            color:      #333;
+        }
+
+        .heads,
+        .tails {
+            border-right:   1px solid #888;
+            float:          left;
+            font-family:    Verdana, sans-serif;
+            font-size:      14px;
+            margin-bottom:  5px;
+            padding:        0 2px;
+            text-align:     center;
+            width:          16px;
+        }
+
+        .tails {
+            background: #595959;
+            color:      #ccc;
+        }
+
+        #chart-1 {
+            left: 496px;
+        }
+
+        #chart-2 {
+            left: 992px;
+        }
+
+        #chart-3 {
+            left: 1488px;
+        }
+
+        #charts {
+            height:   324px;
+            position: relative;
+            width:    496px;
+        }
+
+        .pattern-tabs {
+            color: #ccc;
+        }
+
+        .pattern-tabs a {
+            margin: 0 5px;
+        }
+
+        a.selected {
+            font-weight: bold;
+            color: #444 !important;
+            cursor: default;
+            text-decoration: none !important;
+        }
+
+        .view-patterns {
+            margin-top: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="exercise">
+<div class="problems">
+
+<div>
+    <div class="vars">
+        <var id="solution">randFromArray(['Human Guesses', 'Fair Coin', 'Unfair Coin'])</var>
+
+        <var id="sequence">
+            (function() {
+                if (solution === 'Human Guesses') {
+                    return randFromArray([
+                        'HTHHTHTHTHTHTHHHTHTHTHTHHHHTHTTHHTHHTHTHTHTHTHHTHTHTHTHTHTHHHTHTHTHTHHTHTHTTTHHTHHTHTHHHTHHTHTHTHHHTHHTTTHHTHHTHTHTHTHTTHHHTHTHHTHHTHTHTHTHTHTHTHTHHTHTHTHHHHTTTHTHTTHTHTHHHTHTHTTTHTHHTHTTTHTHTHTHTHTHTHTHTTHTHTHTHTHHHHTTHTHTTHTHTTTHTHTHTHHTTHTHTHTHTHTHTHTHTHTHTHTHTHHTHTHTHTTHT',
+                        'THTTHTHTHTHTHTTTHTHTHTHTTTTHTHHTTHTTHTHTTHTHTHTHTHHTTTHTHTTHTHTTHTHTHTHTHTTHTTHTTHTTTHTHTHTHTHTTHTTTHTTHTTHTHTHTTHTHTTHTTHTHTHTHTHTTHTHTHTHTHTHTHTHTTHTHTHTHTHTHTHTHTHHTHTHTHTHTHTHTHTHTHTHTHHHHTTTHTHTTHTHTHHHTHTHTTTHTHHTHTTTHTHTHTHTHTHTHTHTTHTHTHTHTHHHHTTHTHTTHTHTTTHTHTHTHTHTH'
+                    ]);
+                } else {
+                    var sequenceChars, sequenceArray;
+
+                    if (solution === 'Fair Coin') {
+                        sequenceChars = ['H', 'T'];
+                    } else {
+                        sequenceChars = randFromArray([
+                            ['H', 'H', 'H', 'T', 'T'],
+                            ['H', 'H', 'T', 'T', 'T']
+                        ]);
+                    }
+
+                    sequenceArray = randFromArray(sequenceChars, 276);
+                    return sequenceArray.join('');
+                }
+            })()
+        </var>
+
+        <var id="initQuestion">
+            function() {
+                var defaultOptions = {
+                    chart: {
+                        type: 'column',
+                        backgroundColor: 'transparent'
+                    },
+
+                    credits: {
+                        enabled: false
+                    },
+
+                    legend: {
+                        enabled: false
+                    },
+
+                    plotOptions: {
+                        column: {
+                            animation: false,
+                            borderColor: '#888888',
+                            states: {
+                                hover: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                    },
+
+                    title: {
+                        style: {
+                            color: '#444444',
+                            fontFamily: 'HelveticaNeue, sans-serif',
+                        }
+                    },
+
+                    tooltip: {
+                        enabled: false,
+                    },
+
+                    xAxis: {
+                        labels: {
+                            style: {
+                                color: '#444444',
+                                fontSize: '13px',
+                            },
+                        },
+                        tickLength: 0
+                    },
+
+                    yAxis: {
+                        allowDecimals: false,
+                        labels: {
+                            enabled: false,
+                        },
+
+                        title: {
+                            text: ''
+                        }
+                    }
+                }
+
+                var chart1Options = $.extend(true, {}, defaultOptions, {
+                    chart: {
+                        renderTo: 'chart-1'
+                    },
+
+                    series: [{
+                        data: [{
+                            name: 'H',
+                            color: '#a6a6a6',
+                            y: (sequence.match(/H/g) || []).length
+                        }, {
+                            name: 'T',
+                            color: '#595959',
+                            y: (sequence.match(/T/g) || []).length,
+                        }]
+                    }],
+
+                    title: {
+                        text: 'H vs T'
+                    },
+
+                    xAxis: {
+                        categories: ['H','T']
+                    },
+
+                })
+
+                new Highcharts.Chart(chart1Options)
+
+                var chart2Options = $.extend(true, {}, defaultOptions, {
+                    chart: {
+                        renderTo: 'chart-2'
+                    },
+
+                    series: [{
+                        data: [{
+                            name: 'HH',
+                            color: '#808080',
+                            y: (sequence.match(/(?=HH)/g) || []).length
+                        }, {
+                            name: 'HT',
+                            color: '#808080',
+                            y: (sequence.match(/(?=HT)/g) || []).length
+                        }, {
+                            name: 'TH',
+                            color: '#808080',
+                            y: (sequence.match(/(?=TH)/g) || []).length
+                        }, {
+                            name: 'TT',
+                            color: '#808080',
+                            y: (sequence.match(/(?=TT)/g) || []).length
+                        }]
+                    }],
+
+                    title: {
+                        text: 'Two-flip streaks'
+                    },
+
+                    xAxis: {
+                        categories: ['HH','HT', 'TH', 'TT']
+                    },
+                });
+
+                new Highcharts.Chart(chart2Options)
+
+                var chart3Options = $.extend(true, {}, defaultOptions, {
+                    chart: {
+                        renderTo: 'chart-3'
+                    },
+
+                    series: [{
+                        data: [{
+                            name: 'HHH',
+                            color: '#808080',
+                            y: (sequence.match(/(?=HHH)/g) || []).length
+                        }, {
+                            name: 'HHT',
+                            color: '#808080',
+                            y: (sequence.match(/(?=HHT)/g) || []).length
+                        }, {
+                            name: 'THH',
+                            color: '#808080',
+                            y: (sequence.match(/(?=THH)/g) || []).length
+                        }, {
+                            name: 'HTH',
+                            color: '#808080',
+                            y: (sequence.match(/(?=HTH)/g) || []).length
+                        }, {
+                            name: 'THT',
+                            color: '#808080',
+                            y: (sequence.match(/(?=THT)/g) || []).length
+                        }, {
+                            name: 'HTT',
+                            color: '#808080',
+                            y: (sequence.match(/(?=HTT)/g) || []).length
+                        }, {
+                            name: 'TTH',
+                            color: '#808080',
+                            y: (sequence.match(/(?=TTH)/g) || []).length
+                        }, {
+                            name: 'TTT',
+                            color: '#808080',
+                            y: (sequence.match(/(?=TTT)/g) || []).length
+                        }]
+                    }],
+
+                    title: {
+                        text: 'Three-flip streaks'
+                    },
+
+                    xAxis: {
+                        categories: ['HHH','HHT','THH','HTH','THT','HTT','TTH','TTT']
+                    },
+                });
+
+                new Highcharts.Chart(chart3Options);
+
+                var charts = $('#charts');
+
+                $('#show-flips').on('click', function() {
+                    $('.pattern-tabs a').removeClass("selected");
+                    $('#show-flips').addClass("selected");
+                    charts.animate({marginLeft: 0});
+                    return false;
+                });
+
+                $('#show-chart-1').on('click', function() {
+                    $('.pattern-tabs a').removeClass("selected");
+                    $('#show-chart-1').addClass("selected");
+                    charts.animate({marginLeft: -496});
+                    return false;
+                });
+
+                $('#show-chart-2').on('click', function() {
+                    $('.pattern-tabs a').removeClass("selected");
+                    $('#show-chart-2').addClass("selected");
+                    charts.animate({marginLeft: -992});
+                    return false;
+                });
+
+                $('#show-chart-3').on('click', function() {
+                    $('.pattern-tabs a').removeClass("selected");
+                    $('#show-chart-3').addClass("selected");
+                    charts.animate({marginLeft: -1488});
+                    return false;
+                });
+            }
+        </var>
+
+        <var id="coloredSequence">
+            (function() {
+                var coloredSequence = '';
+
+                for (var i = 0;i &lt; sequence.length;i++) {
+                    if (sequence[i] === 'H') {
+                        coloredSequence += '&lt;div class="heads">H&lt;/div>';
+                    } else {
+                        coloredSequence += '&lt;div class="tails">T&lt;/div>';
+                    }
+                }
+
+                return coloredSequence;
+            })()
+        </var>
+    </div>
+
+    <div class="question">
+        <p>The following sequence of heads and tails was generated using one of three possible methods.</p>
+        <p class="question">Which method was used?</p>
+        <div style="overflow: hidden;">
+            <div id="charts">
+                <var>coloredSequence</var>
+                <div class="chart" id="chart-1"></div>
+                <div class="chart" id="chart-2"></div>
+                <div class="chart" id="chart-3"></div>
+            </div>
+        </div>
+        <p class="view-patterns">View patterns:
+            <span class="pattern-tabs">
+                <a href="javascript:void(0);" id="show-flips" class="selected">Coin flips</a> |
+                <a href="javascript:void(0);" id="show-chart-1">H vs T</a> |
+                <a href="javascript:void(0);" id="show-chart-2">Two-flip streaks</a> |
+                <a href="javascript:void(0);" id="show-chart-3">Three-flip streaks</a>
+            </span>
+        </p>
+        <var>initQuestion()</var>
+    </div>
+
+    <p class="solution"><var>solution</var></p>
+
+    <ul class="choices" data-category="true">
+        <li>Human Guesses</li>
+        <li>Fair Coin</li>
+        <li>Unfair Coin</li>
+    </ul>
+</div>
+
+</div>
+</div>
+</body>
+</html>
