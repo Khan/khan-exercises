@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+    <title>Relative and percent error</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <!-- X = true value, X0 = experimental value -->
+            <!-- X0 should be close to X and have a decimal to simulate common conditions-->
+            <var id="X">randRange(5, 95)</var>
+            <var id="X0">roundTo(2, X + randRange(-X/8, X/8) + randRange(1, 99) / 100)</var>
+            <var id="UNITS">randFromArray([
+                {unit: "centimeter", abbr: "cm"},
+                {unit: "milliliter", abbr: "mL"},
+                {unit: "gram", abbr: "g"},
+                {unit: "watt", abbr: "W"},
+                {unit: "second", abbr: "s"}])</var>
+            <var id="UNIT">UNITS.unit</var>
+            <var id="ABBR">UNITS.abbr</var>
+            <var id="ANS">roundTo(3, (X0 - X) / X)</var>
+        </div>
+
+        <div class="problems">
+
+            <div id="percent-error">
+                <p class="problem"><var>person(1)</var> determined the value <code><var>X0</var></code> <var>plural(UNIT, X0)</var> experimentally.
+                    Under ideal conditions, the true value is <code><var>X</var></code> <var>plural(UNIT, X)</var>.
+
+                <p class="question">What is <var>his(1)</var> percent error?</p>
+
+                <div class="solution" data-type="number" data-forms="percent" data-inexact data-max-error="0.01"><var>ANS</var></div>
+
+                <div class="hints">
+                    <p>Percent error is equal to relative error <code>\times 100</code>.</p>
+                    <div>
+                        <p>The experimental value (<code>x_{0}</code>) is <code><var>X0</var> <var>ABBR</var></code>.</p>
+                    </div>
+                    <div>
+                        <p>The true value (<code>x</code>) is <code><var>X</var> <var>ABBR</var></code>.</p>
+                    </div>
+                    <div>
+                            <p>The equation for percent error is <code>\dfrac{x_{0} - x}{x} \times 100</code>.</p>
+                    </div>
+                    <div>
+                            <p>So we plug in our values: <code>\dfrac{<var>X0</var> <var>ABBR</var> - <var>X</var> <var>ABBR</var>}{<var>X</var> <var>ABBR</var>} \times 100</code>.</p>
+                    </div>
+                    <div>
+                            <p>We can cancel the units: <code>\dfrac{<var>X0</var> - <var>X</var>}{<var>X</var>} \times 100</code>.</p>
+                    </div>
+                    <div>
+                            <p>This simplifies to <code><var>ANS</var> \times 100</code>.</p>
+                    </div>
+                    <div>
+                            <p>Finally, the percent error is <code><var>roundTo(3, ANS * 100)</var>\%</code>.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="relative-error">
+                <p class="problem"><var>person(1)</var> determined the value <code><var>X0</var></code> <var>plural(UNIT, X0)</var> experimentally.
+                    Under ideal conditions, the true value is <code><var>X</var></code> <var>plural(UNIT, X)</var>.
+
+                <p class="question">What is <var>his(1)</var> relative error?</p>
+
+                <div class="solution" data-type="number" data-forms="decimal" data-inexact data-max-error="0.01"><var>ANS</var></div>
+
+                <div class="hints">
+                    <p>The experimental value (<code>x_{0}</code>) is <code><var>X0</var> <var>ABBR</var></code>.</p>
+                    <div>
+                        <p>The true value (<code>x</code>) is <code><var>X</var> <var>ABBR</var></code>.</p>
+                    </div>
+                    <div>
+                            <p>The equation for relative error is <code>\dfrac{x_{0} - x}{x}</code>.</p>
+                    </div>
+                    <div>
+                            <p>So we plug in our values: <code>\dfrac{<var>X0</var> <var>ABBR</var> - <var>X</var> <var>ABBR</var>}{<var>X</var> <var>ABBR</var>}</code>.</p>
+                    </div>
+                    <div>
+                            <p>We can cancel the units: <code>\dfrac{<var>X0</var> - <var>X</var>}{<var>X</var>}</code>.</p>
+                    </div>
+                    <div>
+                            <p>The relative error is <code><var>ANS</var></code>.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
