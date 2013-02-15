@@ -18,11 +18,11 @@
                     <var id="C">randRangeNonZero( -10, 10 )</var>
                 </div>
                 <var id="SQUARE">1</var>
-                <var id="CONSTANT">SQUARE*A*B</var>
-                <var id="SIMPLECONSTANT">A*B</var>
-                <var id="LINEAR">SQUARE*(-A-B)</var>
-                <var id="SIMPLELINEAR">-A-B</var>
-                <var id="SOLUTIONCONSTANT">-C*B</var>
+                <var id="CONSTANT">SQUARE * A * B</var>
+                <var id="SIMPLECONSTANT">A * B</var>
+                <var id="LINEAR">SQUARE * (-A - B)</var>
+                <var id="SIMPLELINEAR">-A - B</var>
+                <var id="SOLUTIONCONSTANT">C * -B</var>
             </div>
 
             <p class="problem">Simplify the following expression:</p>
@@ -39,12 +39,12 @@
                 <p>First factor the polynomial in the numerator.</p>
 
                 <div>
-                    <p>We can factor out a <code><var>C</var></code> from the numerator:</p>
+                    <p>We we notice that all the terms in the numerator have a common factor of <code><var>C</var></code>, so we can rewrite the expression:</p>
                     <p><code>\dfrac{<var>C</var>(<var>plus(SQUARE + "x^2")</var> + <var>plus(LINEAR + "x" )</var> + <var>CONSTANT</var>)}{x + <var>-A</var>}</code></p>
                 </div>
 
                 <div>
-                    <p>We then factor the remaining polynomial:</p>
+                    <p>Then we factor the remaining polynomial:</p>
                     <p><code>
                         x^2 <var>SIMPLELINEAR &gt;= 0 ? "+" : ""</var> <var>plus( "\\color{" + GREEN + "}{" + SIMPLELINEAR + "}x" )</var>
                         <var>SIMPLECONSTANT &gt;= 0 ? "+" : ""</var> <var>plus( "\\color{" + BLUE + "}{" + SIMPLECONSTANT + "}" )</var>
