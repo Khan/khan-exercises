@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Dividing polynomials by binomials 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+
+            <div id="perfect-square">
+                <div class="vars">
+                    <var id="X">randVar()</var>
+                    <div data-ensure="abs(A) !== 1">
+                        <var id="A">randRangeNonZero( -9, 9 )</var>
+                    </div>
+                    <var id="CONSTANT">-A * A</var>
+                </div>
+
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question"><code>\dfrac{<var>X</var>^2 + <var>CONSTANT</var>}{<var>X</var> + <var>A</var>}</code></p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="regex">^\s*<var>X</var>\s*<var>A &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>A &lt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*\+\s*<var>X</var>\s*$</div>
+                    <div class="input-format"><span class="entry"></span></div>
+                    <div class="example">an expression, like <b>x+1</b></div>
+                </div>
+
+                <div class="hints" data-apply="appendContents">
+                    <p>
+                        The numerator is in the form <code>\color{<var>PINK</var>}{a^2} - \color{<var>BLUE</var>}{b^2}</code>,
+                        which is a difference of two squares so we can factor it as
+                        <code>(\color{<var>PINK</var>}{a} + \color{<var>BLUE</var>}{b})
+                        (\color{<var>PINK</var>}{a} - \color{<var>BLUE</var>}{b})</code>.
+                    </p>
+
+                    <div>
+                        <p><code class="hint_pink">\qquad a = <var>X</var></code></p>
+                        <p><code class="hint_blue">\qquad b = \sqrt{<var>A * A</var>} = <var>A</var></code></p>
+                    </div>
+
+                    <p>
+                        So we can rewrite the expression as:
+                        <code>
+                            \dfrac{(\color{<var>BLUE</var>}{<var>X</var>} <var>A &gt; 0 ? "+" : "" </var> \color{<var>PINK</var>}{<var>A</var>})
+                                   (\color{<var>BLUE</var>}{<var>X</var>} <var>A &lt; 0 ? "+" : "" </var> \color{<var>PINK</var>}{<var>-A</var>})}
+                                   {<var>X</var> + <var>A</var>}
+                        </code>
+                    </p>
+
+                    <p>We can now divide the numerator and denominator by <code>(<var>X</var> + <var>A</var>)</code>.</p>
+
+                    <p>Which leaves us with <code><var>X</var> + <var>-A</var></code>.</p>
+                </div>
+
+            </div>
+
+            <div id="not-perfect-square">
+                <div class="vars">
+                    <var id="X">randVar()</var>
+                    <div data-ensure="abs(A) !== abs(B)">
+                        <var id="A">randRangeNonZero( -10, 10 )</var>
+                        <var id="B">randRangeNonZero( -10, 10 )</var>
+                    </div>
+                    <var id="CONSTANT">A*B</var>
+                    <var id="LINEAR">-A-B</var>
+                </div>
+
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question"><code>\dfrac{<var>X</var>^2 + <var>plus( LINEAR + X )</var> + <var>CONSTANT</var>}{<var>X</var> + <var>-A</var>}</code></p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="regex">^\s*<var>X</var>\s*<var>B &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>B &lt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*\+\s*<var>X</var>\s*$</div>
+                    <div class="input-format"><span class="entry"></span></div>
+                    <div class="example">an expression, like <b>x+1</b></div>
+                </div>
+
+                <div class="hints" data-apply="appendContents">
+                    <p>
+                        <code><var>X</var>^2 + <var>plus( LINEAR + X )</var> + <var>CONSTANT</var> = (<var>X</var> + <var>-A</var>)(<var>X</var> + <var>-B</var>)</code>
+                    </p>
+
+                    <p>
+                        So we can rewrite the expression as:
+                        <code>\dfrac{(<var>X</var> + <var>-A</var>)(<var>X</var> + <var>-B</var>)}{<var>X</var> + <var>-A</var>}</code>
+                    </p>
+
+                    <p>We can now divide the numerator and denominator by <code>(<var>X</var> + <var>-A</var>)</code>.</p>
+
+                    <p>Which leaves us with <code><var>X</var> + <var>-B</var></code>.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>First factor the polynomial in the numerator.</p>
+        </div>
+
+    </div>
+</body>
+</html>
