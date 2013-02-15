@@ -223,12 +223,10 @@ $.tmpl = {
                     // Stick the processing request onto the queue
                     if (typeof MathJax !== "undefined") {
                         KhanUtil.debugLog("adding " + text + " to MathJax typeset queue");
-                        setTimeout(function() {
-                            MathJax.Hub.Queue(["Typeset", MathJax.Hub, elem]);
-                            MathJax.Hub.Queue(function() {
-                                KhanUtil.debugLog("MathJax done typesetting " + text);
-                            });
-                        }, 1);
+                        MathJax.Hub.Queue(["Typeset", MathJax.Hub, elem]);
+                        MathJax.Hub.Queue(function() {
+                            KhanUtil.debugLog("MathJax done typesetting " + text);
+                        });
                     } else {
                         KhanUtil.debugLog("not adding " + text + " to queue because MathJax is undefined");
                     }
