@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Integer sums</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="FIRST_NUM">randRange(1, 100)</var>
+            <var id="SEQ_LENGTH">randRange(2, 6)</var>
+            <var id="DIFFERENCE">randRange(1, 2)</var>
+            <var id="TARGET_NUMBER">randRange(1, SEQ_LENGTH)</var>
+            <var id="ORDINAL">["zeroth", "first", "second", "third", "forth", "fifth", "sixth"][TARGET_NUMBER]</var>
+
+            <var id="C">DIFFERENCE * SEQ_LENGTH * (SEQ_LENGTH - 1) / 2</var>
+            <var id="SUM">FIRST_NUM * SEQ_LENGTH + C</var>
+            <var id="SEQ_TYPE">
+            (function() {
+                if (DIFFERENCE === 1) {
+                    return "integer";
+                } else if (isOdd(FIRST_NUM)) {
+                    return "odd number";
+                } else {
+                    return "even number";
+                }
+            })()
+            </var>
+            <var id="SEQUENCE">
+            (function() {
+                var sequence = "x";
+                for (var i = 1; i &lt;SEQ_LENGTH; i++) {
+                    sequence += "+ (x + " + (i * DIFFERENCE) + ")";
+                }
+                return sequence;
+            })()
+            </var>
+            <var id="ANSWER">FIRST_NUM + (TARGET_NUMBER - 1) * DIFFERENCE</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <p class="problem">The sum of <var>SEQ_LENGTH</var> consecutive <var>SEQ_TYPE</var>s is <var>SUM</var>.</p>
+                <p class="question">What is the <var>ORDINAL</var> number in this sequence?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>Let <code>x</code> be the first number in the sequence.</p>
+            <p>The next <var>SEQ_TYPE</var> in the sequence is <code>x + <var>DIFFERENCE</var></code></p>
+            <div>
+                <p>The sum of consecutive <var>SEQ_TYPE</var>s is:<p>
+                <p><code><var>SEQUENCE</var> = <var>SUM</var></code></p>
+            </div>
+            <p><code><var>SEQ_LENGTH</var>x + <var>C</var>= <var>SUM</var></code></p>
+            <p><code><var>SEQ_LENGTH</var>x = <var>SUM-C</var></code></p>
+            <p><code>x = <var>FIRST_NUM</var></code></p>
+            <div data-if="FIRST_NUM === ANSWER">
+                <p>Thus, the first number is <code><var>ANSWER</var></code>.</p>
+            </div>
+            <div data-else>
+                <p>Since <code>x</code> is the first number, <code>x + <var>(TARGET_NUMBER - 1) * DIFFERENCE</var></code> is the <var>ORDINAL</var> <var>SEQ_TYPE</var>.</p>
+                <p>Thus, the <var>ORDINAL</var> number is <code><var>ANSWER</var></code>.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

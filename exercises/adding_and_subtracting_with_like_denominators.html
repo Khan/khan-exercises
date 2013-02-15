@@ -2,37 +2,45 @@
 <html data-require="math math-format">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Dividing polynomials by binomials</title>
+    <title>Adding and subtracting with like denominators</title>
     <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function getExpression( coefficient, degree, vari ) {
+            var expr = coefficient;
+
+            if (degree > 1) {
+                expr += vari + "^" + degree;
+            } else if (degree === 1) {
+                expr += vari;
+            }
+            return expr
+        }
+    </script>
 </head>
 <body>
     <div class="exercise">
     <div class="problems">
         <div>
             <div class="vars">
-                <div data-ensure="abs(A) !== abs(B)">
-                    <var id="A">randRangeNonZero( -10, 10 )</var>
-                    <var id="B">randRangeNonZero( -10, 10 )</var>
-                </div>
-                <var id="SQUARE">1</var>
-                <var id="CONSTANT">SQUARE*A*B</var>
-                <var id="SIMPLECONSTANT">A*B</var>
-                <var id="LINEAR">SQUARE*(-A-B)</var>
-                <var id="SIMPLELINEAR">-A-B</var>
+                <var id="CONSTANT">randRangeNonZero( -12, 12 )</var>
+                <var id="COEFFICIENT1">randRange( 1, 12 )</var>
+                <var id="COEFFICIENT2">randRange( 1, 12 )</var>
+                <var id="X">randVar()</var>
+                <var id="DENOMINATOR">randRange( 2, 12 )</var>  
+                <var id="SOLUTION">toFraction((COEFFICIENT1 + COEFFICIENT2) / DENOMINATOR)</var>              
             </div>
 
-            <p class="problem">Simplify the following expression:</p>
-            <p class="question"><code>\dfrac{<var>plus(SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var>}{x + <var>-A</var>}</code></p>
+            <p class="problem">Simplify the expression.</p>
+            <p class="question">
+                <code>
+                    \frac{<var>COEFFICIENT1</var><var>X</var> + <var>CONSTANT</var>}{<var>DENOMINATOR</var><var>X</var>} + 
+                    \frac{<var>COEFFICIENT2</var><var>X</var> - <var>CONSTANT</var>}{<var>DENOMINATOR</var><var>X</var>}
+                </code>
+            </p>
 
-            <div class="solution" data-type="set">
-                <div class="set-sol" data-type="regex">^\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>B &lt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*\+\s*[xX]\s*$</div>
-                <div class="input-format"><span class="entry"></span></div>
-                <div class="example">an expression, like <b>x+1</b></div>
-            </div>
+            <p class="solution" data-type="rational"><var>SOLUTION[0] / SOLUTION[1]</var></p>
 
             <div class="hints">
-                <p>First factor the polynomial in the numerator.</p>
 
                 <div>
                     <p>When we factor a polynomial, we are basically reversing this process of multiplying linear expressions together:</p>
@@ -83,18 +91,10 @@
                     </code></p>
                 </div>
 
-                <p>
-                    So we can rewrite the expression as:
-                    <code>
-                        \dfrac{(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
-                               (x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})}
-                               {x + <var>-A</var>}
-                    </code>
-                </p>
-
-                <p>We can now divide the numerator and denominator by <code>(x + <var>-A</var>)</code>.</p>
-
-                <p>Which leaves us with <code>x + <var>-B</var></code>.</p>
+                <p><b>
+                    So we can factor the expression as: <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
+                    (x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})</code>
+                </b></p>
 
             </div>
         </div>
