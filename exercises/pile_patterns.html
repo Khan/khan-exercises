@@ -16,9 +16,9 @@
         <div class="problems">
             <div>
                 <div class="vars"
-                    data-ensure="(USEA || USEB || USEC || USED)
-                    &amp;&amp; A + B + C + D > 0 &amp;&amp;
-                    XS !== START">
+                    data-ensure="(USEA || USEB || USEC || USED) &amp;&amp;
+                                 A + B + C + D > 0 &amp;&amp;
+                                 XS !== START">
                     <var id="USEA">random() &lt; 0.5</var>
                     <var id="A">USEA ? randRange(1, 3) : 0</var>
                     <var id="USEB">random() &lt; 0.5</var>
@@ -36,7 +36,9 @@
                     <var id="START">A + B + C + D</var>
                 </div>
                 <p class="question">
-                    How many blocks are in the diagram for each step? You can see how the diagram looks for the first five steps by moving the slider.
+                    How many blocks are in the diagram for each step? You can
+                    see how the diagram looks for the first five steps by
+                    moving the slider.
                 </p>
                 <div class="problem">
                     <div class="graphie" id="main">
@@ -153,7 +155,7 @@
                                 steps[currStep + 1].animate({ "fill": "#ffffff" }, 200);
                                 currStep++;
                             }
-                            while (currStep > step) {
+                            while (currStep &gt; step) {
                                 steps[currStep].animate({ "opacity": 0 }, 200);
                                 currStep--;
                             }
@@ -168,7 +170,7 @@
 
                         graph.slider.onMove = function(x, y) {
                             if (x &lt; 1) return false;
-                            if (x > 9) return false;
+                            if (x &gt; 9) return false;
 
                             var newx = round((x - 1) / 2);
 
@@ -179,44 +181,104 @@
                     </div>
                 </div>
                 <div class="solution" data-type="multiple">
-                    In step 0, we have <span class="sol" data-forms="integer"><var>START</var></span> blocks. At each step, we add <span class="sol" data-forms="integer"><var>XS</var></span> more blocks.<br><br>
-                    So, at step number <code>S</code>, we have<br><span class="sol" data-forms="integer"><var>START</var></span> <code>+</code> <span class="sol" data-forms="integer"><var>XS</var></span> <code>\times S</code>  blocks.
+                    In step 0, we have
+                    <span class="sol" data-forms="integer"><var>START</var></span>
+                    blocks. At each step, we add
+                    <span class="sol" data-forms="integer"><var>XS</var></span>
+                    more blocks.<br><br>
+
+                    So, at step number <code>S</code>, we have<br>
+                    <span class="sol" data-forms="integer"><var>START</var></span>
+                    <code>+</code>
+                    <span class="sol" data-forms="integer"><var>XS</var></span>
+                    <code>\times S</code>  blocks.
                 </div>
                 <div class="hints">
-                    <p>The number of blocks in the diagram make an arithmetic progression. This means that at each step, the same number of blocks are added. We want to find a way to know how many blocks there will be at any step.</p>
-                    <p>First, we need to find out how many blocks we start out with. Count how many blocks there are in step 0 by dragging the slider all the way to the left.</p>
+                    <p>The number of blocks in the diagram make an arithmetic
+                    progression. This means that at each step, the same number
+                    of blocks are added. We want to find a way to know how many
+                    blocks there will be at any step.</p>
+                    <p>First, we need to find out how many blocks we start out
+                    with. Count how many blocks there are in step 0 by dragging
+                    the slider all the way to the left.</p>
                     <div>
-                        <p>We see that there <var>plural("is", START)</var> <var>pluralTex(START, "block")</var> in step 0. Fill this in the answer box.</p>
+                        <p>We see that there <var>plural("is", START)</var>
+                        <var>pluralTex(START, "block")</var> in step 0. Fill
+                        this in the answer box.</p>
                         <div class="graphie" data-update="main">
                             graph.slider.moveTo(1, 0);
                         </div>
                     </div>
-                    <p>Next, let's figure out how many blocks are added in each step. The easiest way to do that is to see how many blocks are added from step 0 to step 1.</p>
+                    <p>Next, let's figure out how many blocks are added in each
+                    step. The easiest way to do that is to see how many blocks
+                    are added from step 0 to step 1.</p>
                     <div>
-                        <p>There are <code><var>START + XS</var></code> blocks in step 1. To find how many blocks are added in each steps we just subtract this number from the number of blocks in step 0. So there are <code><var>START + XS</var> - <var>START</var> = <var>XS</var></code> <var>plural("block", XS)</var> added in each step. Fill this in the answer box.</p>
+                        <p>There are <code><var>START + XS</var></code> blocks
+                        in step 1. To find how many blocks are added in each
+                        steps we just subtract this number from the number of
+                        blocks in step 0. So there are
+                        <code>
+                            <var>START + XS</var> - <var>START</var> =
+                            <var>XS</var>
+                        </code>
+                        <var>plural("block", XS)</var> added in each step. Fill
+                        this in the answer box.</p>
                         <div class="graphie" data-update="main">
                             graph.slider.moveTo(3, 0);
                         </div>
                     </div>
-                    <p>Last, we have to figure out how many blocks there would be at any step. We can answer this by thinking "If we are at some step <code>S</code>, how many blocks would there be?"</p>
-                    <p>Well, let's start looking at how many blocks there are, and we'll see if there's a pattern.</p>
+                    <p>Last, we have to figure out how many blocks there would
+                    be at any step. We can answer this by thinking "If we are
+                    at some step <code>S</code>, how many blocks would there
+                    be?"</p>
+                    <p>Well, let's start looking at how many blocks there are,
+                    and we'll see if there's a pattern.</p>
                     <p>Step 0: <span class="const"><var>pluralTex(START, "block")</var></span></p>
                     <div>
-                        <p>We know step 1 has <code><var>START + XS</var></code> blocks, but we can also write it as the number of blocks in step 0, plus the number of blocks we add from step 0 to step 1:</p>
-                        <p>Step 1: <code>(</code>Number of blocks in step 0<code>) + <var>XS</var> =</code> <span class="const"><code><var>START</var> + </code></span><span class="lin"><code><var>XS</var></code></span> blocks</p>
+                        <p>We know step 1 has
+                        <code><var>START + XS</var></code> blocks, but we can
+                        also write it as the number of blocks in step 0, plus
+                        the number of blocks we add from step 0 to step 1:</p>
+                        <p>Step 1:
+                            <code>(</code>Number of blocks in step 0<code>) +
+                            <var>XS</var> =</code>
+                            <span class="const"> <code><var>START</var> + </code></span>
+                            <span class="lin"><code><var>XS</var></code></span>
+                            blocks</p>
                     </div>
-                    <p>We can do the same thing with steps 2 and 3, because we know we add the same amount of blocks in each step:</p>
-                    <p>Step 2: <code>(</code>Number of blocks in step 1<code>) + <var>XS</var> =</code> <span class="const"><code><var>START</var> + </code></span><span class="lin"><code><var>XS</var> + <var>XS</var></code></span> blocks</p>
-                    <p>Step 3: <code>(</code>Number of blocks in step 2<code>) + <var>XS</var> =</code> <span class="const"><code><var>START</var> + </code></span><span class="lin"><code><var>XS</var> + <var>XS</var> + <var>XS</var></code></span> blocks</p>
+                    <p>We can do the same thing with steps 2 and 3, because we
+                    know we add the same amount of blocks in each step:</p>
+                    <p>Step 2:
+                        <code>(</code>Number of blocks in step 1<code>) +
+                            <var>XS</var> =</code>
+                        <span class="const"><code><var>START</var> + </code></span>
+                        <span class="lin"><code><var>XS</var> + <var>XS</var></code></span>
+                        blocks</p>
+                    <p>Step 3:
+                        <code>(</code>Number of blocks in step 2<code>) +
+                            <var>XS</var> =</code>
+                        <span class="const"><code><var>START</var> + </code></span>
+                        <span class="lin"><code><var>XS</var> + <var>XS</var> +
+                            <var>XS</var></code></span>
+                        blocks</p>
                     <div>
-                        <p>Here, we can see a pattern! The number of blocks in each step can be represented as the sum of <span class="const"><var>pluralTex(START, "block")</var></span> and some number of groups of <span class="lin"><var>pluralTex(XS, "block")</var></span>. How many groups of <var>pluralTex(XS, "block")</var> are there in each step?</p>
+                        <p>Here, we can see a pattern! The number of blocks in
+                        each step can be represented as the sum of
+                        <span class="const"><var>pluralTex(START, "block")</var></span>
+                        and some number of groups of
+                        <span class="lin"><var>pluralTex(XS, "block")</var></span>.
+                        How many groups of <var>pluralTex(XS, "block")</var>
+                        are there in each step?</p>
                         <div class="graphie">
                             $(".const").addClass("hint_blue");
                             $(".lin").addClass("hint_orange");
                         </div>
                     </div>
                     <p>That's right, the same number as the step they are on!</p>
-                    <p>So, we can combine the groups of blocks together to look something like <code><var>START</var> + <var>XS</var> \times S</code>, where S represents which step we are on.</p>
+                    <p>So, we can combine the groups of blocks together to look
+                    something like
+                    <code><var>START</var> + <var>XS</var> \times S</code>,
+                    where <code>S</code> represents which step we are on.</p>
                 </div>
             </div>
         </div>
