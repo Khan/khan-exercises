@@ -8,30 +8,30 @@
     <style>
         .chart {
             height: 324px;
-            width:  496px;
+            width: 496px;
             position: absolute;
         }
 
         .heads {
             background: #a6a6a6;
-            color:      #333;
+            color: #333;
         }
 
         .heads,
         .tails {
-            border-right:   1px solid #888;
-            float:          left;
-            font-family:    Verdana, sans-serif;
-            font-size:      14px;
-            margin-bottom:  5px;
-            padding:        0 2px;
-            text-align:     center;
-            width:          16px;
+            border-right: 1px solid #888;
+            float: left;
+            font-family: Verdana, sans-serif;
+            font-size: 14px;
+            margin-bottom: 5px;
+            padding: 0 2px;
+            text-align: center;
+            width: 16px;
         }
 
         .tails {
             background: #595959;
-            color:      #ccc;
+            color: #ccc;
         }
 
         #chart-1 {
@@ -47,9 +47,9 @@
         }
 
         #charts {
-            height:   324px;
+            height: 324px;
             position: relative;
-            width:    496px;
+            width: 496px;
         }
 
         .pattern-tabs {
@@ -157,31 +157,42 @@
 
                     yAxis: {
                         allowDecimals: false,
+
                         labels: {
                             enabled: false,
                         },
+
 
                         title: {
                             text: ''
                         }
                     }
-                }
+                };
 
+                var generateDataSequence = function(patArray, colorArray) {
+                    var colorArray = typeof colorArray !== 'undefined' ? colorArray : [];
+                    var dataSeq = [];
+                    for (var i = 0; i &lt; patArray.length; i++) {                    
+                        var re = RegExp("(?=" + patArray[i] + ")", "g");
+                        dataSeq.push({
+                            name: patArray[i],
+                            color: (colorArray.length !== 0) ? colorArray[i] : '#808080',
+                            y: (sequence.match(re) || []).length,
+                        });
+                    }
+                    return dataSeq;
+
+                };
+
+                var c1Seq = ['H','T'];
+                var c1Color = ['#a6a6a6','#595959'];
                 var chart1Options = $.extend(true, {}, defaultOptions, {
                     chart: {
                         renderTo: 'chart-1'
                     },
 
                     series: [{
-                        data: [{
-                            name: 'H',
-                            color: '#a6a6a6',
-                            y: (sequence.match(/H/g) || []).length
-                        }, {
-                            name: 'T',
-                            color: '#595959',
-                            y: (sequence.match(/T/g) || []).length,
-                        }]
+                        data: generateDataSequence(c1Seq, c1Color),
                     }],
 
                     title: {
@@ -189,12 +200,14 @@
                     },
 
                     xAxis: {
-                        categories: ['H','T']
+                        categories: c1Seq
                     },
 
-                })
+                });
 
-                new Highcharts.Chart(chart1Options)
+                new Highcharts.Chart(chart1Options);
+
+                var c2Seq = ['HH','HT','TH','TT'];
 
                 var chart2Options = $.extend(true, {}, defaultOptions, {
                     chart: {
@@ -202,23 +215,7 @@
                     },
 
                     series: [{
-                        data: [{
-                            name: 'HH',
-                            color: '#808080',
-                            y: (sequence.match(/(?=HH)/g) || []).length
-                        }, {
-                            name: 'HT',
-                            color: '#808080',
-                            y: (sequence.match(/(?=HT)/g) || []).length
-                        }, {
-                            name: 'TH',
-                            color: '#808080',
-                            y: (sequence.match(/(?=TH)/g) || []).length
-                        }, {
-                            name: 'TT',
-                            color: '#808080',
-                            y: (sequence.match(/(?=TT)/g) || []).length
-                        }]
+                        data: generateDataSequence(c2Seq),
                     }],
 
                     title: {
@@ -226,11 +223,13 @@
                     },
 
                     xAxis: {
-                        categories: ['HH','HT', 'TH', 'TT']
+                        categories: c2Seq
                     },
                 });
 
-                new Highcharts.Chart(chart2Options)
+                new Highcharts.Chart(chart2Options);
+
+                var c3Seq = ['HHH','HHT','THH','HTH','THT','HTT','TTH','TTT'];
 
                 var chart3Options = $.extend(true, {}, defaultOptions, {
                     chart: {
@@ -238,39 +237,7 @@
                     },
 
                     series: [{
-                        data: [{
-                            name: 'HHH',
-                            color: '#808080',
-                            y: (sequence.match(/(?=HHH)/g) || []).length
-                        }, {
-                            name: 'HHT',
-                            color: '#808080',
-                            y: (sequence.match(/(?=HHT)/g) || []).length
-                        }, {
-                            name: 'THH',
-                            color: '#808080',
-                            y: (sequence.match(/(?=THH)/g) || []).length
-                        }, {
-                            name: 'HTH',
-                            color: '#808080',
-                            y: (sequence.match(/(?=HTH)/g) || []).length
-                        }, {
-                            name: 'THT',
-                            color: '#808080',
-                            y: (sequence.match(/(?=THT)/g) || []).length
-                        }, {
-                            name: 'HTT',
-                            color: '#808080',
-                            y: (sequence.match(/(?=HTT)/g) || []).length
-                        }, {
-                            name: 'TTH',
-                            color: '#808080',
-                            y: (sequence.match(/(?=TTH)/g) || []).length
-                        }, {
-                            name: 'TTT',
-                            color: '#808080',
-                            y: (sequence.match(/(?=TTT)/g) || []).length
-                        }]
+                        data: generateDataSequence(c3Seq),
                     }],
 
                     title: {
@@ -278,39 +245,21 @@
                     },
 
                     xAxis: {
-                        categories: ['HHH','HHT','THH','HTH','THT','HTT','TTH','TTT']
+                        categories: c3Seq
                     },
                 });
 
                 new Highcharts.Chart(chart3Options);
 
-                var charts = $('#charts');
+                $('.pattern-tabs a').on('click', function(e) {
+                    var $el = $(e.currentTarget);
 
-                $('#show-flips').on('click', function() {
                     $('.pattern-tabs a').removeClass("selected");
-                    $('#show-flips').addClass("selected");
-                    charts.animate({marginLeft: 0});
-                    return false;
-                });
+                    $el.addClass("selected");
+                    var charts = $('#charts');
 
-                $('#show-chart-1').on('click', function() {
-                    $('.pattern-tabs a').removeClass("selected");
-                    $('#show-chart-1').addClass("selected");
-                    charts.animate({marginLeft: -496});
-                    return false;
-                });
-
-                $('#show-chart-2').on('click', function() {
-                    $('.pattern-tabs a').removeClass("selected");
-                    $('#show-chart-2').addClass("selected");
-                    charts.animate({marginLeft: -992});
-                    return false;
-                });
-
-                $('#show-chart-3').on('click', function() {
-                    $('.pattern-tabs a').removeClass("selected");
-                    $('#show-chart-3').addClass("selected");
-                    charts.animate({marginLeft: -1488});
+                    var offset = $el.data("offset") * -1 * 496;
+                    charts.animate({marginLeft: offset});
                     return false;
                 });
             }
@@ -334,8 +283,7 @@
     </div>
 
     <div class="question">
-        <p>The following sequence of heads and tails was generated using one of three possible methods.</p>
-        <p class="question">Which method was used?</p>
+        <p class="question">Which method was used to generate this sequence of heads and tails?</p>
         <div style="overflow: hidden;">
             <div id="charts">
                 <var>coloredSequence</var>
@@ -346,10 +294,10 @@
         </div>
         <p class="view-patterns">View patterns:
             <span class="pattern-tabs">
-                <a href="javascript:void(0);" id="show-flips" class="selected">Coin flips</a> |
-                <a href="javascript:void(0);" id="show-chart-1">H vs T</a> |
-                <a href="javascript:void(0);" id="show-chart-2">Two-flip streaks</a> |
-                <a href="javascript:void(0);" id="show-chart-3">Three-flip streaks</a>
+                <a href="javascript:void(0);" id="show-flips" data-offset="0" class="selected">Coin flips</a> |
+                <a href="javascript:void(0);" id="show-chart-1" data-offset="1">H vs T</a> |
+                <a href="javascript:void(0);" id="show-chart-2" data-offset="2">Two-flip streaks</a> |
+                <a href="javascript:void(0);" id="show-chart-3" data-offset="3">Three-flip streaks</a>
             </span>
         </p>
         <var>initQuestion()</var>
