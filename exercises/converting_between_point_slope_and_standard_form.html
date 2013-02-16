@@ -6,7 +6,7 @@
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
         #answer_area input[type=text] {
-            width: 30px;
+            width: 23px;
         }
     </style>
 </head>
@@ -32,7 +32,7 @@
             <!-- Custom validation is used to allow for x to be any value. If we allowed a finite range for x, then we could have a set of solutions.-->
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                    <p><code>y - \space</code><input id="solution_y" type="text"></input><code> \quad = \quad</code><input id="solution_m" type="text"></input><code>(x - \space</code><input id="solution_x" type="text"></input><code>)</code></p>
+                    <p><code>y - {}</code><input id="solution_y" type="number"></input><code>{} = {}</code><input id="solution_m" type="number"></input><code>(x - {}</code><input id="solution_x" type="number"></input><code>)</code></p>
                 </div>
                 <div class="guess">
                     [ $( '#solution_x' ).val(), $( '#solution_y' ).val(), $( '#solution_m' ).val() ]
@@ -128,8 +128,8 @@
             </p>
             <div class="solution" data-type="multiple">
                 <p>
-                    <span class="sol" data-fallback="1"><var>A</var></span><code>\space x \space + \space </code>
-                    <span class="sol" data-fallback="1"><var>B</var></span><code>\space y \quad = \quad </code>
+                    <span class="sol" data-fallback="1"><var>A</var></span><code>\space x + {}</code>
+                    <span class="sol" data-fallback="1"><var>B</var></span><code>\space y = {}</code>
                     <span class="sol"><var>C</var></span>
                 </p>
                 <div class="example">three integers to complete the standard form equation</div>

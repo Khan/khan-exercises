@@ -4,8 +4,8 @@ $.extend(KhanUtil, {
 
         // Create a properly scaled 600x600px graph
         var options = {
-            xpixels: 600,
-            ypixels: 600,
+            xpixels: 514,
+            ypixels: 514,
             range: [[-1.2, 1.2], [-1.2, 1.2]]
         };
         options.scale = [options.xpixels / (options.range[0][1] - options.range[0][0]),
@@ -201,7 +201,7 @@ $.extend(KhanUtil, {
 
     highlightAngle: function() {
         var graph = KhanUtil.currentGraph;
-        graph.dragPoint.animate({ rx: 8, ry: 8 }, 50);
+        graph.dragPoint.animate({ scale: 2 }, 50);
         graph.angleLines.animate({ stroke: KhanUtil.ORANGE }, 100);
         graph.spiral.animate({ stroke: KhanUtil.ORANGE }, 100);
         graph.arrow.animate({ fill: KhanUtil.ORANGE }, 100);
@@ -212,7 +212,7 @@ $.extend(KhanUtil, {
 
     unhighlightAngle: function() {
         var graph = KhanUtil.currentGraph;
-        graph.dragPoint.animate({ rx: 4, ry: 4 }, 50);
+        graph.dragPoint.animate({ scale: 1 }, 50);
         graph.angleLines.animate({ stroke: KhanUtil.BLUE }, 100);
         graph.spiral.animate({ stroke: KhanUtil.BLUE }, 100);
         graph.arrow.animate({ fill: KhanUtil.BLUE }, 100);

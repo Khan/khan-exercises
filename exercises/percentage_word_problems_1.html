@@ -27,7 +27,7 @@
             <p class="question">
                 <var>B_SIMPLE</var> is <var>A_SIMPLE</var>% of what number? (Round to the hundredths place.)
             </p>
-            <p class="solution" data-forms="decimal"><var>round(((B_SIMPLE * 100) / A_SIMPLE) * 100) / 100</var></p>
+            <p class="solution" data-forms="integer, decimal"><var>round(((B_SIMPLE * 100) / A_SIMPLE) * 100) / 100</var></p>
             <div class="hints">
                 <p>Let <code>x</code> be the number that <var>B_SIMPLE</var> is <var>A_SIMPLE</var>% of.</p>
                 <p><code><var>A_SIMPLE / 100</var> \times x = <var>B_SIMPLE</var></code></p>
@@ -42,7 +42,7 @@
             </div>
             <p class="question">
                 <var>person(1)</var> has <var>BANK_MORE</var> dollars in the bank today. Yesterday, <var>he(1)</var> had <var>BANK_FEWER</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account increase over the past day? (Round your answer to the nearest hundredth of a percent.)</p>
-            <p class="solution" data-forms="percent"><var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_FEWER) / 100</var></p>
+            <p class="solution" data-forms="percent"><var>roundTo(4, (BANK_MORE - BANK_FEWER) / BANK_FEWER)</var></p>
             <div class="hints">
                 <p>The bank account grew by <code><var>BANK_MORE</var> - <var>BANK_FEWER</var> = <var>BANK_MORE - BANK_FEWER</var></code> dollars </p>
                 <p><code>\frac{<var>BANK_MORE - BANK_FEWER</var>}{<var>BANK_FEWER</var>} \approx <var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_FEWER) / 100</var>\%</code></p>
@@ -51,7 +51,7 @@
         <div id="bank-percentages-loss" data-type="bank-percentages">
             <p class="question">
                 <var>person(1)</var> has <var>BANK_FEWER</var> dollars in the bank today. Yesterday, <var>he(1)</var> had <var>BANK_MORE</var> dollars in the bank. By what percentage did <var>person(1)</var>'s bank account decrease over the past day? (Round your answer to the nearest hundredth of a percent.)</p>
-            <p class="solution" data-forms="percent"><var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_MORE) / 100</var></p>
+            <p class="solution" data-forms="percent"><var>roundTo(4, (BANK_MORE - BANK_FEWER) / BANK_MORE)</var></p>
             <div class="hints">
                 <p>The bank account decreased by <code><var>BANK_MORE</var> - <var>BANK_FEWER</var> = <var>BANK_MORE - BANK_FEWER</var></code> dollars </p>
                 <p><code>\frac{<var>BANK_MORE - BANK_FEWER</var>}{<var>BANK_MORE</var>} \approx <var>round(((BANK_MORE - BANK_FEWER) * 10000) / BANK_MORE) / 100</var>\%</code></p>

@@ -9,10 +9,10 @@
     <div class="exercise">
         <div class="vars">
             <var id="MAIN">randomTriangleAngles.triangle()</var>
-            <var id="MAIN_SIZE">5 + Math.random() * 2</var>
+            <var id="MAIN_SIZE">5 + random() * 2</var>
             <var id ="IS_B">randRange( 0, 1 ) === 1 ? true : false</var>
             <var id="B">IS_B ? MAIN : randomTriangleAngles.triangle()</var>
-            <var id="B_SIZE">IS_B ? MAIN_SIZE : 2 + Math.random() * 2</var>
+            <var id="B_SIZE">IS_B ? MAIN_SIZE : 2 + random() * 2</var>
             <var id="ANSWER">IS_B ? "Yes" : "No"</var>
 
             <var id="A_ANGLES">[ 0, 1, 2 ]</var>
@@ -85,7 +85,7 @@
                 <div class="hints" data-apply="appendContents">
                     <p>In this problem we are given the sides of the triangles, so we can compare them easily.</p>
                     <p data-if="IS_B">Triangle B has 3 sides the same as triangle A, so they are congruent.</p>
-                    <p data-else>The sides of triangle B are not the same as triangle A so they are not congruent</p>
+                    <p data-else>Because the sides do not match, triangle B is not congruent with triangle A.</p>
                 </div>
             </div>
 

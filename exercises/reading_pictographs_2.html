@@ -6,16 +6,21 @@
     <script src="../khan-exercise.js"></script>
     <style>
         .fake_header span, .fake_row span {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             vertical-align: top;
-            line-height: 40px;
+            line-height: 38px;
         }
         .fake_row span:first-child {
-            width: 80px;
+            width: 76px;
         }
         .fake_header span:first-child {
-            width: 480px;
+            width: 460px;
+        }
+    </style>
+    <style type="text/css">
+        #answer_area input[type=text] {
+            width: 40px;
         }
     </style>
 </head>
@@ -24,8 +29,8 @@
     <div class="vars">
         <var id="DATA">randRangeUnique( 1, 8, 5 )</var>
         <var id="BADGE">randFromArray([ "meteorite", "moon", "earth" ])</var>
-        <var id="FULL_IMAGE">"&lt;img src='" + Khan.urlBase + "images/" + BADGE + "-small.png'&gt;"</var>
-        <var id="HALF_IMAGE">"&lt;div style=\"background-image:url('" + Khan.urlBase + "images/" + BADGE + "-small.png'); width:20px; height:40px;\"&gt;&nbsp;&lt;/div&gt;"</var>
+        <var id="FULL_IMAGE">"&lt;img src='" + Khan.imageBase + "badges/" + BADGE + "-small.png'&gt;"</var>
+        <var id="HALF_IMAGE">"&lt;div style=\"background-image:url('" + Khan.imageBase + "badges/" + BADGE + "-small.png'); width:20px; height:40px;\"&gt;&nbsp;&lt;/div&gt;"</var>
         <var id="VALUE_PER_IMG">randFromArray([ 2, 4 ])</var>
         <var id="HALF">VALUE_PER_IMG === 1 ? [ 0, 0, 0, 0, 0 ] : [ rand(2), rand(2), rand(2), rand(2), rand(2) ]</var>
     </div>
@@ -54,12 +59,12 @@
             <p class="question">How many <var>BADGE</var> badges did <var>person( PERSON + 1 )</var> earn?</p>
 
             <div class="solution" data-type="multiple">
-                <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>ANSWER</var></span> <var>BADGE</var> badges</p>
+                <p><span style="padding-right: 5px" class="sol" data-forms="integer, decimal"><var>ANSWER</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
                 <p>The key at the bottom of the pictograph shows that each full symbol represents <var>plural( VALUE_PER_IMG, "badge" )</var>.</p>
                 <div>
-                    Find <var>person( PERSON + 1 )</var>'s row in the table:
+                    <p>Find <var>person( PERSON + 1 )</var>'s row in the table:</p>
                     <div class="fake_row">
                         <span><var>person( PERSON + 1 )</var></span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON ]"><var>HALF_IMAGE</var>
@@ -114,7 +119,7 @@
                     </code>
                 </p>
                 <div>
-                    Who has <code><var>NUM_SYMBOLS</var></code> <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var> next to <var>his( PERSON + 1 )</var> name?
+                    <p>Who has <code><var>NUM_SYMBOLS</var></code> <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var> next to <var>his( PERSON + 1 )</var> name?</p>
                     <div class="fake_row">
                         <span>???</span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON ]"><var>HALF_IMAGE</var>
@@ -141,12 +146,12 @@
             <p class="question">How many more <var>BADGE</var> badges did <var>person( PERSON1 + 1 )</var> earn than <var>person( PERSON2 + 1 )</var>?</p>
 
             <div class="solution" data-type="multiple">
-                <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>VAL1 - VAL2</var></span> <var>BADGE</var> badges</p>
+                <p><span style="padding-right: 5px" class="sol" data-forms="integer, decimal"><var>VAL1 - VAL2</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
                 <p>The key at the bottom of the pictograph shows that each full symbol represents <var>plural( VALUE_PER_IMG, "badge" )</var>.</p>
                 <div>
-                    Find <var>person( PERSON1 + 1 )</var>'s and <var>person( PERSON2 + 1 )</var>'s rows in the table:
+                    <p>Find <var>person( PERSON1 + 1 )</var>'s and <var>person( PERSON2 + 1 )</var>'s rows in the table:</p>
                     <div class="fake_row">
                         <span><var>person( PERSON1 + 1 )</var></span><span data-each="DATA[ PERSON1 ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON1 ]"><var>HALF_IMAGE</var>
@@ -182,7 +187,7 @@
             <p class="question">How many <var>BADGE</var> badges were earned by everyone all together?</p>
 
             <div class="solution" data-type="multiple">
-                <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>TOTAL</var></span> <var>BADGE</var> badges</p>
+                <p><span style="padding-right: 5px" class="sol" data-forms="integer, decimal"><var>TOTAL</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
                 <p>Start by counting the total number of <var>BADGE</var> symbols.</p>

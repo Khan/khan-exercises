@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems subhints">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Probability with permutations and combinations</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="students">
+                <div class="vars" data-ensure="GROUP &lt; (ARE_B ? BOYS : GIRLS)">
+                    <var id="STUDENTS">randRange(7,10)</var>
+                    <var id="GROUP">randRange(3,6)</var>
+                    <var id="BOYS">randRange(2,STUDENTS-2)</var>
+                    <var id="GIRLS">STUDENTS-BOYS</var>
+                    <var id="ARE_B">random() &lt; 0.5</var>
+                    <var id="NUM_B">ARE_B ? BOYS : GIRLS</var>
+                    <var id="ANSWER">(factorial(NUM_B)*factorial(STUDENTS-GROUP))/(factorial(STUDENTS)*factorial(NUM_B-GROUP))</var>
+                    <var id="GCD">getGCD(factorial(NUM_B)*factorial(STUDENTS-GROUP),factorial(STUDENTS)*factorial(NUM_B-GROUP))</var>
+                    <var id="PRETTY_NUM">factorial(NUM_B)*factorial(STUDENTS-GROUP)/GCD</var>
+                    <var id="PRETTY_DEM">factorial(STUDENTS)*factorial(NUM_B-GROUP)/GCD</var>
+                </div>
+                <p>
+                    There are <code><var>STUDENTS</var></code> students in a class: <code><var>BOYS</var></code> boys and
+                    <code><var>GIRLS</var></code> girls.
+                </p>
+                <p class="question"> 
+                    If the teacher picks a group of <code><var>GROUP</var></code> at random, what is the probability that 
+                    everyone in the group is a <var>ARE_B ? "boy" : "girl"</var>?
+                </p>
+                <div class="solution" data-forms="proper"><var>ANSWER</var></div>
+                <div class="hints">
+                    <p>
+                        One way to solve this problem is to figure out how many different groups
+                        there are of only <var>ARE_B ? "boys" : "girls"</var>, then divide this
+                        by the total number of groups you could choose. Since every groups is chosen
+                        with equal probability, this will be the probability that a group of all 
+                        <var>ARE_B ? "boys" : "girls"</var> is chosen.
+                    </p>
+                    <p>
+                        We know two ways to count the number of groups we can choose: we use permutations if order matters,
+                        and combinations if it doesn't. Does the order the students are picked matter in this case?
+                    </p>
+                    <div>
+                        <p>
+                            It doesn't matter if we pick <var>ARE_B ? "John" : "Julia"</var> then 
+                            <var>ARE_B ? "Ben" : "Beatrice"</var> or <var>ARE_B ? "Ben" : "Beatrice"</var> then 
+                            <var>ARE_B ? "John" : "Julia"</var>, 
+                            so order must not matter. So, the number of ways
+                            to pick a group of <code><var>GROUP</var></code> students out of <code><var>STUDENTS</var></code> is
+                            <code> \dfrac{<var>STUDENTS</var>!}{(<var>STUDENTS</var>-<var>GROUP</var>)!<var>GROUP</var>!} = 
+                            \binom{<var>STUDENTS</var>}{<var>GROUP</var>}</code>.
+                            [<a href="#" class="show-subhint" data-subhint="binomial">Show me why</a>]
+                        </p>
+                        <div class="subhint" id="binomial">
+                            <p>
+                                Remember that the
+                                <code><var>STUDENTS</var>! \;</code> and <code>(<var>STUDENTS</var>-<var>GROUP</var>)! \;</code> terms come from when we
+                                fill up the group, making <code><var>STUDENTS</var></code>
+                                choices for the first slot, then <code><var>STUDENTS-1</var></code> choices for the
+                                second, and so on. In this way, we end up making 
+                                <code><var>_.map(_.range(GROUP), function(l){ return (STUDENTS-l);}).join("\\cdot")</var> 
+                                = \dfrac{<var>STUDENTS</var>!}{(<var>STUDENTS</var>-<var>GROUP</var>)!} \;</code>.
+                                The <code><var>GROUP</var>! \;</code> term comes from the number of times we've counted
+                                a group as different because we chose the students in a different order.
+                                There are <code><var>GROUP</var>! \;</code> 
+                                ways to order a group of <code><var>GROUP</var></code>, so for every group, we've overcounted exactly
+                                that many times.
+                            </p>
+                        </div>
+                    </div>
+                    <p>
+                        We can use the same logic to count the number of groups that only have <var>ARE_B ? "boys" : "girls"</var>.
+                    </p>
+                    <p>
+                        Specifically, the number of ways to pick a group of <code><var>GROUP</var></code> students out of
+                        <code><var>NUM_B</var></code> is
+                        <code> \dfrac{<var>NUM_B</var>!}{(<var>NUM_B</var>-<var>GROUP</var>)!<var>GROUP</var>!} = 
+                        \binom{<var>NUM_B</var>}{<var>GROUP</var>}</code>.
+                    </p>
+                    <p>
+                        So, the probability that the teacher picks a group of all <var>ARE_B ? "boys" : "girls"</var> is the number of 
+                        groups with only <var>ARE_B ? "boys" : "girls"</var> divided by the number of total groups the teacher could pick.
+                    </p>
+                    <p>
+                        This is <code> \displaystyle \frac{\frac{<var>NUM_B</var>!}{(<var>NUM_B</var>-<var>GROUP</var>)!\cancel{<var>GROUP</var>!}}}
+                        {\frac{<var>STUDENTS</var>!}{(<var>STUDENTS</var>-<var>GROUP</var>)!\cancel{<var>GROUP</var>!}}} = 
+                        \frac{\frac{<var>NUM_B</var>!}{<var>NUM_B-GROUP</var>!}}{\frac{<var>STUDENTS</var>!}{<var>STUDENTS-GROUP</var>!}}</code>
+                    </p>
+                    <p>
+                        We can re-arrange the terms to make simplification easier
+                        <code>\left(\dfrac{<var>NUM_B</var>!}{<var>NUM_B-GROUP</var>!}\right)
+                        \left(\dfrac{<var>STUDENTS-GROUP</var>!}{<var>STUDENTS</var>!}\right) =
+                        \left(\dfrac{<var>NUM_B</var>!}{<var>STUDENTS</var>!}\right)
+                        \left(\dfrac{<var>STUDENTS-GROUP</var>!}{<var>NUM_B-GROUP</var>!}\right)</code>
+                    <p>
+                        Simplifying, we get <code> 
+                        \left(\dfrac{\cancel{<var>NUM_B</var>!}}{<var>_.map(_.range(STUDENTS-NUM_B), function(l){ return (STUDENTS-l); }).join("\\cdot")
+                        </var> \cdot \cancel{<var>NUM_B</var>!}}\right)
+                        \left(\dfrac{<var>_.map(_.range(STUDENTS-NUM_B), function(l){ return (STUDENTS-GROUP-l); }).join("\\cdot")
+                        </var> \cdot \cancel{<var>(NUM_B-GROUP)</var>!}}{\cancel{<var>NUM_B-GROUP</var>!}}\right) = 
+                        \left(\dfrac{1}{<var>factorial(STUDENTS)/factorial(NUM_B)</var>}\right)
+                        \left(<var>factorial(STUDENTS-GROUP)/factorial(NUM_B-GROUP)</var>\right) =
+                        \dfrac{<var>PRETTY_NUM</var>}{<var>PRETTY_DEM</var>}</code>
+                    </p>
+                </div>
+            </div>
+
+            <div id="coins">
+                <div class="vars">
+                    <var id="COINS">randRange(4,7)</var>
+                    <var id="NUM">randRange(2,COINS-2)</var>
+                    <var id="IS_H">random &lt; 0.5</var>
+                    <var id="NAME">IS_H ? "heads" : "tails"</var>
+                    <var id="NUM_RIGHT">factorial(COINS)/(factorial(NUM)*factorial(COINS-NUM))</var>
+                    <var id="NUM_ALL">Math.pow(2,COINS)</var>
+                    <var id="GCD">getGCD(NUM_RIGHT,NUM_ALL)</var>
+                    <var id="PRETTY_NUMER">NUM_RIGHT/GCD</var>
+                    <var id="PRETTY_DENOM">NUM_ALL/GCD</var>
+                </div>
+
+                <p class="question">
+                    If you flip a fair coin <code><var>COINS</var></code> times, what is the probability that you will get exactly 
+                    <code><var>NUM</var></code> <var>NAME</var>?
+                </p>
+                <p class="solution" data-forms="proper"><var>PRETTY_NUMER/PRETTY_DENOM</var></p>
+
+                <div class="hints">
+                    <p>
+                        One way to solve this problem is to figure out how many ways you can get exactly <code><var>NUM</var></code> <var>NAME</var>, then
+                        divide this by the total number of outcomes you could have gotten. Since every outcome has equal probability, this will be the 
+                        probability that you will get exactly 
+                        <code><var>NUM</var></code> <var>NAME</var>. 
+                    </p>
+                    <p>
+                        How many outcomes are there where you get exactly <code><var>NUM</var></code> <var>NAME</var>? Try thinking of each outcome as 
+                        a <code><var>COINS</var></code>-letter word, where the first letter is "H" if the first coin toss was heads and "T" 
+                        if it was tails, and so on.
+                    </p>
+                    <p>
+                        So, the number of outcomes with exactly <code><var>NUM</var></code> <var>NAME</var> 
+                        is the same as the number of these words which have
+                        <code><var>NUM</var></code> <var>IS_H ? "H's" : "T's"</var> and <code><var>COINS-NUM</var></code> <var>IS_H ? "T's" : "H's"</var>.
+                    </p>
+                    <div>
+                        <p>
+                            How many of these are there? If we treat all the letters as unique,
+                            we'll find that there are <code><var>COINS</var>!</code> different arrangements, overcounting <code><var>NUM</var>!</code>
+                            times for every time we only switch the <var>IS_H ? "H's" : "T's"</var> around, and <code><var>COINS-NUM</var>!</code>
+                            times for every time we only switch the <var>IS_H ? "T's" : "H's"</var> around.
+                            [<a href="#" class="show-subhint" data-subhint="letters">Show me why</a>]
+                        </p>
+                        <div class="subhint" id="letters">
+                            Let's say we toss a coin 5 times, and get tails three times. How many different re-arrangements are there of the
+                            letters "HHTTT"? Well, we have five choices for the first slot, four for the second slot, and so on, resulting in
+                            <code>5\cdot4\cdot3\cdot2\cdot1 = 5! = 120 \;</code> different re-arrangements. But, this treats all the letters
+                            as unique, when </br>
+                            H<span class="hint_blue">T</span>H<span class="hint_orange">T</span><span class="hint_green">T</span> 
+                            is the same as </br>
+                            H<span class="hint_orange">T</span>H<span class="hint_blue">T</span><span class="hint_green">T</span>,
+                            and </br>
+                            H<span class="hint_orange">T</span>H<span class="hint_green">T</span><span class="hint_blue">T</span>,
+                            </br>
+                            and so on. So really, we need to replace all these different re-arrangements
+                            where we only move the tails around with one re-arrangement, HTHTT. There are <code>3!</code> of these multi-
+                            colored arrangements for every normal one, so that means dividing
+                            our first guess of <code>5!</code> by <code>3!</code>. By the exact same logic, we need to divide by <code>2!</code> to
+                            avoid overcounting every permutation where we just move the heads around. So, the number of re-arrangements is 
+                            <code>\dfrac{5!}{3!2!} = \binom{5}{3}</code>.
+                        </div>
+                    </div>
+                    <div>
+                        <p>
+                            So, there are <code>\dfrac{<var>COINS</var>!}{<var>NUM</var>!<var>COINS-NUM</var>!} = <var>NUM_RIGHT</var></code> different 
+                            outcomes where you get exactly <code><var>NUM</var></code> <var>NAME</var>.
+                            [<a href="#" class="show-subhint" data-subhint="total">How many total outcomes are there?</a>]
+                        </p>
+                        <div class="subhint" id="total">
+                            Well, if you only flip one coin, there are two outcomes, if you flip two there are four outcomes, if you flip three there
+                            are eight. Each time you flip another coin, you double the number of possible outcomes.
+                        </div>
+                    </div>
+                    <p>
+                        Altogether, there are <code>2^{<var>COINS</var>} = <var>NUM_ALL</var></code> total possible outcomes.
+                    </p>
+                    <p data-if="NUM_RIGHT != PRETTY_NUMER">
+                        So, the probability that you will get exactly <var>NUM</var> <var>NAME</var> is
+                        <code>\dfrac{<var>NUM_RIGHT</var>}{<var>NUM_ALL</var>} = \dfrac{<var>PRETTY_NUMER</var>}{<var>PRETTY_DENOM</var>}</code>.
+                    </p>
+                    <p data-else>
+                        So, the probability that you will get exactly <var>NUM</var> <var>NAME</var> is
+                        <code>\dfrac{<var>NUM_RIGHT</var>}{<var>NUM_ALL</var>}</code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

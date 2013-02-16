@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
+    <head>
+        <title>Shaded areas</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars" data-ensure="(INNER_AREA &lt; OUTER_AREA) &&
+                                           (_.all(INNER.vertices, OUTER.contains))">
+                <var id="SHAPES">["square", "circle", "triangle"]</var>
+
+                <var id="INNER_SHAPE">randFromArray(SHAPES)</var>
+                <var id="OUTER_SHAPE">randFromArray(SHAPES)</var>
+
+                <!-- need some kind of consistent size metric among shapes
+                so we can guarantee that the inner shape is enclosed -->
+                <var id="INNER_SIZE">randRange(2, 6)</var>
+                <var id="OUTER_SIZE">randRange(INNER_SIZE + 1, 11)</var>
+
+                <var id="DRAW">{
+                    square: function(x, y, size) {
+                        var s = 2*size,
+                        v = [[x - size, y + size], [x + size, y + size], [x + size, y - size],
+                             [x - size, y - size], true];
+
+                        return {
+                            vertices: _.initial(v),
+                            contains: function(point) {
+                                return (point[0] &gt;= (x - size)) && (point[0] &lt;= (x + size)) &&
+                                       (point[1] &gt;= (y - size)) && (point[1] &lt;= (y + size));
+                            },
+                            drawShape: function(g, style) {
+                                return g.path(v, style);
+                            },
+                            drawSize: function(g, style, inner) {
+                                return {
+                                    label: inner ?
+                                        g.label([x, y + size], s, "above", style) :
+                                        g.label([x + size, y], s, "right", style),
+                                    path: inner ?
+                                        g.path([[x - size, y + size], [x + size, y + size]], style) :
+                                        g.path([[x + size, y + size], [x + size, y - size]], style)
+                                };
+                            },
+                            hint: function() {
+                                return "\\text{area of a square} = s^2 = "+s+"^2";
+                            }
+                        };
+                    },
+
+                    circle: function(x, y, size) {
+                        return {
+                            vertices: _.map([0, 30, 45, 60, 90, 120, 135, 150, 180,
+                                             210, 225, 240, 270, 300, 315, 330, 360],
+                                            function(th) {
+                                                th = th * Math.PI / 180;
+                                                return [size * Math.cos(th), size * Math.sin(th)];
+                                            }),
+                            contains: function(point) {
+                                return (pow(point[0] - x, 2) + pow(point[1] - y, 2) &lt;= size*size);
+                            },
+                            drawShape: function(g, style) {
+                                return g.circle([x, y], size, style);
+                            },
+                            drawSize: function(g, style, inner) {
+                                return {
+                                    label: g.label(inner ? [x - size/2, y] : [x + size/2, y],
+                                                   size, "above", style),
+                                    path: g.path([[x, y], inner ? [x - size, y] : [x + size, y]],
+                                                 size, style)
+                                };
+                            },
+                            hint: function() {
+                                return "\\text{area of a circle} = \\pi r^2 = \\pi "+size+"^2";
+                            }
+                        };
+                    },
+
+                    triangle: function(x, y, size) {
+                        var s = 2*size,
+                        v = [[x, y], [x + s, y], [x + s/2, y + sqrt(3)*s/2]],
+                        centroid = [(v[0][0] + v[1][0] + v[2][0]) / 3,
+                                    (v[0][1] + v[1][1] + v[2][1]) / 3];
+
+                        // recenter the triangle
+                        v = _.map(v, function(vertex) {
+                            return [vertex[0] - centroid[0], vertex[1] - centroid[1]];
+                        });
+                        v.push(true);
+
+                        var sign = function(p1, p2, p3) {
+                            return (p1[0] - p3[0]) * (p2[1] - p3[1]) - (p2[0] - p3[0]) * (p1[1] - p3[1]);
+                        };
+
+                        return {
+                            vertices: _.initial(v),
+                            contains: function(point) {
+                                var b1, b2, b3;
+
+                                b1 = sign(point, v[0], v[1]) &lt;= 0;
+                                b2 = sign(point, v[1], v[2]) &lt;= 0;
+                                b3 = sign(point, v[3], v[0]) &lt;= 0;
+
+                                return ((b1 == b2) && (b2 == b3));
+                            },
+                            drawShape: function(g, style) {
+                                return g.path(v, style);
+                            },
+                            drawSize: function(g, style, inner) {
+                                return {
+                                    label: g.label([(v[0][0] + v[1][0]) / 2, (v[0][1] + v[1][1]) / 2], s, "below", style),
+                                    path: g.path([v[0], v[1]], s, style)
+                                };
+                            },
+                            hint: function() {
+                                return "\\text{area of an equilateral triangle} = \\dfrac{\\sqrt{3}}{4}s^2 = \\dfrac{\\sqrt{3}}{4}"+s+"^2";
+                            }
+                        };
+                    }
+                }</var>
+
+                <var id="OUTER">DRAW[OUTER_SHAPE](0, 0, OUTER_SIZE)</var>
+                <var id="INNER">DRAW[INNER_SHAPE](0, 0, INNER_SIZE)</var>
+
+                <var id="AREAS">{
+                    "square": function(size) {
+                        return [Math.pow(size * 2, 2), Math.pow(size * 2, 2)];
+                    },
+                    "circle": function(size) {
+                        return [Math.PI * size * size, piFraction(Math.PI * size * size)];
+                    },
+                    "triangle": function(size) {
+                        return [size*size * Math.sqrt(3), size*size + "\\sqrt{3}"];
+                    }
+                }</var>
+
+                <var id="OUTER_AREA, PRETTY_OUTER_AREA">AREAS[OUTER_SHAPE](OUTER_SIZE)</var>
+                <var id="INNER_AREA, PRETTY_INNER_AREA">AREAS[INNER_SHAPE](INNER_SIZE)</var>
+
+                <var id="SHADED_AREA">OUTER_AREA - INNER_AREA</var>
+            </div>
+
+            <div class="problems">
+                <div>
+                    <div class="question">What is the area of the shaded region?</div>
+                    <div class="extra-info">(Round to the nearest hundredth.)</div>
+                    <div class="solution" data-inexact data-max-error="0.01" data-type="decimal"><var>SHADED_AREA</var></div>
+                    <div class="graphie" id="shapes">
+                        var g = init({ range: [[-14, 14], [-14, 14]], scale: [11, 11] });
+
+                        graph.outerShape = OUTER.drawShape(g, { fill: BLUE, stroke: BLUE, "fill-opacity": 0.5 });
+                        graph.innerShape = INNER.drawShape(g, { fill: "#f8f8f8", stroke: BLUE });
+
+                        graph.outerSize = OUTER.drawSize(g, { stroke: BLUE, opacity: 1 });
+                        graph.innerSize = INNER.drawSize(g, { stroke: ORANGE, opacity: 1 }, true);
+                    </div>
+                </div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>First, calculate the area of the <span class="hint_blue">whole figure</span> (including the unshaded area), along with the area of the unshaded inner region.</p>
+                    <div class="graphie" data-update="shapes">
+                        OUTER.drawShape(KhanUtil.currentGraph, { fill: BLUE, opacity: 0.5 });
+                    </div>
+                </div>
+                <p><code>\text{area of whole figure} = </code><br><code>\qquad<var>OUTER.hint()</var> = <var>PRETTY_OUTER_AREA</var></code></p>
+                <p><code>\text{area of inner region} = </code><br><code>\qquad<var>INNER.hint()</var> = <var>PRETTY_INNER_AREA</var></code></p>
+                <p>Then subtract the inner region's area from the whole figure's area to find the area of the shaded region (the difference between the two areas).</p>
+                <p><code>\text{area of shaded region} = <var>PRETTY_OUTER_AREA</var> - <var>PRETTY_INNER_AREA</var> = <var>roundTo(2, SHADED_AREA)</var></code></p>
+            </div>
+        </div>
+    </body>
+</html>

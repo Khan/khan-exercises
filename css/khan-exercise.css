@@ -5,12 +5,12 @@ var { font-style: normal; }
 .hint_blue { color: #6495ED; }
 .hint_orange { color: #FFA500; }
 .hint_pink { color: #FF00AF; }
-.hint_red { color: red; }
+.hint_red { color: #DF0030; }
 .hint_green { color: #28AE7B; }
 .hint_gray { color: gray; }
-.hint_purple{ color: purple; }
+.hint_purple{ color: #9D38BD; }
 
-.final_answer{ font-weight:bold; }
+.final_answer { font-weight: bold; }
 
 div.subhint {
     border: 1px solid #aaaaaa;
@@ -62,7 +62,7 @@ div.definition {
 #examples { color: #777; margin-left: 20px; list-style-type: disc; }
 #examples li { margin: 5px 0; }
 
-#problemarea { font-size: 14px; width: 63%; min-height: 378px; position: relative; float: left; padding-bottom: 38px; }
+#problemarea { font-size: 14px; width: 70%; min-height: 378px; position: relative; float: left; padding-bottom: 38px; }
 
 #solution { font-size: 14px; }
 #solution label { display: block; white-space: nowrap; }
@@ -77,17 +77,24 @@ table.limit td { border: 1px solid #AAA; }
 table.limit th, td { padding: 5px; }
 table.limit th:first-child { text-align: right; }
 
-#answer_area input[type=text] { width: 80px; }
+#answer_area input[type=text],
+#answer_area input[type=number] {
+    width: 80px;
+}
 #readonly { display: none; }
 
 .radical .surd { font: 150% Arial; padding: 0 0 0 5px; }
 .radical .overline { border-top: 1px solid #000; padding: 6px 1px 0 3px; margin-left: -1px; }
+#answer_area .radical input[type=text],
+#answer_area .radical input[type=number] {
+    width: 30px;
+}
 
-body.debug .graphie { outline: 1px dashed red; }
+body.debug .graphie { outline: 1px dashed #fdd; }
 .graphie svg { position: absolute; top: 0; left: 0; }
 
-#scratchpad { padding-left: 30px; overflow: hidden; display: none; }
-#scratchpad div { position: absolute; z-index: 1; min-height: 378px; width: 100%; height: 98%; outline: 1px solid #ccc; }
+#scratchpad { padding-left: 20px; overflow: hidden; display: none; }
+#scratchpad div { position: absolute; margin-top: -20px; z-index: 1; min-width: 514px; height: 98%; outline: 1px solid #ccc; }
 #scratchpad-not-available { display: none; }
 
 #tester-info.info-box { background: #f2e4bf; }
@@ -120,6 +127,78 @@ body.debug .graphie { outline: 1px dashed red; }
   color: #fff;
   text-decoration: none;
 }
+
+#answer_area .calculator {
+    width: 181px;
+    margin: 0 auto;
+}
+
+#answer_area .calculator .history {
+    font: 14px/1.5 Menlo, Monaco, Courier, monospace;
+    margin: 0 0 10px;
+    width: 183px;
+    max-height: 150px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#answer_area .calculator .history .output {
+    text-align: right;
+}
+
+#answer_area .calculator .history input {
+    box-sizing: border-box;
+    display: block;
+    font: inherit;
+    margin: 5px 3px 3px;
+    width: 169px;
+    padding-right: 25px;
+}
+
+#answer_area .calculator .history .input {
+    position: relative;
+}
+
+#answer_area .calculator .history .status a {
+    position: absolute;
+    font: 10px/1.5 Menlo, Monaco, Courier, monospace;
+    color: #999;
+    text-decoration: none;
+    line-height: 10px;
+    height: 19px;
+    top: 5px;
+    right: 6px;
+}
+
+#answer_area .calculator .keypad .calc-row {
+    margin: 5px 0;
+}
+
+#answer_area .calculator .keypad .calc-row a {
+    background: #ccc;
+    border-radius: 2px;
+    color: #000;
+    display: inline-block;
+    margin: 0 5px 0 0;
+    text-align: center;
+    text-decoration: none;
+    width: 31px;
+}
+
+#answer_area .calculator .keypad .calc-row a.dark {
+    background: #aaa;
+}
+
+#answer_area .calculator .keypad a sup {
+    vertical-align: super;
+    font-size: 85%;
+    line-height: 0;
+}
+
+#answer_area .calculator .keypad a.wide {
+    width: 67px;
+}
+
 #solutionarea {
     min-height: 35px;
     padding: 10px;
@@ -265,18 +344,13 @@ div.timeline-total {
   width: 10000px;
 }
 
-#timeline-events:first-child {
-  margin-left: 5px;
-}
-
-#timeline-events:last-child {
-  margin-right: 5px;
-}
-
-#timeline-events:last-child:after {
-	content: "";
-	height: 1px;
-	display: block;
+/* Allow the timeline to scroll all the way to the end with a little margin */
+#timeline-events:after, #timeline-events:before {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 1px;
+  float: left;
 }
 
 #timeline p {
@@ -324,6 +398,67 @@ div.timeline-total {
 .user-activity.activated {
   border: 2px solid #888;
 }
+
+/* Version of the site used by Khan/exercise-browser for the iframe preview */
+
+html.exercise-browser {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.exercise-browser body {
+  min-width: 0;
+  width: 790px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.exercise-browser header, .exercise-browser footer, .exercise-browser .topic-exercise-badge, .exercise-browser #extras, .exercise-browser .exercises-stack, .exercise-browser .related-video-box  {
+  display: none !important;
+}
+
+.exercise-browser #outer-wrapper, .exercise-browser #page-container, .exercise-browser #page-container-inner {
+  background: #ffffff;
+}
+
+.exercise-browser article {
+  border: none;
+}
+
+.exercise-browser #container.single-exercise {
+  min-width: 0;
+}
+
+.exercise-browser #page-container {
+  width: 790px;
+  min-width: 0;
+}
+
+.exercise-browser .problem-types {
+  margin-right: 20px;
+}
+
+.exercise-browser .problem-type-link {
+  display: block;
+  margin-bottom: 5px;
+  padding: 6px;
+  background: #36A6C4;
+  border-radius: 5px;
+  border: 1px solid #7FC8E6;
+  color: white;
+}
+
+.exercise-browser .problem-type-link:hover {
+  color: white;
+  background: #1C758C;
+  text-decoration: none;
+}
+
+.exercise-browser .problem-type-link:visited {
+  color: #C2EAFF;
+  text-decoration: none;
+}
+
 
 .lite header, .lite footer, .lite #extras, .lite .exercise-badge, .lite .hint-box, .lite .related-video-box {
 	display: none !important;
@@ -542,7 +677,7 @@ div.timeline-total {
 .sortable > ul > li {
 	background-color: #fff;
 	border: 1px solid #b9b9b9;
-	border-bottom-color: #939393
+	border-bottom-color: #939393;
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -585,4 +720,99 @@ div.timeline-total {
 	background-color: #ffedcd;
 	opacity: 0.8;
 	filter: alpha(opacity = 80);
+}
+
+/* Video hints */
+
+.video-hint {
+  margin-bottom: 20px;
+}
+
+/* Question-based hints */
+
+.qhint {
+  border: 1px solid #aaaaaa;
+  background: #f9f9f9;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.qhint-answer {
+  display: none;
+}
+
+.qhint-feedback {
+  font-weight: bold;
+  color: #6495ED;
+}
+
+.qhint-feedback.correct {
+  color: #28AE7B;
+}
+
+.qhint-feedback.incorrect {
+  color: #CE4444;
+}
+
+/* Fancy matrix input - goes along with matrix-input.js */
+
+#answer_area .matrix-row {
+    float: left;  /* contain inner floats */
+    clear: both;
+}
+
+#answer_area .matrix-row .sol {
+    margin: 0;
+    float: left;
+}
+
+#answer_area .matrix-row .sol input[type=text],
+#answer_area .matrix-row .sol input[type=number] {
+    width: 45px;
+    height: 30px;
+    border: none;
+    margin: 3px;
+    padding: 1px;
+}
+
+.matrix-input .matrix-bracket {
+    width: 6px;
+    position: absolute;
+    border-top: 2px solid #888;
+    border-bottom: 2px solid #888;
+    /* margin-top must have the same magnitude
+       as the border widths */
+    margin-top: -2px;
+}
+
+.matrix-input .matrix-bracket.bracket-left {
+    border-left: 2px solid #888;
+    /* margin-left for the left bracket must have
+       the same magnitude as the border widths */
+    margin-left: -2px;
+}
+
+.matrix-input .matrix-bracket.bracket-right {
+    border-right: 2px solid #888;
+}
+
+table.periodic-table td.element {
+    border: 1px solid;
+    min-width: 37px;
+    min-height: 37px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+table.periodic-table td.element div.atomic-num {
+}
+table.periodic-table td.element div.symbol {
+    font-weight: bold;
+}
+table.periodic-table td.element div.weight {
+    font-size: 10px;
 }

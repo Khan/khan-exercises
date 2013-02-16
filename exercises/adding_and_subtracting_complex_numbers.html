@@ -4,10 +4,16 @@
     <meta charset="UTF-8" />
     <title>Adding and subtracting complex numbers</title>
     <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #solutionarea input[type="text"],
+        #solutionarea input[type="number"] {
+            width: 50px
+        }
+    </style>
 </head>
 <body>
     <div class="exercise">
-    <div class="vars">
+    <div class="vars" data-ensure="ANSWER_IMAG !== -1">
         <var id="A_REAL">randRange( -5, 5 )</var>
         <var id="A_IMAG">randRange( -5, 5 )</var>
         <var id="B_REAL">randRange( -5, 5 )</var>
@@ -21,10 +27,10 @@
             ( OPERATION === "add" ? ( A_IMAG + B_IMAG ) : ( A_IMAG - B_IMAG ) )
         </var>
         <var id="A_REP">
-            complexNumber( A_REAL, A_IMAG )
+            complexNumber(A_REAL, A_IMAG)
         </var>
         <var id="B_REP">
-            complexNumber( B_REAL, B_IMAG )
+            complexNumber(B_REAL, B_IMAG)
         </var>
         <var id="A_REP_COLORED">
             "\\color{" + ORANGE + "}{" + A_REP + "}"
@@ -54,8 +60,21 @@
                     (<var>A_REP_COLORED</var>) <var>OPERATOR</var> (<var>B_REP_COLORED</var>)
                 </code>
             </p>
-            <div class="solution" data-type="complexNumberSeparate">
-                [ <var>ANSWER_REAL</var>, <var>ANSWER_IMAG</var> ]
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer, decimal" data-fallback="0" data-inexact data-max-error="0.01">
+                    <var>ANSWER_REAL</var>
+                </span>
+                <code>+</code>
+                <span class="sol" data-forms="integer, decimal" data-fallback="1" data-inexact data-max-error="0.01">
+                    <var>ANSWER_IMAG</var>
+                </span>
+                <code>i</code>
+                <div class="example">
+                    Two numbers for both the real and imaginary parts
+                </div>
+                <div class="example">
+                    Example: 2 + 3<code>i</code>
+                </div>
             </div>
             <div class="hints">
                 <p>
@@ -65,7 +84,7 @@
                     The real components of the two complex numbers are <code class="hint_orange"><var>A_REAL</var></code> and <code class="hint_blue"><var>B_REAL</var></code>, respectively,
                     so the real component of the result will be
                     <code>
-                        <var>A_REAL_COLORED</var> <var>OPERATOR</var> \color{<var>BLUE</var>}{<var>negParens( B_REAL )</var>}
+                        <var>A_REAL_COLORED</var> <var>OPERATOR</var> \color{<var>BLUE</var>}{<var>negParens(B_REAL)</var>}
                     </code>,
                     which equals <code><var>ANSWER_REAL</var></code>.
                 </p>
@@ -73,13 +92,12 @@
                     The imaginary components of the two complex numbers are <code class="hint_orange"><var>A_IMAG</var></code> and <code class="hint_blue"><var>B_IMAG</var></code>, respectively,
                     so the imaginary component of the result will be
                     <code>
-                        <var>A_IMAG_COLORED</var> <var>OPERATOR</var>  \color{<var>BLUE</var>}{<var>negParens( B_IMAG )</var>}
+                        <var>A_IMAG_COLORED</var> <var>OPERATOR</var>  \color{<var>BLUE</var>}{<var>negParens(B_IMAG)</var>}
                     </code>,
                     which equals <code><var>ANSWER_IMAG</var></code>.
                 </p>
                 <p>
-                    The result is <code><var>complexNumber( ANSWER_REAL, ANSWER_IMAG )</var></code>; its real component is <code><var>ANSWER_REAL</var></code>
-                    and its complex component is <code><var>ANSWER_IMAG</var></code>.
+                    The result is <code><var>complexNumber(ANSWER_REAL, ANSWER_IMAG)</var></code>.
                 </p>
             </div>
         </div>

@@ -4,8 +4,8 @@ $.extend(KhanUtil, {
     cleanMath: function(expr) {
         return typeof expr === "string" ?
             KhanUtil.tmpl.cleanHTML(expr)
-                .replace(/\+ -/g, "- ")
-                .replace(/- -/g, "+ ")
+                .replace(/\+\s*-/g, "- ")
+                .replace(/-\s*-/g, "+ ")
                 .replace(/\^1/g, "") :
             expr;
     },
@@ -76,6 +76,14 @@ $.extend(KhanUtil, {
             return Math.ceil(x - 0.001);
         }
         return Math.floor(x + 0.001);
+    },
+
+    factorial: function(x) {
+        if (x <= 1) {
+            return x;
+        } else {
+            return x * KhanUtil.factorial(x-1);
+        }
     },
 
     getGCD: function(a, b) {
@@ -474,11 +482,35 @@ $.extend(KhanUtil, {
     isInt: function(num) {
         return parseFloat(num) === parseInt(num, 10) && !isNaN(num);
     },
+
+
+    /**
+     * Add LaTeX color markup to a given value.
+     */
+    colorMarkup: function(val, color) {
+        return "\\color{" + color + "}{" + val + "}";
+    },
+
+    /**
+     * Like _.contains except using _.isEqual to verify if item is present.
+     * (Works for lists of non-primitive values.)
+     */
+    contains: function(list, item) {
+        return _.any(list, function(elem) {
+            if (_.isEqual(item, elem)) {
+                return true;
+            }
+            return false;
+        });
+    },
+
     BLUE: "#6495ED",
     ORANGE: "#FFA500",
     PINK: "#FF00AF",
     GREEN: "#28AE7B",
-    PURPLE: "purple",
-    RED: "red",
-    GRAY: "gray"
+    PURPLE: "#9D38BD",
+    RED: "#DF0030",
+    GRAY: "gray",
+    BLACK: "black",
+    BACKGROUND: "#FAFAFA"
 });

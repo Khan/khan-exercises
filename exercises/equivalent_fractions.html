@@ -17,7 +17,7 @@
     </div>
 
     <div class="problems">
-        <div>
+        <div id="numerator">
             <p class="question">What number could replace <code><var>SYMBOL</var></code> below?</p>
             <p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>SYMBOL</var>}{<var>D</var>}</code></p>
             <div class="solution" data-forms="integer"><var>C</var></div>
@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <div>
+        <div id="denominator">
             <p class="question">What number could replace <code><var>SYMBOL</var></code> below?</p>
             <p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>SYMBOL</var>}</code></p>
             <div class="solution" data-forms="integer"><var>D</var></div>
@@ -91,6 +91,17 @@
 
                 <p>The final equation is: <code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>M</var>}{<var>M</var>} = \dfrac{<var>C</var>}{<var>D</var>} </code> so our answer is <code><var>D</var></code>.</p>
 
+            </div>
+        </div>
+
+        <div id="custom-7" data-weight="0" data-type="numerator">
+            <div class="vars">
+                <var id="A">1</var>
+                <var id="B">2</var>
+                <var id="M">2</var>
+                <var id="C">A * M</var>
+                <var id="D">B * M</var>
+                <var id="SYMBOL">"\\otimes"</var>
             </div>
         </div>
     </div>

@@ -14,14 +14,16 @@
         <var id="DATA">
             (function() {
                 var ordinals = $.map( DAYS, function( day, i ) {
-                    return day.substring( 0, 2 );
+                    return day.substring( 0, 3 );
                 });
 
-                return { min: 0,
+                return {
+                    min: 0,
                     max: 10,
                     tickCount: 10,
                     values: VALUES,
-                    ordinals: ordinals };
+                    ordinals: ordinals
+                };
             })()
         </var>
     </div>
@@ -43,7 +45,7 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <span style="padding-right: 5px" class="sol"><var>VALUES[ INDEX ]</var></span> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var>
+                <span style="padding-right: 5px" class="sol" data-forms="integer, decimal"><var>VALUES[ INDEX ]</var></span> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var>
             </div>
 
             <div class="hints">

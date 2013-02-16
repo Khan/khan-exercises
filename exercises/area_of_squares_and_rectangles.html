@@ -1,230 +1,215 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-require="math graphie word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Area of squares and rectangles</title>
     <script src="../khan-exercise.js"></script>
-
-    <script type="text/javascript">
-        var L_COLOR = "orange";
-        var W_COLOR = "blue";
-
-        var S_COLOR = "purple";
-
-        var P_COLOR = "green";
-        var K_COLOR = "red";
-
-        function initRect( L, W ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.init({
-                range: [ [-1, L + 1], [-1, W + 1] ],
-                scale: 500 / (2 * L + 2 * W)
-            });
-
-            graph.path( [ [0, 0], [L, 0] ], { "stroke": L_COLOR } );
-            graph.label( [L/2, 0], "\\color{" + L_COLOR + "}{l = " + L + "}", "below" );
-
-            graph.path( [ [L, 0], [L, W] ], { "stroke": W_COLOR } );
-            graph.label( [L, W/2], "\\color{" + W_COLOR + "}{w = " + W + "}", "right" );
-
-            graph.path( [ [L, W], [0, W], [0, 0] ] );
-        }
-
-        function drawRectPerimeter( L, W ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.path( [ [0, 0], [L, 0], [L, W], [0, W], [0, 0] ], { "stroke": P_COLOR } );
-            graph.label( [L/2, W], "\\color{" + P_COLOR + "}{P = " + (2 * L + 2 * W) + "}", "above" );
-        }
-
-        function drawRectArea( L, W ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.path( [ [0, 0], [L, 0], [L, W], [0, W], [0, 0] ], { "stroke-opacity": 0, "fill": "#ffcccc" } );
-            graph.label( [L/2, W/2], "\\color{" + K_COLOR + "}{K = " + L * W + "}", "center" );
-        }
-
-        function initSq( S ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.init({
-                range: [ [-1 * (S / 5), S + (S / 5)], [-1 * (S / 5), S + (S / 5)] ],
-                scale: 200 / S
-            });
-
-            graph.path( [ [0, 0], [S, 0], [S, S], [0, S], [0, 0] ] );
-        }
-
-        function drawSqSide( S ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.path( [ [S, 0], [S, S] ], { "stroke": S_COLOR } );
-            graph.label( [S, S/2], "\\color{" + S_COLOR + "}{s = " + S + "}", "right" );
-        }
-
-        function drawSqPerimeter( S ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.path( [ [0, 0], [0, S], [S, S], [S, 0], [0, 0] ], { "stroke": P_COLOR } );
-            graph.label( [S/2, S], "\\color{" + P_COLOR + "}{P = " + 4*S + "}", "above" );
-        }
-
-        function drawSqArea( S ) {
-            var graph = KhanUtil.currentGraph;
-
-            graph.path( [ [0, 0], [S, 0], [S, S], [0, S], [0, 0] ], { "stroke-opacity": 0, "fill": "#ffcccc" } );
-            graph.label( [S/2, S/2], "\\color{" + K_COLOR + "}{K = " + S * S + "}", "center" );
-        }
-    </script>
 </head>
 <body>
-    <div class="exercise">
+<div class="exercise">
+    <div class="vars">
+        <var id="UNIT,UNIT_TEXT">randFromArray([
+            ["in", "inch"],
+            ["ft", "foot"],
+            ["m", "meter"],
+            ["cm", "centimeter"],
+            ["", "unit"]
+        ])</var>
+    </div>
     <div class="problems">
-        <div id="square-s-to-K">
+        <div id="square-find-area">
             <div class="vars">
-                <var id="S">randRange(1, 8)</var>
+                <var id="S">randRange(2, 8)</var>
             </div>
 
-            <div class="question">
-                <p>Suppose the side length of a square is <code>\color{<var>S_COLOR</var>}{<var>S</var>}</code>. What is its area?</p>
-            </div>
+            <p class="question">
+                One side of a square is <code><var>S</var></code>
+                <var>plural(UNIT_TEXT, S)</var> long. What is its area?
+            </p>
 
-            <div class="solution"><var>S * S</var></div>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>S * S</var></span> square
+                <var>plural(UNIT_TEXT)</var>
+            </div>
 
             <div class="hints">
-                <div class="graphie" id="square">
-                    initSq( S );
-
-                    drawSqSide( S );
+                <div class="graphie" id="area">
+                    init({ range: [[-1, S + 1], [-1, S + 1]], scale: 30});
+                    path([[0, 0], [S, 0], [S, S], [0, S], true],
+                        { stroke: BLUE, fill: "#eee" });
+                    label([S / 2, S], S + "\\text{ " + UNIT + "}", "above");
+                    label([0, S / 2], S + "\\text{ " + UNIT + "}", "left");
                 </div>
-                <p>The area of a square is <code>K = s \cdot s = s^2</code>.</p>
+                <p>
+                    The area is the length times the width.
+                </p>
                 <div>
-                    <p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>K = \color{<var>S_COLOR</var>}{<var>S</var>}^2 = \color{<var>K_COLOR</var>}{<var>S * S</var>}</code>.</p>
-
-                    <div class="graphie" data-update="square">
-                        drawSqArea( S );
+                    <div class="graphie" data-update="area">
+                        _(S - 1).times(function(y) {
+                            style({
+                                stroke: GRAY,
+                                strokeWidth: 1,
+                                strokeDasharray: "-"
+                            }, function() {
+                                path([[0, y + 61 / 60], [S, y + 61 / 60]]);
+                                path([[y + 61 / 60, 0], [y + 61 / 60, S]]);
+                            });
+                        });
+                    </div>
+                    <p>
+                        The length is <var>plural(S, UNIT_TEXT)</var> and
+                        the width is <var>plural(S, UNIT_TEXT)</var>, so the
+                        area is <code><var>S</var>\times<var>S</var></code>
+                        square <var>plural(UNIT_TEXT)</var>.
+                    </p>
+                </div>
+                <div>
+                    <p><code>
+                        \qquad\text{area} = <var>S</var> \times <var>S</var>
+                        = <var>S * S</var>
+                    </code></p>
+                    <p>
+                        We can also count <var>S * S</var>
+                        square <var>plural(UNIT_TEXT)</var>.
+                    </p>
+                    <div class="graphie" data-update="area">
+                        _(S * S).times(function(n) {
+                            label([n % S + 0.5, S - floor(n / S) - 0.5],
+                                n + 1, "center", false)
+                                .css({ color: GRAY });
+                        });
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="square-K-to-s">
+        <div id="square-find-side">
             <div class="vars">
-                <var id="S">randRange(1, 8)</var>
+                <var id="S">randRange(2, 8)</var>
             </div>
 
-            <div class="question">
-                <p>Suppose the area of a square is <code>\color{<var>K_COLOR</var>}{<var>S * S</var>}</code>. What is its side length?</p>
-            </div>
+            <p class="question">
+                The area of a square is <code><var>S * S</var></code>
+                square <var>plural(UNIT_TEXT)</var>. How long is each side?
+            </p>
 
-            <div class="solution"><var>S</var></div>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>S</var></span>
+                <var>plural(UNIT_TEXT)</var>
+            </div>
 
             <div class="hints">
-                <div class="graphie" id="square">
-                    initSq( S );
-
-                    drawSqArea( S );
-                </div>
-                <p>The area of a square is <code>K = s \cdot s = s^2</code>, so <code>s = \sqrt{K}</code>.</p>
                 <div>
-                    <p>Substituting in <code>K = \color{<var>K_COLOR</var>}{<var>S * S</var>}</code> gives <code>s = \sqrt{\color{<var>K_COLOR</var>}{<var>S * S</var>}} = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
-
-                    <div class="graphie" data-update="square">
-                        drawSqSide( S );
+                    <div class="graphie" id="square">
+                        init({ range: [[-1, 6], [-1, 6]] });
+                        path([[0, 0], [5, 0], [5, 5], [0, 5], true],
+                            { stroke: BLUE, fill: "#eee" });
+                        label([2.5, 5], "\\text{? " + UNIT + "}", "above",
+                            { "color": PINK });
+                        label([0, 2.5], "\\text{? " + UNIT + "}", "left",
+                            { "color": PINK });
                     </div>
+                </div>
+                <div>
+                    <div class="graphie" data-update="square">
+                        path([[0, 0], [0, 5]],
+                            { strokeWidth: 4, stroke: PINK });
+                        path([[0, 5], [5, 5]],
+                            { strokeWidth: 4, stroke: PINK });
+                    </div>
+                    <p>
+                        The area is the length times the width.
+                    </p>
+                    <p><code>\qquad \pink{\text{?}} \times \pink{\text{?}} =
+                        <var>S * S</var>\text{ <var>UNIT</var>}
+                    </code></p>
+                </div>
+                <div>
+                    <p><code>\qquad \pink{<var>S</var>} \times
+                        \pink{<var>S</var>} =
+                        <var>S * S</var>\text{ <var>UNIT</var>}
+                    </code></p>
+                    <p>
+                        The sides of a square are all the same length, so each
+                        side must be <code><var>S</var></code>
+                        <var>plural(UNIT_TEXT, S)</var> long.
+                    </p>
                 </div>
             </div>
         </div>
 
-        <div id="square-K-to-P">
-            <div class="vars">
-                <var id="S">randRange(1, 8)</var>
-            </div>
-
-            <div class="question">
-                <p>Suppose the area of a square is <code>\color{<var>K_COLOR</var>}{<var>S * S</var>}</code>. What is its perimeter?</p>
-            </div>
-
-            <div class="solution"><var>4 * S</var></div>
-
-            <div class="hints">
-                <div class="graphie" id="square">
-                    initSq( S );
-
-                    drawSqArea( S );
-                </div>
-                <p>The area of a square is <code>K = s \cdot s = s^2</code>, so <code>s = \sqrt{K}</code>.</p>
-                <p>Substituting in <code>K = \color{<var>K_COLOR</var>}{<var>S * S</var>}</code> gives <code>s = \sqrt{\color{<var>K_COLOR</var>}{<var>S * S</var>}} = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
-                <p>Now find the perimeter using <code>P = s + s + s + s = 4s</code>.</p>
-                <div>
-                    <p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>P = 4\cdot\color{<var>S_COLOR</var>}{<var>S</var>} = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>.</p>
-
-                    <div class="graphie" data-update="square">
-                        drawSqPerimeter( S );
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="square-P-to-K">
-            <div class="vars">
-                <var id="S">randRange(1, 8)</var>
-            </div>
-
-            <div class="question">
-                <p>Suppose the perimeter of a square is <code>\color{<var>P_COLOR</var>}{<var>4 * S</var>}</code>. What is its area?</p>
-            </div>
-
-            <div class="solution"><var>S * S</var></div>
-
-            <div class="hints">
-                <div class="graphie" id="square">
-                    initSq( S );
-
-                    drawSqPerimeter( S );
-                </div>
-                <p>The perimeter of a square is <code>P = s + s + s + s = 4s</code>, so <code>s = P/4</code>.</p>
-                <p>Substituting in <code>P = \color{<var>P_COLOR</var>}{<var>4 * S</var>}</code> gives <code>s = \color{<var>P_COLOR</var>}{<var>4 * S</var>}/4 = \color{<var>S_COLOR</var>}{<var>S</var>}</code>.</p>
-                <p>Now find the area using <code>K = s \cdot s = s^2</code>.</p>
-                <div>
-                    <p>Substituting in <code>s = \color{<var>S_COLOR</var>}{<var>S</var>}</code> gives <code>K = \color{<var>S_COLOR</var>}{<var>S</var>}^2 = \color{<var>K_COLOR</var>}{<var>S * S</var>}</code>.</p>
-
-                    <div class="graphie" data-update="square">
-                        drawSqArea( S );
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="rectangle-lw-to-K" data-weight="3">
+        <div id="rectangle">
             <div class="vars" data-ensure="L !== W">
-                <var id="L">randRange(1, 8)</var>
-                <var id="W">randRange(1, 8)</var>
+                <var id="L">randRange(2, 9)</var>
+                <var id="W">randRange(2, 9)</var>
             </div>
 
-            <div class="question">
-                <p>Suppose a rectangle has length <code>\color{<var>L_COLOR</var>}{<var>L</var>}</code> and width <code>\color{<var>W_COLOR</var>}{<var>W</var>}</code>. What is its area?</p>
-            </div>
+            <p class="question">
+                A rectangle is
+                <code><var>L</var></code> <var>plural(UNIT_TEXT, L)</var>
+                long and
+                <code><var>W</var></code> <var>plural(UNIT_TEXT, W)</var>
+                wide. What is its area?
+            </p>
 
-            <div class="solution"><var>L * W</var></div>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>L * W</var></span> square
+                <var>plural(UNIT_TEXT)</var>
+            </div>
 
             <div class="hints">
-                <div class="graphie" id="rectangle">
-                    initRect( L, W );
+                <div class="graphie" id="area">
+                    init({ range: [[-1, L + 1], [-1, W + 1]], scale: 30 });
+                    path([[0, 0], [L, 0], [L, W], [0, W], true],
+                        { stroke: BLUE, fill: "#eee" });
+                    label([L / 2, W], L + "\\text{ " + UNIT + "}", "above");
+                    label([L, W / 2], W + "\\text{ " + UNIT + "}", "right");
                 </div>
-                <p>The area of a rectangle is <code>K = lw</code>.</p>
+                <p>
+                    The area is the length times the width.
+                </p>
                 <div>
-                    <p>Substituting in <code>l = \color{<var>L_COLOR</var>}{<var>L</var>}</code> and <code>w = \color{<var>W_COLOR</var>}{<var>W</var>}</code> gives <code>K = \color{<var>L_COLOR</var>}{<var>L</var>} \cdot \color{<var>W_COLOR</var>}{<var>W</var>} = \color{<var>K_COLOR</var>}{<var>L * W</var>}</code>.</p>
-
-                    <div class="graphie" data-update="rectangle">
-                        drawRectArea( L, W );
+                    <div class="graphie" data-update="area">
+                        style({
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            strokeDasharray: "-"
+                        },function() {
+                            _(L - 1).times(function(x) {
+                                path([[x + 61 / 60, 0], [x + 61 / 60, W]]);
+                            });
+                            _(W - 1).times(function(y) {
+                                path([[0, y + 61 / 60], [L, y + 61 / 60]]);
+                            });
+                        });
+                    </div>
+                    <p>
+                        The length is <var>plural(L, UNIT_TEXT)</var> and
+                        the width is <var>plural(W, UNIT_TEXT)</var>, so the
+                        area is <code><var>L</var>\times<var>W</var></code>
+                        square <var>plural(UNIT_TEXT)</var>.
+                    </p>
+                </div>
+                <div>
+                    <p><code>
+                        \qquad\text{area} = <var>L</var> \times <var>W</var>
+                        = <var>L * W</var>
+                    </code></p>
+                    <p>
+                        We can also count <var>L * W</var>
+                        square <var>plural(UNIT_TEXT)</var>.
+                    </p>
+                    <div class="graphie" data-update="area">
+                        _(L * W).times(function(n) {
+                            label([n % L + 0.5, W - floor(n / L) - 0.5],
+                                n + 1, "center", false)
+                                .css({ color: GRAY });
+                        });
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
-    </div>
+</div>
 </body>
 </html>

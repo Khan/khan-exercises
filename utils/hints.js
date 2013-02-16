@@ -47,7 +47,7 @@ $(Khan).bind("newProblem", function() {
                 prerender: true
             },
             style: {
-                classes: "ui-tooltip-light leaf-tooltip"
+                classes: "qtip-light leaf-tooltip"
             },
             position: {
                 my: "bottom center",

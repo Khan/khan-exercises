@@ -95,7 +95,7 @@
                     <div class="graphie" id="number-line">
                         init({
                             range: [ [-1, 101], [-1, 1] ],
-                            scale: [ 7, 40 ]
+                            scale: [ 4.5, 40 ]
                         });
 
                         style({
@@ -109,7 +109,7 @@
 
                         var position = "above";
                         $.each( NUMS_SORT, function( i, el ) {
-                            ellipse(  [ 100 + el[0], 0 ], [ 0.80, 0.14 ], { "stroke-width": 0, fill: el[1] } );
+                            ellipse(  [ 100 + el[0], 0 ], [ 0.89, 0.1 ], { "stroke-width": 0, fill: el[1] } );
                             label( [ 100 + el[0], 0 ], "\\color{" + el[1] + "}{" + el[0] + "}", position, { labelDistance: 5 } );
                             position = ( position === "above" ? "below" : "above" );
                         } );

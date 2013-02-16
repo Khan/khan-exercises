@@ -35,7 +35,11 @@
         var unscalePoint = function(point) {
             var x = point[0], y = point[1];
             return [x / xScale + xRange[0], yRange[1] - y / yScale];
-        }
+        };
+
+        var unscaleVector = function(point) {
+            return [point[0] / xScale, point[1] / yScale];
+        };
 
         var svgPath = function(points) {
             // Bound a number by 1e-6 and 1e20 to avoid exponents after toString
@@ -166,12 +170,9 @@
                         subpath.arrowheadsDrawn = true;
                         path.remove();
 
-                        head.attr(attrs).attr({
-                            "stroke-linejoin": "round",
-                            "stroke-linecap": "round"
-                        }).transform("t" + almostTheEnd.x + "," +
-                            almostTheEnd.y + "r" + angle + ",0.75,0" +
-                            "s" + s + "," + s + ",0.75,0");
+                        head.rotate(angle, 0.75, 0).scale(s, s, 0.75, 0)
+                            .translate(almostTheEnd.x, almostTheEnd.y).attr(attrs)
+                            .attr({ "stroke-linejoin": "round", "stroke-linecap": "round" });
                         head.arrowheadsDrawn = true;
                         set.push(subpath);
                         set.push(head);
@@ -183,11 +184,20 @@
                     arrows(path.items[i]);
                 }
             }
+            return path;
         };
 
         var drawingTools = {
             circle: function(center, radius) {
                 return raphael.ellipse.apply(raphael, scalePoint(center).concat(scaleVector([radius, radius])));
+            },
+
+            // (x, y) is coordinate of bottom left corner
+            rect: function(x, y, width, height) {
+                // Raphael needs (x, y) to be coordinate of upper left corner
+                var corner = scalePoint([x, y + height]);
+                var dims = scaleVector([width, height]);
+                return raphael.rect.apply(raphael, corner.concat(dims));
             },
 
             ellipse: function(center, radii) {
@@ -258,8 +268,6 @@
                     "above left": [-1.0, -1.0]
                 };
 
-                var scaled = scalePoint(point);
-
                 latex = (typeof latex === "undefined") || latex;
 
                 var span;
@@ -271,13 +279,22 @@
                     span = $("<span>").html(text);
                 }
 
-                var pad = currentStyle["label-distance"];
-                span.css($.extend({}, currentStyle, {
-                    position: "absolute",
-                    left: scaled[0],
-                    top: scaled[1],
-                    padding: (pad != null ? pad : 7) + "px"
-                })).appendTo(el);
+                // function to reposition the label
+                span.setPosition = function(pt) {
+                    var scaled = scalePoint(pt);
+
+                    var pad = currentStyle["label-distance"];
+                    this.css($.extend({}, currentStyle, {
+                        position: "absolute",
+                        left: scaled[0],
+                        top: scaled[1],
+                        padding: (pad != null ? pad : 7) + "px"
+                    }));
+
+                    return this;
+                };
+
+                span.setPosition(point).appendTo(el);
 
                 if (typeof MathJax !== "undefined" && $.trim(text + "") !== "") {
                     // Add to the MathJax queue
@@ -291,11 +308,25 @@
 
                         var setMargins = function(size) {
                             span.css("visibility", "");
-                            var multipliers = directions[direction || "center"];
-                            span.css({
-                                marginLeft: Math.round(size[0] * multipliers[0]),
-                                marginTop: Math.round(size[1] * multipliers[1])
-                            });
+                            if (typeof direction === "number") {
+                                var x = Math.cos(direction);
+                                var y = Math.sin(direction);
+
+                                var scale = Math.min(
+                                    size[0] / 2 / Math.abs(x),
+                                    size[1] / 2 / Math.abs(y));
+
+                                span.css({
+                                    marginLeft: (-size[0] / 2) + x * scale,
+                                    marginTop: (-size[1] / 2) - y * scale
+                                });
+                            } else {
+                                var multipliers = directions[direction || "center"];
+                                span.css({
+                                    marginLeft: Math.round(size[0] * multipliers[0]),
+                                    marginTop: Math.round(size[1] * multipliers[1])
+                                });
+                            }
                         };
 
                         var callback = MathJax.Callback(function() {});
@@ -332,15 +363,36 @@
                 currentStyle.strokeLinejoin || (currentStyle.strokeLinejoin = "round");
                 currentStyle.strokeLinecap || (currentStyle.strokeLinecap = "round");
 
-                var points = [];
-
                 var min = range[0], max = range[1];
                 var step = (max - min) / (currentStyle["plot-points"] || 800);
+
+                var paths = raphael.set(), points = [], lastVal = fn(min);
+
                 for (var t = min; t <= max; t += step) {
-                    points.push(fn(t));
+                    var funcVal = fn(t);
+
+                    if (
+                        // if there is an asymptote here, meaning that the graph switches signs and has a large difference
+                        ((funcVal[1] < 0) !== (lastVal[1] < 0)) && Math.abs(funcVal[1] - lastVal[1]) > 2 * yScale ||
+                        // or the function value gets really high (which breaks raphael)
+                        Math.abs(funcVal[1]) > 1e7
+                       ) {
+                        // split the path at this point, and draw it
+                        paths.push(this.path(points));
+                        // restart the path, excluding this point
+                        points = [];
+
+                    } else {
+                        // otherwise, just add the point to the path
+                        points.push(funcVal);
+                    }
+
+                    lastVal = funcVal;
                 }
 
-                return this.path(points);
+                paths.push(this.path(points));
+
+                return paths;
             },
 
             plotPolar: function(fn, range) {
@@ -361,6 +413,75 @@
                 return this.plotParametric(function(x) {
                     return [x, fn(x)];
                 }, range);
+            },
+
+            /**
+             * Given a piecewise function, return a Raphael set of paths that
+             * can be used to draw the function, e.g. using style().
+             * Calls plotParametric.
+             *
+             * @param  {[]} fnArray    array of functions which when called
+             *                         with a parameter i return the value of
+             *                         the function at i
+             * @param  {[]} rangeArray array of ranges over which the
+             *                         corresponding functions are defined
+             * @return {Raphael set}
+             */
+            plotPiecewise: function(fnArray, rangeArray) {
+                var paths = raphael.set();
+                var self = this;
+                _.times(fnArray.length, function(i) {
+                    var fn = fnArray[i];
+                    var range = rangeArray[i];
+                    var fnPaths = self.plotParametric(function(x) {
+                        return [x, fn(x)];
+                    }, range);
+                    _.each(fnPaths, function(fnPath) {
+                        paths.push(fnPath);
+                    });
+                });
+
+                return paths;
+            },
+
+            /**
+             * Given an array of coordinates of the form [x, y], create and
+             * return a Raphael set of Raphael circle objects at those
+             * coordinates
+             *
+             * @param  {Array of arrays} endpointArray
+             * @return {Raphael set}
+             */
+            plotEndpointCircles: function(endpointArray) {
+                var circles = raphael.set();
+                var self = this;
+
+                _.each(endpointArray, function(coord, i) {
+                    circles.push(self.circle(coord, 0.15));
+                });
+
+                return circles;
+            },
+
+            plotAsymptotes: function(fn, range) {
+                var min = range[0], max = range[1];
+                var step = (max - min) / (currentStyle["plot-points"] || 800);
+
+                var asymptotes = raphael.set(), lastVal = fn(min);
+
+                for (var t = min; t <= max; t += step) {
+                    var funcVal = fn(t);
+
+                    if (((funcVal < 0) !== (lastVal < 0)) && Math.abs(funcVal - lastVal) > 2 * yScale) {
+                        asymptotes.push(
+                            this.line([t, yScale], [t, -yScale])
+                        );
+                    }
+
+                    lastVal = funcVal;
+                }
+
+                return asymptotes;
             }
         };
 
@@ -397,8 +518,9 @@
                 if (typeof fn === "function") {
                     var oldStyle = currentStyle;
                     currentStyle = $.extend({}, currentStyle, processed);
-                    fn.call(graphie);
+                    var result = fn.call(graphie);
                     currentStyle = oldStyle;
+                    return result;
                 } else {
                     $.extend(currentStyle, processed);
                 }
@@ -406,11 +528,12 @@
 
             scalePoint: scalePoint,
             scaleVector: scaleVector,
+
             unscalePoint: unscalePoint,
+            unscaleVector: unscaleVector,
 
             polar: polar,
             cartToPolar: cartToPolar
-
         };
 
         $.each(drawingTools, function(name) {
@@ -667,7 +790,7 @@
     };
 
     $.fn.graphie = function(problem) {
-        return this.find(".graphie").andSelf().filter(".graphie").each(function() {
+        return this.find(".graphie, script[type='text/graphie']").andSelf().filter(".graphie, script[type='text/graphie']").each(function() {
             // Grab code for later execution
             var code = $(this).text(), graphie;
 
@@ -686,10 +809,16 @@
 
                 // Graph could be in either of these
                 var area = $("#problemarea").add(problem);
-                graphie = area.find("#" + id).data("graphie");
+                graphie = area.find("#" + id + ".graphie").data("graphie");
             } else {
-                graphie = createGraph(this);
-                $(this).data("graphie", graphie);
+                var el = this;
+                if ($(this).filter("script")[0] != null) {
+                    el = $("<div>").addClass("graphie")
+                        .attr("id", $(this).attr("id")).insertAfter(this)[0];
+                    $(this).remove();
+                }
+                graphie = createGraph(el);
+                $(el).data("graphie", graphie);
             }
 
             // So we can write graph.bwahahaha = 17 to save stuff between updates

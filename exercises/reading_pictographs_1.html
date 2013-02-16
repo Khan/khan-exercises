@@ -6,16 +6,21 @@
     <script src="../khan-exercise.js"></script>
     <style>
         .fake_header span, .fake_row span {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             vertical-align: top;
-            line-height: 40px;
+            line-height: 38px;
         }
         .fake_row span:first-child {
-            width: 80px;
+            width: 76px;
         }
         .fake_header span:first-child {
-            width: 480px;
+            width: 460px;
+        }
+    </style>
+    <style type="text/css">
+        #answer_area input[type=text] {
+            width: 40px;
         }
     </style>
 </head>
@@ -24,7 +29,7 @@
     <div class="vars">
         <var id="DATA">randRangeUnique( 1, 8, 5 )</var>
         <var id="BADGE">randFromArray([ "meteorite", "moon", "earth" ])</var>
-        <var id="FULL_IMAGE">"&lt;img src='" + Khan.urlBase + "images/" + BADGE + "-small.png'&gt;"</var>
+        <var id="FULL_IMAGE">"&lt;img src='" + Khan.imageBase + "badges/" + BADGE + "-small.png'&gt;"</var>
         <var id="VALUE_PER_IMG">1</var>
     </div>
 
@@ -102,7 +107,7 @@
             <div class="hints">
                 <p>The key at the bottom of the pictograph shows that each symbol represents <var>plural( VALUE_PER_IMG, "badge" )</var>.</p>
                 <div>
-                    Find <var>person( PERSON + 1 )</var>'s row in the table:
+                    <p>Find <var>person( PERSON + 1 )</var>'s row in the table:</p>
                     <div class="fake_row">
                         <span><var>person( PERSON + 1 )</var></span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
                         </span><span data-each="(8 - DATA[ PERSON ]) times">&nbsp;</span>

@@ -7,7 +7,6 @@
     <style type="text/css">
         #answer_area input[type=text] {
             width: 30px;
-            margin: 0px 0px 0px 5px;
         }
     </style>
 </head>
@@ -104,10 +103,9 @@
                     <p>Directrix: <code>y = </code><span id="directrix-label"><code>-1</code></span></p>
                     <p>
                         Equation of the parabola:<br />
-                        <code>y - </code><span class="sol" data-fallback="0" required><var>Y1</var></span>
-                        <code> = </code><span class="sol" data-fallback="1" required><var>A</var></span>
-                        <code>(x - </code><span class="sol" data-fallback="0" required><var>X1</var></span>
-                        <code>)^2</code>
+                        <span style="font-size: 12px;">
+                        <code>y - </code><span class="sol" data-fallback="0" required><var>Y1</var></span><code> = </code><span class="sol" data-fallback="1" required><var>A</var></span><code>(x - </code><span class="sol" data-fallback="0" required><var>X1</var></span><code>)^2</code>
+                        </span>
                     </p>
 
                     <p class="example">set the focus and directrix by moving them around the graph</p>
@@ -153,8 +151,7 @@
                     in what direction the parabola opens. It's always the reciprocal of 2 times the distance from the directrix to the focus.
                 </p>
                 <p>
-                    <code data-if="A >= 0">a = \dfrac{1}{2 \times (<var>PRETTY_FOCUS_Y</var> {-} <var>PRETTY_DIR_Y</var>)} = <var>PRETTY_A</var></code>
-                    <code data-else>a = \dfrac{1}{2 \times (<var>PRETTY_DIR_Y</var> {-} <var>PRETTY_FOCUS_Y</var>)} = <var>PRETTY_A</var></code>
+                    <code>a = \dfrac{1}{2 \times (<var>PRETTY_FOCUS_Y</var> {-} <var>PRETTY_DIR_Y</var>)} = <var>PRETTY_A</var></code>
                 </p>
                 <p>
                     So the equation of the parabola is <code>y - <var>PRETTY_Y1</var> = <var>PRETTY_A</var>(x - <var>PRETTY_X1</var>)^2</code>.

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems interactive subhints">
+<html data-require="math graphie graphie-geometry word-problems interactive subhints">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Perimeter 1</title>
@@ -35,7 +35,7 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <span class="sol"><var>4 * S</var></span> <var>plural(UNIT_TEXT)</var>
+                <span class="sol" data-forms="integer"><var>4 * S</var></span> <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -80,7 +80,7 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <span class="sol"><var>L * 2 + W * 2</var></span> <var>plural(UNIT_TEXT)</var>
+                <span class="sol" data-forms="integer"><var>L * 2 + W * 2</var></span> <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -127,7 +127,7 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <span class="sol"><var>A + B + C</var></span> <var>plural(UNIT_TEXT)</var>
+                <span class="sol" data-forms="integer"><var>A + B + C</var></span> <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -183,7 +183,7 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <span class="sol"><var>S * SIDES</var></span> <var>plural(UNIT_TEXT)</var>
+                <span class="sol" data-forms="integer"><var>S * SIDES</var></span> <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -226,85 +226,19 @@
             <div class="vars">
                 <var id="WIDTH">randRange(5, 10)</var>
                 <var id="HEIGHT">randRange(5, 10)</var>
-                <var id="SIDES" data-ensure="SIDES.length <= 10 && SIDES.length > 4">(function() {
-                    var sides = [];
-
-                    var left = randRange(0, WIDTH - 1);
-                    var right = randRange(left + 1, WIDTH);
-
-                    sides.push({
-                        start: [left, HEIGHT - 1],
-                        end: [right, HEIGHT - 1],
-                        length: right - left,
-                        labelPos: "above"
-                    });
-                    var leftStart = HEIGHT - 1;
-                    var rightStart = HEIGHT - 1;
-
-                    _(HEIGHT - 3).times(function(y) {
-                        var prevLeft = left;
-                        var prevRight = right;
-                        left = randRangeWeighted(0, prevRight - 1, prevLeft, 0.7);
-                        right = randRangeWeighted(max(left, prevLeft) + 1, WIDTH, prevRight, 0.7);
-                        if (left !== prevLeft) {
-                            sides.push({
-                                start: [prevLeft, leftStart],
-                                end: [prevLeft, HEIGHT - y - 2],
-                                length: leftStart - (HEIGHT - y - 2),
-                                labelPos: "left"
-                            });
-                            sides.push({
-                                start: [prevLeft, HEIGHT - y - 2],
-                                end: [left, HEIGHT - y - 2],
-                                length: abs(left - prevLeft),
-                                labelPos: "center"
-                            });
-                            leftStart = HEIGHT - y - 2;
-                        }
-                        if (right !== prevRight) {
-                            sides.push({
-                                start: [prevRight, rightStart],
-                                end: [prevRight, HEIGHT - y - 2],
-                                length: rightStart - (HEIGHT - y - 2),
-                                labelPos: "right"
-                            });
-                            sides.push({
-                                start: [prevRight, HEIGHT - y - 2],
-                                end: [right, HEIGHT - y - 2],
-                                length: abs(right - prevRight),
-                                labelPos: "center"
-                            });
-                            rightStart = HEIGHT - y - 2;
-                        }
-                    });
-
-                    sides.push({
-                        start: [left, leftStart],
-                        end: [left, 1],
-                        length: leftStart - 1,
-                        labelPos: "left"
-                    });
-                    sides.push({
-                        start: [right, rightStart],
-                        end: [right, 1],
-                        length: rightStart - 1,
-                        labelPos: "right"
-                    });
-                    sides.push({
-                        start: [left, 1],
-                        end: [right, 1],
-                        length: right - left,
-                        labelPos: "below"
-                    });
-
-                    return sides;
-                })()</var>
-                <var id="PERIMETER">_.reduce(SIDES, function(m, v) { return m + v.length; }, 0)</var>
+                <var id="SHAPE"
+                    data-ensure="SHAPE.numSides <= 10 && SHAPE.numSides > 4">
+                    createOddShape({
+                        width: WIDTH,
+                        height: HEIGHT
+                    })
+                </var>
+                <var id="SIDES">SHAPE.sides</var>
             </div>
 
             <p class="question">
-                What is the perimeter of the shape? Each square in the grid is a <code>1 \times 1</code>
-                <var>UNIT_TEXT</var> square.
+                What is the perimeter of the shape? Each square in the grid is
+                a <code>1 \times 1</code> <var>UNIT_TEXT</var> square.
             </p>
 
             <div class="problem">
@@ -313,41 +247,51 @@
                     var shape = [];
 
                     _(WIDTH + 1).times(function(i) {
-                        line([i, 0], [i, HEIGHT], { "stroke-width": 1, stroke: "#bbb" });
+                        line([i, 0], [i, HEIGHT], { "stroke-width": 1,
+                            stroke: "#bbb" });
                     });
                     _(HEIGHT + 1).times(function(i) {
-                        line([0, i], [WIDTH, i], { "stroke-width": 1, stroke: "#bbb" });
+                        line([0, i], [WIDTH, i], { "stroke-width": 1,
+                            stroke: "#bbb" });
                     });
 
-
-                    _.each(SIDES, function(side) {
+                    _.each(SHAPE.sides, function(side) {
                         path([side.start, side.end], {stroke: BLUE});
                     });
-
-
                 </div>
             </div>
 
             <div class="solution" data-type="multiple">
-                <span class="sol"><var>PERIMETER</var></span> <var>plural(UNIT_TEXT)</var>
+                <span class="sol" data-forms="integer"><var>SHAPE.perimeter</var></span>
+                <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
                 <p>
-                    The perimeter is the total length of all the sides of the shape added together.
+                    The perimeter is the total length of all the sides of the
+                    shape added together.
                 </p>
                 <div>
                     <div class="graphie" data-update="perimeter">
-                        _.each(SIDES, function(side) {
-                            label([(side.start[0] + side.end[0]) / 2,
-                                (side.start[1] + side.end[1]) / 2], side.length,
-                                side.labelPos);
-                        });
+                        SHAPE.labelSides();
                     </div>
-                    <p>Add up the lengths of all <var>SIDES.length</var> sides.</p>
-                    <p><code>\qquad<var>_.map(SIDES, function(v) { return v.length; }).join("+")</var> = \text{ ?}</code></p>
+                    <p>
+                        Add up the lengths of all <var>SHAPE.numSides</var>
+                        sides.
+                    </p>
+                    <p><code>\qquad
+                        <var>
+                            _.map(SHAPE.sides, function(v) {
+                                return v.length;
+                            }).join("+")
+                        </var>
+                        = \text{ ?}
+                    </code></p>
                 </div>
-                <p>The perimeter is <code><var>PERIMETER</var></code> <var>plural(UNIT_TEXT)</var>.</p>
+                <p>
+                    The perimeter is <code><var>SHAPE.perimeter</var></code>
+                    <var>plural(UNIT_TEXT)</var>.
+                </p>
             </div>
         </div>
 

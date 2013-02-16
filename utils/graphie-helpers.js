@@ -27,10 +27,10 @@ function numberLine(start, end, step, x, y, denominator) {
                     lab = base + "\\frac{" + Math.abs(Math.round(frac * denominator)) + "}{" + denominator + "}";
                 }
             }
-            graph.label([x + i, y - 0.2], lab, "below", { labelDistance: 3 });
+            graph.label([x + i, y - 0.2], "\\small{" + lab + "}", "below", { labelDistance: 3 });
         }
         else {
-            graph.label([x + i, y - 0.2], (start + i).toFixed(decPlaces), "below", { labelDistance: 3 });
+            graph.label([x + i, y - 0.2], "\\small{" + (start + i).toFixed(decPlaces) + "}", "below", { labelDistance: 3 });
         }
     }
     return set;
@@ -76,7 +76,7 @@ function rectchart(divisions, colors, y) {
     $.each(divisions, function(i, slice) {
         var x = partial / sum, w = slice / sum;
         set.push(graph.path([[x, y], [x + w, y], [x + w, y + 1], [x, y + 1]], {
-            stroke: "#fff",
+            stroke: KhanUtil.BACKGROUND,
             fill: colors[i]
         }));
         partial += slice;
@@ -84,49 +84,10 @@ function rectchart(divisions, colors, y) {
 
     for (var i = 0; i <= sum; i++) {
         var x = i / sum;
-        set.push(graph.line([x, y + 0], [x, y + 1], { stroke: "#fff" }));
+        set.push(graph.line([x, y + 0], [x, y + 1], { stroke: KhanUtil.BACKGROUND }));
     }
 
     return set;
-}
-
-// for line graph intuition
-function updateEquation() {
-    var graph = KhanUtil.currentGraph;
-    graph.plot.remove();
-    graph.style({
-        clipRect: [[-10, -10], [20, 20]]
-    }, function() {
-        var ell = function(x) {
-            return x * graph.MN / graph.MD + graph.BN / graph.BD;
-        };
-        graph.plot = graph.line([-10, ell(-10)], [10, ell(10)]);
-    });
-
-    graph.labelHolder.remove();
-
-    $("#equationAnswer").html("<code>y =" + KhanUtil.fractionReduce(graph.MN, graph.MD) + "x +" + KhanUtil.fractionReduce(graph.BN, graph.BD) + "</code>").tmpl();
-    $("#slope-sol input").val((graph.MN / graph.MD) + "");
-    $("#intercept-sol input").val((graph.BN / graph.BD) + "");
-}
-
-// for line graph intuition
-function changeSlope(dir) {
-    var graph = KhanUtil.currentGraph;
-    var prevDenominator = graph.MD;
-    graph.MD = KhanUtil.getLCM(prevDenominator, graph.INCR);
-    graph.MN = (graph.MD / prevDenominator * graph.MN) + (dir * graph.MD / graph.INCR);
-    updateEquation();
-}
-
-// for line graph intuition
-function changeIntercept(dir) {
-    var graph = KhanUtil.currentGraph;
-    var prevDenominator = graph.BD;
-    graph.BD = KhanUtil.getLCM(prevDenominator, graph.INCR);
-    graph.BN = (graph.BD / prevDenominator * graph.BN)
-        + (dir * graph.BD / graph.INCR);
-    updateEquation();
 }
 
 function Parabola(lc, x, y) {
@@ -291,6 +252,32 @@ function ParallelLines(x1, y1, x2, y2, distance) {
         var graph = KhanUtil.currentGraph;
         graph.line([x1, y1], [x2, y2]);
         graph.line([x1, y1 + distance], [x2, y2 + distance]);
+    };
+
+    this.drawMarkers = function(position) {
+        var graph = KhanUtil.currentGraph;
+        var pmarkX = (x2 - x1) / 2 + x1;
+        if (position === "right" || (position >= 40 && position <= 140)) {
+            pmarkX = x2 - 55 / graph.scaleVector([1, 1])[0];
+        } else if (position === "left") {
+            pmarkX = x1 + 50 / graph.scaleVector([1, 1])[0];
+        }
+        var pmarkX1 = pmarkX;
+        var pmarkX2 = pmarkX + 5 / graph.scaleVector([1, 1])[0];
+        var pmarkW = 5 / graph.scaleVector([1, 1])[0];
+        var pmarkH = 5 / graph.scaleVector([1, 1])[1];
+        graph.path([[pmarkX1 - pmarkW, y1 + pmarkH],
+            [pmarkX1, y1],
+            [pmarkX1 - pmarkW, y1 - pmarkH]]);
+        graph.path([[pmarkX2 - pmarkW, y1 + pmarkH],
+            [pmarkX2, y1],
+            [pmarkX2 - pmarkW, y1 - pmarkH]]);
+        graph.path([[pmarkX1 - pmarkW, y1 + pmarkH + distance],
+            [pmarkX1, y1 + distance],
+            [pmarkX1 - pmarkW, y1 - pmarkH + distance]]);
+        graph.path([[pmarkX2 - pmarkW, y1 + pmarkH + distance],
+            [pmarkX2, y1 + distance],
+            [pmarkX2 - pmarkW, y1 - pmarkH + distance]]);
     };
 
     this.drawTransverse = function(angleDeg) {
@@ -580,4 +567,25 @@ function redrawComplexPolarForm(angle, radius) {
     $("#number-label").html("<code>" + equation + "</code>").tmpl();
     $("#current-radius").html("<code>" + radius + "</code>").tmpl();
     $("#current-angle").html("<code>" + KhanUtil.piFraction(angle, true) + "</code>").tmpl();
+}
+
+function labelDirection(angle) {
+    angle = angle % 360;
+    if (angle == 0) {
+        return "right";
+    } else if (angle > 0 && angle < 90) {
+        return "above right";
+    } else if (angle == 90) {
+        return "above";
+    } else if (angle > 90 && angle < 180) {
+        return "above left";
+    } else if (angle == 180) {
+        return "left";
+    } else if (angle > 180 && angle < 270) {
+        return "below left";
+    } else if (angle == 270) {
+        return "below";
+    } else if (angle > 270 && angle < 360) {
+        return "below right";
+    }
 }

@@ -14,11 +14,19 @@
     </div>
 
     <div class="problems">
-        <div>
+        <div id="add-fractions">
             <div class="question">
                 <p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = {?}</code></p>
             </div>
             <div class="solution" data-type="rational" data-simplify="optional"><var>( N1 + N2 ) / D</var></div>
+        </div>
+
+        <div id="custom-5" data-weight="0" data-type="add-fractions">
+            <div class="vars">
+                <var id="N1">1</var>
+                <var id="N2">1</var>
+                <var id="D">5</var>
+            </div>
         </div>
     </div>
 
@@ -38,9 +46,7 @@
             init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
             piechart( [ N1+N2, D - N2 - N1], ["#e00", "#999"], 2 );
         </div>
-        <div>
-            <p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = <var>fraction( N1 + N2, D )</var></code></p>
-        </div>
+        <p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = <var>fraction( N1 + N2, D )</var></code></p>
         <div data-if="getGCD( N1 + N2, D ) !== 1">
             <p>Simplify.</p>
             <div class="graphie">

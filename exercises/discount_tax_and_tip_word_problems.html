@@ -16,7 +16,7 @@
                 <var id="TOTAL_PRICE">roundTo(2, (1+(SALES_TAX/100))*DOLLARS).toFixed(2)</var>
             </div>
             <div class="question spin">
-                <p><var>person(1)</var> buys a basket of <var>plural(fruit(1))</var> on sale for $<var>DOLLARS</var>.  The sales tax is <var>SALES_TAX</var>%.  What is the total price <var>person(1)</var> pays for the basket of <var>plural(fruit(1))</var>?  (Round to the nearest hundredth or cent.)</p>
+                <p><var>person(1)</var> buys a basket of <var>plural(fruit(1))</var> on sale for $<var>DOLLARS</var> before tax.  The sales tax is <var>SALES_TAX</var>%.  What is the total price <var>person(1)</var> pays for the basket of <var>plural(fruit(1))</var>?  (Round to the nearest hundredth or cent.)</p>
             </div>
             <p class="solution" data-forms="dollar"><var>TOTAL_PRICE</var></p>
             <div class="hints">
@@ -47,7 +47,7 @@
                 <var id="TOTAL_TAX">roundTo(2, (TAX / 100) * PRICE).toFixed(2)</var>
             </div>
             <div class="question spin">
-                    <p>If the sales tax in your city is <var>TAX</var>%, how much tax would you pay for an item that costs $<var>PRICE</var>? Round to the nearest cent.</p>
+                    <p>If the sales tax in your city is <var>TAX</var>%, how much tax would you pay for an item that costs $<var>PRICE</var> before tax? Round to the nearest cent.</p>
             </div>
             <p class="solution" data-forms="dollar"><var>TOTAL_TAX</var></p>
             <div class="hints">

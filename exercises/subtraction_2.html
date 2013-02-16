@@ -6,37 +6,40 @@
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
-    <div class="exercise">
-        <div class="vars">
+<div class="exercise">
+    <div class="vars">
 
-            <var id="A_100">randRange( 1, 9 )</var>
-            <var id="A_10">randRange( 1, 9 )</var>
-            <var id="A_1">randRange( 2, 9 )</var>
-            <var id="A">100 * A_100 + 10 * A_10 + A_1</var>
+        <var id="A_100">randRangeWeighted(1, 9, 0, 0.5)</var>
+        <var id="A_10">randRange(1, 9)</var>
+        <var id="A_1">randRange(2, 9)</var>
+        <var id="A">100 * A_100 + 10 * A_10 + A_1</var>
 
-            <var id="B_100">randRange( 0, A_100 - 1 )</var>
-            <var id="B_10">randRange( 0, A_10 - 1 )</var>
-            <var id="B_1">randRange( 0, A_1 - 1 )</var>
-            <var id="B">100 * B_100 + 10 * B_10 + B_1</var>
+        <var id="B_100">randRange(0, A_100 - 1)</var>
+        <var id="B_10">randRange(0, A_10 - 1)</var>
+        <var id="B_1">randRange(0, A_1 - 1)</var>
+        <var id="B">100 * B_100 + 10 * B_10 + B_1</var>
 
-            <var id="DUMMY">[]</var>
-        </div>
+        <var id="NUM_HINTS">0</var>
+    </div>
 
-        <div class="problems">
-            <div>
-                <div class="graphie" id="numbers">
-                    graph.subtractor = new Subtractor( A, B );
-                    graph.subtractor.show();
-                    DUMMY = Array( graph.subtractor.getNumHints() );
-                </div>
-                <div class="solution" data-forms="integer"><var>A - B</var></div>
+    <div class="problems">
+        <div id="subtraction-2">
+            <div class="graphie" id="numbers">
+                graph.subtractor = new Subtractor( A, B );
+                graph.subtractor.show();
+                NUM_HINTS = graph.subtractor.getNumHints();
             </div>
-        </div>
-        <div class="hints">
-            <div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
-                graph.subtractor.showHint();
+            <div class="solution" data-forms="integer">
+                <var>A - B</var>
             </div>
         </div>
     </div>
+
+    <div class="hints">
+        <div class="graphie" data-update="numbers" data-each="NUM_HINTS times">
+            graph.subtractor.showHint();
+        </div>
+    </div>
+</div>
 </body>
 </html>

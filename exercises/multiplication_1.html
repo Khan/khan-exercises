@@ -29,16 +29,17 @@
             <div data-if="B > 0" data-unwrap>
                 <div>
                     <div class="graphie" data-update="numbers">
-                        label( [ 0, B - 1 ], "\\text{Draw " + plural( A, "circle" ) + ".}", "right" );
+                        label( [ 0, B - 1 ], "Draw " + plural( A, "circle" ) + ".", "right", false );
                         drawRow( A, B - 3, "#6495ED", 1 );
                     </div>
                 </div>
                 <div>
                     <div class="graphie" data-update="numbers">
-                        label( [ 0, B - 2 ], "\\text{"
-                            + "If there" + ( B === 1 ? " is " : " are " ) + plural( B, "row" )
-                            + " with " + plural( A, "circle" ) +  ( B === 1 ? " " : " each " ) + ", there is a total of how many circles?"
-                            + "}", "right" );
+                        label( [ 0, B - 2 ],
+                              "If there" + ( B === 1 ? " is " : " are " ) + plural( B, "row" )
+                            + " with " + plural( A, "circle" ) +  ( B === 1 ? "" : " each" )
+                            + ",&lt;br&gt;there are a total of how many circles?",
+                            "right", false );
                         for ( var i = 1; i &lt; B; i++ ) {
                             drawRow( A, B - 3 - i, "#28AE7B", A * i + 1 );
                         }

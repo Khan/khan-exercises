@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Addition 1 Monkeys</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="A">randRange( 1, 10 )</var>
+        <var id="B">randRange( 1, 10 )</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <div class="graphie">
+                    init({
+                        range: [ [0, 12], [-1, 1] ]
+                    });
+
+                    label( [0, 0],
+                        "\\Huge{\\color{#6495ED}{" + A + "} + \\color{#28AE7B}{" + B + "} = {?}}",
+                        "right" );
+                </div>
+            </div>
+            <div class="solution" data-forms="integer"><var>A + B</var></div>
+            <div class="hints">
+                <div class="graphie" style="float: left;">
+                    drawCircles( A, "#6495ED" );
+                </div>
+                <div class="graphie" style="float: left;">
+                    drawCircles( B, "#28AE7B" );
+                </div>
+                <p style="clear: left;">There are <var>plural( A, "blue dot" )</var> and <var>plural( B, "green dot" )</var>, for a total of <var>A + B</var> dots.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

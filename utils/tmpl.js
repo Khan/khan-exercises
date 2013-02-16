@@ -1,5 +1,7 @@
 (function() {
 
+var testMode;
+
 // Keep the template variables private, to prevent external access
 var VARS = {};
 
@@ -15,7 +17,12 @@ $.tmpl = {
                 // False means all templating will be run again, so new values will be chosen
                 var result = !!(ensure && $.tmpl.getVAR(ensure));
                 if (!result) {
-                    ++$.tmpl.DATA_ENSURE_LOOPS;
+                    if ($.tmpl.DATA_ENSURE_LOOPS++ > 10000 && testMode) {
+                        // Shucks, probably not possible. Just give up in order
+                        // to not hang the dev's browser.
+                        alert("unsatisfiable data-ensure?");
+                        return true;
+                    }
                 }
                 return result;
             };
@@ -101,7 +108,41 @@ $.tmpl = {
 
         "data-unwrap": function(elem) {
             return $(elem).contents();
+        },
+
+        "data-video-hint": function(elem) {
+            var youtubeIds = $(elem).data("youtube-id");
+            if (!youtubeIds) {
+                return;
+            }
+
+            youtubeIds = youtubeIds.split(/,\s*/);
+
+            var author = $(elem).data("video-hint-author") || "Sal";
+            var msg = "Watch " + author +
+                      " work through a very similar problem:";
+            var preface = $("<p>").text(msg);
+
+            var wrapper = $("<div>", { "class": "video-hint" });
+            wrapper.append(preface);
+
+            _.each(youtubeIds, function(youtubeId) {
+                var href = "http://www.khanacademy.org/embed_video?v=" +
+                            youtubeId;
+                var iframe = $("<iframe>").attr({
+                    "frameborder": "0",
+                    "scrolling": "no",
+                    "width": "100%",
+                    "height": "360px",
+                    "src": href
+                });
+
+                wrapper.append(iframe);
+            });
+
+            return wrapper;
         }
+
     },
 
     // Processors that act based on tag names
@@ -188,10 +229,20 @@ $.tmpl = {
 
                     // Stick the processing request onto the queue
                     if (typeof MathJax !== "undefined") {
+                        KhanUtil.debugLog("adding " + text + " to MathJax typeset queue");
                         MathJax.Hub.Queue(["Typeset", MathJax.Hub, elem]);
+                        MathJax.Hub.Queue(function() {
+                            KhanUtil.debugLog("MathJax done typesetting " + text);
+                        });
+                    } else {
+                        KhanUtil.debugLog("not adding " + text + " to queue because MathJax is undefined");
                     }
                 } else {
+                    KhanUtil.debugLog("reprocessing MathJax: " + text);
                     MathJax.Hub.Queue(["Reprocess", MathJax.Hub, elem]);
+                    MathJax.Hub.Queue(function() {
+                        KhanUtil.debugLog("MathJax done reprocessing " + text);
+                    });
                 }
             };
         }
@@ -276,9 +327,10 @@ $.fn.tmplLoad = function(problem, info) {
     VARS = {};
     $.tmpl.DATA_ENSURE_LOOPS = 0;
 
-    // Check to see if we're in test mode
-    if (info.testMode) {
-        // Expose the variables if we're in test mode
+    testMode = info.testMode;
+
+    // Expose the variables if we're in local mode
+    if (testMode) {
         $.tmpl.VARS = VARS;
     }
 };
@@ -288,13 +340,33 @@ $.fn.tmplCleanup = function() {
     // problem, MathJax isn't loaded yet. No worries--there's nothing to clean
     // up anyway
     if (typeof MathJax === "undefined") {
+        KhanUtil.debugLog("MathJax undefined in Cleanup");
         return;
     }
 
     this.find("code").each(function() {
+        KhanUtil.debugLog("cleaning up: " + $(this).text());
         var jax = MathJax.Hub.getJaxFor(this);
+        KhanUtil.debugLog("got jax of type " + $.type(jax));
         if (jax) {
-            jax.Remove();
+            var e = jax.SourceElement();
+            KhanUtil.debugLog("source element is type " + $.type(e));
+            if ("outerHTML" in e) {
+                KhanUtil.debugLog("source element " + e.outerHTML);
+            } else {
+                KhanUtil.debugLog("no source element");
+            }
+
+            if (e.previousSibling && e.previousSibling.className) {
+                jax.Remove();
+            } else {
+                // MathJax chokes if e.previousSibling is a text node, which it
+                // is if tmplCleanup is called before MathJax's typesetting
+                // finishes
+                KhanUtil.debugLog("previousSibling isn't an element");
+            }
+
+            KhanUtil.debugLog("removed!");
         }
     });
 };
@@ -618,6 +690,16 @@ $.extend({
                 "(" + parentEnsure + ") && (" + childEnsure + ")");
 
             return $.tmplApplyMethods.appendContents.call(this, elem);
+        },
+
+        // Like prependContents but also merges the data-ensures
+        prependVars: function(elem) {
+            var parentEnsure = $(this).data("ensure") || "1";
+            var childEnsure = $(elem).data("ensure") || "1";
+            $(this).data("ensure",
+                "(" + childEnsure + ") && (" + parentEnsure + ")");
+
+            return $.tmplApplyMethods.prependContents.call(this, elem);
         }
     }
 });

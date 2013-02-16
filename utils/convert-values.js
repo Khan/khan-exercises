@@ -216,3 +216,189 @@ $.extend(KhanUtil, {
         return toReturn;
     }
 });
+
+// I would love to hear a better way of doing this than this mess
+$.extend(KhanUtil, {
+    trig: {
+        // given the simplification of a trig identity and an operation,
+        // finds a pair (function, result) such that that simplification
+        // operation'd with function equals result, and result is not a 
+        // horrible mess of trig functions with sin^4 everywhere and all that
+        getOptionsResult: function(firstPart, operation) {
+            var options;
+            var func;
+            if(firstPart === "\\cos^2\\theta") {
+                options = ["1", "\\cot^2\\theta", 
+                "\\cos^2\\theta \\cdot \\sin^2\\theta"];
+            }
+            else if(firstPart === "\\sin^2\\theta") {
+                options = ["1", "\\tan^2\\theta", 
+                "\\cos^2\\theta \\cdot \\sin^2\\theta"];
+            }
+            else if(firstPart === "\\tan^2\\theta") {
+                options = ["1", "\\sin^2\\theta",
+                "\\sec^2\\theta"];
+            }
+            else if(firstPart === "\\sec^2\\theta") {
+                options = ["1", "\\tan^2\\theta", "\\csc^2\\theta"];
+            }
+            else if(firstPart === "\\cot^2\\theta") {
+                options = ["1", "\\cos^2\\theta", "\\csc^2\\theta"];
+            }
+            else if(firstPart === "\\csc^2\\theta") {
+                options = ["1", "\\cot^2\\theta", "\\sec^2\\theta"];
+            }
+
+            var result = KhanUtil.randFromArray(options);
+            if(operation === "*") {
+                if(result === "1") {
+                    if(firstPart === "\\cos^2\\theta") {
+                        func = "\\sec^2\\theta";
+                    }
+                    else if(firstPart === "\\sin^2\\theta") {
+                        func = "\\csc^2\\theta";
+                    }
+                    else if(firstPart === "\\tan^2\\theta") {
+                        func = "\\cot^2\\theta";
+                    }
+                    else if(firstPart === "\\sec^2\\theta") {
+                        func = "\\cos^2\\theta";
+                    }
+                    else if(firstPart === "\\cot^2\\theta") {
+                        func = "\\tan^2\\theta";
+                    }
+                    else if(firstPart === "\\csc^2\\theta") {
+                        func = "\\sin^2\\theta";
+                    }
+                }
+                else if(result === "\\tan^2\\theta") {
+                    if(firstPart === "\\sin^2\\theta") {
+                        func = "\\sec^2\\theta";
+                    }
+                    else if(firstPart === "\\sec^2\\theta") {
+                        func = "\\sin^2\\theta";
+                    }
+                }
+                else if(result === "\\cot^2\\theta") {
+                    if(firstPart === "\\cos^2\\theta") {
+                        func = "\\csc^2\\theta";
+                    }
+                    else if(firstPart === "\\csc^2\\theta") {
+                        func = "\\cos^2\\theta";
+                    }
+                }
+                else if(result === "\\cos^2\\theta \\cdot \\sin^2\\theta") {
+                    if(firstPart === "\\cos^2\\theta") {
+                        func = "\\sin^2\\theta";
+                    }
+                    else if(firstPart === "\\sin^2\\theta") {
+                        func = "\\cos^2\\theta";
+                    }
+                }
+                else if(result === "\\sin^2\\theta") {
+                    if(firstPart === "\\tan^2\\theta") {
+                        func = "\\cos^2\\theta";
+                    }
+                }
+                else if(result === "\\cos^2\\theta") {
+                    if(firstPart === "\\cot^2\\theta") {
+                        func = "\\sin^2\\theta";
+                    }
+                }
+                else if(result === "\\sec^2\\theta") {
+                    if(firstPart === "\\tan^2\\theta") {
+                        func = "\\csc^2\\theta";
+                    }
+                    else if(firstPart === "\\csc^2\\theta") {
+                        func = "\\tan^2\\theta";
+                    }
+                }
+                else if(result === "\\csc^2\\theta") {
+                    if(firstPart === "\\sec^2\\theta") {
+                        func = "\\cot^2\\theta";
+                    }
+                    else if(firstPart === "\\cot^2\\theta") {
+                        func = "\\sec^2\\theta";
+                    }
+                }
+            }
+
+            else if(operation === "/") {
+                if(result === "1") {
+                    func = firstPart;
+                }
+                else if(result === "\\tan^2\\theta") {
+                    if(firstPart === "\\sin^2\\theta") {
+                        func = "\\cos^2\\theta";
+                    }
+                    else if(firstPart === "\\sec^2\\theta") {
+                        func = "\\csc^2\\theta";
+                    }
+                }
+                else if(result === "\\cot^2\\theta") {
+                    if(firstPart === "\\cos^2\\theta") {
+                        func = "\\sin^2\\theta";
+                    }
+                    else if(firstPart === "\\csc^2\\theta") {
+                        func = "\\sec^2\\theta";
+                    }
+                }
+                else if (result === "\\cos^2\\theta \\cdot \\sin^2\\theta") {
+                    if(firstPart === "\\cos^2\\theta") {
+                        func = "\\csc^2\\theta";
+                    }
+                    else if(firstPart === "\\sin^2\\theta") {
+                        func = "\\sec^2\\theta";
+                    }
+                }
+                else if (result === "\\sin^2\\theta") {
+                    if(firstPart === "\\tan^2\\theta") {
+                        func = "\\sec^2\\theta";
+                    }
+                }
+                else if(result === "\\cos^2\\theta") {
+                    if(firstPart === "\\cot^2\\theta") {
+                        func = "\\csc^2\\theta";
+                    }
+                }
+                else if (result === "\\sec^2\\theta") {
+                    if(firstPart === "\\tan^2\\theta") {
+                        func = "\\sin^2\\theta";
+                    }
+                    else if(firstPart === "\\csc^2\\theta") {
+                        func = "\\cot^2\\theta";
+                    }
+                }
+                else if (result === "\\csc^2\\theta") {
+                    if(firstPart === "\\sec^2\\theta") {
+                        func = "\\tan^2\\theta";
+                    }
+                    else if(firstPart === "\\cot^2\\theta") {
+                        func = "\\cos^2\\theta";
+                    }
+                }
+            }
+            return [options, func, result];
+        },
+
+        // expresses the given trig^2 function in terms of sin and cosine
+        showSimplified: function(func, small) {
+            d = small ? "\\frac" : "\\dfrac";
+            switch(func) {
+                case "\\sin^2\\theta" : 
+                    return func;
+                case "\\cos^2\\theta" :
+                    return func;
+                case "\\csc^2\\theta" :
+                    return d+"{1}{\\sin^2\\theta}";
+                case "\\sec^2\\theta" :
+                    return d+"{1}{\\cos^2\\theta}";
+                case "\\tan^2\\theta" :
+                    return d+"{\\sin^2\\theta}{\\cos^2\\theta}";
+                case "\\cot^2\\theta" :
+                    return d+"{\\cos^2\\theta}{\\sin^2\\theta}";
+            }
+        }
+    }
+});
+

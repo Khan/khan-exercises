@@ -31,41 +31,41 @@
 
                 <div class="graphie" id="number-line">
                     init({
-                        range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ],
-                        scale: [80, 40]
+                        range: [ [(LOWER_BOUND - 0.5) * abs(DENOMINATOR), (UPPER_BOUND + 0.5) * abs(DENOMINATOR)], [-1, 1] ],
+                        scale: [70 / abs(DENOMINATOR), 40]
                     });
 
                     style({arrows: "&gt;"});
-                    line( [ 0, 0 ], [ UPPER_BOUND + 0.25, 0 ] );
+                    line( [ 0, 0 ], [ (UPPER_BOUND + 0.25) * abs(DENOMINATOR), 0 ] );
 
                     style({arrows: "-&gt;"});
-                    line( [ 0, 0 ], [ LOWER_BOUND - 0.25, 0 ] );
+                    line( [ 0, 0 ], [ (LOWER_BOUND - 0.25) * abs(DENOMINATOR), 0 ] );
 
                     style({arrows: ""});
                     for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++ ) {
-                        line( [ x, -0.2 ], [ x, 0.2 ] );
+                        line( [ x * abs(DENOMINATOR), -0.2 ], [ x * abs(DENOMINATOR), 0.2 ] );
                     }
                     style({ stroke: GREEN, strokeWidth: 3.5 });
-                    line( [ LOWER_BOUND, -0.2], [LOWER_BOUND, 0.2]);
-                    label( [ LOWER_BOUND, -0.53 ],  LOWER_BOUND, "center", { color: GREEN });
+                    line( [ LOWER_BOUND * abs(DENOMINATOR), -0.2], [LOWER_BOUND * abs(DENOMINATOR), 0.2]);
+                    label( [ LOWER_BOUND * abs(DENOMINATOR), -0.53 ],  LOWER_BOUND, "center", { color: GREEN });
 
-                    line( [ UPPER_BOUND, -0.2], [UPPER_BOUND, 0.2]);
-                    label( [ UPPER_BOUND, -0.53 ],  UPPER_BOUND, "center", { color: GREEN });
+                    line( [ UPPER_BOUND * abs(DENOMINATOR), -0.2], [UPPER_BOUND * abs(DENOMINATOR), 0.2]);
+                    label( [ UPPER_BOUND * abs(DENOMINATOR), -0.53 ],  UPPER_BOUND, "center", { color: GREEN });
 
                     line( [ 0, -0.2], [0, 0.2]);
                     label( [ 0, -0.53 ],  "0", "center", { color: GREEN });
 
                     addMouseLayer();
-                    graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 1 / DENOMINATOR });
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 1 });
                     graph.movablePoint.onMove = function( x, y ) {
-                        return [ min( max( LOWER_BOUND, x ), UPPER_BOUND ), y ];
+                        return [ min( max( LOWER_BOUND * abs(DENOMINATOR), x ), UPPER_BOUND * abs(DENOMINATOR) ), y ];
                     };
                 </div>
             </div>
 
             <div class="solution" data-type="custom">
                 <span class="instruction"> Move the orange dot to select your answer. </span>
-                <div class="guess"> graph.movablePoint.coord[0] </div>
+                <div class="guess"> graph.movablePoint.coord[0] / abs(DENOMINATOR) </div>
                 <div class="validator-function">
                     if ( guess === 0 ) {
                         return "";
@@ -89,11 +89,11 @@
 
                 <div>
                     <p>Therefore, we know <code>\color{blue}{<var>M_NUMBER</var>}</code> lies between <code>\color{green}{<var>M_WHOLE</var>}</code>
-                    and <code>\color{green}{<var>M_WHOLE + (SOLUTION > 1 ? 1 : -1)</var>}</code> on the number line.</p>
+                    and <code>\color{green}{<var>M_WHOLE + (SOLUTION > 0 ? 1 : -1)</var>}</code> on the number line.</p>
                     <div class="graphie" data-update="number-line">
                         style({ stroke: "#FFA500", strokeWidth: 3.5 });
-                        line( [M_WHOLE, -0.2], [M_WHOLE, 0.2]);
-                        line( [M_WHOLE + (SOLUTION > 0 ? 1 : -1), -0.2], [M_WHOLE + (SOLUTION > 0 ? 1 : -1), 0.2]);
+                        line( [M_WHOLE * abs(DENOMINATOR), -0.2], [M_WHOLE * abs(DENOMINATOR), 0.2]);
+                        line( [(M_WHOLE + (SOLUTION > 0 ? 1 : -1)) * abs(DENOMINATOR), -0.2], [(M_WHOLE + (SOLUTION > 0 ? 1 : -1)) * abs(DENOMINATOR), 0.2]);
                     </div>
                 </div>
 
@@ -103,19 +103,19 @@
                     on the number line.</p>
                     <div class="graphie" data-update="number-line">
                         style({ stroke: GREEN, fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
-                        line( [ M_WHOLE, 0 ], [ SOLUTION, 0 ] );
+                        line( [ M_WHOLE * abs(DENOMINATOR), 0 ], [ SOLUTION * abs(DENOMINATOR), 0 ] );
                         graph.movablePoint.visibleShape.toFront();
 
                         style({ stroke: "#FFA500", strokeWidth: 3.5, arrows: "" });
-                        line( [M_WHOLE, -0.2], [M_WHOLE, 0.2]);
-                        line( [M_WHOLE + (SOLUTION > 0 ? 1 : -1), -0.2], [M_WHOLE + (SOLUTION > 0 ? 1 : -1), 0.2]);
+                        line( [M_WHOLE * abs(DENOMINATOR), -0.2], [M_WHOLE * abs(DENOMINATOR), 0.2]);
+                        line( [(M_WHOLE + (SOLUTION > 0 ? 1 : -1)) * abs(DENOMINATOR), -0.2], [(M_WHOLE + (SOLUTION > 0 ? 1 : -1)) * abs(DENOMINATOR), 0.2]);
                     </div>
                 </div>
 
                 <div>
                     <div class="graphie" data-update="number-line">
                         label( [ SOLUTION, -0.83 ],  NUMBER, "center", { color: "#FFA500" });
-                        graph.movablePoint.moveTo( SOLUTION, 0 );
+                        graph.movablePoint.moveTo( SOLUTION * abs(DENOMINATOR), 0 );
                     </div>
                     <p>The orange number shows where <code>\color{orange}{<var>NUMBER</var>}</code> is on the number line.</p>
                 </div>

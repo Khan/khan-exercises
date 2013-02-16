@@ -81,33 +81,35 @@
             </p>
             <p>
                 <code>
-                    \left| \quad \begin{matrix}
+                    \small{
+                    \left| \space \begin{matrix}
                     <span data-each="STEMS times as STEM" data-unwrap>
                         \color{<var>GREEN</var>}{<var>STEM</var>}
                         \vphantom{\Large{0}} \\
                     </span>
-                    \end{matrix} \quad \right|
-                    \quad
+                    \end{matrix} \space \right|
+                    \space
                     \begin{matrix}
                     <span data-each="STEMS times as STEM" data-unwrap>
                         <span data-each="DATA[ STEM ] as LEAF" data-unwrap>\color{<var>BLUE</var>}{<var>LEAF</var>}&amp;</span>
                         \vphantom{\Large{0}} \\
                     </span>
                     \end{matrix}
-                    \quad
+                    \space
                     \begin{matrix}
                     <span data-each="STEMS times as STEM" data-unwrap>
                         \rightarrow
                         \vphantom{\Large{0}} \\
                     </span>
                     \end{matrix}
-                    \quad
+                    \space
                     \begin{matrix}
                     <span data-each="STEMS times as STEM" data-unwrap>
                         <span data-each="DATA[ STEM ] as LEAF" data-unwrap>\color{<var>GREEN</var>}{<var>STEM</var>}\color{<var>BLUE</var>}{<var>LEAF</var>}&amp;</span>
                         \vphantom{\Large{0}} \\
                     </span>
                     \end{matrix}
+                    }
                 </code>
             </p>
         </div>

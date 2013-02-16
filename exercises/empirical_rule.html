@@ -51,7 +51,7 @@
                     <code><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years.
                 </p>
 
-                <div class="solution" data-forms="percent"><var>ANSWER</var></div>
+                <div class="solution" data-forms="percent"><var>ANSWER / 100</var></div>
 
                 <div class="hints">
                     <p>We can try to estimate using the empirical rule, also known as the 68-95-99.7 percent rule.</p>
@@ -60,7 +60,7 @@
                         <div class="graphie" id="normaldist">
                             init({
                                 range: [ [ MEAN - STDDEV * 3.5, MEAN + STDDEV * 3.5 ], [ -1.5, 4.3 ] ],
-                                scale: [ 600 / ( STDDEV * 7 ), 40 ]
+                                scale: [ 475 / ( STDDEV * 7 ), 40 ]
                             });
 
                             style({ stroke: "#bbb" }, function() {
@@ -396,7 +396,7 @@
                     <code><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and <code><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years.
                 </p>
 
-                <div class="solution" data-forms="percent"><var>AREA</var></div>
+                <div class="solution" data-forms="percent"><var>AREA / 100</var></div>
 
                 <div class="hints" data-apply="appendContents">
                     <div id="hintGoal">

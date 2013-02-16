@@ -48,7 +48,7 @@
                 circle( [cx + 1, y], 0.5);
             </div>
 
-            <p>So we found that the prime factorization of <code><var>Q</var></code> is <code><var>PRIMES.join( "\\times " )</var></code>.</p>
+            <p>So the prime factorization of <code><var>Q</var></code> is <code><var>PRIMES.join( "\\times " )</var></code>.</p>
         </div>
 
         <div class="problems">
@@ -60,19 +60,19 @@
                     <var id="curr">Q</var>
                 </div>
 
-                <p class="question">What is the cube root of <code><var>Q</var></code>?</p>
+                <p class="question"><code>\Large{\sqrt[3]{<var>Q</var>} = \text{?}}</code></p>
 
                 <p class="solution"><var>N</var></p>
 
                 <div class="hints" data-apply="prependContents">
                     <p>
-                        The cube root of <code><var>Q</var></code> is the number that, when
+                        <code>\sqrt[3]{<var>Q</var>}</code> is the number that, when
                         multiplied by itself three times, equals <code><var>Q</var></code>.
                     </p>
                 </div>
 
                 <div class="hints" data-apply="appendContents">
-                    <p>We're looking for the cube root of <code><var>Q</var></code>, so we want to split the prime factors into three identical groups.</p>
+                    <p>We're looking for <code>\sqrt[3]{<var>Q</var>}</code>, so we want to split the prime factors into three identical groups.</p>
 
                     <div data-if="PRIMES.length === 3" data-unwrap>
 
@@ -94,7 +94,7 @@
 
                     </div>
 
-                    <p>So the cube root of <code><var>Q</var></code> is <code><var>N</var></code>.</p>
+                    <p class="final_answer">So <code>\sqrt[3]{<var>Q</var>}</code> is <code><var>N</var></code>.</p>
                 </div>
 
             </div>

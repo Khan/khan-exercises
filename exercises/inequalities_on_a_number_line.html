@@ -74,13 +74,14 @@
             var multiplier = sign === "-" ? -1 : 1;
 
             // Grab some random padding for left & right of number lines
-            var start = ( i * multiplier ) - KhanUtil.randRange(2, 7);
-            var end = ( i * multiplier ) + KhanUtil.randRange(2, 7);
+            var start = ( i * multiplier ) - KhanUtil.randRange(2, 6);
+            var end = ( i * multiplier ) + KhanUtil.randRange(2, 6);
 
             graph = KhanUtil.currentGraph;
 
             graph.init({
-                range: [ [start - 1, end + 1], [-1, 1] ]
+                range: [ [start - 1, end + 0.5], [-1, 1] ],
+                scale: 36
             });
 
             // Label number line choice if necessary
@@ -118,8 +119,10 @@
 
     <div class="problems">
         <div id="line_from_equation">
-            <div class="question">
-                <p>Which graph on the number line represents <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>?</p>
+            <p class="question">
+                Which graph on the number line represents <code><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>?
+            </p>
+            <div class="problem">
 
                 <div class="graphie" data-each="LINE_LABELS as index, label">
                     numberLineWithArrowAndMistakes(
@@ -137,33 +140,38 @@
 
             <div class="hints">
 
-                <p>First, draw a number line with at least a few numbers on each side of <code><var>SIGN + ( INT + FRAC )</var></code>.</p>
-                <div class="graphie" id="number_line_hint">
+                <div>
+                    <p>First, draw a number line with at least a few numbers on each side of <code><var>SIGN + ( INT + FRAC )</var></code>.</p>
+                    <div class="graphie" id="number_line_hint">
 
-                    // Draw number line only
-                    numberLineWithArrowAndMistakes(
-                        null, SIGN, INT, FRAC, LESS_THAN, INCLUSIVE, LINE_ERROR_TYPES, CORRECT_LINE_INDEX
-                    );
-                    arrow.hide();
-                    pt.hide();
+                        // Draw number line only
+                        numberLineWithArrowAndMistakes(
+                            null, SIGN, INT, FRAC, LESS_THAN, INCLUSIVE, LINE_ERROR_TYPES, CORRECT_LINE_INDEX
+                        );
+                        arrow.hide();
+                        pt.hide();
 
-               </div>
+                   </div>
+                </div>
 
-               <p data-if="INCLUSIVE">
-                   Since <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw a full circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality includes <code><var>SIGN + ( INT + FRAC )</var></code>.
-               </p><p data-else>
-                   Since <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw an empty circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality does not include <code><var>SIGN + ( INT + FRAC )</var></code>.
-                </p>
+                <div>
+                    <p data-if="INCLUSIVE">
+                        Since <code><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw a full circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality includes <code><var>SIGN + ( INT + FRAC )</var></code>.
+                    </p><p data-else>
+                        Since <code><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw an empty circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality does not include <code><var>SIGN + ( INT + FRAC )</var></code>.
+                    </p>
+                    <div class="graphie" data-update="number_line_hint">pt.show();</div>
+                </div>
 
-               <div class="graphie" data-update="number_line_hint">pt.show();</div>
+                <div>
+                    <p data-if="LESS_THAN">
+                        Now draw an arrow to the left of the circle to include all numbers less than <code><var>SIGN + ( INT + FRAC )</var></code>.
+                    </p><p data-else>
+                        Now draw an arrow to the right of the circle to include all numbers greater than <code><var>SIGN + ( INT + FRAC )</var></code>.
+                    </p>
+                    <div class="graphie" data-update="number_line_hint">arrow.show();</div>
+                </div>
 
-               <p data-if="LESS_THAN">
-                   Now draw an arrow to the left of the circle to include all numbers less than <code><var>SIGN + ( INT + FRAC )</var></code>.
-               </p><p data-else>
-                   Now draw an arrow to the right of the circle to include all numbers greater than <code><var>SIGN + ( INT + FRAC )</var></code>.
-                </p>
-
-               <div class="graphie" data-update="number_line_hint">arrow.show();</div>
 
                <p>This looks like it matches the arrow and circle from Graph <var>LINE_SOLUTION</var> above.</p>
             </div>
@@ -204,7 +212,7 @@
                 </p>
 
                 <p>
-                    <code class="hint_blue"><var>VARIABLE_NAME</var> <var>REL</var><var>SIGN + INT</var></code>
+                    The graph represents <code><var>VARIABLE_NAME</var> <var>REL</var><var>SIGN + INT</var></code>
                 </p>
             </div>
         </div>

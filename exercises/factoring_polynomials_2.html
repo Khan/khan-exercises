@@ -10,11 +10,11 @@
     <div class="problems">
         <div>
             <div class="vars">
-                <div data-ensure="A !== B && A !== -B">
+                <div data-ensure="abs(A) !== abs(B)">
                     <var id="A">randRangeNonZero( -10, 10 )</var>
                     <var id="B">randRangeNonZero( -10, 10 )</var>
                 </div>
-                <var id="COMMON_CST">"" + (randRangeNonZero(-1, 1) * randRangeNonZero(2, 5))</var>,
+                <var id="COMMON_CST">"" + (randRangeNonZero(-1, 1) * randRangeNonZero(2, 5))</var>
                 <var id="COMMON_POWER">randRange(0, 1)</var>
                 <var id="SQUARE">1</var>
                 <var id="CONSTANT">SQUARE*A*B</var>

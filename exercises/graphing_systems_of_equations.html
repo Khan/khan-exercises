@@ -138,7 +138,7 @@
                     graph.pointB.toFront();
 
                 </div>
-                Click and drag the points to move the lines.
+                <p>Click and drag the points to move the lines.</p>
             </div>
             <div class="solution" data-type="multiple">
                 <p><code>x = </code> <span class="sol"><var>X</var></span></p>
@@ -156,7 +156,7 @@
                         var yint1 = slope1 * ( 0 - guess[0][0] ) + guess[0][1];
                         var yint2 = slope2 * ( 0 - guess[2][0] ) + guess[2][1];
                         // allows blue function to be graphed with green line and vice versa, fwiw
-                        return ( abs( SLOPE_1 - slope1 ) &lt; 0.001
+                        var graphCorrect = ( abs( SLOPE_1 - slope1 ) &lt; 0.001
                             &amp;&amp; abs( SLOPE_2 - slope2 ) &lt; 0.001
                             &amp;&amp; abs( YINT_1 - yint1 ) &lt; 0.001
                             &amp;&amp; abs( YINT_2 - yint2 ) &lt; 0.001 )
@@ -164,6 +164,13 @@
                             &amp;&amp; abs( SLOPE_2 - slope1 ) &lt; 0.001
                             &amp;&amp; abs( YINT_2 - yint1 ) &lt; 0.001
                             &amp;&amp; abs( YINT_1 - yint2 ) &lt; 0.001 );
+                        var pointCorrect = parseInt($("#solutionarea input").eq(0).val()) === X &amp;&amp;
+                            parseInt($("#solutionarea input").eq(1).val()) === Y;
+
+                        if (pointCorrect &amp;&amp; !graphCorrect) {
+                            return "You found the right solution to the system of equations, but you haven't graphed them correctly.";
+                        }
+                        return graphCorrect;
                     </div>
                     <div class="show-guess">
                         graph.pointA.setCoord( guess[0] );

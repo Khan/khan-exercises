@@ -59,13 +59,14 @@
             </div>
 
             <div class="problem">
-                Given<br />
-                    <span data-if="PROBLEM===2"><span><code>\qquad \overrightarrow{<var>O</var><var>A</var>}\perp\overrightarrow{<var>O</var><var>C</var>}</code></span>,<br />            </span>
+                <div><p>Given</p>
+                    <p><span data-if="PROBLEM===2"><span><code>\qquad \overrightarrow{<var>O</var><var>A</var>}\perp\overrightarrow{<var>O</var><var>C</var>}</code></span>,<br />            </span>
                     <span id="given0"><code>\qquad m <var>ANGLE_ONE</var> = <var>COEF_1</var>x + <var>CONST_1</var></code></span>, <span data-if="PROBLEM !== 0">and</span><br/>
                     <span id="given1"><code>\qquad m <var>ANGLE_TWO</var> = <var>COEF_2</var>x + <var>CONST_2</var></code></span><span data-if="PROBLEM !==0">,<br /></span>
                     <span data-if="PROBLEM === 0">, and<br />
-                    <span id="givenLarge"><code>\qquad m <var>LARGE_ANGLE</var> = <var>largeAngle</var></code></span>,</span>
+                    <span id="givenLarge"><code>\qquad m <var>LARGE_ANGLE</var> = <var>largeAngle</var></code></span>,</span></p>
                     <p class="question">find <code>m<var>ANSWER[0]</var></code>.</p>
+                </div>
 
                 <div id="angleGraph" class="graphie">
                     init({
@@ -117,9 +118,9 @@
 
                     <div class="graphie" data-update="angleGraph">
                         style({ stroke: GREEN, strokeWidth: 3 });
-                        arc( [ 0, 0 ], 1, 0, subAngle2 );
+                        arc([0, 0], 1, 0, ANGLE_ONE === ANGLE_TOP ? subAngle2 : subAngle1).toBack();
                         style({ stroke: BLUE, strokeWidth: 3 });
-                        arc( [ 0, 0 ], 1, subAngle2, largeAngle );
+                        arc([0, 0], 1, ANGLE_ONE === ANGLE_TOP ? subAngle2 : subAngle1, largeAngle).toBack();
 
                         if (PROBLEM === 0){
                             style({ stroke: "purple", strokeWidth: 3 });

@@ -15,49 +15,49 @@ Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals su
     <div class="problems">
         <div id="into-fraction">
             <div class="vars">
-                <var id="NUMERATOR">randRange( 0, 1 ) ? randRange( 100, 999 ) : randRange( 1000, 9999 )</var>
-                <var id="D">( NUMERATOR / 10000 ).toFixed( 4 )</var>
-                <var id="GCD">getGCD( round( D * 10000 ) , 10000 )</var>
+                <var id="NUMERATOR">randRange(0, 1) ? randRange(100, 999) : randRange(1000, 9999)</var>
+                <var id="D">(NUMERATOR / 10000).toFixed(4)</var>
+                <var id="GCD">getGCD(round(D * 10000) , 10000)</var>
             </div>
             <p class="question">Express <code><var>D</var></code> as a fraction. Reduce to lowest terms.</p>
             <p class="solution" data-type="rational"><var>D</var></p>
             <div class="hints">
                 <div>
                     <p><code><var>D</var></code> can be represented as follows.</p>
-                    <p><code>= 0 + <var>fraction( D.substr( 2, 1 ) , 10 )</var> + <var>fraction( D.substr( 3, 1 ) , 100 )</var> + <var>fraction( D.substr( 4, 1 ), 1000 )</var> + <var>fraction( D.substr( 5, 1 ), 10000 )</var></code></p>
-                    <p><code>= <var>fraction( NUMERATOR, 10000 )</var></code></p>
+                    <p><code>= 0 + <var>fraction(D.substr(2, 1) , 10)</var> + <var>fraction(D.substr(3, 1) , 100)</var> + <var>fraction(D.substr(4, 1), 1000)</var> + <var>fraction(D.substr(5, 1), 10000)</var></code></p>
+                    <p><code>= <var>fraction(NUMERATOR, 10000)</var></code></p>
                 </div>
                 <div>
                     <p>You can also skip a few steps by making a fraction with <code><var>NUMERATOR</var></code> as the numerator and <code>10000</code> (because the decimal extends to the ten thousandths place) as the denominator.</p>
-                    <p><code><var>fraction( NUMERATOR, 10000 )</var></code></p>
+                    <p><code><var>fraction(NUMERATOR, 10000)</var></code></p>
                 </div>
                 <div data-if="GCD > 1">
                     <p>Then, reduce the fractional part by dividing the numerator and denominator by <code><var>GCD</var></code>.</p>
-                    <p><code>=<var>fractionReduce( round( D * 10000 ) , 10000 )</var></code></p>
+                    <p><code>=<var>fractionReduce(round(D * 10000) , 10000)</var></code></p>
                 </div>
             </div>
         </div>
 
         <div id="into-mixed">
             <div class="vars">
-                <var id="W">randRange( 1, 19 )</var>
-                <var id="D">randRangeExclude(1, 99, [ 10 , 20 , 30 , 40 , 50 , 60 , 70 , 80 , 90 ]) / 100</var>
-                <var id="GCD">getGCD( round( D * 100 ) , 100 )</var>
-                <var id="FIXED">( W + D ).toFixed( 2 )</var>
+                <var id="W">randRange(1, 19)</var>
+                <var id="D">randRangeExclude(1, 99, [10 , 20 , 30 , 40 , 50 , 60 , 70 , 80 , 90])</var>
+                <var id="GCD">getGCD(D , 100)</var>
+                <var id="FIXED">(W + D / 100).toFixed(2)</var>
             </div>
             <p class="question">Express <code><var>FIXED</var></code> as a mixed number. Reduce to lowest terms.</p>
 
-            <p class="solution" data-type="mixed"><var>W + D</var></p>
+            <p class="solution" data-type="mixed"><var>W + D / 100</var></p>
 
             <div class="hints">
                 <div>
                     <p><code><var>FIXED</var></code> can be represented as follows:</p>
-                    <p><code>= <var>W</var> + <var>fraction( floor( D * 10 ), 10 )</var> + <var>fraction( floor( ( D * 100 ) % 10 ), 100 )</var></code></p>
+                    <p><code>= <var>W</var> + <var>fraction(floor(D / 10), 10)</var> + <var>fraction(D % 10, 100)</var></code></p>
                 </div>
-                <p><code>= <var>W  + fraction( roundTo( 0, D * 100 ), 100 )</var></code></p>
+                <p><code>= <var>W  + fraction(D, 100)</var></code></p>
                 <div data-if="GCD > 1">
                     <p>Reduce the fractional part by dividing the numerator and denominator by <code><var>GCD</var></code>.</p>
-                    <p><code>=<var>W + fractionReduce( round( D * 100 ) , 100 )</var></code></p>
+                    <p><code>=<var>W + fractionReduce(D , 100)</var></code></p>
                 </div>
             </div>
         </div>

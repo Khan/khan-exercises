@@ -24,6 +24,7 @@
                 });
                 graph.pl = new ParallelLines( 0, 0, 10, 0, 3 );
                 graph.pl.draw();
+                graph.pl.drawMarkers(ANCHOR);
                 graph.pl.drawTransverse( ANCHOR );
                 graph.pl.drawAngle( KNOWN_INDEX, true );
                 graph.pl.drawAngle( UNKNOWN_INDEX, false, "#FFA500" );
@@ -43,12 +44,6 @@
             <p>The orange angle measures <var>MEASURE</var> degrees.</p>
             <div class="graphie" data-update="parallel-lines">
                 graph.pl.drawAngle( UNKNOWN_INDEX, true, "#FFA500" );
-            </div>
-        </div>
-        <div>
-            <p>Note that the green angle also measures <var>MEASURE</var> degrees. This makes sense because it is opposite the orange angle and corresponds with the blue angle.</p>
-            <div class="graphie" data-update="parallel-lines">
-                graph.pl.drawVerticalAngle( UNKNOWN_INDEX, true, "#28AE7B" );
             </div>
         </div>
     </div>

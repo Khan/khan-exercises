@@ -1,0 +1,4 @@
+# For build/extract-strings.py
+lxml
+html5lib
+polib

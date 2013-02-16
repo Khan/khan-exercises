@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems interactive subhints">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Area of triangles 1</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        span.hover {
+            color: #005987;
+            border-bottom: 1px dashed #005987;
+        }
+        span.hover:hover {
+            color: #678d00;
+            border-bottom: 1px dashed #678d00;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars">
+        <var id="UNIT,UNIT_TEXT">randFromArray([
+            ["in", "inch"],
+            ["ft", "foot"],
+            ["m", "meter"],
+            ["cm", "centimeter"],
+            ["", "unit"]
+        ])</var>
+    </div>
+    <div class="problems">
+        <div id="right-triangle" data-weight="1">
+            <div class="vars" data-ensure="(B % 2 === 0) || (H % 2 === 0)">
+                <var id="B">randRange(2, 9)</var>
+                <var id="H">randRange(2, 9)</var>
+                <var id="HYP">sqrt(B * B + H * H)</var>
+            </div>
+
+            <p class="question">
+                What is the area of the triangle?
+            </p>
+            <div class="problem">
+                <div class="graphie" id="area">
+                    init({ range: [[-2, B + 1], [-1, H + 1]], scale: 30 });
+                    path([[0, 0], [0, H], [B, 0], true],
+                        {stroke: BLUE, fill: "#eee"});
+                    label([B / 2, 0], B + "\\text{ " + UNIT + "}", "below");
+                    label([0, H / 2], H + "\\text{ " + UNIT + "}", "left");
+                    // Label hypotenuse if it's an integer
+                    if (HYP === round(HYP)) {
+                        label([B / 2, H * 0.55], HYP + "\\text{ " + UNIT + "}",
+                            "right");
+                    }
+                    path([[0, 0.3], [0.3, 0.3], [0.3, 0]], { stroke: BLUE });
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>(B * H) / 2</var></span>
+                square <var>plural(UNIT_TEXT)</var>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <div class="graphie" data-update="area">
+                        style({
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            strokeDasharray: "-"
+                        }, function() {
+                            _(B).times(function(x) {
+                                path([[x + 61 / 60, 0], [x + 61 / 60, H]]);
+                            });
+                            _(H).times(function(y) {
+                                path([[0, y + 61 / 60], [B, y + 61 / 60]]);
+                            });
+                        });
+                    </div>
+                    <p>
+                        The base of the triangle is
+                        <var>pluralTex(B, UNIT_TEXT)</var> and the height is
+                        <var>pluralTex(H, UNIT_TEXT)</var>, so the area of the
+                        <em>rectangle</em> shown above is <code><var>B</var>
+                        \times <var>H</var></code>.
+                    </p>
+                </div>
+                <p>
+                    The triangle takes up half as much area as the rectangle,
+                    so the area of the triangle is <code>\frac{1}{2}</code> of
+                    <code><var>B</var> \times <var>H</var></code>.
+                </p>
+                <p><code>
+                    \text{area} = \frac{1}{2} \times <var>B</var> \times
+                    <var>H</var> = <var>(B * H) / 2</var>
+                </code></p>
+            </div>
+        </div>
+
+        <div id="acute-triangle" data-weight="2">
+            <div class="vars" data-ensure="((B % 2 === 0) || (H % 2 === 0)) &&
+                    (H !== HYP) && B !== TOP">
+                <var id="B">randRange(3, 9)</var>
+                <var id="H">randRange(2, 9)</var>
+                <var id="HYP">
+                    randRange(H + 1, floor(sqrt(H * H + B * B) - 1))
+                </var>
+                <var id="TOP">sqrt(HYP * HYP - H * H)</var>
+            </div>
+
+            <p class="question">
+                What is the area of the triangle?
+            </p>
+            <div class="problem">
+                <div class="graphie" id="area">
+                    init({ range: [[-2, B + 1], [-1, H + 1]], scale: 30 });
+                    path([[0, 0], [TOP, H], [B, 0], true],
+                        {stroke: BLUE, fill: "#eee"});
+                    label([B / 2, 0], B + "\\text{ " + UNIT + "}", "below");
+                    graph.hypotenuseLabel = label([TOP * 0.5, H * 0.5],
+                        HYP + "\\text{ " + UNIT + "}", "left");
+                    path([[TOP + 1/60, 0], [TOP + 1/60, H]], {
+                        stroke: BLUE,
+                        strokeWidth: 1,
+                        strokeDasharray: "- "
+                    });
+                    graph.heightLabel = label([TOP, H * 0.4], H +
+                        "\\text{ " + UNIT + "}",
+                        TOP / B &gt; 0.5 ? "left" : "right");
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>(B * H) / 2</var></span>
+                square <var>plural(UNIT_TEXT)</var>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <div class="graphie" data-update="area">
+                        graph.hypotenuseLabel.remove();
+                        graph.grid = raphael.set();
+                        style({
+                            stroke: GRAY,
+                            strokeWidth: 1,
+                            strokeDasharray: "-"
+                        }, function() {
+                            _(B + 1).times(function(x) {
+                                if (x !== TOP) {
+                                    graph.grid.push(path([[x + 1 / 60, 0],
+                                        [x + 1 / 60, H]]));
+                                }
+                            });
+                            _(H).times(function(y) {
+                                graph.grid.push(path([[0, y + 61 / 60],
+                                    [B, y + 61 / 60]]));
+                            });
+                        });
+                        graph.heightLabel.remove();
+                        graph.heightLabel = label([0, H / 2], H +
+                            "\\text{ " + UNIT + "}",
+                            TOP / B &gt; 0.5 ? "left" : "left");
+                    </div>
+                    <p>
+                        The base of the triangle is
+                        <var>pluralTex(B, UNIT_TEXT)</var> and the height is
+                        <var>pluralTex(H, UNIT_TEXT)</var>, so the area of the
+                        <em>rectangle</em> shown above is <code><var>B</var>
+                        \times <var>H</var></code>.
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        The triangle takes up half as much area as the
+                        rectangle (look at the
+                        <span class="hover" id="left-part">left part</span>
+                        and the
+                        <span class="hover" id="right-part">right part</span>
+                        separately to see how), so the area of the triangle is
+                        <code>\frac{1}{2}</code> of
+                        <code><var>B</var> \times <var>H</var></code>.
+                    </p>
+                    <div class="graphie" data-update="area">
+                        graph.leftBox = path([[-1, -1], [-1, H + 1],
+                            [TOP, H + 1], [TOP, -1], true], {
+                                stroke: false,
+                                fill: "#f8f8f8",
+                                opacity: 0.0
+                            });
+
+                        graph.rightBox = path([[B + 1, -1], [B + 1, H + 1],
+                            [TOP + 1 / 60, H + 1], [TOP + 1/60, -1], true], {
+                                stroke: false,
+                                fill: "#f8f8f8",
+                                opacity: 0.0
+                            });
+
+                        $("#left-part").bind("mouseover vmouseout",
+                            function(event) {
+                                if (event.type === "mouseover") {
+                                    graph.rightBox.animate({
+                                        opacity: 0.8
+                                    }, 50);
+                                } else {
+                                    graph.rightBox.animate({
+                                        opacity: 0.0
+                                    }, 50);
+                                }
+                            }
+                        );
+
+                        $("#right-part").bind("mouseover vmouseout",
+                            function(event) {
+                                if (event.type === "mouseover") {
+                                    graph.leftBox.animate({
+                                        opacity: 0.8
+                                    }, 50);
+                                } else {
+                                    graph.leftBox.animate({
+                                        opacity: 0.0
+                                    }, 50);
+                                }
+                            }
+                        );
+                    </div>
+                </div>
+                <p><code>
+                    \text{area} = \frac{1}{2} \times <var>B</var> \times
+                    <var>H</var> = <var>(B * H) / 2</var>
+                </code></p>
+            </div>
+        </div>
+
+        <div id="obtuse-triangle" data-weight="2">
+            <div class="vars" data-ensure="(B % 2 === 0) || (H % 2 === 0)">
+                <var id="B">randRange(3, 9)</var>
+                <var id="H">randRange(2, 9)</var>
+                <var id="TOP">randFromArray([
+                    randRange(-5, -1),
+                    randRange(B + 1, B + 5)
+                ])</var>
+            </div>
+
+            <p class="question">
+                What is the area of the triangle?
+            </p>
+            <div class="problem">
+                <div class="graphie" id="area">
+                    init({ range: [[min(0, TOP) - 2, max(B, TOP) + 1],
+                        [-1, H + 1]], scale: 30 });
+                    path([[0, 0], [TOP, H], [B, 0], true],
+                        {stroke: BLUE, fill: "#eee"});
+                    label([B / 2, 0], B + "\\text{ " + UNIT + "}", "below");
+                    if (TOP &gt; 0) {
+                        label([TOP * 0.5, H * 0.6],
+                            round(sqrt(TOP * TOP + H * H)) +
+                            "\\text{ " + UNIT + "}", "left");
+                    } else {
+                        label([(B + TOP) * 0.5, H * 0.6],
+                            round(sqrt((B - TOP) * (B - TOP) + H * H)) +
+                            "\\text{ " + UNIT + "}", "right");
+                    }
+                    path([[TOP + 1/60, 0], [TOP + 1/60, H]], {
+                        stroke: BLUE,
+                        strokeWidth: 1,
+                        strokeDasharray: "- "
+                    });
+                    label([TOP, H * 0.4], H + "\\text{ " + UNIT + "}",
+                        TOP &lt; 0 ? "left" : "right");
+                </div>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>(B * H) / 2</var></span>
+                square <var>plural(UNIT_TEXT)</var>
+            </div>
+
+            <div class="hints">
+                <p>
+                    The area of any triangle is
+                    <code>\frac{1}{2}
+                    \text{base} \times \text{height}</code>.
+                    <br>
+                </p>
+                <p>
+                    The base of the triangle is
+                    <var>pluralTex(B, UNIT_TEXT)</var> and the height is
+                    <var>pluralTex(H, UNIT_TEXT)</var>.
+                </p>
+                <p><code>
+                    \text{area} = \frac{1}{2} \times <var>B</var> \times
+                    <var>H</var> = <var>(B * H) / 2</var>
+                </code></p>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

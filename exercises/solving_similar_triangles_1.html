@@ -129,7 +129,8 @@
                     var maxY = Math.max(aBounding[1][1], bBounding[1][1]);
 
                     init({
-                        range: [ [minX, maxX ], [ minY, maxY ] ]
+                        range: [ [minX, maxX ], [ minY, maxY ] ],
+                        scale: 500 / (maxX - minX)
                     })
 
                     style({
@@ -149,7 +150,7 @@
             <div class="solution" data-type="set">
                 <div class="set-sol"><var>SOLUTION</var></div>
                 <div class="input-format">
-                    <p><code><var>X</var> = \quad</code><span class="entry"></span></p>
+                    <p><code><var>X</var> = \quad</code><span class="entry" data-forms="integer, decimal"></span></p>
                 </div>
             </div>
 

@@ -37,7 +37,7 @@
             <div class="graphie">
                 init({
                             range: [ [ -1, 11 ], [ -1, 3 ] ],
-                            scale: [30, 45]
+                            scale: [20, 40]
                         });
 
                 var digitsA = KhanUtil.digits( A );
@@ -84,8 +84,8 @@
                 ellipse( [ digitsA.length - A_DECIMAL - 0.5, 0.8 ], [ 0.09, 0.06 ] );
                 ellipse( [ digitsB.length - B_DECIMAL - 0.5, -0.2 ], [ 0.09, 0.06 ] );
 
-                var labelstr = "\\text{The decimal point needs to be moved " + POW_DIFF + " time" + ( POW_DIFF !== 1 ? "s.}" : ".}");
-                label ([ digitsA.length + 0.5, 0.5 ], labelstr, "right", 1);
+                var labelstr = "The decimal point needs to be moved " + POW_DIFF + " time" + ( POW_DIFF !== 1 ? "s." : ".");
+                label ([ digitsA.length + 0.5, 0.5 ], labelstr, "right", false);
             </div>
 
             <p>Moving the decimal one position to the <var>PM === 1 ? "right" : "left"</var> is the same as <var>PM === 1 ? "multiplying" : "dividing"</var> by ten once.</p>

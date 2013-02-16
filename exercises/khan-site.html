@@ -13,26 +13,28 @@
                             <div class="top-header-links">
                                 <span class="page_links" id="page_auth">
                                     <span class="achievement-badge-counts" style="left:-60px;"></span>
-                                    <a href="http://khanacademy.org/login">Login</a>
+                                    <span><a href="http://khanacademy.org/login">Log in</a></span>
                                     <span class="separator"></span>
-                                    <a href="http://khanacademy.org/contribute" id="donate-link">Donate</a>
+                                    <span><a href="http://khanacademy.org/contribute" id="donate-link">Donate</a></span>
                                 </span>
                                 <div class="clear"></div>
                                 <div id="nav-and-search">
                                     <div class="sitewide-navigation">
                                         <nav>
-                                            <span class="links">
-                                                <a href="http://khanacademy.org/#browse" class="watch-link">Watch</a>
+                                            <span class="links nav-subheader">
+                                                <span class="dropdown topic-browser-dropdown">
+                                                    <a href="http://khanacademy.org/#browse" class="watch-link dropdown-toggle">Watch <span class="caret"></span></a>
                                                 <a href="http://khanacademy.org/exercisedashboard" class="selected practice-link">Practice</a>
                                                 <a href="http://khanacademy.org/class_profile">Coach</a>
                                                 <a href="http://khanacademy.org/contribute">Volunteer</a>
                                                 <a href="http://khanacademy.org/about">About</a>
+                                                </span>
                                             </span>
                                         </nav>
                                     </div>
                                     <div id="search-box">
-                                        <form id="page_search" action="/search">
-                                            <input id="search-input" type="text" placeholder="Search for a video or playlist" name="page_search_query" value="" class="ui-corner-all placeholder ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"/><input type="submit" value=" " id="search-submit" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"/>
+                                        <form class="page-search" action="/search">
+                                            <input id="search-input" type="text" placeholder="Search for a video or topic" name="page_search_query" value="" class="ui-corner-all placeholder simple-input search-input blur-on-esc ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"><input type="submit" value=" " id="search-submit" class="search-submit" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"/>
                                         </form>
                                     </div>
                                     <div class="clear"></div>
@@ -41,11 +43,39 @@
 
                             <div id="logo">
                                 <a id="logo-image" href="http://khanacademy.org/" title="Khan Academy" name="logo-image"></a>
+                                <div id="stats"><span id="page_visitors" style="display: inline;">Over 9,000 lessons delivered</span></div>
                             </div>
                             <div class="clear"></div>
                         </div>
                     </header>
-                    <div id="container" class="single-exercise visited-no-recolor" style="overflow: hidden; padding-top: 100px;"></div>
+                    <div id="container" class="single-exercise visited-no-recolor" style="overflow: hidden;">
+                        <article class="exercises-content clearfix">
+                        <div class="exercises-header"><h2 class="section-headline">
+                                <div class="topic-exercise-badge">&nbsp;</div>
+                                <span class="practice-exercise-topic-context">Practicing</span>
+                        </h2></div>
+                        <div class="exercises-body">
+                            <div class="exercises-stack">&nbsp;</div>
+                            <div class="exercises-card current-card">
+                                <div class="current-card-container card-type-problem">
+                                    <div class="current-card-container-inner vertical-shadow">
+                                        <div class="current-card-contents">
+                                        </div>
+                                    </div>
+                                    <div id="extras" class="single-exercise">
+                                        <ul>
+                                            <li> <a id="scratchpad-show" href style>Show scratchpad</a>
+                                                <span id="scratchpad-not-available" style="display: none;">Scratchpad not available</span>
+                                            </li>
+                                            <li class="debug-mode"> <a href="?debug">Debug mode</a></li>
+                                            <li> <a id="problem-permalink" href>Problem permalink</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </article>
+                    </div>
                     <div id="end-of-page-spacer" style="height: 38px;">&nbsp;</div>
                     <div id="badge-notification-container" class="badge-award-container" style="display:none;"></div>
                 </div>
@@ -56,17 +86,19 @@
         <footer id="footer" class="short">
             <div id="leaves">
                 <div class="inner">
-                    <div id="copyright">
+                    <div id="copyright" class="tiny">
                         <small>&copy;2012 Khan Academy&#0153;</small> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/" id="creative-commons-link" name="creative-commons-link"></a>
                     </div>
                     <span class="footer-links">
+                        <a href="http://khanacademy.desk.com/">FAQ</a>
+                        <span class="sep">|</span>
                         <a href="/reportissue?type=Defect&issue_labels=Component-Code%2CExercise-addition_1%2CProblem-1" id="report">Report a Problem</a>
                         <span class="sep">|</span>
                         <a href="/about/the-team">Contact</a><a href="/jobs">Jobs</a>
                         <span class="sep">|</span>
                         <a href="/about/tos" title="Terms of Service">ToS</a> <a href="/about/privacy-policy" title="Privacy Policy">Privacy Policy</a>
                         <span class="sep">|</span>
-                        <a href="/downloads">Downloads</a> <a href="/coaches">Add a Coach</a>
+                        <a href="/downloads">Downloads</a>
 
                         <span class="sep">|</span>
                         <span class="small-social-links">

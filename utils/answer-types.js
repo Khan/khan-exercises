@@ -1,153 +1,296 @@
 (function() {
 
-var inexactMessages = {
-    unsimplified: "Your answer is almost correct, but it needs to be simplified.",
-    missingPercentSign: "Your answer is almost correct, but it is missing a <code>\\%</code> at the end."
-};
+/*
+ * Answer types
+ *
+ * Utility for creating answerable questions displayed in exercises
+ *
+ * Different answer types produce different kinds of input displays, and do
+ * different kinds of checking on the solutions.
+ *
+ * Each of the objects contain two functions, setup and createValidator.
+ *
+ * The setup function takes a solutionarea and solution, and performs setup
+ * within the solutionarea, and then returns an object which contains:
+ *
+ * answer: a function which, when called, will retrieve the current answer from
+ *         the solutionarea, which can then be validated using the validator
+ *         function
+ * validator: a function returned from the createValidator function (defined
+ *            below)
+ * solution: the correct answer to the problem
+ * examples: a list of example formats to be shown in the "acceptable formats"
+ *           popup
+ * showGuess: a function which, when given a guess, shows the guess within the
+ *            provided solutionarea
+ * showGuessCustom: a function which displays parts of a guess that are not
+ *                  within the solutionarea; currently only used for custom
+ *                  answers
+ *
+ * The createValidator function only takes a solution, and it returns a
+ * function which can be used to validate an answer.
+ *
+ * The resulting validator function returns:
+ * - true: if the answer is fully correct
+ * - false: if the answer is incorrect
+ * - "" (the empty string): if no answer has been provided (e.g. the answer box
+ *   is left unfilled)
+ * - a string: if there is some slight error
+ *
+ */
 
-Khan.answerTypes = Khan.answerTypes || {};
+Khan.answerTypes = $.extend(Khan.answerTypes, {
+    /*
+     * text answer type
+     *
+     * Displays a simple text box, and performs direct string matching on the
+     * value typed in an the answer provided
+     */
+    text: {
+        setup: function(solutionarea, solution) {
+            // Add a text box
+            var input;
+            if (window.Modernizr && Modernizr.touch) {
+                // special flag for iOS devices
+                input = $('<input type="text" autocapitalize="off">');
+            } else {
+                input = $('<input type="text">');
+            }
+            $(solutionarea).append(input);
 
-$.extend(Khan.answerTypes, {
-    text: function(solutionarea, solution, fallback, verifier, input) {
-        if (!input) {
-            input = $('<input type="text">');
-        }
+            // The fallback variable is used in place of the answer, if no
+            // answer is provided (i.e. the field is left blank)
+            var fallback = $(solution).data("fallback");
 
-        $(solutionarea).append(input);
+            return {
+                validator: Khan.answerTypes.text.createValidator(solution),
+                answer: function() {
+                    // return the value in the text box, or the fallback
+                    return input.val().length > 0 ?
+                        input.val() :
+                        (fallback != null ? fallback + "" : "");
+                },
+                solution: $.trim($(solution).text()),
+                examples: [],
+                showGuess: function(guess) {
+                    input.val(guess === undefined ? "" : guess);
+                }
+            };
+        },
+        createValidator: function(solution) {
+            var correct = $.trim($(solution).text());
 
-        var correct = typeof solution === "object" ? $(solution).text() : solution;
-
-        if (verifier == null) {
-            verifier = function(correct, guess) {
-                correct = $.trim(correct);
+            return function(guess) {
                 guess = $.trim(guess);
                 return correct === guess;
             };
         }
-
-        var ret = function() {
-            // we want the normal input if it's nonempty, the fallback converted to a string if
-            // the input is empty and a fallback exists, and the empty string if the input
-            // is empty and the fallback doesn't exist.
-            var val = input.val().length > 0 ?
-                input.val() :
-                (typeof fallback !== "undefined") ?
-                    fallback + "" :
-                    "";
-
-            ret.guess = input.val();
-
-            return verifier(correct, val);
-        };
-        ret.solution = $.trim(correct);
-        ret.examples = verifier.examples || [];
-        ret.showGuess = function(guess) {
-            input.val(guess);
-        };
-        return ret;
     },
 
+    /*
+     * number answer type
+     *
+     * performs simple number-based checking of a solution, with different
+     * kinds of number formats
+     *
+     * Uses the data-type option on the solution to choose which number formats
+     * are acceptable. Available data-types:
+     *
+     * - integer:  3
+     * - proper:   3/5
+     * - improper: 5/3
+     * - pi:       3 pi
+     * - log:      log(5)
+     * - percent:  15%
+     * - dollar:   $10
+     * - mixed:    1 1/3
+     * - decimal:  1.7
+     */
+    number: {
+        setup: function(solutionarea, solution) {
+            // retrieve the options from the solution data
+            var options = $.extend({
+                simplify: "required",
+                ratio: false,
+                maxError: Math.pow(2, -42),
+                forms: "literal, integer, proper, improper, mixed, decimal"
+            }, $(solution).data());
+            var acceptableForms = options.forms.split(/\s*,\s*/);
 
-    graphic: function(solutionarea, solution, fallback) {
-            var verifier = function(correct, guess) {
-                    return Math.abs(correct - guess) < 0.3;
-                };
-        return Khan.answerTypes.text(solutionarea, solution, fallback, verifier);
-    },
-
-    line: function(solutionarea, solution, fallback) {
-
-        var verifier = function(correct, guess) {
-            var result = true;
-            for (var i = 0; i < 5; i++) {
-                var sampleX = KhanUtil.randRange(-100, 100);
-                if (guess.match(/[A-W]|[a-w]|[y-z]|[Y-Z]/) !== null) {
-                    return false;
-                }
-
-                var newGuess = guess
-                        .replace(/\u2212/, "-")
-                        .replace(/(\d)(x)/, "$1 * $2")
-                        .replace("x", sampleX)
-                        .replace(/(\d)(\()/, "$1 * $2");
-                var newCorrect = correct
-                        .replace(/(\d)(x)/, "$1 * $2")
-                        .replace("x", sampleX)
-                        .replace(/(\d)(\()/, "$1 * $2")
-                        .replace(/-\s?-/, "");
-                result = result && (eval(newCorrect) === eval(newGuess));
+            if (window.Modernizr && Modernizr.touch) {
+                // Use special HTML5 input element for touch devices, so we can
+                // take advantage of special numeric keyboards...
+                var inputMarkup = '<input type="number" step="any">';
+                var numberForms = ["integer", "decimal"];
+                // ...except if the answer can be represented as a fraction,
+                // pi, log, percent, dollar, or anything else that isn't a
+                // "floating point number".
+                $.each(acceptableForms, function (i,form) {
+                    if (numberForms.indexOf(form) < 0) {
+                        inputMarkup = '<input type="text"' +
+                                      ' autocapitalize="off">';
+                    }
+                });
+                var input = $(inputMarkup);
+            } else {
+                // people don't always set their locale right, so use a text
+                // box to allow for alternative radix points
+                var input = $('<input type="text">');
             }
-            return result;
-        };
-        verifier.examples = "An equation of a line, like 3(x+1)/2 or 2x + 1";
-        return Khan.answerTypes.text(solutionarea, solution, fallback, verifier);
+            $(solutionarea).append(input);
 
-    },
+            // retrieve the example texts from the different forms
+            var exampleForms = {
+                integer: "an integer, like <code>6</code>",
 
+                proper: (function() {
+                        if (options.simplify === "optional") {
+                            return "a <em>proper</em> fraction, like " +
+                                   "<code>1/2</code> or <code>6/10</code>";
+                        } else {
+                            return "a <em>simplified proper</em> fraction, " +
+                                   "like <code>3/5</code>";
+                        }
+                    })(),
 
-    number: function(solutionarea, solution, fallback, accForms) {
-        var options = $.extend({
-            simplify: "required",
-            ratio: false,
-            maxError: Math.pow(2, -42),
-            forms: "literal, integer, proper, improper, mixed, decimal"
-        }, $(solution).data());
-        var acceptableForms = (accForms || options.forms).split(/\s*,\s*/);
+                improper: (function() {
+                        if (options.simplify === "optional") {
+                            return "an <em>improper</em> fraction, like " +
+                                   "<code>10/7</code> or <code>14/8</code>";
+                        } else {
+                            return "a <em>simplified improper</em> " +
+                                   "fraction, like <code>7/4</code>";
+                        }
+                    })(),
 
-        var fractionTransformer = function(text) {
-            text = text
+                pi: "a multiple of pi, like <code>12\\ \\text{pi}</code> or " +
+                    "<code>2/3\\ \\text{pi}</code>",
 
-                // Replace unicode minus sign with hyphen
-                .replace(/\u2212/, "-")
+                log: "an expression, like <code>\\log(100)</code>",
 
-                // Remove space after +, -
-                .replace(/([+-])\s+/g, "$1")
+                percent: "a percent, like <code>12.34\\%</code>",
 
-                // Remove leading/trailing whitespace
-                .replace(/(^\s*)|(\s*$)/gi, "");
+                dollar: "a money amount, like <code>$2.75</code>",
 
-                // Extract numerator and denominator
-            var match = text.match(/^([+-]?\d+)\s*\/\s*([+-]?\d+)$/);
-            var parsedInt = parseInt(text, 10);
+                mixed: "a mixed number, like <code>1\\ 3/4</code>",
 
-            if (match) {
-                var num = parseFloat(match[1]),
-                    denom = parseFloat(match[2]);
-                var simplified = denom > 0 &&
-                    (options.ratio || match[2] !== "1") &&
-                    KhanUtil.getGCD(num, denom) === 1;
-                return [{
-                    value: num / denom,
-                    exact: simplified
-                }];
-            } else if (!isNaN(parsedInt) && "" + parsedInt === text) {
-                return [{
-                    value: parsedInt,
-                    exact: true
-                }];
-            }
+                decimal: (function() {
+                        if (options.inexact === undefined) {
+                            return "an <em>exact</em> decimal, like " +
+                                   "<code>0.75</code>";
+                        } else {
+                            return "a decimal, like <code>0.75</code>";
+                        }
+                    })()
+            };
 
-            return [];
-        };
-
-        var forms = {
-            literal: {
-                transformer: function(text) {
-                    // Prevent literal comparisons for decimal-looking-like strings
-                    return [{ value: (/[^+-\u2212\d\.\s]/).test(text) ? text : null }];
+            // extract the examples for the given forms
+            var examples = [];
+            $.each(acceptableForms, function(i, form) {
+                if (exampleForms[form] != null) {
+                    examples.push(exampleForms[form]);
                 }
-            },
+            });
 
-            integer: {
-                transformer: function(text) {
-                    return forms.decimal.transformer(text);
+            var fallback = $(solution).data("fallback");
+
+            return {
+                validator: Khan.answerTypes.number.createValidator(solution),
+                answer: function() {
+                    return input.val().length > 0 ?
+                        input.val() :
+                        (fallback != null ? fallback + "" : "");
                 },
-                example: "an integer, like <code>6</code>"
-            },
+                solution: $.trim($(solution).text()),
+                examples: examples,
+                showGuess: function(guess) {
+                    input.val(guess === undefined ? "" : guess);
+                }
+            };
+        },
+        createValidator: function(solution) {
+            // Extract the options from the given solution object
+            var options = $.extend({
+                simplify: "required",
+                ratio: false,
+                maxError: Math.pow(2, -42),
+                forms: "literal, integer, proper, improper, mixed, decimal"
+            }, $(solution).data());
+            var acceptableForms = options.forms.split(/\s*,\s*/);
 
-            proper: {
-                transformer: function(text) {
+            // If percent is an acceptable form, make sure it's the last one
+            // in the list so we don't prematurely complain about not having
+            // a percent sign when the user entered the correct answer in a
+            // different form (such as a decimal or fraction)
+            if (_.contains(acceptableForms, "percent")) {
+                acceptableForms = _.without(acceptableForms, "percent");
+                acceptableForms.push("percent");
+            }
+
+            // Take text looking like a fraction, and turn it into a number
+            var fractionTransformer = function(text) {
+                text = text
+                    // Replace unicode minus sign with hyphen
+                    .replace(/\u2212/, "-")
+
+                    // Remove space after +, -
+                    .replace(/([+-])\s+/g, "$1")
+
+                    // Remove leading/trailing whitespace
+                    .replace(/(^\s*)|(\s*$)/gi, "");
+
+                    // Extract numerator and denominator
+                var match = text.match(/^([+-]?\d+)\s*\/\s*([+-]?\d+)$/);
+                var parsedInt = parseInt(text, 10);
+                if (match) {
+                    var num = parseFloat(match[1]),
+                        denom = parseFloat(match[2]);
+                    var simplified = denom > 0 &&
+                        (options.ratio || match[2] !== "1") &&
+                        KhanUtil.getGCD(num, denom) === 1;
+                    return [{
+                        value: num / denom,
+                        exact: simplified
+                    }];
+                } else if (!isNaN(parsedInt) && "" + parsedInt === text) {
+                    return [{
+                        value: parsedInt,
+                        exact: true
+                    }];
+                }
+
+                return [];
+            };
+
+            /*
+             * Different forms of numbers
+             *
+             * Each function returns a list of objects of the form:
+             *
+             * {
+             *    value: numerical value,
+             *    exact: true/false
+             * }
+             */
+            var forms = {
+                // a literal, decimal looking number
+                literal: function(text) {
+                    // Prevent literal comparisons for decimal-looking-like
+                    // strings
+                    return [{
+                        value: (/[^+-\u2212\d\.\s]/).test(text) ? text : null
+                    }];
+                },
+
+                // integer, which is encompassed by decimal
+                integer: function(text) {
+                    return forms.decimal(text, 1);
+                },
+
+                // A proper fraction
+                proper: function(text) {
                     return $.map(fractionTransformer(text), function(o) {
+                        // All fractions that are less than 1
                         if (Math.abs(o.value) < 1) {
                             return [o];
                         } else {
@@ -155,18 +298,11 @@ $.extend(Khan.answerTypes, {
                         }
                     });
                 },
-                example: (function() {
-                    if (options.simplify === "optional") {
-                        return "a <em>proper</em> fraction, like <code>1/2</code> or <code>6/10</code>";
-                    } else {
-                        return "a <em>simplified proper</em> fraction, like <code>3/5</code>";
-                    }
-                })()
-            },
 
-            improper: {
-                transformer: function(text) {
+                // an improper fraction
+                improper: function(text) {
                     return $.map(fractionTransformer(text), function(o) {
+                        // All fractions that are greater than 1
                         if (Math.abs(o.value) >= 1) {
                             return [o];
                         } else {
@@ -174,58 +310,58 @@ $.extend(Khan.answerTypes, {
                         }
                     });
                 },
-                example: (function() {
-                    if (options.simplify === "optional") {
-                        return "an <em>improper</em> fraction, like <code>10/7</code> or <code>14/8</code>";
-                    } else {
-                        return "a <em>simplified improper</em> fraction, like <code>7/4</code>";
-                    }
-                })()
-            },
 
-            pi: {
-                transformer: function(text) {
+                // pi-like numbers
+                pi: function(text) {
                     var match, possibilities = [];
 
                     // Replace unicode minus sign with hyphen
                     text = text.replace(/\u2212/, "-");
 
                     // - pi
-                    if (match = text.match(/^([+-]?)\s*(?:pi?|\u03c0)$/i)) {
+                    if (match = text.match(
+                                    /^([+-]?)\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i
+                                )) {
                         possibilities = [{ value: parseFloat(match[1] + "1"), exact: true }];
 
                     // 5 / 6 pi
-                    } else if (match = text.match(/^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*(?:pi?|\u03c0)$/i)) {
+                    } else if (match = text.match(/^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
                         possibilities = fractionTransformer(match[1]);
 
                     // 5 pi / 6
-                    } else if (match = text.match(/^([+-]?\d+)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i)) {
-                        possibilities = fractionTransformer(match[1] + "/" + match[2]);
+                    } else if (match = text.match(/^([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i)) {
+                        possibilities = fractionTransformer(match[1] +
+                                                            "/" + match[3]);
 
                     // - pi / 4
-                    } else if (match = text.match(/^([+-]?)\s*\*?\s*(?:pi?|\u03c0)\s*(?:\/\s*([+-]?\d+))?$/i)) {
-                        possibilities = fractionTransformer(match[1] + "1/" + match[2]);
+                    } else if (match = text.match(/^([+-]?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i)) {
+                        possibilities = fractionTransformer(match[1] +
+                                                            "1/" + match[3]);
 
                     // 0
                     } else if (text === "0") {
                         possibilities = [{ value: 0, exact: true }];
 
                     // 0.5 pi (fallback)
-                    } else if (match = text.match(/^(\S+)\s*\*?\s*(?:pi?|\u03c0)$/i)) {
-                        possibilities = forms.decimal.transformer(match[1]);
+                    } else if (match = text.match(
+                                /^(\S+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i
+                                        )) {
+                        possibilities = forms.decimal(match[1]);
+                    }
+
+                    var multiplier = Math.PI;
+                    if (match && match[2].match(/t(?:au)?|\u03c4/)) {
+                        multiplier = Math.PI * 2;
                     }
 
                     $.each(possibilities, function(ix, possibility) {
-                        possibility.value *= Math.PI;
+                        possibility.value *= multiplier;
                     });
                     return possibilities;
                 },
-                example: "a multiple of pi, like <code>12\\ \\text{pi}</code> or <code>2/3\\ \\text{pi}</code>"
-            },
 
-            // simple log(c) form
-            log: {
-                transformer: function(text) {
+                // simple log(c) form
+                log: function(text) {
                     var match, possibilities = [];
 
                     // Replace unicode minus sign with hyphen
@@ -233,18 +369,17 @@ $.extend(Khan.answerTypes, {
                     text = text.replace(/[ \(\)]/g, "");
 
                     if (match = text.match(/^log\s*(\S+)\s*$/i)) {
-                        possibilities = forms.decimal.transformer(match[1]);
+                        possibilities = forms.decimal(match[1]);
                     } else if (text === "0") {
                         possibilities = [{ value: 0, exact: true }];
                     }
                     return possibilities;
                 },
-                example: "an expression, like <code>\\log(100)</code>"
-            },
 
-            percent: {
-                transformer: function(text) {
+                // Numbers with percent signs
+                percent: function(text) {
                     text = $.trim(text);
+                    // store whether or not there is a percent sign
                     var hasPercentSign = false;
 
                     if (text.indexOf("%") === (text.length - 1)) {
@@ -252,26 +387,23 @@ $.extend(Khan.answerTypes, {
                         hasPercentSign = true;
                     }
 
-                    var transformed = forms.decimal.transformer(text);
+                    var transformed = forms.decimal(text);
                     $.each(transformed, function(ix, t) {
                         t.exact = hasPercentSign;
+                        t.value = t.value / 100;
                     });
                     return transformed;
                 },
-                example: "a percent, like <code>12.34\\%</code>"
-            },
 
-            dollar: {
-                transformer: function(text) {
+                // Numbers with dollar signs
+                dollar: function(text) {
                     text = $.trim(text.replace("$", ""));
 
-                    return forms.decimal.transformer(text);
+                    return forms.decimal(text);
                 },
-                example: "a money amount, like <code>$2.75</code>"
-            },
 
-            mixed: {
-                transformer: function(text) {
+                // Mixed numbers, like 1 3/4
+                mixed: function(text) {
                     var match = text
                         // Replace unicode minus sign with hyphen
                         .replace(/\u2212/, "-")
@@ -287,7 +419,8 @@ $.extend(Khan.answerTypes, {
                             integ = parseFloat(match[2]),
                             num = parseFloat(match[3]),
                             denom = parseFloat(match[4]);
-                        var simplified = num < denom && KhanUtil.getGCD(num, denom) === 1;
+                        var simplified = num < denom &&
+                            KhanUtil.getGCD(num, denom) === 1;
 
                         return [{
                             value: sign * (integ + num / denom),
@@ -297,11 +430,18 @@ $.extend(Khan.answerTypes, {
 
                     return [];
                 },
-                example: "a mixed number, like <code>1\\ 3/4</code>"
-            },
 
-            decimal: {
-                transformer: function(text) {
+                // Decimal numbers -- compare entered text rounded to
+                // 'precision' Reciprical of the precision against the correct
+                // answer. We round to 1/1e10 by default, which is healthily
+                // less than machine epsilon but should be more than any real
+                // decimal answer would use. (The 'integer' answer type uses
+                // precision == 1.)
+                decimal: function(text, precision) {
+                    if (precision == null) {
+                        precision = 1e10;
+                    }
+
                     var normal = function(text) {
                         var match = text
 
@@ -311,16 +451,16 @@ $.extend(Khan.answerTypes, {
                             // Remove space after +, -
                             .replace(/([+-])\s+/g, "$1")
 
-                            // Extract integer, numerator and denominator
-                            // If commas or spaces are used, they must be in the "correct" places
+                            // Extract integer, numerator and denominator If
+                            // commas or spaces are used, they must be in the
+                            // "correct" places
                             .match(/^([+-]?(?:\d{1,3}(?:[, ]?\d{3})*\.?|\d{0,3}(?:[, ]?\d{3})*\.(?:\d{3}[, ]?)*\d{1,3}))$/);
 
                         if (match) {
                             var x = parseFloat(match[1].replace(/[, ]/g, ""));
 
                             if (options.inexact === undefined) {
-                                var factor = Math.pow(10, 10);
-                                x = Math.round(x * factor) / factor;
+                                x = Math.round(x * precision) / precision;
                             }
 
                             return x;
@@ -328,7 +468,9 @@ $.extend(Khan.answerTypes, {
                     };
 
                     var commas = function(text) {
-                        text = text.replace(/([\.,])/g, function(_, c) { return (c === "." ? "," : "."); });
+                        text = text.replace(/([\.,])/g, function(_, c) {
+                            return (c === "." ? "," : ".");
+                        });
                         return normal(text);
                     };
 
@@ -336,799 +478,978 @@ $.extend(Khan.answerTypes, {
                         { value: normal(text), exact: true },
                         { value: commas(text), exact: true }
                     ];
-                },
-                example: (function() {
-                    if (options.inexact === undefined) {
-                        return "an <em>exact</em> decimal, like <code>0.75</code>";
-                    } else {
-                        return "a decimal, like <code>0.75</code>";
-                    }
-                })()
-            }
-        };
-
-        var verifier = function(correct, guess) {
-            correct = $.trim(correct);
-            guess = $.trim(guess);
-
-            var correctFloat = parseFloat(correct);
-            var ret = false;
-
-            $.each(acceptableForms, function(i, form) {
-                var transformed = forms[form].transformer($.trim(guess));
-
-                for (var j = 0, l = transformed.length; j < l; j++) {
-                    var val = transformed[j].value;
-                    var exact = transformed[j].exact;
-
-                    if (typeof val === "string" &&
-                            correct.toLowerCase() === val.toLowerCase()) {
-                        ret = true;
-                        return false; // break;
-                    } if (typeof val === "number" &&
-                            Math.abs(correctFloat - val) < options.maxError) {
-                        if (exact || options.simplify === "optional") {
-                            ret = true;
-                        } else if (form === "percent") {
-                            ret = inexactMessages.missingPercentSign;
-                        } else {
-                            ret = inexactMessages.unsimplified;
-                        }
-
-                        return false; // break;
-                    }
                 }
-            });
+            };
 
-            return ret;
-        };
+            // Store the correct text and float values
+            var correct = $.trim($(solution).text());
+            var correctFloat = parseFloat(correct);
 
-        verifier.examples = [];
-        $.each(acceptableForms, function(i, form) {
-            if (forms[form] != null && forms[form].example != null) {
-                verifier.examples.push(forms[form].example);
-            }
-        });
+            // validator function
+            return function(guess) {
+                guess = $.trim(guess);
+                var ret = false;
 
-        var input;
+                // iterate over all the acceptable forms, and if one of the
+                // answers is correct, return true
+                $.each(acceptableForms, function(i, form) {
+                    var transformed = forms[form](guess);
 
-        if (typeof userExercise !== "undefined" && userExercise.tablet) {
-            input = $("<input type='number'/>");
+                    for (var j = 0, l = transformed.length; j < l; j++) {
+                        var val = transformed[j].value;
+                        var exact = transformed[j].exact;
+
+                        // If a string was returned, and it exactly matches,
+                        // return true
+                        if (typeof val === "string" &&
+                                correct.toLowerCase() === val.toLowerCase()) {
+                            ret = true;
+                            return false; // break;
+                        } if (typeof val === "number" &&
+                                Math.abs(correctFloat - val) <
+                                options.maxError) {
+                            // If the exact correct number was returned,
+                            // return true
+                            if (exact || options.simplify === "optional") {
+                                ret = true;
+                            } else if (form === "percent") {
+                                // Otherwise, an error was returned
+                                ret = "Your answer is almost correct, but " +
+                                      "it is missing a <code>\\%</code> at " +
+                                      "the end.";
+                            } else {
+                                ret = "Your answer is almost correct, but " +
+                                      "it needs to be simplified.";
+                            }
+
+                            return false; // break;
+                        }
+                    }
+                });
+
+                return ret;
+            };
         }
-
-        return Khan.answerTypes.text(solutionarea, solution, fallback, verifier, input);
     },
 
-    regex: function(solutionarea, solution, fallback) {
-        var verifier = function(correct, guess) {
-            return $.trim(guess).match(correct) != null;
-        };
-
-        return Khan.answerTypes.text(solutionarea, solution, fallback, verifier);
+    /*
+     * These next four answer types are just synonyms for number with given
+     * forms. Set the correct forms on the solution, and pass it on to number
+     */
+    decimal: {
+        setup: function(solutionarea, solution) {
+            solution.data("forms", "decimal");
+            return Khan.answerTypes.number.setup(solutionarea, solution);
+        },
+        createValidator: function(solution) {
+            return Khan.answerTypes.number.createValidator(solution);
+        }
     },
 
-    decimal: function(solutionarea, solution, fallback) {
-        return Khan.answerTypes.number(solutionarea, solution, fallback, "decimal");
-    },
-
-    rational: function(solutionarea, solution, fallback) {
-        return Khan.answerTypes.number(solutionarea, solution, fallback, "integer, proper, improper, mixed");
+    rational: {
+        setup: function(solutionarea, solution) {
+            solution.data("forms", "integer, proper, improper, mixed");
+            return Khan.answerTypes.number.setup(solutionarea, solution);
+        },
+        createValidator: function(solution) {
+            return Khan.answerTypes.number.createValidator(solution);
+        }
     },
 
     // A little bit of a misnomer as proper fractions are also accepted
-    improper: function(solutionarea, solution, fallback) {
-        return Khan.answerTypes.number(solutionarea, solution, fallback, "integer, proper, improper");
-    },
-
-    mixed: function(solutionarea, solution, fallback) {
-        return Khan.answerTypes.number(solutionarea, solution, fallback, "integer, proper, mixed");
-    },
-
-    radical: function(solutionarea, solution) {
-        var options = $.extend({
-            simplify: "required"
-        }, $(solution).data());
-        var ansSquared = parseFloat($(solution).text());
-        var ans = KhanUtil.splitRadical(ansSquared);
-
-        var inte = $("<span>"), inteGuess, rad = $("<span>"), radGuess;
-
-        var inteValid = Khan.answerTypes.text(inte, null, "1", function(correct, guess) { inteGuess = guess; });
-        var radValid = Khan.answerTypes.text(rad, null, "1", function(correct, guess) { radGuess = guess; });
-
-        solutionarea.addClass("radical")
-            .append(inte)
-            .append('<span class="surd">&radic;</span>')
-            .append(rad.addClass("overline"));
-
-        var ret = function() {
-            // Load entered values into inteGuess, radGuess
-            inteValid();
-            radValid();
-
-            inteGuess = parseFloat(inteGuess);
-            radGuess = parseFloat(radGuess);
-
-            ret.guess = [inteGuess, radGuess];
-
-            var simplified = inteGuess === ans[0] && radGuess === ans[1];
-            var correct = Math.abs(inteGuess) * inteGuess * radGuess === ansSquared;
-
-            if (correct) {
-                if (simplified || options.simplify === "optional") {
-                    return true;
-                } else {
-                    return inexactMessages.unsimplified;
-                }
-            } else {
-                return false;
-            }
-        };
-        if (options.simplify === "required") {
-            ret.examples = ["a simplified radical, like <code>\\sqrt{2}</code> or <code>3\\sqrt{5}</code>"];
-        } else {
-            ret.examples = ["a radical, like <code>\\sqrt{8}</code> or <code>2\\sqrt{2}</code>"];
+    improper: {
+        setup: function(solutionarea, solution) {
+            solution.data("forms", "integer, proper, improper");
+            return Khan.answerTypes.number.setup(solutionarea, solution);
+        },
+        createValidator: function(solution) {
+            return Khan.answerTypes.number.createValidator(solution);
         }
-        ret.solution = ans;
-        ret.showGuess = function(guess) {
-            inteValid.showGuess(guess ? guess[0] : "");
-            radValid.showGuess(guess ? guess[1] : "");
-        };
-        return ret;
     },
 
-    multiple: function(solutionarea, solution) {
-        solutionarea = $(solutionarea);
-        // here be dragons
-        solutionarea.append($(solution).clone().contents().tmpl());
-
-        var solutionArray = [];
-
-        solutionarea.find(".sol").each(function() {
-            var type = $(this).data("type");
-            type = type != null ? type : "number";
-
-            var sol = $(this).clone(),
-                solarea = $(this).empty();
-
-            var fallback = sol.data("fallback"),
-                validator = Khan.answerTypes[type](solarea, sol, fallback);
-
-            $(this).data("validator", validator);
-            solutionArray.unshift(validator.solution);
-        });
-
-        var ret = function() {
-            var valid = true,
-                missing_required_answer = false,
-                guess = [];
-
-            solutionarea.find(".sol").each(function() {
-                var validator = $(this).data("validator", validator);
-
-                if (validator != null) {
-                    // Don't short-circuit so we can record all guesses
-                    valid = validator() && valid;
-
-                    // If this is one of the required entries, and it is not filled in
-                    // set the flag that indicates that a required entry is not filled in.
-                    if (jQuery(this).attr("required") != undefined && validator.guess === "") {
-                        missing_required_answer = true;
-                        // Break out of the each loop since a required item is not set.
-                        return false;
-                    }
-                    guess.push(validator.guess);
-                }
-            });
-
-            // If a required answer was not provided, return "". This keeps the problem
-            // from being submitted.
-            if (missing_required_answer === true) {
-                ret.guess = "";
-            } else {
-                ret.guess = guess;
-            }
-
-            return valid;
-        };
-
-        ret.showGuess = function(guess) {
-            guess = $.extend(true, [], guess);
-
-            solutionarea.find(".sol").each(function() {
-                var validator = $(this).data("validator", validator);
-
-                if (validator != null) {
-                    // Shift regardless of whether we can show the guess
-                    var next = guess.shift();
-
-                    if (typeof validator.showGuess === "function") {
-                        validator.showGuess(next);
-                    }
-                }
-            });
-        };
-
-        ret.showCustomGuess = function(guess) {
-            guess = $.extend(true, [], guess);
-
-            solutionarea.find(".sol").each(function() {
-                var validator = $(this).data("validator", validator);
-
-                if (validator != null) {
-                    // Shift regardless of whether we can show the interactive guess
-                    var next = guess.shift();
-
-                    if ($.isFunction(validator.showCustomGuess)) {
-                        validator.showCustomGuess(next);
-                    }
-                }
-            });
-        };
-
-        // If there's only a single sol in the multiple and there aren't any examples defined,
-        // use the examples from the single sol element.
-        if (solutionarea.find(".sol").length === 1 && solutionarea.find(".example").length === 0) {
-            ret.examples = solutionarea.find(".sol").first().data("validator").examples;
-        } else {
-            ret.examples = solutionarea.find(".example").remove()
-                .map(function(i, el) {
-                    return $(el).html();
-                });
+    mixed: {
+        setup: function(solutionarea, solution) {
+            solution.data("forms", "integer, proper, mixed");
+            return Khan.answerTypes.number.setup(solutionarea, solution);
+        },
+        createValidator: function(solution) {
+            return Khan.answerTypes.number.createValidator(solution);
         }
-        ret.solution = solutionArray;
-
-        return ret;
     },
 
-    set: function(solutionarea, solution) {
-        var solutionarea = $(solutionarea),
-            showUnused = ($(solution).data("showUnused") === true);
-        solutionarea.append($(solution).find(".input-format").clone().contents().tmpl());
-
-        var validatorArray = [],
-            solutionArray = [],
-            inputArray = [];
-            checkboxArray = [];
-
-        // Fill validatorArray[] with validators for each acceptable answer
-        $(solution).find(".set-sol").clone().each(function() {
-            var type = $(this).data("type");
-            type = type != null ? type : "number";
-            // We don't want the validators to build the solutionarea. The point
-            // here is to decouple the UI from the validator. Passing null
-            // generally works.
-            var solarea = null;
-            if (type == "multiple") {
-                // Multiple is special. It has dragons that don't like null. This distracts them.
-                solarea = $(this).clone().empty();
+    // Perform a regex match on the entered string
+    regex: {
+        setup: function(solutionarea, solution) {
+            var input;
+            if (window.Modernizr && Modernizr.touch) {
+                // special flag for iOS devices
+                input = $('<input type="text" autocapitalize="off">');
+            } else {
+                input = $('<input type="text">');
             }
-            var sol = $(this).clone(),
-                fallback = sol.data("fallback"),
-                validator = Khan.answerTypes[type](solarea, sol, fallback);
+            $(solutionarea).append(input);
 
-            validatorArray.push(validator);
-            solutionArray.push(validator.solution);
-        });
-
-
-        // Create throwaway validators for each "entry" on the answer form
-        // and store the resulting UI fragments in inputArray[]
-        solutionarea.find(".entry").each(function() {
-            var input = $(this),
-                type = $(this).data("type");
-            type = type != null ? type : "number";
-
-            // We're just using this validator to paint the UI, so we pass it a bogus solution.
-            Khan.answerTypes[type](input, $(this).clone().empty(), null);
-            inputArray.push($(input).find(":input"));
-        });
-
-        // Also keep track of any checkboxes
-        solutionarea.find(".checkbox").each(function() {
-            var sol = $(this).clone();
-            var solarea = $(this).empty(),
-                input = $('<input type="checkbox"/>');
-            solarea.append(input);
-            var solution = KhanUtil.tmpl.getVAR(sol.text());
-            $(input).data("solution", solution);
-            checkboxArray.push(input);
-            solutionArray.push(solution);
-        });
-
-        var ret = function() {
-            var valid = true,
-                // Make a copy of the validators, so we can delete each as it's used
-                unusedValidators = validatorArray.slice(0),
-                allguesses = [];
-
-            // iterate over each input area
-            $(inputArray).each(function() {
-                var guess = [],
-                    correct = false,
-                    validatorIdx = 0;
-
-                // Scrape the raw inputs out of the UI elements
-                $(this).each(function() {
-                    guess.push($(this).val());
-                });
-
-                if (guess.length == 1) {
-                    allguesses.push(guess[0]);
-                } else {
-                    allguesses.push(guess);
+            return {
+                validator: Khan.answerTypes.regex.createValidator(solution),
+                answer: function() {
+                    return input.val().length > 0 ? input.val() : "";
+                },
+                solution: $.trim($(solution).text()),
+                examples: [],
+                showGuess: function(guess) {
+                    input.val(guess === undefined ? "" : guess);
                 }
+            };
+        },
+        createValidator: function(solution) {
+            var correct = $.trim($(solution).text());
 
-                // Iterate over each validator
-                while (validatorIdx < unusedValidators.length && !correct) {
-                    // Push the actual guess into the validator's hidden input
-                    unusedValidators[validatorIdx].showGuess(guess);
-                    // And validate it
-                    correct = unusedValidators[validatorIdx]();
-                    ++validatorIdx;
+            return function(guess) {
+                guess = $.trim(guess);
+                return guess.match(correct) != null;
+            };
+        }
+    },
+
+    // An answer type with two text boxes, for solutions of the form a sqrt(b)
+    radical: {
+        setup: function(solutionarea, solution) {
+            var options = $.extend({
+                simplify: "required"
+            }, $(solution).data());
+
+            // Add two input boxes
+            var inte, rad;
+            if (window.Modernizr && Modernizr.touch) {
+                inte = $('<input type="number" step="any">');
+                rad = $('<input type="number" step="any">');
+            } else {
+                inte = $('<input type="text">');
+                rad = $('<input type="text">');
+            }
+            // Make them look pretty
+            solutionarea.addClass("radical")
+                .append($("<span>").append(inte))
+                .append('<span class="surd">&radic;</span>')
+                .append($("<span>").append(rad).addClass("overline"));
+
+            var ansSquared = parseFloat($(solution).text());
+            var ans = KhanUtil.splitRadical(ansSquared);
+
+            return {
+                validator: Khan.answerTypes.radical.createValidator(solution),
+                answer: function() {
+                    // Store the entered values in a list
+                    // If nothing is typed into one of the boxes, use 1
+                    return [
+                        inte.val().length > 0 ? inte.val() : "1",
+                        rad.val().length > 0 ? rad.val() : "1"
+                    ];
+                },
+                solution: ans,
+                examples: (options.simplify === "required") ?
+                    ["a simplified radical, like <code>\\sqrt{2}</code> or " +
+                     "<code>3\\sqrt{5}</code>"] :
+                    ["a radical, like <code>\\sqrt{8}</code> or " +
+                     "<code>2\\sqrt{2}</code>"],
+                showGuess: function(guess) {
+                    inte.val(guess ? guess[0] : "");
+                    rad.val(guess ? guess[1] : "");
                 }
+            };
+        },
+        createValidator: function(solution) {
+            var options = $.extend({
+                simplify: "required"
+            }, $(solution).data());
+
+            // The provided answer is the square of what is meant to be
+            // entered. Use KhanUtil.splitRadical to find the different parts
+            var ansSquared = parseFloat($(solution).text());
+            var ans = KhanUtil.splitRadical(ansSquared);
+
+            return function(guess) {
+                // Parse the two floats from the guess
+                var inteGuess = parseFloat(guess[0]);
+                var radGuess = parseFloat(guess[1]);
+
+                // The answer is correct if the guess square is equal to the
+                // given solution
+                var correct =
+                    Math.abs(inteGuess) * inteGuess * radGuess === ansSquared;
+                // the answer is simplified if the sqrt portion and integer
+                // portion are the same as what is given by splitRadical
+                var simplified = inteGuess === ans[0] && radGuess === ans[1];
 
                 if (correct) {
-                    // remove the matching validator from the list so duplicate inputs don't match
-                    unusedValidators.splice(validatorIdx - 1, 1);
-                } else if ($.trim(guess.join("")) !== "") {
-                    // Not correct and not empty; the entire answer is wrong :(
-                    valid = false;
-                }
-
-            });
-
-            if ((validatorArray.length > inputArray.length)) {
-                // if there are more valid answers than inputs, make sure that as many answers as possible were entered
-                if (unusedValidators.length > validatorArray.length - inputArray.length) {
-                    valid = false;
-                }
-            // otherwise, make sure every possible answer was entered
-            } else if (unusedValidators.length > 0) {
-                valid = false;
-            }
-
-            // now check that all the checkboxes are selected appropriately
-            $(checkboxArray).each(function() {
-                var guess = $(this).is(":checked"),
-                    answer = $(this).data("solution"),
-                    label_text = $(this).closest("label").text();
-                if (label_text === "") {
-                    label_text = "checked";
-                }
-                // un-checked boxes are recorded as "" to prevent the question from
-                // being graded if submit is clicked before anything is entered
-                allguesses.push(guess ? label_text : "");
-                if (guess != answer) {
-                    valid = false;
-                }
-            });
-
-            ret.guess = allguesses;
-
-            // If data-show-unused="true" is set and the question was answered correctly,
-            // show the list of additional answers (if any) that would also have been accepted.
-            //
-            // TODO: Ideally this should be shown below the green button so the button doesn't jump around.
-            //       perhaps reuse the check-answer-message area
-            if (showUnused && valid && unusedValidators.length) {
-                var otherSolutions = $("<p>").appendTo(solutionarea);
-                $(unusedValidators).each(function(i, el) {
-                    other_solution = el.solution;
-                    if (i > 0) {
-                        $("<span>").text(" and ").appendTo(otherSolutions);
+                    if (simplified || options.simplify === "optional") {
+                        return true;
+                    } else {
+                        return "Your answer is almost correct, but it needs " +
+                               "to be simplified.";
                     }
-                    $.each(other_solution, function(i, el) {
-                        if ($.isArray(el)) {
-                            var subAnswer = $("<span>").appendTo(otherSolutions);
-                            $.each(el, function(i, el) {
-                                $("<span>").text(el + " ").appendTo(subAnswer);
-                            });
+                } else {
+                    return false;
+                }
+            };
+        }
+    },
+
+    /*
+     * Multiple answer type
+     *
+     * This answer type allows for multiple different other answer types to be
+     * combined into a single answer.
+     *
+     * It works by finding html elements with the "sol" class, and converting
+     * them into mini solutionareas, which are then filled in by the setup
+     * functions of their cooresponding answer types. In order to do solution
+     * checking, the answers of each of the areas are placed in an array, and
+     * then the validator works by iterating over the array and making sure
+     * each of the individual solutions are correct
+     */
+    multiple: {
+        setup: function(solutionarea, solution) {
+            // Very quickly place all of the elements in the solution area
+            // Clone it, because we don't want to modify or move it
+            $(solutionarea).append($(solution).clone().contents().tmpl());
+
+            var answerDataArray = [];
+
+            // Iterate over each of the .sol elements
+            $(solutionarea).find(".sol").each(function(idx) {
+                var type = $(this).data("type");
+                type = type != null ? type : "number";
+
+                // find the corresponding answer
+                var sol = $(solution).find(".sol").eq(idx);
+
+                // empty the .sol element in preperation for treating it as a
+                // solutionarea
+                var solarea = $(this).empty();
+
+                // perform setup on each of the areas
+                var answerData = Khan.answerTypes[type].setup(solarea, sol);
+                // Store the returned data, for use later
+                answerDataArray.push(answerData);
+            });
+
+            // Remove the examples from the solutionarea
+            $(solutionarea).find(".example").remove();
+
+            return {
+                validator: Khan.answerTypes.multiple.createValidator(solution),
+                answer: function() {
+                    var answer = [];
+
+                    // Go through each of the answerDatas, and call the answer
+                    // functions in turn, storing each of the answers in an
+                    // array
+                    $.each(answerDataArray, function(i, answerData) {
+                        answer.push(answerData.answer());
+                    });
+
+                    return answer;
+                },
+                solution: (function() {
+                    // Retrieve each of the solutions from the answerDatas
+                    $.map(answerDataArray, function(answerData) {
+                        return answerData.solution;
+                    });
+                })(),
+                // Find all the example classes from the solution, and store
+                // those
+                examples: (function() {
+                    var ex = solution.find(".example").map(function(i, el) {
+                        return $(el).html();
+                    });
+                    if (ex.length === 0 && answerDataArray.length === 1) {
+                        ex = answerDataArray[0].examples;
+                    }
+                    return ex;
+                })(),
+                showGuess: function(guess) {
+                    // Iterate through each of the answerDatas, and show the
+                    // cooresponding guess for each
+                    $.each(answerDataArray, function(i, answerData) {
+                        if (guess !== undefined) {
+                            answerData.showGuess(guess[i]);
                         } else {
-                            $("<span> ").text(el + " ").appendTo(otherSolutions);
+                            answerData.showGuess();
                         }
                     });
+                },
+                showCustomGuess: function(guess) {
+                    // Iterate through each of the answerDatas, and show the
+                    // cooresponding custom guess for each if it exists
+                    $.each(answerDataArray, function(i, answerData) {
+                        if (!$.isFunction(answerData.showCustomGuess)) {
+                            return;
+                        }
+                        if (guess !== undefined) {
+                            answerData.showCustomGuess(guess[i]);
+                        } else {
+                            answerData.showCustomGuess();
+                        }
+                    });
+                }
+            };
+        },
+        createValidator: function(solution) {
+            var validators = [];
+
+            // Iterate over all of the .sols in the answer
+            $(solution).find(".sol").each(function() {
+                var sol = $(this);
+
+                var type = sol.data("type");
+                type = type != null ? type : "number";
+
+                // create a validator for each of the solutions
+                var validator = Khan.answerTypes[type].createValidator(sol);
+
+                // Store each of the validators, and whether or not that
+                // answer is required
+                validators.push({
+                    validator: validator,
+                    required: sol.attr("required") != undefined
                 });
-                if (unusedValidators.length == 1) {
-                    $("<span>").text(" is also correct").appendTo(otherSolutions);
+            });
+
+            return function(guess) {
+                var valid = true;
+                var missing_required_answer = false;
+                var invalid_reason = "";
+
+                // Iterate over each of the elements in the guess
+                $.each(guess, function(i, g) {
+                    // Check whether that answer is right by validating it
+                    // with the cooresponding validator
+                    var pass = validators[i].validator(g);
+
+                    // If the answer is required, and no answer was provided,
+                    // break;
+                    if (pass === "" && validators[i].required) {
+                        missing_required_answer = true;
+                        return false;
+                    } else if (typeof pass === "string") {
+                        invalid_reason = pass;
+                    } else {
+                        valid = valid && pass;
+                    }
+                });
+
+                if (missing_required_answer) {
+                    return "";
+                } else if (invalid_reason.length > 0) {
+                    return invalid_reason;
                 } else {
-                    $("<span>").text(" are also correct").appendTo(otherSolutions);
+                    return valid;
                 }
-            }
+            };
+        }
+    },
 
-            return valid;
-        };
+    /*
+     * The set answer type allows for multiple different answers with the same
+     * kind of input.
+     *
+     * The different correct answers are stored in .set-sol elements, each of
+     * which describes a different correct answer
+     *
+     * the method of input is stored in the .input-format element, with each
+     * .entry element within that describing an answer-type from which input
+     * should be retrieved
+     *
+     * The guess is retrieved as a list of the answers given from each of the
+     * .entry elements within the solution area
+     *
+     * If there are more solutions given than inputs, then all of the inputs
+     * must be filled. If there are more inputs than solutions, then all of the
+     * solutions must be given. Either way, every given solution must be
+     * correct, or the whole thing is wrong.
+     */
+    set: {
+        setup: function(solutionarea, solution) {
+            // Append the input format to the solution area
+            $(solutionarea).append(
+                $(solution).find(".input-format").clone().contents().tmpl()
+            );
 
-        ret.showGuess = function(guess) {
-            guess = $.extend(true, [], guess);
-            $(inputArray).each(function() {
-                var item = guess.shift();
-                if (item instanceof Array) {
-                    $(this).each(function() {
-                        $(this).val(item.shift());
+            var inputArray = [];
+            var showGuessArray = [];
+            // For each of the entry elements
+            $(solutionarea).find(".entry").each(function() {
+                var input = $(this), type = $(this).data("type");
+                type = type != null ? type : "number";
+
+                var sol = input.clone(),
+                    solarea = input.empty();
+
+                // Perform setup within that element
+                var validator = Khan.answerTypes[type].setup(solarea, sol);
+                // Store the answer and showGuess functions
+                inputArray.push(validator.answer);
+                showGuessArray.push(validator.showGuess);
+            });
+
+            var solutionArray = [];
+
+            // Make fake solutionareas, and store the solutions from each
+            // TODO(emily): fix this horrible hack, by making the solution
+            //              easier to access
+            $(solution).find(".set-sol").clone().each(function() {
+                var type = $(this).data("type");
+                type = type != null ? type : "number";
+
+                var solarea = $("<div>");
+
+                var validator = Khan.answerTypes[type].setup(solarea, $(this));
+
+                solutionArray.push(validator.solution);
+            });
+
+            return {
+                validator: Khan.answerTypes.set.createValidator(solution),
+                answer: function() {
+                    var answer = [];
+
+                    // For each of the inputs, get the answer and store it in
+                    // the answer array
+                    $.each(inputArray, function(i, getAns) {
+                        answer.push(getAns());
                     });
-                } else {
-                    this.val(item);
-                }
-            });
-            solutionarea.find(".checkbox input:checkbox").each(function() {
-                var ans = guess.shift();
-                $(this).attr("checked", ans !== undefined && ans !== "");
-            });
-        };
 
-        ret.examples = solution.find(".example").remove()
-            .map(function(i, el) {
-                return $(el).html();
-            });
-        ret.solution = solutionArray;
-
-        return ret;
-    },
-
-    radio: function(solutionarea, solution) {
-        var extractRawCode = function(solution) {
-            return $(solution).find(".value").clone()
-                .find(".MathJax").remove().end()
-                .find("code").removeAttr("id").end()
-                .html();
-        };
-        // Without this we get numbers twice and things sometimes
-        var solutionText = extractRawCode(solution);
-
-        var list = $("<ul></ul>");
-        list.on("click", "input:radio", function() {
-            $(this).focus();
-        });
-        $(solutionarea).append(list);
-
-        // Get all of the wrong choices
-        var choices = $(solution).siblings(".choices");
-
-        // Set number of choices equal to all wrong plus one correct
-        var numChoices = choices.children().length + 1;
-        // Or set number as specified
-        if (choices.data("show")) {
-            numChoices = parseFloat(choices.data("show"));
-        }
-
-        // Optionally include none of the above as a choice
-        var showNone = choices.data("none");
-        var noneIsCorrect = false;
-        if (showNone) {
-            noneIsCorrect = KhanUtil.rand(numChoices) === 0;
-            numChoices -= 1;
-        }
-
-        // If a category exercise, the correct answer is already included in .choices
-        // and choices are always presented in the same order
-        var isCategory = choices.data("category");
-        var possibleChoices = choices.children().get();
-        if (isCategory) {
-            numChoices -= 1;
-        } else {
-            possibleChoices = KhanUtil.shuffle(possibleChoices);
-        }
-
-        // Add the correct answer
-        if (!noneIsCorrect && !isCategory) {
-            $(solution).data("correct", true);
-        }
-
-        // Insert correct answer as first of possibleChoices
-        if (!isCategory) {
-            possibleChoices.splice(0, 0, solution);
-        }
-
-        var dupes = {};
-        var shownChoices = [];
-        var solutionTextSquish = solution.text().replace(/\s+/g, "");
-        for (var i = 0; i < possibleChoices.length && shownChoices.length < numChoices; i++) {
-            var choice = $(possibleChoices[i]);
-            choice.runModules();
-            var choiceTextSquish = choice.text().replace(/\s+/g, "");
-
-            if (isCategory && solutionTextSquish === choiceTextSquish) {
-                choice.data("correct", true);
-            }
-
-            if (!dupes[choiceTextSquish]) {
-                dupes[choiceTextSquish] = true;
-
-                // i == 0 is the solution except in category mode; skip it when none is correct
-                if (!(noneIsCorrect && i === 0) || isCategory) {
-                    shownChoices.push(choice);
-                }
-            }
-        }
-
-        if (shownChoices.length < numChoices) {
-            return false;
-        }
-
-        if (!isCategory) {
-            shownChoices = KhanUtil.shuffle(shownChoices);
-        }
-
-        if (showNone) {
-            var none = $("<span>None of the above.</span>");
-
-            if (noneIsCorrect) {
-                none.data("correct", true);
-                solutionText = none.text();
-                list.data("real-answer",
-                        $(solution).runModules()
-                            .contents()
-                            .wrapAll('<span class="value""></span>')
-                            .parent());
-            }
-
-            shownChoices.push(none);
-        }
-
-        var correctIndex = -1;
-
-        $.each(shownChoices, function(i, choice) {
-            if (choice.data("correct")) {
-                correctIndex = i + "";
-            }
-            choice.contents().wrapAll('<li><label><span class="value"></span></label></li>')
-                .parent().before('<input type="radio" name="solution" value="' + i + '">')
-                .parent().parent()
-                .appendTo(list);
-        });
-
-        var ret = function() {
-            var choice = list.find("input:checked");
-
-            if (noneIsCorrect && choice.val() === correctIndex) {
-                choice.next()
-                    .fadeOut("fast", function() {
-                        $(this).replaceWith(list.data("real-answer"))
-                            .fadeIn("fast");
+                    return answer;
+                },
+                solution: solution,
+                examples: [],
+                showGuess: function(guess) {
+                    // For each of the inputs, call the appropriate showGuess
+                    // function
+                    $.each(showGuessArray, function(i, showGuess) {
+                        if (guess === undefined) {
+                            showGuess();
+                        } else {
+                            showGuess(guess[i]);
+                        }
                     });
-            }
-
-            ret.guess = $.trim(extractRawCode(choice.closest("li")));
-
-            return choice.val() === correctIndex;
-        };
-
-        ret.solution = $.trim(solutionText);
-        ret.showGuess = function(guess) {
-            list.find("input:checked").prop("checked", false);
-
-            var li = list.children().filter(function() {
-                return $.trim(extractRawCode(this)) === guess;
-            });
-            li.find("input[name=solution]").prop("checked", true);
-        };
-        return ret;
-    },
-
-    list: function(solutionarea, solution) {
-        var input = $("<select></select>");
-        $(solutionarea).append(input);
-
-        var choices = $.tmpl.getVAR($(solution).data("choices"));
-
-        $.each(choices, function(index, value) {
-            input.append('<option value="' + value + '">'
-                + value + "</option>");
-        });
-
-        var correct = $(solution).text();
-
-        var verifier = function(correct, guess) {
-            correct = $.trim(correct);
-            guess = $.trim(guess);
-            return correct === guess;
-        };
-
-        var ret = function() {
-            ret.guess = input.val();
-
-            return verifier(correct, ret.guess);
-        };
-
-        ret.solution = $.trim(correct);
-
-        ret.showGuess = function(guess) {
-            input.val(guess);
-        };
-
-        return ret;
-    },
-
-    primeFactorization: function(solutionarea, solution, fallback) {
-        var verifier = function(correct, guess) {
-            guess = guess.split(" ").join("").toLowerCase();
-            guess = KhanUtil.sortNumbers(guess.split(/x|\*|\u00d7/)).join("x");
-            return guess === correct;
-        };
-        verifier.examples = [
-            "a product of prime factors, like <code>2 \\times 3</code>",
-            "a single prime number, like <code>5</code>"
-        ];
-
-        return Khan.answerTypes.text(solutionarea, solution, fallback, verifier);
-    },
-
-    // The user is asked to enter the separate parts of a complex number in 2 textboxes.
-    // Expected solution: [real part, imaginary part]
-    complexNumberSeparate: function(solutionarea, solution) {
-        solutionarea = $(solutionarea);
-
-        var json = typeof solution === "object" ? $(solution).text() : solution;
-        var correct = eval(json);
-
-        var solutionArray = [];
-
-        var realArea = $("<p />").html("Real part: ");
-        var realControl = $('<span data-inexact data-max-error="0.01" />').html(correct[0]);
-        var realValidator = Khan.answerTypes["number"](realArea, realControl, 0);
-
-        var imagArea = $("<p />").html("Imaginary part: ");
-        var imagControl = $('<span data-inexact data-max-error="0.01" />').html(correct[1]);
-        var imagValidator = Khan.answerTypes["number"](imagArea, imagControl, 0);
-
-        var area = $("<div />");
-        area.append(realArea).append(imagArea).tmpl();
-        solutionarea.append(area);
-
-        var ret = function() {
-            var valid = true;
-            var guess = [];
-            if (realValidator != null) {
-                valid = realValidator() && valid;
-                guess.push(realValidator.guess);
-            }
-            if (imagValidator != null) {
-                valid = imagValidator() && valid;
-                guess.push(imagValidator.guess);
-            }
-            ret.guess = guess;
-            return valid;
-        };
-
-        ret.showGuess = function(guess) {
-            realValidator.showGuess(guess[0]);
-            imagValidator.showGuess(guess[1]);
-        };
-
-        ret.examples = [
-            "the separate parts of a complex number (<code>5.3 - 3i</code> has real part 5.3 and imaginary part -3)"
-        ];
-
-        ret.solution = [realValidator.solution, imagValidator.solution];
-
-        return ret;
-    },
-
-    // To be used with ComplexPolarForm in graphie-helpers.js
-    // (see The complex plane for an example)
-    // The solution argument is expected to be [angle, magnitude]
-    complexNumberPolarForm: function(solutionarea, solution) {
-        var isTimeline = !(solutionarea.attr("id") === "solutionarea" || solutionarea.parent().attr("id") === "solutionarea");
-        solutionarea = $(solutionarea);
-
-        var json = typeof solution === "object" ? $(solution).text() : solution;
-        var correct = eval(json);
-        var table = $("<table />");
-        var row = $("<tr />");
-        row.append('<td style="width: 100px">\n' +
-            'Radius: <span id="current-radius"><code>1</code></span>\n' +
-            "</td>")
-            .append("<td>\n" +
-            '<input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm( 0, 1 )" />\n' +
-            '<input type="button" class="simple-button mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( 0, -1 )" />\n' +
-            "</td>").tmpl();
-        table.append(row);
-
-        row = $("<tr />");
-        row.append('<td style="width: 100px">\n' +
-            'Angle: <span id="current-angle"><code>0</code></span>\n' +
-            "</td>")
-            .append("<td>\n" +
-            '<input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm( 1, 0 )" />\n' +
-            '<input type="button" class="simple-button mini-button" style="margin-left: 5px;" value="-" onclick="updateComplexPolarForm( -1, 0 )" />\n' +
-            "</td>").tmpl();
-        table.append(row);
-
-        var numberLabel = $('<p id="number-label" style="margin: 8px 0 2px 0" />');
-        var guessCorrect = false;
-
-        var validator = function(guess) {
-            return (guess[0] === correct[0]) && (guess[1] === correct[1]);
-        };
-
-        solutionarea.append(table, numberLabel);
-        redrawComplexPolarForm();
-
-        var ret = function() {
-            var cplx = KhanUtil.currentGraph.graph.currComplexPolar;
-            ret.guess = [cplx.getAngleNumerator(), cplx.getRadius()];
-
-            if (isTimeline) {
-                return guessCorrect;
-            } else {
-                return validator(ret.guess);
-            }
-        };
-
-        ret.showGuess = function(guess) {
-            if (typeof guess === "undefined") {
-                guess = [0, 1]; // magic: default complex polar form value
-            }
-            if (isTimeline) {
-                guessCorrect = validator(guess);
-                $(solutionarea).empty();
-                $(solutionarea).append(guessCorrect === true ? "Answer correct" : "Answer incorrect");
-            } else {
-                redrawComplexPolarForm(guess[0], guess[1]);
-            }
-        };
-
-        ret.showCustomGuess = function(guess) {
-            var code = "(function() { var guess = " + (JSON.stringify(guess) || "[]") + ";" +
-                "graph.currComplexPolar.update( guess[0], guess[1] );" +
-                "})()";
-            KhanUtil.tmpl.getVAR(code, KhanUtil.currentGraph);
-        };
-
-        ret.solution = solution;
-
-        return ret;
-    },
-
-    custom: function(solutionarea, solution) {
-        var isTimeline = !(solutionarea.attr("id") === "solutionarea" || solutionarea.parent().attr("id") === "solutionarea");
-        var guessCorrect = false;
-        solution.find(".instruction").appendTo(solutionarea);
-        var guessCode = solution.find(".guess").text();
-
-        var validatorCode = solution.find(".validator-function").text();
-        var validator = function(guess) {
-            var code = "(function() { var guess = " + JSON.stringify(guess) + ";" + validatorCode + "})()";
-            return KhanUtil.tmpl.getVAR(code, KhanUtil.currentGraph);
-        };
-
-        ret = function() {
-            ret.guess = KhanUtil.tmpl.getVAR(guessCode, KhanUtil.currentGraph);
-            if (isTimeline) {
-                return guessCorrect;
-            } else {
-                var result = validator(ret.guess);
-                if (result === "") {
-                    ret.guess = "";
                 }
-                return result;
-            }
-        };
+            };
+        },
+        createValidator: function(solution) {
+            var validatorArray = [];
 
-        ret.examples = solution.find(".example").map(function(i, el) {
-            return $(el).html();
-        });
-        ret.solution = "custom";
-        var showGuessSolutionCode = $(solution).find(".show-guess-solutionarea").text() || "";
-        ret.showGuess = function(guess) {
-            if (isTimeline) {
-                guessCorrect = validator(guess);
-                $(solutionarea).empty();
-                $(solutionarea).append(guessCorrect === true ? "Answer correct" : "Answer incorrect");
+            // Fill validatorArray with validators for each acceptable answer
+            $(solution).find(".set-sol").clone().each(function() {
+                var type = $(this).data("type");
+                type = type != null ? type : "number";
+
+                var validator = Khan.answerTypes[type]
+                                    .createValidator($(this));
+
+                validatorArray.push(validator);
+            });
+
+            return function(guess) {
+                // Whether the entire solution is correct or not
+                var valid = true,
+                // Store a copy of each of the validators. If one correctly
+                // identifies a guess, remove it from this array, so duplicate
+                // answers aren't marked correct twice
+                    unusedValidators = validatorArray.slice(0);
+
+                // Go through each of the guesses
+                $.each(guess, function(i, g) {
+                    // Whether or not the guess is correct
+                    var correct = false;
+
+                    // Go through each of the unused validators
+                    $.each(unusedValidators, function(i, validator) {
+                        var pass = validator(g);
+
+                        // If this validator completely accepts this answer
+                        if (pass === true) {
+                            // remove the working validator
+                            unusedValidators.splice(i, 1);
+                            // store correct
+                            correct = true;
+                            // break
+                            return false;
+                        }
+                    });
+
+                    // If we didn't get it right, and the answer isn't empty,
+                    // the entire solution is false
+                    //
+                    // TODO(emily): make the "is the answer empty" part of this
+                    //              work better for all the different answer
+                    //              types
+                    // TODO(emily): Perhaps provide insight to the student
+                    //              about whether or not part of their answer
+                    //              is correct? While this could be abused, it
+                    //              would seem more friendly.
+                    if (!correct && $.trim([g].join("")) !== "") {
+                        valid = false;
+                        return false;
+                    }
+
+                    // If we've run out of validators, stop
+                    if (unusedValidators.length === 0) {
+                        return false;
+                    }
+                });
+
+                // If there were more correct answers than possible guesses
+                if (validatorArray.length > guess.length) {
+                    // If not all of the guesses were filled in with correct
+                    // answers
+                    if (unusedValidators.length >
+                        validatorArray.length - guess.length) {
+                        // incorrect, more answers needed
+                        valid = false;
+                    }
+                // Otherwise, if not all of the answers were provided
+                } else if (unusedValidators.length > 0) {
+                    // incorrect, some of the answers are missing
+                    valid = false;
+                }
+
+                return valid;
+            };
+        }
+    },
+
+    /*
+     * The radio answer type provides multiple choice type answers
+     *
+     * The different possible multiple choice answers are provided in a
+     * seperate .choices element siblings with the main .solution element, with
+     * the correct answer residing within the .solution element.
+     *
+     * There are two different modes of operation. Category mode and
+     * non-category mode.
+     *
+     * In non-category mode, the answers (which don't include the correct
+     * answer) combined with the correct answer are scrambled together. This is
+     * meant for questions where the answers radically change from question to
+     * question, and thus scrambling increases the difficulty, and makes the
+     * solutions harder to pattern match. This is the default.
+     *
+     * In category mode, the answers are provided in the order they are given
+     * within the .choices element, and the correct answer is duplicated in
+     * both the solution and within the choices. This is meant for questions
+     * where the solutions generally do not change from problem to problem.
+     * This is enabled by adding data-category to the .choices element.
+     */
+    radio: {
+        setup: function(solutionarea, solution) {
+            // Function used to get the text of the choices, which is then used
+            // to check against the correct answer
+            var extractRawCode = function(solution) {
+                return $(solution).clone()
+                    .find(".MathJax").remove().end()
+                    .find("code").removeAttr("id").end()
+                    .html();
+            };
+
+            // Add a list to the solution area
+            var list = $("<ul></ul>");
+            list.on("click", "input:radio", function() {
+                $(this).focus();
+            });
+            $(solutionarea).append(list);
+
+            // Get all of the wrong choices
+            var choices = $(solution).siblings(".choices");
+
+            var solutionClone = $(solution).clone();
+
+            // Set number of choices equal to all wrong plus one correct
+            var numChoices = choices.children().length + 1;
+            // Or set number as specified
+            if (choices.data("show")) {
+                numChoices = parseFloat(choices.data("show"));
+            }
+
+            // Optionally include none of the above as a choice
+            var showNone = choices.data("none");
+            var noneIsCorrect = false;
+            if (showNone) {
+                noneIsCorrect = KhanUtil.rand(numChoices) === 0;
+                numChoices -= 1;
+            }
+
+            // If a category exercise, the correct answer is already included
+            // in .choices and choices are always presented in the same order
+            var isCategory = choices.data("category");
+            var possibleChoices = choices.children().get();
+            if (isCategory) {
+                numChoices -= 1;
             } else {
-                var code = "(function() { var guess = " + (JSON.stringify(guess) || "[]") + ";" + showGuessSolutionCode + "})()";
-                KhanUtil.tmpl.getVAR(code, KhanUtil.currentGraph);
+                possibleChoices = KhanUtil.shuffle(possibleChoices);
             }
-        };
 
-        var showGuessCode = $(solution).find(".show-guess").text();
-        ret.showCustomGuess = function(guess) {
-            var code = "(function() { var guess = " + JSON.stringify(guess) + ";" + showGuessCode + "})()";
-            KhanUtil.tmpl.getVAR(code, KhanUtil.currentGraph);
-        };
+            // Add the correct answer
+            if (!noneIsCorrect && !isCategory) {
+                $(solutionClone).data("correct", true);
+            }
 
-        return ret;
+            // Insert correct answer as first of possibleChoices
+            if (!isCategory) {
+                possibleChoices.splice(0, 0, $(solutionClone));
+            }
+
+            // Remove duplicates
+            var dupes = {};
+            var shownChoices = [];
+            var solutionTextSquish = solutionClone.text().replace(/\s+/g, "");
+            for (var i = 0; i < possibleChoices.length &&
+                                shownChoices.length < numChoices; i++) {
+                var choice = $(possibleChoices[i]);
+                choice.runModules();
+                var choiceTextSquish = choice.text().replace(/\s+/g, "");
+
+                if (isCategory && solutionTextSquish === choiceTextSquish) {
+                    choice.data("correct", true);
+                }
+
+                if (!dupes[choiceTextSquish]) {
+                    dupes[choiceTextSquish] = true;
+
+                    // i == 0 is the solution except in category mode; skip it
+                    // when none is correct
+                    if (!(noneIsCorrect && i === 0) || isCategory) {
+                        shownChoices.push(choice);
+                    }
+                }
+            }
+
+            // If removing duplicates made it so there aren't enough showing
+            // solutions, regenerate the problem
+            if (shownChoices.length < numChoices) {
+                return false;
+            }
+
+            // Shuffle the answers if we're not in category mode
+            if (!isCategory) {
+                shownChoices = KhanUtil.shuffle(shownChoices);
+            }
+
+            // If showNone, replace the last solution with "None of the above",
+            // which reveals the correct answer when it is picked and is right
+            if (showNone) {
+                var none = $("<span>None of the above.</span>");
+
+                if (noneIsCorrect) {
+                    none.data("correct", true);
+                    solutionText = none.text();
+                    list.data("real-answer",
+                            $(solutionClone)
+                                .runModules()
+                                .contents()
+                                .wrapAll('<span class="value""></span>')
+                                .parent());
+                }
+
+                shownChoices.push(none);
+            }
+
+            $.each(shownChoices, function(i, choice) {
+                if (choice.data("correct")) {
+                    correctIndex = i + "";
+                }
+                // Wrap each of the choices in elements and add a radio button
+                choice.contents()
+                    .wrapAll('<li><label><span class="value"></span></label></li>')
+                    .parent()
+                    .before(
+                        $('<input type="radio" name="solution">')
+                            .val(i)
+                    )
+                    .parent().parent()
+                    .appendTo(list);
+            });
+
+            return {
+                validator: Khan.answerTypes.radio.createValidator(solution),
+                answer: function() {
+                    // Find the chosen answer
+                    var choice = list.find("input:checked");
+
+                    // Find it's cooresponding value
+                    var choiceVal = choice.siblings(".value");
+
+                    // return the raw code of the chosen value
+                    return extractRawCode(choiceVal);
+                },
+                solution: $.trim($(solution).text()),
+                examples: [],
+                showGuess: function(guess) {
+                    if (guess === undefined) {
+                        $(solutionarea).find("input:checked")
+                                       .attr("checked", false);
+                    } else {
+                        // Select the correct radio button
+                        var list = $("#solutionarea").find("ul");
+                        list.children().filter(function() {
+                            return $.trim(extractRawCode($(this).find("span")))
+                                === $.trim(guess);
+                        }).find("input").attr("checked", true);
+                    }
+                }
+            };
+        },
+        createValidator: function(solution) {
+            var extractRawCode = function(solution) {
+                return $(solution).clone()
+                    .find(".MathJax").remove().end()
+                    .find("code").removeAttr("id").end()
+                    .html();
+            };
+            var correct = extractRawCode(solution);
+
+            return function(guess) {
+                if (guess == null) {
+                    return "";
+                } else if (guess === "None of the above." &&
+                        $("#solutionarea").find("ul").data("real-answer") !=
+                        null) {
+                    // Hacky stuff to make the correct solution appear when
+                    // "none of the above" is the correct answer
+                    var list = $("#solutionarea").find("ul");
+                    var choice = list.children().filter(function() {
+                            return $.trim(extractRawCode($(this).find("span")))
+                            === $.trim(guess);
+                        }).find("input");
+                    choice.next().fadeOut("fast", function() {
+                            $(this).replaceWith(list.data("real-answer"))
+                                .fadeIn("fast");
+                        });
+                    return true;
+                } else if ($.trim(guess) === $.trim(correct)) {
+                    return true;
+                }
+
+                return false;
+            };
+        }
+    },
+
+    /*
+     * The list answer type provides a drop-down menu to select from a list of
+     * different answers
+     *
+     * The different choices are stored as an array in the data-choices value
+     * of the solution element
+     */
+    list: {
+        setup: function(solutionarea, solution) {
+            var input = $("<select></select>");
+            $(solutionarea).append(input);
+
+            // Get the choices
+            var choices = $.tmpl.getVAR($(solution).data("choices"));
+            $.each(choices, function(index, value) {
+                // Add each one to the selection
+                input.append('<option value="' + value + '">'
+                    + value + "</option>");
+            });
+
+            return {
+                validator: Khan.answerTypes.list.createValidator(solution),
+                answer: function() {
+                    return input.val();
+                },
+                solution: $.trim($(solution).text()),
+                examples: [],
+                showGuess: function(guess) {
+                    input.val(guess === undefined ? "" : guess);
+                }
+            };
+        },
+        createValidator: function(solution) {
+            var correct = $.trim($(solution).text());
+
+            return function(guess) {
+                guess = $.trim(guess);
+                return correct === guess;
+            };
+        }
+    },
+
+    /*
+     * The custom answer type provides a very general way to create answers,
+     * which generally have input methods beyond the answer area, and have to
+     * do more complex checking for answers
+     *
+     * There are 6 elements within the custom solution that are used.
+     *
+     * The .instruction element is directly copied into the solution area. This
+     * is meant for instructions and any extra input needed by the question
+     *
+     * The .guess element is evaluated as javascript whenever the current
+     * answer needs to be checked. Its result is passed in to the validator,
+     * and show guess functions.
+     *
+     * The .validator element is evaluated as javascript with the added guess
+     * variable. It should return one of the usual return types depending on
+     * whether the answer is correct or not.
+     *
+     * The .show-guess and .show-guess-answerarea elements are evaluated as
+     * javascript whenever the guess needs to be re-displayed (mostly in the
+     * timeline). The .show-guess function should be used to change elements
+     * outside of the answerarea, and the .show-guess-answerarea one should be
+     * used to modify elements within the answerarea
+     *
+     * The text of the .example elements are used in the acceptable formats
+     * popup
+     */
+    custom: {
+        setup: function(solutionarea, solution) {
+            // copy the instruction element into the solution area
+            solution.find(".instruction")
+                    .appendTo(solutionarea)
+                    .tmpl();
+
+            // Retrieve some code
+            var guessCode = solution.find(".guess").text();
+            var showCustomGuessCode = solution.find(".show-guess").text();
+            var showGuessCode = solution.find(".show-guess-answerarea").text();
+
+            return {
+                validator: Khan.answerTypes.custom.createValidator(solution),
+                answer: function() {
+                    // Run the guess code
+                    return KhanUtil.tmpl.getVAR(guessCode,
+                                                KhanUtil.currentGraph);
+                },
+                solution: $.trim($(solution).text()),
+                examples: solution.find(".example").map(function(i, el) {
+                    return $(el).html();
+                }),
+                showCustomGuess: function(guess) {
+                    // run the show guess code
+                    var code =
+                        "(function() { " +
+                            "var guess = " + JSON.stringify(guess) + ";" +
+                            showCustomGuessCode +
+                        "})()";
+                    KhanUtil.tmpl.getVAR(code, KhanUtil.currentGraph);
+                },
+                showGuess: function(guess) {
+                    // run the answer area show guess code
+                    var code =
+                        "(function() { " +
+                            "var guess = " + JSON.stringify(guess) + ";" +
+                            showGuessCode +
+                        "})()";
+                    KhanUtil.tmpl.getVAR(code, KhanUtil.currentGraph);
+                }
+            };
+        },
+        createValidator: function(solution) {
+            // store some code
+            var validatorCode = $(solution).find(".validator-function").text();
+
+            var validator = function(guess) {
+                // run the validator code
+                var code = "(function() { " +
+                                "var guess = " + JSON.stringify(guess) + ";" +
+                                validatorCode +
+                            "})()";
+                return KhanUtil.tmpl.getVAR(code, KhanUtil.currentGraph);
+            };
+
+            return function(guess) {
+                return validator(guess);
+            };
+        }
+    },
+
+    /*
+     * The prime factorization answer type checks whether the correct list of
+     * prime factors matches the guess, by ordering the prime factors in
+     * ascending order, and placing "x"s between them
+     */
+    primeFactorization: {
+        // Same as the text function, the differences lie in the validator
+        setup: function(solutionarea, solution) {
+            var input;
+            if (window.Modernizr && Modernizr.touch) {
+                // special flag for iOS devices
+                input = $('<input type="text" autocapitalize="off">');
+            } else {
+                input = $('<input type="text">');
+            }
+            $(solutionarea).append(input);
+
+            var fallback = $(solution).data("fallback");
+
+            return {
+                validator: Khan.answerTypes
+                               .primeFactorization.createValidator(solution),
+                answer: function() {
+                    return input.val().length > 0 ?
+                        input.val() :
+                        (fallback != null ? fallback + "" : "");
+                },
+                solution: $.trim($(solution).text()),
+                examples: [
+                    "a product of prime factors, like " +
+                        "<code>2 \\times 3</code>",
+                    "a single prime number, like <code>5</code>"
+                ],
+                showGuess: function(guess) {
+                    input.val(guess === undefined ? "" : guess);
+                }
+            };
+        },
+        createValidator: function(solution) {
+            var correct = $.trim($(solution).text());
+
+            return function(guess) {
+                // Get rid of all the whitespace
+                guess = guess.split(" ").join("").toLowerCase();
+                // Split on x, *, or unicode x, sort, and join with xs
+                guess = KhanUtil.sortNumbers(guess.split(/x|\*|\u00d7/))
+                                .join("x");
+                // perform simple string comparison
+                return guess === correct;
+            };
+        }
+    },
+
+    /*
+     * The checkbox answer type provides a single checkbox, with the solution
+     * being true or false
+     */
+    checkbox: {
+        setup: function(solutionarea, solution) {
+            // Make a checkbox
+            var input = $('<input type="checkbox">');
+            $(solutionarea).append(input);
+
+            return {
+                validator: Khan.answerTypes.checkbox.createValidator(solution),
+                answer: function() {
+                    return input.is(":checked");
+                },
+                solution: $.trim($(solution).text()),
+                examples: [],
+                showGuess: function(guess) {
+                    input.attr("checked", guess === undefined ? false : guess);
+                }
+            };
+        },
+        createValidator: function(solution) {
+            // store whether the correct answer is true or false
+            var correct = $.trim($(solution).text()) === "true";
+
+            return function(guess) {
+                return correct === guess;
+            };
+        }
     }
 });
 

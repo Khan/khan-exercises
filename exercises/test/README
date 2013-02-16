@@ -1,0 +1,4 @@
+The files in this folder are used for end to end tests of our exercise loading
+code. They are not real exercise files.
+
+See /exercises/file_experiment_tests.py in the main Khan Academy repo.

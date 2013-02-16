@@ -24,9 +24,27 @@
     </div>
 
     <div class="problems">
-        <div>
+        <div id="add-fractions">
             <p class="question"><code><var>fraction( N1, D1 )</var> + <var>fraction( N2, D2 )</var> = {?}</code></p>
             <p class="solution" data-type="rational"><var>N1 / D1 + N2 / D2</var></p>
+        </div>
+
+        <div id="custom-8" data-weight="0" data-type="add-fractions">
+            <div class="vars">
+                <var id="N1">1</var>
+                <var id="D1">2</var>
+                <var id="GCD1">getGCD( N1, D1 )</var>
+                <var id="SIMP_N1">N1 / GCD1</var>
+                <var id="SIMP_D1">D1 / GCD1</var>
+
+                <var id="N2">1</var>
+                <var id="D2">4</var>
+                <var id="GCD2">getGCD( N2, D2 )</var>
+                <var id="SIMP_N2">N2 / GCD2</var>
+                <var id="SIMP_D2">D2 / GCD2</var>
+
+                <var id="LCM">getLCM( SIMP_D1, SIMP_D2 )</var>
+            </div>
         </div>
     </div>
 

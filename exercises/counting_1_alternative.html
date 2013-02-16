@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html data-require="math spin graphie word-problems">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Counting 1</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="problems">
+			<div id="page-numbers">
+				<div class="vars">
+					<var id="START">randRange( 20, 50 )</var>
+					<var id="ANSWER">randRange( 20, 40 )</var>
+					<var id="END">START + ANSWER - 1</var>
+					<var id="DO, DID, DONE, PROBLEM">spin( "{do,did,done,problem|read,read,read,{page|paper|article}}" ).split( "," )</var>
+					<var id="PROBLEMS">plural( PROBLEM )</var>
+				</div>
+				<p class="spin">
+					<var>person( 1 )</var> {had to <var>DO</var>|was assigned} <var>PROBLEMS</var> <var>START</var> through
+					<var>END</var> for homework {{last {week|night}}|tonight}.
+				</p>
+				<p class="question spin">
+					If <var>person( 1 )</var> <var>DID</var> all of the <var>PROBLEMS</var> <var>he( 1 )</var> was assigned, how
+					many <var>PROBLEMS</var> did <var>he( 1 )</var> <var>DO</var>?
+				</p>
+
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>PROBLEMS</var></p>
+				</div>
+
+				<div class="hints">
+					<p>
+						Instead of counting <span class="hint_green"><var>PROBLEMS</var> <code><var>START</var></code> through
+						<code><var>END</var></code></span>, we can <span class="hint_blue">subtract
+						<code><var>START - 1</var></code></span> from each number so we can count the
+						<var>PROBLEMS</var> <span class="hint_pink">starting from <code>1</code></span>.
+					</p>
+
+					<div>
+						<p>
+						</p>
+						<p><code>
+							\qquad \array{
+								\hspace{40px} &amp;
+								\hspace{40px} &amp;
+								\hspace{40px} &amp;
+								\hspace{40px} &amp; \\
+
+								\color{<var>GREEN</var>}{<var>START</var>} &amp;
+								\color{<var>GREEN</var>}{<var>START + 1</var>} &amp;
+								\color{<var>GREEN</var>}{<var>START + 2</var>} &amp; &amp;
+								\color{<var>GREEN</var>}{<var>END</var>} \\
+
+								\color{<var>BLUE</var>}{\downarrow} &amp;
+								\color{<var>BLUE</var>}{\downarrow} &amp;
+								\color{<var>BLUE</var>}{\downarrow} &amp; &amp;
+								\color{<var>BLUE</var>}{\downarrow} \\
+
+								\color{<var>BLUE</var>}{\llap{-}<var>START-1</var>} &amp;
+								\color{<var>BLUE</var>}{\llap{-}<var>START-1</var>} &amp;
+								\color{<var>BLUE</var>}{\llap{-}<var>START-1</var>} &amp; \cdots\hphantom{-} &amp;
+								\color{<var>BLUE</var>}{\llap{-}<var>START-1</var>} \\
+
+								\color{<var>BLUE</var>}{\downarrow} &amp;
+								\color{<var>BLUE</var>}{\downarrow} &amp;
+								\color{<var>BLUE</var>}{\downarrow} &amp; &amp;
+								\color{<var>BLUE</var>}{\downarrow} \\
+
+								\color{<var>PINK</var>}{1} &amp;
+								\color{<var>PINK</var>}{2} &amp;
+								\color{<var>PINK</var>}{3} &amp; &amp;
+								\color{<var>PINK</var>}{<var>ANSWER</var>} \\
+							}
+						</p></code>
+					</div>
+
+					<p>
+						Now instead of thinking about <span class="hint_green"><var>PROBLEMS</var> <code><var>START</var></code>
+						through <code><var>END</var></code></span>, we can think about how many <var>PROBLEMS</var>
+						<var>person( 1 )</var> would have <var>DONE</var> if <var>he( 1 )</var> were assigned
+						<span class="hint_pink"><var>PROBLEMS</var> <code>1</code> though <code><var>ANSWER</var></code></span>.
+					</p>
+
+					<p>
+						When we think about it this way, we can see that <var>person( 1 )</var> would have <var>DONE</var>
+						<var>ANSWER</var> <var>PROBLEMS</var>. Hopefully it also makes sense why we can't just subtract
+						the first problem number from the last problem number, since if <var>person( 1 )</var> were
+						assigned <var>PROBLEMS</var> 1 through <var>ANSWER</var>, <var>he( 1 )</var> was assigned <var>ANSWER</var>
+						<var>PROBLEMS</var>, not <var>ANSWER-1</var>.
+					</p>
+
+					<p class="final_answer"><var>person( 1 )</var> <var>DID</var> <var>ANSWER</var> <var>PROBLEMS</var>.</p>
+				</div>
+			</div>
+
+			<div id="slices">
+				<div class="vars">
+					<var id="NUM">randRange( 5, 15 )</var>
+				</div>
+				<p class="spin">A baker has a whole {baguette|loaf of bread}.</p>
+				<p class="question spin">How many cuts must {he|she} make to have exactly <var>NUM</var> even slices?</p>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" data-forms="integer"><var>NUM -1</var></span> cuts</p>
+				</div>
+				<div class="hints">
+					<div>
+						<div class="graphie" id="loaf">
+							init({
+								range: [ [ -0.5, 17.5 ], [ -4, -0.5 ] ],
+								scale: [ 27, 50 ]
+							});
+
+							graph.loaf = raphael.set();
+							graph.labels = [];
+
+							graph.drawLoaf = function( slices ) {
+								var width = 10 + ( slices - 1 ) * 0.5;
+
+								graph.loaf.remove();
+								jQuery.each( graph.labels, function() {
+									this.remove();
+								});
+
+								style({ stroke: "black", fill: ORANGE, opacity: 0.3 }, function() {
+									graph.loaf.push( arc([ 0.6, -2 ], 1, 90, 270, false ) );
+									graph.loaf.push( arc([ width - 0.6, -2 ], 1, 270, 90, false ) );
+									for ( var slice = 0; slice &lt; slices; slice++ ) {
+										if ( slice === 0 ) {
+											graph.loaf.push( path([ [ 0.6, -1 ],
+												[ 10 * ( slice + 1 ) / slices + slice * 0.5, -1 ],
+												[ 10 * ( slice + 1 ) / slices + slice * 0.5, -3 ],
+												[ 0.6, -3 ] ]) );
+										} else if ( slice === slices - 1 ) {
+											graph.loaf.push( path([
+												[ 10 * ( slice + 1 ) / slices + slice * 0.5 - 0.6, -3 ],
+												[ 10 * slice / slices + slice * 0.5, -3 ],
+												[ 10 * slice / slices + slice * 0.5, -1 ],
+												[ 10 * ( slice + 1 ) / slices + slice * 0.5 - 0.6, -1 ] ]) );
+										} else {
+											graph.loaf.push( path([ [ 10 * slice / slices + slice * 0.5, -1 ],
+												[ 10 * ( slice + 1 ) / slices + slice * 0.5, -1 ],
+												[ 10 * ( slice + 1 ) / slices + slice * 0.5, -3 ],
+												[ 10 * slice / slices + slice * 0.5, -3 ],
+												[ 10 * slice / slices + slice * 0.5, -1 ] ]) );
+										}
+										graph.labels.push(
+											label( [ 10 * ( slice + 0.5 ) / slices + slice * 0.5, -2 ], slice+1, "", false )
+												.css({ fontWeight: "bold", opacity: 1 })
+										);
+										if ( slice !== 0 ) {
+											graph.labels.push(
+												label( [ 10 * slice / slices + slice * 0.5 - 0.2, -3 ], slice, "below", false )
+													.addClass( "hint_blue" ).css({ fontWeight: "bold", opacity: 1 })
+											);
+										}
+									}
+								});
+
+								return loaf;
+							};
+
+							graph.drawLoaf( 2 );
+
+						</div>
+						<p><span class="hint_blue">One cut</span> will make two slices.</p>
+					</div>
+
+					<div>
+						<div class="graphie" data-update="loaf">
+							graph.drawLoaf( 3 );
+						</div>
+						<p><span class="hint_blue">Two cuts</span> will make three slices, and so on.</p>
+					</div>
+
+					<div>
+						<div class="graphie" data-update="loaf">
+							graph.drawLoaf( NUM );
+						</div>
+						<p class="final_answer">
+							Therefore, we need <span class="hint_blue"><var>NUM - 1</var> cuts</span> to make <var>NUM</var> slices.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div id="fences">
+				<div class="vars">
+					<var id="LENGTH">randRange( 10, 20 )</var>
+				</div>
+				<p><var>person( 1 )</var> is building a straight fence, with posts one meter apart.</p>
+				<p class="question">
+					If the fence is <var>LENGTH</var> meters long, how many fence posts does <var>he( 1 )</var> need?
+				</p>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" data-forms="integer"><var>LENGTH + 1</var></span> fence posts</p>
+				</div>
+				<div class="hints">
+					<div>
+						<div class="graphie" id="fence">
+							init({
+								range: [ [ -1, LENGTH + 1 ], [ -2, 3.5 ] ],
+								scale: [ 475 / ( LENGTH + 2 ), 20 ]
+							});
+
+							style({ stroke: null, fill: BLUE, opacity: 0.3 }, function() {
+								path([ [ 0, 0 ], [ 0, 1.8 ], [ 1, 1.8 ], [ 1, 0 ], [ 0, 0 ] ]);
+							});
+
+							style({ stroke: GREEN, strokeWidth: 3 }, function() {
+								line( [ 0, 0 ], [ 0, 2 ] );
+								line( [ 1, 0 ], [ 1, 2 ] );
+							});
+							label( [ 0, 1.8 ], "1", "above", false ).css({ color: GREEN });
+							label( [ 1, 1.8 ], "2", "above", false ).css({ color: GREEN });
+
+							style({ stroke: BLUE, strokeWidth: 2 }, function() {
+								graph.brace = path([ [ 0, -0.2 ], [ 0, -0.4 ], [ 0.5, -0.4 ], [ 0.5, -0.6 ], [ 0.5, -0.4 ],
+									[ 1, -0.4 ], [ 1, -0.2 ] ]);
+							});
+							graph.length = label( [ 0.5, -0.4 ], "1 meter", "below", false ).css({ color: BLUE });
+
+						</div>
+						<p>
+							If the fence is <span class="hint_blue">one meter long</span>, <var>he( 1 )</var> needs
+							<span class="hint_green">two posts</span> (one for each end).
+						</p>
+					</div>
+
+					<div>
+						<div class="graphie" data-update="fence">
+							style({ stroke: null, fill: BLUE, opacity: 0.3 }, function() {
+								path([ [ 1, 0 ], [ 1, 1.8 ], [ 2, 1.8 ], [ 2, 0 ], [ 1, 0 ] ]);
+							});
+
+							style({ stroke: GREEN, strokeWidth: 3 }, function() {
+								line( [ 1, 0 ], [ 1, 2 ] );
+								line( [ 2, 0 ], [ 2, 2 ] );
+							});
+							label( [ 2, 1.8 ], "3", "above", false ).css({ color: GREEN });
+
+							graph.brace.remove();
+							graph.length.remove();
+							style({ stroke: BLUE, strokeWidth: 2 }, function() {
+								graph.brace = path([ [ 0, -0.2 ], [ 0, -0.4 ], [ 1, -0.4 ], [ 1, -0.6 ], [ 1, -0.4 ],
+									[ 2, -0.4 ], [ 2, -0.2 ] ]);
+							});
+							graph.length = label( [ 1, -0.4 ], "2 meters", "below", false ).css({ color: BLUE });
+						</div>
+						<p>
+							If the fence is <span class="hint_blue">two meters long</span>, then <var>he( 1 )</var> needs
+							<span class="hint_green">three posts</span>, and so on.
+						</p>
+					</div>
+
+					<div>
+						<div class="graphie" data-update="fence">
+							for ( var x = 2; x &lt; LENGTH; x++ ) {
+								style({ stroke: null, fill: BLUE, opacity: 0.3 }, function() {
+									path([ [ x, 0 ], [ x, 1.8 ], [ x + 1, 1.8 ], [ x + 1, 0 ], [ x, 0 ] ]);
+								});
+
+								style({ stroke: GREEN, strokeWidth: 3 }, function() {
+									line( [ x, 0 ], [ x, 2 ] );
+									line( [ x + 1, 0 ], [ x + 1, 2 ] );
+								});
+								label( [ x + 1, 1.8 ], x + 2, "above", false ).css({ color: GREEN });
+							}
+
+							graph.brace.remove();
+							graph.length.remove();
+							style({ stroke: BLUE, strokeWidth: 2 }, function() {
+								graph.brace = path([ [ 0, -0.2 ], [ 0, -0.4 ], [ LENGTH/2, -0.4 ], [ LENGTH/2, -0.6 ],
+									[ LENGTH/2, -0.4 ], [ LENGTH, -0.4 ], [ LENGTH, -0.2 ] ]);
+							});
+							graph.length = label( [ LENGTH / 2, -0.4 ], LENGTH + " meters", "below", false ).css({ color: BLUE });
+						</div>
+						<p class="final_answer">
+							Therefore, for <var>his( 1 )</var> <span class="hint_blue"><var>LENGTH</var> meter</span> fence,
+							<var>person( 1 )</var> needs <span class="hint_green"><var>LENGTH + 1</var> posts</span>.
+						</p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

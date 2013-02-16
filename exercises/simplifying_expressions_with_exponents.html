@@ -5,8 +5,9 @@
     <title>Simplifying expressions with exponents</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
-    #answer_area input[type=text] {
-    width: 30px;
+    #answer_area input[type=text],
+    #answer_area input[type=number] {
+        width: 30px;
     }
     </style>
 </head>
@@ -45,7 +46,7 @@
                 <p><code>\dfrac{\color{orange}{<var>expr( NUM )</var>}}{\color{green}{<var>expr( DEN )</var>}}</code></p>
 
                 <div class="solution" data-type="multiple">
-                    <p><code><var>BASE1</var></code><span class="sol exp"><var>EXP1</var></span><code><var>BASE2</var></code><span class="sol exp"><var>EXP2</var></span></p>
+                    <p><code><var>BASE1</var></code><span class="sol exp" data-forms="integer"><var>EXP1</var></span><code><var>BASE2</var></code><span class="sol exp" data-forms="integer"><var>EXP2</var></span></p>
                     <p class="example">enter a (possibly negative) integer for each exponent</p>
                 </div>
 
@@ -86,7 +87,7 @@
                 <p><code>\dfrac{\color{orange}{<var>expr( NUM )</var>}}{\color{green}{<var>expr( DEN )</var>}}</code></p>
 
                 <div class="solution" data-type="multiple">
-                    <p><code><var>BASE1</var></code><span class="sol exp"><var>EXP1</var></span><code><var>BASE2</var></code><span class="sol exp"><var>EXP2</var></span></p>
+                    <p><code><var>BASE1</var></code><span class="sol exp" data-forms="integer"><var>EXP1</var></span><code><var>BASE2</var></code><span class="sol exp" data-forms="integer"><var>EXP2</var></span></p>
                     <p class="example">enter a (possibly negative) integer for each exponent</p>
                 </div>
 

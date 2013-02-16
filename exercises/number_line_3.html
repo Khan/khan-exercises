@@ -15,8 +15,8 @@
     <div class="problems">
         <div>
             <div class="question">
-                <p data-if="DISTANCE !== 0">What number is <strong><var>plural( abs( DISTANCE ), "position")</var> to the <span data-if="DISTANCE < 1">left</span><span data-else>right</span> of the orange dot</strong>? The distance between adjacent tick marks is 1.</p>
-                <p data-else>What number does the orange dot represent? The distance between adjacent tick marks is 1.</p>
+                <p data-if="DISTANCE !== 0">What number is <strong><var>plural( abs( DISTANCE ), "position")</var> to the <span data-if="DISTANCE < 1">left</span><span data-else>right</span> of the orange dot</strong>? The distance between tick marks is 1.</p>
+                <p data-else>What number does the orange dot represent? The distance between tick marks is 1.</p>
                 <div class="graphie" id="number-line">
                     init({
                         range: [ [ MIDPOINT-6, MIDPOINT+6 ], [ -1, 1 ] ]
@@ -57,16 +57,16 @@
                         style({ stroke: color, fill: color, strokeWidth: 3.5, arrows: "->" });
                         line( [ MIDPOINT, 0 ], [ NUMBER+DISTANCE, 0 ] );
                         graph.blueDot.toFront();
+                        graph.orangeDot.toFront();
                     </div>
                 </div>
                 <div>
-                    <p>Thus, the <span data-if="DISTANCE !== 0">blue</span><span data-else>orange</span> dot represents the number <code><var>NUMBER+DISTANCE</var></code>.</p>
+                    <p class="final_answer">Thus, the <span data-if="DISTANCE !== 0">blue</span><span data-else>orange</span> dot represents the number <code><var>NUMBER+DISTANCE</var></code>.</p>
                     <div class="graphie" data-update="number-line">
                         var color = "#6495ED";
                         if ( DISTANCE === 0 ) {
                             color = "#FFA500";
                         }
-                        label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
                         label( [ NUMBER+DISTANCE, -0.53 ],  NUMBER+DISTANCE, "center", { color: color });
                     </div>
                 </div>
