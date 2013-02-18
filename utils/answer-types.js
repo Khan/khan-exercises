@@ -606,7 +606,17 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             return function(guess) {
                 guess = $.trim(guess);
-                return guess.match(correct) != null;
+
+                var match;
+                var regexFlags = $(solution).data('regex-flags');
+
+                if (regexFlags === undefined) {
+                    match = guess.match(correct);
+                } else {
+                    match = guess.match(RegExp(correct, regexFlags));
+                }
+
+                return match !== null;
             };
         }
     },
