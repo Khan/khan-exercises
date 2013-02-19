@@ -23,8 +23,8 @@
             var numerator, denominator;
 
             if (degree1 === degree2) {
-                numerator = ""+coefficient1;
-                denominator = ""+coefficient2;
+                numerator = "" + coefficient1;
+                denominator = "" + coefficient2;
             } else {
                 numerator = getExpression(coefficient1, degree1, vari);
                 denominator = getExpression(coefficient2, degree2, vari);
@@ -38,7 +38,7 @@
         }
 
         function getVariableRegex(coefficient, degree, vari) {
-            var regex = "";
+            var regex = "^";
 
             if (coefficient !== 1 || degree <= 0) {
                 regex += '\\s*' + coefficient;
@@ -47,28 +47,39 @@
             if (degree > 0) {
                 regex += '\\s*' + "[" + vari + vari.toUpperCase() + "]";
             }
+            regex += "\\s*$"
+
             return regex;
         }
-
-        function getSolutionRegex(coefficient1, coefficient2, degree1, degree2, vari) {
-            var regex = '^' + getVariableRegex(coefficient1, degree1 - degree2, vari);
-            var denominator = getVariableRegex(coefficient2, degree2 - degree1, vari);
-
-            if (coefficient2 !== 1 || degree2 > degree1) {
-                regex += "\\s*/" + denominator;
-            }
-
-            regex += "\\s*$";
-            return regex;
+    </script>    
+    <style type="text/css">
+        #solutionarea input[type="text"] {
+            width: 35px;
         }
-    </script>
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
 </head>
 <body>
 <div class="exercise">
     <div class="problems">
         <div>
             <div class="vars">
-                <var id="X">randVar()</var>
+                <div data-ensure="X !== Y">
+                    <var id="X">randVar()</var>
+                    <var id="Y">randVar()</var>
+                </div>
                 <var id="GCD">randRange( 2, 12 )</var>
                 <var id="MULTIPLEDEGREE">randRange( 1, 4 )</var>
                 <div data-ensure="getGCD(COEFFICIENT1, COEFFICIENT2) === 1">
@@ -83,19 +94,43 @@
                 <var id="POWER1">X + "^" + (DEGREE1 + MULTIPLEDEGREE)</var>
                 <var id="POWER2">X + "^" + (DEGREE2 + MULTIPLEDEGREE)</var>
                 <var id="POWERFRACTION">getSolution(1, 1, DEGREE1, DEGREE2, X)</var>
+                <var id="NUMERATORREGEX">getVariableRegex(COEFFICIENT1, DEGREE1 - DEGREE2, X)</var>
+                <var id="DENOMINATORREGEX">getVariableRegex(COEFFICIENT2, DEGREE2 - DEGREE1, X)</var>
                 <var id="SOLUTION">getSolution(COEFFICIENT1, COEFFICIENT2, DEGREE1, DEGREE2, X)</var>
-                <var id="SOLUTIONREGEX">getSolutionRegex(COEFFICIENT1, COEFFICIENT2, DEGREE1, DEGREE2, X)</var>
             </div>
 
             <p class="problem">Simplify the expression.</p>
             <p class="question">
-                <code>\dfrac{<var>NUMERATORCOEFFICIENT</var><var>POWER1</var>}
-                            {<var>DENOMINATORCOEFFICIENT</var><var>POWER2</var>}</code>
+                <code><var>Y</var> = \dfrac{<var>NUMERATORCOEFFICIENT</var><var>POWER1</var>}
+                     {<var>DENOMINATORCOEFFICIENT</var><var>POWER2</var>}</code>
             </p>
 
             <div class="solution" data-type="set">
-                <div class="set-sol" data-type="regex"><var>SOLUTIONREGEX</var></div>
-                <div class="input-format"><span class="entry"></span></div>
+                <div class="set-sol" data-type="multiple">
+                    <span class="sol" data-type="regex"><var>NUMERATORREGEX</var></span>
+                    <span class="sol" data-type="regex"><var>DENOMINATORREGEX</var></span>
+                </div>
+
+                <div class="input-format">
+                    <div class="entry" data-type="multiple">
+                        <table>
+                            <tr>
+                                <td rowspan="2" class="soln-name">
+                                    <code><var>Y</var> = </code>
+                                </td>
+                                <td class="soln-top">
+                                    <span class="sol">a</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="soln-bot">
+                                    <span class="sol" data-fallback="1">a</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
                 <div class="example">a simplified fraction, like <b>3x/4</b></div>
             </div>
 
