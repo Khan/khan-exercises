@@ -3,6 +3,27 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Simplifying rational expressions 1</title>
+    <style type="text/css">
+        #answer_area input[type="text"] {
+            width: 35px;
+        }
+        #answer_area td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #answer_area .soln-name {
+            padding-right: 5px;
+        }
+        #answer_area .soln-top {
+            padding-bottom: 1px;
+        }
+        #answer_area .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
         function getExpression( coefficient, degree, vari ) {
@@ -38,7 +59,7 @@
         }
 
         function getVariableRegex(coefficient, degree, vari) {
-            var regex = "";
+            var regex = "^";
 
             if (coefficient !== 1 || degree <= 0) {
                 regex += '\\s*' + coefficient;
@@ -47,34 +68,10 @@
             if (degree > 0) {
                 regex += '\\s*' + "[" + vari + vari.toUpperCase() + "]";
             }
+            regex += "\\s*$"
             return regex;
         }
     </script>
-
-    <style type="text/css">
-        #answer_area input[type="text"] {
-            width: 35px;
-        }
-        #answer_area .soln-bot input[type="text"] {
-            margin-left: 3px;
-        }
-        #answer_area td {
-            text-align: center;
-            vertical-align: middle;
-            padding: 0px;
-        }
-        #answer_area .soln-name {
-            padding-right: 5px;
-        }
-        #answer_area .soln-top {
-            padding-bottom: 1px;
-        }
-        #answer_area .soln-bot {
-            padding-top: 1px;
-            border-top: 1px solid black;
-        }
-    </style>
-
 </head>
 <body>
 <div class="exercise">
@@ -99,9 +96,9 @@
                 <var id="POWER1">X + "^" + (DEGREE1 + MULTIPLEDEGREE)</var>
                 <var id="POWER2">X + "^" + (DEGREE2 + MULTIPLEDEGREE)</var>
                 <var id="POWERFRACTION">getSolution(1, 1, DEGREE1, DEGREE2, X)</var>
+                <var id="NUMERATORREGEX">getVariableRegex(COEFFICIENT1, DEGREE1 - DEGREE2, X)</var>
+                <var id="DENOMINATORREGEX">getVariableRegex(COEFFICIENT2, DEGREE2 - DEGREE1, X)</var>
                 <var id="SOLUTION">getSolution(COEFFICIENT1, COEFFICIENT2, DEGREE1, DEGREE2, X)</var>
-                <var id="NUMERATORREGEX">getSolutionRegex(COEFFICIENT1, DEGREE1 - DEGREE2, X)</var>
-                <var id="DENOMINATORREGEX">getSolutionRegex(COEFFICIENT2, DEGREE2 - DEGREE1, X)</var>
             </div>
 
             <p class="problem">Simplify the expression.</p>
@@ -111,7 +108,10 @@
             </p>
 
             <div class="solution" data-type="set">
-                <div class="set-sol" data-type="regex"><var>SOLUTIONREGEX</var></div>
+                <div class="set-sol" data-type="multiple">
+                    <span class="sol" data-type="regex"><var>NUMERATORREGEX</var></span>
+                    <span class="sol" data-type="regex"><var>DENOMINATORREGEX</var></span>
+                </div>
 
                 <div class="input-format">
                     <div class="entry" data-type="multiple">
