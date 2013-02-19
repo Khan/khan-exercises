@@ -2713,25 +2713,6 @@ var Khan = (function() {
             $('<div id="debug"></div>').appendTo("#answer_area");
         }
 
-        // Register API ajax callbacks for updating UI
-        if (typeof APIActionResults !== "undefined") {
-            // Display Messages like "You're Proficient" or "You Seem To Be Struggling"
-            // TODO: this functionality is currently hidden from power-mode. Restore it.
-            // https://trello.com/card/restore-you-re-ready-to-move-on-and-struggling-in-action-messages/4f3f43cd45533a1b3a065a1d/34
-            APIActionResults.register("exercise_state",
-                function(userState) {
-                    var jel = $("#exercise-message-container");
-                    if (userState.template !== null) {
-                        jel.empty().append(userState.template);
-                        setTimeout(function() {jel.slideDown();}, 50);
-                    }
-                    else {
-                        jel.slideUp();
-                    }
-                }
-            );
-        }
-
         $(Khan)
             .bind("updateUserExercise", function(ev, data) {
                 // Any time we update userExercise, check if we're setting/switching usernames
