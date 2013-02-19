@@ -37,17 +37,10 @@
             }
         }
 
-        function getVariableRegex(coefficient, degree, vari, require_one) {
+        function getVariableRegex(coefficient, degree, vari) {
             var regex = "^";
 
-            if (coefficient === 1) {
-                if (degree < 1) {
-                    regex += '\\s*1';
-                    if (!require_one) {
-                        regex += '?'
-                    }
-                }
-            } else {
+            if (coefficient !== 1 || degree <= 0) {
                 regex += '\\s*' + coefficient;
             }
 
@@ -91,7 +84,7 @@
                 <var id="MULTIPLEDEGREE">randRange( 1, 4 )</var>
                 <div data-ensure="getGCD(COEFFICIENT1, COEFFICIENT2) === 1">
                     <var id="COEFFICIENT1">randRange( 1, 12 )</var>
-                    <var id="COEFFICIENT2">randRange( 1, 12 )</var>
+                    <var id="COEFFICIENT2">randRange( 1, 3 )</var>
                 </div>
                 <var id="COEFFICIENTFRACTION">fraction(COEFFICIENT1, COEFFICIENT2, true, true)</var>
                 <var id="NUMERATORCOEFFICIENT">GCD * COEFFICIENT1</var>
@@ -101,8 +94,8 @@
                 <var id="POWER1">X + "^" + (DEGREE1 + MULTIPLEDEGREE)</var>
                 <var id="POWER2">X + "^" + (DEGREE2 + MULTIPLEDEGREE)</var>
                 <var id="POWERFRACTION">getSolution(1, 1, DEGREE1, DEGREE2, X)</var>
-                <var id="NUMERATORREGEX">getVariableRegex(COEFFICIENT1, DEGREE1 - DEGREE2, X, true)</var>
-                <var id="DENOMINATORREGEX">getVariableRegex(COEFFICIENT2, DEGREE2 - DEGREE1, X, false)</var>
+                <var id="NUMERATORREGEX">getVariableRegex(COEFFICIENT1, DEGREE1 - DEGREE2, X)</var>
+                <var id="DENOMINATORREGEX">getVariableRegex(COEFFICIENT2, DEGREE2 - DEGREE1, X)</var>
                 <var id="SOLUTION">getSolution(COEFFICIENT1, COEFFICIENT2, DEGREE1, DEGREE2, X)</var>
             </div>
 
@@ -131,7 +124,7 @@
                             </tr>
                             <tr>
                                 <td class="soln-bot">
-                                    <span class="sol">a</span>
+                                    <span class="sol" data-fallback="1">a</span>
                                 </td>
                             </tr>
                         </table>
