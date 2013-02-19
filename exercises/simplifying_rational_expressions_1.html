@@ -37,15 +37,11 @@
             }
         }
 
-        function getVariableRegex(coefficient, degree, vari, require_one) {
+        function getVariableRegex(coefficient, degree, vari) {
             var regex = "^";
 
             if (coefficient !== 1 || degree <= 0) {
-                if (require_one) {
-                    regex += '\\s*' + coefficient;
-                } else (if coefficient === 1) {
-                    regex += '\\s*1?'
-                }
+                regex += '\\s*' + coefficient;
             }
 
             if (degree > 0) {
@@ -98,8 +94,8 @@
                 <var id="POWER1">X + "^" + (DEGREE1 + MULTIPLEDEGREE)</var>
                 <var id="POWER2">X + "^" + (DEGREE2 + MULTIPLEDEGREE)</var>
                 <var id="POWERFRACTION">getSolution(1, 1, DEGREE1, DEGREE2, X)</var>
-                <var id="NUMERATORREGEX">getVariableRegex(COEFFICIENT1, DEGREE1 - DEGREE2, X, true)</var>
-                <var id="DENOMINATORREGEX">getVariableRegex(COEFFICIENT2, DEGREE2 - DEGREE1, X, false)</var>
+                <var id="NUMERATORREGEX">getVariableRegex(COEFFICIENT1, DEGREE1 - DEGREE2, X)</var>
+                <var id="DENOMINATORREGEX">getVariableRegex(COEFFICIENT2, DEGREE2 - DEGREE1, X)</var>
                 <var id="SOLUTION">getSolution(COEFFICIENT1, COEFFICIENT2, DEGREE1, DEGREE2, X)</var>
             </div>
 
