@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
+<html data-require="math math-format word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Integer sums</title>
@@ -12,8 +12,6 @@
             <var id="SEQ_LENGTH">randRange(2, 6)</var>
             <var id="DIFFERENCE">randRange(1, 2)</var>
             <var id="TARGET_NUMBER">randRange(1, SEQ_LENGTH)</var>
-            <var id="ORDINAL">["zeroth", "first", "second", "third", "forth", "fifth", "sixth"][TARGET_NUMBER]</var>
-
             <var id="C">DIFFERENCE * SEQ_LENGTH * (SEQ_LENGTH - 1) / 2</var>
             <var id="SUM">FIRST_NUM * SEQ_LENGTH + C</var>
             <var id="SEQ_TYPE">
@@ -42,7 +40,7 @@
         <div class="problems">
             <div>
                 <p class="problem">The sum of <var>SEQ_LENGTH</var> consecutive <var>SEQ_TYPE</var>s is <var>SUM</var>.</p>
-                <p class="question">What is the <var>ORDINAL</var> number in this sequence?</p>
+                <p class="question">What is the <var>ordinal(TARGET_NUMBER)</var> number in this sequence?</p>
                 <p class="solution" data-forms="integer"><var>ANSWER</var></p>
             </div>
         </div>
@@ -61,8 +59,11 @@
                 <p>Thus, the first number is <code><var>ANSWER</var></code>.</p>
             </div>
             <div data-else>
-                <p>Since <code>x</code> is the first number, <code>x + <var>(TARGET_NUMBER - 1) * DIFFERENCE</var></code> is the <var>ORDINAL</var> <var>SEQ_TYPE</var>.</p>
-                <p>Thus, the <var>ORDINAL</var> number in the sequence is <code><var>ANSWER</var></code>.</p>
+                <p>
+                    Since <code>x</code> is the first number, <code>x + <var>(TARGET_NUMBER - 1) * DIFFERENCE</var></code>
+                    is the <var>ordinal(TARGET_NUMBER)</var> <var>SEQ_TYPE</var>.
+                </p>
+                <p>Thus, the <var>ordinal(TARGET_NUMBER)</var> number in the sequence is <code><var>ANSWER</var></code>.</p>
             </div>
         </div>
     </div>
