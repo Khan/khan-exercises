@@ -3,27 +3,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Simplifying rational expressions 1</title>
-    <style type="text/css">
-        #answer_area input[type="text"] {
-            width: 35px;
-        }
-        #answer_area td {
-            text-align: center;
-            vertical-align: middle;
-            padding-left: 4px;
-            padding-right: 4px;
-        }
-        #answer_area .soln-name {
-            padding-right: 5px;
-        }
-        #answer_area .soln-top {
-            padding-bottom: 1px;
-        }
-        #answer_area .soln-bot {
-            padding-top: 1px;
-            border-top: 1px solid black;
-        }
-    </style>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
         function getExpression( coefficient, degree, vari ) {
@@ -44,8 +23,8 @@
             var numerator, denominator;
 
             if (degree1 === degree2) {
-                numerator = ""+coefficient1;
-                denominator = ""+coefficient2;
+                numerator = "" + coefficient1;
+                denominator = "" + coefficient2;
             } else {
                 numerator = getExpression(coefficient1, degree1, vari);
                 denominator = getExpression(coefficient2, degree2, vari);
@@ -69,9 +48,28 @@
                 regex += '\\s*' + "[" + vari + vari.toUpperCase() + "]";
             }
             regex += "\\s*$"
+
             return regex;
         }
-    </script>
+    </script>    
+    <style type="text/css">
+        #solutionarea input[type="text"] {
+            width: 35px;
+        }
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
 </head>
 <body>
 <div class="exercise">
