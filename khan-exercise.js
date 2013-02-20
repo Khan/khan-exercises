@@ -263,17 +263,23 @@ var Khan = (function() {
     // "Check answer" or in assessmentMode "Submit answer" - set in prepareSite
     originalCheckAnswerText = "",
 
-    issueError = "Communication with GitHub isn't working. Please file " +
-        "the issue manually at <a href=\"" +
-        "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. " +
-        "Please reference exercise: " + exerciseId + ".",
-    issueSuccess = function(url, title, suggestion) {
-        return ["Thank you for your feedback! Your issue has been created and can be ",
-            "found at the following link:",
-            "<p><a id=\"issue-link\" href=\"", url, "\">", title, "</a>",
-            "<p>", suggestion, "</p>"].join("");
+    issueError = function() {
+        return $._("Communication with GitHub isn't working. Please file " +
+            "the issue manually at <a href=\"" +
+            "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. " +
+            "Please reference exercise: %s.", exerciseId);
     },
-    issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!",
+    issueSuccess = function(url, title, suggestion) {
+        return $._("Thank you for your feedback! Your issue has been created " +
+            "and can be found at the following link: " +
+            "<p><a id=\"issue-link\" href=\"%s\">%s</a><p>%s</p>",
+            url, title, suggestion);
+    },
+    issueIntro = function() {
+        return $._("Remember to check the hints and double check your " + 
+            "math. All provided information will be public. Thanks for " +
+            "your help!");
+    },
 
     gae_bingo = window.gae_bingo || { bingo: function() {} },
 
@@ -344,8 +350,9 @@ var Khan = (function() {
         },
 
         warnTimeout: function() {
-            warn("Your internet might be too slow to see an exercise. Refresh the page " +
-                'or <a href="" id="warn-report">report a problem</a>.', false);
+            warn($._("Your internet might be too slow to see an exercise. " + 
+                "Refresh the page or <a href='' id='warn-report'>report " +
+                "a problem</a>."), false);
             $("#warn-report").click(function(e) {
                 e.preventDefault();
                 $("#report").click();
@@ -353,12 +360,13 @@ var Khan = (function() {
         },
 
         warnFont: function() {
-            var enableFontDownload = "enable font download in your browser";
+            var enableFontDownload =
+                $._("enable font download in your browser");
             if ($.browser.msie) {
-                enableFontDownload = '<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/"  target="_blank">enable font download</a>';
+                enableFontDownload = $._('<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/" target="_blank">enable font download</a>');
             }
 
-            warn("You should " + enableFontDownload + " to improve the appearance of math expressions.", true);
+            warn($._("You should %s to improve the appearance of math expressions.", enableFontDownload), true);
         },
 
         // TODO(alpert): This doesn't need to be in the Khan object.
@@ -702,7 +710,10 @@ var Khan = (function() {
         },
 
         showSolutionButtonText: function() {
-            return hintsUsed ? "Show next step (" + hints.length + " left)" : "Show Solution";
+            return hintsUsed ?
+                $.ngettext("Show next step (%s left)",
+                    "Show next step (%s left)", hints.length) :
+                $._("Show Solution");
         }
 
     };
@@ -922,7 +933,7 @@ var Khan = (function() {
         $("#check-answer-button")
             .attr("disabled", "disabled")
             .addClass("buttonDisabled")
-            .val("Please wait...");
+            .val($._("Please wait..."));
     }
 
     // TODO(alpert): Merge with loadExercise
@@ -1373,15 +1384,18 @@ var Khan = (function() {
 
         if (typeof userExercise !== "undefined" && userExercise.readOnly) {
             if (!userExercise.current) {
-                warn("This exercise may have changed since it was completed", true);
+                warn($._("This exercise may have changed since it was " +
+                    "completed"), true);
             }
 
             var timelineEvents, timeline;
 
             var timelinecontainer = $("<div id='timelinecontainer'>")
                 .append("<div>\n" +
-                        "<div id='previous-problem' class='simple-button'>Previous Problem</div>\n" +
-                        "<div id='previous-step' class='simple-button'><span>Previous Step</span></div>\n" +
+                        "<div id='previous-problem' class='simple-button'>" + 
+                            $._("Previous Problem") + "</div>\n" +
+                        "<div id='previous-step' class='simple-button'><span>" + 
+                            $._("Previous Step") + "</span></div>\n" +
                         "</div>")
                 .insertBefore("#problem-and-answer");
 
@@ -1442,8 +1456,10 @@ var Khan = (function() {
 
             timelinecontainer
                 .append("<div>\n" +
-                        "<div id='next-problem' class='simple-button'>Next Problem</div>\n" +
-                        "<div id='next-step' class='simple-button'><span>Next Step</span></div>\n" +
+                        "<div id='next-problem' class='simple-button'>" +
+                            $._("Next Problem") + "</div>\n" +
+                        "<div id='next-step' class='simple-button'><span>" + 
+                            $._("Next Step") + "</span></div>\n" +
                         "</div>");
 
             $("<div class='user-activity correct-activity'>Started</div>")
@@ -1462,29 +1478,31 @@ var Khan = (function() {
                     thissolutionarea;
 
                 timelineEvents
-                    .append("<div class='timeline-time'>" + value[2] + "s</div>");
+                    .append("<div class='timeline-time'>" +
+                        $.ngettext("%ss", "%ss", value[2]) + "</div>");
 
                 thissolutionarea = $("<div>")
                     .addClass("user-activity " + value[0])
                     .appendTo(timelineEvents);
 
                 if (value[0] === "hint-activity") {
-                    thissolutionarea.attr("title", "Hint used");
+                    thissolutionarea.attr("title", $._("Hint used"));
                     thissolutionarea
                         .data("hint", hintNumber)
-                        .prepend("Hint #" + (hintNumber + 1));
+                        .prepend($.ngettext("Hint #%s", "Hint #%s", hintNumber + 1));
                     hintNumber += 1;
                 } else { // This panel is a solution (or the first panel)
                     thissolutionarea.data("hint", false);
                     if (guess === "Activity Unavailable") {
-                        thissolutionarea.text(guess);
+                        thissolutionarea.text($._("Activity Unavailable"));
                     } else {
                         // radio and custom are the only answer types that
                         // can't display its own guesses in the activity bar
                         if (answerType === "radio") {
                             thissolutionarea.append(
                                 // Add the guess to the activity bar
-                                $("<p class='solution'>" + guess + "</p>").tmpl()
+                                $("<p class='solution'>" + guess + 
+                                    "</p>").tmpl()
                             );
 
                             if (index === userExercise.userActivity.length - 1) {
@@ -1492,9 +1510,11 @@ var Khan = (function() {
                                     .removeClass("incorrect-activity")
                                     .addClass("correct-activity");
 
-                                thissolutionarea.attr("title", "Correct Answer");
+                                thissolutionarea.attr("title",
+                                    $._("Correct Answer"));
                             } else {
-                                thissolutionarea.attr("title", "Incorrect Answer");
+                                thissolutionarea.attr("title",
+                                    $._("Incorrect Answer"));
                             }
                         } else if (answerType === "custom") {
                             if (index === userExercise.userActivity.length - 1) {
@@ -1502,14 +1522,18 @@ var Khan = (function() {
                                     .removeClass("incorrect-activity")
                                     .addClass("correct-activity");
 
-                                thissolutionarea.attr("title", "Correct Answer");
+                                thissolutionarea.attr("title",
+                                    $._("Correct Answer"));
                                 thissolutionarea.append(
-                                    $("<p class='solution'>Answer correct</p>")
+                                    $("<p class='solution'>" +
+                                        $._("Answer correct") + "</p>")
                                 );
                             } else {
-                                thissolutionarea.attr("title", "Incorrect Answer");
+                                thissolutionarea.attr("title",
+                                    $._("Incorrect Answer"));
                                 thissolutionarea.append(
-                                    $("<p class='solution'>Answer incorrect</p>")
+                                    $("<p class='solution'>" +
+                                        $._("Answer incorrect") + "</p>")
                                 );
                             }
                         } else {
@@ -1524,12 +1548,14 @@ var Khan = (function() {
                                     .removeClass("incorrect-activity")
                                     .addClass("correct-activity");
 
-                                thissolutionarea.attr("title", "Correct Answer");
+                                thissolutionarea.attr("title",
+                                    $._("Correct Answer"));
                             } else {
                                 thissolutionarea
                                     .removeClass("correct-activity")
                                     .addClass("incorrect-activity");
-                                thissolutionarea.attr("title", "Incorrect Answer");
+                                thissolutionarea.attr("title",
+                                    $._("Incorrect Answer"));
                             }
                         }
 
@@ -1591,7 +1617,7 @@ var Khan = (function() {
                 // This thing looks ridiculous above about 100px
                 if (maxHeight > 100) {
                     timelineEvents.children('.correct-activity, .incorrect-activity').each(function() {
-                        $(this).text('Answer');
+                        $(this).text($._('Answer'));
                     });
                 } else if (maxHeight > timelinecontainer.height()) {
                     timelinecontainer.height(maxHeight);
@@ -1773,9 +1799,8 @@ var Khan = (function() {
 
 
         if (userExercise == null || Khan.query.debug != null) {
-            $("#problem-permalink").text("Permalink: "
-                + problemID + " #"
-                + problemSeed)
+            $("#problem-permalink")
+                .text($._("Permalink: %s #%s", problemID, problemSeed))
                 .attr("href", window.location.protocol + "//" + window.location.host + window.location.pathname + "?debug&problem=" + problemID + "&seed=" + problemSeed);
         }
 
@@ -1807,16 +1832,16 @@ var Khan = (function() {
 
             if (!Khan.query.activity) {
                 var historyURL = debugURL + "&seed=" + problemSeed + "&activity=";
-                $("<a>Problem history</a>").attr("href", "javascript:").click(function(event) {
+                $("<a>" + $._("Problem history") + "</a>").attr("href", "javascript:").click(function(event) {
                     window.location.href = historyURL + encodeURIComponent(JSON.stringify(userActivityLog));
                 }).appendTo(links);
             } else {
-                $("<a>Random problem</a>")
+                $("<a>" + $._("Random problem") + "</a>")
                     .attr("href", window.location.protocol + "//" + window.location.host + window.location.pathname + "?debug")
                     .appendTo(links);
             }
 
-            links.append("<br><b>Problem types:</b><br>");
+            links.append("<br><b>" + $._("Problem types:") + "</b><br>");
 
             exercises.children(".problems").children().each(function(n, prob) {
                 var probID = $(prob).attr("id") || n;
@@ -1840,7 +1865,8 @@ var Khan = (function() {
             // If this is a child exercise, show which one it came from
             if (exercise.data("name") !== exerciseId) {
                 links.append("<br>");
-                links.append("Original exercise: " + exercise.data("name"));
+                links.append($._("Original exercise: %s", 
+                    exercise.data("name")));
             }
 
             if ($.tmpl.DATA_ENSURE_LOOPS > 0) {
@@ -1926,14 +1952,15 @@ var Khan = (function() {
         if (answerType === "text" || answerType === "number") {
             var checkAnswerButton = $("#check-answer-button");
             checkAnswerButton.attr("disabled", "disabled").attr(
-                "title", "Type in an answer first.");
+                "title", $._("Type in an answer first."));
             // Enables the check answer button - added so that people who type
             // in a number and hit enter quickly do not have to wait for the
             // button to be enabled by the key up
             $("#solutionarea")
                 .on("keypress.emptyAnswer", function(e) {
                     if (e.keyCode !== 13) {
-                        checkAnswerButton.removeAttr("disabled").removeAttr("title");
+                        checkAnswerButton
+                            .removeAttr("disabled").removeAttr("title");
                     }
                 })
                 .on("keyup.emptyAnswer", function(e) {
@@ -1981,8 +2008,8 @@ var Khan = (function() {
         if (testMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount) {
             // Show the dump data
             $("#problemarea").append(
-                "<p>Thanks! You're all done testing this exercise.</p>" +
-                "<p>Please copy the text below and send it to us.</p>"
+                $._("<p>Thanks! You're all done testing this exercise.</p>" +
+                    "<p>Please copy the text below and send it to us.</p>")
             );
 
             $("<textarea>")
@@ -2191,10 +2218,13 @@ var Khan = (function() {
 
                 // Warn user about problem, encourage to reload page
                 warn(
-                    "This page is out of date. You need to <a href='" + window.location.href +
-                    "'>refresh</a>, but don't worry, you haven't lost progress. " +
-                    "If you think this is a mistake, " +
-                    "<a href='http://www.khanacademy.org/reportissue?type=Defect&issue_labels='>tell us</a>."
+                    $._("This page is out of date. You need to " +
+                        "<a href='%s'>refresh</a>, but don't worry, you " + 
+                        "haven't lost progress. If you think this is a " + 
+                        "mistake, <a href='%s'>tell us</a>.", 
+                            window.location.href,
+                            "http://www.khanacademy.org/reportissue" + 
+                                "?type=Defect&issue_labels=")
                 );
 
             }, "attempt_hint_queue");
@@ -2294,6 +2324,8 @@ var Khan = (function() {
                     } else if (behavior === "angle-mode") {
                         Calculator.angleMode = Calculator.angleMode === "DEG" ?
                             "RAD" : "DEG";
+                        // TODO(jeresig): i18n This renders DEG/RAD, should this
+                        // be translated? and how?
                         jel.html((Calculator.angleMode === "DEG" ? "<br>" : "")
                             + Calculator.angleMode);
                     } else if (behavior === "evaluate") {
@@ -2342,8 +2374,11 @@ var Khan = (function() {
 
                 hintsUsed += 1;
 
-                var stepsLeft = hints.length + " step" + (hints.length === 1 ? "" : "s") + " left";
-                $(this).val($(this).data("buttonText") || "I'd like another hint (" + stepsLeft + ")");
+                var stepsLeft = $.ngettext("%s step left", "%s steps left", 
+                    hints.length);
+                $(this).val($(this).data("buttonText") ||
+                    $.ngettext("I'd like another hint (%s)",
+                        "I'd like another hint (%s)", stepsLeft));
 
                 var problem = $(hint).parent();
 
@@ -2381,7 +2416,7 @@ var Khan = (function() {
 
         // On an exercise page, replace the "Report a Problem" link with a button
         // to be more clear that it won't replace the current page.
-        $("<a>Report a Problem</a>")
+        $("<a>" + $._("Report a Problem") + "</a>")
             .attr("id", "report").addClass("simple-button green")
             .replaceAll($(".footer-links #report"));
 
@@ -2395,7 +2430,7 @@ var Khan = (function() {
             if (report && form) {
                 $("#issue").hide();
             } else if (!report || !form) {
-                $("#issue-status").removeClass("error").html(issueIntro);
+                $("#issue-status").removeClass("error").html(issueIntro());
                 $("#issue, #issue form").show();
                 $("html, body").animate({
                     scrollTop: $("#issue").offset().top
@@ -2478,14 +2513,17 @@ var Khan = (function() {
 
             if (!type) {
                 $("#issue-status").addClass("error")
-                    .html("Please specify the issue type.").show();
+                    .html($._("Please specify the issue type.")).show();
                 return;
             } else {
                 labels.push(type.slice("issue-".length));
 
-                var hintOrVideoMsg = "Please click the hint button above to see our solution, or watch a video for additional help.";
-                var refreshOrBrowserMsg = "Please try a hard refresh (press Ctrl + Shift + R)" +
-                        " or use Khan Academy from a different browser (such as Chrome or Firefox).";
+                var hintOrVideoMsg = $._("Please click the hint button above " + 
+                    "to see our solution, or watch a video for " +
+                    "additional help.");
+                var refreshOrBrowserMsg = $._("Please try a hard refresh " + 
+                    "(press Ctrl + Shift + R) or use Khan Academy from a " + 
+                    "different browser (such as Chrome or Firefox).");
                 var suggestion = {
                     "issue-wrong-or-unclear": hintOrVideoMsg,
                     "issue-hard": hintOrVideoMsg,
@@ -2496,7 +2534,8 @@ var Khan = (function() {
 
             if (title === "") {
                 $("#issue-status").addClass("error")
-                    .html("Please provide a valid title for the issue.").show();
+                    .html($._("Please provide a valid title " +
+                    "for the issue.")).show();
                 return;
             }
 
@@ -2551,7 +2590,7 @@ var Khan = (function() {
 
                     // show status message
                     $("#issue-status").addClass("error")
-                        .html(issueError).show();
+                        .html(issueError()).show();
 
                     // enable the inputs
                     formElements.attr("disabled", false);
@@ -2590,12 +2629,15 @@ var Khan = (function() {
         if (testMode && Khan.query.test != null) {
             $("#answer_area").prepend(
                 '<div id="tester-info" class="info-box">' +
-                    '<span class="info-box-header">Testing Mode</span>' +
-                    '<p><strong>Problem No.</strong> <span class="problem-no"></span></p>' +
-                    '<p><strong>Answer:</strong> <span class="answer"></span></p>' +
-                    "<p>" +
-                        '<input type="button" class="pass simple-button green" value="This problem was generated correctly.">' +
-                        '<input type="button" class="fail simple-button orange" value="There is an error in this problem.">' +
+                    '<span class="info-box-header">' + $._('Testing Mode') + 
+                    '</span><p><strong>' + $._('Problem No.') +
+                    '</strong> <span class="problem-no"></span></p>' +
+                    '<p><strong>' + $._('Answer:') +
+                    '</strong> <span class="answer"></span></p><p>' +
+                        '<input type="button" class="pass simple-button green" value="' +
+                        $._('This problem was generated correctly.') + '">' +
+                        '<input type="button" class="fail simple-button orange" value="' +
+                        $._('There is an error in this problem.') + '">' +
                     "</p>" +
                 "</div>"
             );
@@ -2607,7 +2649,8 @@ var Khan = (function() {
             });
 
             $("#tester-info .fail").click(function() {
-                var description = prompt("Please provide a short description of the error");
+                var description = prompt(
+                    $._("Please provide a short description of the error"));
 
                 // Don't do anything on clicking Cancel
                 if (description == null) return;
