@@ -19,7 +19,7 @@
                         expr(["^", ["+", "x", -H], 2])
                     </var>
                     <var id="Y2T">K === 0 ? "y^2" :
-                        expr(["^", ["+", "y", -K], 2])
+                        expr(["^", ["+", "y", K], 2])
                     </var>
                 </div>
 
@@ -78,12 +78,12 @@
                         The equation of a circle with center
                         <code>(\blue{h}, \green{k})</code> and radius
                         <code>\pink{r}</code> is
-                        <code>(x - \blue{h})^2 + (y - \green{k})^2 =
+                        <code>(x - \blue{h})^2 + (y + \green{k})^2 =
                         \pink{r}^2</code>.
                     </p>
                     <p>
                         We can rewrite the given equation as
-                        <code>(x - \blue{<var>negParens(H)</var>})^2 + (y -
+                        <code>(x - \blue{<var>negParens(H)</var>})^2 + (y +
                         \green{<var>negParens(K)</var>})^2 =
                         \pink{<var>R</var>}^2</code>.
                     </p>
