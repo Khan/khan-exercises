@@ -272,7 +272,7 @@ var Khan = (function() {
     issueIntro = function() {
         return $._("Remember to check the hints and double check your " + 
             "math. All provided information will be public. Thanks for " +
-            "your help!"),
+            "your help!");
     },
 
     gae_bingo = window.gae_bingo || { bingo: function() {} },
