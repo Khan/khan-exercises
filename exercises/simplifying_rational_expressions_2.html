@@ -4,9 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Simplifying rational expressions 2</title>
     <script src="../khan-exercise.js"></script>
-
     <script type="text/javascript">
-        function getExpression( coefficient, constant, vari ) {
+        function getExpression(coefficient, constant, vari) {
             var expr = vari + "^2";
 
             if (coefficient === -1) {
@@ -24,25 +23,41 @@
             expr += "+" + constant;
 
             return expr;
-        }
+        };
 
-        function getExpressionRegex (constant, vari) {
-            var regex = "^\\s*(" + vari + "\\s*";
-            regex += constant < 0 ? "[-\\u2212]\\s*" + (-constant) : "\\+\\s*" + constant;
-            regex += ")|("
-            regex += constant < 0 ? "[-\\u2212]\\s*" + (-constant): constant;
-            regex += "\\s*\\+\\s*" + vari + ")\\s*$";
+        function getExpressionRegex(coefficient, vari, constant) {
+            // Capture Ax + B or B + Ax
+            var regex = "^\\s*(";
+
+            if (coefficient < 0) {
+                regex += "[-\\u2212]\\s*";
+            }
+            if (coefficient !== 1 && coefficient !== -1) {
+                regex += Math.abs(coefficient) + "\\s*";
+            }
+            regex += vari + "\\s*"
+            regex += constant < 0 ? "[-\\u2212]" : "\\+";
+            regex += "\\s*" + Math.abs(constant) + ")|("
+            if (constant < 0) {
+                regex += "[-\\u2212]\\s*";
+            }
+            regex += Math.abs(constant) + "\\s*"
+            regex += coefficient < 0 ? "[-\\u2212]\\s*" : "\\+\\s*";
+            if (coefficient !== 1 && coefficient !== -1) {
+                regex += Math.abs(coefficient) + "\\s*";
+            }
+            regex += vari + ")\\s*$";
             return regex
-        }
+        };
 
-        function getConstantRegex (constant) {
-            // Capture e.g. -3
+        function getConstantRegex(constant) {
             var regex = "^\\s*";
-            regex += constant < 0 ? "[-\\u2212]\\s*" + (-constant): constant;
-            regex += "\\s*$";
+            if (constant < 0) {
+                regex += "[-\\u2212]\\s*";
+            }
+            regex += Math.abs(constant) + "\\s*$";
             return regex;
-        }
-
+        };
     </script>
 
     <style type="text/css">
@@ -85,8 +100,10 @@
                     <var id="FACTOR2">X + "+" + C</var>
                     <var id="NUMERATOR">getExpression(A + B, A * B, X)</var>
                     <var id="DENOMINATOR">getExpression(A + C, A * C, X)</var>
-                    <var id="REGEX1">getExpressionRegex(B, X)</var>
-                    <var id="REGEX2">getExpressionRegex(C, X)</var>
+                    <var id="POSITIVENUMERATOR">getExpressionRegex(1, X, B)</var>
+                    <var id="POSITIVEDENOMINATOR">getExpressionRegex(1, X, C)</var>
+                    <var id="NEGATIVENUMERATOR">getExpressionRegex(-1, X, -B)</var>
+                    <var id="NEGATIVEDENOMINATOR">getExpressionRegex(-1, X, -C)</var>
                 </div>
             </div>
 
@@ -100,8 +117,10 @@
                     <var id="FACTOR2">X + "+" + C</var>
                     <var id="NUMERATOR">B + X + "+" + A * B</var>
                     <var id="DENOMINATOR">getExpression(A + C, A * C, X)</var>
-                    <var id="REGEX1">getConstantRegex(B)</var>
-                    <var id="REGEX2">getExpressionRegex(C, X)</var>
+                    <var id="POSITIVENUMERATOR">getConstantRegex(B)</var>
+                    <var id="POSITIVEDENOMINATOR">getExpressionRegex(1, X, C)</var>
+                    <var id="NEGATIVENUMERATOR">getConstantRegex(-B)</var>
+                    <var id="NEGATIVEDENOMINATOR">getExpressionRegex(-1, X, -C)</var>
                 </div>
             </div>
 
@@ -115,8 +134,10 @@
                     <var id="FACTOR2">C</var>
                     <var id="NUMERATOR">getExpression(A + B, A * B, X)</var>
                     <var id="DENOMINATOR">C + X + "+" + A * C</var>
-                    <var id="REGEX1">getExpressionRegex(B, X)</var>
-                    <var id="REGEX2">getConstantRegex(C)</var>
+                    <var id="POSITIVENUMERATOR">getExpressionRegex(1, X, B)</var>
+                    <var id="POSITIVEDENOMINATOR">getConstantRegex(C)</var>
+                    <var id="NEGATIVENUMERATOR">getExpressionRegex(-1, X, -B)</var>
+                    <var id="NEGATIVEDENOMINATOR">getConstantRegex(-C)</var>
                 </div>
             </div>
         </div>
@@ -126,8 +147,12 @@
 
         <div class="solution" data-type="set">
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>REGEX1/var></span>
-                <span class="sol" data-type="regex"><var>REGEX2</var></span>
+                <span class="sol" data-type="regex"><var>POSITIVENUMERATOR</var></span>
+                <span class="sol" data-type="regex"><var>POSITIVEDENOMINATOR</var></span>
+            </div>
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>NEGATIVENUMERATOR</var></span>
+                <span class="sol" data-type="regex"><var>NEGATIVEDENOMINATOR</var></span>
             </div>
             <div class="input-format">
                 <div class="entry" data-type="multiple">
