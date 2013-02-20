@@ -39,7 +39,7 @@ def fetch_issues(github_auth):
         r = requests.get(url, auth=github_auth)
         r.raise_for_status()
         time.sleep(1)
-        issues.extend(r.json)
+        issues.extend(r.json())
 
         match = re.match(r'<(.*?)>; rel="next"', r.headers['Link'] or '')
         url = match.group(1) if match else None
@@ -54,7 +54,7 @@ def fetch_issue_comments(issue, github_auth):
             auth=github_auth)
     r.raise_for_status()
     time.sleep(1)
-    return r.json
+    return r.json()
 
 
 def close_issue(issue, github_auth):
