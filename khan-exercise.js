@@ -1894,6 +1894,8 @@ var Khan = (function() {
         if (testMode && Khan.query.browse != null) {
             $("html").addClass("exercise-browser");
 
+            var browseWrap = $("#browse").empty();
+
             var links = $("<div>").addClass("problem-types");
 
             links.append($("<b>").text("Problem types:"));
@@ -1908,7 +1910,7 @@ var Khan = (function() {
                     );
             });
 
-            $("#answer_area_wrap").append(links);
+            browseWrap.append(links);
         }
 
         hintsUsed = 0;
@@ -2711,6 +2713,11 @@ var Khan = (function() {
         // Prepare for the debug info if requested
         if (testMode && Khan.query.debug != null) {
             $('<div id="debug"></div>').appendTo("#answer_area");
+        }
+
+        // Likewise, if we're in browse mode, setup for that
+        if (testMode && Khan.query.browse != null) {
+            $('<div id="browse"></div>').appendTo("#answer_area");
         }
 
         $(Khan)
