@@ -593,15 +593,15 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // answer is provided (i.e. the field is left blank)
             var fallback = $(solution).data("fallback");
 
-             return {
-                 validator: Khan.answerTypes.regex.createValidator(solution),
-                 answer: function() {
-                    return input.val().length > 0 ?
-                        input.val() :
-                        (fallback != null ? fallback + "" : "");
-                 },
-                 solution: $.trim($(solution).text()),
-                 examples: [],
+            return {
+                validator: Khan.answerTypes.regex.createValidator(solution),
+                answer: function() {
+                   return input.val().length > 0 ?
+                       input.val() :
+                       (fallback != null ? fallback + "" : "");
+                },
+                solution: $.trim($(solution).text()),
+                examples: [],
                 showGuess: function(guess) {
                     input.val(guess === undefined ? "" : guess);
                 }
