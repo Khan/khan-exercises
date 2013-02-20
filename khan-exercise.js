@@ -378,7 +378,7 @@ var Khan = (function() {
 
             // Base modules required for every problem
             mods.push(
-                    "answer-types", "tmpl", "jquery.adhesion",
+                    "i18n", "answer-types", "tmpl", "jquery.adhesion",
                     "hints", "calculator"
                 );
 
@@ -743,7 +743,7 @@ var Khan = (function() {
     } else {
         onjQueryLoaded();
     }
-        
+
     function onjQueryLoaded() {
         // If there are any requests left in the queue when the window unloads
         // then we will have permanently lost their answers and will need to

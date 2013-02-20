@@ -43,182 +43,182 @@ $.extend(KhanUtil, {
     // Makes it possible to actually extract these words for i18n
     plurals: {
         "badge": function(num) {
-            return: $.ngettext("badge", "badges", num);
+            return $.ngettext("badge", "badges", num);
         },
         "basket": function(num) {
-            return: $.ngettext("basket", "baskets", num);
+            return $.ngettext("basket", "baskets", num);
         },
         "block": function(num) {
-            return: $.ngettext("block", "blocks", num);
+            return $.ngettext("block", "blocks", num);
         },
         "blue dot": function(num) {
-            return: $.ngettext("blue dot", "blue dots", num);
+            return $.ngettext("blue dot", "blue dots", num);
         },
         "car": function(num) {
-            return: $.ngettext("car", "cars", num);
+            return $.ngettext("car", "cars", num);
         },
         "chocolate chip cookie": function(num) {
-            return: $.ngettext("chocolate chip cookie",
+            return $.ngettext("chocolate chip cookie",
                 "chocolate chip cookies", num);
         },
         "circle": function(num) {
-            return: $.ngettext("circle", "circles", num);
+            return $.ngettext("circle", "circles", num);
         },
         "cup": function(num) {
-            return: $.ngettext("cup", "cups", num);
+            return $.ngettext("cup", "cups", num);
         },
         "dollar": function(num) {
-            return: $.ngettext("dollar", "dollars", num);
+            return $.ngettext("dollar", "dollars", num);
         },
         "dot": function(num) {
-            return: $.ngettext("dot", "dots", num);
+            return $.ngettext("dot", "dots", num);
         },
         "foot": function(num) {
-            return: $.ngettext("foot", "feet", num);
+            return $.ngettext("foot", "feet", num);
         },
         "fourth": function(num) {
-            return: $.ngettext("fourth", "fourths", num);
+            return $.ngettext("fourth", "fourths", num);
         },
         "full symbol": function(num) {
-            return: $.ngettext("full symbol", "full symbols", num);
+            return $.ngettext("full symbol", "full symbols", num);
         },
         "green dot": function(num) {
-            return: $.ngettext("green dot", "green dots", num);
+            return $.ngettext("green dot", "green dots", num);
         },
         "hour": function(num) {
-            return: $.ngettext("hour", "hours", num);
+            return $.ngettext("hour", "hours", num);
         },
         "house point": function(num) {
-            return: $.ngettext("house point", "house points", num);
+            return $.ngettext("house point", "house points", num);
         },
         "hundred": function(num) {
             // I18N: As in the HUNDREDS position of a number
-            return: $.ngettext("hundred", "hundreds", num);
+            return $.ngettext("hundred", "hundreds", num);
         },
         "hundredth": function(num) {
             // I18N: As in the HUNDREDTHS position of a number
-            return: $.ngettext("hundredth", "hundredths", num);
+            return $.ngettext("hundredth", "hundredths", num);
         },
         // TODO(jeresig): i18n: This may be a bad thing to pluralize
         "is": function(num) {
-            return: $.ngettext("is", "are", num);
+            return $.ngettext("is", "are", num);
         },
         "loaf": function(num) {
-            return: $.ngettext("loaf", "loaves", num);
+            return $.ngettext("loaf", "loaves", num);
         },
         "long-distance runner": function(num) {
-            return: $.ngettext("long-distance runner",
+            return $.ngettext("long-distance runner",
                 "long-distance runners", num);
         },
         "molecule": function(num) {
-            return: $.ngettext("molecule", "molecules", num);
+            return $.ngettext("molecule", "molecules", num);
         },
         "number": function(num) {
-            return: $.ngettext("number", "numbers", num);
+            return $.ngettext("number", "numbers", num);
         },
         "oatmeal cookie": function(num) {
-            return: $.ngettext("oatmeal cookie", "oatmeal cookies", num);
+            return $.ngettext("oatmeal cookie", "oatmeal cookies", num);
         },
         "one": function(num) {
             // I18N: As in the ONES position of a number
-            return: $.ngettext("one", "ones", num);
+            return $.ngettext("one", "ones", num);
         },
         "outcome": function(num) {
-            return: $.ngettext("outcome", "outcomes", num);
+            return $.ngettext("outcome", "outcomes", num);
         },
         "package": function(num) {
-            return: $.ngettext("package", "packages", num);
+            return $.ngettext("package", "packages", num);
         },
         "parks": function(num) {
             // I18N: As in "1 more car parks." vs. "3 more cars park."
-            return: $.ngettext("parks", "park", num);
+            return $.ngettext("parks", "park", num);
         },
         "person": function(num) {
-            return: $.ngettext("person", "people", num);
+            return $.ngettext("person", "people", num);
         },
         "piece": function(num) {
-            return: $.ngettext("piece", "pieces", num);
+            return $.ngettext("piece", "pieces", num);
         },
         "place": function(num) {
-            return: $.ngettext("place", "places", num);
+            return $.ngettext("place", "places", num);
         },
         "position": function(num) {
-            return: $.ngettext("position", "positions", num);
+            return $.ngettext("position", "positions", num);
         },
         "potato": function(num) {
-            return: $.ngettext("potato", "potatoes", num);
+            return $.ngettext("potato", "potatoes", num);
         },
         "row": function(num) {
-            return: $.ngettext("row", "rows", num);
+            return $.ngettext("row", "rows", num);
         },
         "quiz": function(num) {
-            return: $.ngettext("quiz", "quizzes", num);
+            return $.ngettext("quiz", "quizzes", num);
         },
         "set": function(num) {
-            return: $.ngettext("set", "sets", num);
+            return $.ngettext("set", "sets", num);
         },
         "shelf": function(num) {
-            return: $.ngettext("shelf", "shelves", num);
+            return $.ngettext("shelf", "shelves", num);
         },
         "side": function(num) {
-            return: $.ngettext("side", "sides", num);
+            return $.ngettext("side", "sides", num);
         },
         "slice": function(num) {
-            return: $.ngettext("slice", "slices", num);
+            return $.ngettext("slice", "slices", num);
         },
         "sprinter": function(num) {
-            return: $.ngettext("sprinter", "sprinters", num);
+            return $.ngettext("sprinter", "sprinters", num);
         },
         "square foot": function(num) {
-            return: $.ngettext("square foot", "square feet", num);
+            return $.ngettext("square foot", "square feet", num);
         },
         "standard deviation": function(num) {
-            return: $.ngettext("standard deviation",
+            return $.ngettext("standard deviation",
                 "standard deviations", num);
         },
         "symbol": function(num) {
-            return: $.ngettext("symbol", "symbols", num);
+            return $.ngettext("symbol", "symbols", num);
         },
         "team": function(num) {
-            return: $.ngettext("team", "teams", num);
+            return $.ngettext("team", "teams", num);
         },
         "ten": function(num) {
             // I18N: As in the TENS position of a number
-            return: $.ngettext("ten", "tens", num);
+            return $.ngettext("ten", "tens", num);
         },
         "tenth": function(num) {
             // I18N: As in the TENTHS position of a number
-            return: $.ngettext("tenth", "tenths", num);
+            return $.ngettext("tenth", "tenths", num);
         },
         "thousand": function(num) {
             // I18N: As in the THOUSANDS position of a number
-            return: $.ngettext("thousand", "thousands", num);
+            return $.ngettext("thousand", "thousands", num);
         },
         "thousandth": function(num) {
             // I18N: As in the THOUSANDTHS position of a number
-            return: $.ngettext("thousandth", "thousandths", num);
+            return $.ngettext("thousandth", "thousandths", num);
         },
         "tick mark": function(num) {
-            return: $.ngettext("tick mark", "tick marks", num);
+            return $.ngettext("tick mark", "tick marks", num);
         },
         "time": function(num) {
-            return: $.ngettext("time", "times", num);
+            return $.ngettext("time", "times", num);
         },
         "tomato": function(num) {
-            return: $.ngettext("tomato", "tomatoes", num);
+            return $.ngettext("tomato", "tomatoes", num);
         },
         "tree": function(num) {
-            return: $.ngettext("tree", "trees", num);
+            return $.ngettext("tree", "trees", num);
         },
         "triangle": function(num) {
-            return: $.ngettext("triangle", "triangles", num);
+            return $.ngettext("triangle", "triangles", num);
         },
         // TODO(jeresig): i18n: This may be a bad thing to pluralize
         "was": function(num) {
-            return: $.ngettext("was", "were", num);
+            return $.ngettext("was", "were", num);
         },
         "year": function(num) {
-            return: $.ngettext("year", "years", num);
+            return $.ngettext("year", "years", num);
         }
     },
 
