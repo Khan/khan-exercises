@@ -332,6 +332,23 @@ $.extend(KhanUtil, {
         return card.charAt(0).toUpperCase() + card.slice(1);
     },
 
+    ordinal: function(n) {
+        if (n <= 9) {
+            return ["zeroth", "first", "second", "third", "fourth", "fifth",
+                    "sixth", "seventh", "eighth", "ninth"][n];
+        } else if (Math.floor(n / 10) % 10 === 1) {
+            // Teens
+            return n + "th";
+        } else {
+            var lastDigit = n % 10;
+            if (1 <= lastDigit && lastDigit <= 3) {
+                return n + ["st", "nd", "rd"][lastDigit - 1];
+            } else {
+                return n + "th";
+            }
+        }
+    },
+
     // Depends on expressions.js for expression formatting
     // Returns a string with the expression for the formatted roots of the quadratic
     // with coefficients a, b, c

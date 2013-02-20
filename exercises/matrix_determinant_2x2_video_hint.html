@@ -2,7 +2,7 @@
 <html data-require="math matrix">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Matrix determinant</title>
+    <title>Determinant of a 2x2 matrix</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -24,33 +24,25 @@
         What is the determinant of <code><var>PRETTY_MAT_ID</var></code>?
     </p>
 
-    <div class="hints">
-        <div>
-            <p>The solution is:</p>
-            <code>\text{det}(<var>PRETTY_MAT_ID</var>) = <var>SOLN</var></code>
-        </div>
-    </div>
-
     <div class="solution">
         <span class="sol"><var>SOLN</var></span>
     </div>
 
     <div class="problems">
-        <div id="2x2" data-weight="7">
+        <div>
             <div class="vars" data-apply="prependVars">
                 <var id="DIM">2</var>
+                <var id="HINT_MAT">makeMatrix([["a","b"],["c","d"]])</var>
             </div>
-            <div class="hints" data-apply="prependContents">
+            <div class="hints">
                 <div data-video-hint data-youtube-id="OU9sWHk_dlw"></div>
-            </div>
-        </div>
-
-        <div id="3x3" data-weight="1">
-            <div class="vars" data-apply="prependVars">
-                <var id="DIM">3</var>
-            </div>
-            <div class="hints" data-apply="prependContents">
-                <div data-video-hint data-youtube-id="v4MenooI1J0"></div>
+                <div>
+                    <code>
+                        det(<var>PRETTY_MAT_ID</var>)
+                        = <var>printSimpleMatrixDet(MAT)</var>
+                        = <var>SOLN</var>
+                    </code>
+                </div>
             </div>
         </div>
     </div>

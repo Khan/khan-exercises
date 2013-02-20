@@ -45,7 +45,7 @@ _IGNORE_NODES = [
 _PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
 
 # The base URL for referencing an exercise
-_EXERCISE_URL = 'https://www.khanacademy.org/exercise/%s'
+_EXERCISE_URL = 'http://www.khanacademy.org/exercise/%s'
 
 
 def main():
@@ -60,15 +60,18 @@ def main():
     arg_parser.add_argument('--format', choices=['po', 'json'],
         dest='format', default='po',
         help='The format of the output. (default: %(default)s)')
+    arg_parser.add_argument('--quiet', action='store_true',
+        help='Do not emit status to stderr on successful runs.')
 
     args = arg_parser.parse_args()
 
     if args.format == 'po':
         # Output a PO file by default
-        results = make_potfile(args.html_files)
+        results = make_potfile(args.html_files, not args.quiet)
     else:
         # Optionally output a JSON-encoded data structure
-        results = json.dumps(extract_files(args.html_files), cls=_SetEncoder)
+        results = json.dumps(extract_files(args.html_files, not args.quiet),
+                             cls=_SetEncoder)
 
     if args.output:
         # If an output location is specified, write the output to that file
@@ -80,61 +83,79 @@ def main():
         print results
 
 
-def make_potfile(files):
+def make_potfile(files, verbose):
     """Generate a PO file from a collection of HTML files.
+
     Returns the string representing the PO file.
     """
-    output_pot = polib.POFile(encoding='utf-8')
-    matches = extract_files(files)
+    # Turn off line-wrapping: it can mess with html markup inside PO comments.
+    output_pot = polib.POFile(wrapwidth=sys.maxint, encoding='utf-8')
+    matches = extract_files(files, verbose)
 
-    # Get the po info in a reproducible (sorted) order.
-    for match in matches:
-        # sort by filename then lineno
-        matches[match] = sorted(matches[match])
-
-    # Now sort the strings by the first place each string occurs.
-    sorted_keys = sorted(matches.keys(), key=lambda x: matches[x][0])
-
-    for match in sorted_keys:
+    for (nl_text, occurrences) in matches:
         # Get the file name of the exercise, to generate a URL reference
-        first_filename = os.path.basename(matches[match][0][0])
-        first_name = os.path.splitext(first_filename)[0]
+        first_filename = occurrences[0][0]
 
         # Build the PO entry and add it to the PO file
         output_pot.append(polib.POEntry(
-            msgid=unicode(match),
+            msgid=unicode(nl_text),
             msgstr=u'',
-            comment=unicode(_EXERCISE_URL % first_name),
-            occurrences=matches[match]
+            comment=unicode(_filename_to_url(first_filename)),
+            occurrences=occurrences,
         ))
 
     return unicode(output_pot).encode('utf-8')
 
 
-def extract_files(files):
+def extract_files(files, verbose):
     """Extract a collection of translatable strings from a set of HTML files.
-    Returns a dict of found strings, each value containing a set of file
-    names in which the string appeared.
+
+    Returns:
+       A list of natural language texts and their occurrences:
+         [(nl-text, ((1st-file, 1st-linenum), (2nd-file, 2nd-linenum), ...)),
+          ...
+         ]
+       For each nl-text, the (file, linenum) pairs are sorted in
+       lexicographic order (first by filename, then by line-number).
+       The list of natural-language texts is sorted by the (1st-file,
+       1st-linenum), to maximize the chances texts from the same file
+       will sort together.
     """
     matches = {}
 
-    # Go through all the exercise files
+    # Go through all the exercise files.
     if files:
         for filename in files:
-            print >>sys.stderr, 'Extracting strings from: %s' % filename
+            if verbose:
+                print >>sys.stderr, 'Extracting strings from: %s' % filename
             extract_file(filename, matches)
 
     num_matches = len(matches)
-    print >>sys.stderr, '%s string%s extracted.' % (num_matches,
-        "" if num_matches == 1 else "s")
+    if verbose:
+        print >>sys.stderr, ('%s string%s extracted.'
+                             % (num_matches, "" if num_matches == 1 else "s"))
 
-    return matches
+    # Get the matches into the return format.
+    retval = []
+    for (nl_text, occurrences) in matches.iteritems():
+        retval.append((nl_text, sorted(occurrences)))
+
+    # Now sort the nl-texts so they come in order of their first occurrence.
+    retval.sort(key=lambda (nl_text, occurrences): occurrences[0])
+
+    return retval
 
 
-def extract_file(filename, matches=None):
+def extract_file(filename, matches):
     """Extract a collection of translatable strings from an HTML file.
-    Returns a dict of found strings, each value containing a set of file
-    names in which the string appeared.
+
+    This function modifies matches in place with new content that it
+    discovers.
+
+    Arguments:
+       filename: the .html file to extract natural language text from.
+       matches: a map from found nl-strings to a set of
+         (filename, linenumber) pairs where this string is found.
     """
     if matches is None:
         matches = {}
@@ -167,11 +188,18 @@ def extract_file(filename, matches=None):
         # http://code.google.com/p/html5lib/issues/detail?id=213
         matches[contents].add((filename, 1))
 
-    return matches
+
+def _filename_to_url(filename):
+    """Convert an exercise filename into a khan academy url."""
+    # Get the file name of the exercise, to generate a URL reference
+    basename = os.path.basename(filename)
+    name = os.path.splitext(basename)[0]
+    return _EXERCISE_URL % name
 
 
 class _SetEncoder(json.JSONEncoder):
     """Encode set data structures as lists in JSON encoding.
+
     From: http://stackoverflow.com/a/8230505/6524
     """
     def default(self, obj):
@@ -182,15 +210,40 @@ class _SetEncoder(json.JSONEncoder):
 
 def _get_innerhtml(html_string):
     """Strip the leading and trailing tag from an lxml-generated HTML string.
+
     Also cleanup endlines and extraneous spaces.
 
-    (lxml doesn't provide an easy way to get the 'innerHTML')
+    (lxml doesn't provide an easy way to get the 'innerHTML'.)
     Note: lxml also includes the trailing text for a node when you
           call tostring on it, we need to snip that off too.
     """
     html_string = re.sub(r'^<[^>]*>', '', html_string, count=1)
     html_string = re.sub(r'</[^>]*>[^>]*$', '', html_string, count=1)
     return re.sub(r'\s+', ' ', html_string).strip()
+
+
+def babel_extract(fileobj, keywords, comment_tags, options):
+    """Babel extraction method for exercises templates.
+
+    Arguments:
+      fileobj: the file-like object the messages should be extracted from,
+               in this case a single exercise file.
+      keywords: a list of keywords (i.e. function names) that should be
+                recognized as translation functions.  Ignored.
+      comment_tags: a list of translator tags to search for and include
+                    in the results.  Ignored.
+      options: a dictionary of additional options (optional)
+
+    Returns:
+      An iterator over (lineno, funcname, message, comments) tuples.
+    """
+    filename = fileobj.name
+    for (nl_text, occurrences) in extract_files([filename], verbose=False):
+        line_numbers = set(o[1] for o in occurrences)
+        for line_number in line_numbers:
+            yield (line_number, '_', nl_text,
+                   ['-- Text is in %s' % _filename_to_url(filename)])
+
 
 if __name__ == '__main__':
     main()

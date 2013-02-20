@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive">
+    <head>
+        <title>Operations in the Complex Plane</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+  <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="REAL1">randRangeNonZero(-5, 5)</var>
+                <var id="REAL2">randRangeNonZero(-5, 5)</var>
+                <var id="COMPLEX1">randRangeNonZero(-5, 5)</var>
+                <var id="COMPLEX2">randRangeNonZero(-5, 5)</var>
+            </div>
+
+            <div class="problem">
+                <p>Let <code>a</code> and <code>b</code> be complex numbers:</p>
+                <p><code>\begin{align*}
+                    a &= <var>REAL1</var> + <var>COMPLEX1</var>i \\
+                    b &= <var>REAL2</var> + <var>COMPLEX2</var>i
+                \end{align*}</code></p>
+            </div>
+
+            <p class="question">What is <code>a+b</code>?</p>
+
+            <div class="graphie" id="graph">
+                graphInit({
+                    range: 11,
+                    scale: 20,
+                    tickStep: 1,
+                    labelStep: 1,
+                });
+
+                label([ 11, 1], "Re", "left");
+                label([ 0.5, 10], "Im", "right");
+
+                line([0, 0], [REAL1, COMPLEX1], { stroke: "#6495ed", arrows: "->" });
+                line([0, 0], [REAL2, COMPLEX2], { stroke: "#28ae7b", arrows: "->" });
+
+                var AF = 1 + 0.8 / sqrt(REAL1 * REAL1 + COMPLEX1 * COMPLEX1);
+                label([AF * REAL1, AF * COMPLEX1], "a", { color: "#6495ed" });
+
+                var BF = 1 + 0.8 / sqrt(REAL2 * REAL2 + COMPLEX2 * COMPLEX2);
+                label([BF * REAL2, BF * COMPLEX2], "b", { color: "#28ae7b" });
+
+                addMouseLayer();
+                graph.guessPoint = addMovablePoint({
+                    constraints: {},
+                    snapX: 0.5,
+                    snapY: 0.5,
+                });
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Drag the orange point to plot your answer.
+                </div>
+                <div class="guess">graph.guessPoint.coord</div>
+                <div class="validator-function">
+                    if (guess[0] === ANSWER[0] && guess[1] === ANSWER[1]) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                </div>
+                <div class="show-guess">
+                    graph.guessPoint.setCoord(guess);
+                </div>
+            </div>
+
+            <div class="problems">
+                <div id="complex-addition">
+                    <div class="vars">
+                        <var id="ANSWER">[REAL1 + REAL2, COMPLEX1 + COMPLEX2]</var>
+                    </div>
+
+                    <div class="hints">
+                        <div>
+                            <p>Sum the real and imaginary components separately.</p>
+                        </div>
+                        <div>
+                            <p><code>a + b = (<var>REAL1</var> + <var>REAL2</var>) + (<var>COMPLEX1</var> + <var>COMPLEX2</var>)i</code></p>
+                            <div class="graphie" data-update="graph">
+                                line([REAL2, COMPLEX2], [REAL1 + REAL2, COMPLEX1 + COMPLEX2], { stroke: "#6495ed", arrows: "->" });
+                                graph.guessPoint.toFront();
+                            </div>
+                        </div>
+                        <div>
+                            <p><code>\hphantom{a + b} = <var>REAL1 + REAL2</var> + <var>COMPLEX1 + COMPLEX2</var>i</code></p>
+                            <div class="graphie" data-update="graph">
+                                line([0, 0], [REAL1 + REAL2, COMPLEX1 + COMPLEX2], { stroke: "#ffa500", arrows: "->" });
+                                graph.guessPoint.toFront();
+                                graph.guessPoint.moveTo(REAL1 + REAL2, COMPLEX1 + COMPLEX2);
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="complex-subtraction">
+                    <div class="vars">
+                        <var id="ANSWER">[REAL1 - REAL2, COMPLEX1 - COMPLEX2]</var>
+                    </div>
+                    <p class="question">What is <code>a-b</code>?</p>
+                    <div class="hints">
+                        <div>
+                            <p>Subtract the real and imaginary components separately.</p>
+                        </div>
+                        <div>
+                            <p><code>a + b = (<var>REAL1</var> - <var>REAL2</var>) + (<var>COMPLEX1</var> - <var>COMPLEX2</var>)i</code></p>
+                            <div class="graphie" data-update="graph">
+                                line([REAL1, COMPLEX1], [REAL1 - REAL2, COMPLEX1 - COMPLEX2], { stroke: "#28ae7b", arrows: "->" });
+                                graph.guessPoint.toFront();
+                            </div>
+                        </div>
+                        <div>
+                            <p><code>\hphantom{a + b} = <var>REAL1 - REAL2</var> + <var>COMPLEX1 - COMPLEX2</var>i</code></p>
+                            <div class="graphie" data-update="graph">
+                                line([0, 0], [REAL1 - REAL2, COMPLEX1 - COMPLEX2], { stroke: "#ffa500", arrows: "->" });
+                                graph.guessPoint.toFront();
+                                graph.guessPoint.moveTo(REAL1 - REAL2, COMPLEX1 - COMPLEX2);
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -399,6 +399,67 @@ div.timeline-total {
   border: 2px solid #888;
 }
 
+/* Version of the site used by Khan/exercise-browser for the iframe preview */
+
+html.exercise-browser {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.exercise-browser body {
+  min-width: 0;
+  width: 790px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.exercise-browser header, .exercise-browser footer, .exercise-browser .topic-exercise-badge, .exercise-browser #extras, .exercise-browser .exercises-stack, .exercise-browser .related-video-box  {
+  display: none !important;
+}
+
+.exercise-browser #outer-wrapper, .exercise-browser #page-container, .exercise-browser #page-container-inner {
+  background: #ffffff;
+}
+
+.exercise-browser article {
+  border: none;
+}
+
+.exercise-browser #container.single-exercise {
+  min-width: 0;
+}
+
+.exercise-browser #page-container {
+  width: 790px;
+  min-width: 0;
+}
+
+.exercise-browser .problem-types {
+  margin-right: 20px;
+}
+
+.exercise-browser .problem-type-link {
+  display: block;
+  margin-bottom: 5px;
+  padding: 6px;
+  background: #36A6C4;
+  border-radius: 5px;
+  border: 1px solid #7FC8E6;
+  color: white;
+}
+
+.exercise-browser .problem-type-link:hover {
+  color: white;
+  background: #1C758C;
+  text-decoration: none;
+}
+
+.exercise-browser .problem-type-link:visited {
+  color: #C2EAFF;
+  text-decoration: none;
+}
+
+
 .lite header, .lite footer, .lite #extras, .lite .exercise-badge, .lite .hint-box, .lite .related-video-box {
 	display: none !important;
 }
