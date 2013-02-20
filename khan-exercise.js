@@ -257,18 +257,23 @@ var Khan = (function() {
 
     lastFocusedSolutionInput = null,
 
-    issueError = $._("Communication with GitHub isn't working. Please file " +
+    issueError = function() {
+        return $._("Communication with GitHub isn't working. Please file " +
             "the issue manually at <a href=\"" +
             "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. " +
-            "Please reference exercise: %s.", exerciseId),
+            "Please reference exercise: %s.", exerciseId);
+    },
     issueSuccess = function(url, title, suggestion) {
         return $._("Thank you for your feedback! Your issue has been created " +
             "and can be found at the following link: " +
             "<p><a id=\"issue-link\" href=\"%s\">%s</a><p>%s</p>",
             url, title, suggestion);
     },
-    issueIntro = $._("Remember to check the hints and double check your " + 
-        "math. All provided information will be public. Thanks for your help!"),
+    issueIntro = function() {
+        return $._("Remember to check the hints and double check your " + 
+            "math. All provided information will be public. Thanks for " +
+            "your help!"),
+    },
 
     gae_bingo = window.gae_bingo || { bingo: function() {} },
 
@@ -339,7 +344,7 @@ var Khan = (function() {
 
         warnTimeout: function() {
             warn($._("Your internet might be too slow to see an exercise. " + 
-                "Refresh the page or <a href="" id=\"warn-report\">report " +
+                "Refresh the page or <a href='' id='warn-report'>report " +
                 "a problem</a>."), false);
             $("#warn-report").click(function(e) {
                 e.preventDefault();
@@ -2373,7 +2378,7 @@ var Khan = (function() {
             if (report && form) {
                 $("#issue").hide();
             } else if (!report || !form) {
-                $("#issue-status").removeClass("error").html(issueIntro);
+                $("#issue-status").removeClass("error").html(issueIntro());
                 $("#issue, #issue form").show();
                 $("html, body").animate({
                     scrollTop: $("#issue").offset().top
@@ -2533,7 +2538,7 @@ var Khan = (function() {
 
                     // show status message
                     $("#issue-status").addClass("error")
-                        .html(issueError).show();
+                        .html(issueError()).show();
 
                     // enable the inputs
                     formElements.attr("disabled", false);
