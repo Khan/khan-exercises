@@ -24,7 +24,7 @@
         return false;
     });
 
-    $(document).on("hover", "a.show-definition", function(event) {
+    $(document).on("mouseenter mouseleave", "a.show-definition", function(event) {
         $("#" + $(this).data("definition")).toggle(200);
         return false;
     });
