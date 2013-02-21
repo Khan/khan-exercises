@@ -5,24 +5,39 @@
     <title>Simplifying rational expressions 2</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
-        function getExpression(coefficient, constant, vari) {
-            var expr = vari + "^2";
+        function getExpression(vari, coefficients) {
+            // Write c1.X^2 + c2.X + c3 nicely
 
-            if (coefficient === -1) {
-                expr += "-";
-            } else if (coefficient === 1) {
-                expr += "+";
-            } else if (coefficient !== 0) {
-                expr += "+" + coefficient;
+            var expr = "";
+
+            for (var i=0; i<coefficients.length; i++) {
+                var coefficient = coefficients[i];
+
+                if (coefficient) {
+                    if (expr === "") {
+                        if (coefficient < 0) {
+                            expr += "-";
+                        }
+                    } else {
+                        expr += coefficient > 0 ? " + " : " - ";
+                    }
+
+                    var degree = coefficients.length - 1 - i;
+                    if (degree) {
+                        if (coefficient !== 1 && coefficient !== -1) {
+                            expr += Math.abs(coefficient);
+                        }
+                        expr += vari;
+                        if (degree > 1) {
+                            expr += "^" + degree;
+                        }
+                    } else {
+                        expr += Math.abs(coefficient);
+                    }
+                }
             }
 
-            if (coefficient !== 0) {
-                expr += vari;
-            }
-            
-            expr += "+" + constant;
-
-            return expr;
+            return expr || "0";
         };
 
         function getExpressionRegex(coefficient, vari, constant) {
@@ -86,20 +101,20 @@
                 <var id="X">randVar()</var>
                 <var id="Y">randVar()</var>
             </div>
-            <var id="A">randRangeNonZero( -10, 10 )</var>
+            <var id="A">randRangeNonZero(-10, 10)</var>
+            <div data-ensure="B !== C ">
+                <var id="B">randRangeNonZero(-10, 10)</var>
+                <var id="C">randRangeNonZero(-10, 10)</var>
+          </div>
         </div>
 
         <div class="problems">
             <div id="no-constant">
                 <div class="vars">
-                    <div data-ensure="B !== C ">
-                        <var id="B">randRangeNonZero( -10, 10 )</var>
-                        <var id="C">randRangeNonZero( -10, 10 )</var>
-                      </div>
                     <var id="FACTOR1">X + "+" + B</var>
                     <var id="FACTOR2">X + "+" + C</var>
-                    <var id="NUMERATOR">getExpression(A + B, A * B, X)</var>
-                    <var id="DENOMINATOR">getExpression(A + C, A * C, X)</var>
+                    <var id="NUMERATOR">getExpression(X, [1, A + B, A * B])</var>
+                    <var id="DENOMINATOR">getExpression(X, [1, A + C, A * C], X)</var>
                     <var id="POSITIVENUMERATOR">getExpressionRegex(1, X, B)</var>
                     <var id="POSITIVEDENOMINATOR">getExpressionRegex(1, X, C)</var>
                     <var id="NEGATIVENUMERATOR">getExpressionRegex(-1, X, -B)</var>
@@ -109,14 +124,10 @@
 
             <div id="top-constant">
                 <div class="vars">
-                    <div data-ensure="B !== C ">
-                        <var id="B">randRange( 2, 10 )</var>
-                        <var id="C">randRangeNonZero( -10, 10 )</var>
-                      </div>
                     <var id="FACTOR1">B</var>
                     <var id="FACTOR2">X + "+" + C</var>
-                    <var id="NUMERATOR">B + X + "+" + A * B</var>
-                    <var id="DENOMINATOR">getExpression(A + C, A * C, X)</var>
+                    <var id="NUMERATOR">getExpression(X, [B, + A * B])</var>
+                    <var id="DENOMINATOR">getExpression(X, [1, A + C, A * C])</var>
                     <var id="POSITIVENUMERATOR">getConstantRegex(B)</var>
                     <var id="POSITIVEDENOMINATOR">getExpressionRegex(1, X, C)</var>
                     <var id="NEGATIVENUMERATOR">getConstantRegex(-B)</var>
@@ -126,14 +137,10 @@
 
             <div id="bottom-constant">
                 <div class="vars">
-                    <div data-ensure="B !== C ">
-                        <var id="B">randRangeNonZero( -10, 10 )</var>
-                        <var id="C">randRange( 2, 10 )</var>
-                      </div>
                     <var id="FACTOR1">X + "+" + B</var>
                     <var id="FACTOR2">C</var>
-                    <var id="NUMERATOR">getExpression(A + B, A * B, X)</var>
-                    <var id="DENOMINATOR">C + X + "+" + A * C</var>
+                    <var id="NUMERATOR">getExpression(X, [1, A + B, A * B])</var>
+                    <var id="DENOMINATOR">getExpression(X, [C, A * C])</var>
                     <var id="POSITIVENUMERATOR">getExpressionRegex(1, X, B)</var>
                     <var id="POSITIVEDENOMINATOR">getConstantRegex(C)</var>
                     <var id="NEGATIVENUMERATOR">getExpressionRegex(-1, X, -B)</var>
