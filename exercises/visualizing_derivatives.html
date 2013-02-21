@@ -34,18 +34,22 @@
         </div>
 
         <div class="question">
-            <p data-if="MOVE_DERIVATIVE">
-                A function <code>f(x)</code> is shown in <span class="hint_purple" style="font-weight: bold">purple</span>. The <span class="hint_green" style="font-weight: bold">sliding green window</span> may contain a section of <b>its derivative <code>f'(x)</code></b>.
-            </p>
-            <p data-else>
-                A function <code>f(x)</code> is shown in <span class="hint_green" style="font-weight: bold">green</span>. The <span class="hint_purple" style="font-weight: bold">sliding purple window</span> may contain a section of <b>an antiderivative of the function, <code>F(x)</code></b>.
-            </p>
-            <p data-if="MOVE_DERIVATIVE">
-                Where does the function in the sliding window correspond to <code><b>f'(x)</b></code>?
-            </p>
-            <p data-else>
-                Where does the function in the sliding window correspond to <code><b>F(x)</b></code>?
-            </p>
+            <div data-if="MOVE_DERIVATIVE" data-unwrap>
+                <p>
+                    A function <code>f(x)</code> is shown in <span class="hint_purple" style="font-weight: bold">purple</span>. The <span class="hint_green" style="font-weight: bold">sliding green window</span> may contain a section of <b>its derivative <code>f'(x)</code></b>.
+                </p>
+                <p>
+                    Where does the function in the sliding window correspond to <code><b>f'(x)</b></code>?
+                </p>
+            </div>
+            <div data-else data-unwrap>
+                <p>
+                    A function <code>f(x)</code> is shown in <span class="hint_green" style="font-weight: bold">green</span>. The <span class="hint_purple" style="font-weight: bold">sliding purple window</span> may contain a section of <b>an antiderivative of the function, <code>F(x)</code></b>.
+                </p>
+                <p>
+                    Where does the function in the sliding window correspond to <code><b>F(x)</b></code>?
+                </p>
+            </div>
         </div>
 
         <div class="problem">
