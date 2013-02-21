@@ -42,7 +42,7 @@
 
         function getExpressionRegex(coefficient, vari, constant) {
             // Capture Ax + B or B + Ax
-            var regex = "^\\s*(";
+            var regex = "(^\\s*";
 
             if (coefficient < 0) {
                 regex += "[-\\u2212]\\s*";
@@ -52,7 +52,7 @@
             }
             regex += vari + "\\s*"
             regex += constant < 0 ? "[-\\u2212]" : "\\+";
-            regex += "\\s*" + Math.abs(constant) + ")|("
+            regex += "\\s*" + Math.abs(constant) + "\\s*$)|(^\\s*"
             if (constant < 0) {
                 regex += "[-\\u2212]\\s*";
             }
@@ -61,7 +61,7 @@
             if (coefficient !== 1 && coefficient !== -1) {
                 regex += Math.abs(coefficient) + "\\s*";
             }
-            regex += vari + ")\\s*$";
+            regex += vari + "\\s*$)";
             return regex
         };
 
