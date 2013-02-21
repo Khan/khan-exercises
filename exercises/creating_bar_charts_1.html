@@ -117,7 +117,7 @@
     <div class="hints">
         <div data-each="DATA as INDEX, NUM">
             <p>
-                <code><var>NUM</var></code> <var>plural( RESPONDENT, NUM )</var> said their
+                <code><var>NUM</var></code> <var>plural( RESPONDENT, NUM )</var> said <var>plural( randFromArray([ "his", "her" ]), "their", NUM )</var>
                 favorite <var>SUBJECT</var> was <var>CATEGORIES[ INDEX ]</var>.
                 <span data-if="NUM > 0">
                     So the top of the bar for "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>" should line up with the number

@@ -1,6 +1,4 @@
 $.fn["chemistryLoad"] = function() {
-    // TODO(jeresig): i18n: Currently the names of the atomic elements aren't
-    // being used in the UI, but if they are, they will need to be translated.
     var elements = {
         "Hydrogen": {
             "symbol" : "H",
@@ -2601,7 +2599,7 @@ $.fn["chemistryLoad"] = function() {
     };
 
     var periodicTable = $("<div>").appendTo("body");
-    periodicTable.attr("title", $._("Periodic table of the elements"));
+    periodicTable.attr("title", "Periodic table of the elements");
     periodicTable.dialog({
         autoOpen: false,
         show: "fade",

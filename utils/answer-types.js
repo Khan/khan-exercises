@@ -141,45 +141,45 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             // retrieve the example texts from the different forms
             var exampleForms = {
-                integer: $._("an integer, like <code>6</code>"),
+                integer: "an integer, like <code>6</code>",
 
                 proper: (function() {
                         if (options.simplify === "optional") {
-                            return $._("a <em>proper</em> fraction, like " +
-                                "<code>1/2</code> or <code>6/10</code>");
+                            return "a <em>proper</em> fraction, like " +
+                                   "<code>1/2</code> or <code>6/10</code>";
                         } else {
-                            return $._("a <em>simplified proper</em> " +
-                                "fraction, like <code>3/5</code>");
+                            return "a <em>simplified proper</em> fraction, " +
+                                   "like <code>3/5</code>";
                         }
                     })(),
 
                 improper: (function() {
                         if (options.simplify === "optional") {
-                            return $._("an <em>improper</em> fraction, like " +
-                                "<code>10/7</code> or <code>14/8</code>");
+                            return "an <em>improper</em> fraction, like " +
+                                   "<code>10/7</code> or <code>14/8</code>";
                         } else {
                             return "a <em>simplified improper</em> " +
                                    "fraction, like <code>7/4</code>";
                         }
                     })(),
 
-                pi: $._("a multiple of pi, like <code>12\\ \\text{pi}</code> " +
-                    "or <code>2/3\\ \\text{pi}</code>"),
+                pi: "a multiple of pi, like <code>12\\ \\text{pi}</code> or " +
+                    "<code>2/3\\ \\text{pi}</code>",
 
-                log: $._("an expression, like <code>\\log(100)</code>"),
+                log: "an expression, like <code>\\log(100)</code>",
 
-                percent: $._("a percent, like <code>12.34\\%</code>"),
+                percent: "a percent, like <code>12.34\\%</code>",
 
-                dollar: $._("a money amount, like <code>$2.75</code>"),
+                dollar: "a money amount, like <code>$2.75</code>",
 
-                mixed: $._("a mixed number, like <code>1\\ 3/4</code>"),
+                mixed: "a mixed number, like <code>1\\ 3/4</code>",
 
                 decimal: (function() {
                         if (options.inexact === undefined) {
-                            return $._("an <em>exact</em> decimal, like " +
-                                "<code>0.75</code>");
+                            return "an <em>exact</em> decimal, like " +
+                                   "<code>0.75</code>";
                         } else {
-                            return $._("a decimal, like <code>0.75</code>");
+                            return "a decimal, like <code>0.75</code>";
                         }
                     })()
             };
@@ -514,12 +514,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                 ret = true;
                             } else if (form === "percent") {
                                 // Otherwise, an error was returned
-                                ret = $._("Your answer is almost correct, " +
-                                    "but it is missing a <code>\\%</code> at " +
-                                    "the end.");
+                                ret = "Your answer is almost correct, but " +
+                                      "it is missing a <code>\\%</code> at " +
+                                      "the end.";
                             } else {
-                                ret = $._("Your answer is almost correct, " +
-                                    "but it needs to be simplified.");
+                                ret = "Your answer is almost correct, but " +
+                                      "it needs to be simplified.";
                             }
 
                             return false; // break;
@@ -654,10 +654,10 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 },
                 solution: ans,
                 examples: (options.simplify === "required") ?
-                    [$._("a simplified radical, like <code>\\sqrt{2}</code> " +
-                        "or <code>3\\sqrt{5}</code>")] :
-                    [$._("a radical, like <code>\\sqrt{8}</code> or " +
-                        "<code>2\\sqrt{2}</code>")],
+                    ["a simplified radical, like <code>\\sqrt{2}</code> or " +
+                     "<code>3\\sqrt{5}</code>"] :
+                    ["a radical, like <code>\\sqrt{8}</code> or " +
+                     "<code>2\\sqrt{2}</code>"],
                 showGuess: function(guess) {
                     inte.val(guess ? guess[0] : "");
                     rad.val(guess ? guess[1] : "");
@@ -691,8 +691,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     if (simplified || options.simplify === "optional") {
                         return true;
                     } else {
-                        return $._("Your answer is almost correct, but it " +
-                            "needs to be simplified.");
+                        return "Your answer is almost correct, but it needs " +
+                               "to be simplified.";
                     }
                 } else {
                     return false;
@@ -1402,9 +1402,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 },
                 solution: $.trim($(solution).text()),
                 examples: [
-                    $._("a product of prime factors, like " +
-                        "<code>2 \\times 3</code>"),
-                    $._("a single prime number, like <code>5</code>")
+                    "a product of prime factors, like " +
+                        "<code>2 \\times 3</code>",
+                    "a single prime number, like <code>5</code>"
                 ],
                 showGuess: function(guess) {
                     input.val(guess === undefined ? "" : guess);

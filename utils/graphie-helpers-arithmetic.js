@@ -514,12 +514,12 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         var x = -maxNumDigits;
         var y = -digitsB.length * digitsA.length;
         graph.label([x, y + 2],
-            $.ngettext("\\text{The top number has 1 digit to the right of the decimal.}", "\\text{The top number has %s digits to the right of the decimal.}", deciA), "right");
+            "\\text{The top number has " + KhanUtil.plural(deciA, "digit") + " to the right of the decimal.}", "right");
         graph.label([x, y + 1],
-            $.ngettext("\\text{The bottom number has 1 digit to the right of the decimal.}", "\\text{The bottom number has %s digits to the right of the decimal.}", deciB), "right");
-        // TODO(jeresig): i18n: Should this be pluralized?
+            "\\text{The bottom number has " + KhanUtil.plural(deciB, "digit") + " to the right of the decimal.}", "right");
         graph.label([x, y],
-            $._("\\text{The product has %s + %s = %s digits to the right of the decimal.}", deciA, deciB, deciA + deciB), "right");
+            "\\text{The product has " + deciA + " + " + deciB + " = " + (deciA + deciB)
+             + " digits to the right of the decimal.}", "right");
         graph.style({
             fill: "#000"
         }, function() {
@@ -597,9 +597,11 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             highlights = highlights.concat(drawDigits(totalDigits, index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE));
 
             graph.label([digitsDividend.length + 0.5, -2 * index],
-                $._("\\text{How many times does }%s" +
-                    "\\text{ go into }\\color{#6495ED}{%s}\\text{?}",
-                    divisor, total), "right");
+                "\\text{How many times does }"
+                + divisor
+                + "\\text{ go into }"
+                + "\\color{#6495ED}{" + total + "}"
+                + "\\text{?}", "right");
 
             fShowFirstHalf = false;
         } else {
@@ -629,8 +631,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
                 + "\\div"
                 + divisor + "="
                 + "\\color{#28AE7B}{" + quotient + "}"
-                // TODO(jeresig): i18n: Should this be the whole expression?
-                + $._("\\text{ or }")
+                + "\\text{ or }"
                 + divisor
                 + "\\times"
                 + "\\color{#28AE7B}{" + quotient + "}"
@@ -650,8 +651,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
         this.addDecimal();
         this.show();
         graph.label([digitsDividend.length, 1],
-            $._("\\text{Write in a decimal and a zero and continue dividing.}"), 
-            "right");
+                "\\text{Write in a decimal and a zero and continue dividing.}", "right");
     };
 
     this.getNumHints = function() {
@@ -680,20 +680,17 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
 
         if (deciDivisor !== 0) {
             graph.label([digitsDividend.length + 1 + (deciDiff > 0 ? deciDiff : 0), 1],
-                $.ngettext("\\text{Shift the decimal %s to the right.}",
-                    "\\text{Shift the decimal %s to the right.}",
-                    deciDivisor), "right");
+                "\\text{Shift the decimal " + deciDivisor + " to the right.}", "right");
             graph.style({
                 fill: "#000"
             }, function() {
                 graph.ellipse([-1, -0.2], [0.08, 0.04]);
             });
         } else {
-            // TODO(jeresig): i18n: This probably won't work in multiple langs
             graph.label([digitsDividend.length + 0.5, 1.2],
-                $._("\\text{Bring the decimal up into the}"), "right");
+                "\\text{Bring the decimal up into the}", "right");
             graph.label([digitsDividend.length + 0.5, 0.8],
-                $._("\\text{answer (the quotient).}"), "right");
+                "\\text{answer (the quotient).}", "right");
         }
 
         this.addDecimal();

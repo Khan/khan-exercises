@@ -34,22 +34,12 @@
         </div>
 
         <div class="question">
-            <div data-if="MOVE_DERIVATIVE" data-unwrap>
-                <p>
-                    A function <code>f(x)</code> is shown in <span class="hint_purple" style="font-weight: bold">purple</span>. The <span class="hint_green" style="font-weight: bold">sliding green window</span> may contain a section of <b>its derivative <code>f'(x)</code></b>.
-                </p>
-                <p>
-                    Where does the function in the sliding window correspond to <code><b>f'(x)</b></code>?
-                </p>
-            </div>
-            <div data-else data-unwrap>
-                <p>
-                    A function <code>f(x)</code> is shown in <span class="hint_green" style="font-weight: bold">green</span>. The <span class="hint_purple" style="font-weight: bold">sliding purple window</span> may contain a section of <b>an antiderivative of the function, <code>F(x)</code></b>.
-                </p>
-                <p>
-                    Where does the function in the sliding window correspond to <code><b>F(x)</b></code>?
-                </p>
-            </div>
+            <p>
+                A function <code>f(x)</code> is shown in <span data-if="MOVE_DERIVATIVE" class="hint_purple" style="font-weight: bold">purple</span><span data-else class="hint_green" style="font-weight: bold">green</span>. The <span data-if="MOVE_DERIVATIVE" class="hint_green" style="font-weight: bold">sliding green window</span><span data-else class="hint_purple" style="font-weight: bold">sliding purple window</span> may contain a section of <b><var>MOVE_DERIVATIVE ? "its derivative" : "an antiderivative of the function,"</var> <code><var>MOVE_DERIVATIVE ? "f'(x)" : "F(x)"</var></code></b>.
+            </p>
+            <p>
+                Where does the function in the sliding window correspond to <code><b><var>MOVE_DERIVATIVE ? "f'(x)" : "F(x)"</var></b></code>?
+            </p>
         </div>
 
         <div class="problem">

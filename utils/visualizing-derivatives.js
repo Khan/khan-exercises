@@ -981,9 +981,7 @@ $.extend(KhanUtil, {
 
             var self = this;
             _.each(this.problem.fnArray, function(fn, i) {
-                var nth = i > 0 ?
-                    $._("next") :
-                    $._("first");
+                var nth = i > 0 ? "next" : "first";
 
                 fn = fn.derivative();
 
@@ -991,39 +989,32 @@ $.extend(KhanUtil, {
                 var inc;
                 if (nCoefs === 1) {
                     if (fn.coefs[0] === 0) {
-                        inc = $._("zero");
+                        inc = "zero";
                     } else if (fn.coefs[0] > 0) {
-                        inc = $._("constant and positive");
+                        inc = "constant and positive";
                     } else {
-                        inc = $._("constant and negative");
+                        inc = "constant and negative";
                     }
                 } else if (nCoefs === 2) {
+                    if (fn.coefs[1] > 0) {
+                        inc = "increasing";
+                    } else {
+                        inc = "decreasing";
+                    }
                     var val = fn.evalOf(0) +
                                 fn.evalOf(self.INTERVAL_WIDTH);
                     if (val >= 0) {
-                        if (fn.coefs[1] > 0) {
-                            inc = $._("increasing and positive");
-                        } else {
-                            inc = $._("decreasing and positive");
-                        }
+                        inc += " and positive";
                     } else {
-                        if (fn.coefs[1] > 0) {
-                            inc = $._("increasing and negative");
-                        } else {
-                            inc = $._("decreasing and negative");
-                        }
+                        inc += " and negative";
                     }
                 }
 
                 var hint;
                 if (moveDeriv) {
-                    hint = $._("The %s section of the derivative is %s, " +
-                        "so it corresponds to an original function whose " +
-                        "<b>slope</b> is %s.", nth, inc, inc);
+                    hint = "The " + nth + " section of the derivative is " + inc + ", so it corresponds to an original function whose <b>slope</b> is " + inc + ".";
                 } else {
-                    hint = $._("The %s section of the antiderivative has a " +
-                        "%s slope, so it corresponds to an original " +
-                        "function that is %s.", nth, inc, inc);
+                    hint = "The " + nth + " section of the antiderivative has a " + inc + " slope, so it corresponds to an original function that is " + inc + ".";
                 }
 
                 var hintproblem = self.problem.slice(i, i+1);
@@ -1036,9 +1027,7 @@ $.extend(KhanUtil, {
 
             var lastHint;
             if (this.noSolution) {
-                lastHint = $._("Because these sections do not appear next " +
-                    "to each other in the graph of <code>f(x)</code>, " +
-                    "there is no solution.");
+                lastHint = "Because these sections do not appear next to each other in the graph of <code>f(x)</code>, there is no solution.";
                 hints.push("<p>" + lastHint + "</p>");
                 hints.push("<div class='graphie'> PROBLEM.showNoAnswer(); </div>");
             } else {
@@ -1046,8 +1035,7 @@ $.extend(KhanUtil, {
                                 return "<code>x \\in [" + range.join(", ") + "]</code>";
                             }).join(" and ");
                 var fnVar = moveDeriv ? "f'(x)" : "F(x)";
-                lastHint = $._("The function in the window corresponds to " +
-                    "<code>%s</code> where %s.", fnVar, solnText);
+                lastHint = "The function in the window corresponds to <code>" + fnVar + "</code> where " + solnText + ".";
 
                 var firstAnswer = this.problemRanges[0][0];
                 hints.push("<p>" + lastHint + "</p>");

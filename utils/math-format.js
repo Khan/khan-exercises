@@ -234,23 +234,9 @@ $.extend(KhanUtil, {
 
     // Ported from https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L285
     cardinal: function(n) {
-        // TODO(jeresig): i18n: Is this something that can be ported?
-        var cardinalScales = ["", $._("thousand"), $._("million"),
-            $._("billion"), $._("trillion"), $._("quadrillion"),
-            $._("quintillion"), $._("sextillion"), $._("septillion"), 
-            $._("octillion"), $._("nonillion"), $._("decillion"),
-            $._("undecillion"), $._("duodecillion"), $._("tredecillion"), 
-            $._("quattuordecillion"), $._("quindecillion"),
-            $._("sexdecillion"), $._("septendecillion"), $._("octodecillion"),
-            $._("novemdecillion"), $._("vigintillion")];
-        var cardinalUnits = [$._("zero"), $._("one"), $._("two"), $._("three"),
-            $._("four"), $._("five"), $._("six"), $._("seven"), $._("eight"),
-            $._("nine"), $._("ten"), $._("eleven"), $._("twelve"),
-            $._("thirteen"), $._("fourteen"), $._("fifteen"), $._("sixteen"),
-            $._("seventeen"), $._("eighteen"), $._("nineteen")];
-        var cardinalTens = ["", "", $._("twenty"), $._("thirty"), $._("forty"),
-            $._("fifty"), $._("sixty"), $._("seventy"), $._("eighty"),
-            $._("ninety")];
+        var cardinalScales = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"];
+        var cardinalUnits = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+        var cardinalTens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
         // For formatting numbers less than 1000
         var smallNumberWords = function(n) {
             var hundredDigit = Math.floor(n / 100);
@@ -258,11 +244,9 @@ $.extend(KhanUtil, {
             var str = "";
 
             if (hundredDigit) {
-                str += $.ngettext("%s hundred", "%s hundred",
-                    cardinalUnits[hundredDigit]);
+                str += cardinalUnits[hundredDigit] + " hundred";
             }
 
-            // TODO(jeresig): i18n: This will need to changed
             if (hundredDigit && rest) {
                 str += " ";
             }
@@ -278,7 +262,6 @@ $.extend(KhanUtil, {
                         str += cardinalTens[tenDigit];
                     }
 
-                    // TODO(jeresig): i18n: This will need to changed
                     if (tenDigit && unitDigit) {
                         str += "-";
                     }
@@ -293,7 +276,7 @@ $.extend(KhanUtil, {
         };
 
         if (n === 0) {
-            return $._("zero");
+            return "zero";
         } else {
             var neg = false;
             if (n < 0) {
@@ -319,10 +302,9 @@ $.extend(KhanUtil, {
             }
 
             if (neg) {
-                words.unshift($._("negative"));
+                words.unshift("negative");
             }
 
-            // TODO(jeresig): i18n: This will need to changed
             return words.join(" ");
         }
     },
@@ -472,7 +454,6 @@ $.extend(KhanUtil, {
     },
 
     randVar: function() {
-        // NOTE(jeresig): i18n: I assume it's OK to have roman letters here
         return KhanUtil.randFromArray(["x", "k", "y", "a", "n", "r", "p", "u", "v"]);
     },
 
