@@ -379,7 +379,12 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span data-each="getFactors( A ) as F" class="hint_blue">
-                            <var>plural( F, "team" )</var> with <var>plural( A / F, "sprinter" )</var> <var>plural( "", "each", F )</var><br />
+                            <span data-if="F === 1">
+                                1 team with <var>plural( A, "sprinter" )</var><br />
+                            </span>
+                            <span data-else>
+                                <var>plural( F, "team" )</var> with <var>plural( A / F, "sprinter" )</var> each<br />
+                            </span>
                         </span>
                     </p>
                 </div>
@@ -397,7 +402,12 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span data-each="getFactors( B ) as F" class="hint_green">
-                            <var>plural( F, "team" )</var> with <var>plural( B / F, "long-distance runner" )</var> <var>plural( "", "each", F )</var><br />
+                            <span data-if="F === 1">
+                                1 team with <var>plural( B, "long-distance runner" )</var><br />
+                            </span>
+                            <span data-else>
+                                <var>plural( F, "team" )</var> with <var>plural( B / F, "long-distance runner" )</var> each<br />
+                            </span>
                         </span>
                     </p>
                 </div>
@@ -504,7 +514,12 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span data-each="getFactors( A ) as F" class="hint_blue">
-                            <var>plural( F, "basket" )</var> with <var>plural( A / F, "chocolate chip cookie" )</var> <var>plural( "", "each", F )</var><br />
+                            <span data-if="F === 1">
+                                1 basket with <var>plural( A, "chocolate chip cookie" )</var><br />
+                            </span>
+                            <span data-else>
+                                <var>plural( F, "basket" )</var> with <var>plural( A / F, "chocolate chip cookie" )</var> each<br />
+                            </span>
                         </span>
                     </p>
                 </div>
@@ -522,7 +537,12 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span data-each="getFactors( B ) as F" class="hint_green">
-                            <var>plural( F, "basket" )</var> with <var>plural( B / F, "oatmeal cookie" )</var> <var>plural( "", "each", F )</var><br />
+                            <span data-if="F === 1">
+                                1 basket with <var>plural( B, "oatmeal cookie" )</var><br />
+                            </span>
+                            <span data-else>
+                                <var>plural( F, "basket" )</var> with <var>plural( B / F, "oatmeal cookie" )</var> each<br />
+                            </span>
                         </span>
                     </p>
                 </div>
