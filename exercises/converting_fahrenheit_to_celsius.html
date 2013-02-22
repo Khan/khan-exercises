@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Converting Fahrenheit to Celsius</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+
+
+<body>
+    <div class="exercise">
+		<div class="problems">
+			<div>
+				<div class="vars">
+					<var id="A">randRange(-100,100)</var>
+					<var id="B">A-32</var>
+					<var id="C">abs(B*5)</var>
+					<var id="reduce"><var>reduce(B*5,9)</var></var>
+				</div>  
+				
+				
+				<p class="question">
+                    Convert <code><var>A</var>&deg;</code> fahrenheit to celsius.
+                </p>
+				
+				<div class="solution"><var>(A-32)*(5/9)</var></div>
+				<div class="hints">
+					<p>
+						<br>The equation to convert fahrenheit to celsius is</br>
+						 <code>\blue{C} = <var>fraction( 5, 9 )</var>(\green{F} - 32)</code>
+					</P>
+					<p>
+						<br>To find the celsius value, insert the fahrenheit value for the variable <code>\green{F}</code></br>
+						<code>\blue{C} = <var>fraction( 5, 9 )</var> (\green{<var>(A)</var>} - 32)</code>
+					</p>
+					<p>
+						<br>Solve the inside of the parentheses</br>
+						<code>\blue{C} = <var>fraction(5, 9)</var> (<var>A-32</var>)</code>
+					</p>
+					<p>
+						<br>Solve the equation</br> 
+						<code>\blue{C} = <code><var>fraction(B * 5, 9)</var></code></code>
+					</p>
+					<p>
+					    <span data-if="B*5<0">
+						<code>\blue{C} = -<code><var>mixedFractionFromImproper(C, 9,'defraction', 'reduce')</var>&deg;</code></code></span>
+						<span data-if="B*5>=0">
+						<code>\blue{C} = <code><var>mixedFractionFromImproper(B*5, 9,'defraction', 'reduce')</var>&deg;</code></code></span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
