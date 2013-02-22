@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions interactive graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Graphing circles</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars"
+                    data-ensure="!(H === 0 && K === 0 && R === 2)">
+                    <var id="H">randRange(-5, 5)</var>
+                    <var id="K">randRange(-5, 5)</var>
+                    <var id="R">randRange(1, 5)</var>
+                    <var id="X2T">H === 0 ? "x^2" :
+                        expr(["^", ["+", "x", -H], 2])
+                    </var>
+                    <var id="Y2T">K === 0 ? "y^2" :
+                        expr(["^", ["+", "y", K], 2])
+                    </var>
+                </div>
+
+                <p class="question">
+                    Graph the circle <code><var>expr(["+", X2T, Y2T])</var>
+                    = <var>R * R</var></code>.
+                </p>
+
+                <div class="problem">
+                    <br>
+                    <div class="graphie" id="grid">
+                        graphInit({
+                            range: 11,
+                            scale: 20,
+                            axisArrows: "&lt;-&gt;",
+                            tickStep: 1,
+                            labelStep: 1,
+                            gridOpacity: 0.05,
+                            axisOpacity: 0.2,
+                            tickOpacity: 0.4,
+                            labelOpacity: 0.5
+                        });
+
+                        label( [ 0, 11 ], "y", "above" );
+                        label( [ 11, 0 ], "x", "right" );
+
+                        addMouseLayer();
+                        graph.circle = addCircleGraph();
+                    </div>
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Drag the center point and perimeter of the circle
+                        to graph the equation.
+                    </div>
+                    <div class="guess">[
+                        graph.circle.center[0],
+                        graph.circle.center[1],
+                        graph.circle.radius]
+                    </div>
+                    <div class="validator-function">
+                        if (_.isEqual(guess, [0, 0, 2])) {
+                            return "";
+                        }
+                        return _.isEqual(guess, [H, K, R]);
+                    </div>
+                    <div class="show-guess">
+                        graph.circle.setCenter(guess[0], guess[1]);
+                        graph.circle.setRadius(guess[2]);
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <p>
+                        The equation of a circle with center
+                        <code>(\blue{h}, \green{k})</code> and radius
+                        <code>\pink{r}</code> is
+                        <code>(x - \blue{h})^2 + (y + \green{k})^2 =
+                        \pink{r}^2</code>.
+                    </p>
+                    <p>
+                        We can rewrite the given equation as
+                        <code>(x - \blue{<var>negParens(H)</var>})^2 + (y +
+                        \green{<var>negParens(K)</var>})^2 =
+                        \pink{<var>R</var>}^2</code>.
+                    </p>
+                    <div>
+                        <p>
+                            Thus, the center of the circle should be
+                            <code>(\blue{<var>H</var>}, \green{<var>K</var>})
+                            </code> and the radius should be
+                            <code>\pink{<var>R</var>}</code>.
+                        </p>
+                        <div class="graphie" data-update="grid">
+                            circle([H, K], R, {
+                                stroke: PURPLE,
+                                strokeWidth: 1,
+                                strokeDasharray: "- "
+                            }).toBack();
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
