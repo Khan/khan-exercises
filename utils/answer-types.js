@@ -612,7 +612,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             var flags = "";
 
-            if ($(solution).data("case-insensitive") !== undefined) {
+            if ($(solution).data("case-insensitive") != null) {
                 flags += "i";
             }
 
