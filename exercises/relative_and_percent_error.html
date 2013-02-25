@@ -10,7 +10,7 @@
             <!-- X = true value, X0 = experimental value -->
             <!-- X0 should be close to X and have a decimal to simulate common conditions-->
             <var id="X">randRange(5, 95)</var>
-            <var id="X0">roundTo(2, X + randRange(-X/8, X/8) + randRange(1, 99) / 100)</var>
+            <var id="X0">roundTo(2, X + randRange(-X, X))</var>
             <var id="UNITS">randFromArray([
                 {unit: "centimeter", abbr: "cm"},
                 {unit: "milliliter", abbr: "mL"},
