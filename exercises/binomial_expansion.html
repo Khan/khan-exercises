@@ -78,14 +78,14 @@
 
                 <div>
                     <p>
-                    The binomial theorem indicates that the coefficient to the kth term
-                    (k going from 0 to <var>EXPONENT</var>) is <span class="hint_blue">
+                    The binomial theorem indicates that the coefficient to the <code>k^{th}</code> term
+                    (<code>k</code> going from <code>0</code> to <code><var>EXPONENT</var></code>) is <span class="hint_blue">
                     <code>\binom{<var>EXPONENT</var>}{k}</code></span>. 
                     [<a href="#" class="show-subhint" data-subhint="combine">What does this mean?</a>]
                     </p>
                     <div class="subhint" id="combine">
                         <code>\binom{n}{k} </code> is an expression which indicates a set
-                        of n elements combined k at a time ("n choose k"). <code>\binom{n}{k} = \dfrac{n!}{k!(n-k)!}</code>
+                        of <code>n</code> elements combined <code>k</code> at a time ("<code>n</code> choose <code>k</code>"). <code>\binom{n}{k} = \dfrac{n!}{k!(n-k)!}</code>
                     </div>  <!-- subhint -->
                     <p><code>
                         <span data-each="EXPONENT + 1 times as TERM">
@@ -98,7 +98,7 @@
                             <span data-if="TERM === WHICH_TERM - 1">}</span>
                             <var>TERM2</var>^{<var>TERM</var>}
                             <span data-if="TERM !== EXPONENT">
-                                \space+\space
+                                +
                             </span>
                         </span>
                     </code></p>
@@ -106,7 +106,7 @@
                     <div class="subhint" id="pascal">
                         <p>
                             You can use the <span class="hint_blue">
-                            <var>EXPONENT + 1</var>th row</span> (one more than the
+                            <code><var>EXPONENT + 1</var>^{th}</code> row</span> (one more than the
                             exponent) of Pascal's triangle to find the binomial 
                             coefficients:
                         </p>
