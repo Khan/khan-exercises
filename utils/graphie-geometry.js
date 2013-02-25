@@ -892,21 +892,12 @@ $.extend(KhanUtil, {
                     length: leftStart - y,
                     labelPos: "left"
                 });
-                if (left < prevLeft) {
-                    shape.sides.push({
-                        start: [prevLeft, y],
-                        end: [left, y],
-                        length: Math.abs(left - prevLeft),
-                        labelPos: "above"
-                    });
-                } else {
-                    shape.sides.push({
-                        start: [prevLeft, y],
-                        end: [left, y],
-                        length: Math.abs(left - prevLeft),
-                        labelPos: "below"
-                    });
-                }
+                shape.sides.push({
+                    start: [prevLeft, y],
+                    end: [left, y],
+                    length: Math.abs(left - prevLeft),
+                    labelPos: "center"
+                });
                 // record where the next vertical side on the left starts
                 leftStart = y;
             }
@@ -920,21 +911,12 @@ $.extend(KhanUtil, {
                     length: rightStart - y,
                     labelPos: "right"
                 });
-                if (right > prevRight) {
-                    shape.sides.push({
-                        start: [prevRight, y],
-                        end: [right, y],
-                        length: Math.abs(right - prevRight),
-                        labelPos: "above"
-                    });
-                } else {
-                    shape.sides.push({
-                        start: [prevRight, y],
-                        end: [right, y],
-                        length: Math.abs(right - prevRight),
-                        labelPos: "below"
-                    }); 
-                }
+                shape.sides.push({
+                    start: [prevRight, y],
+                    end: [right, y],
+                    length: Math.abs(right - prevRight),
+                    labelPos: "center"
+                });
                 // record where the next vertical side on the right starts
                 rightStart = y;
             }
