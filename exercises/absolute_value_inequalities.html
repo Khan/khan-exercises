@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie graphie-helpers interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Absolute Value Inequalities</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        var circlesFilled = false;
+        var fillCenter = true;
+         
+        function setCirclesFilled(val) {
+            circlesFilled = val;
+            KhanUtil.currentGraph.drawLines();
+        }
+
+        function setFillCenter(val) {
+            fillCenter = val;
+            KhanUtil.currentGraph.drawLines();
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="A">randRange(-10, 10)</var>
+        <var id="B" data-ensure="B !== A">randRangeNonZero(-10, 10)</var>
+    </div>
+
+    <div class="problems">
+        <div id="equation_from_line">
+            <div class="question">
+                <p>Graph the inequality represented by the equation:<br />
+                    <code>
+                        |x + <var>A</var>| = <var>B</var>
+                    </code>
+                </p>
+
+                <div class="graphie">
+                    var circleRadius = 0.4;
+                    var graphBounds = [-8, 8];      
+ 
+                    graph = KhanUtil.currentGraph;
+                    graph.init({
+                        range: [ [-8, 8], [-1, 1] ],
+                        scale: 28
+                    });
+	 		
+                    numberLine( -8, 8, null, -8, 0 );
+ 
+                    KhanUtil.addMouseLayer();
+                    graph.pointA = KhanUtil.addMovablePoint({
+                        coord: [ 4, 0 ],
+                        snapX: 1,
+                        normalStyle: {
+                            stroke: KhanUtil.BLUE,
+                            fill: KhanUtil.BLUE
+                         },
+                        constraints: {
+                            constrainY: true
+                        }
+                    });
+                    graph.pointB = KhanUtil.addMovablePoint({
+                        coord: [ 0, 0 ],
+                        snapX: 1,
+                        normalStyle: {
+                            stroke: KhanUtil.BLUE,
+                            fill: KhanUtil.BLUE
+                        },
+                        constraints: {
+                            constrainY: true
+                        }
+                    });
+                    graph.pointA.onMove = function( x, y ) {
+                        graph.pointA.coord = [ x, y ];
+                        graph.drawLines();
+                    };
+                    graph.pointB.onMove = function( x, y ) {
+                        graph.pointB.coord = [ x, y ];
+                        graph.drawLines();
+                    };
+ 
+                    graph.drawLines = function() {
+                        //Clear out display
+                        var elements = [graph.ptL, graph.ptR, graph.centerLine, graph.leftLine, graph.rightLine];
+                        for (var i = 0; i < elements.length; i++) {
+                            if (elements[i]) {
+                                elements[i].remove();
+                            }
+                        }
+                        var leftX = Math.min(graph.pointA.coord[0], graph.pointB.coord[0]);
+                        var rightX = Math.max(graph.pointA.coord[0], graph.pointB.coord[0]);
+                 
+                        graph.style({ stroke: KhanUtil.BLUE, fill: circlesFilled ? KhanUtil.BLUE : null });
+                        graph.ptL = graph.circle( [ leftX, 0 ], circleRadius );
+                        graph.ptR = graph.circle( [ rightX, 0 ], circleRadius );
+                        if (fillCenter) {
+                            graph.style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE, strokeWidth: 3.5, arrows: "" });
+                            graph.centerLine = graph.path( [ [ leftX + circleRadius, 0 ], [ rightX - circleRadius, 0 ]  ] );
+                        }
+                        else {
+                            graph.style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE, strokeWidth: 3.5, arrows: "->" });
+                            graph.leftLine = graph.path( [ [ leftX - circleRadius, 0 ], [ graphBounds[0], 0 ]  ] );
+                            graph.rightLine = graph.path( [ [ rightX + circleRadius, 0 ], [ graphBounds[1], 0 ]  ] );
+                        }
+                 
+                        graph.pointA.toFront();
+                        graph.pointB.toFront();
+                        //graph.ptA.toFront();
+                        //graph.ptB.toFront();
+ 
+//                        graph.style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE, strokeWidth: 3.5, arrows: "->" });
+                    };
+ 
+                    graph.drawLines();
+                </div>
+            </div>
+            <form>
+                <label>
+                    <input name="dashradio" type="radio" value="solid" checked onClick="javascript:
+                        setCirclesFilled(false);
+                    " />
+                    Empty circles
+                </label>
+                <label>
+                    <input name="dashradio" type="radio" value="dashed" onClick="javascript:
+                        setCirclesFilled(true);
+                    " />
+                    Solid circles
+                </label>
+            </form>
+            <br />
+            <form>
+                <label>
+                    <input name="dashradio" type="radio" value="solid" checked onClick="javascript:
+                        setFillCenter(true);
+                    " />
+                    Line between points
+                </label>
+                <label>
+                    <input name="dashradio" type="radio" value="dashed" onClick="javascript:
+                        setFillCenter(false);
+                    " />
+                    Line outside points
+                </label>
+            </form>
+
+
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Drag the two points into the correct position.
+                </div>
+                <div class="example">graph the inequality</div>
+                <div class="example">make sure the line is correctly between or outside the points</div>
+                <div class="example">make sure the points are correctly shown as solid or empty</div>
+                <div class="guess">
+                    [ graph.pointA.coord[0], graph.pointB.coord[0] ]
+                </div>
+                <div class="validator-function">
+                    validatorGraph = guess[0];
+                    console.log(guess);
+                    return false;
+                </div>
+                <div class="show-guess">
+                    graph.pointA.setCoord( [guess[0], 0] );
+                    graph.pointB.setCoord( [guess[1], 0] );
+                    graph.drawLines();
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
