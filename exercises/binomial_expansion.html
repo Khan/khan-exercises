@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie probability subhints">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Binomial expansion</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #answer_area .short input[type=text] {
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars" data-ensure="SOLUTION < 100">
+                <var id="TERM1_COEF">
+                    <!-- 80% of the time, the coefficient should be 1 -->
+                    randRangeWeightedExclude(1, 3, 1, 0.8, [0])
+                </var>
+                <var id="TERM2">randRange(1, 3)</var>
+                <var id="EXPONENT">randRange(3, 5)</var>
+                <var id="WHICH_TERM">randRange(1, EXPONENT)</var>
+                <var id="TERM_STRING">
+                    EXPONENT === WHICH_TERM ? "x" :
+                    "x^{" + (EXPONENT - WHICH_TERM + 1) + "}"
+                </var>
+                <var id="SOLUTION">
+                    pow(TERM1_COEF, EXPONENT - WHICH_TERM + 1)
+                    * choose(EXPONENT, WHICH_TERM - 1) *
+                    pow(TERM2, WHICH_TERM - 1)
+                </var>
+            </div>
+
+            <p class="question">
+                What is the coefficient of <code><var>TERM_STRING</var></code>
+                in the expansion of
+                <code>(<var>expr(["*", TERM1_COEF, "x"])</var> +
+                <var>TERM2</var>)^{<var>EXPONENT</var>}</code>?
+            </p>
+
+            <div class="solution" data-forms="integer">
+                <var>SOLUTION</var>
+            </div>
+
+            <div class="hints">
+                <p>
+                    Rather than multiplying out
+                    <code>(<var>expr(["*", TERM1_COEF, "x"])</var> +
+                    <var>TERM2</var>)^{<var>EXPONENT</var>}</code>, we can use
+                    the binomial theorem to list all the coefficients.
+                </p>
+
+                <div>
+                    <p>
+                        Write out all the terms of the expansion. What are the
+                        <span class="hint_blue">binomial coefficients</span>
+                        for each term? (Though we really just care about the
+                        <code>\pink{<var>TERM_STRING</var>}</code> term)
+                    </p>
+                    <p><code>
+                        <span data-each="EXPONENT + 1 times as TERM">
+                            \blue{?} \cdot
+                            <span data-if="TERM === WHICH_TERM - 1">\pink{</span>
+                            <span data-if="TERM1_COEF !== 1">(</span>
+                            <var>expr(["*", TERM1_COEF, "x"])</var>
+                            <span data-if="TERM1_COEF !== 1">)</span>
+                            ^{ <var>EXPONENT - TERM</var>}
+                            <span data-if="TERM === WHICH_TERM - 1">}</span>
+                                <var>TERM2</var>^{<var>TERM</var>}
+                            <span data-if="TERM !== EXPONENT">
+                                \space+\space
+                            </span>
+                        </span>
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>
+                    The binomial theorem indicates that the coefficient to the kth term
+                    (k going from 0 to <var>EXPONENT</var>) is <span class="hint_blue">
+                    <code>\binom{<var>EXPONENT</var>}{k}</code></span>. 
+                   [<a href="#" class="show-subhint" data-subhint="combine">What does this mean?</a>]
+                    </p>
+                    <div class="subhint" id="combine">
+                        <code>\binom{n}{k} </code> is an expression which indicates a set
+                        of n elements combined k at a time ("n choose k"). <code>\binom{n}{k} = \dfrac{n!}{k!(n-k)!}</code>
+                    </div>  <!-- subhint -->
+                    <p><code>
+                        <span data-each="EXPONENT + 1 times as TERM">
+                            \blue{\binom{<var>EXPONENT</var>}{<var>TERM</var>}}
+                            <span data-if="TERM === WHICH_TERM - 1">\pink{</span>
+                            <span data-if="TERM1_COEF !== 1">(</span>
+                            <var>expr(["*", TERM1_COEF, "x"])</var>
+                            <span data-if="TERM1_COEF !== 1">)</span>
+                            ^{ <var>EXPONENT - TERM</var>}
+                            <span data-if="TERM === WHICH_TERM - 1">}</span>
+                            <var>TERM2</var>^{<var>TERM</var>}
+                            <span data-if="TERM !== EXPONENT">
+                                \space+\space
+                            </span>
+                        </span>
+                    </code></p>
+                    <p>[<a href="#" class="show-subhint" data-subhint="pascal">How would I do this with Pascal's Triangle?</a>]</p>
+                    <div class="subhint" id="pascal">
+                        <p>
+                            You can use the <span class="hint_blue">
+                            <var>EXPONENT + 1</var>th row</span> (one more than the
+                            exponent) of Pascal's triangle to find the binomial 
+                            coefficients:
+                        </p>
+                        <div class="graphie">
+                            init({
+                                range: [
+                                [-EXPONENT/2 - 0.5, EXPONENT/2 + 0.5],
+                                [-EXPONENT - 0.5, 0.5]
+                            ]
+                            });
+                            _(EXPONENT + 1).times(function(n) {
+                                _(n + 1).times(function(k) {
+                                label([k - n/2, -n], choose(n, k), {
+                                    color: n === EXPONENT ? BLUE : "black"
+                                    });
+                                });
+                            });
+                        </div>  <!-- Triangle graphie -->
+                            <p>These values can replace the combinatorial terms 
+                            in the equation above.</p>
+                    </div>  <!-- subhint -->
+                </div>
+
+                <div>
+                    <p>
+                    Expand the combinatorials: 
+                    </p>
+                    <p><code>
+                        <span data-each="EXPONENT + 1 times as TERM">
+                            \blue{<var>choose(EXPONENT, TERM)</var>} \cdot
+                            <span data-if="TERM === WHICH_TERM - 1">\pink{</span>
+                            <span data-if="TERM !== EXPONENT">
+                            <span data-if="TERM1_COEF !== 1">(</span>
+                            <var>expr(["*", TERM1_COEF, "x"])</var>
+                            <span data-if="TERM1_COEF !== 1">)</span>
+                            ^{ <var>EXPONENT - TERM</var>}
+                            </span>
+                            <span data-if="TERM === WHICH_TERM - 1">}</span>
+                            <span data-if="TERM !== 0">
+                                <var>TERM2</var>^{<var>TERM</var>}
+                            </span>
+                            <span data-if="TERM !== EXPONENT">
+                                \space+\space
+                            </span>
+                        </span>
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>Simplify each term:</p>
+                    <p><code>\qquad
+                        <span data-each="EXPONENT + 1 times as TERM">
+                            <span data-if="TERM === WHICH_TERM - 1">
+                                \pink{
+                            </span>
+                            <span data-if="TERM !== 0 || TERM1_COEF !==1">
+                                <var>pow(TERM1_COEF, EXPONENT - TERM) 
+                                * choose(EXPONENT, TERM) *
+                                pow(TERM2, TERM)</var>
+                            </span>
+                            <span data-if="TERM !== EXPONENT &&
+                                    TERM !== EXPONENT - 1">
+                                x^{<var>EXPONENT - TERM</var>}
+                            </span>
+                            <span data-if="TERM === EXPONENT - 1">x</span>
+                            <span data-if="TERM === WHICH_TERM - 1">}</span>
+                            <span data-if="TERM !== EXPONENT">
+                                \space+\space
+                            </span>
+                        </span>
+                    </code></p>
+                </div>
+
+                <div>
+                    <p>
+                        The coefficient of
+                        <code>\pink{<var>TERM_STRING</var>}</code> is
+                        <code>\pink{<var>SOLUTION</var>}</code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
