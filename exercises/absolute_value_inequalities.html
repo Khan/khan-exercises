@@ -5,17 +5,36 @@
     <title>Absolute Value Inequalities</title>
     <script src="../khan-exercise.js"></script>
     <script>
+        var interactiveGraph;
         var circlesFilled;
         var centerFilled;
+        var circleRadius = 0.4;
+        var graphBounds = [-10, 10];
+        var graphScale = 24;
          
         function setCirclesFilled(val) {
             circlesFilled = val;
-            KhanUtil.currentGraph.drawLines();
+            interactiveGraph.drawLines();
         }
 
         function setCenterFilled(val) {
             centerFilled = val;
-            KhanUtil.currentGraph.drawLines();
+            interactiveGraph.drawLines();
+        }
+
+        function renderGraph(graph, leftX, rightX, circlesFilled, centerFilled) {
+            graph.style({ stroke: KhanUtil.BLUE, fill: circlesFilled ? KhanUtil.BLUE : null });
+            graph.ptL = graph.circle( [ leftX, 0 ], circleRadius );
+            graph.ptR = graph.circle( [ rightX, 0 ], circleRadius );
+            if (centerFilled) {
+                graph.style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE, strokeWidth: 3.5, arrows: "" });
+                graph.centerLine = graph.path( [ [ leftX + circleRadius, 0 ], [ rightX - circleRadius, 0 ]  ] );
+            }
+            else {
+                graph.style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE, strokeWidth: 3.5, arrows: "->" });
+                graph.leftLine = graph.path( [ [ leftX - circleRadius, 0 ], [ graphBounds[0], 0 ]  ] );
+                graph.rightLine = graph.path( [ [ rightX + circleRadius, 0 ], [ graphBounds[1], 0 ]  ] );
+            }
         }
     </script>
 </head>
@@ -29,10 +48,13 @@
         <var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
         <var id="INCLUSIVE">REL === "&le;" || REL === "&ge;"</var>
         <var id="LESS_THAN">REL === "&lt;" || REL === "&le;"</var>
+        <var id="NEG_A">A &lt; 0</var>
+        <var id="SOLUTION_LEFT">(-1 * A) - B</var>
+        <var id="SOLUTION_RIGHT">(-1 * A) + B</var>
     </div>
 
     <div class="problems">
-        <div id="equation_from_line">
+        <div id="line_from_inequality">
             <div class="question">
                 <p>Graph the inequality represented by the equation:<br />
                     <code>
@@ -43,13 +65,11 @@
                 <div class="graphie">
                     circlesFilled = false;
                     centerFilled = true;
-                    var circleRadius = 0.4;
-                    var graphBounds = [-10, 10];      
  
-                    graph = KhanUtil.currentGraph;
+                    graph = interactiveGraph = KhanUtil.currentGraph;
                     graph.init({
                         range: [ graphBounds, [-1, 1] ],
-                        scale: 24
+                        scale: graphScale
                     });
 	 		
                     numberLine( graphBounds[0], graphBounds[1], null, graphBounds[0], 0 );
@@ -96,19 +116,7 @@
                         }
                         var leftX = Math.min(graph.pointA.coord[0], graph.pointB.coord[0]);
                         var rightX = Math.max(graph.pointA.coord[0], graph.pointB.coord[0]);
-                 
-                        graph.style({ stroke: KhanUtil.BLUE, fill: circlesFilled ? KhanUtil.BLUE : null });
-                        graph.ptL = graph.circle( [ leftX, 0 ], circleRadius );
-                        graph.ptR = graph.circle( [ rightX, 0 ], circleRadius );
-                        if (centerFilled) {
-                            graph.style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE, strokeWidth: 3.5, arrows: "" });
-                            graph.centerLine = graph.path( [ [ leftX + circleRadius, 0 ], [ rightX - circleRadius, 0 ]  ] );
-                        }
-                        else {
-                            graph.style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE, strokeWidth: 3.5, arrows: "->" });
-                            graph.leftLine = graph.path( [ [ leftX - circleRadius, 0 ], [ graphBounds[0], 0 ]  ] );
-                            graph.rightLine = graph.path( [ [ rightX + circleRadius, 0 ], [ graphBounds[1], 0 ]  ] );
-                        }
+                        renderGraph(graph, leftX, rightX, circlesFilled, centerFilled);
                  
                         graph.pointA.toFront();
                         graph.pointB.toFront();
@@ -154,25 +162,16 @@
                 <div class="example">make sure the line is correctly between or outside the points</div>
                 <div class="example">make sure the points are correctly shown as solid or empty</div>
                 <div class="guess">
-                    [ Math.min(graph.pointA.coord[0], graph.pointB.coord[0]),
-                      Math.max(graph.pointA.coord[0], graph.pointB.coord[0]),
+                    [ Math.min(interactiveGraph.pointA.coord[0], interactiveGraph.pointB.coord[0]),
+                      Math.max(interactiveGraph.pointA.coord[0], interactiveGraph.pointB.coord[0]),
                       circlesFilled,
                       centerFilled ]
                 </div>
                 <div class="validator-function">
-                    console.log(guess);
-                    var leftX = guess[0],
-                        rightX = guess[1],
-                        circlesFilled = guess[2],
-                        centerFilled = guess[3];
-                    correctLeftX = B 
-
-                    console.log((-1 * A) - B, (-1 * A) + B); 
-                    console.log(leftX == (-1 * A) - B, rightX == (-1 * A) + B, INCLUSIVE == circlesFilled, LESS_THAN == centerFilled);
-                    return leftX == (-1 * A) - B
-                        &amp;&amp; rightX == (-1 * A) + B
-                        &amp;&amp; INCLUSIVE == circlesFilled
-                        &amp;&amp; LESS_THAN == centerFilled;
+                    return SOLUTION_LEFT == guess[0]
+                        &amp;&amp; SOLUTION_RIGHT == guess[1]
+                        &amp;&amp; INCLUSIVE == guess[2]
+                        &amp;&amp; LESS_THAN == guess[3];
                 </div>
                 <div class="show-guess">
                     graph.pointA.setCoord( [guess[0], 0] );
@@ -182,6 +181,84 @@
                     $( "input[name=circleradio][value=" + (circlesFilled ? "filled" : "unfilled") +"]" ).attr( "checked", true );
                     $( "input[name=lineradio][value=" + (centerFilled ? "center" : "outside") +"]" ).attr( "checked", true );
                     graph.drawLines();
+                </div>
+            </div>
+            <div class="hints">
+                <div data-if="LESS_THAN">
+                    <p>
+                        The part inside the absolute value must be greater than<span data-if="INCLUSIVE"> or equal to</span> <var>B</var>
+                        and less than<span data-if="INCLUSIVE"> or equal to</span> -<var>B</var>:
+                    </p>
+                    <p>
+                        <code>
+                            x + <var>A</var> <span data-if="INCLUSIVE">&ge;</span><span data-else>&gt;</span> -<var>B</var>
+                        </code>
+                        and
+                        <code>
+                            x + <var>A</var> <span data-if="INCLUSIVE">&le;</span><span data-else>&lt;</span> <var>B</var>
+                        </code>
+                    </p>
+                </div><div data-else>
+                    <p>
+                        The part inside the absolute value must be less than<span data-if="INCLUSIVE"> or equal to</span> -<var>B</var>
+                        or greater than<span data-if="INCLUSIVE"> or equal to</span> <var>B</var>:
+                    </p>
+                    <p>
+                        <code>
+                            x + <var>A</var> <span data-if="INCLUSIVE">&le;</span><span data-else>&lt;</span> -<var>B</var>
+                        </code>
+                        or
+                        <code>
+                            x + <var>A</var> <span data-if="INCLUSIVE">&ge;</span><span data-else>&gt;</span> <var>B</var>
+                        </code>
+                    </p>
+                </div>
+
+                <div data-if="LESS_THAN">
+                    <p data-if="NEG_A">
+                    	Add <var>-1 * A</var> to both sides of each equation:<br />
+                    </p><p data-else>
+                        Subtract <var>A</var> from both sides of each equation:<br />
+                    </p>
+                    <p>
+                        <code>
+                            x <span data-if="INCLUSIVE">&ge;</span><span data-else>&gt;</span> <var>(-1 * B) - A</var>
+                        </code>
+                        and
+                        <code>
+                            x <span data-if="INCLUSIVE">&le;</span><span data-else>&lt;</span> <var>B - A</var>
+                        </code>
+                    </p>
+                </div><div data-else>
+                    <p data-if="NEG_A">
+                    	Add <var>-1 * A</var> to both sides of each equation:<br />
+                    </p><p data-else>
+                        Subtract <var>A</var> from both sides of each equation:<br />
+                    </p>
+                    <p>
+                        <code>
+                            x <span data-if="INCLUSIVE">&le;</span><span data-else>&lt;</span> <var>(-1 * B) - A</var>
+                        </code>
+                        or
+                        <code>
+                            x <span data-if="INCLUSIVE">&ge;</span><span data-else>&gt;</span> <var>B - A</var>
+                        </code>
+                    </p>
+                </div>
+
+                <div>
+                    <p>Which is represented on the number line like this:</p>
+                    <div class="graphie">
+                        graph = KhanUtil.currentGraph;
+
+                        graph.init({
+                            range: [ graphBounds, [-1, 1] ],
+                            scale: graphScale
+                        });
+                        
+                        numberLine( graphBounds[0], graphBounds[1], null, graphBounds[0], 0 );
+                        renderGraph(graph, SOLUTION_LEFT, SOLUTION_RIGHT, INCLUSIVE, LESS_THAN)
+                    </div>
                 </div>
             </div>
         </div>
