@@ -5,16 +5,16 @@
     <title>Absolute Value Inequalities</title>
     <script src="../khan-exercise.js"></script>
     <script>
-        var circlesFilled = false;
-        var fillCenter = true;
+        var circlesFilled;
+        var centerFilled;
          
         function setCirclesFilled(val) {
             circlesFilled = val;
             KhanUtil.currentGraph.drawLines();
         }
 
-        function setFillCenter(val) {
-            fillCenter = val;
+        function setCenterFilled(val) {
+            centerFilled = val;
             KhanUtil.currentGraph.drawLines();
         }
     </script>
@@ -22,8 +22,13 @@
 <body>
     <div class="exercise">
     <div class="vars">
-        <var id="A">randRange(-10, 10)</var>
-        <var id="B" data-ensure="B !== A">randRangeNonZero(-10, 10)</var>
+        <var id="A">randRangeNonZero(-5, 5)</var>
+        <var id="B" data-ensure="B !== A">randRange(1, 5)</var>
+        <var id="START_PT_A" data-ensure="START_PT_A !== A &amp;&amp; START_PT_A !== B">randRange(-9, 9)</var>
+        <var id="START_PT_B" data-ensure="START_PT_A !== A &amp;&amp; START_PT_A !== B &amp;&amp; START_PT_B !== START_PT_A">randRange(-9, 9)</var>
+        <var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
+        <var id="INCLUSIVE">REL === "&le;" || REL === "&ge;"</var>
+        <var id="LESS_THAN">REL === "&lt;" || REL === "&le;"</var>
     </div>
 
     <div class="problems">
@@ -31,25 +36,27 @@
             <div class="question">
                 <p>Graph the inequality represented by the equation:<br />
                     <code>
-                        |x + <var>A</var>| = <var>B</var>
+                        |x + <var>A</var>| <var>REL</var> <var>B</var>
                     </code>
                 </p>
 
                 <div class="graphie">
+                    circlesFilled = false;
+                    centerFilled = true;
                     var circleRadius = 0.4;
-                    var graphBounds = [-8, 8];      
+                    var graphBounds = [-10, 10];      
  
                     graph = KhanUtil.currentGraph;
                     graph.init({
-                        range: [ [-8, 8], [-1, 1] ],
-                        scale: 28
+                        range: [ graphBounds, [-1, 1] ],
+                        scale: 24
                     });
 	 		
-                    numberLine( -8, 8, null, -8, 0 );
+                    numberLine( graphBounds[0], graphBounds[1], null, graphBounds[0], 0 );
  
                     KhanUtil.addMouseLayer();
                     graph.pointA = KhanUtil.addMovablePoint({
-                        coord: [ 4, 0 ],
+                        coord: [ START_PT_A, 0 ],
                         snapX: 1,
                         normalStyle: {
                             stroke: KhanUtil.BLUE,
@@ -60,7 +67,7 @@
                         }
                     });
                     graph.pointB = KhanUtil.addMovablePoint({
-                        coord: [ 0, 0 ],
+                        coord: [ START_PT_B, 0 ],
                         snapX: 1,
                         normalStyle: {
                             stroke: KhanUtil.BLUE,
@@ -82,7 +89,7 @@
                     graph.drawLines = function() {
                         //Clear out display
                         var elements = [graph.ptL, graph.ptR, graph.centerLine, graph.leftLine, graph.rightLine];
-                        for (var i = 0; i < elements.length; i++) {
+                        for (var i = 0; i &lt; elements.length; i++) {
                             if (elements[i]) {
                                 elements[i].remove();
                             }
@@ -93,7 +100,7 @@
                         graph.style({ stroke: KhanUtil.BLUE, fill: circlesFilled ? KhanUtil.BLUE : null });
                         graph.ptL = graph.circle( [ leftX, 0 ], circleRadius );
                         graph.ptR = graph.circle( [ rightX, 0 ], circleRadius );
-                        if (fillCenter) {
+                        if (centerFilled) {
                             graph.style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE, strokeWidth: 3.5, arrows: "" });
                             graph.centerLine = graph.path( [ [ leftX + circleRadius, 0 ], [ rightX - circleRadius, 0 ]  ] );
                         }
@@ -105,10 +112,6 @@
                  
                         graph.pointA.toFront();
                         graph.pointB.toFront();
-                        //graph.ptA.toFront();
-                        //graph.ptB.toFront();
- 
-//                        graph.style({ stroke: KhanUtil.BLUE, fill: KhanUtil.BLUE, strokeWidth: 3.5, arrows: "->" });
                     };
  
                     graph.drawLines();
@@ -116,29 +119,27 @@
             </div>
             <form>
                 <label>
-                    <input name="dashradio" type="radio" value="solid" checked onClick="javascript:
+                    <input name="circleradio" type="radio" value="unfilled" checked onClick="javascript:
                         setCirclesFilled(false);
                     " />
                     Empty circles
                 </label>
                 <label>
-                    <input name="dashradio" type="radio" value="dashed" onClick="javascript:
+                    <input name="circleradio" type="radio" value="filled" onClick="javascript:
                         setCirclesFilled(true);
                     " />
                     Solid circles
                 </label>
-            </form>
-            <br />
-            <form>
+                <br />
                 <label>
-                    <input name="dashradio" type="radio" value="solid" checked onClick="javascript:
-                        setFillCenter(true);
+                    <input name="lineradio" type="radio" value="center" checked onClick="javascript:
+                        setCenterFilled(true);
                     " />
                     Line between points
                 </label>
                 <label>
-                    <input name="dashradio" type="radio" value="dashed" onClick="javascript:
-                        setFillCenter(false);
+                    <input name="lineradio" type="radio" value="outside" onClick="javascript:
+                        setCenterFilled(false);
                     " />
                     Line outside points
                 </label>
@@ -153,16 +154,33 @@
                 <div class="example">make sure the line is correctly between or outside the points</div>
                 <div class="example">make sure the points are correctly shown as solid or empty</div>
                 <div class="guess">
-                    [ graph.pointA.coord[0], graph.pointB.coord[0] ]
+                    [ Math.min(graph.pointA.coord[0], graph.pointB.coord[0]),
+                      Math.max(graph.pointA.coord[0], graph.pointB.coord[0]),
+                      circlesFilled,
+                      centerFilled ]
                 </div>
                 <div class="validator-function">
-                    validatorGraph = guess[0];
                     console.log(guess);
-                    return false;
+                    var leftX = guess[0],
+                        rightX = guess[1],
+                        circlesFilled = guess[2],
+                        centerFilled = guess[3];
+                    correctLeftX = B 
+
+                    console.log((-1 * A) - B, (-1 * A) + B); 
+                    console.log(leftX == (-1 * A) - B, rightX == (-1 * A) + B, INCLUSIVE == circlesFilled, LESS_THAN == centerFilled);
+                    return leftX == (-1 * A) - B
+                        &amp;&amp; rightX == (-1 * A) + B
+                        &amp;&amp; INCLUSIVE == circlesFilled
+                        &amp;&amp; LESS_THAN == centerFilled;
                 </div>
                 <div class="show-guess">
                     graph.pointA.setCoord( [guess[0], 0] );
                     graph.pointB.setCoord( [guess[1], 0] );
+                    circlesFilled = guess[2];
+                    centerFilled = guess[3];
+                    $( "input[name=circleradio][value=" + (circlesFilled ? "filled" : "unfilled") +"]" ).attr( "checked", true );
+                    $( "input[name=lineradio][value=" + (centerFilled ? "center" : "outside") +"]" ).attr( "checked", true );
                     graph.drawLines();
                 </div>
             </div>
