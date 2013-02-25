@@ -1,6 +1,6 @@
 (function() {
 
-var testMode;
+var localMode;
 
 // Keep the template variables private, to prevent external access
 var VARS = {};
@@ -17,7 +17,7 @@ $.tmpl = {
                 // False means all templating will be run again, so new values will be chosen
                 var result = !!(ensure && $.tmpl.getVAR(ensure));
                 if (!result) {
-                    if ($.tmpl.DATA_ENSURE_LOOPS++ > 10000 && testMode) {
+                    if ($.tmpl.DATA_ENSURE_LOOPS++ > 10000 && localMode) {
                         // Shucks, probably not possible. Just give up in order
                         // to not hang the dev's browser.
                         alert("unsatisfiable data-ensure?");
@@ -327,10 +327,10 @@ $.fn.tmplLoad = function(problem, info) {
     VARS = {};
     $.tmpl.DATA_ENSURE_LOOPS = 0;
 
-    testMode = info.testMode;
+    localMode = info.localMode;
 
     // Expose the variables if we're in local mode
-    if (testMode) {
+    if (localMode) {
         $.tmpl.VARS = VARS;
     }
 };
