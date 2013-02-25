@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html data-require="math polynomials expressions math-format word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Naming Polynomials</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="DEGREES">["","constant","linear","quadratic","cubic"]</var>
+        <var id="TERMS">["","monomial","binomial","trinomial"]</var>
+        <var id="MAX_DEGREE">randFromArray([0,0,1,1,2,2,2,3,3,3])</var>
+        <var id="POLY"> new Polynomial(0, MAX_DEGREE, undefined, undefined, undefined, randRange(1,3)) </var>
+        <var id="NUM_TERMS">POLY.getNumberOfTerms()</var>
+        <var id="HIGHEST">POLY.getCoefAndDegreeForTerm(0)</var>
+        <var id="HIGHEST_TERM">expr(makeTerm(HIGHEST.coef, "x", HIGHEST.degree))</var>
+        <var id="DEGREE">POLY.findMaxDegree()</var>
+        <var id="DEGREE_WORD">DEGREES[DEGREE + 1]</var>
+        <var id="TERM_WORD">TERMS[POLY.getNumberOfTerms()]</var>
+    </div>
+
+    <div class="problems">
+        <div id="problem-type-1">
+            <div class="question">
+                <p>What is the most precise name for the polynomial below?</p>
+                <p><code><var>POLY</var></code></p>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-type="list" data-choices="DEGREES"><var>DEGREE_WORD</var></span>
+                <span class="sol" data-type="list" data-choices="TERMS"><var>TERM_WORD</var></span>
+            </div>
+
+            <div class="hints">
+                <p>To name a polynomial, you need to find its degree and number of terms.</p>
+                <p>When there is only one variable, the degree of a polynomial is found by finding the term with the largest exponent.</p>
+                <p>The term with the highest exponent is <code><var>HIGHEST_TERM</var></code>. 
+                <span data-if="DEGREE < 2">
+                    This can be rewritten as <code><var>HIGHEST.coef</var>x^{<var>HIGHEST.degree</var>}</code>.
+                </span>
+                Its exponent is <code><var>DEGREE</var></code>, so the degree of the entire polynomial is <code><var>DEGREE</var></code>.
+                <p>Polynomials with degree <code><var>DEGREE</var></code> are known as <var>DEGREE_WORD</var>.</p>
+                <p>A term is a product of numbers and variables. Different terms are separated by <code>+</code> and <code>-</code> signs.</p>
+                <p>This polynomial has <var>plural(NUM_TERMS, "term")</var>.</p>
+                <p>Polynomials with <var>plural(NUM_TERMS, "term")</var> are called <var>TERM_WORD</var>s.</p>
+                <p><code><var>POLY</var></code> is a <var>DEGREE_WORD</var> <var>TERM_WORD</var>.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

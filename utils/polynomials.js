@@ -1,22 +1,23 @@
 $.extend(KhanUtil, {
-    Polynomial: function(minDegree, maxDegree, coefs, variable, name) {
-        var term = function(coef, vari, degree) {
+    makeTerm: function(coef, vari, degree) {
 
-            // sort of a weird error behavior
-            if (typeof coef === "undefined" || coef === 0) {
-                return null;
-            }
+        // sort of a weird error behavior
+        if (typeof coef === "undefined" || coef === 0) {
+            return null;
+        }
 
-            if (degree === 0) {
-                return coef;
-            } else if (degree === 1) {
-                return ["*", coef, vari];
-            } else {
-                return ["*", coef, ["^", vari, degree]];
-            }
+        if (degree === 0) {
+            return coef;
+        } else if (degree === 1) {
+            return ["*", coef, vari];
+        } else {
+            return ["*", coef, ["^", vari, degree]];
+        }
 
-        };
+    },
 
+    Polynomial: function(minDegree, maxDegree, coefs, variable, name, maxTerms) {
+        console.log(arguments);
         // inverse of term.    Given an expression it returns the coef and degree.
         // calculus needs this for hints
         var extractFromExpr = function(expr) {
@@ -46,7 +47,7 @@ $.extend(KhanUtil, {
             this.maxDegree = minDegree;
         }
 
-        this.coefs = coefs || KhanUtil.randCoefs(this.minDegree, this.maxDegree);
+        this.coefs = coefs || KhanUtil.randCoefs(this.minDegree, this.maxDegree, maxTerms);
 
         this.variable = (typeof variable !== "undefined") ? variable : "x";
 
@@ -94,7 +95,7 @@ $.extend(KhanUtil, {
             var expr = ["+"];
 
             for (var i = this.maxDegree; i >= this.minDegree; i--) {
-                var theTerm = term(this.coefs[i], vari, i);
+                var theTerm = KhanUtil.makeTerm(this.coefs[i], vari, i);
 
                 if (theTerm != null) {
                     expr.push(theTerm);
@@ -380,15 +381,27 @@ $.extend(KhanUtil, {
 
     },
 
-    randCoefs: function randCoefs(minDegree, maxDegree) {
+    // Generates random coefficients with at most maxTerms non-zero terms
+    randCoefs: function randCoefs(minDegree, maxDegree, maxTerms) {
         var coefs = [];
         var allZero = true;
 
         for (var i = maxDegree; i >= minDegree; i--) {
             coefs[i] = KhanUtil.randRange(-7, 7);
+        }
+
+        if (maxTerms) {
+           var numZeros = maxDegree - minDegree - maxTerms + 1;
+           var zeroTerms = KhanUtil.randRangeUnique(minDegree, maxDegree, numZeros);
+           for (var i = zeroTerms.length - 1; i >= 0; i--) {
+               coefs[zeroTerms[i]] = 0;
+           }
+        }
+
+        for (var i = maxDegree; i >= minDegree; i--) {
             allZero = allZero && coefs[i] === 0;
         }
 
-        return allZero ? randCoefs(minDegree, maxDegree) : coefs;
+        return allZero ? randCoefs(minDegree, maxDegree, maxTerms) : coefs;
     }
 });
