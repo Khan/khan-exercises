@@ -14,7 +14,7 @@
 <div class="exercise">
     <div class="problems">
         <div>
-            <div class="vars" data-ensure="SOLUTION < 100">
+            <div class="vars" data-ensure="SOLUTION < 100 && EXPONENT < 5">
                 <var id="TERM1_COEF">
                     <!-- 80% of the time, the coefficient should be 1 -->
                     randRangeWeightedExclude(1, 3, 1, 0.8, [0])
@@ -98,7 +98,7 @@
                             <span data-if="TERM === WHICH_TERM - 1">}</span>
                             <var>TERM2</var>^{<var>TERM</var>}
                             <span data-if="TERM !== EXPONENT">
-                                +
+                                \space+\space
                             </span>
                         </span>
                     </code></p>
