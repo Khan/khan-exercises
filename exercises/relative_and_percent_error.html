@@ -33,7 +33,7 @@
                 <div class="solution" data-type="number" data-forms="percent" data-inexact data-max-error="0.01"><var>ANS</var></div>
 
                 <div class="hints">
-                    <p>Percent error is equal to relative error <code>\times 100</code>.</p>
+                    <p>The only difference between relative and percent error is how the answer is expressed. <a href="https://www.khanacademy.org/math/arithmetic/decimals/percent_tutorial/e/converting_decimals_to_percents">Learn more about expressing decimals as percents.</a></p>
                     <div>
                         <p>The experimental value (<code>x_{0}</code>) is <code><var>X0</var> <var>ABBR</var></code>.</p>
                     </div>
@@ -41,19 +41,23 @@
                         <p>The true value (<code>x</code>) is <code><var>X</var> <var>ABBR</var></code>.</p>
                     </div>
                     <div>
-                            <p>The equation for percent error is <code>\dfrac{x_{0} - x}{x} \times 100</code>.</p>
+                            <p>The equation for percent error is <code>\dfrac{x_{0} - x}{x}</code>.</p>
                     </div>
                     <div>
-                            <p>So we plug in our values: <code>\dfrac{<var>X0</var> <var>ABBR</var> - <var>X</var> <var>ABBR</var>}{<var>X</var> <var>ABBR</var>} \times 100</code>.</p>
+                            <p>So we plug in our values: <code>\dfrac{<var>X0</var> <var>ABBR</var> - <var>X</var> <var>ABBR</var>}{<var>X</var> <var>ABBR</var>}</code>.</p>
                     </div>
                     <div>
-                            <p>We can cancel the units: <code>\dfrac{<var>X0</var> - <var>X</var>}{<var>X</var>} \times 100</code>.</p>
+                            <p>We can cancel the units: <code>\dfrac{<var>X0</var> - <var>X</var>}{<var>X</var>}</code>.</p>
                     </div>
                     <div>
-                            <p>This simplifies to <code><var>ANS</var> \times 100</code>.</p>
+                            <p>This simplifies to <code><var>ANS</var></code>.</p>
                     </div>
                     <div>
-                            <p>Finally, the percent error is <code><var>roundTo(3, ANS * 100)</var>\%</code>.</p>
+                        <p>In order to express this as a percent, write the decimal it as a fraction with a denominator of 100.</p>
+                        <p><code><var>ANS</var></code> = <code>\dfrac{<var>ANS * 100</var>}{100}</code></p>
+                    </div>
+                    <div>
+                            <p>This comes out to <code><var>roundTo(3, ANS * 100)</var>\%</code>.</p>
                     </div>
 
                 </div>
