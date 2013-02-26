@@ -149,18 +149,18 @@ $.extend(KhanUtil, {
         };
 
         this.derivative = function() {
+            var self = this;
             var ddxCoefs = [];
-
-            for (var i = this.maxDegree; i >= this.minDegree; i--) {
-                ddxCoefs[i - 1] = i * this.coefs[i];
-            }
+            _.each(_.range(self.maxDegree - self.minDegree + 1), function(i) {
+                ddxCoefs[i - 1] = i * self.coefs[i];
+            });
 
             // if the term's degree is zero, the derivative degree is not
             // decremented
-            var ddxMinDegree = this.minDegree ? this.minDegree - 1 : 0;
-            var ddxMaxDegree = this.maxDegree ? this.maxDegree - 1 : 0;
+            var ddxMinDegree = self.minDegree ? self.minDegree - 1 : 0;
+            var ddxMaxDegree = self.maxDegree ? self.maxDegree - 1 : 0;
 
-            return new KhanUtil.Polynomial(ddxMinDegree, ddxMaxDegree, ddxCoefs, this.variable);
+            return new KhanUtil.Polynomial(ddxMinDegree, ddxMaxDegree, ddxCoefs, self.variable);
         },
 
         /**
@@ -390,5 +390,20 @@ $.extend(KhanUtil, {
         }
 
         return allZero ? randCoefs(minDegree, maxDegree) : coefs;
-    }
+    },
+
+    findRootsNumerically: function(fn, range, step) {
+        step = step || 0.05;
+        var x = range[0]
+        var positive = fn(x) > 0;
+        var roots = [];
+        while (x < range[1]) {
+            x += step;
+            if ((fn(x) > 0) !== positive) {
+                roots.push(KhanUtil.roundToNearest(step, x - step));
+                positive = !positive;
+            }
+        }
+        return roots;
+    },
 });

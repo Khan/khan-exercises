@@ -76,11 +76,6 @@ $.extend(KhanUtil, {
         var mouseY = event.pageY - $(graphie.raphael.
             canvas.parentNode).offset().top;
 
-        // can't go beyond 10 pixels from the edge
-        mouseX = Math.max(10, Math.min(graphie.xpixels - 10,
-            mouseX));
-        mouseY = Math.max(10, Math.min(graphie.ypixels - 10,
-            mouseY));
         return [mouseX, mouseY];
     },
 
@@ -521,8 +516,10 @@ $.extend(KhanUtil, {
                 var scaledPoint = graph.scalePoint(coord);
                 this.visibleShape.attr({ cx: scaledPoint[0] });
                 this.visibleShape.attr({ cy: scaledPoint[1] });
-                this.mouseTarget.attr({ cx: scaledPoint[0] });
-                this.mouseTarget.attr({ cy: scaledPoint[1] });
+                if (this.mouseTarget != null) {
+                    this.mouseTarget.attr({ cx: scaledPoint[0] });
+                    this.mouseTarget.attr({ cy: scaledPoint[1] });
+                }
             }
             this.coord = coord.slice();
         };
@@ -530,7 +527,9 @@ $.extend(KhanUtil, {
         // Change z-order to back
         movablePoint.toBack = function() {
             if (this.visible) {
-                this.mouseTarget.toBack();
+                if (this.mouseTarget != null) {
+                    this.mouseTarget.toBack();
+                }
                 this.visibleShape.toBack();
             }
         };
@@ -538,17 +537,11 @@ $.extend(KhanUtil, {
         // Change z-order to front
         movablePoint.toFront = function() {
             if (this.visible) {
-                this.mouseTarget.toFront();
+                if (this.mouseTarget != null) {
+                    this.mouseTarget.toFront();
+                }
                 this.visibleShape.toFront();
             }
-        };
-
-        movablePoint.disableDragging = function() {
-            $(this.mouseTarget[0]).css("display", "none");
-        };
-
-        movablePoint.enableDragging = function() {
-            $(this.mouseTarget[0]).css("display", "block");
         };
 
         return movablePoint;
@@ -1218,8 +1211,8 @@ $.extend(KhanUtil, {
                 ymin: null,
                 ymax: null
             },
-            snapX: 1,
-            snapY: 1,
+            snapX: 0,
+            snapY: 0,
 
             // this function will be called whenever .translate(), .snap(), or
             // .moveTo() are called
@@ -1370,6 +1363,10 @@ $.extend(KhanUtil, {
                 hoverStyle: rect.hoverStyle.points,
                 snapX: rect.snapX,
                 snapY: rect.snapY,
+                visible: !rect.fixed.points[i],
+                constraints: {
+                    fixed: rect.fixed.points[i]
+                },
                 onMove: function(x, y) {
                     if (!moveIsInBounds(i, x, y)) {
                         return false;
@@ -1378,10 +1375,6 @@ $.extend(KhanUtil, {
                     rect.render();
                 }
             });
-
-            if (rect.fixed.points[i]) {
-                point.disableDragging();
-            }
 
             rect.points.push(point);
         });
@@ -1489,9 +1482,15 @@ $.extend(KhanUtil, {
             _.each(rect.points, function(point, i) {
                 var x0 = point.coord[0];
                 var y0 = point.coord[1];
+                var x1 = x0;
+                var y1 = y0;
 
-                var x1 = KhanUtil.roundToNearest(rect.snapX, x0);
-                var y1 = KhanUtil.roundToNearest(rect.snapY, y0);
+                if (rect.snapX) {
+                    x1 = KhanUtil.roundToNearest(rect.snapX, x0);
+                }
+                if (rect.snapY) {
+                    y1 = KhanUtil.roundToNearest(rect.snapY, y0);
+                }
 
                 if (!dx || !dy) {
                     dx = x1 - x0;
@@ -1575,7 +1574,7 @@ $.extend(KhanUtil, {
                             (event.which === 1 || event.which === 0)) {
                         event.preventDefault();
                         rect.toFront();
-                    rect.prevCoord = KhanUtil.getMouseCoord(event);
+                        rect.prevCoord = KhanUtil.getMouseCoord(event);
 
                         rect.enableHoverStyle();
 
@@ -1585,7 +1584,7 @@ $.extend(KhanUtil, {
                             KhanUtil.dragging = true;
 
                             if (event.type === "vmousemove") {
-                            var currCoord = KhanUtil.getMouseCoord(event);
+                                var currCoord = KhanUtil.getMouseCoord(event);
 
                                 if (rect.prevCoord && rect.prevCoord.length === 2) {
                                     var diff = KhanUtil.coordDiff(rect.prevCoord, currCoord);
@@ -1599,7 +1598,13 @@ $.extend(KhanUtil, {
                                 rect.dragging = false;
                                 KhanUtil.dragging = false;
 
-                                rect.enableNormalStyle();
+                                var currCoord = KhanUtil.getMouseCoord(event);
+                                if (currCoord[0] < rect.getX() ||
+                                    currCoord[0] > rect.getX2() ||
+                                    currCoord[1] < rect.getY() ||
+                                    currCoord[1] > rect.getY2()) {
+                                        rect.enableNormalStyle();
+                                }
 
                                 // snap to grid
                                 rect.snap();
