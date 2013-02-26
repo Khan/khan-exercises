@@ -275,7 +275,11 @@ var Khan = (function() {
     },
     issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!",
 
-    gae_bingo = window.gae_bingo || { bingo: function() {} },
+    gae_bingo = window.gae_bingo || {
+        ab_test: function() {},
+        bingo: function() {},
+        tests: {}
+    },
 
     // The ul#examples (keep in a global because we need to modify it even when it's out of the DOM)
     examples = null;
@@ -595,7 +599,8 @@ var Khan = (function() {
 
             setVideos: function(exercise) {
 
-                if (exercise.relatedVideos) {
+                if (exercise.relatedVideos &&
+                        gae_bingo.tests["Show related videos"] !== "hide") {
                     this.cache[exercise.name] = exercise.relatedVideos;
                 }
 
@@ -2746,6 +2751,11 @@ var Khan = (function() {
         if (window.ModalVideo) {
             ModalVideo.hookup();
         }
+
+        // Test is created in exercises/handlers.py since we can't create
+        // CoreMetrics tests in js-land. This just imports it so we can look
+        // at gae_bingo.tests to see which alternative to use.
+        gae_bingo.ab_test("Show related videos")
     }
 
     if (!localMode) {
