@@ -610,9 +610,17 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
         createValidator: function(solution) {
             var correct = $.trim($(solution).text());
 
+            var flags = "";
+
+            if ($(solution).data("case-insensitive") != null) {
+                flags += "i";
+            }
+
+            var regex = new RegExp(correct, flags);
+
             return function(guess) {
                 guess = $.trim(guess);
-                return guess.match(correct) != null;
+                return guess.match(regex) != null;
             };
         }
     },

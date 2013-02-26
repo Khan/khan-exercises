@@ -151,17 +151,17 @@ var Khan = (function() {
 
     userExercise = undefined,
 
-    // Check to see if we're in test mode
-    testMode = typeof Exercises === "undefined",
+    // Check to see if we're in local mode
+    localMode = typeof Exercises === "undefined",
 
     // Set in prepareSite when Exercises.init() has already been called
     assessmentMode,
 
     // The main server we're connecting to for saving data
     server = typeof apiServer !== "undefined" ? apiServer :
-        testMode ? "http://localhost:8080" : "",
+        localMode ? "http://localhost:8080" : "",
 
-    // The ID, filename, and name of the exercise -- these will only be set here in testMode
+    // The ID, filename, and name of the exercise -- these will only be set here in localMode
     exerciseId = ((/([^\/.]+)(?:\.html)?$/.exec(window.location.pathname) || [])[1]) || "",
     exerciseFile = exerciseId + ".html",
     exerciseName = deslugify(exerciseId),
@@ -249,12 +249,12 @@ var Khan = (function() {
     modulePromises = {},
 
     urlBase = typeof urlBaseOverride !== "undefined" ? urlBaseOverride :
-        testMode ? "../" : "/khan-exercises/",
+        localMode ? "../" : "/khan-exercises/",
 
-    // In test mode, we use khan-exercises local copy of the /images
+    // In local mode, we use khan-exercises local copy of the /images
     // directory.  But in production (on www.khanacademy.org), we use
     // the canonical location of images, which is under '/'.
-    imageBase = ((typeof urlBaseOverride !== "undefined" || testMode)
+    imageBase = ((typeof urlBaseOverride !== "undefined" || localMode)
                  ? (urlBase + "images/") : ("/images/"));
 
 
@@ -275,13 +275,17 @@ var Khan = (function() {
     },
     issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!",
 
-    gae_bingo = window.gae_bingo || { bingo: function() {} },
+    gae_bingo = window.gae_bingo || {
+        ab_test: function() {},
+        bingo: function() {},
+        tests: {}
+    },
 
     // The ul#examples (keep in a global because we need to modify it even when it's out of the DOM)
     examples = null;
 
     // Add in the site stylesheets
-    if (testMode) {
+    if (localMode) {
         (function() {
             var link = document.createElement("link");
             link.rel = "stylesheet";
@@ -364,7 +368,7 @@ var Khan = (function() {
         // TODO(alpert): This doesn't need to be in the Khan object.
         getBaseModules: function() {
             var mods = [];
-            if (testMode) {
+            if (localMode) {
                 mods.push("jquery-ui", "../jquery.qtip");
             }
 
@@ -428,7 +432,7 @@ var Khan = (function() {
             var head = document.getElementsByTagName("head")[0];
             var isMathJax = url.indexOf("/MathJax/") !== -1;
 
-            if (!testMode && url.indexOf("/khan-exercises/") === 0 &&
+            if (!localMode && url.indexOf("/khan-exercises/") === 0 &&
                     !isMathJax) {
                 // Don't bother loading khan-exercises content in non-local
                 // mode; this content is already packaged up and available
@@ -595,7 +599,8 @@ var Khan = (function() {
 
             setVideos: function(exercise) {
 
-                if (exercise.relatedVideos) {
+                if (exercise.relatedVideos &&
+                        gae_bingo.tests["Show related videos"] !== "hide") {
                     this.cache[exercise.name] = exercise.relatedVideos;
                 }
 
@@ -721,11 +726,11 @@ var Khan = (function() {
     }
 
     // Seed the random number generator with the user's hash
-    randomSeed = testMode && parseFloat(Khan.query.seed) || userCRC32 ||
+    randomSeed = localMode && parseFloat(Khan.query.seed) || userCRC32 ||
             (new Date().getTime() & 0xffffffff);
 
     // Load in jQuery and underscore
-    if (testMode) {
+    if (localMode) {
         Khan.loadScript("../jquery.js", function() {
             Khan.loadScript("../utils/underscore.js", onjQueryLoaded);
         });
@@ -751,10 +756,10 @@ var Khan = (function() {
         $(function() {
             var promises = [];
 
-            // Load all base modules, and if this is test mode, any specified
+            // Load all base modules, and if this is local mode, any specified
             // in the data-require on <html>
             var mods = Khan.getBaseModules();
-            if (testMode) {
+            if (localMode) {
                 var modString = document.documentElement.getAttribute(
                         "data-require") || "";
                 var exMods = modString.length ? modString.split(" ") : [];
@@ -794,7 +799,7 @@ var Khan = (function() {
                 type = type || "";
 
                 var info = {
-                    testMode: testMode
+                    localMode: localMode
                 };
 
                 return this.each(function(i, elem) {
@@ -847,7 +852,7 @@ var Khan = (function() {
     function makeProblemBag(problems, n) {
         var bag = [], totalWeight = 0;
 
-        if (testMode && Khan.query.test != null) {
+        if (localMode && Khan.query.test != null) {
             // Just do each problem 10 times
             $.each(problems, function(i, elem) {
                 elem = $(elem);
@@ -1059,7 +1064,7 @@ var Khan = (function() {
             problemSeed = seed;
 
         // In either of these testing situations,
-        } else if ((testMode && Khan.query.test != null) || user == null) {
+        } else if ((localMode && Khan.query.test != null) || user == null) {
             problemSeed = Math.abs(randomSeed % bins);
         }
 
@@ -1067,7 +1072,7 @@ var Khan = (function() {
         randomSeed = problemSeed;
 
         // Check to see if we want to test a specific problem
-        if (testMode) {
+        if (localMode) {
             id = typeof id !== "undefined" ? id : Khan.query.problem;
         }
 
@@ -1121,7 +1126,7 @@ var Khan = (function() {
         }
 
         // prepend any motivational text for the growth mindset A/B test
-        var growthHeader = (!testMode && !assessmentMode &&
+        var growthHeader = (!localMode && !assessmentMode &&
                 Exercises.currentCard.attributes.growthHeader);
         $("#workarea").prepend(growthHeader);
 
@@ -1328,12 +1333,12 @@ var Khan = (function() {
         }
 
         // Hook out for exercise test runner
-        if (testMode && parent !== window && typeof parent.jQuery !== "undefined") {
+        if (localMode && parent !== window && typeof parent.jQuery !== "undefined") {
             parent.jQuery(parent.document).trigger("problemLoaded", [makeProblem, answerData.solution]);
         }
 
         // Save problem info in dump data for testers
-        if (testMode && Khan.query.test != null) {
+        if (localMode && Khan.query.test != null) {
             var testerInfo = $("#tester-info");
 
             // Deep clone the elements to avoid some straaaange bugs
@@ -1756,7 +1761,7 @@ var Khan = (function() {
         }
 
         // Show the debug info
-        if (testMode && Khan.query.debug != null) {
+        if (localMode && Khan.query.debug != null) {
             $(document).keypress(function(e) {
                 if (e.charCode === 104) {
                     $("#hint").click();
@@ -1867,7 +1872,7 @@ var Khan = (function() {
 
         // Version of the site used by Khan/exercise-browser for the iframe
         // preview
-        if (testMode && Khan.query.browse != null) {
+        if (localMode && Khan.query.browse != null) {
             $("html").addClass("exercise-browser");
 
             var browseWrap = $("#browse").empty();
@@ -1954,7 +1959,7 @@ var Khan = (function() {
     function renderNextProblem(nextUserExercise) {
         clearExistingProblem();
 
-        if (testMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount) {
+        if (localMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount) {
             // Show the dump data
             $("#problemarea").append(
                 "<p>Thanks! You're all done testing this exercise.</p>" +
@@ -1975,7 +1980,7 @@ var Khan = (function() {
 
         } else {
 
-            if (testMode) {
+            if (localMode) {
                 // Just generate a new problem from existing exercise
                 makeProblem();
             } else {
@@ -2005,7 +2010,7 @@ var Khan = (function() {
         // Grab example answer format container
         examples = $("#examples");
 
-        assessmentMode = !testMode && Exercises.assessmentMode;
+        assessmentMode = !localMode && Exercises.assessmentMode;
 
         // Build the data to pass to the server
         function buildAttemptData(pass, attemptNum, attemptContent, curTime) {
@@ -2045,34 +2050,34 @@ var Khan = (function() {
                 problem_type: problemID,
 
                 // Whether we're currently in review mode
-                review_mode: (!testMode && Exercises.reviewMode) ? 1 : 0,
+                review_mode: (!localMode && Exercises.reviewMode) ? 1 : 0,
 
                 // Whether we are currently working on a topic, as opposed to an exercise
-                topic_mode: (!testMode && !Exercises.reviewMode && !Exercises.practiceMode) ? 1 : 0,
+                topic_mode: (!localMode && !Exercises.reviewMode && !Exercises.practiceMode) ? 1 : 0,
 
                 // Request camelCasing in returned response
                 casing: "camel",
 
                 // The current card data
-                card: !testMode && JSON.stringify(Exercises.currentCard),
+                card: !localMode && JSON.stringify(Exercises.currentCard),
 
                 // Unique ID of the cached stack
-                stack_uid: !testMode && Exercises.completeStack.getUid(),
+                stack_uid: !localMode && Exercises.completeStack.getUid(),
 
                 // The current topic, if any
-                topic_id: !testMode && Exercises.topic && Exercises.topic.id,
+                topic_id: !localMode && Exercises.topic && Exercises.topic.id,
 
                 // How many cards the user has already done
-                cards_done: !testMode && Exercises.completeStack.length,
+                cards_done: !localMode && Exercises.completeStack.length,
 
                 // How many cards the user has left to do
-                cards_left: !testMode && (Exercises.incompleteStack.length - 1),
+                cards_left: !localMode && (Exercises.incompleteStack.length - 1),
 
                 // Custom stack ID if it exists
-                custom_stack_id: !testMode && Exercises.completeStack.getCustomStackID(),
+                custom_stack_id: !localMode && Exercises.completeStack.getCustomStackID(),
 
                 // The user assessment key if in assessmentMode
-                user_assessment_key: !testMode && Exercises.userAssessmentKey
+                user_assessment_key: !localMode && Exercises.userAssessmentKey
             };
         }
 
@@ -2180,7 +2185,7 @@ var Khan = (function() {
             } else if (pass === true) {
                 // Correct answer, so show the next question button.
                 $("#check-answer-button").hide();
-                if (!testMode || Khan.query.test == null) {
+                if (!localMode || Khan.query.test == null) {
                     $("#next-question-button")
                         .removeAttr("disabled")
                         .removeClass("buttonDisabled")
@@ -2339,7 +2344,7 @@ var Khan = (function() {
                 }
             }
 
-            var fProdReadOnly = !testMode && userExercise.readOnly;
+            var fProdReadOnly = !localMode && userExercise.readOnly;
             var fAnsweredCorrectly = $("#next-question-button").is(":visible");
             if (!fProdReadOnly && !fAnsweredCorrectly) {
                 // Resets the streak and logs history for exercise viewer
@@ -2495,12 +2500,12 @@ var Khan = (function() {
             // to fall back to jsonp.
             $.ajax({
 
-                url: (testMode ? "http://www.khanacademy.org/" : "/") + "githubpost",
-                type: testMode ? "GET" : "POST",
-                data: testMode ? {json: JSON.stringify(dataObj)} :
+                url: (localMode ? "http://www.khanacademy.org/" : "/") + "githubpost",
+                type: localMode ? "GET" : "POST",
+                data: localMode ? {json: JSON.stringify(dataObj)} :
                     JSON.stringify(dataObj),
-                contentType: testMode ? "application/x-www-form-urlencoded" : "application/json",
-                dataType: testMode ? "jsonp" : "json",
+                contentType: localMode ? "application/x-www-form-urlencoded" : "application/json",
+                dataType: localMode ? "jsonp" : "json",
                 success: function(json) {
 
                     var data = json.data || json;
@@ -2563,7 +2568,7 @@ var Khan = (function() {
         });
 
         // Prepare for the tester info if requested
-        if (testMode && Khan.query.test != null) {
+        if (localMode && Khan.query.test != null) {
             $("#answer_area").prepend(
                 '<div id="tester-info" class="info-box">' +
                     '<span class="info-box-header">Testing Mode</span>' +
@@ -2687,12 +2692,12 @@ var Khan = (function() {
         }
 
         // Prepare for the debug info if requested
-        if (testMode && Khan.query.debug != null) {
+        if (localMode && Khan.query.debug != null) {
             $('<div id="debug"></div>').appendTo("#answer_area");
         }
 
         // Likewise, if we're in browse mode, setup for that
-        if (testMode && Khan.query.browse != null) {
+        if (localMode && Khan.query.browse != null) {
             $('<div id="browse"></div>').appendTo("#answer_area");
         }
 
@@ -2706,10 +2711,10 @@ var Khan = (function() {
                 }
             });
 
-        // Register testMode-specific event handlers
-        if (testMode) {
+        // Register localMode-specific event handlers
+        if (localMode) {
 
-            // testMode automatically advances to the next problem --
+            // localMode automatically advances to the next problem --
             // integrated mode just listens and waits for renderNextProblem
             $(Khan).bind("gotoNextProblem", function() {
                 renderNextProblem();
@@ -2722,9 +2727,14 @@ var Khan = (function() {
         if (window.ModalVideo) {
             ModalVideo.hookup();
         }
+
+        // Test is created in exercises/handlers.py since we can't create
+        // CoreMetrics tests in js-land. This just imports it so we can look
+        // at gae_bingo.tests to see which alternative to use.
+        gae_bingo.ab_test("Show related videos")
     }
 
-    if (!testMode) {
+    if (!localMode) {
         // In local mode, everything is set up in loadTestModeSite after
         // loading jQuery. The real mode already has jQuery, so we just listen
         // for the signal to prepare.
@@ -2805,7 +2815,7 @@ var Khan = (function() {
     }
 
     function request(method, data, fn, fnError, queue) {
-        if (testMode) {
+        if (localMode) {
             // Pretend we have success
             if ($.isFunction(fn)) {
                 fn();
@@ -3071,7 +3081,7 @@ var Khan = (function() {
         // TODO(alpert): Is the DOM really not yet ready?
         $(function() {
             // Inject the site markup
-            if (testMode) {
+            if (localMode) {
                 $.get(urlBase + "exercises/khan-site.html", function(site) {
                     $.get(urlBase + "exercises/khan-exercise.html",
                         function(ex) {
