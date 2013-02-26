@@ -81,6 +81,38 @@ table.limit th:first-child { text-align: right; }
 #answer_area input[type=number] {
     width: 80px;
 }
+#answer_area .short20 input[type=text],
+#answer_area .short20 input[type=number] {
+    width: 20px;
+}
+#answer_area .short25 input[type=text],
+#answer_area .short25 input[type=number] {
+    width: 25px;
+}
+#answer_area .short28 input[type=text],
+#answer_area .short28 input[type=number] {
+    width: 28px;
+}
+#answer_area .short30 input[type=text],
+#answer_area .short30 input[type=number] {
+    width: 30px;
+}
+#answer_area .short32 input[type=text],
+#answer_area .short32 input[type=number] {
+    width: 32px;
+}
+#answer_area .short35 input[type=text],
+#answer_area .short35 input[type=number] {
+    width: 35px;
+}
+#answer_area .short40 input[type=text],
+#answer_area .short40 input[type=number] {
+    width: 40px;
+}
+#answer_area .short50 input[type=text],
+#answer_area .short50 input[type=number] {
+    width: 50px;
+}
 #readonly { display: none; }
 
 .radical .surd { font: 150% Arial; padding: 0 0 0 5px; }
@@ -398,6 +430,67 @@ div.timeline-total {
 .user-activity.activated {
   border: 2px solid #888;
 }
+
+/* Version of the site used by Khan/exercise-browser for the iframe preview */
+
+html.exercise-browser {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.exercise-browser body {
+  min-width: 0;
+  width: 790px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.exercise-browser header, .exercise-browser footer, .exercise-browser .topic-exercise-badge, .exercise-browser #extras, .exercise-browser .exercises-stack, .exercise-browser .related-video-box  {
+  display: none !important;
+}
+
+.exercise-browser #outer-wrapper, .exercise-browser #page-container, .exercise-browser #page-container-inner {
+  background: #ffffff;
+}
+
+.exercise-browser article {
+  border: none;
+}
+
+.exercise-browser #container.single-exercise {
+  min-width: 0;
+}
+
+.exercise-browser #page-container {
+  width: 790px;
+  min-width: 0;
+}
+
+.exercise-browser .problem-types {
+  margin-right: 20px;
+}
+
+.exercise-browser .problem-type-link {
+  display: block;
+  margin-bottom: 5px;
+  padding: 6px;
+  background: #36A6C4;
+  border-radius: 5px;
+  border: 1px solid #7FC8E6;
+  color: white;
+}
+
+.exercise-browser .problem-type-link:hover {
+  color: white;
+  background: #1C758C;
+  text-decoration: none;
+}
+
+.exercise-browser .problem-type-link:visited {
+  color: #C2EAFF;
+  text-decoration: none;
+}
+
 
 .lite header, .lite footer, .lite #extras, .lite .exercise-badge, .lite .hint-box, .lite .related-video-box {
 	display: none !important;
@@ -754,4 +847,28 @@ table.periodic-table td.element div.symbol {
 }
 table.periodic-table td.element div.weight {
     font-size: 10px;
+}
+
+span.hover-hint {
+    color: #005987;
+    border-bottom: 1px dashed #005987;
+}
+span.hover-hint:hover {
+    color: #678d00;
+    border-bottom: 1px dashed #678d00;
+    cursor: pointer;
+}
+
+#solutionarea table.rational-exp td {
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+#solutionarea table.rational-exp td.soln-top {
+    padding-bottom: 1px;
+}
+#solutionarea table.rational-exp td.soln-bot {
+    padding-top: 1px;
+    border-top: 1px solid black;
 }

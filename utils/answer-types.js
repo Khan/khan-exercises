@@ -432,13 +432,14 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 },
 
                 // Decimal numbers -- compare entered text rounded to
-                // 'precision' against the correct answer. We round to 1e-10
-                // by default, which is healthily less than machine epsilon but
-                // should be more than any real decimal answer would use. (The
-                // 'integer' answer type uses precision == 1.)
+                // 'precision' Reciprical of the precision against the correct
+                // answer. We round to 1/1e10 by default, which is healthily
+                // less than machine epsilon but should be more than any real
+                // decimal answer would use. (The 'integer' answer type uses
+                // precision == 1.)
                 decimal: function(text, precision) {
                     if (precision == null) {
-                        precision = 1e-10;
+                        precision = 1e10;
                     }
 
                     var normal = function(text) {
@@ -459,7 +460,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             var x = parseFloat(match[1].replace(/[, ]/g, ""));
 
                             if (options.inexact === undefined) {
-                                x = Math.round(x / precision) * precision;
+                                x = Math.round(x * precision) / precision;
                             }
 
                             return x;
@@ -592,15 +593,15 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // answer is provided (i.e. the field is left blank)
             var fallback = $(solution).data("fallback");
 
-             return {
-                 validator: Khan.answerTypes.regex.createValidator(solution),
-                 answer: function() {
-                    return input.val().length > 0 ?
-                        input.val() :
-                        (fallback != null ? fallback + "" : "");
-                 },
-                 solution: $.trim($(solution).text()),
-                 examples: [],
+            return {
+                validator: Khan.answerTypes.regex.createValidator(solution),
+                answer: function() {
+                   return input.val().length > 0 ?
+                       input.val() :
+                       (fallback != null ? fallback + "" : "");
+                },
+                solution: $.trim($(solution).text()),
+                examples: [],
                 showGuess: function(guess) {
                     input.val(guess === undefined ? "" : guess);
                 }
@@ -609,9 +610,17 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
         createValidator: function(solution) {
             var correct = $.trim($(solution).text());
 
+            var flags = "";
+
+            if ($(solution).data("case-insensitive") != null) {
+                flags += "i";
+            }
+
+            var regex = new RegExp(correct, flags);
+
             return function(guess) {
                 guess = $.trim(guess);
-                return guess.match(correct) != null;
+                return guess.match(regex) != null;
             };
         }
     },

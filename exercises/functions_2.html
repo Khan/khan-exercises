@@ -4,16 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Functions 2</title>
     <script src="../khan-exercise.js"></script>
-
-    <style>
-        .f {
-            color: #ffa500; /* orange */
-        }
-
-        .g {
-            color: #28ae7b; /* green */
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -87,8 +77,8 @@
 
         <div class="problems">
             <div>
-                <p class="problem">Functions <code class="f">f(x)</code> and <code class="g">g(x)</code> are graphed.
-                Find <code><var>F_COEF</var> \cdot </code><code class="f">f(<var>CORRECT_X</var>)</code><code>\space + \space<var>G_COEF</var> \cdot </code><code class="g">g(<var>CORRECT_GX</var>)</code>.
+                <p class="problem">Functions <code class="hint_blue">f(x)</code> and <code class="hint_red">g(x)</code> are graphed.
+                Find <code><var>F_COEF</var> \cdot </code><code class="hint_blue">f(<var>CORRECT_X</var>)</code><code>\space + \space<var>G_COEF</var> \cdot </code><code class="hint_red">g(<var>CORRECT_GX</var>)</code>.
                 </p>
 
                 <div id="graph" class="graphie">
@@ -102,8 +92,8 @@
                         axisArrows: "&lt;-&gt;"
                     });
 
-                    path( FUNCTION_PATH, { stroke: "#ffa500" } );
-                    path( G_PATH, { stroke: "#28ae7b" } );
+                    path( FUNCTION_PATH, { stroke: BLUE } );
+                    path( G_PATH, { stroke: RED } );
                 </div>
 
                 <p class="solution"><var>F_COEF * CORRECT_Y + G_COEF * CORRECT_GY</var></p>
