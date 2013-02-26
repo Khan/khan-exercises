@@ -76,9 +76,6 @@
     </script>
 
     <style type="text/css">
-        #solutionarea input[type="text"] {
-            width: 50px;
-        }
         #solutionarea td {
             text-align: center;
             vertical-align: middle;
@@ -169,12 +166,12 @@
                                 <code><var>Y</var> = </code>
                             </td>
                             <td class="soln-top">
-                                <span class="sol">a</span>
+                                <span class="sol short50">a</span>
                             </td>
                         </tr>
                         <tr>
                             <td class="soln-bot">
-                                <span class="sol" data-fallback="1">a</span>
+                                <span class="sol short50" data-fallback="1">a</span>
                             </td>
                         </tr>
                     </table>
@@ -196,8 +193,23 @@
 
             <div>
                 <p>Dividing both the numerator and denominator by <code>(<var>X</var> + <var>A</var>)</code> gives:</p>
-                <code>\dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code>
+                <div data-if="C === 1">
+                    <code><var>FACTOR1</var></code>
+                </div>
+                <div data-else>
+                    <code>\dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code>
+                </div>
             </div>
+
+            <div data-if="C < -1">
+                <p>To remove the negative denominator, multiply the numerator and denominator by -1:</p>
+                <div><code>\dfrac{-<var>X</var> + <var>-B</var>}{<var>-C</var>}</code></div>
+            </div>
+            <div data-if="C === -1">
+                <p>Dividing by -1 is the same thing as multiplying by -1, so the answer is:</p>
+                <div><code>-<var>X</var> + <var>-B</var></code></div>
+            </div>
+
         </div>
     </div>
 </body>
