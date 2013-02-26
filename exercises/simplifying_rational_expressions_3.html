@@ -6,7 +6,13 @@
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
         function getExpressionRegex(coefficient, vari, constant) {
-            // Capture Ax + B or B + Ax, where B can be 0 and A > 0 or A < 0
+            // Capture Ax + B or B + Ax, either A or B can be 0
+            if (coefficient === 0) {
+                var regex = "^\\s*";
+                regex += constant < 0 ? "[-\\u2212]\\s*" + (-constant) + "\\s*$" : constant + "\\s*$"
+                return regex;
+            }
+
             var regex = "(^\\s*";
 
             if (coefficient < 0) {
@@ -28,15 +34,6 @@
             }
             regex += vari + "\\s*$)";
             return regex
-        };
-
-        function getConstantRegex(constant) {
-            var regex = "^\\s*";
-            if (constant < 0) {
-                regex += "[-\\u2212]\\s*";
-            }
-            regex += Math.abs(constant) + "\\s*$";
-            return regex;
         };
     </script>
 
@@ -90,9 +87,9 @@
                     <var id="FACTOR2">expr(["+", X, C])</var>
                     <var id="NUMERATOR">expr(["+", ["*", B, X], A * B])</var>
                     <var id="DENOMINATOR">expr(["+", ["^", X, 2], ["*", A + C, X], A * C])</var>
-                    <var id="POSITIVENUMERATOR">getConstantRegex(B)</var>
+                    <var id="POSITIVENUMERATOR">getExpressionRegex(0, X, B)</var>
                     <var id="POSITIVEDENOMINATOR">getExpressionRegex(1, X, C)</var>
-                    <var id="NEGATIVENUMERATOR">getConstantRegex(-B)</var>
+                    <var id="NEGATIVENUMERATOR">getExpressionRegex(0, X, -B)</var>
                     <var id="NEGATIVEDENOMINATOR">getExpressionRegex(-1, X, -C)</var>
                 </div>
             </div>
@@ -104,9 +101,9 @@
                     <var id="NUMERATOR">expr(["+", ["^", X, 2], ["*", A + B, X], A * B])</var>
                     <var id="DENOMINATOR">expr(["+", ["*", C, X], A * C])</var>
                     <var id="POSITIVENUMERATOR">getExpressionRegex(1, X, B)</var>
-                    <var id="POSITIVEDENOMINATOR">getConstantRegex(C)</var>
+                    <var id="POSITIVEDENOMINATOR">getExpressionRegex(0, X, C)</var>
                     <var id="NEGATIVENUMERATOR">getExpressionRegex(-1, X, -B)</var>
-                    <var id="NEGATIVEDENOMINATOR">getConstantRegex(-C)</var>
+                    <var id="NEGATIVEDENOMINATOR">getExpressionRegex(0, X, -C)</var>
                 </div>
             </div>
         </div>
