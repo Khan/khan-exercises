@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math matrix">
+<html data-require="math matrix qhints">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Defined and undefined matrix operations</title>
@@ -75,6 +75,26 @@
                         for their <span data-if="OPERATION === '+'">sum</span><span data-else>difference</span> to be defined.
                     </p>
                 </div>
+                <div class="qhint">
+                    <p>
+                        Do <code><var>PRETTY_MAT_1_ID</var></code> and <code><var>PRETTY_MAT_2_ID</var></code> have the same number of rows?
+                    </p>
+                    <span class="qhint-answer"><var>DIM_1 === DIM_3 ? "Yes" : "No"</var></span>
+                    <p class="qhint-input">
+                        <input class="simple-button" type="button" value="Yes"/>
+                        <input class="simple-button" type="button" value="No"/>
+                    </p>
+                </div>
+                <div class="qhint">
+                    <p>
+                        Do <code><var>PRETTY_MAT_1_ID</var></code> and <code><var>PRETTY_MAT_2_ID</var></code> have the same number of columns?
+                    </p>
+                    <span class="qhint-answer"><var>DIM_2 === DIM_4 ? "Yes" : "No"</var></span>
+                    <p class="qhint-input">
+                        <input class="simple-button" type="button" value="Yes"/>
+                        <input class="simple-button" type="button" value="No"/>
+                    </p>
+                </div>
                 <div>
                     <p>
                         Since <code><var>PRETTY_MAT_1_ID</var></code> has <span data-if="DEFINED">the same</span><span data-else>different</span> dimensions <code>(<var>DIM_1 + "\\times" + DIM_2</var>)</code> <span data-if="DEFINED">as</span><span data-else>from</span> <code><var>PRETTY_MAT_2_ID</var></code> <code>(<var>DIM_3 + "\\times" + DIM_4</var>)</code>,
@@ -106,6 +126,26 @@
                 <div>
                     <p>
                         If the two matrices have dimensions <code>(\blue m \times \red n)</code> and <code>(\red p \times \green q)</code>, then <code>\red n</code> (number of columns in the first matrix) must equal <code>\red p</code> (number of rows in the second matrix) for their product to be defined.
+                    </p>
+                </div>
+                <div class="qhint">
+                    <p>
+                        How many columns does the first matrix, <code><var>PRETTY_MAT_1_ID</var></code>, have?
+                    </p>
+                    <span class="qhint-answer"><var>DIM_2</var></span>
+                    <p class="qhint-input">
+                        <input type="text" value=""/>
+                        <input type="submit" value="Check"/>
+                    </p>
+                </div>
+                <div class="qhint">
+                    <p>
+                        How many rows does the second matrix, <code><var>PRETTY_MAT_2_ID</var></code>, have?
+                    </p>
+                    <span class="qhint-answer"><var>DIM_3</var></span>
+                    <p class="qhint-input">
+                        <input type="text" value=""/>
+                        <input type="submit" value="Check"/>
                     </p>
                 </div>
                 <div>
