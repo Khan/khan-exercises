@@ -1,47 +1,12 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Simplifying rational expressions 3</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
-        function getExpression(vari, coefficients) {
-            // Write c1.X^2 + c2.X + c3 nicely
-
-            var expr = "";
-
-            for (var i=0; i<coefficients.length; i++) {
-                var coefficient = coefficients[i];
-
-                if (coefficient) {
-                    if (expr === "") {
-                        if (coefficient < 0) {
-                            expr += "-";
-                        }
-                    } else {
-                        expr += coefficient > 0 ? " + " : " - ";
-                    }
-
-                    var degree = coefficients.length - 1 - i;
-                    if (degree) {
-                        if (coefficient !== 1 && coefficient !== -1) {
-                            expr += Math.abs(coefficient);
-                        }
-                        expr += vari;
-                        if (degree > 1) {
-                            expr += "^" + degree;
-                        }
-                    } else {
-                        expr += Math.abs(coefficient);
-                    }
-                }
-            }
-
-            return expr || "0";
-        };
-
         function getExpressionRegex(coefficient, vari, constant) {
-            // Capture Ax + B or B + Ax
+            // Capture Ax + B or B + Ax, where B can be 0 and A > 0 or A < 0
             var regex = "(^\\s*";
 
             if (coefficient < 0) {
@@ -101,17 +66,17 @@
             <var id="A">randRangeNonZero(-10, 10)</var>
             <div data-ensure="B !== C ">
                 <var id="B">randRangeNonZero(-10, 10)</var>
-                <var id="C">randRangeNonZero(-10, 10)</var>
+                <var id="C">randRangeNonZero(-2, 2)</var>
           </div>
         </div>
 
         <div class="problems">
             <div id="no-constant">
                 <div class="vars">
-                    <var id="FACTOR1">X + "+" + B</var>
-                    <var id="FACTOR2">X + "+" + C</var>
-                    <var id="NUMERATOR">getExpression(X, [1, A + B, A * B])</var>
-                    <var id="DENOMINATOR">getExpression(X, [1, A + C, A * C], X)</var>
+                    <var id="FACTOR1">expr(["+", X, B])</var>
+                    <var id="FACTOR2">expr(["+", X, C])</var>
+                    <var id="NUMERATOR">expr(["+", ["^", X, 2], ["*", A + B, X], A * B])</var>
+                    <var id="DENOMINATOR">expr(["+", ["^", X, 2], ["*", A + C, X], A * C])</var>
                     <var id="POSITIVENUMERATOR">getExpressionRegex(1, X, B)</var>
                     <var id="POSITIVEDENOMINATOR">getExpressionRegex(1, X, C)</var>
                     <var id="NEGATIVENUMERATOR">getExpressionRegex(-1, X, -B)</var>
@@ -122,9 +87,9 @@
             <div id="top-constant">
                 <div class="vars">
                     <var id="FACTOR1">B</var>
-                    <var id="FACTOR2">X + "+" + C</var>
-                    <var id="NUMERATOR">getExpression(X, [B, + A * B])</var>
-                    <var id="DENOMINATOR">getExpression(X, [1, A + C, A * C])</var>
+                    <var id="FACTOR2">expr(["+", X, C])</var>
+                    <var id="NUMERATOR">expr(["+", ["*", B, X], A * B])</var>
+                    <var id="DENOMINATOR">expr(["+", ["^", X, 2], ["*", A + C, X], A * C])</var>
                     <var id="POSITIVENUMERATOR">getConstantRegex(B)</var>
                     <var id="POSITIVEDENOMINATOR">getExpressionRegex(1, X, C)</var>
                     <var id="NEGATIVENUMERATOR">getConstantRegex(-B)</var>
@@ -134,10 +99,10 @@
 
             <div id="bottom-constant">
                 <div class="vars">
-                    <var id="FACTOR1">X + "+" + B</var>
+                    <var id="FACTOR1">expr(["+", X, B])</var>
                     <var id="FACTOR2">C</var>
-                    <var id="NUMERATOR">getExpression(X, [1, A + B, A * B])</var>
-                    <var id="DENOMINATOR">getExpression(X, [C, A * C])</var>
+                    <var id="NUMERATOR">expr(["+", ["^", X, 2], ["*", A + B, X], A * B])</var>
+                    <var id="DENOMINATOR">expr(["+", ["*", C, X], A * C])</var>
                     <var id="POSITIVENUMERATOR">getExpressionRegex(1, X, B)</var>
                     <var id="POSITIVEDENOMINATOR">getConstantRegex(C)</var>
                     <var id="NEGATIVENUMERATOR">getExpressionRegex(-1, X, -B)</var>
@@ -186,7 +151,7 @@
 
             <p><code>
                 \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
-                = \dfrac{(<var>X</var> + <var>A</var>)(<var>FACTOR1</var>)}{(<var>X</var> + <var>A</var>)(<var>FACTOR2</var>)}
+                = \dfrac{(<var>FACTOR1</var>)(<var>X</var> + <var>A</var>)}{(<var>FACTOR2</var>)(<var>X</var> + <var>A</var>)}
             </code></p>
 
             <p>Notice that the term <code>(<var>X</var> + <var>A</var>)</code> appears in both the numerator and denominator.</p>
@@ -194,20 +159,20 @@
             <div>
                 <p>Dividing both the numerator and denominator by <code>(<var>X</var> + <var>A</var>)</code> gives:</p>
                 <div data-if="C === 1">
-                    <code><var>FACTOR1</var></code>
+                    <code><var>Y</var> = \dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code> or more simply, <code><var>Y</var> = <var>FACTOR1</var></code>
                 </div>
                 <div data-else>
-                    <code>\dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code>
+                    <code><var>Y</var> = \dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code>
                 </div>
             </div>
 
-            <div data-if="C < -1">
+            <div data-if="FACTOR2 < -1">
                 <p>To remove the negative denominator, multiply the numerator and denominator by -1:</p>
-                <div><code>\dfrac{-<var>X</var> + <var>-B</var>}{<var>-C</var>}</code></div>
+                <div><code><var>Y</var> = \dfrac{-<var>X</var> + <var>-B</var>}{<var>-C</var>}</code></div>
             </div>
-            <div data-if="C === -1">
+            <div data-if="FACTOR2 === -1">
                 <p>Dividing by -1 is the same thing as multiplying by -1, so the answer is:</p>
-                <div><code>-<var>X</var> + <var>-B</var></code></div>
+                <div><code><var>Y</var> = -<var>X</var> + <var>-B</var></code></div>
             </div>
 
         </div>
