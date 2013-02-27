@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Simplifying rational expressions 2</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function getExpressionRegex(coefficient, vari, constant) {
+            // Capture Ax + B or B + Ax, either A or B can be 0
+            if (coefficient === 0) {
+                var regex = "^\\s*";
+                regex += constant < 0 ? "[-\\u2212]\\s*" + (-constant) + "\\s*$" : constant + "\\s*$"
+                return regex;
+            }
+
+            var regex = "(^\\s*";
+
+            if (coefficient < 0) {
+                regex += "[-\\u2212]\\s*";
+            }
+            if (coefficient !== 1 && coefficient !== -1) {
+                regex += Math.abs(coefficient) + "\\s*";
+            }
+            regex += vari + "\\s*"
+            regex += constant < 0 ? "[-\\u2212]" : "\\+";
+            regex += "\\s*" + Math.abs(constant) + "\\s*$)|(^\\s*"
+            if (constant < 0) {
+                regex += "[-\\u2212]\\s*";
+            }
+            regex += Math.abs(constant) + "\\s*"
+            regex += coefficient < 0 ? "[-\\u2212]\\s*" : "\\+\\s*";
+            if (coefficient !== 1 && coefficient !== -1) {
+                regex += Math.abs(coefficient) + "\\s*";
+            }
+            regex += vari + "\\s*$)";
+            return regex
+        };
+    </script>
+
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <div data-ensure="X !== Y">
+                        <var id="X">randVar()</var>
+                        <var id="Y">randVar()</var>
+                    </div>
+                    <div data-ensure="getGCD(MULTIPLE1, MULTIPLE2) === 1">
+                        <var id="MULTIPLE1">randRange( 1, 12 )</var>
+                        <var id="MULTIPLE2">randRange( 1, 12 )</var>
+                    </div>
+                    <div data-ensure="COEFFICIENT1 !== 0 || CONSTANT1 !== 0">
+                        <var id="COEFFICIENT1">randRangeWeighted(-10, 10, 0, 0.2)</var>
+                        <var id="CONSTANT1">randRangeWeighted(-10, 10, 0, 0.2)</var>
+                    </div>
+                    <div data-ensure="COEFFICIENT2 !== 0 || CONSTANT2 !== 0">
+                        <var id="COEFFICIENT2">randRangeWeighted(-10, 10, 0, 0.2)</var>
+                        <var id="CONSTANT2">randRangeWeighted(-10, 10, 0, 0.2)</var>
+                    </div>
+                    <var id="NUMERATOR">expr(["+", ["*", MULTIPLE1 * COEFFICIENT1, X], MULTIPLE1 * CONSTANT1])</var>
+                    <var id="DENOMINATOR">expr(["+", ["*", MULTIPLE2 * COEFFICIENT2, X], MULTIPLE2 * CONSTANT2])</var>
+                    <var id="POSITIVENUMERATOR">getExpressionRegex(1, X, B)</var>
+                    <var id="POSITIVEDENOMINATOR">getExpressionRegex(1, X, C)</var>
+                    <var id="NEGATIVENUMERATOR">getExpressionRegex(-1, X, -B)</var>
+                    <var id="NEGATIVEDENOMINATOR">getExpressionRegex(-1, X, -C)</var>
+                </div>
+
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question"><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>POSITIVENUMERATOR</var></span>
+                        <span class="sol" data-type="regex"><var>POSITIVEDENOMINATOR</var></span>
+                    </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NEGATIVENUMERATOR</var></span>
+                        <span class="sol" data-type="regex"><var>NEGATIVEDENOMINATOR</var></span>
+                    </div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <table>
+                                <tr>
+                                    <td rowspan="2" class="soln-name">
+                                        <code><var>Y</var> = </code>
+                                    </td>
+                                    <td class="soln-top">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short50" data-fallback="1">a</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <p class="example">a simplifed expression, like <code>x + 2</code></p>
+                </div>
+
+                <div class="hints">
+                    <p>First factor the expressions in the numerator and denominator.</p>
+
+                    <p><code>
+                        \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
+                        = \dfrac{(<var>FACTOR1</var>)(<var>X</var> + <var>A</var>)}{(<var>FACTOR2</var>)(<var>X</var> + <var>A</var>)}
+                    </code></p>
+
+                    <p>Notice that the term <code>(<var>X</var> + <var>A</var>)</code> appears in both the numerator and denominator.</p>
+
+                    <div>
+                        <p>Dividing both the numerator and denominator by <code>(<var>X</var> + <var>A</var>)</code> gives:</p>
+                        <div data-if="C === 1">
+                            <code><var>Y</var> = \dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code> or more simply, <code><var>Y</var> = <var>FACTOR1</var></code>
+                        </div>
+                        <div data-else>
+                            <code><var>Y</var> = \dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code>
+                        </div>
+                    </div>
+
+                    <div data-if="FACTOR2 < -1">
+                        <p>To remove the negative denominator, multiply the numerator and denominator by -1:</p>
+                        <div><code><var>Y</var> = \dfrac{-<var>X</var> + <var>-B</var>}{<var>-C</var>}</code></div>
+                    </div>
+                    <div data-if="FACTOR2 === -1">
+                        <p>Dividing by -1 is the same thing as multiplying by -1, so the answer is:</p>
+                        <div><code><var>Y</var> = -<var>X</var> + <var>-B</var></code></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
