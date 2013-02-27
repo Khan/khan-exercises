@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions polynomials subhints">
+    <head>
+        <title>Exponent Equations</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+
+            <div class="vars">
+                <var id="LEFT_BASE">randRange(2,4)</var>
+                <var id="LEFT_POLY">new Polynomial(0, 1,
+                    [randRangeWeighted(-5, 5, 0, .8), randRangeNonZero(-5,5)])</var>
+                <var id="LEFT_X">LEFT_POLY.maxDegree > 0 ? LEFT_POLY.coefs[1] : 0</var>
+                <var id="LEFT_C">LEFT_POLY.minDegree < 1 ? LEFT_POLY.coefs[0] : 0</var>
+                <var id="RIGHT_POLY">new Polynomial(0, 1, 
+                    [randRangeWeighted(-5, 5, 0, .2), randRangeNonZero(-5,5)])</var>
+                <var id="RIGHT_X">RIGHT_POLY.maxDegree > 0 ? RIGHT_POLY.coefs[1] : 0</var>
+                <var id="RIGHT_C">RIGHT_POLY.minDegree < 1 ? RIGHT_POLY.coefs[0] : 0</var>
+                <var id="LEFT_POLY_TEXT">LEFT_POLY.text()</var>
+                <var id="RIGHT_EXP1" data-ensure="RIGHT_EXP1*RIGHT_X !== LEFT_X">
+                    randRangeExclude(-3, 3, [0,1])</var>
+                <var id="EXP_ABS">abs(RIGHT_EXP1)</var>
+                <var id="RIGHT_BASE">pow(LEFT_BASE, abs(RIGHT_EXP1))</var>
+                <var id="RIGHT_POLY_TEXT">RIGHT_POLY.text()</var>
+                <var id="SOLUTION">(RIGHT_EXP1 * RIGHT_C - LEFT_C)/(LEFT_X - RIGHT_EXP1 * RIGHT_X)</var>
+                <var id="SOLUTION_HINT">fractionReduce(RIGHT_EXP1 * RIGHT_C - LEFT_C,LEFT_X - RIGHT_EXP1 * RIGHT_X)</var>
+            </div>
+
+            <div class="problems">
+                <div id="Solving for Variables in Exponents">
+
+                    <p class="question">
+                    <p><b>Solve for x in the following equation:</p></b>
+                    <p><code><var>LEFT_BASE</var><span data-if="LEFT_X !== 0 ||  LEFT_C !== 1">
+                        ^{<var>LEFT_POLY_TEXT</var>}</span> = 
+                        <span data-if="RIGHT_EXP1 &lt; 0">(1/</span><var>RIGHT_BASE</var>
+                        <span data-if="RIGHT_EXP1 &lt; 0">)</span>
+                        ^{<var>RIGHT_POLY_TEXT</var>} </code> </p>
+                    </p>
+
+                    <div class="solution" data-type="multiple">
+                       <p>x = </code> <span class="sol"><var>SOLUTION</var></span></p>
+                    </div>      
+
+                </div> <!-- Problem type -->
+            </div> <!-- problems -->
+
+            <div class="hints">
+                <div>
+                    Convert <code><span>\blue{<span data-if="RIGHT_EXP1 &lt; 0">
+                    1/</span><var>RIGHT_BASE</var>}</span></code> 
+                    to a power of <code><span>\blue{<var>LEFT_BASE</var>}</span></code>
+                    <p><code>{<span>\blue<var>LEFT_BASE</var></span>
+                    <span data-if="LEFT_X !== 0 ||  LEFT_C !== 1">
+                    ^{<var>LEFT_POLY_TEXT</var>}</span> = 
+                    (<span>\blue{<var>LEFT_BASE</var>^{<var>RIGHT_EXP1</var></span>}})^
+                    {<var>RIGHT_POLY_TEXT</var>}}</code></p>
+                    [<a href="#" class="show-subhint" data-subhint="powerOf">Explain this step further.</a>]
+
+                    <div class="subhint" id="powerOf">
+                    <p>
+                        The number <var>RIGHT_BASE</var> can be expressed as a power of 
+                        <var>LEFT_BASE</var> because <var>RIGHT_BASE</var> = 
+                        <code>
+                        <span data-if="EXP_ABS !== 1">
+                        <span data-each="EXP_ABS times as POWER">
+                            <span data-if="POWER !== 0">*</span>
+                            <var>LEFT_BASE</var>
+                        </span></span>
+                        = <var>LEFT_BASE</var>^{<var>EXP_ABS</var>}. </code>
+                        <p><span data-if="RIGHT_EXP1 &lt; 0">
+                        When this number is in the denominator, the exponent should be negative:
+                        <code>1/<var>RIGHT_BASE</var> = 1/<var>LEFT_BASE</var>^{<var>EXP_ABS</var>} =
+                        <var>LEFT_BASE</var>^{<var>RIGHT_EXP1</var>}.</code></span></p>
+                    </p>
+                    </div>  <!-- subhint -->
+                </div>
+
+                <div>
+                    By the rules of exponents, the exponents on the right side are multiplied 
+                    <p><code><span>\blue<var>LEFT_BASE</var></span>^{<var>LEFT_POLY_TEXT</var>} = 
+                    <span>\blue<var>LEFT_BASE</var></span>^
+                    <span>\pink{(<var>RIGHT_EXP1</var>)(<var>RIGHT_POLY_TEXT</var>)}</span></code></p>
+                </div>
+                <div>
+                    With the bases the same now, set the exponents equal
+                    <code><span>\blue<var>LEFT_BASE</var></span>^
+                    <span>\pink{<var>LEFT_POLY_TEXT</var>}</span> = 
+                    <span>\blue<var>LEFT_BASE</var></span>^
+                    <span>\pink{(<var>RIGHT_EXP1</var>)(<var>RIGHT_POLY_TEXT</var>)}</span></code>
+                    <p><code><span>\pink{<var>LEFT_POLY_TEXT</var>}</span> = 
+                    <span>\pink{(<var>RIGHT_EXP1</var>)(<var>RIGHT_POLY_TEXT</var>)}</span></code></p>
+                </div>
+                <div>
+                    Multiply
+                    <p><code><span>\pink{<var>LEFT_POLY_TEXT</var>}</span> = 
+                    <span>\pink{<span data-if="RIGHT_X !== 0"> <var>RIGHT_EXP1*RIGHT_X</var>x
+                    </span><span data-if="RIGHT_C !== 0"> + <var>RIGHT_EXP1 * RIGHT_C</var></span>}</span> </code></p>
+                </div>
+                <div>
+                    Combine like terms and solve for x
+                    <p><code><span>\pink{<var>LEFT_X - RIGHT_EXP1 * RIGHT_X</var>x}</span> = 
+                    <span>\pink{<var>RIGHT_EXP1 * RIGHT_C - LEFT_C</var>}</span> </code></p>
+                </div>
+                <p><b>
+                    x = <code><var>SOLUTION_HINT</var></code>
+                </b></p>
+            </div>  <!-- hints -->
+        </div>  <!-- exercise -->
+    </body>
+</html>
