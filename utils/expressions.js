@@ -96,8 +96,7 @@ $.extend(KhanUtil, {
 
             // Remove terms that evaluate to 0
             terms = _.filter(terms, function(term) {
-                term = "" + KhanUtil.expr(term);
-                return term !== "0";
+                return "" + KhanUtil.expr(term) !== "0";
             });
 
             terms = $.map(terms, function(term, i) {
