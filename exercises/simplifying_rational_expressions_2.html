@@ -7,9 +7,16 @@
     <script type="text/javascript">
         function getExpressionRegex(coefficient, vari, constant) {
             // Capture Ax + B or B + Ax, either A or B can be 0
+            
             if (coefficient === 0) {
                 var regex = "^\\s*";
-                regex += constant < 0 ? "[-\\u2212]\\s*" + (-constant) + "\\s*$" : constant + "\\s*$"
+                regex += constant < 0 ? "[-\\u2212]\\s*" + (-constant) + "\\s*$" : constant + "\\s*$";
+                return regex;
+            }
+            if (constant === 0) {
+                var regex = "^\\s*";
+                regex += coefficient < 0 ? "[-\\u2212]\\s*" + (-coefficient) : coefficient;
+                regex += "\\s*" + vari + "\\s*$";
                 return regex;
             }
 
@@ -34,6 +41,30 @@
             }
             regex += vari + "\\s*$)";
             return regex
+        };
+        function getFactoredTerm(term) {
+            var expr = ""
+            if (term < 0) {
+                expr += " - ";
+            }
+            if (term !== 0) {
+                expr += "(" + KhanUtil.getPrimeFactorization( Math.abs(term) ).join( "\\cdot" ) + ")";
+            }
+            return expr;
+        };
+        function getFactoredExpression(factor, coefficient, vari, constant) {
+            var expr = ""
+            var term1 = getFactoredTerm(factor * coefficient);
+            var term2 = getFactoredTerm(factor * constant);
+
+            if (term1 !== "") {
+                expr += term1 + vari;
+                if (term2 !== "") {
+                    expr += " \+ ";
+                }
+            }
+            expr += term2;
+            return expr;
         };
     </script>
 
@@ -73,6 +104,8 @@
                     <var id="FACTOR">randRange( 1, 12 )</var>
                     <var id="NUMERATOR">expr(["+", ["*", FACTOR * COEFFICIENT1, X], FACTOR * CONSTANT1])</var>
                     <var id="DENOMINATOR">expr(["+", ["*", FACTOR * COEFFICIENT2, X], FACTOR * CONSTANT2])</var>
+                    <var id="FACTOREDNUMERATOR">getFactoredExpression(FACTOR, COEFFICIENT1, X, CONSTANT1)</var>
+                    <var id="FACTOREDDENOMINATOR">getFactoredExpression(FACTOR, COEFFICIENT2, X, CONSTANT2)</var>
                     <var id="NUMERATORSOL">expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>
                     <var id="DENOMINATORSOL">expr(["+", ["*", COEFFICIENT2, X], CONSTANT2])</var>
                     <var id="POSITIVENUMERATOR">getExpressionRegex(COEFFICIENT1, X, CONSTANT1)</var>
@@ -119,7 +152,12 @@
                 <div class="hints">
                     <p>Find the greatest common factor of the numerator and denominator.</p>
 
-                    <p>The greatest common factor of <code>(<var>NUMERATOR</var>)</code> and <code>(<var>DENOMINATOR</var>)</code> is <code><var>FACTOR</var></code>.</p>
+                    <div>
+                        <div>The numerator can be written: <code><var>FACTOREDNUMERATOR</var></code></div>
+                        <div>The denominator can be written: <code><var>FACTOREDDENOMINATOR</var></code></div>
+                    </div>
+
+                    <p>The greatest common factor of all the terms is <code><var>FACTOR</var></code>.</p>
 
                     <div>
                         <p>Dividing both the numerator and denominator by <code><var>FACTOR</var></code> gives:</p>
