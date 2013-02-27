@@ -83,8 +83,6 @@
                     <var id="FACTORDEGREE">expr(["*", FACTOR, ["^", X, DEGREE]])</var>
                     <var id="NUMERATOR">expr(["+", ["*", FACTOR * COEFFICIENT1, ["^", X, DEGREE + 1]], ["*", FACTOR * CONSTANT1, ["^", X, DEGREE]]])</var>
                     <var id="DENOMINATOR">expr(["+", ["*", FACTOR * COEFFICIENT2, ["^", X, DEGREE + 1]], ["*", FACTOR * CONSTANT2, ["^", X, DEGREE]]])</var>
-                    <var id="FACTOREDNUMERATOR">getFactoredExpression(FACTOR, COEFFICIENT1, X, DEGREE, CONSTANT1)</var>
-                    <var id="FACTOREDDENOMINATOR">getFactoredExpression(FACTOR, COEFFICIENT2, X, DEGREE, CONSTANT2)</var>
                     <var id="NUMERATORSOL">expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>
                     <var id="DENOMINATORSOL">expr(["+", ["*", COEFFICIENT2, X], CONSTANT2])</var>
                     <var id="NEGNUMERATORSOL">expr(["+", ["*", -COEFFICIENT1, X], -CONSTANT1])</var>
@@ -136,15 +134,20 @@
                     <div>
                         <p>
                             <div>The numerator can be factored:</div>
-                            <div><code><var>NUMERATOR</var> = <var>FACTOREDNUMERATOR</var></code></div>
+                            <div><code><var>NUMERATOR</var> = <var>getFactoredExpression(FACTOR, COEFFICIENT1, X, DEGREE, CONSTANT1)</var></code></div>
                         </p>
                         <p>
                             <div>The denominator can be factored:</div>
-                            <div><code><var>DENOMINATOR</var> = <var>FACTOREDDENOMINATOR</var></code></div>
+                            <div><code><var>DENOMINATOR</var> = <var>getFactoredExpression(FACTOR, COEFFICIENT2, X, DEGREE, CONSTANT2)</var></code></div>
                         </p>
                     </div>
 
                     <p>The greatest common factor of all the terms is <code><var>FACTORDEGREE</var></code>.</p>
+
+                    <div>
+                        <p>Factoring out <code><var>FACTORDEGREE</var></code> gives us:</p>
+                        <div><code><var>Y</var> = \dfrac{(<var>FACTORDEGREE</var>)(<var>NUMERATORSOL</var>)}{(<var>FACTORDEGREE</var>)(<var>DENOMINATORSOL</var>)}</code></div>
+                    </div>
 
                     <div>
                         <p>Dividing both the numerator and denominator by <code><var>FACTORDEGREE</var></code> gives:</p>
