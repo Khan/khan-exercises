@@ -63,16 +63,18 @@
                         <var id="Y">randVar()</var>
                     </div>
                     <div data-ensure="COEFFICIENT1 !== 0 || CONSTANT1 !== 0">
-                        <var id="COEFFICIENT1">randRangeWeighted(-10, 10, 0, 0.2)</var>
-                        <var id="CONSTANT1">randRangeWeighted(-10, 10, 0, 0.2)</var>
+                        <var id="COEFFICIENT1">randRangeWeighted(-10, 10, 0, 0.15)</var>
+                        <var id="CONSTANT1">randRangeWeighted(-10, 10, 0, 0.15)</var>
                     </div>
                     <div data-ensure="COEFFICIENT2 !== 0 || CONSTANT2 !== 0">
-                        <var id="COEFFICIENT2">randRangeWeighted(-10, 10, 0, 0.2)</var>
-                        <var id="CONSTANT2">randRangeWeighted(-10, 10, 0, 0.2)</var>
+                        <var id="COEFFICIENT2">randRangeWeighted(-10, 10, 0, 0.15)</var>
+                        <var id="CONSTANT2">randRangeWeighted(-10, 10, 0, 0.15)</var>
                     </div>
-                    <var id="MULTIPLE">randRange( 1, 12 )</var>
-                    <var id="NUMERATOR">expr(["+", ["*", MULTIPLE * COEFFICIENT1, X], MULTIPLE * CONSTANT1])</var>
-                    <var id="DENOMINATOR">expr(["+", ["*", MULTIPLE * COEFFICIENT2, X], MULTIPLE * CONSTANT2])</var>
+                    <var id="FACTOR">randRange( 1, 12 )</var>
+                    <var id="NUMERATOR">expr(["+", ["*", FACTOR * COEFFICIENT1, X], FACTOR * CONSTANT1])</var>
+                    <var id="DENOMINATOR">expr(["+", ["*", FACTOR * COEFFICIENT2, X], FACTOR * CONSTANT2])</var>
+                    <var id="NUMERATORSOL">expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>
+                    <var id="DENOMINATORSOL">expr(["+", ["*", COEFFICIENT2, X], CONSTANT2])</var>
                     <var id="POSITIVENUMERATOR">getExpressionRegex(COEFFICIENT1, X, CONSTANT1)</var>
                     <var id="POSITIVEDENOMINATOR">getExpressionRegex(COEFFICIENT2, X, CONSTANT2)</var>
                     <var id="NEGATIVENUMERATOR">getExpressionRegex(-COEFFICIENT1, X, -CONSTANT1)</var>
@@ -115,30 +117,25 @@
                 </div>
 
                 <div class="hints">
-                    <p>Find the greatest common factor of the <code><var>NUMERATOR</var></code> and <code><var>DENOMINATOR</var></code>.</p>
+                    <p>Find the greatest common factor of the numerator and denominator.</p>
 
-                    <p><code>
-                        \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
-                        = \dfrac{(<var>FACTOR1</var>)(<var>X</var> + <var>A</var>)}{(<var>FACTOR2</var>)(<var>X</var> + <var>A</var>)}
-                    </code></p>
-
-                    <p>Notice that the term <code>(<var>X</var> + <var>A</var>)</code> appears in both the numerator and denominator.</p>
+                    <p>The greatest common factor of <code>(<var>NUMERATOR</var>)</code> and <code>(<var>DENOMINATOR</var>)</code> is <code><var>FACTOR</var></code>.</p>
 
                     <div>
-                        <p>Dividing both the numerator and denominator by <code>(<var>X</var> + <var>A</var>)</code> gives:</p>
-                        <div data-if="C === 1">
-                            <code><var>Y</var> = \dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code> or more simply, <code><var>Y</var> = <var>FACTOR1</var></code>
+                        <p>Dividing both the numerator and denominator by <code><var>FACTOR</var></code> gives:</p>
+                        <div data-if="DENOMINATORSOL === '1'">
+                            <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code> or more simply, <code><var>Y</var> = <var>NUMERATORSOL</var></code>
                         </div>
                         <div data-else>
-                            <code><var>Y</var> = \dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code>
+                            <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code>
                         </div>
                     </div>
 
-                    <div data-if="FACTOR2 < -1">
+                    <div data-if="DENOMINATORSOL < -1">
                         <p>To remove the negative denominator, multiply the numerator and denominator by -1:</p>
                         <div><code><var>Y</var> = \dfrac{-<var>X</var> + <var>-B</var>}{<var>-C</var>}</code></div>
                     </div>
-                    <div data-if="FACTOR2 === -1">
+                    <div data-if="DENOMINATORSOL === -1">
                         <p>Dividing by -1 is the same thing as multiplying by -1, so the answer is:</p>
                         <div><code><var>Y</var> = -<var>X</var> + <var>-B</var></code></div>
                     </div>
