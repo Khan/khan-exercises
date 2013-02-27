@@ -46,22 +46,34 @@
                 expr += " - ";
             }
             if (term !== 0) {
-                expr += "(" + KhanUtil.getPrimeFactorization( Math.abs(term) ).join( "\\cdot" ) + ")";
+                expr += "(" + KhanUtil.getPrimeFactorization( Math.abs(term) ).join( "\\cdot" );
             }
             return expr;
         };
-        function getFactoredExpression(factor, coefficient, vari, constant) {
+        function getFactoredExpression(factor, coefficient, vari, degree, constant) {
             var expr = ""
             var term1 = getFactoredTerm(factor * coefficient);
             var term2 = getFactoredTerm(factor * constant);
 
             if (term1 !== "") {
-                expr += term1 + vari;
+                expr += term1;
+                for (var i=0; i<=degree; i++) {
+                    expr += " \\cdot " + vari;
+                }
+                expr += ")";
                 if (term2 !== "") {
                     expr += " \+ ";
                 }
             }
-            expr += term2;
+
+            if (term2 !== "") {
+                expr += term2;
+                for (var i=0; i<degree; i++) {
+                    expr += " \\cdot " + vari;
+                }
+                expr += ")";
+            }
+
             return expr;
         };
     </script>
@@ -95,15 +107,19 @@
                         <var id="COEFFICIENT1">randRangeWeighted(-10, 10, 0, 0.15)</var>
                         <var id="CONSTANT1">randRangeWeighted(-10, 10, 0, 0.15)</var>
                     </div>
-                    <div data-ensure="COEFFICIENT2 !== 0 || CONSTANT2 !== 0">
+                    <div data-ensure="COEFFICIENT1 !== 0 || COEFFICIENT2 !== 0">
                         <var id="COEFFICIENT2">randRangeWeighted(-10, 10, 0, 0.15)</var>
+                    </div>
+                    <div data-ensure="COEFFICIENT2 !== 0 || CONSTANT2 !== 0">
                         <var id="CONSTANT2">randRangeWeighted(-10, 10, 0, 0.15)</var>
                     </div>
                     <var id="FACTOR">randRange( 2, 12 )</var>
-                    <var id="NUMERATOR">expr(["+", ["*", FACTOR * COEFFICIENT1, X], FACTOR * CONSTANT1])</var>
-                    <var id="DENOMINATOR">expr(["+", ["*", FACTOR * COEFFICIENT2, X], FACTOR * CONSTANT2])</var>
-                    <var id="FACTOREDNUMERATOR">getFactoredExpression(FACTOR, COEFFICIENT1, X, CONSTANT1)</var>
-                    <var id="FACTOREDDENOMINATOR">getFactoredExpression(FACTOR, COEFFICIENT2, X, CONSTANT2)</var>
+                    <var id="DEGREE">randRangeWeighted(0, 2, 0, 0.5)</var>
+                    <var id="FACTORDEGREE">expr(["*", FACTOR, ["^", X, DEGREE]])</var>
+                    <var id="NUMERATOR">expr(["+", ["*", FACTOR * COEFFICIENT1, ["^", X, DEGREE + 1]], ["*", FACTOR * CONSTANT1, ["^", X, DEGREE]]])</var>
+                    <var id="DENOMINATOR">expr(["+", ["*", FACTOR * COEFFICIENT2, ["^", X, DEGREE + 1]], ["*", FACTOR * CONSTANT2, ["^", X, DEGREE]]])</var>
+                    <var id="FACTOREDNUMERATOR">getFactoredExpression(FACTOR, COEFFICIENT1, X, DEGREE, CONSTANT1)</var>
+                    <var id="FACTOREDDENOMINATOR">getFactoredExpression(FACTOR, COEFFICIENT2, X, DEGREE, CONSTANT2)</var>
                     <var id="NUMERATORSOL">expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>
                     <var id="DENOMINATORSOL">expr(["+", ["*", COEFFICIENT2, X], CONSTANT2])</var>
                     <var id="NEGNUMERATORSOL">expr(["+", ["*", -COEFFICIENT1, X], -CONSTANT1])</var>
@@ -153,17 +169,16 @@
                     <p>Find the greatest common factor of the numerator and denominator.</p>
 
                     <div>
-                        <div>The numerator can be written: <code><var>FACTOREDNUMERATOR</var></code></div>
-                        <div>The denominator can be written: <code><var>FACTOREDDENOMINATOR</var></code></div>
+                        <p>The numerator can be factored:</p>
+                        <div><code><var>NUMERATOR</var> = <var>FACTOREDNUMERATOR</var></code></div>
+                        <p>The denominator can be factored:</p>
+                        <div><code><var>DENOMINATOR</var> = <var>FACTOREDDENOMINATOR</var></code></div>
                     </div>
 
-                    <p>The greatest common factor of all the terms is
-                        <code><span data-if="!isPrime(FACTOR)"><var>getPrimeFactorization(FACTOR).join("\\cdot")</var> = </span>
-                        <var>FACTOR</var></code>.
-                    </p>
+                    <p>The greatest common factor of all the terms is <code><var>FACTORDEGREE</var></code>.</p>
 
                     <div>
-                        <p>Dividing both the numerator and denominator by <code><var>FACTOR</var></code> gives:</p>
+                        <p>Dividing both the numerator and denominator by <code><var>FACTORDEGREE</var></code> gives:</p>
                         <div data-if="DENOMINATORSOL === '1'">
                             <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code> or more simply, <code><var>Y</var> = <var>NUMERATORSOL</var></code>
                         </div>
