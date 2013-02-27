@@ -62,10 +62,6 @@
                         <var id="X">randVar()</var>
                         <var id="Y">randVar()</var>
                     </div>
-                    <div data-ensure="getGCD(MULTIPLE1, MULTIPLE2) === 1">
-                        <var id="MULTIPLE1">randRange( 1, 12 )</var>
-                        <var id="MULTIPLE2">randRange( 1, 12 )</var>
-                    </div>
                     <div data-ensure="COEFFICIENT1 !== 0 || CONSTANT1 !== 0">
                         <var id="COEFFICIENT1">randRangeWeighted(-10, 10, 0, 0.2)</var>
                         <var id="CONSTANT1">randRangeWeighted(-10, 10, 0, 0.2)</var>
@@ -74,12 +70,13 @@
                         <var id="COEFFICIENT2">randRangeWeighted(-10, 10, 0, 0.2)</var>
                         <var id="CONSTANT2">randRangeWeighted(-10, 10, 0, 0.2)</var>
                     </div>
-                    <var id="NUMERATOR">expr(["+", ["*", MULTIPLE1 * COEFFICIENT1, X], MULTIPLE1 * CONSTANT1])</var>
-                    <var id="DENOMINATOR">expr(["+", ["*", MULTIPLE2 * COEFFICIENT2, X], MULTIPLE2 * CONSTANT2])</var>
-                    <var id="POSITIVENUMERATOR">getExpressionRegex(1, X, B)</var>
-                    <var id="POSITIVEDENOMINATOR">getExpressionRegex(1, X, C)</var>
-                    <var id="NEGATIVENUMERATOR">getExpressionRegex(-1, X, -B)</var>
-                    <var id="NEGATIVEDENOMINATOR">getExpressionRegex(-1, X, -C)</var>
+                    <var id="MULTIPLE">randRange( 1, 12 )</var>
+                    <var id="NUMERATOR">expr(["+", ["*", MULTIPLE * COEFFICIENT1, X], MULTIPLE * CONSTANT1])</var>
+                    <var id="DENOMINATOR">expr(["+", ["*", MULTIPLE * COEFFICIENT2, X], MULTIPLE * CONSTANT2])</var>
+                    <var id="POSITIVENUMERATOR">getExpressionRegex(COEFFICIENT1, X, CONSTANT1)</var>
+                    <var id="POSITIVEDENOMINATOR">getExpressionRegex(COEFFICIENT2, X, CONSTANT2)</var>
+                    <var id="NEGATIVENUMERATOR">getExpressionRegex(-COEFFICIENT1, X, -CONSTANT1)</var>
+                    <var id="NEGATIVEDENOMINATOR">getExpressionRegex(-COEFFICIENT2, X, -CONSTANT2)</var>
                 </div>
 
                 <p class="problem">Simplify the following expression:</p>
@@ -118,7 +115,7 @@
                 </div>
 
                 <div class="hints">
-                    <p>First factor the expressions in the numerator and denominator.</p>
+                    <p>Find the greatest common factor of the <code><var>NUMERATOR</var></code> and <code><var>DENOMINATOR</var></code>.</p>
 
                     <p><code>
                         \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
