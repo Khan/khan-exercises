@@ -13,15 +13,8 @@
                 regex += constant < 0 ? "[-\\u2212]\\s*" + (-constant) + "\\s*$" : constant + "\\s*$";
                 return regex;
             }
-            if (constant === 0) {
-                var regex = "^\\s*";
-                regex += coefficient < 0 ? "[-\\u2212]\\s*" + (-coefficient) : coefficient;
-                regex += "\\s*" + vari + "\\s*$";
-                return regex;
-            }
 
-            var regex = "(^\\s*";
-
+            var regex = "^\\s*";
             if (coefficient < 0) {
                 regex += "[-\\u2212]\\s*";
             }
@@ -29,18 +22,23 @@
                 regex += Math.abs(coefficient) + "\\s*";
             }
             regex += vari + "\\s*"
-            regex += constant < 0 ? "[-\\u2212]" : "\\+";
-            regex += "\\s*" + Math.abs(constant) + "\\s*$)|(^\\s*"
-            if (constant < 0) {
-                regex += "[-\\u2212]\\s*";
+
+            if (constant === 0) {
+                return regex + "$";
+            } else {
+                regex = "(" + regex;
+                regex += constant < 0 ? "[-\\u2212]" : "\\+";
+                regex += "\\s*" + Math.abs(constant) + "\\s*$)|(^\\s*"
+                if (constant < 0) {
+                    regex += "[-\\u2212]\\s*";
+                }
+                regex += Math.abs(constant) + "\\s*"
+                regex += coefficient < 0 ? "[-\\u2212]\\s*" : "\\+\\s*";
+                if (coefficient !== 1 && coefficient !== -1) {
+                    regex += Math.abs(coefficient) + "\\s*";
+                }
+                return regex + vari + "\\s*$)";
             }
-            regex += Math.abs(constant) + "\\s*"
-            regex += coefficient < 0 ? "[-\\u2212]\\s*" : "\\+\\s*";
-            if (coefficient !== 1 && coefficient !== -1) {
-                regex += Math.abs(coefficient) + "\\s*";
-            }
-            regex += vari + "\\s*$)";
-            return regex
         };
         function getFactoredTerm(term) {
             var expr = ""
@@ -101,13 +99,15 @@
                         <var id="COEFFICIENT2">randRangeWeighted(-10, 10, 0, 0.15)</var>
                         <var id="CONSTANT2">randRangeWeighted(-10, 10, 0, 0.15)</var>
                     </div>
-                    <var id="FACTOR">randRange( 1, 12 )</var>
+                    <var id="FACTOR">randRange( 2, 12 )</var>
                     <var id="NUMERATOR">expr(["+", ["*", FACTOR * COEFFICIENT1, X], FACTOR * CONSTANT1])</var>
                     <var id="DENOMINATOR">expr(["+", ["*", FACTOR * COEFFICIENT2, X], FACTOR * CONSTANT2])</var>
                     <var id="FACTOREDNUMERATOR">getFactoredExpression(FACTOR, COEFFICIENT1, X, CONSTANT1)</var>
                     <var id="FACTOREDDENOMINATOR">getFactoredExpression(FACTOR, COEFFICIENT2, X, CONSTANT2)</var>
                     <var id="NUMERATORSOL">expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>
                     <var id="DENOMINATORSOL">expr(["+", ["*", COEFFICIENT2, X], CONSTANT2])</var>
+                    <var id="NEGNUMERATORSOL">expr(["+", ["*", -COEFFICIENT1, X], -CONSTANT1])</var>
+                    <var id="NEGDENOMINATORSOL">expr(["+", ["*", -COEFFICIENT2, X], -CONSTANT2])</var>
                     <var id="POSITIVENUMERATOR">getExpressionRegex(COEFFICIENT1, X, CONSTANT1)</var>
                     <var id="POSITIVEDENOMINATOR">getExpressionRegex(COEFFICIENT2, X, CONSTANT2)</var>
                     <var id="NEGATIVENUMERATOR">getExpressionRegex(-COEFFICIENT1, X, -CONSTANT1)</var>
@@ -157,7 +157,10 @@
                         <div>The denominator can be written: <code><var>FACTOREDDENOMINATOR</var></code></div>
                     </div>
 
-                    <p>The greatest common factor of all the terms is <code><var>FACTOR</var></code>.</p>
+                    <p>The greatest common factor of all the terms is
+                        <code><span data-if="!isPrime(FACTOR)"><var>getPrimeFactorization(FACTOR).join("\\cdot")</var> = </span>
+                        <var>FACTOR</var></code>.
+                    </p>
 
                     <div>
                         <p>Dividing both the numerator and denominator by <code><var>FACTOR</var></code> gives:</p>
@@ -169,13 +172,13 @@
                         </div>
                     </div>
 
-                    <div data-if="DENOMINATORSOL < -1">
-                        <p>To remove the negative denominator, multiply the numerator and denominator by -1:</p>
-                        <div><code><var>Y</var> = \dfrac{-<var>X</var> + <var>-B</var>}{<var>-C</var>}</code></div>
+                    <div data-if="exprIsNegated(DENOMINATORSOL)">
+                        <p>To avoid a negative denominator, multiply the numerator and denominator by -1:</p>
+                        <div><code><var>Y</var> = \dfrac{<var>NEGNUMERATORSOL</var>}{<var>NEGDENOMINATORSOL</var>}</code></div>
                     </div>
                     <div data-if="DENOMINATORSOL === -1">
                         <p>Dividing by -1 is the same thing as multiplying by -1, so the answer is:</p>
-                        <div><code><var>Y</var> = -<var>X</var> + <var>-B</var></code></div>
+                        <div><code><var>Y</var> = -<var>NEGNUMERATORSOL</var></code></div>
                     </div>
                 </div>
             </div>
