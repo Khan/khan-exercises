@@ -273,6 +273,12 @@ $.extend(KhanUtil, {
         },
 
         "^": function(base, pow) {
+            if (pow === 0) {
+                return "";
+            } else if (pow === 1) {
+                return base;
+            }
+
             var parenthesizeBase, trigFunction;
             switch (KhanUtil.exprType(base)) {
                 case "+":
