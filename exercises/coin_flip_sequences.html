@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html data-require="math graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="../khan-exercise.js"></script>
+    <title>Coin flip sequences</title>
+
+    <style>
+        .chart {
+            height: 324px;
+            width: 496px;
+            position: absolute !important;
+        }
+
+        .heads {
+            background: #a6a6a6;
+            color: #333;
+        }
+
+        .heads,
+        .tails {
+            border-right: 1px solid #888;
+            float: left;
+            font-family: Verdana, sans-serif;
+            font-size: 14px;
+            margin-bottom: 5px;
+            padding: 0 2px;
+            text-align: center;
+            width: 16px;
+        }
+
+        .tails {
+            background: #595959;
+            color: #ccc;
+        }
+
+        #chart-1 {
+            left: 496px;
+        }
+
+        #chart-2 {
+            left: 992px;
+        }
+
+        #chart-3 {
+            left: 1488px;
+        }
+
+        #charts {
+            height: 324px;
+            position: relative;
+            width: 496px;
+        }
+
+        .pattern-tabs {
+            color: #ccc;
+        }
+
+        .pattern-tabs a {
+            margin: 0 5px;
+        }
+
+        a.selected {
+            font-weight: bold;
+            color: #444 !important;
+            cursor: default;
+            text-decoration: none !important;
+        }
+
+        .view-patterns {
+            margin-top: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars">
+        <var id="ONE_FLIP">["H", "T"]</var>
+        <var id="ONE_FLIP_RESULT">_.map(ONE_FLIP, function(result) {
+            return (SEQUENCE.match(RegExp("(?=" + result + ")", "g")) || []).length
+        })</var>
+        <var id="TWO_FLIP">["HH", "HT", "TH", "TT"]</var>
+        <var id="TWO_FLIP_RESULT">_.map(TWO_FLIP, function(result) {
+            return (SEQUENCE.match(RegExp("(?=" + result + ")", "g")) || []).length
+        })</var>
+        <var id="THREE_FLIP">['HHH','HHT','THH','HTH','THT','HTT','TTH','TTT']</var>
+        <var id="THREE_FLIP_RESULT">_.map(THREE_FLIP, function(result) {
+            return (SEQUENCE.match(RegExp("(?=" + result + ")", "g")) || []).length
+        })</var>
+        <var id="CHOICES">[
+            'Fair coin',
+            'Unfair coin',
+            'Human guesses'
+        ]</var>
+    </div>
+
+    <p class="question">Which method was used to generate this sequence of heads and tails?</p>
+    <div class="problem">
+        <div style="overflow: hidden;">
+            <div id="charts">
+                <div data-each="SEQUENCE as FLIP">
+                    <div data-if="FLIP === 'H'" class="heads">H</div>
+                    <div data-else class="tails">T</div>
+                </div>
+                <div class="graphie chart" id="chart-1">
+                    init({
+                        range: [[0, 15], [0, 6]],
+                        scale: [31, 54]
+                    });
+                    label([8, 6], "H vs T", "below", false).css({
+                        "font-size": "16px",
+                        "color": "#444444"
+                    });
+                    style({
+                        "stroke": "#cccccc",
+                        "stroke-width": 1
+                    }, function() {
+                        _(5).times(function(i) {
+                            line([0.2, i + (54.5 / 54)], [15.8, i + (54.5 / 54)]);
+                        });
+                    });
+                    _.each(ONE_FLIP, function(caption, n) {
+                        label([8 * n + 4, 1], caption, "below", false).css({
+                            "font-size": "13px",
+                            "color": "#444444"
+                        });
+                    });
+                    style({
+                        fill: "#a6a6a6",
+                        strokeWidth: 0
+                    }, function() {
+                        rect(2, 1, 4, ONE_FLIP_RESULT[0] / SEQUENCE.length * 5);
+                    });
+                    style({
+                        fill: "#595959",
+                        strokeWidth: 0
+                    }, function() {
+                        rect(10, 1, 4, ONE_FLIP_RESULT[1] / SEQUENCE.length * 5);
+                    });
+                </div>
+                <div class="graphie chart" id="chart-2">
+                    init({
+                        range: [[0, 16], [0, 6]],
+                        scale: [31, 54]
+                    });
+                    label([8, 6], "Two-flip streaks", "below", false).css({
+                        "font-size": "16px",
+                        "color": "#444444"
+                    });
+                    style({
+                        "stroke": "#cccccc",
+                        "stroke-width": 1
+                    }, function() {
+                        _(5).times(function(i) {
+                            line([0.2, i + (54.5 / 54)], [15.8, i + (54.5 / 54)]);
+                        });
+                    });
+                    _.each(TWO_FLIP, function(caption, n) {
+                        label([4 * n + 2, 1], caption, "below", false).css({
+                            "font-size": "13px",
+                            "color": "#444444"
+                        });
+                    });
+                    style({
+                        fill: "#808080",
+                        strokeWidth: 0
+                    }, function() {
+                        _.each(TWO_FLIP_RESULT, function(count, n) {
+                            rect(4 * n + 1, 1, 2, count / SEQUENCE.length * 7);
+                        });
+                    });
+                </div>
+                <div class="graphie chart" id="chart-3">
+                    init({
+                        range: [[0, 16], [0, 6]],
+                        scale: [31, 54]
+                    });
+                    label([8, 6], "Three-flip streaks", "below", false).css({
+                        "font-size": "16px",
+                        "color": "#444444"
+                    });
+                    style({
+                        "stroke": "#cccccc",
+                        "stroke-width": 1
+                    }, function() {
+                        _(5).times(function(i) {
+                            line([0.2, i + (54.5 / 54)], [15.8, i + (54.5 / 54)]);
+                        });
+                    });
+                    _.each(THREE_FLIP, function(caption, n) {
+                        label([2 * n + 1, 1], caption, "below", false).css({
+                            "font-size": "13px",
+                            "color": "#444444"
+                        });
+                    });
+                    style({
+                        fill: "#808080",
+                        strokeWidth: 0
+                    }, function() {
+                        _.each(THREE_FLIP_RESULT, function(count, n) {
+                            rect(2 * n + 0.5, 1, 1, count / SEQUENCE.length * 9);
+                        });
+                    });
+                </div>
+            </div>
+        </div>
+        <p class="view-patterns">View patterns:
+            <span class="pattern-tabs">
+                <a href="javascript:void(0);" id="show-flips" data-offset="0" class="selected">Coin flips</a> |
+                <a href="javascript:void(0);" id="show-chart-1" data-offset="1">H vs T</a> |
+                <a href="javascript:void(0);" id="show-chart-2" data-offset="2">Two-flip streaks</a> |
+                <a href="javascript:void(0);" id="show-chart-3" data-offset="3">Three-flip streaks</a>
+            </span>
+        </p>
+    </div>
+    <div class="graphie" id="init">
+        $('.pattern-tabs a').on('click', function(e) {
+            var $el = $(e.currentTarget);
+
+            $('.pattern-tabs a').removeClass("selected");
+            $el.addClass("selected");
+            var charts = $('#charts');
+
+            var offset = $el.data("offset") * -1 * 496;
+            charts.animate({marginLeft: offset});
+            return false;
+        });
+    </div>
+    <p class="solution"><var>CHOICES[SOLUTION]</var></p>
+    <ul class="choices" data-category="true">
+        <li data-each="CHOICES as CHOICE"><var>CHOICE</var></li>
+    </ul>
+
+    <div class="problems">
+        <div id="fair">
+            <div class="vars" data-apply="prependVars">
+                <var id="SEQUENCE">
+                    randFromArray(["H", "T"], 276).join("")
+                </var>
+                <var id="SOLUTION">0</var>
+            </div>
+        </div>
+
+        <div id="unfair">
+            <div class="vars" data-apply="prependVars">
+                <var id="SEQUENCE">
+                    randFromArray(randFromArray([
+                        ["H", "H", "H", "T", "T"],
+                        ["H", "H", "T", "T", "T"]
+                    ]), 276).join("")
+                </var>
+                <var id="SOLUTION">1</var>
+            </div>
+        </div>
+
+        <div id="human">
+            <div class="vars" data-apply="prependVars">
+                <var id="SEQUENCE">randFromArray([
+                    "HTHHTHTHTHTHTHHHTHTHTHTHHHHTHTTHHTHHTHTHTHTHTH" +
+                    "HTHTHTHTHTHTHHHTHTHTHTHHTHTHTTTHHTHHTHTHHHTHHT" +
+                    "HTHTHHHTHHTTTHHTHHTHTHTHTHTTHHHTHTHHTHHTHTHTHT" +
+                    "HTHTHTHTHHTHTHTHHHHTTTHTHTTHTHTHHHTHTHTTTHTHHT" +
+                    "HTTTHTHTHTHTHTHTHTHTTHTHTHTHTHHHHTTHTHTTHTHTTT" +
+                    "HTHTHTHHTTHTHTHTHTHTHTHTHTHTHTHTHTHHTHTHTHTTHT",
+
+                    "HHHTTTHTTTHTHHHHTHTTHTHTHTHHHTHTTTHTHHTHTHTHTH" +
+                    "HHHTTTTHTHTHHTHHHHTHHTTHTHTTTTHTHTHTHHTTTHTHTH" +
+                    "THHTTHTHTHHTHTHTHTHHTHHTHHTHHTHHTTTHTHTHTHHTHT" +
+                    "HHHTTTTHTHHTTHTTTHTHTHHHTHTHTHTHTHTHHHTHTHTHHT" +
+                    "HHTTTHHTHTHHTHTHTHTHTTTHTHTHHHTHHTTHTHHTHTTHHH" +
+                    "THTHHTHHTHTHTHHTHTHHHHTHTHTHHTHHTHHTTTHHTHTHHH",
+
+                    "HHHTHTTTHTHHHTHTHTHTTTTHTHHTHHHTHHTHHHTTTHHHTT" +
+                    "HHTHHHTTTTHTHTHTTHTHHHHTHTHHTHHTHTTHTHTTHTTHHT" +
+                    "TTHTHHHTHTHTHTHTHTTHTHHTHTHHHHTTHTHTHHTHHTHTTT" +
+                    "THHHTHTTHHHHTTHTHHTHTHTHTHHTHTHTHHTHTHTHTTHHHH" +
+                    "HTTHHTTHTTHTHHTTHTHTTTHTHTHTTHTHTHHHHHTTHTHTHT" +
+                    "THTHTHHTHTHTHTHHHTHTTHTHTHTHTHHTHTHTTTTHTHHTTH"
+                ])</var>
+                <var id="SOLUTION">2</var>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
