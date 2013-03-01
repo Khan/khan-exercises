@@ -149,18 +149,18 @@ $.extend(KhanUtil, {
         };
 
         this.derivative = function() {
-            var self = this;
             var ddxCoefs = [];
-            _.each(_.range(self.maxDegree - self.minDegree + 1), function(i) {
-                ddxCoefs[i - 1] = i * self.coefs[i];
-            });
+
+            for (var i = this.maxDegree; i >= this.minDegree; i--) {
+                ddxCoefs[i - 1] = i * this.coefs[i];
+            }
 
             // if the term's degree is zero, the derivative degree is not
             // decremented
-            var ddxMinDegree = self.minDegree ? self.minDegree - 1 : 0;
-            var ddxMaxDegree = self.maxDegree ? self.maxDegree - 1 : 0;
+            var ddxMinDegree = this.minDegree ? this.minDegree - 1 : 0;
+            var ddxMaxDegree = this.maxDegree ? this.maxDegree - 1 : 0;
 
-            return new KhanUtil.Polynomial(ddxMinDegree, ddxMaxDegree, ddxCoefs, self.variable);
+            return new KhanUtil.Polynomial(ddxMinDegree, ddxMaxDegree, ddxCoefs, this.variable);
         },
 
         /**
