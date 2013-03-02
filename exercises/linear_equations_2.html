@@ -51,16 +51,19 @@
                         <p>To check which equation has this solution, we can plug <code><var>SOLUTION</var></code> in for <code>x</code> in each of the equations.</p>
                     </div>
                     <div>
-                        <p><code><var>D</var> \cdot\red{<var>SOLUTION</var>} + <var>A</var> &#8800 <var>B</var></code></p>
-                        <p>so <code><var>D</var>x + <var>A</var> = <var>B</var></code> is not satisfied by <code>x = <var>SOLUTION</var></code>.</p>
+                        <p>Let's check one:</p>
+                        <p><code>\qquad<var>D</var> \cdot\red{<var>SOLUTION</var>} + <var>A</var> &#8800 <var>B</var></code></p>
+                        <p><code>\qquad<var>fractionReduce(D*(D-B) + A*A,A)</var> &#8800 <var>B</var></code></p>
+                        <p><code>\qquad</code>So <code><var>D</var>x + <var>A</var> = <var>B</var></code> is not satisfied by <code>x = <var>SOLUTION</var></code>.</p>
                     </div>
                     <div>
-                        <p><code><var>B</var> \cdot\red{<var>SOLUTION</var>} + <var>D</var> &#8800 <var>A</var></code></p>
-                        <p>so <code><var>B</var>x + <var>D</var> = <var>A</var></code> is not satisfied by <code>x = <var>SOLUTION</var></code>.</p>
+                        <p>Try checking the other equations in the same way until you find one that works.</p>
                     </div>
                     <div>
-                        <p><code><var>A</var> \cdot\red{<var>SOLUTION</var>} + <var>B</var> = <var>D</var></code></p>
-                        <p>so of the options, <code><var>A</var>x + <var>B</var> = <var>D</var></code> is the only equation with <code>x = <var>SOLUTION</var></code> as a solution.</p>
+                        <p>Here's the one that works:</p>
+                        <p><code>\qquad<var>A</var> \cdot\red{<var>SOLUTION</var>} + <var>B</var> = <var>D</var></code></p>
+                        <p><code>\qquad<var>fractionReduce(A*(D-B) + B*A,A)</var> = <var>D</var></code></p>
+                        <p>Of the options, <code><var>A</var>x + <var>B</var> = <var>D</var></code> is the only equation with <code>x = <var>SOLUTION</var></code> as a solution.</p>
                     </div>
                 </div>
             </div>

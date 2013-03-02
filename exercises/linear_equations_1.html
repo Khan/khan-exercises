@@ -107,20 +107,19 @@
                     <p><code><var>X</var> = <var>A * D</var></code></p>
                 </div>
             </div>
-            <div id="choose-eqn-given-soln-mult-1">
+            <div id="check-solution-mul">
                 <div class="vars" data-ensure="A !== D">
                     <var id="X">randFromArray("x")</var>
                     <var id="A">randRange(2, 10)</var>
                     <var id="D">randRange(2, 10)</var>
                     <var id="SOLUTION">fractionReduce(D, A)</var>
                     <var id="ONE_OVER_A">fractionReduce(1, A)</var>
-             </div>
+                </div>
                 <p class="question">Which equation has the following solution?</p>
                 <div><code><var>X</var> = <var>SOLUTION</var></code></div>
 
                 <p class="solution"><code><var>A</var><var>X</var> = <var>D</var></code></p>
-                    <ul class="choices" data-category="true">
-                       <li><code><var>A</var><var>X</var> = <var>D</var></code></li>
+                    <ul class="choices">
                        <li><code>\dfrac{<var>X</var>}{<var>A</var>} = <var>D</var></code></li>
                        <li><code><var>D</var><var>X</var> = <var>A</var></code></li>
                     </ul>
@@ -130,30 +129,28 @@
                         <p>To check which equation has this solution, we can plug <code><var>SOLUTION</var></code> in for <code><var>X</var></code> in each of the equations.</p>
                     </div>
                     <div>
-                        <p><code><var>A</var> \cdot\red{<var>SOLUTION</var>} = <var>D</var></code></p>
-                        <p>so <code><var>X</var> = <var>SOLUTION</var></code> satisfies the first equation.</p>
-                    </div>
-                    <div>
-                        <p><code>\red{<var>SOLUTION</var>}\cdot{\dfrac{1}{<var>A</var>}} &#8800
+                        <p>Let's check one:</p>
+                        <p><code>\qquad\red{<var>SOLUTION</var>}\cdot{\dfrac{1}{<var>A</var>}} &#8800
                             <var>D</var></code></p>
-                        <p>so <code><var>X</var> = <var>SOLUTION</var></code> doesn't satisfy the second equation.</p>
+                        <p><code>\qquad</code>So <code><var>X</var> = <var>SOLUTION</var></code> doesn't satisfy <code>\dfrac{<var>X</var>}{<var>A</var>} = <var>D</var></code>.</p>
                     </div>
                     <div>
-                        <p><code><var>D</var> \cdot\red{<var>SOLUTION</var>} &#8800 <var>A</var></code></p>
-                        <p>so <code><var>X</var> = <var>SOLUTION</var></code> doesn't satisfy the third equation.</p>
+                        <p>Try checking the other equations until you find one that works.</p>
                     </div>
-                    
-                    <p>Of the options, <code><var>A</var><var>X</var> = <var>D</var></code> is the only equation with <code><var>X</var> = <var>SOLUTION</var></code> as a solution.</p>
+                    <div>
+                        <p>Here's the one that works:</p>
+                        <p><code>\qquad<var>A</var> \cdot\red{<var>SOLUTION</var>} = <var>D</var></code></p>
+                        <p>Of the options, <code><var>A</var><var>X</var> = <var>D</var></code> is the only equation with <code><var>X</var> = <var>SOLUTION</var></code> as a solution.</p>
+                    </div>
                 </div>
             </div>
-            <div id="choose-eqn-given-soln-div">
+            <div id="check-solution-div">
                 <p class="question">Which equation has the following solution?</p>
                 <div><code><var>X</var> = <var>D*A</var></code></div>
 
                 <p class="solution"><code>\dfrac{<var>X</var>}{<var>A</var>} = <var>D</var></code></p>
-                    <ul class="choices" data-category="true">
+                    <ul class="choices">
                        <li><code><var>A</var><var>X</var> = <var>D</var></code></li>
-                       <li><code>\dfrac{<var>X</var>}{<var>A</var>} = <var>D</var></code></li>
                        <li><code><var>D</var><var>X</var> = <var>A</var></code></li>
                     </ul>
                 
@@ -162,65 +159,21 @@
                         <p>To check which equation has this solution, we can plug <code><var>D * A</var></code> in for <code><var>X</var></code> in each of the equations.</p>
                     </div>
                     <div>
-                        <p><code><var>A</var> \cdot\red{<var>D * A</var>} &#8800 <var>D</var></code></p>
-                        <p>so <code><var>X</var> = <var>D*A</var></code> doesn't satisfy the first equation.</p>
+                        <p>Let's check one:</p>
+                        <p><code>\qquad<var>A</var> \cdot\red{<var>D * A</var>} &#8800 <var>D</var></code></p>
+                        <p><code>\qquad</code>So <code><var>X</var> = <var>D*A</var></code> doesn't satisfy <code><var>A</var><var>X</var> = <var>D</var></code>.</p>
                     </div>
                     <div>
-                        <p><code>\dfrac{\red{<var>D * A</var>}}{<var>A</var>} =
-                            <var>D</var></code></p>
-                        <p>so <code><var>X</var> = <var>D*A</var></code> satisfies the second equation.</p>
-                    </div>
-                    
-                    <div>
-                        <p><code><var>D</var> \cdot\red{<var>D * A</var>} &#8800 <var>A</var></code></p>
-                        <p>so <code><var>X</var> = <var>D*A</var></code> doesn't satisfy the third equation.</p>
-                    </div>
-                    
-                    <p>Of the options, <code>\dfrac{<var>X</var>}{<var>A</var>} = <var>D</var></code> is the only equation with <code><var>X</var> = <var>A * D</var></code> as a solution.</p>
-                </div>
-            </div>
-            <div id="choose-eqn-given-soln-mult-2">
-                <div class="vars" data-ensure="A !== D">
-                    <var id="X">randFromArray("x")</var>
-                    <var id="A">randRange(2, 10)</var>
-                    <var id="D">randRange(2, 10)</var>
-                    <var id="SOLUTION">fractionReduce(A, D)</var>
-                    <var id="ONE_OVER_A">fractionReduce(1, A)</var>
-             </div>
-                <p class="question">Which equation has the following solution?</p>
-                <div><code><var>X</var> = <var>SOLUTION</var></code></div>
-
-                <p class="solution"><code><var>D</var><var>X</var> = <var>A</var></code></p>
-                    <ul class="choices" data-category="true">
-                       <li><code><var>A</var><var>X</var> = <var>D</var></code></li>
-                       <li><code>\dfrac{<var>X</var>}{<var>A</var>} = <var>D</var></code></li>
-                       <li><code><var>D</var><var>X</var> = <var>A</var></code></li>
-                    </ul>
-                
-                <div class="hints">
-                    <div>
-                        <p>To check which equation has this solution, we can plug <code><var>SOLUTION</var></code> in for <code><var>X</var></code> in each of the equations.</p>
+                        <p>Try checking the other equations in the same way until you find one that works.</p>
                     </div>
                     <div>
-                        <p><code><var>A</var> \cdot\red{<var>SOLUTION</var>} &#8800 <var>D</var></code></p>
-                        <p>so <code><var>X</var> = <var>SOLUTION</var></code> doesn't satisfy the first equation.</p>
+                        <p>Here's the one that works:</p>
+                        <p><code>\qquad\red{<var>D*A</var>}\cdot{\dfrac{1}{<var>A</var>}} = <var>D</var></code></p>
+                        <p>Of the options, <code>\dfrac{<var>X</var>}{<var>A</var>} = <var>D</var></code> is the only equation with <code><var>X</var> = <var>A * D</var></code> as a solution.</p>
                     </div>
-                    <div>
-                        <p><code>\red{<var>SOLUTION</var>}\cdot{\dfrac{1}{<var>A</var>}} &#8800
-                            <var>D</var></code></p>
-                        <p>so <code><var>X</var> = <var>SOLUTION</var></code> doesn't satisfy the second equation.</p>
-                    </div>
-                    
-                    <div>
-                        <p><code><var>D</var> \cdot\red{<var>SOLUTION</var>} = <var>A</var></code></p>
-                        <p>so <code><var>X</var> = <var>SOLUTION</var></code> satisfies the third equation.</p>
-                    </div>
-                    
-                    <p>Of the options, <code><var>D</var><var>X</var> = <var>A</var></code> is the only equation with <code><var>X</var> = <var>SOLUTION</var></code> as a solution.</p>
                 </div>
             </div>
         </div>
-
     </div>
 </body>
 </html>
