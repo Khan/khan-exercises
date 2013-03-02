@@ -803,7 +803,8 @@ $.extend(KhanUtil, {
                 onMove: function(dx, dy) {
                     problem.translatePlot(dx, dy);
                     problem.toFront();
-                }
+                },
+                snapX: 1
             });
 
             // number of milliseconds it takes the slidingWindow to fade in/out
