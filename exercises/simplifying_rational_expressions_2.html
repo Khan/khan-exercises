@@ -75,9 +75,20 @@
                     <div data-ensure="COEFFICIENT1 !== 0 || COEFFICIENT2 !== 0">
                         <var id="COEFFICIENT2">randRangeWeighted(-10, 10, 0, 0.15)</var>
                     </div>
-                    <div data-ensure="COEFFICIENT2 !== 0 || CONSTANT2 !== 0">
-                        <var id="CONSTANT2">randRangeWeighted(-10, 10, 0, 0.15)</var>
-                    </div>
+        
+                    <var id="CONSTANT2">(function() {
+                        if (getGCD(COEFFICIENT1, CONSTANT1) !== 1 && getGCD(COEFFICIENT2, CONSTANT1) !== 1) {
+                            // Ensure there are no common factors
+                            return randFromArray([-13, -11, -1, 1, 11, 13]);
+                        } else {
+                            if (COEFFICIENT2 !== 0) {
+                                return randRangeWeighted(-10, 10, 0, 0.15);
+                            } else {
+                                return randRangeExclude(-10, 10, [0]);
+                            }
+                        }
+                    })()</var>
+
                     <var id="FACTOR">randRange( 2, 12 )</var>
                     <var id="DEGREE">randRangeWeighted(0, 2, 0, 0.5)</var>
                     <var id="FACTORDEGREE">expr(["*", FACTOR, ["^", X, DEGREE]])</var>
