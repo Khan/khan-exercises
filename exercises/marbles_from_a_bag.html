@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html data-require="math math-format probability graphie">
+    <head>
+        <title>Exercise for Marbles in a Bag Problem</title>
+        <script src="../khan-exercise.js"></script>
+	</head>
+	<body>
+	    <div class="exercise">
+		    <div class="vars">
+			    <var id="COLORS">["red", "blue", "yellow", "green"]</var>
+				<var id="NUM_COLORS">randRange(2,4)</var>
+			    <var id="COLOR_SET">randRangeUnique(0, 4, NUM_COLORS)</var>
+				<var id="TO_CHOOSE">randRange(0, NUM_COLORS-1)</var>
+				<var id="NUM_MARBLES">randRange(1,4,NUM_COLORS)</var>
+				<var id="PRINT_COLORS">
+				    (function(){
+					   var i = 0;
+					   var toReturn = "";
+					   for( i = 0; i < NUM_COLORS; i++ ){
+					       toReturn +=  NUM_MARBLES[i] + " " + COLORS[COLOR_SET[i]];
+						   if(NUM_COLORS > 2 && i < NUM_COLORS-1){ toReturn += ", "; }
+						   if(i == NUM_COLORS-2){ toReturn += " and "; }
+					   }
+					   return toReturn;
+					})()
+			    </var>
+				<var id="ANSWER">
+				    (function(){
+				        var ans = 0;
+					    for(var i = 0; i < NUM_COLORS; i++){
+						    ans += NUM_MARBLES[i];
+						}
+						ans = NUM_MARBLES[TO_CHOOSE]/ans;
+					    return ans;
+				    })()
+				</var>
+			</div>
+			
+			<div class="problems">
+			    <div id="probability_problem_pick">
+			         <p class="problem">  A bag contains <var>PRINT_COLORS</var> marbles.</p>
+				     <p class="question"> What is the probability that a <var>COLORS[COLOR_SET[TO_CHOOSE]]</var>	marble will be chosen? </p>
+					 <div class="solution">
+                         <p class="solution" data-simplify="optional" data-type="rational"> <var> ANSWER </var> </p>
+				     </div>				 				 
+				 </div>
+			</div>
+			
+			<div class="hints">
+			    <p>How many <var>COLORS[COLOR_SET[TO_CHOOSE]]</var> marbles are there?</p>
+				<p>How many total marbles are there?</p>
+				<p>The probability is the ratio of <var>COLORS[COLOR_SET[TO_CHOOSE]]</var> marbles to the total number of marbles.</p>
+			</div>
+	</body>
+</html>
