@@ -130,7 +130,7 @@
                        <br> The distance between tick marks is one unit.</p>
                     <form>
                             <input type="button" value="Shade other side" onClick="javascript:
-                                KhanUtil.currentGraph.graph.movableLineSegment.flip();
+                                KhanUtil.currentGraph.graph.movableLineSegment.flip(!KhanUtil.currentGraph.graph.greaterThan);
                                 KhanUtil.currentGraph.graph.update();
                             " />
                             <label>
@@ -192,12 +192,12 @@
                         };
                         graph.movableLineSegment =  addMovableLineSegment({pointA: graph.movablePoint, coordZ: [UPPER_BOUND + 0.5, 0], 
                             fixed:true, normalStyle:{"stroke":KhanUtil.GREEN, "stroke-width":3.5}})
-                        graph.movableLineSegment.flip = function() {
-                            if(graph.movableLineSegment.coordZ[0] === UPPER_BOUND + 0.5) {
-                                graph.movableLineSegment.coordZ[0] = LOWER_BOUND - 0.5;
+                        graph.movableLineSegment.flip = function(val) {
+                            if(val) {
+                                graph.movableLineSegment.coordZ[0] = UPPER_BOUND + 0.5;
                             }
-                            else{graph.movableLineSegment.coordZ[0] = UPPER_BOUND + 0.5;}
-                            graph.greaterThan = !graph.greaterThan;
+                            else{graph.movableLineSegment.coordZ[0] = LOWER_BOUND - 0.5;}
+                            graph.greaterThan = val;
                         };
 
                         graph.update = function() {
@@ -221,7 +221,8 @@
                     </div>
                     <div class="show-guess">
                         graph.movablePoint.setCoord( [ guess, 0 ] );
-                        
+                        graph.movableLineSegment.coordZ[0] = guess[1] ? UPPER_BOUND + 0.5 : LOWER_BOUND - 0.5;
+                        graph.movablePoint.fill = guess[2] ? KhanUtil.ORANGE : KhanUtil.NOFILL;
                     </div>
                 </div>
 
@@ -240,47 +241,32 @@
                         <p><code>x <var>COMP_SOLUTION</var> <var>SOLUTION</var></code></p>
                     </div>
                     <div>
-                        <p>We can see that all values of <code>x <var>COMP_SOLUTION</var> <var>SOLUTION</var></code> satisfy the original inequality.</p>
-                        <div class="graphie">
-                            init({
-                                range: [ [-1, 11], [-1, 1] ],
-                            });
-                            var start = SOLUTION_REAL - 4.5;
-                            var end = SOLUTION_REAL + 4.5;
-
-                            numberLine( start, end );
-
-                            var offset;
-                            var fill;
-                            var startOffset = 0.12;
-                            switch ( COMP_SOLUTION ) {
-                                case "&gt;":
-                                    fill = null;
-                                    offset = 5;
-                                    break;
-                                case "&ge;":
-                                    fill = "#6495ED";
-                                    offset = 5;
-                                    break;
-                                case "&lt;":
-                                    fill = null;
-                                    offset = -5;
-                                    startOffset *= -1;
-                                    break;
-                                case "&le;":
-                                    fill = "#6495ED";
-                                    offset = -5;
-                                    startOffset *= -1;
-                                    break;
-                            }
-
-                            var x = SOLUTION_REAL - start;
-
-                            style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "-&gt;" });
-                            path([ [ x + startOffset, 0 ], [ x + offset, 0 ]]);
-                            style({ stroke: "#6495ED", strokeWidth: 2.0, fill: fill });
-                            circle([ x, 0 ], 0.15 );
+                        <div class="graphie" data-update="number-line">
+                            graph.movableLineSegment.flip( COMP_SOLUTION === "&gt;" || COMP_SOLUTION === "&ge;" );
+                            graph.update();
                         </div>
+                        <p><code>x</code> is <span class="hint_green"><var>( COMP_SOLUTION === "&gt;" || COMP_SOLUTION === "&ge;" ) ? "greater than" : "less than"</var></span> 
+                            <var>( COMP_SOLUTION === "&ge;" || COMP_SOLUTION === "&le;"  ) ? "or equal to" : ""</var> <code><var>SOLUTION</var></code>
+                            , so the <var>( COMP_SOLUTION === "&gt;" || COMP_SOLUTION === "&ge;" ) ? "right" : "left"</var> side should be shaded.
+                        </p>
+                    </div>
+                    <div>
+                        <div class="graphie" data-update="number-line">
+                            graph.movablePoint.flip( COMP_SOLUTION === "&ge;" || COMP_SOLUTION === "&le;"  );
+                            graph.update();
+                        </div>
+                        <p><code>x</code> is <var>( COMP_SOLUTION === "&gt;" || COMP_SOLUTION === "&ge;" ) ? "greater" : "less"</var> than 
+                            <span class="hint_green"><var>( COMP_SOLUTION === "&ge;" || COMP_SOLUTION === "&le;"  ) ? "or equal to" : "(and not equal to)"</var></span> <code><var>SOLUTION</var></code>
+                            , so the dot should be <var>( COMP_SOLUTION === "&le;" || COMP_SOLUTION === "&ge;" ) ? "filled" : "open"</var>.
+                        </p>
+                    </div>
+                    <div>
+                        <div class="graphie" data-update="number-line">
+                            label( [ SOLUTION_REAL, -0.53 ],  SOLUTION, "left", { color: KhanUtil.ORANGE });
+                            graph.movablePoint.moveTo( SOLUTION_REAL, 0 );
+                            graph.update();
+                        </div>
+                        <p>Finally, the dot should be moved to <code><var>SOLUTION</var></code>.</p>
                     </div>
                 </div>
             </div>
