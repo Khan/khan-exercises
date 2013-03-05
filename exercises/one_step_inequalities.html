@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
+<html data-require="math math-format graphie graphie-helpers interactive">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>One-step inequalities</title>
@@ -11,7 +11,7 @@
     -->
     <div class="exercise">
         <div class="problems">
-            <div>
+            <div id="written-response">
                 <div class="vars">
                     <var id="NUM, DEN" data-ensure="NUM > 2 || NUM < -2">reduce( randRange( -20, 20 ), rand( 3 ) &gt; 0 ? 1 : randRange( 2, 20 ) )</var>
                     <var id="COEF">fractionReduce( NUM, DEN )</var>
@@ -38,10 +38,162 @@
                     <var id="SOLUTION">fractionReduce( RIGHT_INT * DEN, NUM )</var>
                     <var id="SOLUTION_REAL">RIGHT_INT * DEN / NUM</var>
                 </div>
+                
+                <div class="question">
+                    <p class>Solve for <code>x</code>:</p>
+                    <p><code><var>COEF</var>x <var>COMP</var> <var>RIGHT_INT</var></code></p>
+                </div>
 
-                <p class="question">Solve for <code>x</code>:</p>
-                <div><code><var>COEF</var>x <var>COMP</var> <var>RIGHT_INT</var></code></div>
+                <p class="solution" data-type="multiple">
+                    <code>x</code>
+                    <span class="sol" data-type="list" data-choices="[ '', '&lt;', '&gt;', '&le;', '&ge;' ]">
+                        <var>COMP_SOLUTION</var>
+                    </span>
+                    <span class="sol"><var>SOLUTION_REAL</var></span>
+                    <span class="example">an integer, like <code>6</code></span>
+                    <span class="example">a <em>simplified proper</em> fraction, like <code>3/5</code></span>
+                    <span class="example">an <em>simplified improper</em> fraction, like <code>7/4</code></span>
+                    <span class="example">a mixed number, like <code>1\ 3/4</code></span>
+                    <span class="example">an <em>exact</em> decimal, like <code>0.75</code></span>
+                </p>
 
+                <div class="hints">
+                    <p data-if ="NUM < 0">When multiplying or dividing both sides of an inequality by a negative number you have to flip the inequality. Therefore <code><var>COMP</var></code> becomes <code><var>COMP_SOLUTION</var></code>.</p>
+                    <div>
+                        <p>Multiply both sides by <code><var>ONE_OVER_COEF</var></code>.</p>
+                        <p><code>(<var>ONE_OVER_COEF</var>) \cdot (<var>COEF</var>x) <var>COMP_SOLUTION</var> (<var>ONE_OVER_COEF</var>) \cdot (<var>RIGHT_INT</var>)</code></p>
+                    </div>
+                    <div>
+                        <p>Simplify.</p>
+                        <p><code>x <var>COMP_SOLUTION</var> <var>SOLUTION_NOT_REDUCED</var></code></p>
+                    </div>
+                    <div data-if="SOLUTION_NOT_REDUCED !== SOLUTION">
+                        <p>Reduce.</p>
+                        <p><code>x <var>COMP_SOLUTION</var> <var>SOLUTION</var></code></p>
+                    </div>
+                    <div>
+                        <p>We can see that all values of <code>x <var>COMP_SOLUTION</var> <var>SOLUTION</var></code> satisfy the original inequality.</p>
+                        <div class="graphie">
+                            init({
+                                range: [ [-1, 11], [-1, 1] ],
+                            });
+                            var start = SOLUTION_REAL - 4.5;
+                            var end = SOLUTION_REAL + 4.5;
+
+                            numberLine( start, end );
+
+                            var offset;
+                            var fill;
+                            var startOffset = 0.12;
+                            switch ( COMP_SOLUTION ) {
+                                case "&gt;":
+                                    fill = null;
+                                    offset = 5;
+                                    break;
+                                case "&ge;":
+                                    fill = "#6495ED";
+                                    offset = 5;
+                                    break;
+                                case "&lt;":
+                                    fill = null;
+                                    offset = -5;
+                                    startOffset *= -1;
+                                    break;
+                                case "&le;":
+                                    fill = "#6495ED";
+                                    offset = -5;
+                                    startOffset *= -1;
+                                    break;
+                            }
+
+                            var x = SOLUTION_REAL - start;
+
+                            style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "-&gt;" });
+                            path([ [ x + startOffset, 0 ], [ x + offset, 0 ]]);
+                            style({ stroke: "#6495ED", strokeWidth: 2.0, fill: fill });
+                            circle([ x, 0 ], 0.15 );
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="graphed-response" data-type="written-response">
+                <div class="vars" data-ensure="SOLUTION_REAL%(1/4) === 0">
+                    <var id="LOWER_BOUND">3*floor(SOLUTION_REAL/3) - randRange(1,6)</var>
+                    <var id="UPPER_BOUND">LOWER_BOUND + 10</var>
+                </div>
+                <div class="question">
+                    <p>Solve for <code>x</code>:</p>
+                </div>
+                <div class="problem">
+                    <p><code><var>COEF</var>x <var>COMP</var> <var>RIGHT_INT</var></code></p>
+                    <p>Graph the solution below.</p>
+                    <form>
+                            <input type="button" value="Shade other side" onClick="javascript:
+                                KhanUtil.currentGraph.graph.movableLineSegment.flip();
+                                KhanUtil.currentGraph.graph.update();
+                            " />
+                            <label>
+                               <input name="dashradio" type="radio" value="solid" checked onClick="javascript:
+                                    KhanUtil.currentGraph.graph.movablePoint.flip( KhanUtil.ORANGE );
+                                    KhanUtil.currentGraph.graph.update();
+                                " />
+                                Filled Circle
+                            </label>
+                            <label>
+                                <input name="dashradio" type="radio" value="dashed" onClick="javascript:
+                                    KhanUtil.currentGraph.graph.movablePoint.flip(KhanUtil.NOFILL);
+                                    KhanUtil.currentGraph.graph.update();
+                                " />
+                                Open Circle
+                            </label>
+                    </form>
+                
+                    <div class="graphie" id="number-line">
+                        init({
+                            range: [[LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1]]
+                        });
+
+                        style({arrows: "&gt;"});
+                        line([UPPER_BOUND, 0], [UPPER_BOUND + 0.6, 0]);
+                        style({arrows: "&lt;"});
+                        line([LOWER_BOUND, 0], [LOWER_BOUND - 0.6, 0]);
+                        style({arrows: ""});
+                        line([LOWER_BOUND, 0], [UPPER_BOUND, 0]);
+                        for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++) {
+                            line([x, -0.2], [x, 0.2]);
+                        }
+                        style({ stroke: "#6495ED", strokeWidth: 3.5 });
+                        line([LOWER_BOUND + 5, -0.2], [LOWER_BOUND + 5, 0.2]);
+                        label([LOWER_BOUND + 5, -0.53], LOWER_BOUND + 5, "left", { color: "#6495ED" });
+                        
+                        addMouseLayer();
+                        graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 1/4, coord:[LOWER_BOUND + 5, 0] });
+                        graph.movablePoint.flip = function(fill) {
+                            graph.movablePoint.normalStyle.fill= fill;
+                            graph.movablePoint.highlightStyle.fill= fill;
+                        };
+                        graph.movablePoint.onMove = function( x, y ) {
+                            var newx = round(x);
+                            if (abs(newx - x) &lt; 0.25) {
+                                x = newx;
+                            }
+                            return [min(max(LOWER_BOUND, x), UPPER_BOUND), y];
+                        };
+                        graph.movableLineSegment =  addMovableLineSegment({pointA: graph.movablePoint, coordZ: [UPPER_BOUND + 0.5, 0], 
+                            fixed:true, normalStyle:{"stroke":KhanUtil.GREEN, "stroke-width":3.5}})
+                        graph.movableLineSegment.flip = function() {
+                            if(graph.movableLineSegment.coordZ[0] === UPPER_BOUND + 0.5) {
+                                graph.movableLineSegment.coordZ[0] = LOWER_BOUND - 0.5;
+                            }
+                            else{graph.movableLineSegment.coordZ[0] = UPPER_BOUND + 0.5;}
+                        };
+
+                        graph.update = function() {
+                            graph.movablePoint.updateLineEnds();
+                            graph.movablePoint.visibleShape.animate(graph.movablePoint.normalStyle);
+                        }
+                    </div>
+                </div>
                 <p class="solution" data-type="multiple">
                     <code>x</code>
                     <span class="sol" data-type="list" data-choices="[ '', '&lt;', '&gt;', '&le;', '&ge;' ]">
