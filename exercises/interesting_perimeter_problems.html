@@ -75,7 +75,8 @@
 
 
     <div class="hints">
-            <div data-if="OPPOSITESIDES.length === 1"><code><var>HIDDENSIDENAME</var></code> and all other sides of the same orientation add up to the length of the face opposite it.
+            <div data-if="OPPOSITESIDES.length === 1">
+                <p><code><var>HIDDENSIDENAME</var></code> and all other sides of the same orientation add up to the length of the face opposite it.</p>
                 <div data-if="OPPOSITESIDES.length === 1" class="graphie" data-update="polygon">
                     for (var i = 0; i &lt; OPPOSITESIDES.length; i++) {
                         line( OPPOSITESIDES[i].start, OPPOSITESIDES[i].end, {
@@ -99,7 +100,8 @@
             </p>
             
 
-            <div data-if="OPPOSITESIDES.length > 1"> <code><var>HIDDENSIDENAME</var></code><span data-if="SAMESIDES.length > 0"> + <code><var>SAMESIDES.map(function(item){return item.length}).join('+')</var></code></span> is the sum of all the sides opposite.
+            <div data-if="OPPOSITESIDES.length > 1">
+                <p><code><var>HIDDENSIDENAME</var></code><span data-if="SAMESIDES.length > 0"> + <code><var>SAMESIDES.map(function(item){return item.length}).join('+')</var></code></span> is the sum of all the sides opposite.</p>
                 <div data-if="OPPOSITESIDES.length > 1">
                     <div class="graphie" data-update="polygon"> 
                         for (var i = 0; i &lt; OPPOSITESIDES.length; i++) {
