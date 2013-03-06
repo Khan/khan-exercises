@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie">
+<html data-require="math math-format graphie word-problems">
     <head>
         <title>Shaded areas</title>
         <script src="../khan-exercise.js"></script>
@@ -25,6 +25,7 @@
                              [x - size, y - size], true];
 
                         return {
+                            name: "square",
                             vertices: _.initial(v),
                             contains: function(point) {
                                 return (point[0] &gt;= (x - size)) && (point[0] &lt;= (x + size)) &&
@@ -51,6 +52,7 @@
 
                     circle: function(x, y, size) {
                         return {
+                            name: "circle",
                             vertices: _.map([0, 30, 45, 60, 90, 120, 135, 150, 180,
                                              210, 225, 240, 270, 300, 315, 330, 360],
                                             function(th) {
@@ -94,6 +96,7 @@
                         };
 
                         return {
+                            name: "equilateral triangle",
                             vertices: _.initial(v),
                             contains: function(point) {
                                 var b1, b2, b3;
@@ -143,6 +146,7 @@
 
             <div class="problems">
                 <div>
+                    <div class="problem">The diagram shows <var>an(INNER.name)</var> inside <var>an(OUTER.name)</var>.</div>
                     <div class="question">What is the area of the shaded region?</div>
                     <div class="extra-info">(Round to the nearest hundredth.)</div>
                     <div class="solution" data-inexact data-max-error="0.01" data-type="decimal"><var>SHADED_AREA</var></div>
