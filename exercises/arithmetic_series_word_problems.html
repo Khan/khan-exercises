@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Arithmetic series</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="A">randRange(0, 20)</var>
+            <var id="D">A*2</var>
+            <var id="N">randRange(3, 12)</var>
+            <var id="SUM">N * (2 * A + D * (N - 1)) / 2</var>
+        </div>
+        <div class="problems">
+            <div id="find-sum" data-calculator>
+                <div class="problem">
+                    <p>
+                        <var>person(1)</var> went on a trip. On the first day <var>he(1)</var> traveled <var>plural(A, distance(1))</var>.
+                        On each subsequent day <var>he(1)</var> traveled <var>plural(D, distance(1))</var> more than <var>he(1)</var> did the day before.
+                    </p>
+                </div>
+                <div class="question">
+                    <p>How far had <var>he(1)</var> traveled after <var>N</var> days?</p>
+                </div>
+                <div class="solution" data-forms="integer"><var>SUM</var></div>
+
+                <div class="hints">
+                    <p>The sum of an arithmetic series is the number of terms in the series times the average of the first and last terms.</p>
+                    <p> We know <var>person(1)</var> traveled <var>plural(A, distance(1))</var> on the first day of the trip, so we need to find how far <var>he(1)</var> traveled on the <var>ordinal(N)</var> day.</p>
+                    <p>The <var>ordinal(N)</var> term in the series is equal to <code>a_{<var>N</var>} = <var>A</var> + <var>D</var> (<var>N</var> - 1) = <var>A + D * (N - 1)</var></code>.</p>
+                    <div>
+                        <p>Therefore, the sum of the first <var>N &lt; 10 ? cardinal(N) : N</var> terms is</p>
+                        <p><code>\qquad n\left(\dfrac{a_1 + a_{<var>N</var>}}{2}\right) = <var>N</var> \left(\dfrac{<var>A</var> + <var>A + D * (N - 1)</var>}{2}\right) = <var>SUM</var></code>.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="find-a" data-calculator>
+                <div class="problem">
+                    <p>
+                        <var>person(1)</var> went on a trip. Each day <var>he(1)</var> traveled <var>plural(D, distance(1))</var> more than <var>he(1)</var> did the day before. After <var>N</var> days, <var>he(1)</var> had traveled <var>plural(SUM, distance(1))</var>.
+                    </p>
+                </div>
+                <div class="question">
+                    <p>How many <var>plural(distance(1))</var> did <var>he(1)</var> travel on the first day?</p>
+                </div>
+                <div class="solution" data-forms="integer"><var>A</var></div>
+
+                <div class="hints">
+                    <div>
+                        <p>The formula for the sum of an arithmetic series is:</p>
+                        <div><code>S_n = \dfrac { n \cdot (2a + (n - 1) \cdot d) }{ 2 }</code></div>
+                    </div>
+                    <div>
+                        <p>In this example,</p>
+                        <div><code>S_n = <var>SUM</var></code>, <code>d = <var>D</var></code>, <code>n = <var>N</var></code></div>
+                        <p>We want to find <code>a</code>.</p>
+                    </div>
+                    <div>
+                        <p>Substituting in the values we know:</p>
+                        <div><code><var>SUM</var> = \dfrac { <var>N</var> \cdot (2a + (<var>N</var> - 1) \cdot <var>D</var>) }{ 2 }</code></div>
+                    </div>
+                    <p><code><var>2 * SUM</var> = <var>N</var> \cdot (2a + <var>N - 1</var> \cdot <var>D</var>)</code></p>
+                    <p><code><var>2 * SUM</var> = <var>2 * N</var>a + <var>(N - 1) * N * D</var></code></p>
+                    <p><code><var>(2 * SUM) - ((N - 1) * N * D)</var> = <var>2 * N</var>a</code></p>
+                    <p><code><var>A</var> = a</code></p>
+                    <p>Therefore <var>person(1)</var> traveled <var>plural(A, distance(1))</var> on the first day of <var>his(1)</var> trip.</p>
+                </div>
+            </div>
+            <div id="find-n" data-calculator>
+                <div class="problem">
+                    <p>
+                        <var>person(1)</var> went on a <var>SUM</var> <var>distance(1)</var> trip. On the first day <var>he(1)</var> traveled <var>plural(A, distance(1))</var>.
+                        On each subsequent day <var>he(1)</var> traveled <var>plural(D, distance(1))</var> more than <var>he(1)</var> did the day before.
+                    </p>
+                </div>
+                <div class="question">
+                    <p>How many days did it take <var>him(1)</var> to complete <var>his(1)</var> trip?</p>
+                </div>
+                <div class="solution" data-forms="integer"><var>A</var></div>
+
+                <div class="hints">
+                    <div>
+                        <p>The formula for the sum of an arithmetic series is:</p>
+                        <div><code>S_n = \dfrac { n \cdot (2a + (n - 1) \cdot d) }{ 2 }</code></div>
+                    </div>
+                    <div>
+                        <p>In this example,</p>
+                        <div><code>S_n = <var>SUM</var></code>, <code>a = <var>A</var></code>, <code>d = <var>D</var></code></div>
+                        <p>We want to find <code>n</code>.</p>
+                    </div>
+                    <div>
+                        <p>Substituting in the values we know:</p>
+                        <div><code><var>SUM</var> = \dfrac { n \cdot (2 \cdot <var>A</var> + (n - 1) \cdot <var>D</var>) }{ 2 }</code></div>
+                    </div>
+                    <p><code><var>2 * SUM</var> = n \cdot (<var>2 * A</var> + <var>D</var>n - <var>D</var>)</code></p>
+
+                    <div data-if="2 * A === D" data-unwrap>
+                        <p><code><var>2 * SUM</var> = <var>D</var>n^2</code></p>
+                        <p><code><var>(2 * SUM) / D</var> = n^2</code></p>
+                        <p><code><var>N</var> = n</code></p>
+                    </div>
+
+                    <p>Therefore <var>person(1)</var>'s trip took <var>N</var> days</p>
+                </div>
+            </div>
+            <div id="find-d" data-calculator>
+                <div class="problem">
+                    <p>
+                        <var>person(1)</var> went on a trip. On the first day <var>he(1)</var> traveled <var>plural(A, distance(1))</var>.
+                        On each subsequent day <var>he(1)</var> traveled <code>x</code> <var>plural(distance(1))</var> more than <var>he(1)</var> did the day before. After <var>N</var> days <var>he(1)</var> had traveled <var>plural(SUM, distance(1))</var>.
+                    </p>
+                </div>
+                <div class="question">
+                    <p>What is the value of <code>x</code>?</p>
+                </div>
+                <div class="solution" data-forms="integer"><var>A</var></div>
+
+                <div class="hints">
+                    <div>
+                        <p>The formula for the sum of an arithmetic series is:</p>
+                        <div><code>S_n = \dfrac { n \cdot (2a + (n - 1) \cdot d) }{ 2 }</code></div>
+                    </div>
+                    <div>
+                        <p>In this example,</p>
+                        <div><code>S_n = <var>SUM</var></code>, <code>d = <var>D</var></code>, <code>n = <var>N</var></code></div>
+                        <p>We want to find <code>a</code>.</p>
+                    </div>
+                    <div>
+                        <p>Substituting in the values we know:</p>
+                        <div><code><var>SUM</var> = \dfrac { <var>N</var> \cdot (2a + (<var>N</var> - 1) \cdot <var>D</var>) }{ 2 }</code></div>
+                    </div>
+                    <p><code><var>2 * SUM</var> = <var>N</var> \cdot (2a + <var>N - 1</var> \cdot <var>D</var>)</code></p>
+                    <p><code><var>2 * SUM</var> = <var>2 * N</var>a + <var>(N - 1) * N * D</var></code></p>
+                    <p><code><var>(2 * SUM) - ((N - 1) * N * D)</var> = <var>2 * N</var>a</code></p>
+                    <p><code><var>A</var> = a</code></p>
+                    <p>Therefore <var>person(1)</var> traveled <var>plural(A, distance(1))</var> on the first day of <var>his(1)</var> trip.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
