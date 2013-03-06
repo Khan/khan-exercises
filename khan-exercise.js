@@ -1486,58 +1486,34 @@ var Khan = (function() {
                     if (guess === "Activity Unavailable") {
                         thissolutionarea.text(guess);
                     } else {
+                        var thisAnswerData = Khan.answerTypes[answerType].setup(thissolutionarea, solution);
+                        
                         // radio and custom are the only answer types that
                         // can't display its own guesses in the activity bar
                         if (answerType === "radio") {
-                            thissolutionarea.append(
-                                // Add the guess to the activity bar
-                                $("<p class='solution'>" + guess + "</p>").tmpl()
-                            );
-
-                            if (index === userExercise.userActivity.length - 1) {
-                                thissolutionarea
-                                    .removeClass("incorrect-activity")
-                                    .addClass("correct-activity");
-
-                                thissolutionarea.attr("title", "Correct Answer");
-                            } else {
-                                thissolutionarea.attr("title", "Incorrect Answer");
-                            }
+                            $("<p class='solution'>" + guess + "</p>").tmpl();
                         } else if (answerType === "custom") {
-                            if (index === userExercise.userActivity.length - 1) {
-                                thissolutionarea
-                                    .removeClass("incorrect-activity")
-                                    .addClass("correct-activity");
-
-                                thissolutionarea.attr("title", "Correct Answer");
-                                thissolutionarea.append(
-                                    $("<p class='solution'>Answer correct</p>")
-                                );
-                            } else {
-                                thissolutionarea.attr("title", "Incorrect Answer");
-                                thissolutionarea.append(
-                                    $("<p class='solution'>Answer incorrect</p>")
-                                );
-                            }
+                            var answerText = thisAnswerData.validator(guess) === true ? "Answer Correct" : "Answer Incorrect";
+                            thissolutionarea.append(
+                                $("<p class='solution'>" + answerText + "</p>")
+                            );
                         } else {
-                            var thisAnswerData = Khan.answerTypes[answerType].setup(thissolutionarea, solution);
-
                             thisAnswerData.showGuess(guess);
+                        }
 
-                            if (thisAnswerData.validator(guess) === true) {
-                                // If the user didn't get the problem right on the first try, all
-                                // answers are labelled incorrect by default
-                                thissolutionarea
-                                    .removeClass("incorrect-activity")
-                                    .addClass("correct-activity");
+                        if (thisAnswerData.validator(guess) === true) {
+                            // If the user didn't get the problem right on the first try, all
+                            // answers are labelled incorrect by default
+                            thissolutionarea
+                                .removeClass("incorrect-activity")
+                                .addClass("correct-activity");
 
-                                thissolutionarea.attr("title", "Correct Answer");
-                            } else {
-                                thissolutionarea
-                                    .removeClass("correct-activity")
-                                    .addClass("incorrect-activity");
-                                thissolutionarea.attr("title", "Incorrect Answer");
-                            }
+                            thissolutionarea.attr("title", "Correct Answer");
+                        } else {
+                            thissolutionarea
+                                .removeClass("correct-activity")
+                                .addClass("incorrect-activity");
+                            thissolutionarea.attr("title", "Incorrect Answer");
                         }
 
                         thissolutionarea
