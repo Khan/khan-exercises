@@ -732,7 +732,9 @@ var Khan = (function() {
     // Load in jQuery and underscore
     if (localMode) {
         Khan.loadScript("../jquery.js", function() {
-            Khan.loadScript("../utils/underscore.js", onjQueryLoaded);
+            Khan.loadScript("../jquery-migrate-1.1.1.js", function() {
+                Khan.loadScript("../utils/underscore.js", onjQueryLoaded);
+            });
         });
     } else {
         onjQueryLoaded();
