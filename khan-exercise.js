@@ -2136,7 +2136,8 @@ var Khan = (function() {
                 // If incorrect, warn the user and help them in any way we can
                 if (pass !== true) {
                     checkAnswerButton
-                        .effect("shake", {times: 3, distance: 5}, 80)
+                        .parent()  // .check-answer-wrapper makes shake behave
+                        .effect("shake", {times: 3, distance: 5}, 480)
                         .val("Try Again");
 
                     // Is this a message to be shown?
