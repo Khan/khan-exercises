@@ -8,7 +8,7 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="written-response">
+            <div id="written-response" data-weight="2">
                 <div class="vars">
                     <var id="A">randRange( 2, 10 )</var>
                     <var id="B">randRangeNonZero( -10, 10 )</var>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <div id="graphed-response" data-type="written-response">
+            <div id="graphed-response" data-type="written-response" data-weight="1">
                 <div class="vars" data-ensure="( ( D - B ) / ( A - C ) )%(1/4) === 0">
                     <var id="LOWER_BOUND">4*floor( ( D - B ) / ( A - C ) /4 ) - randFromArray([1,5])</var>
                     <var id="UPPER_BOUND">LOWER_BOUND + 10</var>
