@@ -11,7 +11,7 @@
     -->
     <div class="exercise">
         <div class="problems">
-            <div id="written-response">
+            <div id="written-response" data-weight="2">
                 <div class="vars">
                     <var id="NUM, DEN" data-ensure="NUM > 2 || NUM < -2">reduce( randRange( -20, 20 ), rand( 3 ) &gt; 0 ? 1 : randRange( 2, 20 ) )</var>
                     <var id="COEF">fractionReduce( NUM, DEN )</var>
@@ -116,7 +116,7 @@
                     </div>
                 </div>
             </div>
-            <div id="graphed-response" data-type="written-response">
+            <div id="graphed-response" data-type="written-response" data-weight="1">
                 <div class="vars" data-ensure="SOLUTION_REAL%(1/4) === 0">
                     <var id="LOWER_BOUND">4*floor(SOLUTION_REAL/4) - randFromArray([1,5])</var>
                     <var id="UPPER_BOUND">LOWER_BOUND + 10</var>
@@ -239,6 +239,9 @@
                     <div data-if="SOLUTION_NOT_REDUCED !== SOLUTION">
                         <p>Reduce.</p>
                         <p><code>x <var>COMP_SOLUTION</var> <var>SOLUTION</var></code></p>
+                    </div>
+                    <div>
+                        <p>We solved the inequality. Next, the solution needs to be graphed.</p>
                     </div>
                     <div>
                         <div class="graphie" data-update="number-line">
