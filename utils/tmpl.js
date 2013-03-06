@@ -460,7 +460,7 @@ $.fn.tmpl = function() {
                 }
 
                 // Do the same for graphie code
-                $(clone).find(".graphie").andSelf().filter(".graphie").each(function() {
+                $(clone).find(".graphie").addBack().filter(".graphie").each(function() {
                     var code = $(this).text();
                     $(this).text(declarations + code);
                 });
