@@ -1205,7 +1205,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                        .attr("checked", false);
                     } else {
                         // Select the correct radio button
-                        var list = $("#solutionarea").find("ul");
                         list.children().filter(function() {
                             return $.trim(extractRawCode($(this).find("span")))
                                 === $.trim(guess);

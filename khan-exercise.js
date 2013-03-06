@@ -1488,27 +1488,26 @@ var Khan = (function() {
                     } else {
                         // radio and custom are the only answer types that
                         // can't display its own guesses in the activity bar
+                        var validator = Khan.answerTypes[answerType].setup(null, solution).validator;
+
                         if (answerType === "radio") {
                             thissolutionarea.append(
                                 // Add the guess to the activity bar
                                 $("<p class='solution'>" + guess + "</p>").tmpl()
                             );
-
-                            if (index === userExercise.userActivity.length - 1) {
+                            if (validator(guess)) {
                                 thissolutionarea
                                     .removeClass("incorrect-activity")
                                     .addClass("correct-activity");
-
                                 thissolutionarea.attr("title", "Correct Answer");
                             } else {
                                 thissolutionarea.attr("title", "Incorrect Answer");
                             }
                         } else if (answerType === "custom") {
-                            if (index === userExercise.userActivity.length - 1) {
+                            if (validator(guess)) {
                                 thissolutionarea
                                     .removeClass("incorrect-activity")
                                     .addClass("correct-activity");
-
                                 thissolutionarea.attr("title", "Correct Answer");
                                 thissolutionarea.append(
                                     $("<p class='solution'>Answer correct</p>")
