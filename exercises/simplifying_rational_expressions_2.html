@@ -170,13 +170,13 @@
                         </div>
                     </div>
 
-                    <div data-if="exprIsNegated(DENOMINATORSOL)">
+                    <div data-if="exprIsNegated(DENOMINATORSOL) && DENOMINATORSOL !== '-1'">
                         <p>To avoid a negative denominator, multiply the numerator and denominator by -1:</p>
                         <div><code><var>Y</var> = \dfrac{<var>NEGNUMERATORSOL</var>}{<var>NEGDENOMINATORSOL</var>}</code></div>
                     </div>
-                    <div data-if="DENOMINATORSOL === -1">
+                    <div data-if="DENOMINATORSOL === '-1'">
                         <p>Dividing by -1 is the same thing as multiplying by -1, so the answer is:</p>
-                        <div><code><var>Y</var> = -<var>NEGNUMERATORSOL</var></code></div>
+                        <div><code><var>Y</var> = <var>NEGNUMERATORSOL</var></code></div>
                     </div>
                 </div>
             </div>
