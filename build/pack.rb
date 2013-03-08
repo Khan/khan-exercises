@@ -162,17 +162,21 @@ def pack_file(file_contents)
   return doc.to_html
 end
 
-current_file_contents = ""
+current_file_contents = []
 ARGF.lines do |line|
   if (ARGF.to_io.lineno == 1 or              # starting a new file: argv mode
       (ARGF.filename == '-' and line.match(/^<!DOCTYPE/)))    # or stdin mode
     unless current_file_contents.empty?
-      puts pack_file(current_file_contents)
-      current_file_contents = ""
+      puts pack_file(current_file_contents.join(''))
+      current_file_contents = []
     end
   end
-  current_file_contents += line
+  current_file_contents << line
 end
 
 # Put the last file as well.
-puts pack_file(current_file_contents) unless current_file_contents.empty?
+puts pack_file(current_file_contents.join('')) unless current_file_contents.empty?
+
+# ruby wants to do some expensive cleanup we don't care about.  Short-circuit.
+$stdout.flush
+exit! 0
