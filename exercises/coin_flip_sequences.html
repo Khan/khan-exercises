@@ -98,7 +98,7 @@
     <div class="problem">
         <div style="overflow: hidden; width: 496px;">
             <div id="charts">
-                <div data-each="SEQUENCE as FLIP">
+                <div data-each="SEQUENCE.split('') as FLIP">
                     <div data-if="FLIP === 'H'" class="heads">H</div>
                     <div data-else class="tails">T</div>
                 </div>

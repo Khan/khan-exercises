@@ -170,6 +170,7 @@ ARGF.lines do |line|
       puts pack_file(current_file_contents.join(''))
       current_file_contents = []
     end
+    $stderr.puts "... packing exercise #{File.basename(ARGF.filename)}"
   end
   current_file_contents << line
 end
