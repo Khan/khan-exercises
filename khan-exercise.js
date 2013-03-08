@@ -313,6 +313,8 @@ var Khan = (function() {
 
         imageBase: imageBase,
 
+        startLoadingExercise: startLoadingExercise,
+
         moduleDependencies: {
             "math": [{
                 src: urlBase + "utils/MathJax/1.1a/MathJax.js?config=KAthJax-8a6b08f6f5c97d7c3c310cc909a7a140"
