@@ -589,10 +589,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }
             $(solutionarea).append(input);
 
+            // The fallback variable is used in place of the answer, if no
+            // answer is provided (i.e. the field is left blank)
+            var fallback = $(solution).data("fallback");
+
             return {
                 validator: Khan.answerTypes.regex.createValidator(solution),
                 answer: function() {
-                    return input.val().length > 0 ? input.val() : "";
+                   return input.val().length > 0 ?
+                       input.val() :
+                       (fallback != null ? fallback + "" : "");
                 },
                 solution: $.trim($(solution).text()),
                 examples: [],
@@ -604,9 +610,17 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
         createValidator: function(solution) {
             var correct = $.trim($(solution).text());
 
+            var flags = "";
+
+            if ($(solution).data("case-insensitive") != null) {
+                flags += "i";
+            }
+
+            var regex = new RegExp(correct, flags);
+
             return function(guess) {
                 guess = $.trim(guess);
-                return guess.match(correct) != null;
+                return guess.match(regex) != null;
             };
         }
     },
@@ -1191,7 +1205,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                        .attr("checked", false);
                     } else {
                         // Select the correct radio button
-                        var list = $("#solutionarea").find("ul");
                         list.children().filter(function() {
                             return $.trim(extractRawCode($(this).find("span")))
                                 === $.trim(guess);

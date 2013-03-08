@@ -88,7 +88,8 @@ def make_potfile(files, verbose):
 
     Returns the string representing the PO file.
     """
-    output_pot = polib.POFile(encoding='utf-8')
+    # Turn off line-wrapping: it can mess with html markup inside PO comments.
+    output_pot = polib.POFile(wrapwidth=sys.maxint, encoding='utf-8')
     matches = extract_files(files, verbose)
 
     for (nl_text, occurrences) in matches:

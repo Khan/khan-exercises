@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars">
+    <div class="vars" data-ensure="!(BASE_ANGLE === 0 && BASE_RADIUS === 1)">
         <var id="DENOMINATOR">24</var>
         <var id="BASE_ANGLE_NUMERATOR">randRange( 0, DENOMINATOR - 1 )</var>
         <var id="BASE_ANGLE">BASE_ANGLE_NUMERATOR / DENOMINATOR * 2 * PI</var>

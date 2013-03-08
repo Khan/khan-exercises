@@ -18,7 +18,7 @@ The framework exists in two components:
 
 ## Using the Framework Locally
 
-You need to serve the files from some sort of a server. You can't just open the files directly in a browser:
+You need to serve the files from some sort of a server. You can't just open the files directly in a browser. For example:
 
     cd khan-exercises
     python -m SimpleHTTPServer # or python3 -m http.server

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html data-require="math expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Partial fraction expansion 1</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #answer_area .soln-bot input[type="text"] {
+            margin-left: 3px;
+        }
+        #answer_area td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 0px;
+        }
+        #answer_area .soln-top {
+            padding-bottom: 1px;
+        }
+        #answer_area .soln-middle {
+            padding: 0px 5px;
+        }
+        #answer_area .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <div data-ensure="A + B !== 0 &amp;&amp;
+                                  A*D + B*C !== 0 &amp;&amp;
+                                  C !== D">
+                    <var id="A">randRangeNonZero(-5, 5)</var>
+                    <var id="B">randRangeNonZero(-5, 5)</var>
+                    <var id="C">randRangeNonZero(-5, 5)</var>
+                    <var id="D">randRangeNonZero(-5, 5)</var>
+                </div>
+                <var id="E">A + B</var>
+                <var id="F">-A * D - B * C</var>
+                <var id="NUMER">expr(["+", ["*", E, "x"], F])</var>
+                <var id="DENOM">expr(C === -D ?
+                    ["+", "x^2", C*D] :
+                    ["+", "x^2", ["*", -C - D, "x"], C*D]
+                )</var>
+                <var id="ADENOM">expr(["+", "x", -C])</var>
+                <var id="BDENOM">expr(["+", "x", -D])</var>
+            </div>
+            <div class="question">
+                Expand
+                <code>\dfrac{<var>NUMER</var>}{<var>DENOM</var>}</code>
+                using partial fractions.
+            </div>
+            <div class="solution" data-type="set">
+                <div class="set-sol" data-type="multiple">
+                    <span class="sol" data-forms="integer"><var>A</var></span>
+                    <span class="sol" data-forms="integer"><var>B</var></span>
+                    <span class="sol" data-forms="integer"><var>C</var></span>
+                    <span class="sol" data-forms="integer"><var>D</var></span>
+                </div>
+                <div class="set-sol" data-type="multiple">
+                    <span class="sol" data-forms="integer"><var>B</var></span>
+                    <span class="sol" data-forms="integer"><var>A</var></span>
+                    <span class="sol" data-forms="integer"><var>D</var></span>
+                    <span class="sol" data-forms="integer"><var>C</var></span>
+                </div>
+                <div class="input-format">
+                    <div class="entry" data-type="multiple">
+                        <table>
+                            <tr>
+                                <td class="soln-top">
+                                    <span class="sol short35">a</span>
+                                </td>
+                                <td class="soln-middle" rowspan="2">
+                                    <code>+</code>
+                                </td>
+                                <td class="soln-top">
+                                    <span class="sol short35">a</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="soln-bot">
+                                    <code>x-</code><span class="sol short35">a</span>
+                                </td>
+                                <td class="soln-bot">
+                                    <code>x-</code><span class="sol short35">a</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="hints">
+                <p>
+                    First, factor the denominator to find the denominators of
+                    the two fractions we will split our fraction into.
+                </p>
+                <p>
+                    <code>
+                        <var>DENOM</var> =
+                        (<var>ADENOM</var>)(<var>BDENOM</var>)
+                    </code>
+                </p>
+                <p>
+                    Because the original denominator can be factored into these
+                    two parts, we can write out our original fraction as the
+                    sum of two fractions whose denominators are the two factors
+                    we just found.
+                </p>
+                <p>
+                    <code>
+                        \dfrac{<var>NUMER</var>}{
+                            (<var>ADENOM</var>)(<var>BDENOM</var>)
+                        } =
+                        \dfrac{?}{<var>ADENOM</var>} +
+                        \dfrac{?}{<var>BDENOM</var>}
+                    </code>
+                </p>
+                <div>
+                    <p>
+                        Now, we replace the numerators with polynomials of a
+                        degree one less than the degree of the polynomial in
+                        the denominator.
+                    </p>
+                    <p>
+                        In our case, both of the denomiators have a degree of
+                        <code>1</code>, so we replace our numerators with
+                        polynomials of degree <code>0</code>, or constants. We
+                        will use the constants <code>A</code> and
+                        <code>B</code>.
+                    </p>
+                </div>
+                <p>
+                    <code>
+                        \dfrac{<var>NUMER</var>}{
+                            (<var>ADENOM</var>)(<var>BDENOM</var>)
+                        } =
+                        \dfrac{A}{<var>ADENOM</var>} +
+                        \dfrac{B}{<var>BDENOM</var>}
+                    </code>
+                </p>
+                <p>
+                    Now, to get rid of the fractions, we multiply by the common
+                    denominator,
+                    <code>(<var>ADENOM</var>)(<var>BDENOM</var>)</code>.
+                </p>
+                <p>
+                    <code>
+                        <var>NUMER</var> =
+                        A(<var>BDENOM</var>) + B(<var>ADENOM</var>)
+                    </code>
+                </p>
+                <p>
+                    Now we can solve for <code>A</code> and <code>B</code>. An
+                    easy way to do this is to try to choose values for
+                    <code>x</code> that will get one of <code>A</code> or
+                    <code>B</code> to cancel out, and then solve for the other
+                    one.
+                </p>
+                <div>
+                    <p>
+                        Let's try to cancel out <code>B</code>. We see that if
+                        we plug in <code><var>C</var></code> for
+                        <code>x</code>, the term with <code>B</code> cancels
+                        out, and we are left with:
+                    </p>
+                    <p>
+                        <code>
+                            <var>expr(["+", E * C, F])</var> =
+                            A(<var>expr(["+", C, -D])</var>)
+                        </code>
+                    </p>
+                </div>
+                <p>
+                    <code>
+                        <var>E * C + F</var> =
+                        <var>expr(["*", C - D, "A"])</var>
+                    </code>
+                </p>
+                <p>
+                    <code>A=<var>A</var></code>
+                </p>
+                <div>
+                    <p>
+                        We can do the same thing to solve for <code>B</code>,
+                        but instead plugging in <code><var>D</var></code> for
+                        <code>x</code>:
+                    </p>
+                    <p>
+                        <code>
+                            <var>expr(["+", E * D, F])</var> =
+                            B(<var>expr(["+", D, -C])</var>)
+                        </code>
+                    </p>
+                </div>
+                <p>
+                    <code>
+                        <var>E * D + F</var> =
+                        <var>expr(["*", D - C, "B"])</var>
+                    </code>
+                </p>
+                <p>
+                    <code>B=<var>B</var></code>
+                </p>
+                <div>
+                    <p>
+                        Now, we plug back in to our fractions, and get:
+                    </p>
+                    <p>
+                        <code>
+                            \dfrac{<var>NUMER</var>}{<var>DENOM</var>} =
+                            \dfrac{<var>A</var>}{<var>ADENOM</var>} +
+                            \dfrac{<var>B</var>}{<var>BDENOM</var>}
+                        </code>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

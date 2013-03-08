@@ -504,6 +504,19 @@ $.extend(KhanUtil, {
         });
     },
 
+    tagMarkup: function(val, tag, attr) {
+        attr = attr || "";
+        return "<" + tag + " " + attr + ">" + val + "</" + tag + ">";
+    },
+
+    /**
+     * Add hint color markup to a given value
+     */
+    hintColorMarkup: function(val, colorName) {
+        var hintCSS = "class='hint_" + colorName + "'";
+        return KhanUtil.tagMarkup(val, "span", hintCSS);
+    },
+
     BLUE: "#6495ED",
     ORANGE: "#FFA500",
     PINK: "#FF00AF",

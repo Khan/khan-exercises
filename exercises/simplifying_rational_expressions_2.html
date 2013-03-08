@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions rational-expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Simplifying rational expressions 2</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function getFactoredTerm(term) {
+            var expr = ""
+            if (term < 0) {
+                expr += " - ";
+            }
+            if (term !== 0) {
+                expr += "(" + KhanUtil.getPrimeFactorization( Math.abs(term) ).join( "\\cdot" );
+            }
+            return expr;
+        };
+        function getFactoredExpression(factor, coefficient, vari, degree, constant) {
+            var expr = ""
+            var term1 = getFactoredTerm(factor * coefficient);
+            var term2 = getFactoredTerm(factor * constant);
+
+            if (term1 !== "") {
+                expr += term1;
+                for (var i=0; i<=degree; i++) {
+                    expr += " \\cdot " + vari;
+                }
+                expr += ")";
+                if (term2 !== "") {
+                    expr += " \+ ";
+                }
+            }
+
+            if (term2 !== "") {
+                expr += term2;
+                for (var i=0; i<degree; i++) {
+                    expr += " \\cdot " + vari;
+                }
+                expr += ")";
+            }
+
+            return expr;
+        };
+    </script>
+
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <div data-ensure="X !== Y">
+                        <var id="X">randVar()</var>
+                        <var id="Y">randVar()</var>
+                    </div>
+                    <div data-ensure="COEFFICIENT1 !== 0 || CONSTANT1 !== 0">
+                        <var id="COEFFICIENT1">randRangeWeighted(-10, 10, 0, 0.15)</var>
+                        <var id="CONSTANT1">randRangeWeighted(-10, 10, 0, 0.15)</var>
+                    </div>
+                    <div data-ensure="COEFFICIENT1 !== 0 || COEFFICIENT2 !== 0">
+                        <var id="COEFFICIENT2">randRangeWeighted(-10, 10, 0, 0.15)</var>
+                    </div>
+        
+                    <var id="CONSTANT2">(function() {
+                        if (getGCD(COEFFICIENT1, CONSTANT1) !== 1 && getGCD(COEFFICIENT2, CONSTANT1) !== 1) {
+                            // Ensure there are no common factors
+                            return randFromArray([-13, -11, -1, 1, 11, 13]);
+                        } else {
+                            if (COEFFICIENT2 !== 0) {
+                                return randRangeWeighted(-10, 10, 0, 0.15);
+                            } else {
+                                return randRangeExclude(-10, 10, [0]);
+                            }
+                        }
+                    })()</var>
+
+                    <var id="FACTOR">randRange( 2, 12 )</var>
+                    <var id="DEGREE">randRangeWeighted(0, 2, 0, 0.5)</var>
+                    <var id="FACTORDEGREE">expr(["*", FACTOR, ["^", X, DEGREE]])</var>
+                    <var id="NUMERATOR">expr(["+", ["*", FACTOR * COEFFICIENT1, ["^", X, DEGREE + 1]], ["*", FACTOR * CONSTANT1, ["^", X, DEGREE]]])</var>
+                    <var id="DENOMINATOR">expr(["+", ["*", FACTOR * COEFFICIENT2, ["^", X, DEGREE + 1]], ["*", FACTOR * CONSTANT2, ["^", X, DEGREE]]])</var>
+                    <var id="NUMERATORSOL">expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>
+                    <var id="DENOMINATORSOL">expr(["+", ["*", COEFFICIENT2, X], CONSTANT2])</var>
+                    <var id="NEGNUMERATORSOL">expr(["+", ["*", -COEFFICIENT1, X], -CONSTANT1])</var>
+                    <var id="NEGDENOMINATORSOL">expr(["+", ["*", -COEFFICIENT2, X], -CONSTANT2])</var>
+                    <var id="POSITIVENUMERATOR">getExpressionRegex(COEFFICIENT1, X, CONSTANT1)</var>
+                    <var id="POSITIVEDENOMINATOR">getExpressionRegex(COEFFICIENT2, X, CONSTANT2)</var>
+                    <var id="NEGATIVENUMERATOR">getExpressionRegex(-COEFFICIENT1, X, -CONSTANT1)</var>
+                    <var id="NEGATIVEDENOMINATOR">getExpressionRegex(-COEFFICIENT2, X, -CONSTANT2)</var>
+                </div>
+
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question"><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>POSITIVENUMERATOR</var></span>
+                        <span class="sol" data-type="regex"><var>POSITIVEDENOMINATOR</var></span>
+                    </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NEGATIVENUMERATOR</var></span>
+                        <span class="sol" data-type="regex"><var>NEGATIVEDENOMINATOR</var></span>
+                    </div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <table>
+                                <tr>
+                                    <td rowspan="2" class="soln-name">
+                                        <code><var>Y</var> = </code>
+                                    </td>
+                                    <td class="soln-top">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short50" data-fallback="1">a</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <p class="example">a simplifed expression, like <code>x + 2</code></p>
+                </div>
+
+                <div class="hints">
+                    <p>Find the greatest common factor of the numerator and denominator.</p>
+
+                    <div>
+                        <p>
+                            <div>The numerator can be factored:</div>
+                            <div><code><var>NUMERATOR</var> = <var>getFactoredExpression(FACTOR, COEFFICIENT1, X, DEGREE, CONSTANT1)</var></code></div>
+                        </p>
+                        <p>
+                            <div>The denominator can be factored:</div>
+                            <div><code><var>DENOMINATOR</var> = <var>getFactoredExpression(FACTOR, COEFFICIENT2, X, DEGREE, CONSTANT2)</var></code></div>
+                        </p>
+                    </div>
+
+                    <p>The greatest common factor of all the terms is <code><var>FACTORDEGREE</var></code>.</p>
+
+                    <div>
+                        <p>Factoring out <code><var>FACTORDEGREE</var></code> gives us:</p>
+                        <div><code><var>Y</var> = \dfrac{(<var>FACTORDEGREE</var>)(<var>NUMERATORSOL</var>)}{(<var>FACTORDEGREE</var>)(<var>DENOMINATORSOL</var>)}</code></div>
+                    </div>
+
+                    <div>
+                        <p>Dividing both the numerator and denominator by <code><var>FACTORDEGREE</var></code> gives:</p>
+                        <div data-if="DENOMINATORSOL === '1'">
+                            <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code> or more simply, <code><var>Y</var> = <var>NUMERATORSOL</var></code>
+                        </div>
+                        <div data-else>
+                            <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code>
+                        </div>
+                    </div>
+
+                    <div data-if="exprIsNegated(DENOMINATORSOL) && DENOMINATORSOL !== '-1'">
+                        <p>To avoid a negative denominator, multiply the numerator and denominator by -1:</p>
+                        <div><code><var>Y</var> = \dfrac{<var>NEGNUMERATORSOL</var>}{<var>NEGDENOMINATORSOL</var>}</code></div>
+                    </div>
+                    <div data-if="DENOMINATORSOL === '-1'">
+                        <p>Dividing by -1 is the same thing as multiplying by -1, so the answer is:</p>
+                        <div><code><var>Y</var> = <var>NEGNUMERATORSOL</var></code></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

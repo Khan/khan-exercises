@@ -521,7 +521,7 @@
     });
 
     $.fn["factoring-expressions"] = function(problem) {
-        return this.find(".factoring-expressions").andSelf().filter(".factoring-expressions").each(function() {
+        return this.find(".factoring-expressions").addBack().filter(".factoring-expressions").each(function() {
             $(".orig-hint").hide();
             $(".new-hint").show();
         });
