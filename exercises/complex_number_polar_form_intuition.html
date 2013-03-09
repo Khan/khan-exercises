@@ -23,7 +23,7 @@
     <div class="exercise">
         <div class="problems">
             <div>
-                <div class="vars">
+                <div class="vars" data-ensure="!(ANGLE === 0 && RADIUS === 1)">
                     <var id="DENOMINATOR">12</var>
                     <var id="ANGLE">randRange( 0, DENOMINATOR - 1 )</var> <!-- the angle of the complex number is ANGLE * (2 * DENOMINATOR) pi -->
                     <var id="RADIUS">randRange( 1, 10 )</var>
