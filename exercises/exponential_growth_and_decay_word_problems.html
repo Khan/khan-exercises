@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems spin">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Exponential Growth and Decay Word Problems</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+
+        <div id="exponential-growth-1">
+            <div class="vars">
+                <var id="R">randRange(3, 7)</var>
+                <var id="N">R * randRange(3, 7)</var>
+                <var id="P">randRange(200, 999)</var>
+                <var id="A">P * pow(2, N / R)</var>
+                <var id="Y">(new Date()).getFullYear()</var>
+            </div>
+            <p class="problem spin">
+                {There are currently|As of this year there are} <var>P</var> <var>plural(animal(1))</var> living in {Acadia|Lassen Volcanic|Yellowstone|Yosemite} National Park. The population doubles every <var>R</var> years.
+            </p>
+            <p class="question">
+                How many <var>plural(animal(1))</var> will there be in the park by <var>Y + N</var>?
+            </p>
+            <p class="solution" data-forms="integer">
+                <var>A</var>
+            </p>
+            <div class="hints">
+                <p><var>Y + N</var> is <code><var>Y + N</var> - <var>Y</var> = <var>N</var></code> years from now.</p>
+                <p>In <var>N</var> years, the population will double <code><var>fraction(N,R)</var> = <var>N/R</var></code> times.</p>
+                <p>Let the number of <var>plural(animal(1))</var> in the park by <var>Y + N</var> be <code>x</code>.</p>
+                <p>We write <code>x = <var>P</var> \cdot 2^{<var>N/R</var>}</code>.</p>
+                <p><code>x = <var>commafy(A)</var></code></p>
+            </div>
+        </div>
+
+        <div id="exponential-growth-2">
+            <div class="vars">
+                <var id="R">randRange(2, 15)</var>
+                <var id="N">randRange(10, 20)</var>
+                <var id="P">randRange(5, 20) * 1000</var>
+                <var id="A">floorTo(2, P * pow(1 + R / 100, N))</var>
+            </div>
+            <p class="problem spin">
+                <var>person(1)</var> puts $<var>commafy(P)</var> into a bank account that earns <var>R</var>% {annually|every year}.
+            </p>
+            <p class="question">
+                How much money will be in <var>his(1)</var> account after <var>N</var> years? Round down to the nearest cent.
+            </p>
+            <p class="solution" data-forms="dollar">
+                <var>A</var>
+            </p>
+            <div class="hints">
+                <p>Let the amount of money in <var>person(1)</var>'s account after <var>N</var> years be <code>x</code>.</p>
+                <p>We write <code>x = $<var>commafy(P)</var> \cdot <var>floorTo(2, 1 + R / 100)</var>^{<var>N</var>}</code>.</p>
+                <p><code>x = $<var>commafy(A)</var></code></p>
+            </div>
+        </div>
+
+        <div id="exponential-growth-3">
+            <div class="vars">
+                <var id="R">randRange(10, 20)</var>
+                <var id="N">18</var>
+                <var id="A">randRange(20, 40) * 1000</var>
+                <var id="P">ceilTo(2, A / pow(1 + R / 100, 18))</var>
+            </div>
+            <p class="problem spin">
+                <var>person(1)</var> is setting up a college fund for <var>his(1)</var> newborn {son|daughter}. <var>He(1)</var> wants the fund to be worth $<var>commafy(A)</var> in <var>N</var> years.
+            </p>
+            <p class="question">
+                If <var>he(1)</var> is guaranteed an annual interest rate of <var>R</var>%, how much money should <var>he(1)</var> set aside right now for <var>his(1)</var> child's education? Round up to the nearest cent.
+            </p>
+            <p class="solution" data-forms="dollar">
+                <var>P</var>
+            </p>
+            <div class="hints">
+                <p>Let the amount of money <var>person(1)</var> should set aside now be <code>p</code>.</p>
+                <p>We write <code>$<var>commafy(A)</var> = p \cdot <var>floorTo(2, 1 + R / 100)</var>^{<var>N</var>}</code>.</p>
+                <p>Solve for <code>p</code> to get <code>p = $<var>commafy(A)</var> \div <var>floorTo(2, 1 + R / 100)</var>^{<var>N</var>}</code></p>
+                <p><code>p = $<var>commafy(P)</var></code></p>
+            </div>
+        </div>
+
+        <div id="exponential-decay-1">
+            <div class="vars">
+                <var id="R">randRange(2, 9)</var>
+                <var id="N">randRange(5, 12)</var>
+                <var id="A">pow(1 - R / 100, N)</var>
+            </div>
+            <p class="problem">
+                Suppose a radioactive substance decays at a rate of <var>R</var>% per hour.
+            </p>
+            <p class="question">
+                What percent of the substance is left after <var>N</var> hours? Round to two decimal places.
+            </p>
+            <p class="solution" data-inexact data-max-error="0.0001" data-forms="percent">
+                <var>A</var>
+            </p>
+            <div class="hints">
+                <p>A decay rate of <var>R</var>% means that <code>100\% - <var>R</var>\% = <var>100 - R</var>\%</code> of the substance present at the beginning of an hour is left by the end.</p>
+                <p>Let the percent of the substance left be <code>x</code>.</p>
+                <p>We write <code>x = 100\% \cdot <var>floorTo(2, 1 - R / 100)</var> ^{<var>N</var>}</code>.</p>
+                <p><code>x = <var>roundTo(2, 100 * A)</var>\%</code></p>
+            </div>
+        </div>
+
+        <div id="exponential-decay-2">
+            <div class="vars">
+                <var id="R">randFromArray([14, 15, 16, 18])</var>
+                <var id="N">randRange(15, 30)</var>
+                <var id="A">0.05</var>
+                <var id="P">roundTo(2, A / pow(0.5, N / (R / 12)))</var>
+                <var id="Y">2012</var>
+            </div>
+            <p class="problem spin">
+                Since 1980, the price of hard drive storage has {fallen in half|halved} every <var>R</var> months.
+                As of <var>Y</var>, the cost was $<var>A</var> per GB.
+            </p>
+            <p class="question">
+                How much did 1 GB of hard drive storage cost in <var>Y - N</var>? Round to the nearest cent.
+            </p>
+            <p class="solution" data-forms="dollar">
+                <var>P</var>
+            </p>
+            <div class="hints">
+                <p><var>Y - N</var> was <code><var>Y</var> - <var>Y - N</var> = <var>N</var></code> years prior.</p>
+                <p>In those <var>N</var> years, the cost of hard drives halved <code><var>N</var> \div <var>fraction(R, 12)</var> = <var>N</var> \div <var>fraction(R, 12, false, true)</var> = <var>N</var> \cdot <var>fraction(12, R, false, true)</var> = <var>fraction(N*12, R, true, true)</var></code> times.</p>
+                <p>Let the cost of 1 GB of hard drive storage in <var>Y - N</var> be <code>p</code>.</p>
+                <p>We write <code>$<var>A</var> = p \cdot <var>0.5</var>^{<var>fraction(N*12, R, true, true, true)</var>}</code>.</p>
+                <p>Solve for <code>p</code> to get <code>p = $<var>A</var> \div <var>0.5</var>^{<var>fraction(N*12, R, true, true, true)</var>}</code>.</p>
+                <p><code>p = $<var>commafy(P)</var></code>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</body>
+</html>
