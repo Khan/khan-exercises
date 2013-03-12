@@ -1003,6 +1003,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             correct = true;
                             // break
                             return false;
+                        } else if (pass !== false) {
+                            // Validator returns a check answer message
+                            unusedValidators.splice(i, 1);
+                            // store correct
+                            correct = pass;
+                            // break
+                            return false;
                         }
                     });
 
@@ -1041,7 +1048,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // incorrect, some of the answers are missing
                     valid = false;
                 }
-
                 return valid;
             };
         }
