@@ -8,7 +8,7 @@
 <body>
     <div class="exercise">
     <div class="problems">
-        <div id="solve">
+        <div id="solve" data-weight="3">
 
             <div class="vars">
                 <var id="H">randRangeNonZero( -10, 10 )</var>
@@ -65,7 +65,7 @@
             </div>
 
         </div>
-        <div id="intersect" data-type="solve">
+        <div id="intersect" data-type="solve" data-weight="3">
             <p class="problem">Determine where <code>f(x)</code> intersects the <code>x</code>-axis.</p>
             <p class="question"><code>f(x) = (x - <var>H</var>)^2 + <var>K</var></code></p>
             <div class="hints" data-apply="prependContents">
@@ -75,6 +75,54 @@
                 </div>
             </div>
         </div>
+        <div id="multiple-choice-real" data-type="solve" data-weight="2">
+            <div class="vars" data-ensure="H !== CONSTANT">
+                <var id="H">randRangeNonZero( -10, 10 )</var>
+                <var id="CONSTANT">randRange( 1, 9 )</var>
+                <var id="K">-( CONSTANT * CONSTANT )</var>
+            </div>
+            <p class="problem">Solve for <code>x</code>:</p>
+            <p class="question"><code>(x - <var>H</var>)^2 + <var>K</var> = 0</code></p>
+            <p class="solution"><code>x = <var>H + CONSTANT</var></code> or <code>x = <var>H - CONSTANT</var></code></p>
+                <ul class="choices">
+                    <li><code>x = <var>-(H + CONSTANT)</var></code> or <code>x = <var>CONSTANT - H</var></code></li>
+                    <li><code>x = <var>H + CONSTANT</var></code> or <code>x = <var>CONSTANT - H</var></code></li>
+                    <li><code>x = <var>-(H + CONSTANT)</var></code> or <code>x = <var>H - CONSTANT</var></code></code></li>
+                    <li>No real solutions</li>
+                </ul>
+        </div>
+        <div id="multiple-choice-complex" data-weight="1">
+            <div class="vars" data-ensure="H !== CONSTANT">
+                <var id="H">randRangeNonZero( -10, 10 )</var>
+                <var id="CONSTANT">randRange( 1, 9 )</var>
+                <var id="K">( CONSTANT * CONSTANT )</var>
+            </div>
+            <p class="problem">Solve for <code>x</code>:</p>
+            <p class="question"><code>(x - <var>H</var>)^2 + <var>K</var> = 0</code></p>
+            <p class="solution">No real solutions</p>
+                <ul class="choices">
+                    <li><code>x = <var>-(H + CONSTANT)</var></code> or <code>x = <var>CONSTANT - H</var></code></li>
+                    <li><code>x = <var>H + CONSTANT</var></code> or <code>x = <var>CONSTANT - H</var></code></li>
+                    <li><code>x = <var>-(H + CONSTANT)</var></code> or <code>x = <var>H - CONSTANT</var></code></code></li>
+                    <li><code>x = <var>H + CONSTANT</var></code> or <code>x = <var>H - CONSTANT</var></code></li>
+                </ul>
+            <div class="hints">
+                <div>
+                    <p>Add <code><var>abs( K )</var></code> to both sides so we can start isolating <code>x</code> on the left:</p>
+                    <p><code>\qquad (x - <var>H</var>)^2 = <var>-K</var></code></p>
+                </div>
+                <div>
+                    <p>Next, we would take the square root of both sides, but the right side of the equation is negative.</p>
+                    <p><code>\qquad \sqrt{(x - <var>H</var>)^2} = \pm \sqrt{<var>-K</var>}</code></p>
+                </div>
+                <div>
+                    <p>Taking the square root of a negative gives us an imaginary number.</p>
+                    <p><code>\qquad x - <var>H</var> = \pm <var>CONSTANT</var>i</code></p>
+                    <p>There are no real solutions.</p>
+                </div>
+            </div>
+        </div>
+        
     </div>
     </div>
 </body>
