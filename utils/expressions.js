@@ -276,7 +276,7 @@ $.extend(KhanUtil, {
             if (pow === 0) {
                 return "";
             } else if (pow === 1) {
-                return base;
+                return KhanUtil.expr(base);
             }
 
             var parenthesizeBase, trigFunction;
