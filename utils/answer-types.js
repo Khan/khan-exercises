@@ -78,11 +78,24 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             };
         },
         createValidator: function(solution) {
+            var options = $.extend({
+                correctCase: "required"
+            }, $(solution).data());
+
             var correct = $.trim($(solution).text());
 
             return function(guess) {
                 guess = $.trim(guess);
-                return correct === guess;
+                if (guess.toLowerCase() === correct.toLowerCase()) {
+                    if (correct === guess || options.correctCase === "optional") {
+                        return true;
+                    } else {
+                        return "Your answer is almost correct, but you must " +
+                               "write it in the correct case";
+                    }
+                } else {
+                    return false;
+                }
             };
         }
     },
