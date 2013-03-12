@@ -8,7 +8,7 @@
 <body>
     <div class="exercise">
     <div class="problems">
-        <div>
+        <div id="constructed-response">
             <div class="vars">
                 <div data-ensure="abs(A) !== abs(B)">
                     <var id="A">randRangeNonZero( -10, 10 )</var>
@@ -86,7 +86,73 @@
                     So we can factor the expression as: <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
                     (x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})</code>
                 </b></p>
+            </div>
 
+        </div>
+        <div id="selected-response" data-type="constructed-response" data-ensure="abs(A - B) > 1">
+            <p class="solution"><code>(x - <var>A</var>)(x - <var>B</var>)</code></p>
+                <!--These options are a little complicated, but they allow for answers that satisfy part but not all of the polynomial in different cases-->
+                <ul class="choices" data-show="4">
+                    <li><code>(x + <var>A</var>)(x + <var>B</var>)</code></li>
+                    <li data-if="A !== 1 &amp;&amp; B !== -1"><code>(x - <var>A - 1</var>)(x - <var>B + 1</var>)</code></li>
+                    <li data-if="A !== -1 &amp;&amp; B !== 1"><code>(x - <var>A + 1</var>)(x - <var>B - 1</var>)</code></li>
+                    <li data-if="A === 1 || B === -1"><code>(x + <var>A + 1</var>)(x - <var>B + 1</var>)</code></li>
+                    <li data-if="A === -1 || B === 1"><code>(x + <var>A - 1</var>)(x + <var>B + 1</var>)</code></li>
+                    <li data-if="!(abs(A) === 2 || abs(B) === 2) &amp;&amp; (A*B)%2 === 0"><code>(x + <var>A * B / 2</var>)(x + 2)</code></li>
+                    <li data-if="!(abs(A) === 3 || abs(B) === 3) &amp;&amp; (A*B)%3 === 0"><code>(x - <var>A * B / 3</var>)(x - 3)</code></li>
+                    <li data-if="!(abs(A) === 5 || abs(B) === 5) &amp;&amp; (A*B)%5 === 0"><code>(x + <var>A * B / 5</var>)(x + 5)</code></li>
+                </ul>
+
+            <div class="hints">
+                <div>
+                    <p>When we factor a polynomial, we are basically reversing this process of multiplying linear expressions together:</p>
+                    <p><code>
+                        \qquad \begin{eqnarray}
+                            (x + a)(x + b) \quad&amp;=&amp;\quad xx &amp;+&amp; xb + ax &amp;+&amp; ab \\ \\
+                            &amp;=&amp;\quad x^2 &amp;+&amp; \color{<var>GREEN</var>}{(a + b)}x &amp;+&amp; \color{<var>BLUE</var>}{ab}
+                        \end{eqnarray}
+                    </code></p>
+                </div>
+
+                <div>
+                    <p><code>
+                        \qquad \begin{eqnarray}
+                            \hphantom{(x + a)(x + b) \quad}&amp;\hphantom{=}&amp;\hphantom{\quad xx }&amp;\hphantom{+}&amp;\hphantom{ (a + b)x }&amp;\hphantom{+}&amp; \\
+                            &amp;=&amp;\quad x^2 &amp;
+                            <var>SIMPLELINEAR &gt;= 0 ? "+" : ""</var>&amp;
+                            <var>plus( "\\color{" + GREEN + "}{" + SIMPLELINEAR + "}x" )</var>&amp;
+                            <var>SIMPLECONSTANT &gt;= 0 ? "+" : ""</var>&amp;
+                            <var>plus( "\\color{" + BLUE + "}{" + SIMPLECONSTANT + "}" )</var>
+                        \end{eqnarray}
+                    </code></p>
+                    <p>
+                        The coefficient on the <code>x</code> term is <code class="hint_green"><var>SIMPLELINEAR</var></code>
+                        and the constant term is <code class="hint_blue"><var>SIMPLECONSTANT</var></code>, so to reverse the steps above, we need to find two numbers
+                        that <span class="hint_green">add up to <code><var>SIMPLELINEAR</var></code></span> and <span class="hint_blue">multiply to
+                        <code><var>SIMPLECONSTANT</var></code></span>.
+                    </p>
+                </div>
+
+                <div>
+                    <p>One of the options contains the pair of numbers that fits this description. Can you find it?</p>
+                </div>
+
+                <div>
+                    <p>The two numbers <code class="hint_pink"><var>-A</var></code> and <code class="hint_pink"><var>-B</var></code> satisfy both conditions:</p>
+                    <p><code>
+                        \qquad \color{<var>PINK</var>}{<var>-A</var>} + \color{<var>PINK</var>}{<var>-B</var>} =
+                        \color{<var>GREEN</var>}{<var>SIMPLELINEAR</var>}
+                    </code></p>
+                    <p><code>
+                        \qquad \color{<var>PINK</var>}{<var>-A</var>} \times \color{<var>PINK</var>}{<var>-B</var>} =
+                        \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}
+                    </code></p>
+                </div>
+
+                <p><b>
+                    So we can factor the expression as: <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
+                    (x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>})</code>
+                </b></p>
             </div>
         </div>
     </div>
