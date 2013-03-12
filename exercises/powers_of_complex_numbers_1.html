@@ -105,6 +105,10 @@
                     var angle = guess[0];
                     var radius = guess[1];
 
+                    if (angle === 0 &amp;&amp; radius === 1) {
+                        return "";
+                    }
+
                     return angle === ANSWER_ANGLE_NUMERATOR &amp;&amp;
                            radius === ANSWER_RADIUS;
                 </div>
