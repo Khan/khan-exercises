@@ -1028,6 +1028,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         return false;
                     }
 
+                    // If we have a check answer message
+                    if (typeof correct === "string") {
+                        valid = correct;
+                    }
+
                     // If we've run out of validators, stop
                     if (unusedValidators.length === 0) {
                         return false;
