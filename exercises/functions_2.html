@@ -37,17 +37,17 @@
     <div class="exercise">
         <div class="vars">
             <div data-ensure="END_F !== END_G">
-                <var id="END_F">randRange( -7, 7 )</var>
-                <var id="END_G">randRange( -7, 7 )</var>
+                <var id="END_F">randRange(-6, 6)</var>
+                <var id="END_G">randRange(-6, 6)</var>
             </div>
             <var id="F_PATH">generateFunctionPath(END_F)</var>
             <var id="G_PATH">generateFunctionPath(END_G)</var>
-            <var id="F_COEF">randRangeExclude( -10, 10, [-1, 0, 1] )</var>
-            <var id="G_COEF">randRangeExclude( -10, 10, [-1, 0, 1] )</var>
+            <var id="F_COEF">randRangeExclude(-10, 10, [-1, 0, 1])</var>
+            <var id="G_COEF">randRangeExclude(-10, 10, [-1, 0, 1])</var>
             <var id="CORRECT_X">randRange(-9, 9)</var>
-            <var id="CORRECT_Y">FUNCTION_PATH[CORRECT_X + 11][1]</var>
+            <var id="CORRECT_Y">F_PATH[CORRECT_X + 10][1]</var>
             <var id="CORRECT_GX">randRange(-9, 9)</var>
-            <var id="CORRECT_GY">G_PATH[CORRECT_GX+11][1]</var>
+            <var id="CORRECT_GY">G_PATH[CORRECT_GX + 10][1]</var>
         </div>
 
         <div class="problems">
