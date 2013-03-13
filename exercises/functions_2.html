@@ -43,8 +43,8 @@
             <var id="F_PATH">generateFunctionPath(END_F)</var>
             <var id="G_PATH">generateFunctionPath(END_G)</var>
             <var id="F_COEF">randRangeExclude(-10, 10, [-1, 0])</var>
-            <var id="ABS_G_COEF">randRangeExclude(1, 10, [0])</var>
-            <var id="G_COEF_SIGN">randRangeExclude(-1, 1, [0])</var>
+            <var id="ABS_G_COEF">randRangeNonZero(1, 10)</var>
+            <var id="G_COEF_SIGN">randRangeNonZero(-1, 1)</var>
             <var id="G_COEF">ABS_G_COEF * G_COEF_SIGN</var>
             <var id="CORRECT_X">randRange(-9, 9)</var>
             <var id="CORRECT_Y">F_PATH[CORRECT_X + 10][1]</var>
