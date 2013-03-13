@@ -90,8 +90,16 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     if (correct === guess || options.correctCase === "optional") {
                         return true;
                     } else {
-                        return "Your answer is almost correct, but you must " +
-                               "write it in the correct case";
+                        if (guess === guess.toLowerCase()) {
+                            return "Your answer is almost correct, but must be " +
+                                   "in capital letters.";
+                        } else if (guess === guess.toUpperCase()) {
+                            return "Your answer is almost correct, but must not " +
+                                   "be in capital letters.";
+                        } else {
+                            return "Your answer is almost correct, but must be " +
+                                   "in the correct case.";
+                        }
                     }
                 } else {
                     return false;
@@ -996,15 +1004,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         var pass = validator(g);
 
                         // If this validator completely accepts this answer
-                        if (pass === true) {
+                        // or returns a check answer message
+                         if (pass !== false) {
                             // remove the working validator
-                            unusedValidators.splice(i, 1);
-                            // store correct
-                            correct = true;
-                            // break
-                            return false;
-                        } else if (pass !== false) {
-                            // Validator returns a check answer message
                             unusedValidators.splice(i, 1);
                             // store correct
                             correct = pass;
