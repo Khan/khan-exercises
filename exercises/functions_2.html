@@ -67,8 +67,10 @@
                         axisArrows: "&lt;-&gt;"
                     });
 
-                    path( F_PATH, { stroke: BLUE } );
-                    path( G_PATH, { stroke: RED } );
+                    label([10, <var>END_F</var>], "f(x)", "right");
+                    label([10, <var>END_G</var>], "g(x)", "right");
+                    path(F_PATH, {stroke: BLUE});
+                    path(G_PATH, {stroke: RED});
                 </div>
 
                 <p class="solution"><var>F_COEF * CORRECT_Y + G_COEF * CORRECT_GY</var></p>
