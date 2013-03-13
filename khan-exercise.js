@@ -601,8 +601,7 @@ var Khan = (function() {
 
             setVideos: function(exercise) {
 
-                if (exercise.relatedVideos &&
-                        gae_bingo.tests["Show related videos"] !== "hide") {
+                if (exercise.relatedVideos) {
                     this.cache[exercise.name] = exercise.relatedVideos;
                 }
 
