@@ -78,11 +78,32 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             };
         },
         createValidator: function(solution) {
+            var options = $.extend({
+                correctCase: "required"
+            }, $(solution).data());
+
             var correct = $.trim($(solution).text());
 
             return function(guess) {
                 guess = $.trim(guess);
-                return correct === guess;
+                if (guess.toLowerCase() === correct.toLowerCase()) {
+                    if (correct === guess || options.correctCase === "optional") {
+                        return true;
+                    } else {
+                        if (guess === guess.toLowerCase()) {
+                            return "Your answer is almost correct, but must be " +
+                                   "in capital letters.";
+                        } else if (guess === guess.toUpperCase()) {
+                            return "Your answer is almost correct, but must not " +
+                                   "be in capital letters.";
+                        } else {
+                            return "Your answer is almost correct, but must be " +
+                                   "in the correct case.";
+                        }
+                    }
+                } else {
+                    return false;
+                }
             };
         }
     },
@@ -983,11 +1004,12 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         var pass = validator(g);
 
                         // If this validator completely accepts this answer
-                        if (pass === true) {
+                        // or returns a check answer message
+                         if (pass !== false) {
                             // remove the working validator
                             unusedValidators.splice(i, 1);
                             // store correct
-                            correct = true;
+                            correct = pass;
                             // break
                             return false;
                         }
@@ -1006,6 +1028,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     if (!correct && $.trim([g].join("")) !== "") {
                         valid = false;
                         return false;
+                    }
+
+                    // If we have a check answer message
+                    if (typeof correct === "string") {
+                        valid = correct;
                     }
 
                     // If we've run out of validators, stop
@@ -1028,7 +1055,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // incorrect, some of the answers are missing
                     valid = false;
                 }
-
                 return valid;
             };
         }
