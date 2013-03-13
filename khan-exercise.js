@@ -2754,11 +2754,6 @@ var Khan = (function() {
         if (window.ModalVideo) {
             ModalVideo.hookup();
         }
-
-        // Test is created in exercises/handlers.py since we can't create
-        // CoreMetrics tests in js-land. This just imports it so we can look
-        // at gae_bingo.tests to see which alternative to use.
-        gae_bingo.ab_test("Show related videos");
     }
 
     if (!localMode) {
