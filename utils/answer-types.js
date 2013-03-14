@@ -128,13 +128,14 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      * - decimal:  1.7
      */
     number: {
+        defaultForms: "literal, integer, proper, improper, mixed, decimal",
         setup: function(solutionarea, solution) {
             // retrieve the options from the solution data
             var options = $.extend({
                 simplify: "required",
                 ratio: false,
                 maxError: Math.pow(2, -42),
-                forms: "literal, integer, proper, improper, mixed, decimal"
+                forms: Khan.answerTypes.number.defaultForms,
             }, $(solution).data());
             var acceptableForms = options.forms.split(/\s*,\s*/);
 
@@ -235,7 +236,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 simplify: "required",
                 ratio: false,
                 maxError: Math.pow(2, -42),
-                forms: "literal, integer, proper, improper, mixed, decimal"
+                forms: Khan.answerTypes.number.defaultForms
             }, $(solution).data());
             var acceptableForms = options.forms.split(/\s*,\s*/);
 
@@ -383,12 +384,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                         )) {
                         possibilities = forms.decimal(match[1]);
                     } else {
-                        possibilities = [].concat(
-                            forms.integer(text),
-                            forms.proper(text),
-                            forms.improper(text),
-                            forms.mixed(text),
-                            forms.decimal(text));
+                        possibilities = _.reduce(Khan.answerTypes.number.defaultForms.split(", "), function(memo, form) {
+                            return memo.concat(forms[form](text));
+                        }, []);
                         $.each(possibilities, function(ix, possibility) {
                             possibility.piApprox = true;
                         });
