@@ -382,6 +382,17 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                 /^(\S+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i
                                         )) {
                         possibilities = forms.decimal(match[1]);
+                    } else {
+                        possibilities = [].concat(
+                            forms.integer(text),
+                            forms.proper(text),
+                            forms.improper(text),
+                            forms.mixed(text),
+                            forms.decimal(text));
+                        $.each(possibilities, function(ix, possibility) {
+                            possibility.piApprox = true;
+                        });
+                        return possibilities;
                     }
 
                     var multiplier = Math.PI;
@@ -533,6 +544,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     for (var j = 0, l = transformed.length; j < l; j++) {
                         var val = transformed[j].value;
                         var exact = transformed[j].exact;
+                        var piApprox = transformed[j].piApprox;
 
                         // If a string was returned, and it exactly matches,
                         // return true
@@ -540,7 +552,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                 correct.toLowerCase() === val.toLowerCase()) {
                             ret = true;
                             return false; // break;
-                        } if (typeof val === "number" &&
+                        } else if (typeof val === "number" &&
                                 Math.abs(correctFloat - val) <
                                 options.maxError) {
                             // If the exact correct number was returned,
@@ -558,6 +570,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             }
 
                             return false; // break;
+                        } else if (typeof val === "number" && piApprox &&
+                                Math.abs(correctFloat / val - 1) < 0.001) {
+                            ret = "Your answer is close, but you may have " +
+                                  "approximated pi. Enter your answer as a " +
+                                  "multiple of pi, like <code>12\\ " +
+                                  "\\text{pi}</code> or <code>2/3\\ " +
+                                  "\\text{pi}</code>";
                         }
                     }
                 });
