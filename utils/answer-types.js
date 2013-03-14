@@ -1335,11 +1335,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      * variable. It should return one of the usual return types depending on
      * whether the answer is correct or not.
      *
-     * The .show-guess and .show-guess-answerarea elements are evaluated as
+     * The .show-guess and .show-guess-solutionarea elements are evaluated as
      * javascript whenever the guess needs to be re-displayed (mostly in the
      * timeline). The .show-guess function should be used to change elements
-     * outside of the answerarea, and the .show-guess-answerarea one should be
-     * used to modify elements within the answerarea
+     * outside of the solutionarea, and the .show-guess-solutionarea one should
+     * be used to modify elements within the solutionarea
      *
      * The text of the .example elements are used in the acceptable formats
      * popup
@@ -1354,7 +1354,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // Retrieve some code
             var guessCode = solution.find(".guess").text();
             var showCustomGuessCode = solution.find(".show-guess").text();
-            var showGuessCode = solution.find(".show-guess-answerarea").text();
+            var showGuessCode = solution.find(".show-guess-solutionarea").text();
 
             return {
                 validator: Khan.answerTypes.custom.createValidator(solution),
