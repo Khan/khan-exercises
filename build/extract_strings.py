@@ -93,6 +93,7 @@ def main():
         # Otherwise just write the output to STDOUT
         print results
 
+
 def lint(files, verbose):
     matches = extract_files(files, verbose, lint=True)
     num_matches = len(matches)
@@ -102,6 +103,7 @@ def lint(files, verbose):
                             % (num_matches, "" if num_matches == 1 else "s"))
 
     return matches
+
 
 def make_potfile(files, verbose):
     """Generate a PO file from a collection of HTML files.
