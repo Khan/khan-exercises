@@ -384,7 +384,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                         )) {
                         possibilities = forms.decimal(match[1]);
                     } else {
-                        possibilities = _.reduce(Khan.answerTypes.number.defaultForms.split(", "), function(memo, form) {
+                        possibilities = _.reduce(Khan.answerTypes.number.defaultForms.split(/\s*,\s*/), function(memo, form) {
                             return memo.concat(forms[form](text));
                         }, []);
                         $.each(possibilities, function(ix, possibility) {
