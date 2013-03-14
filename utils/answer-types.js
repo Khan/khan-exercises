@@ -349,6 +349,20 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     } else if (match = text.match(/^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
                         possibilities = fractionTransformer(match[1]);
 
+                    // 4 5 / 6 pi
+                    } else if (match = text.match(/^([+-]?)(\d+)\s*([+-]?\d+)\s*\/\s*([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
+                        var sign = parseFloat(match[1] + "1"),
+                            integ = parseFloat(match[2]),
+                            num = parseFloat(match[3]),
+                            denom = parseFloat(match[4]);
+                        var simplified = num < denom &&
+                            KhanUtil.getGCD(num, denom) === 1;
+
+                        possibilities = [{
+                            value: sign * (integ + num / denom),
+                            exact: simplified
+                        }];
+
                     // 5 pi / 6
                     } else if (match = text.match(/^([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i)) {
                         possibilities = fractionTransformer(match[1] +
@@ -371,7 +385,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     }
 
                     var multiplier = Math.PI;
-                    if (match && match[2].match(/t(?:au)?|\u03c4/)) {
+                    if (text.match(/t(?:au)?|\u03c4/)) {
                         multiplier = Math.PI * 2;
                     }
 
