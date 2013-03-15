@@ -776,7 +776,6 @@
 
                     // first determine if there is a line bisecting
                     var bisect = null;
-//                    var guess = construction.tools;
                     _.each(guess, function(tool) {
                         if (tool.first != null) {
                             ang = atan2(
@@ -820,7 +819,7 @@
 
                     var botInter = [];
                     _.each(comps, function(comp) {
-                        botInter = [CENTER[0] + comp.radius, CENTER[1]];
+                        botInter = [CENTER[0] + middle.radius, CENTER[1]];
                         if (eDist(comp.center.coord, botInter) &lt; 0.5) {
                             bottom = comp;
                         }
@@ -829,8 +828,8 @@
                     var topInter = [];
                     _.each(comps, function(comp) {
                         topInter = [CENTER[0] +
-                            applyRefFrame([comp.radius, 0], ROT)[0], CENTER[1]
-                            + applyRefFrame([comp.radius, 0], ROT)[1]];
+                            applyRefFrame([middle.radius, 0], ROT)[0], CENTER[1]
+                            + applyRefFrame([middle.radius, 0], ROT)[1]];
                         if( eDist(comp.center.coord, topInter) &lt; 0.5) {
                             top = comp;
                         }
@@ -840,7 +839,7 @@
                         return false;
                     }
 
-                    return true;
+                    return abs(bottom.radius - top.radius) &lt; 0.5;
                 </div>
                 <div class="show-guess">
                     showConstructionGuess(guess);
