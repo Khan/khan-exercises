@@ -14,6 +14,21 @@
             }
         }
     </script>
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
 </head>
 <body>
     <div class="exercise">
@@ -21,28 +36,66 @@
             <div>
                 <div class="vars">
                     <var id="SIGN">randFromArray(["+", "-"])</var>
-                    <var id="X">randVar()</var>
-                    <var id="COEFFICIENT1">randRangeNonZero( -8, 8 )</var>
-                    <var id="COEFFICIENT2">randRangeNonZero( -8, 8 )</var>
-                    <var id="COEFFICIENT3">randRangeNonZero( -8, 8 )</var>
-                    <var id="CONSTANT1">randRangeNonZero( -12, 12 )</var>
-                    <var id="CONSTANT2">randRangeNonZero( -12, 12 )</var>
-                    <var id="CONSTANT3">randRangeNonZero( -12, 12 )</var>
+                    <var data-ensure="X !== Y">
+                        <var id="X">randVar()</var>
+                        <var id="Y">randVar()</var>
+                    </var>
+                    <div data-ensure="COEFFICIENT1 !== 0 || CONSTANT1 !== 0">
+                        <var id="COEFFICIENT1">randRangeWeighted(-8, 8, 1, 0.25)</var>
+                        <var id="CONSTANT1">randRangeWeighted(-12, 12, 0, 0.4)</var>
+                    </div>
+                    <div data-ensure="COEFFICIENT2 !== 0 || CONSTANT2 !== 0">
+                        <var id="COEFFICIENT2">randRangeWeighted(-8, 8, 1, 0.25)</var>
+                        <var id="CONSTANT2">randRangeWeighted(-12, 12, 0, 0.4)</var>
+                    </div>
+                    <div data-ensure="COEFFICIENT3 !== 0 || CONSTANT3 !== 0">
+                        <var id="COEFFICIENT3">randRangeWeighted(-8, 8, 1, 0.25)</var>
+                        <var id="CONSTANT3">randRangeWeighted(-12, 12, 0, 0.4)</var>
+                    </div>
                     <var id="NUMERATOR1">expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>
                     <var id="NUMERATOR2">expr(["+", ["*", COEFFICIENT2, X], CONSTANT2])</var>
                     <var id="DENOMINATOR">expr(["+", ["*", COEFFICIENT3, X], CONSTANT3])</var>
-                    <var id="SOLUTION">getSolution(NUMERATORSUM, DENOMINATOR)</var>
-                    <var id="SOLUTIONTEXT">fraction(NUMERATORSUM, DENOMINATOR, true, true)</var> 
+                    <var id="SOLUTION">1</var>
+                    <var id="SOLUTIONTEXT">1</var> 
                 </div>
 
-                <p class="problem">Simplify the expression.</p>
+                <p class="problem">Simplify the following expression:</p>
                 <p class="question">
-                    <code>
-                        \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var><var>X</var>} <var>SIGN</var> 
-                        \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var><var>X</var>}
-                    </code>
+                    <code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var>}
+                          <var>SIGN</var> \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code>
                 </p>
-                <p class="solution" data-type="rational"><var>SOLUTION</var></p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NUMERATOR1</var></span>
+                        <span class="sol" data-type="regex"><var>DENOMINATOR</var></span>
+                    </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NUMERATOR2</var></span>
+                        <span class="sol" data-type="regex"><var>DENOMINATOR</var></span>
+                    </div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <table>
+                                <tr>
+                                    <td rowspan="2" class="soln-name">
+                                        <code><var>Y</var> = </code>
+                                    </td>
+                                    <td class="soln-top">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short50" data-fallback="1">a</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <p class="example">a simplifed expression, like <code>x + 2</code></p>
+                </div>
             </div>
         </div>
 
@@ -57,11 +110,9 @@
             </div>
             <div>
                 <p>Combine like terms:</p>
-                <p><code>\dfrac{<var>NUMERATORSUM</var><var>X</var>}{<var>DENOMINATOR</var><var>X</var>}</code></p>
             </div>
             <div>
                 <p>Simplify the fraction:</p>
-                <p><code><var>SOLUTIONTEXT</var></code></p>
             </div>
         </div>
     </div>
