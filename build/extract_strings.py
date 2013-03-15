@@ -73,8 +73,7 @@ def main():
 
     if args.lint:
         matches = lint(args.html_files, not args.quiet)
-        num_errors = len(matches)
-        sys.exit(min(num_errors, 127))
+        sys.exit(min(len(matches), 127))
 
     if args.format == 'po':
         # Output a PO file by default
@@ -95,12 +94,66 @@ def main():
 
 
 def lint(files, verbose):
-    matches = extract_files(files, verbose, lint=True)
-    num_matches = len(matches)
+    """Lint many HTML exercises looking for invalid nodes.
 
-    if verbose and num_matches:
+    Arguments:
+        - files: An array of filenames to parse
+        - verbose: If there should be any output
+    Returns:
+        - An array of (node, invalid_node, filename) tuples which contain
+          the node which has the invalid node, the invalid node, and the
+          filename of the file which has the error.
+    """
+    matches = []
+
+    # Go through all the fileanmes provided
+    for filename in files:
+        # And aggregate the linting results
+        matches += lint_file(filename, verbose)
+
+    if verbose and matches:
+        num_matches = len(matches)
         print >>sys.stderr, ('%s error%s detected.'
                             % (num_matches, "" if num_matches == 1 else "s"))
+
+    return matches
+
+
+def lint_file(filename, verbose):
+    """Lint a single HTML exercise looking for invalid nodes.
+
+    Arguments:
+        - filename: A string filename to parse
+        - verbose: If there should be any output
+    Returns:
+        - An array of (node, invalid_node, filename) tuples which contain
+          the node which has the invalid node, the invalid node, and the
+          filename of the file which has the error.
+    """
+    matches = []
+
+    # Construct an XPath expression for finding rejected nodes
+    lint_expr = "|".join([".//%s" % name for name in _REJECT_NODES])
+
+    # Collect all the i18n-able nodes out of file
+    nodes = _extract_nodes(filename)
+
+    for node in nodes:
+        # If we're linting the file and the string doesn't contain any
+        # rejected nodes then we just ignore it
+        lint_nodes = node.xpath(lint_expr)
+
+        if verbose and lint_nodes:
+            print >>sys.stderr, "Lint error in file: %s" % filename
+
+        for lint_node in lint_nodes:
+            matches.append((node, lint_node, filename))
+            
+            if verbose:
+                print >>sys.stderr, "Contains invalid node:"
+                print >>sys.stderr, _get_outerhtml(node)
+                print >>sys.stderr, "Invalid node:"
+                print >>sys.stderr, _get_outerhtml(lint_node)
 
     return matches
 
@@ -129,7 +182,7 @@ def make_potfile(files, verbose):
     return unicode(output_pot).encode('utf-8')
 
 
-def extract_files(files, verbose, lint=False):
+def extract_files(files, verbose):
     """Extract a collection of translatable strings from a set of HTML files.
 
     Returns:
@@ -148,11 +201,11 @@ def extract_files(files, verbose, lint=False):
     # Go through all the exercise files.
     if files:
         for filename in files:
-            if verbose and not lint:
+            if verbose:
                 print >>sys.stderr, 'Extracting strings from: %s' % filename
-            extract_file(filename, matches, verbose, lint)
+            extract_file(filename, matches, verbose)
 
-    if verbose and not lint:
+    if verbose:
         num_matches = len(matches)
         print >>sys.stderr, ('%s string%s extracted.'
                              % (num_matches, "" if num_matches == 1 else "s"))
@@ -168,7 +221,22 @@ def extract_files(files, verbose, lint=False):
     return retval
 
 
-def extract_file(filename, matches, verbose=False, lint=False):
+def _extract_nodes(filename):
+    """Extract all the i18n-able nodes out of a file."""
+    # Parse the HTML tree
+    html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
+
+    # Turn all the tags into a full XPath selector
+    search_expr = _XPATH_FIND_NODES
+
+    for name in _IGNORE_NODES:
+        search_expr += "[not(ancestor-or-self::%s)]" % name
+
+    # Return the matching nodes
+    return html_tree.xpath(search_expr)
+
+
+def extract_file(filename, matches):
     """Extract a collection of translatable strings from an HTML file.
 
     This function modifies matches in place with new content that it
@@ -182,37 +250,10 @@ def extract_file(filename, matches, verbose=False, lint=False):
     if matches is None:
         matches = {}
 
-    # Parse the HTML tree
-    html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
-
-    # Turn all the tags into a full XPath selector
-    search_expr = _XPATH_FIND_NODES
-
-    for name in _IGNORE_NODES:
-        search_expr += "[not(ancestor-or-self::%s)]" % name
-
-    if lint:
-        # Construct an XPath expression for finding rejected nodes
-        lint_expr = "|".join([".//%s" % name for name in _REJECT_NODES])
-
-    # Search for the matching nodes
-    nodes = html_tree.xpath(search_expr)
+    # Collect all the i18n-able nodes out of file
+    nodes = _extract_nodes(filename)
 
     for node in nodes:
-        # If we're linting the file and the string doesn't contain any
-        # rejected nodes then we just ignore it
-        if lint:
-            lint_matches = node.xpath(lint_expr)
-            if not lint_matches:
-                continue
-            elif verbose:
-                print >>sys.stderr, "Lint error in file: %s" % filename
-                for lint_node in lint_matches:
-                    print >>sys.stderr, "Contains invalid node:"
-                    print >>sys.stderr, _get_outerhtml(node)
-                    print >>sys.stderr, "Invalid node:"
-                    print >>sys.stderr, _get_outerhtml(lint_node)
-
         # Get a string version of the contents of the node
         contents = _get_innerhtml(node)
 
