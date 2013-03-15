@@ -25,7 +25,7 @@
             <div class="vars">
                 <var id="D">randRangeExclude(1, 99, [10,20,30,40,50,60,70,80,90]) / 100</var>
                 <var id="T">floor( D * 10 )</var>
-                <var id="H">round( ( D * 100 ) % 10 )</var>
+                <var id="H">round( D * 100 ) % 10</var>
             </div>
             <p class="question">Express <code><var>D.toFixed( 2 )</var></code> as a fraction.</p>
             <p class="solution" data-type="rational" data-simplify="optional"><var>D</var></p>
