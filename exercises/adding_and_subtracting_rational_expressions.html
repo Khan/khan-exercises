@@ -55,6 +55,12 @@
                     <var id="NUMERATOR1">expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>
                     <var id="NUMERATOR2">expr(["+", ["*", COEFFICIENT2, X], CONSTANT2])</var>
                     <var id="DENOMINATOR">expr(["+", ["*", COEFFICIENT3, X], CONSTANT3])</var>
+                    <var id="NUMERATORSUM">(function() {
+                        var coefficient = SIGN === "+" ? COEFFICIENT1 + COEFFICIENT2 : COEFFICIENT1 - COEFFICIENT2;
+                        var variable = expr(["*", coefficient, X]);
+                        var constant = SIGN === "+" ? CONSTANT1 + CONSTANT2 : CONSTANT1 - CONSTANT2;
+                        return expr(["+", variable, constant]);
+                    })()</var>
                     <var id="SOLUTION">1</var>
                     <var id="SOLUTIONTEXT">1</var> 
                 </div>
@@ -102,14 +108,25 @@
         <div class="hints">
             <div>
                 <p>Since the expressions have the same denominator we can combine the expressions in the numerators.</p>
-                <p><code>\dfrac{<var>NUMERATOR1</var> <var>SIGN</var> (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var><var>X</var>}</code></p>
+                <p>
+                    <code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> <var>SIGN</var> (<var>NUMERATOR2</var>)}
+                    {<var>DENOMINATOR</var>}</code>
+                </p>
             </div>
-            <div id="paren">
-                 <p>Since this is addition, we can remove the parenthesis without any extra steps.</p>
-                <p><code>\dfrac{<var>NUMERATOR1</var> <var>SIGN</var> <var>NUMERATOR2</var>}{<var>DENOMINATOR</var><var>X</var>}</code></p>
+            <div data-if="SIGN ==='+'">
+                <p>Since this is addition, we can remove the parenthesis without any extra steps.</p>
+                <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
+            </div>
+            <div data-else>
+                <p>Distribute the negative sign</p>
+                <p>
+                    <code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>expr(["+", ["*", -COEFFICIENT2, X], -CONSTANT2])</var>}
+                        {<var>DENOMINATOR</var>}</code>
+                </p>
             </div>
             <div>
                 <p>Combine like terms:</p>
+                <code><var>Y</var> = \dfrac{<var>NUMERATORSUM</var>}{<var>DENOMINATOR</var>}</code>
             </div>
             <div>
                 <p>Simplify the fraction:</p>
