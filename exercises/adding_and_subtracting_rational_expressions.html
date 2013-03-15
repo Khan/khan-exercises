@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting with like denominators</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function getSolution( numerator, denominator) {
+            var fraction = KhanUtil.toFraction(numerator / denominator);
+            if (fraction[1] === 1) {
+                return fraction[0];
+            } else {
+                return fraction[0] / fraction[1];
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="SIGN">randFromArray(["+", "-"])</var>
+                    <var id="X">randVar()</var>
+                    <var id="COEFFICIENT1">randRangeNonZero( -8, 8 )</var>
+                    <var id="COEFFICIENT2">randRangeNonZero( -8, 8 )</var>
+                    <var id="COEFFICIENT3">randRangeNonZero( -8, 8 )</var>
+                    <var id="CONSTANT1">randRangeNonZero( -12, 12 )</var>
+                    <var id="CONSTANT2">randRangeNonZero( -12, 12 )</var>
+                    <var id="CONSTANT3">randRangeNonZero( -12, 12 )</var>
+                    <var id="NUMERATOR1">expr(["+", ["*", COEFFICIENT1, X], CONSTANT1])</var>
+                    <var id="NUMERATOR2">expr(["+", ["*", COEFFICIENT2, X], CONSTANT2])</var>
+                    <var id="DENOMINATOR">expr(["+", ["*", COEFFICIENT3, X], CONSTANT3])</var>
+                    <var id="SOLUTION">getSolution(NUMERATORSUM, DENOMINATOR)</var>
+                    <var id="SOLUTIONTEXT">fraction(NUMERATORSUM, DENOMINATOR, true, true)</var> 
+                </div>
+
+                <p class="problem">Simplify the expression.</p>
+                <p class="question">
+                    <code>
+                        \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var><var>X</var>} <var>SIGN</var> 
+                        \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var><var>X</var>}
+                    </code>
+                </p>
+                <p class="solution" data-type="rational"><var>SOLUTION</var></p>
+            </div>
+        </div>
+
+        <div class="hints">
+            <div>
+                <p>Since the expressions have the same denominator we can combine the expressions in the numerators.</p>
+                <p><code>\dfrac{<var>NUMERATOR1</var> <var>SIGN</var> (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var><var>X</var>}</code></p>
+            </div>
+            <div id="paren">
+                 <p>Since this is addition, we can remove the parenthesis without any extra steps.</p>
+                <p><code>\dfrac{<var>NUMERATOR1</var> <var>SIGN</var> <var>NUMERATOR2</var>}{<var>DENOMINATOR</var><var>X</var>}</code></p>
+            </div>
+            <div>
+                <p>Combine like terms:</p>
+                <p><code>\dfrac{<var>NUMERATORSUM</var><var>X</var>}{<var>DENOMINATOR</var><var>X</var>}</code></p>
+            </div>
+            <div>
+                <p>Simplify the fraction:</p>
+                <p><code><var>SOLUTIONTEXT</var></code></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
