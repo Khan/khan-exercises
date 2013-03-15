@@ -199,11 +199,10 @@ def extract_files(files, verbose):
     matches = {}
 
     # Go through all the exercise files.
-    if files:
-        for filename in files:
-            if verbose:
-                print >>sys.stderr, 'Extracting strings from: %s' % filename
-            extract_file(filename, matches, verbose)
+    for filename in files:
+        if verbose:
+            print >>sys.stderr, 'Extracting strings from: %s' % filename
+        extract_file(filename, matches, verbose)
 
     if verbose:
         num_matches = len(matches)
