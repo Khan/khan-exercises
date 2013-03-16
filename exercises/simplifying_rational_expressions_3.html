@@ -51,17 +51,18 @@
                     <var id="DOMAIN">-C</var>
                 </div>
 
-                <p class="problem">Simplify the following expression and state the domain:</p>
-
                 <div class="solution" data-type="set">
                     <div class="set-sol" data-type="multiple">
                         <span class="sol" data-type="regex"><var>POSITIVENUMERATOR</var></span>
                         <span class="sol" data-type="regex"><var>POSITIVEDENOMINATOR</var></span>
+                        <span class="sol" data-type="number"><var>-A</var></span>
                     </div>
                     <div class="set-sol" data-type="multiple">
                         <span class="sol" data-type="regex"><var>NEGATIVENUMERATOR</var></span>
                         <span class="sol" data-type="regex"><var>NEGATIVEDENOMINATOR</var></span>
+                        <span class="sol" data-type="number"><var>-A</var></span>
                     </div>
+
                     <div class="input-format">
                         <div class="entry" data-type="multiple">
                             <table>
@@ -79,7 +80,7 @@
                                     </td>
                                 </tr>
                             </table>
-                        <div class="soln-dom"><code><var>X</var> \neq </code> <span class="sol soln-dom short50">a</span></div>
+                            <div class="soln-dom"><code><var>X</var> \neq </code> <span class="sol soln-dom short50">a</span></div>
                         </div>
                     </div>
                     <div class="example">a simplifed expression, like <code>x + 2</code></div>
@@ -99,17 +100,18 @@
                     <var id="NEGATIVEDENOMINATOR">getExpressionRegex(-1, X, -C)</var>
                 </div>
 
-                <p class="problem">Simplify the following expression and state the domain:</p>
-
                 <div class="solution" data-type="set">
                     <div class="set-sol" data-type="multiple">
                         <span class="sol" data-type="regex"><var>POSITIVENUMERATOR</var></span>
                         <span class="sol" data-type="regex"><var>POSITIVEDENOMINATOR</var></span>
+                        <span class="sol" data-type="number"><var>-A</var></span>
                     </div>
                     <div class="set-sol" data-type="multiple">
                         <span class="sol" data-type="regex"><var>NEGATIVENUMERATOR</var></span>
                         <span class="sol" data-type="regex"><var>NEGATIVEDENOMINATOR</var></span>
+                        <span class="sol" data-type="number"><var>-A</var></span>
                     </div>
+
                     <div class="input-format">
                         <div class="entry" data-type="multiple">
                             <table>
@@ -158,6 +160,7 @@
                         <span class="sol" data-type="regex"><var>NEGATIVENUMERATOR</var></span>
                         <span class="sol" data-type="regex"><var>NEGATIVEDENOMINATOR</var></span>
                     </div>
+
                     <div class="input-format">
                         <div class="entry" data-type="multiple">
                             <table>
@@ -181,8 +184,10 @@
                 </div>
 
             </div>
+            
         </div>
 
+        <p class="problem">Simplify the following expression and state the domain:</p>
         <p class="question"><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
 
         <div class="hints">
