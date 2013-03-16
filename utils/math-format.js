@@ -454,7 +454,7 @@ $.extend(KhanUtil, {
     },
 
     randVar: function() {
-        return KhanUtil.randFromArray(["a", "k", "n", "p", "r", "t", "v", "x", "y", "z"]);
+        return KhanUtil.randFromArray(["a", "k", "n", "p", "q", "r", "t", "x", "y", "z"]);
     },
 
     eulerFormExponent: function(angle) {
