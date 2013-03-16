@@ -18,6 +18,9 @@
             padding-top: 1px;
             border-top: 1px solid black;
         }
+        #solutionarea .soln-dom {
+            padding-left: 3px;
+        }
     </style>
 </head>
 <body>
@@ -85,6 +88,15 @@
                     <div class="example">a simplifed expression, like <code>x + 2</code></div>
                 </div>
 
+                <div class="hints" data-apply="appendContents">
+                    <div>
+                        <p>The original expression has <code>(<var>X</var> + <var>A</var>)</code> in the denominator, 
+                        so is not defined when <code><var>X</var> = <var>-A</var></code>.</p>
+                        We must therefore include this condition with the simplified expression:</p>
+                        <code><var>Y</var> = \dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}; \space
+                        <var>X</var> \neq <var>-A</var></code>
+                    </div>
+                </div>
             </div>
 
             <div id="top-constant">
@@ -119,7 +131,7 @@
                                         <code><var>Y</var> = </code>
                                     </td>
                                     <td class="soln-top">
-                                        <span class="sol short32">a</span>
+                                        <span class="sol short40">a</span>
                                     </td>
                                     <td rowspan="2">;
                                         <code> \space <var>X</var> \neq </code><span class="sol soln-dom short32">a</span>
@@ -127,7 +139,7 @@
                                 </tr>
                                 <tr>
                                     <td class="soln-bot">
-                                        <span class="sol short32" data-fallback="1">a</span>
+                                        <span class="sol short40" data-fallback="1">a</span>
                                     </td>
                                 </tr>
                             </table>
@@ -136,6 +148,15 @@
                     <div class="example">a simplifed expression, like <code>x + 2</code></div>
                 </div>
 
+                <div class="hints" data-apply="appendContents">
+                    <div>
+                        <p>The original expression has <code>(<var>X</var> + <var>A</var>)</code> in the denominator, 
+                        so is not defined when <code><var>X</var> = <var>-A</var></code>.</p>
+                        We must therefore include this condition with the simplified expression:</p>
+                        <code><var>Y</var> = \dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}; \space
+                        <var>X</var> \neq <var>-A</var></code>
+                    </div>
+                </div>
             </div>
 
             <div id="bottom-constant">
@@ -184,8 +205,18 @@
                     <div class="example">a simplifed expression, like <code>x + 2</code></div>
                 </div>
 
+            <div class="hints" data-apply="appendContents">
+                <div data-if="FACTOR2 < -1">
+                    <p>To remove the negative denominator, multiply the numerator and denominator by -1:</p>
+                    <div><code><var>Y</var> = \dfrac{-<var>X</var> + <var>-B</var>}{<var>-C</var>}</code></div>
+                </div>
+                <div data-if="FACTOR2 === -1">
+                    <p>Dividing by -1 is the same thing as multiplying by -1, so the answer is:</p>
+                    <div><code><var>Y</var> = -<var>X</var> + <var>-B</var></code></div>
+                </div>
             </div>
-            
+
+            </div>
         </div>
 
         <p class="problem">Simplify the following expression and state the domain:</p>
@@ -209,15 +240,6 @@
                 <div data-else>
                     <code><var>Y</var> = \dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code>
                 </div>
-            </div>
-
-            <div data-if="FACTOR2 < -1">
-                <p>To remove the negative denominator, multiply the numerator and denominator by -1:</p>
-                <div><code><var>Y</var> = \dfrac{-<var>X</var> + <var>-B</var>}{<var>-C</var>}</code></div>
-            </div>
-            <div data-if="FACTOR2 === -1">
-                <p>Dividing by -1 is the same thing as multiplying by -1, so the answer is:</p>
-                <div><code><var>Y</var> = -<var>X</var> + <var>-B</var></code></div>
             </div>
 
         </div>
