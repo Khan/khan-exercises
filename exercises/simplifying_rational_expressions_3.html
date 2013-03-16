@@ -18,6 +18,9 @@
             padding-top: 1px;
             border-top: 1px solid black;
         }
+        #solutionarea .soln-dom {
+            padding-left: 4px;
+        }
     </style>
 </head>
 <body>
@@ -45,7 +48,43 @@
                     <var id="POSITIVEDENOMINATOR">getExpressionRegex(1, X, C)</var>
                     <var id="NEGATIVENUMERATOR">getExpressionRegex(-1, X, -B)</var>
                     <var id="NEGATIVEDENOMINATOR">getExpressionRegex(-1, X, -C)</var>
+                    <var id="DOMAIN">-C</var>
                 </div>
+
+                <p class="problem">Simplify the following expression and state the domain:</p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>POSITIVENUMERATOR</var></span>
+                        <span class="sol" data-type="regex"><var>POSITIVEDENOMINATOR</var></span>
+                    </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NEGATIVENUMERATOR</var></span>
+                        <span class="sol" data-type="regex"><var>NEGATIVEDENOMINATOR</var></span>
+                    </div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <table>
+                                <tr>
+                                    <td rowspan="2" class="soln-name">
+                                        <code><var>Y</var> = </code>
+                                    </td>
+                                    <td class="soln-top">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short50" data-fallback="1">a</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        <div class="soln-dom"><code><var>X</var> \neq </code> <span class="sol soln-dom short50">a</span></div>
+                        </div>
+                    </div>
+                    <div class="example">a simplifed expression, like <code>x + 2</code></div>
+                </div>
+
             </div>
 
             <div id="top-constant">
@@ -59,6 +98,41 @@
                     <var id="NEGATIVENUMERATOR">getExpressionRegex(0, X, -B)</var>
                     <var id="NEGATIVEDENOMINATOR">getExpressionRegex(-1, X, -C)</var>
                 </div>
+
+                <p class="problem">Simplify the following expression and state the domain:</p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>POSITIVENUMERATOR</var></span>
+                        <span class="sol" data-type="regex"><var>POSITIVEDENOMINATOR</var></span>
+                    </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NEGATIVENUMERATOR</var></span>
+                        <span class="sol" data-type="regex"><var>NEGATIVEDENOMINATOR</var></span>
+                    </div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <table>
+                                <tr>
+                                    <td rowspan="2" class="soln-name">
+                                        <code><var>Y</var> = </code>
+                                    </td>
+                                    <td class="soln-top">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short50" data-fallback="1">a</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        <div class="soln-dom"><code><var>X</var> \neq </code> <span class="sol soln-dom short50">a</span></div>
+                        </div>
+                    </div>
+                    <div class="example">a simplifed expression, like <code>x + 2</code></div>
+                </div>
+
             </div>
 
             <div id="bottom-constant">
@@ -72,43 +146,44 @@
                     <var id="NEGATIVENUMERATOR">getExpressionRegex(-1, X, -B)</var>
                     <var id="NEGATIVEDENOMINATOR">getExpressionRegex(0, X, -C)</var>
                 </div>
-            </div>
-        </div>
 
-        <p class="problem">Simplify the following expression:</p>
-        <p class="question"><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
-
-        <div class="solution" data-type="set">
-            <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>POSITIVENUMERATOR</var></span>
-                <span class="sol" data-type="regex"><var>POSITIVEDENOMINATOR</var></span>
-            </div>
-            <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NEGATIVENUMERATOR</var></span>
-                <span class="sol" data-type="regex"><var>NEGATIVEDENOMINATOR</var></span>
-            </div>
-            <div class="input-format">
-                <div class="entry" data-type="multiple">
-                    <table>
-                        <tr>
-                            <td rowspan="2" class="soln-name">
-                                <code><var>Y</var> = </code>
-                            </td>
-                            <td class="soln-top">
-                                <span class="sol short50">a</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="soln-bot">
-                                <span class="sol short50" data-fallback="1">a</span>
-                            </td>
-                        </tr>
-                    </table>
+                <p class="problem">Simplify the following expression:</p>
+               
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>POSITIVENUMERATOR</var></span>
+                        <span class="sol" data-type="regex"><var>POSITIVEDENOMINATOR</var></span>
+                    </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NEGATIVENUMERATOR</var></span>
+                        <span class="sol" data-type="regex"><var>NEGATIVEDENOMINATOR</var></span>
+                    </div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <table>
+                                <tr>
+                                    <td rowspan="2" class="soln-name">
+                                        <code><var>Y</var> = </code>
+                                    </td>
+                                    <td class="soln-top">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short50" data-fallback="1">a</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="example">a simplifed expression, like <code>x + 2</code></div>
                 </div>
-            </div>
 
-            <p class="example">a simplifed expression, like <code>x + 2</code></p>
+            </div>
         </div>
+
+        <p class="question"><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
 
         <div class="hints">
             <p>First factor the expressions in the numerator and denominator.</p>
@@ -122,7 +197,7 @@
 
             <div>
                 <p>Dividing both the numerator and denominator by <code>(<var>X</var> + <var>A</var>)</code> gives:</p>
-                <div data-if="C === 1">
+                <div data-if="FACTOR2 === 1">
                     <code><var>Y</var> = \dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code> or more simply, <code><var>Y</var> = <var>FACTOR1</var></code>
                 </div>
                 <div data-else>
