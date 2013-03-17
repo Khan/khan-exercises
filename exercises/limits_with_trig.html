@@ -32,18 +32,18 @@
                           </p>
                           <p>Try the substitution <code>a = <var>num_coeff</var>x</code>.</p>
                           <p>With <code>a = <var>num_coeff</var>x</code> <br/>
-                            <code>\displaystyle\lim_{x\to 0} \dfrac{ \sin{(<var>num_coeff</var>x)}}{<var>dem_coeff</var>x} = \displaystyle\lim_{x\to 0} \dfrac{ \sin{(a)}}{<var>dem_coeff</var>(\dfrac{a}{<var>num_coeff</var>})} = 
+                            <code>\displaystyle\lim_{x\to 0} \dfrac{ \sin{(<var>num_coeff</var>x)}}{<var>dem_coeff</var>x} = \displaystyle\lim_{a\to 0} \dfrac{ \sin{(a)}}{<var>dem_coeff</var>(\dfrac{a}{<var>num_coeff</var>})} = 
 
-                             \dfrac{<var>num_coeff</var>}{<var>dem_coeff</var>}\displaystyle\lim_{x\to 0}\dfrac{ \sin{(a)}}{a} </code>
+                             \dfrac{<var>num_coeff</var>}{<var>dem_coeff</var>}\displaystyle\lim_{a\to 0}\dfrac{ \sin{(a)}}{a} </code>
                           </p>
                               <div>
                                 <p data-if="simplify(num_coeff,dem_coeff)[1] === 1">
                                   Taking the limit gives <br/>
-                                  <code>\dfrac{<var>num_coeff</var>}{<var>dem_coeff</var>}\lim_{x\to 0}  \dfrac{ \sin{(a )}}{a} = \dfrac{<var>num_coeff</var>}{<var>dem_coeff</var>}(1) = <var>simplify(num_coeff,dem_coeff)[0]</var></code>
+                                  <code>\dfrac{<var>num_coeff</var>}{<var>dem_coeff</var>}\lim_{a\to 0}  \dfrac{ \sin{(a )}}{a} = \dfrac{<var>num_coeff</var>}{<var>dem_coeff</var>}(1) = <var>simplify(num_coeff,dem_coeff)[0]</var></code>
                                 </p>
                                 <p data-else>
                                   Taking the limit gives <br/>
-                                  <code>\dfrac{<var>num_coeff</var>}{<var>dem_coeff</var>}\lim_{x\to 0}  \dfrac{ \sin{(a )}}{a} = \dfrac{<var>num_coeff</var>}{<var>dem_coeff</var>}(1) = <var>simplify(num_coeff,dem_coeff)[0]</var>/<var>simplify(num_coeff,dem_coeff)[1]</var></code>
+                                  <code>\dfrac{<var>num_coeff</var>}{<var>dem_coeff</var>}\lim_{a\to 0}  \dfrac{ \sin{(a )}}{a} = \dfrac{<var>num_coeff</var>}{<var>dem_coeff</var>}(1) = <var>simplify(num_coeff,dem_coeff)[0]</var>/<var>simplify(num_coeff,dem_coeff)[1]</var></code>
                                 </p>
                               </div>
                           </p>
@@ -83,7 +83,7 @@
                         <code>\dfrac{\sin{x}}{\cos{x}} - \dfrac{\sin{(\pi/4)}}{\cos{(\pi/4)}} = \dfrac{\sin{x}\cos{(\pi/4)} - \cos{x}\sin{(\pi/4)}}{\cos{x}\cos{(\pi/4)}}</code>
                         </p>
                         <p>
-                          Using the double angle formula, <code>\sin{(A-B)} = \sin{A}\cos{B} - \cos{A}\sin{B}</code> <br/>
+                          Using the trigonometric identity, <code>\sin{(A-B)} = \sin{A}\cos{B} - \cos{A}\sin{B}</code> <br/>
                           the limit can now be written as <br/>
                           <code>\displaystyle\lim_{x\to \pi/4} \dfrac{\sin{(x-\pi/4)}}{x-\pi/4} \dfrac{1}{\cos{x}\cos{\pi/4}}</code>
                         </p>
