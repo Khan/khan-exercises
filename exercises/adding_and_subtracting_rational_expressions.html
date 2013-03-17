@@ -30,15 +30,13 @@
             <var id="DENOMCOEFF">randRangeWeighted(1, 8, 1, 0.25)</var>
             <var id="DENOMCONST">randRangeWeighted(-12, 12, 0, 0.25)</var>
             <var id="DENOMINATOR">expr(["+", ["*", DENOMCOEFF, X], DENOMCONST])</var>
-            <var id="DENOMGCD">getGCD(DENOMCOEFF, DENOMCONST)</var>
             
             <div data-ensure="NUMERCOEFF !== 0 || NUMERCONST !== 0">
                 <var id="NUMERCOEFF">randRange(-8, 8)</var>
                 <var id="NUMERCONST">randRange(-12, 12)</var>
             </div>
             <var id="NUMERATOR">expr(["+", ["*", NUMERCOEFF, X], NUMERCONST])</var>
-            <var id="NUMERGCD">getGCD(NUMERCOEFF, NUMERCONST)</var>
-            <var id="FACTOR">getGCD(DENOMGCD, NUMERGCD)</var>
+            <var id="FACTOR">getGCD(getGCD(DENOMCOEFF, DENOMCONST), getGCD(NUMERCOEFF, NUMERCONST))</var>
             <var id="COEFF1">randRangeWeighted(-8, 8, 1, 0.25)</var>
             <var id="CONST1">randRangeWeighted(-12, 12, 0, 0.25)</var>
             <var id="NUMERATOR1">expr(["+", ["*", COEFF1, X], CONST1])</var>
