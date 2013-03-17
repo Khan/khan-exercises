@@ -27,11 +27,14 @@
             prob9       A(Bx + C) = D(E + Fx)
     </div>
 
+    <div class="vars">
+        <var id="X">randVar()</var>
+    </div>
+
     <div class="problems">
         <div id="prob1"> <!-- A = Bx + C(Dx + E) -->
             <div class="vars" data-ensure="(B + C * D !== 0) &&
                     (A - C * E !== 0) && (B + C * D !== 1)">
-                <var id="X">randFromArray("abkmnpvx")</var>
                 <var id="A">randRangeNonZero(-10, 10)</var>
                 <var id="B">randRangeNonZero(-10, 10)</var>
                 <var id="C">
@@ -149,7 +152,6 @@
         <div id="prob2"> <!-- A = B(C + Dx) + Ex -->
             <div class="vars" data-ensure="(B * D + E !== 0) &&
                     (A - B * C) && (B * D + E)">
-                <var id="X">randFromArray("abkmnpvx")</var>
                 <var id="A">randRangeNonZero(-10, 10)</var>
                 <var id="B">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
@@ -272,7 +274,6 @@
             <div class="vars" data-ensure="D * F + G !== 0 &&
                     ((A * B) - (D * F + G)) !== 0 &&
                     ((A * B) - (D * F + G)) !== 1">
-                <var id="X">randFromArray("abkmnpvx")</var>
                 <var id="A">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
                 </var>
@@ -466,7 +467,6 @@
             <div class="vars" data-ensure="(F - B * D !== 0) &&
                     (A + B * C - E !== 0) &&
                     (A + B * C - E !== 1)">
-                <var id="X">randFromArray("abkmnpvx")</var>
                 <var id="A">randRangeNonZero(-8, 8)</var>
                 <var id="B">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
@@ -618,7 +618,6 @@
 
         <div id="prob5"> <!-- A + Bx = C(Dx + E) -->
             <div class="vars" data-ensure="(B - C * D !== 0) && (B - C * D !== 1)">
-                <var id="X">randFromArray("abkmnpvx")</var>
                 <var id="A">randRangeNonZero(-8, 8)</var>
                 <var id="B">randRangeNonZero(-10, 10)</var>
                 <var id="C">
@@ -752,7 +751,6 @@
         <div id="prob6"> <!-- Ax + B(C + Dx) = E -->
             <div class="vars" data-ensure="(A + B * D !== 0) &&
                     (E - B * C !== 0) && (A + B * D !== 1)">
-                <var id="X">randFromArray("abkmnpvx")</var>
                 <var id="A">randRangeNonZero(-8, 8)</var>
                 <var id="B">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
@@ -866,7 +864,6 @@
 
         <div id="prob7"> <!-- A(Bx + C) = Dx + E -->
             <div class="vars" data-ensure="(A * B - D !== 0) && (A * B - D !== 1)">
-                <var id="X">randFromArray("abkmnpvx")</var>
                 <var id="A">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
                 </var>
@@ -1001,7 +998,6 @@
         <div id="prob8"> <!-- A(B + Cx) + D = E + Fx -->
             <div class="vars" data-ensure="(A * B - F !== 0) &&
                     (A * C + D !== 0) && (E - A * C - D !== 0) && (A * B - F !== 1)">
-                <var id="X">randFromArray("abkmnpvx")</var>
                 <var id="A">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
                 </var>
@@ -1149,7 +1145,6 @@
 
         <div id="prob9"> <!-- A(Bx + C) = D(E + Fx) -->
             <div class="vars" data-ensure="(A * B - D * F !== 0) && (A * B - D * F !== 1)">
-                <var id="X">randFromArray("abkmnpvx")</var>
                 <var id="A">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
                 </var>
