@@ -27,19 +27,19 @@
                 <var id="X">randVar()</var>
                 <var id="Y">randVar()</var>
             </var>
+            <var id="DENOMCOEFF">randRangeWeighted(1, 8, 1, 0.25)</var>
+            <var id="DENOMCONST">randRangeWeighted(-12, 12, 0, 0.25)</var>
+            <var id="DENOMINATOR">expr(["+", ["*", DENOMCOEFF, X], DENOMCONST])</var>
+            <var id="DENOMGCD">getGCD(DENOMCOEFF, DENOMCONST)</var>
+            
             <div data-ensure="NUMCOEFF !== 0 || NUMCONST !== 0">
                 <var id="NUMCOEFF">randRange(-8, 8)</var>
                 <var id="NUMCONST">randRange(-12, 12)</var>
             </div>
             <var id="NUMERATOR">expr(["+", ["*", NUMCOEFF, X], NUMCONST])</var>
-            <!-- Need ensure solution cannot be simplified,
-                 i.e. no common factor between 
-            -->
-            <div>
-                <var id="DENOMCOEFF">randRangeWeighted(1, 8, 1, 0.25)</var>
-                <var id="DENOMCONST">randRangeWeighted(-12, 12, 0, 0.25)</var>
-            </div>
-            <var id="DENOMINATOR">expr(["+", ["*", DENOMCOEFF, X], DENOMCONST])</var>
+            <var id="NUMGCD">getGCD(NUMCOEFF, NUMCONST)</var>
+            <var id="FACTOR">getGCD(DENOMGCD, NUMGCD)</var>
+
             <var id="COEFF1">randRangeWeighted(-8, 8, 1, 0.25)</var>
             <var id="CONST1">randRangeWeighted(-12, 12, 0, 0.25)</var>
             <var id="NUMERATOR1">expr(["+", ["*", COEFF1, X], CONST1])</var>
@@ -99,8 +99,8 @@
             <div id="subtract" data-type="add">
                 <div class="vars">
                     <var id="SIGN">"-"</var>
-                    <var id="COEFF2">NUMCOEFF + COEFF1</var>
-                    <var id="CONST2">NUMCONST + CONST1</var>
+                    <var id="COEFF2">COEFF1 - NUMCOEFF</var>
+                    <var id="CONST2">CONST1 - NUMCONST</var>
                     <var id="NUMERATOR2">expr(["+", ["*", COEFF2, X], CONST2])</var>
                 </div>
 
@@ -128,6 +128,11 @@
             <div>
                 <p>Combine like terms:</p>
                 <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>
+            </div>
+            <div data-if="FACTOR !== 1">
+                <p>Simplify by dividing numerator and denominator by <var>FACTOR</var>:</p>
+                <code><var>Y</var> = \dfrac{<var>expr(["+", ["*", NUMCOEFF / FACTOR, X], NUMCONST / FACTOR])</var>}
+                    {<var>expr(["+", ["*", DENOMCOEFF / FACTOR, X], DENOMCONST / FACTOR])</var>}</code>
             </div>
         </div>
     </div>
