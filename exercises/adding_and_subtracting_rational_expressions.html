@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions">
+<html data-require="math math-format expressions rational-expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding and subtracting with like denominators</title>
@@ -32,27 +32,27 @@
             <var id="DENOMINATOR">expr(["+", ["*", DENOMCOEFF, X], DENOMCONST])</var>
             <var id="DENOMGCD">getGCD(DENOMCOEFF, DENOMCONST)</var>
             
-            <div data-ensure="NUMCOEFF !== 0 || NUMCONST !== 0">
-                <var id="NUMCOEFF">randRange(-8, 8)</var>
-                <var id="NUMCONST">randRange(-12, 12)</var>
+            <div data-ensure="NUMERCOEFF !== 0 || NUMERCONST !== 0">
+                <var id="NUMERCOEFF">randRange(-8, 8)</var>
+                <var id="NUMERCONST">randRange(-12, 12)</var>
             </div>
-            <var id="NUMERATOR">expr(["+", ["*", NUMCOEFF, X], NUMCONST])</var>
-            <var id="NUMGCD">getGCD(NUMCOEFF, NUMCONST)</var>
-            <var id="FACTOR">getGCD(DENOMGCD, NUMGCD)</var>
-
+            <var id="NUMERATOR">expr(["+", ["*", NUMERCOEFF, X], NUMERCONST])</var>
+            <var id="NUMERGCD">getGCD(NUMERCOEFF, NUMERCONST)</var>
+            <var id="FACTOR">getGCD(DENOMGCD, NUMERGCD)</var>
             <var id="COEFF1">randRangeWeighted(-8, 8, 1, 0.25)</var>
             <var id="CONST1">randRangeWeighted(-12, 12, 0, 0.25)</var>
             <var id="NUMERATOR1">expr(["+", ["*", COEFF1, X], CONST1])</var>
-            <var id="SOLUTION">1</var>
-            <var id="SOLUTIONTEXT">1</var> 
+
+            <var id="NUMERSOL">getExpressionRegex(NUMERCOEFF / FACTOR, X, NUMERCONST / FACTOR)</var>
+            <var id="DENOMSOL">getExpressionRegex(DENOMCOEFF / FACTOR, X, DENOMCONST / FACTOR)</var>
         </div>
 
         <div class="problems">
             <div id="add">
                 <div class="vars">
                     <var id="SIGN">"+"</var>
-                    <var id="COEFF2">NUMCOEFF - COEFF1</var>
-                    <var id="CONST2">NUMCONST - CONST1</var>
+                    <var id="COEFF2">NUMERCOEFF - COEFF1</var>
+                    <var id="CONST2">NUMERCONST - CONST1</var>
                     <var id="NUMERATOR2">expr(["+", ["*", COEFF2, X], CONST2])</var>
                 </div>
 
@@ -64,12 +64,8 @@
 
                 <div class="solution" data-type="set">
                     <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>NUMERATOR1</var></span>
-                        <span class="sol" data-type="regex"><var>DENOMINATOR</var></span>
-                    </div>
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>NUMERATOR2</var></span>
-                        <span class="sol" data-type="regex"><var>DENOMINATOR</var></span>
+                        <span class="sol" data-type="regex"><var>NUMERSOL</var></span>
+                        <span class="sol" data-type="regex"><var>DENOMSOL</var></span>
                     </div>
                     <div class="input-format">
                         <div class="entry" data-type="multiple">
@@ -99,8 +95,8 @@
             <div id="subtract" data-type="add">
                 <div class="vars">
                     <var id="SIGN">"-"</var>
-                    <var id="COEFF2">COEFF1 - NUMCOEFF</var>
-                    <var id="CONST2">CONST1 - NUMCONST</var>
+                    <var id="COEFF2">COEFF1 - NUMERCOEFF</var>
+                    <var id="CONST2">CONST1 - NUMERCONST</var>
                     <var id="NUMERATOR2">expr(["+", ["*", COEFF2, X], CONST2])</var>
                 </div>
 
@@ -131,7 +127,7 @@
             </div>
             <div data-if="FACTOR !== 1">
                 <p>Simplify by dividing numerator and denominator by <var>FACTOR</var>:</p>
-                <code><var>Y</var> = \dfrac{<var>expr(["+", ["*", NUMCOEFF / FACTOR, X], NUMCONST / FACTOR])</var>}
+                <code><var>Y</var> = \dfrac{<var>expr(["+", ["*", NUMERCOEFF / FACTOR, X], NUMERCONST / FACTOR])</var>}
                     {<var>expr(["+", ["*", DENOMCOEFF / FACTOR, X], DENOMCONST / FACTOR])</var>}</code>
             </div>
         </div>
