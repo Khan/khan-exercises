@@ -10,15 +10,17 @@
         <div class="vars" data-ensure="DIST1 !== 0 && DIST2 !==0">
             <var id="REASONABLESPEED">
                 function(vehicletype) {
+                    var speed = 4;
                     if (vehicletype === "bike") {
-                        return randRange(5, 15);
+                        speed *= randRange(1, 4);
                     } else if (vehicletype === "horse") {
-                        return randRange(3, 30);
+                        speed *= randRange(1, 8);
                     } else if (vehicletype === "train") {
-                        return randRange(30, 70);
+                        speed *= randRange(8, 20);
                     } else {
-                        return randRange(10, 65);
+                        speed *= randRange(2, 16);
                     }
+                    return speed;
                 }
             </var>
             <var id="SPEED1">REASONABLESPEED(vehicle(1))</var>
