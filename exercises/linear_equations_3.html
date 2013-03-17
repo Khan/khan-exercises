@@ -69,6 +69,13 @@
                 </div>
             </div>
             <div id="check-solution"  data-weight="1">
+                <div class="vars">
+                    <var id="A">randRange( 2, 10 )</var>
+                    <var id="B" data-ensure="B !== A">randRangeNonZero( -10, 10 )</var>
+                    <var id="C" data-ensure="C !== A && abs( A - C ) > 1">randRange( 2, 10 )</var>
+                    <var id="D" data-ensure="D !== B && D !== C && abs( ( D - B )/( A - C ) ) !== 1">randRangeNonZero( 2, 10 )</var>
+                    <var id="SOLUTION">fractionReduce( D - B, A - C )</var>
+                </div>
                 <p class="question">Which equation has the following solution?</p>
                 <div><code>x = <var>SOLUTION</var></code></div>
                 <p class="solution"><code><var>A</var>x + <var>B</var> = <var>C</var>x + <var>D</var></code></p>

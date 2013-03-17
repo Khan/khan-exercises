@@ -145,6 +145,13 @@
                 </div>
             </div>
             <div id="check-solution-div">
+                <div class="vars" data-ensure="A !== D">
+                    <var id="X">randFromArray("x")</var>
+                    <var id="A">randRange(2, 10)</var>
+                    <var id="D">randRange(2, 10)</var>
+                    <var id="SOLUTION">fractionReduce(D, A)</var>
+                    <var id="ONE_OVER_A">fractionReduce(1, A)</var>
+                </div>
                 <p class="question">Which equation has the following solution?</p>
                 <div><code><var>X</var> = <var>D*A</var></code></div>
 

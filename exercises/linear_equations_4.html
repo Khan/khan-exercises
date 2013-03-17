@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div id="check-x-on-bottom" data-weight="1">
-                <div class="vars" data-ensure="( D * ANSWER + A !== 0 ) && ( A * ANSWER + B !== 0 )">
+                <div class="vars" data-ensure="( D * ANSWER + A !== 0 ) && ( A * ANSWER + B !== 0 ) && A !== B">
                     <var id="A">randRange( 2, 8 )</var>
                     <var id="B">randRangeNonZero( -12, 18 )</var>
                     <var id="C">randRangeNonZero( -6, 6 )</var>
@@ -128,7 +128,7 @@
                 </div>
             </div>
             <div id="check-x-on-top-and-bottom" data-weight="1">
-                <div class="vars" data-ensure="abs(A - E * C) >= 2 && ( C * ANSWER + D !== 0 ) && ( D * ANSWER + E !== 0 ) && ( E * ANSWER + A !== 0 )">
+                <div class="vars" data-ensure="abs(A - E * C) >= 2 && ( C * ANSWER + D !== 0 ) && ( D * ANSWER + E !== 0 ) && ( E * ANSWER + A !== 0 ) && (A !== B)">
                     <var id="A">randRangeNonZero( -12, 18 )</var>
                     <var id="B">randRangeNonZero( -12, 18 )</var>
                     <var id="C">randRangeNonZero( -6, 6 )</var>
