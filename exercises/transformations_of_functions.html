@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html data-require="math graphie expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Transformations of functions</title>
+    <script src="../khan-exercise.js"></script>
+
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="X_ORIG">randRange( -8, 8 )</var>
+            <var id="Y_ORIG">randRange( -8, 8 )</var>
+            <var id="UP_ORIG">abs ( Y_ORIG ) &lt; 5 ? randRangeNonZero( -1, 1 ) : -abs ( Y_ORIG )/ Y_ORIG</var>
+
+            <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange( -6, -1 ) : randRange( 1, 6 )</var>
+            <var id="Y_SHIFT" data-ensure="abs (Y_ORIG + Y_SHIFT) < 7">randRangeNonZero( -6 , 6 )</var>
+            <var id="FLIP">randRangeNonZero(-1, 1)</var>
+
+            <var id="X_SCALE">randRangeNonZero( 1, 8 )</var>
+            <var id="Y_SCALE" data-ensure="abs((Y_ORIG + Y_SHIFT) * Y_SCALE) < 7">randRangeNonZero( -10, 10 )</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <div class="problem">
+                    <p><code>\color{red}{f(x)}</code> is graphed in <span class="hint_red">red</span>.</p>
+                    <p><code>\color{blue}{g(x)}</code> is graphed in <span class="hint_blue">blue</span>.</p>
+                    <p>What is <code>\color{blue}{g(x)}</code> in terms of <code>\color{red}{f(x)}</code> if we were to first shift the function and then scale it in each of the x and y directions?</p>
+                </div>
+                <div class="graphie" id="G">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        labelStep: 1,
+                        axisArrows: "<->"
+                    })
+
+                    style({
+                        stroke: "red",
+                        strokeWidth: 2,
+                        arrows: null
+                    });
+
+                    plot( function( x ) {
+                        return UP_ORIG * pow(( x + X_ORIG), 2 ) + Y_ORIG;
+                    }, [-10, 10]);
+
+                    style({
+                        stroke: "blue"
+                    });
+
+                    plot( function( x ) {
+                        return ( UP_ORIG * pow((( x + X_ORIG + X_SHIFT )/ X_SCALE ), 2 ) + Y_ORIG + Y_SHIFT ) * Y_SCALE;
+                    }, [-10, 10]);
+                </div>
+
+                <p class="solution"><code><var>expr(["*",["+", Y_SHIFT, ["*", "f", ["frac", ["+","x", X_SHIFT], X_SCALE]]],Y_SCALE])</var></code></p>
+                <ul class="choices" data-show="5" data-none="true">
+                    <li><code><var>expr(["*",["+", -Y_SHIFT, ["*", "f", ["frac", ["+","x", X_SHIFT], X_SCALE]]],Y_SCALE])</var></code></li>
+                    <li><code><var>expr(["*",["+", Y_SHIFT, ["*", "f", ["frac", ["+","x", -X_SHIFT], X_SCALE]]],Y_SCALE])</var></code></li>
+                    <li><code><var>expr(["*",["+", -Y_SHIFT, ["*", "f", ["frac", ["+","x", X_SHIFT], X_SCALE]]],Y_SCALE])</var></code></li>
+                    <li><code><var>expr(["*",["+", Y_SHIFT, ["*", "f", ["frac", ["+","x", -X_SHIFT], X_SCALE]]],-Y_SCALE])</var></code></li>
+            </div>
+        </div>
+
+        <div class="hints">
+            <div>
+              <p>First apply the x-scaling that all answers share, so that <code>f(x)</code> becomes <code class="hint_purple">f(x/<var>X_SCALE</var>)</code>.</p>
+                  <div class="graphie" data-update="G">
+                    style({
+                        stroke: "purple"
+                    });
+                    plot( function( x ) {
+                        return UP_ORIG * pow(( (x + X_ORIG) / X_SCALE), 2 ) + Y_ORIG;
+                    }, [-10, 10]);
+                </div>            
+            </div>
+
+            <div>
+              <p>Then shift the new function <code class="hint_purple">f(x/<var>X_SCALE</var>)</code> <var>(X_SHIFT &gt; 0 ? "left " : "right ") + abs(X_SHIFT)</var> <var>(abs(X_SHIFT) === 1 ? "unit" : "units")</var>, and <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> <var>(abs(Y_SHIFT) === 1 ? "unit" : "units")</var> giving <code class="hint_purple"><var>expr(["+", Y_SHIFT, ["*", "f", ["frac", ["+","x", X_SHIFT], X_SCALE]]])</var></code>.</p>
+                  <div class="graphie" data-update="G">
+                    style({
+                        stroke: "purple"
+                    });
+                    plot( function( x ) {
+                        return UP_ORIG * pow((( x + X_ORIG + X_SHIFT )/ X_SCALE ), 2 ) + Y_ORIG + Y_SHIFT;
+                    }, [-10, 10]);
+
+                    style({
+                      arrows: "->"
+                    })
+                    path([ [-X_ORIG, Y_ORIG], [-X_ORIG - X_SHIFT, Y_ORIG] ]);
+                    path([ [-X_ORIG - X_SHIFT, Y_ORIG], [-X_ORIG - X_SHIFT, Y_ORIG + Y_SHIFT]]);
+                  </div>   
+            </div>
+
+            <div>
+              <p>Finally apply the correct y-scailing, multiplying the previous result by <code><var>Y_SCALE</var></code>, so that <code class="hint_purple"><var>expr(["+", Y_SHIFT, ["*", "f", ["frac", ["+","x", X_SHIFT], X_SCALE]]])</var></code> becomes <code class="hint_purple"><var>expr(["*",["+", Y_SHIFT, ["*", "f", ["frac", ["+","x", X_SHIFT], X_SCALE]]],Y_SCALE])</var></code>.</p>
+                  <div class="graphie" data-update="G">
+                    style({
+                        stroke: "purple"
+                    });
+                    plot( function( x ) {
+                        return ( UP_ORIG * pow((( x + X_ORIG + X_SHIFT )/ X_SCALE ), 2 ) + Y_ORIG + Y_SHIFT ) * Y_SCALE;
+                    }, [-10, 10]);
+                  </div> 
+            </div>
+        </div>
+    </div>
+</body>
+</html>
