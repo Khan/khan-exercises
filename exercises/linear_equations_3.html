@@ -18,7 +18,7 @@
 
         <div class="problems">
             <div id="find-solution"  data-weight="2">
-                <p class="question">Solve for <code>x</code>:</p>
+                <p class="question">Solve for <code>x</code>.</p>
                 <div><code><var>A</var>x + <var>B</var> = <var>C</var>x + <var>D</var></code></div>
 
                 <div class="solution" data-type="multiple">
@@ -28,12 +28,12 @@
                 <div class="hints">
                     <div data-if="A > C" data-unwrap>
                         <div>
-                            <p>Subtract <code><var>C</var>x</code> from both sides:</p>
+                            <p>Subtract <code><var>C</var>x</code> from both sides.</p>
                             <p><code>(<var>A</var>x + <var>B</var>) - <var>C</var>x = (<var>C</var>x + <var>D</var>) - <var>C</var>x</code></p>
                             <p><code><var>A - C</var>x + <var>B</var> = <var>D</var></code></p>
                         </div>
                         <div>
-                            <p><var>B > 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B > 0 ? "from" : "to"</var> both sides:</p>
+                            <p><var>B > 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B > 0 ? "from" : "to"</var> both sides.</p>
                             <p><code>(<var>A - C</var>x + <var>B</var>) + <var>-B</var> = <var>D</var> + <var>-B</var></code></p>
                             <p><code><var>A - C</var>x = <var>D - B</var></code></p>
                         </div>
@@ -48,12 +48,12 @@
                     </div>
                     <div data-else data-unwrap>
                         <div>
-                            <p>Subtract <code><var>A</var>x</code> from both sides:</p>
+                            <p>Subtract <code><var>A</var>x</code> from both sides.</p>
                             <p><code>(<var>A</var>x + <var>B</var>) - <var>A</var>x = (<var>C</var>x + <var>D</var>) - <var>A</var>x</code></p>
                             <p><code><var>B</var> = <var>C - A</var>x + <var>D</var></code></p>
                         </div>
                         <div>
-                            <p><var>D > 0 ? "Subtract" : "Add"</var> <code><var>abs(D)</var></code> <var>D > 0 ? "from" : "to"</var> both sides:</p>
+                            <p><var>D > 0 ? "Subtract" : "Add"</var> <code><var>abs(D)</var></code> <var>D > 0 ? "from" : "to"</var> both sides.</p>
                             <p><code><var>B</var> + <var>-D</var> = (<var>C - A</var>x + <var>D</var>) + <var>-D</var></code></p>
                             <p><code><var>B - D</var> = <var>C - A</var>x</code></p>
                         </div>
@@ -89,7 +89,7 @@
                         <p>To check which equation has this solution, we can plug <code><var>SOLUTION</var></code> in for <code>x</code> in each of the equations.</p>
                     </div>
                     <div>
-                        <p>Let's check one:</p>
+                        <p>Let's check one.</p>
                         <p><code>\qquad<var>B</var> \cdot\red{<var>SOLUTION</var>} + <var>A</var> &#8800 <var>C</var> \cdot\red{<var>SOLUTION</var>} + <var>D</var></code></p>
                         <p><code>\qquad<var>fractionReduce(B*(D-B) + A*(A-C),(A-C))</var> &#8800 <var>fractionReduce(C*(D-B) + D*(A-C),(A-C))</var></code></p>
                         <p><code>\qquad</code>So <code><var>B</var>x + <var>A</var> = <var>C</var>x + <var>D</var></code> is not satisfied by <code>x = <var>SOLUTION</var></code>.</p>
@@ -98,7 +98,7 @@
                         <p>Try checking the other equations in the same way until you find one that works.</p>
                     </div>
                     <div>
-                        <p>Here's the one that works:</p>
+                        <p>Here's the one that works.</p>
                         <p><code>\qquad<var>A</var> \cdot\red{<var>SOLUTION</var>} + <var>B</var> = <var>C</var> \cdot\red{<var>SOLUTION</var>} + <var>D</var></code></p>
                         <p><code>\qquad<var>fractionReduce(A*(D-B) + B*(A-C),(A-C))</var> = <var>fractionReduce(C*(D-B) + D*(A-C),(A-C))</var></code></p>
                         <p>Of the options, <code><var>A</var>x + <var>B</var> = <var>C</var>x + <var>D</var></code> is the only equation with <code>x = <var>SOLUTION</var></code> as a solution.</p>
