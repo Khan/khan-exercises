@@ -11,14 +11,14 @@
     <div class="exercise">
         <div class="vars">
             <var id="X_ORIG">randRange( -8, 8 )</var>
-            <var id="Y_ORIG">randRange( -8, 8 )</var>
+            <var id="Y_ORIG">randRange( -7, 7 )</var>
             <var id="UP_ORIG">abs ( Y_ORIG ) &lt; 5 ? randRangeNonZero( -1, 1 ) : -abs ( Y_ORIG )/ Y_ORIG</var>
 
             <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange( -6, -1 ) : randRange( 1, 6 )</var>
             <var id="Y_SHIFT" data-ensure="abs (Y_ORIG + Y_SHIFT) < 7">randRangeNonZero( -6 , 6 )</var>
             <var id="FLIP">randRangeNonZero(-1, 1)</var>
 
-            <var id="X_SCALE">randRangeNonZero( 1, 8 )</var>
+            <var id="X_SCALE" data-ensure="abs(-X_SHIFT - X_ORIG * X_SCALE) < 8">randRangeNonZero( 1, 8 )</var>
             <var id="Y_SCALE" data-ensure="abs((Y_ORIG + Y_SHIFT) * Y_SCALE) < 7">randRangeNonZero( -10, 10 )</var>
         </div>
 
@@ -52,7 +52,7 @@
                     });
 
                     plot( function( x ) {
-                        return ( UP_ORIG * pow((( x + X_ORIG + X_SHIFT )/ X_SCALE ), 2 ) + Y_ORIG + Y_SHIFT ) * Y_SCALE;
+                        return ( UP_ORIG * pow(( x + X_SHIFT )/ X_SCALE + X_ORIG, 2 ) + Y_ORIG + Y_SHIFT ) * Y_SCALE;
                     }, [-10, 10]);
                 </div>
 
@@ -73,7 +73,7 @@
                         stroke: "purple"
                     });
                     plot( function( x ) {
-                        return UP_ORIG * pow(( (x + X_ORIG) / X_SCALE), 2 ) + Y_ORIG;
+                        return UP_ORIG * pow( x / X_SCALE + X_ORIG, 2 ) + Y_ORIG;
                     }, [-10, 10]);
                 </div>            
             </div>
@@ -85,14 +85,14 @@
                         stroke: "purple"
                     });
                     plot( function( x ) {
-                        return UP_ORIG * pow((( x + X_ORIG + X_SHIFT )/ X_SCALE ), 2 ) + Y_ORIG + Y_SHIFT;
+                        return UP_ORIG * pow((( x + X_SHIFT )/ X_SCALE + X_ORIG ), 2 ) + Y_ORIG + Y_SHIFT;
                     }, [-10, 10]);
 
                     style({
                       arrows: "->"
                     })
-                    path([ [-X_ORIG, Y_ORIG], [-X_ORIG - X_SHIFT, Y_ORIG] ]);
-                    path([ [-X_ORIG - X_SHIFT, Y_ORIG], [-X_ORIG - X_SHIFT, Y_ORIG + Y_SHIFT]]);
+                    path([ [-X_ORIG * X_SCALE, Y_ORIG], [-X_ORIG * X_SCALE - X_SHIFT, Y_ORIG] ]);
+                    path([ [-X_ORIG * X_SCALE - X_SHIFT, Y_ORIG], [-X_ORIG * X_SCALE - X_SHIFT, Y_ORIG + Y_SHIFT]]);
                   </div>   
             </div>
 
@@ -103,7 +103,7 @@
                         stroke: "purple"
                     });
                     plot( function( x ) {
-                        return ( UP_ORIG * pow((( x + X_ORIG + X_SHIFT )/ X_SCALE ), 2 ) + Y_ORIG + Y_SHIFT ) * Y_SCALE;
+                        return ( UP_ORIG * pow((( x + X_SHIFT )/ X_SCALE + X_ORIG ), 2 ) + Y_ORIG + Y_SHIFT ) * Y_SCALE;
                     }, [-10, 10]);
                   </div> 
             </div>
