@@ -202,7 +202,7 @@ def extract_files(files, verbose):
     for filename in files:
         if verbose:
             print >>sys.stderr, 'Extracting strings from: %s' % filename
-        extract_file(filename, matches, verbose)
+        extract_file(filename, matches)
 
     if verbose:
         num_matches = len(matches)
