@@ -99,7 +99,7 @@
                     <var id="NEGNUMERATORSOL">expr(["+", ["*", -COEFFICIENT1, X], -CONSTANT1])</var>
                     <var id="NEGDENOMINATORSOL">expr(["+", ["*", -COEFFICIENT2, X], -CONSTANT2])</var>
                     <var id="REGEX">(function() {
-                        if (COEFFICIENT2 < 0 || (COEFFICIENT2 === 0 && CONSTANT1 < 0)) {
+                        if (COEFFICIENT2 &lt; 0 || (COEFFICIENT2 === 0 && CONSTANT2 &lt; 0)) {
                             return [getExpressionRegex(-COEFFICIENT1, X, -CONSTANT1),
                                     getExpressionRegex(-COEFFICIENT2, X, -CONSTANT2)];
                         } else {
