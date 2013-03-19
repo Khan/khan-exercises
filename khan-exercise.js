@@ -676,26 +676,15 @@ var Khan = (function() {
                 var options = {duration: 150, queue: false};
                 $(".related-video-box")
                     .delegate(".thumbnail", "mouseenter mouseleave", function(e) {
-                        var el = $(e.currentTarget);
-                        if (e.type == "mouseenter") {
-                            el.find(".thumbnail_label").animate(
-                                    {marginTop: marginTop},
-                                    options)
-                                .end()
-                                .find(".thumbnail_teaser").animate(
-                                    {height: captionHeight},
-                                    options)
-                                .end();
-                        } else {
-                            el.find(".thumbnail_label").animate(
-                                    {marginTop: marginTop + captionHeight},
-                                    options)
-                                .end()
-                                .find(".thumbnail_teaser").animate(
-                                    {height: 0},
-                                    options)
-                                .end();
-                        }
+                        var isMouseEnter = e.type === "mouseenter";
+                        
+                        $(e.currentTarget).find(".thumbnail_label").animate(
+                                {marginTop: marginTop + (isMouseEnter ? 0 : captionHeight)},
+                                options)
+                            .end()
+                            .find(".thumbnail_teaser").animate(
+                                {height: (isMouseEnter ? captionHeight : 0)},
+                                options);
                     });
             },
 
