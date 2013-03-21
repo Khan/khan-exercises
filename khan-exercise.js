@@ -232,13 +232,6 @@ var Khan = (function() {
     // A map of jQuery queues for serially sending and receiving AJAX requests.
     requestQueue = {},
 
-    // Debug data dump
-    dataDump = {
-        "exercise": exerciseId,
-        "problems": [],
-        "issues": 0
-    },
-
     // Dictionary of loading and loaded exercises; keys are exercise IDs,
     // values are promises that are resolved when the exercise is loaded
     exerciseFilePromises = {},
@@ -844,20 +837,7 @@ var Khan = (function() {
     function makeProblemBag(problems, n) {
         var bag = [], totalWeight = 0;
 
-        if (localMode && Khan.query.test != null) {
-            // Just do each problem 10 times
-            $.each(problems, function(i, elem) {
-                elem = $(elem);
-                elem.data("id", elem.attr("id") || "" + i);
-
-                for (var j = 0; j < 10; j++) {
-                    bag.push(problems.eq(i));
-                }
-            });
-
-            problemCount = bag.length;
-
-        } else if (problems.length > 0) {
+        if (problems.length > 0) {
             // Collect the weights for the problems and find the total weight
             var weights = $.map(problems, function(elem, i) {
                 elem = $(elem);
@@ -1055,8 +1035,8 @@ var Khan = (function() {
         if (typeof seed !== "undefined") {
             problemSeed = seed;
 
-        // In either of these testing situations,
-        } else if ((localMode && Khan.query.test != null) || user == null) {
+        // If no user, just pick a random seed
+        } else if (user == null) {
             problemSeed = Math.abs(randomSeed % bins);
         }
 
@@ -1327,45 +1307,6 @@ var Khan = (function() {
         // Hook out for exercise test runner
         if (localMode && parent !== window && typeof parent.jQuery !== "undefined") {
             parent.jQuery(parent.document).trigger("problemLoaded", [makeProblem, answerData.solution]);
-        }
-
-        // Save problem info in dump data for testers
-        if (localMode && Khan.query.test != null) {
-            var testerInfo = $("#tester-info");
-
-            // Deep clone the elements to avoid some straaaange bugs
-            var lastProblem = $.extend(true, {}, {
-                seed: problemSeed,
-                type: problemID,
-                VARS: $.tmpl.VARS,
-                solution: answerData.solution
-            });
-
-            dataDump.problems.push(lastProblem);
-
-            $(testerInfo).find(".problem-no")
-                .text(dataDump.problems.length + dataDump.issues + " of " + problemCount);
-
-            var answer = $(testerInfo).find(".answer").empty();
-
-            var displayedSolution = answerData.solution;
-            if (!$.isArray(displayedSolution)) {
-                displayedSolution = [displayedSolution];
-            }
-
-            $.each(displayedSolution, function(i, el) {
-                if ($.isArray(el)) {
-                    // group nested arrays of answers, for sets of multiples or multiples of sets.
-                    // no reason answers can't be nested arbitrarily deep, but here we assume no
-                    // more than one sub-level.
-                    var subAnswer = $("<span>").addClass("group-box").appendTo(answer);
-                    $.each(el, function(i, el) {
-                        $("<span>").text(el).addClass("box").appendTo(subAnswer);
-                    });
-                } else {
-                    $("<span>").text(el).addClass("box").appendTo(answer);
-                }
-            });
         }
 
         if (typeof userExercise !== "undefined" && userExercise.readOnly) {
@@ -1974,34 +1915,11 @@ var Khan = (function() {
     function renderNextProblem(nextUserExercise) {
         clearExistingProblem();
 
-        if (localMode && Khan.query.test != null && dataDump.problems.length + dataDump.issues >= problemCount) {
-            // Show the dump data
-            $("#problemarea").append(
-                "<p>Thanks! You're all done testing this exercise.</p>" +
-                "<p>Please copy the text below and send it to us.</p>"
-            );
-
-            $("<textarea>")
-                .val("Khan.testExercise(" + JSON.stringify(dataDump) + ");")
-                .css({width: "60%", height: "200px"})
-                .prop("readonly", true)
-                .click(function() {
-                    this.focus();
-                    this.select();
-                })
-                .appendTo("#problemarea");
-
-            $("#sidebar").hide();
-
+        if (localMode) {
+            // Just generate a new problem from existing exercise
+            makeProblem();
         } else {
-
-            if (localMode) {
-                // Just generate a new problem from existing exercise
-                makeProblem();
-            } else {
-                loadAndRenderExercise(nextUserExercise);
-            }
-
+            loadAndRenderExercise(nextUserExercise);
         }
     }
 
@@ -2201,14 +2119,12 @@ var Khan = (function() {
             } else if (pass === true) {
                 // Correct answer, so show the next question button.
                 $("#check-answer-button").hide();
-                if (!localMode || Khan.query.test == null) {
-                    $("#next-question-button")
-                        .removeAttr("disabled")
-                        .removeClass("buttonDisabled")
-                        .show()
-                        .focus();
-                    $("#positive-reinforcement").show();
-                }
+                $("#next-question-button")
+                    .removeAttr("disabled")
+                    .removeClass("buttonDisabled")
+                    .show()
+                    .focus();
+                $("#positive-reinforcement").show();
             } else {
                 // Wrong answer. Enable all the input elements
                 $("#answercontent input").not("#hint")
@@ -2582,130 +2498,6 @@ var Khan = (function() {
                 return false;
             }
         });
-
-        // Prepare for the tester info if requested
-        if (localMode && Khan.query.test != null) {
-            $("#answer_area").prepend(
-                '<div id="tester-info" class="info-box">' +
-                    '<span class="info-box-header">Testing Mode</span>' +
-                    '<p><strong>Problem No.</strong> <span class="problem-no"></span></p>' +
-                    '<p><strong>Answer:</strong> <span class="answer"></span></p>' +
-                    "<p>" +
-                        '<input type="button" class="pass simple-button green" value="This problem was generated correctly.">' +
-                        '<input type="button" class="fail simple-button orange" value="There is an error in this problem.">' +
-                    "</p>" +
-                "</div>"
-            );
-
-            $("#tester-info .pass").click(function() {
-                dataDump.problems[dataDump.problems.length - 1].pass = true;
-                nextProblem(1);
-                $("#next-question-button").trigger("click");
-            });
-
-            $("#tester-info .fail").click(function() {
-                var description = prompt("Please provide a short description of the error");
-
-                // Don't do anything on clicking Cancel
-                if (description == null) return;
-
-                // we discard the info recorded and record an issue on github instead
-                // of testing against the faulty problem's data dump.
-                var dump = dataDump.problems.pop(),
-                    prettyDump = "```js\n" + JSON.stringify(dump) + "\n```",
-                    fileName = window.location.pathname.replace(/^.+\//, ""),
-                    path = fileName + "?problem=" + problemID +
-                        "&seed=" + problemSeed;
-
-                var title = encodeURIComponent("Issue Found in Testing - " + $("title").html()),
-                    body = encodeURIComponent([description, path, prettyDump, navigator.userAgent].join("\n\n")),
-                    label = encodeURIComponent("tester bugs");
-
-                var err = function(problems, dump, desc) {
-                    problems.push(dump);
-                    problems[problems.length - 1].pass = desc;
-                };
-
-                var comment = function(id) {
-                    // If communication fails with the Sinatra app or Github and a
-                    // comment isn't created, then we create a test that will always
-                    // fail.
-                    $.ajax({
-                        url: "http://66.220.0.98:2563/file_exercise_tester_bug_comment?id=" + id + "&body=" + body,
-                        dataType: "jsonp",
-                        success: function(json) {
-                            if (json.meta.status !== 201) {
-                                err(dataDump.problems, dump, description);
-                            } else {
-                                dataDump.issues += 1;
-                            }
-                        },
-                        error: function(json) {
-                            err(dataDump.problems, dump, description);
-                        }
-                    });
-                };
-
-                var newIssue = function() {
-                    // if communication fails with the Sinatra app or Github and an
-                    // issue isn't created, then we create a test that will always
-                    // fail.
-                    $.ajax({
-                        url: "http://66.220.0.98:2563/file_exercise_tester_bug?title=" + title + "&body=" + body + "&label=" + label,
-                        dataType: "jsonp",
-                        success: function(json) {
-                            if (json.meta.status !== 201) {
-                                err(dataDump.problems, dump, description);
-                            } else {
-                                dataDump.issues += 1;
-                            }
-                        },
-                        error: function(json) {
-                            err(dataDump.problems, dump, description);
-                        }
-                    });
-                };
-
-                $.ajax({
-                    url: "https://api.github.com/repos/Khan/khan-exercises/issues?labels=tester%20bugs",
-                    dataType: "jsonp",
-                    error: function(json) {
-                        err(dataDump.problems, dump, description);
-                    },
-                    success: function(json) {
-                        var copy = false;
-
-                        // see if an automatically generated issue for this file
-                        // already exists
-                        $.each(json.data, function(i, issue) {
-                            if (encodeURIComponent(issue.title) === title) {
-                                copy = issue.number;
-                            }
-                        });
-
-                        if (copy) {
-                            comment(copy);
-                        } else {
-                            newIssue();
-                        }
-                    }
-                });
-
-                $("#next-question-button").trigger("click");
-            });
-
-            $(document).keyup(function(e) {
-                if (e.keyCode === "H".charCodeAt(0)) {
-                    $("#hint").click();
-                }
-                if (e.keyCode === "Y".charCodeAt(0)) {
-                    $("#tester-info .pass").click();
-                }
-                if (e.keyCode === "N".charCodeAt(0)) {
-                    $("#tester-info .fail").click();
-                }
-            });
-        }
 
         // Prepare for the debug info if requested
         if (localMode && Khan.query.debug != null) {
