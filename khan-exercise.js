@@ -58,21 +58,6 @@
 */
 
 var Khan = (function() {
-    function warn(message, showClose) {
-        $(function() {
-            var warningBar = $("#warning-bar");
-            $("#warning-bar-content").html(message);
-            if (showClose) {
-                warningBar.addClass("warning")
-                      .children("#warning-bar-close").show();
-            } else {
-                warningBar.addClass("error")
-                      .children("#warning-bar-close").hide();
-            }
-            warningBar.fadeIn("fast");
-        });
-    }
-
     // Numbers which are coprime to the number of bins, used for jumping through
     // exercises.  To quickly test a number in python use code like:
     // import fractions
@@ -343,8 +328,11 @@ var Khan = (function() {
         },
 
         warnTimeout: function() {
-            warn("Your internet might be too slow to see an exercise. Refresh the page " +
-                'or <a href="" id="warn-report">report a problem</a>.', false);
+            $(Exercises).trigger("warning", "Your internet might be too " +
+                    "slow to see an exercise. Refresh the page or " +
+                    '<a href="" id="warn-report">report a problem</a>.',
+                    false);
+            // TODO(alpert): This event binding is kind of gross
             $("#warn-report").click(function(e) {
                 e.preventDefault();
                 $("#report").click();
@@ -354,10 +342,12 @@ var Khan = (function() {
         warnFont: function() {
             var enableFontDownload = "enable font download in your browser";
             if ($.browser.msie) {
-                enableFontDownload = '<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/"  target="_blank">enable font download</a>';
+                enableFontDownload = '<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/" target="_blank">enable font download</a>';
             }
 
-            warn("You should " + enableFontDownload + " to improve the appearance of math expressions.", true);
+            $(Exercises).trigger("warning", "You should " +
+                    enableFontDownload + " to improve the appearance of " +
+                    "math expressions.", true);
         },
 
         // TODO(alpert): This doesn't need to be in the Khan object.
@@ -888,20 +878,6 @@ var Khan = (function() {
         return bag;
     }
 
-    function enableCheckAnswer() {
-        $("#check-answer-button")
-            .removeAttr("disabled")
-            .removeClass("buttonDisabled")
-            .val(originalCheckAnswerText);
-    }
-
-    function disableCheckAnswer() {
-        $("#check-answer-button")
-            .attr("disabled", "disabled")
-            .addClass("buttonDisabled")
-            .val("Please wait...");
-    }
-
     // TODO(alpert): Merge with loadExercise
     function startLoadingExercise(exerciseId, exerciseName, exerciseFile) {
         var promise = exerciseFilePromises[exerciseId];
@@ -1194,7 +1170,7 @@ var Khan = (function() {
             // If this is a duplicate problem we should skip, just generate
             // another problem of the same problem type but w/ a different seed.
             debugLog("duplicate problem!");
-            clearExistingProblem();
+            $(Exercises).trigger("clearExistingProblem");
             nextSeed(1);
             return makeProblem();
         }
@@ -1311,7 +1287,8 @@ var Khan = (function() {
 
         if (typeof userExercise !== "undefined" && userExercise.readOnly) {
             if (!userExercise.current) {
-                warn("This exercise may have changed since it was completed", true);
+                $(Exercises).trigger("warning", "This exercise may have " +
+                        "changed since it was completed", true);
             }
 
             var timelineEvents, timeline;
@@ -1888,38 +1865,14 @@ var Khan = (function() {
         return answerType;
     }
 
-    function clearExistingProblem() {
-        enableCheckAnswer();
-
-        $("#happy").hide();
-        if (!$("#examples-show").data("show")) {
-            $("#examples-show").click();
-        }
-
-        // Toggle the navigation buttons
-        $("#check-answer-button").show();
-        $("#next-question-button").blur().hide();
-        $("#positive-reinforcement").hide();
-
-        // Wipe out any previous problem
-        $("#workarea, #hintsarea").runModules(problem, "Cleanup").empty();
-        $("#hint").attr("disabled", false);
-
-        // Take off the event handlers for disabling check answer; we'll rebind
-        // if we actually want them
-        $("#solutionarea").off(".emptyAnswer");
-
-        Khan.scratchpad.clear();
-    }
-
-    function renderNextProblem(nextUserExercise) {
-        clearExistingProblem();
+    function renderNextProblem(data) {
+        $(Exercises).trigger("clearExistingProblem");
 
         if (localMode) {
             // Just generate a new problem from existing exercise
             makeProblem();
         } else {
-            loadAndRenderExercise(nextUserExercise);
+            loadAndRenderExercise(data.userExercise);
         }
     }
 
@@ -2105,17 +2058,17 @@ var Khan = (function() {
                 $("#problem-and-answer").css("visibility", "hidden");
 
                 // Warn user about problem, encourage to reload page
-                warn(
-                    "This page is out of date. You need to <a href='" + window.location.href +
-                    "'>refresh</a>, but don't worry, you haven't lost progress. " +
-                    "If you think this is a mistake, " +
-                    "<a href='http://www.khanacademy.org/reportissue?type=Defect&issue_labels='>tell us</a>."
-                );
+                $(Exercises).trigger("warning",
+                    "This page is out of date. You need to <a href='" +
+                    _.escape(window.location.href) + "'>refresh</a>, but " +
+                    "don't worry, you haven't lost progress. If you think " +
+                    "this is a mistake, <a href='http://www.khanacademy.org/reportissue?type=Defect&issue_labels='>tell us</a>."
+                    );
 
             }, "attempt_hint_queue");
 
-            if(assessmentMode) {
-                disableCheckAnswer();
+            if (assessmentMode) {
+                $(Exercises).trigger("disableCheckAnswer");
             } else if (pass === true) {
                 // Correct answer, so show the next question button.
                 $("#check-answer-button").hide();
@@ -2541,16 +2494,19 @@ var Khan = (function() {
         // In local mode, everything is set up in loadTestModeSite after
         // loading jQuery. The real mode already has jQuery, so we just listen
         // for the signal to prepare.
-        $(Exercises)
+        $(Khan)
             .bind("problemTemplateRendered", prepareSite)
             .bind("readyForNextProblem", function(ev, data) {
-                renderNextProblem(data.userExercise);
+                renderNextProblem(data);
             })
             .bind("warning", function(ev, data) {
                 warn(data.text, data.showClose);
             })
             .bind("upcomingExercise", function(ev, data) {
                 startLoadingExercise(data.exerciseId, data.exerciseName, data.exerciseFile);
+            })
+            .bind("cleanupProblem", function() {
+                $("#workarea, #hintsarea").runModules(problem, "Cleanup");
             });
     }
 
