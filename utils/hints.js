@@ -1,7 +1,7 @@
-$(Khan).bind("checkAnswer", function() {
+// TODO(alpert): Move to interface.js
 
+$(Exercises).bind("checkAnswer", function() {
     if (!$(".hint-box").data("free")) {
-
         $(".hint-box")
             .data("free", true)
             .css("position", "relative")
@@ -15,12 +15,10 @@ $(Khan).bind("checkAnswer", function() {
                         .data("buttonText", Khan.showSolutionButtonText)
                         .val(Khan.showSolutionButtonText);
                 });
-
     }
-
 });
 
-$(Khan).bind("newProblem", function() {
+$(Exercises).bind("newProblem", function() {
 
     // Restore the hint button
     $("#hint")

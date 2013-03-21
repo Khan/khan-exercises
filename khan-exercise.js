@@ -721,7 +721,7 @@ var Khan = (function() {
         $(window).unload(function() {
             if(requestQueue["attempt_hint_queue"] &&
                     requestQueue["attempt_hint_queue"].queue().length) {
-                $(Khan).trigger("attemptError");
+                $(Exercises).trigger("attemptError");
             }
         });
 
@@ -1833,7 +1833,7 @@ var Khan = (function() {
 
         $("#hint").val("I'd like a hint");
 
-        $(Khan).trigger("newProblem");
+        $(Exercises).trigger("newProblem");
 
         // If the textbox is empty disable "Check Answer" button
         // Note: We don't do this for multiple choice, number line, etc.
@@ -2027,7 +2027,7 @@ var Khan = (function() {
             if (pass === true) {
                 // Problem has been completed but pending data request
                 // being sent to server.
-                $(Khan).trigger("problemDone");
+                $(Exercises).trigger("problemDone");
             }
 
             // Save the problem results to the server
@@ -2042,7 +2042,7 @@ var Khan = (function() {
 
             }, function(xhr) {
                 // Alert any listeners of the error before reload
-                $(Khan).trigger("attemptError");
+                $(Exercises).trigger("attemptError");
 
                 if (xhr && xhr.readyState == 0) {
                     // This path gets called when there is a broken pipe during
@@ -2087,7 +2087,7 @@ var Khan = (function() {
             // Remember when the last action was
             lastAction = curTime;
 
-            $(Khan).trigger("checkAnswer", {
+            $(Exercises).trigger("checkAnswer", {
                 pass: pass,
                 // Determine if this attempt qualifies as fast completion
                 fast: (typeof userExercise !== "undefined" && userExercise.secondsPerFastProblem >= data.time_taken)
@@ -2185,7 +2185,7 @@ var Khan = (function() {
         // Watch for when the next button is clicked
         $("#next-question-button").click(function(ev) {
             nextProblem(1);
-            $(Khan).trigger("gotoNextProblem");
+            $(Exercises).trigger("gotoNextProblem");
 
             // Disable next question button until next time
             $(this)
@@ -2204,7 +2204,7 @@ var Khan = (function() {
             var hint = hints.shift();
 
             if (hint) {
-                $(Khan).trigger("hintUsed");
+                $(Exercises).trigger("hintUsed");
 
                 hintsUsed += 1;
 
@@ -2223,7 +2223,7 @@ var Khan = (function() {
                 if (hints.length === 0) {
                     $(hint).addClass("final_answer");
 
-                    $(Khan).trigger("allHintsUsed");
+                    $(Exercises).trigger("allHintsUsed");
 
                     $(this).attr("disabled", true);
                 }
@@ -2474,13 +2474,11 @@ var Khan = (function() {
 
         // Register localMode-specific event handlers
         if (localMode) {
-
             // localMode automatically advances to the next problem --
             // integrated mode just listens and waits for renderNextProblem
             $(Khan).bind("gotoNextProblem", function() {
                 renderNextProblem();
             });
-
         }
 
         Khan.relatedVideos.hookup();
@@ -2555,7 +2553,7 @@ var Khan = (function() {
             exerciseId = data.exercise;
         }
 
-        $(Khan).trigger("updateUserExercise", {userExercise: userExercise});
+        $(Exercises).trigger("updateUserExercise", {userExercise: userExercise});
 
         if (user != null) {
             // How far to jump through the problems
@@ -2607,7 +2605,7 @@ var Khan = (function() {
 
                 // Tell any listeners that khan-exercises has new
                 // userExercise data
-                $(Khan).trigger("updateUserExercise", {
+                $(Exercises).trigger("updateUserExercise", {
                     userExercise: data,
                     source: "serverResponse"
                 });
@@ -2618,7 +2616,7 @@ var Khan = (function() {
             },
 
             complete: function() {
-                $(Khan).trigger("apiRequestEnded");
+                $(Exercises).trigger("apiRequestEnded");
             },
 
             // Handle error edge case
@@ -2673,7 +2671,7 @@ var Khan = (function() {
         // Trigger an apiRequestStarted event here, and not in the inner sendRequest()
         // function, because listeners should know an API request is waiting as
         // soon as it gets queued up.
-        $(Khan).trigger("apiRequestStarted");
+        $(Exercises).trigger("apiRequestStarted");
     }
 
     /**
