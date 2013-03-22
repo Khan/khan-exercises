@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html data-require="math math-format polynomials">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Naming Polynomials</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        function addZerosRandomize( array, toSize) {
+             for (var i = array.length; i < toSize; i++) {
+                 array[i] = 0;
+             }
+             return KhanUtil.shuffle(array);
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="select-name">
+                <div class="vars">
+                    <var id="DEGREE">randRange( 1, 4 )</var>
+                    <var id="NUM_TERMS"> DEGREE === 1 ? randRange( 1, 2 ) : randRange( 1, 3 )</var>
+                    <var id="NONZERO_COEFS">randRange( 1, 9 , NUM_TERMS)</var>
+                    <var id="COEF_ARRAY" data-ensure="COEF_ARRAY[DEGREE] !== 0">addZerosRandomize( NONZERO_COEFS, DEGREE + 1 )</var>
+                    <var id="POLY">new Polynomial( 0, DEGREE, COEF_ARRAY, "x" )</var>
+                    <var id="POLY_TEXT">POLY.text()</var>
+                    <var id="SOLN_ARRAY_1">[ "Linear", "Quadratic", "Cubic", "Quartic"]</var> 
+                    <var id="SOLN_ARRAY_2">[ "Monomial", "Binomial", "Trinomial"]</var>
+                    <var id="SOLN_1">SOLN_ARRAY_1[DEGREE - 1]</var>
+                    <var id="SOLN_2">SOLN_ARRAY_2[NUM_TERMS - 1]</var>
+                    <var id="FAKE_SOLN_1">SOLN_ARRAY_1[ randRangeExclude( 0, 3, DEGREE - 1 ) ]</var>
+                    <var id="FAKE_SOLN_2">SOLN_ARRAY_2[ randRangeExclude( 0, 2, NUM_TERMS - 1 ) ]</var>
+                </div>
+                <p class="question">Which label describes this polynomial?</p>
+                <p class="problem"><code><var>POLY_TEXT</var></code></p>
+                <div class="solution"><var>SOLN_1</var> <var>SOLN_2</var></div>
+                        <ul class="choices">
+                            <li><var>FAKE_SOLN_1</var> <var>SOLN_2</var></li>
+                            <li><var>SOLN_1</var> <var>FAKE_SOLN_2</var></li>
+                            <li><var>FAKE_SOLN_1</var> <var>FAKE_SOLN_2</var></li>
+                        </ul>
+                <div class="hints">
+                    <div>
+                        <p>Only the largest exponent is used to describe a polynomial.</p>
+                    </div>
+                    <div>
+                        <p>When the largest exponent is <code><var>DEGREE</var></code> a polynomial is called <b><var>SOLN_1</var></b>.</p>
+                    </div>
+                    <div>
+                        <p>The number of terms is also used to name a polynomial.</p>
+                    </div>
+                    <div data-if="NUM_TERMS === 1">
+                        <p>A polynomial with only <b>one term</b> is called a <b><var>SOLN_2</var></b>.</p>
+                    </div>
+                    <div data-else>
+                        <p>A polynomial with <b><var>cardinal(NUM_TERMS)</var></b> terms is called a <b><var>SOLN_2</var></b>.</p>
+                    </div>
+                    <div>
+                        <p>This polynomial is a <var>SOLN_1</var> <var>SOLN_2</var>.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="select-expression" data-type="select-name">
+                <div class="vars">
+                    <var id="DEGREE_FAKE_1">randRange( 1, 4 )</var>
+                    <var id="NUM_TERMS_FAKE_1" data-ensure="!(DEGREE_FAKE_1 === DEGREE && NUM_TERMS_FAKE_1 === NUM_TERMS)"> DEGREE_FAKE_1 === 1 ? randRange( 1, 2 ) : randRange( 1, 3 )</var>
+                    <var id="NONZERO_COEFS_FAKE_1">randRange( 1, 9 , NUM_TERMS_FAKE_1)</var>
+                    <var id="COEF_ARRAY_FAKE_1" data-ensure="COEF_ARRAY_FAKE_1[DEGREE_FAKE_1] !== 0">addZerosRandomize( NONZERO_COEFS_FAKE_1, DEGREE_FAKE_1 + 1 )</var>
+                    <var id="POLY_FAKE_1">new Polynomial( 0, DEGREE_FAKE_1, COEF_ARRAY_FAKE_1, "x" )</var>
+                    <var id="POLY_TEXT_FAKE_1">POLY_FAKE_1.text()</var>
+                    
+                    <var id="DEGREE_FAKE_2">randRange( 1, 4 )</var>
+                    <var id="NUM_TERMS_FAKE_2" data-ensure="!(DEGREE_FAKE_2 === DEGREE && NUM_TERMS_FAKE_2 === NUM_TERMS)" && "!(DEGREE_FAKE_2 === DEGREE_FAKE_1 && NUM_TERMS_FAKE_2 === NUM_TERMS_FAKE_1)"> DEGREE_FAKE_2 === 1 ? randRange( 1, 2 ) : randRange( 1, 3 )</var>
+                    <var id="NONZERO_COEFS_FAKE_2">randRange( 1, 9 , NUM_TERMS_FAKE_2)</var>
+                    <var id="COEF_ARRAY_FAKE_2" data-ensure="COEF_ARRAY_FAKE_2[DEGREE_FAKE_2] !== 0">addZerosRandomize( NONZERO_COEFS_FAKE_2, DEGREE_FAKE_2 + 1 )</var>
+                    <var id="POLY_FAKE_2">new Polynomial( 0, DEGREE_FAKE_2, COEF_ARRAY_FAKE_2, "x" )</var>
+                    <var id="POLY_TEXT_FAKE_2">POLY_FAKE_2.text()</var>
+                    
+                    <var id="DEGREE_FAKE_3">randRange( 1, 4 )</var>
+                    <var id="NUM_TERMS_FAKE_3" data-ensure="!(DEGREE_FAKE_3 === DEGREE && NUM_TERMS_FAKE_3 === NUM_TERMS) && !(DEGREE_FAKE_3 === DEGREE_FAKE_1 && NUM_TERMS_FAKE_3 === NUM_TERMS_FAKE_1) && !(DEGREE_FAKE_3 === DEGREE_FAKE_2 && NUM_TERMS_FAKE_3 === NUM_TERMS_FAKE_2)"> DEGREE_FAKE_3 === 1 ? randRange( 1, 2 ) : randRange( 1, 3 )</var>
+                    <var id="NONZERO_COEFS_FAKE_3">randRange( 1, 9 , NUM_TERMS_FAKE_3)</var>
+                    <var id="COEF_ARRAY_FAKE_3" data-ensure="COEF_ARRAY_FAKE_3[DEGREE_FAKE_3] !== 0">addZerosRandomize( NONZERO_COEFS_FAKE_3, DEGREE_FAKE_3 + 1 )</var>
+                    <var id="POLY_FAKE_3">new Polynomial( 0, DEGREE_FAKE_3, COEF_ARRAY_FAKE_3, "x" )</var>
+                    <var id="POLY_TEXT_FAKE_3">POLY_FAKE_3.text()</var>
+                 </div>
+                <p class="question">Which of the expressions is a <var>SOLN_1</var> <var>SOLN_2</var>?</p>
+                <p class="problem"></p>
+                <div class="solution"><code><var>POLY_TEXT</var></code></div>
+                        <ul class="choices" data-show="4" data-none="true">
+                            <li><code><var>POLY_TEXT_FAKE_1</var></code></li>
+                            <li><code><var>POLY_TEXT_FAKE_2</var></code></li>
+                            <li><code><var>POLY_TEXT_FAKE_3</var></code></li>
+                        </ul>
+                <div class="hints">
+                    <div>
+                        <p>Only the largest exponent is used to describe a polynomial.</p>
+                    </div>
+                    <div>
+                        <p>A polynomial is called <b><var>SOLN_1</var></b> when the largest exponent is <code><var>DEGREE</var></code>.</p>
+                    </div>
+                    <div>
+                        <p>The number of terms is also used to name a polynomial.</p>
+                    </div>
+                    <div data-if="NUM_TERMS === 1">
+                        <p>A polynomial is called a <b><var>SOLN_2</var></b> when there is only <b>one term</b>.</p>
+                    </div>
+                    <div data-else>
+                        <p>A polynomial is called a <b><var>SOLN_2</var></b> when there are <b><var>cardinal(NUM_TERMS)</var> terms</b>.</p>
+                    </div>
+                    <div>
+                        <p>This polynomial is a <var>SOLN_1</var> <var>SOLN_2</var>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
