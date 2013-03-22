@@ -56,7 +56,7 @@
                         <p>A polynomial with <b><var>cardinal(NUM_TERMS)</var></b> terms is called a <b><var>SOLN_2</var></b>.</p>
                     </div>
                     <div>
-                        <p>This polynomial is a <var>SOLN_1</var> <var>SOLN_2</var>.</p>
+                        <p><code><var>POLY_TEXT</var></code> is a <var>SOLN_1</var> <var>SOLN_2</var>.</p>
                     </div>
                 </div>
             </div>
@@ -101,15 +101,23 @@
                     <div>
                         <p>The number of terms is also used to name a polynomial.</p>
                     </div>
-                    <div data-if="NUM_TERMS === 1">
-                        <p>A polynomial is called a <b><var>SOLN_2</var></b> when there is only <b>one term</b>.</p>
+                    <div data-if="NUM_TERMS === 1" data-unwrap>
+                        <div>
+                            <p>A polynomial is called a <b><var>SOLN_2</var></b> when there is only <b>one term</b>.</p>
+                        </div>
+                        <div>
+                            <p><code><var>POLY_TEXT</var></code> has <var>cardinal(NUM_TERMS)</var> term and <code><var>DEGREE</var></code> is the largest exponent. It's the <var>SOLN_1</var> <var>SOLN_2</var>.</p>
+                        </div>
                     </div>
-                    <div data-else>
-                        <p>A polynomial is called a <b><var>SOLN_2</var></b> when there are <b><var>cardinal(NUM_TERMS)</var> terms</b>.</p>
+                    <div data-else data-unwrap>
+                        <div>
+                            <p>A polynomial is called a <b><var>SOLN_2</var></b> when there are <b><var>cardinal(NUM_TERMS)</var> terms</b>.</p>
+                        </div>
+                        <div>
+                            <p><code><var>POLY_TEXT</var></code> has <var>cardinal(NUM_TERMS)</var> terms and <code><var>DEGREE</var></code> is the largest exponent. It's the <var>SOLN_1</var> <var>SOLN_2</var>.</p>
+                        </div>
                     </div>
-                    <div>
-                        <p>This polynomial is a <var>SOLN_1</var> <var>SOLN_2</var>.</p>
-                    </div>
+                    
                 </div>
             </div>
         </div>
