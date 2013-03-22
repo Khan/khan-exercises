@@ -98,10 +98,16 @@
                     <var id="DENOMINATORSOL">expr(["+", ["*", COEFFICIENT2, X], CONSTANT2])</var>
                     <var id="NEGNUMERATORSOL">expr(["+", ["*", -COEFFICIENT1, X], -CONSTANT1])</var>
                     <var id="NEGDENOMINATORSOL">expr(["+", ["*", -COEFFICIENT2, X], -CONSTANT2])</var>
-                    <var id="POSITIVENUMERATOR">getExpressionRegex(COEFFICIENT1, X, CONSTANT1)</var>
-                    <var id="POSITIVEDENOMINATOR">getExpressionRegex(COEFFICIENT2, X, CONSTANT2)</var>
-                    <var id="NEGATIVENUMERATOR">getExpressionRegex(-COEFFICIENT1, X, -CONSTANT1)</var>
-                    <var id="NEGATIVEDENOMINATOR">getExpressionRegex(-COEFFICIENT2, X, -CONSTANT2)</var>
+                    <var id="REGEX">(function() {
+                        if (COEFFICIENT2 &lt; 0 || (COEFFICIENT2 === 0 && CONSTANT2 &lt; 0)) {
+                            return [getExpressionRegex(-COEFFICIENT1, X, -CONSTANT1),
+                                    getExpressionRegex(-COEFFICIENT2, X, -CONSTANT2)];
+                        } else {
+                            return [getExpressionRegex(COEFFICIENT1, X, CONSTANT1),
+                                    getExpressionRegex(COEFFICIENT2, X, CONSTANT2)];
+                        }
+                    })()
+                    </var>
                 </div>
 
                 <p class="question">Simplify the following expression:</p>
@@ -110,12 +116,8 @@
 
                 <div class="solution" data-type="set">
                     <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>POSITIVENUMERATOR</var></span>
-                        <span class="sol" data-type="regex"><var>POSITIVEDENOMINATOR</var></span>
-                    </div>
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>NEGATIVENUMERATOR</var></span>
-                        <span class="sol" data-type="regex"><var>NEGATIVEDENOMINATOR</var></span>
+                        <span class="sol" data-type="regex"><var>REGEX[0]</var></span>
+                        <span class="sol" data-type="regex"><var>REGEX[1]</var></span>
                     </div>
                     <div class="input-format">
                         <div class="entry" data-type="multiple">
