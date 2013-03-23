@@ -706,18 +706,31 @@ var Khan = (function() {
     randomSeed = localMode && parseFloat(Khan.query.seed) || userCRC32 ||
             (new Date().getTime() & 0xffffffff);
 
-    // Load in jQuery and underscore
     if (localMode) {
-        Khan.loadScript("../jquery.js", function() {
-            Khan.loadScript("../jquery-migrate-1.1.1.js", function() {
-                Khan.loadScript("../utils/underscore.js", onjQueryLoaded);
-            });
-        });
+        // Load in jQuery and underscore, as well as the interface glue code
+        var initScripts = [
+                "../jquery.js",
+                "../jquery-migrate-1.1.1.js",
+                "../utils/underscore.js",
+                "../exercises-stub.js",
+                "../interface.js"
+            ];
+
+        (function loadInitScripts() {
+            if (initScripts.length) {
+                var src = initScripts.shift();
+                Khan.loadScript(src, loadInitScripts);
+            } else {
+                onjQueryLoaded();
+            }
+        })();
     } else {
         onjQueryLoaded();
     }
         
     function onjQueryLoaded() {
+        initEvents();
+
         // Initialize to an empty jQuery set
         exercises = $();
 
@@ -2166,6 +2179,10 @@ var Khan = (function() {
         // In local mode, everything is set up in loadTestModeSite after
         // loading jQuery. The real mode already has jQuery, so we just listen
         // for the signal to prepare.
+        initEvents();
+    }
+
+    function initEvents() {
         $(Khan)
             .bind("problemTemplateRendered", prepareSite)
             .bind("readyForNextProblem", function(ev, data) {
@@ -2464,7 +2481,7 @@ var Khan = (function() {
             $("html").addClass("lite");
         }
 
-        prepareSite();
+        $(Exercises).trigger("problemTemplateRendered");
 
         exercises = exercises.add($("div.exercise").detach());
         var problems = exercises.children(".problems").children();

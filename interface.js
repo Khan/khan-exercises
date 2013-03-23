@@ -7,20 +7,28 @@
  */
 (function() {
 
-_.extend(Exercises, {
+// If any of these properties have already been defined, then leave them --
+// this happens in local mode
+_.defaults(Exercises, {
     khanExercisesUrlBase: "/khan-exercises/",
 
     getCurrentFramework: function() {
         // TODO(alpert): Is this icky?
         return Exercises.practiceExercise.getFramework();
     }
+});
 
+_.extend(Exercises, {
     guessLog: undefined,
     userActivityLog: undefined
 });
 
 
-var originalCheckAnswerText,
+// Store localMode here so that it's hard to change after the fact via
+// bookmarklet, etc.
+var localMode = Exercises.localMode,
+
+    originalCheckAnswerText,
 
     userExercise,
     problemNum,
@@ -84,7 +92,7 @@ function problemTemplateRendered() {
         e.preventDefault();
         Khan.scratchpad.toggle();
 
-        if (userExercise.user) {
+        if (!localMode && userExercise.user) {
             window.localStorage["scratchpad:" + userExercise.user] =
                     Khan.scratchpad.isVisible();
         }
@@ -126,6 +134,10 @@ function handleCheckAnswer() {
         return false;
     }
 
+    var curTime = new Date().getTime();
+    var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
+    lastAttemptOrHint = curTime;
+
     Exercises.guessLog.push(score.guess);
     Exercises.userActivityLog.push([
             score.correct ? "correct-activity" : "incorrect-activity",
@@ -163,7 +175,7 @@ function handleCheckAnswer() {
         if (framework === "perseus") {
             // TODO(alpert)?
         } else if (framework === "khan-exercises") {
-            Khan.refocusSolutionInput();
+            $(Khan).trigger("refocusSolutionInput");
         }
     }
 
@@ -171,16 +183,24 @@ function handleCheckAnswer() {
         $(Exercises).trigger("problemDone");
     }
 
-    var curTime = new Date().getTime();
-    var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
-    lastAttemptOrHint = curTime;
+    $(Exercises).trigger("checkAnswer", {
+        correct: score.correct,
+
+        // Determine if this attempt qualifies as fast completion
+        fast: !localMode && userExercise.secondsPerFastProblem >= timeTaken
+    });
+
+    if (localMode) {
+        // Skip the server; just pretend we have success
+        $(Khan).trigger("attemptSaved");
+        return false;
+    }
 
     // Save the problem results to the server
     var data = buildAttemptData(score.correct, ++attempts,
             JSON.stringify(score.guess), timeTaken);
 
     request("problems/" + problemNum + "/attempt", data).then(function() {
-        // TODO: Save locally if offline
         $(Khan).trigger("attemptSaved");
     }, function(xhr) {
         // Alert any listeners of the error before reload
@@ -205,14 +225,6 @@ function handleCheckAnswer() {
                 "don't worry, you haven't lost progress. If you think " +
                 "this is a mistake, <a href='http://www.khanacademy.org/" +
                 "reportissue?type=Defect&issue_labels='>tell us</a>.");
-    });
-
-    $(Exercises).trigger("checkAnswer", {
-        correct: score.correct,
-
-        // Determine if this attempt qualifies as fast completion
-        fast: (typeof userExercise !== "undefined" &&
-                userExercise.secondsPerFastProblem >= timeTaken)
     });
 
     return false;
@@ -251,9 +263,11 @@ function hintUsed() {
     var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
     lastAttemptOrHint = curTime;
 
+    Exercises.userActivityLog.push(["hint-activity", "0", timeTaken]);
+
+    // TODO(alpert): Determine answeredCorrectly in a better way
     var answeredCorrectly = $("#next-question-button").is(":visible");
-    if (!userExercise.readOnly && !answeredCorrectly) {
-        Exercises.userActivityLog.push(["hint-activity", "0", timeTaken]);
+    if (!localMode && !userExercise.readOnly && !answeredCorrectly) {
 
         // Resets the streak and logs history for exercise viewer
         // Don't do anything on success or failure; silently failing is ok here
