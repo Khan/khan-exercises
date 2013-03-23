@@ -196,7 +196,6 @@ var Khan = (function() {
     // How many problems are we doing? (For the fair shuffle bag.)
     problemCount = 10,
 
-    // For saving problems to the server
     hintsUsed,
 
     // Bug-hunting "undefined" attempt content
@@ -340,10 +339,7 @@ var Khan = (function() {
             }
 
             // Base modules required for every problem
-            mods.push(
-                    "answer-types", "tmpl", "jquery.adhesion",
-                    "hints", "calculator"
-                );
+            mods.push("answer-types", "tmpl", "jquery.adhesion", "calculator");
 
             return mods;
         },
@@ -1269,6 +1265,27 @@ var Khan = (function() {
             });
 
             examples.children().tmpl();
+
+            $("#examples-show").qtip({
+                content: {
+                    // TODO(alpert): I'd imagine MathJax is unhappy about this
+                    // removal
+                    text: examples.remove(),
+                    prerender: true
+                },
+                style: {classes: "qtip-light leaf-tooltip"},
+                position: {
+                    my: "bottom center",
+                    at: "top center"
+                },
+                show: {
+                    delay: 200,
+                    effect: {
+                        length: 0
+                    }
+                },
+                hide: {delay: 0}
+            });
         } else {
             $("#examples-show").hide();
         }
@@ -2203,6 +2220,8 @@ var Khan = (function() {
                     // :(
                     return;
                 }
+
+                hintsUsed++;
 
                 var problem = $(hint).parent();
 

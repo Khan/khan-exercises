@@ -33,6 +33,8 @@ var localMode = Exercises.localMode,
     userExercise,
     problemNum,
 
+    answeredCorrectly,
+    hintsAreFree,
     attempts,
     numHints,
     hintsUsed,
@@ -110,6 +112,8 @@ function newProblem(e, data) {
     Exercises.guessLog = [];
     Exercises.userActivityLog = [];
 
+    answeredCorrectly = false,
+    hintsAreFree = false,
     attempts = 0;
     numHints = data.numHints;
     hintsUsed = 0;
@@ -142,6 +146,11 @@ function handleCheckAnswer() {
     Exercises.userActivityLog.push([
             score.correct ? "correct-activity" : "incorrect-activity",
             JSON.stringify(score.guess), timeTaken]);
+
+    if (score.correct) {
+        answeredCorrectly = true;
+        $(Exercises).trigger("problemDone");
+    }
 
     // Update interface corresponding to correctness
     if (Exercises.assessmentMode) {
@@ -179,8 +188,19 @@ function handleCheckAnswer() {
         }
     }
 
-    if (score.correct) {
-        $(Exercises).trigger("problemDone");
+    if (!hintsAreFree) {
+        hintsAreFree = true;
+        $(".hint-box")
+            .css("position", "relative")
+            .animate({top: -10}, 250)
+            .find(".info-box-header")
+                .slideUp(250)
+                .end()
+            .find("#hint")
+                .removeClass("orange")
+                .addClass("green")
+                .data("buttonText", Khan.showSolutionButtonText)
+                .val(Khan.showSolutionButtonText);
     }
 
     $(Exercises).trigger("checkAnswer", {
@@ -265,11 +285,7 @@ function hintUsed() {
 
     Exercises.userActivityLog.push(["hint-activity", "0", timeTaken]);
 
-    // TODO(alpert): Determine answeredCorrectly in a better way
-    var answeredCorrectly = $("#next-question-button").is(":visible");
     if (!localMode && !userExercise.readOnly && !answeredCorrectly) {
-
-        // Resets the streak and logs history for exercise viewer
         // Don't do anything on success or failure; silently failing is ok here
         request("problems/" + problemNum + "/hint",
                 buildAttemptData(false, attempts, "hint", timeTaken));
@@ -489,6 +505,18 @@ function clearExistingProblem() {
     // Take off the event handlers for disabling check answer; we'll rebind
     // if we actually want them
     $("#solutionarea").off(".emptyAnswer");
+
+    // Restore the hint button's original appearance
+    $("#hint")
+        .removeClass("green")
+        .addClass("orange")
+        .val("I'd like a hint")
+        .data("buttonText", false)
+        .appendTo("#get-hint-button-container");
+    $(".hint-box")
+        .css("top", 0)
+        .find(".info-box-header")
+            .show();
 
     Khan.scratchpad.clear();
 }
