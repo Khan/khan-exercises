@@ -2192,14 +2192,9 @@ var Khan = (function() {
         }
     }
 
-    if (!localMode) {
-        // In local mode, everything is set up in loadTestModeSite after
-        // loading jQuery. The real mode already has jQuery, so we just listen
-        // for the signal to prepare.
-        initEvents();
-    }
-
     function initEvents() {
+        // This function gets called as soon as jQuery is loaded -- on the live
+        // site, that's immediately upon execution
         $(Khan)
             .bind("problemTemplateRendered", prepareSite)
             .bind("readyForNextProblem", function(ev, data) {
