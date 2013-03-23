@@ -24,9 +24,11 @@ _.extend(Exercises, {
 });
 
 
-// Store localMode here so that it's hard to change after the fact via
-// bookmarklet, etc.
-var localMode = Exercises.localMode,
+var PerseusBridge = Exercises.PerseusBridge,
+
+    // Store localMode here so that it's hard to change after the fact via
+    // bookmarklet, etc.
+    localMode = Exercises.localMode,
 
     originalCheckAnswerText,
 
@@ -54,6 +56,9 @@ $(Exercises)
 
 function problemTemplateRendered() {
     // Setup appropriate img URLs
+    $("#positive-reinforcement").hide();
+    $("#positive-reinforcement > img").attr("src",
+            Exercises.khanExercisesUrlBase + "images/face-smiley.png");
     $("#issue-throbber").attr("src",
             Exercises.khanExercisesUrlBase + "css/images/throbber.gif");
 
@@ -100,12 +105,9 @@ function problemTemplateRendered() {
         }
     });
 
-    var framework = Exercises.getCurrentFramework();
-    if (framework === "perseus") {
-        // TODO(alpert)
-    } else if (framework === "khan-exercises") {
-        $(Khan).trigger("problemTemplateRendered");
-    }
+    // These shouldn't interfere...
+    $(PerseusBridge).trigger("problemTemplateRendered");
+    $(Khan).trigger("problemTemplateRendered");
 }
 
 function newProblem(e, data) {
@@ -131,7 +133,12 @@ function handleCheckAnswer() {
         return false;
     }
 
-    var score = Khan.scoreInput();
+    var score;
+    if (framework === "perseus") {
+        score = PerseusBridge.scoreInput();
+    } else if (framework === "khan-exercises") {
+        score = Khan.scoreInput();
+    }
 
     // Stop if the user didn't enter a response
     if (score.empty) {
@@ -158,6 +165,7 @@ function handleCheckAnswer() {
     } else if (score.correct) {
         // Correct answer, so show the next question button.
         $("#check-answer-button").hide();
+        $("#check-answer-results > p").hide();
         $("#next-question-button")
             .removeAttr("disabled")
             .removeClass("buttonDisabled")
@@ -166,8 +174,6 @@ function handleCheckAnswer() {
         $("#positive-reinforcement").show();
     } else {
         // Wrong answer. Enable all the input elements
-        //$("#answercontent input").not("#hint")
-        //    .removeAttr("disabled");
 
         $("#check-answer-button")
             .parent()  // .check-answer-wrapper makes shake behave
@@ -254,6 +260,7 @@ function handleHint() {
     var framework = Exercises.getCurrentFramework();
 
     if (framework === "perseus") {
+        $(PerseusBridge).trigger("showHint");
     } else if (framework === "khan-exercises") {
         $(Khan).trigger("showHint");
     }
@@ -293,22 +300,21 @@ function hintUsed() {
 }
 
 // Build the data to pass to the server
-function buildAttemptData(pass, attemptNum, attemptContent, timeTaken) {
+function buildAttemptData(correct, attemptNum, attemptContent, timeTaken) {
     var framework = Exercises.getCurrentFramework();
     var data;
 
     if (framework === "perseus") {
-        // TODO(alpert)
-        data = {};
+        data = PerseusBridge.getSeedInfo();
     } else if (framework === "khan-exercises") {
-        data = _.extend({
-            complete: pass === true ? 1 : 0
-        }, Khan.getSeedInfo());
+        data = Khan.getSeedInfo();
     }
 
     _.extend(data, {
         // Ask for camel casing in returned response
         casing: "camel",
+
+        complete: correct ? 1 : 0,
 
         // Whether we're moving to the next problem (i.e., correctness)
         count_hints: hintsUsed,
@@ -414,9 +420,10 @@ function readyForNextProblem(e, data) {
     userExercise = data.userExercise;
     problemNum = userExercise.totalDone + 1;
 
+    // (framework depends on userExercise set above)
     var framework = Exercises.getCurrentFramework();
     if (framework === "perseus") {
-        // TODO(alpert)
+        $(PerseusBridge).trigger("readyForNextProblem", data);
     } else if (framework === "khan-exercises") {
         $(Khan).trigger("readyForNextProblem", data);
     }
@@ -486,6 +493,7 @@ function clearExistingProblem() {
 
     $("#happy").hide();
     if (!$("#examples-show").data("show")) {
+        // TODO(alpert): What does this do?
         $("#examples-show").click();
     }
 

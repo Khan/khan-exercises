@@ -396,11 +396,11 @@ var Khan = (function() {
             var isMathJax = url.indexOf("/MathJax/") !== -1;
 
             if (!localMode && url.indexOf("/khan-exercises/") === 0 &&
-                    !isMathJax) {
+                    (!isMathJax || window.MathJax)) {
                 // Don't bother loading khan-exercises content in non-local
                 // mode; this content is already packaged up and available
                 // (*unless* it's MathJax, which is silly and still needs
-                // to be loaded)
+                // to be loaded (if it's not preloaded))
                 callback();
                 return;
             }
@@ -2487,10 +2487,6 @@ var Khan = (function() {
         $("#container .exercises-body .current-card-contents").html(
                 htmlExercise);
 
-        // HACK: Make smiley face work on sandcastle
-        $("img[src='/images/face-smiley.png']").attr(
-                "src", "../images/face-smiley.png");
-
         if (Khan.query.layout === "lite") {
             $("html").addClass("lite");
         }
@@ -2508,7 +2504,6 @@ var Khan = (function() {
             problemBag = makeProblemBag(problems, 10);
         }
 
-        $("#positive-reinforcement").hide();
         // Generate the initial problem when dependencies are done being loaded
         makeProblem();
     }
