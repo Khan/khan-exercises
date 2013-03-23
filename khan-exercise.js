@@ -2204,7 +2204,11 @@ var Khan = (function() {
                 warn(data.text, data.showClose);
             })
             .bind("upcomingExercise", function(ev, data) {
-                startLoadingExercise(data.exerciseId, data.exerciseName, data.exerciseFile);
+                var userExercise = data.userExercise;
+                startLoadingExercise(
+                        userExercise.exercise,
+                        userExercise.exerciseModel.displayName,
+                        userExercise.exerciseModel.fileName);
             })
             .bind("cleanupProblem", function() {
                 $("#workarea, #hintsarea").runModules(problem, "Cleanup");

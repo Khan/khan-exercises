@@ -12,9 +12,9 @@
 _.defaults(Exercises, {
     khanExercisesUrlBase: "/khan-exercises/",
 
-    getCurrentFramework: function() {
-        // TODO(alpert): Is this icky?
-        return Exercises.practiceExercise.getFramework();
+    getCurrentFramework: function(userExerciseOverride) {
+        return (userExerciseOverride || userExercise).exerciseModel.fileName
+                ? "khan-exercises" : "perseus";
     }
 });
 
@@ -445,9 +445,9 @@ function warning(e, message, showClose) {
 }
 
 function upcomingExercise(e, data) {
-    var framework = Exercises.getCurrentFramework();
+    var framework = Exercises.getCurrentFramework(data.userExercise);
     if (framework === "perseus") {
-        // TODO(alpert)
+        $(PerseusBridge).trigger("upcomingExercise", data);
     } else if (framework === "khan-exercises") {
         $(Khan).trigger("upcomingExercise", data);
     }
@@ -508,7 +508,7 @@ function clearExistingProblem() {
     } else if (framework === "khan-exercises") {
         $(Khan).trigger("cleanupProblem");
     }
-    $("#workarea, #hintsarea").empty();
+    $("#workarea, #hintsarea, #solutionarea").empty();
 
     // Take off the event handlers for disabling check answer; we'll rebind
     // if we actually want them
