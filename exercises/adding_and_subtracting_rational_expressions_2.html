@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions rational-expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting with like denominators 2</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="SIGN, S">randFromArray([["+", 1], ["-", -1]])</var>
+            <var id="X">randVar()</var>
+            <div data-ensure="X !== Y">
+                <var id="Y">randVar()</var>
+            </div>
+            <div data-ensure="getGCD(NUMERATOR1, DENOMINATOR1) === 1">
+                <var id="NUMERATOR1">randRangeWeighted(1, 10, 1, 0.4)</var>
+                <var id="DENOMINATOR1">randRange(2, 12)</var>
+            </div>
+            <div data-ensure="DENOMINATOR1 !== DENOMINATOR2">
+                <var id="DENOMINATOR2">randRange(2, 12)</var>
+            </div>
+            <div data-ensure="getGCD(NUMERATOR2, DENOMINATOR2) === 1">
+                <var id="NUMERATOR2">randRangeWeighted(1, 10, 1, 0.4)</var>
+            </div>
+        </div>
+
+        <div class="problems">
+            <div id="variable-top">
+                <div class="vars">
+                    <var id="COMMONDENOM">getLCM( DENOMINATOR1, DENOMINATOR2 )</var>
+                    <var id="F1">COMMONDENOM / DENOMINATOR1</var>
+                    <var id="F2">COMMONDENOM / DENOMINATOR2</var>
+                    <var id="FINALNUMERATOR">NUMERATOR1 * F1 + S * (NUMERATOR2 * F2)</var>
+                    <var id="FACTOR">getGCD(FINALNUMERATOR, COMMONDENOM)</var>
+                    <var id="NUMERSOL">getExpressionRegex(FINALNUMERATOR / FACTOR, X, 0)</var>
+                    <var id="DENOMSOL">COMMONDENOM / FACTOR</var>
+                </div>
+
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question">
+                    <code><var>Y</var> = \dfrac{<var>expr(["*", NUMERATOR1, X])</var>}{<var>DENOMINATOR1</var>}
+                          <var>SIGN</var> \dfrac{<var>expr(["*", NUMERATOR2, X])</var>}{<var>DENOMINATOR2</var>}</code>
+                </p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NUMERSOL</var></span>
+                        <span class="sol" data-type="number"><var>DENOMSOL</var></span>
+                    </div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <table>
+                                <tr>
+                                    <td rowspan="2" class="soln-name">
+                                        <code><var>Y</var> = </code>
+                                    </td>
+                                    <td class="soln-top">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short50" data-fallback="1">a</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <p class="example">a simplifed expression, like <code>x + 2</code></p>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>In order to <span data-if="SIGN === '+'">add</span><span data-else>subtract</span> expressions,
+                they must have a common denominator.</p>
+            <p>The smallest common denominator is the least common multiple of <code><var>DENOMINATOR1</var></code> and <code><var>DENOMINATOR2</var></code>.</p>
+            <p><code>\lcm(<var>DENOMINATOR1</var>, <var>DENOMINATOR2</var>) = <var>COMMONDENOM</var></code></p>
+            <p><code>
+                <var>Y</var> = \dfrac{<var>F1</var>}{<var>F1</var>} \cdot \dfrac{<var>expr(["*", NUMERATOR1, X])</var>}{<var>DENOMINATOR1</var>}
+                <var>SIGN</var> \dfrac{<var>F2</var>}{<var>F2</var>} \cdot \dfrac{<var>expr(["*", NUMERATOR2, X])</var>}{<var>DENOMINATOR2</var>}
+            </code></p>
+
+            <p><code>
+                <var>Y</var> = \dfrac{<var>expr(["*", NUMERATOR1 * F1, X])</var>}{<var>COMMONDENOM</var>}
+                <var>SIGN</var> \dfrac{<var>expr(["*", NUMERATOR2 * F2, X])</var>}{<var>COMMONDENOM</var>}
+            </code></p>
+            <p><code>
+                <var>Y</var> = \dfrac{<var>expr(["*", NUMERATOR1 * F1, X])</var> <var>SIGN</var>
+                <var>expr(["*", NUMERATOR2 * F2, X])</var>}{<var>COMMONDENOM</var>}
+            </code></p>
+            <p><code>
+                <var>Y</var> = \dfrac{<var>expr(["*", FINALNUMERATOR, X])</var>}{<var>COMMONDENOM</var>}
+            </code></p>
+            <div data-if="FACTOR !== 1">
+                <div>To simplify the expression, divide the numerator and denominator by <var>FACTOR</var>:</div>
+                <div><code><var>Y</var> = \dfrac{<var>expr(["*", FINALNUMERATOR / FACTOR, X])</var>}{<var>COMMONDENOM / FACTOR</var>}</code></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
