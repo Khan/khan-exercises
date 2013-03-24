@@ -220,7 +220,6 @@ function handleCheckAnswer() {
 
     if (localMode) {
         // Skip the server; just pretend we have success
-        $(Khan).trigger("attemptSaved");
         return false;
     }
 
@@ -228,9 +227,7 @@ function handleCheckAnswer() {
     var data = buildAttemptData(score.correct, ++attempts,
             JSON.stringify(score.guess), timeTaken);
 
-    request("problems/" + problemNum + "/attempt", data).then(function() {
-        $(Khan).trigger("attemptSaved");
-    }, function(xhr) {
+    request("problems/" + problemNum + "/attempt", data).fail(function(xhr) {
         // Alert any listeners of the error before reload
         $(Exercises).trigger("attemptError");
 

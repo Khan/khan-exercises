@@ -40,9 +40,6 @@
     * problemDone -- when the user has completed a problem which, in this case,
       usually means supplying the correct answer
 
-    * attemptSaved -- when an attempt has been recorded successfully via the
-      API
-
     * attemptError -- when an error occurs during an API attempt
 
     * apiRequestStarted / apiRequestEnded -- when an API request is sent
