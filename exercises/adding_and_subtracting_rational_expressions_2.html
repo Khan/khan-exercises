@@ -57,10 +57,8 @@
                     
                     <var id="NUMERATOR">expr(["*", NUMERATORCOEFF, X])</var>
                     <var id="DENOMINATOR">DENOMINATORCOEFF</var>
-                    
                     <var id="SIMPLENUMERATOR">expr(["*", NUMERATORCOEFF / FACTOR, X])</var>
                     <var id="SIMPLEDENOMINATOR">DENOMINATOR / FACTOR</var>
-
                     <var id="NUMERSOL">getExpressionRegex(NUMERATORCOEFF / FACTOR, X, 0)</var>
                     <var id="DENOMSOL">SIMPLEDENOMINATOR</var>
                 </div>
@@ -77,12 +75,10 @@
 
                     <var id="NUMERATOR">NUMERATORCOEFF</var>
                     <var id="DENOMINATOR">expr(["*", DENOMINATORCOEFF, X])</var>
-
                     <var id="SIMPLENUMERATOR">NUMERATORCOEFF / FACTOR</var>
                     <var id="SIMPLEDENOMINATOR">expr(["*", DENOMINATORCOEFF / FACTOR, X])</var>
-
-                    <var id="NUMERSOL">getExpressionRegex(NUMERATORCOEFF / FACTOR, X, 0)</var>
-                    <var id="DENOMSOL">COMMONDENOM / FACTOR</var>
+                    <var id="NUMERSOL">NUMERATORCOEFF / FACTOR</var>
+                    <var id="DENOMSOL">getExpressionRegex(DENOMINATORCOEFF / FACTOR, X, 0)</var>
                 </div>
             </div>
 
@@ -97,7 +93,7 @@
         <div class="solution" data-type="set">
             <div class="set-sol" data-type="multiple">
                 <span class="sol" data-type="regex"><var>NUMERSOL</var></span>
-                <span class="sol" data-type="number"><var>DENOMSOL</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL</var></span>
             </div>
             <div class="input-format">
                 <div class="entry" data-type="multiple">
