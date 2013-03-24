@@ -656,10 +656,6 @@ var Khan = (function() {
             }
         },
 
-        showSolutionButtonText: function() {
-            return hintsUsed ? "Show next step (" + hints.length + " left)" : "Show Solution";
-        },
-
         getSeedInfo: function() {
             return {
                 // A hash representing the exercise version
@@ -1291,9 +1287,6 @@ var Khan = (function() {
         }
         // save a normal JS array of hints so we can shift() through them later
         hints = hints.tmpl().children().get();
-
-        // Enable/disable the get hint button
-        $("#hint").attr("disabled", hints.length === 0);
 
         // Hook out for exercise test runner
         if (localMode && parent !== window && typeof parent.jQuery !== "undefined") {
@@ -2291,8 +2284,6 @@ var Khan = (function() {
         if (data && data.exercise) {
             exerciseId = data.exercise;
         }
-
-        $(Exercises).trigger("updateUserExercise", {userExercise: userExercise});
 
         if (user != null) {
             // How far to jump through the problems

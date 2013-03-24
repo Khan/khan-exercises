@@ -120,6 +120,9 @@ function newProblem(e, data) {
     numHints = data.numHints;
     hintsUsed = 0;
     lastAttemptOrHint = new Date().getTime();
+
+    // Enable/disable the get hint button
+    $("#hint").attr("disabled", numHints === 0);
 }
 
 
@@ -204,9 +207,8 @@ function handleCheckAnswer() {
                 .end()
             .find("#hint")
                 .removeClass("orange")
-                .addClass("green")
-                .data("buttonText", Khan.showSolutionButtonText)
-                .val(Khan.showSolutionButtonText);
+                .addClass("green");
+        updateHintButtonText();
     }
 
     $(Exercises).trigger("checkAnswer", {
@@ -271,18 +273,11 @@ function hintUsed() {
     Khan.scratchpad.resize();
 
     hintsUsed++;
-    var hintsLeft = numHints - hintsUsed;
-
-    // TODO(alpert): Get rid of hints.js; it's silly
-    var $hintButton = $("#hint");
-    var stepsLeft = hintsLeft === 1 ? "1 hint left" :
-            hintsLeft + " hints left";
-    $hintButton.val($hintButton.data("buttonText") ||
-            "I'd like another hint (" + stepsLeft + ")");
+    updateHintButtonText();
 
     // If there aren't any more hints, disable the get hint button
-    if (hintsLeft === 0) {
-        $hintButton.attr("disabled", true);
+    if (hintsUsed === numHints) {
+        $("#hint").attr("disabled", true);
         $(Exercises).trigger("allHintsUsed");
     }
 
@@ -296,6 +291,23 @@ function hintUsed() {
         // Don't do anything on success or failure; silently failing is ok here
         request("problems/" + problemNum + "/hint",
                 buildAttemptData(false, attempts, "hint", timeTaken));
+    }
+}
+
+function updateHintButtonText() {
+    var $hintButton = $("#hint");
+    var hintsLeft = numHints - hintsUsed;
+
+    if (hintsAreFree) {
+        $hintButton.val(hintsUsed ?
+                "Show next step (" + hintsLeft + " left)" :
+                "Show solution");
+    } else {
+        $hintButton.val("I'd like another hint (" +
+                (hintsLeft === 1 ?
+                    "1 hint left" :
+                    hintsLeft + " hints left")
+                + ")");
     }
 }
 
@@ -419,6 +431,7 @@ function request(method, data) {
 function readyForNextProblem(e, data) {
     userExercise = data.userExercise;
     problemNum = userExercise.totalDone + 1;
+    $(Exercises).trigger("updateUserExercise", {userExercise: userExercise});
 
     // (framework depends on userExercise set above)
     var framework = Exercises.getCurrentFramework();
