@@ -74,35 +74,5 @@ $.extend(KhanUtil, {
             }
             return this.coefficient;
         }
-    },
-
-    // Array of terms which are added together
-    // Terms can be numbers, of [variable, degree]
-    // e.g. [5, [1, x]] = 5 + x
-    // e.g. [5, [2, x, 2]] = 5 + 2x^2
-    // e.g. [5, [2, x, 2, y]] = 5 + 2x^2y
-    RationalExpression: function(terms) {
-        this.terms = terms;
-
-        this.multiply = function(value) {
-            var terms = [];
-
-            for (var i = 0; i < this.terms.length; i++) {
-                terms[i] = this.terms[i].coefficient * value;
-            }
-
-            return new KhanUtil.RationalExpression(terms);
-        };
-
-        this.toString = function() {
-            var s = this.terms[0].toString();
-
-            for (var i = 1; i < this.terms.length; i++) {
-                s += this.terms[i].toString(true)
-            }
-            return s;
-        };
-
-        return this;
     }
 });
