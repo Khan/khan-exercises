@@ -1,4 +1,5 @@
 $.extend(KhanUtil, {
+
 	getExpressionRegex: function(coefficient, vari, constant) {
         // Capture Ax + B or B + Ax, either A or B can be 0
         
@@ -36,4 +37,5 @@ $.extend(KhanUtil, {
 
         return regex;
 	}
+    
 });
