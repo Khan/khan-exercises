@@ -50,7 +50,7 @@
                         So <var>he(1)</var> traveled <code><var>SPEED1</var> \times </code> 
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
                         <span data-else><code><var>T1[0]</var></code></span>
-                        <code> = <var>plural(round(DIST1), "\\space mile")</var></code> by <var>vehicle(1)</var>.
+                        <code> = <var>round(DIST1)</var></code>  miles by <var>vehicle(1)</var>.
                     </p>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                         So <var>he(1)</var> traveled <code><var>SPEED2</var> \times </code> 
                         <span data-if="T2[1] !== 1"><code>\frac{<var>T2[0]</var>}{<var>T2[1]</var>}</code></span>
                         <span data-else><code><var>T2[0]</var></code></span>
-                        <code> = <var>plural(round(DIST2), "\\space mile")</var></code> by <var>vehicle(2)</var>.
+                        <code> = <var>round(DIST2)</var></code> miles by <var>vehicle(2)</var>.
                     </p>
                 </div>
             </div>
@@ -107,7 +107,7 @@
         </div>
 
         <div class="hints">
-            <p>Remember that <code>distance = speed \times time</code>.</p>
+            <p>Remember that <code>\text{distance} = \text{speed} \times \text{time}</code>.</p>
             <p>Call the time that <var>person(1)</var> traveled by <var>vehicle(1)</var>, <code class="hint_red">t</code>.</p>
 
             <div>
@@ -142,18 +142,18 @@
 
                     label([ 2.6, 0.5 ], "t", "above", {color: RED});
                     label([ 7.6, 0.5 ], TIME + " - t", "above", {color: BLUE});
-                    label([ 5.1, 0.5 ], TIME + "\\space hours", "below");
+                    label([ 5.1, 0.5 ], TIME + "\\space \\text{hours}", "below");
                 </div>
             </div>
 
             <div>
-                <p><var>person(1)</var> traveled at <code class="hint_red"><var>SPEED1</var></code> <code>\frac{miles}{hour}</code> for 
+                <p><var>person(1)</var> traveled at <code class="hint_red"><var>SPEED1</var></code> <code>\frac{ \text{miles} }{ \text{hour} }</code> for 
                 <code class="hint_red">t</code> hours by <var>vehicle(1)</var>.</p>
                 <div>Therefore, <var>he(1)</var> traveled <code class="hint_red"><var>SPEED1</var>t</code> miles by <var>vehicle(1)</var>.</div>
             </div>
 
             <div>
-                <p><var>person(1)</var> traveled at <code class="hint_blue"><var>SPEED2</var></code> <code>\frac{miles}{hour}</code> for 
+                <p><var>person(1)</var> traveled at <code class="hint_blue"><var>SPEED2</var></code> <code>\frac{ \text{miles} }{ \text{hour} }</code> for 
                 <code class="hint_blue"><var>TIME</var> - t</code> hours by <var>vehicle(2)</var>.</p>
                 <div>Therefore, <var>he(1)</var> traveled <code class="hint_blue"><var>SPEED2</var>
                     (<var>TIME</var> - t)</code> miles by <var>vehicle(2)</var>.</div>
@@ -192,7 +192,7 @@
 
                     label([ 2.6, 0.5 ], SPEED1 + "t", "above", {color: RED});
                     label([ 7.6, 0.5 ], SPEED2 + "(" + TIME + " - t)", "above", {color: BLUE});
-                    label([ 5.1, 0.5 ], DIST + "\\space miles", "below");
+                    label([ 5.1, 0.5 ], DIST + "\\space \\text{miles}", "below");
                 </div>
             </div>
 
