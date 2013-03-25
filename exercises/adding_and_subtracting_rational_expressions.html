@@ -23,10 +23,10 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var data-ensure="X !== Y">
+            <div data-ensure="X !== Y">
                 <var id="X">randVar()</var>
                 <var id="Y">randVar()</var>
-            </var>
+            </div>
             <var id="DENOMCOEFF">randRangeWeighted(1, 8, 1, 0.25)</var>
             <var id="DENOMCONST">randRangeWeighted(-12, 12, 0, 0.25)</var>
             <var id="DENOMINATOR">expr(["+", ["*", DENOMCOEFF, X], DENOMCONST])</var>
