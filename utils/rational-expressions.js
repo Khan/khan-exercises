@@ -37,5 +37,5 @@ $.extend(KhanUtil, {
 
         return regex;
 	}
-    
+
 });
