@@ -248,8 +248,7 @@ var Khan = (function() {
     // directory.  But in production (on www.khanacademy.org), we use
     // the canonical location of images, which is under '/'.
     imageBase = ((typeof urlBaseOverride !== "undefined" || localMode)
-                 ? (urlBase + "images/") : ("/images/"));
-
+                 ? (urlBase + "images/") : ("/images/")),
 
     lastFocusedSolutionInput = null,
 
