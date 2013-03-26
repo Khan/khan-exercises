@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html data-require="math expressions rational-expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting with like denominators</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function getRationalExpression(variables) {
+            var terms = [];
+            for (var i = 0; i < KhanUtil.randRange(2, 3); i++) {
+                terms.push([KhanUtil.randRangeWeighted(-8, 8, 1, 0.25), variables[i]]);
+            }
+            terms.push([KhanUtil.randRangeWeighted(-8, 8, 1, 0.25)]);
+            return new KhanUtil.RationalExpression(terms);
+        };
+    </script>
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="SIGN">randFromArray(["+", "-"])</var>
+            <var id="X">randFromArray([
+                ["a", "b", "c"],
+                ["a", "b", "ab"],
+                ["r", "s", "t"],
+                ["s", "t", "st"],
+                ["m", "n", "mn"],
+                ["p", "q", "pq"],
+                ["x", "y", "z"],
+                ["x", "y", "xy"]])
+            </var>
+            <var id="Y">"k"</var>
+            <var id="DENOMINATOR">getRationalExpression(X)</var>
+            
+        </div>
+
+        <div class="problems">
+            <div id="add">
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question">
+                    <code><var>Y</var> = \dfrac{1}{<var>DENOMINATOR.toString()</var>}
+                          <var>SIGN</var> \dfrac{1}{<var>DENOMINATOR.toString()</var>}</code>
+                </p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>1</var></span>
+                        <span class="sol" data-type="regex"><var>1</var></span>
+                    </div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <table>
+                                <tr>
+                                    <td rowspan="2" class="soln-name">
+                                        <code><var>Y</var> = </code>
+                                    </td>
+                                    <td class="soln-top">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short50" data-fallback="1">a</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <p class="example">a simplifed expression, like <code>x + 2</code></p>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hints">
+            <div data-if="SIGN === '+'">
+                        <p>Since the expressions have the same denominator we simply combine the numerators:</p>
+                        <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
+                    </div>
+            <div>
+                <p>Combine like terms:</p>
+                <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>
+            </div>
+            <div data-if="FACTOR !== 1">
+                <p>Simplify by dividing numerator and denominator by <var>FACTOR</var>:</p>
+                <code><var>Y</var> = \dfrac{<var>expr(["+", ["*", NUMERCOEFF / FACTOR, X], NUMERCONST / FACTOR])</var>}
+                    {<var>expr(["+", ["*", DENOMCOEFF / FACTOR, X], DENOMCONST / FACTOR])</var>}</code>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
