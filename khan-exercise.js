@@ -2006,9 +2006,6 @@ var Khan = (function() {
                 // How many cards the user has left to do
                 cards_left: !localMode && (Exercises.incompleteStack.length - 1),
 
-                // Custom stack ID if it exists
-                custom_stack_id: !localMode && Exercises.completeStack.getCustomStackID(),
-
                 // The user assessment key if in assessmentMode
                 user_assessment_key: !localMode && Exercises.userAssessmentKey
             };
