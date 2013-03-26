@@ -100,7 +100,7 @@ $.extend(KhanUtil, {
             var s = "";
 
             if (includeSign) {
-                if (this.coefficient > 0) {
+                if (coefficient > 0) {
                     s += " + ";
                 } else {
                     s += " - ";
@@ -108,7 +108,7 @@ $.extend(KhanUtil, {
                 }
             }
 
-            if (coefficient !== 1 || this.variableString === "1") {
+            if (!(coefficient === 1 && this.variableString !== "")) {
                 s += coefficient;
             }
 
