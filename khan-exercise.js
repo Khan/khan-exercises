@@ -913,6 +913,11 @@ var Khan = (function() {
             .removeAttr("disabled")
             .removeClass("buttonDisabled")
             .val(originalCheckAnswerText);
+
+        $("#skip-question-button")
+            .removeAttr("disabled")
+            .removeClass("buttonDisabled")
+            .val(originalSkipQuestionText);
     }
 
     function disableCheckAnswer() {
@@ -920,6 +925,10 @@ var Khan = (function() {
             .attr("disabled", "disabled")
             .addClass("buttonDisabled")
             .val("Please wait...");
+
+        $("#skip-question-button")
+            .attr("disabled", "disabled")
+            .addClass("buttonDisabled");
     }
 
     // TODO(alpert): Merge with loadExercise
@@ -1921,6 +1930,7 @@ var Khan = (function() {
         // Note: We don't do this for multiple choice, number line, etc.
         if (answerType === "text" || answerType === "number") {
             var checkAnswerButton = $("#check-answer-button");
+            var skipQuestionButton = $("#skip-question-button");
             checkAnswerButton.attr("disabled", "disabled").attr(
                 "title", "Type in an answer first.");
             // Enables the check answer button - added so that people who type
@@ -1935,11 +1945,13 @@ var Khan = (function() {
                 .on("keyup.emptyAnswer", function(e) {
                     var guess = getAnswer();
                     if (checkIfAnswerEmpty(guess)) {
+                        skipQuestionButton.removeAttr("disabled");
                         checkAnswerButton.attr("disabled", "disabled");
                     } else if (e.keyCode !== 13) {
                         // Enable check answer button again as long as it is
                         // not the enter key
                         checkAnswerButton.removeAttr("disabled");
+                        skipQuestionButton.attr("disabled", "disabled");
                     }
                 });
         }
@@ -2019,16 +2031,18 @@ var Khan = (function() {
 
         // Watch for a solution submission
         originalCheckAnswerText = $("#check-answer-button").val()
-        $("#check-answer-button").click(handleSubmit);
-        $("#answerform").submit(handleSubmit);
+        $("#check-answer-button").click({skip: false}, handleSubmit);
+        $("#answerform").submit({skip: false}, handleSubmit);
 
         // Grab example answer format container
         examples = $("#examples");
 
         assessmentMode = !localMode && Exercises.assessmentMode;
+        originalSkipQuestionText = $("#skip-question-button").val()
+        $("#skip-question-button").click({skip: true}, handleSubmit);
 
         // Build the data to pass to the server
-        function buildAttemptData(pass, attemptNum, attemptContent, curTime) {
+        function buildAttemptData(pass, attemptNum, attemptContent, curTime, skip) {
             var timeTaken = Math.round((curTime - lastAction) / 1000);
 
             if (attemptContent !== "hint") {
@@ -2092,26 +2106,33 @@ var Khan = (function() {
                 custom_stack_id: !localMode && Exercises.completeStack.getCustomStackID(),
 
                 // The user assessment key if in assessmentMode
-                user_assessment_key: !localMode && Exercises.userAssessmentKey
+                user_assessment_key: !localMode && Exercises.userAssessmentKey,
+
+                // Whether the user is skipping the question
+                skip: skip ? 1 : 0
             };
         }
 
-        function handleSubmit() {
+        function handleSubmit(event) {
             var guess = getAnswer();
             var pass = validator(guess);
+            var skip = event.data.skip;
 
             // Stop if the user didn't enter a response
             // If multiple-answer, join all responses and check if that's empty
             // Remove commas left by joining nested arrays in case multiple-answer is nested
 
-            if (checkIfAnswerEmpty(guess) || checkIfAnswerEmpty(pass)) {
+            if ((checkIfAnswerEmpty(guess) || checkIfAnswerEmpty(pass)) && !skip) {
                 return false;
             } else {
                 guessLog.push(guess);
             }
 
-            // Stop if the form is already disabled and we're waiting for a response.
-            if ($("#answercontent input").not("#hint,#next-question-button").is(":disabled")) {
+            // Stop if the form is already disabled and we're waiting for a
+            // response. The form might be disabled to start with since nothing
+            // is in the input box and they are trying to skip the question, 
+            // in which case we will continue on.
+            if ($("#answercontent input").not("#hint,#next-question-button").is(":disabled") && !skip) {
                 return false;
             }
             
@@ -2161,7 +2182,7 @@ var Khan = (function() {
 
             // Save the problem results to the server
             var curTime = new Date().getTime();
-            var data = buildAttemptData(pass, ++attempts, JSON.stringify(guess), curTime);
+            var data = buildAttemptData(pass, ++attempts, JSON.stringify(guess), curTime, skip);
             debugLog("attempt " + JSON.stringify(data));
 
             request("problems/" + problemNum + "/attempt", data, function() {
