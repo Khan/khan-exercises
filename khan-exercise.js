@@ -40,9 +40,6 @@
     * problemDone -- when the user has completed a problem which, in this case,
       usually means supplying the correct answer
 
-    * attemptSaved -- when an attempt has been recorded successfully via the
-      API
-
     * attemptError -- when an error occurs during an API attempt
 
     * apiRequestStarted / apiRequestEnded -- when an API request is sent
@@ -58,21 +55,6 @@
 */
 
 var Khan = (function() {
-    function warn(message, showClose) {
-        $(function() {
-            var warningBar = $("#warning-bar");
-            $("#warning-bar-content").html(message);
-            if (showClose) {
-                warningBar.addClass("warning")
-                      .children("#warning-bar-close").show();
-            } else {
-                warningBar.addClass("error")
-                      .children("#warning-bar-close").hide();
-            }
-            warningBar.fadeIn("fast");
-        });
-    }
-
     // Numbers which are coprime to the number of bins, used for jumping through
     // exercises.  To quickly test a number in python use code like:
     // import fractions
@@ -149,17 +131,13 @@ var Khan = (function() {
         return Math.abs(crc ^ (-1));
     },
 
-    userExercise = undefined,
+    userExercise,
 
     // Check to see if we're in local mode
     localMode = typeof Exercises === "undefined",
 
     // Set in prepareSite when Exercises.init() has already been called
     assessmentMode,
-
-    // The main server we're connecting to for saving data
-    server = typeof apiServer !== "undefined" ? apiServer :
-        localMode ? "http://localhost:8080" : "",
 
     // The ID, filename, and name of the exercise -- these will only be set here in localMode
     exerciseId = ((/([^\/.]+)(?:\.html)?$/.exec(window.location.pathname) || [])[1]) || "",
@@ -215,22 +193,13 @@ var Khan = (function() {
     // How many problems are we doing? (For the fair shuffle bag.)
     problemCount = 10,
 
-    // For saving problems to the server
     hintsUsed,
-    lastAction,
-    attempts,
 
     // Bug-hunting "undefined" attempt content
     debugLogLog = ["start of log"],
     debugLog = function(l) {
         debugLogLog.push(l);
     },
-
-    guessLog,
-    userActivityLog,
-
-    // A map of jQuery queues for serially sending and receiving AJAX requests.
-    requestQueue = {},
 
     // Dictionary of loading and loaded exercises; keys are exercise IDs,
     // values are promises that are resolved when the exercise is loaded
@@ -241,19 +210,14 @@ var Khan = (function() {
     // site, immediately)
     modulePromises = {},
 
-    urlBase = typeof urlBaseOverride !== "undefined" ? urlBaseOverride :
-        localMode ? "../" : "/khan-exercises/",
+    urlBase = localMode ? "../" : "/khan-exercises/",
 
     // In local mode, we use khan-exercises local copy of the /images
     // directory.  But in production (on www.khanacademy.org), we use
     // the canonical location of images, which is under '/'.
-    imageBase = ((typeof urlBaseOverride !== "undefined" || localMode)
-                 ? (urlBase + "images/") : ("/images/")),
+    imageBase = localMode ? urlBase + "images/" : "/images/",
 
     lastFocusedSolutionInput = null,
-
-    // "Check answer" or in assessmentMode "Submit answer" - set in prepareSite
-    originalCheckAnswerText = "",
 
     issueError = "Communication with GitHub isn't working. Please file " +
         "the issue manually at <a href=\"" +
@@ -342,8 +306,11 @@ var Khan = (function() {
         },
 
         warnTimeout: function() {
-            warn("Your internet might be too slow to see an exercise. Refresh the page " +
-                'or <a href="" id="warn-report">report a problem</a>.', false);
+            $(Exercises).trigger("warning", "Your internet might be too " +
+                    "slow to see an exercise. Refresh the page or " +
+                    '<a href="" id="warn-report">report a problem</a>.',
+                    false);
+            // TODO(alpert): This event binding is kind of gross
             $("#warn-report").click(function(e) {
                 e.preventDefault();
                 $("#report").click();
@@ -353,10 +320,12 @@ var Khan = (function() {
         warnFont: function() {
             var enableFontDownload = "enable font download in your browser";
             if ($.browser.msie) {
-                enableFontDownload = '<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/"  target="_blank">enable font download</a>';
+                enableFontDownload = '<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/" target="_blank">enable font download</a>';
             }
 
-            warn("You should " + enableFontDownload + " to improve the appearance of math expressions.", true);
+            $(Exercises).trigger("warning", "You should " +
+                    enableFontDownload + " to improve the appearance of " +
+                    "math expressions.", true);
         },
 
         // TODO(alpert): This doesn't need to be in the Khan object.
@@ -367,10 +336,7 @@ var Khan = (function() {
             }
 
             // Base modules required for every problem
-            mods.push(
-                    "answer-types", "tmpl", "jquery.adhesion",
-                    "hints", "calculator"
-                );
+            mods.push("answer-types", "tmpl", "jquery.adhesion", "calculator");
 
             return mods;
         },
@@ -427,11 +393,11 @@ var Khan = (function() {
             var isMathJax = url.indexOf("/MathJax/") !== -1;
 
             if (!localMode && url.indexOf("/khan-exercises/") === 0 &&
-                    !isMathJax) {
+                    (!isMathJax || window.MathJax)) {
                 // Don't bother loading khan-exercises content in non-local
                 // mode; this content is already packaged up and available
                 // (*unless* it's MathJax, which is silly and still needs
-                // to be loaded)
+                // to be loaded (if it's not preloaded))
                 callback();
                 return;
             }
@@ -630,7 +596,13 @@ var Khan = (function() {
                 })).data("video", video);
             },
 
-            renderInSidebar: function() {
+            render: function() {
+                if (localMode) {
+                    // Templates isn't available locally and we won't have any
+                    // related videos to show anyway
+                    return;
+                }
+
                 var container = $(".related-video-box");
                 var jel = container.find(".related-video-list");
                 jel.empty();
@@ -678,20 +650,32 @@ var Khan = (function() {
                                 {height: (isMouseEnter ? captionHeight : 0)},
                                 options);
                     });
-            },
-
-            render: function() {
-                // don't try to render if templates aren't present (dev mode)
-                if (!window.Templates) return;
-
-                this.renderInSidebar();
             }
         },
 
-        showSolutionButtonText: function() {
-            return hintsUsed ? "Show next step (" + hints.length + " left)" : "Show Solution";
-        }
+        getSeedInfo: function() {
+            return {
+                // A hash representing the exercise version
+                sha1: typeof userExercise !== "undefined" ?
+                        userExercise.exerciseModel.sha1 : exerciseId,
+                seed: problemSeed,
+                problem_type: problemID
+            };
+        },
 
+        scoreInput: function() {
+            var guess = getAnswer();
+            var pass = validator(guess);
+            var empty = checkIfAnswerEmpty(guess) || checkIfAnswerEmpty(pass);
+
+            // Really disentangling the true/false/""/"..." mess? Incroyable!
+            return {
+                empty: empty,
+                correct: pass === true,
+                message: typeof pass === "string" ? pass : null,
+                guess: guess
+            };
+        }
     };
     // see line 183. this ends the main Khan module
 
@@ -711,28 +695,30 @@ var Khan = (function() {
     randomSeed = localMode && parseFloat(Khan.query.seed) || userCRC32 ||
             (new Date().getTime() & 0xffffffff);
 
-    // Load in jQuery and underscore
     if (localMode) {
-        Khan.loadScript("../jquery.js", function() {
-            Khan.loadScript("../jquery-migrate-1.1.1.js", function() {
-                Khan.loadScript("../utils/underscore.js", onjQueryLoaded);
-            });
-        });
+        // Load in jQuery and underscore, as well as the interface glue code
+        var initScripts = [
+                "../jquery.js",
+                "../jquery-migrate-1.1.1.js",
+                "../utils/underscore.js",
+                "../exercises-stub.js",
+                "../interface.js"
+            ];
+
+        (function loadInitScripts() {
+            if (initScripts.length) {
+                var src = initScripts.shift();
+                Khan.loadScript(src, loadInitScripts);
+            } else {
+                onjQueryLoaded();
+            }
+        })();
     } else {
         onjQueryLoaded();
     }
         
     function onjQueryLoaded() {
-        // If there are any requests left in the queue when the window unloads
-        // then we will have permanently lost their answers and will need to
-        // clear the session cache, to make sure we don't override what is
-        // passed down from the servers
-        $(window).unload(function() {
-            if(requestQueue["attempt_hint_queue"] &&
-                    requestQueue["attempt_hint_queue"].queue().length) {
-                $(Khan).trigger("attemptError");
-            }
-        });
+        initEvents();
 
         // Initialize to an empty jQuery set
         exercises = $();
@@ -887,20 +873,6 @@ var Khan = (function() {
         return bag;
     }
 
-    function enableCheckAnswer() {
-        $("#check-answer-button")
-            .removeAttr("disabled")
-            .removeClass("buttonDisabled")
-            .val(originalCheckAnswerText);
-    }
-
-    function disableCheckAnswer() {
-        $("#check-answer-button")
-            .attr("disabled", "disabled")
-            .addClass("buttonDisabled")
-            .val("Please wait...");
-    }
-
     // TODO(alpert): Merge with loadExercise
     function startLoadingExercise(exerciseId, exerciseName, exerciseFile) {
         var promise = exerciseFilePromises[exerciseId];
@@ -931,11 +903,6 @@ var Khan = (function() {
         exerciseName = userExercise.exerciseModel.displayName;
         exerciseFile = userExercise.exerciseModel.fileName;
 
-        // TODO(eater): remove this once all of the exercises in the datastore have filename properties
-        if (exerciseFile == null || exerciseFile == "") {
-            exerciseFile = exerciseId + ".html";
-        }
-
         function finishRender() {
             // Get all problems of this exercise type...
             // TODO(alpert): What happens if multiple summatives in topic mode
@@ -961,7 +928,6 @@ var Khan = (function() {
 
             // Generate a new problem
             makeProblem(typeOverride, seedOverride);
-
         }
 
         startLoadingExercise(exerciseId, exerciseName, exerciseFile).then(
@@ -1020,8 +986,10 @@ var Khan = (function() {
 
 
     function checkIfAnswerEmpty(guess) {
-        return $.trim(guess) === "" ||
-                 (guess instanceof Array && $.trim(guess.join("").replace(/,/g, "")) === "");
+        // If multiple-answer, join all responses and check if that's empty
+        // Remove commas left by joining nested arrays in case multiple-answer is nested
+        return $.trim(guess) === "" || (guess instanceof Array &&
+                 $.trim(guess.join("").replace(/,/g, "")) === "");
     }
 
     function makeProblem(id, seed) {
@@ -1193,7 +1161,7 @@ var Khan = (function() {
             // If this is a duplicate problem we should skip, just generate
             // another problem of the same problem type but w/ a different seed.
             debugLog("duplicate problem!");
-            clearExistingProblem();
+            $(Exercises).trigger("clearExistingProblem");
             nextSeed(1);
             return makeProblem();
         }
@@ -1233,8 +1201,6 @@ var Khan = (function() {
         // Generate a type of problem
         // (this includes possibly generating the multiple choice problems,
         // if this fails then we will need to try generating another one.)
-        guessLog = [];
-        userActivityLog = [];
         debugLog("decided on answer type " + answerType);
         answerData = Khan.answerTypes[answerType].setup(solutionarea, solution);
 
@@ -1292,16 +1258,32 @@ var Khan = (function() {
             });
 
             examples.children().tmpl();
+
+            $("#examples-show").qtip({
+                content: {
+                    // TODO(alpert): I'd imagine MathJax is unhappy about this
+                    // removal
+                    text: examples.remove(),
+                    prerender: true
+                },
+                style: {classes: "qtip-light leaf-tooltip"},
+                position: {
+                    my: "bottom center",
+                    at: "top center"
+                },
+                show: {
+                    delay: 200,
+                    effect: {
+                        length: 0
+                    }
+                },
+                hide: {delay: 0}
+            });
         } else {
             $("#examples-show").hide();
         }
         // save a normal JS array of hints so we can shift() through them later
         hints = hints.tmpl().children().get();
-
-        if (hints.length === 0) {
-            // Disable the get hint button
-            $("#hint").attr("disabled", true);
-        }
 
         // Hook out for exercise test runner
         if (localMode && parent !== window && typeof parent.jQuery !== "undefined") {
@@ -1310,7 +1292,8 @@ var Khan = (function() {
 
         if (typeof userExercise !== "undefined" && userExercise.readOnly) {
             if (!userExercise.current) {
-                warn("This exercise may have changed since it was completed", true);
+                $(Exercises).trigger("warning", "This exercise may have " +
+                        "changed since it was completed", true);
             }
 
             var timelineEvents, timeline;
@@ -1357,7 +1340,7 @@ var Khan = (function() {
                             height: "0",
                             "border-left": "6px solid transparent",
                             "border-right": "6px solid transparent",
-                            position: "absolute",
+                            position: "absolute"
                         },
 
                     scrubber1 = $("<div>")
@@ -1387,8 +1370,7 @@ var Khan = (function() {
                 .data("hint", false)
                 .appendTo(timelineEvents);
 
-            var hintNumber = 0,
-                answerNumber = 1;
+            var hintNumber = 0;
 
             /* value[0]: css class
              * value[1]: guess
@@ -1487,13 +1469,6 @@ var Khan = (function() {
             var states = timelineEvents.children(".user-activity"),
                 currentSlide = Math.min(states.length - 1, 1),
                 numSlides = states.length,
-                firstHintIndex = timeline.find(".hint-activity:first")
-                    .index(".user-activity"),
-                lastHintIndex = timeline.find(".hint-activity:last")
-                    .index(".user-activity"),
-                totalHints = timeline.find(".hint-activity:last")
-                    .index(".hint-activity"),
-                hintButton = $("#hint"),
                 timelineMiddle = timeline.width() / 2,
                 realHintsArea = $("#hintsarea"),
                 realWorkArea = $("#workarea"),
@@ -1592,7 +1567,7 @@ var Khan = (function() {
             };
 
             var activate = function(slideNum) {
-                var hint, thisState,
+                var thisState,
                     thisSlide = states.eq(slideNum),
                     fadeTime = 150;
 
@@ -1642,7 +1617,7 @@ var Khan = (function() {
 
             // Allow users to use arrow keys to move left and right in the
             // timeline
-            $(document).keydown(function(event) {
+            $(document).keydown(function() {
                 if (event.keyCode === 37) { // left
                     currentSlide -= 1;
                 } else if (event.keyCode === 39) { // right
@@ -1660,7 +1635,7 @@ var Khan = (function() {
             });
 
             // Allow users to click on points of the timeline
-            $(states).click(function(event) {
+            $(states).click(function() {
                 var index = $(this).index("#timeline .user-activity");
 
                 currentSlide = index;
@@ -1669,7 +1644,7 @@ var Khan = (function() {
                 return false;
             });
 
-            $("#previous-step").click(function(event) {
+            $("#previous-step").click(function() {
                 if (currentSlide > 0) {
                     currentSlide -= 1;
                     activate(currentSlide);
@@ -1678,7 +1653,7 @@ var Khan = (function() {
                 return false;
             });
 
-            $("#next-step").click(function(event) {
+            $("#next-step").click(function() {
                 if (currentSlide < numSlides - 1) {
                     currentSlide += 1;
                     activate(currentSlide);
@@ -1687,11 +1662,11 @@ var Khan = (function() {
                 return false;
             });
 
-            $("#next-problem").click(function(event) {
+            $("#next-problem").click(function() {
                 window.location.href = userExercise.nextProblemUrl;
             });
 
-            $("#previous-problem").click(function(event) {
+            $("#previous-problem").click(function() {
                 if (!$(this).data("disabled")) {
                     window.location.href = userExercise.previousProblemUrl;
                 }
@@ -1743,12 +1718,15 @@ var Khan = (function() {
 
             if (!Khan.query.activity) {
                 var historyURL = debugURL + "&seed=" + problemSeed + "&activity=";
-                $("<a>Problem history</a>").attr("href", "javascript:").click(function(event) {
-                    window.location.href = historyURL + encodeURIComponent(JSON.stringify(userActivityLog));
+                $("<a>Problem history</a>").attr("href", "javascript:").click(function() {
+                    window.location.href = historyURL + encodeURIComponent(
+                            JSON.stringify(Exercises.userActivityLog));
                 }).appendTo(links);
             } else {
                 $("<a>Random problem</a>")
-                    .attr("href", window.location.protocol + "//" + window.location.host + window.location.pathname + "?debug")
+                    .attr("href", window.location.protocol + "//" +
+                            window.location.host + window.location.pathname +
+                            "?debug")
                     .appendTo(links);
             }
 
@@ -1850,12 +1828,12 @@ var Khan = (function() {
         }
 
         hintsUsed = 0;
-        attempts = 0;
-        lastAction = (new Date).getTime();
 
         $("#hint").val("I'd like a hint");
 
-        $(Khan).trigger("newProblem");
+        $(Exercises).trigger("newProblem", {
+            numHints: hints.length
+        });
 
         // If the textbox is empty disable "Check Answer" button
         // Note: We don't do this for multiple choice, number line, etc.
@@ -1887,257 +1865,22 @@ var Khan = (function() {
         return answerType;
     }
 
-    function clearExistingProblem() {
-        enableCheckAnswer();
-
-        $("#happy").hide();
-        if (!$("#examples-show").data("show")) {
-            $("#examples-show").click();
-        }
-
-        // Toggle the navigation buttons
-        $("#check-answer-button").show();
-        $("#next-question-button").blur().hide();
-        $("#positive-reinforcement").hide();
-
-        // Wipe out any previous problem
-        $("#workarea, #hintsarea").runModules(problem, "Cleanup").empty();
-        $("#hint").attr("disabled", false);
-
-        // Take off the event handlers for disabling check answer; we'll rebind
-        // if we actually want them
-        $("#solutionarea").off(".emptyAnswer");
-
-        Khan.scratchpad.clear();
-    }
-
-    function renderNextProblem(nextUserExercise) {
-        clearExistingProblem();
+    function renderNextProblem(data) {
+        $(Exercises).trigger("clearExistingProblem");
 
         if (localMode) {
             // Just generate a new problem from existing exercise
             makeProblem();
         } else {
-            loadAndRenderExercise(nextUserExercise);
+            loadAndRenderExercise(data.userExercise);
         }
     }
 
     function prepareSite() {
-        // TODO(david): Don't add homepage elements with "exercise" class
-        exercises = exercises.add($("div.exercise").detach());
-
-        // Setup appropriate img URLs
-        $("#issue-throbber")
-            .attr("src", urlBase + "css/images/throbber.gif");
-
-        // Change form target to the current page so errors do not kick us
-        // to the dashboard
-        $("#answerform").attr("action", window.location.href);
-
-        // Watch for a solution submission
-        originalCheckAnswerText = $("#check-answer-button").val()
-        $("#check-answer-button").click(handleSubmit);
-        $("#answerform").submit(handleSubmit);
-
         // Grab example answer format container
         examples = $("#examples");
 
         assessmentMode = !localMode && Exercises.assessmentMode;
-
-        // Build the data to pass to the server
-        function buildAttemptData(pass, attemptNum, attemptContent, curTime) {
-            var timeTaken = Math.round((curTime - lastAction) / 1000);
-
-            if (attemptContent !== "hint") {
-                userActivityLog.push([pass ? "correct-activity" : "incorrect-activity", attemptContent, timeTaken]);
-            } else {
-                userActivityLog.push(["hint-activity", "0", timeTaken]);
-            }
-
-            return {
-                // The user answered correctly
-                complete: pass === true ? 1 : 0,
-
-                // The user used a hint
-                count_hints: hintsUsed,
-
-                // How long it took them to complete the problem
-                time_taken: timeTaken,
-
-                // How many times the problem was attempted
-                attempt_number: attemptNum,
-
-                // The answer the user gave
-                // TODO: Get the real provided answer
-                attempt_content: attemptContent,
-
-                // A hash representing the exercise
-                // TODO: Populate this from somewhere
-                sha1: typeof userExercise !== "undefined" ? userExercise.exerciseModel.sha1 : exerciseId,
-
-                // The seed that was used for generating the problem
-                seed: problemSeed,
-
-                // The seed that was used for generating the problem
-                problem_type: problemID,
-
-                // Whether we're currently in review mode
-                review_mode: (!localMode && Exercises.reviewMode) ? 1 : 0,
-
-                // Whether we are currently working on a topic, as opposed to an exercise
-                topic_mode: (!localMode && !Exercises.reviewMode && !Exercises.practiceMode) ? 1 : 0,
-
-                // Request camelCasing in returned response
-                casing: "camel",
-
-                // The current card data
-                card: !localMode && JSON.stringify(Exercises.currentCard),
-
-                // Unique ID of the cached stack
-                stack_uid: !localMode && Exercises.completeStack.getUid(),
-
-                // The current topic, if any
-                topic_id: !localMode && Exercises.topic && Exercises.topic.id,
-
-                // How many cards the user has already done
-                cards_done: !localMode && Exercises.completeStack.length,
-
-                // How many cards the user has left to do
-                cards_left: !localMode && (Exercises.incompleteStack.length - 1),
-
-                // The user assessment key if in assessmentMode
-                user_assessment_key: !localMode && Exercises.userAssessmentKey
-            };
-        }
-
-        function handleSubmit() {
-            var guess = getAnswer();
-            var pass = validator(guess);
-
-            // Stop if the user didn't enter a response
-            // If multiple-answer, join all responses and check if that's empty
-            // Remove commas left by joining nested arrays in case multiple-answer is nested
-
-            if (checkIfAnswerEmpty(guess) || checkIfAnswerEmpty(pass)) {
-                return false;
-            } else {
-                guessLog.push(guess);
-            }
-
-            // Stop if the form is already disabled and we're waiting for a response.
-            if ($("#answercontent input").not("#hint,#next-question-button").is(":disabled")) {
-                return false;
-            }
-            
-            if(!assessmentMode) {
-                $("#answercontent input").not("#check-answer-button, #hint")
-                    .attr("disabled", "disabled");
-                $("#check-answer-results p").hide();
-
-                var checkAnswerButton = $("#check-answer-button");
-
-                // If incorrect, warn the user and help them in any way we can
-                if (pass !== true) {
-                    checkAnswerButton
-                        .parent()  // .check-answer-wrapper makes shake behave
-                        .effect("shake", {times: 3, distance: 5}, 480)
-                        .val("Try Again");
-
-                    // Is this a message to be shown?
-                    if (typeof pass === "string") {
-                        $("#check-answer-results .check-answer-message")
-                            .html(pass).tmpl().show();
-                    }
-
-                    // Refocus text field so user can type a new answer
-                    if (lastFocusedSolutionInput != null) {
-                        setTimeout(function() {
-                            var focusInput = $(lastFocusedSolutionInput);
-
-                            if (!focusInput.is(":disabled")) {
-                                // focus should always work; hopefully select 
-                                // will work for text fields
-                                focusInput.focus();
-                                if (focusInput.is("input:text")) {
-                                    focusInput.select();
-                                }
-                            }
-                        }, 1);
-                    }
-                }
-            }
-
-            if (pass === true) {
-                // Problem has been completed but pending data request
-                // being sent to server.
-                $(Khan).trigger("problemDone");
-            }
-
-            // Save the problem results to the server
-            var curTime = new Date().getTime();
-            var data = buildAttemptData(pass, ++attempts, JSON.stringify(guess), curTime);
-            debugLog("attempt " + JSON.stringify(data));
-
-            request("problems/" + problemNum + "/attempt", data, function() {
-
-                // TODO: Save locally if offline
-                $(Khan).trigger("attemptSaved");
-
-            }, function(xhr) {
-                // Alert any listeners of the error before reload
-                $(Khan).trigger("attemptError");
-
-                if (xhr && xhr.readyState == 0) {
-                    // This path gets called when there is a broken pipe during
-                    // page unload- browser navigating away during ajax request
-                    // See http://stackoverflow.com/questions/1370322/jquery-ajax-fires-error-callback-on-window-unload
-                    return;
-                }
-
-                // Error during submit. Disable the page and ask users to
-                // reload in an attempt to get updated data.
-
-                // Hide the page so users don't continue
-                $("#problem-and-answer").css("visibility", "hidden");
-
-                // Warn user about problem, encourage to reload page
-                warn(
-                    "This page is out of date. You need to <a href='" + window.location.href +
-                    "'>refresh</a>, but don't worry, you haven't lost progress. " +
-                    "If you think this is a mistake, " +
-                    "<a href='http://www.khanacademy.org/reportissue?type=Defect&issue_labels='>tell us</a>."
-                );
-
-            }, "attempt_hint_queue");
-
-            if(assessmentMode) {
-                disableCheckAnswer();
-            } else if (pass === true) {
-                // Correct answer, so show the next question button.
-                $("#check-answer-button").hide();
-                $("#next-question-button")
-                    .removeAttr("disabled")
-                    .removeClass("buttonDisabled")
-                    .show()
-                    .focus();
-                $("#positive-reinforcement").show();
-            } else {
-                // Wrong answer. Enable all the input elements
-                $("#answercontent input").not("#hint")
-                    .removeAttr("disabled");
-            }
-
-            // Remember when the last action was
-            lastAction = curTime;
-
-            $(Khan).trigger("checkAnswer", {
-                pass: pass,
-                // Determine if this attempt qualifies as fast completion
-                fast: (typeof userExercise !== "undefined" && userExercise.secondsPerFastProblem >= data.time_taken)
-            });
-
-            return false;
-        }
 
         function initializeCalculator() {
             var calculator = $(".calculator"),
@@ -2217,7 +1960,7 @@ var Khan = (function() {
                 return false;
             });
 
-            $(Khan).on("gotoNextProblem", function(event) {
+            $(Khan).on("gotoNextProblem", function() {
                 input.val("");
                 history.children().not(inputRow).remove();
             });
@@ -2225,77 +1968,7 @@ var Khan = (function() {
 
         initializeCalculator();
 
-        // Watch for when the next button is clicked
-        $("#next-question-button").click(function(ev) {
-            nextProblem(1);
-            $(Khan).trigger("gotoNextProblem");
-
-            // Disable next question button until next time
-            $(this)
-                .attr("disabled", true)
-                .addClass("buttonDisabled");
-        });
-
-        // If happy face is clicked, pass click on through.
-        $("#positive-reinforcement").click(function() {
-            $("#next-question-button").click();
-        });
-
-        // Watch for when the "Get a Hint" button is clicked
-        $("#hint").click(function() {
-
-            var hint = hints.shift();
-
-            if (hint) {
-                $(Khan).trigger("hintUsed");
-
-                hintsUsed += 1;
-
-                var stepsLeft = hints.length + " step" + (hints.length === 1 ? "" : "s") + " left";
-                $(this).val($(this).data("buttonText") || "I'd like another hint (" + stepsLeft + ")");
-
-                var problem = $(hint).parent();
-
-                // Append first so MathJax can sense the surrounding CSS context properly
-                $(hint).appendTo("#hintsarea").runModules(problem);
-
-                // Grow the scratchpad to cover the new hint
-                Khan.scratchpad.resize();
-
-                // Disable the get hint button & add final_answer class
-                if (hints.length === 0) {
-                    $(hint).addClass("final_answer");
-
-                    $(Khan).trigger("allHintsUsed");
-
-                    $(this).attr("disabled", true);
-                }
-            }
-
-            var fProdReadOnly = !localMode && userExercise.readOnly;
-            var fAnsweredCorrectly = $("#next-question-button").is(":visible");
-            if (!fProdReadOnly && !fAnsweredCorrectly) {
-                // Resets the streak and logs history for exercise viewer
-                request(
-                    "problems/" + problemNum + "/hint",
-                    buildAttemptData(false, attempts, "hint", new Date().getTime()),
-                    // Don't do anything on success or failure, silently failing is ok here
-                    function() {},
-                    function() {},
-                    "attempt_hint_queue"
-                );
-            }
-
-        });
-
-        // On an exercise page, replace the "Report a Problem" link with a button
-        // to be more clear that it won't replace the current page.
-        $("<a>Report a Problem</a>")
-            .attr("id", "report").addClass("simple-button green")
-            .replaceAll($(".footer-links #report"));
-
         $("#report").click(function(e) {
-
             e.preventDefault();
 
             var report = $("#issue").css("display") !== "none",
@@ -2317,17 +1990,14 @@ var Khan = (function() {
 
         // Hide issue form.
         $("#issue-cancel").click(function(e) {
-
             e.preventDefault();
 
             $("#issue").hide(500);
             $("#issue-title, #issue-body").val("");
-
         });
 
         // Submit an issue.
         $("#issue form input:submit").click(function(e) {
-
             e.preventDefault();
 
             // don't do anything if the user clicked a second time quickly
@@ -2339,14 +2009,14 @@ var Khan = (function() {
                 path = exerciseFile + "?seed=" +
                     problemSeed + "&problem=" + problemID,
                 pathlink = "[" + path + (exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
-                historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent(JSON.stringify(userActivityLog)).replace(/\)/g, "\\)") + ")",
+                historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent(JSON.stringify(Exercises.userActivityLog)).replace(/\)/g, "\\)") + ")",
                 agent = navigator.userAgent,
                 mathjaxInfo = "MathJax is " + (typeof MathJax === "undefined" ? "NOT loaded" :
                     ("loaded, " + (MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length)),
                 userHash = "User hash: " + crc32(user),
                 sessionStorageInfo = (typeof sessionStorage === "undefined" || typeof sessionStorage.getItem === "undefined" ? "sessionStorage NOT enabled" : null),
                 warningInfo = $("#warning-bar-content").text(),
-                parts = [$("#issue-body").val() || null, pathlink, historyLink, "    " + JSON.stringify(guessLog), agent, sessionStorageInfo, mathjaxInfo, userHash, warningInfo],
+                parts = [$("#issue-body").val() || null, pathlink, historyLink, "    " + JSON.stringify(Exercises.guessLog), agent, sessionStorageInfo, mathjaxInfo, userHash, warningInfo],
                 body = $.grep(parts, function(e) { return e != null; }).join("\n\n");
 
             var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {
@@ -2423,19 +2093,14 @@ var Khan = (function() {
                 labels: labels
             };
 
-            // we try to post ot github without a cross-domain request, but if we're
-            // just running the exercises locally, then we can't help it and need
-            // to fall back to jsonp.
             $.ajax({
-
-                url: (localMode ? "http://www.khanacademy.org/" : "/") + "githubpost",
-                type: localMode ? "GET" : "POST",
-                data: localMode ? {json: JSON.stringify(dataObj)} :
-                    JSON.stringify(dataObj),
-                contentType: localMode ? "application/x-www-form-urlencoded" : "application/json",
-                dataType: localMode ? "jsonp" : "json",
+                url: "/githubpost",
+                type: "POST",
+                data: JSON.stringify(dataObj),
+                contentType: "application/json",
+                dataType: "json",
                 success: function(json) {
-
+                    // TODO(alpert): Which is it?
                     var data = json.data || json;
 
                     // hide the form
@@ -2453,11 +2118,8 @@ var Khan = (function() {
                     // replace throbber with the cancel button
                     $("#issue-cancel").show();
                     $("#issue-throbber").hide();
-
                 },
-                // note this won't actually work in local jsonp-mode
-                error: function(json) {
-
+                error: function() {
                     // show status message
                     $("#issue-status").addClass("error")
                         .html(issueError).show();
@@ -2468,25 +2130,9 @@ var Khan = (function() {
                     // replace throbber with the cancel button
                     $("#issue-cancel").show();
                     $("#issue-throbber").hide();
-
                 }
             });
         });
-
-        $("#warning-bar-close a").click(function(e) {
-            e.preventDefault();
-            $("#warning-bar").fadeOut("slow");
-        });
-
-        $("#scratchpad-show")
-            .click(function(e) {
-                e.preventDefault();
-                Khan.scratchpad.toggle();
-
-                if (user) {
-                    window.localStorage["scratchpad:" + user] = Khan.scratchpad.isVisible();
-                }
-            });
 
         $("#answer_area").delegate("input.button, select", "keydown", function(e) {
             // Don't want to go back to exercise dashboard; just do nothing on backspace
@@ -2507,7 +2153,9 @@ var Khan = (function() {
 
         $(Khan)
             .bind("updateUserExercise", function(ev, data) {
-                // Any time we update userExercise, check if we're setting/switching usernames
+                // TODO(alpert): Why isn't this in setUserExercise?
+                // Any time we update userExercise, check if we're
+                // setting/switching usernames
                 if (data && data.userExercise) {
                     user = data.userExercise.user || user;
                     userCRC32 = user != null ? crc32(user) : null;
@@ -2515,16 +2163,17 @@ var Khan = (function() {
                 }
             });
 
-        // Register localMode-specific event handlers
-        if (localMode) {
-
-            // localMode automatically advances to the next problem --
-            // integrated mode just listens and waits for renderNextProblem
-            $(Khan).bind("gotoNextProblem", function() {
+        $(Khan).bind("gotoNextProblem", function() {
+            if (localMode) {
+                // Automatically advance to the next problem
+                nextProblem(1);
                 renderNextProblem();
-            });
-
-        }
+            } else {
+                // Just listen for the readyForNextProblem event, which will
+                // include an updated userExercise (and thus an updated problem
+                // number)
+            }
+        });
 
         Khan.relatedVideos.hookup();
 
@@ -2533,20 +2182,63 @@ var Khan = (function() {
         }
     }
 
-    if (!localMode) {
-        // In local mode, everything is set up in loadTestModeSite after
-        // loading jQuery. The real mode already has jQuery, so we just listen
-        // for the signal to prepare.
-        $(Exercises)
+    function initEvents() {
+        // This function gets called as soon as jQuery is loaded -- on the live
+        // site, that's immediately upon execution
+        $(Khan)
             .bind("problemTemplateRendered", prepareSite)
             .bind("readyForNextProblem", function(ev, data) {
-                renderNextProblem(data.userExercise);
+                renderNextProblem(data);
             })
             .bind("warning", function(ev, data) {
                 warn(data.text, data.showClose);
             })
             .bind("upcomingExercise", function(ev, data) {
-                startLoadingExercise(data.exerciseId, data.exerciseName, data.exerciseFile);
+                var userExercise = data.userExercise;
+                startLoadingExercise(
+                        userExercise.exercise,
+                        userExercise.exerciseModel.displayName,
+                        userExercise.exerciseModel.fileName);
+            })
+            .bind("cleanupProblem", function() {
+                $("#workarea, #hintsarea").runModules(problem, "Cleanup");
+            })
+            .bind("showHint", function() {
+                var hint = hints.shift();
+                if (!hint) {
+                    // :(
+                    return;
+                }
+
+                hintsUsed++;
+
+                var problem = $(hint).parent();
+
+                // Append first so MathJax can sense the surrounding CSS context properly
+                $(hint).appendTo("#hintsarea").runModules(problem);
+
+                if (hints.length === 0) {
+                    $(hint).addClass("final_answer");
+                }
+
+                $(Exercises).trigger("hintUsed");
+            })
+            .bind("refocusSolutionInput", function() {
+                // Refocus text field so user can type a new answer
+                if (lastFocusedSolutionInput != null) {
+                    setTimeout(function() {
+                        var focusInput = $(lastFocusedSolutionInput);
+
+                        if (!focusInput.is(":disabled")) {
+                            // focus should always work; hopefully select 
+                            // will work for text fields
+                            focusInput.focus();
+                            if (focusInput.is("input:text")) {
+                                focusInput.select();
+                            }
+                        }
+                    }, 1);
+                }
             });
     }
 
@@ -2583,19 +2275,12 @@ var Khan = (function() {
         setProblemNum(problemNum + num);
     }
 
-    function prevProblem(num) {
-        nextProblem(-num);
-    }
-
     function setUserExercise(data) {
-
         userExercise = data;
 
         if (data && data.exercise) {
             exerciseId = data.exercise;
         }
-
-        $(Khan).trigger("updateUserExercise", {userExercise: userExercise});
 
         if (user != null) {
             // How far to jump through the problems
@@ -2611,109 +2296,6 @@ var Khan = (function() {
             // Advance to the current problem seed
             setProblemNum(userExercise.totalDone + 1);
         }
-    }
-
-    function request(method, data, fn, fnError, queue) {
-        if (localMode) {
-            // Pretend we have success
-            if ($.isFunction(fn)) {
-                fn();
-            }
-
-            return;
-        }
-
-        var xhrFields = {};
-        if (typeof XMLHTTPRequest !== "undefined") {
-            // If we have native XMLHTTPRequest support,
-            // make sure cookies are passed along.
-            xhrFields["withCredentials"] = true;
-        }
-
-        // TODO(david): Try harder to decouple Exercises outta this file
-        var apiBaseUrl = (assessmentMode ?
-            "api/v1/user/assessment/exercises" : "api/v1/user/exercises");
-
-        var request = {
-            // Do a request to the server API
-            url: server + "/" + apiBaseUrl + "/" + exerciseId + "/" + method,
-            type: "POST",
-            data: data,
-            dataType: "json",
-            xhrFields: xhrFields,
-
-            // Backup the response locally, for later use
-            success: function(data) {
-
-                // Tell any listeners that khan-exercises has new
-                // userExercise data
-                $(Khan).trigger("updateUserExercise", {
-                    userExercise: data,
-                    source: "serverResponse"
-                });
-
-                if ($.isFunction(fn)) {
-                    fn(data);
-                }
-            },
-
-            complete: function() {
-                $(Khan).trigger("apiRequestEnded");
-            },
-
-            // Handle error edge case
-            error: function(xhr) {
-                // Execute passed error function first in case it wants
-                // different behavior depending upon the length of the request
-                // queue
-                if ($.isFunction(fnError)) {
-                    fnError(xhr);
-                }
-
-                // Clear the queue so we don't spit out a bunch of
-                // queued up requests after the error
-                if (queue && requestQueue[queue]) {
-                    requestQueue[queue].clearQueue();
-                }
-            }
-        };
-
-        // Send request and return a jqXHR (which implements the Promise interface)
-        function sendRequest() {
-            // Do request using OAuth, if available
-            if (typeof oauth !== "undefined" && $.oauth) {
-                return $.oauth($.extend({}, oauth, request));
-            }
-
-            return $.ajax(request);
-        }
-
-        // We may want to queue up the requests so that they're sent serially.
-        //
-        // We currently do this for problem attempts and hints to avoid a race
-        // condition:
-        // 1) request A fetches UserExercise X
-        // 2) request B also fetches X
-        // 3) A finishes updating X and saves as A(X)
-        // 4) now B finishes updating X and overwrites A(X) with B(X)
-        // ...when what we actually wanted saved is B(A(X)). We should really fix it
-        // on the server by running the hint and attempt requests in transactions.
-        if (queue != null) {
-            // Create an empty jQuery object to use as a queue holder, if needed.
-            requestQueue[queue] = requestQueue[queue] || jQuery({});
-
-            // Queue up sending the request to run when old requests have completed.
-            requestQueue[queue].queue(function(next) {
-                sendRequest().always(next);
-            });
-        } else {
-            sendRequest();
-        }
-
-        // Trigger an apiRequestStarted event here, and not in the inner sendRequest()
-        // function, because listeners should know an API request is waiting as
-        // soon as it gets queued up.
-        $(Khan).trigger("apiRequestStarted");
     }
 
     /**
@@ -2897,16 +2479,13 @@ var Khan = (function() {
         $("#container .exercises-body .current-card-contents").html(
                 htmlExercise);
 
-        // HACK: Make smiley face work on sandcastle
-        $("img[src='/images/face-smiley.png']").attr(
-                "src", "../images/face-smiley.png");
-
         if (Khan.query.layout === "lite") {
             $("html").addClass("lite");
         }
 
-        prepareSite();
+        $(Exercises).trigger("problemTemplateRendered");
 
+        exercises = exercises.add($("div.exercise").detach());
         var problems = exercises.children(".problems").children();
 
         // Don't make the problem bag when a specific problem is specified
@@ -2917,9 +2496,8 @@ var Khan = (function() {
             problemBag = makeProblemBag(problems, 10);
         }
 
-        $("#positive-reinforcement").hide();
         // Generate the initial problem when dependencies are done being loaded
-        var answerType = makeProblem();
+        makeProblem();
     }
 
     return Khan;
