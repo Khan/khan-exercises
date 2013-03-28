@@ -1839,6 +1839,7 @@ var Khan = (function() {
         // Note: We don't do this for multiple choice, number line, etc.
         if (answerType === "text" || answerType === "number") {
             var checkAnswerButton = $("#check-answer-button");
+            var skipQuestionButton = $("#skip-question-button");
             checkAnswerButton.attr("disabled", "disabled").attr(
                 "title", "Type in an answer first.");
             // Enables the check answer button - added so that people who type
@@ -1853,11 +1854,13 @@ var Khan = (function() {
                 .on("keyup.emptyAnswer", function(e) {
                     var guess = getAnswer();
                     if (checkIfAnswerEmpty(guess)) {
+                        skipQuestionButton.removeAttr("disabled");
                         checkAnswerButton.attr("disabled", "disabled");
                     } else if (e.keyCode !== 13) {
                         // Enable check answer button again as long as it is
                         // not the enter key
                         checkAnswerButton.removeAttr("disabled");
+                        skipQuestionButton.attr("disabled", "disabled");
                     }
                 });
         }

@@ -69,10 +69,11 @@ function problemTemplateRendered() {
 
     // 'Check Answer' or 'Submit Answer'
     originalCheckAnswerText = $("#check-answer-button").val();
-
+    
     // Solution submission
-    $("#check-answer-button").click(handleCheckAnswer);
-    $("#answerform").submit(handleCheckAnswer);
+    $("#check-answer-button").click({skip: false}, handleCheckAnswer);
+    $("#answerform").submit({skip: false}, handleCheckAnswer);
+    $("#skip-question-button").click({skip: true}, handleCheckAnswer);
 
     // Hint button
     $("#hint").click(handleHint);
@@ -131,25 +132,20 @@ function newProblem(e, data) {
 }
 
 
-function handleCheckAnswer() {
+function handleCheckAnswer(e) {
     var framework = Exercises.getCurrentFramework();
-
-    // Stop if the form is already disabled and we're waiting for a response
-    // (in assessment mode, for instance).
-    if ($("#answercontent input").not("#hint, #next-question-button")
-            .is(":disabled")) {
-        return false;
-    }
-
+    var skip = e.data.skip;
     var score;
+
     if (framework === "perseus") {
         score = PerseusBridge.scoreInput();
     } else if (framework === "khan-exercises") {
         score = Khan.scoreInput();
     }
 
-    // Stop if the user didn't enter a response
-    if (score.empty) {
+    // Stop if the user didn't try to skip the question and also didn't yet 
+    // enter a response
+    if (score.empty && !skip) {
         return false;
     }
 
@@ -230,7 +226,7 @@ function handleCheckAnswer() {
 
     // Save the problem results to the server
     var data = buildAttemptData(score.correct, ++attempts,
-            JSON.stringify(score.guess), timeTaken);
+            JSON.stringify(score.guess), timeTaken, skip);
 
     request("problems/" + problemNum + "/attempt", data).fail(function(xhr) {
         // Alert any listeners of the error before reload
@@ -292,7 +288,7 @@ function hintUsed() {
     if (!localMode && !userExercise.readOnly && !answeredCorrectly) {
         // Don't do anything on success or failure; silently failing is ok here
         request("problems/" + problemNum + "/hint",
-                buildAttemptData(false, attempts, "hint", timeTaken));
+                buildAttemptData(false, attempts, "hint", timeTaken, false));
     }
 }
 
@@ -314,7 +310,8 @@ function updateHintButtonText() {
 }
 
 // Build the data to pass to the server
-function buildAttemptData(correct, attemptNum, attemptContent, timeTaken) {
+function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
+                          skip) {
     var framework = Exercises.getCurrentFramework();
     var data;
 
@@ -362,7 +359,10 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken) {
         cards_left: Exercises.incompleteStack.length - 1,
 
         // The user assessment key if in assessmentMode
-        user_assessment_key: Exercises.userAssessmentKey
+        user_assessment_key: Exercises.userAssessmentKey,
+
+        // Whether the user is skipping the question
+        skip: skip ? 1 : 0
     });
 
     return data;
@@ -490,6 +490,10 @@ function enableCheckAnswer() {
         .removeAttr("disabled")
         .removeClass("buttonDisabled")
         .val(originalCheckAnswerText);
+    
+    $("#skip-question-button")
+        .removeAttr("disabled")
+        .removeClass("buttonDisabled");
 }
 
 function disableCheckAnswer() {
@@ -497,6 +501,10 @@ function disableCheckAnswer() {
         .attr("disabled", "disabled")
         .addClass("buttonDisabled")
         .val("Please wait...");
+
+    $("#skip-question-button")
+        .attr("disabled", "disabled")
+        .addClass("buttonDisabled");
 }
 
 function clearExistingProblem() {
