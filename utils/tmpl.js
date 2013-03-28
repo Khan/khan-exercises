@@ -229,6 +229,7 @@ $.tmpl = {
                         // MathJax 1
                         elem.style.display = "none";
                         elem.type = "math/tex";
+                        $elem.text(text);
                     } else {
                         // MathJax 2
                         $elem.empty();
