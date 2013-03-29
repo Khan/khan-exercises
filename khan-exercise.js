@@ -306,10 +306,10 @@ var Khan = (function() {
         },
 
         warnTimeout: function() {
-            $(Exercises).trigger("warning", "Your internet might be too " +
+            $(Exercises).trigger("warning", ["Your internet might be too " +
                     "slow to see an exercise. Refresh the page or " +
                     '<a href="" id="warn-report">report a problem</a>.',
-                    false);
+                    false]);
             // TODO(alpert): This event binding is kind of gross
             $("#warn-report").click(function(e) {
                 e.preventDefault();
@@ -323,9 +323,9 @@ var Khan = (function() {
                 enableFontDownload = '<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/" target="_blank">enable font download</a>';
             }
 
-            $(Exercises).trigger("warning", "You should " +
+            $(Exercises).trigger("warning", ["You should " +
                     enableFontDownload + " to improve the appearance of " +
-                    "math expressions.", true);
+                    "math expressions.", true]);
         },
 
         // TODO(alpert): This doesn't need to be in the Khan object.
