@@ -8,9 +8,9 @@
         function getRationalExpression(variables) {
             var terms = [];
             for (var i = 0; i < KhanUtil.randRange(2, 3); i++) {
-                terms.push([KhanUtil.randRangeWeighted(-8, 8, 1, 0.25), variables[i]]);
+                terms.push([KhanUtil.randRangeWeighted(-8, 8, 0, 0.25), variables[i]]);
             }
-            terms.push([KhanUtil.randRangeWeighted(-8, 8, 1, 0.25)]);
+            terms.push([KhanUtil.randRangeWeighted(-8, 8, 1, 0.5)]);
             return new KhanUtil.RationalExpression(terms);
         };
     </script>
@@ -45,7 +45,11 @@
                 ["x", "y", "xy"]])
             </var>
             <var id="Y">"k"</var>
-            <var id="DENOMINATOR">getRationalExpression(X)</var>
+            <div data-ensure="DENOMINATOR.toString() !== '1'">
+                <var id="DENOMINATOR">getRationalExpression(X)</var>
+            </div>
+            <var id="NUMERATOR1">getRationalExpression(X)</var>
+            <var id="NUMERATOR2">getRationalExpression(X)</var>
             
         </div>
 
@@ -53,8 +57,8 @@
             <div id="add">
                 <p class="problem">Simplify the following expression:</p>
                 <p class="question">
-                    <code><var>Y</var> = \dfrac{1}{<var>DENOMINATOR.toString()</var>}
-                          <var>SIGN</var> \dfrac{1}{<var>DENOMINATOR.toString()</var>}</code>
+                    <code><var>Y</var> = \dfrac{<var>NUMERATOR1.toString()</var>}{<var>DENOMINATOR.toString()</var>}
+                          <var>SIGN</var> \dfrac{<var>NUMERATOR2.toString()</var>}{<var>DENOMINATOR.toString()</var>}</code>
                 </p>
 
                 <div class="solution" data-type="set">
@@ -95,14 +99,7 @@
                         <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
                     </div>
             <div>
-                <p>Combine like terms:</p>
-                <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>
-            </div>
-            <div data-if="FACTOR !== 1">
-                <p>Simplify by dividing numerator and denominator by <var>FACTOR</var>:</p>
-                <code><var>Y</var> = \dfrac{<var>expr(["+", ["*", NUMERCOEFF / FACTOR, X], NUMERCONST / FACTOR])</var>}
-                    {<var>expr(["+", ["*", DENOMCOEFF / FACTOR, X], DENOMCONST / FACTOR])</var>}</code>
-            </div>
+            
         </div>
     </div>
 </body>

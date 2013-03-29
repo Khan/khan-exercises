@@ -96,16 +96,13 @@ $.extend(KhanUtil, {
                 return "";
             }
 
-            var coefficient = this.coefficient;
+            var coefficient = Math.abs(this.coefficient);
             var s = "";
 
             if (includeSign) {
-                if (coefficient > 0) {
-                    s += " + ";
-                } else {
-                    s += " - ";
-                    coefficient *= -1;
-                }
+                s += this.coefficient > 0 ? " + " : " - ";
+            } else {
+                if (this.coefficient < 0) {"-";}
             }
 
             if (!(coefficient === 1 && this.variableString !== "")) {
@@ -216,7 +213,7 @@ $.extend(KhanUtil, {
             var s = this.terms[0].toString();
 
             for (var i = 1; i < this.terms.length; i++) {
-                s += this.terms[i].toString(true)
+                s += this.terms[i].toString(s !== "")
             }
             return s;
         };
