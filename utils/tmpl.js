@@ -224,9 +224,18 @@ $.tmpl = {
                     }
 
                     // Tell MathJax that this is math to be typset
-                    $elem.empty();
-                    $elem.append("<script type='math/tex'>" +
-                            text.replace(/<\//g, "< /") + "</script>");
+                    // Version detection -- shoot me now.
+                    if (MathJax.version.slice(0, 2) === "1.") {
+                        // MathJax 1
+                        elem.style.display = "none";
+                        elem.type = "math/tex";
+                        $elem.text(text);
+                    } else {
+                        // MathJax 2
+                        $elem.empty();
+                        $elem.append("<script type='math/tex'>" +
+                                text.replace(/<\//g, "< /") + "</script>");
+                    }
 
                     // Stick the processing request onto the queue
                     if (typeof MathJax !== "undefined") {
