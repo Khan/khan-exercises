@@ -57,6 +57,18 @@ MathJax.Hub.Config({
     }
 });
 
+// We don't want to use inline script elements, we want to use code blocks
+MathJax.Hub.elementScripts = function( elem ) {
+    return elem.nodeName.toLowerCase() === "code" ?
+        [ elem ] :
+        elem.getElementsByTagName( "code" );
+};
+
+// Data is read in here:
+// https://github.com/mathjax/MathJax/blob/master/unpacked/jax/input/TeX/jax.js#L1704
+// We can force it to convert HTML entities properly by saying we're Konqueror
+MathJax.Hub.Browser.isKonqueror = true;
+
 MathJax.Ajax.timeout = 60 * 1000;
 MathJax.Ajax.loadError = (function( oldLoadError ) {
     return function( file ) {
