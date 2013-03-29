@@ -51,7 +51,8 @@ $(Exercises)
     .bind("upcomingExercise", upcomingExercise)
     .bind("gotoNextProblem", gotoNextProblem)
     .bind("updateUserExercise", updateUserExercise)
-    .bind("clearExistingProblem", clearExistingProblem);
+    .bind("clearExistingProblem", clearExistingProblem)
+    .bind("makeProblemPostHook", makeProblemPostHook);
 
 
 function problemTemplateRendered() {
@@ -537,6 +538,16 @@ function clearExistingProblem() {
             .show();
 
     Khan.scratchpad.clear();
+}
+
+function makeProblemPostHook() {
+    var framework = Exercises.getCurrentFramework();
+
+    if (framework === "perseus") {
+        // TODO(cbhl): Right now we just do renderReadOnlyProblem in history.js, except that in Perseus it's a stub.
+    } else if (framework === "khan-exercises") {
+        $(Khan).trigger("makeProblemPostHook");
+    }
 }
 
 })();
