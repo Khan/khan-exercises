@@ -217,25 +217,29 @@ $.tmpl = {
                         $elem.wrap("<span class='" + elem.className + "'></span>");
                     }
 
-                    // Trick MathJax into thinking that we're dealing with a script block
-                    elem.type = "math/tex";
-
-                    // Make sure that the old value isn't being displayed anymore
-                    elem.style.display = "none";
-
                     // Clean up any strange mathematical expressions
                     var text = $elem.text();
-                    $elem.text(KhanUtil.cleanMath ? KhanUtil.cleanMath(text) : text);
+                    if (KhanUtil.cleanMath) {
+                        text = KhanUtil.cleanMath(text);
+                    }
+
+                    // Tell MathJax that this is math to be typset
+                    $elem.empty();
+                    $elem.append("<script type='math/tex'>" +
+                            text.replace(/<\//g, "< /") + "</script>");
 
                     // Stick the processing request onto the queue
                     if (typeof MathJax !== "undefined") {
-                        KhanUtil.debugLog("adding " + text + " to MathJax typeset queue");
+                        KhanUtil.debugLog("adding " + text +
+                                " to MathJax typeset queue");
                         MathJax.Hub.Queue(["Typeset", MathJax.Hub, elem]);
                         MathJax.Hub.Queue(function() {
-                            KhanUtil.debugLog("MathJax done typesetting " + text);
+                            KhanUtil.debugLog("MathJax done typesetting " +
+                                    text);
                         });
                     } else {
-                        KhanUtil.debugLog("not adding " + text + " to queue because MathJax is undefined");
+                        KhanUtil.debugLog("not adding " + text +
+                                " to queue because MathJax is undefined");
                     }
                 } else {
                     KhanUtil.debugLog("reprocessing MathJax: " + text);
