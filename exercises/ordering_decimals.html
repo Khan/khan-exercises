@@ -42,7 +42,7 @@
 
                     if(isDuplicate === false){
                         array.push([+dec, COLORS[array.length], 
-                            "\\color{" + COLORS[array.length] + "}{" + dec + " : " + plural(i, "zero") + "}"]);
+                            "\\color{" + COLORS[array.length] + "}{" + dec + " : \\mathbf{" + i + "}\\mspace{4mu}" + plural("zero", i) + "}"]);
                     }
                 }
 
@@ -103,7 +103,7 @@
                     </div>
                     <div>
                         <p><code>\begin{align*}
-                            <span data-each="DECIMALS as DECIMAL"><var>DECIMAL[2]</var> \\</span>
+                            <span data-each="DECIMALS as DECIMAL">\mathrm{<var>DECIMAL[2]</var>} \\</span>
                         \end{align*}</code></p>
                     </div>
                     <div>
@@ -111,7 +111,7 @@
                     </div>
                     <div>
                         <p><code>\begin{align*}
-                            <span data-each="DECIMALS_SORT as DECIMAL"><var>DECIMAL[2]</var> \\</span>
+                            <span data-each="DECIMALS_SORT as DECIMAL">\mathrm{<var>DECIMAL[2]</var>} \\</span>
                         \end{align*}</code></p>
                     </div>
 
