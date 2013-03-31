@@ -355,7 +355,7 @@ function renderReadOnlyProblem(event, userExercise, answerData, answerType, solu
 
         // Allow users to use arrow keys to move left and right in the
         // timeline
-        $(document).keydown(function() {
+        $(document).keydown(function(event) {
             if (event.keyCode === 37) { // left
                 currentSlide -= 1;
             } else if (event.keyCode === 39) { // right

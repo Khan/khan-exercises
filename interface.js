@@ -324,9 +324,9 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken) {
         // Ask for camel casing in returned response
         casing: "camel",
 
+        // Whether we're moving to the next problem (i.e., correctness)
         complete: correct ? 1 : 0,
 
-        // Whether we're moving to the next problem (i.e., correctness)
         count_hints: hintsUsed,
         time_taken: timeTaken,
 
