@@ -7,7 +7,7 @@
 
     <style type="text/css">
         .number-list {
-            font-size: 1.7em;
+            font-size: 1.4em;
             text-align: center
         }
         .sort-key {
@@ -21,32 +21,21 @@
         <div class="vars">
             <var id="COLORS">KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange", "brown" ])</var>
             <var id="DECIMALS">(function() {
-                var array = [];
-                var baseDecimalString = "0.";
 
-                var arrLength = randRange( 4, 6 );
-                while ( array.length < arrLength ) {
-                    var dec = baseDecimalString;
-                    var isDuplicate = false;
+                var resultArray = [];
+                var count = randRange( 4, 6 );
+                var decimalArray = randRangeUniqueNonZero(1,999,count); 
 
-                    for(var i = 0; i < randRange( 1, 4 ); i++ ){
-                        dec += "0";
-                    }
-                    dec += randRange( 1, 9 ).toString();
-                    
-                    for( var j = 0; j < array.length; j++) {      
-                        if(dec == array[j][0]){
-                            isDuplicate = true;
-                        }
-                    }
+                decimalArray = $.map(decimalArray, function(val){
+                    return val / (1000 * randRange(1,2));
+                });
 
-                    if(isDuplicate === false){
-                        array.push([+dec, COLORS[array.length], 
-                            "\\color{" + COLORS[array.length] + "}{" + dec + " : \\mathbf{" + i + "}\\mspace{4mu}" + plural("zero", i) + "}"]);
-                    }
-                }
-
-                return array;
+                for(var i = 0; i < decimalArray.length; i++) {
+                    resultArray.push([decimalArray[i], COLORS[i], 
+                        "\\color{" + COLORS[i] + "}{" + decimalArray[i] + "}",
+                        "\\color{" + COLORS[i] + "}{" + parseInt(decimalArray[i] * 10000, 10) + "}"]);
+                }    
+                return resultArray;
 
             })()</var>
 
@@ -64,6 +53,10 @@
 
             <var id="DECIMALS_SORT_TEX">$.map( DECIMALS_SORT, function( el ) {
                 return el[0];
+            } ).join( "," )</var>
+
+            <var id="WHOLE_SORT_TEX_COLOR">$.map( DECIMALS_SORT, function( el ) {
+                return "\\color{" + el[1] + "}{" + parseInt(el[0] * 10000, 10) + "}";
             } ).join( "," )</var>
 
             <var id="SORTER">createSorter()</var>
@@ -99,21 +92,33 @@
                 
                 <div class="hints">
                     <div>
-                        <p>Numbers get smaller as they move farther to the right of the decimal point.  So count the number of zeroes to the right of the decimal point.</p>
+                        <p>Let's use different colors for each decimal.</p>
+                        <p class="number-list"><code><var>DECIMAL_TEX_COLOR</var></code></p>
+                    </div>
+                    <div>
+                        <p>Decimals can be easier to compare if we convert them to whole numbers.</p>
+                    </div>
+                    <div>
+                        <p>We can do this by multiplying each decimal by 10,000.  Since 10,000 has 4 zeros, this is the same as moving the decimal point 4 places to the right.
+                        </p>
                     </div>
                     <div>
                         <p><code>\begin{align*}
-                            <span data-each="DECIMALS as DECIMAL">\mathrm{<var>DECIMAL[2]</var>} \\</span>
+                            <span data-each="DECIMALS as DECIMAL"><var>DECIMAL[2]</var>\times 10,000 = 
+                                <var>DECIMAL[3]</var> \\</span>
                         \end{align*}</code></p>
                     </div>
                     <div>
-                        <p>Now sort the numbers based on the number of zeroes to the right of the decimal point.  If two numbers have the same number of zeroes, then sort based on the digit that is all the way to the right.</p>
+                        <p>Now we can sort the whole numbers.</p>
+                        <p class="number-list"><code><var>WHOLE_SORT_TEX_COLOR</var></code></p>
                     </div>
                     <div>
+                        <p>Finally, we divide by 10,000 or move the decimal point 4 places to the left to get the list of sorted decimals</p>
                         <p><code>\begin{align*}
-                            <span data-each="DECIMALS_SORT as DECIMAL">\mathrm{<var>DECIMAL[2]</var>} \\</span>
+                            <span data-each="DECIMALS_SORT as DECIMAL"><var>DECIMAL[3]</var> \div 10,000 =
+                                <var>DECIMAL[2]</var> \\</span>
                         \end{align*}</code></p>
-                    </div>
+                    </div> 
 
                 </div>
             </div>
