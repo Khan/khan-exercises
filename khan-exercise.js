@@ -210,6 +210,9 @@ var Khan = (function() {
     // site, immediately)
     modulePromises = {},
 
+    // Promise that gets resolved when MathJax is loaded
+    mathJaxLoaded = $.Deferred(),
+
     urlBase = localMode ? "../" : "/khan-exercises/",
 
     // In local mode, we use khan-exercises local copy of the /images
@@ -262,6 +265,8 @@ var Khan = (function() {
         // always true
         modules: {},
 
+        mathJaxLoaded: mathJaxLoaded.promise(),
+
         // Map from exercise ID to a list of required modules (data-require),
         // These module names are used in resetModules() and indirectly by
         // runModules(), where $.fn["module-name"], $.fn["module-nameLoad"],
@@ -276,9 +281,7 @@ var Khan = (function() {
         startLoadingExercise: startLoadingExercise,
 
         moduleDependencies: {
-            "math": [{
-                src: urlBase + "utils/MathJax/1.1a/MathJax.js?config=KAthJax-7b1e061d4810166e4e07f8aa8c6c6e00"
-            }, "raphael"],
+            "math": ["raphael"],
 
             // Load Raphael locally because IE8 has a problem with the 1.5.2 minified release
             // http://groups.google.com/group/raphaeljs/browse_thread/thread/c34c75ad8d431544
@@ -336,7 +339,13 @@ var Khan = (function() {
             }
 
             // Base modules required for every problem
-            mods.push("answer-types", "tmpl", "jquery.adhesion", "calculator");
+            // MathJax is here because Perseus wants it loaded regardless of if
+            // we load a khan-exercises problem that needs it. Previously it
+            // was a dependency of 'math' so this isn't really any different.
+            mods.push("answer-types", "tmpl", "jquery.adhesion", "calculator",
+                {
+                    src: urlBase + "utils/MathJax/1.1a/MathJax.js?config=KAthJax-7b1e061d4810166e4e07f8aa8c6c6e00"
+                });
 
             return mods;
         },
@@ -433,7 +442,8 @@ var Khan = (function() {
                         // If we're loading MathJax, don't bump up the
                         // count of loaded scripts until MathJax is done
                         // loading all of its dependencies.
-                        MathJax.Hub.Queue(callback);
+                        MathJax.Hub.Queue(mathJaxLoaded.resolve);
+                        mathJaxLoaded.then(callback);
                     } else {
                         callback();
                     }
