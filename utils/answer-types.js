@@ -1131,7 +1131,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var extractRawCode = function(solution) {
                 return $(solution).clone()
                     .find(".MathJax").remove().end()
-                    .find("code").removeAttr("id").end()
+                    .find("code script").removeAttr("id").end()
                     .html();
             };
 
@@ -1285,7 +1285,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var extractRawCode = function(solution) {
                 return $(solution).clone()
                     .find(".MathJax").remove().end()
-                    .find("code").removeAttr("id").end()
+                    .find("code script").removeAttr("id").end()
                     .html();
             };
             var correct = extractRawCode(solution);
