@@ -212,25 +212,22 @@ $.tmpl = {
                 if (typeof elem.MathJax === "undefined") {
                     var $elem = $(elem);
 
-                    // Maintain the classes from the original element
-                    if (elem.className) {
-                        $elem.wrap("<span class='" + elem.className + "'></span>");
-                    }
+                    if (!$(elem).data("tmplCodeProcessed")) {
+                        $(elem).data("tmplCodeProcessed", true);
 
-                    // Clean up any strange mathematical expressions
-                    var text = $elem.text();
-                    if (KhanUtil.cleanMath) {
-                        text = KhanUtil.cleanMath(text);
-                    }
+                        // Maintain the classes from the original element
+                        if (elem.className) {
+                            $elem.wrap("<span class='" + elem.className +
+                                "'></span>");
+                        }
 
-                    // Tell MathJax that this is math to be typset
-                    // Version detection -- shoot me now.
-                    if (MathJax.version.slice(0, 2) === "1.") {
-                        // MathJax 1
-                        elem.style.display = "none";
-                        elem.type = "math/tex";
-                    } else {
-                        // MathJax 2
+                        // Clean up any strange mathematical expressions
+                        var text = $elem.text();
+                        if (KhanUtil.cleanMath) {
+                            text = KhanUtil.cleanMath(text);
+                        }
+
+                        // Tell MathJax that this is math to be typset
                         $elem.empty();
                         $elem.append("<script type='math/tex'>" +
                                 text.replace(/<\//g, "< /") + "</script>");

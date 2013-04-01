@@ -120,7 +120,7 @@
                             $("#description2").parent().hide();
                         } else {
                             desc1 += ":";
-                            $("#description2").text("\\qquad x + " + A +
+                            $("#description2 script").text("\\qquad x + " + A +
                                 leftOp +
                                 (a - A === b - B ?
                                     " \\quad=\\quad " :
@@ -136,13 +136,13 @@
                                 if (a === 0) {
                                     $("#description3").html("Simplifying, we "
                                         + "can see " + UNKNOWN + "'s weight:");
-                                    $("#description4").text(
+                                    $("#description4 script").text(
                                         "\\qquad x \\quad=\\quad " + X);
                                 } else {
                                     $("#description3").html("Simplifying, we "
                                         + "still can't directly see " +
                                         UNKNOWN + "'s weight:");
-                                    $("#description4").text(
+                                    $("#description4 script").text(
                                         "\\qquad x + " + a + " \\quad=\\quad "
                                         + b);
                                 }

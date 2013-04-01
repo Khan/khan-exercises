@@ -57,11 +57,16 @@ $(Exercises)
 
 function problemTemplateRendered() {
     // Setup appropriate img URLs
-    $("#positive-reinforcement").hide();
-    $("#positive-reinforcement > img").attr("src",
-            Exercises.khanExercisesUrlBase + "images/face-smiley.png");
     $("#issue-throbber").attr("src",
             Exercises.khanExercisesUrlBase + "css/images/throbber.gif");
+
+    $("#positive-reinforcement").hide();
+    if (localMode) {
+        // The /khan-exercises/images/ folder isn't available in GAE prod so
+        // don't change the src there, even though it would kind of work.
+        $("#positive-reinforcement > img").attr("src",
+                Exercises.khanExercisesUrlBase + "images/face-smiley.png");
+    }
 
     // 'Check Answer' or 'Submit Answer'
     originalCheckAnswerText = $("#check-answer-button").val();

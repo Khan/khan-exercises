@@ -306,7 +306,18 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                 // integer, which is encompassed by decimal
                 integer: function(text) {
-                    return forms.decimal(text, 1);
+                    // Compare the decimal form to the decimal form rounded to
+                    // an integer. Only accept if the user actually entered an
+                    // integer.
+                    var decimal = forms.decimal(text);
+                    var rounded = forms.decimal(text, 1);
+                    if ((decimal[0].value != null &&
+                            decimal[0].value === rounded[0].value) ||
+                            (decimal[1].value != null &&
+                            decimal[1].value === rounded[1].value)) {
+                        return decimal;
+                    }
+                    return [];
                 },
 
                 // A proper fraction
@@ -1120,7 +1131,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var extractRawCode = function(solution) {
                 return $(solution).clone()
                     .find(".MathJax").remove().end()
-                    .find("code").removeAttr("id").end()
+                    .find("code script").removeAttr("id").end()
                     .html();
             };
 
@@ -1274,7 +1285,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var extractRawCode = function(solution) {
                 return $(solution).clone()
                     .find(".MathJax").remove().end()
-                    .find("code").removeAttr("id").end()
+                    .find("code script").removeAttr("id").end()
                     .html();
             };
             var correct = extractRawCode(solution);
