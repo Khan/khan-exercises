@@ -71,9 +71,9 @@ function problemTemplateRendered() {
     originalCheckAnswerText = $("#check-answer-button").val();
     
     // Solution submission
-    $("#check-answer-button").click({skip: false}, handleCheckAnswer);
-    $("#answerform").submit({skip: false}, handleCheckAnswer);
-    $("#skip-question-button").click({skip: true}, handleCheckAnswer);
+    $("#check-answer-button").click(handleCheckAnswer);
+    $("#answerform").submit(handleCheckAnswer);
+    $("#skip-question-button").click({skipped: true}, handleCheckAnswer);
 
     // Hint button
     $("#hint").click(handleHint);
@@ -134,7 +134,7 @@ function newProblem(e, data) {
 
 function handleCheckAnswer(e) {
     var framework = Exercises.getCurrentFramework();
-    var skip = e.data.skip;
+    var skipped = e.data && e.data.skipped;
     var score;
 
     if (framework === "perseus") {
@@ -145,7 +145,7 @@ function handleCheckAnswer(e) {
 
     // Stop if the user didn't try to skip the question and also didn't yet 
     // enter a response
-    if (score.empty && !skip) {
+    if (score.empty && !skipped) {
         return false;
     }
 
@@ -226,7 +226,7 @@ function handleCheckAnswer(e) {
 
     // Save the problem results to the server
     var data = buildAttemptData(score.correct, ++attempts,
-            JSON.stringify(score.guess), timeTaken, skip);
+            JSON.stringify(score.guess), timeTaken, skipped);
 
     request("problems/" + problemNum + "/attempt", data).fail(function(xhr) {
         // Alert any listeners of the error before reload
@@ -311,7 +311,7 @@ function updateHintButtonText() {
 
 // Build the data to pass to the server
 function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
-                          skip) {
+                          skipped) {
     var framework = Exercises.getCurrentFramework();
     var data;
 
@@ -362,7 +362,7 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         user_assessment_key: Exercises.userAssessmentKey,
 
         // Whether the user is skipping the question
-        skip: skip ? 1 : 0
+        skipped: skipped ? 1 : 0
     });
 
     return data;
