@@ -93,7 +93,7 @@
                         }, []).join("\\cdot");
                         answerPreview += " = " + graph.computeTotal();
 
-                        $("#answer-preview code").text(answerPreview);
+                        $("#answer-preview code script").text(answerPreview);
                         MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $("#answer-preview")[0]]);
                     };
 
