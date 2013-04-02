@@ -2012,7 +2012,7 @@ var Khan = (function() {
                 requires = [];
             }
 
-            $.each(requires, function(i, mod) {
+            $.each(requires.concat(Khan.getBaseModules()), function(i, mod) {
                 subpromises.push(loadModule(mod));
             });
 
