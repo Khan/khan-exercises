@@ -209,29 +209,40 @@ $.tmpl = {
         code: function(elem) {
             // Returns a function in order to run after other templating and var assignment
             return function(elem) {
-                if (typeof elem.MathJax === "undefined") {
-                    var $elem = $(elem);
+                var $elem = $(elem);
 
-                    if (!$(elem).data("tmplCodeProcessed")) {
-                        $(elem).data("tmplCodeProcessed", true);
+                if (!$elem.data("tmplCodeProcessed")) {
+                    $elem.data("tmplCodeProcessed", true);
 
-                        // Maintain the classes from the original element
-                        if (elem.className) {
-                            $elem.wrap("<span class='" + elem.className +
-                                "'></span>");
-                        }
+                    var $script = $elem.find("script[type='math/tex']");
 
-                        // Clean up any strange mathematical expressions
-                        var text = $elem.text();
-                        if (KhanUtil.cleanMath) {
-                            text = KhanUtil.cleanMath(text);
-                        }
-
-                        // Tell MathJax that this is math to be typset
-                        $elem.empty();
-                        $elem.append("<script type='math/tex'>" +
-                                text.replace(/<\//g, "< /") + "</script>");
+                    if ($script.length) {
+                        // Curious, curious. Getting to this point probably
+                        // means that we cloned some elements and lost the
+                        // jQuery data as well as the script.MathJax property
+                        // in the process. Let's just reset the text (and in
+                        // doing so, remove all the MathJax stuff (both the
+                        // script and the adjacent span)) so we can start from
+                        // scratch with the templating process.
+                        $elem.text($script.text());
                     }
+
+                    // Maintain the classes from the original element
+                    if (elem.className) {
+                        $elem.wrap("<span class='" + elem.className +
+                            "'></span>");
+                    }
+
+                    // Clean up any strange mathematical expressions
+                    var text = $elem.text();
+                    if (KhanUtil.cleanMath) {
+                        text = KhanUtil.cleanMath(text);
+                    }
+
+                    // Tell MathJax that this is math to be typset
+                    $elem.empty();
+                    $elem.append("<script type='math/tex'>" +
+                            text.replace(/<\//g, "< /") + "</script>");
 
                     // Stick the processing request onto the queue
                     if (typeof MathJax !== "undefined") {

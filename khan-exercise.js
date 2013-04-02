@@ -211,7 +211,7 @@ var Khan = (function() {
     modulePromises = {},
 
     // Promise that gets resolved when MathJax is loaded
-    mathJaxLoaded = $.Deferred(),
+    mathJaxLoaded,
 
     urlBase = localMode ? "../" : "/khan-exercises/",
 
@@ -264,8 +264,6 @@ var Khan = (function() {
         // Set of modules currently in use -- keys are module names, value is
         // always true
         modules: {},
-
-        mathJaxLoaded: mathJaxLoaded.promise(),
 
         // Map from exercise ID to a list of required modules (data-require),
         // These module names are used in resetModules() and indirectly by
@@ -734,6 +732,9 @@ var Khan = (function() {
 
         // Initialize to an empty jQuery set
         exercises = $();
+
+        mathJaxLoaded = $.Deferred();
+        Khan.mathJaxLoaded = mathJaxLoaded.promise();
 
         $(function() {
             var promises = [];
