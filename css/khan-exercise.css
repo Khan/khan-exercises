@@ -263,9 +263,7 @@ body.debug .graphie { outline: 1px dashed #fdd; }
 #hint-remainder { color: #777; }
 
 #footer .simple-button, .info-box .simple-button { padding: 3px 10px; top: -1px }
-.info-box .simple-button { top:  0; );
-
-}
+.info-box .simple-button { top: 0; }
 
 #issue #issue-status.error { font-weight: bold; color: #A21; font-size: 1.2em; }
 #issue-link { font-style: italic; }
