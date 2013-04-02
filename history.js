@@ -418,6 +418,12 @@ function renderReadOnlyProblem(event, userExercise, answerData, answerType, solu
         $("#hint").attr("disabled", true);
         $("#answercontent input").attr("disabled", true);
         $("#answercontent select").attr("disabled", true);
+
+        if (framework === "perseus") {
+            // TODO(cbhl): Implement Problem History for Perseus, then remove
+            // this hack.
+            timelinecontainer.hide();
+        }
     }
 }
 
