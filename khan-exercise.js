@@ -671,6 +671,23 @@ var Khan = (function() {
             };
         },
 
+        getIssueInfo: function() {
+            var path = exerciseFile + "?seed=" + problemSeed + "&problem=" +
+                        problemID,
+                pathlink = "[" + path + (exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
+                historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent(JSON.stringify(Exercises.userActivityLog)).replace(/\)/g, "\\)") + ")",
+                userHash = "User hash: " + crc32(user),
+
+                parts = [pathlink, historyLink,
+                        "    " + JSON.stringify(Exercises.guessLog), userHash],
+                body = $.grep(parts, function(e) { return e != null; }).join("\n\n");
+
+            return {
+                pretitle: exerciseName,
+                bodyInfo: body
+            };
+        },
+
         scoreInput: function() {
             var guess = getAnswer();
             var pass = validator(guess);
@@ -1633,20 +1650,21 @@ var Khan = (function() {
             // don't do anything if the user clicked a second time quickly
             if ($("#issue form").css("display") === "none") return;
 
-            var pretitle = exerciseName,
+            var framework = Exercises.getCurrentFramework(),
+                issueInfo = framework === "khan-exercises" ?
+                        Khan.getIssueInfo() :
+                        Exercises.PerseusBridge.getIssueInfo(),
+
                 type = $("input[name=issue-type]:checked").prop("id"),
                 title = $("#issue-title").val(),
-                path = exerciseFile + "?seed=" +
-                    problemSeed + "&problem=" + problemID,
-                pathlink = "[" + path + (exercise.data("name") !== exerciseId ? " (" + exercise.data("name") + ")" : "") + "](http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug)",
-                historyLink = "[Answer timeline](" + "http://sandcastle.khanacademy.org/media/castles/Khan:master/exercises/" + path + "&debug&activity=" + encodeURIComponent(JSON.stringify(Exercises.userActivityLog)).replace(/\)/g, "\\)") + ")",
+
                 agent = navigator.userAgent,
                 mathjaxInfo = "MathJax is " + (typeof MathJax === "undefined" ? "NOT loaded" :
                     ("loaded, " + (MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length)),
-                userHash = "User hash: " + crc32(user),
                 sessionStorageInfo = (typeof sessionStorage === "undefined" || typeof sessionStorage.getItem === "undefined" ? "sessionStorage NOT enabled" : null),
                 warningInfo = $("#warning-bar-content").text(),
-                parts = [$("#issue-body").val() || null, pathlink, historyLink, "    " + JSON.stringify(Exercises.guessLog), agent, sessionStorageInfo, mathjaxInfo, userHash, warningInfo],
+
+                parts = [$("#issue-body").val() || null, issueInfo.bodyInfo, agent, sessionStorageInfo, mathjaxInfo, warningInfo],
                 body = $.grep(parts, function(e) { return e != null; }).join("\n\n");
 
             var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {
@@ -1718,7 +1736,7 @@ var Khan = (function() {
             $("#issue-throbber").show();
 
             var dataObj = {
-                title: pretitle + " - " + title,
+                title: issueInfo.pretitle + " - " + title,
                 body: body,
                 labels: labels
             };
@@ -1729,10 +1747,7 @@ var Khan = (function() {
                 data: JSON.stringify(dataObj),
                 contentType: "application/json",
                 dataType: "json",
-                success: function(json) {
-                    // TODO(alpert): Which is it?
-                    var data = json.data || json;
-
+                success: function(data) {
                     // hide the form
                     $("#issue form").hide();
 
