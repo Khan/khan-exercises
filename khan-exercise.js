@@ -342,7 +342,7 @@ var Khan = (function() {
             // was a dependency of 'math' so this isn't really any different.
             mods.push("answer-types", "tmpl", "jquery.adhesion", "calculator",
                 {
-                    src: urlBase + "utils/MathJax/1.1a/MathJax.js?config=KAthJax-7b1e061d4810166e4e07f8aa8c6c6e00"
+                    src: urlBase + "utils/MathJax/2.1/MathJax.js?config=KAthJax-f49774f85a05dbcd493880409fe3cb3c"
                 });
 
             return mods;

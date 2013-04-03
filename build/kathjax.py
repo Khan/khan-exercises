@@ -1,16 +1,14 @@
 import hashlib
+import json
 import os
 import re
 import shutil
 import sys
 import tempfile
 
-try:
-    import json
-except ImportError:
-    import simplejson as json
-
 pack = [
+    'extensions/MathEvents.js',
+    'extensions/MathMenu.js',
     'extensions/MathZoom.js',
     'extensions/TeX/AMSmath.js',
     'extensions/TeX/AMSsymbols.js',
@@ -28,7 +26,7 @@ pack = [
 
 origwd = os.getcwd()
 tempdir = tempfile.mkdtemp()
-mjdir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../utils/MathJax/1.1a"))
+mjdir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../utils/MathJax/2.1"))
 
 if os.path.isdir(mjdir):
     print "%s exists, exiting" % mjdir
@@ -40,7 +38,7 @@ else:
 os.chdir(tempdir)
 
 print "Downloading MathJax..."
-os.system('curl -# -L -o mathjax.zip https://github.com/mathjax/MathJax/zipball/v1.1a')
+os.system('curl -# -L -o mathjax.zip https://github.com/mathjax/MathJax/zipball/v2.1')
 
 print "Unzipping..."
 os.system('unzip -q mathjax.zip')
@@ -88,7 +86,7 @@ kathjax_js.close()
 # Pack KAthJax.js and copy to mjdir
 
 os.mkdir(os.path.join(mjdir, 'config'))
-os.system('uglifyjs --overwrite --ascii --beautify --indent 0 KAthJax.js')
+#os.system('uglifyjs --overwrite --ascii --beautify --indent 0 KAthJax.js')
 
 kathjax_js = open('KAthJax.js', 'r')
 md5 = hashlib.md5(kathjax_js.read()).hexdigest()
@@ -117,9 +115,18 @@ dirs = [
     'fonts/HTML-CSS/TeX/eot',
     'fonts/HTML-CSS/TeX/otf',
     'fonts/HTML-CSS/TeX/svg',
-    'jax/output/HTML-CSS/autoload', # not sure what this is
-    'jax/output/HTML-CSS/fonts/TeX', # not sure if we need this either; better safe than sorry?
-    'jax/element/mml/optable', # seems like we need this too
+    'fonts/HTML-CSS/TeX/woff',
+    'jax/output/HTML-CSS/fonts/TeX',
+
+    # Not sure what these are; they were necessary in MathJax v1 so we probably
+    # need them with v2 as well.
+    'jax/output/HTML-CSS/autoload',
+    'jax/element/mml/optable',
+
+    # Seriously? This is absurd since these two images aren't even shown but
+    # MathJax preloads them regardless of any configuration options you set so
+    # I'll give in for now and just let it.
+    'images',
 ]
 
 for d in dirs:
