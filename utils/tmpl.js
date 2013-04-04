@@ -223,8 +223,10 @@ $.tmpl = {
                         // in the process. Let's just reset the text (and in
                         // doing so, remove all the MathJax stuff (both the
                         // script and the adjacent span)) so we can start from
-                        // scratch with the templating process.
-                        $elem.text($script.text());
+                        // scratch with the templating process.  Use html(),
+                        // not text() because IE10 in IE8 mode returns "" for
+                        // the innerText of a script element.
+                        $elem.text($script.html());
                     }
 
                     // Maintain the classes from the original element
