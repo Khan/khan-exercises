@@ -69,7 +69,6 @@
                 v0 = points[0],
                 angles = [],
                 twoPi = 2 * Math.PI;
-            console.log(points);
 
             out: for (var i = 1; i < n; i++) {
                 var v1 = points[i];
@@ -88,10 +87,7 @@
 
                     if (!eq(dist(rotP, points[j]), 0.0)) {
                         // Points don't line up; no good.
-                        console.log(points[j], "!=", rotP);
                         continue out;
-                    } else {
-                        console.log(points[j], "==", rotP);
                     }
                 }
 
