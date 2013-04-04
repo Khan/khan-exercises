@@ -5,9 +5,16 @@
 (function() {
 
 $(Exercises)
-	.bind("makeProblemPostHook", renderReadOnlyProblem);
+	.bind("newProblem", renderReadOnlyProblem);
 
-function renderReadOnlyProblem(event, userExercise, answerData, answerType, solution, solutionarea, hints, problem) {
+function renderReadOnlyProblem(event, args) {
+    var userExercise = args.userExercise;
+    var answerData = args.answerData;
+    var answerType = args.answerType;
+    var solution = args.solution;
+    var solutionarea = args.solutionarea;
+    var hints = args.hints;
+    var problem = args.problem;
     var framework = Exercises.getCurrentFramework();
 
     if (typeof userExercise !== "undefined" && userExercise.readOnly) {

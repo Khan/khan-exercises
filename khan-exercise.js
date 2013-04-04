@@ -1325,7 +1325,14 @@ var Khan = (function() {
         $("#hint").val("I'd like a hint");
 
         $(Exercises).trigger("newProblem", {
-            numHints: hints.length
+            numHints: hints.length,
+            userExercise: userExercise,
+            answerData: answerData,
+            answerType: answerType,
+            solution: solution,
+            solutionarea: solutionarea,
+            hints: hints,
+            problem: problem
         });
 
         // If the textbox is empty disable "Check Answer" button
@@ -1355,13 +1362,11 @@ var Khan = (function() {
                 });
         }
 
-        $(Exercises).trigger("makeProblemPostHook", [userExercise, answerData, answerType, solution, solutionarea, hints, problem]);
-
         return answerType;
     }
 
     function renderDebugInfo() {
-        // triggered on makeProblemPostHook
+        // triggered on newProblem
 
         if (userExercise == null || Khan.query.debug != null) {
             $("#problem-permalink").text("Permalink: "
@@ -1485,7 +1490,7 @@ var Khan = (function() {
     }
 
     function renderExerciseBrowserPreview() {
-        // triggered on makeProblemPostHook
+        // triggered on newProblem
 
         // Version of the site used by Khan/exercise-browser for the iframe
         // preview
@@ -1885,8 +1890,8 @@ var Khan = (function() {
                     }, 1);
                 }
             })
-            .bind("makeProblemPostHook", renderDebugInfo)
-            .bind("makeProblemPostHook", renderExerciseBrowserPreview);
+            .bind("newProblem", renderDebugInfo)
+            .bind("newProblem", renderExerciseBrowserPreview);
     }
 
     function deslugify(name) {
