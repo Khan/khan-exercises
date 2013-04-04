@@ -68,7 +68,7 @@
             var n = points.length,
                 v0 = points[0],
                 angles = [],
-                twoPi = 2 * Math.PI;
+                tau = 2 * Math.PI;
 
             out: for (var i = 1; i < n; i++) {
                 var v1 = points[i];
@@ -91,7 +91,7 @@
                     }
                 }
 
-                var angle = (eps + twoPi + Math.atan2(sin, cos)) % twoPi - eps;
+                var angle = (eps + tau + Math.atan2(sin, cos)) % tau - eps;
                 if (!eq(angle, 0.0)) {
                     angles.push(angle);
                 }
