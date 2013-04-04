@@ -1330,7 +1330,6 @@ var Khan = (function() {
             answerData: answerData,
             answerType: answerType,
             solution: solution,
-            solutionarea: solutionarea,
             hints: hints,
             problem: problem
         });

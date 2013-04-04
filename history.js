@@ -8,14 +8,16 @@ $(Exercises)
 	.bind("newProblem", renderReadOnlyProblem);
 
 function renderReadOnlyProblem(event, args) {
+    var framework = Exercises.getCurrentFramework();
+
     var userExercise = args.userExercise;
     var answerData = args.answerData;
     var answerType = args.answerType;
     var solution = args.solution;
-    var solutionarea = args.solutionarea;
     var hints = args.hints;
     var problem = args.problem;
-    var framework = Exercises.getCurrentFramework();
+
+    var solutionarea = $("#solutionarea");
 
     if (typeof userExercise !== "undefined" && userExercise.readOnly) {
 
