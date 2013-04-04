@@ -69,10 +69,11 @@ function problemTemplateRendered() {
 
     // 'Check Answer' or 'Submit Answer'
     originalCheckAnswerText = $("#check-answer-button").val();
-
+    
     // Solution submission
     $("#check-answer-button").click(handleCheckAnswer);
     $("#answerform").submit(handleCheckAnswer);
+    $("#skip-question-button").click(handleSkippedQuestion);
 
     // Hint button
     $("#hint").click(handleHint);
@@ -136,26 +137,28 @@ function newProblem(e, data) {
     $("#hint").attr("disabled", numHints === 0);
 }
 
-
 function handleCheckAnswer() {
+    return handleAttempt({skipped: false});
+}
+
+function handleSkippedQuestion() {
+    return handleAttempt({skipped: true});
+}
+
+function handleAttempt(data) {
     var framework = Exercises.getCurrentFramework();
-
-    // Stop if the form is already disabled and we're waiting for a response
-    // (in assessment mode, for instance).
-    if ($("#answercontent input").not("#hint, #next-question-button")
-            .is(":disabled")) {
-        return false;
-    }
-
+    var skipped = data.skipped;
     var score;
+
     if (framework === "perseus") {
         score = PerseusBridge.scoreInput();
     } else if (framework === "khan-exercises") {
         score = Khan.scoreInput();
     }
 
-    // Stop if the user didn't enter a response
-    if (score.empty) {
+    // Stop if the user didn't try to skip the question and also didn't yet 
+    // enter a response
+    if (score.empty && !skipped) {
         return false;
     }
 
@@ -181,7 +184,7 @@ function handleCheckAnswer() {
         $("#check-answer-button").hide();
         $("#check-answer-results > p").hide();
         $("#next-question-button")
-            .removeAttr("disabled")
+            .prop("disabled", false)
             .removeClass("buttonDisabled")
             .show()
             .focus();
@@ -236,7 +239,7 @@ function handleCheckAnswer() {
 
     // Save the problem results to the server
     var data = buildAttemptData(score.correct, ++attempts,
-            JSON.stringify(score.guess), timeTaken);
+            JSON.stringify(score.guess), timeTaken, skipped);
 
     request("problems/" + problemNum + "/attempt", data).fail(function(xhr) {
         // Alert any listeners of the error before reload
@@ -298,7 +301,7 @@ function hintUsed() {
     if (!localMode && !userExercise.readOnly && !answeredCorrectly) {
         // Don't do anything on success or failure; silently failing is ok here
         request("problems/" + problemNum + "/hint",
-                buildAttemptData(false, attempts, "hint", timeTaken));
+                buildAttemptData(false, attempts, "hint", timeTaken, false));
     }
 }
 
@@ -320,7 +323,8 @@ function updateHintButtonText() {
 }
 
 // Build the data to pass to the server
-function buildAttemptData(correct, attemptNum, attemptContent, timeTaken) {
+function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
+                          skipped) {
     var framework = Exercises.getCurrentFramework();
     var data;
 
@@ -368,7 +372,10 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken) {
         cards_left: Exercises.incompleteStack.length - 1,
 
         // The user assessment key if in assessmentMode
-        user_assessment_key: Exercises.userAssessmentKey
+        user_assessment_key: Exercises.userAssessmentKey,
+
+        // Whether the user is skipping the question
+        skipped: skipped ? 1 : 0
     });
 
     return data;
@@ -493,16 +500,24 @@ function updateUserExercise(e, data) {
 
 function enableCheckAnswer() {
     $("#check-answer-button")
-        .removeAttr("disabled")
+        .prop("disabled", false)
         .removeClass("buttonDisabled")
         .val(originalCheckAnswerText);
+    
+    $("#skip-question-button")
+        .prop("disabled", false)
+        .removeClass("buttonDisabled");
 }
 
 function disableCheckAnswer() {
     $("#check-answer-button")
-        .attr("disabled", "disabled")
+        .prop("disabled", true)
         .addClass("buttonDisabled")
         .val("Please wait...");
+
+    $("#skip-question-button")
+        .prop("disabled", true)
+        .addClass("buttonDisabled");
 }
 
 function clearExistingProblem() {

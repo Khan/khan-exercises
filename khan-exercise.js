@@ -1277,7 +1277,7 @@ var Khan = (function() {
 
         // Enable the all answer input elements except the check answer button.
         $("#answercontent input").not("#check-answer-button")
-            .removeAttr("disabled");
+            .prop("disabled", false);
 
         if (examples !== null && answerData.examples && answerData.examples.length > 0) {
             $("#examples-show").show();
@@ -1338,6 +1338,7 @@ var Khan = (function() {
         // Note: We don't do this for multiple choice, number line, etc.
         if (answerType === "text" || answerType === "number") {
             var checkAnswerButton = $("#check-answer-button");
+            var skipQuestionButton = $("#skip-question-button");
             checkAnswerButton.attr("disabled", "disabled").attr(
                 "title", "Type in an answer first.");
             // Enables the check answer button - added so that people who type
@@ -1346,19 +1347,23 @@ var Khan = (function() {
             $("#solutionarea")
                 .on("keypress.emptyAnswer", function(e) {
                     if (e.keyCode !== 13) {
-                        checkAnswerButton.removeAttr("disabled").removeAttr("title");
+                        checkAnswerButton.prop("disabled", false)
+                            .removeAttr("title");
                     }
                 })
                 .on("keyup.emptyAnswer", function(e) {
                     var guess = getAnswer();
                     if (checkIfAnswerEmpty(guess)) {
-                        checkAnswerButton.attr("disabled", "disabled");
+                        skipQuestionButton.prop("disabled", false);
+                        checkAnswerButton.prop("disabled", true);
                     } else if (e.keyCode !== 13) {
                         // Enable check answer button again as long as it is
                         // not the enter key
-                        checkAnswerButton.removeAttr("disabled");
+                        checkAnswerButton.prop("disabled", false);
+                        skipQuestionButton.prop("disabled", true);
                     }
                 });
+
         }
 
         return answerType;
