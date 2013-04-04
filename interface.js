@@ -126,6 +126,12 @@ function newProblem(e, data) {
     hintsUsed = 0;
     lastAttemptOrHint = new Date().getTime();
 
+    var framework = Exercises.getCurrentFramework();
+    $("#problem-and-answer")
+            .removeClass("framework-khan-exercises")
+            .removeClass("framework-perseus")
+            .addClass("framework-" + framework);
+
     // Enable/disable the get hint button
     $("#hint").attr("disabled", numHints === 0);
 }
