@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems stat">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format word-problems stat"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Estimation with decimals</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -44,18 +44,19 @@
                 </var>
             </div>
             <p><var>person( 1 )</var> has been <var>TYPES[ 0 ]</var> every day for the last <var>VALUES.length</var> days.</p>
-            <p class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much <var>he( 1 )</var> <var>TYPES[ 1 ]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p>
+            <p class="question" data-if="isMale(1)">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much he <var>TYPES[ 1 ]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p><p class="question" data-else="">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much she <var>TYPES[ 1 ]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p>
+            
             <div class="fake_header estimation">
-                <span>Day<br /> <span style="color:white">" "</span></span>
-                <span>Amount <br /><font size="2">(in <var>plural( TYPES[ 2 ] )</var>)</font></span>
+                <span>Day<br> <span style="color:white">" "</span></span>
+                <span>Amount <br><font size="2">(in <var>plural( TYPES[ 2 ] )</var>)</font></span>
             </div>
-            <div class="fake_row estimation" data-each="VALUES as i, val">
+            <div data-each="VALUES as i, val" class="fake_row estimation">
                 <span><var>i+1</var></span>
                 <span><var>val</var></span>
             </div>
-            <p><br />Note that if you first sum the exact amounts (<var>SUM.toFixed( 2 )</var>) and then round, you'll get <var>round( SUM )</var>. For fun, pay attention to how this number compares with your estimate.</p>
-            <p class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>plural( TYPES[ 2 ] )</var>
+            <p><br>Note that if you first sum the exact amounts (<var>SUM.toFixed( 2 )</var>) and then round, you'll get <var>round( SUM )</var>. For fun, pay attention to how this number compares with your estimate.</p>
+            <p data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>ANSWER</var></span> <var>plural( TYPES[ 2 ] )</var>
             </p>
 
             <div class="hints">
@@ -66,7 +67,7 @@
                     <span>Rounded</span>
                     <span>Running total</span>
                 </div>
-                <div class="fake_row estimation" data-each="VALUES as i, val">
+                <div data-each="VALUES as i, val" class="fake_row estimation">
                     <span><var>i+1</var></span>
                     <span><var>val</var></span>
                     <span><var>round( val )</var></span>
@@ -78,5 +79,6 @@
     </div>
 
     </div>
-</body>
-</html>
+
+
+</body></html>

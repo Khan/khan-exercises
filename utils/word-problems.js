@@ -490,6 +490,10 @@ $.fn["word-problemsLoad"] = function() {
             return people.get(i - 1).get(0)[1] === "m" ? "His" : "Her";
         },
 
+        isMale: function(i) {
+            return people.get(i - 1).get(0)[1] === "m";
+        },
+
         An: function(word) {
             return indefiniteArticle(word);
         },

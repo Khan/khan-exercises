@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format probability word-problems graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format probability word-problems graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Independent probability</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -41,7 +41,7 @@
                 If you flip a coin and roll a 6-sided die, what is the probability that you will flip a <var>HT</var> and roll <var>RESULT_DESC</var>?
             </p>
 
-            <div class="solution" data-forms="proper, decimal, percent"><var>0.5 * RESULT_POSSIBLE.length / 6</var></div>
+            <div data-forms="proper, decimal, percent" class="solution"><var>0.5 * RESULT_POSSIBLE.length / 6</var></div>
 
             <div class="hints">
                 <p>
@@ -54,7 +54,7 @@
                 <p>
                     The probability of rolling <var>RESULT_DESC</var> is <code>\dfrac{<var>RESULT_POSSIBLE.length</var>}{6}</code>, since there 
                     <var>plural("is",RESULT_POSSIBLE.length)</var> <var>RESULT_POSSIBLE.length</var> <var>plural("outcome",RESULT_POSSIBLE.length)</var> 
-                    which <var>RESULT_POSSIBLE.length > 1 ? "satisfy" : "satisfies"</var> our condition
+                    which <var>RESULT_POSSIBLE.length &gt; 1 ? "satisfy" : "satisfies"</var> our condition
                     (namely, <var>toSentence(RESULT_POSSIBLE)</var>), and 6 total possible outcomes.
                 </p>
                 <p>
@@ -137,7 +137,7 @@
             </ul>
 
             <div class="hints">
-            <div data-unwrap data-if="ALL">
+            <div data-if="ALL" data-unwrap="">
                 <div>
                     <p>We know that <code>\blue{<var>SINGLE_PCT</var> \%}</code> of the time, he'll make
                     his first shot.</p>
@@ -248,7 +248,7 @@
                     The probability of making <var>STREAK</var> free throws in a row is <code><var>PROB</var> ^ <var>STREAK</var></code>.
                 </p>
             </div>
-            <div data-unwrap data-else>
+            <div data-else="" data-unwrap="">
                 <div>
                     <p>We know that <code>\blue{<var>SINGLE_PCT</var> \%}</code> of the time, he'll miss
                     his first shot
@@ -363,7 +363,7 @@
             </div>
         </div>
         <div id="YARR">
-            <div class="vars" data-ensure="CAPTAIN_PROB > PIRATE_PROB">
+            <div data-ensure="CAPTAIN_PROB &gt; PIRATE_PROB" class="vars">
                 <var id="CAPTAIN_NUM">randRange(1,4)</var>
                 <var id="CAPTAIN_DEM">CAPTAIN_NUM + randRange(1,6)</var>
                 <var id="CAPTAIN_PROB">CAPTAIN_NUM/CAPTAIN_DEM</var>
@@ -394,7 +394,7 @@
             <p>
                 Captain <var>person(1)</var> and <var>his(1)</var> ship, the H.M.S. Khan, are 
                 two furlongs from the dread pirate <var>person(2)</var> and <var>his(2)</var> merciless band of scallawags. 
-                </br></br>
+                <br><br>
                 The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship.
                 The pirate only has one good eye, so <var>he(2)</var> hits the Captain's ship with probability 
                 <code><var>P_HIT_PRETTY</var></code>.
@@ -404,14 +404,19 @@
                 If both fire their cannons at the same time, what is the probability that <var>QUESTION</var>?
             </p>
 
-            <div class="solution" data-forms="proper, decimal, percent"><var>ANSWER</var></div>
+            <div data-forms="proper, decimal, percent" class="solution"><var>ANSWER</var></div>
 
             <div class="hints">
-                <p>
-                    If the Captain hits the pirate ship, it won't affect whether <var>he(1)</var>'s
+                <p data-if="isMale(1)">
+                    If the Captain hits the pirate ship, it won't affect whether he's
+                    also hit by the pirate's cannons (and vice-versa), because they both fired at the same time.
+                    So, these events are independent.
+                </p><p data-else="">
+                    If the Captain hits the pirate ship, it won't affect whether she's
                     also hit by the pirate's cannons (and vice-versa), because they both fired at the same time.
                     So, these events are independent.
                 </p>
+                
                 <p>
                     Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
                     the probability that <var>C ? "the captain hits" : "the captain misses"</var> and the probability that 
@@ -420,14 +425,14 @@
                 <p data-if="C">
                     The probability that the Captain hits is <code><var>C_HIT_PRETTY</var></code>.
                 </p>
-                <p data-else>
+                <p data-else="">
                     The probability that the Captian misses is <code>1 - </code> (the probability the Captain
                     hits), which is <code>1 - <var>C_HIT_PRETTY</var> = <var>C_MISS_PRETTY</var></code>.
                 </p>
                 <p data-if="P">
                     The probability that the pirate hits is <code><var>P_HIT_PRETTY</var></code>.
                 </p>
-                <p data-else>
+                <p data-else="">
                     The probability that the pirate misses is <code>1 - </code> (the probability the pirate
                     hits), which is <code>1 - <var>P_HIT_PRETTY</var> = <var>P_MISS_PRETTY</var></code>.
                 </p>
@@ -440,5 +445,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>
