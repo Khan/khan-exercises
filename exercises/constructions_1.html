@@ -442,8 +442,8 @@
                             deg = ang * 180 / PI;
                             origDeg = ROT * 180 / PI;
 
-                            if (abs(deg - origDeg + 90) &lt; 7 ||
-                                    abs(deg - origDeg - 90) &lt; 7) {
+                            if ((abs(deg - origDeg + 90) % 360) &lt; 7 ||
+                                    (abs(deg - origDeg - 90) % 360) &lt; 7) {
                                 perp = tool;
                             }
                         }
