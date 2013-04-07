@@ -1893,7 +1893,8 @@ var Khan = (function() {
                         }
                     }, 1);
                 }
-            })
+            });
+        $(Exercises)
             .bind("newProblem", renderDebugInfo)
             .bind("newProblem", renderExerciseBrowserPreview);
     }
