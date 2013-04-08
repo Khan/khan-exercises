@@ -1240,12 +1240,18 @@ var Khan = (function() {
 
         // A working solution was generated
         if (validator) {
+            // Have MathJax redo the font metrics for the solution area
+            // (ugh, this is gross)
+            MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
+                    $("#solutionarea")[0]]);
+
             // Focus the first input
             // Use .select() and on a delay to make IE happy
             var firstInput = solutionarea.find(":input").first();
             if ($(".calculator input:visible").length) {
                 firstInput = $(".calculator input");
             }
+
             setTimeout(function() {
                 if (!firstInput.is(":disabled")) {
                     firstInput.focus();
