@@ -192,7 +192,8 @@ def fix(files, verbose):
         # Process the file with each filter in series
         # And aggregate the unfixable results
         for filter in filters:
-            errors += fix_file(filename, filter, True, verbose)
+            errors += fix_file(filename, filter, apply_fix=True,
+                verbose=verbose)
 
     if verbose and errors:
         num_matches = len(errors)
@@ -206,12 +207,14 @@ def fix_file(filename, filter, apply_fix, verbose):
     """Fix a single HTML exercise repairing invalid nodes.
 
     Returns an array of node tuples which cannot be fixed automatically and
-    must be fixed by hand.
+    must be fixed by hand. Nodes that can be fixed automatically are fixed
+    and the file is updated, if apply_fix is set to True.
 
     Arguments:
         - filename: A string filename to parse
         - filter: The filter class instance to use in repairing the file
-        - apply_fix: Should the fix be applied to the file
+        - apply_fix: If True, then filename is replaced with new contents,
+          which is the fixed version of the old contents.
         - verbose: If there should be any output
     Returns:
         - An array of (node, invalid_node, filename) tuples which contain
@@ -232,8 +235,7 @@ def fix_file(filename, filter, apply_fix, verbose):
     nodes_changed = []
 
     for node in nodes:
-        # If we're fixing the file and the string doesn't contain any
-        # fixable nodes then we just ignore it
+        # A collection of all the nodes that could might need fixing
         fix_nodes = node.xpath(fix_expr)
 
         # Bail if the node doesn't contain any elements that may need fixing
@@ -255,9 +257,23 @@ def fix_file(filename, filter, apply_fix, verbose):
         # we'll likely need to generate a second copy of the original node
         # but slightly modified.
         cloned_node = copy.deepcopy(node)
+
+        # The nodes that might need fixing under the cloned element
         cloned_fix_nodes = cloned_node.xpath(fix_expr)
 
-        # Keep track of which keys were used
+        # Some nodes will have a unique 'key' which will be used as a lookup.
+        # For example in the following nodes:
+        #    <p><var>He(1)</var> threw a ball to <var>his(1)</var> friend.</p>
+        #    <p><var>He(1)</var> threw a ball to <var>him(2)</var>.</p>
+        # The first string has one key '1' used twice, whereas the second
+        # string has two keys '1' and '2'. We keep track of this because
+        # we need to use this key to generate the replacement string and also
+        # to make sure that we don't attempt to fix a string that has more than
+        # one key in it. For example the first string becomes:
+        #    <p data-if="isMale(1)">He threw a ball to his friend.</p>
+        #    <p data-else>She threw a ball to her friend.</p>
+        # And the second one is not possible to automatically fixable because
+        # it has more than one key.
         match_keys = set()
 
         for fix_node in fix_nodes:
@@ -282,18 +298,16 @@ def fix_file(filename, filter, apply_fix, verbose):
             errors.append((node, match_keys, filename))
             continue
 
-        for i in range(len(fix_nodes)):
-            # Loop through both the regular and cloned nodes
-            fix_node = fix_nodes[i]
-            cloned_fix_node = cloned_fix_nodes[i]
-
+        # Loop through both the regular and cloned nodes
+        for (fix_node, cloned_fix_node) in zip(fix_nodes, cloned_fix_nodes):
             # Extract parts of the code element's inner contents for further
             # processing.
             match = filter.get_match(fix_node)
 
             if match:
-                # Process the code element
-                changed = filter.filter_code(match, fix_node, cloned_fix_node)
+                # Process the fixable node
+                changed = filter.filter_fix_node(match, fix_node,
+                    cloned_fix_node)
 
                 # Keep track of nodes that've been changed
                 if changed is not None:
@@ -328,22 +342,37 @@ class PronounFilter:
     _pronoun_map = {'he': 'she', 'He': 'She', 'his': 'her', 'His': 'Her'}
     _pronoun_condition = 'isMale(%s)'
 
-    regex = re.compile(r'(?i)^\s*(he|his)\(\s*(.*?)\s*\)\s*$')
+    regex = re.compile(r'^\s*(he|his)\(\s*(.*?)\s*\)\s*$', re.I)
     xpath = ' or '.join(['contains(text(),"%s(")' % pronoun
         for pronoun in _pronouns])
 
     def get_match(self, fix_node):
+        """Return a match of a string that matches he|his(...)"""
         return re.match(self.regex, _get_innerhtml(fix_node))
 
     def extract_key(self, match):
+        """From the match return the key of the string.
+
+        For example with: he(1), '1' would be returned.
+        """
         return match.group(2)
 
-    def filter_code(self, match, fix_node, cloned_fix_node):
+    def filter_fix_node(self, match, fix_node, cloned_fix_node):
+        """Replace the fixable node with the correct gender string.
+
+        For example: <var>He(1)</var> will be 'He' and 'She' in the
+        original and cloned nodes.
+        """
         _replace_node(fix_node, match.group(1))
         _replace_node(cloned_fix_node,
             self._pronoun_map[match.group(1)])
 
     def filter_node(self, key, node, cloned_node):
+        """Adds an data-if and data-else condition to handle the gender toggle.
+
+        This will turn a string like <p><var>He(1)</var> ran.</p> into:
+            <p data-if="isMale(1)">He ran.</p><p data-else>She ran.</p>
+        """
         node.set('data-if', self._pronoun_condition % key)
         cloned_node.set('data-else', '')
         node.addnext(cloned_node)
@@ -490,9 +519,7 @@ def _replace_node(node, replace_node):
     parent_node = node.getparent()
 
     # Get any text from the node which we'll need to re-insert
-    node_tail = ''
-    if node.tail:
-        node_tail = node.tail
+    node_tail = node.tail or ''
 
     if isinstance(replace_node, basestring):
         # If it's a string or a Unicode string then
@@ -500,16 +527,14 @@ def _replace_node(node, replace_node):
         if prev_node is not None:
             # If we're after another node we add it to the
             # 'tail' of that node
-            prev_text = prev_node.tail
-            prev_node.tail = ((prev_text if prev_text else '') +
-                replace_node) + node_tail
+            prev_text = prev_node.tail or ''
+            prev_node.tail = prev_text + replace_node + node_tail
         elif parent_node is not None:
             # If the text node is at the start of the string
             # then it's added as the .text property to the
             # parent node
-            parent_text = parent_node.text
-            parent_node.text = ((parent_text if parent_text else '') +
-                replace_node) + node_tail
+            parent_text = parent_node.text or ''
+            parent_node.text = parent_text + replace_node + node_tail
     else:
         replace_node.tail = node_tail
         # Otherwise it's a normal node so we just insert it
