@@ -180,7 +180,7 @@
                 <div>
                     <p><code>
                         \dfrac{<var>R1_MASS</var> \cancel{\text{g}}}{<var>R1_MOLAR_MASS</var> \cancel{\text{g}} / \text{mol}} =
-                        \blue{<var>plural(R1_MOL, "\\text{ mole}", "\\text{ moles}")</var>} \text{ of }<var>R1</var>
+                        \blue{\text{ <var>plural(R1_MOL, "mole")</var>}} \text{ of }<var>R1</var>
                     </code>
                     <span style="float: right;">[<a href="#" class="show-subhint" data-subhint="expl-ch4-mol">Explain</a>]</span></p>
                     <div class="subhint" id="expl-ch4-mol">
@@ -196,7 +196,7 @@
                         </p><p>
                             Dividing the given <code><var>R1_MASS</var> \text{g}</code> of <code><var>R1</var></code> by the molar mass of
                             <code><var>R1_MOLAR_MASS</var> \text{g/mol}</code> tells us we're starting with
-                            <code><var>plural(R1_MOL, "\\text{ mole}", "\\text{ moles}")</var> \text{ of }<var>R1</var></code>.
+                            <code>\text{ <var>plural(R1_MOL, "mole")</var>} \text{ of }<var>R1</var></code>.
                         </p>
                     </div>
                 </div>
@@ -204,7 +204,7 @@
                 <div>
                     <p><code>
                         \dfrac{<var>R2_MASS</var> \cancel{\text{g}}}{<var>R2_MOLAR_MASS</var> \cancel{\text{g}} / \text{mol}} =
-                        \green{<var>plural(R2_MOL, "\\text{ mole}", "\\text{ moles}")</var>} \text{ of }<var>R2</var>
+                        \green{\text{ <var>plural(R2_MOL, "mole")</var>}} \text{ of }<var>R2</var>
                     </code>
                     <span style="float: right;">[<a href="#" class="show-subhint" data-subhint="expl-o2-mol">Explain</a>]</span></p>
                     <div class="subhint" id="expl-o2-mol">
@@ -220,7 +220,7 @@
                         </p><p>
                             Dividing the given <code><var>R2_MASS</var> \text{g}</code> of <code><var>R2</var></code> by the molar mass of
                             <code><var>R2_MOLAR_MASS</var> \text{g/mol}</code> tells us we're starting with
-                            <code><var>plural(R2_MOL, "\\text{ mole}", "\\text{ moles}")</var> \text{ of }<var>R2</var></code>.
+                            <code>\text{ <var>plural(R2_MOL, "mole")</var>} \text{ of }<var>R2</var></code>.
                         </p>
                     </div>
                 </div>
@@ -244,7 +244,7 @@
                         </div>
                         <p><code>\qquad
                             \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
-                            \dfrac{\blue{<var>plural(R1_MOL, "\\text{ mole}", "\\text{ moles}")</var>}}{x}
+                            \dfrac{\blue{\text{ <var>plural(R1_MOL, "mole")</var>}}}{x}
                         </code>
                         <span style="float: right">
                         [<a href="#" class="show-subhint" data-subhint="expl-alternate1" data-hidden-text="Hide alternate approach">Show alternate approach</a>]
@@ -254,21 +254,21 @@
                             <p>
                                 <code>
                                 \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
-                                \dfrac{x}{\green{<var>plural(R2_MOL, "\\text{ mole}", "\\text{ moles}")</var>}}
+                                \dfrac{x}{\green{\text{ <var>plural(R2_MOL, "mole")</var>}}}
                                 </code>
                             </p>
                             <p>
                                 Instead of finding out how much <code><var>R2</var></code> we need to react with all of our <code><var>R1</var></code>, we could
                                 figure out how much <code><var>R1</var></code> we need to react with all of our <code><var>R2</var></code>. In this case,
-                                <code>x = <var>plural(roundTo(3, R2_MOL * R1_RATIO / R2_RATIO), "\\text{ mole}", "\\text{ moles}")</var></code> of
+                                <code>x = \text{ <var>plural(roundTo(3, R2_MOL * R1_RATIO / R2_RATIO), "mole")</var>}</code> of
                                 <code><var>R1</var></code> needed, which
                                 is more than we have. Therefore <code><var>R1</var></code> is the limiting reagent.
                             </p>
                         </div>
                         <p>
-                            <code>x = <var>plural(roundTo(3, R1_MOL * R2_RATIO / R1_RATIO), "\\text{ mole}", "\\text{ moles}")</var></code> of
+                            <code>x = \text{ <var>plural(roundTo(3, R1_MOL * R2_RATIO / R1_RATIO), "mole")</var>}</code> of
                             <code><var>R2</var></code> needed.
-                            We have <code><var>plural(R2_MOL, "\\text{ mole}", "\\text{ moles}")</var></code> of <code><var>R2</var></code>, which is more
+                            We have <code>\text{ <var>plural(R2_MOL, "mole")</var>}</code> of <code><var>R2</var></code>, which is more
                             than we need. Therefore <code><var>R1</var></code> is the limiting reagent.
                         </p>
                     </div>
@@ -292,10 +292,10 @@
                         </div>
                         <p><code>\qquad
                             \dfrac{<var>R1</var>}{<var>P1</var>} = \dfrac{<var>R1_RATIO</var>}{<var>P1_RATIO</var>} =
-                            \dfrac{\blue{<var>plural(R1_MOL, "\\text{ mole}", "\\text{ moles}")</var>}}{x}
+                            \dfrac{\blue{\text{ <var>plural(R1_MOL, "mole")</var>}}}{x}
                         </code></p>
                         <p>
-                            <code>x = <var>plural(P1_MOL, "\\text{ mole}", "\\text{ moles}")</var></code> of <code><var>P1</var></code> produced.
+                            <code>x = \text{ <var>plural(P1_MOL, "mole")</var>}</code> of <code><var>P1</var></code> produced.
                         </p>
                     </div>
                 </div>
@@ -319,7 +319,7 @@
                         </div>
                         <p><code>\qquad
                             \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
-                            \dfrac{x}{\green{<var>plural(R2_MOL, "\\text{ mole}", "\\text{ moles}")</var>}}
+                            \dfrac{x}{\green{\text{ <var>plural(R2_MOL, "mole")</var>}}}
                         \qquad</code>
                         <span style="float: right;">
                         [<a href="#" class="show-subhint" data-subhint="expl-alternate2" data-hidden-text="Hide alternate approach">Show alternate approach</a>]
@@ -328,21 +328,21 @@
                             <p>
                                 <code>
                                 \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
-                                \dfrac{\blue{<var>plural(R1_MOL, "\\text{ mole}", "\\text{ moles}")</var>}}{x}
+                                \dfrac{\blue{\text{ <var>plural(R1_MOL, "mole")</var>}}}{x}
                                 </code>
                             </p>
                             <p>
                                 Instead of finding out how much <code><var>R1</var></code> we need to react with all of our <code><var>R2</var></code>, we could
                                 figure out how much <code><var>R2</var></code> we need to react with all of our <code><var>R1</var></code>. In this case,
-                                <code>x = <var>plural(roundTo(3, R1_MOL * R2_RATIO / R1_RATIO), "\\text{ mole}", "\\text{ moles}")</var></code> of
+                                <code>x = \text{ <var>plural(roundTo(3, R1_MOL * R2_RATIO / R1_RATIO), "mole")</var>}</code> of
                                 <code><var>R2</var></code> needed, which
                                 is more than we have. Therefore <code><var>R2</var></code> is the limiting reagent.
                             </p>
                         </div>
                         <p>
-                            <code>x = <var>plural(roundTo(3, R2_MOL * R1_RATIO / R2_RATIO), "\\text{ mole}", "\\text{ moles}")</var></code> of
+                            <code>x = \text{ <var>plural(roundTo(3, R2_MOL * R1_RATIO / R2_RATIO), "mole")</var>}</code> of
                             <code><var>R1</var></code> needed.
-                            We have <code><var>plural(R1_MOL, "\\text{ mole}", "\\text{ moles}")</var></code> of <code><var>R1</var></code>, which is more
+                            We have <code>\text{ <var>plural(R1_MOL, "mole")</var>}</code> of <code><var>R1</var></code>, which is more
                             than we need. Therefore <code><var>R2</var></code> is the limiting reagent.
                         </p>
                     </div>
@@ -366,18 +366,18 @@
                         </div>
                         <p><code>\qquad
                             \dfrac{<var>R2</var>}{<var>P1</var>} = \dfrac{<var>R2_RATIO</var>}{<var>P1_RATIO</var>} =
-                            \dfrac{\green{<var>plural(R2_MOL, "\\text{ mole}", "\\text{ moles}")</var>}}{x}
+                            \dfrac{\green{\text{ <var>plural(R2_MOL, "mole")</var>}}}{x}
                         </code></p>
                         <p>
-                            <code>x = <var>plural(P1_MOL, "\\text{ mole}", "\\text{ moles}")</var></code> of <code><var>P1</var></code> produced.
+                            <code>x = \text{ <var>plural(P1_MOL, "mole")</var>}</code> of <code><var>P1</var></code> produced.
                         </p>
                     </div>
                 </div>
 
                 <p><code>
-                    <var>plural(P1_MOL, "\\cancel{\\text{mole}}", "\\cancel{\\text{moles}}")</var>
+                    \cancel{\text{<var>plural(P1_MOL, "mole"")</var>}}
                     <var>P1</var> \times \dfrac{<var>P1_MOLAR_MASS</var> \text{g}}{\cancel{\text{mole}}} =
-                    <var>plural(P1_MASS, "\\text{ gram}", "\\text{ grams}")</var> \text{ of }<var>P1</var>
+                    \text{ <var>plural(P1_MASS, "gram")</var>} \text{ of }<var>P1</var>
                 </code></p>
             </div>
         </div>
