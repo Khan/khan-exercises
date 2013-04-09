@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html data-require="math math-format interactive graphie">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Equivalent Fractions 3</title>
+        <script src="../khan-exercise.js"></script>
+        <script>
+            function fixCheckboxes() {
+                for (var i=0; i < $('input[type="checkbox"]').length; i++) {
+                    $('input[type="checkbox"]')[i].id = "option"+i;
+                    $($('.buttonLabel')[i]).attr('for','option'+ i);
+                }
+                $('input[type="checkbox"]').button();
+            }
+            function arrayInArray(needle, haystack) {
+                var i=0, len=haystack.length, target=JSON.stringify(needle);
+                for(; i<len; i++) {
+                    if (JSON.stringify(haystack[i]) == target) {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+        </script>
+        <style>
+        .answer {
+            float:left; padding:5px 15px 5px 15px; margin-right:25px;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="RATIONALS">randRange(1,30,4,2)</var>
+                <var id="ANSWER1">randFromArray(RATIONALS)</var>
+                <var id="MULTIPLIER">randRangeNonZero(2,4)</var>
+                <var id="ANSWER2">[[ANSWER1[0]*MULTIPLIER,ANSWER1[1]*MULTIPLIER]]</var>
+                <var id="OPTIONSINC">shuffle(RATIONALS.concat(ANSWER2))</var>
+                <var id="OPTIONS">shuffle(RATIONALS)</var>
+            </div>
+            <div class="problems">
+                <div id="pair">
+                    <p class="question">Find the pair of equivalent fractions below</p>
+                    <div class="problem">   
+                        <ul id="list" class="ui-helper-clearfix">
+                            <li data-each="OPTIONSINC as OPTION" style="float:left; padding-top:20px; padding-left: 20px">
+                                 <input type="checkbox" id="check" /><label class="buttonLabel" for="check"><code><var>fraction(OPTION[0],OPTION[1])</var></code></label>
+                            </li>
+                        </ul>
+                        <var>fixCheckboxes()</var>
+                    </div>
+                    <div class="solution" data-type="custom">
+                        <div class="instruction">Select two equivalent fractions.</div>
+                        <div class="guess">
+                            _.map($("input[type=checkbox]:checked"),function(object){
+                                return OPTIONSINC[parseInt(object.id.ANSWER(/\d+$/))]
+                            })
+                        </div>
+                        <div class="validator-function">
+                            if (guess.length &lt; 2 || guess.length &gt; 2 ) {
+                                return "";
+                            }
+                            return guess[0][0]/guess[0][1] === guess[1][0]/guess[1][1]
+                        </div>
+                        <div class="show-guess">
+                            $('#option'+arrayInArray([guess[0][0],guess[0][1]],OPTIONSINC)).prop('checked',true).next().addClass('ui-state-active');
+                            $('#option'+arrayInArray([guess[1][0],guess[1][1]],OPTIONSINC)).prop('checked',true).next().addClass('ui-state-active');
+                        </div>
+                    </div>
+                    <div class="hints">
+                        <p>
+                            One way to solve this is to reduce each fraction to its simplest form. For example, the first fraction can be reduced to
+                            <code><var>fraction(OPTIONSINC[0][0],OPTIONSINC[0][1],true,true)</var></code>.
+                        </p>
+                        <div>
+                            Here are all the fractions reduced. Which two are the same?
+                            <ul id="list" class="ui-helper-clearfix">
+                                <li data-each="OPTIONSINC as OPTION" class="ui-button ui-widget ui-state-active ui-corner-all ui-button-text-only answer">
+                                     <code><var>fraction(OPTION[0],OPTION[1],true,true)</var></code>
+                                </li>
+                            </ul>
+                        </div>
+                        <p><code><var>fraction(ANSWER1[0],ANSWER1[1])</var> = <var>fraction(ANSWER2[0][0],ANSWER2[0][1])</var></code></p>
+                    </div>
+                </div>
+
+                <div id="ANSWER">
+                    <p class="question">Find a different form of the fraction <code><var>fraction(ANSWER2[0][0],ANSWER2[0][1])</var></code></p>
+                    <div class="problem">   
+                        <ul class="ui-helper-clearfix">
+                            <li data-each="OPTIONS as OPTION" style="float:left; padding-top:20px; padding-left: 20px ">
+                                 <input type="checkbox" id="check" /><label class="buttonLabel" for="check"><code><var>fraction(OPTION[0],OPTION[1])</var></code></label>
+                            </li>
+                        </ul>
+                        <var>fixCheckboxes()</var>
+                    </div>
+                    <div class="solution" data-type="custom">
+                        <div class="instruction">
+                            Select the equivalent fraction.
+                        </div>
+                        <div class="guess">
+                            _.map($("input[type=checkbox]:checked"),function(object){
+                                return OPTIONS[parseInt(object.id.ANSWER(/\d+$/))]
+                            })
+                        </div>
+                        <div class="validator-function">
+                            return guess[0][0]/guess[0][1] === ANSWER1[0]/ANSWER1[1]
+                        </div>
+                        <div class="show-guess">
+                            $('#option'+arrayInArray([guess[0][0],guess[0][1]],OPTIONSINC)).prop('checked',true).next().addClass('ui-state-active');
+                        </div>
+                    </div>
+                    <div class="hints">
+                        <p>Reduce the fraction we are looking for down to its simplest form: <code><var>fraction(ANSWER1[0],ANSWER1[1],true,true)</var></code>.</p>
+                        <div>
+                            <p>Reduce each fraction down to its simplest form.</p>
+                            <ul>
+                                <li data-each="OPTIONS as OPTION" class="ui-button ui-widget ui-state-active ui-corner-all ui-button-text-only answer">
+                                    <code><var>fraction(OPTION[0],OPTION[1],true,true)</var></code>
+                                </li>
+                            </ul>
+                        </div>
+                        <p style="clear:both;">Identify the fraction which ANSWERes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
