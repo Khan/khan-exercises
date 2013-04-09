@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Convert Binary Numbers To Decimal</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars" data-ensure="BIT0 >= 0 && BIT0 <= 1 && BIT1 >= 0 && BIT1 <= 1 && BIT2 >= 0 && BIT2 <= 1 && BIT3 >= 0 && BIT3 <= 1">
+        <var id="BIT0">randRange( 0, 1 )</var>
+        <var id="BIT1">randRange( 0, 1 )</var>
+        <var id="BIT2">randRange( 0, 1 )</var>
+        <var id="BIT3">randRange( 0, 1 )</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>What is <code><var>BIT3</var><var>BIT2</var><var>BIT1</var><var>BIT0</var></code>&#x2082; in decimal?</p>
+            </div>
+            <div class="solution"><var>BIT3*8 + BIT2*4 + BIT1*2 + BIT0*1</var></div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div class="graphie">
+            init({
+                range: [ [0, 10], [-1, 1] ]
+            });
+            var bits = new Array();
+            bits[0] = BIT0;
+            bits[1] = BIT1;
+            bits[2] = BIT2;
+            bits[3] = BIT3;
+            
+            var lastBit = 3;
+            var bitValues = new Array(); 
+            for (var i = 0; i <= 3; i++) {
+                bitValues[i] = Math.pow(2, i) * bits[i];
+            }
+            
+            var cupColor = "#6495ED";
+            var zeroColorFill = cupColor;
+            var oneColorFill = "#FFFFFF";
+            var zeroColorText = "#777777";
+            var oneColorText = "#000000";
+            
+            for (var exponent = lastBit; exponent >= 0; exponent-- ) {
+                var fillColor = oneColorFill;
+                var textColor = oneColorText;
+                if (bitValues[exponent] === 0) { 
+                    fillColor = zeroColorFill;
+                    textColor = zeroColorText;
+                } 
+                style({ stroke: cupColor, fill: fillColor });
+                var x = 0.25 + (lastBit - exponent);
+                circle( [x, 0], 0.15 );
+                label( [x, 0], Math.pow(2, exponent), "below", { color: textColor });
+            }          
+            
+            var keysX = 6.5;
+            var keysY = 0.06;
+            style({ stroke: cupColor, fill: zeroColorFill });
+            circle( [keysX, keysY], 0.15 );
+            label( [keysX+.05, keysY], "= 0", "right", undefined);
+            label( [keysX-.10, keysY], "Key:", "left", undefined);
+            
+            keysY = -0.46;
+            style({ stroke: cupColor, fill: oneColorFill });
+            circle( [keysX, keysY], 0.15 );
+            label( [keysX+.05, keysY], "= 1", "right", undefined);
+            
+            label( [-0.5, 0.75], "Visualization:", "right", undefined);
+        </div>
+        <p>To convert to the decimal representation, compute the value for each binary digit, or bit, and add these values.</p>
+        <p>In other words
+        <code><var>BIT3</var></code>&middot;8 +
+        <code><var>BIT2</var></code>&middot;4 +
+        <code><var>BIT1</var></code>&middot;2 +
+        <code><var>BIT0</var></code>&middot;1 = Answer.</p>
+    </div>
+    </div>
+</body>
+</html>
