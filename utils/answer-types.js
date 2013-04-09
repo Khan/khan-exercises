@@ -1308,7 +1308,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                 .fadeIn("fast");
                         });
                     return true;
-                } else if ($.trim(guess) === $.trim(correct)) {
+                } else if ($.trim(guess.replace(/\r\n?|\n/g, "")) ===
+                        $.trim(correct.replace(/\r\n?|\n/g, ""))) {
                     return true;
                 }
 
