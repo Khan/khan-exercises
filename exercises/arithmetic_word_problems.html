@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Arithmetic word problems</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,7 +10,7 @@
         <div class="problems">
             <div>
 
-                <div class="vars" data-ensure="!isPrime( TOTAL_ITEMS )">
+                <div data-ensure="!isPrime( TOTAL_ITEMS )" class="vars">
                     <var id="ITEMS_PER_GROUP">randRange( 3, 12 )</var>
                     <var id="ITEMS_LEFT">randRange( 1, ITEMS_PER_GROUP - 1 )</var>
                     <var id="GROUPS">randRange( 2, 12 )</var>
@@ -20,22 +20,36 @@
                     <var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS_PER_GROUP</var>
                 </div>
 
-                <div class="question">
+                <div class="question" data-if="isMale(1)">
                     <var>person(1)</var> is putting <var>plural( item(1) )</var> into <var>plural( group(1) )</var>.
 
-                    If <var>he(1)</var> puts <var>plural( ITEMS_PER_GROUP, item(1) )</var>
-                    in each <var>group(1)</var> <var>he(1)</var> will <var>groupVerb(1)</var>
+                    If he puts <var>plural( ITEMS_PER_GROUP, item(1) )</var>
+                    in each <var>group(1)</var> he will <var>groupVerb(1)</var>
                     <var>plural( GROUPS, group(1) )</var> and have
                     <var>plural( ITEMS_LEFT, item(1) )</var> left over.
 
-                    If <var>he(1)</var> instead puts
+                    If he instead puts
                     <var>plural( NEW_ITEMS_PER_GROUP, item(1) )</var> in each
                     <var>group(1)</var>, how many <var>plural( group(1) )</var> of
-                    <var>plural( item(1) )</var> can <var>he(1)</var> <var>groupVerb(1)</var>?
+                    <var>plural( item(1) )</var> can he <var>groupVerb(1)</var>?
+                </div><div class="question" data-else="">
+                    <var>person(1)</var> is putting <var>plural( item(1) )</var> into <var>plural( group(1) )</var>.
+
+                    If she puts <var>plural( ITEMS_PER_GROUP, item(1) )</var>
+                    in each <var>group(1)</var> she will <var>groupVerb(1)</var>
+                    <var>plural( GROUPS, group(1) )</var> and have
+                    <var>plural( ITEMS_LEFT, item(1) )</var> left over.
+
+                    If she instead puts
+                    <var>plural( NEW_ITEMS_PER_GROUP, item(1) )</var> in each
+                    <var>group(1)</var>, how many <var>plural( group(1) )</var> of
+                    <var>plural( item(1) )</var> can she <var>groupVerb(1)</var>?
                 </div>
 
-                <div class="solution" data-type="multiple">
-                    <span style="padding-right: 5px" class="sol" data-forms="integer"><var>NEW_GROUPS</var></span> <var>plural( group(1) )</var>
+                
+
+                <div data-type="multiple" class="solution">
+                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NEW_GROUPS</var></span> <var>plural( group(1) )</var>
                 </div>
 
                 <div class="hints">
@@ -71,40 +85,65 @@
                     <var id="TOTAL_SPENT">TOTAL_SPENT_ON_1 + ITEM_2_COST</var>
                 </div>
 
-                <div class="question">
+                <div class="question" data-if="isMale(1)">
                     <var>person(1)</var> bought <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>,
                     all costing the same amount, from the <var>store(1)</var> store.
 
-                    <var>He(1)</var> also bought a <var>storeItem(1, 2)</var> for <var>plural( ITEM_2_COST, "dollar" )</var>.
+                    He also bought a <var>storeItem(1, 2)</var> for <var>plural( ITEM_2_COST, "dollar" )</var>.
 
-                    <var>He(1)</var> spent a total of <var>plural( TOTAL_SPENT, "dollar" )</var>.
+                    He spent a total of <var>plural( TOTAL_SPENT, "dollar" )</var>.
+
+                    How much did each <var>storeItem(1, 1)</var> cost?
+                </div><div class="question" data-else="">
+                    <var>person(1)</var> bought <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>,
+                    all costing the same amount, from the <var>store(1)</var> store.
+
+                    She also bought a <var>storeItem(1, 2)</var> for <var>plural( ITEM_2_COST, "dollar" )</var>.
+
+                    She spent a total of <var>plural( TOTAL_SPENT, "dollar" )</var>.
 
                     How much did each <var>storeItem(1, 1)</var> cost?
                 </div>
 
-                <p class="solution" data-forms="dollar"><var>ITEM_1_COST</var></p>
+                
+
+                <p data-forms="dollar" class="solution"><var>ITEM_1_COST</var></p>
 
                 <div class="hints">
-                    <p>
-                        Of the <var>plural( TOTAL_SPENT, "dollar" )</var>, <var>he(1)</var> spent
-                        <var>plural( ITEM_2_COST, "dollar" )</var> on a <var>storeItem(1, 2)</var>, so <var>he(1)</var> must have spent
+                    <p data-if="isMale(1)">
+                        Of the <var>plural( TOTAL_SPENT, "dollar" )</var>, he spent
+                        <var>plural( ITEM_2_COST, "dollar" )</var> on a <var>storeItem(1, 2)</var>, so he must have spent
+                        a total of <code><var>TOTAL_SPENT</var> - <var>ITEM_2_COST</var> = <var>TOTAL_SPENT_ON_1</var></code>
+                        dollars on <var>plural( storeItem(1, 1) )</var>.
+                    </p><p data-else="">
+                        Of the <var>plural( TOTAL_SPENT, "dollar" )</var>, she spent
+                        <var>plural( ITEM_2_COST, "dollar" )</var> on a <var>storeItem(1, 2)</var>, so she must have spent
                         a total of <code><var>TOTAL_SPENT</var> - <var>ITEM_2_COST</var> = <var>TOTAL_SPENT_ON_1</var></code>
                         dollars on <var>plural( storeItem(1, 1) )</var>.
                     </p>
 
-                    <p>
-                        <var>He(1)</var> spent <var>plural( TOTAL_SPENT_ON_1, "dollar" )</var> on
+                    
+
+                    <p data-if="isMale(1)">
+                        He spent <var>plural( TOTAL_SPENT_ON_1, "dollar" )</var> on
                         <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>,
-                        so <var>he(1)</var> must have spent
+                        so he must have spent
+                        <code><var>TOTAL_SPENT_ON_1</var> \div <var>ITEM_1_COUNT</var> = <var>ITEM_1_COST</var></code>
+                        dollars on each <var>storeItem(1, 1)</var>.
+                    </p><p data-else="">
+                        She spent <var>plural( TOTAL_SPENT_ON_1, "dollar" )</var> on
+                        <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>,
+                        so she must have spent
                         <code><var>TOTAL_SPENT_ON_1</var> \div <var>ITEM_1_COUNT</var> = <var>ITEM_1_COST</var></code>
                         dollars on each <var>storeItem(1, 1)</var>.
                     </p>
+                
                 </div>
             </div>
 
             <div>
 
-                <div class="vars" data-ensure="!isPrime( TOTAL_ITEMS ) && NEW_ITEMS !== ITEMS">
+                <div data-ensure="!isPrime( TOTAL_ITEMS ) &amp;&amp; NEW_ITEMS !== ITEMS" class="vars">
                     <var id="TOTAL_ITEMS">randRange( 10, 99 )</var>
                     <var id="ITEMS">getNontrivialFactor( TOTAL_ITEMS )</var>
                     <var id="GROUPS">TOTAL_ITEMS / ITEMS</var>
@@ -112,16 +151,24 @@
                     <var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS</var>
                 </div>
 
-                <div class="question">
+                <div class="question" data-if="isMale(1)">
                     <var>person(1)</var> has a bunch of <var>plural( item(1) )</var>. When <var>person(1)</var> places <var>plural( ITEMS, item(1) )</var> in each
-                    <var>group(1)</var>, <var>he(1)</var> ends up with <var>plural( GROUPS, group(1) )</var>.
+                    <var>group(1)</var>, he ends up with <var>plural( GROUPS, group(1) )</var>.
 
-                    If <var>he(1)</var> wants <var>plural( NEW_GROUPS, group(1) )</var>,
-                    how many <var>plural( item(1) )</var> should <var>he(1)</var> put in each <var>group(1)</var>?
+                    If he wants <var>plural( NEW_GROUPS, group(1) )</var>,
+                    how many <var>plural( item(1) )</var> should he put in each <var>group(1)</var>?
+                </div><div class="question" data-else="">
+                    <var>person(1)</var> has a bunch of <var>plural( item(1) )</var>. When <var>person(1)</var> places <var>plural( ITEMS, item(1) )</var> in each
+                    <var>group(1)</var>, she ends up with <var>plural( GROUPS, group(1) )</var>.
+
+                    If she wants <var>plural( NEW_GROUPS, group(1) )</var>,
+                    how many <var>plural( item(1) )</var> should she put in each <var>group(1)</var>?
                 </div>
 
-                <div class="solution" data-type="multiple">
-                    <span style="padding-right: 5px" class="sol" data-forms="integer"><var>NEW_ITEMS</var></span> <var>plural( item(1) )</var>
+                
+
+                <div data-type="multiple" class="solution">
+                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NEW_ITEMS</var></span> <var>plural( item(1) )</var>
                 </div>
 
                 <div class="hints">
@@ -141,5 +188,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

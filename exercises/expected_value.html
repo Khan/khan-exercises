@@ -102,7 +102,7 @@
                 </p>
                 <p>
                     The money you gain when you lose is
-                    <code>$ -<var>LOSE</var></code>
+                    <code>-$<var>LOSE</var></code>
                     (since you actually lose money). The probability that 
                     you lose is the probability that you don't roll 
                     <var>RESULT_DESC</var>.
@@ -117,7 +117,8 @@
                     we get the expected amount of money you will make: 
                     <code>(<var>MAKE</var>\cdot<var>MAKE_FR</var>) +
                         (-<var>LOSE</var>\cdot<var>LOSE_FR</var>) =
-                        $<var>ANS_F</var> = $<var>ANS</var>.
+                        <var>ANS_F</var> = <span data-if="ANS &lt; 0">-$<var>-ANS</var></span>
+                        <span data-else>$<var>ANS</var></span>.
                     </code>
                 </p>
             </div>
@@ -190,11 +191,11 @@
         <div id="lottery" data-weight="2">
             <div class="vars">
                 <var id="BUY">random() &lt; 0.4</var>
-                <var id="COST">randRange(2,4)</var>
+                <var id="COST">randRange(2,5)</var>
                 <var id="ODDS">randRange(1,5)*100</var>
                 <var id="PRIZE">BUY ? 
-                    COST*ODDS + randRange(1,3)*100 :
-                    COST*ODDS - randRange(1,3)*100
+                    COST*ODDS + randRange(1, 6) * 50 :
+                    COST*ODDS - randRange(1, COST * 2 - 1) * 50
                 </var>
                 <var id="ODD_F">fraction(1,ODDS,true,true)</var>
                 <var id="ANS">BUY ?
@@ -207,10 +208,8 @@
                 You decide you're only going to buy a lottery ticket if the
                 expected amount of money you will get is positive. Tickets
                 cost <code>$<var>COST</var></code>, and you get 
-                <code>$<var>PRIZE</var></code> if you win. The odds of
-                winning are <code>1</code> in <code><var>ODDS</var></code>,
-                meaning that you will win with probability
-                <code><var>ODD_F</var></code>.
+                <code>$<var>PRIZE</var></code> if you win. The probability
+                that you will win is <code><var>ODD_F</var></code>.
             </p>
 
             <p class="question">

@@ -23,7 +23,7 @@
         <div id='hintsarea'></div>
     </div>
     <div id="answer_area_wrap"><div id="answer_area">
-        <form id="answerform" action="/exercisedashboard" method="get" name="answerform">
+        <form id="answerform" name="answerform">
             <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px">
             <div id="answercontent" class="info-box">
                 <span id="examples-show">Acceptable formats</span>
@@ -31,7 +31,9 @@
                 <div id="solutionarea" class="fancy-scrollbar"></div>
                 <ul id="examples" style="display: none"></ul>
                 <div class="answer-buttons">
-                <input type="button" class="simple-button green" id="check-answer-button" value="Check Answer"/>
+                <div class="check-answer-wrapper">
+                    <input type="button" class="simple-button green" id="check-answer-button" value="Check Answer"/>
+                </div>
                 <input type="button" class="simple-button green" id="next-question-button" style="display:none;" name="correctnextbutton" value="Correct! Next Question..."/>
                 <div id="positive-reinforcement"><img src="/images/face-smiley.png" /></div>
                 <span id="show-solution-button-container"></span>

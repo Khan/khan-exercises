@@ -390,5 +390,20 @@ $.extend(KhanUtil, {
         }
 
         return allZero ? randCoefs(minDegree, maxDegree) : coefs;
-    }
+    },
+
+    findRootsNumerically: function(fn, range, step) {
+        step = step || 0.05;
+        var x = range[0]
+        var positive = fn(x) > 0;
+        var roots = [];
+        while (x < range[1]) {
+            x += step;
+            if ((fn(x) > 0) !== positive) {
+                roots.push(KhanUtil.roundToNearest(step, x - step));
+                positive = !positive;
+            }
+        }
+        return roots;
+    },
 });

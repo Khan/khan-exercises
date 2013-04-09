@@ -4,11 +4,6 @@
     <meta charset="UTF-8" />
     <title>Standard deviation</title>
     <script src="../khan-exercise.js"></script>
-    <style>
-        #answer_area .short input[type=text] {
-            width: 40px;
-        }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -31,7 +26,7 @@
 
         <div class="problems">
 
-            <div id="population">
+            <div id="population" data-calculator>
                 <div class="problem" data-else>
                     <p>You have found the following ages (in years) of all <var>plural( DATA_POINTS, animal( 1 ) )</var> at your local zoo:</p>
                     <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
@@ -45,11 +40,11 @@
                 <div class="solution" data-type="multiple">
                     <p>
                         Average age:<br><code>\quad</code>
-                        <span class="sol short" data-type="decimal" data-inexact data-max-error="0.15"><var>mean( DATA )</var></span> years old
+                        <span class="sol short40" data-type="decimal" data-inexact data-max-error="0.15"><var>mean( DATA )</var></span> years old
                     </p>
                     <p>
                         Standard deviation:<br><code>\quad</code>
-                        <span class="sol short" data-type="decimal" data-inexact data-max-error="0.15"><var>stdDevPop( DATA )</var></span> years
+                        <span class="sol short40" data-type="decimal" data-inexact data-max-error="0.15"><var>stdDevPop( DATA )</var></span> years
                     </p>
                     <div class="example">decimals, like <code>7.5</code></div>
                     <div class="example">answers within <code>\pm 0.15</code> are accepted to allow for rounding part-way through</div>
@@ -168,7 +163,7 @@
                 </div> <!-- hints -->
             </div> <!-- population -->
 
-            <div id="sample">
+            <div id="sample" data-calculator>
                 <div class="problem" data-else>
                     <p>
                         You have found the following ages (in years) of <var>plural( DATA_POINTS, animal( 1 ) )</var>
@@ -185,11 +180,11 @@
                 <div class="solution" data-type="multiple">
                     <p>
                         Average age:<br><code>\quad</code>
-                        <span class="sol short" data-type="decimal" data-inexact data-max-error="0.15"><var>mean( DATA )</var></span> years old
+                        <span class="sol short40" data-type="decimal" data-inexact data-max-error="0.15"><var>mean( DATA )</var></span> years old
                     </p>
                     <p>
                         Standard deviation:<br><code>\quad</code>
-                        <span class="sol short" data-type="decimal" data-inexact data-max-error="0.15"><var>stdDev( DATA )</var></span> years
+                        <span class="sol short40" data-type="decimal" data-inexact data-max-error="0.15"><var>stdDev( DATA )</var></span> years
                     </p>
                     <div class="example">decimals, like <code>0.75</code></div>
                     <div class="example">answers within <code>\pm 0.15</code> are accepted to allow for rounding part-way through</div>

@@ -94,6 +94,11 @@ $.extend(KhanUtil, {
                 return term != null;
             });
 
+            // Remove terms that evaluate to 0
+            terms = _.filter(terms, function(term) {
+                return "" + KhanUtil.expr(term) !== "0";
+            });
+
             terms = $.map(terms, function(term, i) {
                 var parenthesize;
                 switch (KhanUtil.exprType(term)) {
@@ -176,7 +181,9 @@ $.extend(KhanUtil, {
 
             // If we're multiplying by 1, ignore it, unless we have ["*", 1] and
             // should return 1
-            if (arguments[0] === 1 && rest.length > 1) {
+            if (arguments[0] === 0) {
+                return 0;
+            } else if (arguments[0] === 1 && rest.length > 1) {
                 return KhanUtil.expr(rest);
             } else if (arguments[0] === -1 && rest.length > 1) {
                 var form = KhanUtil.expr(rest);
@@ -266,6 +273,12 @@ $.extend(KhanUtil, {
         },
 
         "^": function(base, pow) {
+            if (pow === 0) {
+                return "";
+            } else if (pow === 1) {
+                return KhanUtil.expr(base);
+            }
+
             var parenthesizeBase, trigFunction;
             switch (KhanUtil.exprType(base)) {
                 case "+":

@@ -117,9 +117,10 @@
                     Angles not necessarily drawn to scale.</p>
                 </div>
 
-                <div class="solution">
-                    <span data-if="RAND3 === 0 || RAND3 === 2"><var>90-ACCUTEANGLE</var></span>
-                    <span data-else><var>ACCUTEANGLE</var></span>
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" data-if="RAND3 === 0 || RAND3 === 2"><var>90-ACCUTEANGLE</var></span>
+                    <span class="sol" data-forms="integer" data-else><var>ACCUTEANGLE</var></span>
+                    <code>\Large{{}^\circ}</code>
                 </div>
 
                 <div class="hints">
@@ -176,7 +177,7 @@
                             \color{purple}{90&deg;} - \color{green}{\angle{DGF}} =
                             <var>90 - ACCUTEANGLE</var>&deg;</code></span>
                         <span class="graphie" data-update="complementary-and-opposite">
-                            label( [-1.2, 0], "\\color{orange}{" + 90 - ACCUTEANGLE + "&deg;}",
+                            label( [-1.2, 0], "\\color{orange}{" + (90 - ACCUTEANGLE) + "&deg;}",
                                 "below left" );
                             arc( [0, 0], 1.2, 180, 248, { stroke: "orange" } );
                         </span>
@@ -303,9 +304,10 @@
                     Angles not necessarily drawn to scale.</p>
                 </div>
 
-                <div class="solution">
-                    <var data-if="RAND2 === 0">Tri_Y + Tri_Z</var>
-                    <var data-else>Tri_Y</var>
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" data-if="RAND2 === 0"><var>Tri_Y + Tri_Z</var></span>
+                    <span class="sol" data-forms="integer" data-else><var>Tri_Y</var></span>
+                    <code>\Large{{}^\circ}</code>
                 </div>
 
                 <div class="hints">
@@ -480,9 +482,10 @@
                     Angles not necessarily drawn to scale.</p>
                 </div>
 
-                <div class="solution">
-                    <var data-if="RAND3 === 0 || RAND3 === 1">Tri_Y</var>
-                    <var data-else>Tri_X</var>
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" data-if="RAND3 === 0 || RAND3 === 1"><var>Tri_Y</var></span>
+                    <span class="sol" data-forms="integer" data-else><var>Tri_X</var></span>
+                    <code>\Large{{}^\circ}</code>
                 </div>
 
                 <div class="hints">
@@ -633,7 +636,10 @@
                     Angles not necessarily drawn to scale.</p>
                 </div>
 
-                <div class="solution"><var>90 - Tri_Y</var></div>
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer"><var>90 - Tri_Y</var></span>
+                    <code>\Large{{}^\circ}</code>
+                </div>
 
                 <div class="hints">
 

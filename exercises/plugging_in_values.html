@@ -11,9 +11,6 @@
         table.plug_hint td {
             padding-left: 40px;
         }
-        #answer_area input[type=text] {
-            width: 50px;
-        }
     </style>
 </head>
 <body>
@@ -161,7 +158,7 @@
                 <p><b>Find the missing values.</b></p>
             </div>
             <div class="solution" data-each="TABLEVALS as tableval" data-type="multiple">
-                <p data-if="tableval.yval === ' '"><code>f(<var>tableval.xval</var>)</code> = <span class="sol" data-forms="integer, decimal"><var>COEF * tableval.xval + CONS</var></span></p>
+                <p data-if="tableval.yval === ' '"><code>f(<var>tableval.xval</var>)</code> = <span class="sol short50" data-forms="integer, decimal"><var>COEF * tableval.xval + CONS</var></span></p>
             </div>
             <div class="hints">
                 <p>Plug the corresponding values of <code class="hint_orange">x</code> into the equation to find the missing values of <code class="hint_blue">f(x)</code>.</p>

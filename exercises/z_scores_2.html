@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems stat">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie word-problems stat"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Z-scores 2: Reading a z-table</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -58,7 +58,7 @@
             <div class="problem">
                 The scores on a statewide <var>course(1)</var> exam were normally distributed with
                 <code>\mu = <var>MEAN</var></code> and <code>\sigma = <var>STDDEV</var></code>.
-                <br /><var>person(1)</var> earned a<span data-if="floorTo(0, GRADE / 10) === 8">n</span>
+                <br><var>person(1)</var> earned a<span data-if="floorTo(0, GRADE / 10) === 8">n</span>
                 <code><var>GRADE</var></code> on the exam.
             </div>
             <p class="question"><var>person(1)</var>'s exam grade was higher than what percentage
@@ -66,10 +66,10 @@
             <div class="fake_header reading">
                 <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>column</var></span>
             </div>
-            <div class="fake_row reading" data-each="ROWS as i, row">
+            <div data-each="ROWS as i, row" class="fake_row reading">
                 <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>zgrid</var></span>
             </div>
-            <div class="solution" data-inexact data-max-error="0.0001" data-forms="percent">
+            <div data-inexact="" data-forms="percent" class="solution" data-max-error="0.0001">
                 <span><var>roundTo(4, ANSWER)</var></span>
             </div>
 
@@ -83,12 +83,18 @@
                     <span class="hint_blue">z-score</span> of <var>person( 1 )</var>'s exam grade.
                 </p>
                 <div>
-                    <p>
-                        Recall that we can calculate <var>his( 1 )</var> z-score by subtracting the
-                        <span class="hint_pink">mean <code>(\mu)</code></span> from <var>his(1)</var>
+                    <p data-if="isMale(1)">
+                        Recall that we can calculate his z-score by subtracting the
+                        <span class="hint_pink">mean <code>(\mu)</code></span> from his
+                        grade and then dividing by the <span class="hint_green">standard deviation
+                        <code>(\sigma)</code></span>.
+                    </p><p data-else="">
+                        Recall that we can calculate her z-score by subtracting the
+                        <span class="hint_pink">mean <code>(\mu)</code></span> from her
                         grade and then dividing by the <span class="hint_green">standard deviation
                         <code>(\sigma)</code></span>.
                     </p>
+                    
                     <p>
                         <code>
                             \large{\quad z \quad = \quad
@@ -122,5 +128,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

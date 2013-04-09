@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math word-problems spin">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math word-problems spin"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Least common multiple and greatest common divisor word problems</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -17,7 +17,7 @@
     <div class="problems">
 
         <div id="lcm-hot-dog-count">
-            <div class="vars" data-ensure="LCM !== A && LCM !== B">
+            <div data-ensure="LCM !== A &amp;&amp; LCM !== B" class="vars">
                 <var id="C">randRange( 2, 6 )</var>
                 <var id="START_A">randRange( 1, 10 )</var>
                 <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
@@ -28,18 +28,29 @@
                 <var id="LCM">PRODUCT / GCD</var>
             </div>
 
-            <p class="problem spin">
-                {Next week|On Saturday}, <var>person(1)</var> is having a party{ and <var>he(1)</var>'s planning to play <var>his(1)</var>
-                <var>randRange(2,30)</var> favorite songs. <var>He(1)</var> also|. <var>He(1)</var>} wants to get some hot dogs for the party. When <var>he(1)</var>
-                goes to the store, <var>he(1)</var> finds that hot dogs come in packages of <var>A</var> and buns come in packages of <var>B</var>.
+            <p class="problem spin" data-if="isMale(1)">
+                {Next week|On Saturday}, <var>person(1)</var> is having a party{ and he's planning to play his
+                <var>randRange(2,30)</var> favorite songs. He also|. He} wants to get some hot dogs for the party. When he
+                goes to the store, he finds that hot dogs come in packages of <var>A</var> and buns come in packages of <var>B</var>.
+            </p><p class="problem spin" data-else="">
+                {Next week|On Saturday}, <var>person(1)</var> is having a party{ and she's planning to play her
+                <var>randRange(2,30)</var> favorite songs. She also|. She} wants to get some hot dogs for the party. When she
+                goes to the store, she finds that hot dogs come in packages of <var>A</var> and buns come in packages of <var>B</var>.
             </p>
 
-            <p class="question">
+            
+
+            <p class="question" data-if="isMale(1)">
                 If <var>person(1)</var> wants to have the same number of hot dogs and buns,
-                what is the minimum number of hot dogs <var>he(1)</var> will have to buy?
+                what is the minimum number of hot dogs he will have to buy?
+            </p><p class="question" data-else="">
+                If <var>person(1)</var> wants to have the same number of hot dogs and buns,
+                what is the minimum number of hot dogs she will have to buy?
             </p>
 
-            <p class="solution" data-forms="integer"><var>LCM</var></p>
+            
+
+            <p data-forms="integer" class="solution"><var>LCM</var></p>
 
             <div class="hints">
                 <div>
@@ -72,16 +83,16 @@
                     <p>
                         <code>\qquad dogs: </code>
                         <span data-each="getMultiples( A, min( LCM * 2 + A * 2, max( A * 14, LCM ) ) ) as M">
-                            <span data-if="M % LCM === 0 && M / LCM === 1">
+                            <span data-if="M % LCM === 0 &amp;&amp; M / LCM === 1">
                                 <code>\color{<var>PINK</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 2">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 2">
                                 <code>\color{<var>BLUE</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 3">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 3">
                                 <code>\color{<var>GREEN</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else>
+                            <span data-else="">
                                 <code><var>M</var>,</code>
                             </span>
                         </span>
@@ -90,16 +101,16 @@
                     <p>
                         <code>\qquad buns: </code>
                         <span data-each="getMultiples( B, min( LCM * 2 + B * 2, max( B * 14, LCM ) ) ) as M">
-                            <span data-if="M % LCM === 0 && M / LCM === 1">
+                            <span data-if="M % LCM === 0 &amp;&amp; M / LCM === 1">
                                 <code>\color{<var>PINK</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 2">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 2">
                                 <code>\color{<var>BLUE</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 3">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 3">
                                 <code>\color{<var>GREEN</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else>
+                            <span data-else="">
                                 <code><var>M</var>,</code>
                             </span>
                         </span>
@@ -120,7 +131,7 @@
         </div>
 
         <div id="lcm-uniforms">
-            <div class="vars" data-ensure="LCM !== A && LCM !== B">
+            <div data-ensure="LCM !== A &amp;&amp; LCM !== B" class="vars">
                 <var id="C">randRange( 2, 6 )</var>
                 <var id="START_A">randRange( 1, 10 )</var>
                 <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
@@ -131,15 +142,23 @@
                 <var id="LCM">PRODUCT / GCD</var>
             </div>
 
-            <p class="problem spin">
-                <var>person(1)</var> is organizing a {baseball|softball} league, and <var>he(1)</var> needs to purchase jerseys and
+            <p class="problem spin" data-if="isMale(1)">
+                <var>person(1)</var> is organizing a {baseball|softball} league, and he needs to purchase jerseys and
+                visors for the players. Jerseys come in sets of <var>A</var>, and visors come in sets of <var>B</var>.
+            </p><p class="problem spin" data-else="">
+                <var>person(1)</var> is organizing a {baseball|softball} league, and she needs to purchase jerseys and
                 visors for the players. Jerseys come in sets of <var>A</var>, and visors come in sets of <var>B</var>.
             </p>
-            <p class="question">
+            
+            <p class="question" data-if="isMale(1)">
                 If <var>person(1)</var> wants to buy the same number of jerseys and visors,
-                what is the minimum number of jerseys or visors <var>he(1)</var> will have to purchase?
+                what is the minimum number of jerseys or visors he will have to purchase?
+            </p><p class="question" data-else="">
+                If <var>person(1)</var> wants to buy the same number of jerseys and visors,
+                what is the minimum number of jerseys or visors she will have to purchase?
             </p>
-            <p class="solution" data-forms="integer"><var>LCM</var></p>
+            
+            <p data-forms="integer" class="solution"><var>LCM</var></p>
 
             <div class="hints">
                 <div>
@@ -172,16 +191,16 @@
                     <p>
                         <code>\qquad jerseys: </code>
                         <span data-each="getMultiples( A, min( LCM * 2 + A * 2, max( A * 12, LCM ) ) ) as M">
-                            <span data-if="M % LCM === 0 && M / LCM === 1">
+                            <span data-if="M % LCM === 0 &amp;&amp; M / LCM === 1">
                                 <code>\color{<var>PINK</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 2">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 2">
                                 <code>\color{<var>BLUE</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 3">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 3">
                                 <code>\color{<var>GREEN</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else>
+                            <span data-else="">
                                 <code><var>M</var>,</code>
                             </span>
                         </span>
@@ -190,16 +209,16 @@
                     <p>
                         <code>\qquad visors: </code>
                         <span data-each="getMultiples( B, min( LCM * 2 + B * 2, max( B * 12, LCM ) ) ) as M">
-                            <span data-if="M % LCM === 0 && M / LCM === 1">
+                            <span data-if="M % LCM === 0 &amp;&amp; M / LCM === 1">
                                 <code>\color{<var>PINK</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 2">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 2">
                                 <code>\color{<var>BLUE</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 3">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 3">
                                 <code>\color{<var>GREEN</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else>
+                            <span data-else="">
                                 <code><var>M</var>,</code>
                             </span>
                         </span>
@@ -220,7 +239,7 @@
         </div>
 
         <div id="lcm-test-questions">
-            <div class="vars" data-ensure="LCM !== A && LCM !== B">
+            <div data-ensure="LCM !== A &amp;&amp; LCM !== B" class="vars">
                 <var id="C">randRange( 2, 6 )</var>
                 <var id="START_A">randRange( 1, 10 )</var>
                 <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
@@ -232,19 +251,32 @@
             </div>
 
             <div class="problem">
-                <p class="spin">
+                <p class="spin" data-if="isMale(1)">
                     <var>person(1)</var> and <var>person(2)</var> are in different <var>course(1)</var> classes at <var>school(1)</var>.
-                    <span data-if="A > B">
+                    <span data-if="A &gt; B">
                         <var>person(1)</var>'s teacher always gives <var>plural( exam(1) )</var> with <var>A</var> questions on them while
                         <var>person(2)</var>'s teacher gives more frequent <var>plural( exam(1) )</var> with only <var>B</var> questions.
                     </span>
-                    <span data-else>
+                    <span data-else="">
                         <var>person(2)</var>'s teacher always gives <var>plural( exam(1) )</var> with <var>B</var> questions on them while
                         <var>person(1)</var>'s teacher gives more frequent <var>plural( exam(1) )</var> with only <var>A</var> questions.
                     </span>
-                    {<var>person(1)</var> has <var>randRange(15,40)</var> other students in <var>his(1)</var> class.
+                    {<var>person(1)</var> has <var>randRange(15,40)</var> other students in his class.
+                    |<var>person(2)</var>'s teacher also assigns <var>randRange(3,10)</var> projects per year.}
+                </p><p class="spin" data-else="">
+                    <var>person(1)</var> and <var>person(2)</var> are in different <var>course(1)</var> classes at <var>school(1)</var>.
+                    <span data-if="A &gt; B">
+                        <var>person(1)</var>'s teacher always gives <var>plural( exam(1) )</var> with <var>A</var> questions on them while
+                        <var>person(2)</var>'s teacher gives more frequent <var>plural( exam(1) )</var> with only <var>B</var> questions.
+                    </span>
+                    <span data-else="">
+                        <var>person(2)</var>'s teacher always gives <var>plural( exam(1) )</var> with <var>B</var> questions on them while
+                        <var>person(1)</var>'s teacher gives more frequent <var>plural( exam(1) )</var> with only <var>A</var> questions.
+                    </span>
+                    {<var>person(1)</var> has <var>randRange(15,40)</var> other students in her class.
                     |<var>person(2)</var>'s teacher also assigns <var>randRange(3,10)</var> projects per year.}
                 </p>
+                
                 <p>
                     Even though the two classes have to take a different number of <var>plural( exam(1) )</var>, their teachers have
                     told them that both classes will get the same total number of <var>exam(1)</var> questions each year.
@@ -256,7 +288,7 @@
                 can expect to get in a year?
             </p>
 
-            <p class="solution" data-forms="integer"><var>LCM</var></p>
+            <p data-forms="integer" class="solution"><var>LCM</var></p>
 
             <div class="hints">
                 <div>
@@ -292,16 +324,16 @@
                     <p>
                         <code>\qquad</code>
                         <span data-each="getMultiples( A, min( LCM * 2 + A * 2, max( A * 15, LCM ) ) ) as M">
-                            <span data-if="M % LCM === 0 && M / LCM === 1">
+                            <span data-if="M % LCM === 0 &amp;&amp; M / LCM === 1">
                                 <code>\color{<var>PINK</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 2">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 2">
                                 <code>\color{<var>BLUE</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 3">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 3">
                                 <code>\color{<var>GREEN</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else>
+                            <span data-else="">
                                 <code><var>M</var>,</code>
                             </span>
                         </span>
@@ -310,16 +342,16 @@
                     <p>
                         <code>\qquad</code>
                         <span data-each="getMultiples( B, min( LCM * 2 + B * 2, max( B * 15, LCM ) ) ) as M">
-                            <span data-if="M % LCM === 0 && M / LCM === 1">
+                            <span data-if="M % LCM === 0 &amp;&amp; M / LCM === 1">
                                 <code>\color{<var>PINK</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 2">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 2">
                                 <code>\color{<var>BLUE</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 3">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 3">
                                 <code>\color{<var>GREEN</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else>
+                            <span data-else="">
                                 <code><var>M</var>,</code>
                             </span>
                         </span>
@@ -341,7 +373,7 @@
         </div>
 
         <div id="gcd-teams">
-            <div class="vars" data-ensure="A_START !== B_START">
+            <div data-ensure="A_START !== B_START" class="vars">
                 <var id="A_START">randRange( 1, 10 )</var>
                 <var id="B_START">randRange( 1, 10 )</var>
                 <var id="FACTOR">randRange( 2, 5 )</var>
@@ -354,16 +386,22 @@
             </div>
 
             <div class="question spin">
-                <p>
+                <p data-if="isMale(1)">
                     At a track and field competition, there are <var>A</var> sprinters and <var>B</var> long-distance
                     runners{ and <var>randRange(5,100)</var> fans|}. <var>person(1)</var> has to assign all of the athletes
-                    to teams. <var>He(1)</var> wants to make sure all of the teams have the same number of sprinters and
+                    to teams. He wants to make sure all of the teams have the same number of sprinters and
+                    the same number of long-distance runners.
+                </p><p data-else="">
+                    At a track and field competition, there are <var>A</var> sprinters and <var>B</var> long-distance
+                    runners{ and <var>randRange(5,100)</var> fans|}. <var>person(1)</var> has to assign all of the athletes
+                    to teams. She wants to make sure all of the teams have the same number of sprinters and
                     the same number of long-distance runners.
                 </p>
+                
                 <p><strong>What is the greatest number of teams <var>person(1)</var> can form?</strong></p>
             </div>
 
-            <p class="solution" data-forms="integer"><var>GCD</var></p>
+            <p data-forms="integer" class="solution"><var>GCD</var></p>
 
             <div class="hints">
                 <p>
@@ -421,20 +459,20 @@
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
                             <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
-                                <var>plural( N + 1, "team" )</var> with <var>plural( A / ( N + 1 ), "sprinter" )</var><br />
+                                <var>plural( N + 1, "team" )</var> with <var>plural( A / ( N + 1 ), "sprinter" )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <br />
+                                <br>
                             </span>
                         </span>
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
                             <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
-                                <var>plural( N + 1, "team" )</var> with <var>plural( B / ( N + 1 ), "long-distance runner" )</var><br />
+                                <var>plural( N + 1, "team" )</var> with <var>plural( B / ( N + 1 ), "long-distance runner" )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <br />
+                                <br>
                             </span>
                         </span>
                     </div>
@@ -451,7 +489,7 @@
                         <span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
                             <var>plural( F, "team" )</var> with <var>plural( A / F, "sprinter" )</var> and
                             <var>plural( B / F, "long-distance runner" )</var>
-                            <br />
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -470,7 +508,7 @@
         </div>
 
         <div id="gcd-restaurant">
-            <div class="vars" data-ensure="A_START !== B_START">
+            <div data-ensure="A_START !== B_START" class="vars">
                 <var id="A_START">randRange( 1, 10 )</var>
                 <var id="B_START">randRange( 1, 10 )</var>
                 <var id="FACTOR">randRange( 2, 5 )</var>
@@ -483,22 +521,31 @@
             </div>
 
             <div class="problem spin">
-                <p>
+                <p data-if="isMale(1)">
                     At <var>person(1)</var>'s bakery, <var>person(1)</var> bakes one batch of <var>A</var> chocolate chip cookies
-                    and one batch of <var>B</var> oatmeal cookies each day. <var>person(1)</var> sells all <var>his(1)</var> cookies
+                    and one batch of <var>B</var> oatmeal cookies each day. <var>person(1)</var> sells all his cookies
+                    the same day in gift baskets.
+                </p><p data-else="">
+                    At <var>person(1)</var>'s bakery, <var>person(1)</var> bakes one batch of <var>A</var> chocolate chip cookies
+                    and one batch of <var>B</var> oatmeal cookies each day. <var>person(1)</var> sells all her cookies
                     the same day in gift baskets.
                 </p>
-                <p>
-                    {Because <var>his(1)</var> customers expect consistency|To keep the price the same}, <var>person(1)</var> wants
+                
+                <p data-if="isMale(1)">
+                    {Because his customers expect consistency|To keep the price the same}, <var>person(1)</var> wants
+                    to make sure each gift basket is identical.
+                </p><p data-else="">
+                    {Because her customers expect consistency|To keep the price the same}, <var>person(1)</var> wants
                     to make sure each gift basket is identical.
                 </p>
+            
             </div>
 
             <p class="question">
                 What is the greatest number of gift baskets <var>person(1)</var> can sell each day?
             </p>
 
-            <p class="solution" data-forms="integer"><var>GCD</var></p>
+            <p data-forms="integer" class="solution"><var>GCD</var></p>
 
             <div class="hints">
                 <p>
@@ -555,20 +602,20 @@
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
                             <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
-                                <var>plural( N + 1, "basket" )</var> with <var>plural( A / ( N + 1 ), "chocolate chip cookie" )</var><br />
+                                <var>plural( N + 1, "basket" )</var> with <var>plural( A / ( N + 1 ), "chocolate chip cookie" )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <br />
+                                <br>
                             </span>
                         </span>
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
                             <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
-                                <var>plural( N + 1, "basket" )</var> with <var>plural( B / ( N + 1 ), "oatmeal cookie" )</var><br />
+                                <var>plural( N + 1, "basket" )</var> with <var>plural( B / ( N + 1 ), "oatmeal cookie" )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <br />
+                                <br>
                             </span>
                         </span>
                     </div>
@@ -585,7 +632,7 @@
                         <span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
                             <var>plural( F, "basket" )</var> with <var>plural( A / F, "chocolate chip cookie" )</var> and
                             <var>plural( B / F, "oatmeal cookie" )</var>
-                            <br />
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -603,7 +650,7 @@
         </div>
 
         <div id="gcd-office-supplies">
-            <div class="vars" data-ensure="A_START !== B_START">
+            <div data-ensure="A_START !== B_START" class="vars">
                 <var id="A_START">randRange( 1, 10 )</var>
                 <var id="B_START">randRange( 1, 10 )</var>
                 <var id="FACTOR">randRange( 2, 5 )</var>
@@ -616,18 +663,24 @@
             </div>
 
             <div class="problem spin">
-                <p>
+                <p data-if="isMale(1)">
                     <var>person(1)</var> just bought 1 package of <var>plural( A, deskItem(1) )</var> and 1 package of
-                    <var>plural( B, deskItem(2) )</var>. <var>He(1)</var> wants to use all of the <var>plural( deskItem(1) )</var>
-                    and <var>plural( deskItem(2) )</var> to create identical sets of office supplies for <var>his(1)</var>
+                    <var>plural( B, deskItem(2) )</var>. He wants to use all of the <var>plural( deskItem(1) )</var>
+                    and <var>plural( deskItem(2) )</var> to create identical sets of office supplies for his
+                    {coworkers|friends|classmates}.
+                </p><p data-else="">
+                    <var>person(1)</var> just bought 1 package of <var>plural( A, deskItem(1) )</var> and 1 package of
+                    <var>plural( B, deskItem(2) )</var>. She wants to use all of the <var>plural( deskItem(1) )</var>
+                    and <var>plural( deskItem(2) )</var> to create identical sets of office supplies for her
                     {coworkers|friends|classmates}.
                 </p>
+            
             </div>
             <p class="question">
                 What is the greatest number of identical sets <var>person(1)</var> can make using all the supplies?
             </p>
 
-            <p class="solution" data-forms="integer"><var>GCD</var></p>
+            <p data-forms="integer" class="solution"><var>GCD</var></p>
 
             <div class="hints">
                 <p>
@@ -643,7 +696,7 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span data-each="getFactors( A ) as F" class="hint_blue">
-                            <var>plural( F, "set" )</var> with <var>plural( A / F, deskItem(1) )</var> <var>plural( "", "each", F )</var><br />
+                            <var>plural( F, "set" )</var> with <var>plural( A / F, deskItem(1) )</var> <var>plural( "", "each", F )</var><br>
                         </span>
                     </p>
                 </div>
@@ -661,7 +714,7 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span data-each="getFactors( B ) as F" class="hint_green">
-                            <var>plural( F, "set" )</var> with <var>plural( B / F, deskItem(2) )</var> <var>plural( "", "each", F )</var><br />
+                            <var>plural( F, "set" )</var> with <var>plural( B / F, deskItem(2) )</var> <var>plural( "", "each", F )</var><br>
                         </span>
                     </p>
                 </div>
@@ -675,20 +728,20 @@
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
                             <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
-                                <var>plural( N + 1, "set" )</var> with <var>plural( A / ( N + 1 ), deskItem(1) )</var><br />
+                                <var>plural( N + 1, "set" )</var> with <var>plural( A / ( N + 1 ), deskItem(1) )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <br />
+                                <br>
                             </span>
                         </span>
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
                             <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
-                                <var>plural( N + 1, "set" )</var> with <var>plural( B / ( N + 1 ), deskItem(2) )</var><br />
+                                <var>plural( N + 1, "set" )</var> with <var>plural( B / ( N + 1 ), deskItem(2) )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <br />
+                                <br>
                             </span>
                         </span>
                     </div>
@@ -705,7 +758,7 @@
                         <span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
                             <var>plural( F, "set" )</var> with <var>plural( A / F, deskItem(1) )</var> and
                             <var>plural( B / F, deskItem(2) )</var>
-                            <br />
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -723,5 +776,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

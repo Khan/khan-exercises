@@ -13,6 +13,7 @@ everything that isn't part of _IGNORE_NODES is something that needs to be
 translated.
 """
 import argparse
+import copy
 import json
 import os.path
 import re
@@ -28,17 +29,24 @@ import polib
 _HAS_TEXT = '*[./text()[normalize-space(.)!=""]]'
 _XPATH_FIND_NODES = '//%s[not(ancestor::%s)]' % (_HAS_TEXT, _HAS_TEXT)
 
-# All the tags that we want to ignore and not extract strings from
-_IGNORE_NODES = [
+# All the tags that we want to make sure that strings don't contain
+_REJECT_NODES = [
     'style',
     'script',
-    'var',
-    'code',
     'div[@class="validator-function"]',
     '*[contains(@data-type,"regex")]',
     '*[contains(@class,"graphie")]',
     '*[contains(@class,"guess")]'
 ]
+
+# Script nodes that might be contained within an extracted string
+_INLINE_SCRIPT_NODES = [
+    'var',
+    'code'
+]
+
+# All the tags that we want to ignore and not extract strings from
+_IGNORE_NODES = _REJECT_NODES + _INLINE_SCRIPT_NODES
 
 # Make an HTML 5 Parser that will be used to turn the HTML documents
 # into a usable DOM. Make sure that we ignore the implied HTML namespace.
@@ -62,8 +70,20 @@ def main():
         help='The format of the output. (default: %(default)s)')
     arg_parser.add_argument('--quiet', action='store_true',
         help='Do not emit status to stderr on successful runs.')
+    arg_parser.add_argument('--lint', action='store_true',
+        help='Run a linter against the input files.')
+    arg_parser.add_argument('--fix', action='store_true',
+        help='Automatically fix i18n issues in the input files.')
 
     args = arg_parser.parse_args()
+
+    if args.lint:
+        matches = lint(args.html_files, not args.quiet)
+        sys.exit(min(len(matches), 127))
+
+    if args.fix:
+        matches = fix(args.html_files, not args.quiet)
+        sys.exit(min(len(matches), 127))
 
     if args.format == 'po':
         # Output a PO file by default
@@ -81,6 +101,282 @@ def main():
     else:
         # Otherwise just write the output to STDOUT
         print results
+
+
+def lint(files, verbose):
+    """Lint many HTML exercises looking for invalid nodes.
+
+    Arguments:
+        - files: An array of filenames to parse
+        - verbose: If there should be any output
+    Returns:
+        - An array of (node, invalid_node, filename) tuples which contain
+          the node which has the invalid node, the invalid node, and the
+          filename of the file which has the error.
+    """
+    matches = []
+
+    # Go through all the fileanmes provided
+    for filename in files:
+        # And aggregate the linting results
+        matches += lint_file(filename, verbose)
+        # TODO: Run the file against fix_file as well and add in
+        # the reported errors.
+
+    if verbose and matches:
+        num_matches = len(matches)
+        print >>sys.stderr, ('%s error%s detected.'
+                            % (num_matches, "" if num_matches == 1 else "s"))
+
+    return matches
+
+
+def lint_file(filename, verbose):
+    """Lint a single HTML exercise looking for invalid nodes.
+
+    Arguments:
+        - filename: A string filename to parse
+        - verbose: If there should be any output
+    Returns:
+        - An array of (node, invalid_node, filename) tuples which contain
+          the node which has the invalid node, the invalid node, and the
+          filename of the file which has the error.
+    """
+    matches = []
+
+    # Construct an XPath expression for finding rejected nodes
+    lint_expr = "|".join([".//%s" % name for name in _REJECT_NODES])
+
+    # Collect all the i18n-able nodes out of file
+    nodes = _extract_nodes(filename)
+
+    for node in nodes:
+        # If we're linting the file and the string doesn't contain any
+        # rejected nodes then we just ignore it
+        lint_nodes = node.xpath(lint_expr)
+
+        if verbose and lint_nodes:
+            print >>sys.stderr, "Lint error in file: %s" % filename
+
+        for lint_node in lint_nodes:
+            matches.append((node, lint_node, filename))
+
+            if verbose:
+                print >>sys.stderr, "Contains invalid node:"
+                print >>sys.stderr, _get_outerhtml(node)
+                print >>sys.stderr, "Invalid node:"
+                print >>sys.stderr, _get_outerhtml(lint_node)
+
+    return matches
+
+
+def fix(files, verbose):
+    """Fix many HTML exercise repairing invalid nodes.
+
+    Arguments:
+        - files: An array of filenames to fix
+        - verbose: If there should be any output
+    Returns:
+        - An array of (node, invalid_node, filename) tuples which contain
+          the node which has the invalid node, the invalid node, and the
+          filename of the file which has the error.
+    """
+    # The filters through which the files should be passed
+    filters = [PronounFilter()]
+
+    # The invalid nodes that need manual repairing
+    errors = []
+
+    # Go through all the fileanmes provided
+    for filename in files:
+        # Process the file with each filter in series
+        # And aggregate the unfixable results
+        for filter in filters:
+            errors += fix_file(filename, filter, apply_fix=True,
+                verbose=verbose)
+
+    if verbose and errors:
+        num_matches = len(errors)
+        print >>sys.stderr, ('%s error%s detected.'
+                            % (num_matches, "" if num_matches == 1 else "s"))
+
+    return errors
+
+
+def fix_file(filename, filter, apply_fix, verbose):
+    """Fix a single HTML exercise repairing invalid nodes.
+
+    Returns an array of node tuples which cannot be fixed automatically and
+    must be fixed by hand. Nodes that can be fixed automatically are fixed
+    and the file is updated, if apply_fix is set to True.
+
+    Arguments:
+        - filename: A string filename to parse
+        - filter: The filter class instance to use in repairing the file
+        - apply_fix: If True, then filename is replaced with new contents,
+          which is the fixed version of the old contents.
+        - verbose: If there should be any output
+    Returns:
+        - An array of (node, invalid_node, filename) tuples which contain
+          the node which has the invalid node, the invalid node, and the
+          filename of the file which has the error.
+    """
+    errors = []
+
+    # Construct an XPath expression for finding nodes to fix
+    fix_expr = '|'.join(['.//%s[%s]' % (name, filter.xpath)
+        for name in _INLINE_SCRIPT_NODES])
+
+    # Collect all the i18n-able nodes out of file
+    nodes = _extract_nodes(filename)
+
+    # Keep track of which nodes have changed in the document
+    # (Used to figure out if we need to write out a new version of the file)
+    nodes_changed = []
+
+    for node in nodes:
+        # A collection of all the nodes that could might need fixing
+        fix_nodes = node.xpath(fix_expr)
+
+        # Bail if the node doesn't contain any elements that may need fixing
+        if not fix_nodes:
+            continue
+
+        # At the moment we bail if there's already an if or an else on the node
+        # since we're likely going to need to add our own.
+        # TODO(jeresig): If they already exist we'll create our own wrapper
+        # elements to get around this.
+        if node.get('data-if') or node.get('data-else'):
+            if verbose:
+                print >>sys.stderr, "Has nodes but also if/else: %s" % filename
+                print >>sys.stderr, _get_outerhtml(node)
+            errors.append((node, None, filename))
+            continue
+
+        # Create a cloned copy of the node, we're going to need this as
+        # we'll likely need to generate a second copy of the original node
+        # but slightly modified.
+        cloned_node = copy.deepcopy(node)
+
+        # The nodes that might need fixing under the cloned element
+        cloned_fix_nodes = cloned_node.xpath(fix_expr)
+
+        # Some nodes will have a unique 'key' which will be used as a lookup.
+        # For example in the following nodes:
+        #    <p><var>He(1)</var> threw a ball to <var>his(1)</var> friend.</p>
+        #    <p><var>He(1)</var> threw a ball to <var>him(2)</var>.</p>
+        # The first string has one key '1' used twice, whereas the second
+        # string has two keys '1' and '2'. We keep track of this because
+        # we need to use this key to generate the replacement string and also
+        # to make sure that we don't attempt to fix a string that has more than
+        # one key in it. For example the first string becomes:
+        #    <p data-if="isMale(1)">He threw a ball to his friend.</p>
+        #    <p data-else>She threw a ball to her friend.</p>
+        # And the second one is not possible to automatically fixable because
+        # it has more than one key.
+        match_keys = set()
+
+        for fix_node in fix_nodes:
+            # Extract parts of the code element's inner contents for further
+            # processing.
+            match = filter.get_match(fix_node)
+
+            if match:
+                # Extract the key from the string (if it exists)
+                key = filter.extract_key(match)
+
+                # If a key was extracted then add it to the set
+                if key:
+                    match_keys.add(key)
+
+        # If we've located more than one key then we need to fix the strings
+        # by hand.
+        if len(match_keys) > 1:
+            print >>sys.stderr, ("Contains too many different keys: %s" %
+                filename)
+            print >>sys.stderr, _get_outerhtml(node)
+            errors.append((node, match_keys, filename))
+            continue
+
+        # Loop through both the regular and cloned nodes
+        for (fix_node, cloned_fix_node) in zip(fix_nodes, cloned_fix_nodes):
+            # Extract parts of the code element's inner contents for further
+            # processing.
+            match = filter.get_match(fix_node)
+
+            if match:
+                # Process the fixable node
+                changed = filter.filter_fix_node(match, fix_node,
+                    cloned_fix_node)
+
+                # Keep track of nodes that've been changed
+                if changed is not None:
+                    nodes_changed.append(changed)
+
+        # Get the one remaining key
+        key = list(match_keys)[0]
+
+        # Modify the original node (if need be)
+        changed = filter.filter_node(key, node, cloned_node)
+
+        # Keep track of nodes that've been changed
+        if changed is not None:
+            nodes_changed.append(changed)
+
+    # If any nodes have changed and we want to apply the fixes
+    if nodes_changed and apply_fix:
+        with open(filename, 'w') as f:
+            # Then write out the modified file
+            f.write("<!DOCTYPE html>\n")
+            f.write(lxml.html.tostring(nodes_changed[0].getroottree()))
+
+    return errors
+
+
+class PronounFilter:
+    """Repairs usage of he()/He()/his()/His() in exercise files.
+    Used by fix and fix_file, automatically converts these methods into
+    a more translatable form.
+    """
+    _pronouns = ['he', 'He', 'his', 'His']
+    _pronoun_map = {'he': 'she', 'He': 'She', 'his': 'her', 'His': 'Her'}
+    _pronoun_condition = 'isMale(%s)'
+
+    regex = re.compile(r'^\s*(he|his)\(\s*(.*?)\s*\)\s*$', re.I)
+    xpath = ' or '.join(['contains(text(),"%s(")' % pronoun
+        for pronoun in _pronouns])
+
+    def get_match(self, fix_node):
+        """Return a match of a string that matches he|his(...)"""
+        return re.match(self.regex, _get_innerhtml(fix_node))
+
+    def extract_key(self, match):
+        """From the match return the key of the string.
+
+        For example with: he(1), '1' would be returned.
+        """
+        return match.group(2)
+
+    def filter_fix_node(self, match, fix_node, cloned_fix_node):
+        """Replace the fixable node with the correct gender string.
+
+        For example: <var>He(1)</var> will be 'He' and 'She' in the
+        original and cloned nodes.
+        """
+        _replace_node(fix_node, match.group(1))
+        _replace_node(cloned_fix_node,
+            self._pronoun_map[match.group(1)])
+
+    def filter_node(self, key, node, cloned_node):
+        """Adds an data-if and data-else condition to handle the gender toggle.
+
+        This will turn a string like <p><var>He(1)</var> ran.</p> into:
+            <p data-if="isMale(1)">He ran.</p><p data-else>She ran.</p>
+        """
+        node.set('data-if', self._pronoun_condition % key)
+        cloned_node.set('data-else', '')
+        node.addnext(cloned_node)
+        return node
 
 
 def make_potfile(files, verbose):
@@ -124,14 +420,13 @@ def extract_files(files, verbose):
     matches = {}
 
     # Go through all the exercise files.
-    if files:
-        for filename in files:
-            if verbose:
-                print >>sys.stderr, 'Extracting strings from: %s' % filename
-            extract_file(filename, matches)
+    for filename in files:
+        if verbose:
+            print >>sys.stderr, 'Extracting strings from: %s' % filename
+        extract_file(filename, matches)
 
-    num_matches = len(matches)
     if verbose:
+        num_matches = len(matches)
         print >>sys.stderr, ('%s string%s extracted.'
                              % (num_matches, "" if num_matches == 1 else "s"))
 
@@ -144,6 +439,21 @@ def extract_files(files, verbose):
     retval.sort(key=lambda (nl_text, occurrences): occurrences[0])
 
     return retval
+
+
+def _extract_nodes(filename):
+    """Extract all the i18n-able nodes out of a file."""
+    # Parse the HTML tree
+    html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
+
+    # Turn all the tags into a full XPath selector
+    search_expr = _XPATH_FIND_NODES
+
+    for name in _IGNORE_NODES:
+        search_expr += "[not(ancestor-or-self::%s)]" % name
+
+    # Return the matching nodes
+    return html_tree.xpath(search_expr)
 
 
 def extract_file(filename, matches):
@@ -160,21 +470,12 @@ def extract_file(filename, matches):
     if matches is None:
         matches = {}
 
-    # Parse the HTML tree
-    html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
-
-    # Turn all the tags into a full XPath selector
-    search_expr = _XPATH_FIND_NODES
-
-    for name in _IGNORE_NODES:
-        search_expr += "[not(ancestor-or-self::%s)]" % name
-
-    # Search for the matching nodes
-    nodes = html_tree.xpath(search_expr)
+    # Collect all the i18n-able nodes out of file
+    nodes = _extract_nodes(filename)
 
     for node in nodes:
         # Get a string version of the contents of the node
-        contents = _get_innerhtml(lxml.html.tostring(node))
+        contents = _get_innerhtml(node)
 
         # Bail if we're dealing with an empty element
         if not contents:
@@ -208,17 +509,61 @@ class _SetEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def _get_innerhtml(html_string):
-    """Strip the leading and trailing tag from an lxml-generated HTML string.
+def _replace_node(node, replace_node):
+    """A utility method for replacing a node with another node.
 
-    Also cleanup endlines and extraneous spaces.
+    The other node can optionally be a text string.
+    """
+    # Figure out the location where the node needs to be inserted
+    prev_node = node.getprevious()
+    parent_node = node.getparent()
+
+    # Get any text from the node which we'll need to re-insert
+    node_tail = node.tail or ''
+
+    if isinstance(replace_node, basestring):
+        # If it's a string or a Unicode string then
+        # we need to handle it specially
+        if prev_node is not None:
+            # If we're after another node we add it to the
+            # 'tail' of that node
+            prev_text = prev_node.tail or ''
+            prev_node.tail = prev_text + replace_node + node_tail
+        elif parent_node is not None:
+            # If the text node is at the start of the string
+            # then it's added as the .text property to the
+            # parent node
+            parent_text = parent_node.text or ''
+            parent_node.text = parent_text + replace_node + node_tail
+    else:
+        replace_node.tail = node_tail
+        # Otherwise it's a normal node so we just insert it
+        node.addprevious(replace_node)
+
+    # Remove the node that we just replaced
+    if parent_node is not None:
+        parent_node.remove(node)
+
+
+def _get_outerhtml(html_node):
+    """Get a string representation of an HTML node.
 
     (lxml doesn't provide an easy way to get the 'innerHTML'.)
     Note: lxml also includes the trailing text for a node when you
           call tostring on it, we need to snip that off too.
     """
+    html_string = lxml.html.tostring(html_node)
+    return re.sub(r'[^>]*$', '', html_string, count=1)
+
+
+def _get_innerhtml(html_node):
+    """Strip the leading and trailing tag from an lxml-generated HTML string.
+
+    Also cleanup endlines and extraneous spaces.
+    """
+    html_string = _get_outerhtml(html_node)
     html_string = re.sub(r'^<[^>]*>', '', html_string, count=1)
-    html_string = re.sub(r'</[^>]*>[^>]*$', '', html_string, count=1)
+    html_string = re.sub(r'</[^>]*>$', '', html_string, count=1)
     return re.sub(r'\s+', ' ', html_string).strip()
 
 
