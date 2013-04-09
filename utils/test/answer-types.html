@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>answer-types</title>
+    <!-- Include dependencies -->
+    <script src="../../jquery.js"></script>
+    <script>
+        // TODO(alpert): Ugh, should probably load khan-exercise.js for real...
+        var Khan = {
+            query: {},
+            scriptWait: $.noop,
+
+            // This is a random number pulled out of my 32-bit
+            // pseudo-random hat so that tests are always the same
+            randomSeed: 0x4e27b400
+        };
+        var KhanUtil = Khan.Util = {
+            debugLog: $.noop,
+            random: function() {
+                // Robert Jenkins' 32 bit integer hash function.
+                var seed = Khan.randomSeed;
+                seed = ((seed + 0x7ed55d16) + (seed << 12)) & 0xffffffff;
+                seed = ((seed ^ 0xc761c23c) ^ (seed >>> 19)) & 0xffffffff;
+                seed = ((seed + 0x165667b1) + (seed << 5)) & 0xffffffff;
+                seed = ((seed + 0xd3a2646c) ^ (seed << 9)) & 0xffffffff;
+                seed = ((seed + 0xfd7046c5) + (seed << 3)) & 0xffffffff;
+                seed = ((seed ^ 0xb55a4f09) ^ (seed >>> 16)) & 0xffffffff;
+                return (Khan.randomSeed = (seed & 0xfffffff)) / 0x10000000;
+            }
+        };
+        $.fn.runModules = function() { $.fn.tmpl.apply(this, arguments); };
+    </script>
+    <script src="../underscore.js"></script>
+    <script src="../MathJax/2.1/MathJax.js?config=KAthJax-da9a7f53e588f3837b045a600e1dc439"></script>
+
+    <!-- Include QUnit -->
+    <link rel="stylesheet" href="../../test/qunit/qunit/qunit.css" type="text/css" media="screen">
+    <script src="../../test/qunit/qunit/qunit.js"></script>
+
+    <!-- Include utility files and tests. -->
+    <script src="../math.js"></script>
+    <script src="../tmpl.js"></script>
+    <script src="../answer-types.js"></script>
+</head>
+<body>
+
+<h1 id="qunit-header">answer-types</h1>
+<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+
+<div id="qunit-fixture">
+    <div id="solutionarea">
+    </div>
+    <div class="problem">
+    </div>
+</div>
+
+<script>
+(function() {
+
+    /**
+     * Return a promise that gets resolved after 1 ms
+     */
+    function defer() {
+        var deferred = $.Deferred();
+        _.defer(deferred.resolve);
+        return deferred.promise();
+    }
+
+    asyncTest("radio answerability", function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution'><code>6<" + "/code><" + "/p>" +
+            "<ul class='choices'>" +
+                "<li><code>21<" + "/code><" + "/li>" +
+                "<li><code>25<" + "/code><" + "/li>" +
+                "<li><code>27<" + "/code><" + "/li>" +
+                "<li><code>37<" + "/code><" + "/li>" +
+            "<" + "/ul>"
+        );
+        jQuery("#qunit-fixture").tmpl();
+
+        var $solutionarea = $("#solutionarea");
+        var $solution = $problem.children(".solution");
+
+        // TOOD(alpert): Why is this Queue necessary? Everything happens
+        // synchronously in the real site and it seems to work fine there.
+        // Here, if we skip the Queue then answerData is false because the
+        // radio setup function doesn't seem to think there's any text in any
+        // of the choices (and thus that they're all the same choice).
+        MathJax.Hub.Queue(function() {
+            var answerData = Khan.answerTypes.radio.setup(
+                    $solutionarea, $solution);
+
+            var validator = answerData.validator;
+            var getAnswer = answerData.answer;
+
+            defer().then(function() {
+                // By default, nothing is checked so the validator gives ""
+                equal(validator(getAnswer()), "", "initial validation is empty");
+
+                // Each answer should have a non-empty MathJax script tag
+                $("#solutionarea script").each(function() {
+                    ok((/\S/).test($(this).html()));
+                });
+
+                // If we check the right answer (6), then it'll return true
+                var $correctRadio = $("#solutionarea script")
+                    .filter(function() { return (/6/).test($(this).html()); })
+                    .closest("label").children("input");
+                $correctRadio.prop("checked", true);
+                return defer();
+            }).then(function() {
+                equal(validator(getAnswer()), true);
+
+                // If we check a wrong answer, then it'll return false
+                var $incorrectRadio = $("#solutionarea script")
+                    .filter(function() { return !(/6/).test($(this).html()); })
+                    .closest("label").children("input");
+                $incorrectRadio.prop("checked", true);
+                return defer();
+            }).then(function() {
+                equal(validator(getAnswer()), false);
+
+                // Tell QUnit we're done.
+                start();
+            });
+        });
+    });
+
+})();
+</script>
+
+</body>
+</html>
