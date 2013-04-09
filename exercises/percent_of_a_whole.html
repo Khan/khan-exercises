@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <title>Percent of a whole</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="PERCENT">roundTo( 0, randRange( 100, 1500 ) / 10 )</var>
+                <var id="DECIMAL">roundTo( 5, PERCENT / 100 )</var>
+                <var id="WHOLE">randRange(10, 100)</var>
+                <var id="PERCENT_OF_WHOLE">WHOLE * DECIMAL</var>
+            </div>
+            
+            <p class="question">
+            <p>What is <code><var>PERCENT</var>\%</code> of <code><var>WHOLE</var></code>? </p>
+            </p>
+            <p class="solution" ><var>PERCENT_OF_WHOLE</var></p>
+            <div class="hints">
+                <div>
+                    <p>Rewrite the percent as a fraction with a denominator of 100.</p>
+                    <p><code><var>PERCENT</var>\% = \dfrac{<var>PERCENT</var>}{100}</code></p>
+                </div>
+                <div>
+                    <p>Multiply the fraction with the whole</p>
+                    <p>
+                    <code>\displaystyle {} = 
+                      <var>WHOLE</var>\times \dfrac{<var>PERCENT</var>}{100}
+                    </code>
+                    </p> 
+                </div>
+
+                <div>
+                    <p>
+                      <code>\displaystyle {} = \frac{<var>WHOLE</var>\times<var>PERCENT</var>}{100}</code>
+                    </p> 
+                </div>
+                
+                <div>
+                    <p>
+                      <code>\displaystyle {} = \frac{<var>WHOLE * PERCENT</var>}{100}</code>
+                    </p> 
+                </div>
+
+                <div>
+                    <p>
+                      <code>\displaystyle {} =<var>(WHOLE * PERCENT)/ 100</var></code>
+                    </p> 
+                </div>
+
+
+        </div>
+    </div>
+    </div>
+</body>
+</html>
