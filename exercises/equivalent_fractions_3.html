@@ -6,11 +6,12 @@
         <script src="../khan-exercise.js"></script>
         <script>
             function fixCheckboxes() {
-                for (var i=0; i < $('input[type="checkbox"]').length; i++) {
-                    $('input[type="checkbox"]')[i].id = "option"+i;
-                    $($('.buttonLabel')[i]).attr('for','option'+ i);
+                var numButtons = $('input[type="checkbox"]');
+                for (var i=0; i < numButtons.length; i++) {
+                    $(numButtons[i]).next().attr('for','option'+ i);
+                    numButtons[i].id = "option"+i;
                 }
-                $('input[type="checkbox"]').button();
+                numButtons.button()
             }
             function arrayInArray(needle, haystack) {
                 var i=0, len=haystack.length, target=JSON.stringify(needle);
