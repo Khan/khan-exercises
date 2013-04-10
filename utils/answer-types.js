@@ -1267,9 +1267,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             }
 
             $.each(shownChoices, function(i, choice) {
-                if (choice.data("correct")) {
-                    correctIndex = i + "";
-                }
                 // Wrap each of the choices in elements and add a radio button
                 choice.contents()
                     .wrapAll('<li><label><span class="value"></span></label></li>')
