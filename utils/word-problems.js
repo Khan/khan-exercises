@@ -45,39 +45,20 @@ $.extend(KhanUtil, {
         "basket": function(num) {
             return $.ngettext("basket", "baskets", num);
         },
-        "blue dot": function(num) {
-            return $.ngettext("blue dot", "blue dots", num);
-        },
         "car": function(num) {
             return $.ngettext("car", "cars", num);
         },
         "circle": function(num) {
             return $.ngettext("circle", "circles", num);
         },
-        "dollar": function(num) {
-            return $.ngettext("dollar", "dollars", num);
-        },
-        "dot": function(num) {
-            return $.ngettext("dot", "dots", num);
-        },
         "foot": function(num) {
             return $.ngettext("foot", "feet", num);
-        },
-        "full symbol": function(num) {
-            return $.ngettext("full symbol", "full symbols", num);
-        },
-        "green dot": function(num) {
-            return $.ngettext("green dot", "green dots", num);
         },
         "loaf": function(num) {
             return $.ngettext("loaf", "loaves", num);
         },
         "package": function(num) {
             return $.ngettext("package", "packages", num);
-        },
-        "parks": function(num) {
-            // I18N: As in "1 more car parks." vs. "3 more cars park."
-            return $.ngettext("parks", "park", num);
         },
         "piece": function(num) {
             return $.ngettext("piece", "pieces", num);
@@ -289,11 +270,10 @@ $.fn["word-problemsLoad"] = function() {
     ]);
 
     var collections = new IncrementalShuffler([
-        ["chair", "row", "make"],
-        ["party favor", "bag", "fill"],
-        ["jelly bean", "pile", "make"],
-        ["book", "shelf", "fill"],
-        ["can of food", "box", "fill"]
+        ["party favor", "bag"],
+        ["jelly bean", "bag"],
+        ["book", "shelf"],
+        ["can of food", "box"]
     ]);
 
     var stores = new IncrementalShuffler([
@@ -551,10 +531,6 @@ $.fn["word-problemsLoad"] = function() {
 
         group: function(i) {
             return collections.get(i - 1)[1];
-        },
-
-        groupVerb: function(i) {
-            return collections.get(i - 1)[2];
         },
 
         store: function(i) {
