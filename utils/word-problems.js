@@ -42,14 +42,8 @@ $.extend(KhanUtil, {
     // Look-up table of plural word translations culled from exercise files
     // Makes it possible to actually extract these words for i18n
     plurals: {
-        "badge": function(num) {
-            return $.ngettext("badge", "badges", num);
-        },
         "basket": function(num) {
             return $.ngettext("basket", "baskets", num);
-        },
-        "block": function(num) {
-            return $.ngettext("block", "blocks", num);
         },
         "blue dot": function(num) {
             return $.ngettext("blue dot", "blue dots", num);
@@ -57,15 +51,8 @@ $.extend(KhanUtil, {
         "car": function(num) {
             return $.ngettext("car", "cars", num);
         },
-        "chocolate chip cookie": function(num) {
-            return $.ngettext("chocolate chip cookie",
-                "chocolate chip cookies", num);
-        },
         "circle": function(num) {
             return $.ngettext("circle", "circles", num);
-        },
-        "cup": function(num) {
-            return $.ngettext("cup", "cups", num);
         },
         "dollar": function(num) {
             return $.ngettext("dollar", "dollars", num);
@@ -76,55 +63,14 @@ $.extend(KhanUtil, {
         "foot": function(num) {
             return $.ngettext("foot", "feet", num);
         },
-        "fourth": function(num) {
-            return $.ngettext("fourth", "fourths", num);
-        },
         "full symbol": function(num) {
             return $.ngettext("full symbol", "full symbols", num);
         },
         "green dot": function(num) {
             return $.ngettext("green dot", "green dots", num);
         },
-        "hour": function(num) {
-            return $.ngettext("hour", "hours", num);
-        },
-        "house point": function(num) {
-            return $.ngettext("house point", "house points", num);
-        },
-        "hundred": function(num) {
-            // I18N: As in the HUNDREDS position of a number
-            return $.ngettext("hundred", "hundreds", num);
-        },
-        "hundredth": function(num) {
-            // I18N: As in the HUNDREDTHS position of a number
-            return $.ngettext("hundredth", "hundredths", num);
-        },
-        // TODO(jeresig): i18n: This may be a bad thing to pluralize
-        "is": function(num) {
-            return $.ngettext("is", "are", num);
-        },
         "loaf": function(num) {
             return $.ngettext("loaf", "loaves", num);
-        },
-        "long-distance runner": function(num) {
-            return $.ngettext("long-distance runner",
-                "long-distance runners", num);
-        },
-        "molecule": function(num) {
-            return $.ngettext("molecule", "molecules", num);
-        },
-        "number": function(num) {
-            return $.ngettext("number", "numbers", num);
-        },
-        "oatmeal cookie": function(num) {
-            return $.ngettext("oatmeal cookie", "oatmeal cookies", num);
-        },
-        "one": function(num) {
-            // I18N: As in the ONES position of a number
-            return $.ngettext("one", "ones", num);
-        },
-        "outcome": function(num) {
-            return $.ngettext("outcome", "outcomes", num);
         },
         "package": function(num) {
             return $.ngettext("package", "packages", num);
@@ -133,17 +79,8 @@ $.extend(KhanUtil, {
             // I18N: As in "1 more car parks." vs. "3 more cars park."
             return $.ngettext("parks", "park", num);
         },
-        "person": function(num) {
-            return $.ngettext("person", "people", num);
-        },
         "piece": function(num) {
             return $.ngettext("piece", "pieces", num);
-        },
-        "place": function(num) {
-            return $.ngettext("place", "places", num);
-        },
-        "position": function(num) {
-            return $.ngettext("position", "positions", num);
         },
         "potato": function(num) {
             return $.ngettext("potato", "potatoes", num);
@@ -154,106 +91,61 @@ $.extend(KhanUtil, {
         "quiz": function(num) {
             return $.ngettext("quiz", "quizzes", num);
         },
-        "set": function(num) {
-            return $.ngettext("set", "sets", num);
-        },
         "shelf": function(num) {
             return $.ngettext("shelf", "shelves", num);
-        },
-        "side": function(num) {
-            return $.ngettext("side", "sides", num);
-        },
-        "slice": function(num) {
-            return $.ngettext("slice", "slices", num);
-        },
-        "sprinter": function(num) {
-            return $.ngettext("sprinter", "sprinters", num);
         },
         "square foot": function(num) {
             return $.ngettext("square foot", "square feet", num);
         },
-        "standard deviation": function(num) {
-            return $.ngettext("standard deviation",
-                "standard deviations", num);
-        },
-        "symbol": function(num) {
-            return $.ngettext("symbol", "symbols", num);
-        },
         "team": function(num) {
             return $.ngettext("team", "teams", num);
         },
-        "ten": function(num) {
-            // I18N: As in the TENS position of a number
-            return $.ngettext("ten", "tens", num);
-        },
-        "tenth": function(num) {
-            // I18N: As in the TENTHS position of a number
-            return $.ngettext("tenth", "tenths", num);
-        },
-        "thousand": function(num) {
-            // I18N: As in the THOUSANDS position of a number
-            return $.ngettext("thousand", "thousands", num);
-        },
-        "thousandth": function(num) {
-            // I18N: As in the THOUSANDTHS position of a number
-            return $.ngettext("thousandth", "thousandths", num);
-        },
-        "tick mark": function(num) {
-            return $.ngettext("tick mark", "tick marks", num);
-        },
-        "time": function(num) {
-            return $.ngettext("time", "times", num);
-        },
         "tomato": function(num) {
             return $.ngettext("tomato", "tomatoes", num);
-        },
-        "tree": function(num) {
-            return $.ngettext("tree", "trees", num);
-        },
-        "triangle": function(num) {
-            return $.ngettext("triangle", "triangles", num);
-        },
-        // TODO(jeresig): i18n: This may be a bad thing to pluralize
-        "was": function(num) {
-            return $.ngettext("was", "were", num);
-        },
-        "year": function(num) {
-            return $.ngettext("year", "years", num);
         }
     },
 
-    // pluralization helper.  There are three signatures
+    plural_form: function(word, num) {
+        // There are some cases where plural_form is called with only a word
+        // (and no number). In this case we just want to return the plural
+        // form of that word, as best as we can. This might have some slight
+        // incongruities across platforms
+        num = num === undefined ? 2 : num;
+
+        if (word in KhanUtil.plurals) {
+            return KhanUtil.plurals[word](num);
+        }
+
+        // TODO(jeresig): i18n: Eventually remove this?
+        if (typeof console !== "undefined" && console.error) {
+            console.error("Word not in plural dictionary: ", word);
+        }
+
+        return word;
+    },
+
+    isSingular: function(num) {
+        return num == 1;
+    },
+
+    // DEPRECATED
+    // pluralization helper.  There are two signatures
     // - plural(NUMBER, singular):
     //        - if necessary, magically pluralize <singular>
     //        - return "NUMBER word"
     // - plural(singular, NUMBER):
     //        - if necessary, magically pluralize <singular>
     //        - return "word"
-    plural: (function() {
-        var genPlural = function(word, num) {
-            if (word in KhanUtil.plurals) {
-                return KhanUtil.plurals[word](num);
-            }
+    plural: function(value, arg1) {
+        if (typeof value === "number") {
+            // I18N: This is used to generate the string: NUMBER OBJECT
+            // For example: 5 cats, 1 dog, etc.
+            return $._("%s %s", value, this.plural_form(arg1, value));
 
-            // TODO(jeresig): i18n: Eventually remove this?
-            if (typeof console !== "undefined" && console.error) {
-                console.error("Word not in plural dictionary: ", word);
-            }
-
-            return word;
-        };
-
-        return function(value, arg1) {
-            if (typeof value === "number") {
-                // I18N: This is used to generate the string: NUMBER OBJECT
-                // For example: 5 cats, 1 dog, etc.
-                return $._("%s %s", value, genPlural(arg1, value));
-
-            } else if (typeof value === "string") {
-                return genPlural(value, arg1);
-            }
-        };
-    })(),
+        } else if (typeof value === "string") {
+            return this.plural_form(value, arg1);
+        }
+    },
 
     // Pluralize with a code tag around the number
     // - pluralTex(NUMBER, singular):
@@ -387,7 +279,7 @@ $.fn["word-problemsLoad"] = function() {
         "\\oslash",
         "\\circledcirc",
         "\\boxdot",
-        "\\bigtriangleup",
+        "\\bigtriangledownup",
         "\\bigtriangledown",
         "\\dagger",
         "\\diamond",
