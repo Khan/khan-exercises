@@ -358,11 +358,11 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         possibilities = [{ value: parseFloat(match[1] + "1"), exact: true }];
 
                     // 5 / 6 pi
-                    } else if (match = text.match(/^([+-]?\d+\s*(?:\/\s*[+-]?\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
+                    } else if (match = text.match(/^([+-]?\s*\d+\s*(?:\/\s*[+-]?\s*\d+)?)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
                         possibilities = fractionTransformer(match[1]);
 
                     // 4 5 / 6 pi
-                    } else if (match = text.match(/^([+-]?)(\d+)\s*([+-]?\d+)\s*\/\s*([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
+                    } else if (match = text.match(/^([+-]?)\s*(\d+)\s*([+-]?\d+)\s*\/\s*([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i)) {
                         var sign = parseFloat(match[1] + "1"),
                             integ = parseFloat(match[2]),
                             num = parseFloat(match[3]),
@@ -376,7 +376,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         }];
 
                     // 5 pi / 6
-                    } else if (match = text.match(/^([+-]?\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\d+))?$/i)) {
+                    } else if (match = text.match(/^([+-]?\s*\d+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)\s*(?:\/\s*([+-]?\s*\d+))?$/i)) {
                         possibilities = fractionTransformer(match[1] +
                                                             "/" + match[3]);
 
@@ -391,7 +391,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                     // 0.5 pi (fallback)
                     } else if (match = text.match(
-                                /^(\S+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i
+                                /^(.+)\s*\*?\s*(pi?|\u03c0|t(?:au)?|\u03c4)$/i
                                         )) {
                         possibilities = forms.decimal(match[1]);
                     } else {
@@ -498,7 +498,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     }
 
                     var normal = function(text) {
-                        var match = text
+                        var match = $.trim(text)
 
                             // Replace unicode minus sign with hyphen
                             .replace(/\u2212/, "-")
