@@ -44,11 +44,11 @@
                 </var>
             </div>
             <p><var>person( 1 )</var> has been <var>TYPES[ 0 ]</var> every day for the last <var>VALUES.length</var> days.</p>
-            <p class="question" data-if="isMale(1)">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much he <var>TYPES[ 1 ]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p><p class="question" data-else="">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural( TYPES[ 2 ] )</var>) each day, estimate how much she <var>TYPES[ 1 ]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p>
+            <p data-if="isMale(1)" class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural_form(TYPES[ 2 ])</var>) each day, estimate how much he <var>TYPES[ 1 ]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p><p data-else="" class="question">Given that <var>person( 1 )</var> <var>TYPES[ 1 ]</var> the following amounts (in <var>plural_form(TYPES[ 2 ])</var>) each day, estimate how much she <var>TYPES[ 1 ]</var> in total by first rounding each amount to the nearest whole number and then summing all the rounded amounts.</p>
             
             <div class="fake_header estimation">
                 <span>Day<br> <span style="color:white">" "</span></span>
-                <span>Amount <br><font size="2">(in <var>plural( TYPES[ 2 ] )</var>)</font></span>
+                <span>Amount <br><font size="2">(in <var>plural_form(TYPES[ 2 ])</var>)</font></span>
             </div>
             <div data-each="VALUES as i, val" class="fake_row estimation">
                 <span><var>i+1</var></span>
@@ -73,7 +73,7 @@
                     <span><var>round( val )</var></span>
                     <span><var>ACC += round( val )</var></span>
                 </div>
-                <p>Therefore the estimate is <code><var>ANSWER</var></code> <var>plural( TYPES[ 2 ] )</var>.</p>
+                <p>Therefore the estimate is <code><var>ANSWER</var></code> <var>plural_form(TYPES[ 2 ])</var>.</p>
             </div>
         </div>
     </div>

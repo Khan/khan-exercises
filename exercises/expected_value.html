@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math word-problems math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math word-problems math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Expected Value</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +9,7 @@
     <div class="exercise">
 
     <div class="problems">
-        <div id="game" data-weight="2">
+        <div data-weight="2" id="game">
             <div class="vars">
                 <var id="RESULT_DESC, MAKE_COUNT">randFromArray([
                     ["a 1", 1],
@@ -61,9 +61,9 @@
                 playing this game?
             </p>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <code>$</code>
-                <span class="sol" data-forms="integer, decimal"><var>ANS</var></span>
+                <span data-forms="integer, decimal" class="sol"><var>ANS</var></span>
             </div>
 
             <div class="hints">
@@ -79,7 +79,7 @@
                     There are two events that can happen in this game: either
                     you roll <var>RESULT_DESC</var>, or you don't. So, the
                     expected value will look like this:
-                    </br></br>
+                    <br><br>
                     <code>E = </code>
                     (money gained when you roll <var>RESULT_DESC</var>) 
                     <code>\cdot</code>
@@ -118,12 +118,12 @@
                     <code>(<var>MAKE</var>\cdot<var>MAKE_FR</var>) +
                         (-<var>LOSE</var>\cdot<var>LOSE_FR</var>) =
                         <var>ANS_F</var> = <span data-if="ANS &lt; 0">-$<var>-ANS</var></span>
-                        <span data-else>$<var>ANS</var></span>.
+                        <span data-else="">$<var>ANS</var></span>.
                     </code>
                 </p>
             </div>
         </div>
-        <div id="die" data-weight="1">
+        <div data-weight="1" id="die">
             <div class="vars">
                 <var id="SIDES">randFromArray([4,6,10,12])</var>
                 <var id="SUM">
@@ -151,7 +151,7 @@
                 value you will roll?
             </p>
 
-            <div class="solution" data-forms="mixed, improper, decimal">
+            <div data-forms="mixed, improper, decimal" class="solution">
                 <var>ANS_N/SIDES</var>
             </div>
 
@@ -188,7 +188,7 @@
                 </p>
             </div>
         </div>
-        <div id="lottery" data-weight="2">
+        <div data-weight="2" id="lottery">
             <div class="vars">
                 <var id="BUY">random() &lt; 0.4</var>
                 <var id="COST">randRange(2,5)</var>
@@ -220,7 +220,7 @@
                 <var>ANS</var>
             </div>
 
-            <ul class="choices" data-category="true">
+            <ul data-category="true" class="choices">
                 <li>Yes, the expected value is positive.</li>
                 <li>No, the expected value is negative.</li>
             </ul>
@@ -276,18 +276,26 @@
                     $<var>fraction(PRIZE,ODDS,true,true)</var> - 
                     $<var>COST</var></code>.
                 </p>
-                <p> 
+                <p data-if="PRIZE/ODDS - COST &amp;gt; 0"> 
                     <code>$<var>fraction(PRIZE,ODDS,true,true)</var> - 
                     $<var>COST</var></code> is
-                    <var>PRIZE/ODDS - COST > 0 ? "positive" : "negative"</var>.
-                    </br></br>
-                    So, we expect to <var>PRIZE/ODDS - COST > 0 ? "make" : "lose"</var> money by buying a lottery ticket, because
-                    the expected value is <var>PRIZE/ODDS - COST > 0 ? 
-                    "positive" : "negative"</var>.
+                    positive.
+                    <br><br>
+                    So, we expect to make money by buying a lottery ticket, because
+                    the expected value is positive.
+                </p><p data-else=""> 
+                    <code>$<var>fraction(PRIZE,ODDS,true,true)</var> - 
+                    $<var>COST</var></code> is
+                    negative.
+                    <br><br>
+                    So, we expect to lose money by buying a lottery ticket, because
+                    the expected value is negative.
                 </p>
+            
             </div>
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

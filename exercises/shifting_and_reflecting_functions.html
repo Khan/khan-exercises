@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Shifting and reflecting functions</title>
     <script src="../khan-exercise.js"></script>
 
@@ -15,7 +15,7 @@
 
             <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange( -6, -1 ) : randRange( 1, 6 )</var>
             <var id="FLIP">randRangeNonZero(-1, 1)</var>
-            <var id="Y_SHIFT" data-ensure="abs (Y_ORIG * FLIP + Y_SHIFT) < 9 && (Y_ORIG * FLIP + Y_SHIFT) * UP_ORIG * FLIP < 7">randRangeNonZero( -6 , 6 )</var>
+            <var data-ensure="abs (Y_ORIG * FLIP + Y_SHIFT) &lt; 9 &amp;&amp; (Y_ORIG * FLIP + Y_SHIFT) * UP_ORIG * FLIP &lt; 7" id="Y_SHIFT">randRangeNonZero( -6 , 6 )</var>
         </div>
 
         <div class="problems">
@@ -25,12 +25,12 @@
                     <p><code>\color{blue}{g(x)}</code> is graphed in <span class="hint_blue">blue</span>.</p>
                     <p>What is <code>\color{blue}{g(x)}</code> in terms of <code>\color{red}{f(x)}</code>?</p>
                 </div>
-                <div class="graphie" id="G">
+                <div id="G" class="graphie">
                     graphInit({
                         range: 10,
                         scale: 20,
                         labelStep: 1,
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     })
 
                     style({
@@ -53,7 +53,7 @@
                 </div>
 
                 <p class="solution"><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul data-none="true" class="choices" data-show="5">
                     <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],-Y_SHIFT])</var></code></li>
                     <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", -X_SHIFT]]],Y_SHIFT])</var></code></li>
                     <li><code><var>expr(["+",["*", -FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></li>
@@ -66,7 +66,7 @@
             <div data-if="FLIP === -1">
                 <p>To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by <code>-1</code>, giving <code class="hint_purple">-f(x)</code>.</p>
 
-                <div class="graphie" data-update="G">
+                <div data-update="G" class="graphie">
                     style({
                         stroke: "purple"
                     });
@@ -77,13 +77,19 @@
             </div>
 
             <div>
-                <p>Shift the function <code>-f(x)</code> <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> <var>plural("unit", abs(Y_SHIFT))</var>, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</p>
+                <p data-if="(Y_SHIFT &amp;gt; 0"><span data-unwrap="" data-if="isSingular(abs(Y_SHIFT))">Shift the function <code>-f(x)</code> up  unit, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</span><span data-unwrap="" data-else="">Shift the function <code>-f(x)</code> up  units, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</span></p><p data-else="" data-if="isSingular(abs(Y_SHIFT))">Shift the function <code>-f(x)</code> <var>"down ") + abs(Y_SHIFT)</var> unit, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</p><p data-else="">Shift the function <code>-f(x)</code> <var>"down ") + abs(Y_SHIFT)</var> units, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</p>
 
-                <div class="graphie" data-update="G">
+                
+
+                
+
+                
+
+                <div data-update="G" class="graphie">
                     style({
                         strokeWidth: 2,
                         stroke: "green",
-                        arrows: "->",
+                        arrows: "-&gt;",
                         strokeDasharray: "- "
                     });
 
@@ -101,11 +107,17 @@
             </div>
 
             <div>
-                <p>Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>(X_SHIFT &gt; 0 ? "left " : "right ") + abs(X_SHIFT)</var> <var>plural("unit", abs(X_SHIFT))</var>, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</p>
+                <p data-if="(X_SHIFT &amp;gt; 0"><span data-unwrap="" data-if="isSingular(abs(X_SHIFT))">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> left  unit, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</span><span data-unwrap="" data-else="">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> left  units, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</span></p><p data-else="" data-if="isSingular(abs(X_SHIFT))">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>"right ") + abs(X_SHIFT)</var> unit, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</p><p data-else="">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>"right ") + abs(X_SHIFT)</var> units, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</p>
+
+                
+
+                
+
+                
 
                 <p>We now know that <code>g(x)</code> = <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
 
-                <div class="graphie" data-update="G">
+                <div data-update="G" class="graphie">
                     style({
                         stroke: "blue",
                         strokeWidth: 2,
@@ -117,5 +129,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

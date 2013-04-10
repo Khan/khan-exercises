@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie word-problems interactive">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie word-problems interactive"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Decimals on the number line 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -22,7 +22,7 @@
             <div class="question">
                 <p>Move the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to <strong><code>\color{orange}{<var>SOLN_TXT</var>}</code></strong> on the number line.</p>
 
-                <div class="graphie" id="number-line">
+                <div id="number-line" class="graphie">
                     init({
                         range: [ [LOWER_BOUND - 0.3, UPPER_BOUND + 0.4], [-1, 1] ],
                         scale: [350, 40]
@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="custom">
+            <div data-type="custom" class="solution">
                 <span class="instruction"> Move the orange dot to select your answer. </span>
                 <div class="guess"> graph.movablePoint.coord[0] </div>
                 <div class="validator-function">
@@ -73,16 +73,16 @@
                 <div>
                     <p>The line is divided into 10 pieces, which means:</p>
                     <p><code>\color{green}{\text{piece of line}}</code> = <code>\color{red}{<var>MARK_INCREMENT</var>}</code>
-                </div>
+                </p></div>
 
                 <p><code>\color{orange}{<var>SOLN_TXT</var>}</code> =
                 <code>\color{red}{<var>MARK_INCREMENT</var>}</code> * <code>\color{blue}{<var>TENTHS</var>}</code></p>
                 <p>Therefore, moving the <code>\color{orange}{\text{orange dot}}</code>
-                <code>\color{blue}{<var>TENTHS</var>}</code> place<var>plural(TENTHS)</var> will put it at the position
+                <code>\color{blue}{<var>TENTHS</var>}</code> place<var>plural_form(TENTHS)</var> will put it at the position
                 <code>\color{orange}{<var>SOLN_TXT</var>}</code>.</p>
 
                 <div>
-                    <div class="graphie" data-update="number-line">
+                    <div data-update="number-line" class="graphie">
                             var MI = MARK_INCREMENT;
                             for ( var x = LOWER_BOUND + MI; x &lt; UPPER_BOUND - MI/2; x += MI ) {
                                 label( [ LOWER_BOUND + x, -0.53 ], x.toFixed(1) , "center");
@@ -91,7 +91,7 @@
                 </div>
 
                 <div>
-                    <div class="graphie" data-update="number-line">
+                    <div data-update="number-line" class="graphie">
                         style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
                         line( [ 0, 0 ], [ SOLUTION, 0 ] );
                         graph.movablePoint.visibleShape.toFront();
@@ -106,5 +106,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Range of a function</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,7 +10,7 @@
         <div class="problems">
             <div id="quadratic">
                 <div class="vars">
-                    <var id="A" data-ensure="A !== 1">randRangeNonZero(-4, 4)</var>
+                    <var data-ensure="A !== 1" id="A">randRangeNonZero(-4, 4)</var>
                     <var id="B">randRangeNonZero(-4, 4)</var>
                 </div>
 
@@ -18,48 +18,48 @@
 
                 <p class="question">What is the range of <code>f(x)</code>?</p>
 
-                <p class="solution" data-type="multiple">
+                <p data-type="multiple" class="solution">
                     <code>\{\, y \in \RR \mid y</code>
-                    <span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;', '&ne;']">
-                        <var>A > 0 ? "&ge;" : "&le;"</var>
+                    <span data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list" class="sol">
+                        <var>A &gt; 0 ? "&#8805;" : "&#8804;"</var>
                     </span>
-                    <span class="sol short40" data-forms="integer, decimal"><var>B</var></span>
+                    <span data-forms="integer, decimal" class="sol short40"><var>B</var></span>
                     <code>\,\}</code>
                 </p>
 
-                <div class="hints" data-apply="appendContents">
-                    <p id="prehint" data-apply="remove"></p>
+                <div data-apply="appendContents" class="hints">
+                    <p data-apply="remove" id="prehint"></p>
                 </div>
             </div>
 
             <div id="quadratic-random-hole">
                 <div class="vars">
-                    <var id="A" data-ensure="A !== 1">randRangeNonZero(-4, 4)</var>
-                    <var id="B" data-ensure="abs( 3 * A + B ) < 10">randRangeNonZero(-4, 4)</var>
-                    <var id="HOLE" data-ensure="abs( A * HOLE * HOLE + B ) < 10">randRangeNonZero( -4, 4 )</var>
+                    <var data-ensure="A !== 1" id="A">randRangeNonZero(-4, 4)</var>
+                    <var data-ensure="abs( 3 * A + B ) &lt; 10" id="B">randRangeNonZero(-4, 4)</var>
+                    <var data-ensure="abs( A * HOLE * HOLE + B ) &lt; 10" id="HOLE">randRangeNonZero( -4, 4 )</var>
                 </div>
 
                 <p class="problem"><code>f(x) = \begin{cases}
-                    <var>3 * A + B</var> & \text{if $x = <var>HOLE</var>$} \\
-                    <var>expr(["+", ["*", A, ["^", "x", 2]], B])</var> & \text{otherwise}
+                    <var>3 * A + B</var> &amp; \text{if $x = <var>HOLE</var>$} \\
+                    <var>expr(["+", ["*", A, ["^", "x", 2]], B])</var> &amp; \text{otherwise}
                 \end{cases}</code></p>
 
                 <p class="question">What is the range of <code>f(x)</code>?</p>
 
-                <p class="solution" data-type="multiple">
+                <p data-type="multiple" class="solution">
                     <code>\{\, y \in \RR \mid y</code>
-                    <span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;', '&ne;']">
-                        <var>A > 0 ? "&ge;" : "&le;"</var>
+                    <span data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list" class="sol">
+                        <var>A &gt; 0 ? "&#8805;" : "&#8804;"</var>
                     </span>
                     <span class="sol short40"><var>B</var></span>
                     <code>\,\}</code>
                 </p>
 
-                <div class="hints" data-apply="appendContents">
+                <div data-apply="appendContents" class="hints">
                     <p id="prehint">First consider the behavior for <code>x \ne <var>HOLE</var></code>.</p>
                     <div id="posthint">
                         <p>If <code>x = <var>HOLE</var></code>, then <code>f(x) = <var>3 * A + B</var></code>, but the range does not change.</p>
-                        <div class="graphie" data-update="grid">
+                        <div data-update="grid" class="graphie">
                             circle( [HOLE, 3 * A + B], 3 / 20, {
                                 fill: "red",
                                 stroke: "none"
@@ -73,25 +73,25 @@
                 </div>
             </div>
 
-            <div id="quadratic-zero-hole" data-type="quadratic-random-hole">
+            <div data-type="quadratic-random-hole" id="quadratic-zero-hole">
                 <div class="vars">
                     <var id="HOLE">0</var>
                 </div>
 
-                <p class="solution" data-type="multiple">
+                <p data-type="multiple" class="solution">
                     <code>\{\, y \in \RR \mid y</code>
-                    <span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;', '&ne;']">
-                        <var>A > 0 ? "&gt;" : "&lt;"</var>
+                    <span data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list" class="sol">
+                        <var>A &gt; 0 ? "&gt;" : "&lt;"</var>
                     </span>
                     <span class="sol short40"><var>B</var></span>
                     <code>\,\}</code>
                 </p>
 
-                <div class="hints" data-apply="appendContents">
+                <div data-apply="appendContents" class="hints">
                     <p id="prehint">First consider the behavior for <code>x \ne <var>HOLE</var></code>.</p>
                     <div id="posthint">
                         <p>If <code>x = <var>HOLE</var></code>, then <code>f(x) = <var>3 * A + B</var></code>, which eliminates <code>f(x) = <var>B</var></code> from the range.</p>
-                        <div class="graphie" data-update="grid">
+                        <div data-update="grid" class="graphie">
                             circle( [HOLE, 3 * A + B], 3 / 20, {
                                 fill: "red",
                                 stroke: "red"
@@ -102,7 +102,8 @@
                             } );
                         </div>
                     </div>
-                    <p>The new range is <code>\{\, y \mid y <var>A > 0 ? "&gt;" : "&lt;"</var> <var>B</var> \,\}</code>.</p>
+                    <p data-if="A &amp;gt; 0">The new range is <code>\{\, y \mid y &amp;gt; <var>B</var> \,\}</code>.</p><p data-else="">The new range is <code>\{\, y \mid y &amp;lt; <var>B</var> \,\}</code>.</p>
+                
                 </div>
             </div>
         </div>
@@ -110,12 +111,12 @@
         <div class="hints">
             <p id="prehint"></p>
             <div>
-                <div class="graphie" id="grid">
+                <div id="grid" class="graphie">
                     graphInit({
                         range: 10,
                         scale: 20,
                         tickStep: 1,
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     });
 
                     style({
@@ -132,15 +133,17 @@
                 </div>
                 <p>Consider the range of <code><var>expr(["*", A, ["^", "x", 2]])</var></code>.</p>
             </div>
-            <p data-if="A > 0">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> doesn't change the range.</p>
-            <p data-else>The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> flips the range to <code>\{\, y \mid y \le 0 \,\}</code>.</p>
+            <p data-if="A &gt; 0">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> doesn't change the range.</p>
+            <p data-else="">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> flips the range to <code>\{\, y \mid y \le 0 \,\}</code>.</p>
             <div>
                 <p>
-                    <span>Now <var>B > 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>.</span>
-                    <span>The range becomes: <code>\{\, y \mid y <var>A > 0 ? "&ge;" : "&le;"</var> <var>B</var> \,\}</code>.</span>
+                    <span data-if="B &amp;gt; 0">Now add <code><var>abs( B )</var></code>.</span><span data-else="">Now subtract <code><var>abs( B )</var></code>.</span>
+                    
+                    <span data-if="A &amp;gt; 0">The range becomes: <code>\{\, y \mid y &amp;#8805; <var>B</var> \,\}</code>.</span><span data-else="">The range becomes: <code>\{\, y \mid y &amp;#8804; <var>B</var> \,\}</code>.</span>
+                
                 </p>
 
-                <div class="graphie" data-update="grid">
+                <div data-update="grid" class="graphie">
                     graph.pl.remove();
                     graph.pl = plot( function( x ) {
                         return A * pow( x, 2 ) + B;
@@ -151,5 +154,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

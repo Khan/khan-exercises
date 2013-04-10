@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Basic Fractions 0.5</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -24,10 +24,11 @@
                             piechart([NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2);
                         </div>
                 </div>
-                <p class="solution" data-simplify="optional"><var>NUM_1 / DEN_1</var></p>
+                <p data-simplify="optional" class="solution"><var>NUM_1 / DEN_1</var></p>
                 <div class="hints">
                     <p>Count the red slices for the numerator.</p>
-                    <p>There <var>plural("is", NUM_1)</var> <var>pluralTex(NUM_1, "red slice")</var>.</p>
+                    <p data-if="isSingular(NUM_1)">There is 1 red slice.</p><p data-else="">There are <var>NUM_1</var> red slices.</p>
+                    
                     <p>Count the total slices <code>\left(\color{#e00}{\text{Red Slices}} + \color{#999}{\text{Gray Slices}}\right)</code> for the denominator.</p>
                     <p>There are <code>\color{#000}{<var>DEN_1</var>\text{ Slices}}</code> in total.</p>
                     <p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#000}{\text{<var>DEN_1</var>}}}</code>.</p>
@@ -42,46 +43,47 @@
                         rectchart([NUM_1, DEN_1-NUM_1], ["#e00", "#999"]);
                     </div>
                 </div>
-                <p class="solution" data-simplify="optional"><var>NUM_1 / DEN_1</var></p>
+                <p data-simplify="optional" class="solution"><var>NUM_1 / DEN_1</var></p>
 
                 <div class="hints">
                     <p>Count the red blocks for the numerator.</p>
-                    <p>There <var>plural( "is", NUM_1 )</var> <var>pluralTex(NUM_1, "red block")</var>.</p>
+                    <p data-if="isSingular(NUM_1)">There is 1 red block.</p><p data-else="">There are <var>NUM_1</var> red blocks.</p>
+                    
                     <p>Count the total slices <code>\left(\color{#e00}{\text{Red Blocks}} + \color{#999}{\text{Gray Blocks}}\right)</code> for the denominator.</p>
                     <p>There are <code>\color{#000}{<var>DEN_1</var>\text{ Blocks}}</code> in total.</p>
                     <p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#000}{\text{<var>DEN_1</var>}}}</code>.</p>
                 </div>
             </div>
 
-            <div id="custom-1" data-weight="0" data-type="pie-chart">
+            <div data-weight="0" data-type="pie-chart" id="custom-1">
                 <div class="vars">
                     <var id="NUM_1">1</var>
                     <var id="DEN_1">2</var>
                 </div>
             </div>
 
-            <div id="custom-2" data-weight="0" data-type="pie-chart">
+            <div data-weight="0" data-type="pie-chart" id="custom-2">
                 <div class="vars">
                     <var id="NUM_1">1</var>
                     <var id="DEN_1">4</var>
                 </div>
             </div>
 
-            <div id="custom-6" data-weight="0" data-type="pie-chart">
+            <div data-weight="0" data-type="pie-chart" id="custom-6">
                 <div class="vars">
                     <var id="NUM_1">2</var>
                     <var id="DEN_1">4</var>
                 </div>
             </div>
 
-            <div id="custom-3" data-weight="0" data-type="pie-chart">
+            <div data-weight="0" data-type="pie-chart" id="custom-3">
                 <div class="vars">
                     <var id="NUM_1">1</var>
                     <var id="DEN_1">5</var>
                 </div>
             </div>
 
-            <div id="custom-4" data-weight="0" data-type="pie-chart">
+            <div data-weight="0" data-type="pie-chart" id="custom-4">
                 <div class="vars">
                     <var id="NUM_1">2</var>
                     <var id="DEN_1">5</var>
@@ -89,5 +91,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

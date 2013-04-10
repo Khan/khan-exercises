@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic">
-<head>
-    <meta charset="UTF-8" />
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic"><head>
+    <meta charset="UTF-8">
     <title>Understanding moving the decimal</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -12,7 +12,7 @@
             <var id="OPERATOR">( PM === 1 ? "multiply" : "divide" )</var>
             <var id="A">randRange( 0, 99999 )</var>
 
-            <div data-ensure="( PM === 1 ? A_DECIMAL > B_DECIMAL : A_DECIMAL < B_DECIMAL )">
+            <div data-ensure="( PM === 1 ? A_DECIMAL &gt; B_DECIMAL : A_DECIMAL &lt; B_DECIMAL )">
                 <var id="A_DECIMAL">randRange( 1, 5 )</var>
                 <var id="B_DECIMAL">randRange( 1, 5 )</var>
             </div>
@@ -28,7 +28,7 @@
                     <p><b>How many times do you need to <var>OPERATOR</var> <code><var>A_FLOAT.toFixed( A_DECIMAL )</var></code> by ten to get <code><var>B_FLOAT.toFixed( B_DECIMAL )</var></code>?</b></p>
                 </div>
 
-                <p class="solution" data-forms="integer"><var>POW_DIFF</var></p>
+                <p data-forms="integer" class="solution"><var>POW_DIFF</var></p>
 
             </div>
         </div>
@@ -65,13 +65,13 @@
 
                         if ( i === POW_DIFF - 1 ) {
                             //hack for the final arrow...is there a better way?
-                            line( [ digitsA.length - A_DECIMAL + i + 0.5, 1.5 ], [ digitsA.length - A_DECIMAL + i + 0.5, 1.46 ], { stroke: "blue", arrows: "->" } );
+                            line( [ digitsA.length - A_DECIMAL + i + 0.5, 1.5 ], [ digitsA.length - A_DECIMAL + i + 0.5, 1.46 ], { stroke: "blue", arrows: "-&gt;" } );
                         }
                     }
                     else {
                         //to draw the final arrow
                         if ( i === POW_DIFF - 1 ) {
-                            style({ arrows: "->" });
+                            style({ arrows: "-&gt;" });
                         }
 
                         arc( [ digitsA.length - A_DECIMAL - (i + 1), 1.5 ], 0.5, 0, 180, { stroke: "blue" } );
@@ -88,13 +88,15 @@
                 label ([ digitsA.length + 0.5, 0.5 ], labelstr, "right", false);
             </div>
 
-            <p>Moving the decimal one position to the <var>PM === 1 ? "right" : "left"</var> is the same as <var>PM === 1 ? "multiplying" : "dividing"</var> by ten once.</p>
+            <p data-if="PM === 1">Moving the decimal one position to the right is the same as multiplying by ten once.</p><p data-else="">Moving the decimal one position to the left is the same as dividing by ten once.</p>
 
-            <div data-if="PM === 1 && POW_DIFF !== 1">
+            
+
+            <div data-if="PM === 1 &amp;&amp; POW_DIFF !== 1">
                 <p data-if="POW_DIFF !== 1">Thus, moving the decimal right <code><var>POW_DIFF</var></code> times is the same as multiplying by ten <code><var>POW_DIFF</var></code> times, or multiplying by <code><var>pow( 10, POW_DIFF )</var></code>:</p>
                 <p><code>{<var>A_FLOAT.toFixed( A_DECIMAL )</var>} * {<var>pow( 10, POW_DIFF )</var>} = {<var>B_FLOAT.toFixed( B_DECIMAL )</var>}</code></p>
             </div>
-            <div data-if="PM !== 1 && POW_DIFF !== 1">
+            <div data-if="PM !== 1 &amp;&amp; POW_DIFF !== 1">
                 <p data-if="POW_DIFF !== 1">Thus, moving the decimal left <code><var>POW_DIFF</var></code> times is the same as dividing by ten <code><var>POW_DIFF</var></code> times, or dividing by <code><var>pow( 10, POW_DIFF )</var></code>:</p>
                 <p><code>{<var>A_FLOAT.toFixed( A_DECIMAL )</var>} \div {<var>pow( 10, POW_DIFF )</var>} = {<var>B_FLOAT.toFixed( B_DECIMAL )</var>}</code></p>
             </div>
@@ -105,5 +107,6 @@
 
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>
