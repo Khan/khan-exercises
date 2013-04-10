@@ -5,18 +5,20 @@
     <title>Rotating Polygons</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
-    var rotatePoints = function(degrees){
+    var rotatePoints = function(degrees) {
         var deg = Number(degrees);
         if (isNaN(deg)) {
             return;
         } else {
             var rad = deg * Math.PI / 180;
-            GRAPH.points = _.map(cp, function(point) { 
-                return [point[0]*Math.cos(rad) - point[1]*Math.sin(rad), point[0]*Math.sin(rad) + point[1]*Math.cos(rad)]; });
+            GRAPH.points = _.map(cp, function(point) {
+                return [point[0] * Math.cos(rad) - point[1] * Math.sin(rad),
+                        point[0] * Math.sin(rad) + point[1] * Math.cos(rad)];
+            });
         }
     }
 
-    var equivAngle = function(degrees){
+    var equivAngle = function(degrees) {
         if (degrees < 0) {
             return degrees + 360;
         } else {
@@ -31,26 +33,30 @@
     <div class="problems">
         <div id="drag">
             <div class="vars">
-                <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">randRange(-4, 4, 4)</var>
+                <var id="SX, SY, EX, EY" data-ensure="SX !== EX || SY !== EY">
+                    randRange(-4, 4, 4)
+                </var>
                 <var id="ROTDEG">90 * randRange(1, 3)</var>
-                <var id="ROTRAD">ROTDEG * Math.PI / 180 </var>
+                <var id="ROTRAD">ROTDEG * PI / 180 </var>
                 <var id="POINTS">_.map(_.range(6), function() {
                     return { x: randRange(-4, 4), y: randRange(-4, 4) };
                 })</var>
                 <var id="HULL">_.map(Geom.convexhull(POINTS), function(p) {
                     return [p.x, p.y];
                 })</var>
-                <var id="HULL_DISTS">_.map(HULL, function(p){ 
-                    return Math.pow(p[0],2) + Math.pow(p[1],2);
+                <var id="HULL_DISTS">_.map(HULL, function(p) {
+                    return pow(p[0], 2) + pow(p[1], 2);
                 })</var>
                 <var id="TARGET"> _.map(HULL, function(p) {
-                    return [p[0]*Math.cos(ROTRAD) - p[1]*Math.sin(ROTRAD), p[0]*Math.sin(ROTRAD) + p[1]*Math.cos(ROTRAD)];
+                    return [p[0] * cos(ROTRAD) - p[1] * sin(ROTRAD),
+                            p[0] * sin(ROTRAD) + p[1] * cos(ROTRAD)];
                 })</var>
                 <var id="GRAPH">0</var>
             </div>
 
             <p class="question">
-                What is the image of the polygon below after the rotation <code>T_{{<var>ROTDEG</var>}^\circ{} }</code>?
+                What is the image of the polygon below after the rotation
+                <code>T_{{<var>ROTDEG</var>}^\circ{} }</code>?
             </p>
 
             <div class="problem">
@@ -70,70 +76,92 @@
                     GRAPH = graph;
 
                     for (var i=0; i &lt; HULL.length; i++) {
-                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: GRAY, strokeDasharray: "- " });
+                        line(HULL[i], HULL[(i+1) % HULL.length],
+                                { stroke: GRAY, strokeDasharray: "- " });
                     }
 
                     addMouseLayer();
 
-                    graph.points = _.map(HULL, function(point) { return addMovablePoint({ coord: point }); });
+                    graph.points = _.map(HULL, function(point) {
+                        return addMovablePoint({ coord: point });
+                    });
                     graph.lines = [];
                     for (var i=0; i &lt; graph.points.length; i++) {
-                        graph.lines.push(addMovableLineSegment({ pointA: graph.points[i], pointZ: graph.points[(i+1) % graph.points.length], fixed: true}));
+                        graph.lines.push(addMovableLineSegment({
+                            pointA: graph.points[i],
+                            pointZ: graph.points[(i+1) % graph.points.length],
+                            fixed: true
+                        }));
                     }
 
-                    graph.origOffsets = _.map(graph.points, function(point) { 
-                        return Math.atan2(point.coord[1], point.coord[0]) - roundToNearest(Math.PI/6, Math.atan2(point.coord[1], point.coord[0])); 
+                    graph.origOffsets = _.map(graph.points, function(point) {
+                        return atan2(point.coord[1], point.coord[0]) -
+                                roundToNearest(PI / 6, atan2(point.coord[1], point.coord[0]));
                     });
 
-                    _.each(graph.points, function(point) { 
+                    _.each(graph.points, function(point) {
                         point.onMove = function(x, y) {
-                            myAng = Math.atan2(this.coord[1], this.coord[0]);
-                            newAng = Math.atan2(y, x);
-                            graph.updatePolygon(newAng-myAng);
+                            var myAng = atan2(this.coord[1], this.coord[0]);
+                            var newAng = atan2(y, x);
+                            graph.updatePolygon(newAng - myAng);
                             return false;
                         }
                         point.onMoveEnd = function(x, y) {
-                            possibleSnaps = [
-                            graph.origOffsets[_.indexOf(graph.points, this)] + roundToNearest(Math.PI/6, Math.atan2(y,x)) - Math.atan2(this.coord[1], this.coord[0]),
-                            graph.origOffsets[_.indexOf(graph.points, this)] + roundToNearest(Math.PI/6, Math.atan2(y,x)) + Math.PI/6 - Math.atan2(this.coord[1], this.coord[0]),
-                            graph.origOffsets[_.indexOf(graph.points, this)] + roundToNearest(Math.PI/6, Math.atan2(y,x)) - Math.PI/6 - Math.atan2(this.coord[1], this.coord[0])
+                            var possibleSnaps = [
+                                graph.origOffsets[_.indexOf(graph.points, this)] +
+                                        roundToNearest(PI/6, atan2(y,x)) -
+                                        atan2(this.coord[1], this.coord[0]),
+                                graph.origOffsets[_.indexOf(graph.points, this)] +
+                                        roundToNearest(PI/6, atan2(y,x)) +
+                                        PI / 6 - atan2(this.coord[1], this.coord[0]),
+                                graph.origOffsets[_.indexOf(graph.points, this)] +
+                                        roundToNearest(PI/6, atan2(y,x)) -
+                                        PI / 6 - atan2(this.coord[1], this.coord[0])
                             ];
 
-                            absSnaps = _.map(possibleSnaps, function(rad) { return Math.abs(rad); });
-                            absMoveTo = Math.min(absSnaps[0],absSnaps[1],absSnaps[2]);
+                            var absSnaps = _.map(possibleSnaps, function(rad) { return abs(rad); });
+                            var absMoveTo = min(absSnaps[0], absSnaps[1], absSnaps[2]);
 
-                            moveTo = _.find(possibleSnaps, function(rad) { return Math.abs(rad) === absMoveTo; });
-                            
+                            var moveTo = _.find(possibleSnaps, function(rad) { return abs(rad) === absMoveTo; });
+
                             graph.updatePolygon(moveTo);
                         }
                     });
 
                     graph.updatePolygon = function(rad) {
-                        _.each(graph.points, function(point) { 
-                            point.setCoord([point.coord[0] * Math.cos(rad) - point.coord[1] * Math.sin(rad), point.coord[0] * Math.sin(rad) + point.coord[1] * Math.cos(rad)]);
-                            point.updateLineEnds(); 
+                        _.each(graph.points, function(point) {
+                            point.setCoord([
+                                point.coord[0] * cos(rad) - point.coord[1] * sin(rad),
+                                point.coord[0] * sin(rad) + point.coord[1] * cos(rad)
+                            ]);
+                            point.updateLineEnds();
                         });
 
                         graph.curPoints = _.map(graph.points, function(point){ return point.coord; });
-                    }
+                    };
 
                     graph.showGuess = function() {
                         _.each(graph.points, function(point) { point.remove(); });
                         _.each(graph.lines, function(line) { line.remove(); });
-                        graph.points = _.map(graph.curPoints, function(point) { return addMovablePoint({ coord: point }); });
+                        graph.points = _.map(graph.curPoints, function(point) {
+                            return addMovablePoint({ coord: point });
+                        });
                         graph.lines = [];
                         for (var i=0; i &lt; graph.points.length; i++) {
-                            graph.lines.push(addMovableLineSegment({ pointA: graph.points[i], pointZ: graph.points[(i+1) % graph.points.length], snapX: 1, snapY: 1}));
+                            graph.lines.push(addMovableLineSegment({
+                                pointA: graph.points[i],
+                                pointZ: graph.points[(i + 1) % graph.points.length],
+                                snapX: 1,
+                                snapY: 1
+                            }));
                         }
-                    }
+                    };
 
                     graph.drawAnswer = function() {
                         for (var i=0; i &lt; TARGET.length; i++) {
-                            line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
+                            line(TARGET[i], TARGET[(i + 1) % TARGET.length], { stroke: ORANGE });
                         }
-                    }
-
-                    
+                    };
                 </div>
             </div>
 
@@ -141,13 +169,14 @@
                 <div class="instruction">
                     Rotate the blue polygon to its image under the given translation.
                 </div>
-                <div class="guess"> GRAPH.curPoints
-                </div>
+                <div class="guess">GRAPH.curPoints</div>
                 <div class="validator-function">
-                    coordList = _.map(GRAPH.points, function(point) { return point.coord; });
+                    var coordList = _.map(GRAPH.points, function(point) {
+                        return point.coord;
+                    });
                     return _.all(coordList, function(point) {
-                        return Math.abs(point[0] - TARGET[_.indexOf(coordList, point)][0]) &lt; 0.1
-                            &amp;&amp; Math.abs(point[1] - TARGET[_.indexOf(coordList, point)][1]) &lt; 0.1;
+                        return abs(point[0] - TARGET[_.indexOf(coordList, point)][0]) &lt; 0.1 &amp;&amp;
+                               abs(point[1] - TARGET[_.indexOf(coordList, point)][1]) &lt; 0.1;
                     });
                 </div>
                 <div class="show-guess">
@@ -158,29 +187,48 @@
 
             <div class="hints">
                 <p>
-                    A rotation <code>T_{\LARGE r^\circ{}}</code> rotates points by <code>r</code> degrees around <code>(0,0)</code> counter-clockwise.
+                    A rotation <code>T_{\LARGE r^\circ{}}</code> rotates points
+                    by <code>r</code> degrees around <code>(0,0)</code>
+                    counter-clockwise.
                 </p>
                 <div>
-                    <p>To see where a rotation moved this polygon, pick one point and rotate it. For example, what happens to 
-                    <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this rotation?</p>
+                    <p>
+                        To see where a rotation moved this polygon, pick one
+                        point and rotate it. For example, what happens to
+                        <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code>
+                        under this rotation?
+                    </p>
                     <div class="graphie" data-update="grid">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
-                </div> 
+                </div>
                 <div>
-                    <p>Under the rotation <code>T_{<var>ROTDEG</var> {}^\circ{} }</code>, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> is translated to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>. Where is the rest of the polygon rotated?</p>
+                    <p>
+                        Under the rotation <code>T_{<var>ROTDEG</var> {}^\circ{} }</code>,
+                        <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code>
+                        is translated to <code>(<var> round(TARGET[0][0]) </var>,
+                        <var>round(TARGET[0][1])</var>)</code>. Where is the rest
+                        of the polygon rotated?
+                    </p>
                     <div class="graphie" data-update="grid">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
-                        arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "->" });
+                        arc([0,0], sqrt(pow(HULL[0][0],2) + pow(HULL[0][1],2)),
+                                atan2(HULL[0][1], HULL[0][0]) * 180 / PI,
+                                atan2(TARGET[0][1], TARGET[0][0]) * 180 / PI,
+                                { stroke: "black", arrows: "-&gt;" });
                     </div>
                 </div>
+                <p>
+                    To get from <code>(<var>HULL[0][0]</var>,<var>HULL[0][1]</var>)</code>
+                    to <code>(<var>round(TARGET[0][0])</var>,<var>round(TARGET[0][1])</var>)</code>,
+                    we rotated it <code><var>ROTDEG</var>{}^\circ{}</code> counter-clockwise, or through
+                    <var>["one quarter", "one half", "three quarters"][ROTDEG / 90 - 1]</var> of a circle.
+                </p>
                 <div>
-                    To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>, we rotated it <code><var>ROTDEG</var>{}^\circ{}</code> counter-clockwise, or
-                    through <var>["one quarter","one half","three quarters"][ROTDEG/90-1]</var> of a circle.
-                    </br></br>
-                </div>
-                <div>
-                    <p>The orange outline shows where the polygon ends up after the translation.</p>
+                    <p>
+                        The orange outline shows where the polygon ends up after
+                        the translation.
+                    </p>
                     <div class="graphie" data-update="grid">
                         for (var i=0; i &lt; TARGET.length; i++) {
                             line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
@@ -188,30 +236,35 @@
                     </div>
                 </div>
             </div>
-        
         </div>
+
+
         <div id="reverse">
             <div class="vars">
-                <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">randRange(-4, 4, 4)</var>
+                <var id="SX, SY, EX, EY" data-ensure="SX !== EX || SY !== EY">
+                    randRange(-4, 4, 4)
+                </var>
                 <var id="ROTDEG">90 * randRange(1, 3)</var>
-                <var id="ROTRAD">ROTDEG * Math.PI / 180 </var>
+                <var id="ROTRAD">ROTDEG * PI / 180 </var>
                 <var id="POINTS">_.map(_.range(6), function() {
                     return {x: randRange(-4, 4), y: randRange(-4, 4)};
                 })</var>
                 <var id="HULL">_.map(Geom.convexhull(POINTS), function(p) {
                     return [p.x, p.y];
                 })</var>
-                <var id="HULL_DISTS">_.map(HULL, function(p) { 
-                    return Math.pow(p[0],2) + Math.pow(p[1],2);
+                <var id="HULL_DISTS">_.map(HULL, function(p) {
+                    return pow(p[0], 2) + pow(p[1], 2);
                 })</var>
                 <var id="TARGET"> _.map(HULL, function(p) {
-                    return [p[0]*Math.cos(ROTRAD) - p[1]*Math.sin(ROTRAD), p[0]*Math.sin(ROTRAD) + p[1]*Math.cos(ROTRAD)];
+                    return [p[0] * cos(ROTRAD) - p[1] * sin(ROTRAD),
+                            p[0] * sin(ROTRAD) + p[1] * cos(ROTRAD)];
                 })</var>
                 <var id="GRAPH">0</var>
             </div>
 
             <p class="question">
-                What is the tranformation that rotates the blue solid shape to the orange dashed shape?
+                What is the tranformation that rotates the blue solid shape to
+                the orange dashed shape?
             </p>
 
             <div class="problem">
@@ -231,11 +284,13 @@
                     GRAPH = graph;
 
                     for (var i=0; i &lt; HULL.length; i++) {
-                        line(HULL[i], HULL[(i+1) % HULL.length], { stroke: BLUE });
+                        line(HULL[i], HULL[(i + 1) % HULL.length],
+                                { stroke: BLUE });
                     }
 
                     for (var i=0; i &lt; TARGET.length; i++) {
-                        line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE, strokeDasharray: "- " });
+                        line(TARGET[i], TARGET[(i + 1) % TARGET.length],
+                                { stroke: ORANGE, strokeDasharray: "- " });
                     }
 
                 </div>
@@ -243,18 +298,18 @@
 
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                    <code>{\LARGE T } \quad</code> <input id="ans" style="width: 30px;"></input> <code>{}^\circ{}</code>
+                    <code>{\LARGE T } \quad</code>
+                    <input id="ans" style="width: 30px;"></input>
+                    <code>{}^\circ{}</code>
                 </div>
                 <div class="guess">$("#ans").val()</div>
                 <div class="validator-function">
-                    answer = Number($("#ans").val());
+                    var answer = Number($("#ans").val());
                     if (isNaN(answer)) {
                         return false;
-                    }
-                    else if (answer > 0) {
+                    } else if (answer &gt; 0) {
                         return answer % 360 === ROTDEG;
-                    }
-                    else {
+                    } else {
                         return answer % 360 + 360 === ROTDEG;
                     }
                 </div>
@@ -266,26 +321,41 @@
 
             <div class="hints">
                 <p>
-                    A rotation <code>T_{\LARGE r^\circ{}}</code> rotates points by r degrees around <code>(0,0)</code> counter-clockwise.
+                    A rotation <code>T_{\LARGE r^\circ{}}</code> rotates points
+                    by <code>r</code> degrees around <code>(0, 0)</code>
+                    counter-clockwise.
                 </p>
                 <div>
-                    <p>To see what rotation moved the blue polygon, pick one point and rotate it. For example, what happened to 
-                    <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this rotation?</p>
+                    <p>
+                        To see what rotation moved the blue polygon, pick one
+                        point and rotate it. For example, what happened to
+                        <code>(<var>HULL[0][0]</var>, <var>HULL[0][1]</var>)</code>
+                        under this rotation?
+                    </p>
                     <div class="graphie" data-update="grid">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
-                </div> 
+                </div>
                 <div>
                     <p>
-                        <span>Under this rotation, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> was rotated to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>. What does this tell you about the rotation used?</span>
-                        <div class="graphie" data-update="grid">
-                            circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
-                            arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "->" });
-                        </div>
+                        Under this rotation, <code>(<var> HULL[0][0] </var>,
+                        <var>HULL[0][1]</var>)</code> was rotated to
+                        <code>(<var>round(TARGET[0][0])</var>, <var>round(TARGET[0][1])</var>)</code>.
+                        What does this tell you about the rotation used?
                     </p>
+                    <div class="graphie" data-update="grid">
+                        circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
+                        arc([0, 0], sqrt(pow(HULL[0][0], 2) + pow(HULL[0][1],2)),
+                            atan2(HULL[0][1], HULL[0][0]) * 180 / PI,
+                            atan2(TARGET[0][1], TARGET[0][0]) * 180 / PI,
+                            { stroke: "black", arrows: "-&gt;" });
+                    </div>
                 </div>
                 <p>
-                    To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>, we rotated it around <code>(0,0)</code> <code><var>ROTDEG</var>{}^\circ{}</code> counterclockwise.
+                    To get from <code>(<var>HULL[0][0]</var>, <var>HULL[0][1]</var>)</code>
+                    to <code>(<var>round(TARGET[0][0])</var>, <var>round(TARGET[0][1])</var>)</code>,
+                    we rotated it around <code>(0, 0)</code>
+                    <code><var>ROTDEG</var>{}^\circ{}</code> counterclockwise.
                 </p>
                 <div>
                     The rotation used was <code>T_{<var>ROTDEG</var>^\circ{}}</code>.
