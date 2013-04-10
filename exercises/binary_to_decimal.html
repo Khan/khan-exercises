@@ -40,9 +40,9 @@
                 bitValues[i] = Math.pow(2, i) * bits[i];
             }
             
-            var cupColor = "#6495ED";
-            var zeroColorFill = cupColor;
-            var oneColorFill = "#FFFFFF";
+            var discColor = "#6495ED";
+            var zeroColorFill = "none";
+            var oneColorFill = discColor;
             var zeroColorText = "#777777";
             var oneColorText = "#000000";
             
@@ -53,7 +53,7 @@
                     fillColor = zeroColorFill;
                     textColor = zeroColorText;
                 } 
-                style({ stroke: cupColor, fill: fillColor });
+                style({ stroke: discColor, fill: fillColor });
                 var x = 0.25 + (lastBit - exponent);
                 circle( [x, 0], 0.15 );
                 label( [x, 0], Math.pow(2, exponent), "below", { color: textColor });
@@ -61,13 +61,13 @@
             
             var keysX = 6.5;
             var keysY = 0.06;
-            style({ stroke: cupColor, fill: zeroColorFill });
+            style({ stroke: discColor, fill: zeroColorFill });
             circle( [keysX, keysY], 0.15 );
             label( [keysX+.05, keysY], "= 0", "right", undefined);
             label( [keysX-.10, keysY], "Key:", "left", undefined);
             
             keysY = -0.46;
-            style({ stroke: cupColor, fill: oneColorFill });
+            style({ stroke: discColor, fill: oneColorFill });
             circle( [keysX, keysY], 0.15 );
             label( [keysX+.05, keysY], "= 1", "right", undefined);
             
