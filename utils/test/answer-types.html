@@ -76,11 +76,9 @@
 
         $("#solutionarea input").val(input);
         if (result === "string") {
-            console.log("string");
             strictEqual(typeof validator(getAnswer()), "string",
                     description + " [" + input + "]");
         } else {
-            console.log("not string");
             strictEqual(validator(getAnswer()), result,
                     description + " [" + input + "]");
         }
