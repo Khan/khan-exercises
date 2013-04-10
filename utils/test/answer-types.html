@@ -75,7 +75,7 @@
         var getAnswer = answerData.answer;
 
         $("#solutionarea input").val(input);
-        if (result === "string") {
+        if (result === "string") {  // literally, the string "string"
             strictEqual(typeof validator(getAnswer()), "string",
                     description + " [" + input + "]");
         } else {
@@ -84,10 +84,9 @@
         }
     }
 
-    asyncTest("number integer", 5, function() {
+    asyncTest("number integer", 7, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='integer'>-42<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='integer'>-42<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -97,33 +96,34 @@
         testAnswer(answerData, "-42", true, "right answer is right");
         testAnswer(answerData, "-84/2", false, "non-integer right answer is wrong");
         testAnswer(answerData, " \u2212 42 ", true, "weirdly formatted right answer is right");
+        testAnswer(answerData, "- 4 2", false, "crazily formatted answer is wrong");
         testAnswer(answerData, "-41.9999999", false, "close decimal is wrong");
+        testAnswer(answerData, "-,42", false, "sort of tricky wrong answer is wrong");
 
         start();
     });
 
-    asyncTest("number big integer", 5, function() {
+    asyncTest("number big integer", 6, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='integer'>123456789<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='integer'>12345678<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
                 $problem.children(".solution"));
 
-        testAnswer(answerData, "123456780", false, "wrong answer is wrong");
-        testAnswer(answerData, "123456789", true, "right answer is right");
-        testAnswer(answerData, "123,456,789", true, "right answer with commas is right");
-        testAnswer(answerData, "123.456.789", true, "right answer with periods is right");
-        testAnswer(answerData, "123 456 789", true, "right answer with periods is right");
+        testAnswer(answerData, "12345670", false, "wrong answer is wrong");
+        testAnswer(answerData, "12345678", true, "right answer is right");
+        testAnswer(answerData, "12,345,678", true, "right answer with commas is right");
+        testAnswer(answerData, "12.345.678", true, "right answer with periods is right");
+        testAnswer(answerData, "12 345 678", true, "right answer with spaces is right");
+        testAnswer(answerData, "123 45 678", false, "right answer with wrong commas is wrong");
 
         start();
     });
 
     asyncTest("number proper", 5, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='proper'>-0.5<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='proper'>-0.5<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -141,8 +141,7 @@
     asyncTest("number proper (unsimplified)", 5, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='proper' " +
-            "data-simplify='optional'>-0.5<" +
-            "/p>"
+            "data-simplify='optional'>-0.5<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -159,8 +158,7 @@
 
     asyncTest("number improper", 6, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='improper'>-1.5<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='improper'>-1.5<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -179,8 +177,7 @@
     asyncTest("number improper (unsimplified)", 6, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='improper' " +
-            "data-simplify='optional'>-1.5<" +
-            "/p>"
+            "data-simplify='optional'>-1.5<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -196,10 +193,9 @@
         start();
     });
 
-    asyncTest("number pi", 4, function() {
+    asyncTest("number pi", 10, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='pi'>-6.283185307179586<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='pi'>-6.283185307179586<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -208,15 +204,20 @@
         testAnswer(answerData, "2pi", false, "wrong answer is wrong");
         testAnswer(answerData, "-2pi", true, "right answer is right");
         testAnswer(answerData, "-tau", true, "right answer is right");
+        testAnswer(answerData, "-2tau", false, "tau is not pi");
+        testAnswer(answerData, "-2", false, "pi is not 1");
         testAnswer(answerData, "-6.28", "string", "approximately right answer provides a message");
+        testAnswer(answerData, "-44/7", "string", "approximately right answer provides a message");
+        testAnswer(answerData, "" + (-2 * Math.PI), "string", "approximately right answer provides a message");
+        testAnswer(answerData, "-2/1 pi", "string", "unsimplified answer provides a message");
+        testAnswer(answerData, "-9.42", false, "totally wrong answer gives no message");
 
         start();
     });
 
     asyncTest("number pi (rational)", 14, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='pi'>-2.6179938779914944<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='pi'>-2.6179938779914944<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -240,10 +241,9 @@
         start();
     });
 
-    asyncTest("number pi (rational > 1)", 6, function() {
+    asyncTest("number pi (rational > 1)", 7, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='pi'>-15.184364492350666<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='pi'>-15.184364492350666<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -251,6 +251,7 @@
 
         testAnswer(answerData, "4 5pi/6", false, "wrong answer is wrong");
         testAnswer(answerData, "-4 5/6pi", true, "right answer is right");
+        testAnswer(answerData, "-29/6pi", true, "right answer is right");
         testAnswer(answerData, "-2 5/12tau", true, "right answer is right");
         testAnswer(answerData, "-15.18", "string", "approximately right answer provides a message");
         testAnswer(answerData, " \u2212 4 5 / 6 \u03c0 ", true, "weirdly formatted right answer is right");
@@ -261,8 +262,7 @@
 
     asyncTest("number pi (decimal)", 6, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='pi'>-1.5707963267948966<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='pi'>-1.5707963267948966<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -280,8 +280,7 @@
 
     asyncTest("number log", 3, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='log'>2<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='log'>2<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -296,41 +295,42 @@
 
     asyncTest("number percent", 3, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='percent'>0.42<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='percent'>0.42<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
                 $problem.children(".solution"));
 
-        testAnswer(answerData, "0.42", false, "wrong answer is wrong (0.42)");
-        testAnswer(answerData, "42%", true, "right answer is right (42%)");
-        testAnswer(answerData, "42", "string", "leaving off percent sign provides a message (42)");
+        testAnswer(answerData, "0.42", false, "wrong answer is wrong");
+        testAnswer(answerData, "42%", true, "right answer is right");
+        testAnswer(answerData, "42", "string", "leaving off percent sign provides a message");
 
         start();
     });
 
-    asyncTest("number dollar", 4, function() {
+    asyncTest("number dollar", 6, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='dollar'>1.42<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='dollar'>1.42<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
                 $problem.children(".solution"));
 
-        testAnswer(answerData, "1.40", false, "wrong answer is wrong (1.40)");
-        testAnswer(answerData, "$1.42", true, "right answer is right ($1.42)");
-        testAnswer(answerData, "1.42", true, "right answer is right without dollar sign (1.42)");
-        testAnswer(answerData, " $ 1.42 ", true, "weirdly formatted right answer is right ( $ 1.42 )");
+        testAnswer(answerData, "1.40", false, "wrong answer is wrong");
+        testAnswer(answerData, "$1.42", true, "right answer is right");
+        testAnswer(answerData, "1.42", true, "right answer is right without dollar sign");
+        testAnswer(answerData, " $ 1.42 ", true, "weirdly formatted right answer is right");
+
+        testAnswer(answerData, "$1.42$", false, "two dollar signs is wrong");
+        // TODO(alpert): wtf?
+        testAnswer(answerData, "1.4$2", true, "one dollar sign can be anywhere");
 
         start();
     });
 
     asyncTest("number mixed", 6, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='mixed'>-1.5<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='mixed'>-1.5<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -349,8 +349,7 @@
     asyncTest("number mixed (unsimplified)", 6, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='mixed' " +
-            "data-simplify='optional'>-1.5<" +
-            "/p>"
+            "data-simplify='optional'>-1.5<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -368,8 +367,7 @@
 
     asyncTest("number decimal", 8, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution' data-type='number' data-forms='decimal'>12345.6789<" +
-            "/p>"
+            "<p class='solution' data-type='number' data-forms='decimal'>12345.6789<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
@@ -387,15 +385,48 @@
         start();
     });
 
+    asyncTest("number generic 1/3", 4, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution'>0.3333333333333333<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "-1/3", false, "wrong answer is wrong");
+        testAnswer(answerData, "1/3", true, "right answer is right");
+        testAnswer(answerData, "2/6", "string", "unsimplified right answer provides a message");
+        testAnswer(answerData, "0.3333333333333333", false, "decimal from calculator is wrong");
+
+        start();
+    });
+
+    asyncTest("number generic -1.5", 5, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution'>-1.5<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "1.5", false, "wrong answer is wrong");
+        testAnswer(answerData, "-1.5", true, "right answer is right");
+        testAnswer(answerData, "-1,5000", true, "right answer is right");
+        testAnswer(answerData, "-3/2", true, "right answer is right");
+        testAnswer(answerData, "-6/4", "string", "unsimplified right answer provides a message");
+
+        start();
+    });
+
     asyncTest("radio answerability", 8, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution'><code>6<" + "/code><" + "/p>" +
+            "<p class='solution'><code>6<\/code><\/p>" +
             "<ul class='choices'>" +
-                "<li><code>21<" + "/code><" + "/li>" +
-                "<li><code>25<" + "/code><" + "/li>" +
-                "<li><code>27<" + "/code><" + "/li>" +
-                "<li><code>37<" + "/code><" + "/li>" +
-            "<" + "/ul>"
+                "<li><code>21<\/code><\/li>" +
+                "<li><code>25<\/code><\/li>" +
+                "<li><code>27<\/code><\/li>" +
+                "<li><code>37<\/code><\/li>" +
+            "<\/ul>"
         );
         jQuery("#qunit-fixture").tmpl();
 
@@ -428,14 +459,14 @@
                 .closest("label").children("input");
             $correctRadio.prop("checked", true);
 
-            equal(validator(getAnswer()), true);
+            strictEqual(validator(getAnswer()), true);
 
             // If we check a wrong answer, then it'll return false
             var $incorrectRadio = $("#solutionarea script")
                 .filter(function() { return !(/6/).test($(this).html()); })
                 .closest("label").children("input");
             $incorrectRadio.prop("checked", true);
-            equal(validator(getAnswer()), false);
+            strictEqual(validator(getAnswer()), false);
 
             // Tell QUnit we're done.
             start();
