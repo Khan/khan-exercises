@@ -195,7 +195,8 @@ def fix(files, verbose):
             verbose=verbose)
         errors += _errors
         num_fixes += _fixes
-        fixed_files.append((filename, _fixes))
+        if _fixes:
+            fixed_files.append((filename, _fixes))
 
     for (node, info, filename) in errors:
         file_errors[filename] = file_errors.get(filename, 0) + 1
