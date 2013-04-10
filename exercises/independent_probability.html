@@ -413,12 +413,12 @@
                 <var id="P">INDEX === 1 || INDEX === 2</var>
             </div>
             <p>
-                Captain <var>person(1)</var> and <var>his(1)</var> ship, the H.M.S. Khan, are 
-                two furlongs from the dread pirate <var>person(2)</var> and <var>his(2)</var> merciless band of scallawags. 
+                <span>Captain <var>person(1)</var> and <var>his(1)</var> ship, the H.M.S. Khan.</span> 
+                <span>The ship is two furlongs from the dread pirate <var>person(2)</var> and <var>his(2)</var> merciless band of thieves.</span>
                 <br><br>
-                The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship.
+                <span>The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship.
                 The pirate only has one good eye, so <var>he(2)</var> hits the Captain's ship with probability 
-                <code><var>P_HIT_PRETTY</var></code>.
+                <code><var>P_HIT_PRETTY</var></code>.</span>
             </p>
 
             <p class="question">
@@ -439,9 +439,16 @@
                 </p>
                 
                 <p>
-                    Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
-                    the probability that <var>C ? "the captain hits" : "the captain misses"</var> and the probability that 
+                    <span data-if="C">
+                        Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
+                    the probability that the captain hits and the probability that 
                     <var>P ? "the pirate hits" : "the pirate misses"</var>.
+                    </span>
+                    <span data-else>
+                        Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
+                    the probability that the captain misses and the probability that 
+                    <var>P ? "the pirate hits" : "the pirate misses"</var>.
+                    </span>
                 </p>
                 <p data-if="C">
                     The probability that the Captain hits is <code><var>C_HIT_PRETTY</var></code>.

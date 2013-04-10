@@ -113,15 +113,15 @@
                     </div>
                 </div>
                 <p>
-                    There <var>plural( "is", DATA[PERSON] )</var> <var>plural( DATA[ PERSON ], "symbol" )</var>.
+                    There <var>plural( "is", DATA[PERSON] )</var> <var>plural( DATA[PERSON], "symbol" )</var>.
                 </p>
 
                 <div>
                     <div>
                         <code><var>DATA[ PERSON ]</var></code> <var>plural( "symbol", DATA[ PERSON ] )</var>
-                        <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbol
+                        <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <span><var>plural( "badge", VALUE_PER_IMG )</var> per symbol</span>
                         <code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code>
-                        <var>plural( "badge", DATA[ PERSON ] * VALUE_PER_IMG )</var>.
+                        <var>plural( "badge", DATA[ PERSON ] * VALUE_PER_IMG )</var>
                     </div>
                 </div>
                 <p><var>person( PERSON + 1 )</var> earned <code><var>ANSWER</var></code> <var>BADGE</var> <var>plural( "badge", ANSWER )</var>.</p>

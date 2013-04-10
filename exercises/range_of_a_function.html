@@ -135,7 +135,10 @@
             <p data-if="A > 0">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> doesn't change the range.</p>
             <p data-else>The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> flips the range to <code>\{\, y \mid y \le 0 \,\}</code>.</p>
             <div>
-                <p>Now <var>B > 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>. The range becomes: <code>\{\, y \mid y <var>A > 0 ? "&ge;" : "&le;"</var> <var>B</var> \,\}</code>.</p>
+                <p>
+                    <span>Now <var>B > 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>.</span>
+                    <span>The range becomes: <code>\{\, y \mid y <var>A > 0 ? "&ge;" : "&le;"</var> <var>B</var> \,\}</code>.</span>
+                </p>
 
                 <div class="graphie" data-update="grid">
                     graph.pl.remove();

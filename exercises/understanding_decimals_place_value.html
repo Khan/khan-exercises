@@ -566,7 +566,7 @@
         </div>
         <!-- no data-else for thousandths since they're only zero if we're dealing with a money problem -->
         <p>
-            Therefore you need
+            <span>Therefore you need:</span>
             <span data-if="THOUSANDS !== 0"><code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> <var>plural( "thousand", THOUSANDS )</var>, </span>
             <span data-if="HUNDREDS !== 0"><code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> <var>plural( "hundred", HUNDREDS )</var>, </span>
             <span data-if="TENS !== 0"><code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code> <var>plural( "ten", TENS )</var>, </span>
@@ -577,7 +577,7 @@
             </span>
             <span data-else data-unwrap>
                 <span data-if="HUNDREDTHS !== 0"><code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> <var>plural( "hundredth", HUNDREDTHS )</var>, </span>
-                and <code>\large{\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> <var>plural( "thousandth", THOUSANDTHS )</var>.
+                <span>and <code>\large{\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> <var>plural( "thousandth", THOUSANDTHS )</var>.</span>
             </span>
         </p>
     </div>

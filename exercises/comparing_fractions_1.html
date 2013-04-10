@@ -27,10 +27,6 @@
                             return "&lt;";
                         }
                     })()</var>
-                    <var id="MORE">DEN_1 > DEN_2 ? "more" : "fewer"</var>
-                    <var id="SMALLER">DEN_1 > DEN_2 ? "smaller" : "bigger"</var>
-                    <var id="LESS">DEN_1 > DEN_2 ? "less" : "more"</var>
-                    <var id="BIGGER">SMALLER === "smaller" ? "bigger" : "smaller"</var>
                 </div>
 
                 <div class="problem">
@@ -60,8 +56,8 @@
                         </div>
                     </div>
                     <p>Note that cutting a pizza into more slices will result in smaller slices.</p>
-                    <p>The left fraction represents a pizza with <var>MORE</var> slices, and so each slice is <var>SMALLER</var>.</p>
-                    <p><var>NUM_1</var> <var>SMALLER</var> slice<var>plural( NUM_1 )</var> is <var>LESS</var> pizza than <var>NUM_2</var> <var> BIGGER</var> slice<var>plural( NUM_2 )</var>.</p>
+                    <p>The left fraction represents a pizza with <var>DEN_1 > DEN_2 ? "more" : "fewer"</var> slices, and so each slice is <var>SMALLER</var>.</p>
+                    <p><var>NUM_1</var> <var>DEN_1 > DEN_2 ? "smaller" : "bigger"</var> slice<var>plural( NUM_1 )</var> is <var>DEN_1 > DEN_2 ? "less" : "more"</var> pizza than <var>NUM_2</var> <var>DEN_1 > DEN_2 ? "bigger" : "smaller"</var> slice<var>plural( NUM_2 )</var>.</p>
                     <p>So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.</p>
                 </div>
             </div>
@@ -81,7 +77,6 @@
                             return "&gt;";
                         }
                     })()</var>
-                    <var id="LESS">NUM_1 &lt; NUM_2 ? "less" : "more"</var>
                 </div>
 
                 <div class="problem">
@@ -111,7 +106,10 @@
                             </div>
                         </div>
                     </div>
-                    <p><var>plural( NUM_1, "slice" )</var> is <var>LESS</var> pizza than <var>plural( NUM_2, "slice" )</var>.</p>
+                    <p>
+                        <span>There are <var>plural( NUM_1, "slice" )</var>.</span>
+                        <span>This is <var>NUM_1 &lt; NUM_2 ? "less" : "more"</var> pizza than <var>plural( NUM_2, "slice" )</var>.</span>
+                    </p>
                     <p>So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.</p>
                 </div>
             </div>

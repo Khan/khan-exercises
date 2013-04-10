@@ -136,8 +136,9 @@
                     </p>
 
                     <p><strong>
-                        The average <var>animal( 1 )</var> at the zoo is <var>plural( MEAN, "year" )</var> old, and the population variance
-                        is <var>plural( VARIANCE_POP, "year" )</var><code>^2</code>.
+                        <span>The average <var>animal( 1 )</var> at the zoo is <var>plural( MEAN, "year" )</var> old.</span>
+                        <span>The population variance
+                        is <var>plural( VARIANCE_POP, "year" )</var><code>^2</code>.</span>
                     </strong></p>
 
                 </div> <!-- hints -->
@@ -146,8 +147,8 @@
             <div id="sample" data-calculator>
                 <div class="problem" data-else>
                     <p>
-                        You have found the following ages (in years) of <var>plural( DATA_POINTS, animal( 1 ) )</var>
-                        randomly selected from the <var>plural( POPULATION, animal( 1 ) )</var> at your local zoo:
+                        <span>You have found the following ages (in years) of <var>plural( DATA_POINTS, animal( 1 ) )</var>.</span>
+                        <span>The <var>plural(animal( 1 ))</var> are randomly selected from the <var>plural( POPULATION, animal( 1 ) )</var> at your local zoo:</span>
                     </p>
                     <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
                 </div>
@@ -236,11 +237,12 @@
                             population mean&mdash;we had to estimate it by using the <span class="hint_blue">sample mean</span>.
                         </p>
                         <p>
-                            The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
-                            of the <var>plural( DATA_POINTS, animal( 1 ) )</var> we sampled than it is to the average age
-                            of all <var>plural( POPULATION, animal( 1 ) )</var> in the zoo.
-                            Because of that, the <span class="hint_purple">squared deviations from the mean</span> we calculated will
-                            probably underestimate the actual deviations from the population mean.
+                            <span>The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
+                            of the <var>plural( DATA_POINTS, animal( 1 ) )</var> we sampled.</span>
+                            <span>Compared with the average age
+                            of all <var>plural( POPULATION, animal( 1 ) )</var> in the zoo.</span>
+                            <span>Because of that, the <span class="hint_purple">squared deviations from the mean</span> we calculated will
+                            probably underestimate the actual deviations from the population mean.</span>
                         </p>
                         <p>
                             To compensate for this underestimation, rather than simply averaging the <span class="hint_purple">squared deviations from the mean</span>,
@@ -271,8 +273,9 @@
                     </p>
 
                     <p><strong>
-                        We can estimate that the average <var>animal( 1 )</var> at the zoo is <var>plural( MEAN, "year" )</var> old with a variance
-                        of <var>plural( VARIANCE, "year" )</var><code>^2</code>.
+                        <span>We can estimate that the average <var>animal( 1 )</var> at the zoo is <var>plural( MEAN, "year" )</var> old.</span>
+                        <span>There is a variance
+                        of <var>plural( VARIANCE, "year" )</var><code>^2</code>.</span>
                     </strong></p>
 
                 </div> <!-- hints -->
