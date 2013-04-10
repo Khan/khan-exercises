@@ -24,6 +24,8 @@
     </div>
 
     <div class="hints">
+    	<p>Remember, each digit in binary (or bit) is a placeholder for powers of 2 (not powers of 10 like in decimal).</p>
+    	<p>The first bit is the 2&#x2070; or the 1's place, the second bit is 2&sup1 or the 2's place, the third bit is 2&sup2 or the 4's place, and the fourth bit is 2&sup3; or the 8's place.</p>
         <div class="graphie">
             init({
                 range: [ [0, 10], [-1, 1] ]
@@ -75,10 +77,16 @@
         </div>
         <p>To convert to the decimal representation, compute the value for each binary digit, or bit, and add these values.</p>
         <p>In other words
-        <code><var>BIT3</var></code>&middot;8 +
-        <code><var>BIT2</var></code>&middot;4 +
-        <code><var>BIT1</var></code>&middot;2 +
-        <code><var>BIT0</var></code>&middot;1 = Answer.</p>
+        <code><var>BIT3</var>&middot;8 +
+        <var>BIT2</var>&middot;4 +
+        <var>BIT1</var>&middot;2 +
+        <var>BIT0</var>&middot;1</code> = Answer.</p>
+        <p>
+        <code><var>BIT3*8</var></code> +
+        <code><var>BIT2*4</var></code> +
+        <code><var>BIT1*2</var></code> +
+        <code><var>BIT0*1</var></code> = 
+        <code><var>BIT3*8 + BIT2*4 + BIT1*2 + BIT0*1</code></p>
     </div>
     </div>
 </body>
