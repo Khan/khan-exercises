@@ -109,13 +109,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
     },
 
     /*
-     * number answer type
+     * predicate answer type
      *
-     * performs simple number-based checking of a solution, with different
-     * kinds of number formats
+     * performs simple predicate-based checking of a numeric solution, with
+     * different kinds of number formats
      *
-     * Uses the data-type option on the solution to choose which number formats
-     * are acceptable. Available data-types:
+     * Uses the data-forms option on the solution to choose which number formats
+     * are acceptable. Available data-forms:
      *
      * - integer:  3
      * - proper:   3/5
@@ -126,8 +126,15 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      * - dollar:   $10
      * - mixed:    1 1/3
      * - decimal:  1.7
+     *
+     * The solution should be a predicate of the form:
+     *
+     * function(guess, maxError) {
+     *     return abs(guess - 3) < maxError;
+     * }
+     *
      */
-    number: {
+    predicate: {
         defaultForms: "literal, integer, proper, improper, mixed, decimal",
         setup: function(solutionarea, solution) {
             // retrieve the options from the solution data
@@ -135,7 +142,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 simplify: "required",
                 ratio: false,
                 maxError: Math.pow(2, -42),
-                forms: Khan.answerTypes.number.defaultForms,
+                forms: Khan.answerTypes.predicate.defaultForms,
             }, $(solution).data());
             var acceptableForms = options.forms.split(/\s*,\s*/);
 
@@ -217,7 +224,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var fallback = $(solution).data("fallback");
 
             return {
-                validator: Khan.answerTypes.number.createValidator(solution),
+                validator: Khan.answerTypes.predicate.createValidator(solution),
                 answer: function() {
                     return input.val().length > 0 ?
                         input.val() :
@@ -236,7 +243,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 simplify: "required",
                 ratio: false,
                 maxError: Math.pow(2, -42),
-                forms: Khan.answerTypes.number.defaultForms
+                forms: Khan.answerTypes.predicate.defaultForms
             }, $(solution).data());
             var acceptableForms = options.forms.split(/\s*,\s*/);
 
@@ -395,7 +402,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                         )) {
                         possibilities = forms.decimal(match[1]);
                     } else {
-                        possibilities = _.reduce(Khan.answerTypes.number.defaultForms.split(/\s*,\s*/), function(memo, form) {
+                        possibilities = _.reduce(Khan.answerTypes.predicate.defaultForms.split(/\s*,\s*/), function(memo, form) {
                             return memo.concat(forms[form](text));
                         }, []);
                         $.each(possibilities, function(ix, possibility) {
@@ -537,8 +544,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             };
 
             // Store the correct text and float values
-            var correct = $.trim($(solution).text());
-            var correctFloat = parseFloat(correct);
+            var predicate =
+                    $(solution).data("predicate") ||
+                    KhanUtil.tmpl.getVAR($(solution).text());
 
             // validator function
             return function(guess) {
@@ -554,16 +562,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         var val = transformed[j].value;
                         var exact = transformed[j].exact;
                         var piApprox = transformed[j].piApprox;
-
                         // If a string was returned, and it exactly matches,
                         // return true
-                        if (typeof val === "string" &&
-                                correct.toLowerCase() === val.toLowerCase()) {
-                            ret = true;
-                            return false; // break;
-                        } else if (typeof val === "number" &&
-                                Math.abs(correctFloat - val) <
-                                options.maxError) {
+                        if (predicate(val, options.maxError)) {
                             // If the exact correct number was returned,
                             // return true
                             if (exact || options.simplify === "optional") {
@@ -579,8 +580,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             }
 
                             return false; // break;
-                        } else if (typeof val === "number" && piApprox &&
-                                Math.abs(correctFloat / val - 1) < 0.001) {
+                        } else if (piApprox &&
+                                   predicate(val, Math.abs(val * 0.001))) {
                             ret = "Your answer is close, but you may have " +
                                   "approximated pi. Enter your answer as a " +
                                   "multiple of pi, like <code>12\\ " +
@@ -592,6 +593,34 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                 return ret;
             };
+        }
+    },
+
+    /*
+     * number answer type
+     *
+     * wraps the predicate answer type to performs simple number-based checking
+     * of a solution
+     */
+    number: {
+        convertToPredicate: function(solution) {
+            if ($(solution).data("type") === "predicate") {
+                return solution;
+            }
+            var predicateSolution = $(solution).clone(true);
+            var correctFloat = parseFloat($.trim(predicateSolution.text()));
+
+            predicateSolution.data("type", "predicate");
+            predicateSolution.data("predicate", function(guess, maxError) {
+                return Math.abs(guess - correctFloat) < maxError;
+            });
+            return predicateSolution;
+        },
+        setup: function(solutionarea, solution) {
+            return Khan.answerTypes.predicate.setup(solutionarea, Khan.answerTypes.number.convertToPredicate(solution));
+        },
+        createValidator: function(solution) {
+            return Khan.answerTypes.predicate.createValidator(Khan.answerTypes.number.convertToPredicate(solution));
         }
     },
 
