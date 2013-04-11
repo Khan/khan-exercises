@@ -1,0 +1,47 @@
+ <!DOCTYPE html>
+  <html data-require="math">
+      <head>
+          <title>Projectile Motion 0.5</title>
+          <script src="../khan-exercise.js"></script>
+      </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+                  <var id="angle">randRange( 10, 80 )</var>
+                  <var id="velocity">randRange( 10, 25 )</var>
+              </div>
+
+              <div class="problems">
+                  <div id="horizontal">
+                      <p class="problem">A projectile is launched at an angle of <var>angle</var> degrees with an initial velocity of <var>velocity</var> m/s.</p>
+                      <p class="question">What is the initial velocity in the horizontal direction? You may round your answers to the nearest tenth.</p>
+                      <p class="solution"><var>round(cos(angle)*velocity)</var></p>
+                      
+                      <div class="hints">
+                          <p>If we break down the vector into its vertical and horizontal componenets, we can see that it forms a right triangle.</p>
+                          <p>Now we can use our trig functions to find the horizontal velocity.</p>
+                          <p>cos<var>angle</var> = vx/<var>velocity</var></p>
+                          <p>vx = cos<var>angle</var> \times <var>velocity</var> m/s</p>
+                          <p>vx = <var>round(cos(angle)*velocity)</var></p>
+                      </div>
+
+                  </div>
+
+                  <div id="vertical">
+                      <p class="problem">A projectile is launched at an angle of <var>angle</var> degrees with an initial velocity of <var>velocity</var> m/s.<</p>
+                      <p class="question">What is the initial velocity in the vertical direction? You may round your answers to the nearest tenth.</p>
+                      <p class="solution"><var>round(sin(angle)*velocity)</var></p>
+                      
+                     <div class="hints">
+                          <p>If we break down the vector into its vertical and horizontal componenets, we can see that it forms a right triangle.</p>
+                          <p>Now we can use our trig functions to find the vertical velocity.</p>
+                          <p>sin<var>angle</var> = vx/<var>velocity</var></p>
+                          <p>vx = sin<var>angle</var> \times <var>velocity</var> m/s</p>
+                          <p>vx = <var>round(sin(angle)*velocity)</var></p>
+                      </div>
+
+                  </div> <!-- id vertical -->
+              </div> <!-- problems -->
+          </div> <!-- exercise -->
+      </body>
+  </html>
