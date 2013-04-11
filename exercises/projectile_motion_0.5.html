@@ -1,5 +1,5 @@
  <!DOCTYPE html>
-  <html data-require="math">
+  <html data-require="math math-format">
       <head>
           <title>Projectile Motion 0.5</title>
           <script src="../khan-exercise.js"></script>
@@ -9,37 +9,37 @@
               <div class="vars">
                   <var id="angle">10+rand(80)</var>
                   <var id="velocity">10+rand(15)</var>
-                  <var id="horizontal_velocity">roundTo(1, sin(angle * PI / 180)*velocity)</var>
+                  <var id="horizontal_velocity">roundTo(1, cos(angle * PI / 180)*velocity)</var>
                   <var id="vertical_velocity">roundTo(1, sin(angle * PI / 180)*velocity)</var>"
               </div>
 
               <div class="problems">
-                  <div id="horizontal">
+
+                  <div id="horizontal" data-calculator>
                       <p class="problem">A projectile is launched at an angle of <var>angle</var> degrees with an initial velocity of <var>velocity</var> m/s.</p>
                       <p class="question">What is the initial velocity in the horizontal direction? Round your answer to the nearest tenth.</p>
-                      <p class="solution"><var>horizontal_velocity</var></p>
-                      
+                      <p class="solution" data-type="decimal">
                       <div class="hints">
-                          <p>If we break down the vector into its vertical and horizontal componenets, we can see that it forms a right triangle.</p>
-                          <p>Now we can use our trig functions to find the horizontal velocity.</p>
-                          <p>cos<var>angle</var> = vx/<var>velocity</var></p>
-                          <p>vx = cos<var>angle</var> \times <var>velocity</var> m/s</p>
-                          <p>vx = <var>horizontal_velocity</var></p>
+                          <p>If we break down the vector into its <code class="hint_orange">vertical</code> and <code class="hint_green">horizontal</code> componenets, we can see that it forms a right triangle.</p>
+                          <p>Now we can use our trig functions to find the <code class="hint_green">horizontal</code> velocity.</p>
+                          <p><code>cos(<var>angle</var>) = vx/<var>velocity</var></code></p>
+                          <p><code>vx = cos(<var>angle</var>) \times <var>velocity</var></code></p>
+                          <p><code>vx = <var>horizontal_velocity</var>m/s</code></p>
                       </div>
 
                   </div>
 
-                  <div id="vertical">
+                  <div id="vertical" data-calculator>
                       <p class="problem">A projectile is launched at an angle of <var>angle</var> degrees with an initial velocity of <var>velocity</var> m/s.</p>
                       <p class="question">What is the initial velocity in the vertical direction? Round your answer to the nearest tenth.</p>
-                      <p class="solution"><var>vertical_velocity</var></p>
+                      <p class="solution" data-type="decimal"><var>vertical_velocity</var></p>
                       
                      <div class="hints">
-                          <p>If we break down the vector into its vertical and horizontal componenets, we can see that it forms a right triangle.</p>
-                          <p>Now we can use our trig functions to find the vertical velocity.</p>
-                          <p>sin<var>angle</var> = vx/<var>velocity</var></p>
-                          <p>vx = sin<var>angle</var> \times <var>velocity</var> m/s</p>
-                          <p>vx = <var>vertical_velocity</var></p>
+                          <p>If we break down the vector into its <code class="hint_orange">vertical</code> and <code class="hint_green">horizontal</code> componenets, we can see that it forms a right triangle.</p>
+                          <p>Now we can use our trig functions to find the <code class="hint_orange">vertical</code> velocity.</p>
+                          <p><code>sin(<var>angle</var>) = vy/<var>velocity</var></code></p>
+                          <p><code>vy = sin(<var>angle</var>) \times <var>velocity</var></code></p>
+                          <p><code>vy = <var>vertical_velocity</var>m/s</code></p>
                       </div>
 
                   </div>
