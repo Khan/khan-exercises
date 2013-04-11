@@ -169,6 +169,9 @@ function renderReadOnlyProblem(event, args) {
                                     $("<p class='solution'>Answer correct</p>")
                                 );
                             } else {
+                                thissolutionarea
+                                    .removeClass("correct-activity")
+                                    .addClass("incorrect-activity");
                                 thissolutionarea.attr("title", "Incorrect Answer");
                                 thissolutionarea.append(
                                     $("<p class='solution'>Answer incorrect</p>")
