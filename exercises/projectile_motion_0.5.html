@@ -9,8 +9,8 @@
               <div class="vars">
                   <var id="angle">10+rand(80)</var>
                   <var id="velocity">10+rand(15)</var>
-                  <var id="horizontal_velocity">cos(angle * PI / 180)*velocity</var>
-                  <var id="vertical_velocity">sin(angle * PI / 180)*velocity</var>"
+                  <var id="horizontal_velocity">roundTo(1, sin(angle * PI / 180)*velocity)</var>
+                  <var id="vertical_velocity">roundTo(1, sin(angle * PI / 180)*velocity)</var>"
               </div>
 
               <div class="problems">
