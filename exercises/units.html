@@ -33,7 +33,7 @@
             <div class="hints">
                 <div>
                     <p>The following table shows a few prefixes and their meanings.</p>
-                    <table>
+                    <table class="limit">
                         <tr><th>Prefix</th><th>Meaning</th></tr>
                         <tr data-each="PREFIXES as prefix">
                             <td><var>prefix.str</var></td><td><code><var>prefix.math</var></code></td>
@@ -51,7 +51,7 @@
                 <p><code>= <var>commafy( SOLUTION )</var> \text{ <var>END_UNIT</var>s}</code></p>
             </div>
         </div>
-        <div id="english">
+        <div id="english" data-calculator>
             <div class="vars">
                 <var id="D_UNITS">[
                     { str: "mile", plural: "miles", multiplier: 63360 },
