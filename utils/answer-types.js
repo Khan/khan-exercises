@@ -135,7 +135,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      *
      */
     predicate: {
-        defaultForms: "literal, integer, proper, improper, mixed, decimal",
+        defaultForms: "integer, proper, improper, mixed, decimal",
         setup: function(solutionarea, solution) {
             // retrieve the options from the solution data
             var options = $.extend({
@@ -302,15 +302,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
              * }
              */
             var forms = {
-                // a literal, decimal looking number
-                literal: function(text) {
-                    // Prevent literal comparisons for decimal-looking-like
-                    // strings
-                    return [{
-                        value: (/[^+-\u2212\d\.\s]/).test(text) ? text : null
-                    }];
-                },
-
                 // integer, which is encompassed by decimal
                 integer: function(text) {
                     // Compare the decimal form to the decimal form rounded to
