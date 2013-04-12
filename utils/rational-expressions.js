@@ -44,6 +44,7 @@ $.extend(KhanUtil, {
     and subsequent values are variables and their degree
     e.g. Term(5) = 5
          Term(5, 'x') = 5x
+         Term(5, 'xy') = 5xy
          Term(5, {'x': 1}) = 5x
          Term(5, {'x': 2}) = 5x^2
          Term(5, {'x': 1, 'y': 2}) = 5xy^2
@@ -53,7 +54,9 @@ $.extend(KhanUtil, {
         this.variables = {}
 
         if (typeof variables === 'string') {
-            this.variables[variables] = 1;
+            for (var i = 0; i < variables.length; i++) {
+                this.variables[variables.charAt(i)] = 1;
+            }
         } else if (variables !== undefined){
             this.variables = variables;
         }
@@ -214,15 +217,18 @@ $.extend(KhanUtil, {
         // Return a new expression which is the product of this one and the one passed in
         this.multiply = function(expression) {
             if (expression instanceof KhanUtil.RationalExpression) {
-                var multiply_terms = expression.terms;
+                var multiplyTerms = expression.terms;
+            } else if (typeof expression === 'number') {
+                var multiplyTerms = [expression];
             } else {
-                var multiply_terms = [expression];
+                // Assume it's a variable name
+                var multiplyTerms = [new KhanUtil.Term(1, expression)];
             }
             
             var terms = [];
             
-            for (var i = 0; i < multiply_terms.length; i++) {
-                var value = multiply_terms[i];
+            for (var i = 0; i < multiplyTerms.length; i++) {
+                var value = multiplyTerms[i];
                 
                 for (var j = 0; j < this.terms.length; j++) {
                     terms.push(this.terms[j].multiply(value));

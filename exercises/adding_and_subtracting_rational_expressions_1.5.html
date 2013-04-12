@@ -51,14 +51,15 @@
                 ["x", "y", "xy"]])
             </var>
             <var id="Y">"k"</var>
+            <var id="FACTOR">randRange(0, 1) ? 1 : randFromArray([2, 5, 10, X[0], X[1])])</var>
             <div data-ensure="DENOMINATOR.toString() !== '1'">
-                <var id="DENOMINATOR">getRationalExpression(X)</var>
+                <var id="DENOMINATOR">getRationalExpression(X).multiply(FACTOR)</var>
             </div>
             <div data-ensure="DENOMINATOR !== NUMERATOR1">
-                <var id="NUMERATOR1">getRationalExpression(X)</var>
+                <var id="NUMERATOR1">getRationalExpression(X).multiply(FACTOR)</var>
             </div>
             <div data-ensure="DENOMINATOR !== NUMERATOR2">
-                <var id="NUMERATOR2">getRationalExpression(X)</var>
+                <var id="NUMERATOR2">getRationalExpression(X).multiply(FACTOR)</var>
             </div>
             <var id="SIGNEDNUMERATOR">SIGN === "+" ? NUMERATOR2 : NUMERATOR2.multiply(-1)</var>
             <var id="SOLNUMERATOR">NUMERATOR1.add(SIGNEDNUMERATOR)</var>
