@@ -93,7 +93,18 @@ $.extend(KhanUtil, {
             return new KhanUtil.Term(coefficient, variables);
         };
         
-        this.findGCD = function() {
+        // Return a Term object representing the greatest common factor between this term and another
+        this.getGCD = function(that) {
+            var coefficient = getGCD(this.coefficient, that.coefficient);
+            var variables = {};
+            
+            for (var i in this.variables) {
+                if (that.variables[i]) {
+                    variables[i] = Math.min(this.variables[i], that.variables[i]);
+                }
+            }
+            
+            return new Term(coefficient, variables)
         };
         
         // includeSign if term is not the first in an expression
@@ -136,8 +147,8 @@ $.extend(KhanUtil, {
         Represented as an array of terms that are added together
         Terms can be numbers, of [variable, degree]
         e.g. [5, [1, 'x']] = 5 + x
-        e.g. [5, [2, {'x': 2}]] = 5 + 2x^2
-        e.g. [5, [2, {'x': 2, 'y' : 1]] = 5 + 2x^2y
+        e.g. [5, [2, {'x': 2}] = 5 + 2x^2
+        e.g. [5, [2, {'x': 2, 'y': 1}]] = 5 + 2x^2y
     */
     RationalExpression: function(terms) {
         this.terms = [];
@@ -173,6 +184,7 @@ $.extend(KhanUtil, {
                 this.terms.push(variables[v]);
             }
         };
+        this.combineLikeTerms();
         
         // Return a new expression which is the sum of this one and the one passed in
         this.add = function(expression) {
@@ -213,6 +225,15 @@ $.extend(KhanUtil, {
             }
 
             return new KhanUtil.RationalExpression(terms);
+        };
+
+        // Return a Term object representing the greatest common divisor of all the terms in this expression
+        this.getGCD = function() {
+            var GCD = this.terms[0];
+            for (var i=0; i<this.terms.length; i++) {
+                GCD = GCD.getGCD(this.terms[i]);
+            }
+            return GCD;
         };
 
         this.toString = function() {
