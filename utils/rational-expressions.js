@@ -43,8 +43,10 @@ $.extend(KhanUtil, {
     Takes an array. The first value is the coefficient
     and subsequent values are variables and their degree
     e.g. Term(5) = 5
+         Term(5, 'x') = 5x
          Term(5, {'x': 1}) = 5x
-         Term(5, {'x': 1, 'y': 2}) = 5xy^2 
+         Term(5, {'x': 2}) = 5x^2
+         Term(5, {'x': 1, 'y': 2}) = 5xy^2
     */
     Term: function(coefficient, variables) {
         this.coefficient = coefficient;
@@ -59,7 +61,11 @@ $.extend(KhanUtil, {
         // Use for hashing
         this.variableString = ''
         for (var vari in this.variables) {
-            this.variableString += vari + this.variables[vari];
+            if (this.variables[vari] !== 0) {
+                this.variableString += vari + this.variables[vari];
+            } else {
+                delete this.variables[vari];
+            }
         }
         
         // Return a new term with the coefficients multiplied
@@ -215,7 +221,8 @@ $.extend(KhanUtil, {
             for (var i = 1; i < this.terms.length; i++) {
                 s += this.terms[i].toString(s !== "")
             }
-            return s;
+
+            return s !== "" ? s : '0';
         };
     }
 
