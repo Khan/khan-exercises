@@ -95,7 +95,7 @@ $.extend(KhanUtil, {
         
         // Return a Term object representing the greatest common factor between this term and another
         this.getGCD = function(that) {
-            var coefficient = getGCD(this.coefficient, that.coefficient);
+            var coefficient = KhanUtil.getGCD(this.coefficient, that.coefficient);
             var variables = {};
             
             for (var i in this.variables) {
@@ -119,7 +119,7 @@ $.extend(KhanUtil, {
             if (includeSign) {
                 s += this.coefficient > 0 ? " + " : " - ";
             } else {
-                if (this.coefficient < 0) {"-";}
+                if (this.coefficient < 0) { s += "-"; }
             }
 
             if (!(coefficient === 1 && this.variableString !== "")) {
@@ -167,7 +167,7 @@ $.extend(KhanUtil, {
             }
         }
 
-        // Combine any terms that have the same variable
+        // Combine any terms that have the same variable and remove any with a coefficient of 0
         this.combineLikeTerms = function() {
             var variables = {};
             
@@ -184,13 +184,15 @@ $.extend(KhanUtil, {
             
             this.terms = [];
             for (var v in variables) {
-                this.terms.push(variables[v]);
+                if (variables[v].coefficient !== 0) {
+                    this.terms.push(variables[v]);
+                }
             }
         };
         this.combineLikeTerms();
         
         // Return a new expression which is the sum of this one and the one passed in
-        this.add = function(expression) {
+        this.add = function(that) {
             var terms = [];
             
             for (var i = 0; i < this.terms.length; i++) {
@@ -198,8 +200,8 @@ $.extend(KhanUtil, {
                 terms.push([term.coefficient, term.variables]);
             }
             
-            for (var i = 0; i < expression.terms.length; i++) {
-                var term = expression.terms[i];
+            for (var i = 0; i < that.terms.length; i++) {
+                var term = that.terms[i];
                 terms.push([term.coefficient, term.variables]);
             }
             
@@ -211,7 +213,7 @@ $.extend(KhanUtil, {
         
         // Return a new expression which is the product of this one and the one passed in
         this.multiply = function(expression) {
-            if (expression instanceof RationalExpression) {
+            if (expression instanceof KhanUtil.RationalExpression) {
                 var multiply_terms = expression.terms;
             } else {
                 var multiply_terms = [expression];
@@ -231,13 +233,21 @@ $.extend(KhanUtil, {
         };
 
         // Return a Term object representing the greatest common divisor of all the terms in this expression
-        this.getGCD = function() {
+        this.factor = function() {
             var GCD = this.terms[0];
             for (var i=0; i<this.terms.length; i++) {
                 GCD = GCD.getGCD(this.terms[i]);
             }
             return GCD;
         };
+
+        // Return a Term object representing the greatest common factor between this expression and another
+        this.getGCD = function(that) {
+            var t1 = this.factor();
+            var t2 = that.factor();
+            console.log(t1 + " " + t2);
+            return t1.getGCD(t2);
+        }
 
         this.toString = function() {
             var s = this.terms[0].toString();
