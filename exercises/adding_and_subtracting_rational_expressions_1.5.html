@@ -7,10 +7,16 @@
     <script type="text/javascript">
         function getRationalExpression(variables) {
             var terms = [];
-            for (var i = 0; i < KhanUtil.randRange(2, 3); i++) {
-                terms.push([KhanUtil.randRangeWeighted(-8, 8, 0, 0.25), variables[i]]);
+            var shuffled = KhanUtil.shuffle(variables, KhanUtil.randRange(1, 2));
+
+            for (var i = 0; i < shuffled.length; i++) {
+                terms.push([KhanUtil.randRangeNonZero(-6, 6), shuffled[i]]);
             }
-            terms.push([KhanUtil.randRangeWeighted(-8, 8, 1, 0.5)]);
+
+            if (shuffled.length + KhanUtil.randRange(0, 1) < 2) {
+                terms.push([KhanUtil.randRangeWeighted(-6, 6, 1, 0.5)]);
+            }
+
             return new KhanUtil.RationalExpression(terms);
         };
     </script>
@@ -48,9 +54,14 @@
             <div data-ensure="DENOMINATOR.toString() !== '1'">
                 <var id="DENOMINATOR">getRationalExpression(X)</var>
             </div>
-            <var id="NUMERATOR1">getRationalExpression(X)</var>
-            <var id="NUMERATOR2">getRationalExpression(X)</var>
-            
+            <div data-ensure="DENOMINATOR !== NUMERATOR1">
+                <var id="NUMERATOR1">getRationalExpression(X)</var>
+            </div>
+            <div data-ensure="DENOMINATOR !== NUMERATOR2">
+                <var id="NUMERATOR2">getRationalExpression(X)</var>
+            </div>
+            <var id="SIGNEDNUMERATOR">SIGN === "+" ? NUMERATOR2 : NUMERATOR2.multiply(-1)</var>
+            <var id="SOLNUMERATOR">NUMERATOR1.add(SIGNEDNUMERATOR)</var>
         </div>
 
         <div class="problems">
@@ -95,11 +106,14 @@
 
         <div class="hints">
             <div data-if="SIGN === '+'">
-                        <p>Since the expressions have the same denominator we simply combine the numerators:</p>
-                        <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
-                    </div>
-            <div>
-            
+                <p>Since the expressions have the same denominator we simply combine the numerators:</p>
+                <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
+            </div>
+            <div data-else>
+                <p>Since the expressions have the same denominator we simply combine the numerators:</p>
+                <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> - (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
+            </div>
+            <p><code><var>Y</var> = \dfrac{<var>SOLNUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
         </div>
     </div>
 </body>
