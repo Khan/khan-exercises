@@ -104,7 +104,7 @@ $.extend(KhanUtil, {
                 }
             }
             
-            return new Term(coefficient, variables)
+            return new KhanUtil.Term(coefficient, variables)
         };
         
         // includeSign if term is not the first in an expression
@@ -156,11 +156,14 @@ $.extend(KhanUtil, {
         for (var i = 0; i < terms.length; i++) {
             var term = terms[i];
             if (term instanceof KhanUtil.Term) {
-                this.terms.push(term);
+                var newTerm = term;
             } else if (typeof term === 'number') {
-                this.terms.push(new KhanUtil.Term(term));
+                var newTerm = new KhanUtil.Term(term);
             } else {
-                this.terms.push(new KhanUtil.Term(term[0], term[1]));
+                var newTerm = new KhanUtil.Term(term[0], term[1]);
+            }
+            if (newTerm.coefficient !== 0) {
+                this.terms.push(newTerm)
             }
         }
 
