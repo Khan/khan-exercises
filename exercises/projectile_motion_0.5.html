@@ -7,7 +7,7 @@
       <body>
           <div class="exercise">
               <div class="vars">
-                  <var id="angle">10+rand(70)</var>
+                  <var id="angle">20+rand(60)</var>
                   <var id="velocity">10+rand(15)</var>
                   <var id="horizontal_velocity">roundTo(1, cos(angle * PI / 180)*velocity)</var>
                   <var id="vertical_velocity">roundTo(1, sin(angle * PI / 180)*velocity)</var>"
@@ -18,17 +18,18 @@
                   <div id="horizontal" data-calculator>
                       <p class="problem">A projectile is launched at an angle of <var>angle</var> degrees with an initial velocity of <var>velocity</var> m/s.</p>
                       <div class="question">
-                          <p>What is the initial velocity in the horizontal direction? Round your answer to the nearest tenth.</p>
+                          <p>What is the initial velocity in the horizontal direction? Round your answer to one decimal place.</p>
                           <div class="graphie" id="diagram">
                               init({range: [[-2, 8], [-1, 7]], scale: [20, 20] });
                               line([-2, 0], [8, 0]); <!--- ground --->
                               style({strokeWidth: 3, arrows: "-&gt;"});
                               line([0, 0], [6*cos(angle * PI / 180), 6*sin(angle * PI / 180)]);
-                              label([(-angle/20)+5, 0.5], angle + "^{\\circ}", "center");
+                              label([-angle/50+2.6, angle<35 ? 0.4 : 0.5], angle + "^{\\circ}", "center");
                               label([(-angle/20)+2.5, 2], velocity + "\\space \\text{m/s}", "center");
                           </div>
                       </div>
                       <p class="solution" data-type="decimal"><var>horizontal_velocity</var></p>
+
                       <div class="hints">
                           <div>
                               <p>If we break down the vector into its <code class="hint_orange">vertical</code> and <code class="hint_green">horizontal</code> components, we can see that it forms a right triangle.</p>
@@ -46,9 +47,9 @@
                               </div>
                           </div>
                           <p>The cosine of an angle is equal to the adjacent side over the hypotenuse.</p>
-                          <p><code>cos(<var>angle</var>) =</code> <code class="hint_green">v_x</code><code>/<var>velocity</var></code></p>
-                          <p><code class="hint_green">v_x</code> <code>= cos(<var>angle</var>) \times <var>velocity</var></code></p>
-                          <p><code class="hint_green">v_x</code> <code>= <var>horizontal_velocity</var></code> <code>m/s</code></p>
+                          <p><code>cos(<var>angle</var>^{\circ}) =</code> <code class="hint_green">v_x</code><code>/<var>velocity</var></code></p>
+                          <p><code class="hint_green">v_x</code> <code>= cos(<var>angle</var>^{\circ}) \times <var>velocity</var></code></p>
+                          <p><code class="hint_green">v_x</code> <code> \approx <var>horizontal_velocity</var></code> <code>m/s</code></p>
                       </div>
 
                   </div>
@@ -56,13 +57,13 @@
                   <div id="vertical" data-calculator>
                       <p class="problem">A projectile is launched at an angle of <var>angle</var> degrees with an initial velocity of <var>velocity</var> m/s.</p>
                       <div class="question">
-                          <p>What is the initial velocity in the vertical direction? Round your answer to the nearest tenth.</p>
+                          <p>What is the initial velocity in the vertical direction? Round your answer to one decimal place.</p>
                           <div class="graphie" id="diagram">
                               init({range: [[-2, 8], [-1, 7]], scale: [20, 20] });
                               line([-2, 0], [8, 0]); <!--- ground --->
                               style({strokeWidth: 3, arrows: "-&gt;"});
                               line([0, 0], [6*cos(angle * PI / 180), 6*sin(angle * PI / 180)]);
-                              label([(-angle/20)+5, 0.5], angle + "^{\\circ}", "center");
+                              label([-angle/50+2.6, angle<35 ? 0.4 : 0.5], angle + "^{\\circ}", "center");
                               label([(-angle/20)+2.5, 2], velocity + "\\space \\text{m/s}", "center");
                           </div>
                       </div>
@@ -85,9 +86,9 @@
                               </div>
                           </div>
                           <p>The sine of an angle is equal to the opposite side over the hypotenuse.</p>
-                          <p><code>sin(<var>angle</var>) =</code> <code class="hint_orange">v_y</code><code>/<var>velocity</var></code></p>
-                          <p><code class="hint_orange">v_y</code> <code>= sin(<var>angle</var>) \times <var>velocity</var></code></p>
-                          <p><code class="hint_orange">v_y</code> <code>= <var>vertical_velocity</var></code> <code>m/s</code></p>
+                          <p><code>sin(<var>angle</var>^{\circ}) =</code> <code class="hint_orange">v_y</code><code>/<var>velocity</var></code></p>
+                          <p><code class="hint_orange">v_y</code> <code>= sin(<var>angle</var>^{\circ}) \times <var>velocity</var></code></p>
+                          <p><code class="hint_orange">v_y</code> <code> \approx <var>vertical_velocity</var></code> <code>m/s</code></p>
                       </div>
 
                   </div>
