@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html data-require="math expressions">
+    <head>
+        <title>Exponent Properties 1</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="EXP1">0</var><!--randRange(-16,16)</var>-->
+                <var id="EXP2">randRange(-16,16)</var>
+            </div>
+
+            <div class="problems">
+                <div id="problem1">
+                    <p class="question">Simplify: <code><var>expr(["dot", ["^", "a", EXP1], ["^", "a", EXP2]])</var></code></p>
+                    <p class="solution"><code><var>expr(["^", "a", EXP1+EXP2])</var></code></p>
+                    <ul class="choices">
+                        <li><code><var>expr(["^", "a", EXP1+EXP2+randRange(1,5)])</var></code></li>
+                        <li><code><var>expr(["^", "a", EXP1+EXP2+randRange(-5,-1)])</var></code></li>
+                        <li><code><var>expr(["^", "a", 2*(EXP1+EXP2)])</var></code></li>
+                        <li><code><var>expr(["^", "a", EXP1*EXP2])</var></code></li>
+                        <li><code><var>expr(["^", "a", EXP1-EXP2])</var></code></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="hints">
+                <!-- Any hints to show to the student. -->
+            </div>
+        </div>
+    </body>
+</html>
