@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html data-require="math expressions">
+<html data-require="math math-format expressions">
 
     <head>
 
@@ -21,92 +21,50 @@
 
                     <div class="vars">
 
-                        <var id="BASE">"abcdefghijklmnopqrstuvwxyz".split('')[randRange(0,25)]</var>
+                        <var id="BASE">randVar()</var>
                         <var id="EXP1">randRange(0,9)</var>
-                        <var id="EXP2">randRange(0,9)</var>
+                        <var id="EXP2">randRange(1,1)</var>
+                        <var id="COEF1">randRangeNonZero(-9,9)</var>
+                        <var id="COEF2">randRangeNonZero(-9,9)</var>
 
                     </div>
 
-                    <p class="question">Simplify:&nbsp;&nbsp;&nbsp;&nbsp;<code><var>expr(["dot", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var></code></p>
+                    <p class="question">
+                        Simplify the following expression:<br><br>
+                        <code>(\color{green}{<var>COEF1</var><var>BASE</var>^{<var>EXP1</var>}})(\color{#D55704}{<var>COEF2</var><var>BASE</var>^{<var>EXP2</var>}})</code>
+                    </p>
 
-                    <p class="solution"><code><var>expr(["^", BASE, EXP1+EXP2])</var></code></p>
-
-                    <ul class="choices">
-                        <li><code><var>expr(["^", BASE, EXP1+EXP2+randRange(1,5)])</var></code></li>
-                        <li><code><var>expr(["^", BASE, EXP1+EXP2+randRange(-5,-1)])</var></code></li>
-                        <li><code><var>expr(["^", BASE, 2*(EXP1+EXP2)])</var></code></li>
-                        <li><code><var>expr(["^", BASE, EXP1*EXP2])</var></code></li>
-                        <li><code><var>expr(["^", BASE, EXP1-EXP2])</var></code></li>
-                    </ul>
+                    <p class="solution" data-type="multiple">
+                        <span class="sol short20" data-forms="integer"><var>COEF1*COEF2</var></span><code><var>BASE</var></code><span class="sol exp short20" data-forms="integer"><var>EXP1+EXP2</var></span>
+                    </p>
 
                     <div class="hints">
 
-                        <p><code>
-                                <var>expr(["^", BASE, EXP1])</var> = <var>exprExpandIntegerPower(BASE, EXP1)</var>
-                        </code></p>
-                        <p><code>
-                                <var>expr(["^", BASE, EXP2])</var> = <var>exprExpandIntegerPower(BASE, EXP2)</var>
-                        </code></p>
-                        <p><code>
-                                <var>expr(["dot", ["^", BASE, EXP2], ["^", BASE, EXP1]])</var> = 
-                                <var>expr(["dot", exprExpandIntegerPower(BASE, EXP1), exprExpandIntegerPower(BASE, EXP2)])</var>
-                        </code></p>
-                        <p><code>
-                                <var>expr(["dot", ["^", BASE, EXP2], ["^", BASE, EXP1]])</var> = 
-                                <var>exprExpandIntegerPower(BASE, EXP1+EXP2)</var>
-                        </code></p>
-                        <p><code>
-                                <var>expr(["dot", ["^", BASE, EXP2], ["^", BASE, EXP1]])</var> = 
-                                <var>expr(["^", BASE, EXP1+EXP2])</var>
-                        </code></p>
+                        <div>
+                            <p>When multiplying two terms with the same base, add the exponents:</p>
+                            <p><code>(\color{green}{x^n})(\color{#D55704}{x^m}) = x^{(\color{green}{n}+\color{#D55704}{m})}</code></p>
+                        </div>
 
-                    </div>
+                        <div>
+                            <p>Try expanding the terms:</p>
+                            <p>
+                                <code>\color{green}{<var>COEF1</var><var>BASE</var>^{<var>EXP1</var>}}</code> is the same as <code>\color{green}{<var>COEF1</var> \cdot <var>exprExpandIntegerPower(BASE, EXP1)</var>}</code><br>
+                                <code>\color{#D55704}{<var>COEF2</var><var>BASE</var>^{<var>EXP2</var>}}</code> is the same as <code>\color{#D55704}{<var>COEF2</var> \cdot <var>exprExpandIntegerPower(BASE, EXP2)</var>}</code>
+                            </p>
+                        </div>
 
-                </div>
-
-                <div id="coefficients">
-
-                     <div class="vars">
-
-                        <var id="BASE">"abcdefghijklmnopqrstuvwxyz".split('')[randRange(0,25)]</var>
-                        <var id="EXP1">randRange(0,9)</var>
-                        <var id="EXP2">randRange(0,9)</var>
-                        <var id="COEF1" data-ensure"COEF1 !== 0">randRange(-9,9)</var>
-                        <var id="COEF2" data-ensure"COEF2 !== 0">randRange(-9,9)</var>
-
-                    </div>
-
-                    <p class="question">Simplify:&nbsp;&nbsp;&nbsp;&nbsp;<code><var>expr(["*", ["*", COEF1, ["^", BASE, EXP1]], ["*", COEF2, ["^", BASE, EXP2]]])</var></code></p>
-
-                    <p class="solution"><code><var>expr(["*", COEF1*COEF2, ["^", BASE, EXP1+EXP2]])</var></code></p>
-
-                    <ul class="choices">
-                        <li><code><var>expr(["*", COEF1+COEF2, ["^", BASE, EXP1+EXP2+randRange(1,5)]])</var></code></li>
-                        <li><code><var>expr(["*", COEF1*COEF2+randRange(-1,1), ["^", BASE, EXP1+EXP2+randRange(1,5)]])</var></code></li>
-                        <li><code><var>expr(["*", COEF1*COEF2, ["^", BASE, EXP1+EXP2+randRange(-5,1)]])</var></code></li>
-                        <li><code><var>expr(["*", COEF1*COEF2, ["^", BASE, 2*EXP1+EXP2]])</var></code></li>
-                        <li><code><var>expr(["*", COEF1-COEF2, ["^", BASE, EXP1-EXP2]])</var></code></li>
-                    </ul>
-
-                    <div class="hints">
+                        <div>
+                            <p>Multiply them:</p>
+                            <p><code>
+                                (\color{green}{<var>COEF1</var><var>BASE</var>^{<var>EXP1</var>}})(\color{#D55704}{<var>COEF2</var><var>BASE</var>^{<var>EXP2</var>}})=
+                                \color{green}{<var>COEF1</var> \cdot <var>exprExpandIntegerPower(BASE, EXP1)</var>} \cdot \color{#D55704}{<var>COEF2</var> \cdot <var>exprExpandIntegerPower(BASE, EXP2)</var>}
+                            </code></p>
+                        </div>
 
                         <p><code>
-                                <var>expr(["*", COEF1, ["^", BASE, EXP1]])</var> = <var>expr(["*", COEF1, exprExpandIntegerPower(BASE, EXP1)])</var>
-                        </code></p>
-                        <p><code>
-                                <var>expr(["*", COEF2, ["^", BASE, EXP2]])</var> = <var>expr(["*", COEF2, exprExpandIntegerPower(BASE, EXP2)])</var>
-                        </code></p>
-                        <p><code>
-                                <var>expr(["dot", ["*", COEF1, ["^", BASE, EXP1]], ["*", COEF2, ["^", BASE, EXP2]]])</var> = 
-                                <var>expr(["dot", ["*", COEF1, exprExpandIntegerPower(BASE, EXP1)], ["*", COEF2, exprExpandIntegerPower(BASE, EXP2)]])</var>
-                        </code></p>
-                        <p><code>
-                                <var>expr(["dot", ["*", COEF1, ["^", BASE, EXP1]], ["*", COEF2, ["^", BASE, EXP2]]])</var> = 
-                                <var>expr(["*", COEF1*COEF2, ["dot", exprExpandIntegerPower(BASE, EXP1), exprExpandIntegerPower(BASE, EXP2)]])</var>
-                        </code></p>
-                        <p><code>
-                                <var>expr(["dot", ["*", COEF1, ["^", BASE, EXP1]], ["*", COEF2, ["^", BASE, EXP2]]])</var> = 
-                                <var>expr(["*", COEF1*COEF2, ["^", BASE, EXP1+EXP2]])</var>
+                            (\color{green}{<var>COEF1</var><var>BASE</var>^{<var>EXP1</var>}})(\color{#D55704}{<var>COEF2</var><var>BASE</var>^{<var>EXP2</var>}})=
+                            \color{green}{<var>COEF1</var> \cdot <var>exprExpandIntegerPower(BASE, EXP1)</var>}\cdot\color{#D55704}{<var>COEF2</var> \cdot <var>exprExpandIntegerPower(BASE, EXP2)</var>}=
+                            <var>COEF1*COEF2</var><var>BASE</var>^{<var>EXP1+EXP2</var>}
                         </code></p>
 
                     </div>
