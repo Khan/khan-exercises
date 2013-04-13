@@ -491,7 +491,7 @@ $.extend(KhanUtil, {
 
     exprExpandIntegerPower: function(base, pow) {
         if (pow === 0) {
-            return "1";
+            return 1;
         }
         var negativePower = false;
         if (pow < 0) {

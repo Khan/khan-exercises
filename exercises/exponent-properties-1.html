@@ -76,7 +76,7 @@
 
                     </div>
 
-                    <p class="question">Simplify:&nbsp;&nbsp;&nbsp;&nbsp;<code><var>expr(["dot", ["*", COEF1, ["^", BASE, EXP1]], ["*", COEF2, ["^", BASE, EXP2]]])</var></code></p>
+                    <p class="question">Simplify:&nbsp;&nbsp;&nbsp;&nbsp;<code><var>expr(["*", ["*", COEF1, ["^", BASE, EXP1]], ["*", COEF2, ["^", BASE, EXP2]]])</var></code></p>
 
                     <p class="solution"><code><var>expr(["*", COEF1*COEF2, ["^", BASE, EXP1+EXP2]])</var></code></p>
 
@@ -97,16 +97,16 @@
                                 <var>expr(["*", COEF2, ["^", BASE, EXP2]])</var> = <var>expr(["*", COEF2, exprExpandIntegerPower(BASE, EXP2)])</var>
                         </code></p>
                         <p><code>
-                                <var>expr(["dot", ["*", COEF1, ["^", BASE, EXP2]], ["*", COEF2, ["^", BASE, EXP1]]])</var> = 
+                                <var>expr(["dot", ["*", COEF1, ["^", BASE, EXP1]], ["*", COEF2, ["^", BASE, EXP2]]])</var> = 
                                 <var>expr(["dot", ["*", COEF1, exprExpandIntegerPower(BASE, EXP1)], ["*", COEF2, exprExpandIntegerPower(BASE, EXP2)]])</var>
                         </code></p>
                         <p><code>
-                                <var>expr(["dot", ["*", COEF1, ["^", BASE, EXP2]], ["*", COEF2, ["^", BASE, EXP1]]])</var> = 
+                                <var>expr(["dot", ["*", COEF1, ["^", BASE, EXP1]], ["*", COEF2, ["^", BASE, EXP2]]])</var> = 
                                 <var>expr(["*", COEF1*COEF2, ["dot", exprExpandIntegerPower(BASE, EXP1), exprExpandIntegerPower(BASE, EXP2)]])</var>
                         </code></p>
                         <p><code>
-                                <var>expr(["dot", ["^", BASE, EXP2], ["^", BASE, EXP1]])</var> = 
-                                <var>expr(["^", BASE, EXP1+EXP2])</var>
+                                <var>expr(["dot", ["*", COEF1, ["^", BASE, EXP1]], ["*", COEF2, ["^", BASE, EXP2]]])</var> = 
+                                <var>expr(["*", COEF1*COEF2, ["^", BASE, EXP1+EXP2]])</var>
                         </code></p>
 
                     </div>
