@@ -55,7 +55,8 @@
                           <p>The cosine of an angle is equal to the adjacent side over the hypotenuse.</p>
                           <p><code>cos(<var>angle</var>^{\circ}) =</code> <code class="hint_green">v_x</code><code>/<var>velocity</var></code></p>
                           <p><code class="hint_green">v_x</code> <code>= cos(<var>angle</var>^{\circ}) \times <var>velocity</var></code></p>
-                          <p><code class="hint_green">v_x</code> <code> \approx <var>horizontal_velocity</var> \space m/s</code></p>
+                          <p data-if="angle === 60"><code class="hint_green">v_x</code> <code> = <var>horizontal_velocity</var> \space m/s</code></p>
+                          <p data-else><code class="hint_green">v_x</code> <code> \approx <var>horizontal_velocity</var> \space m/s</code></p>
                       </div>
 
                   </div>
@@ -100,7 +101,8 @@
                           <p>The sine of an angle is equal to the opposite side over the hypotenuse.</p>
                           <p><code>sin(<var>angle</var>^{\circ}) =</code> <code class="hint_orange">v_y</code><code>/<var>velocity</var></code></p>
                           <p><code class="hint_orange">v_y</code> <code>= sin(<var>angle</var>^{\circ}) \times <var>velocity</var></code></p>
-                          <p><code class="hint_orange">v_y</code> <code> \approx <var>vertical_velocity</var> \space m/s</code></p>
+                          <p data-if="angle === 30"><code class="hint_orange">v_y</code> <code> = <var>vertical_velocity</var> \space m/s</code></p>
+                          <p data-else><code class="hint_orange">v_y</code> <code> \approx <var>vertical_velocity</var> \space m/s</code></p>
                       </div>
 
                   </div>
