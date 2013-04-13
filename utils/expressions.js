@@ -273,9 +273,7 @@ $.extend(KhanUtil, {
         },
 
         "^": function(base, pow) {
-            if (pow === 0) {
-                return "";
-            } else if (pow === 1) {
+            if (pow === 1) {
                 return KhanUtil.expr(base);
             }
 
