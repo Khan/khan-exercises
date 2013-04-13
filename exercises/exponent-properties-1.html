@@ -1,33 +1,122 @@
 <!DOCTYPE html>
+
 <html data-require="math expressions">
+
     <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Exponent Properties 1</title>
+
         <script src="../khan-exercise.js"></script>
+
     </head>
+
     <body>
+
         <div class="exercise">
-            <div class="vars">
-                <var id="EXP1">0</var><!--randRange(-16,16)</var>-->
-                <var id="EXP2">randRange(-16,16)</var>
-            </div>
 
             <div class="problems">
-                <div id="problem1">
-                    <p class="question">Simplify: <code><var>expr(["dot", ["^", "a", EXP1], ["^", "a", EXP2]])</var></code></p>
-                    <p class="solution"><code><var>expr(["^", "a", EXP1+EXP2])</var></code></p>
+
+                <div id="no-coefficients">
+
+                    <div class="vars">
+
+                        <var id="BASE">"abcdefghijklmnopqrstuvwxyz".split('')[randRange(0,25)]</var>
+                        <var id="EXP1">randRange(0,9)</var>
+                        <var id="EXP2">randRange(0,9)</var>
+
+                    </div>
+
+                    <p class="question">Simplify:&nbsp;&nbsp;&nbsp;&nbsp;<code><var>expr(["dot", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var></code></p>
+
+                    <p class="solution"><code><var>expr(["^", BASE, EXP1+EXP2])</var></code></p>
+
                     <ul class="choices">
-                        <li><code><var>expr(["^", "a", EXP1+EXP2+randRange(1,5)])</var></code></li>
-                        <li><code><var>expr(["^", "a", EXP1+EXP2+randRange(-5,-1)])</var></code></li>
-                        <li><code><var>expr(["^", "a", 2*(EXP1+EXP2)])</var></code></li>
-                        <li><code><var>expr(["^", "a", EXP1*EXP2])</var></code></li>
-                        <li><code><var>expr(["^", "a", EXP1-EXP2])</var></code></li>
+                        <li><code><var>expr(["^", BASE, EXP1+EXP2+randRange(1,5)])</var></code></li>
+                        <li><code><var>expr(["^", BASE, EXP1+EXP2+randRange(-5,-1)])</var></code></li>
+                        <li><code><var>expr(["^", BASE, 2*(EXP1+EXP2)])</var></code></li>
+                        <li><code><var>expr(["^", BASE, EXP1*EXP2])</var></code></li>
+                        <li><code><var>expr(["^", BASE, EXP1-EXP2])</var></code></li>
                     </ul>
+
+                    <div class="hints">
+
+                        <p><code>
+                                <var>expr(["^", BASE, EXP1])</var> = <var>exprExpandIntegerPower(BASE, EXP1)</var>
+                        </code></p>
+                        <p><code>
+                                <var>expr(["^", BASE, EXP2])</var> = <var>exprExpandIntegerPower(BASE, EXP2)</var>
+                        </code></p>
+                        <p><code>
+                                <var>expr(["dot", ["^", BASE, EXP2], ["^", BASE, EXP1]])</var> = 
+                                <var>expr(["dot", exprExpandIntegerPower(BASE, EXP1), exprExpandIntegerPower(BASE, EXP2)])</var>
+                        </code></p>
+                        <p><code>
+                                <var>expr(["dot", ["^", BASE, EXP2], ["^", BASE, EXP1]])</var> = 
+                                <var>exprExpandIntegerPower(BASE, EXP1+EXP2)</var>
+                        </code></p>
+                        <p><code>
+                                <var>expr(["dot", ["^", BASE, EXP2], ["^", BASE, EXP1]])</var> = 
+                                <var>expr(["^", BASE, EXP1+EXP2])</var>
+                        </code></p>
+
+                    </div>
+
                 </div>
+
+                <div id="coefficients">
+
+                     <div class="vars">
+
+                        <var id="BASE">"abcdefghijklmnopqrstuvwxyz".split('')[randRange(0,25)]</var>
+                        <var id="EXP1">randRange(0,9)</var>
+                        <var id="EXP2">randRange(0,9)</var>
+                        <var id="COEF1" data-ensure"COEF1 !== 0">randRange(-9,9)</var>
+                        <var id="COEF2" data-ensure"COEF2 !== 0">randRange(-9,9)</var>
+
+                    </div>
+
+                    <p class="question">Simplify:&nbsp;&nbsp;&nbsp;&nbsp;<code><var>expr(["dot", ["*", COEF1, ["^", BASE, EXP1]], ["*", COEF2, ["^", BASE, EXP2]]])</var></code></p>
+
+                    <p class="solution"><code><var>expr(["*", COEF1*COEF2, ["^", BASE, EXP1+EXP2]])</var></code></p>
+
+                    <ul class="choices">
+                        <li><code><var>expr(["*", COEF1+COEF2, ["^", BASE, EXP1+EXP2+randRange(1,5)]])</var></code></li>
+                        <li><code><var>expr(["*", COEF1*COEF2+randRange(-1,1), ["^", BASE, EXP1+EXP2+randRange(1,5)]])</var></code></li>
+                        <li><code><var>expr(["*", COEF1*COEF2, ["^", BASE, EXP1+EXP2+randRange(-5,1)]])</var></code></li>
+                        <li><code><var>expr(["*", COEF1*COEF2, ["^", BASE, 2*EXP1+EXP2]])</var></code></li>
+                        <li><code><var>expr(["*", COEF1-COEF2, ["^", BASE, EXP1-EXP2]])</var></code></li>
+                    </ul>
+
+                    <div class="hints">
+
+                        <p><code>
+                                <var>expr(["*", COEF1, ["^", BASE, EXP1]])</var> = <var>expr(["*", COEF1, exprExpandIntegerPower(BASE, EXP1)])</var>
+                        </code></p>
+                        <p><code>
+                                <var>expr(["*", COEF2, ["^", BASE, EXP2]])</var> = <var>expr(["*", COEF2, exprExpandIntegerPower(BASE, EXP2)])</var>
+                        </code></p>
+                        <p><code>
+                                <var>expr(["dot", ["*", COEF1, ["^", BASE, EXP2]], ["*", COEF2, ["^", BASE, EXP1]]])</var> = 
+                                <var>expr(["dot", ["*", COEF1, exprExpandIntegerPower(BASE, EXP1)], ["*", COEF2, exprExpandIntegerPower(BASE, EXP2)]])</var>
+                        </code></p>
+                        <p><code>
+                                <var>expr(["dot", ["*", COEF1, ["^", BASE, EXP2]], ["*", COEF2, ["^", BASE, EXP1]]])</var> = 
+                                <var>expr(["*", COEF1*COEF2, ["dot", exprExpandIntegerPower(BASE, EXP1), exprExpandIntegerPower(BASE, EXP2)]])</var>
+                        </code></p>
+                        <p><code>
+                                <var>expr(["dot", ["^", BASE, EXP2], ["^", BASE, EXP1]])</var> = 
+                                <var>expr(["^", BASE, EXP1+EXP2])</var>
+                        </code></p>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="hints">
-                <!-- Any hints to show to the student. -->
-            </div>
         </div>
+
     </body>
+
 </html>

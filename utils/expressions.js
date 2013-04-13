@@ -487,7 +487,24 @@ $.extend(KhanUtil, {
         ret.unshift(expr[0]);
 
         return ret;
+    },
+
+    exprExpandIntegerPower: function(base, pow) {
+        if (pow === 0) {
+            return "1";
+        }
+        var negativePower = false;
+        if (pow < 0) {
+            pow = -pow;
+            negativePower = true;
+        }
+        var expression = new Array(pow+1).join(base).split('').join('&middot;');
+        if (negativePower) {
+            expression = KhanUtil.expr(["frac", 1, expression]);
+        }
+        return expression;
     }
+
 });
 
 KhanUtil.computeOperators["frac"] = KhanUtil.computeOperators["/"];
