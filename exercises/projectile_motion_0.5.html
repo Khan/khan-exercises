@@ -9,8 +9,6 @@
               <div class="vars">
                   <var id="angle">20+rand(60)</var>
                   <var id="velocity">10+rand(15)</var>
-                  <var id="horizontal_velocity">roundTo(1, cos(angle * PI / 180)*velocity)</var>
-                  <var id="vertical_velocity">roundTo(1, sin(angle * PI / 180)*velocity)</var>"
               </div>
 
               <div class="problems">
@@ -32,7 +30,7 @@
 
                       <div class="solution" data-type="multiple">
                           <span class="sol" data-inexact data-type="decimal">
-                              <var>horizontal_velocity</var>
+                              <var>roundTo(1, cos(angle * PI / 180)*velocity)</var>
                           </span> m/s
                       </div>
 
@@ -55,8 +53,8 @@
                           <p>The cosine of an angle is equal to the adjacent side over the hypotenuse.</p>
                           <p><code>cos(<var>angle</var>^{\circ}) =</code> <code class="hint_green">v_x</code><code>/<var>velocity</var></code></p>
                           <p><code class="hint_green">v_x</code> <code>= cos(<var>angle</var>^{\circ}) \times <var>velocity</var></code></p>
-                          <p data-if="angle === 60"><code class="hint_green">v_x</code> <code> = <var>horizontal_velocity</var> \space m/s</code></p>
-                          <p data-else><code class="hint_green">v_x</code> <code> \approx <var>horizontal_velocity</var> \space m/s</code></p>
+                          <p data-if="angle === 60"><code class="hint_green">v_x</code> <code> = <var>roundTo(1, cos(angle * PI / 180)*velocity)</var> \space m/s</code></p>
+                          <p data-else><code class="hint_green">v_x</code> <code> \approx <var>roundTo(1, cos(angle * PI / 180)*velocity)</var> \space m/s</code></p>
                       </div>
 
                   </div>
@@ -78,7 +76,7 @@
 
                       <div class="solution" data-type="multiple">
                           <span class="sol" data-inexact data-type="decimal">
-                              <var>vertical_velocity</var>
+                              <var>roundTo(1, sin(angle * PI / 180)*velocity)</var>
                           </span> m/s
                       </div>
                       
@@ -101,8 +99,8 @@
                           <p>The sine of an angle is equal to the opposite side over the hypotenuse.</p>
                           <p><code>sin(<var>angle</var>^{\circ}) =</code> <code class="hint_orange">v_y</code><code>/<var>velocity</var></code></p>
                           <p><code class="hint_orange">v_y</code> <code>= sin(<var>angle</var>^{\circ}) \times <var>velocity</var></code></p>
-                          <p data-if="angle === 30"><code class="hint_orange">v_y</code> <code> = <var>vertical_velocity</var> \space m/s</code></p>
-                          <p data-else><code class="hint_orange">v_y</code> <code> \approx <var>vertical_velocity</var> \space m/s</code></p>
+                          <p data-if="angle === 30"><code class="hint_orange">v_y</code> <code> = <var>roundTo(1, sin(angle * PI / 180)*velocity)</var> \space m/s</code></p>
+                          <p data-else><code class="hint_orange">v_y</code> <code> \approx <var>roundTo(1, sin(angle * PI / 180)*velocity)</var> \space m/s</code></p>
                       </div>
 
                   </div>
