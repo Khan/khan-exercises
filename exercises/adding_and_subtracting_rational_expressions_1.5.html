@@ -10,7 +10,8 @@
             var shuffled = KhanUtil.shuffle(variables, KhanUtil.randRange(1, 2));
 
             for (var i = 0; i < shuffled.length; i++) {
-                terms.push([KhanUtil.randRangeNonZero(-6, 6), shuffled[i]]);
+                var n = i ? KhanUtil.randRangeNonZero(-6, 6) : KhanUtil.randRange(1, 6);
+                terms.push([n, shuffled[i]]);
             }
 
             if (shuffled.length + KhanUtil.randRange(0, 1) < 2) {
@@ -51,7 +52,7 @@
                 ["x", "y", "xy"]])
             </var>
             <var id="Y">"k"</var>
-            <var id="FACTOR">randRange(0, 1) ? 1 : randFromArray([2, 5, 10, X[0], X[1])])</var>
+            <var id="FACTOR">randRange(0, 1) ? 1 : randFromArray([2, 5, 10, X[0], X[1]])</var>
             <div data-ensure="DENOMINATOR.toString() !== '1'">
                 <var id="DENOMINATOR">getRationalExpression(X).multiply(FACTOR)</var>
             </div>
