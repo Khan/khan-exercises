@@ -71,7 +71,7 @@ $.extend(KhanUtil, {
             }
         }
         
-        // Return a new term with the coefficients multiplied
+        // Return a new term representing this term multiplied by another term or a number
         this.multiply = function(term) {
             var coefficient = this.coefficient;
             var variables = {}
@@ -89,6 +89,31 @@ $.extend(KhanUtil, {
                         variables[i] += term.variables[i];
                     } else {
                         variables[i] = term.variables[i];
+                    }
+                }
+            }
+
+            return new KhanUtil.Term(coefficient, variables);
+        };
+
+        // Return a new term representing this term divided by another term or a number
+        this.divide = function(term) {
+            var coefficient = this.coefficient;
+            var variables = {}
+
+            for (var i in this.variables) {
+                variables[i] = this.variables[i];
+            }
+
+            if (typeof term === 'number') {
+                coefficient /= term;
+            } else {
+                coefficient /= term.coefficient;
+                for (var i in term.variables) {
+                    if (variables[i]) {
+                        variables[i] -= term.variables[i];
+                    } else {
+                        variables[i] = -term.variables[i];
                     }
                 }
             }
@@ -136,7 +161,7 @@ $.extend(KhanUtil, {
                     continue;
                 }
                 s += vari;
-                if (degree > 1) {
+                if (degree !== 1) {
                     s += "^" + degree;
                 }
             }
@@ -214,7 +239,7 @@ $.extend(KhanUtil, {
             return result;
         };
         
-        // Return a new expression which is the product of this one and the one passed in
+        // Return a new expression representing the product of this one and the one passed in
         this.multiply = function(expression) {
             if (expression instanceof KhanUtil.RationalExpression) {
                 var multiplyTerms = expression.terms;
@@ -238,6 +263,18 @@ $.extend(KhanUtil, {
             return new KhanUtil.RationalExpression(terms);
         };
 
+        // Return a new expression representing this one divided by a term or number
+        // Note you cannot divide by another expression
+        this.divide = function(term) {
+            var terms = [];
+            
+            for (var i = 0; i < this.terms.length; i++) {
+                terms.push(this.terms[i].divide(term));
+            }
+
+            return new KhanUtil.RationalExpression(terms);
+        };
+
         // Return a Term object representing the greatest common divisor of all the terms in this expression
         this.factor = function() {
             var GCD = this.terms[0];
@@ -251,7 +288,6 @@ $.extend(KhanUtil, {
         this.getGCD = function(that) {
             var t1 = this.factor();
             var t2 = that.factor();
-            console.log(t1 + " " + t2);
             return t1.getGCD(t2);
         }
 

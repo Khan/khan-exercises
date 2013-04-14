@@ -63,8 +63,10 @@
                 <var id="NUMERATOR2">getRationalExpression(X).multiply(FACTOR)</var>
             </div>
             <var id="SIGNEDNUMERATOR">SIGN === "+" ? NUMERATOR2 : NUMERATOR2.multiply(-1)</var>
-            <var id="SOLNUMERATOR">NUMERATOR1.add(SIGNEDNUMERATOR)</var>
-            <var id="GCD">SOLNUMERATOR.getGCD(DENOMINATOR)</var>
+            <var id="SUMNUMERATOR">NUMERATOR1.add(SIGNEDNUMERATOR)</var>
+            <var id="GCD">SUMNUMERATOR.getGCD(DENOMINATOR)</var>
+            <var id="SOLNUMERATOR">SUMNUMERATOR.divide(GCD)</var>
+            <var id="SOLDENOMINATOR">DENOMINATOR.divide(GCD)</var>
         </div>
 
         <div class="problems">
@@ -116,7 +118,11 @@
                 <p>Since the expressions have the same denominator we simply combine the numerators:</p>
                 <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> - (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
             </div>
-            <p><code><var>Y</var> = \dfrac{<var>SOLNUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+            <p><code><var>Y</var> = \dfrac{<var>SUMNUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+            <div data-if="GCD.toString() !== '1'">
+                <p>The numerator and denominator have a common factor of <var>GCD.toString()</var>, so we can simplify</p>
+                <p><code><var>Y</var> = \dfrac{<var>SOLNUMERATOR</var>}{<var>SOLDENOMINATOR</var>}</code></p>
+            </div>
         </div>
     </div>
 </body>
