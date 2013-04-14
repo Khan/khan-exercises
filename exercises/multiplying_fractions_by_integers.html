@@ -31,8 +31,8 @@
     <div class="hints">
         <p><code>\displaystyle <var>NEG1S</var> \frac{<var>A</var>}{<var>B</var>} \times <var>NEG2S</var> \frac{<var>C</var>}{1}</code></p>
         <p><code>\displaystyle {} = \frac{<var>NEG1 * A</var> \times <var>NEG2 * C</var>}{<var>B</var> \times 1}</code></p>
-        <p><code>\displaystyle {} = \frac{<var>NEG1 * A * NEG2 * C</var>}{<var>B</var>}</code></p>
-        <p data-if="getGCD(NEG1 * A * NEG2 * C, B) !== 1 || NEG1 * NEG2 === -1"><code>\displaystyle {} = <var>fractionReduce(NEG1 * A * NEG2 * C, B)</var></code></p>
+        <p data-if="getGCD(NEG1 * A * NEG2 * C, B) !== 1"><code>\displaystyle {} = \frac{<var>NEG1 * A * NEG2 * C</var>}{<var>B</var>}</code></p>
+        <p><code>\displaystyle {} = <var>fractionReduce(NEG1 * A * NEG2 * C, B)</var></code></p>
     </div>
     </div>
 </body>
