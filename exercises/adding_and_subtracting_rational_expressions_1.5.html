@@ -43,24 +43,23 @@
             <var id="SIGN">randFromArray(["+", "-"])</var>
             <var id="X">randFromArray([
                 ["a", "b", "c"],
-                ["a", "b", "ab"],
+                ["f", "g", "h"],
+                ["m", "n", "p"],
                 ["r", "s", "t"],
-                ["s", "t", "st"],
-                ["m", "n", "mn"],
-                ["p", "q", "pq"],
-                ["x", "y", "z"],
-                ["x", "y", "xy"]])
+                ["p", "q", "r"],
+                ["x", "y", "z"] ])
             </var>
             <var id="Y">"k"</var>
-            <var id="FACTOR">randRange(0, 1) ? 1 : randFromArray([2, 5, 10, X[0], X[1]])</var>
+            <var id="FACTORCOEFFICIENT">randRange(0, 1) ? randFromArray([2, 5, 10]) : 1</var>
+            <var id="FACTORTERM">randRange(0, 1) ? FACTORCOEFFICIENT: new Term(FACTORCOEFFICIENT, randFromArray(X))</var>
             <div data-ensure="DENOMINATOR.toString() !== '1'">
-                <var id="DENOMINATOR">getRationalExpression(X).multiply(FACTOR)</var>
+                <var id="DENOMINATOR">getRationalExpression(X).multiply(FACTORTERM)</var>
             </div>
             <div data-ensure="DENOMINATOR !== NUMERATOR1">
-                <var id="NUMERATOR1">getRationalExpression(X).multiply(FACTOR)</var>
+                <var id="NUMERATOR1">getRationalExpression(X).multiply(FACTORTERM)</var>
             </div>
             <div data-ensure="DENOMINATOR !== NUMERATOR2">
-                <var id="NUMERATOR2">getRationalExpression(X).multiply(FACTOR)</var>
+                <var id="NUMERATOR2">getRationalExpression(X).multiply(FACTORTERM)</var>
             </div>
             <var id="SIGNEDNUMERATOR">SIGN === "+" ? NUMERATOR2 : NUMERATOR2.multiply(-1)</var>
             <var id="SUMNUMERATOR">NUMERATOR1.add(SIGNEDNUMERATOR)</var>
@@ -120,7 +119,7 @@
             </div>
             <p><code><var>Y</var> = \dfrac{<var>SUMNUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
             <div data-if="GCD.toString() !== '1'">
-                <p>The numerator and denominator have a common factor of <var>GCD.toString()</var>, so we can simplify</p>
+                <p>The numerator and denominator have a common factor of <code><var>GCD.toString()</var></code>, so we can simplify</p>
                 <p><code><var>Y</var> = \dfrac{<var>SOLNUMERATOR</var>}{<var>SOLDENOMINATOR</var>}</code></p>
             </div>
         </div>
