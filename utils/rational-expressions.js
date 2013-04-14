@@ -243,7 +243,7 @@ $.extend(KhanUtil, {
         this.multiply = function(expression) {
             if (expression instanceof KhanUtil.RationalExpression) {
                 var multiplyTerms = expression.terms;
-            } else if (typeof expression === 'number') {
+            } else if (typeof expression === 'number' || expression instanceof KhanUtil.Term) {
                 var multiplyTerms = [expression];
             } else {
                 // Assume it's a variable name
