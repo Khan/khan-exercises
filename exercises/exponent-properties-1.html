@@ -22,20 +22,20 @@
                     <div class="vars">
 
                         <var id="BASE">randVar()</var>
-                        <var id="EXP1">randRange(0,9)</var>
-                        <var id="EXP2">randRange(1,1)</var>
-                        <var id="COEF1">randRangeNonZero(-9,9)</var>
-                        <var id="COEF2">randRangeNonZero(-9,9)</var>
+                        <var id="EXP1">randRange(2,9)</var>
+                        <var id="EXP2">randRange(2,9)</var>
+                        <var id="COEF1">randRange(2,9)</var>
+                        <var id="COEF2">randRange(2,9)</var>
 
                     </div>
 
-                    <p class="question">
-                        Simplify the following expression:<br><br>
-                        <code>(\color{green}{<var>COEF1</var><var>BASE</var>^{<var>EXP1</var>}})(\color{#D55704}{<var>COEF2</var><var>BASE</var>^{<var>EXP2</var>}})</code>
-                    </p>
+                    <div class="question">
+                        <p>Simplify the following expression:</p>
+                        <p><code>(<var>COEF1</var><var>BASE</var>^{<var>EXP1</var>})(<var>COEF2</var><var>BASE</var>^{<var>EXP2</var>})</code></p>
+                    </div>
 
                     <p class="solution" data-type="multiple">
-                        <span class="sol short20" data-forms="integer"><var>COEF1*COEF2</var></span><code><var>BASE</var></code><span class="sol exp short20" data-forms="integer"><var>EXP1+EXP2</var></span>
+                        <span class="sol short20" data-forms="integer"><var>COEF1*COEF2</var></span> <code><var>BASE</var></code> <span class="sol exp short20" data-forms="integer"><var>EXP1+EXP2</var></span>
                     </p>
 
                     <div class="hints">
@@ -61,9 +61,8 @@
                             </code></p>
                         </div>
 
-                        <p><code>
-                            (\color{green}{<var>COEF1</var><var>BASE</var>^{<var>EXP1</var>}})(\color{#D55704}{<var>COEF2</var><var>BASE</var>^{<var>EXP2</var>}})=
-                            \color{green}{<var>COEF1</var> \cdot <var>exprExpandIntegerPower(BASE, EXP1)</var>}\cdot\color{#D55704}{<var>COEF2</var> \cdot <var>exprExpandIntegerPower(BASE, EXP2)</var>}=
+                        <p class='final-answer'><code>
+                            \hphantom{(\color{green}{<var>COEF1</var><var>BASE</var>^{<var>EXP1</var>}})(\color{#D55704}{<var>COEF2</var><var>BASE</var>^{<var>EXP2</var>}})}=
                             <var>COEF1*COEF2</var><var>BASE</var>^{<var>EXP1+EXP2</var>}
                         </code></p>
 
