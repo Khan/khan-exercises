@@ -7,12 +7,13 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="getGCD(A, B) === 1">
+    <div class="vars" >
         <var id="NEG1">randFromArray([1,-1])</var>
         <var id="NEG1S">NEG1 === -1 ? "-" : ""</var>
-        <var id="A">randRange(1, 8)</var>
-        <var id="B" data-ensure="B>A">randRange(2, 9)</var>
-
+        <div data-ensure="getGCD(A, B) === 1">
+            <var id="A">randRange(1, 8)</var>
+            <var id="B">randRange(A+1, 9)</var>
+        </div>
         <var id="NEG2">randFromArray([1, -1])</var>
         <var id="NEG2S">NEG2 === -1 ? "-" : ""</var>
         <var id="C">randRange(1, 10)</var>
@@ -21,7 +22,7 @@
     <div class="problems">
         <div>
             <div class="question">
-                <p><code>\displaystyle <var>NEG1S</var> \frac{<var>A</var>}{<var>B</var>} \times <var>NEG2S</var> <var>C</var><var>D</var></code></p>
+                <p><code>\displaystyle <var>NEG1S</var> \frac{<var>A</var>}{<var>B</var>} \times <var>NEG2S</var> <var>C</var></code></p>
             </div>
             <div class="solution" data-type="rational"><var>(NEG1 * A * NEG2 * C) / B</var></div>
         </div>
@@ -31,7 +32,7 @@
         <p><code>\displaystyle <var>NEG1S</var> \frac{<var>A</var>}{<var>B</var>} \times <var>NEG2S</var> \frac{<var>C</var>}{1}
         <p><code>\displaystyle {} = \frac{<var>NEG1 * A</var> \times <var>NEG2 * C</var>}{<var>B</var> \times 1}</code></p>
         <p><code>\displaystyle {} = \frac{<var>NEG1 * A * NEG2 * C</var>}{<var>B</var>}</code></p>
-        <p data-if="getGCD(NEG1 * A * NEG2 * C, B) !== 1 || NEG1 * NEG2 === -1"><code>\displaystyle {} = <var>fractionReduce(NEG1 * A * NEG2 * C, B)</var></code></p>
+        <p data-if="getGCD(5,10) !== 1 || NEG1 * NEG2 === -1"><code>\displaystyle <var>fractionReduce(NEG1 * A * NEG2 * C, B)</var></code></p>
     </div>
     </div>
 </body>
