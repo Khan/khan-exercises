@@ -8,7 +8,7 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="x-on-bottom">
+            <div id="x-on-bottom" data-weight="2">
                 <!-- A = B / (Cx + D) -->
                 <div class="vars" data-ensure="( C * ANSWER + D !== 0 )">
                     <var id="A">randRange( 2, 8 )</var>
@@ -17,7 +17,7 @@
                     <var id="D">randRangeNonZero( -6, 6 )</var>
                     <var id="ANSWER">( B - A * D ) / ( A * C )</var>
                 </div>
-                <p class="question">Solve for <code>x</code>:</p>
+                <p class="question">Solve for <code>x</code>.</p>
                 <div><code><var>A</var> = \dfrac{<var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>}</code></div>
 
                 <div class="solution" data-type="multiple">
@@ -26,26 +26,65 @@
 
                 <div class="hints">
                     <div>
-                        <p>Multiply both sides by <code><var>expr(["*", C, "x"])</var> + <var>D</var></code>:</p>
+                        <p>Multiply both sides by <code><var>expr(["*", C, "x"])</var> + <var>D</var></code>.</p>
                         <p><code>\qquad <var>A</var> (<var>expr(["*", C, "x"])</var> + <var>D</var>) = \dfrac{<var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>} (<var>expr(["*", C, "x"])</var> + <var>D</var>)</code></p>
                         <p><code>\qquad <var>A * C</var>x + <var>A * D</var> = <var>B</var></code></p>
                     </div>
                     <div>
-                        <p>Now <var>A * D &lt; 0 ? "add" : "subtract"</var> <code><var>abs( A * D )</var></code> <var>A * D &lt; 0 ? "to" : "from"</var> both sides:</p>
+                        <p>Now <var>A * D &lt; 0 ? "add" : "subtract"</var> <code><var>abs( A * D )</var></code> <var>A * D &lt; 0 ? "to" : "from"</var> both sides.</p>
                         <p><code>\qquad (<var>A * C</var>x + <var>A * D</var>) + <var>-A * D</var> = <var>B</var> + <var>- A * D</var></code></p>
                         <p><code>\qquad <var>A * C</var>x = <var>B - A * D</var></code></p>
                     </div>
                     <div>
-                        <p>Divide by <code><var>A * C</var></code>:</p>
+                        <p>Divide by <code><var>A * C</var></code>.</p>
                         <p><code>\qquad x = <var>fraction( B - A * D, A * C, false, false )</var></code></p>
                     </div>
                     <div data-if="reduces( B - A * D, A * C )">
-                        <p>Reduce the fraction:</p>
+                        <p>Reduce the fraction.</p>
                         <p><code>\qquad x = <var>fractionReduce( B - A * D, A * C )</var></code></p>
                     </div>
                 </div>
             </div>
-            <div id="x-on-top-and-bottom">
+            <div id="check-x-on-bottom" data-weight="1">
+                <div class="vars" data-ensure="( D * ANSWER + A !== 0 ) && ( A * ANSWER + B !== 0 ) && A !== B">
+                    <var id="A">randRange( 2, 8 )</var>
+                    <var id="B">randRangeNonZero( -12, 18 )</var>
+                    <var id="C">randRangeNonZero( -6, 6 )</var>
+                    <var id="D">randRangeNonZero( -6, 6 )</var>
+                    <var id="ANSWER">( B - A * D ) / ( A * C )</var>
+                </div>
+                <p class="question">Which equation has the following solution?</p>
+                <div><code>x = <var>fractionReduce(B - A * D , A * C)</var></code></div>
+
+                <p class="solution"><code><var>A</var> = \dfrac{<var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>}</code></p>
+                    <ul class="choices">
+                        <li><code><var>B</var> = \dfrac{<var>C</var>}{<var>expr(["*", D, "x"])</var> + <var>A</var>}</code></li>
+                        <li><code><var>C</var> = \dfrac{<var>D</var>}{<var>expr(["*", A, "x"])</var> + <var>B</var>}</code></li>
+                    </ul>
+
+                <div class="hints">
+                    <div>
+                        <p>To check which equation has this solution, we can plug <code><var>fractionReduce(B - A * D , A * C)</var></code> in for <code>x</code> in each of the equations.</p>
+                    </div>
+                    <div>
+                        <p>Let's check one.</p>
+                        <p><code>\qquad<var>C</var> &#8800 \dfrac{<var>D</var>}{<var>A</var>(\red{<var>fractionReduce(B - A * D , A * C)</var>}) + <var>B</var>}</code></p>
+                        <p><code>\qquad<var>C</var> &#8800 <var>fractionReduce(D*C,(B - A * D) + B*C)</var></code></p>
+                        <p><code>\qquad</code>So <code><var>C</var> = \dfrac{<var>D</var>}{<var>expr(["*", A, "x"])</var> + <var>B</var>}</code> is not satisfied by <code>x = <var>fractionReduce(B - A * D , A * C)</var></code>.</p>
+                    </div>
+                    <div>
+                        <p>Try checking the other equations in the same way until you find one that works.</p>
+                    </div>
+                    <div>
+                        <p>Here's the one that works.</p>
+                        <p><code>\qquad<var>A</var> = \dfrac{<var>B</var>}{<var>C</var>(\red{<var>fractionReduce(B - A * D , A * C)</var>}) + <var>D</var>}</code></p>
+                        <p><code>\qquad<var>A</var> = <var>A</var></code></p>
+                        <p>Of the options, <code><var>A</var> = \dfrac{<var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>}</code> is the only equation with <code>x = <var>fractionReduce(B - A * D , A * C)</var></code> as a solution.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="x-on-top-and-bottom"  data-weight="2">
                 <!-- (Ax + B) / (Cx + D) = E -->
                 <div class="vars" data-ensure="abs(A - E * C) >= 2 && ( C * ANSWER + D !== 0 )">
                     <var id="A">randRangeNonZero( -12, 18 )</var>
@@ -55,7 +94,7 @@
                     <var id="E">randRange( 2, 8 )</var>
                     <var id="ANSWER">( E * D - B ) / ( A - E * C )</var>
                 </div>
-                <p class="question">Solve for <code>x</code>:</p>
+                <p class="question">Solve for <code>x</code>.</p>
                 <div><code>\dfrac{<var>expr(["*", A, "x"])</var> + <var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>} = <var>E</var></code></div>
 
                 <div class="solution" data-type="multiple">
@@ -64,30 +103,70 @@
 
                 <div class="hints">
                     <div>
-                        <p>Multiply both sides by <code><var>expr(["*", C, "x"])</var> + <var>D</var></code>:</p>
+                        <p>Multiply both sides by <code><var>expr(["*", C, "x"])</var> + <var>D</var></code>.</p>
                         <p><code>\qquad \dfrac{<var>expr(["*", A, "x"])</var> + <var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>} (<var>expr(["*", C, "x"])</var> + <var>D</var>) = <var>E</var> (<var>expr(["*", C, "x"])</var> + <var>D</var>)</code></p>
                         <p><code>\qquad <var>expr(["*", A, "x"])</var> + <var>B</var> = <var>expr(["*", E * C, "x"])</var> + <var>E * D</var></code></p>
                     </div>
                     <div>
-                        <p>Now <var>E * C &lt; 0 ? "add" : "subtract"</var> <code><var>abs( E * C )</var>x</code> <var>E * C &lt; 0 ? "to" : "from"</var> both sides:</p>
+                        <p>Now <var>E * C &lt; 0 ? "add" : "subtract"</var> <code><var>abs( E * C )</var>x</code> <var>E * C &lt; 0 ? "to" : "from"</var> both sides.</p>
                         <p><code>\qquad (<var>expr(["*", A, "x"])</var> + <var>B</var>) + <var>-E * C</var>x = (<var>expr(["*", E * C, "x"])</var> + <var>E * D</var>) + <var>-E * C</var>x</code></p>
                         <p><code>\qquad <var>A - E * C</var>x + <var>B</var> = <var>E * D</var></code></p>
                     </div>
                     <div>
-                        <p>Now <var>B &lt; 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>:</p>
+                        <p>Now <var>B &lt; 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>.</p>
                         <p><code>\qquad (<var>A - E * C</var>x + <var>B</var>) + <var>-B</var> = <var>E * D</var> + <var>-B</var></code></p>
                         <p><code>\qquad <var>A - E * C</var>x = <var>E * D - B</var></code></p>
                     </div>
                     <div>
-                        <p>Divide by <code><var>A - E * C</var></code>:</p>
+                        <p>Divide by <code><var>A - E * C</var></code>.</p>
                         <p><code>\qquad x = <var>fraction( E * D - B, A - E * C, false, false )</var></code></p>
                     </div>
                     <div data-if="reduces(E * D - B, A - E * C)">
-                        <p>Reduce the fraction:</p>
+                        <p>Reduce the fraction.</p>
                         <p><code>\qquad x = <var>fractionReduce( E * D - B, A - E * C )</var></code></p>
                     </div>
                 </div>
             </div>
+            <div id="check-x-on-top-and-bottom" data-weight="1">
+                <div class="vars" data-ensure="abs(A - E * C) >= 2 && ( C * ANSWER + D !== 0 ) && ( D * ANSWER + E !== 0 ) && ( E * ANSWER + A !== 0 ) && (A !== B)">
+                    <var id="A">randRangeNonZero( -12, 18 )</var>
+                    <var id="B">randRangeNonZero( -12, 18 )</var>
+                    <var id="C">randRangeNonZero( -6, 6 )</var>
+                    <var id="D">randRangeNonZero( -6, 6 )</var>
+                    <var id="E">randRange( 2, 8 )</var>
+                    <var id="ANSWER">( E * D - B ) / ( A - E * C )</var>
+                </div>
+                <p class="question">Which equation has the following solution?</p>
+                <div><code>x = <var>fractionReduce(( E * D - B ),( A - E * C ))</var></code></div>
+
+                <p class="solution"><code>\dfrac{<var>expr(["*", A, "x"])</var> + <var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>} = <var>E</var></code></p>
+                    <ul class="choices">
+                        <li><code>\dfrac{<var>expr(["*", B, "x"])</var> + <var>C</var>}{<var>expr(["*", D, "x"])</var> + <var>E</var>} = <var>A</var></code></li>
+                        <li><code>\dfrac{<var>expr(["*", C, "x"])</var> + <var>D</var>}{<var>expr(["*", E, "x"])</var> + <var>A</var>} = <var>B</var></code></li>
+                    </ul>
+
+                <div class="hints">
+                    <div>
+                        <p>To check which equation has this solution, we can plug <code><var>fractionReduce(( E * D - B ),( A - E * C ))</var></code> in for <code>x</code> in each of the equations.</p>
+                    </div>
+                    <div>
+                        <p>Let's check one.</p>
+                        <p><code>\qquad\dfrac{<var>C</var>(\red{<var>fractionReduce(( E * D - B ),( A - E * C ))</var>}) + <var>D</var>}{<var>E</var>(\red{<var>fractionReduce(( E * D - B ),( A - E * C ))</var>}) + <var>A</var>} &#8800 <var>B</var></code></p>
+                        <p><code>\qquad<var>fractionReduce(C*( E * D - B ) + D*(A-E*C),E*( E * D - B ) + A*( A - E * C ))</var> &#8800 <var>B</var></code></p>
+                        <p><code>\qquad</code>So <code>\dfrac{<var>expr(["*", C, "x"])</var> + <var>D</var>}{<var>expr(["*", E, "x"])</var> + <var>A</var>} = <var>B</var></code> is not satisfied by <code>x = <var>fractionReduce(( E * D - B ),( A - E * C ))</var></code>.</p>
+                    </div>
+                    <div>
+                        <p>Try checking the other equations in the same way until you find one that works.</p>
+                    </div>
+                    <div>
+                        <p>Here's the one that works.</p>
+                        <p><code>\qquad\dfrac{<var>A</var>(\red{<var>fractionReduce(( E * D - B ),( A - E * C ))</var>}) + <var>B</var>}{<var>C</var>(\red{<var>fractionReduce(( E * D - B ),( A - E * C ))</var>}) + <var>D</var>} = <var>E</var></code></p>
+                        <p><code>\qquad<var>E</var> = <var>E</var></code></p>
+                        <p>Of the options, <code>\dfrac{<var>expr(["*", A, "x"])</var> + <var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>} = <var>E</var></code> is the only equation with <code>x = <var>fractionReduce(( E * D - B ),( A - E * C ))</var></code> as a solution.</p>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 </body>
