@@ -17,14 +17,14 @@
                     <var id="SOLUTION">PIECES*(D/N) </var>
                 </div>
 
-                <p data-if="isMale(1)" class="problem">
+                <p class="problem" data-if="isMale(1)">
                     <span class="spin">
                         {Many|All|Several} of <var>person(1)</var>'s friends wanted to try the candy bars
                         he brought back from his trip, but there were only <var>PIECES</var> candy bars.
                     </span>
                     <var>person(1)</var> decided to cut the candy bars into pieces so that each person could have
                     <code>\frac{<var>N</var>}{<var>D</var>}</code> of a candy bar.
-                </p><p data-else="" class="problem">
+                </p><p class="problem" data-else="">
                     <span class="spin">
                         {Many|All|Several} of <var>person(1)</var>'s friends wanted to try the candy bars
                         she brought back from her trip, but there were only <var>PIECES</var> candy bars.
@@ -35,7 +35,7 @@
 
                 
 
-                <p data-if="isMale(1)" class="question">After cutting up the candy bars, how many friends could <var>person(1)</var> share his candy with?</p><p data-else="" class="question">After cutting up the candy bars, how many friends could <var>person(1)</var> share her candy with?</p>
+                <p class="question" data-if="isMale(1)">After cutting up the candy bars, how many friends could <var>person(1)</var> share his candy with?</p><p class="question" data-else="">After cutting up the candy bars, how many friends could <var>person(1)</var> share her candy with?</p>
 
                 
 
@@ -79,13 +79,13 @@
                     <var id="SOLUTION">YARN*(D/N) </var>
                 </div>
 
-                <p data-if="isMale(1)" class="problem">
+                <p class="problem" data-if="isMale(1)">
                     <span class="spin">
                         <var>person(1)</var> just found beautiful yarn {for <var>randFromArray([5,20])</var> percent off }at
                         his favorite yarn store.
                     </span>
                     He can make 1 scarf from <code>\frac{<var>N</var>}{<var>D</var>}</code> of a ball of yarn.
-                </p><p data-else="" class="problem">
+                </p><p class="problem" data-else="">
                     <span class="spin">
                         <var>person(1)</var> just found beautiful yarn {for <var>randFromArray([5,20])</var> percent off }at
                         her favorite yarn store.
@@ -95,7 +95,7 @@
 
                 
 
-                <p data-if="isMale(1)" class="question">If <var>person(1)</var> buys <var>YARN</var> balls of yarn, how many scarves can he make?</p><p data-else="" class="question">If <var>person(1)</var> buys <var>YARN</var> balls of yarn, how many scarves can she make?</p>
+                <p class="question" data-if="isMale(1)">If <var>person(1)</var> buys <var>YARN</var> balls of yarn, how many scarves can he make?</p><p class="question" data-else="">If <var>person(1)</var> buys <var>YARN</var> balls of yarn, how many scarves can she make?</p>
 
                 
 
@@ -135,11 +135,11 @@
                     <var id="ROOM">(randRange( 1, 20 )+SOLUTION)</var>
                 </div>
 
-                <p data-if="isMale(1)" class="problem">
+                <p class="problem" data-if="isMale(1)">
                     <var>person(1)</var> decided to paint some of the rooms at his <var>ROOM</var>-room inn,
                     <var>person(1)</var>'s Place. He discovered he needed <code>\frac{<var>N</var>}{<var>D</var>}</code>
                     of a can of paint per room.
-                </p><p data-else="" class="problem">
+                </p><p class="problem" data-else="">
                     <var>person(1)</var> decided to paint some of the rooms at her <var>ROOM</var>-room inn,
                     <var>person(1)</var>'s Place. She discovered she needed <code>\frac{<var>N</var>}{<var>D</var>}</code>
                     of a can of paint per room.
@@ -147,7 +147,7 @@
 
                 
 
-                <p data-if="isMale(1)" class="question">If <var>person(1)</var> had <var>PAINT</var> cans of paint, how many rooms could he paint?</p><p data-else="" class="question">If <var>person(1)</var> had <var>PAINT</var> cans of paint, how many rooms could she paint?</p>
+                <p class="question" data-if="isMale(1)">If <var>person(1)</var> had <var>PAINT</var> cans of paint, how many rooms could he paint?</p><p class="question" data-else="">If <var>person(1)</var> had <var>PAINT</var> cans of paint, how many rooms could she paint?</p>
 
                 
 
@@ -281,10 +281,10 @@
                     <var id="SOLUTION">((A*D)/(B*N)) </var>
                 </div>
 
-                <p data-if="isMale(1)" class="problem">
+                <p class="problem" data-if="isMale(1)">
                     <var>person(1)</var> thought it would be nice to include <code>\frac{<var>N</var>}{<var>D</var>}</code> of a pound of chocolate in each
                     of the holiday gift bags he made for his friends and family.
-                </p><p data-else="" class="problem">
+                </p><p class="problem" data-else="">
                     <var>person(1)</var> thought it would be nice to include <code>\frac{<var>N</var>}{<var>D</var>}</code> of a pound of chocolate in each
                     of the holiday gift bags she made for her friends and family.
                 </p>
@@ -375,14 +375,14 @@
                     <var id="SOLUTION">((A*D)/(B*N)) </var>
                 </div>
 
-                <p data-if="isMale(1)" class="problem">
+                <p class="problem" data-if="isMale(1)">
                     <var>person(1)</var> works out for <code>\frac{<var>A</var>}{<var>B</var>}</code> of an hour every day. To keep his
                     exercise routines interesting, he includes different types of exercises, such as
-                    <var>plural_form(exercise(1))</var> and <var>plural_form(exercise(2))</var>, in each workout.
-                </p><p data-else="" class="problem">
+                    <var>plural(exercise(1))</var> and <var>plural(exercise(2))</var>, in each workout.
+                </p><p class="problem" data-else="">
                     <var>person(1)</var> works out for <code>\frac{<var>A</var>}{<var>B</var>}</code> of an hour every day. To keep her
                     exercise routines interesting, she includes different types of exercises, such as
-                    <var>plural_form(exercise(1))</var> and <var>plural_form(exercise(2))</var>, in each workout.
+                    <var>plural(exercise(1))</var> and <var>plural(exercise(2))</var>, in each workout.
                 </p>
 
                 

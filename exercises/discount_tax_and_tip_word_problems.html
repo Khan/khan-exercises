@@ -16,12 +16,12 @@
                 <var id="TOTAL_PRICE">roundTo(2, (1+(SALES_TAX/100))*DOLLARS).toFixed(2)</var>
             </div>
             <div class="question spin">
-                <p><var>person(1)</var> buys a basket of <var>plural_form(fruit(1))</var> on sale for $<var>DOLLARS</var> before tax.  The sales tax is <var>SALES_TAX</var>%.  What is the total price <var>person(1)</var> pays for the basket of <var>plural_form(fruit(1))</var>?  (Round to the nearest hundredth or cent.)</p>
+                <p><var>person(1)</var> buys a basket of <var>plural(fruit(1))</var> on sale for $<var>DOLLARS</var> before tax.  The sales tax is <var>SALES_TAX</var>%.  What is the total price <var>person(1)</var> pays for the basket of <var>plural(fruit(1))</var>?  (Round to the nearest hundredth or cent.)</p>
             </div>
             <p data-forms="dollar" class="solution"><var>TOTAL_PRICE</var></p>
             <div class="hints">
                 <div>
-                    <p>In order to find the total price, first find the amount of sales tax paid by multiplying the sales tax by the original price of the basket of <var>plural_form(fruit(1))</var>.</p>
+                    <p>In order to find the total price, first find the amount of sales tax paid by multiplying the sales tax by the original price of the basket of <var>plural(fruit(1))</var>.</p>
                     <p><code class="hint_blue"><var>SALES_TAX</var>\%</code> <code>\times</code> <code class="hint_green">$<var>DOLLARS</var></code> =</p>
                 </div>
                 <div>
@@ -105,7 +105,7 @@
                 <var id="TOTAL_DISCOUNT">roundTo(2, (DISCOUNT / 100) * PRICE).toFixed(2)</var>
             </div>
             <div class="question spin">
-                    <p>The <var>pizza(1)</var> store is having a <var>DISCOUNT</var>% off sale on all of its <var>plural_form(pizza(1))</var>. If the <var>pizza(1)</var> you want regularly costs $<var>PRICE</var>, how much would you save with the discount?</p>
+                    <p>The <var>pizza(1)</var> store is having a <var>DISCOUNT</var>% off sale on all of its <var>plural(pizza(1))</var>. If the <var>pizza(1)</var> you want regularly costs $<var>PRICE</var>, how much would you save with the discount?</p>
             </div>
             <p data-forms="dollar" class="solution"><var>TOTAL_DISCOUNT</var></p>
             <div class="hints">
@@ -137,7 +137,7 @@
                 <var id="TOTAL_FORMAT">roundTo(2, parseFloat(TOTAL)).toFixed(2)</var>
             </div>
             <div class="question">
-                <p data-if="isMale(1)" class="spin"><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and the cost of his meal is $<var>BILL_FORMAT</var>. He would like to leave a <var>TIP_PERCENT</var>% tip. What is his total bill including tip?</p><p data-else="" class="spin"><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and the cost of her meal is $<var>BILL_FORMAT</var>. She would like to leave a <var>TIP_PERCENT</var>% tip. What is her total bill including tip?</p>
+                <p class="spin" data-if="isMale(1)"><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and the cost of his meal is $<var>BILL_FORMAT</var>. He would like to leave a <var>TIP_PERCENT</var>% tip. What is his total bill including tip?</p><p class="spin" data-else=""><var>person(1)</var> {has {breakfast|lunch|dinner}|eats} at a {restaurant|cafe} and the cost of her meal is $<var>BILL_FORMAT</var>. She would like to leave a <var>TIP_PERCENT</var>% tip. What is her total bill including tip?</p>
             
             </div>
             <p data-forms="dollar" class="solution"><var>TOTAL</var></p>

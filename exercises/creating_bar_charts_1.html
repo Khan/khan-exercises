@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive word-problems stat"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math math-format expressions graphie interactive word-problems stat">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Creating bar charts 1</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -29,21 +29,16 @@
                 <var id="RESPONDENT">randFromArray([ "student", "teacher", "person" ])</var>
             </div>
 
-            <p data-if="isSingular(TOTAL)"><code><var>TOTAL</var></code> <var>plural_form(RESPONDENT, TOTAL)</var> were asked about their favorite <var>SUBJECT</var>.
-            <var>toSentence( shuffle( $.map( DATA, function( num, i ) {
-                return "&lt;code&gt;" + num + "&lt;/code&gt; " + plural( RESPONDENT, num ) + " said " + CATEGORIES[ i ];
-            }) ) )</var>.</p><p data-else=""><code><var>TOTAL</var></code> <var>plural_form(RESPONDENT, TOTAL)</var> were asked about their favorite <var>SUBJECT</var>.
+            <p><code><var>TOTAL</var></code> <var>plural( RESPONDENT, TOTAL )</var> were asked about their favorite <var>SUBJECT</var>.
             <var>toSentence( shuffle( $.map( DATA, function( num, i ) {
                 return "&lt;code&gt;" + num + "&lt;/code&gt; " + plural( RESPONDENT, num ) + " said " + CATEGORIES[ i ];
             }) ) )</var>.</p>
 
-            
-
-            <p class="question">Create a bar chart showing everyone's favorite <var>plural_form(SUBJECT)</var>:</p>
+            <p class="question">Create a bar chart showing everyone's favorite <var>plural( SUBJECT )</var>:</p>
 
             <div class="problem">
 
-                <div id="barchart" class="graphie">
+                <div class="graphie" id="barchart">
                     init({
                         range: [ [ -2, 17 ], [ -3, 12 ] ],
                         scale: [ 26, 30 ]
@@ -95,7 +90,7 @@
                 </div>
 
             </div>
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Create a bar chart by dragging the top of each bar up and down.
                 </div>
@@ -121,31 +116,19 @@
 
     <div class="hints">
         <div data-each="DATA as INDEX, NUM">
-            <p data-if="isSingular(NUM)">
-                <code><var>NUM</var></code> <var>plural_form(RESPONDENT, NUM)</var> said their
+            <p>
+                <code><var>NUM</var></code> <var>plural( RESPONDENT, NUM )</var> said their
                 favorite <var>SUBJECT</var> was <var>CATEGORIES[ INDEX ]</var>.
-                <span data-if="NUM &gt; 0">
+                <span data-if="NUM > 0">
                     So the top of the bar for "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>" should line up with the number
                     <code><var>NUM</var></code> on the left side of the chart.
                 </span>
-                <span data-else="">
-                    So there should be no bar above "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>". Drag the top of the bar all
-                    the way to the bottom to get rid of the bar.
-                </span>
-            </p><p data-else="">
-                <code><var>NUM</var></code> <var>plural_form(RESPONDENT, NUM)</var> said their
-                favorite <var>SUBJECT</var> was <var>CATEGORIES[ INDEX ]</var>.
-                <span data-if="NUM &gt; 0">
-                    So the top of the bar for "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>" should line up with the number
-                    <code><var>NUM</var></code> on the left side of the chart.
-                </span>
-                <span data-else="">
+                <span data-else>
                     So there should be no bar above "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>". Drag the top of the bar all
                     the way to the bottom to get rid of the bar.
                 </span>
             </p>
-            
-            <div data-update="barchart" data-if="NUM &gt; 0" class="graphie">
+            <div data-if="NUM > 0" class="graphie" data-update="barchart">
                 style({ stroke: ORANGE, fill: "none", strokeWidth: 1, strokeDasharray: "- " }, function() {
                     path([ [ INDEX * 3 + 1, 0 ], [ INDEX * 3 + 1, NUM ], [ INDEX * 3 + 3, NUM ], [ INDEX * 3 + 3, 0 ] ]).toBack();
                 });
@@ -154,6 +137,5 @@
     </div>
 
 </div>
-
-
-</body></html>
+</body>
+</html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math math-format graphie word-problems interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math math-format graphie word-problems interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Scientific notation intuition</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="NUMBER_SEED % 10 !== 0" class="vars">
+        <div class="vars" data-ensure="NUMBER_SEED % 10 !== 0">
             <var id="NUMBER_SEED">randRange(100, 9999)</var>
             <var id="NUMBER_SEED_LENGTH">NUMBER_SEED.toString().length</var>
 
@@ -20,7 +20,7 @@
             <var id="TRAIL">( BASE + "" ).substring( 1 )</var>
 
             <var id="DECIMAL">
-                ZEROES &gt; 0 ?
+                ZEROES > 0 ?
                     NUMBER_SEED * pow( 10, ZEROES ) :
                     ( NUMBER_SEED * pow( 10, ZEROES ) ).toFixed( -1 * ZEROES )
             </var>
@@ -36,7 +36,7 @@
                     Express the top number in scientific notation by dragging the decimal point in the bottom number:
                 </p>
                 <div class="problem">
-                    <div id="scinot" class="graphie">
+                    <div class="graphie" id="scinot">
                         init({
                             range: [ [ -8, 14 ], [ -1, 3 ] ],
                             scale: [23, 45]
@@ -130,7 +130,7 @@
                     </p>
                 </div>
 
-                <div data-type="custom" class="solution">
+                <div class="solution" data-type="custom">
                     <div class="instruction">
                         Move the decimal point in the bottom number by dragging it left or right.
                     </div>
@@ -146,48 +146,32 @@
                 <div class="hints">
                     <p>
                         To write <code><var>PRETTY_DECIMAL</var></code> in scientific notation, move the decimal
-                        to the <span data-if="E &lt; 0">right</span><span data-else="">left</span> so the number is greater than or equal
+                        to the <span data-if="E < 0">right</span><span data-else>left</span> so the number is greater than or equal
                         to <code>1</code>, but less than <code>10</code>.
                     </p>
 
-                    <p data-if="isSingular(abs( E ))">
-                        Moving the decimal to the <span data-if="E &lt; 0">right</span><span data-else="">left</span>
-                        <code><var>abs( E )</var></code> place leaves us with
-                        <code class="hint_pink"><var>BASE</var></code>.
-                    </p><p data-else="">
-                        Moving the decimal to the <span data-if="E &lt; 0">right</span><span data-else="">left</span>
-                        <code><var>abs( E )</var></code>  leaves us with
+                    <p>
+                        Moving the decimal to the <span data-if="E < 0">right</span><span data-else>left</span>
+                        <code><var>abs( E )</var></code> <var>plural( "place", abs( E ) )</var> leaves us with
                         <code class="hint_pink"><var>BASE</var></code>.
                     </p>
 
-                    
-
-                    <p data-if="isSingular(abs( E ))">
-                        Moving the decimal to the <span data-if="E &lt; 0">right</span><span data-else="">left</span>
-                        <code><var>abs( E )</var></code> place is the same as
-                        <span data-if="E &lt; 0">multiplying</span><span data-else="">dividing</span> by ten
-                        <code><var>abs( E )</var></code> time. Therefore, to
-                        counteract moving the decimal, we need to <span data-if="E &lt; 0">divide</span><span data-else="">multiply</span>
-                        by ten <code><var>abs( E )</var></code> time &#8212; which is the same as
-                        multiplying by <code class="hint_blue">10^{<var>E</var>}</code>.
-                    </p><p data-else="">
-                        Moving the decimal to the <span data-if="E &lt; 0">right</span><span data-else="">left</span>
-                        <code><var>abs( E )</var></code>  is the same as
-                        <span data-if="E &lt; 0">multiplying</span><span data-else="">dividing</span> by ten
-                        <code><var>abs( E )</var></code> . Therefore, to
-                        counteract moving the decimal, we need to <span data-if="E &lt; 0">divide</span><span data-else="">multiply</span>
-                        by ten <code><var>abs( E )</var></code>  &#8212; which is the same as
+                    <p>
+                        Moving the decimal to the <span data-if="E < 0">right</span><span data-else>left</span>
+                        <code><var>abs( E )</var></code> <var>plural( "place", abs( E ) )</var> is the same as
+                        <span data-if="E < 0">multiplying</span><span data-else>dividing</span> by ten
+                        <code><var>abs( E )</var></code> <var>plural( "time", abs( E ) )</var>. Therefore, to
+                        counteract moving the decimal, we need to <span data-if="E < 0">divide</span><span data-else>multiply</span>
+                        by ten <code><var>abs( E )</var></code> <var>plural( "time", abs( E ) )</var> &mdash; which is the same as
                         multiplying by <code class="hint_blue">10^{<var>E</var>}</code>.
                     </p>
-
-                    
 
                     <div>
                         <p><strong>
                             <code><var>PRETTY_DECIMAL</var></code> in scientific notation is
                             <code>\color{<var>PINK</var>}{<var>BASE</var>}\times \color{<var>BLUE</var>}{10^{<var>E</var>}}</code>.
                         </strong></p>
-                        <div data-update="scinot" class="graphie">
+                        <div class="graphie" data-update="scinot">
                             var place = graph.decimal.coord[0];
                             $({ 0: place }).animate( { 0: 0 }, {
                                 duration: abs( place ) * 50,
@@ -209,6 +193,5 @@
         </div>
 
     </div>
-
-
-</body></html>
+</body>
+</html>

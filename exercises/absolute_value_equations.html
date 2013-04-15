@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Absolute value equations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -12,10 +12,10 @@
                 <div class="vars">
                     <var id="A">randRange(2, 8)</var>
                     <var id="B">randRangeNonZero(-10, 10)</var>
-                    <var data-ensure="C !== A" id="C">
+                    <var id="C" data-ensure="C !== A">
                         randRangeNonZero(-6, 6)
                     </var>
-                    <var data-ensure="D !== B" id="D">randRange(2, 10)</var>
+                    <var id="D" data-ensure="D !== B">randRange(2, 10)</var>
                     <var id="E">randRangeNonZero(-10, 10)</var>
                     <var id="NO_SOLUTION">(D - B) / (A - C) &lt;= 0</var>
                     <var id="POS_SOLUTION">
@@ -43,21 +43,21 @@
                     </code>
                 </p>
 
-                <div data-type="multiple" class="solution">
-                    <div data-type="set" class="sol">
-                        <div data-each="SOLUTIONS as SOLUTION" class="set-sol">
+                <div class="solution" data-type="multiple">
+                    <div class="sol" data-type="set">
+                        <div class="set-sol" data-each="SOLUTIONS as SOLUTION">
                             <var>SOLUTION</var>
                         </div>
                         <p class="input-format">
                             <code>x = </code> <span class="entry short40"></span>
-                            &#160; or
+                            &nbsp; or
                             <code>x = </code> <span class="entry short40"></span>
                         </p>
                     </div>
                     <p></p>
                     <div>
                         <label>
-                            <span data-type="checkbox" class="sol">
+                            <span class="sol" data-type="checkbox">
                                 <var>NO_SOLUTION</var>
                             </span>
                             No solution
@@ -72,7 +72,7 @@
                         to not be graded. Otherwise it returns true an the
                         rest of the multiple answer will be checked normally.
                     -->
-                    <div required="" data-type="custom" class="sol">
+                    <div class="sol" data-type="custom" required>
                         <div class="guess">
                             $("#solutionarea input").eq(0).val() === ""
                             &amp;&amp;
@@ -106,22 +106,15 @@
                 </div>
 
                 <div class="hints">
-                    <div data-if="A &gt; C" data-unwrap="">
+                    <div data-if="A > C" data-unwrap>
                         <div>
-                            <p data-if="C &amp;gt; 0">
-                                Subtract
+                            <p>
+                                <var>C &gt; 0 ? "Subtract" : "Add"</var>
                                 <code>
                                     \red{<var>abs(C)</var>|x + <var>E</var>|}
                                 </code>
-                                from both sides:
-                            </p><p data-else="">
-                                Add
-                                <code>
-                                    \red{<var>abs(C)</var>|x + <var>E</var>|}
-                                </code>
-                                to both sides:
+                                <var>C &gt; 0 ? "from" : "to"</var> both sides:
                             </p>
-                            
                             <p><code>\qquad\begin{eqnarray}
                                 <var>A</var>|x + <var>E</var>| + <var>B</var>
                                 &amp;=&amp;
@@ -137,16 +130,11 @@
                             </code></p>
                         </div>
                         <div>
-                            <p data-if="B &amp;gt; 0">
-                                Subtract
+                            <p>
+                                <var>B &gt; 0 ? "Subtract" : "Add"</var>
                                 <code>\red{<var>abs(B)</var>}</code>
-                                from both sides:
-                            </p><p data-else="">
-                                Add
-                                <code>\red{<var>abs(B)</var>}</code>
-                                to both sides:
+                                <var>B &gt; 0 ? "from" : "to"</var> both sides:
                             </p>
-                            
                             <p><code>\qquad\begin{eqnarray}
                                 <var>A - C</var>|x + <var>E</var>| +
                                 <var>B</var> &amp;=&amp; <var>D</var> \\ \\
@@ -176,7 +164,7 @@
                                 <var>SIMPLIFIED</var></code>
                             </p>
                         </div>
-                        <div data-if="!NO_SOLUTION" data-unwrap="">
+                        <div data-if="!NO_SOLUTION" data-unwrap>
                             <div>
                                 <p>
                                     Because the absolute value of an expression
@@ -201,18 +189,12 @@
                                 </code></p>
                             </div>
                             <div>
-                                <p data-if="E &amp;gt; 0">
-                                    Subtract
+                                <p>
+                                    <var>E &gt; 0 ? "Subtract" : "Add"</var>
                                     <code>\red{<var>abs(E)</var>}</code>
-                                    from both
-                                    sides:
-                                </p><p data-else="">
-                                    Add
-                                    <code>\red{<var>abs(E)</var>}</code>
-                                    to both
+                                    <var>E &gt; 0 ? "from" : "to"</var> both
                                     sides:
                                 </p>
-                                
                                 <p><code>\qquad\begin{eqnarray}
                                     x + <var>E</var> &amp;=&amp;
                                     -<var>SIMPLIFIED</var> \\ \\
@@ -252,18 +234,12 @@
                                 </code></p>
                             </div>
                             <div>
-                                <p data-if="E &amp;gt; 0">
-                                    Subtract
+                                <p>
+                                    <var>E &gt; 0 ? "Subtract" : "Add"</var>
                                     <code>\red{<var>abs(E)</var>}</code>
-                                    from both
-                                    sides:
-                                </p><p data-else="">
-                                    Add
-                                    <code>\red{<var>abs(E)</var>}</code>
-                                    to both
+                                    <var>E &gt; 0 ? "from" : "to"</var> both
                                     sides:
                                 </p>
-                                
                                 <p><code>\qquad\begin{eqnarray}
                                     x + <var>E</var> &amp;=&amp;
                                     <var>SIMPLIFIED</var> \\ \\
@@ -295,22 +271,15 @@
                             </code></p>
                         </div>
                     </div>
-                    <div data-else="" data-unwrap="">
+                    <div data-else data-unwrap>
                         <div>
-                            <p data-if="A &amp;gt; 0">
-                                Subtract
+                            <p>
+                                <var>A &gt; 0 ? "Subtract" : "Add"</var>
                                 <code>
                                     \red{<var>A</var>|x + <var>E</var>|}
                                 </code>
-                                from both sides:
-                            </p><p data-else="">
-                                Add
-                                <code>
-                                    \red{<var>A</var>|x + <var>E</var>|}
-                                </code>
-                                to both sides:
+                                <var>A &gt; 0 ? "from" : "to"</var> both sides:
                             </p>
-                            
                             <p><code>\qquad\begin{eqnarray}
                                 <var>A</var>|x + <var>E</var>| + <var>B</var>
                                 &amp;=&amp;
@@ -325,16 +294,11 @@
                             </code></p>
                         </div>
                         <div>
-                            <p data-if="D &amp;gt; 0">
-                                Subtract
+                            <p>
+                                <var>D &gt; 0 ? "Subtract" : "Add"</var>
                                 <code><var>abs(D)</var></code>
-                                from both sides:
-                            </p><p data-else="">
-                                Add
-                                <code><var>abs(D)</var></code>
-                                to both sides:
+                                <var>D &gt; 0 ? "from" : "to"</var> both sides:
                             </p>
-                            
                             <p><code>\qquad\begin{eqnarray}
                                 <var>B</var> &amp;=&amp;
                                 <var>C - A</var>|x + <var>E</var>| +
@@ -364,7 +328,7 @@
                                 <var>SIMPLIFIED</var> = |x + <var>E</var>|
                             </code></p>
                         </div>
-                        <div data-if="!NO_SOLUTION" data-unwrap="">
+                        <div data-if="!NO_SOLUTION" data-unwrap>
                             <div>
                                 <p>
                                     Because the absolute value of an expression
@@ -390,18 +354,12 @@
                                 </p>
                             </div>
                             <div>
-                                <p data-if="E &amp;gt; 0">
-                                    Subtract
+                                <p>
+                                    <var>E &gt; 0 ? "Subtract" : "Add"</var>
                                     <code>\red{<var>abs(E)</var>}</code>
-                                    from both
-                                    sides:
-                                </p><p data-else="">
-                                    Add
-                                    <code>\red{<var>abs(E)</var>}</code>
-                                    to both
+                                    <var>E &gt; 0 ? "from" : "to"</var> both
                                     sides:
                                 </p>
-                                
                                 <p><code>\qquad\begin{eqnarray}
                                     - <var>SIMPLIFIED</var> &amp;=&amp;
                                     x + <var>E</var> \\ \\
@@ -441,18 +399,12 @@
                                 </code></p>
                             </div>
                             <div>
-                                <p data-if="E &amp;gt; 0">
-                                    Subtract
+                                <p>
+                                    <var>E &gt; 0 ? "Subtract" : "Add"</var>
                                     <code>\red{<var>abs(E)</var>}</code>
-                                    from both
-                                    sides:
-                                </p><p data-else="">
-                                    Add
-                                    <code>\red{<var>abs(E)</var>}</code>
-                                    to both
+                                    <var>E &gt; 0 ? "from" : "to"</var> both
                                     sides:
                                 </p>
-                                
                                 <p><code>\qquad\begin{eqnarray}
                                     <var>SIMPLIFIED</var> &amp;=&amp;
                                     x + <var>E</var> \\ \\
@@ -494,7 +446,7 @@
                             <var>fractionReduce.apply(null, POS_SOLUTION)</var>
                         </code>.
                     </p>
-                    <p data-else="">
+                    <p data-else>
                         The absolute value cannot be negative. Therefore, there
                         is no solution.
                     </p>
@@ -502,6 +454,5 @@
             </div>
         </div>
     </div>
-
-
-</body></html>
+</body>
+</html>

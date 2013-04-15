@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math math-format expressions graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphs of inequalities</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -19,10 +19,10 @@
                 <var id="B">SLOPE_FRAC[1] * MULT</var>
                 <var id="C">SLOPE_FRAC[1] * YINT * MULT</var>
                 <var id="STD_FORM">randFromArray([ true, false ])</var>
-                <var id="COMP">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
-                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&#8804;": "&#8805;", "&#8805;": "&#8804;" }[ COMP ] : COMP</var>
-                <var id="LESS_THAN">COMP === "&lt;" || COMP === "&#8804;"</var>
-                <var id="INCLUSIVE">COMP === "&#8805;" || COMP === "&#8804;"</var>
+                <var id="COMP">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
+                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;" }[ COMP ] : COMP</var>
+                <var id="LESS_THAN">COMP === "&lt;" || COMP === "&le;"</var>
+                <var id="INCLUSIVE">COMP === "&ge;" || COMP === "&le;"</var>
                 <var id="X1">SLOPE_FRAC[1]</var>
                 <var id="Y1">YINT + SLOPE_FRAC[0]</var>
                 <var id="X2">-SLOPE_FRAC[1]</var>
@@ -33,7 +33,7 @@
             <p class="question">What is the inequality represented by this graph?</p>
 
             <div class="problem">
-                <div id="grid" class="graphie">
+                <div class="graphie" id="grid">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -61,9 +61,9 @@
 
                 </div>
             </div>
-            <div data-type="multiple" class="solution">
-                <p class="short"><code>y</code><span data-choices="['', '&lt;', '&#8804;', '&gt;', '&#8805;']" data-type="list" class="sol"><var>COMP</var></span>
-                <span data-fallback="1" class="sol short30"><var>SLOPE</var></span><code>\space x + </code>
+            <div class="solution" data-type="multiple">
+                <p class="short"><code>y</code><span class="sol" data-type="list" data-choices="['', '&lt;', '&le;', '&gt;', '&ge;']"><var>COMP</var></span>
+                <span class="sol short30" data-fallback="1"><var>SLOPE</var></span><code>\space x + </code>
                 <span class="sol short30"><var>YINT</var></span></p>
             </div>
 
@@ -92,33 +92,23 @@
                 <p>
                     Now that we have the equation for the boundary line, we need to decide which inequality sign to use.
                 </p>
-                <p data-if="LESS_THAN">
-                    If we pick a point on the line, let's say <code>(<var>X1</var>,<var>Y1</var>)</code>, we can see that points below that point are all shaded in. These are the points where <code>x = <var>X1</var> </code> but <code>y</code> is
-                    less than <var> Y1 </var>. So we should use a &amp;lt; or &amp;#8804; sign.
-                </p><p data-else="">
-                    If we pick a point on the line, let's say <code>(<var>X1</var>,<var>Y1</var>)</code>, we can see that points above that point are all shaded in. These are the points where <code>x = <var>X1</var> </code> but <code>y</code> is
-                    greater than <var> Y1 </var>. So we should use a &amp;gt; or &amp;#8805; sign.
+                <p>
+                    If we pick a point on the line, let's say <code>(<var>X1</var>,<var>Y1</var>)</code>, we can see that points <var>LESS_THAN ? "below" : "above"</var> that point are all shaded in. These are the points where <code>x = <var>X1</var> </code> but <code>y</code> is
+                    <var> LESS_THAN ? "less than" : "greater than" </var> <var> Y1 </var>. So we should use a <var>LESS_THAN ? "&lt; or &le;" : "&gt; or &ge;" </var> sign.
                 </p>
-                
                 <div>
                     <p>Another way to see this is to try plugging in a point. The easiest point to plug in is <code>(0,0)</code>:</p>
                     <p><code>y \; ? \; <var>( SLOPE === -1 ? "-" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
                     <p><code>0 \; ? \; <var>( SLOPE === -1 ? "-1*" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 ) + "*"))</var> 0 + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
                     <p>
-                        <span data-if="ORI_IN">Since <code>(0,0)</code> is  in the shaded area, this expression must be true.</span><span data-else="">Since <code>(0,0)</code> is not in the shaded area, this expression must be false.</span>
-                        
-                        <span data-if="LESS_THAN">So, the ? must be either &amp;lt; or &amp;#8804;.</span><span data-else="">So, the ? must be either &amp;gt; or &amp;#8805;.</span>
-                    
+                        <span>Since <code>(0,0)</code> is <var>ORI_IN ? "" : "not"</var> in the shaded area, this expression must be <var>ORI_IN ? "true" : "false"</var>.</span>
+                        <span>So, the ? must be either <var>LESS_THAN ? "&lt; or &le;" : "&gt; or &ge;" </var>.</span>
                     </p>
                 </div>
-                <p data-if="INCLUSIVE">
-                    The line of the graph is solid, so the points on the boundary are 
-                    in the set of solutions for this inequality.
-                </p><p data-else="">
-                    The line of the graph is dashed, so the points on the boundary are not
+                <p>
+                    The line of the graph is <var>INCLUSIVE ? "solid" : "dashed"</var>, so the points on the boundary are <var>INCLUSIVE ? "" : "not"</var>
                     in the set of solutions for this inequality.
                 </p>
-                
                 <p>
                     So, we choose the <var>COMP</var> sign, and the final inequality is
                     <code>y <var>COMP</var> <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>.
@@ -128,6 +118,5 @@
     </div>
 
 </div>
-
-
-</body></html>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math word-problems graphie interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math word-problems graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Divisibility intuition</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -95,18 +95,18 @@
 
                 </div>
             </div>
-            <div data-type="set" class="solution">
-                <span data-each="FACTORS as FACTOR" class="set-sol"><var>FACTOR</var></span>
+            <div class="solution" data-type="set">
+                <span class="set-sol" data-each="FACTORS as FACTOR"><var>FACTOR</var></span>
                 <p class="input-format">
-                    Enter all the different factors you can find (one factor per box):<br>
-                    <span data-forms="integer" class="entry"></span><br>
-                    <span data-forms="integer" class="entry"></span><br>
-                    <span data-forms="integer" class="entry"></span><br>
-                    <span data-forms="integer" class="entry"></span><br>
-                    <span data-forms="integer" class="entry"></span><br>
-                    <span data-forms="integer" class="entry"></span><br>
-                    <span data-forms="integer" class="entry"></span><br>
-                    <span data-forms="integer" class="entry"></span>
+                    Enter all the different factors you can find (one factor per box):<br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span>
                 </p>
 
             </div>
@@ -116,12 +116,9 @@
     <div class="hints">
         <div data-each="FACTORS.reverse() as FACTOR">
             <p>
-                <span data-if="isSingular(NUMBER / FACTOR)">The <var>NUMBER</var> dots can be arranged in 1 row.</span><span data-else="">The <var>NUMBER</var> dots can be arranged in <var>NUMBER / FACTOR</var> .</span>
-                
-                <span data-if="isSingular(FACTOR)">Each row has 1 dot each, so
-                <code class="hint_pink"><var>NUMBER / FACTOR</var></code> is a factor of <var>NUMBER</var>:</span><span data-else="">Each row has <var>FACTOR</var>  each, so
+                <span>The <var>NUMBER</var> dots can be arranged in <var>plural(NUMBER / FACTOR, "row")</var>.</span>
+                <span>Each row has <var>plural(FACTOR, "dot")</var> each, so
                 <code class="hint_pink"><var>NUMBER / FACTOR</var></code> is a factor of <var>NUMBER</var>:</span>
-            
             </p>
             <div class="graphie">
                 graph.width = FACTOR;
@@ -149,6 +146,5 @@
     </div>
 
 </div>
-
-
-</body></html>
+</body>
+</html>

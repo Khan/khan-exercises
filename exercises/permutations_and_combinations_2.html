@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math math-format word-problems subhints"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math math-format word-problems subhints">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Permutations and combinations 2</title>
     <script src="../khan-exercise.js"></script>
     <script>
@@ -34,8 +34,8 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div data-weight="0.4" id="letters">
-                <div data-ensure="PERM !== WORD" class="vars">
+            <div id="letters" data-weight="0.4">
+                <div class="vars" data-ensure="PERM !== WORD">
                     <var id="INDEX">randRange(0,7)</var>
                     <var id="WORD">["HATTER", "PRIOR", "BUMMED", "SASSY", "CANNON", "PLOP", "ERROR", "THAT"][INDEX]</var>
                     <var id="REPLETTER">["T","R","M","S","N","P","R","T"][INDEX]</var>
@@ -45,14 +45,14 @@
                     <var id="ANSWER">factorial(WORD.length)/factorial(REPTIMES)</var>
                 </div>
                 <p class="question">How many unique ways are there to arrange the letters in the word <var>WORD</var>?</p>
-                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
                 <div class="hints">
                     <div>
                         <p>Let's try building the arrangements (or permutations) letter by letter. The word is <code><var>WORD.length</var></code>
                         letters long:</p>
                         <p><var>_.map(_.range(WORD.length), function(l){ return "_ "; }).join("")</var></p>
                         <p>Now, for the first blank, we have <code><var>WORD.length</var></code> choices of letters to put in.
-                    </p></div>
+                    </div>
                     <div>
                         <p>After we put in the first letter, let's say it's <var>PERM[0]</var>, we have <code><var>WORD.length-1</var></code> blanks left.</p>
                         <p><var>PERM[0]+" "+_.map(_.range(WORD.length-1), function(l){ return "_ "; }).join("")</var></p>
@@ -92,29 +92,24 @@
                 </div>
             </div>
 
-            <div data-weight="0.2" id="reindeer">
-                <div data-ensure="PAIR[0] != PAIR[1]" class="vars">
+            <div id="reindeer" data-weight="0.2">
+                <div class="vars" data-ensure="PAIR[0] != PAIR[1]">
                     <var id="NAMES">shuffle(["Bloopin", "Gloopin", "Prancer", "Lancer", "Quentin", "Balthazar", "Ezekiel", "Jebediah", "Rudy"],
                         randRange(4,5))</var>
                     <var id="FIGHTING">random() &gt; 0.5</var>
                     <var id="PAIR">randFromArray(NAMES, 2)</var>
                     <var id="ANSWER">FIGHTING ? factorial(NAMES.length) - factorial(NAMES.length-1)*2 : factorial(NAMES.length-1)*2</var>
                 </div>
-                <p data-if="FIGHTING">You need to put your reindeer, <var>toSentence(NAMES)</var>, in a single-file line to pull your sleigh. However,
-                    <var>PAIR[0]</var> and <var>PAIR[1]</var> are fighting, so you have to
-                    keep them apart, or they won't fly.</p><p data-else="">You need to put your reindeer, <var>toSentence(NAMES)</var>, in a single-file line to pull your sleigh. However,
-                    <var>PAIR[0]</var> and <var>PAIR[1]</var> are best friends, so you have to
-                    put them next to each other, or they won't fly.</p>
-                
+                <p>You need to put your reindeer, <var>toSentence(NAMES)</var>, in a single-file line to pull your sleigh. However,
+                    <var>PAIR[0]</var> and <var>PAIR[1]</var> are <var>FIGHTING ? "fighting" : "best friends"</var>, so you have to
+                    <var>FIGHTING ? "keep them apart" : "put them next to each other"</var>, or they won't fly.</p>
                 <p class="question">How many ways can you arrange your reindeer?</p>
-                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
 
                 <div class="hints">
                     <div>
-                        <p data-if="FIGHTING">Forget about the reindeer that can't be together for a second, and let's try to
-                        figure out how many ways we can arrange the reindeer if we don't have to worry about that.</p><p data-else="">Forget about the reindeer that have to be together for a second, and let's try to
+                        <p>Forget about the reindeer that <var>FIGHTING ? "can't be" : "have to be"</var> together for a second, and let's try to
                         figure out how many ways we can arrange the reindeer if we don't have to worry about that.</p>
-                        
                         <p>We can build our line of reindeer one by one: there are <code><var>NAMES.length</var></code> slots,
                         and we have <code><var>NAMES.length</var></code> different reindeer we can put in the first slot.</p>
                     </div>
@@ -127,15 +122,11 @@
                         We can continue in this way for the third reindeer, then the fourth, and so on, until we reach the last slot, where we only have
                         one reindeer left and so we can only make one choice.
                     </p>
-                    <p data-if="FIGHTING">
+                    <p>
                         So, the total number of unique choices we could make to get to an arrangement of reindeer is <code><var>_.map(_.range(NAMES.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length)</var>.</code> Another way of writing this is <code><var>NAMES.length</var>!</code>, 
-                        or <code><var>NAMES.length</var></code> factorial. But we haven't thought about the two reindeer who can't be together yet.
-                    </p><p data-else="">
-                        So, the total number of unique choices we could make to get to an arrangement of reindeer is <code><var>_.map(_.range(NAMES.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length)</var>.</code> Another way of writing this is <code><var>NAMES.length</var>!</code>, 
-                        or <code><var>NAMES.length</var></code> factorial. But we haven't thought about the two reindeer who have to be together yet.
+                        or <code><var>NAMES.length</var></code> factorial. But we haven't thought about the two reindeer who <var>FIGHTING ? "can't be together" : "have to be together"</var> yet.
                     </p>
-                    
-                    <div data-if="FIGHTING" data-unwrap="">
+                    <div data-if="FIGHTING" data-unwrap>
                         <p>
                             There are <code><var>factorial(NAMES.length)</var></code> different arrangements of reindeer altogether, 
                             so we just need to subtract
@@ -155,7 +146,7 @@
                             of arrangements, we get <code><var>ANSWER</var></code> arrangements of reindeer where they will fly.
                         </p>
                     </div>
-                    <div data-else="" data-unwrap="">
+                    <div data-else data-unwrap>
                         <p>
                             We can count the number of arrangements where <var>PAIR[0]</var> and <var>PAIR[1]</var> are together by treating them as one double-reindeer. Now we can use the same idea as before to come up with <code><var>_.map(_.range(NAMES.length-1).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length-1)</var></code> different arrangements. But that's not quite right.
                         </p>
@@ -168,8 +159,8 @@
                     </div>
                 </div>
             </div>
-            <div data-weight="0.4" id="divisible">
-                <div data-ensure="getGCD(FAC1,FAC2) === 1" class="vars">
+            <div id="divisible" data-weight="0.4">
+                <div class="vars" data-ensure="getGCD(FAC1,FAC2) === 1">
                     <var id="FAC1">randRange(2,10)</var>
                     <var id="FAC2">randRange(2,10)</var>
                     <var id="FAC1_TIMES">roundTowardsZero(100/FAC1)</var>
@@ -180,7 +171,7 @@
                     How many numbers between 1 and 100 (inclusive) are divisible by <var>FAC1</var> or <var>FAC2</var>?
                 </p>
 
-                <p data-forms="integer" class="solution"><var>FAC1_TIMES + FAC2_TIMES - BOTH_TIMES</var>
+                <p class="solution" data-forms="integer"><var>FAC1_TIMES + FAC2_TIMES - BOTH_TIMES</var>
                 </p>
 
                 <div class="hints">
@@ -189,13 +180,13 @@
                             There are <code><var>FAC1_TIMES</var></code> numbers divisible by <code><var>FAC1</var></code> between <code>1</code> 
                             and <code>100</code>, and <code><var>FAC2_TIMES</var></code> numbers divisible by 
                             <code><var>FAC2</var></code> between <code>1</code> and <code>100</code>. 
-                            [<a data-subhint="divide" href="#" class="show-subhint">Show me why</a>]
+                            [<a href="#" class="show-subhint" data-subhint="divide">Show me why</a>]
                         </p>
-                        <div id="divide" class="subhint">
+                        <div class="subhint" id="divide">
                             <div data-if="100/FAC1 === FAC1_TIMES">
                                 One way to see this is to take <code> \dfrac{100}{<var>FAC1</var>} = <var>FAC1_TIMES</var></code>
                             </div>
-                            <div data-else="">
+                            <div data-else>
                                 One way to see this is to take <code> \dfrac{100}{<var>FAC1</var>}</code>, which is between <code><var>
                                 FAC1_TIMES</var></code> and <code><var>FAC1_TIMES+1</var></code>. So, starting at <code>0</code> and adding <code><var>FAC1</var></code>
                                 at each step, you have to take between <code><var>FAC1_TIMES</var></code> and <code><var>FAC1_TIMES+1</var></code> steps to get
@@ -203,11 +194,11 @@
                                 you'll hit <code><var>FAC1_TIMES</var></code> numbers divisible by <code><var>FAC1</var></code> before you get to above <code>100</code>.
                                 So, there are <code><var>FAC1_TIMES</var></code> numbers between <code>1</code> and <code>100</code> divisible by <code><var>FAC1</var></code>.
                             </div>
-                            <br><br>
+                            </br></br>
                             <div data-if="100/FAC2 === FAC2_TIMES">
                                 Using similar logic for the second factor, we see that <code> \dfrac{100}{<var>FAC2</var>} = <var>FAC2_TIMES</var></code>
                             </div>
-                            <div data-else="">
+                            <div data-else>
                                 Using similar logic for the second factor, take <code> \dfrac{100}{<var>FAC2</var>}</code>, which is between <code><var>
                                 FAC2_TIMES</var></code> and <code><var>FAC2_TIMES+1</var></code>. So, starting at <code>0</code> and adding <code><var>FAC2</var></code>
                                 at each step, you have to take between <code><var>FAC2_TIMES</var></code> and <code><var>FAC2_TIMES+1</var></code> steps to get
@@ -229,14 +220,10 @@
                         So, we need to count how many numbers are divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code>
                         and subtract this from what we had before.
                     </p>
-                    <p data-if="isSingular(BOTH_TIMES)">
+                    <p>
                         Being divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code> is the same thing as being divisible by 
-                        <code><var>FAC1*FAC2</var></code>, so there is <code><var>BOTH_TIMES</var></code> number between 1 and 100 divisible by both. 
-                    </p><p data-else="">
-                        Being divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code> is the same thing as being divisible by 
-                        <code><var>FAC1*FAC2</var></code>, so there are <code><var>BOTH_TIMES</var></code>  between 1 and 100 divisible by both. 
+                        <code><var>FAC1*FAC2</var></code>, so there <var>plural("is",BOTH_TIMES)</var> <code><var>BOTH_TIMES</var></code> <var>plural("number",BOTH_TIMES)</var> between 1 and 100 divisible by both. 
                     </p>
-                    
                     <p>
                         Subtracting, there are <code><var>FAC1_TIMES + FAC2_TIMES</var> - <var>BOTH_TIMES</var> = <var>FAC1_TIMES + FAC2_TIMES - BOTH_TIMES</var></code> numbers divisible by <code><var>FAC1</var></code> or <code><var>FAC2</var></code>.
                     </p>
@@ -244,6 +231,5 @@
             </div>
         </div>
     </div>
-
-
-</body></html>
+</body>
+</html>
