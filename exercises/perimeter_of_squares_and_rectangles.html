@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math graphie word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math graphie word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Perimeter of squares and rectangles</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -22,23 +22,18 @@
                 <var id="S">randRange(1, 8)</var>
             </div>
 
-            <p class="question" data-if="isSingular(S)">
+            <p class="question">
                 One side of a square is <code><var>S</var></code>
-                <var>plural_form(UNIT_TEXT,S)</var> long. What is its perimeter?
-            </p><p class="question" data-else="">
-                One side of a square is <code><var>S</var></code>
-                <var>plural_form(UNIT_TEXT,S)</var> long. What is its perimeter?
+                <var>plural(UNIT_TEXT, S)</var> long. What is its perimeter?
             </p>
 
-            
-
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>4 * S</var></span>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>4 * S</var></span>
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
-                <div id="square" class="graphie">
+                <div class="graphie" id="square">
                     init({ range: [[-1, 6], [-1, 6]] });
                     path([[0, 0], [5, 0], [5, 5], [0, 5], true],
                         { stroke: BLUE, fill: "#eee" });
@@ -51,7 +46,7 @@
                     shape added together.
                 </p>
                 <div>
-                    <div data-update="square" class="graphie">
+                    <div class="graphie" data-update="square">
                         path([[0, 0], [0, 5]],
                             { strokeWidth: 4, stroke: PINK });
                         path([[0, 5], [5, 5]],
@@ -82,17 +77,17 @@
 
             <p class="question">
                 The perimeter of a square is <code><var>4 * S</var></code>
-                <var>plural_form(UNIT_TEXT)</var>. How long is each side?
+                <var>plural(UNIT_TEXT)</var>. How long is each side?
             </p>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>S</var></span>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>S</var></span>
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
                 <div>
-                    <div id="square" class="graphie">
+                    <div class="graphie" id="square">
                         init({ range: [[-1, 6], [-1, 6]] });
                         path([[0, 0], [5, 0], [5, 5], [0, 5], true],
                             { stroke: BLUE, fill: "#eee" });
@@ -102,7 +97,7 @@
                     </div>
                 </div>
                 <div>
-                    <div data-update="square" class="graphie">
+                    <div class="graphie" data-update="square">
                         path([[0, 0], [0, 5]],
                             { strokeWidth: 4, stroke: PINK });
                         path([[0, 5], [5, 5]],
@@ -126,46 +121,36 @@
                         \purple{<var>S</var>} + \green{<var>S</var>} =
                         <var>4 * S</var>\text{ <var>UNIT</var>}
                     </code></p>
-                    <p data-if="isSingular(S)">
+                    <p>
                         The sides of a square are all the same length, so each
                         side must be <code><var>S</var></code>
-                        <var>plural_form(UNIT_TEXT,S)</var> long.
-                    </p><p data-else="">
-                        The sides of a square are all the same length, so each
-                        side must be <code><var>S</var></code>
-                        <var>plural_form(UNIT_TEXT,S)</var> long.
+                        <var>plural(UNIT_TEXT, S)</var> long.
                     </p>
-                
                 </div>
             </div>
         </div>
 
-        <div data-weight="3" id="rectangle-lw-to-P">
-            <div data-ensure="L !== W" class="vars">
+        <div id="rectangle-lw-to-P" data-weight="3">
+            <div class="vars" data-ensure="L !== W">
                 <var id="L">randRange(1, 8)</var>
                 <var id="W">randRange(1, 8)</var>
             </div>
 
             <p class="question">
-                <span data-if="isSingular(L)">A rectangle is
-                <code><var>L</var></code> <var>plural_form(UNIT_TEXT,L)</var>
-                long.</span><span data-else="">A rectangle is
-                <code><var>L</var></code> <var>plural_form(UNIT_TEXT,L)</var>
-                long.</span><span data-if="isSingular(W)">The rectangle is also
-                <code><var>W</var></code> <var>plural_form(UNIT_TEXT,W)</var>
-                wide. What is its perimeter?</span><span data-else="">The rectangle is also
-                <code><var>W</var></code> <var>plural_form(UNIT_TEXT,W)</var>
+                <span>A rectangle is
+                <code><var>L</var></code> <var>plural(UNIT_TEXT, L)</var>
+                long.</span><span>The rectangle is also
+                <code><var>W</var></code> <var>plural(UNIT_TEXT, W)</var>
                 wide. What is its perimeter?</span>
-            
             </p>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>2 * L + 2 * W</var></span>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>2 * L + 2 * W</var></span>
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
-                <div id="rectangle" class="graphie">
+                <div class="graphie" id="rectangle">
                     init({ range: [[-1, L + 1], [-1, W + 1]],
                         scale: 200 / max(L, W) });
                     path([[0, 0], [L, 0], [L, W], [0, W], true],
@@ -178,7 +163,7 @@
                     shape added together.
                 </p>
                 <div>
-                    <div data-update="rectangle" class="graphie">
+                    <div class="graphie" data-update="rectangle">
                         path([[0, 0], [0, W]],
                             { strokeWidth: 4, stroke: PINK });
                         path([[0, W], [L, W]],
@@ -203,6 +188,5 @@
         </div>
     </div>
 </div>
-
-
-</body></html>
+</body>
+</html>

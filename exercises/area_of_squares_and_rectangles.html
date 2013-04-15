@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math graphie word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math graphie word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Area of squares and rectangles</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -22,23 +22,18 @@
                 <var id="S">randRange(2, 8)</var>
             </div>
 
-            <p class="question" data-if="isSingular(S)">
+            <p class="question">
                 One side of a square is <code><var>S</var></code>
-                <var>plural_form(UNIT_TEXT,S)</var> long. What is its area?
-            </p><p class="question" data-else="">
-                One side of a square is <code><var>S</var></code>
-                <var>plural_form(UNIT_TEXT,S)</var> long. What is its area?
+                <var>plural(UNIT_TEXT, S)</var> long. What is its area?
             </p>
 
-            
-
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>S * S</var></span> square
-                <var>plural_form(UNIT_TEXT)</var>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>S * S</var></span> square
+                <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
-                <div id="area" class="graphie">
+                <div class="graphie" id="area">
                     init({ range: [[-1, S + 1], [-1, S + 1]], scale: 30});
                     path([[0, 0], [S, 0], [S, S], [0, S], true],
                         { stroke: BLUE, fill: "#eee" });
@@ -49,7 +44,7 @@
                     The area is the length times the width.
                 </p>
                 <div>
-                    <div data-update="area" class="graphie">
+                    <div class="graphie" data-update="area">
                         _(S - 1).times(function(y) {
                             style({
                                 stroke: GRAY,
@@ -61,18 +56,12 @@
                             });
                         });
                     </div>
-                    <p data-if="isSingular(plural)">
-                        The length is <var>plural_form(S,UNIT_TEXT)</var> and
-                        the width is <var>plural_form(S,UNIT_TEXT)</var>, so the
+                    <p>
+                        The length is <var>plural(S, UNIT_TEXT)</var> and
+                        the width is <var>plural(S, UNIT_TEXT)</var>, so the
                         area is <code><var>S</var>\times<var>S</var></code>
-                        square <var>plural_form(UNIT_TEXT)</var>.
-                    </p><p data-else="">
-                        The length is <var>plural_form(S,UNIT_TEXT)</var> and
-                        the width is <var>plural_form(S,UNIT_TEXT)</var>, so the
-                        area is <code><var>S</var>\times<var>S</var></code>
-                        square <var>plural_form(UNIT_TEXT)</var>.
+                        square <var>plural(UNIT_TEXT)</var>.
                     </p>
-                
                 </div>
                 <div>
                     <p><code>
@@ -81,9 +70,9 @@
                     </code></p>
                     <p>
                         We can also count <var>S * S</var>
-                        square <var>plural_form(UNIT_TEXT)</var>.
+                        square <var>plural(UNIT_TEXT)</var>.
                     </p>
-                    <div data-update="area" class="graphie">
+                    <div class="graphie" data-update="area">
                         _(S * S).times(function(n) {
                             label([n % S + 0.5, S - floor(n / S) - 0.5],
                                 n + 1, "center", false)
@@ -101,17 +90,17 @@
 
             <p class="question">
                 The area of a square is <code><var>S * S</var></code>
-                square <var>plural_form(UNIT_TEXT)</var>. How long is each side?
+                square <var>plural(UNIT_TEXT)</var>. How long is each side?
             </p>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>S</var></span>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>S</var></span>
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
                 <div>
-                    <div id="square" class="graphie">
+                    <div class="graphie" id="square">
                         init({ range: [[-1, 6], [-1, 6]] });
                         path([[0, 0], [5, 0], [5, 5], [0, 5], true],
                             { stroke: BLUE, fill: "#eee" });
@@ -122,7 +111,7 @@
                     </div>
                 </div>
                 <div>
-                    <div data-update="square" class="graphie">
+                    <div class="graphie" data-update="square">
                         path([[0, 0], [0, 5]],
                             { strokeWidth: 4, stroke: PINK });
                         path([[0, 5], [5, 5]],
@@ -140,48 +129,37 @@
                         \pink{<var>S</var>} =
                         <var>S * S</var>\text{ <var>UNIT</var>}
                     </code></p>
-                    <p data-if="isSingular(S)">
+                    <p>
                         The sides of a square are all the same length, so each
                         side must be <code><var>S</var></code>
-                        <var>plural_form(UNIT_TEXT,S)</var> long.
-                    </p><p data-else="">
-                        The sides of a square are all the same length, so each
-                        side must be <code><var>S</var></code>
-                        <var>plural_form(UNIT_TEXT,S)</var> long.
+                        <var>plural(UNIT_TEXT, S)</var> long.
                     </p>
-                
                 </div>
             </div>
         </div>
 
         <div id="rectangle">
-            <div data-ensure="L !== W" class="vars">
+            <div class="vars" data-ensure="L !== W">
                 <var id="L">randRange(2, 9)</var>
                 <var id="W">randRange(2, 9)</var>
             </div>
 
             <p class="question">
-                <span data-if="isSingular(L)">A rectangle is
-                <code><var>L</var></code> <var>plural_form(UNIT_TEXT,L)</var>
-                long.</span><span data-else="">A rectangle is
-                <code><var>L</var></code> <var>plural_form(UNIT_TEXT,L)</var>
+                <span>A rectangle is
+                <code><var>L</var></code> <var>plural(UNIT_TEXT, L)</var>
                 long.</span>
-                
-                <span data-if="isSingular(W)">The rectangle is also
-                <code><var>W</var></code> <var>plural_form(UNIT_TEXT,W)</var>
-                wide. What is its area?</span><span data-else="">The rectangle is also
-                <code><var>W</var></code> <var>plural_form(UNIT_TEXT,W)</var>
+                <span>The rectangle is also
+                <code><var>W</var></code> <var>plural(UNIT_TEXT, W)</var>
                 wide. What is its area?</span>
-            
             </p>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>L * W</var></span> square
-                <var>plural_form(UNIT_TEXT)</var>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>L * W</var></span> square
+                <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
-                <div id="area" class="graphie">
+                <div class="graphie" id="area">
                     init({ range: [[-1, L + 1], [-1, W + 1]], scale: 30 });
                     path([[0, 0], [L, 0], [L, W], [0, W], true],
                         { stroke: BLUE, fill: "#eee" });
@@ -192,7 +170,7 @@
                     The area is the length times the width.
                 </p>
                 <div>
-                    <div data-update="area" class="graphie">
+                    <div class="graphie" data-update="area">
                         style({
                             stroke: GRAY,
                             strokeWidth: 1,
@@ -206,18 +184,12 @@
                             });
                         });
                     </div>
-                    <p data-if="isSingular(plural)">
-                        The length is <var>plural_form(L,UNIT_TEXT)</var> and
-                        the width is <var>plural_form(W,UNIT_TEXT)</var>, so the
+                    <p>
+                        The length is <var>plural(L, UNIT_TEXT)</var> and
+                        the width is <var>plural(W, UNIT_TEXT)</var>, so the
                         area is <code><var>L</var>\times<var>W</var></code>
-                        square <var>plural_form(UNIT_TEXT)</var>.
-                    </p><p data-else="">
-                        The length is <var>plural_form(L,UNIT_TEXT)</var> and
-                        the width is <var>plural_form(W,UNIT_TEXT)</var>, so the
-                        area is <code><var>L</var>\times<var>W</var></code>
-                        square <var>plural_form(UNIT_TEXT)</var>.
+                        square <var>plural(UNIT_TEXT)</var>.
                     </p>
-                
                 </div>
                 <div>
                     <p><code>
@@ -226,9 +198,9 @@
                     </code></p>
                     <p>
                         We can also count <var>L * W</var>
-                        square <var>plural_form(UNIT_TEXT)</var>.
+                        square <var>plural(UNIT_TEXT)</var>.
                     </p>
-                    <div data-update="area" class="graphie">
+                    <div class="graphie" data-update="area">
                         _(L * W).times(function(n) {
                             label([n % L + 0.5, W - floor(n / L) - 0.5],
                                 n + 1, "center", false)
@@ -240,6 +212,5 @@
         </div>
     </div>
 </div>
-
-
-</body></html>
+</body>
+</html>

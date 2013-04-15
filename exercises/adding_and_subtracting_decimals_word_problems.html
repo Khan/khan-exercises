@@ -28,19 +28,19 @@
             </div>
 
             <div class="question spin">
-                <p data-if="isMale(1)">{On a sunny morning|On a beautiful afternoon}, <var>person(1)</var> rode his bicycle to a farm that sold baskets of <var>plural_form(fruit(1))</var> for $<var>fruit_1</var> each and baskets of <var>plural_form(fruit(2))</var> for $<var>fruit_2</var> each.</p><p data-else="">{On a sunny morning|On a beautiful afternoon}, <var>person(1)</var> rode her bicycle to a farm that sold baskets of <var>plural_form(fruit(1))</var> for $<var>fruit_1</var> each and baskets of <var>plural_form(fruit(2))</var> for $<var>fruit_2</var> each.</p>
+                <p data-if="isMale(1)">{On a sunny morning|On a beautiful afternoon}, <var>person(1)</var> rode his bicycle to a farm that sold baskets of <var>plural(fruit(1))</var> for $<var>fruit_1</var> each and baskets of <var>plural(fruit(2))</var> for $<var>fruit_2</var> each.</p><p data-else="">{On a sunny morning|On a beautiful afternoon}, <var>person(1)</var> rode her bicycle to a farm that sold baskets of <var>plural(fruit(1))</var> for $<var>fruit_1</var> each and baskets of <var>plural(fruit(2))</var> for $<var>fruit_2</var> each.</p>
                 
-                <p data-if="isMale(1)"><var>person(1)</var> decided to buy a basket of <var>plural_form(fruit(1))</var> and a basket of <var>plural_form(fruit(2))</var> {before heading home|because those were his favorite kinds of fruit|}.</p><p data-else=""><var>person(1)</var> decided to buy a basket of <var>plural_form(fruit(1))</var> and a basket of <var>plural_form(fruit(2))</var> {before heading home|because those were her favorite kinds of fruit|}.</p>
+                <p data-if="isMale(1)"><var>person(1)</var> decided to buy a basket of <var>plural(fruit(1))</var> and a basket of <var>plural(fruit(2))</var> {before heading home|because those were his favorite kinds of fruit|}.</p><p data-else=""><var>person(1)</var> decided to buy a basket of <var>plural(fruit(1))</var> and a basket of <var>plural(fruit(2))</var> {before heading home|because those were her favorite kinds of fruit|}.</p>
                 
-                <p data-if="isMale(1)" class="question">How much did <var>person(1)</var> need to pay for his produce?</p><p data-else="" class="question">How much did <var>person(1)</var> need to pay for her produce?</p></div>
+                <p class="question" data-if="isMale(1)">How much did <var>person(1)</var> need to pay for his produce?</p><p class="question" data-else="">How much did <var>person(1)</var> need to pay for her produce?</p></div>
 
 
             <div data-forms="dollar" class="solution"><var>fruit_1+fruit_2</var></div>
 
             <div class="hints">
-                <p>To find the total amount <var>person(1)</var> needs to pay, we need to add the price of the <var>plural_form(fruit(1))</var> and the price of the <var>plural_form(fruit(2))</var>.</p>
-                <p>Price of <var>plural_form(fruit(1))</var> + price of <var>plural_form(fruit(2))</var> = total price.</p>
-                <div class="graphie" id="numbers">
+                <p>To find the total amount <var>person(1)</var> needs to pay, we need to add the price of the <var>plural(fruit(1))</var> and the price of the <var>plural(fruit(2))</var>.</p>
+                <p>Price of <var>plural(fruit(1))</var> + price of <var>plural(fruit(2))</var> = total price.</p>
+                <div id="numbers" class="graphie">
                     graph.adder = new DecimalAdder( fruit_1_integer, fruit_1_decimal, fruit_2_integer, fruit_2_decimal );
                     graph.adder.show();
                     graph.adder.showDecimals();
@@ -82,7 +82,7 @@
             <div class="hints">
                 <p>To find how much faster <var>person(2)</var> was than <var>person(1)</var>, we need to find the difference between their times in seconds.
                 </p><p><var>person(1)</var>'s time - <var>person(2)</var>'s time = difference in times.
-                </p><div class="graphie" id="numbers">
+                </p><div id="numbers" class="graphie">
                     graph.subtractor = new DecimalSubtractor( time_1_integer, time_1_decimal, time_2_integer, time_2_decimal );
                     graph.subtractor.show();
                     graph.subtractor.showDecimals();
@@ -128,7 +128,7 @@
             <div class="hints">
                 <p>To find the weights of the 2 babies, we need to add their weights together.
                 </p><p><var>person(2)</var>'s weight + <var>person(3)</var>'s weight = total weight.</p>
-                <div class="graphie" id="numbers">
+                <div id="numbers" class="graphie">
                     graph.adder = new DecimalAdder( weight_1_integer, weight_1_decimal, weight_2_integer, weight_2_decimal );
                     graph.adder.show();
                     graph.adder.showDecimals();
@@ -175,7 +175,7 @@
                 <p data-if="isMale(1)">To find out how much change <var>person(1)</var> received, we can subtract the price of the <var>storeItem(1,1)</var> from the amount of money he paid.
                 </p><p data-else="">To find out how much change <var>person(1)</var> received, we can subtract the price of the <var>storeItem(1,1)</var> from the amount of money she paid.
                 </p><p>The amount <var>person(1)</var> paid - the price of the <var>storeItem(1,1)</var> = the amount of change <var>person(1)</var> received.</p>
-                <div class="graphie" id="numbers">
+                <div id="numbers" class="graphie">
                     graph.subtractor = new DecimalSubtractor( amount_paid_integer, amount_paid_decimal, price_1_integer, price_1_decimal );
                     graph.subtractor.show();
                     graph.subtractor.showDecimals();
@@ -212,7 +212,7 @@
             <div class="hints">
                 <p>To find the difference in rainfall, we can subtract the amount of rain in <var>person(1)</var>'s town from the amount of rain in <var>person(2)</var>'s town.
                 </p><p>Rain in <var>person(2)</var>'s town - rain in <var>person(1)</var>'s town = the difference in rain between the two towns.</p>
-                <div class="graphie" id="numbers">
+                <div id="numbers" class="graphie">
                     graph.subtractor = new DecimalSubtractor( rain_2_integer, rain_2_decimal, rain_1_integer, rain_1_decimal );
                     graph.subtractor.show();
                     graph.subtractor.showDecimals();
@@ -239,9 +239,9 @@
             </div>
 
             <div class="question spin">
-                <p data-if="isMale(1)">{To get to school each morning|To get to work each morning|To visit his grandmother}, <var>person(1)</var> takes <var>an(vehicle(1))</var> <var>distance_1</var> <var>plural_form(distance(1))</var> and <var>an(vehicle(2))</var> <var>distance_2</var> <var>plural_form(distance(1))</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p><p data-else="">{To get to school each morning|To get to work each morning|To visit her grandmother}, <var>person(1)</var> takes <var>an(vehicle(1))</var> <var>distance_1</var> <var>plural_form(distance(1))</var> and <var>an(vehicle(2))</var> <var>distance_2</var> <var>plural_form(distance(1))</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p>
+                <p data-if="isMale(1)">{To get to school each morning|To get to work each morning|To visit his grandmother}, <var>person(1)</var> takes <var>an(vehicle(1))</var> <var>distance_1</var> <var>plural(distance(1))</var> and <var>an(vehicle(2))</var> <var>distance_2</var> <var>plural(distance(1))</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p><p data-else="">{To get to school each morning|To get to work each morning|To visit her grandmother}, <var>person(1)</var> takes <var>an(vehicle(1))</var> <var>distance_1</var> <var>plural(distance(1))</var> and <var>an(vehicle(2))</var> <var>distance_2</var> <var>plural(distance(1))</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p>
                 
-                <p class="question">How many <var>plural_form(distance(1))</var> is <var>person(1)</var>'s journey in total?</p>
+                <p class="question">How many <var>plural(distance(1))</var> is <var>person(1)</var>'s journey in total?</p>
             </div>
 
             <div data-type="multiple" class="solution">
@@ -250,7 +250,7 @@
             <div class="hints">
                 <p>To find the total distance <var>person(1)</var> travels, we need to add the two distances together.
                 </p><p>Distance on <var>vehicle(1)</var> + distance on <var>vehicle(2)</var> = total distance.</p>
-                <div class="graphie" id="numbers">
+                <div id="numbers" class="graphie">
                     graph.adder = new DecimalAdder( distance_1_integer, distance_1_decimal, distance_2_integer, distance_2_decimal );
                     graph.adder.show();
                     graph.adder.showDecimals();
@@ -262,7 +262,7 @@
                 <div data-update="numbers" data-each="DUMMY as dummy" class="graphie">
                     graph.adder.showHint();
                 </div>
-                <p class="final_answer"><var>person(1)</var> travels <var>solution</var> <var>plural_form(distance(1))</var> in total.</p>
+                <p class="final_answer"><var>person(1)</var> travels <var>solution</var> <var>plural(distance(1))</var> in total.</p>
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math math-format graphie word-problems interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math math-format graphie word-problems interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Fractions on the number line 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -29,7 +29,7 @@
                 <p>Move the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to
                 <strong><code>\color{orange}{<var>fraction(NUMERATOR, DENOMINATOR)</var>}</code></strong> on the number line.</p>
 
-                <div id="number-line" class="graphie">
+                <div class="graphie" id="number-line">
                     init({
                         range: [ [LOWER_BOUND - 0.1, UPPER_BOUND + 0.1], [-1, 1] ],
                         scale: [80*SCALE, 40]
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <span class="instruction"> Move the orange dot to select your answer. </span>
                 <div class="guess"> graph.movablePoint.coord[0] </div>
                 <div class="validator-function">
@@ -80,18 +80,18 @@
                 <code><var>fraction(1, DENOMINATOR)</var></code>.</p>
 
                 <div>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
                         line( [ 0, 0 ], [ SOLUTION, 0 ] );
                         graph.movablePoint.visibleShape.toFront();
                     </div>
                     <p>The orange dot should be shifted <span class="hint_blue"><code><strong><var>NUMERATOR</var></strong></code></span>
-                    segment<var>plural_form(NUMERATOR)</var> over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> =
+                    segment<var>plural(NUMERATOR)</var> over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> =
                     <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code></p>
                 </div>
 
                 <div>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         label( [ SOLUTION, -0.83 ],  fraction(NUMERATOR, DENOMINATOR), "center", { color: "#FFA500" });
                         graph.movablePoint.moveTo( SOLUTION, 0 );
                     </div>
@@ -101,6 +101,5 @@
         </div>
     </div>
     </div>
-
-
-</body></html>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math math-format expressions graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing inequalities</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -19,44 +19,44 @@
                 <var id="B">SLOPE_FRAC[1] * MULT</var>
                 <var id="C">SLOPE_FRAC[1] * YINT * MULT</var>
                 <var id="STD_FORM">randFromArray([ true, false ])</var>
-                <var id="COMP">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
-                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&#8804;": "&#8805;", "&#8805;": "&#8804;" }[ COMP ] : COMP</var>
-                <var id="LESS_THAN">COMP === "&lt;" || COMP === "&#8804;"</var>
-                <var id="INCLUSIVE">COMP === "&#8805;" || COMP === "&#8804;"</var>
+                <var id="COMP">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
+                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;" }[ COMP ] : COMP</var>
+                <var id="LESS_THAN">COMP === "&lt;" || COMP === "&le;"</var>
+                <var id="INCLUSIVE">COMP === "&ge;" || COMP === "&le;"</var>
 
             </div>
 
             <p class="question">Graph the following inequality:</p>
 
             <div class="problem">
-                <p data-if="STD_FORM" class="hint_blue">
+                <p class="hint_blue" data-if="STD_FORM">
                     <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> <var>STD_FORM_COMP</var> <var>C</var></code>
                 </p>
-                <p data-else="" class="hint_blue">
+                <p class="hint_blue" data-else>
                     <code>y <var>COMP</var> <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>
                 </p>
 
                 <form>
-                    <input type="button" onclick="javascript:
+                    <input type="button" value="Shade other side" onClick="javascript:
                         KhanUtil.currentGraph.graph.shadetop = !KhanUtil.currentGraph.graph.shadetop;
                         KhanUtil.currentGraph.graph.update();
-                    " value="Shade other side">
+                    " />
                     <label>
-                        <input checked type="radio" onclick="javascript:
+                        <input name="dashradio" type="radio" value="solid" checked onClick="javascript:
                             KhanUtil.currentGraph.graph.dasharray = '';
                             KhanUtil.currentGraph.graph.update();
-                        " value="solid" name="dashradio">
+                        " />
                         Solid line
                     </label>
                     <label>
-                        <input type="radio" onclick="javascript:
+                        <input name="dashradio" type="radio" value="dashed" onClick="javascript:
                             KhanUtil.currentGraph.graph.dasharray = '- ';
                             KhanUtil.currentGraph.graph.update();
-                        " value="dashed" name="dashradio">
+                        " />
                         Dashed line
                     </label>
                 </form>
-                <div id="grid" class="graphie">
+                <div class="graphie" id="grid">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -150,7 +150,7 @@
                 </div>
 
             </div>
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Drag the two points to move the line into the correct position.
                 </div>
@@ -187,23 +187,21 @@
     </div>
 
     <div class="hints">
-        <div data-if="STD_FORM" data-unwrap="">
+        <div data-if="STD_FORM" data-unwrap>
             <p>
                 Convert <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> <var>STD_FORM_COMP</var> <var>C</var></code>
                 to slope-intercept form by solving for <code>y</code>.
             </p>
             <div>
-                <p data-if="A &amp;lt; 0">
-                    Add <code><var>abs( A )</var>x</code> to both sides:
-                </p><p data-else="">
-                    Subtract <code><var>abs( A )</var>x</code> from both sides:
+                <p>
+                    <var>A &lt; 0 ? "Add" : "Subtract"</var> <code><var>abs( A )</var>x</code> <var>A &lt; 0 ? "to" : "from"</var> both sides:
                 </p><p>
                     <code>\qquad <var>expr( [ "*", B, "y" ] )</var> <var>STD_FORM_COMP</var> <var>expr([ "+", [ "*", -A, "x" ], C ])</var></code>
                 </p>
             </div>
             <div data-if="B !== 1">
                 <p>
-                    Divide both sides by <code><var>B</var></code><span data-if="B &lt; 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
+                    Divide both sides by <code><var>B</var></code><span data-if="B < 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
                 </p><p>
                     <code>\qquad y <var>COMP</var> <var>expr([ "+", "\\dfrac{" + expr([ "*", -A, "x" ]) + "}{" + B + "}", "\\dfrac{" + C + "}{" + B + "}" ])</var></code>
                 </p>
@@ -216,7 +214,7 @@
                 The y-intercept is <code class="hint_green"><var>YINT</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>.
                 Since the y-intercept is <code class="hint_green"><var>YINT</var></code>, the line must pass through the point <code class="hint_green">(0, <var>YINT</var>)</code>.
             </p>
-            <div data-update="grid" class="graphie">
+            <div class="graphie" data-update="grid">
                 style({ stroke: GREEN, fill: GREEN }, function() {
                     graph.yint = circle( [ 0, YINT ], 0.2 ).toBack();
                 });
@@ -226,29 +224,19 @@
             <p>
                 <span>The slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>. Remember that
                 the slope tells you rise over run.</span>
-                <span data-if='"position" + ( abs( SLOPE_FRAC[0] ) !== 1'>So in this case for every
+                <span>So in this case for every
                 <code><var>abs( SLOPE_FRAC[0] )</var></code>
-                s
+                <var>"position" + ( abs( SLOPE_FRAC[0] ) !== 1 ? "s" : "" )</var>
                 you move
-                <span data-if="SLOPE_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
-                <span data-else="">up</span>.</span><span data-else="">So in this case for every
-                <code><var>abs( SLOPE_FRAC[0] )</var></code>
-                <var>"" )</var>
-                you move
-                <span data-if="SLOPE_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
-                <span data-else="">up</span>.</span>
-                
-                <span data-if='"position" + ( abs( SLOPE_FRAC[1] ) !== 1'>You must also move
+                <span data-if="SLOPE_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
+                <span data-else>up</span>.</span>
+                <span>You must also move
                 <code><var>SLOPE_FRAC[1]</var></code>
-                s
-                to the right.</span><span data-else="">You must also move
-                <code><var>SLOPE_FRAC[1]</var></code>
-                <var>"" )</var>
+                <var>"position" + ( abs( SLOPE_FRAC[1] ) !== 1 ? "s" : "" )</var>
                 to the right.</span>
-                
                 <span>So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC[1]</var>, <var>YINT + SLOPE_FRAC[0]</var>)</code></span>
             </p>
-            <div data-update="grid" class="graphie">
+            <div class="graphie" data-update="grid">
                 style({
                     stroke: "purple",
                     strokeWidth: 2,
@@ -262,38 +250,23 @@
                 graph.yint.toBack();
             </div>
         </div>
-        <p data-if="LESS_THAN">
-            Since our inequality has a less-than<span data-if="INCLUSIVE"> or equal to</span> sign, that means that any point
-            <strong>below</strong> the line is a solution to the inequality, so the area below
-            the line should be shaded.
-        </p><p data-else="">
-            Since our inequality has a greater-than<span data-if="INCLUSIVE"> or equal to</span> sign, that means that any point
-            <strong>above</strong> the line is a solution to the inequality, so the area above
+        <p>
+            Since our inequality has a <var>LESS_THAN ? "less-than" : "greater-than"</var><span data-if="INCLUSIVE"> or equal to</span> sign, that means that any point
+            <strong><var>LESS_THAN ? "below" : "above"</var></strong> the line is a solution to the inequality, so the area <var>LESS_THAN ? "below" : "above"</var>
             the line should be shaded.
         </p>
-        
         <div>
-            <p data-if="INCLUSIVE"><span data-unwrap="" data-if="LESS_THAN">
-                Note that since the sign is less-than or <strong>equal to</strong>, any point on the line is also a solution, so the
+            <p data-if="INCLUSIVE">
+                Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> or <strong>equal to</strong>, any point on the line is also a solution, so the
                 line should be solid.
-            </span><span data-unwrap="" data-else="">
-                Note that since the sign is greater-than or <strong>equal to</strong>, any point on the line is also a solution, so the
-                line should be solid.
-            </span>
-            
             </p>
-            <p data-else="" data-if="LESS_THAN">
-                Note that since the sign is less-than (and not equal to), any point on the line is <strong>not</strong> part of the solution,
-                so the line should be dashed to indicate this.
-            </p><p data-else="">
-                Note that since the sign is greater-than (and not equal to), any point on the line is <strong>not</strong> part of the solution,
+            <p data-else>
+                Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> (and not equal to), any point on the line is <strong>not</strong> part of the solution,
                 so the line should be dashed to indicate this.
             </p>
-        
         </div>
     </div>
 
 </div>
-
-
-</body></html>
+</body>
+</html>

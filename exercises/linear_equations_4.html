@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Linear equations 4</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,7 +10,7 @@
         <div class="problems">
             <div id="x-on-bottom">
                 <!-- A = B / (Cx + D) -->
-                <div data-ensure="( C * ANSWER + D !== 0 )" class="vars">
+                <div class="vars" data-ensure="( C * ANSWER + D !== 0 )">
                     <var id="A">randRange( 2, 8 )</var>
                     <var id="B">randRangeNonZero( -12, 18 )</var>
                     <var id="C">randRangeNonZero( -6, 6 )</var>
@@ -20,7 +20,7 @@
                 <p class="question">Solve for <code>x</code>:</p>
                 <div><code><var>A</var> = \dfrac{<var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>}</code></div>
 
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     <p><code>x =</code> <span class="sol"><var>ANSWER</var></span></p>
                 </div>
 
@@ -31,8 +31,7 @@
                         <p><code>\qquad <var>A * C</var>x + <var>A * D</var> = <var>B</var></code></p>
                     </div>
                     <div>
-                        <p data-if="A * D &amp;lt; 0">Now add <code><var>abs( A * D )</var></code> to both sides:</p><p data-else="">Now subtract <code><var>abs( A * D )</var></code> from both sides:</p>
-                        
+                        <p>Now <var>A * D &lt; 0 ? "add" : "subtract"</var> <code><var>abs( A * D )</var></code> <var>A * D &lt; 0 ? "to" : "from"</var> both sides:</p>
                         <p><code>\qquad (<var>A * C</var>x + <var>A * D</var>) + <var>-A * D</var> = <var>B</var> + <var>- A * D</var></code></p>
                         <p><code>\qquad <var>A * C</var>x = <var>B - A * D</var></code></p>
                     </div>
@@ -48,7 +47,7 @@
             </div>
             <div id="x-on-top-and-bottom">
                 <!-- (Ax + B) / (Cx + D) = E -->
-                <div data-ensure="abs(A - E * C) &gt;= 2 &amp;&amp; ( C * ANSWER + D !== 0 )" class="vars">
+                <div class="vars" data-ensure="abs(A - E * C) >= 2 && ( C * ANSWER + D !== 0 )">
                     <var id="A">randRangeNonZero( -12, 18 )</var>
                     <var id="B">randRangeNonZero( -12, 18 )</var>
                     <var id="C">randRangeNonZero( -6, 6 )</var>
@@ -59,7 +58,7 @@
                 <p class="question">Solve for <code>x</code>:</p>
                 <div><code>\dfrac{<var>expr(["*", A, "x"])</var> + <var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>} = <var>E</var></code></div>
 
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     <p><code>x =</code> <span class="sol"><var> ANSWER </var></span></p>
                 </div>
 
@@ -70,14 +69,12 @@
                         <p><code>\qquad <var>expr(["*", A, "x"])</var> + <var>B</var> = <var>expr(["*", E * C, "x"])</var> + <var>E * D</var></code></p>
                     </div>
                     <div>
-                        <p data-if="E * C &amp;lt; 0">Now add <code><var>abs( E * C )</var>x</code> to both sides:</p><p data-else="">Now subtract <code><var>abs( E * C )</var>x</code> from both sides:</p>
-                        
+                        <p>Now <var>E * C &lt; 0 ? "add" : "subtract"</var> <code><var>abs( E * C )</var>x</code> <var>E * C &lt; 0 ? "to" : "from"</var> both sides:</p>
                         <p><code>\qquad (<var>expr(["*", A, "x"])</var> + <var>B</var>) + <var>-E * C</var>x = (<var>expr(["*", E * C, "x"])</var> + <var>E * D</var>) + <var>-E * C</var>x</code></p>
                         <p><code>\qquad <var>A - E * C</var>x + <var>B</var> = <var>E * D</var></code></p>
                     </div>
                     <div>
-                        <p data-if="B &amp;lt; 0">Now add <code><var>abs( B )</var></code>:</p><p data-else="">Now subtract <code><var>abs( B )</var></code>:</p>
-                        
+                        <p>Now <var>B &lt; 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>:</p>
                         <p><code>\qquad (<var>A - E * C</var>x + <var>B</var>) + <var>-B</var> = <var>E * D</var> + <var>-B</var></code></p>
                         <p><code>\qquad <var>A - E * C</var>x = <var>E * D - B</var></code></p>
                     </div>
@@ -93,6 +90,5 @@
             </div>
         </div>
     </div>
-
-
-</body></html>
+</body>
+</html>

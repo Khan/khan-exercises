@@ -29,11 +29,11 @@
     </div>
     <div class="problems">
         <div>
-            <p data-if="isMale(1)"><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> he saw every day this week. </p><p data-else=""><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> she saw every day this week. </p>
+            <p data-if="isMale(1)"><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> he saw every day this week. </p><p data-else=""><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> she saw every day this week. </p>
             
-            <p data-if="isMale(1)" class="question">How many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> did he see on <var>DAYS[ INDEX ]</var>?</p><p data-else="" class="question">How many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> did she see on <var>DAYS[ INDEX ]</var>?</p>
+            <p class="question" data-if="isMale(1)">How many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> did he see on <var>DAYS[ INDEX ]</var>?</p><p class="question" data-else="">How many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> did she see on <var>DAYS[ INDEX ]</var>?</p>
             
-            <div class="graphie" id="scatter">
+            <div id="scatter" class="graphie">
                 var width = 10;
                 var height = 10;
 
@@ -63,7 +63,7 @@
                         graph.lc.labelDataPoint( INDEX );
                     </div>
                 </div>
-                <p data-if="isMale(1)">He saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> on <var>DAYS[ INDEX ]</var>.</p><p data-else="">She saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> on <var>DAYS[ INDEX ]</var>.</p>
+                <p data-if="isMale(1)">He saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> on <var>DAYS[ INDEX ]</var>.</p><p data-else="">She saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> on <var>DAYS[ INDEX ]</var>.</p>
             
             </div>
         </div>
