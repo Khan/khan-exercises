@@ -72,8 +72,8 @@
             <div id="add">
                 <p class="problem">Simplify the following expression:</p>
                 <p class="question">
-                    <code><var>Y</var> = \dfrac{<var>NUMERATOR1.toString()</var>}{<var>DENOMINATOR.toString()</var>}
-                          <var>SIGN</var> \dfrac{<var>NUMERATOR2.toString()</var>}{<var>DENOMINATOR.toString()</var>}</code>
+                    <code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var>}
+                          <var>SIGN</var> \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code>
                 </p>
                 <p>You can assume <code><var>X</var> \neq 0</code>.</p>
 
@@ -118,7 +118,11 @@
                 <p>Since the expressions have the same denominator we simply combine the numerators:</p>
                 <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> - (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
             </div>
-            <p><code><var>Y</var> = \dfrac{<var>SUMNUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+
+            <div data-if="SUMNUMERATOR.toString() !== NUMERATOR1.toString() + ' + ' + NUMERATOR2.toString()">
+                <p><code><var>Y</var> = \dfrac{<var>SUMNUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+            </div>
+
             <div data-if="GCD.toString() !== '1'">
                 <p>The numerator and denominator have a common factor of <code><var>GCD.toString()</var></code>, so we can simplify</p>
                 <p><code><var>Y</var> = \dfrac{<var>SOLNUMERATOR</var>}{<var>SOLDENOMINATOR</var>}</code></p>
