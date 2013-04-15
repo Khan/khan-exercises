@@ -1,5 +1,26 @@
 $.extend(KhanUtil, {
 
+    getPermutations: function(arr) {
+        var permArr = [];
+        var usedChars = [];
+
+        function permute(input) {
+            for (var i = 0; i < input.length; i++) {
+                var term = input.splice(i, 1)[0];
+                usedChars.push(term);
+                if (input.length == 0) {
+                    permArr.push(usedChars.slice());
+                }
+                permute(input);
+                input.splice(i, 0, term);
+                usedChars.pop();
+            }
+            return permArr
+        };
+        
+        return permute(arr)
+    },
+
 	getExpressionRegex: function(coefficient, vari, constant) {
         // Capture Ax + B or B + Ax, either A or B can be 0
         
@@ -167,6 +188,35 @@ $.extend(KhanUtil, {
             }
             return s
         };
+
+        // Return a regex that will capture this term
+        // If includeSign is true, then 4x is captured by +4x
+        this.regex = function(includeSign) {
+            if (this.coefficient === 0) {
+                return "";
+            }
+            
+            // Include leading space if there are earlier terms
+            if (this.coefficient < 0){
+                var regex = includeSign ? "[-\\u2212]\\s*" : "\\s*[-\\u2212]\\s*";
+            } else {
+                var regex = includeSign ? "\\+\\s*" : "\\s*";
+            }
+        
+            if (!(Math.abs(this.coefficient) === 1 && this.variableString !== "")) {
+                regex += Math.abs(this.coefficient);
+            }
+            
+            // Add variable of degree 1 in random order
+            // Won't work if there are multiple variable or variables of degree > 1
+            for (var vari in this.variables) {
+                if (this.variables[vari] === 1) {
+                    regex += vari;
+                }
+            }
+            
+            return regex + "\\s*";;
+        };
         
     },
 
@@ -299,6 +349,27 @@ $.extend(KhanUtil, {
             }
 
             return s !== "" ? s : '0';
+        };
+
+        // Returns a single regex to capture this expression.
+        // It will capture every permutations of terms so is
+        // not recommended for expressions with more than 3-4 terms
+        this.regex = function() {
+            var permutations = KhanUtil.getPermutations(this.terms);
+            var regex = "";
+            
+            for (var p = 0; p < permutations.length; p++) {
+                regex += p ? "|(^" : "(^";
+                
+                var terms = permutations[p];
+                for (var i = 0; i < terms.length; i++) {
+                    regex += terms[i].regex(i);
+                }
+                
+                regex += "$)";
+            }
+            
+            return regex;
         };
     }
 
