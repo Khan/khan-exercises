@@ -52,7 +52,7 @@ $.extend(KhanUtil, {
 
             regex += Math.abs(constant) + "\\s*";
             regex += coefficient < 0 ? "[-\\u2212]\\s*" : "\\+\\s*";
-            
+
             if (coefficient !== 1 && coefficient !== -1) {
                 regex += Math.abs(coefficient) + "\\s*";
             }
@@ -75,7 +75,7 @@ $.extend(KhanUtil, {
     */
     Term: function(coefficient, variables) {
         this.coefficient = coefficient;
-        this.variables = {}
+        this.variables = {};
 
         if (typeof variables === 'string') {
             for (var i = 0; i < variables.length; i++) {
@@ -98,7 +98,7 @@ $.extend(KhanUtil, {
         // Return a new term representing this term multiplied by another term or a number
         this.multiply = function(term) {
             var coefficient = this.coefficient;
-            var variables = {}
+            var variables = {};
 
             for (var i in this.variables) {
                 variables[i] = this.variables[i];
@@ -156,7 +156,7 @@ $.extend(KhanUtil, {
                 }
             }
             
-            return new KhanUtil.Term(coefficient, variables)
+            return new KhanUtil.Term(coefficient, variables);
         };
         
         // includeSign if term is not the first in an expression
