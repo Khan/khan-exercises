@@ -21,24 +21,42 @@
 
             <div class="solution" data-type="multiple">
                 <div class="sol" data-type="custom">
-                    <div class="instruction">Enter the answer as a set, with members seperated by commas.
+                    <div class="instruction">Enter the answer as a set, with members separated by commas.
                         <p><code>\{ </code><input class="text"><code> \}</code></span>
                     </div>
+                    <div class="guess">$('#solutionarea input').val() </div>
                     <div class="validator-function">
                         var guessTrim = guess.replace(/\s/g, "");
                         var guessArray = guessTrim.length ? _.map(guessTrim.split(","), function(n) { return parseInt(n); }) : [];
                         return _.isEqual(sortNumbers(guessArray), ANSWER);
                     </div>
-                    <div class="guess">$('#solutionarea input').val() </div>
                     <div class="show-guess">$('#solutionarea input').val(guess)</div>
                 </div>
+                <div>
                     <label>
                         <span class="sol empty-set" data-type="checkbox">
                             <var>EMPTY_SET</var>
                         </span>
                         Empty set
                     </label>
-                <div>
+                </div>
+                <!--
+                    Hack to not grade an unanswered question.
+                    Note that this custom answer is required. It checks to
+                    see if the textbox is empty xor the checkbox isn't
+                    checked. In that case, the custom validator returns true
+                    and the rest of the multiple answer will be checked
+                    normally. Otherwise, it returns "".  Since it's required,
+                    this will cause the entire answer to not be graded.
+                -->
+                <div class="sol" data-type="custom" required>
+                    <div class="guess">
+                        $("#solutionarea input").eq(0).val() === "" ^
+                        !$("#solutionarea input").eq(1).is(":checked")
+                    </div>
+                    <div class="validator-function">
+                        return guess ? true : "";
+                    </div>
                 </div>
             </div>
 
