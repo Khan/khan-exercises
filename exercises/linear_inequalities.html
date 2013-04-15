@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format graphie interactive">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multi-step linear inequalities</title>
@@ -7,60 +7,243 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars">
-            <var id="A">randRange( 2, 10 )</var>
-            <var id="B">randRangeNonZero( -10, 10 )</var>
-            <var id="C" data-ensure="abs( C - A ) > 1">randRange( 2, 10 )</var>
-            <var id="D" data-ensure="D !== B">randRangeNonZero( 2, 10 )</var>
-            <var id="SOLUTION">fractionReduce( D - B, A - C )</var>
-
-            <var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
-            <var id="FREL">{ "&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;" }[ REL ]</var>
-        </div>
-
         <div class="problems">
-            <div>
-                <p class="question">Solve for <code>x</code>:</p>
-                <div><code><var>A</var>x + <var>B</var> <var>REL</var> <var>C</var>x + <var>D</var></code></div>
+            <div id="written-response" data-weight="2">
+                <div class="vars">
+                    <var id="A">randRange( 2, 10 )</var>
+                    <var id="B">randRangeNonZero( -10, 10 )</var>
+                    <var id="C" data-ensure="abs( C - A ) > 1">randRange( 2, 10 )</var>
+                    <var id="D" data-ensure="D !== B">randRangeNonZero( 2, 10 )</var>
+                    <var id="SOLUTION">fractionReduce( D - B, A - C )</var>
+
+                    <var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
+                    <var id="FREL">{ "&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;" }[ REL ]</var>
+                </div>
+                <div class="question">
+                    <p>Solve for <code>x</code>.</p>
+                </div>
+                <div class ="problem">
+                    <p><code><var>A</var>x + <var>B</var> <var>REL</var> <var>C</var>x + <var>D</var></code></p>
+                </div>
 
                 <p class="solution" data-type="multiple">
                     <code>x</code>
                     <span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;']">
                         <var>A - C > 0 ? REL : FREL</var>
                     </span>
-                    <span class="sol"><var>( D - B ) / ( A - C )</var></span></p>
-            </div>
-        </div>
+                    <span class="sol"><var>( D - B ) / ( A - C )</var></span>
+                </p>
+            
 
-        <div class="hints">
-            <div>
-                <p>Subtract <code><var>C</var>x</code> from both sides:</p>
-                <p><code>(<var>A</var>x + <var>B</var>) - <var>C</var>x <var>REL</var> (<var>C</var>x + <var>D</var>) - <var>C</var>x</code></p>
-                <p><code><var>A - C</var>x + <var>B</var> <var>REL</var> <var>D</var></code></p>
-            </div>
-            <div>
-                <p><var>B > 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B > 0 ? "from" : "to"</var> both sides:</p>
-                <p><code>(<var>A - C</var>x + <var>B</var>) + <var>-B</var> <var>REL</var> <var>D</var> + <var>-B</var></code></p>
-                <p><code><var>A - C</var>x <var>REL</var> <var>D - B</var></code></p>
-            </div>
-            <div data-if="A - C > 0">
-                <div>
-                    <p>Divide both sides by <code><var>A - C</var></code>. Because <code><var>A - C</var></code> is positive, the inequality sign <code><var>REL</var></code> should not be flipped.</p>
-                    <p><code>\dfrac{<var>A - C</var>x}{<var>A - C</var>} <var>REL</var> \dfrac{<var>D - B</var>}{<var>A - C</var>}</code></p>
+                <div class="hints">
+                    <div>
+                        <p>Subtract <code><var>C</var>x</code> from both sides.</p>
+                        <p><code>(<var>A</var>x + <var>B</var>) - <var>C</var>x <var>REL</var> (<var>C</var>x + <var>D</var>) - <var>C</var>x</code></p>
+                        <p><code><var>A - C</var>x + <var>B</var> <var>REL</var> <var>D</var></code></p>
+                    </div>
+                    <div>
+                        <p><var>B > 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B > 0 ? "from" : "to"</var> both sides.</p>
+                        <p><code>(<var>A - C</var>x + <var>B</var>) + <var>-B</var> <var>REL</var> <var>D</var> + <var>-B</var></code></p>
+                        <p><code><var>A - C</var>x <var>REL</var> <var>D - B</var></code></p>
+                    </div>
+                    <div data-if="A - C > 0">
+                        <div>
+                            <p>Divide both sides by <code><var>A - C</var></code>. Because <code><var>A - C</var></code> is positive, the inequality sign <code><var>REL</var></code> should not be flipped.</p>
+                            <p><code>\dfrac{<var>A - C</var>x}{<var>A - C</var>} <var>REL</var> \dfrac{<var>D - B</var>}{<var>A - C</var>}</code></p>
+                        </div>
+                        <div>
+                            <p>Simplify.</p>
+                            <p><code>x <var>REL</var> <var>SOLUTION</var></code></p>
+                        </div>
+                    </div>
+                    <div data-else>
+                        <div>
+                            <p>Divide both sides by <code><var>A - C</var></code>. Because <code><var>A - C</var></code> is negative, the inequality sign <code><var>REL</var></code> must be flipped to <code><var>FREL</var></code>.</p>
+                            <p><code>\dfrac{<var>A - C</var>x}{<var>A - C</var>} <var>FREL</var> \dfrac{<var>D - B</var>}{<var>A - C</var>}</code></p>
+                        </div>
+                        <div>
+                            <p>Simplify.</p>
+                            <p><code>x <var>FREL</var> <var>SOLUTION</var></code></p>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <p>Simplify.</p>
-                    <p><code>x <var>REL</var> <var>SOLUTION</var></code></p>
-                </div>
             </div>
-            <div data-else>
-                <div>
-                    <p>Divide both sides by <code><var>A - C</var></code>. Because <code><var>A - C</var></code> is negative, the inequality sign <code><var>REL</var></code> must be flipped to <code><var>FREL</var></code>.</p>
-                    <p><code>\dfrac{<var>A - C</var>x}{<var>A - C</var>} <var>FREL</var> \dfrac{<var>D - B</var>}{<var>A - C</var>}</code></p>
+            <div id="graphed-response" data-type="written-response" data-weight="1">
+                <div class="vars" data-ensure="( ( D - B ) / ( A - C ) )%(1/4) === 0">
+                    <var id="LOWER_BOUND">4*floor( ( D - B ) / ( A - C ) /4 ) - randFromArray([1,5])</var>
+                    <var id="UPPER_BOUND">LOWER_BOUND + 10</var>
+                    <var id="COMP_SOLUTION">A - C > 0 ? REL : FREL</var>
                 </div>
-                <div>
-                    <p>Simplify.</p>
-                    <p><code>x <var>FREL</var> <var>SOLUTION</var></code></p>
+                
+                <div class="question">
+                    <p>Solve for <code>x</code>.</p>
+                </div>
+                <div class="problem">
+                    <p><code><var>A</var>x + <var>B</var> <var>REL</var> <var>C</var>x + <var>D</var></code></p>
+                    <p>Graph the solution below.
+                       <br> The distance between tick marks is one unit.</p>
+                    <form>
+                            <input type="button" value="Shade other side" onClick="javascript:
+                                KhanUtil.currentGraph.graph.movableLineSegment.flip(!KhanUtil.currentGraph.graph.greaterThan);
+                                KhanUtil.currentGraph.graph.update();
+                            " />
+                            <label>
+                               <input name="dashradio" type="radio" value="solid" checked onClick="javascript:
+                                    KhanUtil.currentGraph.graph.movablePoint.flip( true );
+                                    KhanUtil.currentGraph.graph.update();
+                                " />
+                                Filled Circle
+                            </label>
+                            <label>
+                                <input name="dashradio" type="radio" value="dashed" onClick="javascript:
+                                    KhanUtil.currentGraph.graph.movablePoint.flip( false );
+                                    KhanUtil.currentGraph.graph.update();
+                                " />
+                                Open Circle
+                            </label>
+                    </form>
+                
+                    <div class="graphie" id="number-line">
+                        init({
+                            range: [[LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1]]
+                        });
+
+                        graph.greaterThan = true;
+                        graph.orEqual = true;
+
+                        style({arrows: "&gt;"});
+                        line([UPPER_BOUND, 0], [UPPER_BOUND + 0.6, 0]);
+                        style({arrows: "&lt;"});
+                        line([LOWER_BOUND, 0], [LOWER_BOUND - 0.6, 0]);
+                        style({arrows: ""});
+                        line([LOWER_BOUND, 0], [UPPER_BOUND, 0]);
+                        for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++) {
+                            line([x, -0.2], [x, 0.2]);
+                        }
+                        style({ stroke: "#6495ED", strokeWidth: 3.5 });
+                        line([LOWER_BOUND + 5, -0.2], [LOWER_BOUND + 5, 0.2]);
+                        label([LOWER_BOUND + 5, -0.53], LOWER_BOUND + 5, "left", { color: "#6495ED" });
+                        
+                        addMouseLayer();
+                        graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 1/4, coord:[LOWER_BOUND + 5, 0] });
+                        graph.movablePoint.flip = function(val) {
+                            if (val) {
+                                graph.movablePoint.normalStyle.fill= KhanUtil.ORANGE;
+                                graph.movablePoint.highlightStyle.fill= KhanUtil.ORANGE;
+                            }
+                            else {
+                                graph.movablePoint.normalStyle.fill= KhanUtil.NOFILL;
+                                graph.movablePoint.highlightStyle.fill= KhanUtil.NOFILL;
+                            }
+                            graph.orEqual = val;
+                        };
+                        graph.movablePoint.onMove = function( x, y ) {
+                            var newx = round(x);
+                            if (abs(newx - x) &lt; 0.25) {
+                                x = newx;
+                            }
+                            return [min(max(LOWER_BOUND, x), UPPER_BOUND), y];
+                        };
+                        graph.movableLineSegment =  addMovableLineSegment({pointA: graph.movablePoint, coordZ: [UPPER_BOUND + 0.5, 0], 
+                            fixed:true, normalStyle:{"stroke":KhanUtil.GREEN, "stroke-width":3.5}})
+                        graph.movableLineSegment.flip = function(val) {
+                            if(val) {
+                                graph.movableLineSegment.coordZ[0] = UPPER_BOUND + 0.5;
+                            }
+                            else{graph.movableLineSegment.coordZ[0] = LOWER_BOUND - 0.5;}
+                            graph.greaterThan = val;
+                        };
+
+                        graph.update = function() {
+                            graph.movablePoint.updateLineEnds();
+                            graph.movablePoint.visibleShape.animate(graph.movablePoint.normalStyle);
+                        }
+                    </div>
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <span class="instruction">Use the provided number line to show the solution visually.</span>
+                    <div class="guess">
+                        [graph.movablePoint.coord[0],
+                         graph.greaterThan,
+                         graph.orEqual]
+                    </div>
+                    <div class="validator-function">
+                        return (abs( ( D - B ) / ( A - C ) - guess[0]) &lt; 0.001 
+                            &amp;&amp; guess[1] === (COMP_SOLUTION === "&gt;" || COMP_SOLUTION === "&ge;") 
+                            &amp;&amp; guess[2] === (COMP_SOLUTION === "&ge;" || COMP_SOLUTION === "&le;")
+                            );
+                    </div>
+                    <div class="show-guess">
+                        graph.movablePoint.setCoord( [ guess, 0 ] );
+                        graph.movableLineSegment.coordZ[0] = guess[1] ? UPPER_BOUND + 0.5 : LOWER_BOUND - 0.5;
+                        graph.movablePoint.fill = guess[2] ? KhanUtil.ORANGE : KhanUtil.NOFILL;
+                    </div>
+                </div>
+            
+
+                <div class="hints">
+                    <div>
+                        <p>Subtract <code><var>C</var>x</code> from both sides.</p>
+                        <p><code>(<var>A</var>x + <var>B</var>) - <var>C</var>x <var>REL</var> (<var>C</var>x + <var>D</var>) - <var>C</var>x</code></p>
+                        <p><code><var>A - C</var>x + <var>B</var> <var>REL</var> <var>D</var></code></p>
+                    </div>
+                    <div>
+                        <p><var>B > 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B > 0 ? "from" : "to"</var> both sides.</p>
+                        <p><code>(<var>A - C</var>x + <var>B</var>) + <var>-B</var> <var>REL</var> <var>D</var> + <var>-B</var></code></p>
+                        <p><code><var>A - C</var>x <var>REL</var> <var>D - B</var></code></p>
+                    </div>
+                    <div data-if="A - C > 0">
+                        <div>
+                            <p>Divide both sides by <code><var>A - C</var></code>. Because <code><var>A - C</var></code> is positive, the inequality sign <code><var>REL</var></code> should not be flipped.</p>
+                            <p><code>\dfrac{<var>A - C</var>x}{<var>A - C</var>} <var>REL</var> \dfrac{<var>D - B</var>}{<var>A - C</var>}</code></p>
+                        </div>
+                        <div>
+                            <p>Simplify.</p>
+                            <p><code>x <var>REL</var> <var>SOLUTION</var></code></p>
+                        </div>
+                    </div>
+                    <div data-else>
+                        <div>
+                            <p>Divide both sides by <code><var>A - C</var></code>. Because <code><var>A - C</var></code> is negative, the inequality sign <code><var>REL</var></code> must be flipped to <code><var>FREL</var></code>.</p>
+                            <p><code>\dfrac{<var>A - C</var>x}{<var>A - C</var>} <var>FREL</var> \dfrac{<var>D - B</var>}{<var>A - C</var>}</code></p>
+                        </div>
+                        <div>
+                            <p>Simplify.</p>
+                            <p><code>x <var>FREL</var> <var>SOLUTION</var></code></p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>We solved the inequality. Next, the solution needs to be graphed.</p>
+                    </div>
+                    <div>
+                        <div class="graphie" data-update="number-line">
+                            graph.movableLineSegment.flip( COMP_SOLUTION === "&gt;" || COMP_SOLUTION === "&ge;" );
+                            graph.update();
+                        </div>
+                        <p><code>x</code> is <span class="hint_green"><var>( COMP_SOLUTION === "&gt;" || COMP_SOLUTION === "&ge;" ) ? "greater than" : "less than"</var></span> 
+                            <var>( COMP_SOLUTION === "&ge;" || COMP_SOLUTION === "&le;"  ) ? "or equal to" : ""</var> <code><var>SOLUTION</var></code>
+                            , so the <var>( COMP_SOLUTION === "&gt;" || COMP_SOLUTION === "&ge;" ) ? "right" : "left"</var> side should be shaded.
+                        </p>
+                    </div>
+                    <div>
+                        <div class="graphie" data-update="number-line">
+                            graph.movablePoint.flip( COMP_SOLUTION === "&ge;" || COMP_SOLUTION === "&le;"  );
+                            graph.update();
+                        </div>
+                        <p><code>x</code> is <var>( COMP_SOLUTION === "&gt;" || COMP_SOLUTION === "&ge;" ) ? "greater" : "less"</var> than 
+                            <span class="hint_green"><var>( COMP_SOLUTION === "&ge;" || COMP_SOLUTION === "&le;"  ) ? "or equal to" : "(and not equal to)"</var></span> <code><var>SOLUTION</var></code>
+                            , so the dot should be <var>( COMP_SOLUTION === "&le;" || COMP_SOLUTION === "&ge;" ) ? "filled" : "open"</var>.
+                        </p>
+                    </div>
+                    <div>
+                        <div class="graphie" data-update="number-line">
+                            label( [ ( D - B ) / ( A - C ), -0.53 ],  SOLUTION, "left", { color: KhanUtil.ORANGE });
+                            graph.movablePoint.moveTo( ( D - B ) / ( A - C ), 0 );
+                            graph.update();
+                        </div>
+                        <p>Finally, the dot should be moved to <code><var>SOLUTION</var></code>.</p>
+                    </div>
                 </div>
             </div>
         </div>
