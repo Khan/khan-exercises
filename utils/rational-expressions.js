@@ -15,10 +15,10 @@ $.extend(KhanUtil, {
                 input.splice(i, 0, term);
                 usedChars.pop();
             }
-            return permArr
+            return permArr;
         };
         
-        return permute(arr)
+        return permute(arr);
     },
 
 	getExpressionRegex: function(coefficient, vari, constant) {
@@ -95,7 +95,7 @@ $.extend(KhanUtil, {
         // Return a new term representing this term multiplied by another term or a number
         this.multiply = function(term) {
             var coefficient = this.coefficient;
-            var variables = {}
+            var variables = {};
 
             for (var i in this.variables) {
                 variables[i] = this.variables[i];
@@ -153,7 +153,7 @@ $.extend(KhanUtil, {
                 }
             }
             
-            return new KhanUtil.Term(coefficient, variables)
+            return new KhanUtil.Term(coefficient, variables);
         };
         
         // includeSign if term is not the first in an expression
@@ -167,8 +167,9 @@ $.extend(KhanUtil, {
 
             if (includeSign) {
                 s += this.coefficient > 0 ? " + " : " - ";
-            } else {
-                if (this.coefficient < 0) { s += "-"; }
+            } else if (this.coefficient < 0) {
+                    s += "-";
+                }
             }
 
             if (!(coefficient === 1 && this.variableString !== "")) {
@@ -186,7 +187,7 @@ $.extend(KhanUtil, {
                     s += "^" + degree;
                 }
             }
-            return s
+            return s;
         };
 
         // Return a regex that will capture this term
@@ -215,7 +216,7 @@ $.extend(KhanUtil, {
                 }
             }
             
-            return regex + "\\s*";;
+            return regex + "\\s*";
         };
         
     },
@@ -241,7 +242,7 @@ $.extend(KhanUtil, {
                 var newTerm = new KhanUtil.Term(term[0], term[1]);
             }
             if (newTerm.coefficient !== 0) {
-                this.terms.push(newTerm)
+                this.terms.push(newTerm);
             }
         }
 
@@ -345,7 +346,7 @@ $.extend(KhanUtil, {
             var s = this.terms[0].toString();
 
             for (var i = 1; i < this.terms.length; i++) {
-                s += this.terms[i].toString(s !== "")
+                s += this.terms[i].toString(s !== "");
             }
 
             return s !== "" ? s : '0';
