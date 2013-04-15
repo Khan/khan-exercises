@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems interactive subhints">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie word-problems interactive subhints"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Area of triangles 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -17,8 +17,8 @@
         ])</var>
     </div>
     <div class="problems">
-        <div id="right-triangle" data-weight="1">
-            <div class="vars" data-ensure="(B % 2 === 0) || (H % 2 === 0)">
+        <div data-weight="1" id="right-triangle">
+            <div data-ensure="(B % 2 === 0) || (H % 2 === 0)" class="vars">
                 <var id="B">randRange(2, 9)</var>
                 <var id="H">randRange(2, 9)</var>
                 <var id="HYP">sqrt(B * B + H * H)</var>
@@ -28,7 +28,7 @@
                 What is the area of the triangle?
             </p>
             <div class="problem">
-                <div class="graphie" id="area">
+                <div id="area" class="graphie">
                     init({ range: [[-2, B + 1], [-1, H + 1]], scale: 30 });
                     path([[0, 0], [0, H], [B, 0], true],
                         {stroke: BLUE, fill: "#eee"});
@@ -43,14 +43,14 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>(B * H) / 2</var></span>
-                square <var>plural(UNIT_TEXT)</var>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>(B * H) / 2</var></span>
+                square <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
                 <div>
-                    <div class="graphie" data-update="area">
+                    <div data-update="area" class="graphie">
                         style({
                             stroke: GRAY,
                             strokeWidth: 1,
@@ -65,10 +65,14 @@
                         });
                     </div>
                     <p>
-                        <span>The base of the triangle is
-                        <var>pluralTex(B, UNIT_TEXT)</var>.</span>
-                        <span>The height of the triangle is
-                        <var>pluralTex(H, UNIT_TEXT)</var>.</span>
+                        <span data-if="isSingular(B)">The base of the triangle is
+                        1 <var>UNIT_TEXT</var>.</span><span data-else="">The base of the triangle is
+                        <var>B</var> <var>plural_form_tex(UNIT_TEXT, B)</var>.</span>
+                        
+                        <span data-if="isSingular(H)">The height of the triangle is
+                        1 <var>UNIT_TEXT</var>.</span><span data-else="">The height of the triangle is
+                        <var>H</var> <var>plural_form_tex(UNIT_TEXT, H)</var>.</span>
+                        
                         <span>Thus the area of the
                         <em>rectangle</em> shown above is <code><var>B</var>
                         \times <var>H</var></code>.</span>
@@ -86,9 +90,9 @@
             </div>
         </div>
 
-        <div id="acute-triangle" data-weight="2">
-            <div class="vars" data-ensure="((B % 2 === 0) || (H % 2 === 0)) &&
-                    (H !== HYP) && B !== TOP">
+        <div data-weight="2" id="acute-triangle">
+            <div data-ensure="((B % 2 === 0) || (H % 2 === 0)) &amp;&amp;
+                    (H !== HYP) &amp;&amp; B !== TOP" class="vars">
                 <var id="B">randRange(3, 9)</var>
                 <var id="H">randRange(2, 9)</var>
                 <var id="HYP">
@@ -101,7 +105,7 @@
                 What is the area of the triangle?
             </p>
             <div class="problem">
-                <div class="graphie" id="area">
+                <div id="area" class="graphie">
                     init({ range: [[-2, B + 1], [-1, H + 1]], scale: 30 });
                     path([[0, 0], [TOP, H], [B, 0], true],
                         {stroke: BLUE, fill: "#eee"});
@@ -119,14 +123,14 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>(B * H) / 2</var></span>
-                square <var>plural(UNIT_TEXT)</var>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>(B * H) / 2</var></span>
+                square <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
                 <div>
-                    <div class="graphie" data-update="area">
+                    <div data-update="area" class="graphie">
                         graph.hypotenuseLabel.remove();
                         graph.grid = raphael.set();
                         style({
@@ -151,10 +155,14 @@
                             TOP / B &gt; 0.5 ? "left" : "left");
                     </div>
                     <p>
-                        <span>The base of the triangle is
-                        <var>pluralTex(B, UNIT_TEXT)</var>.</span>
-                        <span>The height of the triangle is
-                        <var>pluralTex(H, UNIT_TEXT)</var>.</span>
+                        <span data-if="isSingular(B)">The base of the triangle is
+                        1 <var>UNIT_TEXT</var>.</span><span data-else="">The base of the triangle is
+                        <var>B</var> <var>plural_form_tex(UNIT_TEXT, B)</var>.</span>
+                        
+                        <span data-if="isSingular(H)">The height of the triangle is
+                        1 <var>UNIT_TEXT</var>.</span><span data-else="">The height of the triangle is
+                        <var>H</var> <var>plural_form_tex(UNIT_TEXT, H)</var>.</span>
+                        
                         <span>Thus the area of the
                         <em>rectangle</em> shown above is <code><var>B</var>
                         \times <var>H</var></code>.</span>
@@ -164,14 +172,14 @@
                     <p>
                         The triangle takes up half as much area as the
                         rectangle (look at the
-                        <span class="hover-hint" id="left-part">left part</span>
+                        <span id="left-part" class="hover-hint">left part</span>
                         and the
-                        <span class="hover-hint" id="right-part">right part</span>
+                        <span id="right-part" class="hover-hint">right part</span>
                         separately to see how), so the area of the triangle is
                         <code>\frac{1}{2}</code> of
                         <code><var>B</var> \times <var>H</var></code>.
                     </p>
-                    <div class="graphie" data-update="area">
+                    <div data-update="area" class="graphie">
                         graph.leftBox = path([[-1, -1], [-1, H + 1],
                             [TOP, H + 1], [TOP, -1], true], {
                                 stroke: false,
@@ -222,8 +230,8 @@
             </div>
         </div>
 
-        <div id="obtuse-triangle" data-weight="2">
-            <div class="vars" data-ensure="(B % 2 === 0) || (H % 2 === 0)">
+        <div data-weight="2" id="obtuse-triangle">
+            <div data-ensure="(B % 2 === 0) || (H % 2 === 0)" class="vars">
                 <var id="B">randRange(3, 9)</var>
                 <var id="H">randRange(2, 9)</var>
                 <var id="TOP">randFromArray([
@@ -236,7 +244,7 @@
                 What is the area of the triangle?
             </p>
             <div class="problem">
-                <div class="graphie" id="area">
+                <div id="area" class="graphie">
                     init({ range: [[min(0, TOP) - 2, max(B, TOP) + 1],
                         [-1, H + 1]], scale: 30 });
                     path([[0, 0], [TOP, H], [B, 0], true],
@@ -261,9 +269,9 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>(B * H) / 2</var></span>
-                square <var>plural(UNIT_TEXT)</var>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>(B * H) / 2</var></span>
+                square <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -274,10 +282,14 @@
                     <br>
                 </p>
                 <p>
-                    <span>The base of the triangle is
-                    <var>pluralTex(B, UNIT_TEXT)</var>.</span>
-                    <span>The height of the triangle is
-                    <var>pluralTex(H, UNIT_TEXT)</var>.</span>
+                    <span data-if="isSingular(B)">The base of the triangle is
+                    1 <var>UNIT_TEXT</var>.</span><span data-else="">The base of the triangle is
+                    <var>B</var> <var>plural_form_tex(UNIT_TEXT, B)</var>.</span>
+                    
+                    <span data-if="isSingular(H)">The height of the triangle is
+                    1 <var>UNIT_TEXT</var>.</span><span data-else="">The height of the triangle is
+                    <var>H</var> <var>plural_form_tex(UNIT_TEXT, H)</var>.</span>
+                
                 </p>
                 <p><code>
                     \text{area} = \frac{1}{2} \times <var>B</var> \times
@@ -288,5 +300,6 @@
 
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

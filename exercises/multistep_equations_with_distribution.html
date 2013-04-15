@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Multi-step equations with distribution</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -18,7 +18,7 @@
         Problem types:
             prob1               A = Bx + C(Dx + E)
             prob2               A = B(C + Dx) + Ex
-            prob3       A(Bx + C) = D(E − Fx) + Gx
+            prob3       A(Bx + C) = D(E &#8722; Fx) + Gx
             prob4  Ax + B(Cx + D) = Ex + F
             prob5          A + Bx = C(Dx + E)
             prob6  Ax + B(C + Dx) = E
@@ -33,8 +33,8 @@
 
     <div class="problems">
         <div id="prob1"> <!-- A = Bx + C(Dx + E) -->
-            <div class="vars" data-ensure="(B + C * D !== 0) &&
-                    (A - C * E !== 0) && (B + C * D !== 1)">
+            <div data-ensure="(B + C * D !== 0) &amp;&amp;
+                    (A - C * E !== 0) &amp;&amp; (B + C * D !== 1)" class="vars">
                 <var id="A">randRangeNonZero(-10, 10)</var>
                 <var id="B">randRangeNonZero(-10, 10)</var>
                 <var id="C">
@@ -51,7 +51,7 @@
                 ["*", D, X], E]]])</var>
             </code></p>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -69,11 +69,11 @@
                         Be careful! The negative sign in front of the
                         parentheses means we're multiplying by
                         <code>\pink{-1}</code>:
-                    </p><p data-else-if="C < 0">
+                    </p><p data-else-if="C &lt; 0">
                         Distribute the <code>\pink{<var>C</var>}</code>.
                         Be careful to pay attention to the negative sign
                         when you distribute:
-                    </p><p data-else>
+                    </p><p data-else="">
                         Distribute the <code>\pink{<var>C</var>}</code>:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
@@ -106,13 +106,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>C * E &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="C * E &amp;lt; 0">
+                        Add
                         <code>\green{<var>abs(C * E)</var>}</code>
-                        <var>C * E &lt; 0 ? "to" : "from"</var> both sides
+                        to both sides
+                        to isolate the <code><var>X</var></code> term on the
+                        right side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>abs(C * E)</var>}</code>
+                        from both sides
                         to isolate the <code><var>X</var></code> term on the
                         right side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>A</var> &amp;=&amp;
                         <var>expr(["*", B + C * D, X])</var> \green{{} + <var>C * E</var>} \\ \\
@@ -150,8 +157,8 @@
         </div>
 
         <div id="prob2"> <!-- A = B(C + Dx) + Ex -->
-            <div class="vars" data-ensure="(B * D + E !== 0) &&
-                    (A - B * C) && (B * D + E)">
+            <div data-ensure="(B * D + E !== 0) &amp;&amp;
+                    (A - B * C) &amp;&amp; (B * D + E)" class="vars">
                 <var id="A">randRangeNonZero(-10, 10)</var>
                 <var id="B">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
@@ -168,7 +175,7 @@
                 ["*", E, X]])</var>
             </code></p>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -186,11 +193,11 @@
                         Be careful! The negative sign in front of the
                         parentheses means we're multiplying by
                         <code>\pink{-1}</code>:
-                    </p><p data-else-if="B < 0">
+                    </p><p data-else-if="B &lt; 0">
                         Distribute the <code>\pink{<var>B</var>}</code>.
                         Be careful to pay attention to the negative sign
                         when you distribute:
-                    </p><p data-else>
+                    </p><p data-else="">
                         Distribute the <code>\pink{<var>B</var>}</code>:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
@@ -226,13 +233,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>B * C &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="B * C &amp;lt; 0">
+                        Add
                         <code>\green{<var>abs(B * C)</var>}</code>
-                        <var>B * C &lt; 0 ? "to" : "from"</var> both sides
+                        to both sides
+                        to isolate the <code><var>X</var></code> term on the
+                        right side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>abs(B * C)</var>}</code>
+                        from both sides
                         to isolate the <code><var>X</var></code> term on the
                         right side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>A</var> &amp;=&amp;
                         \green{<var>B * C</var>} + <var>expr(["*", B * D + E, X])</var> \\ \\
@@ -270,10 +284,10 @@
         </div>
 
 
-        <div id="prob3"> <!-- A(Bx + C) = D(E − Fx) + Gx -->
-            <div class="vars" data-ensure="D * F + G !== 0 &&
-                    ((A * B) - (D * F + G)) !== 0 &&
-                    ((A * B) - (D * F + G)) !== 1">
+        <div id="prob3"> <!-- A(Bx + C) = D(E &#8722; Fx) + Gx -->
+            <div data-ensure="D * F + G !== 0 &amp;&amp;
+                    ((A * B) - (D * F + G)) !== 0 &amp;&amp;
+                    ((A * B) - (D * F + G)) !== 1" class="vars">
                 <var id="A">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
                 </var>
@@ -295,7 +309,7 @@
                 ["*", G, X]])</var>
             </code></p>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -313,11 +327,11 @@
                         Be careful! The negative sign in front of the
                         parentheses means we're multiplying by
                         <code>\pink{-1}</code>:
-                    </p><p data-else-if="A < 0">
+                    </p><p data-else-if="A &lt; 0">
                         Distribute the <code>\pink{<var>A</var>}</code>.
                         Be careful to pay attention to the negative sign
                         when you distribute:
-                    </p><p data-else>
+                    </p><p data-else="">
                         Distribute the <code>\pink{<var>A</var>}</code>:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
@@ -342,11 +356,11 @@
                         Be careful! The negative sign in front of the
                         parentheses means we're multiplying by
                         <code>\pink{-1}</code>:
-                    </p><p data-else-if="D < 0">
+                    </p><p data-else-if="D &lt; 0">
                         Distribute the <code>\pink{<var>D</var>}</code>.
                         Be careful to pay attention to the negative sign
                         when you distribute:
-                    </p><p data-else>
+                    </p><p data-else="">
                         Distribute the <code>\pink{<var>D</var>}</code>:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
@@ -382,13 +396,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>D * F + G &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="D * F + G &amp;lt; 0">
+                        Add
                         <code>\green{<var>expr(["*", abs(D * F + G), X])</var>}
-                        </code> <var>D * F + G &lt; 0 ? "to" : "from"</var> both
+                        </code> to both
+                        sides to eliminate the <code><var>X</var></code> term
+                        from the right side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>expr(["*", abs(D * F + G), X])</var>}
+                        </code> from both
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
                         <var>D * E</var> \green{{} + <var>expr(["*", D * F + G, X])</var>} \\ \\
@@ -418,13 +439,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>A * C &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="A * C &amp;lt; 0">
+                        Add
                         <code>\green{<var>abs(A * C)</var>}</code>
-                        <var>A * C &lt; 0 ? "to" : "from"</var> both sides
+                        to both sides
+                        to isolate the <code><var>X</var></code> term on the
+                        left side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>abs(A * C)</var>}</code>
+                        from both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["*", (A * B) - (D * F + G), X])</var> \green{{} + <var>A * C</var>} &amp;=&amp;
                         <var>D * E</var> \\ \\
@@ -464,9 +492,9 @@
 
 
         <div id="prob4"> <!-- Ax + B(Cx + D) = Ex + F -->
-            <div class="vars" data-ensure="(F - B * D !== 0) &&
-                    (A + B * C - E !== 0) &&
-                    (A + B * C - E !== 1)">
+            <div data-ensure="(F - B * D !== 0) &amp;&amp;
+                    (A + B * C - E !== 0) &amp;&amp;
+                    (A + B * C - E !== 1)" class="vars">
                 <var id="A">randRangeNonZero(-8, 8)</var>
                 <var id="B">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
@@ -485,7 +513,7 @@
                 <var>expr(["+", ["*", E, X], F])</var>
             </code></p>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -503,11 +531,11 @@
                         Be careful! The negative sign in front of the
                         parentheses means we're multiplying by
                         <code>\pink{-1}</code>:
-                    </p><p data-else-if="B < 0">
+                    </p><p data-else-if="B &lt; 0">
                         Distribute the <code>\pink{<var>B</var>}</code>.
                         Be careful to pay attention to the negative sign
                         when you distribute:
-                    </p><p data-else>
+                    </p><p data-else="">
                         Distribute the <code>\pink{<var>B</var>}</code>:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
@@ -534,13 +562,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>E &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="E &amp;lt; 0">
+                        Add
                         <code>\green{<var>expr(["*", abs(E), X])</var>}
-                        </code> <var>E &lt; 0 ? "to" : "from"</var> both
+                        </code> to both
+                        sides to eliminate the <code><var>X</var></code> term
+                        from the right side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>expr(["*", abs(E), X])</var>}
+                        </code> from both
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["+", ["*", A, X], ["*", B * C, X],
                         B * D])</var> &amp;=&amp;
@@ -572,13 +607,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>B * D &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="B * D &amp;lt; 0">
+                        Add
                         <code>\green{<var>abs(B * D)</var>}</code>
-                        <var>B * D &lt; 0 ? "to" : "from"</var> both sides
+                        to both sides
+                        to isolate the <code><var>X</var></code> term on the
+                        left side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>abs(B * D)</var>}</code>
+                        from both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["*", A + B * C - E, X])</var>
                         \green{+ <var>B * D</var>} &amp; = &amp;
@@ -617,7 +659,7 @@
         </div>
 
         <div id="prob5"> <!-- A + Bx = C(Dx + E) -->
-            <div class="vars" data-ensure="(B - C * D !== 0) && (B - C * D !== 1)">
+            <div data-ensure="(B - C * D !== 0) &amp;&amp; (B - C * D !== 1)" class="vars">
                 <var id="A">randRangeNonZero(-8, 8)</var>
                 <var id="B">randRangeNonZero(-10, 10)</var>
                 <var id="C">
@@ -634,7 +676,7 @@
                 <var>expr(["*", C, ["+", ["*", D, X], E]])</var>
             </code></p>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -652,11 +694,11 @@
                         Be careful! The negative sign in front of the
                         parentheses means we're multiplying by
                         <code>\pink{-1}</code>:
-                    </p><p data-else-if="C < 0">
+                    </p><p data-else-if="C &lt; 0">
                         Distribute the <code>\pink{<var>C</var>}</code>.
                         Be careful to pay attention to the negative sign
                         when you distribute:
-                    </p><p data-else>
+                    </p><p data-else="">
                         Distribute the <code>\pink{<var>C</var>}</code>:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
@@ -676,13 +718,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>C * D &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="C * D &amp;lt; 0">
+                        Add
                         <code>\green{<var>expr(["*", abs(C * D), X])</var>}
-                        </code> <var>C * D &lt; 0 ? "to" : "from"</var> both
+                        </code> to both
+                        sides to eliminate the <code><var>X</var></code> term
+                        from the right side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>expr(["*", abs(C * D), X])</var>}
+                        </code> from both
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["+", A, ["*", B, X]])</var> &amp;=&amp;
                         \green{<var>expr(["*", C * D, X])</var>} + <var>C * E</var> \\ \\
@@ -708,13 +757,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>A &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="A &amp;lt; 0">
+                        Add
                         <code>\green{<var>abs(A)</var>}</code>
-                        <var>A &lt; 0 ? "to" : "from"</var> both sides
+                        to both sides
+                        to isolate the <code><var>X</var></code> term on the
+                        left side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>abs(A)</var>}</code>
+                        from both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         \green{<var>A</var>} + <var>expr(["*", B - C * D, X])</var> &amp;=&amp; <var>C * E</var> \\ \\
                         \green{{}+<var>-A</var>} &amp;&amp;
@@ -749,8 +805,8 @@
         </div>
 
         <div id="prob6"> <!-- Ax + B(C + Dx) = E -->
-            <div class="vars" data-ensure="(A + B * D !== 0) &&
-                    (E - B * C !== 0) && (A + B * D !== 1)">
+            <div data-ensure="(A + B * D !== 0) &amp;&amp;
+                    (E - B * C !== 0) &amp;&amp; (A + B * D !== 1)" class="vars">
                 <var id="A">randRangeNonZero(-8, 8)</var>
                 <var id="B">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
@@ -766,7 +822,7 @@
                 <var>expr(["+", ["*", A, X], ["*", B, ["+", C, ["*", D, X]]]])</var> = <var>E</var>
             </code></p>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -784,11 +840,11 @@
                         Be careful! The negative sign in front of the
                         parentheses means we're multiplying by
                         <code>\pink{-1}</code>:
-                    </p><p data-else-if="B < 0">
+                    </p><p data-else-if="B &lt; 0">
                         Distribute the <code>\pink{<var>B</var>}</code>.
                         Be careful to pay attention to the negative sign
                         when you distribute:
-                    </p><p data-else>
+                    </p><p data-else="">
                         Distribute the <code>\pink{<var>B</var>}</code>:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
@@ -822,13 +878,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>B * C &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="B * C &amp;lt; 0">
+                        Add
                         <code>\green{<var>abs(B * C)</var>}</code>
-                        <var>B * C &lt; 0 ? "to" : "from"</var> both sides
+                        to both sides
+                        to isolate the <code><var>X</var></code> term on the
+                        left side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>abs(B * C)</var>}</code>
+                        from both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["*", A + B * D, X])</var> \green{{} + <var>B * C</var>} &amp;=&amp; <var>E</var> \\ \\
                         \green{{}+<var>-B * C</var>} &amp;&amp;
@@ -863,7 +926,7 @@
         </div>
 
         <div id="prob7"> <!-- A(Bx + C) = Dx + E -->
-            <div class="vars" data-ensure="(A * B - D !== 0) && (A * B - D !== 1)">
+            <div data-ensure="(A * B - D !== 0) &amp;&amp; (A * B - D !== 1)" class="vars">
                 <var id="A">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
                 </var>
@@ -880,7 +943,7 @@
                 <var>expr(["+", ["*", D, X], E])</var>
             </code></p>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -898,11 +961,11 @@
                         Be careful! The negative sign in front of the
                         parentheses means we're multiplying by
                         <code>\pink{-1}</code>:
-                    </p><p data-else-if="A < 0">
+                    </p><p data-else-if="A &lt; 0">
                         Distribute the <code>\pink{<var>A</var>}</code>.
                         Be careful to pay attention to the negative sign
                         when you distribute:
-                    </p><p data-else>
+                    </p><p data-else="">
                         Distribute the <code>\pink{<var>A</var>}</code>:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
@@ -922,13 +985,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>D &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="D &amp;lt; 0">
+                        Add
                         <code>\green{<var>expr(["*", abs(D), X])</var>}
-                        </code> <var>D &lt; 0 ? "to" : "from"</var> both
+                        </code> to both
+                        sides to eliminate the <code><var>X</var></code> term
+                        from the right side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>expr(["*", abs(D), X])</var>}
+                        </code> from both
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
                         \green{<var>expr(["*", D, X])</var>} + <var>E</var> \\ \\
@@ -955,13 +1025,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>A * C &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="A * C &amp;lt; 0">
+                        Add
                         <code>\green{<var>abs(A * C)</var>}</code>
-                        <var>A * C &lt; 0 ? "to" : "from"</var> both sides
+                        to both sides
+                        to isolate the <code><var>X</var></code> term on the
+                        left side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>abs(A * C)</var>}</code>
+                        from both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["*", A * B - D, X])</var> \green{{} + <var>A * C</var>} &amp;=&amp; <var>E</var> \\ \\
                         \green{{}+<var>-A * C</var>} &amp;&amp;
@@ -996,8 +1073,8 @@
         </div>
 
         <div id="prob8"> <!-- A(B + Cx) + D = E + Fx -->
-            <div class="vars" data-ensure="(A * B - F !== 0) &&
-                    (A * C + D !== 0) && (E - A * C - D !== 0) && (A * B - F !== 1)">
+            <div data-ensure="(A * B - F !== 0) &amp;&amp;
+                    (A * C + D !== 0) &amp;&amp; (E - A * C - D !== 0) &amp;&amp; (A * B - F !== 1)" class="vars">
                 <var id="A">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
                 </var>
@@ -1015,7 +1092,7 @@
                 <var>expr(["+", E, ["*", F, X]])</var>
             </code></p>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -1033,11 +1110,11 @@
                         Be careful! The negative sign in front of the
                         parentheses means we're multiplying by
                         <code>\pink{-1}</code>:
-                    </p><p data-else-if="A < 0">
+                    </p><p data-else-if="A &lt; 0">
                         Distribute the <code>\pink{<var>A</var>}</code>.
                         Be careful to pay attention to the negative sign
                         when you distribute:
-                    </p><p data-else>
+                    </p><p data-else="">
                         Distribute the <code>\pink{<var>A</var>}</code>:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
@@ -1057,13 +1134,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>F &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="F &amp;lt; 0">
+                        Add
                         <code>\green{<var>expr(["*", abs(F), X])</var>}
-                        </code> <var>F &lt; 0 ? "to" : "from"</var> both
+                        </code> to both
+                        sides to eliminate the <code><var>X</var></code> term
+                        from the right side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>expr(["*", abs(F), X])</var>}
+                        </code> from both
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["+", ["*", A * B, X], A * C, D])</var> &amp;=&amp;
                         <var>E</var> \green{{} + <var>expr(["*", F, X])</var>} \\ \\
@@ -1103,13 +1187,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>A * C + D &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="A * C + D &amp;lt; 0">
+                        Add
                         <code>\green{<var>abs(A * C + D)</var>}</code>
-                        <var>A * C + D &lt; 0 ? "to" : "from"</var> both sides
+                        to both sides
+                        to isolate the <code><var>X</var></code> term on the
+                        left side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>abs(A * C + D)</var>}</code>
+                        from both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         \green{<var>A * C + D</var>} + <var>expr(["*", A * B - F, X])</var> &amp;=&amp; <var>E</var> \\ \\
                         \green{{}+<var>-(A * C + D)</var>} &amp;&amp;
@@ -1144,7 +1235,7 @@
         </div>
 
         <div id="prob9"> <!-- A(Bx + C) = D(E + Fx) -->
-            <div class="vars" data-ensure="(A * B - D * F !== 0) && (A * B - D * F !== 1)">
+            <div data-ensure="(A * B - D * F !== 0) &amp;&amp; (A * B - D * F !== 1)" class="vars">
                 <var id="A">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
                 </var>
@@ -1164,7 +1255,7 @@
                 <var>expr(["*", D, ["+", E, ["*", F, X]]])</var>
             </code></p>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -1182,11 +1273,11 @@
                         Be careful! The negative sign in front of the
                         parentheses means we're multiplying by
                         <code>\pink{-1}</code>:
-                    </p><p data-else-if="A < 0">
+                    </p><p data-else-if="A &lt; 0">
                         Distribute the <code>\pink{<var>A</var>}</code>.
                         Be careful to pay attention to the negative sign
                         when you distribute:
-                    </p><p data-else>
+                    </p><p data-else="">
                         Distribute the <code>\pink{<var>A</var>}</code>:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
@@ -1211,11 +1302,11 @@
                         Be careful! The negative sign in front of the
                         parentheses means we're multiplying by
                         <code>\pink{-1}</code>:
-                    </p><p data-else-if="D < 0">
+                    </p><p data-else-if="D &lt; 0">
                         Distribute the <code>\pink{<var>D</var>}</code>.
                         Be careful to pay attention to the negative sign
                         when you distribute:
-                    </p><p data-else>
+                    </p><p data-else="">
                         Distribute the <code>\pink{<var>D</var>}</code>:
                     </p>
                     <p><code>\qquad\begin{eqnarray}
@@ -1236,13 +1327,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>D * F &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="D * F &amp;lt; 0">
+                        Add
                         <code>\green{<var>expr(["*", abs(D * F), X])</var>}
-                        </code> <var>D * F &lt; 0 ? "to" : "from"</var> both
+                        </code> to both
+                        sides to eliminate the <code><var>X</var></code> term
+                        from the right side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>expr(["*", abs(D * F), X])</var>}
+                        </code> from both
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
                         <var>D * E</var> \green{{} + <var>expr(["*", D * F, X])</var>} \\ \\
@@ -1272,13 +1370,20 @@
                     </code></p>
                 </div>
                 <div>
-                    <p>
-                        <var>A * C &lt; 0 ? "Add" : "Subtract"</var>
+                    <p data-if="A * C &amp;lt; 0">
+                        Add
                         <code>\green{<var>abs(A * C)</var>}</code>
-                        <var>A * C &lt; 0 ? "to" : "from"</var> both sides
+                        to both sides
+                        to isolate the <code><var>X</var></code> term on the
+                        left side:
+                    </p><p data-else="">
+                        Subtract
+                        <code>\green{<var>abs(A * C)</var>}</code>
+                        from both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
+                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["*", A * B - D * F, X])</var> + \green{<var>A * C</var>} &amp;=&amp;
                         <var>D * E</var> \\ \\
@@ -1318,5 +1423,6 @@
 
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

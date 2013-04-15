@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers angles">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers angles"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Vertical angles 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
     <div class="vars">
-        <div data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150 && C !== A && abs( A - C ) < 6 && abs( A - C ) > 1 && A * SOLUTION + B - C * SOLUTION !== 0">
-            <var id="SOLUTION" data-ensure="abs(SOLUTION) > 5">randRangeNonZero( -20, 20 )</var>
+        <div data-ensure="A * SOLUTION + B &gt; 30 &amp;&amp; A * SOLUTION + B &lt; 150 &amp;&amp; C !== A &amp;&amp; abs( A - C ) &lt; 6 &amp;&amp; abs( A - C ) &gt; 1 &amp;&amp; A * SOLUTION + B - C * SOLUTION !== 0">
+            <var data-ensure="abs(SOLUTION) &gt; 5" id="SOLUTION">randRangeNonZero( -20, 20 )</var>
             <var id="A">randRange( 2, 9 )</var>
             <var id="B">randRangeNonZero( -200, 200 )</var>
             <var id="C">randRange( 2, 9 )</var>
@@ -24,10 +24,10 @@
         <div>
             <p class="question">Solve for <code>x</code>:</p>
 
-            <div class="solution" data-type="multiple">
-                    <p><code>x=</code>  <span class="sol" data-type="rational"><var>SOLUTION</var></span></p>
+            <div data-type="multiple" class="solution">
+                    <p><code>x=</code>  <span data-type="rational" class="sol"><var>SOLUTION</var></span></p>
                 </div>
-            <div class="graphie" id="lines">
+            <div id="lines" class="graphie">
 
                 var eq1 = A + "x + " + B + "^\\circ";
                 var eq2 = C + "x + " + D + "^\\circ";
@@ -45,20 +45,21 @@
     </div>
 
     <div class="hints">
-        <p>We learned in Vertical angles 1 that vertical angles are equal. <a class="related-video" href="/video/proof-vertical-angles-are-equal" data-youtube-id="wRBMmiNHQaE">Watch this video</a> to understand why.</p>
+        <p>We learned in Vertical angles 1 that vertical angles are equal. <a href="/video/proof-vertical-angles-are-equal" data-youtube-id="wRBMmiNHQaE" class="related-video">Watch this video</a> to understand why.</p>
         <div>
             <p>Set the angle measures equal to one another.</p>
             <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
         </div>
 
-        <div data-if="A > C" data-unwrap>
+        <div data-if="A &gt; C" data-unwrap="">
             <div>
                 <p>Subtract <code>\color{<var>PINK</var>}{<var>C</var>x}</code> from both sides.</p>
                 <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>C</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>C</var>x}</code></p>
                 <p><code><var>A - C</var>x + <var>B</var> = <var>D</var></code></p>
             </div>
             <div>
-                <p><var>B > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> <var>B > 0 ? "from" : "to"</var> both sides.</p>
+                <p data-if="B &amp;gt; 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> to both sides.</p>
+                
                 <p><code>(<var>A - C</var>x + <var>B</var>) \color{<var>PINK</var>}{+ <var>-B</var>} = <var>D</var> \color{<var>PINK</var>}{+ <var>-B</var>}</code></p>
                 <p><code><var>A - C</var>x = <var>D - B</var></code></p>
             </div>
@@ -71,14 +72,15 @@
                 <p><code>x = <var>SOLUTION</var></code></p>
             </div>
         </div>
-        <div data-else data-unwrap>
+        <div data-else="" data-unwrap="">
             <div>
                 <p>Subtract <code>\color{<var>PINK</var>}{<var>A</var>x}</code> from both sides.</p>
                 <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>A</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>A</var>x}</code></p>
                 <p><code><var>B</var> = <var>C - A</var>x + <var>D</var></code></p>
             </div>
             <div>
-                <p><var>D > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> <var>D > 0 ? "from" : "to"</var> both sides.</p>
+                <p data-if="D &amp;gt; 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> to both sides.</p>
+                
                 <p><code><var>B</var> \color{<var>PINK</var>}{+ <var>-D</var>} = (<var>C - A</var>x + <var>D</var>) \color{<var>PINK</var>}{+ <var>-D</var>}</code></p>
                 <p><code><var>B - D</var> = <var>C - A</var>x</code></p>
             </div>
@@ -93,5 +95,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

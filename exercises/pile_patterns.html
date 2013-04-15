@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie interactive word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Pile patterns</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,10 +9,9 @@
     <div class="exercise">
         <div class="problems">
             <div>
-                <div class="vars"
-                    data-ensure="(USEA || USEB || USEC || USED) &amp;&amp;
-                                 A + B + C + D > 0 &amp;&amp;
-                                 XS !== START">
+                <div data-ensure="(USEA || USEB || USEC || USED) &amp;&amp;
+                                 A + B + C + D &gt; 0 &amp;&amp;
+                                 XS !== START" class="vars">
                     <var id="USEA">random() &lt; 0.5</var>
                     <var id="A">USEA ? randRange(1, 3) : 0</var>
                     <var id="USEB">random() &lt; 0.5</var>
@@ -35,7 +34,7 @@
                     moving the slider.
                 </p>
                 <div class="problem">
-                    <div class="graphie" id="main">
+                    <div id="main" class="graphie">
                         var vertscale = -2;
 
                         if (USEB) {
@@ -175,17 +174,17 @@
                         };
                     </div>
                 </div>
-                <div class="solution" data-type="multiple">
+                <div data-type="multiple" class="solution">
                     In step 0, we have
-                    <span class="sol short40" data-forms="integer"><var>START</var></span>
+                    <span data-forms="integer" class="sol short40"><var>START</var></span>
                     blocks. At each step, we add
-                    <span class="sol short40" data-forms="integer"><var>XS</var></span>
+                    <span data-forms="integer" class="sol short40"><var>XS</var></span>
                     more blocks.<br><br>
 
                     So, at step number <code>S</code>, we have<br>
-                    <span class="sol short40" data-forms="integer"><var>START</var></span>
+                    <span data-forms="integer" class="sol short40"><var>START</var></span>
                     <code>+</code>
-                    <span class="sol short40" data-forms="integer"><var>XS</var></span>
+                    <span data-forms="integer" class="sol short40"><var>XS</var></span>
                     <code>\times S</code>  blocks.
                 </div>
                 <div class="hints">
@@ -197,10 +196,13 @@
                     with. Count how many blocks there are in step 0 by dragging
                     the slider all the way to the left.</p>
                     <div>
-                        <p>We see that there <var>plural("is", START)</var>
-                        <var>pluralTex(START, "block")</var> in step 0. Fill
+                        <p data-if="isSingular(START)">We see that there is
+                        1 block in step 0. Fill
+                        this in the answer box.</p><p data-else="">We see that there are
+                        <var>START</var>  in step 0. Fill
                         this in the answer box.</p>
-                        <div class="graphie" data-update="main">
+                        
+                        <div data-update="main" class="graphie">
                             graph.slider.moveTo(3, 0);
                         </div>
                     </div>
@@ -208,7 +210,7 @@
                     step. The easiest way to do that is to see how many blocks
                     are added from step 0 to step 1.</p>
                     <div>
-                        <p>There are <code><var>START + XS</var></code> blocks
+                        <p data-if="isSingular(XS)">There are <code><var>START + XS</var></code> blocks
                         in step 1. To find how many blocks are added in each
                         steps we just subtract this number from the number of
                         blocks in step 0. So there are
@@ -216,9 +218,19 @@
                             <var>START + XS</var> - <var>START</var> =
                             <var>XS</var>
                         </code>
-                        <var>plural("block", XS)</var> added in each step. Fill
+                        block added in each step. Fill
+                        this in the answer box.</p><p data-else="">There are <code><var>START + XS</var></code> blocks
+                        in step 1. To find how many blocks are added in each
+                        steps we just subtract this number from the number of
+                        blocks in step 0. So there are
+                        <code>
+                            <var>START + XS</var> - <var>START</var> =
+                            <var>XS</var>
+                        </code>
+                         added in each step. Fill
                         this in the answer box.</p>
-                        <div class="graphie" data-update="main">
+                        
+                        <div data-update="main" class="graphie">
                             graph.slider.moveTo(5, 0);
                         </div>
                     </div>
@@ -228,7 +240,8 @@
                     be?"</p>
                     <p>Well, let's start looking at how many blocks there are,
                     and we'll see if there's a pattern.</p>
-                    <p>Step 0: <span class="const"><var>pluralTex(START, "block")</var></span></p>
+                    <p data-if="isSingular(START)">Step 0: <span class="const">1 block</span></p><p data-else="">Step 0: <span class="const"><var>START</var> </span></p>
+                    
                     <div>
                         <p>We know step 1 has
                         <code><var>START + XS</var></code> blocks, but we can
@@ -257,12 +270,18 @@
                             <var>XS</var></code></span>
                         blocks</p>
                     <div>
-                        <p><span>Here, we can see a pattern! The number of blocks in
+                        <p><span data-if="isSingular(START)">Here, we can see a pattern! The number of blocks in
                         each step can be represented as the sum of
-                        <span class="const"><var>pluralTex(START, "block")</var></span>.</span>
-                        <span>Some number of groups of
-                        <span class="lin"><var>pluralTex(XS, "block")</var></span>.</span>
-                        <span>How many groups of <var>pluralTex(XS, "block")</var>
+                        <span class="const">1 block</span>.</span><span data-else="">Here, we can see a pattern! The number of blocks in
+                        each step can be represented as the sum of
+                        <span class="const"><var>START</var> </span>.</span>
+                        
+                        <span data-if="isSingular(XS)">Some number of groups of
+                        <span class="lin">1 block</span>.</span><span data-else="">Some number of groups of
+                        <span class="lin"><var>XS</var> </span>.</span>
+                        
+                        <span data-if="isSingular(XS)">How many groups of 1 block
+                        are there in each step?</span><span data-else="">How many groups of <var>XS</var> 
                         are there in each step?</span></p>
                         <div class="graphie">
                             $(".const").addClass("hint_blue");
@@ -278,5 +297,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

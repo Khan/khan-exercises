@@ -40,7 +40,9 @@
                     <p><var>person(1)</var> traveled by <var>vehicle(1)</var> at an average speed of <var>SPEED1</var> miles per hour.</p>
                     <p data-if="isMale(1)">Then, he traveled by <var>vehicle(2)</var> at an average speed of <var>SPEED2</var> miles per hour.</p><p data-else="">Then, she traveled by <var>vehicle(2)</var> at an average speed of <var>SPEED2</var> miles per hour.</p>
                     
-                    <p data-if="isMale(1)">In total, he traveled <var>DIST</var> miles for <var>plural(TIME, "hour")</var>.</p><p data-else="">In total, she traveled <var>DIST</var> miles for <var>plural(TIME, "hour")</var>.</p>
+                    <p data-if="isMale(1)"><span data-unwrap="" data-if="isSingular(TIME)">In total, he traveled <var>DIST</var> miles for 1 hour.</span><span data-unwrap="" data-else="">In total, he traveled <var>DIST</var> miles for <var>TIME</var> .</span></p><p data-else="" data-if="isSingular(TIME)">In total, she traveled <var>DIST</var> miles for 1 hour.</p><p data-else="">In total, she traveled <var>DIST</var> miles for <var>TIME</var> .</p>
+                
+                
                 
                 </div>
                 <p class="question">How many miles did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest mile.)</p>
@@ -48,12 +50,12 @@
                     <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>round(DIST1)</var></span> miles</p>
                 </div>
                 <div data-apply="appendContents" class="hints">
-                    <p id="final-hint" data-if="isMale(1)">
+                    <p data-if="isMale(1)" id="final-hint">
                         So he traveled <code><var>SPEED1</var> \times </code> 
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
                         <span data-else=""><code><var>T1[0]</var></code></span>
                         <code> = <var>round(DIST1)</var></code>  miles by <var>vehicle(1)</var>.
-                    </p><p id="final-hint" data-else="">
+                    </p><p data-else="" id="final-hint">
                         So she traveled <code><var>SPEED1</var> \times </code> 
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
                         <span data-else=""><code><var>T1[0]</var></code></span>
@@ -69,12 +71,12 @@
                     <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>round(DIST2)</var></span> miles</p>
                 </div>
                 <div data-apply="appendContents" class="hints">
-                    <p id="final-hint" data-if="isMale(1)">
+                    <p data-if="isMale(1)" id="final-hint">
                         He traveled by <var>vehicle(2)</var> for <code><var>TIME</var> - </code> 
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
                         <span data-else=""><code><var>T1[0]</var></code></span>
                         <code> = \frac{<var>T2[0]</var>}{<var>T2[1]</var>}</code> hours.
-                    </p><p id="final-hint" data-else="">
+                    </p><p data-else="" id="final-hint">
                         She traveled by <var>vehicle(2)</var> for <code><var>TIME</var> - </code> 
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
                         <span data-else=""><code><var>T1[0]</var></code></span>
@@ -116,11 +118,11 @@
                     <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>round(DIST2 / SPEED2 * 60)</var></span> minutes</p>
                 </div>
                 <div data-apply="appendContents" class="hints">
-                    <p id="final-hint" data-if="isMale(1)">
+                    <p data-if="isMale(1)" id="final-hint">
                         So he traveled by <var>vehicle(2)</var> for <code><var>TIME</var> - </code> 
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
                         <span data-else=""><code><var>T1[0]</var></code></span> hours
-                    </p><p id="final-hint" data-else="">
+                    </p><p data-else="" id="final-hint">
                         So she traveled by <var>vehicle(2)</var> for <code><var>TIME</var> - </code> 
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
                         <span data-else=""><code><var>T1[0]</var></code></span> hours

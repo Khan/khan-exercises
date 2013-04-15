@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie interactive"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Graphing systems of equations</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
     <div class="problems">
-        <div id="standard" data-weight="4">
+        <div data-weight="4" id="standard">
             <div class="vars">
-                <div data-ensure="( YINT_1 + SLOPE_1_FRAC[0] <= 10 ) && ( YINT_2 + SLOPE_2_FRAC[0] <= 10 ) && ( YINT_1 + SLOPE_1_FRAC[0] >= -10 ) && ( YINT_2 + SLOPE_2_FRAC[0] >= -10 )">
+                <div data-ensure="( YINT_1 + SLOPE_1_FRAC[0] &lt;= 10 ) &amp;&amp; ( YINT_2 + SLOPE_2_FRAC[0] &lt;= 10 ) &amp;&amp; ( YINT_1 + SLOPE_1_FRAC[0] &gt;= -10 ) &amp;&amp; ( YINT_2 + SLOPE_2_FRAC[0] &gt;= -10 )">
                     <var id="X">randRangeNonZero( -5, 5 )</var>
                     <var id="Y">randRange( -5, 5 )</var>
-                    <div data-ensure="( abs(YINT_1 - YINT_2) > 3 ) && ( YINT_1 !== Y ) && ( YINT_2 !== Y )">
+                    <div data-ensure="( abs(YINT_1 - YINT_2) &gt; 3 ) &amp;&amp; ( YINT_1 !== Y ) &amp;&amp; ( YINT_2 !== Y )">
                         <var id="YINT_1">randRangeNonZero( -5, 5 )</var>
                         <var id="YINT_2">randRangeNonZero( -5, 5 )</var>
                     </div>
@@ -39,21 +39,21 @@
             <p class="question">Graph this system of equations and solve.</p>
 
             <div class="problem">
-                <p class="hint_blue" data-if="STD_FORM_1">
+                <p data-if="STD_FORM_1" class="hint_blue">
                     <code><var>expr([ "+", [ "*", A1, "x" ], [ "*", B1, "y" ] ])</var> = <var>C1</var></code>
                 </p>
-                <p class="hint_blue" data-else>
+                <p data-else="" class="hint_blue">
                     <code>y = <var>PRETTY_SLOPE_1</var> x + <var>YINT_1</var></code>
                 </p>
 
-                <p class="hint_green" data-if="STD_FORM_2">
+                <p data-if="STD_FORM_2" class="hint_green">
                     <code><var>expr([ "+", [ "*", A2, "x" ], [ "*", B2, "y" ] ])</var> = <var>C2</var></code>
                 </p>
-                <p class="hint_green" data-else>
+                <p data-else="" class="hint_green">
                     <code>y = <var>PRETTY_SLOPE_2</var> x + <var>YINT_2</var></code>
                 </p>
 
-                <div class="graphie" id="grid">
+                <div id="grid" class="graphie">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -140,10 +140,10 @@
                 </div>
                 <p>Click and drag the points to move the lines.</p>
             </div>
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p><code>x = </code> <span class="sol"><var>X</var></span></p>
                 <p><code>y = </code> <span class="sol"><var>Y</var></span></p>
-                <div class="sol" data-type="custom">
+                <div data-type="custom" class="sol">
                     <div class="instruction">
                         Your graphs are also part of your answer.
                     </div>
@@ -184,13 +184,13 @@
                 <div class="example">two integers like <code>6</code></div>
             </div>
         </div>
-        <div id="slope-intercept" data-type="standard" data-weight="5">
+        <div data-weight="5" data-type="standard" id="slope-intercept">
             <div class="vars">
                 <var id="STD_FORM_1">false</var>
                 <var id="STD_FORM_2">false</var>
             </div>
         </div>
-        <div id="mixed" data-type="standard" data-weight="1">
+        <div data-weight="1" data-type="standard" id="mixed">
             <div class="vars">
                 <var id="STD_FORM_1">random() &lt; 0.5 ? true : false</var>
                 <var id="STD_FORM_2">!STD_FORM_1</var>
@@ -199,7 +199,7 @@
     </div>
 
     <div class="hints">
-        <div data-if="STD_FORM_1" data-unwrap>
+        <div data-if="STD_FORM_1" data-unwrap="">
             <p class="hint_blue">
                 Convert the first equation,
                 <code><var>expr([ "+", [ "*", A1, "x" ], [ "*", B1, "y" ] ])</var> = <var>C1</var></code>,
@@ -212,38 +212,56 @@
             must pass through the point <code>(0, <var>YINT_1</var>)</code>.
         </p>
         <p class="hint_blue">
-            <span>The slope for the first equation is <code><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
+            <span data-if='"position" + ( abs( SLOPE_1_FRAC[0] ) !== 1'>The slope for the first equation is <code><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
             the slope tells you rise over run. So in this case for every
             <code><var>abs( SLOPE_1_FRAC[0] )</var></code>
-            <var>"position" + ( abs( SLOPE_1_FRAC[0] ) !== 1 ? "s" : "" )</var>
+            s
             you move
-            <span data-if="SLOPE_1_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
-            <span data-else>up</span>.</span>
-            <span>You must also move
+            <span data-if="SLOPE_1_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
+            <span data-else="">up</span>.</span><span data-else="">The slope for the first equation is <code><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
+            the slope tells you rise over run. So in this case for every
+            <code><var>abs( SLOPE_1_FRAC[0] )</var></code>
+            <var>"" )</var>
+            you move
+            <span data-if="SLOPE_1_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
+            <span data-else="">up</span>.</span>
+            
+            <span data-if='"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1'>You must also move
             <code><var>SLOPE_1_FRAC[1]</var></code>
-            <var>"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1 ? "s" : "" )</var>
+            s
+            to the right.</span><span data-else="">You must also move
+            <code><var>SLOPE_1_FRAC[1]</var></code>
+            <var>"" )</var>
             to the right.</span>
+        
         </p>
         <p class="hint_blue">
-            <span><code><var>SLOPE_1_FRAC[1]</var></code>
-            <var>"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1 ? "s" : "" )</var> to the right.</span>
-            <span><code><var>abs( SLOPE_1_FRAC[0] )</var></code>
-            <var>"position" + ( abs( SLOPE_1_FRAC[0] ) !== 1 ? "s" : "" )</var>
-            <span data-if="SLOPE_1_FRAC[0] < 0">down</span><span data-else>up</span> from
+            <span data-if='"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1'><code><var>SLOPE_1_FRAC[1]</var></code>
+            s to the right.</span><span data-else=""><code><var>SLOPE_1_FRAC[1]</var></code>
+            <var>"" )</var> to the right.</span>
+            
+            <span data-if='"position" + ( abs( SLOPE_1_FRAC[0] ) !== 1'><code><var>abs( SLOPE_1_FRAC[0] )</var></code>
+            s
+            <span data-if="SLOPE_1_FRAC[0] &lt; 0">down</span><span data-else="">up</span> from
+            <code>(0, <var>YINT_1</var>)</code> is
+            <code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.</span><span data-else=""><code><var>abs( SLOPE_1_FRAC[0] )</var></code>
+            <var>"" )</var>
+            <span data-if="SLOPE_1_FRAC[0] &lt; 0">down</span><span data-else="">up</span> from
             <code>(0, <var>YINT_1</var>)</code> is
             <code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.</span>
+        
         </p>
         <p class="hint_blue">
             Graph the blue line so it passes through
             <code>(0, <var>YINT_1</var>)</code> and
             <code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.
-            <br /><input type="button" value="Show me" onClick="javascript:
+            <br><input type="button" onclick="javascript:
                 KhanUtil.currentGraph.graph.pointA.moveTo( 0, KhanUtil.tmpl.getVAR( 'YINT_1' ), true );
                 KhanUtil.currentGraph.graph.pointB.moveTo( KhanUtil.tmpl.getVAR( 'SLOPE_1_FRAC[1]' ),
                     KhanUtil.tmpl.getVAR( 'YINT_1' ) + KhanUtil.tmpl.getVAR( 'SLOPE_1_FRAC[0]' ), true );
-            " />
+            " value="Show me">
         </p>
-        <div data-if="STD_FORM_2" data-unwrap>
+        <div data-if="STD_FORM_2" data-unwrap="">
             <p class="hint_green">
                 Convert the second equation,
                 <code><var>expr([ "+", [ "*", A2, "x" ], [ "*", B2, "y" ] ])</var> = <var>C2</var></code>,
@@ -256,36 +274,54 @@
             must pass through the point <code>(0, <var>YINT_2</var>)</code>.
         </p>
         <p class="hint_green">
-            <span>The slope for the second equation is <code><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
+            <span data-if='"position" + ( abs( SLOPE_2_FRAC[0] ) !== 1'>The slope for the second equation is <code><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
             the slope tells you rise over run. So in this case for every
             <code><var>abs( SLOPE_2_FRAC[0] )</var></code>
-            <var>"position" + ( abs( SLOPE_2_FRAC[0] ) !== 1 ? "s" : "" )</var>
+            s
             you move
-            <span data-if="SLOPE_2_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
-            <span data-else>up</span>.</span>
-            <span>You must also move
+            <span data-if="SLOPE_2_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
+            <span data-else="">up</span>.</span><span data-else="">The slope for the second equation is <code><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
+            the slope tells you rise over run. So in this case for every
+            <code><var>abs( SLOPE_2_FRAC[0] )</var></code>
+            <var>"" )</var>
+            you move
+            <span data-if="SLOPE_2_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
+            <span data-else="">up</span>.</span>
+            
+            <span data-if='"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1'>You must also move
             <code><var>SLOPE_2_FRAC[1]</var></code>
-            <var>"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1 ? "s" : "" )</var>
+            s
+            to the right.</span><span data-else="">You must also move
+            <code><var>SLOPE_2_FRAC[1]</var></code>
+            <var>"" )</var>
             to the right.</span>
+        
         </p>
         <p class="hint_green">
-            <span><code><var>SLOPE_2_FRAC[1]</var></code>
-            <var>"position" + ( abs( SLOPE_2_FRAC[1] ) !== 1 ? "s" : "" )</var> to the right.</span>
-            <span><code><var>abs( SLOPE_2_FRAC[0] )</var></code>
-            <var>"position" + ( abs( SLOPE_2_FRAC[0] ) !== 1 ? "s" : "" )</var>
-            <span data-if="SLOPE_2_FRAC[0] < 0">down</span><span data-else>up</span> from
+            <span data-if='"position" + ( abs( SLOPE_2_FRAC[1] ) !== 1'><code><var>SLOPE_2_FRAC[1]</var></code>
+            s to the right.</span><span data-else=""><code><var>SLOPE_2_FRAC[1]</var></code>
+            <var>"" )</var> to the right.</span>
+            
+            <span data-if='"position" + ( abs( SLOPE_2_FRAC[0] ) !== 1'><code><var>abs( SLOPE_2_FRAC[0] )</var></code>
+            s
+            <span data-if="SLOPE_2_FRAC[0] &lt; 0">down</span><span data-else="">up</span> from
+            <code>(0, <var>YINT_2</var>)</code> is
+            <code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.</span><span data-else=""><code><var>abs( SLOPE_2_FRAC[0] )</var></code>
+            <var>"" )</var>
+            <span data-if="SLOPE_2_FRAC[0] &lt; 0">down</span><span data-else="">up</span> from
             <code>(0, <var>YINT_2</var>)</code> is
             <code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.</span>
+        
         </p>
         <p class="hint_green">
             Graph the green line so it passes through
             <code>(0, <var>YINT_2</var>)</code> and
             <code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.
-            <br /><input type="button" value="Show me" onClick="javascript:
+            <br><input type="button" onclick="javascript:
                 KhanUtil.currentGraph.graph.pointC.moveTo( 0, KhanUtil.tmpl.getVAR( 'YINT_2' ), true );
                 KhanUtil.currentGraph.graph.pointD.moveTo( KhanUtil.tmpl.getVAR( 'SLOPE_2_FRAC[1]' ),
                     KhanUtil.tmpl.getVAR( 'YINT_2' ) + KhanUtil.tmpl.getVAR( 'SLOPE_2_FRAC[0]' ), true );
-            " />
+            " value="Show me">
         </p>
         <p>
             The solution is the point where the two lines intersect.
@@ -294,7 +330,7 @@
             <p>
                 The lines intersect at <code class="hint_pink">(<var>X</var>, <var>Y</var>)</code>.
             </p>
-            <div class="graphie" data-update="grid">
+            <div data-update="grid" class="graphie">
                 style({ stroke: PINK });
                 circle( [ X, Y ], 0.5 );
             </div>
@@ -302,5 +338,6 @@
     </div>
 
 </div>
-</body>
-</html>
+
+
+</body></html>

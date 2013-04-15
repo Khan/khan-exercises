@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers d3 word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers d3 word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Reading bar charts 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -29,7 +29,7 @@
         <div>
             <p>At Hogwarts, there are four houses: <var>toSentence( HOUSES )</var>. The bar chart below shows the number of house points that each house received today.</p>
             <p class="question">How many house points did <var>HOUSES[ INDEX ]</var> receive?</p>
-            <div class="graphie" id="barchart">
+            <div id="barchart" class="graphie">
                 var width = 5;
                 var height = 5;
 
@@ -42,27 +42,29 @@
                 graph.barchart.draw();
             </div>
 
-            <div class="solution" data-type="multiple">
-                <span style="padding-right: 5px" class="sol" data-forms="integer, decimal"><var>VALUES[ INDEX ]</var></span> house points
+            <div data-type="multiple" class="solution">
+                <span style="padding-right: 5px" data-forms="integer, decimal" class="sol"><var>VALUES[ INDEX ]</var></span> house points
             </div>
 
             <div class="hints">
                 <div>
                     <p>Find the bar for <var>HOUSES[ INDEX ]</var> by looking at the letter under each bar.</p>
-                    <div class="graphie" data-update="barchart">
+                    <div data-update="barchart" class="graphie">
                         graph.barchart.highlightDataPoint( INDEX );
                     </div>
                 </div>
                 <div>
                     <p>Compare how tall the bar is with the numbers to the left.</p>
-                    <div class="graphie" data-update="barchart">
+                    <div data-update="barchart" class="graphie">
                         graph.barchart.labelDataPoint( INDEX );
                     </div>
                 </div>
-                <p><var>HOUSES[ INDEX ]</var> received <var>plural( VALUES[ INDEX ], "house point" )</var>.</p>
+                <p data-if="isSingular(VALUES[ INDEX ])"><var>HOUSES[ INDEX ]</var> received 1 house point.</p><p data-else=""><var>HOUSES[ INDEX ]</var> received <var>VALUES[ INDEX ]</var> .</p>
+            
             </div>
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>
