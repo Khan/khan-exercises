@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html data-require="math interactive polynomials graphie math-format">
+    <head>
+        <title>Average Rate of Change of a Function</title>
+            <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="problems">
+
+                <div id="graphical-rate-of-change">
+                    <div class="vars">
+                        <var id="T1">randRange(-5,1)</var>
+                        <var id="T2">T1 + randRange(1,4)</var>
+                        <var id="POLYNOMIAL">new Polynomial(randRange(0,3), randRange(2,3))</var>
+                        <var id="FNXTEXT">POLYNOMIAL.text()</var>
+                        <var id="FNX">function(x) {return POLYNOMIAL.evalOf(x);}</var>
+                        <var id="XRANGE">[-5,5]</var>
+                        <var id="POINTS">[-5,-4.5,-4,-3.5,-3,-2.5,-2,-1.5,-1,-.5,0,.5,1,1.5,2,2.5,3,3.5,4,4.5,5]</var>
+                        <var id="YMIN">min.apply(Math, $.map(POINTS, FNX))</var>
+                        <var id="YMAX">max.apply(Math, $.map(POINTS, FNX))</var>
+                        <var id="YRANGE">[floorTo(-1, YMIN - (YMAX-YMIN)*0.05), ceilTo(-1, YMAX + (YMAX-YMIN)*0.05)]</var>
+                        <var id="BIGGEST">max.apply(Math, [abs(YRANGE[0]), abs(YRANGE[1])])</var>
+                        <var id="OPTIONS">{}</var>
+                    </div>
+
+                    <p class="question">
+                        Use the graph of the function <code>f(x)</code> to determine the average rate of change from <code class="hint_blue">x = <var>T1</var></code> to 
+                        <code class="hint_green">x = <var>T2</var></code>.
+                    </p>
+
+                    <div class="problem">
+                        <br />
+                        <div class="graphie" id="grid">
+                            initAutoscaledGraph([XRANGE, YRANGE], OPTIONS);
+
+                            style({
+                                stroke: "#6459ED",
+                                strokeWidth: 3
+                            }, function(){
+                                    plot(function(x){
+                                        return FNX(x);
+                                    }, XRANGE);
+                            });
+
+                            addMouseLayer();
+
+                            graph.point1 = addMovablePoint({
+                                coord: [0, FNX(0)],
+                                snapX: 0.5,
+                                snapY: 0.01,
+                                normalStyle: {
+                                    fill: KhanUtil.BLUE,
+                                    stroke: KhanUtil.BLUE
+                                },
+                                highlightStyle: {
+                                    fill: KhanUtil.BLUE,
+                                    stroke: KhanUtil.BLUE
+                                }
+                            });
+
+                            graph.point2 = addMovablePoint({
+                                coord: [1, FNX(1)],
+                                snapX: 0.5,
+                                snapY: 0.01,
+                                normalStyle: {
+                                    fill: KhanUtil.GREEN,
+                                    stroke: KhanUtil.GREEN
+                                },
+                                highlightStyle: {
+                                    fill: KhanUtil.GREEN,
+                                    stroke: KhanUtil.GREEN
+                                }
+                            });
+                            
+                            var txt = '(' + graph.point1.coord[0] + ', ' + graph.point1.coord[1] + ')';
+                            var txt = '(' + graph.point2.coord[0] + ', ' + graph.point2.coord[1] + ')';
+
+
+                            graph.point1.onMove = function(x,y) {
+                                if( x === <var>T1</var> && y >= <var>FNX(T1)-BIGGEST/100</var> && y <= <var>FNX(T1)+BIGGEST/100</var>){
+                                    graph.point1.constraints.fixed = true;
+                                    graph.point1.coord = [<var>T1</var>,<var>FNX(T1)</var>];
+                                    txt = '(' + graph.point1.coord[0] + ', ' + floorTo(1, graph.point1.coord[1]) + ')';
+                                    label(graph.point1.coord, txt, "above", {color: KhanUtil.BLUE}); 
+                                }
+
+                            };
+
+                            graph.point2.onMove = function(x,y) {
+                                if( x === <var>T2</var> && y >= <var>FNX(T2)-BIGGEST/100</var> && y <= <var>FNX(T2)+BIGGEST/100</var>){
+                                    graph.point2.constraints.fixed = true;
+                                    graph.point2.coord = [<var>T2</var>,<var>FNX(T2)</var>];
+                                    txt = '(' + graph.point2.coord[0] + ', ' + floorTo(1, graph.point2.coord[1]) + ')';
+                                    label(graph.point2.coord, txt, "below", {color: KhanUtil.GREEN}); 
+                                }
+
+                            };
+                        </div>
+                    </div>
+
+                    <p class="solution" data-inexact data-max-error="0.15" data-type="decimal">
+                        <var>(FNX(T2) - FNX(T1) ) / ( T2-T1 )</var>
+                    </p>
+
+                    <div class="hints">
+                        <p>
+                            Drag the <span class="hint_blue">blue</span> dot to the point <code class="hint_blue">(<var>T1</var>, <var>FNX(T1)</var>)</code>.<br />
+                            Drag the <span class="hint_green">green</span> dot to the point <code class="hint_green">(<var>T2</var>, <var>FNX(T2)</var>)</code>.
+                        </p>
+                        <div class="graphie" data-update="grid">
+                            style({
+                                stroke: PINK,
+                                strokeWidth: 3
+                            }, function() {
+                                line([ <var>T1</var> - .25, <var>FNX(T1)</var> - (YMAX-YMIN)*0.02], [ <var>T1</var> + .25, <var>FNX(T1)</var> + (YMAX-YMIN)*0.02]);
+                                line([ <var>T1</var> + .25, <var>FNX(T1)</var> - (YMAX-YMIN)*0.02], [ <var>T1</var> - .25, <var>FNX(T1)</var> + (YMAX-YMIN)*0.02]);
+
+                                line([ <var>T2</var> - .25, <var>FNX(T2)</var> - (YMAX-YMIN)*0.02], [ <var>T2</var> + .25, <var>FNX(T2)</var> + (YMAX-YMIN)*0.02]);
+                                line([ <var>T2</var> + .25, <var>FNX(T2)</var> - (YMAX-YMIN)*0.02], [ <var>T2</var> - .25, <var>FNX(T2)</var> + (YMAX-YMIN)*0.02]);
+                            });
+                        </div>
+                        <p>
+                            The average rate of change of a function over an interval <code>[a,b]</code> is given by 
+                            <code>\dfrac{\Delta f}{\Delta x} = \dfrac{f(b) - f(a)}{b-a}</code>.
+                        </p>
+                        <p>
+                            <code class="hint_green">f(<var>T2</var>) = <var>FNX(T2)</var></code> and
+                            <code class="hint_blue">f(<var>T1</var>) = <var>FNX(T1)</var></code>, so <br />
+                            <code>\dfrac{\Delta f}{\Delta x} = \dfrac{\green{f(<var>T2</var>)} - \blue{f(<var>T1</var>)}}{\green{<var>T2</var>} - \blue{<var>T1</var>}} = <var>(FNX(T2) - FNX(T1) ) / ( T2-T1 )</var> </code>.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="functional-rate-of-change">
+                    <div class="vars">
+                        <var id="T1">randRange(-20,20)</var>
+                        <var id="T2">T1 + randRange(1,20)</var>
+                        <var id="POLYNOMIAL">new Polynomial(randRange(0,3), randRange(2,4))</var>
+                        <var id="FNXTEXT">POLYNOMIAL.text()</var>
+                        <var id="FNX">function(x) {return POLYNOMIAL.evalOf(x);}</var>
+                    </div>
+
+                    <p class="problem"></p>
+                    <p class="question">
+                        Determine the average rate of change of <code>f(x) = <var>FNXTEXT</var></code> from <code>x = <var>T1</var></code> to <code>x = <var>T2</var></code>.
+                    </p>
+
+                    <p class="solution" data-inexact data-max-error="0.10" data-type="decimal">
+                        <var>(FNX(T2) - FNX(T1) ) / ( T2-T1 )</var>
+                    </p>
+
+                    <div class="hints">
+                        <p>
+                            The average rate of change of a function over an interval <code>[a,b]</code> is given by 
+                            <code>\dfrac{\Delta f}{\Delta x} = \dfrac{f(b) - f(a)}{b-a}</code>.
+                        </p>
+
+                        <p>
+                            <code>f(<var>T2</var>) = <var>FNX(T2)</var></code> and
+                            <code>f(<var>T1</var>) = <var>FNX(T1)</var></code>, so <br />
+                            <code>\dfrac{\Delta f}{\Delta x} = \dfrac{f(<var>T2</var>) - f(<var>T1</var>)}{<var>T2</var> - <var>T1</var>} = <var>(FNX(T2) - FNX(T1) ) / ( T2-T1 )</var> </code>.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="table-average-of-change">
+                    <div class="vars">
+                        <var id="T1">randRange(-10,5)</var>
+                        <var id="T2">T1 + randRange(1, 5)</var>
+                        <var id="POLYNOMIAL">new Polynomial(randRange(0,3), randRange(2,4))</var>
+                        <var id="FNXTEXT">POLYNOMIAL.text()</var>
+                        <var id="FNX">function(x) {return POLYNOMIAL.evalOf(x);}</var>                        
+                        <var id="POINTS">[-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</var>
+                        <var id="FNPOINTS">$.map(POINTS, FNX)</var>
+                        <var id="TABLE">
+                            function(){
+                                var theTable = document.getElementById('table');
+
+                                for (var i = 0, tr, tdL,tdR; i < 21; i++) {
+                                tr = document.createElement('tr');
+                                tdL = document.createElement('td');
+                                tdR = document.createElement('td');
+                                tdL.appendChild(document.createTextNode(POINTS[i]));
+                                tdR.appendChild(document.createTextNode(FNPOINTS[i]));
+                                tr.appendChild(tdL);
+                                tr.appendChild(tdR);
+                                theTable.appendChild(tr);
+                                }
+                            }
+                        </var>
+
+                    </div>
+
+                    <p class="problem">
+                        Calculuate the average rate of change of the from 
+                        <code>x = <var>T1</var></code> to <code>x = <var>T2</var></code>, of the function given by
+                        the table below. <var>TABLE()</var></p>
+                    <p class="question">
+                        <table id="table">
+                            <tr>
+                            <th><code>x</code></th>
+                            <th><code>f(x)</code></th>
+                            </tr>
+                        </table>
+                    </p>
+                    <p class="solution" data-inexact data-max-error="0.10" data-type="decimal">
+                        <var>(FNX(T2) - FNX(T1) ) / ( T2-T1 )</var>
+                    </p>
+                    <div class="hints">
+                        <p>
+                            The average rate of change of a function over an interval <code>[a,b]</code> is given by 
+                            <code>\dfrac{\Delta f}{\Delta x} = \dfrac{f(b) - f(a)}{b-a}</code>.
+                        </p>
+
+                        <p>
+                            <code>f(<var>T2</var>) = <var>FNX(T2)</var></code> and
+                            <code>f(<var>T1</var>) = <var>FNX(T1)</var></code>, so <br />
+                            <code>\dfrac{\Delta f}{\Delta x} = \dfrac{f(<var>T2</var>) - f(<var>T1</var>)}{<var>T2</var> - <var>T1</var>} = <var>(FNX(T2) - FNX(T1) ) / ( T2-T1 )</var> </code>.
+                        </p>
+                    </div>
+                </div>
+        </div>
+    </body>
+</html>
