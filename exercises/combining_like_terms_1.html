@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html data-require="math expressions">
+<html data-require="math math-format expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Combining like terms 1</title>
+    <title>Combining like terms</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
     <div class="vars">
-        <var id="X">randFromArray("abkmnptx")</var>
+        <var id="X">randVar()</var>
         <var id="A">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
         <var id="B" data-ensure="abs( A ) !== abs( B )">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
         <var id="C">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 20))</var>

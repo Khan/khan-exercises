@@ -51,7 +51,8 @@
                     </div>
                     <div>
                         <div class="graphie">
-                            $("#quadratic").text("\\qquad x = \\dfrac{-b \\pm" +
+                            $("#quadratic script").text(
+                                "\\qquad x = \\dfrac{-b \\pm" +
                                 " \\sqrt{\\blue{b^2 - 4ac}}}{2a}");
                             MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
                                 $("#quadratic")[0]]);

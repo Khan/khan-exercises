@@ -26,7 +26,7 @@
                         <var>expr(["*", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var> = <var>expr(["^", BASE, ["+", EXP1, EXP2]])</var>
                     </code></p>
                     <p><code>
-                        \hphantom{<var>expr(["*", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var>} = <var>expr(["^", BASE, EXP1 + EXP2])</var>
+                        \hphantom{<var>expr(["*", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var>} = <var>BASE</var>^{<var>EXP1 + EXP2</var>}
                     </code></p>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                         <var>expr(["frac", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var> = <var>expr(["^", BASE, ["-", EXP1, EXP2]])</var>
                     </code></p>
                     <p><code>\displaystyle
-                        \hphantom{<var>expr(["frac", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var>} = <var>expr(["^", BASE, EXP1 - EXP2])</var>
+                        \hphantom{<var>expr(["frac", ["^", BASE, EXP1], ["^", BASE, EXP2]])</var>} = <var>BASE</var>^{<var>EXP1 - EXP2</var>}
                     </code></p>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                         <var>expr(["^", ["^", BASE, EXP1], EXP2])</var> = <var>expr(["^", BASE, ["*", EXP1, EXP2]])</var>
                     </code></p>
                     <p><code>
-                        \hphantom{<var>expr(["^", ["^", BASE, EXP1], EXP2])</var>} = <var>expr(["^", BASE, EXP1 * EXP2])</var>
+                        \hphantom{<var>expr(["^", ["^", BASE, EXP1], EXP2])</var>} = <var>BASE</var>^{<var>EXP1 * EXP2</var>}
                     </code></p>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 <html data-require="math graphie graphie-geometry interactive constructions matrix">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Constructions 1</title>
+    <title>Compass Constructions</title>
     <script src="../khan-exercise.js"></script>
     <script>
         var applyRefFrame = function(coord, rot) {
@@ -442,8 +442,8 @@
                             deg = ang * 180 / PI;
                             origDeg = ROT * 180 / PI;
 
-                            if (abs(deg - origDeg + 90) &lt; 7 ||
-                                    abs(deg - origDeg - 90) &lt; 7) {
+                            if ((abs(deg - origDeg + 90) % 360) &lt; 7 ||
+                                    (abs(deg - origDeg - 90) % 360) &lt; 7) {
                                 perp = tool;
                             }
                         }
