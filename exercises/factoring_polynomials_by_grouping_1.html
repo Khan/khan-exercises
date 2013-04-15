@@ -2,7 +2,7 @@
 <html data-require="math math-format graphie">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Factoring polynomials by grouping 1</title>
+    <title>Factoring polynomials by grouping</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -15,14 +15,15 @@
                 <var id="F">randRangeNonZero(-5, 5)</var>
                 <var id="B">E + A * F</var>
                 <var id="C">E * F</var>
-                <var id="AX_PLUS_E">"\\(\\s*" + (A &lt; 0 ? "[-\u2212]" : "") + abs(A) + "[xX]\\s*" + (E &lt; 0 ? "[-\u2212]" : "\\+") + "\\s*" + abs(E) + "\\s*\\)"</var>
-                <var id="E_PLUS_AX">"\\(\\s*" + (E &lt; 0 ? "[-\u2212]" : "") + "\\s*" + abs(E) + (A &lt; 0 ? "[-\u2212]" : "") + abs(A) + "[xX]\\s*" + "\\s*\\)"</var>
-                <var id="X_PLUS_F">"\\(\\s*[xX]\\s*" + (F &lt; 0 ? "[-\u2212]" : "\\+") + "\\s*" + abs(F) + "\\s*\\)"</var>
-                <var id="F_PLUS_X">"\\(\\s*" + (F &lt; 0 ? "[-\u2212]" : "") + "\\s*" + abs(F) + "\\s*\\+\\s*[xX]\\s*\\)"</var>
-                <var id="NEG_AX_MINUS_E">"\\(\\s*" + (A &gt; 0 ? "[-\u2212]" : "") + abs(A) + "[xX]\\s*" + (E &gt; 0 ? "[-\u2212]" : "\\+") + "\\s*" + abs(E) + "\\s*\\)"</var>
-                <var id="NEG_E_MINUS_AX">"\\(\\s*" + (E &gt; 0 ? "[-\u2212]" : "") + "\\s*" + abs(E) + "\\s*" + (A &gt; 0 ? "[-\u2212]" : "\\+") + abs(A) + "\\s*[xX]\\s*" + "\\s*\\)"</var>
-                <var id="NEG_X_MINUS_F">"\\(\\s*[-\u2212]\\s*[xX]\\s*" + (F &gt; 0 ? "[-\u2212]" : "\\+") + "\\s*" + abs(F) + "\\s*\\)"</var>
-                <var id="NEG_F_MINUS_X">"\\(\\s*" + (F &gt; 0 ? "[-\u2212]" : "") + "\\s*" + abs(F) + "\\s*[-\u2212]\\s*[xX]\\s*\\)"</var>
+
+                <var id="AX_PLUS_E">"(?:\\(\\s*" + (A &lt; 0 ? "[-\u2212]\\s*" : "") + abs(A) + "\\s*[xX]\\s*" + (E &lt; 0 ? "[-\u2212]" : "\\+") + "\\s*" + abs(E) + "\\s*\\)|" +
+                                       "\\(\\s*" + (E &lt; 0 ? "[-\u2212]\\s*" : "") + abs(E) + "\\s*"         + (A &lt; 0 ? "[-\u2212]" : "\\+") + "\\s*" + abs(A) + "\\s*[xX]\\s*\\))"</var>
+                <var id="X_PLUS_F">"(?:\\(\\s*[xX]\\s*" + (F &lt; 0 ? "[-\u2212]" : "\\+") + "\\s*" + abs(F) + "\\s*\\)|" +
+                                      "\\(\\s*" + (F &lt; 0 ? "[-\u2212]\\s*" : "") + abs(F) + "\\s*\\+\\s*[xX]\\s*\\))"</var>
+                <var id="NEG_AX_MINUS_E">"(?:\\(\\s*" + (-A &lt; 0 ? "[-\u2212]\\s*" : "") + abs(A) + "\\s*[xX]\\s*" + (-E &lt; 0 ? "[-\u2212]\\s*" : "\\+") + abs(E) + "\\s*\\)|" +
+                                            "\\(\\s*" + (-E &lt; 0 ? "[-\u2212]\\s*" : "") + abs(E) + "\\s*"         + (-A &lt; 0 ? "[-\u2212]\\s*" : "\\+") + abs(A) + "\\s*[xX]\\s*\\))"</var>
+                <var id="NEG_X_MINUS_F">"(?:\\(\\s*[-\u2212]\\s*[xX]\\s*" + (-F &lt; 0 ? "[-\u2212]" : "\\+") + "\\s*" + abs(F) + "\\s*\\)|" +
+                                           "\\(\\s*" + (-F &lt; 0 ? "[-\u2212]\\s*" : "") + abs(F) + "\\s*[-\u2212]\\s*[xX]\\s*\\))"</var>
             </div>
 
             <p class="problem">Factor the following expression:</p>
@@ -34,37 +35,13 @@
             <div class="solution" data-type="set">
                 <!-- TODO(eater): Add a magical helper thing that assembles all these permutations automatically -->
                 <div class="set-sol" data-type="regex">^\s*<var>AX_PLUS_E</var>\s*<var>X_PLUS_F</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>AX_PLUS_E</var>\s*<var>F_PLUS_X</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>E_PLUS_AX</var>\s*<var>X_PLUS_F</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>E_PLUS_AX</var>\s*<var>F_PLUS_X</var>\s*$</div>
                 <div class="set-sol" data-type="regex">^\s*<var>X_PLUS_F</var>\s*<var>AX_PLUS_E</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>F_PLUS_X</var>\s*<var>AX_PLUS_E</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>X_PLUS_F</var>\s*<var>E_PLUS_AX</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>F_PLUS_X</var>\s*<var>E_PLUS_AX</var>\s*$</div>
                 <div class="set-sol" data-type="regex">^\s*<var>NEG_AX_MINUS_E</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>NEG_AX_MINUS_E</var>\s*<var>NEG_F_MINUS_X</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>NEG_E_MINUS_AX</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>NEG_E_MINUS_AX</var>\s*<var>NEG_F_MINUS_X</var>\s*$</div>
                 <div class="set-sol" data-type="regex">^\s*<var>NEG_X_MINUS_F</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>NEG_F_MINUS_X</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>NEG_X_MINUS_F</var>\s*<var>NEG_E_MINUS_AX</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>NEG_F_MINUS_X</var>\s*<var>NEG_E_MINUS_AX</var>\s*$</div>
                 <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_AX_MINUS_E</var>\s*<var>X_PLUS_F</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_AX_MINUS_E</var>\s*<var>F_PLUS_X</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_E_MINUS_AX</var>\s*<var>X_PLUS_F</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_E_MINUS_AX</var>\s*<var>F_PLUS_X</var>\s*$</div>
                 <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_X_MINUS_F</var>\s*<var>AX_PLUS_E</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_F_MINUS_X</var>\s*<var>AX_PLUS_E</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_X_MINUS_F</var>\s*<var>E_PLUS_AX</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_F_MINUS_X</var>\s*<var>E_PLUS_AX</var>\s*$</div>
                 <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>X_PLUS_F</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>F_PLUS_X</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>X_PLUS_F</var>\s*<var>NEG_E_MINUS_AX</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>F_PLUS_X</var>\s*<var>NEG_E_MINUS_AX</var>\s*$</div>
                 <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>AX_PLUS_E</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>AX_PLUS_E</var>\s*<var>NEG_F_MINUS_X</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>E_PLUS_AX</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>E_PLUS_AX</var>\s*<var>NEG_F_MINUS_X</var>\s*$</div>
                 <div class="input-format"><span class="entry"></span></div>
                 <div class="example">a factored expression, like <b>(2x+1)(x+2)</b></div>
             </div>

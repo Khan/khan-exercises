@@ -1650,7 +1650,7 @@ $.extend(KhanUtil, {
             graphie.scalePoint(circle.center)[1],
             graphie.scaleVector(circle.radius)[0]).attr({
                 "stroke-width": 20,
-                "opacity": 0.0
+                "opacity": 0.002  // This is as close to 0 as MSIE will allow
             });
 
         $(circle.centerPoint.mouseTarget[0]).on(
