@@ -279,6 +279,15 @@ def _get_innerhtml(html_node):
     return re.sub(r'\s+', ' ', html_string).strip()
 
 
+def _get_page_html(root_tree):
+    """Return an HTML string representing an lxml tree."""
+    # We serialize the entire HTML tree
+    html_string = lxml.html.tostring(root_tree)
+
+    # lxml's tostring() does not output a DOCTYPE so we must
+    # generate our own.
+    return "<!DOCTYPE html>\n" + html_string
+
 def babel_extract(fileobj, keywords, comment_tags, options):
     """Babel extraction method for exercises templates.
 

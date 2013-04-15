@@ -1,4 +1,16 @@
-"""
+"""An i18n linting tool for exercises.
+
+Catches common i18n problems in exercises and recommends solutions to
+fix them. Wherever possible the script can also automatically fix the
+problems with limited user interaction.
+
+By default the script acts as a linter outputting errors that must be
+corrected by hand and a list of any errors that could be fixed
+automatically (which is still considered to be a linting failure).
+
+If run with the --fix flag then the script will automatically fix the
+files in place wherever possible. The user will be prompted to clear
+up any ambiguities as well.
 """
 import argparse
 import copy
@@ -7,8 +19,18 @@ import sys
 
 import extract_strings
 
-_PLURAL_FORMS = {}
+# Should the user be prompted when a case is ambiguous?
+SHOW_PROMPT = True
+
+# Used to cache the results from the user prompt pluralization methods
+_PLURAL_FORMS = {
+    # Hardcode a few common pluralizations in
+    '': 's',
+    'is': 'are',
+    'was': 'were'
+}
 _PLURAL_NUM_POS = {}
+_IS_PLURAL_NUM = {}
 
 # A list of all the built-in functions which are sometimes pluralized
 # We effectively treat these as strings since their pluralization is
@@ -18,9 +40,11 @@ _functions = ['deskItem', 'exam', 'item', 'storeItem', 'crop', 'distance',
 
 # In an ambiguous case the presence of these strings tend to indicate
 # what the variable holds
-_string_vars = ['TEXT', 'ITEM', 'TYPE', 'UNIT']
-_num_vars = ['NUM', 'AMOUNT']
+_string_vars = ['TEXT', 'ITEM', 'TYPE', 'UNIT', 'LOCATION']
+_num_vars = ['NUM', 'AMOUNT', 'TOTAL']
 
+# Helper regexs for determining if something looks like a string
+# or a function call
 _is_string = re.compile(r'^\s*["\'](.*?)["\']\s*$')
 _is_function = re.compile(r'^\s*(\w+)\(.*\)\s*$')
 
@@ -39,54 +63,67 @@ def main():
 
     args = arg_parser.parse_args()
 
-    # The invalid nodes that need manual repairing
-    errors = []
-    file_errors = {}
-    fixed_files = []
-    num_fixes = 0
+    # Don't prompt the user if we're not fixing the results
+    if not args.fix:
+        global SHOW_PROMPT
+        SHOW_PROMPT = False
+
+    # Keep track of how many errors and fixes occur and in how many files
+    total_errors = 0
+    total_error_files = 0
+    total_fixes = 0
+    total_fix_files = 0
 
     # Go through all the fileanmes provided
     for filename in args.html_files:
-        if not args.quiet:
-            print >>sys.stderr, "Processing %s..." % filename
-        (_errors, _fixes) = lint_file(filename, args.apply_fix, not args.quiet)
-        errors += _errors
-        num_fixes += _fixes
-        if _fixes:
-            fixed_files.append((filename, _fixes))
+        # Lint the file, returns a list of error messages and
+        # a count of the number of fixes that were automatically
+        # applied (depending upon --fix)
+        (errors, num_fixes) = lint_file(filename, args.fix,
+            not args.quiet)
 
-    for (node, info, filename) in errors:
-        file_errors[filename] = file_errors.get(filename, 0) + 1
+        # Keep track of how many fixes have been done
+        total_fixes += num_fixes
 
+        # Keep track of how many files have been fixed
+        if num_fixes:
+            total_fix_files += 1
 
-    if verbose:
-        print >>sys.stderr, "Contains invalid node:"
-        print >>sys.stderr, extract_strings._get_outerhtml(node)
-        print >>sys.stderr, "Invalid node:"
-        print >>sys.stderr, extract_strings._get_outerhtml(lint_node)
+        if errors:
+            num_errors = len(errors)
 
-    if not args.quiet:
-        num_files = len(fixed_files)
-        print >>sys.stderr, ('%s nodes fixed in %s file%s.' %
-            (num_fixes, num_files, "" if num_files == 1 else "s"))
-        for (filename, _fixes) in sorted(fixed_files):
-            if _fixes > 0:
-                print >>sys.stderr, " ... %s (%s)" % (filename, _fixes)
+            # Keep track of how many errors have occurred
+            total_errors += num_errors
 
-    if not args.quiet and errors:
-        num_matches = len(errors)
-        num_files = len(file_errors)
-        print >>sys.stderr, ('%s error%s detected in %s file%s.'
-                            % (num_matches, "" if num_matches == 1 else "s",
-                            num_files, "" if num_files == 1 else "s"))
-        for filename in sorted(file_errors.keys()):
-            print >>sys.stderr, " ... %s (%s)" % (filename,
-                file_errors[filename])
+            # Keep track of how many files have errors
+            total_error_files += 1
 
-    return errors
+            # Print out a notice indicating that an error occurred
+            # in that file.
+            print >>sys.stderr, ('%s error%s: %s.' % (
+                num_errors, "" if num_errors == 1 else "s", filename))
 
-    matches = fix(args.html_files, args.fix, not args.quiet)
-    sys.exit(min(len(matches), 127))
+            # Print out all the error messages
+            for error_msg in errors:
+                print >>sys.stderr, error_msg
+
+        # If nodes were automatically fixed output the result
+        if not args.quiet and args.fix and num_fixes:
+            print >>sys.stderr, ('%s node%s have been fixed in %s.' % (
+                num_fixes, "" if num_fixes == 1 else "s", filename))
+
+    # Output the results of having fixed the files automatically
+    if not args.quiet and args.fix:
+        print >>sys.stderr, ('%s nodes fixed in %s file%s.' % (
+            total_fixes, total_fix_files, "" if total_fix_files == 1 else "s"))
+
+    # Output a total number of errors that have occurred
+    if total_errors:
+        print >>sys.stderr, ('%s error%s detected in %s file%s.' % (
+            total_errors, "" if total_errors == 1 else "s",
+            total_error_files, "" if total_error_files == 1 else "s"))
+
+    sys.exit(min(total_errors, 127))
 
 
 def lint_file(filename, apply_fix, verbose):
@@ -98,7 +135,6 @@ def lint_file(filename, apply_fix, verbose):
 
     Arguments:
         - filename: A string filename to parse
-        - filter: The filter class instance to use in repairing the file
         - apply_fix: If True, then filename is replaced with new contents,
           which is the fixed version of the old contents.
         - verbose: If there should be any output
@@ -138,7 +174,9 @@ def lint_file(filename, apply_fix, verbose):
         lint_nodes = node.xpath(lint_expr)
 
         for lint_node in lint_nodes:
-            errors.append((node, lint_node, filename))
+            errors.append("Contains invalid node:\n%s\nInvalid node:\n%s" % (
+                extract_strings._get_outerhtml(node),
+                extract_strings._get_outerhtml(lint_node)))
 
     # And now we run the nodes through all of our fixable filters. These
     # filters detect nodes that can be automatically fixed (and fixes them
@@ -187,7 +225,7 @@ def lint_file(filename, apply_fix, verbose):
 
             # Some nodes will have a unique 'key' which will be used as a
             # lookup. For example in the following nodes:
-            #    <p><var>He(1)</var> threw a ball to <var>his(1)</var> 
+            #    <p><var>He(1)</var> threw a ball to <var>his(1)</var>
             #       friend.</p>
             #    <p><var>He(1)</var> threw a ball to <var>him(2)</var>.</p>
             # The first string has one key '1' used twice, whereas the second
@@ -206,20 +244,23 @@ def lint_file(filename, apply_fix, verbose):
                 # further processing.
                 match = filter.get_match(fix_node)
 
-                if match:
+                if match and hasattr(filter, 'extract_key'):
                     # Extract the key from the string (if it exists)
                     key = filter.extract_key(match)
 
                     # If a key was extracted then add it to the set
                     if key:
                         match_keys.add(key)
+                    else:
+                        errors.append('Ambiguous keys, input needed:\n%s' % (
+                            extract_strings._get_outerhtml(node)))
 
             # If we've located more than one key then we need to fix the
             # strings by hand.
             if len(match_keys) > 1:
-                print >>sys.stderr, "Contains too many different keys:"
-                print >>sys.stderr, extract_strings._get_outerhtml(node)
-                errors.append((node, match_keys, filename))
+                errors.append("Contains too many different keys (%s):\n%s" % (
+                    ", ".join(list(match_keys)),
+                    extract_strings._get_outerhtml(node)))
                 new_nodes.append(orig_node)
                 continue
 
@@ -290,17 +331,18 @@ def lint_file(filename, apply_fix, verbose):
         # the upcoming filters will need to handle those nodes as well).
         nodes = new_nodes
 
-    # If any nodes have changed and we want to apply the fixes
-    if nodes_changed and apply_fix:
-        # We serialize the entire HTML tree
-        html_string = lxml.html.tostring(root_tree)
-
-        # Then write out the modified file
-        with open(filename, 'w') as f:
-            # lxml's tostring() does not output a DOCTYPE so we must
-            # generate our own.
-            f.write("<!DOCTYPE html>\n")
-            f.write(html_string)
+    if nodes_changed:
+        # If any nodes have changed and we want to apply the fixes
+        if apply_fix:
+            # Then write out the modified file
+            with open(filename, 'w') as f:
+                f.write(extract_strings._get_page_html(root_tree))
+        else:
+            # Consider it to be an error when there are nodes that need
+            # fixing and we haven't run with --fix
+            errors.append(('%s node%s need to be fixed. '
+                'Re-run with --fix to automatically fix them.' % (
+                    nodes_changed, "" if nodes_changed == 1 else "s")))
 
     return (errors, nodes_changed)
 
@@ -346,8 +388,8 @@ class PronounFilter:
         For example: <var>He(1)</var> will be 'He' and 'She' in the
         original and cloned nodes.
         """
-        _replace_node(fix_node, match.group(1).strip())
-        _replace_node(cloned_fix_node,
+        extract_strings._replace_node(fix_node, match.group(1).strip())
+        extract_strings._replace_node(cloned_fix_node,
             self._pronoun_map[match.group(1).strip()])
 
     def filter_node(self, key, node, cloned_node):
@@ -392,12 +434,25 @@ class AlwaysPluralFilter:
         """Return a match of a string that matches plural(...)"""
         return re.match(self.regex, extract_strings._get_innerhtml(fix_node))
 
-    def extract_key(self, match):
-        """We don't use a key for this particular filter."""
-        return None
-
     def filter_fix_node(self, match, fix_node, cloned_fix_node):
-        """
+        """Replace the <var> with the correct contents.
+
+        This depends upon the contents of the plural() string.
+
+        When the argument is a string literal. For example:
+            <var>plural("string")</var>
+        Will produce:
+            string
+
+        When the variable holds a string. For example:
+            <var>plural(UNIT_TEXT)</var>
+        Will produce:
+            <var>plural_form(UNIT_TEXT)</var>
+
+        When the variable holds a number. For example:
+            <var>plural(NUM)</var>
+        Will produce:
+            <var>plural_form("", NUM)</var>
         """
         # Handle the case where a raw string is used
         str_match = re.match(_is_string, match.group(2))
@@ -405,13 +460,14 @@ class AlwaysPluralFilter:
             # In this case just convert it directly to its plural form
             # We do this by prompting the user for help translating to the
             # correct plural form.
-            _replace_node(fix_node, get_plural_form(str_match.group(1)))
+            extract_strings._replace_node(fix_node,
+                get_plural_form(str_match.group(1)))
         # If the argument is a number
         elif get_is_plural_num(match):
             # Then we need to rewrite the function call so that it'll
             # be transformed into plural("", NUM), which will then be
             # converted into its correct form via the PluralFilter
-            fix_node.text = _empty_str_fn % (match.group(1).strip(),
+            fix_node.text = self._empty_str_fn % (match.group(1).strip(),
                 match.group(2).strip())
         else:
             # Otherwise we need to wrap the variable (or function call) in
@@ -480,8 +536,8 @@ class PluralFilter:
     output (in a form similar to the handling of the built-in methods).
     """
     _methods = ['plural', 'pluralTex']
-    _plural_form = 'plural_form(%s,%s)'
-    _plural_form_tex = 'plural_form_tex(%s,%s)'
+    _plural_form = 'plural_form(%s, %s)'
+    _plural_form_tex = 'plural_form_tex(%s, %s)'
     _ngetpos_condition = 'isSingular(%s)'
 
     require_ifelse = True
@@ -508,30 +564,77 @@ class PluralFilter:
         return match.group(get_plural_num_pos(match) + 1).strip()
 
     def filter_fix_node(self, match, fix_node, cloned_fix_node):
-        """
+        """Replace the <var>s with the correct plural() contents.
+
+        If the first argument to plural() is a string:
+        This means that the plural() function is expected to output just
+        the pluralized form of the string itself. We take this and turn
+        it into two blocks toggled with an if/else and with the string
+        hardcoded into it. For example:
+           <p>I have <var>plural("a cat", NUM)</var>.</p>
+        Would then become (after user prompting):
+           <p data-if="isSingular(NUM)">I have a cat.</p>
+           <p data-else>I have many cats.</p>
+
+        If the second argument to plural() is a string:
+        This means that the plural() function is expected to output a
+        number and the pluralized form of the string. We take this and turn
+        it into two blocks toggled with an if/else and with the number
+        variable and the string hardcoded into it. For example:
+           <p>I have <var>plural(NUM, "cat")</var>.</p>
+        Would then become (after user prompting):
+           <p data-if="isSingular(NUM)">I have 1 cat.</p>
+           <p data-else>I have <var>NUM</var> cats.</p>
+
+        Otherwise both of the results are variables or function calls:
+        This means that we need to insert the variables directly, for example:
+           <p>I have <var>plural(NUM, item(1))</var>.</p>
+        Would then become (after user prompting):
+           <p data-if="isSingular(NUM)">I have 1 <var>item(1)</var>.</p>
+           <p data-else>I have <var>NUM</var>
+               <var>plural_form(item(1), NUM)</var>.</p>
+        To do this we need to determine which argument is the number variable
+        and then change the output depending upon it (because of the silly
+        plural() function argument order).
         """
         first_str_match = re.match(_is_string, match.group(2))
         second_str_match = re.match(_is_string, match.group(3))
 
+        # If the first argument is a string:
         if first_str_match:
+            # Get the word out of the string
             word = first_str_match.group(1).strip()
-            _replace_node(fix_node, word)
-            _replace_node(cloned_fix_node, get_plural_form(word))
-        elif second_str_match:
-            word = second_str_match.group(1).strip()
-            _replace_node(fix_node, "1 " + word)
 
-            # Have the first <var> output a number
+            # Replace the first node with just the word
+            extract_strings._replace_node(fix_node, word)
+
+            # Replace the cloned node with the plural form of the word
+            extract_strings._replace_node(cloned_fix_node,
+                get_plural_form(word))
+
+        # If the second argument is a string
+        elif second_str_match:
+            # Get the word out of the string
+            word = second_str_match.group(1).strip()
+
+            # Convert the first node to just the static string '1 WORD'
+            extract_strings._replace_node(fix_node, "1 " + word)
+
+            # Have the cloned <var> output the number
             cloned_fix_node.text = match.group(2).strip()
 
-            # Insert a space between the two vars
+            # Insert a space and the plural form of the word after the variable
             cloned_fix_node.tail = (' ' + get_plural_form(word) +
                 (cloned_fix_node.tail or ''))
-        else:
-            plural_num_pos = get_plural_num_pos(match)
 
+        # Otherwise both of the results are variables or function calls.
+        else:
+            # The string which will be used to wrap the output variable
             pluralize = (self._plural_form if match.group(1) == 'plural' else
                 self._plural_form_tex)
+
+            # Get the position of the number variable from the match
+            plural_num_pos = get_plural_num_pos(match)
 
             # Number is in the first position, this results in the output:
             # "NUM STRING". This signature is deprecated so we're going to
@@ -564,15 +667,20 @@ class PluralFilter:
 
                 # We need to insert a new <var> element after the existing one
                 new_var_node = cloned_fix_node.makeelement('var')
-                new_var_node.tail = cloned_fix_node.tail
 
-                # Insert a space between the two <var>s
-                cloned_fix_node.tail = ' '
+                # Insert the new node after the cloned node
+                cloned_fix_node.addnext(new_var_node)
+
+                # Change the cloned var to output the number
+                cloned_fix_node.text = match.group(2).strip()
 
                 # Switch the order of the arguments to match the new signature
                 # that is used by plural_form(STRING, NUM)
                 new_var_node.text = (pluralize %
                     (match.group(3).strip(), match.group(2).strip()))
+
+                # Insert a space between the two <var>s
+                cloned_fix_node.tail = ' '
 
             # Number is in the second position, this just outputs the plural
             # form of the word depending upon the number. This is what we want
@@ -582,50 +690,98 @@ class PluralFilter:
                     (match.group(2).strip(), match.group(3).strip()))
 
     def filter_node(self, key, node, cloned_node):
-        """Adds an data-if and data-else condition to handle the gender toggle.
+        """Adds an data-if and data-else condition to handle the plural toggle.
 
-        This will turn a string like <p><var>He(1)</var> ran.</p> into:
-            <p data-if="isMale(1)">He ran.</p><p data-else>She ran.</p>
+        This will turn a string like:
+            <p>I have <var>plural(NUM, "cat")</var>.</p>
+        Into the following:
+            <p data-if="isSingular(NUM)">I have 1 cat.</p>
+            <p data-else>I have <var>NUM</var> cats.</p>
         """
         node.set('data-if', self._ngetpos_condition % key)
         cloned_node.set('data-else', '')
         node.addnext(cloned_node)
         return (node, cloned_node)
 
+
 class TernaryFilter:
-    """
+    """Switch inline ternary usage to block-level if/else statements.
+
+    One idiom that's used frequently in exercises is that of inline ternary
+    statements, which is similar to plural() usage, for example:
+        <p>He gave <var>NUM == 1 ? "an apple" : "many apples"</var>.</p>
+
+    We specifically look for the case where there's an condition followed by
+    one-or-two strings and convert it into two blocks, for example:
+        <p data-if="NUM == 1">He gave an apple.</p>
+        <p data-else>He gave many apples.</p>
+
+    In the case where the expression only has a single string usage it greatly
+    simplifies the result, for example:
+        <p>He gave <var>NUM == 1 ? "an apple" : APPLES</var>.</p>
+
+    Would become:
+        <p data-if="NUM == 1">He gave an apple.</p>
+        <p data-else>He gave <var>APPLES</var>.</p>
+
+    This creates two strings that have consistent plural usage and are easier
+    to translate as a result.
     """
     require_ifelse = True
     regex = re.compile(r'^\s*([^\?]+)\s*\?\s*([^:]+)\s*:\s*([^\?]+)\s*$')
     xpath = 'contains(text(),"?")'
 
     def get_match(self, fix_node):
-        """Return a match of a string that matches he|his(...)"""
-        return re.match(self.regex, extract_strings._get_innerhtml(fix_node))
+        """Return a match of a string that roughly matches:
+            EXPR ? STATEMENT : STATEMENT
+        """
+        match = re.match(self.regex, extract_strings._get_innerhtml(fix_node))
+
+        # Only return the match if one of the statements is a string
+        if match and (re.match(_is_string, match.group(2)) or
+            re.match(_is_string, match.group(3))):
+            return match
 
     def extract_key(self, match):
-        """
-        """
+        """Returns the condition in the ternary expression."""
         return match.group(1).strip()
 
     def filter_fix_node(self, match, fix_node, cloned_fix_node):
-        """
+        """Replace each node with the appropriate statement.
+
+        The first node is replaced with the first statement. If that
+        statement is a string then the string directly replaces the <var>.
+        Same goes for the second, cloned, node.
         """
         first_str_match = re.match(_is_string, match.group(2))
         second_str_match = re.match(_is_string, match.group(3))
 
+        # If the first item in the ternary expression is a string
         if first_str_match:
-            _replace_node(fix_node, first_str_match.group(1))
+            # Then just replace the <var> with that string
+            extract_strings._replace_node(fix_node, first_str_match.group(1))
         else:
+            # Otherwise just turn it into <var>STATEMENT</var>
             fix_node.text = match.group(2).strip()
 
+        # If the second item in the ternary expression is a string
         if second_str_match:
-            _replace_node(cloned_fix_node, second_str_match.group(1))
+            # Then just replace the cloned <var> with that string
+            extract_strings._replace_node(cloned_fix_node,
+                second_str_match.group(1))
         else:
+            # Otherwise just turn it into <var>STATEMENT</var>
             cloned_fix_node.text = match.group(3).strip()
 
     def filter_node(self, key, node, cloned_node):
-        """
+        """Turns the node into two nodes with a data-if/else.
+
+        For example given:
+            <p>He gave <var>NUM == 1 ? "an apple" : APPLES</var>.</p>
+
+        It would become:
+            <p data-if="NUM == 1">He gave an apple.</p>
+            <p data-else>He gave <var>APPLES</var>.</p>
         """
         node.set('data-if', key)
         cloned_node.set('data-else', '')
@@ -634,13 +790,30 @@ class TernaryFilter:
 
 
 def get_plural_form(word):
+    """Prompt the user for help getting the correct plural form for a word.
+
+    Plain strings are frequently pluralized in exercises (even though the
+    result can easily be hardcoded). This function helps with that process
+    by taking a singular form of a string and prompting the user to help
+    provide the correct plural form of that string.
+
+    By default the user is given a prompt for the plural form of a word
+    in the format: word + "s" (since that's the most common pluralization
+    form). A user can just hit enter to accept that format or enter another
+    pluralization form.
+
+    Returns the plural form of the input word.
+    """
     if word not in _PLURAL_FORMS:
         # Need to print the result so that it goes to stdout
-        print 'What is the plural form of "%s" [%ss]: ' % (word, word)
-        plural = raw_input()
-        if not plural:
-            plural = word + 's'
+        # If no input was provided then we default to: word + 's'
+        plural = prompt_user('What is the plural form of "%s" [%ss]: ' %
+            (word, word), word + 's')
+
+        # Cache the plural form for later
         _PLURAL_FORMS[word] = plural
+
+    # Return the plural form of the word
     return _PLURAL_FORMS[word]
 
 
@@ -659,7 +832,7 @@ def get_plural_num_pos(match):
     plural_str = match.group(0).strip()
 
     if plural_str not in _PLURAL_NUM_POS:
-        # Determine if either of the two arguments is a 
+        # Determine if either of the two arguments is a
         first_arg_num = _check_plural_arg_is_num(match.group(2).strip())
         second_arg_num = _check_plural_arg_is_num(match.group(3).strip())
 
@@ -677,17 +850,12 @@ def get_plural_num_pos(match):
 
         # Otherwise the case is ambiguous so we should consult the user
         else:
-            # Need to print the prompt so that it goes to stdout
-            print 'Ambiguous: %s which is the number? ([1] 2) ' % plural_str
-
             # Prompt the user for information as to which argument is the one
             # that holds the string.
-            pos = raw_input()
-
             # If the user provides no input then we default to the first
             # argument
-            if not pos:
-                pos = 1
+            pos = prompt_user('Ambiguous: %s which is the number? ([1] 2) ' %
+                plural_str, 1)
 
         # Make sure that the number is an integer and not a string
         _PLURAL_NUM_POS[plural_str] = int(pos)
@@ -708,37 +876,32 @@ def get_is_plural_num(match):
     # Extract the argument from the match
     plural_str = match.group(2).strip()
 
-    if plural_str not in _PLURAL_NUM_POS:
+    if plural_str not in _IS_PLURAL_NUM:
         # Check to see if the argument is a plural using some
         # low-hanging fruit before asking for user input
         holds_num = _check_plural_arg_is_num(plural_str)
 
-        if holds_num is not None:
-            # Need to print the prompt so that it goes to stdout
-            print 'Ambiguous: Does %s handle a number? (y/[n]) ' % plural_str
-
+        if holds_num is None:
             # Prompt the user for information as to which argument is the one
             # that holds the string.
-            hold_num = raw_input()
+            holds_num = prompt_user(
+                'Ambiguous: Does %s handle a number? (y/[n]) ' % plural_str)
 
             # If the user provides no input then we default to considering
-            # the argument to be a string
-            if not holds_num:
-                holds_num = True
-            else:
-                # Convert the text input into a boolean
-                holds_num = (holds_num == 'y')
+            # the argument to be a string.
+            # Convert the text input into a boolean.
+            holds_num = ('y' in holds_num)
 
         # Cache the result for later
-        _PLURAL_NUM_POS[plural_str] = holds_num
+        _IS_PLURAL_NUM[plural_str] = holds_num
 
-    return _PLURAL_NUM_POS[plural_str]
+    return _IS_PLURAL_NUM[plural_str]
 
 
 def _check_plural_arg_is_num(plural_arg):
     """Check to see if a string matches the known ways in which a plural
     argument can be a number.
-    
+
     Returns True if the argument is a number, returns False if the argument
     is a string. Returns None if the case is ambiguous.
     """
@@ -748,21 +911,50 @@ def _check_plural_arg_is_num(plural_arg):
 
     # If the argument is a function call
     # And it's one of the built-in string functions, then it's not a number
-    if re.match(_is_function, plural_arg) and plural_arg in _functions:
+    fn_match = re.match(_is_function, plural_arg)
+    if fn_match and fn_match.group(1) in _functions:
         return False
 
     # If it users a var that's in our list of known string variables
     for var in _string_vars:
-        if var in plural_arg:
+        if var in plural_arg.upper():
             return False
 
     # If it users a var that's in our list of known number variables
     for var in _num_vars:
-        if var in plural_arg:
+        if var in plural_arg.upper():
             return True
 
     # Otherwise we bail as we don't know the answer
     return None
+
+
+def prompt_user(prompt, default=''):
+    """Utilty for displaying a prompt and getting the results from a user.
+
+    Uses the global SHOW_PROMPT to determine if the prompt should be shown
+    to the user or if it should fall back to the specified default.
+
+    Arguments:
+        - prompt: A string to display as the user prompt.
+        - default: The result string to fall back to if no response is given.
+
+    Returns:
+        - A string containing the response from the user.
+    """
+    result = None
+
+    # Only show a prompt if we want to use the result
+    if SHOW_PROMPT:
+        # Need to print the prompt so that it goes to stdout
+        print prompt
+
+        # Get the input from the user
+        result = raw_input()
+
+    # Use the default if no input is provided or if no prompt
+    # is wanted (such is the case when run without --fix)
+    return default if result is None else result
 
 
 if __name__ == '__main__':
