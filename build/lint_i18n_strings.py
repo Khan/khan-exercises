@@ -297,7 +297,8 @@ def lint_file(filename, apply_fix, verbose):
                 orig_node.getparent().replace(orig_node, node)
 
             # Loop through both the regular and cloned nodes
-            for (fix_node, cloned_fix_node) in zip(fix_nodes, cloned_fix_nodes):
+            for (fix_node, cloned_fix_node) in \
+                zip(fix_nodes, cloned_fix_nodes):
                 # Extract parts of the code element's inner contents for
                 # further processing.
                 match = filter.get_match(fix_node)

@@ -13,7 +13,6 @@ everything that isn't part of _IGNORE_NODES is something that needs to be
 translated.
 """
 import argparse
-import copy
 import json
 import os.path
 import re
@@ -287,6 +286,7 @@ def _get_page_html(root_tree):
     # lxml's tostring() does not output a DOCTYPE so we must
     # generate our own.
     return "<!DOCTYPE html>\n" + html_string
+
 
 def babel_extract(fileobj, keywords, comment_tags, options):
     """Babel extraction method for exercises templates.
