@@ -37,19 +37,22 @@ $.extend(KhanUtil, {
         if (coefficient !== 1 && coefficient !== -1) {
             regex += Math.abs(coefficient) + "\\s*";
         }
-        regex += vari + "\\s*"
+        regex += vari + "\\s*";
 
         if (constant === 0) {
             regex += "$";
         } else {
             regex = "(" + regex;
             regex += constant < 0 ? "[-\\u2212]" : "\\+";
-            regex += "\\s*" + Math.abs(constant) + "\\s*$)|(^\\s*"
+            regex += "\\s*" + Math.abs(constant) + "\\s*$)|(^\\s*";
+
             if (constant < 0) {
                 regex += "[-\\u2212]\\s*";
             }
-            regex += Math.abs(constant) + "\\s*"
+
+            regex += Math.abs(constant) + "\\s*";
             regex += coefficient < 0 ? "[-\\u2212]\\s*" : "\\+\\s*";
+            
             if (coefficient !== 1 && coefficient !== -1) {
                 regex += Math.abs(coefficient) + "\\s*";
             }
@@ -95,7 +98,7 @@ $.extend(KhanUtil, {
         // Return a new term representing this term multiplied by another term or a number
         this.multiply = function(term) {
             var coefficient = this.coefficient;
-            var variables = {};
+            var variables = {}
 
             for (var i in this.variables) {
                 variables[i] = this.variables[i];
@@ -153,7 +156,7 @@ $.extend(KhanUtil, {
                 }
             }
             
-            return new KhanUtil.Term(coefficient, variables);
+            return new KhanUtil.Term(coefficient, variables)
         };
         
         // includeSign if term is not the first in an expression
@@ -168,8 +171,7 @@ $.extend(KhanUtil, {
             if (includeSign) {
                 s += this.coefficient > 0 ? " + " : " - ";
             } else if (this.coefficient < 0) {
-                    s += "-";
-                }
+                s += "-";
             }
 
             if (!(coefficient === 1 && this.variableString !== "")) {
