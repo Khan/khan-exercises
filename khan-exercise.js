@@ -615,32 +615,48 @@ var Khan = (function() {
                 var jel = container.find(".related-video-list");
                 jel.empty();
 
-                var template = Templates.get("video.thumbnail");
-                _.each(this.getVideos(), function(video, i) {
-                    var thumbnailDiv = $(template({
-                        href: this.makeHref(video),
-                        video: video
-                    })).find("a.related-video").data("video", video).end();
+                var self = this;
+                PackageManager.require("video.css", "video.js").then(
+                    function() {
+                        var template = Templates.get("video.thumbnail");
+                        _.each(self.getVideos(), function(video, i) {
+                            var thumbnailDiv = $(template({
+                                href: self.makeHref(video),
+                                video: video
+                            })).find("a.related-video")
+                                .data("video", video)
+                                .end();
 
-                    var inlineLink = this.anchorElement(video)
-                        .addClass("related-video-inline");
+                            var inlineLink = self.anchorElement(video)
+                                .addClass("related-video-inline");
 
-                    var sideBarLi = $("<li>")
-                        .append(inlineLink)
-                        .append(thumbnailDiv);
+                            var sideBarLi = $("<li>")
+                                .append(inlineLink)
+                                .append(thumbnailDiv);
 
-                    if (i > 0) {
-                        thumbnailDiv.hide();
-                    } else {
-                        inlineLink.hide();
-                    }
-                    jel.append(sideBarLi);
-                }, this);
+                            if (i > 0) {
+                                thumbnailDiv.hide();
+                            } else {
+                                inlineLink.hide();
+                            }
+                            jel.append(sideBarLi);
+                        });
 
-                container.toggle(this.getVideos().length > 0);
+                        container.toggle(self.getVideos().length > 0);
+                        self._bindEvents();
+                    });
             },
 
-            hookup: function() {
+            _eventsBound: false,
+            /**
+             * Called to initialize related video event handlers.
+             * Should only be called after video.js package is loaded.
+             */
+            _bindEvents: function() {
+                if (this._eventsBound) {
+                    return;
+                }
+
                 // make caption slide up over the thumbnail on hover
                 var captionHeight = 45;
                 var marginTop = 23;
@@ -649,7 +665,6 @@ var Khan = (function() {
                 $(".related-video-box")
                     .delegate(".thumbnail", "mouseenter mouseleave", function(e) {
                         var isMouseEnter = e.type === "mouseenter";
-                        
                         $(e.currentTarget).find(".thumbnail_label").animate(
                                 {marginTop: marginTop + (isMouseEnter ? 0 : captionHeight)},
                                 options)
@@ -658,6 +673,9 @@ var Khan = (function() {
                                 {height: (isMouseEnter ? captionHeight : 0)},
                                 options);
                     });
+
+                ModalVideo.hookup();
+                this._eventsBound = true;
             }
         },
 
@@ -1834,12 +1852,6 @@ var Khan = (function() {
                 // number)
             }
         });
-
-        Khan.relatedVideos.hookup();
-
-        if (window.ModalVideo) {
-            ModalVideo.hookup();
-        }
     }
 
     function initEvents() {
