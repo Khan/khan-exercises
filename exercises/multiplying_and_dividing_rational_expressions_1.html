@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html data-require="math math-format rational-expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying and dividing rational expressions by a constant</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <div data-ensure="X !== Y">
+                <var id="X">randVar()</var>
+                <var id="Y">randVar()</var>
+            </div>
+            <var id="DENOMCOEFF">randRangeWeighted(1, 8, 1, 0.25)</var>
+            <var id="DENOMCONST">randRangeWeighted(-12, 12, 0, 0.25)</var>
+            <var id="DENOMINATOR">new RationalExpression([[DENOMCOEFF, X], [DENOMCONST]])</var>
+            
+            <div data-ensure="DENOMCONST !== 0 || NUMERCONST !== 0">
+                <var id="NUMERCONST">randRange(-12, 12)</var>
+            </div>
+            <div data-ensure="NUMERCOEFF !== 0 || NUMERCONST !== 0">
+                <var id="NUMERCOEFF">randRange(-8, 8)</var>
+            </div>
+            <var id="NUMERATOR">new RationalExpression([[NUMERCOEFF, X], [NUMERCONST]])</var>
+            <var id="CONSTANT">randRange(0, 2) ? [randRange(2, 10), 1] : [1, randRange(2, 10)]</var>
+        </div>
+
+        <div class="problems">
+            <div id="multiply">
+                <div class="vars">
+                    <var id="NUMERSOL">NUMERATOR.multiply(CONSTANT[0])</var>
+                    <var id="DENOMSOL">DENOMINATOR.multiply(CONSTANT[1])</var>
+                </div>
+
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question">
+                    <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
+                                  \times <var>fractionReduce(CONSTANT[0], CONSTANT[1])</var></code>
+                </p>
+            </div>
+
+            <div id="divide" data-type="add">
+                <div class="vars">
+                    <var id="NUMERSOL">NUMERATOR.multiply(CONSTANT[1])</var>
+                    <var id="DENOMSOL">DENOMINATOR.multiply(CONSTANT[0])</var>
+                </div>
+
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question">
+                    <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
+                                  \div <var>fractionReduce(CONSTANT[0], CONSTANT[1])</var></code>
+                </p>
+
+                <div class="hints" data-apply="prependContents">
+                    <div>
+                        <p>Since the expressions have the same denominator we simply subtract the numerators:</p>
+                        <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> - (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
+                    </div>
+                    <div>
+                        <p>Distribute the negative sign:</p>
+                        <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>expr(["+", ["*", -COEFF2, X], -CONST2])</var>}
+                                {<var>DENOMINATOR</var>}</code>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="solution" data-type="set">
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>NUMERSOL</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL</var></span>
+            </div>
+            <div class="input-format">
+                <div class="entry" data-type="multiple">
+                    <table>
+                        <tr>
+                            <td rowspan="2" class="soln-name">
+                                <code><var>Y</var> = </code>
+                            </td>
+                            <td class="soln-top">
+                                <span class="sol short50">a</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="soln-bot">
+                                <span class="sol short50" data-fallback="1">a</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <p class="example">a simplifed expression, like <code>x + 2</code></p>
+        </div>
+
+        <div class="hints">
+            <div data-if="SIGN === '+'">
+                        <p>Since the expressions have the same denominator we simply combine the numerators:</p>
+                        <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
+                    </div>
+            <div>
+                <p>Combine like terms:</p>
+                <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>
+            </div>
+            <div data-if="FACTOR !== 1">
+                <p>Simplify by dividing numerator and denominator by <var>FACTOR</var>:</p>
+                <code><var>Y</var> = \dfrac{<var>expr(["+", ["*", NUMERCOEFF / FACTOR, X], NUMERCONST / FACTOR])</var>}
+                    {<var>expr(["+", ["*", DENOMCOEFF / FACTOR, X], DENOMCONST / FACTOR])</var>}</code>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
