@@ -808,8 +808,8 @@ def get_plural_form(word):
     if word not in _PLURAL_FORMS:
         # Need to print the result so that it goes to stdout
         # If no input was provided then we default to: word + 's'
-        plural = prompt_user('What is the plural form of "%s" [%ss]: ' %
-            (word, word), word + 's')
+        plural = prompt_user(('What is the plural form of "%s" [%ss]: ' %
+            (word, word)), default=word + 's')
 
         # Cache the plural form for later
         _PLURAL_FORMS[word] = plural
@@ -860,8 +860,8 @@ def get_plural_num_pos(match):
             # that holds the string.
             # If the user provides no input then we default to the first
             # argument
-            pos = prompt_user('Ambiguous: %s which is the number? ([1] 2) ' %
-                plural_str, 1)
+            pos = prompt_user(('Ambiguous: %s which is the number? ([1] 2) ' %
+                plural_str), default=1)
 
         # Make sure that the number is an integer and not a string
         _PLURAL_NUM_POS[plural_str] = int(pos)
@@ -891,7 +891,8 @@ def get_is_plural_num(match):
             # Prompt the user for information as to which argument is the one
             # that holds the string.
             holds_num = prompt_user(
-                'Ambiguous: Does %s handle a number? (y/[n]) ' % plural_str)
+                'Ambiguous: Does %s handle a number? (y/[n]) ' % plural_str,
+                default='y')
 
             # If the user provides no input then we default to considering
             # the argument to be a string.
@@ -960,7 +961,7 @@ def prompt_user(prompt, default=''):
 
     # Use the default if no input is provided or if no prompt
     # is wanted (such is the case when run without --fix)
-    return default if result is None else result
+    return default if not result else result
 
 
 if __name__ == '__main__':
