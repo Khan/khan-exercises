@@ -31,10 +31,8 @@ def main():
         # We serialize the entire HTML tree
         html_string = lxml.html.tostring(html_tree)
 
-        # lxml's tostring() does not output a DOCTYPE so we must
-        # generate our own.
         with open(filename, 'w') as f:
-            f.write("<!DOCTYPE html>\n" + html_string)
+            f.write(html_string)
 
 
 if __name__ == '__main__':
