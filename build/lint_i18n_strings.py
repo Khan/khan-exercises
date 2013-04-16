@@ -40,7 +40,7 @@ _functions = ['deskItem', 'exam', 'item', 'storeItem', 'crop', 'distance',
 
 # In an ambiguous case the presence of these strings tend to indicate
 # what the variable holds
-_string_vars = ['TEXT', 'ITEM', 'TYPE', 'UNIT', 'LOCATION']
+_string_vars = ['TEXT', 'TYPE', 'UNIT', 'LOCATION']
 _num_vars = ['NUM', 'AMOUNT', 'TOTAL']
 
 # Helper regexs for determining if something looks like a string
@@ -427,7 +427,7 @@ class AlwaysPluralFilter:
 
     require_ifelse = False
     regex = re.compile(r'^\s*(plural|pluralTex)'
-        '\(\s*((?:[^,]+|\(.*?\))*)\s*\)\s*$', re.I)
+        '\(\s*((?:[^,]+|\([^\)]*?\))*)\s*\)\s*$', re.I)
     xpath = ' or '.join(['contains(text(),"%s(")' % method
         for method in _methods])
 
@@ -836,6 +836,11 @@ def get_plural_num_pos(match):
         # Determine if either of the two arguments is a
         first_arg_num = _check_plural_arg_is_num(match.group(2).strip())
         second_arg_num = _check_plural_arg_is_num(match.group(3).strip())
+
+        # The results are equal, this shouldn't happen
+        if first_arg_num is second_arg_num:
+            # If this is the case then we give up and ask the user for help
+            first_arg_num = second_arg_num = None
 
         pos = None
 
