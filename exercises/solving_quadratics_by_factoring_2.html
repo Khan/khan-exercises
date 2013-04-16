@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Solving quadratics by factoring 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="problems">
-        <div id="original" data-weight="2">
+        <div data-weight="2" id="original">
             <div class="vars">
                 <var id="CONSTANT">SQUARE*A*B</var>
                 <var id="SIMPLECONSTANT">A*B</var>
@@ -27,15 +27,15 @@
             <p class="problem">Determine where <code>f(x)</code> intersects the <code>x</code>-axis.</p>
             <p class="question"><code>f(x) = <var>plus(SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
 
-            <div class="solution" data-type="set">
+            <div data-type="set" class="solution">
                 <div class="set-sol"><var>A</var></div>
                 <div class="set-sol"><var>B</var></div>
                 <div class="input-format"><p style="font-size: 12px;">
-                    <code>x = {}</code><span class="entry short35" data-forms="integer"></span><code>\space \text{and} \space x = {}</code><span class="entry short35" data-forms="integer"></span>
+                    <code>x = {}</code><span data-forms="integer" class="entry short35"></span><code>\space \text{and} \space x = {}</code><span data-forms="integer" class="entry short35"></span>
                 </p></div>
             </div>
 
-            <div class="hints" data-apply="appendContents">
+            <div data-apply="appendContents" class="hints">
                 <div id="hint1">
                     <p>The two numbers <code class="hint_pink"><var>-A</var></code> and <code class="hint_pink"><var>-B</var></code> satisfy both conditions:</p>
                     <p><code>
@@ -62,7 +62,7 @@
         </div>
 
 
-        <div id="one-root" data-type="original" data-weight="1">
+        <div data-weight="1" data-type="original" id="one-root">
             <div class="vars">
                 <var id="CONSTANT">SQUARE * A * A</var>
                 <var id="SIMPLECONSTANT">A * A</var>
@@ -71,10 +71,10 @@
             </div>
             <p class="problem">Determine where <code>f(x)</code> intersects the x-axis.</p>
             <p class="question"><code>f(x) = <var>plus( SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
-            <div class="solution" data-type="multiple">
-                <p><code>x = \quad</code><span class="sol short35" data-forms="integer"><var>A</var></span></p>
+            <div data-type="multiple" class="solution">
+                <p><code>x = \quad</code><span data-forms="integer" class="sol short35"><var>A</var></span></p>
             </div>
-            <div class="hints" data-apply="appendContents">
+            <div data-apply="appendContents" class="hints">
                 <div id="hint1">
                     <p>The number <code class="hint_pink"><var>-A</var></code> used twice satisfies both conditions:</p>
                     <p><code>
@@ -86,7 +86,8 @@
                         \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}
                     </code></p>
                 </div>
-                <p id="hint2">So <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})^2 = 0</code>.</p>
+                <p id="hint2" data-if="A &amp;lt; 0">So <code>(x + \color{<var>PINK</var>}{<var>-A</var>})^2 = 0</code>.</p><p id="hint2" data-else="">So <code>(x  \color{<var>PINK</var>}{<var>-A</var>})^2 = 0</code>.</p>
+                
                 <p id="hint3"><code>x + <var>-A</var> = 0</code></p>
                 <p id="hint4"><b>Thus, <code>x = <var>A</var></code> is the solution.</b></p>
             </div>
@@ -106,12 +107,12 @@
                 = 0
             </code></p>
         </div>
-        <div data-else>
+        <div data-else="">
             <p>The function intersects the <code>x</code>-axis where <code>f(x) = 0</code>, so solve the equation:</p>
             <p><code>\qquad <var>plus( SQUARE + "x^2", LINEAR + "x", CONSTANT )</var> = 0</code></p>
         </div>
 
-        <div data-if="SQUARE > 1">
+        <div data-if="SQUARE &gt; 1">
             <p>Dividing both sides by <code><var>SQUARE</var></code> gives:</p>
             <p><code>
                 \qquad x^2
@@ -131,5 +132,6 @@
         </p>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

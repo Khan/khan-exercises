@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Area of a circle</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -64,10 +64,10 @@
                 <p>Suppose the radius of a circle is <code>\color{<var>R_COLOR</var>}{<var>R</var>}</code>. What is its area?</p>
             </div>
 
-            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>Math.PI * R * R</var></div>
+            <div data-forms="integer, proper, improper, mixed, decimal, pi" class="solution"><var>Math.PI * R * R</var></div>
 
             <div class="hints">
-                <div class="graphie" id="circle">
+                <div id="circle" class="graphie">
                     initCircle( R );
 
                     drawRadius( R );
@@ -75,7 +75,7 @@
                 <div>
                     <p>We know <code>K = \pi r^2</code>, so <code>K = \pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>}^2 = \color{<var>K_COLOR</var>}{<var>R * R</var>\pi}</code>.</p>
 
-                    <div class="graphie" data-update="circle">
+                    <div data-update="circle" class="graphie">
                         drawArea( R );
                     </div>
                 </div>
@@ -88,13 +88,14 @@
             </div>
 
             <div class="question">
-                <p>Suppose the area of a circle is <code>\color{<var>K_COLOR</var>}{<var>R === 1 ? "" : R * R</var>\pi}</code>. What is its radius?</p>
+                <p data-if="R === 1">Suppose the area of a circle is <code>\color{<var>K_COLOR</var>}{\pi}</code>. What is its radius?</p><p data-else="">Suppose the area of a circle is <code>\color{<var>K_COLOR</var>}{<var>R * R</var>\pi}</code>. What is its radius?</p>
+            
             </div>
 
-            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>R</var></div>
+            <div data-forms="integer, proper, improper, mixed, decimal, pi" class="solution"><var>R</var></div>
 
             <div class="hints">
-                <div class="graphie" id="circle">
+                <div id="circle" class="graphie">
                     initCircle( R );
 
                     drawArea( R );
@@ -102,7 +103,7 @@
                 <div>
                     <p>We know <code>K = \pi r^2</code>, so <code>r = \sqrt{K / \pi} = \sqrt{\color{<var>K_COLOR</var>}{<var>R * R</var>\pi} / \pi} = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
 
-                    <div class="graphie" data-update="circle">
+                    <div data-update="circle" class="graphie">
                         drawRadius( R );
                     </div>
                 </div>
@@ -118,10 +119,10 @@
                 <p>Suppose the diameter of a circle is <code>\color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>. What is its area?</p>
             </div>
 
-            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>Math.PI * R * R</var></div>
+            <div data-forms="integer, proper, improper, mixed, decimal, pi" class="solution"><var>Math.PI * R * R</var></div>
 
             <div class="hints">
-                <div class="graphie" id="circle">
+                <div id="circle" class="graphie">
                     initCircle( R );
 
                     drawDiameter( R );
@@ -130,7 +131,7 @@
                 <div>
                     <p>Now find the area: <code>K = \pi r^2</code>, so <code>K = \pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>}^2 = \color{<var>K_COLOR</var>}{<var>R * R</var>\pi}</code>.</p>
 
-                    <div class="graphie" data-update="circle">
+                    <div data-update="circle" class="graphie">
                         drawArea( R );
                     </div>
                 </div>
@@ -143,13 +144,14 @@
             </div>
 
             <div class="question">
-                <p>Suppose the area of a circle is <code>\color{<var>K_COLOR</var>}{<var>R === 1 ? "" : R * R</var>\pi}</code>. What is its diameter?</p>
+                <p data-if="R === 1">Suppose the area of a circle is <code>\color{<var>K_COLOR</var>}{\pi}</code>. What is its diameter?</p><p data-else="">Suppose the area of a circle is <code>\color{<var>K_COLOR</var>}{<var>R * R</var>\pi}</code>. What is its diameter?</p>
+            
             </div>
 
-            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>2 * R</var></div>
+            <div data-forms="integer, proper, improper, mixed, decimal, pi" class="solution"><var>2 * R</var></div>
 
             <div class="hints">
-                <div class="graphie" id="circle">
+                <div id="circle" class="graphie">
                     initCircle( R );
 
                     drawArea( R );
@@ -158,7 +160,7 @@
                 <div>
                     <p>Now find the diameter: <code>d = 2r = 2\cdot \color{<var>R_COLOR</var>}{<var>R</var>} = \color{<var>D_COLOR</var>}{<var>2*R</var>}</code>.</p>
 
-                    <div class="graphie" data-update="circle">
+                    <div data-update="circle" class="graphie">
                         drawDiameter( R );
                     </div>
                 </div>
@@ -174,10 +176,10 @@
                 <p>Suppose the circumference of a circle is <code>\color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>. What is its area?</p>
             </div>
 
-            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>Math.PI * R * R</var></div>
+            <div data-forms="integer, proper, improper, mixed, decimal, pi" class="solution"><var>Math.PI * R * R</var></div>
 
             <div class="hints">
-                <div class="graphie" id="circle">
+                <div id="circle" class="graphie">
                     initCircle( R );
 
                     drawCircumference( R );
@@ -186,7 +188,7 @@
                 <div>
                     <p>Now find the area: <code>K = \pi r^2</code>, so <code>K = \pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>}^2 = \color{<var>K_COLOR</var>}{<var>R * R</var>\pi}</code>.</p>
 
-                    <div class="graphie" data-update="circle">
+                    <div data-update="circle" class="graphie">
                         drawArea( R );
                     </div>
                 </div>
@@ -199,13 +201,14 @@
             </div>
 
             <div class="question">
-                <p>Suppose the area of a circle is <code>\color{<var>K_COLOR</var>}{<var>R === 1 ? "" : R * R</var>\pi}</code>. What is its circumference?</p>
+                <p data-if="R === 1">Suppose the area of a circle is <code>\color{<var>K_COLOR</var>}{\pi}</code>. What is its circumference?</p><p data-else="">Suppose the area of a circle is <code>\color{<var>K_COLOR</var>}{<var>R * R</var>\pi}</code>. What is its circumference?</p>
+            
             </div>
 
-            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>Math.PI * 2 * R</var></div>
+            <div data-forms="integer, proper, improper, mixed, decimal, pi" class="solution"><var>Math.PI * 2 * R</var></div>
 
             <div class="hints">
-                <div class="graphie" id="circle">
+                <div id="circle" class="graphie">
                     initCircle( R );
 
                     drawArea( R );
@@ -214,7 +217,7 @@
                 <div>
                     <p>Now find the circumference: <code>c = 2\pi r = 2\pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>} = \color{<var>C_COLOR</var>}{<var>2*R</var>\pi}</code>.</p>
 
-                    <div class="graphie" data-update="circle">
+                    <div data-update="circle" class="graphie">
                         drawCircumference( R );
                     </div>
                 </div>
@@ -222,5 +225,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

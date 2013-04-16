@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Expressing ratios as fractions</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -18,10 +18,11 @@
         <div>
             <p class="question">
                 <!--TODO(jeresig): I18N: Find a better way to rewrite this.-->
-                <span><var>person(1)</var> has <var>plural( NUM, fruit( 0 ) )</var></span><span>for every  <var>plural( DENOM, fruit( 1 ) )</var></span>
+                <span data-if="isSingular(NUM)"><var>person(1)</var> has 1 <var>fruit( 0 )</var></span><span data-else=""><var>person(1)</var> has <var>NUM</var> <var>plural_form(fruit( 0 ), NUM)</var></span><span data-if="isSingular(DENOM)">for every  1 <var>fruit( 1 )</var></span><span data-else="">for every  <var>DENOM</var> <var>plural_form(fruit( 1 ), DENOM)</var></span>
+                
                 <span>Write the ratio of <var>fruit( 0 )</var>s to <var>fruit( 1 )</var>s as a simplified fraction.</span>
             </p>
-            <p class="solution" data-type="improper" data-ratio="true"><var>NUM / DENOM</var></p>
+            <p data-ratio="true" data-type="improper" class="solution"><var>NUM / DENOM</var></p>
         </div>
     </div>
 
@@ -42,5 +43,6 @@
         <p>Therefore, <code><var>fractionReduce( NUM, DENOM )</var></code> is the ratio of <var>fruit( 0 )</var>s to <var>fruit( 1 )</var>s written as a simplified fraction.</p>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

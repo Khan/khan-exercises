@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Comparing fractions 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -13,7 +13,7 @@
     <div class="exercise">
         <div class="problems">
             <div id="same-numerator">
-                <div class="vars" data-ensure="DEN_1 !== DEN_2">
+                <div data-ensure="DEN_1 !== DEN_2" class="vars">
                     <var id="NUM_1">randRange( 1, 14 )</var>
                     <var id="DEN_1">randRange( NUM_1 + 1, 15 )</var>
 
@@ -37,7 +37,7 @@
                     </p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul class="choices" data-category="true">
+                <ul data-category="true" class="choices">
                     <li><code>&lt;</code></li>
                     <li><code>&gt;</code></li>
                 </ul>
@@ -45,28 +45,35 @@
                     <div>
                         <p>This is like comparing two equally sized pizzas where one is cut into <var>DEN_1</var> equal slices and the other is cut into <var>DEN_2</var> equal slices.</p>
                         <div style="height: 150px;">
-                            <div class="graphie" style="float: left">
+                            <div style="float: left" class="graphie">
                                 init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
                                 piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
                             </div>
-                            <div class="graphie" style="float: left">
+                            <div style="float: left" class="graphie">
                                 init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
                                 piechart( [NUM_2, DEN_2 - NUM_2], ["#e00", "#999"], 2 );
                             </div>
                         </div>
                     </div>
                     <p>Note that cutting a pizza into more slices will result in smaller slices.</p>
-                    <p>The left fraction represents a pizza with <var>DEN_1 > DEN_2 ? "more" : "fewer"</var> slices, and so each slice is <var>DEN_1 > DEN_2 ? "smaller" : "bigger"</var>.</p>
+                    <p data-if="DEN_1 &amp;gt; DEN_2">The left fraction represents a pizza with more slices, and so each slice is smaller.</p><p data-else="">The left fraction represents a pizza with fewer slices, and so each slice is bigger.</p>
+                    
                     <p>
-                        <span>There are <var>NUM_1</var> <var>DEN_1 > DEN_2 ? "smaller" : "bigger"</var> slice<var>plural( NUM_1 )</var>.</span>
-                        <span>This is <var>DEN_1 > DEN_2 ? "less" : "more"</var> pizza than <var>NUM_2</var> <var>DEN_1 > DEN_2 ? "bigger" : "smaller"</var> slice<var>plural( NUM_2 )</var>.</span>
+                        <span data-if="DEN_1 &amp;gt; DEN_2"><span data-unwrap="" data-if="isSingular(NUM_1)">There are <var>NUM_1</var> smaller slice.</span><span data-unwrap="" data-else="">There are <var>NUM_1</var> smaller slices.</span></span><span data-else="" data-if="isSingular(NUM_1)">There are <var>NUM_1</var> bigger slice.</span><span data-else="">There are <var>NUM_1</var> bigger slices.</span>
+                        
+                        
+                        
+                        <span data-if="DEN_1 &amp;gt; DEN_2"><span data-unwrap="" data-if="isSingular(NUM_2)">This is less pizza than <var>NUM_2</var> bigger slice.</span><span data-unwrap="" data-else="">This is less pizza than <var>NUM_2</var> bigger slices.</span></span><span data-else="" data-if="isSingular(NUM_2)">This is more pizza than <var>NUM_2</var> smaller slice.</span><span data-else="">This is more pizza than <var>NUM_2</var> smaller slices.</span>
+                    
+                    
+                    
                     </p>
                     <p>So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.</p>
                 </div>
             </div>
 
             <div id="same-denominator">
-                <div class="vars" data-ensure="NUM_1 !== NUM_2">
+                <div data-ensure="NUM_1 !== NUM_2" class="vars">
                     <var id="NUM_1">randRange( 1, 14 )</var>
                     <var id="DEN_1">randRange( NUM_1 + 1, 15 )</var>
 
@@ -90,7 +97,7 @@
                     </p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul class="choices" data-category="true">
+                <ul data-category="true" class="choices">
                     <li><code>&lt;</code></li>
                     <li><code>&gt;</code></li>
                 </ul>
@@ -99,24 +106,29 @@
                         <p>This is like considering two equally sized pizzas that have been cut into <var>DEN_1</var> equal slices.</p>
                         <p>Since both pizzas have the same number of slices, all the slices are the same size.</p>
                         <div style="height: 150px;">
-                            <div class="graphie" style="float: left">
+                            <div style="float: left" class="graphie">
                                 init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
                                 piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
                             </div>
-                            <div class="graphie" style="float: left">
+                            <div style="float: left" class="graphie">
                                 init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
                                 piechart( [NUM_2, DEN_2 - NUM_2], ["#e00", "#999"], 2 );
                             </div>
                         </div>
                     </div>
                     <p>
-                        <span>There are <var>plural( NUM_1, "slice" )</var>.</span>
-                        <span>This is <var>NUM_1 &lt; NUM_2 ? "less" : "more"</var> pizza than <var>plural( NUM_2, "slice" )</var>.</span>
+                        <span data-if="isSingular(NUM_1)">There are 1 slice.</span><span data-else="">There are <var>NUM_1</var> slices.</span>
+                        
+                        <span data-if="NUM_1 &amp;lt; NUM_2"><span data-unwrap="" data-if="isSingular(NUM_2)">This is less pizza than 1 slice.</span><span data-unwrap="" data-else="">This is less pizza than <var>NUM_2</var> slices.</span></span><span data-else="" data-if="isSingular(NUM_2)">This is more pizza than 1 slice.</span><span data-else="">This is more pizza than <var>NUM_2</var> slices.</span>
+                    
+                    
+                    
                     </p>
                     <p>So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.</p>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>
