@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Subtraction 4</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -25,19 +25,20 @@
 
         <div class="problems">
             <div>
-                <div class="graphie" id="numbers">
+                <div id="numbers" class="graphie">
                     graph.subtractor = new Subtractor( A, B );
                     graph.subtractor.show();
                     DUMMY = Array( graph.subtractor.getNumHints() );
                 </div>
-                <div class="solution" data-forms="integer"><var>A - B</var></div>
+                <div data-forms="integer" class="solution"><var>A - B</var></div>
             </div>
         </div>
         <div class="hints">
-            <div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+            <div data-update="numbers" data-each="DUMMY as dummy" class="graphie">
                 graph.subtractor.showHint();
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

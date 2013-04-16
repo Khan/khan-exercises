@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format exponents">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format exponents"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Exponents 3</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -38,17 +38,18 @@
                     <!-- For a question like (4/9)^(1/2)... -->
 
                     <!-- "Figure out what goes in the blank: ?^2=4/9" -->
-                    <p>Figure out what goes in the blank:<br /><code>\Big(? \Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
+                    <p>Figure out what goes in the blank:<br><code>\Big(? \Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
 
                     <!-- fill 2/3 into the ? -->
-                    <p>Figure out what goes in the blank:<br /><code>\Big(\color{blue}{<var>frac( SOL_N, SOL_D )</var>}\Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
+                    <p>Figure out what goes in the blank:<br><code>\Big(\color{blue}{<var>frac( SOL_N, SOL_D )</var>}\Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
 
                     <!-- (4/9)^(1/2)=2/3 -->
                     <p data-if="EXP_NEG">So <code><var>fracParens( BASE_N, BASE_D )</var>^{<var>fracSmall( EXP_NEG ? -1 : 1, EXP_D )</var>}=<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>fraction( SOL_N, SOL_D, true, true, false, false )</var></code></p>
-                    <p data-else>So <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>fraction( SOL_N, SOL_D,true, true, false, false )</var></code></p>
+                    <p data-else="">So <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>fraction( SOL_N, SOL_D,true, true, false, false )</var></code></p>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-3d math-format interactive">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-3d math-format interactive"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Solid geometry</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -147,7 +147,7 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="decimal">
+            <div data-type="decimal" class="solution">
                 <var>DEPTH * BASE * HEIGHT / 2</var>
             </div>
 
@@ -161,7 +161,7 @@
                 <div>
                     <p>Orient the triangle like this, and find the
                         base and height from the object:</p>
-                    <div class="graphie" id="triangle">
+                    <div id="triangle" class="graphie">
                         init({ range: [[-2, 2], [-1.2, 1.2]], scale: [100, 100] });
 
                         path([[-1.5, -0.75], [1.5, -0.75], [0, 0.75], true],
@@ -180,7 +180,7 @@
                         is <code><var>BASE</var></code> and the height is
                         <code><var>HEIGHT</var></code>.
                     </p>
-                    <div class="graphie" data-update="triangle">
+                    <div data-update="triangle" class="graphie">
                         graph.label1.remove();
                         graph.label2.remove();
 
@@ -205,8 +205,8 @@
             </div>
         </div>
 
-        <div id="int-box-V" data-type="int-tripri-V">
-            <div class="vars" data-apply="prependContents">
+        <div data-type="int-tripri-V" id="int-box-V">
+            <div data-apply="prependContents" class="vars">
                 <var id="LENGTH">randRange(2, 7)</var>
                 <var id="WIDTH">randRange(2, 7)</var>
                 <var id="HEIGHT">randRange(2, 7)</var>
@@ -262,7 +262,7 @@
                 What is the volume of this box? Drag on the box to rotate it.
             </p>
 
-            <div class="solution" data-forms="integer">
+            <div data-forms="integer" class="solution">
                 <var>LENGTH * WIDTH * HEIGHT</var>
             </div>
 
@@ -291,13 +291,13 @@
             </div>
         </div>
 
-        <div id="int-box-T" data-type="int-box-V">
+        <div data-type="int-box-V" id="int-box-T">
             <p class="question">
                 What is the surface area of this box?
                 Drag on the box to rotate it.
             </p>
 
-            <div class="solution" data-forms="integer">
+            <div data-forms="integer" class="solution">
                 <var>2 * LENGTH * WIDTH +
                     2 * LENGTH * HEIGHT +
                     2 * WIDTH * HEIGHT</var>
@@ -308,9 +308,7 @@
                 of each of the faces, and add all the areas up.</p>
                 <div>
                     <p>To see this better, let's try unwrapping the box:
-                    <input type="submit" value="Unwrap!"
-                        onclick="KhanUtil.tmpl.getVAR('UNWRAPGRAPH.unwrap()')"
-                    /></p>
+                    <input type="submit" onclick="KhanUtil.tmpl.getVAR('UNWRAPGRAPH.unwrap()')" value="Unwrap!"></p>
                     <div class="graphie">
                         var verts = [
                             [LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
@@ -448,7 +446,7 @@
                         };
                     </div>
                 </div>
-                <div id="unwrapped" data-unwrap>
+                <div id="unwrapped" data-unwrap="">
                     <div>
                         <p>We can group the faces together
                             based on size and color:</p>
@@ -515,8 +513,8 @@
             </div>
         </div>
 
-        <div id="int-cube-V" data-type="int-box-V">
-            <div class="vars" data-apply="appendContents">
+        <div data-type="int-box-V" id="int-cube-V">
+            <div data-apply="appendContents" class="vars">
                 <var id="LENGTH">randRange(2, 7)</var>
                 <var id="WIDTH">LENGTH</var>
                 <var id="HEIGHT">LENGTH</var>
@@ -549,8 +547,8 @@
             </div>
         </div>
 
-        <div id="int-cube-T" data-type="int-box-T">
-            <div class="vars" data-apply="appendContents">
+        <div data-type="int-box-T" id="int-cube-T">
+            <div data-apply="appendContents" class="vars">
                 <var id="LENGTH">randRange(2, 7)</var>
                 <var id="WIDTH">LENGTH</var>
                 <var id="HEIGHT">LENGTH</var>
@@ -561,8 +559,8 @@
                 Drag on the cube to rotate it.
             </p>
 
-            <div class="hints" data-apply="appendContents">
-                <div id="unwrapped" data-unwrap>
+            <div data-apply="appendContents" class="hints">
+                <div id="unwrapped" data-unwrap="">
                     <p>Here, we can see that all of the
                         six sides have the same size.</p>
                     <div>
@@ -631,9 +629,9 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p>
-                    <span class="sol" data-forms="pi">
+                    <span data-forms="pi" class="sol">
                         <var>Math.PI * r * r * h</var>
                     </span>
                     Cubic Units
@@ -686,9 +684,9 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p>
-                    <span class="sol" data-forms="pi">
+                    <span data-forms="pi" class="sol">
                         <var>Math.PI * 2 * r * ( r + h )</var>
                     </span>
                     Square Units
@@ -728,5 +726,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

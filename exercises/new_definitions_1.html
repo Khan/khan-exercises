@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math word-problems expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math word-problems expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>New definitions 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -51,12 +51,13 @@
     <div class="hints">
         <p>Substitute in
             <span data-if="XONLY"><code>x = <var>X</var></code></span>
-            <span data-else data-if="YONLY"><code>y = <var>Y</var></code></span>
-            <span data-else><code>x = <var>X</var></code> and <code>y = <var>Y</var></code></span>
+            <span data-if="YONLY" data-else=""><code>y = <var>Y</var></code></span>
+            <span data-else=""><code>x = <var>X</var></code> and <code>y = <var>Y</var></code></span>
         to get <code><var>SUBS</var></code>.</p>
 
         <p>Simplify the expression to get <code><var>VALU</var></code>.</p>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

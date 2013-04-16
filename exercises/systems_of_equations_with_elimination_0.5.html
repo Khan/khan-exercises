@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Systems of equations with elimination</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,14 +9,14 @@
     <div class="exercise">
         <div class="vars">
             <var id="X">randRange( 1, 10 )</var>
-            <var id="Y" data-ensure="X !== Y">randRange( 1, 10 )</var>
+            <var data-ensure="X !== Y" id="Y">randRange( 1, 10 )</var>
             <var id="INDEX">0</var>
             <var id="Z1">randRangeWeighted( 1, 3, 1, 0.5 ) * randRangeNonZero( -1, 1 )</var>
-            <var id="Z2" data-ensure="abs( Z2 ) <= 6 && Z2 !== 0">INDEX === 0 ? -1 * Z1 : randRangeWeighted( -4, 4, -1, 0 ) * Z1</var>
+            <var data-ensure="abs( Z2 ) &lt;= 6 &amp;&amp; Z2 !== 0" id="Z2">INDEX === 0 ? -1 * Z1 : randRangeWeighted( -4, 4, -1, 0 ) * Z1</var>
             <var id="Z3">randRange( 2, 6 ) * randRangeNonZero( -1, 1 )</var>
-            <var id="Z4" data-ensure="getGCD( abs( Z3 ), abs( Z4 ) ) === 1">randRange( 2, 6 ) * randRangeNonZero( -1, 1 )</var>
+            <var data-ensure="getGCD( abs( Z3 ), abs( Z4 ) ) === 1" id="Z4">randRange( 2, 6 ) * randRangeNonZero( -1, 1 )</var>
             <var id="Z5">randRange( 2, 6 ) * randRangeNonZero( -1, 1 )</var>
-            <var id="Z6" data-ensure="getGCD( abs( Z5 ), abs( Z6 ) ) === 1 && ( Z3 * Z6 ) !== ( Z4 * Z5 )">randRange( 2, 6 ) * randRangeNonZero( -1, 1 )</var>
+            <var data-ensure="getGCD( abs( Z5 ), abs( Z6 ) ) === 1 &amp;&amp; ( Z3 * Z6 ) !== ( Z4 * Z5 )" id="Z6">randRange( 2, 6 ) * randRangeNonZero( -1, 1 )</var>
         </div>
         <div class="problems">
             <div id="elimination-x">
@@ -34,10 +34,10 @@
                 </div>
                 <p class="problem">Solve for <code>x</code> and <code>y</code> using elimination.</p>
                 <div class="question">
-                    <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
+                    <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br>
                     <code class="hint_green"><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> = <var>C2</var></code></p>
                 </div>
-                <div class="solution" data-type="multiple">
+                <div data-type="multiple" class="solution">
                     <p><code>x</code> = <span class="sol short50"><var>X</var></span></p>
                     <p><code>y</code> = <span class="sol short50"><var>Y</var></span></p>
                 </div>
@@ -86,10 +86,10 @@
                 </div>
                 <p class="problem">Solve for <code>x</code> and <code>y</code> using elimination.</p>
                 <div class="question">
-                    <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br />
+                    <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br>
                     <code class="hint_green"><var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> = <var>C2</var></code></p>
                 </div>
-                <div class="solution" data-type="multiple">
+                <div data-type="multiple" class="solution">
                     <p><code>x</code> = <span class="sol short50"><var>X</var></span></p>
                     <p><code>y</code> = <span class="sol short50"><var>Y</var></span></p>
                 </div>
@@ -125,5 +125,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

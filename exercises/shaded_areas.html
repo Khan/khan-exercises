@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie word-problems">
-    <head>
+<!DOCTYPE html>
+<html data-require="math math-format graphie word-problems"><head>
         <title>Shaded areas</title>
         <script src="../khan-exercise.js"></script>
     </head>
     <body>
         <div class="exercise">
-            <div class="vars" data-ensure="(INNER_AREA &lt; OUTER_AREA) &&
-                                           (_.all(INNER.vertices, OUTER.contains))">
+            <div data-ensure="(INNER_AREA &lt; OUTER_AREA) &amp;&amp;
+                                           (_.all(INNER.vertices, OUTER.contains))" class="vars">
                 <var id="SHAPES">["square", "circle", "triangle"]</var>
 
                 <var id="INNER_SHAPE">randFromArray(SHAPES)</var>
@@ -28,8 +28,8 @@
                             name: "square",
                             vertices: _.initial(v),
                             contains: function(point) {
-                                return (point[0] &gt;= (x - size)) && (point[0] &lt;= (x + size)) &&
-                                       (point[1] &gt;= (y - size)) && (point[1] &lt;= (y + size));
+                                return (point[0] &gt;= (x - size)) &amp;&amp; (point[0] &lt;= (x + size)) &amp;&amp;
+                                       (point[1] &gt;= (y - size)) &amp;&amp; (point[1] &lt;= (y + size));
                             },
                             drawShape: function(g, style) {
                                 return g.path(v, style);
@@ -105,7 +105,7 @@
                                 b2 = sign(point, v[1], v[2]) &lt;= 0;
                                 b3 = sign(point, v[3], v[0]) &lt;= 0;
 
-                                return ((b1 == b2) && (b2 == b3));
+                                return ((b1 == b2) &amp;&amp; (b2 == b3));
                             },
                             drawShape: function(g, style) {
                                 return g.path(v, style);
@@ -149,8 +149,8 @@
                     <div class="problem">The diagram shows <var>an(INNER.name)</var> inside <var>an(OUTER.name)</var>.</div>
                     <div class="question">What is the area of the shaded region?</div>
                     <div class="extra-info">(Round to the nearest hundredth.)</div>
-                    <div class="solution" data-inexact data-max-error="0.01" data-type="decimal"><var>SHADED_AREA</var></div>
-                    <div class="graphie" id="shapes">
+                    <div data-inexact="" data-type="decimal" class="solution" data-max-error="0.01"><var>SHADED_AREA</var></div>
+                    <div id="shapes" class="graphie">
                         var g = init({ range: [[-14, 14], [-14, 14]], scale: [11, 11] });
 
                         graph.outerShape = OUTER.drawShape(g, { fill: BLUE, stroke: BLUE, "fill-opacity": 0.5 });
@@ -165,7 +165,7 @@
             <div class="hints">
                 <div>
                     <p>First, calculate the area of the <span class="hint_blue">whole figure</span> (including the unshaded area), along with the area of the unshaded inner region.</p>
-                    <div class="graphie" data-update="shapes">
+                    <div data-update="shapes" class="graphie">
                         OUTER.drawShape(KhanUtil.currentGraph, { fill: BLUE, opacity: 0.5 });
                     </div>
                 </div>
@@ -175,5 +175,6 @@
                 <p><code>\text{area of shaded region} = <var>PRETTY_OUTER_AREA</var> - <var>PRETTY_INNER_AREA</var> = <var>roundTo(2, SHADED_AREA)</var></code></p>
             </div>
         </div>
-    </body>
-</html>
+    
+
+</body></html>

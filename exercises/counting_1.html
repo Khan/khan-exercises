@@ -18,9 +18,9 @@
                 <p class="spin">
                     <var>person( 1 )</var> {had to <var>DO</var>|was assigned} <var>PROBLEMS</var> <var>START</var> through <var>END</var> for homework {{last {week|night}}|tonight}.
                 </p>
-                <p class="question spin" data-if="isMale(1)">
+                <p data-if="isMale(1)" class="question spin">
                     If <var>person( 1 )</var> <var>DID</var> all of the <var>PROBLEMS</var> he was assigned, how many <var>PROBLEMS</var> did he <var>DO</var>?
-                </p><p class="question spin" data-else="">
+                </p><p data-else="" class="question spin">
                     If <var>person( 1 )</var> <var>DID</var> all of the <var>PROBLEMS</var> she was assigned, how many <var>PROBLEMS</var> did she <var>DO</var>?
                 </p>
 
@@ -55,7 +55,7 @@
                     <var id="LENGTH">randRange( 10, 20 )</var>
                 </div>
                 <p><var>person( 1 )</var> is building a straight fence, with posts one meter apart.</p>
-                <p class="question" data-if="isMale(1)">If the fence is <var>LENGTH</var> meters long, how many fence posts does he need?</p><p class="question" data-else="">If the fence is <var>LENGTH</var> meters long, how many fence posts does she need?</p>
+                <p data-if="isMale(1)" class="question">If the fence is <var>LENGTH</var> meters long, how many fence posts does he need?</p><p data-else="" class="question">If the fence is <var>LENGTH</var> meters long, how many fence posts does she need?</p>
                 
                 <div data-type="multiple" class="solution">
                     <p><span data-forms="integer" class="sol"><var>LENGTH + 1</var></span> fence posts</p>

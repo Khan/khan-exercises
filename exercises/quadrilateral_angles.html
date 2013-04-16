@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Quadrilateral Angles</title>
     <script src="../khan-exercise.js"></script>
     <script>
@@ -42,8 +42,8 @@
                         q.drawLabels();
                     </div>
                 </div>
-                <div class="solution" data-type="multiple">
-                    <span class="sol" data-forms="integer"><var>ANGLES[ ANSWER_POS ]</var></span><code>\Large {}^\circ</code>
+                <div data-type="multiple" class="solution">
+                    <span data-forms="integer" class="sol"><var>ANGLES[ ANSWER_POS ]</var></span><code>\Large {}^\circ</code>
                 </div>
                 <div class="hints">
                     <p>This figure is a trapezoid.</p>
@@ -53,12 +53,12 @@
                     <p><code>x =  <var>ANGLES[ ANSWER_POS ]</var></code></p>
                 </div>
             </div>
-            <div id="isoscelesTrap1" data-type="trapezoid">
+            <div data-type="trapezoid" id="isoscelesTrap1">
                 <div class="vars">
                     <var id="ANGLES">randomQuadAngles.isoscelesTrapezoid()</var>
                 </div>
             </div>
-            <div id="isoscelesTrap2" data-type="trapezoid">
+            <div data-type="trapezoid" id="isoscelesTrap2">
                 <div class="vars">
                     <var id="ANGLES">randomQuadAngles.isoscelesTrapezoid()</var>
                     <var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
@@ -70,7 +70,7 @@
                     <p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
                 </div>
             </div>
-            <div id="parallelogram1" data-type="trapezoid">
+            <div data-type="trapezoid" id="parallelogram1">
                 <div class="vars">
                     <var id="ANGLES">randomQuadAngles.parallelogram()</var>
                     <var id="SHOWN_POS">( ANSWER_POS + 2 ) % 4</var>
@@ -81,7 +81,7 @@
                     <p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
                 </div>
             </div>
-            <div id="parallelogram2" data-type="trapezoid">
+            <div data-type="trapezoid" id="parallelogram2">
                 <div class="vars">
                     <var id="ANGLES">randomQuadAngles.parallelogram()</var>
                     <var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
@@ -94,7 +94,7 @@
                     <p><code>x =  <var>ANGLES[ ANSWER_POS ]</var></code></p>
                 </div>
             </div>
-            <div id="rhombus1" data-type="parallelogram1">
+            <div data-type="parallelogram1" id="rhombus1">
                 <div class="vars">
                     <var id="ANGLES">randomQuadAngles.rhombus()</var>
                 </div>
@@ -118,7 +118,7 @@
                     <p>Therefore, the angle x is also <code><var>ANGLES[ SHOWN_POS ]</var></code></p>
                 </div>
             </div>
-            <div id="rhombus2" data-type="rhombus1">
+            <div data-type="rhombus1" id="rhombus2">
                 <div class="vars">
                     <var id="ANGLES">randomQuadAngles.rhombus()</var>
                     <var id="SHOWN_POS">ANSWER_POS % 2 === 0 ? ( ANSWER_POS + 1 ) : ( ANSWER_POS - 1 )</var>
@@ -131,7 +131,7 @@
                     <p><code>x =  <var>ANGLES[ ANSWER_POS ]</var></code></p>
                 </div>
             </div>
-            <div id="kite" data-type="rhombus1">
+            <div data-type="rhombus1" id="kite">
                 <div class="vars">
                     <var id="ANGLES">randomQuadAngles.kite()</var>
                     <var id="ANSWER_POS">randFromArray( [ 1, 3 ] )</var>
@@ -145,5 +145,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

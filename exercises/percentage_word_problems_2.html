@@ -14,8 +14,8 @@
                 <var id="YEAR_THIS">randRange( 50, 999 )</var>
                 <var id="YEAR_LAST">round(YEAR_THIS * 10000 / (100 + YEAR_PERCENT_MORE)) / 100</var>
             </div>
-            <p class="question" data-if="isMale(1)">
-                <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than he did this time last year. If <var>person(1)</var> has $<var>YEAR_THIS</var> today, how much money did he make over this past year? (Round to the nearest cent, or hundredth of a dollar.)</p><p class="question" data-else="">
+            <p data-if="isMale(1)" class="question">
+                <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than he did this time last year. If <var>person(1)</var> has $<var>YEAR_THIS</var> today, how much money did he make over this past year? (Round to the nearest cent, or hundredth of a dollar.)</p><p data-else="" class="question">
                 <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than she did this time last year. If <var>person(1)</var> has $<var>YEAR_THIS</var> today, how much money did she make over this past year? (Round to the nearest cent, or hundredth of a dollar.)</p>
             
             <p data-forms="dollar" class="solution" data-max-error="0.01"><var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></p>

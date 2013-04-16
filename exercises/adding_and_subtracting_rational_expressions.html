@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions rational-expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format expressions rational-expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Adding and subtracting with like denominators</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
@@ -62,15 +62,15 @@
                           <var>SIGN</var> \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code>
                 </p>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>NUMERSOL</var></span>
-                        <span class="sol" data-type="regex"><var>DENOMSOL</var></span>
+                <div data-type="set" class="solution">
+                    <div data-type="multiple" class="set-sol">
+                        <span data-type="regex" class="sol"><var>NUMERSOL</var></span>
+                        <span data-type="regex" class="sol"><var>DENOMSOL</var></span>
                     </div>
                     <div class="input-format">
-                        <div class="entry" data-type="multiple">
+                        <div data-type="multiple" class="entry">
                             <table>
-                                <tr>
+                                <tbody><tr>
                                     <td rowspan="2" class="soln-name">
                                         <code><var>Y</var> = </code>
                                     </td>
@@ -80,10 +80,10 @@
                                 </tr>
                                 <tr>
                                     <td class="soln-bot">
-                                        <span class="sol short50" data-fallback="1">a</span>
+                                        <span data-fallback="1" class="sol short50">a</span>
                                     </td>
                                 </tr>
-                            </table>
+                            </tbody></table>
                         </div>
                     </div>
 
@@ -92,7 +92,7 @@
                 </div>
             </div>
 
-            <div id="subtract" data-type="add">
+            <div data-type="add" id="subtract">
                 <div class="vars">
                     <var id="SIGN">"-"</var>
                     <var id="COEFF2">COEFF1 - NUMERCOEFF</var>
@@ -100,7 +100,7 @@
                     <var id="NUMERATOR2">expr(["+", ["*", COEFF2, X], CONST2])</var>
                 </div>
 
-                <div class="hints" data-apply="prependContents">
+                <div data-apply="prependContents" class="hints">
                     <div>
                         <p>Since the expressions have the same denominator we simply subtract the numerators:</p>
                         <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> - (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
@@ -132,5 +132,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

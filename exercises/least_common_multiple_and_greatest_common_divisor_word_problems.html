@@ -426,9 +426,9 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span data-each="getFactors( A ) as F" class="hint_blue">
-                            <span data-if="F === 1"><span data-unwrap="" data-if="isSingular(A)">
+                            <span data-if="F === 1"><span data-if="isSingular(A)" data-unwrap="">
                                 1 team with 1 sprinter<br>
-                            </span><span data-unwrap="" data-else="">
+                            </span><span data-else="" data-unwrap="">
                                 1 team with <var>A</var> sprinters<br>
                             </span>
                             
@@ -455,9 +455,9 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span data-each="getFactors( B ) as F" class="hint_green">
-                            <span data-if="F === 1"><span data-unwrap="" data-if="isSingular(B)">
+                            <span data-if="F === 1"><span data-if="isSingular(B)" data-unwrap="">
                                 1 team with 1 long-distance runner<br>
-                            </span><span data-unwrap="" data-else="">
+                            </span><span data-else="" data-unwrap="">
                                 1 team with <var>B</var> long-distance runners<br>
                             </span>
                             
@@ -591,9 +591,9 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span data-each="getFactors( A ) as F" class="hint_blue">
-                            <span data-if="F === 1"><span data-unwrap="" data-if="isSingular(A)">
+                            <span data-if="F === 1"><span data-if="isSingular(A)" data-unwrap="">
                                 1 basket with 1 chocolate chip cookie<br>
-                            </span><span data-unwrap="" data-else="">
+                            </span><span data-else="" data-unwrap="">
                                 1 basket with <var>A</var> chocolate chip cookies<br>
                             </span>
                             
@@ -620,9 +620,9 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span data-each="getFactors( B ) as F" class="hint_green">
-                            <span data-if="F === 1"><span data-unwrap="" data-if="isSingular(B)">
+                            <span data-if="F === 1"><span data-if="isSingular(B)" data-unwrap="">
                                 1 basket with 1 oatmeal cookie<br>
-                            </span><span data-unwrap="" data-else="">
+                            </span><span data-else="" data-unwrap="">
                                 1 basket with <var>B</var> oatmeal cookies<br>
                             </span>
                             
@@ -762,11 +762,11 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span data-each="getFactors( A ) as F" class="hint_blue">
-                            <span data-if="isSingular(F)"><span data-unwrap="" data-if="isSingular(A / F)">
+                            <span data-if="isSingular(F)"><span data-if="isSingular(A / F)" data-unwrap="">
                                 1 set with 1 <var>deskItem(1)</var>.<br>
-                            </span><span data-unwrap="" data-else="">
+                            </span><span data-else="" data-unwrap="">
                                 1 set with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var>.<br>
-                            </span></span><span data-else="" data-if="isSingular(A / F)">
+                            </span></span><span data-if="isSingular(A / F)" data-else="">
                                 <var>F</var> sets with 1 <var>deskItem(1)</var> each.<br>
                             </span><span data-else="">
                                 <var>F</var> sets with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var> each.<br>
@@ -794,11 +794,11 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span data-each="getFactors( B ) as F" class="hint_green">
-                            <span data-if="isSingular(F)"><span data-unwrap="" data-if="isSingular(B / F)">
+                            <span data-if="isSingular(F)"><span data-if="isSingular(B / F)" data-unwrap="">
                                 1 set with 1 <var>deskItem(2)</var>.<br>
-                            </span><span data-unwrap="" data-else="">
+                            </span><span data-else="" data-unwrap="">
                                 1 set with <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var>.<br>
-                            </span></span><span data-else="" data-if="isSingular(B / F)">
+                            </span></span><span data-if="isSingular(B / F)" data-else="">
                                 <var>F</var> sets with 1 <var>deskItem(2)</var> each.<br>
                             </span><span data-else="">
                                 <var>F</var> sets with <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var> each.<br>

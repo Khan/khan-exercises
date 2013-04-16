@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math word-problems graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math word-problems graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Reading tables 1</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -71,11 +71,11 @@
             <div class="fake_header reading">
                 <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>column</var></span>
             </div>
-            <div class="fake_row reading" data-each="ROWS as i, row">
+            <div data-each="ROWS as i, row" class="fake_row reading">
                 <span><var>row</var></span><span data-each="ENROLLMENTS[i] as j, enrollment"><var>enrollment</var></span>
             </div>
-            <div class="solution" data-type="multiple">
-                <span style="padding-right: 5px" class="sol" data-forms="integer"><var>ANSWER</var></span> <var>UNIT</var>
+            <div data-type="multiple" class="solution">
+                <span style="padding-right: 5px" data-forms="integer" class="sol"><var>ANSWER</var></span> <var>UNIT</var>
             </div>
 
             <div class="hints">
@@ -103,5 +103,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers functional">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers functional"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Compound inequalities</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -11,8 +11,8 @@
             }
 
             return {
-                "≤": "≥",
-                "≥": "≤",
+                "&#8804;": "&#8805;",
+                "&#8805;": "&#8804;",
                 "<": ">",
                 ">": "<"
             }[comp];
@@ -21,21 +21,21 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="abs( SOLUTION[0] - SOLUTION[1] ) <= 5 && FAKE_ANSWER[0] !== SOLUTION[0] && FAKE_ANSWER[1] !== SOLUTION[1]">
+        <div data-ensure="abs( SOLUTION[0] - SOLUTION[1] ) &lt;= 5 &amp;&amp; FAKE_ANSWER[0] !== SOLUTION[0] &amp;&amp; FAKE_ANSWER[1] !== SOLUTION[1]" class="vars">
             <var id="COEF">tabulate( function() {
-                return randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 );
+                return randRange( 2, 9 ) * ( rand( 3 ) &gt; 0 ? 1 : -1 );
             } , 2 )</var>
             <var id="ONE_OVER_COEF">tabulate( function(i) {
                 return fraction( 1, COEF[i] );
             }, 2 )</var>
             <var id="SIGN">randFromArray( [ "-", "+" ], 2)</var>
             <var id="LEFT_INT">tabulate( function() {
-                return rand( 3 ) > 0 ? randRange( 2, 9 ) : 0;
+                return rand( 3 ) &gt; 0 ? randRange( 2, 9 ) : 0;
             }, 2 )</var>
             <var id="ADD_TO_SIMPLIFY">tabulate( function(i) {
                 return LEFT_INT[i] * ( SIGN[i] === "+" ? -1 : 1 );
             }, 2 )</var>
-            <var id="COMP">randFromArray( [ "&lt;", "&gt;", "&le;", "&ge;" ], 2 )</var>
+            <var id="COMP">randFromArray( [ "&lt;", "&gt;", "&#8804;", "&#8805;" ], 2 )</var>
             <var id="RIGHT_INT">tabulate( function(i) {
                 return randRange( 1, 6 ) * abs( COEF[i] ) + ( SIGN[i] === "+" ? 1 : -1 ) * LEFT_INT[i];
             }, 2 )</var>
@@ -52,25 +52,25 @@
             <var id="FIRST">[ "first", "second" ]</var>
             <var id="COLOR">[ "#1F78B4", "#B30000" ]</var>
             <var id="INCLUSIVE">tabulate( function(i) {
-                return COMP_SOLUTION[i] === "&le;" || COMP_SOLUTION[i] === "&ge;";
+                return COMP_SOLUTION[i] === "&#8804;" || COMP_SOLUTION[i] === "&#8805;";
             }, 2 )</var>
             <var id="LESS_THAN">tabulate( function(i) {
-                return COMP_SOLUTION[i] === "&le;" || COMP_SOLUTION[i] === "&lt;";
+                return COMP_SOLUTION[i] === "&#8804;" || COMP_SOLUTION[i] === "&lt;";
             }, 2 )</var>
-            <var id="ALL_NUMBERS">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[0] >= SOLUTION [1] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[0] &lt;= SOLUTION [1] )</var>
-            <var id="NO_SOLUTION">( LESS_THAN[0] && !LESS_THAN[1] && SOLUTION[1] > SOLUTION[0] ) || ( !LESS_THAN[0] && LESS_THAN[1] && SOLUTION[0] > SOLUTION[1] ) || ( LESS_THAN[0] !== LESS_THAN[1] && SOLUTION[0] === SOLUTION[1] && ( !INCLUSIVE[0] || !INCLUSIVE[1] ) )</var>
+            <var id="ALL_NUMBERS">( LESS_THAN[0] &amp;&amp; !LESS_THAN[1] &amp;&amp; SOLUTION[0] &gt;= SOLUTION [1] ) || ( !LESS_THAN[0] &amp;&amp; LESS_THAN[1] &amp;&amp; SOLUTION[0] &lt;= SOLUTION [1] )</var>
+            <var id="NO_SOLUTION">( LESS_THAN[0] &amp;&amp; !LESS_THAN[1] &amp;&amp; SOLUTION[1] &gt; SOLUTION[0] ) || ( !LESS_THAN[0] &amp;&amp; LESS_THAN[1] &amp;&amp; SOLUTION[0] &gt; SOLUTION[1] ) || ( LESS_THAN[0] !== LESS_THAN[1] &amp;&amp; SOLUTION[0] === SOLUTION[1] &amp;&amp; ( !INCLUSIVE[0] || !INCLUSIVE[1] ) )</var>
             <var id="OR">randFromArray([ "or", "and" ])</var>
             <var id="IS_OR">OR === "or"</var>
             <var id="FAKE_ANSWER">tabulate( function() {
-                return randRange( 2, 9 ) * ( rand( 3 ) > 0 ? 1 : -1 );
+                return randRange( 2, 9 ) * ( rand( 3 ) &gt; 0 ? 1 : -1 );
             }, 2 )</var>
             <var id="CONTAINS">(function() {
-                if ( LESS_THAN[0] && LESS_THAN[1] ) {
+                if ( LESS_THAN[0] &amp;&amp; LESS_THAN[1] ) {
                     if ( SOLUTION[0] === SOLUTION[1] ) {
                         return INCLUSIVE[0] ? 1 : 2;
                     }
-                    return SOLUTION[0] > SOLUTION[1] ? 1 : 2;
-                } else if ( !LESS_THAN[0] && !LESS_THAN[1] ) {
+                    return SOLUTION[0] &gt; SOLUTION[1] ? 1 : 2;
+                } else if ( !LESS_THAN[0] &amp;&amp; !LESS_THAN[1] ) {
                     if ( SOLUTION[0] === SOLUTION[1] ) {
                         return INCLUSIVE[0] ? 1 : 2;
                     }
@@ -80,7 +80,7 @@
                 return 0;
             })()</var>
             <var id="IS_CONTAINED">CONTAINS === 1 ? 2 : 1</var>
-            <var id="SINGLE_SOLUTION">SOLUTION[0] === SOLUTION[1] && INCLUSIVE[0] && INCLUSIVE[1] && ( LESS_THAN[0] ? !LESS_THAN[1] : LESS_THAN[0] )</var>
+            <var id="SINGLE_SOLUTION">SOLUTION[0] === SOLUTION[1] &amp;&amp; INCLUSIVE[0] &amp;&amp; INCLUSIVE[1] &amp;&amp; ( LESS_THAN[0] ? !LESS_THAN[1] : LESS_THAN[0] )</var>
         </div>
 
         <div class="problems">
@@ -92,12 +92,12 @@
                 </div>
 
                 <p class="solution">
-                    <span data-if="!IS_OR && SINGLE_SOLUTION"><code><var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var></code></span>
-                    <span data-else-if="IS_OR && ALL_NUMBERS">All real numbers.</span>
-                    <span data-else-if="IS_OR && CONTAINS"><code><var>VARIABLE_NAME + COMP_SOLUTION[CONTAINS - 1] + SOLUTION[CONTAINS - 1]</var></code></span>
-                    <span data-else-if="!IS_OR && CONTAINS"><code><var>VARIABLE_NAME + COMP_SOLUTION[IS_CONTAINED - 1] + SOLUTION[IS_CONTAINED - 1]</var></code></span>
-                    <span data-else-if="!IS_OR && NO_SOLUTION">No solution.</span>
-                    <span data-else><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var></code></span>
+                    <span data-if="!IS_OR &amp;&amp; SINGLE_SOLUTION"><code><var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var></code></span>
+                    <span data-else-if="IS_OR &amp;&amp; ALL_NUMBERS">All real numbers.</span>
+                    <span data-else-if="IS_OR &amp;&amp; CONTAINS"><code><var>VARIABLE_NAME + COMP_SOLUTION[CONTAINS - 1] + SOLUTION[CONTAINS - 1]</var></code></span>
+                    <span data-else-if="!IS_OR &amp;&amp; CONTAINS"><code><var>VARIABLE_NAME + COMP_SOLUTION[IS_CONTAINED - 1] + SOLUTION[IS_CONTAINED - 1]</var></code></span>
+                    <span data-else-if="!IS_OR &amp;&amp; NO_SOLUTION">No solution.</span>
+                    <span data-else=""><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var></code></span>
                 </p>
 
                 <ul class="choices" data-show="4">
@@ -106,27 +106,27 @@
                     <li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + randRangeNonZero( -9, 9 )</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var></code></li>
                     <li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + FAKE_ANSWER[0]</var></code></li>
                     <li data-if="CONTAINS"><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var></code></li>
-                    <div data-if="COMP[0] !== COMP_SOLUTION[0]" data-unwrap>
+                    <div data-if="COMP[0] !== COMP_SOLUTION[0]" data-unwrap="">
                         <li><code><var>VARIABLE_NAME + COMP[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var></code></li>
                         <li><code><var>VARIABLE_NAME + COMP[0] + FAKE_ANSWER[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] + FAKE_ANSWER[1]</var></code></li>
                     </div>
-                    <div data-if="COMP[1] !== COMP_SOLUTION[1]" data-unwrap>
+                    <div data-if="COMP[1] !== COMP_SOLUTION[1]" data-unwrap="">
                         <li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + SOLUTION[1]</var></code></li>
                         <li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + FAKE_ANSWER[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + FAKE_ANSWER[1]</var></code></li>
                     </div>
-                    <div data-if="COMP[0] !== COMP_SOLUTION[0] && COMP[1] !== COMP_SOLUTION[1]" data-unwrap>
+                    <div data-if="COMP[0] !== COMP_SOLUTION[0] &amp;&amp; COMP[1] !== COMP_SOLUTION[1]" data-unwrap="">
                         <li><code><var>VARIABLE_NAME + COMP[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + SOLUTION[1]</var></code></li>
                         <li><code><var>VARIABLE_NAME + COMP[0] + FAKE_ANSWER[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + FAKE_ANSWER[1]</var></code></li>
                     </div>
                     <li data-if="LEFT_INT[0] !== 0 || LEFT_INT[1] !== 0"><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + round( ( RIGHT_INT[0] - ADD_TO_SIMPLIFY[0] ) / COEF[0] )</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] +
                         round( ( RIGHT_INT[1] - ADD_TO_SIMPLIFY[1] ) / COEF[1] )</var></code></li>
-                    <li data-if="IS_OR && !ALL_NUMBERS">All real numbers.</li>
-                    <li data-if="!IS_OR && !NO_SOLUTION">No solution.</li>
-                    <li data-if="!IS_OR && SINGLE_SOLUTION"><code><var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var></code></li>
+                    <li data-if="IS_OR &amp;&amp; !ALL_NUMBERS">All real numbers.</li>
+                    <li data-if="!IS_OR &amp;&amp; !NO_SOLUTION">No solution.</li>
+                    <li data-if="!IS_OR &amp;&amp; SINGLE_SOLUTION"><code><var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var></code></li>
                 </ul>
 
                 <div class="hints">
-                    <div data-each="[ 0, 1 ] as i" data-unwrap>
+                    <div data-each="[ 0, 1 ] as i" data-unwrap="">
                         <div>
                             <p>The <var>FIRST[i]</var> inequality can be simplified into this:</p>
                             <p><code>\color{<var>COLOR[i]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[i] + SOLUTION[i]</var>}</code></p>
@@ -146,7 +146,7 @@
                         // Draw both inequalities
                         var y_placement = [ 0.05, -0.05 ];
                         for ( var i = 0; i &lt; 2; i++ ) {
-                            style({ stroke: COLOR[i], fill: COLOR[i], strokeWidth: 3.5, arrows: "->" });
+                            style({ stroke: COLOR[i], fill: COLOR[i], strokeWidth: 3.5, arrows: "-&gt;" });
                             path([ [ SOLUTION[i] + 0.15 * ( LESS_THAN[i] ? -1 : 1  ), y_placement[i] ], [ LESS_THAN[i] ? start : end, y_placement[i] ] ]);
                             style({ stroke: COLOR[i], fill: INCLUSIVE[i] ? COLOR[i] : null });
                             circle( [ SOLUTION[i], y_placement[i] ], 0.2 );
@@ -159,7 +159,7 @@
                             <p>Notice how the <var>FIRST[IS_CONTAINED - 1]</var> inequality is completely included by the <var>FIRST[CONTAINS - 1]</var> inequality. Therefore the answer is:</p>
                             <p><code>\color{<var>COLOR[CONTAINS - 1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[CONTAINS - 1] + SOLUTION[CONTAINS - 1]</var>}</code></p>
                         </div>
-                        <div data-else>
+                        <div data-else="">
                             <p>Therefore, since the graphs of the inequalities do not intersect, the solution is:</p>
                             <p>
                                 <code>\color{<var>COLOR[0]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var>}</code> or
@@ -167,7 +167,7 @@
                             </p>
                         </div>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p>The solution to an inequality with the word "and" is the intersection of the graphs of the inequalities.</p>
                         <div data-if="SINGLE_SOLUTION">
                             <p>Therefore, the solution is:</p>
@@ -178,7 +178,7 @@
                             <p>Since the <var>FIRST[IS_CONTAINED - 1]</var> inequality is completely included by the <var>FIRST[CONTAINS - 1]</var> inequality, their intersection is the <var>FIRST[IS_CONTAINED -1]</var> inequality. Therefore the answer is:</p>
                             <p><code>\color{<var>COLOR[IS_CONTAINED - 1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[IS_CONTAINED - 1] + SOLUTION[IS_CONTAINED - 1]</var>}</code></p>
                         </div>
-                        <div data-else>
+                        <div data-else="">
                             <p>Therefore, the solution is:</p>
                             <p>
                                 <code>\color{<var>COLOR[0]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var>}</code> and
@@ -190,5 +190,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math calculus polynomials expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math calculus polynomials expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Product rule</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="FUNCN.fText !== FUNCD.fText">
+        <div data-ensure="FUNCN.fText !== FUNCD.fText" class="vars">
             <var id="FUNCN">generateSpecialFunction("x")</var>
             <var id="FUNCD">generateSpecialFunction("x")</var>
 
@@ -22,7 +22,7 @@
 
                 <p class="solution"><code>\lrsplit{(<var>FUNCN.ddxFText</var>)(<var>FUNCD.fText</var>)}{+\:(<var>FUNCD.ddxFText</var>)(<var>FUNCN.fText</var>)}</code></p>
 
-                <ul class="choices" data-show="5" data-none="true">
+                <ul data-none="true" class="choices" data-show="5">
                     <!-- 5 = 3 incorrect + 1 correct + "none" -->
                     <li><code>\lrsplit{(<var>FUNCD.fText</var>)(<var>FUNCN.ddxFText</var>)}{-\:(<var>FUNCN.fText</var>)(<var>FUNCD.ddxFText</var>)}</code></li>
                     <li><code>\lrsplit{(<var>FUNCN.fText</var>)(<var>FUNCN.ddxFText</var>)}{+\:(<var>FUNCD.fText</var>)(<var>FUNCD.ddxFText</var>)}</code></li>
@@ -47,5 +47,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

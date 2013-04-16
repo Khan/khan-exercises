@@ -59,11 +59,11 @@
                     <p data-if="DEN_1 &amp;gt; DEN_2">The left fraction represents a pizza with more slices, and so each slice is smaller.</p><p data-else="">The left fraction represents a pizza with fewer slices, and so each slice is bigger.</p>
                     
                     <p>
-                        <span data-if="DEN_1 &amp;gt; DEN_2"><span data-unwrap="" data-if="isSingular(NUM_1)">There are <var>NUM_1</var> smaller slice.</span><span data-unwrap="" data-else="">There are <var>NUM_1</var> smaller slices.</span></span><span data-else="" data-if="isSingular(NUM_1)">There are <var>NUM_1</var> bigger slice.</span><span data-else="">There are <var>NUM_1</var> bigger slices.</span>
+                        <span data-if="DEN_1 &amp;gt; DEN_2"><span data-if="isSingular(NUM_1)" data-unwrap="">There are <var>NUM_1</var> smaller slice.</span><span data-else="" data-unwrap="">There are <var>NUM_1</var> smaller slices.</span></span><span data-if="isSingular(NUM_1)" data-else="">There are <var>NUM_1</var> bigger slice.</span><span data-else="">There are <var>NUM_1</var> bigger slices.</span>
                         
                         
                         
-                        <span data-if="DEN_1 &amp;gt; DEN_2"><span data-unwrap="" data-if="isSingular(NUM_2)">This is less pizza than <var>NUM_2</var> bigger slice.</span><span data-unwrap="" data-else="">This is less pizza than <var>NUM_2</var> bigger slices.</span></span><span data-else="" data-if="isSingular(NUM_2)">This is more pizza than <var>NUM_2</var> smaller slice.</span><span data-else="">This is more pizza than <var>NUM_2</var> smaller slices.</span>
+                        <span data-if="DEN_1 &amp;gt; DEN_2"><span data-if="isSingular(NUM_2)" data-unwrap="">This is less pizza than <var>NUM_2</var> bigger slice.</span><span data-else="" data-unwrap="">This is less pizza than <var>NUM_2</var> bigger slices.</span></span><span data-if="isSingular(NUM_2)" data-else="">This is more pizza than <var>NUM_2</var> smaller slice.</span><span data-else="">This is more pizza than <var>NUM_2</var> smaller slices.</span>
                     
                     
                     
@@ -119,7 +119,7 @@
                     <p>
                         <span data-if="isSingular(NUM_1)">There are 1 slice.</span><span data-else="">There are <var>NUM_1</var> slices.</span>
                         
-                        <span data-if="NUM_1 &amp;lt; NUM_2"><span data-unwrap="" data-if="isSingular(NUM_2)">This is less pizza than 1 slice.</span><span data-unwrap="" data-else="">This is less pizza than <var>NUM_2</var> slices.</span></span><span data-else="" data-if="isSingular(NUM_2)">This is more pizza than 1 slice.</span><span data-else="">This is more pizza than <var>NUM_2</var> slices.</span>
+                        <span data-if="NUM_1 &amp;lt; NUM_2"><span data-if="isSingular(NUM_2)" data-unwrap="">This is less pizza than 1 slice.</span><span data-else="" data-unwrap="">This is less pizza than <var>NUM_2</var> slices.</span></span><span data-if="isSingular(NUM_2)" data-else="">This is more pizza than 1 slice.</span><span data-else="">This is more pizza than <var>NUM_2</var> slices.</span>
                     
                     
                     

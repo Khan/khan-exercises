@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html data-require="math polynomials expressions math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math polynomials expressions math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Completing the square 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="original" data-weight="5">
+            <div data-weight="5" id="original">
                 <div class="vars">
                     <var id="X1">randRangeNonZero( -10, 10 )</var>
-                    <var id="X2" data-ensure="X1 !== X2">randRange( -5, 5 ) * 2 + ( X1 % 2 )</var>
+                    <var data-ensure="X1 !== X2" id="X2">randRange( -5, 5 ) * 2 + ( X1 % 2 )</var>
                     <var id="B">( X1 + X2 ) * -1</var>
                     <var id="C">X1 * X2</var>
                     <var id="POLY">new Polynomial( 0, 2, [C, B, 1], "x" )</var>
@@ -19,7 +19,7 @@
                 </div>
                 <p class="question">Solve for <code>x</code> by completing the square.</p>
                 <p><code><var>POLY_TEXT</var> = 0</code></p>
-                <div class="solution" data-type="set">
+                <div data-type="set" class="solution">
                     <div class="set-sol"><var>X1</var></div>
                     <div class="set-sol"><var>X2</var></div>
                     <div class="input-format">
@@ -27,17 +27,17 @@
                     </div>
                 </div>
             </div>
-            <div id="one-root" data-type="original" data-weight="1">
+            <div data-weight="1" data-type="original" id="one-root">
                 <div class="vars">
                     <var id="X2">X1</var>
                 </div>
-                <div class="solution" data-type="multiple">
+                <div data-type="multiple" class="solution">
                     <p><code>x = \quad</code><span class="sol"><var>X1</var></span></p>
                 </div>
             </div>
         </div>
         <div class="hints">
-            <div data-if="X1 !== X2" data-unwrap>
+            <div data-if="X1 !== X2" data-unwrap="">
                 <div data-if="C !== 0">
                     <p>Begin by moving the constant term to the right side of the equation.</p>
                     <p><code>x^2 <span data-if="B !== 0"> + <var>B</var>x</span> = <var>C * -1</var></code></p>
@@ -51,7 +51,7 @@
                     <p><code>( x + <var>B / 2</var> )^2 = <var>C * -1 + pow( B / 2, 2 )</var></code></p>
                 </div>
             </div>
-            <div data-else data-unwrap>
+            <div data-else="" data-unwrap="">
                 <p>The left side of the equation is already a perfect square trinomial. The coefficient of our <code>x</code> term is <code><var>B</var></code>, half of it is <code><var>B / 2</var></code>, and squaring it gives us <code>\color{blue}{<var>pow( B / 2, 2 )</var>}</code>, our constant term.</p>
                 <div>
                     <p>Thus, we can rewrite the left side of the equation as a squared term.</p>
@@ -67,10 +67,11 @@
                 <p data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"><code>x = <var>-B / 2</var>\pm<var>sqrt( C * -1 + pow( B / 2, 2 ) )</var></code></p>
                 <p><code>x = <var>-B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) )</var><span data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"> \text{ or } x = <var>-B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) )</var></span></code></p>
             </div>
-            <div data-else>
+            <div data-else="">
                 <p><code>x = <var>-B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) )</var><span data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"> \text{ or } x =     <var>-B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) )</var></span></code></p>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

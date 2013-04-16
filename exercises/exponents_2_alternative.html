@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format exponents subhints">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format exponents subhints"><head>
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 	<title>Exponents 2</title>
 	<script src="../khan-exercise.js"></script>
 
@@ -68,13 +68,13 @@
 
 				<div class="hints">
 
-					<div data-if="EXP_NEG" data-unwrap>
+					<div data-if="EXP_NEG" data-unwrap="">
 						<div>
 							<p>
 								Any time we have a negative exponent, we can change it to a positive exponent if we flip the numerator and denominator:
-								[<a href="#" class="show-subhint" data-subhint="neg-exponent">Why is that?</a>]
+								[<a data-subhint="neg-exponent" href="#" class="show-subhint">Why is that?</a>]
 							</p>
-							<div class="subhint" id="neg-exponent">
+							<div id="neg-exponent" class="subhint">
 								<p>
 									The exponent tells us how many times to <span class="hint_green">multiply</span> by the base. If the exponent is
 									<span class="hint_blue">negative</span>, then it tells us how many times to <span class="hint_blue">divide</span> by the base.
@@ -94,7 +94,7 @@
 								</p>
 								<p>
 									For more, check out the
-									<a class="related-video" href="/video/negative-exponent-intuition" data-youtube-id="Tqpcku0hrPU">negative exponent intuition</a> video.
+									<a href="/video/negative-exponent-intuition" data-youtube-id="Tqpcku0hrPU" class="related-video">negative exponent intuition</a> video.
 								</p>
 							</div>
 							<p><code>
@@ -103,30 +103,30 @@
 						</div>
 					</div>
 
-					<div data-if="BASEFS_D === 1" data-unwrap>
-						<div data-if="EXP !== 1" data-unwrap>
+					<div data-if="BASEFS_D === 1" data-unwrap="">
+						<div data-if="EXP !== 1" data-unwrap="">
 							<p>
 								To find <code><var>fracParens( BASEF_N, BASEF_D )</var>^{\color{<var>BLUE</var>}{<var>EXP</var>}}</code>,
 								multiply <span class="hint_blue"><var>cardinal( EXP )</var></span> <code><var>round( BASEF_N/BASEF_D )</var></code>s together.
 							</p>
-							<div data-unwrap data-each="expandFractionExponent( BASEF_N, BASEF_D, EXP ) as v">
+							<div data-each="expandFractionExponent( BASEF_N, BASEF_D, EXP ) as v" data-unwrap="">
 								<p><code> \quad = \quad <var>v</var></code></p>
 							</div>
 						</div>
-						<div data-else data-unwrap>
+						<div data-else="" data-unwrap="">
 							<p>
 								Any number to the first power is simply that number.
 							</p>
 						</div>
 					</div>
 
-					<div data-else data-unwrap>
+					<div data-else="" data-unwrap="">
 						<div>
 							<p>
 								Taking an exponent of a fraction is the same as taking the same exponent of the numerator and denominator:
-								[<a href="#" class="show-subhint" data-subhint="dist-exponent">Why is that?</a>]
+								[<a data-subhint="dist-exponent" href="#" class="show-subhint">Why is that?</a>]
 							</p>
-							<div class="subhint" id="dist-exponent">
+							<div id="dist-exponent" class="subhint">
 								<p>
 									The exponent tells us how many times we're multiplying the fraction by itself. So in this case, we're
 									multiplying <code><var>fraction( BASEF_N, BASEF_D, false, true, true )</var></code> by itself
@@ -160,9 +160,9 @@
 							<p><code>
 								\qquad <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>EXP</var>} \quad = \quad
 								\dfrac{<var>BASEFS_N</var>^{<var>EXP</var>}}{<var>BASEFS_D</var>^{<var>EXP</var>}}
-							</p></code>
+							</code></p>
 						</div>
-						<div data-if="EXP !== 1" data-unwrap>
+						<div data-if="EXP !== 1" data-unwrap="">
 							<div>
 								<p>Expand the exponents in the numerator and denominator into multiplication problems:</p>
 								<p><code>
@@ -187,7 +187,7 @@
 								</code></p>
 							</div>
 						</div>
-						<p data-else>
+						<p data-else="">
 							Any number to the first power is simply that number.
 						</p>
 
@@ -199,5 +199,6 @@
 			</div>
 		</div>
 	</div>
-</body>
-</html>
+
+
+</body></html>

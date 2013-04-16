@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie time interactive angles word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie time interactive angles word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Telling time 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="set-hands" data-weight="3">
+            <div data-weight="3" id="set-hands">
 
                 <div class="vars">
-                    <div data-ensure="!(HOUR === 1 && MINUTE === 0)">
+                    <div data-ensure="!(HOUR === 1 &amp;&amp; MINUTE === 0)">
                         <var id="HOUR">randRange(1, 12)</var>
                         <var id="MINUTE_INCREMENT">15</var>
                         <var id="MINUTE">randRange(0, (60 / MINUTE_INCREMENT) - 1) * MINUTE_INCREMENT</var>
@@ -25,7 +25,7 @@
 
                 <div class="problem">
 
-                    <div class="graphie" id="clock">
+                    <div id="clock" class="graphie">
                         init({ range: [[-4, 4], [-4, 4]], scale: 45 });
 
                         var clockRadius = 3.75;
@@ -198,7 +198,7 @@
                     </div>
                 </div>
 
-                <div class="solution" data-type="custom">
+                <div data-type="custom" class="solution">
                     <div class="instruction">
                         Drag the two hands so the clock reads <var>HOUR</var>:<var>NICE_MINUTE</var>.
                     </div>
@@ -234,10 +234,10 @@
 
                 <div class="hints">
                     <p>
-                        The <span class="hint_blue" style="font-weight: bold">hour</span> hand is the short
-                        <span class="hint_blue" style="font-weight: bold">blue</span> bar and the
-                        <span class="hint_orange" style="font-weight: bold">minute</span> hand is the long
-                        <span class="hint_orange" style="font-weight: bold">orange</span> bar.
+                        The <span style="font-weight: bold" class="hint_blue">hour</span> hand is the short
+                        <span style="font-weight: bold" class="hint_blue">blue</span> bar and the
+                        <span style="font-weight: bold" class="hint_orange">minute</span> hand is the long
+                        <span style="font-weight: bold" class="hint_orange">orange</span> bar.
                     </p>
 
                     <p>
@@ -247,7 +247,7 @@
                     </p>
 
                     <p>
-                        First, let's set the <span class="hint_orange" style="font-weight: bold">minute</span> hand.
+                        First, let's set the <span style="font-weight: bold" class="hint_orange">minute</span> hand.
                     </p>
 
                     <div>
@@ -261,7 +261,7 @@
                                 the minute hand should be at the mark numbered
                                 <code class="hint_orange">12</code>, which is the first tick mark on the clock
                                 and represents <code>0</code> minutes past the hour
-                            </span><span data-else>
+                            </span><span data-else="">
                                 and there are 5 minutes per tick mark, the minute hand should be at the mark numbered
                                 <code class="hint_orange"><var>fraction(MINUTE, 5)</var> = <var>MINUTE/5</var></code>
                             </span>.
@@ -269,7 +269,7 @@
                     </div>
 
                     <p>
-                        Next, let's set the <span class="hint_blue" style="font-weight: bold">hour</span> hand.
+                        Next, let's set the <span style="font-weight: bold" class="hint_blue">hour</span> hand.
                     </p>
 
                     <div>
@@ -286,12 +286,12 @@
                             Since it's <code>0</code> minutes past the hour, the hour hand should be right on the
                             <code class="hint_blue"><var>HOUR</var></code> hour mark.
                         </p>
-                        <div data-else data-unwrap>
+                        <div data-else="" data-unwrap="">
                             <p>
                                 Since it's <code><var>MINUTE</var></code> minutes past the hour, the hour hand will have
                                 traveled <code class="hint_blue"><var>fraction(MINUTE, 60)</var> =
                                 <var>fraction(MINUTE, 60, false, true)</var></code> of the way to the
-                                <code><span data-if="HOUR + 1 ===13">1</span><span data-else><var>HOUR + 1</var></span>
+                                <code><span data-if="HOUR + 1 ===13">1</span><span data-else=""><var>HOUR + 1</var></span>
                                 </code> hour mark.
                             </p>
                             <p>
@@ -300,13 +300,13 @@
                                 </span><span data-else-if="MINUTE === 40">just past the third
                                 </span><span data-else-if="MINUTE === 15">just past the first
                                 </span><span data-else-if="MINUTE === 30">between the second and third
-                                </span><span data-else>just before the fourth </span>
+                                </span><span data-else="">just before the fourth </span>
                                 small tick mark past the <code class="hint_blue"><var>HOUR</var></code> hour mark.
                             </p>
                         </div>
                     </div>
 
-                    <div class="graphie" data-update="clock">
+                    <div data-update="clock" class="graphie">
                             var minuteRadius = minutePoint.constraints.fixedDistance.dist;
                             var hourRadius = hourPoint.constraints.fixedDistance.dist;
 
@@ -386,18 +386,19 @@
                 </div>
             </div>
 
-            <div id="set-hands-20-minutes" data-type="set-hands" data-weight="2">
+            <div data-weight="2" data-type="set-hands" id="set-hands-20-minutes">
                 <div class="vars">
                     <var id="MINUTE_INCREMENT">20</var>
                 </div>
             </div>
 
-            <div id="set-hands-30-minutes" data-type="set-hands" data-weight="2">
+            <div data-weight="2" data-type="set-hands" id="set-hands-30-minutes">
                 <div class="vars">
                     <var id="MINUTE_INCREMENT">30</var>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Congruent Triangles 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -42,7 +42,7 @@
             <var id="ANSWER">ANGLES[ RAND_ANG ]</var>
         </div>
         <div class="question">
-            <div class="graphie" id="triangle">
+            <div id="triangle" class="graphie">
                 init({
                     range: [ [-1, 15 ], [ -7, 2.5 ] ],
                     scale: 31
@@ -89,7 +89,7 @@
                     <p><code><var>ANGLE_LABELS[ ANG_LEFT ]</var> = 180 - <var>TR_A.angles[ ANG_FIRST[ 0 ] ]</var> -  <var>TR_A.angles[ ANG_FIRST[ 1 ] ]</var></code></p>
                     <div>
                         <p><code><var>ANGLE_LABELS[ ANG_LEFT ]</var> = x = <var>TR_B.angles[ ANG_LEFT ]</var></code></p>
-                        <div class="graphie" data-update="triangle">
+                        <div data-update="triangle" class="graphie">
                             TR_A.labels.angles = TR_A.niceAngles;
                             TR_A.drawLabels();
                         </div>
@@ -151,7 +151,7 @@
                     <var id="ANSWER">TR_B.angles[ ANG_LEFT ]</var>
                 </div>
                 <div class="question">
-                    <div class="graphie" id="oppTriangle">
+                    <div id="oppTriangle" class="graphie">
                     init({
                         range: [ [-1, 15 ], [ -7, 2.5 ] ],
                         scale: 32
@@ -173,7 +173,7 @@
                         <p><code><var>ANGLE_LABELS[ SHOW_ANGLE ]</var> = 180 - <var>TR_A.angles[ ANG_FIRST[ 0 ] ]</var> -  <var>TR_A.angles[ ANG_FIRST[ 1 ] ]</var></code></p>
                         <div>
                             <p><code><var>ANGLE_LABELS[ SHOW_ANGLE ]</var> = x = <var>TR_B.angles[ ANG_LEFT ]</var></code></p>
-                            <div class="graphie" data-update="oppTriangle">
+                            <div data-update="oppTriangle" class="graphie">
                                 TR_A.labels.angles = TR_A.niceAngles;
                                 TR_A.drawLabels();
                             </div>
@@ -184,5 +184,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

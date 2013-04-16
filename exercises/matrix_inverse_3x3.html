@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math matrix matrix-input subhints">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math matrix matrix-input subhints"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Inverse of a 3x3 matrix</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -69,13 +69,13 @@
                 What is <code><var>PRETTY_MAT_ID</var>^{-1}</code>?
             </p>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <div data-each="PADDED_SOLN_MAT as row" class="matrix-row">
                     <span data-each="row as elem">
-                        <span data-if="elem !== ''" class="sol" data-simplify="optional">
+                        <span data-simplify="optional" data-if="elem !== ''" class="sol">
                             <var>elem</var>
                         </span>
-                        <span data-else data-type="text" class="sol">
+                        <span data-else="" data-type="text" class="sol">
                             <var>elem</var>
                         </span>
                     </span>
@@ -120,8 +120,8 @@
                 </div>
                 <div>
                     <p><b>Step 2: Find the determinant</b></p>
-                    <p>Compute the determinant of the original matrix. [<a href="#" class="show-subhint" data-subhint="determinant">Show me how</a>]</p>
-                    <div class="subhint" id="determinant">
+                    <p>Compute the determinant of the original matrix. [<a data-subhint="determinant" href="#" class="show-subhint">Show me how</a>]</p>
+                    <div id="determinant" class="subhint">
                         <p>The determinant of any 3x3 matrix can be computed the following way:</p>
                         <p>
                             <code>
@@ -179,5 +179,6 @@
     </div>
 
     </div>
-</body>
-</html>
+
+
+</body></html>

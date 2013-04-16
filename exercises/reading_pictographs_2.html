@@ -84,10 +84,10 @@
                         <code><var>DATA[ PERSON ]</var></code> <var>plural( "symbol", DATA[ PERSON ] )</var>
                         <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <span data-if="isSingular(VALUE_PER_IMG)">badge per symbol</span><span data-else="">badges per symbol</span>  <code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code>
                         <var>plural( "badge", DATA[ PERSON ] * VALUE_PER_IMG )</var>
-                        <span data-if="HALF[ PERSON ]"><span data-unwrap="" data-if="isSingular(VALUE_PER_IMG / 2)">
+                        <span data-if="HALF[ PERSON ]"><span data-if="isSingular(VALUE_PER_IMG / 2)" data-unwrap="">
                             <br><code>1</code> half symbol <code> \times <var>VALUE_PER_IMG/2</var></code> <span>badge per half symbol</span> <code> = <var>VALUE_PER_IMG / 2</var></code>
                             badge.
-                        </span><span data-unwrap="" data-else="">
+                        </span><span data-else="" data-unwrap="">
                             <br><code>1</code> half symbol <code> \times <var>VALUE_PER_IMG/2</var></code> <span>badges per half symbol</span> <code> = <var>VALUE_PER_IMG / 2</var></code>
                             badges.
                         </span>
@@ -107,7 +107,7 @@
                 <var id="NUM_SYMBOLS">mixedFractionFromImproper( toFraction( VALUE / VALUE_PER_IMG, 0.001 )[0], toFraction( VALUE / VALUE_PER_IMG, 0.001 )[1] )</var>
             </div>
 
-            <p class="question" data-if="isSingular(VALUE)">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badge?</p><p class="question" data-else="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badges?</p>
+            <p data-if="isSingular(VALUE)" class="question">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badge?</p><p data-else="" class="question">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badges?</p>
 
             
 
@@ -132,7 +132,7 @@
                     </code>
                 </p>
                 <div>
-                    <p data-if="isMale(PERSON + 1)"><span data-unwrap="" data-if="isSingular(VALUE / VALUE_PER_IMG)">Who has <code><var>NUM_SYMBOLS</var></code> symbol next to his name?</span><span data-unwrap="" data-else="">Who has <code><var>NUM_SYMBOLS</var></code> symbols next to his name?</span></p><p data-else="" data-if="isSingular(VALUE / VALUE_PER_IMG)">Who has <code><var>NUM_SYMBOLS</var></code> symbol next to her name?</p><p data-else="">Who has <code><var>NUM_SYMBOLS</var></code> symbols next to her name?</p>
+                    <p data-if="isMale(PERSON + 1)"><span data-if="isSingular(VALUE / VALUE_PER_IMG)" data-unwrap="">Who has <code><var>NUM_SYMBOLS</var></code> symbol next to his name?</span><span data-else="" data-unwrap="">Who has <code><var>NUM_SYMBOLS</var></code> symbols next to his name?</span></p><p data-if="isSingular(VALUE / VALUE_PER_IMG)" data-else="">Who has <code><var>NUM_SYMBOLS</var></code> symbol next to her name?</p><p data-else="">Who has <code><var>NUM_SYMBOLS</var></code> symbols next to her name?</p>
                     
                     
                     
@@ -142,7 +142,7 @@
                         </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&#160;</span>
                     </div>
                 </div>
-                <p data-if="isMale(PERSON + 1)"><span data-unwrap="" data-if="isSingular(VALUE / VALUE_PER_IMG)"><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbol next to his name.</span><span data-unwrap="" data-else=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbols next to his name.</span></p><p data-else="" data-if="isSingular(VALUE / VALUE_PER_IMG)"><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbol next to her name.</p><p data-else=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbols next to her name.</p>
+                <p data-if="isMale(PERSON + 1)"><span data-if="isSingular(VALUE / VALUE_PER_IMG)" data-unwrap=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbol next to his name.</span><span data-else="" data-unwrap=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbols next to his name.</span></p><p data-if="isSingular(VALUE / VALUE_PER_IMG)" data-else=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbol next to her name.</p><p data-else=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbols next to her name.</p>
                 
                 
                 
@@ -184,11 +184,11 @@
                         </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON2 ]) times">&#160;</span>
                     </div>
                 </div>
-                <p data-if="isMale(PERSON1 + 1)"><span data-unwrap="" data-if="isSingular(SYMBOL_DIFF)">
+                <p data-if="isMale(PERSON1 + 1)"><span data-if="isSingular(SYMBOL_DIFF)" data-unwrap="">
                     <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more symbol next to his name than <var>person( PERSON2 + 1 )</var> does.
-                </span><span data-unwrap="" data-else="">
+                </span><span data-else="" data-unwrap="">
                     <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more symbols next to his name than <var>person( PERSON2 + 1 )</var> does.
-                </span></p><p data-else="" data-if="isSingular(SYMBOL_DIFF)">
+                </span></p><p data-if="isSingular(SYMBOL_DIFF)" data-else="">
                     <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more symbol next to her name than <var>person( PERSON2 + 1 )</var> does.
                 </p><p data-else="">
                     <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more symbols next to her name than <var>person( PERSON2 + 1 )</var> does.
@@ -229,8 +229,8 @@
                 <p>
                     <span data-if="isSingular(VALUE_PER_IMG)">Each symbol represents <code><var>VALUE_PER_IMG</var></code> <var>BADGE</var> badge.</span><span data-else="">Each symbol represents <code><var>VALUE_PER_IMG</var></code> <var>BADGE</var> badges.</span>
                 
-                <span data-if="HALF_SYM !== 0"><span data-unwrap="" data-if="isSingular(VALUE_PER_IMG / 2)">
-                    Each half symbol represents <code><var>VALUE_PER_IMG / 2</var></code> <var>BADGE</var> badge.</span><span data-unwrap="" data-else="">
+                <span data-if="HALF_SYM !== 0"><span data-if="isSingular(VALUE_PER_IMG / 2)" data-unwrap="">
+                    Each half symbol represents <code><var>VALUE_PER_IMG / 2</var></code> <var>BADGE</var> badge.</span><span data-else="" data-unwrap="">
                     Each half symbol represents <code><var>VALUE_PER_IMG / 2</var></code> <var>BADGE</var> badges.</span>
                 
                 </span>

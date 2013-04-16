@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format polynomials functional">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format polynomials functional"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Adding and subtracting polynomials</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -40,7 +40,7 @@
             <var id="COLORS">[ BLUE, ORANGE, GREEN ]</var>
             <var id="MAX_DEGREE">7</var>
             <var id="NON_ZERO_INDICES">randRangeUniqueNonZero( 0, MAX_DEGREE, randRange(2, 3) ).sort().reverse()</var>
-            <var id="POL_1, POL_2" data-ensure="POL_1.add( POL_2 ).getNumberOfTerms() >= 1 && POL_1.subtract( POL_2 ).getNumberOfTerms() >= 1">tabulate( function() {
+            <var data-ensure="POL_1.add( POL_2 ).getNumberOfTerms() &gt;= 1 &amp;&amp; POL_1.subtract( POL_2 ).getNumberOfTerms() &gt;= 1" id="POL_1, POL_2">tabulate( function() {
                 var coefs = [];
                 for ( var i = 0; i &lt;= MAX_DEGREE; i++ ) {
                     var value = 0;
@@ -68,25 +68,25 @@
                 <p class="question">Simplify the expression.</p>
                 <p class="problem"><code>(<var>POL_1</var>) <var>SIGN</var> (<var>POL_2</var>)</code></p>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul class="choices" data-none="true">
+                <ul data-none="true" class="choices">
                     <li><code><var>POL_1.subtract( POL_2 )</var></code></li>
                     <li data-each="FAKE_ANSWERS as FAKE_ANSWER"><code><var>FAKE_ANSWER</var></code></li>
                 </ul>
             </div>
 
-            <div id="subtract" data-type="add">
+            <div data-type="add" id="subtract">
                 <div class="vars">
                     <var id="SIGN">"-"</var>
                     <var id="SOLUTION">POL_1.subtract( POL_2 )</var>
                     <var id="FAKE_ANSWERS">getFakeAnswers( SOLUTION )</var>
                 </div>
 
-                <ul class="choices" data-none="true">
+                <ul data-none="true" class="choices">
                     <li><code><var>POL_1.add( POL_2 )</var></code></li>
                     <li data-each="FAKE_ANSWERS as FAKE_ANSWER"><code><var>FAKE_ANSWER</var></code></li>
                 </ul>
 
-                <div class="hints" data-apply="appendContents">
+                <div data-apply="appendContents" class="hints">
                     <div id="paren">
                         <p>Since this is subtraction, when removing the parenthesis we must distribute the minus sign to all terms in the second polynomial.</p>
                         <var>POL_2 = POL_2.multiply( -1 ), null</var>
@@ -103,7 +103,7 @@
             </div>
             <div>
                 <p>Identify like terms.</p>
-                <p><code><span data-each="[ POL_1, POL_2 ] as POL"><span data-each="NON_ZERO_INDICES as n, index" data-unwrap><var>( POL.coefs[ index ] &lt; 0 ) ? "-" : ( n === 0 && POL === POL_1 ) ? "" : "+"</var>\color{<var>COLORS[ n ]</var>}{<var>abs( POL.coefs[ index ] ) === 1 ? "" : abs( POL.coefs[ index ] )</var><var>X</var>^<var>index</var>}</span></span></code></p>
+                <p><code><span data-each="[ POL_1, POL_2 ] as POL"><span data-each="NON_ZERO_INDICES as n, index" data-unwrap=""><var>( POL.coefs[ index ] &lt; 0 ) ? "-" : ( n === 0 &amp;&amp; POL === POL_1 ) ? "" : "+"</var>\color{<var>COLORS[ n ]</var>}{<var>abs( POL.coefs[ index ] ) === 1 ? "" : abs( POL.coefs[ index ] )</var><var>X</var>^<var>index</var>}</span></span></code></p>
 
             </div>
             <div>
@@ -116,5 +116,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

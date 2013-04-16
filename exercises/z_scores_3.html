@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems stat">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie word-problems stat"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Z-scores 3: Finding areas under the curve with a z-table</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -103,10 +103,10 @@
             <div class="fake_header reading">
                 <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>column</var></span>
             </div>
-            <div class="fake_row reading" data-each="ROWS as i, row">
+            <div data-each="ROWS as i, row" class="fake_row reading">
                 <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>zgrid</var></span>
             </div>
-            <div class="solution" data-inexact data-max-error="0.0001" data-forms="percent">
+            <div data-inexact="" data-forms="percent" class="solution" data-max-error="0.0001">
                 <span><var>roundTo(4, ANSWER)</var></span>
             </div>
 
@@ -144,7 +144,7 @@
                         looking up these two z-scores in our z-table, subtracting the two table
                         values will provide us with the total area.
                     </p>
-                    <div class="graphie" id="grid">
+                    <div id="grid" class="graphie">
                         init({
                             range: [[-4, 4], [-1.5, 4.7]],
                             scale: [430 / 8, 30]
@@ -165,7 +165,7 @@
                     </div>
                 </div>
                 <div>
-                    <div data-if="ZSCORES[1] < 0"><p>
+                    <div data-if="ZSCORES[1] &lt; 0"><p>
                         Since the normal curve is symmetrical, the area <b>less than</b>
                         <code><var>ZSCORES[1]</var></code> is equal to the area
                         <b>greater than</b> <code><var>abs( ZSCORES[1] )</var></code>, which can
@@ -173,7 +173,7 @@
                         on the z-table and subtracting the table value from <code>1</code>, the
                         total area under the curve.
                     </p></div>
-                    <p data-if="ZSCORES[1] < 0">
+                    <p data-if="ZSCORES[1] &lt; 0">
                         <code>1 - <var>ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ]</var> =
                         <var>roundTo( 4, 1 - ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ] )</var></code>.
                         This value, <code class="hint_blue">
@@ -181,7 +181,7 @@
                         represents the portion of the population that scored lower than
                         <code><var>GRADES[1]</var></code> on the exam.
                     </p>
-                    <p data-else>
+                    <p data-else="">
                         Look up <code><var>ZSCORES[1]</var></code> on the z-table. This value,
                         <code class="hint_blue"> <var>ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ]</var></code>,
                         represents the portion of the population that scored lower than
@@ -192,7 +192,7 @@
                         $( ".fake_row" ).eq( ROW_INDEX_2 ).find( "span" + nth )
                             .css( "background", KhanUtil.BLUE );
                     </div>
-                    <div class="graphie" data-update="grid">
+                    <div data-update="grid" class="graphie">
                         style({ stroke: "#bbb" }, function() {
                             graph.zLine1 = line([ZSCORES[1], 0], [ZSCORES[1], graph.pdf(ZSCORES[1])]).toBack();
                         });
@@ -217,7 +217,7 @@
                     </div>
                 </div>
                 <div>
-                    <div data-if="ZSCORES[0] < 0"><p>
+                    <div data-if="ZSCORES[0] &lt; 0"><p>
                         Since the normal curve is symmetrical, the area <b>less than</b>
                         <code><var>ZSCORES[0]</var></code> is equal to the area
                         <b>greater than</b> <code><var>abs(ZSCORES[0])</var></code>, which can
@@ -225,14 +225,14 @@
                         on the z-table and subtracting the table value from <code>1</code>, the
                         total area under the curve.
                     </p></div>
-                    <p data-if="ZSCORES[0] < 0">
+                    <p data-if="ZSCORES[0] &lt; 0">
                         <code>1 - <var>ZGRID[ROW_INDEX_1][COL_INDEX_1]</var> =
                         <var>roundTo(4, 1 - ZGRID[ROW_INDEX_1][COL_INDEX_1])</var></code>. This value,
                         <code class="hint_orange"><var>roundTo(4, 1 - ZGRID[ROW_INDEX_1][COL_INDEX_1])</var></code>,
                         represents the portion of the population that scored lower than
                         <code><var>GRADES[0]</var></code> on the exam.
                     </p>
-                    <p data-else>
+                    <p data-else="">
                         Look up <code><var>ZSCORES[0]</var></code> on the z-table. This value,
                         <code class="hint_orange"><var>ZGRID[ ROW_INDEX_1 ][ COL_INDEX_1 ]</var></code>,
                         represents the portion of the population that scored lower than
@@ -242,7 +242,7 @@
                         var nth = ":nth-child(" + (COL_INDEX_1 + 2) + ")";
                         $(".fake_row").eq(ROW_INDEX_1).find("span" + nth).css("background", ORANGE);
                     </div>
-                    <div class="graphie" data-update="grid">
+                    <div data-update="grid" class="graphie">
                         style({ stroke: "#bbb" }, function() {
                             graph.zLine2 = line([ZSCORES[0], 0], [ZSCORES[0], graph.pdf(ZSCORES[0])]).toBack();
                         });
@@ -286,21 +286,21 @@
                 <div>
                     <p>
                         Finally, subtract the two cumulative areas to arrive at our final answer:
-                        <code>\blue{<span data-if="ZSCORES[1] < 0">
+                        <code>\blue{<span data-if="ZSCORES[1] &lt; 0">
                             <var>roundTo(4, 1 - ZGRID[ROW_INDEX_2][COL_INDEX_2])</var>
-                        </span><span data-else>
+                        </span><span data-else="">
                             <var>roundTo(4, ZGRID[ROW_INDEX_2][COL_INDEX_2])</var>
-                        </span>} - \orange{<span data-if="ZSCORES[0] < 0">
+                        </span>} - \orange{<span data-if="ZSCORES[0] &lt; 0">
                             <var>roundTo(4, 1 - ZGRID[ROW_INDEX_1][COL_INDEX_1])</var>
-                        </span><span data-else>
+                        </span><span data-else="">
                             <var>roundTo(4, ZGRID[ROW_INDEX_1][COL_INDEX_1])</var>
-                        </span>} = <var>ANSWER</var></code><br />
+                        </span>} = <var>ANSWER</var></code><br>
 
                         Thus, <code class="hint_pink"><var>roundTo( 2, ANSWER * 100 )</var>\%</code>
                         of the test-takers scored between <code><var>GRADES[0]</var></code> and
                         <code><var>GRADES[1]</var></code> on the <var>course( 1 )</var> exam.
                     </p>
-                    <div class="graphie" data-update="grid">
+                    <div data-update="grid" class="graphie">
                         graph.orangeShape.remove();
                         graph.zLabel.remove();
                     </div>
@@ -309,5 +309,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

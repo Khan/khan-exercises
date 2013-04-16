@@ -28,7 +28,7 @@
                 What is the area of the triangle?
             </p>
             <div class="problem">
-                <div id="area" class="graphie">
+                <div class="graphie" id="area">
                     init({ range: [[-2, B + 1], [-1, H + 1]], scale: 30 });
                     path([[0, 0], [0, H], [B, 0], true],
                         {stroke: BLUE, fill: "#eee"});
@@ -105,7 +105,7 @@
                 What is the area of the triangle?
             </p>
             <div class="problem">
-                <div id="area" class="graphie">
+                <div class="graphie" id="area">
                     init({ range: [[-2, B + 1], [-1, H + 1]], scale: 30 });
                     path([[0, 0], [TOP, H], [B, 0], true],
                         {stroke: BLUE, fill: "#eee"});
@@ -172,9 +172,9 @@
                     <p>
                         The triangle takes up half as much area as the
                         rectangle (look at the
-                        <span id="left-part" class="hover-hint">left part</span>
+                        <span class="hover-hint" id="left-part">left part</span>
                         and the
-                        <span id="right-part" class="hover-hint">right part</span>
+                        <span class="hover-hint" id="right-part">right part</span>
                         separately to see how), so the area of the triangle is
                         <code>\frac{1}{2}</code> of
                         <code><var>B</var> \times <var>H</var></code>.
@@ -244,7 +244,7 @@
                 What is the area of the triangle?
             </p>
             <div class="problem">
-                <div id="area" class="graphie">
+                <div class="graphie" id="area">
                     init({ range: [[min(0, TOP) - 2, max(B, TOP) + 1],
                         [-1, H + 1]], scale: 30 });
                     path([[0, 0], [TOP, H], [B, 0], true],

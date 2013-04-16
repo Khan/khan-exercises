@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Comparing fractions 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -13,7 +13,7 @@
         -->
         <div class="problems">
             <div id="original">
-                <div class="vars" data-ensure="NUM_1 !== NUM_2 && DEN_1 !== DEN_2" data-weight="2">
+                <div data-weight="2" data-ensure="NUM_1 !== NUM_2 &amp;&amp; DEN_1 !== DEN_2" class="vars">
                     <var id="FACTOR">randRange( 2, 3 )</var>
                     <var id="NUM_1">randRange( 1, 14 )</var>
                     <var id="NUM_2">randRange( 1, 14 )</var>
@@ -32,7 +32,7 @@
                         var f2 = NUM_2 / DEN_2;
                         if ( f1 &lt; f2 ) {
                             return "&lt;";
-                        } else if ( f1 > f2 ) {
+                        } else if ( f1 &gt; f2 ) {
                             return "&gt;";
                         } else {
                             return "=";
@@ -48,7 +48,7 @@
                     </p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul class="choices" data-category="true">
+                <ul data-category="true" class="choices">
                     <li><code>&lt;</code></li>
                     <li><code>&gt;</code></li>
                     <li><code>=</code></li>
@@ -66,7 +66,7 @@
                 </div>
             </div>
 
-            <div id="multiple" data-type="original">
+            <div data-type="original" id="multiple">
                 <div class="vars">
                     <var id="NUM_1">randRange( 1, 4 )</var>
                     <var id="NUM_2">NUM_1 * FACTOR</var>
@@ -85,5 +85,6 @@
 
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

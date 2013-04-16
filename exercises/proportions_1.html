@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <script src="../khan-exercise.js"></script>
     <title>Proportions 1</title>
 
@@ -96,7 +96,7 @@
             <div style="margin-left:-20px;" class="spinealign">
                 <div class="col1 forty-sixty">
                     <p>Multiply both sides by <code><var>hint1Multiplier</var></code>
-                </div>
+                </p></div>
 
                 <div class="col2 forty-sixty">
                     <p>
@@ -115,7 +115,7 @@
                     </span>
 
                     <br>
-                    <span class="lfrac arrow">&darr;</span>
+                    <span class="lfrac arrow">&#8595;</span>
                     <br>
 
                     <span class="lfrac">
@@ -124,13 +124,13 @@
                     <span class="rfrac">
                         <code><var>hint1Product2</var></code>
                     </span>
-                </div>
+                </p></div>
             </div>
 
-            <div data-if="denominator1 === 'x' || denominator2 === 'x'"  style="margin-left:-20px;" class="spinealign">
+            <div style="margin-left:-20px;" data-if="denominator1 === 'x' || denominator2 === 'x'" class="spinealign">
                 <div class="col1 forty-sixty">
                     <p>Multiply both sides by <code><var>hint2Multiplier</var></code>
-                </div>
+                </p></div>
                 <div class="col2 forty-sixty">
                     <p>
                         <span class="lfrac">
@@ -146,7 +146,7 @@
                             </code>
                         </span>
 
-                        <br><span class="lfrac arrow">&darr;</span>
+                        <br><span class="lfrac arrow">&#8595;</span>
                         <br>
 
                         <span class="lfrac">
@@ -162,7 +162,7 @@
             <div style="margin-left:-20px;" class="spinealign">
                 <div class="col1 forty-sixty">
                     <p><code>x</code> is
-                </div>
+                </p></div>
                 <div class="col2 forty-sixty">
                     <p><span class="lfrac"><code>=</code></span>
                     <span class="rfrac">
@@ -186,12 +186,13 @@
             </div>
         </div>
 
-        <div class="solution" data-type="multiple">
+        <div data-type="multiple" class="solution">
             <p>
                 <code>x =</code>
-                <span class="sol" data-simplify="optional"><var>solutionNumerator / solutionDenominator</var></span>
+                <span data-simplify="optional" class="sol"><var>solutionNumerator / solutionDenominator</var></span>
             </p>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

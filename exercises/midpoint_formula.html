@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Midpoint formula</title>
     <script src="../khan-exercise.js"></script>
     <script>
@@ -46,11 +46,11 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="X1 < X2 && Y1 !== Y2">
-            <var id="X1" data-ensure="X1 < 0 || X1 > 2">randRange( -8, 7 )</var>
-            <var id="X2" data-ensure="X2 > 0 || X2 < -2">randRange( -7, 8 )</var>
-            <var id="Y1" data-ensure="abs( Y1 ) > 1">randRange( -9, 8 )</var>
-            <var id="Y2" data-ensure="abs( Y2 ) > 1">randRange( -9, 8 )</var>
+        <div data-ensure="X1 &lt; X2 &amp;&amp; Y1 !== Y2" class="vars">
+            <var data-ensure="X1 &lt; 0 || X1 &gt; 2" id="X1">randRange( -8, 7 )</var>
+            <var data-ensure="X2 &gt; 0 || X2 &lt; -2" id="X2">randRange( -7, 8 )</var>
+            <var data-ensure="abs( Y1 ) &gt; 1" id="Y1">randRange( -9, 8 )</var>
+            <var data-ensure="abs( Y2 ) &gt; 1" id="Y2">randRange( -9, 8 )</var>
             <var id="XM">( X1 + X2 ) / 2</var>
             <var id="YM">( Y1 + Y2 ) / 2</var>
         </div>
@@ -59,7 +59,7 @@
             <div id="find-midpoint">
                 <p class="question">What is the midpoint of the line segment from <code class="hint_blue">(<var>X1</var>, <var>Y1</var>)</code> to <code class="hint_green">(<var>X2</var>, <var>Y2</var>)</code>?</p>
 
-                <div class="graphie" id="graph">
+                <div id="graph" class="graphie">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -67,7 +67,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "<->",
+                        axisArrows: "&lt;-&gt;",
                     });
 
                     path([ [ X1, Y1 ], [ X2, Y2 ] ], {stroke:"#000000"});
@@ -84,7 +84,7 @@
                 </div>
 
 
-                <div class="solution" data-type="multiple">
+                <div data-type="multiple" class="solution">
                     <p><code>\Large{(}</code><span class="sol short40"><var>XM</var></span>, <span class="sol short40"><var>YM</var></span><code>\Large{)}</code></p>
                     <p class="example"> integers, like <code>6</code></p>
                     <p class="example"> simplified proper fractions, like <code>3/5</code></p>
@@ -100,7 +100,7 @@
                         <p><code>x = \dfrac{1}{2}(<var>X1 + X2</var>)</code></p>
                         <p><code class="hint_orange">x = <var>XM</var></code></p>
                     </div>
-                    <span class="graphie" data-update="graph">
+                    <span data-update="graph" class="graphie">
                         style( midPtStyle );
                         graph.vert = path( [ [ XM, -10], [ XM, 10] ] );
                     </span>
@@ -110,19 +110,19 @@
                         <p><code>y = \dfrac{1}{2}(<var>Y1 + Y2</var>)</code></p>
                         <p><code class="hint_orange">y = <var>YM</var></code></p>
                     </div>
-                    <span class="graphie" data-update="graph">
+                    <span data-update="graph" class="graphie">
                         graph.horiz = path( [ [ -10, YM], [ 10, YM ] ] );
                     </span>
                     <div>
                         <p>The midpoint is <code class="hint_orange">(<var>XM</var>, <var>YM</var>)</code>.</p>
 
-                        <div class="graphie" data-update="graph">
+                        <div data-update="graph" class="graphie">
                             circle( [ XM, YM ], 0.15 );
                             label( [ XM, YM ], "(" + XM + ", " + YM + ")",
                                  getPos( [ XM, YM ], [ X1, Y1 ]) );
                         </div>
                     </div>
-                    <div class="graphie" data-update="graph">
+                    <div data-update="graph" class="graphie">
                         graph.vert.remove();
                         graph.horiz.remove();
                     </div>
@@ -130,9 +130,9 @@
             </div>
 
             <div id="find-point">
-                <p class="question">The point <code class="hint_orange" >(<var>XM</var>, <var>YM</var>)</code> is the midpoint of <code class="hint_blue">(<var>X1</var>, <var>Y1</var>)</code> and what point?</p>
+                <p class="question">The point <code class="hint_orange">(<var>XM</var>, <var>YM</var>)</code> is the midpoint of <code class="hint_blue">(<var>X1</var>, <var>Y1</var>)</code> and what point?</p>
 
-                <div class="graphie" id="graph">
+                <div id="graph" class="graphie">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -140,7 +140,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "<->",
+                        axisArrows: "&lt;-&gt;",
                     });
 
                     style( point1Style );
@@ -154,7 +154,7 @@
                     graph.midpoint = circle( [ XM, YM ], 0.15 );
                 </div>
 
-                <div class="solution" data-type="multiple">
+                <div data-type="multiple" class="solution">
                     <p>(<span class="sol short40"><var>X2</var></span>, <span class="sol short40"><var>Y2</var></span>)</p>
                     <p class="example"> integers, like <code>6</code></p>
                     <p class="example"> simplified proper fractions, like <code>3/5</code></p>
@@ -172,7 +172,7 @@
                         <p><code>x + <var>X1</var> = <var>(2 * XM)</var></code></p>
                         <p><code class="hint_green">x = <var>X2</var></code></p>
 
-                        <span class="graphie" data-update="graph">
+                        <span data-update="graph" class="graphie">
                             style( point2Style );
                             graph.vert = path( [ [ X2, -10], [ X2, 10] ] );
                         </span>
@@ -184,14 +184,14 @@
                         <p><code>y + <var>Y1</var> = <var>(2 * YM)</var></code></p>
                         <p><code class="hint_green">y = <var>Y2</var></code></p>
 
-                        <span class="graphie" data-update="graph">
+                        <span data-update="graph" class="graphie">
                             graph.horiz = path( [ [ -10, Y2 ], [ 10, Y2 ] ] );
                         </span>
                     </div>
                     <div>
                         <p>The point <code class="hint_orange">(<var>XM</var>, <var>YM</var>)</code> is the midpoint of <code class="hint_blue">(<var>X1</var>, <var>Y1</var>)</code> and <code class="hint_green">(<var>X2</var>, <var>Y2</var>)</code>.</p>
 
-                        <span class="graphie" data-update="graph">
+                        <span data-update="graph" class="graphie">
                             path([ [ X1, Y1 ], [ X2, Y2 ] ], {stroke:"#000000"});
                             circle( [ X2, Y2 ], 0.15 );
                             label( [ X2, Y2 ], "(" + X2 + ", " + Y2 + ")",
@@ -201,7 +201,7 @@
                             graph.midpoint.toFront();
                         </span>
                     </div>
-                    <div class="graphie" data-update="graph">
+                    <div data-update="graph" class="graphie">
                         graph.vert.remove();
                         graph.horiz.remove();
                     </div>
@@ -209,5 +209,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

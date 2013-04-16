@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format polynomials calculus graphie derivative-intuition">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format polynomials calculus graphie derivative-intuition"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Derivative intuition</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +9,7 @@
     <div class="exercise">
 
         <div class="problems">
-            <div id="polynomial" data-weight="4">
+            <div data-weight="4" id="polynomial">
                 <div class="vars">
                     <var id="SCENARIO">{}</var>
                     <var id="POLYNOMIAL">new Polynomial(randRange(0, 3), randRange(2, 4))</var>
@@ -28,7 +28,7 @@
                 <div class="question">
                     <p>
                         <code class="hint_blue">f(x) = <var>FNXTEXT</var></code>
-                        <span id="ddxspan" style="margin-left: 5em; display: none; opacity:0">
+                        <span style="margin-left: 5em; display: none; opacity:0" id="ddxspan">
                             <code class="hint_orange">\frac{d}{dx}f(x) = <var>DDXTEXT</var></code>
                         </span>
                     </p>
@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="problem">
-                    <div class="graphie" id="ddxplot">
+                    <div id="ddxplot" class="graphie">
                         initAutoscaledGraph([ XRANGE, YRANGE], OPTIONS);
 
                         style({
@@ -58,16 +58,16 @@
                     </div>
                 </div>
 
-                <div class="solution" data-type="custom">
+                <div data-type="custom" class="solution">
                     <div class="instruction">
                         <table id="answers">
-                            <tr data-each="POINTS as X">
-                                <td class="sol" style="display: none" data-fallback="0"><var>roundTo(2, DDX(X))</var></td>
+                            <tbody><tr data-each="POINTS as X">
+                                <td data-fallback="0" style="display: none" class="sol"><var>roundTo(2, DDX(X))</var></td>
                                 <td style="text-align: right" data-if="OPTIONS.xLabelFormat"><code>\frac{d}{dx} f(<var>OPTIONS.xLabelFormat(X)</var>) = </code></td>
-                                <td style="text-align: right" data-else><code>\frac{d}{dx} f(<var>X</var>) = </code></td>
+                                <td style="text-align: right" data-else=""><code>\frac{d}{dx} f(<var>X</var>) = </code></td>
                                 <td class="answer-label">0</td>
                             </tr>
-                        </table>
+                        </tbody></table>
                     </div>
 
                     <div class="guess">
@@ -117,7 +117,7 @@
                             onto the orange curve. Notice how the tangent lines change as you move the orange dots.
                             Pay attention to the relationship between the tangent lines and the blue curve.
                         </p>
-                        <div class="graphie" data-update="ddxplot">
+                        <div data-update="ddxplot" class="graphie">
                             revealDerivative();
                         </div>
                     </div>
@@ -126,7 +126,7 @@
             </div>
 
 
-            <div id="special" data-type="polynomial">
+            <div data-type="polynomial" id="special">
                 <div class="vars">
                     <var id="SCENARIO">randFromArray([
                         {
@@ -182,5 +182,6 @@
 
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

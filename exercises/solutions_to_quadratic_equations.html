@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Solutions to quadratic equations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="solution"><var>ANSWER</var></div>
-                <ul class="choices" data-category="true">
+                <ul data-category="true" class="choices">
                     <li>One rational solution</li>
                     <li>Two rational solutions</li>
                     <li>Two irrational solutions</li>
@@ -48,7 +48,7 @@
                         <p><code id="quadratic">\qquad
                             x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}
                         </code>
-                    </div>
+                    </p></div>
                     <div>
                         <div class="graphie">
                             $("#quadratic script").text(
@@ -98,7 +98,7 @@
                         <code>\dfrac{-b \pm <var>sqrt(DISCRIMINANT)</var>}{2a}
                         </code>, which means there are two rational solutions.
                     </p>
-                    <p data-else>
+                    <p data-else="">
                         Because <code>\blue{b^2 - 4ac}</code> is not a perfect
                         square, its square root is irrational and the
                         quadratic formula reduces to
@@ -108,12 +108,12 @@
                 </div>
             </div>
 
-            <div id="two-rational" data-type="one-rational">
-                <div class="vars" data-apply="replace">
+            <div data-type="one-rational" id="two-rational">
+                <div data-apply="replace" class="vars">
                     <var id="ANSWER">"Two rational solutions"</var>
-                    <div data-ensure="DISCRIMINANT > 0 &&
-                        sqrt(DISCRIMINANT) - floor(sqrt(DISCRIMINANT)) < 0.001
-                        && DISCRIMINANT <= 144">
+                    <div data-ensure="DISCRIMINANT &gt; 0 &amp;&amp;
+                        sqrt(DISCRIMINANT) - floor(sqrt(DISCRIMINANT)) &lt; 0.001
+                        &amp;&amp; DISCRIMINANT &lt;= 144">
                         <var id="A">randRangeNonZero(-9, 9)</var>
                         <var id="B">randRangeNonZero(-9, 9)</var>
                         <var id="C">randRangeNonZero(-9, 9)</var>
@@ -122,11 +122,11 @@
                 </div>
             </div>
 
-            <div id="two-irrational" data-type="one-rational">
-                <div class="vars" data-apply="replace">
+            <div data-type="one-rational" id="two-irrational">
+                <div data-apply="replace" class="vars">
                     <var id="ANSWER">"Two irrational solutions"</var>
-                    <div data-ensure="DISCRIMINANT > 0 &&
-                        sqrt(DISCRIMINANT) - floor(sqrt(DISCRIMINANT)) > 0.001">
+                    <div data-ensure="DISCRIMINANT &gt; 0 &amp;&amp;
+                        sqrt(DISCRIMINANT) - floor(sqrt(DISCRIMINANT)) &gt; 0.001">
                         <var id="A">randRangeNonZero(-9, 9)</var>
                         <var id="B">randRangeNonZero(-9, 9)</var>
                         <var id="C">randRangeNonZero(-9, 9)</var>
@@ -135,10 +135,10 @@
                 </div>
             </div>
 
-            <div id="two-complex" data-type="one-rational">
-                <div class="vars" data-apply="replace">
+            <div data-type="one-rational" id="two-complex">
+                <div data-apply="replace" class="vars">
                     <var id="ANSWER">"Two complex solutions"</var>
-                    <div data-ensure="DISCRIMINANT < 0">
+                    <div data-ensure="DISCRIMINANT &lt; 0">
                         <var id="A">randRangeNonZero(-9, 9)</var>
                         <var id="B">randRangeNonZero(-9, 9)</var>
                         <var id="C">randRangeNonZero(-9, 9)</var>
@@ -148,5 +148,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

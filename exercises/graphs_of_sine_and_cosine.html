@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<!-- TODO: replace randFromArray with <ul> when <ul> works -->
-<!-- TODO: make advanced version of this exercise, with negative vertical scaling, vertical and horizontal offsets -->
-<!-- TODO: might want to change the things already rendered in graphie to highlight the current thing being hinted; ie, make the thing just displayed at 2 stroke, reduce all previously renedred things to 1 storke -->
-<html data-require="math graphie math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<!-- TODO: replace randFromArray with <ul> when <ul> works --><!-- TODO: make advanced version of this exercise, with negative vertical scaling, vertical and horizontal offsets --><!-- TODO: might want to change the things already rendered in graphie to highlight the current thing being hinted; ie, make the thing just displayed at 2 stroke, reduce all previously renedred things to 1 storke --><html data-require="math graphie math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Graphs of sine and cosine</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -49,11 +46,11 @@
 
                 <div class="problem">
                     <p><code>f(x)</code> is graphed below.</p>
-                    <div id="graph" class="graphie">
+                    <div class="graphie" id="graph">
                         graphInit({
                             range: [ HRANGE, VRANGE ],
                             scale: [ PIXHSCALE, PIXVSCALE ],
-                            axisArrows: "<->",
+                            axisArrows: "&lt;-&gt;",
                             gridStep: [ HSCALE * PI / 4, .5 ],
                             tickStep: [ 2, 1 ],
                             labelStep: [ 2, 2 ],
@@ -75,18 +72,18 @@
 
                 <p class="question">What is <code>f(x)</code>?</p>
 
-                <div class="solution" data-type="multiple"><div style="font-size: 11px;">
+                <div data-type="multiple" class="solution"><div style="font-size: 11px;">
                     <code>f(x)=</code>
-                    <span class="sol short25" data-fallback="1"><var>VSCALE</var></span>
+                    <span data-fallback="1" class="sol short25"><var>VSCALE</var></span>
                     <!-- we make the default fn type blank so users don't think the default value of sin or cos is important, not sure if this is necessary, though -->
-                    <span class="sol" data-type="list" data-choices="['', 'cos', 'sin']"><var>FN</var></span>
-                    <code>(</code><span class="sol short25" data-fallback="1"><var>1 / HSCALE</var></span><code>x)</code>
+                    <span data-choices="['', 'cos', 'sin']" data-type="list" class="sol"><var>FN</var></span>
+                    <code>(</code><span data-fallback="1" class="sol short25"><var>1 / HSCALE</var></span><code>x)</code>
                 </div></div>
             </div>
         </div>
 
         <div class="hints">
-            <div data-if="FN === 'cos'" data-unwrap>
+            <div data-if="FN === 'cos'" data-unwrap="">
 
                 <p>The function starts at its maximum value (ie, <code>f(0)=<var>VSCALE</var></code>), so what kind of function is it?</p>
 
@@ -94,7 +91,7 @@
 
             </div>
 
-            <div data-else data-unwrap>
+            <div data-else="" data-unwrap="">
 
                 <p>The function starts at zero (ie, <code>f(0)=0</code>), so what kind of function is it?</p>
 
@@ -103,7 +100,7 @@
             </div>
 
             <div>
-                <div class="graphie" data-update="graph">
+                <div data-update="graph" class="graphie">
                     style({
                         stroke: "#00d505",
                         strokeWidth: 2
@@ -115,14 +112,14 @@
                     });
                 </div>
                 <p data-if="FN === 'cos'">The distance from peak to peak is <code><var>piFraction( PERIOD )</var></code>, so the period of <code>f(x)</code> is <code><var>piFraction( PERIOD )</var></code>.</p>
-                <p data-else>The distance between every other zero is <code><var>piFraction( PERIOD )</var></code>, so the period of <code>f(x)</code> is <code><var>piFraction( PERIOD )</var></code>.</p>
+                <p data-else="">The distance between every other zero is <code><var>piFraction( PERIOD )</var></code>, so the period of <code>f(x)</code> is <code><var>piFraction( PERIOD )</var></code>.</p>
             </div>
 
-            <div data-if="abs( PERIOD - 2 * PI ) < 0.01" data-unwrap>
+            <div data-if="abs( PERIOD - 2 * PI ) &lt; 0.01" data-unwrap="">
                 <p>The period of a normal <var>FNS</var> function is <code>2\pi</code>, and the period we want is <code><var>piFraction( PERIOD )</var></code>, so we don't need to worry about scaling the function horizontally.</p>
             </div>
 
-            <div data-else data-unwrap>
+            <div data-else="" data-unwrap="">
 
                 <p>The period of a normal <var>FNS</var> function is <code>2\pi</code>, and the period we want is <code><var>piFraction( PERIOD )</var></code>, so we need to scale the <var>FNS</var> function horizontally by <code><var>decFrac( PERIOD / 2 / PI )</var></code>.</p>
 
@@ -131,7 +128,7 @@
             </div>
 
             <div>
-                <div class="graphie" data-update="graph">
+                <div data-update="graph" class="graphie">
                     style({
                         stroke: "#00d505",
                         strokeWidth: 2
@@ -144,7 +141,7 @@
             </div>
 
             <p data-if="VSCALE === 1">The amplitude of <code>f(x)</code> is 1, so we don't need to worry about scaling the function vertically.</p>
-            <div data-else data-unwrap>
+            <div data-else="" data-unwrap="">
                 <p>The amplitude of <code>f(x)</code> is <code><var>decFrac( VSCALE )</var></code>, so we need to scale <var>FNS</var> function vertically by <code><var>decFrac( VSCALE )</var></code>.</p>
                 <p>To scale the function vertically, multiply the whole thing by <code><var>decFrac( VSCALE )</var></code>.</p>
             </div>
@@ -153,5 +150,6 @@
             <p>So the resulting function (after we perform all these manipulations) is <code><var>plus( toFractionTex( VSCALE ) + "\\" + FN + "(" + plus( toFractionTex( 1 / HSCALE ) + "x" ) + ")" )</var></code>.</p>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

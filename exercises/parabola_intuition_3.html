@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie interactive parabola-intuition">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie interactive parabola-intuition"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Parabola intuition 3</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -26,7 +26,7 @@
                     First, find the <span class="hint_orange">focus</span> and <span class="hint_orange">directrix</span> of the parabola by moving
                     the orange point and line to their correct positions. Then use that information to find the equation of the parabola.
                 </p>
-                <div class="graphie" id="grid">
+                <div id="grid" class="graphie">
                     graph.A = A;
                     graph.X1 = X1;
                     graph.Y1 = Y1;
@@ -75,8 +75,8 @@
                     length as each other. Use them to check that you've found the right focus and directrix.
                 </p>
 
-                <div class="solution" data-type="multiple">
-                    <div class="sol" data-type="custom">
+                <div data-type="multiple" class="solution">
+                    <div data-type="custom" class="sol">
                         <div class="guess"> [ graph.vertex.coord, graph.directrix.coordA[1] ] </div>
                         <div class="validator-function">
                             if (_.isEqual(guess, [[0, 1], -1])) {
@@ -97,9 +97,9 @@
                     <p><span>Focus: </span><code>(</code><span id="focus-x-label"><code>0</code></span><code>\text{, }</code><span id="focus-y-label"><code>1</code></span><code>)</code></p>
                     <p>Directrix: <code>y = </code><span id="directrix-label"><code>-1</code></span></p>
                     <p>
-                        Equation of the parabola:<br />
+                        Equation of the parabola:<br>
                         <span style="font-size: 12px;">
-                        <code>y - </code><span class="sol short30" data-fallback="0" required><var>Y1</var></span><code> = </code><span class="sol short30" data-fallback="1" required><var>A</var></span><code>(x - </code><span class="sol short30" data-fallback="0" required><var>X1</var></span><code>)^2</code>
+                        <code>y - </code><span data-fallback="0" required="" class="sol short30"><var>Y1</var></span><code> = </code><span data-fallback="1" required="" class="sol short30"><var>A</var></span><code>(x - </code><span data-fallback="0" required="" class="sol short30"><var>X1</var></span><code>)^2</code>
                         </span>
                     </p>
 
@@ -112,7 +112,7 @@
                 <p>
                     All points on a parabola are equidistant from the focus and directrix. There is only one place to put the orange focus point
                     and directrix line where this is true.
-                    <button onClick="javascript:
+                    <button onclick="javascript:
                         graph = KhanUtil.currentGraph.graph;
                         graph.vertex.moveTo(graph.X1, graph.Y1 + 1 / (4 * graph.A));
                         $({ y: graph.directrix.coordA[1] }).animate({ y: graph.Y1 - 1 / (4 * graph.A) }, {
@@ -155,5 +155,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Divisibility</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="A !== ANSWER && B !== ANSWER">
+        <div data-ensure="A !== ANSWER &amp;&amp; B !== ANSWER" class="vars">
             <var id="A">randRange( 10, 25 )</var>
-            <var id="B" data-ensure="A !== B">randRange( 10, 25 )</var>
+            <var data-ensure="A !== B" id="B">randRange( 10, 25 )</var>
             <var id="LCM">getLCM( A, B )</var>
             <var id="LCM_FACTORIZATION">getPrimeFactorization( LCM )</var>
             <var id="ANSWER">
@@ -57,5 +57,6 @@
             <p class="final_answer">Since <code><var>getPrimeFactorization( ANSWER ).join( "\\times" )</var></code> is part of <code><var>LCM_FACTORIZATION.join( "\\times" )</var></code>, all numbers which are divisible by <code><var>A</var></code> and <code><var>B</var></code> are also divisible by <code><var>ANSWER</var></code>.</p>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

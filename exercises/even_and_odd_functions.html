@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<!-- TDOO: remove <var>s in graphie data-eachs -->
-<html data-require="math expressions graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<!-- TDOO: remove <var>s in graphie data-eachs --><html data-require="math expressions graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Even and odd functions</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -98,20 +97,20 @@
             <var id="PTS">
                 $.grep( [1,2,3,4,5,6,7,8,9,10],
                     function( i ) {
-                        return ( abs( valAt( WIDES, i ) ) > 1 || abs( valAt( WIDES, -i ) ) > 1 )
-                            && abs( valAt( WIDES, i ) ) &lt; 10
-                            && abs( valAt( WIDES, -i ) ) &lt; 10;
+                        return ( abs( valAt( WIDES, i ) ) &gt; 1 || abs( valAt( WIDES, -i ) ) &gt; 1 )
+                            &amp;&amp; abs( valAt( WIDES, i ) ) &lt; 10
+                            &amp;&amp; abs( valAt( WIDES, -i ) ) &lt; 10;
                     }
                 )
             </var>
 
             <!-- this is the one x-coordinate we will use to show that the function is neither even nor odd. we basically filter out any coordinates that would look kind of like it was even or odd and we also filter out 10 because that makes displaying things easier. -->
-            <var id="PT" data-if="SOL === 'Neither'">
+            <var data-if="SOL === 'Neither'" id="PT">
                 randFromArray(
                     $.grep( PTS,
                         function( i ) {
-                            return abs( abs( valAt( WIDES, i ) ) - abs( valAt( WIDES, -i ) ) ) > 0.5
-                                && abs( i ) &lt; 10;
+                            return abs( abs( valAt( WIDES, i ) ) - abs( valAt( WIDES, -i ) ) ) &gt; 0.5
+                                &amp;&amp; abs( i ) &lt; 10;
                         }
                     )
                 )</var>
@@ -123,12 +122,12 @@
 
                 <div class="problem">
                     <p><code>f(x)</code> is graphed below.</p>
-                    <div id="graph" class="graphie">
+                    <div class="graphie" id="graph">
                         graphInit({
                             range: 10,
                             scale: 20,
                             tickStep: 1,
-                            axisArrows: "<->"
+                            axisArrows: "&lt;-&gt;"
                         });
 
                         style({
@@ -147,7 +146,7 @@
 
                 <p class="question">Is <code>f(x)</code> even, odd, or neither?</p>
                 <p class="solution"><var>SOL</var></p>
-                <ul class="choices" data-category="true">
+                <ul data-category="true" class="choices">
                     <li>Even</li>
                     <li>Odd</li>
                     <li>Neither</li>
@@ -157,9 +156,9 @@
 
         <div class="hints">
 
-            <div data-unwrap data-if="SOL === 'Neither'">
+            <div data-if="SOL === 'Neither'" data-unwrap="">
 
-                <div class="graphie" data-update="graph">
+                <div data-update="graph" class="graphie">
                     style({ strokeWidth: 2 }, function() {
                         path([ [ PT, 0 ], [ PT, valAt( WIDES, PT ) ] ]);
                         path([ [ -PT, 0 ], [ -PT, valAt( WIDES, -PT ) ] ]);
@@ -169,7 +168,7 @@
                     label( [ -PT, 0 ], "-a", "below left");
                 </div>
 
-                <div class="graphie" data-update="graph">
+                <div data-update="graph" class="graphie">
                     style({ strokeDasharray: "." }, function() {
                         path([ [ 0, valAt( WIDES, PT ) ], [ PT, valAt( WIDES, PT ) ] ]);
                         path([ [ 0, valAt( WIDES, -PT ) ], [ -PT, valAt( WIDES, -PT ) ] ]);
@@ -189,18 +188,18 @@
 
             </div>
 
-            <div data-unwrap data-else>
+            <div data-else="" data-unwrap="">
 
-                <div data-unwrap data-each="PTS as x">
+                <div data-each="PTS as x" data-unwrap="">
 
-                    <div class="graphie" data-update="graph">
+                    <div data-update="graph" class="graphie">
                         style({ stroke: "#7edb00" }, function() {
                             path([ [ x, 0 ], [ x, valAt( WIDES, x ) ] ]);
                             path([ [ -x, 0 ], [ -x, valAt( WIDES, -x ) ] ]);
                         });
                     </div>
 
-                    <div class="graphie" data-update="graph">
+                    <div data-update="graph" class="graphie">
                         style({ strokeDasharray: "." }, function() {
                             path([ [ 0, valAt( WIDES, x ) ], [ x, valAt( WIDES, x ) ] ]);
                             path([ [ 0, valAt( WIDES, -x ) ], [ -x, valAt( WIDES, -x ) ] ]);
@@ -209,13 +208,13 @@
 
                 </div>
 
-                <div data-unwrap data-if="SOL === 'Odd'">
+                <div data-if="SOL === 'Odd'" data-unwrap="">
                     <p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is... ?</p>
 
                     <p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is <span class="hint_blue">odd</span>.</p>
                 </div>
 
-                <div data-unwrap data-else>
+                <div data-else="" data-unwrap="">
                     <p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is... ?</p>
 
                     <p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is <span class="hint_blue">even</span>.</p>
@@ -226,5 +225,6 @@
         </div>
 
     </div>
-</body>
-</html>
+
+
+</body></html>

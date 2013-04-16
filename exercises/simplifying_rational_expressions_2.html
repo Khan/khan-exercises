@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions rational-expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format expressions rational-expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Simplifying rational expressions 2</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -77,7 +77,7 @@
                     </div>
 
                     <var id="CONSTANT2">(function() {
-                        if (getGCD(COEFFICIENT1, CONSTANT1) !== 1 && getGCD(COEFFICIENT2, CONSTANT1) !== 1) {
+                        if (getGCD(COEFFICIENT1, CONSTANT1) !== 1 &amp;&amp; getGCD(COEFFICIENT2, CONSTANT1) !== 1) {
                             // Ensure there are no common factors
                             return randFromArray([-13, -11, -1, 1, 11, 13]);
                         } else {
@@ -99,7 +99,7 @@
                     <var id="NEGNUMERATORSOL">expr(["+", ["*", -COEFFICIENT1, X], -CONSTANT1])</var>
                     <var id="NEGDENOMINATORSOL">expr(["+", ["*", -COEFFICIENT2, X], -CONSTANT2])</var>
                     <var id="REGEX">(function() {
-                        if (COEFFICIENT2 &lt; 0 || (COEFFICIENT2 === 0 && CONSTANT2 &lt; 0)) {
+                        if (COEFFICIENT2 &lt; 0 || (COEFFICIENT2 === 0 &amp;&amp; CONSTANT2 &lt; 0)) {
                             return [getExpressionRegex(-COEFFICIENT1, X, -CONSTANT1),
                                     getExpressionRegex(-COEFFICIENT2, X, -CONSTANT2)];
                         } else {
@@ -114,15 +114,15 @@
                 <p><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
                 <p>You can assume <code><var>X</var> \neq 0</code>.</p>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>REGEX[0]</var></span>
-                        <span class="sol" data-type="regex"><var>REGEX[1]</var></span>
+                <div data-type="set" class="solution">
+                    <div data-type="multiple" class="set-sol">
+                        <span data-type="regex" class="sol"><var>REGEX[0]</var></span>
+                        <span data-type="regex" class="sol"><var>REGEX[1]</var></span>
                     </div>
                     <div class="input-format">
-                        <div class="entry" data-type="multiple">
+                        <div data-type="multiple" class="entry">
                             <table>
-                                <tr>
+                                <tbody><tr>
                                     <td rowspan="2" class="soln-name">
                                         <code><var>Y</var> = </code>
                                     </td>
@@ -132,10 +132,10 @@
                                 </tr>
                                 <tr>
                                     <td class="soln-bot">
-                                        <span class="sol short50" data-fallback="1">a</span>
+                                        <span data-fallback="1" class="sol short50">a</span>
                                     </td>
                                 </tr>
-                            </table>
+                            </tbody></table>
                         </div>
                     </div>
 
@@ -147,13 +147,13 @@
 
                     <div>
                         <p>
-                            <div>The numerator can be factored:</div>
+                            </p><div>The numerator can be factored:</div>
                             <div><code><var>NUMERATOR</var> = <var>getFactoredExpression(FACTOR, COEFFICIENT1, X, DEGREE, CONSTANT1)</var></code></div>
-                        </p>
+                        <p></p>
                         <p>
-                            <div>The denominator can be factored:</div>
+                            </p><div>The denominator can be factored:</div>
                             <div><code><var>DENOMINATOR</var> = <var>getFactoredExpression(FACTOR, COEFFICIENT2, X, DEGREE, CONSTANT2)</var></code></div>
-                        </p>
+                        <p></p>
                     </div>
 
                     <p>The greatest common factor of all the terms is <code><var>FACTORDEGREE</var></code>.</p>
@@ -168,12 +168,12 @@
                         <div data-if="DENOMINATORSOL === '1'">
                             <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code> or more simply, <code><var>Y</var> = <var>NUMERATORSOL</var></code>
                         </div>
-                        <div data-else>
+                        <div data-else="">
                             <code><var>Y</var> = \dfrac{<var>NUMERATORSOL</var>}{<var>DENOMINATORSOL</var>}</code>
                         </div>
                     </div>
 
-                    <div data-if="exprIsNegated(DENOMINATORSOL) && DENOMINATORSOL !== '-1'">
+                    <div data-if="exprIsNegated(DENOMINATORSOL) &amp;&amp; DENOMINATORSOL !== '-1'">
                         <p>To avoid a negative denominator, multiply the numerator and denominator by -1:</p>
                         <div><code><var>Y</var> = \dfrac{<var>NEGNUMERATORSOL</var>}{<var>NEGDENOMINATORSOL</var>}</code></div>
                     </div>
@@ -185,5 +185,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

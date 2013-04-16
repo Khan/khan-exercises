@@ -71,17 +71,17 @@
                 <p>
                     The probability of flipping a <var>HT</var> is <code>\dfrac{1}{2}</code>.
                 </p>
-                <p data-if="RESULT_POSSIBLE.length &amp;gt; 1"><span data-unwrap="" data-if="isSingular(RESULT_POSSIBLE.length)">
+                <p data-if="RESULT_POSSIBLE.length &amp;gt; 1"><span data-if="isSingular(RESULT_POSSIBLE.length)" data-unwrap="">
                     The probability of rolling <var>RESULT_DESC</var> is <code>\dfrac{<var>RESULT_POSSIBLE.length</var>}{6}</code>, since there 
                     is <var>RESULT_POSSIBLE.length</var> outcome 
                     which satisfy our condition
                     (namely, <var>toSentence(RESULT_POSSIBLE)</var>), and 6 total possible outcomes.
-                </span><span data-unwrap="" data-else="">
+                </span><span data-else="" data-unwrap="">
                     The probability of rolling <var>RESULT_DESC</var> is <code>\dfrac{<var>RESULT_POSSIBLE.length</var>}{6}</code>, since there 
                     are <var>RESULT_POSSIBLE.length</var> outcomes 
                     which satisfy our condition
                     (namely, <var>toSentence(RESULT_POSSIBLE)</var>), and 6 total possible outcomes.
-                </span></p><p data-else="" data-if="isSingular(RESULT_POSSIBLE.length)">
+                </span></p><p data-if="isSingular(RESULT_POSSIBLE.length)" data-else="">
                     The probability of rolling <var>RESULT_DESC</var> is <code>\dfrac{<var>RESULT_POSSIBLE.length</var>}{6}</code>, since there 
                     is <var>RESULT_POSSIBLE.length</var> outcome 
                     which satisfies our condition
@@ -161,10 +161,10 @@
                 of the time.
             </p>
 
-            <p class="question" data-if="ALL">
+            <p data-if="ALL" class="question">
                 What is the probability of <var>PLAYER</var> making ALL of his next
                 <var>STREAK</var> free throw attempts?
-            </p><p class="question" data-else="">
+            </p><p data-else="" class="question">
                 What is the probability of <var>PLAYER</var> making NONE of his next
                 <var>STREAK</var> free throw attempts?
             </p>
@@ -467,18 +467,18 @@
                 </p>
                 
                 <p>
-                    <span data-if="C"><span data-unwrap="" data-if="P">
+                    <span data-if="C"><span data-if="P" data-unwrap="">
                         Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
                     the probability that the captain hits and the probability that 
                     the pirate hits.
-                    </span><span data-unwrap="" data-else="">
+                    </span><span data-else="" data-unwrap="">
                         Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
                     the probability that the captain hits and the probability that 
                     the pirate misses.
                     </span>
                     
                     </span>
-                    <span data-else="" data-if="P">
+                    <span data-if="P" data-else="">
                         Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
                     the probability that the captain misses and the probability that 
                     the pirate hits.

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-helpers-arithmetic">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-helpers-arithmetic"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Multiplication 1.5</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -27,7 +27,7 @@
         <div class="problems">
             <div>
                 <br>
-                <div class="graphie" id="numbers">
+                <div id="numbers" class="graphie">
                     graph.multiplier = new Multiplier( BIG_FACTOR, SMALL_FACTOR );
                     graph.multiplier.show();
                     DUMMY = Array( graph.multiplier.getNumHints() );
@@ -36,10 +36,11 @@
             </div>
         </div>
         <div class="hints">
-            <div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+            <div data-update="numbers" data-each="DUMMY as dummy" class="graphie">
                 graph.multiplier.showHint();
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

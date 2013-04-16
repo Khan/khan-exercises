@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Dividing fractions 0.5</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="getGCD(N1, D1) === 1 && getGCD(N2, D2) === 1">
+    <div data-ensure="getGCD(N1, D1) === 1 &amp;&amp; getGCD(N2, D2) === 1" class="vars">
         <var id="N1">randRange(1, 9)</var>
         <var id="D1">randRange(2, 9)</var>
 
@@ -30,7 +30,7 @@
             <div class="question">
                 <p><code>\displaystyle \frac{<var>N1</var>}{<var>D1</var>} \div \frac{<var>N2</var>}{<var>D2</var>} = {?}</code></p>
             </div>
-            <div class="solution" data-type="rational"><var>(N1 * D2) / (D1 * N2)</var></div>
+            <div data-type="rational" class="solution"><var>(N1 * D2) / (D1 * N2)</var></div>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
             <p><code>\displaystyle {} = \frac{<var>SIMP_N1</var>}{<var>SIMP_D1</var>} \times \frac{<var>SIMP_D2</var>}{<var>SIMP_N2</var>}</code></p>
         </div>
 
-        <div data-if="SIMP_N1 / SIMP_D1 !== 1 && SIMP_N2 / SIMP_D2 !== 1">
+        <div data-if="SIMP_N1 / SIMP_D1 !== 1 &amp;&amp; SIMP_N2 / SIMP_D2 !== 1">
             <p>Combine into one fraction:</p>
             <p><code>\displaystyle {} = \frac{<var>SIMP_N1</var> \times <var>SIMP_D2</var>}{<var>SIMP_D1</var> \times <var>SIMP_N2</var>}</code></p>
         </div>
@@ -57,5 +57,6 @@
 
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

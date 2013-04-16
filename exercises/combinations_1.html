@@ -15,15 +15,15 @@
                     <var id="NUM_TAKEN">randRange(3,5)</var>
                     <var id="ANSWER">factorial(NUM_THINGS) / (factorial(NUM_THINGS-NUM_TAKEN) * factorial(NUM_TAKEN))</var>
                 </div>
-                <p class="problem" data-if="isMale(1)">
+                <p data-if="isMale(1)" class="problem">
                     <var>person(1)</var> is packing his bags for his vacation. He has 
                     <code><var>NUM_THINGS</var></code> unique <var>THING</var>, but only <code><var>NUM_TAKEN</var></code> fit in his bag.
-                </p><p class="problem" data-else="">
+                </p><p data-else="" class="problem">
                     <var>person(1)</var> is packing her bags for her vacation. She has 
                     <code><var>NUM_THINGS</var></code> unique <var>THING</var>, but only <code><var>NUM_TAKEN</var></code> fit in her bag.
                 </p>
                 
-                <p class="question" data-if="isMale(1)">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can he take?</p><p class="question" data-else="">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can she take?</p>
+                <p data-if="isMale(1)" class="question">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can he take?</p><p data-else="" class="question">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can she take?</p>
                 
                 <p data-forms="integer" class="solution"><var>ANSWER</var></p>
                 <div class="hints">

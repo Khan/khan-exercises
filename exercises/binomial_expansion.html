@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie probability subhints">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie probability subhints"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Binomial expansion</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
@@ -14,7 +14,7 @@
 <div class="exercise">
     <div class="problems">
         <div>
-            <div class="vars" data-ensure="SOLUTION < 100">
+            <div data-ensure="SOLUTION &lt; 100" class="vars">
                 <var id="TERM1_COEF">
                     <!-- 80% of the time, the coefficient should be 1 -->
                     randRangeWeightedExclude(1, 3, 1, 0.8, [0])
@@ -40,7 +40,7 @@
                 <var>TERM2</var>)^{<var>EXPONENT</var>}</code>?
             </p>
 
-            <div class="solution" data-forms="integer">
+            <div data-forms="integer" class="solution">
                 <var>SOLUTION</var>
             </div>
 
@@ -81,9 +81,9 @@
                     The binomial theorem indicates that the coefficient to the <code>k^{th}</code> term
                     (<code>k</code> going from <code>0</code> to <code><var>EXPONENT</var></code>) is <span class="hint_blue">
                     <code>\binom{<var>EXPONENT</var>}{k}</code></span>. 
-                    [<a href="#" class="show-subhint" data-subhint="combine">What does this mean?</a>]
+                    [<a data-subhint="combine" href="#" class="show-subhint">What does this mean?</a>]
                     </p>
-                    <div class="subhint" id="combine">
+                    <div id="combine" class="subhint">
                         <code>\binom{n}{k} </code> is an expression which indicates a set
                         of <code>n</code> elements combined <code>k</code> at a time ("<code>n</code> choose <code>k</code>"). <code>\binom{n}{k} = \dfrac{n!}{k!(n-k)!}</code>
                     </div>  <!-- subhint -->
@@ -102,8 +102,8 @@
                             </span>
                         </span>
                     </code></p>
-                    <p>[<a href="#" class="show-subhint" data-subhint="pascal">How would I do this with Pascal's Triangle?</a>]</p>
-                    <div class="subhint" id="pascal">
+                    <p>[<a data-subhint="pascal" href="#" class="show-subhint">How would I do this with Pascal's Triangle?</a>]</p>
+                    <div id="pascal" class="subhint">
                         <p>
                             You can use the <span class="hint_blue">
                             <code><var>EXPONENT + 1</var>^{th}</code> row</span> (one more than the
@@ -165,7 +165,7 @@
                                 * choose(EXPONENT, TERM) *
                                 pow(TERM2, TERM)</var>
                             </span>
-                            <span data-if="TERM !== EXPONENT &&
+                            <span data-if="TERM !== EXPONENT &amp;&amp;
                                     TERM !== EXPONENT - 1">
                                 x^{<var>EXPONENT - TERM</var>}
                             </span>
@@ -189,5 +189,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

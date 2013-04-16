@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Slope intercept form</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2 && -10 <= B && B <= 10">
+    <div data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) &lt; 36 &amp;&amp; X1 &lt; X2 &amp;&amp; -10 &lt;= B &amp;&amp; B &lt;= 10" class="vars">
         <var id="X1">randRange(-9, 9)</var>
         <var id="Y1">randRange(-9, 9)</var>
 
@@ -36,7 +36,7 @@
 
                         for ( var i = 0; i &lt; 5; i++ ) {
                             var x = xs[ i ];
-                            if( x !== X1 && x !== X2 ) {
+                            if( x !== X1 &amp;&amp; x !== X2 ) {
                                 var denom = X1 - X2,
                                     num = x * ( Y1 - Y2 ) + B * denom,
                                     negative = ( num * denom &lt; 0 ? -1 : 1 );
@@ -56,10 +56,10 @@
             <div class="fake_header reading">
                 <span>x</span><span>y</span>
             </div>
-            <div class="fake_row reading" data-each="COORDS as i, coord">
+            <div data-each="COORDS as i, coord" class="fake_row reading">
                 <span><var>coord[ 0 ]</var></span><span><var>coord[ 1 ][ 1 ] === 1 ? coord[ 1 ][ 0 ] : coord[ 1 ].join( "/" )</var></span>
             </div>
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p><code>y =</code>  <span class="sol short40"><var>M</var></span><code>\enspace\cdot\enspace x + </code>
                 <span class="sol short40"><var>B</var></span></p>
             </div>
@@ -74,7 +74,7 @@
                             labelStep: 1,
                             unityLabels: false,
                             labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                            axisArrows: "<->"
+                            axisArrows: "&lt;-&gt;"
                         });
 
                         style({ stroke: BLUE, fill: BLUE });
@@ -123,7 +123,7 @@
                 <p>The equation of the line through the points <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code> is written in the form <code>y = mx + b</code>.</p>
 
                 <p>What is the equation of the line?</p>
-                <div class="graphie" data-if="SHOW_GRAPH">
+                <div data-if="SHOW_GRAPH" class="graphie">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -131,7 +131,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     });
 
                     style({ stroke: BLUE, fill: BLUE });
@@ -141,12 +141,12 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p><code>y =</code>  <span class="sol short40"><var>M</var></span><code>\enspace\cdot\enspace x + </code>
                 <span class="sol short40"><var>B</var></span></p>
             </div>
             <div class="hints">
-                <div class="graphie" data-if="!SHOW_GRAPH">
+                <div data-if="!SHOW_GRAPH" class="graphie">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -154,7 +154,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     });
 
                     style({ stroke: BLUE, fill: BLUE });
@@ -189,5 +189,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

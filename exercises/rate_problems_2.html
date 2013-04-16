@@ -37,9 +37,9 @@
                 <var id="TIME_DOWN">60 * DISTANCE / RATE_DOWN</var>
                 <var id="RATE_AVG">60 * 2 * DISTANCE / ( TIME_UP + TIME_DOWN )</var>
             </div>
-            <p class="problem" data-if="isMale(1)">Starting at home, <var>person( 1 )</var> traveled uphill to the <var>store( 1 )</var> store for <var>TIME_UP</var> minutes at just <var>RATE_UP</var> mph. He then traveled back home along the same path downhill at a speed of <var>K * RATE_UP</var> mph.</p><p class="problem" data-else="">Starting at home, <var>person( 1 )</var> traveled uphill to the <var>store( 1 )</var> store for <var>TIME_UP</var> minutes at just <var>RATE_UP</var> mph. She then traveled back home along the same path downhill at a speed of <var>K * RATE_UP</var> mph.</p>
+            <p data-if="isMale(1)" class="problem">Starting at home, <var>person( 1 )</var> traveled uphill to the <var>store( 1 )</var> store for <var>TIME_UP</var> minutes at just <var>RATE_UP</var> mph. He then traveled back home along the same path downhill at a speed of <var>K * RATE_UP</var> mph.</p><p data-else="" class="problem">Starting at home, <var>person( 1 )</var> traveled uphill to the <var>store( 1 )</var> store for <var>TIME_UP</var> minutes at just <var>RATE_UP</var> mph. She then traveled back home along the same path downhill at a speed of <var>K * RATE_UP</var> mph.</p>
             
-            <p class="question" data-if="isMale(1)">What is his average speed for the entire trip from home to the <var>store( 1 )</var> store and back?</p><p class="question" data-else="">What is her average speed for the entire trip from home to the <var>store( 1 )</var> store and back?</p>
+            <p data-if="isMale(1)" class="question">What is his average speed for the entire trip from home to the <var>store( 1 )</var> store and back?</p><p data-else="" class="question">What is her average speed for the entire trip from home to the <var>store( 1 )</var> store and back?</p>
 
             
 

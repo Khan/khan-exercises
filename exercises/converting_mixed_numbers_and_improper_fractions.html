@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
-    <head>
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers"><head>
         <title>Converting mixed numbers and improper fractions</title>
         <script src="../khan-exercise.js"></script>
     </head>
     <body>
         <div class="exercise">
-            <div class="vars" data-ensure="M_NUM &lt; M_DENOM">
+            <div data-ensure="M_NUM &lt; M_DENOM" class="vars">
                 <var id="WHOLE">randRange( 1, 10 )</var>
 
                 <var id="M_NUM">randRange( 1, 30 )</var>
@@ -23,7 +23,7 @@
                 <div id="improper-to-mixed">
                     <p class="question">Convert <code><var>fraction( I_NUM, I_DENOM, false, true )</var></code> to a mixed number.</p>
 
-                    <p class="solution" data-type="mixed"><var>I_NUM / I_DENOM</var></p>
+                    <p data-type="mixed" class="solution"><var>I_NUM / I_DENOM</var></p>
 
                     <div class="hints">
                         <div>
@@ -68,7 +68,7 @@
                 <div id="mixed-to-improper">
                     <p class="question">Convert <code><var>WHOLE</var>\ <var>fraction( M_NUM, M_DENOM, false, true )</var></code> to an improper fraction.</p>
 
-                    <p class="solution" data-type="improper"><var>I_NUM / I_DENOM</var></p>
+                    <p data-type="improper" class="solution"><var>I_NUM / I_DENOM</var></p>
 
                     <div class="hints">
                         <p><code>\color{#FFA500}{<var>WHOLE</var>}\ \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code></p>
@@ -102,5 +102,6 @@
                 </div>
             </div>
         </div>
-    </body>
-</html>
+    
+
+</body></html>

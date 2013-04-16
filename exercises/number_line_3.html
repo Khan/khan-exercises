@@ -15,11 +15,11 @@
     <div class="problems">
         <div>
             <div class="question">
-                <p data-if="DISTANCE !== 0"><span data-unwrap="" data-if="isSingular(abs( DISTANCE ))">What number is <strong>1 position to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</span><span data-unwrap="" data-else="">What number is <strong><var>abs( DISTANCE )</var> positions to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</span>
+                <p data-if="DISTANCE !== 0"><span data-if="isSingular(abs( DISTANCE ))" data-unwrap="">What number is <strong>1 position to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</span><span data-else="" data-unwrap="">What number is <strong><var>abs( DISTANCE )</var> positions to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</span>
                 
                 </p>
                 <p data-else="">What number does the orange dot represent? The distance between tick marks is 1.</p>
-                <div id="number-line" class="graphie">
+                <div class="graphie" id="number-line">
                     init({
                         range: [ [ MIDPOINT-6, MIDPOINT+6 ], [ -1, 1 ] ]
                     });

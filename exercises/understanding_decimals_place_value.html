@@ -88,7 +88,7 @@
                         - .hints uses .graphie.
                         - The other problem uses graphie so .hints's .graphies must use data-update.
                 -->
-                <div style="display: none;" id="graph" class="graphie"></div>
+                <div style="display: none;" class="graphie" id="graph"></div>
                 <div class="column">
                     <span class="columnhead">Thousands</span>
                     <div data-each="10 times" class="place-value thou">1000</div>
@@ -240,7 +240,7 @@
                         <span class="columnhead">Hundredths</span>
                         <div data-each="10 times" class="coin penny">1&#162;</div>
                     </div>
-                    <div id="graph" class="graphie">
+                    <div class="graphie" id="graph">
                         Khan.scratchpad.disable();
                         init({ range: [ [ 0, 143 ], [ -430, 22 ] ], scale: [ 1, 1 ] });
                         style({ fill: "#eee", stroke: "#ddd", strokeWidth: 1 });
@@ -602,30 +602,30 @@
         <!-- no data-else for thousandths since they're only zero if we're dealing with a money problem -->
         <p>
             <span>Therefore you need:</span>
-            <span data-if="THOUSANDS !== 0"><span data-unwrap="" data-if="isSingular(THOUSANDS)"><code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> thousand, </span><span data-unwrap="" data-else=""><code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> thousands, </span>
+            <span data-if="THOUSANDS !== 0"><span data-if="isSingular(THOUSANDS)" data-unwrap=""><code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> thousand, </span><span data-else="" data-unwrap=""><code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> thousands, </span>
             
             </span>
-            <span data-if="HUNDREDS !== 0"><span data-unwrap="" data-if="isSingular(HUNDREDS)"><code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> hundred, </span><span data-unwrap="" data-else=""><code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> hundreds, </span>
+            <span data-if="HUNDREDS !== 0"><span data-if="isSingular(HUNDREDS)" data-unwrap=""><code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> hundred, </span><span data-else="" data-unwrap=""><code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> hundreds, </span>
             
             </span>
-            <span data-if="TENS !== 0"><span data-unwrap="" data-if="isSingular(TENS)"><code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code> ten, </span><span data-unwrap="" data-else=""><code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code> tens, </span>
+            <span data-if="TENS !== 0"><span data-if="isSingular(TENS)" data-unwrap=""><code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code> ten, </span><span data-else="" data-unwrap=""><code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code> tens, </span>
             
             </span>
-            <span data-if="ONES !== 0"><span data-unwrap="" data-if="isSingular(ONES)"><code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> one, </span><span data-unwrap="" data-else=""><code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> ones, </span>
+            <span data-if="ONES !== 0"><span data-if="isSingular(ONES)" data-unwrap=""><code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> one, </span><span data-else="" data-unwrap=""><code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> ones, </span>
             
             </span>
-            <span data-if="TENTHS !== 0"><span data-unwrap="" data-if="isSingular(TENTHS)"><code>\large{\color{purple}{<var>TENTHS</var>}}</code> tenth, </span><span data-unwrap="" data-else=""><code>\large{\color{purple}{<var>TENTHS</var>}}</code> tenths, </span>
+            <span data-if="TENTHS !== 0"><span data-if="isSingular(TENTHS)" data-unwrap=""><code>\large{\color{purple}{<var>TENTHS</var>}}</code> tenth, </span><span data-else="" data-unwrap=""><code>\large{\color{purple}{<var>TENTHS</var>}}</code> tenths, </span>
             
             </span>
-            <span data-if="THOUSANDTHS === 0" data-unwrap=""><span data-unwrap="" data-if="isSingular(HUNDREDTHS)">
+            <span data-if="THOUSANDTHS === 0" data-unwrap=""><span data-if="isSingular(HUNDREDTHS)" data-unwrap="">
                 and <code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> hundredth.
-            </span><span data-unwrap="" data-else="">
+            </span><span data-else="" data-unwrap="">
                 and <code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> hundredths.
             </span>
             
             </span>
             <span data-else="" data-unwrap="">
-                <span data-if="HUNDREDTHS !== 0"><span data-unwrap="" data-if="isSingular(HUNDREDTHS)"><code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> hundredth, </span><span data-unwrap="" data-else=""><code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> hundredths, </span>
+                <span data-if="HUNDREDTHS !== 0"><span data-if="isSingular(HUNDREDTHS)" data-unwrap=""><code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> hundredth, </span><span data-else="" data-unwrap=""><code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> hundredths, </span>
                 
                 </span>
                 <span data-if="isSingular(THOUSANDTHS)">and <code>\large{\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> thousandth.</span><span data-else="">and <code>\large{\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> thousandths.</span>

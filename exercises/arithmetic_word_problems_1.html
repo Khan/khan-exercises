@@ -129,9 +129,9 @@
             </div>
 
             <div id="take-apart">
-                <p class="problem" data-if="isSingular(TOTAL)">
+                <p data-if="isSingular(TOTAL)" class="problem">
                     There is 1 tree on the banks of the river. The <var>side(1)</var> bank has <var>NUM2</var> of them.
-                </p><p class="problem" data-else="">
+                </p><p data-else="" class="problem">
                     There are <var>TOTAL</var> trees on the banks of the river. The <var>side(1)</var> bank has <var>NUM2</var> of them.
                 </p>
                 
@@ -194,9 +194,9 @@
                     <span data-if="isSingular(TOTAL)">During the following <var>randRange( 2, 3 )</var> hours some more cars parked at the <var>store(1)</var> store, and now there is 1 car in the parking lot. No cars left the parking lot during this time.</span><span data-else="">During the following <var>randRange( 2, 3 )</var> hours some more cars parked at the <var>store(1)</var> store, and now there are <var>TOTAL</var> cars in the parking lot. No cars left the parking lot during this time.</span>
                 
                 </p>
-                <p class="question" data-if="isSingular(NUM2)">
+                <p data-if="isSingular(NUM2)" class="question">
                 How many cars parked in the <var>store( 1 )</var> store parking lot after the initial 1 car?
-                </p><p class="question" data-else="">
+                </p><p data-else="" class="question">
                 How many cars parked in the <var>store( 1 )</var> store parking lot after the initial <var>NUM2</var> cars?
                 </p>
                 
@@ -339,11 +339,11 @@
                     <p>
                     The difference is <code><var>TOTAL</var> - <var>NUM1</var></code> <var>plural_form(exercise(1))</var>.
                     </p>
-                    <p data-if="isMale(1)"><span data-unwrap="" data-if="isSingular(NUM2)">
+                    <p data-if="isMale(1)"><span data-if="isSingular(NUM2)" data-unwrap="">
                     He did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural_form(exercise(1), NUM2)</var>.
-                    </span><span data-unwrap="" data-else="">
+                    </span><span data-else="" data-unwrap="">
                     He did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural_form(exercise(1), NUM2)</var>.
-                    </span></p><p data-else="" data-if="isSingular(NUM2)">
+                    </span></p><p data-if="isSingular(NUM2)" data-else="">
                     She did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural_form(exercise(1), NUM2)</var>.
                     </p><p data-else="">
                     She did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural_form(exercise(1), NUM2)</var>.

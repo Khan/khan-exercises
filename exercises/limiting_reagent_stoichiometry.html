@@ -143,7 +143,7 @@
         </div>
 
 
-        <div data-weight="0" data-calculator="" id="template">
+        <div data-calculator="" id="template" data-weight="0">
             <div data-ensure="abs((R1_MOL * R2_RATIO / R1_RATIO) - R2_MOL) &gt; 0.01" class="vars">
                 <var id="R1_MASS">randRange(1, 40)</var>
                 <var id="R2_MASS">randRange(1, 40 * (R2_RATIO * R2_MOLAR_MASS) / (R1_RATIO * R1_MOLAR_MASS))</var>
@@ -156,7 +156,7 @@
             <div class="problem">
                 <p>
                     Given the following reaction:
-                    <span style="float: right;"><input type="button" id="show-periodic-table" value="Show periodic table" class="simple-button"></span>
+                    <span style="float: right;"><input type="button" class="simple-button" value="Show periodic table" id="show-periodic-table"></span>
                 </p>
                 <p><code>\qquad
                     <var>R1_RATIO === 1 ? "" : R1_RATIO</var><var>R1</var> +
@@ -183,7 +183,7 @@
                         \blue{\text{ <var>plural(R1_MOL, "mole")</var>}} \text{ of }<var>R1</var>
                     </code>
                     <span style="float: right;">[<a data-subhint="expl-ch4-mol" href="#" class="show-subhint">Explain</a>]</span></p>
-                    <div id="expl-ch4-mol" class="subhint">
+                    <div class="subhint" id="expl-ch4-mol">
                         <p>
                             First we want to convert the given amount of <code><var>R1</var></code> from grams to moles. To do this, we divide
                             the given amount of <code><var>R1</var></code> by the molar mass of <code><var>R1</var></code>.
@@ -212,7 +212,7 @@
                         \green{\text{ <var>plural(R2_MOL, "mole")</var>}} \text{ of }<var>R2</var>
                     </code>
                     <span style="float: right;">[<a data-subhint="expl-o2-mol" href="#" class="show-subhint">Explain</a>]</span></p>
-                    <div id="expl-o2-mol" class="subhint">
+                    <div class="subhint" id="expl-o2-mol">
                         <p>
                             We want to convert the given amount of <code><var>R2</var></code> from grams to moles. To do this, we divide
                             the given amount of <code><var>R2</var></code> by the molar mass of <code><var>R2</var></code>.
@@ -242,7 +242,7 @@
                             <code>\dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>}</code>.
                             <span style="float: right;">[<a data-subhint="expl-mol-ratio1" href="#" class="show-subhint">Explain</a>]</span>
                         </p>
-                        <div id="expl-mol-ratio1" class="subhint">
+                        <div class="subhint" id="expl-mol-ratio1">
                             <p data-if="isSingular(R2_RATIO)">
                                 The reaction is <code>\blue{<var>R1_RATIO</var>}<var>R1</var> +
                                 \red{<var>R2_RATIO</var>}<var>R2</var> \rightarrow
@@ -268,7 +268,7 @@
                         [<a data-subhint="expl-alternate1" href="#" class="show-subhint" data-hidden-text="Hide alternate approach">Show alternate approach</a>]
                         </span>
                         </p>
-                        <div id="expl-alternate1" class="subhint">
+                        <div class="subhint" id="expl-alternate1">
                             <p>
                                 <code>
                                 \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
@@ -308,7 +308,7 @@
                             <code>\dfrac{<var>R1_RATIO</var>}{<var>P1_RATIO</var>}</code>.
                             <span style="float: right;">[<a data-subhint="expl-mol-ratio2" href="#" class="show-subhint">Explain</a>]</span>
                         </p>
-                        <div id="expl-mol-ratio2" class="subhint">
+                        <div class="subhint" id="expl-mol-ratio2">
                             <p data-if="isSingular(P1_RATIO)">
                                 The reaction is <code>\blue{<var>R1_RATIO</var>}<var>R1</var> +
                                 <var>R2_RATIO</var><var>R2</var> \rightarrow
@@ -348,7 +348,7 @@
                             <code>\dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>}</code>.
                             <span style="float: right;">[<a data-subhint="expl-mol-ratio3" href="#" class="show-subhint">Explain</a>]</span>
                         </p>
-                        <div id="expl-mol-ratio3" class="subhint">
+                        <div class="subhint" id="expl-mol-ratio3">
                             <p data-if="isSingular(R2_RATIO)">
                                 The reaction is <code>\blue{<var>R1_RATIO</var>}<var>R1</var> +
                                 \red{<var>R2_RATIO</var>}<var>R2</var> \rightarrow
@@ -373,7 +373,7 @@
                         <span style="float: right;">
                         [<a data-subhint="expl-alternate2" href="#" class="show-subhint" data-hidden-text="Hide alternate approach">Show alternate approach</a>]
                         </span></p>
-                        <div id="expl-alternate2" class="subhint">
+                        <div class="subhint" id="expl-alternate2">
                             <p>
                                 <code>
                                 \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
@@ -413,7 +413,7 @@
                             <code>\dfrac{<var>R2_RATIO</var>}{<var>P1_RATIO</var>}</code>.
                             <span style="float: right;">[<a data-subhint="expl-mol-ratio4" href="#" class="show-subhint">Explain</a>]</span>
                         </p>
-                        <div id="expl-mol-ratio4" class="subhint">
+                        <div class="subhint" id="expl-mol-ratio4">
                             <p data-if="isSingular(P1_RATIO)">
                                 The reaction is <code><var>R1_RATIO</var><var>R1</var> +
                                 \blue{<var>R2_RATIO</var>}<var>R2</var> \rightarrow

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Factoring polynomials by grouping 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,8 +9,8 @@
     <div class="exercise">
     <div class="problems">
         <div>
-            <div class="vars" data-ensure="B !== 0 && getGCD(A, E) === 1">
-                <var id="A" data-ensure="abs(A) !== 1">randRangeNonZero(-9, 9)</var>
+            <div data-ensure="B !== 0 &amp;&amp; getGCD(A, E) === 1" class="vars">
+                <var data-ensure="abs(A) !== 1" id="A">randRangeNonZero(-9, 9)</var>
                 <var id="E">randRangeNonZero(-9, 9)</var>
                 <var id="F">randRangeNonZero(-5, 5)</var>
                 <var id="B">E + A * F</var>
@@ -28,20 +28,20 @@
 
             <p class="problem">Factor the following expression:</p>
             <p class="question">
-                <span id="question-a"><code><var>A</var></code></span><code>x^2<span data-if="B > 0">+</span></code>
-                <span id="question-b"><code><var>B</var></code></span><code>x<span data-if="C > 0">+</span></code>
+                <span id="question-a"><code><var>A</var></code></span><code>x^2<span data-if="B &gt; 0">+</span></code>
+                <span id="question-b"><code><var>B</var></code></span><code>x<span data-if="C &gt; 0">+</span></code>
                 <span id="question-c"><code><var>C</var></code></span>
             </p>
-            <div class="solution" data-type="set">
+            <div data-type="set" class="solution">
                 <!-- TODO(eater): Add a magical helper thing that assembles all these permutations automatically -->
-                <div class="set-sol" data-type="regex">^\s*<var>AX_PLUS_E</var>\s*<var>X_PLUS_F</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>X_PLUS_F</var>\s*<var>AX_PLUS_E</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>NEG_AX_MINUS_E</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*<var>NEG_X_MINUS_F</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_AX_MINUS_E</var>\s*<var>X_PLUS_F</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_X_MINUS_F</var>\s*<var>AX_PLUS_E</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>X_PLUS_F</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>AX_PLUS_E</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
+                <div data-type="regex" class="set-sol">^\s*<var>AX_PLUS_E</var>\s*<var>X_PLUS_F</var>\s*$</div>
+                <div data-type="regex" class="set-sol">^\s*<var>X_PLUS_F</var>\s*<var>AX_PLUS_E</var>\s*$</div>
+                <div data-type="regex" class="set-sol">^\s*<var>NEG_AX_MINUS_E</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
+                <div data-type="regex" class="set-sol">^\s*<var>NEG_X_MINUS_F</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
+                <div data-type="regex" class="set-sol">^\s*[-\u2212]\s*<var>NEG_AX_MINUS_E</var>\s*<var>X_PLUS_F</var>\s*$</div>
+                <div data-type="regex" class="set-sol">^\s*[-\u2212]\s*<var>NEG_X_MINUS_F</var>\s*<var>AX_PLUS_E</var>\s*$</div>
+                <div data-type="regex" class="set-sol">^\s*[-\u2212]\s*<var>X_PLUS_F</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
+                <div data-type="regex" class="set-sol">^\s*[-\u2212]\s*<var>AX_PLUS_E</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
                 <div class="input-format"><span class="entry"></span></div>
                 <div class="example">a factored expression, like <b>(2x+1)(x+2)</b></div>
             </div>
@@ -52,7 +52,7 @@
                         This expression is in the form <code>\blue{A}x^2 + \green{B}x + \pink{C}</code>.
                         You can factor it by grouping.
                     </p>
-                    <div class="graphie" style="outline: none;">
+                    <div style="outline: none;" class="graphie">
                         $("#question-a").addClass("hint_blue");
                         $("#question-b").addClass("hint_green");
                         $("#question-c").addClass("hint_pink");
@@ -85,7 +85,7 @@
                 <p>
                     In order to find <code>\purple{a}</code> and <code>\purple{b}</code>, list out the factors of
                     <code><var>A * C</var></code> and add them together.
-                    <span data-if="A * C < 0">
+                    <span data-if="A * C &lt; 0">
                         Remember, since <code><var>A * C</var></code> is negative, one of the factors must be
                         negative.
                     </span>
@@ -112,9 +112,9 @@
                     </p>
                     <code>
                         \qquad \blue{<var>A</var>}x^2
-                        <span data-if="E > 0">+</span>\purple{<var>E</var>}x
-                        <span data-if="A * F > 0">+</span>\purple{<var>A * F</var>}x
-                        <span data-if="C > 0">+</span>\pink{<var>C</var>}
+                        <span data-if="E &gt; 0">+</span>\purple{<var>E</var>}x
+                        <span data-if="A * F &gt; 0">+</span>\purple{<var>A * F</var>}x
+                        <span data-if="C &gt; 0">+</span>\pink{<var>C</var>}
                     </code>
                 </div>
                 <div>
@@ -122,8 +122,8 @@
                         Group the terms so that there is a common factor in each group:
                     </p>
                     <code>
-                        \qquad (\blue{<var>A</var>}x^2 <span data-if="E > 0">+</span>\purple{<var>E</var>}x)
-                        + (\purple{<var>A * F</var>}x <span data-if="C > 0">+</span>\pink{<var>C</var>})
+                        \qquad (\blue{<var>A</var>}x^2 <span data-if="E &gt; 0">+</span>\purple{<var>E</var>}x)
+                        + (\purple{<var>A * F</var>}x <span data-if="C &gt; 0">+</span>\pink{<var>C</var>})
                     </code>
                 </div>
                 <div>
@@ -143,5 +143,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math calculus polynomials expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math calculus polynomials expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Chain rule 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -53,7 +53,7 @@
 
                 <p class="solution"><code><var>DERIVATIVE</var></code></p>
 
-                <ul class="choices" data-none="true" data-show="5">
+                <ul data-none="true" class="choices" data-show="5">
                     <li><code><var>
                         expr(["*", OUTER.ddxF, randFromArray(INNER.wrongs)])
                     </var></code></li>
@@ -106,5 +106,6 @@
             <p data-if="PRE_SIMPLIFICATION !== null">Interestingly, if we simplify the function before we take the derivative, we can reach the answer more quickly: <code><var>OUTER.fText</var></code> simplifies to <code><var>expr(PRE_SIMPLIFICATION)</var></code>, and <code>\frac{d}{dx}(<var>expr(PRE_SIMPLIFICATION)</var>)</code> is <code><var>DERIVATIVE</var></code>.</p>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

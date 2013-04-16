@@ -25,10 +25,10 @@
                     There are <code><var>STUDENTS</var></code> students in a class: <code><var>BOYS</var></code> boys and
                     <code><var>GIRLS</var></code> girls.
                 </p>
-                <p class="question" data-if="ARE_B"> 
+                <p data-if="ARE_B" class="question"> 
                     If the teacher picks a group of <code><var>GROUP</var></code> at random, what is the probability that 
                     everyone in the group is a boy?
-                </p><p class="question" data-else=""> 
+                </p><p data-else="" class="question"> 
                     If the teacher picks a group of <code><var>GROUP</var></code> at random, what is the probability that 
                     everyone in the group is a girl?
                 </p>
@@ -74,7 +74,7 @@
                             [<a data-subhint="binomial" href="#" class="show-subhint">Show me why</a>]
                         </p>
                         
-                        <div id="binomial" class="subhint">
+                        <div class="subhint" id="binomial">
                             <p>
                                 Remember that the
                                 <code><var>STUDENTS</var>! \;</code> and <code>(<var>STUDENTS</var>-<var>GROUP</var>)! \;</code> terms come from when we
@@ -191,7 +191,7 @@
                             [<a data-subhint="letters" href="#" class="show-subhint">Show me why</a>]
                         </p>
                         
-                        <div id="letters" class="subhint">
+                        <div class="subhint" id="letters">
                             Let's say we toss a coin 5 times, and get tails three times. How many different re-arrangements are there of the
                             letters "HHTTT"? Well, we have five choices for the first slot, four for the second slot, and so on, resulting in
                             <code>5\cdot4\cdot3\cdot2\cdot1 = 5! = 120 \;</code> different re-arrangements. But, this treats all the letters
@@ -216,7 +216,7 @@
                             outcomes where you get exactly <code><var>NUM</var></code> <var>NAME</var>.
                             [<a data-subhint="total" href="#" class="show-subhint">How many total outcomes are there?</a>]
                         </p>
-                        <div id="total" class="subhint">
+                        <div class="subhint" id="total">
                             Well, if you only flip one coin, there are two outcomes, if you flip two there are four outcomes, if you flip three there
                             are eight. Each time you flip another coin, you double the number of possible outcomes.
                         </div>

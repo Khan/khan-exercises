@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Multiplying fractions 0.5</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="getGCD(A, B) === 1 && getGCD(C, D) === 1">
+    <div data-ensure="getGCD(A, B) === 1 &amp;&amp; getGCD(C, D) === 1" class="vars">
         <var id="A">randRange(1, 8)</var>
-        <var id="B" data-ensure="B>A">randRange(2, 9)</var>
+        <var data-ensure="B&gt;A" id="B">randRange(2, 9)</var>
 
         <var id="C">randRange(1, 8)</var>
-        <var id="D" data-ensure="D>C">randRange(2, 9)</var>
+        <var data-ensure="D&gt;C" id="D">randRange(2, 9)</var>
     </div>
 
     <div class="problems">
@@ -20,7 +20,7 @@
             <div class="question">
                 <p><code>\displaystyle \frac{<var>A</var>}{<var>B</var>} \times \frac{<var>C</var>}{<var>D</var>}</code></p>
             </div>
-            <div class="solution" data-type="rational"><var>(A * C) / (B * D)</var></div>
+            <div data-type="rational" class="solution"><var>(A * C) / (B * D)</var></div>
         </div>
     </div>
 
@@ -30,5 +30,6 @@
         <p data-if="getGCD(A * C, B * D) !== 1"><code>\displaystyle {} = <var>fractionReduce(A * C, B * D)</var></code></p>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -387,10 +387,10 @@
                 
                 </p>
 
-                <p class="question" data-if="C_FIRST">
+                <p data-if="C_FIRST" class="question">
                     If the Captain shoots first, what is the probability that
                     <var>QUESTION</var>?
-                </p><p class="question" data-else="">
+                </p><p data-else="" class="question">
                     If the pirate shoots first, what is the probability that
                     <var>QUESTION</var>?
                 </p>
@@ -409,15 +409,15 @@
                         <br><br>
                         In this case, event A is <var>EV_A</var> and event B is <var>EV_B</var>.
                     </p>
-                    <p data-if="isMale(C_FIRST ? 1 : 2)"><span data-unwrap="" data-if="C_FIRST">
+                    <p data-if="isMale(C_FIRST ? 1 : 2)"><span data-if="C_FIRST" data-unwrap="">
                         The Captain fires first, so 
                         his ship can't be sunk before
                         he fires his cannons.
-                    </span><span data-unwrap="" data-else="">
+                    </span><span data-else="" data-unwrap="">
                         The pirate fires first, so 
                         his ship can't be sunk before
                         he fires his cannons.
-                    </span></p><p data-else="" data-if="C_FIRST">
+                    </span></p><p data-if="C_FIRST" data-else="">
                         The Captain fires first, so 
                         her ship can't be sunk before
                         she fires his cannons.
@@ -432,16 +432,16 @@
                     <p>
                         So, the probability of <var>EV_A</var> is <code><var>PR_A</var></code>.
                     </p>
-                    <p data-if="PR_B === 0 || PR_B === 1"><span data-unwrap="" data-if="C_FIRST">
+                    <p data-if="PR_B === 0 || PR_B === 1"><span data-if="C_FIRST" data-unwrap="">
                         If the Captain hit the pirate ship,
                         the pirate has no chance of firing back.
-                    </span><span data-unwrap="" data-else="">
+                    </span><span data-else="" data-unwrap="">
                         If the pirate hit the Captain's ship,
                         the Captain has no chance of firing back.
                     </span>
                     
                     </p>
-                    <p data-else="" data-if="C_FIRST">
+                    <p data-if="C_FIRST" data-else="">
                         If the Captain 
                          missed the pirate
                          ship,

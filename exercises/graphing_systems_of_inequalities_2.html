@@ -92,46 +92,46 @@
 
                 <form>
                     <span style="width: 40px" class="hint_blue">Inequality 1:</span>
-                    <input type="button" onclick="javascript:
+                    <input type="button" value="Shade other side" onclick="javascript:
                         KhanUtil.currentGraph.graph.shadetop1 = !KhanUtil.currentGraph.graph.shadetop1;
                         KhanUtil.currentGraph.graph.update();
-                    " value="Shade other side">
+                    ">
                     <label class="hint_blue">
-                        <input checked type="radio" onclick="javascript:
+                        <input type="radio" checked name="dashradio1" value="solid" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray1 = '';
                             KhanUtil.currentGraph.graph.update();
-                        " value="solid" name="dashradio1">
+                        ">
                         Solid line
                     </label>
                     <label class="hint_blue">
-                        <input type="radio" onclick="javascript:
+                        <input type="radio" name="dashradio1" value="dashed" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray1 = '- ';
                             KhanUtil.currentGraph.graph.update();
-                        " value="dashed" name="dashradio1">
+                        ">
                         Dashed line
                     </label>
                     <br>
                     <span style="width: 40px" class="hint_green">Inequality 2:</span>
-                    <input type="button" onclick="javascript:
+                    <input type="button" value="Shade other side" onclick="javascript:
                         KhanUtil.currentGraph.graph.shadetop2 = !KhanUtil.currentGraph.graph.shadetop2;
                         KhanUtil.currentGraph.graph.update();
-                    " value="Shade other side">
+                    ">
                     <label class="hint_green">
-                        <input checked type="radio" onclick="javascript:
+                        <input type="radio" checked name="dashradio2" value="solid" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray2 = '';
                             KhanUtil.currentGraph.graph.update();
-                        " value="solid" name="dashradio2">
+                        ">
                         Solid line
                     </label>
                     <label class="hint_green">
-                        <input type="radio" onclick="javascript:
+                        <input type="radio" name="dashradio2" value="dashed" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray2 = '- ';
                             KhanUtil.currentGraph.graph.update();
-                        " value="dashed" name="dashradio2">
+                        ">
                         Dashed line
                     </label>
                 </form>
-                <div id="grid" class="graphie">
+                <div class="graphie" id="grid">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -413,27 +413,27 @@
             
             </p>
         </div>
-        <p class="hint_blue" data-if="LESS_THAN_1">
+        <p data-if="LESS_THAN_1" class="hint_blue">
             Since our inequality has a less-than<span data-if="INCLUSIVE_1"> or equal to</span> sign, that means that any point
             <strong>below</strong> the line is a solution to the inequality, so the area below
             the line should be shaded.
-        </p><p class="hint_blue" data-else="">
+        </p><p data-else="" class="hint_blue">
             Since our inequality has a greater-than<span data-if="INCLUSIVE_1"> or equal to</span> sign, that means that any point
             <strong>above</strong> the line is a solution to the inequality, so the area above
             the line should be shaded.
         </p>
         
         <div class="hint_blue">
-            <p data-if="INCLUSIVE_1"><span data-unwrap="" data-if="LESS_THAN_1">
+            <p data-if="INCLUSIVE_1"><span data-if="LESS_THAN_1" data-unwrap="">
                 Note that since the sign is less-than or <strong>equal to</strong>, any point on the line is also a solution, so the
                 line should be solid.
-            </span><span data-unwrap="" data-else="">
+            </span><span data-else="" data-unwrap="">
                 Note that since the sign is greater-than or <strong>equal to</strong>, any point on the line is also a solution, so the
                 line should be solid.
             </span>
             
             </p>
-            <p data-else="" data-if="LESS_THAN_1">
+            <p data-if="LESS_THAN_1" data-else="">
                 Note that since the sign is less-than (and not equal to), any point on the line is <strong>not</strong> part of the solution,
                 so the line should be dashed to indicate this.
             </p><p data-else="">
@@ -500,27 +500,27 @@
             
             </p>
         </div>
-        <p class="hint_green" data-if="LESS_THAN_2">
+        <p data-if="LESS_THAN_2" class="hint_green">
             Since our inequality has a less-than<span data-if="INCLUSIVE_2"> or equal to</span> sign, that means that any point
             <strong>below</strong> the line is a solution to the inequality, so the area below
             the line should be shaded.
-        </p><p class="hint_green" data-else="">
+        </p><p data-else="" class="hint_green">
             Since our inequality has a greater-than<span data-if="INCLUSIVE_2"> or equal to</span> sign, that means that any point
             <strong>above</strong> the line is a solution to the inequality, so the area above
             the line should be shaded.
         </p>
         
         <div class="hint_green">
-            <p data-if="INCLUSIVE_2"><span data-unwrap="" data-if="LESS_THAN_2">
+            <p data-if="INCLUSIVE_2"><span data-if="LESS_THAN_2" data-unwrap="">
                 Note that since the sign is less-than or <strong>equal to</strong>, any point on the line is also a solution, so the
                 line should be solid.
-            </span><span data-unwrap="" data-else="">
+            </span><span data-else="" data-unwrap="">
                 Note that since the sign is greater-than or <strong>equal to</strong>, any point on the line is also a solution, so the
                 line should be solid.
             </span>
             
             </p>
-            <p data-else="" data-if="LESS_THAN_2">
+            <p data-if="LESS_THAN_2" data-else="">
                 Note that since the sign is less-than (and not equal to), any point on the line is <strong>not</strong> part of the solution,
                 so the line should be dashed to indicate this.
             </p><p data-else="">
@@ -530,7 +530,7 @@
         
         </div>
         <div>
-            <input type="button" onclick="javascript:
+            <input type="button" value="Show me the correct graphs" onclick="javascript:
                 with ( KhanUtil.currentGraph ) {
                     with ( KhanUtil.tmpl ) {
                         graph.pointA.setCoord([ 0, getVAR( 'YINT_1' ) ]);
@@ -556,7 +556,7 @@
                         graph.update();
                     }
                 }
-            " value="Show me the correct graphs">
+            ">
         </div>
         <div>
             <p>

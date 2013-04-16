@@ -57,7 +57,7 @@
                     <p>We can try to estimate using the empirical rule, also known as the 68-95-99.7 percent rule.</p>
 
                     <div>
-                        <div id="normaldist" class="graphie">
+                        <div class="graphie" id="normaldist">
                             init({
                                 range: [ [ MEAN - STDDEV * 3.5, MEAN + STDDEV * 3.5 ], [ -1.5, 4.3 ] ],
                                 scale: [ 475 / ( STDDEV * 7 ), 40 ]
@@ -86,7 +86,7 @@
                         </div>
                         <p>
                             We know the lifespans are normally distributed with an average lifespan of
-                            <code id="meanHint" class="hint_pink"><var>MEAN</var></code> years.
+                            <code class="hint_pink" id="meanHint"><var>MEAN</var></code> years.
                         </p>
                     </div>
 
@@ -108,9 +108,9 @@
                         <p>
                             We know the standard deviation is <code><var>STDDEV</var></code> years, so one
                             standard deviation below the mean is
-                            <code class="hint_pink" id="zm1Hint"><var>roundTo( 1, MEAN - STDDEV )</var></code> years
+                            <code id="zm1Hint" class="hint_pink"><var>roundTo( 1, MEAN - STDDEV )</var></code> years
                             and one standard deviation above the mean is
-                            <code class="hint_pink" id="zp1Hint"><var>roundTo( 1, MEAN + STDDEV )</var></code> years.
+                            <code id="zp1Hint" class="hint_pink"><var>roundTo( 1, MEAN + STDDEV )</var></code> years.
                         </p>
                     </div>
 
@@ -135,9 +135,9 @@
                         </div>
                         <p>
                             Two standard deviations below the mean is
-                            <code class="hint_pink" id="zm2Hint"><var>roundTo( 1, MEAN - STDDEV * 2 )</var></code> years
+                            <code id="zm2Hint" class="hint_pink"><var>roundTo( 1, MEAN - STDDEV * 2 )</var></code> years
                             and two standard deviations above the mean is
-                            <code class="hint_pink" id="zp2Hint"><var>roundTo( 1, MEAN + STDDEV * 2 )</var></code> years.
+                            <code id="zp2Hint" class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * 2 )</var></code> years.
                         </p>
                     </div>
 
@@ -162,9 +162,9 @@
                         </div>
                         <p>
                             Three standard deviations below the mean is
-                            <code class="hint_pink" id="zm3Hint"><var>roundTo( 1, MEAN - STDDEV * 3 )</var></code> years
+                            <code id="zm3Hint" class="hint_pink"><var>roundTo( 1, MEAN - STDDEV * 3 )</var></code> years
                             and three standard deviations above the mean is
-                            <code class="hint_pink" id="zp3Hint"><var>roundTo( 1, MEAN + STDDEV * 3 )</var></code> years.
+                            <code id="zp3Hint" class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * 3 )</var></code> years.
                         </p>
                     </div>
 

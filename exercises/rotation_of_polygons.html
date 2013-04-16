@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie geom interactive">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie geom interactive"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Rotating Polygons</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -31,7 +31,7 @@
     <div class="problems">
         <div id="drag">
             <div class="vars">
-                <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">randRange(-4, 4, 4)</var>
+                <var data-ensure="SX !== EX || SY !== EY" id="SX,SY,EX,EY">randRange(-4, 4, 4)</var>
                 <var id="ROTDEG">90 * randRange(1, 3)</var>
                 <var id="ROTRAD">ROTDEG * Math.PI / 180 </var>
                 <var id="POINTS">_.map(_.range(6), function() {
@@ -54,7 +54,7 @@
             </p>
 
             <div class="problem">
-                <div class="graphie" id="grid">
+                <div id="grid" class="graphie">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -137,7 +137,7 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="custom">
+            <div data-type="custom" class="solution">
                 <div class="instruction">
                     Rotate the blue polygon to its image under the given translation.
                 </div>
@@ -163,25 +163,25 @@
                 <div>
                     <p>To see where a rotation moved this polygon, pick one point and rotate it. For example, what happens to 
                     <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this rotation?</p>
-                    <div class="graphie" data-update="grid">
+                    <div data-update="grid" class="graphie">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
                 </div> 
                 <div>
                     <p>Under the rotation <code>T_{<var>ROTDEG</var> {}^\circ{} }</code>, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> is translated to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>. Where is the rest of the polygon rotated?</p>
-                    <div class="graphie" data-update="grid">
+                    <div data-update="grid" class="graphie">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
-                        arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "->" });
+                        arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "-&gt;" });
                     </div>
                 </div>
                 <div>
                     To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>, we rotated it <code><var>ROTDEG</var>{}^\circ{}</code> counter-clockwise, or
                     through <var>["one quarter","one half","three quarters"][ROTDEG/90-1]</var> of a circle.
-                    </br></br>
+                    <br><br>
                 </div>
                 <div>
                     <p>The orange outline shows where the polygon ends up after the translation.</p>
-                    <div class="graphie" data-update="grid">
+                    <div data-update="grid" class="graphie">
                         for (var i=0; i &lt; TARGET.length; i++) {
                             line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
                         }
@@ -192,7 +192,7 @@
         </div>
         <div id="reverse">
             <div class="vars">
-                <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">randRange(-4, 4, 4)</var>
+                <var data-ensure="SX !== EX || SY !== EY" id="SX,SY,EX,EY">randRange(-4, 4, 4)</var>
                 <var id="ROTDEG">90 * randRange(1, 3)</var>
                 <var id="ROTRAD">ROTDEG * Math.PI / 180 </var>
                 <var id="POINTS">_.map(_.range(6), function() {
@@ -215,7 +215,7 @@
             </p>
 
             <div class="problem">
-                <div class="graphie" id="grid">
+                <div id="grid" class="graphie">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -241,9 +241,9 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="custom">
+            <div data-type="custom" class="solution">
                 <div class="instruction">
-                    <code>{\LARGE T } \quad</code> <input id="ans" style="width: 30px;"></input> <code>{}^\circ{}</code>
+                    <code>{\LARGE T } \quad</code> <input style="width: 30px;" id="ans"> <code>{}^\circ{}</code>
                 </div>
                 <div class="guess">$("#ans").val()</div>
                 <div class="validator-function">
@@ -251,7 +251,7 @@
                     if (isNaN(answer)) {
                         return false;
                     }
-                    else if (answer > 0) {
+                    else if (answer &gt; 0) {
                         return answer % 360 === ROTDEG;
                     }
                     else {
@@ -271,18 +271,18 @@
                 <div>
                     <p>To see what rotation moved the blue polygon, pick one point and rotate it. For example, what happened to 
                     <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> under this rotation?</p>
-                    <div class="graphie" data-update="grid">
+                    <div data-update="grid" class="graphie">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
                 </div> 
                 <div>
                     <p>
                         <span>Under this rotation, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> was rotated to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>. What does this tell you about the rotation used?</span>
-                        <div class="graphie" data-update="grid">
+                        </p><div data-update="grid" class="graphie">
                             circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
-                            arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "->" });
+                            arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "-&gt;" });
                         </div>
-                    </p>
+                    <p></p>
                 </div>
                 <p>
                     To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>, we rotated it around <code>(0,0)</code> <code><var>ROTDEG</var>{}^\circ{}</code> counterclockwise.
@@ -294,5 +294,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

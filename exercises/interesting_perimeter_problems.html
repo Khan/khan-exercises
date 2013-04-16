@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math angles graphie graphie-geometry graphie-helpers math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math angles graphie graphie-geometry graphie-helpers math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Interesting Perimeter Problems</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -40,10 +40,9 @@
 <body>
 <div class="exercise">
     <div class="problems">
-        <div id="missing-side-perimeter" data-weight="2">
+        <div data-weight="2" id="missing-side-perimeter">
             <div class="vars">
-                <var id="SHAPE"
-                    data-ensure="SHAPE.numSides <= 11 && SHAPE.numSides > 4">
+                <var data-ensure="SHAPE.numSides &lt;= 11 &amp;&amp; SHAPE.numSides &gt; 4" id="SHAPE">
                     createOddShape({
                         width: 12,
                         height: 10
@@ -57,7 +56,7 @@
                 <var id="SAMESIDES">getSameSides(SIDES,HIDDENSIDE)</var>
             </div>
             <p class="question">What is the length of side <code><var>HIDDENSIDENAME</var></code> ?</p>
-            <div class="graphie" id="polygon">
+            <div id="polygon" class="graphie">
                     init({ range: [[-1, 12 + 1], [-1, 10 + 1]] });
                     var shape = [];
 
@@ -69,7 +68,7 @@
                         path([side.start, side.end], {stroke: BLUE});
                     });
             </div>
-            <p class="solution" data-type="decimal"><var>ANSWER</var></p>
+            <p data-type="decimal" class="solution"><var>ANSWER</var></p>
         </div>
         </div>
 
@@ -77,7 +76,7 @@
     <div class="hints">
             <div data-if="OPPOSITESIDES.length === 1">
                 <p><code><var>HIDDENSIDENAME</var></code> and all other sides of the same orientation add up to the length of the face opposite it.</p>
-                <div data-if="OPPOSITESIDES.length === 1" class="graphie" data-update="polygon">
+                <div data-update="polygon" data-if="OPPOSITESIDES.length === 1" class="graphie">
                     for (var i = 0; i &lt; OPPOSITESIDES.length; i++) {
                         line( OPPOSITESIDES[i].start, OPPOSITESIDES[i].end, {
                             stroke: KhanUtil.RED,
@@ -92,7 +91,7 @@
                     }
                 </div>
             </div>
-            <p data-if="OPPOSITESIDES.length === 1"><code><var>HIDDENSIDENAME</var> + </code><span class="hint_green"><code><var>SAMESIDES.map(function(item){return item.length}).join('+')</var></code></span> = <span class="hint_red"><code><var>OPPOSITESIDES[0].length</var></code><span></p>
+            <p data-if="OPPOSITESIDES.length === 1"><code><var>HIDDENSIDENAME</var> + </code><span class="hint_green"><code><var>SAMESIDES.map(function(item){return item.length}).join('+')</var></code></span> = <span class="hint_red"><code><var>OPPOSITESIDES[0].length</var></code><span></span></span></p>
             <p data-if="OPPOSITESIDES.length === 1">What number does <code><var>HIDDENSIDENAME</var></code> have to be equal to for this sum to be correct?</p>
             <p data-if="OPPOSITESIDES.length === 1">
                 <code>\textbf{<var>ANSWER</var>} + </code><span class="hint_green"><code><var>SAMESIDES.map(function(item){return item.length}).join('+')</var></code></span><code> = </code><span class="hint_red"><code><var>OPPOSITESIDES.map(function(item){return item.length}).join('+')</var></code></span><br>
@@ -100,10 +99,10 @@
             </p>
             
 
-            <div data-if="OPPOSITESIDES.length > 1">
-                <p><code><var>HIDDENSIDENAME</var></code><span data-if="SAMESIDES.length > 0"> + <code><var>SAMESIDES.map(function(item){return item.length}).join('+')</var></code></span> is the sum of all the sides opposite.</p>
-                <div data-if="OPPOSITESIDES.length > 1">
-                    <div class="graphie" data-update="polygon"> 
+            <div data-if="OPPOSITESIDES.length &gt; 1">
+                <p><code><var>HIDDENSIDENAME</var></code><span data-if="SAMESIDES.length &gt; 0"> + <code><var>SAMESIDES.map(function(item){return item.length}).join('+')</var></code></span> is the sum of all the sides opposite.</p>
+                <div data-if="OPPOSITESIDES.length &gt; 1">
+                    <div data-update="polygon" class="graphie"> 
                         for (var i = 0; i &lt; OPPOSITESIDES.length; i++) {
                             line( OPPOSITESIDES[i].start, OPPOSITESIDES[i].end, {
                                 stroke: KhanUtil.RED,
@@ -119,23 +118,24 @@
                     </div>
                 </div>
             </div>
-            <div data-if="OPPOSITESIDES.length > 1">
-                <p><code><var>HIDDENSIDENAME</var></code><span data-if="SAMESIDES.length > 0"> + <span class="hint_green"><code>
-                    <var>SAMESIDES.map(function(item){return item.length}).join('+')</var></code></span></span></code> = 
+            <div data-if="OPPOSITESIDES.length &gt; 1">
+                <p><code><var>HIDDENSIDENAME</var></code><span data-if="SAMESIDES.length &gt; 0"> + <span class="hint_green"><code>
+                    <var>SAMESIDES.map(function(item){return item.length}).join('+')</var></code></span></span> = 
                     <span class="hint_red"><code>
                         <var>OPPOSITESIDES.map(function(item){return item.length}).join('+')</var>
                     </code></span>
                 </p>
-                <p data-if="OPPOSITESIDES.length > 1">
+                <p data-if="OPPOSITESIDES.length &gt; 1">
                     What number does <code><var>HIDDENSIDENAME</var></code> have to be equal to for this sum to be correct?
                 </p>
             </div>
-            <p data-if="OPPOSITESIDES.length > 1">
-                <code>\textbf{<var>ANSWER</var>}<span data-if="SAMESIDES.length > 0"> + </code><span class="hint_green"><code><var>SAMESIDES.map(function(item){return item.length}).join('+')</var></code></span> = <span class="hint_red"><code><var>OPPOSITESIDES.map(function(item){return item.length}).join('+')</var></code></span><br>
+            <p data-if="OPPOSITESIDES.length &gt; 1">
+                <code>\textbf{<var>ANSWER</var>}<span data-if="SAMESIDES.length &gt; 0"> + </span></code><span class="hint_green"><code><var>SAMESIDES.map(function(item){return item.length}).join('+')</var></code></span> = <span class="hint_red"><code><var>OPPOSITESIDES.map(function(item){return item.length}).join('+')</var></code></span><br>
                 <code><var>HIDDENSIDENAME</var> = <var>ANSWER</var></code>
             </p>
         </div>
     </div>
-</div>
-</body>
-</html>
+
+
+
+</body></html>

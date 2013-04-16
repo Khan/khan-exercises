@@ -26,7 +26,7 @@
                 What is the perimeter of the square?
             </p>
             <div class="problem">
-                <div id="perimeter" class="graphie">
+                <div class="graphie" id="perimeter">
                     init({ range: [[-2, S + 1], [-1, S + 1]], scale: 30 });
                     path([[0, 0], [0, S], [S, S], [S, 0], true], {stroke: BLUE, fill: "#eee"});
                     label([S / 2, S], S + "\\text{ " + UNIT + "}", "above");
@@ -71,7 +71,7 @@
             </p>
 
             <div class="problem">
-                <div id="perimeter" class="graphie">
+                <div class="graphie" id="perimeter">
                     init({ range: [[-2, L + 1], [-1, W + 1]], scale: 30 });
                     path([[0, 0], [0, W], [L, W], [L, 0], true], {stroke: BLUE, fill: "#eee"});
                     label([L / 2, W], L + "\\text{ " + UNIT + "}", "above");
@@ -117,7 +117,7 @@
             </p>
 
             <div class="problem">
-                <div id="perimeter" class="graphie">
+                <div class="graphie" id="perimeter">
                     init({ range: [[min(X, 0) - 2, max(X, A) + 2], [-1, Y + 1]], scale: 30 });
                     path([[0, 0], [A, 0], [X, Y], true], {stroke: BLUE, fill: "#eee"});
                     label([A / 2, 0], A + "\\text{ " + UNIT + "}", "below");
@@ -169,7 +169,7 @@
             </p>
 
             <div class="problem">
-                <div id="perimeter" class="graphie">
+                <div class="graphie" id="perimeter">
                     init({ range: [[-RADIUS - 1, RADIUS + 1], [-RADIUS - 1, RADIUS + 1]], scale: 30 });
                     graph.path = [];
 
@@ -204,7 +204,7 @@
                         <a data-definition="regular-polygon" href="#" class="show-definition">regular</a>
                         <var>POLYGON</var> are the same length.
                     </p>
-                    <div id="regular-polygon" class="definition">
+                    <div class="definition" id="regular-polygon">
                         Saying a polygon is <b>regular</b> just means the sides are all the same.
                     </div>
                 </div>
@@ -241,7 +241,7 @@
             </p>
 
             <div class="problem">
-                <div id="perimeter" class="graphie">
+                <div class="graphie" id="perimeter">
                     init({ range: [[-1, WIDTH + 1], [-1, HEIGHT + 1]] });
                     var shape = [];
 

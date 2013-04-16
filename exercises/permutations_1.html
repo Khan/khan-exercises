@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Permutations 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="letters" data-weight="0.6">
-                <div class="vars" data-ensure="WORD != PERM">
+            <div data-weight="0.6" id="letters">
+                <div data-ensure="WORD != PERM" class="vars">
                     <var id="INDEX">randRange(0,11)</var>
                     <var id="WORD">["CLAW", "OPAL", "APE", "RULES", "ANGER", "SLIME", "FEAT", "FANCY", "SONG", "DEN", "TIGER", "IRON"][INDEX]</var>
                     <var id="PERM">shuffle(WORD).join("")</var>
                     <var id="ANSWER">factorial(WORD.length)</var>
                 </div>
                 <p class="question">How many unique ways are there to arrange the letters in the word <var>WORD</var>?</p>
-                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
                 <div class="hints">
                     <div>
                         <p>Let's try building the re-arrangements (or permutations) letter by letter. The word is <var>WORD.length</var>
                         letters long:</p>
                         <p><var>_.map(_.range(WORD.length), function(l){ return "_ "; }).join("")</var></p>
                         <p>Now, for the first blank, we have <var>WORD.length</var> choices of letters to put in.
-                    </div>
+                    </p></div>
                     <div>
                         <p>After we put in the first letter, let's say it's <var>PERM[0]</var>, we have <var>WORD.length-1</var> blanks left.</p>
                         <p><var>PERM[0]+" "+_.map(_.range(WORD.length-1), function(l){ return "_ "; }).join("")</var></p>
@@ -33,7 +33,7 @@
                     <div>
                         We can continue in this fashion to put in a third letter, then a fourth, and so on. At each step, we have one fewer unique choice to
                         make, until we get to the last letter, and there's only one we can put in.
-                    </br></br>
+                    <br><br>
                     </div>
                     <div>
                         So, the total number of unique re-arrangements must be <code><var>_.map(_.range(WORD.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var>.</code> Another way of writing this is <code><var>WORD.length</var>!</code>, 
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div id="reindeer" data-weight="0.4">
+            <div data-weight="0.4" id="reindeer">
                 <div class="vars">
                     <var id="NUM_NAMES">randRange(4,5)</var>
                     <var id="NAMES">_.map(randRangeUnique(0,8,NUM_NAMES), function(n){
@@ -58,7 +58,7 @@
                 </p>
 
                 <p class="question">How many different ways can you arrange your reindeer?</p>
-                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
 
                 <div class="hints">
                     <div>
@@ -80,5 +80,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>
