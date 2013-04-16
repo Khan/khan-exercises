@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie algebra-intuition"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>One step equation intuition</title>
@@ -53,26 +52,26 @@
                 <div style="width: 480px;" class="clearfix">
                     <div style="float: left; margin-left: 130px;">
                         <form>
-                            <input class="simple-button small-button" type="button" id="sub-left" value="- 1" onclick="javascript:
+                            <input id="sub-left" type="button" class="simple-button small-button" value="- 1" onclick="javascript:
                                     KhanUtil.scale.subtractLeftWeight();
                                 ">
-                            <input class="simple-button small-button" type="button" id="add-left" value="+ 1" onclick="javascript:
+                            <input id="add-left" type="button" class="simple-button small-button" value="+ 1" onclick="javascript:
                                     KhanUtil.scale.addLeftWeight();
                                 ">
                         </form>
                     </div>
                     <div style="float: right; margin-right: 130px;">
                         <form>
-                            <input class="simple-button small-button" type="button" id="sub-right" value="- 1" onclick="javascript:
+                            <input id="sub-right" type="button" class="simple-button small-button" value="- 1" onclick="javascript:
                                     KhanUtil.scale.subtractRightWeight();
                                 ">
-                            <input class="simple-button small-button" type="button" id="add-right" value="+ 1" onclick="javascript:
+                            <input id="add-right" type="button" class="simple-button small-button" value="+ 1" onclick="javascript:
                                     KhanUtil.scale.addRightWeight();
                                 ">
                         </form>
                     </div>
                 </div>
-                <div id="scale" class="graphie">
+                <div class="graphie" id="scale">
 
                     scale.onChange = function(leftCoef, a, rightCoef, b) {
                         $("#sub-left").prop("disabled", a === 0);

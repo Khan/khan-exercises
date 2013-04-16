@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format expressions graphie interactive"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Graphing systems of inequalities</title>
@@ -64,46 +63,46 @@
 
                 <form>
                     <span style="width: 40px" class="hint_blue">Inequality 1:</span>
-                    <input type="button" onclick="javascript:
+                    <input type="button" value="Shade other side" onclick="javascript:
                         KhanUtil.currentGraph.graph.shadetop1 = !KhanUtil.currentGraph.graph.shadetop1;
                         KhanUtil.currentGraph.graph.update();
-                    " value="Shade other side">
+                    ">
                     <label class="hint_blue">
-                        <input checked type="radio" onclick="javascript:
+                        <input type="radio" checked name="dashradio1" value="solid" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray1 = '';
                             KhanUtil.currentGraph.graph.update();
-                        " value="solid" name="dashradio1">
+                        ">
                         Solid line
                     </label>
                     <label class="hint_blue">
-                        <input type="radio" onclick="javascript:
+                        <input type="radio" name="dashradio1" value="dashed" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray1 = '- ';
                             KhanUtil.currentGraph.graph.update();
-                        " value="dashed" name="dashradio1">
+                        ">
                         Dashed line
                     </label>
                     <br>
                     <span style="width: 40px" class="hint_green">Inequality 2:</span>
-                    <input type="button" onclick="javascript:
+                    <input type="button" value="Shade other side" onclick="javascript:
                         KhanUtil.currentGraph.graph.shadetop2 = !KhanUtil.currentGraph.graph.shadetop2;
                         KhanUtil.currentGraph.graph.update();
-                    " value="Shade other side">
+                    ">
                     <label class="hint_green">
-                        <input checked type="radio" onclick="javascript:
+                        <input type="radio" checked name="dashradio2" value="solid" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray2 = '';
                             KhanUtil.currentGraph.graph.update();
-                        " value="solid" name="dashradio2">
+                        ">
                         Solid line
                     </label>
                     <label class="hint_green">
-                        <input type="radio" onclick="javascript:
+                        <input type="radio" name="dashradio2" value="dashed" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray2 = '- ';
                             KhanUtil.currentGraph.graph.update();
-                        " value="dashed" name="dashradio2">
+                        ">
                         Dashed line
                     </label>
                 </form>
-                <div id="grid" class="graphie">
+                <div class="graphie" id="grid">
                     graphInit({
                         range: 11,
                         scale: 20,

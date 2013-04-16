@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math interactive graphie"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Graphing points and naming quadrants</title>
@@ -26,7 +25,7 @@
                 </p>
                 <div class="problem">
                     <br>
-                    <div id="grid" class="graphie">
+                    <div class="graphie" id="grid">
                         graphInit({
                             range: 11,
                             scale: 20,
@@ -54,10 +53,10 @@
                     <div class="instruction">
                         Graph the point and select the quadrant that contains the point.
                         <ul>
-                            <li><input type="radio" id="r1" value="QI" name="sol"><label for="r1">QI</label></li>
-                            <li><input type="radio" id="r2" value="QII" name="sol"><label for="r2">QII</label></li>
-                            <li><input type="radio" id="r3" value="QIII" name="sol"><label for="r3">QIII</label></li>
-                            <li><input type="radio" id="r4" value="QIV" name="sol"><label for="r4">QIV</label></li>
+                            <li><input type="radio" name="sol" value="QI" id="r1"><label for="r1">QI</label></li>
+                            <li><input type="radio" name="sol" value="QII" id="r2"><label for="r2">QII</label></li>
+                            <li><input type="radio" name="sol" value="QIII" id="r3"><label for="r3">QIII</label></li>
+                            <li><input type="radio" name="sol" value="QIV" id="r4"><label for="r4">QIV</label></li>
                         </ul>
                         Your graph is also part of your answer.
                     </div>
@@ -128,7 +127,7 @@
                     <div>
                         <p>
                             Move the point to <code>( \blue{<var>X</var>}, \green{<var>Y</var>} )</code> at the marked point above.
-                            <input type="button" onclick="javascript:KhanUtil.currentGraph.graph.movablePoint.moveTo( KhanUtil.tmpl.getVAR('X'), KhanUtil.tmpl.getVAR('Y') );" value="Show me">
+                            <input type="button" value="Show me" onclick="javascript:KhanUtil.currentGraph.graph.movablePoint.moveTo( KhanUtil.tmpl.getVAR('X'), KhanUtil.tmpl.getVAR('Y') );">
                         </p>
                         <div data-update="grid" class="graphie">
                             style({

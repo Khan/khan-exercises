@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie word-problems subhints graphie-geometry"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Area of trapezoids, rhombi, and kites</title>
@@ -31,7 +30,7 @@
 
                 <div class="question">What is the area of this figure?</div>
 
-                <div id="figure" class="graphie">
+                <div class="graphie" id="figure">
                     init({
                         range: [[-4, max(B1, B2) + 4], [-1, H + 1]],
                         scale: [30, 30]
@@ -68,7 +67,7 @@
                             area of a trapezoid <code>= \dfrac12 \cdot (b_1 + b_2) \cdot h</code>
                             [<a data-subhint="area-trapezoid" href="#" class="show-subhint">Show me why</a>]
                         </p>
-                        <div id="area-trapezoid" class="subhint">
+                        <div class="subhint" id="area-trapezoid">
                             <p>Let's draw a line between the opposite ends of the two bases.</p>
                             <div data-update="figure" class="graphie">
                                 var showSubHint = function() {
@@ -125,7 +124,7 @@
 
                 <div class="question">What is the area of this figure?</div>
 
-                <div id="figure" class="graphie">
+                <div class="graphie" id="figure">
                     var range, v;
                     var drawCongruencies, drawD1, drawD2;
                     if (ORIENT === "h") {
@@ -203,7 +202,7 @@
                             area of a kite <code>= \dfrac12 \cdot d_1 \cdot d_2</code>
                             [<a data-subhint="area-kite" href="#" class="show-subhint">Show me why</a>]
                         </p>
-                        <div id="area-kite" class="subhint">
+                        <div class="subhint" id="area-kite">
                             <p>The <span data-if="ORIENT === 'h'">horizontal</span><span data-else="">vertical</span> diagonal in the center splits the kite into two congruent triangles.</p>
                             <div data-update="figure" class="graphie">
                                 var showSubHint = function() {

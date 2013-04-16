@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie interactive mean-and-median"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Exploring mean and median</title>
@@ -44,7 +43,7 @@
                     <span class="hint_green">median is
                     <code><var>MEDIAN</var></code></span>.
                     The distance between adjacent tick marks is 1.</p>
-                    <div id="number-line" class="graphie">
+                    <div class="graphie" id="number-line">
                         graph.targetMedian = MEDIAN;
                         graph.targetMean = MEAN;
                         graph.numPoints = POINTS;
@@ -163,9 +162,9 @@
                             <span class="hint_green">
                             <code><var>MEDIAN</var></code></span>.
                         </span><br>
-                        <input type="button" onclick="javascript:
+                        <input type="button" value="Show me an example" onclick="javascript:
                                 KhanUtil.showMedianExample();
-                            " value="Show me an example">
+                            ">
                     </p>
                     <p>
                         As long as there are as many points to the left and to
@@ -181,9 +180,9 @@
                         <code><var>MEAN</var></code></span> and the median is
                         <span class="hint_green">
                         <code><var>MEDIAN</var></code></span>.
-                        <input type="button" onclick="javascript:
+                        <input type="button" value="Show me an example" onclick="javascript:
                                 KhanUtil.showMeanExample();
-                            " value="Show me an example">
+                            ">
                     </p>
                 </div>
             </div>

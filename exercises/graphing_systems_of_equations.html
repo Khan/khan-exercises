@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format expressions graphie interactive"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Graphing systems of equations</title>
@@ -53,7 +52,7 @@
                     <code>y = <var>PRETTY_SLOPE_2</var> x + <var>YINT_2</var></code>
                 </p>
 
-                <div id="grid" class="graphie">
+                <div class="graphie" id="grid">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -237,11 +236,11 @@
             Graph the blue line so it passes through
             <code>(0, <var>YINT_1</var>)</code> and
             <code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.
-            <br><input type="button" onclick="javascript:
+            <br><input type="button" value="Show me" onclick="javascript:
                 KhanUtil.currentGraph.graph.pointA.moveTo( 0, KhanUtil.tmpl.getVAR( 'YINT_1' ), true );
                 KhanUtil.currentGraph.graph.pointB.moveTo( KhanUtil.tmpl.getVAR( 'SLOPE_1_FRAC[1]' ),
                     KhanUtil.tmpl.getVAR( 'YINT_1' ) + KhanUtil.tmpl.getVAR( 'SLOPE_1_FRAC[0]' ), true );
-            " value="Show me">
+            ">
         </p>
         <div data-if="STD_FORM_2" data-unwrap="">
             <p class="hint_green">
@@ -281,11 +280,11 @@
             Graph the green line so it passes through
             <code>(0, <var>YINT_2</var>)</code> and
             <code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.
-            <br><input type="button" onclick="javascript:
+            <br><input type="button" value="Show me" onclick="javascript:
                 KhanUtil.currentGraph.graph.pointC.moveTo( 0, KhanUtil.tmpl.getVAR( 'YINT_2' ), true );
                 KhanUtil.currentGraph.graph.pointD.moveTo( KhanUtil.tmpl.getVAR( 'SLOPE_2_FRAC[1]' ),
                     KhanUtil.tmpl.getVAR( 'YINT_2' ) + KhanUtil.tmpl.getVAR( 'SLOPE_2_FRAC[0]' ), true );
-            " value="Show me">
+            ">
         </p>
         <p>
             The solution is the point where the two lines intersect.

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Parabola intuition 2</title>
@@ -36,7 +35,7 @@
                 <p class="question">Adjust the focus coordinates and the equation of the directrix to make the blue parabola match the orange parabola.</p>
                 <p>All points on the blue parabola are equidistant from the focus and the directrix. How does changing the numbers affect the shape of the parabola?</p>
 
-                <div id="grid" class="graphie">
+                <div class="graphie" id="grid">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -69,16 +68,16 @@
                 <div data-type="custom" class="solution">
                     <div class="instruction">
                         <p class="parabola-answer">focus x coordinate: <span id="focus-x-label"><code>0</code></span><span class="mini-buttons">
-                            <input type="button" onclick="updateFocusDirectrix( 1, 0, 0 )" value="+" class="simple-button">
-                            <input type="button" onclick="updateFocusDirectrix( -1, 0, 0 )" value="-" class="simple-button"></span></p>
+                            <input type="button" class="simple-button" value="+" onclick="updateFocusDirectrix( 1, 0, 0 )">
+                            <input type="button" class="simple-button" value="-" onclick="updateFocusDirectrix( -1, 0, 0 )"></span></p>
 
                         <p class="parabola-answer">focus y coordinate: <span id="focus-y-label"><code>0.25</code></span><span class="mini-buttons">
-                            <input type="button" onclick="updateFocusDirectrix( 0, 1/8, 0 )" value="+" class="simple-button">
-                            <input type="button" onclick="updateFocusDirectrix( 0, -1/8, 0 )" value="-" class="simple-button"></span></p>
+                            <input type="button" class="simple-button" value="+" onclick="updateFocusDirectrix( 0, 1/8, 0 )">
+                            <input type="button" class="simple-button" value="-" onclick="updateFocusDirectrix( 0, -1/8, 0 )"></span></p>
 
                         <p class="parabola-answer">directrix: <span id="directrix-label"><code>y=-0.25</code></span><span class="mini-buttons">
-                            <input type="button" onclick="updateFocusDirectrix( 0, 0, 1/8 )" value="+" class="simple-button">
-                            <input type="button" onclick="updateFocusDirectrix( 0, 0, -1/8 )" value="-" class="simple-button"></span></p>
+                            <input type="button" class="simple-button" value="+" onclick="updateFocusDirectrix( 0, 0, 1/8 )">
+                            <input type="button" class="simple-button" value="-" onclick="updateFocusDirectrix( 0, 0, -1/8 )"></span></p>
                     </div>
 
                     <div class="guess">[A, X1, Y1]</div>

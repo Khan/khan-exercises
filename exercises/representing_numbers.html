@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Representing numbers</title>
@@ -20,7 +19,7 @@
                 <p>What number is represented by the blocks shown?</p>
             </div>
 
-            <div data-if="C !== 0" id="ones-graph" class="graphie">
+            <div data-if="C !== 0" class="graphie" id="ones-graph">
                 init({
                     range: [ [-1, 21], [-0.5, 1.5] ],
                     scale: 24
@@ -38,7 +37,7 @@
                 }
             </div>
 
-            <div data-if="B !== 0" id="tens-graph" class="graphie">
+            <div data-if="B !== 0" class="graphie" id="tens-graph">
                 init({
                     range: [ [-1, 21], [-1.5 * B, 0.5] ],
                     scale: 24
@@ -57,7 +56,7 @@
                 }
             </div>
 
-            <div data-if="A !== 0" id="hundreds-graph" class="graphie">
+            <div data-if="A !== 0" class="graphie" id="hundreds-graph">
                 init({
                     range: [ [-1, 21], [-0.5, 10.5] ],
                     scale: 24

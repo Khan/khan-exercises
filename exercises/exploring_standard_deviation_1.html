@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie interactive mean-and-median"><head>
     <meta charset="UTF-8">
     <title>Exploring standard deviation 1</title>
@@ -20,7 +19,7 @@
                         Arrange the <var>POINTS</var> orange sample points in this histogram so the
                         <span class="hint_green">sample standard deviation is approximately <code><var>STDDEV</var></code></span>.
                     </p>
-                    <div id="number-line" class="graphie">
+                    <div class="graphie" id="number-line">
                         graph.targetStddev = STDDEV;
                         graph.numPoints = POINTS;
 
@@ -123,10 +122,10 @@
                     <p>
                         There are many ways to arrange the points so the sample standard deviation is
                         <span class="hint_green"><code><var>STDDEV</var></code></span>.<br>
-                        <input type="button" onclick="javascript:
+                        <input type="button" id="example-button" value="Show me an example" onclick="javascript:
                             KhanUtil.showStddevExample();
                             $( 'input#example-button' ).val( 'Show me another example' );
-                        " value="Show me an example" id="example-button">
+                        ">
                     </p>
                 </div>
             </div>

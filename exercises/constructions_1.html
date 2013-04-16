@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-geometry interactive constructions matrix"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Compass Constructions</title>
@@ -30,20 +29,20 @@
         <div id="perpendicular">
             <div class="problem">
                 <form>
-                    <input type="button" onclick="javascript:
+                    <input type="button" value="Add Compass" onclick="javascript:
                         KhanUtil.construction.addCompass();
-                    " value="Add Compass">
-                    <input type="button" onclick="javascript:
+                    ">
+                    <input type="button" value="Add Straightedge" onclick="javascript:
                         KhanUtil.construction.addStraightedge();
-                    " value="Add Straightedge">
-                    <input type="button" onclick="javascript:
+                    ">
+                    <input type="button" value="Clear" onclick="javascript:
                         KhanUtil.construction.removeAllTools();
-                    " value="Clear">
+                    ">
                 </form>
                 <p class="question">
                     Construct a line perpendicular to the given line.
                 </p>
-                <div id="construction" class="graphie">
+                <div class="graphie" id="construction">
                     init({
                         range: [[-5, 5], [-5, 5]],
                         scale: 50
@@ -335,21 +334,21 @@
         <div id="bisector">
             <div class="problem">
                 <form>
-                    <input type="button" onclick="javascript:
+                    <input type="button" value="Add Compass" onclick="javascript:
                         KhanUtil.construction.addCompass();
-                    " value="Add Compass">
-                    <input type="button" onclick="javascript:
+                    ">
+                    <input type="button" value="Add Straightedge" onclick="javascript:
                         KhanUtil.construction.addStraightedge();
-                    " value="Add Straightedge">
-                    <input type="button" onclick="javascript:
+                    ">
+                    <input type="button" value="Clear" onclick="javascript:
                         KhanUtil.construction.removeAllTools();
-                    " value="Clear">
+                    ">
                 </form>
                 <p class="question">
                     Construct a perpendicular bisector of the line segment
                     <code>\overline{AB}</code>.
                 </p>
-                <div id="construction" class="graphie">
+                <div class="graphie" id="construction">
                     init({
                         range: [[-5,5],[-5,5]],
                         scale: 50
@@ -698,20 +697,20 @@
             </div>
             <div class="problem">
                 <form>
-                    <input type="button" onclick="javascript:
+                    <input type="button" value="Add Compass" onclick="javascript:
                         KhanUtil.construction.addCompass();
-                    " value="Add Compass">
-                    <input type="button" onclick="javascript:
+                    ">
+                    <input type="button" value="Add Straightedge" onclick="javascript:
                         KhanUtil.construction.addStraightedge();
-                    " value="Add Straightedge">
-                    <input type="button" onclick="javascript:
+                    ">
+                    <input type="button" value="Clear" onclick="javascript:
                         KhanUtil.construction.removeAllTools();
-                    " value="Clear">
+                    ">
                 </form>
                 <p class="question">
                     Construct an angle bisector for the given angle.
                 </p>
-                <div id="construction" class="graphie">
+                <div class="graphie" id="construction">
                     init({
                         range: [[-5, 5], [-2, 5]],
                         scale: 50

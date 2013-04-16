@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers word-problems slice-clone"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Fractions cut and copy 2</title>
@@ -34,7 +33,7 @@
 
                 <p>Starting Block:</p>
 
-                <div id="parent_block" class="graphie">
+                <div class="graphie" id="parent_block">
                     initSliceClone(["current_block_1", "current_block_2"]);
                     init({range: [[0, 1], [0, 1]], scale: [ 500, 25]});
                     rectchart([1, 0], ["#e00", "#999"]);
@@ -42,28 +41,28 @@
 
                 <p>Current Block 1:</p>
 
-                <div id="current_block_1" class="graphie">
+                <div class="graphie" id="current_block_1">
                     init({range: [[0, 1], [0, 1]], scale: [500, 25]});
                     rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Goal Block 1:</p>
 
-                <div id="goal_block_2" class="graphie">
+                <div class="graphie" id="goal_block_2">
                     init({range: [[0, 1], [0, 1]], scale: [500 * ANSWER_1, 25]});
                     rectchart([1, 0], [BLUE, "#999"]);
                 </div>
 
                 <p>Current Block 2:</p>
 
-                <div id="current_block_2" class="graphie">
+                <div class="graphie" id="current_block_2">
                     init({range: [[0, 1], [0, 1]], scale: [500, 25]});
                     rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Goal Block 2:</p>
 
-                <div id="goal_block_2" class="graphie">
+                <div class="graphie" id="goal_block_2">
                     init({range: [[0, 1], [0, 1]], scale: [500 * ANSWER_2, 25]});
                     rectchart([1, 0], [ORANGE, "#999"]);
                 </div>
@@ -72,23 +71,23 @@
                     <div class="instruction">
                         <div style="margin-bottom: 10px;">
                             <span>Cut Starting Block into</span><br>
-                            <input type="button" class="simple-button" value="-" onclick="KhanUtil.changePieces(false)">
+                            <input type="button" onclick="KhanUtil.changePieces(false)" value="-" class="simple-button">
                             <span style="display: inline-block; width: 54px; text-align: center;" id="pieces">1 piece</span>
-                            <input type="button" class="simple-button" value="+" onclick="KhanUtil.changePieces(true)">
+                            <input type="button" onclick="KhanUtil.changePieces(true)" value="+" class="simple-button">
                         </div>
 
                         <div style="margin-bottom: 10px;">
                             <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 1</span><br>
-                            <input disabled type="button" class="simple-button" value="-" onclick="KhanUtil.changeTimes(false, 'current_block_1')">
+                            <input disabled type="button" onclick="KhanUtil.changeTimes(false, 'current_block_1')" value="-" class="simple-button">
                             <span style="display: inline-block; width: 54px; text-align: center;" id="current_block_1_times">1 time</span>
-                            <input type="button" class="simple-button" value="+" onclick="KhanUtil.changeTimes(true, 'current_block_1')">
+                            <input type="button" onclick="KhanUtil.changeTimes(true, 'current_block_1')" value="+" class="simple-button">
                         </div>
 
                         <div style="margin-bottom: 10px;">
                             <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 2</span><br>
-                            <input disabled type="button" class="simple-button" value="-" onclick="KhanUtil.changeTimes(false, 'current_block_2')">
+                            <input disabled type="button" onclick="KhanUtil.changeTimes(false, 'current_block_2')" value="-" class="simple-button">
                             <span style="display: inline-block; width: 54px; text-align: center;" id="current_block_2_times">1 time</span>
-                            <input type="button" class="simple-button" value="+" onclick="KhanUtil.changeTimes(true, 'current_block_2')">
+                            <input type="button" onclick="KhanUtil.changeTimes(true, 'current_block_2')" value="+" class="simple-button">
                         </div>
                     </div>
 

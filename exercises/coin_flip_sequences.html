@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <script src="../khan-exercise.js"></script>
@@ -102,7 +101,7 @@
                     <div data-if="FLIP === 'H'" class="heads">H</div>
                     <div data-else="" class="tails">T</div>
                 </div>
-                <div id="chart-1" class="graphie chart">
+                <div class="graphie chart" id="chart-1">
                     init({
                         range: [[0, 15], [0, 6]],
                         scale: [31, 54]
@@ -138,7 +137,7 @@
                         rect(10, 1, 4, ONE_FLIP_RESULT[1] / SEQUENCE.length * 5);
                     });
                 </div>
-                <div id="chart-2" class="graphie chart">
+                <div class="graphie chart" id="chart-2">
                     init({
                         range: [[0, 16], [0, 6]],
                         scale: [31, 54]
@@ -170,7 +169,7 @@
                         });
                     });
                 </div>
-                <div id="chart-3" class="graphie chart">
+                <div class="graphie chart" id="chart-3">
                     init({
                         range: [[0, 16], [0, 6]],
                         scale: [31, 54]
@@ -206,14 +205,14 @@
         </div>
         <p class="view-patterns">View patterns:
             <span class="pattern-tabs">
-                <a data-offset="0" href="javascript:void(0);" id="show-flips" class="selected">Coin flips</a> |
+                <a id="show-flips" href="javascript:void(0);" class="selected" data-offset="0">Coin flips</a> |
                 <a href="javascript:void(0);" id="show-chart-1" data-offset="1">H vs T</a> |
                 <a href="javascript:void(0);" id="show-chart-2" data-offset="2">Two-flip streaks</a> |
                 <a href="javascript:void(0);" id="show-chart-3" data-offset="3">Three-flip streaks</a>
             </span>
         </p>
     </div>
-    <div id="init" class="graphie">
+    <div class="graphie" id="init">
         Khan.scratchpad.disable();
         $('.pattern-tabs a').on('click', function(e) {
             var $el = $(e.currentTarget);

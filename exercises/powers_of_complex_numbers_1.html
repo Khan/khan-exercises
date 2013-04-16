@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie math-format graphie-helpers"><head>
     <meta charset="UTF-8">
     <title>Powers of complex numbers</title>
@@ -61,7 +60,7 @@
             <code>
                 (\color{<var>BLUE</var>}{<var>BASE_REP</var>}) ^ {<var>EXPONENT</var>}
             </code>
-            <div id="gauss-plane" class="graphie">
+            <div class="graphie" id="gauss-plane">
                 graphInit({
                     range: [ [-5, 5], [-5, 5] ],
                     scale: 30,
@@ -84,15 +83,15 @@
                     <div>
                         <div style="float: left;">Radius: <span id="current-radius"><code>1</code></span></div>
                         <div style="float: right;">
-                            <input type="button" onclick="updateComplexPolarForm(0, -1)" value="-" class="simple-button mini-button">
-                            <input type="button" onclick="updateComplexPolarForm(0, 1)" value="+" class="simple-button mini-button">
+                            <input type="button" class="simple-button mini-button" value="-" onclick="updateComplexPolarForm(0, -1)">
+                            <input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm(0, 1)">
                         </div>
                     </div>
                     <div style="clear: both;">
                         <div style="float: left;">Angle: <span id="current-angle"><code>0</code></span></div>
                         <div style="float: right;">
-                            <input type="button" onclick="updateComplexPolarForm(-1, 0)" value="-" class="simple-button mini-button">
-                            <input type="button" onclick="updateComplexPolarForm(1, 0)" value="+" class="simple-button mini-button">
+                            <input type="button" class="simple-button mini-button" value="-" onclick="updateComplexPolarForm(-1, 0)">
+                            <input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm(1, 0)">
                         </div>
                     </div>
                     <div id="number-label">1</div>

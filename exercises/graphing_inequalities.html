@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format expressions graphie interactive"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Graphing linear inequalities</title>
@@ -37,26 +36,26 @@
                 </p>
 
                 <form>
-                    <input type="button" onclick="javascript:
+                    <input type="button" value="Shade other side" onclick="javascript:
                         KhanUtil.currentGraph.graph.shadetop = !KhanUtil.currentGraph.graph.shadetop;
                         KhanUtil.currentGraph.graph.update();
-                    " value="Shade other side">
+                    ">
                     <label>
-                        <input checked type="radio" onclick="javascript:
+                        <input type="radio" checked name="dashradio" value="solid" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray = '';
                             KhanUtil.currentGraph.graph.update();
-                        " value="solid" name="dashradio">
+                        ">
                         Solid line
                     </label>
                     <label>
-                        <input type="radio" onclick="javascript:
+                        <input type="radio" name="dashradio" value="dashed" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray = '- ';
                             KhanUtil.currentGraph.graph.update();
-                        " value="dashed" name="dashradio">
+                        ">
                         Dashed line
                     </label>
                 </form>
-                <div id="grid" class="graphie">
+                <div class="graphie" id="grid">
                     graphInit({
                         range: 11,
                         scale: 20,

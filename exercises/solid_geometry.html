@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-3d math-format interactive"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Solid geometry</title>
@@ -161,7 +160,7 @@
                 <div>
                     <p>Orient the triangle like this, and find the
                         base and height from the object:</p>
-                    <div id="triangle" class="graphie">
+                    <div class="graphie" id="triangle">
                         init({ range: [[-2, 2], [-1.2, 1.2]], scale: [100, 100] });
 
                         path([[-1.5, -0.75], [1.5, -0.75], [0, 0.75], true],
@@ -308,7 +307,7 @@
                 of each of the faces, and add all the areas up.</p>
                 <div>
                     <p>To see this better, let's try unwrapping the box:
-                    <input type="submit" onclick="KhanUtil.tmpl.getVAR('UNWRAPGRAPH.unwrap()')" value="Unwrap!"></p>
+                    <input type="submit" value="Unwrap!" onclick="KhanUtil.tmpl.getVAR('UNWRAPGRAPH.unwrap()')"></p>
                     <div class="graphie">
                         var verts = [
                             [LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie word-problems jquery.mobile.vmouse"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Understanding decimals place value</title>
@@ -88,7 +87,7 @@
                         - .hints uses .graphie.
                         - The other problem uses graphie so .hints's .graphies must use data-update.
                 -->
-                <div style="display: none;" id="graph" class="graphie"></div>
+                <div style="display: none;" class="graphie" id="graph"></div>
                 <div class="column">
                     <span class="columnhead">Thousands</span>
                     <div data-each="10 times" class="place-value thou">1000</div>
@@ -240,7 +239,7 @@
                         <span class="columnhead">Hundredths</span>
                         <div data-each="10 times" class="coin penny">1&#162;</div>
                     </div>
-                    <div id="graph" class="graphie">
+                    <div class="graphie" id="graph">
                         Khan.scratchpad.disable();
                         init({ range: [ [ 0, 143 ], [ -430, 22 ] ], scale: [ 1, 1 ] });
                         style({ fill: "#eee", stroke: "#ddd", strokeWidth: 1 });

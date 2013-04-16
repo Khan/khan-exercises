@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie geom interactive"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Rotation of polygons</title>
@@ -28,7 +27,7 @@
             </p>
 
             <div class="problem">
-                <div id="grid" class="graphie">
+                <div class="graphie" id="grid">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -195,7 +194,7 @@
             </p>
 
             <div class="problem">
-                <div id="grid" class="graphie">
+                <div class="graphie" id="grid">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -216,7 +215,7 @@
 
             <div data-type="multiple" class="solution">
                 <code>{\LARGE T}</code>
-                <span data-forms="integer" data-type="predicate" class="sol short30">
+                <span data-type="predicate" data-forms="integer" class="sol short30">
                     function(guess, maxError) {
                         var correct = false;
                         var symmetries = _.map(Geom.rotationalSymmetries(HULL), function(rad) {

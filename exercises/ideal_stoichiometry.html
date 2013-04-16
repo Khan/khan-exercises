@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format word-problems subhints chemistry"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Ideal stoichiometry</title>
@@ -200,7 +199,7 @@
         </div>
 
 
-        <div data-weight="0" data-calculator="" id="template">
+        <div data-calculator="" id="template" data-weight="0">
             <div class="vars">
                 <var id="GIVEN">R1_GIVEN ? R1 : R2</var>
                 <var id="NOT_GIVEN">R1_GIVEN ? R2 : R1</var>
@@ -214,7 +213,7 @@
             <div class="problem">
                 <p>
                     Given the following reaction:
-                    <span style="float: right;"><input type="button" id="show-periodic-table" value="Show periodic table" class="simple-button"></span>
+                    <span style="float: right;"><input type="button" class="simple-button" value="Show periodic table" id="show-periodic-table"></span>
                 </p>
                 <p><code>\qquad
                     <var>R1_RATIO === 1 ? "" : R1_RATIO</var><var>R1</var>
@@ -241,7 +240,7 @@
                         <var>plural(GIVEN_MOL, "\\text{ mole}", "\\text{ moles}")</var> \text{ of }<var>GIVEN</var>
                     </code>
                     <span style="float: right;">[<a data-subhint="expl-ch4-mol" href="#" class="show-subhint">Explain</a>]</span></p>
-                    <div id="expl-ch4-mol" class="subhint">
+                    <div class="subhint" id="expl-ch4-mol">
                         <p>
                             First we want to convert the given amount of <code><var>GIVEN</var></code> from grams to moles. To do this, we divide
                             the given amount of <code><var>GIVEN</var></code> by the molar mass of <code><var>GIVEN</var></code>.
@@ -265,7 +264,7 @@
                         <code>\dfrac{<var>GIVEN_RATIO</var>}{<var>P1_RATIO</var>}</code>.
                         <span style="float: right;">[<a data-subhint="expl-mol-ratio2" href="#" class="show-subhint">Explain</a>]</span>
                     </p>
-                    <div id="expl-mol-ratio2" class="subhint">
+                    <div class="subhint" id="expl-mol-ratio2">
                         <p>
                             The reaction is <code>\blue{<var>GIVEN_RATIO</var>}<var>GIVEN</var>
                             <span data-if="R2 !== ''"> + <var>R2_RATIO</var><var>R2</var></span> \rightarrow

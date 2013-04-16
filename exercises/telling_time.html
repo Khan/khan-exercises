@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie time"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Telling time</title>
@@ -18,12 +17,12 @@
         <div id="analog">
             <div class="question">
                 <p>What time is it?</p>
-                <div style="float: left;" id="pie" class="graphie">
+                <div style="float: left;" class="graphie" id="pie">
                     init({ range: [ [-4, 4 ], [ -4, 4 ] ], scale: 25 });
                     clock = addAnalogClock({ hour: HOUR, minute: MINUTE, minuteTicks: 0, showLabels: false });
                     clock.draw();
                 </div>
-                <div style="float: left;" id="digital" class="graphie">
+                <div style="float: left;" class="graphie" id="digital">
                     init({ range: [ [-5, 5], [-3, 3] ], scale: 25 });
                 </div>
                 <div style="clear: both;"></div>

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math interactive graphie"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Graphing points</title>
@@ -25,7 +24,7 @@
                     </p>
                     <div class="problem">
                         <br>
-                        <div id="grid" class="graphie">
+                        <div class="graphie" id="grid">
                             graphInit({
                                 range: [ [-1, 11], [-1, 11] ],
                                 scale: 30,
@@ -126,7 +125,7 @@
                         <div>
                             <p class="final_answer">
                                 Move the point to <code>( \blue{<var>X</var>}, \green{<var>Y</var>} )</code> at the marked point above.
-                                <input type="button" onclick="javascript:KhanUtil.currentGraph.graph.movablePoint.moveTo( KhanUtil.tmpl.getVAR('X'), KhanUtil.tmpl.getVAR('Y') );" value="Show me">
+                                <input type="button" value="Show me" onclick="javascript:KhanUtil.currentGraph.graph.movablePoint.moveTo( KhanUtil.tmpl.getVAR('X'), KhanUtil.tmpl.getVAR('Y') );">
                             </p>
                             <div data-update="grid" class="graphie">
                                 style({

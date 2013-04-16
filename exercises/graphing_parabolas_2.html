@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie interactive ast math-model subhints"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Graphing parabolas in all forms</title>
@@ -17,7 +16,7 @@
     <p class="question">Graph the following equation:</p>
 
     <div class="problem">
-        <div id="grid" class="graphie">
+        <div class="graphie" id="grid">
             graphInit({
                 range: 11,
                 scale: 20,
@@ -227,7 +226,7 @@
 
                 <div>
                     <p>Convert the equation to vertex form by completing the square. [<a data-subhint="complete-square" href="#" class="show-subhint">Show me how</a>]</p>
-                    <div id="complete-square" class="subhint">
+                    <div class="subhint" id="complete-square">
                         <p>First, move the constant term to the left side of the equation:</p>
                         <p><code>\qquad <var>formatGroup( COMP_SQR1, [ 0, 1 ] )</var></code></p>
                         <div data-if="A !== 1">
@@ -322,7 +321,7 @@
                 <div>
                     <p class="final_answer">
                         There is only one graph of a parabola that passes through all three points we found.
-                        <br><input type="button" onclick="javascript:KhanUtil.currentGraph.graph.showSolution();" value="Show me">
+                        <br><input type="button" value="Show me" onclick="javascript:KhanUtil.currentGraph.graph.showSolution();">
                     </p>
                 </div>
 

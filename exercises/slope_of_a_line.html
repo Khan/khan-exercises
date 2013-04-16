@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Identifying slope of a line</title>
@@ -28,7 +27,7 @@
             </div>
             <div class="question">
                 <p>What is the slope of the line through the points <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code>?</p>
-                <div data-if="GRAPH_IN_QUESTION" id="slope" class="graphie">
+                <div data-if="GRAPH_IN_QUESTION" class="graphie" id="slope">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -79,7 +78,7 @@
                 </div>
               </div>
                 <p>The quicker the airplane takes off, the steeper the positive slope, which means the answer will be a higher number than when the airplane takes off slowly. The quicker the airplane lands, the steeper the negative slope, which means the answer will be much more negative than when it lands slowly.</p>
-                <div data-if="!GRAPH_IN_QUESTION" id="slope" class="graphie">
+                <div data-if="!GRAPH_IN_QUESTION" class="graphie" id="slope">
                     graphInit({
                         range: 10,
                         scale: 20,

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format expressions graphie"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Equations of parallel and perpendicular lines</title>
@@ -23,7 +22,7 @@
                 </div>
                 <div class="question">
                     <p><b>Find the slope and y-intercept of the line that is <code>\color{<var>GREEN</var>}{\text{<var>LINE_TYPE</var>}}</code> to <code>\enspace \color{<var>BLUE</var>}{y = <span data-if="abs( M_FRAC ) !== 1"><var>M_FRAC</var></span><span data-else=""><var>M_SIGN</var></span>x <span data-if="B !== 0">+ <var>B</var></span>}\enspace</code> and passes through the point <code>\color{red}{(<var>X</var>, <var>Y</var>)}</code>.</b></p>
-                    <div id="grid" class="graphie">
+                    <div class="graphie" id="grid">
                             graphInit({
                                 range: [[-10, 10], [-10, 10]],
                                 scale: [18, 18],
@@ -141,7 +140,7 @@
                 </ul>
                 <div class="hints">
                     <div>
-                        <div id="grid" class="graphie">
+                        <div class="graphie" id="grid">
                             init({
                                 range: [[-10, 10], [-10, 10]],
                                 scale: [20, 20]

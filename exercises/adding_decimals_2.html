@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Adding decimals 2</title>
@@ -37,7 +36,7 @@
         <div>
             <p class="question"><code>\Huge{<var>roundTo( A_DECIMAL, A * pow( 10, -A_DECIMAL ) ).toFixed( A_DECIMAL )</var> + <var>roundTo( B_DECIMAL, B * pow( 10, -B_DECIMAL ) ).toFixed( B_DECIMAL )</var> = {?}}</code></p>
             <div data-type="decimal" class="solution"><var>A / pow( 10, A_DECIMAL ) + B / pow( 10, B_DECIMAL )</var></div>
-            <div id="numbers" class="graphie">
+            <div class="graphie" id="numbers">
                 graph.adder = new Adder( NEW_A, NEW_B, A_DIGITS, B_DIGITS );
                 DUMMY = Array( graph.adder.getNumHints() );
             </div>

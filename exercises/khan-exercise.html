@@ -22,16 +22,16 @@
         <div id="hintsarea"></div>
     </div>
     <div id="answer_area_wrap"><div id="answer_area">
-        <form name="answerform" id="answerform">
+        <form id="answerform" name="answerform">
             <input style="position: absolute; left: -9999px; width: 1px; height: 1px" type="submit">
-            <div class="info-box" id="answercontent">
+            <div id="answercontent" class="info-box">
                 <span id="examples-show">Acceptable formats</span>
                 <span class="info-box-header">Answer</span>
-                <div class="fancy-scrollbar" id="solutionarea"></div>
+                <div id="solutionarea" class="fancy-scrollbar"></div>
                 <ul style="display: none" id="examples"></ul>
                 <div class="answer-buttons">
                 <div class="check-answer-wrapper">
-                    <input type="button" id="check-answer-button" value="Check Answer" class="simple-button green">
+                    <input type="button" class="simple-button green" value="Check Answer" id="check-answer-button">
                 </div>
                 <input style="display:none;" name="correctnextbutton" type="button" id="next-question-button" value="Correct! Next Question..." class="simple-button green">
                 <div id="positive-reinforcement"><img src="/images/face-smiley.png"></div>
@@ -39,15 +39,15 @@
                 <div id="check-answer-results"><p class="check-answer-message info-box-sub-description"></p></div>
                 </div>
             </div>
-            <div class="info-box" id="readonly">
-                <span class="info-box-header" id="readonly-problem"></span>
-                <span class="info-box-subheader" id="readonly-title">You are viewing a problem.</span>
+            <div id="readonly" class="info-box">
+                <span id="readonly-problem" class="info-box-header"></span>
+                <span id="readonly-title" class="info-box-subheader">You are viewing a problem.</span>
                 <span class="info-box-sub-description">To work on problems like this, <a href="" id="readonly-start">start this exercise</a>.</span>
             </div>
             <div class="info-box hint-box">
                 <span class="info-box-header">Need help?</span>
                 <div id="get-hint-button-container">
-                    <input class="simple-button orange full-width" type="button" id="hint" value="I'd like a hint" name="hint">
+                    <input id="hint" type="button" class="simple-button orange full-width" value="I'd like a hint" name="hint">
                 </div>
                 <span id="hint-remainder"></span>
             </div>
@@ -63,7 +63,7 @@
                 </div>
             </div>
         </form>
-        <div style="display: none;" class="info-box" id="calculator">
+        <div style="display: none;" id="calculator" class="info-box">
             <span class="info-box-header">Calculator</span>
             <div class="calculator">
                 <div class="history fancy-scrollbar">
@@ -91,36 +91,36 @@
                 </div>
             </div>
         </div>
-        <div style="display:none;" class="info-box" id="issue">
+        <div style="display:none;" id="issue" class="info-box">
             <span class="info-box-header">Report a Problem</span>
-            <span class="info-box-sub-description" id="issue-status"></span>
+            <span id="issue-status" class="info-box-sub-description"></span>
             <form>
                 <fieldset>
                     <legend>Issue Type</legend>
                     <ul>
                         <li>
-                            <input type="radio" id="issue-wrong-or-unclear" name="issue-type">
+                            <input type="radio" name="issue-type" id="issue-wrong-or-unclear">
                             <label for="issue-wrong-or-unclear">Answer is wrong or question is unclear</label>
                         </li>
                         <li>
-                            <input type="radio" id="issue-hard" name="issue-type">
+                            <input type="radio" name="issue-type" id="issue-hard">
                             <label for="issue-hard">I'm frustrated (tell us why) or this is too hard</label>
                         </li>
                         <li>
-                            <input type="radio" id="issue-not-showing" name="issue-type">
+                            <input type="radio" name="issue-type" id="issue-not-showing">
                             <label for="issue-not-showing">I can't see the problem or website is stuck</label>
                         </li>
                         <li>
-                            <input type="radio" id="issue-other" name="issue-type">
+                            <input type="radio" name="issue-type" id="issue-other">
                             <label for="issue-other">Other (please describe below)</label>
                         </li>
                     </ul>
                 </fieldset>
-                <label for="issue-title">Issue Title:<input type="text" id="issue-title" name="issue-title"></label>
-                <label for="issue-body">Description of Issue:<textarea id="issue-body" name="issue-body"></textarea></label>
+                <label for="issue-title">Issue Title:<input type="text" name="issue-title" id="issue-title"></label>
+                <label for="issue-body">Description of Issue:<textarea name="issue-body" id="issue-body"></textarea></label>
                 <input type="submit" class="simple-button" value="Submit Issue">
                 <a href="/#" id="issue-cancel">Cancel</a>
-                <img style="display:none;" name="issue-throbber" id="issue-throbber">
+                <img style="display:none;" id="issue-throbber" name="issue-throbber">
             </form>
         </div>
     </div></div>

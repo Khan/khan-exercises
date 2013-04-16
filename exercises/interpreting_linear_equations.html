@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie word-problems"><head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Identifying linear relationships</title>
@@ -22,7 +21,7 @@
                 </div>
                 <div class="question">
                     <p><b>How does <var>Y_AXIS_QUESTION</var> change as <var>X_AXIS_QUESTION</var> increases?</b></p>
-                    <div id="grid" class="graphie">
+                    <div class="graphie" id="grid">
                         init({
                             range: [[-3, 10], [-1, 10]],
                             scale: [30, 30]
@@ -180,7 +179,7 @@
                     <p data-if="POINTX === SOLUTION">What is <code>x</code> when <code>y</code> is <code><var>POINTY</var></code>?</p>
                     <p data-else="">What is <code>y</code> when <code>x</code> is <code><var>POINTX</var></code>?</p>
 
-                    <div id="graph" class="graphie">
+                    <div class="graphie" id="graph">
                         graphInit({
                             range: 10,
                             scale: 20,
@@ -224,7 +223,7 @@
                     <p>Therefore <code><var>POINTX === SOLUTION ? 'x' : 'y'</var></code> is <code><var>SOLUTION</var></code>.</p>
                 </div>
 
-                <div data-type="multiple" data-forms="integer" class="solution">
+                <div data-forms="integer" data-type="multiple" class="solution">
                     <p><code><var>POINTX === SOLUTION ? 'x' : 'y'</var> =</code> <span data-forms="integer" class="sol"><var>SOLUTION</var></span></p>
                 </div>
             </div>
