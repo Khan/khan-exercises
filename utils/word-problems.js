@@ -260,7 +260,7 @@ $.fn["word-problemsLoad"] = function() {
         "\\oslash",
         "\\circledcirc",
         "\\boxdot",
-        "\\bigtriangledownup",
+        "\\bigtriangleup",
         "\\bigtriangledown",
         "\\dagger",
         "\\diamond",

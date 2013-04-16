@@ -227,16 +227,12 @@ var Khan = (function() {
         "http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. " +
         "Please reference exercise: " + exerciseId + ".",
     issueSuccess = function(url, title, suggestion) {
-        return $._("Thank you for your feedback! Your issue has been created " +
-            "and can be found at the following link: " +
-            "<p><a id=\"issue-link\" href=\"%s\">%s</a><p>%s</p>",
-            url, title, suggestion);
+        return ["Thank you for your feedback! Your issue has been created and can be ",
+            "found at the following link:",
+            "<p><a id=\"issue-link\" href=\"", url, "\">", title, "</a>",
+            "<p>", suggestion, "</p>"].join("");
     },
-    issueIntro = function() {
-        return $._("Remember to check the hints and double check your " + 
-            "math. All provided information will be public. Thanks for " +
-            "your help!");
-    },
+    issueIntro = "Remember to check the hints and double check your math. All provided information will be public. Thanks for your help!",
 
     gae_bingo = window.gae_bingo || {
         ab_test: function() {},
@@ -323,8 +319,7 @@ var Khan = (function() {
         },
 
         warnFont: function() {
-            var enableFontDownload =
-                $._("enable font download in your browser");
+            var enableFontDownload = "enable font download in your browser";
             if ($.browser.msie) {
                 enableFontDownload = '<a href="http://missmarcialee.com/2011/08/how-to-enable-font-download-in-internet-explorer-8/" target="_blank">enable font download</a>';
             }
@@ -620,32 +615,48 @@ var Khan = (function() {
                 var jel = container.find(".related-video-list");
                 jel.empty();
 
-                var template = Templates.get("video.thumbnail");
-                _.each(this.getVideos(), function(video, i) {
-                    var thumbnailDiv = $(template({
-                        href: this.makeHref(video),
-                        video: video
-                    })).find("a.related-video").data("video", video).end();
+                var self = this;
+                PackageManager.require("video.css", "video.js").then(
+                    function() {
+                        var template = Templates.get("video.thumbnail");
+                        _.each(self.getVideos(), function(video, i) {
+                            var thumbnailDiv = $(template({
+                                href: self.makeHref(video),
+                                video: video
+                            })).find("a.related-video")
+                                .data("video", video)
+                                .end();
 
-                    var inlineLink = this.anchorElement(video)
-                        .addClass("related-video-inline");
+                            var inlineLink = self.anchorElement(video)
+                                .addClass("related-video-inline");
 
-                    var sideBarLi = $("<li>")
-                        .append(inlineLink)
-                        .append(thumbnailDiv);
+                            var sideBarLi = $("<li>")
+                                .append(inlineLink)
+                                .append(thumbnailDiv);
 
-                    if (i > 0) {
-                        thumbnailDiv.hide();
-                    } else {
-                        inlineLink.hide();
-                    }
-                    jel.append(sideBarLi);
-                }, this);
+                            if (i > 0) {
+                                thumbnailDiv.hide();
+                            } else {
+                                inlineLink.hide();
+                            }
+                            jel.append(sideBarLi);
+                        });
 
-                container.toggle(this.getVideos().length > 0);
+                        container.toggle(self.getVideos().length > 0);
+                        self._bindEvents();
+                    });
             },
 
-            hookup: function() {
+            _eventsBound: false,
+            /**
+             * Called to initialize related video event handlers.
+             * Should only be called after video.js package is loaded.
+             */
+            _bindEvents: function() {
+                if (this._eventsBound) {
+                    return;
+                }
+
                 // make caption slide up over the thumbnail on hover
                 var captionHeight = 45;
                 var marginTop = 23;
@@ -654,7 +665,6 @@ var Khan = (function() {
                 $(".related-video-box")
                     .delegate(".thumbnail", "mouseenter mouseleave", function(e) {
                         var isMouseEnter = e.type === "mouseenter";
-                        
                         $(e.currentTarget).find(".thumbnail_label").animate(
                                 {marginTop: marginTop + (isMouseEnter ? 0 : captionHeight)},
                                 options)
@@ -663,6 +673,9 @@ var Khan = (function() {
                                 {height: (isMouseEnter ? captionHeight : 0)},
                                 options);
                     });
+
+                ModalVideo.hookup();
+                this._eventsBound = true;
             }
         },
 
@@ -748,7 +761,7 @@ var Khan = (function() {
     } else {
         onjQueryLoaded();
     }
-
+        
     function onjQueryLoaded() {
         initEvents();
 
@@ -1245,12 +1258,18 @@ var Khan = (function() {
 
         // A working solution was generated
         if (validator) {
+            // Have MathJax redo the font metrics for the solution area
+            // (ugh, this is gross)
+            MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
+                    $("#solutionarea")[0]]);
+
             // Focus the first input
             // Use .select() and on a delay to make IE happy
             var firstInput = solutionarea.find(":input").first();
             if ($(".calculator input:visible").length) {
                 firstInput = $(".calculator input");
             }
+
             setTimeout(function() {
                 if (!firstInput.is(":disabled")) {
                     firstInput.focus();
@@ -1378,8 +1397,9 @@ var Khan = (function() {
         // triggered on newProblem
 
         if (userExercise == null || Khan.query.debug != null) {
-            $("#problem-permalink")
-                .text($._("Permalink: %s #%s", problemID, problemSeed))
+            $("#problem-permalink").text("Permalink: "
+                + problemID + " #"
+                + problemSeed)
                 .attr("href", window.location.protocol + "//" + window.location.host + window.location.pathname + "?debug&problem=" + problemID + "&seed=" + problemSeed);
         }
 
@@ -1423,7 +1443,7 @@ var Khan = (function() {
                     .appendTo(links);
             }
 
-            links.append("<br><b>" + $._("Problem types:") + "</b><br>");
+            links.append("<br><b>Problem types:</b><br>");
 
             exercises.children(".problems").children().each(function(n, prob) {
                 var probID = $(prob).attr("id") || n;
@@ -1447,8 +1467,7 @@ var Khan = (function() {
             // If this is a child exercise, show which one it came from
             if (exercise.data("name") !== exerciseId) {
                 links.append("<br>");
-                links.append($._("Original exercise: %s", 
-                    exercise.data("name")));
+                links.append("Original exercise: " + exercise.data("name"));
             }
 
             if ($.tmpl.DATA_ENSURE_LOOPS > 0) {
@@ -1607,8 +1626,6 @@ var Khan = (function() {
                     } else if (behavior === "angle-mode") {
                         Calculator.angleMode = Calculator.angleMode === "DEG" ?
                             "RAD" : "DEG";
-                        // TODO(jeresig): i18n This renders DEG/RAD, should this
-                        // be translated? and how?
                         jel.html((Calculator.angleMode === "DEG" ? "<br>" : "")
                             + Calculator.angleMode);
                     } else if (behavior === "evaluate") {
@@ -1640,7 +1657,7 @@ var Khan = (function() {
             if (report && form) {
                 $("#issue").hide();
             } else if (!report || !form) {
-                $("#issue-status").removeClass("error").html(issueIntro());
+                $("#issue-status").removeClass("error").html(issueIntro);
                 $("#issue, #issue form").show();
                 $("html, body").animate({
                     scrollTop: $("#issue").offset().top
@@ -1721,17 +1738,14 @@ var Khan = (function() {
 
             if (!type) {
                 $("#issue-status").addClass("error")
-                    .html($._("Please specify the issue type.")).show();
+                    .html("Please specify the issue type.").show();
                 return;
             } else {
                 labels.push(type.slice("issue-".length));
 
-                var hintOrVideoMsg = $._("Please click the hint button above " + 
-                    "to see our solution, or watch a video for " +
-                    "additional help.");
-                var refreshOrBrowserMsg = $._("Please try a hard refresh " + 
-                    "(press Ctrl + Shift + R) or use Khan Academy from a " + 
-                    "different browser (such as Chrome or Firefox).");
+                var hintOrVideoMsg = "Please click the hint button above to see our solution, or watch a video for additional help.";
+                var refreshOrBrowserMsg = "Please try a hard refresh (press Ctrl + Shift + R)" +
+                        " or use Khan Academy from a different browser (such as Chrome or Firefox).";
                 var suggestion = {
                     "issue-wrong-or-unclear": hintOrVideoMsg,
                     "issue-hard": hintOrVideoMsg,
@@ -1742,8 +1756,7 @@ var Khan = (function() {
 
             if (title === "") {
                 $("#issue-status").addClass("error")
-                    .html($._("Please provide a valid title " +
-                    "for the issue.")).show();
+                    .html("Please provide a valid title for the issue.").show();
                 return;
             }
 
@@ -1787,7 +1800,7 @@ var Khan = (function() {
                 error: function() {
                     // show status message
                     $("#issue-status").addClass("error")
-                        .html(issueError()).show();
+                        .html(issueError).show();
 
                     // enable the inputs
                     formElements.attr("disabled", false);
@@ -1839,12 +1852,6 @@ var Khan = (function() {
                 // number)
             }
         });
-
-        Khan.relatedVideos.hookup();
-
-        if (window.ModalVideo) {
-            ModalVideo.hookup();
-        }
     }
 
     function initEvents() {
@@ -1904,7 +1911,8 @@ var Khan = (function() {
                         }
                     }, 1);
                 }
-            })
+            });
+        $(Exercises)
             .bind("newProblem", renderDebugInfo)
             .bind("newProblem", renderExerciseBrowserPreview);
     }
