@@ -39,10 +39,11 @@ def main():
             attrs = dict(el.attrib)
             keys = el.attrib.keys()
             keys.sort(key=lambda k:
-                0 if (k == 'class') else
-                1 if (k == 'id') else
-                0 if (k == 'http-equiv') else
-                1 if (k == 'content') else
+                0 if (k == 'href') else
+                1 if (k == 'class') else
+                2 if (k == 'id') else
+                3 if (k == 'http-equiv') else
+                4 if (k == 'content') else
                 k)
             el.attrib.clear()
             for k in keys:
