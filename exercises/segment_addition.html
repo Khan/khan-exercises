@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Segment addition</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -48,10 +48,10 @@
                 </p>
             </div>
             <p class="question">Find <code><var>SEG_2</var></code>.</p>
-            <div data-forms="integer" class="solution"><var>COEF_2 * X + CONST_2</var></div>
+            <div class="solution" data-forms="integer"><var>COEF_2 * X + CONST_2</var></div>
             <div class="hints">
                 <div>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         style({ stroke: BLUE, strokeWidth: 3 });
                         line( [ 0, 0 ], [ 10 * ( COEF_1 * X + CONST_1 ) / TOTAL, 0 ] );
                         style({ stroke: GREEN, strokeWidth: 3 });

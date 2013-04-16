@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Systems of equations</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="abs( X_DENOM ) &lt; 13 &amp;&amp; abs( Y_DENOM ) &lt; 13 &amp;&amp; abs( X_NUMER ) &lt; 13 &amp;&amp; abs( X_DENOM ) &lt; 13 " class="vars">
+        <div class="vars" data-ensure="abs( X_DENOM ) &lt; 13 &amp;&amp; abs( Y_DENOM ) &lt; 13 &amp;&amp; abs( X_NUMER ) &lt; 13 &amp;&amp; abs( X_DENOM ) &lt; 13 ">
             <var id="A1">randRangeNonZero( -9, 9 )</var>
             <var id="A2">randRangeNonZero( -9, 9 )</var>
             <var id="B1">randRangeNonZero( -9, 9 )</var>
-            <var data-ensure="( B1 * A2 ) !== ( A1 * B2 )" id="B2">randRangeNonZero( -9, 9 )</var>
+            <var id="B2" data-ensure="( B1 * A2 ) !== ( A1 * B2 )">randRangeNonZero( -9, 9 )</var>
 
             <var id="C1">randRangeNonZero( -9, 9 )</var>
             <var id="C2">randRangeNonZero( -9, 9 )</var>
@@ -40,7 +40,7 @@
                 <p class="problem">Solve for <code>x</code> and <code>y</code> using elimination.</p>
                 <p class="question"><code>\begin{align*}<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> &amp;= <var>C1</var> \\
                                     <var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> &amp;= <var>C2</var>\end{align*}</code></p>
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     <p><code>x</code> = <span class="sol"><var>X_NUMER / X_DENOM</var></span></p>
                     <p><code>y</code> = <span class="sol"><var>Y_NUMER / Y_DENOM</var></span></p>
                 </div>
@@ -111,7 +111,7 @@
                 <p class="problem">Solve for <code>x</code> and <code>y</code> by deriving an expression for <code>y</code> from the second equation, and substituting it back into the first equation.</p>
                 <p class="question"><code>\begin{align*}<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> &amp;= <var>C1</var> \\
                                     <var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> &amp;= <var>C2</var>\end{align*}</code></p>
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     <p><code>x</code> = <span class="sol"><var>X_NUMER / X_DENOM</var></span></p>
                     <p><code>y</code> = <span class="sol"><var>Y_NUMER / Y_DENOM</var></span></p>
                 </div>
@@ -155,7 +155,7 @@
                 <p class="problem">Solve for <code>x</code> and <code>y</code> by deriving an expression for <code>x</code> from the second equation, and substituting it back into the first equation.</p>
                 <p class="question"><code>\begin{align*}<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> &amp;= <var>C1</var> \\
                                     <var>expr(["+", ["*", A2, "x"], ["*", B2, "y"]])</var> &amp;= <var>C2</var>\end{align*}</code></p>
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     <p><code>x</code> = <span class="sol"><var>X_NUMER / X_DENOM</var></span></p>
                     <p><code>y</code> = <span class="sol"><var>Y_NUMER / Y_DENOM</var></span></p>
                 </div>

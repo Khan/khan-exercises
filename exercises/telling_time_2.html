@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie time interactive angles word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Telling time 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="problems">
-            <div data-weight="3" id="set-hands">
+            <div id="set-hands" data-weight="3">
 
                 <div class="vars">
                     <div data-ensure="!(HOUR === 1 &amp;&amp; MINUTE === 0)">
@@ -197,7 +197,7 @@
                     </div>
                 </div>
 
-                <div data-type="custom" class="solution">
+                <div class="solution" data-type="custom">
                     <div class="instruction">
                         Drag the two hands so the clock reads <var>HOUR</var>:<var>NICE_MINUTE</var>.
                     </div>
@@ -233,10 +233,10 @@
 
                 <div class="hints">
                     <p>
-                        The <span style="font-weight: bold" class="hint_blue">hour</span> hand is the short
-                        <span style="font-weight: bold" class="hint_blue">blue</span> bar and the
-                        <span style="font-weight: bold" class="hint_orange">minute</span> hand is the long
-                        <span style="font-weight: bold" class="hint_orange">orange</span> bar.
+                        The <span class="hint_blue" style="font-weight: bold">hour</span> hand is the short
+                        <span class="hint_blue" style="font-weight: bold">blue</span> bar and the
+                        <span class="hint_orange" style="font-weight: bold">minute</span> hand is the long
+                        <span class="hint_orange" style="font-weight: bold">orange</span> bar.
                     </p>
 
                     <p>
@@ -246,7 +246,7 @@
                     </p>
 
                     <p>
-                        First, let's set the <span style="font-weight: bold" class="hint_orange">minute</span> hand.
+                        First, let's set the <span class="hint_orange" style="font-weight: bold">minute</span> hand.
                     </p>
 
                     <div>
@@ -268,7 +268,7 @@
                     </div>
 
                     <p>
-                        Next, let's set the <span style="font-weight: bold" class="hint_blue">hour</span> hand.
+                        Next, let's set the <span class="hint_blue" style="font-weight: bold">hour</span> hand.
                     </p>
 
                     <div>
@@ -305,7 +305,7 @@
                         </div>
                     </div>
 
-                    <div data-update="clock" class="graphie">
+                    <div class="graphie" data-update="clock">
                             var minuteRadius = minutePoint.constraints.fixedDistance.dist;
                             var hourRadius = hourPoint.constraints.fixedDistance.dist;
 
@@ -385,13 +385,13 @@
                 </div>
             </div>
 
-            <div data-weight="2" data-type="set-hands" id="set-hands-20-minutes">
+            <div id="set-hands-20-minutes" data-type="set-hands" data-weight="2">
                 <div class="vars">
                     <var id="MINUTE_INCREMENT">20</var>
                 </div>
             </div>
 
-            <div data-weight="2" data-type="set-hands" id="set-hands-30-minutes">
+            <div id="set-hands-30-minutes" data-type="set-hands" data-weight="2">
                 <div class="vars">
                     <var id="MINUTE_INCREMENT">30</var>
                 </div>

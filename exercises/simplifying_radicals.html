@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Simplifying radicals</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
     <div class="problems">
-        <div data-weight="2" id="already-simplified">
+        <div id="already-simplified" data-weight="2">
             <div class="vars">
                 <var id="NUM">randFromArray([30, 42, 66, 70, 105, 110, 154, 165, 210])</var>
             </div>
@@ -16,14 +16,14 @@
                 Simplify <code>\sqrt{<var>NUM</var>}</code>.</p>
             <p></p>
 
-            <div data-type="radical" class="solution"><var>NUM</var></div>
+            <div class="solution" data-type="radical"><var>NUM</var></div>
 
             <div class="hints">
                 <p class="final_answer">The number <code><var>NUM</var></code> has no perfect-square factors, so <code>\sqrt{<var>NUM</var>}</code> is already the simplest form.</p>
             </div>
         </div>
 
-        <div data-weight="2" id="perfect-squares">
+        <div id="perfect-squares" data-weight="2">
             <div class="vars">
                 <var id="NUM">randFromArray([9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225])</var>
                 <var id="SPLIT">splitRadical(NUM)</var>
@@ -34,14 +34,14 @@
                 Simplify <code>\sqrt{<var>NUM</var>}</code>.
             </p>
 
-            <div data-type="radical" class="solution"><var>NUM</var></div>
+            <div class="solution" data-type="radical"><var>NUM</var></div>
 
             <div class="hints">
                 <p class="final_answer">The number <code><var>NUM</var></code> is a perfect square, so <code>\sqrt{<var>NUM</var>} = <var>COEFFICIENT</var></code>.</p>
             </div>
         </div>
 
-        <div data-weight="6" id="not-yet-simple">
+        <div id="not-yet-simple" data-weight="6">
             <div class="vars">
                 <var id="NUM">randFromArray([8, 12, 18, 20, 24, 27, 28, 32, 40, 44, 45, 48, 50, 54, 56, 60, 63, 72, 75, 80, 88, 90, 98, 99, 120, 125, 128, 140, 150, 160, 175, 180, 200, 216])</var>
                 <var id="SPLIT">splitRadical(NUM)</var>
@@ -53,7 +53,7 @@
                 Simplify <code>\sqrt{<var>NUM</var>}</code>.
             </p>
 
-            <div data-type="radical" class="solution"><var>NUM</var></div>
+            <div class="solution" data-type="radical"><var>NUM</var></div>
 
             <div class="hints">
                 <p>The largest perfect square that divides <code><var>NUM</var></code> is <code><var>COEFFICIENT * COEFFICIENT</var></code>.</p>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math word-problems spin"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>LCM and GCD word problems</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -16,7 +16,7 @@
     <div class="problems">
 
         <div id="lcm-hot-dog-count">
-            <div data-ensure="LCM !== A &amp;&amp; LCM !== B" class="vars">
+            <div class="vars" data-ensure="LCM !== A &amp;&amp; LCM !== B">
                 <var id="C">randRange( 2, 6 )</var>
                 <var id="START_A">randRange( 1, 10 )</var>
                 <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
@@ -38,7 +38,7 @@
                 what is the minimum number of hot dogs <var>he(1)</var> will have to buy?
             </p>
 
-            <p data-forms="integer" class="solution"><var>LCM</var></p>
+            <p class="solution" data-forms="integer"><var>LCM</var></p>
 
             <div class="hints">
                 <div>
@@ -119,7 +119,7 @@
         </div>
 
         <div id="lcm-uniforms">
-            <div data-ensure="LCM !== A &amp;&amp; LCM !== B" class="vars">
+            <div class="vars" data-ensure="LCM !== A &amp;&amp; LCM !== B">
                 <var id="C">randRange( 2, 6 )</var>
                 <var id="START_A">randRange( 1, 10 )</var>
                 <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
@@ -138,7 +138,7 @@
                 If <var>person(1)</var> wants to buy the same number of jerseys and visors,
                 what is the minimum number of jerseys or visors <var>he(1)</var> will have to purchase?
             </p>
-            <p data-forms="integer" class="solution"><var>LCM</var></p>
+            <p class="solution" data-forms="integer"><var>LCM</var></p>
 
             <div class="hints">
                 <div>
@@ -219,7 +219,7 @@
         </div>
 
         <div id="lcm-test-questions">
-            <div data-ensure="LCM !== A &amp;&amp; LCM !== B" class="vars">
+            <div class="vars" data-ensure="LCM !== A &amp;&amp; LCM !== B">
                 <var id="C">randRange( 2, 6 )</var>
                 <var id="START_A">randRange( 1, 10 )</var>
                 <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
@@ -255,7 +255,7 @@
                 can expect to get in a year?
             </p>
 
-            <p data-forms="integer" class="solution"><var>LCM</var></p>
+            <p class="solution" data-forms="integer"><var>LCM</var></p>
 
             <div class="hints">
                 <div>
@@ -340,7 +340,7 @@
         </div>
 
         <div id="gcd-teams">
-            <div data-ensure="A_START !== B_START" class="vars">
+            <div class="vars" data-ensure="A_START !== B_START">
                 <var id="A_START">randRange( 1, 10 )</var>
                 <var id="B_START">randRange( 1, 10 )</var>
                 <var id="FACTOR">randRange( 2, 5 )</var>
@@ -362,7 +362,7 @@
                 <p><strong>What is the greatest number of teams <var>person(1)</var> can form?</strong></p>
             </div>
 
-            <p data-forms="integer" class="solution"><var>GCD</var></p>
+            <p class="solution" data-forms="integer"><var>GCD</var></p>
 
             <div class="hints">
                 <p>
@@ -377,7 +377,7 @@
                         That means we can divide the sprinters into equally sized teams in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( A ) as F" class="hint_blue">
+                        <span class="hint_blue" data-each="getFactors( A ) as F">
                             <span data-if="F === 1">
                                 1 team with <var>plural( A, "sprinter" )</var><br>
                             </span>
@@ -400,7 +400,7 @@
                         That means we can divide the long-distance runners into equally sized teams in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( B ) as F" class="hint_green">
+                        <span class="hint_green" data-each="getFactors( B ) as F">
                             <span data-if="F === 1">
                                 1 team with <var>plural( B, "long-distance runner" )</var><br>
                             </span>
@@ -419,7 +419,7 @@
                     </p>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
+                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
                                 <var>plural( N + 1, "team" )</var> with <var>plural( A / ( N + 1 ), "sprinter" )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
@@ -429,7 +429,7 @@
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
+                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
                                 <var>plural( N + 1, "team" )</var> with <var>plural( B / ( N + 1 ), "long-distance runner" )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
@@ -447,7 +447,7 @@
                         <var>person(1)</var> can make the following equal teams:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
+                        <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
                             <var>plural( F, "team" )</var> with <var>plural( A / F, "sprinter" )</var> and
                             <var>plural( B / F, "long-distance runner" )</var>
                             <br>
@@ -469,7 +469,7 @@
         </div>
 
         <div id="gcd-restaurant">
-            <div data-ensure="A_START !== B_START" class="vars">
+            <div class="vars" data-ensure="A_START !== B_START">
                 <var id="A_START">randRange( 1, 10 )</var>
                 <var id="B_START">randRange( 1, 10 )</var>
                 <var id="FACTOR">randRange( 2, 5 )</var>
@@ -497,7 +497,7 @@
                 What is the greatest number of gift baskets <var>person(1)</var> can sell each day?
             </p>
 
-            <p data-forms="integer" class="solution"><var>GCD</var></p>
+            <p class="solution" data-forms="integer"><var>GCD</var></p>
 
             <div class="hints">
                 <p>
@@ -512,7 +512,7 @@
                         That means we can equally divide the chocolate chip cookies into gift baskets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( A ) as F" class="hint_blue">
+                        <span class="hint_blue" data-each="getFactors( A ) as F">
                             <span data-if="F === 1">
                                 1 basket with <var>plural( A, "chocolate chip cookie" )</var><br>
                             </span>
@@ -535,7 +535,7 @@
                         That means we can equally divide the oatmeal cookies into gift baskets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( B ) as F" class="hint_green">
+                        <span class="hint_green" data-each="getFactors( B ) as F">
                             <span data-if="F === 1">
                                 1 basket with <var>plural( B, "oatmeal cookie" )</var><br>
                             </span>
@@ -553,7 +553,7 @@
                     </p>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
+                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
                                 <var>plural( N + 1, "basket" )</var> with <var>plural( A / ( N + 1 ), "chocolate chip cookie" )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
@@ -563,7 +563,7 @@
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
+                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
                                 <var>plural( N + 1, "basket" )</var> with <var>plural( B / ( N + 1 ), "oatmeal cookie" )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
@@ -581,7 +581,7 @@
                         <var>person(1)</var> can make any of the following gift baskets:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
+                        <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
                             <var>plural( F, "basket" )</var> with <var>plural( A / F, "chocolate chip cookie" )</var> and
                             <var>plural( B / F, "oatmeal cookie" )</var>
                             <br>
@@ -602,7 +602,7 @@
         </div>
 
         <div id="gcd-office-supplies">
-            <div data-ensure="A_START !== B_START" class="vars">
+            <div class="vars" data-ensure="A_START !== B_START">
                 <var id="A_START">randRange( 1, 10 )</var>
                 <var id="B_START">randRange( 1, 10 )</var>
                 <var id="FACTOR">randRange( 2, 5 )</var>
@@ -626,7 +626,7 @@
                 What is the greatest number of identical sets <var>person(1)</var> can make using all the supplies?
             </p>
 
-            <p data-forms="integer" class="solution"><var>GCD</var></p>
+            <p class="solution" data-forms="integer"><var>GCD</var></p>
 
             <div class="hints">
                 <p>
@@ -641,7 +641,7 @@
                         That means we can equally divide the <var>plural( deskItem(1) )</var> into sets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( A ) as F" class="hint_blue">
+                        <span class="hint_blue" data-each="getFactors( A ) as F">
                             <var>plural( F, "set" )</var> with <var>plural( A / F, deskItem(1) )</var> <var>plural( "", "each", F )</var><br>
                         </span>
                     </p>
@@ -659,7 +659,7 @@
                         That means we can equally divide the <var>plural( deskItem(2) )</var> into sets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( B ) as F" class="hint_green">
+                        <span class="hint_green" data-each="getFactors( B ) as F">
                             <var>plural( F, "set" )</var> with <var>plural( B / F, deskItem(2) )</var> <var>plural( "", "each", F )</var><br>
                         </span>
                     </p>
@@ -673,7 +673,7 @@
                     </p>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
+                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
                                 <var>plural( N + 1, "set" )</var> with <var>plural( A / ( N + 1 ), deskItem(1) )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
@@ -683,7 +683,7 @@
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
+                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
                                 <var>plural( N + 1, "set" )</var> with <var>plural( B / ( N + 1 ), deskItem(2) )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
@@ -701,7 +701,7 @@
                         <var>person(1)</var> can make any of the following sets:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
+                        <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
                             <var>plural( F, "set" )</var> with <var>plural( A / F, deskItem(1) )</var> and
                             <var>plural( B / F, deskItem(2) )</var>
                             <br>

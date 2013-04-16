@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- TODO: label coloring --><html data-require="math math-format graphie expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inverses of functions</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -97,7 +97,7 @@
                 </div>
 
                 <p class="solution"><code><var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
-                <ul data-none="true" class="choices" data-show="4">
+                <ul class="choices" data-none="true" data-show="4">
                     <li><code><var>expr([ "+", M_X, -B ])</var></code></li>
                     <li><code><var>expr([ "+", M_X, B ])</var></code></li>
                     <li><code><var>expr([ "+", B_X, M ])</var></code></li>
@@ -120,7 +120,7 @@
             <p><code>x = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
             <p>So we know: <br> <code>f^{-1}(y) = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
             <p>Rename <code>y</code> to <code>x</code>: <br> <code>f^{-1}(x) = <var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
-            <div data-update="G" class="graphie">
+            <div class="graphie" data-update="G">
                 var pos = function( n ) {
                         if ( n &gt;= 1 ) {
                             return "below right";
@@ -163,7 +163,7 @@
                 }
             </div>
             <div>
-                <div data-update="G" class="graphie">
+                <div class="graphie" data-update="G">
                     style({
                         stroke: "#aaa",
                         strokeWidth: 2,

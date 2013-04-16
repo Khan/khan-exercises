@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding and subtracting fractions</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div data-ensure="D1 !== D2" class="vars">
+    <div class="vars" data-ensure="D1 !== D2">
         <var id="N1">randRangeNonZero( -9, 9 )</var>
         <var id="N2">randRangeNonZero( -9, 9 )</var>
         <var id="D1">randRangeExclude( 2, 9, [ N1, -N1 ] )</var>
@@ -21,7 +21,7 @@
             <div class="question">
                 <p><code><var>fraction( N1, D1 )</var> + <var>fraction( N2, D2 )</var> = {?}</code></p>
             </div>
-            <div data-type="rational" class="solution"><var>N1 / D1 + N2 / D2</var></div>
+            <div class="solution" data-type="rational"><var>N1 / D1 + N2 / D2</var></div>
         </div>
     </div>
 

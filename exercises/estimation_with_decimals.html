@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format word-problems stat"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Estimation with decimals</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -48,13 +48,13 @@
                 <span>Day<br> <span style="color:white">" "</span></span>
                 <span>Amount <br><font size="2">(in <var>plural( TYPES[ 2 ] )</var>)</font></span>
             </div>
-            <div data-each="VALUES as i, val" class="fake_row estimation">
+            <div class="fake_row estimation" data-each="VALUES as i, val">
                 <span><var>i+1</var></span>
                 <span><var>val</var></span>
             </div>
             <p><br>Note that if you first sum the exact amounts (<var>SUM.toFixed( 2 )</var>) and then round, you'll get <var>round( SUM )</var>. For fun, pay attention to how this number compares with your estimate.</p>
-            <p data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>ANSWER</var></span> <var>plural( TYPES[ 2 ] )</var>
+            <p class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>plural( TYPES[ 2 ] )</var>
             </p>
 
             <div class="hints">
@@ -65,7 +65,7 @@
                     <span>Rounded</span>
                     <span>Running total</span>
                 </div>
-                <div data-each="VALUES as i, val" class="fake_row estimation">
+                <div class="fake_row estimation" data-each="VALUES as i, val">
                     <span><var>i+1</var></span>
                     <span><var>val</var></span>
                     <span><var>round( val )</var></span>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math word-problems graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading tables 1</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -70,11 +70,11 @@
             <div class="fake_header reading">
                 <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>column</var></span>
             </div>
-            <div data-each="ROWS as i, row" class="fake_row reading">
+            <div class="fake_row reading" data-each="ROWS as i, row">
                 <span><var>row</var></span><span data-each="ENROLLMENTS[i] as j, enrollment"><var>enrollment</var></span>
             </div>
-            <div data-type="multiple" class="solution">
-                <span style="padding-right: 5px" data-forms="integer" class="sol"><var>ANSWER</var></span> <var>UNIT</var>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer" style="padding-right: 5px"><var>ANSWER</var></span> <var>UNIT</var>
             </div>
 
             <div class="hints">

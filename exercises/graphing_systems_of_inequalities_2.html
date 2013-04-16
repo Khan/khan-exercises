@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions graphie interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing and solving systems of inequalities</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -76,57 +76,57 @@
             </p>
 
             <div class="problem">
-                <p data-if="STD_FORM_1" class="hint_blue">
+                <p class="hint_blue" data-if="STD_FORM_1">
                     <code><var>expr([ "+", [ "*", A_1, "x" ], [ "*", B_1, "y" ] ])</var> <var>STD_FORM_COMP_1</var> <var>C_1</var></code>
                 </p>
-                <p data-else="" class="hint_blue">
+                <p class="hint_blue" data-else="">
                     <code>y <var>COMP_1</var> <var>PRETTY_SLOPE_1</var> x + <var>YINT_1</var></code>
                 </p>
-                <p data-if="STD_FORM_2" class="hint_green">
+                <p class="hint_green" data-if="STD_FORM_2">
                     <code><var>expr([ "+", [ "*", A_2, "x" ], [ "*", B_2, "y" ] ])</var> <var>STD_FORM_COMP_2</var> <var>C_2</var></code>
                 </p>
-                <p data-else="" class="hint_green">
+                <p class="hint_green" data-else="">
                     <code>y <var>COMP_2</var> <var>PRETTY_SLOPE_2</var> x + <var>YINT_2</var></code>
                 </p>
 
                 <form>
-                    <span style="width: 40px" class="hint_blue">Inequality 1:</span>
-                    <input type="button" value="Shade other side" onclick="javascript:
+                    <span class="hint_blue" style="width: 40px">Inequality 1:</span>
+                    <input onclick="javascript:
                         KhanUtil.currentGraph.graph.shadetop1 = !KhanUtil.currentGraph.graph.shadetop1;
                         KhanUtil.currentGraph.graph.update();
-                    ">
+                    " type="button" value="Shade other side">
                     <label class="hint_blue">
-                        <input type="radio" checked name="dashradio1" value="solid" onclick="javascript:
+                        <input checked name="dashradio1" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray1 = '';
                             KhanUtil.currentGraph.graph.update();
-                        ">
+                        " type="radio" value="solid">
                         Solid line
                     </label>
                     <label class="hint_blue">
-                        <input type="radio" name="dashradio1" value="dashed" onclick="javascript:
+                        <input name="dashradio1" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray1 = '- ';
                             KhanUtil.currentGraph.graph.update();
-                        ">
+                        " type="radio" value="dashed">
                         Dashed line
                     </label>
                     <br>
-                    <span style="width: 40px" class="hint_green">Inequality 2:</span>
-                    <input type="button" value="Shade other side" onclick="javascript:
+                    <span class="hint_green" style="width: 40px">Inequality 2:</span>
+                    <input onclick="javascript:
                         KhanUtil.currentGraph.graph.shadetop2 = !KhanUtil.currentGraph.graph.shadetop2;
                         KhanUtil.currentGraph.graph.update();
-                    ">
+                    " type="button" value="Shade other side">
                     <label class="hint_green">
-                        <input type="radio" checked name="dashradio2" value="solid" onclick="javascript:
+                        <input checked name="dashradio2" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray2 = '';
                             KhanUtil.currentGraph.graph.update();
-                        ">
+                        " type="radio" value="solid">
                         Solid line
                     </label>
                     <label class="hint_green">
-                        <input type="radio" name="dashradio2" value="dashed" onclick="javascript:
+                        <input name="dashradio2" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray2 = '- ';
                             KhanUtil.currentGraph.graph.update();
-                        ">
+                        " type="radio" value="dashed">
                         Dashed line
                     </label>
                 </form>
@@ -289,8 +289,8 @@
                 </div>
 
             </div>
-            <div data-type="multiple" class="solution">
-                <div data-type="custom" class="sol">
+            <div class="solution" data-type="multiple">
+                <div class="sol" data-type="custom">
                     <div class="instruction">
                         Drag the points to move both lines into the correct positions.
                     </div>
@@ -347,8 +347,8 @@
                         graph.update();
                     </div>
                 </div>
-                <div><label><span data-type="checkbox" class="sol"><var>POINT_1_SOLUTION</var></span><code>(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is a solution</label></div>
-                <div><label><span data-type="checkbox" class="sol"><var>POINT_2_SOLUTION</var></span><code>(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is a solution</label></div>
+                <div><label><span class="sol" data-type="checkbox"><var>POINT_1_SOLUTION</var></span><code>(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is a solution</label></div>
+                <div><label><span class="sol" data-type="checkbox"><var>POINT_2_SOLUTION</var></span><code>(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is a solution</label></div>
                 <div class="example">graph the inequalities</div>
                 <div class="example">make sure the correct sides are shaded</div>
                 <div class="example">make sure each line is correctly shown as solid or dashed</div>
@@ -368,7 +368,7 @@
                     <code>\qquad <var>expr( [ "*", B_1, "y" ] )</var> <var>STD_FORM_COMP_1</var> <var>expr([ "+", [ "*", -A_1, "x" ], C_1 ])</var></code>
                 </p>
             </div>
-            <div data-if="B_1 !== 1" class="hint_blue">
+            <div class="hint_blue" data-if="B_1 !== 1">
                 <p>
                     Divide both sides by <code><var>B_1</var></code><span data-if="B_1 &lt; 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
                 </p><p>
@@ -428,7 +428,7 @@
                     <code>\qquad <var>expr( [ "*", B_2, "y" ] )</var> <var>STD_FORM_COMP_2</var> <var>expr([ "+", [ "*", -A_2, "x" ], C_2 ])</var></code>
                 </p>
             </div>
-            <div data-if="B_2 !== 1" class="hint_green">
+            <div class="hint_green" data-if="B_2 !== 1">
                 <p>
                     Divide both sides by <code><var>B_2</var></code><span data-if="B_2 &lt; 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
                 </p><p>
@@ -475,7 +475,7 @@
             </p>
         </div>
         <div>
-            <input type="button" value="Show me the correct graphs" onclick="javascript:
+            <input onclick="javascript:
                 with ( KhanUtil.currentGraph ) {
                     with ( KhanUtil.tmpl ) {
                         graph.pointA.setCoord([ 0, getVAR( 'YINT_1' ) ]);
@@ -501,7 +501,7 @@
                         graph.update();
                     }
                 }
-            ">
+            " type="button" value="Show me the correct graphs">
         </div>
         <div>
             <p>
@@ -510,7 +510,7 @@
             </p>
         </div>
         <div>
-            <div data-update="grid" class="graphie">
+            <div class="graphie" data-update="grid">
                 style({ stroke: PINK, fill: PINK }, function() {
                     circle( POINT_1, 0.2 ).toBack();
                     label( POINT_1, "\\color{" + PINK + "}{(" + POINT_1[0] + ", " + POINT_1[1] + ")}", "right" );

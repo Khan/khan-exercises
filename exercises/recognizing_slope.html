@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format polynomials graphie interactive word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Recognizing slope</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="exercise">
-    <div data-ensure="SOLUTION_INTERVAL != null &amp;&amp; SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0] &gt; 1.2" class="vars">
+    <div class="vars" data-ensure="SOLUTION_INTERVAL != null &amp;&amp; SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0] &gt; 1.2">
         <!-- Some hard-coded polynomial functions -->
         <var id="COEF, XRANGE, YRANGE">randFromArray([
             [[ 1,  0, -16,   0,  49], [-5, 5], [-100, 100]],
@@ -91,7 +91,7 @@
         </var>
     </div>
 
-    <div data-type="custom" class="solution">
+    <div class="solution" data-type="custom">
         <div class="instruction">
             Move the blue window to select part of the function.
         </div>
@@ -161,10 +161,10 @@
 
     <div class="problems">
         <div id="increasing">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="PREDICATE">function(x) { return DDX(x) &gt; 0; }</var>
             </div>
-            <p data-apply="appendContents" class="question">
+            <p class="question" data-apply="appendContents">
                 A function <code>f(x)</code> is plotted below.
                 Highlight an interval where <code>f^\prime(x) &gt; 0</code>.
             </p>
@@ -180,7 +180,7 @@
                         <var>plural("is", DDX_INTERVALS_POS.length)</var>
                         <span class="hint_orange">highlighted</span> above.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         _.each(DDX_INTERVALS_POS, function(interval) {
                             plot(FNX, interval, {
                                 stroke: ORANGE,
@@ -194,7 +194,7 @@
                     <p>
                         Select any part of the function that is highlighted.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         graph.slidingWindow.moveTo(
                             (SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0]) / 2 +
                             SOLUTION_INTERVAL[0] - 0.5, 0);
@@ -204,10 +204,10 @@
         </div>
 
         <div id="decreasing">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="PREDICATE">function(x) { return DDX(x) &lt; 0; }</var>
             </div>
-            <p data-apply="appendContents" class="question">
+            <p class="question" data-apply="appendContents">
                 A function <code>f(x)</code> is plotted below.
                 Highlight an interval where <code>f^\prime(x) &lt; 0</code>.
             </p>
@@ -223,7 +223,7 @@
                         <var>plural("is", DDX_INTERVALS_NEG.length)</var>
                         <span class="hint_orange">highlighted</span> above.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         _.each(DDX_INTERVALS_NEG, function(interval) {
                             plot(FNX, interval, {
                                 stroke: ORANGE,
@@ -237,7 +237,7 @@
                     <p>
                         Select any part of the function that is highlighted.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         graph.slidingWindow.moveTo(
                             (SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0]) / 2 +
                             SOLUTION_INTERVAL[0] - 0.5, 0);
@@ -247,10 +247,10 @@
         </div>
 
         <div id="pos-and-increasing">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="PREDICATE">function(x) { return FNX(x) &gt; 0 &amp;&amp; DDX(x) &gt; 0; }</var>
             </div>
-            <p data-apply="appendContents" class="question">
+            <p class="question" data-apply="appendContents">
                 A function <code>f(x)</code> is plotted below.
                 Highlight an interval where <code>f(x) &gt; 0</code> and
                 <code>f^\prime(x) &gt; 0</code>.
@@ -267,7 +267,7 @@
                         <var>plural("is", FNX_INTERVALS_POS.length)</var>
                         <span class="hint_orange">highlighted</span> above.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         _.each(FNX_INTERVALS_POS, function(interval) {
                             plot(FNX, [XRANGE[0] - 1, XRANGE[1] + 1], {
                                 stroke: ORANGE,
@@ -293,7 +293,7 @@
                         <var>plural("is", DDX_INTERVALS_POS.length)</var>
                         <span class="hint_red">highlighted</span> above.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         _.each(DDX_INTERVALS_POS, function(interval) {
                             plot(FNX, interval, {
                                 stroke: RED,
@@ -308,7 +308,7 @@
                         Select any part of the function that is highlighted for
                         both conditions.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         graph.slidingWindow.moveTo(
                             (SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0]) / 2 +
                             SOLUTION_INTERVAL[0] - 0.5, 0);
@@ -318,10 +318,10 @@
         </div>
 
         <div id="pos-and-decreasing">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="PREDICATE">function(x) { return FNX(x) &gt; 0 &amp;&amp; DDX(x) &lt; 0; }</var>
             </div>
-            <p data-apply="appendContents" class="question">
+            <p class="question" data-apply="appendContents">
                 A function <code>f(x)</code> is plotted below.
                 Highlight an interval where <code>f(x) &gt; 0</code> and
                 <code>f^\prime(x) &lt; 0</code>.
@@ -338,7 +338,7 @@
                         <var>plural("is", FNX_INTERVALS_POS.length)</var>
                         <span class="hint_orange">highlighted</span> above.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         _.each(FNX_INTERVALS_POS, function(interval) {
                             plot(FNX, [XRANGE[0] - 1, XRANGE[1] + 1], {
                                 stroke: ORANGE,
@@ -364,7 +364,7 @@
                         <var>plural("is", DDX_INTERVALS_NEG.length)</var>
                         <span class="hint_red">highlighted</span> above.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         _.each(DDX_INTERVALS_NEG, function(interval) {
                             plot(FNX, interval, {
                                 stroke: RED,
@@ -379,7 +379,7 @@
                         Select any part of the function that is highlighted for
                         both conditions.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         graph.slidingWindow.moveTo(
                             (SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0]) / 2 +
                             SOLUTION_INTERVAL[0] - 0.5, 0);
@@ -389,10 +389,10 @@
         </div>
 
         <div id="neg-and-increasing">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="PREDICATE">function(x) { return FNX(x) &lt; 0 &amp;&amp; DDX(x) &gt; 0; }</var>
             </div>
-            <p data-apply="appendContents" class="question">
+            <p class="question" data-apply="appendContents">
                 A function <code>f(x)</code> is plotted below.
                 Highlight an interval where <code>f(x) &lt; 0</code> and
                 <code>f^\prime(x) &gt; 0</code>.
@@ -409,7 +409,7 @@
                         <var>plural("is", FNX_INTERVALS_NEG.length)</var>
                         <span class="hint_orange">highlighted</span> above.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         _.each(FNX_INTERVALS_NEG, function(interval) {
                             plot(FNX, [XRANGE[0] - 1, XRANGE[1] + 1], {
                                 stroke: ORANGE,
@@ -435,7 +435,7 @@
                         <var>plural("is", DDX_INTERVALS_POS.length)</var>
                         <span class="hint_red">highlighted</span> above.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         _.each(DDX_INTERVALS_POS, function(interval) {
                             plot(FNX, interval, {
                                 stroke: RED,
@@ -450,7 +450,7 @@
                         Select any part of the function that is highlighted for
                         both conditions.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         graph.slidingWindow.moveTo(
                             (SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0]) / 2 +
                             SOLUTION_INTERVAL[0] - 0.5, 0);
@@ -460,10 +460,10 @@
         </div>
 
         <div id="neg-and-decreasing">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="PREDICATE">function(x) { return FNX(x) &lt; 0 &amp;&amp; DDX(x) &lt; 0; }</var>
             </div>
-            <p data-apply="appendContents" class="question">
+            <p class="question" data-apply="appendContents">
                 A function <code>f(x)</code> is plotted below.
                 Highlight an interval where <code>f(x) &lt; 0</code> and
                 <code>f^\prime(x) &lt; 0</code>.
@@ -480,7 +480,7 @@
                         <var>plural("is", FNX_INTERVALS_NEG.length)</var>
                         <span class="hint_orange">highlighted</span> above.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         _.each(FNX_INTERVALS_NEG, function(interval) {
                             plot(FNX, [XRANGE[0] - 1, XRANGE[1] + 1], {
                                 stroke: ORANGE,
@@ -506,7 +506,7 @@
                         <var>plural("is", DDX_INTERVALS_NEG.length)</var>
                         <span class="hint_red">highlighted</span> above.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         _.each(DDX_INTERVALS_NEG, function(interval) {
                             plot(FNX, interval, {
                                 stroke: RED,
@@ -521,7 +521,7 @@
                         Select any part of the function that is highlighted for
                         both conditions.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         graph.slidingWindow.moveTo(
                             (SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0]) / 2 +
                             SOLUTION_INTERVAL[0] - 0.5, 0);

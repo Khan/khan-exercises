@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Geometric sequences 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -8,10 +8,10 @@
     <div class="exercise">
     <div class="problems">
         <div id="explicit">
-            <div data-ensure="abs(TERMS[0][0]) &lt; 20 &amp;&amp; abs(TERMS[0][1]) &lt; 20 &amp;&amp; abs(TERMS[N-1][0]) &lt; 40 &amp;&amp; abs(TERMS[N-1][0]) &lt; 40" class="vars">
+            <div class="vars" data-ensure="abs(TERMS[0][0]) &lt; 20 &amp;&amp; abs(TERMS[0][1]) &lt; 20 &amp;&amp; abs(TERMS[N-1][0]) &lt; 40 &amp;&amp; abs(TERMS[N-1][0]) &lt; 40">
                 <var id="A">randRangeNonZero(-8, 8)</var>
                 <var id="RN">randFromArray([-1, 1]) * randRange(1, 4)</var>
-                <var data-ensure="abs(RN) !== abs(RD)" id="RD">randRange(1, 4)</var>
+                <var id="RD" data-ensure="abs(RN) !== abs(RD)">randRange(1, 4)</var>
                 <var id="N">randRange(2, 5)</var>
                 <var id="OFFSET">randRange(-N - 1, 0)</var>
                 <var id="TERMS">_.map(_.range(N), function(i) {
@@ -47,8 +47,8 @@
                 </div>
             </div>
         </div>
-        <div data-type="explicit" id="recursive">
-            <div data-apply="appendContents" class="question">
+        <div id="recursive" data-type="explicit">
+            <div class="question" data-apply="appendContents">
                 <p id="given-formula">
                     <code>a_1 = <var>TERMS_TEX[0]</var></code><br>
                     <code>a_i = <var>R_TEX</var>a_{i-1}</code>

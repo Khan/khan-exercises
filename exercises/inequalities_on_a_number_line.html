@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inequalities on a number line</title>
     <script src="../khan-exercise.js"></script>
     <script>
@@ -123,7 +123,7 @@
             </p>
             <div class="problem">
 
-                <div data-each="LINE_LABELS as index, label" class="graphie">
+                <div class="graphie" data-each="LINE_LABELS as index, label">
                     numberLineWithArrowAndMistakes(
                         label, SIGN, INT, FRAC, LESS_THAN, INCLUSIVE, LINE_ERROR_TYPES, index
                     );
@@ -133,7 +133,7 @@
 
             <div class="solution">Graph <var>LINE_SOLUTION</var></div>
 
-            <ol data-category="true" class="choices">
+            <ol class="choices" data-category="true">
                 <li data-each="LINE_LABELS as label">Graph <var>label</var></li>
             </ol>
 
@@ -159,7 +159,7 @@
                     </p><p data-else="">
                         Since <code><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw an empty circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality does not include <code><var>SIGN + ( INT + FRAC )</var></code>.
                     </p>
-                    <div data-update="number_line_hint" class="graphie">pt.show();</div>
+                    <div class="graphie" data-update="number_line_hint">pt.show();</div>
                 </div>
 
                 <div>
@@ -168,7 +168,7 @@
                     </p><p data-else="">
                         Now draw an arrow to the right of the circle to include all numbers greater than <code><var>SIGN + ( INT + FRAC )</var></code>.
                     </p>
-                    <div data-update="number_line_hint" class="graphie">arrow.show();</div>
+                    <div class="graphie" data-update="number_line_hint">arrow.show();</div>
                 </div>
 
 
@@ -188,9 +188,9 @@
 
             </div>
 
-            <p data-type="multiple" class="solution">
+            <p class="solution" data-type="multiple">
                 <code><var>VARIABLE_NAME</var></code>
-                <span data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list" class="sol">
+                <span class="sol" data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list">
                     <var>REL</var>
                 </span>
                 <span class="sol"><var>SIGN + INT</var></span>

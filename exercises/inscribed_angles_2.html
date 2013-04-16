@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-polygon interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inscribed angles 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -39,13 +39,13 @@
 
                 graph.circle.drawMovablePoint( SUBTENDED_POINT, START + CENTRAL, START );
             </div>
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer, decimal" class="sol"><var>CENTRAL / 2</var></span> degrees
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer, decimal"><var>CENTRAL / 2</var></span> degrees
             </div>
             <div class="hints">
                 <div>
                     <p>What do we know about the sub-angles formed by the dashed diameter shown above?</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         style({stroke: BLUE, "stroke-dasharray": "-"}, function() {
                             graph.circle.drawChord( SUBTENDED_POINT, SUBTENDED_POINT + 180 );
                         });
@@ -54,7 +54,7 @@
                 <div>
                     <p>If we only look at the sub-angles drawn now, we see that this is the special case from the previous inscribed angles exercise!</p>
                     <p>We know that the orange sub-angle is one half the measure of the blue sub-angle.</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         graph.inscribed.arc.animate({opacity: 0.4});
                         graph.central.arc.animate({opacity: 0.4});
                         style({stroke: BLUE});
@@ -65,7 +65,7 @@
                 </div>
                 <div>
                     <p>Likewise, the other orange sub-angle is one half the measure of the other blue sub-angle, as shown.</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         graph.centralSub.remove();
                         graph.inscribedSub.remove();
                         style({stroke: BLUE});
@@ -76,7 +76,7 @@
                 </div>
                 <div>
                     <p>If both orange sub-angles are one half both blue sub-angles, then we know that the original orange angle is one half the original blue angle.</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         graph.centralSub.remove();
                         graph.inscribedSub.remove();
                         graph.inscribed.arc.animate({opacity: 1.0});
@@ -88,20 +88,20 @@
                 <p><code>\color{<var>ORANGE</var>}{\text{orange angle}} =  \color{<var>ORANGE</var>}{<var>CENTRAL / 2</var>^{\circ}}</code></p>
             </div>
         </div>
-        <div data-type="find-angle" id="find-central-on">
+        <div id="find-central-on" data-type="find-angle">
             <div class="vars">
                 <var id="GIVEN">CENTRAL / 2</var>
                 <var id="GIVEN_LABEL">$._("orange")</var>
                 <var id="ASKED_LABEL">$._("blue")</var>
             </div>
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer, decimal" class="sol"><var>CENTRAL</var></span> degrees
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer, decimal"><var>CENTRAL</var></span> degrees
             </div>
 
             <div class="hints">
                 <div>
                     <p>What do we know about the sub-angles formed by the dashed diameter shown above?</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         style({stroke: BLUE, "stroke-dasharray": "-"}, function() {
                             graph.circle.drawChord( SUBTENDED_POINT, SUBTENDED_POINT + 180 );
                         });
@@ -110,7 +110,7 @@
                 <div>
                     <p>If we only look at the sub-angles drawn now, we see that this is the special case from the previous inscribed angles exercise!</p>
                     <p>We know that the orange sub-angle is one half the measure of the blue sub-angle.</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         graph.inscribed.arc.animate({opacity: 0.4});
                         graph.central.arc.animate({opacity: 0.4});
                         style({stroke: BLUE});
@@ -121,7 +121,7 @@
                 </div>
                 <div>
                     <p>Likewise, the other orange sub-angle is one half the measure of the other blue sub-angle, as shown.</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         graph.centralSub.remove();
                         graph.inscribedSub.remove();
                         style({stroke: BLUE});
@@ -132,7 +132,7 @@
                 </div>
                 <div>
                     <p>If both blue sub-angles are twice both blue sub-angles, then we know that the blue is twice the orange angle.</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         graph.centralSub.remove();
                         graph.inscribedSub.remove();
                         graph.inscribed.arc.animate({opacity: 1.0});

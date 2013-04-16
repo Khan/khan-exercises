@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multi-digit division</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -20,11 +20,11 @@
                     graph.divider.show();
                     DUMMY = Array( graph.divider.getNumHints() );
                 </div>
-                <div data-forms="integer" class="solution"><var>QUOTIENT</var></div>
+                <div class="solution" data-forms="integer"><var>QUOTIENT</var></div>
             </div>
         </div>
         <div class="hints">
-            <div data-update="numbers" data-each="DUMMY as dummy" class="graphie">
+            <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                 graph.divider.showHint();
             </div>
         </div>

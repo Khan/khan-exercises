@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math word-problems graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Logical arguments and deductive reasoning</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -42,7 +42,7 @@
                 <p class="problem">Use the given information to make a logical conclusion, if possible. If a logical conclusion is not possible, choose "no logical conclusion possible."</p>
                 <p class="question">If <span id="if-clause"><var>IF_CLAUSE</var></span>, then <span id="then-clause"><var>THEN_CLAUSE</var></span>. <span id="second-sent"><var>capitalize(IMPLICATION[ TYPE ])</var></span>. </p>
                 <p class="solution"><var>SOLUTION</var></p>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li><var>capitalize(CONCLUSION[TYPE])</var></li>
                     <li>No logical conclusion possible</li>
                 </ul>
@@ -109,7 +109,7 @@
                 <p class="problem">Use the given information to make a logical conclusion, if possible.</p>
                 <p class="question">If <span id="hyp_a"><var>HYP_A</var></span>, then <span id="conc_a"><var>CONC_A</var></span>. If <span id="hyp_b"><var>HYP_B</var></span>, then <span id="conc_b"><var>CONC_B</var></span>.</p>
                 <p class="solution"><var>SOLUTION</var></p>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li data-if="CONC_POSSIBLE">If <var>HYP_A</var>, then <var>CONC_B</var>.</li>
                     <li data-else-if="HYP_DIFF">If <var>HYP_A</var>, then <var>HYP_B</var>.</li>
                     <li data-else="">If <var>CONC_A</var>, then <var>CONC_B</var>.</li>

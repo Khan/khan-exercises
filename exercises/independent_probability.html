@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format probability word-problems graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Independent probability</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -60,7 +60,7 @@
                 If you flip a coin and roll a 6-sided die, what is the probability that you will flip a <var>HT</var> and roll <var>RESULT_DESC</var>?
             </p>
 
-            <div data-forms="proper, decimal, percent" class="solution"><var>0.5 * RESULT_POSSIBLE.length / 6</var></div>
+            <div class="solution" data-forms="proper, decimal, percent"><var>0.5 * RESULT_POSSIBLE.length / 6</var></div>
 
             <div class="hints">
                 <p>
@@ -383,7 +383,7 @@
             </div>
         </div>
         <div id="YARR">
-            <div data-ensure="CAPTAIN_PROB &gt; PIRATE_PROB" class="vars">
+            <div class="vars" data-ensure="CAPTAIN_PROB &gt; PIRATE_PROB">
                 <var id="CAPTAIN_NUM">randRange(1,4)</var>
                 <var id="CAPTAIN_DEM">CAPTAIN_NUM + randRange(1,6)</var>
                 <var id="CAPTAIN_PROB">CAPTAIN_NUM/CAPTAIN_DEM</var>
@@ -424,7 +424,7 @@
                 If both fire their cannons at the same time, what is the probability that <var>QUESTION</var>?
             </p>
 
-            <div data-forms="proper, decimal, percent" class="solution"><var>ANSWER</var></div>
+            <div class="solution" data-forms="proper, decimal, percent"><var>ANSWER</var></div>
 
             <div class="hints">
                 <p>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers functional"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Compound inequalities</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -20,7 +20,7 @@
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="abs( SOLUTION[0] - SOLUTION[1] ) &lt;= 5 &amp;&amp; FAKE_ANSWER[0] !== SOLUTION[0] &amp;&amp; FAKE_ANSWER[1] !== SOLUTION[1]" class="vars">
+        <div class="vars" data-ensure="abs( SOLUTION[0] - SOLUTION[1] ) &lt;= 5 &amp;&amp; FAKE_ANSWER[0] !== SOLUTION[0] &amp;&amp; FAKE_ANSWER[1] !== SOLUTION[1]">
             <var id="COEF">tabulate( function() {
                 return randRange( 2, 9 ) * ( rand( 3 ) &gt; 0 ? 1 : -1 );
             } , 2 )</var>

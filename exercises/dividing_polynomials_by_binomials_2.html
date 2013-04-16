@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dividing polynomials by binomials 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -27,9 +27,9 @@
             <p class="problem">Simplify the following expression:</p>
             <p class="question"><code>\dfrac{<var>plus(C * SQUARE + "x^2")</var> + <var>plus( C * LINEAR + "x" )</var> + <var>C * CONSTANT</var>}{x + <var>-A</var>}</code></p>
 
-            <div data-type="set" class="solution">
-                <div data-type="regex" class="set-sol">^\s*<var>C &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( C )</var>\s*[xX]\s*<var>SOLUTIONCONSTANT &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( SOLUTIONCONSTANT )</var>\s*$</div>
-                <div data-type="regex" class="set-sol">^\s*<var>SOLUTIONCONSTANT &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( SOLUTIONCONSTANT )</var>\s*<var>C &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( C )</var>\s*[xX]\s*$</div>
+            <div class="solution" data-type="set">
+                <div class="set-sol" data-type="regex">^\s*<var>C &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( C )</var>\s*[xX]\s*<var>SOLUTIONCONSTANT &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( SOLUTIONCONSTANT )</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*<var>SOLUTIONCONSTANT &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( SOLUTIONCONSTANT )</var>\s*<var>C &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( C )</var>\s*[xX]\s*$</div>
                 <div class="input-format"><span class="entry"></span></div>
                 <div class="example">a simplified expression, like <b>2x+2</b></div>
             </div>

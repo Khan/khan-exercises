@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math word-problems math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dependent probability</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -90,7 +90,7 @@
                     of them <var>EVENT_PY</var>?
                 </p>
 
-                <div data-forms="proper" class="solution">
+                <div class="solution" data-forms="proper">
                     <var>ANS_N/ANS_D</var>
                 </div>
 
@@ -207,7 +207,7 @@
                      and the second will be <var>COLOR_T</var><var>COLOR_ONE === COLOR_T ? " as well?" : "?"</var> Write 
                     your answer as a simplified fraction.</p>
                 </div>
-                <div data-forms="proper" class="solution">
+                <div class="solution" data-forms="proper">
                     <var>(NUM_ONE/TOTAL)*(AFTER_NUM/(TOTAL-1))</var>
                 </div>
                 <div class="hints">
@@ -272,7 +272,7 @@
                 </div>
             </div>
             <div id="YARR">
-                <div data-ensure="CAPTAIN_PROB &gt; PIRATE_PROB" class="vars">
+                <div class="vars" data-ensure="CAPTAIN_PROB &gt; PIRATE_PROB">
                     <var id="C_FIRST">random() &lt; 0.5</var>
                     <var id="CAPTAIN_NUM">randRange(1,4)</var>
                     <var id="CAPTAIN_DEM">CAPTAIN_NUM + randRange(1,6)</var>
@@ -363,7 +363,7 @@
                     <var>QUESTION</var>?
                 </p>
 
-                <div data-forms="proper" class="solution">
+                <div class="solution" data-forms="proper">
                     <var>ANSWER</var>
                 </div>
 

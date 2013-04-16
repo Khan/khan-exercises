@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Writing expressions 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,8 +9,8 @@
     <div class="exercise">
         <div class="vars">
             <var id="A">randRangeNonZero( -9, 9 )</var>
-            <var data-ensure="abs( A ) !== abs( B )" id="B">randRangeNonZero( -9, 9 )</var>
-            <var data-ensure="abs( C ) !== 1" id="C">randRangeNonZero( -9, 9 )</var>
+            <var id="B" data-ensure="abs( A ) !== abs( B )">randRangeNonZero( -9, 9 )</var>
+            <var id="C" data-ensure="abs( C ) !== 1">randRangeNonZero( -9, 9 )</var>
             <var id="D">randRangeNonZero( -9, 9 )</var>
         </div> <!-- C ( Bx + A ) + D is the expression we are creating -->
 
@@ -24,14 +24,14 @@
                 <p class="part-two"><b><code><var>D</var></code> plus the quantity of <code><var>C</var></code> times that expression</b></p>
                 <p class="solution"><code><var>expr(["+",["*", C,["+",["*", B, "x"], A]], D])</var></code></p>
 <!-- Solution: C ( A + Bx ) + D, wrong 1: -C SAME, wrong 2: -C (B + Ax) - D, wrong 3: D ( -A + Bx ) + C, wrong 4: D ( -B + Ax ) + C -->
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code><var>expr(["+",["*", -C,["+",["*", B, "x"], A]], D])</var></code></li>
                     <li><code><var>expr(["+",["*", -C,["+",["*", A, "x"], B]], D])</var></code></li>
                     <li><code><var>expr(["+",["*", D,["+",["*", B, "x"], -A]], C])</var></code></li>
                     <li><code><var>expr(["+",["*", D,["+",["*", A, "x"], -B]], C])</var></code></li>
                 </ul>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="hint1">What is <span class="hint_orange">the product of <code><var>B</var></code> and <code>x</code></span>?</p>
                     <p id="hint2">What is <span class="hint_blue">the sum of <code><var>A</var></code></span> and <code class="hint_orange"><var>expr(["*", B, "x"])</var></code>?</p>
                     <p id="hint3">What is <span class="hint_orange">the quantity of <code><var>C</var></code> times that expression</span>?</p>
@@ -39,11 +39,11 @@
                 </div>
 
             </div>
-            <div data-type="original" id="type-2">
+            <div id="type-2" data-type="original">
                 <p class="question">the sum of <code><var>A</var></code> and the quantity of <code><var>B</var></code> times <code>x</code></p>
                 <p class="part-two"><b><code><var>D</var></code> plus the product of <code><var>C</var></code> and that expression</b></p>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="hint1">What is <span class="hint_orange">the quantity of <code><var>B</var></code> times <code>x</code></span>?</p>
                     <p id="hint2">What is <span class="hint_blue">the sum of <code><var>A</var></code></span> and <code class="hint_orange"><var>expr(["*", B, "x"])</var></code>?</p>
                     <p id="hint3">What is <span class="hint_orange">the product of <code><var>C</var></code> times that expression</span>?</p>
@@ -51,11 +51,11 @@
                 </div>
 
             </div>
-            <div data-type="original" id="type-3">
+            <div id="type-3" data-type="original">
                 <p class="question"><code><var>A</var></code> plus the product of <code><var>B</var></code> and <code>x</code></p>
                 <p class="part-two"><b>Take the quantity of <code><var>C</var></code> times that expression and then add <code><var>D</var></code>.</b></p>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="hint1">What is <span class="hint_orange">the product of <code><var>B</var></code> and <code>x</code></span>?</p>
                     <p id="hint2">What is <span class="hint_blue"><code><var>A</var></code> plus</span> <code class="hint_orange"><var>expr(["*", B, "x"])</var></code>?</p>
                     <p id="hint3">What is <span class="hint_orange">the quantity of <code><var>C</var></code> times that expression</span>?</p>
@@ -63,11 +63,11 @@
                 </div>
 
             </div>
-            <div data-type="original" id="type-4">
+            <div id="type-4" data-type="original">
                 <p class="question"><code><var>A</var></code> plus the quantity of <code><var>B</var></code> times <code>x</code></p>
                 <p class="part-two"><b>Take the product of <code><var>C</var></code> and that expression and then add <code><var>D</var></code>.</b></p>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="hint1">What is <span class="hint_orange">the quantity of <code><var>B</var></code> times <code>x</code></span>?</p>
                     <p id="hint2">What is <span class="hint_blue"><code><var>A</var></code> plus</span> <code class="hint_orange"><var>expr(["*", B, "x"])</var></code>?</p>
                     <p id="hint3">What is <span class="hint_orange">the product of <code><var>C</var></code> times that expression</span>?</p>
@@ -75,11 +75,11 @@
                 </div>
 
             </div>
-            <div data-type="original" id="type-5">
+            <div id="type-5" data-type="original">
                 <p class="question">Take the product of <code><var>B</var></code> and <code>x</code> and add <code><var>A</var></code>.</p>
                 <p class="part-two"><b>The sum of <code><var>D</var></code> and the product of <code><var>C</var></code> and that expression.</b></p>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="hint1">What is <span class="hint_orange">the product of <code><var>B</var></code> and <code>x</code></span>?</p>
                     <p id="hint2">What does <span class="hint_blue">adding <code><var>A</var></code></span> to <code class="hint_orange"><var>expr(["*", B, "x"])</var></code> do?</p>
                     <p id="hint3">What is <span class="hint_orange">the quantity of <code><var>C</var></code> times that expression</span>?</p>
@@ -87,11 +87,11 @@
                 </div>
 
             </div>
-            <div data-type="original" id="type-6">
+            <div id="type-6" data-type="original">
                 <p class="question">Take the quantity of <code><var>B</var></code> times <code>x</code> and add <code><var>A</var></code>.</p>
                 <p class="part-two"><b>the sum of <code><var>D</var></code> and the product of <code><var>C</var></code> and that expression</b></p>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="hint1">What is <span class="hint_orange">the quantity of <code><var>B</var></code> times <code>x</code></span>?</p>
                     <p id="hint2">What does <span class="hint_blue">adding <code><var>A</var></code></span> to <code class="hint_orange"><var>expr(["*", B, "x"])</var></code> do?</p>
                     <p id="hint3">What is <span class="hint_orange">the product of <code><var>C</var></code> times that expression</span>?</p>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-geometry interactive constructions matrix"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Compass Constructions</title>
     <script src="../khan-exercise.js"></script>
     <script>
@@ -29,15 +29,15 @@
         <div id="perpendicular">
             <div class="problem">
                 <form>
-                    <input type="button" value="Add Compass" onclick="javascript:
+                    <input onclick="javascript:
                         KhanUtil.construction.addCompass();
-                    ">
-                    <input type="button" value="Add Straightedge" onclick="javascript:
+                    " type="button" value="Add Compass">
+                    <input onclick="javascript:
                         KhanUtil.construction.addStraightedge();
-                    ">
-                    <input type="button" value="Clear" onclick="javascript:
+                    " type="button" value="Add Straightedge">
+                    <input onclick="javascript:
                         KhanUtil.construction.removeAllTools();
-                    ">
+                    " type="button" value="Clear">
                 </form>
                 <p class="question">
                     Construct a line perpendicular to the given line.
@@ -56,7 +56,7 @@
                     addDummyStraightedge(a, b);
                 </div>
             </div>
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Use the compass and straightedge tools to construct
                     a line perpendicular to the given line.
@@ -188,7 +188,7 @@
             </div>
             <div class="hints">
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.perp = raphael.set();
                         graph.perp.push(line(
                             applyRefFrame([0, 10], ROT),
@@ -207,7 +207,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.perpPoints = raphael.set();
                         graph.hintLines = raphael.set();
 
@@ -253,7 +253,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.perp.remove();
                     </div>
                     <p>
@@ -262,7 +262,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         circle(applyRefFrame([1, 0], ROT), 0.08, {
                             fill: GRAY,
                             stroke: null
@@ -284,7 +284,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         circle(applyRefFrame([-2, 0], ROT), 0.08, {
                             fill: GRAY,
                             stroke: null
@@ -304,7 +304,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.hintLines.remove();
                     </div>
                     <p>
@@ -313,7 +313,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.perpPoints.attr({fill: GRAY});
                         line(applyRefFrame([0, 10], ROT),
                             applyRefFrame([0, -10], ROT), {
@@ -334,15 +334,15 @@
         <div id="bisector">
             <div class="problem">
                 <form>
-                    <input type="button" value="Add Compass" onclick="javascript:
+                    <input onclick="javascript:
                         KhanUtil.construction.addCompass();
-                    ">
-                    <input type="button" value="Add Straightedge" onclick="javascript:
+                    " type="button" value="Add Compass">
+                    <input onclick="javascript:
                         KhanUtil.construction.addStraightedge();
-                    ">
-                    <input type="button" value="Clear" onclick="javascript:
+                    " type="button" value="Add Straightedge">
+                    <input onclick="javascript:
                         KhanUtil.construction.removeAllTools();
-                    ">
+                    " type="button" value="Clear">
                 </form>
                 <p class="question">
                     Construct a perpendicular bisector of the line segment
@@ -382,7 +382,7 @@
                     label(b, "B", offset);
                 </div>
             </div>
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Use the compass and straightedge tools to construct
                     a perpendicular bisector of <code>\overline{AB}</code>.
@@ -497,7 +497,7 @@
             </div>
             <div class="hints">
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.perp = raphael.set();
                         graph.perp.push(line(
                             applyRefFrame([0, 10], ROT),
@@ -518,7 +518,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.hintLines = raphael.set();
 
                         style({
@@ -565,7 +565,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.perp.remove();
                     </div>
                     <p>
@@ -574,7 +574,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         circle(applyRefFrame([1.5, 0], ROT), 0.08, {
                             fill: GRAY,
                             stroke: null
@@ -596,7 +596,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         circle(applyRefFrame([-1.5, 0], ROT), 0.08, {
                             fill: GRAY,
                             stroke: null
@@ -616,7 +616,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.hintLines.remove();
                     </div>
                     <p>
@@ -627,7 +627,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.compass1.animate({
                                 rx: scaleVector(3)[0],
                                 ry: scaleVector(3)[1]
@@ -658,7 +658,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.perpPoint1.attr({fill: GRAY});
                         graph.perpPoint2.attr({fill: GRAY});
                         line(applyRefFrame([0, 10], ROT),
@@ -678,7 +678,7 @@
         </div>
 
         <div id="angle-bisect">
-            <div data-apply="replace" class="vars">
+            <div class="vars" data-apply="replace">
                 <var id="ROT">randRange(30, 80) * PI / 180</var>
                 <var id="CENTER">[randRange(-3, 0), 0]</var>
                 <var id="HGRAPH">1</var>
@@ -697,15 +697,15 @@
             </div>
             <div class="problem">
                 <form>
-                    <input type="button" value="Add Compass" onclick="javascript:
+                    <input onclick="javascript:
                         KhanUtil.construction.addCompass();
-                    ">
-                    <input type="button" value="Add Straightedge" onclick="javascript:
+                    " type="button" value="Add Compass">
+                    <input onclick="javascript:
                         KhanUtil.construction.addStraightedge();
-                    ">
-                    <input type="button" value="Clear" onclick="javascript:
+                    " type="button" value="Add Straightedge">
+                    <input onclick="javascript:
                         KhanUtil.construction.removeAllTools();
-                    ">
+                    " type="button" value="Clear">
                 </form>
                 <p class="question">
                     Construct an angle bisector for the given angle.
@@ -722,7 +722,7 @@
                     addDummyRay(A, C);
                 </div>
             </div>
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Use the compass and straightedge tools to construct
                     an angle bisector.
@@ -837,7 +837,7 @@
             </div>
             <div class="hints">
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         var farPoint = [
                                 applyRefFrame([10, 0], ROT / 2)[0] + CENTER[0],
                                 applyRefFrame([10 , 0], ROT / 2)[1] + CENTER[1]
@@ -857,7 +857,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.hintLines = raphael.set();
 
                         graph.intersect1 = [CENTER[0] + 2, CENTER[1]];
@@ -895,7 +895,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         circle(CENTER, 0.08, {
                             stroke: null,
                             fill: GRAY
@@ -914,7 +914,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.bisect.remove();
                         circle(graph.intersect1, 0.08, {
                             stroke: null,
@@ -948,7 +948,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         graph.compass1.animate({
                                 rx: scaleVector(2)[0],
                                 ry: scaleVector(2)[1]
@@ -965,7 +965,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="construction" class="graphie">
+                    <div class="graphie" data-update="construction">
                         circle([CENTER[0] + 2 + 2 * cos(ROT), CENTER[1] + 2 * sin(ROT)], 0.08, {
                                 stroke: null,
                                 fill: GRAY

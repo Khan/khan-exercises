@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Rounding whole numbers</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -8,7 +8,7 @@
 <body>
 <div class="exercise">
     <div class="problems">
-        <div data-weight="2" id="all-digits-random">
+        <div id="all-digits-random" data-weight="2">
             <div class="vars">
                 <var id="DIGITS">shuffle( [1, 2, 3, 4, 5, 6, 7, 8, 9], 5 )</var>
                 <var id="NUM">+DIGITS.join( "" )</var>
@@ -18,9 +18,9 @@
             </div>
 
             <p class="question">Round <code><var>commafy( NUM )</var></code> to the nearest <var>TPLACE</var>.</p>
-            <div data-forms="integer" class="solution"><var>ROUNDED</var></div>
+            <div class="solution" data-forms="integer"><var>ROUNDED</var></div>
         </div>
-        <div data-weight="1" id="look-at-five">
+        <div id="look-at-five" data-weight="1">
             <div class="vars">
                 <var id="PLACE">randFromArray([ -2, -3 ])</var>
                 <var id="DIGITS">
@@ -35,7 +35,7 @@
                 <var id="ROUNDED">roundTo( PLACE, NUM )</var>
             </div>
             <p class="question">Round <code><var>commafy( NUM )</var></code> to the nearest <var>TPLACE</var>.</p>
-            <div data-forms="integer" class="solution"><var>ROUNDED</var></div>
+            <div class="solution" data-forms="integer"><var>ROUNDED</var></div>
         </div>
     </div>
 

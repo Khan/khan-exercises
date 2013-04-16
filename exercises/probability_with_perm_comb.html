@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format word-problems subhints"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Probability with permutations and combinations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -8,7 +8,7 @@
     <div class="exercise">
         <div class="problems">
             <div id="students">
-                <div data-ensure="GROUP &lt; (ARE_B ? BOYS : GIRLS)" class="vars">
+                <div class="vars" data-ensure="GROUP &lt; (ARE_B ? BOYS : GIRLS)">
                     <var id="STUDENTS">randRange(7,10)</var>
                     <var id="GROUP">randRange(3,6)</var>
                     <var id="BOYS">randRange(2,STUDENTS-2)</var>
@@ -28,7 +28,7 @@
                     If the teacher picks a group of <code><var>GROUP</var></code> at random, what is the probability that 
                     everyone in the group is a <var>ARE_B ? "boy" : "girl"</var>?
                 </p>
-                <div data-forms="proper" class="solution"><var>ANSWER</var></div>
+                <div class="solution" data-forms="proper"><var>ANSWER</var></div>
                 <div class="hints">
                     <p>
                         One way to solve this problem is to figure out how many different groups
@@ -50,7 +50,7 @@
                             to pick a group of <code><var>GROUP</var></code> students out of <code><var>STUDENTS</var></code> is
                             <code> \dfrac{<var>STUDENTS</var>!}{(<var>STUDENTS</var>-<var>GROUP</var>)!<var>GROUP</var>!} = 
                             \binom{<var>STUDENTS</var>}{<var>GROUP</var>}</code>.
-                            [<a data-subhint="binomial" href="#" class="show-subhint">Show me why</a>]
+                            [<a href="#" class="show-subhint" data-subhint="binomial">Show me why</a>]
                         </p>
                         <div class="subhint" id="binomial">
                             <p>
@@ -123,7 +123,7 @@
                     If you flip a fair coin <code><var>COINS</var></code> times, what is the probability that you will get exactly 
                     <code><var>NUM</var></code> <var>NAME</var>?
                 </p>
-                <p data-forms="proper" class="solution"><var>PRETTY_NUMER/PRETTY_DENOM</var></p>
+                <p class="solution" data-forms="proper"><var>PRETTY_NUMER/PRETTY_DENOM</var></p>
 
                 <div class="hints">
                     <p>
@@ -148,7 +148,7 @@
                             we'll find that there are <code><var>COINS</var>!</code> different arrangements, overcounting <code><var>NUM</var>!</code>
                             times for every time we only switch the <var>IS_H ? "H's" : "T's"</var> around, and <code><var>COINS-NUM</var>!</code>
                             times for every time we only switch the <var>IS_H ? "T's" : "H's"</var> around.
-                            [<a data-subhint="letters" href="#" class="show-subhint">Show me why</a>]
+                            [<a href="#" class="show-subhint" data-subhint="letters">Show me why</a>]
                         </p>
                         <div class="subhint" id="letters">
                             Let's say we toss a coin 5 times, and get tails three times. How many different re-arrangements are there of the
@@ -173,7 +173,7 @@
                         <p>
                             So, there are <code>\dfrac{<var>COINS</var>!}{<var>NUM</var>!<var>COINS-NUM</var>!} = <var>NUM_RIGHT</var></code> different 
                             outcomes where you get exactly <code><var>NUM</var></code> <var>NAME</var>.
-                            [<a data-subhint="total" href="#" class="show-subhint">How many total outcomes are there?</a>]
+                            [<a href="#" class="show-subhint" data-subhint="total">How many total outcomes are there?</a>]
                         </p>
                         <div class="subhint" id="total">
                             Well, if you only flip one coin, there are two outcomes, if you flip two there are four outcomes, if you flip three there

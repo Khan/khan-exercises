@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- TODO: Improve hints --><html data-require="math graphie math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Trigonometry 2</title>
     <script src="../khan-exercise.js"></script>
     <script>
@@ -89,8 +89,8 @@
                 "ABC",
                 "BAC"
             ])</var>
-            <var data-ensure="WRONG_A !== AC &amp;&amp; WRONG_A !== BC &amp;&amp; WRONG_A !== sqrt(AB)" id="WRONG_A">randRange(1, 10)</var>
-            <var data-ensure="WRONG_B !== AC &amp;&amp; WRONG_B !== BC &amp;&amp; WRONG_B !== WRONG_A &amp;&amp; WRONG_B !== sqrt(AB)" id="WRONG_B">randRange(1, 10)</var>
+            <var id="WRONG_A" data-ensure="WRONG_A !== AC &amp;&amp; WRONG_A !== BC &amp;&amp; WRONG_A !== sqrt(AB)">randRange(1, 10)</var>
+            <var id="WRONG_B" data-ensure="WRONG_B !== AC &amp;&amp; WRONG_B !== BC &amp;&amp; WRONG_B !== WRONG_A &amp;&amp; WRONG_B !== sqrt(AB)">randRange(1, 10)</var>
 
             <var id="OPPOSITE_NAME">(ANGLE.substring(0,1)+ANGLE.substring(2))</var>
             <var id="OPPOSITE_VALUE">
@@ -161,14 +161,14 @@
                 </div>
 
                 <div class="solution"><code><var>OPPOSITE_VALUE</var></code></div>
-                <ul data-none="true" class="choices">
+                <ul class="choices" data-none="true">
                     <li><code><var>ADJACENT_VALUE</var></code></li>
                     <li><code><var>AB_STRING</var></code></li>
                     <li><code><var>WRONG_A</var></code></li>
                     <li><code><var>WRONG_B</var></code></li>
                 </ul>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p><code>\overline{AB}</code> is the <b>hypotenuse</b></p>
                     <p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
                     <p>SOH CAH TOA</p>
@@ -196,14 +196,14 @@
                 </div>
 
                 <div class="solution"><code><var>AB_STRING</var></code></div>
-                <ul data-none="true" class="choices">
+                <ul class="choices" data-none="true">
                     <li><code><var>OPPOSITE_VALUE</var></code></li>
                     <li><code><var>ADJACENT_VALUE</var></code></li>
                     <li><code><var>WRONG_A</var></code></li>
                     <li><code><var>WRONG_B</var></code></li>
                 </ul>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is the <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
                     <p><code>\overline{AB}</code> is the <b>hypotenuse</b> (note that it is opposite the right angle)</p>
                     <p>SOH CAH TOA</p>
@@ -232,14 +232,14 @@
                 </div>
 
                 <div class="solution"><code><var>ADJACENT_VALUE</var></code></div>
-                <ul data-none="true" class="choices">
+                <ul class="choices" data-none="true">
                     <li><code><var>OPPOSITE_VALUE</var></code></li>
                     <li><code><var>AB_STRING</var></code></li>
                     <li><code><var>WRONG_A</var></code></li>
                     <li><code><var>WRONG_B</var></code></li>
                 </ul>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p><code>\overline{AB}</code> is the <b>hypotenuse</b></p>
                     <p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
                     <p>SOH CAH TOA</p>
@@ -267,14 +267,14 @@
                 </div>
 
                 <div class="solution"><code><var>AB_STRING</var></code></div>
-                <ul data-none="true" class="choices">
+                <ul class="choices" data-none="true">
                     <li><code><var>OPPOSITE_VALUE</var></code></li>
                     <li><code><var>ADJACENT_VALUE</var></code></li>
                     <li><code><var>WRONG_A</var></code></li>
                     <li><code><var>WRONG_B</var></code></li>
                 </ul>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
                     <p><code>\overline{AB}</code> is the <b>hypotenuse</b> (note that it is opposite the right angle)</p>
                     <p>SOH CAH TOA</p>
@@ -303,13 +303,13 @@
                 </div>
 
                 <div class="solution"><code><var>ADJACENT_VALUE</var></code></div>
-                <ul data-none="true" class="choices">
+                <ul class="choices" data-none="true">
                     <li><code><var>AB_STRING</var></code></li>
                     <li><code><var>WRONG_A</var></code></li>
                     <li><code><var>WRONG_B</var></code></li>
                 </ul>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is the <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
                     <p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
                     <p>SOH CAH TOA</p>
@@ -338,13 +338,13 @@
                 </div>
 
                 <div class="solution"><code><var>OPPOSITE_VALUE</var></code></div>
-                <ul data-none="true" class="choices">
+                <ul class="choices" data-none="true">
                     <li><code><var>AB_STRING</var></code></li>
                     <li><code><var>WRONG_A</var></code></li>
                     <li><code><var>WRONG_B</var></code></li>
                 </ul>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p><code>\overline{<var>OPPOSITE_NAME</var>}</code> is the <b>opposite</b> to <code>\angle <var>ANGLE</var></code></p>
                     <p><code>\overline{<var>ADJACENT_NAME</var>}</code> is <b>adjacent</b> to <code>\angle <var>ANGLE</var></code></p>
                     <p>SOH CAH TOA</p>

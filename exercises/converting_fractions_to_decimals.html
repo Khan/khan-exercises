@@ -8,7 +8,7 @@
     <div class="exercise">
     <div class="problems">
         <div>
-            <div data-ensure="getGCD( NUMERATOR, DENOMINATOR ) === 1" class="vars">
+            <div class="vars" data-ensure="getGCD( NUMERATOR, DENOMINATOR ) === 1">
                 <var id="NUMERATOR">randRange( 1, 30 )</var>
                 <var id="DENOMINATOR">randRange( NUMERATOR + 1, 30 )</var>
                 <var id="DECIMAL_4">Math.round( NUMERATOR / DENOMINATOR * 10000 ) / 10000</var>
@@ -16,7 +16,7 @@
             </div>
             <p>Express the fraction as a decimal, rounded to the thousandth.</p>
             <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
-            <p data-type="decimal" class="solution"><var>DECIMAL</var></p>
+            <p class="solution" data-type="decimal"><var>DECIMAL</var></p>
             <div class="hints">
                 <p>This fraction represents the result of dividing <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
 
@@ -26,11 +26,11 @@
                     DUMMY = Array( graph.divider.getNumHints() );
                 </div>
 
-                <div data-update="nmbrs" class="graphie">
+                <div class="graphie" data-update="nmbrs">
                     graph.divider.shiftDecimals();
                 </div>
 
-                <div data-update="nmbrs" data-each="Divider.numHintsFor( DENOMINATOR, NUMERATOR * 10000, 0, 4 ) times" class="graphie">
+                <div class="graphie" data-each="Divider.numHintsFor( DENOMINATOR, NUMERATOR * 10000, 0, 4 ) times" data-update="nmbrs">
                     graph.divider.showHint();
                 </div>
 

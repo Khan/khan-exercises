@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math interactive graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing points and naming quadrants</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -49,14 +49,14 @@
                         };
                     </div>
                 </div>
-                <div data-type="custom" class="solution">
+                <div class="solution" data-type="custom">
                     <div class="instruction">
                         Graph the point and select the quadrant that contains the point.
                         <ul>
-                            <li><input type="radio" name="sol" value="QI" id="r1"><label for="r1">QI</label></li>
-                            <li><input type="radio" name="sol" value="QII" id="r2"><label for="r2">QII</label></li>
-                            <li><input type="radio" name="sol" value="QIII" id="r3"><label for="r3">QIII</label></li>
-                            <li><input type="radio" name="sol" value="QIV" id="r4"><label for="r4">QIV</label></li>
+                            <li><input id="r1" name="sol" type="radio" value="QI"><label for="r1">QI</label></li>
+                            <li><input id="r2" name="sol" type="radio" value="QII"><label for="r2">QII</label></li>
+                            <li><input id="r3" name="sol" type="radio" value="QIII"><label for="r3">QIII</label></li>
+                            <li><input id="r4" name="sol" type="radio" value="QIV"><label for="r4">QIV</label></li>
                         </ul>
                         Your graph is also part of your answer.
                     </div>
@@ -96,7 +96,7 @@
                             Since our <span class="hint_blue"><code>x</code>-coordinate</span> is <span data-if="X &gt; 0">positive</span><span data-else="">negative</span>,
                             we move <code>\blue{<var>abs( X )</var>}</code> to the <span data-if="X &gt; 0">right</span><span data-else="">left</span>.
                         </p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             style({
                                 stroke: BLUE,
                                 strokeWidth: 3,
@@ -113,7 +113,7 @@
                             Since our <span class="hint_green"><code>y</code>-coordinate</span> is <span data-if="Y &gt; 0">positive</span><span data-else=""> negative</span>,
                             we move <code>\green{<var>abs( Y )</var>}</code> <span data-if="Y &gt; 0">up</span><span data-else=""> down</span>.
                         </p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             style({
                                 stroke: GREEN,
                                 strokeWidth: 3,
@@ -127,9 +127,9 @@
                     <div>
                         <p>
                             Move the point to <code>( \blue{<var>X</var>}, \green{<var>Y</var>} )</code> at the marked point above.
-                            <input type="button" value="Show me" onclick="javascript:KhanUtil.currentGraph.graph.movablePoint.moveTo( KhanUtil.tmpl.getVAR('X'), KhanUtil.tmpl.getVAR('Y') );">
+                            <input onclick="javascript:KhanUtil.currentGraph.graph.movablePoint.moveTo( KhanUtil.tmpl.getVAR('X'), KhanUtil.tmpl.getVAR('Y') );" type="button" value="Show me">
                         </p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             style({
                             stroke: PINK,
                             strokeWidth: 3
@@ -144,7 +144,7 @@
                     <div>
                         <p>Now that we have our point plotted, we can figure out the quadrant.</p>
                         <p>By convention, quadrants are named with a capital <code>\text{Q}</code> and a roman numeral, starting in the upper right quadrant as <code>\text{QI}</code> and rotating counter-clockwise.</p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             label( [ 5, 5] , " \\text{ QI }", "center", { color: "purple" } );
                             label( [ -5, 5] , " \\text{ QII }", "center", { color: "purple" } );
                             label( [ -5, -5] , " \\text{ QIII }", "center", { color: "purple" } );

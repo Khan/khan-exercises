@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format stat word-problems graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading pictographs 2</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -34,7 +34,7 @@
         <div class="fake_header">
             <span><span style="text-transform:capitalize"><var>BADGE</var></span> badges earned by each student</span>
         </div>
-        <div data-each="5 times as n" class="fake_row">
+        <div class="fake_row" data-each="5 times as n">
             <span><var>person( n + 1)</var></span><span data-each="DATA[n] times"><var>FULL_IMAGE</var>
             </span><span data-if="HALF[n]"><var>HALF_IMAGE</var>
             </span><span data-else=""></span><span data-each="(7 - DATA[n]) times">&#160;</span>
@@ -52,8 +52,8 @@
 
             <p class="question">How many <var>BADGE</var> badges did <var>person( PERSON + 1 )</var> earn?</p>
 
-            <div data-type="multiple" class="solution">
-                <p><span style="padding-right: 5px" data-forms="integer, decimal" class="sol short40"><var>ANSWER</var></span> <var>BADGE</var> badges</p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>ANSWER</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
                 <p>The key at the bottom of the pictograph shows that each full symbol represents <var>plural( VALUE_PER_IMG, "badge" )</var>.</p>
@@ -95,7 +95,7 @@
             <p class="question">Who earned <code><var>VALUE</var></code> <var>BADGE</var> <var>plural( "badge", VALUE )</var>?</p>
 
             <div class="solution"><var>person( PERSON + 1 )</var></div>
-            <ul data-category="true" class="choices">
+            <ul class="choices" data-category="true">
                 <li><var>person( 1 )</var></li>
                 <li><var>person( 2 )</var></li>
                 <li><var>person( 3 )</var></li>
@@ -139,8 +139,8 @@
 
             <p class="question">How many more <var>BADGE</var> badges did <var>person( PERSON1 + 1 )</var> earn than <var>person( PERSON2 + 1 )</var>?</p>
 
-            <div data-type="multiple" class="solution">
-                <p><span style="padding-right: 5px" data-forms="integer, decimal" class="sol short40"><var>VAL1 - VAL2</var></span> <var>BADGE</var> badges</p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>VAL1 - VAL2</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
                 <p>The key at the bottom of the pictograph shows that each full symbol represents <var>plural( VALUE_PER_IMG, "badge" )</var>.</p>
@@ -180,8 +180,8 @@
             </div>
             <p class="question">How many <var>BADGE</var> badges were earned by everyone all together?</p>
 
-            <div data-type="multiple" class="solution">
-                <p><span style="padding-right: 5px" data-forms="integer, decimal" class="sol short40"><var>TOTAL</var></span> <var>BADGE</var> badges</p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>TOTAL</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
                 <p>Start by counting the total number of <var>BADGE</var> symbols.</p>

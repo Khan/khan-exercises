@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math stat math-format word-problems spin"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading stem and leaf plots</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -38,15 +38,15 @@
     </div>
 
     <div class="problem">
-        <p data-if="LOCATION === 'grocery store'" class="spin">
+        <p class="spin" data-if="LOCATION === 'grocery store'">
             {The buyer for|A statistician for|An executive of} a chain of supermarkets created the following stem-and-leaf plot
             showing the number of <var>plural( ITEM )</var> at each of the stores:
         </p>
-        <p data-if="LOCATION === 'department store'" class="spin">
+        <p class="spin" data-if="LOCATION === 'department store'">
             {The buyer for|A statistician for|The regional manager of} a chain of department stores created the following stem-and-leaf plot
             showing the number of <var>plural( ITEM )</var> at each of the stores:
         </p>
-        <p data-if="LOCATION === 'zoo'" class="spin">
+        <p class="spin" data-if="LOCATION === 'zoo'">
             {The government|A conservation group|A zookeeper} {created|published} the following stem-and-leaf plot
             showing the number of <var>plural( ITEM )</var> at each major zoo in the country:
         </p>
@@ -176,7 +176,7 @@
         <div id="how-many">
             <div class="vars">
                 <var id="TYPE">"how-many"</var>
-                <var data-ensure="0 &lt;= AMOUNT &amp;&amp; AMOUNT &lt; STEMS * 10" id="AMOUNT">
+                <var id="AMOUNT" data-ensure="0 &lt;= AMOUNT &amp;&amp; AMOUNT &lt; STEMS * 10">
                     random() &lt; 0.7 ?
                     randFromArray( RAW_DATA ) :
                     round( randGaussian() * TGT_STDDEV + TGT_MEAN )
@@ -187,8 +187,8 @@
 
             <p class="question">How many <var>plural( LOCATION )</var> have exactly <var>plural( AMOUNT, ITEM )</var>?</p>
 
-            <div data-type="multiple" class="solution">
-                <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
             </div>
         </div>
 
@@ -202,8 +202,8 @@
 
             <p class="question">How many <var>plural( LOCATION )</var> have fewer than <var>plural( AMOUNT, ITEM )</var>?</p>
 
-            <div data-type="multiple" class="solution">
-                <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
             </div>
         </div>
 
@@ -217,8 +217,8 @@
 
             <p class="question">How many <var>plural( LOCATION )</var> have more than <var>plural( AMOUNT, ITEM )</var>?</p>
 
-            <div data-type="multiple" class="solution">
-                <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
             </div>
         </div>
 
@@ -235,8 +235,8 @@
                 <span data-if="TYPE === 'largest'">What was the largest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
             </p>
 
-            <div data-type="multiple" class="solution">
-                <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>SOLUTION</var></span> <var>plural( ITEM )</var></p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>SOLUTION</var></span> <var>plural( ITEM )</var></p>
             </div>
         </div>
     </div>

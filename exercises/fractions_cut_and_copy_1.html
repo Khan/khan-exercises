@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers word-problems slice-clone"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Fractions cut and copy 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -50,20 +50,20 @@
                     rectchart([1, 0], [BLUE, "#999"]);
                 </div>
 
-                <div data-type="custom" class="solution">
+                <div class="solution" data-type="custom">
                     <div class="instruction">
                         <div style="margin-bottom: 10px;">
                             Cut into
-                            <input type="button" onclick="KhanUtil.changePieces(false)" value="-" class="simple-button">
-                            <span style="display: inline-block; width: 54px; text-align: center;" id="pieces">1 piece</span>
-                            <input type="button" onclick="KhanUtil.changePieces(true)" value="+" class="simple-button">
+                            <input class="simple-button" onclick="KhanUtil.changePieces(false)" type="button" value="-">
+                            <span id="pieces" style="display: inline-block; width: 54px; text-align: center;">1 piece</span>
+                            <input class="simple-button" onclick="KhanUtil.changePieces(true)" type="button" value="+">
                         </div>
 
                         <div style="margin-bottom: 10px;">
                             <span style="display:inline-block; width: 42px;">Copy</span>
-                            <input disabled type="button" onclick="KhanUtil.changeTimes(false, 'current_block')" value="-" class="simple-button">
-                            <span style="display: inline-block; width: 54px; text-align: center;" id="current_block_times">1 time</span>
-                            <input type="button" onclick="KhanUtil.changeTimes(true, 'current_block')" value="+" class="simple-button">
+                            <input class="simple-button" disabled onclick="KhanUtil.changeTimes(false, 'current_block')" type="button" value="-">
+                            <span id="current_block_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
+                            <input class="simple-button" onclick="KhanUtil.changeTimes(true, 'current_block')" type="button" value="+">
                         </div>
                     </div>
 

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html data-require="math polynomials expressions math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Completing the square 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="problems">
-            <div data-weight="4" id="original">
+            <div id="original" data-weight="4">
                 <div class="vars">
                     <var id="X1">randRange( 1, 4 ) / randRangeNonZero( -2, 2 )</var>
-                    <var data-ensure="X1 !== X2" id="X2">( randRange( -3, 3 ) * 2 + 1 ) / 2</var>
+                    <var id="X2" data-ensure="X1 !== X2">( randRange( -3, 3 ) * 2 + 1 ) / 2</var>
                     <var id="B">( X1 + X2 ) * -1</var>
                     <var id="B_SIGN">B &gt; 0 ? "+" : "-"</var>
                     <var id="C">X1 * X2</var>
@@ -20,7 +20,7 @@
                 </div>
                 <p class="question">Solve for <code>x</code> by completing the square.</p>
                 <p><code><var>POLY_TEXT</var> = 0</code></p>
-                <div data-type="set" class="solution">
+                <div class="solution" data-type="set">
                     <div class="set-sol"><var>X1</var></div>
                     <div class="set-sol"><var>X2</var></div>
                     <div class="input-format">
@@ -32,12 +32,12 @@
                     <p class="example">and/or <em>exact</em> decimals, like <code>0.75</code></p>
                 </div>
             </div>
-            <div data-weight="1" data-type="original" id="one-root">
+            <div id="one-root" data-type="original" data-weight="1">
                 <div class="vars">
                     <var id="X1">( randRange( -4, 4 ) * 2 + 1 ) / 2</var>
                     <var id="X2">X1</var>
                 </div>
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     <p><code>x = {}</code><span class="sol"><var>X1</var></span></p>
                     <p class="example">integers, like <code>6</code></p>
                     <p class="example"><em>simplified proper</em> fractions, like <code>3/5</code></p>
@@ -45,7 +45,7 @@
                     <p class="example">and/or <em>exact</em> decimals, like <code>0.75</code></p>
                 </div>
             </div>
-            <div data-weight="2" data-type="original" id="odds">
+            <div id="odds" data-type="original" data-weight="2">
                 <div class="vars">
                     <var id="X1">randRangeNonZero( -8, 8 )</var>
                     <var id="X2">randRange( -4, 4 ) * 2 + ( X1 % 2 - 1 )</var>

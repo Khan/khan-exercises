@@ -5,7 +5,7 @@
     </head>
     <body>
         <div class="exercise">
-            <div data-ensure="M_NUM &lt; M_DENOM" class="vars">
+            <div class="vars" data-ensure="M_NUM &lt; M_DENOM">
                 <var id="WHOLE">randRange( 1, 10 )</var>
 
                 <var id="M_NUM">randRange( 1, 30 )</var>
@@ -22,7 +22,7 @@
                 <div id="improper-to-mixed">
                     <p class="question">Convert <code><var>fraction( I_NUM, I_DENOM, false, true )</var></code> to a mixed number.</p>
 
-                    <p data-type="mixed" class="solution"><var>I_NUM / I_DENOM</var></p>
+                    <p class="solution" data-type="mixed"><var>I_NUM / I_DENOM</var></p>
 
                     <div class="hints">
                         <div>
@@ -67,7 +67,7 @@
                 <div id="mixed-to-improper">
                     <p class="question">Convert <code><var>WHOLE</var>\ <var>fraction( M_NUM, M_DENOM, false, true )</var></code> to an improper fraction.</p>
 
-                    <p data-type="improper" class="solution"><var>I_NUM / I_DENOM</var></p>
+                    <p class="solution" data-type="improper"><var>I_NUM / I_DENOM</var></p>
 
                     <div class="hints">
                         <p><code>\color{#FFA500}{<var>WHOLE</var>}\ \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code></p>

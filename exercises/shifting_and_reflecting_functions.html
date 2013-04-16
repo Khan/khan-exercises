@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Shifting and reflecting functions</title>
     <script src="../khan-exercise.js"></script>
 
@@ -14,7 +14,7 @@
 
             <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange( -6, -1 ) : randRange( 1, 6 )</var>
             <var id="FLIP">randRangeNonZero(-1, 1)</var>
-            <var data-ensure="abs (Y_ORIG * FLIP + Y_SHIFT) &lt; 9 &amp;&amp; (Y_ORIG * FLIP + Y_SHIFT) * UP_ORIG * FLIP &lt; 7" id="Y_SHIFT">randRangeNonZero( -6 , 6 )</var>
+            <var id="Y_SHIFT" data-ensure="abs (Y_ORIG * FLIP + Y_SHIFT) &lt; 9 &amp;&amp; (Y_ORIG * FLIP + Y_SHIFT) * UP_ORIG * FLIP &lt; 7">randRangeNonZero( -6 , 6 )</var>
         </div>
 
         <div class="problems">
@@ -52,7 +52,7 @@
                 </div>
 
                 <p class="solution"><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],-Y_SHIFT])</var></code></li>
                     <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", -X_SHIFT]]],Y_SHIFT])</var></code></li>
                     <li><code><var>expr(["+",["*", -FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></li>
@@ -65,7 +65,7 @@
             <div data-if="FLIP === -1">
                 <p>To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by <code>-1</code>, giving <code class="hint_purple">-f(x)</code>.</p>
 
-                <div data-update="G" class="graphie">
+                <div class="graphie" data-update="G">
                     style({
                         stroke: "purple"
                     });
@@ -78,7 +78,7 @@
             <div>
                 <p>Shift the function <code>-f(x)</code> <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> <var>(abs(Y_SHIFT) === 1 ? "unit" : "units")</var>, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</p>
 
-                <div data-update="G" class="graphie">
+                <div class="graphie" data-update="G">
                     style({
                         strokeWidth: 2,
                         stroke: "green",
@@ -104,7 +104,7 @@
 
                 <p>We now know that <code>g(x)</code> = <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
 
-                <div data-update="G" class="graphie">
+                <div class="graphie" data-update="G">
                     style({
                         stroke: "blue",
                         strokeWidth: 2,

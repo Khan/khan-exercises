@@ -5,7 +5,7 @@
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="( A !== 0 ) &amp;&amp; -10 &lt; C &amp;&amp; C &lt; 10 " class="vars">
+        <div class="vars" data-ensure="( A !== 0 ) &amp;&amp; -10 &lt; C &amp;&amp; C &lt; 10 ">
             <!-- Pick a random top point and coefficient A -->
             <!-- This makes it easy to spot whether B is zero or not. -->
             <var id="A"> randRange( -5, 5 ) </var>
@@ -24,7 +24,7 @@
             <div>
                 <p class="question"><code>a\cdot x^2 + b\cdot x + c</code> is graphed below. Determine the signs of <code>a</code>, <code>b</code>, and <code>c</code>.</p>
 
-                <div id="grid" class="graphie">
+                <div class="graphie" id="grid">
                     init({
                         range: [ [ -10, 10 ], [ -10, 10 ] ],
                         scale: [ 25, 25 ]
@@ -41,10 +41,10 @@
                     plot( function(x) { return A * x * x + B * x + C; }, [ -10,10 ] );
                 </div>
 
-                <div data-type="multiple" class="solution">
-                    <p><code>a</code> is <span data-choices="['positive', 'zero', 'negative']" data-type="list" class="sol"><var>(A &gt; 0) ? 'positive' : 'negative' </var></span></p>
-                    <p><code>b</code> is <span data-choices="['positive', 'zero', 'negative']" data-type="list" class="sol"><var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var></span></p>
-                    <p><code>c</code> is <span data-choices="['positive', 'zero', 'negative']" data-type="list" class="sol"><var>(C &gt; 0) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var></span></p>
+                <div class="solution" data-type="multiple">
+                    <p><code>a</code> is <span class="sol" data-choices="['positive', 'zero', 'negative']" data-type="list"><var>(A &gt; 0) ? 'positive' : 'negative' </var></span></p>
+                    <p><code>b</code> is <span class="sol" data-choices="['positive', 'zero', 'negative']" data-type="list"><var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var></span></p>
+                    <p><code>c</code> is <span class="sol" data-choices="['positive', 'zero', 'negative']" data-type="list"><var>(C &gt; 0) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var></span></p>
                 </div>
 
                 <div class="hints">
@@ -55,7 +55,7 @@
                     <p>If the parabola intersected the positive part of the <code>y</code>-axis, then <code>c</code> would be positive.</p>
                     <p>The parabola intersects the <code>y</code>-axis in the point <code>(0,c) = (0,<var>C</var>)</code>, thus <code>c</code> is <var>( C &gt; 0 ) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var>.</p>
                     <p>The number <code>b</code> determines how the parabola intersects the <code>y</code>-axis. Imagine the tangent at the intersection. What is the slope?</p>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         style({ stroke: "#FF8800", strokeWidth: 2});
                         line( [ -10, F( -10 )], [ 10, F( 10 )]);
                     </div>

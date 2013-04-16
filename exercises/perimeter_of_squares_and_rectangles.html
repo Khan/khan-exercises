@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Perimeter of squares and rectangles</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -26,8 +26,8 @@
                 <var>plural(UNIT_TEXT, S)</var> long. What is its perimeter?
             </p>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>4 * S</var></span>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>4 * S</var></span>
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
@@ -45,7 +45,7 @@
                     shape added together.
                 </p>
                 <div>
-                    <div data-update="square" class="graphie">
+                    <div class="graphie" data-update="square">
                         path([[0, 0], [0, 5]],
                             { strokeWidth: 4, stroke: PINK });
                         path([[0, 5], [5, 5]],
@@ -79,8 +79,8 @@
                 <var>plural(UNIT_TEXT)</var>. How long is each side?
             </p>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>S</var></span>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>S</var></span>
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div>
-                    <div data-update="square" class="graphie">
+                    <div class="graphie" data-update="square">
                         path([[0, 0], [0, 5]],
                             { strokeWidth: 4, stroke: PINK });
                         path([[0, 5], [5, 5]],
@@ -129,8 +129,8 @@
             </div>
         </div>
 
-        <div data-weight="3" id="rectangle-lw-to-P">
-            <div data-ensure="L !== W" class="vars">
+        <div id="rectangle-lw-to-P" data-weight="3">
+            <div class="vars" data-ensure="L !== W">
                 <var id="L">randRange(1, 8)</var>
                 <var id="W">randRange(1, 8)</var>
             </div>
@@ -143,8 +143,8 @@
                 wide. What is its perimeter?
             </p>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>2 * L + 2 * W</var></span>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>2 * L + 2 * W</var></span>
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
@@ -162,7 +162,7 @@
                     shape added together.
                 </p>
                 <div>
-                    <div data-update="rectangle" class="graphie">
+                    <div class="graphie" data-update="rectangle">
                         path([[0, 0], [0, W]],
                             { strokeWidth: 4, stroke: PINK });
                         path([[0, W], [L, W]],

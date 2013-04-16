@@ -8,7 +8,7 @@
     <div class="exercise">
         <div class="vars"></div>
         <div class="problems">
-            <div data-weight="8" id="original">
+            <div id="original" data-weight="8">
                 <div class="vars">
                     <var id="INDEX">randRangeNonZero( -3, 3 )</var>
                     <var id="M1">INDEX &gt; 0 ? INDEX * randRangeNonZero( -1, 1 ) : 1 / INDEX * randRangeNonZero( -1, 1 )</var>
@@ -18,8 +18,8 @@
                     <var id="M2_FRAC">decimalFraction( M2, "true", "true" )</var>
                     <var id="M2_SIGN">M2 &gt; 0 ? "" : "-"</var>
                     <var id="B1">randRange( 2, 8 ) * randRangeNonZero( -1, 1 )</var>
-                    <var data-ensure="( B1 - B2 ) % ( pow( abs( INDEX ), 2 ) + 1 ) === 0" id="B2">randRange( -8, 8 )</var>
-                    <var data-ensure="abs( X1 ) &lt; 9 &amp;&amp; abs( M1 * X1 + B1 ) &lt; 9 &amp;&amp; ( M1 * X1 + B1 ) !== ( M2 * X1 + B2 )" id="X1">toFraction( M1 )[1] * randRangeNonZero( -3, 3 )</var>
+                    <var id="B2" data-ensure="( B1 - B2 ) % ( pow( abs( INDEX ), 2 ) + 1 ) === 0">randRange( -8, 8 )</var>
+                    <var id="X1" data-ensure="abs( X1 ) &lt; 9 &amp;&amp; abs( M1 * X1 + B1 ) &lt; 9 &amp;&amp; ( M1 * X1 + B1 ) !== ( M2 * X1 + B2 )">toFraction( M1 )[1] * randRangeNonZero( -3, 3 )</var>
                     <var id="Y1">M1 * X1 + B1</var>
                     <var id="X2">round( ( B2 - B1 ) / ( M1 - M2 ), 0 )</var>
                     <var id="Y2">M2 * X2 + B2</var>
@@ -51,7 +51,7 @@
 
                     </div>
                 </div>
-                <div data-type="radical" class="solution">
+                <div class="solution" data-type="radical">
                     <p><var>DISTANCE</var></p>
                 </div>
                 <div class="hints">
@@ -70,7 +70,7 @@
                     </div>
                     <div>
                         <p>The equation of the perpendicular line is <code>\enspace \color{<var>GREEN</var>}{y = <span data-if="abs( M1_FRAC ) !== 1"><var>M1_FRAC</var></span><span data-else=""><var>M1_SIGN</var></span>x<span data-if="B1 !== 0"> + <var>B1</var></span>}\thinspace</code>.</p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             plot(function( x ) {
                                 return ( M1 * x + B1 );
                             }, [-10, 10], {
@@ -80,7 +80,7 @@
                     </div>
                     <div>
                         <p>We can see from the graph (or by setting the equations equal to one another) that the two lines intersect at the point <code>\color{red}{(<var>X2</var>, <var>Y2</var>)}</code>. Thus, the distance we're looking for is the distance between the two red points.</p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             circle( [X2, Y2], 1/4, {
                             stroke: "none",
                             fill: "#ff0000"
@@ -93,14 +93,14 @@
                     <p>The distance between the point <code>\color{red}{(<var>X1</var>, <var>Y1</var>)}</code> and the line <code>\thinspace \color{<var>BLUE</var>}{y = <span data-if="abs( M2_FRAC ) !== 1"><var>M2_FRAC</var></span><span data-else=""><var>M2_SIGN</var></span>x <span data-if="B2 !== 0">+ <var>B2</var></span>}\enspace</code> is <code>\thinspace<var>formattedSquareRootOf( DISTANCE )</var></code>.</p>
                 </div>
             </div>
-            <div data-weight="1" data-type="original" id="horizontal">
+            <div id="horizontal" data-type="original" data-weight="1">
                 <div class="vars">
                     <var id="M1">0</var>
                     <var id="M2">99999</var>
                     <var id="B1">randRange( 2, 8 ) * randRangeNonZero( -1, 1 )</var>
                     <var id="B2">0</var>
                     <var id="X1">randRangeNonZero( -8, 8 )</var>
-                    <var data-ensure="abs( Y1 - B1 ) &gt; 2 &amp;&amp; abs( Y1 - B1 ) &lt; 9" id="Y1">randRange( -8, 8 )</var>
+                    <var id="Y1" data-ensure="abs( Y1 - B1 ) &gt; 2 &amp;&amp; abs( Y1 - B1 ) &lt; 9">randRange( -8, 8 )</var>
                     <var id="X2">0</var>
                 </div>
                 <div class="question">
@@ -129,7 +129,7 @@
 
                     </div>
                 </div>
-                <div data-type="radical" class="solution">
+                <div class="solution" data-type="radical">
                     <p><span><var>pow( Y1 - B1, 2 )</var></span></p>
                 </div>
                 <div class="hints">
@@ -137,7 +137,7 @@
                     <p>Since the slope of the blue line is <code class="hint_blue">0</code>, the perpendicular line will have an infinite slope and therefore will be a vertical line.</p>
                     <div>
                         <p>The equation of the vertical line that passes through <code>\color{red}{(<var>X1</var>, <var>Y1</var>)}</code> is <code>\enspace \color{<var>GREEN</var>}{x = <var>X1</var>}\thinspace</code>.</p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             plot(function( x ) {
                                 return ( M2 * ( x - X1 ) );
                             }, [-10, 10], {
@@ -147,7 +147,7 @@
                     </div>
                     <div>
                         <p>We can see from the graph that the two lines intersect at the point <code>\color{red}{(<var>X1</var>, <var>B1</var>)}</code>. Thus, the distance we're looking for is the distance between the two red points.</p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             circle( [X1, B1], 1/4, {
                             stroke: "none",
                             fill: "#ff0000"
@@ -159,13 +159,13 @@
                     <p>The distance between the point <code>\color{red}{(<var>X1</var>, <var>Y1</var>)}</code> and the line <code>\enspace \color{<var>BLUE</var>}{y = <var>B1</var>}\enspace</code> is <code>\thinspace<var>abs( Y1 - B1 )</var></code>.</p>
                 </div>
             </div>
-            <div data-weight="1" data-type="original" id="vertical">
+            <div id="vertical" data-type="original" data-weight="1">
                 <div class="vars">
                     <var id="M1">99999</var>
                     <var id="M2">0</var>
                     <var id="B1">randRange( 2, 8 ) * randRangeNonZero( -1, 1 )</var>
                     <var id="B2">0</var>
-                    <var data-ensure="abs( X1 - B1 ) &gt; 2 &amp;&amp; abs( X1 - B1 ) &lt; 9" id="X1">randRange( -8, 8 )</var>
+                    <var id="X1" data-ensure="abs( X1 - B1 ) &gt; 2 &amp;&amp; abs( X1 - B1 ) &lt; 9">randRange( -8, 8 )</var>
                     <var id="Y1">randRangeNonZero( -8, 8 )</var>
                     <var id="X2">0</var>
                 </div>
@@ -193,7 +193,7 @@
 
                     </div>
                 </div>
-                <div data-type="radical" class="solution">
+                <div class="solution" data-type="radical">
                     <p><span><var>pow( X1 - B1, 2 )</var></span></p>
                 </div>
                 <div class="hints">
@@ -201,7 +201,7 @@
                     <p>Since the blue line has an infinite slope, the perpendicular line will have a slope of <code>\color{<var>GREEN</var>}{0}</code> and therefore will be a horizontal line.</p>
                     <div>
                         <p>The equation of the perpendicular line that passes through <code>\color{red}{(<var>X1</var>, <var>Y1</var>)}</code> is <code>\enspace \color{<var>GREEN</var>}{y = <var>Y1</var>}\thinspace</code>.</p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             plot(function( x ) {
                                 return ( M2 * x + Y1 );
                             }, [-10, 10], {
@@ -211,7 +211,7 @@
                     </div>
                     <div>
                         <p>We can see from the graph that the two lines intersect at the point <code>\color{red}{(<var>B1</var>, <var>Y1</var>)}</code>. Thus, the distance we're looking for is the distance between the two red points.</p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             circle( [B1, Y1], 1/4, {
                             stroke: "none",
                             fill: "#ff0000"

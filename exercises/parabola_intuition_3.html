@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie interactive parabola-intuition"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Parabola intuition 3</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -74,8 +74,8 @@
                     length as each other. Use them to check that you've found the right focus and directrix.
                 </p>
 
-                <div data-type="multiple" class="solution">
-                    <div data-type="custom" class="sol">
+                <div class="solution" data-type="multiple">
+                    <div class="sol" data-type="custom">
                         <div class="guess"> [ graph.vertex.coord, graph.directrix.coordA[1] ] </div>
                         <div class="validator-function">
                             if (_.isEqual(guess, [[0, 1], -1])) {
@@ -98,7 +98,7 @@
                     <p>
                         Equation of the parabola:<br>
                         <span style="font-size: 12px;">
-                        <code>y - </code><span data-fallback="0" required="" class="sol short30"><var>Y1</var></span><code> = </code><span data-fallback="1" required="" class="sol short30"><var>A</var></span><code>(x - </code><span data-fallback="0" required="" class="sol short30"><var>X1</var></span><code>)^2</code>
+                        <code>y - </code><span class="sol short30" data-fallback="0" required=""><var>Y1</var></span><code> = </code><span class="sol short30" data-fallback="1" required=""><var>A</var></span><code>(x - </code><span class="sol short30" data-fallback="0" required=""><var>X1</var></span><code>)^2</code>
                         </span>
                     </p>
 

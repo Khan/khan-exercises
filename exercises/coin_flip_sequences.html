@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="../khan-exercise.js"></script>
     <title>Coin flip sequences</title>
 
@@ -98,8 +98,8 @@
         <div style="overflow: hidden; width: 496px;">
             <div id="charts">
                 <div data-each="SEQUENCE.split('') as FLIP">
-                    <div data-if="FLIP === 'H'" class="heads">H</div>
-                    <div data-else="" class="tails">T</div>
+                    <div class="heads" data-if="FLIP === 'H'">H</div>
+                    <div class="tails" data-else="">T</div>
                 </div>
                 <div class="graphie chart" id="chart-1">
                     init({
@@ -205,7 +205,7 @@
         </div>
         <p class="view-patterns">View patterns:
             <span class="pattern-tabs">
-                <a id="show-flips" href="javascript:void(0);" class="selected" data-offset="0">Coin flips</a> |
+                <a href="javascript:void(0);" class="selected" id="show-flips" data-offset="0">Coin flips</a> |
                 <a href="javascript:void(0);" id="show-chart-1" data-offset="1">H vs T</a> |
                 <a href="javascript:void(0);" id="show-chart-2" data-offset="2">Two-flip streaks</a> |
                 <a href="javascript:void(0);" id="show-chart-3" data-offset="3">Three-flip streaks</a>
@@ -227,13 +227,13 @@
         });
     </div>
     <p class="solution"><var>CHOICES[SOLUTION]</var></p>
-    <ul data-category="true" class="choices">
+    <ul class="choices" data-category="true">
         <li data-each="CHOICES as CHOICE"><var>CHOICE</var></li>
     </ul>
 
     <div class="problems">
         <div id="fair">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="SEQUENCE">
                     randFromArray(["H", "T"], 276).join("")
                 </var>
@@ -242,7 +242,7 @@
         </div>
 
         <div id="unfair">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="SEQUENCE">
                     randFromArray(randFromArray([
                         ["H", "H", "H", "T", "T"],
@@ -254,7 +254,7 @@
         </div>
 
         <div id="human">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="SEQUENCE">randFromArray([
                     "HTHHTHTHTHTHTHHHTHTHTHTHHHHTHTTHHTHHTHTHTHTHTH" +
                     "HTHTHTHTHTHTHHHTHTHTHTHHTHTHTTTHHTHHTHTHHHTHHT" +

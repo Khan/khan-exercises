@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Parabola intuition 1</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -54,24 +54,24 @@
 
                 </div>
 
-                <div data-type="custom" class="solution">
+                <div class="solution" data-type="custom">
                     <!--
                         There didn't seem to be an easy way to bind handlers normally after everything had loaded.
                         It would also be nice to press and hold.
                     -->
                     <div class="instruction">
                         <div id="plus-buttons">
-                            <input style="margin-left: 20px;" type="button" class="simple-button mini-button" value="+" onclick="updateParabola(0, 0, -1)">
-                            <input style="margin-left: 8px;" type="button" class="simple-button mini-button" value="+" onclick="updateParabola(1, 0, 0)">
-                            <input style="margin-left: 20px;" type="button" class="simple-button mini-button" value="+" onclick="updateParabola(0, -1, 0)">
+                            <input class="simple-button mini-button" onclick="updateParabola(0, 0, -1)" style="margin-left: 20px;" type="button" value="+">
+                            <input class="simple-button mini-button" onclick="updateParabola(1, 0, 0)" style="margin-left: 8px;" type="button" value="+">
+                            <input class="simple-button mini-button" onclick="updateParabola(0, -1, 0)" style="margin-left: 20px;" type="button" value="+">
                         </div>
 
-                        <p style="margin: 8px 0px 2px 0px" id="equation-label"><code>y - 0 = 1(x - 0)^{2}</code></p>
+                        <p id="equation-label" style="margin: 8px 0px 2px 0px"><code>y - 0 = 1(x - 0)^{2}</code></p>
 
-                        <div style="padding-bottom: 15px" id="minus-buttons">
-                            <input style="margin-left: 20px;" type="button" class="simple-button mini-button" value="-" onclick="updateParabola(0, 0, 1)">
-                            <input style="margin-left: 8px;" type="button" class="simple-button mini-button" value="-" onclick="updateParabola(-1, 0, 0)">
-                            <input style="margin-left: 20px;" type="button" class="simple-button mini-button" value="-" onclick="updateParabola(0, 1, 0)">
+                        <div id="minus-buttons" style="padding-bottom: 15px">
+                            <input class="simple-button mini-button" onclick="updateParabola(0, 0, 1)" style="margin-left: 20px;" type="button" value="-">
+                            <input class="simple-button mini-button" onclick="updateParabola(-1, 0, 0)" style="margin-left: 8px;" type="button" value="-">
+                            <input class="simple-button mini-button" onclick="updateParabola(0, 1, 0)" style="margin-left: 20px;" type="button" value="-">
                         </div>
                     </div>
 

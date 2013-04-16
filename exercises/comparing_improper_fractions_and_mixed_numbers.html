@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Comparing improper fractions and mixed numbers</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +9,7 @@
     <div class="exercise">
         <div class="problems">
             <div id="same-whole">
-                <div data-ensure="M_DENOM !== I_DENOM" class="vars">
+                <div class="vars" data-ensure="M_DENOM !== I_DENOM">
                     <var id="WHOLE">randRange( 1, 5 )</var>
                     <var id="WHOLE_2">WHOLE</var>
 
@@ -55,7 +55,7 @@
                     </p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li><code>&lt;</code></li>
                     <li><code>=</code></li>
                     <li><code>&gt;</code></li>
@@ -79,7 +79,7 @@
                 </div>
             </div>
             <div id="different-whole">
-                <div data-ensure="M_DENOM !== I_DENOM" class="vars">
+                <div class="vars" data-ensure="M_DENOM !== I_DENOM">
                     <var id="WHOLE">randRange( 1, 5 )</var>
                     <var id="WHOLE_2">randRange( 1, 5 )</var>
 
@@ -125,7 +125,7 @@
                     </p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li><code>&lt;</code></li>
                     <li><code>=</code></li>
                     <li><code>&gt;</code></li>

@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html data-require="math math-format word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Permutations</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="problems">
-            <div data-weight="0.6" id="letters">
-                <div data-ensure="WORD != PERM" class="vars">
+            <div id="letters" data-weight="0.6">
+                <div class="vars" data-ensure="WORD != PERM">
                     <var id="INDEX">randRange(0,11)</var>
                     <var id="WORD">["CLAW", "OPAL", "APE", "RULES", "ANGER", "SLIME", "FEAT", "FANCY", "SONG", "DEN", "TIGER", "IRON"][INDEX]</var>
                     <var id="PERM">shuffle(WORD).join("")</var>
                     <var id="ANSWER">factorial(WORD.length)</var>
                 </div>
                 <p class="question">How many unique ways are there to arrange the letters in the word <var>WORD</var>?</p>
-                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
                 <div class="hints">
                     <div>
                         <p>Let's try building the re-arrangements (or permutations) letter by letter. The word is <var>WORD.length</var>
@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <div data-weight="0.4" id="reindeer">
+            <div id="reindeer" data-weight="0.4">
                 <div class="vars">
                     <var id="NUM_NAMES">randRange(4,5)</var>
                     <var id="NAMES">_.map(randRangeUnique(0,8,NUM_NAMES), function(n){
@@ -57,7 +57,7 @@
                 </p>
 
                 <p class="question">How many different ways can you arrange your reindeer?</p>
-                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
 
                 <div class="hints">
                     <div>

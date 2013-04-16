@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format word-problems graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading pictographs 1</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -32,7 +32,7 @@
         <div class="fake_header">
             <span><span style="text-transform:capitalize"><var>BADGE</var></span> badges earned by each student</span>
         </div>
-        <div data-each="5 times as n" class="fake_row">
+        <div class="fake_row" data-each="5 times as n">
             <span><var>person( n + 1 )</var></span><span data-each="DATA[n] times"><var>FULL_IMAGE</var>
             </span><span data-each="(8 - DATA[n]) times">&#160;</span>
         </div>
@@ -44,13 +44,13 @@
 
     <div class="problems">
 
-        <div data-weight="1" id="most">
+        <div id="most" data-weight="1">
             <div class="vars">
                 <var id="MOST">_.indexOf( DATA, Math.max.apply( Math, DATA ) )</var>
             </div>
             <p class="question">Who earned the most <var>BADGE</var> badges?</p>
             <div class="solution"><var>person( MOST + 1 )</var></div>
-            <ul data-category="true" class="choices">
+            <ul class="choices" data-category="true">
                 <li><var>person( 1 )</var></li>
                 <li><var>person( 2 )</var></li>
                 <li><var>person( 3 )</var></li>
@@ -65,13 +65,13 @@
             </div>
         </div>
 
-        <div data-weight="1" id="least">
+        <div id="least" data-weight="1">
             <div class="vars">
                 <var id="LEAST">_.indexOf( DATA, Math.min.apply( Math, DATA ) )</var>
             </div>
             <p class="question">Who earned the fewest <var>BADGE</var> badges?</p>
             <div class="solution"><var>person( LEAST + 1 )</var></div>
-            <ul data-category="true" class="choices">
+            <ul class="choices" data-category="true">
                 <li><var>person( 1 )</var></li>
                 <li><var>person( 2 )</var></li>
                 <li><var>person( 3 )</var></li>
@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <div data-weight="3" id="read-chart">
+        <div id="read-chart" data-weight="3">
             <div class="vars">
                 <var id="PERSON">rand( 5 )</var>
                 <var id="ANSWER">DATA[ PERSON ] * VALUE_PER_IMG</var>
@@ -94,8 +94,8 @@
 
             <p class="question">How many <var>BADGE</var> badges did <var>person( PERSON + 1 )</var> earn?</p>
 
-            <div data-type="multiple" class="solution">
-                <p><span style="padding-right: 5px" data-forms="integer" class="sol short40"><var>ANSWER</var></span> <var>BADGE</var> badge(s)</p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol short40" data-forms="integer" style="padding-right: 5px"><var>ANSWER</var></span> <var>BADGE</var> badge(s)</p>
             </div>
 
             <div class="hints">

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math calculus polynomials expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Chain rule 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -52,7 +52,7 @@
 
                 <p class="solution"><code><var>DERIVATIVE</var></code></p>
 
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code><var>
                         expr(["*", OUTER.ddxF, randFromArray(INNER.wrongs)])
                     </var></code></li>
@@ -96,7 +96,7 @@
 
             <p data-if="DERIVATIVE_SIMPLIFICATIONS.length !== 0">The derivative at this point is <code><var>expr(UNSIMPLIFIED_DERIVATIVE)</var></code>, but this expression can be simplified.</p>
 
-            <div data-if="DERIVATIVE_SIMPLIFICATIONS.length !== 0" data-each="DERIVATIVE_SIMPLIFICATIONS as i, newexpr">
+            <div data-each="DERIVATIVE_SIMPLIFICATIONS as i, newexpr" data-if="DERIVATIVE_SIMPLIFICATIONS.length !== 0">
                 <p><code><var>expr( i === 0 ? UNSIMPLIFIED_DERIVATIVE : DERIVATIVE_SIMPLIFICATIONS[i - 1] )</var></code> can be simplified to <code><var>expr(newexpr)</var></code>.</p>
             </div>
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multi-step linear inequalities</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,8 +9,8 @@
         <div class="vars">
             <var id="A">randRange( 2, 10 )</var>
             <var id="B">randRangeNonZero( -10, 10 )</var>
-            <var data-ensure="abs( C - A ) &gt; 1" id="C">randRange( 2, 10 )</var>
-            <var data-ensure="D !== B" id="D">randRangeNonZero( 2, 10 )</var>
+            <var id="C" data-ensure="abs( C - A ) &gt; 1">randRange( 2, 10 )</var>
+            <var id="D" data-ensure="D !== B">randRangeNonZero( 2, 10 )</var>
             <var id="SOLUTION">fractionReduce( D - B, A - C )</var>
 
             <var id="REL">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
@@ -22,9 +22,9 @@
                 <p class="question">Solve for <code>x</code>:</p>
                 <div><code><var>A</var>x + <var>B</var> <var>REL</var> <var>C</var>x + <var>D</var></code></div>
 
-                <p data-type="multiple" class="solution">
+                <p class="solution" data-type="multiple">
                     <code>x</code>
-                    <span data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;']" data-type="list" class="sol">
+                    <span class="sol" data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;']" data-type="list">
                         <var>A - C &gt; 0 ? REL : FREL</var>
                     </span>
                     <span class="sol"><var>( D - B ) / ( A - C )</var></span></p>

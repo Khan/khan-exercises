@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multistep equations with distribution</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -32,8 +32,8 @@
 
     <div class="problems">
         <div id="prob1"> <!-- A = Bx + C(Dx + E) -->
-            <div data-ensure="(B + C * D !== 0) &amp;&amp;
-                    (A - C * E !== 0) &amp;&amp; (B + C * D !== 1)" class="vars">
+            <div class="vars" data-ensure="(B + C * D !== 0) &amp;&amp;
+                    (A - C * E !== 0) &amp;&amp; (B + C * D !== 1)">
                 <var id="A">randRangeNonZero(-10, 10)</var>
                 <var id="B">randRangeNonZero(-10, 10)</var>
                 <var id="C">
@@ -50,7 +50,7 @@
                 ["*", D, X], E]]])</var>
             </code></p>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -149,8 +149,8 @@
         </div>
 
         <div id="prob2"> <!-- A = B(C + Dx) + Ex -->
-            <div data-ensure="(B * D + E !== 0) &amp;&amp;
-                    (A - B * C) &amp;&amp; (B * D + E)" class="vars">
+            <div class="vars" data-ensure="(B * D + E !== 0) &amp;&amp;
+                    (A - B * C) &amp;&amp; (B * D + E)">
                 <var id="A">randRangeNonZero(-10, 10)</var>
                 <var id="B">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
@@ -167,7 +167,7 @@
                 ["*", E, X]])</var>
             </code></p>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -270,9 +270,9 @@
 
 
         <div id="prob3"> <!-- A(Bx + C) = D(E &#8722; Fx) + Gx -->
-            <div data-ensure="D * F + G !== 0 &amp;&amp;
+            <div class="vars" data-ensure="D * F + G !== 0 &amp;&amp;
                     ((A * B) - (D * F + G)) !== 0 &amp;&amp;
-                    ((A * B) - (D * F + G)) !== 1" class="vars">
+                    ((A * B) - (D * F + G)) !== 1">
                 <var id="A">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
                 </var>
@@ -294,7 +294,7 @@
                 ["*", G, X]])</var>
             </code></p>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -463,9 +463,9 @@
 
 
         <div id="prob4"> <!-- Ax + B(Cx + D) = Ex + F -->
-            <div data-ensure="(F - B * D !== 0) &amp;&amp;
+            <div class="vars" data-ensure="(F - B * D !== 0) &amp;&amp;
                     (A + B * C - E !== 0) &amp;&amp;
-                    (A + B * C - E !== 1)" class="vars">
+                    (A + B * C - E !== 1)">
                 <var id="A">randRangeNonZero(-8, 8)</var>
                 <var id="B">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
@@ -484,7 +484,7 @@
                 <var>expr(["+", ["*", E, X], F])</var>
             </code></p>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -616,7 +616,7 @@
         </div>
 
         <div id="prob5"> <!-- A + Bx = C(Dx + E) -->
-            <div data-ensure="(B - C * D !== 0) &amp;&amp; (B - C * D !== 1)" class="vars">
+            <div class="vars" data-ensure="(B - C * D !== 0) &amp;&amp; (B - C * D !== 1)">
                 <var id="A">randRangeNonZero(-8, 8)</var>
                 <var id="B">randRangeNonZero(-10, 10)</var>
                 <var id="C">
@@ -633,7 +633,7 @@
                 <var>expr(["*", C, ["+", ["*", D, X], E]])</var>
             </code></p>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -748,8 +748,8 @@
         </div>
 
         <div id="prob6"> <!-- Ax + B(C + Dx) = E -->
-            <div data-ensure="(A + B * D !== 0) &amp;&amp;
-                    (E - B * C !== 0) &amp;&amp; (A + B * D !== 1)" class="vars">
+            <div class="vars" data-ensure="(A + B * D !== 0) &amp;&amp;
+                    (E - B * C !== 0) &amp;&amp; (A + B * D !== 1)">
                 <var id="A">randRangeNonZero(-8, 8)</var>
                 <var id="B">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
@@ -765,7 +765,7 @@
                 <var>expr(["+", ["*", A, X], ["*", B, ["+", C, ["*", D, X]]]])</var> = <var>E</var>
             </code></p>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -862,7 +862,7 @@
         </div>
 
         <div id="prob7"> <!-- A(Bx + C) = Dx + E -->
-            <div data-ensure="(A * B - D !== 0) &amp;&amp; (A * B - D !== 1)" class="vars">
+            <div class="vars" data-ensure="(A * B - D !== 0) &amp;&amp; (A * B - D !== 1)">
                 <var id="A">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
                 </var>
@@ -879,7 +879,7 @@
                 <var>expr(["+", ["*", D, X], E])</var>
             </code></p>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -995,8 +995,8 @@
         </div>
 
         <div id="prob8"> <!-- A(B + Cx) + D = E + Fx -->
-            <div data-ensure="(A * B - F !== 0) &amp;&amp;
-                    (A * C + D !== 0) &amp;&amp; (E - A * C - D !== 0) &amp;&amp; (A * B - F !== 1)" class="vars">
+            <div class="vars" data-ensure="(A * B - F !== 0) &amp;&amp;
+                    (A * C + D !== 0) &amp;&amp; (E - A * C - D !== 0) &amp;&amp; (A * B - F !== 1)">
                 <var id="A">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
                 </var>
@@ -1014,7 +1014,7 @@
                 <var>expr(["+", E, ["*", F, X]])</var>
             </code></p>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>
@@ -1143,7 +1143,7 @@
         </div>
 
         <div id="prob9"> <!-- A(Bx + C) = D(E + Fx) -->
-            <div data-ensure="(A * B - D * F !== 0) &amp;&amp; (A * B - D * F !== 1)" class="vars">
+            <div class="vars" data-ensure="(A * B - D * F !== 0) &amp;&amp; (A * B - D * F !== 1)">
                 <var id="A">
                     randRangeWeightedExclude(-6, 4, -1, 0.4, [0, 1])
                 </var>
@@ -1163,7 +1163,7 @@
                 <var>expr(["*", D, ["+", E, ["*", F, X]]])</var>
             </code></p>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <p>
                     <code><var>X</var> =</code>
                     <span class="sol"><var>SOLUTION</var></span>

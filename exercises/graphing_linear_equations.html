@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions graphie interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing linear equations</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
     <div class="problems">
-        <div data-weight="1" data-type="base" id="horizontal">
+        <div id="horizontal" data-type="base" data-weight="1">
             <div class="vars">
-                <var data-ensure="YINT != 5" id="YINT">randRangeNonZero( -10, 10 )</var>
-                <var data-ensure="B != 1" id="B">randRangeNonZero( -5, 5 )</var>
+                <var id="YINT" data-ensure="YINT != 5">randRangeNonZero( -10, 10 )</var>
+                <var id="B" data-ensure="B != 1">randRangeNonZero( -5, 5 )</var>
                 <var id="C">B * YINT</var>
                 <var id="SLOPE">0</var>
                 <var id="X_EXAMPLE">randRange( 2, 6 )</var>
@@ -47,7 +47,7 @@
                     <p>
                         Let's pick some points where <code>y = <var>YINT</var></code>.
                         <code class="hint_green">(-<var>X_EXAMPLE</var>, <var>YINT</var>)</code> and <code class="hint_green">(<var>X_EXAMPLE</var>, <var>YINT</var>)</code> are both good choices.
-                        </p><div data-update="grid" class="graphie">
+                        </p><div class="graphie" data-update="grid">
                             style({ stroke: GREEN, fill: GREEN }, function() {
                                 graph.exampleA = circle( [ -1 * X_EXAMPLE, YINT ], 0.2 ).toBack();
                                 graph.exampleB = circle( [ X_EXAMPLE, YINT ], 0.2 ).toBack();
@@ -59,7 +59,7 @@
                     <p>
                         We can see that these points line up to form a horizontal line that crosses the y-axis at <code class="hint_green">(0, <var>YINT</var>)</code>.
                     </p>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: "." }, function() {
                             plot( function( x ) {
                                 return YINT;
@@ -71,13 +71,13 @@
             </div>
         </div>
 
-        <div data-weight="1" data-type="base" id="vertical">
+        <div id="vertical" data-type="base" data-weight="1">
             <div class="vars">
                 <var id="XINT">randRangeNonZero( -10, 10 )</var>
-                <var data-ensure="B != 1" id="B">randRangeNonZero( -5, 5 )</var>
+                <var id="B" data-ensure="B != 1">randRangeNonZero( -5, 5 )</var>
                 <var id="C">B * XINT</var>
                 <var id="Y_EXAMPLE">randRange( 2, 6 )</var>
-                <var data-ensure="Y_EXAMPLE != Y_EXAMPLE_2" id="Y_EXAMPLE_2">randRange( 2, 6 )</var>
+                <var id="Y_EXAMPLE_2" data-ensure="Y_EXAMPLE != Y_EXAMPLE_2">randRange( 2, 6 )</var>
             </div>
 
             <div class="question">
@@ -109,7 +109,7 @@
                     <p>
                         Let's pick some points where <code>x = <var>XINT</var></code>.
                         <code class="hint_green">(<var>XINT</var>, -<var>Y_EXAMPLE</var>)</code>, <code class="hint_green">(<var>XINT</var>, <var>Y_EXAMPLE_2</var>)</code> and <code class="hint_green">(<var>XINT</var>, <var>Y_EXAMPLE</var>)</code> are all good choices.
-                        </p><div data-update="grid" class="graphie">
+                        </p><div class="graphie" data-update="grid">
                             style({ stroke: GREEN, fill: GREEN }, function() {
                                 graph.exampleA = circle( [ XINT, -1 * Y_EXAMPLE ], 0.2 ).toBack();
                                 graph.exampleB = circle( [ XINT, Y_EXAMPLE ], 0.2 ).toBack();
@@ -122,7 +122,7 @@
                     <p>
                         We can see that these points line up to form a vertical line that crosses the x-axis at <code class="hint_green">(<var>XINT</var>, 0)</code>.
                     </p>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: "." }, function() {
                             line([XINT, -11], [XINT, 11]).toBack();
                         });
@@ -131,7 +131,7 @@
 
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Drag the two points to move the line into the correct position.
                 </div>
@@ -147,7 +147,7 @@
             </div>
         </div>
 
-        <div data-weight="6" data-type="base" id="normal">
+        <div id="normal" data-type="base" data-weight="6">
             <div class="vars">
                 <var id="SLOPE_FRAC">reduce( randRangeNonZero( -5, 5 ), randRange( 1, 5 ) )</var>
                 <var id="YINT">randRangeNonZero( max( -10, -10 - SLOPE_FRAC[0] ), min( 10, 10 - SLOPE_FRAC[0] ) )</var>
@@ -162,10 +162,10 @@
 
             <div class="question">
                 <p>Graph the following equation:</p>
-                <p data-if="STD_FORM" class="hint_blue">
+                <p class="hint_blue" data-if="STD_FORM">
                     <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> = <var>C</var></code>
                 </p>
-                <p data-else="" class="hint_blue">
+                <p class="hint_blue" data-else="">
                     <code>y = <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>
                 </p>
             </div>
@@ -202,7 +202,7 @@
                     <p>
                         The y-intercept is <code class="hint_green"><var>YINT</var></code>, so the line must pass through the point <code class="hint_green">(0, <var>YINT</var>)</code>.
                     </p>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         style({ stroke: GREEN, fill: GREEN }, function() {
                             graph.yint = circle( [ 0, YINT ], 0.2 ).toBack();
                         });
@@ -222,7 +222,7 @@
                         <var>"position" + ( abs( SLOPE_FRAC[1] ) !== 1 ? "s" : "" )</var>
                         to the right.
                     </p>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         style({
                             stroke: "purple",
                             strokeWidth: 2,
@@ -238,7 +238,7 @@
                 </div>
                 <div>
                     <p>So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC[1]</var>, <var>YINT + SLOPE_FRAC[0]</var>)</code></p>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         style({ stroke: BLUE, strokeWidth: 2, strokeDasharray: "." }, function() {
                             plot( function( x ) {
                                 return x * SLOPE + YINT;
@@ -250,7 +250,7 @@
 
         </div>
 
-        <div data-weight="0" id="base">
+        <div id="base" data-weight="0">
 
             <div class="vars"></div>
             <div class="question"></div>
@@ -312,7 +312,7 @@
 
                 </div>
             </div>
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Drag the two points to move the line into the correct position.
                 </div>

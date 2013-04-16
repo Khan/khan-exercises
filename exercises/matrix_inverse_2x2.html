@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math matrix matrix-input"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inverse of a 2x2 matrix</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -50,13 +50,13 @@
                 What is <code><var>PRETTY_MAT_ID</var>^{-1}</code>?
             </p>
 
-            <div data-type="multiple" class="solution">
-                <div data-each="PADDED_SOLN_MAT as row" class="matrix-row">
+            <div class="solution" data-type="multiple">
+                <div class="matrix-row" data-each="PADDED_SOLN_MAT as row">
                     <span data-each="row as elem">
-                        <span data-simplify="optional" data-if="elem !== ''" class="sol">
+                        <span class="sol" data-if="elem !== ''" data-simplify="optional">
                             <var>elem</var>
                         </span>
-                        <span data-else="" data-type="text" class="sol">
+                        <span class="sol" data-else="" data-type="text">
                             <var>elem</var>
                         </span>
                     </span>

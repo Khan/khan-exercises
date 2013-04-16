@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions word-problems spin"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Systems of equations word problems</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -15,12 +15,12 @@
                     <var id="X">[randRange( 2, 4 ), randRange( 2, 4 ), randRange( 40, 50 )][INDEX]</var>
                     <var id="Y">[randRange( X + 2, 10 ), randRange( X + 2, 10 ), randRange( 30, 50 )][INDEX]</var>
                     <var id="CENT_1">randRange( 0, 1 )</var>
-                    <var data-ensure="( CENT_1 + CENT_2 ) !== 0" id="CENT_2">randRange( 0, 1 )</var>
+                    <var id="CENT_2" data-ensure="( CENT_1 + CENT_2 ) !== 0">randRange( 0, 1 )</var>
                     <var id="A1">[roundTo( 8, randRange( 5, 8 ) + CENT_1 * 0.5 ), roundTo( 8, randRange( 5, 8 ) + CENT_1 * 0.5 ), 1][INDEX]</var>
                     <var id="B1">[roundTo( 8, randRange( 2, 4 ) + CENT_2 * 0.5 ), roundTo( 8, randRange( 2, 4 ) + CENT_2 * 0.5 ), 1][INDEX]</var>
                     <var id="C1">roundTo( 8, A1 * X + B1 * Y )</var>
                     <var id="A2">1</var>
-                    <var data-ensure="( A1 * B2 ) !== ( A2 * B1 )" id="B2">[-1, -1, randRange( -4, -2 )][INDEX]</var>
+                    <var id="B2" data-ensure="( A1 * B2 ) !== ( A2 * B1 )">[-1, -1, randRange( -4, -2 )][INDEX]</var>
                     <var id="C2">roundTo( 8, A2 * X + B2 * Y )</var>
                     <var id="SIGN_1">A1 * C2 &gt; 0 ? "-" : "+"</var>
                     <var id="SIGN_2">B1 * Y &gt; 0 ? "-" : "+"</var>
@@ -35,9 +35,9 @@
                     a baseball game. Everyone there was a fan of either the home team or the away team. The number of home team fans was <var>abs( C2 )</var> less than <var>abs( B2 )</var> times the number of away team fans.<br><br>How
                     many home team and away team fans attended the game?</span></p>
                 </div>
-                <div data-type="multiple" class="solution">
-                    <p># of <var>UNIT_1</var> = <span data-forms="integer, decimal" class="sol short50"><var>X</var></span></p>
-                    <p># of <var>UNIT_2</var> = <span data-forms="integer, decimal" class="sol short50"><var>Y</var></span></p>
+                <div class="solution" data-type="multiple">
+                    <p># of <var>UNIT_1</var> = <span class="sol short50" data-forms="integer, decimal"><var>X</var></span></p>
+                    <p># of <var>UNIT_2</var> = <span class="sol short50" data-forms="integer, decimal"><var>Y</var></span></p>
                 </div>
                 <div class="hints">
                     <p>Let <code>x</code> equal the number of <var>UNIT_1</var> and <code>y</code> equal the number of <var>UNIT_2</var>.</p>
@@ -82,12 +82,12 @@
                     <var id="X">[randRange( 2, 4 ), randRange( 2, 4 ), randRange( 40, 50 )][INDEX]</var>
                     <var id="Y">[randRange( X + 2, 10 ), randRange( X + 2, 10 ), randRange( 30, 50 )][INDEX]</var>
                     <var id="CENT_1">randRange( 0, 1 )</var>
-                    <var data-ensure="( CENT_1 + CENT_2 ) !== 0" id="CENT_2">randRange( 0, 1 )</var>
+                    <var id="CENT_2" data-ensure="( CENT_1 + CENT_2 ) !== 0">randRange( 0, 1 )</var>
                     <var id="A1">[roundTo( 8, randRange( 5, 8 ) + CENT_1 * 0.5 ), roundTo( 8, randRange( 5, 8 ) + CENT_1 * 0.5 ), 1][INDEX]</var>
                     <var id="B1">[roundTo( 8, randRange( 2, 4 ) + CENT_2 * 0.5 ), roundTo( 8, randRange( 2, 4 ) + CENT_2 * 0.5 ), 1][INDEX]</var>
                     <var id="C1">roundTo( 8, A1 * X + B1 * Y )</var>
                     <var id="B2">1</var>
-                    <var data-ensure="( A1 * B2 ) !== ( A2 * B1 )" id="A2">[-1, -1, randRange( -4, -2 )][INDEX]</var>
+                    <var id="A2" data-ensure="( A1 * B2 ) !== ( A2 * B1 )">[-1, -1, randRange( -4, -2 )][INDEX]</var>
                     <var id="C2">roundTo( 8, A2 * X + B2 * Y )</var>
                     <var id="SIGN_1">B1 * C2 &gt; 0 ? "-" : "+"</var>
                     <var id="SIGN_2">A1 * X &gt; 0 ? "-" : "+"</var>
@@ -99,9 +99,9 @@
                 <div class="question">
                     <p><span data-if="INDEX === 0 || INDEX === 1"><var>PROBLEM_1</var>. Bags of candy cost $<var>A1.toFixed( 2 )</var>, and bags of cookies cost $<var>B1.toFixed( 2 )</var>, and sales equaled $<var>C1.toFixed( 2 )</var> in total. There were <var>C2</var> more bags of cookies than candy sold.<br><br><var>PROBLEM_2</var>.</span><span data-else="">The sum of two angles' measures is <var>C1</var> degrees. Angle 2 is <var>abs( C2 )</var> degrees smaller than <var>abs( A2 )</var> times angle 1.<br><br>What are the measures of the two angles in degrees?</span></p>
                 </div>
-                <div data-type="multiple" class="solution">
-                    <p><span data-if="INDEX !== 2"># of </span><var>UNIT_1</var> = <span data-forms="integer, decimal" class="sol short50"><var>X</var></span></p>
-                    <p><span data-if="INDEX !== 2"># of </span><var>UNIT_2</var> = <span data-forms="integer, decimal" class="sol short50"><var>Y</var></span></p>
+                <div class="solution" data-type="multiple">
+                    <p><span data-if="INDEX !== 2"># of </span><var>UNIT_1</var> = <span class="sol short50" data-forms="integer, decimal"><var>X</var></span></p>
+                    <p><span data-if="INDEX !== 2"># of </span><var>UNIT_2</var> = <span class="sol short50" data-forms="integer, decimal"><var>Y</var></span></p>
                 </div>
                 <div class="hints">
                     <p>Let <code>x</code> equal the <span data-if="INDEX !== 2">number</span><span data-else="">measure</span> of <var>UNIT_1</var> and <code>y</code> equal the <span data-if="INDEX !== 2">number</span><span data-else="">measure</span> of <var>UNIT_2</var>.</p>
@@ -143,18 +143,18 @@
                 </div>
             </div>
             <div id="elimination-x">
-                <div data-ensure="abs( B1 * MULT1 + B2 * MULT2 ) &gt; 0.0001" class="vars">
+                <div class="vars" data-ensure="abs( B1 * MULT1 + B2 * MULT2 ) &gt; 0.0001">
                     <var id="X">randRange( 2, 4 )</var>
                     <var id="Y">randRange( X + 2, 10 )</var>
                     <var id="INDEX">1</var>
                     <var id="CENT_1">randRange( 0, 1 )</var>
-                    <var data-ensure="( CENT_1 + CENT_2 ) !== 0" id="CENT_2">randRange( 0, 1 )</var>
+                    <var id="CENT_2" data-ensure="( CENT_1 + CENT_2 ) !== 0">randRange( 0, 1 )</var>
                     <var id="Z1">roundTo( 8, randRange( 100, 300 ) / 100 )</var>
-                    <var data-ensure="abs( Z2 ) &lt;= 6 &amp;&amp; Z2 !== 0" id="Z2">INDEX === 0 ? -1 * Z1 : randRangeWeighted( -4, 4, -1, 0 ) * Z1</var>
+                    <var id="Z2" data-ensure="abs( Z2 ) &lt;= 6 &amp;&amp; Z2 !== 0">INDEX === 0 ? -1 * Z1 : randRangeWeighted( -4, 4, -1, 0 ) * Z1</var>
                     <var id="Z3">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
                     <var id="Z4">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
                     <var id="Z5">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
-                    <var data-ensure="( Z3 * Z6 ) !== ( Z4 * Z5 )" id="Z6">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
+                    <var id="Z6" data-ensure="( Z3 * Z6 ) !== ( Z4 * Z5 )">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
                     <var id="A1">roundTo( 8, randRange( 5, 8 ) + CENT_1 * 0.5 )</var>
                     <var id="B1">roundTo( 8, randRange( 2, 4 ) + CENT_2 * 0.5 )</var>
                     <var id="C1">roundTo( 8, A1 * X + B1 * Y )</var>
@@ -171,9 +171,9 @@
                     group paid $<var>C1.toFixed( 2 )</var> in total.<br><br>{A few weeks later|The next month}, the same group visited a {science|natural history} museum where the tickets cost $<var>A2.toFixed( 2 )</var> each for teachers and $<var>B2.toFixed( 2 )</var> each for students, and the
                     group paid $<var>C2.toFixed( 2 )</var> in total.<br><br>Find the number of teachers and students on the field trips.</p>
                 </div>
-                <div data-type="multiple" class="solution">
-                    <p># of teachers = <span data-forms="integer, decimal" class="sol short50"><var>X</var></span></p>
-                    <p># of students = <span data-forms="integer, decimal" class="sol short50"><var>Y</var></span></p>
+                <div class="solution" data-type="multiple">
+                    <p># of teachers = <span class="sol short50" data-forms="integer, decimal"><var>X</var></span></p>
+                    <p># of students = <span class="sol short50" data-forms="integer, decimal"><var>Y</var></span></p>
                 </div>
                 <div class="hints">
                     <p>Let <code>x</code> equal the number of teachers and <code>y</code> equal the number of students.</p>
@@ -216,14 +216,14 @@
             <div id="elimination-y">
                 <div class="vars">
                     <var id="X">randRange( 11, 99 )</var>
-                    <var data-ensure="X !== Y" id="Y">randRange( 10, X - 1 )</var>
+                    <var id="Y" data-ensure="X !== Y">randRange( 10, X - 1 )</var>
                     <var id="INDEX">0</var>
                     <var id="Z1">roundTo( 8, randRange( 100, 300 ) / 100 )</var>
-                    <var data-ensure="abs( Z2 ) &lt;= 6 &amp;&amp; Z2 !== 0" id="Z2">INDEX === 0 ? -1 * Z1 : randRangeWeighted( -4, 4, -1, 0 ) * Z1</var>
+                    <var id="Z2" data-ensure="abs( Z2 ) &lt;= 6 &amp;&amp; Z2 !== 0">INDEX === 0 ? -1 * Z1 : randRangeWeighted( -4, 4, -1, 0 ) * Z1</var>
                     <var id="Z3">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
                     <var id="Z4">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
                     <var id="Z5">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
-                    <var data-ensure="( Z3 * Z6 ) !== ( Z4 * Z5 )" id="Z6">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
+                    <var id="Z6" data-ensure="( Z3 * Z6 ) !== ( Z4 * Z5 )">roundTo( 8, randRange( 200, 600 ) / 100 )</var>
                     <var id="A1">1</var>
                     <var id="B1">[ 1, Z1, Z2, Z5 ][ INDEX ]</var>
                     <var id="C1">roundTo( 8, A1 * X + B1 * Y )</var>
@@ -239,12 +239,12 @@
                     <p>The sum of two numbers is <var>C1</var>, and their difference is <var>C2</var>. What are the two numbers?</p>
                 </div>
 
-                <div data-type="set" class="solution">
+                <div class="solution" data-type="set">
                     <div class="set-sol"><var>X</var></div>
                     <div class="set-sol"><var>Y</var></div>
                     <div class="input-format">
-                    <p><code>x</code> = <span data-forms="integer, decimal" class="entry short50"></span></p>
-                    <p><code>y</code> = <span data-forms="integer, decimal" class="entry short50"></span></p>
+                    <p><code>x</code> = <span class="entry short50" data-forms="integer, decimal"></span></p>
+                    <p><code>y</code> = <span class="entry short50" data-forms="integer, decimal"></span></p>
                 </div>
                 </div>
                 <div class="hints">

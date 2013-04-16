@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-geometry graphie-polygon word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Angles of a polygon</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -25,15 +25,15 @@
                 graph.polygon.draw();
                 CLONE = graph.polygon.clone();
             </div>
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>ANSWER</var></span> degrees
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>ANSWER</var></span> degrees
             </div>
             <div class="hints">
                 <p>There are a couple ways to approach this problem.</p>
                 <p>Does it help to remember that there are 180 degrees in a triangle?</p>
                 <div>
                     <p>Since this polygon has <var>SIDES</var> sides, we can draw <var>SIDES</var> triangles that all meet in the center.</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         graph.polygon.drawRadialDiagonals();
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                 <div>
                     <p>An alternative approach is shown below.</p>
                     <p>We can use four of the <var>cardinal( SIDES )</var> sides to make 2 triangles, as shown in orange.</p>
-                    <div data-id="other" class="graphie">
+                    <div class="graphie" data-id="other">
                         init({
                              range: [ [ -5, 5 ], [ -1, 5 ] ]
                         });
@@ -69,18 +69,18 @@
                 graph.polygon = new Polygon( SIDES );
                 graph.polygon.draw();
             </div>
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>360</var></span> degrees
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>360</var></span> degrees
             </div>
 
             <div class="hints">
                 <div>
                     <p>The exterior angles are shown above.</p>
-                    <div data-update="polygon" class="graphie">
+                    <div class="graphie" data-update="polygon">
                         graph.polygon.drawExteriorAngles();
                     </div>
                 </div>
-                <div data-update="polygon" class="graphie">
+                <div class="graphie" data-update="polygon">
                     graph.polygon.animateExteriorAngles( randRange( 0, SIDES - 1 ) );
                 </div>
                 <p>The exterior angles fit together to form a circle</p>

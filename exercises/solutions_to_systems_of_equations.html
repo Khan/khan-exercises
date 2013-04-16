@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Solutions to systems of equations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,15 +9,15 @@
         <div class="vars">
             <var id="INDICES">[randRange( 2, 3 ), randRange( 0, 3 )]</var>
             <var id="M1">randRangeNonZero( -6, 6 )</var>
-            <var data-ensure="M1 !== M2" id="M2">randRangeNonZero( -6, 6 )</var>
+            <var id="M2" data-ensure="M1 !== M2">randRangeNonZero( -6, 6 )</var>
             <var id="Y1">randRangeNonZero( -10, 10 )</var>
-            <var data-ensure="Y1 !== Y2" id="Y2">randRangeNonZero( -10, 10 )</var>
-            <var data-ensure="MULT[0] !== 1 &amp;&amp; MULT[1] !== 1" id="MULT">[randRange( 1, 3 ) * randRangeNonZero( -1, 1 ), randRange( 1, 3 ) * randRangeNonZero( -1, 1 )]</var>
+            <var id="Y2" data-ensure="Y1 !== Y2">randRangeNonZero( -10, 10 )</var>
+            <var id="MULT" data-ensure="MULT[0] !== 1 &amp;&amp; MULT[1] !== 1">[randRange( 1, 3 ) * randRangeNonZero( -1, 1 ), randRange( 1, 3 ) * randRangeNonZero( -1, 1 )]</var>
             <var id="AB_VALS">[{ a: M1, b: Y1 }, { a: M2, b: Y2 }]</var>
             <var id="COUNT">[0, 1]</var>
         </div>
         <div class="problems">
-            <div data-weight="0" id="original">
+            <div id="original" data-weight="0">
                 <div class="vars">
                     <var id="EQUATIONS">
                     (function() {
@@ -52,7 +52,7 @@
                     <p><code>\color{<var>BLUE</var>}{<var>EQUATIONS[0]</var>}</code><br>
                     <code>\color{<var>GREEN</var>}{<var>EQUATIONS[1]</var>}</code></p>
                 </div>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li>One solution</li>
                     <li>Infinite solutions</li>
                     <li>No solutions</li>
@@ -77,12 +77,12 @@
                     </div>
                 </div>
             </div>
-            <div data-type="original" id="one_solution">
+            <div id="one_solution" data-type="original">
                 <div class="vars">
                     <var id="AB_VALS">[{ a: M1, b: Y1 }, { a: M2, b: Y2 }]</var>
                 </div>
                 <div class="solution">One solution</div>
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <div>
                         <p>The linear equations have different slopes.</p>
                         <div class="graphie" id="grid">
@@ -112,12 +112,12 @@
                     <p>When two equations have different slopes, the lines will intersect once with one solution.</p>
                 </div>
             </div>
-            <div data-type="original" id="infinite_solutions">
+            <div id="infinite_solutions" data-type="original">
                 <div class="vars">
                     <var id="AB_VALS">[{ a: M1, b: Y1 }, { a: M1, b: Y1 }]</var>
                 </div>
                 <div class="solution">Infinite solutions</div>
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <div>
                         <p>Both equations have the same slope and the same y-intercept, which means the lines would completely overlap.</p>
                         <div class="graphie" id="grid">
@@ -141,12 +141,12 @@
                     <p>Since any solution of <code>\color{<var>BLUE</var>}{<var>EQUATIONS[0]</var>}</code> is also a solution of <code>\color{<var>GREEN</var>}{<var>EQUATIONS[1]</var>}</code>, there are infinitely many solutions.</p>
                 </div>
             </div>
-            <div data-type="original" id="zero_solutions">
+            <div id="zero_solutions" data-type="original">
                 <div class="vars">
                     <var id="AB_VALS">[{ a: M1, b: Y1 }, { a: M1, b: Y2 }]</var>
                 </div>
                 <div class="solution">No solutions</div>
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <div>
                         <p>Both equations have the same slope with different y-intercepts. This means the equations are parallel.</p>
                         <div class="graphie" id="grid">

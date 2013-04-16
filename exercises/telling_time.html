@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie time"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Telling time</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -17,18 +17,18 @@
         <div id="analog">
             <div class="question">
                 <p>What time is it?</p>
-                <div style="float: left;" class="graphie" id="pie">
+                <div class="graphie" id="pie" style="float: left;">
                     init({ range: [ [-4, 4 ], [ -4, 4 ] ], scale: 25 });
                     clock = addAnalogClock({ hour: HOUR, minute: MINUTE, minuteTicks: 0, showLabels: false });
                     clock.draw();
                 </div>
-                <div style="float: left;" class="graphie" id="digital">
+                <div class="graphie" id="digital" style="float: left;">
                     init({ range: [ [-5, 5], [-3, 3] ], scale: 25 });
                 </div>
                 <div style="clear: both;"></div>
             </div>
-            <div data-type="multiple" class="solution">
-                <p class="short">The time is:<br><span data-forms="integer" class="sol short30"><var>HOUR</var></span> : <span data-forms="integer" class="sol short30"><var>NICE_MINUTE</var></span> <var>AM_PM</var></p>
+            <div class="solution" data-type="multiple">
+                <p class="short">The time is:<br><span class="sol short30" data-forms="integer"><var>HOUR</var></span> : <span class="sol short30" data-forms="integer"><var>NICE_MINUTE</var></span> <var>AM_PM</var></p>
                 <p class="example">a 12-hour time in hours and minutes</p>
             </div>
 
@@ -37,7 +37,7 @@
                     <div class="graphie">
                             clock.drawLabels();
                     </div>
-                    <div data-update="digital" class="graphie">
+                    <div class="graphie" data-update="digital">
                         path([ [-3, -1], [3, -1], [3, 1], [-3, 1], [-3, -1] ]);
                         graph.time = label( [0, -0.1],
                             "\\Huge{\\phantom{00}:\\phantom{00}}",
@@ -49,7 +49,7 @@
                     <p data-if="MINUTE &lt;= 10"> The hour hand is pointing at <code><var>HOUR</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
                     <p data-else-if="MINUTE &gt; 10  &amp;&amp; MINUTE &lt; 45">The hour hand is between <code><var>HOUR</var></code> and <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
                     <p data-else="">The hour hand is close to but hasn't passed <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is still <code><var>HOUR</var></code>.</p>
-                    <div data-update="digital" class="graphie">
+                    <div class="graphie" data-update="digital">
                         graph.time.remove();
                         var padding = HOUR &lt; 10 ? "\\phantom{0}" : "";
                         graph.time = label([0, -0.1],
@@ -63,7 +63,7 @@
                 </div>
                 <div>
                     <p>The minute hand is pointing at <code><var> (MINUTE / 5) === 0 ? 12: MINUTE / 5 </var></code>, which represents <span data-if="MINUTE === 0"><code>0</code></span><span data-else=""><code>5 \times <var>(MINUTE / 5) === 0 ? 12: MINUTE / 5</var> = <var>MINUTE</var></code></span> minutes.</p>
-                    <div data-update="digital" class="graphie">
+                    <div class="graphie" data-update="digital">
                         graph.time.remove();
                         var padding = MINUTE &lt; 10 ? "0" : "";
                         graph.time = label([0, -0.1],

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Exploring angle pairs</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
-    <div data-ensure="START != END &amp;&amp; START + 3 != END" class="vars">
+    <div class="vars" data-ensure="START != END &amp;&amp; START + 3 != END">
         <var id="VERTICES">["A", "B", "C", "D", "E", "F"] </var>
 
         <var id="START"> randRange(0,5) </var>
@@ -92,9 +92,9 @@
                     <var> ANGLE_START </var>G<var> ANGLE_END </var> </code>.</p>
             </div>
 
-            <div data-type="set" class="solution">
-                <div data-type="text" class="set-sol"> <var>OPP_START</var>G<var>OPP_END</var> </div>
-                <div data-type="text" class="set-sol"> <var>OPP_END</var>G<var>OPP_START</var> </div>
+            <div class="solution" data-type="set">
+                <div class="set-sol" data-type="text"> <var>OPP_START</var>G<var>OPP_END</var> </div>
+                <div class="set-sol" data-type="text"> <var>OPP_END</var>G<var>OPP_START</var> </div>
 
                 <div class="input-format">
                     <p> <code> \angle </code> <span class="entry"></span> </p>
@@ -116,22 +116,22 @@
                     <var> ANGLE_START </var> G <var> ANGLE_END </var> </code> </p>
             </div>
 
-            <div data-type="set" class="solution">
-                <div data-type="text" class="set-sol"> <var>ANGLE_START
+            <div class="solution" data-type="set">
+                <div class="set-sol" data-type="text"> <var>ANGLE_START
                 </var>G<var>ADJ_START[0] </var> </div>
-                <div data-type="text" class="set-sol"> <var>ANGLE_START 
+                <div class="set-sol" data-type="text"> <var>ANGLE_START 
                 </var>G<var>ADJ_START[1] </var> </div>
-                <div data-type="text" class="set-sol"> <var>ANGLE_END 
+                <div class="set-sol" data-type="text"> <var>ANGLE_END 
                 </var>G<var>ADJ_END[0] </var> </div>
-                <div data-type="text" class="set-sol"> <var>ANGLE_END 
+                <div class="set-sol" data-type="text"> <var>ANGLE_END 
                 </var>G<var>ADJ_END[1] </var> </div>
-                <div data-type="text" class="set-sol"> <var>ADJ_START[0]
+                <div class="set-sol" data-type="text"> <var>ADJ_START[0]
                 </var>G<var>ANGLE_START </var> </div>
-                <div data-type="text" class="set-sol"> <var>ADJ_START[1] 
+                <div class="set-sol" data-type="text"> <var>ADJ_START[1] 
                 </var>G<var>ANGLE_START </var> </div>
-                <div data-type="text" class="set-sol"> <var>ADJ_END[0] 
+                <div class="set-sol" data-type="text"> <var>ADJ_END[0] 
                 </var>G<var>ANGLE_END </var> </div>
-                <div data-type="text" class="set-sol"> <var>ADJ_END[1] 
+                <div class="set-sol" data-type="text"> <var>ADJ_END[1] 
                 </var>G<var>ANGLE_END </var> </div>
 
                 <div class="input-format">
@@ -155,14 +155,14 @@
                     <var> ANGLE_START </var> G <var> ANGLE_END </var> </code> </p>
             </div>
 
-            <div data-type="set" class="solution">
-                <div data-type="text" class="set-sol"> <var>ANGLE_START
+            <div class="solution" data-type="set">
+                <div class="set-sol" data-type="text"> <var>ANGLE_START
                 </var>G<var>OPP_END</var> </div>
-                <div data-type="text" class="set-sol"> <var>ANGLE_END
+                <div class="set-sol" data-type="text"> <var>ANGLE_END
                 </var>G<var>OPP_START</var> </div>
-                <div data-type="text" class="set-sol"> <var>OPP_END
+                <div class="set-sol" data-type="text"> <var>OPP_END
                 </var>G<var>ANGLE_START</var> </div>
-                <div data-type="text" class="set-sol"> <var>OPP_START
+                <div class="set-sol" data-type="text"> <var>OPP_START
                 </var>G<var>ANGLE_END</var> </div>
             
                 <div class="input-format">

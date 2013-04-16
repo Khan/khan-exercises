@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Basic division</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -24,13 +24,13 @@
                     KhanUtil.currentGraph.labelHolder = label( [ 0, A ],
                         "\\Huge{\\color{#6495ED}{" + C + "} \\div \\color{#FFA500}{" + B + "} = {?}}", "right" );
                 </div>
-                <div data-forms="integer" class="solution"><var>A</var></div>
+                <div class="solution" data-forms="integer"><var>A</var></div>
             </div>
         </div>
         <div class="hints">
             <div data-if="B &gt; 1" data-unwrap="">
                 <div>
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         for ( var i = 0; i &lt; A; i++ ) {
                             drawRow( B, A - 1 - i, "#6495ED", B * i + 1 );
                         }
@@ -38,7 +38,7 @@
                     <p>Draw <var>C</var> circles, with <var>B</var> to each row.</p>
                 </div>
                 <div>
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         style({
                             stroke: "#FFA500"
                         });
@@ -52,7 +52,7 @@
             <p data-else="">
                 Dividing any number by 1 equals itself.
             </p>
-            <div data-update="numbers" class="graphie">
+            <div class="graphie" data-update="numbers">
                 KhanUtil.currentGraph.labelHolder.remove();
                 label( [ 0, A ],
                     "\\Huge{\\color{#6495ED}{" + C + "} \\div \\color{#FFA500}{" + B + "} = " + A + "}", "right" );

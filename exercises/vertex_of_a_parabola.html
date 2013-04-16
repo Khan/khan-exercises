@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie interactive ast math-model subhints"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Vertex of a parabola</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +9,7 @@
 
     <div class="problems">
         <div id="standard-form">
-            <div data-ensure="A * H * H + K !== 0" class="vars">
+            <div class="vars" data-ensure="A * H * H + K !== 0">
                 <var id="A">randRangeNonZero( -5, 5 )</var>
                 <var id="H">randRangeNonZero( -5, 5 )</var>
                 <var id="K">randRangeNonZero( -5, 5 )</var>
@@ -47,8 +47,8 @@
 
             <p class="question">Find the parabola's vertex.</p>
 
-            <div data-type="multiple" class="solution">
-                <p><code>\large{\left(\right.}</code><span data-forms="integer" class="sol short30"><var>H</var></span><code>,\text{ }</code><span data-forms="integer" class="sol short30"><var>K</var></span><code>\large{\left.\right)}</code></p>
+            <div class="solution" data-type="multiple">
+                <p><code>\large{\left(\right.}</code><span class="sol short30" data-forms="integer"><var>H</var></span><code>,\text{ }</code><span class="sol short30" data-forms="integer"><var>K</var></span><code>\large{\left.\right)}</code></p>
                 <div class="example">a point, like <code>(-1, 2)</code> </div>
             </div>
 

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html data-require="math word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Greatest common divisor</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="A_START !== B_START" class="vars">
+        <div class="vars" data-ensure="A_START !== B_START">
             <var id="A_START">randRange( 1, 10 )</var>
             <var id="B_START">randRange( 1, 10 )</var>
             <var id="FACTOR">randRange( 1, 5 )</var>
@@ -26,7 +26,7 @@
                     <p><code>\gcd(<var>A</var>, <var>B</var>) = {?}</code></p>
                 </div>
 
-                <p data-forms="integer" class="solution"><var>GCD</var></p>
+                <p class="solution" data-forms="integer"><var>GCD</var></p>
             </div>
         </div>
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie word-problems interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Decimals on the number line 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <span class="instruction"> Move the orange dot to select your answer. </span>
                 <div class="guess"> graph.movablePoint.coord[0] </div>
                 <div class="validator-function">
@@ -88,7 +88,7 @@
                     <p>Therefore, we know <code>\color{orange}{<var>SOLUTION</var>}</code> lies between
                     <code>\color{orange}{<var>SOLUTION_WHOLE</var>}</code> and
                     <code>\color{orange}{<var>SOLUTION_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)</var>}</code> on the number line.</p>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         style({ stroke: "#FFA500", strokeWidth: 3.5 });
                         line( [SOLUTION_WHOLE, -0.2], [SOLUTION_WHOLE, 0.2]);
                         line( [SOLUTION_WHOLE + (SOLUTION &gt; 0 ? 1 : -1), -0.2], [SOLUTION_WHOLE + (SOLUTION &gt; 0 ? 1 : -1), 0.2]);
@@ -96,7 +96,7 @@
                 </div>
 
                 <div>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         style({ stroke: GREEN, fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
                         line( [ 0, 0 ], [ SOLUTION, 0 ] );
                         graph.movablePoint.visibleShape.toFront();
@@ -105,7 +105,7 @@
                 </div>
 
                 <div>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         label( [ SOLUTION, -0.53 ],  SOLUTION, "center", { color: "#FFA500" });
                         graph.movablePoint.moveTo( SOLUTION, 0 );
                     </div>

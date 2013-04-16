@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html data-require="math word-problems graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Rate problems 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="DIST1 !== 0 &amp;&amp; DIST2 !==0" class="vars">
+        <div class="vars" data-ensure="DIST1 !== 0 &amp;&amp; DIST2 !==0">
             <var id="REASONABLESPEED">
                 function(vehicletype) {
                     var speed = 4;
@@ -23,7 +23,7 @@
                 }
             </var>
             <var id="SPEED1">REASONABLESPEED(vehicle(1))</var>
-            <var data-ensure="SPEED2 !== SPEED1" id="SPEED2">REASONABLESPEED(vehicle(2))</var>
+            <var id="SPEED2" data-ensure="SPEED2 !== SPEED1">REASONABLESPEED(vehicle(2))</var>
             <var id="AVG">SPEED1 &lt; SPEED2 ? randRange(SPEED1 + 1, SPEED2 - 1) : randRange(SPEED2 + 1, SPEED1 - 1)</var>
             <var id="TIME">randRange(1, 9)</var>
             <var id="DIST">AVG * TIME</var>
@@ -41,10 +41,10 @@
                     <p>In total, <var>he(1)</var> traveled <var>DIST</var> miles for <var>plural(TIME, "hour")</var>.</p>
                 </div>
                 <p class="question">How many miles did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest mile.)</p>
-                <div data-type="multiple" class="solution">
-                    <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>round(DIST1)</var></span> miles</p>
+                <div class="solution" data-type="multiple">
+                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>round(DIST1)</var></span> miles</p>
                 </div>
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="final-hint">
                         So <var>he(1)</var> traveled <code><var>SPEED1</var> \times </code> 
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
@@ -56,10 +56,10 @@
 
             <div data-type="original">
                 <p class="question">How many miles did <var>person(1)</var> travel by <var>vehicle(2)</var>? (Round to the nearest mile.)</p>
-                <div data-type="multiple" class="solution">
-                    <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>round(DIST2)</var></span> miles</p>
+                <div class="solution" data-type="multiple">
+                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>round(DIST2)</var></span> miles</p>
                 </div>
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="final-hint">
                         <var>He(1)</var> traveled by <var>vehicle(2)</var> for <code><var>TIME</var> - </code> 
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
@@ -77,10 +77,10 @@
 
             <div data-type="original">
                 <p class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest minute.)</p>
-                <div data-type="multiple" class="solution">
-                    <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>round(DIST1 / SPEED1 * 60)</var></span> minutes</p>
+                <div class="solution" data-type="multiple">
+                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>round(DIST1 / SPEED1 * 60)</var></span> minutes</p>
                 </div>
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="final-hint">
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
                         <span data-else=""><code><var>T1[0]</var></code></span>
@@ -91,10 +91,10 @@
 
             <div data-type="original">
                 <p class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(2)</var>? (Round to the nearest minute.)</p>
-                <div data-type="multiple" class="solution">
-                    <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>round(DIST2 / SPEED2 * 60)</var></span> minutes</p>
+                <div class="solution" data-type="multiple">
+                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>round(DIST2 / SPEED2 * 60)</var></span> minutes</p>
                 </div>
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="final-hint">
                         So <var>he(1)</var> traveled by <var>vehicle(2)</var> for <code><var>TIME</var> - </code> 
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>

@@ -88,7 +88,7 @@
 
                     </div>
                 </div>
-                <div data-type="custom" class="solution">
+                <div class="solution" data-type="custom">
                     <div class="instruction">
                         Move the orange dots to experiment with different sample distributions.
                     </div>
@@ -122,10 +122,10 @@
                     <p>
                         There are many ways to arrange the points so the sample standard deviation is
                         <span class="hint_green"><code><var>STDDEV</var></code></span>.<br>
-                        <input type="button" id="example-button" value="Show me an example" onclick="javascript:
+                        <input id="example-button" onclick="javascript:
                             KhanUtil.showStddevExample();
                             $( 'input#example-button' ).val( 'Show me another example' );
-                        ">
+                        " type="button" value="Show me an example">
                     </p>
                 </div>
             </div>

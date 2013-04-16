@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-geometry angles"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Law of cosines</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
     <div class="problems">
-        <div data-calculator="" id="find-side">
-            <div data-ensure="
+        <div id="find-side" data-calculator="">
+            <div class="vars" data-ensure="
                     !TRIANGLE.isRight() &amp;&amp;
                     TRIANGLE.isScalene() &amp;&amp;
-                    TRIANGLE.isNotDegenerate()" class="vars">
+                    TRIANGLE.isNotDegenerate()">
                 <var id="SIDES">shuffle([null].
                     concat(randRangeUnique(5, 16, 2)))</var>
                 <var id="ANGLES">_.map(SIDES, function(s) {
@@ -69,7 +69,7 @@
                     TRIANGLE.draw();
                 </div>
             </div>
-            <div data-inexact="" data-forms="integer, decimal" class="solution" data-max-error="0.09"><var>SOLUTION</var>
+            <div class="solution" data-forms="integer, decimal" data-inexact="" data-max-error="0.09"><var>SOLUTION</var>
             </div>
 
             <div class="hints">
@@ -83,7 +83,7 @@
                         \green{<var>"abc"[(UNKNOWN + 2) % 3]</var>}
                         \space\cos(\pink{<var>"ABC"[UNKNOWN]</var>})
                     </code></p>
-                    <div data-update="triangle" class="graphie">
+                    <div class="graphie" data-update="triangle">
                         TRIANGLE.sideLabels = _.map(SIDES, function(s, n) {
                             return s == null ? "abc"[n] :
                                 "abc"[n] + " = " + s;
@@ -161,7 +161,7 @@
                         \quad = \quad \pink{<var>UNKNOWN_SIDE</var>}
                         \quad \approx \quad <var>SOLUTION</var>
                     </code></p>
-                    <div data-update="triangle" class="graphie">
+                    <div class="graphie" data-update="triangle">
                         TRIANGLE.sideLabels[UNKNOWN] = "\\pink{" +
                             UNKNOWN_SIDE + " \\approx " + SOLUTION + "}";
                         TRIANGLE.draw();
@@ -170,16 +170,16 @@
             </div>
         </div>
 
-        <div data-calculator="" id="sss-find-angle">
-            <div data-ensure="
+        <div id="sss-find-angle" data-calculator="">
+            <div class="vars" data-ensure="
                     !TRIANGLE.isRight() &amp;&amp;
                     TRIANGLE.isScalene() &amp;&amp;
-                    TRIANGLE.isNotDegenerate()" class="vars">
-                <var data-ensure="
+                    TRIANGLE.isNotDegenerate()">
+                <var id="SIDES" data-ensure="
                     SIDES[1] + SIDES[2] &gt; SIDES[0] &amp;&amp;
                     SIDES[0] + SIDES[2] &gt; SIDES[1] &amp;&amp;
                     SIDES[0] + SIDES[1] &gt; SIDES[2]
-                " id="SIDES">randRange(5, 15, 3)</var>
+                ">randRange(5, 15, 3)</var>
                 <var id="TRIANGLE">solveTriangle({
                     sides: SIDES.slice(),
                     angles: [null, null, null],
@@ -234,8 +234,8 @@
                     TRIANGLE.draw();
                 </div>
             </div>
-            <div data-type="multiple" class="solution">
-                <span data-inexact="" data-forms="integer" class="sol" data-max-error="0.5"><var>SOLUTION</var>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer" data-inexact="" data-max-error="0.5"><var>SOLUTION</var>
                 </span><code>\Large{^\circ}</code>
             </div>
 
@@ -250,7 +250,7 @@
                         \green{<var>"abc"[(UNKNOWN + 2) % 3]</var>}
                         \space\cos(\pink{<var>"ABC"[UNKNOWN]</var>})
                     </code></p>
-                    <div data-update="triangle" class="graphie">
+                    <div class="graphie" data-update="triangle">
                         TRIANGLE.sideLabels = _.map(SIDES, function(s, n) {
                             return "abc"[n] + " = " + s;
                         });
@@ -315,7 +315,7 @@
                         \quad = \quad \cos^{-1}\left(<var>COS_UNKNOWN</var>\right)
                         \quad \approx \quad \pink{<var>SOLUTION</var>^\circ}
                     </code></p>
-                    <div data-update="triangle" class="graphie">
+                    <div class="graphie" data-update="triangle">
                         TRIANGLE.angleLabels[UNKNOWN] = "\\pink{" +
                             SOLUTION + "^\\circ}";
                         TRIANGLE.draw();

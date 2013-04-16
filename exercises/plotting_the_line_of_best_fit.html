@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Estimating the line of best fit</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
@@ -220,20 +220,20 @@
                 </div>
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Move the line on the graph to show a best fit line,
                     if it exists.<br>
                     <ul>
                         <li>
                             <label>
-                                <input type="radio" checked name="linear" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" id="exists">
+                                <input id="exists" checked name="linear" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
                                 <span>A good best fit line exists</span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <input type="radio" name="linear" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" id="notexists">
+                                <input id="notexists" name="linear" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
                                 <span>No good best fit line exists</span>
                             </label>
                         </li>
@@ -448,13 +448,13 @@
                 </div>
                 <p>
                     There are several lines that satisfy this.
-                    <input type="submit" value="Click here" onclick="javascript:KhanUtil.tmpl
-                            .getVAR('GRAPH').showSolution()">
+                    <input onclick="javascript:KhanUtil.tmpl
+                            .getVAR('GRAPH').showSolution()" type="submit" value="Click here">
                     to show one of them.
                 </p>
             </div>
         </div>
-        <div data-type="linear" id="nonlinear">
+        <div id="nonlinear" data-type="linear">
             <div class="vars">
                 <var id="SLOPE">0</var>
                 <var id="INTERCEPT">0</var>
@@ -462,20 +462,20 @@
                 <var id="GRAPH">{}</var>
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Move the line on the graph to show a best fit line,
                     if it exists.<br>
                     <ul>
                         <li>
                             <label>
-                                <input type="radio" checked name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" id="exists">
+                                <input id="exists" checked name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
                                 <span>A good best fit line exists</span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <input type="radio" name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" id="notexists">
+                                <input id="notexists" name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
                                 <span>No good best fit line exists</span>
                             </label>
                         </li>

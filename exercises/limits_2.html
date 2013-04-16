@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html data-require="math math-format polynomials expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Limits 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="problems">
-            <div data-weight="3" id="n-eq-d">
+            <div id="n-eq-d" data-weight="3">
                 <div class="vars">
                     <var id="DEG">randRange( 4, 7 )</var>
-                    <var data-ensure="NUM.findMaxDegree() === DEG" id="NUM">new Polynomial( randRange( 2, 4 ), DEG )</var>
-                    <var data-ensure="DEN.findMaxDegree() === DEG" id="DEN">new Polynomial( randRange( 2, 4 ), DEG )</var>
+                    <var id="NUM" data-ensure="NUM.findMaxDegree() === DEG">new Polynomial( randRange( 2, 4 ), DEG )</var>
+                    <var id="DEN" data-ensure="DEN.findMaxDegree() === DEG">new Polynomial( randRange( 2, 4 ), DEG )</var>
                     <var id="PM">randFromArray([ "", "-" ])</var>
                 </div>
 
@@ -35,8 +35,8 @@
                 </div>
             </div>
 
-            <div data-weight="3" id="n-lt-d">
-                <div data-ensure="NUM.findMaxDegree() &lt; DEN.findMaxDegree()" class="vars">
+            <div id="n-lt-d" data-weight="3">
+                <div class="vars" data-ensure="NUM.findMaxDegree() &lt; DEN.findMaxDegree()">
                     <var id="DEG">randRange( 4, 7 )</var>
                     <var id="NUM">new Polynomial( randRange( 2, 4 ), randRange( 4, 7 ) )</var>
                     <var id="DEN">new Polynomial( randRange( 2, 4 ), randRange( 4, 7 ) )</var>
@@ -63,8 +63,8 @@
                 </div>
             </div>
 
-            <div data-weight="3" id="n-gt-d">
-                <div data-ensure="NUM.findMaxDegree() &gt; DEN.findMaxDegree()" class="vars">
+            <div id="n-gt-d" data-weight="3">
+                <div class="vars" data-ensure="NUM.findMaxDegree() &gt; DEN.findMaxDegree()">
                     <var id="DEG">randRange( 4, 7 )</var>
                     <var id="NUM">new Polynomial( randRange( 2, 4 ), randRange( 4, 7 ) )</var>
                     <var id="DEN">new Polynomial( randRange( 2, 4 ), randRange( 4, 7 ) )</var>
@@ -95,7 +95,7 @@
                 </div>
             </div>
 
-            <div data-weight="2" id="a-o-xmk">
+            <div id="a-o-xmk" data-weight="2">
                 <div class="vars">
                     <var id="A">randRangeNonZero( -7, 7 )</var>
                     <var id="K">randRangeNonZero( -7, 7 )</var>
@@ -124,7 +124,7 @@
                 </div>
             </div>
 
-            <div data-weight="2" id="a-o-xmk2">
+            <div id="a-o-xmk2" data-weight="2">
                 <div class="vars">
                     <var id="A">randRangeNonZero( -7, 7 )</var>
                     <var id="K">randRangeNonZero( -7, 7 )</var>

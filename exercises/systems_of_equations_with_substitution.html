@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Systems of equations with substitution</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,9 +10,9 @@
         </div>
         <div class="problems">
             <div id="substitution-y">
-                <div data-ensure="abs( A1 * X + B1 * Y ) &lt; 13 &amp;&amp; abs( A2 * X + B2 * Y ) &lt; 13 &amp;&amp; abs( A2 * X + B2 * Y ) !== 0 &amp;&amp; ( A1 * B2 ) !== ( A2 * B1 )" class="vars">
+                <div class="vars" data-ensure="abs( A1 * X + B1 * Y ) &lt; 13 &amp;&amp; abs( A2 * X + B2 * Y ) &lt; 13 &amp;&amp; abs( A2 * X + B2 * Y ) !== 0 &amp;&amp; ( A1 * B2 ) !== ( A2 * B1 )">
                     <var id="X">randRangeNonZero( -10, 10 )</var>
-                    <var data-ensure="getGCD( abs( X ), abs( Y ) ) === 1" id="Y">randRangeNonZero( -10, 10 )</var>
+                    <var id="Y" data-ensure="getGCD( abs( X ), abs( Y ) ) === 1">randRangeNonZero( -10, 10 )</var>
                     <var id="A1">randRange( 1, 6 ) * randRangeNonZero( -1, 1 )</var>
                     <var id="B1">randRange( 1, 6 ) * randRangeNonZero( -1, 1 )</var>
                     <var id="C1">A1 * X + B1 * Y</var>
@@ -27,7 +27,7 @@
                     <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br>
                     <code class="hint_green">y = <var>expr(["+", ["*", -A2, "x"], C2])</var></code></p>
                 </div>
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     <p><code>x</code> = <span class="sol short50"><var>X</var></span></p>
                     <p><code>y</code> = <span class="sol short50"><var>Y</var></span></p>
                 </div>
@@ -63,9 +63,9 @@
                 </div>
             </div>
             <div id="substitution-x">
-                <div data-ensure="abs( A1 * X + B1 * Y ) &lt; 13 &amp;&amp; abs( A2 * X + B2 * Y ) &lt; 13 &amp;&amp; abs( A2 * X + B2 * Y ) !== 0 &amp;&amp; ( A1 * B2 ) !== ( A2 * B1 )" class="vars">
+                <div class="vars" data-ensure="abs( A1 * X + B1 * Y ) &lt; 13 &amp;&amp; abs( A2 * X + B2 * Y ) &lt; 13 &amp;&amp; abs( A2 * X + B2 * Y ) !== 0 &amp;&amp; ( A1 * B2 ) !== ( A2 * B1 )">
                     <var id="X">randRangeNonZero( -10, 10 )</var>
-                    <var data-ensure="getGCD( abs( X ), abs( Y ) ) === 1" id="Y">randRangeNonZero( -10, 10 )</var>
+                    <var id="Y" data-ensure="getGCD( abs( X ), abs( Y ) ) === 1">randRangeNonZero( -10, 10 )</var>
                     <var id="A1">randRange( 1, 6 ) * randRangeNonZero( -1, 1 )</var>
                     <var id="B1">randRange( 1, 6 ) * randRangeNonZero( -1, 1 )</var>
                     <var id="C1">A1 * X + B1 * Y</var>
@@ -80,7 +80,7 @@
                     <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br>
                     <code class="hint_green">x = <var>expr(["+", ["*", -B2, "y"], C2])</var></code></p>
                 </div>
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     <p><code>x</code> = <span class="sol short50"><var>X</var></span></p>
                     <p><code>y</code> = <span class="sol short50"><var>Y</var></span></p>
                 </div>

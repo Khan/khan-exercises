@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions graphie interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing and solving linear inequalities</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -47,30 +47,30 @@
             </p>
 
             <div class="problem">
-                <p data-if="STD_FORM" class="hint_blue">
+                <p class="hint_blue" data-if="STD_FORM">
                     <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> <var>STD_FORM_COMP</var> <var>C</var></code>
                 </p>
-                <p data-else="" class="hint_blue">
+                <p class="hint_blue" data-else="">
                     <code>y <var>COMP</var> <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>
                 </p>
 
                 <form>
-                    <input type="button" value="Shade other side" onclick="javascript:
+                    <input onclick="javascript:
                         KhanUtil.currentGraph.graph.shadetop = !KhanUtil.currentGraph.graph.shadetop;
                         KhanUtil.currentGraph.graph.update();
-                    ">
+                    " type="button" value="Shade other side">
                     <label>
-                        <input type="radio" checked name="dashradio" value="solid" onclick="javascript:
+                        <input checked name="dashradio" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray = '';
                             KhanUtil.currentGraph.graph.update();
-                        ">
+                        " type="radio" value="solid">
                         Solid line
                     </label>
                     <label>
-                        <input type="radio" name="dashradio" value="dashed" onclick="javascript:
+                        <input name="dashradio" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray = '- ';
                             KhanUtil.currentGraph.graph.update();
-                        ">
+                        " type="radio" value="dashed">
                         Dashed line
                     </label>
                 </form>
@@ -168,8 +168,8 @@
                 </div>
 
             </div>
-            <div data-type="multiple" class="solution">
-                <div data-type="custom" class="sol">
+            <div class="solution" data-type="multiple">
+                <div class="sol" data-type="custom">
                     <div class="instruction">
                         Drag the two points to move the line into the correct position.
                     </div>
@@ -199,8 +199,8 @@
                         graph.update();
                     </div>
                 </div>
-                <div><label><span data-type="checkbox" class="sol"><var>POINT_1_SOLUTION</var></span><code>(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is a solution</label></div>
-                <div><label><span data-type="checkbox" class="sol"><var>POINT_2_SOLUTION</var></span><code>(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is a solution</label></div>
+                <div><label><span class="sol" data-type="checkbox"><var>POINT_1_SOLUTION</var></span><code>(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is a solution</label></div>
+                <div><label><span class="sol" data-type="checkbox"><var>POINT_2_SOLUTION</var></span><code>(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is a solution</label></div>
                 <div class="example">graph the inequality</div>
                 <div class="example">make sure the correct side is shaded</div>
                 <div class="example">make sure the line is correctly shown as solid or dashed</div>
@@ -236,7 +236,7 @@
                 The y-intercept is <code class="hint_green"><var>YINT</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>.
                 Since the y-intercept is <code class="hint_green"><var>YINT</var></code>, the line must pass through the point <code class="hint_green">(0, <var>YINT</var>)</code>.
             </p>
-            <div data-update="grid" class="graphie">
+            <div class="graphie" data-update="grid">
                 style({ stroke: GREEN, fill: GREEN }, function() {
                     graph.yint = circle( [ 0, YINT ], 0.2 ).toBack();
                 });
@@ -256,7 +256,7 @@
                 <var>"position" + ( abs( SLOPE_FRAC[1] ) !== 1 ? "s" : "" )</var>
                 to the right. So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC[1]</var>, <var>YINT + SLOPE_FRAC[0]</var>)</code>
             </p>
-            <div data-update="grid" class="graphie">
+            <div class="graphie" data-update="grid">
                 style({
                     stroke: "purple",
                     strokeWidth: 2,
@@ -291,7 +291,7 @@
                 <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> and
                 <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code>
             </p>
-            <div data-update="grid" class="graphie">
+            <div class="graphie" data-update="grid">
                 style({ stroke: PINK, fill: PINK }, function() {
                     circle( [ POINT_1[0], POINT_1[1] ], 0.2 ).toBack();
                     circle( [ POINT_2[0], POINT_2[1] ], 0.2 ).toBack();

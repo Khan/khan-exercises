@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Solving for the y-intercept</title>
     <script src="../khan-exercise.js"></script>
 
@@ -22,7 +22,7 @@
     <div class="exercise">
         <div class="problems">
             <div id="given-point">
-                <div data-ensure="X2 !== X1 &amp;&amp; Y2 !== Y1 &amp;&amp; X_MAX &gt;= 0 &amp;&amp; X_MIN &lt;= 0 &amp;&amp; Y_MAX &gt;= 0 &amp;&amp; Y_MIN &lt;= 0" class="vars">
+                <div class="vars" data-ensure="X2 !== X1 &amp;&amp; Y2 !== Y1 &amp;&amp; X_MAX &gt;= 0 &amp;&amp; X_MIN &lt;= 0 &amp;&amp; Y_MAX &gt;= 0 &amp;&amp; Y_MIN &lt;= 0">
                     <var id="X1">randRangeNonZero(-10, 10)</var>
                     <var id="X2">randRangeNonZero(-10, 10)</var>
                     <var id="Y1">randRangeNonZero(-10, 10)</var>
@@ -47,7 +47,7 @@
                     <p><code>y = <var>fractionReduce(SLOPE_NUMERATOR, SLOPE_DENOMINATOR)</var> x + b</code></p>
                 </div>
                 <p class="question">What is the value of the <code>y</code>-intercept <code>b</code>?</p>
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     <p><code>b =</code> <span class="sol"><var>(Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR) / SLOPE_DENOMINATOR</var></span></p>
                 </div>
                 <div class="hints">
@@ -98,8 +98,8 @@
                     <p><code><var>expr(["*", X_COEFF, "x"])</var> + <var>expr(["*", Y_COEFF, "y"])</var> = <var>EQUALS</var></code></p>
                 </div>
                 <p class="question">What is the <code>y</code>-intercept?</p>
-                <div data-type="multiple" class="solution">
-                    <code>\large(0,\ </code><span data-forms="integer" class="sol short30"><var>Y_INTERCEPT</var></span><code>\large)</code>
+                <div class="solution" data-type="multiple">
+                    <code>\large(0,\ </code><span class="sol short30" data-forms="integer"><var>Y_INTERCEPT</var></span><code>\large)</code>
                 </div>
                 <div class="hints">
                     <p>The <code>y</code>-intercept is the point where the line crosses the <code>y</code>-axis. This happens when <code>x</code> is zero.</p>

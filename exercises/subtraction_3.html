@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Subtraction with borrowing</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -30,11 +30,11 @@
                     graph.subtractor.show();
                     DUMMY = Array( graph.subtractor.getNumHints() );
                 </div>
-                <div data-forms="integer" class="solution"><var>A - B</var></div>
+                <div class="solution" data-forms="integer"><var>A - B</var></div>
             </div>
         </div>
         <div class="hints">
-            <div data-update="numbers" data-each="DUMMY as dummy" class="graphie">
+            <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                 graph.subtractor.showHint();
             </div>
         </div>

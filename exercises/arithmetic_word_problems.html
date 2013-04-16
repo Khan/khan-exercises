@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplication and division word problems 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +9,7 @@
         <div class="problems">
             <div>
 
-                <div data-ensure="!isPrime( TOTAL_ITEMS )" class="vars">
+                <div class="vars" data-ensure="!isPrime( TOTAL_ITEMS )">
                     <var id="ITEMS_PER_GROUP">randRange( 3, 12 )</var>
                     <var id="ITEMS_LEFT">randRange( 1, ITEMS_PER_GROUP - 1 )</var>
                     <var id="GROUPS">randRange( 2, 12 )</var>
@@ -33,8 +33,8 @@
                     <var>plural( item(1) )</var> can <var>he(1)</var> <var>groupVerb(1)</var>?
                 </div>
 
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NEW_GROUPS</var></span> <var>plural( group(1) )</var>
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NEW_GROUPS</var></span> <var>plural( group(1) )</var>
                 </div>
 
                 <div class="hints">
@@ -81,7 +81,7 @@
                     How much did each <var>storeItem(1, 1)</var> cost?
                 </div>
 
-                <p data-forms="dollar" class="solution"><var>ITEM_1_COST</var></p>
+                <p class="solution" data-forms="dollar"><var>ITEM_1_COST</var></p>
 
                 <div class="hints">
                     <p>
@@ -103,7 +103,7 @@
 
             <div>
 
-                <div data-ensure="!isPrime( TOTAL_ITEMS ) &amp;&amp; NEW_ITEMS !== ITEMS" class="vars">
+                <div class="vars" data-ensure="!isPrime( TOTAL_ITEMS ) &amp;&amp; NEW_ITEMS !== ITEMS">
                     <var id="TOTAL_ITEMS">randRange( 10, 99 )</var>
                     <var id="ITEMS">getNontrivialFactor( TOTAL_ITEMS )</var>
                     <var id="GROUPS">TOTAL_ITEMS / ITEMS</var>
@@ -119,8 +119,8 @@
                     how many <var>plural( item(1) )</var> should <var>he(1)</var> put in each <var>group(1)</var>?
                 </div>
 
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NEW_ITEMS</var></span> <var>plural( item(1) )</var>
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NEW_ITEMS</var></span> <var>plural( item(1) )</var>
                 </div>
 
                 <div class="hints">

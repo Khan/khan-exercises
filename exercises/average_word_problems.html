@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Average word problems</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -8,7 +8,7 @@
     <div class="exercise">
     <div class="problems">
         <div>
-            <div data-ensure="SUM % LENGTH === 0" class="vars">
+            <div class="vars" data-ensure="SUM % LENGTH === 0">
                 <var id="LENGTH">randRange(4, 6)</var>
                 <var id="SCORES">randRange(75, 98, LENGTH)</var>
                 <var id="SUM">(function() {
@@ -37,7 +37,7 @@
         </div>
 
         <div>
-            <div data-ensure="NEW_AVG + COUNT * (NEW_AVG - OLD_AVG) &lt;= 100" class="vars">
+            <div class="vars" data-ensure="NEW_AVG + COUNT * (NEW_AVG - OLD_AVG) &lt;= 100">
                 <var id="COUNT">randRange(3, 7)</var>
                 <var id="OLD_AVG">randRange(77, 88)</var>
                 <var id="NEW_AVG">randRange(OLD_AVG + 2, 99)</var>
@@ -59,7 +59,7 @@
         </div>
 
         <div>
-            <div data-ensure="(OLD_AVG * COUNT + 100 * REMAINING) % (COUNT + REMAINING) === 0" class="vars">
+            <div class="vars" data-ensure="(OLD_AVG * COUNT + 100 * REMAINING) % (COUNT + REMAINING) === 0">
                 <var id="COUNT">randRange(3, 6)</var>
                 <var id="REMAINING">randRange(2, COUNT - 2)</var>
                 <var id="OLD_AVG">randRange(77, 88)</var>

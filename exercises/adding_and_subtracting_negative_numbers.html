@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding and subtracting negative numbers</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -31,18 +31,18 @@
                             "right" );
                         </div>
                 </div>
-                <div data-forms="integer" class="solution"><var>ANSWER</var></div>
+                <div class="solution" data-forms="integer"><var>ANSWER</var></div>
                 <div class="hints">
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         REMOVE = label( [0, -1],
                             "\\Huge{\\color{#6495ED}{" + A + "} \\color{#28AE7B}{" + B + "} = {?}}",
                             "right" );
                     </div>
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         numberLine( START, END, 1, 1, -2 );
                         circle( [ 1 + A - START, -2 ], 5/40, { stroke: "none", fill: "#6495ed" } );
                     </div>
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         style({
                             stroke: "#28AE7B",
                             arrows: "-&gt;"
@@ -50,10 +50,10 @@
                             path( [ [ 1 + A - START, -2 ], [ 1 + ANSWER - START, -2] ] );
                         });
                     </div>
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         circle( [ 1 + ANSWER - START, -2 ], 5/40, { stroke: "none", fill: "#FF00AF" } );
                     </div>
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         REMOVE.remove();
                         label( [0, -1],
                             "\\Huge{\\color{#6495ED}{" + A + "} \\color{#28AE7B}{" + B + "} = "
@@ -81,18 +81,18 @@
                             "right" );
                     </div>
                 </div>
-                <div data-forms="integer" class="solution"><var>ANSWER</var></div>
+                <div class="solution" data-forms="integer"><var>ANSWER</var></div>
                 <div class="hints">
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         REMOVE = label( [0, -1],
                             "\\Huge{\\color{#6495ED}{" + A + "} \\color{#28AE7B}{ +" + abs( B ) + "} = {?}}",
                             "right" );
                     </div>
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         numberLine( START, END, 1, 1, -2 );
                         circle( [ 1 + A - START, -2 ], 5/40, { stroke: "none", fill: "#6495ed" } );
                     </div>
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         style({
                             stroke: "#28AE7B",
                             arrows: "-&gt;"
@@ -100,10 +100,10 @@
                             path( [ [ 1 + A - START, -2 ], [ 1 + ANSWER - START, -2] ] );
                         });
                     </div>
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         circle( [ 1 + ANSWER - START, -2 ], 5/40, { stroke: "none", fill: "#FF00AF" } );
                     </div>
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         REMOVE.remove();
                         label( [0, -1],
                             "\\Huge{\\color{#6495ED}{" + A + "} \\color{#28AE7B}{ +" + abs( B ) + "} = "

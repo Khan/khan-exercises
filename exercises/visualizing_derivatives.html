@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format polynomials graphie interactive visualizing-derivatives"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Visualizing derivatives</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
@@ -35,7 +35,7 @@
         <div class="question">
             <div data-if="MOVE_DERIVATIVE" data-unwrap="">
                 <p>
-                    A function <code>f(x)</code> is shown in <span style="font-weight: bold" class="hint_purple">purple</span>. The <span style="font-weight: bold" class="hint_green">sliding green window</span> may contain a section of <b>its derivative <code>f'(x)</code></b>.
+                    A function <code>f(x)</code> is shown in <span class="hint_purple" style="font-weight: bold">purple</span>. The <span class="hint_green" style="font-weight: bold">sliding green window</span> may contain a section of <b>its derivative <code>f'(x)</code></b>.
                 </p>
                 <p>
                     Where does the function in the sliding window correspond to <code><b>f'(x)</b></code>?
@@ -43,7 +43,7 @@
             </div>
             <div data-else="" data-unwrap="">
                 <p>
-                    A function <code>f(x)</code> is shown in <span style="font-weight: bold" class="hint_green">green</span>. The <span style="font-weight: bold" class="hint_purple">sliding purple window</span> may contain a section of <b>an antiderivative of the function, <code>F(x)</code></b>.
+                    A function <code>f(x)</code> is shown in <span class="hint_green" style="font-weight: bold">green</span>. The <span class="hint_purple" style="font-weight: bold">sliding purple window</span> may contain a section of <b>an antiderivative of the function, <code>F(x)</code></b>.
                 </p>
                 <p>
                     Where does the function in the sliding window correspond to <code><b>F(x)</b></code>?
@@ -63,8 +63,8 @@
             </div>
         </div>
 
-        <div data-type="multiple" class="solution">
-            <div required="" data-type="custom" class="sol">
+        <div class="solution" data-type="multiple">
+            <div class="sol" data-type="custom" required="">
                 <div class="instruction">
                     Drag the sliding window to the correct region or indicate there is no solution.
                 </div>
@@ -86,13 +86,13 @@
             <p></p>
             <div>
                 <label>
-                    <span data-type="checkbox" class="sol no-solution">
+                    <span class="sol no-solution" data-type="checkbox">
                         <var>NO_SOLUTION</var>
                     </span>
                     No solution
                 </label>
             </div>
-            <div required="" data-type="custom" class="sol">
+            <div class="sol" data-type="custom" required="">
                 <div class="guess">
                     _.isEqual(slidingWindow.getXLims(), slidingWindow.startRange)
                     &amp;&amp;
@@ -105,26 +105,26 @@
         </div>
 
         <div class="problems">
-            <div data-weight="3" id="move-derivative">
-                <div data-apply="prependVars" class="vars">
+            <div id="move-derivative" data-weight="3">
+                <div class="vars" data-apply="prependVars">
                     <var id="MOVE_DERIVATIVE">true</var>
                     <var id="NO_SOLUTION">false</var>
                 </div>
             </div>
-            <div data-weight="1" id="move-derivative-no-solution">
-                <div data-apply="prependVars" class="vars">
+            <div id="move-derivative-no-solution" data-weight="1">
+                <div class="vars" data-apply="prependVars">
                     <var id="MOVE_DERIVATIVE">true</var>
                     <var id="NO_SOLUTION">true</var>
                 </div>
             </div>
-            <div data-weight="3" id="move-antiderivative">
-                <div data-apply="prependVars" class="vars">
+            <div id="move-antiderivative" data-weight="3">
+                <div class="vars" data-apply="prependVars">
                     <var id="MOVE_DERIVATIVE">false</var>
                     <var id="NO_SOLUTION">false</var>
                 </div>
             </div>
-            <div data-weight="1" id="move-antiderivative-no-solution">
-                <div data-apply="prependVars" class="vars">
+            <div id="move-antiderivative-no-solution" data-weight="1">
+                <div class="vars" data-apply="prependVars">
                     <var id="MOVE_DERIVATIVE">false</var>
                     <var id="NO_SOLUTION">true</var>
                 </div>

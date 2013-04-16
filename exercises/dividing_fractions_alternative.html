@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html data-require="math math-format"><head>
-	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Dividing fractions</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
 	<div class="exercise">
-	<div data-ensure="getGCD(N1, D1) === 1 &amp;&amp; getGCD(N2, D2) === 1" class="vars">
+	<div class="vars" data-ensure="getGCD(N1, D1) === 1 &amp;&amp; getGCD(N2, D2) === 1">
 		<var id="NEG1">randFromArray([1, -1])</var>
 		<var id="NEG1S">NEG1 === -1 ? "-" : ""</var>
 		<var id="N1">randRange(1, 9)</var>
@@ -33,7 +33,7 @@
 			<div class="question">
 				<p><code><var>NEG1S</var> \dfrac{<var>N1</var>}{<var>D1</var>} \div <var>NEG2S</var> \dfrac{<var>N2</var>}{<var>D2</var>} = {?}</code></p>
 			</div>
-			<div data-type="rational" class="solution"><var>(NEG1 * N1 * NEG2 * D2) / (D1 * N2)</var></div>
+			<div class="solution" data-type="rational"><var>(NEG1 * N1 * NEG2 * D2) / (D1 * N2)</var></div>
 		</div>
 	</div>
 

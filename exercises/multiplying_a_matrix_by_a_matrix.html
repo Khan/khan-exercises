@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html data-require="math matrix matrix-input"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying a matrix by a matrix</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
 
-    <div data-ensure="PRETTY_MAT_1_ID !== PRETTY_MAT_2_ID" class="vars">
+    <div class="vars" data-ensure="PRETTY_MAT_1_ID !== PRETTY_MAT_2_ID">
         <var id="DIM_3">DIM_2</var>
         <var id="MAT_1">makeMatrix(randRange(-2, 5, DIM_1, DIM_2))</var>
         <var id="MAT_2">makeMatrix(randRange(-2, 5, DIM_3, DIM_4))</var>
@@ -130,13 +130,13 @@
         </div>
     </div>
 
-    <div data-type="multiple" class="solution">
-        <div data-each="PADDED_SOLN_MAT as row" class="matrix-row">
+    <div class="solution" data-type="multiple">
+        <div class="matrix-row" data-each="PADDED_SOLN_MAT as row">
             <span data-each="row as elem">
-                <span data-if="elem !== ''" data-forms="integer" class="sol">
+                <span class="sol" data-forms="integer" data-if="elem !== ''">
                     <var>elem</var>
                 </span>
-                <span data-else="" data-type="text" class="sol">
+                <span class="sol" data-else="" data-type="text">
                     <var>elem</var>
                 </span>
             </span>
@@ -146,14 +146,14 @@
     <div class="problems">
         <!-- 2x2 solution dimensions -->
         <div id="2x2-2x2">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="DIM_1">2</var>
                 <var id="DIM_2">2</var>
                 <var id="DIM_4">2</var>
             </div>
         </div>
         <div id="2x3-3x2">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="DIM_1">2</var>
                 <var id="DIM_2">3</var>
                 <var id="DIM_4">2</var>
@@ -162,7 +162,7 @@
 
         <!-- 2x3 solution dimensions -->
         <div id="2x2-2x3">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="DIM_1">2</var>
                 <var id="DIM_2">2</var>
                 <var id="DIM_4">3</var>
@@ -171,14 +171,14 @@
 
         <!-- 3x2 solution dimensions -->
         <div id="3x1-1x2">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="DIM_1">3</var>
                 <var id="DIM_2">1</var>
                 <var id="DIM_4">2</var>
             </div>
         </div>
         <div id="3x2-2x2">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="DIM_1">3</var>
                 <var id="DIM_2">2</var>
                 <var id="DIM_4">2</var>

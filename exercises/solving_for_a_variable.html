@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Solving equations in terms of a variable</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -42,9 +42,9 @@
                     <var id="A">randRangeNonZero( -10, 10 )</var>
                     <var id="B">randRangeNonZero( -10, 10 )</var>
                     <var id="C">randRangeNonZero( -10, 10 )</var>
-                    <var data-ensure="A !== D" id="D">randRangeNonZero( -10, 10 )</var>
-                    <var data-ensure="B !== E" id="E">randRangeNonZero( -10, 10 )</var>
-                    <var data-ensure="C !== F" id="F">randRangeNonZero( -10, 10 )</var>
+                    <var id="D" data-ensure="A !== D">randRangeNonZero( -10, 10 )</var>
+                    <var id="E" data-ensure="B !== E">randRangeNonZero( -10, 10 )</var>
+                    <var id="F" data-ensure="C !== F">randRangeNonZero( -10, 10 )</var>
                     <var id="G">randRangeNonZero( -10, 10 )</var>
 
                     <var id="X_HAS_Y">random() &lt; 0.5</var>
@@ -67,7 +67,7 @@
                 <p class="question">Solve for <code><var>X</var></code>.</p>
 
                 <p class="solution"><code><var>ANSWER( D-A, E-B, F-C, G )</var></code></p>
-                <ul data-none="true" class="choices" data-show="4">
+                <ul class="choices" data-none="true" data-show="4">
                     <li data-if="D+A !== 0"><code><var>ANSWER( D+A, E-B, F-C, G )</var></code></li>
                     <li data-if="E+B !== 0"><code><var>ANSWER( D-A, E+B, F-C, G )</var></code></li>
                     <li data-if="F+C !== 0"><code><var>ANSWER( D-A, E-B, F+C, G )</var></code></li>
@@ -124,7 +124,7 @@
                     <var id="C">randRangeNonZero( -10, 10 )</var>
                     <var id="D">randRangeNonZero( -10, 10 )</var>
                     <var id="E">randRangeNonZero( -10, 10 )</var>
-                    <var data-ensure="D !== F" id="F">randRangeNonZero( -10, 10 )</var>
+                    <var id="F" data-ensure="D !== F">randRangeNonZero( -10, 10 )</var>
 
                     <var id="ANSWER">function( y1, c, y2, z, d, flip ) {
                         if ( typeof flip === "undefined" ? FLIP : flip ) {
@@ -158,7 +158,7 @@
                 <p class="question">Solve for <code><var>X</var></code>.</p>
 
                 <p class="solution"><code><var>ANSWER( E, F-D, A, B, C )</var></code></p>
-                <ul data-none="true" class="choices" data-show="4">
+                <ul class="choices" data-none="true" data-show="4">
                     <li><code><var>ANSWER( E, F+D, A, B, C )</var></code></li>
                     <li><code><var>ANSWER( 0, F-D, A, B, C )</var></code></li>
                     <li><code><var>ANSWER( E, 0, A, B, C )</var></code></li>
@@ -210,14 +210,14 @@
             <!-- (Ax + By) / C = (Dx + Ez) / F -->
             <div id="ABC_DEF">
 
-                <div data-ensure="(A_TERM-D_TERM)*DIVISOR !== 1 &amp;&amp; (A_TERM-D_TERM)*DIVISOR !== -1 &amp;&amp; (A_TERM+D_TERM)*DIVISOR !== 1 &amp;&amp; (A_TERM+D_TERM)*DIVISOR !== -1" class="vars">
+                <div class="vars" data-ensure="(A_TERM-D_TERM)*DIVISOR !== 1 &amp;&amp; (A_TERM-D_TERM)*DIVISOR !== -1 &amp;&amp; (A_TERM+D_TERM)*DIVISOR !== 1 &amp;&amp; (A_TERM+D_TERM)*DIVISOR !== -1">
 
                     <var id="A">randRangeNonZero( -10, 10 )</var>
                     <var id="B">randRangeNonZero( -10, 10 )</var>
                     <var id="C">randRangeExclude( -10, 10, [ 0, -1, 1 ] )</var>
                     <var id="D">randRangeNonZero( -10, 10 )</var>
                     <var id="E">randRangeNonZero( -10, 10 )</var>
-                    <var data-ensure="A*F !== D*C" id="F">randRangeExclude( -10, 10, [ 0, -1, 1 ] )</var>
+                    <var id="F" data-ensure="A*F !== D*C">randRangeExclude( -10, 10, [ 0, -1, 1 ] )</var>
 
                     <var id="A_TERM">( function() {
                         if ( C === F || C === -F || C % F === 0 ) {
@@ -270,7 +270,7 @@
                 <p class="question">Solve for <code><var>X</var></code>.</p>
 
                 <p class="solution"><code><var>ANSWER( E_TERM, -B_TERM, A_TERM-D_TERM )</var></code></p>
-                <ul data-none="true" class="choices" data-show="4">
+                <ul class="choices" data-none="true" data-show="4">
                     <li><code><var>ANSWER( E_TERM, B_TERM, A_TERM-D_TERM )</var></code></li>
                     <li><code><var>ANSWER( -E_TERM, -B_TERM, A_TERM-D_TERM )</var></code></li>
                     <li><code><var>ANSWER( -E_TERM, B_TERM, A_TERM-D_TERM )</var></code></li>

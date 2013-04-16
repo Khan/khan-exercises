@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dividing polynomials by binomials 3</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="B !== 0 &amp;&amp; getGCD(A, E) === 1" class="vars">
-            <var data-ensure="abs(A) !== 1" id="A">randRangeNonZero(-9, 9)</var>
+        <div class="vars" data-ensure="B !== 0 &amp;&amp; getGCD(A, E) === 1">
+            <var id="A" data-ensure="abs(A) !== 1">randRangeNonZero(-9, 9)</var>
             <var id="E">randRangeNonZero(-9, 9)</var>
             <var id="F">randRangeNonZero(-5, 5)</var>
             <var id="B">E + A * F</var>
@@ -24,9 +24,9 @@
                 <p class="problem">Simplify the following expression:</p>
                 <p class="question"><code>\dfrac{<var>A</var>x^2+<var>B</var>x+<var>C</var>}{<var>DENOMINATOR</var>}</code></p>
 
-                <div data-type="set" class="solution">
-                    <div data-type="regex" class="set-sol">^\s*[xX]\s*<var>F &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( F )</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>F &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( F )</var>\s*\+\s*[xX]\s*$</div>
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="regex">^\s*[xX]\s*<var>F &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( F )</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>F &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( F )</var>\s*\+\s*[xX]\s*$</div>
                     <div class="input-format"><span class="entry"></span></div>
                     <div class="example">an simplified expression, like <b>2x+1</b></div>
                 </div>
@@ -41,9 +41,9 @@
                 <p class="problem">Simplify the following expression:</p>
                 <p class="question"><code>\dfrac{<var>A</var>x^2+<var>B</var>x+<var>C</var>}{<var>DENOMINATOR</var>}</code></p>
 
-                <div data-type="set" class="solution">
-                    <div data-type="regex" class="set-sol">^\s*<var>A &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*[xX]\s*<var>E &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( E )</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>E &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( E )</var>\s*<var>A &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*[xX]\s*$</div>
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="regex">^\s*<var>A &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*[xX]\s*<var>E &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( E )</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>E &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( E )</var>\s*<var>A &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*[xX]\s*$</div>
                     <div class="input-format"><span class="entry"></span></div>
                     <div class="example">an simplified expression, like <b>2x+1</b></div>
                 </div>
@@ -57,7 +57,7 @@
                 <p>
                     This expression is in the form <code>\blue{A}x^2 + \green{B}x + \pink{C}</code>.
                 </p>
-                <div style="outline: none;" class="graphie">
+                <div class="graphie" style="outline: none;">
                     $("#question-a").addClass("hint_blue");
                     $("#question-b").addClass("hint_green");
                     $("#question-c").addClass("hint_pink");

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers word-problems slice-clone"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Fractions cut and copy 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,12 +9,12 @@
         <div class="vars">
             <div data-ensure="SLICES &lt; 20 &amp;&amp; isInt( SLICES )">
                 <var id="D_PARENT">randRangeWeighted(3, 8, 1, 1 / 6)</var>
-                <var data-ensure="getGCD( D_PARENT, N_PARENT ) === 1" id="N_PARENT">D_PARENT === 1 ? randRange(1, 2) : randRange(D_PARENT + 1,  2 * D_PARENT - 1)</var>
+                <var id="N_PARENT" data-ensure="getGCD( D_PARENT, N_PARENT ) === 1">D_PARENT === 1 ? randRange(1, 2) : randRange(D_PARENT + 1,  2 * D_PARENT - 1)</var>
                 <var id="PARENT">N_PARENT / D_PARENT</var>
                 <var id="D_OFFSPRING_1">randRange(3, 8)</var>
-                <var data-ensure="D_OFFSPRING_1 !== D_OFFSPRING_2" id="D_OFFSPRING_2">randRange(3, 8)</var>
-                <var data-ensure="getGCD( D_OFFSPRING_1, N_OFFSPRING_1 ) === 1 &amp;&amp; PARENT &gt; N_OFFSPRING_1 / D_OFFSPRING_1" id="N_OFFSPRING_1">randRangeExclude(2, 2 * D_OFFSPRING_1 - 1, [D_OFFSPRING_1])</var>
-                <var data-ensure="getGCD( D_OFFSPRING_2, N_OFFSPRING_2 ) === 1 &amp;&amp; PARENT &gt; N_OFFSPRING_2 / D_OFFSPRING_2" id="N_OFFSPRING_2">randRangeExclude(2, 2 * D_OFFSPRING_2 - 1, [ D_OFFSPRING_2])</var>
+                <var id="D_OFFSPRING_2" data-ensure="D_OFFSPRING_1 !== D_OFFSPRING_2">randRange(3, 8)</var>
+                <var id="N_OFFSPRING_1" data-ensure="getGCD( D_OFFSPRING_1, N_OFFSPRING_1 ) === 1 &amp;&amp; PARENT &gt; N_OFFSPRING_1 / D_OFFSPRING_1">randRangeExclude(2, 2 * D_OFFSPRING_1 - 1, [D_OFFSPRING_1])</var>
+                <var id="N_OFFSPRING_2" data-ensure="getGCD( D_OFFSPRING_2, N_OFFSPRING_2 ) === 1 &amp;&amp; PARENT &gt; N_OFFSPRING_2 / D_OFFSPRING_2">randRangeExclude(2, 2 * D_OFFSPRING_2 - 1, [ D_OFFSPRING_2])</var>
                 <var id="SLICES">N_PARENT * getLCM(D_OFFSPRING_1, D_OFFSPRING_2) / D_PARENT</var>
             </div>
             <var id="CODE_PARENT">D_PARENT === 1 ? N_PARENT : mixedOrImproper(N_PARENT, D_PARENT)</var>
@@ -67,27 +67,27 @@
                     rectchart([1, 0], [ORANGE, "#999"]);
                 </div>
 
-                <div data-type="custom" class="solution">
+                <div class="solution" data-type="custom">
                     <div class="instruction">
                         <div style="margin-bottom: 10px;">
                             <span>Cut Starting Block into</span><br>
-                            <input type="button" onclick="KhanUtil.changePieces(false)" value="-" class="simple-button">
-                            <span style="display: inline-block; width: 54px; text-align: center;" id="pieces">1 piece</span>
-                            <input type="button" onclick="KhanUtil.changePieces(true)" value="+" class="simple-button">
+                            <input class="simple-button" onclick="KhanUtil.changePieces(false)" type="button" value="-">
+                            <span id="pieces" style="display: inline-block; width: 54px; text-align: center;">1 piece</span>
+                            <input class="simple-button" onclick="KhanUtil.changePieces(true)" type="button" value="+">
                         </div>
 
                         <div style="margin-bottom: 10px;">
                             <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 1</span><br>
-                            <input disabled type="button" onclick="KhanUtil.changeTimes(false, 'current_block_1')" value="-" class="simple-button">
-                            <span style="display: inline-block; width: 54px; text-align: center;" id="current_block_1_times">1 time</span>
-                            <input type="button" onclick="KhanUtil.changeTimes(true, 'current_block_1')" value="+" class="simple-button">
+                            <input class="simple-button" disabled onclick="KhanUtil.changeTimes(false, 'current_block_1')" type="button" value="-">
+                            <span id="current_block_1_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
+                            <input class="simple-button" onclick="KhanUtil.changeTimes(true, 'current_block_1')" type="button" value="+">
                         </div>
 
                         <div style="margin-bottom: 10px;">
                             <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 2</span><br>
-                            <input disabled type="button" onclick="KhanUtil.changeTimes(false, 'current_block_2')" value="-" class="simple-button">
-                            <span style="display: inline-block; width: 54px; text-align: center;" id="current_block_2_times">1 time</span>
-                            <input type="button" onclick="KhanUtil.changeTimes(true, 'current_block_2')" value="+" class="simple-button">
+                            <input class="simple-button" disabled onclick="KhanUtil.changeTimes(false, 'current_block_2')" type="button" value="-">
+                            <span id="current_block_2_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
+                            <input class="simple-button" onclick="KhanUtil.changeTimes(true, 'current_block_2')" type="button" value="+">
                         </div>
                     </div>
 

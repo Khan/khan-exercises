@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie geom interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Translations of polygons</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +9,7 @@
     <div class="problems">
         <div id="drag">
             <div class="vars">
-                <var data-ensure="SX !== EX || SY !== EY" id="SX,SY,EX,EY">
+                <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">
                     randRange(-4, 4, 4)
                 </var>
                 <var id="DX,DY">[EX - SX, EY - SY]</var>
@@ -120,7 +120,7 @@
                 </div>
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Drag the blue polygon to its image under the given translation.
                 </div>
@@ -154,7 +154,7 @@
                     <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code>
                     under this translation?</span>
 
-                    </p><div data-update="grid" class="graphie">
+                    </p><div class="graphie" data-update="grid">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
                 <p></p>
@@ -166,7 +166,7 @@
                     <code>(<var> TARGET[0][0] </var>,<var> TARGET[0][1] </var>)</code>.
                     Where is the rest of the polygon translated?</span>
 
-                    </p><div data-update="grid" class="graphie">
+                    </p><div class="graphie" data-update="grid">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
                         line(HULL[0], TARGET[0], { stroke: "black", arrows: "-&gt;"});
                     </div>
@@ -184,7 +184,7 @@
                     <p>The orange outline shows where the polygon ends up after
                     the translation.</p>
 
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         graph.drawAnswer();
                     </div>
                 </div>
@@ -192,7 +192,7 @@
         </div>
         <div id="reverse">
             <div class="vars">
-                <var data-ensure="SX !== EX || SY !== EY" id="SX,SY,EX,EY">
+                <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">
                     randRange(-4, 4, 4)
                 </var>
                 <var id="DX,DY">[EX - SX, EY - SY]</var>
@@ -245,11 +245,11 @@
                 </div>
             </div>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <code>{\LARGE T } \;(</code>
-                <span style="width:15px" data-forms="integer" class="sol short30"><var>DX</var></span>
+                <span class="sol short30" data-forms="integer" style="width:15px"><var>DX</var></span>
                 <code>,</code>
-                <span style="width:15px" data-forms="integer" class="sol short30"><var>DY</var></span>
+                <span class="sol short30" data-forms="integer" style="width:15px"><var>DY</var></span>
                 <code>)</code>
             </div>
 
@@ -266,7 +266,7 @@
                     <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code>
                     under this translation?</span>
 
-                    </p><div data-update="grid" class="graphie">
+                    </p><div class="graphie" data-update="grid">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
                 <p></p>
@@ -277,7 +277,7 @@
                     <code>(<var>TARGET[0][0]</var>,<var>TARGET[0][1]</var>)</code>.
                     What does this tell you about the translation used?</span>
 
-                    </p><div data-update="grid" class="graphie">
+                    </p><div class="graphie" data-update="grid">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
                         line(HULL[0], TARGET[0], { stroke: "black", arrows: "-&gt;"});
                     </div>

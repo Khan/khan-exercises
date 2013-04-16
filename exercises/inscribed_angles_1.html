@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-polygon interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inscribed angles 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -39,13 +39,13 @@
 
                 graph.circle.drawMovablePoint( SUBTENDED_POINT, START + CENTRAL, START );
             </div>
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer, decimal" class="sol"><var>CENTRAL / 2</var></span> degrees
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer, decimal"><var>CENTRAL / 2</var></span> degrees
             </div>
             <div class="hints">
                 <div>
                     <p>The green and blue angles are supplementary. Because the blue angle is <var>CENTRAL</var> degrees, the green angle must be <var>180 - CENTRAL</var> degrees.</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         style({ stroke: GREEN }, function() {
                             graph.circle.drawCentralArc( START + CENTRAL, SUBTENDED_POINT );
                         })
@@ -53,7 +53,7 @@
                 </div>
                 <div>
                     <p>We know that the angles in a triangle sum to 180 degrees.</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         style({ stroke: PINK }, function() {
                             graph.circle.drawInscribedArc( START + CENTRAL, SUBTENDED_POINT, START + CENTRAL + 180 );
                         });
@@ -62,7 +62,7 @@
                 </div>
                 <div>
                     <p>The pink sides of the triangle are radii, so they must be equal.</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         style({ stroke: PINK }, function() {
                             graph.circle.drawRadius( START + CENTRAL );
                             graph.circle.drawRadius( SUBTENDED_POINT );
@@ -77,20 +77,20 @@
                 <p><code>\color{<var>ORANGE</var>}{\text{orange angle}} = \color{<var>ORANGE</var>}{<var>CENTRAL / 2</var>^{\circ}}</code></p>
             </div>
         </div>
-        <div data-type="find-angle" id="find-central-on">
+        <div id="find-central-on" data-type="find-angle">
             <div class="vars">
                 <var id="GIVEN">CENTRAL / 2</var>
                 <var id="GIVEN_LABEL">$._("orange")</var>
                 <var id="ASKED_LABEL">$._("blue")</var>
             </div>
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer, decimal" class="sol"><var>CENTRAL</var></span> degrees
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer, decimal"><var>CENTRAL</var></span> degrees
             </div>
 
             <div class="hints">
                 <div>
                     <p>The pink sides of the triangle are radii, so they must be equal. This means the triangle is isosceles and that the base angles, or the pink and orange angles, are equal.</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         style({ stroke: PINK }, function() {
                             graph.circle.drawRadius( START + CENTRAL );
                             graph.circle.drawRadius( SUBTENDED_POINT );
@@ -102,7 +102,7 @@
                 </div>
                 <div>
                     <p>We know that the angles in a triangle sum to 180 degrees.</p>
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         style({ stroke: GREEN }, function() {
                             graph.circle.drawCentralArc( START + CENTRAL, SUBTENDED_POINT );
                         })

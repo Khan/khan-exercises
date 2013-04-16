@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions graphie graphie-helpers interactive word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Line graph intuition</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
     <div class="problems">
-        <div data-weight="1" id="graph-slope">
+        <div id="graph-slope" data-weight="1">
             <div class="vars">
                 <var id="SLOPE">randFromArray([
                     "positive", "negative", "zero", "undefined"
@@ -71,7 +71,7 @@
                 POINTS.pointB.toFront();
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Drag the two points to move the line into the correct
                     position.
@@ -134,7 +134,7 @@
                     <p>
                         A line with <var>an(SLOPE)</var> slope looks like:
                     </p>
-                    <div style="margin-left: 30px" class="graphie">
+                    <div class="graphie" style="margin-left: 30px">
                         graphInit({
                             range: 6,
                             scale: 20,
@@ -171,7 +171,7 @@
             </div>
         </div>
 
-        <div data-weight="1" data-type="graph-slope" id="graph-compare">
+        <div id="graph-compare" data-type="graph-slope" data-weight="1">
             <div class="vars">
                 <var id="SLOPE_N">randRangeNonZero(-5, 5)</var>
                 <var id="SLOPE_D">randRange(1, 5)</var>
@@ -198,7 +198,7 @@
                 Graph a line that has a slope that is <em><var>GOAL</var></em>
                 and <em><var>CHANGE</var> than</em> the slope of the blue line.
             </p>
-            <div data-update="grid" class="graphie">
+            <div class="graphie" data-update="grid">
                 plot(function(x) {
                     return (SLOPE_N / SLOPE_D) * x + Y_INT;
                 }, [-11, 11], {
@@ -206,7 +206,7 @@
                 }).toBack();
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Drag the two points to move the line into the correct
                     position.
@@ -295,7 +295,7 @@
                         <var>decimalFraction(NEW_SLOPE, true, true)</var>
                         </code> and could look like this:
                     </p><p>
-                    </p><div style="margin-left: 30px" class="graphie">
+                    </p><div class="graphie" style="margin-left: 30px">
                         graphInit({
                             range: 11,
                             scale: 10,
@@ -324,9 +324,9 @@
             </div>
         </div>
 
-        <div data-weight="1" id="find-slope-and-yint">
-            <div data-ensure="!(M === 1 &amp;&amp; B === 0) &amp;&amp;
-                    abs(M) &lt; 10 &amp;&amp; abs(B) &lt; 10 &amp;&amp; INCR &lt; 6" class="vars">
+        <div id="find-slope-and-yint" data-weight="1">
+            <div class="vars" data-ensure="!(M === 1 &amp;&amp; B === 0) &amp;&amp;
+                    abs(M) &lt; 10 &amp;&amp; abs(B) &lt; 10 &amp;&amp; INCR &lt; 6">
                 <var id="X1, X2">randRangeUnique(-8, 8, 2)</var>
                 <var id="Y1, Y2">randRangeUnique(-8, 8, 2)</var>
                 <var id="RISE">Y2 - Y1</var>
@@ -399,7 +399,7 @@
                 };
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     <div style="clear: left;">
                         Adjust this equation by clicking on the arrows:

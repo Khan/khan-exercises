@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers graphie-helpers-arithmetic"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multi-digit multiplication</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -20,11 +20,11 @@
                     graph.multiplier.show();
                     DUMMY = Array( graph.multiplier.getNumHints() );
                 </div>
-                <div data-forms="integer" class="solution"><var>SMALL_FACTOR * BIG_FACTOR</var></div>
+                <div class="solution" data-forms="integer"><var>SMALL_FACTOR * BIG_FACTOR</var></div>
             </div>
         </div>
         <div class="hints">
-            <div data-update="numbers" data-each="DUMMY as dummy" class="graphie">
+            <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                 graph.multiplier.showHint();
             </div>
         </div>

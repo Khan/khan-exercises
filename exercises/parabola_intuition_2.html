@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Parabola intuition 2</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -65,19 +65,19 @@
                     graph.currParabola.plot( true );
                 </div>
 
-                <div data-type="custom" class="solution">
+                <div class="solution" data-type="custom">
                     <div class="instruction">
                         <p class="parabola-answer">focus x coordinate: <span id="focus-x-label"><code>0</code></span><span class="mini-buttons">
-                            <input type="button" class="simple-button" value="+" onclick="updateFocusDirectrix( 1, 0, 0 )">
-                            <input type="button" class="simple-button" value="-" onclick="updateFocusDirectrix( -1, 0, 0 )"></span></p>
+                            <input class="simple-button" onclick="updateFocusDirectrix( 1, 0, 0 )" type="button" value="+">
+                            <input class="simple-button" onclick="updateFocusDirectrix( -1, 0, 0 )" type="button" value="-"></span></p>
 
                         <p class="parabola-answer">focus y coordinate: <span id="focus-y-label"><code>0.25</code></span><span class="mini-buttons">
-                            <input type="button" class="simple-button" value="+" onclick="updateFocusDirectrix( 0, 1/8, 0 )">
-                            <input type="button" class="simple-button" value="-" onclick="updateFocusDirectrix( 0, -1/8, 0 )"></span></p>
+                            <input class="simple-button" onclick="updateFocusDirectrix( 0, 1/8, 0 )" type="button" value="+">
+                            <input class="simple-button" onclick="updateFocusDirectrix( 0, -1/8, 0 )" type="button" value="-"></span></p>
 
                         <p class="parabola-answer">directrix: <span id="directrix-label"><code>y=-0.25</code></span><span class="mini-buttons">
-                            <input type="button" class="simple-button" value="+" onclick="updateFocusDirectrix( 0, 0, 1/8 )">
-                            <input type="button" class="simple-button" value="-" onclick="updateFocusDirectrix( 0, 0, -1/8 )"></span></p>
+                            <input class="simple-button" onclick="updateFocusDirectrix( 0, 0, 1/8 )" type="button" value="+">
+                            <input class="simple-button" onclick="updateFocusDirectrix( 0, 0, -1/8 )" type="button" value="-"></span></p>
                     </div>
 
                     <div class="guess">[A, X1, Y1]</div>

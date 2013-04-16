@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Arithmetic sequences 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -19,7 +19,7 @@
                 <p id="given-formula"><code>a_i = <var>A</var> + <var>D</var>(i - 1)</code></p>
                 <p class="question">What is <code>a_{<var>N</var>}</code>, the <var>ordinal(N)</var> term in the sequence?</p>
             </div>
-            <div data-forms="integer" class="solution"><var>A + D * (N - 1)</var></div>
+            <div class="solution" data-forms="integer"><var>A + D * (N - 1)</var></div>
 
             <div class="hints">
                 <p>From the given formula, we can see that the first term of the sequence is <code><var>A</var></code> and the common difference is <code><var>D</var></code>.</p>
@@ -33,8 +33,8 @@
                 </div>
             </div>
         </div>
-        <div data-type="explicit" id="recursive">
-            <div data-apply="appendContents" class="question">
+        <div id="recursive" data-type="explicit">
+            <div class="question" data-apply="appendContents">
                 <p id="given-formula">
                     <code>a_1 = <var>A</var></code><br>
                     <code>a_i = a_{i-1} + <var>D</var></code><br>

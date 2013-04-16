@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Finding absolute values</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div data-ensure='SIGN === "" || INT !== 0 || FRAC !== ""' class="vars">
+    <div class="vars" data-ensure='SIGN === "" || INT !== 0 || FRAC !== ""'>
         <var id="INT">rand(5) &gt; 0 ? randRange( 1, 9 ) : 0</var>
         <var id="FRAC">rand(3) &gt; 0 ? "." + randRange(1, 9) : ""</var>
         <var id="SIGN">randFromArray(["", "-"])</var>

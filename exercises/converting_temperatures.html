@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Converting Temperatures</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -18,8 +18,8 @@
 					<var id="C">abs(B*5)</var>
 				</div> 
 				<p class="question">Convert <code><var>A</var>&#176;</code> from Fahrenheit to Celsius. Round to the nearest tenth degree:</p>
-				<div data-type="multiple" class="solution">
-				<p><span data-inexact="" data-forms="integer,decimal,mixed,improper" class="sol" data-max-error="0.09">
+				<div class="solution" data-type="multiple">
+				<p><span class="sol" data-forms="integer,decimal,mixed,improper" data-inexact="" data-max-error="0.09">
 				   <var>roundTo(1,(A-32)*(5/9))</var>
 				   </span> degrees
 				</p>
@@ -63,8 +63,8 @@
 				<p class="question">
                     Convert <code><var>A</var>&#176;</code> from Celsius to Fahrenheit. Round to the nearest tenth degree: 
                 </p>
-				<div data-type="multiple" class="solution">
-				<p><span data-inexact="" data-forms="integer,decimal,mixed,improper" class="sol" data-max-error="0.09">
+				<div class="solution" data-type="multiple">
+				<p><span class="sol" data-forms="integer,decimal,mixed,improper" data-inexact="" data-max-error="0.09">
 				    <var>roundTo(1, (9/5*A)+32)</var>
 				    </span> degrees
 				</p>

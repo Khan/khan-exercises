@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions graphie interactive word-problems stat"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Creating bar charts 1</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -89,7 +89,7 @@
                 </div>
 
             </div>
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Create a bar chart by dragging the top of each bar up and down.
                 </div>
@@ -127,7 +127,7 @@
                     the way to the bottom to get rid of the bar.
                 </span>
             </p>
-            <div data-update="barchart" data-if="NUM &gt; 0" class="graphie">
+            <div class="graphie" data-if="NUM &gt; 0" data-update="barchart">
                 style({ stroke: ORANGE, fill: "none", strokeWidth: 1, strokeDasharray: "- " }, function() {
                     path([ [ INDEX * 3 + 1, 0 ], [ INDEX * 3 + 1, NUM ], [ INDEX * 3 + 3, NUM ], [ INDEX * 3 + 3, 0 ] ]).toBack();
                 });

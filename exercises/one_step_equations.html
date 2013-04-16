@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>One step equations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -13,14 +13,14 @@
         <p><code>\qquad 10 = x + 5</code></p>
         <p><code>\qquad 10 = 5 + x</code></p>
     </div>
-    <div data-ensure="A !== B" class="vars">
+    <div class="vars" data-ensure="A !== B">
         <var id="X">randVar()</var>
         <var id="A">randRangeNonZero(-30, 30)</var>
         <var id="B">randRangeNonZero(-30, 30)</var>
     </div>
     <p class="question">Solve for <code><var>X</var></code>:</p>
-    <div data-type="multiple" class="solution">
-        <p><code><var>X</var>=</code> <span data-forms="integer" class="sol"><var>B - A</var></span></p>
+    <div class="solution" data-type="multiple">
+        <p><code><var>X</var>=</code> <span class="sol" data-forms="integer"><var>B - A</var></span></p>
     </div>
 
     <div class="problems">

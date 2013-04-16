@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Area of squares and rectangles</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -26,8 +26,8 @@
                 <var>plural(UNIT_TEXT, S)</var> long. What is its area?
             </p>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>S * S</var></span> square
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>S * S</var></span> square
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
@@ -43,7 +43,7 @@
                     The area is the length times the width.
                 </p>
                 <div>
-                    <div data-update="area" class="graphie">
+                    <div class="graphie" data-update="area">
                         _(S - 1).times(function(y) {
                             style({
                                 stroke: GRAY,
@@ -71,7 +71,7 @@
                         We can also count <var>S * S</var>
                         square <var>plural(UNIT_TEXT)</var>.
                     </p>
-                    <div data-update="area" class="graphie">
+                    <div class="graphie" data-update="area">
                         _(S * S).times(function(n) {
                             label([n % S + 0.5, S - floor(n / S) - 0.5],
                                 n + 1, "center", false)
@@ -92,8 +92,8 @@
                 square <var>plural(UNIT_TEXT)</var>. How long is each side?
             </p>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>S</var></span>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>S</var></span>
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
@@ -110,7 +110,7 @@
                     </div>
                 </div>
                 <div>
-                    <div data-update="square" class="graphie">
+                    <div class="graphie" data-update="square">
                         path([[0, 0], [0, 5]],
                             { strokeWidth: 4, stroke: PINK });
                         path([[0, 5], [5, 5]],
@@ -138,7 +138,7 @@
         </div>
 
         <div id="rectangle">
-            <div data-ensure="L !== W" class="vars">
+            <div class="vars" data-ensure="L !== W">
                 <var id="L">randRange(2, 9)</var>
                 <var id="W">randRange(2, 9)</var>
             </div>
@@ -151,8 +151,8 @@
                 wide. What is its area?
             </p>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>L * W</var></span> square
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>L * W</var></span> square
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
@@ -168,7 +168,7 @@
                     The area is the length times the width.
                 </p>
                 <div>
-                    <div data-update="area" class="graphie">
+                    <div class="graphie" data-update="area">
                         style({
                             stroke: GRAY,
                             strokeWidth: 1,
@@ -198,7 +198,7 @@
                         We can also count <var>L * W</var>
                         square <var>plural(UNIT_TEXT)</var>.
                     </p>
-                    <div data-update="area" class="graphie">
+                    <div class="graphie" data-update="area">
                         _(L * W).times(function(n) {
                             label([n % L + 0.5, W - floor(n / L) - 0.5],
                                 n + 1, "center", false)

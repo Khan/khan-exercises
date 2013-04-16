@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Domain of a function</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -17,8 +17,8 @@
     <div class="exercise">
         <div class="vars">
             <var id="A">randRange( 1, 10 )</var>
-            <var data-ensure="A !== B" id="B">randRange( 1, 10 )</var>
-            <var data-ensure="A !== C &amp;&amp; B !== C" id="C">randRange( 1, 10 )</var>
+            <var id="B" data-ensure="A !== B">randRange( 1, 10 )</var>
+            <var id="C" data-ensure="A !== C &amp;&amp; B !== C">randRange( 1, 10 )</var>
 
             <var id="SET">function() { return "\\{ \\, x \\in \\RR \\mid " + Array.prototype.join.call( arguments, ", \\," ) + "\\, \\}"; }</var>
             <var id="FN">function( n, sym ) { return "x " + sym + n; }</var>
@@ -56,7 +56,7 @@
                 <p class="question">What is the domain of the real-valued function <code>f(x)</code>?</p>
 
                 <p class="solution"><code><var>CHOICES["two-denom-simplify"]</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'two-denom-simplify'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -69,12 +69,12 @@
 
             </div>
 
-            <div data-type="two-denom-simplify" id="two-denom-cond">
+            <div id="two-denom-cond" data-type="two-denom-simplify">
 
                 <p class="problem"><code>f(x)= \begin{cases} \dfrac{ x + <var>A</var> }{ ( x + <var>A</var> )( x - <var>B</var> ) } &amp; \text{if $x \neq <var>B</var>$} \\ <var>C</var> &amp; \text{if $x = <var>B</var>$} \end{cases}</code></p>
 
                 <p class="solution"><code><var>CHOICES["two-denom-cond"]</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'two-denom-cond'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -90,12 +90,12 @@
 
             </div>
 
-            <div data-type="two-denom-simplify" id="sqrt">
+            <div id="sqrt" data-type="two-denom-simplify">
 
                 <p class="problem"><code>f(x) = \sqrt{ x - <var>A</var> }</code></p>
 
                 <p class="solution"><code><var>CHOICES.sqrt</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -108,12 +108,12 @@
 
             </div>
 
-            <div data-type="two-denom-simplify" id="inverse-sqrt">
+            <div id="inverse-sqrt" data-type="two-denom-simplify">
 
                 <p class="problem"><code>f(x) = \dfrac{ 1 }{ \sqrt{ x - <var>A</var> } }</code></p>
 
                 <p class="solution"><code><var>CHOICES["inverse-sqrt"]</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'inverse-sqrt'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -132,12 +132,12 @@
 
             </div>
 
-            <div data-type="two-denom-simplify" id="inverse-sqrt-cond">
+            <div id="inverse-sqrt-cond" data-type="two-denom-simplify">
 
                 <p class="problem"><code>f(x) = \begin{cases} \dfrac{ 1 }{ \sqrt{ x - <var>A</var> } } &amp; \text{if $x \geq <var>A</var>$} \\ \dfrac{ 1 }{ \sqrt{ <var>A</var> - x } } &amp; \text{if $x &lt; <var>A</var>$} \end{cases}</code></p>
 
                 <p class="solution"><code><var>CHOICES["inverse-sqrt-cond"]</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'inverse-sqrt-cond'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -157,12 +157,12 @@
 
             </div>
 
-            <div data-type="two-denom-simplify" id="sqrt-frac">
+            <div id="sqrt-frac" data-type="two-denom-simplify">
 
                 <p class="problem"><code>f(x) = \dfrac{ \sqrt{ <var>A+B</var> - x } }{ \sqrt{ x - <var>A</var> } }</code></p>
 
                 <p class="solution"><code><var>CHOICES["sqrt-frac"]</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt-frac'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -181,12 +181,12 @@
 
             </div>
 
-            <div data-type="two-denom-simplify" id="two-denom-cond-weird">
+            <div id="two-denom-cond-weird" data-type="two-denom-simplify">
 
                 <p class="problem"><code>f(x) = \begin{cases} \dfrac{ x + <var>A</var> }{ ( x + <var>A</var> )( x - <var>C</var> ) } &amp; \text{if $x \neq <var>B</var>$} \\ <var>A</var> &amp; \text{if $x = <var>B</var>$} \end{cases}</code></p>
 
                 <p class="solution"><code><var>CHOICES["two-denom-cond-weird"]</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'two-denom-cond-weird'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -202,12 +202,12 @@
 
             </div>
 
-            <div data-type="two-denom-simplify" id="sqrt-poly-frac">
+            <div id="sqrt-poly-frac" data-type="two-denom-simplify">
 
                 <p class="problem"><code>f(x) = \dfrac{ \sqrt{ x - <var>C</var> } }{ x^2 + <var>A+B</var> x + <var>A*B</var> }</code></p>
 
                 <p class="solution"><code><var>CHOICES["sqrt-poly-frac"]</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt-poly-frac'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -224,12 +224,12 @@
 
             </div>
 
-            <div data-type="two-denom-simplify" id="sqrt-abs">
+            <div id="sqrt-abs" data-type="two-denom-simplify">
 
                 <p class="problem"><code>f(x) = \sqrt{ <var>A</var> - \lvert x \rvert }</code></p>
 
                 <p class="solution"><code><var>CHOICES["sqrt-abs"]</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt-abs'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -243,12 +243,12 @@
 
             </div>
 
-            <div data-type="two-denom-simplify" id="inverse-sqrt-abs">
+            <div id="inverse-sqrt-abs" data-type="two-denom-simplify">
 
                 <p class="problem"><code>f(x) = \dfrac{ <var>B</var> }{ \sqrt{ <var>A</var> - \lvert x \rvert } }</code></p>
 
                 <p class="solution"><code><var>CHOICES["inverse-sqrt-abs"]</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'inverse-sqrt-abs'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 

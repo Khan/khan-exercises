@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-3d math-format interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Solid geometry</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -146,7 +146,7 @@
                 </div>
             </div>
 
-            <div data-type="decimal" class="solution">
+            <div class="solution" data-type="decimal">
                 <var>DEPTH * BASE * HEIGHT / 2</var>
             </div>
 
@@ -179,7 +179,7 @@
                         is <code><var>BASE</var></code> and the height is
                         <code><var>HEIGHT</var></code>.
                     </p>
-                    <div data-update="triangle" class="graphie">
+                    <div class="graphie" data-update="triangle">
                         graph.label1.remove();
                         graph.label2.remove();
 
@@ -204,8 +204,8 @@
             </div>
         </div>
 
-        <div data-type="int-tripri-V" id="int-box-V">
-            <div data-apply="prependContents" class="vars">
+        <div id="int-box-V" data-type="int-tripri-V">
+            <div class="vars" data-apply="prependContents">
                 <var id="LENGTH">randRange(2, 7)</var>
                 <var id="WIDTH">randRange(2, 7)</var>
                 <var id="HEIGHT">randRange(2, 7)</var>
@@ -261,7 +261,7 @@
                 What is the volume of this box? Drag on the box to rotate it.
             </p>
 
-            <div data-forms="integer" class="solution">
+            <div class="solution" data-forms="integer">
                 <var>LENGTH * WIDTH * HEIGHT</var>
             </div>
 
@@ -290,13 +290,13 @@
             </div>
         </div>
 
-        <div data-type="int-box-V" id="int-box-T">
+        <div id="int-box-T" data-type="int-box-V">
             <p class="question">
                 What is the surface area of this box?
                 Drag on the box to rotate it.
             </p>
 
-            <div data-forms="integer" class="solution">
+            <div class="solution" data-forms="integer">
                 <var>2 * LENGTH * WIDTH +
                     2 * LENGTH * HEIGHT +
                     2 * WIDTH * HEIGHT</var>
@@ -307,7 +307,7 @@
                 of each of the faces, and add all the areas up.</p>
                 <div>
                     <p>To see this better, let's try unwrapping the box:
-                    <input type="submit" value="Unwrap!" onclick="KhanUtil.tmpl.getVAR('UNWRAPGRAPH.unwrap()')"></p>
+                    <input onclick="KhanUtil.tmpl.getVAR('UNWRAPGRAPH.unwrap()')" type="submit" value="Unwrap!"></p>
                     <div class="graphie">
                         var verts = [
                             [LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
@@ -512,8 +512,8 @@
             </div>
         </div>
 
-        <div data-type="int-box-V" id="int-cube-V">
-            <div data-apply="appendContents" class="vars">
+        <div id="int-cube-V" data-type="int-box-V">
+            <div class="vars" data-apply="appendContents">
                 <var id="LENGTH">randRange(2, 7)</var>
                 <var id="WIDTH">LENGTH</var>
                 <var id="HEIGHT">LENGTH</var>
@@ -546,8 +546,8 @@
             </div>
         </div>
 
-        <div data-type="int-box-T" id="int-cube-T">
-            <div data-apply="appendContents" class="vars">
+        <div id="int-cube-T" data-type="int-box-T">
+            <div class="vars" data-apply="appendContents">
                 <var id="LENGTH">randRange(2, 7)</var>
                 <var id="WIDTH">LENGTH</var>
                 <var id="HEIGHT">LENGTH</var>
@@ -558,7 +558,7 @@
                 Drag on the cube to rotate it.
             </p>
 
-            <div data-apply="appendContents" class="hints">
+            <div class="hints" data-apply="appendContents">
                 <div id="unwrapped" data-unwrap="">
                     <p>Here, we can see that all of the
                         six sides have the same size.</p>
@@ -628,9 +628,9 @@
                 </div>
             </div>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <p>
-                    <span data-forms="pi" class="sol">
+                    <span class="sol" data-forms="pi">
                         <var>Math.PI * r * r * h</var>
                     </span>
                     Cubic Units
@@ -683,9 +683,9 @@
                 </div>
             </div>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <p>
-                    <span data-forms="pi" class="sol">
+                    <span class="sol" data-forms="pi">
                         <var>Math.PI * 2 * r * ( r + h )</var>
                     </span>
                     Square Units

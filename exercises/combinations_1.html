@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Combinations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -8,7 +8,7 @@
     <div class="exercise">
         <div class="problems">
             <div id="packing">
-                <div data-ensure="NUM_THINGS&gt;NUM_TAKEN" class="vars">
+                <div class="vars" data-ensure="NUM_THINGS&gt;NUM_TAKEN">
                     <var id="THING">randFromArray(["shirts", "tigers", "books", "Faberg&#233; eggs", "socks", "action figures"])</var>
                     <var id="NUM_THINGS">randRange(5,9)</var>
                     <var id="NUM_TAKEN">randRange(3,5)</var>
@@ -19,7 +19,7 @@
                     <code><var>NUM_THINGS</var></code> unique <var>THING</var>, but only <code><var>NUM_TAKEN</var></code> fit in <var>his(1)</var> bag.
                 </p>
                 <p class="question">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can <var>he(1)</var> take?</p>
-                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
                 <div class="hints">
                     <p>
                         <var>person(1)</var> has <code><var>NUM_TAKEN</var></code> spaces for <var>his(1)</var> <var>THING</var>, 
@@ -75,7 +75,7 @@
                     Unfortunately, you have <code><var>FRIENDS</var></code> friends who want to come along.
                 </p>
                 <p class="question">How many different groups of friends could you take with you?</p>
-                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
 
                 <div class="hints">
                     <p>

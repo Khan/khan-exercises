@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Comparing fractions 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -12,7 +12,7 @@
     <div class="exercise">
         <div class="problems">
             <div id="same-numerator">
-                <div data-ensure="DEN_1 !== DEN_2" class="vars">
+                <div class="vars" data-ensure="DEN_1 !== DEN_2">
                     <var id="NUM_1">randRange( 1, 14 )</var>
                     <var id="DEN_1">randRange( NUM_1 + 1, 15 )</var>
 
@@ -40,7 +40,7 @@
                     </p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li><code>&lt;</code></li>
                     <li><code>&gt;</code></li>
                 </ul>
@@ -48,11 +48,11 @@
                     <div>
                         <p>This is like comparing two equally sized pizzas where one is cut into <var>DEN_1</var> equal slices and the other is cut into <var>DEN_2</var> equal slices.</p>
                         <div style="height: 150px;">
-                            <div style="float: left" class="graphie">
+                            <div class="graphie" style="float: left">
                                 init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
                                 piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
                             </div>
-                            <div style="float: left" class="graphie">
+                            <div class="graphie" style="float: left">
                                 init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
                                 piechart( [NUM_2, DEN_2 - NUM_2], ["#e00", "#999"], 2 );
                             </div>
@@ -66,7 +66,7 @@
             </div>
 
             <div id="same-denominator">
-                <div data-ensure="NUM_1 !== NUM_2" class="vars">
+                <div class="vars" data-ensure="NUM_1 !== NUM_2">
                     <var id="NUM_1">randRange( 1, 14 )</var>
                     <var id="DEN_1">randRange( NUM_1 + 1, 15 )</var>
 
@@ -91,7 +91,7 @@
                     </p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li><code>&lt;</code></li>
                     <li><code>&gt;</code></li>
                 </ul>
@@ -100,11 +100,11 @@
                         <p>This is like considering two equally sized pizzas that have been cut into <var>DEN_1</var> equal slices.</p>
                         <p>Since both pizzas have the same number of slices, all the slices are the same size.</p>
                         <div style="height: 150px;">
-                            <div style="float: left" class="graphie">
+                            <div class="graphie" style="float: left">
                                 init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
                                 piechart( [NUM_1, DEN_1 - NUM_1], ["#e00", "#999"], 2 );
                             </div>
-                            <div style="float: left" class="graphie">
+                            <div class="graphie" style="float: left">
                                 init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
                                 piechart( [NUM_2, DEN_2 - NUM_2], ["#e00", "#999"], 2 );
                             </div>

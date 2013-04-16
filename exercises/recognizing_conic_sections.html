@@ -31,13 +31,13 @@
                         </div>
                     </div>
                     <div class="question">
-                        <div data-update="conic" class="graphie">
+                        <div class="graphie" data-update="conic">
                             plot( FUNC, [-10, 10] );
                         </div>
                     </div>
 
                     <div class="solution">Parabola</div>
-                    <ul data-category="true" class="choices">
+                    <ul class="choices" data-category="true">
                         <li>Parabola</li>
                         <li>Hyperbola</li>
                         <li>Circle</li>
@@ -50,10 +50,10 @@
                     </div>
                 </div>
 
-                <div data-type="parabola" id="ellipse">
+                <div id="ellipse" data-type="parabola">
                     <div class="vars">
                         <var id="A">randRangeNonZero( -70, 70 ) / 10</var>
-                        <var data-ensure="abs( abs( A ) - abs( B ) ) &gt; 1" id="B">randRangeNonZero( -70, 70 ) / 10</var>
+                        <var id="B" data-ensure="abs( abs( A ) - abs( B ) ) &gt; 1">randRangeNonZero( -70, 70 ) / 10</var>
                         <var id="C">randRangeNonZero( -30, 30 ) / 10</var>
                         <var id="D">randRangeNonZero( -30, 30 ) / 10</var>
 
@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="question">
-                        <div data-update="conic" class="graphie">
+                        <div class="graphie" data-update="conic">
                             plotParametric( PARA_FUNC, [-PI, PI] );
                         </div>
                     </div>
@@ -76,8 +76,8 @@
                     </div>
                 </div>
 
-                <div data-type="ellipse" id="circle">
-                    <div data-ensure="A &gt; 0.5" class="vars">
+                <div id="circle" data-type="ellipse">
+                    <div class="vars" data-ensure="A &gt; 0.5">
                         <var id="A">randRangeNonZero( -70, 70 ) / 10</var>
                         <var id="B">A</var>
                     </div>
@@ -90,7 +90,7 @@
                     </div>
                 </div>
 
-                <div data-type="parabola" id="hyperbola">
+                <div id="hyperbola" data-type="parabola">
                     <div class="vars">
                         <var id="A">randRangeNonZero( -40, 40 ) / 10</var>
                         <var id="B">randRangeNonZero( -40, 40 ) / 10</var>
@@ -101,7 +101,7 @@
                     </div>
 
                     <div class="question">
-                        <div data-update="conic" class="graphie">
+                        <div class="graphie" data-update="conic">
                             // to steer clear of discontinuities,
                             // split up the plotting and add some buffer area away from them
                             plotParametric( PARA_FUNC, [-PI, -PI/2-0.1] );
@@ -115,7 +115,7 @@
                     <div class="hints">
                         <div>
                             <p>This graph has two asymptotes which it approaches. It's also U-shaped on each side.</p>
-                            <div data-update="conic" class="graphie">
+                            <div class="graphie" data-update="conic">
                                 plot( function( x ) { return (B/A) * x; }, [-10, 10], { stroke: "gray" } );
                                 plot( function( x ) { return (B/A) * -1 * x; }, [-10, 10], { stroke: "gray" } );
                             </div>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>1-digit subtraction</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -24,13 +24,13 @@
                         "right" );
                 </div>
             </div>
-            <div data-forms="integer" class="solution"><var>A - B</var></div>
+            <div class="solution" data-forms="integer"><var>A - B</var></div>
 
             <div class="hints">
-                <div style="float: left;" class="graphie" id="circles">
+                <div class="graphie" id="circles" style="float: left;">
                     drawCircles( A, "#6495ED" );
                 </div>
-                <div data-update="circles" class="graphie">
+                <div class="graphie" data-update="circles">
                     crossOutCircles( A, B, "#FFA500" );
                 </div>
                 <p style="clear: left;">We began with <var>plural( A, "dot" )</var> and crossed out <var>B</var> of them, so we are left with <var>plural( A - B, "dot" )</var>.</p>

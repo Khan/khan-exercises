@@ -49,7 +49,7 @@
                     snapY: 0.5,
                 });
             </div>
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Drag the orange point to plot your answer.
                 </div>
@@ -78,14 +78,14 @@
                         </div>
                         <div>
                             <p><code>a + b = (<var>REAL1</var> + <var>REAL2</var>) + (<var>COMPLEX1</var> + <var>COMPLEX2</var>)i</code></p>
-                            <div data-update="graph" class="graphie">
+                            <div class="graphie" data-update="graph">
                                 line([REAL2, COMPLEX2], [REAL1 + REAL2, COMPLEX1 + COMPLEX2], { stroke: "#6495ed", arrows: "-&gt;" });
                                 graph.guessPoint.toFront();
                             </div>
                         </div>
                         <div>
                             <p><code>\hphantom{a + b} = <var>REAL1 + REAL2</var> + <var>COMPLEX1 + COMPLEX2</var>i</code></p>
-                            <div data-update="graph" class="graphie">
+                            <div class="graphie" data-update="graph">
                                 line([0, 0], [REAL1 + REAL2, COMPLEX1 + COMPLEX2], { stroke: "#ffa500", arrows: "-&gt;" });
                                 graph.guessPoint.toFront();
                                 graph.guessPoint.moveTo(REAL1 + REAL2, COMPLEX1 + COMPLEX2);
@@ -104,14 +104,14 @@
                         </div>
                         <div>
                             <p><code>a + b = (<var>REAL1</var> - <var>REAL2</var>) + (<var>COMPLEX1</var> - <var>COMPLEX2</var>)i</code></p>
-                            <div data-update="graph" class="graphie">
+                            <div class="graphie" data-update="graph">
                                 line([REAL1, COMPLEX1], [REAL1 - REAL2, COMPLEX1 - COMPLEX2], { stroke: "#28ae7b", arrows: "-&gt;" });
                                 graph.guessPoint.toFront();
                             </div>
                         </div>
                         <div>
                             <p><code>\hphantom{a + b} = <var>REAL1 - REAL2</var> + <var>COMPLEX1 - COMPLEX2</var>i</code></p>
-                            <div data-update="graph" class="graphie">
+                            <div class="graphie" data-update="graph">
                                 line([0, 0], [REAL1 - REAL2, COMPLEX1 - COMPLEX2], { stroke: "#ffa500", arrows: "-&gt;" });
                                 graph.guessPoint.toFront();
                                 graph.guessPoint.moveTo(REAL1 - REAL2, COMPLEX1 - COMPLEX2);

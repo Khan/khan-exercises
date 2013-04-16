@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Radius diameter and circumference</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -63,7 +63,7 @@
                 <p>Suppose the radius of a circle is <code>\color{<var>R_COLOR</var>}{<var>R</var>}</code>. What is its diameter?</p>
             </div>
 
-            <div data-forms="integer, proper, improper, mixed, decimal, pi" class="solution"><var>2 * R</var></div>
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>2 * R</var></div>
 
             <div class="hints">
                 <div class="graphie" id="circle">
@@ -74,7 +74,7 @@
                 <div>
                     <p>We know <code>d = 2r</code>, so <code>d = 2 \cdot \color{<var>R_COLOR</var>}{<var>R</var>} = \color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>.</p>
 
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         drawDiameter( R );
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                 <p>Suppose the diameter of a circle is <code>\color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>. What is its radius?</p>
             </div>
 
-            <div data-forms="integer, proper, improper, mixed, decimal, pi" class="solution"><var>R</var></div>
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>R</var></div>
 
             <div class="hints">
                 <div class="graphie" id="circle">
@@ -101,7 +101,7 @@
                 <div>
                     <p>We know <code>d = 2r</code>, so <code>r = d / 2</code> and <code>r = \color{<var>D_COLOR</var>}{<var>2 * R</var>} / 2 = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
 
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         drawRadius( R );
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                 <p>Suppose the radius of a circle is <code>\color{<var>R_COLOR</var>}{<var>R</var>}</code>. What is its circumference?</p>
             </div>
 
-            <div data-forms="integer, proper, improper, mixed, decimal, pi" class="solution"><var>Math.PI * 2 * R</var></div>
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>Math.PI * 2 * R</var></div>
 
             <div class="hints">
                 <div class="graphie" id="circle">
@@ -128,7 +128,7 @@
                 <div>
                     <p>We know <code>c = 2\pi r</code>, so <code>c = 2 \pi \cdot \color{<var>R_COLOR</var>}{<var>R</var>} = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>.</p>
 
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         drawCircumference( R );
                     </div>
                 </div>
@@ -144,7 +144,7 @@
                 <p>Suppose the circumference of a circle is <code>\color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>. What is its radius?</p>
             </div>
 
-            <div data-forms="integer, proper, improper, mixed, decimal, pi" class="solution"><var>R</var></div>
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>R</var></div>
 
             <div class="hints">
                 <div class="graphie" id="circle">
@@ -155,7 +155,7 @@
                 <div>
                     <p>We know <code>c = 2\pi r</code>, so <code>r = c / 2\pi = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi} / 2 \pi = \color{<var>R_COLOR</var>}{<var>R</var>}</code>.</p>
 
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         drawRadius( R );
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                 <p>Suppose the diameter of a circle is <code>\color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>. What is its circumference?</p>
             </div>
 
-            <div data-forms="integer, proper, improper, mixed, decimal, pi" class="solution"><var>Math.PI * 2 * R</var></div>
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>Math.PI * 2 * R</var></div>
 
             <div class="hints">
                 <div class="graphie" id="circle">
@@ -182,7 +182,7 @@
                 <div>
                     <p>We know <code>c = \pi d</code>, so <code>c = \pi \cdot \color{<var>D_COLOR</var>}{<var>2 * R</var>} = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>.</p>
 
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         drawCircumference( R );
                     </div>
                 </div>
@@ -198,7 +198,7 @@
                 <p>Suppose the circumference of a circle is <code>\color{<var>C_COLOR</var>}{<var>2 * R</var>\pi}</code>. What is its diameter?</p>
             </div>
 
-            <div data-forms="integer, proper, improper, mixed, decimal, pi" class="solution"><var>2 * R</var></div>
+            <div class="solution" data-forms="integer, proper, improper, mixed, decimal, pi"><var>2 * R</var></div>
 
             <div class="hints">
                 <div class="graphie" id="circle">
@@ -209,7 +209,7 @@
                 <div>
                     <p>We know <code>c = \pi d</code>, so <code>d = c / \pi = \color{<var>C_COLOR</var>}{<var>2 * R</var>\pi} / \pi = \color{<var>D_COLOR</var>}{<var>2 * R</var>}</code>.</p>
 
-                    <div data-update="circle" class="graphie">
+                    <div class="graphie" data-update="circle">
                         drawDiameter( R );
                     </div>
                 </div>

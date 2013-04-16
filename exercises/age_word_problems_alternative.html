@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format word-problems spin graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Age word problems</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <div data-type="solve-older-1" id="solve-younger-1">
+        <div id="solve-younger-1" data-type="solve-older-1">
             <div class="question">
                 <p><span class="first"><var>person(1)</var> is <var>A</var> years older than
                 <var>person(2)</var>.</span> <span class="second"><var>Cardinal(B)</var> years ago, <var>person(1)</var>
@@ -153,7 +153,7 @@
             </div>
         </div>
 
-        <div data-type="solve-older-2" id="solve-younger-2">
+        <div id="solve-younger-2" data-type="solve-older-2">
             <div class="question">
                 <p><span class="first"><var>person(1)</var> is <var>C</var> times as old as
                 <var>person(2)</var></span> and <span class="second">is also <var>A</var>
@@ -193,7 +193,7 @@
         </div>
 
         <div id="solve-older-3">
-            <div data-ensure="C - A !== A &amp;&amp; A * B * (C - 1) &lt; 100 * (C - A)" class="vars">
+            <div class="vars" data-ensure="C - A !== A &amp;&amp; A * B * (C - 1) &lt; 100 * (C - A)">
                 <var id="A">randRange(2, 5)</var>
                 <var id="C">randRange(A + 2, 9)</var>
                 <var id="B">randRange(2, 7) * (C - A)</var>
@@ -243,7 +243,7 @@
             </div>
         </div>
 
-        <div data-type="solve-older-3" id="solve-younger-3">
+        <div id="solve-younger-3" data-type="solve-older-3">
             <div class="question">
                 <p><span class="first"><var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>.</span> <span class="second"><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</span></p>
 
@@ -288,8 +288,8 @@
             </div>
         </div>
 
-        <div data-weight="2" id="solve-single-4">
-            <div data-ensure="B &lt;= 60" class="vars">
+        <div id="solve-single-4" data-weight="2">
+            <div class="vars" data-ensure="B &lt;= 60">
                 <var id="A">randRange(3, 20)</var>
                 <var id="B">randRange(7, 24) * (A - 1)</var>
             </div>
@@ -317,8 +317,8 @@
             </div>
         </div>
 
-        <div data-weight="2" id="solve-single-5">
-            <div data-ensure="A &lt;= 80 &amp;&amp; B &gt;= 2 &amp;&amp; (A - B * C) &gt; (C - 1)" class="vars">
+        <div id="solve-single-5" data-weight="2">
+            <div class="vars" data-ensure="A &lt;= 80 &amp;&amp; B &gt;= 2 &amp;&amp; (A - B * C) &gt; (C - 1)">
                 <var id="C">randRange(3, 5)</var>
                 <var id="B">randRange(1, 10) * (C - 1)</var>
                 <var id="A">randRange(C * B + 1, 15) * (C - 1)</var>

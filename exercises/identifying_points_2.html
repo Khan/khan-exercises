@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math graphie expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Ordered pair solutions to linear equations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -39,7 +39,7 @@
                 <p><code><var>$.map( POINTS, PAIR ).join( "\\qquad" )</var></code></p>
                 <p><code>y = <var>expr(["+", ["*", M, "x"], B])</var></code></p>
                 <p class="solution"><code><var>PAIR( POINTS[CORRECT] )</var></code></p>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
                 </ul>
                 <div class="hints">
@@ -104,17 +104,17 @@
                     }, [ -10, 10 ]);
                 </div>
                 <p class="solution"><code><var>PAIR( POINTS[CORRECT] )</var></code></p>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
                 </ul>
                 <div class="hints">
                     <p>Let's try graphing each of the points.</p>
-                    <div data-update="grid" data-each="POINTS as i, point" class="graphie">
+                    <div class="graphie" data-each="POINTS as i, point" data-update="grid">
                         circle( point, 0.15 );
                     </div>
                     <div>
                         <p>The only point that falls on the line is <code><var>PAIR( POINTS[ CORRECT ] )</var></code>.</p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             style({ stroke: ORANGE, fill: ORANGE });
                             circle( POINTS[ CORRECT ], 0.3);
                         </div>

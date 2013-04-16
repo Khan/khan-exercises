@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Solutions to quadratic equations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="solution"><var>ANSWER</var></div>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li>One rational solution</li>
                     <li>Two rational solutions</li>
                     <li>Two irrational solutions</li>
@@ -107,8 +107,8 @@
                 </div>
             </div>
 
-            <div data-type="one-rational" id="two-rational">
-                <div data-apply="replace" class="vars">
+            <div id="two-rational" data-type="one-rational">
+                <div class="vars" data-apply="replace">
                     <var id="ANSWER">"Two rational solutions"</var>
                     <div data-ensure="DISCRIMINANT &gt; 0 &amp;&amp;
                         sqrt(DISCRIMINANT) - floor(sqrt(DISCRIMINANT)) &lt; 0.001
@@ -121,8 +121,8 @@
                 </div>
             </div>
 
-            <div data-type="one-rational" id="two-irrational">
-                <div data-apply="replace" class="vars">
+            <div id="two-irrational" data-type="one-rational">
+                <div class="vars" data-apply="replace">
                     <var id="ANSWER">"Two irrational solutions"</var>
                     <div data-ensure="DISCRIMINANT &gt; 0 &amp;&amp;
                         sqrt(DISCRIMINANT) - floor(sqrt(DISCRIMINANT)) &gt; 0.001">
@@ -134,8 +134,8 @@
                 </div>
             </div>
 
-            <div data-type="one-rational" id="two-complex">
-                <div data-apply="replace" class="vars">
+            <div id="two-complex" data-type="one-rational">
+                <div class="vars" data-apply="replace">
                     <var id="ANSWER">"Two complex solutions"</var>
                     <div data-ensure="DISCRIMINANT &lt; 0">
                         <var id="A">randRangeNonZero(-9, 9)</var>

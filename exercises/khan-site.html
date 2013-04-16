@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><head>
-        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Exercise Template</title>
     </head>
     <body class="light">
@@ -12,7 +12,7 @@
                         <div id="top-header">
                             <div class="top-header-links">
                                 <span class="page_links" id="page_auth">
-                                    <span style="left:-60px;" class="achievement-badge-counts"></span>
+                                    <span class="achievement-badge-counts" style="left:-60px;"></span>
                                     <span><a href="http://khanacademy.org/login">Log in</a></span>
                                     <span class="separator"></span>
                                     <span><a href="http://khanacademy.org/contribute" id="donate-link">Donate</a></span>
@@ -33,8 +33,8 @@
                                         </nav>
                                     </div>
                                     <div id="search-box">
-                                        <form action="/search" class="page-search">
-                                            <input name="page_search_query" type="text" aria-autocomplete="list" value="" id="search-input" autocomplete="off" aria-haspopup="true" role="textbox" placeholder="Search for a video or topic" class="ui-corner-all placeholder simple-input search-input blur-on-esc ui-autocomplete-input"><input aria-autocomplete="list" value=" " class="search-submit" autocomplete="off" aria-haspopup="true" role="textbox" type="submit" id="search-submit">
+                                        <form class="page-search" action="/search">
+                                            <input class="ui-corner-all placeholder simple-input search-input blur-on-esc ui-autocomplete-input" id="search-input" aria-autocomplete="list" aria-haspopup="true" autocomplete="off" name="page_search_query" placeholder="Search for a video or topic" role="textbox" type="text" value=""><input class="search-submit" id="search-submit" aria-autocomplete="list" aria-haspopup="true" autocomplete="off" role="textbox" type="submit" value=" ">
                                         </form>
                                     </div>
                                     <div class="clear"></div>
@@ -42,13 +42,13 @@
                             </div>
 
                             <div id="logo">
-                                <a id="logo-image" href="http://khanacademy.org/" name="logo-image" title="Khan Academy"></a>
-                                <div id="stats"><span style="display: inline;" id="page_visitors">Over 9,000 lessons delivered</span></div>
+                                <a href="http://khanacademy.org/" id="logo-image" name="logo-image" title="Khan Academy"></a>
+                                <div id="stats"><span id="page_visitors" style="display: inline;">Over 9,000 lessons delivered</span></div>
                             </div>
                             <div class="clear"></div>
                         </div>
                     </header>
-                    <div style="overflow: hidden;" id="container" class="single-exercise visited-no-recolor">
+                    <div class="single-exercise visited-no-recolor" id="container" style="overflow: hidden;">
                         <article class="exercises-content clearfix">
                         <div class="exercises-header"><h2 class="section-headline">
                                 <div class="topic-exercise-badge">&#160;</div>
@@ -62,10 +62,10 @@
                                         <div class="current-card-contents">
                                         </div>
                                     </div>
-                                    <div id="extras" class="single-exercise">
+                                    <div class="single-exercise" id="extras">
                                         <ul>
-                                            <li> <a style="" href="" id="scratchpad-show">Show scratchpad</a>
-                                                <span style="display: none;" id="scratchpad-not-available">Scratchpad not available</span>
+                                            <li> <a href="" id="scratchpad-show" style="">Show scratchpad</a>
+                                                <span id="scratchpad-not-available" style="display: none;">Scratchpad not available</span>
                                             </li>
                                             <li class="debug-mode"> <a href="?debug">Debug mode</a></li>
                                             <li> <a href="" id="problem-permalink">Problem permalink</a></li>
@@ -76,18 +76,18 @@
                         </div>
                         </article>
                     </div>
-                    <div style="height: 38px;" id="end-of-page-spacer">&#160;</div>
-                    <div style="display:none;" id="badge-notification-container" class="badge-award-container"></div>
+                    <div id="end-of-page-spacer" style="height: 38px;">&#160;</div>
+                    <div class="badge-award-container" id="badge-notification-container" style="display:none;"></div>
                 </div>
             </div>
         </div>
 
         <div class="push"></div>
-        <footer id="footer" class="short">
+        <footer class="short" id="footer">
             <div id="leaves">
                 <div class="inner">
-                    <div id="copyright" class="tiny">
-                        <small>&#169;2012 Khan Academy&#8482;</small> <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/" id="creative-commons-link" rel="license" name="creative-commons-link"></a>
+                    <div class="tiny" id="copyright">
+                        <small>&#169;2012 Khan Academy&#8482;</small> <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/" id="creative-commons-link" name="creative-commons-link" rel="license"></a>
                     </div>
                     <span class="footer-links">
                         <a href="http://khanacademy.desk.com/">FAQ</a>

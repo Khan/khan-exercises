@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html data-require="math word-problems expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>New operator definitions 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div data-ensure="abs( VALU1 ) &lt; 40" class="vars">
+    <div class="vars" data-ensure="abs( VALU1 ) &lt; 40">
         <var id="A">randRange(3, 8)</var>
         <var id="B">randRange(2, 4)</var>
 
@@ -64,7 +64,7 @@
             </div>
             <div class="solution"><var>VALU1</var></div>
 
-            <div data-apply="appendContents" class="hints">
+            <div class="hints" data-apply="appendContents">
                 <p><var>NEED_VALU1 ? "Now, find" : "Find"</var> <code><var>X</var> <var>binop(1)</var> <var>NEED_VALU1 ? VALU2 : "y"</var></code>:</p>
                 <p><code>\qquad <var>X</var> <var>binop(1)</var> <var>NEED_VALU1 ? VALU2 : "y"</var> = <var>SUBS1</var></code></p>
                 <p><code>\qquad \hphantom{<var>X</var> <var>binop(1)</var> <var>NEED_VALU1 ? VALU2 : "y"</var>} = <var>VALU1</var></code>.</p>
@@ -83,7 +83,7 @@
             </div>
             <div class="solution"><var>VALU1</var></div>
 
-            <div data-apply="appendContents" class="hints">
+            <div class="hints" data-apply="appendContents">
                 <p><var>NEED_VALU1 ? "Now, find" : "Find"</var> <code><var>NEED_VALU1 ? VALU2 : "x"</var> <var>binop(1)</var> <var>X</var></code>:</p>
                 <p><code>\qquad <var>NEED_VALU1 ? VALU2 : "x"</var> <var>binop(1)</var> <var>X</var> = <var>SUBS1</var></code></p>
                 <p><code>\qquad \hphantom{<var>NEED_VALU1 ? VALU2 : "x"</var> <var>binop(1)</var> <var>X</var>} = <var>VALU1</var></code>.</p>
