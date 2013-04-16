@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions rational-expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting with like denominators 2</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="SIGN, S">randFromArray([["+", 1], ["-", -1]])</var>
+            <var id="X">randVar()</var>
+            <div data-ensure="X !== Y">
+                <var id="Y">randVar()</var>
+            </div>
+            <div data-ensure="getGCD(NUMERATOR1, DENOMINATOR1) === 1">
+                <var id="NUMERATOR1">randRangeWeighted(1, 10, 1, 0.4)</var>
+                <var id="DENOMINATOR1">randRange(2, 10)</var>
+            </div>
+            <div data-ensure="DENOMINATOR1 !== DENOMINATOR2">
+                <var id="DENOMINATOR2">randRange(2, 10)</var>
+            </div>
+            <div data-ensure="getGCD(NUMERATOR2, DENOMINATOR2) === 1">
+                <var id="NUMERATOR2">randRangeWeighted(1, 10, 1, 0.4)</var>
+            </div>
+            <var id="DENOMINATORCOEFF">getLCM(DENOMINATOR1, DENOMINATOR2)</var>
+            <var id="F1">DENOMINATORCOEFF / DENOMINATOR1</var>
+            <var id="F2">DENOMINATORCOEFF / DENOMINATOR2</var>
+            <var id="NUMERATORCOEFF">NUMERATOR1 * F1 + S * (NUMERATOR2 * F2)</var>
+            <var id="FACTOR">getGCD(NUMERATORCOEFF, DENOMINATORCOEFF)</var>
+        </div>
+
+        <div class="problems">
+            <div id="variable-top">
+                <div class="vars">
+                    <var id="N1">expr(["*", NUMERATOR1, X])</var>
+                    <var id="N2">expr(["*", NUMERATOR2, X])</var>
+                    <var id="D1">DENOMINATOR1</var>
+                    <var id="D2">DENOMINATOR2</var>
+                    <var id="NF1">expr(["*", NUMERATOR1 * F1, X])</var>
+                    <var id="NF2">expr(["*", NUMERATOR2 * F2, X])</var>
+                    
+                    <var id="NUMERATOR">expr(["*", NUMERATORCOEFF, X])</var>
+                    <var id="DENOMINATOR">DENOMINATORCOEFF</var>
+                    <var id="SIMPLENUMERATOR">expr(["*", NUMERATORCOEFF / FACTOR, X])</var>
+                    <var id="SIMPLEDENOMINATOR">DENOMINATOR / FACTOR</var>
+                    <var id="NUMERSOL">getExpressionRegex(NUMERATORCOEFF / FACTOR, X, 0)</var>
+                    <var id="DENOMSOL">SIMPLEDENOMINATOR</var>
+                </div>
+            </div>
+
+            <div id="variable-bottom">
+                <div class="vars">
+                    <var id="N1">NUMERATOR1</var>
+                    <var id="N2">NUMERATOR2</var>
+                    <var id="D1">expr(["*", DENOMINATOR1, X])</var>
+                    <var id="D2">expr(["*", DENOMINATOR2, X])</var>
+                    <var id="NF1">NUMERATOR1 * F1</var>
+                    <var id="NF2">NUMERATOR2 * F2</var>
+
+                    <var id="NUMERATOR">NUMERATORCOEFF</var>
+                    <var id="DENOMINATOR">expr(["*", DENOMINATORCOEFF, X])</var>
+                    <var id="SIMPLENUMERATOR">NUMERATORCOEFF / FACTOR</var>
+                    <var id="SIMPLEDENOMINATOR">expr(["*", DENOMINATORCOEFF / FACTOR, X])</var>
+                    <var id="NUMERSOL">NUMERATORCOEFF / FACTOR</var>
+                    <var id="DENOMSOL">getExpressionRegex(DENOMINATORCOEFF / FACTOR, X, 0)</var>
+                </div>
+            </div>
+
+        </div>
+
+        <p class="problem">Simplify the following expression:</p>
+        <p class="question">
+            <code><var>Y</var> = \dfrac{<var>N1</var>}{<var>D1</var>}
+                  <var>SIGN</var> \dfrac{<var>N2</var>}{<var>D2</var>}</code>
+        </p>
+
+        <div class="solution" data-type="set">
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>NUMERSOL</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL</var></span>
+            </div>
+            <div class="input-format">
+                <div class="entry" data-type="multiple">
+                    <table>
+                        <tr>
+                            <td rowspan="2" class="soln-name">
+                                <code><var>Y</var> = </code>
+                            </td>
+                            <td class="soln-top">
+                                <span class="sol short50">a</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="soln-bot">
+                                <span class="sol short50" data-fallback="1">a</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>In order to <span data-if="SIGN === '+'">add</span><span data-else>subtract</span> expressions,
+                they must have a common denominator.</p>
+            <p>The smallest common denominator is the least common multiple of <code><var>D1</var></code> and <code><var>D2</var></code>.</p>
+            <p><code>\lcm(<var>D1</var>, <var>D2</var>) = <var>DENOMINATOR</var></code></p>
+            <p><code>
+                <var>Y</var> = \dfrac{<var>F1</var>}{<var>F1</var>} \cdot \dfrac{<var>N1</var>}{<var>D1</var>}
+                <var>SIGN</var> \dfrac{<var>F2</var>}{<var>F2</var>} \cdot \dfrac{<var>N2</var>}{<var>D2</var>}
+            </code></p>
+            <p><code><var>Y</var> = \dfrac{<var>NF1</var>}{<var>DENOMINATOR</var>}<var>SIGN</var> \dfrac{<var>NF2</var>}{<var>DENOMINATOR</var>}</code></p>
+            <p><code><var>Y</var> = \dfrac{<var>NF1</var> <var>SIGN</var><var>NF2</var>}{<var>DENOMINATOR</var>}</code></p>
+            <p><code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+            <div data-if="FACTOR !== 1">
+                <div>Simplify the expression by dividing the numerator and denominator by <var>FACTOR</var>:</div>
+                <div><code><var>Y</var> = \dfrac{<var>SIMPLENUMERATOR</var>}{<var>SIMPLEDENOMINATOR</var>}</code></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

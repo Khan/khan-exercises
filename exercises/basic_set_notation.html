@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html data-require="math">
+    <head>
+        <title>Basic set notation</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="A">randRangeUnique(1, 15, randRange(2, 5))</var>
+                <var id="B">randRangeUnique(1, 15, randRange(2, 5))</var>
+                <var id="UNION">sortNumbers(_.union(A, B))</var>
+                <var id="DIFFERENCE">sortNumbers(_.difference(A, B))</var>
+                <var id="INTERSECTION">sortNumbers(_.intersection(A, B))</var>
+            </div>
+
+            <div class="problem">
+                <p>Let <code>X</code> and <code>Y</code> be sets:</p>
+                <p><code>X = \{<var>A</var>\}</code><br><code>Y = \{<var>B</var>\}</code></p>
+            </div>
+
+            <div class="solution" data-type="multiple">
+                <div class="sol" data-type="custom">
+                    <div class="instruction">Enter the answer as a set, with members separated by commas.
+                        <p><code>\{ </code><input class="text"><code> \}</code></span>
+                    </div>
+                    <div class="guess">$('#solutionarea input').val() </div>
+                    <div class="validator-function">
+                        var guessTrim = guess.replace(/\s/g, "");
+                        var guessArray = guessTrim.length ? _.map(guessTrim.split(","), function(n) { return parseInt(n); }) : [];
+                        return _.isEqual(sortNumbers(guessArray), ANSWER);
+                    </div>
+                    <div class="show-guess">$('#solutionarea input').val(guess)</div>
+                </div>
+                <div>
+                    <label>
+                        <span class="sol empty-set" data-type="checkbox">
+                            <var>EMPTY_SET</var>
+                        </span>
+                        Empty set
+                    </label>
+                </div>
+                <!--
+                    Hack to not grade an unanswered question.
+                    Note that this custom answer is required. It checks to
+                    see if the textbox is empty xor the checkbox isn't
+                    checked. In that case, the custom validator returns true
+                    and the rest of the multiple answer will be checked
+                    normally. Otherwise, it returns "".  Since it's required,
+                    this will cause the entire answer to not be graded.
+                -->
+                <div class="sol" data-type="custom" required>
+                    <div class="guess">
+                        $("#solutionarea input").eq(0).val() === "" ^
+                        !$("#solutionarea input").eq(1).is(":checked")
+                    </div>
+                    <div class="validator-function">
+                        return guess ? true : "";
+                    </div>
+                </div>
+            </div>
+
+            <div class="problems">
+                <div id="set-union">
+                    <div class="vars">
+                        <var id="ANSWER">UNION</var>
+                        <var id="EMPTY_SET">!ANSWER.length</var>
+                    </div>
+                    <p class="question">What is the set <code>X \cup Y</code>?</p>
+                    <div class="hints">
+                        <p>Remember that <code>\cup</code> refers to the union of sets.</p>
+                        <p>The union of two sets <code>X</code> and <code>Y</code> is the collection of elements which are in <code>X</code> or in <code>Y</code> or in both <code>X</code> and <code>Y</code>.</p>
+                        <p>The members of a set must be unique, and the order doesn't matter.</p>
+                        <p><code>X \cup Y = \{<var>ANSWER</var>\}</code></p>
+                    </div>
+                </div>
+
+                <div id="set-difference">
+                    <div class="vars">
+                        <var id="ANSWER">DIFFERENCE</var>
+                        <var id="EMPTY_SET">!ANSWER.length</var>
+                    </div>
+                    <p class="question">What is the set <code>X \setminus Y</code>?</p>
+                    <div class="hints">
+                        <p>Remember that <code>\backslash</code> refers to the difference between sets.</p>
+                        <p>The difference of two sets <code>X</code> and <code>Y</code> is the collection of elements which are in <code>X</code> but not in <code>Y</code>.</p>
+                        <p>The members of a set must be unique, and the order doesn't matter.</p>
+                        <p><code>X \setminus Y = \{<var>ANSWER</var>\}</code></p>
+                    </div>
+                </div>
+
+                <div id="set-intersection">
+                    <div class="vars">
+                        <var id="ANSWER">INTERSECTION</var>
+                        <var id="EMPTY_SET">!ANSWER.length</var>
+                    </div>
+                    <p class="question">What is the set <code>X \cap Y</code>?</p>
+                    <div class="hints">
+                        <p>Remember that <code>\cap</code> refers to the intersection of sets.</p>
+                        <p>The intersection of two sets <code>X</code> and <code>Y</code> is the collection of elements which are in <code>X</code> and also in <code>Y</code>.</p>
+                        <p>The members of a set must be unique, and the order doesn't matter.</p>
+                        <p><code>X \cap Y = \{<var>ANSWER</var>\}</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

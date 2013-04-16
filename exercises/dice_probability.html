@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie word-problems">
 <head>
-    <title>Dice probability</title>
+    <title>Probability space</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
         KhanUtil.selectMatching = function(matchingPairs) {
@@ -182,6 +182,7 @@
                 </div>
 
                 <div class="graphie problem">
+                    Khan.scratchpad.disable();
                     // Set .e-grid size.
                     $('.e-grid').addClass('e-six-by-' + (GRID_HEIGHT === 6 ? 'six' : 'four'));
 
@@ -243,7 +244,7 @@
         <div id="d1-is-even-d2-is-x" data-type="template">
             <div class="vars" data-apply="prependVars">
                 <var id="EVEN">rand(2)</var>
-                <var id="EVEN_OR_ODD">EVEN ? "even" : "odd"</var>
+                <var id="EVEN_OR_ODD">EVEN ? "odd" : "even"</var>
                 <var id="PRED">function(x, y) {
                     return x % 2 === EVEN &amp;&amp; y === Y;
                 }</var>

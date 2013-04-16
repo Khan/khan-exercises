@@ -473,7 +473,7 @@ $.extend(KhanUtil, {
 
     randVar: function() {
         // NOTE(jeresig): i18n: I assume it's OK to have roman letters here
-        return KhanUtil.randFromArray(["x", "k", "y", "a", "n", "r", "p", "u", "v"]);
+        return KhanUtil.randFromArray(["a", "k", "n", "p", "q", "r", "t", "x", "y", "z"]);
     },
 
     eulerFormExponent: function(angle) {

@@ -2,7 +2,7 @@
 <html data-require="math math-format graphie graphie-helpers">
 <head>
     <meta charset="UTF-8" />
-    <title>Multiplying and dividing complex number polar forms</title>
+    <title>Multiplying and dividing complex numbers in polar form</title>
     <script src="../khan-exercise.js"></script>
     <style>
         .info-box .mini-button {
@@ -23,7 +23,7 @@
     <div class="exercise">
     <div class="problems">
         <div id="multiply-cplx">
-            <div class="vars" data-ensure="ANSWER_REAL &gt;= -10 &amp;&amp; ANSWER_IMAG &gt;= -10 &amp;&amp; ANSWER_REAL &lt;= 10 &amp;&amp; ANSWER_IMAG &lt;= 10">
+            <div class="vars" data-ensure="ANSWER_REAL >= -10 && ANSWER_IMAG >= -10 && ANSWER_REAL <= 10 && ANSWER_IMAG <= 10 && ANSWER_RADIUS > 1 && ANSWER_RADIUS <= 10">
                 <var id="DENOMINATOR">24</var>
                 <var id="USE_EULER_FORM">randFromArray( [ true, false ] )</var>
                 <var id="A_RADIUS">randRange( 1, 7 )</var>
@@ -170,7 +170,7 @@
         </div>
 
         <div id="divide-cplx">
-            <div class="vars" data-ensure="A_REAL &gt;= -10 &amp;&amp; A_IMAG &gt;= -10 &amp;&amp; A_REAL &lt;= 10 &amp;&amp; A_IMAG &lt;= 10">
+            <div class="vars" data-ensure="A_REAL >= -10 && A_IMAG >= -10 && A_REAL <= 10 && A_IMAG <= 10 && ANSWER_RADIUS > 1 && ANSWER_RADIUS <= 10">
                 <var id="DENOMINATOR">24</var>
                 <var id="USE_EULER_FORM">randFromArray( [ true, false ] )</var>
 

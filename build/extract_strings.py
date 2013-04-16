@@ -28,16 +28,20 @@ import polib
 _HAS_TEXT = '*[./text()[normalize-space(.)!=""]]'
 _XPATH_FIND_NODES = '//%s[not(ancestor::%s)]' % (_HAS_TEXT, _HAS_TEXT)
 
-# All the tags that we want to ignore and not extract strings from
-_IGNORE_NODES = [
+# All the tags that we want to make sure that strings don't contain
+_REJECT_NODES = [
     'style',
     'script',
-    'var',
-    'code',
     'div[@class="validator-function"]',
     '*[contains(@data-type,"regex")]',
     '*[contains(@class,"graphie")]',
     '*[contains(@class,"guess")]'
+]
+
+# All the tags that we want to ignore and not extract strings from
+_IGNORE_NODES = _REJECT_NODES + [
+    'var',
+    'code'
 ]
 
 # Make an HTML 5 Parser that will be used to turn the HTML documents
@@ -62,8 +66,14 @@ def main():
         help='The format of the output. (default: %(default)s)')
     arg_parser.add_argument('--quiet', action='store_true',
         help='Do not emit status to stderr on successful runs.')
+    arg_parser.add_argument('--lint', action='store_true',
+        help='Run a linter against the input files.')
 
     args = arg_parser.parse_args()
+
+    if args.lint:
+        matches = lint(args.html_files, not args.quiet)
+        sys.exit(min(len(matches), 127))
 
     if args.format == 'po':
         # Output a PO file by default
@@ -81,6 +91,71 @@ def main():
     else:
         # Otherwise just write the output to STDOUT
         print results
+
+
+def lint(files, verbose):
+    """Lint many HTML exercises looking for invalid nodes.
+
+    Arguments:
+        - files: An array of filenames to parse
+        - verbose: If there should be any output
+    Returns:
+        - An array of (node, invalid_node, filename) tuples which contain
+          the node which has the invalid node, the invalid node, and the
+          filename of the file which has the error.
+    """
+    matches = []
+
+    # Go through all the fileanmes provided
+    for filename in files:
+        # And aggregate the linting results
+        matches += lint_file(filename, verbose)
+
+    if verbose and matches:
+        num_matches = len(matches)
+        print >>sys.stderr, ('%s error%s detected.'
+                            % (num_matches, "" if num_matches == 1 else "s"))
+
+    return matches
+
+
+def lint_file(filename, verbose):
+    """Lint a single HTML exercise looking for invalid nodes.
+
+    Arguments:
+        - filename: A string filename to parse
+        - verbose: If there should be any output
+    Returns:
+        - An array of (node, invalid_node, filename) tuples which contain
+          the node which has the invalid node, the invalid node, and the
+          filename of the file which has the error.
+    """
+    matches = []
+
+    # Construct an XPath expression for finding rejected nodes
+    lint_expr = "|".join([".//%s" % name for name in _REJECT_NODES])
+
+    # Collect all the i18n-able nodes out of file
+    nodes = _extract_nodes(filename)
+
+    for node in nodes:
+        # If we're linting the file and the string doesn't contain any
+        # rejected nodes then we just ignore it
+        lint_nodes = node.xpath(lint_expr)
+
+        if verbose and lint_nodes:
+            print >>sys.stderr, "Lint error in file: %s" % filename
+
+        for lint_node in lint_nodes:
+            matches.append((node, lint_node, filename))
+            
+            if verbose:
+                print >>sys.stderr, "Contains invalid node:"
+                print >>sys.stderr, _get_outerhtml(node)
+                print >>sys.stderr, "Invalid node:"
+                print >>sys.stderr, _get_outerhtml(lint_node)
+
+    return matches
 
 
 def make_potfile(files, verbose):
@@ -124,14 +199,13 @@ def extract_files(files, verbose):
     matches = {}
 
     # Go through all the exercise files.
-    if files:
-        for filename in files:
-            if verbose:
-                print >>sys.stderr, 'Extracting strings from: %s' % filename
-            extract_file(filename, matches)
+    for filename in files:
+        if verbose:
+            print >>sys.stderr, 'Extracting strings from: %s' % filename
+        extract_file(filename, matches)
 
-    num_matches = len(matches)
     if verbose:
+        num_matches = len(matches)
         print >>sys.stderr, ('%s string%s extracted.'
                              % (num_matches, "" if num_matches == 1 else "s"))
 
@@ -144,6 +218,21 @@ def extract_files(files, verbose):
     retval.sort(key=lambda (nl_text, occurrences): occurrences[0])
 
     return retval
+
+
+def _extract_nodes(filename):
+    """Extract all the i18n-able nodes out of a file."""
+    # Parse the HTML tree
+    html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
+
+    # Turn all the tags into a full XPath selector
+    search_expr = _XPATH_FIND_NODES
+
+    for name in _IGNORE_NODES:
+        search_expr += "[not(ancestor-or-self::%s)]" % name
+
+    # Return the matching nodes
+    return html_tree.xpath(search_expr)
 
 
 def extract_file(filename, matches):
@@ -160,21 +249,12 @@ def extract_file(filename, matches):
     if matches is None:
         matches = {}
 
-    # Parse the HTML tree
-    html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
-
-    # Turn all the tags into a full XPath selector
-    search_expr = _XPATH_FIND_NODES
-
-    for name in _IGNORE_NODES:
-        search_expr += "[not(ancestor-or-self::%s)]" % name
-
-    # Search for the matching nodes
-    nodes = html_tree.xpath(search_expr)
+    # Collect all the i18n-able nodes out of file
+    nodes = _extract_nodes(filename)
 
     for node in nodes:
         # Get a string version of the contents of the node
-        contents = _get_innerhtml(lxml.html.tostring(node))
+        contents = _get_innerhtml(node)
 
         # Bail if we're dealing with an empty element
         if not contents:
@@ -208,17 +288,25 @@ class _SetEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def _get_innerhtml(html_string):
-    """Strip the leading and trailing tag from an lxml-generated HTML string.
-
-    Also cleanup endlines and extraneous spaces.
+def _get_outerhtml(html_node):
+    """Get a string representation of an HTML node.
 
     (lxml doesn't provide an easy way to get the 'innerHTML'.)
     Note: lxml also includes the trailing text for a node when you
           call tostring on it, we need to snip that off too.
     """
+    html_string = lxml.html.tostring(html_node)
+    return re.sub(r'[^>]*$', '', html_string, count=1)
+
+
+def _get_innerhtml(html_node):
+    """Strip the leading and trailing tag from an lxml-generated HTML string.
+
+    Also cleanup endlines and extraneous spaces.
+    """
+    html_string = _get_outerhtml(html_node)
     html_string = re.sub(r'^<[^>]*>', '', html_string, count=1)
-    html_string = re.sub(r'</[^>]*>[^>]*$', '', html_string, count=1)
+    html_string = re.sub(r'</[^>]*>$', '', html_string, count=1)
     return re.sub(r'\s+', ' ', html_string).strip()
 
 

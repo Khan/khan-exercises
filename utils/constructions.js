@@ -54,13 +54,7 @@ $.extend(KhanUtil, {
         return hintLine;
     },
 
-    construction: {
-        tools: [], // a list of all compasses/straightedges on the graph
-        tool: {}, // the latest tool added
-        snapPoints: [], // "special" points all other points should snap to
-        interPoints: [], // "special" points all other points should snap to
-        snapLines: [] // points should also snap to lines
-    },
+    construction: {},
 
     // Useful for diagnostics: type "KhanUtil.showSnapPts()" in the console
     showSnapPts: function() {
@@ -86,7 +80,13 @@ $.extend(KhanUtil, {
     // pointer can change without screwing everything up)
     addConstruction: function(graphieId) {
         var graphie = $("#" + graphieId).data("graphie");
-        var construction = KhanUtil.construction;
+        var construction = KhanUtil.construction = {
+            tools: [], // a list of all compasses/straightedges on the graph
+            tool: {}, // the latest tool added
+            snapPoints: [], // "special" points all other points should snap to
+            interPoints: [], // "special" points all other points should snap to
+            snapLines: [] // points should also snap to lines
+        };
 
         // add a compass tool to the graph
         // the compass has the following fields:

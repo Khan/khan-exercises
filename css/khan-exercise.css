@@ -74,12 +74,44 @@ code { font-family: Helvetica, Arial; }
 table.limit { margin: 5px; }
 table.limit th { font-weight: bold; text-align: center; }
 table.limit td { border: 1px solid #AAA; }
-table.limit th, td { padding: 5px; }
+table.limit th, table.limit td { padding: 5px; }
 table.limit th:first-child { text-align: right; }
 
 #answer_area input[type=text],
 #answer_area input[type=number] {
     width: 80px;
+}
+#answer_area .short20 input[type=text],
+#answer_area .short20 input[type=number] {
+    width: 20px;
+}
+#answer_area .short25 input[type=text],
+#answer_area .short25 input[type=number] {
+    width: 25px;
+}
+#answer_area .short28 input[type=text],
+#answer_area .short28 input[type=number] {
+    width: 28px;
+}
+#answer_area .short30 input[type=text],
+#answer_area .short30 input[type=number] {
+    width: 30px;
+}
+#answer_area .short32 input[type=text],
+#answer_area .short32 input[type=number] {
+    width: 32px;
+}
+#answer_area .short35 input[type=text],
+#answer_area .short35 input[type=number] {
+    width: 35px;
+}
+#answer_area .short40 input[type=text],
+#answer_area .short40 input[type=number] {
+    width: 40px;
+}
+#answer_area .short50 input[type=text],
+#answer_area .short50 input[type=number] {
+    width: 50px;
 }
 #readonly { display: none; }
 
@@ -231,9 +263,7 @@ body.debug .graphie { outline: 1px dashed #fdd; }
 #hint-remainder { color: #777; }
 
 #footer .simple-button, .info-box .simple-button { padding: 3px 10px; top: -1px }
-.info-box .simple-button { top:  0; );
-
-}
+.info-box .simple-button { top: 0; }
 
 #issue #issue-status.error { font-weight: bold; color: #A21; font-size: 1.2em; }
 #issue-link { font-style: italic; }
@@ -815,4 +845,28 @@ table.periodic-table td.element div.symbol {
 }
 table.periodic-table td.element div.weight {
     font-size: 10px;
+}
+
+span.hover-hint {
+    color: #005987;
+    border-bottom: 1px dashed #005987;
+}
+span.hover-hint:hover {
+    color: #678d00;
+    border-bottom: 1px dashed #678d00;
+    cursor: pointer;
+}
+
+#solutionarea table.rational-exp td {
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+#solutionarea table.rational-exp td.soln-top {
+    padding-bottom: 1px;
+}
+#solutionarea table.rational-exp td.soln-bot {
+    padding-top: 1px;
+    border-top: 1px solid black;
 }

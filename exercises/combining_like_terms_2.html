@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html data-require="math expressions">
+<html data-require="math math-format expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Combining like terms 2</title>
+    <title>Combining like terms with distribution</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -11,7 +11,7 @@
 
 <div class="exercise" data-weight="6">
     <div class="vars" data-ensure="E * A + F * B !== 0 && E * C + F * D !== 0 && A + (F * B) !== 0">
-        <var id="X">randFromArray("abkmnpvx")</var>
+        <var id="X">randVar()</var>
         <var id="A">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
         <var id="B" data-ensure="abs( A ) !== abs( B )">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
         <var id="C">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 20))</var>

@@ -2,7 +2,7 @@
 <html data-require="math graphie math-format graphie-helpers">
 <head>
     <meta charset="UTF-8" />
-    <title>Powers of complex numbers 1</title>
+    <title>Powers of complex numbers</title>
     <script src="../khan-exercise.js"></script>
     <style>
         .info-box .mini-button {
@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars">
+    <div class="vars" data-ensure="!(ANSWER_ANGLE === 0 && ANSWER_RADIUS === 1)">
         <var id="DENOMINATOR">24</var>
         <var id="BASE_ANGLE_NUMERATOR">randRange( 0, DENOMINATOR - 1 )</var>
         <var id="BASE_ANGLE">BASE_ANGLE_NUMERATOR / DENOMINATOR * 2 * PI</var>
