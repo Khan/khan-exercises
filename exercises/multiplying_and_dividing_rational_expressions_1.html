@@ -28,26 +28,26 @@
                 <var id="Y">randVar()</var>
             </div>
             <var id="DENOMCOEFF">randRangeWeighted(1, 8, 1, 0.25)</var>
-            <var id="DENOMCONST">randRangeWeighted(-12, 12, 0, 0.25)</var>
+            <var id="DENOMCONST">randRangeWeighted(-10, 10, 0, 0.25)</var>
             <var id="DENOMINATOR">new RationalExpression([[DENOMCOEFF, X], [DENOMCONST]])</var>
             
             <div data-ensure="DENOMCONST !== 0 || NUMERCONST !== 0">
-                <var id="NUMERCONST">randRange(-12, 12)</var>
+                <var id="NUMERCONST">randRange(-10, 10)</var>
             </div>
             <div data-ensure="NUMERCOEFF !== 0 || NUMERCONST !== 0">
                 <var id="NUMERCOEFF">randRange(-8, 8)</var>
             </div>
             <var id="NUMERATOR">new RationalExpression([[NUMERCOEFF, X], [NUMERCONST]])</var>
-            <var id="CONSTANT">randRange(0, 2) ? [randRange(2, 10), 1] : [1, randRange(2, 10)]</var>
+            <var id="CONSTANT">randRange(0, 1) ? [randRange(2, 10), 1] : [1, randRange(2, 10)]</var>
+            <var id="NUMERPRODUCT">NUMERATOR.multiply(CONSTANT[0])</var>
+            <var id="DENOMPRODUCT">DENOMINATOR.multiply(CONSTANT[1])</var>
+            <var id="FACTOR">NUMERPRODUCT.getGCD(DENOMPRODUCT)</var>
+            <var id="NUMERSOL">NUMERPRODUCT.divide(FACTOR)</var>
+            <var id="DENOMSOL">DENOMPRODUCT.divide(FACTOR)</var>
         </div>
 
         <div class="problems">
             <div id="multiply">
-                <div class="vars">
-                    <var id="NUMERSOL">NUMERATOR.multiply(CONSTANT[0])</var>
-                    <var id="DENOMSOL">DENOMINATOR.multiply(CONSTANT[1])</var>
-                </div>
-
                 <p class="problem">Simplify the following expression:</p>
                 <p class="question">
                     <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
@@ -56,26 +56,18 @@
             </div>
 
             <div id="divide" data-type="add">
-                <div class="vars">
-                    <var id="NUMERSOL">NUMERATOR.multiply(CONSTANT[1])</var>
-                    <var id="DENOMSOL">DENOMINATOR.multiply(CONSTANT[0])</var>
-                </div>
-
                 <p class="problem">Simplify the following expression:</p>
                 <p class="question">
                     <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
-                                  \div <var>fractionReduce(CONSTANT[0], CONSTANT[1])</var></code>
+                                  \div <var>fractionReduce(CONSTANT[1], CONSTANT[0])</var></code>
                 </p>
 
                 <div class="hints" data-apply="prependContents">
                     <div>
-                        <p>Since the expressions have the same denominator we simply subtract the numerators:</p>
-                        <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> - (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
-                    </div>
-                    <div>
-                        <p>Distribute the negative sign:</p>
-                        <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>expr(["+", ["*", -COEFF2, X], -CONST2])</var>}
-                                {<var>DENOMINATOR</var>}</code>
+                        <p>Dividing by a number is the same as multiplying by its inverse.</p>
+                        <p>
+                            <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
+                                          \times \dfrac{<var>CONSTANT[0]</var>}{<var>CONSTANT[1]</var>}</code>
                         </p>
                     </div>
                 </div>
@@ -85,8 +77,8 @@
 
         <div class="solution" data-type="set">
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NUMERSOL</var></span>
-                <span class="sol" data-type="regex"><var>DENOMSOL</var></span>
+                <span class="sol" data-type="regex"><var>NUMERSOL.regex()</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.regex()</var></span>
             </div>
             <div class="input-format">
                 <div class="entry" data-type="multiple">
@@ -107,23 +99,21 @@
                     </table>
                 </div>
             </div>
-
-            <p class="example">a simplifed expression, like <code>x + 2</code></p>
         </div>
 
         <div class="hints">
-            <div data-if="SIGN === '+'">
-                        <p>Since the expressions have the same denominator we simply combine the numerators:</p>
-                        <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
-                    </div>
-            <div>
-                <p>Combine like terms:</p>
-                <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>
-            </div>
-            <div data-if="FACTOR !== 1">
-                <p>Simplify by dividing numerator and denominator by <var>FACTOR</var>:</p>
-                <code><var>Y</var> = \dfrac{<var>expr(["+", ["*", NUMERCOEFF / FACTOR, X], NUMERCONST / FACTOR])</var>}
-                    {<var>expr(["+", ["*", DENOMCOEFF / FACTOR, X], DENOMCONST / FACTOR])</var>}</code>
+            <p>When multiplying fractions, we multiply the numerators and the denominators.</p>
+
+            <p>
+                <code><var>Y</var> = \dfrac{<var>NUMERATOR</var> \times <var>CONSTANT[0]</var>}
+                                           {<var>DENOMINATOR</var> \times <var>CONSTANT[1]</var>}</code>
+            </p>
+
+            <p><code><var>Y</var> = \dfrac{<var>NUMERPRODUCT</var>}{<var>DENOMPRODUCT</var>}</code></p>
+
+            <div data-if="FACTOR.toString() !== '1'">
+                <p>Simplify:</p>
+                <p><code><var>Y</var> = \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></p>
             </div>
         </div>
     </div>
