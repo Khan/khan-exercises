@@ -12,19 +12,14 @@
                       <div class="vars">
                         <var id="num_coeff">randRangeNonZero(-25,25)</var>
                         <var id="dem_coeff" data-ensure="abs(num_coeff) !== abs(dem_coeff)">randRangeNonZero(-25,25)</var>
-                        <var id="simplify">
-                          function(x,y){
-                      
-                              return toFraction(x/y);
-                          }
-                        </var>
+                        <var id="simplify">function(x,y){ return toFraction(x/y); }</var>
                       </div>
 
                       <p class="problem"></p>
                       <p class="question">
                           <code>\displaystyle\lim_{x\to 0} \dfrac{\sin{(<var>num_coeff</var>x)}}{<var>dem_coeff</var>x} = {?}</code>
                       </p>
-                      <p class="extra-info">Do not use L'Hopital's rule. Reduce fractions to lowest terms, if possible.</p>
+                      <p class="extra-info">Reduce fractions to lowest terms, if possible.</p>
                       <p class="solution" data-type="rational"><var>simplify(num_coeff,dem_coeff)[0]/simplify(num_coeff,dem_coeff)[1]</var></p>
 
                       <div class="hints">
@@ -56,7 +51,6 @@
                         <!-- The question to ask the student. -->
                         <code>\displaystyle\lim_{x \to \pi/4} \dfrac{ \tan{x} - 1 }{x-\pi/4} = {?}</code>
                       </p>
-                      <p class="extra-info">Do not use L'Hopital's rule.</p>
                       <p class="solution" data-type="decimal"><var>2</var></p>
 
                       <div class="hints">
@@ -110,7 +104,6 @@
                     <div id="sine-limit-1">
                         <p class="problem"></p>
                         <p class="question"><code>\displaystyle\lim_{\theta \to \pi/6} \dfrac{\sin{\theta} - 1/2}{\theta-\pi/6} = {?}</code></p>
-                        <p class="extra-info">Do not use L'Hopital's rule.</p>
                         <p class="solution"><code>\dfrac{\sqrt{3}}{2}</code></p>
                         <ul class="choices">
                             <li>0</li>
@@ -149,7 +142,6 @@
                     <div id="sine-limit-2">
                         <p class="problem"></p>
                         <p class="question"><code>\displaystyle\lim_{\theta \to \pi/3} \dfrac{\sin{\theta} - \sqrt{3}/2}{\theta-\pi/3} = {?}</code></p>
-                        <p class="extra-info">Do not use L'Hopital's rule.</p>
                         <p class="solution"><code>1/2</code></p>
                         <ul class="choices">
                             <li>0</li>
@@ -186,7 +178,6 @@
                     <div id="cosine-limit-1">
                         <p class="problem"></p>
                         <p class="question"><code>\displaystyle\lim_{\theta \to \pi/6} \dfrac{\cos{\theta} - \sqrt{3}/2}{\theta-\pi/6} = {?}</code></p>
-                        <p class="extra-info">Do not use L'Hopital's rule.</p>
                         <p class="solution"><code>-1/2</code></p>
                         <ul class="choices">
                             <li>0</li>
@@ -223,7 +214,6 @@
                     <div id="cosine-limit-2">
                         <p class="problem"></p>
                         <p class="question"><code>\displaystyle\lim_{\theta \to \pi/3} \dfrac{\cos{\theta} - 1/2}{\theta-\pi/3} = {?}</code></p>
-                        <p class="extra-info">Do not use L'Hopital's rule.</p>
                         <p class="solution"><code>-\sqrt{3}/2</code></p>
                         <ul class="choices">
                             <li>0</li>
