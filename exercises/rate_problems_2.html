@@ -1,146 +1,144 @@
 <!DOCTYPE html>
 <html data-require="math math-format word-problems">
 <head>
-	<meta charset="UTF-8" />
-	<title>Rate problems 2</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Rate problems 2</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="problems">
-		<div id="average-speed">
-			<div class="vars">
-				<var id="DISTANCE">randRange( 2, 6 )</var>
-				<var id="FACTORS">shuffle( getPrimeFactorization( 60 ).concat( getPrimeFactorization( DISTANCE ) ) )</var>
-				<var id="MULTIPLY">
-					(function() {
-						return function( factors ) {
-							var product = 1;
-							for ( var i = 0; i &lt; factors.length; i++ ) {
-								product *= factors[ i ];
-							}
-							return product;
-						}
-					})()
-				</var>
-				<var id="SPLIT">randRange( 3, FACTORS.length - 2 )</var>
-				<var id="TIME_UP">MULTIPLY( FACTORS.slice( 0, SPLIT ) )</var>
-				<var id="RATE_UP">MULTIPLY( FACTORS.slice( SPLIT ) )</var>
-				<var id="K">
-					(function() {
-						if ( RATE_UP % 3 === 0 ) {
-							return 2;
-						} else {
-							return 3;
-						}
-					})()
-				</var>
-				<var id="RATE_DOWN">K * RATE_UP</var>
-				<var id="TIME_DOWN">60 * DISTANCE / RATE_DOWN</var>
-				<var id="RATE_AVG">60 * 2 * DISTANCE / ( TIME_UP + TIME_DOWN )</var>
-			</div>
-			<p class="problem">Starting at home, <var>person( 1 )</var> traveled uphill to the <var>store( 1 )</var> store for <var>TIME_UP</var> minutes at just <var>RATE_UP</var> mph. <var>He( 1 )</var> then traveled back home along the same path downhill at a speed of <var>K * RATE_UP</var> mph.</p>
-			<p class="question">What is <var>his( 1 )</var> average speed for the entire trip from home to the <var>store( 1 )</var> store and back?</p>
+    <div class="exercise">
+    <div class="problems">
+        <div id="average-speed">
+            <div class="vars">
+                <var id="DISTANCE">randRange( 2, 6 )</var>
+                <var id="FACTORS">shuffle( getPrimeFactorization( 60 ).concat( getPrimeFactorization( DISTANCE ) ) )</var>
+                <var id="MULTIPLY">
+                    function( factors ) {
+                        var product = 1;
+                        for ( var i = 0; i &lt; factors.length; i++ ) {
+                            product *= factors[ i ];
+                        }
+                        return product;
+                    }
+                </var>
+                <var id="SPLIT">randRange( 3, FACTORS.length - 2 )</var>
+                <var id="TIME_UP">MULTIPLY( FACTORS.slice( 0, SPLIT ) )</var>
+                <var id="RATE_UP">MULTIPLY( FACTORS.slice( SPLIT ) )</var>
+                <var id="K">
+                    (function() {
+                        if ( RATE_UP % 3 === 0 ) {
+                            return 2;
+                        } else {
+                            return 3;
+                        }
+                    })()
+                </var>
+                <var id="RATE_DOWN">K * RATE_UP</var>
+                <var id="TIME_DOWN">60 * DISTANCE / RATE_DOWN</var>
+                <var id="RATE_AVG">60 * 2 * DISTANCE / ( TIME_UP + TIME_DOWN )</var>
+            </div>
+            <p class="problem">Starting at home, <var>person( 1 )</var> traveled uphill to the <var>store( 1 )</var> store for <var>TIME_UP</var> minutes at just <var>RATE_UP</var> mph. <var>He( 1 )</var> then traveled back home along the same path downhill at a speed of <var>K * RATE_UP</var> mph.</p>
+            <p class="question">What is <var>his( 1 )</var> average speed for the entire trip from home to the <var>store( 1 )</var> store and back?</p>
 
-			<div class="solution" data-type="multiple">
-				<span class="sol"><var>RATE_AVG</var></span> mph
-			</div>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" style="padding-right: 5px"><var>RATE_AVG</var></span> mph</p>
+            </div>
 
-			<div class="hints">
-				<p>The average speed is not just the average of <var>RATE_UP</var> mph and <var>RATE_DOWN</var> mph.</p>
-				<p><var>He( 1 )</var> traveled for a longer time uphill (since <var>he( 1 )</var> was going slower), so we can estimate that the average speed is closer to <var>RATE_UP</var> mph than <var>RATE_DOWN</var> mph.</p>
-				<div>
-					<p>To calculate the average speed, we will make use of the following:</p>
-					<p><code>\text{average speed} = \dfrac{\color{<var>KhanUtil.BLUE</var>}{\text{total distance}}}{\color{<var>KhanUtil.ORANGE</var>}{\text{total time}}}</code></p>
-					<p><code>\text{distance uphill} = \text{distance downhill}</code></p>
-				</div>
-				<p>What was the total distance traveled?</p>
-				<div>
-					<p><code>\color{<var>KhanUtil.BLUE</var>}{\begin{align*}\text{total distance} &= \text{distance uphill} + \text{distance downhill}\\
-						&= 2 \times \text{distance uphill}\end{align*}}</code></p>
-					<p><code>\begin{align*}\text{distance uphill} &= \text{speed uphill} \times \text{time uphill} \\\
-						&= <var>RATE_UP</var>\text{ mph} \times <var>TIME_UP</var>\text{ minutes}\times\dfrac{1 \text{ hour}}{60 \text{ minutes}}\\
-						&= <var>DISTANCE</var>\text{ miles}\end{align*}</code></p>
-				</div>
-				<div>
-					<p>Substituting to find the total distance:</p>
-					<p><code>\color{<var>KhanUtil.BLUE</var>}{\text{total distance} = <var>2 * DISTANCE</var>\text{ miles}}</code></p>
-				</div>
-				<p>What was the total time spent traveling?</p>
-				<div>
-					<p><code>\color{<var>KhanUtil.ORANGE</var>}{\text{total time} = \text{time uphill} + \text{time downhill}}</code></p>
-					<p><code>\begin{align*}\text{time downhill} &= \dfrac{\text{distance downhill}}{\text{speed downhill}}\\
-						&= \dfrac{<var>DISTANCE</var>\text{ miles}}{<var>RATE_DOWN</var>\text{ mph}}\times\dfrac{60 \text{ minutes}}{1 \text{ hour}}\\
-						&= <var>TIME_DOWN</var>\text{ minutes}\end{align*}</code></p>
-				</div>
-				<p><code>\color{<var>KhanUtil.ORANGE</var>}{\begin{align*}\text{total time} &= <var>TIME_UP</var>\text{ minutes} + <var>TIME_DOWN</var>\text{ minutes}\\
-					&= <var>TIME_UP + TIME_DOWN</var>\text{ minutes}\end{align*}}</code></p>
-				<p>Now that we know both the total distance and total time, we can find the average speed.</p>
-				<p><code>\begin{align*}\text{average speed} &= \dfrac{\color{<var>KhanUtil.BLUE</var>}{\text{total distance}}}{\color{<var>KhanUtil.ORANGE</var>}{\text{total time}}}\\
-					&= \dfrac{\color{<var>KhanUtil.BLUE</var>}{<var>2 * DISTANCE</var>\text{ miles}}}{\color{<var>KhanUtil.ORANGE</var>}{<var>TIME_UP + TIME_DOWN</var>\text{ minutes}}}\times\dfrac{60 \text{ minutes}}{1 \text{ hour}}\\
-					&= <var>RATE_AVG</var>\text{ mph}\end{align*}</code></p>
-				<p>The average speed is <var>RATE_AVG</var> mph, and which is closer to <var>RATE_UP</var> mph than <var>RATE_DOWN</var> mph as we expected.</p>
-			</div>
-		</div>
-		<div id="collective-action-same">
-			<div class="vars">
-				<var id="PEOPLE_INIT">randRange( 5, 10 )</var>
-				<var id="WALL_INIT">PEOPLE_INIT</var>
-				<var id="TIME_INIT">randRange( 20, 59 )</var>
-				<var id="PEOPLE_FINAL">randRange( PEOPLE_INIT + 3, 20 )</var>
-				<var id="WALL_FINAL">PEOPLE_FINAL</var>
-				<var id="TIME_FINAL">TIME_INIT</var>
-			</div>
-			<p class="problem">It takes <var>TIME_INIT</var> minutes for <var>PEOPLE_INIT</var> people to paint <var>WALL_INIT</var> walls.</p>
-			<p class="question">How many minutes does it take <var>PEOPLE_FINAL</var> people to paint <var>WALL_FINAL</var> walls?</p>
-			
-			<div class="solution" data-type="multiple">
-				<span class="sol"><var>TIME_FINAL</var></span> minutes
-			</div>
-			<div class="hints">
-				<p>Imagine that each person is assigned one wall, and all <var>PEOPLE_INIT</var> people begin painting at the same time.</p>
-				<p>Since everyone will finish painting their assigned wall after <var>TIME_INIT</var> minutes, it takes one person <var>TIME_INIT</var> minutes to paint one wall.</p>
-				<p>If we have <var>PEOPLE_FINAL</var> people and <var>WALL_FINAL</var> walls, we can again assign one wall to each person.</p>
-				<p>Everyone will take <var>TIME_FINAL</var> minutes to paint their assigned wall.</p>
-				<p>In other words, it takes <var>TIME_FINAL</var> minutes for <var>PEOPLE_FINAL</var> people to paint <var>WALL_FINAL</var> walls.</p>
-			</div>
-		</div>
-		<div id="collective-action-calculate">
-			<div class="vars">
-				<var id="PEOPLE_INIT, WALL_INIT">randRangeUnique( 3, 7, 2 )</var>
-				<var id="TIME_INIT">randRange( 30, 50 )</var>
-				<var id="PEOPLE_FINAL">randRange( PEOPLE_INIT + 1, 10 )</var>
-				<var id="WALL_FINAL">randRange( WALL_INIT + 1, 10 )</var>
-				<var id="TIME_FINAL">round( WALL_FINAL * TIME_INIT * PEOPLE_INIT / ( WALL_INIT * PEOPLE_FINAL ) )</var>
-				<var id="NEED_TO_ROUND">getGCD( WALL_FINAL * TIME_INIT * PEOPLE_INIT, WALL_INIT * PEOPLE_FINAL ) !== (WALL_INIT * PEOPLE_FINAL)</var>
-			</div>
-			<p class="problem"><var>PEOPLE_INIT</var> people can paint <var>WALL_INIT</var> walls in <var>TIME_INIT</var> minutes.</p>
-			<p class="question">How many minutes will it take for <var>PEOPLE_FINAL</var> people to paint <var>WALL_FINAL</var> walls? Round to the nearest minute.</p>
-			<div class="solution" data-type="multiple">
-				<span class="sol"><var>TIME_FINAL</var></span> minutes
-				<p class="example">the number of minutes, rounded to the nearest minute</p>
-			</div>
-			<div class="hints">
-				<div>
-					<p>We know the following about the number of walls <code>w</code> painted by <code>p</code> people in <code>t</code> minutes at a constant rate <code>r</code>.</p>
-					<p><code>w = r \cdot t \cdot p</code></p>
-					<p><code>\begin{align*}w &= <var>WALL_INIT</var>\text{ walls}\\
-						p &= <var>PEOPLE_INIT</var>\text{ people}\\
-						t &= <var>TIME_INIT</var>\text{ minutes}\end{align*}</code></p>
-				</div>
-				<div>
-					<p>Substituting known values and solving for <code>r</code>:</p>
-					<p><code>r = \dfrac{w}{t \cdot p}= \dfrac{<var>WALL_INIT</var>}{<var>TIME_INIT</var> \cdot <var>PEOPLE_INIT</var>} = <var>fractionReduce( WALL_INIT, TIME_INIT * PEOPLE_INIT )</var>\text{ walls painted per minute per person}</code></p>
-				</div>
-				<p>We can now calculate the amount of time to paint <var>WALL_FINAL</var> walls with <var>PEOPLE_FINAL</var> people.</p>
-				<p><code>t = \dfrac{w}{r \cdot p} = \dfrac{<var>WALL_FINAL</var>}{<var>fractionReduce( WALL_INIT, TIME_INIT * PEOPLE_INIT )</var> \cdot <var>PEOPLE_FINAL</var>} = \dfrac{<var>WALL_FINAL</var>}{<var>fractionReduce( WALL_INIT * PEOPLE_FINAL, TIME_INIT * PEOPLE_INIT )</var>} = <var>fractionReduce( WALL_FINAL * TIME_INIT * PEOPLE_INIT, WALL_INIT * PEOPLE_FINAL )</var>\text{ minutes}</code><span data-if="NEED_TO_ROUND"><code>= <var>mixedFractionFromImproper( WALL_FINAL * TIME_INIT * PEOPLE_INIT, WALL_INIT * PEOPLE_FINAL, true, true )</var>\text{ minutes}</code></span></p>
-				<div data-if="NEED_TO_ROUND">
-					<p>Round to the nearest minute:</p>
-					<p><code>t = <var>TIME_FINAL</var>\text{ minutes}</code></p>
-				</div>
-			</div>
-		</div>
-	</div>
-	</div>
+            <div class="hints">
+                <p>The average speed is not just the average of <var>RATE_UP</var> mph and <var>RATE_DOWN</var> mph.</p>
+                <p><var>He( 1 )</var> traveled for a longer time uphill (since <var>he( 1 )</var> was going slower), so we can estimate that the average speed is closer to <var>RATE_UP</var> mph than <var>RATE_DOWN</var> mph.</p>
+                <div>
+                    <p>To calculate the average speed, we will make use of the following:</p>
+                    <p><code>\text{average speed} = \dfrac{\color{<var>KhanUtil.BLUE</var>}{\text{total distance}}}{\color{<var>KhanUtil.ORANGE</var>}{\text{total time}}}</code></p>
+                    <p><code>\text{distance uphill} = \text{distance downhill}</code></p>
+                </div>
+                <p>What was the total distance traveled?</p>
+                <div>
+                    <p><code>\color{<var>KhanUtil.BLUE</var>}{\begin{align*}\text{total distance} &= \text{distance uphill} + \text{distance downhill}\\
+                        &= 2 \times \text{distance uphill}\end{align*}}</code></p>
+                    <p><code>\begin{align*}\text{distance uphill} &= \text{speed uphill} \times \text{time uphill} \\\
+                        &= <var>RATE_UP</var>\text{ mph} \times <var>TIME_UP</var>\text{ minutes}\times\dfrac{1 \text{ hour}}{60 \text{ minutes}}\\
+                        &= <var>DISTANCE</var>\text{ miles}\end{align*}</code></p>
+                </div>
+                <div>
+                    <p>Substituting to find the total distance:</p>
+                    <p><code>\color{<var>KhanUtil.BLUE</var>}{\text{total distance} = <var>2 * DISTANCE</var>\text{ miles}}</code></p>
+                </div>
+                <p>What was the total time spent traveling?</p>
+                <div>
+                    <p><code>\color{<var>KhanUtil.ORANGE</var>}{\text{total time} = \text{time uphill} + \text{time downhill}}</code></p>
+                    <p><code>\begin{align*}\text{time downhill} &= \dfrac{\text{distance downhill}}{\text{speed downhill}}\\
+                        &= \dfrac{<var>DISTANCE</var>\text{ miles}}{<var>RATE_DOWN</var>\text{ mph}}\times\dfrac{60 \text{ minutes}}{1 \text{ hour}}\\
+                        &= <var>TIME_DOWN</var>\text{ minutes}\end{align*}</code></p>
+                </div>
+                <p><code>\color{<var>KhanUtil.ORANGE</var>}{\begin{align*}\text{total time} &= <var>TIME_UP</var>\text{ minutes} + <var>TIME_DOWN</var>\text{ minutes}\\
+                    &= <var>TIME_UP + TIME_DOWN</var>\text{ minutes}\end{align*}}</code></p>
+                <p>Now that we know both the total distance and total time, we can find the average speed.</p>
+                <p><code>\begin{align*}\text{average speed} &= \dfrac{\color{<var>KhanUtil.BLUE</var>}{\text{total distance}}}{\color{<var>KhanUtil.ORANGE</var>}{\text{total time}}}\\
+                    &= \dfrac{\color{<var>KhanUtil.BLUE</var>}{<var>2 * DISTANCE</var>\text{ miles}}}{\color{<var>KhanUtil.ORANGE</var>}{<var>TIME_UP + TIME_DOWN</var>\text{ minutes}}}\times\dfrac{60 \text{ minutes}}{1 \text{ hour}}\\
+                    &= <var>RATE_AVG</var>\text{ mph}\end{align*}</code></p>
+                <p>The average speed is <var>RATE_AVG</var> mph, and which is closer to <var>RATE_UP</var> mph than <var>RATE_DOWN</var> mph as we expected.</p>
+            </div>
+        </div>
+        <div id="collective-action-same">
+            <div class="vars">
+                <var id="PEOPLE_INIT">randRange( 5, 10 )</var>
+                <var id="WALL_INIT">PEOPLE_INIT</var>
+                <var id="TIME_INIT">randRange( 20, 59 )</var>
+                <var id="PEOPLE_FINAL">randRange( PEOPLE_INIT + 3, 20 )</var>
+                <var id="WALL_FINAL">PEOPLE_FINAL</var>
+                <var id="TIME_FINAL">TIME_INIT</var>
+            </div>
+            <p class="problem">It takes <var>TIME_INIT</var> minutes for <var>PEOPLE_INIT</var> people to paint <var>WALL_INIT</var> walls.</p>
+            <p class="question">How many minutes does it take <var>PEOPLE_FINAL</var> people to paint <var>WALL_FINAL</var> walls?</p>
+
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" style="padding-right: 5px"><var>TIME_FINAL</var></span> minutes</p>
+            </div>
+            <div class="hints">
+                <p>Imagine that each person is assigned one wall, and all <var>PEOPLE_INIT</var> people begin painting at the same time.</p>
+                <p>Since everyone will finish painting their assigned wall after <var>TIME_INIT</var> minutes, it takes one person <var>TIME_INIT</var> minutes to paint one wall.</p>
+                <p>If we have <var>PEOPLE_FINAL</var> people and <var>WALL_FINAL</var> walls, we can again assign one wall to each person.</p>
+                <p>Everyone will take <var>TIME_FINAL</var> minutes to paint their assigned wall.</p>
+                <p>In other words, it takes <var>TIME_FINAL</var> minutes for <var>PEOPLE_FINAL</var> people to paint <var>WALL_FINAL</var> walls.</p>
+            </div>
+        </div>
+        <div id="collective-action-calculate">
+            <div class="vars">
+                <var id="PEOPLE_INIT, WALL_INIT">randRangeUnique( 3, 7, 2 )</var>
+                <var id="TIME_INIT">randRange( 30, 50 )</var>
+                <var id="PEOPLE_FINAL">randRange( PEOPLE_INIT + 1, 10 )</var>
+                <var id="WALL_FINAL">randRange( WALL_INIT + 1, 10 )</var>
+                <var id="TIME_FINAL">round( WALL_FINAL * TIME_INIT * PEOPLE_INIT / ( WALL_INIT * PEOPLE_FINAL ) )</var>
+                <var id="NEED_TO_ROUND">getGCD( WALL_FINAL * TIME_INIT * PEOPLE_INIT, WALL_INIT * PEOPLE_FINAL ) !== (WALL_INIT * PEOPLE_FINAL)</var>
+            </div>
+            <p class="problem"><var>PEOPLE_INIT</var> people can paint <var>WALL_INIT</var> walls in <var>TIME_INIT</var> minutes.</p>
+            <p class="question">How many minutes will it take for <var>PEOPLE_FINAL</var> people to paint <var>WALL_FINAL</var> walls? Round to the nearest minute.</p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol" style="padding-right: 5px" data-forms="integer"><var>TIME_FINAL</var></span> minutes</p>
+                <p class="example">the number of minutes, rounded to the nearest minute</p>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>We know the following about the number of walls <code>w</code> painted by <code>p</code> people in <code>t</code> minutes at a constant rate <code>r</code>.</p>
+                    <p><code>w = r \cdot t \cdot p</code></p>
+                    <p><code>\begin{align*}w &= <var>WALL_INIT</var>\text{ walls}\\
+                        p &= <var>PEOPLE_INIT</var>\text{ people}\\
+                        t &= <var>TIME_INIT</var>\text{ minutes}\end{align*}</code></p>
+                </div>
+                <div>
+                    <p>Substituting known values and solving for <code>r</code>:</p>
+                    <p><code>r = \dfrac{w}{t \cdot p}= \dfrac{<var>WALL_INIT</var>}{<var>TIME_INIT</var> \cdot <var>PEOPLE_INIT</var>} = <var>fractionReduce( WALL_INIT, TIME_INIT * PEOPLE_INIT )</var>\text{ walls painted per minute per person}</code></p>
+                </div>
+                <p>We can now calculate the amount of time to paint <var>WALL_FINAL</var> walls with <var>PEOPLE_FINAL</var> people.</p>
+                <p><code>t = \dfrac{w}{r \cdot p} = \dfrac{<var>WALL_FINAL</var>}{<var>fractionReduce( WALL_INIT, TIME_INIT * PEOPLE_INIT )</var> \cdot <var>PEOPLE_FINAL</var>} = \dfrac{<var>WALL_FINAL</var>}{<var>fractionReduce( WALL_INIT * PEOPLE_FINAL, TIME_INIT * PEOPLE_INIT )</var>} = <var>fractionReduce( WALL_FINAL * TIME_INIT * PEOPLE_INIT, WALL_INIT * PEOPLE_FINAL )</var>\text{ minutes}</code><span data-if="NEED_TO_ROUND"><code>= <var>mixedFractionFromImproper( WALL_FINAL * TIME_INIT * PEOPLE_INIT, WALL_INIT * PEOPLE_FINAL, true, true )</var>\text{ minutes}</code></span></p>
+                <div data-if="NEED_TO_ROUND">
+                    <p>Round to the nearest minute:</p>
+                    <p><code>t = <var>TIME_FINAL</var>\text{ minutes}</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

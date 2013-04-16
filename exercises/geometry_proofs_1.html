@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs congruency">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Fill-in-the-blank triangle proofs</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        .missingStatement {
+            width: 30px;
+            text-transform: uppercase;
+        }
+        .missingReason {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="AB">new Seg("A","B")</var>
+            <var id="BA">AB</var>
+            <var id="AC">new Seg("A","C")</var>
+            <var id="CA">AC</var>
+            <var id="AD">new Seg("A","D")</var>
+            <var id="DA">AD</var>
+            <var id="AF">new Seg("A","F")</var>
+            <var id="FA">AF</var>
+            <var id="BC">new Seg("B","C")</var>
+            <var id="CB">BC</var>
+            <var id="BD">new Seg("B","D")</var>
+            <var id="DB">BD</var>
+            <var id="BE">new Seg("B","E")</var>
+            <var id="EB">BE</var>
+            <var id="CE">new Seg("C","E")</var>
+            <var id="EC">CE</var>
+            <var id="CF">new Seg("C","F")</var>
+            <var id="FC">CF</var>
+            <var id="DE">new Seg("D","E")</var>
+            <var id="ED">DE</var>
+            <var id="DF">new Seg("D","F")</var>
+            <var id="FD">DF</var>
+            <var id="EF">new Seg("E","F")</var>
+            <var id="FE">EF</var>
+
+            <var id="SEGS">[AB,BA,AC,CA,AD,DA,AF,FA,BC,CB,BD,DB,BE,EB,CE,EC,CF,FC,DE,ED,DF,FD,EF,FE]</var>
+
+            <var id="ang1">new Ang("B","A","C")</var>
+            <var id="ang2">new Ang("A","B","C")</var>
+            <var id="ang3">new Ang("A","C","B")</var>
+            <var id="ang4">new Ang("D","B","E")</var>
+            <var id="ang5">new Ang("E","B","C")</var>
+            <var id="ang6">new Ang("B","C","E")</var>
+            <var id="ang7">new Ang("E","C","F")</var>
+            <var id="ang8">new Ang("B","D","E")</var>
+            <var id="ang9">new Ang("B","E","D")</var>
+            <var id="ang10">new Ang("B","E","C")</var>
+            <var id="ang11">new Ang("C","E","F")</var>
+            <var id="ang12">new Ang("C","F","E")</var>
+
+            <var id="ANGS">[ang1, ang2, ang3, ang4, ang5, ang6, ang7, ang8, ang9, ang10, ang11, ang12]</var>
+
+            <var id="SUPPLEMENTARY_ANGS">[addAngs(ang2, addAngs(ang5, ang4)), addAngs(ang3, addAngs(ang6, ang7)), addAngs(ang9, addAngs(ang10,ang11))]</var>
+
+            <var id="ALTERNATE_INTERIOR_ANGS">[[ang5, ang9], [ang6, ang11]]</var>
+
+            <var id="ABC">new Triang([AB, BC, CA], [ang2, ang3, ang1])</var>
+            <var id="BDE">new Triang([BD, DE, EB], [ang8, ang9, ang4])</var>
+            <var id="BCE">new Triang([BC, CE, EB], [ang6, ang10, ang5])</var>
+            <var id="CEF">new Triang([CE, EF, FC], [ang11, ang12, ang7])</var>
+            <var id="ADF">new Triang([AD, DF, FA], [ang8, ang12, ang1])</var>
+
+            <var id="TRIANGLES">[ABC, BDE, BCE, CEF]</var>
+
+            <var id="STATEMENTS">initProof(SEGS, ANGS, TRIANGLES, SUPPLEMENTARY_ANGS, ALTERNATE_INTERIOR_ANGS, 3, 0.25, "all")</var>
+            <var id="KNOWN">STATEMENTS[0]</var>
+            <var id="FINISHED">STATEMENTS[1]</var>
+
+            <var id="FILL_BLANKS_STUFF">outputFillBlanksProof()</var>
+            <var id="FILL_BLANKS_PROOF">FILL_BLANKS_STUFF[0]</var>
+            <var id="FILL_BLANKS_NUM">FILL_BLANKS_STUFF[1]</var>
+
+        </div>
+
+        <div class="problem">
+            <p class="question"> <code> \overline{BC} </code> is parallel to <code> \overline{DF} </code>. Figure not drawn to scale. </p>
+            <div class="graphie">
+                init({
+                    range: [[-5, 5], [-5, 5]],
+                    scale: 40
+                });
+                addMouseLayer();
+
+                graph.congruency = addCongruency({ y1: -0.7, y2: 10.7 });
+
+                graph.congruency.addPoint("A", [0, 4]);
+                graph.congruency.addPoint("B", [-2, 0]);
+                graph.congruency.addPoint("C", [2, 0]);
+                graph.congruency.addPoint("D", [-4, -4]);
+                graph.congruency.addPoint("E", [0, -4]);
+                graph.congruency.addPoint("F", [4, -4]);
+
+                graph.congruency.addLine({
+                    start: "A",
+                    end: "B",
+                    clickable: true,
+                    maxState: 3
+                });
+                graph.congruency.addLine({
+                    start: "A",
+                    end: "C",
+                    clickable: true,
+                    maxState: 3
+                });
+                graph.congruency.addLine({
+                    start: "A",
+                    end: "D",
+                    clickable: true,
+                    maxState: 3
+                });
+                graph.congruency.addLine({
+                    start: "A",
+                    end: "F",
+                    clickable: true,
+                    maxState: 3
+                });
+                graph.congruency.addLine({
+                    start: "B",
+                    end: "C",
+                    clickable: true,
+                    maxState: 3
+                });
+                graph.congruency.addLine({
+                    start: "B",
+                    end: "D",
+                    clickable: true,
+                    maxState: 3
+                });
+                graph.congruency.addLine({
+                    start: "B",
+                    end: "E",
+                    clickable: true,
+                    maxState: 3
+                });
+                graph.congruency.addLine({
+                    start: "C",
+                    end: "E",
+                    clickable: true,
+                    maxState: 3
+                });
+                graph.congruency.addLine({
+                    start: "C",
+                    end: "F",
+                    clickable: true,
+                    maxState: 3
+                });
+                graph.congruency.addLine({
+                    start: "D",
+                    end: "E",
+                    clickable: true,
+                    maxState: 3
+                });
+                graph.congruency.addLine({
+                    start: "D",
+                    end: "F",
+                    clickable: true,
+                    maxState: 3
+                });
+                graph.congruency.addLine({
+                    start: "E",
+                    end: "F",
+                    clickable: true,
+                    maxState: 3
+                });
+
+                graph.congruency.addAngles("A", { maxState: 3 });
+                graph.congruency.addAngles("B", { maxState: 3 });
+                graph.congruency.addAngles("C", { maxState: 3 });
+                graph.congruency.addAngles("D", { maxState: 3 });
+                graph.congruency.addAngles("E", { maxState: 3 });
+                graph.congruency.addAngles("F", { maxState: 3 });
+
+                graph.congruency.addAngle("BAC", { maxState: 3 });
+                graph.congruency.addAngle("EDB", { maxState: 3 });
+                graph.congruency.addAngle("CFE", { maxState: 3 });
+
+                for(var angle in graph.congruency.angles){
+                    graph.congruency.angles[angle].setSelectedStyle({
+                        stroke: "black",
+                        "stroke-width": 3
+                    });
+                }
+
+                graph.congruency.addLabel("A", "above");
+                graph.congruency.addLabel("B", "left");
+                graph.congruency.addLabel("C", "right");
+                graph.congruency.addLabel("D", "below");
+                graph.congruency.addLabel("E", "below");
+                graph.congruency.addLabel("F", "below");
+
+
+                var hintsLeft = FILL_BLANKS_NUM*2;
+                $(".missingStatement").keyup(function(){
+                    if(checkFillBlanksStatement($(this).parent()[0].id)){
+                        FILL_BLANKS_NUM--;
+                        if(hintsLeft &gt; FILL_BLANKS_NUM*2){
+                            var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                            $("#hint").val("I'd like a hint (" + stepsLeft + ")");
+                            giveAway = false;
+                            hintsLeft = FILL_BLANKS_NUM*2;
+                            if(hintsLeft === 0){
+                                $("#hint").attr("disabled", true);
+                            }
+                        }
+                    }
+                });
+
+                $(".missingReason").change(function(){
+                    if(checkFillBlanksReason($(this), this.id)){
+                        FILL_BLANKS_NUM--;
+                        if(hintsLeft &gt; FILL_BLANKS_NUM*2){
+                            var stepsLeft = FILL_BLANKS_NUM*2 + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                            $("#hint").val("I'd like a hint (" + stepsLeft + ")");
+                            giveAway = false;
+                            hintsLeft = FILL_BLANKS_NUM*2;
+                            if(hintsLeft === 0){
+                                $("#hint").attr("disabled", true);
+                            }
+                        }
+                    }
+                });
+
+                var giveAway = false;
+                $("#hint").click(function(){
+                    if(hintsLeft &gt; 0){
+                        hintsLeft--;
+                        if(!giveAway){
+                            var stepsLeft = hintsLeft + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                            $(this).val("I'd like a hint (" + stepsLeft + ")");
+                            $(this).attr("disabled", false);
+
+                            $(".actualHints").append("&lt;p&gt;"+getFillBlanksHint(false)+"&lt;/p&gt;");
+                            _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                            giveAway = true;
+                        }
+                        else{
+                            var stepsLeft = hintsLeft + " step" + (FILL_BLANKS_NUM === 1 ? "" : "s") + " left";
+                            $(this).val("I'd like a hint (" + stepsLeft + ")");
+                            $(this).attr("disabled", false);
+
+                            $(".actualHints").append("&lt;p&gt;"+getFillBlanksHint(true)+"&lt;/p&gt;");
+                            _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                            giveAway = false;
+                        }
+                        if(hintsLeft === 0){
+                            $("#hint").attr("disabled", true);
+                        }
+                    }
+                });
+
+                for(var line in graph.congruency.lines){
+                    for(var line2 in graph.congruency.lines){
+                        (function() {
+                            var $statement = $("."+line+"-"+line2);
+                            var firstLine = graph.congruency.lines[line];
+                            var secondLine = graph.congruency.lines[line2];
+
+                            if($statement.length &gt; 0){
+                                $statement.live("vmouseover", function(event) {
+                                    firstLine.setHighlighted({
+                                        stroke: ORANGE,
+                                        "stroke-width": 3
+                                    });
+                                    secondLine.setHighlighted({
+                                        stroke: BLUE,
+                                        "stroke-width": 3
+                                    });
+                                    $(this).bind("vmouseout", function(event) {
+                                        firstLine.unsetHighlighted({
+                                            stroke: "black",
+                                            "stroke-width": 2
+                                        });
+                                        secondLine.unsetHighlighted({
+                                            stroke: "black",
+                                            "stroke-width": 2
+                                        });
+                                    });
+                                });
+                                secondLine.unsetHighlighted({
+                                    stroke: "black",
+                                    "stroke-width": 2
+                                });
+                            }
+                        })();
+                    }
+                }
+
+                for(var angle in graph.congruency.angles){
+                    for(var angle2 in graph.congruency.angles){
+                        (function(){
+                            var $statement = $("."+angle+"-"+angle2);
+                            var firstAngle = graph.congruency.angles[angle];
+                            var secondAngle = graph.congruency.angles[angle2];
+
+                            if($statement.length &gt; 0){
+                                $statement.live("vmouseover", function(event) {
+                                    var firstState = firstAngle.state;
+                                    var secondState = secondAngle.state;
+                                    var maxState = Math.max(firstState,secondState);
+
+                                    firstAngle.setHighlighted({
+                                        stroke: ORANGE,
+                                        "stroke-width": 3
+                                    });
+                                    secondAngle.setHighlighted({
+                                        stroke: BLUE,
+                                        "stroke-width": 3
+                                    });
+                                    firstAngle.setState(maxState &gt; 0 ? maxState : 1);
+                                    secondAngle.setState(maxState &gt; 0 ? maxState : 1);
+                                    $(this).bind("vmouseout", function(event) {
+                                        firstAngle.unsetHighlighted({
+                                            stroke: "black",
+                                            "stroke-width": 2
+                                        });
+                                        secondAngle.unsetHighlighted({
+                                            stroke: "black",
+                                            "stroke-width": 2
+                                        });
+                                        firstAngle.setState(firstState);
+                                        secondAngle.setState(secondState);
+                                    });
+                                });
+                            }
+                        })();
+                    }
+                }
+
+                for(var line in graph.congruency.lines){
+                    (function(){
+                        var $statements = $("."+line);
+                        for(var i = 0; i&lt;$statements.length; i++){
+                            var highlightLine = graph.congruency.lines[line];
+                            var highlightDiv = $($statements[i]);
+
+                            highlightDiv.live("vmouseover", function(event) {
+                                highlightLine.setHighlighted({
+                                    stroke: ORANGE,
+                                    "stroke-width": 3
+                                });
+                                $(this).bind("vmouseout", function(event) {
+                                    highlightLine.unsetHighlighted({
+                                        stroke: "black",
+                                        "stroke-width": 2
+                                    });
+                                });
+                            });
+                        }
+                    })();
+                }
+
+                for(var line in graph.congruency.lines){
+                    (function(){
+                        var $statements = $("."+line + "2");
+                        for(var i = 0; i&lt;$statements.length; i++){
+                            var highlightLine = graph.congruency.lines[line];
+                            var highlightDiv = $($statements[i]);
+
+                            highlightDiv.live("vmouseover", function(event) {
+                                highlightLine.setHighlighted({
+                                    stroke: BLUE,
+                                    "stroke-width": 3
+                                });
+                                $(this).bind("vmouseout", function(event) {
+                                    highlightLine.unsetHighlighted({
+                                        stroke: "black",
+                                        "stroke-width": 2
+
+                                    });
+                                });
+                            });
+                        }
+                    })();
+                }
+
+            </div>
+        </div>
+
+        <div class="problems">
+        <div>
+            <div class="question">
+            </div>
+            <div class="statements"> <var> FILL_BLANKS_PROOF </var>
+            </div>
+            <div class="actualHints">
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Fill in the blanks in this proof that <var> FINISHED </var>.
+                </div>
+                <div class="guess">1</div>
+                <div class="validator-function">
+                    return FILL_BLANKS_NUM==0;
+                </div>
+                <div class="show-guess">
+                    outputKnownProof();
+                </div>
+            </div>
+            <div class="hints">
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>

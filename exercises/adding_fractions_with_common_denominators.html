@@ -1,55 +1,61 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers">
 <head>
-	<meta charset="UTF-8" />
-	<title>Adding fractions with common denominators</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding fractions with common denominators</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars">
-		<var id="N1">randRange( 1, 9 )</var>
-		<var id="N2">randRange( 1, 9 )</var>
-		<var id="D">randRange( N1 + N2 + 1, 20 )</var>
-	</div>
+    <div class="exercise">
+    <div class="vars">
+        <var id="N1">randRange( 1, 9 )</var>
+        <var id="N2">randRange( 1, 9 )</var>
+        <var id="D">randRange( N1 + N2 + 1, 20 )</var>
+    </div>
 
-	<div class="problems">
-		<div>
-			<div class="question">
-				<p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = {?}</code></p>
-			</div>
-			<div class="solution" data-type="rational"><var>( N1 + N2 ) / D</var></div>
-		</div>
-	</div>
+    <div class="problems">
+        <div id="add-fractions">
+            <div class="question">
+                <p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = {?}</code></p>
+            </div>
+            <div class="solution" data-type="rational" data-simplify="optional"><var>( N1 + N2 ) / D</var></div>
+        </div>
 
-	<div class="hints">
-		<div style="height: 150px;">
-			<div class="graphie" style="float: left">
-				init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-				piechart( [ N1, D - N1 ], ["#e00", "#999"], 2 );
-			</div>
-			<div class="graphie" style="float: left;">
-				init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-				piechart( [ N2, D - N2 ], ["#e00", "#999"], 2 );
-			</div>
-		</div>
-		<p>Add the numerators.</p>
-		<div class="graphie">
-			init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-			piechart( [ N1+N2, D - N2 - N1], ["#e00", "#999"], 2 );
-		</div>
-		<div>
-			<p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = <var>fraction( N1 + N2, D )</var></code></p>
-		</div>
-		<div data-if="getGCD( N1 + N2, D ) !== 1">
-			<p>Simplify.</p>
-			<div class="graphie">
-				init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
-				piechart( [ reduce( N1 + N2, D)[0], reduce( N1 + N2, D)[1] -  reduce( N1 + N2, D)[0]], ["#e00", "#999"], 2 );
-			</div>
-			<p><code><var>fraction( N1 + N2, D )</var> = <var>fractionReduce( N1 + N2, D )</var></code></p>
-		</div>
-	</div>
-	</div>
+        <div id="custom-5" data-weight="0" data-type="add-fractions">
+            <div class="vars">
+                <var id="N1">1</var>
+                <var id="N2">1</var>
+                <var id="D">5</var>
+            </div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div style="height: 150px;">
+            <div class="graphie" style="float: left">
+                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                piechart( [ N1, D - N1 ], ["#e00", "#999"], 2 );
+            </div>
+            <div class="graphie" style="float: left;">
+                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                piechart( [ N2, D - N2 ], ["#e00", "#999"], 2 );
+            </div>
+        </div>
+        <p>Add the numerators.</p>
+        <div class="graphie">
+            init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+            piechart( [ N1+N2, D - N2 - N1], ["#e00", "#999"], 2 );
+        </div>
+        <p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = <var>fraction( N1 + N2, D )</var></code></p>
+        <div data-if="getGCD( N1 + N2, D ) !== 1">
+            <p>Simplify.</p>
+            <div class="graphie">
+                init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
+                piechart( [ reduce( N1 + N2, D)[0], reduce( N1 + N2, D)[1] -  reduce( N1 + N2, D)[0]], ["#e00", "#999"], 2 );
+            </div>
+            <p><code><var>fraction( N1 + N2, D )</var> = <var>fractionReduce( N1 + N2, D )</var></code></p>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

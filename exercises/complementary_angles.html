@@ -1,69 +1,69 @@
 <!DOCTYPE html>
 <html data-require="math graphie math-format">
 <head>
-	<meta charset="UTF-8" />
-	<title>Complementary angles</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Complementary angles</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="problems">
-		<div id="find-hypotenuse">
-			<div class="vars">
-				<var id="O, A, B, C">randFromArray([
-					["O", "A", "B", "C"],
-					["O", "L", "M", "N"],
-					["P", "Q", "R", "S"]
-				])</var>
-				<var id="ANGLE">randRange(1, 89)</var>
+    <div class="exercise">
+    <div class="problems">
+        <div id="find-hypotenuse">
+            <div class="vars">
+                <var id="O, A, B, C">randFromArray([
+                    ["O", "A", "B", "C"],
+                    ["O", "L", "M", "N"],
+                    ["P", "Q", "R", "S"]
+                ])</var>
+                <var id="ANGLE">randRange(1, 89)</var>
 
-				<var id="ANGLE_BOT">"\\angle " + A + O + B</var>
-				<var id="ANGLE_TOP">"\\angle " + B + O + C</var>
+                <var id="ANGLE_BOT">"\\angle " + A + O + B</var>
+                <var id="ANGLE_TOP">"\\angle " + B + O + C</var>
 
-				<var id="ANGLE_ONE, ANGLE_TWO">shuffle([ ANGLE_BOT, ANGLE_TOP ])</var>
-			</div>
+                <var id="ANGLE_ONE, ANGLE_TWO">shuffle([ ANGLE_BOT, ANGLE_TOP ])</var>
+            </div>
 
-			<div class="question">
-				<p>If <code>\angle <var>A + O + C</var></code> is a right angle and <code>m <var>ANGLE_ONE</var> = <var>ANGLE</var>^\circ</code>, what is <code>m <var>ANGLE_TWO</var></code>, in degrees?</p>
+            <div class="question">
+                <p>If <code>\angle <var>A + O + C</var></code> is a right angle and <code>m <var>ANGLE_ONE</var> = <var>ANGLE</var>^\circ</code>, what is <code>m <var>ANGLE_TWO</var></code>, in degrees?</p>
 
-				<div class="graphie">
-					init({
-						range: [ [-2, 7], [-2, 6] ],
-						scale: 40
-					});
-					
-					var DISP_ANGLE = Math.min( Math.max( 10, ANGLE ), 80 );
-					if ( ANGLE_ONE !== ANGLE_BOT ) {
-						DISP_ANGLE = 90 - DISP_ANGLE;
-						arc( [ 0, 0 ], 1, DISP_ANGLE, 90 );
-						DISP_ANGLE *= PI / 180;
-						label( [ 2 * cos( DISP_ANGLE + ( PI / 2 - DISP_ANGLE) / 2 ) + 0.125, 2 * sin( DISP_ANGLE + ( PI / 2 - DISP_ANGLE) / 2  ) + 0.5 ], ANGLE + "^\\circ" );
-					} else {
-						arc( [ 0, 0 ], 1, 0, DISP_ANGLE );
-						DISP_ANGLE *= PI / 180;
-						label( [ 2 * cos( DISP_ANGLE / 2 ) + 0.65 , 2 * sin( DISP_ANGLE / 2 )], ANGLE + "^\\circ" );
-					}
+                <div class="graphie">
+                    init({
+                        range: [ [-2, 7], [-2, 6] ],
+                        scale: 40
+                    });
 
-					path([ [0, 5], [0, 0], [5, 0] ]);
-					path([ [0, 0], [5 * cos( DISP_ANGLE ), 5 * sin( DISP_ANGLE )] ]);
+                    var DISP_ANGLE = Math.min( Math.max( 10, ANGLE ), 80 );
+                    if ( ANGLE_ONE !== ANGLE_BOT ) {
+                        DISP_ANGLE = 90 - DISP_ANGLE;
+                        arc( [ 0, 0 ], 1, DISP_ANGLE, 90 );
+                        DISP_ANGLE *= PI / 180;
+                        label( [ 2 * cos( DISP_ANGLE + ( PI / 2 - DISP_ANGLE) / 2 ) + 0.125, 2 * sin( DISP_ANGLE + ( PI / 2 - DISP_ANGLE) / 2  ) + 0.5 ], ANGLE + "^\\circ" );
+                    } else {
+                        arc( [ 0, 0 ], 1, 0, DISP_ANGLE );
+                        DISP_ANGLE *= PI / 180;
+                        label( [ 2 * cos( DISP_ANGLE / 2 ) + 0.65 , 2 * sin( DISP_ANGLE / 2 )], ANGLE + "^\\circ" );
+                    }
 
-					label( [0, 0], O, "below left" );
-					label( [5, 0], A, "right" );
-					label( [0, 5], C, "above" );
-					// somewhat ick to make it look nice
-					label( [5.4 * cos( DISP_ANGLE ), 5.4 * sin( DISP_ANGLE )], B );
-				</div>
-			</div>
+                    path([ [0, 5], [0, 0], [5, 0] ]);
+                    path([ [0, 0], [5 * cos( DISP_ANGLE ), 5 * sin( DISP_ANGLE )] ]);
 
-			<div class="solution" data-forms="integer"><var>90 - ANGLE</var></div>
+                    label( [0, 0], O, "below left" );
+                    label( [5, 0], A, "right" );
+                    label( [0, 5], C, "above" );
+                    // somewhat ick to make it look nice
+                    label( [5.4 * cos( DISP_ANGLE ), 5.4 * sin( DISP_ANGLE )], B );
+                </div>
+            </div>
 
-			<div class="hints">
-				<p>From the diagram, we see that <code><var>ANGLE_BOT</var></code> and <code><var>ANGLE_TOP</var></code> are complementary angles.</p>
-				<p>Therefore, <code>m <var>ANGLE_BOT</var> + m <var>ANGLE_TOP</var> = 90^\circ</code>.</p>
-				<p>Thus, <code>m <var>ANGLE_TWO</var> = 90^\circ - m <var>ANGLE_ONE</var> = 90^\circ - <var>ANGLE</var>^\circ = <var>90 - ANGLE</var>^\circ</code>.</p>
-			</div>
-		</div>
-	</div>
-	</div>
+            <div class="solution" data-forms="integer"><var>90 - ANGLE</var></div>
+
+            <div class="hints">
+                <p>From the diagram, we see that <code><var>ANGLE_BOT</var></code> and <code><var>ANGLE_TOP</var></code> are complementary angles.</p>
+                <p>Therefore, <code>m <var>ANGLE_BOT</var> + m <var>ANGLE_TOP</var> = 90^\circ</code>.</p>
+                <p>Thus, <code>m <var>ANGLE_TWO</var> = 90^\circ - m <var>ANGLE_ONE</var> = 90^\circ - <var>ANGLE</var>^\circ = <var>90 - ANGLE</var>^\circ</code>.</p>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

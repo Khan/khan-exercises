@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive mean-and-median">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Exploring mean and median</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="LOWER_BOUND">-7</var>
+            <var id="UPPER_BOUND">-1 * LOWER_BOUND</var>
+            <!--
+                80% chance of getting 10 points to work with; otherwise 5. Any
+                other reasonable quantity leads to really messy means. This at
+                least covers both cases: where the median is a point, and
+                where the median is between two points. Weighted towards more
+                problems with 10 points to make it easier to get the intuition
+                how/why the mean and median can vary.
+            -->
+            <var id="POINTS">random() &lt; 0.8 ? 10 : 5</var>
+            <var id="MEDIAN">
+                roundTo(1, randRangeNonZero((LOWER_BOUND + 1) * 2,
+                    (UPPER_BOUND - 1) * 2) / 2)
+            </var>
+            <var id="MIN_MEAN">
+                ((POINTS / 2) * (MEDIAN + 0.5) + MEDIAN - 0.5 +
+                    (POINTS / 2 - 1) * LOWER_BOUND) / POINTS
+            </var>
+            <var id="MAX_MEAN">
+                ((POINTS / 2) * (MEDIAN - 0.5) + MEDIAN + 0.5 +
+                    (POINTS / 2 - 1) * UPPER_BOUND) / POINTS
+            </var>
+            <var id="MEAN">
+                roundTo(1, randRangeNonZero(MIN_MEAN * 10, MAX_MEAN * 10) / 10)
+            </var>
+        </div>
+        <div class="problems">
+            <div>
+                <div class="question">
+                    <p>Arrange the <var>POINTS</var> orange points on the
+                    number line so the <span class="hint_blue">arithmetic mean
+                    is <code><var>MEAN</var></code></span><br /> and the
+                    <span class="hint_green">median is
+                    <code><var>MEDIAN</var></code></span>.
+                    The distance between adjacent tick marks is 1.</p>
+                    <div class="graphie" id="number-line">
+                        graph.targetMedian = MEDIAN;
+                        graph.targetMean = MEAN;
+                        graph.numPoints = POINTS;
+
+                        init({
+                            range: [
+                                [LOWER_BOUND - 0.3, UPPER_BOUND + 0.2],
+                                [-3, 3]],
+                            scale: 35
+                        });
+
+                        style({ stroke: "#bbb" });
+                        line([LOWER_BOUND, 0], [UPPER_BOUND, 0]);
+                        for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++) {
+                            line([x, -0.2], [x, 0.2]);
+                        }
+                        style({ strokeWidth: 3.5 });
+                        line([0, -0.2], [0, 0.2]);
+                        label([0, -0.53],  "0", "center", {});
+
+                        style({
+                            strokeWidth: 2,
+                            stroke: BLUE,
+                            fill: BLUE,
+                            opacity: 1.0
+                        });
+                        graph.meanArrow = path([
+                            [0, 0.7], [0.05, 0.7], [0, 0.6],
+                            [-0.05, 0.7], [0, 0.7], [0, 1.0]
+                        ]);
+                        graph.meanLabel = label([0, 1.3], "\\text{mean}",
+                            "above", { color: BLUE });
+                        graph.meanValueLabel = label([0, 0.8], "0",
+                            "above", { color: BLUE });
+
+                        style({ strokeWidth: 2, stroke: GREEN, fill: GREEN });
+                        graph.medianArrow = path([
+                            [0, -1.1], [0.05, -1.1], [0, -1],
+                            [-0.05, -1.1], [0, -1.1], [0, -1.4]
+                        ]);
+                        graph.medianLabel = label([0, -1.7],  "\\text{median}",
+                            "below", { color: GREEN });
+                        graph.medianValueLabel = label([0, -1.2], "0",
+                            "below", { color: GREEN });
+
+                        addMouseLayer();
+                        graph.points = [];
+                        for (var x = 0; x &lt; POINTS; x++) {
+                            graph.points[x] = addMovablePoint({
+                                coord: [x - POINTS / 2 + 0.5, 0],
+                                constraints: { constrainY: true },
+                                snapX: 0.5
+                            });
+                        }
+
+                        graph.median = 0;
+                        graph.mean = 0;
+                        graph.moved = false;
+                        $.each(graph.points, function(idx, point) {
+                            this.onMove = function(x, y) {
+                                graph.moved = true;
+                                return onMovePoint(point, x, y,
+                                    updateMeanAndMedian);
+                            };
+                        });
+                    </div>
+                </div>
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Move the orange dots to select your answer.
+                    </div>
+                    <div class="guess">$.map(graph.points, function(el) {
+                            return el.coord[0];
+                        })</div>
+                    <div class="validator-function">
+                        if (roundTo(1, mean(guess)) === MEAN &amp;&amp;
+                                roundTo(1, median(guess)) === MEDIAN) {
+                            return true;
+                        } else if (graph.moved) {
+                            return false;
+                        } else {
+                            return "";
+                        }
+                    </div>
+                    <div class="show-guess">
+                        $.each(guess, function(i, x) {
+                            onMovePoint(graph.points[i], x, 0);
+                        });
+                        updateMeanAndMedian();
+                    </div>
+                    <div class="example">
+                        any arrangement of the orange dots so that the mean
+                        and median are correct
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <p>
+                        The median is the middle number. In other words there
+                        are always as many points to the right of the median
+                        as to the left.
+                    </p>
+                    <p>
+                        Try dragging the points so that half of them are to
+                        the left of <span class="hint_green">
+                        <code><var>MEDIAN</var></code></span> and half of them
+                        are to the right of <span class="hint_green">
+                        <code><var>MEDIAN</var></code></span>.
+                        <span data-if="POINTS % 2 === 0">
+                            The two points in the middle should be the same
+                            distance from <span class="hint_green">
+                            <code><var>MEDIAN</var></code></span>.
+                        </span>
+                        <span data-else>
+                            The middle point should be at
+                            <span class="hint_green">
+                            <code><var>MEDIAN</var></code></span>.
+                        </span><br />
+                        <input type="button" value="Show me an example"
+                            onClick="javascript:
+                                KhanUtil.showMedianExample();
+                            ">
+                    </p>
+                    <p>
+                        As long as there are as many points to the left and to
+                        the right of the median, the median will stay the same.
+                        But the arithmetic mean is calculated using the value
+                        of every point. Try moving the points on either side
+                        of the median closer and further from the median to
+                        see how the mean is affected.
+                    </p>
+                    <p>
+                        There are a number of different ways to arrange the
+                        points so the mean is <span class="hint_blue">
+                        <code><var>MEAN</var></code></span> and the median is
+                        <span class="hint_green">
+                        <code><var>MEDIAN</var></code></span>.
+                        <input type="button" value="Show me an example"
+                            onClick="javascript:
+                                KhanUtil.showMeanExample();
+                            ">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

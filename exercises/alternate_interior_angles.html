@@ -1,57 +1,52 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers angles">
 <head>
-	<meta charset="UTF-8" />
-	<title>Alternate interior angles</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Alternate interior angles</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars">
-		<var id="ANCHOR">randRange( 20, 160 )</var>
-		<var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 0, 6 ], [ 1, 7 ] ] ) )</var>
-		<var id="MEASURE">KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR</var>
-	</div>
+    <div class="exercise">
+    <div class="vars">
+        <var id="ANCHOR">randRange( 20, 160 )</var>
+        <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle( randFromArray( [ [ 0, 6 ], [ 1, 7 ] ] ) )</var>
+        <var id="MEASURE">KNOWN_INDEX % 2 === 0 ? ANCHOR : 180 - ANCHOR</var>
+    </div>
 
-	<div class="problems">
-		<div>
-			<p>The two horizontal lines are parallel, and there is a third line that intersects them as shown below.</p>
-			<p class="question">If we know that the <span class="hint_blue">blue angle is <var>MEASURE</var> degrees</span>, what is the <span class="hint_orange">measure of the orange angle</span>?</p>
-			<p class="solution" data-forms="integer"><var>MEASURE</var></p>
-			<div class="graphie" id="parallel-lines">
-				init({
-					range: [ [ -1, 11 ], [-1, 4] ]
-				});
-				graph.pl = new ParallelLines( 0, 0, 10, 0, 3 );
-				graph.pl.draw();
-				graph.pl.drawTransverse( ANCHOR );
-				graph.pl.drawAngle( KNOWN_INDEX, true );
-				graph.pl.drawAngle( UNKNOWN_INDEX, false, "#FFA500" );
-			</div>
-		</div>
-	</div>
+    <div class="problems">
+        <div>
+            <p>The two horizontal lines are parallel, and there is a third line that intersects them as shown below.</p>
+            <p class="question">If we know that the <span class="hint_blue">blue angle is <var>MEASURE</var> degrees</span>, what is the <span class="hint_orange">measure of the orange angle</span>?</p>
+            <p class="solution" data-forms="integer"><var>MEASURE</var></p>
+            <div class="graphie" id="parallel-lines">
+                init({
+                    range: [ [ -1, 11 ], [-1, 4] ]
+                });
+                graph.pl = new ParallelLines( 0, 0, 10, 0, 3 );
+                graph.pl.draw();
+                graph.pl.drawMarkers(ANCHOR);
+                graph.pl.drawTransverse( ANCHOR );
+                graph.pl.drawAngle( KNOWN_INDEX, true );
+                graph.pl.drawAngle( UNKNOWN_INDEX, false, "#FFA500" );
+            </div>
+        </div>
+    </div>
 
-	<div class="hints">
-		<div>
-			<p>Opposite angles are equal, so the pink angle measures <var>MEASURE</var> degrees.</p>
-			<div class="graphie" data-update="parallel-lines">
-				graph.pl.drawVerticalAngle( KNOWN_INDEX, true, "#FF00AF" );
-			</div>
-		</div>
-		<p>The pink and orange angles are corresponding angles, so they are also equal.</p>
-		<div>
-			<p>The orange angle measures <var>MEASURE</var> degrees.</p>
-			<div class="graphie" data-update="parallel-lines">
-				graph.pl.drawAngle( UNKNOWN_INDEX, true, "#FFA500" );
-			</div>
-		</div>
-		<div>
-			<p>Note that the green angle also measures <var>MEASURE</var> degrees. This makes sense because it is opposite the orange angle and corresponds with the blue angle.</p>
-			<div class="graphie" data-update="parallel-lines">
-				graph.pl.drawVerticalAngle( UNKNOWN_INDEX, true, "#28AE7B" );
-			</div>
-		</div>
-	</div>
-	</div>
+    <div class="hints">
+        <div>
+            <p>Opposite angles are equal, so the pink angle measures <var>MEASURE</var> degrees.</p>
+            <div class="graphie" data-update="parallel-lines">
+                graph.pl.drawVerticalAngle( KNOWN_INDEX, true, "#FF00AF" );
+            </div>
+        </div>
+        <p>The pink and orange angles are corresponding angles, so they are also equal.</p>
+        <div>
+            <p>The orange angle measures <var>MEASURE</var> degrees.</p>
+            <div class="graphie" data-update="parallel-lines">
+                graph.pl.drawAngle( UNKNOWN_INDEX, true, "#FFA500" );
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

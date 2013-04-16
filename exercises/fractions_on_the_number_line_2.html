@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie word-problems interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Fractions on the number line 2</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="LOWER_BOUND">0</var>
+        <var id="UPPER_BOUND">3</var>
+
+        <var id="DENOMINATOR" data-ensure="abs(DENOMINATOR) > 1">randRange(1, 6)</var>
+        <var id="NUMERATOR" data-ensure="abs(NUMERATOR / DENOMINATOR) <= 3 && !reduces(NUMERATOR, DENOMINATOR)">randRange(2, 18)</var>
+
+        <var id="SOLUTION">NUMERATOR / DENOMINATOR</var>
+
+        <var id="M_NUMERATOR">NUMERATOR % DENOMINATOR</var>
+        <var id="M_WHOLE">(NUMERATOR - M_NUMERATOR) / DENOMINATOR</var>
+        <var id="M_NUMBER">(abs(SOLUTION) > 1 ? M_WHOLE + (SOLUTION &lt; 0 ? fraction(M_NUMERATOR, -DENOMINATOR) : fraction(M_NUMERATOR, DENOMINATOR)) : fraction(NUMERATOR, DENOMINATOR))</var>
+        <var id="IS_MIXED">0</var>
+        <var id="NUMBER">IS_MIXED === 1 && abs(SOLUTION) > 1  ? M_NUMBER : fraction(NUMERATOR, DENOMINATOR)</var>
+
+        <var id="SCALE">1.5</var>
+    </div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>Move the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to
+                <strong><code>\color{orange}{<var>NUMBER</var>}</code></strong> on the number line.</p>
+
+                <div class="graphie" id="number-line">
+                    init({
+                        range: [ [LOWER_BOUND - 0.5, UPPER_BOUND + 0.5], [-1, 1] ],
+                        scale: [80 * SCALE, 40]
+                    });
+
+                    style({arrows: "&gt;"});
+                    line( [ 0, 0 ], [ UPPER_BOUND + 0.25/SCALE, 0 ] );
+
+                    style({arrows: "-&gt;"});
+                    line( [ 0, 0 ], [ LOWER_BOUND - 0.25/SCALE, 0 ] );
+
+                    style({arrows: ""});
+                    for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++ ) {
+                        line( [ x, -0.2 ], [ x, 0.2 ] );
+                    }
+                    style({ stroke: GREEN, strokeWidth: 3.5 });
+                    line( [ LOWER_BOUND, -0.2], [LOWER_BOUND, 0.2]);
+                    label( [ LOWER_BOUND, -0.53 ],  LOWER_BOUND, "center", { color: GREEN });
+
+                    line( [ UPPER_BOUND, -0.2], [UPPER_BOUND, 0.2]);
+                    label( [ UPPER_BOUND, -0.53 ],  UPPER_BOUND, "center", { color: GREEN });
+
+                    line( [ 0, -0.2], [0, 0.2]);
+                    label( [ 0, -0.53 ],  "0", "center", { color: GREEN });
+
+                    addMouseLayer();
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: 1 / DENOMINATOR });
+                    graph.movablePoint.onMove = function( x, y ) {
+                        return [ min( max( LOWER_BOUND, x ), UPPER_BOUND ), y ];
+                    };
+                </div>
+            </div>
+
+            <div class="solution" data-type="custom">
+                <span class="instruction"> Move the orange dot to select your answer. </span>
+                <div class="guess"> graph.movablePoint.coord[0] </div>
+                <div class="validator-function">
+                    if ( guess === 0 ) {
+                        return "";
+                    }
+                    return abs( SOLUTION - guess ) &lt; 0.001;
+                </div>
+                <div class="show-guess">
+                    graph.movablePoint.setCoord( [ guess, 0 ] );
+                </div>
+            </div>
+
+            <div class="hints">
+                <p> Because <code>\color{orange}{<var>NUMBER</var>}</code> is <span data-if="SOLUTION > 0">positive</span>
+                <span data-else>negative</span> the orange dot will be to the <span data-if="SOLUTION > 0">right</span>
+                <span data-else>left</span> of 0.</p>
+
+                <div data-if="IS_MIXED < 1 && abs(SOLUTION) > 1">
+                    <p>Let's convert the improper fraction <code>\color{orange}{<var>NUMBER</var>}</code> to a mixed number:</p>
+                    <p><code>\color{orange}{<var>NUMBER</var>}</code> = <code>\color{blue}{<var>M_NUMBER</var>}</code></p>
+                </div>
+
+                <div>
+                    <p>Therefore, we know <code>\color{blue}{<var>M_NUMBER</var>}</code> lies between <code>\color{green}{<var>M_WHOLE</var>}</code>
+                    and <code>\color{green}{<var>M_WHOLE + (SOLUTION > 0 ? 1 : -1)</var>}</code> on the number line.</p>
+                    <div class="graphie" data-update="number-line">
+                        style({ stroke: "#FFA500", strokeWidth: 3.5 });
+                        line( [M_WHOLE, -0.2], [M_WHOLE, 0.2]);
+                        line( [M_WHOLE + (SOLUTION > 0 ? 1 : -1), -0.2], [M_WHOLE + (SOLUTION > 0 ? 1 : -1), 0.2]);
+                    </div>
+                </div>
+
+                <div>
+                    <p><code>\color{blue}{<var>M_NUMBER</var>}</code> is <code>\color{green}{<var>fraction(M_NUMERATOR, DENOMINATOR)</var>}</code>
+                    to the <span data-if="SOLUTION > 0">right</span><span data-else>left</span> of <code>\color{green}{<var>M_WHOLE</var>}</code>
+                    on the number line.</p>
+                    <div class="graphie" data-update="number-line">
+                        style({ stroke: GREEN, fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
+                        line( [ M_WHOLE, 0 ], [ SOLUTION, 0 ] );
+                        graph.movablePoint.visibleShape.toFront();
+                        style({ stroke: "#FFA500", strokeWidth: 3.5, arrows: "" });
+                        line( [M_WHOLE, -0.2], [M_WHOLE, 0.2]);
+                        line( [M_WHOLE + (SOLUTION > 0 ? 1 : -1), -0.2], [M_WHOLE + (SOLUTION > 0 ? 1 : -1), 0.2]);
+                    </div>
+                </div>
+
+                <div>
+                    <div class="graphie" data-update="number-line">
+                        label( [ SOLUTION, -0.83 ],  NUMBER, "center", { color: "#FFA500" });
+                        graph.movablePoint.moveTo( SOLUTION, 0 );
+                    </div>
+                    <p>The orange number shows where <code>\color{orange}{<var>NUMBER</var>}</code> is on the number line.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

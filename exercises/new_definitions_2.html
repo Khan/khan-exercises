@@ -1,107 +1,107 @@
 <!DOCTYPE html>
 <html data-require="math word-problems expressions">
 <head>
-	<meta charset="UTF-8" />
-	<title>New definitions 2</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>New operator definitions 2</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars" data-ensure="abs( VALU1 ) < 40">
-		<var id="A">randRange(3, 8)</var>
-		<var id="B">randRange(2, 4)</var>
+    <div class="exercise">
+    <div class="vars" data-ensure="abs( VALU1 ) < 40">
+        <var id="A">randRange(3, 8)</var>
+        <var id="B">randRange(2, 4)</var>
 
-		<var id="C">randRange(3, 8)</var>
-		<var id="D">randRange(2, 4)</var>
+        <var id="C">randRange(3, 8)</var>
+        <var id="D">randRange(2, 4)</var>
 
-		<var id="FUN1, FUN2">shuffle([
-			function(C, D, x, y) { return ["+", ["*", C, x], y]; },
-			function(C, D, x, y) { return ["-", ["*", C, x], y]; },
-			function(C, D, x, y) { return ["+", x, ["*", C, y]]; },
-			function(C, D, x, y) { return ["-", x, ["*", C, y]]; },
-			function(C, D, x, y) { return ["-", ["*", C, x], ["*", D, y]]; },
-			function(C, D, x, y) { return ["-", ["*", D, x], ["*", C, y]]; },
-			function(C, D, x, y) { return ["*", x, ["-", y, C]]; },
-			function(C, D, x, y) { return ["*", ["-", C, x], y]; },
-			function(C, D, x, y) { return ["+", ["^", x, 2], ["*", D, ["^", y, 2]]]; },
-			function(C, D, x, y) { return ["+", ["*", D, ["^", x, 2]], ["^", y, 2]]; },
-			function(C, D, x, y) { return ["-", ["^", x, 2], ["*", D, ["^", y, 2]]]; },
-			function(C, D, x, y) { return ["-", ["*", D, ["^", x, 2]], ["^", y, 2]]; },
-			function(C, D, x, y) { return ["-", ["*", D, x], C]; },
-			function(C, D, x, y) { return ["+", ["*", C, y], D]; },
-			function(C, D, x, y) { return ["+", ["*", x, y], ["*", D, x], ["-", y]]; },
-		], 2)</var>
+        <var id="FUN1, FUN2">shuffle([
+            function(C, D, x, y) { return ["+", ["*", C, x], y]; },
+            function(C, D, x, y) { return ["-", ["*", C, x], y]; },
+            function(C, D, x, y) { return ["+", x, ["*", C, y]]; },
+            function(C, D, x, y) { return ["-", x, ["*", C, y]]; },
+            function(C, D, x, y) { return ["-", ["*", C, x], ["*", D, y]]; },
+            function(C, D, x, y) { return ["-", ["*", D, x], ["*", C, y]]; },
+            function(C, D, x, y) { return ["*", x, ["-", y, C]]; },
+            function(C, D, x, y) { return ["*", ["-", C, x], y]; },
+            function(C, D, x, y) { return ["+", ["^", x, 2], ["*", D, ["^", y, 2]]]; },
+            function(C, D, x, y) { return ["+", ["*", D, ["^", x, 2]], ["^", y, 2]]; },
+            function(C, D, x, y) { return ["-", ["^", x, 2], ["*", D, ["^", y, 2]]]; },
+            function(C, D, x, y) { return ["-", ["*", D, ["^", x, 2]], ["^", y, 2]]; },
+            function(C, D, x, y) { return ["-", ["*", D, x], C]; },
+            function(C, D, x, y) { return ["+", ["*", C, y], D]; },
+            function(C, D, x, y) { return ["+", ["*", x, y], ["*", D, x], ["-", y]]; }
+        ], 2)</var>
 
-		<var id="FUN1_XONLY">!isNaN(expr(FUN1(A, B, 0, Number.NaN), true))</var>
-		<var id="FUN1_YONLY">!isNaN(expr(FUN1(A, B, Number.NaN, 0), true))</var>
+        <var id="FUN1_XONLY">!isNaN(expr(FUN1(A, B, 0, NaN), true))</var>
+        <var id="FUN1_YONLY">!isNaN(expr(FUN1(A, B, NaN, 0), true))</var>
 
-		<var id="X">randRange(-6, 6)</var>
-		<var id="Y">randRange(-6, 6)</var>
-		<var id="Z">randRange(-6, 6)</var>
+        <var id="X">randRange(-6, 6)</var>
+        <var id="Y">randRange(-6, 6)</var>
+        <var id="Z">randRange(-6, 6)</var>
 
-		<var id="TEXT2">expr(FUN2(C, D, "x", "y"))</var>
-		<var id="SUBS2">expr(FUN2(C, D, Y, Z))</var>
-		<var id="VALU2">expr(FUN2(C, D, Y, Z), true)</var>
+        <var id="TEXT2">expr(FUN2(C, D, "x", "y"))</var>
+        <var id="SUBS2">expr(FUN2(C, D, Y, Z))</var>
+        <var id="VALU2">expr(FUN2(C, D, Y, Z), true)</var>
 
-		<var id="TEXT1">expr(FUN1(A, B, "x", "y"))</var>
+        <var id="TEXT1">expr(FUN1(A, B, "x", "y"))</var>
 
-		<var id="TEXTS">shuffle([
-			"&lt;code&gt;x " + binop(1) + " y = " + TEXT1 + "&lt;/code&gt;",
-			"&lt;code&gt;x " + binop(2) + " y = " + TEXT2 + "&lt;/code&gt;"
-		]).join(" and ")</var>
-	</div>
+        <var id="TEXTS">shuffle([
+            "&lt;code&gt;x " + binop(1) + " y = " + TEXT1 + "&lt;/code&gt;",
+            "&lt;code&gt;x " + binop(2) + " y = " + TEXT2 + "&lt;/code&gt;"
+        ]).join(" and ")</var>
+    </div>
 
-	<div class="problems">
-		<div>
-			<div class="vars">
-				<var id="SUBS1">expr(FUN1(A, B, X, VALU2))</var>
-				<var id="VALU1">expr(FUN1(A, B, X, VALU2), true)</var>
-				<var id="NEED_VALU1">!FUN1_XONLY</var>
-				<var id="NEED_VALU1_ONLY">"left"</var>
-			</div>
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="SUBS1">expr(FUN1(A, B, X, VALU2))</var>
+                <var id="VALU1">expr(FUN1(A, B, X, VALU2), true)</var>
+                <var id="NEED_VALU1">!FUN1_XONLY</var>
+                <var id="NEED_VALU1_ONLY">"left"</var>
+            </div>
 
-			<div class="question">
-				<p>If <var>TEXTS</var>, find <code><var>X</var> <var>binop(1)</var> (<var>Y</var> <var>binop(2)</var> <var>Z</var>)</code>.</p>
-			</div>
-			<div class="solution"><var>VALU1</var></div>
+            <div class="question">
+                <p>If <var>TEXTS</var>, find <code><var>X</var> <var>binop(1)</var> (<var>Y</var> <var>binop(2)</var> <var>Z</var>)</code>.</p>
+            </div>
+            <div class="solution"><var>VALU1</var></div>
 
-			<div class="hints" data-apply="appendContents">
-				<p><var>NEED_VALU1 ? "Now, find" : "Find"</var> <code><var>X</var> <var>binop(1)</var> <var>NEED_VALU1 ? VALU2 : "y"</var></code>:</p>
-				<p><code>\qquad <var>X</var> <var>binop(1)</var> <var>NEED_VALU1 ? VALU2 : "y"</var> = <var>SUBS1</var></code></p>
-				<p><code>\qquad \hphantom{<var>X</var> <var>binop(1)</var> <var>NEED_VALU1 ? VALU2 : "y"</var>} = <var>VALU1</var></code>.</p>
-			</div>
-		</div>
-		<div>
-			<div class="vars">
-				<var id="SUBS1">expr(FUN1(A, B, VALU2, X))</var>
-				<var id="VALU1">expr(FUN1(A, B, VALU2, X), true)</var>
-				<var id="NEED_VALU1">!FUN1_YONLY</var>
-				<var id="NEED_VALU1_ONLY">"right"</var>
-			</div>
+            <div class="hints" data-apply="appendContents">
+                <p><var>NEED_VALU1 ? "Now, find" : "Find"</var> <code><var>X</var> <var>binop(1)</var> <var>NEED_VALU1 ? VALU2 : "y"</var></code>:</p>
+                <p><code>\qquad <var>X</var> <var>binop(1)</var> <var>NEED_VALU1 ? VALU2 : "y"</var> = <var>SUBS1</var></code></p>
+                <p><code>\qquad \hphantom{<var>X</var> <var>binop(1)</var> <var>NEED_VALU1 ? VALU2 : "y"</var>} = <var>VALU1</var></code>.</p>
+            </div>
+        </div>
+        <div>
+            <div class="vars">
+                <var id="SUBS1">expr(FUN1(A, B, VALU2, X))</var>
+                <var id="VALU1">expr(FUN1(A, B, VALU2, X), true)</var>
+                <var id="NEED_VALU1">!FUN1_YONLY</var>
+                <var id="NEED_VALU1_ONLY">"right"</var>
+            </div>
 
-			<div class="question">
-				<p>If <var>TEXTS</var>, find <code>(<var>Y</var> <var>binop(2)</var> <var>Z</var>) <var>binop(1)</var> <var>X</var></code>.</p>
-			</div>
-			<div class="solution"><var>VALU1</var></div>
+            <div class="question">
+                <p>If <var>TEXTS</var>, find <code>(<var>Y</var> <var>binop(2)</var> <var>Z</var>) <var>binop(1)</var> <var>X</var></code>.</p>
+            </div>
+            <div class="solution"><var>VALU1</var></div>
 
-			<div class="hints" data-apply="appendContents">
-				<p><var>NEED_VALU1 ? "Now, find" : "Find"</var> <code><var>NEED_VALU1 ? VALU2 : "x"</var> <var>binop(1)</var> <var>X</var></code>:</p>
-				<p><code>\qquad <var>NEED_VALU1 ? VALU2 : "x"</var> <var>binop(1)</var> <var>X</var> = <var>SUBS1</var></code></p>
-				<p><code>\qquad \hphantom{<var>NEED_VALU1 ? VALU2 : "x"</var> <var>binop(1)</var> <var>X</var>} = <var>VALU1</var></code>.</p>
-			</div>
-		</div>
-	</div>
+            <div class="hints" data-apply="appendContents">
+                <p><var>NEED_VALU1 ? "Now, find" : "Find"</var> <code><var>NEED_VALU1 ? VALU2 : "x"</var> <var>binop(1)</var> <var>X</var></code>:</p>
+                <p><code>\qquad <var>NEED_VALU1 ? VALU2 : "x"</var> <var>binop(1)</var> <var>X</var> = <var>SUBS1</var></code></p>
+                <p><code>\qquad \hphantom{<var>NEED_VALU1 ? VALU2 : "x"</var> <var>binop(1)</var> <var>X</var>} = <var>VALU1</var></code>.</p>
+            </div>
+        </div>
+    </div>
 
-	<div class="hints">
-		<div data-if="NEED_VALU1" data-unwrap>
-			<p>First, find <code><var>Y</var> <var>binop(2)</var> <var>Z</var></code>:</p>
-			<p><code>\qquad <var>Y</var> <var>binop(2)</var> <var>Z</var> = <var>SUBS2</var></code></p>
-			<p><code>\qquad \hphantom{<var>Y</var> <var>binop(2)</var> <var>Z</var>} = <var>VALU2</var></code>.</p>
-		</div>
-		<div data-else data-unwrap>
-			<p>We don't need to find <code><var>Y</var> <var>binop(2)</var> <var>Z</var></code> because <code>x <var>binop(1)</var> y</code> depends only on the <var>NEED_VALU1_ONLY</var> operand.</p>
-		</div>
-	</div>
-	</div>
+    <div class="hints">
+        <div data-if="NEED_VALU1" data-unwrap>
+            <p>First, find <code><var>Y</var> <var>binop(2)</var> <var>Z</var></code>:</p>
+            <p><code>\qquad <var>Y</var> <var>binop(2)</var> <var>Z</var> = <var>SUBS2</var></code></p>
+            <p><code>\qquad \hphantom{<var>Y</var> <var>binop(2)</var> <var>Z</var>} = <var>VALU2</var></code>.</p>
+        </div>
+        <div data-else data-unwrap>
+            <p>We don't need to find <code><var>Y</var> <var>binop(2)</var> <var>Z</var></code> because <code>x <var>binop(1)</var> y</code> depends only on the <var>NEED_VALU1_ONLY</var> operand.</p>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

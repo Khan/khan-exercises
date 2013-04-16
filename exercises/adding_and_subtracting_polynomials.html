@@ -1,106 +1,120 @@
 <!DOCTYPE html>
 <html data-require="math math-format polynomials functional">
 <head>
-	<meta charset="UTF-8" />
-	<title>Adding and subtracting polynomials</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting polynomials</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function getFakeAnswers( solution ) {
+            var answers = [];
+            for ( var i = 0; i < solution.getNumberOfTerms(); i++ ) {
+                var coefs = [];
+
+                for ( var j = 0; j < solution.getNumberOfTerms(); j++ ) {
+                    var term = solution.getCoefAndDegreeForTerm( j );
+
+                    if ( i === j ) {
+                        coefs[ term.degree ] = KhanUtil.randRangeNonZero( -7, 7 );
+                    } else {
+                        coefs[ term.degree ] = term.coef;
+                    }
+                }
+
+                for ( var j = 0; j < coefs.length; j++ ) {
+                    if ( coefs[ j ] === undefined ) {
+                        coefs[ j ] = 0;
+                    }
+                }
+
+                answers.push( new KhanUtil.Polynomial(0, solution.maxDegree, coefs, solution.variable) );
+            }
+
+            return answers;
+        }
+    </script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars">
-			<var id="X">randVar()</var>
-			<var id="COLORS">[ BLUE, ORANGE, GREEN ]</var>
-			<var id="MAX_DEGREE">7</var>
-			<var id="NON_ZERO_INDICES">randRangeUniqueNonZero( 0, MAX_DEGREE, randRange(2, 3) ).sort().reverse()</var>
-			<var id="POL_1, POL_2">tabulate( function() {
-				var coefs = [];
-				for ( var i = 0; i <= MAX_DEGREE; i++ ) {
-					var value = 0;
-					for ( var j = 0; j < NON_ZERO_INDICES.length; j++ ) {
-						if ( i === NON_ZERO_INDICES[ j ] ) {
-							value = randRangeNonZero( -7, 7 );
-							break;
-						} 
-					}
-					coefs[ i ] = value;
-				}
+    <div class="exercise">
+        <div class="vars">
+            <var id="X">randVar()</var>
+            <var id="COLORS">[ BLUE, ORANGE, GREEN ]</var>
+            <var id="MAX_DEGREE">7</var>
+            <var id="NON_ZERO_INDICES">randRangeUniqueNonZero( 0, MAX_DEGREE, randRange(2, 3) ).sort().reverse()</var>
+            <var id="POL_1, POL_2" data-ensure="POL_1.add( POL_2 ).getNumberOfTerms() >= 1 && POL_1.subtract( POL_2 ).getNumberOfTerms() >= 1">tabulate( function() {
+                var coefs = [];
+                for ( var i = 0; i &lt;= MAX_DEGREE; i++ ) {
+                    var value = 0;
+                    for ( var j = 0; j &lt; NON_ZERO_INDICES.length; j++ ) {
+                        if ( i === NON_ZERO_INDICES[ j ] ) {
+                            value = randRangeNonZero( -7, 7 );
+                            break;
+                        }
+                    }
+                    coefs[ i ] = value;
+                }
 
-				return new Polynomial( 0, MAX_DEGREE, coefs, X )
-			}, 2 )</var>
-		</div>
+                return new Polynomial( 0, MAX_DEGREE, coefs, X );
+            }, 2 )</var>
+        </div>
 
-		<div class="problems">
-			<div id="add">
-				<div class="vars">
-					<var id="SIGN">"+"</var>
-					<var id="SOLUTION">POL_1.add( POL_2 )</var>	
-					<!--<var id="FAKE_ANSWER_1, FAKE_ANSWER_2">function() {
-						for ( var i = 0; i < SOLUTION.coefs.length; i++ ) {
-							for ( var i = 0; i < NON_ZERO_INDICES.length; i++ ) {
-								var coefs = [];
+        <div class="problems">
+            <div id="add">
+                <div class="vars">
+                    <var id="SIGN">"+"</var>
+                    <var id="SOLUTION">POL_1.add( POL_2 )</var>
+                    <var id="FAKE_ANSWERS">getFakeAnswers( SOLUTION )</var>
+                </div>
 
-								for ( var j = 0; j <= MAX_DEGREE; j++ ) {
-									if (  
-								}
+                <p class="question">Simplify the expression.</p>
+                <p class="problem"><code>(<var>POL_1</var>) <var>SIGN</var> (<var>POL_2</var>)</code></p>
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-none="true">
+                    <li><code><var>POL_1.subtract( POL_2 )</var></code></li>
+                    <li data-each="FAKE_ANSWERS as FAKE_ANSWER"><code><var>FAKE_ANSWER</var></code></li>
+                </ul>
+            </div>
 
-							}
-						}
-					}()</var>-->
-				</div>
+            <div id="subtract" data-type="add">
+                <div class="vars">
+                    <var id="SIGN">"-"</var>
+                    <var id="SOLUTION">POL_1.subtract( POL_2 )</var>
+                    <var id="FAKE_ANSWERS">getFakeAnswers( SOLUTION )</var>
+                </div>
 
-				<p class="question">Simplify the expression.</p>
-				<p class="problem"><code>(<var>POL_1</var>) <var>SIGN</var> (<var>POL_2</var>)</code></p>
-				<p class="solution"><code><var>SOLUTION</var></code></p>
-				<ul class="choices" data-none="true">
-					<li><code><var>POL_1.subtract( POL_2 )</var></code></li>
-					<li><code><var>POL_1.add( POL_2.multiply(2) )</var></code></li>
-					<li><code><var>POL_1.add( POL_2.multiply(-2) )</var></code></li>
-				</ul>
-			</div>
+                <ul class="choices" data-none="true">
+                    <li><code><var>POL_1.add( POL_2 )</var></code></li>
+                    <li data-each="FAKE_ANSWERS as FAKE_ANSWER"><code><var>FAKE_ANSWER</var></code></li>
+                </ul>
 
-			<div id="subtract" data-type="add">
-				<div class="vars">
-					<var id="SIGN">"-"</var>
-					<var id="SOLUTION">POL_1.subtract( POL_2 )</var>
-				</div>
+                <div class="hints" data-apply="appendContents">
+                    <div id="paren">
+                        <p>Since this is subtraction, when removing the parenthesis we must distribute the minus sign to all terms in the second polynomial.</p>
+                        <var>POL_2 = POL_2.multiply( -1 ), null</var>
+                        <p><code><var>POL_1</var> + <var>POL_2</var></code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-				<ul class="choices" data-none="true">
-					<li><code><var>POL_1.add( POL_2 )</var></code></li>
-					<li><code><var>POL_1.subtract( POL_2.multiply(2) )</var></code></li>
-					<li><code><var>POL_1.subtract( POL_2.multiply(-2) )</var></code></li>
-				</ul>
+        <div class="hints">
+            <div id="paren">
+                <p>Since this is addition, we can remove the parenthesis without any extra steps.</p>
+                <p><code><var>POL_1</var> + <var>POL_2</var></code></p>
+            </div>
+            <div>
+                <p>Identify like terms.</p>
+                <p><code><span data-each="[ POL_1, POL_2 ] as POL"><span data-each="NON_ZERO_INDICES as n, index" data-unwrap><var>( POL.coefs[ index ] &lt; 0 ) ? "-" : ( n === 0 && POL === POL_1 ) ? "" : "+"</var>\color{<var>COLORS[ n ]</var>}{<var>abs( POL.coefs[ index ] ) === 1 ? "" : abs( POL.coefs[ index ] )</var><var>X</var>^<var>index</var>}</span></span></code></p>
 
-				<div class="hints" data-apply="appendContents">
-					<div id="paren">
-						<p>Since this is subtraction, when removing the parenthesis we must distribute the minus sign to all terms in the second polynomial.</p>
-						<var>POL_2 = POL_2.multiply( -1 ), null</var>
-						<p><code><var>POL_1</var> + <var>POL_2</var></code></p>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="hints">
-			<div id="paren">
-				<p>Since this is addition, we can remove the parenthesis without any extra steps.</p>
-				<p><code><var>POL_1</var> + <var>POL_2</var></code></p>
-			</div>
-			<div>
-				<p>Identify like terms.</p>
-				<p><code><span data-each="[ POL_1, POL_2 ] as POL"><span data-each="NON_ZERO_INDICES as n, index" data-unwrap><var>( POL.coefs[ index ] < 0 ) ? "-" : ( n === 0 && POL === POL_1 ) ? "" : "+"</var>\color{<var>COLORS[ n ]</var>}{<var>abs( POL.coefs[ index ] ) === 1 ? "" : abs( POL.coefs[ index ] )</var><var>X</var>^<var>index</var>}</span></span></code></p>
-
-			</div>
-			<div>
-				<p>Combine like terms.</p>
-				<p><code><span data-each="NON_ZERO_INDICES as n, index"><span data-if="n !== 0">+</span>\color{<var>COLORS[ n ]</var>}{(<var>POL_1.coefs[ index ]</var> + <var>POL_2.coefs[ index ]</var>)<var>X</var>^<var>index</var>}</span></code></p>
-			</div>
-			<div>
-			<div>
-				<p>Add the coefficients.</p>
-				<p><code><var>POL_1.add(POL_2).text()</var></code></p>
-				<p>You're done!</p>
-			</div>
-		</div>
-	</div>
+            </div>
+            <div>
+                <p>Combine like terms.</p>
+                <p><code><span data-each="NON_ZERO_INDICES as n, index"><span data-if="n !== 0">+</span>\color{<var>COLORS[ n ]</var>}{(<var>POL_1.coefs[ index ]</var> + <var>POL_2.coefs[ index ]</var>)<var>X</var>^<var>index</var>}</span></code></p>
+            </div>
+            <div>
+                <p>Add the coefficients.</p>
+                <p><code><var>POL_1.add(POL_2).text()</var></code></p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

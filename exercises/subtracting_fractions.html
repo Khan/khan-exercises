@@ -1,54 +1,54 @@
 <!DOCTYPE html>
 <html data-require="math math-format">
 <head>
-	<meta charset="UTF-8" />
-	<title>Subtracting fractions</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Subtracting fractions</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars" data-ensure="SIMP_D1 !== SIMP_D2">
-		<var id="N1">randRange( 5, 12 )</var>
-		<var id="D1">randRange( N1 + 1, 13 )</var>
-		<var id="GCD1">getGCD( N1, D1 )</var>
-		<var id="SIMP_N1">N1 / GCD1</var>
-		<var id="SIMP_D1">D1 / GCD1</var>
+    <div class="exercise">
+    <div class="vars" data-ensure="SIMP_D1 !== SIMP_D2">
+        <var id="N1">randRange( 5, 12 )</var>
+        <var id="D1">randRange( N1 + 1, 13 )</var>
+        <var id="GCD1">getGCD( N1, D1 )</var>
+        <var id="SIMP_N1">N1 / GCD1</var>
+        <var id="SIMP_D1">D1 / GCD1</var>
 
-		<var id="N2">randRange( 1, N1 - 1 )</var>
-		<var id="D2">randRange( N2 + 1, 13 )</var>
-		<var id="GCD2">getGCD( N2, D2 )</var>
-		<var id="SIMP_N2">N2 / GCD2</var>
-		<var id="SIMP_D2">D2 / GCD2</var>
+        <var id="N2">randRange( 1, N1 - 1 )</var>
+        <var id="D2">randRange( N2 + 1, 13 )</var>
+        <var id="GCD2">getGCD( N2, D2 )</var>
+        <var id="SIMP_N2">N2 / GCD2</var>
+        <var id="SIMP_D2">D2 / GCD2</var>
 
-		<var id="LCM">getLCM( SIMP_D1, SIMP_D2 )</var>
-	</div>
+        <var id="LCM">getLCM( SIMP_D1, SIMP_D2 )</var>
+    </div>
 
-	<div class="problems">
-		<div>
-			<p class="question"><code><var>fraction( N1, D1 )</var> - <var>fraction( N2, D2 )</var> = {?}</code></p>
-			<p class="solution" data-type="rational"><var>N1 / D1 - N2 / D2</var></p>
-		</div>
-	</div>
+    <div class="problems">
+        <div>
+            <p class="question"><code><var>fraction( N1, D1 )</var> - <var>fraction( N2, D2 )</var> = {?}</code></p>
+            <p class="solution" data-type="rational"><var>N1 / D1 - N2 / D2</var></p>
+        </div>
+    </div>
 
-	<div class="hints">
-		<div data-if="GCD1 !== 1 || GCD2 !== 1">
-			<p>Simplify each fraction.</p>
-			<p><code><var>fraction( SIMP_N1, SIMP_D1 )</var> - <var>fraction( SIMP_N2, SIMP_D2 )</var></code></p>
-		</div>
-		<p>Find a common denominator by finding the least common multiple of <code><var>SIMP_D1</var></code> and <code><var>SIMP_D2</var></code>.</p>
-		<p><code>\lcm(<var>SIMP_D1</var>, <var>SIMP_D2</var>) = <var>LCM</var></code></p>
-		<div>
-			<p>Change each fraction to an equivalent fraction with a denominator of <code><var>LCM</var></code>.</p>
-			<p><code><var>fraction( SIMP_N1, SIMP_D1 )</var> - <var>fraction( SIMP_N2, SIMP_D2 )</var></code></p>
-			<p><code>=<var>fraction( SIMP_N1, SIMP_D1 )</var> <span data-if="LCM !== SIMP_D1">\cdot <var>fraction( LCM / SIMP_D1, LCM / SIMP_D1 )</var></span> - <var>fraction( SIMP_N2, SIMP_D2 )</var> <span data-if="LCM !== SIMP_D2">\cdot <var>fraction( LCM / SIMP_D2, LCM / SIMP_D2 )</var></span></code></p>
-		</div>
-		<p><code>=<var>fraction( SIMP_N1 * LCM / SIMP_D1, LCM )</var> - <var>fraction( SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
-		<p><code>=<var>fraction( SIMP_N1 * LCM / SIMP_D1 - SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
-		<div data-if="getGCD( SIMP_N1 * LCM / SIMP_D1 - SIMP_N2 * LCM / SIMP_D2, LCM ) !== 1">
-			<p>Simplify.</p>
-			<p><code>=<var>fractionReduce( SIMP_N1 * LCM / SIMP_D1 - SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
-		</div>
-	</div>
-	</div>
+    <div class="hints">
+        <div data-if="GCD1 !== 1 || GCD2 !== 1">
+            <p>Simplify each fraction.</p>
+            <p><code><var>fraction( SIMP_N1, SIMP_D1 )</var> - <var>fraction( SIMP_N2, SIMP_D2 )</var></code></p>
+        </div>
+        <p>Find a common denominator by finding the least common multiple of <code><var>SIMP_D1</var></code> and <code><var>SIMP_D2</var></code>.</p>
+        <p><code>\lcm(<var>SIMP_D1</var>, <var>SIMP_D2</var>) = <var>LCM</var></code></p>
+        <div>
+            <p>Change each fraction to an equivalent fraction with a denominator of <code><var>LCM</var></code>.</p>
+            <p><code><var>fraction( SIMP_N1, SIMP_D1 )</var> - <var>fraction( SIMP_N2, SIMP_D2 )</var></code></p>
+            <p><code>=<var>fraction( SIMP_N1, SIMP_D1 )</var> <span data-if="LCM !== SIMP_D1">\cdot <var>fraction( LCM / SIMP_D1, LCM / SIMP_D1 )</var></span> - <var>fraction( SIMP_N2, SIMP_D2 )</var> <span data-if="LCM !== SIMP_D2">\cdot <var>fraction( LCM / SIMP_D2, LCM / SIMP_D2 )</var></span></code></p>
+        </div>
+        <p><code>=<var>fraction( SIMP_N1 * LCM / SIMP_D1, LCM )</var> - <var>fraction( SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
+        <p><code>=<var>fraction( SIMP_N1 * LCM / SIMP_D1 - SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
+        <div data-if="getGCD( SIMP_N1 * LCM / SIMP_D1 - SIMP_N2 * LCM / SIMP_D2, LCM ) !== 1">
+            <p>Simplify.</p>
+            <p><code>=<var>fractionReduce( SIMP_N1 * LCM / SIMP_D1 - SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

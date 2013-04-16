@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Factoring polynomials by grouping</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars" data-ensure="B !== 0 && getGCD(A, E) === 1">
+                <var id="A" data-ensure="abs(A) !== 1">randRangeNonZero(-9, 9)</var>
+                <var id="E">randRangeNonZero(-9, 9)</var>
+                <var id="F">randRangeNonZero(-5, 5)</var>
+                <var id="B">E + A * F</var>
+                <var id="C">E * F</var>
+
+                <var id="AX_PLUS_E">"(?:\\(\\s*" + (A &lt; 0 ? "[-\u2212]\\s*" : "") + abs(A) + "\\s*[xX]\\s*" + (E &lt; 0 ? "[-\u2212]" : "\\+") + "\\s*" + abs(E) + "\\s*\\)|" +
+                                       "\\(\\s*" + (E &lt; 0 ? "[-\u2212]\\s*" : "") + abs(E) + "\\s*"         + (A &lt; 0 ? "[-\u2212]" : "\\+") + "\\s*" + abs(A) + "\\s*[xX]\\s*\\))"</var>
+                <var id="X_PLUS_F">"(?:\\(\\s*[xX]\\s*" + (F &lt; 0 ? "[-\u2212]" : "\\+") + "\\s*" + abs(F) + "\\s*\\)|" +
+                                      "\\(\\s*" + (F &lt; 0 ? "[-\u2212]\\s*" : "") + abs(F) + "\\s*\\+\\s*[xX]\\s*\\))"</var>
+                <var id="NEG_AX_MINUS_E">"(?:\\(\\s*" + (-A &lt; 0 ? "[-\u2212]\\s*" : "") + abs(A) + "\\s*[xX]\\s*" + (-E &lt; 0 ? "[-\u2212]\\s*" : "\\+") + abs(E) + "\\s*\\)|" +
+                                            "\\(\\s*" + (-E &lt; 0 ? "[-\u2212]\\s*" : "") + abs(E) + "\\s*"         + (-A &lt; 0 ? "[-\u2212]\\s*" : "\\+") + abs(A) + "\\s*[xX]\\s*\\))"</var>
+                <var id="NEG_X_MINUS_F">"(?:\\(\\s*[-\u2212]\\s*[xX]\\s*" + (-F &lt; 0 ? "[-\u2212]" : "\\+") + "\\s*" + abs(F) + "\\s*\\)|" +
+                                           "\\(\\s*" + (-F &lt; 0 ? "[-\u2212]\\s*" : "") + abs(F) + "\\s*[-\u2212]\\s*[xX]\\s*\\))"</var>
+            </div>
+
+            <p class="problem">Factor the following expression:</p>
+            <p class="question">
+                <span id="question-a"><code><var>A</var></code></span><code>x^2<span data-if="B > 0">+</span></code>
+                <span id="question-b"><code><var>B</var></code></span><code>x<span data-if="C > 0">+</span></code>
+                <span id="question-c"><code><var>C</var></code></span>
+            </p>
+            <div class="solution" data-type="set">
+                <!-- TODO(eater): Add a magical helper thing that assembles all these permutations automatically -->
+                <div class="set-sol" data-type="regex">^\s*<var>AX_PLUS_E</var>\s*<var>X_PLUS_F</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*<var>X_PLUS_F</var>\s*<var>AX_PLUS_E</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*<var>NEG_AX_MINUS_E</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*<var>NEG_X_MINUS_F</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_AX_MINUS_E</var>\s*<var>X_PLUS_F</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_X_MINUS_F</var>\s*<var>AX_PLUS_E</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>X_PLUS_F</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>AX_PLUS_E</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
+                <div class="input-format"><span class="entry"></span></div>
+                <div class="example">a factored expression, like <b>(2x+1)(x+2)</b></div>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>
+                        This expression is in the form <code>\blue{A}x^2 + \green{B}x + \pink{C}</code>.
+                        You can factor it by grouping.
+                    </p>
+                    <div class="graphie" style="outline: none;">
+                        $("#question-a").addClass("hint_blue");
+                        $("#question-b").addClass("hint_green");
+                        $("#question-c").addClass("hint_pink");
+                    </div>
+                </div>
+
+                <div>
+                    <p>
+                        First, find two values, <code class="hint_purple">a</code> and
+                        <code class="hint_purple">b</code>, so:
+                    </p>
+                    <code>
+                        \qquad \begin{eqnarray}
+                            \purple{ab} &amp;=&amp; \blue{A}\pink{C} \\
+                            \purple{a} + \purple{b} &amp;=&amp; \green{B}
+                        \end{eqnarray}
+                    </code>
+                </div>
+                <div>
+                    <p>In this case:</p>
+                    <code>
+                        \qquad \begin{eqnarray}
+                            \purple{ab} &amp;=&amp;
+                                \blue{(<var>A</var>)}\pink{(<var>C</var>)} &amp;=&amp; <var>A * C</var> \\
+                            \purple{a} + \purple{b} &amp;=&amp; &amp;=&amp;
+                                \green{<var>B</var>}
+                        \end{eqnarray}
+                    </code>
+                </div>
+                <p>
+                    In order to find <code>\purple{a}</code> and <code>\purple{b}</code>, list out the factors of
+                    <code><var>A * C</var></code> and add them together.
+                    <span data-if="A * C < 0">
+                        Remember, since <code><var>A * C</var></code> is negative, one of the factors must be
+                        negative.
+                    </span>
+                    The factors that add up to <code>\green{<var>B</var>}</code> will be your
+                    <code>\purple{a}</code> and <code>\purple{b}</code>.
+                </p>
+                <div>
+                    <p>
+                        When <code>\purple{a}</code> is <code>\purple{<var>E</var>}</code> and
+                        <code>\purple{b}</code> is <code>\purple{<var>A * F</var>}</code>:
+                    </p>
+                    <code>
+                        \qquad \begin{eqnarray}
+                            \purple{ab} &amp;=&amp; (\purple{<var>E</var>})(\purple{<var>A * F</var>})
+                                &amp;=&amp; <var>E * A * F</var> \\
+                            \purple{a} + \purple{b} &amp;=&amp; \purple{<var>E</var>} + \purple{<var>A * F</var>}
+                                &amp;=&amp; <var>E + A * F</var>
+                        \end{eqnarray}
+                    </code>
+                </div>
+                <div>
+                    <p>
+                        Next, rewrite the expression as <code>\blue{A}x^2 + \purple{a}x + \purple{b}x + \pink{C}</code>:
+                    </p>
+                    <code>
+                        \qquad \blue{<var>A</var>}x^2
+                        <span data-if="E > 0">+</span>\purple{<var>E</var>}x
+                        <span data-if="A * F > 0">+</span>\purple{<var>A * F</var>}x
+                        <span data-if="C > 0">+</span>\pink{<var>C</var>}
+                    </code>
+                </div>
+                <div>
+                    <p>
+                        Group the terms so that there is a common factor in each group:
+                    </p>
+                    <code>
+                        \qquad (\blue{<var>A</var>}x^2 <span data-if="E > 0">+</span>\purple{<var>E</var>}x)
+                        + (\purple{<var>A * F</var>}x <span data-if="C > 0">+</span>\pink{<var>C</var>})
+                    </code>
+                </div>
+                <div>
+                    <p>
+                        Factor out the common factors:
+                    </p>
+                    <code>
+                        \qquad x(<var>A</var>x + <var>E</var>) + <var>F</var>(<var>A</var>x + <var>E</var>)
+                    </code>
+                </div>
+                <p>
+                    Notice how <code>(<var>A</var>x + <var>E</var>)</code> has become a common factor.
+                    Factor this out to find the answer.
+                </p>
+                <p><code>(<var>A</var>x + <var>E</var>)(x + <var>F</var>)</code></p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

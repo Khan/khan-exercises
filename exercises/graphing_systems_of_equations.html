@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Graphing systems of equations</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div id="standard" data-weight="4">
+            <div class="vars">
+                <div data-ensure="( YINT_1 + SLOPE_1_FRAC[0] <= 10 ) && ( YINT_2 + SLOPE_2_FRAC[0] <= 10 ) && ( YINT_1 + SLOPE_1_FRAC[0] >= -10 ) && ( YINT_2 + SLOPE_2_FRAC[0] >= -10 )">
+                    <var id="X">randRangeNonZero( -5, 5 )</var>
+                    <var id="Y">randRange( -5, 5 )</var>
+                    <div data-ensure="( abs(YINT_1 - YINT_2) > 3 ) && ( YINT_1 !== Y ) && ( YINT_2 !== Y )">
+                        <var id="YINT_1">randRangeNonZero( -5, 5 )</var>
+                        <var id="YINT_2">randRangeNonZero( -5, 5 )</var>
+                    </div>
+                    <var id="SLOPE_1">(Y - YINT_1) / X</var>
+                    <var id="SLOPE_2">(Y - YINT_2) / X</var>
+                    <var id="SLOPE_1_FRAC">toFraction( SLOPE_1, 0.001 )</var>
+                    <var id="SLOPE_2_FRAC">toFraction( SLOPE_2, 0.001 )</var>
+                </div>
+                <var id="PRETTY_SLOPE_1">SLOPE_1 === 1 ? "" : ( SLOPE_1 === -1 ? "-" : decimalFraction( SLOPE_1, true, true ) )</var>
+                <var id="PRETTY_SLOPE_2">SLOPE_2 === 1 ? "" : ( SLOPE_2 === -1 ? "-" : decimalFraction( SLOPE_2, true, true ) )</var>
+                <var id="MULT_1">randRangeNonZero( -2, 2 )</var>
+                <var id="MULT_2">randRangeNonZero( -2, 2 )</var>
+                <var id="A1">( Y - YINT_1 ) * -MULT_1</var>
+                <var id="A2">( Y - YINT_2 ) * -MULT_2</var>
+                <var id="B1">X * MULT_1</var>
+                <var id="B2">X * MULT_2</var>
+                <var id="C1">X * YINT_1 * MULT_1</var>
+                <var id="C2">X * YINT_2 * MULT_2</var>
+                <var id="STD_FORM_1">true</var>
+                <var id="STD_FORM_2">true</var>
+            </div>
+
+            <p class="question">Graph this system of equations and solve.</p>
+
+            <div class="problem">
+                <p class="hint_blue" data-if="STD_FORM_1">
+                    <code><var>expr([ "+", [ "*", A1, "x" ], [ "*", B1, "y" ] ])</var> = <var>C1</var></code>
+                </p>
+                <p class="hint_blue" data-else>
+                    <code>y = <var>PRETTY_SLOPE_1</var> x + <var>YINT_1</var></code>
+                </p>
+
+                <p class="hint_green" data-if="STD_FORM_2">
+                    <code><var>expr([ "+", [ "*", A2, "x" ], [ "*", B2, "y" ] ])</var> = <var>C2</var></code>
+                </p>
+                <p class="hint_green" data-else>
+                    <code>y = <var>PRETTY_SLOPE_2</var> x + <var>YINT_2</var></code>
+                </p>
+
+                <div class="graphie" id="grid">
+                    graphInit({
+                        range: 11,
+                        scale: 20,
+                        axisArrows: "&lt;-&gt;",
+                        tickStep: 1,
+                        labelStep: 1
+                    });
+
+                    addMouseLayer();
+                    graph.pointA = addMovablePoint({
+                        coord: [ -5, 5 ],
+                        snapX: 0.5,
+                        snapY: 0.5,
+                        normalStyle: {
+                            stroke: KhanUtil.BLUE,
+                            fill: KhanUtil.BLUE
+                        }
+                    });
+                    graph.pointB = addMovablePoint({
+                        coord: [ 5, 5 ],
+                        snapX: 0.5,
+                        snapY: 0.5,
+                        normalStyle: {
+                            stroke: KhanUtil.BLUE,
+                            fill: KhanUtil.BLUE
+                        }
+                    });
+                    graph.pointC = addMovablePoint({
+                        coord: [ -5, -5 ],
+                        snapX: 0.5,
+                        snapY: 0.5,
+                        normalStyle: {
+                            stroke: KhanUtil.GREEN,
+                            fill: KhanUtil.GREEN
+                        }
+                    });
+                    graph.pointD = addMovablePoint({
+                        coord: [ 5, -5 ],
+                        snapX: 0.5,
+                        snapY: 0.5,
+                        normalStyle: {
+                            stroke: KhanUtil.GREEN,
+                            fill: KhanUtil.GREEN
+                        }
+                    });
+                    graph.line1 = addMovableLineSegment({
+                        pointA: graph.pointA,
+                        pointZ: graph.pointB,
+                        fixed: true,
+                        extendLine: true
+                    });
+                    graph.line2 = addMovableLineSegment({
+                        pointA: graph.pointC,
+                        pointZ: graph.pointD,
+                        fixed: true,
+                        extendLine: true,
+                        normalStyle: {
+                            "stroke": KhanUtil.GREEN,
+                            "stroke-width": 2
+                        }
+                    });
+
+                    // A and B can't be in the same place
+                    graph.pointA.onMove = function( x, y ) {
+                        return ( x != graph.pointB.coord[0] || y != graph.pointB.coord[1] );
+                    }
+                    graph.pointB.onMove = function( x, y ) {
+                        return ( x != graph.pointA.coord[0] || y != graph.pointA.coord[1] );
+                    }
+
+                    // C and D can't be in the same place
+                    graph.pointC.onMove = function( x, y ) {
+                        return ( x != graph.pointD.coord[0] || y != graph.pointD.coord[1] );
+                    }
+                    graph.pointD.onMove = function( x, y ) {
+                        return ( x != graph.pointC.coord[0] || y != graph.pointC.coord[1] );
+                    }
+
+                    graph.pointC.toFront();
+                    graph.pointD.toFront();
+                    graph.pointA.toFront();
+                    graph.pointB.toFront();
+
+                </div>
+                <p>Click and drag the points to move the lines.</p>
+            </div>
+            <div class="solution" data-type="multiple">
+                <p><code>x = </code> <span class="sol"><var>X</var></span></p>
+                <p><code>y = </code> <span class="sol"><var>Y</var></span></p>
+                <div class="sol" data-type="custom">
+                    <div class="instruction">
+                        Your graphs are also part of your answer.
+                    </div>
+                    <div class="guess">
+                        [ graph.pointA.coord, graph.pointB.coord, graph.pointC.coord, graph.pointD.coord ]
+                    </div>
+                    <div class="validator-function">
+                        var slope1 = ( guess[1][1] - guess[0][1] ) / ( guess[1][0] - guess[0][0] );
+                        var slope2 = ( guess[3][1] - guess[2][1] ) / ( guess[3][0] - guess[2][0] );
+                        var yint1 = slope1 * ( 0 - guess[0][0] ) + guess[0][1];
+                        var yint2 = slope2 * ( 0 - guess[2][0] ) + guess[2][1];
+                        // allows blue function to be graphed with green line and vice versa, fwiw
+                        var graphCorrect = ( abs( SLOPE_1 - slope1 ) &lt; 0.001
+                            &amp;&amp; abs( SLOPE_2 - slope2 ) &lt; 0.001
+                            &amp;&amp; abs( YINT_1 - yint1 ) &lt; 0.001
+                            &amp;&amp; abs( YINT_2 - yint2 ) &lt; 0.001 )
+                            || ( abs( SLOPE_1 - slope2 ) &lt; 0.001
+                            &amp;&amp; abs( SLOPE_2 - slope1 ) &lt; 0.001
+                            &amp;&amp; abs( YINT_2 - yint1 ) &lt; 0.001
+                            &amp;&amp; abs( YINT_1 - yint2 ) &lt; 0.001 );
+                        var pointCorrect = parseInt($("#solutionarea input").eq(0).val()) === X &amp;&amp;
+                            parseInt($("#solutionarea input").eq(1).val()) === Y;
+
+                        if (pointCorrect &amp;&amp; !graphCorrect) {
+                            return "You found the right solution to the system of equations, but you haven't graphed them correctly.";
+                        }
+                        return graphCorrect;
+                    </div>
+                    <div class="show-guess">
+                        graph.pointA.setCoord( guess[0] );
+                        graph.pointB.setCoord( guess[1] );
+                        graph.pointC.setCoord( guess[2] );
+                        graph.pointD.setCoord( guess[3] );
+                        graph.line1.transform( true );
+                        graph.line2.transform( true );
+                    </div>
+                </div>
+                <div class="example">two integers like <code>6</code></div>
+            </div>
+        </div>
+        <div id="slope-intercept" data-type="standard" data-weight="5">
+            <div class="vars">
+                <var id="STD_FORM_1">false</var>
+                <var id="STD_FORM_2">false</var>
+            </div>
+        </div>
+        <div id="mixed" data-type="standard" data-weight="1">
+            <div class="vars">
+                <var id="STD_FORM_1">random() &lt; 0.5 ? true : false</var>
+                <var id="STD_FORM_2">!STD_FORM_1</var>
+            </div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div data-if="STD_FORM_1" data-unwrap>
+            <p class="hint_blue">
+                Convert the first equation,
+                <code><var>expr([ "+", [ "*", A1, "x" ], [ "*", B1, "y" ] ])</var> = <var>C1</var></code>,
+                to slope-intercept form.
+            </p>
+            <p class="hint_blue"><code>y = <var>PRETTY_SLOPE_1</var> x + <var>YINT_1</var></code></p>
+        </div>
+        <p class="hint_blue">
+            The y-intercept for the first equation is <code><var>YINT_1</var></code>, so the first line
+            must pass through the point <code>(0, <var>YINT_1</var>)</code>.
+        </p>
+        <p class="hint_blue">
+            The slope for the first equation is <code><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
+            the slope tells you rise over run. So in this case for every
+            <code><var>abs( SLOPE_1_FRAC[0] )</var></code>
+            <var>"position" + ( abs( SLOPE_1_FRAC[0] ) !== 1 ? "s" : "" )</var>
+            you move
+            <span data-if="SLOPE_1_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
+            <span data-else>up</span>
+            you must also move
+            <code><var>SLOPE_1_FRAC[1]</var></code>
+            <var>"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1 ? "s" : "" )</var>
+            to the right.
+        </p>
+        <p class="hint_blue">
+            <code><var>SLOPE_1_FRAC[1]</var></code>
+            <var>"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1 ? "s" : "" )</var> to the right and
+            <code><var>abs( SLOPE_1_FRAC[0] )</var></code>
+            <var>"position" + ( abs( SLOPE_1_FRAC[0] ) !== 1 ? "s" : "" )</var>
+            <span data-if="SLOPE_1_FRAC[0] < 0">down</span><span data-else>up</span> from
+            <code>(0, <var>YINT_1</var>)</code> is
+            <code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.
+        </p>
+        <p class="hint_blue">
+            Graph the blue line so it passes through
+            <code>(0, <var>YINT_1</var>)</code> and
+            <code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.
+            <br /><input type="button" value="Show me" onClick="javascript:
+                KhanUtil.currentGraph.graph.pointA.moveTo( 0, KhanUtil.tmpl.getVAR( 'YINT_1' ), true );
+                KhanUtil.currentGraph.graph.pointB.moveTo( KhanUtil.tmpl.getVAR( 'SLOPE_1_FRAC[1]' ),
+                    KhanUtil.tmpl.getVAR( 'YINT_1' ) + KhanUtil.tmpl.getVAR( 'SLOPE_1_FRAC[0]' ), true );
+            " />
+        </p>
+        <div data-if="STD_FORM_2" data-unwrap>
+            <p class="hint_green">
+                Convert the second equation,
+                <code><var>expr([ "+", [ "*", A2, "x" ], [ "*", B2, "y" ] ])</var> = <var>C2</var></code>,
+                to slope-intercept form.
+            </p>
+            <p class="hint_green"><code>y = <var>PRETTY_SLOPE_2</var> x + <var>YINT_2</var></code></p>
+        </div>
+        <p class="hint_green">
+            The y-intercept for the second equation is <code><var>YINT_2</var></code>, so the second line
+            must pass through the point <code>(0, <var>YINT_2</var>)</code>.
+        </p>
+        <p class="hint_green">
+            The slope for the second equation is <code><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
+            the slope tells you rise over run. So in this case for every
+            <code><var>abs( SLOPE_2_FRAC[0] )</var></code>
+            <var>"position" + ( abs( SLOPE_2_FRAC[0] ) !== 1 ? "s" : "" )</var>
+            you move
+            <span data-if="SLOPE_2_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
+            <span data-else>up</span>
+            you must also move
+            <code><var>SLOPE_2_FRAC[1]</var></code>
+            <var>"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1 ? "s" : "" )</var>
+            to the right.
+        </p>
+        <p class="hint_green">
+            <code><var>SLOPE_2_FRAC[1]</var></code>
+            <var>"position" + ( abs( SLOPE_2_FRAC[1] ) !== 1 ? "s" : "" )</var> to the right and
+            <code><var>abs( SLOPE_2_FRAC[0] )</var></code>
+            <var>"position" + ( abs( SLOPE_2_FRAC[0] ) !== 1 ? "s" : "" )</var>
+            <span data-if="SLOPE_2_FRAC[0] < 0">down</span><span data-else>up</span> from
+            <code>(0, <var>YINT_2</var>)</code> is
+            <code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.
+        </p>
+        <p class="hint_green">
+            Graph the green line so it passes through
+            <code>(0, <var>YINT_2</var>)</code> and
+            <code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.
+            <br /><input type="button" value="Show me" onClick="javascript:
+                KhanUtil.currentGraph.graph.pointC.moveTo( 0, KhanUtil.tmpl.getVAR( 'YINT_2' ), true );
+                KhanUtil.currentGraph.graph.pointD.moveTo( KhanUtil.tmpl.getVAR( 'SLOPE_2_FRAC[1]' ),
+                    KhanUtil.tmpl.getVAR( 'YINT_2' ) + KhanUtil.tmpl.getVAR( 'SLOPE_2_FRAC[0]' ), true );
+            " />
+        </p>
+        <p>
+            The solution is the point where the two lines intersect.
+        </p>
+        <div>
+            <p>
+                The lines intersect at <code class="hint_pink">(<var>X</var>, <var>Y</var>)</code>.
+            </p>
+            <div class="graphie" data-update="grid">
+                style({ stroke: PINK });
+                circle( [ X, Y ], 0.5 );
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

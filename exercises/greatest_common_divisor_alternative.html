@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html data-require="math word-problems graphie">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Greatest common divisor</title>
+	<script src="../khan-exercise.js"></script>
+</head>
+<body>
+	<div class="exercise">
+		<div class="vars" data-ensure="A_START !== B_START">
+			<var id="A_START">randRange( 1, 10 )</var>
+			<var id="B_START">randRange( 1, 10 )</var>
+			<var id="FACTOR">randRange( 1, 5 )</var>
+
+			<var id="A">A_START * FACTOR</var>
+			<var id="B">B_START * FACTOR</var>
+			<var id="GCD">getGCD( A, B )</var>
+			<var id="A_FACTORS">getFactors( A )</var>
+			<var id="B_FACTORS">getFactors( B )</var>
+			<var id="COMMON_FACTORS">_.intersection( A_FACTORS, B_FACTORS )</var>
+		</div>
+
+		<div class="problems">
+			<div>
+				<div class="question">
+					<p>What is the greatest common divisor of <var>A</var> and <var>B</var>?</p>
+					<p>Another way to say this is: </p>
+					<p><code>\gcd(<var>A</var>, <var>B</var>) = {?}</code></p>
+				</div>
+
+				<p class="solution" data-forms="integer"><var>GCD</var></p>
+			</div>
+		</div>
+
+		<div class="hints">
+			<p>
+				The <em>greatest common divisor</em> is the largest number that divides evenly into both <code><var>A</var></code> and
+				<code><var>B</var></code>.
+			</p>
+
+			<p>
+				Start by thinking about all of the numbers that divide evenly into <code><var>A</var></code>. In other words,
+				what are the <em>divisors</em> of <code><var>A</var></code>?
+			</p>
+
+			<div>
+				<p data-if="A === 1">
+					The only divisor of <code>1</code> is <code class="hint_blue">1</code></span>
+					since that's the only number that divides evenly into <code>1</code>:
+				</p>
+				<p data-else>
+					The divisors of <code><var>A</var></code> are <span class="hint_blue"><var>toSentence( getFactors( A ) )</var></span>
+					since those are all the numbers that divide evenly into <code><var>A</var></code>:
+				</p>
+				<p style="margin-left: 20px">
+					<span data-each="getFactors( A ) as F">
+						<span style="display: inline-block; width: 20px;"><span style="display: none;" class="hint_pink"><code data-if="B % F === 0">\rhd</code></span></span>
+						<code><var>A</var> \div \color{<var>BLUE</var>}{<var>F</var>} = <var>A/F</var></code><br />
+					</span>
+				</p>
+			</div>
+
+			<p>
+				Start by thinking about all of the numbers that divide evenly into <code><var>B</var></code>. In other words,
+				what are the <em>divisors</em> of <code><var>B</var></code>?
+			</p>
+
+			<div>
+				<p data-if="B === 1">
+					The only divisor of <code>1</code> is <code class="hint_green">1</code></span>
+					since that's the only number that divides evenly into <code>1</code>:
+				</p>
+				<p data-else>
+					The divisors of <code><var>B</var></code> are <span class="hint_green"><var>toSentence( getFactors( B ) )</var></span>
+					since those are all the numbers that divide evenly into <code><var>B</var></code>:
+				</p>
+				<p style="margin-left: 20px">
+					<span data-each="getFactors( B ) as F">
+						<span style="display: inline-block; width: 20px;"><span style="display: none;" class="hint_pink"><code data-if="A % F === 0">\rhd</code></span></span>
+						<code><var>B</var> \div \color{<var>GREEN</var>}{<var>F</var>} = <var>B/F</var></code><br />
+					</span>
+				</p>
+			</div>
+
+			<p>
+				To find the <em>common divisors</em>, find the all the <span class="hint_blue">divisors of <code><var>A</var></code></span> and
+				<span class="hint_green">divisors of <code><var>B</var></code></span> that are the same.
+			</p>
+
+			<div>
+				<p data-if="GCD === 1">
+					The only <em>common divisor</var></em> of <code><var>A</var></code> and <code><var>B</var></code> is
+					<code class="hint_pink"><var>GCD</var></code> since that's the only number that divides
+					evenly into both <code><var>A</var></code> and <code><var>B</var></code>.
+				</p>
+				<p data-else>
+					The <em>common divisors</var></em> of <code><var>A</var></code> and <code><var>B</var></code> are
+					<span class="hint_pink"><var>toSentence( COMMON_FACTORS )</var></span> since each of those numbers divides
+					evenly into both <code><var>A</var></code> and <code><var>B</var></code>. We're interested in the <em>greatest</em> common divisor.
+				</p>
+				<div class="graphie">
+					jQuery( "span.hint_pink" ).show();
+				</div>
+			</div>
+
+			<p class="final_answer">
+				The greatest common divisor of <code><var>A</var></code> and <code><var>B</var></code> is <code><var>GCD</var></code>.
+				In other words, <code>\gcd(<var>A</var>, <var>B</var>) = <var>GCD</var></code>.
+			</p>
+		</div>
+	</div>
+</body>
+</html>

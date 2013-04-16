@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html data-require="math word-problems">
 <head>
-	<meta charset="UTF-8" />
-	<title>Prime numbers</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Prime numbers</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars" data-ensure="WRONG_1 !== WRONG_2 && WRONG_2 !== WRONG_3">
-			<var id="PRIME">getPrime()</var>
-			<var id="WRONG_1">getOddComposite()</var>
-			<var id="WRONG_2">getOddComposite()</var>
-			<var id="WRONG_3">getOddComposite()</var>
-			<var id="WRONG_4">getEvenComposite()</var>
+    <div class="exercise">
+        <div class="vars" data-ensure="WRONG_1 !== WRONG_2 && WRONG_2 !== WRONG_3">
+            <var id="PRIME">getPrime()</var>
+            <var id="WRONG_1">getOddComposite()</var>
+            <var id="WRONG_2">getOddComposite()</var>
+            <var id="WRONG_3">getOddComposite()</var>
+            <var id="WRONG_4">getEvenComposite()</var>
 
-			<var id="CHOICES">shuffle( [ PRIME, WRONG_1, WRONG_2, WRONG_3, WRONG_4 ] )</var>
-		</div>
+            <var id="CHOICES">shuffle( [ PRIME, WRONG_1, WRONG_2, WRONG_3, WRONG_4 ] )</var>
+        </div>
 
-		<div class="problems">
-			<div>
-				<p class="question">Which of these numbers is prime?</p>
-				<p><code>\large{<var>CHOICES.join( "," )</var>}</code></p>
-				<p class="solution"><code><var>PRIME</var></code></p>
-				<ul class="choices" data-category="true">
-					<li data-each="CHOICES as CHOICE"><code><var>CHOICE</var></code></li>
-				</ul>
-			</div>
-		</div>
+        <div class="problems">
+            <div>
+                <p class="question">Which of these numbers is prime?</p>
+                <p><code>\large{<var>CHOICES.join( ",\\ " )</var>}</code></p>
+                <p class="solution"><code><var>PRIME</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li data-each="CHOICES as CHOICE"><code><var>CHOICE</var></code></li>
+                </ul>
+            </div>
+        </div>
 
-		<div class="hints">
-			<p>A prime number has exactly two factors: 1 and itself.</p>
-			<p data-each="CHOICES as CHOICE">The factors of <var>CHOICE</var> are <var>toSentence( getFactors( CHOICE ) )</var>.</p>
-			<p>Thus, <var>PRIME</var> is a prime number.</p>
-		</div>
-	</div>
+        <div class="hints">
+            <p>A prime number has exactly two factors: 1 and itself.</p>
+            <p data-each="CHOICES as CHOICE">The factors of <var>CHOICE</var> are <var>toSentence( getFactors( CHOICE ) )</var>.</p>
+            <p>Thus, <var>PRIME</var> is a prime number.</p>
+        </div>
+    </div>
 </body>
 </html>

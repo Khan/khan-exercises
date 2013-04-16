@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers angles">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Alternate interior angles 2</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <div data-ensure="A * SOLUTION + B > 0 && A * SOLUTION + B < 180">
+            <var id="SOLUTION">randRange(6, 20) * randRangeNonZero(-1, 1)</var>
+            <var id="DIFFERENCE">randRange(2, 6)</var>
+            <var id="A">randRangeNonZero(2, 8 - DIFFERENCE) + DIFFERENCE</var>
+            <var id="B">DIFFERENCE * randRange(2, 15)</var>
+        </div>
+        <var id="C">A - DIFFERENCE</var>
+        <var id="D">A * SOLUTION + B - C * SOLUTION</var>
+
+        <var id="ANGLE">max(30, min(150, A * SOLUTION + B))</var>
+        <var id="KNOWN_INDEX, UNKNOWN_INDEX">shuffle(randFromArray([[0, 6], [1, 7]]))</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <p>The two horizontal lines are parallel, and there is a third line that intersects them as shown below.</p>
+            <p class="question">Solve for <code>x</code>:</p>
+            <p class="solution"><var>SOLUTION</var></p>
+            <div class="graphie" id="parallel-lines">
+
+                var eq1 = A + "x + " + B + "^\\circ";
+                var eq2 = C + "x + " + D + "^\\circ";
+
+                init({
+                    range: [[-1, 11], [-1, 4]]
+                });
+                graph.pl = new ParallelLines(0, 0, 10, 0, 3);
+                graph.pl.draw();
+                graph.pl.drawMarkers(ANGLE);
+                graph.pl.drawTransverse(ANGLE);
+                graph.pl.drawAngle(KNOWN_INDEX, eq1);
+                graph.pl.drawAngle(UNKNOWN_INDEX, eq2, "#FFA500");
+            </div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <p>Alternate interior angles are equal to one another. <a class="related-video" href="/video/angles-formed-by-parallel-lines-and-transversals?playlist=Geometry" data-youtube-id="gRKZaojKeP0">Watch this video</a> to understand why.</p>
+        <div>
+            <p>The <code>\color{<var>BLUE</var>}{\text{blue angle}}</code> and the <code>\color{<var>ORANGE</var>}{\text{orange angle}}</code> are alternate interior angles. Therefore, we can set them equal to one another.</p>
+            <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
+        </div>
+
+        <div data-if="A > C" data-unwrap>
+            <div>
+                <p>Subtract <code>\color{<var>PINK</var>}{<var>C</var>x}</code> from both sides.</p>
+                <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>C</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>C</var>x}</code></p>
+                <p><code><var>A - C</var>x + <var>B</var> = <var>D</var></code></p>
+            </div>
+            <div>
+                <p><var>B > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> <var>B > 0 ? "from" : "to"</var> both sides.</p>
+                <p><code>(<var>A - C</var>x + <var>B</var>) \color{<var>PINK</var>}{+ <var>-B</var>} = <var>D</var> \color{<var>PINK</var>}{+ <var>-B</var>}</code></p>
+                <p><code><var>A - C</var>x = <var>D - B</var></code></p>
+            </div>
+            <div>
+                <p>Divide both sides by <code>\color{<var>PINK</var>}{<var>A - C</var>}</code>.</p>
+                <p><code>\dfrac{<var>A - C</var>x}{\color{<var>PINK</var>}{<var>A - C</var>}} = \dfrac{<var>D - B</var>}{\color{<var>PINK</var>}{<var>A - C</var>}}</code></p>
+            </div>
+            <div>
+                <p>Simplify.</p>
+                <p><code>x = <var>SOLUTION</var></code></p>
+            </div>
+        </div>
+        <div data-else data-unwrap>
+            <div>
+                <p>Subtract <code>\color{<var>PINK</var>}{<var>A</var>x}</code> from both sides.</p>
+                <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>A</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>A</var>x}</code></p>
+                <p><code><var>B</var> = <var>C - A</var>x + <var>D</var></code></p>
+            </div>
+            <div>
+                <p><var>D > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> <var>D > 0 ? "from" : "to"</var> both sides.</p>
+                <p><code><var>B</var> \color{<var>PINK</var>}{+ <var>-D</var>} = (<var>C - A</var>x + <var>D</var>) \color{<var>PINK</var>}{+ <var>-D</var>}</code></p>
+                <p><code><var>B - D</var> = <var>C - A</var>x</code></p>
+            </div>
+            <div>
+                <p>Divide both sides by <code>\color{<var>PINK</var>}{<var>C - A</var>}</code>.</p>
+                <p><code>\dfrac{<var>B - D</var>}{\color{<var>PINK</var>}{<var>C - A</var>}} = \dfrac{<var>C - A</var>x}{\color{<var>PINK</var>}{<var>C - A</var>}}</code></p>
+            </div>
+            <div>
+                <p>Simplify.</p>
+                <p><code><var>SOLUTION</var> = x</code></p>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</body>
+</html>

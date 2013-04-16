@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Solving quadratics by taking the square root</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="solve">
+
+            <div class="vars">
+                <var id="H">randRangeNonZero( -10, 10 )</var>
+                <var id="CONSTANT">randRange( 1, 9 )</var>
+                <var id="K">-( CONSTANT * CONSTANT )</var>
+            </div>
+
+            <p class="problem">Solve for <code>x</code>:</p>
+            <p class="question"><code>(x - <var>H</var>)^2 + <var>K</var> = 0</code></p>
+
+            <div class="solution" data-type="set">
+                <div class="set-sol"><var>H + CONSTANT</var></div>
+                <div class="set-sol"><var>H - CONSTANT</var></div>
+                <div class="input-format"><p style="font-size: 12px;">
+                    <code>x = {}</code><span class="entry short35"></span><code>\space \text{or} \space x = {}</code><span class="entry short35"></span>
+                </p></div>
+                <p class="example">integers, like <code>6</code></p>
+                <p class="example"><em>simplified proper</em> fractions, like <code>3/5</code></p>
+                <p class="example"><em>simplified improper</em> fractions, like <code>7/4</code></p>
+                <p class="example">and/or <em>exact</em> decimals, like <code>0.75</code></p>
+            </div>
+            <div class="hints">
+
+                <div>
+                    <p>Add <code><var>abs( K )</var></code> to both sides so we can start isolating <code>x</code> on the left:</p>
+                    <p><code>\qquad (x - <var>H</var>)^2 = <var>-K</var></code></p>
+                </div>
+
+                <div>
+                    <p>Take the square root of both sides to get rid of the exponent.</p>
+                    <p><code>\qquad \sqrt{(x - <var>H</var>)^2} = \pm \sqrt{<var>-K</var>}</code></p>
+                </div>
+
+                <div>
+                    <p>
+                        Be sure to consider both positive and negative <code><var>CONSTANT</var></code>, since squaring either one results
+                        in <code><var>-K</var></code>.
+                    </p>
+                    <p><code>\qquad x - <var>H</var> = \pm <var>CONSTANT</var></code></p>
+                </div>
+
+                <div>
+                    <p>
+                        <span data-if="H > 0">Add <code><var>abs( H )</var></code> to both sides to isolate <code>x</code> on the left:</span>
+                        <span data-else>Subtract <code><var>abs( H )</var></code> from both sides to isolate <code>x</code> on the left:</span>
+                    </p>
+                    <p><code>\qquad x = <var>H</var> \pm <var>CONSTANT</var></code></p>
+                </div>
+
+                <div>
+                    <p class="final_answer">Add and subtract <code><var>CONSTANT</var></code> to find the two possible solutions:</p>
+                    <p><code>\qquad x = <var>H + CONSTANT</var> \quad \text{or} \quad x = <var>H - CONSTANT</var></code></p>
+                </div>
+            </div>
+
+        </div>
+        <div id="intersect" data-type="solve">
+            <p class="problem">Determine where <code>f(x)</code> intersects the <code>x</code>-axis.</p>
+            <p class="question"><code>f(x) = (x - <var>H</var>)^2 + <var>K</var></code></p>
+            <div class="hints" data-apply="prependContents">
+                <div>
+                    <p>The function intersects the <code>x</code>-axis where <code>f(x) = 0</code>, so solve the equation:</p>
+                    <p><code>\qquad (x - <var>H</var>)^2 + <var>K</var> = 0</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

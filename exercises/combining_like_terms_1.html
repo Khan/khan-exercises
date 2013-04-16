@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Combining like terms</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars">
+        <var id="X">randVar()</var>
+        <var id="A">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
+        <var id="B" data-ensure="abs( A ) !== abs( B )">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
+        <var id="C">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 20))</var>
+        <var id="D" data-ensure="abs( C ) !== abs( D )">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
+        <var id="TERM_AX">
+            "(?:" + (A &lt; 0 ? "[-\\u2212]" : "") + abs(A)
+            + (A === 1 ? "|" : "" ) + (A === -1 ?
+            "|[-\\u2212]" : "") + ")\\s*" + X
+        </var>
+        <var id="TERM_AX_BX">
+            "(?:" + ((A + B) &lt; 0 ? "[-\\u2212]" : "") + abs(A + B)
+            + (A + B === 1 ? "|" : "" ) + (A + B === -1 ?
+            "|[-\\u2212]" : "") + ")\\s*" + X
+        </var>
+        <var id="TERM_C">(C &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(C)</var>
+        <var id="TERM_C_D">((C + D) &lt; 0 ? "[-\\u2212]\\s*" : "") + abs(C + D)</var>
+    </div>
+    <div class="problems">
+        <div id="ax_bx">
+            <div class="vars">
+                <var id="SOLUTIONS">[TERM_AX_BX]</var>
+            </div>
+            <p class="question">
+                Simplify the following expression:
+            </p>
+            <p class="problem">
+                <code>\large{<var>expr(["+", ["*", A, X], ["*", B, X]])</var>}</code>
+            </p>
+            <div class="solution" data-type="set">
+                <span data-each="SOLUTIONS as SOL" class="set-sol" data-type="regex">^\s*<var>SOL</var>\s*$</span>
+                <div class="input-format"><span class="entry"></span></div>
+                <span class="example">an expression, like <b>-2x + 4</b></span>
+            </div>
+
+            <div class="hints">
+                <div>
+                    <p>Combine the <code><var>X</var></code> terms:</p>
+                    <p>
+                        <code>\qquad\pink{<var>expr(["*", A, X])</var> + <var>expr(["*", B, X])</var>}</code>
+                    </p>
+                    <p>
+                        <code>\qquad\pink{<var>expr(["*", A + B, X])</var>}</code>
+                    </p>
+                </div>
+                <p>The simplified expression is <code><var>expr(["*", A + B, X])</var></code>
+            </div>
+        </div>
+
+        <div id="ax_bx_c" data-type="ax_bx">
+            <div class="vars">
+                <var id="SOLUTIONS">[
+                    TERM_AX_BX + (C &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_C,
+                    TERM_C + ((A + B) &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_AX_BX
+                ]</var>
+            </div>
+            <p class="problem">
+                <code>\large{<var>expr(["+", ["*", A, X], ["*", B, X], C])</var>}</code>
+            </p>
+            <div class="hints">
+                <div>
+                    <p>Combine the <code>\pink{<var>X</var>}</code> terms:</p>
+                    <p>
+                        <code>\qquad\pink{<var>expr(["*", A, X])</var>} + \pink{<var>expr(["*", B, X])</var>} + <var>C</var></code>
+                    </p>
+                    <p>
+                        <code>\qquad\pink{<var>expr(["*", A + B, X])</var>} + <var>C</var></code>
+                    </p>
+                </div>
+                <p>The simplified expression is <code><var>expr(["*", A + B, X])</var> + <var>C</var></code>
+            </div>
+        </div>
+
+        <div id="ax_c_bx" data-type="ax_bx_c">
+            <p class="problem">
+                <code>\large{<var>expr(["+", ["*", A, X], C, ["*", B, X]])</var>}</code>
+            </p>
+            <div class="hints">
+                <div>
+                    <p>Rewrite to group the <code>\pink{<var>X</var>}</code> terms together:</p>
+                    <p>
+                        <code>\qquad\pink{<var>expr(["*", A, X])</var> + <var>expr(["*", B, X])</var>} + <var>C</var></code>
+                    </p>
+                </div>
+                <div>
+                    <p>Combine the <code>\pink{<var>X</var>}</code> terms:</p>
+                    <p>
+                        <code>\qquad\pink{<var>expr(["*", A + B, X])</var>} + <var>C</var></code>
+                    </p>
+                </div>
+                <p>The simplified expression is <code><var>expr(["*", A + B, X])</var> + <var>C</var></code>
+            </div>
+        </div>
+
+        <div id="ax_c_bx_d" data-type="ax_bx_c">
+            <div class="vars">
+                <var id="SOLUTIONS">[
+                    TERM_AX_BX + ((C + D) &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_C_D,
+                    TERM_C_D + ((A + B) &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_AX_BX
+                ]</var>
+            </div>
+            <p class="problem">
+                <code>\large{<var>expr(["+", ["*", A, X], C, ["*", B, X], D])</var>}</code>
+            </p>
+            <div class="hints">
+                <div>
+                    <p>
+                        Rewrite the expression to group the
+                        <code>\pink{<var>X</var>}</code> terms and
+                        <span class="hint_blue">numeric</span> terms:</p>
+                    <p>
+                        <code>\qquad\pink{<var>expr(["*", A, X])</var> +
+                        <var>expr(["*", B, X])</var>} <var>C &lt; 0 ? "" : "+"</var>
+                        \blue{<var>C</var> + <var>D</var>}</code>
+                    </p>
+                </div>
+                <div>
+                    <p>Combine the <code>\pink{<var>X</var>}</code> terms:</p>
+                    <p>
+                        <code>\qquad\pink{<var>expr(["*", A + B, X])</var>}
+                        <var>C &lt; 0 ? "" : "+"</var>
+                        \blue{<var>C</var> + <var>D</var>}</code>
+                    </p>
+                </div>
+                <div>
+                    <p>Combine the <span class="hint_blue">numeric</span> terms:</p>
+                    <p>
+                        <code>\qquad\pink{<var>expr(["*", A + B, X])</var>}
+                        <var>(C + D) &lt; 0 ? "" : "+"</var>
+                        \blue{<var>C + D</var>}</code>
+                    </p>
+                </div>
+                <p>The simplified expression is <code><var>expr(["+", ["*", A + B, X], C + D])</var></code>
+            </div>
+        </div>
+
+        <div id="ax_c_d_bx" data-type="ax_c_bx_d">
+            <p class="problem">
+                <code>\large{<var>expr(["+", ["*", A, X], C, D, ["*", B, X]])</var>}</code>
+            </p>
+        </div>
+
+        <div id="ax_c_d" data-type="ax_bx">
+            <div class="vars">
+                <var id="SOLUTIONS">[
+                    TERM_AX + ((C + D) &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_C_D,
+                    TERM_C_D + (A &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_AX
+                ]</var>
+            </div>
+            <p class="problem">
+                <code>\large{<var>expr(["+", ["*", A, X], C, D])</var>}</code>
+            </p>
+            <div class="hints">
+                <div>
+                    <p>Combine the <span class="hint_blue">numeric</span> terms:</p>
+                    <p>
+                        <code>\qquad <var>expr(["*", A, X])</var>
+                        <var>C &lt; 0 ? "" : "+"</var>
+                        \blue{<var>C</var> + <var>D</var>}</code>
+                    </p>
+                    <p>
+                        <code>\qquad <var>expr(["*", A, X])</var>
+                        <var>(C + D) &lt; 0 ? "" : "+"</var>
+                        \blue{<var>C + D</var>}</code>
+                    </p>
+                </div>
+                <p>The simplified expression is <code><var>expr(["+", ["*", A, X], C + D])</var></code>
+            </div>
+        </div>
+
+        <div id="c_ax_d" data-type="ax_c_d">
+            <p class="problem">
+                <code>\large{<var>expr(["+", C, ["*", A, X], D])</var>}</code>
+            </p>
+            <div class="hints">
+                <div>
+                    <p>
+                        Rewrite the expression to group the
+                        <span class="hint_blue">numeric</span> terms:</p>
+                    <p>
+                    <p>
+                        <code>\qquad <var>expr(["*", A, X])</var>
+                        <var>C &lt; 0 ? "" : "+"</var>
+                        \blue{<var>C</var> + <var>D</var>}</code>
+                    </p>
+                </div>
+                <div>
+                    <p>Combine the <span class="hint_blue">numeric</span> terms:</p>
+                    <p>
+                        <code>\qquad <var>expr(["*", A, X])</var>
+                        <var>(C + D) &lt; 0 ? "" : "+"</var>
+                        \blue{<var>C + D</var>}</code>
+                    </p>
+                </div>
+                <p>The simplified expression is <code><var>expr(["+", ["*", A, X], C + D])</var></code>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

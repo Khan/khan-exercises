@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html data-require="math math-format polynomials graphie interactive word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Recognizing concavity</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        .graph-caption {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars" data-ensure="SOLUTION_INTERVAL != null && SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0] > 1.2">
+        <!-- Some hard-coded polynomial functions -->
+        <var id="COEF, XRANGE, YRANGE">randFromArray([
+            [[ 1,  0, -16,   0,  49], [-5, 5], [-100, 100]],
+            [[-1,  0,  16,   0, -49], [-5, 5], [-250, 100]],
+            [[ 1,  3, -14, -35,  21], [-5, 5], [-100, 200]],
+            [[-1, -3,  14,  35,   0], [-5, 5], [-200, 100]],
+            [[     1,   4,  -1,  -4], [-5, 5], [ -40, 120]],
+            [[    -1,  -4,   1,   4], [-5, 5], [-150,  40]],
+            [[     1,   0, -16,   0], [-5, 5], [ -50,  50]],
+            [[    -1,   0,  16,   0], [-5, 5], [ -70,  60]],
+            [[     1,   0, -22,  27], [-5, 5], [ -30,  70]],
+            [[    -1,   0,  22, -27], [-5, 5], [ -70,  30]],
+            [[     1,   1, -13, -14], [-5, 5], [ -40,  40]],
+            [[    -1,  -1,  13,  14], [-5, 5], [ -40,  40]],
+            [[          1,   0, -12], [-5, 5], [ -20,  20]],
+            [[         -1,   0,  12], [-5, 5], [ -20,  20]],
+            [[          1,  -1,  -6], [-5, 5], [ -20,  20]],
+            [[         -1,   1,   6], [-5, 5], [ -30,  20]],
+            [[          1,   0,  -3], [-5, 5], [ -20,  30]],
+            [[         -1,   0,   3], [-5, 5], [ -30,  20]],
+            [[          1,   2,   0], [-5, 5], [ -10,  35]],
+            [[         -1,  -2,   0], [-5, 5], [ -40,  20]]
+        ])</var>
+        <var id="POLYNOMIAL">new Polynomial(0, COEF.length - 1, COEF.reverse())</var>
+
+        <var id="FNX">function(x) {return POLYNOMIAL.evalOf(x);}</var>
+        <var id="DDX">function(x) {return POLYNOMIAL.derivative().evalOf(x);}</var>
+        <var id="D2DX">function(x) {return POLYNOMIAL.derivative().derivative().evalOf(x);}</var>
+
+        <!-- Break XRANGE into intervals based on the roots of DDX -->
+        <var id="DDX_INTERVALS">_.reduce(findRootsNumerically(DDX, XRANGE), function(intervals, root) {
+            var last = _.last(intervals)
+            return _.initial(intervals).concat([[last[0], root], [root, last[1]]]);
+        }, [XRANGE])</var>
+        <!-- Break XRANGE into intervals based on the roots of D2DX -->
+        <var id="D2DX_INTERVALS">_.reduce(findRootsNumerically(D2DX, XRANGE), function(intervals, root) {
+            var last = _.last(intervals)
+            return _.initial(intervals).concat([[last[0], root], [root, last[1]]]);
+        }, [XRANGE])</var>
+        <!-- Find just the increasing intervals -->
+        <var id="DDX_INTERVALS_POS">_.filter(DDX_INTERVALS, function(intv) {
+            return DDX(intv[0] + (intv[1] - intv[0]) / 2) &gt; 0;
+        })</var>
+        <!-- Find just the decreasing intervals -->
+        <var id="DDX_INTERVALS_NEG">_.filter(DDX_INTERVALS, function(intv) {
+            return DDX(intv[0] + (intv[1] - intv[0]) / 2) &lt; 0;
+        })</var>
+        <!-- Find just the concave up intervals -->
+        <var id="D2DX_INTERVALS_POS">_.filter(D2DX_INTERVALS, function(intv) {
+            return D2DX(intv[0] + (intv[1] - intv[0]) / 2) &gt; 0;
+        })</var>
+        <!-- Find just the concave down intervals -->
+        <var id="D2DX_INTERVALS_NEG">_.filter(D2DX_INTERVALS, function(intv) {
+            return D2DX(intv[0] + (intv[1] - intv[0]) / 2) &lt; 0;
+        })</var>
+        <!-- Break XRANGE into intervals based on the roots of DDX and D2DX -->
+        <!-- I.e. each interval has the same increasing-ness and concativity -->
+        <var id="COMBINED_INTERVALS">_.reduce(
+            sortNumbers(findRootsNumerically(DDX, XRANGE).concat(findRootsNumerically(D2DX, XRANGE))),
+            function(intervals, root) {
+                var last = _.last(intervals)
+                return _.initial(intervals).concat([[last[0], root], [root, last[1]]]);
+            },
+            [XRANGE]
+        )</var>
+        <!-- Find intervals that are solutions -->
+        <var id="SOLUTION_INTERVALS">_.filter(COMBINED_INTERVALS, function(intv) {
+            return PREDICATE(intv[0] + (intv[1] - intv[0]) / 2);
+        })</var>
+        <!-- Sort to find the widest solution interval -->
+        <var id="SOLUTION_INTERVAL">
+            _.sortBy(SOLUTION_INTERVALS, function(intv) {
+                return intv[0] - intv[1];
+            })[0]
+        </var>
+    </div>
+
+    <div class="solution" data-type="custom">
+        <div class="instruction">
+            Move the blue window to select part of the function.
+        </div>
+        <div class="guess">
+            graph.slidingWindow.getX()
+        </div>
+        <div class="validator-function">
+            var correct = _.reduce(_.range(guess, guess + 1, 0.02), function(correct, x) {
+                return correct &amp;&amp; PREDICATE(x);
+            }, true);
+            if (!graph.moved &amp;&amp; !correct) {
+                return ""
+            }
+            return correct;
+        </div>
+        <div class="show-guess">
+            graph.slidingWindow.moveTo(guess, 0);
+        </div>
+    </div>
+
+    <p class="question">
+    </p>
+
+    <div class="problem">
+        <div class="graphie" id="fnplot">
+            initAutoscaledGraph([XRANGE, YRANGE]);
+            addMouseLayer();
+            plot(FNX, XRANGE, {
+                stroke: BLUE,
+                strokeWidth: 3
+            });
+            graph.moved = false;
+            // start the selection at the first zero of f'(x) which is
+            // guranteed to be wrong but not give info about the right answer
+            var startX = DDX_INTERVALS[0][1] - 0.5
+            graph.slidingWindow = KhanUtil.addRectGraph({
+                x: startX,
+                y: YRANGE[0],
+                width: 1,
+                height: YRANGE[1] - YRANGE[0],
+                normalStyle: {
+                    area: { "fill-opacity": 0.2 },
+                    edges: { "stroke-width": 0 }
+                },
+                hoverStyle: {
+                    area: { "fill-opacity": 0.3 }
+                },
+                fixed: {
+                    points: [true, true, true, true],
+                    edges: [true, true, true, true]
+                },
+                constraints: {
+                    constrainX: false,
+                    constrainY: true,
+                    xmin: XRANGE[0],
+                    xmax: XRANGE[1]
+                },
+                onMove: function() {
+                    graph.moved = true;
+                }
+            });
+        </div>
+        <p class="graph-caption">
+            <code class="hint_blue">f(x) = <var>POLYNOMIAL.text()</var></code>
+        </p>
+    </div>
+
+    <div class="problems">
+        <div id="inc-and-concave-up">
+            <div class="vars" data-apply="prependVars">
+                <var id="PREDICATE">function(x) { return DDX(x) &gt; 0 &amp;&amp; D2DX(x) &gt; 0; }</var>
+            </div>
+            <p class="question" data-apply="appendContents">
+                A function <code>f(x)</code> is plotted below.
+                Highlight an interval where <code>f^\prime(x) &gt; 0</code> and
+                <code>f^{\prime\prime}(x) &gt; 0</code>.
+            </p>
+            <div class="hints">
+                <p>
+                    The first derivative, <code>f^\prime(x)</code>, is greater
+                    than <code>0</code> wherever the function is increasing.
+                </p>
+                <div>
+                    <p>
+                        The <var>plural("interval", DDX_INTERVALS_POS.length)</var>
+                        where <code>f(x)</code> is increasing
+                        <var>plural("is", DDX_INTERVALS_POS.length)</var>
+                        <span class="hint_orange">highlighted</span> above.
+                    </p>
+                    <div class="graphie" data-update="fnplot">
+                        _.each(DDX_INTERVALS_POS, function(interval) {
+                            plot(FNX, interval, {
+                                stroke: ORANGE,
+                                strokeWidth: 16,
+                                opacity: 0.7
+                            });
+                        });
+                    </div>
+                </div>
+                <p>
+                    The second derivative, <code>f^{\prime\prime}(x)</code>, is greater
+                    than <code>0</code> wherever the function is concave up.
+                </p>
+                <div>
+                    <p>
+                        The <var>plural("interval", D2DX_INTERVALS_POS.length)</var>
+                        where <code>f(x)</code> is concave up
+                        <var>plural("is", D2DX_INTERVALS_POS.length)</var>
+                        <span class="hint_red">highlighted</span> above.
+                    </p>
+                    <div class="graphie" data-update="fnplot">
+                        _.each(D2DX_INTERVALS_POS, function(interval) {
+                            plot(FNX, interval, {
+                                stroke: RED,
+                                strokeWidth: 6,
+                                opacity: 0.8
+                            });
+                        });
+                    </div>
+                </div>
+                <div>
+                    <p>
+                        Select any part of the function that is highlighted for
+                        both conditions.
+                    </p>
+                    <div class="graphie" data-update="fnplot">
+                        graph.slidingWindow.moveTo(
+                            (SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0]) / 2 +
+                            SOLUTION_INTERVAL[0] - 0.5, 0);
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="inc-and-concave-down">
+            <div class="vars" data-apply="prependVars">
+                <var id="PREDICATE">function(x) { return DDX(x) &gt; 0 &amp;&amp; D2DX(x) &lt; 0; }</var>
+            </div>
+            <p class="question" data-apply="appendContents">
+                A function <code>f(x)</code> is plotted below.
+                Highlight an interval where <code>f^\prime(x) &gt; 0</code> and
+                <code>f^{\prime\prime}(x) &lt; 0</code>.
+            </p>
+            <div class="hints">
+                <p>
+                    The first derivative, <code>f^\prime(x)</code>, is greater
+                    than <code>0</code> wherever the function is increasing.
+                </p>
+                <div>
+                    <p>
+                        The <var>plural("interval", DDX_INTERVALS_POS.length)</var>
+                        where <code>f(x)</code> is increasing
+                        <var>plural("is", DDX_INTERVALS_POS.length)</var>
+                        <span class="hint_orange">highlighted</span> above.
+                    </p>
+                    <div class="graphie" data-update="fnplot">
+                        _.each(DDX_INTERVALS_POS, function(interval) {
+                            plot(FNX, interval, {
+                                stroke: ORANGE,
+                                strokeWidth: 16,
+                                opacity: 0.7
+                            });
+                        });
+                    </div>
+                </div>
+                <p>
+                    The second derivative, <code>f^{\prime\prime}(x)</code>, is less
+                    than <code>0</code> wherever the function is concave down.
+                </p>
+                <div>
+                    <p>
+                        The <var>plural("interval", D2DX_INTERVALS_NEG.length)</var>
+                        where <code>f(x)</code> is concave down
+                        <var>plural("is", D2DX_INTERVALS_NEG.length)</var>
+                        <span class="hint_red">highlighted</span> above.
+                    </p>
+                    <div class="graphie" data-update="fnplot">
+                        _.each(D2DX_INTERVALS_NEG, function(interval) {
+                            plot(FNX, interval, {
+                                stroke: RED,
+                                strokeWidth: 6,
+                                opacity: 0.8
+                            });
+                        });
+                    </div>
+                </div>
+                <div>
+                    <p>
+                        Select any part of the function that is highlighted for
+                        both conditions.
+                    </p>
+                    <div class="graphie" data-update="fnplot">
+                        graph.slidingWindow.moveTo(
+                            (SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0]) / 2 +
+                            SOLUTION_INTERVAL[0] - 0.5, 0);
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dec-and-concave-up">
+            <div class="vars" data-apply="prependVars">
+                <var id="PREDICATE">function(x) { return DDX(x) &lt; 0 &amp;&amp; D2DX(x) &gt; 0; }</var>
+            </div>
+            <p class="question" data-apply="appendContents">
+                A function <code>f(x)</code> is plotted below.
+                Highlight an interval where <code>f^\prime(x) &lt; 0</code> and
+                <code>f^{\prime\prime}(x) &gt; 0</code>.
+            </p>
+            <div class="hints">
+                <p>
+                    The first derivative, <code>f^\prime(x)</code>, is less
+                    than <code>0</code> wherever the function is decreasing.
+                </p>
+                <div>
+                    <p>
+                        The <var>plural("interval", DDX_INTERVALS_NEG.length)</var>
+                        where <code>f(x)</code> is decreasing
+                        <var>plural("is", DDX_INTERVALS_NEG.length)</var>
+                        <span class="hint_orange">highlighted</span> above.
+                    </p>
+                    <div class="graphie" data-update="fnplot">
+                        _.each(DDX_INTERVALS_NEG, function(interval) {
+                            plot(FNX, interval, {
+                                stroke: ORANGE,
+                                strokeWidth: 16,
+                                opacity: 0.7
+                            });
+                        });
+                    </div>
+                </div>
+                <p>
+                    The second derivative, <code>f^{\prime\prime}(x)</code>, is greater
+                    than <code>0</code> wherever the function is concave up.
+                </p>
+                <div>
+                    <p>
+                        The <var>plural("interval", D2DX_INTERVALS_POS.length)</var>
+                        where <code>f(x)</code> is concave up
+                        <var>plural("is", D2DX_INTERVALS_POS.length)</var>
+                        <span class="hint_red">highlighted</span> above.
+                    </p>
+                    <div class="graphie" data-update="fnplot">
+                        _.each(D2DX_INTERVALS_POS, function(interval) {
+                            plot(FNX, interval, {
+                                stroke: RED,
+                                strokeWidth: 6,
+                                opacity: 0.8
+                            });
+                        });
+                    </div>
+                </div>
+                <div>
+                    <p>
+                        Select any part of the function that is highlighted for
+                        both conditions.
+                    </p>
+                    <div class="graphie" data-update="fnplot">
+                        graph.slidingWindow.moveTo(
+                            (SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0]) / 2 +
+                            SOLUTION_INTERVAL[0] - 0.5, 0);
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dec-and-concave-down">
+            <div class="vars" data-apply="prependVars">
+                <var id="PREDICATE">function(x) { return DDX(x) &lt; 0 &amp;&amp; D2DX(x) &lt; 0; }</var>
+            </div>
+            <p class="question" data-apply="appendContents">
+                A function <code>f(x)</code> is plotted below.
+                Highlight an interval where <code>f^\prime(x) &lt; 0</code> and
+                <code>f^{\prime\prime}(x) &lt; 0</code>.
+            </p>
+            <div class="hints">
+                <p>
+                    The first derivative, <code>f^\prime(x)</code>, is less
+                    than <code>0</code> wherever the function is decreasing.
+                </p>
+                <div>
+                    <p>
+                        The <var>plural("interval", DDX_INTERVALS_NEG.length)</var>
+                        where <code>f(x)</code> is decreasing
+                        <var>plural("is", DDX_INTERVALS_NEG.length)</var>
+                        <span class="hint_orange">highlighted</span> above.
+                    </p>
+                    <div class="graphie" data-update="fnplot">
+                        _.each(DDX_INTERVALS_NEG, function(interval) {
+                            plot(FNX, interval, {
+                                stroke: ORANGE,
+                                strokeWidth: 16,
+                                opacity: 0.7
+                            });
+                        });
+                    </div>
+                </div>
+                <p>
+                    The second derivative, <code>f^{\prime\prime}(x)</code>, is less
+                    than <code>0</code> wherever the function is concave down.
+                </p>
+                <div>
+                    <p>
+                        The <var>plural("interval", D2DX_INTERVALS_NEG.length)</var>
+                        where <code>f(x)</code> is concave down
+                        <var>plural("is", D2DX_INTERVALS_NEG.length)</var>
+                        <span class="hint_red">highlighted</span> above.
+                    </p>
+                    <div class="graphie" data-update="fnplot">
+                        _.each(D2DX_INTERVALS_NEG, function(interval) {
+                            plot(FNX, interval, {
+                                stroke: RED,
+                                strokeWidth: 6,
+                                opacity: 0.8
+                            });
+                        });
+                    </div>
+                </div>
+                <div>
+                    <p>
+                        Select any part of the function that is highlighted for
+                        both conditions.
+                    </p>
+                    <div class="graphie" data-update="fnplot">
+                        graph.slidingWindow.moveTo(
+                            (SOLUTION_INTERVAL[1] - SOLUTION_INTERVAL[0]) / 2 +
+                            SOLUTION_INTERVAL[0] - 0.5, 0);
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

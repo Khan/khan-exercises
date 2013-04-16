@@ -1,182 +1,182 @@
 <!DOCTYPE html>
 <html data-require="math math-format stat graphie graphie-helpers">
 <head>
-	<meta charset="UTF-8" />
-	<title>Mean median and mode</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Mean median and mode</title>
+    <script src="../khan-exercise.js"></script>
 
-	<style type="text/css">
-		.number-list {
-			text-align: center
-		}
-	</style>
+    <style type="text/css">
+        .number-list {
+            text-align: center
+        }
+    </style>
 </head>
 <body>
-	<div class="exercise">
-		<script type="text/javascript">
-		function GenerateIntegers() {
-			var len, integers;
-			do {
-				// generate random list of numbers
-				len = KhanUtil.randRange( 5, 10 );
+    <div class="exercise">
+        <script type="text/javascript">
+        function GenerateIntegers() {
+            var len, integers;
+            do {
+                // generate random list of numbers
+                len = KhanUtil.randRange( 5, 10 );
 
-				integers = [];
+                integers = [];
 
-				for (var i = 0; i < len; i++) {
-					integers[i] = KhanUtil.randRange( 1, 10 );
-				}
-			} while ( !KhanUtil.mode(integers) );
+                for (var i = 0; i < len; i++) {
+                    integers[i] = KhanUtil.randRange( 1, 10 );
+                }
+            } while ( !KhanUtil.mode(integers) );
 
-			return integers;
-		}
+            return integers;
+        }
 
-		function DisplayMedian( sortedInts ) {
-			var si = sortedInts.slice(0),
-			center = Math.floor( si.length / 2 ),
+        function DisplayMedian( sortedInts ) {
+            var si = sortedInts.slice(0),
+            center = Math.floor( si.length / 2 ),
 
-			prepend = "\\boldsymbol{",
-			append = "}";
+            prepend = "\\boldsymbol{",
+            append = "}";
 
-			if ( si.length % 2 == 0 ) {
-				si[center] = prepend + si[center] + append;
-				si[center - 1] = prepend + si[center - 1] + append;
-			} else {
-				si[center] = prepend + si[center] + append;
-			}
+            if ( si.length % 2 == 0 ) {
+                si[center] = prepend + si[center] + append;
+                si[center - 1] = prepend + si[center - 1] + append;
+            } else {
+                si[center] = prepend + si[center] + append;
+            }
 
-			return si.join( ", " );
-		}
-		</script>
+            return si.join( ", " );
+        }
+        </script>
 
-		<div class="vars">
-			<var id="INTEGERS">GenerateIntegers()</var>
-			<var id="INTEGERS_COUNT">INTEGERS.length</var>
-			<var id="INTEGER_LIST">INTEGERS.join( ", " )</var>
+        <div class="vars">
+            <var id="INTEGERS">GenerateIntegers()</var>
+            <var id="INTEGERS_COUNT">INTEGERS.length</var>
+            <var id="INTEGER_LIST">INTEGERS.join( ", " )</var>
 
-			<var id="SORTED_INTS">sortNumbers( INTEGERS )</var>
-			<var id="SORTED_LIST">SORTED_INTS.join( ", " )</var>
-			<var id="MEDIAN_LIST">DisplayMedian( SORTED_INTS )</var>
+            <var id="SORTED_INTS">sortNumbers( INTEGERS )</var>
+            <var id="SORTED_LIST">SORTED_INTS.join( ", " )</var>
+            <var id="MEDIAN_LIST">DisplayMedian( SORTED_INTS )</var>
 
-			<var id="MEAN">mean( INTEGERS )</var>
-			<var id="MEDIAN">median( INTEGERS )</var>
-			<var id="MODE">mode( INTEGERS )</var>
-		</div>
+            <var id="MEAN">mean( INTEGERS )</var>
+            <var id="MEDIAN">median( INTEGERS )</var>
+            <var id="MODE">mode( INTEGERS )</var>
+        </div>
 
-		<div class="problems">
-			<div id="mean">
-				<div class="question">
-					<p>What is the arithmetic mean of the following numbers?</p>
-					<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
-				</div>
+        <div class="problems">
+            <div id="mean">
+                <div class="question">
+                    <p>What is the arithmetic mean of the following numbers?</p>
+                    <div class="number-list"><code><var>INTEGER_LIST</var></code></div>
+                </div>
 
-				<p class="solution"><var>MEAN</var></p>
+                <p class="solution" data-inexact data-max-error="0.01"><var>MEAN</var></p>
 
-				<div class="hints">
-					<p>To find the mean, add all the numbers and then divide by the number of numbers.</p>
-					<div>
-						<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
-						<p>There are <code><var>INTEGERS_COUNT</var></code> numbers.</p>
-					</div>
-					<p>The mean is <code>\displaystyle <var>fractionSimplification( sum(INTEGERS), INTEGERS_COUNT )</var></code>.</p>
-				</div>
-			</div>
+                <div class="hints">
+                    <p>To find the mean, add all the numbers and then divide by the number of numbers.</p>
+                    <div>
+                        <div class="number-list"><code><var>INTEGER_LIST</var></code></div>
+                        <p>There are <code><var>INTEGERS_COUNT</var></code> numbers.</p>
+                    </div>
+                    <p>The mean is <code>\displaystyle <var>fractionSimplification( sum(INTEGERS), INTEGERS_COUNT )</var></code>.</p>
+                </div>
+            </div>
 
-			<div id="median">
-				<div class="question">
-					<p>What is the median of the following numbers?</p>
-					<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
-				</div>
+            <div id="median">
+                <div class="question">
+                    <p>What is the median of the following numbers?</p>
+                    <div class="number-list"><code><var>INTEGER_LIST</var></code></div>
+                </div>
 
-				<p class="solution"><var>MEDIAN</var></p>
+                <p class="solution"><var>MEDIAN</var></p>
 
-				<div class="hints">
-					<div>
-						<p>First, order the numbers, giving:</p>
-						<div class="number-list"><code><var>SORTED_LIST</var></code></div>
-					</div>
-					<div>
-						<p data-if="INTEGERS.length % 2 === 0">Since we have <code>2</code> middle numbers, the median is the mean of <strong>those</strong> two numbers!</p>
-						<p data-else>The median is the 'middle' number:</p>
-						<div class="number-list"><code><var>MEDIAN_LIST</var></code></div>
-						<p data-if="SORTED_INTS.length % 2 === 0">The median is <code>\dfrac{<var>SORTED_INTS[ SORTED_INTS.length / 2 - 1 ]</var> + <var>SORTED_INTS[ SORTED_INTS.length / 2 ]</var>}{2}</code>.</p>
-					</div>
-					<div>
-						<p>So the median is <code><var>fractionReduce(2 * MEDIAN, 2)</var></code>.</p>
-						<p>Another way to find the middle number is to draw the numbers on a number line. If a number appears multiple times, count its corresponding dot multiple times.</p>
-						<div class="graphie">
-							init({
-								range: [ [-0.5, 10.5], [-1, 1] ]
-							});
+                <div class="hints">
+                    <div>
+                        <p>First, order the numbers, giving:</p>
+                        <div class="number-list"><code><var>SORTED_LIST</var></code></div>
+                    </div>
+                    <div>
+                        <p data-if="INTEGERS.length % 2 === 0">Since we have <code>2</code> middle numbers, the median is the mean of <strong>those</strong> two numbers!</p>
+                        <p data-else>The median is the 'middle' number:</p>
+                        <div class="number-list"><code><var>MEDIAN_LIST</var></code></div>
+                        <p data-if="SORTED_INTS.length % 2 === 0">The median is <code>\dfrac{<var>SORTED_INTS[ SORTED_INTS.length / 2 - 1 ]</var> + <var>SORTED_INTS[ SORTED_INTS.length / 2 ]</var>}{2}</code>.</p>
+                    </div>
+                    <div>
+                        <p>So the median is <code><var>fractionReduce(2 * MEDIAN, 2)</var></code>.</p>
+                        <p>Another way to find the middle number is to draw the numbers on a number line. If a number appears multiple times, count its corresponding dot multiple times.</p>
+                        <div class="graphie">
+                            init({
+                                range: [ [-0.5, 10.5], [-1, 1] ]
+                            });
 
-							style({
-								stroke: "#666"
-							}, function() {
-								numberLine( 0, 10, 1 );
-							});
+                            style({
+                                stroke: "#666"
+                            }, function() {
+                                numberLine( 0, 10, 1 );
+                            });
 
-							var freq = {};
-							var labels = {};
-							jQuery.each(INTEGERS, function( index, number ) {
-								var count = freq[ number ] = (freq[ number ] || 0) + 1;
+                            var freq = {};
+                            var labels = {};
+                            $.each(INTEGERS, function( index, number ) {
+                                var count = freq[ number ] = (freq[ number ] || 0) + 1;
 
-								if ( labels[ number ] ) {
-									labels[ number ].remove();
-								}
+                                if ( labels[ number ] ) {
+                                    labels[ number ].remove();
+                                }
 
-								if ( count >= 2 ) {
-									labels[ number ] = label( [number, 0.2], "\\scriptsize{" + count + "}", "above", { labelDistance: 0 } );
-								} else {
-									circle( [number, 0], 5/40, { stroke: "none", fill: "#6495ed" } );
-								}
-							});
-						</div>
-					</div>
-				</div>
-			</div>
+                                if ( count >= 2 ) {
+                                    labels[ number ] = label( [number, 0.2], "\\scriptsize{" + count + "}", "above", { labelDistance: 0 } );
+                                } else {
+                                    circle( [number, 0], 5/40, { stroke: "none", fill: "#6495ed" } );
+                                }
+                            });
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			<div id="mode">
-				<div class="question">
-					<p>What is the mode of the following numbers?</p>
-					<div class="number-list"><code><var>INTEGER_LIST</var></code></div>
-				</div>
+            <div id="mode">
+                <div class="question">
+                    <p>What is the mode of the following numbers?</p>
+                    <div class="number-list"><code><var>INTEGER_LIST</var></code></div>
+                </div>
 
-				<p class="solution" data-forms="integer"><var>MODE</var></p>
+                <p class="solution" data-forms="integer"><var>MODE</var></p>
 
-				<div class="hints">
-					<p>The mode is the most frequent number.</p>
-					<div>
-						<p>We can draw a histogram to see how many times each number appears.</p>
+                <div class="hints">
+                    <p>The mode is the most frequent number.</p>
+                    <div>
+                        <p>We can draw a histogram to see how many times each number appears.</p>
 
-						<div class="graphie">
-							var freq = {};
-							var maxFreq = 0;
-							jQuery.each(INTEGERS, function( index, number ) {
-								var count = freq[ number ] = (freq[ number ] || 0) + 1;
-								maxFreq = count > maxFreq ? count : maxFreq;
-							});
+                        <div class="graphie">
+                            var freq = {};
+                            var maxFreq = 0;
+                            $.each(INTEGERS, function( index, number ) {
+                                var count = freq[ number ] = (freq[ number ] || 0) + 1;
+                                maxFreq = count > maxFreq ? count : maxFreq;
+                            });
 
-							init({
-								range: [ [-0.5, 10.5], [-1, ( maxFreq + 1.5 ) / 2] ]
-							});
+                            init({
+                                range: [ [-0.5, 10.5], [-1, ( maxFreq + 1.5 ) / 2] ]
+                            });
 
-							style({
-								stroke: "#666"
-							}, function() {
-								numberLine( 0, 10, 1 );
-							});
+                            style({
+                                stroke: "#666"
+                            }, function() {
+                                numberLine( 0, 10, 1 );
+                            });
 
-							for ( var num in freq ) {
-								for ( var i = 0, l = freq[ num ]; i < l; i++ ) {
-									circle( [num, ( i + 1.5 ) / 2], 5/40, { stroke: "none", fill: "#6495ed" } );
-								}
-							}
-						</div>
-					</div>
+                            for ( var num in freq ) {
+                                for ( var i = 0, l = freq[ num ]; i &lt; l; i++ ) {
+                                    circle( [num, ( i + 1.5 ) / 2], 5/40, { stroke: "none", fill: "#6495ed" } );
+                                }
+                            }
+                        </div>
+                    </div>
 
-					<p>There are more <code><var>MODE</var></code>s than any other number, so <code><var>MODE</var></code> is the mode.</p>
-				</div>
-			</div>
-		</div>
-	</div>
+                    <p>There are more <code><var>MODE</var></code>s than any other number, so <code><var>MODE</var></code> is the mode.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

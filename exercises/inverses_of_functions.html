@@ -2,181 +2,181 @@
 <!-- TODO: label coloring -->
 <html data-require="math math-format graphie expressions">
 <head>
-	<meta charset="UTF-8" />
-	<title>Inverses of functions</title>
-	<script src="../khan-exercise.js"></script>
-	<script type="text/javascript">
-		// Formats a fraction when there might be a variable (a string) as the
-		// numerator or the denominator. Also handles cases when both the numerator
-		// and denominator are strings and when both are numbers.
-		function varFraction( n, m ) {
-			var pre = "";
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Inverses of functions</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        // Formats a fraction when there might be a variable (a string) as the
+        // numerator or the denominator. Also handles cases when both the numerator
+        // and denominator are strings and when both are numbers.
+        function varFraction( n, m ) {
+            var pre = "";
 
-			if ( typeof n === "number" && typeof m === "number" ) {
-				return KhanUtil.fractionReduce( n, m, true );
-			} else if ( typeof n === "string" && typeof m === "number" ) {
-				if ( m < 0 ) pre = "-";
-				m = Math.abs( m );
-				if ( m === 1 ) return pre + n;
-			} else if ( typeof n === "number" && typeof m === "string" ) {
-				if ( n < 0 ) pre = "-";
-				n = Math.abs( n );
-			}
+            if ( typeof n === "number" && typeof m === "number" ) {
+                return KhanUtil.fractionReduce( n, m, true );
+            } else if ( typeof n === "string" && typeof m === "number" ) {
+                if ( m < 0 ) pre = "-";
+                m = Math.abs( m );
+                if ( m === 1 ) return pre + n;
+            } else if ( typeof n === "number" && typeof m === "string" ) {
+                if ( n < 0 ) pre = "-";
+                n = Math.abs( n );
+            }
 
-			return pre + KhanUtil.expr([ "frac", n, m ]);
-		}
+            return pre + KhanUtil.expr([ "frac", n, m ]);
+        }
 
-		// Places the correct prefix for subtracting a fraction
-		function subFraction( f ) {
-			return f.indexOf( "-" ) === 0 ? "+" + f.slice( 1 ) : "-" + f;
-		}
+        // Places the correct prefix for subtracting a fraction
+        function subFraction( f ) {
+            return f.indexOf( "-" ) === 0 ? "+" + f.slice( 1 ) : "-" + f;
+        }
 
-		// Places the correct prefix for adding a fraction
-		function addFraction( f ) {
-			return f.indexOf( "-" ) === 0 ? f : "+" + f;
-		}
+        // Places the correct prefix for adding a fraction
+        function addFraction( f ) {
+            return f.indexOf( "-" ) === 0 ? f : "+" + f;
+        }
 
-		function largestOnGrid( f, xRange, yRange ) {
-			for ( var x = xRange[0]; x < xRange[1] - 1 && f(x) > yRange[0] && f(x) < yRange[1]; x += .1 ) { }
-			return x - 1;
-		}
+        function largestOnGrid( f, xRange, yRange ) {
+            for ( var x = xRange[0]; x < xRange[1] - 1 && f(x) > yRange[0] && f(x) < yRange[1]; x += .1 ) { }
+            return x - 1;
+        }
 
-		function labelPos( f ) {
-			var x = largestOnGrid( f, [ 0, 10 ], [ -10, 10 ] );
-			return [ x, f(x) ];
-		}
-	</script>
+        function labelPos( f ) {
+            var x = largestOnGrid( f, [ 0, 10 ], [ -10, 10 ] );
+            return [ x, f(x) ];
+        }
+    </script>
 </head>
 <body>
-	<div class="exercise">
-		<p class="summary">This exercise covers inverses of linear functions.</p>
+    <div class="exercise">
+        <p class="summary">This exercise covers inverses of linear functions.</p>
 
-		<div class="vars">
-			<var id="M">randRangeNonZero( -3, 3 )</var>
-			<var id="B">randRangeNonZero( -5, 5 )</var>
+        <div class="vars">
+            <var id="M">randRangeNonZero( -3, 3 )</var>
+            <var id="B">randRangeNonZero( -5, 5 )</var>
 
-			<var id="M_X">expr([ "*", M, "x" ])</var>
-			<var id="B_X">expr([ "*", B, "x" ])</var>
+            <var id="M_X">expr([ "*", M, "x" ])</var>
+            <var id="B_X">expr([ "*", B, "x" ])</var>
 
-			<var id="X_OVER_M">varFraction( "x", M )</var>
-			<var id="X_OVER_NEG_M">varFraction( "x", -M )</var>
-			<var id="M_OVER_X">varFraction( M, "x" )</var>
-			<var id="B_OVER_M">varFraction( B, M )</var>
-			<var id="M_OVER_B">varFraction( M, B )</var>
-			<var id="Y_OVER_M">varFraction( "y", M )</var>
-			<var id="MINUS_B_OVER_M">subFraction( B_OVER_M )</var>
-			<var id="MINUS_M_OVER_B">subFraction( M_OVER_B )</var>
-			<var id="PLUS_B_OVER_M">addFraction( B_OVER_M )</var>
+            <var id="X_OVER_M">varFraction( "x", M )</var>
+            <var id="X_OVER_NEG_M">varFraction( "x", -M )</var>
+            <var id="M_OVER_X">varFraction( M, "x" )</var>
+            <var id="B_OVER_M">varFraction( B, M )</var>
+            <var id="M_OVER_B">varFraction( M, B )</var>
+            <var id="Y_OVER_M">varFraction( "y", M )</var>
+            <var id="MINUS_B_OVER_M">subFraction( B_OVER_M )</var>
+            <var id="MINUS_M_OVER_B">subFraction( M_OVER_B )</var>
+            <var id="PLUS_B_OVER_M">addFraction( B_OVER_M )</var>
 
-			<var id="F">function( x ) { return M * x + B; }</var>
-			<var id="F_INV">function( x ) { return ( x - B ) / M; }</var>
-		</div>
+            <var id="F">function( x ) { return M * x + B; }</var>
+            <var id="F_INV">function( x ) { return ( x - B ) / M; }</var>
+        </div>
 
-		<div class="problems">
-			<div>
-				<div class="problem">
-					<p><code>f(x) = <var>M_X</var> + <var>B</var></code> for all real numbers.</p>
-				</div>
-				<p class="question">What is <code>f^{-1}(x)</code>, the inverse of <code>f(x)</code>?</p>
+        <div class="problems">
+            <div>
+                <div class="problem">
+                    <p><code>f(x) = <var>M_X</var> + <var>B</var></code> for all real numbers.</p>
+                </div>
+                <p class="question">What is <code>f^{-1}(x)</code>, the inverse of <code>f(x)</code>?</p>
 
-				<div class="graphie" id="G">
-					graphInit({
-						range: 10,
-						scale: 20,
-						tickStep: 1,
-						labelStep: 2,
-						axisArrows: "<->"
-					})
+                <div class="graphie" id="G">
+                    graphInit({
+                        range: 10,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 2,
+                        axisArrows: "<->"
+                    })
 
-					// draw the function
-					style({
-						stroke: "#a3a3ff",
-						strokeWidth: 2
-					}, function() {
-						plot( F, [ -10, 10 ] );
-					});
+                    // draw the function
+                    style({
+                        stroke: "#a3a3ff",
+                        strokeWidth: 2
+                    }, function() {
+                        plot( F, [ -10, 10 ] );
+                    });
 
-				</div>
+                </div>
 
-				<p class="solution"><code><var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
-				<ul class="choices" data-show="4" data-none="true">
-					<li><code><var>expr([ "+", M_X, -B ])</var></code></li>
-					<li><code><var>expr([ "+", M_X, B ])</var></code></li>
-					<li><code><var>expr([ "+", B_X, M ])</var></code></li>
-					<li><code><var>expr([ "+", M_OVER_X, B ])</var></code></li>
-					<li><code><var>expr([ "+", X_OVER_M, B ])</var></code></li>
-					<li><code><var>expr([ "+", X_OVER_M, -B ])</var></code></li>
-					<li><code><var>X_OVER_M + MINUS_M_OVER_B</var></code></li>
-					<li><code><var>X_OVER_M + PLUS_B_OVER_M</var></code></li>
-					<li><code><var>X_OVER_NEG_M + MINUS_B_OVER_M</var></code></li>
-					<li><code><var>X_OVER_NEG_M + PLUS_B_OVER_M</var></code></li>
-				</ul>
-			</div>
-		</div>
+                <p class="solution"><code><var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
+                <ul class="choices" data-show="4" data-none="true">
+                    <li><code><var>expr([ "+", M_X, -B ])</var></code></li>
+                    <li><code><var>expr([ "+", M_X, B ])</var></code></li>
+                    <li><code><var>expr([ "+", B_X, M ])</var></code></li>
+                    <li><code><var>expr([ "+", M_OVER_X, B ])</var></code></li>
+                    <li><code><var>expr([ "+", X_OVER_M, B ])</var></code></li>
+                    <li><code><var>expr([ "+", X_OVER_M, -B ])</var></code></li>
+                    <li><code><var>X_OVER_M + MINUS_M_OVER_B</var></code></li>
+                    <li><code><var>X_OVER_M + PLUS_B_OVER_M</var></code></li>
+                    <li><code><var>X_OVER_NEG_M + MINUS_B_OVER_M</var></code></li>
+                    <li><code><var>X_OVER_NEG_M + PLUS_B_OVER_M</var></code></li>
+                </ul>
+            </div>
+        </div>
 
-		<div class="hints">
-			<p><code>y = f(x)</code>, so solving for <code>x</code> in terms of <code>y</code> gives <code>x=f^{-1}(y)</code></p>
-			<p><code>f(x) = y = <var>expr([ "+", M_X, B ])</var></code></p>
-			<p><code><var>expr([ "+", "y", -B ])</var> = <var>M_X</var></code></p>
-			<p data-if="M !== 1"><code><var>Y_OVER_M + MINUS_B_OVER_M</var> = x</code></p>
-			<p><code>x = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
-			<p>So we know: <br /> <code>f^{-1}(y) = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
-			<p>Rename <code>y</code> to <code>x</code>: <br /> <code>f^{-1}(x) = <var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
-			<div class="graphie" data-update="G">
-				var pos = function( n ) {
-						if ( n >= 1 ) {
-							return "below right";
-						} else if ( n > 0 ) {
-							return "below";
-						} else if ( n > -1 ) {
-							return "above";
-						} else {
-							return "above right";
-						}
-					},
-					fPos = pos( M ),
-					fInvPos = pos( 1 / M );
+        <div class="hints">
+            <p><code>y = f(x)</code>, so solving for <code>x</code> in terms of <code>y</code> gives <code>x=f^{-1}(y)</code></p>
+            <p><code>f(x) = y = <var>expr([ "+", M_X, B ])</var></code></p>
+            <p><code><var>expr([ "+", "y", -B ])</var> = <var>M_X</var></code></p>
+            <p data-if="M !== 1"><code><var>Y_OVER_M + MINUS_B_OVER_M</var> = x</code></p>
+            <p><code>x = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
+            <p>So we know: <br /> <code>f^{-1}(y) = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
+            <p>Rename <code>y</code> to <code>x</code>: <br /> <code>f^{-1}(x) = <var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
+            <div class="graphie" data-update="G">
+                var pos = function( n ) {
+                        if ( n >= 1 ) {
+                            return "below right";
+                        } else if ( n > 0 ) {
+                            return "below";
+                        } else if ( n > -1 ) {
+                            return "above";
+                        } else {
+                            return "above right";
+                        }
+                    },
+                    fPos = pos( M ),
+                    fInvPos = pos( 1 / M );
 
 
-				// plot function inverse
-				style({
-					stroke: "#ffa500",
-					strokeWidth: 2
-				}, function() {
-					plot( F_INV, [ -10, 10 ] );
-				});
+                // plot function inverse
+                style({
+                    stroke: "#ffa500",
+                    strokeWidth: 2
+                }, function() {
+                    plot( F_INV, [ -10, 10 ] );
+                });
 
-				if ( M !== -1 && ( M !== 1 || B !== 0 ) ) {
-					// label f
-					style({
-						color: "#a3a3ff",
-						strokeWidth: 1
-					}, function() {
-						label( labelPos( F ), "f(x)", fPos );
-					});
+                if ( M !== -1 && ( M !== 1 || B !== 0 ) ) {
+                    // label f
+                    style({
+                        color: "#a3a3ff",
+                        strokeWidth: 1
+                    }, function() {
+                        label( labelPos( F ), "f(x)", fPos );
+                    });
 
-					// label f_inv
-					style({
-						color: "#ffa500",
-						strokeWidth: 1
-					}, function() {
-						label( labelPos( F_INV ), "f^{-1}(x)", fInvPos );
-					});
-				}
-			</div>
-			<div>
-				<div class="graphie" data-update="G">
-					style({
-						stroke: "#aaa",
-						strokeWidth: 2,
-						strokeDasharray: "- "
-					}, function() {
-						plot( function( x ) { return x; }, [ -10, 10 ] );
-					});
-				</div>
-				<p>Notice that <code>f^{-1}(x)</code> is just <code>f(x)</code> reflected across the line <code>y=x</code>.</p>
-			</div>
-		</div>
-	</div>
+                    // label f_inv
+                    style({
+                        color: "#ffa500",
+                        strokeWidth: 1
+                    }, function() {
+                        label( labelPos( F_INV ), "f^{-1}(x)", fInvPos );
+                    });
+                }
+            </div>
+            <div>
+                <div class="graphie" data-update="G">
+                    style({
+                        stroke: "#aaa",
+                        strokeWidth: 2,
+                        strokeDasharray: "- "
+                    }, function() {
+                        plot( function( x ) { return x; }, [ -10, 10 ] );
+                    });
+                </div>
+                <p>Notice that <code>f^{-1}(x)</code> is just <code>f(x)</code> reflected across the line <code>y=x</code>.</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,87 +1,87 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers">
 <head>
-	<meta charset="UTF-8" />
-	<title>Comparing absolute values</title>
-	<script src="../khan-exercise.js"></script>
-	<script type="text/javascript"> 
-		function drawNumberLine( NUM ) {
-			var graph = KhanUtil.currentGraph;
-	
-			graph.init({
-				range: [ [-1, 11], [-1, 1] ],
-			});
-			var start = 0;
-			var end = 10;
-			var originX = 0;
-			var x = Math.abs( NUM );
-			if ( NUM < 0 ) {
-				start = -10;
-				end = 0;
-				originX = 10;
-				x = 10 - x;
-			}
-			numberLine( start, end );
-			graph.style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
-			graph.path( [ [ originX, 0 ], [ x, 0 ] ] );
-			graph.circle( [ originX, 0 ], 0.10 );
-			graph.style({ stroke: "#6495ED", fill: "#6495ED" });
-			graph.pt = graph.circle( [ x, 0 ], 0.15 );
-		}
-	</script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Comparing absolute values</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function drawNumberLine( NUM ) {
+            var graph = KhanUtil.currentGraph;
+
+            graph.init({
+                range: [ [-1, 11], [-1, 1] ],
+            });
+            var start = 0;
+            var end = 10;
+            var originX = 0;
+            var x = Math.abs( NUM );
+            if ( NUM < 0 ) {
+                start = -10;
+                end = 0;
+                originX = 10;
+                x = 10 - x;
+            }
+            numberLine( start, end );
+            graph.style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+            graph.path( [ [ originX, 0 ], [ x, 0 ] ] );
+            graph.circle( [ originX, 0 ], 0.10 );
+            graph.style({ stroke: "#6495ED", fill: "#6495ED" });
+            graph.pt = graph.circle( [ x, 0 ], 0.15 );
+        }
+    </script>
 </head>
 <body>
-	<!--
-		Inequalities and equalities between absolute values with other absolute values and integers.
-	-->
-	<div class="exercise">
-		<div class="problems">
-			<div>
-				<div class="vars">
-					<var id="ABS_1, ABS_2">randFromArray([[ "|", "|", ], [ "|", "", ], [ "", "|", ]])</var>
-					<var id="NUM_1">randRange(-10, 10)</var>
-					<var id="NUM_2">( NUM_1 < 0 ) ? randRange(0, 10) : randRange(-10, -1)</var>
-					<var id="NUM_1_VALUE">ABS_1 ? abs( NUM_1 ) : NUM_1</var>
-					<var id="NUM_2_VALUE">ABS_2 ? abs( NUM_2 ) : NUM_2</var>
-					<var id="SOLUTION">(function() {
-						if ( NUM_1_VALUE === NUM_2_VALUE ) {
-							return "=";
-						}
-						return NUM_1_VALUE < NUM_2_VALUE ? "&lt;" : "&gt;";
-					})()</var>
-				</div>
+    <!--
+        Inequalities and equalities between absolute values with other absolute values and integers.
+    -->
+    <div class="exercise">
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="ABS_1, ABS_2">randFromArray([[ "|", "|" ], [ "|", "" ], [ "", "|" ]])</var>
+                    <var id="NUM_1">randRange(-10, 10)</var>
+                    <var id="NUM_2">( NUM_1 &lt; 0 ) ? randRange(0, 10) : randRange(-10, -1)</var>
+                    <var id="NUM_1_VALUE">ABS_1 ? abs( NUM_1 ) : NUM_1</var>
+                    <var id="NUM_2_VALUE">ABS_2 ? abs( NUM_2 ) : NUM_2</var>
+                    <var id="SOLUTION">(function() {
+                        if ( NUM_1_VALUE === NUM_2_VALUE ) {
+                            return "=";
+                        }
+                        return NUM_1_VALUE &lt; NUM_2_VALUE ? "&lt;" : "&gt;";
+                    })()</var>
+                </div>
 
-				<div class="problem">
-					<p>Fill in the blank.</p>
-					<p>
-					<code><var>ABS_1 + NUM_1 + ABS_1</var></code> ____ <code><var>ABS_2 + NUM_2 + ABS_2</var></code>
-					</p>
-				</div>
-				<p class="solution"><code><var>SOLUTION</var></code></p>
-				<ul class="choices" data-category="true">
-					<li><code>&lt;</code></li>
-					<li><code>&gt;</code></li>
-					<li><code>=</code></li>
-				</ul>
-				<div class="hints">
-					<div class="graphie" data-if="ABS_1 === '|'">
-						drawNumberLine( NUM_1 );
-					</div>
-					<p data-if="ABS_1 === '|'">
-						The "absolute value" can be viewed as the distance from 0. The distance from <var>NUM_1</var> to 0 is <var>NUM_1_VALUE</var> so <code>|<var>NUM_1</var>| = <var>NUM_1_VALUE</var></code>
-					</p>
-					<div class="graphie" data-if="ABS_2 === '|'">
-						drawNumberLine( NUM_2 );
-					</div>
-					<p data-if="ABS_2 === '|'">
-						The "absolute value" can be viewed as the distance from 0. The distance from <var>NUM_2</var> to 0 is <var>NUM_2_VALUE</var> so <code>|<var>NUM_2</var>| = <var>NUM_2_VALUE</var></code>
-					</p>
-					<p>Is <var>NUM_1_VALUE</var> less than, greater than, or equal to <var>NUM_2_VALUE</var>?</p>
-					<p><code><var>NUM_1_VALUE</var> <var>SOLUTION</var> <var>NUM_2_VALUE</var></code></p>
-					<p><code><var>ABS_1</var><var>NUM_1</var><var>ABS_1</var> <var>SOLUTION</var> <var>ABS_2</var><var>NUM_2</var><var>ABS_2</var></code></p>
-				</div>
-			</div>
-		</div>
-	</div>
+                <div class="problem">
+                    <p>Fill in the blank.</p>
+                    <p>
+                    <code><var>ABS_1 + NUM_1 + ABS_1</var></code> ____ <code><var>ABS_2 + NUM_2 + ABS_2</var></code>
+                    </p>
+                </div>
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>&gt;</code></li>
+                    <li><code>=</code></li>
+                </ul>
+                <div class="hints">
+                    <div class="graphie" data-if="ABS_1 === '|'">
+                        drawNumberLine( NUM_1 );
+                    </div>
+                    <p data-if="ABS_1 === '|'">
+                        The "absolute value" can be viewed as the distance from 0. The distance from <var>NUM_1</var> to 0 is <var>NUM_1_VALUE</var> so <code>|<var>NUM_1</var>| = <var>NUM_1_VALUE</var></code>
+                    </p>
+                    <div class="graphie" data-if="ABS_2 === '|'">
+                        drawNumberLine( NUM_2 );
+                    </div>
+                    <p data-if="ABS_2 === '|'">
+                        The "absolute value" can be viewed as the distance from 0. The distance from <var>NUM_2</var> to 0 is <var>NUM_2_VALUE</var> so <code>|<var>NUM_2</var>| = <var>NUM_2_VALUE</var></code>
+                    </p>
+                    <p>Is <var>NUM_1_VALUE</var> less than, greater than, or equal to <var>NUM_2_VALUE</var>?</p>
+                    <p><code><var>NUM_1_VALUE</var> <var>SOLUTION</var> <var>NUM_2_VALUE</var></code></p>
+                    <p><code><var>ABS_1</var><var>NUM_1</var><var>ABS_1</var> <var>SOLUTION</var> <var>ABS_2</var><var>NUM_2</var><var>ABS_2</var></code></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

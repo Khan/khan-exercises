@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format graphie-helpers">
+<head>
+    <meta charset="UTF-8" />
+    <title>Powers of complex numbers</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        .info-box .mini-button {
+            margin: 0px 10px 0px 0px;
+            padding: 0px 5px;
+            width: 25px;
+            height: 18px;
+        }
+
+        #number-label {
+            clear: both;
+            margin: 0px 0px;
+            padding: 14px 0px 0px 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars" data-ensure="!(ANSWER_ANGLE === 0 && ANSWER_RADIUS === 1)">
+        <var id="DENOMINATOR">24</var>
+        <var id="BASE_ANGLE_NUMERATOR">randRange( 0, DENOMINATOR - 1 )</var>
+        <var id="BASE_ANGLE">BASE_ANGLE_NUMERATOR / DENOMINATOR * 2 * PI</var>
+        <var id="BASE_RADIUS">1</var>
+        <var id="EULER_FORM">randFromArray( [ true, false ] )</var>
+        <var id="BASE_REP">polarForm( BASE_RADIUS, BASE_ANGLE, EULER_FORM )</var>
+        <var id="BASE_EULER_REP">polarForm( BASE_RADIUS, BASE_ANGLE, true )</var>
+        <var id="BASE_REAL">cos( BASE_ANGLE ) * BASE_RADIUS</var>
+        <var id="BASE_IMAG">sin( BASE_ANGLE ) * BASE_RADIUS</var>
+        <var id="BASE_E_EXPONENT">eulerFormExponent( BASE_ANGLE )</var>
+        <var id="BASE_ANGLE_REP">piFraction( BASE_ANGLE, true )</var>
+
+        <var id="EXPONENT">randRange( 2, 20 )</var>
+
+        <var id="ANGLE_MULTIPLE_NUMERATOR">BASE_ANGLE_NUMERATOR * EXPONENT</var>
+        <var id="ANGLE_MULTIPLE">ANGLE_MULTIPLE_NUMERATOR / DENOMINATOR * 2 * PI</var>
+        <var id="ANGLE_MULTIPLE_E_EXPONENT">eulerFormExponent( BASE_ANGLE * EXPONENT )</var>
+        <var id="ANGLE_MULTIPLE_REP">piFraction( ANGLE_MULTIPLE, true )</var>
+
+        <var id="ANSWER_RADIUS">1</var>
+        <var id="ANSWER_ANGLE_NUMERATOR">( BASE_ANGLE_NUMERATOR * EXPONENT ) % DENOMINATOR</var>
+        <var id="ANSWER_ANGLE">ANSWER_ANGLE_NUMERATOR / DENOMINATOR * 2 * PI</var>
+        <var id="ANSWER_ANGLE_REP">piFraction( ANSWER_ANGLE, true )</var>
+        <var id="ANSWER_E_EXPONENT">piFraction( ANSWER_ANGLE, true )</var>
+        <var id="ANSWER_EULER">polarForm( ANSWER_RADIUS, ANSWER_ANGLE, true )</var>
+        <var id="ANSWER">polarForm( ANSWER_RADIUS, ANSWER_ANGLE, EULER_FORM )</var>
+
+        <var id="NEAREST_TWO_PI_MULTIPLE">piFraction( ANGLE_MULTIPLE - ANSWER_ANGLE, true )</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <p class="question">
+                Determine the value of the following complex number power. Your answer will be plotted in
+                <strong class="hint_orange">orange</strong>.
+            </p>
+            <code>
+                (\color{<var>BLUE</var>}{<var>BASE_REP</var>}) ^ {<var>EXPONENT</var>}
+            </code>
+            <div class="graphie" id="gauss-plane">
+                graphInit({
+                    range: [ [-5, 5], [-5, 5] ],
+                    scale: 30,
+                    tickStep: 1,
+                    axisArrows: "<->"
+                });
+
+                drawComplexChart( 5, DENOMINATOR );
+
+                circle( [ BASE_REAL, BASE_IMAG ], 1 / 4, {
+                    fill: KhanUtil.BLUE,
+                    stroke: "none"
+                });
+
+                graph.currComplexPolar = new ComplexPolarForm( DENOMINATOR, 5, EULER_FORM );
+                redrawComplexPolarForm();
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    <div>
+                        <div style="float: left;">Radius: <span id="current-radius"><code>1</code></span></div>
+                        <div style="float: right;">
+                            <input type="button" class="simple-button mini-button" value="-" onclick="updateComplexPolarForm(0, -1)" />
+                            <input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm(0, 1)" />
+                        </div>
+                    </div>
+                    <div style="clear: both;">
+                        <div style="float: left;">Angle: <span id="current-angle"><code>0</code></span></div>
+                        <div style="float: right;">
+                            <input type="button" class="simple-button mini-button" value="-" onclick="updateComplexPolarForm(-1, 0)" />
+                            <input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm(1, 0)" />
+                        </div>
+                    </div>
+                    <div id="number-label">1</div>
+                </div>
+                <div class="guess">[
+                    graph.currComplexPolar.getAngleNumerator(),
+                    graph.currComplexPolar.getRadius()
+                    ]</div>
+                <div class="validator-function">
+                    var angle = guess[0];
+                    var radius = guess[1];
+
+                    if (angle === 0 &amp;&amp; radius === 1) {
+                    return "";
+                    }
+
+                    return angle === ANSWER_ANGLE_NUMERATOR &amp;&amp;
+                           radius === ANSWER_RADIUS;
+                </div>
+                <div class="show-guess">
+                    redrawComplexPolarForm(guess[0], guess[1]);
+                </div>
+                <div class="show-guess-solutionarea">
+                    redrawComplexPolarForm(guess[0], guess[1]);
+                </div>
+            </div>
+            <div class="hints">
+                <div data-if="BASE_ANGLE === 0">
+                    <p>
+                        All powers of <code>1</code> are <code>1</code>.
+                    </p>
+                </div>
+
+                <div data-else data-unwrap>
+                    <div data-if="!EULER_FORM" data-unwrap>
+                        <p>
+                            Let's express our complex number in Euler form first.
+                        <p>
+                        <code>
+                            \color{<var>BLUE</var>}{<var>BASE_REP</var>} = \color{<var>BLUE</var>}{<var>BASE_EULER_REP</var>}
+                        </code>
+                    </div>
+
+                    <p>
+                        Since <code>(a ^ b) ^ c = a ^ {b \cdot c}</code>,
+                        <code>
+                            (\color{<var>BLUE</var>}{<var>BASE_EULER_REP</var>}) ^ {<var>EXPONENT</var>} =
+                            e ^ {<var>EXPONENT</var> \cdot (<var>BASE_E_EXPONENT</var>)}
+                        </code>
+                    </p>
+
+                    <p>
+                        The angle of the result is <code><var>EXPONENT</var> \cdot <var>BASE_ANGLE_REP</var></code>,
+                        which is <code><var>ANGLE_MULTIPLE_REP</var></code>.
+                    </p>
+
+                    <div data-if="ANGLE_MULTIPLE_NUMERATOR >= DENOMINATOR * 2" data-unwrap>
+                        <p>
+                            <code><var>ANGLE_MULTIPLE_REP</var></code> is more than <code>2 \pi</code>.
+                            It is a common practice to keep complex number angles between <code>0</code> and <code>2 \pi</code>,
+                            because <code>e^{2 \pi i} = (e^{\pi i}) ^ 2 = (-1) ^ 2 = 1</code>.
+                            We will now subtract the nearest multiple of <code>2 \pi</code> from the angle.
+                        </p>
+                        <p>
+                            <code>
+                                <var>ANGLE_MULTIPLE_REP</var> - <var>NEAREST_TWO_PI_MULTIPLE</var> = <var>ANSWER_ANGLE_REP</var>
+                            </code>
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>
+                        Our result is <code><var>ANSWER_EULER</var></code>.
+                    </p>
+                    <p data-if="!EULER_FORM && ANSWER_ANGLE_NUMERATOR !== 0">
+                        Converting this back from Euler form, we get
+                        <code><var>ANSWER</var></code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

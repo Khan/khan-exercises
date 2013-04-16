@@ -1,171 +1,171 @@
 <!DOCTYPE html>
 <html data-require="math">
 <head>
-	<meta charset="UTF-8" />
-	<title>Direct and inverse variation</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Direct and inverse variation</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars">
-			<var id="VARIABLE_NAMES">[["x", "y"], ["a", "b"], ["m", "n"]]</var>
+    <div class="exercise">
+        <div class="vars">
+            <var id="VARIABLE_NAMES">[["x", "y"], ["a", "b"], ["m", "n"]]</var>
 
-			<var id="V1, V2">randFromArray(VARIABLE_NAMES)</var>
+            <var id="V1, V2">randFromArray(VARIABLE_NAMES)</var>
 
-			<var id="MULTIPLIER_IS_FRACTIONAL">rand(2)</var>
-			<var id="MULTIPLIER_VALUE">randRange(2, 9)</var>
+            <var id="MULTIPLIER_IS_FRACTIONAL">rand(2)</var>
+            <var id="MULTIPLIER_VALUE">randRange(2, 9)</var>
 
-			<var id="MULTIPLIER_INVERSE">MULTIPLIER_IS_FRACTIONAL ? MULTIPLIER_VALUE : "\\frac{1}{"+MULTIPLIER_VALUE+"}"</var>
-			<var id="MULTIPLIER">MULTIPLIER_IS_FRACTIONAL ? "\\frac{1}{"+MULTIPLIER_VALUE+"}" : MULTIPLIER_VALUE</var>
-		</div>
+            <var id="MULTIPLIER_INVERSE">MULTIPLIER_IS_FRACTIONAL ? MULTIPLIER_VALUE : "\\frac{1}{"+MULTIPLIER_VALUE+"}"</var>
+            <var id="MULTIPLIER">MULTIPLIER_IS_FRACTIONAL ? "\\frac{1}{"+MULTIPLIER_VALUE+"}" : MULTIPLIER_VALUE</var>
+        </div>
 
-		<div class="problems">
-			<div id="direct-variation">
-				<div class="vars">
-					<var id="STATEMENT">randFromArray([
-						"&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; is directly proportional to &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
-						"&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; and &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt; vary directly",
-						"&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; varies directly with &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
-						"&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; and &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt; are in direct variation"
-					])</var>
-				</div>
+        <div class="problems">
+            <div id="direct-variation">
+                <div class="vars">
+                    <var id="STATEMENT">randFromArray([
+                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; is directly proportional to &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
+                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; and &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt; vary directly",
+                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; varies directly with &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
+                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; and &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt; are in direct variation"
+                    ])</var>
+                </div>
 
-				<p class="problem"><var>STATEMENT</var>.</p>
-				<p class="question">Which of these equations could represent the relationship between <code><var>V1</var></code> and <code><var>V2</var></code>?</p>
-				<p class="solution"><code>
-						<var>V1</var> = <var>MULTIPLIER</var> \cdot <var>V2</var>
-				</code></p>
+                <p class="problem"><var>STATEMENT</var>.</p>
+                <p class="question">Which of these equations could represent the relationship between <code><var>V1</var></code> and <code><var>V2</var></code>?</p>
+                <p class="solution"><code>
+                        <var>V1</var> = <var>MULTIPLIER</var> \cdot <var>V2</var>
+                </code></p>
 
-				<div class="hints">
-					<p><var>STATEMENT</var> if <code><var>V1</var> = k \cdot <var>V2</var></code> for some constant k</p>
-					<p><code><var>V1</var> = <var>MULTIPLIER</var> \cdot <var>V2</var></code> fits this pattern, with <code>k = <var>MULTIPLIER</var></code>.</p>
-				</div>
+                <div class="hints">
+                    <p><var>STATEMENT</var> if <code><var>V1</var> = k \cdot <var>V2</var></code> for some constant k</p>
+                    <p><code><var>V1</var> = <var>MULTIPLIER</var> \cdot <var>V2</var></code> fits this pattern, with <code>k = <var>MULTIPLIER</var></code>.</p>
+                </div>
 
-				<ul class="choices" data-show="5">
-					<li><code>
-							<var>V1</var> \cdot <var>V2</var> = <var>MULTIPLIER</var>
-					</code></li>
-					<li><code>
-							<var>V1</var> \cdot <var>V2</var> = <var>MULTIPLIER_INVERSE</var>
-					</code></li>
-					<li><code>
-							<var>V1</var> = <var>MULTIPLIER</var> \cdot \frac{1}{<var>V2</var>}
-					</code></li>
-					<li><code>
-							<var>MULTIPLIER</var> \cdot <var>V1</var> = \frac{1}{<var>V2</var>}
-					</code></li>
-					<li><code>
-							<var>MULTIPLIER_INVERSE</var> \cdot <var>V1</var> = \frac{1}{<var>V2</var>}
-					</code></li>
-					<li><code>
-							<var>MULTIPLIER</var> \cdot \frac{1}{<var>V1</var>} = <var>V2</var>
-					</code></li>
-					<li><code>
-							<var>MULTIPLIER_INVERSE</var> \cdot \frac{1}{<var>V1</var>} = <var>V2</var>
-					</code></li>
-					<li><code>
-							<var>V1</var> + <var>V2</var> = <var>MULTIPLIER_INVERSE</var>
-					</code></li>
-					<li><code>
-							<var>V1</var> = <var>MULTIPLIER</var> - <var>V2</var>
-					</code></li>
-				</ul>
-			</div>
+                <ul class="choices" data-show="5">
+                    <li><code>
+                            <var>V1</var> \cdot <var>V2</var> = <var>MULTIPLIER</var>
+                    </code></li>
+                    <li><code>
+                            <var>V1</var> \cdot <var>V2</var> = <var>MULTIPLIER_INVERSE</var>
+                    </code></li>
+                    <li><code>
+                            <var>V1</var> = <var>MULTIPLIER</var> \cdot \frac{1}{<var>V2</var>}
+                    </code></li>
+                    <li><code>
+                            <var>MULTIPLIER</var> \cdot <var>V1</var> = \frac{1}{<var>V2</var>}
+                    </code></li>
+                    <li><code>
+                            <var>MULTIPLIER_INVERSE</var> \cdot <var>V1</var> = \frac{1}{<var>V2</var>}
+                    </code></li>
+                    <li><code>
+                            <var>MULTIPLIER</var> \cdot \frac{1}{<var>V1</var>} = <var>V2</var>
+                    </code></li>
+                    <li><code>
+                            <var>MULTIPLIER_INVERSE</var> \cdot \frac{1}{<var>V1</var>} = <var>V2</var>
+                    </code></li>
+                    <li><code>
+                            <var>V1</var> + <var>V2</var> = <var>MULTIPLIER_INVERSE</var>
+                    </code></li>
+                    <li><code>
+                            <var>V1</var> = <var>MULTIPLIER</var> - <var>V2</var>
+                    </code></li>
+                </ul>
+            </div>
 
-			<div data-type="direct-variation" id="v1-over-v2">
-				<p class="solution"><code>\frac{<var>V1</var>}{<var>V2</var>} = <var>MULTIPLIER</var></code></p>
+            <div data-type="direct-variation" id="v1-over-v2">
+                <p class="solution"><code>\frac{<var>V1</var>}{<var>V2</var>} = <var>MULTIPLIER</var></code></p>
 
-				<div class="hints">
-					<p><var>STATEMENT</var> if <code><var>V1</var> = k \cdot <var>V2</var></code> for some constant k</p>
-					<p>If you divide each side of this expression by <code><var>V2</var></code>, you get <code>\dfrac{<var>V1</var>}{<var>V2</var>} = k</code> for some constant <code>k</code>.</p>
-					<p><code>\dfrac{<var>V1</var>}{<var>V2</var>} = <var>MULTIPLIER</var></code> fits this pattern, with <code>k = <var>MULTIPLIER</var></code>.</p>
-				</div>
-			</div>
+                <div class="hints">
+                    <p><var>STATEMENT</var> if <code><var>V1</var> = k \cdot <var>V2</var></code> for some constant k</p>
+                    <p>If you divide each side of this expression by <code><var>V2</var></code>, you get <code>\dfrac{<var>V1</var>}{<var>V2</var>} = k</code> for some constant <code>k</code>.</p>
+                    <p><code>\dfrac{<var>V1</var>}{<var>V2</var>} = <var>MULTIPLIER</var></code> fits this pattern, with <code>k = <var>MULTIPLIER</var></code>.</p>
+                </div>
+            </div>
 
-			<div data-type="direct-variation" id="inverse-k">
-				<p class="solution"><code><var>MULTIPLIER</var> \cdot <var>V1</var> = <var>V2</var></code></p>
+            <div data-type="direct-variation" id="inverse-k">
+                <p class="solution"><code><var>MULTIPLIER</var> \cdot <var>V1</var> = <var>V2</var></code></p>
 
-				<div class="hints">
-					<p><var>STATEMENT</var> if <code><var>V1</var> = k \cdot <var>V2</var></code> for some constant k</p>
-					<p>If you divide each side of this expression by <code>k</code>, you get <code>\dfrac{1}{k} \cdot <var>V1</var> = <var>V2</var></code>.</p>
-					<p><code><var>MULTIPLIER</var> \cdot <var>V1</var> = <var>V2</var></code> fits this pattern, with <code>k = <var>MULTIPLIER_INVERSE</var></code>.</p>
-				</div>
-			</div>
+                <div class="hints">
+                    <p><var>STATEMENT</var> if <code><var>V1</var> = k \cdot <var>V2</var></code> for some constant k</p>
+                    <p>If you divide each side of this expression by <code>k</code>, you get <code>\dfrac{1}{k} \cdot <var>V1</var> = <var>V2</var></code>.</p>
+                    <p><code><var>MULTIPLIER</var> \cdot <var>V1</var> = <var>V2</var></code> fits this pattern, with <code>k = <var>MULTIPLIER_INVERSE</var></code>.</p>
+                </div>
+            </div>
 
-			<div id="inverse-variation">
-				<div class="vars">
-					<var id="STATEMENT">randFromArray([
-						"&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; is inversely proportional to &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
-						"&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; and &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt; vary inversely",
-						"&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; varies inversely with &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
-						"&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; and &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt; are in inverse variation"
-					])</var>
-				</div>
+            <div id="inverse-variation">
+                <div class="vars">
+                    <var id="STATEMENT">randFromArray([
+                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; is inversely proportional to &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
+                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; and &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt; vary inversely",
+                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; varies inversely with &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
+                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; and &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt; are in inverse variation"
+                    ])</var>
+                </div>
 
-				<p class="problem"><var>STATEMENT</var>.</p>
-				<p class="question">Which of these equations could represent the relationship between <code><var>V1</var></code> and <code><var>V2</var></code>?</p>
-				<p class="solution"><code><var>V1</var> = <var>MULTIPLIER</var> \cdot \frac{1}{<var>V2</var>}</code></p>
+                <p class="problem"><var>STATEMENT</var>.</p>
+                <p class="question">Which of these equations could represent the relationship between <code><var>V1</var></code> and <code><var>V2</var></code>?</p>
+                <p class="solution"><code><var>V1</var> = <var>MULTIPLIER</var> \cdot \frac{1}{<var>V2</var>}</code></p>
 
-				<div class="hints">
-					<p><var>STATEMENT</var> if <code><var>V1</var> = k \cdot \dfrac{1}{<var>V2</var>}</code> for some constant k</p>
-					<p><code><var>V1</var> = <var>MULTIPLIER</var> \cdot \dfrac{1}{<var>V2</var>}</code> fits this pattern, with <code>k = <var>MULTIPLIER</var></code>.</p>
-				</div>
+                <div class="hints">
+                    <p><var>STATEMENT</var> if <code><var>V1</var> = k \cdot \dfrac{1}{<var>V2</var>}</code> for some constant k</p>
+                    <p><code><var>V1</var> = <var>MULTIPLIER</var> \cdot \dfrac{1}{<var>V2</var>}</code> fits this pattern, with <code>k = <var>MULTIPLIER</var></code>.</p>
+                </div>
 
-				<ul class="choices" data-show="5">
-					<li><code>
-							\frac{<var>V1</var>}{<var>V2</var>} = <var>MULTIPLIER</var>
-					</code></li>
-					<li><code>
-							\frac{<var>V1</var>}{<var>V2</var>} = <var>MULTIPLIER_INVERSE</var>
-					</code></li>
-					<li><code>
-							<var>V1</var> = <var>MULTIPLIER</var> \cdot <var>V2</var>
-					</code></li>
-					<li><code>
-							<var>V1</var> = <var>MULTIPLIER_INVERSE</var> \cdot <var>V2</var>
-					</code></li>
-					<li><code>
-							<var>MULTIPLIER</var> \cdot <var>V1</var> = <var>V2</var>
-					</code></li>
-					<li><code>
-							<var>MULTIPLIER_INVERSE</var> \cdot <var>V1</var> = <var>V2</var>
-					</code></li>
-					<li><code>
-							<var>MULTIPLIER</var> \cdot \frac{1}{<var>V1</var>} = \frac{1}{<var>V2</var>}
-					</code></li>
-					<li><code>
-							<var>MULTIPLIER_INVERSE</var> \cdot \frac{1}{<var>V1</var>} = \frac{1}{<var>V2</var>}
-					</code></li>
-					<li><code>
-							<var>V1</var> - <var>V2</var> = <var>MULTIPLIER_INVERSE</var>
-					</code></li>
-					<li><code>
-							<var>V1</var> = <var>MULTIPLIER</var> + <var>V2</var>
-					</code></li>
-				</ul>
-			</div>
+                <ul class="choices" data-show="5">
+                    <li><code>
+                            \frac{<var>V1</var>}{<var>V2</var>} = <var>MULTIPLIER</var>
+                    </code></li>
+                    <li><code>
+                            \frac{<var>V1</var>}{<var>V2</var>} = <var>MULTIPLIER_INVERSE</var>
+                    </code></li>
+                    <li><code>
+                            <var>V1</var> = <var>MULTIPLIER</var> \cdot <var>V2</var>
+                    </code></li>
+                    <li><code>
+                            <var>V1</var> = <var>MULTIPLIER_INVERSE</var> \cdot <var>V2</var>
+                    </code></li>
+                    <li><code>
+                            <var>MULTIPLIER</var> \cdot <var>V1</var> = <var>V2</var>
+                    </code></li>
+                    <li><code>
+                            <var>MULTIPLIER_INVERSE</var> \cdot <var>V1</var> = <var>V2</var>
+                    </code></li>
+                    <li><code>
+                            <var>MULTIPLIER</var> \cdot \frac{1}{<var>V1</var>} = \frac{1}{<var>V2</var>}
+                    </code></li>
+                    <li><code>
+                            <var>MULTIPLIER_INVERSE</var> \cdot \frac{1}{<var>V1</var>} = \frac{1}{<var>V2</var>}
+                    </code></li>
+                    <li><code>
+                            <var>V1</var> - <var>V2</var> = <var>MULTIPLIER_INVERSE</var>
+                    </code></li>
+                    <li><code>
+                            <var>V1</var> = <var>MULTIPLIER</var> + <var>V2</var>
+                    </code></li>
+                </ul>
+            </div>
 
-			<div data-type="inverse-variation" id="v1-v2-over-k">
-				<p class="solution"><code><var>V1</var> \cdot <var>V2</var> = <var>MULTIPLIER</var></code></p>
+            <div data-type="inverse-variation" id="v1-v2-over-k">
+                <p class="solution"><code><var>V1</var> \cdot <var>V2</var> = <var>MULTIPLIER</var></code></p>
 
-				<div class="hints">
-					<p><var>STATEMENT</var> if <code><var>V1</var> = k \cdot \dfrac{1}{<var>V2</var>}</code> for some constant k</p>
-					<p>If you multiply each side of this expression by <code><var>V2</var></code>, you get <code><var>V1</var> \cdot <var>V2</var> = k</code> for some constant <code>k</code>.</p>
-					<p><code><var>V1</var> \cdot <var>V2</var> = <var>MULTIPLIER</var></code> fits this pattern, with <code>k = <var>MULTIPLIER</var></code>.</p>
-				</div>
-			</div>
+                <div class="hints">
+                    <p><var>STATEMENT</var> if <code><var>V1</var> = k \cdot \dfrac{1}{<var>V2</var>}</code> for some constant k</p>
+                    <p>If you multiply each side of this expression by <code><var>V2</var></code>, you get <code><var>V1</var> \cdot <var>V2</var> = k</code> for some constant <code>k</code>.</p>
+                    <p><code><var>V1</var> \cdot <var>V2</var> = <var>MULTIPLIER</var></code> fits this pattern, with <code>k = <var>MULTIPLIER</var></code>.</p>
+                </div>
+            </div>
 
-			<div data-type="inverse-variation" id="k-over-a">
-				<p class="solution"><code><var>MULTIPLIER</var> \cdot \dfrac{1}{<var>V1</var>} = <var>V2</var></code></p>
+            <div data-type="inverse-variation" id="k-over-a">
+                <p class="solution"><code><var>MULTIPLIER</var> \cdot \dfrac{1}{<var>V1</var>} = <var>V2</var></code></p>
 
-				<div class="hints">
-						<p><var>STATEMENT</var> if <code><var>V1</var> = k \cdot \dfrac{1}{<var>V2</var>}</code> for some constant k</p>
-						<p>If you divide each side of this expression by <code>k</code>, you get <code>\dfrac{<var>V1</var>}{k} = \dfrac{1}{<var>V2</var>}</code>.</p>
-						<p>Then you can take the inverse of each side to get <code>\dfrac{k}{<var>V1</var>} = <var>V2</var></code>.</p>
-					<p><code><var>MULTIPLIER</var> \cdot \dfrac{1}{<var>V1</var>} = <var>V2</var></code> fits this pattern, with <code>k = <var>MULTIPLIER</var></code>.</p>
-				</div>
-			</div>
-		</div>
-	</div>
+                <div class="hints">
+                        <p><var>STATEMENT</var> if <code><var>V1</var> = k \cdot \dfrac{1}{<var>V2</var>}</code> for some constant k</p>
+                        <p>If you divide each side of this expression by <code>k</code>, you get <code>\dfrac{<var>V1</var>}{k} = \dfrac{1}{<var>V2</var>}</code>.</p>
+                        <p>Then you can take the inverse of each side to get <code>\dfrac{k}{<var>V1</var>} = <var>V2</var></code>.</p>
+                    <p><code><var>MULTIPLIER</var> \cdot \dfrac{1}{<var>V1</var>} = <var>V2</var></code> fits this pattern, with <code>k = <var>MULTIPLIER</var></code>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

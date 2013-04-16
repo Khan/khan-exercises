@@ -1,66 +1,104 @@
 <!DOCTYPE html>
-<html data-require="math expressions">
+<html data-require="math math-format expressions">
 <head>
-	<meta charset="UTF-8" />
-	<title>Writing expressions 1</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Writing expressions</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars">
-			<var id="A">(random() > 0.5 ? -1 : 1) * (rand(9) + 1)</var>
-			<var id="B">(random() > 0.5 ? -1 : 1) * (rand(9) + 1)</var>
-		</div>
+    <div class="exercise">
+        <div class="problems">
+            <div id="original">
+                <div class="vars">
+                    <var id="M">randRange(1, 4)</var>
+                    <var id="B">-randRange(1, 10)</var>
 
-		<div class="problems">
-			<div id="original">
-				<div class="problem">
-					<p>Select the expression that matches the following phrase:</p>
-				</div>
-				<p class="question">The sum of <code><var>B</var></code> and the product of <code><var>A</var></code> and <code>x</code>.</p>
-				<p class="solution"><code><var>expr(["+", ["*", A, "x"], B])</var></code></p>
-				<ul class="choices" data-show="5" data-none="true">
-					<li><code><var>expr(["+", ["*", -A, "x"], B])</var></code></li>
-					<li><code><var>expr(["+", ["*", A, "x"], -B])</var></code></li>
-					<li><code><var>expr(["+", ["*", B, "x"], A])</var></code></li>
-					<li><code><var>expr(["+", ["*", -B, "x"], -A])</var></code></li>
-				</ul>
-				<div class="hints" data-apply="appendContents">
-					<p id="hint1">What is <span class="hint_orange">the product of <code><var>A</var></code> and <code>x</code></span>?</p>
-					<p id="hint2">What is <span class="hint_blue">the sum of <code><var>B</var></code></span> and <code class="hint_orange"><var>expr(["*", A, "x"])</var></code>?</p>
-				</div>
-			</div>
-			<div data-type="original">
-				<p class="question">Take the quantity <code><var>A</var></code> times <code>x</code>, and then add <code><var>B</var></code>.</p>
-				<div class="hints" data-apply="appendContents">
-					<p id="hint1">What is <span class="hint_orange">the quantity of <code><var>A</var></code> times <code>x</code></span>?</p>
-					<p id="hint2">What <span class="hint_blue">does adding <code><var>B</var></code></span> do?</p>
-				</div>
-			</div>
-			<div data-type="original">
-				<p class="question"><code><var>B</var></code> plus the product of <code><var>A</var></code> and <code>x</code>.</p>
-				<div class="hints" data-apply="appendContents">
-					<p id="hint1">What is <span class="hint_orange">the product of <code><var>A</var></code> and <code>x</code></span>?</p>
-					<p id="hint2">What is <span class="hint_blue"><code><var>B</var></code> plus</span> <code class="hint_orange"><var>expr(["*", A, "x"])</var></code>?</p>
-				</div>
-			</div>
-			<div data-type="original">
-				<p class="question">The sum of <code><var>B</var></code> and the quantity <code><var>A</var></code> times <code>x</code>.</p>
-				<div class="hints" data-apply="appendContents">
-					<p id="hint1">What is <span class="hint_orange">the quantity <code><var>A</var></code> times <code>x</code></span>?</p>
-					<p id="hint2">What is <span class="hint_blue">the sum of <code><var>B</var></code></span> and <code class="hint_orange"><var>expr(["*", A, "x"])</var></code>?</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="hints">
-			<p>Let's break this problem into smaller and easier pieces.</p>
-			<p id="hint1"></p>
-			<p><code><var>A</var> \times x = \color{orange}{<var>expr(["*", A, "x"])</var>}</code></p>
-			<p id="hint2"></p>
-			<p><code class="hint_orange"><var>A</var>x</code><code class="hint_blue">{} + <var>B</var></code></p>
-			<p>So, the original phrase can be written as <code><var>expr(["+", ["*", A, "x"], B])</var></code>.</p>
-		</div>
-	</div>
+                    <var id="X_TERM_RE">
+                        (M === 1 ?  "1?" : M === -1 ?
+                                "[-\\u2212]\\s*1?" :
+                                (M &lt; 0 ? "[-\\u2212]\\s*" + (-M) : M)) +
+                            "\\s*(?:\\*\\s*)?x"
+                    </var>
+                    <var id="C_TERM_RE">
+                        B &lt; 0 ?
+                            "[-\\u2212]\\s*" + (-B) :
+                            "" + B
+                    </var>
+                    <var id="X_C_RE">
+                        X_TERM_RE +
+                            (B &lt; 0 ? "\\s*" : "\\s*\\+\\s*") +
+                            C_TERM_RE
+                    </var>
+                    <var id="C_X_RE">
+                        C_TERM_RE +
+                            (M &lt; 0 ? "\\s*" : "\\s*\\+\\s*") +
+                            X_TERM_RE
+                    </var>
+                    <var id="RE">
+                        B === 0 ?
+                            "^" + X_TERM_RE + "$" :
+                            "^(?:" + X_C_RE + "|" + C_X_RE + ")$"
+                    </var>
+                </div>
+                <div class="problem">
+                    <p>Write an expression to represent:</p>
+                </div>
+                <p class="question"><var>Cardinal(-B)</var> less than <span data-if="M === 2">twice</span><span data-else-if="M &gt; 2"><var>cardinal(M)</var> times</span> a number <code>x</code>.</p>
+                <p class="solution" data-type="regex"><var>RE</var></p>
+                <div class="hints">
+                    <p data-if="M !== 1"><span data-if="M === 2">Twice</span><span data-else-if="M &gt; 2"><var>Cardinal(M)</var> times</span> a number <code>x</code> can be written as <code><var>M</var>x</code>.</p>
+                    <p><var>Cardinal(-B)</var> less than something means that we subtract <code><var>-B</var></code> from it.</p>
+                    <p>If we subtract <code><var>-B</var></code> from <code><var>expr(["*", M, "x"])</var></code>, we have <code><var>expr(["+", ["*", M, "x"], B])</var></code>.
+                </div>
+            </div>
+            <div data-type="original">
+                <div class="vars">
+                    <var id="M">randRange(1, 4)</var>
+                    <var id="B">randRange(1, 10)</var>
+                </div>
+                <p class="question"><var>Cardinal(B)</var> more than <span data-if="M === 2">twice</span><span data-else-if="M &gt; 2"><var>cardinal(M)</var> times</span> a number <code>x</code>.</p>
+                <div class="hints">
+                    <p data-if="M !== 1"><span data-if="M === 2">Twice</span><span data-else-if="M &gt; 2"><var>Cardinal(M)</var> times</span> a number <code>x</code> can be written as <code><var>M</var>x</code>.</p>
+                    <p><var>Cardinal(B)</var> more than something means that we add <code><var>B</var></code> to it.</p>
+                    <p>If we add <code><var>B</var></code> to <code><var>expr(["*", M, "x"])</var></code>, we have <code><var>expr(["+", B, ["*", M, "x"]])</var></code>.
+                </div>
+            </div>
+            <div data-type="original">
+                <div class="vars">
+                    <var id="M">-randRange(1, 4)</var>
+                    <var id="B">randRange(1, 10)</var>
+                </div>
+                <p class="question"><var>Cardinal(B)</var> minus <span data-if="-M === 2">twice</span><span data-else-if="-M &gt; 2"><var>cardinal(-M)</var> times</span> a number <code>x</code>.</p>
+                <div class="hints">
+                    <p data-if="-M !== 1"><span data-if="-M === 2">Twice</span><span data-else-if="-M &gt; 2"><var>Cardinal(-M)</var> times</span> a number <code>x</code> can be written as <code><var>-M</var>x</code>.</p>
+                    <p><var>Cardinal(B)</var> minus something means that we subtract it from <code><var>B</var></code>.</p>
+                    <p>If we subtract <code><var>expr(["*", -M, "x"])</var></code> from <code><var>B</var></code>, we have <code><var>expr(["+", B, ["*", M, "x"]])</var></code>.
+                </div>
+            </div>
+            <div data-type="original">
+                <div class="vars">
+                    <var id="M">randRange(2, 4)</var>
+                    <var id="B">0</var>
+                </div>
+                <p class="question">The product of <var>cardinal(M)</var> and a number <code>x</code>.</p>
+                <div class="hints">
+                    <p>"Product" means that we multiply <code><var>M</var></code> and <code>x</code>.</p>
+                    <p>If we multiply <code><var>M</var></code> and <code>x</code>, we have <code><var>expr(["*", M, "x"])</var></code>.
+                </div>
+            </div>
+            <div data-type="original">
+                <div class="vars">
+                    <var id="M">randRange(1, 4)</var>
+                    <var id="B">randRange(1, 10)</var>
+                </div>
+                <p class="question">The sum of <var>cardinal(B)</var> and <span data-if="M === 2">twice</span><span data-else-if="M &gt; 2"><var>cardinal(M)</var> times</span> a number <code>x</code>.</p>
+                <div class="hints">
+                    <p data-if="M !== 1"><span data-if="M === 2">Twice</span><span data-else-if="M &gt; 2"><var>Cardinal(M)</var> times</span> a number <code>x</code> can be written as <code><var>M</var>x</code>.</p>
+                    <p>"Sum" means that we add <code><var>B</var></code> and <code><var>expr(["*", M, "x"])</var></code>.</p>
+                    <p>If we add <code><var>B</var></code> and <code><var>expr(["*", M, "x"])</var></code>, we have <code><var>expr(["+", B, ["*", M, "x"]])</var></code>.
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

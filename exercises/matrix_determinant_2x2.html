@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html data-require="math matrix">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Determinant of a 2x2 matrix</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+
+    <div class="vars">
+        <var id="MAT">makeMatrix(randRange(-2, 5, DIM, DIM))</var>
+        <var id="SOLN">matrixDet(MAT)</var>
+        <var id="PRETTY_MAT_ID">"\\textbf " + randFromArray("ABCDEF")</var>
+    </div>
+
+    <div class="problem">
+        <p>
+            <code><var>PRETTY_MAT_ID</var> = <var>printSimpleMatrix(MAT)</var></code>
+        </p>
+    </div>
+
+    <p class="question">
+        What is the determinant of <code><var>PRETTY_MAT_ID</var></code>?
+    </p>
+
+    <div class="solution">
+        <span class="sol"><var>SOLN</var></span>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="vars" data-apply="prependVars">
+                <var id="DIM">2</var>
+                <var id="HINT_MAT">makeMatrix([["a","b"],["c","d"]])</var>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        The determinant of a 2x2 matrix can be computed the following way:
+                    </p>
+                    <p>
+                        <code>
+                            <var>printSimpleMatrixDet(HINT_MAT)</var>
+                            = <var>matrix2x2DetHint(HINT_MAT)</var>
+                        </code>
+                    </p>
+                </div>
+                <div>
+                    <p>In this specific case,</p>
+                    <p>
+                        <code>
+                            <var>printSimpleMatrixDet(MAT)</var>
+                            = <var>matrix2x2DetHint(MAT)</var>
+                        </code>
+                    </p>
+                </div>
+                <div>
+                    <code>
+                        = <var>SOLN</var>
+                    </code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</body>
+</html>

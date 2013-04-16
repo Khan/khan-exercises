@@ -1,87 +1,87 @@
 <!DOCTYPE html>
 <html data-require="math polynomials expressions">
 <head>
-	<meta charset="UTF-8" />
-	<title>Functions 3</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Evaluating composite functions</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars" data-ensure="INNER.name !== OUTER.name && INNER.minDegree <= INNER.maxDegree && OUTER.minDegree <= OUTER.maxDegree && abs( INNER_VALUE ) < 200 && abs( OUTER_VALUE ) < 500">
-			<var id="FUNC_NAMES">shuffle(["f", "g", "h"])</var>
-			<var id="FUNC_VARIABLES">["x", "n", "t"]</var>
+    <div class="exercise">
+        <div class="vars" data-ensure="INNER.name !== OUTER.name && INNER.minDegree <= INNER.maxDegree && OUTER.minDegree <= OUTER.maxDegree && abs( INNER_VALUE ) < 200 && abs( OUTER_VALUE ) < 500">
+            <var id="FUNC_NAMES">shuffle(["f", "g", "h"])</var>
+            <var id="FUNC_VARIABLES">["x", "n", "t"]</var>
 
-			<var id="INNER">new Polynomial( randRange(0, 2), randRangeWeighted(1, 3, 3, 0.2), null, randFromArray(FUNC_VARIABLES), FUNC_NAMES[0] )</var>
+            <var id="INNER">new Polynomial( randRange(0, 2), randRangeWeighted(1, 3, 3, 0.2), null, randFromArray(FUNC_VARIABLES), FUNC_NAMES[0] )</var>
 
-			<var id="OUTER">new CompositePolynomial( randRange(0, 2), randRangeWeighted(1, 3, 3, 0.2), null, randFromArray(FUNC_VARIABLES), FUNC_NAMES[1], INNER )</var>
-		</div>
+            <var id="OUTER">new CompositePolynomial( randRange(0, 2), randRangeWeighted(1, 3, 3, 0.2), null, randFromArray(FUNC_VARIABLES), FUNC_NAMES[1], INNER )</var>
+        </div>
 
-		<div class="problems">
-			<div>
-				<div class="vars">
-					<var id="FUNCTIONS">shuffle([INNER, OUTER])</var>
-					<var id="SOLVE_FOR">shuffle([INNER, OUTER])</var>
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="FUNCTIONS">shuffle([INNER, OUTER])</var>
+                    <var id="SOLVE_FOR">shuffle([INNER, OUTER])</var>
 
-					<var id="VALUE">randRange(-10, 10)</var>
-					<var id="INNER_VALUE">SOLVE_FOR[1].evalOf(VALUE)</var>
+                    <var id="VALUE">randRange(-10, 10)</var>
+                    <var id="INNER_VALUE">SOLVE_FOR[1].evalOf(VALUE)</var>
 
-					<!-- Solution -->
-					<var id="OUTER_VALUE">SOLVE_FOR[0].evalOf(INNER_VALUE)</var>
-				</div>
+                    <!-- Solution -->
+                    <var id="OUTER_VALUE">SOLVE_FOR[0].evalOf(INNER_VALUE)</var>
+                </div>
 
-				<div class="problem">
-					<ul>
-						<li><code><var>FUNCTIONS[0].name</var>(<var>FUNCTIONS[0].variable</var>) = <var>FUNCTIONS[0].text()</var></code></li>
-						<li><code><var>FUNCTIONS[1].name</var>(<var>FUNCTIONS[1].variable</var>) = <var>FUNCTIONS[1].text()</var></code></li>
-					</ul>
-				</div>
+                <div class="problem">
+                    <ul>
+                        <li><code><var>FUNCTIONS[0].name</var>(<var>FUNCTIONS[0].variable</var>) = <var>FUNCTIONS[0].text()</var></code></li>
+                        <li><code><var>FUNCTIONS[1].name</var>(<var>FUNCTIONS[1].variable</var>) = <var>FUNCTIONS[1].text()</var></code></li>
+                    </ul>
+                </div>
 
-				<p class="question"><code>
-					<var>SOLVE_FOR[0].name</var>(<var>SOLVE_FOR[1].name</var>(<var>VALUE</var>)) = {?}
-				</code></p>
-				<p class="solution"><var>OUTER_VALUE</var></p>
-			</div>
+                <p class="question"><code>
+                    <var>SOLVE_FOR[0].name</var>(<var>SOLVE_FOR[1].name</var>(<var>VALUE</var>)) = {?}
+                </code></p>
+                <p class="solution"><var>OUTER_VALUE</var></p>
+            </div>
 
-			<div>
-				<div class="vars" data-ensure="OUTER2.name !== INNER.name && OUTER2.name !== OUTER.name && OUTER2.minDegree <= OUTER2.maxDegree">
-					<var id="OUTER2">new CompositePolynomial( randRange(0, 2), randRange(1, 3), null, randFromArray(FUNC_VARIABLES), FUNC_NAMES[2], randFromArray([INNER, OUTER]) )</var>
+            <div>
+                <div class="vars" data-ensure="OUTER2.name !== INNER.name && OUTER2.name !== OUTER.name && OUTER2.minDegree <= OUTER2.maxDegree">
+                    <var id="OUTER2">new CompositePolynomial( randRange(0, 2), randRange(1, 3), null, randFromArray(FUNC_VARIABLES), FUNC_NAMES[2], randFromArray([INNER, OUTER]) )</var>
 
-					<var id="FUNCTIONS">shuffle([INNER, OUTER, OUTER2])</var>
+                    <var id="FUNCTIONS">shuffle([INNER, OUTER, OUTER2])</var>
 
-					<var id="SOLVE_FOR">shuffle([INNER, OUTER, OUTER2])</var>
+                    <var id="SOLVE_FOR">shuffle([INNER, OUTER, OUTER2])</var>
 
-					<var id="VALUE">randRange(-10, 10)</var>
-					<var id="INNER_VALUE">SOLVE_FOR[1].evalOf(VALUE)</var>
+                    <var id="VALUE">randRange(-10, 10)</var>
+                    <var id="INNER_VALUE">SOLVE_FOR[1].evalOf(VALUE)</var>
 
-					<!-- Solution -->
-					<var id="OUTER_VALUE">SOLVE_FOR[0].evalOf(INNER_VALUE)</var>
-				</div>
+                    <!-- Solution -->
+                    <var id="OUTER_VALUE">SOLVE_FOR[0].evalOf(INNER_VALUE)</var>
+                </div>
 
-				<div class="problem">
-					<ul>
-						<li><code><var>FUNCTIONS[0].name</var>(<var>FUNCTIONS[0].variable</var>) = <var>FUNCTIONS[0].text()</var></code></li>
-						<li><code><var>FUNCTIONS[1].name</var>(<var>FUNCTIONS[1].variable</var>) = <var>FUNCTIONS[1].text()</var></code></li>
-						<li><code><var>FUNCTIONS[2].name</var>(<var>FUNCTIONS[2].variable</var>) = <var>FUNCTIONS[2].text()</var></code></li>
-					</ul>
-				</div>
+                <div class="problem">
+                    <ul>
+                        <li><code><var>FUNCTIONS[0].name</var>(<var>FUNCTIONS[0].variable</var>) = <var>FUNCTIONS[0].text()</var></code></li>
+                        <li><code><var>FUNCTIONS[1].name</var>(<var>FUNCTIONS[1].variable</var>) = <var>FUNCTIONS[1].text()</var></code></li>
+                        <li><code><var>FUNCTIONS[2].name</var>(<var>FUNCTIONS[2].variable</var>) = <var>FUNCTIONS[2].text()</var></code></li>
+                    </ul>
+                </div>
 
-				<p class="question"><code>
-					<var>SOLVE_FOR[0].name</var>(<var>SOLVE_FOR[1].name</var>(<var>VALUE</var>)) = {?}
-				</code></p>
-				<p class="solution"><var>OUTER_VALUE</var></p>
-			</div>
-		</div>
+                <p class="question"><code>
+                    <var>SOLVE_FOR[0].name</var>(<var>SOLVE_FOR[1].name</var>(<var>VALUE</var>)) = {?}
+                </code></p>
+                <p class="solution"><var>OUTER_VALUE</var></p>
+            </div>
+        </div>
 
-		<div class="hints">
-			<p>First, let's solve for the value of the inner function, <code><var>SOLVE_FOR[1].name</var>(<var>VALUE</var>)</code>. Then we'll know what to plug into the outer function.</p>
-			<div data-each="SOLVE_FOR[1].hint(VALUE) as key, value"><var>value</var></div>
+        <div class="hints">
+            <p>First, let's solve for the value of the inner function, <code><var>SOLVE_FOR[1].name</var>(<var>VALUE</var>)</code>. Then we'll know what to plug into the outer function.</p>
+            <div data-each="SOLVE_FOR[1].hint(VALUE) as key, value"><var>value</var></div>
 
-			<p>Now we know that <code><var>SOLVE_FOR[1].name</var>(<var>VALUE</var>) = <var>INNER_VALUE</var></code>.
+            <p>Now we know that <code><var>SOLVE_FOR[1].name</var>(<var>VALUE</var>) = <var>INNER_VALUE</var></code>.
 
-			Let's solve for <code><var>SOLVE_FOR[0].name</var>(<var>SOLVE_FOR[1].name</var>(<var>VALUE</var>))</code>, which is <code><var>SOLVE_FOR[0].name</var>(<var>INNER_VALUE</var>)</code>.</p>
+            Let's solve for <code><var>SOLVE_FOR[0].name</var>(<var>SOLVE_FOR[1].name</var>(<var>VALUE</var>))</code>, which is <code><var>SOLVE_FOR[0].name</var>(<var>INNER_VALUE</var>)</code>.</p>
 
-			<div data-each="SOLVE_FOR[0].hint(INNER_VALUE) as key, value"><var>value</var></div>
-		</div>
-	</div>
+            <div data-each="SOLVE_FOR[0].hint(INNER_VALUE) as key, value"><var>value</var></div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Balancing chemical equations</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        input.coefficient {
+            width: 25px;
+            margin-right: 5px;
+            vertical-align: super;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="h2-o2---h2o" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[2, 1, 2]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{O}_2 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2\text{O}</code>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        There are <code>2 \text{ O}</code> on the left and only
+                        <code>1</code> on the right, so multiply
+                        <code>\text{H}_2\text{O}</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{H}_2 + \text{O}_2 \rightarrow \blue{2}\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>4 \text{ H}</code> on the right and
+                        only <code>2</code> on the left, so multiply
+                        <code>\text{H}_2</code> by <code>\red{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \red{2}\text{H}_2 + \text{O}_2 \rightarrow 2\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        2\text{H}_2 + \text{O}_2 \rightarrow 2\text{H}_2\text{O}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="ch4-cl2---ccl4-hcl" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[1, 4, 1, 4]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{CH}_4 +</code>
+                <input type="number" class="coefficient"></input><code>\text{Cl}_2 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{CCl}_4 +</code>
+                <input type="number" class="coefficient"></input><code>\text{HCl}</code>
+            </div>
+            <div class="hints">
+                <p>
+                    <code>\text{C}</code> is already balanced.
+                </p>
+                <div>
+                    <p>
+                        There are <code>4 \text{ H}</code> on the left and only
+                        <code>1</code> on the right, so multiply
+                        <code>\text{HCl}</code> by <code>\blue{4}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{CH}_4 + \text{Cl}_2 \rightarrow \text{CCl}_4 + \blue{4}\text{HCl}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>8 \text{ Cl}</code> on the right and
+                        only <code>2</code> on the left, so multiply
+                        <code>\text{Cl}_2</code> by <code>\red{4}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{CH}_4 + \red{4}\text{Cl}_2 \rightarrow \text{CCl}_4 + 4\text{HCl}
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        \text{CH}_4 + 4\text{Cl}_2 \rightarrow \text{CCl}_4 + 4\text{HCl}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="al-o2---al2o3" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[4, 3, 2]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{Al} +</code>
+                <input type="number" class="coefficient"></input><code>\text{O}_2 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{Al}_2\text{O}_3</code>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        There are <code>2 \text{ O}</code> on the left and
+                        <code>3</code> on the right. The lowest common denominator
+                        is <code>6</code>, so multiply
+                        <code>\text{O}_2</code> by <code>\blue{3}</code> and
+                        <code>\text{Al}_2\text{O}_3</code> by <code>\red{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{Al} + \blue{3}\text{O}_2 \rightarrow \red{2}\text{Al}_2\text{O}_3
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>4 \text{ Al}</code> on the right and
+                        only <code>1</code> on the left, so multiply
+                        <code>\text{Al}</code> by <code>\pink{4}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \pink{4}\text{Al} + 3\text{O}_2 \rightarrow 2\text{Al}_2\text{O}_3
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        4\text{Al} + 3\text{O}_2 \rightarrow 2\text{Al}_2\text{O}_3
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="ch4-o2---co2-h2o" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[1, 2, 1, 2]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{CH}_4 +</code>
+                <input type="number" class="coefficient"></input><code>\text{O}_2 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{CO}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2\text{O}</code>
+            </div>
+            <div class="hints">
+                <p>
+                    <code>\text{C}</code> is already balanced.
+                </p>
+                <div>
+                    <p>
+                        There are <code>4 \text{ H}</code> on the left and
+                        <code>2</code> on the right, so multiply
+                        <code>\text{H}_2\text{O}</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{CH}_4 + \text{O}_2 \rightarrow \text{CO}_2 + \blue{2}\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>4 \text{ O}</code> on the right and
+                        only <code>2</code> on the left, so multiply
+                        <code>\text{O}_2</code> by <code>\red{2}</code>.
+                        (Since oxygen is by itself on the left, it should be done
+                        at the end because you can give it a coefficient without
+                        affecting another element.)
+                    </p>
+                    <p><code>\qquad
+                        \text{CH}_4 + \red{2}\text{O}_2 \rightarrow \text{CO}_2 + 2\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        \text{CH}_4 + 2\text{O}_2 \rightarrow \text{CO}_2 + 2\text{H}_2\text{O}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="nabr-cl2---nacl-br2" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[2, 1, 2, 1]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{NaBr} +</code>
+                <input type="number" class="coefficient"></input><code>\text{Cl}_2 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{NaCl} +</code>
+                <input type="number" class="coefficient"></input><code>\text{Br}_2</code>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        There is <code>1 \text{ Br}</code> on the left and
+                        <code>2</code> on the right, so multiply
+                        <code>\text{NaBr}</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \blue{2}\text{NaBr} + \text{Cl}_2 \rightarrow \text{NaCl} + \text{Br}_2
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        There are <code>2 \text{ Cl}</code> on the left and
+                        <code>1</code> on the right, so multiply
+                        <code>\text{NaCl}</code> by <code>\red{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        2\text{NaBr} + \text{Cl}_2 \rightarrow \red{2}\text{NaCl} + \text{Br}_2
+                    </code></p>
+                </div>
+                <p>
+                    Now <code>\text{Na}</code> is balanced again.
+                </p>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        2\text{NaBr} + \text{Cl}_2 \rightarrow 2\text{NaCl} + \text{Br}_2
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="mg-hcl---mgcl2-h2" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[1, 2, 1, 1]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{Mg} +</code>
+                <input type="number" class="coefficient"></input><code>\text{HCl} \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{MgCl}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2</code>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        There are <code>2 \text{ Cl}</code> on the right and
+                        only <code>1</code> on the left, so multiply
+                        <code>\text{HCl}</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{Mg} + \blue{2}\text{HCl} \rightarrow \text{MgCl}_2 + \text{H}_2
+                    </code></p>
+                </div>
+                <div>
+                    <p>Now all atoms are balanced; the balanced equation is:</p>
+                    <p><code>\qquad
+                        \text{Mg} + 2\text{HCl} \rightarrow \text{MgCl}_2 + \text{H}_2
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="nh4no3---n2-o2-h2o" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[2, 2, 1, 4]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{NH}_4\text{NO}_3 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{N}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{O}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2\text{O}</code>
+            </div>
+            <div class="hints">
+                <p>
+                    Start with the compound that has the most elements
+                    <code>(\text{NH}_4\text{NO}_3)</code>.
+                </p>
+                <p>
+                    There are <code>2 \text{N}</code> on the left and
+                    <code>2 \text{N}</code> on the right, so <code>\text{N}</code>
+                    is already balanced.
+                </p>
+                <div>
+                    <p>
+                        There are <code>4 \text{ H}</code> on the left and
+                        <code>2</code> on the right, so multiply
+                        <code>\text{H}_2\text{O}</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{NH}_4\text{NO}_3 \rightarrow \text{N}_2 + \text{O}_2 + \blue{2}\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>3 \text{ O}</code> on the left and
+                        <code>4</code> on the right. If we try giving
+                        <code>\text{O}_2</code> a coefficient of <code>\red{\frac{1}{2}}</code>,
+                        it gives us <code>3 \text{ O}</code> on both sides.
+                    </p>
+                    <p><code>\qquad
+                        \text{NH}_4\text{NO}_3 \rightarrow \text{N}_2 + \red{\frac{1}{2}}\text{O}_2 + 2\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        Since fractions are not usually used as coefficients, multiply everything by <code>2</code> to get rid of the fraction.
+                    </p>
+                    <p><code>\qquad
+                        2\text{NH}_4\text{NO}_3 \rightarrow 2\text{N}_2 + 1\text{O}_2 + 4\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        2\text{NH}_4\text{NO}_3 \rightarrow 2\text{N}_2 + \text{O}_2 + 4\text{H}_2\text{O}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="c2h6o-o2---co2-h2o" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[1, 3, 2, 3]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{C}_2\text{H}_6\text{O} +</code>
+                <input type="number" class="coefficient"></input><code>\text{O}_2 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{CO}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2\text{O}</code>
+            </div>
+            <div class="hints">
+                <p>
+                    For a combustion reaction, it is usually easiest to start
+                    with <code>\text{C}</code>.
+                </p>
+                <div>
+                    <p>
+                        There are <code>2 \text{ C}</code> on the left and
+                        <code>1</code> on the right, so multiply
+                        <code>\text{CO}_2</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{C}_2\text{H}_6\text{O} + \text{O}_2 \rightarrow \blue{2}\text{CO}_2 + \text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        There are <code>6 \text{ H}</code> on the left and
+                        <code>2</code> on the right, so multiply
+                        <code>\text{H}_2\text{O}</code> by <code>\red{3}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{C}_2\text{H}_6\text{O} + \text{O}_2 \rightarrow 2\text{CO}_2 + \red{3}\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>7 \text{ O}</code> on the right and
+                        <code>3</code> on the left, so multiply
+                        <code>\text{O}_2</code> by <code>\pink{3}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{C}_2\text{H}_6\text{O} + \pink{3}\text{O}_2 \rightarrow 2\text{CO}_2 + 3\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        \text{C}_2\text{H}_6\text{O} + 3\text{O}_2 \rightarrow 2\text{CO}_2 + 3\text{H}_2\text{O}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="mg-o2---mgo" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[2, 1, 2]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{Mg} +</code>
+                <input type="number" class="coefficient"></input><code>\text{O}_2 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{MgO}</code>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        There are <code>2 \text{ O}</code> on the left and only
+                        <code>1</code> on the right, so multiply
+                        <code>\text{MgO}</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{Mg} + \text{O}_2 \rightarrow \blue{2}\text{MgO}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>2 \text{ Mg}</code> on the right and
+                        only <code>1</code> on the left, so multiply
+                        <code>\text{Mg}</code> by <code>\red{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \red{2}\text{Mg} + \text{O}_2 \rightarrow 2\text{MgO}
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        2\text{Mg} + \text{O}_2 \rightarrow 2\text{MgO}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="al-hcl---alcl3-h2" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[2, 6, 2, 3]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{Al} +</code>
+                <input type="number" class="coefficient"></input><code>\text{HCl} \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{AlCl}_3 +</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2</code>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        There is <code>1 \text{ H}</code> and <code>1 \text{ Cl}</code> on the left and
+                        <code>3 \text{ Cl}</code> and <code>2 \text{ H}</code> on the right.
+                        The lowest common denominator for the right is <code>6</code>, so multiply
+                        <code>\text{AlCl}_3</code> by <code>\blue{2}</code> and
+                        <code>\text{H}_2</code> by <code>\red{3}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{Al} + \text{HCl} \rightarrow \blue{2}\text{AlCl}_3 + \red{3}\text{H}_2
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>6 \text{ H}</code> and <code>6 \text{ Cl}</code>
+                        on the right, so multiply
+                        <code>\text{HCl}</code> by <code>\pink{6}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{Al} + \pink{6}\text{HCl} \rightarrow 2\text{AlCl}_3 + 3\text{H}_2
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>2 \text{ Al}</code> on the right and
+                        only <code>1</code> on the left, so multiply
+                        <code>\text{Al}</code> by <code>\green{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \green{2}\text{Al} + 6\text{HCl} \rightarrow 2\text{AlCl}_3 + 3\text{H}_2
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        2\text{Al} + 6\text{HCl} \rightarrow 2\text{AlCl}_3 + 3\text{H}_2
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="cacl2-na2po4---ca3po42-nacl" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[3, 2, 1, 6]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{CaCl}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{Na}_3\text{PO}_4 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{Ca}_3\text{(PO}_4\text{)}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{NaCl}</code>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        We can treat the phosphate polyatomic ion <code>\text{(PO}_4\text{)}</code> as an atom, symbolized by <code>\green{X}</code>:
+                    </p>
+                    <p><code>\qquad
+                        \text{CaCl}_2 + \text{Na}_3\green{\text{PO}_4} \rightarrow \text{Ca}_3(\green{\text{PO}_4\text{}})_2 + \text{NaCl}
+                    </code></p>
+                    <p><code>\qquad
+                        \text{CaCl}_2 + \text{Na}_3\green{X} \rightarrow \text{Ca}_3\green{X}_2 + \text{NaCl}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        There is <code>1 \space X</code> on the left and <code>2 \space X</code>
+                        on the right, so multiply
+                        <code>\text{Na}_3X</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{CaCl}_2 + \blue{2}\text{Na}_3X \rightarrow \text{Ca}_3X_2 + \text{NaCl}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        There are <code>6 \text{ Na}</code> on the left and only
+                        <code>1</code> on the right, so multiply
+                        <code>\text{NaCl}</code> by <code>\red{6}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{CaCl}_2 + 2\text{Na}_3X \rightarrow \text{Ca}_3X_2 + \red{6}\text{NaCl}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>6 \text{ Cl}</code> on the right and
+                        only <code>2</code> on the left, so multiply
+                        <code>\text{CaCl}_2</code> by <code>\pink{3}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \pink{3}\text{CaCl}_2 + 2\text{Na}_3X \rightarrow \text{Ca}_3X_2 + 6\text{NaCl}
+                    </code></p>
+                </div>
+                <p>
+                    Now <code>\text{Ca}</code> is balanced too.
+                </p>
+                <div>
+                    <p>Replacing <code>\text{PO}_4</code> for <code>X</code>, the balanced equation is:</p>
+                    <p><code>\qquad
+                        3\text{CaCl}_2 + 2\text{Na}_3\text{PO}_4 \rightarrow \text{Ca}_3\text{(PO}_4\text{)}_2 + 6\text{NaCl}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="n2h4-o2---no2-h2o" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[1, 3, 2, 2]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{N}_2\text{H}_4 +</code>
+                <input type="number" class="coefficient"></input><code>\text{O}_2 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{NO}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2\text{O}</code>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        There are <code>2 \text{ N}</code> on the left and
+                        only <code>1</code> on the right, so multiply
+                        <code>\text{NO}_2</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{N}_2\text{H}_4 + \text{O}_2 \rightarrow \blue{2}\text{NO}_2 + \text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        There are <code>4 \text{ H}</code> on the left and
+                        only <code>2</code> on the right, so multiply
+                        <code>\text{H}_2\text{O}</code> by <code>\red{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{N}_2\text{H}_4 + \text{O}_2 \rightarrow 2\text{NO}_2 + \red{2}\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>6 \text{ O}</code> on the right and
+                        only <code>2</code> on the left, so multiply
+                        <code>\text{O}_2</code> by <code>\pink{3}</code>.
+                        (Since oxygen is by itself on the left, it should be done
+                        at the end because you can give it a coefficient without
+                        affecting another element.)
+                    </p>
+                    <p><code>\qquad
+                        \text{N}_2\text{H}_4 + \pink{3}\text{O}_2 \rightarrow 2\text{NO}_2 + 2\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        \text{N}_2\text{H}_4 + 3\text{O}_2 \rightarrow 2\text{NO}_2 + 2\text{H}_2\text{O}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="fe-h2o---fe3o4-h2" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[3, 4, 1, 4]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{Fe} +</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2\text{O} \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{Fe}_3\text{O}_4 +</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2</code>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        There are <code>3 \text{ Fe}</code> on the right and
+                        only <code>1</code> on the left, so multiply
+                        <code>\text{Fe}</code> by <code>\blue{3}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \blue{3}\text{Fe} + \text{H}_2\text{O} \rightarrow \text{Fe}_3\text{O}_4 + \text{H}_2
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        There are <code>4 \text{ O}</code> on the right and
+                        only <code>1</code> on the left, so multiply
+                        <code>\text{H}_2\text{O}</code> by <code>\red{4}</code>.
+                    </p>
+                    <p><code>\qquad
+                        3\text{Fe} + \red{4}\text{H}_2\text{O} \rightarrow \text{Fe}_3\text{O}_4 + \text{H}_2
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>8 \text{ H}</code> on the left and
+                        only <code>2</code> on the right, so multiply
+                        <code>\text{H}_2</code> by <code>\pink{4}</code>.
+                        (Since hydrogen is by itself on the right, it should be done
+                        at the end because you can give it a coefficient without
+                        affecting another element.)
+                    </p>
+                    <p><code>\qquad
+                        3\text{Fe} + 4\text{H}_2\text{O} \rightarrow \text{Fe}_3\text{O}_4 + \pink{4}\text{H}_2
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        3\text{Fe} + 4\text{H}_2\text{O} \rightarrow \text{Fe}_3\text{O}_4 + 4\text{H}_2
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="nh4no3---n2o-h2o" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[1, 1, 2]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{NH}_4\text{NO}_3 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{N}_2\text{O} +</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2\text{O}</code>
+            </div>
+            <div class="hints">
+                <p>
+                    There are <code>2 \text{ N}</code> on the right and
+                    <code>2</code> on the left, so <code>\text{N}</code>
+                    is already balanced.
+                </p>
+                <div>
+                    <p>
+                        There are <code>4 \text{ H}</code> on the left and
+                        only <code>2</code> on the right, so multiply
+                        <code>\text{H}_2\text{O}</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{NH}_4\text{NO}_3 \rightarrow \text{N}_2\text{O} + \blue{2}\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <p>
+                    There are <code>3 \text{ O}</code> on the right and
+                    <code>3</code> on the left, so <code>\text{O}</code>
+                    is already balanced.
+                </p>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        \text{NH}_4\text{NO}_3 \rightarrow \text{N}_2\text{O} + 2\text{H}_2\text{O}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="hgo---hg-o2" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[2, 2, 1]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{HgO} \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{Hg} +</code>
+                <input type="number" class="coefficient"></input><code>\text{O}_2</code>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        There are <code>2 \text{ O}</code> on the right and
+                        only <code>1</code> on the left, so multiply
+                        <code>\text{HgO}</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \blue{2}\text{HgO} \rightarrow \text{Hg} + \text{O}_2
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        Now there are <code>2 \text{ Hg}</code> on the left and
+                        only <code>1</code> on the right, so multiply
+                        <code>\text{Hg}</code> by <code>\red{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        2\text{HgO} \rightarrow \red{2}\text{Hg} + \text{O}_2
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        2\text{HgO} \rightarrow 2\text{Hg} + \text{O}_2
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="sio2-hf---sif4-h2o" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[1, 4, 1, 2]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{SiO}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{HF} \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{SiF}_4 +</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2\text{O}</code>
+            </div>
+            <div class="hints">
+                <p>
+                    There is <code>1 \text{ Si}</code> on the right and
+                    <code>1</code> on the left, so <code>\text{Si}</code>
+                    is already balanced.
+                </p>
+                <div>
+                    <p>
+                        There are <code>2 \text{ O}</code> on the left and
+                        only <code>1</code> on the right, so multiply
+                        <code>\text{H}_2\text{O}</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{SiO}_2 + \text{HF} \rightarrow \text{SiF}_4 + \blue{2}\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        Now there are <code>4 \text{ H}</code> on the right and
+                        only <code>1</code> on the left, so multiply
+                        <code>\text{HF}</code> by <code>\red{4}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{SiO}_2 + \red{4}\text{HF} \rightarrow \text{SiF}_4 + 2\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <p>
+                    Now <code>\text{F}</code> is balanced too.
+                </p>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        \text{SiO}_2 + 4\text{HF} \rightarrow \text{SiF}_4 + 2\text{H}_2\text{O}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="mgoh2-hcl---mgcl2-h2o" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[1, 2, 1, 2]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{Mg(OH)}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{HCl} \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{MgCl}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2\text{O}</code>
+            </div>
+            <div class="hints">
+                <p>
+                    There is <code>1 \text{ Mg}</code> on the right and
+                    <code>1</code> on the left, so <code>\text{Mg}</code>
+                    is already balanced.
+                </p>
+                <div>
+                    <p>
+                        There are <code>2 \text{ Cl}</code> on the right and
+                        only <code>1</code> on the left, so multiply
+                        <code>\text{HCl}</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{Mg(OH)}_2 + \blue{2}\text{HCl} \rightarrow \text{MgCl}_2 + \text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        Now there are <code>4 \text{ H}</code> on the left and
+                        only <code>2</code> on the right, so multiply
+                        <code>\text{H}_2\text{O}</code> by <code>\red{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{Mg(OH)}_2 + 2\text{HCl} \rightarrow \text{MgCl}_2 + \red{2}\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <p>
+                    Now <code>\text{O}</code> is balanced too.
+                </p>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        \text{Mg(OH)}_2 + 2\text{HCl} \rightarrow \text{MgCl}_2 + 2\text{H}_2\text{O}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="h2so4-pboh4---pbso42-h2o" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[2, 1, 1, 4]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2\text{SO}_4 +</code>
+                <input type="number" class="coefficient"></input><code>\text{Pb(OH)}_4 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{Pb(SO}_4\text{)}_2 +</code>
+                <input type="number" class="coefficient"></input><code>\text{H}_2\text{O}</code>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        We can treat the sulfate polyatomic ion <code>\text{(SO}_4\text{)}</code> as an atom, symbolized by <code>\green{X}</code>:
+                    </p>
+                    <p><code>\qquad
+                        \text{H}_2\green{\text{SO}_4} + \text{Pb(OH)}_4 \rightarrow \text{Pb(}\green{\text{SO}_4}\text{)}_2 + \text{H}_2\text{O}
+                    </code></p>
+                    <p><code>\qquad
+                        \text{H}_2\green{X} + \text{Pb(OH)}_4 \rightarrow \text{Pb}\green{X}_2 + \text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        There is <code>1 \space X</code> on the left and <code>2 \space X</code>
+                        on the right, so multiply
+                        <code>\text{H}_2X</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \blue{2}\text{H}_2X + \text{Pb(OH)}_4 \rightarrow \text{Pb}X_2 + \text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>8 \text{ H}</code> on the left and
+                        only <code>2</code> on the right, so multiply
+                        <code>\text{H}_2\text{O}</code> by <code>\red{4}</code>.
+                    </p>
+                    <p><code>\qquad
+                        2\text{H}_2X + \text{Pb(OH)}_4 \rightarrow \text{Pb}X_2 + \red{4}\text{H}_2\text{O}
+                    </code></p>
+                </div>
+                <div>
+                    <p>Everything is now balanced. Replacing <code>\text{SO}_4</code> for <code>X</code>, the balanced equation is:</p>
+                    <p><code>\qquad
+                        2\text{H}_2\text{SO}_4 + \text{Pb(OH)}_4 \rightarrow \text{Pb(}\text{SO}_4\text{)}_2 + 4\text{H}_2\text{O}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="as4s6-o2---as4o6-so2" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[1, 9, 1, 6]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{As}_4\text{S}_6 +</code>
+                <input type="number" class="coefficient"></input><code>\text{O}_2 \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{As}_4\text{O}_6 +</code>
+                <input type="number" class="coefficient"></input><code>\text{SO}_2</code>
+            </div>
+            <div class="hints">
+                <p>
+                    <code>\text{As}</code> is already balanced.
+                </p>
+                <div>
+                    <p>
+                        There are <code>6 \text{ S}</code> on the left and
+                        only <code>1</code> on the right, so multiply
+                        <code>\text{SO}_2</code> by <code>\blue{6}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{As}_4\text{S}_6 + \text{O}_2 \rightarrow \text{As}_4\text{O}_6 + \blue{6}\text{SO}_2
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>18 \text{ O}</code> on the right and
+                        only <code>2</code> on the left, so multiply
+                        <code>\text{O}_2</code> by <code>\red{9}</code>.
+                        (Since oxygen is by itself on the left, it should be done
+                        at the end because you can give it a coefficient without
+                        affecting another element.)
+                    </p>
+                    <p><code>\qquad
+                        \text{As}_4\text{S}_6 + \red{9}\text{O}_2 \rightarrow \text{As}_4\text{O}_6 + 6\text{SO}_2
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        \text{As}_4\text{S}_6 + 9\text{O}_2 \rightarrow \text{As}_4\text{O}_6 + 6\text{SO}_2
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="cr2o3-mg---cr-mgo" data-type="template">
+            <div class="vars">
+                <var id="SOLUTION">[1, 3, 2, 3]</var>
+            </div>
+            <div class="problem">
+                <code>\qquad</code>
+                <input type="number" class="coefficient"></input><code>\text{Cr}_2\text{O}_3 +</code>
+                <input type="number" class="coefficient"></input><code>\text{Mg} \rightarrow</code>
+                <input type="number" class="coefficient"></input><code>\text{Cr} +</code>
+                <input type="number" class="coefficient"></input><code>\text{MgO}</code>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>
+                        There are <code>2 \text{ Cr}</code> on the left and
+                        only <code>1</code> on the right, so multiply
+                        <code>\text{Cr}</code> by <code>\blue{2}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{Cr}_2\text{O}_3 + \text{Mg} \rightarrow \blue{2}\text{Cr} + \text{MgO}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        There are <code>3 \text{ O}</code> on the left and
+                        only <code>1</code> on the right, so multiply
+                        <code>\text{MgO}</code> by <code>\red{3}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{Cr}_2\text{O}_3 + \text{Mg} \rightarrow 2\text{Cr} + \red{3}\text{MgO}
+                    </code></p>
+                </div>
+                <div>
+                    <p>
+                        That gives us <code>3 \text{ Mg}</code> on the right and
+                        only <code>1</code> on the left, so multiply
+                        <code>\text{Mg}</code> by <code>\pink{3}</code>.
+                    </p>
+                    <p><code>\qquad
+                        \text{Cr}_2\text{O}_3 + \pink{3}\text{Mg} \rightarrow 2\text{Cr} + 3\text{MgO}
+                    </code></p>
+                </div>
+                <div>
+                    <p>The balanced equation is:</p>
+                    <p><code>\qquad
+                        \text{Cr}_2\text{O}_3 + 3\text{Mg} \rightarrow 2\text{Cr} + 3\text{MgO}
+                    </code></p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="template" data-weight="0">
+            <p class="question">
+                Balance the following chemical equation:
+            </p>
+            <div class="graphie" style="z-index: -10">
+                // Focus the first input
+                $('.coefficient').eq(0).focus();
+
+                // Pressing enter submits the answer
+                $('.coefficient').on("keypress", function (e) {
+                    if (e.which == 13) {
+                        $('form#answerform').submit();
+                        return false;
+                    }
+                });
+                Khan.scratchpad.disable();
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Balance the equation by entering the correct coefficients.
+                </div>
+                <div class="guess">_.map($("div.problem input"), function(el) { return $(el).val() })</div>
+                <div class="validator-function">
+                    var unanswered = true;
+                    var allCorrect = true;
+                    _(SOLUTION).each(function(correct, n) {
+                        coefficient = guess[n].replace(/[ ]/g, "");
+                        if (coefficient === "") {
+                            coefficient = 1;
+                        } else {
+                            coefficient = parseFloat(coefficient);
+                            unanswered = false;
+                        }
+                        if (coefficient !== correct) {
+                            allCorrect = false;
+                        }
+                    });
+                    if (unanswered) {
+                        return "";
+                    }
+                    return allCorrect;
+                </div>
+                <div class="show-guess">
+                    _(guess).each(function(g, n) {
+                        $("div.problem input").eq(n).val(g);
+                    });
+                </div>
+            </div>
+            <div class="hints">
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+
+

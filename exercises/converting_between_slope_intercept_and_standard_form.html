@@ -1,114 +1,135 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions graphie">
 <head>
-	<meta charset="UTF-8" />
-	<title>Converting between slope intercept and standard form</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Converting between slope-intercept and standard form</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="problems">
-		<div id="standard-to-slope">
-			<div class="vars">
-				<var id="A">randRangeNonZero( -5, 5 )</var>
-				<var id="B">randRangeNonZero( -5, 5 )</var>
-				<var id="C">randRangeNonZero( -5, 5 )</var>
-				<var id="SLOPE">-1 * A / B</var>
-				<var id="Y_INTERCEPT">C / B</var>
-			</div>
-			<p class="question">Convert the following equation from standard form to slope intercept form.</p>
-			<p>In other words, if the equation is rewritten to look like <code>y = mx + b</code>, what are the values of <code>m</code> and <code>b</code>?</p>
-			<p><code><var>expr([ "*", A, "x"])</var> + <var>expr([ "*", B, "y" ])</var> = <var>C</var></code></p>
-			<div class="solution" data-type="multiple">
-				<p><code>m</code> = <span class="sol"><var>SLOPE</var></span></p>
-				<p><code>b</code> = <span class="sol"><var>Y_INTERCEPT</var></span></p>
-			</div>
-			<div class="hints">
-				<div>
-					<p>Move the <code>x</code> term to the other side of the equation.</p>
-					<p><code><var>expr([ "*", B, "y" ])</var> = <var>expr([ "*", -1 * A, "x"])</var> + <var>C</var></code></p>
-				</div>
-				<div data-if="B !== 1">
-					<p>Divide both sides by <code><var>B</var></code>.</p>
-					<p><code>y = <span data-if="abs( SLOPE ) !== 1"><var>fractionReduce( -1 * A, B)</var></span><span data-if="SLOPE === -1">-</span>x + <var>fractionReduce( C, B )</var></code></p>
-				</div>
-				<div>
-					<p>Inspecting the equation in slope intercept form, we see the following.</p>
-					<p><code>\begin{align*}m &= <var>fractionReduce( -1 * A, B)</var>\\
-						b &= <var>fractionReduce( C, B )</var>\end{align*}</code></p>
-				</div>
-				<div>
-					<p>Behold! The magic of math, that both equations could represent the same line!</p>
-					<div class="graphie" id="grid">
-						graphInit({
-							range: 10,
-							scale: 20,
-							axisArrows: "<->",
-							tickStep: 1,
-							labelStep: 1
-						});
+    <div class="exercise">
+    <div class="problems">
+        <div id="standard-to-slope">
+            <div class="vars">
+                <var id="A">randRangeNonZero( -5, 5 )</var>
+                <var id="B">randRangeNonZero( -5, 5 )</var>
+                <var id="C">randRangeNonZero( -5, 5 )</var>
+                <var id="SLOPE">-1 * A / B</var>
+                <var id="Y_INTERCEPT">C / B</var>
+            </div>
+            <p class="question">Convert the following equation from standard form to slope intercept form.</p>
+            <p>In other words, if the equation is rewritten to look like <code>y = mx + b</code>, what are the values of <code>m</code> and <code>b</code>?</p>
+            <p><code><var>expr([ "*", A, "x"])</var> + <var>expr([ "*", B, "y" ])</var> = <var>C</var></code></p>
+            <div class="solution" data-type="multiple">
+                <p><code>m</code> = <span class="sol"><var>SLOPE</var></span></p>
+                <p><code>b</code> = <span class="sol"><var>Y_INTERCEPT</var></span></p>
+            </div>
+            <div class="hints">
+                <div>
+                    <p>Move the <code>x</code> term to the other side of the equation.</p>
+                    <p><code><var>expr([ "*", B, "y" ])</var> = <var>expr([ "*", -1 * A, "x"])</var> + <var>C</var></code></p>
+                </div>
+                <div data-if="B !== 1">
+                    <p>Divide both sides by <code><var>B</var></code>.</p>
+                    <p><code>y = <span data-if="abs( SLOPE ) !== 1"><var>fractionReduce( -1 * A, B)</var></span><span data-if="SLOPE === -1">-</span>x + <var>fractionReduce( C, B )</var></code></p>
+                </div>
+                <div>
+                    <p>Inspecting the equation in slope intercept form, we see the following.</p>
+                    <p><code>\begin{align*}m &amp;= <var>fractionReduce( -1 * A, B)</var>\\
+                        b &amp;= <var>fractionReduce( C, B )</var>\end{align*}</code></p>
+                </div>
+                <div>
+                    <p>Behold! The magic of math, that both equations could represent the same line!</p>
+                    <div class="graphie" id="grid">
+                        graphInit({
+                            range: 10,
+                            scale: 20,
+                            axisArrows: "&lt;-&gt;",
+                            tickStep: 1,
+                            labelStep: 1
+                        });
 
-						style({ stroke: BLUE, fill: BLUE });
+                        style({ stroke: BLUE, fill: BLUE });
 
-						plot(function( x ) {
-							return x * SLOPE + Y_INTERCEPT;
-						}, [ -10, 10 ]);
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="slope-to-standard">
-			<div class="vars">
-				<var id="SLOPE">randRange( -3, 3 )</var>
-				<var id="Y_INTERCEPT">randRangeNonZero( -3, 3 )</var>
-				<var id="A">-1 * SLOPE</var>
-				<var id="B">1</var>
-				<var id="C">Y_INTERCEPT</var>
-			</div>
-			<p class="question">Convert the following equation from slope intercept form to standard form.</p>
-			<p>In other words, if the equation is rewritten to look like <code>Ax + By = C</code>, what are the values of <code>A</code>, <code>B</code>, and <code>C</code>?</p>
-			<p><code>y = <var>expr([ "+", [ "*", SLOPE, "x" ], Y_INTERCEPT ])</var></code></p>
-			<div class="solution" data-type="multiple">
-				<p><code>A</code> = <span class="sol"><var>A</var></span></p>
-				<p><code>B</code> = <span class="sol"><var>B</var></span></p>
-				<p><code>C</code> = <span class="sol"><var>C</var></span></p>
-			</div>
-			<div class="hints">
-				<div data-if="SLOPE !== 0">
-					<p>Move the <code>x</code> term to the same side as the <code>y</code> term.</p>
-					<p><code><var>expr([ "*", -SLOPE, "x" ])</var> + y = <var>Y_INTERCEPT</var></code></p>
-				</div>
-				<div data-else>
-					<p>Since the slope is <code>0</code> and there is no <code>x</code> term, the equation is already in slope intercept form.</p>
-				</div>
-				<div>
-					<p>Inspecting the equation in standard form, we see the following.</p>
-					<p><code>\begin{align*}A &= <var>A</var>\\
-						B &= <var>B</var>\\
-						C &= <var>C</var>\end{align*}</code></p>
-				</div>
-				<div>
-					<p>Behold! The magic of math, that both equations could represent the same line!</p>
-					<div class="graphie" id="grid">
-						graphInit({
-							range: 10,
-							scale: 20,
-							axisArrows: "<->",
-							tickStep: 1,
-							labelStep: 1
-						});
+                        plot(function( x ) {
+                            return x * SLOPE + Y_INTERCEPT;
+                        }, [ -10, 10 ]);
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="slope-to-standard">
+            <div class="vars">
+                <var id="SLOPE">randRange( -3, 3 )</var>
+                <var id="Y_INTERCEPT">randRangeNonZero( -3, 3 )</var>
+                <var id="A">SLOPE &lt;= 0 ? -1 * SLOPE : SLOPE</var>
+                <var id="B">SLOPE &lt;= 0 ? 1 : -1</var>
+                <var id="C">SLOPE &lt;= 0 ? Y_INTERCEPT: -1 * Y_INTERCEPT</var>
+            </div>
+            <p class="question">Convert the following equation from slope intercept form to standard form.</p>
+            <p>In other words, if the equation is rewritten to look like <code>Ax + By = C</code>, what are the values of <code>A</code>, <code>B</code>, and <code>C</code>?</p>
+            <p data-if="SLOPE !==0">Assume <code>A</code> is positive.</p>
+            <p><code>y = <var>expr([ "+", [ "*", SLOPE, "x" ], Y_INTERCEPT ])</var></code></p>
+            <div class="solution" data-type="set">
+                <div class="set-sol" data-type="multiple">
+                    <span class="sol"><var>A</var></span>
+                    <span class="sol"><var>B</var></span>
+                    <span class="sol"><var>C</var></span>
+                </div>
+                <div data-if="A === 0" class="set-sol" data-type="multiple">
+                    <span class="sol"><var>A</var></span>
+                    <span class="sol"><var>-B</var></span>
+                    <span class="sol"><var>-C</var></span>
+                </div>
 
-						style({ stroke: BLUE, fill: BLUE });
+                <div class="input-format">
+                    <div class="entry" data-type="multiple">
+                        <p><code>A</code> = <span class="sol"></span></p>
+                        <p><code>B</code> = <span class="sol"></span></p>
+                        <p><code>C</code> = <span class="sol"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="hints">
+                <div data-if="SLOPE !== 0">
+                    <p>Move the <code>x</code> term to the same side as the <code>y</code> term.</p>
+                    <p><code><var>expr([ "*", -SLOPE, "x" ])</var> + y = <var>Y_INTERCEPT</var></code></p>
+                </div>
+                <div data-else>
+                    <p>Since the slope is <code>0</code> and there is no <code>x</code> term, the equation is already in slope intercept form.</p>
+                    <p><code>y = <var>Y_INTERCEPT</var></code></p>
+                </div>
+                <div data-if="SLOPE > 0">
+                    <p>Multiply both sides by <code>-1</code> so that <code>A</code> will be positive</p>
+                    <p><code><var>expr([ "*", SLOPE, "x" ])</var> - y = <var>-Y_INTERCEPT</var></code></p>
+                </div>
+                <div>
+                    <p>Inspecting the equation in standard form, we see the following.</p>
+                    <p><code>\begin{align*}A &amp;= <var>A</var>\\
+                        B &amp;= <var>B</var>\\
+                        C &amp;= <var>C</var>\end{align*}</code></p>
+                </div>
+                <div>
+                    <p>Behold! The magic of math, that both equations could represent the same line!</p>
+                    <div class="graphie" id="grid">
+                        graphInit({
+                            range: 10,
+                            scale: 20,
+                            axisArrows: "&lt;-&gt;",
+                            tickStep: 1,
+                            labelStep: 1
+                        });
 
-						plot(function( x ) {
-							return x * SLOPE + Y_INTERCEPT;
-						}, [ -10, 10 ]);
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                        style({ stroke: BLUE, fill: BLUE });
 
-	</div>
+                        plot(function( x ) {
+                            return x * SLOPE + Y_INTERCEPT;
+                        }, [ -10, 10 ]);
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
 </body>
 </html>

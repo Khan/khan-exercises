@@ -1,82 +1,82 @@
 <!DOCTYPE html>
 <html data-require="math math-format expressions">
 <head>
-	<meta charset="UTF-8" />
-	<title>Multiplying expressions 1</title>
-	<script src="../khan-exercise.js"></script>
-	<script type="text/javascript">
-		function mult() {
-			return	jQuery.map( jQuery.makeArray(arguments), function(val, i) {
-				return KhanUtil.plus(val);	  // do something 
-			}).join( " \\cdot " );
-	
-		}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying expressions 1</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function mult() {
+            return    $.map( $.makeArray(arguments), function(val, i) {
+                return KhanUtil.plus(val);      // do something
+            }).join( " \\cdot " );
 
-		function parens( s ) {
-			return "\\left( " + KhanUtil.plus(s) + " \\right)";
-		}
-	</script>
+        }
+
+        function parens( s ) {
+            return "\\left( " + KhanUtil.plus(s) + " \\right)";
+        }
+    </script>
 </head>
 <body>
-	<div class="exercise">
-		<p class="summary">This exercise covers simplifying expressions of the form 
-		(Ax + B)(Cx + D)</p>
+    <div class="exercise">
+        <p class="summary">This exercise covers simplifying expressions of the form
+        (Ax + B)(Cx + D)</p>
 
-		<div class="vars">
+        <div class="vars">
 
-			<!-- 1/4 of questions will be squares -->
-			<var id="SQUARE">random() < 0.25</var>
+            <!-- 1/4 of questions will be squares -->
+            <var id="SQUARE">random() &lt; 0.25</var>
 
-			<var id="A">randRangeNonZero( -10, 10 )</var>
-			<var id="B">randRangeNonZero( -10, 10 )</var>
-			<var id="C">SQUARE ? A : randRangeNonZero( -10, 10 )</var>
-			<var id="D">SQUARE ? B : randRangeNonZero( -10, 10 )</var>
+            <var id="A">randRangeNonZero( -10, 10 )</var>
+            <var id="B">randRangeNonZero( -10, 10 )</var>
+            <var id="C">SQUARE ? A : randRangeNonZero( -10, 10 )</var>
+            <var id="D">SQUARE ? B : randRangeNonZero( -10, 10 )</var>
 
-			<var id="X">"x"</var>
-			<var id="XX">"x^2"</var>
+            <var id="X">"x"</var>
+            <var id="XX">"x^2"</var>
 
-			<var id="LEFT">"\\left(" + plus( A+X, B ) + "\\right)"</var>
-			<var id="RIGHT">"\\left(" + plus( C+X, D ) + "\\right)"</var>
+            <var id="LEFT">"\\left(" + plus( A+X, B ) + "\\right)"</var>
+            <var id="RIGHT">"\\left(" + plus( C+X, D ) + "\\right)"</var>
 
-		</div>
+        </div>
 
-		<div class="problems">
-			<div>
+        <div class="problems">
+            <div>
 
-				<p class="question"><code><var>LEFT + ( SQUARE ? "^2" : RIGHT )</var> = \ ?</code></p>
+                <p class="question"><code><var>LEFT + ( SQUARE ? "^2" : RIGHT )</var> = \ ?</code></p>
 
-				<p class="solution"><code><var>plus( (A*C)+XX, (A*D+B*C)+X, B*D )</var></code></p>
-				<ul class="choices" data-show="4" data-none="true">
-					<li><code><var>plus( (A+C)+XX, (A*D+B*C)+X, B*D )</var></code></li>
-					<li><code><var>plus( (A*C)+XX, (A*D+B*C)+X, B+D )</var></code></li>
-					<li><code><var>plus( (A+C)+XX, (A*D+B*C)+X, B+D )</var></code></li>
-					<li><code><var>plus( (A+C)+XX, (A*D-B*C)+X, B*D )</var></code></li>
-					<li><code><var>plus( (A*C)+XX, (A*D-B*C)+X, B+D )</var></code></li>
-					<li><code><var>plus( (A+C)+XX, (A*D-B*C)+X, B+D )</var></code></li>
-					<li><code><var>plus( (A+C)+XX, (A*B+C*D)+X, B*D )</var></code></li>
-					<li><code><var>plus( (A*C)+XX, (A*B+C*D)+X, B+D )</var></code></li>
-					<li><code><var>plus( (A+C)+XX, (A*B+C*D)+X, B+D )</var></code></li>
-					<li><code><var>plus( (A+C)+XX, (A*B-C*D)+X, B*D )</var></code></li>
-					<li><code><var>plus( (A*C)+XX, (A*B-C*D)+X, B+D )</var></code></li>
-					<li><code><var>plus( (A+C)+XX, (A*B-C*D)+X, B+D )</var></code></li>
-				</ul>
+                <p class="solution"><code><var>plus( (A*C)+XX, (A*D+B*C)+X, B*D )</var></code></p>
+                <ul class="choices" data-show="4" data-none="true">
+                    <li><code><var>plus( (A+C)+XX, (A*D+B*C)+X, B*D )</var></code></li>
+                    <li><code><var>plus( (A*C)+XX, (A*D+B*C)+X, B+D )</var></code></li>
+                    <li><code><var>plus( (A+C)+XX, (A*D+B*C)+X, B+D )</var></code></li>
+                    <li><code><var>plus( (A+C)+XX, (A*D-B*C)+X, B*D )</var></code></li>
+                    <li><code><var>plus( (A*C)+XX, (A*D-B*C)+X, B+D )</var></code></li>
+                    <li><code><var>plus( (A+C)+XX, (A*D-B*C)+X, B+D )</var></code></li>
+                    <li><code><var>plus( (A+C)+XX, (A*B+C*D)+X, B*D )</var></code></li>
+                    <li><code><var>plus( (A*C)+XX, (A*B+C*D)+X, B+D )</var></code></li>
+                    <li><code><var>plus( (A+C)+XX, (A*B+C*D)+X, B+D )</var></code></li>
+                    <li><code><var>plus( (A+C)+XX, (A*B-C*D)+X, B*D )</var></code></li>
+                    <li><code><var>plus( (A*C)+XX, (A*B-C*D)+X, B+D )</var></code></li>
+                    <li><code><var>plus( (A+C)+XX, (A*B-C*D)+X, B+D )</var></code></li>
+                </ul>
 
-			</div>
-		</div>
-		
-		<div class="hints">
+            </div>
+        </div>
 
-			<p data-if="SQUARE"><code>= <var>LEFT + RIGHT</var></code></p>
+        <div class="hints">
 
-			<p><code>= <var>plus( mult( A+X, RIGHT ), mult( B, RIGHT ) )</var></code></p>
-			<p><code>= <var>plus( parens( mult( A+X, C+X ) ), parens( mult( A+X, D ) ), parens( mult( B, C+X ) ), parens( mult( B, D ) ) )</var></code></p>
-			<p><code>= <var>plus( (A*C)+XX, parens( mult( A+X, D ) ), parens( mult( B, C+X ) ), parens( mult( B, D ) ) )</var></code></p>
-			<p><code>= <var>plus( (A*C)+XX, parens( plus( (A*D)+X, (B*C)+X ) ), parens( mult( B, D ) ) )</var></code></p>
-			<p><code>= <var>plus( (A*C)+XX, (A*D+B*C)+X, parens( mult( B, D ) ) )</var></code></p>
-			<p><code>= <var>plus( (A*C)+XX, (A*D+B*C)+X, B*D )</var></code></p>
+            <p data-if="SQUARE"><code>= <var>LEFT + RIGHT</var></code></p>
+
+            <p><code>= <var>plus( mult( A+X, RIGHT ), mult( B, RIGHT ) )</var></code></p>
+            <p><code>= <var>plus( parens( mult( A+X, C+X ) ), parens( mult( A+X, D ) ), parens( mult( B, C+X ) ), parens( mult( B, D ) ) )</var></code></p>
+            <p><code>= <var>plus( (A*C)+XX, parens( mult( A+X, D ) ), parens( mult( B, C+X ) ), parens( mult( B, D ) ) )</var></code></p>
+            <p><code>= <var>plus( (A*C)+XX, parens( plus( (A*D)+X, (B*C)+X ) ), parens( mult( B, D ) ) )</var></code></p>
+            <p><code>= <var>plus( (A*C)+XX, (A*D+B*C)+X, parens( mult( B, D ) ) )</var></code></p>
+            <p><code>= <var>plus( (A*C)+XX, (A*D+B*C)+X, B*D )</var></code></p>
 
 
-		</div>
-	</div>
+        </div>
+    </div>
 </body>
 </html>

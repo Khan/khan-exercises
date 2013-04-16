@@ -1,146 +1,121 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
+<html data-require="math math-format interactive">
 <head>
-	<meta charset="UTF-8" />
-	<title>Ordering numbers</title>
-	<script src="../khan-exercise.js"></script>
-
-	<style type="text/css">
-		.number-list {
-			font-size: 1.7em;
-			text-align: center
-		}
-	</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Ordering numbers</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        .sort-key {
+            visibility: hidden;
+            position: absolute;
+        }
+    </style>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars">
-			<var id="NUMS">(function() {
-				var array = [];
-				var types = shuffle( [1, 1, 1, 2, 2, 2, 3, 3, 3], 5 );
-				var used = {};
+    <div class="exercise">
+        <div class="vars">
+            <var id="NUMS">(function() {
+                var array = [];
+                var types = shuffle( [1, 1, 1, 2, 2, 2, 3, 3, 3], 5 );
+                var used = {};
 
-				while ( array.length < 5 ) {
-					var type = types[ array.length ];
-					switch ( type ) {
-						case 1: // decimal
-							var n = randRange( 100, 999 ) / 1000;
-							var ns = n.toFixed( 3 );
+                while ( array.length &lt; 5 ) {
+                    var type = types[ array.length ], n, ns;
+                    switch ( type ) {
+                        case 1: // decimal
+                            n = randRange( 100, 999 ) / 1000;
+                            ns = n.toFixed( 3 );
 
-							if ( !used[ ns ] ) {
-								array.push([ type, n, ns, "= " + ns ]);
-								used[ ns ] = true;
-							}
+                            if ( !used[ ns ] ) {
+                                array.push([ type, n, ns, "= " + ns ]);
+                                used[ ns ] = true;
+                            }
 
-							break;
+                            break;
 
-						case 2: // percentage
-							var n = randRange( 100, 999 ) / 1000;
-							var ns = n.toFixed( 3 );
+                        case 2: // percentage
+                            n = randRange( 100, 999 ) / 1000;
+                            ns = n.toFixed( 3 );
 
-							if ( !used[ ns ] ) {
-								array.push([ type, n, (100 * n).toFixed( 1 ) + "\\%", "= " + ns ]);
-								used[ ns ] = true;
-							}
+                            if ( !used[ ns ] ) {
+                                array.push([ type, n, (100 * n).toFixed( 1 ) + "\\%", "= " + ns ]);
+                                used[ ns ] = true;
+                            }
 
-							break;
+                            break;
 
-						case 3: // fraction
-							var d = 4 * randRange( 5, 15 );
-							var n = randRange( 1, d - 1 );
-							var ns = ( n / d ).toFixed( 3 );
+                        case 3: // fraction
+                            var d = 4 * randRange( 5, 15 );
+                            n = randRange( 1, d - 1 );
+                            ns = ( n / d ).toFixed( 3 );
 
-							if ( !used[ ns ] ) {
-								var gcd = KhanUtil.getGCD( n, d );
-								array.push([ type, n/d, fractionReduce( n, d, true ), "\\approx " + ns, (n/gcd) + "/" + (d/gcd) ]);
-								used[ ns ] = true;
-							}
+                            if ( !used[ ns ] ) {
+                                var gcd = KhanUtil.getGCD( n, d );
+                                array.push([ type, n/d, fractionReduce( n, d, true ), "\\approx " + ns, (n/gcd) + "/" + (d/gcd) ]);
+                                used[ ns ] = true;
+                            }
 
-							break;
-					}
-				}
+                            break;
+                    }
+                }
 
-				return array;
-			})()</var>
+                return array;
+            })()</var>
 
-			<var id="NUMS_TEX">jQuery.map( NUMS, function( el ) {
-				return el[2];
-			} ).join( "," )</var>
-			<var id="NUMS_SORT">jQuery.extend( true, [], NUMS ).sort( function(a, b) {
-				return a[1] - b[1];
-			} )</var>
-			<var id="NUMS_SORT_DECS">jQuery.map( NUMS_SORT, function( el ) {
-				return el[3].match( / (.+)$/ )[1];
-			} ).join( "," )</var>
-			<var id="NUMS_SORT_TEXT">jQuery.map( NUMS_SORT, function( el ) {
-				return el[4] || el[2];
-			} ).join( "," )</var>
+            <var id="NUMS_TEX">$.map( NUMS, function( el ) {
+                return el[2];
+            } ).join( "," )</var>
+            <var id="NUMS_SORT">$.extend( true, [], NUMS ).sort( function(a, b) {
+                return a[1] - b[1];
+            } )</var>
+            <var id="NUMS_SORT_TEX">$.map( NUMS_SORT, function( el ) {
+                return el[2];
+            } ).join( "," )</var>
+            <var id="NUMS_SORT_DECS">$.map( NUMS_SORT, function( el ) {
+                return el[3].match( / (.+)$/ )[1];
+            } ).join( ",\\space" )</var>
 
-			<var id="CHOICE_TEXTS">(function() {
-				var texts = [ NUMS_SORT_TEXT ];
+            <var id="SORTER">createSorter()</var>
+        </div>
 
-				while ( texts.length < 5 ) {
-					var pi;
-					while ( 1 ) {
-						pi = KhanUtil.shuffle( NUMS );
-						var maxd = 0, maxp = 0;
-						var fail = false;
+        <div class="problems">
 
-						for ( var i = 0, l = pi.length; i < l; i++ ) {
-							var type = pi[i][0];
-							if ( type === 1 ) {
-								fail = fail || pi[i][1] < maxd;
-								maxd = pi[i][1];
-							} else if ( type == 2 ) {
-								fail = fail || pi[i][1] < maxp;
-								maxp = pi[i][1];
-							}
-						}
+            <div>
+                <div class="question">
+                    <p>Order the following numbers from least to greatest:</p>
+                    <ul id="sortable">
+                        <li data-each="NUMS as NUM">
+                            <span class="sort-key"><var>NUM[2]</var></span>
+                            <code><var>NUM[2]</var></code>
+                        </li>
+                    </ul>
+                    <p><var>SORTER.init( "sortable" )</var></p>
 
-						if ( !fail ) {
-							break;
-						}
-					}
+                </div>
 
-					var text = jQuery.map( pi, function( el ) {
-						return el[4] || el[2];
-					} ).join( "," );
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Drag the numbers left and right so they are in order from least to greatest
+                    </div>
+                    <div class="guess">SORTER.getContent()</div>
+                    <div class="validator-function">
+                        return guess.join( "," ) === NUMS_SORT_TEX;
+                    </div>
+                    <div class="show-guess">
+                        SORTER.setContent( guess );
+                    </div>
+                </div>
 
-					if ( jQuery.inArray( text, texts ) === -1 ) {
-						texts.push( text );
-					}
-				}
-
-				return texts;
-			})()</var>
-		</div>
-
-		<div class="problems">
-
-			<div>
-				<div class="question">
-					<p>Order the following numbers from least to greatest:</p>
-					<p class="number-list"><code><var>NUMS_TEX</var></code></p>
-				</div>
-
-				<p class="solution"><code><var>NUMS_SORT_TEXT</var></code></p>
-				<ul class="choices" data-show="5" data-none="true">
-					<li><code><var>CHOICE_TEXTS[1]</var></code></li>
-					<li><code><var>CHOICE_TEXTS[2]</var></code></li>
-					<li><code><var>CHOICE_TEXTS[3]</var></code></li>
-					<li><code><var>CHOICE_TEXTS[4]</var></code></li>
-				</ul>
-
-				<div class="hints">
-					<p>Convert each number to a decimal.</p>
-					<p><code>\begin{align*}
-						<span data-each="NUMS as NUM"><var>NUM[4] || NUM[2]</var> & <var>NUM[3]</var> \\</span>
-					\end{align*}</code></p>
-					<p>Sort the decimals: <code><var>NUMS_SORT_DECS</var></code>.</p>
-					<p>Convert back: <code><var>NUMS_SORT_TEXT</var></code>.</p>
-				</div>
-			</div>
-		</div>
-	</div>
+                <div class="hints">
+                    <p>Convert each number to a decimal.</p>
+                    <p><code>\begin{align*}
+                        <span data-each="NUMS as NUM"><var>NUM[4] || NUM[2]</var> &amp; <var>NUM[3]</var> \\</span>
+                    \end{align*}</code></p>
+                    <p>Sort the decimals: <code><var>NUMS_SORT_DECS</var></code>.</p>
+                    <p>Convert back: <code>\Large{<var>NUMS_SORT_TEX</var>}</code>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

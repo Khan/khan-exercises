@@ -1,33 +1,47 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic">
 <head>
-	<meta charset="UTF-8" />
-	<title>Addition 4</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>4-digit addition with carrying</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars">
-			<var id="A">randRange( 1000, 9999 )</var>
-			<var id="B">randRange( 1000, 9999 )</var>
-			<var id="DUMMY">[]</var>
-		</div>
+<div class="exercise">
+    <div class="vars" data-ensure="A >= B && (
+            (A_1 + B_1 > 10 && B >= 10) ||
+            (A_10 + B_10 > 100 && B >= 100) ||
+            (A_100 + B_100 > 1000 && B >= 1000))">
+        <var id="A_1000">randRangeWeighted(0, 9, 0, 0.25) * 1000</var>
+        <var id="A_100">randRange(0, 9) * 100</var>
+        <var id="A_10">randRange(0, 9) * 10</var>
+        <var id="A_1">randRange(0, 9) * 1</var>
+        <var id="B_1000" data-ensure="B_1000 <= A_1000">
+            randRangeWeighted(0, 9, 0, 0.25) * 1000
+        </var>
+        <var id="B_100">randRange(0, 9) * 100</var>
+        <var id="B_10">randRange(0, 9) * 10</var>
+        <var id="B_1">randRange(0, 9) * 1</var>
+        <var id="A">A_1000 +A_100 + A_10 + A_1</var>
+        <var id="B">B_1000 +B_100 + B_10 + B_1</var>
+        <var id="NUM_HINTS">0</var>
+    </div>
 
-	<div class="problems">
-		<div>
-			<div class="graphie" id="numbers">
-				graph.adder = new Adder( A, B );
-				graph.adder.show();
-				DUMMY = Array( graph.adder.getNumHints() );
-			</div>
-			<div class="solution" data-forms="integer"><var>A + B</var></div>
-		</div>
-	</div>
-	<div class="hints">
-		<div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
-			graph.adder.showHint();
-		</div>
-	</div>
-	</div>
+    <div class="problems">
+        <div id="addition-4">
+            <div class="graphie" id="numbers">
+                graph.adder = new Adder(A, B);
+                graph.adder.show();
+                NUM_HINTS = graph.adder.getNumHints();
+            </div>
+            <div class="solution" data-forms="integer"><var>A + B</var></div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div class="graphie" data-update="numbers" data-each="NUM_HINTS times">
+            graph.adder.showHint();
+        </div>
+    </div>
+</div>
 </body>
 </html>

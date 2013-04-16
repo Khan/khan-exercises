@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html data-require="math graphie math-format subhints">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Addition and subtraction trig identities</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        function betterTriangle(width, height, A, B, C, a, b, c) {
+            var scale = 5 / Math.sqrt(width * width + height * height);
+            width *= scale;
+            height *= scale;
+
+            with ( KhanUtil.currentGraph ) {
+                // Leave some space for the labels
+                init({ range: [[-1.5, width + 1], [-1, height + 1]] });
+
+                path([ [0, 0], [width, 0], [0, height], true ]);
+
+                label( [0, height], A, "above left" );
+                label( [0, 0], C, "below left" );
+                label( [width, 0], B, "below right" );
+
+                label( [0, height/2], b, "left" );
+                label( [width/2, 0], a, "below" );
+                label( [width/2, height/2], c, "above right", {
+                    labelDistance: 3
+                } );
+            }
+        }
+        function formatRadicalFraction(T1N, T1D, T2N, T2D, T3N, T3D, T4N, T4D, OP) {
+            var F1N = KhanUtil.splitRadical(Math.round(Math.pow(T1N*T2N,2)));
+            var F2N = KhanUtil.splitRadical(Math.round(Math.pow(T3N*T4N,2)));
+            var F1D = T1D*T2D;
+            var F2D = T3D*T4D;
+
+            var ANS_N = [];
+            if(F1N[1] === F2N[1]) {
+                ANS_N = [F1N[0] + F2N[0],F1N[1]];
+            } else {
+                ANS_N = [F1N[0], F1N[1], F2N[0], F2N[1]];
+            }
+
+            var min = (T1N*T2N*T3D*T4D - T3N*T4N*T1D*T2D < 0 ? "-" : "");
+            if(ANS_N.length < 4) {
+                return min + KhanUtil.fraction(ANS_N[0],F1D,true,true) + 
+                    (ANS_N[1] === 1 ? "" : "\\sqrt{"+ANS_N[1]+"}");
+            } else {
+                return KhanUtil.fraction(ANS_N[0],F1D,true,true)  + 
+                    (ANS_N[1] === 1 ? "" : "\\sqrt{"+ANS_N[1]+"}") 
+                    + OP +
+                    KhanUtil.fraction(ANS_N[2],F2D,true,true) + 
+                    (ANS_N[3] === 1 ? "" : "\\sqrt{"+ANS_N[3]+"}");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="ADD">random() &lt; 0.5</var>
+        <var id="OP">ADD ? "+" : "-"</var>
+        <var id="OP2">ADD ? "-" : "+"</var>
+        <var id="AC, BC">shuffle(randFromArray([[3,4], [6,8], [5,12],
+        [7, 24], [8, 15], [10, 24], [12,16]]))</var>
+        <var id="AB">sqrt(AC * AC + BC * BC)</var>
+        <var id="T_ANGLE">randFromArray(["BAC","ABC"])</var>
+        <var id="S_ANGLE">randFromArray([30,45,60,90,180,270])</var>
+        <var id="T_ANG, S_ANG">
+            ["\\angle "+T_ANGLE, S_ANGLE+"^{\\circ}"]
+        </var>
+        <var id="OPPOSITE_NAME">
+            (T_ANGLE[0] + T_ANGLE[2])
+        </var>
+        <var id="OPPOSITE_VALUE">
+        (function(){
+            if (OPPOSITE_NAME === "AC"){
+                return AC;
+            }
+            else if (OPPOSITE_NAME === "BC"){
+                return BC;
+            }
+            return AB;
+            })()
+        </var>
+
+        <var id="ADJACENT_NAME">T_ANGLE.substring(1)</var>
+        <var id="ADJACENT_VALUE">
+        (function(){
+            if (ADJACENT_NAME === "AC"){
+                return AC;
+            }
+            else if (ADJACENT_NAME === "BC"){
+                return BC;
+            }
+
+            return AB;
+            })()
+        </var>
+
+        <var id="HYPOTENUSE_NAME">"AB"</var>
+        <var id="HYPOTENUSE_VALUE">AB</var>
+    </div>
+
+
+    <div class="problems">
+        <div id="sinAdd">
+            <div class="vars">
+                <!-- The first term in the sin addition expansion
+                T1N = Term 1 Numerator, T1D = Term 2 Denominator -->
+                <var id="T1N, T1D, TERM1">
+                    [OPPOSITE_VALUE,
+                    HYPOTENUSE_VALUE,
+                    "\\dfrac{"+OPPOSITE_VALUE+"}{"+HYPOTENUSE_VALUE+"}"]
+                </var>
+                <var id="T2N, T2D, TERM2">
+                    (function() {
+                        switch(S_ANGLE) {
+                            case 30:
+                                return [Math.sqrt(3),2,"\\dfrac{\\sqrt{3}}{2}"];
+                            case 45:
+                                return [Math.sqrt(2),2,"\\dfrac{\\sqrt{2}}{2}"];
+                            case 60:
+                                return [1,2,"\\dfrac{1}{2}"];
+                            case 90:
+                                return [0,1,"0"];
+                            case 180:
+                                return [1,-1,"-1"];
+                            case 270:
+                                return [0,1,"0"];
+                        }   
+                    })()
+                </var>
+                <var id="T3N, T3D, TERM3">
+                    [ADJACENT_VALUE,
+                    HYPOTENUSE_VALUE,
+                    "\\dfrac{"+ADJACENT_VALUE+"}{"+HYPOTENUSE_VALUE+"}"]
+                </var>
+                <var id="T4N, T4D, TERM4">
+                    (function() {
+                        switch(S_ANGLE) {
+                            case 30:
+                                return [1,2,"\\dfrac{1}{2}"];
+                            case 45:
+                                return [Math.sqrt(2),2,"\\dfrac{\\sqrt{2}}{2}"];
+                            case 60:
+                                return [Math.sqrt(3),2,"\\dfrac{\\sqrt{3}}{2}"];
+                            case 90:
+                                return [1,1,"1"];
+                            case 180:
+                                return [0,1,"0"];
+                            case 270:
+                                return [1,-1,"-1"];
+                        }   
+                    })()
+                </var>
+                <var id="ANS_DISPLAY">
+                    formatRadicalFraction(T1N,T1D,T2N,T2D,T3N,T3D,T4N,T4D,OP)
+                </var>
+                <var id="OPTIONS">
+                [formatRadicalFraction(T1N,T1D,T2N,T2D,T3N,T3D,T4N,T4D,OP2),
+                formatRadicalFraction(T3N,T3D,T2N,T2D,T1N,T1D,T4N,T4D,OP2),
+                formatRadicalFraction(T1N,T1D,T2N,T2D,T3N,T3D,T4N,T4D,OP),
+                formatRadicalFraction(T3N,T3D,T2N,T2D,T1N,T1D,T4N,T4D,OP)]
+                </var>
+            </div>
+
+            <div class="problem">
+                <div class="graphie">
+                    betterTriangle(BC, AC, "A", "B", "C", BC, AC, AB);
+                </div>
+            </div>
+
+            <p class="question">
+                <code>\sin(<var>T_ANG</var> 
+                    <var>OP</var> <var>S_ANG</var>) = \; ?</code>
+            </p>
+
+            <div class="solution"><code><var>ANS_DISPLAY</var></code></div>
+
+            <ul class="choices" data-show="4">
+                <li data-each="OPTIONS as op"><code><var>op</var></code></li>
+            </ul>
+
+
+            <div class="hints">
+                <p>
+                    We don't know what 
+                    <code><var>T_ANG</var></code> is exactly,
+                    so we can't directly evaluate this function. We do know
+                    what <code>\sin(<var>T_ANG</var>)</code> is,
+                    though.
+                </p>
+                <div>
+                    <p>To simplify this formula to something we can use, we try
+                    the sine addition/subtraction identity:
+                    <code>\sin(x \pm y) 
+                        = \sin x \cdot \cos y \pm \cos x \cdot \sin y</code></p>
+                    <p>In this case, we have</p>
+                    <p><code>\qquad \sin(<var>T_ANG</var>
+                             <var>OP</var> <var>S_ANG</var>) =</code>
+                             <br>
+                             <code>\qquad\qquad
+                             \sin(<var>T_ANG</var>) \cdot
+                             \cos(<var>S_ANG</var>) <var>OP</var>
+                             \cos(<var>T_ANG</var>) \cdot
+                             \sin(<var>S_ANG</var>)</code></p>
+                </div>
+                <div>
+                    <p>Now we just need to evaluate each term.</p>
+                    <p><code>\qquad \sin(<var>T_ANG</var>) = 
+                        \dfrac{Opposite}{Hypotenuse} =
+                        \dfrac{<var>OPPOSITE_NAME</var>}
+                            {<var>HYPOTENUSE_NAME</var>} = 
+                        <var>TERM1</var></code></p>
+                    <p><code>\qquad \cos(<var>S_ANG</var>) = 
+                        <var>TERM2</var></code></p>
+                    <p><code>\qquad \cos(<var>T_ANG</var>) = 
+                        \dfrac{Adjacent}{Hypotenuse} =
+                        \dfrac{<var>ADJACENT_NAME</var>}
+                            {<var>HYPOTENUSE_NAME</var>} = 
+                        <var>TERM3</var></code></p>
+                    <p><code>\qquad \sin(<var>S_ANG</var>) = 
+                        <var>TERM4</var></code></p>
+                </div>
+                <div>
+                    <p>Putting it together, we get</p>
+                    <p><code>\qquad <var>TERM1</var> \cdot <var>TERM2</var>
+                        <var>OP</var>  <var>TERM3</var> \cdot <var>TERM4</var>
+                        = <var>ANS_DISPLAY</var>
+                    </code></p>
+                </div>
+            </div>
+        </div>
+        <div id="cosAdd">
+            <div class="vars">
+                <!-- The first term in the sin addition expansion
+                T1N = Term 1 Numerator, T1D = Term 2 Denominator -->
+                <var id="T1N, T1D, TERM1">
+                    [ADJACENT_VALUE,
+                    HYPOTENUSE_VALUE,
+                    "\\dfrac{"+ADJACENT_VALUE+"}{"+HYPOTENUSE_VALUE+"}"]
+                </var>
+                <var id="T2N, T2D, TERM2">
+                    (function() {
+                        switch(S_ANGLE) {
+                            case 30:
+                                return [Math.sqrt(3),2,"\\dfrac{\\sqrt{3}}{2}"];
+                            case 45:
+                                return [Math.sqrt(2),2,"\\dfrac{\\sqrt{2}}{2}"];
+                            case 60:
+                                return [1,2,"\\dfrac{1}{2}"];
+                            case 90:
+                                return [0,1,"0"];
+                            case 180:
+                                return [1,-1,"-1"];
+                            case 270:
+                                return [0,1,"0"];
+                        }   
+                    })()
+                </var>
+                <var id="T3N, T3D, TERM3">
+                    [OPPOSITE_VALUE,
+                    HYPOTENUSE_VALUE,
+                    "\\dfrac{"+OPPOSITE_VALUE+"}{"+HYPOTENUSE_VALUE+"}"]
+                </var>
+                <var id="T4N, T4D, TERM4">
+                    (function() {
+                        switch(S_ANGLE) {
+                            case 30:
+                                return [1,2,"\\dfrac{1}{2}"];
+                            case 45:
+                                return [Math.sqrt(2),2,"\\dfrac{\\sqrt{2}}{2}"];
+                            case 60:
+                                return [Math.sqrt(3),2,"\\dfrac{\\sqrt{3}}{2}"];
+                            case 90:
+                                return [1,1,"1"];
+                            case 180:
+                                return [0,1,"0"];
+                            case 270:
+                                return [1,-1,"-1"];
+                        }   
+                    })()
+                </var>
+                <var id="ANS_DISPLAY">
+                    formatRadicalFraction(T1N,T1D,T2N,T2D,T3N,T3D,T4N,T4D,OP2)
+                </var>
+                <var id="OPTIONS">
+                [formatRadicalFraction(T1N,T1D,T2N,T2D,T3N,T3D,T4N,T4D,OP2),
+                formatRadicalFraction(T3N,T3D,T2N,T2D,T1N,T1D,T4N,T4D,OP2),
+                formatRadicalFraction(T1N,T1D,T2N,T2D,T3N,T3D,T4N,T4D,OP),
+                formatRadicalFraction(T3N,T3D,T2N,T2D,T1N,T1D,T4N,T4D,OP)]
+                </var>
+            </div>
+
+            <div class="problem">
+                <div class="graphie">
+                    betterTriangle(BC, AC, "A", "B", "C", BC, AC, AB);
+                </div>
+            </div>
+
+            <p class="question">
+                <code>\cos(<var>T_ANG</var> 
+                    <var>OP</var> <var>S_ANG</var>) = \; ?</code>
+            </p>
+
+            <div class="solution"><code><var>ANS_DISPLAY</var></code></div>
+
+            <ul class="choices" data-show="4">
+                <li data-each="OPTIONS as op"><code><var>op</var></code></li>
+            </ul>
+
+
+            <div class="hints">
+                <p>
+                    We don't know what 
+                    <code><var>T_ANG</var></code> is exactly,
+                    so we can't directly evaluate this function. We do know
+                    what <code>\cos(<var>T_ANG</var>)</code> is,
+                    though.
+                </p>
+                <div>
+                    <p>To simplify this formula to something we can use, we try
+                    the cosine addition/subtraction identity:
+                    <code>\cos(x \pm y) 
+                        = \cos x \cdot \cos y \mp \sin x \cdot \sin y</code></p>
+                    <p>In this case, we have</p>
+                    <p><code>\qquad \cos(<var>T_ANG</var> 
+                             <var>OP</var> <var>S_ANG</var>) =</code><br>
+                             <code>\qquad\qquad
+                             \cos(<var>T_ANG</var>) \cdot
+                             \cos(<var>S_ANG</var>) <var>OP2</var>
+                             \sin(<var>T_ANG</var>) \cdot
+                             \sin(<var>S_ANG</var>)</code></p>
+                </div>
+                <div>
+                    <p>Now we just need to evaluate each term.</p>
+                    <p><code>\qquad \cos(<var>T_ANG</var>) = 
+                        \dfrac{Adjacent}{Hypotenuse} =
+                        \dfrac{<var>ADJACENT_NAME</var>}
+                            {<var>HYPOTENUSE_NAME</var>} = 
+                        <var>TERM1</var></code></p>
+                    <p><code>\qquad \cos(<var>S_ANG</var>) = 
+                        <var>TERM2</var></code></p>
+                    <p><code>\qquad \sin(<var>T_ANG</var>) = 
+                        \dfrac{Opposite}{Hypotenuse} =
+                        \dfrac{<var>OPPOSITE_NAME</var>}
+                            {<var>HYPOTENUSE_NAME</var>} = 
+                        <var>TERM3</var></code></p>
+                    <p><code>\qquad \sin(<var>S_ANG</var>) = 
+                        <var>TERM4</var></code></p>
+                </div>
+                <div>
+                    <p>Putting it together, we get</p>
+                    <p><code>\qquad <var>TERM1</var> \cdot <var>TERM2</var>
+                        <var>OP2</var>  <var>TERM3</var> \cdot <var>TERM4</var>
+                        = <var>ANS_DISPLAY</var>
+                    </code></p>
+                </div>
+            </div>
+        </div>
+        <div id="sinDouble">
+            <div class="vars">
+                <var id="AC, BC" data-apply="replace">
+                    shuffle(randFromArray([[3,4], [6,8], [1,3],
+                    [2, 3], [2, 4], [3, 4]]))
+                </var>
+                <var id="AB" data-apply="replace">
+                    formattedSquareRootOf(AC * AC + BC * BC)
+                </var>
+                <var id="HYPOTENUSE_NUMBER">
+                    sqrt(AC * AC + BC * BC)
+                </var>
+                <var id="TERM1">
+                    "\\dfrac{"+OPPOSITE_VALUE+"}{"+HYPOTENUSE_VALUE+"}"
+                </var>
+                <var id="TERM2">
+                    "\\dfrac{"+ADJACENT_VALUE+"}{"+HYPOTENUSE_VALUE+"}"
+                </var>
+                <var id="ANS_DISPLAY">
+                    fraction(2*OPPOSITE_VALUE*ADJACENT_VALUE,
+                    Math.round(Math.pow(HYPOTENUSE_NUMBER,2)),true,true)
+                </var>
+                <var id="ANS">
+                    2*OPPOSITE_VALUE*ADJACENT_VALUE/
+                    Math.round(Math.pow(HYPOTENUSE_NUMBER,2))
+                </var>
+            </div>
+
+            <div class="problem">
+                <div class="graphie">
+                    betterTriangle(BC, AC, "A", "B", "C", BC, AC, AB);
+                </div>
+            </div>
+
+            <p class="question">
+                <code>\sin(2 \cdot <var>T_ANG</var>) = \; ?</code>
+            </p>
+
+            <div class="solution" data-forms="proper, improper">
+                <var>ANS</var>
+            </div>
+
+            <div class="hints">
+                <p>
+                    We don't know what 
+                    <code><var>T_ANG</var></code> is exactly, so we can't
+                    compute <code>2 \cdot <var>T_ANG</var></code> to directly
+                    evaluate this function. We do know what <code>\sin(<var>
+                    T_ANG</var>)</code> and <code>\cos(<var>T_ANG</var>)</code>
+                    are, though.
+                </p>
+                <div>
+                    <p>To simplify this formula to something we can use, we try
+                    the sine double-angle identity:
+                    <code>\sin(2x) = 2 \sin (x) \cos (x)</code></p>
+                    <p>In this case, we have</p>
+                    <p><code>\qquad \sin(2 \cdot <var>T_ANG</var>) =
+                             2 \sin(<var>T_ANG</var>)
+                             \cos(<var>T_ANG</var>)
+                    </code></p>
+                    <p>(To cut down on the number of identities you have to
+                    memorize, you can derive this quickly from the 
+                    angle addition identity for sine)
+                    [<a href="#" class="show-subhint" data-subhint="sinDeriv">
+                    Show how</a>]</p>
+                    <div class="subhint" id="sinDeriv">
+                        <p>Start with the sine angle addition identity:</p>
+                        <p><code>\qquad \sin(x + y) = \sin(x) \cdot \cos(y)
+                            + \cos(x) \cdot \sin(y)</code></p>
+                        <p>Now take the case where <code>x = y</code>:</p>
+                        <p><code>\qquad \sin(x + y) = \sin(x + x)
+                            = \sin(x) \cdot \cos(x) + \cos(x) \cdot \sin(x)
+                        </code></p>
+                        <p><code>\qquad \sin(2x) = 2 \sin(x) \cos(x)</code></p>
+                    </div>
+                </div>
+                <div>
+                    <p>Now we just need to evaluate each term.</p>
+                    <p><code>\qquad \sin(<var>T_ANG</var>) = 
+                        \dfrac{Opposite}{Hypotenuse} =
+                        \dfrac{<var>OPPOSITE_NAME</var>}
+                            {<var>HYPOTENUSE_NAME</var>} = 
+                        <var>TERM1</var></code></p>
+                    <p><code>\qquad \cos(<var>T_ANG</var>) = 
+                        \dfrac{Adjacent}{Hypotenuse} =
+                        \dfrac{<var>ADJACENT_NAME</var>}
+                            {<var>HYPOTENUSE_NAME</var>} = 
+                        <var>TERM2</var></code></p>
+                </div>
+                <div>
+                    <p>Putting it together, we get</p>
+                    <p><code>\qquad 2 \cdot <var>TERM1</var> 
+                        \cdot <var>TERM2</var>
+                        = <var>ANS_DISPLAY</var>
+                    </code></p>
+                </div>
+            </div>
+        </div>
+        <div id="cosDouble">
+            <div class="vars">
+                <var id="AC, BC" data-apply="replace">
+                    shuffle(randFromArray([[3,4], [6,8], [1,3],
+                    [2, 3], [2, 4], [3, 4]]))
+                </var>
+                <var id="AB" data-apply="replace">
+                    formattedSquareRootOf(AC * AC + BC * BC)
+                </var>
+                <var id="HYPOTENUSE_NUMBER">
+                    sqrt(AC * AC + BC * BC)
+                </var>
+                <var id="TERM1">
+                    "\\dfrac{"+Math.pow(ADJACENT_VALUE,2)
+                    +"}{"+Math.round(Math.pow(HYPOTENUSE_NUMBER,2))+"}"
+                </var>
+                <var id="TERM2">
+                    "\\dfrac{"+Math.pow(OPPOSITE_VALUE,2)
+                    +"}{"+Math.round(Math.pow(HYPOTENUSE_NUMBER,2))+"}"
+                </var>
+                <var id="ANS_DISPLAY">
+                    fraction(Math.pow(ADJACENT_VALUE,2)
+                        -Math.pow(OPPOSITE_VALUE,2),
+                    Math.round(Math.pow(HYPOTENUSE_NUMBER,2)),true,true)
+                </var>
+                <var id="ANS">
+                    (Math.pow(ADJACENT_VALUE,2)-Math.pow(OPPOSITE_VALUE,2))/
+                    Math.round(Math.pow(HYPOTENUSE_NUMBER,2))
+                </var>
+            </div>
+
+            <div class="problem">
+                <div class="graphie">
+                    betterTriangle(BC, AC, "A", "B", "C", BC, AC, AB);
+                </div>
+            </div>
+
+            <p class="question">
+                <code>\cos(2 \cdot <var>T_ANG</var>) = \; ?</code>
+            </p>
+
+            <div class="solution" data-forms="proper, improper">
+                <var>ANS</var>
+            </div>
+
+            <div class="hints">
+                <p>
+                    We don't know what 
+                    <code><var>T_ANG</var></code> is exactly, so we can't
+                    compute <code>2 \cdot <var>T_ANG</var></code> to directly
+                    evaluate this function. We do know what <code>\sin(<var>
+                    T_ANG</var>)</code> and <code>\cos(<var>T_ANG</var>)</code>
+                    are, though.
+                </p>
+                <div>
+                    <p>To simplify this formula to something we can use, we try
+                    the cosine double-angle identity:
+                    <code>\cos(2x) = \cos^2 (x) - \sin^2 (x)</code></p>
+                    <p>In this case, we have</p>
+                    <p><code>\qquad \cos(2 \cdot <var>T_ANG</var>) =
+                             \cos^2(<var>T_ANG</var>) -
+                             \sin^2(<var>T_ANG</var>)
+                    </code></p>
+                    <p>(To cut down on the number of identities you have to
+                    memorize, you can derive this quickly from the 
+                    angle addition identity for cosine)
+                    [<a href="#" class="show-subhint" data-subhint="cosDeriv">
+                    Show how</a>]</p>
+                    <div class="subhint" id="cosDeriv">
+                        <p>Start with the cosine angle addition identity:</p>
+                        <p><code>\qquad \cos(x + y) = \cos(x) \cdot \cos(y)
+                            - \sin(x) \cdot \sin(y)</code></p>
+                        <p>Now take the case where <code>x = y</code>:</p>
+                        <p><code>\qquad \cos(x + y) = \cos(x + x)
+                            = \cos(x) \cdot \cos(x) - \sin(x) \cdot \sin(x)
+                        </code></p>
+                        <p><code>\qquad \cos(2x) = \cos^2(x) - \sin^2(x)
+                        </code></p>
+                    </div>
+                </div>
+                <div>
+                    <p>Now we just need to evaluate each term.</p>
+                    <p><code>\qquad \cos^2(<var>T_ANG</var>) = 
+                        \left(\dfrac{Adj}{Hyp}\right)^2 =
+                        \left(\dfrac{<var>ADJACENT_NAME</var>}
+                            {<var>HYPOTENUSE_NAME</var>}\right)^2 = 
+                        \left(\dfrac{<var>ADJACENT_VALUE</var>}
+                            {<var>HYPOTENUSE_VALUE</var>}\right)^2 =
+                        <var>TERM1</var></code></p>
+                    <p><code>\qquad \sin^2(<var>T_ANG</var>) = 
+                        \left(\dfrac{Opp}{Hyp}\right)^2 =
+                        \left(\dfrac{<var>OPPOSITE_NAME</var>}
+                            {<var>HYPOTENUSE_NAME</var>}\right)^2 = 
+                        \left(\dfrac{<var>OPPOSITE_VALUE</var>}
+                            {<var>HYPOTENUSE_VALUE</var>}\right)^2 =
+                        <var>TERM2</var></code></p>
+                </div>
+                <div>
+                    <p>Putting it together, we get</p>
+                    <p><code>\qquad <var>TERM1</var> 
+                        - <var>TERM2</var>
+                        = <var>ANS_DISPLAY</var>
+                    </code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

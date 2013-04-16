@@ -1,54 +1,54 @@
 <!DOCTYPE html>
 <html data-require="math math-format exponents">
 <head>
-	<meta charset="UTF-8" />
-	<title>Exponents 3</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Fractional exponents</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<p class="summary">This exercise covers exponential arithmetic with positive rational bases and rational exponents with unit numerator. This exercise covers the first chunk of material from the Level 3 Exponents video.</p>
+    <div class="exercise">
+        <p class="summary">This exercise covers exponential arithmetic with positive rational bases and rational exponents with unit numerator. This exercise covers the first chunk of material from the Level 3 Exponents video.</p>
 
-		<div class="problems">
-			<div>
-				<div class="vars">
-					<var id="VALS">twoBasesOneRoot()</var>
+        <div class="problems">
+            <div>
+                <div class="vars">
+                    <var id="VALS">twoBasesOneRoot()</var>
 
-					<var id="BASE_N">VALS.base_1</var>
-					<var id="BASE_D">VALS.base_2</var>
+                    <var id="BASE_N">VALS.base_1</var>
+                    <var id="BASE_D">VALS.base_2</var>
 
-					<var id="EXP_NEG">random() < .75</var>
-					<var id="EXP_D">VALS.root</var>
+                    <var id="EXP_NEG">random() &lt; 0.75</var>
+                    <var id="EXP_D">VALS.root</var>
 
-					<!-- base, flipped if the exponent is negative. -->
-					<var id="BASEF_N">EXP_NEG ? BASE_D : BASE_N</var>
-					<var id="BASEF_D">EXP_NEG ? BASE_N : BASE_D</var>
+                    <!-- base, flipped if the exponent is negative. -->
+                    <var id="BASEF_N">EXP_NEG ? BASE_D : BASE_N</var>
+                    <var id="BASEF_D">EXP_NEG ? BASE_N : BASE_D</var>
 
-					<var id="SOL_N">round( pow( EXP_NEG ? BASE_D : BASE_N, 1 / EXP_D ) )</var>
-					<var id="SOL_D">round( pow( EXP_NEG ? BASE_N : BASE_D, 1 / EXP_D ) )</var>
-				</div>
+                    <var id="SOL_N">round( pow( EXP_NEG ? BASE_D : BASE_N, 1 / EXP_D ) )</var>
+                    <var id="SOL_D">round( pow( EXP_NEG ? BASE_N : BASE_D, 1 / EXP_D ) )</var>
+                </div>
 
-				<p class="question"><code>\Large <var>fracParens( BASE_N, BASE_D )</var>^{<var>fracSmall( EXP_NEG ? -1 : 1, EXP_D )</var>}</code></p>
-				<p class="solution"><var>SOL_N / SOL_D</var></p>
+                <p class="question"><code>\Large <var>fracParens( BASE_N, BASE_D )</var>^{<var>fracSmall( EXP_NEG ? -1 : 1, EXP_D )</var>}</code></p>
+                <p class="solution"><var>SOL_N / SOL_D</var></p>
 
-				<div class="hints">
-					<!-- Extra first step, for a question like (4/9)^(-1/2), display "=(9/4)^(1/2)" -->
-					<p data-if="EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code></p>
+                <div class="hints">
+                    <!-- Extra first step, for a question like (4/9)^(-1/2), display "=(9/4)^(1/2)" -->
+                    <p data-if="EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}</code></p>
 
-					<!-- For a question like (4/9)^(1/2)... -->
+                    <!-- For a question like (4/9)^(1/2)... -->
 
-					<!-- "Figure out what goes in the blank: ?^2=4/9" -->
-					<p>Figure out what goes in the blank:<br /><code>\Big(? \Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
+                    <!-- "Figure out what goes in the blank: ?^2=4/9" -->
+                    <p>Figure out what goes in the blank:<br /><code>\Big(? \Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
 
-					<!-- fill 2/3 into the ? -->
-					<p>Figure out what goes in the blank:<br /><code>\Big(\color{blue}{<var>frac( SOL_N, SOL_D )</var>}\Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
+                    <!-- fill 2/3 into the ? -->
+                    <p>Figure out what goes in the blank:<br /><code>\Big(\color{blue}{<var>frac( SOL_N, SOL_D )</var>}\Big)^{<var>EXP_D</var>}=<var>frac( BASEF_N, BASEF_D )</var></code></p>
 
-					<!-- (4/9)^(1/2)=2/3 -->
-					<p data-if="EXP_NEG">So <code><var>fracParens( BASE_N, BASE_D )</var>^{<var>fracSmall( EXP_NEG ? -1 : 1, EXP_D )</var>}=<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>fraction( SOL_N, SOL_D, true, true, false, false )</var></code></p>
-					<p data-else>So <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>fraction( SOL_N, SOL_D,true, true, false, false )</var></code></p>
-				</div>
-			</div>
-		</div>
-	</div>
+                    <!-- (4/9)^(1/2)=2/3 -->
+                    <p data-if="EXP_NEG">So <code><var>fracParens( BASE_N, BASE_D )</var>^{<var>fracSmall( EXP_NEG ? -1 : 1, EXP_D )</var>}=<var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>fraction( SOL_N, SOL_D, true, true, false, false )</var></code></p>
+                    <p data-else>So <code><var>fracParens( BASEF_N, BASEF_D )</var>^{<var>fracSmall( 1, EXP_D )</var>}=<var>fraction( SOL_N, SOL_D,true, true, false, false )</var></code></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

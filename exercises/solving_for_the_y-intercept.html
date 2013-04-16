@@ -1,93 +1,149 @@
 <!DOCTYPE html>
 <html data-require="math graphie math-format">
 <head>
-	<meta charset="UTF-8" />
-	<title>Solving for the y-intercept</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Solving for the y-intercept</title>
+    <script src="../khan-exercise.js"></script>
 
-	<script type="text/javascript">
-		function p1Position( x1, y1, x2, y2 ) {
-			if ( ( y1 > y2 ) && ( x1 > x2 ) ) {
-				return "below right";
-			} else if ( ( y1 > y2 ) && ( x1 < x2 ) ) {
-				return "below left";
-			} else if ( ( y1 < y2 ) && ( x1 < x2 ) ) {
-				return "above left";
-			} else {
-				return "above right";
-			}
-		}
-	</script>
+    <script type="text/javascript">
+        KhanUtil.p1Position = function p1Position(x1, y1, x2, y2) {
+            if ((y1 > y2) && (x1 > x2)) {
+                return "below right";
+            } else if ((y1 > y2) && (x1 < x2)) {
+                return "below left";
+            } else if ((y1 < y2) && (x1 < x2)) {
+                return "above left";
+            } else {
+                return "above right";
+            }
+        };
+    </script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars" data-ensure="X2 !== X1 && Y2 !== Y1 && X_MAX >= 0 && X_MIN <= 0 && Y_MAX >= 0 && Y_MIN <= 0">
-			<var id="X1">randRangeNonZero(-10, 10)</var>
-			<var id="X2">randRangeNonZero(-10, 10)</var>
-			<var id="Y1">randRangeNonZero(-10, 10)</var>
-			<var id="Y2">randRangeNonZero(-10, 10)</var>
+    <div class="exercise">
+        <div class="problems">
+            <div id="given-point">
+                <div class="vars" data-ensure="X2 !== X1 && Y2 !== Y1 && X_MAX >= 0 && X_MIN <= 0 && Y_MAX >= 0 && Y_MIN <= 0">
+                    <var id="X1">randRangeNonZero(-10, 10)</var>
+                    <var id="X2">randRangeNonZero(-10, 10)</var>
+                    <var id="Y1">randRangeNonZero(-10, 10)</var>
+                    <var id="Y2">randRangeNonZero(-10, 10)</var>
 
-			<var id="X_MARGIN">abs(X1 - X2)/2</var>
-			<var id="Y_MARGIN">abs(Y1 - Y2)/2</var>
+                    <var id="X_MARGIN">abs(X1 - X2)/2</var>
+                    <var id="Y_MARGIN">abs(Y1 - Y2)/2</var>
 
-			<var id="X_MAX">max(X1, X2) + X_MARGIN</var>
-			<var id="X_MIN">min(X1, X2) - X_MARGIN</var>
-			<var id="Y_MAX">max(Y1, Y2) + Y_MARGIN</var>
-			<var id="Y_MIN">min(Y1, Y2) - Y_MARGIN</var>
+                    <var id="X_MAX">max(X1, X2) + X_MARGIN</var>
+                    <var id="X_MIN">min(X1, X2) - X_MARGIN</var>
+                    <var id="Y_MAX">max(Y1, Y2) + Y_MARGIN</var>
+                    <var id="Y_MIN">min(Y1, Y2) - Y_MARGIN</var>
 
-			<var id="SLOPE_NUMERATOR">Y1 - Y2</var>
-			<var id="SLOPE_DENOMINATOR">X1 - X2</var>
+                    <var id="SLOPE_NUMERATOR">Y1 - Y2</var>
+                    <var id="SLOPE_DENOMINATOR">X1 - X2</var>
 
-			<var id="M">SLOPE_NUMERATOR / SLOPE_DENOMINATOR</var>
-			<var id="B">Y1 - (X1 * M)</var>
-		</div>
+                    <var id="M">SLOPE_NUMERATOR / SLOPE_DENOMINATOR</var>
+                    <var id="B">Y1 - (X1 * M)</var>
+                </div>
+                <div class="problem">
+                    <p>The following line passes through point <code>(<var>X1</var>, <var>Y1</var>)</code>:</p>
+                    <p><code>y = <var>fractionReduce(SLOPE_NUMERATOR, SLOPE_DENOMINATOR)</var> x + b</code></p>
+                </div>
+                <p class="question">What is the value of the <code>y</code>-intercept <code>b</code>?</p>
+                <div class="solution" data-type="multiple">
+                    <p><code>b =</code> <span class="sol"><var>(Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR) / SLOPE_DENOMINATOR</var></span></p>
+                </div>
+                <div class="hints">
+                    <p>Substituting <code>(<var>X1</var>, <var>Y1</var>)</code> into the equation gives:</p>
+                    <p><code><var>Y1</var> = <var>fractionReduce(SLOPE_NUMERATOR, SLOPE_DENOMINATOR)</var> \cdot <var>X1</var> + b</code></p>
+                    <p><code><var>Y1</var> = <var>fractionReduce(X1 * SLOPE_NUMERATOR , SLOPE_DENOMINATOR)</var> + b</code></p>
+                    <p><code>b = <var>Y1</var> - <var>fractionReduce(X1 * SLOPE_NUMERATOR , SLOPE_DENOMINATOR)</var></code></p>
+                    <p><code>b = <var>fractionReduce(Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR)</var></code></p>
 
-		<div class="problems">
-			<div>
-				<div class="problem">
-					<p>The following line passes through point <code>(<var>X1</var>, <var>Y1</var>)</code>:</p>
-					<p><code>y = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + b</code></p>
-				</div>
-				<p class="question">What is the value of the <code>y</code>-intercept <code>b</code>?</p>
+                    <div>
+                        <p>Plugging in <code><var>fractionReduce(Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR)</var></code> for <code>b</code>, we get <code>y = <var>fractionReduce(SLOPE_NUMERATOR, SLOPE_DENOMINATOR)</var> x + <var>fractionReduce(Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR)</var></code>.</p>
+                        <div class="graphie">
+                            graphInit({
+                                range: max(abs(B) + 4, 11),
+                                scale: 20,
+                                tickStep: 1,
+                                labelStep: 1,
+                                unityLabels: false,
+                                labelFormat: function(s) { return "\\small{" + s + "}"; },
+                                axisArrows: "&lt;-&rt;"
+                            });
 
-				<p class="solution"><var>(Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR) / SLOPE_DENOMINATOR</var></p>
-			</div>
-		</div>
+                            plot(function(x) {
+                                return M * x + B;
+                            }, [min((-abs(B) -5), -12) , max((abs(B) + 5), 12)], {
+                                stroke: "#28ae7b"
+                            });
 
-		<div class="hints">
-			<p>Substituting <code>(<var>X1</var>, <var>Y1</var>)</code> into the equation gives:</p>
-			<p><code><var>Y1</var> = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> \cdot <var>X1</var> + b</code></p>
-			<p><code><var>Y1</var> = <var>fractionReduce( X1*SLOPE_NUMERATOR , SLOPE_DENOMINATOR )</var> + b</code></p>
-			<p><code>b = <var>Y1</var> - <var>fractionReduce( X1*SLOPE_NUMERATOR , SLOPE_DENOMINATOR )</var></code></p>
-			<p><code>b = <var>fractionReduce( Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var></code></p>
+                            circle([X1, Y1], 4 / 20, {
+                                stroke: "none",
+                                fill: "black"
+                            });
+                            label([X1, Y1], "(" + X1 + ", " + Y1 + ")", p1Position(X1, Y1, X2, Y2));
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			<div>
-				<p>Plugging in <code><var>fractionReduce( Y1 * SLOPE_DENOMINATOR - X1 * SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var></code> for <code>b</code>, we get <code>y = <var>fractionReduce( SLOPE_NUMERATOR, SLOPE_DENOMINATOR )</var> x + <var>fractionReduce(Y1*SLOPE_DENOMINATOR-X1*SLOPE_NUMERATOR,SLOPE_DENOMINATOR)</var></code>.</p>
-				<div class="graphie">
-					graphInit({
-						range: max( abs(B) + 4 , 11 ),
-						scale: 20,
-						tickStep: 1,
-						labelStep: 1,
-						unityLabels: false,
-						labelFormat: function( s ) { return "\\small{" + s + "}"; },
-						axisArrows: "<->"
-					});
+            <div id="standard-form">
+                <div class="vars">
+                    <var id="X_COEFF">randRangeNonZero(-10, 10)</var>
+                    <var id="Y_COEFF">randRangeNonZero(-10, 10)</var>
+                    <var id="Y_INTERCEPT">randRangeNonZero(-10, 10)</var>
+                    <var id="EQUALS">Y_COEFF * Y_INTERCEPT</var>
+                </div>
+                <div class="problem">
+                    <p>Given the line:</p>
+                    <p><code><var>expr(["*", X_COEFF, "x"])</var> + <var>expr(["*", Y_COEFF, "y"])</var> = <var>EQUALS</var></code></p>
+                </div>
+                <p class="question">What is the <code>y</code>-intercept?</p>
+                <div class="solution" data-type="multiple">
+                    <code>\large(0,\ </code><span class="sol short30" data-forms="integer"><var>Y_INTERCEPT</var></span><code>\large)</code>
+                </div>
+                <div class="hints">
+                    <p>The <code>y</code>-intercept is the point where the line crosses the <code>y</code>-axis. This happens when <code>x</code> is zero.</p>
+                    <div>
+                        <p>Set <code>x</code> to zero and solve for <code>y</code>:</p>
+                        <p><code>
+                            <var>X_COEFF</var>(0) + <var>expr(["*", Y_COEFF, "y"])</var> = <var>EQUALS</var>
+                        </code></p>
+                    </div>
+                    <p><code><var>expr(["*", Y_COEFF, "y"])</var> = <var>EQUALS</var></code></p>
+                    <div data-if="X_COEFF !== 1" data-unwrap>
+                        <p><code>\dfrac{<var>Y_COEFF</var>y}{<var>Y_COEFF</var>} = \dfrac{<var>EQUALS</var>}{<var>Y_COEFF</var>}</code></p>
+                        <p><code>y = <var>Y_INTERCEPT</var></code></p>
+                    </div>
+                    <div>
+                    <p>The line intersects the <code>y</code>-axis at <code>(0, <var>Y_INTERCEPT</var>)</code>.</p>
+                        <div class="graphie">
+                            graphInit({
+                                range: 11,
+                                scale: 20,
+                                tickStep: 1,
+                                labelStep: 1,
+                                unityLabels: false,
+                                labelFormat: function(s) { return "\\small{" + s + "}"; },
+                                axisArrows: "&lt;-&gt;"
+                            });
 
-					plot(function( x ) {
-						return M * x + B;
-					}, [min( ( -abs(B) -5  ), -12) , max( ( abs(B)+5 ), 12 )], {
-						stroke: "#28ae7b"
-					});
+                            style({ stroke: BLUE });
+                            plot(function(x) {
+                                return (-1 * X_COEFF / Y_COEFF) * x + EQUALS / Y_COEFF;
+                            }, [-11, 11]);
 
-					circle( [X1, Y1], 3/20, {
-						stroke: "none",
-						fill: "black"
-					} );
-					label( [X1, Y1], "(" + X1 + ", " + Y1 + ")", p1Position( X1, Y1, X2, Y2 ) );
-				</div>
-			</div>
-		</div>
-	</div>
+                            circle([0, Y_INTERCEPT], 4 / 20, {
+                                stroke: BLUE,
+                                fill: BLUE
+                            });
+
+                            label([0, Y_INTERCEPT], "(0, " + Y_INTERCEPT + ")", "right", { labelDistance: 5 });
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

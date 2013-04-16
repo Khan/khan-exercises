@@ -6,507 +6,636 @@
 // Note that initials (-Var) are guaranteed to be unique in each category,
 // but not across them.
 
-jQuery.extend( KhanUtil, {
-	toSentence: function( array, conjunction ) {
-		if ( conjunction == null ) {
-			conjunction = "and";
-		}
+$.extend(KhanUtil, {
+    toSentence: function(array, conjunction) {
+        if (conjunction == null) {
+            conjunction = "and";
+        }
 
-		if ( array.length === 0 ) {
-			return "";
-		} else if ( array.length === 1 ) {
-			return array[0];
-		} else if ( array.length === 2 ) {
-			return array[0] + " " + conjunction + " " + array[1];
-		} else {
-			return array.slice(0, -1).join(", ") + ", " + conjunction + " " + array[ array.length - 1 ];
-		}
-	},
+        if (array.length === 0) {
+            return "";
+        } else if (array.length === 1) {
+            return array[0];
+        } else if (array.length === 2) {
+            return array[0] + " " + conjunction + " " + array[1];
+        } else {
+            return array.slice(0, -1).join(", ") + ", " + conjunction + " " + array[array.length - 1];
+        }
+    },
 
-	// pluralization helper.  There are five signatures
-	// - plural(NUMBER): return "s" if NUMBER is not 1
-	// - plural(NUMBER, singular):
-	//		- if necessary, magically pluralize <singular>
-	//		- return "NUMBER word"
-	// - plural(NUMBER, singular, plural):
-	//		- return "NUMBER word"
-	// - plural(singular, NUMBER):
-	//		- if necessary, magically pluralize <singular>
-	//		- return "word"
-	// - plural(singular, plural, NUMBER):
-	//		- return "word"
-	plural: (function() {
-		var oneOffs = {
-			'quiz': 'quizzes',
-			'shelf': 'shelves',
-			'loaf': 'loaves',
-			'potato': 'potatoes',
-			'person': 'people',
-			'is': 'are',
-			'was': 'were',
-			'square foot': 'square feet',
-			'tomato': 'tomatoes'
-		};
+    toSentenceTex: function(array, conjunction, highlight, highlightClass) {
+        var wrapped = $.map(array, function(elem) {
+            if (($.isFunction(highlight) && highlight(elem)) || (highlight !== undefined && elem === highlight)) {
+                return "<code class='" + highlightClass + "'>" + elem + "</code>";
+            }
+            return "<code>" + elem + "</code>";
+        });
+        return KhanUtil.toSentence(wrapped, conjunction);
+    },
 
-		var pluralizeWord = function(word) {
+    capitalize: function(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    },
 
-			// noone really needs extra spaces at the edges, do they?
-			word = jQuery.trim( word );
+    // pluralization helper.  There are five signatures
+    // - plural(NUMBER): return "s" if NUMBER is not 1
+    // - plural(NUMBER, singular):
+    //        - if necessary, magically pluralize <singular>
+    //        - return "NUMBER word"
+    // - plural(NUMBER, singular, plural):
+    //        - return "NUMBER word"
+    // - plural(singular, NUMBER):
+    //        - if necessary, magically pluralize <singular>
+    //        - return "word"
+    // - plural(singular, plural, NUMBER):
+    //        - return "word"
+    plural: (function() {
+        var oneOffs = {
+            "quiz": "quizzes",
+            "shelf": "shelves",
+            "loaf": "loaves",
+            "potato": "potatoes",
+            "person": "people",
+            "is": "are",
+            "was": "were",
+            "foot": "feet",
+            "square foot": "square feet",
+            "tomato": "tomatoes"
+        };
 
-			// determine if our word is all caps.  If so, we'll need to
-			// re-capitalize at the end
-			var isUpperCase = (word.toUpperCase() === word);
-			var oneOff = oneOffs[word.toLowerCase()];
-			var words = word.split(/\s+/);
+        var pluralizeWord = function(word) {
 
-			// first handle simple one-offs
-			// ({}).watch is a function in Firefox, blargh
-			if ( typeof oneOff === "string" ) {
-				return oneOff;
-			}
+            // noone really needs extra spaces at the edges, do they?
+            word = $.trim(word);
 
-			// multiple words
-			else if ( words.length > 1 ) {
-				// for 3-word phrases where the middle word is 'in' or 'of',
-				// pluralize the first word
-				if ( words.length === 3 && /\b(in|of)\b/i.test(words[1]) ) {
-					words[0] = KhanUtil.plural( words[0] );
-				}
+            // determine if our word is all caps.  If so, we'll need to
+            // re-capitalize at the end
+            var isUpperCase = (word.toUpperCase() === word);
+            var oneOff = oneOffs[word.toLowerCase()];
+            var words = word.split(/\s+/);
 
-				// otherwise, just pluraize the last word
-				else {
-					words[ words.length-1 ] =
-						KhanUtil.plural( words[ words.length-1 ] );
-				}
+            // first handle simple one-offs
+            // ({}).watch is a function in Firefox, blargh
+            if (typeof oneOff === "string") {
+                return oneOff;
+            }
 
-				return words.join(" ");
-			}
+            // multiple words
+            else if (words.length > 1) {
+                // for 3-word phrases where the middle word is 'in' or 'of',
+                // pluralize the first word
+                if (words.length === 3 && /\b(in|of)\b/i.test(words[1])) {
+                    words[0] = KhanUtil.plural(words[0]);
+                }
 
-			// single words
-			else {
-				// "-y" => "-ies"
-				if ( /[^aeiou]y$/i.test( word ) ) {
-					word = word.replace(/y$/i, "ies");
-				}
+                // otherwise, just pluraize the last word
+                else {
+                    words[words.length - 1] =
+                        KhanUtil.plural(words[words.length - 1]);
+                }
 
-				// add "es"; things like "fish" => "fishes"
-				else if ( /[sxz]$/i.test( word ) || /[bcfhjlmnqsvwxyz]h$/.test( word ) ) {
-					word += "es";
-				}
+                return words.join(" ");
+            }
 
-				// all the rest, just add "s"
-				else {
-					word += "s";
-				}
+            // single words
+            else {
+                // "-y" => "-ies"
+                if (/[^aeiou]y$/i.test(word)) {
+                    word = word.replace(/y$/i, "ies");
+                }
 
-				if ( isUpperCase ) {
-					word = word.toUpperCase();
-				}
-				return word;
-			}
-		};
+                // add "es"; things like "fish" => "fishes"
+                else if (/[sxz]$/i.test(word) || /[bcfhjlmnqsvwxyz]h$/.test(word)) {
+                    word += "es";
+                }
 
-		return function(value, arg1, arg2) {
-			if ( typeof value === "number" ) {
-				var usePlural = (value !== 1);
+                // all the rest, just add "s"
+                else {
+                    word += "s";
+                }
 
-				// if no extra args, just add "s" (if plural)
-				if ( arguments.length === 1 ) {
-					return usePlural ? "s" : "";
-				}
+                if (isUpperCase) {
+                    word = word.toUpperCase();
+                }
+                return word;
+            }
+        };
 
-				if ( usePlural ) {
-					arg1 = arg2 || pluralizeWord(arg1);
-				}
+        return function(value, arg1, arg2) {
+            if (typeof value === "number") {
+                var usePlural = (value !== 1);
 
-				return value + " " + arg1;
-			} else if ( typeof value === "string" ) {
-				var plural = pluralizeWord(value);
-				if ( typeof arg1 === "string" && arguments.length === 3 ) {
-					plural = arg1;
-					arg1 = arg2;
-				}
-				var usePlural = (arguments.length < 2 || (typeof arg1 === "number" && arg1 !== 1));
-				return usePlural ? plural : value;
-			}
-		};
-	})()
+                // if no extra args, just add "s" (if plural)
+                if (arguments.length === 1) {
+                    return usePlural ? "s" : "";
+                }
+
+                if (usePlural) {
+                    arg1 = arg2 || pluralizeWord(arg1);
+                }
+
+                return value + " " + arg1;
+            } else if (typeof value === "string") {
+                var plural = pluralizeWord(value);
+                if (typeof arg1 === "string" && arguments.length === 3) {
+                    plural = arg1;
+                    arg1 = arg2;
+                }
+                var usePlural = (arguments.length < 2 || (typeof arg1 === "number" && arg1 !== 1));
+                return usePlural ? plural : value;
+            }
+        };
+    })(),
+
+    // Pluralize with a code tag around the number
+    // - pluralTex(NUMBER, singular):
+    //        - if necessary, magically pluralize <singular>
+    //        - return "<code>NUMBER</code> word"
+    // - pluralTex(NUMBER, singular, plural):
+    //        - return "<code>NUMBER</code> word"
+    pluralTex: function(value, arg1, arg2) {
+        if (typeof arg2 === "string") {
+            return "<code>" + value + "</code> " + KhanUtil.plural(arg1, arg2, value);
+        } else {
+            return "<code>" + value + "</code> " + KhanUtil.plural(arg1, value);
+        }
+    }
 });
 
-jQuery.fn[ "word-problemsLoad" ] = function() {
-	var people = KhanUtil.shuffle([
-		["Ashley", "f"],
-		["Brandon", "m"],
-		["Christopher", "m"],
-		["Daniel", "m"],
-		["Emily", "f"],
-		["Gabriela", "f"],
-		["Ishaan", "m"],
-		["Jessica", "f"],
-		["Kevin", "m"],
-		["Luis", "m"],
-		["Michael", "m"],
-		["Nadia", "f"],
-		["Omar", "m"],
-		["Stephanie", "f"],
-		["Tiffany", "f"],
-		["Umaima", "f"],
-		["Vanessa", "f"],
-		["William", "m"]
-	]);
+$.fn["word-problemsLoad"] = function() {
 
-	var vehicles = KhanUtil.shuffle([
-		"bike",
-		"car",
-		"horse",
-		"motorcycle",
-		"scooter",
-		"train"
-	]);
+    var IncrementalShuffler = function(array) {
+        // Shuffle an array incrementally so we only use as many random calls
+        // as we need, so names can be added/removed without breaking all
+        // random seeds for all word problems
+        // - get(0); get(0); will use only one call
+        // - get(0); get(1); will have each use one random call
+        // - get(1); get(0); will use two random calls then none and each call
+        //   will give the same result as running 0 then 1
+        array = [].slice.call(array, 0);
+        var shuffled = 0;
 
-	var courses = KhanUtil.shuffle([
-		"algebra",
-		"chemistry",
-		"geometry",
-		"history",
-		"physics",
-		"Spanish"
-	]);
+        this.get = function(i) {
+            if (i < 0 || i >= array.length) {
+                return undefined;
+            }
 
-	var exams = KhanUtil.shuffle([
-		"exam",
-		"test",
-		"quiz"
-	]);
+            while (shuffled <= i) {
+                var top = array.length - shuffled,
+                    newEnd = Math.floor(KhanUtil.random() * top),
+                    tmp = array[newEnd];
 
-	var binops = KhanUtil.shuffle([
-		"\\barwedge",
-		"\\veebar",
-		"\\odot",
-		"\\oplus",
-		"\\otimes",
-		"\\oslash",
-		"\\circledcirc",
-		"\\boxdot",
-		"\\bigtriangleup",
-		"\\bigtriangledown",
-		"\\dagger",
-		"\\diamond",
-		"\\star",
-		"\\triangleleft",
-		"\\triangleright"
-	]);
+                array[newEnd] = array[top - 1];
+                array[top - 1] = tmp;
+                shuffled++;
+            }
 
-	var collections = KhanUtil.shuffle([
-		["chair", "row", "make"],
-		["party favor", "bag", "fill"],
-		["jelly bean", "pile", "make"],
-		["book", "shelf", "fill"],
-		["can of food", "box", "fill"]
-	]);
+            // Since we shuffle items from the end to the front, return the
+            // items in reverse order
+            return array[array.length - i - 1];
+        };
+    };
 
-	var stores = KhanUtil.shuffle([
-		{
-			name: "office supply",
-			items: KhanUtil.shuffle( ["pen", "pencil", "notebook"] )
-		},
-		{
-			name: "hardware",
-			items: KhanUtil.shuffle( ["hammer", "nail", "saw"] )
-		},
-		{
-			name: "grocery",
-			items: KhanUtil.shuffle( ["banana", "loaf of bread", "gallon of milk", "potato"] )
-		},
-		{
-			name: "gift",
-			items: KhanUtil.shuffle( ["toy", "game", "souvenir"] )
-		},
-		{
-			name: "toy",
-			items: KhanUtil.shuffle( ["stuffed animal", "video game", "race car", "doll"] )
-		}
-	]);
+    var names = [
+        ["Ashley", "f"],
+        ["Brandon", "m"],
+        ["Ben", "m"],
+        ["Christopher", "m"],
+        ["Daniel", "m"],
+        ["Emily", "f"],
+        ["Gabriela", "f"],
+        ["Ishaan", "m"],
+        ["Jessica", "f"],
+        ["Kevin", "m"],
+        ["Luis", "m"],
+        ["Michael", "m"],
+        ["Nadia", "f"],
+        ["Omar", "m"],
+        ["Stephanie", "f"],
+        ["Tiffany", "f"],
+        ["Umaima", "f"],
+        ["Vanessa", "f"],
+        ["William", "m"]
+    ];
 
-	var pizzas = KhanUtil.shuffle([
-		"pizza",
-		"pie",
-		"cake"
-	]);
+    // We only want one name per letter of the alphabet, so group people with
+    // the same initial before shuffling the names up
+    var people = _.map(_.groupBy(names, function(name) {
+        return name[0].charAt(0);
+    }), function(group) {
+        return new IncrementalShuffler(group);
+    });
+    people = new IncrementalShuffler(people);
 
-	var timesofday = KhanUtil.shuffle([
-		"in the morning",
-		"around noon",
-		"in the evening",
-		"at night"
-	]);
+    var vehicles = new IncrementalShuffler([
+        "bike",
+        "car",
+        "horse",
+        "motorcycle",
+        "scooter",
+        "train"
+    ]);
 
-	var exercises = KhanUtil.shuffle([
-		"push-up",
-		"sit-up",
-		"squat",
-		"jumping jack"
-	]);
+    var courses = new IncrementalShuffler([
+        "algebra",
+        "chemistry",
+        "geometry",
+        "history",
+        "physics",
+        "Spanish"
+    ]);
 
-	var fruits = KhanUtil.shuffle([
-		"apple",
-		"banana",
-		"coconut",
-		"eggplant",
-		"kiwi",
-		"lemon",
-		"mango",
-		"nectarine",
-		"orange",
-		"pomegranate",
-		"watermelon"
-	]);
+    var exams = new IncrementalShuffler([
+        "exam",
+        "test",
+        "quiz"
+    ]);
 
-	var deskItems = KhanUtil.shuffle([
-		"binder",
-		"crayon",
-		"eraser",
-		"folder",
-		"glue stick",
-		"marker",
-		"notebook",
-		"pencil",
-		"rubber stamp"
-	]);
+    var binops = new IncrementalShuffler([
+        "\\barwedge",
+        "\\veebar",
+        "\\odot",
+        "\\oplus",
+        "\\otimes",
+        "\\oslash",
+        "\\circledcirc",
+        "\\boxdot",
+        "\\bigtriangleup",
+        "\\bigtriangledown",
+        "\\dagger",
+        "\\diamond",
+        "\\star",
+        "\\triangleleft",
+        "\\triangleright"
+    ]);
 
-	var colors = KhanUtil.shuffle([
-		"red",
-		"orange",
-		"yellow",
-		"green",
-		"blue",
-		"purple",
-		"white",
-		"black",
-		"brown",
-		"silver",
-		"gold",
-		"pink"
-	]);
+    var collections = new IncrementalShuffler([
+        ["chair", "row", "make"],
+        ["party favor", "bag", "fill"],
+        ["jelly bean", "pile", "make"],
+        ["book", "shelf", "fill"],
+        ["can of food", "box", "fill"]
+    ]);
 
-	var schools = KhanUtil.shuffle([
-		"Loyola",
-		"Gardner Bullis",
-		"Almond",
-		"Covington",
-		"Springer",
-		"Santa Rita",
-		"Oak"
-	]);
+    var stores = new IncrementalShuffler([
+        {
+            name: "office supply",
+            items: new IncrementalShuffler(["pen", "pencil", "notebook"])
+        },
+        {
+            name: "hardware",
+            items: new IncrementalShuffler(["hammer", "nail", "saw"])
+        },
+        {
+            name: "grocery",
+            items: new IncrementalShuffler(["banana", "loaf of bread", "gallon of milk", "potato"])
+        },
+        {
+            name: "gift",
+            items: new IncrementalShuffler(["toy", "game", "souvenir"])
+        },
+        {
+            name: "toy",
+            items: new IncrementalShuffler(["stuffed animal", "video game", "race car", "doll"])
+        }
+    ]);
 
-	var clothes = KhanUtil.shuffle([
-		"hat",
-		"pair of pants",
-		"belt",
-		"necklace",
-		"purse",
-		"pair of shoes",
-		"blouse",
-		"skirt",
-		"watch",
-		"pair of socks",
-		"sweatshirt",
-		"sweater",
-		"tie",
-		"scarf",
-		"dress"
-	]);
+    var pizzas = new IncrementalShuffler([
+        "pizza",
+        "pie",
+        "cake"
+    ]);
 
-	var sides = KhanUtil.shuffle([
-		"left",
-		"right"
-	]);
+    var timesofday = new IncrementalShuffler([
+        "in the morning",
+        "around noon",
+        "in the evening",
+        "at night"
+    ]);
 
-	var shirtStyles = KhanUtil.shuffle([
-		"long-sleeved",
-		"short-sleeved"
-	]);
+    var exercises = new IncrementalShuffler([
+        "push-up",
+        "sit-up",
+        "squat",
+        "jumping jack"
+    ]);
 
-	var farmers = KhanUtil.shuffle([
-		{farmer:"farmer", crops:KhanUtil.shuffle(["tomato", "potato", "carrot", "bean", "corn stalk"]), field:"field"},
-		{farmer:"gardener", crops:KhanUtil.shuffle(["rose", "tulip", "daisy", "iris", "lily"]), field:"garden"}
-	]);
+    var fruits = new IncrementalShuffler([
+        "apple",
+        "banana",
+        "coconut",
+        "eggplant",
+        "kiwi",
+        "lemon",
+        "mango",
+        "nectarine",
+        "orange",
+        "pomegranate",
+        "watermelon"
+    ]);
 
-	var distances = KhanUtil.shuffle([
-		"mile",
-		"kilometer"
-	]);
+    var deskItems = new IncrementalShuffler([
+        "binder",
+        "crayon",
+        "eraser",
+        "folder",
+        "glue stick",
+        "marker",
+        "notebook",
+        "pencil",
+        "rubber stamp"
+    ]);
 
-	var distanceActivities = KhanUtil.shuffle([
-		{present:"ride", past:"rode", noun:"bike", done:"biked", continuous:"biking"},
-		{present:"row", past:"rowed", noun:"boat", done:"rowed", continuous:"rowing"},
-		{present:"drive", past:"drove", noun:"car", done:"driven", continuous:"driving"},
-		{present:"walk", past:"walked", noun:"dog", done:"walked", continuous:"walking"}
-	]);
+    var colors = new IncrementalShuffler([
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "blue",
+        "purple",
+        "white",
+        "black",
+        "brown",
+        "silver",
+        "gold",
+        "pink"
+    ]);
 
-	var indefiniteArticle = function(word) {
-		var vowels = ['a', 'e', 'i', 'o', 'u'];
-		if ( vowels.indexOf( word[0].toLowerCase() ) > -1 ) {
-			return 'An ' + word;
-		}
-		return 'A ' + word;
-	};
+    var schools = new IncrementalShuffler([
+        "Loyola",
+        "Gardner Bullis",
+        "Almond",
+        "Covington",
+        "Springer",
+        "Santa Rita",
+        "Oak"
+    ]);
 
-	jQuery.extend( KhanUtil, {
-		person: function( i ) {
-			return people[i - 1][0];
-		},
+    var furnitureStore = new IncrementalShuffler([
+        "chair",
+        "table",
+        "bed frame",
+        "sofa",
+        "couch",
+        "desk",
+        "book shelf"
+    ]);
 
-		personVar: function( i ) {
-			return people[i - 1][0].charAt(0).toLowerCase();
-		},
+    var electronicStore = new IncrementalShuffler([
+        "television",
+        "computer",
+        "laptop",
+        "camera"
+    ]);
 
-		he: function( i ) {
-			return people[i - 1][1] === "m" ? "he" : "she";
-		},
+    var clothes = new IncrementalShuffler([
+        "hat",
+        "pair of pants",
+        "belt",
+        "necklace",
+        "purse",
+        "pair of shoes",
+        "blouse",
+        "skirt",
+        "watch",
+        "pair of socks",
+        "sweatshirt",
+        "sweater",
+        "tie",
+        "scarf",
+        "dress"
+    ]);
 
-		He: function( i ) {
-			return people[i - 1][1] === "m" ? "He" : "She";
-		},
+    var sides = new IncrementalShuffler([
+        "left",
+        "right"
+    ]);
 
-		him: function( i ) {
-			return people[i - 1][1] === "m" ? "him" : "her";
-		},
+    var shirtStyles = new IncrementalShuffler([
+        "long-sleeved",
+        "short-sleeved"
+    ]);
 
-		his: function( i ) {
-			return people[i - 1][1] === "m" ? "his" : "her";
-		},
+    // animal, avg-lifespan, stddev-lifespan
+    // (data is from cursory google searches and wild guessing)
+    var animals = new IncrementalShuffler([
+        ["alligator", 68, 20],
+        ["anteater", 15, 10],
+        ["bear", 40, 20],
+        ["elephant", 60, 10],
+        ["gorilla", 20, 5],
+        ["lion", 12, 5],
+        ["lizard", 3, 1],
+        ["meerkat", 13, 5],
+        ["porcupine", 20, 5],
+        ["seal", 15, 10],
+        ["sloth", 16, 5],
+        ["snake", 25, 10],
+        ["tiger", 22, 5],
+        ["turtle", 100, 20],
+        ["zebra", 25, 10]
+    ]);
 
-		His: function( i ) {
-			return people[i - 1][1] === "m" ? "His" : "Her";
-		},
+    var farmers = new IncrementalShuffler([
+        {farmer: "farmer", crops: new IncrementalShuffler(["tomato", "potato", "carrot", "bean", "corn stalk"]), field: "field"},
+        {farmer: "gardener", crops: new IncrementalShuffler(["rose", "tulip", "daisy", "iris", "lily"]), field: "garden"}
+    ]);
 
-		An: function(word) {
-			return indefiniteArticle(word);
-		},
+    var distances = new IncrementalShuffler([
+        "mile",
+        "kilometer"
+    ]);
 
-		an: function(word) {
-			return indefiniteArticle(word).toLowerCase();
-		},
+    var distanceActivities = new IncrementalShuffler([
+        {present: "ride", past: "rode", noun: "bike", done: "biked", continuous: "biking"},
+        {present: "row", past: "rowed", noun: "boat", done: "rowed", continuous: "rowing"},
+        {present: "drive", past: "drove", noun: "car", done: "driven", continuous: "driving"},
+        {present: "walk", past: "walked", noun: "dog", done: "walked", continuous: "walking"}
+    ]);
 
-		vehicle: function( i ) {
-			return vehicles[i - 1];
-		},
+    var indefiniteArticle = function(word) {
+        var vowels = ["a", "e", "i", "o", "u"];
+        if (_(vowels).indexOf(word[0].toLowerCase()) > -1) {
+            return "An " + word;
+        }
+        return "A " + word;
+    };
 
-		vehicleVar: function( i ) {
-			return vehicles[i - 1].charAt(0);
-		},
+    $.extend(KhanUtil, {
+        person: function(i) {
+            return people.get(i - 1).get(0)[0];
+        },
 
-		course: function( i ) {
-			return courses[i - 1];
-		},
+        personVar: function(i) {
+            return people.get(i - 1).get(0)[0].charAt(0).toLowerCase();
+        },
 
-		courseVar: function( i ) {
-			return courses[i - 1].charAt(0).toLowerCase();
-		},
+        he: function(i) {
+            return people.get(i - 1).get(0)[1] === "m" ? "he" : "she";
+        },
 
-		exam: function( i ) {
-			return exams[i - 1];
-		},
+        He: function(i) {
+            return people.get(i - 1).get(0)[1] === "m" ? "He" : "She";
+        },
 
-		binop: function( i ) {
-			return binops[i - 1];
-		},
+        him: function(i) {
+            return people.get(i - 1).get(0)[1] === "m" ? "him" : "her";
+        },
 
-		item: function( i ) {
-			return collections[i - 1][0];
-		},
+        his: function(i) {
+            return people.get(i - 1).get(0)[1] === "m" ? "his" : "her";
+        },
 
-		group: function( i ) {
-				return collections[i - 1][1];
-		},
+        His: function(i) {
+            return people.get(i - 1).get(0)[1] === "m" ? "His" : "Her";
+        },
 
-		groupVerb: function( i ) {
-			return collections[i - 1][2];
-		},
+        An: function(word) {
+            return indefiniteArticle(word);
+        },
 
-		store: function( i ) {
-			return stores[i].name;
-		},
+        an: function(word) {
+            return indefiniteArticle(word).toLowerCase();
+        },
 
-		storeItem: function( i, j ) {
-			return stores[i].items[j];
-		},
+        vehicle: function(i) {
+            return vehicles.get(i - 1);
+        },
 
-		pizza: function( i ) {
-			return pizzas[i];
-		},
+        vehicleVar: function(i) {
+            return vehicles.get(i - 1).charAt(0);
+        },
 
-		exercise: function( i ) {
-			return exercises[i - 1];
-		},
+        course: function(i) {
+            return courses.get(i - 1);
+        },
 
-		timeofday: function( i ) {
-			return timesofday[i - 1];
-		},
+        courseVar: function(i) {
+            return courses.get(i - 1).charAt(0).toLowerCase();
+        },
 
-		school: function( i ) {
-			return schools[i - 1];
-		},
+        exam: function(i) {
+            return exams.get(i - 1);
+        },
 
-		clothing: function( i ) {
-			return clothes[i - 1];
-		},
+        binop: function(i) {
+            return binops.get(i - 1);
+        },
 
-		color: function( i ) {
-			return colors[i - 1];
-		},
+        item: function(i) {
+            return collections.get(i - 1)[0];
+        },
 
-		fruit: function( i ) {
-			return fruits[i];
-		},
+        group: function(i) {
+            return collections.get(i - 1)[1];
+        },
 
-		deskItem: function( i ) {
-			return deskItems[i];
-		},
+        groupVerb: function(i) {
+            return collections.get(i - 1)[2];
+        },
 
-		distance: function( i ) {
-			return distances[i - 1];
-		},
+        store: function(i) {
+            return stores.get(i).name;
+        },
 
-		rode: function( i ) {
-			return distanceActivities[i - 1].past;
-		},
+        storeItem: function(i, j) {
+            return stores.get(i).items.get(j);
+        },
 
-		ride: function( i ) {
-			return distanceActivities[i - 1].present;
-		},
+        pizza: function(i) {
+            return pizzas.get(i);
+        },
 
-		bike: function( i ) {
-			return distanceActivities[i - 1].noun;
-		},
+        exercise: function(i) {
+            return exercises.get(i - 1);
+        },
 
-		biked: function( i ) {
-			return distanceActivities[i - 1].done;
-		},
+        timeofday: function(i) {
+            return timesofday.get(i - 1);
+        },
 
-		biking: function( i ) {
-			return distanceActivities[i - 1].continuous;
-		},
+        school: function(i) {
+            return schools.get(i - 1);
+        },
 
-		farmer: function( i ) {
-			return farmers[i - 1].farmer;
-		},
+        clothing: function(i) {
+            return clothes.get(i - 1);
+        },
 
-		crop: function( i ) {
-			return farmers[i - 1].crops[0];
-		},
+        color: function(i) {
+            return colors.get(i - 1);
+        },
 
-		field: function( i ) {
-			return farmers[i - 1].field;
-		},
+        fruit: function(i) {
+            return fruits.get(i);
+        },
 
-		side: function( i ) {
-			return sides[i - 1];
-		},
+        deskItem: function(i) {
+            return deskItems.get(i);
+        },
 
-		shirtStyle: function( i ) {
-			return shirtStyles[i - 1];
-		},
-	});
+        distance: function(i) {
+            return distances.get(i - 1);
+        },
+
+        rode: function(i) {
+            return distanceActivities.get(i - 1).past;
+        },
+
+        ride: function(i) {
+            return distanceActivities.get(i - 1).present;
+        },
+
+        bike: function(i) {
+            return distanceActivities.get(i - 1).noun;
+        },
+
+        biked: function(i) {
+            return distanceActivities.get(i - 1).done;
+        },
+
+        biking: function(i) {
+            return distanceActivities.get(i - 1).continuous;
+        },
+
+        farmer: function(i) {
+            return farmers.get(i - 1).farmer;
+        },
+
+        crop: function(i) {
+            return farmers.get(i - 1).crops.get(0);
+        },
+
+        field: function(i) {
+            return farmers.get(i - 1).field;
+        },
+
+        side: function(i) {
+            return sides.get(i - 1);
+        },
+
+        shirtStyle: function(i) {
+            return shirtStyles.get(i - 1);
+        },
+
+        furniture: function(i) {
+            return furnitureStore.get(i - 1);
+        },
+
+        electronic: function(i) {
+            return electronicStore.get(i - 1);
+        },
+
+        animal: function(i) {
+            return animals.get(i - 1)[0];
+        },
+
+        animalAvgLifespan: function(i) {
+            return animals.get(i - 1)[1];
+        },
+
+        animalStddevLifespan: function(i) {
+            return animals.get(i - 1)[2];
+        }
+    });
 };

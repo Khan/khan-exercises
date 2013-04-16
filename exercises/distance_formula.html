@@ -1,128 +1,119 @@
 <!DOCTYPE html>
 <html data-require="math graphie math-format">
 <head>
-	<meta charset="UTF-8" />
-	<title>Distance formula</title>
-	<script src="../khan-exercise.js"></script>
-	<style>
-		.point1 {
-			color: #0969A2;
-		}
-
-		.point2 {
-			color: #A62ADD;
-		}
-	</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Distance formula</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="vars" data-ensure="X1 !== X2 || Y1 !== Y2">
-			<var id="X1">randRange( -8, 7 )</var>
-			<var id="X2">randRange( -8, 7 )</var>
-			<var id="Y1">randRange( -8, 8 )</var>
-			<var id="Y2">randRange( -8, 8 )</var>
-			<var id="X_DIST">abs( X2 - X1 )</var>
-			<var id="Y_DIST">abs( Y2 - Y1 )</var>
-			<var id="HYP2">X_DIST * X_DIST + Y_DIST * Y_DIST</var>
-		</div>
+    <div class="exercise">
+        <div class="vars" data-ensure="Y1 !== Y2">
+            <var id="X1">randRangeExclude( -8, 10, [0, 1, 2] )</var>
+            <var id="X2">randRangeExclude( -10, 8, [-1, -2, -3, -4] )</var>
+            <var id="Y1">randRangeExclude( -8, 8, [-1, 0] )</var>
+            <var id="Y2">randRangeExclude( -8, 8, [-1, 0] )</var>
+            <var id="X_DIST">abs( X2 - X1 )</var>
+            <var id="Y_DIST">abs( Y2 - Y1 )</var>
+            <var id="HYP2">X_DIST * X_DIST + Y_DIST * Y_DIST</var>
+        </div>
 
-		<div class="problems">
-			<div>
-				<p class="question">Find the distance between the points <span class="point1">(<var>X1</var>, <var>Y1</var>)</span> and <span class="point2">(<var>X2</var>, <var>Y2</var>)</span>.</p>
-				<div class="graphie" id="graph">
-					graphInit({
-						range: 11,
-						scale: 20,
-						tickStep: 1,
-						labelStep: 1,
-						unityLabels: false,
-						labelFormat: function( s ) { return "\\small{" + s + "}"; },
-						axisArrows: "<->"
-					});
+        <div class="problems">
+            <div>
+                <p class="question">Find the distance between the points <span class="hint_blue">(<var>X1</var>, <var>Y1</var>)</span> and <span class="hint_green">(<var>X2</var>, <var>Y2</var>)</span>.</p>
+                <div class="graphie" id="graph">
+                    graphInit({
+                        range: 11,
+                        scale: 20,
+                        tickStep: 1,
+                        labelStep: 1,
+                        unityLabels: false,
+                        labelFormat: function( s ) { return "\\small{" + s + "}"; },
+                        axisArrows: "<->"
+                    });
 
-					label([ X1, Y1 ], "(" + X1 + ", " + Y1 + ")", "left", { color: "#0969a2" } );
-					label([ X2, Y2 ], "(" + X2 + ", " + Y2 + ")", "right", { color: "#a62add" } );
+                    label([ X1, Y1 ], "(" + X1 + ", " + Y1 + ")", "left", { color: BLUE } );
+                    label([ X2, Y2 ], "(" + X2 + ", " + Y2 + ")", "right", { color: GREEN } );
 
-					circle([ X1, Y1 ], 3 / 20, { stroke: "none", fill: "#0969a2" } );
-					circle([ X2, Y2 ], 3 / 20, { stroke: "none", fill: "#a62add" } );
-				</div>
+                    circle([ X1, Y1 ], 3 / 20, { stroke: "none", fill: BLUE } );
+                    circle([ X2, Y2 ], 3 / 20, { stroke: "none", fill: GREEN } );
+                </div>
 
-				<div class="solution" data-type="radical"><var>HYP2</var></div>
-			</div>
-		</div>
+                <div class="solution" data-type="radical"><var>HYP2</var></div>
+            </div>
+        </div>
 
-		<div class="hints">
-			<div>
-				<p>
-					Change in <span style="color: #679B00"> <code>x</code>:</span>
-					<span data-if="X2 - X1 > 0">
-						<span class="point2"><var>X2</var></span> - <span class="point1"><var>negParens(X1)</var></span>
-					</span>
-					<span data-else>
-						<span class="point1"><var>X1</var></span> - <span class="point2"><var>negParens(X2)</var></span>
-					</span>
-					= <span style="color: #679B00"><var>X_DIST</var></span>
-				</p>
+        <div class="hints">
+            <div>
+                <p>
+                    Change in <span class="hint_red"><code>x</code>:</span>
+                    <span data-if="X2 - X1 > 0">
+                        <span class="hint_green"><var>X2</var></span> - <span class="hint_blue"><var>negParens(X1)</var></span>
+                    </span>
+                    <span data-else>
+                        <span class="hint_blue"><var>X1</var></span> - <span class="hint_green"><var>negParens(X2)</var></span>
+                    </span>
+                    = <span class="hint_red"><var>X_DIST</var></span>
+                </p>
 
-				<div data-if=" X2 - X1 != 0" class="graphie" data-update="graph">
-					style({
-						color: "#679b00",
-						stroke: "#679b00"
-					}, function() {
-						line( [ X1, Y1 ], [ X2, Y1 ] );
-						label( [ ( X1 + X2 ) / 2, Y1 ], X_DIST, "above" );
-					});
-				</div>
-			</div>
+                <div data-if="X2 - X1 !== 0" class="graphie" data-update="graph">
+                    style({
+                        color: RED,
+                        stroke: RED
+                    }, function() {
+                        line( [ X1, Y1 ], [ X2, Y1 ] );
+                        label( [ ( X1 + X2 ) / 2, Y1 ], X_DIST, "above" );
+                    });
+                </div>
+            </div>
 
-			<div>
-				<p>
-				Change in <span style="color: #A66000"><code>y</code>:</span>
-					<span data-if="Y2 - Y1 > 0">
-						<span class="point2"><var>Y2</var></span> - <span class="point1"><var>negParens(Y1)</var></span>
-					</span>
-					<span data-else>
-						<span class="point1"><var>Y1</var></span> - <span class="point2"><var>negParens(Y2)</var></span>
-					</span>
-					= <span style="color: #A66000"><var>Y_DIST</var></span>
-				</p>
-	
-				<div data-if="Y2-Y1 != 0" class="graphie" data-update="graph">
-					style({
-						color: "#a66000",
-						stroke: "#a66000"
-					}, function() {
-						line( [ X2, Y1 ], [ X2, Y2 ] );
-						label( [ X2, ( Y1 + Y2 ) / 2 ], Y_DIST, "left" );
-					});
-				</div>
-			</div>
+            <div>
+                <p>
+                Change in <span class="hint_purple"><code>y</code>:</span>
+                    <span data-if="Y2 - Y1 > 0">
+                        <span class="hint_green"><var>Y2</var></span> - <span class="hint_blue"><var>negParens(Y1)</var></span>
+                    </span>
+                    <span data-else>
+                        <span class="hint_blue"><var>Y1</var></span> - <span class="hint_green"><var>negParens(Y2)</var></span>
+                    </span>
+                    = <span class="hint_purple"><var>Y_DIST</var></span>
+                </p>
 
-			<div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0 " >
-				<p>The distance is the <span style="color: #FF4900">length of the hypotenuse</span> of this right triangle.</p>
+                <div data-if="Y2-Y1 !== 0" class="graphie" data-update="graph">
+                    style({
+                        color: PURPLE,
+                        stroke: PURPLE
+                    }, function() {
+                        line( [ X2, Y1 ], [ X2, Y2 ] );
+                        label( [ X2, ( Y1 + Y2 ) / 2 ], Y_DIST, "left" );
+                    });
+                </div>
+            </div>
 
-				<div class="graphie" data-update="graph">
-					style({
-						stroke: "#ff4900"
-					}, function() {
-						line( [ X1, Y1 ], [ X2, Y2 ] );
-					});
-				</div>
-			</div>
+            <div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0">
+                <p>The distance is the <span class="hint_pink">length of the hypotenuse</span> of this right triangle.</p>
 
-			<div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0 ">
-				<p>By the Pythagorean Theorem, <span style="color: #FF4900">that length</span> is equal to:</p>
-				<p><code>\sqrt{<var>X_DIST</var>^2 + <var>Y_DIST</var>^2}</code></p>
-				<p><code>{}= \sqrt{<var>Math.pow( X_DIST, 2 ) + pow( Y_DIST, 2 )</var>}</code></p>
-				<p data-if="squareRootCanSimplify(HYP2)" style="color: #FF4900"><code>{}= <var>formattedSquareRootOf(HYP2)</var></code></p>
-			</div>
-			<div data-else>
-				  <p>The distance is equal to the length of the side, which is <var>X_DIST+Y_DIST</var></p>
-			</div>
+                <div class="graphie" data-update="graph">
+                    style({
+                        stroke: PINK
+                    }, function() {
+                        line( [ X1, Y1 ], [ X2, Y2 ] );
+                    });
+                </div>
+            </div>
+
+            <div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0 ">
+                <p>By the Pythagorean Theorem, <span class="hint_pink">that length</span> is equal to:</p>
+                <p><code>\sqrt{<var>X_DIST</var>^2 + <var>Y_DIST</var>^2}</code></p>
+                <p><code>{}= \sqrt{<var>Math.pow( X_DIST, 2 ) + pow( Y_DIST, 2 )</var>}</code></p>
+                <p data-if="squareRootCanSimplify(HYP2)" class="hint_pink"><code>{}= <var>formattedSquareRootOf(HYP2)</var></code></p>
+            </div>
+            <div data-else>
+                  <p>The distance is equal to the length of the side, which is <var>X_DIST+Y_DIST</var></p>
+            </div>
 
 
-		</div>
-	</div>
+        </div>
+    </div>
 </body>
 </html>
 

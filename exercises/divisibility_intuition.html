@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html data-require="math word-problems graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Divisibility intuition</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="NUMBER">randRange(4, 20)</var>
+                <var id="FACTORS">getFactors(NUMBER)</var>
+            </div>
+
+            <p class="question">What are the factors of <var>NUMBER</var>?</p>
+
+            <div class="problem">
+                <p>
+                    You can resize this box with <var>NUMBER</var> dots to help you find the factors:
+                </p>
+                <div class="graphie">
+                    init({ range: [[-3, NUMBER + 3], [-NUMBER - 3, 3]], scale: [20, 20] });
+                    addMouseLayer();
+
+                    graph.width = NUMBER;
+                    graph.height = 1;
+
+                    graph.set = bogusShape;
+                    graph.handle = bogusShape;
+                    graph.topLabel = bogusShape;
+                    graph.leftLabel = bogusShape;
+
+                    graph.redraw = function() {
+                        graph.set.remove();
+                        graph.topLabel.remove();
+                        graph.leftLabel.remove();
+                        graph.height = ceil(NUMBER / graph.width);
+                        init({ range: [[-3, graph.width + 3], [-graph.height - 2, 3]], scale: [20, 20] });
+
+                        graph.set = raphael.set();
+                        graph.set.push(path([
+                                [-1, 1],
+                                [graph.width, 1],
+                                [graph.width, -graph.height],
+                                [-1, -graph.height],
+                                [-1, 1], [1, 1]],{ stroke: BLUE, opacity: 1.0 }));
+
+                        _(NUMBER).times(function(i) {
+                            graph.set.push(circle([i % graph.width, -floor(i / graph.width)], 0.25,
+                                    { stroke: BLUE, fill: BLUE, opacity: 0.6 }));
+                        });
+
+                        graph.handle.translate(
+                                graph.width * 20 - graph.handle[0].attr("translation").x,
+                                graph.height * 10 - graph.handle[0].attr("translation").y);
+
+                        graph.topLabel = label([graph.width / 2 - 0.5, 1], graph.width, "above");
+                        graph.leftLabel = label([-1, -graph.height / 2 + 0.5], graph.height, "left");
+                    };
+
+                    graph.dragHandle = addMovablePoint({
+                        coord: [graph.width, -graph.height / 2 + 0.5],
+                        constraints: {
+                            constrainY: true
+                        },
+                        snapX: 1,
+                        onMove: function(x, y) {
+                            graph.width = min(max(x, 1), NUMBER);
+                            graph.redraw();
+                            return [graph.width, -graph.height / 2 + 0.5];
+                        }
+                    });
+
+                    graph.handle = raphael.set();
+                    graph.handle.push(line(
+                        [-0.12, 0],
+                        [-0.12, 1], { stroke: BLUE, opacity: 1.0 }));
+                    graph.handle.push(line(
+                        [0.12, 0],
+                        [0.12, 1], { stroke: BLUE, opacity: 1.0 }));
+
+                    graph.dragHandle.visibleShape.remove();
+                    graph.dragHandle.mouseTarget.attr({ scale: 2.0 });
+
+                    $(graph.dragHandle.mouseTarget[0]).bind("vmouseover", function(event) {
+                        graph.handle.animate({ scale: 1.5, stroke: BLUE }, 50);
+                    });
+                    $(graph.dragHandle.mouseTarget[0]).bind("vmouseout", function(event) {
+                        graph.handle.animate({ scale: 1.0, stroke: BLUE }, 50);
+                    });
+
+                    graph.redraw();
+
+                </div>
+            </div>
+            <div class="solution" data-type="set">
+                <span class="set-sol" data-each="FACTORS as FACTOR"><var>FACTOR</var></span>
+                <p class="input-format">
+                    Enter all the different factors you can find (one factor per box):<br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span><br/>
+                    <span class="entry" data-forms="integer"></span>
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div data-each="FACTORS.reverse() as FACTOR">
+            <p>
+                The <var>NUMBER</var> dots can be arranged in <var>plural(NUMBER / FACTOR, "row")</var>
+                with <var>plural(FACTOR, "dot")</var> each, so
+                <code class="hint_pink"><var>NUMBER / FACTOR</var></code> is a factor of <var>NUMBER</var>:
+            </p>
+            <div class="graphie">
+                graph.width = FACTOR;
+                graph.height = ceil(NUMBER / graph.width);
+                init({ range: [[-3, graph.width + 3], [-graph.height - 2, 3]], scale: [7, 7] });
+
+                graph.set = raphael.set();
+                graph.set.push(path([
+                        [-1, 1],
+                        [graph.width, 1],
+                        [graph.width, -graph.height],
+                        [-1, -graph.height],
+                        [-1, 1], [1, 1]],{ stroke: BLUE, opacity: 1.0 }));
+
+                _(NUMBER).times(function(i) {
+                    graph.set.push(circle([i % graph.width, -floor(i / graph.width)], 0.25,
+                            { stroke: BLUE, fill: BLUE, opacity: 0.6 }));
+                });
+            </div>
+        </div>
+        <p>
+            The factors of <code><var>NUMBER</var></code> are
+            <var>toSentenceTex(FACTORS.reverse(), "and", function(){return true;}, "hint_pink")</var>.
+        </p>
+    </div>
+
+</div>
+</body>
+</html>

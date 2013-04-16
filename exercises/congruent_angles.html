@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html data-require="math graphie interactive congruency">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Congruent angles</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="problems">
+        <div id="parallel-lines">
+            <div class="vars">
+                <var id="ANGLE">randRange(40, 140)</var>
+                <var id="ANGLES">["AGF", "FGB", "BGE", "EGA",
+                                  "EHD", "DHF", "FHC", "CHE"]</var>
+                <var id="GIVEN">randFromArray(ANGLES)</var>
+                <var id="ANGGROUPS">[["AGF", "BGE", "FHC", "EHD"],
+                                     ["FGB", "EGA", "DHF", "CHE"]]</var>
+                <var id="ANGGROUPNUM">_.include(ANGGROUPS[0], GIVEN) ? 0 : 1</var>
+                <var id="ANGGROUP">ANGGROUPS[ANGGROUPNUM]</var>
+                <var id="OTHERANGGROUP">ANGGROUPS[ANGGROUPNUM ? 0 : 1]</var>
+                <var id="VERTICAL">{
+                    "AGF": "BGE",
+                    "FGB": "EGA",
+                    "BGE": "AGF",
+                    "EGA": "FGB",
+                    "EHD": "FHC",
+                    "DHF": "CHE",
+                    "FHC": "EHD",
+                    "CHE": "DHF"
+                }</var>
+                <var id="ALTINTERIOR">{
+                    "AGF": "EHD",
+                    "FGB": "CHE",
+                    "BGE": false,
+                    "EGA": false,
+                    "EHD": "AGF",
+                    "DHF": false,
+                    "FHC": false,
+                    "CHE": "FGB"
+                }</var>
+                <var id="MYVERT">VERTICAL[GIVEN]</var>
+                <var id="ORIGALT">!!(ALTINTERIOR[GIVEN])</var>
+                <var id="MYALT">(ORIGALT ? ALTINTERIOR[GIVEN] : ALTINTERIOR[MYVERT])</var>
+                <var id="MYALTVERT">VERTICAL[MYALT]</var>
+            </div>
+            <p class="question">
+                Lines <code>p</code> and <code>q</code> are parallel.
+                Which angles must be congruent to the
+                <span class="hint_orange">given angle</span>?
+            </p>
+            <div class="problem">
+                <div class="graphie" id="main">
+                    init({
+                        range: [[-1, 11], [-1, 4]]
+                    });
+                    addMouseLayer();
+
+                    graph.congruency = addCongruency({ y1: -0.7, y2: 3.7 });
+
+                    graph.congruency.addPoint("A", [0, 0]);
+                    graph.congruency.addPoint("B", [10, 0]);
+                    graph.congruency.addPoint("C", [0, 3]);
+                    graph.congruency.addPoint("D", [10, 3]);
+
+                    graph.cross = graph.congruency.addLine({
+                        start: [5, 1.5],
+                        angle: ANGLE,
+                        extend: true,
+                        placeAtStart: "E",
+                        placeAtEnd: "F"
+                    });
+                    graph.bottom = graph.congruency.addLine({ start: "A", end: "B" });
+                    graph.top = graph.congruency.addLine({ start: "C", end: "D" });
+
+                    graph.congruency.intersect(graph.bottom, graph.cross,
+                                               "G", true);
+                    graph.congruency.intersect(graph.top, graph.cross,
+                                               "H", true);
+
+                    graph.congruency.angles[GIVEN].stick();
+                    graph.congruency.angles[GIVEN].setState(1);
+                    graph.congruency.angles[GIVEN].setSelectedStyle({
+                        stroke: ORANGE
+                    });
+
+                    graph.hint = function(ang, color) {
+                        graph.congruency.angles[ang].setUnselectedStyle({
+                            stroke: color,
+                            opacity: 0.4
+                        });
+                    };
+
+                    label([0.5, 3.4], "p");
+                    label([0.5, 0.4], "q");
+                </div>
+            </div>
+            <div class="solution" data-type="custom">
+                <div class="instruction">
+                    Click on the congruent angles, and then click "check answer" when done.
+                </div>
+                <div class="guess">
+                    graph.congruency.getGuess()
+                </div>
+                <div class="validator-function">
+                    if (!_.any(ANGLES, function(ang) {
+                        return (guess[ang] !== 0 &amp;&amp;
+                                ang !== GIVEN);
+                    })) {
+                        return "";
+                    }
+                    return _.all(ANGGROUP, function(ang) {
+                        return (guess[ang] &gt; 0);
+                    }) &amp;&amp; !_.any(OTHERANGGROUP, function(ang) {
+                        return (guess[ang] &gt; 0);
+                    });
+                </div>
+                <div class="show-guess">
+                    graph.congruency.showGuess(guess);
+                </div>
+            </div>
+            <div class="hints">
+                <p>Three angles are congruent to the given angle.</p>
+                <div>
+                    <p>Vertical angles are congruent, so the angle <span class="hint_red">vertical</span> to the <span class="hint_orange">given</span> is congruent.</p>
+                    <div class="graphie" data-update="main">
+                        graph.hint(MYVERT, RED);
+                    </div>
+                </div>
+                <div data-if="ORIGALT">
+                    <p>Opposite interior angles are congruent, so the angle <span class="hint_purple">opposite</span> of the <span class="hint_orange">given</span> is congruent</p>
+                    <div class="graphie" data-update="main">
+                        graph.hint(MYALT, PURPLE);
+                    </div>
+                </div>
+                <div data-else>
+                    <p>Opposite interior angles are congruent, so the angle <span class="hint_purple">opposite</span> of the <span class="hint_red">vertical angle</span> is congruent</p>
+                    <div class="graphie" data-update="main">
+                        graph.hint(MYALT, PURPLE);
+                    </div>
+                </div>
+                <div>
+                    <p>Vertical angles are congruent, so the angle <span class="hint_pink">vertical</span> to the <span class="hint_purple">opposite interior angle</span> is congruent.</p>
+                    <div class="graphie" data-update="main">
+                        graph.hint(MYALTVERT, PINK);
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html data-require="math graphie stat word-problems">
+<head>
+    <meta charset="UTF-8" />
+    <title>Empirical rule</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+
+            <div id="longer">
+                <div class="vars">
+                    <var id="ANIMAL">animal( 1 )</var>
+                    <var id="ANIMALS">plural( animal( 1 ) )</var>
+                    <div data-ensure="MEAN - STDDEV * 4 > 0">
+                        <var id="MEAN">roundTo( 1, animalAvgLifespan( 1 ) * ( randRange( 80, 120 ) / 100 ) )</var>
+                        <var id="STDDEV">roundTo( 1, animalStddevLifespan( 1 ) * ( randRange( 20, 120 ) / 100 ) )</var>
+                    </div>
+                    <var id="Z">randRangeNonZero( -3, 3 )</var>
+                    <var id="EMPIRICAL">
+                        {
+                            "-3": 99.7,
+                            "-2": 95,
+                            "-1": 68,
+                            "1": 68,
+                            "2": 95,
+                            "3": 99.7
+                        }[ Z ]
+                    </var>
+                    <var id="ANSWER">
+                        {
+                            "-3": 99.85,
+                            "-2": 97.5,
+                            "-1": 84,
+                            "1": 16,
+                            "2": 2.5,
+                            "3": 0.15
+                        }[ Z ]
+                    </var>
+                </div>
+
+                <div class="problem">
+                    The lifespans of <var>ANIMALS</var> in a particular zoo are normally distributed.
+                    The average <var>ANIMAL</var> lives <code><var>MEAN</var></code> years; the
+                    standard deviation is <code><var>STDDEV</var></code> years.
+                </div>
+
+                <p class="question">
+                    Estimate the probability of <var>an( ANIMAL )</var> living longer than
+                    <code><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years.
+                </p>
+
+                <div class="solution" data-forms="percent"><var>ANSWER / 100</var></div>
+
+                <div class="hints">
+                    <p>We can try to estimate using the empirical rule, also known as the 68-95-99.7 percent rule.</p>
+
+                    <div>
+                        <div class="graphie" id="normaldist">
+                            init({
+                                range: [ [ MEAN - STDDEV * 3.5, MEAN + STDDEV * 3.5 ], [ -1.5, 4.3 ] ],
+                                scale: [ 475 / ( STDDEV * 7 ), 40 ]
+                            });
+
+                            style({ stroke: "#bbb" }, function() {
+                                line( [ MEAN - STDDEV * 4, 0 ], [ MEAN + STDDEV * 4, 0 ] );
+                            });
+
+                            graph.pdf = function( x ) {
+                                return gaussianPDF( MEAN, STDDEV, x ) * 4 / gaussianPDF( MEAN, STDDEV, MEAN ) + 0.2;
+                            };
+
+                            style({ stroke: BLUE }, function() {
+                                plot( graph.pdf, [ MEAN - STDDEV * 3.5, MEAN + STDDEV * 3.5 ]);
+                            });
+
+                            style({ stroke: PINK }, function() {
+                                graph.meanLine = line( [ MEAN, 0 ], [ MEAN, graph.pdf( MEAN ) ] ).toBack();
+                            });
+
+                            graph.meanLabel = label( [ MEAN, 0 ], MEAN, "below", { color: PINK } );
+                            graph.zLine = [];
+                            graph.zLabel = [];
+
+                        </div>
+                        <p>
+                            We know the lifespans are normally distributed with an average lifespan of
+                            <code class="hint_pink" id="meanHint"><var>MEAN</var></code> years.
+                        </p>
+                    </div>
+
+                    <div>
+                        <div class="graphie" data-update="normaldist">
+                            graph.meanLine.attr({ stroke: "#bbb" });
+                            graph.meanLabel.css({ color: "#bbb" });
+                            $( "#meanHint" ).parent().removeClass( "hint_pink" );
+
+                            style({ stroke: PINK }, function() {
+                                graph.zLine[ -1 ] = line( [ MEAN - STDDEV, 0 ], [ MEAN - STDDEV, graph.pdf( MEAN - STDDEV ) ] ).toBack();
+                                graph.zLine[ 1 ] = line( [ MEAN + STDDEV, 0 ], [ MEAN + STDDEV, graph.pdf( MEAN + STDDEV ) ] ).toBack();
+                            });
+
+                            graph.zLabel[ -1 ] = label( [ MEAN - STDDEV, 0 ], roundTo( 1, MEAN - STDDEV ), "below", { color: PINK } );
+
+                            graph.zLabel[ 1 ] = label( [ MEAN + STDDEV, 0 ], roundTo( 1, MEAN + STDDEV ), "below", { color: PINK } );
+                        </div>
+                        <p>
+                            We know the standard deviation is <code><var>STDDEV</var></code> years, so one
+                            standard deviation below the mean is
+                            <code id="zm1Hint" class="hint_pink"><var>roundTo( 1, MEAN - STDDEV )</var></code> years
+                            and one standard deviation above the mean is
+                            <code id="zp1Hint" class="hint_pink"><var>roundTo( 1, MEAN + STDDEV )</var></code> years.
+                        </p>
+                    </div>
+
+                    <div>
+                        <div class="graphie" data-update="normaldist">
+                            graph.zLine[ -1 ].attr({ stroke: "#bbb" });
+                            graph.zLine[ 1 ].attr({ stroke: "#bbb" });
+                            graph.zLabel[ -1 ].css({ color: "#bbb" });
+                            graph.zLabel[ 1 ].css({ color: "#bbb" });
+                            $( "#zm1Hint" ).parent().removeClass( "hint_pink" );
+                            $( "#zp1Hint" ).parent().removeClass( "hint_pink" );
+
+                            style({ stroke: PINK }, function() {
+                                graph.zLine[ -2 ] = line( [ MEAN - STDDEV * 2, 0 ], [ MEAN - STDDEV * 2, graph.pdf( MEAN - STDDEV * 2 ) ] ).toBack();
+                                graph.zLine[ 2 ] = line( [ MEAN + STDDEV * 2, 0 ], [ MEAN + STDDEV * 2, graph.pdf( MEAN + STDDEV * 2 ) ] ).toBack();
+                            });
+
+                            graph.zLabel[ -2 ] = label( [ MEAN - STDDEV * 2, 0 ], roundTo( 1, MEAN - STDDEV * 2 ), "below", { color: PINK } );
+
+                            graph.zLabel[ 2 ] = label( [ MEAN + STDDEV * 2, 0 ], roundTo( 1, MEAN + STDDEV * 2 ), "below", { color: PINK } );
+
+                        </div>
+                        <p>
+                            Two standard deviations below the mean is
+                            <code id="zm2Hint" class="hint_pink"><var>roundTo( 1, MEAN - STDDEV * 2 )</var></code> years
+                            and two standard deviations above the mean is
+                            <code id="zp2Hint" class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * 2 )</var></code> years.
+                        </p>
+                    </div>
+
+                    <div>
+                        <div class="graphie" data-update="normaldist">
+                            graph.zLine[ -2 ].attr({ stroke: "#bbb" });
+                            graph.zLine[ 2 ].attr({ stroke: "#bbb" });
+                            graph.zLabel[ -2 ].css({ color: "#bbb" });
+                            graph.zLabel[ 2 ].css({ color: "#bbb" });
+                            $( "#zm2Hint" ).parent().removeClass( "hint_pink" );
+                            $( "#zp2Hint" ).parent().removeClass( "hint_pink" );
+
+                            style({ stroke: PINK }, function() {
+                                graph.zLine[ -3 ] = line( [ MEAN - STDDEV * 3, 0 ], [ MEAN - STDDEV * 3, graph.pdf( MEAN - STDDEV * 3 ) ] ).toBack();
+                                graph.zLine[ 3 ] = line( [ MEAN + STDDEV * 3, 0 ], [ MEAN + STDDEV * 3, graph.pdf( MEAN + STDDEV * 3 ) ] ).toBack();
+                            });
+
+                            graph.zLabel[ -3 ] = label( [ MEAN - STDDEV * 3, 0 ], roundTo( 1, MEAN - STDDEV * 3 ), "below", { color: PINK } );
+
+                            graph.zLabel[ 3 ] = label( [ MEAN + STDDEV * 3, 0 ], roundTo( 1, MEAN + STDDEV * 3 ), "below", { color: PINK } );
+
+                        </div>
+                        <p>
+                            Three standard deviations below the mean is
+                            <code id="zm3Hint" class="hint_pink"><var>roundTo( 1, MEAN - STDDEV * 3 )</var></code> years
+                            and three standard deviations above the mean is
+                            <code id="zp3Hint" class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * 3 )</var></code> years.
+                        </p>
+                    </div>
+
+                    <div id="hintGoal">
+                        <div class="graphie" data-update="normaldist">
+                            graph.zLine[ -3 ].attr({ stroke: "#bbb" });
+                            graph.zLine[ 3 ].attr({ stroke: "#bbb" });
+                            graph.zLabel[ -3 ].css({ color: "#bbb" });
+                            graph.zLabel[ 3 ].css({ color: "#bbb" });
+                            $( "#zm3Hint" ).parent().removeClass( "hint_pink" );
+                            $( "#zp3Hint" ).parent().removeClass( "hint_pink" );
+
+                            graph.zLine[ Z ].attr({ stroke: PINK });
+                            graph.zLabel[ Z ].css({ color: PINK });
+
+                            style({ stroke: PINK, fill: PINK, arrows: "-&gt;" }, function() {
+                                line( [ MEAN + STDDEV * Z, -1 ], [ MEAN + STDDEV * 3.5, -1 ] );
+                                ellipse( [ MEAN + STDDEV * Z, -1 ], [ 3 / ( 600 / ( STDDEV * 7 ) ), 3 / 40 ] );
+                            });
+                        </div>
+                        <p>
+                            We are interested in the probability of <var>an( ANIMAL )</var> living longer than
+                            <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years.
+                        </p>
+                    </div>
+
+                    <div id="graph1">
+                        <div class="graphie" data-update="normaldist">
+                            var shape = [];
+                            shape.push([ MEAN - STDDEV * abs( Z ), 0 ]);
+
+                            var step = STDDEV / 50;
+                            for ( var x = MEAN - STDDEV * abs( Z ); x &lt;= MEAN + STDDEV * abs( Z ); x += step ) {
+                                shape.push([ x, graph.pdf( x ) ]);
+                            }
+
+                            shape.push([ MEAN + STDDEV * abs( Z ), graph.pdf( MEAN + STDDEV * abs( Z ) ) ]);
+                            shape.push([ MEAN + STDDEV * abs( Z ), 0 ]);
+                            shape.push([ MEAN - STDDEV * abs( Z ), 0 ]);
+
+                            style({ stroke: null, fill: BLUE, opacity: 0.3 }, function() {
+                                path( shape );
+                            });
+
+                            label([ MEAN, graph.pdf( MEAN - STDDEV * Z ) -0.3 ], EMPIRICAL + "\\%", "above",
+                                { color: "green" } );
+                            style({ arrows: "-&gt;", stroke: "green" }, function() {
+                                line([ MEAN, graph.pdf( MEAN - STDDEV * Z ) -0.1 ],
+                                    [ MEAN + STDDEV * Z, graph.pdf( MEAN + STDDEV * Z ) -0.1 ]);
+                                line([ MEAN, graph.pdf( MEAN + STDDEV * Z ) -0.1 ],
+                                    [ MEAN - STDDEV * Z, graph.pdf( MEAN - STDDEV * Z ) -0.1 ]);
+                            });
+                        </div>
+                        <p>
+                            The empirical rule (or the 68-95-99.7 rule) tells us that
+                            <span style="color: green"><code><var>EMPIRICAL</var>\%</code></span>
+                            of the <var>ANIMALS</var> will have lifespans within
+                            <var>plural( abs( Z ), "standard deviation" )</var> of the average lifespan.
+                        </p>
+                    </div>
+
+                    <div id="graph2">
+                        <div class="graphie" data-update="normaldist">
+                            style({ arrows: "-&gt;", stroke: "green" }, function() {
+                                path([
+                                    [ MEAN - STDDEV * abs( Z ), graph.pdf( MEAN - STDDEV * Z ) + 0.2 ],
+                                    [ MEAN - STDDEV * abs( Z ), graph.pdf( MEAN - STDDEV * Z ) + 0.4 ],
+                                    [ MEAN - STDDEV * 3.5, graph.pdf( MEAN - STDDEV * Z ) + 0.4 ]
+                                ]);
+                            });
+                            label( [ MEAN - STDDEV * ( ( abs( Z ) + 3.5 ) / 2 ), graph.pdf( MEAN - STDDEV * Z ) + 0.3 ],
+                                roundTo( 2, ( 100 - EMPIRICAL ) / 2 ) + "\\%", "above", { color: "green" } );
+
+                            style({ arrows: "-&gt;", stroke: "green" }, function() {
+                                path([
+                                    [ MEAN + STDDEV * abs( Z ), graph.pdf( MEAN + STDDEV * Z ) + 0.2 ],
+                                    [ MEAN + STDDEV * abs( Z ), graph.pdf( MEAN + STDDEV * Z ) + 0.4 ],
+                                    [ MEAN + STDDEV * 3.5, graph.pdf( MEAN + STDDEV * Z ) + 0.4 ]
+                                ]);
+                            });
+                            label( [ MEAN + STDDEV * ( ( abs( Z ) + 3.5 ) / 2 ), graph.pdf( MEAN + STDDEV * Z ) + 0.3 ],
+                                roundTo( 2, ( 100 - EMPIRICAL ) / 2 ) + "\\%", "above", { color: "green" } );
+                        </div>
+                        <p>
+                            The remaining <code><var>roundTo( 2, 100 - EMPIRICAL )</var>\%</code>
+                            of the <var>ANIMALS</var> will have lifespans that fall outside the shaded area.
+                            Because the normal distribution is symmetrical, half
+                            <code>(\color{green}{<var>roundTo( 2, ( 100 - EMPIRICAL ) / 2 )</var>\%})</code>
+                            will live less than <code><var>roundTo( 2, MEAN - STDDEV * abs( Z ) )</var></code> years
+                            and the other half
+                            <code>(\color{green}{<var>roundTo( 2, ( 100 - EMPIRICAL ) / 2 )</var>\%})</code>
+                            will live longer than <code><var>roundTo( 2, MEAN + STDDEV * abs( Z ) )</var></code> years.
+                        </p>
+                    </div>
+
+                    <p data-if="Z < 0" id="finalHint1">
+                        <strong>
+                        The probability of a particular <var>ANIMAL</var> living longer than
+                        <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years is
+                        <code>\color{green}{<var>EMPIRICAL</var>\%} +
+                        \color{green}{<var>roundTo( 2, ( 100 - EMPIRICAL ) / 2 )</var>\%}</code>, or
+                        <code><var>ANSWER</var>\%</code>.
+                        </strong>
+                    </p>
+
+                    <p data-else id="finalHint2">
+                        <strong>
+                        The probability of a particular <var>ANIMAL</var> living longer than
+                        <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years is
+                        <code>\color{green}{<var>ANSWER</var>\%}</code>.
+                        </strong>
+                    </p>
+
+                </div>
+            </div>
+
+            <div id="shorter" data-type="longer">
+                <div class="vars" data-apply="appendVars">
+                    <var id="ANSWER">
+                        {
+                            "3": 99.85,
+                            "2": 97.5,
+                            "1": 84,
+                            "-1": 16,
+                            "-2": 2.5,
+                            "-3": 0.15
+                        }[ Z ]
+                    </var>
+                </div>
+                <p class="question">
+                    Estimate the probability of <var>an( ANIMAL )</var> living less than
+                    <code><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years.
+                </p>
+
+                <div class="hints" data-apply="appendContents">
+                    <div id="hintGoal">
+                        <div class="graphie" data-update="normaldist">
+                            graph.zLine[ -3 ].attr({ stroke: "#bbb" });
+                            graph.zLine[ 3 ].attr({ stroke: "#bbb" });
+                            graph.zLabel[ -3 ].css({ color: "#bbb" });
+                            graph.zLabel[ 3 ].css({ color: "#bbb" });
+                            $( "#zm3Hint" ).parent().removeClass( "hint_pink" );
+                            $( "#zp3Hint" ).parent().removeClass( "hint_pink" );
+
+                            graph.zLine[ Z ].attr({ stroke: PINK });
+                            graph.zLabel[ Z ].css({ color: PINK });
+
+                            style({ stroke: PINK, fill: PINK, arrows: "-&gt;" }, function() {
+                                line( [ MEAN + STDDEV * Z, -1 ], [ MEAN + STDDEV * -3.5, -1 ] );
+                                ellipse( [ MEAN + STDDEV * Z, -1 ], [ 3 / ( 600 / ( STDDEV * 7 ) ), 3 / 40 ] );
+                            });
+                        </div>
+                        <p>
+                            We are interested in the probability of <var>an( ANIMAL )</var> living less than
+                            <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years.
+                        </p>
+                    </div>
+
+                    <p data-if="Z > 0" id="finalHint1">
+                        <strong>
+                        The probability of a particular <var>ANIMAL</var> living less than
+                        <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years is
+                        <code>\color{green}{<var>EMPIRICAL</var>\%} +
+                        \color{green}{<var>roundTo( 2, ( 100 - EMPIRICAL ) / 2 )</var>\%}</code>, or
+                        <code><var>ANSWER</var>\%</code>.
+                        </strong>
+                    </p>
+
+                    <p data-else id="finalHint2">
+                        <strong>
+                        The probability of a particular <var>ANIMAL</var> living less than
+                        <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years is
+                        <code>\color{green}{<var>ANSWER</var>\%}</code>.
+                        </strong>
+                    </p>
+                </div>
+            </div>
+
+            <div id="between" data-type="shorter">
+                <div class="vars" data-apply="appendVars">
+                    <var id="Z1">randRangeNonZero( -3, 2 )</var>
+                    <var id="Z2">randRangeNonZero( Z1 + 1, 3 )</var>
+                    <var id="Z_MAX">max( abs( Z1 ), abs( Z2 ) )</var>
+                    <var id="Z_MIN">min( abs( Z1 ), abs( Z2 ) )</var>
+                    <var id="EMPIRICAL1">
+                        {
+                            "-3": 99.7,
+                            "-2": 95,
+                            "-1": 68,
+                            "1": 68,
+                            "2": 95,
+                            "3": 99.7
+                        }[ Z_MAX ]
+                    </var>
+                    <var id="EMPIRICAL2">
+                        {
+                            "-3": 99.7,
+                            "-2": 95,
+                            "-1": 68,
+                            "1": 68,
+                            "2": 95,
+                            "3": 99.7
+                        }[ Z_MIN ]
+                    </var>
+                    <var id="TOTAL1">
+                        {
+                            "3": 99.85,
+                            "2": 97.5,
+                            "1": 84,
+                            "-1": 16,
+                            "-2": 2.5,
+                            "-3": 0.15
+                        }[ Z1 ]
+                    </var>
+                    <var id="TOTAL2">
+                        {
+                            "3": 99.85,
+                            "2": 97.5,
+                            "1": 84,
+                            "-1": 16,
+                            "-2": 2.5,
+                            "-3": 0.15
+                        }[ Z2 ]
+                    </var>
+                    <var id="AREA">TOTAL2 - TOTAL1</var>
+                </div>
+                <p class="question">
+                    Estimate the probability of <var>an( ANIMAL )</var> living between
+                    <code><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and <code><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years.
+                </p>
+
+                <div class="solution" data-forms="percent"><var>AREA / 100</var></div>
+
+                <div class="hints" data-apply="appendContents">
+                    <div id="hintGoal">
+                        <div class="graphie" data-update="normaldist">
+                            graph.zLine[ -3 ].attr({ stroke: "#bbb" });
+                            graph.zLine[ 3 ].attr({ stroke: "#bbb" });
+                            graph.zLabel[ -3 ].css({ color: "#bbb" });
+                            graph.zLabel[ 3 ].css({ color: "#bbb" });
+                            $( "#zm3Hint" ).parent().removeClass( "hint_pink" );
+                            $( "#zp3Hint" ).parent().removeClass( "hint_pink" );
+
+                            graph.zLine[ Z1 ].attr({ stroke: PINK });
+                            graph.zLabel[ Z1 ].css({ color: PINK });
+                            graph.zLine[ Z2 ].attr({ stroke: PINK });
+                            graph.zLabel[ Z2 ].css({ color: PINK });
+
+                            style({ stroke: PINK, fill: PINK, arrows: "" }, function() {
+                                line( [ MEAN + STDDEV * Z2, -1 ], [ MEAN + STDDEV * Z1, -1 ] );
+                                ellipse( [ MEAN + STDDEV * Z2, -1 ], [ 3 / ( 600 / ( STDDEV * 7 ) ), 3 / 40 ] );
+                                ellipse( [ MEAN + STDDEV * Z1, -1 ], [ 3 / ( 600 / ( STDDEV * 7 ) ), 3 / 40 ] );
+                            });
+                        </div>
+                        <p>
+                            We are interested in the probability of <var>an( ANIMAL )</var> living between
+                            <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and
+                            <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years.
+                        </p>
+                    </div>
+
+                    <div id="graph1">
+                        <div class="graphie" data-update="normaldist">
+                            var shape = [];
+                            shape.push([ MEAN - STDDEV * abs( Z_MAX ), 0 ]);
+
+                            var step = STDDEV / 50;
+                            for ( var x = MEAN - STDDEV * abs( Z_MAX ); x &lt;= MEAN + STDDEV * abs( Z_MAX ); x += step ) {
+                                shape.push([ x, graph.pdf( x ) ]);
+                            }
+
+                            shape.push([ MEAN + STDDEV * abs( Z_MAX ), graph.pdf( MEAN + STDDEV * abs( Z_MAX ) ) ]);
+                            shape.push([ MEAN + STDDEV * abs( Z_MAX ), 0 ]);
+                            shape.push([ MEAN - STDDEV * abs( Z_MAX ), 0 ]);
+
+                            style({ stroke: null, fill: BLUE, opacity: 0.3 }, function() {
+                                path( shape );
+                            });
+
+                            label([ MEAN, graph.pdf( MEAN - STDDEV * Z_MAX ) -0.3 ], EMPIRICAL1 + "\\%", "above",
+                                { color: "green" } );
+                            style({ arrows: "-&gt;", stroke: "green" }, function() {
+                                line([ MEAN, graph.pdf( MEAN - STDDEV * Z_MAX ) -0.1 ],
+                                    [ MEAN + STDDEV * Z_MAX, graph.pdf( MEAN + STDDEV * Z_MAX ) -0.1 ]);
+                                line([ MEAN, graph.pdf( MEAN + STDDEV * Z_MAX ) -0.1 ],
+                                    [ MEAN - STDDEV * Z_MAX, graph.pdf( MEAN - STDDEV * Z_MAX ) -0.1 ]);
+                            });
+                        </div>
+                        <p>
+                            The empirical rule (or the 68-95-99.7 rule) tells us that
+                            <span style="color: green"><code><var>EMPIRICAL1</var>\%</code></span>
+                            of the <var>ANIMALS</var> will have lifespans within
+                            <var>plural( abs( Z_MAX ), "standard deviation" )</var> of the average lifespan.
+                        </p>
+                    </div>
+
+                    <div id="graph2" data-if="Z_MAX !== Z_MIN">
+                        <div class="graphie" data-update="normaldist">
+
+                            label([ MEAN, graph.pdf( MEAN - STDDEV * Z_MIN ) -0.3 ], EMPIRICAL2 + "\\%", "above",
+                                { color: "green" } );
+                            style({ arrows: "-&gt;", stroke: "green" }, function() {
+                                line([ MEAN, graph.pdf( MEAN - STDDEV * Z_MIN ) -0.1 ],
+                                    [ MEAN + STDDEV * Z_MIN, graph.pdf( MEAN + STDDEV * Z_MIN ) -0.1 ]);
+                                line([ MEAN, graph.pdf( MEAN + STDDEV * Z_MIN ) -0.1 ],
+                                    [ MEAN - STDDEV * Z_MIN, graph.pdf( MEAN - STDDEV * Z_MIN ) -0.1 ]);
+                            });
+
+                            label([ MEAN + STDDEV * ( ( Z_MIN + Z_MAX ) / 2 ), graph.pdf( MEAN - STDDEV * Z_MIN ) -0.3 ],
+                            roundTo( 2, ( ( EMPIRICAL1 - EMPIRICAL2 ) / 2 ) ) + "\\%", "above", { color: "orange" } );
+                            label([ MEAN - STDDEV * ( ( Z_MIN + Z_MAX ) / 2 ), graph.pdf( MEAN - STDDEV * Z_MIN ) -0.3 ],
+                            roundTo( 2, ( ( EMPIRICAL1 - EMPIRICAL2 ) / 2 ) ) + "\\%", "above", { color: "orange" } );
+                            style({ arrows: "-&gt;", stroke: "orange" }, function() {
+                                line([ MEAN + STDDEV * ( ( Z_MIN + Z_MAX ) / 2 ), graph.pdf( MEAN - STDDEV * Z_MIN ) -0.1 ],
+                                    [ MEAN + STDDEV * Z_MIN, graph.pdf( MEAN + STDDEV * Z_MIN ) -0.1 ]);
+                                line([ MEAN + STDDEV * ( ( Z_MIN + Z_MAX ) / 2 ), graph.pdf( MEAN - STDDEV * Z_MIN ) -0.1 ],
+                                    [ MEAN + STDDEV * Z_MAX, graph.pdf( MEAN + STDDEV * Z_MIN ) -0.1 ]);
+                                line([ MEAN - STDDEV * ( ( Z_MIN + Z_MAX ) / 2 ), graph.pdf( MEAN + STDDEV * Z_MIN ) -0.1 ],
+                                    [ MEAN - STDDEV * Z_MIN, graph.pdf( MEAN - STDDEV * Z_MIN ) -0.1 ]);
+                                line([ MEAN - STDDEV * ( ( Z_MIN + Z_MAX ) / 2 ), graph.pdf( MEAN + STDDEV * Z_MIN ) -0.1 ],
+                                    [ MEAN - STDDEV * Z_MAX, graph.pdf( MEAN - STDDEV * Z_MIN ) -0.1 ]);
+                            });
+
+                        </div>
+                        <p>
+                            It also tells us that <span style="color: green"><code><var>EMPIRICAL2</var>\%</code></span>
+                            of the <var>ANIMALS</var> will have lifespans within <var>plural( Z_MIN, "standard deviation" )</var>
+                            of the mean. That leaves <code><var>EMPIRICAL1</var>\% - <var>EMPIRICAL2</var>\% =
+                            <var>roundTo( 2, EMPIRICAL1 - EMPIRICAL2 )</var>\%</code> of <var>ANIMALS</var> between
+                            <var>Z_MIN</var> and <var>plural( Z_MAX, "standard deviation" )</var> of the mean, or
+                            <span style="color: orange"><code><var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%</code></span>
+                            on either side of the distribution.
+                        </p>
+                    </div>
+
+                    <p data-if="abs( Z1 ) > abs( Z2 )" id="finalHint1">
+                        <strong>
+                        The probability of a particular <var>ANIMAL</var> living between
+                        <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and
+                        <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years is
+                        <span data-if="Z1 * Z2 > 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
+                        <span data-else><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%} +
+                        \color{green}{<var>EMPIRICAL2</var>\%}</code>, or <code><var>roundTo( 2, AREA )</var>\%</code>.</span>
+                        </strong>
+                    </p>
+
+                    <p data-else-if="abs( Z1 ) < abs( Z2 )" id="finalHint2">
+                        <strong>
+                        The probability of a particular <var>ANIMAL</var> living between
+                        <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and
+                        <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years is
+                        <span data-if="Z1 * Z2 > 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
+                        <span data-else><code>\color{green}{<var>EMPIRICAL2</var>\%} +
+                        \color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>, or
+                        <code><var>roundTo( 2, AREA )</var>\%</code>.</span>
+                        </strong>
+                    </p>
+
+                    <p data-else>
+                        <strong>
+                        The probability of a particular <var>ANIMAL</var> living between
+                        <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and
+                        <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years is
+                        <code>\color{green}{<var>roundTo( 2, AREA )</var>\%}</code>.
+                        </strong>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

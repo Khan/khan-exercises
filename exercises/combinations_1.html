@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Combinations</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="packing">
+                <div class="vars" data-ensure="NUM_THINGS>NUM_TAKEN">
+                    <var id="THING">randFromArray(["shirts", "tigers", "books", "Faberg&eacute; eggs", "socks", "action figures"])</var>
+                    <var id="NUM_THINGS">randRange(5,9)</var>
+                    <var id="NUM_TAKEN">randRange(3,5)</var>
+                    <var id="ANSWER">factorial(NUM_THINGS) / (factorial(NUM_THINGS-NUM_TAKEN) * factorial(NUM_TAKEN))</var>
+                </div>
+                <p class="problem">
+                    <var>person(1)</var> is packing <var>his(1)</var> bags for <var>his(1)</var> vacation. <var>He(1)</var> has 
+                    <code><var>NUM_THINGS</var></code> unique <var>THING</var>, but only <code><var>NUM_TAKEN</var></code> fit in <var>his(1)</var> bag.
+                </p>
+                <p class="question">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can <var>he(1)</var> take?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <div class="hints">
+                    <p>
+                        <var>person(1)</var> has <code><var>NUM_TAKEN</var></code> spaces for <var>his(1)</var> <var>THING</var>, 
+                        so let's fill them one by one. 
+                        At first, <var>person(1)</var> has <code><var>NUM_THINGS</var></code> choices for what to put in the first space.
+                    </p>
+                    <p>
+                        For the second space, <var>he(1)</var> only has <code><var>NUM_THINGS-1</var></code> <var>THING</var> left, so there are only 
+                        <code><var>NUM_THINGS-1</var></code> choices
+                        of what to put in the second space. So far, it seems like there are <code><var>NUM_THINGS</var> \cdot <var>NUM_THINGS-1</var> = 
+                        <var>NUM_THINGS * (NUM_THINGS-1)</var></code> different unique choices <var>person(1)</var> could have made to fill the first two 
+                        spaces in <var>his(1)</var> bag. But that's not quite right.
+                    </p>
+                    <p>
+                        Why? Because if <var>he(1)</var> picked <var>THING.substring(0,THING.length-1)</var> number 3, then 
+                        <var>THING.substring(0,THING.length-1)</var> number 1, that's the same situation as picking number 1 and then number 3. They both end up in the same bag. 
+                    </p>
+                    <p>
+                        So, if <var>person(1)</var> keeps filling the spaces in <var>his(1)</var> bag, making <code><var>_.map(_.range(NUM_TAKEN), function(l){ return (NUM_THINGS - l);}).join("\\cdot")</var> = \dfrac{<var>NUM_THINGS</var>!}{(<var>NUM_THINGS</var>-<var>NUM_TAKEN</var>)!} = <var> factorial(NUM_THINGS)/factorial(NUM_THINGS-NUM_TAKEN)</var></code> decisions altogether, we've overcounted a bunch of groups.
+                    </p>
+                    <p>
+                        How much have we overcounted? Well, for every group of <code><var>NUM_TAKEN</var></code>, 
+                        we've counted them as if the order we chose them in 
+                        matters, when really it doesn't. So, the number of times we've overcounted each group is the number of ways to order 
+                        <code><var>NUM_TAKEN</var></code> things.
+                    </p>
+                    <p>
+                        There are <code><var>NUM_TAKEN</var>! = <var>factorial(NUM_TAKEN)</var></code> ways of ordering <code><var>NUM_TAKEN</var></code>
+                        things, so we've counted each group of <code><var>NUM_TAKEN</var></code> <var>THING</var> 
+                        <code><var>factorial(NUM_TAKEN)</var></code> times.
+                    </p>
+                    <p>
+                        So, we have to divide the number of ways we could have filled the bag in order by number of times we've overcounted our groups.
+                    </p>
+                    <p>
+                        <code> \dfrac{<var>NUM_THINGS</var>!}{(<var>NUM_THINGS</var> - <var>NUM_TAKEN</var>)!} \cdot \dfrac{1}{<var>NUM_TAKEN</var>!}</code> is the number 
+                        of groups of <var>THING</var> <var>person(1)</var> can bring.
+                        </br>
+                        Another way to write this is <code> \binom{<var>NUM_THINGS</var>}{<var>NUM_TAKEN</var>} </code>, 
+                        or <code><var>NUM_THINGS</var></code> choose <code><var>NUM_TAKEN</var></code>, which is <code><var>ANSWER</var></code>.
+                    </p>
+                </div>
+            </div>
+
+            <div id="boat">
+                <div class="vars">
+                    <var id="FRIENDS">randRange(5,6)</var>
+                    <var id="SLOTS">randRange(2,FRIENDS-2)</var>
+                    <var id="ANSWER">factorial(FRIENDS) / (factorial(FRIENDS-SLOTS) * factorial(SLOTS))</var>
+                </div>
+                <p class="problem">
+                    You just got a free ticket for a boat ride, and you can bring along <code><var>SLOTS</var></code> friends! 
+                    Unfortunately, you have <code><var>FRIENDS</var></code> friends who want to come along.
+                </p>
+                <p class="question">How many different groups of friends could you take with you?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+
+                <div class="hints">
+                    <p>
+                        There are <code><var>SLOTS</var></code> places for your friends on the boat, so let's fill those slots one by one. 
+                        For the first slot, we have <code><var>FRIENDS</var></code> different choices we can make (because <code><var>FRIENDS</var></code> 
+                        different friends could be in that slot).
+                    </p>
+                    <p>
+                        Once we've filled the first slot, there are <code><var>FRIENDS-1</var></code> friends who could fill the second. So far, if we've 
+                        filled the first two slots, and it seems like there are <code><var>FRIENDS</var> \cdot <var>FRIENDS-1</var> = <var>FRIENDS * (
+                        FRIENDS-1)</var> </code> different choices we could have made. But that's not quite true.
+                    </p>
+                    <p>
+                        Why? Because if we picked <var>person(1)</var>, then <var>person(2)</var>, that's the same thing as picking <var>person(2)</var>, then <var>person(1)</var>. They both get to be on the same boat.
+                    </p>
+                    <p>
+                        So, if we continue filling the slots on our boat, making <code><var>_.map(_.range(SLOTS), function(l){ return (FRIENDS - l);}).join("\\cdot")</var> = \dfrac{<var>FRIENDS</var>!}{<var>FRIENDS-SLOTS</var>!} = <var> factorial(FRIENDS)/factorial(FRIENDS-SLOTS)</var></code> decisions altogether, we've overcounted a bunch of groups.
+                    </p>
+                    <p>
+                        How much have we overcounted? Well, for every group of <code><var>SLOTS</var></code>, we've counted them as if the order we chose 
+                        them in matters, when really it doesn't. So, the number of times we've overcounted each group is the number of ways to order <code>
+                        <var>SLOTS</var></code> things.
+                    </p>
+                    <p>
+                        There are <code><var>SLOTS</var>! = <var>factorial(SLOTS)</var></code> ways of ordering <code><var>SLOTS</var></code> things,
+                        so we've counted each group of <code><var>SLOTS</var></code> friends <code><var>factorial(SLOTS)</var></code> times.
+                    </p>
+                    <p>
+                        So, we have to divide the number of ways we could have filled the boat in order by number of times we've overcounted our groups:
+                        </br>
+                        <code> \dfrac{<var>FRIENDS</var>!}{<var>FRIENDS-SLOTS</var>!} \cdot \dfrac{1}{<var>SLOTS</var>!}</code> is the number of groups we can bring on the boat trip.
+                        </br>
+                        Another way to write this is <code> \binom{<var>FRIENDS</var>}{<var>SLOTS</var>} </code>, or <code><var>FRIENDS</var></code> 
+                        choose <code><var>SLOTS</var></code>, which is <code><var>ANSWER</var></code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

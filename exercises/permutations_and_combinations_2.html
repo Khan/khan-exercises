@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems subhints">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Permutations and combinations</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        var permUnique = function(word, repletter, numperms){
+            colorPerms = arrayPerms(["<span class='hint_blue'>", "<span class='hint_orange'>", "<span class='hint_pink'>"]).slice(0,KhanUtil.factorial(numperms));
+            perms = [];
+            _.each(colorPerms, function(cp){
+                cp = cp.slice(0,numperms);
+                p = "";
+                _.each(word.split(""), function(l){
+                    p += (l === repletter ? cp.pop() + l + "</span>" : l);      
+                });
+                perms.push(p);
+            });
+            return perms;
+        }
+
+        var arrayPerms = function(arr){
+            perms = [];
+            perms.push(arr);
+            perms.push([arr[1],arr[0],arr[2]]);
+            perms.push([arr[0],arr[2],arr[1]]);
+            perms.push([arr[1],arr[2],arr[0]]);
+            perms.push([arr[2],arr[0],arr[1]]);
+            perms.push([arr[2],arr[1],arr[0]]);
+            return perms;
+        }
+    </script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="letters" data-weight="0.4">
+                <div class="vars" data-ensure="PERM !== WORD">
+                    <var id="INDEX">randRange(0,7)</var>
+                    <var id="WORD">["HATTER", "PRIOR", "BUMMED", "SASSY", "CANNON", "PLOP", "ERROR", "THAT"][INDEX]</var>
+                    <var id="REPLETTER">["T","R","M","S","N","P","R","T"][INDEX]</var>
+                    <var id="REPTIMES">[2,2,2,3,3,2,3,2][INDEX]</var>
+                    <var id="PERM">shuffle(WORD).join("")</var>
+                    <var id="PERM_UNIQUE">permUnique(PERM, REPLETTER, REPTIMES)</var>
+                    <var id="ANSWER">factorial(WORD.length)/factorial(REPTIMES)</var>
+                </div>
+                <p class="question">How many unique ways are there to arrange the letters in the word <var>WORD</var>?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <div class="hints">
+                    <div>
+                        <p>Let's try building the arrangements (or permutations) letter by letter. The word is <code><var>WORD.length</var></code>
+                        letters long:</p>
+                        <p><var>_.map(_.range(WORD.length), function(l){ return "_ "; }).join("")</var></p>
+                        <p>Now, for the first blank, we have <code><var>WORD.length</var></code> choices of letters to put in.
+                    </div>
+                    <div>
+                        <p>After we put in the first letter, let's say it's <var>PERM[0]</var>, we have <code><var>WORD.length-1</var></code> blanks left.</p>
+                        <p><var>PERM[0]+" "+_.map(_.range(WORD.length-1), function(l){ return "_ "; }).join("")</var></p>
+                        <p>For the second blank, we only have <code><var>WORD.length-1</var></code> choices of letters left to put in. So far, there were
+                            <code><var>WORD.length</var> \cdot <var>WORD.length-1</var></code> unique choices we could have made.</p>
+                    </div>
+                    <div>
+                        <p>We can continue in this fashion to put in a third letter, then a fourth, and so on. At each step, we have one fewer choice to
+                        make, until we get to the last letter, and there's only one we can put in.</p>
+                    </div>
+                    <div>
+                        <p>Using this method, the total number of arrangements is <code><var>_.map(_.range(WORD.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(WORD.length)</var>.</code> Another way of writing this is <code><var>WORD.length</var>!</code>, 
+                        or <code><var>WORD.length</var></code> factorial, but this isn't quite the right answer.</p>
+                    </div>
+                    <div>
+                        <p>Using the above method, we assumed that all the letters were unique. But they're not! There are <code><var>REPTIMES</var></code>
+                        <var>REPLETTER</var>s, so we're counting every permutation multiple times. So every time we have these 
+                        <code><var>factorial(REPTIMES)</var></code> permutations:</p>
+                            <p>
+                                <var>PERM_UNIQUE.join("&lt;/br&gt;")</var>
+                            </p>
+                        <p>We actually should have only one permutation:</p>
+                            <p>
+                                <var>PERM</var>
+                            </p>
+                    </div>
+                    <p>
+                        Notice that we've overcounted our arrangements by <code><var>REPTIMES</var>!</code>. This is not a coincidence!
+                        This is exactly the number of ways to permute <code><var>REPTIMES</var></code> objects, which we were doing with the
+                        non-unique <var>REPLETTER</var>s. To address this overcounting, we need to divide the number of arrangements we counted
+                        before by <code><var>REPTIMES</var>!</code>.
+                    </p>
+                    <div>
+                        When we divide the number of permutations we got by the number of times we're overcounting each permutation, we get
+                        <code> \dfrac{<var>WORD.length</var>!}{<var>REPTIMES</var>!} = \dfrac{<var>factorial(WORD.length)</var>}{<var>factorial(REPTIMES)</var>} = <var>ANSWER</var></code>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reindeer" data-weight="0.2">
+                <div class="vars" data-ensure="PAIR[0] != PAIR[1]">
+                    <var id="NAMES">shuffle(["Bloopin", "Gloopin", "Prancer", "Lancer", "Quentin", "Balthazar", "Ezekiel", "Jebediah", "Rudy"],
+                        randRange(4,5))</var>
+                    <var id="FIGHTING">random() &gt; 0.5</var>
+                    <var id="PAIR">randFromArray(NAMES, 2)</var>
+                    <var id="ANSWER">FIGHTING ? factorial(NAMES.length) - factorial(NAMES.length-1)*2 : factorial(NAMES.length-1)*2</var>
+                </div>
+                <p>You need to put your reindeer, <var>toSentence(NAMES)</var>, in a single-file line to pull your sleigh. However,
+                    <var>PAIR[0]</var> and <var>PAIR[1]</var> are <var>FIGHTING ? "fighting" : "best friends"</var>, so you have to
+                    <var>FIGHTING ? "keep them apart" : "put them next to each other"</var>, or they won't fly.</p>
+                <p class="question">How many ways can you arrange your reindeer?</p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+
+                <div class="hints">
+                    <div>
+                        <p>Forget about the reindeer that <var>FIGHTING ? "can't be" : "have to be"</var> together for a second, and let's try to
+                        figure out how many ways we can arrange the reindeer if we don't have to worry about that.</p>
+                        <p>We can build our line of reindeer one by one: there are <code><var>NAMES.length</var></code> slots,
+                        and we have <code><var>NAMES.length</var></code> different reindeer we can put in the first slot.</p>
+                    </div>
+                    <p>
+                        Once we fill the first slot, we only have <code><var>NAMES.length-1</var></code> reindeer left, so we only have 
+                        <code><var>NAMES.length-1</var></code>
+                        choices for the second slot. So far, there are <code><var>NAMES.length</var> \cdot <var>NAMES.length-1</var> = <var>NAMES.length*(NAMES.length-1)</var></code> unique choices we can make.
+                    </p>
+                    <p>
+                        We can continue in this way for the third reindeer, then the fourth, and so on, until we reach the last slot, where we only have
+                        one reindeer left and so we can only make one choice.
+                    </p>
+                    <p>
+                        So, the total number of unique choices we could make to get to an arrangement of reindeer is <code><var>_.map(_.range(NAMES.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length)</var>.</code> Another way of writing this is <code><var>NAMES.length</var>!</code>, 
+                        or <code><var>NAMES.length</var></code> factorial. But we haven't thought about the two reindeer who <var>FIGHTING ? "can't be together" : "have to be together"</var> yet.
+                    </p>
+                    <div data-if="FIGHTING" data-unwrap>
+                        <p>
+                            There are <code><var>factorial(NAMES.length)</var></code> different arrangements of reindeer altogether, 
+                            so we just need to subtract
+                            all the arrangements where <var>PAIR[0]</var> and <var>PAIR[1]</var> are together. How many of these are there?
+                        </p>
+                        <p>
+                            We can count the number of arrangements where <var>PAIR[0]</var> and <var>PAIR[1]</var> are together by treating them as one double-reindeer. Now we can use the same idea as before to come up with <code><var>_.map(_.range(NAMES.length-1).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length-1)</var></code> different arrangements. But that's not quite right.
+                        </p>
+                        <p>
+                            Why? Because you can arrange the double-reindeer with <var>PAIR[0]</var> in front or with
+                            <var>PAIR[1]</var> in front, and those are different arrangements! So the actual number of arrangements with <var>PAIR[0]</var>
+                            and <var>PAIR[1]</var> together is <code><var>factorial(NAMES.length-1)</var> \cdot 2 = 
+                            <var>factorial(NAMES.length-1)*2</var></code>
+                        </p>
+                        <p>
+                            So, subtracting the number of arrangements where <var>PAIR[0]</var> and <var>PAIR[1]</var> are together from the total number
+                            of arrangements, we get <code><var>ANSWER</var></code> arrangements of reindeer where they will fly.
+                        </p>
+                    </div>
+                    <div data-else data-unwrap>
+                        <p>
+                            We can count the number of arrangements where <var>PAIR[0]</var> and <var>PAIR[1]</var> are together by treating them as one double-reindeer. Now we can use the same idea as before to come up with <code><var>_.map(_.range(NAMES.length-1).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length-1)</var></code> different arrangements. But that's not quite right.
+                        </p>
+                        <p>
+                            Why? Because you can arrange the double-reindeer with <var>PAIR[0]</var> in front or with
+                            <var>PAIR[1]</var> in front, and those are different arrangements! So the actual number of arrangements with <var>PAIR[0]</var>
+                            and <var>PAIR[1]</var> together is <code><var>factorial(NAMES.length-1)</var> \cdot 2 = 
+                            <var>factorial(NAMES.length-1)*2</var></code>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div id="divisible" data-weight="0.4">
+                <div class="vars" data-ensure="getGCD(FAC1,FAC2) === 1">
+                    <var id="FAC1">randRange(2,10)</var>
+                    <var id="FAC2">randRange(2,10)</var>
+                    <var id="FAC1_TIMES">roundTowardsZero(100/FAC1)</var>
+                    <var id="FAC2_TIMES">roundTowardsZero(100/FAC2)</var>
+                    <var id="BOTH_TIMES">roundTowardsZero(100/(FAC1*FAC2))</var>
+                </div>
+                <p class="question">
+                    How many numbers between 1 and 100 (inclusive) are divisible by <var>FAC1</var> or <var>FAC2</var>?
+                </p>
+
+                <p class="solution" data-forms="integer"><var>FAC1_TIMES + FAC2_TIMES - BOTH_TIMES</var>
+                </p>
+
+                <div class="hints">
+                    <div>
+                        <p>
+                            There are <code><var>FAC1_TIMES</var></code> numbers divisible by <code><var>FAC1</var></code> between <code>1</code> 
+                            and <code>100</code>, and <code><var>FAC2_TIMES</var></code> numbers divisible by 
+                            <code><var>FAC2</var></code> between <code>1</code> and <code>100</code>. 
+                            [<a href="#" class="show-subhint" data-subhint="divide">Show me why</a>]
+                        </p>
+                        <div class="subhint" id="divide">
+                            <div data-if="100/FAC1 === FAC1_TIMES">
+                                One way to see this is to take <code> \dfrac{100}{<var>FAC1</var>} = <var>FAC1_TIMES</var></code>
+                            </div>
+                            <div data-else>
+                                One way to see this is to take <code> \dfrac{100}{<var>FAC1</var>}</code>, which is between <code><var>
+                                FAC1_TIMES</var></code> and <code><var>FAC1_TIMES+1</var></code>. So, starting at <code>0</code> and adding <code><var>FAC1</var></code>
+                                at each step, you have to take between <code><var>FAC1_TIMES</var></code> and <code><var>FAC1_TIMES+1</var></code> steps to get
+                                to <code>100</code>. Since if you take a fraction of a step you won't get to a number divisible by <code><var>FAC1</var></code>,
+                                you'll hit <code><var>FAC1_TIMES</var></code> numbers divisible by <code><var>FAC1</var></code> before you get to above <code>100</code>.
+                                So, there are <code><var>FAC1_TIMES</var></code> numbers between <code>1</code> and <code>100</code> divisible by <code><var>FAC1</var></code>.
+                            </div>
+                            </br></br>
+                            <div data-if="100/FAC2 === FAC2_TIMES">
+                                Using similar logic for the second factor, we see that <code> \dfrac{100}{<var>FAC2</var>} = <var>FAC2_TIMES</var></code>
+                            </div>
+                            <div data-else>
+                                Using similar logic for the second factor, take <code> \dfrac{100}{<var>FAC2</var>}</code>, which is between <code><var>
+                                FAC2_TIMES</var></code> and <code><var>FAC2_TIMES+1</var></code>. So, starting at <code>0</code> and adding <code><var>FAC2</var></code>
+                                at each step, you have to take between <code><var>FAC2_TIMES</var></code> and <code><var>FAC2_TIMES+1</var></code> steps to get
+                                to <code>100</code>. Since if you take a fraction of a step you won't get to a number divisible by <code><var>FAC2</var></code>,
+                                you'll hit <code><var>FAC2_TIMES</var></code> numbers divisible by <code><var>FAC2</var></code> before you get to above <code>100</code>.
+                                So, there are <code><var>FAC2_TIMES</var></code> numbers between <code>1</code> and <code>100</code> divisible by <code><var>FAC2</var></code>.
+                            </div>
+                        </div>
+                    </div>
+                    <p>
+                        So, you might think there are <code><var>FAC1_TIMES</var> + <var>FAC2_TIMES</var> = <var>FAC1_TIMES+FAC2_TIMES</var></code> 
+                        numbers divisible by one or the other, but this is overcounting something.
+                    </p>
+                    <p>
+                        We're counting every number which is divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code> twice.
+                        So, for example, <code><var>FAC1*FAC2</var></code> is counted once as a number divisible by <code><var>FAC1</var></code>, and then again as a number divisible by <code><var>FAC2</var></code>.
+                    </p>
+                    <p>
+                        So, we need to count how many numbers are divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code>
+                        and subtract this from what we had before.
+                    </p>
+                    <p>
+                        Being divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code> is the same thing as being divisible by 
+                        <code><var>FAC1*FAC2</var></code>, so there <var>plural("is",BOTH_TIMES)</var> <code><var>BOTH_TIMES</var></code> <var>plural("number",BOTH_TIMES)</var> between 1 and 100 divisible by both. 
+                    </p>
+                    <p>
+                        Subtracting, there are <code><var>FAC1_TIMES + FAC2_TIMES</var> - <var>BOTH_TIMES</var> = <var>FAC1_TIMES + FAC2_TIMES - BOTH_TIMES</var></code> numbers divisible by <code><var>FAC1</var></code> or <code><var>FAC2</var></code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

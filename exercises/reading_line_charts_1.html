@@ -1,68 +1,70 @@
 <!DOCTYPE html>
 <html data-require="math d3 graphie graphie-helpers word-problems">
 <head>
-	<meta charset="UTF-8" />
-	<title>Reading line charts 1</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Reading line charts 1</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars">
-		<var id="DAYS">[ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]</var>
-		<var id="INDEX">randRange( 0, DAYS.length - 1 )</var>
-		<var id="VALUES">shuffle( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ], DAYS.length )</var>
-		<var id="DATA">
-			(function() {
-				var ordinals = jQuery.map( DAYS, function( day, i ) {
-					return day.substring( 0, 2 );
-				});
+    <div class="exercise">
+    <div class="vars">
+        <var id="DAYS">[ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]</var>
+        <var id="INDEX">randRange( 0, DAYS.length - 1 )</var>
+        <var id="VALUES">shuffle( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ], DAYS.length )</var>
+        <var id="DATA">
+            (function() {
+                var ordinals = $.map( DAYS, function( day, i ) {
+                    return day.substring( 0, 3 );
+                });
 
-				return { min: 0,
-					max: 10,
-					tickCount: 10,
-					values: VALUES,
-					ordinals: ordinals };
-			})()
-		</var>
-	</div>
-	<div class="problems">
-		<div>
-			<p><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> <var>he( 1 )</var> saw every day this week. </p>
-			<p class="question">How many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> did <var>he( 1 )</var> see on <var>DAYS[ INDEX ]</var>?</p>
-			<div class="graphie" id="scatter">
-				var width = 10;
-				var height = 10;
+                return {
+                    min: 0,
+                    max: 10,
+                    tickCount: 10,
+                    values: VALUES,
+                    ordinals: ordinals
+                };
+            })()
+        </var>
+    </div>
+    <div class="problems">
+        <div>
+            <p><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> <var>he( 1 )</var> saw every day this week. </p>
+            <p class="question">How many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> did <var>he( 1 )</var> see on <var>DAYS[ INDEX ]</var>?</p>
+            <div class="graphie" id="scatter">
+                var width = 10;
+                var height = 10;
 
-				init({
-					range: [ [ -1, width + 1 ], [ -1, height + 0.5 ] ]
-				});
+                init({
+                    range: [ [ -1, width + 1 ], [ -1, height + 0.5 ] ]
+                });
 
-				var pos = { lx: 0, ly: 0, width: width, height: height};
-				graph.lc = new LineChart( DATA, pos );
-				graph.lc.draw();
-			</div>
+                var pos = { lx: 0, ly: 0, width: width, height: height};
+                graph.lc = new LineChart( DATA, pos );
+                graph.lc.draw();
+            </div>
 
-			<div class="solution" data-type="multiple">
-				<span style="padding-right: 5px" class="sol"><var>VALUES[ INDEX ]</var></span> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var>
-			</div>
+            <div class="solution" data-type="multiple">
+                <span style="padding-right: 5px" class="sol" data-forms="integer, decimal"><var>VALUES[ INDEX ]</var></span> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var>
+            </div>
 
-			<div class="hints">
-				<div>
-					<p>Find the dot for <var>DAYS[ INDEX ]</var> by looking at the text at the bottom of the scatter plot.</p>
-					<div class="graphie" data-update="scatter">
-						graph.lc.highlightDataPoint( INDEX );
-					</div>
-				</div>
-				<div>
-					<p>Compare how high up the dot is with the numbers to the left.</p>
-					<div class="graphie" data-update="scatter">
-						graph.lc.labelDataPoint( INDEX );
-					</div>
-				</div>
-				<p><var>He( 1 )</var> saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> on <var>DAYS[ INDEX ]</var>.</p>
-			</div>
-		</div>
-	</div>
-	</div>
+            <div class="hints">
+                <div>
+                    <p>Find the dot for <var>DAYS[ INDEX ]</var> by looking at the text at the bottom of the scatter plot.</p>
+                    <div class="graphie" data-update="scatter">
+                        graph.lc.highlightDataPoint( INDEX );
+                    </div>
+                </div>
+                <div>
+                    <p>Compare how high up the dot is with the numbers to the left.</p>
+                    <div class="graphie" data-update="scatter">
+                        graph.lc.labelDataPoint( INDEX );
+                    </div>
+                </div>
+                <p><var>He( 1 )</var> saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> on <var>DAYS[ INDEX ]</var>.</p>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

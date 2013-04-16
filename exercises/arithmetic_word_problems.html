@@ -1,141 +1,145 @@
 <!DOCTYPE html>
 <html data-require="math word-problems">
 <head>
-	<meta charset="UTF-8" />
-	<title>Arithmetic word problems</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplication and division word problems 2</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-		<div class="problems">
-			<div>
+    <div class="exercise">
+        <div class="problems">
+            <div>
 
-				<div class="vars" data-ensure="!isPrime( TOTAL_ITEMS )">
-					<var id="ITEMS_PER_GROUP">randRange( 3, 12 )</var>
-					<var id="ITEMS_LEFT">randRange( 1, ITEMS_PER_GROUP - 1 )</var>
-					<var id="GROUPS">randRange( 2, 12 )</var>
-					<var id="ITEMS_IN_GROUPS">GROUPS * ITEMS_PER_GROUP</var>
-					<var id="TOTAL_ITEMS">ITEMS_IN_GROUPS + ITEMS_LEFT</var>
-					<var id="NEW_ITEMS_PER_GROUP">getNontrivialFactor( TOTAL_ITEMS )</var>
-					<var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS_PER_GROUP</var>
-				</div>
+                <div class="vars" data-ensure="!isPrime( TOTAL_ITEMS )">
+                    <var id="ITEMS_PER_GROUP">randRange( 3, 12 )</var>
+                    <var id="ITEMS_LEFT">randRange( 1, ITEMS_PER_GROUP - 1 )</var>
+                    <var id="GROUPS">randRange( 2, 12 )</var>
+                    <var id="ITEMS_IN_GROUPS">GROUPS * ITEMS_PER_GROUP</var>
+                    <var id="TOTAL_ITEMS">ITEMS_IN_GROUPS + ITEMS_LEFT</var>
+                    <var id="NEW_ITEMS_PER_GROUP">getNontrivialFactor( TOTAL_ITEMS )</var>
+                    <var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS_PER_GROUP</var>
+                </div>
 
-				<div class="question">
-					<var>person(1)</var> is putting <var>plural( item(1) )</var> into <var>plural( group(1) )</var>.
+                <div class="question">
+                    <var>person(1)</var> is putting <var>plural( item(1) )</var> into <var>plural( group(1) )</var>.
 
-					If <var>he(1)</var> puts <var>plural( ITEMS_PER_GROUP, item(1) )</var>
-					in each <var>group(1)</var> <var>he(1)</var> will <var>groupVerb(1)</var>
-					<var>plural( GROUPS, group(1) )</var> and have
-					<var>plural( ITEMS_LEFT, item(1) )</var> left over.
+                    If <var>he(1)</var> puts <var>plural( ITEMS_PER_GROUP, item(1) )</var>
+                    in each <var>group(1)</var> <var>he(1)</var> will <var>groupVerb(1)</var>
+                    <var>plural( GROUPS, group(1) )</var> and have
+                    <var>plural( ITEMS_LEFT, item(1) )</var> left over.
 
-					If <var>he(1)</var> instead puts
-					<var>plural( NEW_ITEMS_PER_GROUP, item(1) )</var> in each
-					<var>group(1)</var>, how many <var>plural( group(1) )</var> of
-					<var>plural( item(1) )</var> can <var>he(1)</var> <var>groupVerb(1)</var>?
-				</div>
+                    If <var>he(1)</var> instead puts
+                    <var>plural( NEW_ITEMS_PER_GROUP, item(1) )</var> in each
+                    <var>group(1)</var>, how many <var>plural( group(1) )</var> of
+                    <var>plural( item(1) )</var> can <var>he(1)</var> <var>groupVerb(1)</var>?
+                </div>
 
-				<p class="solution"><var>NEW_GROUPS</var></p>
+                <div class="solution" data-type="multiple">
+                    <span style="padding-right: 5px" class="sol" data-forms="integer"><var>NEW_GROUPS</var></span> <var>plural( group(1) )</var>
+                </div>
 
-				<div class="hints">
-					<p>
-						<var>plural( GROUPS, group(1) )</var> of
-						<var>plural( ITEMS_PER_GROUP, item(1) )</var> each results in
-						<code><var>GROUPS</var> \times <var>ITEMS_PER_GROUP</var> = <var>ITEMS_IN_GROUPS</var></code>
-						<var>plural( item )</var>.
-					</p>
+                <div class="hints">
+                    <p>
+                        <var>plural( GROUPS, group(1) )</var> of
+                        <var>plural( ITEMS_PER_GROUP, item(1) )</var> each results in
+                        <code><var>GROUPS</var> \times <var>ITEMS_PER_GROUP</var> = <var>ITEMS_IN_GROUPS</var></code>
+                        <var>plural( item )</var>.
+                    </p>
 
-					<p>
-						<var>plural( ITEMS_IN_GROUPS, item(1) )</var> plus
-						<var>ITEMS_LEFT</var> left over equals
-						<var>TOTAL_ITEMS</var> total <var>plural( item(1) )</var>.
-					</p>
+                    <p>
+                        <var>plural( ITEMS_IN_GROUPS, item(1) )</var> plus
+                        <var>ITEMS_LEFT</var> left over equals
+                        <var>TOTAL_ITEMS</var> total <var>plural( item(1) )</var>.
+                    </p>
 
-					<p>
-						<var>plural( TOTAL_ITEMS, item(1) )</var>
-						divided into groups of <var>NEW_ITEMS_PER_GROUP</var> is
-						<code><var>TOTAL_ITEMS</var> \div <var>NEW_ITEMS_PER_GROUP</var> = <var>NEW_GROUPS</var></code>
-						<var>plural( group(1) )</var>.
-					</p>
-				</div>
-			</div>
+                    <p>
+                        <var>plural( TOTAL_ITEMS, item(1) )</var>
+                        divided into groups of <var>NEW_ITEMS_PER_GROUP</var> is
+                        <code><var>TOTAL_ITEMS</var> \div <var>NEW_ITEMS_PER_GROUP</var> = <var>NEW_GROUPS</var></code>
+                        <var>plural( group(1) )</var>.
+                    </p>
+                </div>
+            </div>
 
-			<div>
+            <div>
 
-				<div class="vars">
-					<var id="ITEM_1_COUNT">randRange( 4, 12 )</var>
-					<var id="ITEM_1_COST">randRange( 4, 12 )</var>
-					<var id="ITEM_2_COST">randRange( 4, 12 )</var>
-					<var id="TOTAL_SPENT_ON_1">ITEM_1_COUNT * ITEM_1_COST</var>
-					<var id="TOTAL_SPENT">TOTAL_SPENT_ON_1 + ITEM_2_COST</var>
-				</div>
+                <div class="vars">
+                    <var id="ITEM_1_COUNT">randRange( 4, 12 )</var>
+                    <var id="ITEM_1_COST">randRange( 4, 12 )</var>
+                    <var id="ITEM_2_COST">randRange( 4, 12 )</var>
+                    <var id="TOTAL_SPENT_ON_1">ITEM_1_COUNT * ITEM_1_COST</var>
+                    <var id="TOTAL_SPENT">TOTAL_SPENT_ON_1 + ITEM_2_COST</var>
+                </div>
 
-				<div class="question">
-					<var>person(1)</var> bought <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>,
-					all costing the same amount, from the <var>store(1)</var> store.
+                <div class="question">
+                    <var>person(1)</var> bought <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>,
+                    all costing the same amount, from the <var>store(1)</var> store.
 
-					<var>He(1)</var> also bought a <var>storeItem(1, 2)</var> for <var>plural( ITEM_2_COST, "dollar" )</var>.
+                    <var>He(1)</var> also bought a <var>storeItem(1, 2)</var> for <var>plural( ITEM_2_COST, "dollar" )</var>.
 
-					<var>He(1)</var> spent a total of <var>plural( TOTAL_SPENT, "dollar" )</var>.
+                    <var>He(1)</var> spent a total of <var>plural( TOTAL_SPENT, "dollar" )</var>.
 
-					How much did each <var>storeItem(1, 1)</var> cost?
-				</div>
+                    How much did each <var>storeItem(1, 1)</var> cost?
+                </div>
 
-				<p class="solution"><var>ITEM_1_COST</var></p>
+                <p class="solution" data-forms="dollar"><var>ITEM_1_COST</var></p>
 
-				<div class="hints">
-					<p>
-						Of the <var>plural( TOTAL_SPENT, "dollar" )</var>, <var>he(1)</var> spent
-						<var>plural( ITEM_2_COST, "dollar" )</var> on a <var>storeItem(1, 2)</var>, so <var>he(1)</var> must have spent
-						a total of <code><var>TOTAL_SPENT</var> - <var>ITEM_2_COST</var> = <var>TOTAL_SPENT_ON_1</var></code>
-						dollars on <var>plural( storeItem(1, 1) )</var>.
-					</p>
+                <div class="hints">
+                    <p>
+                        Of the <var>plural( TOTAL_SPENT, "dollar" )</var>, <var>he(1)</var> spent
+                        <var>plural( ITEM_2_COST, "dollar" )</var> on a <var>storeItem(1, 2)</var>, so <var>he(1)</var> must have spent
+                        a total of <code><var>TOTAL_SPENT</var> - <var>ITEM_2_COST</var> = <var>TOTAL_SPENT_ON_1</var></code>
+                        dollars on <var>plural( storeItem(1, 1) )</var>.
+                    </p>
 
-					<p>
-						<var>He(1)</var> spent <var>plural( TOTAL_SPENT_ON_1, "dollar" )</var> on
-						<var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>,
-						so <var>he(1)</var> must have spent
-						<code><var>TOTAL_SPENT_ON_1</var> \div <var>ITEM_1_COUNT</var> = <var>ITEM_1_COST</var></code>
-						dollars on each <var>storeItem(1, 1)</var>.
-					</p>
-				</div>
-			</div>
+                    <p>
+                        <var>He(1)</var> spent <var>plural( TOTAL_SPENT_ON_1, "dollar" )</var> on
+                        <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>,
+                        so <var>he(1)</var> must have spent
+                        <code><var>TOTAL_SPENT_ON_1</var> \div <var>ITEM_1_COUNT</var> = <var>ITEM_1_COST</var></code>
+                        dollars on each <var>storeItem(1, 1)</var>.
+                    </p>
+                </div>
+            </div>
 
-			<div>
+            <div>
 
-				<div class="vars" data-ensure="!isPrime( TOTAL_ITEMS ) && NEW_ITEMS !== ITEMS">
-					<var id="TOTAL_ITEMS">randRange( 10, 99 )</var>
-					<var id="ITEMS">getNontrivialFactor( TOTAL_ITEMS )</var>
-					<var id="GROUPS">TOTAL_ITEMS / ITEMS</var>
-					<var id="NEW_ITEMS">getNontrivialFactor( TOTAL_ITEMS )</var>
-					<var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS</var>
-				</div>
+                <div class="vars" data-ensure="!isPrime( TOTAL_ITEMS ) && NEW_ITEMS !== ITEMS">
+                    <var id="TOTAL_ITEMS">randRange( 10, 99 )</var>
+                    <var id="ITEMS">getNontrivialFactor( TOTAL_ITEMS )</var>
+                    <var id="GROUPS">TOTAL_ITEMS / ITEMS</var>
+                    <var id="NEW_ITEMS">getNontrivialFactor( TOTAL_ITEMS )</var>
+                    <var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS</var>
+                </div>
 
-				<div class="question">
-					<var>person(1)</var> has a bunch of <var>plural( item(1) )</var>. When <var>person(1)</var> places <var>plural( ITEMS, item(1) )</var> in each
-					<var>group(1)</var>, <var>he(1)</var> ends up with <var>plural( GROUPS, group(1) )</var>.
+                <div class="question">
+                    <var>person(1)</var> has a bunch of <var>plural( item(1) )</var>. When <var>person(1)</var> places <var>plural( ITEMS, item(1) )</var> in each
+                    <var>group(1)</var>, <var>he(1)</var> ends up with <var>plural( GROUPS, group(1) )</var>.
 
-					If <var>he(1)</var> wants <var>plural( NEW_GROUPS, group(1) )</var>,
-					how many <var>plural( item(1) )</var> should <var>he(1)</var> put in each <var>group(1)</var>?
-				</div>
+                    If <var>he(1)</var> wants <var>plural( NEW_GROUPS, group(1) )</var>,
+                    how many <var>plural( item(1) )</var> should <var>he(1)</var> put in each <var>group(1)</var>?
+                </div>
 
-				<p class="solution"><var>NEW_ITEMS</var></p>
+                <div class="solution" data-type="multiple">
+                    <span style="padding-right: 5px" class="sol" data-forms="integer"><var>NEW_ITEMS</var></span> <var>plural( item(1) )</var>
+                </div>
 
-				<div class="hints">
-					<p>
-						<var>plural( ITEMS, item(1) )</var> <code>\times</code>
-						<var>plural( GROUPS, group(1) )</var> <code>=</code>
-						<var>plural( TOTAL_ITEMS, item(1) )</var>.
-					</p>
+                <div class="hints">
+                    <p>
+                        <var>plural( ITEMS, item(1) )</var> <code>\times</code>
+                        <var>plural( GROUPS, group(1) )</var> <code>=</code>
+                        <var>plural( TOTAL_ITEMS, item(1) )</var>.
+                    </p>
 
-					<p>
-						If we divide the <var>plural( TOTAL_ITEMS, item(1) )</var> into
-						<var>plural( NEW_GROUPS, group(1) )</var>, then we get
-						<code><var>TOTAL_ITEMS</var> \div <var>NEW_GROUPS</var> = <var>NEW_ITEMS</var></code>
-						<var>plural( item(1) )</var> per <var>group(1)</var>.
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
+                    <p>
+                        If we divide the <var>plural( TOTAL_ITEMS, item(1) )</var> into
+                        <var>plural( NEW_GROUPS, group(1) )</var>, then we get
+                        <code><var>TOTAL_ITEMS</var> \div <var>NEW_GROUPS</var> = <var>NEW_ITEMS</var></code>
+                        <var>plural( item(1) )</var> per <var>group(1)</var>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

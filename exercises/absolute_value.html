@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html data-require="math graphie graphie-helpers">
 <head>
-	<meta charset="UTF-8" />
-	<title>Absolute value</title>
-	<script src="../khan-exercise.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Finding absolute values</title>
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
-	<div class="exercise">
-	<div class="vars" data-ensure="SIGN == &quot;&quot; || INT != 0 || FRAC != 0">
-		<var id="INT">rand(5) > 0 ? randRange( 1, 9 ) : 0</var>
-		<var id="FRAC">rand(3) > 0 ? "." + randRange(1, 9) : ""</var>
-		<var id="SIGN">randFromArray(["", "-"])</var>
-	</div>
+    <div class="exercise">
+    <div class="vars" data-ensure="SIGN === &quot;&quot; || INT !== 0 || FRAC !== &quot;&quot;">
+        <var id="INT">rand(5) > 0 ? randRange( 1, 9 ) : 0</var>
+        <var id="FRAC">rand(3) > 0 ? "." + randRange(1, 9) : ""</var>
+        <var id="SIGN">randFromArray(["", "-"])</var>
+    </div>
 
-	<div class="problems">
-		<div>
-			<div class="question">
-				<p>What is <code>\lvert <var>SIGN + INT + FRAC</var> \rvert</code>?</p>
-			</div>
-			<div class="solution"><var>INT + FRAC</var></div>
-		</div>
-	</div>
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p>What is <code>\lvert <var>SIGN + INT + FRAC</var> \rvert</code>?</p>
+            </div>
+            <div class="solution"><var>INT + FRAC</var></div>
+        </div>
+    </div>
 
-	<div class="hints">
-		<div class="graphie">
-			init({
-				range: [ [-1, 11], [-1, 1] ]
-			});
-			var start = 0;
-			var end = 10;
-			var originX = 0;
-			var x = abs( INT ) + FRAC;
-			if ( SIGN === "-" ) {
-				start = -10;
-				end = 0;
-				originX = 10;
-				x = 10 - x;
-			}
-			numberLine( start, end );
-			style({ stroke: "#6495ED", fill: "#6495ED" });
-			graph.pt = circle( [ x, 0 ], 0.15 );
-			style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
-			path( [ [ originX, 0 ], [ x, 0 ] ] );
-			circle( [ originX, 0 ], 0.10 );
-			graph.pt.toFront();
-		</div>
-		<p>The distance from <code>0</code> to <code><var>SIGN + INT + FRAC</var></code> is <code><var>INT + FRAC</var></code>, which equals the absolute value.</p>
-		<p data-if="SIGN !== &quot;&quot;">In other words, <code><var>INT + FRAC</var></code> is the non-negative version of <code><var>SIGN + INT + FRAC</var></code>.</p>
-	</div>
-	</div>
+    <div class="hints">
+        <div class="graphie">
+            init({
+                range: [ [-1, 11], [-1, 1] ]
+            });
+            var start = 0;
+            var end = 10;
+            var originX = 0;
+            var x = abs( INT ) + FRAC;
+            if ( SIGN === "-" ) {
+                start = -10;
+                end = 0;
+                originX = 10;
+                x = 10 - x;
+            }
+            numberLine( start, end );
+            style({ stroke: "#6495ED", fill: "#6495ED" });
+            graph.pt = circle( [ x, 0 ], 0.15 );
+            style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "->" });
+            path( [ [ originX, 0 ], [ x, 0 ] ] );
+            circle( [ originX, 0 ], 0.10 );
+            graph.pt.toFront();
+        </div>
+        <p>The distance from <code>0</code> to <code><var>SIGN + INT + FRAC</var></code> is <code><var>INT + FRAC</var></code>, which equals the absolute value.</p>
+        <p data-if="SIGN !== &quot;&quot;">In other words, <code><var>INT + FRAC</var></code> is the non-negative version of <code><var>SIGN + INT + FRAC</var></code>.</p>
+    </div>
+    </div>
 </body>
 </html>

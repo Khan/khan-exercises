@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Exploring angle pairs</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars" data-ensure="START != END && START + 3 != END">
+        <var id="VERTICES">["A", "B", "C", "D", "E", "F"] </var>
+
+        <var id="START"> randRange(0,5) </var>
+        <var id="END"> (START + randRange(1,2)) % 6 </var>
+
+        <var id="ANGLE_START"> VERTICES[START] </var>
+        <var id="ANGLE_END"> VERTICES[END] </var>
+
+        <var id="ADJ_START">[VERTICES[(START + 5) % 6], VERTICES[(START + 4) % 6]] </var>
+        <var id="ADJ_END"> [VERTICES[(END + 1) % 6], VERTICES[(END + 2) % 6]] </var>
+        <var id="OPP_START"> VERTICES[(START + 3) % 6] </var>
+        <var id="OPP_END"> VERTICES[(END + 3) % 6] </var>
+
+        <var id="TILT">[PI / 6, PI / 4, 3 * PI / 4]</var>
+        <var id="LENGTH">[15, 15, 15]</var>
+        <var id="INNER_LENGTH">[13, 13, 13]</var>
+
+        <var id="ENDPOINT1">[ [(LENGTH[0]/2) * cos(TILT[0]), (LENGTH[0]/2) * sin(TILT[0])],
+        [(LENGTH[1]/2) * cos(TILT[1]), (LENGTH[1]/2) * sin(TILT[1])],
+        [(LENGTH[2]/2) * cos(TILT[2]), (LENGTH[2]/2) * sin(TILT[2])], ] 
+        </var>
+        <var id="ENDPOINT2">[ [-1 * (LENGTH[0]/2) * cos(TILT[0]), -1 * (LENGTH[0]/2) * sin(TILT[0])],
+        [-1 * (LENGTH[1]/2) * cos(TILT[1]), (-1 * LENGTH[1]/2) * sin(TILT[1])],
+        [-1 * (LENGTH[2]/2) * cos(TILT[2]), (-1 * LENGTH[2]/2) * sin(TILT[2])], ] 
+        </var>
+
+        <var id="INNER_ENDPOINT1">[ [(INNER_LENGTH[0]/2) * cos(TILT[0]), (INNER_LENGTH[0]/2) * sin(TILT[0])], [(INNER_LENGTH[1]/2) * cos(TILT[1]), (INNER_LENGTH[1]/2) * sin(TILT[1])],
+        [(INNER_LENGTH[2]/2) * cos(TILT[2]), (INNER_LENGTH[2]/2) * sin(TILT[2])], ] 
+        </var>
+        <var id="INNER_ENDPOINT2">[ [-1 * (INNER_LENGTH[0]/2) * cos(TILT[0]), -1 * (INNER_LENGTH[0]/2) * sin(TILT[0])], [-1 * (INNER_LENGTH[1]/2) * cos(TILT[1]), (-1 * INNER_LENGTH[1]/2) * sin(TILT[1])], [-1 * (INNER_LENGTH[2]/2) * cos(TILT[2]), (-1 * INNER_LENGTH[2]/2) * sin(TILT[2])], ] 
+        </var>
+
+        <var id="DOT_ATTRS">{ r: 0.2, fill: BLUE, stroke: "none" }</var>
+    </div>
+
+    <div class="problem">
+        <div class="graphie">
+            init({
+                    range: [[-10, 10], [-10, 10]],
+                    scale: 20
+                });
+
+            line( ENDPOINT1[0], ENDPOINT2[0], { arrows: "->" } );
+            line( ENDPOINT2[0], ENDPOINT1[0], { arrows: "->"} );
+
+            circle( INNER_ENDPOINT1[0], DOT_ATTRS );
+            circle( INNER_ENDPOINT2[0], DOT_ATTRS );
+
+            label( INNER_ENDPOINT1[0], "A", "above");
+            label( INNER_ENDPOINT2[0], "D", "above");
+
+
+            line( ENDPOINT1[1], ENDPOINT2[1], { arrows: "->" } );
+            line( ENDPOINT2[1], ENDPOINT1[1], { arrows: "->"} );
+
+            circle( INNER_ENDPOINT1[1], DOT_ATTRS );
+            circle( INNER_ENDPOINT2[1], DOT_ATTRS );
+
+            label( INNER_ENDPOINT1[1], "B", "above");
+            label( INNER_ENDPOINT2[1], "E", "above");
+
+
+            line( ENDPOINT1[2], ENDPOINT2[2], { arrows: "->" } );
+            line( ENDPOINT2[2], ENDPOINT1[2], { arrows: "->"} );
+
+            circle( INNER_ENDPOINT1[2], DOT_ATTRS );
+            circle( INNER_ENDPOINT2[2], DOT_ATTRS );
+
+            label( INNER_ENDPOINT1[2], "C", "above");
+            label( INNER_ENDPOINT2[2], "F", "above");
+
+
+            circle( [0,0], DOT_ATTRS);
+
+            label( [0,0], "G", "above");
+        </div>
+    </div>
+
+    <div class="problems">
+        <div id="vertical">
+            <div class="question">
+                <p>Name an angle vertical to <code> \angle 
+                    <var> ANGLE_START </var>G<var> ANGLE_END </var> </code>.</p>
+            </div>
+
+            <div class="solution" data-type="set">
+                <div class="set-sol" data-type="text"> <var>OPP_START</var>G<var>OPP_END</var> </div>
+                <div class="set-sol" data-type="text"> <var>OPP_END</var>G<var>OPP_START</var> </div>
+
+                <div class="input-format">
+                    <p> <code> \angle </code> <span class="entry"></span> </p>
+                </div>
+            </div>
+
+
+            <div class="hints">
+                <p>Vertical angles form two intersecting straight lines.</p>
+                <p>Name an angle that will combine with the given angle to form a big X of two straight lines.</p>
+                <p><code> \angle <var>OPP_START</var>G<var>OPP_END</var> </code> is vertical to 
+                    <code> \angle <var>ANGLE_START</var>G<var>ANGLE_END</var> </code>.</p>
+            </div>
+        </div>
+
+        <div id="adjacent">
+            <div class="question">
+                <p>Name an angle adjacent to <code> \angle 
+                    <var> ANGLE_START </var> G <var> ANGLE_END </var> </code> </p>
+            </div>
+
+            <div class="solution" data-type="set">
+                <div class="set-sol" data-type="text"> <var>ANGLE_START
+                </var>G<var>ADJ_START[0] </var> </div>
+                <div class="set-sol" data-type="text"> <var>ANGLE_START 
+                </var>G<var>ADJ_START[1] </var> </div>
+                <div class="set-sol" data-type="text"> <var>ANGLE_END 
+                </var>G<var>ADJ_END[0] </var> </div>
+                <div class="set-sol" data-type="text"> <var>ANGLE_END 
+                </var>G<var>ADJ_END[1] </var> </div>
+                <div class="set-sol" data-type="text"> <var>ADJ_START[0]
+                </var>G<var>ANGLE_START </var> </div>
+                <div class="set-sol" data-type="text"> <var>ADJ_START[1] 
+                </var>G<var>ANGLE_START </var> </div>
+                <div class="set-sol" data-type="text"> <var>ADJ_END[0] 
+                </var>G<var>ANGLE_END </var> </div>
+                <div class="set-sol" data-type="text"> <var>ADJ_END[1] 
+                </var>G<var>ANGLE_END </var> </div>
+
+                <div class="input-format">
+                    <p> <code> \angle </code> <span class="entry"></span> </p>
+                </div>
+            </div>
+
+            <div class="hints">
+                <p>Adjacent angles share a ray and have a common vertex, but do not overlap.</p>
+                <p>Name an angle that is next to <code> \angle <var> ANGLE_START </var>G<var> ANGLE_END </var> </code>.</p>
+                <p><code> \angle <var>ANGLE_START</var>G<var>ADJ_START[0]</var></code> and 
+                    <code> \angle <var>ANGLE_END</var>G<var>ADJ_END[1]</var></code> are two adjacent angles. There are two others, as well.</p>
+            </div>
+
+
+        </div>
+
+        <div id="linear">
+            <div class="question">
+                <p>Name an angle that forms a linear pair with <code> \angle 
+                    <var> ANGLE_START </var> G <var> ANGLE_END </var> </code> </p>
+            </div>
+
+            <div class="solution" data-type="set">
+                <div class="set-sol" data-type="text"> <var>ANGLE_START
+                </var>G<var>OPP_END</var> </div>
+                <div class="set-sol" data-type="text"> <var>ANGLE_END
+                </var>G<var>OPP_START</var> </div>
+                <div class="set-sol" data-type="text"> <var>OPP_END
+                </var>G<var>ANGLE_START</var> </div>
+                <div class="set-sol" data-type="text"> <var>OPP_START
+                </var>G<var>ANGLE_END</var> </div>
+            
+                <div class="input-format">
+                    <p> <code> \angle </code> <span class="entry"></span> </p> 
+                </div>
+
+            </div>
+
+            <div class="hints">
+                <p>A linear pair is two adjacent angles that form a straight angle.</p>
+                <p>Name an angle that shares a ray with <code> \angle <var> ANGLE_START </var>G<var> ANGLE_END </var> </code> and will add to 180<code>{}^{\circ}</code> </p>
+                <p> Two such angles are <code> \angle <var>ANGLE_START</var>G<var>OPP_END</var> </code> and 
+                    <code> \angle <var>ANGLE_END</var>G<var>OPP_START</var> </code>. </p>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+</body>
+</html>

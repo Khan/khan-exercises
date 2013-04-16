@@ -1,106 +1,106 @@
 <!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers">
-	<head>
-		<title>Converting mixed numbers and improper fractions</title>
-		<script src="../khan-exercise.js"></script>
-	</head>
-	<body>
-		<div class="exercise">
-			<div class="vars" data-ensure="M_NUM &lt; M_DENOM">
-				<var id="WHOLE">randRange( 1, 10 )</var>
-				
-				<var id="M_NUM">randRange( 1, 30 )</var>
-				<var id="M_DENOM">randRange( 1, 30 )</var>
+    <head>
+        <title>Converting mixed numbers and improper fractions</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars" data-ensure="M_NUM &lt; M_DENOM">
+                <var id="WHOLE">randRange( 1, 10 )</var>
 
-				<var id="M_REDUCED_NUM">M_NUM / getGCD( M_NUM, M_DENOM )</var>
-				<var id="M_REDUCED_DENOM">M_DENOM / getGCD( M_NUM, M_DENOM )</var>
-				
-				<var id="I_NUM">WHOLE * M_REDUCED_DENOM + M_REDUCED_NUM</var>
-				<var id="I_DENOM">M_REDUCED_DENOM</var>
-			</div>
+                <var id="M_NUM">randRange( 1, 30 )</var>
+                <var id="M_DENOM">randRange( 1, 30 )</var>
 
-			<div class="problems">
-				<div id="improper-to-mixed">
-					<p class="question">Convert <code><var>fraction( I_NUM, I_DENOM, false, true )</var></code> to a mixed number.</p>
+                <var id="M_REDUCED_NUM">M_NUM / getGCD( M_NUM, M_DENOM )</var>
+                <var id="M_REDUCED_DENOM">M_DENOM / getGCD( M_NUM, M_DENOM )</var>
 
-					<p class="solution" data-type="mixed"><var>I_NUM / I_DENOM</var></p>
+                <var id="I_NUM">WHOLE * M_REDUCED_DENOM + M_REDUCED_NUM</var>
+                <var id="I_DENOM">M_REDUCED_DENOM</var>
+            </div>
 
-					<div class="hints">
-						<div>
-							<p>First, divide the numerator by the denominator.</p>
-							<p><code><var>I_NUM</var> \div <var>I_DENOM</var> = \color{#28AE7B}{<var>WHOLE</var>}\ \text{ R } \color{purple}{<var>M_REDUCED_NUM</var>}</code></p>
-						</div>
-						<div>
-							<p>So the improper fraction has <code class="hint_green"><var>WHOLE</var></code> wholes in it, which is equal to <code>\color{#28AE7B}{<var>WHOLE</var>} \times \dfrac{<var>I_DENOM</var>}{<var>I_DENOM</var>} = \color{#28AE7B}{<var>fraction( I_DENOM * WHOLE, I_DENOM, false, false )</var>}</code>.</p>
-							<div class="graphie">
-								init({ range: [ [0, 1], [0, WHOLE] ], scale: [250, 25] });
+            <div class="problems">
+                <div id="improper-to-mixed">
+                    <p class="question">Convert <code><var>fraction( I_NUM, I_DENOM, false, true )</var></code> to a mixed number.</p>
 
-								for ( var y = 0; y < WHOLE; y++ ) {
-									rectchart( [M_REDUCED_DENOM, 0], ["#28AE7B", "#999"], y );
-								}
-							</div>
-							<p>This quotient <code class="hint_green"><var>WHOLE</var></code> is the whole number part of the mixed number.</p>
-						</div>
-						<div>
-							<p>We also have a remainder of <code class="hint_purple"><var>M_REDUCED_NUM</var></code>, though. That represents the <code>\dfrac{\color{purple}{<var>M_REDUCED_NUM</var>}}{<var>I_DENOM</var>}</code> remaining from the improper fraction; it wasn't enough to be another whole number.</p>
-							<div class="graphie">
-								init({ range: [ [0, 1], [0, 1] ], scale: [250, 25] });
+                    <p class="solution" data-type="mixed"><var>I_NUM / I_DENOM</var></p>
 
-								rectchart( [M_REDUCED_NUM, M_REDUCED_DENOM - M_REDUCED_NUM], ["purple", "#999"] );
-							</div>
-						</div>
-						<div>
-							<p>The converted mixed fraction is <code>\color{#28AE7B}{<var>WHOLE</var>}\ \color{purple}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}.</code></p>
-							<div class="graphie">
-								init({ range: [ [0, 1], [0, WHOLE + 1] ], scale: [250, 25] });
+                    <div class="hints">
+                        <div>
+                            <p>First, divide the numerator by the denominator.</p>
+                            <p><code><var>I_NUM</var> \div <var>I_DENOM</var> = \color{#28AE7B}{<var>WHOLE</var>}\ \text{ R } \color{purple}{<var>M_REDUCED_NUM</var>}</code></p>
+                        </div>
+                        <div>
+                            <p>So the improper fraction has <code class="hint_green"><var>WHOLE</var></code> wholes in it, which is equal to <code>\color{#28AE7B}{<var>WHOLE</var>} \times \dfrac{<var>I_DENOM</var>}{<var>I_DENOM</var>} = \color{#28AE7B}{<var>fraction( I_DENOM * WHOLE, I_DENOM, false, false )</var>}</code>.</p>
+                            <div class="graphie">
+                                init({ range: [ [0, 1], [0, WHOLE] ], scale: [250, 25] });
 
-								for ( var y = 1; y <= WHOLE; y++ ) {
-									rectchart( [M_REDUCED_DENOM, 0], ["#28AE7B", "#999"], y );
-								}
+                                for ( var y = 0; y &lt; WHOLE; y++ ) {
+                                    rectchart( [M_REDUCED_DENOM, 0], ["#28AE7B", "#999"], y );
+                                }
+                            </div>
+                            <p>This quotient <code class="hint_green"><var>WHOLE</var></code> is the whole number part of the mixed number.</p>
+                        </div>
+                        <div>
+                            <p>We also have a remainder of <code class="hint_purple"><var>M_REDUCED_NUM</var></code>, though. That represents the <code>\dfrac{\color{purple}{<var>M_REDUCED_NUM</var>}}{<var>I_DENOM</var>}</code> remaining from the improper fraction; it wasn't enough to be another whole number.</p>
+                            <div class="graphie">
+                                init({ range: [ [0, 1], [0, 1] ], scale: [250, 25] });
 
-								rectchart( [M_REDUCED_NUM, M_REDUCED_DENOM - M_REDUCED_NUM], ["purple", "#999"] );
-							</div>
-						</div>
-						<p>Note that if we add up the two pieces of our mixed fraction, <code>\color{#28AE7B}{<var>fraction( I_DENOM * WHOLE, I_DENOM, false, false )</var>} + \color{purple}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>, we get the original improper fraction <code><var>fraction( I_NUM, I_DENOM, false, true )</var></code>.</p>
-					</div>
-				</div>
-				
-				<div id="mixed-to-improper">
-					<p class="question">Convert <code><var>WHOLE</var>\ <var>fraction( M_NUM, M_DENOM, false, true )</var></code> to an improper fraction.</p>
+                                rectchart( [M_REDUCED_NUM, M_REDUCED_DENOM - M_REDUCED_NUM], ["purple", "#999"] );
+                            </div>
+                        </div>
+                        <div>
+                            <p>The converted mixed fraction is <code>\color{#28AE7B}{<var>WHOLE</var>}\ \color{purple}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}.</code></p>
+                            <div class="graphie">
+                                init({ range: [ [0, 1], [0, WHOLE + 1] ], scale: [250, 25] });
 
-					<p class="solution" data-type="improper"><var>I_NUM / I_DENOM</var></p>
+                                for ( var y = 1; y &lt;= WHOLE; y++ ) {
+                                    rectchart( [M_REDUCED_DENOM, 0], ["#28AE7B", "#999"], y );
+                                }
 
-					<div class="hints">
-						<p><code>\color{#FFA500}{<var>WHOLE</var>}\ \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code></p>
-						<p>This mixed number is equivalent to <code>\color{#FFA500}{<var>WHOLE</var>} + \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>.</p>
-						<div>
-							<p>First, convert the <span class="hint_orange">whole part</span> of the mixed number to a fraction with the same denominator <code><var>M_REDUCED_DENOM</var></code> as the <span class="hint_blue">fractional part</span>.</p>
-							<p><code>\color{#FFA500}{<var>WHOLE</var>} \times \dfrac{<var>M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>} = \color{#FFA500}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}}</code></p>
-							<div class="graphie">
-								init({ range: [ [0, 1], [0, WHOLE] ], scale: [250, 25] });
+                                rectchart( [M_REDUCED_NUM, M_REDUCED_DENOM - M_REDUCED_NUM], ["purple", "#999"] );
+                            </div>
+                        </div>
+                        <p>Note that if we add up the two pieces of our mixed fraction, <code>\color{#28AE7B}{<var>fraction( I_DENOM * WHOLE, I_DENOM, false, false )</var>} + \color{purple}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>, we get the original improper fraction <code><var>fraction( I_NUM, I_DENOM, false, true )</var></code>.</p>
+                    </div>
+                </div>
 
-								for ( var y = 0; y < WHOLE; y++ ) {
-									rectchart( [M_REDUCED_DENOM, 0], ["#FFA500", "#999"], y );
-								}
-							</div>
-						</div>
-						<div>
-							<p>So now we have our number in the form <code>\color{#FFA500}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}} + \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>.</p>
-							<div class="graphie">
-								init({ range: [ [0, 1], [0, WHOLE + 1] ], scale: [250, 25] });
+                <div id="mixed-to-improper">
+                    <p class="question">Convert <code><var>WHOLE</var>\ <var>fraction( M_NUM, M_DENOM, false, true )</var></code> to an improper fraction.</p>
 
-								for ( var y = 1; y <= WHOLE; y++ ) {
-									rectchart( [M_REDUCED_DENOM, 0], ["#FFA500", "#999"], y );
-								}
+                    <p class="solution" data-type="improper"><var>I_NUM / I_DENOM</var></p>
 
-								rectchart( [M_REDUCED_NUM, M_REDUCED_DENOM - M_REDUCED_NUM], ["#6495ED", "#999"] );
-							</div>
-							<p>Now, just add the two fractions and simplify!</p>
-						</div>
-						<p><code>\color{#FFA500}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}} + \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>} = <var>fraction( I_NUM, I_DENOM, true, true )</var></code></p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</body>
+                    <div class="hints">
+                        <p><code>\color{#FFA500}{<var>WHOLE</var>}\ \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code></p>
+                        <p>This mixed number is equivalent to <code>\color{#FFA500}{<var>WHOLE</var>} + \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>.</p>
+                        <div>
+                            <p>First, convert the <span class="hint_orange">whole part</span> of the mixed number to a fraction with the same denominator <code><var>M_REDUCED_DENOM</var></code> as the <span class="hint_blue">fractional part</span>.</p>
+                            <p><code>\color{#FFA500}{<var>WHOLE</var>} \times \dfrac{<var>M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>} = \color{#FFA500}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}}</code></p>
+                            <div class="graphie">
+                                init({ range: [ [0, 1], [0, WHOLE] ], scale: [250, 25] });
+
+                                for ( var y = 0; y &lt; WHOLE; y++ ) {
+                                    rectchart( [M_REDUCED_DENOM, 0], ["#FFA500", "#999"], y );
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <p>So now we have our number in the form <code>\color{#FFA500}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}} + \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>}</code>.</p>
+                            <div class="graphie">
+                                init({ range: [ [0, 1], [0, WHOLE + 1] ], scale: [250, 25] });
+
+                                for ( var y = 1; y &lt;= WHOLE; y++ ) {
+                                    rectchart( [M_REDUCED_DENOM, 0], ["#FFA500", "#999"], y );
+                                }
+
+                                rectchart( [M_REDUCED_NUM, M_REDUCED_DENOM - M_REDUCED_NUM], ["#6495ED", "#999"] );
+                            </div>
+                            <p>Now, just add the two fractions and simplify!</p>
+                        </div>
+                        <p><code>\color{#FFA500}{\dfrac{<var>WHOLE * M_REDUCED_DENOM</var>}{<var>M_REDUCED_DENOM</var>}} + \color{#6495ED}{<var>fraction( M_NUM, M_DENOM, false, true )</var>} = <var>fraction( I_NUM, I_DENOM, true, true )</var></code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
