@@ -892,7 +892,7 @@ def get_is_plural_num(match):
             # that holds the string.
             holds_num = prompt_user(
                 'Ambiguous: Does %s handle a number? (y/[n]) ' % plural_str,
-                default='y')
+                default='n')
 
             # If the user provides no input then we default to considering
             # the argument to be a string.
