@@ -753,7 +753,9 @@
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
                             <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
-                                <var>plural( N + 1, "set" )</var> with <var>plural( A / ( N + 1 ), deskItem(1) )</var><br>
+                                <!-- TODO(jeresig): I18N Find a better way to handle this. -->
+                                <span><var>plural( N + 1, "set" )</var> with:</span>
+                                <span><var>plural( A / ( N + 1 ), deskItem(1) )</var>.</span><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
                                 <br>
@@ -763,7 +765,9 @@
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
                             <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
-                                <var>plural( N + 1, "set" )</var> with <var>plural( B / ( N + 1 ), deskItem(2) )</var><br>
+                                <!-- TODO(jeresig): I18N Find a better way to handle this. -->
+                                <span><var>plural( N + 1, "set" )</var> with:</span>
+                                <span><var>plural( B / ( N + 1 ), deskItem(2) )</var>.</span><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
                                 <br>
