@@ -3,6 +3,12 @@
     <head>
         <title>Average Rate of Change of a Function</title>
             <script src="../khan-exercise.js"></script>
+            <style type="text/css">
+                #myTable > tr > td{
+                    text-align: center;
+                    padding: 5px;
+                }
+            </style>
     </head>
     <body>
         <div class="exercise">
@@ -124,8 +130,13 @@
                         </p>
                         <p>
                             <code class="hint_green">f(<var>T2</var>) = <var>FNX(T2)</var></code> and
-                            <code class="hint_blue">f(<var>T1</var>) = <var>FNX(T1)</var></code>, so <br />
-                            <code>\dfrac{\Delta f}{\Delta x} = \dfrac{\green{f(<var>T2</var>)} - \blue{f(<var>T1</var>)}}{\green{<var>T2</var>} - \blue{<var>T1</var>}} = <var>(FNX(T2) - FNX(T1) ) / ( T2-T1 )</var> </code>.
+                            <code class="hint_blue">f(<var>T1</var>) = <var>FNX(T1)</var></code>
+                        </p>
+                        <p>
+                            <code>\dfrac{\green{f(<var>T2</var>)} - \blue{f(<var>T1</var>)}}{\green{<var>T2</var>} - \blue{<var>T1</var>}}</code>
+                        </p>
+                        <p>
+                            <code> = <var>(FNX(T2) - FNX(T1) ) / ( T2-T1 )</var></code>
                         </p>
                     </div>
                 </div>
@@ -153,11 +164,15 @@
                             The average rate of change of a function over an interval <code>[a,b]</code> is given by 
                             <code>\dfrac{\Delta f}{\Delta x} = \dfrac{f(b) - f(a)}{b-a}</code>.
                         </p>
-
                         <p>
                             <code>f(<var>T2</var>) = <var>FNX(T2)</var></code> and
-                            <code>f(<var>T1</var>) = <var>FNX(T1)</var></code>, so <br />
-                            <code>\dfrac{\Delta f}{\Delta x} = \dfrac{f(<var>T2</var>) - f(<var>T1</var>)}{<var>T2</var> - <var>T1</var>} = <var>(FNX(T2) - FNX(T1) ) / ( T2-T1 )</var> </code>.
+                            <code>f(<var>T1</var>) = <var>FNX(T1)</var></code>
+                        </p>
+                        <p>
+                            <code>\dfrac{f(<var>T2</var>) - f(<var>T1</var>)}{<var>T2</var> - <var>T1</var>} = \dfrac{<var>FNX(T2)</var>- <var>FNX(T1)</var>}{<var>T2</var> - <var>T1</var>}</code>
+                        </p>
+                        <p>
+                            <code> = <var>( FNX(T2) - FNX(T1) ) / ( T2-T1 )</var></code>
                         </p>
                     </div>
                 </div>
@@ -173,7 +188,7 @@
                         <var id="FNPOINTS">$.map(POINTS, FNX)</var>
                         <var id="TABLE">
                             function(){
-                                var theTable = document.getElementById('table');
+                                var theTable = document.getElementById('myTable');
 
                                 for (var i = 0, tr, tdL,tdR; i < 21; i++) {
                                 tr = document.createElement('tr');
@@ -195,7 +210,7 @@
                         <code>x = <var>T1</var></code> to <code>x = <var>T2</var></code>, of the function given by
                         the table below. <var>TABLE()</var></p>
                     <p class="question">
-                        <table id="table">
+                        <table id="myTable">
                             <tr>
                             <th><code>x</code></th>
                             <th><code>f(x)</code></th>
@@ -210,11 +225,15 @@
                             The average rate of change of a function over an interval <code>[a,b]</code> is given by 
                             <code>\dfrac{\Delta f}{\Delta x} = \dfrac{f(b) - f(a)}{b-a}</code>.
                         </p>
-
                         <p>
                             <code>f(<var>T2</var>) = <var>FNX(T2)</var></code> and
-                            <code>f(<var>T1</var>) = <var>FNX(T1)</var></code>, so <br />
-                            <code>\dfrac{\Delta f}{\Delta x} = \dfrac{f(<var>T2</var>) - f(<var>T1</var>)}{<var>T2</var> - <var>T1</var>} = <var>(FNX(T2) - FNX(T1) ) / ( T2-T1 )</var> </code>.
+                            <code>f(<var>T1</var>) = <var>FNX(T1)</var></code>
+                        </p>
+                        <p>
+                            <code>\dfrac{f(<var>T2</var>) - f(<var>T1</var>)}{<var>T2</var> - <var>T1</var>} = \dfrac{<var>FNX(T2)</var>- <var>FNX(T1)</var>}{<var>T2</var> - <var>T1</var>}</code>
+                        </p>
+                        <p>
+                            <code> = <var>( FNX(T2) - FNX(T1) ) / ( T2-T1 )</var></code>
                         </p>
                     </div>
                 </div>
