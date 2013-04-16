@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems spin graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format word-problems spin graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Age word problems</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -17,9 +17,9 @@
 
             <div class="question">
                 <p class="spin">
-                {<span class = "first"><var>person(1)</var> is <var>A</var> years older than <var>person(2)</var></span>|<span class="first"><var>person(2)</var> is <var>A</var> years younger than <var>person(1)</var></span>}.
+                {<span class="first"><var>person(1)</var> is <var>A</var> years older than <var>person(2)</var></span>|<span class="first"><var>person(2)</var> is <var>A</var> years younger than <var>person(1)</var></span>}.
                 {For the last {four|3|two} years, <var>person(1)</var> and <var>person(2)</var> have been going to the same school.|<var>person(1)</var> and <var>person(2)</var> first met 3 years ago.|}
-                <span class = "second"><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <var>C</var> times {as old as|older than} <var>person(2)</var>.</span></p>
+                <span class="second"><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <var>C</var> times {as old as|older than} <var>person(2)</var>.</span></p>
 
                 <p>How old is <var>person(1)</var> now?</p>
             </div>
@@ -52,7 +52,7 @@
                 <div>
                     <p>Solving our first equation for <code><var>personVar(2)</var></code>, we get: <code class="hint_blue"><var>personVar(2)</var> = <var>personVar(1)</var> - <var>A</var></code>. Substituting this into our second equation, we get the equation:</p>
                     <div>
-                        <p><code class="hint_red"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(</code><code class="hint_blue">(<var>personVar(1)</var> - <var>A</var>)</code></span> <code class="hint_red"> -</code> <code class="hint_red"> <var>B</var>)</code></p>
+                        <p><code class="hint_red"><var>personVar(1)</var> - <var>B</var> = <var>C</var>(</code><code class="hint_blue">(<var>personVar(1)</var> - <var>A</var>)</code> <code class="hint_red"> -</code> <code class="hint_red"> <var>B</var>)</code></p>
                     </div>
                     <p>which combines the information about <code><var>personVar(1)</var></code> from both of our original equations.</p>
                 </div>
@@ -62,11 +62,11 @@
             </div>
         </div>
 
-        <div id="solve-younger-1" data-type="solve-older-1">
+        <div data-type="solve-older-1" id="solve-younger-1">
             <div class="question">
                 <p><span class="first"><var>person(1)</var> is <var>A</var> years older than
                 <var>person(2)</var>.</span> <span class="second"><var>Cardinal(B)</var> years ago, <var>person(1)</var>
-                was <var>C</var> times as old as <var>person(2)</var>.<span></p>
+                was <var>C</var> times as old as <var>person(2)</var>.<span></span></span></p>
 
                 <p>How old is <var>person(2)</var> now?</p>
             </div>
@@ -154,7 +154,7 @@
             </div>
         </div>
 
-        <div id="solve-younger-2" data-type="solve-older-2">
+        <div data-type="solve-older-2" id="solve-younger-2">
             <div class="question">
                 <p><span class="first"><var>person(1)</var> is <var>C</var> times as old as
                 <var>person(2)</var></span> and <span class="second">is also <var>A</var>
@@ -194,7 +194,7 @@
         </div>
 
         <div id="solve-older-3">
-            <div class="vars" data-ensure="C - A !== A && A * B * (C - 1) < 100 * (C - A)">
+            <div data-ensure="C - A !== A &amp;&amp; A * B * (C - 1) &lt; 100 * (C - A)" class="vars">
                 <var id="A">randRange(2, 5)</var>
                 <var id="C">randRange(A + 2, 9)</var>
                 <var id="B">randRange(2, 7) * (C - A)</var>
@@ -244,7 +244,7 @@
             </div>
         </div>
 
-        <div id="solve-younger-3" data-type="solve-older-3">
+        <div data-type="solve-older-3" id="solve-younger-3">
             <div class="question">
                 <p><span class="first"><var>person(1)</var> is <var>A</var> times as old as <var>person(2)</var>.</span> <span class="second"><var>Cardinal(B)</var> years ago, <var>person(1)</var> was <var>C</var> times as old as <var>person(2)</var>.</span></p>
 
@@ -285,12 +285,12 @@
                 </div>
                 <p>Simplifying the right side of this equation, we get: <code><var>A</var> <var>personVar(2)</var> - <var>B</var> = <var>C</var> <var>personVar(2)</var> - <var>B * C</var></code>.</p>
                 <p>Solving for <code><var>personVar(2)</var></code>, we get: <code><var>C - A</var> <var>personVar(2)</var> = <var>B * (C - 1)</var>.</code>
-				<p><code><var>personVar(2)</var> = <var>B * (C - 1) / (C - A)</var></code>.</p>
+				</p><p><code><var>personVar(2)</var> = <var>B * (C - 1) / (C - A)</var></code>.</p>
             </div>
         </div>
 
-        <div id="solve-single-4" data-weight="2">
-            <div class="vars" data-ensure="B <= 60">
+        <div data-weight="2" id="solve-single-4">
+            <div data-ensure="B &lt;= 60" class="vars">
                 <var id="A">randRange(3, 20)</var>
                 <var id="B">randRange(7, 24) * (A - 1)</var>
             </div>
@@ -318,8 +318,8 @@
             </div>
         </div>
 
-        <div id="solve-single-5" data-weight="2">
-            <div class="vars" data-ensure="A <= 80 && B >= 2 && (A - B * C) > (C - 1)">
+        <div data-weight="2" id="solve-single-5">
+            <div data-ensure="A &lt;= 80 &amp;&amp; B &gt;= 2 &amp;&amp; (A - B * C) &gt; (C - 1)" class="vars">
                 <var id="C">randRange(3, 5)</var>
                 <var id="B">randRange(1, 10) * (C - 1)</var>
                 <var id="A">randRange(C * B + 1, 15) * (C - 1)</var>
@@ -350,6 +350,7 @@
         </div>
     </div>
     </div>
-</body>
-</html>
 
+
+
+</body></html>

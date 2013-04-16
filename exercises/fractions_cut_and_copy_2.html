@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers word-problems slice-clone">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers word-problems slice-clone"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Fractions cut and copy 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="vars">
-            <div data-ensure="SLICES < 20 && isInt( SLICES )">
+            <div data-ensure="SLICES &lt; 20 &amp;&amp; isInt( SLICES )">
                 <var id="D_PARENT">randRangeWeighted(3, 8, 1, 1 / 6)</var>
-                <var id="N_PARENT" data-ensure="getGCD( D_PARENT, N_PARENT ) === 1">D_PARENT === 1 ? randRange(1, 2) : randRange(D_PARENT + 1,  2 * D_PARENT - 1)</var>
+                <var data-ensure="getGCD( D_PARENT, N_PARENT ) === 1" id="N_PARENT">D_PARENT === 1 ? randRange(1, 2) : randRange(D_PARENT + 1,  2 * D_PARENT - 1)</var>
                 <var id="PARENT">N_PARENT / D_PARENT</var>
                 <var id="D_OFFSPRING_1">randRange(3, 8)</var>
-                <var id="D_OFFSPRING_2" data-ensure="D_OFFSPRING_1 !== D_OFFSPRING_2">randRange(3, 8)</var>
-                <var id="N_OFFSPRING_1" data-ensure="getGCD( D_OFFSPRING_1, N_OFFSPRING_1 ) === 1 && PARENT > N_OFFSPRING_1 / D_OFFSPRING_1">randRangeExclude(2, 2 * D_OFFSPRING_1 - 1, [D_OFFSPRING_1])</var>
-                <var id="N_OFFSPRING_2" data-ensure="getGCD( D_OFFSPRING_2, N_OFFSPRING_2 ) === 1 && PARENT > N_OFFSPRING_2 / D_OFFSPRING_2">randRangeExclude(2, 2 * D_OFFSPRING_2 - 1, [ D_OFFSPRING_2])</var>
+                <var data-ensure="D_OFFSPRING_1 !== D_OFFSPRING_2" id="D_OFFSPRING_2">randRange(3, 8)</var>
+                <var data-ensure="getGCD( D_OFFSPRING_1, N_OFFSPRING_1 ) === 1 &amp;&amp; PARENT &gt; N_OFFSPRING_1 / D_OFFSPRING_1" id="N_OFFSPRING_1">randRangeExclude(2, 2 * D_OFFSPRING_1 - 1, [D_OFFSPRING_1])</var>
+                <var data-ensure="getGCD( D_OFFSPRING_2, N_OFFSPRING_2 ) === 1 &amp;&amp; PARENT &gt; N_OFFSPRING_2 / D_OFFSPRING_2" id="N_OFFSPRING_2">randRangeExclude(2, 2 * D_OFFSPRING_2 - 1, [ D_OFFSPRING_2])</var>
                 <var id="SLICES">N_PARENT * getLCM(D_OFFSPRING_1, D_OFFSPRING_2) / D_PARENT</var>
             </div>
             <var id="CODE_PARENT">D_PARENT === 1 ? N_PARENT : mixedOrImproper(N_PARENT, D_PARENT)</var>
@@ -34,7 +34,7 @@
 
                 <p>Starting Block:</p>
 
-                <div class="graphie" id="parent_block">
+                <div id="parent_block" class="graphie">
                     initSliceClone(["current_block_1", "current_block_2"]);
                     init({range: [[0, 1], [0, 1]], scale: [ 500, 25]});
                     rectchart([1, 0], ["#e00", "#999"]);
@@ -42,53 +42,53 @@
 
                 <p>Current Block 1:</p>
 
-                <div class="graphie" id="current_block_1">
+                <div id="current_block_1" class="graphie">
                     init({range: [[0, 1], [0, 1]], scale: [500, 25]});
                     rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Goal Block 1:</p>
 
-                <div class="graphie" id="goal_block_2">
+                <div id="goal_block_2" class="graphie">
                     init({range: [[0, 1], [0, 1]], scale: [500 * ANSWER_1, 25]});
                     rectchart([1, 0], [BLUE, "#999"]);
                 </div>
 
                 <p>Current Block 2:</p>
 
-                <div class="graphie" id="current_block_2">
+                <div id="current_block_2" class="graphie">
                     init({range: [[0, 1], [0, 1]], scale: [500, 25]});
                     rectchart([1, 0], ["#e00", "#999"]);
                 </div>
 
                 <p>Goal Block 2:</p>
 
-                <div class="graphie" id="goal_block_2">
+                <div id="goal_block_2" class="graphie">
                     init({range: [[0, 1], [0, 1]], scale: [500 * ANSWER_2, 25]});
                     rectchart([1, 0], [ORANGE, "#999"]);
                 </div>
 
-                <div class="solution" data-type="custom">
+                <div data-type="custom" class="solution">
                     <div class="instruction">
                         <div style="margin-bottom: 10px;">
                             <span>Cut Starting Block into</span><br>
-                            <input type="button" value="-" class="simple-button" onclick="KhanUtil.changePieces(false)">
-                            <span id="pieces" style="display: inline-block; width: 54px; text-align: center;">1 piece</span>
-                            <input type="button" value="+" class="simple-button" onclick="KhanUtil.changePieces(true)">
+                            <input type="button" class="simple-button" value="-" onclick="KhanUtil.changePieces(false)">
+                            <span style="display: inline-block; width: 54px; text-align: center;" id="pieces">1 piece</span>
+                            <input type="button" class="simple-button" value="+" onclick="KhanUtil.changePieces(true)">
                         </div>
 
                         <div style="margin-bottom: 10px;">
                             <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 1</span><br>
-                            <input type="button" value="-" class="simple-button" onclick="KhanUtil.changeTimes(false, 'current_block_1')" disabled="disabled">
-                            <span id="current_block_1_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
-                            <input type="button" value="+" class="simple-button" onclick="KhanUtil.changeTimes(true, 'current_block_1')">
+                            <input disabled type="button" class="simple-button" value="-" onclick="KhanUtil.changeTimes(false, 'current_block_1')">
+                            <span style="display: inline-block; width: 54px; text-align: center;" id="current_block_1_times">1 time</span>
+                            <input type="button" class="simple-button" value="+" onclick="KhanUtil.changeTimes(true, 'current_block_1')">
                         </div>
 
                         <div style="margin-bottom: 10px;">
                             <span style="display:inline-block; text-align: right; width: 120px;">Copy Current Block 2</span><br>
-                            <input type="button" value="-" class="simple-button" onclick="KhanUtil.changeTimes(false, 'current_block_2')" disabled="disabled">
-                            <span id="current_block_2_times" style="display: inline-block; width: 54px; text-align: center;">1 time</span>
-                            <input type="button" value="+" class="simple-button" onclick="KhanUtil.changeTimes(true, 'current_block_2')">
+                            <input disabled type="button" class="simple-button" value="-" onclick="KhanUtil.changeTimes(false, 'current_block_2')">
+                            <span style="display: inline-block; width: 54px; text-align: center;" id="current_block_2_times">1 time</span>
+                            <input type="button" class="simple-button" value="+" onclick="KhanUtil.changeTimes(true, 'current_block_2')">
                         </div>
                     </div>
 
@@ -126,19 +126,20 @@
                     <p>The least common denominator of <code><var>D_OFFSPRING_1</var></code> and <code><var>D_OFFSPRING_2</var></code> (the denominators of the goal blocks) is
                     <code><var>LCM</var></code>. Therefore you can copy a block <code>\dfrac{1}{<var>LCM</var>}</code> units long to make both goal blocks.</p>
                     <p>To find the number of slices to cut the starting block into we solve for <code>s</code> in the following equation:</p>
-                    <p><code><var>CODE_PARENT</var> ÷ s = \dfrac{1}{<var>LCM</var>}</code></p>
+                    <p><code><var>CODE_PARENT</var> &#247; s = \dfrac{1}{<var>LCM</var>}</code></p>
                     <p><code><var>CODE_PARENT</var> = \dfrac{1}{<var>LCM</var>}s</code></p>
                     <p><code><var>CODE_PARENT</var> \cdot <var>LCM</var> = s</code></p>
                     <p><code>s = <var>SLICES</var></code></p>
                     <p>We now have a resulting block that is <code>\dfrac{1}{<var>LCM</var>}</code> units long. Now we simply divide our goal blocks by this value to see how many times we need to copy the resulting block.</p>
-                    <p><code>\color{<var>BLUE</var>}{c1 = \dfrac{<var>N_OFFSPRING_1</var>}{<var>D_OFFSPRING_1</var>} ÷ \dfrac{1}{<var>LCM</var>} =
+                    <p><code>\color{<var>BLUE</var>}{c1 = \dfrac{<var>N_OFFSPRING_1</var>}{<var>D_OFFSPRING_1</var>} &#247; \dfrac{1}{<var>LCM</var>} =
                         \dfrac{<var>N_OFFSPRING_1</var>}{<var>D_OFFSPRING_1</var>} \cdot <var>LCM</var> = <var>N_OFFSPRING_1 * LCM / D_OFFSPRING_1</var>}</code></p>
-                    <p><code>\color{<var>ORANGE</var>}{c2 = \dfrac{<var>N_OFFSPRING_2</var>}{<var>D_OFFSPRING_2</var>} ÷ \dfrac{1}{<var>LCM</var>} =
+                    <p><code>\color{<var>ORANGE</var>}{c2 = \dfrac{<var>N_OFFSPRING_2</var>}{<var>D_OFFSPRING_2</var>} &#247; \dfrac{1}{<var>LCM</var>} =
                         \dfrac{<var>N_OFFSPRING_2</var>}{<var>D_OFFSPRING_2</var>} \cdot <var>LCM</var> = <var>N_OFFSPRING_2 * LCM / D_OFFSPRING_2</var>}</code></p>
                     <p><strong>Therefore the solution is to cut the starting block into <code><var>SLICES</var></code> pieces, copy current block 1 <code><var>N_OFFSPRING_1 * LCM / D_OFFSPRING_1</var></code> times and current block 2 <code><var>N_OFFSPRING_2 * LCM / D_OFFSPRING_2</var></code> times.</strong></p>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

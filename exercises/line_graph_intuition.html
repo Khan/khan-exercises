@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie graphie-helpers interactive word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie graphie-helpers interactive word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Line graph intuition</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
     <div class="problems">
-        <div id="graph-slope" data-weight="1">
+        <div data-weight="1" id="graph-slope">
             <div class="vars">
                 <var id="SLOPE">randFromArray([
                     "positive", "negative", "zero", "undefined"
@@ -20,7 +20,7 @@
                 Graph a line that has <var>an(SLOPE)</var> slope:
             </p>
 
-            <div class="graphie" id="grid">
+            <div id="grid" class="graphie">
                 graphInit({
                     range: 11,
                     scale: 20,
@@ -72,7 +72,7 @@
                 POINTS.pointB.toFront();
             </div>
 
-            <div class="solution" data-type="custom">
+            <div data-type="custom" class="solution">
                 <div class="instruction">
                     Drag the two points to move the line into the correct
                     position.
@@ -127,7 +127,7 @@
                     For a zero slope, the change in <code>y</code> should be
                     zero from any point to another point.
                 </p>
-                <p data-else>
+                <p data-else="">
                     For an undefined slope, the change in <code>x</code> should
                     be zero from any point to another point.
                 </p>
@@ -135,7 +135,7 @@
                     <p>
                         A line with <var>an(SLOPE)</var> slope looks like:
                     </p>
-                    <div class="graphie" style="margin-left: 30px">
+                    <div style="margin-left: 30px" class="graphie">
                         graphInit({
                             range: 6,
                             scale: 20,
@@ -172,7 +172,7 @@
             </div>
         </div>
 
-        <div id="graph-compare" data-type="graph-slope" data-weight="1">
+        <div data-weight="1" data-type="graph-slope" id="graph-compare">
             <div class="vars">
                 <var id="SLOPE_N">randRangeNonZero(-5, 5)</var>
                 <var id="SLOPE_D">randRange(1, 5)</var>
@@ -199,7 +199,7 @@
                 Graph a line that has a slope that is <em><var>GOAL</var></em>
                 and <em><var>CHANGE</var> than</em> the slope of the blue line.
             </p>
-            <div class="graphie" data-update="grid">
+            <div data-update="grid" class="graphie">
                 plot(function(x) {
                     return (SLOPE_N / SLOPE_D) * x + Y_INT;
                 }, [-11, 11], {
@@ -207,7 +207,7 @@
                 }).toBack();
             </div>
 
-            <div class="solution" data-type="custom">
+            <div data-type="custom" class="solution">
                 <div class="instruction">
                     Drag the two points to move the line into the correct
                     position.
@@ -252,8 +252,8 @@
             <div class="hints">
                 <p>
                     The slope of the original line is
-                    <span data-if="SLOPE_N > 0">positive.</span>
-                    <span data-else>negative.</span>
+                    <span data-if="SLOPE_N &gt; 0">positive.</span>
+                    <span data-else="">negative.</span>
                 </p>
                 <div data-if="GOAL === 'negative'">
                     <div data-if="CHANGE === 'greater'">
@@ -264,7 +264,7 @@
                             steep.
                         </p>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p>
                             If the slope of the new line is negative and less
                             than the slope of the original line with negative
@@ -272,7 +272,7 @@
                         </p>
                     </div>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <div data-if="CHANGE === 'greater'">
                         <p>
                             If the slope of the new line is positive and greater
@@ -280,7 +280,7 @@
                             slope, then the new line should be steeper.
                         </p>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p>
                             If the slope of the new line is positive and less
                             than the slope of the original line with positive
@@ -295,8 +295,8 @@
                         the slope of the new line could be <code>
                         <var>decimalFraction(NEW_SLOPE, true, true)</var>
                         </code> and could look like this:
-                    <p>
-                    <div class="graphie" style="margin-left: 30px">
+                    </p><p>
+                    </p><div style="margin-left: 30px" class="graphie">
                         graphInit({
                             range: 11,
                             scale: 10,
@@ -325,9 +325,9 @@
             </div>
         </div>
 
-        <div id="find-slope-and-yint" data-weight="1">
-            <div class="vars" data-ensure="!(M === 1 && B === 0) &&
-                    abs(M) < 10 && abs(B) < 10 && INCR < 6">
+        <div data-weight="1" id="find-slope-and-yint">
+            <div data-ensure="!(M === 1 &amp;&amp; B === 0) &amp;&amp;
+                    abs(M) &lt; 10 &amp;&amp; abs(B) &lt; 10 &amp;&amp; INCR &lt; 6" class="vars">
                 <var id="X1, X2">randRangeUnique(-8, 8, 2)</var>
                 <var id="Y1, Y2">randRangeUnique(-8, 8, 2)</var>
                 <var id="RISE">Y2 - Y1</var>
@@ -343,7 +343,7 @@
                 points. How do the slope and y-intercept values affect the line?
             </p>
 
-            <div class="graphie" id="grid">
+            <div id="grid" class="graphie">
                 graphInit({
                     range: 11,
                     scale: 20,
@@ -400,7 +400,7 @@
                 };
             </div>
 
-            <div class="solution" data-type="custom">
+            <div data-type="custom" class="solution">
                 <div class="instruction">
                     <div style="clear: left;">
                         Adjust this equation by clicking on the arrows:
@@ -483,5 +483,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

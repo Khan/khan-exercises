@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math polynomials expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math polynomials expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Evaluating composite functions</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="INNER.name !== OUTER.name && INNER.minDegree <= INNER.maxDegree && OUTER.minDegree <= OUTER.maxDegree && abs( INNER_VALUE ) < 200 && abs( OUTER_VALUE ) < 500">
+        <div data-ensure="INNER.name !== OUTER.name &amp;&amp; INNER.minDegree &lt;= INNER.maxDegree &amp;&amp; OUTER.minDegree &lt;= OUTER.maxDegree &amp;&amp; abs( INNER_VALUE ) &lt; 200 &amp;&amp; abs( OUTER_VALUE ) &lt; 500" class="vars">
             <var id="FUNC_NAMES">shuffle(["f", "g", "h"])</var>
             <var id="FUNC_VARIABLES">["x", "n", "t"]</var>
 
@@ -43,7 +43,7 @@
             </div>
 
             <div>
-                <div class="vars" data-ensure="OUTER2.name !== INNER.name && OUTER2.name !== OUTER.name && OUTER2.minDegree <= OUTER2.maxDegree">
+                <div data-ensure="OUTER2.name !== INNER.name &amp;&amp; OUTER2.name !== OUTER.name &amp;&amp; OUTER2.minDegree &lt;= OUTER2.maxDegree" class="vars">
                     <var id="OUTER2">new CompositePolynomial( randRange(0, 2), randRange(1, 3), null, randFromArray(FUNC_VARIABLES), FUNC_NAMES[2], randFromArray([INNER, OUTER]) )</var>
 
                     <var id="FUNCTIONS">shuffle([INNER, OUTER, OUTER2])</var>
@@ -83,5 +83,6 @@
             <div data-each="SOLVE_FOR[0].hint(INNER_VALUE) as key, value"><var>value</var></div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

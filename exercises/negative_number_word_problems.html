@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers word-problems spin">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers word-problems spin"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Negative number word problems</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -18,8 +18,8 @@
                 <p class="problem spin">{This afternoon, an outdoor temperature had a reading of|On a cold February afternoon, the temperature outside was} <var>abs( X )</var> degrees below zero. {By evening, the temperature had dropped by|In the evening, you take a quick look at the thermometer, and see that the temperature had dropped by} <var>Y</var> degrees.</p>
                 <p class="question">What was the temperature in the evening?</p>
 
-                <div class="solution" data-type="multiple">
-                    <p><span class="sol" data-forms="integer"><var>Z</var></span> degrees</p>
+                <div data-type="multiple" class="solution">
+                    <p><span data-forms="integer" class="sol"><var>Z</var></span> degrees</p>
                 </div>
 
                 <div class="hints">
@@ -42,8 +42,8 @@
                 <p class="problem spin">{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for <var>his( 1 )</var> daily sledding practice}, <var>he( 1 )</var> {looked at the thermometer and saw|heard on the radio} that the temperature was <var>abs( X )</var> degrees below zero. {After sledding for <var>plural( randRange( 1, 8 ), "hour" )</var>,|After a long day of sledding <var>he( 1 )</var> saw that} the temperature was now <var>Z</var> degrees.</p>
                 <p class="question">By how many degrees had the temperature increased?</p>
 
-                <div class="solution" data-type="multiple">
-                    <p><span class="sol" data-forms="integer"><var>Y</var></span> degrees</p>
+                <div data-type="multiple" class="solution">
+                    <p><span data-forms="integer" class="sol"><var>Y</var></span> degrees</p>
                 </div>
 
                 <div class="hints">
@@ -65,14 +65,14 @@
                 <p class="problem spin"><var>person( 1 )</var> was scuba diving <var>X</var> meters below sea level when <var>he( 1 )</var> spotted a beautiful fish below. {From a distance, the fish looked to be about <var>randRange( 25, 35 )</var> cm wide. |}{To take a proper photograph|To see the fish up close}, <var>person( 1 )</var> dove <var>Y</var> meters until <var>he( 1 )</var> was level with the fish, staring into its eyes.</p>
                 <p class="question">Where was the fish relative to sea level?</p>
 
-                <div class="solution" data-type="multiple">
-                    <p><span class="sol" data-forms="integer"><var>Z</var></span> meters</p>
+                <div data-type="multiple" class="solution">
+                    <p><span data-forms="integer" class="sol"><var>Z</var></span> meters</p>
                 </div>
 
                 <div class="hints">
                     <p><var>person( 1 )</var> was initially <code><var>X</var></code> meters below sea level, which can be written as a negative number, <code>-<var>X</var></code> meters.</p>
-                    <p><var>person( 1 )</var> dove down <code><var>Y</var></code> meters, so we can subtract that distance from <var>person( 1 )</var>’s initial level to find out where the fish is.</p>
-                    <p>Fish’s position relative to sea level <code>=-<var>X</var>\text{ meters} - <var>Y</var>\text{ meters} = <var>Z</var>\text{ meters}</code></p>
+                    <p><var>person( 1 )</var> dove down <code><var>Y</var></code> meters, so we can subtract that distance from <var>person( 1 )</var>&#8217;s initial level to find out where the fish is.</p>
+                    <p>Fish&#8217;s position relative to sea level <code>=-<var>X</var>\text{ meters} - <var>Y</var>\text{ meters} = <var>Z</var>\text{ meters}</code></p>
                 </div>
             </div>
 
@@ -86,8 +86,8 @@
                 <p class="problem spin">A spinner dolphin jumped from <var>X</var> meters below sea level and flipped through the air at <var>Y</var> meters above sea level. {The jump itself took about 1.<var>randRange( 1, 9 )</var> seconds.|}</p>
                 <p class="question">How many meters did the dolphin travel to reach the highest point of the jump?</p>
 
-                <div class="solution" data-type="multiple">
-                    <p><span class="sol" data-forms="integer"><var>Z</var></span> meters</p>
+                <div data-type="multiple" class="solution">
+                    <p><span data-forms="integer" class="sol"><var>Z</var></span> meters</p>
                 </div>
 
                 <div class="hints">
@@ -98,7 +98,7 @@
             </div>
 
             <div id="baseball_camp_result">
-                <div class="vars" data-ensure="N * COST < X">
+                <div data-ensure="N * COST &lt; X" class="vars">
                     <var id="X">randRange( 10000, 50000 )</var><!-- Loan amount -->
                     <var id="N">randRange( 10, 50 )</var><!-- # of campers -->
                     <var id="COST">randRange( 100, 500 )</var><!-- Cost per camper -->
@@ -106,10 +106,10 @@
                     <var id="Z">X - Y</var><!-- Money owed -->
                 </div>
 
-                <p class="problem spin"><var>person( 1 )</var> received a loan of $<var>commafy( X )</var> from the bank to start a baseball camp. <var>person( 1 )</var> used the loan to rent baseball bats, mitts, and baseballs for the summer, and to pay the coaches’ salaries. Over the course of the summer, <var>N</var> campers attended <var>person( 1 )</var>’s baseball camp, and each camper paid a fee of $<var>COST</var> to attend. <var>person( 1 )</var> used all of the money from the campers’ fees to start paying back the loan.</p>
+                <p class="problem spin"><var>person( 1 )</var> received a loan of $<var>commafy( X )</var> from the bank to start a baseball camp. <var>person( 1 )</var> used the loan to rent baseball bats, mitts, and baseballs for the summer, and to pay the coaches&#8217; salaries. Over the course of the summer, <var>N</var> campers attended <var>person( 1 )</var>&#8217;s baseball camp, and each camper paid a fee of $<var>COST</var> to attend. <var>person( 1 )</var> used all of the money from the campers&#8217; fees to start paying back the loan.</p>
                 <p class="question">At the end of the summer what was <var>person( 1 )</var>'s net worth, assuming <var>he( 1 )</var> had no other assets or liabilities?</p>
 
-                <div class="solution" data-forms="dollar"><var>-1 * Z</var></div>
+                <div data-forms="dollar" class="solution"><var>-1 * Z</var></div>
 
                 <div class="hints">
                     <p><var>person( 1 )</var> started out the summer with <code>$<var>commafy( X )</var></code> of debt, which can be represented as a negative number, <code>-$<var>commafy( X )</var></code>.</p>
@@ -120,5 +120,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

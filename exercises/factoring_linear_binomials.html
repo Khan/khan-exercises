@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format word-problems expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Factoring linear binomials</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -40,16 +40,16 @@
                 <p class="problem">
                     <code><var>expr(["+", ["*", A, "x"], B])</var></code>
                 </p>
-                <div class="solution" data-type="set">
-                    <div data-if="IS_IRREDUCIBLE" data-unwrap>
-                        <div class="set-sol" data-type="regex">^\s*<var>TERM2</var>\s*<var>TERM3</var>\s*$</div>
-                        <div class="set-sol" data-type="regex">^\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*$</div>
-                        <div class="set-sol" data-type="regex">^\s*\(\s*<var>TERM2</var>\s*<var>TERM3</var>\s*\)\s*$</div>
-                        <div class="set-sol" data-type="regex">^\s*\(\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*\)\s*$</div>
+                <div data-type="set" class="solution">
+                    <div data-if="IS_IRREDUCIBLE" data-unwrap="">
+                        <div data-type="regex" class="set-sol">^\s*<var>TERM2</var>\s*<var>TERM3</var>\s*$</div>
+                        <div data-type="regex" class="set-sol">^\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*$</div>
+                        <div data-type="regex" class="set-sol">^\s*\(\s*<var>TERM2</var>\s*<var>TERM3</var>\s*\)\s*$</div>
+                        <div data-type="regex" class="set-sol">^\s*\(\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*\)\s*$</div>
                     </div>
-                    <div data-else data-unwrap>
-                        <div class="set-sol" data-type="regex">^\s*<var>TERM1</var>\s*\(\s*<var>TERM2</var>\s*<var>TERM3</var>\s*\)\s*$</div>
-                        <div class="set-sol" data-type="regex">^\s*<var>TERM1N</var>\s*\(\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*\)\s*$</div>
+                    <div data-else="" data-unwrap="">
+                        <div data-type="regex" class="set-sol">^\s*<var>TERM1</var>\s*\(\s*<var>TERM2</var>\s*<var>TERM3</var>\s*\)\s*$</div>
+                        <div data-type="regex" class="set-sol">^\s*<var>TERM1N</var>\s*\(\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*\)\s*$</div>
                     </div>
                     <div class="input-format"><span class="entry"></span></div>
                     <div class="example">
@@ -101,5 +101,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

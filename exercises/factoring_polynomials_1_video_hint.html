@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Factoring polynomials 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -24,16 +24,16 @@
             <p class="problem">Factor the following expression:</p>
             <p class="question"><code><var>plus(SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
 
-            <div class="solution" data-type="set">
-                <div class="set-sol" data-type="regex">^\s*\(\s*[xX]\s*<var>A &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*\)\s*\(\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*\)\s*$</div>
-                <div class="set-sol" data-type="regex">^\s*\(\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*\)\s*\(\s*[xX]\s*<var>A &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*\)\s*$</div>
+            <div data-type="set" class="solution">
+                <div data-type="regex" class="set-sol">^\s*\(\s*[xX]\s*<var>A &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*\)\s*\(\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*\)\s*$</div>
+                <div data-type="regex" class="set-sol">^\s*\(\s*[xX]\s*<var>B &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( B )</var>\s*\)\s*\(\s*[xX]\s*<var>A &lt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*\)\s*$</div>
                 <div class="input-format"><span class="entry"></span></div>
                 <div class="example">a factored expression, like <b>(x+1)(x+2)</b></div>
             </div>
 
             <div class="hints">
                 <div>
-                    <div data-video-hint data-youtube-id="1kfq0aR3ASs"></div>
+                    <div data-youtube-id="1kfq0aR3ASs" data-video-hint=""></div>
                 </div>
 
                 <p>
@@ -44,5 +44,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

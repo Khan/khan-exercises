@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-geometry graphie-polygon word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-geometry graphie-polygon word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Angles of a polygon</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -17,7 +17,7 @@
                 <var id="CLONE">{}</var>
             </div>
             <p class="question">What is the sum of this polygon's interior angles?</p>
-            <div class="graphie" id="circle">
+            <div id="circle" class="graphie">
                 init({
                     range: [ [ -5, 5 ], [ -1, 5 ] ],
                     scale: [ 40, 40 ]
@@ -26,27 +26,27 @@
                 graph.polygon.draw();
                 CLONE = graph.polygon.clone();
             </div>
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>ANSWER</var></span> degrees
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>ANSWER</var></span> degrees
             </div>
             <div class="hints">
                 <p>There are a couple ways to approach this problem.</p>
                 <p>Does it help to remember that there are 180 degrees in a triangle?</p>
                 <div>
                     <p>Since this polygon has <var>SIDES</var> sides, we can draw <var>SIDES</var> triangles that all meet in the center.</p>
-                    <div class="graphie" data-update="circle">
+                    <div data-update="circle" class="graphie">
                         graph.polygon.drawRadialDiagonals();
                     </div>
                 </div>
                 <p>We can combine all the triangles' angles, and then we must subtract 360 degrees because the circle in the middle is extra.</p>
-                <p><code>\begin{align*}&<var>SIDES</var> \times 180^{\circ} - 360^{\circ} \\
-                    &= <var>SIDES * 180</var>^{\circ} - 360^{\circ} \\
-                    &= <var>ANSWER</var>^{\circ}\end{align*}</code></p>
+                <p><code>\begin{align*}&amp;<var>SIDES</var> \times 180^{\circ} - 360^{\circ} \\
+                    &amp;= <var>SIDES * 180</var>^{\circ} - 360^{\circ} \\
+                    &amp;= <var>ANSWER</var>^{\circ}\end{align*}</code></p>
 
                 <div>
                     <p>An alternative approach is shown below.</p>
                     <p>We can use four of the <var>cardinal( SIDES )</var> sides to make 2 triangles, as shown in orange.</p>
-                    <div class="graphie" data-id="other">
+                    <div data-id="other" class="graphie">
                         init({
                              range: [ [ -5, 5 ], [ -1, 5 ] ]
                         });
@@ -63,25 +63,25 @@
         </div>
         <div id="exterior">
             <p class="question">What is the sum of this polygon's exterior angles?</p>
-            <div class="graphie" id="polygon">
+            <div id="polygon" class="graphie">
                 init({
                      range: [ [ -6, 6 ], [ -2, 7 ] ]
                 });
                 graph.polygon = new Polygon( SIDES );
                 graph.polygon.draw();
             </div>
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>360</var></span> degrees
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>360</var></span> degrees
             </div>
 
             <div class="hints">
                 <div>
                     <p>The exterior angles are shown above.</p>
-                    <div class="graphie" data-update="polygon">
+                    <div data-update="polygon" class="graphie">
                         graph.polygon.drawExteriorAngles();
                     </div>
                 </div>
-                <div class="graphie" data-update="polygon">
+                <div data-update="polygon" class="graphie">
                     graph.polygon.animateExteriorAngles( randRange( 0, SIDES - 1 ) );
                 </div>
                 <p>The exterior angles fit together to form a circle</p>
@@ -90,5 +90,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

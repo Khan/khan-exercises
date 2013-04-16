@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Dividing polynomials by binomials 3</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="B !== 0 && getGCD(A, E) === 1">
-            <var id="A" data-ensure="abs(A) !== 1">randRangeNonZero(-9, 9)</var>
+        <div data-ensure="B !== 0 &amp;&amp; getGCD(A, E) === 1" class="vars">
+            <var data-ensure="abs(A) !== 1" id="A">randRangeNonZero(-9, 9)</var>
             <var id="E">randRangeNonZero(-9, 9)</var>
             <var id="F">randRangeNonZero(-5, 5)</var>
             <var id="B">E + A * F</var>
@@ -25,9 +25,9 @@
                 <p class="problem">Simplify the following expression:</p>
                 <p class="question"><code>\dfrac{<var>A</var>x^2+<var>B</var>x+<var>C</var>}{<var>DENOMINATOR</var>}</code></p>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="regex">^\s*[xX]\s*<var>F &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( F )</var>\s*$</div>
-                    <div class="set-sol" data-type="regex">^\s*<var>F &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( F )</var>\s*\+\s*[xX]\s*$</div>
+                <div data-type="set" class="solution">
+                    <div data-type="regex" class="set-sol">^\s*[xX]\s*<var>F &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( F )</var>\s*$</div>
+                    <div data-type="regex" class="set-sol">^\s*<var>F &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( F )</var>\s*\+\s*[xX]\s*$</div>
                     <div class="input-format"><span class="entry"></span></div>
                     <div class="example">an simplified expression, like <b>2x+1</b></div>
                 </div>
@@ -42,9 +42,9 @@
                 <p class="problem">Simplify the following expression:</p>
                 <p class="question"><code>\dfrac{<var>A</var>x^2+<var>B</var>x+<var>C</var>}{<var>DENOMINATOR</var>}</code></p>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="regex">^\s*<var>A &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*[xX]\s*<var>E &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( E )</var>\s*$</div>
-                    <div class="set-sol" data-type="regex">^\s*<var>E &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( E )</var>\s*<var>A &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*[xX]\s*$</div>
+                <div data-type="set" class="solution">
+                    <div data-type="regex" class="set-sol">^\s*<var>A &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*[xX]\s*<var>E &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( E )</var>\s*$</div>
+                    <div data-type="regex" class="set-sol">^\s*<var>E &gt; 0 ? "" : "[-\u2212]"</var>\s*<var>abs( E )</var>\s*<var>A &gt; 0 ? "\\+" : "[-\u2212]"</var>\s*<var>abs( A )</var>\s*[xX]\s*$</div>
                     <div class="input-format"><span class="entry"></span></div>
                     <div class="example">an simplified expression, like <b>2x+1</b></div>
                 </div>
@@ -58,7 +58,7 @@
                 <p>
                     This expression is in the form <code>\blue{A}x^2 + \green{B}x + \pink{C}</code>.
                 </p>
-                <div class="graphie" style="outline: none;">
+                <div style="outline: none;" class="graphie">
                     $("#question-a").addClass("hint_blue");
                     $("#question-b").addClass("hint_green");
                     $("#question-c").addClass("hint_pink");
@@ -91,7 +91,7 @@
             <p>
                 In order to find <code>\purple{a}</code> and <code>\purple{b}</code>, list out the factors of
                 <code><var>A * C</var></code> and add them together.
-                <span data-if="A * C < 0">
+                <span data-if="A * C &lt; 0">
                     Remember, since <code><var>A * C</var></code> is negative, one of the factors must be
                     negative.
                 </span>
@@ -117,8 +117,8 @@
                     Next, rewrite the expression as <code>(\blue{A}x^2 + \purple{a}x) + (\purple{b}x + \pink{C})</code>:
                 </p>
                 <code>
-                    \qquad (\blue{<var>A</var>}x^2 <span data-if="E > 0">+</span>\purple{<var>E</var>}x)
-                    + (\purple{<var>A * F</var>}x <span data-if="C > 0">+</span>\pink{<var>C</var>})
+                    \qquad (\blue{<var>A</var>}x^2 <span data-if="E &gt; 0">+</span>\purple{<var>E</var>}x)
+                    + (\purple{<var>A * F</var>}x <span data-if="C &gt; 0">+</span>\pink{<var>C</var>})
                 </code>
             </div>
             
@@ -142,5 +142,6 @@
             <p>This leaves us with <code><var>SOLUTION</var></code></p>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

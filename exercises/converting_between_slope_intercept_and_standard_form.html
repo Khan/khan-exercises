@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Converting between slope-intercept and standard form</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -19,7 +19,7 @@
             <p class="question">Convert the following equation from standard form to slope intercept form.</p>
             <p>In other words, if the equation is rewritten to look like <code>y = mx + b</code>, what are the values of <code>m</code> and <code>b</code>?</p>
             <p><code><var>expr([ "*", A, "x"])</var> + <var>expr([ "*", B, "y" ])</var> = <var>C</var></code></p>
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <p><code>m</code> = <span class="sol"><var>SLOPE</var></span></p>
                 <p><code>b</code> = <span class="sol"><var>Y_INTERCEPT</var></span></p>
             </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div>
                     <p>Behold! The magic of math, that both equations could represent the same line!</p>
-                    <div class="graphie" id="grid">
+                    <div id="grid" class="graphie">
                         graphInit({
                             range: 10,
                             scale: 20,
@@ -69,20 +69,20 @@
             <p>In other words, if the equation is rewritten to look like <code>Ax + By = C</code>, what are the values of <code>A</code>, <code>B</code>, and <code>C</code>?</p>
             <p data-if="SLOPE !==0">Assume <code>A</code> is positive.</p>
             <p><code>y = <var>expr([ "+", [ "*", SLOPE, "x" ], Y_INTERCEPT ])</var></code></p>
-            <div class="solution" data-type="set">
-                <div class="set-sol" data-type="multiple">
+            <div data-type="set" class="solution">
+                <div data-type="multiple" class="set-sol">
                     <span class="sol"><var>A</var></span>
                     <span class="sol"><var>B</var></span>
                     <span class="sol"><var>C</var></span>
                 </div>
-                <div data-if="A === 0" class="set-sol" data-type="multiple">
+                <div data-if="A === 0" data-type="multiple" class="set-sol">
                     <span class="sol"><var>A</var></span>
                     <span class="sol"><var>-B</var></span>
                     <span class="sol"><var>-C</var></span>
                 </div>
 
                 <div class="input-format">
-                    <div class="entry" data-type="multiple">
+                    <div data-type="multiple" class="entry">
                         <p><code>A</code> = <span class="sol"></span></p>
                         <p><code>B</code> = <span class="sol"></span></p>
                         <p><code>C</code> = <span class="sol"></span></p>
@@ -94,11 +94,11 @@
                     <p>Move the <code>x</code> term to the same side as the <code>y</code> term.</p>
                     <p><code><var>expr([ "*", -SLOPE, "x" ])</var> + y = <var>Y_INTERCEPT</var></code></p>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <p>Since the slope is <code>0</code> and there is no <code>x</code> term, the equation is already in slope intercept form.</p>
                     <p><code>y = <var>Y_INTERCEPT</var></code></p>
                 </div>
-                <div data-if="SLOPE > 0">
+                <div data-if="SLOPE &gt; 0">
                     <p>Multiply both sides by <code>-1</code> so that <code>A</code> will be positive</p>
                     <p><code><var>expr([ "*", SLOPE, "x" ])</var> - y = <var>-Y_INTERCEPT</var></code></p>
                 </div>
@@ -110,7 +110,7 @@
                 </div>
                 <div>
                     <p>Behold! The magic of math, that both equations could represent the same line!</p>
-                    <div class="graphie" id="grid">
+                    <div id="grid" class="graphie">
                         graphInit({
                             range: 10,
                             scale: 20,
@@ -131,5 +131,6 @@
     </div>
 
     </div>
-</body>
-</html>
+
+
+</body></html>

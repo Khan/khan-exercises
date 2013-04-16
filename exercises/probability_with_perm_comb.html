@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems subhints">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format word-problems subhints"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Probability with permutations and combinations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +9,7 @@
     <div class="exercise">
         <div class="problems">
             <div id="students">
-                <div class="vars" data-ensure="GROUP &lt; (ARE_B ? BOYS : GIRLS)">
+                <div data-ensure="GROUP &lt; (ARE_B ? BOYS : GIRLS)" class="vars">
                     <var id="STUDENTS">randRange(7,10)</var>
                     <var id="GROUP">randRange(3,6)</var>
                     <var id="BOYS">randRange(2,STUDENTS-2)</var>
@@ -29,7 +29,7 @@
                     If the teacher picks a group of <code><var>GROUP</var></code> at random, what is the probability that 
                     everyone in the group is a <var>ARE_B ? "boy" : "girl"</var>?
                 </p>
-                <div class="solution" data-forms="proper"><var>ANSWER</var></div>
+                <div data-forms="proper" class="solution"><var>ANSWER</var></div>
                 <div class="hints">
                     <p>
                         One way to solve this problem is to figure out how many different groups
@@ -51,9 +51,9 @@
                             to pick a group of <code><var>GROUP</var></code> students out of <code><var>STUDENTS</var></code> is
                             <code> \dfrac{<var>STUDENTS</var>!}{(<var>STUDENTS</var>-<var>GROUP</var>)!<var>GROUP</var>!} = 
                             \binom{<var>STUDENTS</var>}{<var>GROUP</var>}</code>.
-                            [<a href="#" class="show-subhint" data-subhint="binomial">Show me why</a>]
+                            [<a data-subhint="binomial" href="#" class="show-subhint">Show me why</a>]
                         </p>
-                        <div class="subhint" id="binomial">
+                        <div id="binomial" class="subhint">
                             <p>
                                 Remember that the
                                 <code><var>STUDENTS</var>! \;</code> and <code>(<var>STUDENTS</var>-<var>GROUP</var>)! \;</code> terms come from when we
@@ -94,7 +94,7 @@
                         \left(\dfrac{<var>STUDENTS-GROUP</var>!}{<var>STUDENTS</var>!}\right) =
                         \left(\dfrac{<var>NUM_B</var>!}{<var>STUDENTS</var>!}\right)
                         \left(\dfrac{<var>STUDENTS-GROUP</var>!}{<var>NUM_B-GROUP</var>!}\right)</code>
-                    <p>
+                    </p><p>
                         Simplifying, we get <code> 
                         \left(\dfrac{\cancel{<var>NUM_B</var>!}}{<var>_.map(_.range(STUDENTS-NUM_B), function(l){ return (STUDENTS-l); }).join("\\cdot")
                         </var> \cdot \cancel{<var>NUM_B</var>!}}\right)
@@ -124,7 +124,7 @@
                     If you flip a fair coin <code><var>COINS</var></code> times, what is the probability that you will get exactly 
                     <code><var>NUM</var></code> <var>NAME</var>?
                 </p>
-                <p class="solution" data-forms="proper"><var>PRETTY_NUMER/PRETTY_DENOM</var></p>
+                <p data-forms="proper" class="solution"><var>PRETTY_NUMER/PRETTY_DENOM</var></p>
 
                 <div class="hints">
                     <p>
@@ -149,19 +149,19 @@
                             we'll find that there are <code><var>COINS</var>!</code> different arrangements, overcounting <code><var>NUM</var>!</code>
                             times for every time we only switch the <var>IS_H ? "H's" : "T's"</var> around, and <code><var>COINS-NUM</var>!</code>
                             times for every time we only switch the <var>IS_H ? "T's" : "H's"</var> around.
-                            [<a href="#" class="show-subhint" data-subhint="letters">Show me why</a>]
+                            [<a data-subhint="letters" href="#" class="show-subhint">Show me why</a>]
                         </p>
-                        <div class="subhint" id="letters">
+                        <div id="letters" class="subhint">
                             Let's say we toss a coin 5 times, and get tails three times. How many different re-arrangements are there of the
                             letters "HHTTT"? Well, we have five choices for the first slot, four for the second slot, and so on, resulting in
                             <code>5\cdot4\cdot3\cdot2\cdot1 = 5! = 120 \;</code> different re-arrangements. But, this treats all the letters
-                            as unique, when </br>
+                            as unique, when <br>
                             H<span class="hint_blue">T</span>H<span class="hint_orange">T</span><span class="hint_green">T</span> 
-                            is the same as </br>
+                            is the same as <br>
                             H<span class="hint_orange">T</span>H<span class="hint_blue">T</span><span class="hint_green">T</span>,
-                            and </br>
+                            and <br>
                             H<span class="hint_orange">T</span>H<span class="hint_green">T</span><span class="hint_blue">T</span>,
-                            </br>
+                            <br>
                             and so on. So really, we need to replace all these different re-arrangements
                             where we only move the tails around with one re-arrangement, HTHTT. There are <code>3!</code> of these multi-
                             colored arrangements for every normal one, so that means dividing
@@ -174,9 +174,9 @@
                         <p>
                             So, there are <code>\dfrac{<var>COINS</var>!}{<var>NUM</var>!<var>COINS-NUM</var>!} = <var>NUM_RIGHT</var></code> different 
                             outcomes where you get exactly <code><var>NUM</var></code> <var>NAME</var>.
-                            [<a href="#" class="show-subhint" data-subhint="total">How many total outcomes are there?</a>]
+                            [<a data-subhint="total" href="#" class="show-subhint">How many total outcomes are there?</a>]
                         </p>
-                        <div class="subhint" id="total">
+                        <div id="total" class="subhint">
                             Well, if you only flip one coin, there are two outcomes, if you flip two there are four outcomes, if you flip three there
                             are eight. Each time you flip another coin, you double the number of possible outcomes.
                         </div>
@@ -188,7 +188,7 @@
                         So, the probability that you will get exactly <var>NUM</var> <var>NAME</var> is
                         <code>\dfrac{<var>NUM_RIGHT</var>}{<var>NUM_ALL</var>} = \dfrac{<var>PRETTY_NUMER</var>}{<var>PRETTY_DENOM</var>}</code>.
                     </p>
-                    <p data-else>
+                    <p data-else="">
                         So, the probability that you will get exactly <var>NUM</var> <var>NAME</var> is
                         <code>\dfrac{<var>NUM_RIGHT</var>}{<var>NUM_ALL</var>}</code>.
                     </p>
@@ -196,5 +196,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

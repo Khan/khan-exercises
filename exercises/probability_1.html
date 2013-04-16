@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format probability word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format probability word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Probability 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -76,7 +76,7 @@
             <div class="hints">
                 <p>When rolling a die, there are <code>6</code> possibilities: 1, 2, 3, 4, 5, and 6.</p>
                 <p data-if="RESULT_COUNT === 1">In this case, only <code>1</code> result is favorable: the number <var>RESULT_POSSIBLE[0]</var>.</p>
-                <p data-else>In this case, <code><var>RESULT_COUNT</var></code> results are favorable: <var>toSentence(RESULT_POSSIBLE)</var>.</p>
+                <p data-else="">In this case, <code><var>RESULT_COUNT</var></code> results are favorable: <var>toSentence(RESULT_POSSIBLE)</var>.</p>
                 <p>The probability is <code>\displaystyle <var>fractionSimplification(RESULT_COUNT, 6)</var></code>.</p>
             </div>
         </div>
@@ -101,7 +101,7 @@
                 What is the probability that you will hit the target?
             </p>
 
-            <div class="solution" data-forms="proper, decimal"><var>Math.pow(SMALL_RAD,2)/Math.pow(BIG_RAD,2)</var></div>
+            <div data-forms="proper, decimal" class="solution"><var>Math.pow(SMALL_RAD,2)/Math.pow(BIG_RAD,2)</var></div>
 
             <div class="hints">
                 <p>
@@ -125,7 +125,7 @@
                     So, the probability that you will hit the target is <code> \frac{<var>Math.pow(SMALL_RAD,2)</var>}{<var>Math.pow(BIG_RAD,2)</var>}
                     = \frac{<var>Math.pow(SMALL_RAD,2)/GCD</var>}{<var>Math.pow(BIG_RAD,2)/GCD</var>}</code>.
                 </p>
-                <p data-else>
+                <p data-else="">
                     So, the probability that you will hit the target is <code> \frac{<var>Math.pow(SMALL_RAD,2)</var>}{<var>Math.pow(BIG_RAD,2)</var>}
                     </code>.
                 </p>
@@ -133,5 +133,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

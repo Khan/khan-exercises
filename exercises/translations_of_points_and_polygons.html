@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie geom interactive">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie geom interactive"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Translations of polygons</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,7 +10,7 @@
     <div class="problems">
         <div id="drag">
             <div class="vars">
-                <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">
+                <var data-ensure="SX !== EX || SY !== EY" id="SX,SY,EX,EY">
                     randRange(-4, 4, 4)
                 </var>
                 <var id="DX,DY">[EX - SX, EY - SY]</var>
@@ -31,7 +31,7 @@
             </p>
 
             <div class="problem">
-                <div class="graphie" id="grid">
+                <div id="grid" class="graphie">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -121,7 +121,7 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="custom">
+            <div data-type="custom" class="solution">
                 <div class="instruction">
                     Drag the blue polygon to its image under the given translation.
                 </div>
@@ -155,10 +155,10 @@
                     <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code>
                     under this translation?</span>
 
-                    <div class="graphie" data-update="grid">
+                    </p><div data-update="grid" class="graphie">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
-                </p>
+                <p></p>
                 <p>
                     <span>Under the translation
                     <code>T_{(<var>DX</var>, <var>DY</var>)}</code>,
@@ -167,11 +167,11 @@
                     <code>(<var> TARGET[0][0] </var>,<var> TARGET[0][1] </var>)</code>.
                     Where is the rest of the polygon translated?</span>
 
-                    <div class="graphie" data-update="grid">
+                    </p><div data-update="grid" class="graphie">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
-                        line(HULL[0], TARGET[0], { stroke: "black", arrows: "->"});
+                        line(HULL[0], TARGET[0], { stroke: "black", arrows: "-&gt;"});
                     </div>
-                </p>
+                <p></p>
                 <p>
                     To get from
                     <code>(<var>HULL[0][0]</var>,<var>HULL[0][1]</var>)</code>
@@ -185,7 +185,7 @@
                     <p>The orange outline shows where the polygon ends up after
                     the translation.</p>
 
-                    <div class="graphie" data-update="grid">
+                    <div data-update="grid" class="graphie">
                         graph.drawAnswer();
                     </div>
                 </div>
@@ -193,7 +193,7 @@
         </div>
         <div id="reverse">
             <div class="vars">
-                <var id="SX,SY,EX,EY" data-ensure="SX !== EX || SY !== EY">
+                <var data-ensure="SX !== EX || SY !== EY" id="SX,SY,EX,EY">
                     randRange(-4, 4, 4)
                 </var>
                 <var id="DX,DY">[EX - SX, EY - SY]</var>
@@ -214,7 +214,7 @@
             </p>
 
             <div class="problem">
-                <div class="graphie" id="grid">
+                <div id="grid" class="graphie">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -246,11 +246,11 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple">
+            <div data-type="multiple" class="solution">
                 <code>{\LARGE T } \;(</code>
-                <span class="sol short30" data-forms="integer" style="width:15px"><var>DX</var></span>
+                <span style="width:15px" data-forms="integer" class="sol short30"><var>DX</var></span>
                 <code>,</code>
-                <span class="sol short30" data-forms="integer" style="width:15px"><var>DY</var></span>
+                <span style="width:15px" data-forms="integer" class="sol short30"><var>DY</var></span>
                 <code>)</code>
             </div>
 
@@ -267,10 +267,10 @@
                     <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code>
                     under this translation?</span>
 
-                    <div class="graphie" data-update="grid">
+                    </p><div data-update="grid" class="graphie">
                         circle(HULL[0], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
-                </p>
+                <p></p>
                 <p>
                     <span>Under this translation,
                     <code>(<var>HULL[0][0]</var>,<var>HULL[0][1]</var>)</code>
@@ -278,11 +278,11 @@
                     <code>(<var>TARGET[0][0]</var>,<var>TARGET[0][1]</var>)</code>.
                     What does this tell you about the translation used?</span>
 
-                    <div class="graphie" data-update="grid">
+                    </p><div data-update="grid" class="graphie">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
-                        line(HULL[0], TARGET[0], { stroke: "black", arrows: "->"});
+                        line(HULL[0], TARGET[0], { stroke: "black", arrows: "-&gt;"});
                     </div>
-                </p>
+                <p></p>
                 <p>
                     To get from
                     <code>(<var>HULL[0][0]</var>,<var>HULL[0][1]</var>)</code>
@@ -299,5 +299,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

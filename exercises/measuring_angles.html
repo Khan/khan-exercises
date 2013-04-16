@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie angles interactive">
-    <head>
+<!DOCTYPE html>
+<html data-require="math graphie angles interactive"><head>
         <title>Measuring angles</title>
         <script src="../khan-exercise.js"></script>
     </head>
@@ -17,7 +17,7 @@
                         Measure this angle in degrees.
                     </div>
                     <div class="question">
-                        <div class="graphie" id="angle">
+                        <div id="angle" class="graphie">
                             var ANGLE_TWO = ANGLE_ONE + DIFF;
                             var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
                             var ANGLE_TWO_R = ANGLE_TWO * PI / 180;
@@ -33,8 +33,8 @@
                             graph.protractor = new Protractor([ 14, -8 ]);
                         </div>
                     </div>
-                    <div class="solution" data-type="multiple">
-                        <span class="sol" data-forms="integer" data-inexact data-max-error="5"><var>DIFF</var></span><code>{}^{\circ}</code>
+                    <div data-type="multiple" class="solution">
+                        <span data-inexact="" data-forms="integer" class="sol" data-max-error="5"><var>DIFF</var></span><code>{}^{\circ}</code>
                     </div>
                 </div>
             </div>
@@ -42,17 +42,17 @@
             <div class="hints">
                 <p>
                     First, align the origin of the protractor with the vertex of the angle.
-                    <button onClick="javascript: KhanUtil.currentGraph.graph.protractor.moveTo( 0, 0 ); ">Show me</button>
+                    <button onclick="javascript: KhanUtil.currentGraph.graph.protractor.moveTo( 0, 0 ); ">Show me</button>
                 </p>
                 <p>
                     Next, rotate the protractor so that the <code>0^{\circ}</code> mark lines up with one side of the angle.
-                    <button onClick="javascript:
+                    <button onclick="javascript:
                         KhanUtil.currentGraph.graph.protractor.moveTo( 0, 0 );
                         KhanUtil.currentGraph.graph.protractor.rotateTo( 360 - KhanUtil.tmpl.getVAR('ANGLE_ONE') );
                     ">Show me</button>
                 </p>
                 <div>
-                    <div class="graphie" data-update="angle">
+                    <div data-update="angle" class="graphie">
                         graph.protractor.moveTo( 0, 0 );
                         graph.protractor.rotateTo( 360 - ANGLE_ONE );
                         label( [ 9 * cos( toRadians( ANGLE_ONE + DIFF ) ), 9 * sin( toRadians( ANGLE_ONE + DIFF ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
@@ -61,5 +61,6 @@
                 </div>
             </div>
         </div>
-    </body>
-</html>
+    
+
+</body></html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic">
-<head>
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic"><head>
     <title>Converting fractions to decimals</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +9,7 @@
     <div class="exercise">
     <div class="problems">
         <div>
-            <div class="vars" data-ensure="getGCD( NUMERATOR, DENOMINATOR ) === 1">
+            <div data-ensure="getGCD( NUMERATOR, DENOMINATOR ) === 1" class="vars">
                 <var id="NUMERATOR">randRange( 1, 30 )</var>
                 <var id="DENOMINATOR">randRange( NUMERATOR + 1, 30 )</var>
                 <var id="DECIMAL_4">Math.round( NUMERATOR / DENOMINATOR * 10000 ) / 10000</var>
@@ -17,21 +17,21 @@
             </div>
             <p>Express the fraction as a decimal, rounded to the thousandth.</p>
             <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
-            <p class="solution" data-type="decimal"><var>DECIMAL</var></p>
+            <p data-type="decimal" class="solution"><var>DECIMAL</var></p>
             <div class="hints">
                 <p>This fraction represents the result of dividing <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
 
-                <div class="graphie" id="nmbrs">
+                <div id="nmbrs" class="graphie">
                     graph.divider = new Divider( DENOMINATOR, NUMERATOR * 10000, 0, 4 );
                     graph.divider.show();
                     DUMMY = Array( graph.divider.getNumHints() );
                 </div>
 
-                <div class="graphie" data-update="nmbrs">
+                <div data-update="nmbrs" class="graphie">
                     graph.divider.shiftDecimals();
                 </div>
 
-                <div class="graphie" data-update="nmbrs" data-each="Divider.numHintsFor( DENOMINATOR, NUMERATOR * 10000, 0, 4 ) times">
+                <div data-update="nmbrs" data-each="Divider.numHintsFor( DENOMINATOR, NUMERATOR * 10000, 0, 4 ) times" class="graphie">
                     graph.divider.showHint();
                 </div>
 
@@ -40,5 +40,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

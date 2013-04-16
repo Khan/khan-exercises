@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie interactive word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Pile patterns</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,10 +9,9 @@
     <div class="exercise">
         <div class="problems">
             <div>
-                <div class="vars"
-                    data-ensure="(USEA || USEB || USEC || USED) &amp;&amp;
-                                 A + B + C + D > 0 &amp;&amp;
-                                 XS !== START">
+                <div data-ensure="(USEA || USEB || USEC || USED) &amp;&amp;
+                                 A + B + C + D &gt; 0 &amp;&amp;
+                                 XS !== START" class="vars">
                     <var id="USEA">random() &lt; 0.5</var>
                     <var id="A">USEA ? randRange(1, 3) : 0</var>
                     <var id="USEB">random() &lt; 0.5</var>
@@ -35,7 +34,7 @@
                     moving the slider.
                 </p>
                 <div class="problem">
-                    <div class="graphie" id="main">
+                    <div id="main" class="graphie">
                         var vertscale = -2;
 
                         if (USEB) {
@@ -175,17 +174,17 @@
                         };
                     </div>
                 </div>
-                <div class="solution" data-type="multiple">
+                <div data-type="multiple" class="solution">
                     In step 0, we have
-                    <span class="sol short40" data-forms="integer"><var>START</var></span>
+                    <span data-forms="integer" class="sol short40"><var>START</var></span>
                     blocks. At each step, we add
-                    <span class="sol short40" data-forms="integer"><var>XS</var></span>
+                    <span data-forms="integer" class="sol short40"><var>XS</var></span>
                     more blocks.<br><br>
 
                     So, at step number <code>S</code>, we have<br>
-                    <span class="sol short40" data-forms="integer"><var>START</var></span>
+                    <span data-forms="integer" class="sol short40"><var>START</var></span>
                     <code>+</code>
-                    <span class="sol short40" data-forms="integer"><var>XS</var></span>
+                    <span data-forms="integer" class="sol short40"><var>XS</var></span>
                     <code>\times S</code>  blocks.
                 </div>
                 <div class="hints">
@@ -200,7 +199,7 @@
                         <p>We see that there <var>plural("is", START)</var>
                         <var>pluralTex(START, "block")</var> in step 0. Fill
                         this in the answer box.</p>
-                        <div class="graphie" data-update="main">
+                        <div data-update="main" class="graphie">
                             graph.slider.moveTo(3, 0);
                         </div>
                     </div>
@@ -218,7 +217,7 @@
                         </code>
                         <var>plural("block", XS)</var> added in each step. Fill
                         this in the answer box.</p>
-                        <div class="graphie" data-update="main">
+                        <div data-update="main" class="graphie">
                             graph.slider.moveTo(5, 0);
                         </div>
                     </div>
@@ -278,5 +277,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

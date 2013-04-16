@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive mean-and-median">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie interactive mean-and-median"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Exploring mean and median</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -40,11 +40,11 @@
                 <div class="question">
                     <p>Arrange the <var>POINTS</var> orange points on the
                     number line so the <span class="hint_blue">arithmetic mean
-                    is <code><var>MEAN</var></code></span><br /> and the
+                    is <code><var>MEAN</var></code></span><br> and the
                     <span class="hint_green">median is
                     <code><var>MEDIAN</var></code></span>.
                     The distance between adjacent tick marks is 1.</p>
-                    <div class="graphie" id="number-line">
+                    <div id="number-line" class="graphie">
                         graph.targetMedian = MEDIAN;
                         graph.targetMean = MEAN;
                         graph.numPoints = POINTS;
@@ -112,7 +112,7 @@
                         });
                     </div>
                 </div>
-                <div class="solution" data-type="custom">
+                <div data-type="custom" class="solution">
                     <div class="instruction">
                         Move the orange dots to select your answer.
                     </div>
@@ -158,15 +158,14 @@
                             distance from <span class="hint_green">
                             <code><var>MEDIAN</var></code></span>.
                         </span>
-                        <span data-else>
+                        <span data-else="">
                             The middle point should be at
                             <span class="hint_green">
                             <code><var>MEDIAN</var></code></span>.
-                        </span><br />
-                        <input type="button" value="Show me an example"
-                            onClick="javascript:
+                        </span><br>
+                        <input type="button" onclick="javascript:
                                 KhanUtil.showMedianExample();
-                            ">
+                            " value="Show me an example">
                     </p>
                     <p>
                         As long as there are as many points to the left and to
@@ -182,14 +181,14 @@
                         <code><var>MEAN</var></code></span> and the median is
                         <span class="hint_green">
                         <code><var>MEDIAN</var></code></span>.
-                        <input type="button" value="Show me an example"
-                            onClick="javascript:
+                        <input type="button" onclick="javascript:
                                 KhanUtil.showMeanExample();
-                            ">
+                            " value="Show me an example">
                     </p>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

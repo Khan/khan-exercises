@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <script src="../khan-exercise.js"></script>
     <title>Coin flip sequences</title>
 
@@ -100,9 +100,9 @@
             <div id="charts">
                 <div data-each="SEQUENCE.split('') as FLIP">
                     <div data-if="FLIP === 'H'" class="heads">H</div>
-                    <div data-else class="tails">T</div>
+                    <div data-else="" class="tails">T</div>
                 </div>
-                <div class="graphie chart" id="chart-1">
+                <div id="chart-1" class="graphie chart">
                     init({
                         range: [[0, 15], [0, 6]],
                         scale: [31, 54]
@@ -138,7 +138,7 @@
                         rect(10, 1, 4, ONE_FLIP_RESULT[1] / SEQUENCE.length * 5);
                     });
                 </div>
-                <div class="graphie chart" id="chart-2">
+                <div id="chart-2" class="graphie chart">
                     init({
                         range: [[0, 16], [0, 6]],
                         scale: [31, 54]
@@ -170,7 +170,7 @@
                         });
                     });
                 </div>
-                <div class="graphie chart" id="chart-3">
+                <div id="chart-3" class="graphie chart">
                     init({
                         range: [[0, 16], [0, 6]],
                         scale: [31, 54]
@@ -206,14 +206,14 @@
         </div>
         <p class="view-patterns">View patterns:
             <span class="pattern-tabs">
-                <a href="javascript:void(0);" id="show-flips" data-offset="0" class="selected">Coin flips</a> |
+                <a data-offset="0" href="javascript:void(0);" id="show-flips" class="selected">Coin flips</a> |
                 <a href="javascript:void(0);" id="show-chart-1" data-offset="1">H vs T</a> |
                 <a href="javascript:void(0);" id="show-chart-2" data-offset="2">Two-flip streaks</a> |
                 <a href="javascript:void(0);" id="show-chart-3" data-offset="3">Three-flip streaks</a>
             </span>
         </p>
     </div>
-    <div class="graphie" id="init">
+    <div id="init" class="graphie">
         Khan.scratchpad.disable();
         $('.pattern-tabs a').on('click', function(e) {
             var $el = $(e.currentTarget);
@@ -228,13 +228,13 @@
         });
     </div>
     <p class="solution"><var>CHOICES[SOLUTION]</var></p>
-    <ul class="choices" data-category="true">
+    <ul data-category="true" class="choices">
         <li data-each="CHOICES as CHOICE"><var>CHOICE</var></li>
     </ul>
 
     <div class="problems">
         <div id="fair">
-            <div class="vars" data-apply="prependVars">
+            <div data-apply="prependVars" class="vars">
                 <var id="SEQUENCE">
                     randFromArray(["H", "T"], 276).join("")
                 </var>
@@ -243,7 +243,7 @@
         </div>
 
         <div id="unfair">
-            <div class="vars" data-apply="prependVars">
+            <div data-apply="prependVars" class="vars">
                 <var id="SEQUENCE">
                     randFromArray(randFromArray([
                         ["H", "H", "H", "T", "T"],
@@ -255,7 +255,7 @@
         </div>
 
         <div id="human">
-            <div class="vars" data-apply="prependVars">
+            <div data-apply="prependVars" class="vars">
                 <var id="SEQUENCE">randFromArray([
                     "HTHHTHTHTHTHTHHHTHTHTHTHHHHTHTTHHTHHTHTHTHTHTH" +
                     "HTHTHTHTHTHTHHHTHTHTHTHHTHTHTTTHHTHHTHTHHHTHHT" +
@@ -283,5 +283,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

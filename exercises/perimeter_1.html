@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-geometry word-problems interactive subhints">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-geometry word-problems interactive subhints"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Perimeter 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -17,7 +17,7 @@
         ])</var>
     </div>
     <div class="problems">
-        <div id="square" data-weight="1">
+        <div data-weight="1" id="square">
             <div class="vars">
                 <var id="S">randRange(2, 9)</var>
             </div>
@@ -26,7 +26,7 @@
                 What is the perimeter of the square?
             </p>
             <div class="problem">
-                <div class="graphie" id="perimeter">
+                <div id="perimeter" class="graphie">
                     init({ range: [[-2, S + 1], [-1, S + 1]], scale: 30 });
                     path([[0, 0], [0, S], [S, S], [S, 0], true], {stroke: BLUE, fill: "#eee"});
                     label([S / 2, S], S + "\\text{ " + UNIT + "}", "above");
@@ -34,8 +34,8 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>4 * S</var></span> <var>plural(UNIT_TEXT)</var>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>4 * S</var></span> <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -43,7 +43,7 @@
                     The perimeter is the total length of all the sides of the shape added together.
                 </p>
                 <div>
-                    <div class="graphie" data-update="perimeter">
+                    <div data-update="perimeter" class="graphie">
                         path([[0, 0], [0, S]], { strokeWidth: 4, stroke: PINK });
                         path([[0, S], [S, S]], { strokeWidth: 4, stroke: BLUE });
                         path([[S, S], [S, 0]], { strokeWidth: 4, stroke: "purple" });
@@ -60,8 +60,8 @@
             </div>
         </div>
 
-        <div id="rectangle" data-weight="1">
-            <div class="vars" data-ensure="L !== W">
+        <div data-weight="1" id="rectangle">
+            <div data-ensure="L !== W" class="vars">
                 <var id="L">randRange(2, 9)</var>
                 <var id="W">randRange(2, 9)</var>
             </div>
@@ -71,7 +71,7 @@
             </p>
 
             <div class="problem">
-                <div class="graphie" id="perimeter">
+                <div id="perimeter" class="graphie">
                     init({ range: [[-2, L + 1], [-1, W + 1]], scale: 30 });
                     path([[0, 0], [0, W], [L, W], [L, 0], true], {stroke: BLUE, fill: "#eee"});
                     label([L / 2, W], L + "\\text{ " + UNIT + "}", "above");
@@ -79,8 +79,8 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>L * 2 + W * 2</var></span> <var>plural(UNIT_TEXT)</var>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>L * 2 + W * 2</var></span> <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -88,7 +88,7 @@
                     The perimeter is the total length of all the sides of the shape added together.
                 </p>
                 <div>
-                    <div class="graphie" data-update="perimeter">
+                    <div data-update="perimeter" class="graphie">
                         path([[0, 0], [0, W]], { strokeWidth: 4, stroke: PINK });
                         path([[0, W], [L, W]], { strokeWidth: 4, stroke: BLUE });
                         path([[L, W], [L, 0]], { strokeWidth: 4, stroke: "purple" });
@@ -105,8 +105,8 @@
             </div>
         </div>
 
-        <div id="triangle" data-weight="2">
-            <div class="vars" data-ensure="A < B + C && B < A + C && C < A + B">
+        <div data-weight="2" id="triangle">
+            <div data-ensure="A &lt; B + C &amp;&amp; B &lt; A + C &amp;&amp; C &lt; A + B" class="vars">
                 <var id="A,B,C">randRange(2, 9, 3)</var>
                 <var id="X">((A * A + B * B - C * C) / (2 * A * B)) * B</var>
                 <var id="Y">sqrt(B * B - X * X)</var>
@@ -117,7 +117,7 @@
             </p>
 
             <div class="problem">
-                <div class="graphie" id="perimeter">
+                <div id="perimeter" class="graphie">
                     init({ range: [[min(X, 0) - 2, max(X, A) + 2], [-1, Y + 1]], scale: 30 });
                     path([[0, 0], [A, 0], [X, Y], true], {stroke: BLUE, fill: "#eee"});
                     label([A / 2, 0], A + "\\text{ " + UNIT + "}", "below");
@@ -126,8 +126,8 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>A + B + C</var></span> <var>plural(UNIT_TEXT)</var>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>A + B + C</var></span> <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -135,7 +135,7 @@
                     The perimeter is the total length of all the sides of the shape added together.
                 </p>
                 <div>
-                    <div class="graphie" data-update="perimeter">
+                    <div data-update="perimeter" class="graphie">
                         path([[X, Y], [0, 0]], { strokeWidth: 4, stroke: PINK });
                         path([[A, 0], [X, Y]], { strokeWidth: 4, stroke: BLUE });
                         path([[0, 0], [A, 0]], { strokeWidth: 4, stroke: GREEN });
@@ -151,7 +151,7 @@
             </div>
         </div>
 
-        <div id="polygon" data-weight="2">
+        <div data-weight="2" id="polygon">
             <div class="vars">
                 <var id="S">randRange(2, 3)</var>
                 <var id="SIDES,POLYGON">randFromArray([
@@ -169,7 +169,7 @@
             </p>
 
             <div class="problem">
-                <div class="graphie" id="perimeter">
+                <div id="perimeter" class="graphie">
                     init({ range: [[-RADIUS - 1, RADIUS + 1], [-RADIUS - 1, RADIUS + 1]], scale: 30 });
                     graph.path = [];
 
@@ -182,8 +182,8 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>S * SIDES</var></span> <var>plural(UNIT_TEXT)</var>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>S * SIDES</var></span> <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -191,7 +191,7 @@
                     The perimeter is the total length of all the sides of the shape added together.
                 </p>
                 <div>
-                    <div class="graphie" data-update="perimeter">
+                    <div data-update="perimeter" class="graphie">
                         graph.label.remove();
                         _(SIDES).times(function(n) {
                             label([sin(ANGLE * n) * (APOTHEM + 0.7), cos(ANGLE * n)
@@ -201,10 +201,10 @@
                     </div>
                     <p>
                         All of the sides of a
-                        <a href="#" class="show-definition" data-definition="regular-polygon">regular</a>
+                        <a data-definition="regular-polygon" href="#" class="show-definition">regular</a>
                         <var>POLYGON</var> are the same length.
                     </p>
-                    <div class="definition" id="regular-polygon">
+                    <div id="regular-polygon" class="definition">
                         Saying a polygon is <b>regular</b> just means the sides are all the same.
                     </div>
                 </div>
@@ -222,12 +222,11 @@
             </div>
         </div>
 
-        <div id="odd-shape" data-weight="1">
+        <div data-weight="1" id="odd-shape">
             <div class="vars">
                 <var id="WIDTH">randRange(5, 10)</var>
                 <var id="HEIGHT">randRange(5, 10)</var>
-                <var id="SHAPE"
-                    data-ensure="SHAPE.numSides <= 10 && SHAPE.numSides > 4">
+                <var data-ensure="SHAPE.numSides &lt;= 10 &amp;&amp; SHAPE.numSides &gt; 4" id="SHAPE">
                     createOddShape({
                         width: WIDTH,
                         height: HEIGHT
@@ -242,7 +241,7 @@
             </p>
 
             <div class="problem">
-                <div class="graphie" id="perimeter">
+                <div id="perimeter" class="graphie">
                     init({ range: [[-1, WIDTH + 1], [-1, HEIGHT + 1]] });
                     var shape = [];
 
@@ -261,8 +260,8 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>SHAPE.perimeter</var></span>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>SHAPE.perimeter</var></span>
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
@@ -272,7 +271,7 @@
                     shape added together.
                 </p>
                 <div>
-                    <div class="graphie" data-update="perimeter">
+                    <div data-update="perimeter" class="graphie">
                         SHAPE.labelSides();
                     </div>
                     <p>
@@ -297,5 +296,6 @@
 
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Comparing improper fractions and mixed numbers</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,7 +10,7 @@
     <div class="exercise">
         <div class="problems">
             <div id="same-whole">
-                <div class="vars" data-ensure="M_DENOM !== I_DENOM">
+                <div data-ensure="M_DENOM !== I_DENOM" class="vars">
                     <var id="WHOLE">randRange( 1, 5 )</var>
                     <var id="WHOLE_2">WHOLE</var>
 
@@ -36,7 +36,7 @@
                     <var id="M_AS_I">M_DENOM_REDUCED*WHOLE+M_NUM_REDUCED</var>
 
                     <var id="SOLUTION">(function() {
-                        if ( (M_AS_I*F1) > (I_NUM*F2) ) {
+                        if ( (M_AS_I*F1) &gt; (I_NUM*F2) ) {
                             return "&gt;";
                         } else if ( (M_AS_I*F1) === (I_NUM*F2) ) {
                             return "=";
@@ -56,7 +56,7 @@
                     </p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul class="choices" data-category="true">
+                <ul data-category="true" class="choices">
                     <li><code>&lt;</code></li>
                     <li><code>=</code></li>
                     <li><code>&gt;</code></li>
@@ -67,7 +67,7 @@
                     <p class="hint_purple"><strong><code><var>M_DENOM_REDUCED</var> \cdot <var>WHOLE</var>+<var>M_NUM_REDUCED</var> = <var>M_AS_I</var></code></strong></p>
                     <p>We can write the mixed number as an improper fraction with numerator <strong><var>M_AS_I</var></strong> and denominator <strong><var>M_DENOM_REDUCED</var></strong>.</p>
                     <p>Now we need to compare <code><var>fraction ( M_AS_I, M_DENOM_REDUCED, false, true )</var></code> to <code><var>fraction ( I_NUM, I_DENOM, false, true )</var></code>.</p>
-                    <div data-if="M_DENOM_REDUCED !== I_DENOM" data-unwrap>
+                    <div data-if="M_DENOM_REDUCED !== I_DENOM" data-unwrap="">
                         <p>It is easier to compare these two fractions when they have the same denominator.</p>
                         <p>Their smallest common denominator is the LCM of <var>M_DENOM_REDUCED</var> and <var>I_DENOM</var>.</p>
                         <p><code>\lcm(<var>M_DENOM_REDUCED</var>, <var>I_DENOM</var>) = <var>LCM</var></code></p>
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div id="different-whole">
-                <div class="vars" data-ensure="M_DENOM !== I_DENOM">
+                <div data-ensure="M_DENOM !== I_DENOM" class="vars">
                     <var id="WHOLE">randRange( 1, 5 )</var>
                     <var id="WHOLE_2">randRange( 1, 5 )</var>
 
@@ -106,7 +106,7 @@
                     <var id="M_AS_I">M_DENOM_REDUCED*WHOLE+M_NUM_REDUCED</var>
 
                     <var id="SOLUTION">(function() {
-                        if ( (M_AS_I*F1) > (I_NUM*F2) ) {
+                        if ( (M_AS_I*F1) &gt; (I_NUM*F2) ) {
                             return "&gt;";
                         } else if ( (M_AS_I*F1) === (I_NUM*F2) ) {
                             return "=";
@@ -126,7 +126,7 @@
                     </p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul class="choices" data-category="true">
+                <ul data-category="true" class="choices">
                     <li><code>&lt;</code></li>
                     <li><code>=</code></li>
                     <li><code>&gt;</code></li>
@@ -137,7 +137,7 @@
                     <p class="hint_purple"><strong><code><var>M_DENOM_REDUCED</var>\cdot<var>WHOLE</var>+<var>M_NUM_REDUCED</var> = <var>M_AS_I</var></code></strong></p>
                     <p>We can write the mixed number as an improper fraction with numerator <strong><var>M_AS_I</var></strong> and denominator <strong><var>M_DENOM_REDUCED</var></strong>.</p>
                     <p>Now we need to compare <code><var>fraction ( M_AS_I, M_DENOM_REDUCED, false, true )</var></code> to <code><var>fraction ( I_NUM, I_DENOM, false, true )</var></code>.</p>
-                    <div data-if="M_DENOM_REDUCED !== I_DENOM" data-unwrap>
+                    <div data-if="M_DENOM_REDUCED !== I_DENOM" data-unwrap="">
                         <p>It is easier to compare these two fractions when they have the same denominator.</p>
                         <p>Their smallest common denominator is the LCM of <var>M_DENOM_REDUCED</var> and <var>I_DENOM</var>.</p>
                         <p><code>\lcm(<var>M_DENOM_REDUCED</var>, <var>I_DENOM</var>) = <var>LCM</var></code></p>
@@ -153,5 +153,6 @@
 
     </div>
 
-</body>
-</html>
+
+
+</body></html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Simplifying expressions with exponents</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="BASE1 !== BASE2">
+        <div data-ensure="BASE1 !== BASE2" class="vars">
             <var id="BASE1">randVar( )</var>
             <var id="BASE2">randVar( )</var>
             <var id="EXPNUM1">randRangeNonZero( -5, 5 )</var>
@@ -21,7 +21,7 @@
             <var id="DENHINT2">[ "*", [ "^", BASE1, EXPDEN1 * EXPDEN3 ], [ "^", BASE2, EXPDEN2 * EXPDEN3 ] ]</var>
         </div>
         <div class="problems">
-            <div id="simplify-exponential-form-full" data-weight="2">
+            <div data-weight="2" id="simplify-exponential-form-full">
                 <div class="vars">
                     <var id="EXPNUM2">randRangeNonZero( -5, 5 )</var>
 
@@ -39,8 +39,8 @@
 
                 <p><code>\dfrac{\color{orange}{<var>expr( NUM )</var>}}{\color{green}{<var>expr( DEN )</var>}}</code></p>
 
-                <div class="solution" data-type="multiple">
-                    <p><code><var>BASE1</var></code><span class="sol exp short30" data-forms="integer"><var>EXP1</var></span><code><var>BASE2</var></code><span class="sol exp short30" data-forms="integer"><var>EXP2</var></span></p>
+                <div data-type="multiple" class="solution">
+                    <p><code><var>BASE1</var></code><span data-forms="integer" class="sol exp short30"><var>EXP1</var></span><code><var>BASE2</var></code><span data-forms="integer" class="sol exp short30"><var>EXP2</var></span></p>
                     <p class="example">enter a (possibly negative) integer for each exponent</p>
                 </div>
 
@@ -52,8 +52,8 @@
                     </div>
                     <p>On the left, we have <code>\color{orange}{<var>expr( [ "^", BASE1, EXPNUM1 ] )</var>}</code> to the exponent <code>\color{orange}{<var>EXPNUM3</var>}</code>.  Now <code>\color{orange}{<var>EXPNUM1</var> \times <var>EXPNUM3</var> = <var>EXPNUM1 * EXPNUM3</var>}</code>, so <code>\color{orange}{<var>expr( [ "^", [ "^", BASE1, EXPNUM1 ], EXPNUM3 ] )</var> = <var>expr( [ "^", BASE1, EXPNUM1 * EXPNUM3 ] )</var>}</code>.</p>
                     <div>
-                        <p>Apply the ideas above to simplify the equation.<p>
-                        <p><code>\dfrac{\color{orange}{<var>expr( NUM )</var>}}{\color{green}{<var>expr( DEN )</var>}} = \dfrac{\color{orange}{<var>expr( NUMHINT2 )</var>}}{\color{green}{<var>expr( DENHINT2 )</var>}}</code>.</p>
+                        <p>Apply the ideas above to simplify the equation.</p><p>
+                        </p><p><code>\dfrac{\color{orange}{<var>expr( NUM )</var>}}{\color{green}{<var>expr( DEN )</var>}} = \dfrac{\color{orange}{<var>expr( NUMHINT2 )</var>}}{\color{green}{<var>expr( DENHINT2 )</var>}}</code>.</p>
                     </div>
                     <div>
                         <p>Break up the equation by variable and simplify.</p>
@@ -62,7 +62,7 @@
                 </div>
             </div> <!-- simplify-exponential-form-full-->
 
-            <div id="simplify-exponential-form-mini" data-weight="3">
+            <div data-weight="3" id="simplify-exponential-form-mini">
                 <div class="vars">
                     <var id="EXPNUM2">0</var>
 
@@ -80,8 +80,8 @@
 
                 <p><code>\dfrac{\color{orange}{<var>expr( NUM )</var>}}{\color{green}{<var>expr( DEN )</var>}}</code></p>
 
-                <div class="solution" data-type="multiple">
-                    <p><code><var>BASE1</var></code><span class="sol exp short30" data-forms="integer"><var>EXP1</var></span><code><var>BASE2</var></code><span class="sol exp short30" data-forms="integer"><var>EXP2</var></span></p>
+                <div data-type="multiple" class="solution">
+                    <p><code><var>BASE1</var></code><span data-forms="integer" class="sol exp short30"><var>EXP1</var></span><code><var>BASE2</var></code><span data-forms="integer" class="sol exp short30"><var>EXP2</var></span></p>
                     <p class="example">enter a (possibly negative) integer for each exponent</p>
                 </div>
 
@@ -107,4 +107,5 @@
 
         </div> <!-- problems -->
     </div> <!-- exercise -->
-</body>
+
+</body></html>

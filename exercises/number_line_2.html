@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems interactive">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie word-problems interactive"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Number line 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -16,7 +16,7 @@
         <div id="where-is-point">
             <div class="question">
                 <p>Drag the orange dot to <strong><var>NUMBER</var></strong>. The distance between tick marks is 1.</p>
-                <div class="graphie" id="number-line">
+                <div id="number-line" class="graphie">
                     init({
                         range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ]
                     });
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="custom">
+            <div data-type="custom" class="solution">
                 <span class="instruction"> Move the orange dot to select your answer. </span>
                 <div class="guess"> graph.movablePoint.coord[0] </div>
                 <div class="validator-function">
@@ -56,15 +56,15 @@
                 <p>Numbers to the left are smaller, and numbers to the right are bigger.</p>
                 <p>Numbers smaller than 0 are negative, and numbers bigger than 0 are positive.</p>
                 <div>
-                    <div class="graphie" data-update="number-line">
+                    <div data-update="number-line" class="graphie">
                         style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
                         line( [ 0, 0 ], [ NUMBER, 0 ] );
                         graph.movablePoint.visibleShape.toFront();
                     </div>
-                    <p>The orange dot should be <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER &lt; 0">left</span><span data-else>right</span> of 0.</p>
+                    <p>The orange dot should be <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER &lt; 0">left</span><span data-else="">right</span> of 0.</p>
                 </div>
                 <div>
-                    <div class="graphie" data-update="number-line">
+                    <div data-update="number-line" class="graphie">
                         label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
                         graph.movablePoint.moveTo( NUMBER, 0 );
                     </div>
@@ -76,7 +76,7 @@
         <div id="what-is-point">
             <div class="question">
                 <p>What number does the orange dot represent? The distance between tick marks is 1.</p>
-                <div class="graphie" id="number-line-2">
+                <div id="number-line-2" class="graphie">
                     init({
                         range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ]
                     });
@@ -93,22 +93,22 @@
                     graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
                 </div>
             </div>
-            <div class="solution" data-forms="integer"><var>NUMBER</var></div>
+            <div data-forms="integer" class="solution"><var>NUMBER</var></div>
 
             <div class="hints">
                 <p>We know where 0 is on the number line because it is labeled.</p>
                 <p>Numbers to the left are smaller, and numbers to the right are bigger.</p>
                 <p>Numbers smaller than 0 are negative, and numbers bigger than 0 are positive.</p>
                 <div>
-                    <div class="graphie" data-update="number-line-2">
-                        style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "->" });
+                    <div data-update="number-line-2" class="graphie">
+                        style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
                         line( [ 0, 0 ], [ NUMBER, 0 ] );
                         graph.orangeDot.toFront();
                     </div>
-                    <p>The orange dot is <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER < 0">left</span><span data-else>right</span> of 0.</p>
+                    <p>The orange dot is <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER &lt; 0">left</span><span data-else="">right</span> of 0.</p>
                 </div>
                 <div>
-                    <div class="graphie" data-update="number-line-2">
+                    <div data-update="number-line-2" class="graphie">
                         label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
                     </div>
                     <p>The orange dot represents the number <var>NUMBER</var>.</p>
@@ -117,7 +117,8 @@
         </div>
     </div>
     </div>
-</body>
-</html>
 
 
+
+
+</body></html>

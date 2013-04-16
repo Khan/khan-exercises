@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Adding fractions with common denominators</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -18,10 +18,10 @@
             <div class="question">
                 <p><code><var>fraction( N1, D )</var> + <var>fraction( N2, D )</var> = {?}</code></p>
             </div>
-            <div class="solution" data-type="rational" data-simplify="optional"><var>( N1 + N2 ) / D</var></div>
+            <div data-simplify="optional" data-type="rational" class="solution"><var>( N1 + N2 ) / D</var></div>
         </div>
 
-        <div id="custom-5" data-weight="0" data-type="add-fractions">
+        <div data-weight="0" data-type="add-fractions" id="custom-5">
             <div class="vars">
                 <var id="N1">1</var>
                 <var id="N2">1</var>
@@ -32,11 +32,11 @@
 
     <div class="hints">
         <div style="height: 150px;">
-            <div class="graphie" style="float: left">
+            <div style="float: left" class="graphie">
                 init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
                 piechart( [ N1, D - N1 ], ["#e00", "#999"], 2 );
             </div>
-            <div class="graphie" style="float: left;">
+            <div style="float: left;" class="graphie">
                 init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
                 piechart( [ N2, D - N2 ], ["#e00", "#999"], 2 );
             </div>
@@ -57,5 +57,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html data-require="math math-format polynomials expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format polynomials expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Limits 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="n-eq-d" data-weight="3">
+            <div data-weight="3" id="n-eq-d">
                 <div class="vars">
                     <var id="DEG">randRange( 4, 7 )</var>
-                    <var id="NUM" data-ensure="NUM.findMaxDegree() === DEG">new Polynomial( randRange( 2, 4 ), DEG )</var>
-                    <var id="DEN" data-ensure="DEN.findMaxDegree() === DEG">new Polynomial( randRange( 2, 4 ), DEG )</var>
+                    <var data-ensure="NUM.findMaxDegree() === DEG" id="NUM">new Polynomial( randRange( 2, 4 ), DEG )</var>
+                    <var data-ensure="DEN.findMaxDegree() === DEG" id="DEN">new Polynomial( randRange( 2, 4 ), DEG )</var>
                     <var id="PM">randFromArray([ "", "-" ])</var>
                 </div>
 
@@ -36,8 +36,8 @@
                 </div>
             </div>
 
-            <div id="n-lt-d" data-weight="3">
-                <div class="vars" data-ensure="NUM.findMaxDegree() < DEN.findMaxDegree()">
+            <div data-weight="3" id="n-lt-d">
+                <div data-ensure="NUM.findMaxDegree() &lt; DEN.findMaxDegree()" class="vars">
                     <var id="DEG">randRange( 4, 7 )</var>
                     <var id="NUM">new Polynomial( randRange( 2, 4 ), randRange( 4, 7 ) )</var>
                     <var id="DEN">new Polynomial( randRange( 2, 4 ), randRange( 4, 7 ) )</var>
@@ -64,12 +64,12 @@
                 </div>
             </div>
 
-            <div id="n-gt-d" data-weight="3">
-                <div class="vars" data-ensure="NUM.findMaxDegree() > DEN.findMaxDegree()">
+            <div data-weight="3" id="n-gt-d">
+                <div data-ensure="NUM.findMaxDegree() &gt; DEN.findMaxDegree()" class="vars">
                     <var id="DEG">randRange( 4, 7 )</var>
                     <var id="NUM">new Polynomial( randRange( 2, 4 ), randRange( 4, 7 ) )</var>
                     <var id="DEN">new Polynomial( randRange( 2, 4 ), randRange( 4, 7 ) )</var>
-                    <var id="RIGHT_SIGN">NUM.getCoefAndDegreeForTerm(0).coef * DEN.getCoefAndDegreeForTerm(0).coef > 0 ? "+" : "-"</var>
+                    <var id="RIGHT_SIGN">NUM.getCoefAndDegreeForTerm(0).coef * DEN.getCoefAndDegreeForTerm(0).coef &gt; 0 ? "+" : "-"</var>
                     <var id="WRONG_SIGN">RIGHT_SIGN === "+" ? "-" : "+"</var>
                 </div>
 
@@ -89,14 +89,14 @@
                 <div class="hints">
                     <p>Look at the leading terms <code><var>expr(NUM.expr()[1])</var></code> and <code><var>expr(DEN.expr()[1])</var></code>.</p>
                     <p>As <code>x \to \infty</code>, the numerator approaches <code><var>NUM.getCoefAndDegreeForTerm(0).coef &lt; 0 ? "-" : ""</var>\infty</code> because the coefficient <code><var>NUM.getCoefAndDegreeForTerm(0).coef</var></code> is <var>NUM.getCoefAndDegreeForTerm(0).coef &lt; 0 ? "negative" : "positive"</var>.</p>
-                    <p>As <code>x \to \infty</code>, the denominator <var>NUM.getCoefAndDegreeForTerm(0).coef * DEN.getCoefAndDegreeForTerm(0).coef > 0 ? "also " : ""</var>approaches <code><var>DEN.getCoefAndDegreeForTerm(0).coef &lt; 0 ? "-" : ""</var>\infty</code> because the coefficient <code><var>DEN.getCoefAndDegreeForTerm(0).coef</var></code> is <var>DEN.getCoefAndDegreeForTerm(0).coef &lt; 0 ? "negative" : "positive"</var>.</p>
+                    <p>As <code>x \to \infty</code>, the denominator <var>NUM.getCoefAndDegreeForTerm(0).coef * DEN.getCoefAndDegreeForTerm(0).coef &gt; 0 ? "also " : ""</var>approaches <code><var>DEN.getCoefAndDegreeForTerm(0).coef &lt; 0 ? "-" : ""</var>\infty</code> because the coefficient <code><var>DEN.getCoefAndDegreeForTerm(0).coef</var></code> is <var>DEN.getCoefAndDegreeForTerm(0).coef &lt; 0 ? "negative" : "positive"</var>.</p>
                     <p>Because the numerator's degree <code><var>NUM.getCoefAndDegreeForTerm(0).degree</var></code> is greater than the denominator's degree <code><var>DEN.getCoefAndDegreeForTerm(0).degree</var></code>, the limit diverges.</p>
-                    <p data-if="NUM.getCoefAndDegreeForTerm(0).coef * DEN.getCoefAndDegreeForTerm(0).coef > 0">The numerator and denominator have the same sign as <code>x</code> gets large, so the limit is <code>+\infty</code>.</p>
-                    <p data-else>The numerator and denominator have differing signs as <code>x</code> gets large, so the limit is <code>-\infty</code>.</p>
+                    <p data-if="NUM.getCoefAndDegreeForTerm(0).coef * DEN.getCoefAndDegreeForTerm(0).coef &gt; 0">The numerator and denominator have the same sign as <code>x</code> gets large, so the limit is <code>+\infty</code>.</p>
+                    <p data-else="">The numerator and denominator have differing signs as <code>x</code> gets large, so the limit is <code>-\infty</code>.</p>
                 </div>
             </div>
 
-            <div id="a-o-xmk" data-weight="2">
+            <div data-weight="2" id="a-o-xmk">
                 <div class="vars">
                     <var id="A">randRangeNonZero( -7, 7 )</var>
                     <var id="K">randRangeNonZero( -7, 7 )</var>
@@ -125,11 +125,11 @@
                 </div>
             </div>
 
-            <div id="a-o-xmk2" data-weight="2">
+            <div data-weight="2" id="a-o-xmk2">
                 <div class="vars">
                     <var id="A">randRangeNonZero( -7, 7 )</var>
                     <var id="K">randRangeNonZero( -7, 7 )</var>
-                    <var id="RIGHT_SIGN">A > 0 ? "+" : "-"</var>
+                    <var id="RIGHT_SIGN">A &gt; 0 ? "+" : "-"</var>
                     <var id="WRONG_SIGN">RIGHT_SIGN === "+" ? "-" : "+"</var>
                 </div>
 
@@ -149,10 +149,11 @@
                 <div class="hints">
                     <p>Consider the behavior of the function as <code>x \to <var>K</var></code> from each direction.</p>
                     <p>In either direction, <code>(x + <var>-K</var>)^2</code> approaches <code>0</code>, so <code>\dfrac{<var>A</var>}{(<var>B</var>x + <var>-K</var>\smash{)}^2}</code> diverges.</p>
-                    <p>Because <code>(x + <var>-K</var>)^2</code> is always positive and <code><var>A</var></code> is <var>A > 0 ? "positive" : "negative"</var>, <code>\dfrac{<var>A</var>}{(<var>B</var>x + <var>-K</var>\smash{)}^2}</code> approaches <code><var>RIGHT_SIGN</var>\infty</code>.</p>
+                    <p>Because <code>(x + <var>-K</var>)^2</code> is always positive and <code><var>A</var></code> is <var>A &gt; 0 ? "positive" : "negative"</var>, <code>\dfrac{<var>A</var>}{(<var>B</var>x + <var>-K</var>\smash{)}^2}</code> approaches <code><var>RIGHT_SIGN</var>\infty</code>.</p>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

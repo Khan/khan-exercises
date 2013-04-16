@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format exponents">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format exponents"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Negative exponents</title>
     <script src="../khan-exercise.js"></script>
 
@@ -67,21 +67,22 @@
 
                 <div class="hints">
 
-                    <div data-unwrap data-if="abs( EXP ) > 1">
+                    <div data-if="abs( EXP ) &gt; 1" data-unwrap="">
 
                         <p data-if="EXP_NEG"><code>= <var>fracParens( BASEF_N, BASEF_D )</var>^{<var>EXP</var>}</code></p>
 
-                        <div data-unwrap data-each="expandFractionExponent( BASEF_N, BASEF_D, EXP ) as v">
+                        <div data-each="expandFractionExponent( BASEF_N, BASEF_D, EXP ) as v" data-unwrap="">
                             <p><code>= <var>v</var></code></p>
                         </div>
 
                     </div>
 
-                    <p data-else><code>= <var>frac( SOL_N, SOL_D )</var></code></p>
+                    <p data-else=""><code>= <var>frac( SOL_N, SOL_D )</var></code></p>
 
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

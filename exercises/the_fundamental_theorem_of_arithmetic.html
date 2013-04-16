@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems graphie interactive">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format word-problems graphie interactive"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>The fundamental theorem of arithmetic</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -167,7 +167,7 @@
                 </div>
             </div>
 
-            <div class="solution" data-type="custom">
+            <div data-type="custom" class="solution">
                 <div class="instruction">
                     <p>Click the orange arrows to change your answer.</p>
                     <p id="answer-preview"><code>=1</code></p>
@@ -206,7 +206,7 @@
 
     <div class="hints">
         <div>
-            <div class="graphie" id="factor-tree" style="float: left;">
+            <div style="float: left;" id="factor-tree" class="graphie">
                 graph.cx = 0;
                 graph.y = 0;
                 graph.curr = NUMBER;
@@ -220,7 +220,7 @@
             factorization. Which of the prime numbers divides into <code><var>NUMBER</var></code>?</p>
         </div>
         <div data-each="FACTORIZATION.slice(0, -1) as I, FACTOR">
-            <div class="graphie" data-update="factor-tree">
+            <div data-update="factor-tree" class="graphie">
                 path([[graph.cx + 1, graph.y - 0.5], [graph.cx, graph.y - 1.5]]);
                 path([[graph.cx + 1, graph.y - 0.5], [graph.cx + 2, graph.y - 1.5]]);
                 graph.y -= 2;
@@ -236,7 +236,7 @@
             </p>
         </div>
         <div>
-            <div class="graphie" data-update="factor-tree">
+            <div data-update="factor-tree" class="graphie">
                 circle( [graph.cx + 1, graph.y], 0.5);
                 graph.lastLabel.remove();
                 label( [graph.cx + 1, graph.y], graph.curr, {color: BLUE} );
@@ -264,5 +264,6 @@
     </div>
 
 </div>
-</body>
-</html>
+
+
+</body></html>

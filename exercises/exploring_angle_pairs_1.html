@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Exploring angle pairs</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
-    <div class="vars" data-ensure="START != END && START + 3 != END">
+    <div data-ensure="START != END &amp;&amp; START + 3 != END" class="vars">
         <var id="VERTICES">["A", "B", "C", "D", "E", "F"] </var>
 
         <var id="START"> randRange(0,5) </var>
@@ -50,8 +50,8 @@
                     scale: 20
                 });
 
-            line( ENDPOINT1[0], ENDPOINT2[0], { arrows: "->" } );
-            line( ENDPOINT2[0], ENDPOINT1[0], { arrows: "->"} );
+            line( ENDPOINT1[0], ENDPOINT2[0], { arrows: "-&gt;" } );
+            line( ENDPOINT2[0], ENDPOINT1[0], { arrows: "-&gt;"} );
 
             circle( INNER_ENDPOINT1[0], DOT_ATTRS );
             circle( INNER_ENDPOINT2[0], DOT_ATTRS );
@@ -60,8 +60,8 @@
             label( INNER_ENDPOINT2[0], "D", "above");
 
 
-            line( ENDPOINT1[1], ENDPOINT2[1], { arrows: "->" } );
-            line( ENDPOINT2[1], ENDPOINT1[1], { arrows: "->"} );
+            line( ENDPOINT1[1], ENDPOINT2[1], { arrows: "-&gt;" } );
+            line( ENDPOINT2[1], ENDPOINT1[1], { arrows: "-&gt;"} );
 
             circle( INNER_ENDPOINT1[1], DOT_ATTRS );
             circle( INNER_ENDPOINT2[1], DOT_ATTRS );
@@ -70,8 +70,8 @@
             label( INNER_ENDPOINT2[1], "E", "above");
 
 
-            line( ENDPOINT1[2], ENDPOINT2[2], { arrows: "->" } );
-            line( ENDPOINT2[2], ENDPOINT1[2], { arrows: "->"} );
+            line( ENDPOINT1[2], ENDPOINT2[2], { arrows: "-&gt;" } );
+            line( ENDPOINT2[2], ENDPOINT1[2], { arrows: "-&gt;"} );
 
             circle( INNER_ENDPOINT1[2], DOT_ATTRS );
             circle( INNER_ENDPOINT2[2], DOT_ATTRS );
@@ -93,9 +93,9 @@
                     <var> ANGLE_START </var>G<var> ANGLE_END </var> </code>.</p>
             </div>
 
-            <div class="solution" data-type="set">
-                <div class="set-sol" data-type="text"> <var>OPP_START</var>G<var>OPP_END</var> </div>
-                <div class="set-sol" data-type="text"> <var>OPP_END</var>G<var>OPP_START</var> </div>
+            <div data-type="set" class="solution">
+                <div data-type="text" class="set-sol"> <var>OPP_START</var>G<var>OPP_END</var> </div>
+                <div data-type="text" class="set-sol"> <var>OPP_END</var>G<var>OPP_START</var> </div>
 
                 <div class="input-format">
                     <p> <code> \angle </code> <span class="entry"></span> </p>
@@ -117,22 +117,22 @@
                     <var> ANGLE_START </var> G <var> ANGLE_END </var> </code> </p>
             </div>
 
-            <div class="solution" data-type="set">
-                <div class="set-sol" data-type="text"> <var>ANGLE_START
+            <div data-type="set" class="solution">
+                <div data-type="text" class="set-sol"> <var>ANGLE_START
                 </var>G<var>ADJ_START[0] </var> </div>
-                <div class="set-sol" data-type="text"> <var>ANGLE_START 
+                <div data-type="text" class="set-sol"> <var>ANGLE_START 
                 </var>G<var>ADJ_START[1] </var> </div>
-                <div class="set-sol" data-type="text"> <var>ANGLE_END 
+                <div data-type="text" class="set-sol"> <var>ANGLE_END 
                 </var>G<var>ADJ_END[0] </var> </div>
-                <div class="set-sol" data-type="text"> <var>ANGLE_END 
+                <div data-type="text" class="set-sol"> <var>ANGLE_END 
                 </var>G<var>ADJ_END[1] </var> </div>
-                <div class="set-sol" data-type="text"> <var>ADJ_START[0]
+                <div data-type="text" class="set-sol"> <var>ADJ_START[0]
                 </var>G<var>ANGLE_START </var> </div>
-                <div class="set-sol" data-type="text"> <var>ADJ_START[1] 
+                <div data-type="text" class="set-sol"> <var>ADJ_START[1] 
                 </var>G<var>ANGLE_START </var> </div>
-                <div class="set-sol" data-type="text"> <var>ADJ_END[0] 
+                <div data-type="text" class="set-sol"> <var>ADJ_END[0] 
                 </var>G<var>ANGLE_END </var> </div>
-                <div class="set-sol" data-type="text"> <var>ADJ_END[1] 
+                <div data-type="text" class="set-sol"> <var>ADJ_END[1] 
                 </var>G<var>ANGLE_END </var> </div>
 
                 <div class="input-format">
@@ -156,14 +156,14 @@
                     <var> ANGLE_START </var> G <var> ANGLE_END </var> </code> </p>
             </div>
 
-            <div class="solution" data-type="set">
-                <div class="set-sol" data-type="text"> <var>ANGLE_START
+            <div data-type="set" class="solution">
+                <div data-type="text" class="set-sol"> <var>ANGLE_START
                 </var>G<var>OPP_END</var> </div>
-                <div class="set-sol" data-type="text"> <var>ANGLE_END
+                <div data-type="text" class="set-sol"> <var>ANGLE_END
                 </var>G<var>OPP_START</var> </div>
-                <div class="set-sol" data-type="text"> <var>OPP_END
+                <div data-type="text" class="set-sol"> <var>OPP_END
                 </var>G<var>ANGLE_START</var> </div>
-                <div class="set-sol" data-type="text"> <var>OPP_START
+                <div data-type="text" class="set-sol"> <var>OPP_START
                 </var>G<var>ANGLE_END</var> </div>
             
                 <div class="input-format">
@@ -184,5 +184,6 @@
 
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

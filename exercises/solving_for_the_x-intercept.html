@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie math-format expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie math-format expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Solving for the x-intercept</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -20,8 +20,8 @@
             <p><code><var>expr([ "*", X_COEFF, "x" ])</var> + <var>expr([ "*", Y_COEFF, "y" ])</var> = <var>EQUALS</var></code></p>
             <p class="question">What is the <code>x</code>-intercept?</p>
 
-            <div class="solution" data-type="multiple">
-                <code>\Large{(}</code><span class="sol short30" data-forms="integer"><var>X_INTERCEPT</var></span><code>,\ 0\Large{)}</code>
+            <div data-type="multiple" class="solution">
+                <code>\Large{(}</code><span data-forms="integer" class="sol short30"><var>X_INTERCEPT</var></span><code>,\ 0\Large{)}</code>
             </div>
 
         </div>
@@ -34,7 +34,7 @@
             <p><code><var>expr([ "*", X_COEFF, "x" ])</var> + <var>expr([ "*", Y_COEFF, 0 ])</var> = <var>EQUALS</var></code></p>
         </div>
         <p><code><var>expr([ "*", X_COEFF, "x" ])</var> = <var>EQUALS</var></code></p>
-        <div data-if="X_COEFF !== 1" data-unwrap>
+        <div data-if="X_COEFF !== 1" data-unwrap="">
             <p><code>(<var>fractionReduce( 1, X_COEFF )</var>) \cdot (<var>X_COEFF</var>x) = (<var>fractionReduce( 1, X_COEFF )</var>) \cdot (<var>EQUALS</var>)</code></p>
             <p><code>x = <var>X_INTERCEPT</var></code></p>
         </div>
@@ -48,7 +48,7 @@
                     labelStep: 1,
                     unityLabels: false,
                     labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                    axisArrows: "<->"
+                    axisArrows: "&lt;-&gt;"
                 });
 
                 style({ stroke: BLUE });
@@ -66,5 +66,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

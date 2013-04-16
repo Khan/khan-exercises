@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers-arithmetic word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers-arithmetic word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Multiplying decimals</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -11,7 +11,7 @@
             <var id="SMALL_FACTOR">randRange( 100, 999 )</var>
             <var id="BIG_FACTOR">randRange( 100, 999 )</var>
             <var id="PRODUCT">SMALL_FACTOR * BIG_FACTOR</var>
-            <div data-ensure="BIG_FACTOR_DECIMAL > 0 || SMALL_FACTOR_DECIMAL > 0">
+            <div data-ensure="BIG_FACTOR_DECIMAL &gt; 0 || SMALL_FACTOR_DECIMAL &gt; 0">
                 <var id="BIG_FACTOR_DECIMAL">randRange( 0, 3 )</var>
                 <var id="SMALL_FACTOR_DECIMAL">randRange( 0, 3 )</var>
             </div>
@@ -23,23 +23,24 @@
         <div class="problems">
             <div>
                 <br>
-                <div class="graphie" id="numbers">
+                <div id="numbers" class="graphie">
                     graph.multiplier = new Multiplier( BIG_FACTOR, SMALL_FACTOR, BIG_FACTOR_DIGITS, SMALL_FACTOR_DIGITS, BIG_FACTOR_DECIMAL, SMALL_FACTOR_DECIMAL );
                     graph.multiplier.show();
                     graph.multiplier.showDecimals();
                     DUMMY = Array( graph.multiplier.getNumHints() );
                 </div>
-                <div class="solution" data-type="decimal"><var>( PRODUCT * pow( 10, -(BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL) ) ).toFixed(BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL)</var></div>
+                <div data-type="decimal" class="solution"><var>( PRODUCT * pow( 10, -(BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL) ) ).toFixed(BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL)</var></div>
             </div>
         </div>
         <div class="hints">
-            <div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+            <div data-update="numbers" data-each="DUMMY as dummy" class="graphie">
                 graph.multiplier.showHint();
             </div>
-            <div class="graphie" data-update="numbers">
+            <div data-update="numbers" class="graphie">
                 graph.multiplier.showDecimalsInProduct();
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

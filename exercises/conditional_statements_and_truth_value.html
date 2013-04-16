@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Conditional statements and truth value</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -110,7 +110,7 @@
                 <p class="question"><var>STATEMENT</var></p>
             </div>
             <p class="solution"><var>ANS</var></p>
-            <ul class="choices" data-category="true">
+            <ul data-category="true" class="choices">
                 <li><var>MUST</var></li>
                 <li><var>MIGHT</var></li>
             </ul>
@@ -118,7 +118,7 @@
                 <p>Is the second statement the converse, inverse, or contrapositive of the original statement?</p>
                 <p>The second statement is the <var>STATEMENT_TYPE</var> of the original statement.</p>
                 <p data-if="STATEMENT_TYPE === 'contrapositive'">The <var>STATEMENT_TYPE</var> is logically equivalent to the original statement, so yes, the second statement can be deduced from the first statement.</p>
-                <p data-else>The <var>STATEMENT_TYPE</var> is not logically equivalent to the original statement, so no, the second statement cannot be deduced from the first statement.</p>
+                <p data-else="">The <var>STATEMENT_TYPE</var> is not logically equivalent to the original statement, so no, the second statement cannot be deduced from the first statement.</p>
             </div>
         </div>
 
@@ -153,7 +153,7 @@
             </div>
             <p class="question">If the <var>NAMES[CASE]</var> is true, then which other statement must be true logically?</p>
             <p class="solution">the <var>ANS</var></p>
-            <ul class="choices" data-category="true">
+            <ul data-category="true" class="choices">
                 <li data-each="OPTIONS as option">the <var>option</var></li>
             </ul>
             <div class="hints">
@@ -164,5 +164,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

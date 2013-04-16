@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie interactive"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Domain and range</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -23,16 +23,16 @@
                     push([ DOMAIN[0], randRange( -5, 5 ) ]);
 
                     for( var i = DOMAIN[0]+1; i &lt;= DOMAIN[1]; i++ ) {
-                        if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && prev[1] &lt; 8 ) {
+                        if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; prev[1] &lt; 8 ) {
                             push([i, prev[1]+1]);
 
-                        } else if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && prev[1] > -8 ) {
+                        } else if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; prev[1] &gt; -8 ) {
                             push([i, prev[1]-1]);
 
-                        } else if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) && prev[1] &lt; 7 ) {
+                        } else if ( abs( randRangeNonZero( -10, 10 ) &lt; 2 ) &amp;&amp; prev[1] &lt; 7 ) {
                             push([i, prev[1]+2]);
 
-                        } else if ( abs( randRangeNonZero( -10, 10 ) &lt; 3 ) && prev[1] > -7 ) {
+                        } else if ( abs( randRangeNonZero( -10, 10 ) &lt; 3 ) &amp;&amp; prev[1] &gt; -7 ) {
                             push([i, prev[1]-2]);
 
                         } else {
@@ -54,7 +54,7 @@
             <div id="domain">
                 <p class="question">The function <code>f(x)</code> is graphed; what is its domain?</p>
 
-                <div id="graph" class="graphie">
+                <div class="graphie" id="graph">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -70,13 +70,13 @@
                     circle( FUNCTION_PATH[ FUNCTION_PATH.length - 1], 0.15, { stroke: "none", fill: BLUE } );
                 </div>
 
-                <p class="solution" data-type="multiple"><span class="sol short40" data-forms="integer"><var>DOMAIN[0]</var></span><code>\;\le x\le\;</code><span class="sol short40" data-forms="integer"><var>DOMAIN[1]</var></span></p>
+                <p data-type="multiple" class="solution"><span data-forms="integer" class="sol short40"><var>DOMAIN[0]</var></span><code>\;\le x\le\;</code><span data-forms="integer" class="sol short40"><var>DOMAIN[1]</var></span></p>
 
                 <div class="hints">
                     <p>For what values of <code>x</code> does <code>f(x)</code> have a value?</p>
                     <div>
                         <p>Look at the horizontal axis as if it were a number line.</p>
-                        <div class="graphie" data-update="graph">
+                        <div data-update="graph" class="graphie">
                             var domain_path = graph.fn_path.clone();
                             var tmp_path = path( $.map( FUNCTION_PATH, function( p ) { return [[ p[0], 0 ]]; }), { stroke: "none" } );
                             domain_path.animate( { path: tmp_path.attrs.path, "stroke-width": 4, stroke: GREEN }, ANIM_SPEED, "ease-in-out");
@@ -91,16 +91,16 @@
                     <p><code><var>DOMAIN[0]</var>\le x\le <var>DOMAIN[1]</var></code></p>
                 </div>
             </div>
-            <div id="range" data-type="domain">
+            <div data-type="domain" id="range">
                 <p class="question">The function <code>f(x)</code> is graphed; what is its range?</p>
 
-                <p class="solution" data-type="multiple"><span class="sol short40"><var>RANGE[0]</var></span><code>\;\le f(x)\le\;</code><span class="sol short40"><var>RANGE[1]</var></span></p>
+                <p data-type="multiple" class="solution"><span class="sol short40"><var>RANGE[0]</var></span><code>\;\le f(x)\le\;</code><span class="sol short40"><var>RANGE[1]</var></span></p>
 
                 <div class="hints">
                     <p>What values can <code>f(x)</code> have?</p>
                     <div>
                         <p>Look at the vertical axis as if it were a number line.</p>
-                        <div class="graphie" data-update="graph">
+                        <div data-update="graph" class="graphie">
                             var range_path = graph.fn_path.clone();
                             var tmp_path = path( $.map( FUNCTION_PATH, function( p ) { return [[ 0, p[1] ]]; }), { stroke: "none" } );
                             range_path.animate( { path: tmp_path.attrs.path, "stroke-width": 4, stroke: GREEN }, ANIM_SPEED, "ease-in-out");
@@ -117,5 +117,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

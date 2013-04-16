@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math matrix qhints">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math matrix qhints"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Matrix dimensions</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="!(DIM_1 === 1 && DIM_2 === 1)">
+    <div data-ensure="!(DIM_1 === 1 &amp;&amp; DIM_2 === 1)" class="vars">
         <var id="DIM_1">randRange(1, 4)</var>
         <var id="DIM_2">randRange(1, 4)</var>
         <var id="MAT_A">makeMatrix(randRange(-2, 4, DIM_1, DIM_2))</var>
@@ -29,10 +29,10 @@
                 What are the dimensions of matrix <code><var>PRETTY_MAT_ID</var></code>?
             </p>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol short20" data-forms="integer"><var>DIM_1</var></span>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol short20"><var>DIM_1</var></span>
                 <code>\times</code>
-                <span class="sol short20" data-forms="integer"><var>DIM_2</var></span>
+                <span data-forms="integer" class="sol short20"><var>DIM_2</var></span>
             </div>
         </div>
     </div>
@@ -44,8 +44,8 @@
             </p>
             <span class="qhint-answer"><var>DIM_1</var></span>
             <p class="qhint-input">
-                <input type="text" value=""/>
-                <input type="submit" value="Check"/>
+                <input type="text" value="">
+                <input type="submit" value="Check">
             </p>
         </div>
         <div class="qhint">
@@ -54,8 +54,8 @@
             </p>
             <span class="qhint-answer"><var>DIM_2</var></span>
             <p class="qhint-input">
-                <input type="text" value=""/>
-                <input type="submit" value="Check"/>
+                <input type="text" value="">
+                <input type="submit" value="Check">
             </p>
         </div>
         <div>
@@ -63,5 +63,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

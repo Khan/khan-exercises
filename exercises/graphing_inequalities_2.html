@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie interactive"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Graphing and solving linear inequalities</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -19,24 +19,24 @@
                 <var id="B">SLOPE_FRAC[1] * MULT</var>
                 <var id="C">SLOPE_FRAC[1] * YINT * MULT</var>
                 <var id="STD_FORM">randFromArray([ true, false ])</var>
-                <var id="COMP">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
-                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;" }[ COMP ] : COMP</var>
-                <var id="LESS_THAN">COMP === "&lt;" || COMP === "&le;"</var>
-                <var id="INCLUSIVE">COMP === "&ge;" || COMP === "&le;"</var>
-                <div data-ensure="sqrt( pow( POINT_1[0] - POINT_2[0], 2 ) + pow( POINT_1[1] - POINT_2[1], 2 ) ) > 4">
+                <var id="COMP">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
+                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&#8804;": "&#8805;", "&#8805;": "&#8804;" }[ COMP ] : COMP</var>
+                <var id="LESS_THAN">COMP === "&lt;" || COMP === "&#8804;"</var>
+                <var id="INCLUSIVE">COMP === "&#8805;" || COMP === "&#8804;"</var>
+                <div data-ensure="sqrt( pow( POINT_1[0] - POINT_2[0], 2 ) + pow( POINT_1[1] - POINT_2[1], 2 ) ) &gt; 4">
                     <var id="POINT_1">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
                     <var id="POINT_2">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
                     <var id="POINT_1_SOLUTION">
                             (((COMP === "&lt;") &amp;&amp; ( POINT_1[1] &lt;  SLOPE * POINT_1[0] + YINT ))
-                        || ((COMP === "&le;") &amp;&amp; ( POINT_1[1] &lt;= SLOPE * POINT_1[0] + YINT ))
+                        || ((COMP === "&#8804;") &amp;&amp; ( POINT_1[1] &lt;= SLOPE * POINT_1[0] + YINT ))
                         || ((COMP === "&gt;") &amp;&amp; ( POINT_1[1] &gt;  SLOPE * POINT_1[0] + YINT ))
-                        || ((COMP === "&ge;") &amp;&amp; ( POINT_1[1] &gt;= SLOPE * POINT_1[0] + YINT )))
+                        || ((COMP === "&#8805;") &amp;&amp; ( POINT_1[1] &gt;= SLOPE * POINT_1[0] + YINT )))
                     </var>
                     <var id="POINT_2_SOLUTION">
                             (((COMP === "&lt;") &amp;&amp; ( POINT_2[1] &lt;  SLOPE * POINT_2[0] + YINT ))
-                        || ((COMP === "&le;") &amp;&amp; ( POINT_2[1] &lt;= SLOPE * POINT_2[0] + YINT ))
+                        || ((COMP === "&#8804;") &amp;&amp; ( POINT_2[1] &lt;= SLOPE * POINT_2[0] + YINT ))
                         || ((COMP === "&gt;") &amp;&amp; ( POINT_2[1] &gt;  SLOPE * POINT_2[0] + YINT ))
-                        || ((COMP === "&ge;") &amp;&amp; ( POINT_2[1] &gt;= SLOPE * POINT_2[0] + YINT )))
+                        || ((COMP === "&#8805;") &amp;&amp; ( POINT_2[1] &gt;= SLOPE * POINT_2[0] + YINT )))
                     </var>
                 </div>
             </div>
@@ -48,34 +48,34 @@
             </p>
 
             <div class="problem">
-                <p class="hint_blue" data-if="STD_FORM">
+                <p data-if="STD_FORM" class="hint_blue">
                     <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> <var>STD_FORM_COMP</var> <var>C</var></code>
                 </p>
-                <p class="hint_blue" data-else>
+                <p data-else="" class="hint_blue">
                     <code>y <var>COMP</var> <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>
                 </p>
 
                 <form>
-                    <input type="button" value="Shade other side" onClick="javascript:
+                    <input type="button" onclick="javascript:
                         KhanUtil.currentGraph.graph.shadetop = !KhanUtil.currentGraph.graph.shadetop;
                         KhanUtil.currentGraph.graph.update();
-                    " />
+                    " value="Shade other side">
                     <label>
-                        <input name="dashradio" type="radio" value="solid" checked onClick="javascript:
+                        <input checked type="radio" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray = '';
                             KhanUtil.currentGraph.graph.update();
-                        " />
+                        " value="solid" name="dashradio">
                         Solid line
                     </label>
                     <label>
-                        <input name="dashradio" type="radio" value="dashed" onClick="javascript:
+                        <input type="radio" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray = '- ';
                             KhanUtil.currentGraph.graph.update();
-                        " />
+                        " value="dashed" name="dashradio">
                         Dashed line
                     </label>
                 </form>
-                <div class="graphie" id="grid">
+                <div id="grid" class="graphie">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -169,8 +169,8 @@
                 </div>
 
             </div>
-            <div class="solution" data-type="multiple">
-                <div class="sol" data-type="custom">
+            <div data-type="multiple" class="solution">
+                <div data-type="custom" class="sol">
                     <div class="instruction">
                         Drag the two points to move the line into the correct position.
                     </div>
@@ -200,8 +200,8 @@
                         graph.update();
                     </div>
                 </div>
-                <div><label><span class="sol" data-type="checkbox"><var>POINT_1_SOLUTION</var></span><code>(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is a solution</label></div>
-                <div><label><span class="sol" data-type="checkbox"><var>POINT_2_SOLUTION</var></span><code>(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is a solution</label></div>
+                <div><label><span data-type="checkbox" class="sol"><var>POINT_1_SOLUTION</var></span><code>(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is a solution</label></div>
+                <div><label><span data-type="checkbox" class="sol"><var>POINT_2_SOLUTION</var></span><code>(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is a solution</label></div>
                 <div class="example">graph the inequality</div>
                 <div class="example">make sure the correct side is shaded</div>
                 <div class="example">make sure the line is correctly shown as solid or dashed</div>
@@ -210,7 +210,7 @@
     </div>
 
     <div class="hints">
-        <div data-if="STD_FORM" data-unwrap>
+        <div data-if="STD_FORM" data-unwrap="">
             <p>
                 Convert <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> <var>STD_FORM_COMP</var> <var>C</var></code>
                 to slope-intercept form by solving for <code>y</code>.
@@ -224,7 +224,7 @@
             </div>
             <div data-if="B !== 1">
                 <p>
-                    Divide both sides by <code><var>B</var></code><span data-if="B < 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
+                    Divide both sides by <code><var>B</var></code><span data-if="B &lt; 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
                 </p><p>
                     <code>\qquad y <var>COMP</var> <var>expr([ "+", "\\dfrac{" + expr([ "*", -A, "x" ]) + "}{" + B + "}", "\\dfrac{" + C + "}{" + B + "}" ])</var></code>
                 </p>
@@ -237,7 +237,7 @@
                 The y-intercept is <code class="hint_green"><var>YINT</var></code> and the slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>.
                 Since the y-intercept is <code class="hint_green"><var>YINT</var></code>, the line must pass through the point <code class="hint_green">(0, <var>YINT</var>)</code>.
             </p>
-            <div class="graphie" data-update="grid">
+            <div data-update="grid" class="graphie">
                 style({ stroke: GREEN, fill: GREEN }, function() {
                     graph.yint = circle( [ 0, YINT ], 0.2 ).toBack();
                 });
@@ -250,14 +250,14 @@
                 <code><var>abs( SLOPE_FRAC[0] )</var></code>
                 <var>"position" + ( abs( SLOPE_FRAC[0] ) !== 1 ? "s" : "" )</var>
                 you move
-                <span data-if="SLOPE_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
-                <span data-else>up</span>
+                <span data-if="SLOPE_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
+                <span data-else="">up</span>
                 you must also move
                 <code><var>SLOPE_FRAC[1]</var></code>
                 <var>"position" + ( abs( SLOPE_FRAC[1] ) !== 1 ? "s" : "" )</var>
                 to the right. So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC[1]</var>, <var>YINT + SLOPE_FRAC[0]</var>)</code>
             </p>
-            <div class="graphie" data-update="grid">
+            <div data-update="grid" class="graphie">
                 style({
                     stroke: "purple",
                     strokeWidth: 2,
@@ -281,7 +281,7 @@
                 Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> or <strong>equal to</strong>, any point on the line is also a solution, so the
                 line should be solid.
             </p>
-            <p data-else>
+            <p data-else="">
                 Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> (and not equal to), any point on the line is <strong>not</strong> part of the solution,
                 so the line should be dashed to indicate this.
             </p>
@@ -292,7 +292,7 @@
                 <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> and
                 <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code>
             </p>
-            <div class="graphie" data-update="grid">
+            <div data-update="grid" class="graphie">
                 style({ stroke: PINK, fill: PINK }, function() {
                     circle( [ POINT_1[0], POINT_1[1] ], 0.2 ).toBack();
                     circle( [ POINT_2[0], POINT_2[1] ], 0.2 ).toBack();
@@ -300,19 +300,19 @@
             </div>
         </div>
         <div>
-            <p data-if="POINT_1_SOLUTION && !POINT_2_SOLUTION">
+            <p data-if="POINT_1_SOLUTION &amp;&amp; !POINT_2_SOLUTION">
                 <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is a solution because it's inside the shaded area, but
                 <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is not.
             </p>
-            <p data-else-if="POINT_2_SOLUTION && !POINT_1_SOLUTION">
+            <p data-else-if="POINT_2_SOLUTION &amp;&amp; !POINT_1_SOLUTION">
                 <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> is outside the shaded area, so it's not a solution, but
                 <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> is a solution.
             </p>
-            <p data-else-if="POINT_1_SOLUTION && POINT_2_SOLUTION"> Both
+            <p data-else-if="POINT_1_SOLUTION &amp;&amp; POINT_2_SOLUTION"> Both
                 <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> and
                 <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> are solutions because they're inside the shaded area.
             </p>
-            <p data-else> Neither
+            <p data-else=""> Neither
                 <code class="hint_pink">(<var>POINT_1[0]</var>, <var>POINT_1[1]</var>)</code> nor
                 <code class="hint_pink">(<var>POINT_2[0]</var>, <var>POINT_2[1]</var>)</code> are solutions because they are not within the shaded area.
             </p>
@@ -320,5 +320,6 @@
     </div>
 
 </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Geometric sequences 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,10 +9,10 @@
     <div class="exercise">
     <div class="problems">
         <div>
-            <div class="vars" data-ensure="abs(GIVEN[0][0]) &lt; 200 &amp;&amp; abs(GIVEN[0][1]) &lt; 200 &amp;&amp; abs(ANS[0]) &lt; 200 &amp;&amp; abs(ANS[1]) &lt; 200">
+            <div data-ensure="abs(GIVEN[0][0]) &lt; 200 &amp;&amp; abs(GIVEN[0][1]) &lt; 200 &amp;&amp; abs(ANS[0]) &lt; 200 &amp;&amp; abs(ANS[1]) &lt; 200" class="vars">
                 <var id="A">randRangeNonZero(-8, 8)</var>
                 <var id="RN">randFromArray([-1, 1]) * randRange(1, 4)</var>
-                <var id="RD" data-ensure="abs(RN) !== abs(RD)">randRange(1, 4)</var>
+                <var data-ensure="abs(RN) !== abs(RD)" id="RD">randRange(1, 4)</var>
                 <var id="N">randRange(3, 5)</var>
                 <!-- N + 1 + OFFSET >= 0 always -->
                 <var id="OFFSET">randRange(-N - 1, 0)</var>
@@ -47,5 +47,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

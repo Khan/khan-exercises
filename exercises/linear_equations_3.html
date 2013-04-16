@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Equations with variables on both sides</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -11,8 +11,8 @@
         <div class="vars">
             <var id="A">randRange( 2, 10 )</var>
             <var id="B">randRangeNonZero( -10, 10 )</var>
-            <var id="C" data-ensure="C !== A && abs( A - C ) > 1">randRange( 2, 10 )</var>
-            <var id="D" data-ensure="D !== B">randRangeNonZero( 2, 10 )</var>
+            <var data-ensure="C !== A &amp;&amp; abs( A - C ) &gt; 1" id="C">randRange( 2, 10 )</var>
+            <var data-ensure="D !== B" id="D">randRangeNonZero( 2, 10 )</var>
             <var id="SOLUTION">fractionReduce( D - B, A - C )</var>
         </div>
 
@@ -21,21 +21,21 @@
                 <p class="question">Solve for <code>x</code>:</p>
                 <div><code><var>A</var>x + <var>B</var> = <var>C</var>x + <var>D</var></code></div>
 
-                <div class="solution" data-type="multiple">
+                <div data-type="multiple" class="solution">
                     <p><code>x =</code> <span class="sol"><var>( D - B ) / ( A - C )</var></span></p>
                 </div>
             </div>
         </div>
 
         <div class="hints">
-            <div data-if="A > C" data-unwrap>
+            <div data-if="A &gt; C" data-unwrap="">
                 <div>
                     <p>Subtract <code><var>C</var>x</code> from both sides:</p>
                     <p><code>(<var>A</var>x + <var>B</var>) - <var>C</var>x = (<var>C</var>x + <var>D</var>) - <var>C</var>x</code></p>
                     <p><code><var>A - C</var>x + <var>B</var> = <var>D</var></code></p>
                 </div>
                 <div>
-                    <p><var>B > 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B > 0 ? "from" : "to"</var> both sides:</p>
+                    <p><var>B &gt; 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B &gt; 0 ? "from" : "to"</var> both sides:</p>
                     <p><code>(<var>A - C</var>x + <var>B</var>) + <var>-B</var> = <var>D</var> + <var>-B</var></code></p>
                     <p><code><var>A - C</var>x = <var>D - B</var></code></p>
                 </div>
@@ -48,14 +48,14 @@
                     <p><code>x = <var>SOLUTION</var></code></p>
                 </div>
             </div>
-            <div data-else data-unwrap>
+            <div data-else="" data-unwrap="">
                 <div>
                     <p>Subtract <code><var>A</var>x</code> from both sides:</p>
                     <p><code>(<var>A</var>x + <var>B</var>) - <var>A</var>x = (<var>C</var>x + <var>D</var>) - <var>A</var>x</code></p>
                     <p><code><var>B</var> = <var>C - A</var>x + <var>D</var></code></p>
                 </div>
                 <div>
-                    <p><var>D > 0 ? "Subtract" : "Add"</var> <code><var>abs(D)</var></code> <var>D > 0 ? "from" : "to"</var> both sides:</p>
+                    <p><var>D &gt; 0 ? "Subtract" : "Add"</var> <code><var>abs(D)</var></code> <var>D &gt; 0 ? "from" : "to"</var> both sides:</p>
                     <p><code><var>B</var> + <var>-D</var> = (<var>C - A</var>x + <var>D</var>) + <var>-D</var></code></p>
                     <p><code><var>B - D</var> = <var>C - A</var>x</code></p>
                 </div>
@@ -70,5 +70,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

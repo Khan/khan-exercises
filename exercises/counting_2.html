@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Counting 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -17,21 +17,21 @@
                 </div>
                 <p><var>person( 1 )</var> starts counting at <var>START</var>, and <var>he( 1 )</var> counts by <var>cardinal( INCR )</var>s.</p>
                 <p class="question">If <var>START</var> is the 1st number that <var>person( 1 )</var> counts. what is the <var>NTH</var>th number that <var>he( 1 )</var> counts?</p>
-                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
                 <div class="hints">
                     <p>What is the first number that <var>he( 1 )</var> counts?</p>
                     <p><code><var>START</var></code></p>
                     <p>What is the second number that <var>he( 1 )</var> counts?</p>
-                    <p><code>\begin{align*}&<var>START</var> + <var>INCR</var> \\
-                        &= <var>START + INCR</var>\end{align*}</code></p>
+                    <p><code>\begin{align*}&amp;<var>START</var> + <var>INCR</var> \\
+                        &amp;= <var>START + INCR</var>\end{align*}</code></p>
                     <p>What is the third number that <var>he( 1 )</var> counts?</p>
-                    <p><code>\begin{align*}&<var>START</var> + <var>INCR</var> + <var>INCR</var> \\
-                        &= <var>START</var> + (2 \times <var>INCR</var>) \\
-                        &= <var>START + 2 * INCR</var>\end{align*}</code></p>
+                    <p><code>\begin{align*}&amp;<var>START</var> + <var>INCR</var> + <var>INCR</var> \\
+                        &amp;= <var>START</var> + (2 \times <var>INCR</var>) \\
+                        &amp;= <var>START + 2 * INCR</var>\end{align*}</code></p>
                     <p>What is the <var>NTH</var>th number that <var>he( 1 )</var> counts?</p>
-                    <p><code>\begin{align*}&<var>START</var> + (<var>NTH - 1</var>\times<var>INCR</var>) \\
-                        &= <var>START</var> + <var>( NTH - 1 ) * INCR</var> \\
-                        &= <var>ANSWER</var>\end{align*}</code></p>
+                    <p><code>\begin{align*}&amp;<var>START</var> + (<var>NTH - 1</var>\times<var>INCR</var>) \\
+                        &amp;= <var>START</var> + <var>( NTH - 1 ) * INCR</var> \\
+                        &amp;= <var>ANSWER</var>\end{align*}</code></p>
                 </div>
             </div>
 
@@ -42,7 +42,7 @@
                 </div>
                 <p>There are <var>NUM</var> people in a room.</p>
                 <p class="question">If everyone shakes everyone else's hand exactly once, how many handshakes occurred?</p>
-                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
 
                 <div class="hints">
                     <p>Given <var>NUM</var> people, each person shakes the hands of <var>NUM - 1</var> other people.</p>
@@ -65,7 +65,7 @@
                 </div>
                 <p><var>person( 1 )</var> wants to give <var>his( 1 )</var> friend a potted plant. At the local florist, the flowers come in <var>NUM_COLORS</var> colors, and there are <var>NUM_POTS</var> types of flower pots.</p>
                 <p class="question">If <var>he( 1 )</var> can choose any flower and any pot, how many different potted plants can <var>person( 1 )</var> buy?</p>
-                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
                 <div class="hints">
                     <p>If <var>person( 1 )</var> decided on a flower color, how many different potted plant combinations are there?</p>
                     <p><var>He( 1 )</var> can choose one of <var>NUM_POTS</var> flower pots, and so there are <var>NUM_POTS</var> different potted plants possible (given that <var>he( 1 )</var> already chose a flower color).</p>
@@ -74,5 +74,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

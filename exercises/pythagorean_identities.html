@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie subhints convert-values">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie subhints convert-values"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Pythagorean identities</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -19,15 +19,15 @@
                 <var id="MULT">random() &lt; 0.5</var>
             </div>
             <p class="question">
-                <div data-if="MULT">
+                </p><div data-if="MULT">
                     <code>(\sin^2 \theta + \cos^2 \theta)(<var>FUNC</var>) 
                         = \; ?</code>
                 </div>  
-                <div data-else>
+                <div data-else="">
                     <code>\dfrac{<var>FUNC</var>}
                         {\sin^2 \theta + \cos^2 \theta} = \; ?</code>
                 </div>
-            </p>
+            <p></p>
             <div class="solution"><code><var>FUNC</var></code></div>
 
             <ul class="choices" data-show="3">
@@ -48,7 +48,7 @@
                             style({
                                 stroke: "#ddd",
                                 strokeWidth: 1,
-                                arrows: "->"
+                                arrows: "-&gt;"
                             });
                             circle([0, 0], 1);
                             line([-1.2, 0], [1.2, 0]);
@@ -74,7 +74,7 @@
                             label([cos(ang)/2, 0], 
                                 "\\orange{\\cos\\theta}", "below");
                             arc([0,0], 0.2, 0, 120, 
-                                {stroke: "black", arrows: "->"});
+                                {stroke: "black", arrows: "-&gt;"});
                             label([0,0.1], "\\theta", "above right");
                         }
                     </div>
@@ -85,7 +85,7 @@
                     So, <code>(\sin^2 \theta + \cos^2 \theta)(<var>FUNC</var>) 
                         = 1 \cdot <var>FUNC</var> = <var>FUNC</var></code>
                 </p>
-                <p data-else>
+                <p data-else="">
                     So, <code>\dfrac{<var>FUNC</var>}
                         {\sin^2 \theta + \cos^2 \theta} = 
                         \dfrac{<var>FUNC</var>}{1} = <var>FUNC</var></code>
@@ -110,14 +110,14 @@
             </div>
 
             <p class="question">
-                <div data-if="MULT">
+                </p><div data-if="MULT">
                     <code>(<var>IDENT</var>)(<var>FUNC</var>) = \; ?</code>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <code>\dfrac{<var>IDENT</var>}{<var>FUNC</var>} 
                         = \; ?</code>
                 </div>
-            </p>
+            <p></p>
 
             <div class="solution"><code><var>ANS</var></code>
             </div>
@@ -141,7 +141,7 @@
                             style({
                                 stroke: "#ddd",
                                 strokeWidth: 1,
-                                arrows: "->"
+                                arrows: "-&gt;"
                             });
                             circle([0, 0], 1);
                             line([-1.2, 0], [1.2, 0]);
@@ -167,7 +167,7 @@
                             label([cos(ang)/2, 0], 
                                 "\\orange{\\cos\\theta}", "below");
                             arc([0,0], 0.2, 0, 120, 
-                                {stroke: "black", arrows: "->"});
+                                {stroke: "black", arrows: "-&gt;"});
                             label([0,0.1], "\\theta", "above right");
                         }
                     </div>
@@ -186,7 +186,7 @@
                             (<var>EQUIV</var>)(<var>FUNC</var>) 
                         </code></p>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p><code>\qquad
                             \dfrac{<var>IDENT</var>}{<var>FUNC</var>}
                             =
@@ -207,7 +207,7 @@
                             \left(<var>FUNC_SIMP</var>\right) 
                         </code></p>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p><code>\qquad
                             \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
                             =
@@ -241,14 +241,14 @@
             </div>
 
             <p class="question">
-                <div data-if="MULT">
+                </p><div data-if="MULT">
                     <code>(<var>IDENT</var>)(<var>FUNC</var>) = \; ?</code>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <code>\dfrac{<var>IDENT</var>}{<var>FUNC</var>} 
                         = \; ?</code>
                 </div>
-            </p>
+            <p></p>
 
             <div class="solution"><code><var>ANS</var></code>
             </div>
@@ -272,7 +272,7 @@
                             style({
                                 stroke: "#ddd",
                                 strokeWidth: 1,
-                                arrows: "->"
+                                arrows: "-&gt;"
                             });
                             circle([0, 0], 1);
                             line([-1.2, 0], [1.2, 0]);
@@ -298,7 +298,7 @@
                             label([cos(ang)/2, 0], 
                                 "\\orange{\\cos\\theta}", "below");
                             arc([0,0], 0.2, 0, 120, 
-                                {stroke: "black", arrows: "->"});
+                                {stroke: "black", arrows: "-&gt;"});
                             label([0,0.1], "\\theta", "above right");
                         }
                     </div>
@@ -326,7 +326,7 @@
                             \left(<var>FUNC</var>\right) 
                         </code></p>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p><code>\qquad
                             \dfrac{<var>IDENT</var>}{<var>FUNC</var>}
                             = 
@@ -350,7 +350,7 @@
                             \left(<var>FUNC_SIMP</var>\right) 
                         </code></p>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p><code>\qquad
                             \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
                             =
@@ -358,7 +358,7 @@
                         </code></p>
                     </div>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <p>To make simplifying easier, let's put everything
                     in terms of <code>\sin</code> and <code>\cos</code>.
                     We know <code><var>EQUIV</var> 
@@ -373,7 +373,7 @@
                             \left(<var>FUNC_SIMP</var>\right) 
                         </code></p>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p><code>\qquad
                             \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
                             =
@@ -384,7 +384,7 @@
                 <div data-if="ANS !== '\\sin^2\\theta' &amp;&amp; ANS !== '\\cos^2\\theta' &amp;&amp; ANS !== '1'">
                     This is <code><var>ANS_SIMP</var> = <var>ANS</var></code>.
                 </div>
-                <div data-else>
+                <div data-else="">
                     This is <code><var>ANS</var></code>.
                 </div>
             </div>
@@ -410,14 +410,14 @@
             </div>
 
             <p class="question">
-                <div data-if="MULT">
+                </p><div data-if="MULT">
                     <code>(<var>IDENT</var>)(<var>FUNC</var>) = \; ?</code>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <code>\dfrac{<var>IDENT</var>}{<var>FUNC</var>} 
                         = \; ?</code>
                 </div>
-            </p>
+            <p></p>
 
             <div class="solution"><code><var>ANS</var></code>
             </div>
@@ -441,7 +441,7 @@
                             style({
                                 stroke: "#ddd",
                                 strokeWidth: 1,
-                                arrows: "->"
+                                arrows: "-&gt;"
                             });
                             circle([0, 0], 1);
                             line([-1.2, 0], [1.2, 0]);
@@ -467,7 +467,7 @@
                             label([cos(ang)/2, 0], 
                                 "\\orange{\\cos\\theta}", "below");
                             arc([0,0], 0.2, 0, 120, 
-                                {stroke: "black", arrows: "->"});
+                                {stroke: "black", arrows: "-&gt;"});
                             label([0,0.1], "\\theta", "above right");
                         }
                     </div>
@@ -495,7 +495,7 @@
                             \left(<var>FUNC</var>\right) 
                         </code></p>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p><code>\qquad
                             \dfrac{<var>IDENT</var>}{<var>FUNC</var>}
                             = 
@@ -519,7 +519,7 @@
                             \left(<var>FUNC_SIMP</var>\right) 
                         </code></p>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p><code>\qquad
                             \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
                             =
@@ -527,7 +527,7 @@
                         </code></p>
                     </div>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <p>To make simplifying easier, let's put everything
                     in terms of <code>\sin</code> and <code>\cos</code>.
                     We know <code><var>EQUIV</var>
@@ -542,7 +542,7 @@
                             \left(<var>FUNC_SIMP</var>\right) 
                         </code></p>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p><code>\qquad
                             \dfrac{<var>EQUIV</var>}{<var>FUNC</var>}
                             =
@@ -553,12 +553,13 @@
                 <div data-if="ANS !== '\\sin^2\\theta' &amp;&amp; ANS !== '\\cos^2\\theta' &amp;&amp; ANS !== '1'">
                     This is <code><var>ANS_SIMP</var> = <var>ANS</var></code>.
                 </div>
-                <div data-else>
+                <div data-else="">
                     This is <code><var>ANS</var></code>.
                 </div>
             </div>
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

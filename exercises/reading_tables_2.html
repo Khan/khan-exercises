@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Reading tables 2</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -44,7 +44,7 @@
                     enrollments.push( enroll );
                 }
                 var answer = enrollments[ ROW_INDEX ][ COL_INDEX ];
-                enrollments[ ROW_INDEX ][ COL_INDEX ] = "&nbsp;";
+                enrollments[ ROW_INDEX ][ COL_INDEX ] = "&#160;";
                 return [ enrollments, answer ];
             })()
         </var>
@@ -69,16 +69,16 @@
             <div class="fake_header reading">
                 <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>column</var></span>
             </div>
-            <div class="fake_row reading" data-each="ROWS as i, row">
+            <div data-each="ROWS as i, row" class="fake_row reading">
                 <span><var>row</var></span><span data-each="ENROLLMENTS[i] as j, enrollment"><var>enrollment</var></span>
             </div>
-            <div class="solution" data-type="multiple">
-                <span style="padding-right: 5px" class="sol" data-forms="integer"><var>ANSWER</var></span> <var>UNIT</var>
+            <div data-type="multiple" class="solution">
+                <span style="padding-right: 5px" data-forms="integer" class="sol"><var>ANSWER</var></span> <var>UNIT</var>
             </div>
 
             <div class="hints">
                 <p>The table is missing <var>HINT1</var>.</p>
-                <div data-if="COL_INDEX === COLUMNS.length - 1" data-unwrap>
+                <div data-if="COL_INDEX === COLUMNS.length - 1" data-unwrap="">
                     <div>
                         <p>The table accounts for <span class="hint_orange"><var>ENROLLMENTS[ ROW_INDEX ].slice( 0, COL_INDEX ).join( "+" )</var></span> <var>UNIT</var>.</p>
                         <div class="graphie">
@@ -97,7 +97,7 @@
                         </div>
                     </div>
                 </div>
-                <div data-else data-unwrap>
+                <div data-else="" data-unwrap="">
                 <div>
                     <p><var>HINT2</var> is <span class="hint_blue"><var>ENROLLMENTS[ ROW_INDEX ][ COLUMNS.length - 1 ]</var></span>.</p>
                     <div class="graphie">
@@ -129,5 +129,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

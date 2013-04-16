@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Solving quadratics by taking the square root</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -19,7 +19,7 @@
             <p class="problem">Solve for <code>x</code>:</p>
             <p class="question"><code>(x - <var>H</var>)^2 + <var>K</var> = 0</code></p>
 
-            <div class="solution" data-type="set">
+            <div data-type="set" class="solution">
                 <div class="set-sol"><var>H + CONSTANT</var></div>
                 <div class="set-sol"><var>H - CONSTANT</var></div>
                 <div class="input-format"><p style="font-size: 12px;">
@@ -52,8 +52,8 @@
 
                 <div>
                     <p>
-                        <span data-if="H > 0">Add <code><var>abs( H )</var></code> to both sides to isolate <code>x</code> on the left:</span>
-                        <span data-else>Subtract <code><var>abs( H )</var></code> from both sides to isolate <code>x</code> on the left:</span>
+                        <span data-if="H &gt; 0">Add <code><var>abs( H )</var></code> to both sides to isolate <code>x</code> on the left:</span>
+                        <span data-else="">Subtract <code><var>abs( H )</var></code> from both sides to isolate <code>x</code> on the left:</span>
                     </p>
                     <p><code>\qquad x = <var>H</var> \pm <var>CONSTANT</var></code></p>
                 </div>
@@ -65,10 +65,10 @@
             </div>
 
         </div>
-        <div id="intersect" data-type="solve">
+        <div data-type="solve" id="intersect">
             <p class="problem">Determine where <code>f(x)</code> intersects the <code>x</code>-axis.</p>
             <p class="question"><code>f(x) = (x - <var>H</var>)^2 + <var>K</var></code></p>
-            <div class="hints" data-apply="prependContents">
+            <div data-apply="prependContents" class="hints">
                 <div>
                     <p>The function intersects the <code>x</code>-axis where <code>f(x) = 0</code>, so solve the equation:</p>
                     <p><code>\qquad (x - <var>H</var>)^2 + <var>K</var> = 0</code></p>
@@ -77,5 +77,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

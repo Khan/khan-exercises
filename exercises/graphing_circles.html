@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions interactive graphie">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format expressions interactive graphie"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Graphing circles</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,8 +10,7 @@
     <div class="exercise">
         <div class="problems">
             <div>
-                <div class="vars"
-                    data-ensure="!(H === 0 && K === 0 && R === 2)">
+                <div data-ensure="!(H === 0 &amp;&amp; K === 0 &amp;&amp; R === 2)" class="vars">
                     <var id="H">randRange(-5, 5)</var>
                     <var id="K">randRange(-5, 5)</var>
                     <var id="R">randRange(1, 5)</var>
@@ -30,7 +29,7 @@
 
                 <div class="problem">
                     <br>
-                    <div class="graphie" id="grid">
+                    <div id="grid" class="graphie">
                         graphInit({
                             range: 11,
                             scale: 20,
@@ -51,7 +50,7 @@
                     </div>
                 </div>
 
-                <div class="solution" data-type="custom">
+                <div data-type="custom" class="solution">
                     <div class="instruction">
                         Drag the center point and perimeter of the circle
                         to graph the equation.
@@ -94,7 +93,7 @@
                             </code> and the radius should be
                             <code>\pink{<var>R</var>}</code>.
                         </p>
-                        <div class="graphie" data-update="grid">
+                        <div data-update="grid" class="graphie">
                             circle([H, K], R, {
                                 stroke: PURPLE,
                                 strokeWidth: 1,
@@ -106,5 +105,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

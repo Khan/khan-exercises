@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math stat graphie interactive">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math stat graphie interactive"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Creating box and whisker plots</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -30,11 +30,11 @@
 <div class="exercise">
     <div class="problems">
         <div>
-            <div class="vars" data-ensure="0 <= MIN && MAX <= 15
-                    && MIN !== Q1
-                    && Q1 !== MEDIAN
-                    && MEDIAN !== Q3
-                    && Q3 !== MAX">
+            <div data-ensure="0 &lt;= MIN &amp;&amp; MAX &lt;= 15
+                    &amp;&amp; MIN !== Q1
+                    &amp;&amp; Q1 !== MEDIAN
+                    &amp;&amp; MEDIAN !== Q3
+                    &amp;&amp; Q3 !== MAX" class="vars">
                 <var id="TGT_MEAN">randRange( 5, 10 )</var>
                 <var id="TGT_VARIANCE">randRange( 2, 20 )</var>
                 <var id="DATA">$.map( _.range(15), function() {
@@ -63,7 +63,7 @@
                 </p>
 
 
-                <div class="graphie" id="boxplot">
+                <div id="boxplot" class="graphie">
                     init({ range: [[ -0.5, 16.5 ], [ -6, 2 ]], scale: [ 30, 30 ] });
 
                     addMouseLayer();
@@ -140,7 +140,7 @@
 
                 </div>
             </div>
-            <div class="solution" data-type="custom">
+            <div data-type="custom" class="solution">
                 <div class="instruction">
                     Drag each part of the box-and-whiskers plot left and right so it correctly represents the data.
                 </div>
@@ -183,9 +183,9 @@
         </div>
 
         <div>
-            <p>Plot the sample minimum (smallest number):<p>
-            <p><code>\qquad \large{\color{<var>PINK</var>}{<var>MIN</var>}, <var>SORTED_DATA.slice( 1 ).join( ", " )</var>}</code></p>
-            <div class="graphie" data-update="boxplot">
+            <p>Plot the sample minimum (smallest number):</p><p>
+            </p><p><code>\qquad \large{\color{<var>PINK</var>}{<var>MIN</var>}, <var>SORTED_DATA.slice( 1 ).join( ", " )</var>}</code></p>
+            <div data-update="boxplot" class="graphie">
                 style({ stroke: PINK, fill: PINK }, function() {
                     circle( [ MIN, -4.5 ], 0.13 );
                 });
@@ -195,7 +195,7 @@
         <div>
             <p>Plot the sample maximum (largest number):</p>
             <p><code>\qquad \large{<var>SORTED_DATA.slice( 0, -1 ).join( ", " )</var>, \color{<var>PINK</var>}{<var>MAX</var>}}</code></p>
-            <div class="graphie" data-update="boxplot">
+            <div data-update="boxplot" class="graphie">
                 style({ stroke: PINK, fill: PINK }, function() {
                     circle( [ MAX, -4.5 ], 0.13 );
                 });
@@ -209,7 +209,7 @@
                 \color{<var>PINK</var>}{<var>MEDIAN</var>},
                 <var>SORTED_DATA.slice( 8 ).join( ", " )</var>}
             </code></p>
-            <div class="graphie" data-update="boxplot">
+            <div data-update="boxplot" class="graphie">
                 style({ stroke: PINK, strokeWidth: 2 }, function() {
                     line( [ MEDIAN, -5.5 ], [ MEDIAN, -3.5 ] );
                 });
@@ -223,7 +223,7 @@
                 \color{<var>PINK</var>}{<var>SORTED_DATA[3]</var>},
                 <var>SORTED_DATA.slice( 4 ).join( ", " )</var>}
             </code></p>
-            <div class="graphie" data-update="boxplot">
+            <div data-update="boxplot" class="graphie">
                 style({ stroke: PINK, strokeWidth: 2 }, function() {
                     line( [ Q1, -5.5 ], [ Q1, -3.5 ] );
                 });
@@ -237,7 +237,7 @@
                 \color{<var>PINK</var>}{<var>SORTED_DATA[11]</var>},
                 <var>SORTED_DATA.slice( 12 ).join( ", " )</var>}
             </code></p>
-            <div class="graphie" data-update="boxplot">
+            <div data-update="boxplot" class="graphie">
                 style({ stroke: PINK, strokeWidth: 2 }, function() {
                     line( [ Q3, -5.5 ], [ Q3, -3.5 ] );
                 });
@@ -246,7 +246,7 @@
 
         <div>
             <p>Your box-and-whisker plot should look like the example below the number line.</p>
-            <div class="graphie" data-update="boxplot">
+            <div data-update="boxplot" class="graphie">
                 style({ stroke: PINK, strokeWidth: 2 }, function() {
                     line( [ MIN, -4.5 ], [ Q1, -4.5 ] );
                     line( [ Q1, -5.5 ], [ Q3, -5.5 ] );
@@ -259,5 +259,6 @@
     </div>
 
 </div>
-</body>
-</html>
+
+
+</body></html>

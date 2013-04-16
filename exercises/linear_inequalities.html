@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Multi-step linear inequalities</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,12 +10,12 @@
         <div class="vars">
             <var id="A">randRange( 2, 10 )</var>
             <var id="B">randRangeNonZero( -10, 10 )</var>
-            <var id="C" data-ensure="abs( C - A ) > 1">randRange( 2, 10 )</var>
-            <var id="D" data-ensure="D !== B">randRangeNonZero( 2, 10 )</var>
+            <var data-ensure="abs( C - A ) &gt; 1" id="C">randRange( 2, 10 )</var>
+            <var data-ensure="D !== B" id="D">randRangeNonZero( 2, 10 )</var>
             <var id="SOLUTION">fractionReduce( D - B, A - C )</var>
 
-            <var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
-            <var id="FREL">{ "&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;" }[ REL ]</var>
+            <var id="REL">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
+            <var id="FREL">{ "&lt;": "&gt;", "&gt;": "&lt;", "&#8804;": "&#8805;", "&#8805;": "&#8804;" }[ REL ]</var>
         </div>
 
         <div class="problems">
@@ -23,10 +23,10 @@
                 <p class="question">Solve for <code>x</code>:</p>
                 <div><code><var>A</var>x + <var>B</var> <var>REL</var> <var>C</var>x + <var>D</var></code></div>
 
-                <p class="solution" data-type="multiple">
+                <p data-type="multiple" class="solution">
                     <code>x</code>
-                    <span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;']">
-                        <var>A - C > 0 ? REL : FREL</var>
+                    <span data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;']" data-type="list" class="sol">
+                        <var>A - C &gt; 0 ? REL : FREL</var>
                     </span>
                     <span class="sol"><var>( D - B ) / ( A - C )</var></span></p>
             </div>
@@ -39,11 +39,11 @@
                 <p><code><var>A - C</var>x + <var>B</var> <var>REL</var> <var>D</var></code></p>
             </div>
             <div>
-                <p><var>B > 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B > 0 ? "from" : "to"</var> both sides:</p>
+                <p><var>B &gt; 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B &gt; 0 ? "from" : "to"</var> both sides:</p>
                 <p><code>(<var>A - C</var>x + <var>B</var>) + <var>-B</var> <var>REL</var> <var>D</var> + <var>-B</var></code></p>
                 <p><code><var>A - C</var>x <var>REL</var> <var>D - B</var></code></p>
             </div>
-            <div data-if="A - C > 0">
+            <div data-if="A - C &gt; 0">
                 <div>
                     <p>Divide both sides by <code><var>A - C</var></code>. Because <code><var>A - C</var></code> is positive, the inequality sign <code><var>REL</var></code> should not be flipped.</p>
                     <p><code>\dfrac{<var>A - C</var>x}{<var>A - C</var>} <var>REL</var> \dfrac{<var>D - B</var>}{<var>A - C</var>}</code></p>
@@ -53,7 +53,7 @@
                     <p><code>x <var>REL</var> <var>SOLUTION</var></code></p>
                 </div>
             </div>
-            <div data-else>
+            <div data-else="">
                 <div>
                     <p>Divide both sides by <code><var>A - C</var></code>. Because <code><var>A - C</var></code> is negative, the inequality sign <code><var>REL</var></code> must be flipped to <code><var>FREL</var></code>.</p>
                     <p><code>\dfrac{<var>A - C</var>x}{<var>A - C</var>} <var>FREL</var> \dfrac{<var>D - B</var>}{<var>A - C</var>}</code></p>
@@ -65,5 +65,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Simplifying logarithms</title>
     <script src="../khan-exercise.js"></script>
     <script>
@@ -24,7 +24,7 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="number < LARGEST_NUMBER">
+        <div data-ensure="number &lt; LARGEST_NUMBER" class="vars">
             <var id="LARGEST_NUMBER">1000</var>
             <var id="base">randRange( 2, 16 )</var>
             <var id="answer">randRange( 2, 5 )</var>
@@ -48,5 +48,6 @@
             <p><code><var>base</var>^<var>answer</var>=<var>number</var></code>, so <code>\log_{<var>base</var>}<var>number</var>=<var>answer</var></code>.</p>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Identifying linear relationships</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +9,7 @@
     <div class="exercise">
         <div class="vars"></div>
         <div class="problems">
-            <div id="increase" data-weight="3">
+            <div data-weight="3" id="increase">
                 <div class="vars">
                     <var id="INDEX">randRange( 0, 2 )</var>
                     <var id="M">1 / randRange( 2, 5 )</var>
@@ -22,7 +22,7 @@
                 </div>
                 <div class="question">
                     <p><b>How does <var>Y_AXIS_QUESTION</var> change as <var>X_AXIS_QUESTION</var> increases?</b></p>
-                    <div class="graphie" id="grid">
+                    <div id="grid" class="graphie">
                         init({
                             range: [[-3, 10], [-1, 10]],
                             scale: [30, 30]
@@ -35,7 +35,7 @@
                         style({
                             stroke: "#888",
                             strokeWidth: 2,
-                            arrows: "->"
+                            arrows: "-&gt;"
                         });
                         path( [ [-0.5, 0], [10, 0] ] );
                         path( [ [0, -0.5], [0, 10] ] );
@@ -44,7 +44,7 @@
 
                             stroke: "#000000",
                             strokeWidth: 0.9,
-                            arrows: "->"
+                            arrows: "-&gt;"
                         });
 
                         label( [ 0, 9.2 ], "\\text{" + Y_AXIS_LABEL + "}", "right");
@@ -53,7 +53,7 @@
                         style({
                             stroke: "#6495ED",
                             strokeWidth: 2,
-                            arrows: "->"
+                            arrows: "-&gt;"
                         });
 
                         plot( function( x ) {
@@ -63,14 +63,14 @@
                 </div>
 
                 <div class="solution">Increases</div>
-                <ul class="choices" data-category="true">
+                <ul data-category="true" class="choices">
                     <li>Increases</li>
                     <li>Decreases</li>
                     <li>Stays the same</li>
                 </ul>
                 <div class="hints">
                     <div>
-                        <div class="graphie" data-update="grid">
+                        <div data-update="grid" class="graphie">
                             style({ fill: "", stroke: "#000000" });
                             line( [ 4, 4 * M + B ], [ 7, 4 * M + B ] );
                             style({ stroke: "#40a020" });
@@ -82,7 +82,7 @@
                     <p>Thus, as <var>X_AXIS_QUESTION</var> increases, <var>Y_AXIS_QUESTION</var> also <b>increases</b>.</p>
                 </div>
             </div>
-            <div id="decrease" data-type="increase" data-weight="3">
+            <div data-weight="3" data-type="increase" id="decrease">
                 <div class="vars">
                     <var id="M">1 / randRange( 2, 5 ) * -1</var>
                     <var id="B">randRange( 6, 8 )</var>
@@ -90,7 +90,7 @@
                 <div class="solution">Decreases</div>
                 <div class="hints">
                     <div>
-                        <div class="graphie" data-update="grid">
+                        <div data-update="grid" class="graphie">
                             style({ fill: "", stroke: "#000000" });
                             line( [ 4, 4 * M + B ], [ 7, 4 * M + B ] );
                             style({ stroke: "#ff0000" });
@@ -102,7 +102,7 @@
                     <p>Thus, as <var>X_AXIS_QUESTION</var> increases, <var>Y_AXIS_QUESTION</var> <b>decreases</b>.</p>
                 </div>
             </div>
-            <div id="stays" data-type="increase" data-weight="1">
+            <div data-weight="1" data-type="increase" id="stays">
                 <div class="vars">
                     <var id="M">0</var>
                     <var id="B">randRange( 2, 8 )</var>
@@ -118,7 +118,7 @@
             <div data-weight="7" id="identifypoint">
                 <!-- Ensure the X and Y deltas of the beginning and end of the line are at least
                      five. -->
-                <div class="vars" data-ensure="abs( LINESTART[ 0 ] - LINEEND[ 0 ] ) >= 5 && abs( LINESTART[ 1 ] - LINEEND[ 1 ] ) >= 5">
+                <div data-ensure="abs( LINESTART[ 0 ] - LINEEND[ 0 ] ) &gt;= 5 &amp;&amp; abs( LINESTART[ 1 ] - LINEEND[ 1 ] ) &gt;= 5" class="vars">
                     <!-- When X is the solution ensure that Y isn't 0 and vice versa so that the line
                          added by the first hint doesn't cover up an axis. -->
                     <div data-ensure="POINTX === SOLUTION ? POINTY !== 0 : POINTX !== 0">
@@ -154,11 +154,11 @@
 
                             // Reduce xDelta and yDelta until their absolute values are less than or equal
                             // to one.
-                            if ( Math.abs( xDelta ) > Math.abs( yDelta ) ) {
-                                newXDelta = xDelta > 0 ? 1 : -1;
+                            if ( Math.abs( xDelta ) &gt; Math.abs( yDelta ) ) {
+                                newXDelta = xDelta &gt; 0 ? 1 : -1;
                                 newYDelta = yDelta * newXDelta / xDelta;
                             } else {
-                                newYDelta = yDelta > 0 ? 1 : -1;
+                                newYDelta = yDelta &gt; 0 ? 1 : -1;
                                 newXDelta = xDelta * newYDelta / yDelta;
                             }
 
@@ -166,7 +166,7 @@
                             yDelta = newYDelta;
 
 
-                            while ( Math.abs( lineEndX ) &lt; 10 && Math.abs( lineEndY ) &lt; 10 ) {
+                            while ( Math.abs( lineEndX ) &lt; 10 &amp;&amp; Math.abs( lineEndY ) &lt; 10 ) {
                                 lineEndX += xDelta;
                                 lineEndY += yDelta;
                             }
@@ -178,9 +178,9 @@
 
                 <div class="question">
                     <p data-if="POINTX === SOLUTION">What is <code>x</code> when <code>y</code> is <code><var>POINTY</var></code>?</p>
-                    <p data-else>What is <code>y</code> when <code>x</code> is <code><var>POINTX</var></code>?</p>
+                    <p data-else="">What is <code>y</code> when <code>x</code> is <code><var>POINTX</var></code>?</p>
 
-                    <div class="graphie" id="graph">
+                    <div id="graph" class="graphie">
                         graphInit({
                             range: 10,
                             scale: 20,
@@ -199,7 +199,7 @@
 
                 <div class="hints">
                     <div>
-                        <div class="graphie" data-update="graph">
+                        <div data-update="graph" class="graphie">
                             var lineStart, lineEnd;
 
                             if ( POINTX === SOLUTION ) {
@@ -217,18 +217,19 @@
                         </div>
 
                         <p data-if="POINTX === SOLUTION">The dashed <span style="color: #28ae7b;">green</span> line shows where <code>y</code> is <code><var>POINTY</var></code>.</p>
-                        <p data-else>The dashed <span style="color: #28ae7b;">green</span> line shows where <code>x</code> is <code><var>POINTX</var></code>.</p>
+                        <p data-else="">The dashed <span style="color: #28ae7b;">green</span> line shows where <code>x</code> is <code><var>POINTX</var></code>.</p>
                     </div>
 
                     <p>The <span style="color: #6495ed;">blue</span> and dashed <span style="color: #28ae7b;">green</span> lines meet at <code>(<var>POINTX</var>, <var>POINTY</var>)</code>.</p>
                     <p>Therefore <code><var>POINTX === SOLUTION ? 'x' : 'y'</var></code> is <code><var>SOLUTION</var></code>.</p>
                 </div>
 
-                <div class="solution" data-forms="integer" data-type="multiple">
-                    <p><code><var>POINTX === SOLUTION ? 'x' : 'y'</var> =</code> <span class="sol" data-forms="integer"><var>SOLUTION</var></span></p>
+                <div data-type="multiple" data-forms="integer" class="solution">
+                    <p><code><var>POINTX === SOLUTION ? 'x' : 'y'</var> =</code> <span data-forms="integer" class="sol"><var>SOLUTION</var></span></p>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

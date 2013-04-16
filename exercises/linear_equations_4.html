@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Multi-step equations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,7 +10,7 @@
         <div class="problems">
             <div id="x-on-bottom">
                 <!-- A = B / (Cx + D) -->
-                <div class="vars" data-ensure="( C * ANSWER + D !== 0 )">
+                <div data-ensure="( C * ANSWER + D !== 0 )" class="vars">
                     <var id="A">randRange( 2, 8 )</var>
                     <var id="B">randRangeNonZero( -12, 18 )</var>
                     <var id="C">randRangeNonZero( -6, 6 )</var>
@@ -20,7 +20,7 @@
                 <p class="question">Solve for <code>x</code>:</p>
                 <div><code><var>A</var> = \dfrac{<var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>}</code></div>
 
-                <div class="solution" data-type="multiple">
+                <div data-type="multiple" class="solution">
                     <p><code>x =</code> <span class="sol"><var>ANSWER</var></span></p>
                 </div>
 
@@ -47,7 +47,7 @@
             </div>
             <div id="x-on-top-and-bottom">
                 <!-- (Ax + B) / (Cx + D) = E -->
-                <div class="vars" data-ensure="abs(A - E * C) >= 2 && ( C * ANSWER + D !== 0 )">
+                <div data-ensure="abs(A - E * C) &gt;= 2 &amp;&amp; ( C * ANSWER + D !== 0 )" class="vars">
                     <var id="A">randRangeNonZero( -12, 18 )</var>
                     <var id="B">randRangeNonZero( -12, 18 )</var>
                     <var id="C">randRangeNonZero( -6, 6 )</var>
@@ -58,7 +58,7 @@
                 <p class="question">Solve for <code>x</code>:</p>
                 <div><code>\dfrac{<var>expr(["*", A, "x"])</var> + <var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>} = <var>E</var></code></div>
 
-                <div class="solution" data-type="multiple">
+                <div data-type="multiple" class="solution">
                     <p><code>x =</code> <span class="sol"><var> ANSWER </var></span></p>
                 </div>
 
@@ -90,5 +90,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

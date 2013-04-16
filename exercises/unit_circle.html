@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie unit-circle">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie unit-circle"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Unit circle</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -26,10 +26,10 @@
                     <code>\<var>FN</var>(<var>PRETTY_ANGLE</var>) = \text{?}</code>
                 </p>
 
-                <div class="solution" data-type="multiple">
-                    <div class="sol" data-inexact data-max-error="0.001" required><var>SOLUTION</var></div>
+                <div data-type="multiple" class="solution">
+                    <div data-inexact="" required="" class="sol" data-max-error="0.001"><var>SOLUTION</var></div>
 
-                    <div class="sol" data-type="custom">
+                    <div data-type="custom" class="sol">
                         <div class="instruction"></div>
                         <div class="guess"> angle </div>
 
@@ -59,10 +59,10 @@
 
                 <div class="problem">
                     <p>
-                        Move the orange point around the unit circle to the angle indicated inside the <var>FNNAME</var> expression above. <br />
+                        Move the orange point around the unit circle to the angle indicated inside the <var>FNNAME</var> expression above. <br>
                         Indicate the <var>FNNAME</var> value in the answer field.
                     </p>
-                    <div class="graphie" id="unitcircle">
+                    <div id="unitcircle" class="graphie">
                         initUnitCircle( DEGREES );
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                             The correct angle is selected. Remember, the <var>FNNAME</var> of an angle is represented by the
                             <code><var>COORD</var></code> coordinate of a point on the unit circle.
                         </p>
-                        <div class="graphie" data-update="unitcircle">
+                        <div data-update="unitcircle" class="graphie">
                             goToAngle( ANGLE );
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                             The <code><var>COORD</var></code> coordinate of the point is <code><var>SOLUTION</var></code>,
                             so <code>\<var>FN</var>(<var>PRETTY_ANGLE</var>) = <var>SOLUTION</var></code>.
                         </p>
-                        <div class="graphie" data-update="unitcircle">
+                        <div data-update="unitcircle" class="graphie">
                             goToAngle( ANGLE );
                             showCoordinates( ANGLE );
                         </div>
@@ -95,7 +95,7 @@
             </div>
 
 
-            <div id="radians" data-type="degrees">
+            <div data-type="degrees" id="radians">
                 <div class="vars">
                     <var id="DEGREES">false</var>
                     <var id="ANGLE">randFromArray([
@@ -118,5 +118,6 @@
 
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

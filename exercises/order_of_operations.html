@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Order of operations</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="B - C !== 0">
+        <div data-ensure="B - C !== 0" class="vars">
             <var id="A">randRange(1, 10)</var>
             <var id="B">randRange(1, 10)</var>
 
@@ -24,7 +24,7 @@
                         <var>A</var> + (<var>B</var> \times <var>C</var>)
                 </code></p>
 
-                <p class="solution" data-forms="integer">
+                <p data-forms="integer" class="solution">
                     <var>A+B*C</var>
                 </p>
 
@@ -45,7 +45,7 @@
                         <var>A</var> + <var>B</var> \times <var>C</var>
                 </code></p>
 
-                <p class="solution" data-forms="integer">
+                <p data-forms="integer" class="solution">
                     <var>A+B*C</var>
                 </p>
 
@@ -63,7 +63,7 @@
                         <var>A</var> \times (<var>B</var> + <var>C</var>)
                 </code></p>
 
-                <p class="solution" data-forms="integer">
+                <p data-forms="integer" class="solution">
                     <var>A*(B+C)</var>
                 </p>
 
@@ -81,7 +81,7 @@
                         <var>A</var> + (\dfrac{<var>B*C</var>}{<var>C</var>})
                 </code></p>
 
-                <p class="solution" data-forms="integer">
+                <p data-forms="integer" class="solution">
                     <var>A+B</var>
                 </p>
 
@@ -102,7 +102,7 @@
                         <var>A</var> + \dfrac{<var>B*C</var>}{<var>C</var>}
                 </code></p>
 
-                <p class="solution" data-forms="integer">
+                <p data-forms="integer" class="solution">
                     <var>A+B</var>
                 </p>
 
@@ -120,7 +120,7 @@
                         \dfrac{ <var>(A*(B+C))</var> }{ <var>B</var> + <var>C</var> }
                 </code></p>
 
-                <p class="solution" data-forms="integer">
+                <p data-forms="integer" class="solution">
                     <var>A</var>
                 </p>
 
@@ -141,7 +141,7 @@
                         \dfrac{ <var>(A*(B-C))</var> }{ (<var>B</var> - <var>C</var>) }
                 </code></p>
 
-                <p class="solution" data-forms="integer">
+                <p data-forms="integer" class="solution">
                     <var>A</var>
                 </p>
 
@@ -162,7 +162,7 @@
                         (<var>A</var> + (<var>B</var> - <var>C</var> \times <var>D</var>)) \times <var>E</var>
                 </code></p>
 
-                <p class="solution" data-forms="integer">
+                <p data-forms="integer" class="solution">
                     <var>(A+(B-(C*D)))*E</var>
                 </p>
 
@@ -192,7 +192,7 @@
                         <var>A</var> + (<var>B</var> - <var>C</var> \times <var>D</var>) \times <var>E</var>
                 </code></p>
 
-                <p class="solution" data-forms="integer">
+                <p data-forms="integer" class="solution">
                     <var>A+((B-(C*D))*E)</var>
                 </p>
 
@@ -216,7 +216,7 @@
                         <var>A</var> - <var>B</var> \times <var>C</var> + \dfrac{ <var>(D*E)</var> }{ <var>E</var> }
                 </code></p>
 
-                <p class="solution" data-forms="integer">
+                <p data-forms="integer" class="solution">
                     <var>A-B*C+D</var>
                 </p>
 
@@ -240,7 +240,7 @@
                         <var>A</var> \times <var>B</var> + <var>C</var> \times \dfrac{ <var>(D*E)</var> }{ <var>E</var> }
                 </code></p>
 
-                <p class="solution" data-forms="integer">
+                <p data-forms="integer" class="solution">
                     <var>(A*B)+(C*D)</var>
                 </p>
 
@@ -264,7 +264,7 @@
                         (<var>A</var> + <var>B</var> \times <var>C</var>) - <var>D</var> \times <var>E</var>
                 </code></p>
 
-                <p class="solution" data-forms="integer">
+                <p data-forms="integer" class="solution">
                     <var>(A+B*C)-(D*E)</var>
                 </p>
 
@@ -285,5 +285,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

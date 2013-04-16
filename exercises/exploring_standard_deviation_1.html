@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive mean-and-median">
-<head>
-    <meta charset="UTF-8" />
+<!DOCTYPE html>
+<html data-require="math graphie interactive mean-and-median"><head>
+    <meta charset="UTF-8">
     <title>Exploring standard deviation 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -20,7 +20,7 @@
                         Arrange the <var>POINTS</var> orange sample points in this histogram so the
                         <span class="hint_green">sample standard deviation is approximately <code><var>STDDEV</var></code></span>.
                     </p>
-                    <div class="graphie" id="number-line">
+                    <div id="number-line" class="graphie">
                         graph.targetStddev = STDDEV;
                         graph.numPoints = POINTS;
 
@@ -89,7 +89,7 @@
 
                     </div>
                 </div>
-                <div class="solution" data-type="custom">
+                <div data-type="custom" class="solution">
                     <div class="instruction">
                         Move the orange dots to experiment with different sample distributions.
                     </div>
@@ -122,15 +122,16 @@
                     </p>
                     <p>
                         There are many ways to arrange the points so the sample standard deviation is
-                        <span class="hint_green"><code><var>STDDEV</var></code></span>.<br />
-                        <input id="example-button" type="button" value="Show me an example" onClick="javascript:
+                        <span class="hint_green"><code><var>STDDEV</var></code></span>.<br>
+                        <input type="button" onclick="javascript:
                             KhanUtil.showStddevExample();
                             $( 'input#example-button' ).val( 'Show me another example' );
-                        ">
+                        " value="Show me an example" id="example-button">
                     </p>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

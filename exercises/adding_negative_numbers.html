@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Adding negative numbers</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -22,7 +22,7 @@
                     <var id="REMOVE">[]</var>
                 </div>
                 <div class="question">
-                    <div class="graphie" id="numbers">
+                    <div id="numbers" class="graphie">
                         init({
                             range: [ [0, 13], [-4, 1] ]
                         });
@@ -32,29 +32,29 @@
                             "right" );
                         </div>
                 </div>
-                <div class="solution" data-forms="integer"><var>ANSWER</var></div>
+                <div data-forms="integer" class="solution"><var>ANSWER</var></div>
                 <div class="hints">
-                    <div class="graphie" data-update="numbers">
+                    <div data-update="numbers" class="graphie">
                         REMOVE = label( [0, -2],
                             "\\Huge{\\color{#6495ED}{" + A + "} \\color{#28AE7B}{" + B + "} = {?}}",
                             "right" );
                     </div>
-                    <div class="graphie" data-update="numbers">
+                    <div data-update="numbers" class="graphie">
                         numberLine( START, END, 1, 1, -3 );
                         circle( [ 1 + A - START, -3 ], 5/40, { stroke: "none", fill: "#6495ed" } );
                     </div>
-                    <div class="graphie" data-update="numbers">
+                    <div data-update="numbers" class="graphie">
                         style({
                             stroke: "#28AE7B",
-                            arrows: "->"
+                            arrows: "-&gt;"
                         }, function(){
                             path( [ [ 1 + A - START, -3 ], [ 1 + ANSWER - START, -3] ] );
                         });
                     </div>
-                    <div class="graphie" data-update="numbers">
+                    <div data-update="numbers" class="graphie">
                         circle( [ 1 + ANSWER - START, -3 ], 5/40, { stroke: "none", fill: "#FF00AF" } );
                     </div>
-                    <div class="graphie" data-update="numbers">
+                    <div data-update="numbers" class="graphie">
                         REMOVE.remove();
                         label( [0, -2],
                             "\\Huge{\\color{#6495ED}{" + A + "} \\color{#28AE7B}{" + B + "} = "
@@ -65,5 +65,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

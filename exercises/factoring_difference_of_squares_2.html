@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math">
-<head>
-    <meta charset="UTF-8" />
+<!DOCTYPE html>
+<html data-require="math"><head>
+    <meta charset="UTF-8">
     <title>Factoring difference of squares 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +9,7 @@
     <div class="exercise">
         <div class="problems">
             <div>
-                <div class="vars" data-ensure="getGCD( A, B ) === 1">
+                <div data-ensure="getGCD( A, B ) === 1" class="vars">
                     <var id="A">randRange( 2, 9 )</var>
                     <var id="B">randRange( 1, 9 )</var>
                     <var id="SQUARE">A * A</var>
@@ -24,9 +24,9 @@
                     </p>
                 </div>
 
-                <div class="solution" data-type="set">
-                    <div class="set-sol" data-type="regex">^\s*\(\s*<var>A</var>\s*[xX]\s*\+\s*<var>B</var>\s*\)\s*\(\s*<var>A</var>\s*[xX]\s*[-\u2212]\s*<var>B</var>\s*\)\s*$</div>
-                    <div class="set-sol" data-type="regex">^\s*\(\s*<var>A</var>\s*[xX]\s*[-\u2212]\s*<var>B</var>\s*\)\s*\(\s*<var>A</var>\s*[xX]\s*\+\s*<var>B</var>\s*\)\s*$</div>
+                <div data-type="set" class="solution">
+                    <div data-type="regex" class="set-sol">^\s*\(\s*<var>A</var>\s*[xX]\s*\+\s*<var>B</var>\s*\)\s*\(\s*<var>A</var>\s*[xX]\s*[-\u2212]\s*<var>B</var>\s*\)\s*$</div>
+                    <div data-type="regex" class="set-sol">^\s*\(\s*<var>A</var>\s*[xX]\s*[-\u2212]\s*<var>B</var>\s*\)\s*\(\s*<var>A</var>\s*[xX]\s*\+\s*<var>B</var>\s*\)\s*$</div>
                     <div class="input-format"><span class="entry"></span></div>
                     <div class="example">a factored expression, like <b>(3x+1)(3x+2)</b></div>
                 </div>
@@ -60,5 +60,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs congruency">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format interactive proofs congruency"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Wrong statements in triangle proofs</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -463,7 +463,7 @@
                 </div>
 
                 <div class="problem">
-                    <p class="question">What's the first wrong statement in the proof below that <var>FINISHED</var><code> \; ?</code></br></br>
+                    <p class="question">What's the first wrong statement in the proof below that <var>FINISHED</var><code> \; ?</code><br><br>
                     <code> \overline{BC} </code> is parallel to <code> \overline{DF} </code>. This diagram is not drawn to scale.</p>
                     <div class="graphie">
                         init({
@@ -704,16 +704,16 @@
 
                 <div class="solution"><var>ANSWER</var></div>
 
-                <div data-if="WRONG_BEFORE_RIGHT" data-unwrap>
-                    <ul class="choices" data-category="true">
+                <div data-if="WRONG_BEFORE_RIGHT" data-unwrap="">
+                    <ul data-category="true" class="choices">
                         <li><var>WRONG_STATEMENT</var></li>
                         <li><var>RIGHT_STATEMENT</var></li>
                         <li>There's no wrong statement: this proof is fine.</li>
                     </ul>
                 </div>
 
-                <div data-else data-unwrap>                
-                    <ul class="choices" data-category="true">
+                <div data-else="" data-unwrap="">                
+                    <ul data-category="true" class="choices">
                         <li><var>RIGHT_STATEMENT</var></li>
                         <li><var>WRONG_STATEMENT</var></li>
                         <li>There's no wrong statement: this proof is fine.</li>
@@ -722,10 +722,11 @@
                 <div class="hints">
                     <p>Try going through the proof yourself: write down the givens, and then see if they justify the next step <em>for the reason given.</em> Then do the same thing for the next step, and the next, until you run into something that you can't justify, or you finish the proof.</p>
                     <p data-if="IS_WRONG"><var>WRONG_STATEMENT</var> is the first wrong statement.</p>
-                    <p data-else>There is no wrong statement in this proof.</p>
+                    <p data-else="">There is no wrong statement in this proof.</p>
                 </div>
             </div>
         </div>
     </div>      
-</body>
-</html>
+
+
+</body></html>

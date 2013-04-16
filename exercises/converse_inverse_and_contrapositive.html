@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
-<head>
+<!DOCTYPE html>
+<html data-require="math word-problems"><head>
     <title>Converse, inverse, and contrapositive</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -32,12 +32,12 @@
                 <p class="question">"If it rains today, soccer practice will be canceled."</p>
 
                 <p class="solution"><var>CHOICES[TYPE]</var></p>
-                <ul class="choices" data-show="4" data-none="true">
+                <ul data-none="true" class="choices" data-show="4">
                     <li data-each="CHOICES as key, value"><var>value</var></li>
                 </ul>
             </div>
 
-            <div id="sun-and-hat" data-type="rain-and-soccer-practice">
+            <div data-type="rain-and-soccer-practice" id="sun-and-hat">
                 <div class="vars">
                     <var id="CHOICES">{ 
                         "converse" : "If I need to wear a hat today, then the sun is bright outside.",
@@ -55,7 +55,7 @@
                 <p class="question">"The sun is bright outside today, so I will wear a hat."</p>
             </div>
 
-            <div id="dessert-and-pie" data-type="rain-and-soccer-practice">
+            <div data-type="rain-and-soccer-practice" id="dessert-and-pie">
                 <div class="vars">
                     <var id="CHOICES">{ 
                         "converse" : "If I eat apple pie, then we will have dessert tonight.",
@@ -73,7 +73,7 @@
                 <p class="question">"If we have dessert tonight, I will eat apple pie."</p>
             </div>
 
-            <div id="vertical-and-congruent-angles" data-type="rain-and-soccer-practice">
+            <div data-type="rain-and-soccer-practice" id="vertical-and-congruent-angles">
                 <div class="vars">
                     <var id="CHOICES">{ 
                         "converse" : "All pairs of congruent angles are vertical angles.",
@@ -91,7 +91,7 @@
                 <p class="question">"All pairs of vertical angles are congruent angles."</p>
             </div>
 
-            <div id="elephants-and-peanuts" data-type="rain-and-soccer-practice">
+            <div data-type="rain-and-soccer-practice" id="elephants-and-peanuts">
                 <div class="vars">
                     <var id="CHOICES">{ 
                         "converse" : "If an animal eats peanuts, then it is an elephant.",
@@ -109,7 +109,7 @@
                 <p class="question">"Elephants eat peanuts."</p>
             </div>
 
-            <div id="equations-and-equations" data-type="rain-and-soccer-practice">
+            <div data-type="rain-and-soccer-practice" id="equations-and-equations">
                 <p class="question">"If <code>3x+1=7</code>, then <code>x=2</code>."</p>
 
                 <p class="solution">
@@ -117,7 +117,7 @@
                     <span data-if="TYPE === 'inverse'">If <code>3x+1\not=7</code>, then <code>x\not=2</code>.</span>
                     <span data-if="TYPE === 'contrapositive'">If <code>x\not=2</code>, then <code>3x+1\not=7</code>.</span>
                 </p>
-                <ul class="choices" data-show="4" data-none="true">
+                <ul data-none="true" class="choices" data-show="4">
                     <li>If <code>x=2</code>, then <code>3x+1=7</code>.</li>
                     <li>If <code>3x+1\not=7</code>, then <code>x\not=2</code>.</li>
                     <li>If <code>x\not=2</code>, then <code>3x+1\not=7</code>.</li>
@@ -168,5 +168,6 @@
         </div>
 
     </div>
-</body>
-</html>
+
+
+</body></html>

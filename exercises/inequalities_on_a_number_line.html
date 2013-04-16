@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Inequalities on a number line</title>
     <script src="../khan-exercise.js"></script>
     <script>
@@ -102,14 +102,14 @@
     <div class="vars">
 
         <div data-ensure="INT !== 0 || FRAC !== 0">
-            <var id="INT">rand( 6 ) > 0 ? randRange( 1, 9 ) : 0</var>
-            <var id="FRAC">rand( 3 ) > 0 ? (randRange( 1, 9 ) / 10) : 0</var>
+            <var id="INT">rand( 6 ) &gt; 0 ? randRange( 1, 9 ) : 0</var>
+            <var id="FRAC">rand( 3 ) &gt; 0 ? (randRange( 1, 9 ) / 10) : 0</var>
         </div>
 
         <var id="SIGN">(INT === 0 ? "" : randFromArray(["", "-"]))</var>
-        <var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
-        <var id="INCLUSIVE">REL === "&le;" || REL === "&ge;"</var>
-        <var id="LESS_THAN">REL === "&lt;" || REL === "&le;"</var>
+        <var id="REL">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
+        <var id="INCLUSIVE">REL === "&#8804;" || REL === "&#8805;"</var>
+        <var id="LESS_THAN">REL === "&lt;" || REL === "&#8804;"</var>
         <var id="VARIABLE_NAME">randVar()</var>
         <var id="LINE_ERROR_TYPES">shuffle([ "direction", "inclusion", "positivity", "quantity", "none" ])</var>
         <var id="CORRECT_LINE_INDEX">$.inArray( "none", LINE_ERROR_TYPES )</var>
@@ -124,7 +124,7 @@
             </p>
             <div class="problem">
 
-                <div class="graphie" data-each="LINE_LABELS as index, label">
+                <div data-each="LINE_LABELS as index, label" class="graphie">
                     numberLineWithArrowAndMistakes(
                         label, SIGN, INT, FRAC, LESS_THAN, INCLUSIVE, LINE_ERROR_TYPES, index
                     );
@@ -134,7 +134,7 @@
 
             <div class="solution">Graph <var>LINE_SOLUTION</var></div>
 
-            <ol class="choices" data-category="true">
+            <ol data-category="true" class="choices">
                 <li data-each="LINE_LABELS as label">Graph <var>label</var></li>
             </ol>
 
@@ -142,7 +142,7 @@
 
                 <div>
                     <p>First, draw a number line with at least a few numbers on each side of <code><var>SIGN + ( INT + FRAC )</var></code>.</p>
-                    <div class="graphie" id="number_line_hint">
+                    <div id="number_line_hint" class="graphie">
 
                         // Draw number line only
                         numberLineWithArrowAndMistakes(
@@ -157,19 +157,19 @@
                 <div>
                     <p data-if="INCLUSIVE">
                         Since <code><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw a full circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality includes <code><var>SIGN + ( INT + FRAC )</var></code>.
-                    </p><p data-else>
+                    </p><p data-else="">
                         Since <code><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw an empty circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality does not include <code><var>SIGN + ( INT + FRAC )</var></code>.
                     </p>
-                    <div class="graphie" data-update="number_line_hint">pt.show();</div>
+                    <div data-update="number_line_hint" class="graphie">pt.show();</div>
                 </div>
 
                 <div>
                     <p data-if="LESS_THAN">
                         Now draw an arrow to the left of the circle to include all numbers less than <code><var>SIGN + ( INT + FRAC )</var></code>.
-                    </p><p data-else>
+                    </p><p data-else="">
                         Now draw an arrow to the right of the circle to include all numbers greater than <code><var>SIGN + ( INT + FRAC )</var></code>.
                     </p>
-                    <div class="graphie" data-update="number_line_hint">arrow.show();</div>
+                    <div data-update="number_line_hint" class="graphie">arrow.show();</div>
                 </div>
 
 
@@ -189,9 +189,9 @@
 
             </div>
 
-            <p class="solution" data-type="multiple">
+            <p data-type="multiple" class="solution">
                 <code><var>VARIABLE_NAME</var></code>
-                <span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;', '&ne;']">
+                <span data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list" class="sol">
                     <var>REL</var>
                 </span>
                 <span class="sol"><var>SIGN + INT</var></span>
@@ -201,13 +201,13 @@
 
                 <p data-if="LESS_THAN">
                     The arrow is pointing to the left of <code><var>SIGN + INT</var></code>, so everything less than <code><var>SIGN + INT</var></code> is included.
-                </p><p data-else>
+                </p><p data-else="">
                     The arrow is pointing to the right of <code><var>SIGN + INT</var></code>, so everything greater than <code><var>SIGN + INT</var></code> is included.
                 </p>
 
                 <p data-if="INCLUSIVE">
                     The circle is filled in, so <code><var>SIGN + INT</var></code> itself is also included.
-                </p><p data-else>
+                </p><p data-else="">
                     The circle is not filled in, so <code><var>SIGN + INT</var></code> itself is not included.
                 </p>
 
@@ -218,5 +218,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

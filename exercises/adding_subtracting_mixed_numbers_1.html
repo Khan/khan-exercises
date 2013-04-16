@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
     <title>Adding subtracting mixed numbers 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -16,11 +16,11 @@
                 <var id="W1">randRange( 2, 19 )</var>
                 <var id="W2">( PM === 1 ? randRange( 1, 19 ) : randRange( -W1 + 1, -1 ))</var>
 
-                <div data-ensure="getLCM( D1, D2 ) < 61 && D1 !== D2">
+                <div data-ensure="getLCM( D1, D2 ) &lt; 61 &amp;&amp; D1 !== D2">
                     <var id="D1">randRange( 3, 20 )</var>
                     <var id="D2">randRange( 3, 20 )</var>
                 </div>
-                <div data-ensure="( PM === 1 ? (N1 / D1) + (N2 / D2) < 1 : (N1 / D1) + PM * (N2 / D2) > 0)">
+                <div data-ensure="( PM === 1 ? (N1 / D1) + (N2 / D2) &lt; 1 : (N1 / D1) + PM * (N2 / D2) &gt; 0)">
                     <var id="N1">randRange( 1, D1 - 1 )</var>
                     <var id="N2">randRange( 1, D2 - 1 )</var>
                 </div>
@@ -39,7 +39,7 @@
 
             <p class="problem">Express your answer as a mixed number simplified to lowest terms.</p>
             <p class="question"><code><var>expr(["+", W1 + fraction( N1, D1 ), W2 + fraction( N2, D2 )])</var> = {?}</code></p>
-            <div class="solution" data-type="mixed"><var>W1 + W2 + N1 / D1 + PM * N2 / D2</var></div>
+            <div data-type="mixed" class="solution"><var>W1 + W2 + N1 / D1 + PM * N2 / D2</var></div>
 
             <div class="hints">
                 <div>
@@ -53,7 +53,7 @@
                 </div>
 
                 <div>
-                    <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the whole numbers:</p>
+                    <p><span data-if="PM === 1">Add</span><span data-else="">Subtract</span> the whole numbers:</p>
                     <p><code>=<var>W1 + W2</var> + \blue{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \pink{<var>fraction( N2, D2 )</var>}</code></p>
                 </div>
 
@@ -68,7 +68,7 @@
                 </div>
 
                 <div>
-                    <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the fractions:</p>
+                    <p><span data-if="PM === 1">Add</span><span data-else="">Subtract</span> the fractions:</p>
                     <p><code>= <var>expr(["+", W1 + W2, fraction( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM )])</var></code></p>
                 </div>
 
@@ -77,7 +77,7 @@
                     <p><code>= <var>W1 + W2 + fraction( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
                 </div>
 
-                <div data-if="GCD > 1">
+                <div data-if="GCD &gt; 1">
                     <p>Simplify to lowest terms:</p>
                     <p><code>= <var>W1 + W2 + fractionReduce( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
                 </div>
@@ -90,11 +90,11 @@
                 <var id="SIGN">"-"</var>
                 <var id="W1">randRange( 2, 19 )</var>
                 <var id="W2">randRange( -W1 + 1, -1 )</var>
-                <div data-ensure="getLCM( D1, D2 ) < 61 && D1 !== D2">
+                <div data-ensure="getLCM( D1, D2 ) &lt; 61 &amp;&amp; D1 !== D2">
                     <var id="D1">randRange( 3, 20 )</var>
                     <var id="D2">randRange( 3, 20 )</var>
                 </div>
-                <div data-ensure="(N1 / D1) < (N2 / D2)">
+                <div data-ensure="(N1 / D1) &lt; (N2 / D2)">
                     <var id="N1">randRange( 1, D1 - 1 )</var>
                     <var id="N2">randRange( 1, D2 - 1 )</var>
                 </div>
@@ -109,7 +109,7 @@
             </div>
             <p class="problem">Express your answer as a mixed number simplified to lowest terms.</p>
             <p class="question"><code><var>expr(["+", W1 + 1 + fraction( N1, D1 ), W2 + fraction( N2, D2 )])</var> = {?}</code></p>
-            <div class="solution" data-type="mixed"><var>W1 + 1 + W2 + N1 / D1 + PM * N2 / D2</var></div>
+            <div data-type="mixed" class="solution"><var>W1 + 1 + W2 + N1 / D1 + PM * N2 / D2</var></div>
             <div class="hints">
                 <div data-if="GCD1 !== 1 || GCD2 !== 1">
                     <p>Simplify each fraction.</p>
@@ -135,18 +135,18 @@
                     <p><code>= \blue{<var>W1</var>} <var>SIGN</var> \pink{<var>abs( W2 )</var>} + \blue{<var>fraction( LCM + SIMP_N1 * LCM / SIMP_D1, LCM )</var>} <var>SIGN</var> \pink{<var>fraction( SIMP_N2 * LCM / SIMP_D2, LCM )</var>}</code></p>
                 </div>
                 <div>
-                    <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the whole numbers:</p>
+                    <p><span data-if="PM === 1">Add</span><span data-else="">Subtract</span> the whole numbers:</p>
                     <p><code>=<var>W1 + W2 </var> + \blue{<var>fraction( LCM + SIMP_N1 * LCM / SIMP_D1, LCM )</var>} <var>SIGN</var> \pink{<var>fraction( SIMP_N2 * LCM / SIMP_D2, LCM)</var>}</code></p>
                 </div>
                 <div>
-                    <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the fractions:</p>
+                    <p><span data-if="PM === 1">Add</span><span data-else="">Subtract</span> the fractions:</p>
                     <p><code>= <var>expr(["+", W1 + W2, fraction( (LCM + SIMP_N1 * LCM / SIMP_D1) + (PM * SIMP_N2 * LCM / SIMP_D2), LCM )])</var></code></p>
                 </div>
                 <div>
                     <p>Combine the whole and fractional parts into a mixed number:</p>
                     <p><code>= <var>W1 + W2 + fraction( (LCM + SIMP_N1 * LCM / SIMP_D1) + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
                 </div>
-                <div data-if="GCD > 1">
+                <div data-if="GCD &gt; 1">
                     <p>Simplify to lowest terms:</p>
                     <p><code>= <var>W1 + W2 + fractionReduce( (LCM + SIMP_N1 * LCM / SIMP_D1) + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
                 </div>
@@ -154,6 +154,7 @@
         </div>
     </div>
     </div>
-</div>
-</body>
-</html>
+
+
+
+</body></html>

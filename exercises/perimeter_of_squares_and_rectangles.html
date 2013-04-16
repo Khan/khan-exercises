@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Perimeter of squares and rectangles</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -27,13 +27,13 @@
                 <var>plural(UNIT_TEXT, S)</var> long. What is its perimeter?
             </p>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>4 * S</var></span>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>4 * S</var></span>
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
-                <div class="graphie" id="square">
+                <div id="square" class="graphie">
                     init({ range: [[-1, 6], [-1, 6]] });
                     path([[0, 0], [5, 0], [5, 5], [0, 5], true],
                         { stroke: BLUE, fill: "#eee" });
@@ -46,7 +46,7 @@
                     shape added together.
                 </p>
                 <div>
-                    <div class="graphie" data-update="square">
+                    <div data-update="square" class="graphie">
                         path([[0, 0], [0, 5]],
                             { strokeWidth: 4, stroke: PINK });
                         path([[0, 5], [5, 5]],
@@ -80,14 +80,14 @@
                 <var>plural(UNIT_TEXT)</var>. How long is each side?
             </p>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>S</var></span>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>S</var></span>
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
                 <div>
-                    <div class="graphie" id="square">
+                    <div id="square" class="graphie">
                         init({ range: [[-1, 6], [-1, 6]] });
                         path([[0, 0], [5, 0], [5, 5], [0, 5], true],
                             { stroke: BLUE, fill: "#eee" });
@@ -97,7 +97,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="graphie" data-update="square">
+                    <div data-update="square" class="graphie">
                         path([[0, 0], [0, 5]],
                             { strokeWidth: 4, stroke: PINK });
                         path([[0, 5], [5, 5]],
@@ -130,8 +130,8 @@
             </div>
         </div>
 
-        <div id="rectangle-lw-to-P" data-weight="3">
-            <div class="vars" data-ensure="L !== W">
+        <div data-weight="3" id="rectangle-lw-to-P">
+            <div data-ensure="L !== W" class="vars">
                 <var id="L">randRange(1, 8)</var>
                 <var id="W">randRange(1, 8)</var>
             </div>
@@ -144,13 +144,13 @@
                 wide. What is its perimeter?
             </p>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>2 * L + 2 * W</var></span>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>2 * L + 2 * W</var></span>
                 <var>plural(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
-                <div class="graphie" id="rectangle">
+                <div id="rectangle" class="graphie">
                     init({ range: [[-1, L + 1], [-1, W + 1]],
                         scale: 200 / max(L, W) });
                     path([[0, 0], [L, 0], [L, W], [0, W], true],
@@ -163,7 +163,7 @@
                     shape added together.
                 </p>
                 <div>
-                    <div class="graphie" data-update="rectangle">
+                    <div data-update="rectangle" class="graphie">
                         path([[0, 0], [0, W]],
                             { strokeWidth: 4, stroke: PINK });
                         path([[0, W], [L, W]],
@@ -188,5 +188,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

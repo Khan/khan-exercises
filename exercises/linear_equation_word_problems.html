@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math word-problems"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Linear equation word problems</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +9,7 @@
 <div class="exercise">
     <div class="problems">
         <div id="magazine_subscription_selling">
-            <div class="vars" data-ensure="Q < R">
+            <div data-ensure="Q &lt; R" class="vars">
                 <var id="Q">randRange(20, 40)</var>
                 <var id="P">randRange(2, 10)</var>
                 <var id="R">randRange(30, 100)</var>
@@ -29,8 +29,8 @@
                 number of subscriptions <var>he(1)</var> needs to sell?
             </p>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>X</var></span>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>X</var></span>
                 subscriptions
             </div>
 
@@ -70,7 +70,7 @@
                         x \cdot $<var>P</var> \geq $<var>R - Q</var>
                     </code></p>
                 </div>
-                <div data-if="(R - Q) % P !== 0" data-unwrap>
+                <div data-if="(R - Q) % P !== 0" data-unwrap="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>}
                         \approx <var>((R - Q) / P).toFixed(2)</var></code></p>
                     <p data-if="(R - Q) % P !== 0">
@@ -80,7 +80,7 @@
                         <code><var>X</var></code>.
                     </p>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>} =
                         <var>(R - Q) / P</var></code></p>
                 </div>
@@ -90,7 +90,7 @@
         </div>
 
         <div id="video_game_levels">
-            <div class="vars" data-ensure="Q < R">
+            <div data-ensure="Q &lt; R" class="vars">
                 <var id="Q">10 * randRange(100 / 10, 500 / 10)</var>
                 <var id="P">10 * randRange(300 / 10, 1000 / 10)</var>
                 <var id="R">10 * randRange(2000 / 10, 4000 / 10)</var>
@@ -111,8 +111,8 @@
                 <var>his(1)</var> goal?
             </p>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>X</var></span>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>X</var></span>
                 levels
             </div>
 
@@ -152,7 +152,7 @@
                         x \cdot <var>P</var> \geq <var>R - Q</var>
                     </code></p>
                 </div>
-                <div data-if="(R - Q) % P !== 0" data-unwrap>
+                <div data-if="(R - Q) % P !== 0" data-unwrap="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>}
                         \approx <var>((R - Q) / P).toFixed(2)</var></code></p>
                     <p data-if="(R - Q) % P !== 0">
@@ -162,7 +162,7 @@
                         <code><var>X</var></code>.
                     </p>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>} =
                         <var>(R - Q) / P</var></code></p>
                 </div>
@@ -172,7 +172,7 @@
         </div>
 
         <div id="piano_months">
-            <div class="vars" data-ensure="Q < R">
+            <div data-ensure="Q &lt; R" class="vars">
                 <var id="Q">randRange(5, 50)</var>
                 <var id="R">randRange(50, 200)</var>
                 <var id="P">randRange(1, 10)</var>
@@ -192,8 +192,8 @@
                 maestro level?
             </p>
 
-            <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>X</var></span>
+            <div data-type="multiple" class="solution">
+                <span data-forms="integer" class="sol"><var>X</var></span>
                 months
             </div>
 
@@ -215,8 +215,8 @@
                 </p>
                 <div>
                     <p>Number of songs mastered <code>\geq
-                        <var>R</var></code></span><br>
-                    <p>
+                        <var>R</var></code><br>
+                    </p><p>
                     <span>Months at school <code>\times</code> Songs mastered
                         per month</span><br>
                     <span><code>\qquad+</code> Songs already mastered
@@ -234,12 +234,12 @@
                 <div>
                     <p><code>
                         x \cdot <var>P</var> \geq <var>R</var> - <var>Q</var>
-                    </p></code>
+                    </code></p>
                     <p><code>
                         x \cdot <var>P</var> \geq <var>R - Q</var>
-                    </p></code>
+                    </code></p>
                 </div>
-                <div data-if="(R - Q) % P !== 0" data-unwrap>
+                <div data-if="(R - Q) % P !== 0" data-unwrap="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>}
                         \approx <var>((R - Q) / P).toFixed(2)</var></code></p>
                     <p data-if="(R - Q) % P !== 0">
@@ -249,7 +249,7 @@
                         <code><var>X</var></code>.
                     </p>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>} =
                         <var>(R - Q) / P</var></code></p>
                 </div>
@@ -259,5 +259,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

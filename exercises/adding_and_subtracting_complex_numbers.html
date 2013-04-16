@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta charset="UTF-8" />
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta charset="UTF-8">
     <title>Adding and subtracting complex numbers</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="ANSWER_IMAG !== -1">
+    <div data-ensure="ANSWER_IMAG !== -1" class="vars">
         <var id="A_REAL">randRange( -5, 5 )</var>
         <var id="A_IMAG">randRange( -5, 5 )</var>
         <var id="B_REAL">randRange( -5, 5 )</var>
@@ -54,12 +54,12 @@
                     (<var>A_REP_COLORED</var>) <var>OPERATOR</var> (<var>B_REP_COLORED</var>)
                 </code>
             </p>
-            <div class="solution" data-type="multiple">
-                <span class="sol short50" data-forms="integer, decimal" data-fallback="0" data-inexact data-max-error="0.01">
+            <div data-type="multiple" class="solution">
+                <span data-inexact="" data-fallback="0" data-forms="integer, decimal" class="sol short50" data-max-error="0.01">
                     <var>ANSWER_REAL</var>
                 </span>
                 <code>+</code>
-                <span class="sol short50" data-forms="integer, decimal" data-fallback="1" data-inexact data-max-error="0.01">
+                <span data-inexact="" data-fallback="1" data-forms="integer, decimal" class="sol short50" data-max-error="0.01">
                     <var>ANSWER_IMAG</var>
                 </span>
                 <code>i</code>
@@ -97,6 +97,7 @@
         </div>
     </div>
     </div>
-</body>
-</html>
 
+
+
+</body></html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Adding fractions</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="SIMP_D1 !== SIMP_D2">
+    <div data-ensure="SIMP_D1 !== SIMP_D2" class="vars">
         <var id="N1">randRange( 1, 9 )</var>
         <var id="D1">randRange( N1 + 1, 13 )</var>
         <var id="GCD1">getGCD( N1, D1 )</var>
@@ -26,10 +26,10 @@
     <div class="problems">
         <div id="add-fractions">
             <p class="question"><code><var>fraction( N1, D1 )</var> + <var>fraction( N2, D2 )</var> = {?}</code></p>
-            <p class="solution" data-type="rational"><var>N1 / D1 + N2 / D2</var></p>
+            <p data-type="rational" class="solution"><var>N1 / D1 + N2 / D2</var></p>
         </div>
 
-        <div id="custom-8" data-weight="0" data-type="add-fractions">
+        <div data-weight="0" data-type="add-fractions" id="custom-8">
             <div class="vars">
                 <var id="N1">1</var>
                 <var id="D1">2</var>
@@ -68,5 +68,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format expressions"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Combining like terms</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,9 +10,9 @@
     <div class="vars">
         <var id="X">randVar()</var>
         <var id="A">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
-        <var id="B" data-ensure="abs( A ) !== abs( B )">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
+        <var data-ensure="abs( A ) !== abs( B )" id="B">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
         <var id="C">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 20))</var>
-        <var id="D" data-ensure="abs( C ) !== abs( D )">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
+        <var data-ensure="abs( C ) !== abs( D )" id="D">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
         <var id="TERM_AX">
             "(?:" + (A &lt; 0 ? "[-\\u2212]" : "") + abs(A)
             + (A === 1 ? "|" : "" ) + (A === -1 ?
@@ -37,8 +37,8 @@
             <p class="problem">
                 <code>\large{<var>expr(["+", ["*", A, X], ["*", B, X]])</var>}</code>
             </p>
-            <div class="solution" data-type="set">
-                <span data-each="SOLUTIONS as SOL" class="set-sol" data-type="regex">^\s*<var>SOL</var>\s*$</span>
+            <div data-type="set" class="solution">
+                <span data-each="SOLUTIONS as SOL" data-type="regex" class="set-sol">^\s*<var>SOL</var>\s*$</span>
                 <div class="input-format"><span class="entry"></span></div>
                 <span class="example">an expression, like <b>-2x + 4</b></span>
             </div>
@@ -54,10 +54,10 @@
                     </p>
                 </div>
                 <p>The simplified expression is <code><var>expr(["*", A + B, X])</var></code>
-            </div>
+            </p></div>
         </div>
 
-        <div id="ax_bx_c" data-type="ax_bx">
+        <div data-type="ax_bx" id="ax_bx_c">
             <div class="vars">
                 <var id="SOLUTIONS">[
                     TERM_AX_BX + (C &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_C,
@@ -78,10 +78,10 @@
                     </p>
                 </div>
                 <p>The simplified expression is <code><var>expr(["*", A + B, X])</var> + <var>C</var></code>
-            </div>
+            </p></div>
         </div>
 
-        <div id="ax_c_bx" data-type="ax_bx_c">
+        <div data-type="ax_bx_c" id="ax_c_bx">
             <p class="problem">
                 <code>\large{<var>expr(["+", ["*", A, X], C, ["*", B, X]])</var>}</code>
             </p>
@@ -99,10 +99,10 @@
                     </p>
                 </div>
                 <p>The simplified expression is <code><var>expr(["*", A + B, X])</var> + <var>C</var></code>
-            </div>
+            </p></div>
         </div>
 
-        <div id="ax_c_bx_d" data-type="ax_bx_c">
+        <div data-type="ax_bx_c" id="ax_c_bx_d">
             <div class="vars">
                 <var id="SOLUTIONS">[
                     TERM_AX_BX + ((C + D) &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_C_D,
@@ -141,16 +141,16 @@
                     </p>
                 </div>
                 <p>The simplified expression is <code><var>expr(["+", ["*", A + B, X], C + D])</var></code>
-            </div>
+            </p></div>
         </div>
 
-        <div id="ax_c_d_bx" data-type="ax_c_bx_d">
+        <div data-type="ax_c_bx_d" id="ax_c_d_bx">
             <p class="problem">
                 <code>\large{<var>expr(["+", ["*", A, X], C, D, ["*", B, X]])</var>}</code>
             </p>
         </div>
 
-        <div id="ax_c_d" data-type="ax_bx">
+        <div data-type="ax_bx" id="ax_c_d">
             <div class="vars">
                 <var id="SOLUTIONS">[
                     TERM_AX + ((C + D) &gt; 0 ? "\\s*\\+\\s*" : "\\s*") + TERM_C_D,
@@ -175,10 +175,10 @@
                     </p>
                 </div>
                 <p>The simplified expression is <code><var>expr(["+", ["*", A, X], C + D])</var></code>
-            </div>
+            </p></div>
         </div>
 
-        <div id="c_ax_d" data-type="ax_c_d">
+        <div data-type="ax_c_d" id="c_ax_d">
             <p class="problem">
                 <code>\large{<var>expr(["+", C, ["*", A, X], D])</var>}</code>
             </p>
@@ -188,7 +188,7 @@
                         Rewrite the expression to group the
                         <span class="hint_blue">numeric</span> terms:</p>
                     <p>
-                    <p>
+                    </p><p>
                         <code>\qquad <var>expr(["*", A, X])</var>
                         <var>C &lt; 0 ? "" : "+"</var>
                         \blue{<var>C</var> + <var>D</var>}</code>
@@ -203,10 +203,11 @@
                     </p>
                 </div>
                 <p>The simplified expression is <code><var>expr(["+", ["*", A, X], C + D])</var></code>
-            </div>
+            </p></div>
         </div>
 
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

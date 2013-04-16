@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie math-format subhints">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie math-format subhints"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Addition and subtraction trig identities</title>
     <script src="../khan-exercise.js"></script>
     <script>
@@ -360,11 +360,11 @@
         </div>
         <div id="sinDouble">
             <div class="vars">
-                <var id="AC, BC" data-apply="replace">
+                <var data-apply="replace" id="AC, BC">
                     shuffle(randFromArray([[3,4], [6,8], [1,3],
                     [2, 3], [2, 4], [3, 4]]))
                 </var>
-                <var id="AB" data-apply="replace">
+                <var data-apply="replace" id="AB">
                     formattedSquareRootOf(AC * AC + BC * BC)
                 </var>
                 <var id="HYPOTENUSE_NUMBER">
@@ -396,7 +396,7 @@
                 <code>\sin(2 \cdot <var>T_ANG</var>) = \; ?</code>
             </p>
 
-            <div class="solution" data-forms="proper, improper">
+            <div data-forms="proper, improper" class="solution">
                 <var>ANS</var>
             </div>
 
@@ -421,9 +421,9 @@
                     <p>(To cut down on the number of identities you have to
                     memorize, you can derive this quickly from the 
                     angle addition identity for sine)
-                    [<a href="#" class="show-subhint" data-subhint="sinDeriv">
+                    [<a data-subhint="sinDeriv" href="#" class="show-subhint">
                     Show how</a>]</p>
-                    <div class="subhint" id="sinDeriv">
+                    <div id="sinDeriv" class="subhint">
                         <p>Start with the sine angle addition identity:</p>
                         <p><code>\qquad \sin(x + y) = \sin(x) \cdot \cos(y)
                             + \cos(x) \cdot \sin(y)</code></p>
@@ -458,11 +458,11 @@
         </div>
         <div id="cosDouble">
             <div class="vars">
-                <var id="AC, BC" data-apply="replace">
+                <var data-apply="replace" id="AC, BC">
                     shuffle(randFromArray([[3,4], [6,8], [1,3],
                     [2, 3], [2, 4], [3, 4]]))
                 </var>
-                <var id="AB" data-apply="replace">
+                <var data-apply="replace" id="AB">
                     formattedSquareRootOf(AC * AC + BC * BC)
                 </var>
                 <var id="HYPOTENUSE_NUMBER">
@@ -497,7 +497,7 @@
                 <code>\cos(2 \cdot <var>T_ANG</var>) = \; ?</code>
             </p>
 
-            <div class="solution" data-forms="proper, improper">
+            <div data-forms="proper, improper" class="solution">
                 <var>ANS</var>
             </div>
 
@@ -522,9 +522,9 @@
                     <p>(To cut down on the number of identities you have to
                     memorize, you can derive this quickly from the 
                     angle addition identity for cosine)
-                    [<a href="#" class="show-subhint" data-subhint="cosDeriv">
+                    [<a data-subhint="cosDeriv" href="#" class="show-subhint">
                     Show how</a>]</p>
-                    <div class="subhint" id="cosDeriv">
+                    <div id="cosDeriv" class="subhint">
                         <p>Start with the cosine angle addition identity:</p>
                         <p><code>\qquad \cos(x + y) = \cos(x) \cdot \cos(y)
                             - \sin(x) \cdot \sin(y)</code></p>
@@ -564,5 +564,6 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

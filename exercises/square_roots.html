@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
-<head>
+<!DOCTYPE html>
+<html data-require="math graphie"><head>
     <title>Square roots</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -21,7 +21,7 @@
             </p>
             <div>
                 <p>Let's draw a factor tree.</p>
-                <div class="graphie" id="factor-tree">
+                <div id="factor-tree" class="graphie">
                     init({
                         range: [ [-1, FACTORIZATION.length + 2], [ -2 * FACTORIZATION.length - 1, 1] ],
                         scale: [30, 30]
@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <div class="graphie" data-update="factor-tree" data-each="FACTORIZATION as factor">
+            <div data-update="factor-tree" data-each="FACTORIZATION as factor" class="graphie">
                     path( [ [cx + 1, y - 0.5], [cx, y - 1.5] ] );
                     path( [ [cx + 1, y - 0.5], [cx + 2, y - 1.5] ] );
                     y -= 2;
@@ -44,7 +44,7 @@
                     label( [cx + 1, y], curr );
             </div>
 
-            <div class="graphie" data-update="factor-tree">
+            <div data-update="factor-tree" class="graphie">
                 circle( [cx + 1, y], 0.5);
             </div>
 
@@ -62,33 +62,33 @@
 
                 <p class="question"><code>\Large{\sqrt{<var>Q</var>} = \text{?}}</code></p>
 
-                <p class="solution" data-forms="integer, decimal"><var>N</var></p>
+                <p data-forms="integer, decimal" class="solution"><var>N</var></p>
 
-                <div class="hints" data-apply="prependContents">
+                <div data-apply="prependContents" class="hints">
                     <p>
                         <code>\sqrt{<var>Q</var>}</code> is the number that, when
                         multiplied by itself, equals <code><var>Q</var></code>.
                     </p>
                 </div>
 
-                <div class="hints" data-apply="appendContents">
+                <div data-apply="appendContents" class="hints">
                     <p>We're looking for <code>\sqrt{<var>Q</var>}</code>, so we want to split the prime factors into two identical groups.</p>
 
-                    <div data-if="PRIMES.length === 2" data-unwrap>
+                    <div data-if="PRIMES.length === 2" data-unwrap="">
 
                         <p>We only have two prime factors, and we want to split them into two groups, so this is easy.</p>
                         <p><code><var>Q</var> = <var>PRIMES.join( "\\times " )</var></code>, so <code><var>N</var>^2 = <var>Q</var></code>.</p>
 
-                    </div><div data-else data-unwrap>
+                    </div><div data-else="" data-unwrap="">
 
                         <div>
                             <p>Notice that we can rearrange the factors like so:</p>
-                            <p><code><var>Q</var> = <var>PRIMES.join(" &times; ")</var> = \left(<var>F_N.join( "\\times " )</var>\right) \times \left(<var>F_N.join(" &times; ")</var>\right)</code></p>
+                            <p><code><var>Q</var> = <var>PRIMES.join(" &#215; ")</var> = \left(<var>F_N.join( "\\times " )</var>\right) \times \left(<var>F_N.join(" &#215; ")</var>\right)</code></p>
                         </div>
 
-                        <p data-if="F_N.length > 1">
+                        <p data-if="F_N.length &gt; 1">
                             So <code>\left(<var>F_N.join( "\\times " )</var>\right)^2 = <var>N</var>^2 = <var>Q</var></code>.
-                        </p><p data-else>
+                        </p><p data-else="">
                             So <code><var>N</var>^2 = <var>Q</var></code>.
                         </p>
 
@@ -101,5 +101,6 @@
         </div>
 
     </div>
-</body>
-</html>
+
+
+</body></html>

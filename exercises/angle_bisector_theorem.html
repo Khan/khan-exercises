@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Angle bisector theorem</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="ANGLES" data-ensure="ANGLES[ 0 ] % 2 === 0">randomTriangleAngles.triangle()</var>
+            <var data-ensure="ANGLES[ 0 ] % 2 === 0" id="ANGLES">randomTriangleAngles.triangle()</var>
                 <var id="SIDES_B">[ [ 0, 1 ], [] ]</var>
                 <var id="SIDES_C">[ [ 1 ], [ 2]  ]</var>
                 <var id="TR_A">
@@ -79,7 +79,7 @@
                     What is the length of the side AC? (Round to 1 decimal place).
                 </div>
                 <div class="solution"><var>AC</var></div>
-                <div class="hints"  data-apply="appendContents">
+                <div data-apply="appendContents" class="hints">
                     <p><code>\dfrac{ <var>AB</var> }{ <var>BD</var> }    = \dfrac{ AC }{ <var>CD</var> }</code></p>
                     <p><code>AC = \dfrac{<var>AB</var> \cdot <var>CD</var> }{ <var>BD</var> }</code></p>
                     <p><code>AC = <var>AC </var></code></p>
@@ -95,7 +95,7 @@
                     What is the length of the side AB? (Round to 1 decimal place).
                 </div>
                 <div class="solution"><var>AB</var></div>
-                <div class="hints"  data-apply="appendContents">
+                <div data-apply="appendContents" class="hints">
                     <p><code>\dfrac{ AB }{ <var>BD</var> }    = \dfrac{ <var>AC</var> }{ <var>CD</var> }</code></p>
                     <p><code>AB = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>CD</var> }</code></p>
                     <p><code>AB = <var>AB </var></code></p>
@@ -111,7 +111,7 @@
                     What is the length of the side CD?  (Round to 1 decimal place).
                 </div>
                 <div class="solution"><var>CD</var></div>
-                <div class="hints"  data-apply="appendContents">
+                <div data-apply="appendContents" class="hints">
                     <p><code>\dfrac{ <var> AB</var> }{ <var>BD</var> }    = \dfrac{ <var>AC</var> }{ CD }</code></p>
                     <p><code>CD = \dfrac{ <var>AC</var> \cdot <var>BD</var> }{ <var>AB</var> }</code></p>
                     <p><code>CD = <var>CD </var></code></p>
@@ -127,7 +127,7 @@
                     What is the length of the side BD?  (Round to 1 decimal place).
                 </div>
                 <div class="solution"><var>BD</var></div>
-                <div class="hints"  data-apply="appendContents">
+                <div data-apply="appendContents" class="hints">
                     <p><code>\dfrac{ <var> AB</var> }{ BD }    = \dfrac{ <var>AC</var> }{ <var>CD</var> }</code></p>
                     <p><code>BD = \dfrac{ <var>AB</var> \cdot <var>CD</var> }{ <var>AC</var> }</code></p>
                     <p><code>BD = <var>BD</var></code></p>
@@ -135,5 +135,6 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

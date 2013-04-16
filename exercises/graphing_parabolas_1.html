@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive ast math-model">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie interactive ast math-model"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Graphing parabolas in vertex form</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
-    <div class="vars" data-ensure="A * H * H + K !== 0">
+    <div data-ensure="A * H * H + K !== 0" class="vars">
         <var id="A">randRangeNonZero( -5, 5 )</var>
         <var id="H">randRangeNonZero( -5, 5 )</var>
         <var id="K">randRangeNonZero( -5, 5 )</var>
@@ -17,7 +17,7 @@
     <p class="question">Graph the following equation:</p>
 
     <div class="problem">
-        <div class="graphie" id="grid">
+        <div id="grid" class="graphie">
             graphInit({
                 range: 11,
                 scale: 20,
@@ -161,7 +161,7 @@
         </div>
     </div>
 
-    <div class="solution" data-type="custom">
+    <div data-type="custom" class="solution">
         <div class="instruction">
             Drag the three points to graph the equation.
         </div>
@@ -183,7 +183,7 @@
 
     <div class="problems">
         <div id="vertex-form">
-            <div class="vars" data-apply="appendVars">
+            <div data-apply="appendVars" class="vars">
                 <var id="X1">H + 1</var>
                 <var id="Y1">A * ( X1 - H ) * ( X1 - H ) + K</var>
                 <var id="X2">H - 1</var>
@@ -197,7 +197,7 @@
                     parse( A_DISP + "( #{" + X1 + "} - " + H + ")^2 + " + K + " &amp;= #{" + Y1 + "}", [ PINK, PINK ] )
                 ]</var>
             </div>
-            <div class="problem" data-apply="prependContents">
+            <div data-apply="prependContents" class="problem">
                 <p class="hint_blue">
                     <code>y = <var>A_DISP</var>(x - <var>H</var>)^2 + <var>K</var></code>
                 </p>
@@ -207,13 +207,13 @@
 
                 <div>
                     <p>When the equation is written in vertex form like this, the vertex is the point <code class="hint_green">(h, k)</code>:
-                    <p><code>\qquad <var>formatGroup( GROUP1, [ 0 ] )</var></code></p>
+                    </p><p><code>\qquad <var>formatGroup( GROUP1, [ 0 ] )</var></code></p>
                 </div>
 
                 <div>
                     <p><code>\qquad <var>formatGroup( GROUP1, [ 1 ] )</var></code></p>
                     <p>Examining our equation, we can see the vertex of the parabola is at <code class="hint_green">(<var>H</var>, <var>K</var>)</code>.</p>
-                    <div class="graphie" data-update="grid">
+                    <div data-update="grid" class="graphie">
                         style({
                             stroke: GREEN,
                             strokeWidth: 3
@@ -228,12 +228,12 @@
 
                 <div>
                     <p>
-                        Since the vertex is at <code class="hint_green">x = <var>H</code></code>, let's try one unit to the right and evaluate
+                        Since the vertex is at <code class="hint_green">x = <var>H</var></code>, let's try one unit to the right and evaluate
                         the equation at <code class="hint_pink">x = <var>X1</var></code>.
                     </p>
                     <p><code>\qquad <var>formatGroup( GROUP2, [ 0, 1 ] )</var></code></p>
                     <p>Another point on the parabola is <code class="hint_pink">(<var>X1</var>, <var>Y1</var>)</code>
-                    <div class="graphie" data-update="grid">
+                    </p><div data-update="grid" class="graphie">
                         style({
                             stroke: PINK,
                             strokeWidth: 3
@@ -246,7 +246,7 @@
 
                 <div>
                     <p>A parabola has an <span class="hint_green">axis of symmetry</span> that passes through its vertex.</p>
-                    <div class="graphie" data-update="grid">
+                    <div data-update="grid" class="graphie">
                         style({
                             stroke: GREEN,
                             strokeDasharray: "-"
@@ -263,7 +263,7 @@
                         <code class="hint_orange">(<var>X2</var>, <var>Y2</var>)</code>, that must
                         also be on the parabola.
                     </p>
-                    <div class="graphie" data-update="grid">
+                    <div data-update="grid" class="graphie">
                         style({
                             stroke: ORANGE,
                             strokeWidth: 3
@@ -277,7 +277,7 @@
                 <div>
                     <p class="final_answer">
                         There is only one graph of a parabola that passes through all three points we found.
-                        <br /><input type="button" value="Show me" onClick="javascript:KhanUtil.currentGraph.graph.showSolution();" />
+                        <br><input type="button" onclick="javascript:KhanUtil.currentGraph.graph.showSolution();" value="Show me">
                     </p>
                 </div>
 
@@ -287,5 +287,6 @@
     </div>
 
 </div>
-</body>
-</html>
+
+
+</body></html>

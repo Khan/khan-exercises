@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Scientific notation</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="NUMBER_SEED % 10 !== 0">
+        <div data-ensure="NUMBER_SEED % 10 !== 0" class="vars">
             <var id="NUMBER_SEED">randRange(100, 9999)</var>
             <var id="NUMBER_SEED_LENGTH">NUMBER_SEED.toString().length</var>
 
@@ -20,7 +20,7 @@
             <var id="TRAIL">( BASE + "" ).substring( 1 )</var>
 
             <var id="DECIMAL">
-                ZEROES > 0 ?
+                ZEROES &gt; 0 ?
                     NUMBER_SEED * pow( 10, ZEROES ) :
                     ( NUMBER_SEED * pow( 10, ZEROES ) ).toFixed( -1 * ZEROES )
             </var>
@@ -37,18 +37,18 @@
                 </p>
                 <p class="problem"><code><var>PRETTY_DECIMAL</var></code></p>
 
-                <div class="solution" data-type="multiple">
-                    <span class="sol base short30" data-forms="integer, decimal"><var>BASE</var></span>
+                <div data-type="multiple" class="solution">
+                    <span data-forms="integer, decimal" class="sol base short30"><var>BASE</var></span>
                     <code> \times 10 </code>
-                    <sup class="sol exp short30" data-forms="integer, decimal" style="width: 20px;"><var>E</var></sup>
+                    <sup style="width: 20px;" data-forms="integer, decimal" class="sol exp short30"><var>E</var></sup>
                 </div>
 
                 <div class="hints">
-                    <div class="digits" data-unwrap>
-                        <p data-if="E > 0">There are <code>\exponentColor{<var>E</var>}</code> digits to the right of the leading <code>\leadingColor{<var>LEADING</var>}</code> (and to the left of the decimal).</p>
-                        <div data-unwrap data-else>
-                            <p>Count the zeroes to the right of the decimal point before the leading <code>\leadingColor{<var>LEADING</var>}</code>: there <span data-if="E + 1 === -1">is 1 zero</span><span data-else>are <code><var>(E + 1) * -1</var></code> zeroes</span>.</p>
-                            <p>If you count the leading digit <code>\leadingColor{<var>LEADING</var>}</code><span data-if="E + 1 < -1"> and those zeroes</span><span data-else-if="E + 1 === -1"> and the 1 zero</span>, there <var>E === -1 ? "is" : "are"</var> <code>\exponentColor{<var>E * -1</var>}</code> <var>E === -1 ? "digit" : "digits"</var> to the <span style="color: purple;">right</span> of the decimal point.</p>
+                    <div class="digits" data-unwrap="">
+                        <p data-if="E &gt; 0">There are <code>\exponentColor{<var>E</var>}</code> digits to the right of the leading <code>\leadingColor{<var>LEADING</var>}</code> (and to the left of the decimal).</p>
+                        <div data-else="" data-unwrap="">
+                            <p>Count the zeroes to the right of the decimal point before the leading <code>\leadingColor{<var>LEADING</var>}</code>: there <span data-if="E + 1 === -1">is 1 zero</span><span data-else="">are <code><var>(E + 1) * -1</var></code> zeroes</span>.</p>
+                            <p>If you count the leading digit <code>\leadingColor{<var>LEADING</var>}</code><span data-if="E + 1 &lt; -1"> and those zeroes</span><span data-else-if="E + 1 === -1"> and the 1 zero</span>, there <var>E === -1 ? "is" : "are"</var> <code>\exponentColor{<var>E * -1</var>}</code> <var>E === -1 ? "digit" : "digits"</var> to the <span style="color: purple;">right</span> of the decimal point.</p>
                         </div>
                     </div>
 
@@ -77,5 +77,6 @@
             <p class="answer"></p>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

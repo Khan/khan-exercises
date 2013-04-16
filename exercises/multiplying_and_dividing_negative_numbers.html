@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Multiplying and dividing negative numbers</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="(A < 0 || B < 0) && B !== 0">
+        <div data-ensure="(A &lt; 0 || B &lt; 0) &amp;&amp; B !== 0" class="vars">
             <var id="A">rand( 18 ) - 9</var>
             <var id="B">rand( 18 ) - 9</var>
             <var id="C">A * B</var>
@@ -18,9 +18,9 @@
                 <p class="question"><code><var>A</var> \times <var>B</var> = </code> ?</p>
                 <div class="solution"><var>C</var></div>
                 <div class="hints">
-                    <p data-if="A < 0 && B < 0">A negative times a negative is a positive.</p>
-                    <p data-else data-if="A < 0">A negative times a positive is a negative.</p>
-                    <p data-else>A positive times a negative is a negative.</p>
+                    <p data-if="A &lt; 0 &amp;&amp; B &lt; 0">A negative times a negative is a positive.</p>
+                    <p data-if="A &lt; 0" data-else="">A negative times a positive is a negative.</p>
+                    <p data-else="">A positive times a negative is a negative.</p>
                     <p><code><var>A</var> \times <var>B</var> = <var>C</var></code></p>
                 </div>
             </div>
@@ -29,13 +29,14 @@
                 <p class="question"><code><var>C</var> \div <var>B</var> = </code> ?</p>
                 <div class="solution"><var>A</var></div>
                 <div class="hints">
-                    <p data-if="C < 0 && B < 0">A negative divided by a negative is a positive.</p>
-                    <p data-else data-if="C < 0">A negative divided by a positive is a negative.</p>
-                    <p data-else>A positive divided by a negative is a negative.</p>
+                    <p data-if="C &lt; 0 &amp;&amp; B &lt; 0">A negative divided by a negative is a positive.</p>
+                    <p data-if="C &lt; 0" data-else="">A negative divided by a positive is a negative.</p>
+                    <p data-else="">A positive divided by a negative is a negative.</p>
                     <p><code><var>C</var> \div <var>B</var> = <var>A</var></code></p>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+
+
+</body></html>

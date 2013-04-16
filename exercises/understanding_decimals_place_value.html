@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems jquery.mobile.vmouse">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math graphie word-problems jquery.mobile.vmouse"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Understanding decimals place value</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -48,7 +48,7 @@
 <div class="exercise">
 
     <div class="vars">
-        <div data-ensure="!( THOUSANDS === 0 && HUNDREDS === 0 )">
+        <div data-ensure="!( THOUSANDS === 0 &amp;&amp; HUNDREDS === 0 )">
             <var id="THOUSANDS">randFromArray([ 0, randRange( 1, 9 ) ])</var>
             <var id="HUNDREDS">randRange( 0, 9 )</var>
         </div>
@@ -64,7 +64,7 @@
                 <var id="THOUSANDTHS">randRange( 1, 9 )</var>
             </div>
             <p class="question">
-                Choose the right number of each place value to make<br />
+                Choose the right number of each place value to make<br>
                 <code>\Huge{
                 <span data-if="THOUSANDS !== 0">\color{<var>PINK</var>}{<var>THOUSANDS</var>}</span>
                 \color{<var>ORANGE</var>}{<var>HUNDREDS</var>}
@@ -88,7 +88,7 @@
                         - .hints uses .graphie.
                         - The other problem uses graphie so .hints's .graphies must use data-update.
                 -->
-                <div class="graphie" id="graph" style="display: none;"></div>
+                <div style="display: none;" id="graph" class="graphie"></div>
                 <div class="column">
                     <span class="columnhead">Thousands</span>
                     <div data-each="10 times" class="place-value thou">1000</div>
@@ -152,10 +152,10 @@
                         });
                     })()
                 </var>
-                <p style="clear: left">&nbsp;</p>
+                <p style="clear: left">&#160;</p>
             </div>
 
-            <div class="solution" data-type="custom">
+            <div data-type="custom" class="solution">
                 <div class="instruction">
                     Click on the numbers in rectangles to select them.
                 </div>
@@ -203,7 +203,7 @@
                 <var id="THOUSANDTHS">0</var>
             </div>
             <p class="question">
-                Choose the right number of bills and coins to make<br />
+                Choose the right number of bills and coins to make<br>
                 <code>\Huge{$
                 <span data-if="THOUSANDS !== 0">\color{<var>PINK</var>}{<var>THOUSANDS</var>}</span>
                 \color{<var>ORANGE</var>}{<var>HUNDREDS</var>}
@@ -234,13 +234,13 @@
                 <div class="column">
                     <div class="coin-column">
                         <span class="columnhead">Tenths</span>
-                        <div data-each="10 times" class="coin dime">10&cent;</div>
+                        <div data-each="10 times" class="coin dime">10&#162;</div>
                     </div>
                     <div class="coin-column">
                         <span class="columnhead">Hundredths</span>
-                        <div data-each="10 times" class="coin penny">1&cent;</div>
+                        <div data-each="10 times" class="coin penny">1&#162;</div>
                     </div>
-                    <div class="graphie" id="graph">
+                    <div id="graph" class="graphie">
                         Khan.scratchpad.disable();
                         init({ range: [ [ 0, 143 ], [ -430, 22 ] ], scale: [ 1, 1 ] });
                         style({ fill: "#eee", stroke: "#ddd", strokeWidth: 1 });
@@ -325,11 +325,11 @@
                         });
                     </div>
                 </div>
-                <p style="clear: left">&nbsp;</p>
+                <p style="clear: left">&#160;</p>
             </div>
 
 
-            <div class="solution" data-type="custom">
+            <div data-type="custom" class="solution">
                 <div class="instruction">
                     Click on the bills and coins to select them.
                 </div>
@@ -412,7 +412,7 @@
                 <var>plural( "thousand", THOUSANDS )</var>, the place value four places to the left of the decimal point.
             </p>
 
-            <div class="graphie" data-update="graph">
+            <div data-update="graph" class="graphie">
                 // Select thousands.
                 var thous = $( '#problemarea .thou' );
                 thous.removeClass( 'thou-selected' );
@@ -422,7 +422,7 @@
                 }
             </div>
         </div>
-        <p data-else>
+        <p data-else="">
             Because there is no number in the <span class="hint_pink">thousands</span> place, you don't need any <span class="hint_pink">thousands</span>.
         </p>
         <div data-if="HUNDREDS !== 0">
@@ -431,7 +431,7 @@
                 <var>plural( "hundred", HUNDREDS )</var>, the place value three places to the left of the decimal point.
             </p>
 
-            <div class="graphie" data-update="graph">
+            <div data-update="graph" class="graphie">
                 // Select hundreds.
                 var hunds = $( '#problemarea .hund' );
                 hunds.removeClass( 'hund-selected' );
@@ -441,7 +441,7 @@
                 }
             </div>
         </div>
-        <p data-else>
+        <p data-else="">
             Because the <span class="hint_orange">hundreds</span> place is <code class="hint_orange">\large{0}</code>, you don't need any <span class="hint_orange">hundreds</span>.
         </p>
         <div data-if="TENS !== 0">
@@ -450,7 +450,7 @@
                 <var>plural( "ten", TENS )</var>, the place value two places to the left of the decimal point.
             </p>
 
-            <div class="graphie" data-update="graph">
+            <div data-update="graph" class="graphie">
                 // Select tens.
                 var tens = $( '#problemarea .ten' );
                 tens.removeClass( 'ten-selected' );
@@ -460,7 +460,7 @@
                 }
             </div>
         </div>
-        <p data-else>
+        <p data-else="">
             Because the <span class="hint_green">tens</span> place is <code class="hint_green">\large{0}</code>, you don't need any <span class="hint_green">tens</span>.
         </p>
         <div data-if="ONES !== 0">
@@ -469,7 +469,7 @@
                 <var>plural( "one", ONES )</var>, the place value one place to the left of the decimal point.
             </p>
 
-            <div class="graphie" data-update="graph">
+            <div data-update="graph" class="graphie">
                 // Select ones.
                 var ones = $( '#problemarea .one' );
                 ones.removeClass( 'one-selected' );
@@ -479,7 +479,7 @@
                 }
             </div>
         </div>
-        <p data-else>
+        <p data-else="">
             Because the <span class="hint_blue">ones</span> place is <code class="hint_blue">\large{0}</code>, you don't need any <span class="hint_blue">ones</span>.
         </p>
         <div data-if="TENTHS !== 0">
@@ -488,7 +488,7 @@
                 <var>plural( "tenth", TENTHS )</var>, the place value one place to the right of the decimal point.
             </p>
 
-            <div class="graphie" data-update="graph">
+            <div data-update="graph" class="graphie">
                 // Select dimes/tenths.
                 if ( $( '#place-value' ).length === 1 ) {
                     var tenths = $( '#problemarea .tenth' );
@@ -512,7 +512,7 @@
                 }
             </div>
         </div>
-        <p data-else>
+        <p data-else="">
             Because the <span class="hint_purple">tenths</span> place is <code class="hint_purple">\large{0}</code>, you don't need any <span class="hint_purple">tenths</span>.
         </p>
         <div data-if="HUNDREDTHS !== 0">
@@ -521,7 +521,7 @@
                 <var>plural("hundredth", HUNDREDTHS )</var>, the place value two places to the right of the decimal point.
             </p>
 
-            <div class="graphie" data-update="graph">
+            <div data-update="graph" class="graphie">
                 // Select pennies/hundredths.
                 if ( $( '#place-value' ).length === 1 ) {
                     var hundths = $( '#problemarea .hundth' );
@@ -545,7 +545,7 @@
                 }
             </div>
         </div>
-        <p data-else>
+        <p data-else="">
             Because the <span class="hint_gray">hundreds</span> place is <code class="hint_gray">\large{0}</code>, you don't need any <span class="hint_gray">hundreds</span>.
         </p>
         <div data-if="THOUSANDTHS !== 0">
@@ -554,7 +554,7 @@
                 <var>plural("thousandth", THOUSANDTHS )</var>, the place value three places to the right of the decimal point.
             </p>
 
-            <div class="graphie" data-update="graph">
+            <div data-update="graph" class="graphie">
                 // Select thousandths.
                 var thouths = $( '#problemarea .thouth' );
                 thouths.removeClass( 'thouth-selected' );
@@ -572,15 +572,16 @@
             <span data-if="TENS !== 0"><code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code> <var>plural( "ten", TENS )</var>, </span>
             <span data-if="ONES !== 0"><code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> <var>plural( "one", ONES )</var>, </span>
             <span data-if="TENTHS !== 0"><code>\large{\color{purple}{<var>TENTHS</var>}}</code> <var>plural( "tenth", TENTHS )</var>, </span>
-            <span data-if="THOUSANDTHS === 0" data-unwrap>
+            <span data-if="THOUSANDTHS === 0" data-unwrap="">
                 and <code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> <var>plural( "hundredth", HUNDREDTHS )</var>.
             </span>
-            <span data-else data-unwrap>
+            <span data-else="" data-unwrap="">
                 <span data-if="HUNDREDTHS !== 0"><code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> <var>plural( "hundredth", HUNDREDTHS )</var>, </span>
                 and <code>\large{\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> <var>plural( "thousandth", THOUSANDTHS )</var>.
             </span>
         </p>
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

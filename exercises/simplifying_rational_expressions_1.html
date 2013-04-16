@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Simplifying rational expressions 1</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -88,16 +88,16 @@
             </p>
             <p>You can assume <code><var>X</var> \neq 0</code>.</p>
 
-            <div class="solution" data-type="set">
-                <div class="set-sol" data-type="multiple">
-                    <span class="sol" data-type="regex"><var>NUMERATORREGEX</var></span>
-                    <span class="sol" data-type="regex"><var>DENOMINATORREGEX</var></span>
+            <div data-type="set" class="solution">
+                <div data-type="multiple" class="set-sol">
+                    <span data-type="regex" class="sol"><var>NUMERATORREGEX</var></span>
+                    <span data-type="regex" class="sol"><var>DENOMINATORREGEX</var></span>
                 </div>
 
                 <div class="input-format">
-                    <div class="entry" data-type="multiple">
+                    <div data-type="multiple" class="entry">
                         <table class="rational-exp">
-                            <tr>
+                            <tbody><tr>
                                 <td rowspan="2" class="soln-name">
                                     <code><var>Y</var> = </code>
                                 </td>
@@ -107,10 +107,10 @@
                             </tr>
                             <tr>
                                 <td class="soln-bot">
-                                    <span class="sol short35" data-fallback="1"></span>
+                                    <span data-fallback="1" class="sol short35"></span>
                                 </td>
                             </tr>
-                        </table>
+                        </tbody></table>
                     </div>
                 </div>
 
@@ -129,7 +129,7 @@
 
                 <div>
                     <p>
-                        <code><var>NUMERATORCOEFFICIENT</var>   = <var>getPrimeFactorization( NUMERATORCOEFFICIENT ).join( "\\cdot" )</var></code><br />
+                        <code><var>NUMERATORCOEFFICIENT</var>   = <var>getPrimeFactorization( NUMERATORCOEFFICIENT ).join( "\\cdot" )</var></code><br>
                         <code><var>DENOMINATORCOEFFICIENT</var> = <var>getPrimeFactorization( DENOMINATORCOEFFICIENT ).join( "\\cdot" )</var></code>
                     </p>
                     <p>
@@ -158,5 +158,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

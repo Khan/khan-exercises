@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math stat math-format word-problems spin">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math stat math-format word-problems spin"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Reading stem and leaf plots</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -54,15 +54,15 @@
         <p>
             <code>
                 \left| \quad \begin{matrix}
-                <span data-each="STEMS times as STEM" data-unwrap>
+                <span data-each="STEMS times as STEM" data-unwrap="">
                     <var>STEM</var>
                     \vphantom{\Large{0}} \\
                 </span>
                 \end{matrix} \quad \right|
                 \quad
                 \begin{matrix}
-                <span data-each="STEMS times as STEM" data-unwrap>
-                    <span data-each="DATA[ STEM ] as LEAF" data-unwrap><var>LEAF</var>&amp;</span>
+                <span data-each="STEMS times as STEM" data-unwrap="">
+                    <span data-each="DATA[ STEM ] as LEAF" data-unwrap=""><var>LEAF</var>&amp;</span>
                     \vphantom{\Large{0}} \\
                 </span>
                 \end{matrix}
@@ -83,29 +83,29 @@
                 <code>
                     \small{
                     \left| \space \begin{matrix}
-                    <span data-each="STEMS times as STEM" data-unwrap>
+                    <span data-each="STEMS times as STEM" data-unwrap="">
                         \color{<var>GREEN</var>}{<var>STEM</var>}
                         \vphantom{\Large{0}} \\
                     </span>
                     \end{matrix} \space \right|
                     \space
                     \begin{matrix}
-                    <span data-each="STEMS times as STEM" data-unwrap>
-                        <span data-each="DATA[ STEM ] as LEAF" data-unwrap>\color{<var>BLUE</var>}{<var>LEAF</var>}&amp;</span>
+                    <span data-each="STEMS times as STEM" data-unwrap="">
+                        <span data-each="DATA[ STEM ] as LEAF" data-unwrap="">\color{<var>BLUE</var>}{<var>LEAF</var>}&amp;</span>
                         \vphantom{\Large{0}} \\
                     </span>
                     \end{matrix}
                     \space
                     \begin{matrix}
-                    <span data-each="STEMS times as STEM" data-unwrap>
+                    <span data-each="STEMS times as STEM" data-unwrap="">
                         \rightarrow
                         \vphantom{\Large{0}} \\
                     </span>
                     \end{matrix}
                     \space
                     \begin{matrix}
-                    <span data-each="STEMS times as STEM" data-unwrap>
-                        <span data-each="DATA[ STEM ] as LEAF" data-unwrap>\color{<var>GREEN</var>}{<var>STEM</var>}\color{<var>BLUE</var>}{<var>LEAF</var>}&amp;</span>
+                    <span data-each="STEMS times as STEM" data-unwrap="">
+                        <span data-each="DATA[ STEM ] as LEAF" data-unwrap="">\color{<var>GREEN</var>}{<var>STEM</var>}\color{<var>BLUE</var>}{<var>LEAF</var>}&amp;</span>
                         \vphantom{\Large{0}} \\
                     </span>
                     \end{matrix}
@@ -121,7 +121,7 @@
             <p>
             <span data-if="TYPE === 'smallest'">What was the fewest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
             <span data-else-if="TYPE === 'largest'">What was the largest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
-            <span data-else>
+            <span data-else="">
                 How many <var>plural( LOCATION )</var> have
                 <span data-if="TYPE === 'how-many'">exactly</span>
                 <span data-if="TYPE === 'less-than'">fewer than</span>
@@ -129,7 +129,7 @@
                 <var>plural( AMOUNT, ITEM )</var>?
             </span>
             </p>
-            <p data-if="SOLUTION > 0">
+            <p data-if="SOLUTION &gt; 0">
                 <code>\qquad</code><var>toSentenceTex( RAW_DATA, "and", IS_SOLUTION, "hint_pink" )</var>
             </p>
         </div>
@@ -138,19 +138,19 @@
                 <code>
                     \qquad
                     \left| \quad \begin{matrix}
-                    <span data-each="STEMS times as STEM" data-unwrap>
+                    <span data-each="STEMS times as STEM" data-unwrap="">
                         <var>STEM</var>
                         \vphantom{\Large{0}} \\
                     </span>
                     \end{matrix} \quad \right|
                     \quad
                     \begin{matrix}
-                    <span data-each="STEMS times as STEM" data-unwrap>
-                        <span data-each="DATA[ STEM ] as LEAF" data-unwrap>
-                            <span data-if="IS_SOLUTION( STEM * 10 + LEAF )" data-unwrap>
+                    <span data-each="STEMS times as STEM" data-unwrap="">
+                        <span data-each="DATA[ STEM ] as LEAF" data-unwrap="">
+                            <span data-if="IS_SOLUTION( STEM * 10 + LEAF )" data-unwrap="">
                                 \color{<var>PINK</var>}{<var>LEAF</var>}&amp;
                             </span>
-                            <span data-else data-unwrap>
+                            <span data-else="" data-unwrap="">
                                 <var>LEAF</var>&amp;
                             </span>
                         </span>
@@ -162,7 +162,7 @@
             <p><strong>
                 <span data-if="TYPE === 'smallest'">The <var>LOCATION</var> with the fewest <var>plural( ITEM )</var> had <var>plural( SOLUTION, ITEM )</var>.</span>
                 <span data-else-if="TYPE === 'largest'">The <var>LOCATION</var> with the most <var>plural( ITEM )</var> had <var>plural( SOLUTION, ITEM)</var>.</span>
-                <span data-else>
+                <span data-else="">
                     <var>plural( SOLUTION, LOCATION )</var> had
                     <span data-if="TYPE === 'how-many'">exactly</span>
                     <span data-if="TYPE === 'less-than'">fewer than</span>
@@ -177,7 +177,7 @@
         <div id="how-many">
             <div class="vars">
                 <var id="TYPE">"how-many"</var>
-                <var id="AMOUNT" data-ensure="0 <= AMOUNT && AMOUNT < STEMS * 10">
+                <var data-ensure="0 &lt;= AMOUNT &amp;&amp; AMOUNT &lt; STEMS * 10" id="AMOUNT">
                     random() &lt; 0.7 ?
                     randFromArray( RAW_DATA ) :
                     round( randGaussian() * TGT_STDDEV + TGT_MEAN )
@@ -188,8 +188,8 @@
 
             <p class="question">How many <var>plural( LOCATION )</var> have exactly <var>plural( AMOUNT, ITEM )</var>?</p>
 
-            <div class="solution" data-type="multiple">
-                <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
+            <div data-type="multiple" class="solution">
+                <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
             </div>
         </div>
 
@@ -203,8 +203,8 @@
 
             <p class="question">How many <var>plural( LOCATION )</var> have fewer than <var>plural( AMOUNT, ITEM )</var>?</p>
 
-            <div class="solution" data-type="multiple">
-                <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
+            <div data-type="multiple" class="solution">
+                <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
             </div>
         </div>
 
@@ -218,8 +218,8 @@
 
             <p class="question">How many <var>plural( LOCATION )</var> have more than <var>plural( AMOUNT, ITEM )</var>?</p>
 
-            <div class="solution" data-type="multiple">
-                <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
+            <div data-type="multiple" class="solution">
+                <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
             </div>
         </div>
 
@@ -236,12 +236,13 @@
                 <span data-if="TYPE === 'largest'">What was the largest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
             </p>
 
-            <div class="solution" data-type="multiple">
-                <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> <var>plural( ITEM )</var></p>
+            <div data-type="multiple" class="solution">
+                <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>SOLUTION</var></span> <var>plural( ITEM )</var></p>
             </div>
         </div>
     </div>
 
 </div>
-</body>
-</html>
+
+
+</body></html>

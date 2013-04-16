@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems subhints">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html data-require="math math-format word-problems subhints"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Divisibility tests</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -11,8 +11,7 @@
         <var id="FACTOR">0</var>
         <!-- ensure equal probability of yes or no -->
         <var id="DIVISIBLE">randFromArray([true, false])</var>
-        <var id="NUMBER"
-            data-ensure="!DIVISIBLE ^ (NUMBER % FACTOR === 0)">
+        <var data-ensure="!DIVISIBLE ^ (NUMBER % FACTOR === 0)" id="NUMBER">
             randRange(10000, 1000000)
         </var>
     </div>
@@ -23,32 +22,32 @@
     </p>
 
     <p class="solution"><var>DIVISIBLE ? $._("Yes") : $._("No")</var></p>
-    <ul class="choices" data-category="true">
+    <ul data-category="true" class="choices">
         <li>Yes</li>
         <li>No</li>
     </ul>
 
     <div class="problems">
-        <div id="two" data-weight="1">
-            <div class="vars" data-apply="appendVars">
+        <div data-weight="1" id="two">
+            <div data-apply="appendVars" class="vars">
                 <var id="FACTOR">2</var>
             </div>
 
             <div class="hints">
                 <p>Any even number is divisible by <code>2</code>.</p>
-                <p class="final_answer" data-if="DIVISIBLE">
+                <p data-if="DIVISIBLE" class="final_answer">
                     <code><var>NUMBER</var></code> is even, so yes, it is
                     divisible by <code>2</code>.
                 </p>
-                <p class="final_answer" data-else>
+                <p data-else="" class="final_answer">
                     <code><var>NUMBER</var></code> is odd, so it is
                     not divisible by <code>2</code>.
                 </p>
             </div>
         </div>
 
-        <div id="three" data-weight="2">
-            <div class="vars" data-apply="appendVars">
+        <div data-weight="2" id="three">
+            <div data-apply="appendVars" class="vars">
                 <var id="FACTOR">3</var>
                 <var id="STEPS">(function(){
                     var steps = [];
@@ -81,10 +80,9 @@
                         A number is divisible by <code><var>FACTOR</var></code>
                         if the sum of its digits is divisible by
                         <code><var>FACTOR</var></code>.
-                        [<a href="#" class="show-subhint"
-                        data-subhint="explain-three">Why?</a>]
+                        [<a data-subhint="explain-three" href="#" class="show-subhint">Why?</a>]
                     </p>
-                    <div class="subhint" id="explain-three">
+                    <div id="explain-three" class="subhint">
                         <p>
                             First, we can break the number up by place value:
                         </p>
@@ -170,13 +168,13 @@
                         divisible by <code><var>FACTOR</var></code>.
                     </p>
                 </div>
-                <p class="final_answer" data-if="DIVISIBLE">
+                <p data-if="DIVISIBLE" class="final_answer">
                     <code><var>_.last(STEPS).sum</var></code> is divisible
                     by <code><var>FACTOR</var></code>, therefore
                     <code>\blue{<var>NUMBER</var>}</code>
                     must also be divisible by <code><var>FACTOR</var></code>.
                 </p>
-                <p class="final_answer" data-else>
+                <p data-else="" class="final_answer">
                     <code><var>_.last(STEPS).sum</var></code> is not divisible
                     by <code><var>FACTOR</var></code>, therefore
                     <code>\blue{<var>NUMBER</var>}</code>
@@ -185,8 +183,8 @@
             </div>
         </div>
 
-        <div id="four" data-weight="3">
-            <div class="vars" data-apply="appendVars">
+        <div data-weight="3" id="four">
+            <div data-apply="appendVars" class="vars">
                 <var id="FACTOR">4</var>
             </div>
 
@@ -195,10 +193,9 @@
                     <p>
                         A number is divisible by <code>4</code> if the last
                         two digits are divisible by <code>4</code>.
-                        [<a href="#" class="show-subhint"
-                        data-subhint="explain-four">Why?</a>]
+                        [<a data-subhint="explain-four" href="#" class="show-subhint">Why?</a>]
                     </p>
-                    <div class="subhint" id="explain-four">
+                    <div id="explain-four" class="subhint">
                         <p>
                             We can rewrite the number as a multiple of
                             <code>100</code> plus the last two digits:
@@ -228,14 +225,14 @@
                     <code><var>NUMBER % 100</var></code>,
                     divisible by <code>4</code>?
                 </p>
-                <p class="final_answer" data-if="DIVISIBLE">
+                <p data-if="DIVISIBLE" class="final_answer">
                     Yes,
                     <code>\blue{<var>NUMBER % 100</var> \div 4 =
                     <var>NUMBER % 100 / 4</var>}</code>, so
                     <code><var>NUMBER</var></code> must also be divisible by
                     <code>4</code>.
                 </p>
-                <p class="final_answer" data-else>
+                <p data-else="" class="final_answer">
                     No, <code><var>NUMBER % 100</var></code> is not
                     divisible by <code>4</code>, so
                     <code><var>NUMBER</var></code> is also not divisible by
@@ -244,8 +241,8 @@
             </div>
         </div>
 
-        <div id="five" data-weight="1">
-            <div class="vars" data-apply="appendVars">
+        <div data-weight="1" id="five">
+            <div data-apply="appendVars" class="vars">
                 <var id="FACTOR">5</var>
             </div>
 
@@ -254,13 +251,13 @@
                     A number is divisible by <code>5</code> if the last
                     digit is a <code>0</code> or a <code>5</code>.
                 </p>
-                <p class="final_answer" data-if="DIVISIBLE">
+                <p data-if="DIVISIBLE" class="final_answer">
                     The last digit of <code><var>NUMBER</var></code> is
                     <code><var>NUMBER % 10</var></code>, so yes
                     <code><var>NUMBER</var></code> is divisible by
                     <code>5</code>.
                 </p>
-                <p class="final_answer" data-else>
+                <p data-else="" class="final_answer">
                     The last digit of <code><var>NUMBER</var></code> is
                     <code><var>NUMBER % 10</var></code>, so no
                     <code><var>NUMBER</var></code> is not divisible by
@@ -269,14 +266,14 @@
             </div>
         </div>
 
-        <div id="nine" data-type="three" data-weight="2">
-            <div class="vars" data-apply="appendVars">
+        <div data-weight="2" data-type="three" id="nine">
+            <div data-apply="appendVars" class="vars">
                 <var id="FACTOR">9</var>
             </div>
         </div>
 
-        <div id="ten" data-weight="1">
-            <div class="vars" data-apply="appendVars">
+        <div data-weight="1" id="ten">
+            <div data-apply="appendVars" class="vars">
                 <var id="FACTOR">10</var>
             </div>
 
@@ -285,13 +282,13 @@
                     A number is divisible by <code>10</code> if the last
                     digit is a <code>0</code>.
                 </p>
-                <p class="final_answer" data-if="DIVISIBLE">
+                <p data-if="DIVISIBLE" class="final_answer">
                     The last digit of <code><var>NUMBER</var></code> is
                     <code><var>NUMBER % 10</var></code>, so yes
                     <code><var>NUMBER</var></code> is divisible by
                     <code>10</code>.
                 </p>
-                <p class="final_answer" data-else>
+                <p data-else="" class="final_answer">
                     The last digit of <code><var>NUMBER</var></code> is
                     <code><var>NUMBER % 10</var></code>, so no
                     <code><var>NUMBER</var></code> is not divisible by
@@ -301,5 +298,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>

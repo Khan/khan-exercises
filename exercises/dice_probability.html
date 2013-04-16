@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie word-problems">
-<head>
+<!DOCTYPE html>
+<html data-require="math math-format graphie word-problems"><head>
     <title>Probability space</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -98,7 +98,7 @@
 <div class="exercise">
     <div class="problems">
 
-        <div id="template" data-weight="0">
+        <div data-weight="0" id="template">
             <div class="vars">
                 <!-- PRED defined in concrete problem types -->
                 <var id="GRID_WIDTH">6</var>
@@ -122,18 +122,18 @@
             </div>
             <div class="question">
                 <p class="problem">
-                    <span data-if="GRID_HEIGHT === 4" data-unwrap>
+                    <span data-if="GRID_HEIGHT === 4" data-unwrap="">
                         You are given two dice to roll. One is black with six sides, the other is white with four sides.
                     </span>
-                    <span data-else data-unwrap>
+                    <span data-else="" data-unwrap="">
                         You are given two six-sided dice to roll.
                     </span>
                 </p>
-                <p class="question" id="question-statement"></p>
+                <p id="question-statement" class="question"></p>
                 <p class="problem">If it helps, you may select the matching outcomes below. Your selections
                 aren't checked with your answer:</p>
 
-                <div id="e-dice-container" class="problem">
+                <div class="problem" id="e-dice-container">
                     <div class="e-legend"><span id="e-selected-count">0</span> of <var>SOLUTION_D</var> selected</div>
 
                     <div class="e-grid">
@@ -195,7 +195,7 @@
                     });
                 </div>
             </div>
-            <div class="solution" data-type="rational"><var>SOLUTION_N / SOLUTION_D</var></div>
+            <div data-type="rational" class="solution"><var>SOLUTION_N / SOLUTION_D</var></div>
 
             <div class="hints">
                 <div>
@@ -213,36 +213,32 @@
                     The probability is <code><var>fraction(SOLUTION_N, SOLUTION_D)</var></code>,
                     which reduces to <code><var>fractionReduce(SOLUTION_N, SOLUTION_D)</var></code>.
                 </p>
-                <p data-else>
+                <p data-else="">
                     The probability is <code><var>fractionReduce(SOLUTION_N, SOLUTION_D)</var></code>.
                 </p>
             </div>
         </div>
 
 
-        <div id="d1-and-d2-are-x-and-y" data-type="template">
-            <div class="vars" data-apply="prependVars">
+        <div data-type="template" id="d1-and-d2-are-x-and-y">
+            <div data-apply="prependVars" class="vars">
                 <var id="PRED">function(x, y) {
                     return (x === X &amp;&amp; y === Y ||
                             x === Y &amp;&amp; y === X);
                 }</var>
             </div>
 
-            <span class="question" id="question-statement" data-apply="append">
+            <span data-apply="append" id="question-statement" class="question">
                 For a given roll, what is the probability that the dice are
                 <span data-if="X !== Y">
-                    <code><var>X</var></code> and <code><var>Y</var></code
-                    ><span data-if="X < 5"> in any order</span
-                ></span
-                ><span data-else>
-                    both equal to <code><var>X</var></code
-                ></span>?
+                    <code><var>X</var></code> and <code><var>Y</var></code><span data-if="X &lt; 5"> in any order</span></span><span data-else="">
+                    both equal to <code><var>X</var></code></span>?
             </span>
         </div>
 
 
-        <div id="d1-is-even-d2-is-x" data-type="template">
-            <div class="vars" data-apply="prependVars">
+        <div data-type="template" id="d1-is-even-d2-is-x">
+            <div data-apply="prependVars" class="vars">
                 <var id="EVEN">rand(2)</var>
                 <var id="EVEN_OR_ODD">EVEN ? "odd" : "even"</var>
                 <var id="PRED">function(x, y) {
@@ -250,94 +246,95 @@
                 }</var>
             </div>
 
-            <span class="question" id="question-statement" data-apply="append">
+            <span data-apply="append" id="question-statement" class="question">
                 For a given roll, what is the probability that the black die is
                 <var>EVEN_OR_ODD</var> and the white die is <code><var>Y</var></code>?
             </span>
 
-            <div class="hints" data-apply="prependContents">
+            <div data-apply="prependContents" class="hints">
                 <p>How many <var>EVEN_OR_ODD</var> numbers are there on the black die?</p>
             </div>
         </div>
 
 
-        <div id="d1-plus-d2-is-x" data-type="template" data-weight="2">
-            <div class="vars" data-apply="prependVars">
+        <div data-weight="2" data-type="template" id="d1-plus-d2-is-x">
+            <div data-apply="prependVars" class="vars">
                 <var id="PRED">function(x, y) {
                     return x + y === Z;
                 }</var>
             </div>
 
-            <span class="question" id="question-statement" data-apply="append">
+            <span data-apply="append" id="question-statement" class="question">
                 For a given roll, what is the probability that the dice add to <code><var>Z</var></code>?
             </span>
 
-            <div class="hints" data-apply="prependContents">
+            <div data-apply="prependContents" class="hints">
                 <p>For each value on the black die, is there a value on the white die that adds to <code><var>Z</var></code>?</p>
             </div>
         </div>
 
 
-        <div id="d1-plus-d2-is-leq-x" data-type="template" data-weight="2">
-            <div class="vars" data-apply="prependVars">
+        <div data-weight="2" data-type="template" id="d1-plus-d2-is-leq-x">
+            <div data-apply="prependVars" class="vars">
                 <var id="PRED">function(x, y) {
                     return x + y &lt;= Z;
                 }</var>
             </div>
 
-            <span class="question" id="question-statement" data-apply="append">
+            <span data-apply="append" id="question-statement" class="question">
                 For a given roll, what is the probability that the dice add to <code><var>Z</var></code> <em>or less</em>?
             </span>
 
-            <div class="hints" data-apply="prependContents">
+            <div data-apply="prependContents" class="hints">
                 <p>Count all outcomes that are less than or equal to <code><var>Z</var></code>.</p>
             </div>
         </div>
 
 
-        <div id="d1-same-as-d2" data-type="template">
-            <div class="vars" data-apply="prependVars">
+        <div data-type="template" id="d1-same-as-d2">
+            <div data-apply="prependVars" class="vars">
                 <var id="PRED">function(x, y) {
                     return x === y;
                 }</var>
             </div>
 
-            <span class="question" id="question-statement" data-apply="append">
+            <span data-apply="append" id="question-statement" class="question">
                 For a given roll, what is the probability you roll the same number on each die?
             </span>
         </div>
 
 
-        <div id="d1-is-x-d2-is-y" data-type="template">
-            <div class="vars" data-apply="prependVars">
+        <div data-type="template" id="d1-is-x-d2-is-y">
+            <div data-apply="prependVars" class="vars">
                 <var id="PRED">function(x, y) {
                     return x === X &amp;&amp; y === Y;
                 }</var>
             </div>
 
-            <span class="question" id="question-statement" data-apply="append">
+            <span data-apply="append" id="question-statement" class="question">
                 For a given roll, what is the probability the black die is <code><var>X</var></code> and the white die is <code><var>Y</var></code>?
             </span>
         </div>
 
 
-        <div id="d1-or-d2-is-x" data-type="template">
-            <div class="vars" data-apply="prependVars">
+        <div data-type="template" id="d1-or-d2-is-x">
+            <div data-apply="prependVars" class="vars">
                 <var id="PRED">function(x, y) {
                     return x === X || y === X;
                 }</var>
             </div>
 
-            <span class="question" id="question-statement" data-apply="append">
+            <span data-apply="append" id="question-statement" class="question">
                 For a given roll, what is the probability at least one die is <code><var>X</var></code>?
             </span>
 
-            <div class="hints" data-apply="prependContents">
-                <p data-if="X < 5">Remember that both dice can be <code><var>X</var></code> ("at least one").</p>
+            <div data-apply="prependContents" class="hints">
+                <p data-if="X &lt; 5">Remember that both dice can be <code><var>X</var></code> ("at least one").</p>
             </div>
         </div>
 
     </div>
 </div>
-</body>
-</html>
+
+
+</body></html>
