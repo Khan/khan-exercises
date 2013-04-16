@@ -28,6 +28,24 @@ def main():
         # Parse the HTML tree
         html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
 
+        # Hack to fix attribute ordering
+        # See http://stackoverflow.com/questions/3551923/how-to-prevent-xmlserializer-serializetostring-from-re-ordering-attributes
+        #
+        # This hack relies on two properties:
+        #   - Python preserves the order in which values are inserted in a dict
+        #   - Attributes begin with a letter, so numbers will always sort 
+        #     before any "real" attribute.
+        for el in html_tree.xpath('//*'):
+            attrs = dict(el.attrib)
+            keys = el.attrib.keys()
+            keys.sort(key=lambda k:
+                0 if (k == 'class') else
+                1 if (k == 'id') else
+                k)
+            el.attrib.clear()
+            for k in keys:
+                el.attrib[k] = attrs[k]
+
         # We serialize the entire HTML tree
         html_string = lxml.html.tostring(html_tree)
 
