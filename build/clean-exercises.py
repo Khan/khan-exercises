@@ -50,7 +50,8 @@ def main():
                 el.attrib[k] = attrs[k]
 
         # We serialize the entire HTML tree
-        html_string = lxml.html.tostring(html_tree)
+        html_string = lxml.html.tostring(html_tree,
+                                         include_meta_content_type=True)
 
         with open(filename, 'w') as f:
             f.write(html_string)
