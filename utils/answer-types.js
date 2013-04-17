@@ -1020,7 +1020,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     return answer;
                 },
                 solution: solution,
-                examples: [],
+                examples: solution.find(".example").map(function(i, el) {
+                    return $(el).html();
+                }),
                 showGuess: function(guess) {
                     // For each of the inputs, call the appropriate showGuess
                     // function
