@@ -54,7 +54,7 @@ def main():
                                          include_meta_content_type=True)
 
         with open(filename, 'w') as f:
-            f.write(html_string)
+            print >>f, html_string
 
 
 if __name__ == '__main__':
