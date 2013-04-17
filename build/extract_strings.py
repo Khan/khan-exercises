@@ -8,8 +8,8 @@ How it works: The script goes through the HTML files and attempts
 to locate all nodes that have text as a direct child node. It then
 extracts the HTML contents of that node and returns it as a translatable
 string. Note that certain nodes are excluded from this list as they
-contain non-translatable text (see _IGNORE_NODES). It is assumed that
-everything that isn't part of _IGNORE_NODES is something that needs to be
+contain non-translatable text (see IGNORE_NODES). It is assumed that
+everything that isn't part of IGNORE_NODES is something that needs to be
 translated.
 """
 import argparse
@@ -29,7 +29,7 @@ _HAS_TEXT = '*[./text()[normalize-space(.)!=""]]'
 _XPATH_FIND_NODES = '//%s[not(ancestor::%s)]' % (_HAS_TEXT, _HAS_TEXT)
 
 # All the tags that we want to make sure that strings don't contain
-_REJECT_NODES = [
+REJECT_NODES = [
     'style',
     'script',
     'div[@class="validator-function"]',
@@ -39,13 +39,13 @@ _REJECT_NODES = [
 ]
 
 # Script nodes that might be contained within an extracted string
-_INLINE_SCRIPT_NODES = [
+INLINE_SCRIPT_NODES = [
     'var',
     'code'
 ]
 
 # All the tags that we want to ignore and not extract strings from
-_IGNORE_NODES = _REJECT_NODES + _INLINE_SCRIPT_NODES
+IGNORE_NODES = REJECT_NODES + INLINE_SCRIPT_NODES
 
 # Make an HTML 5 Parser that will be used to turn the HTML documents
 # into a usable DOM. Make sure that we ignore the implied HTML namespace.
@@ -152,7 +152,7 @@ def extract_files(files, verbose):
     return retval
 
 
-def _extract_nodes(filename):
+def extract_nodes(filename):
     """Extract all the i18n-able nodes out of a file."""
     # Parse the HTML tree
     html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
@@ -160,7 +160,7 @@ def _extract_nodes(filename):
     # Turn all the tags into a full XPath selector
     search_expr = _XPATH_FIND_NODES
 
-    for name in _IGNORE_NODES:
+    for name in IGNORE_NODES:
         search_expr += "[not(ancestor-or-self::%s)]" % name
 
     # Return the matching nodes
@@ -182,11 +182,11 @@ def extract_file(filename, matches):
         matches = {}
 
     # Collect all the i18n-able nodes out of file
-    nodes = _extract_nodes(filename)
+    nodes = extract_nodes(filename)
 
     for node in nodes:
         # Get a string version of the contents of the node
-        contents = _get_innerhtml(node)
+        contents = get_innerhtml(node)
 
         # Bail if we're dealing with an empty element
         if not contents:
@@ -220,7 +220,7 @@ class _SetEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def _replace_node(node, replace_node):
+def replace_node(node, replace_node):
     """A utility method for replacing a node with another node.
 
     The other node can optionally be a text string.
@@ -256,7 +256,7 @@ def _replace_node(node, replace_node):
         parent_node.remove(node)
 
 
-def _get_outerhtml(html_node):
+def get_outerhtml(html_node):
     """Get a string representation of an HTML node.
 
     (lxml doesn't provide an easy way to get the 'innerHTML'.)
@@ -267,18 +267,18 @@ def _get_outerhtml(html_node):
     return re.sub(r'[^>]*$', '', html_string, count=1)
 
 
-def _get_innerhtml(html_node):
+def get_innerhtml(html_node):
     """Strip the leading and trailing tag from an lxml-generated HTML string.
 
     Also cleanup endlines and extraneous spaces.
     """
-    html_string = _get_outerhtml(html_node)
+    html_string = get_outerhtml(html_node)
     html_string = re.sub(r'^<[^>]*>', '', html_string, count=1)
     html_string = re.sub(r'</[^>]*>$', '', html_string, count=1)
     return re.sub(r'\s+', ' ', html_string).strip()
 
 
-def _get_page_html(root_tree):
+def get_page_html(root_tree):
     """Return an HTML string representing an lxml tree."""
     # We serialize the entire HTML tree
     html_string = lxml.html.tostring(root_tree)

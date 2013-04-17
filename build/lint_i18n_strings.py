@@ -12,12 +12,14 @@ If run with the --fix flag then the script will automatically fix the
 files in place wherever possible. The user will be prompted to clear
 up any ambiguities as well.
 """
+
 import argparse
 import copy
 import re
 import sys
 
 import extract_strings
+
 
 # Should the user be prompted when a case is ambiguous?
 SHOW_PROMPT = True
@@ -45,8 +47,8 @@ _num_vars = ['NUM', 'AMOUNT', 'TOTAL']
 
 # Helper regexs for determining if something looks like a string
 # or a function call
-_is_string = re.compile(r'^\s*["\'](.*?)["\']\s*$')
-_is_function = re.compile(r'^\s*(\w+)\(.*\)\s*$')
+_STRING_RE = re.compile(r'^\s*["\'](.*?)["\']\s*$')
+_FUNCTION_RE = re.compile(r'^\s*(\w+)\(.*\)\s*$')
 
 
 def main():
@@ -56,7 +58,7 @@ def main():
         description='Extract translatable strings from HTML exercise files.')
     arg_parser.add_argument('html_files', nargs='+',
         help='The HTML exercise files to extract strings from.')
-    arg_parser.add_argument('--quiet', action='store_true',
+    arg_parser.add_argument('--quiet', '-q', action='store_true',
         help='Do not emit status to stderr on successful runs.')
     arg_parser.add_argument('--fix', action='store_true',
         help='Automatically fix some i18n issues in the input files.')
@@ -139,9 +141,11 @@ def lint_file(filename, apply_fix, verbose):
           which is the fixed version of the old contents.
         - verbose: If there should be any output
     Returns:
-        - An array of (node, invalid_node, filename) tuples which contain
-          the node which has the invalid node, the invalid node, and the
-          filename of the file which has the error.
+        - A tuple (errors, num_nodes_changed) which contains `errors`,
+          which is a list holding strings describing errors found in the file
+          and `num_nodes_changed` which is a number counting how many nodes
+          were changed by the script (or could've been changed, if the
+          apply_fix flag is set to False).
     """
     # A list of all the errors that occurred
     errors = []
@@ -155,7 +159,7 @@ def lint_file(filename, apply_fix, verbose):
         PluralFilter()]
 
     # Collect all the i18n-able nodes out of file
-    nodes = extract_strings._extract_nodes(filename)
+    nodes = extract_strings.extract_nodes(filename)
 
     # Root HTML Tree
     root_tree = nodes[0].getroottree() if nodes else None
@@ -166,7 +170,7 @@ def lint_file(filename, apply_fix, verbose):
 
     # Construct an XPath expression for finding rejected nodes
     lint_expr = "|".join([".//%s" % name for name in
-        extract_strings._REJECT_NODES])
+        extract_strings.REJECT_NODES])
 
     for node in nodes:
         # If we're linting the file and the string doesn't contain any
@@ -175,8 +179,8 @@ def lint_file(filename, apply_fix, verbose):
 
         for lint_node in lint_nodes:
             errors.append("Contains invalid node:\n%s\nInvalid node:\n%s" % (
-                extract_strings._get_outerhtml(node),
-                extract_strings._get_outerhtml(lint_node)))
+                extract_strings.get_outerhtml(node),
+                extract_strings.get_outerhtml(lint_node)))
 
     # And now we run the nodes through all of our fixable filters. These
     # filters detect nodes that can be automatically fixed (and fixes them
@@ -196,7 +200,7 @@ def lint_file(filename, apply_fix, verbose):
         for orig_node in nodes:
             # Construct an XPath expression for finding nodes to fix
             fix_expr = '|'.join(['.//%s[%s]' % (name, filter.xpath)
-                for name in extract_strings._INLINE_SCRIPT_NODES])
+                for name in extract_strings.INLINE_SCRIPT_NODES])
 
             # Bail if the node doesn't contain any elements that may need
             # fixing. (We discard the results of running this against the
@@ -216,8 +220,8 @@ def lint_file(filename, apply_fix, verbose):
             fix_nodes = node.xpath(fix_expr)
 
             # Create a cloned copy of the node, we're going to need this as
-            # we'll likely need to generate a second copy of the original node
-            # but slightly modified.
+            # the fixer will likely need to generate a second copy of the
+            # original node but slightly modified.
             cloned_node = copy.deepcopy(node)
 
             # The nodes that might need fixing under the cloned element
@@ -253,14 +257,14 @@ def lint_file(filename, apply_fix, verbose):
                         match_keys.add(key)
                     else:
                         errors.append('Ambiguous keys, input needed:\n%s' % (
-                            extract_strings._get_outerhtml(node)))
+                            extract_strings.get_outerhtml(node)))
 
             # If we've located more than one key then we need to fix the
             # strings by hand.
             if len(match_keys) > 1:
                 errors.append("Contains too many different keys (%s):\n%s" % (
                     ", ".join(list(match_keys)),
-                    extract_strings._get_outerhtml(node)))
+                    extract_strings.get_outerhtml(node)))
                 new_nodes.append(orig_node)
                 continue
 
@@ -337,7 +341,7 @@ def lint_file(filename, apply_fix, verbose):
         if apply_fix:
             # Then write out the modified file
             with open(filename, 'w') as f:
-                f.write(extract_strings._get_page_html(root_tree))
+                f.write(extract_strings.get_page_html(root_tree))
         else:
             # Consider it to be an error when there are nodes that need
             # fixing and we haven't run with --fix
@@ -348,7 +352,7 @@ def lint_file(filename, apply_fix, verbose):
     return (errors, nodes_changed)
 
 
-class PronounFilter:
+class PronounFilter(object):
     """Repairs usage of he()/He()/his()/His() in exercise files.
     Used by lint_file, automatically converts these methods into
     a more translatable form.
@@ -366,15 +370,16 @@ class PronounFilter:
     _pronouns = ['he', 'He', 'his', 'His']
     _pronoun_map = {'he': 'she', 'He': 'She', 'his': 'her', 'His': 'Her'}
     _pronoun_condition = 'isMale(%s)'
+    # Matches he|his(...)
+    _regex = re.compile(r'^\s*(he|his)\(\s*(.*?)\s*\)\s*$', re.I)
 
     require_ifelse = True
-    regex = re.compile(r'^\s*(he|his)\(\s*(.*?)\s*\)\s*$', re.I)
     xpath = ' or '.join(['contains(text(),"%s(")' % pronoun
         for pronoun in _pronouns])
 
     def get_match(self, fix_node):
         """Return a match of a string that matches he|his(...)"""
-        return re.match(self.regex, extract_strings._get_innerhtml(fix_node))
+        return self._regex.match(extract_strings.get_innerhtml(fix_node))
 
     def extract_key(self, match):
         """From the match return the key of the string.
@@ -389,9 +394,9 @@ class PronounFilter:
         For example: <var>He(1)</var> will be 'He' and 'She' in the
         original and cloned nodes.
         """
-        extract_strings._replace_node(fix_node, match.group(1).strip())
+        extract_strings._replace_node(fix_node, match.group(1))
         extract_strings._replace_node(cloned_fix_node,
-            self._pronoun_map[match.group(1).strip()])
+            self._pronoun_map[match.group(1)])
 
     def filter_node(self, key, node, cloned_node):
         """Adds an data-if and data-else condition to handle the gender toggle.
@@ -405,7 +410,7 @@ class PronounFilter:
         return (node, cloned_node)
 
 
-class AlwaysPluralFilter:
+class AlwaysPluralFilter(object):
     """Fix usage of plural() in exercises when the result is always plural.
 
     For example the string <var>plural(distance(1))</var> will always return
@@ -422,18 +427,22 @@ class AlwaysPluralFilter:
     """
     _methods = ['plural', 'pluralTex']
     _empty_str_fn = '%s("", %s)'
-    _plural_form = 'plural_form(%s)'
-    _plural_form_tex = 'plural_form_tex(%s)'
+    # Map old function name to new function name
+    _function_map = {
+        'plural': 'plural_form(%s)',
+        'pluralTex': 'plural_form_tex(%s)'
+    }
+    # Matches plural(...)
+    _regex = re.compile(r'^\s*(plural|pluralTex)'
+        r'\(\s*((?:[^,]+|\([^\)]*\))*)\s*\)\s*$', re.I)
 
     require_ifelse = False
-    regex = re.compile(r'^\s*(plural|pluralTex)'
-        '\(\s*((?:[^,]+|\([^\)]*?\))*)\s*\)\s*$', re.I)
     xpath = ' or '.join(['contains(text(),"%s(")' % method
         for method in _methods])
 
     def get_match(self, fix_node):
         """Return a match of a string that matches plural(...)"""
-        return re.match(self.regex, extract_strings._get_innerhtml(fix_node))
+        return self._regex.match(extract_strings.get_innerhtml(fix_node))
 
     def filter_fix_node(self, match, fix_node, cloned_fix_node):
         """Replace the <var> with the correct contents.
@@ -443,7 +452,7 @@ class AlwaysPluralFilter:
         When the argument is a string literal. For example:
             <var>plural("string")</var>
         Will produce:
-            string
+            strings
 
         When the variable holds a string. For example:
             <var>plural(UNIT_TEXT)</var>
@@ -456,7 +465,7 @@ class AlwaysPluralFilter:
             <var>plural_form("", NUM)</var>
         """
         # Handle the case where a raw string is used
-        str_match = re.match(_is_string, match.group(2))
+        str_match = _STRING_RE.match(match.group(2))
         if str_match:
             # In this case just convert it directly to its plural form
             # We do this by prompting the user for help translating to the
@@ -474,12 +483,11 @@ class AlwaysPluralFilter:
             # Otherwise we need to wrap the variable (or function call) in
             # a call to plural_form() which will attempt to return the
             # plural form of that string.
-            pluralize = (self._plural_form if match.group(1) == 'plural' else
-                self._plural_form_tex)
-            fix_node.text = pluralize % match.group(2).strip()
+            fix_node.text = (self._function_map[match.group(1)] %
+                match.group(2).strip())
 
 
-class PluralFilter:
+class PluralFilter(object):
     """Fix usage of plural() in exercises.
 
     This filter fixes a number of different issues relating to the usage of
@@ -537,23 +545,27 @@ class PluralFilter:
     output (in a form similar to the handling of the built-in methods).
     """
     _methods = ['plural', 'pluralTex']
-    _plural_form = 'plural_form(%s, %s)'
-    _plural_form_tex = 'plural_form_tex(%s, %s)'
+    # Map old function name to new function name
+    _function_map = {
+        'plural': 'plural_form(%s, %s)',
+        'pluralTex': 'plural_form_tex(%s, %s)'
+    }
     _ngetpos_condition = 'isSingular(%s)'
+    # See if it matches the form plural|pluralTex(..., ...)
+    _regex = re.compile(r'^\s*(plural|pluralTex)'
+        r'\(\s*((?:[^,(]+|\(.+?\))*),\s*((?:[^,(]+|\(.+?\))*)\s*\)\s*$', re.I)
 
     require_ifelse = True
-    regex = re.compile(r'^\s*(plural|pluralTex)'
-        '\(\s*((?:[^,(]+|\(.+\))*),\s*((?:[^,(]+|\(.+\))*)\s*\)\s*$', re.I)
     xpath = ' or '.join(['contains(text(),"%s(")' % method
         for method in _methods])
 
     def get_match(self, fix_node):
         """Return a match of a string that matches plural(...)"""
         # Get the contents of the <var> node
-        node_contents = extract_strings._get_innerhtml(fix_node)
+        node_contents = extract_strings.get_innerhtml(fix_node)
 
         # See if it matches the form plural|pluralTex(..., ...)
-        return re.match(self.regex, node_contents)
+        return self._regex.match(node_contents)
 
     def extract_key(self, match):
         """Extract a unique identifier upon which to toggle the plural form.
@@ -598,8 +610,8 @@ class PluralFilter:
         and then change the output depending upon it (because of the silly
         plural() function argument order).
         """
-        first_str_match = re.match(_is_string, match.group(2))
-        second_str_match = re.match(_is_string, match.group(3))
+        first_str_match = _STRING_RE.match(match.group(2))
+        second_str_match = _STRING_RE.match(match.group(3))
 
         # If the first argument is a string:
         if first_str_match:
@@ -631,8 +643,7 @@ class PluralFilter:
         # Otherwise both of the results are variables or function calls.
         else:
             # The string which will be used to wrap the output variable
-            pluralize = (self._plural_form if match.group(1) == 'plural' else
-                self._plural_form_tex)
+            pluralize = self._function_map[match.group(1)]
 
             # Get the position of the number variable from the match
             plural_num_pos = get_plural_num_pos(match)
@@ -705,7 +716,7 @@ class PluralFilter:
         return (node, cloned_node)
 
 
-class TernaryFilter:
+class TernaryFilter(object):
     """Switch inline ternary usage to block-level if/else statements.
 
     One idiom that's used frequently in exercises is that of inline ternary
@@ -728,19 +739,21 @@ class TernaryFilter:
     This creates two strings that have consistent plural usage and are easier
     to translate as a result.
     """
+    # Matches: EXPR ? STATEMENT : STATEMENT
+    _regex = re.compile(r'^\s*([^\?]+)\s*\?\s*([^:]+)\s*:\s*([^\?]+)\s*$')
+
     require_ifelse = True
-    regex = re.compile(r'^\s*([^\?]+)\s*\?\s*([^:]+)\s*:\s*([^\?]+)\s*$')
     xpath = 'contains(text(),"?")'
 
     def get_match(self, fix_node):
         """Return a match of a string that roughly matches:
             EXPR ? STATEMENT : STATEMENT
         """
-        match = re.match(self.regex, extract_strings._get_innerhtml(fix_node))
+        match = self._regex.match(extract_strings.get_innerhtml(fix_node))
 
         # Only return the match if one of the statements is a string
-        if match and (re.match(_is_string, match.group(2)) or
-            re.match(_is_string, match.group(3))):
+        if match and (_STRING_RE.match(match.group(2)) or
+            _STRING_RE.match(match.group(3))):
             return match
 
     def extract_key(self, match):
@@ -754,8 +767,8 @@ class TernaryFilter:
         statement is a string then the string directly replaces the <var>.
         Same goes for the second, cloned, node.
         """
-        first_str_match = re.match(_is_string, match.group(2))
-        second_str_match = re.match(_is_string, match.group(3))
+        first_str_match = _STRING_RE.match(match.group(2))
+        second_str_match = _STRING_RE.match(match.group(3))
 
         # If the first item in the ternary expression is a string
         if first_str_match:
@@ -833,12 +846,12 @@ def get_plural_num_pos(match):
     plural_str = match.group(0).strip()
 
     if plural_str not in _PLURAL_NUM_POS:
-        # Determine if either of the two arguments is a
+        # Determine if either of the two arguments is a number
         first_arg_num = _check_plural_arg_is_num(match.group(2).strip())
         second_arg_num = _check_plural_arg_is_num(match.group(3).strip())
 
         # The results are equal, this shouldn't happen
-        if first_arg_num is second_arg_num:
+        if first_arg_num == second_arg_num:
             # If this is the case then we give up and ask the user for help
             first_arg_num = second_arg_num = None
 
@@ -913,12 +926,12 @@ def _check_plural_arg_is_num(plural_arg):
     is a string. Returns None if the case is ambiguous.
     """
     # If the argument is a string, then it's not a number
-    if re.match(_is_string, plural_arg):
+    if _STRING_RE.match(plural_arg):
         return False
 
     # If the argument is a function call
     # And it's one of the built-in string functions, then it's not a number
-    fn_match = re.match(_is_function, plural_arg)
+    fn_match = _FUNCTION_RE.match(plural_arg)
     if fn_match and fn_match.group(1) in _functions:
         return False
 
