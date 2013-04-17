@@ -55,7 +55,7 @@
                 </p>
             </div>
 
-            <div id="divide" data-type="add">
+            <div id="divide">
                 <p class="problem">Simplify the following expression:</p>
                 <p class="question">
                     <code><var>Y</var> = \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
@@ -72,14 +72,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <div class="solution" data-type="set">
-            <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>NUMERSOL.regex()</var></span>
-                <span class="sol" data-type="regex"><var>DENOMSOL.regex()</var></span>
-            </div>
+        <div class="solution" data-type="multiple">
             <div class="input-format">
                 <div class="entry" data-type="multiple">
                     <table>
@@ -88,12 +83,12 @@
                                 <code><var>Y</var> = </code>
                             </td>
                             <td class="soln-top">
-                                <span class="sol short50">a</span>
+                                <span class="sol short50" data-type="regex"><var>NUMERSOL.regex()</var></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="soln-bot">
-                                <span class="sol short50" data-fallback="1">a</span>
+                                <span class="sol short50" data-type="regex" data-fallback="1"><var>DENOMSOL.regex()</var></span>
                             </td>
                         </tr>
                     </table>
