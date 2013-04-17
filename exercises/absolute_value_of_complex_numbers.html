@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie math-format"><head>
     <meta charset="UTF-8">
     <title>Absolute value of complex numbers</title>
@@ -22,7 +21,7 @@
             <p>
                 <code><var>REPRESENTATION</var></code>
             </p>
-            <div data-type="radical" class="solution">
+            <div class="solution" data-type="radical">
                 <var>ABS_SQUARE</var>
             </div>
             <div class="hints">
@@ -32,7 +31,7 @@
                     of complex numbers can be determined using the distance formula.
                 </p>
                 <div>
-                    <div id="graph" class="graphie">
+                    <div class="graphie" id="graph">
                         graphInit({
                         range: [[-10, 10], [-10, 10]],
                             scale: 20,
@@ -55,7 +54,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="graph" class="graphie">
+                    <div class="graphie" data-update="graph">
                         path([ [0,0], [REAL, IMAG]], {
                             stroke: KhanUtil.ORANGE
                         });
@@ -65,7 +64,7 @@
                     </p>
                 </div>
                 <div>
-                    <div data-update="graph" class="graphie">
+                    <div class="graphie" data-update="graph">
                         path([ [0,0], [REAL, 0], [REAL, IMAG]], {
                             stroke: KhanUtil.BLUE
                         });

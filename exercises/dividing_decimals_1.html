@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dividing decimals 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +8,7 @@
     <div class="exercise">
         <div class="vars">
             <var id="DIVISOR">randRange( 2, 15 )</var>
-            <var data-ensure="QUOTIENT % 10 !== 0" id="QUOTIENT">randRange( 10, 999 )</var>
+            <var id="QUOTIENT" data-ensure="QUOTIENT % 10 !== 0">randRange( 10, 999 )</var>
             <var id="DIVIDEND">DIVISOR * QUOTIENT</var>
             <var id="DIVISOR_DECIMAL">0</var>
             <var id="DIVIDEND_DECIMAL">randRange( 1, digits( DIVIDEND ).length - 1 )</var>
@@ -19,19 +18,19 @@
 
         <div class="problems">
             <div>
-                <div id="numbers" class="graphie">
+                <div class="graphie" id="numbers">
                     graph.divider = new Divider( DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL );
                     graph.divider.show();
                     DUMMY = Array( graph.divider.getNumHints() );
                 </div>
-                <div data-type="decimal" class="solution"><var>QUOTIENT  / round( pow( 10, QUOTIENT_DECIMAL ) )</var></div>
+                <div class="solution" data-type="decimal"><var>QUOTIENT  / round( pow( 10, QUOTIENT_DECIMAL ) )</var></div>
             </div>
         </div>
         <div class="hints">
-            <div data-update="numbers" class="graphie">
+            <div class="graphie" data-update="numbers">
                 graph.divider.shiftDecimals();
             </div>
-            <div data-update="numbers" data-each="DUMMY as dummy" class="graphie">
+            <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                 graph.divider.showHint();
             </div>
         </div>

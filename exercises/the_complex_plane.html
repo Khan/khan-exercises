@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie math-format interactive"><head>
     <meta charset="UTF-8">
     <title>The complex plane</title>
@@ -11,14 +10,14 @@
         <var id="LOWER_BOUND">-5</var>
         <var id="UPPER_BOUND">5</var>
         <var id="REAL">randRange(LOWER_BOUND, UPPER_BOUND)</var>
-        <var data-ensure="IMAG != 0" id="IMAG">randRange(LOWER_BOUND, UPPER_BOUND)</var>
+        <var id="IMAG" data-ensure="IMAG != 0">randRange(LOWER_BOUND, UPPER_BOUND)</var>
         <var id="REP">complexNumber(REAL, IMAG)</var>
     </div>
 
     <div class="problems">
         <div>
             <p class="question">Move the orange dot to <code><var>REP</var></code>.</p>
-            <div id="gauss-plane" class="graphie">
+            <div class="graphie" id="gauss-plane">
                 graphInit({
                     range: [[LOWER_BOUND - 1, UPPER_BOUND + 1], [LOWER_BOUND - 1, UPPER_BOUND + 1]],
                     tickStep: 1,
@@ -37,7 +36,7 @@
                     }
                 };
             </div>
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="guess">
                     graph.movablePoint.coord
                 </div>
@@ -57,7 +56,7 @@
                     <code><var>REP</var></code> has real part <code><var>REAL</var></code> and imaginary part <code><var>IMAG</var></code>.
                 </p>
                 <div>
-                    <div data-update="gauss-plane" class="graphie">
+                    <div class="graphie" data-update="gauss-plane">
                         style({stroke: ORANGE, strokeWidth: 2.0});
                         line([REAL, LOWER_BOUND - 1], [REAL, UPPER_BOUND + 1]);
                         graph.movablePoint.visibleShape.toFront();
@@ -65,7 +64,7 @@
                     <p>The vertical <strong class="hint_orange">orange</strong> line represents all complex numbers with real part <code><var>REAL</var></code> (including <code><var>REP</var></code>).
                 </p></div>
                 <div>
-                    <div data-update="gauss-plane" class="graphie">
+                    <div class="graphie" data-update="gauss-plane">
                         style({stroke: BLUE, strokeWidth: 2.0});
                         line([LOWER_BOUND - 1, IMAG], [UPPER_BOUND + 1, IMAG]);
                         graph.movablePoint.visibleShape.toFront();
@@ -73,7 +72,7 @@
                     <p>The horizontal <strong class="hint_blue">blue</strong> line represents all complex numbers with imaginary part <code><var>IMAG</var></code>, also including <code><var>REP</var></code>.
                 </p></div>
                 <div>
-                    <div data-update="gauss-plane" class="graphie">
+                    <div class="graphie" data-update="gauss-plane">
                         graph.movablePoint.moveTo(REAL, IMAG);
                     </div>
                     <p>

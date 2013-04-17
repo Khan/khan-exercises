@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Addition and subtraction word problems</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -25,8 +24,8 @@
                 <p class="question">
                     How many people are riding the train now?
                 </p>
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NUM1</var></span> people
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM1</var></span> people
                 </div>
                 <div class="hints">
                     <p>
@@ -54,8 +53,8 @@
                 <p class="question">
                     How many people were riding the train before the stop?
                 </p>
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>TOTAL</var></span> people
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>TOTAL</var></span> people
                 </div>
                 <div class="hints">
                     <p>
@@ -83,8 +82,8 @@
                 <p class="question">
                     How many people got off the train at the stop?
                 </p>
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NUM1</var></span> people
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM1</var></span> people
                 </div>
                 <div class="hints">
                     <p>
@@ -112,8 +111,8 @@
                 <p class="question">
                     How many trees are on the banks of the river?
                 </p>
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>TOTAL</var></span> trees
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>TOTAL</var></span> trees
                 </div>
                 <div class="hints">
                     <p>
@@ -129,17 +128,17 @@
             </div>
 
             <div id="take-apart">
-                <p data-if="isSingular(TOTAL)" class="problem">
+                <p class="problem" data-if="isSingular(TOTAL)">
                     There is 1 tree on the banks of the river. The <var>side(1)</var> bank has <var>NUM2</var> of them.
-                </p><p data-else="" class="problem">
+                </p><p class="problem" data-else="">
                     There are <var>TOTAL</var> trees on the banks of the river. The <var>side(1)</var> bank has <var>NUM2</var> of them.
                 </p>
                 
                 <p class="question">
                     How many trees are on the <var>side(2)</var> bank of the river?
                 </p>
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NUM1</var></span> trees
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM1</var></span> trees
                 </div>
                 <div class="hints">
                     <p>
@@ -168,8 +167,8 @@
                 <p class="question">
                     How many cars were parked at the <var>store(1)</var> store at the beginning?
                 </p>
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NUM1</var></span> cars
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM1</var></span> cars
                 </div>
                 <div class="hints">
                     <p>
@@ -194,14 +193,14 @@
                     <span data-if="isSingular(TOTAL)">During the following <var>randRange( 2, 3 )</var> hours some more cars parked at the <var>store(1)</var> store, and now there is 1 car in the parking lot. No cars left the parking lot during this time.</span><span data-else="">During the following <var>randRange( 2, 3 )</var> hours some more cars parked at the <var>store(1)</var> store, and now there are <var>TOTAL</var> cars in the parking lot. No cars left the parking lot during this time.</span>
                 
                 </p>
-                <p data-if="isSingular(NUM2)" class="question">
+                <p class="question" data-if="isSingular(NUM2)">
                 How many cars parked in the <var>store( 1 )</var> store parking lot after the initial 1 car?
-                </p><p data-else="" class="question">
+                </p><p class="question" data-else="">
                 How many cars parked in the <var>store( 1 )</var> store parking lot after the initial <var>NUM2</var> cars?
                 </p>
                 
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NUM1</var></span> cars
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM1</var></span> cars
                 </div>
                 <div class="hints">
                     <p>The number of cars that came and parked at the store is the difference between the number that were parked earlier and the number that are parked now.</p>
@@ -227,8 +226,8 @@
                 <p class="question">
                     How many cars are in the parking lot now?
                 </p>
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>TOTAL</var></span> cars
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>TOTAL</var></span> cars
                 </div>
                 <div class="hints">
                     <p>
@@ -253,8 +252,8 @@
                 <p class="question">
                     How many more <var>plural_form(exercise(1))</var> did <var>person(1)</var> do than <var>person(2)</var>?
                 </p>
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NUM1</var></span> <var>plural(exercise(1))</var>
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM1</var></span> <var>plural(exercise(1))</var>
                 </div>
                 <div class="hints">
                     <p>
@@ -269,7 +268,7 @@
                 </div>
             </div>
 
-            <div data-type="compare-diff-more" id="compare-diff-less">
+            <div id="compare-diff-less" data-type="compare-diff-more">
                 <p class="question">
                     How many fewer <var>plural_form(exercise(1))</var> did <var>person(2)</var> do than <var>person(1)</var>?
                 </p>
@@ -285,8 +284,8 @@
                 <p class="question">
                     How many <var>plural_form(exercise(1))</var> did <var>person(1)</var> do?
                 </p>
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>TOTAL</var></span> <var>plural(exercise(1))</var>
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>TOTAL</var></span> <var>plural(exercise(1))</var>
                 </div>
                 <div class="hints">
                     <p data-if="isSingular(NUM2)">
@@ -307,7 +306,7 @@
                 </div>
             </div>
 
-            <div data-type="compare-bigger-more" id="compare-bigger-less">
+            <div id="compare-bigger-less" data-type="compare-bigger-more">
                 <p class="problem">
                     <span data-if="isSingular(NUM1)"><var>person(2)</var> did <var>NUM1</var> fewer <var>plural_form(exercise(1), NUM1)</var> than <var>person(1)</var> <var>timeofday(1)</var>.</span><span data-else=""><var>person(2)</var> did <var>NUM1</var> fewer <var>plural_form(exercise(1), NUM1)</var> than <var>person(1)</var> <var>timeofday(1)</var>.</span>
                     
@@ -326,8 +325,8 @@
                 <p class="question">
                     How many <var>plural_form(exercise(1))</var> did <var>person(2)</var> do?
                 </p>
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NUM2</var></span> <var>plural(exercise(1))</var>
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM2</var></span> <var>plural(exercise(1))</var>
                 </div>
                 <div class="hints">
                     <p data-if="isSingular(TOTAL)">
@@ -343,7 +342,7 @@
                     He did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural_form(exercise(1), NUM2)</var>.
                     </span><span data-else="" data-unwrap="">
                     He did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural_form(exercise(1), NUM2)</var>.
-                    </span></p><p data-if="isSingular(NUM2)" data-else="">
+                    </span></p><p data-else="" data-if="isSingular(NUM2)">
                     She did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural_form(exercise(1), NUM2)</var>.
                     </p><p data-else="">
                     She did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural_form(exercise(1), NUM2)</var>.
@@ -354,7 +353,7 @@
                 </div>
             </div>
 
-            <div data-type="compare-smaller-more" id="compare-smaller-fewer">
+            <div id="compare-smaller-fewer" data-type="compare-smaller-more">
                 <p class="problem">
                     <span data-if="isSingular(NUM1)"><var>person(2)</var> did <var>NUM1</var> fewer <var>plural_form(exercise(1), NUM1)</var> than <var>person(1)</var> <var>timeofday(1)</var>.</span><span data-else=""><var>person(2)</var> did <var>NUM1</var> fewer <var>plural_form(exercise(1), NUM1)</var> than <var>person(1)</var> <var>timeofday(1)</var>.</span>
                     

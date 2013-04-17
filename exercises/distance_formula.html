@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Distance formula</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="Y1 !== Y2" class="vars">
+        <div class="vars" data-ensure="Y1 !== Y2">
             <var id="X1">randRangeExclude( -8, 10, [0, 1, 2] )</var>
             <var id="X2">randRangeExclude( -10, 8, [-1, -2, -3, -4] )</var>
             <var id="Y1">randRangeExclude( -8, 8, [-1, 0] )</var>
@@ -20,7 +19,7 @@
         <div class="problems">
             <div>
                 <p class="question">Find the distance between the points <span class="hint_blue">(<var>X1</var>, <var>Y1</var>)</span> and <span class="hint_green">(<var>X2</var>, <var>Y2</var>)</span>.</p>
-                <div id="graph" class="graphie">
+                <div class="graphie" id="graph">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -38,7 +37,7 @@
                     circle([ X2, Y2 ], 3 / 20, { stroke: "none", fill: GREEN } );
                 </div>
 
-                <div data-type="radical" class="solution"><var>HYP2</var></div>
+                <div class="solution" data-type="radical"><var>HYP2</var></div>
             </div>
         </div>
 
@@ -55,7 +54,7 @@
                     = <span class="hint_red"><var>X_DIST</var></span>
                 </p>
 
-                <div data-update="graph" data-if="X2 - X1 !== 0" class="graphie">
+                <div class="graphie" data-if="X2 - X1 !== 0" data-update="graph">
                     style({
                         color: RED,
                         stroke: RED
@@ -78,7 +77,7 @@
                     = <span class="hint_purple"><var>Y_DIST</var></span>
                 </p>
 
-                <div data-update="graph" data-if="Y2-Y1 !== 0" class="graphie">
+                <div class="graphie" data-if="Y2-Y1 !== 0" data-update="graph">
                     style({
                         color: PURPLE,
                         stroke: PURPLE
@@ -92,7 +91,7 @@
             <div data-if="Y2 - Y1 !== 0 &amp;&amp; X1 - X2 !== 0">
                 <p>The distance is the <span class="hint_pink">length of the hypotenuse</span> of this right triangle.</p>
 
-                <div data-update="graph" class="graphie">
+                <div class="graphie" data-update="graph">
                     style({
                         stroke: PINK
                     }, function() {
@@ -105,7 +104,7 @@
                 <p>By the Pythagorean Theorem, <span class="hint_pink">that length</span> is equal to:</p>
                 <p><code>\sqrt{<var>X_DIST</var>^2 + <var>Y_DIST</var>^2}</code></p>
                 <p><code>{}= \sqrt{<var>Math.pow( X_DIST, 2 ) + pow( Y_DIST, 2 )</var>}</code></p>
-                <p data-if="squareRootCanSimplify(HYP2)" class="hint_pink"><code>{}= <var>formattedSquareRootOf(HYP2)</var></code></p>
+                <p class="hint_pink" data-if="squareRootCanSimplify(HYP2)"><code>{}= <var>formattedSquareRootOf(HYP2)</var></code></p>
             </div>
             <div data-else="">
                   <p>The distance is equal to the length of the side, which is <var>X_DIST+Y_DIST</var></p>

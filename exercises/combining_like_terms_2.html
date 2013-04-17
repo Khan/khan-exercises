@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Combining like terms with distribution</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <!-- Mix in some combining_like_terms_1 problems occasionally -->
-<div data-weight="1" data-name="combining_like_terms_1" class="exercise"></div>
+<div class="exercise" data-name="combining_like_terms_1" data-weight="1"></div>
 
-<div data-weight="6" class="exercise">
-    <div data-ensure="E * A + F * B !== 0 &amp;&amp; E * C + F * D !== 0 &amp;&amp; A + (F * B) !== 0" class="vars">
+<div class="exercise" data-weight="6">
+    <div class="vars" data-ensure="E * A + F * B !== 0 &amp;&amp; E * C + F * D !== 0 &amp;&amp; A + (F * B) !== 0">
         <var id="X">randVar()</var>
         <var id="A">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
-        <var data-ensure="abs( A ) !== abs( B )" id="B">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
+        <var id="B" data-ensure="abs( A ) !== abs( B )">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
         <var id="C">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 20))</var>
-        <var data-ensure="abs( C ) !== abs( D )" id="D">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
-        <var data-ensure="E !== 1" id="E">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 10))</var>
-        <var data-ensure="F !== 1" id="F">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 10))</var>
+        <var id="D" data-ensure="abs( C ) !== abs( D )">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 12))</var>
+        <var id="E" data-ensure="E !== 1">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 10))</var>
+        <var id="F" data-ensure="F !== 1">randRangeNonZero(-1, 1) * randRange(1, randRange(1, 10))</var>
         <var id="TERM_AX">
             "(?:" + (A &lt; 0 ? "[-\\u2212]" : "") + abs(A)
             + (A === 1 ? "|" : "" ) + (A === -1 ?
@@ -52,8 +51,8 @@
     <p class="question">
         Simplify the following expression:
     </p>
-    <div data-type="set" class="solution">
-        <span data-each="SOLUTIONS as SOL" data-type="regex" class="set-sol">^\s*<var>SOL</var>\s*$</span>
+    <div class="solution" data-type="set">
+        <span class="set-sol" data-each="SOLUTIONS as SOL" data-type="regex">^\s*<var>SOL</var>\s*$</span>
         <div class="input-format"><span class="entry"></span></div>
         <span class="example">an expression, like <b>-2x + 4</b></span>
     </div>
@@ -250,7 +249,7 @@
             </p></div>
         </div>
 
-        <div data-type="ec_eax_fbx_fd" id="eax_ec_fd_fbx">
+        <div id="eax_ec_fd_fbx" data-type="ec_eax_fbx_fd">
             <p class="problem">
                 <code>\large{<var>expr(["+", ["*", E, ["+", ["*", A, X], C]], ["*", F, ["+", D, ["*", B, X]]]])</var>}</code>
             </p>

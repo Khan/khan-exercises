@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Points on the coordinate plane</title>
         <script src="../khan-exercise.js"></script>
     </head>
@@ -45,7 +44,7 @@
 
                     <div class="question">
                         <p>Which of those pairs is not graphed below?</p>
-                        <div id="grid" class="graphie">
+                        <div class="graphie" id="grid">
                             graphInit({
                                 range: 10,
                                 scale: 20,
@@ -70,7 +69,7 @@
                     </div>
 
                     <p class="solution"><code><var>PAIR( POINTS[FORGOTTEN] )</var></code></p>
-                    <ul data-category="true" class="choices">
+                    <ul class="choices" data-category="true">
                         <li data-each="POINTS as i, point"><code><var>PAIR( point )</var></code></li>
                     </ul>
                 </div>
@@ -78,12 +77,12 @@
 
             <div class="hints">
                 <div data-each="POINTS as i, point" data-unwrap="">
-                    <div data-update="grid" data-if="FORGOTTEN !== i" class="graphie">
+                    <div class="graphie" data-if="FORGOTTEN !== i" data-update="grid">
                         label( point, PAIR( point ), "above right" );
                     </div>
                 </div>
 
-                <div data-update="grid" class="graphie">
+                <div class="graphie" data-update="grid">
                     var point = POINTS[FORGOTTEN];
                     label( point, PAIR( point ), "above right");
                     label( point, "\\text{" + $._("was not graphed") + "}", "right" );

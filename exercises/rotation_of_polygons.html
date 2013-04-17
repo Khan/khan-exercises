@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie geom interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Rotation of polygons</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -28,7 +27,7 @@
             </p>
 
             <div class="problem">
-                <div id="grid" class="graphie">
+                <div class="graphie" id="grid">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -103,7 +102,7 @@
                 </div>
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Rotate the blue polygon to its image under the given translation.
                 </div>
@@ -147,7 +146,7 @@
                         <code>(<var> HULL[0].x </var>,<var> HULL[0].y </var>)</code>
                         under this rotation?
                     </p>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         circle([HULL[0].x, HULL[0].y], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
                 </div>
@@ -159,7 +158,7 @@
                         <var>round(TARGET[0][1])</var>)</code>. Where is the rest
                         of the polygon rotated?
                     </p>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
                         arc([0,0], sqrt(pow(HULL[0].x, 2) + pow(HULL[0].y, 2)),
                                 atan2(HULL[0].y, HULL[0].x) * 180 / PI,
@@ -178,7 +177,7 @@
                         The orange outline shows where the polygon ends up after
                         the translation.
                     </p>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         for (var i=0; i &lt; TARGET.length; i++) {
                             line(TARGET[i], TARGET[(i+1) % TARGET.length], { stroke: ORANGE });
                         }
@@ -195,7 +194,7 @@
             </p>
 
             <div class="problem">
-                <div id="grid" class="graphie">
+                <div class="graphie" id="grid">
                     graphInit({
                         range: 11,
                         scale: 20,
@@ -214,9 +213,9 @@
                 </div>
             </div>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <code>{\LARGE T}</code>
-                <span data-forms="integer" data-type="predicate" class="sol short30">
+                <span class="sol short30" data-forms="integer" data-type="predicate">
                     function(guess, maxError) {
                         var correct = false;
                         var symmetries = _.map(Geom.rotationalSymmetries(HULL), function(rad) {
@@ -243,7 +242,7 @@
                         <code>(<var>HULL[0].x</var>, <var>HULL[0].y</var>)</code>
                         under this rotation?
                     </p>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         circle([HULL[0].x, HULL[0].y], { r: 0.2, fill: "black", stroke: "none" });
                     </div>
                 </div>
@@ -254,7 +253,7 @@
                         <code>(<var>round(TARGET[0][0])</var>, <var>round(TARGET[0][1])</var>)</code>.
                         What does this tell you about the rotation used?
                     </p>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
                         arc([0, 0], sqrt(pow(HULL[0].x, 2) + pow(HULL[0].y, 2)),
                             atan2(HULL[0].y, HULL[0].x) * 180 / PI,

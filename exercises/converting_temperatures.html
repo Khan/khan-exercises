@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Converting Temperatures</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -18,9 +17,9 @@
 					<var id="B">A-32</var>
 					<var id="C">abs(B*5)</var>
 				</div> 
-				<p class="question">Convert <code><var>A</var>&#176;</code> from Fahrenheit to Celsius. Round to the nearest tenth degree:</p>
-				<div data-type="multiple" class="solution">
-				<p><span data-inexact="" data-forms="integer,decimal,mixed,improper" class="sol" data-max-error="0.09">
+				<p class="question">Convert <code><var>A</var>°</code> from Fahrenheit to Celsius. Round to the nearest tenth degree:</p>
+				<div class="solution" data-type="multiple">
+				<p><span class="sol" data-forms="integer,decimal,mixed,improper" data-inexact="" data-max-error="0.09">
 				   <var>roundTo(1,(A-32)*(5/9))</var>
 				   </span> degrees
 				</p>
@@ -44,15 +43,15 @@
 					</p>
 					<p>
 						<span data-if="C%9==0">
-						<code>\blue{C} = <var>roundTo(1, (A-32)*(5/9))</var>&#176;</code></span>
+						<code>\blue{C} = <var>roundTo(1, (A-32)*(5/9))</var>°</code></span>
 					    <span data-else-if="B*5&lt;0">
-						<br><code>\blue{C} = -</code><code><var>mixedFractionFromImproper(C, 9,'defraction', 'reduce')</var>&#176;</code><br>
+						<br><code>\blue{C} = -</code><code><var>mixedFractionFromImproper(C, 9,'defraction', 'reduce')</var>°</code><br>
 						<br>OR<br>
-						<br><code>\blue{C} = <var>roundTo(1, (A-32)*(5/9))</var>&#176;</code><br></span>
+						<br><code>\blue{C} = <var>roundTo(1, (A-32)*(5/9))</var>°</code><br></span>
 						<span data-else="B*5&gt;=0">
-						<br><code>\blue{C} = <var>mixedFractionFromImproper(B*5, 9,'defraction', 'reduce')</var>&#176;</code><br>
+						<br><code>\blue{C} = <var>mixedFractionFromImproper(B*5, 9,'defraction', 'reduce')</var>°</code><br>
 						<br>OR<br>
-						<br><code>\blue{C} = <var>roundTo(1, (A-32)*(5/9))</var>&#176;</code><br></span>
+						<br><code>\blue{C} = <var>roundTo(1, (A-32)*(5/9))</var>°</code><br></span>
 					</p>
 				</div>
 			</div>
@@ -62,10 +61,10 @@
 					<var id="C">160+(A*9)</var>
 				</div>
 				<p class="question">
-                    Convert <code><var>A</var>&#176;</code> from Celsius to Fahrenheit. Round to the nearest tenth degree: 
+                    Convert <code><var>A</var>°</code> from Celsius to Fahrenheit. Round to the nearest tenth degree: 
                 </p>
-				<div data-type="multiple" class="solution">
-				<p><span data-inexact="" data-forms="integer,decimal,mixed,improper" class="sol" data-max-error="0.09">
+				<div class="solution" data-type="multiple">
+				<p><span class="sol" data-forms="integer,decimal,mixed,improper" data-inexact="" data-max-error="0.09">
 				    <var>roundTo(1, (9/5*A)+32)</var>
 				    </span> degrees
 				</p>
@@ -94,15 +93,15 @@
 						<br>Simplify:<br>
 						
 						<span data-if="C%5==0">
-						<code>\green{F} = <var>roundTo(1, (9/5*A)+32)</var>&#176;</code></span>
+						<code>\green{F} = <var>roundTo(1, (9/5*A)+32)</var>°</code></span>
 					    <span data-else-if="C&lt;0">
-						<br><code>\green{F} = - </code><code><var>mixedFractionFromImproper(abs(C), 5,'defraction', 'reduce')</var>&#176;</code><br>
+						<br><code>\green{F} = - </code><code><var>mixedFractionFromImproper(abs(C), 5,'defraction', 'reduce')</var>°</code><br>
 						<br>OR<br>
-						<br><code>\green{F} = <var>roundTo(1, (9/5*A)+32)</var>&#176;</code><br></span>
+						<br><code>\green{F} = <var>roundTo(1, (9/5*A)+32)</var>°</code><br></span>
 						<span data-else="C&gt;=0">
-						<code>\green{F} = <var>mixedFractionFromImproper(C, 5,'defraction', 'reduce')</var>&#176;</code>
+						<code>\green{F} = <var>mixedFractionFromImproper(C, 5,'defraction', 'reduce')</var>°</code>
 						<br>OR<br>
-						<br><code>\green{F} = <var>roundTo(1, (9/5*A)+32)</var>&#176;</code><br></span>
+						<br><code>\green{F} = <var>roundTo(1, (9/5*A)+32)</var>°</code><br></span>
 					</p>
 				</div>
 			</div>

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Subtracting fractions with common denominators</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -18,12 +17,12 @@
             <div class="question">
                 <p><code><var>fraction( N1, D )</var> - <var>fraction( N2, D )</var> = {?}</code></p>
             </div>
-            <div data-simplify="optional" data-type="rational" class="solution"><var>( N1 - N2 ) / D</var></div>
+            <div class="solution" data-simplify="optional" data-type="rational"><var>( N1 - N2 ) / D</var></div>
         </div>
     </div>
 
     <div class="hints">
-            <div style="float: left" id="pie" class="graphie">
+            <div class="graphie" id="pie" style="float: left">
                 init({ range: [ [-3, 3], [-3, 3] ], scale: 25 });
                 PIECH = piechart( [ N1, D - 1 ], ["#e00", "#999"], 2 );
             </div>

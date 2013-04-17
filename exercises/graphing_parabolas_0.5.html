@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing parabolas in standard form</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -15,7 +14,7 @@
 </head>
 <body>
 <div class="exercise">
-    <div data-ensure=" B !== 0 || C !== 0" class="vars">
+    <div class="vars" data-ensure=" B !== 0 || C !== 0">
         <var id="A">1</var>
         <var id="B">randRange( -4, 4 )</var>
         <var id="C">randRange( [ -5, -7, -8, -9, -9, -9, -8, -7, -5 ][ B + 4 ], [ -3, -1, 1, 3, 5, 3, 1, -1, -3 ][ B + 4 ] )</var>
@@ -24,7 +23,7 @@
     <p class="question">Graph the following equation:</p>
 
     <div class="problem">
-        <div id="grid" class="graphie">
+        <div class="graphie" id="grid">
             graphInit({
                 range: 11,
                 scale: 20,
@@ -168,7 +167,7 @@
         </div>
     </div>
 
-    <div data-type="custom" class="solution">
+    <div class="solution" data-type="custom">
         <div class="instruction">
             Drag the three points to graph the equation.
         </div>
@@ -190,7 +189,7 @@
 
     <div class="problems">
         <div id="standard-form">
-            <div data-apply="prependContents" class="problem">
+            <div class="problem" data-apply="prependContents">
                 <p class="hint_blue">
                     <code>y = <var>plus( "x^2", B + "x", C )</var></code>
                 </p>
@@ -202,10 +201,10 @@
                         <code class="hint_green">x</code> into the equation and plot each value:
                     </p>
                     <div class="fake_header plug_in">
-                        <span><code class="hint_green">x</code></span><span>&#160;</span><span><code class="hint_pink">\hphantom{= } \quad y</code></span>
+                        <span><code class="hint_green">x</code></span><span>&nbsp;</span><span><code class="hint_pink">\hphantom{= } \quad y</code></span>
                     </div>
                 </div>
-                <div data-each="[ -2, -1, 0, 1, 2 ] as x" class="fake_row plug_in">
+                <div class="fake_row plug_in" data-each="[ -2, -1, 0, 1, 2 ] as x">
                     <span>
                         <code class="hint_green"><var>x</var></code>
                     </span><span>
@@ -213,7 +212,7 @@
                     </span><span>
                         <code>= \quad \color{<var>PINK</var>}{<var>x * x + B * x + C</var>}</code>
                     </span>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         var y = x * x + B * x + C;
                         style({
                             stroke: PINK,
@@ -228,7 +227,7 @@
                 <div>
                     <p class="final_answer">
                         There is only one graph of a parabola that passes through all of the <code>(\color{<var>GREEN</var>}{x}, \color{<var>PINK</var>}{y})</code> points we plotted.
-                        <br><input type="button" onclick="javascript:KhanUtil.currentGraph.graph.showSolution();" value="Show me">
+                        <br><input onclick="javascript:KhanUtil.currentGraph.graph.showSolution();" type="button" value="Show me">
                     </p>
                 </div>
 

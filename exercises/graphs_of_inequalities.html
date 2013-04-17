@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format expressions graphie interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphs of inequalities</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -19,10 +18,10 @@
                 <var id="B">SLOPE_FRAC[1] * MULT</var>
                 <var id="C">SLOPE_FRAC[1] * YINT * MULT</var>
                 <var id="STD_FORM">randFromArray([ true, false ])</var>
-                <var id="COMP">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
-                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&#8804;": "&#8805;", "&#8805;": "&#8804;" }[ COMP ] : COMP</var>
-                <var id="LESS_THAN">COMP === "&lt;" || COMP === "&#8804;"</var>
-                <var id="INCLUSIVE">COMP === "&#8805;" || COMP === "&#8804;"</var>
+                <var id="COMP">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
+                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "≤": "≥", "≥": "≤" }[ COMP ] : COMP</var>
+                <var id="LESS_THAN">COMP === "&lt;" || COMP === "≤"</var>
+                <var id="INCLUSIVE">COMP === "≥" || COMP === "≤"</var>
                 <var id="X1">SLOPE_FRAC[1]</var>
                 <var id="Y1">YINT + SLOPE_FRAC[0]</var>
                 <var id="X2">-SLOPE_FRAC[1]</var>
@@ -61,9 +60,9 @@
 
                 </div>
             </div>
-            <div data-type="multiple" class="solution">
-                <p class="short"><code>y</code><span data-choices="['', '&lt;', '&#8804;', '&gt;', '&#8805;']" data-type="list" class="sol"><var>COMP</var></span>
-                <span data-fallback="1" class="sol short30"><var>SLOPE</var></span><code>\space x + </code>
+            <div class="solution" data-type="multiple">
+                <p class="short"><code>y</code><span class="sol" data-choices="['', '&lt;', '≤', '&gt;', '≥']" data-type="list"><var>COMP</var></span>
+                <span class="sol short30" data-fallback="1"><var>SLOPE</var></span><code>\space x + </code>
                 <span class="sol short30"><var>YINT</var></span></p>
             </div>
 

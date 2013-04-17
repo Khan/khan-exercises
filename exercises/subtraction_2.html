@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>2 and 3-digit subtraction</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -24,19 +23,19 @@
 
     <div class="problems">
         <div id="subtraction-2">
-            <div id="numbers" class="graphie">
+            <div class="graphie" id="numbers">
                 graph.subtractor = new Subtractor( A, B );
                 graph.subtractor.show();
                 NUM_HINTS = graph.subtractor.getNumHints();
             </div>
-            <div data-forms="integer" class="solution">
+            <div class="solution" data-forms="integer">
                 <var>A - B</var>
             </div>
         </div>
     </div>
 
     <div class="hints">
-        <div data-update="numbers" data-each="NUM_HINTS times" class="graphie">
+        <div class="graphie" data-each="NUM_HINTS times" data-update="numbers">
             graph.subtractor.showHint();
         </div>
     </div>

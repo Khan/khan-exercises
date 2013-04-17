@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format"><head>
     <title>Converting decimals to fractions 1</title>
     <script src="../khan-exercise.js"></script>
@@ -14,21 +13,21 @@
                 <var id="T">floor( D * 10 )</var>
             </div>
             <p class="question">Express <code><var>D.toFixed( 1 )</var></code> as a fraction.</p>
-            <p data-simplify="optional" data-type="rational" class="solution"><var>D</var></p>
+            <p class="solution" data-simplify="optional" data-type="rational"><var>D</var></p>
             <div class="hints">
                 <p>The number <code><var>T</var></code> is in the tenths place, so we have <var>cardinal( T )</var> tenth<span data-if="T !== 1">s</span>.</p>
                 <p><var>Cardinal( T )</var> tenth<span data-if="T !== 1">s</span> can be written as <code><var>fraction( T, 10 )</var></code>.</p>
             </div>
         </div>
 
-        <div data-weight="3" data-type="to-the-tenth" id="to-the-hundredth">
+        <div id="to-the-hundredth" data-type="to-the-tenth" data-weight="3">
             <div class="vars">
                 <var id="D">randRangeExclude(1, 99, [10,20,30,40,50,60,70,80,90]) / 100</var>
                 <var id="T">floor( D * 10 )</var>
                 <var id="H">round( D * 100 ) % 10</var>
             </div>
             <p class="question">Express <code><var>D.toFixed( 2 )</var></code> as a fraction.</p>
-            <p data-simplify="optional" data-type="rational" class="solution"><var>D</var></p>
+            <p class="solution" data-simplify="optional" data-type="rational"><var>D</var></p>
             <div class="hints">
                 <p>The number <code><var>T</var></code> is in the tenths place, so we have <var>cardinal( T )</var> tenth<span data-if="T !== 1">s</span>.</p>
                 <p><var>Cardinal( T )</var> tenth<span data-if="T !== 1">s</span> can be written as <code><var>fraction( T, 10 )</var></code>.</p>

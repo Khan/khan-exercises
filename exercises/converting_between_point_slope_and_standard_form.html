@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format expressions graphie"><head>
     <meta charset="UTF-8">
     <title>Converting between point-slope and standard form</title>
@@ -8,7 +7,7 @@
 <body>
     <div class="exercise">
     <div class="problems">
-        <div data-weight="2" id="standard-to-point-slope">
+        <div id="standard-to-point-slope" data-weight="2">
             <div class="vars">
                 <var id="A">randRangeNonZero( -5, 5 )</var>
                 <!-- -3 and 3 are excluded from the range in order to ensure that the slope is a terminating decimal. -->
@@ -25,9 +24,9 @@
             <code><var>expr([ '*', A, 'x' ])</var> + <var>expr([ '*', B, 'y' ])</var> = <var>C</var></code>
 
             <!-- Custom validation is used to allow for x to be any value. If we allowed a finite range for x, then we could have a set of solutions.-->
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
-                    <p class="short20"><code>y - {}</code><input type="number" id="solution_y"><code>{} = {}</code><input type="number" id="solution_m"><code>(x - {}</code><input type="number" id="solution_x"><code>)</code></p>
+                    <p class="short20"><code>y - {}</code><input id="solution_y" type="number"><code>{} = {}</code><input id="solution_m" type="number"><code>(x - {}</code><input id="solution_x" type="number"><code>)</code></p>
                 </div>
                 <div class="guess">
                     [ $( '#solution_x' ).val(), $( '#solution_y' ).val(), $( '#solution_m' ).val() ]
@@ -81,7 +80,7 @@
                 </div>
                 <div>
                     <p>Behold the magic of math! The given point <code>(<var>HINT_X1</var>,<var>HINT_Y1</var>)</code> is on the line with slope <code><var>SLOPE</var></code>!</p>
-                    <div id="grid" class="graphie">
+                    <div class="graphie" id="grid">
                         graphInit({
                             range: 10,
                             scale: 20,
@@ -103,7 +102,7 @@
             </div>
         </div>
 
-        <div data-weight="2" id="point-slope-to-standard">
+        <div id="point-slope-to-standard" data-weight="2">
             <div class="vars">
                 <var id="X1">randRangeNonZero( -5, 5 )</var>
                 <var id="Y1">randRangeNonZero( -5, 5 )</var>
@@ -121,10 +120,10 @@
             <p>
                 In other words, rewrite the equation in the form <code>Ax + By = C</code>. Assume <code>A</code> is positive.
             </p>
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <p>
-                    <span data-fallback="1" class="sol"><var>A</var></span><code>\space x + {}</code>
-                    <span data-fallback="1" class="sol"><var>B</var></span><code>\space y = {}</code>
+                    <span class="sol" data-fallback="1"><var>A</var></span><code>\space x + {}</code>
+                    <span class="sol" data-fallback="1"><var>B</var></span><code>\space y = {}</code>
                     <span class="sol"><var>C</var></span>
                 </p>
                 <div class="example">three integers to complete the standard form equation</div>
@@ -162,7 +161,7 @@
                             has a slope of <code><var>SLOPE</var></code> and passes through the point
                         <code>(<var>X1</var>,<var>Y1</var>)</code>.
                         These values were given in the initial equation written in point slope form.</p>
-                    <div id="grid" class="graphie">
+                    <div class="graphie" id="grid">
                         graphInit({
                             range: 10,
                             scale: 20,

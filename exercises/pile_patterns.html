@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie interactive word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Pile patterns</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,9 +8,9 @@
     <div class="exercise">
         <div class="problems">
             <div>
-                <div data-ensure="(USEA || USEB || USEC || USED) &amp;&amp;
+                <div class="vars" data-ensure="(USEA || USEB || USEC || USED) &amp;&amp;
                                  A + B + C + D &gt; 0 &amp;&amp;
-                                 XS !== START" class="vars">
+                                 XS !== START">
                     <var id="USEA">random() &lt; 0.5</var>
                     <var id="A">USEA ? randRange(1, 3) : 0</var>
                     <var id="USEB">random() &lt; 0.5</var>
@@ -174,17 +173,17 @@
                         };
                     </div>
                 </div>
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     In step 0, we have
-                    <span data-forms="integer" class="sol short40"><var>START</var></span>
+                    <span class="sol short40" data-forms="integer"><var>START</var></span>
                     blocks. At each step, we add
-                    <span data-forms="integer" class="sol short40"><var>XS</var></span>
+                    <span class="sol short40" data-forms="integer"><var>XS</var></span>
                     more blocks.<br><br>
 
                     So, at step number <code>S</code>, we have<br>
-                    <span data-forms="integer" class="sol short40"><var>START</var></span>
+                    <span class="sol short40" data-forms="integer"><var>START</var></span>
                     <code>+</code>
-                    <span data-forms="integer" class="sol short40"><var>XS</var></span>
+                    <span class="sol short40" data-forms="integer"><var>XS</var></span>
                     <code>\times S</code>  blocks.
                 </div>
                 <div class="hints">
@@ -202,7 +201,7 @@
                         <var>START</var> blocks in step 0. Fill
                         this in the answer box.</p>
                         
-                        <div data-update="main" class="graphie">
+                        <div class="graphie" data-update="main">
                             graph.slider.moveTo(3, 0);
                         </div>
                     </div>
@@ -230,7 +229,7 @@
                         blocks added in each step. Fill
                         this in the answer box.</p>
                         
-                        <div data-update="main" class="graphie">
+                        <div class="graphie" data-update="main">
                             graph.slider.moveTo(5, 0);
                         </div>
                     </div>

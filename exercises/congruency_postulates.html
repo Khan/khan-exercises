@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers graphie-geometry math-format interactive triangle-congruence"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Congruency postulates</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -22,11 +21,11 @@
                 side must be longer than first and first angle must not be close to 90 to
                 ensure the resulting shape can make two visually distinct triangles
                 -->
-                <div data-ensure="
+                <div class="vars" data-ensure="
                         ( abs( ANGLES[0] - ANGLES[1] ) &gt; 10 ) &amp;&amp;
                         ( abs( ANGLES[1] - ANGLES[2] ) &gt; 10 ) &amp;&amp;
                         ( abs( ANGLES[0] - ANGLES[2] ) &gt; 10 ) &amp;&amp;
-                        ( ( TYPE !== 'SSA' ) || ( (TRIANGLE.niceSideLengths[0] + 1) &lt; TRIANGLE.niceSideLengths[1] &amp;&amp; abs(ANGLES[0] - 90) &gt; 10 ) )" class="vars">
+                        ( ( TYPE !== 'SSA' ) || ( (TRIANGLE.niceSideLengths[0] + 1) &lt; TRIANGLE.niceSideLengths[1] &amp;&amp; abs(ANGLES[0] - 90) &gt; 10 ) )">
                     <var id="TYPE">randFromArray([ "SSS", "SAS", "SAA", "ASA", "SSA", "SSA", "AAA" ])</var>
                     <var id="NAME">{
                             "SSS": "Side-Side-Side",
@@ -51,7 +50,7 @@
                 </p>
                 <div class="question">
                     <em>Your triangle can be anywhere. There is no need to line up the two triangles.</em>
-                    <div id="triangles" class="graphie">
+                    <div class="graphie" id="triangles">
                         init({
                             range: [ [ -6.2, 6.2 ], [ -5.9, 6.5 ] ]
                         });
@@ -70,14 +69,14 @@
                     </div>
                 </div>
 
-                <div data-type="custom" class="solution">
+                <div class="solution" data-type="custom">
                     <div class="instruction">
                         <ul>
-                            <li><label><input type="radio" name="solution" value="Yes"><span class="value">
-                                Yes &#8212; And I've constructed a congruent triangle, and this is the <strong>ONLY</strong> triangle I can construct with these conditions.
+                            <li><label><input name="solution" type="radio" value="Yes"><span class="value">
+                                Yes — And I've constructed a congruent triangle, and this is the <strong>ONLY</strong> triangle I can construct with these conditions.
                             </span></label></li>
-                            <li><label><input type="radio" name="solution" value="No"><span class="value">
-                                No &#8212; And I've proven it by constructing an incongruent triangle (a counterexample).
+                            <li><label><input name="solution" type="radio" value="No"><span class="value">
+                                No — And I've proven it by constructing an incongruent triangle (a counterexample).
                             </span></label></li>
                         </ul>
                     </div>
@@ -133,7 +132,7 @@
                 <div class="hints">
                     <p>
                         To be a congruency postulate, there must be one, <em>and only one</em>, way to make a triangle
-                        that's the same as the original triangle&#8212;except for being moved, rotated, or reflected.
+                        that's the same as the original triangle—except for being moved, rotated, or reflected.
                     </p>
                     <p data-if="ANSWER === 'Yes'">
                         With the constraints of <var>NAME</var>, there is exactly one way to make a triangle.
@@ -186,7 +185,7 @@
                     </p>
                     <div data-if="TYPE === 'AAA'">
                         <p>Both of these triangles have the same three angles, but they are not congruent (just similar):
-                        </p><div style="float: left" class="graphie">
+                        </p><div class="graphie" style="float: left">
                             style({ stroke: "#b1c9f5", "stroke-width": 5 });
                             init({ range: TRIANGLE.boundingRange( 0.4 ) });
                             addMouseLayer();
@@ -195,7 +194,7 @@
                             addTriangleDecorations( TRIANGLE, TYPE );
                             KhanUtil.currentGraph = $( "div#triangles" ).data().graphie
                         </div>
-                        <div style="float: left" class="graphie">
+                        <div class="graphie" style="float: left">
                             var triangle = new Triangle( [ 0, 0 ], ANGLES, SCALE - 4, {} );
                             triangle.rotate( ROTATION );
                             style({ stroke: "#b1c9f5", "stroke-width": 5 });
@@ -207,7 +206,7 @@
                             KhanUtil.currentGraph = $( "div#triangles" ).data().graphie
                         </div>
                     </div>
-                    <p style="clear: left" data-if="TYPE === 'AAA'">
+                    <p data-if="TYPE === 'AAA'" style="clear: left">
                         Because we can create triangles that are not congruent, we can show by counterexample that
                         <strong>Angle-Angle-Angle is not a congruency postulate.</strong> Be sure to construct an incongruent triangle above to prove it.
                     </p>

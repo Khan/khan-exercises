@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie word-problems interactive subhints"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Area of triangles</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -17,8 +16,8 @@
         ])</var>
     </div>
     <div class="problems">
-        <div data-weight="1" id="right-triangle">
-            <div data-ensure="(B % 2 === 0) || (H % 2 === 0)" class="vars">
+        <div id="right-triangle" data-weight="1">
+            <div class="vars" data-ensure="(B % 2 === 0) || (H % 2 === 0)">
                 <var id="B">randRange(2, 9)</var>
                 <var id="H">randRange(2, 9)</var>
                 <var id="HYP">sqrt(B * B + H * H)</var>
@@ -43,14 +42,14 @@
                 </div>
             </div>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>(B * H) / 2</var></span>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>(B * H) / 2</var></span>
                 square <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
                 <div>
-                    <div data-update="area" class="graphie">
+                    <div class="graphie" data-update="area">
                         style({
                             stroke: GRAY,
                             strokeWidth: 1,
@@ -90,9 +89,9 @@
             </div>
         </div>
 
-        <div data-weight="2" id="acute-triangle">
-            <div data-ensure="((B % 2 === 0) || (H % 2 === 0)) &amp;&amp;
-                    (H !== HYP) &amp;&amp; B !== TOP" class="vars">
+        <div id="acute-triangle" data-weight="2">
+            <div class="vars" data-ensure="((B % 2 === 0) || (H % 2 === 0)) &amp;&amp;
+                    (H !== HYP) &amp;&amp; B !== TOP">
                 <var id="B">randRange(3, 9)</var>
                 <var id="H">randRange(2, 9)</var>
                 <var id="HYP">
@@ -123,14 +122,14 @@
                 </div>
             </div>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>(B * H) / 2</var></span>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>(B * H) / 2</var></span>
                 square <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
                 <div>
-                    <div data-update="area" class="graphie">
+                    <div class="graphie" data-update="area">
                         graph.hypotenuseLabel.remove();
                         graph.grid = raphael.set();
                         style({
@@ -179,7 +178,7 @@
                         <code>\frac{1}{2}</code> of
                         <code><var>B</var> \times <var>H</var></code>.
                     </p>
-                    <div data-update="area" class="graphie">
+                    <div class="graphie" data-update="area">
                         graph.leftBox = path([[-1, -1], [-1, H + 1],
                             [TOP, H + 1], [TOP, -1], true], {
                                 stroke: false,
@@ -230,8 +229,8 @@
             </div>
         </div>
 
-        <div data-weight="2" id="obtuse-triangle">
-            <div data-ensure="(B % 2 === 0) || (H % 2 === 0)" class="vars">
+        <div id="obtuse-triangle" data-weight="2">
+            <div class="vars" data-ensure="(B % 2 === 0) || (H % 2 === 0)">
                 <var id="B">randRange(3, 9)</var>
                 <var id="H">randRange(2, 9)</var>
                 <var id="TOP">randFromArray([
@@ -269,8 +268,8 @@
                 </div>
             </div>
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol"><var>(B * H) / 2</var></span>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>(B * H) / 2</var></span>
                 square <var>plural_form(UNIT_TEXT)</var>
             </div>
 

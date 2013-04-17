@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Derivatives 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -17,7 +16,7 @@
 
                     <var id="H">randFromArray([ "\\Delta x", "h" ])</var>
                 </div>
-                <var data-ensure="abs( ( A * X + B ) * X + C ) &lt; 7" id="X">randRange( -6, 6 )</var>
+                <var id="X" data-ensure="abs( ( A * X + B ) * X + C ) &lt; 7">randRange( -6, 6 )</var>
             </div>
             <div class="question">
                 <p>What is the slope of the line tangent to <code>f(x) = <var>expr(["+", ["*", A, ["^", "x", 2]], ["*", B, "x"], C])</var></code> at <code>x = <var>X</var></code>?</p>
@@ -59,7 +58,7 @@
 
     <div class="hints">
         <div>
-            <div data-update="graph" class="graphie">
+            <div class="graphie" data-update="graph">
                 plot( function( x ) {
                     return ( 2 * A * X + B ) * ( x - X ) + ( A * X + B ) * X + C;
                 }, [-10, 10], {

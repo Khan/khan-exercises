@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>4-digit addition with carrying</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
-    <div data-ensure="A &gt;= B &amp;&amp; (
+    <div class="vars" data-ensure="A &gt;= B &amp;&amp; (
             (A_1 + B_1 &gt; 10 &amp;&amp; B &gt;= 10) ||
             (A_10 + B_10 &gt; 100 &amp;&amp; B &gt;= 100) ||
-            (A_100 + B_100 &gt; 1000 &amp;&amp; B &gt;= 1000))" class="vars">
+            (A_100 + B_100 &gt; 1000 &amp;&amp; B &gt;= 1000))">
         <var id="A_1000">randRangeWeighted(0, 9, 0, 0.25) * 1000</var>
         <var id="A_100">randRange(0, 9) * 100</var>
         <var id="A_10">randRange(0, 9) * 10</var>
         <var id="A_1">randRange(0, 9) * 1</var>
-        <var data-ensure="B_1000 &lt;= A_1000" id="B_1000">
+        <var id="B_1000" data-ensure="B_1000 &lt;= A_1000">
             randRangeWeighted(0, 9, 0, 0.25) * 1000
         </var>
         <var id="B_100">randRange(0, 9) * 100</var>
@@ -28,17 +27,17 @@
 
     <div class="problems">
         <div id="addition-4">
-            <div id="numbers" class="graphie">
+            <div class="graphie" id="numbers">
                 graph.adder = new Adder(A, B);
                 graph.adder.show();
                 NUM_HINTS = graph.adder.getNumHints();
             </div>
-            <div data-forms="integer" class="solution"><var>A + B</var></div>
+            <div class="solution" data-forms="integer"><var>A + B</var></div>
         </div>
     </div>
 
     <div class="hints">
-        <div data-update="numbers" data-each="NUM_HINTS times" class="graphie">
+        <div class="graphie" data-each="NUM_HINTS times" data-update="numbers">
             graph.adder.showHint();
         </div>
     </div>

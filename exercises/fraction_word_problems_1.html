@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Fraction word problems 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -23,7 +22,7 @@
                 
                 </p>
                 <p class="question">If there were initially <var>TOTAL</var> slices, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
-                <p data-simplify="optional" data-type="rational" class="solution"><var>(A + B) / TOTAL</var></p>
+                <p class="solution" data-simplify="optional" data-type="rational"><var>(A + B) / TOTAL</var></p>
                 <div class="hints">
                     <p><code>\text{fraction of <var>pizza( 1 )</var> eaten} = \dfrac{\text{number of slices eaten}}{\text{number slices total}}</code></p>
                     <div>
@@ -48,9 +47,9 @@
                     <span data-if="isSingular(B)"><var>person( 2 )</var> ate 1 slice.</span><span data-else=""><var>person( 2 )</var> ate <var>B</var> slices.</span>
                 
                 </p>
-                <p data-if="isSingular(LEFT)" class="question">If there were 1 slice remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</p><p data-else="" class="question">If there were <var>LEFT</var> slices remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
+                <p class="question" data-if="isSingular(LEFT)">If there were 1 slice remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</p><p class="question" data-else="">If there were <var>LEFT</var> slices remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
                 
-                <p data-simplify="optional" data-type="rational" class="solution"><var>(A + B) / TOTAL</var></p>
+                <p class="solution" data-simplify="optional" data-type="rational"><var>(A + B) / TOTAL</var></p>
                 <div class="hints">
                     <p><code>\text{fraction of <var>pizza( 1 )</var> eaten} = \dfrac{\text{number of slices eaten}}{\text{number slices total}}</code></p>
                     <p data-if="isSingular(LEFT)">
@@ -87,7 +86,7 @@
                     If <var>person( 1 )</var> ate <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>,
                     what fraction of the <var>pizza( 1 )</var> was eaten?
                 </p>
-                <p data-simplify="optional" data-type="rational" class="solution"><var>(A + B) / TOTAL</var></p>
+                <p class="solution" data-simplify="optional" data-type="rational"><var>(A + B) / TOTAL</var></p>
                 <div class="hints">
                     <p data-if="A &amp;gt; 1"><span data-if="isSingular(A)" data-unwrap="">
                         If 1 slice represent
@@ -97,7 +96,7 @@
                         If <var>A</var> slices represent
                         <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, there must have been a total of
                         <var>TOTAL</var> slices.
-                    </span></p><p data-if="isSingular(A)" data-else="">
+                    </span></p><p data-else="" data-if="isSingular(A)">
                         If 1 slice represents
                         <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, there must have been a total of
                         <var>TOTAL</var> slices.
@@ -133,7 +132,7 @@
                 
                 </p>
                 <p class="question">If there were initially <var>TOTAL</var> slices, what fraction of the <var>pizza( 1 )</var> is remaining?</p>
-                <p data-simplify="optional" data-type="rational" class="solution"><var>LEFT / TOTAL</var></p>
+                <p class="solution" data-simplify="optional" data-type="rational"><var>LEFT / TOTAL</var></p>
                 <div class="hints">
                     <p><code>\text{fraction of <var>pizza( 1 )</var> remaining} = \dfrac{\text{number of slices remaining}}{\text{number slices total}}</code></p>
                     <div>
@@ -162,7 +161,7 @@
                     If <var>person( 1 )</var> ate <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>,
                     what fraction of the <var>pizza( 1 )</var> is remaining?
                 </p>
-                <p data-simplify="optional" data-type="rational" class="solution"><var>LEFT / TOTAL</var></p>
+                <p class="solution" data-simplify="optional" data-type="rational"><var>LEFT / TOTAL</var></p>
                 <div class="hints">
                     <p data-if="A &amp;gt; 1"><span data-if="isSingular(A)" data-unwrap="">
                         If 1 slice represent
@@ -172,7 +171,7 @@
                         If <var>A</var> slices represent
                         <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>,
                         there must have been a total of <var>TOTAL</var> slices.
-                    </span></p><p data-if="isSingular(A)" data-else="">
+                    </span></p><p data-else="" data-if="isSingular(A)">
                         If 1 slice represents
                         <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>,
                         there must have been a total of <var>TOTAL</var> slices.

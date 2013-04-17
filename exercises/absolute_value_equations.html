@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Absolute value equations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -12,10 +11,10 @@
                 <div class="vars">
                     <var id="A">randRange(2, 8)</var>
                     <var id="B">randRangeNonZero(-10, 10)</var>
-                    <var data-ensure="C !== A" id="C">
+                    <var id="C" data-ensure="C !== A">
                         randRangeNonZero(-6, 6)
                     </var>
-                    <var data-ensure="D !== B" id="D">randRange(2, 10)</var>
+                    <var id="D" data-ensure="D !== B">randRange(2, 10)</var>
                     <var id="E">randRangeNonZero(-10, 10)</var>
                     <var id="NO_SOLUTION">(D - B) / (A - C) &lt;= 0</var>
                     <var id="POS_SOLUTION">
@@ -43,21 +42,21 @@
                     </code>
                 </p>
 
-                <div data-type="multiple" class="solution">
-                    <div data-type="set" class="sol">
-                        <div data-each="SOLUTIONS as SOLUTION" class="set-sol">
+                <div class="solution" data-type="multiple">
+                    <div class="sol" data-type="set">
+                        <div class="set-sol" data-each="SOLUTIONS as SOLUTION">
                             <var>SOLUTION</var>
                         </div>
                         <p class="input-format">
                             <code>x = </code> <span class="entry short40"></span>
-                            &#160; or
+                            &nbsp; or
                             <code>x = </code> <span class="entry short40"></span>
                         </p>
                     </div>
                     <p></p>
                     <div>
                         <label>
-                            <span data-type="checkbox" class="sol">
+                            <span class="sol" data-type="checkbox">
                                 <var>NO_SOLUTION</var>
                             </span>
                             No solution
@@ -72,7 +71,7 @@
                         to not be graded. Otherwise it returns true an the
                         rest of the multiple answer will be checked normally.
                     -->
-                    <div required="" data-type="custom" class="sol">
+                    <div class="sol" data-type="custom" required="">
                         <div class="guess">
                             $("#solutionarea input").eq(0).val() === ""
                             &amp;&amp;

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Radical equations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,8 +9,8 @@
         <div class="vars">
             <var id="A">randRange( 2, 10 )</var>
             <var id="B">randRangeNonZero( -10, 10 )</var>
-            <var data-ensure="abs( C - A ) &gt; 1" id="C">randRange( 2, 10 )</var>
-            <var data-ensure="D !== B" id="D">randRangeNonZero( 2, 10 )</var>
+            <var id="C" data-ensure="abs( C - A ) &gt; 1">randRange( 2, 10 )</var>
+            <var id="D" data-ensure="D !== B">randRangeNonZero( 2, 10 )</var>
             <var id="SIMPLIFIED">fractionReduce( D - B, A - C )</var>
             <var id="SOLUTION">
                 (function() {
@@ -55,7 +54,7 @@
 
                 <p class="solution"><var>SOLUTION</var></p>
 
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li data-each="CHOICES as choice"><var>choice</var></li>
                 </ul>
             </div>

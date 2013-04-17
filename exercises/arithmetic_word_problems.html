@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplication and division word problems 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,7 +9,7 @@
         <div class="problems">
             <div>
 
-                <div data-ensure="!isPrime( TOTAL_ITEMS )" class="vars">
+                <div class="vars" data-ensure="!isPrime( TOTAL_ITEMS )">
                     <var id="ITEMS_PER_GROUP">randRange( 3, 12 )</var>
                     <var id="ITEMS_LEFT">randRange( 1, ITEMS_PER_GROUP - 1 )</var>
                     <var id="GROUPS">randRange( 2, 12 )</var>
@@ -20,7 +19,7 @@
                     <var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS_PER_GROUP</var>
                 </div>
 
-                <div data-if="isMale(1)" class="question">
+                <div class="question" data-if="isMale(1)">
                     <p><var>person(1)</var> is putting <var>plural_form(item(1))</var> into <var>plural_form(group(1))</var>.</p>
 
                     <p data-if="isSingular(ITEMS_PER_GROUP)"><var>person(1)</var> puts 1 <var>item(1)</var>
@@ -41,7 +40,7 @@
                     <var>group(1)</var>, how many <var>plural_form(group(1))</var> of
                     <var>plural_form(item(1))</var> can he fill?</p>
                 
-                </div><div data-else="" class="question">
+                </div><div class="question" data-else="">
                     <p><var>person(1)</var> is putting <var>plural_form(item(1))</var> into <var>plural_form(group(1))</var>.
 
                     </p><p data-if="isSingular(ITEMS_PER_GROUP)"><var>person(1)</var> puts 1 <var>item(1)</var>
@@ -66,8 +65,8 @@
 
                 
 
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NEW_GROUPS</var></span> <var>plural( group(1) )</var>
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NEW_GROUPS</var></span> <var>plural( group(1) )</var>
                 </div>
 
                 <div class="hints">
@@ -118,7 +117,7 @@
                     <var id="TOTAL_SPENT">TOTAL_SPENT_ON_1 + ITEM_2_COST</var>
                 </div>
 
-                <div data-if="isMale(1)" class="question">
+                <div class="question" data-if="isMale(1)">
                     <p data-if="isSingular(ITEM_1_COUNT)"><var>person(1)</var> bought 1 <var>storeItem(1, 1)</var>,
                     all costing the same amount, from the <var>store(1)</var> store.</p><p data-else=""><var>person(1)</var> bought <var>ITEM_1_COUNT</var> <var>plural_form(storeItem(1, 1), ITEM_1_COUNT)</var>,
                     all costing the same amount, from the <var>store(1)</var> store.</p>
@@ -134,7 +133,7 @@
                     
 
                     <p>How much did each <var>storeItem(1, 1)</var> cost?</p>
-                </div><div data-else="" class="question">
+                </div><div class="question" data-else="">
                     <p data-if="isSingular(ITEM_1_COUNT)"><var>person(1)</var> bought 1 <var>storeItem(1, 1)</var>,
                     all costing the same amount, from the <var>store(1)</var> store.</p><p data-else=""><var>person(1)</var> bought <var>ITEM_1_COUNT</var> <var>plural_form(storeItem(1, 1), ITEM_1_COUNT)</var>,
                     all costing the same amount, from the <var>store(1)</var> store.</p>
@@ -154,7 +153,7 @@
 
                 
 
-                <p data-forms="dollar" class="solution"><var>ITEM_1_COST</var></p>
+                <p class="solution" data-forms="dollar"><var>ITEM_1_COST</var></p>
 
                 <div class="hints">
                     <p data-if="isMale(1)">
@@ -206,7 +205,7 @@
 
             <div>
 
-                <div data-ensure="!isPrime( TOTAL_ITEMS ) &amp;&amp; NEW_ITEMS !== ITEMS" class="vars">
+                <div class="vars" data-ensure="!isPrime( TOTAL_ITEMS ) &amp;&amp; NEW_ITEMS !== ITEMS">
                     <var id="TOTAL_ITEMS">randRange( 10, 99 )</var>
                     <var id="ITEMS">getNontrivialFactor( TOTAL_ITEMS )</var>
                     <var id="GROUPS">TOTAL_ITEMS / ITEMS</var>
@@ -214,7 +213,7 @@
                     <var id="NEW_GROUPS">TOTAL_ITEMS / NEW_ITEMS</var>
                 </div>
 
-                <div data-if="isMale(1)" class="question">
+                <div class="question" data-if="isMale(1)">
                     <p><var>person(1)</var> has a bunch of <var>plural_form(item(1))</var>.</p>
                     <p data-if="isSingular(ITEMS)"><var>person(1)</var> places 1 <var>item(1)</var> in each
                     <var>group(1)</var>.</p><p data-else=""><var>person(1)</var> places <var>ITEMS</var> <var>plural_form(item(1), ITEMS)</var> in each
@@ -226,7 +225,7 @@
                     how many <var>plural_form(item(1))</var> should he put in each <var>group(1)</var>?</p><p data-else="">If he wants <var>NEW_GROUPS</var> <var>plural_form(group(1), NEW_GROUPS)</var>,
                     how many <var>plural_form(item(1))</var> should he put in each <var>group(1)</var>?</p>
                 
-                </div><div data-else="" class="question">
+                </div><div class="question" data-else="">
                     <p><var>person(1)</var> has a bunch of <var>plural_form(item(1))</var>.</p>
                     <p data-if="isSingular(ITEMS)"><var>person(1)</var> places 1 <var>item(1)</var> in each
                     <var>group(1)</var>.</p><p data-else=""><var>person(1)</var> places <var>ITEMS</var> <var>plural_form(item(1), ITEMS)</var> in each
@@ -242,8 +241,8 @@
 
                 
 
-                <div data-type="multiple" class="solution">
-                    <span style="padding-right: 5px" data-forms="integer" class="sol"><var>NEW_ITEMS</var></span> <var>plural( item(1) )</var>
+                <div class="solution" data-type="multiple">
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NEW_ITEMS</var></span> <var>plural( item(1) )</var>
                 </div>
 
                 <div class="hints">

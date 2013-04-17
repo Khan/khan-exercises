@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format probability word-problems graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Independent probability</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -61,7 +60,7 @@
                 If you flip a coin and roll a 6-sided die, what is the probability that you will flip a <var>HT</var> and roll <var>RESULT_DESC</var>?
             </p>
 
-            <div data-forms="proper, decimal, percent" class="solution"><var>0.5 * RESULT_POSSIBLE.length / 6</var></div>
+            <div class="solution" data-forms="proper, decimal, percent"><var>0.5 * RESULT_POSSIBLE.length / 6</var></div>
 
             <div class="hints">
                 <p>
@@ -81,7 +80,7 @@
                     are <var>RESULT_POSSIBLE.length</var> outcomes 
                     which satisfy our condition
                     (namely, <var>toSentence(RESULT_POSSIBLE)</var>), and 6 total possible outcomes.
-                </span></p><p data-if="isSingular(RESULT_POSSIBLE.length)" data-else="">
+                </span></p><p data-else="" data-if="isSingular(RESULT_POSSIBLE.length)">
                     The probability of rolling <var>RESULT_DESC</var> is <code>\dfrac{<var>RESULT_POSSIBLE.length</var>}{6}</code>, since there 
                     is <var>RESULT_POSSIBLE.length</var> outcome 
                     which satisfies our condition
@@ -161,10 +160,10 @@
                 of the time.
             </p>
 
-            <p data-if="ALL" class="question">
+            <p class="question" data-if="ALL">
                 What is the probability of <var>PLAYER</var> making ALL of his next
                 <var>STREAK</var> free throw attempts?
-            </p><p data-else="" class="question">
+            </p><p class="question" data-else="">
                 What is the probability of <var>PLAYER</var> making NONE of his next
                 <var>STREAK</var> free throw attempts?
             </p>
@@ -407,7 +406,7 @@
             </div>
         </div>
         <div id="YARR">
-            <div data-ensure="CAPTAIN_PROB &gt; PIRATE_PROB" class="vars">
+            <div class="vars" data-ensure="CAPTAIN_PROB &gt; PIRATE_PROB">
                 <var id="CAPTAIN_NUM">randRange(1,4)</var>
                 <var id="CAPTAIN_DEM">CAPTAIN_NUM + randRange(1,6)</var>
                 <var id="CAPTAIN_PROB">CAPTAIN_NUM/CAPTAIN_DEM</var>
@@ -453,7 +452,7 @@
                 If both fire their cannons at the same time, what is the probability that <var>QUESTION</var>?
             </p>
 
-            <div data-forms="proper, decimal, percent" class="solution"><var>ANSWER</var></div>
+            <div class="solution" data-forms="proper, decimal, percent"><var>ANSWER</var></div>
 
             <div class="hints">
                 <p data-if="isMale(1)">
@@ -478,7 +477,7 @@
                     </span>
                     
                     </span>
-                    <span data-if="P" data-else="">
+                    <span data-else="" data-if="P">
                         Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
                     the probability that the captain misses and the probability that 
                     the pirate hits.

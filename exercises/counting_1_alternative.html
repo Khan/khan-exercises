@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math spin graphie word-problems"><head>
-	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Counting 1</title>
 	<script src="../khan-exercise.js"></script>
 </head>
@@ -20,18 +19,18 @@
 					<var>person( 1 )</var> {had to <var>DO</var>|was assigned} <var>PROBLEMS</var> <var>START</var> through
 					<var>END</var> for homework {{last {week|night}}|tonight}.
 				</p>
-				<p data-if="isMale(1)" class="question spin">
+				<p class="question spin" data-if="isMale(1)">
 					If <var>person( 1 )</var> <var>DID</var> all of the <var>PROBLEMS</var> he was assigned, how
 					many <var>PROBLEMS</var> did he <var>DO</var>?
-				</p><p data-else="" class="question spin">
+				</p><p class="question spin" data-else="">
 					If <var>person( 1 )</var> <var>DID</var> all of the <var>PROBLEMS</var> she was assigned, how
 					many <var>PROBLEMS</var> did she <var>DO</var>?
 				</p>
 
 				
 
-				<div data-type="multiple" class="solution">
-					<p><span data-forms="integer" class="sol"><var>ANSWER</var></span> <var>PROBLEMS</var></p>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>PROBLEMS</var></p>
 				</div>
 
 				<div class="hints">
@@ -120,8 +119,8 @@
 				</div>
 				<p class="spin">A baker has a whole {baguette|loaf of bread}.</p>
 				<p class="question spin">How many cuts must {he|she} make to have exactly <var>NUM</var> even slices?</p>
-				<div data-type="multiple" class="solution">
-					<p><span data-forms="integer" class="sol"><var>NUM -1</var></span> cuts</p>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" data-forms="integer"><var>NUM -1</var></span> cuts</p>
 				</div>
 				<div class="hints">
 					<div>
@@ -187,14 +186,14 @@
 					</div>
 
 					<div>
-						<div data-update="loaf" class="graphie">
+						<div class="graphie" data-update="loaf">
 							graph.drawLoaf( 3 );
 						</div>
 						<p><span class="hint_blue">Two cuts</span> will make three slices, and so on.</p>
 					</div>
 
 					<div>
-						<div data-update="loaf" class="graphie">
+						<div class="graphie" data-update="loaf">
 							graph.drawLoaf( NUM );
 						</div>
 						<p class="final_answer">
@@ -209,14 +208,14 @@
 					<var id="LENGTH">randRange( 10, 20 )</var>
 				</div>
 				<p><var>person( 1 )</var> is building a straight fence, with posts one meter apart.</p>
-				<p data-if="isMale(1)" class="question">
+				<p class="question" data-if="isMale(1)">
 					If the fence is <var>LENGTH</var> meters long, how many fence posts does he need?
-				</p><p data-else="" class="question">
+				</p><p class="question" data-else="">
 					If the fence is <var>LENGTH</var> meters long, how many fence posts does she need?
 				</p>
 				
-				<div data-type="multiple" class="solution">
-					<p><span data-forms="integer" class="sol"><var>LENGTH + 1</var></span> fence posts</p>
+				<div class="solution" data-type="multiple">
+					<p><span class="sol" data-forms="integer"><var>LENGTH + 1</var></span> fence posts</p>
 				</div>
 				<div class="hints">
 					<div>
@@ -255,7 +254,7 @@
 					</div>
 
 					<div>
-						<div data-update="fence" class="graphie">
+						<div class="graphie" data-update="fence">
 							style({ stroke: null, fill: BLUE, opacity: 0.3 }, function() {
 								path([ [ 1, 0 ], [ 1, 1.8 ], [ 2, 1.8 ], [ 2, 0 ], [ 1, 0 ] ]);
 							});
@@ -285,7 +284,7 @@
 					</div>
 
 					<div>
-						<div data-update="fence" class="graphie">
+						<div class="graphie" data-update="fence">
 							for ( var x = 2; x &lt; LENGTH; x++ ) {
 								style({ stroke: null, fill: BLUE, opacity: 0.3 }, function() {
 									path([ [ x, 0 ], [ x, 1.8 ], [ x + 1, 1.8 ], [ x + 1, 0 ], [ x, 0 ] ]);
@@ -306,10 +305,10 @@
 							});
 							graph.length = label( [ LENGTH / 2, -0.4 ], LENGTH + " meters", "below", false ).css({ color: BLUE });
 						</div>
-						<p data-if="isMale(1)" class="final_answer">
+						<p class="final_answer" data-if="isMale(1)">
 							Therefore, for his <span class="hint_blue"><var>LENGTH</var> meter</span> fence,
 							<var>person( 1 )</var> needs <span class="hint_green"><var>LENGTH + 1</var> posts</span>.
-						</p><p data-else="" class="final_answer">
+						</p><p class="final_answer" data-else="">
 							Therefore, for her <span class="hint_blue"><var>LENGTH</var> meter</span> fence,
 							<var>person( 1 )</var> needs <span class="hint_green"><var>LENGTH + 1</var> posts</span>.
 						</p>

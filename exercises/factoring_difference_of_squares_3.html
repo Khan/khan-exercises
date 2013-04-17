@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math"><head>
     <meta charset="UTF-8">
     <title>Factoring difference of squares 3</title>
@@ -9,7 +8,7 @@
     <div class="exercise">
         <div class="problems">
             <div>
-                <div data-ensure="getGCD( A, B ) === 1" class="vars">
+                <div class="vars" data-ensure="getGCD( A, B ) === 1">
                     <var id="A">randRange( 2, 6 )</var>
                     <var id="B">randRange( 1, 6 )</var>
                     <var id="F">randFromArray([2, 3, 5])</var>
@@ -31,32 +30,32 @@
                     </p>
                 </div>
 
-                <div data-type="set" class="solution">
+                <div class="solution" data-type="set">
                     <!-- the three terms can be in any order, and any 2 of them can be negated -->
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM1</var>\s*<var>TERM2</var>\s*<var>TERM3</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM1</var>\s*<var>TERM3</var>\s*<var>TERM2</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM2</var>\s*<var>TERM1</var>\s*<var>TERM3</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM2</var>\s*<var>TERM3</var>\s*<var>TERM1</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM3</var>\s*<var>TERM1</var>\s*<var>TERM2</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM3</var>\s*<var>TERM2</var>\s*<var>TERM1</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM1N</var>\s*<var>TERM2N</var>\s*<var>TERM3</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM1N</var>\s*<var>TERM3N</var>\s*<var>TERM2</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM2N</var>\s*<var>TERM1N</var>\s*<var>TERM3</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*<var>TERM1</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM3N</var>\s*<var>TERM1N</var>\s*<var>TERM2</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM3N</var>\s*<var>TERM2N</var>\s*<var>TERM1</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM1N</var>\s*<var>TERM2</var>\s*<var>TERM3N</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM1N</var>\s*<var>TERM3</var>\s*<var>TERM2N</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM2N</var>\s*<var>TERM1</var>\s*<var>TERM3N</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM2N</var>\s*<var>TERM3</var>\s*<var>TERM1N</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM3N</var>\s*<var>TERM1</var>\s*<var>TERM2N</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM3N</var>\s*<var>TERM2</var>\s*<var>TERM1N</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM1</var>\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM1</var>\s*<var>TERM3N</var>\s*<var>TERM2N</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM2</var>\s*<var>TERM1N</var>\s*<var>TERM3N</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM2</var>\s*<var>TERM3N</var>\s*<var>TERM1N</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM3</var>\s*<var>TERM1N</var>\s*<var>TERM2N</var>\s*$</div>
-                    <div data-type="regex" class="set-sol">^\s*<var>TERM3</var>\s*<var>TERM2N</var>\s*<var>TERM1N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1</var>\s*<var>TERM2</var>\s*<var>TERM3</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1</var>\s*<var>TERM3</var>\s*<var>TERM2</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2</var>\s*<var>TERM1</var>\s*<var>TERM3</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2</var>\s*<var>TERM3</var>\s*<var>TERM1</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3</var>\s*<var>TERM1</var>\s*<var>TERM2</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3</var>\s*<var>TERM2</var>\s*<var>TERM1</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1N</var>\s*<var>TERM2N</var>\s*<var>TERM3</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1N</var>\s*<var>TERM3N</var>\s*<var>TERM2</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2N</var>\s*<var>TERM1N</var>\s*<var>TERM3</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*<var>TERM1</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3N</var>\s*<var>TERM1N</var>\s*<var>TERM2</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3N</var>\s*<var>TERM2N</var>\s*<var>TERM1</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1N</var>\s*<var>TERM2</var>\s*<var>TERM3N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1N</var>\s*<var>TERM3</var>\s*<var>TERM2N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2N</var>\s*<var>TERM1</var>\s*<var>TERM3N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2N</var>\s*<var>TERM3</var>\s*<var>TERM1N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3N</var>\s*<var>TERM1</var>\s*<var>TERM2N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3N</var>\s*<var>TERM2</var>\s*<var>TERM1N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1</var>\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM1</var>\s*<var>TERM3N</var>\s*<var>TERM2N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2</var>\s*<var>TERM1N</var>\s*<var>TERM3N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM2</var>\s*<var>TERM3N</var>\s*<var>TERM1N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3</var>\s*<var>TERM1N</var>\s*<var>TERM2N</var>\s*$</div>
+                    <div class="set-sol" data-type="regex">^\s*<var>TERM3</var>\s*<var>TERM2N</var>\s*<var>TERM1N</var>\s*$</div>
                     <div class="input-format"><span class="entry"></span></div>
                     <div class="example">a factored expression, like <b>2(3x+1)(3x+2)</b></div>
                 </div>

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie word-problems interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Number line 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -37,7 +36,7 @@
                 </div>
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <span class="instruction"> Move the orange dot to select your answer. </span>
                 <div class="guess"> graph.movablePoint.coord[0] </div>
                 <div class="validator-function">
@@ -56,7 +55,7 @@
                 <p>Numbers to the left are smaller, and numbers to the right are bigger.</p>
                 <p>Numbers smaller than 0 are negative, and numbers bigger than 0 are positive.</p>
                 <div>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
                         line( [ 0, 0 ], [ NUMBER, 0 ] );
                         graph.movablePoint.visibleShape.toFront();
@@ -65,7 +64,7 @@
                 
                 </div>
                 <div>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
                         graph.movablePoint.moveTo( NUMBER, 0 );
                     </div>
@@ -94,14 +93,14 @@
                     graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
                 </div>
             </div>
-            <div data-forms="integer" class="solution"><var>NUMBER</var></div>
+            <div class="solution" data-forms="integer"><var>NUMBER</var></div>
 
             <div class="hints">
                 <p>We know where 0 is on the number line because it is labeled.</p>
                 <p>Numbers to the left are smaller, and numbers to the right are bigger.</p>
                 <p>Numbers smaller than 0 are negative, and numbers bigger than 0 are positive.</p>
                 <div>
-                    <div data-update="number-line-2" class="graphie">
+                    <div class="graphie" data-update="number-line-2">
                         style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
                         line( [ 0, 0 ], [ NUMBER, 0 ] );
                         graph.orangeDot.toFront();
@@ -110,7 +109,7 @@
                 
                 </div>
                 <div>
-                    <div data-update="number-line-2" class="graphie">
+                    <div class="graphie" data-update="number-line-2">
                         label( [ NUMBER, -0.53 ],  NUMBER, "center", { color: "#FFA500" });
                     </div>
                     <p>The orange dot represents the number <var>NUMBER</var>.</p>

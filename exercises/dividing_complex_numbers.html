@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format"><head>
     <meta charset="UTF-8">
     <title>Dividing complex numbers</title>
@@ -7,11 +6,11 @@
 </head>
 <body>
     <div class="exercise">
-    <div data-ensure="
+    <div class="vars" data-ensure="
             !(B_REAL === 0 &amp;&amp; B_IMAG === 0)  /* division by zero */
             &amp;&amp; !(B_REAL === 1 &amp;&amp; B_IMAG === 0)  /* division by 1 */
             &amp;&amp; !(B_REAL === 0 &amp;&amp; B_IMAG === 1)  /* division by i */
-            &amp;&amp; A_IMAG !== 0 &amp;&amp; A_REAL !== 0  /* hints with missing terms are hard */" class="vars">
+            &amp;&amp; A_IMAG !== 0 &amp;&amp; A_REAL !== 0  /* hints with missing terms are hard */">
         <var id="ANSWER_REAL">randRange( -5, 5 )</var>
         <var id="ANSWER_IMAG">randRange( -5, 5 )</var>
         <var id="B_REAL">randRange( -5, 5 )</var>
@@ -34,12 +33,12 @@
             <p>
                 <code>\qquad \dfrac{<var>A_REP</var>}{<var>B_REP</var>}</code>
             </p>
-            <div data-type="multiple" class="solution">
-                <span data-fallback="0" class="sol short50">
+            <div class="solution" data-type="multiple">
+                <span class="sol short50" data-fallback="0">
                     <var>ANSWER_REAL</var>
                 </span>
                 <code>+</code>
-                <span data-fallback="0" class="sol short50">
+                <span class="sol short50" data-fallback="0">
                     <var>ANSWER_IMAG</var>
                 </span>
                 <code>i</code>

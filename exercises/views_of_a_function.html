@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Views of a function</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -63,7 +62,7 @@
 </head>
 <body>
 <div class="exercise">
-    <div data-ensure="EXAMPLES.length === 5" class="vars">
+    <div class="vars" data-ensure="EXAMPLES.length === 5">
         <var id="A">randRangeNonZero(-3, 3)</var>
         <var id="B">randRangeNonZero(-3, 3)</var>
         <var id="C">randRangeNonZero(-3, 3)</var>
@@ -109,7 +108,7 @@
                 as decimals.
             </p>
             <div class="problem">
-                <div id="main" class="graphie">
+                <div class="graphie" id="main">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -125,7 +124,7 @@
                     plot(FUNC, [-10, 10], { stroke: BLUE });
                 </div>
             </div>
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     <span>Enter your data in the table below.</span>
                     <table class="ttable">
@@ -227,7 +226,7 @@
                     <p>The <code>y</code>-value at this point is
                         <code><var>round(2 * FUNC(EXAMPLES[0])) / 2</var></code>,
                         which we find from the graph.</p>
-                    <div data-update="main" class="graphie">
+                    <div class="graphie" data-update="main">
                         line([EXAMPLES[0], -11], [EXAMPLES[0], 11],
                             { strokeWidth: 1, stroke: ORANGE });
                         circle([EXAMPLES[0], FUNC(EXAMPLES[0])], 0.2,
@@ -251,7 +250,7 @@
                 <div>
                     <p>We can find the <code>y</code>-values at these points
                         by finding them on the graph as well.</p>
-                    <div data-update="main" class="graphie">
+                    <div class="graphie" data-update="main">
                         for (var i = 1; i &lt; 5; ++i) {
                             line([EXAMPLES[i], -11], [EXAMPLES[i], 11],
                                 { strokeWidth: 1, stroke: ORANGE });
@@ -297,7 +296,7 @@
                         </td>
                     </tr>
                 </tbody></table>
-                <div id="main" class="graphie">
+                <div class="graphie" id="main">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -371,7 +370,7 @@
                 </div>
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Plot the points given in the table on the graph,
                     then check your answer.
@@ -414,7 +413,7 @@
                 <div>
                     <p>We need to move one of the points to this position to
                     represent plotting it on the graph.</p>
-                    <div data-update="main" class="graphie">
+                    <div class="graphie" data-update="main">
                         var endpt = [EXAMPLES[0],
                             roundToNearest(0.5, FUNC(EXAMPLES[0]))];
 
@@ -427,7 +426,7 @@
                 <div>
                     <p>Now, plot the remaining four points by placing the
                         remaining points on the given 'X's.</p>
-                    <div data-update="main" class="graphie">
+                    <div class="graphie" data-update="main">
                         for (var i = 1; i &lt; 5; ++i) {
                             var x = EXAMPLES[i];
                             var y = roundToNearest(0.5, FUNC(x));
@@ -445,7 +444,7 @@
                 </div>
             </div>
         </div>
-        <div data-type="graph-to-table" id="equation-to-table">
+        <div id="equation-to-table" data-type="graph-to-table">
             <div class="vars">
                 <var id="FUNC,FUNCSHOW">randFromArray([
                     [function(x) {

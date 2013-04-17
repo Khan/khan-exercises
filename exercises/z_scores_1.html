@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math word-problems"><head>
     <meta charset="UTF-8">
     <title>Z scores 1</title>
@@ -23,7 +22,7 @@
 
                 <p class="question">Find the z-score for <var>person( 1 )</var>'s exam grade. Round to two decimal places.</p>
 
-                <div data-forms="integer, decimal" class="solution"><var>ZSCORE</var></div>
+                <div class="solution" data-forms="integer, decimal"><var>ZSCORE</var></div>
 
                 <div class="hints">
                     <p>A z-score is defined as the number of <span class="hint_green">standard deviations</span> a specific point is away from the <span class="hint_pink">mean</span>.</p>
@@ -49,8 +48,8 @@
                     </div>
                     <div>
                         <p><code>\large{\quad z \quad = \quad <var>ZSCORE</var>}</code></p>
-                        <p data-if="isSingular(abs( ZSCORE ))" class="final_answer">The z-score is <code><var>ZSCORE</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>abs( ZSCORE )</var></code>
-                        standard deviation <span data-if="ZSCORE &gt; 0">above</span><span data-else="">below</span> the mean.</p><p data-else="" class="final_answer">The z-score is <code><var>ZSCORE</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>abs( ZSCORE )</var></code>
+                        <p class="final_answer" data-if="isSingular(abs( ZSCORE ))">The z-score is <code><var>ZSCORE</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>abs( ZSCORE )</var></code>
+                        standard deviation <span data-if="ZSCORE &gt; 0">above</span><span data-else="">below</span> the mean.</p><p class="final_answer" data-else="">The z-score is <code><var>ZSCORE</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>abs( ZSCORE )</var></code>
                         standard deviations <span data-if="ZSCORE &gt; 0">above</span><span data-else="">below</span> the mean.</p>
                     
                     </div>

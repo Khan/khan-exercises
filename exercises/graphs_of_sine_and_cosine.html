@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <!-- TODO: replace randFromArray with <ul> when <ul> works --><!-- TODO: make advanced version of this exercise, with negative vertical scaling, vertical and horizontal offsets --><!-- TODO: might want to change the things already rendered in graphie to highlight the current thing being hinted; ie, make the thing just displayed at 2 stroke, reduce all previously renedred things to 1 storke --><html data-require="math graphie math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphs of sine and cosine</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -72,12 +71,12 @@
 
                 <p class="question">What is <code>f(x)</code>?</p>
 
-                <div data-type="multiple" class="solution"><div style="font-size: 11px;">
+                <div class="solution" data-type="multiple"><div style="font-size: 11px;">
                     <code>f(x)=</code>
-                    <span data-fallback="1" class="sol short25"><var>VSCALE</var></span>
+                    <span class="sol short25" data-fallback="1"><var>VSCALE</var></span>
                     <!-- we make the default fn type blank so users don't think the default value of sin or cos is important, not sure if this is necessary, though -->
-                    <span data-choices="['', 'cos', 'sin']" data-type="list" class="sol"><var>FN</var></span>
-                    <code>(</code><span data-fallback="1" class="sol short25"><var>1 / HSCALE</var></span><code>x)</code>
+                    <span class="sol" data-choices="['', 'cos', 'sin']" data-type="list"><var>FN</var></span>
+                    <code>(</code><span class="sol short25" data-fallback="1"><var>1 / HSCALE</var></span><code>x)</code>
                 </div></div>
             </div>
         </div>
@@ -100,7 +99,7 @@
             </div>
 
             <div>
-                <div data-update="graph" class="graphie">
+                <div class="graphie" data-update="graph">
                     style({
                         stroke: "#00d505",
                         strokeWidth: 2
@@ -128,7 +127,7 @@
             </div>
 
             <div>
-                <div data-update="graph" class="graphie">
+                <div class="graphie" data-update="graph">
                     style({
                         stroke: "#00d505",
                         strokeWidth: 2

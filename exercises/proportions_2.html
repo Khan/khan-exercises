@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="../khan-exercise.js"></script>
     <title>Proportions 2</title>
 
@@ -17,7 +16,7 @@
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="solutionNumerator % solutionDenominator === 0" class="vars">
+        <div class="vars" data-ensure="solutionNumerator % solutionDenominator === 0">
 
             <var id="xConstant">randRangeNonZero(3, 12)*randRangeNonZero(-1,1)</var>
 
@@ -126,7 +125,7 @@
         <!-- TODO: Refactor hints (e.g., show canceling when multiplying through, expand detail) -->
 
         <div class="hints">
-            <div style="margin-left:-20px;" class="spinealign">
+            <div class="spinealign" style="margin-left:-20px;">
                 <div class="col1 forty-sixty">
                     <p>Multiply both sides by <code><var>hint1Multiplier</var></code>
                 </p></div>
@@ -148,7 +147,7 @@
                     </span>
 
                     <br>
-                    <span class="lfrac arrow">&#8595;</span>
+                    <span class="lfrac arrow">↓</span>
                     <br>
 
                     <span class="lfrac">
@@ -160,7 +159,7 @@
                 </p></div>
             </div>
 
-            <div style="margin-left:-20px;" data-if="denominator1 === xExpression || denominator2 === xExpression" class="spinealign">
+            <div class="spinealign" data-if="denominator1 === xExpression || denominator2 === xExpression" style="margin-left:-20px;">
                 <div class="col1 forty-sixty">
                     <p>Multiply both sides by <code><var>hint2Multiplier</var></code>
                 </p></div>
@@ -180,7 +179,7 @@
                             </code>
                         </span>
 
-                        <br><span class="lfrac arrow">&#8595;</span>
+                        <br><span class="lfrac arrow">↓</span>
                         <br>
 
                         <span class="lfrac">
@@ -193,7 +192,7 @@
                 </div>
             </div>
 
-            <div style="margin-left:-20px;" class="spinealign">
+            <div class="spinealign" style="margin-left:-20px;">
                 <div class="col1 forty-sixty">
                     <p><span data-if="xConstant &lt; 0">Add</span><span data-else="">Subtract</span> <code><var>abs(xConstant)</var></code> <span data-if="xConstant &lt; 0">to</span><span data-else="">from</span> each side and simplify to isolate <code>x</code></p>
                 </div>
@@ -205,7 +204,7 @@
                         <code><var>hint2Product2</var> \color{red}{+ <var>-xConstant</var>}</code>
                     </span>
 
-                    <br><span class="lfrac arrow">&#8595;</span>
+                    <br><span class="lfrac arrow">↓</span>
                     <br>
 
                     <span class="lfrac">
@@ -219,7 +218,7 @@
             </div>
 
 
-            <div style="margin-left:-20px;" class="spinealign">
+            <div class="spinealign" style="margin-left:-20px;">
                 <div class="col1 forty-sixty">
                     <p><code>x</code> is
                 </p></div>
@@ -245,10 +244,10 @@
             </div>
         </div>
 
-        <div data-type="multiple" class="solution">
+        <div class="solution" data-type="multiple">
             <p>
                 <code>x =</code>
-                <span data-simplify="optional" class="sol"><var>SOLUTION</var></span>
+                <span class="sol" data-simplify="optional"><var>SOLUTION</var></span>
             </p>
         </div>
     </div>

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie word-problems interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Fractions on the number line 3</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -11,8 +10,8 @@
         <var id="LOWER_BOUND">-3</var>
         <var id="UPPER_BOUND">3</var>
 
-        <var data-ensure="abs(DENOMINATOR) &gt; 1" id="DENOMINATOR">randRangeNonZero(-6, 6)</var>
-        <var data-ensure="abs(NUMERATOR / DENOMINATOR) &lt;= 3 &amp;&amp; !reduces(NUMERATOR, DENOMINATOR)" id="NUMERATOR">randRange(2, 18)</var>
+        <var id="DENOMINATOR" data-ensure="abs(DENOMINATOR) &gt; 1">randRangeNonZero(-6, 6)</var>
+        <var id="NUMERATOR" data-ensure="abs(NUMERATOR / DENOMINATOR) &lt;= 3 &amp;&amp; !reduces(NUMERATOR, DENOMINATOR)">randRange(2, 18)</var>
 
         <var id="SOLUTION">NUMERATOR / DENOMINATOR</var>
 
@@ -29,7 +28,7 @@
                 <p>Move the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to
                 <strong><code>\color{orange}{<var>NUMBER</var>}</code></strong> on the number line.</p>
 
-                <div id="number-line" class="graphie">
+                <div class="graphie" id="number-line">
                     init({
                         range: [ [(LOWER_BOUND - 0.5) * abs(DENOMINATOR), (UPPER_BOUND + 0.5) * abs(DENOMINATOR)], [-1, 1] ],
                         scale: [70 / abs(DENOMINATOR), 40]
@@ -63,7 +62,7 @@
                 </div>
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <span class="instruction"> Move the orange dot to select your answer. </span>
                 <div class="guess"> graph.movablePoint.coord[0] / abs(DENOMINATOR) </div>
                 <div class="validator-function">
@@ -90,7 +89,7 @@
                 <div>
                     <p>Therefore, we know <code>\color{blue}{<var>M_NUMBER</var>}</code> lies between <code>\color{green}{<var>M_WHOLE</var>}</code>
                     and <code>\color{green}{<var>M_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)</var>}</code> on the number line.</p>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         style({ stroke: "#FFA500", strokeWidth: 3.5 });
                         line( [M_WHOLE * abs(DENOMINATOR), -0.2], [M_WHOLE * abs(DENOMINATOR), 0.2]);
                         line( [(M_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)) * abs(DENOMINATOR), -0.2], [(M_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)) * abs(DENOMINATOR), 0.2]);
@@ -101,7 +100,7 @@
                     <p><code>\color{blue}{<var>M_NUMBER</var>}</code> is <code>\color{green}{<var>fraction(M_NUMERATOR, DENOMINATOR)</var>}</code>
                     to the <span data-if="SOLUTION &gt; 0">right</span><span data-else="">left</span> of <code>\color{green}{<var>M_WHOLE</var>}</code>
                     on the number line.</p>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         style({ stroke: GREEN, fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
                         line( [ M_WHOLE * abs(DENOMINATOR), 0 ], [ SOLUTION * abs(DENOMINATOR), 0 ] );
                         graph.movablePoint.visibleShape.toFront();
@@ -113,7 +112,7 @@
                 </div>
 
                 <div>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         label( [ SOLUTION, -0.83 ],  NUMBER, "center", { color: "#FFA500" });
                         graph.movablePoint.moveTo( SOLUTION * abs(DENOMINATOR), 0 );
                     </div>

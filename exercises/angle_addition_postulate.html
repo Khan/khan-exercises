@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Angle addition postulate</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -105,8 +104,8 @@
             </div>
 
 
-            <div data-type="multiple" class="solution">
-                <span data-forms="integer" class="sol">
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer">
                     <var>ANSWER[1] * X + ANSWER[2]</var>
                 </span><code>{}^{\circ}</code>
             </div>
@@ -116,7 +115,7 @@
                     <p>From the diagram, we see that together <code>\blue{<var>ANGLE_TOP</var>}</code> and <code>\green{<var>ANGLE_BOT</var>}</code> form <code>\purple{<var>LARGE_ANGLE</var>}</code>, so</p>
                     <p><code>\qquad \blue{m<var>ANGLE_TOP</var>} + \green{m<var>ANGLE_BOT</var>} = \purple{m<var>LARGE_ANGLE</var>}</code>.</p>
 
-                    <div data-update="angleGraph" class="graphie">
+                    <div class="graphie" data-update="angleGraph">
                         style({ stroke: GREEN, strokeWidth: 3 });
                         arc([0, 0], 1, 0, ANGLE_ONE === ANGLE_TOP ? subAngle2 : subAngle1).toBack();
                         style({ stroke: BLUE, strokeWidth: 3 });
@@ -139,14 +138,14 @@
 
                 <div data-if="PROBLEM===1">
                     <p>Since <code><var>LARGE_ANGLE</var></code> is a straight angle, we know <code>\purple{m<var>LARGE_ANGLE</var> = 180}</code>.</p>
-                    <div data-update="angleGraph" class="graphie">
+                    <div class="graphie" data-update="angleGraph">
                         style({ stroke: "purple", strokeWidth: 3 });
                         arc( [ 0, 0 ], 1.2, 0, 180 );
                     </div>
                 </div>
                 <div data-if="PROBLEM===2">
                     <p>Since we are given that <code>\overrightarrow{<var>O</var><var>A</var>}\perp\overrightarrow{<var>O</var><var>C</var>}</code>, we know <code>\purple{m<var>LARGE_ANGLE</var> = 90}</code>.
-                    </p><div data-update="angleGraph" class="graphie">
+                    </p><div class="graphie" data-update="angleGraph">
                         style({ stroke: "purple", strokeWidth: 3 });
                         path( [[0, .5], [.5, .5], [.5, 0]] );
 
@@ -186,8 +185,8 @@
                     <p>Simplify:</p>
                     <p><code>\qquad \blue{m<var>ANSWER[0]</var> = <var>ANSWER[1]*X</var> + <var>ANSWER[2]</var>}</code>.</p>
                 </div>
-                <p data-if="ANSWER[0]===ANGLE_BOT" class="final_answer">So <code>\green{m<var>ANSWER[0]</var> = <var>ANSWER[1] * X + ANSWER[2]</var>}</code>.</p>
-                <p data-else="" class="final_answer">So <code>\blue{m<var>ANSWER[0]</var> = <var>ANSWER[1] * X + ANSWER[2]</var>}</code>.</p>
+                <p class="final_answer" data-if="ANSWER[0]===ANGLE_BOT">So <code>\green{m<var>ANSWER[0]</var> = <var>ANSWER[1] * X + ANSWER[2]</var>}</code>.</p>
+                <p class="final_answer" data-else="">So <code>\blue{m<var>ANSWER[0]</var> = <var>ANSWER[1] * X + ANSWER[2]</var>}</code>.</p>
             </div>
         </div>
     </div>

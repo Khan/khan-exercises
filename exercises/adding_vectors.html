@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding vectors</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div data-ensure="0 &lt; abs( AX + BX ) &amp;&amp; abs( AX + BX ) &lt; 10 &amp;&amp; 0 &lt; abs( AY + BY ) &amp;&amp; abs( AY + BY ) &lt; 10 &amp;&amp; (AX * AY) * (BX * BY) &lt; 0" class="vars">
+    <div class="vars" data-ensure="0 &lt; abs( AX + BX ) &amp;&amp; abs( AX + BX ) &lt; 10 &amp;&amp; 0 &lt; abs( AY + BY ) &amp;&amp; abs( AY + BY ) &lt; 10 &amp;&amp; (AX * AY) * (BX * BY) &lt; 0">
         <var id="AX">randRangeNonZero( -9, 9 )</var>
         <var id="AY">randRangeNonZero( -9, 9 )</var>
 
@@ -45,8 +44,8 @@
                 label( [BF * BX, BF * BY], "\\vec b", { color: "#28ae7b" } );
             </div>
 
-            <div data-type="multiple" class="solution">
-                <p><span data-fallback="1" data-forms="integer" class="sol short40"><var>AX + BX</var></span> <code>\hat\imath + {}</code><span data-fallback="1" data-forms="integer" class="sol short40"><var>AY + BY</var></span> <code>\hat\jmath</code></p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol short40" data-fallback="1" data-forms="integer"><var>AX + BX</var></span> <code>\hat\imath + {}</code><span class="sol short40" data-fallback="1" data-forms="integer"><var>AY + BY</var></span> <code>\hat\jmath</code></p>
             </div>
         </div>
     </div>
@@ -55,13 +54,13 @@
         <p>Sum the <code>\hat\imath</code> and <code>\hat\jmath</code> components separately.</p>
         <div>
             <p><code>\hat a + \hat b = (<var>AX</var> + <var>BX</var>) \hat\imath + (<var>AY</var> + <var>BY</var>) \hat\jmath</code></p>
-            <div data-update="graph" class="graphie">
+            <div class="graphie" data-update="graph">
                 line( [BX, BY], [BX + AX, BY + AY], { stroke: "#6495ed", arrows: "-&gt;" } );
             </div>
         </div>
         <div>
             <p><code>\hphantom{\hat a + \hat b} = <var>AX + BX</var>\hat\imath + <var>AY + BY</var>\hat\jmath</code></p>
-            <div data-update="graph" class="graphie">
+            <div class="graphie" data-update="graph">
                 line( [0, 0], [BX + AX, BY + AY], { stroke: "#ffa500", arrows: "-&gt;" } );
             </div>
         </div>

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers graphie-geometry math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Similar triangles 1</title>
     <script src="../khan-exercise.js"></script>
     <script>
@@ -74,7 +73,7 @@
                 Which triangles are similar to triangle <code>A</code>?
             </div>
             <div class="question">
-                <div id="triangles" class="graphie">
+                <div class="graphie" id="triangles">
                     init({
                         range: [ [-1, 13 ], [ -14, 2.5 ] ],
                         scale: 35
@@ -97,7 +96,7 @@
                 </div>
             </div>
             <div class="solution"><var>ANSWER</var></div>
-            <ul data-category="true" class="choices">
+            <ul class="choices" data-category="true">
                 <li>B</li>
                 <li>C</li>
                 <li>Both</li>
@@ -108,7 +107,7 @@
                 <div>
                     <p>We see that triangle <code>A</code> has angles of <code><var>MAIN[ 0 ]</var></code> and <code><var>MAIN[ 2 ]</var></code>. The third angle is therefore <code>180 - <var>MAIN[ 0 ]</var> - <var>MAIN[ 2 ]</var> = <var>MAIN[ 1 ]</var></code></p>
 
-                    <div data-update="triangles" class="graphie">
+                    <div class="graphie" data-update="triangles">
                         TR.labels.angles = TR.niceAngles;
                         TR.drawLabels();
                     </div>
@@ -116,7 +115,7 @@
 
                 <div>
                     <p>Triangle <code>B</code> has angles of <code><var>B[ 0 ]</var></code> and <code><var>B[ 1 ]</var></code>. The third angle is <code>180 - <var>B[ 0 ]</var> -  <var>B[ 1 ]</var> = <var>B[ 2 ]</var></code>. Therefore triangle <code>B</code> is <span data-if="ANSWER === 'None' || ANSWER === 'C'">not</span> similar to triangle <code>A</code>.</p>
-                    <div data-update="triangles" class="graphie">
+                    <div class="graphie" data-update="triangles">
                         style({
                             stroke: "blue",
                         });
@@ -126,7 +125,7 @@
                 </div>
                 <div>
                     <p>Triangle <code>C</code> has angles of <code><var>C[ 0 ]</var></code> and <code><var>C[ 2 ]</var></code>. The third angle is <code>180 - <var>C[ 0 ]</var> -  <var>C[ 2 ]</var> = <var>C[ 1 ]</var></code>. Therefore triangle <code>C</code> is <span data-if="ANSWER === 'None' || ANSWER === 'B'">not</span>  similar to triangle <code>A</code>.</p>
-                    <div data-update="triangles" class="graphie">
+                    <div class="graphie" data-update="triangles">
                         style({
                              stroke: "red",
                         });

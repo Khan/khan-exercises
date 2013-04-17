@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Counting 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -17,9 +16,9 @@
                 </div>
                 <p data-if="isMale(1)"><var>person( 1 )</var> starts counting at <var>START</var>, and he counts by <var>cardinal( INCR )</var>s.</p><p data-else=""><var>person( 1 )</var> starts counting at <var>START</var>, and she counts by <var>cardinal( INCR )</var>s.</p>
                 
-                <p data-if="isMale(1)" class="question">If <var>START</var> is the 1st number that <var>person( 1 )</var> counts. what is the <var>NTH</var>th number that he counts?</p><p data-else="" class="question">If <var>START</var> is the 1st number that <var>person( 1 )</var> counts. what is the <var>NTH</var>th number that she counts?</p>
+                <p class="question" data-if="isMale(1)">If <var>START</var> is the 1st number that <var>person( 1 )</var> counts. what is the <var>NTH</var>th number that he counts?</p><p class="question" data-else="">If <var>START</var> is the 1st number that <var>person( 1 )</var> counts. what is the <var>NTH</var>th number that she counts?</p>
                 
-                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
                 <div class="hints">
                     <p data-if="isMale(1)">What is the first number that he counts?</p><p data-else="">What is the first number that she counts?</p>
                     
@@ -48,7 +47,7 @@
                 </div>
                 <p>There are <var>NUM</var> people in a room.</p>
                 <p class="question">If everyone shakes everyone else's hand exactly once, how many handshakes occurred?</p>
-                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
 
                 <div class="hints">
                     <p>Given <var>NUM</var> people, each person shakes the hands of <var>NUM - 1</var> other people.</p>
@@ -71,9 +70,9 @@
                 </div>
                 <p data-if="isMale(1)"><var>person( 1 )</var> wants to give his friend a potted plant. At the local florist, the flowers come in <var>NUM_COLORS</var> colors, and there are <var>NUM_POTS</var> types of flower pots.</p><p data-else=""><var>person( 1 )</var> wants to give her friend a potted plant. At the local florist, the flowers come in <var>NUM_COLORS</var> colors, and there are <var>NUM_POTS</var> types of flower pots.</p>
                 
-                <p data-if="isMale(1)" class="question">If he can choose any flower and any pot, how many different potted plants can <var>person( 1 )</var> buy?</p><p data-else="" class="question">If she can choose any flower and any pot, how many different potted plants can <var>person( 1 )</var> buy?</p>
+                <p class="question" data-if="isMale(1)">If he can choose any flower and any pot, how many different potted plants can <var>person( 1 )</var> buy?</p><p class="question" data-else="">If she can choose any flower and any pot, how many different potted plants can <var>person( 1 )</var> buy?</p>
                 
-                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
+                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
                 <div class="hints">
                     <p>If <var>person( 1 )</var> decided on a flower color, how many different potted plant combinations are there?</p>
                     <p data-if="isMale(1)">He can choose one of <var>NUM_POTS</var> flower pots, and so there are <var>NUM_POTS</var> different potted plants possible (given that he already chose a flower color).</p><p data-else="">She can choose one of <var>NUM_POTS</var> flower pots, and so there are <var>NUM_POTS</var> different potted plants possible (given that she already chose a flower color).</p>

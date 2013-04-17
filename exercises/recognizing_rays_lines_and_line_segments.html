@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie"><head>
         <title>Recognizing rays lines and line segments</title>
         <script src="../khan-exercise.js"></script>
@@ -25,7 +24,7 @@
                     <div class="problem">
                         <p>Identify this figure.</p>
 
-                        <div id="figure" class="graphie">
+                        <div class="graphie" id="figure">
                             init({
                                 range: [ [-6, 6], [-6, 6] ],
                                 scale: 20
@@ -33,7 +32,7 @@
                         </div>
                     </div>
                     <div class="question">
-                        <div data-update="figure" class="graphie">
+                        <div class="graphie" data-update="figure">
                             line( END1, END2 );
                             circle( END1, DOT_ATTRS );
                             circle( END2, DOT_ATTRS );
@@ -41,7 +40,7 @@
                     </div>
 
                     <div class="solution">Line segment</div>
-                    <ul data-category="true" class="choices">
+                    <ul class="choices" data-category="true">
                         <li>Line segment</li>
                         <li>Ray</li>
                         <li>Line</li>
@@ -53,9 +52,9 @@
                     </div>
                 </div>
 
-                <div data-type="line-segment" id="ray">
+                <div id="ray" data-type="line-segment">
                     <div class="question">
-                        <div data-update="figure" class="graphie">
+                        <div class="graphie" data-update="figure">
                             line( END1, END2, { arrows: "-&gt;" } );
                             circle( END1, DOT_ATTRS );
                             circle( INNER2, DOT_ATTRS );
@@ -70,9 +69,9 @@
                     </div>
                 </div>
 
-                <div data-type="line-segment" id="line">
+                <div id="line" data-type="line-segment">
                     <div class="question">
-                        <div data-update="figure" class="graphie">
+                        <div class="graphie" data-update="figure">
                             line( END1, END2, { arrows: "-&gt;" } );
                             line( END2, END1, { arrows: "-&gt;" } );
                             circle( INNER1, DOT_ATTRS );

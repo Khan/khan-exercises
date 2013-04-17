@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math word-problems graphie"><head>
-	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Greatest common divisor</title>
 	<script src="../khan-exercise.js"></script>
 </head>
 <body>
 	<div class="exercise">
-		<div data-ensure="A_START !== B_START" class="vars">
+		<div class="vars" data-ensure="A_START !== B_START">
 			<var id="A_START">randRange( 1, 10 )</var>
 			<var id="B_START">randRange( 1, 10 )</var>
 			<var id="FACTOR">randRange( 1, 5 )</var>
@@ -28,7 +27,7 @@
 					<p><code>\gcd(<var>A</var>, <var>B</var>) = {?}</code></p>
 				</div>
 
-				<p data-forms="integer" class="solution"><var>GCD</var></p>
+				<p class="solution" data-forms="integer"><var>GCD</var></p>
 			</div>
 		</div>
 
@@ -54,7 +53,7 @@
 				</p>
 				<p style="margin-left: 20px">
 					<span data-each="getFactors( A ) as F">
-						<span style="display: inline-block; width: 20px;"><span style="display: none;" class="hint_pink"><code data-if="B % F === 0">\rhd</code></span></span>
+						<span style="display: inline-block; width: 20px;"><span class="hint_pink" style="display: none;"><code data-if="B % F === 0">\rhd</code></span></span>
 						<code><var>A</var> \div \color{<var>BLUE</var>}{<var>F</var>} = <var>A/F</var></code><br>
 					</span>
 				</p>
@@ -76,7 +75,7 @@
 				</p>
 				<p style="margin-left: 20px">
 					<span data-each="getFactors( B ) as F">
-						<span style="display: inline-block; width: 20px;"><span style="display: none;" class="hint_pink"><code data-if="A % F === 0">\rhd</code></span></span>
+						<span style="display: inline-block; width: 20px;"><span class="hint_pink" style="display: none;"><code data-if="A % F === 0">\rhd</code></span></span>
 						<code><var>B</var> \div \color{<var>GREEN</var>}{<var>F</var>} = <var>B/F</var></code><br>
 					</span>
 				</p>

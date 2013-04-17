@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Scaling vectors</title>
     <script src="../khan-exercise.js"></script>
 
@@ -24,10 +23,10 @@
 </head>
 <body>
     <div class="exercise">
-    <div data-ensure="( BX !== CX || BY !== CY ) &amp;&amp; ( BX !== DX || BY !== DY ) &amp;&amp; ( BX !== EX || BY !== EY ) &amp;&amp; ( CX !== DX || CY !== DY ) &amp;&amp; ( CX !== EX || CY !== EY ) &amp;&amp; ( DX !== EX || DY !== EY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, BOX, BOY, BX, BY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, COX, COY, CX, CY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, DOX, DOY, DX, DY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, EOX, EOY, EX, EY ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX, BY, COX, COY, CX, CY ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX, BY, DOX, DOY, DX, DY ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX, BY, EOX, EOY, EX, EY ) &amp;&amp; !vectorsIntersect( COX, COY, CX, CY, DOX, DOY, DX, DY ) &amp;&amp; !vectorsIntersect( COX, COY, CX, CY, EOX, EOY, EX, EY ) &amp;&amp; !vectorsIntersect( DOX, DOY, DX, DY, EOX, EOY, EX, EY )" class="vars">
+    <div class="vars" data-ensure="( BX !== CX || BY !== CY ) &amp;&amp; ( BX !== DX || BY !== DY ) &amp;&amp; ( BX !== EX || BY !== EY ) &amp;&amp; ( CX !== DX || CY !== DY ) &amp;&amp; ( CX !== EX || CY !== EY ) &amp;&amp; ( DX !== EX || DY !== EY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, BOX, BOY, BX, BY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, COX, COY, CX, CY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, DOX, DOY, DX, DY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, EOX, EOY, EX, EY ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX, BY, COX, COY, CX, CY ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX, BY, DOX, DOY, DX, DY ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX, BY, EOX, EOY, EX, EY ) &amp;&amp; !vectorsIntersect( COX, COY, CX, CY, DOX, DOY, DX, DY ) &amp;&amp; !vectorsIntersect( COX, COY, CX, CY, EOX, EOY, EX, EY ) &amp;&amp; !vectorsIntersect( DOX, DOY, DX, DY, EOX, EOY, EX, EY )">
         <var id="AX">randRangeNonZero( -3, 3 )</var>
         <var id="AY">randRangeNonZero( -3, 3 )</var>
-        <var data-ensure="abs( SA * AX ) &lt; 8 &amp;&amp; abs( SA * AY ) &lt; 8" id="SA">randRangeNonZero( -1, 1 ) * randRange( 2, 3 )</var>
+        <var id="SA" data-ensure="abs( SA * AX ) &lt; 8 &amp;&amp; abs( SA * AY ) &lt; 8">randRangeNonZero( -1, 1 ) * randRange( 2, 3 )</var>
 
         <var id="BX">randRangeNonZero( -7, 7 )</var>
         <var id="BY">randRangeNonZero( -7, 7 )</var>
@@ -52,14 +51,14 @@
         <var id="DX, DY">SHUF[2]</var>
         <var id="EX, EY">SHUF[3]</var>
 
-        <var data-ensure="abs( BX + BOX ) &lt; 9" id="BOX">randRangeNonZero( -9, 9 )</var>
-        <var data-ensure="abs( BY + BOY ) &lt; 9" id="BOY">randRangeNonZero( -9, 9 )</var>
-        <var data-ensure="abs( CX + COX ) &lt; 9" id="COX">randRangeNonZero( -9, 9 )</var>
-        <var data-ensure="abs( CY + COY ) &lt; 9" id="COY">randRangeNonZero( -9, 9 )</var>
-        <var data-ensure="abs( DX + DOX ) &lt; 9" id="DOX">randRangeNonZero( -9, 9 )</var>
-        <var data-ensure="abs( DY + DOY ) &lt; 9" id="DOY">randRangeNonZero( -9, 9 )</var>
-        <var data-ensure="abs( EX + EOX ) &lt; 9" id="EOX">randRangeNonZero( -9, 9 )</var>
-        <var data-ensure="abs( EY + EOY ) &lt; 9" id="EOY">randRangeNonZero( -9, 9 )</var>
+        <var id="BOX" data-ensure="abs( BX + BOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="BOY" data-ensure="abs( BY + BOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="COX" data-ensure="abs( CX + COX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="COY" data-ensure="abs( CY + COY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="DOX" data-ensure="abs( DX + DOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="DOY" data-ensure="abs( DY + DOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="EOX" data-ensure="abs( EX + EOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="EOY" data-ensure="abs( EY + EOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
     </div>
 
     <div class="problems">
@@ -129,7 +128,7 @@
             </div>
 
             <p class="solution"><code>\vec <var>ANSL</var></code></p>
-            <ul data-category="true" class="choices">
+            <ul class="choices" data-category="true">
                 <li><code>\vec b</code></li>
                 <li><code>\vec c</code></li>
                 <li><code>\vec d</code></li>

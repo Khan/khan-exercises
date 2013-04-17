@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Subtracting decimals 0.5</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="A_FLOAT &gt; B_FLOAT" class="vars">
+        <div class="vars" data-ensure="A_FLOAT &gt; B_FLOAT">
             <var id="A">randRange( 101, 999 )</var>
             <var id="B">randRange( 101, 999 )</var>
 
@@ -21,16 +20,16 @@
         <div class="problems">
             <div>
                 <p><code>\Huge{<var>A_FLOAT.toFixed( A_DECIMAL )</var> - <var>B_FLOAT.toFixed( B_DECIMAL )</var> = {?}}</code></p>
-                <p data-type="decimal" class="solution"><var>A_FLOAT - B_FLOAT</var></p>
+                <p class="solution" data-type="decimal"><var>A_FLOAT - B_FLOAT</var></p>
             </div>
         </div>
         <div class="hints">
-            <div id="numbers" class="graphie">
+            <div class="graphie" id="numbers">
                 graph.adder = new DecimalSubtractor( A, A_DECIMAL, B, B_DECIMAL );
                 graph.adder.show();
                 graph.adder.showDecimals();
             </div>
-            <div data-update="numbers" data-each="DecimalSubtractor.numHintsFor( A, A_DECIMAL, B, B_DECIMAL ) times" class="graphie">
+            <div class="graphie" data-each="DecimalSubtractor.numHintsFor( A, A_DECIMAL, B, B_DECIMAL ) times" data-update="numbers">
                 graph.adder.showHint();
             </div>
         </div>

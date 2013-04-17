@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying mixed numbers 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
 
-                <div data-ensure="getGCD(NUM_1,DENOM_1)===1 &amp;&amp; getGCD(NUM_2,DENOM_2)===1" class="vars">
+                <div class="vars" data-ensure="getGCD(NUM_1,DENOM_1)===1 &amp;&amp; getGCD(NUM_2,DENOM_2)===1">
                     <var id="WHOLE_1">randRange( 1, 5 )</var>
                     <var id="NUM_1">randRange( 1, 4 )</var>
                     <var id="DENOM_1">randRange( NUM_1 + 1, 5 )</var>
@@ -39,8 +38,8 @@
         <div class="problems">
                 <div class="problem"><p>Multiply, reduce to lowest terms, and turn into a mixed number:</p>
                     <p class="question"><code>\displaystyle<var>WHOLE_1</var>\ <var>fraction( NUM_1, DENOM_1, false, true )</var> \times <var>WHOLE_2</var>\ <var>fraction( NUM_2, DENOM_2, false, true )</var></code></p>
-                    <div data-type="multiple" class="solution">
-                    <p><span data-type="mixed" class="sol"><var>(WHOLE_3 + (NUM_3_SIMP/DENOM_3_SIMP))</var></span></p>
+                    <div class="solution" data-type="multiple">
+                    <p><span class="sol" data-type="mixed"><var>(WHOLE_3 + (NUM_3_SIMP/DENOM_3_SIMP))</var></span></p>
                     <p class="example">a mixed number, like <code>1</code> <code>3/4</code></p>
                     </div>
                 </div>

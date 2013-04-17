@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Simplifying logarithms 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +8,7 @@
     <div class="exercise">
         <div class="problems">
             <div id="integral">
-                <div data-ensure="ABS_NUM &lt; 1000" class="vars">
+                <div class="vars" data-ensure="ABS_NUM &lt; 1000">
                     <var id="BASE">randRange(2, 16)</var>
                     <var id="EXP">randRange(-4, 4)</var>
                     <var id="ABS_NUM">pow(BASE, abs(EXP))</var>
@@ -30,13 +29,13 @@
                     <p data-if="EXP === 1">Any number raised to the power <code>1</code> is simply itself, so <code><var>BASE</var>^{1} = <var>BASE</var></code> and thus <code>\log_{<var>BASE</var>} <var>BASE</var> = 1</code>.</p>
                     <p data-else-if="EXP === 0">Any non-zero number raised to the power <code>0</code> is simply <code>1</code>, so <code><var>BASE</var>^0 = 1</code> and thus <code>\log_{<var>BASE</var>} 1 = 0</code>.</p>
                     <p data-else-if="EXP === -1">Any number raised to the power <code>-1</code> is its reciprocal, so <code><var>BASE</var>^{-1} = \dfrac{1}{<var>BASE</var>}</code> and thus <code>\log_{<var>BASE</var>} \left(\dfrac{1}{<var>BASE</var>}\right) = -1</code>.</p>
-                    <p data-if="EXP &amp;lt; 0" data-else="">In this case, <code><var>BASE</var>^{<var>EXP</var>} = <var>NUM_STR</var></code>, so <code>\log_{<var>BASE</var>} \\left(" + NUM_STR + "\\right) = <var>EXP</var></code>.</p><p data-else="">In this case, <code><var>BASE</var>^{<var>EXP</var>} = <var>NUM_STR</var></code>, so <code>\log_{<var>BASE</var>} <var>NUM_STR</var> = <var>EXP</var></code>.</p>
+                    <p data-else="" data-if="EXP &amp;lt; 0">In this case, <code><var>BASE</var>^{<var>EXP</var>} = <var>NUM_STR</var></code>, so <code>\log_{<var>BASE</var>} \\left(" + NUM_STR + "\\right) = <var>EXP</var></code>.</p><p data-else="">In this case, <code><var>BASE</var>^{<var>EXP</var>} = <var>NUM_STR</var></code>, so <code>\log_{<var>BASE</var>} <var>NUM_STR</var> = <var>EXP</var></code>.</p>
                 
                 </div>
             </div>
 
             <div id="root">
-                <div data-ensure="NUM &lt; 1000" class="vars">
+                <div class="vars" data-ensure="NUM &lt; 1000">
                     <var id="BASE">randRange(2, 16)</var>
                     <var id="EXP">randRange(2, 5)</var>
                     <var id="NUM">pow(BASE, EXP)</var>

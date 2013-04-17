@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Number line 3</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -37,7 +36,7 @@
                     graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
                 </div>
             </div>
-            <div data-forms="integer" class="solution"><var>NUMBER+DISTANCE</var></div>
+            <div class="solution" data-forms="integer"><var>NUMBER+DISTANCE</var></div>
 
             <div class="hints">
                 <p>We know where <code><var>MIDPOINT</var></code> is on this number line because it is labeled.</p>
@@ -45,14 +44,14 @@
                 <div data-if="DISTANCE !== 0">
                     <p data-if="isSingular(abs( DISTANCE ))">We need to find the number represented by the blue dot, which is 1 position to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot.</p><p data-else="">We need to find the number represented by the blue dot, which is <var>abs( DISTANCE )</var> positions to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot.</p>
                     
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         style({ stroke: "#6495ED", fill: "#6495ED" });
                         graph.blueDot = circle( [ NUMBER+DISTANCE, 0 ], 0.10 );
                     </div>
                 </div>
                 <div>
                     <p>Starting from <code><var>MIDPOINT</var></code>, we move <code><var>abs( NUMBER-MIDPOINT+DISTANCE )</var></code> to the <span data-if="NUMBER-MIDPOINT+DISTANCE &lt; 0">left</span><span data-else="">right</span> to reach the <span data-if="DISTANCE !== 0">blue</span><span data-else="">orange</span> dot.</p>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         var color = "#6495ED";
                         if ( DISTANCE === 0 ) {
                             color = "#FFA500";
@@ -65,7 +64,7 @@
                 </div>
                 <div>
                     <p class="final_answer">Thus, the <span data-if="DISTANCE !== 0">blue</span><span data-else="">orange</span> dot represents the number <code><var>NUMBER+DISTANCE</var></code>.</p>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         var color = "#6495ED";
                         if ( DISTANCE === 0 ) {
                             color = "#FFA500";

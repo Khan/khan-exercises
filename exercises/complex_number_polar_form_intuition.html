@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers math-format"><head>
     <meta charset="UTF-8">
     <title>Complex number polar form intuition</title>
@@ -23,7 +22,7 @@
     <div class="exercise">
         <div class="problems">
             <div>
-                <div data-ensure="!(ANGLE === 0 &amp;&amp; RADIUS === 1)" class="vars">
+                <div class="vars" data-ensure="!(ANGLE === 0 &amp;&amp; RADIUS === 1)">
                     <var id="DENOMINATOR">12</var>
                     <var id="ANGLE">randRange( 0, DENOMINATOR - 1 )</var> <!-- the angle of the complex number is ANGLE * (2 * DENOMINATOR) pi -->
                     <var id="RADIUS">randRange( 1, 10 )</var>
@@ -59,20 +58,20 @@
                     redrawComplexPolarForm();
                 </div>
 
-                <div data-type="custom" class="solution">
+                <div class="solution" data-type="custom">
                     <div class="instruction">
                         <div>
                             <div style="float: left;">Radius: <span id="current-radius"><code>1</code></span></div>
                             <div style="float: right;">
-                                <input type="button" onclick="updateComplexPolarForm(0, -1)" value="-" class="simple-button mini-button">
-                                <input type="button" onclick="updateComplexPolarForm(0, 1)" value="+" class="simple-button mini-button">
+                                <input class="simple-button mini-button" onclick="updateComplexPolarForm(0, -1)" type="button" value="-">
+                                <input class="simple-button mini-button" onclick="updateComplexPolarForm(0, 1)" type="button" value="+">
                             </div>
                         </div>
                         <div style="clear: both;">
                             <div style="float: left;">Angle: <span id="current-angle"><code>0</code></span></div>
                             <div style="float: right;">
-                                <input type="button" onclick="updateComplexPolarForm(-1, 0)" value="-" class="simple-button mini-button">
-                                <input type="button" onclick="updateComplexPolarForm(1, 0)" value="+" class="simple-button mini-button">
+                                <input class="simple-button mini-button" onclick="updateComplexPolarForm(-1, 0)" type="button" value="-">
+                                <input class="simple-button mini-button" onclick="updateComplexPolarForm(1, 0)" type="button" value="+">
                             </div>
                         </div>
                         <div id="number-label">1</div>

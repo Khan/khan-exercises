@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Converting multi-digit repeating decimals to fractions</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div data-ensure="( N3 % 10 ) !== floor( N3 / 10 ) &amp;&amp; N2 !== ( N3 % 10 )" class="vars">
+    <div class="vars" data-ensure="( N3 % 10 ) !== floor( N3 / 10 ) &amp;&amp; N2 !== ( N3 % 10 )">
         <var id="N1">randRangeWeighted( 0, 3, 0, 0.5 )</var>
         <var id="N2">randRange( 1, 8 )</var>
         <var id="N3">randRange( 10, 99 )</var>
@@ -27,7 +26,7 @@
         <div id="onedigit">
             <p class="question">Rewrite as a simplified fraction.</p>
             <p><code>\large{<var>N1</var>.\overline{<var>N2</var>} = {?}}</code></p>
-            <p data-type="rational" class="solution"><var>N4</var></p>
+            <p class="solution" data-type="rational"><var>N4</var></p>
         </div>
         <div id="twodigit">
             <div class="vars">
@@ -36,18 +35,18 @@
             </div>
             <p class="question">Rewrite as a simplified fraction.</p>
             <p><code>\large{<var>N1</var>.\overline{<var>N3</var>} = {?}}</code></p>
-            <p data-type="rational" class="solution"><var>N4</var></p>
+            <p class="solution" data-type="rational"><var>N4</var></p>
         </div>
         <div id="oneandone">
             <div class="vars">
-                <var data-ensure="N2 !== N3" id="N3">randRange( 1, 8 )</var>
+                <var id="N3" data-ensure="N2 !== N3">randRange( 1, 8 )</var>
                 <var id="N4">N1 + N2 / 10 + N3 / 90</var>
                 <var id="D1">1</var>
                 <var id="D2">2</var>
             </div>
             <p class="question">Rewrite as a simplified fraction.</p>
             <p><code>\large{<var>N1</var>.<var>N2</var>\overline{<var>N3</var>} = {?}}</code></p>
-            <p data-type="rational" class="solution"><var>N4</var></p>
+            <p class="solution" data-type="rational"><var>N4</var></p>
         </div>
         <div id="hardone">
             <div class="vars">
@@ -58,7 +57,7 @@
             </div>
             <p class="question">Rewrite as a simplified fraction.</p>
             <p><code>\large{<var>N1</var>.<var>N2</var>\overline{<var>N3</var>} = {?}}</code></p>
-            <p data-type="rational" class="solution"><var>N4</var></p>
+            <p class="solution" data-type="rational"><var>N4</var></p>
         </div>
         <div id="hardtwo">
             <div class="vars">
@@ -69,7 +68,7 @@
             </div>
             <p class="question">Rewrite as a simplified fraction.</p>
             <p><code>\large{<var>N1</var>.<var>N3</var>\overline{<var>N2</var>} = {?}}</code></p>
-            <p data-type="rational" class="solution"><var>N4</var></p>
+            <p class="solution" data-type="rational"><var>N4</var></p>
         </div>
     </div>
 

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format exponents"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Negative fractional exponents</title>
     <!-- Note: This exercise does not correspond to anything that is currently live. Instead, it covers material that Sal talks about in his Exponents 3 video, which is currently not tested. -->
     <script src="../khan-exercise.js"></script>
@@ -79,7 +78,7 @@
                     <p data-if="EXP_N &gt; 1 &amp;&amp; reduces( ROOT_N, ROOT_D )"><code>= <var>fraction( ROOT_N, ROOT_D, true, true, false, true )</var>^{<var>EXP_N</var>}</code></p>
 
                     <!-- "=(2/3)(2/3)(2/3)" -->
-                    <p data-if="EXP_N &gt; 1" data-each="expandFractionExponent( ROOT_N, ROOT_D, EXP_N ) as v"><code>= <var>v</var></code></p>
+                    <p data-each="expandFractionExponent( ROOT_N, ROOT_D, EXP_N ) as v" data-if="EXP_N &gt; 1"><code>= <var>v</var></code></p>
                 </div>
             </div>
         </div>

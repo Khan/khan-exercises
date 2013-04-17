@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Percentage word problems 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -14,11 +13,11 @@
                 <var id="YEAR_THIS">randRange( 50, 999 )</var>
                 <var id="YEAR_LAST">round(YEAR_THIS * 10000 / (100 + YEAR_PERCENT_MORE)) / 100</var>
             </div>
-            <p data-if="isMale(1)" class="question">
-                <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than he did this time last year. If <var>person(1)</var> has $<var>YEAR_THIS</var> today, how much money did he make over this past year? (Round to the nearest cent, or hundredth of a dollar.)</p><p data-else="" class="question">
+            <p class="question" data-if="isMale(1)">
+                <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than he did this time last year. If <var>person(1)</var> has $<var>YEAR_THIS</var> today, how much money did he make over this past year? (Round to the nearest cent, or hundredth of a dollar.)</p><p class="question" data-else="">
                 <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than she did this time last year. If <var>person(1)</var> has $<var>YEAR_THIS</var> today, how much money did she make over this past year? (Round to the nearest cent, or hundredth of a dollar.)</p>
             
-            <p data-forms="dollar" class="solution" data-max-error="0.01"><var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></p>
+            <p class="solution" data-forms="dollar" data-max-error="0.01"><var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></p>
             <div class="hints">
                 <p data-if="isMale(1)">Let <code>x</code> be the amount of money that he had last year.</p><p data-else="">Let <code>x</code> be the amount of money that she had last year.</p>
                 
@@ -42,7 +41,7 @@
             </div>
             <div class="problem">
                 <p class="question"> <var>person(1)</var> has $<var>DOLLARS</var> to spend at a store. The store currently has a sale where the sale price is <var>PERCENT_OFF</var>% off the marked price. What is the highest marked price that <var>person(1)</var> can afford? (Round to the nearest cent, or hundredth of a dollar.)</p>
-                <p data-forms="dollar" class="solution"><var>HIGHEST_PRICE</var></p>
+                <p class="solution" data-forms="dollar"><var>HIGHEST_PRICE</var></p>
             </div>
             <div class="hints">
                 <p>Let <code>x</code> be the highest marked price that <var>person(1)</var> can afford.</p>

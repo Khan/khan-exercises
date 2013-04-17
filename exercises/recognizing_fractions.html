@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Recognizing fractions</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="NUMERATOR &lt; DENOMINATOR" class="vars">
+        <div class="vars" data-ensure="NUMERATOR &lt; DENOMINATOR">
             <var id="NUMERATOR">randRange( 1, 11 )</var>
             <var id="DENOMINATOR">randRange( 2, 12 )</var>
         </div>
@@ -15,7 +14,7 @@
         <div class="problems">
             <div id="original">
                 <p class="question">What is the numerator of the fraction <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>?</p>
-                <p data-forms="integer" class="solution"><var>NUMERATOR</var></p>
+                <p class="solution" data-forms="integer"><var>NUMERATOR</var></p>
                 <div class="hints">
                     <p>Fractions help represent parts of a whole.</p>
                     <div>
@@ -37,8 +36,8 @@
             </div>
             <div data-type="original">
                 <p class="question">What is the denominator of the fraction <code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}</code>?</p>
-                <p data-forms="integer" class="solution"><var>DENOMINATOR</var></p>
-                <div data-apply="appendContents" class="hints">
+                <p class="solution" data-forms="integer"><var>DENOMINATOR</var></p>
+                <div class="hints" data-apply="appendContents">
                     <p id="answer_hint">Thus, the denominator is <code><var>DENOMINATOR</var></code>.</p>
                 </div>
             </div>

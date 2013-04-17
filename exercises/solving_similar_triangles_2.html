@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers graphie-geometry math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Solving similar triangles 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="vars">
-            <var data-ensure="ANGLES[0] % 2 === 0" id="ANGLES">randomTriangleAngles.triangle()</var>
+            <var id="ANGLES" data-ensure="ANGLES[0] % 2 === 0">randomTriangleAngles.triangle()</var>
             <var id="SIDES_B">[[0, 1], []]</var>
             <var id="SIDES_C">[[1], [2]]</var>
             <var id="TR_A">
@@ -61,7 +60,7 @@
             <var id="AD">TR_C.niceSideLengths[ 0 ]</var>
         </div>
         <div class="problem">
-            <div id="similar_triangles" class="graphie">
+            <div class="graphie" id="similar_triangles">
                 var aBounding = TR_A.boundingRange(1);
                 var bBounding = TR_D.boundingRange(1);
                 var minX = Math.min(aBounding[0][0], bBounding[0][0]);
@@ -131,7 +130,7 @@
                             <span style="padding-left:10px;">2. Extend the line <code>AD</code> out
                             to meet it at a new point <code>E</code>.</span>
                         </p>
-                        <div data-update="similar_triangles" class="graphie">
+                        <div class="graphie" data-update="similar_triangles">
                             style({ stroke: "purple" });
                             TR_D.draw();
                             TR_D.drawLabels();
@@ -147,7 +146,7 @@
                             know that <code class="hint_green">\angle CAE</code>
                             is congruent to <code class="hint_green">\angle AEB</code>.
                         </p>
-                        <div data-update="similar_triangles" class="graphie">
+                        <div class="graphie" data-update="similar_triangles">
                             style({ stroke: GREEN });
                             var angle_mod_d = ((180 - TR_D.angles[2]) / 180) + 0.2;
                             arc(TR_D.points[2], angle_mod_d, 180 + TR_D.angles[2], 180 + TR_D.angles[2] * 2);
@@ -165,7 +164,7 @@
                             Meaning <code>\triangle ABE</code> is isosceles, and we know the length
                             of <code class="hint_blue">BE</code>.
                         </p>
-                        <div data-update="similar_triangles" class="graphie">
+                        <div class="graphie" data-update="similar_triangles">
                             line(TR_A.points[0], TR_A.points[1], { stroke: BLUE, strokeWidth: 3 });
                             line(TR_A.points[1], POINT_E, { stroke: BLUE, strokeWidth: 3 });
 
@@ -222,7 +221,7 @@
                             <span style="padding-left:10px;">2. Extend the line <code>AD</code> out
                             to meet it at a new point <code>E</code>.</span>
                         </p>
-                        <div data-update="similar_triangles" class="graphie">
+                        <div class="graphie" data-update="similar_triangles">
                             style({ stroke: "purple" });
                             TR_D.draw();
                             TR_D.drawLabels();
@@ -238,7 +237,7 @@
                             know that <code class="hint_green">\angle BAE</code>
                             is congruent to <code class="hint_green">\angle AEC</code>.
                         </p>
-                        <div data-update="similar_triangles" class="graphie">
+                        <div class="graphie" data-update="similar_triangles">
                             style({ stroke: GREEN });
                             var angle_mod_d = ((180 - TR_D.angles[2]) / 180) + 0.2;
                             arc(TR_D.points[2], angle_mod_d, 180, 180 + TR_D.angles[2]);
@@ -256,7 +255,7 @@
                             Meaning <code>\triangle ACE</code> is isosceles, and we know the length
                             of <code>\blue{CE}</code>.
                         </p>
-                        <div data-update="similar_triangles" class="graphie">
+                        <div class="graphie" data-update="similar_triangles">
                             line(TR_A.points[0], TR_A.points[2], { stroke: BLUE, strokeWidth: 3 });
                             line(TR_A.points[2], POINT_E, { stroke: BLUE, strokeWidth: 3 });
                             TR_D.labels = { "sides": ["", "", AC] };
@@ -305,7 +304,7 @@
                             <span style="padding-left:10px;">2. Extend the line <code>AD</code> out
                             to meet it at a new point <code>E</code>.</span>
                         </p>
-                        <div data-update="similar_triangles" class="graphie">
+                        <div class="graphie" data-update="similar_triangles">
                             style({ stroke: "purple" });
                             TR_D.draw();
                             TR_D.drawLabels();
@@ -323,7 +322,7 @@
                             <code class="hint_green">\angle BAE</code>
                             is congruent to <code class="hint_green">\angle AEC</code>.
                         </p>
-                        <div data-update="similar_triangles" class="graphie">
+                        <div class="graphie" data-update="similar_triangles">
                             style({ stroke: GREEN });
                             var angle_mod_d = ((180 - TR_D.angles[2]) / 180) + 0.2;
                             arc( TR_D.points[2], angle_mod_d, 180, 180 + TR_D.angles[2] );
@@ -341,7 +340,7 @@
                             Meaning <code>\triangle ACE</code> is isosceles, and we know the length
                             of <code>\blue{CE}</code>.
                         </p>
-                        <div data-update="similar_triangles" class="graphie">
+                        <div class="graphie" data-update="similar_triangles">
                             line(TR_A.points[0], TR_A.points[2], { stroke: BLUE, strokeWidth: 3 });
                             line(TR_A.points[2], POINT_E, { stroke: BLUE, strokeWidth: 3 });
                             TR_D.labels = { "sides": ["", AC, ""] };
@@ -390,7 +389,7 @@
                             <span style="padding-left:10px;">2. Extend the line <code>AD</code> out
                             to meet it at a new point <code>E</code>.</span>
                         </p>
-                        <div data-update="similar_triangles" class="graphie">
+                        <div class="graphie" data-update="similar_triangles">
                             style({ stroke: "purple" });
                             TR_D.draw();
                             TR_D.drawLabels();
@@ -407,7 +406,7 @@
                             <code class="hint_green">\angle CAE</code>
                             is congruent to <code class="hint_green">\angle AEB</code>.
                         </p>
-                        <div data-update="similar_triangles" class="graphie">
+                        <div class="graphie" data-update="similar_triangles">
                             style({ stroke: GREEN });
                             var angle_mod_d = ((180 - TR_D.angles[2]) / 180) + 0.2;
                             arc(TR_D.points[2], angle_mod_d, 180 + TR_D.angles[2], 180 + TR_D.angles[2] * 2);
@@ -425,7 +424,7 @@
                             Meaning <code>\triangle ABE</code> is isosceles, and we know the length
                             of <code>\blue{BE}</code>.
                         </p>
-                        <div data-update="similar_triangles" class="graphie">
+                        <div class="graphie" data-update="similar_triangles">
                             line(TR_A.points[0], TR_A.points[1], { stroke: BLUE, strokeWidth: 3 });
                             line(TR_A.points[1], POINT_E, { stroke: BLUE, strokeWidth: 3 });
                             TR_D.labels = { "sides": ["", AB, ""] };

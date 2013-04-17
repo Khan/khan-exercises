@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Units</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -51,7 +50,7 @@
                 <p><code>= <var>commafy( SOLUTION )</var> \text{ <var>END_UNIT</var>s}</code></p>
             </div>
         </div>
-        <div data-calculator="" id="english">
+        <div id="english" data-calculator="">
             <div class="vars">
                 <var id="D_UNITS">[
                     { str: "mile", plural: "miles", multiplier: 63360 },
@@ -129,7 +128,7 @@
             </div>
             <div class="question">An alien rocketship is traveling at a speed of <code><var>commafy( START_SPEED )</var></code> <var>D_UNITS[START_D_INDEX].plural</var> per <var>T_UNITS[START_T_INDEX].str</var>. At this speed, how many <var>D_UNITS[END_D_INDEX].plural</var> will it travel in 1 <var>T_UNITS[END_T_INDEX].str</var>? Round to the nearest thousandth.</div>
 
-            <div data-type="decimal" class="solution"><var>SOLUTION</var></div>
+            <div class="solution" data-type="decimal"><var>SOLUTION</var></div>
             <div class="hints">
                 <p><code><var>commafy( START_SPEED )</var> \dfrac{\text{<var>D_UNITS[START_D_INDEX].plural</var>}}{\text{<var>T_UNITS[START_T_INDEX].str</var>}} <var>D_HINT + " " + T_HINT</var></code></p>
                 <p><code>= <var>commafy( SOLUTION )</var> \dfrac{\text{<var>D_UNITS[END_D_INDEX].plural</var>}}{\text{<var>T_UNITS[END_T_INDEX].str</var>}}</code></p>

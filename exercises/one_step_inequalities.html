@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>One step inequalities</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -13,11 +12,11 @@
         <div class="problems">
             <div>
                 <div class="vars">
-                    <var data-ensure="NUM &gt; 2 || NUM &lt; -2" id="NUM, DEN">reduce( randRange( -20, 20 ), rand( 3 ) &gt; 0 ? 1 : randRange( 2, 20 ) )</var>
+                    <var id="NUM, DEN" data-ensure="NUM &gt; 2 || NUM &lt; -2">reduce( randRange( -20, 20 ), rand( 3 ) &gt; 0 ? 1 : randRange( 2, 20 ) )</var>
                     <var id="COEF">fractionReduce( NUM, DEN )</var>
                     <var id="ONE_OVER_COEF">fractionReduce( DEN, NUM )</var>
                     <var id="RIGHT_INT">randRangeNonZero( -20, 20 )</var>
-                    <var id="COMP">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
+                    <var id="COMP">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
                     <var id="COMP_SOLUTION">(function() {
                         if ( NUM &gt; 0 ) {
                             return COMP;
@@ -28,10 +27,10 @@
                                 return "&gt;";
                             case "&gt;":
                                 return "&lt;";
-                            case "&#8804;":
-                                return "&#8805;";
-                            case "&#8805;":
-                                return "&#8804;";
+                            case "≤":
+                                return "≥";
+                            case "≥":
+                                return "≤";
                         }
                     })()</var>
                     <var id="SOLUTION_NOT_REDUCED">fraction( RIGHT_INT * DEN, NUM )</var>
@@ -42,9 +41,9 @@
                 <p class="question">Solve for <code>x</code>:</p>
                 <div><code><var>COEF</var>x <var>COMP</var> <var>RIGHT_INT</var></code></div>
 
-                <p data-type="multiple" class="solution">
+                <p class="solution" data-type="multiple">
                     <code>x</code>
-                    <span data-choices="[ '', '&lt;', '&gt;', '&#8804;', '&#8805;' ]" data-type="list" class="sol">
+                    <span class="sol" data-choices="[ '', '&lt;', '&gt;', '≤', '≥' ]" data-type="list">
                         <var>COMP_SOLUTION</var>
                     </span>
                     <span class="sol"><var>SOLUTION_REAL</var></span>
@@ -88,7 +87,7 @@
                                     fill = null;
                                     offset = 5;
                                     break;
-                                case "&#8805;":
+                                case "≥":
                                     fill = "#6495ED";
                                     offset = 5;
                                     break;
@@ -97,7 +96,7 @@
                                     offset = -5;
                                     startOffset *= -1;
                                     break;
-                                case "&#8804;":
+                                case "≤":
                                     fill = "#6495ED";
                                     offset = -5;
                                     startOffset *= -1;

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Prime factorization</title>
         <script src="../khan-exercise.js"></script>
     </head>
@@ -18,11 +17,11 @@
                         <var id="NUMBER">getPrime()</var>
                     </div>
                     <p class="question">What is the prime factorization of <code><var>NUMBER</var></code>?</p>
-                    <p data-type="primeFactorization" class="solution"><var>NUMBER</var></p>
+                    <p class="solution" data-type="primeFactorization"><var>NUMBER</var></p>
                     <div class="hints">
                         <p>Let us draw a factor tree.</p>
 
-                        <div id="factor-tree" class="graphie">
+                        <div class="graphie" id="factor-tree">
                             init({
                                 range: [ [-1, 2], [-1, 1] ],
                                 scale: [30, 30]
@@ -31,7 +30,7 @@
                             label( [cx, y], NUMBER );
                         </div>
 
-                        <div data-update="factor-tree" class="graphie">
+                        <div class="graphie" data-update="factor-tree">
                             circle( [cx, y], 0.5 );
                         </div>
 
@@ -39,7 +38,7 @@
                     </div>
                 </div>
 
-                <div data-weight="3" id="composite">
+                <div id="composite" data-weight="3">
                     <div class="vars">
                         <var id="NUMBER">getComposite()</var>
                         <var id="SOLUTION">getPrimeFactorization( NUMBER )</var>
@@ -48,12 +47,12 @@
                     </div>
 
                     <p class="question">What is the prime factorization of <code><var>NUMBER</var></code>?</p>
-                    <p data-type="primeFactorization" class="solution"><var>SOLUTION.join("x")</var></p>
+                    <p class="solution" data-type="primeFactorization"><var>SOLUTION.join("x")</var></p>
 
                     <div class="hints">
                         <div>
                             <p>Let us draw a factor tree.</p>
-                            <div id="factor-tree" class="graphie">
+                            <div class="graphie" id="factor-tree">
                                 init({
                                     range: [ [-1, FACTORIZATION.length + 2], [ -2 * FACTORIZATION.length - 1, 1] ],
                                     scale: [30, 30]
@@ -63,7 +62,7 @@
                             </div>
                         </div>
 
-                        <div data-update="factor-tree" data-each="FACTORIZATION as factor" class="graphie">
+                        <div class="graphie" data-each="FACTORIZATION as factor" data-update="factor-tree">
                                 path( [ [cx + 1, y - 0.5], [cx, y - 1.5] ] );
                                 path( [ [cx + 1, y - 0.5], [cx + 2, y - 1.5] ] );
                                 y -= 2;
@@ -76,11 +75,11 @@
                                 label( [cx + 1, y], curr );
                         </div>
 
-                        <div data-update="factor-tree" class="graphie">
+                        <div class="graphie" data-update="factor-tree">
                             circle( [cx + 1, y], 0.5);
                         </div>
 
-                        <p>The prime factorization of <code><var>NUMBER</var></code> is <code><var>SOLUTION.join(" &#215; ")</var></code>.</p>
+                        <p>The prime factorization of <code><var>NUMBER</var></code> is <code><var>SOLUTION.join(" × ")</var></code>.</p>
                     </div>
                 </div>
             </div>

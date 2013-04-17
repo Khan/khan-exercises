@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Representing numbers</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div data-ensure="N !== 0" class="vars">
+    <div class="vars" data-ensure="N !== 0">
         <var id="A">randRange( 0, 2 )</var>
         <var id="B">randRange( 0, 5 )</var>
         <var id="C">randRange( 0, 9 )</var>
@@ -20,7 +19,7 @@
                 <p>What number is represented by the blocks shown?</p>
             </div>
 
-            <div data-if="C !== 0" id="ones-graph" class="graphie">
+            <div class="graphie" id="ones-graph" data-if="C !== 0">
                 init({
                     range: [ [-1, 21], [-0.5, 1.5] ],
                     scale: 24
@@ -38,7 +37,7 @@
                 }
             </div>
 
-            <div data-if="B !== 0" id="tens-graph" class="graphie">
+            <div class="graphie" id="tens-graph" data-if="B !== 0">
                 init({
                     range: [ [-1, 21], [-1.5 * B, 0.5] ],
                     scale: 24
@@ -57,7 +56,7 @@
                 }
             </div>
 
-            <div data-if="A !== 0" id="hundreds-graph" class="graphie">
+            <div class="graphie" id="hundreds-graph" data-if="A !== 0">
                 init({
                     range: [ [-1, 21], [-0.5, 10.5] ],
                     scale: 24
@@ -76,14 +75,14 @@
                 }
             </div>
 
-            <div data-forms="integer" class="solution"><var>N</var></div>
+            <div class="solution" data-forms="integer"><var>N</var></div>
         </div>
     </div>
 
     <div class="hints">
         <div data-if="A !== 0">
             <p>By counting the number of hundreds blocks, we see that the hundreds digit of the number is <code><var>A</var></code>.</p>
-            <div data-update="hundreds-graph" class="graphie">
+            <div class="graphie" data-update="hundreds-graph">
                 for ( var i = 0; i &lt; A; i++ ) {
                     label( [10.5 * i + 5, 5], "\\large{\\mathbf{100}}", { color: "black", background: "#a2bff4" } );
                 }
@@ -93,7 +92,7 @@
             <p data-if="B === 0">Because there are no tens blocks, the tens digit of the number is <code>0</code>.</p>
             <div data-else="">
                 <p>By counting the number of tens blocks, we see that the tens digit of the number is <code><var>B</var></code>.</p>
-                <div data-update="tens-graph" class="graphie">
+                <div class="graphie" data-update="tens-graph">
                     for ( var i = 0; i &lt; B; i++ ) {
                         label( [5, -1.5 * i - 0.6], "\\large{\\mathbf{1\\:0}}", { color: "black" } );
                     }
@@ -103,7 +102,7 @@
         <p data-if="C === 0">Because there are no single unit blocks, the units digit of the number is <code>0</code>.</p>
         <div data-else="">
             <p>By counting the number of single unit blocks, we see that the units digit of the number is <code><var>C</var></code>.</p>
-            <div data-update="ones-graph" class="graphie">
+            <div class="graphie" data-update="ones-graph">
                 for ( var i = 0; i &lt; C; i++ ) {
                     label( [1.5 * i + 0.5, 0.5], "\\mathbf{1}", { color: "black" } );
                 }

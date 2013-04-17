@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math calculus polynomials expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Quotient rule</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="FUNCN.fText !== FUNCD.fText" class="vars">
-            <var data-ensure="FUNCN.hints == null || FUNCN.hints.length &lt;= 4" id="FUNCN">generateSpecialFunction("x")</var>
-            <var data-ensure="FUNCD.hints == null || FUNCD.hints.length &lt;= 4" id="FUNCD">generateSpecialFunction("x")</var>
+        <div class="vars" data-ensure="FUNCN.fText !== FUNCD.fText">
+            <var id="FUNCN" data-ensure="FUNCN.hints == null || FUNCN.hints.length &lt;= 4">generateSpecialFunction("x")</var>
+            <var id="FUNCD" data-ensure="FUNCD.hints == null || FUNCD.hints.length &lt;= 4">generateSpecialFunction("x")</var>
 
             <var id="N_F">FUNCN.fText</var>
             <var id="N_DF">FUNCN.ddxFText</var>
@@ -34,7 +33,7 @@
                 <!-- (n-df)(d-f) - (d-df)(n-f) / d-f -->
                 <p class="solution"><code><var>ANSWER( N_DF, D_F, D_DF, N_F, D_F, "-" )</var></code></p>
 
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <!-- (n-df)(d-df) - (d-f)(n-f) / d-f -->
                     <li data-if="D_DF !== D_F"><code><var>ANSWER( N_DF, D_DF, D_F, N_F, D_F, "-" )</var></code></li>
                     <!-- (n-df)(d-f) - (d-df)(n-f) / n-f -->

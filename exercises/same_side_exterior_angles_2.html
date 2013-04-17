@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers angles"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Same side exterior angles 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +8,7 @@
     <div class="exercise">
     <div class="vars">
         <div data-ensure="A * SOLUTION + B &gt; 30 &amp;&amp; A * SOLUTION + B &lt; 150 &amp;&amp; C !== A &amp;&amp; abs( A - C ) &lt; 6 &amp;&amp; abs( A - C ) &gt; 1 &amp;&amp; 180 - (A + C) * SOLUTION - B !== 0">
-            <var data-ensure="abs(SOLUTION) &gt; 5" id="SOLUTION">randRangeNonZero( -20, 20 )</var>
+            <var id="SOLUTION" data-ensure="abs(SOLUTION) &gt; 5">randRangeNonZero( -20, 20 )</var>
             <var id="A">randRange( 2, 8 )</var>
             <var id="B">randRangeNonZero( -200, 200 )</var>
             <var id="C">randRange( 2, 9 )</var>
@@ -49,7 +48,7 @@
             <p>The pink angles are adjacent to the blue angle and form a straight line, so we know that:</p>
             <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} + \color{<var>PINK</var>}{y} = 180</code></p>
             <p>The pink angles equal each other because they are <code>\color{<var>GREEN</var>}{\text{vertical angles}}</code>.</p>
-            <div data-update="parallel-lines" class="graphie">
+            <div class="graphie" data-update="parallel-lines">
                 graph.pl.drawAdjacentAngles( KNOWN_INDEX, "y^\\circ", "#FF00A5" );
             </div>
         </div>

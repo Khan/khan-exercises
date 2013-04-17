@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math"><head>
         <title>Basic set notation</title>
         <script src="../khan-exercise.js"></script>
@@ -19,8 +18,8 @@
                 <p><code>X = \{<var>A</var>\}</code><br><code>Y = \{<var>B</var>\}</code></p>
             </div>
 
-            <div data-type="multiple" class="solution">
-                <div data-type="custom" class="sol">
+            <div class="solution" data-type="multiple">
+                <div class="sol" data-type="custom">
                     <div class="instruction">Enter the answer as a set, with members separated by commas.
                         <p><code>\{ </code><input class="text"><code> \}</code>
                     </p></div>
@@ -34,7 +33,7 @@
                 </div>
                 <div>
                     <label>
-                        <span data-type="checkbox" class="sol empty-set">
+                        <span class="sol empty-set" data-type="checkbox">
                             <var>EMPTY_SET</var>
                         </span>
                         Empty set
@@ -49,7 +48,7 @@
                     normally. Otherwise, it returns "".  Since it's required,
                     this will cause the entire answer to not be graded.
                 -->
-                <div required="" data-type="custom" class="sol">
+                <div class="sol" data-type="custom" required="">
                     <div class="guess">
                         $("#solutionarea input").eq(0).val() === "" ^
                         !$("#solutionarea input").eq(1).is(":checked")

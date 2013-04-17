@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math word-problems spin"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>LCM and GCD word problems</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -17,7 +16,7 @@
     <div class="problems">
 
         <div id="lcm-hot-dog-count">
-            <div data-ensure="LCM !== A &amp;&amp; LCM !== B" class="vars">
+            <div class="vars" data-ensure="LCM !== A &amp;&amp; LCM !== B">
                 <var id="C">randRange( 2, 6 )</var>
                 <var id="START_A">randRange( 1, 10 )</var>
                 <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
@@ -28,11 +27,11 @@
                 <var id="LCM">PRODUCT / GCD</var>
             </div>
 
-            <p data-if="isMale(1)" class="problem spin">
+            <p class="problem spin" data-if="isMale(1)">
                 {Next week|On Saturday}, <var>person(1)</var> is having a party{ and he's planning to play his
                 <var>randRange(2,30)</var> favorite songs. He also|. He} wants to get some hot dogs for the party. When he
                 goes to the store, he finds that hot dogs come in packages of <var>A</var> and buns come in packages of <var>B</var>.
-            </p><p data-else="" class="problem spin">
+            </p><p class="problem spin" data-else="">
                 {Next week|On Saturday}, <var>person(1)</var> is having a party{ and she's planning to play her
                 <var>randRange(2,30)</var> favorite songs. She also|. She} wants to get some hot dogs for the party. When she
                 goes to the store, she finds that hot dogs come in packages of <var>A</var> and buns come in packages of <var>B</var>.
@@ -40,17 +39,17 @@
 
             
 
-            <p data-if="isMale(1)" class="question">
+            <p class="question" data-if="isMale(1)">
                 If <var>person(1)</var> wants to have the same number of hot dogs and buns,
                 what is the minimum number of hot dogs he will have to buy?
-            </p><p data-else="" class="question">
+            </p><p class="question" data-else="">
                 If <var>person(1)</var> wants to have the same number of hot dogs and buns,
                 what is the minimum number of hot dogs she will have to buy?
             </p>
 
             
 
-            <p data-forms="integer" class="solution"><var>LCM</var></p>
+            <p class="solution" data-forms="integer"><var>LCM</var></p>
 
             <div class="hints">
                 <div>
@@ -134,7 +133,7 @@
         </div>
 
         <div id="lcm-uniforms">
-            <div data-ensure="LCM !== A &amp;&amp; LCM !== B" class="vars">
+            <div class="vars" data-ensure="LCM !== A &amp;&amp; LCM !== B">
                 <var id="C">randRange( 2, 6 )</var>
                 <var id="START_A">randRange( 1, 10 )</var>
                 <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
@@ -145,23 +144,23 @@
                 <var id="LCM">PRODUCT / GCD</var>
             </div>
 
-            <p data-if="isMale(1)" class="problem spin">
+            <p class="problem spin" data-if="isMale(1)">
                 <var>person(1)</var> is organizing a {baseball|softball} league, and he needs to purchase jerseys and
                 visors for the players. Jerseys come in sets of <var>A</var>, and visors come in sets of <var>B</var>.
-            </p><p data-else="" class="problem spin">
+            </p><p class="problem spin" data-else="">
                 <var>person(1)</var> is organizing a {baseball|softball} league, and she needs to purchase jerseys and
                 visors for the players. Jerseys come in sets of <var>A</var>, and visors come in sets of <var>B</var>.
             </p>
             
-            <p data-if="isMale(1)" class="question">
+            <p class="question" data-if="isMale(1)">
                 If <var>person(1)</var> wants to buy the same number of jerseys and visors,
                 what is the minimum number of jerseys or visors he will have to purchase?
-            </p><p data-else="" class="question">
+            </p><p class="question" data-else="">
                 If <var>person(1)</var> wants to buy the same number of jerseys and visors,
                 what is the minimum number of jerseys or visors she will have to purchase?
             </p>
             
-            <p data-forms="integer" class="solution"><var>LCM</var></p>
+            <p class="solution" data-forms="integer"><var>LCM</var></p>
 
             <div class="hints">
                 <div>
@@ -245,7 +244,7 @@
         </div>
 
         <div id="lcm-test-questions">
-            <div data-ensure="LCM !== A &amp;&amp; LCM !== B" class="vars">
+            <div class="vars" data-ensure="LCM !== A &amp;&amp; LCM !== B">
                 <var id="C">randRange( 2, 6 )</var>
                 <var id="START_A">randRange( 1, 10 )</var>
                 <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
@@ -257,7 +256,7 @@
             </div>
 
             <div class="problem">
-                <p data-if="isMale(1)" class="spin">
+                <p class="spin" data-if="isMale(1)">
                     <var>person(1)</var> and <var>person(2)</var> are in different <var>course(1)</var> classes at <var>school(1)</var>.
                     <span data-if="A &gt; B">
                         <var>person(1)</var>'s teacher always gives <var>plural_form(exam(1))</var> with <var>A</var> questions on them while
@@ -269,7 +268,7 @@
                     </span>
                     {<var>person(1)</var> has <var>randRange(15,40)</var> other students in his class.
                     |<var>person(2)</var>'s teacher also assigns <var>randRange(3,10)</var> projects per year.}
-                </p><p data-else="" class="spin">
+                </p><p class="spin" data-else="">
                     <var>person(1)</var> and <var>person(2)</var> are in different <var>course(1)</var> classes at <var>school(1)</var>.
                     <span data-if="A &gt; B">
                         <var>person(1)</var>'s teacher always gives <var>plural_form(exam(1))</var> with <var>A</var> questions on them while
@@ -294,7 +293,7 @@
                 can expect to get in a year?
             </p>
 
-            <p data-forms="integer" class="solution"><var>LCM</var></p>
+            <p class="solution" data-forms="integer"><var>LCM</var></p>
 
             <div class="hints">
                 <div>
@@ -382,7 +381,7 @@
         </div>
 
         <div id="gcd-teams">
-            <div data-ensure="A_START !== B_START" class="vars">
+            <div class="vars" data-ensure="A_START !== B_START">
                 <var id="A_START">randRange( 1, 10 )</var>
                 <var id="B_START">randRange( 1, 10 )</var>
                 <var id="FACTOR">randRange( 2, 5 )</var>
@@ -410,7 +409,7 @@
                 <p><strong>What is the greatest number of teams <var>person(1)</var> can form?</strong></p>
             </div>
 
-            <p data-forms="integer" class="solution"><var>GCD</var></p>
+            <p class="solution" data-forms="integer"><var>GCD</var></p>
 
             <div class="hints">
                 <p>
@@ -425,7 +424,7 @@
                         That means we can divide the sprinters into equally sized teams in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( A ) as F" class="hint_blue">
+                        <span class="hint_blue" data-each="getFactors( A ) as F">
                             <span data-if="F === 1"><span data-if="isSingular(A)" data-unwrap="">
                                 1 team with 1 sprinter<br>
                             </span><span data-else="" data-unwrap="">
@@ -454,7 +453,7 @@
                         That means we can divide the long-distance runners into equally sized teams in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( B ) as F" class="hint_green">
+                        <span class="hint_green" data-each="getFactors( B ) as F">
                             <span data-if="F === 1"><span data-if="isSingular(B)" data-unwrap="">
                                 1 team with 1 long-distance runner<br>
                             </span><span data-else="" data-unwrap="">
@@ -479,7 +478,7 @@
                     </p>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
+                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
                                 <span data-if="isSingular(N + 1)">There 1 is 1 team.</span><span data-else="">There <var>N + 1</var> are <var>N + 1</var> teams.</span>
                                 
                                 <span data-if="isSingular(A / ( N + 1 ))">Each team has 1 sprinter.</span><span data-else="">Each team has <var>A / ( N + 1 )</var> sprinters.</span><br>
@@ -491,7 +490,7 @@
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
+                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
                                 <span data-if="isSingular(N + 1)">There 1 is 1 team.</span><span data-else="">There <var>N + 1</var> are <var>N + 1</var> teams.</span>
                                 
                                 <span data-if="isSingular(B / ( N + 1 ))">Each team has 1 long-distance runner.</span><span data-else="">Each team has <var>B / ( N + 1 )</var> long-distance runners.</span><br>
@@ -511,7 +510,7 @@
                         <var>person(1)</var> can make the following equal teams:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
+                        <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
                             <span data-if="isSingular(F)">There 1 is 1 team.</span><span data-else="">There <var>F</var> are <var>F</var> teams.</span>
                             
                             <span data-if="isSingular(A / F)">Each team has 1 sprinter.</span><span data-else="">Each team has <var>A / F</var> sprinters.</span>
@@ -538,7 +537,7 @@
         </div>
 
         <div id="gcd-restaurant">
-            <div data-ensure="A_START !== B_START" class="vars">
+            <div class="vars" data-ensure="A_START !== B_START">
                 <var id="A_START">randRange( 1, 10 )</var>
                 <var id="B_START">randRange( 1, 10 )</var>
                 <var id="FACTOR">randRange( 2, 5 )</var>
@@ -575,7 +574,7 @@
                 What is the greatest number of gift baskets <var>person(1)</var> can sell each day?
             </p>
 
-            <p data-forms="integer" class="solution"><var>GCD</var></p>
+            <p class="solution" data-forms="integer"><var>GCD</var></p>
 
             <div class="hints">
                 <p>
@@ -590,7 +589,7 @@
                         That means we can equally divide the chocolate chip cookies into gift baskets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( A ) as F" class="hint_blue">
+                        <span class="hint_blue" data-each="getFactors( A ) as F">
                             <span data-if="F === 1"><span data-if="isSingular(A)" data-unwrap="">
                                 1 basket with 1 chocolate chip cookie<br>
                             </span><span data-else="" data-unwrap="">
@@ -619,7 +618,7 @@
                         That means we can equally divide the oatmeal cookies into gift baskets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( B ) as F" class="hint_green">
+                        <span class="hint_green" data-each="getFactors( B ) as F">
                             <span data-if="F === 1"><span data-if="isSingular(B)" data-unwrap="">
                                 1 basket with 1 oatmeal cookie<br>
                             </span><span data-else="" data-unwrap="">
@@ -643,7 +642,7 @@
                     </p>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
+                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
                                 <span data-if="isSingular(N + 1)">There 1 is 1 basket.</span><span data-else="">There <var>N + 1</var> are <var>N + 1</var> baskets.</span>
                                 
                                 <span data-if="isSingular(A / ( N + 1 ))">Each basket has 1 chocolate chip cookie.</span><span data-else="">Each basket has <var>A / ( N + 1 )</var> chocolate chip cookies.</span><br>
@@ -655,7 +654,7 @@
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
+                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
                                 <span data-if="isSingular(N + 1)">There 1 is 1 basket.</span><span data-else="">There <var>N + 1</var> are <var>N + 1</var> baskets.</span>
                                 
                                 <span data-if="isSingular(B / ( N + 1 ))">Each basket has 1 oatmeal cookie.</span><span data-else="">Each basket has <var>B / ( N + 1 )</var> oatmeal cookies.</span><br>
@@ -675,7 +674,7 @@
                         <var>person(1)</var> can make any of the following gift baskets:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
+                        <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
                             <span data-if="isSingular(F)">There 1 is 1 basket.</span><span data-else="">There <var>F</var> are <var>F</var> baskets.</span>
                             
                             <span data-if="isSingular(A / F)">Each basket has 1 chocolate chip cookie.</span><span data-else="">Each basket has <var>A / F</var> chocolate chip cookies.</span>
@@ -701,7 +700,7 @@
         </div>
 
         <div id="gcd-office-supplies">
-            <div data-ensure="A_START !== B_START" class="vars">
+            <div class="vars" data-ensure="A_START !== B_START">
                 <var id="A_START">randRange( 1, 10 )</var>
                 <var id="B_START">randRange( 1, 10 )</var>
                 <var id="FACTOR">randRange( 2, 5 )</var>
@@ -741,7 +740,7 @@
                 What is the greatest number of identical sets <var>person(1)</var> can make using all the supplies?
             </p>
 
-            <p data-forms="integer" class="solution"><var>GCD</var></p>
+            <p class="solution" data-forms="integer"><var>GCD</var></p>
 
             <div class="hints">
                 <p data-if="isSingular(A)">
@@ -761,12 +760,12 @@
                         That means we can equally divide the <var>plural_form(deskItem(1))</var> into sets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( A ) as F" class="hint_blue">
+                        <span class="hint_blue" data-each="getFactors( A ) as F">
                             <span data-if="isSingular(F)"><span data-if="isSingular(A / F)" data-unwrap="">
                                 1 set with 1 <var>deskItem(1)</var>.<br>
                             </span><span data-else="" data-unwrap="">
                                 1 set with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var>.<br>
-                            </span></span><span data-if="isSingular(A / F)" data-else="">
+                            </span></span><span data-else="" data-if="isSingular(A / F)">
                                 <var>F</var> sets with 1 <var>deskItem(1)</var> each.<br>
                             </span><span data-else="">
                                 <var>F</var> sets with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var> each.<br>
@@ -793,12 +792,12 @@
                         That means we can equally divide the <var>plural_form(deskItem(2))</var> into sets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( B ) as F" class="hint_green">
+                        <span class="hint_green" data-each="getFactors( B ) as F">
                             <span data-if="isSingular(F)"><span data-if="isSingular(B / F)" data-unwrap="">
                                 1 set with 1 <var>deskItem(2)</var>.<br>
                             </span><span data-else="" data-unwrap="">
                                 1 set with <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var>.<br>
-                            </span></span><span data-if="isSingular(B / F)" data-else="">
+                            </span></span><span data-else="" data-if="isSingular(B / F)">
                                 <var>F</var> sets with 1 <var>deskItem(2)</var> each.<br>
                             </span><span data-else="">
                                 <var>F</var> sets with <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var> each.<br>
@@ -816,7 +815,7 @@
                     </p>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
+                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
                                 <!-- TODO(jeresig): I18N Find a better way to handle this. -->
                                 <span data-if="isSingular(N + 1)">1 set with:</span><span data-else=""><var>N + 1</var> sets with:</span>
                                 
@@ -829,7 +828,7 @@
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
+                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
                                 <!-- TODO(jeresig): I18N Find a better way to handle this. -->
                                 <span data-if="isSingular(N + 1)">1 set with:</span><span data-else=""><var>N + 1</var> sets with:</span>
                                 
@@ -854,7 +853,7 @@
                     
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
+                        <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
                             <span data-if="isSingular(F)">There 1 is 1 set.</span><span data-else="">There <var>F</var> are <var>F</var> sets.</span>
                             
                             <span data-if="isSingular(A / F)">Each set has 1 <var>deskItem(1)</var>.</span><span data-else="">Each set has <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var>.</span>

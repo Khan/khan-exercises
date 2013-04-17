@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying fractions</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div data-ensure="getGCD(A, B) === 1 &amp;&amp; getGCD(C, D) === 1" class="vars">
+    <div class="vars" data-ensure="getGCD(A, B) === 1 &amp;&amp; getGCD(C, D) === 1">
         <var id="NEG1">randFromArray([1,-1])</var>
         <var id="NEG1S">NEG1 === -1 ? "-" : ""</var>
         <var id="A">randRange(1, 8)</var>
-        <var data-ensure="B&gt;A" id="B">randRange(2, 9)</var>
+        <var id="B" data-ensure="B&gt;A">randRange(2, 9)</var>
 
         <var id="NEG2">randFromArray([1, -1])</var>
         <var id="NEG2S">NEG2 === -1 ? "-" : ""</var>
         <var id="C">randRange(1, 8)</var>
-        <var data-ensure="D&gt;C" id="D">randRange(2, 9)</var>
+        <var id="D" data-ensure="D&gt;C">randRange(2, 9)</var>
     </div>
 
     <div class="problems">
@@ -24,7 +23,7 @@
             <div class="question">
                 <p><code>\displaystyle <var>NEG1S</var> \frac{<var>A</var>}{<var>B</var>} \times <var>NEG2S</var> \frac{<var>C</var>}{<var>D</var>}</code></p>
             </div>
-            <div data-type="rational" class="solution"><var>(NEG1 * A * NEG2 * C) / (B * D)</var></div>
+            <div class="solution" data-type="rational"><var>(NEG1 * A * NEG2 * C) / (B * D)</var></div>
         </div>
     </div>
 

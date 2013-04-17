@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Factoring polynomials by grouping</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,8 +8,8 @@
     <div class="exercise">
     <div class="problems">
         <div>
-            <div data-ensure="B !== 0 &amp;&amp; getGCD(A, E) === 1" class="vars">
-                <var data-ensure="abs(A) !== 1" id="A">randRangeNonZero(-9, 9)</var>
+            <div class="vars" data-ensure="B !== 0 &amp;&amp; getGCD(A, E) === 1">
+                <var id="A" data-ensure="abs(A) !== 1">randRangeNonZero(-9, 9)</var>
                 <var id="E">randRangeNonZero(-9, 9)</var>
                 <var id="F">randRangeNonZero(-5, 5)</var>
                 <var id="B">E + A * F</var>
@@ -32,16 +31,16 @@
                 <span id="question-b"><code><var>B</var></code></span><code>x<span data-if="C &gt; 0">+</span></code>
                 <span id="question-c"><code><var>C</var></code></span>
             </p>
-            <div data-type="set" class="solution">
+            <div class="solution" data-type="set">
                 <!-- TODO(eater): Add a magical helper thing that assembles all these permutations automatically -->
-                <div data-type="regex" class="set-sol">^\s*<var>AX_PLUS_E</var>\s*<var>X_PLUS_F</var>\s*$</div>
-                <div data-type="regex" class="set-sol">^\s*<var>X_PLUS_F</var>\s*<var>AX_PLUS_E</var>\s*$</div>
-                <div data-type="regex" class="set-sol">^\s*<var>NEG_AX_MINUS_E</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
-                <div data-type="regex" class="set-sol">^\s*<var>NEG_X_MINUS_F</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
-                <div data-type="regex" class="set-sol">^\s*[-\u2212]\s*<var>NEG_AX_MINUS_E</var>\s*<var>X_PLUS_F</var>\s*$</div>
-                <div data-type="regex" class="set-sol">^\s*[-\u2212]\s*<var>NEG_X_MINUS_F</var>\s*<var>AX_PLUS_E</var>\s*$</div>
-                <div data-type="regex" class="set-sol">^\s*[-\u2212]\s*<var>X_PLUS_F</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
-                <div data-type="regex" class="set-sol">^\s*[-\u2212]\s*<var>AX_PLUS_E</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*<var>AX_PLUS_E</var>\s*<var>X_PLUS_F</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*<var>X_PLUS_F</var>\s*<var>AX_PLUS_E</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*<var>NEG_AX_MINUS_E</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*<var>NEG_X_MINUS_F</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_AX_MINUS_E</var>\s*<var>X_PLUS_F</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>NEG_X_MINUS_F</var>\s*<var>AX_PLUS_E</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>X_PLUS_F</var>\s*<var>NEG_AX_MINUS_E</var>\s*$</div>
+                <div class="set-sol" data-type="regex">^\s*[-\u2212]\s*<var>AX_PLUS_E</var>\s*<var>NEG_X_MINUS_F</var>\s*$</div>
                 <div class="input-format"><span class="entry"></span></div>
                 <div class="example">a factored expression, like <b>(2x+1)(x+2)</b></div>
             </div>
@@ -52,7 +51,7 @@
                         This expression is in the form <code>\blue{A}x^2 + \green{B}x + \pink{C}</code>.
                         You can factor it by grouping.
                     </p>
-                    <div style="outline: none;" class="graphie">
+                    <div class="graphie" style="outline: none;">
                         $("#question-a").addClass("hint_blue");
                         $("#question-b").addClass("hint_green");
                         $("#question-c").addClass("hint_pink");

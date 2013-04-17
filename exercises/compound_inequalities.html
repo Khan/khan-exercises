@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie graphie-helpers functional"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Compound inequalities</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -21,7 +20,7 @@
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="abs( SOLUTION[0] - SOLUTION[1] ) &lt;= 5 &amp;&amp; FAKE_ANSWER[0] !== SOLUTION[0] &amp;&amp; FAKE_ANSWER[1] !== SOLUTION[1]" class="vars">
+        <div class="vars" data-ensure="abs( SOLUTION[0] - SOLUTION[1] ) &lt;= 5 &amp;&amp; FAKE_ANSWER[0] !== SOLUTION[0] &amp;&amp; FAKE_ANSWER[1] !== SOLUTION[1]">
             <var id="COEF">tabulate( function() {
                 return randRange( 2, 9 ) * ( rand( 3 ) &gt; 0 ? 1 : -1 );
             } , 2 )</var>
@@ -35,7 +34,7 @@
             <var id="ADD_TO_SIMPLIFY">tabulate( function(i) {
                 return LEFT_INT[i] * ( SIGN[i] === "+" ? -1 : 1 );
             }, 2 )</var>
-            <var id="COMP">randFromArray( [ "&lt;", "&gt;", "&#8804;", "&#8805;" ], 2 )</var>
+            <var id="COMP">randFromArray( [ "&lt;", "&gt;", "≤", "≥" ], 2 )</var>
             <var id="RIGHT_INT">tabulate( function(i) {
                 return randRange( 1, 6 ) * abs( COEF[i] ) + ( SIGN[i] === "+" ? 1 : -1 ) * LEFT_INT[i];
             }, 2 )</var>
@@ -52,10 +51,10 @@
             <var id="FIRST">[ "first", "second" ]</var>
             <var id="COLOR">[ "#1F78B4", "#B30000" ]</var>
             <var id="INCLUSIVE">tabulate( function(i) {
-                return COMP_SOLUTION[i] === "&#8804;" || COMP_SOLUTION[i] === "&#8805;";
+                return COMP_SOLUTION[i] === "≤" || COMP_SOLUTION[i] === "≥";
             }, 2 )</var>
             <var id="LESS_THAN">tabulate( function(i) {
-                return COMP_SOLUTION[i] === "&#8804;" || COMP_SOLUTION[i] === "&lt;";
+                return COMP_SOLUTION[i] === "≤" || COMP_SOLUTION[i] === "&lt;";
             }, 2 )</var>
             <var id="ALL_NUMBERS">( LESS_THAN[0] &amp;&amp; !LESS_THAN[1] &amp;&amp; SOLUTION[0] &gt;= SOLUTION [1] ) || ( !LESS_THAN[0] &amp;&amp; LESS_THAN[1] &amp;&amp; SOLUTION[0] &lt;= SOLUTION [1] )</var>
             <var id="NO_SOLUTION">( LESS_THAN[0] &amp;&amp; !LESS_THAN[1] &amp;&amp; SOLUTION[1] &gt; SOLUTION[0] ) || ( !LESS_THAN[0] &amp;&amp; LESS_THAN[1] &amp;&amp; SOLUTION[0] &gt; SOLUTION[1] ) || ( LESS_THAN[0] !== LESS_THAN[1] &amp;&amp; SOLUTION[0] === SOLUTION[1] &amp;&amp; ( !INCLUSIVE[0] || !INCLUSIVE[1] ) )</var>

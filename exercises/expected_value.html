@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math word-problems math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Expected value</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,7 +8,7 @@
     <div class="exercise">
 
     <div class="problems">
-        <div data-weight="2" id="game">
+        <div id="game" data-weight="2">
             <div class="vars">
                 <var id="RESULT_DESC, MAKE_COUNT">randFromArray([
                     ["a 1", 1],
@@ -61,9 +60,9 @@
                 playing this game?
             </p>
 
-            <div data-type="multiple" class="solution">
+            <div class="solution" data-type="multiple">
                 <code>$</code>
-                <span data-forms="integer, decimal" class="sol"><var>ANS</var></span>
+                <span class="sol" data-forms="integer, decimal"><var>ANS</var></span>
             </div>
 
             <div class="hints">
@@ -123,7 +122,7 @@
                 </p>
             </div>
         </div>
-        <div data-weight="1" id="die">
+        <div id="die" data-weight="1">
             <div class="vars">
                 <var id="SIDES">randFromArray([4,6,10,12])</var>
                 <var id="SUM">
@@ -151,7 +150,7 @@
                 value you will roll?
             </p>
 
-            <div data-forms="mixed, improper, decimal" class="solution">
+            <div class="solution" data-forms="mixed, improper, decimal">
                 <var>ANS_N/SIDES</var>
             </div>
 
@@ -188,7 +187,7 @@
                 </p>
             </div>
         </div>
-        <div data-weight="2" id="lottery">
+        <div id="lottery" data-weight="2">
             <div class="vars">
                 <var id="BUY">random() &lt; 0.4</var>
                 <var id="COST">randRange(2,5)</var>
@@ -220,7 +219,7 @@
                 <var>ANS</var>
             </div>
 
-            <ul data-category="true" class="choices">
+            <ul class="choices" data-category="true">
                 <li>Yes, the expected value is positive.</li>
                 <li>No, the expected value is negative.</li>
             </ul>

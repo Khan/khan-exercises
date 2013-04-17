@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Writing proportions</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -27,12 +26,12 @@
                 <var id="IDX">randFromArray([0, 1, 2, 2, 2, 3])</var>
                 <var id="SOLUTION">SOLUTIONS[ IDX ]</var>
             </div>
-            <p data-if="isSingular(N1)" class="problem">1 <var>deskItem( 0 )</var> cost $<var>C</var>.</p><p data-else="" class="problem"><var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var> cost $<var>C</var>.</p>
+            <p class="problem" data-if="isSingular(N1)">1 <var>deskItem( 0 )</var> cost $<var>C</var>.</p><p class="problem" data-else=""><var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var> cost $<var>C</var>.</p>
             
-            <p data-if="isSingular(N2)" class="question">Which equation would help determine the cost of 1 <var>deskItem( 0 )</var>?</p><p data-else="" class="question">Which equation would help determine the cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>?</p>
+            <p class="question" data-if="isSingular(N2)">Which equation would help determine the cost of 1 <var>deskItem( 0 )</var>?</p><p class="question" data-else="">Which equation would help determine the cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>?</p>
             
             <p class="solution"><code><var>SOLUTION</var></code></p>
-            <ul data-none="true" class="choices" data-show="5">
+            <ul class="choices" data-none="true" data-show="5">
                 <li><code>\dfrac{<var>N2</var>}{\$<var>C</var>} = \dfrac{x}{<var>N1</var>}</code></li>
                 <li><code>\dfrac{<var>N2</var>}{<var>N1</var>} = \dfrac{\$<var>C</var>}{x}</code></li>
                 <li><code>\dfrac{<var>N1</var>}{<var>N2</var>} = \dfrac{x}{\$<var>C</var>}</code></li>

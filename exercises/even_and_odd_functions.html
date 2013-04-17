@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <!-- TDOO: remove <var>s in graphie data-eachs --><html data-require="math expressions graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Even and odd functions</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -105,7 +104,7 @@
             </var>
 
             <!-- this is the one x-coordinate we will use to show that the function is neither even nor odd. we basically filter out any coordinates that would look kind of like it was even or odd and we also filter out 10 because that makes displaying things easier. -->
-            <var data-if="SOL === 'Neither'" id="PT">
+            <var id="PT" data-if="SOL === 'Neither'">
                 randFromArray(
                     $.grep( PTS,
                         function( i ) {
@@ -146,7 +145,7 @@
 
                 <p class="question">Is <code>f(x)</code> even, odd, or neither?</p>
                 <p class="solution"><var>SOL</var></p>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li>Even</li>
                     <li>Odd</li>
                     <li>Neither</li>
@@ -158,7 +157,7 @@
 
             <div data-if="SOL === 'Neither'" data-unwrap="">
 
-                <div data-update="graph" class="graphie">
+                <div class="graphie" data-update="graph">
                     style({ strokeWidth: 2 }, function() {
                         path([ [ PT, 0 ], [ PT, valAt( WIDES, PT ) ] ]);
                         path([ [ -PT, 0 ], [ -PT, valAt( WIDES, -PT ) ] ]);
@@ -168,7 +167,7 @@
                     label( [ -PT, 0 ], "-a", "below left");
                 </div>
 
-                <div data-update="graph" class="graphie">
+                <div class="graphie" data-update="graph">
                     style({ strokeDasharray: "." }, function() {
                         path([ [ 0, valAt( WIDES, PT ) ], [ PT, valAt( WIDES, PT ) ] ]);
                         path([ [ 0, valAt( WIDES, -PT ) ], [ -PT, valAt( WIDES, -PT ) ] ]);
@@ -192,14 +191,14 @@
 
                 <div data-each="PTS as x" data-unwrap="">
 
-                    <div data-update="graph" class="graphie">
+                    <div class="graphie" data-update="graph">
                         style({ stroke: "#7edb00" }, function() {
                             path([ [ x, 0 ], [ x, valAt( WIDES, x ) ] ]);
                             path([ [ -x, 0 ], [ -x, valAt( WIDES, -x ) ] ]);
                         });
                     </div>
 
-                    <div data-update="graph" class="graphie">
+                    <div class="graphie" data-update="graph">
                         style({ strokeDasharray: "." }, function() {
                             path([ [ 0, valAt( WIDES, x ) ], [ x, valAt( WIDES, x ) ] ]);
                             path([ [ 0, valAt( WIDES, -x ) ], [ -x, valAt( WIDES, -x ) ] ]);

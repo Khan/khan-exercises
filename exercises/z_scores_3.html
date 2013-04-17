@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie word-problems stat"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Z scores 3</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -103,10 +102,10 @@
             <div class="fake_header reading">
                 <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>column</var></span>
             </div>
-            <div data-each="ROWS as i, row" class="fake_row reading">
+            <div class="fake_row reading" data-each="ROWS as i, row">
                 <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>zgrid</var></span>
             </div>
-            <div data-inexact="" data-forms="percent" class="solution" data-max-error="0.0001">
+            <div class="solution" data-forms="percent" data-inexact="" data-max-error="0.0001">
                 <span><var>roundTo(4, ANSWER)</var></span>
             </div>
 
@@ -144,7 +143,7 @@
                         looking up these two z-scores in our z-table, subtracting the two table
                         values will provide us with the total area.
                     </p>
-                    <div id="grid" class="graphie">
+                    <div class="graphie" id="grid">
                         init({
                             range: [[-4, 4], [-1.5, 4.7]],
                             scale: [430 / 8, 30]
@@ -192,7 +191,7 @@
                         $( ".fake_row" ).eq( ROW_INDEX_2 ).find( "span" + nth )
                             .css( "background", KhanUtil.BLUE );
                     </div>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         style({ stroke: "#bbb" }, function() {
                             graph.zLine1 = line([ZSCORES[1], 0], [ZSCORES[1], graph.pdf(ZSCORES[1])]).toBack();
                         });
@@ -242,7 +241,7 @@
                         var nth = ":nth-child(" + (COL_INDEX_1 + 2) + ")";
                         $(".fake_row").eq(ROW_INDEX_1).find("span" + nth).css("background", ORANGE);
                     </div>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         style({ stroke: "#bbb" }, function() {
                             graph.zLine2 = line([ZSCORES[0], 0], [ZSCORES[0], graph.pdf(ZSCORES[0])]).toBack();
                         });
@@ -300,7 +299,7 @@
                         of the test-takers scored between <code><var>GRADES[0]</var></code> and
                         <code><var>GRADES[1]</var></code> on the <var>course( 1 )</var> exam.
                     </p>
-                    <div data-update="grid" class="graphie">
+                    <div class="graphie" data-update="grid">
                         graph.orangeShape.remove();
                         graph.zLabel.remove();
                     </div>

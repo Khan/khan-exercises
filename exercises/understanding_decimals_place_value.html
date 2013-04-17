@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie word-problems jquery.mobile.vmouse"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Understanding decimals place value</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -88,34 +87,34 @@
                         - .hints uses .graphie.
                         - The other problem uses graphie so .hints's .graphies must use data-update.
                 -->
-                <div style="display: none;" class="graphie" id="graph"></div>
+                <div class="graphie" id="graph" style="display: none;"></div>
                 <div class="column">
                     <span class="columnhead">Thousands</span>
-                    <div data-each="10 times" class="place-value thou">1000</div>
+                    <div class="place-value thou" data-each="10 times">1000</div>
                 </div>
                 <div class="column">
                     <span class="columnhead">Hundreds</span>
-                    <div data-each="10 times" class="place-value hund">100</div>
+                    <div class="place-value hund" data-each="10 times">100</div>
                 </div>
                 <div class="column">
                     <span class="columnhead">Tens</span>
-                    <div data-each="10 times" class="place-value ten">10</div>
+                    <div class="place-value ten" data-each="10 times">10</div>
                 </div>
                 <div class="column">
                     <span class="columnhead">Ones</span>
-                    <div data-each="10 times" class="place-value one">1</div>
+                    <div class="place-value one" data-each="10 times">1</div>
                 </div>
                 <div class="column">
                     <span class="columnhead">Tenths</span>
-                    <div data-each="10 times" class="place-value tenth">0.1</div>
+                    <div class="place-value tenth" data-each="10 times">0.1</div>
                 </div>
                 <div class="column">
                     <span class="columnhead">Hundredths</span>
-                    <div data-each="10 times" class="place-value hundth">0.01</div>
+                    <div class="place-value hundth" data-each="10 times">0.01</div>
                 </div>
                 <div class="column">
                     <span class="columnhead">Thousandths</span>
-                    <div data-each="10 times" class="place-value thouth">0.001</div>
+                    <div class="place-value thouth" data-each="10 times">0.001</div>
                 </div>
 
                 <var>
@@ -152,10 +151,10 @@
                         });
                     })()
                 </var>
-                <p style="clear: left">&#160;</p>
+                <p style="clear: left">&nbsp;</p>
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Click on the numbers in rectangles to select them.
                 </div>
@@ -217,28 +216,28 @@
             <div class="problem">
                 <div class="column">
                     <span class="columnhead">Thousands</span>
-                    <div data-each="10 times" class="bill thou">$1000</div>
+                    <div class="bill thou" data-each="10 times">$1000</div>
                 </div>
                 <div class="column">
                     <span class="columnhead">Hundreds</span>
-                    <div data-each="10 times" class="bill hund">$100</div>
+                    <div class="bill hund" data-each="10 times">$100</div>
                 </div>
                 <div class="column">
                     <span class="columnhead">Tens</span>
-                    <div data-each="10 times" class="bill ten">$10</div>
+                    <div class="bill ten" data-each="10 times">$10</div>
                 </div>
                 <div class="column">
                     <span class="columnhead">Ones</span>
-                    <div data-each="10 times" class="bill one">$1</div>
+                    <div class="bill one" data-each="10 times">$1</div>
                 </div>
                 <div class="column">
                     <div class="coin-column">
                         <span class="columnhead">Tenths</span>
-                        <div data-each="10 times" class="coin dime">10&#162;</div>
+                        <div class="coin dime" data-each="10 times">10¢</div>
                     </div>
                     <div class="coin-column">
                         <span class="columnhead">Hundredths</span>
-                        <div data-each="10 times" class="coin penny">1&#162;</div>
+                        <div class="coin penny" data-each="10 times">1¢</div>
                     </div>
                     <div class="graphie" id="graph">
                         Khan.scratchpad.disable();
@@ -325,11 +324,11 @@
                         });
                     </div>
                 </div>
-                <p style="clear: left">&#160;</p>
+                <p style="clear: left">&nbsp;</p>
             </div>
 
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <div class="instruction">
                     Click on the bills and coins to select them.
                 </div>
@@ -417,7 +416,7 @@
 
             
 
-            <div data-update="graph" class="graphie">
+            <div class="graphie" data-update="graph">
                 // Select thousands.
                 var thous = $( '#problemarea .thou' );
                 thous.removeClass( 'thou-selected' );
@@ -441,7 +440,7 @@
 
             
 
-            <div data-update="graph" class="graphie">
+            <div class="graphie" data-update="graph">
                 // Select hundreds.
                 var hunds = $( '#problemarea .hund' );
                 hunds.removeClass( 'hund-selected' );
@@ -465,7 +464,7 @@
 
             
 
-            <div data-update="graph" class="graphie">
+            <div class="graphie" data-update="graph">
                 // Select tens.
                 var tens = $( '#problemarea .ten' );
                 tens.removeClass( 'ten-selected' );
@@ -489,7 +488,7 @@
 
             
 
-            <div data-update="graph" class="graphie">
+            <div class="graphie" data-update="graph">
                 // Select ones.
                 var ones = $( '#problemarea .one' );
                 ones.removeClass( 'one-selected' );
@@ -513,7 +512,7 @@
 
             
 
-            <div data-update="graph" class="graphie">
+            <div class="graphie" data-update="graph">
                 // Select dimes/tenths.
                 if ( $( '#place-value' ).length === 1 ) {
                     var tenths = $( '#problemarea .tenth' );
@@ -551,7 +550,7 @@
 
             
 
-            <div data-update="graph" class="graphie">
+            <div class="graphie" data-update="graph">
                 // Select pennies/hundredths.
                 if ( $( '#place-value' ).length === 1 ) {
                     var hundths = $( '#problemarea .hundth' );
@@ -589,7 +588,7 @@
 
             
 
-            <div data-update="graph" class="graphie">
+            <div class="graphie" data-update="graph">
                 // Select thousandths.
                 var thouths = $( '#problemarea .thouth' );
                 thouths.removeClass( 'thouth-selected' );

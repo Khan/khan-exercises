@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-geometry angles"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Law of sines</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -9,10 +8,10 @@
 <div class="exercise">
     <div class="problems">
 
-        <div data-calculator="" id="find-side">
-            <div data-ensure="ANGLE1 !== 90 ||
+        <div id="find-side" data-calculator="">
+            <div class="vars" data-ensure="ANGLE1 !== 90 ||
                     ANGLE2 !== 90 ||
-                    ANGLE1 + ANGLE2 !== 90" class="vars">
+                    ANGLE1 + ANGLE2 !== 90">
                 <var id="ANGLE1">randRange(20, 140)</var>
                 <var id="ANGLE2">randRange(20, 160 - ANGLE1)</var>
                 <var id="SIDELEN">randRange(5, 25)</var>
@@ -60,7 +59,7 @@
                 <p>
                     Round to the nearest tenth.
                 </p>
-                <div id="triangle" class="graphie">
+                <div class="graphie" id="triangle">
                     TRIANGLE = addTriangle(_.extend(TRIANGLE, {
                         xPos: 1,
                         yPos: 1,
@@ -77,7 +76,7 @@
 
                 </div>
             </div>
-            <div data-inexact="" data-forms="integer, decimal" class="solution" data-max-error="0.09"><var>SOLUTION</var>
+            <div class="solution" data-forms="integer, decimal" data-inexact="" data-max-error="0.09"><var>SOLUTION</var>
             </div>
 
             <div class="hints">
@@ -101,7 +100,7 @@
                         <var>ANGLE2</var>^\circ \quad = \quad
                         \pink{<var>TRIANGLE.angles[UNKNOWN]</var>^\circ}
                     </code></p>
-                    <div data-update="triangle" class="graphie">
+                    <div class="graphie" data-update="triangle">
                         TRIANGLE.angleLabels[UNKNOWN] = "\\pink{" +
                             TRIANGLE.angles[UNKNOWN] + "^\\circ}";
                         TRIANGLE.draw();
@@ -119,7 +118,7 @@
                         <var>TRIANGLE.sides[KNOWN]</var>}}{\sin(\blue{
                         <var>TRIANGLE.angles[KNOWN]</var>^\circ})}
                     </code></p>
-                    <div data-update="triangle" class="graphie">
+                    <div class="graphie" data-update="triangle">
                         TRIANGLE.sideLabels[KNOWN] = "\\blue{" +
                             TRIANGLE.sides[KNOWN] + "}";
                         TRIANGLE.angleLabels[KNOWN] = "\\blue{" +
@@ -153,7 +152,7 @@
                         \qquad \pink{<var>UNKNOWN_MEASURE</var>}
                         \quad \approx \quad <var>SOLUTION</var>
                     </code></p>
-                    <div data-update="triangle" class="graphie">
+                    <div class="graphie" data-update="triangle">
                         TRIANGLE.sideLabels[UNKNOWN] = "\\pink{" +
                             SOLUTION + "}";
                         TRIANGLE.draw();
@@ -162,15 +161,15 @@
             </div>
         </div>
 
-        <div data-calculator="" id="find-angle">
-            <div data-apply="replace" data-ensure="
+        <div id="find-angle" data-calculator="">
+            <div class="vars" data-apply="replace" data-ensure="
                 !TRIANGLE.isRight() &amp;&amp; TRIANGLE.isScalene &amp;&amp;
-                !isNaN(SOLUTION)" class="vars">
-                <var data-ensure="
+                !isNaN(SOLUTION)">
+                <var id="SIDES" data-ensure="
                     SIDES[1] + SIDES[2] &gt; SIDES[0] &amp;&amp;
                     SIDES[0] + SIDES[2] &gt; SIDES[1] &amp;&amp;
                     SIDES[0] + SIDES[1] &gt; SIDES[2]
-                " id="SIDES">randRange(5, 15, 3)</var>
+                ">randRange(5, 15, 3)</var>
                 <var id="KNOWN, UNKNOWN">shuffle([0, 1, 2])</var>
                 <var id="TRIANGLE">solveTriangle({
                     sides: SIDES.slice(),
@@ -199,7 +198,7 @@
                 <p>
                     Round to the nearest degree.
                 </p>
-                <div id="triangle" class="graphie">
+                <div class="graphie" id="triangle">
                     TRIANGLE.angleLabels = [
                         KNOWN === 0 ? ANGLES[0] + "^\\circ" : null,
                         KNOWN === 1 ? ANGLES[1] + "^\\circ" : null,
@@ -220,8 +219,8 @@
                     TRIANGLE.draw();
                 </div>
             </div>
-            <div data-type="multiple" class="solution">
-                <span data-inexact="" data-forms="integer" class="sol" data-max-error="0.5"><var>SOLUTION</var>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer" data-inexact="" data-max-error="0.5"><var>SOLUTION</var>
                 </span><code>\Large{^\circ}</code>
             </div>
 
@@ -246,7 +245,7 @@
                         <var>TRIANGLE.sides[KNOWN]</var>}}{\sin(\blue{
                         <var>ANGLES[KNOWN]</var>^\circ})}
                     </code></p>
-                    <div data-update="triangle" class="graphie">
+                    <div class="graphie" data-update="triangle">
                         TRIANGLE.sideLabels[KNOWN] = "\\blue{" +
                             TRIANGLE.sides[KNOWN] + "}";
                         TRIANGLE.angleLabels[KNOWN] = "\\blue{" +
@@ -294,7 +293,7 @@
                         \qquad \pink{m\angle <var>UNKNOWN_MEASURE</var>}
                         \quad \approx \quad <var>SOLUTION</var>^\circ
                     </code></p>
-                    <div data-update="triangle" class="graphie">
+                    <div class="graphie" data-update="triangle">
                         TRIANGLE.angleLabels[UNKNOWN] = "\\pink{" +
                             SOLUTION + "^\\circ}";
                         TRIANGLE.draw();

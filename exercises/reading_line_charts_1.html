@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math d3 graphie graphie-helpers word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading line charts 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -31,9 +30,9 @@
         <div>
             <p data-if="isMale(1)"><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> he saw every day this week. </p><p data-else=""><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> she saw every day this week. </p>
             
-            <p data-if="isMale(1)" class="question">How many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> did he see on <var>DAYS[ INDEX ]</var>?</p><p data-else="" class="question">How many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> did she see on <var>DAYS[ INDEX ]</var>?</p>
+            <p class="question" data-if="isMale(1)">How many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> did he see on <var>DAYS[ INDEX ]</var>?</p><p class="question" data-else="">How many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> did she see on <var>DAYS[ INDEX ]</var>?</p>
             
-            <div id="scatter" class="graphie">
+            <div class="graphie" id="scatter">
                 var width = 10;
                 var height = 10;
 
@@ -46,20 +45,20 @@
                 graph.lc.draw();
             </div>
 
-            <div data-type="multiple" class="solution">
-                <span style="padding-right: 5px" data-forms="integer, decimal" class="sol"><var>VALUES[ INDEX ]</var></span> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer, decimal" style="padding-right: 5px"><var>VALUES[ INDEX ]</var></span> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var>
             </div>
 
             <div class="hints">
                 <div>
                     <p>Find the dot for <var>DAYS[ INDEX ]</var> by looking at the text at the bottom of the scatter plot.</p>
-                    <div data-update="scatter" class="graphie">
+                    <div class="graphie" data-update="scatter">
                         graph.lc.highlightDataPoint( INDEX );
                     </div>
                 </div>
                 <div>
                     <p>Compare how high up the dot is with the numbers to the left.</p>
-                    <div data-update="scatter" class="graphie">
+                    <div class="graphie" data-update="scatter">
                         graph.lc.labelDataPoint( INDEX );
                     </div>
                 </div>

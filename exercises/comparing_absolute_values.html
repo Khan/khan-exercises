@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Comparing absolute values</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -58,19 +57,19 @@
                     </p>
                 </div>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li><code>&lt;</code></li>
                     <li><code>&gt;</code></li>
                     <li><code>=</code></li>
                 </ul>
                 <div class="hints">
-                    <div data-if="ABS_1 === '|'" class="graphie">
+                    <div class="graphie" data-if="ABS_1 === '|'">
                         drawNumberLine( NUM_1 );
                     </div>
                     <p data-if="ABS_1 === '|'">
                         The "absolute value" can be viewed as the distance from 0. The distance from <var>NUM_1</var> to 0 is <var>NUM_1_VALUE</var> so <code>|<var>NUM_1</var>| = <var>NUM_1_VALUE</var></code>
                     </p>
-                    <div data-if="ABS_2 === '|'" class="graphie">
+                    <div class="graphie" data-if="ABS_2 === '|'">
                         drawNumberLine( NUM_2 );
                     </div>
                     <p data-if="ABS_2 === '|'">

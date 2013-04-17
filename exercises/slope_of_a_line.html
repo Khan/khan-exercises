@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Identifying slope of a line</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
@@ -15,8 +14,8 @@
 <body>
     <div class="exercise">
     <div class="problems">
-        <div data-weight="3" id="give-two-points">
-            <div data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) &lt; 36 &amp;&amp; X1 &lt; X2 &amp;&amp; Math.abs(M) !== 1" class="vars">
+        <div id="give-two-points" data-weight="3">
+            <div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) &lt; 36 &amp;&amp; X1 &lt; X2 &amp;&amp; Math.abs(M) !== 1">
                 <var id="X1">randRange(-9, 9)</var>
                 <var id="Y1">randRange(-9, 9)</var>
 
@@ -28,7 +27,7 @@
             </div>
             <div class="question">
                 <p>What is the slope of the line through the points <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code>?</p>
-                <div data-if="GRAPH_IN_QUESTION" id="slope" class="graphie">
+                <div class="graphie" id="slope" data-if="GRAPH_IN_QUESTION">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -54,7 +53,7 @@
               <div>
                 <p>Picture an airplane moving from left to right.  If the the airplane is taking off <code>\color{<var>BLUE</var>}{/}</code>, the slope is positive.  If it's landing <code>\color{<var>GREEN</var>}{\backslash}</code>, the slope is negative.  When the plane has reached cruising altitude  <code>\color{<var>ORANGE</var>}{-}</code>, the slope is 0.</p>
                 <div style="height: 200px;">
-                    <div style="float: left; margin: 8px;" class="graphie">
+                    <div class="graphie" style="float: left; margin: 8px;">
                             graphInit({
                             range: 4,
                             scale: 20,
@@ -65,7 +64,7 @@
                             line( [ -1,-1 ], [ 1,4 ] );
                             label([0,-4], "\\color{" + BLUE + "}{\\text{Airplane Taking  Off}}", "below");
                     </div>
-                    <div style="float: left; margin: 8px;" class="graphie">
+                    <div class="graphie" style="float: left; margin: 8px;">
                             graphInit({
                             range: 4,
                             scale: 20,
@@ -79,7 +78,7 @@
                 </div>
               </div>
                 <p>The quicker the airplane takes off, the steeper the positive slope, which means the answer will be a higher number than when the airplane takes off slowly. The quicker the airplane lands, the steeper the negative slope, which means the answer will be much more negative than when it lands slowly.</p>
-                <div data-if="!GRAPH_IN_QUESTION" id="slope" class="graphie">
+                <div class="graphie" id="slope" data-if="!GRAPH_IN_QUESTION">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -101,7 +100,7 @@
                 </div>
                 <p>The equation for the slope is <code>m = \dfrac{\color{<var>BLUE</var>}{y_2} - \color{<var>ORANGE</var>}{y_1}}{\color{<var>BLUE</var>}{x_2} - \color{<var>ORANGE</var>}{x_1}}</code> for points <code>(\color{<var>ORANGE</var>}{<var>X1</var>}, \color{<var>ORANGE</var>}{<var>Y1</var>})</code> and <code>(\color{<var>BLUE</var>}{<var>X2</var>}, \color{<var>BLUE</var>}{<var>Y2</var>})</code>.</p>
                 <div>
-                    <div data-update="slope" class="graphie">
+                    <div class="graphie" data-update="slope">
                         style({ fill: "", stroke: PINK });
                         line( [ X1, Y2 ], [ X2, Y2 ] );
                         style({ stroke: GREEN });
@@ -113,7 +112,7 @@
                 <p>So, the slope <code>m</code> is <code><var>fractionReduce( Y2 - Y1, X2 - X1 )</var></code>.</p>
             </div>
         </div>
-        <div data-weight="2" id="show-four-graphs">
+        <div id="show-four-graphs" data-weight="2">
             <div class="vars">
               <var id="COLORS">[
                 { name: "Blue", hex: KhanUtil.BLUE },
@@ -154,7 +153,7 @@
                 </div>
             </div>
             <div class="solution"><code>\quad \color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name</var>}}</code></div>
-            <ol data-category="true" class="choices">
+            <ol class="choices" data-category="true">
                 <li data-each="DUMMY as index"><code>\quad \color{<var>COLORS[index].hex</var>}{\text{<var>COLORS[index].name</var>}}</code></li>
             </ol>
             <div class="hints">
@@ -171,7 +170,7 @@
                 <p>The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code> graph best depicts a slope of <code><var>M.display</var></code>.</p>
             </div>
         </div>
-        <div data-weight="1" data-type="show-four-graphs" id="slopes-zero-infinity">
+        <div id="slopes-zero-infinity" data-type="show-four-graphs" data-weight="1">
             <div class="vars">
                 <var id="SLOPES">[
                     { value: M_INIT, display: M_INIT },

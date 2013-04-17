@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers angles"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Vertical angles</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -16,8 +15,8 @@
     <div class="problems">
         <div>
             <p class="question">If we know that the <span class="hint_blue">blue angle is <var>MEASURE</var> degrees</span>, what is the <span class="hint_orange">measure of the orange angle</span>?</p>
-            <p data-forms="integer" class="solution"><var>MEASURE</var></p>
-            <div id="lines" class="graphie">
+            <p class="solution" data-forms="integer"><var>MEASURE</var></p>
+            <div class="graphie" id="lines">
                 init({
                     range: [ [ -1, 5 ], [-1, 1] ]
                 });
@@ -33,21 +32,21 @@
     <div class="hints">
         <div>
             <p>What is the measure of the pink angle?</p>
-            <div data-update="lines" class="graphie">
+            <div class="graphie" data-update="lines">
                 graph.pl.drawAngle( KNOWN_INDEX + 1, false, "#FF00AF" );
             </div>
         </div>
         <div>
             <p>The pink and blue angles add up to 180 because they are adjacent and form a straight line.</p>
             <p><code>\color{#FF00AF}{\text{pink angle}}= 180^{\circ} - \color{#6495ED}{<var>MEASURE</var>^{\circ}} = \color{#FF00AF}{<var>180 - MEASURE</var>^{\circ}}</code></p>
-            <div data-update="lines" class="graphie">
+            <div class="graphie" data-update="lines">
                 graph.pl.drawAngle( KNOWN_INDEX + 1, true, "#FF00AF" );
             </div>
         </div>
         <div>
             <p>The pink and orange angles also add up to 180 because they are adjacent and form a straight line too.</p>
             <p><code>\color{#FFAF00}{\text{orange angle}}= 180^{\circ} - \color{#FF00AF}{<var>180 - MEASURE</var>^{\circ}} = \color{#FFAF00}{<var>MEASURE</var>^{\circ}}</code></p>
-            <div data-update="lines" class="graphie">
+            <div class="graphie" data-update="lines">
                 graph.pl.drawAngle( UNKNOWN_INDEX, true, "#FFA500" );
             </div>
         </div>

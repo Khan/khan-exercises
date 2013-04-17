@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie angles interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Angle types</title>
     <script src="../khan-exercise.js"></script>
     <script>
@@ -27,7 +26,7 @@
             <div class="question">
                 <p>Is the shown angle acute, right, or obtuse?</p>
 
-                <div id="angle" class="graphie">
+                <div class="graphie" id="angle">
 
                     var ANGLE_TWO = ANGLE_ONE + DIFF;
                     var ANGLE_ONE_R = ANGLE_ONE * PI / 180;
@@ -48,21 +47,21 @@
             </div>
 
             <div class="solution">Acute</div>
-            <ul data-category="true" class="choices">
+            <ul class="choices" data-category="true">
                 <li>Acute</li>
                 <li>Right</li>
                 <li>Obtuse</li>
             </ul>
 
             <div class="hints">
-                <div data-update="angle" class="graphie">
+                <div class="graphie" data-update="angle">
                     graph.protractor.moveTo( 0, 0 );
                     graph.protractor.rotateTo( 360 - ANGLE_ONE );
                     label( [ 9 * cos( toRadians( ANGLE_ONE + DIFF ) ), 9 * sin( toRadians( ANGLE_ONE + DIFF ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
                 </div>
                 <div>
                     <p>The shown angle measures less than <code>90^\circ</code>.</p>
-                    <div data-update="angle" class="graphie">
+                    <div class="graphie" data-update="angle">
                         label( [ 9 * cos( toRadians( ANGLE_ONE + DIFF ) ), 9 * sin( toRadians( ANGLE_ONE + DIFF ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
                     </div>
                 </div>
@@ -70,7 +69,7 @@
             </div>
         </div>
 
-        <div data-type="acute" id="right">
+        <div id="right" data-type="acute">
             <div class="vars">
                 <var id="DIFF">90</var>
             </div>
@@ -78,13 +77,13 @@
             <div class="solution">Right</div>
 
             <div class="hints">
-                <div data-update="angle" class="graphie">
+                <div class="graphie" data-update="angle">
                     graph.protractor.moveTo( 0, 0 );
                     graph.protractor.rotateTo( 360 - ANGLE_ONE );
                 </div>
                 <div>
                     <p>The shown angle measures <code>90^\circ</code>.</p>
-                    <div data-update="angle" class="graphie">
+                    <div class="graphie" data-update="angle">
                         label( [ 9 * cos( toRadians( ANGLE_ONE + DIFF ) ), 9 * sin( toRadians( ANGLE_ONE + DIFF ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
                     </div>
                 </div>
@@ -92,7 +91,7 @@
             </div>
         </div>
 
-        <div data-type="acute" id="obtuse">
+        <div id="obtuse" data-type="acute">
             <div class="vars">
                 <var id="DIFF">randRange(110, 160)</var>
             </div>
@@ -100,13 +99,13 @@
             <div class="solution">Obtuse</div>
 
             <div class="hints">
-                <div data-update="angle" class="graphie">
+                <div class="graphie" data-update="angle">
                     graph.protractor.moveTo( 0, 0 );
                     graph.protractor.rotateTo( 360 - ANGLE_ONE );
                 </div>
                 <div>
                     <p>The shown angle measures more than <code>90^\circ</code>.</p>
-                    <div data-update="angle" class="graphie">
+                    <div class="graphie" data-update="angle">
                         label( [ 9 * cos( toRadians( ANGLE_ONE + DIFF ) ), 9 * sin( toRadians( ANGLE_ONE + DIFF ) ) ], "\\color{" + PINK + "}{" + DIFF + "^{\\circ}}" );
                     </div>
                 </div>

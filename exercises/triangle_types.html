@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers graphie-geometry math-format"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Triangle types</title>
     <script src="../khan-exercise.js"></script>
     <script>
@@ -72,7 +71,7 @@
                     Is this triangle equilateral, isosceles, or scalene?
                 </div>
                 <div class="question">
-                    <div id="typeTr" class="graphie">
+                    <div class="graphie" id="typeTr">
                         var tr = new Triangle( [ 0, 0 ],  TRIANGLE[ 0 ], 5, {} );
                         tr.labels = { "angles" : clearArray( tr.niceAngles, [ 0, 1 ] ) };
                         tr.rotate( randRange( 0, 90 ) );
@@ -87,14 +86,14 @@
                     </div>
                 </div>
                 <div class="solution"><var>TYPE</var></div>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li data-each="TYPES as t"><var>t</var></li>
                 </ul>
                 <div class="hints">
                     <p>We know two angles of this triangle, so we can find the third by subtracting from <code>180</code></p>
                     <div>
                         <p><code>180 -<var>TRIANGLE[ 0 ][ 0 ]</var> - <var>TRIANGLE[ 0 ][ 1 ]</var> = <var>TRIANGLE[ 0 ][ 2 ]</var></code></p>
-                        <div data-update="typeTr" class="graphie">
+                        <div class="graphie" data-update="typeTr">
                             graph.TR.labels = { "angles" : graph.TR.niceAngles };
                             graph.TR.drawLabels();
                         </div>
@@ -104,7 +103,7 @@
                     <p data-else="">All angles equal 60. That means that all the sides are the same and that the triangle is equilateral. (Equilateral means equal(equi) sided(lateral).</p>
                 </div>
             </div>
-            <div data-type="knownAngles" id="knownSides">
+            <div id="knownSides" data-type="knownAngles">
                 <div class="question">
                     <div class="graphie">
                         var tr = new Triangle( [ 0, 0 ],  TRIANGLE[ 0 ], 5, {} );

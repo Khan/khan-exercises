@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie word-problems interactive"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Number line 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -41,7 +40,7 @@
                 </div>
             </div>
 
-            <div data-type="custom" class="solution">
+            <div class="solution" data-type="custom">
                 <span class="instruction"> Move the orange dot to select your answer. </span>
                 <div class="guess"> graph.movablePoint.coord[0] </div>
                 <div class="validator-function">
@@ -59,7 +58,7 @@
                 <p>We know where 0 is on the number line because it is labeled.</p>
                 <p>As you move to the right, the numbers get bigger.</p>
                 <div>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
                         line([0, 0], [NUMBER, 0]);
                         graph.movablePoint.visibleShape.toFront();
@@ -68,7 +67,7 @@
                 
                 </div>
                 <div>
-                    <div data-update="number-line" class="graphie">
+                    <div class="graphie" data-update="number-line">
                         label([NUMBER, -0.53], NUMBER, "center", {color: "#FFA500"});
                         graph.movablePoint.moveTo(NUMBER, 0);
                     </div>

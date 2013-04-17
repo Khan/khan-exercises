@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math matrix matrix-input"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Matrix transpose</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -35,13 +34,13 @@
         </p>
     </div>
 
-    <div data-type="multiple" class="solution">
-        <div data-each="PADDED_SOLN_MAT as row" class="matrix-row">
+    <div class="solution" data-type="multiple">
+        <div class="matrix-row" data-each="PADDED_SOLN_MAT as row">
             <span data-each="row as elem">
-                <span data-if="elem !== ''" data-forms="integer" class="sol">
+                <span class="sol" data-forms="integer" data-if="elem !== ''">
                     <var>elem</var>
                 </span>
-                <span data-else="" data-type="text" class="sol">
+                <span class="sol" data-else="" data-type="text">
                     <var>elem</var>
                 </span>
             </span>
@@ -49,43 +48,43 @@
     </div>
 
     <div class="problems">
-        <div data-weight="1" id="1x2">
-            <div data-apply="prependVars" class="vars">
+        <div id="1x2" data-weight="1">
+            <div class="vars" data-apply="prependVars">
                 <var id="DIM_1">1</var>
                 <var id="DIM_2">2</var>
             </div>
         </div>
 
-        <div data-weight="2" id="2x2">
-            <div data-apply="prependVars" class="vars">
+        <div id="2x2" data-weight="2">
+            <div class="vars" data-apply="prependVars">
                 <var id="DIM_1">2</var>
                 <var id="DIM_2">2</var>
             </div>
         </div>
 
-        <div data-weight="2" id="2x3">
-            <div data-apply="prependVars" class="vars">
+        <div id="2x3" data-weight="2">
+            <div class="vars" data-apply="prependVars">
                 <var id="DIM_1">2</var>
                 <var id="DIM_2">3</var>
             </div>
         </div>
 
-        <div data-weight="1" id="3x1">
-            <div data-apply="prependVars" class="vars">
+        <div id="3x1" data-weight="1">
+            <div class="vars" data-apply="prependVars">
                 <var id="DIM_1">3</var>
                 <var id="DIM_2">1</var>
             </div>
         </div>
 
-        <div data-weight="2" id="3x2">
-            <div data-apply="prependVars" class="vars">
+        <div id="3x2" data-weight="2">
+            <div class="vars" data-apply="prependVars">
                 <var id="DIM_1">3</var>
                 <var id="DIM_2">2</var>
             </div>
         </div>
 
-        <div data-weight="2" id="3x3">
-            <div data-apply="prependVars" class="vars">
+        <div id="3x3" data-weight="2">
+            <div class="vars" data-apply="prependVars">
                 <var id="DIM_1">3</var>
                 <var id="DIM_2">3</var>
             </div>

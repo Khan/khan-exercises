@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format"><head>
     <meta charset="UTF-8">
     <title>Adding and subtracting complex numbers</title>
@@ -7,7 +6,7 @@
 </head>
 <body>
     <div class="exercise">
-    <div data-ensure="ANSWER_IMAG !== -1" class="vars">
+    <div class="vars" data-ensure="ANSWER_IMAG !== -1">
         <var id="A_REAL">randRange( -5, 5 )</var>
         <var id="A_IMAG">randRange( -5, 5 )</var>
         <var id="B_REAL">randRange( -5, 5 )</var>
@@ -48,19 +47,19 @@
 
     <div class="problems">
         <div>
-            <p data-if='OPERATION == "add"' class="question">Add the following complex numbers:</p><p data-else="" class="question">Subtract the following complex numbers:</p>
+            <p class="question" data-if='OPERATION == "add"'>Add the following complex numbers:</p><p class="question" data-else="">Subtract the following complex numbers:</p>
             
             <p>
                 <code>
                     (<var>A_REP_COLORED</var>) <var>OPERATOR</var> (<var>B_REP_COLORED</var>)
                 </code>
             </p>
-            <div data-type="multiple" class="solution">
-                <span data-inexact="" data-fallback="0" data-forms="integer, decimal" class="sol short50" data-max-error="0.01">
+            <div class="solution" data-type="multiple">
+                <span class="sol short50" data-fallback="0" data-forms="integer, decimal" data-inexact="" data-max-error="0.01">
                     <var>ANSWER_REAL</var>
                 </span>
                 <code>+</code>
-                <span data-inexact="" data-fallback="1" data-forms="integer, decimal" class="sol short50" data-max-error="0.01">
+                <span class="sol short50" data-fallback="1" data-forms="integer, decimal" data-inexact="" data-max-error="0.01">
                     <var>ANSWER_IMAG</var>
                 </span>
                 <code>i</code>

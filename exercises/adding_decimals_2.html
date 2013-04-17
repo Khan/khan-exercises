@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding decimals 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -11,7 +10,7 @@
             <var id="A">randRange( 100, 999 )</var>
             <var id="B">randRange( 100, 999 )</var>
             <var id="A_DECIMAL">randRange( 1, 3 )</var>
-            <var data-ensure="B_DECIMAL!==A_DECIMAL" id="B_DECIMAL">randRange( 1, 3 )</var>
+            <var id="B_DECIMAL" data-ensure="B_DECIMAL!==A_DECIMAL">randRange( 1, 3 )</var>
             <var id="NEW_A">A * ( B_DECIMAL &gt; A_DECIMAL ? pow( 10, B_DECIMAL - A_DECIMAL ) : 1)</var>
             <var id="NEW_B">B * ( A_DECIMAL &gt; B_DECIMAL ? pow( 10, A_DECIMAL - B_DECIMAL ) : 1)</var>
             <var id="A_DIGITS">
@@ -36,19 +35,19 @@
     <div class="problems">
         <div>
             <p class="question"><code>\Huge{<var>roundTo( A_DECIMAL, A * pow( 10, -A_DECIMAL ) ).toFixed( A_DECIMAL )</var> + <var>roundTo( B_DECIMAL, B * pow( 10, -B_DECIMAL ) ).toFixed( B_DECIMAL )</var> = {?}}</code></p>
-            <div data-type="decimal" class="solution"><var>A / pow( 10, A_DECIMAL ) + B / pow( 10, B_DECIMAL )</var></div>
-            <div id="numbers" class="graphie">
+            <div class="solution" data-type="decimal"><var>A / pow( 10, A_DECIMAL ) + B / pow( 10, B_DECIMAL )</var></div>
+            <div class="graphie" id="numbers">
                 graph.adder = new Adder( NEW_A, NEW_B, A_DIGITS, B_DIGITS );
                 DUMMY = Array( graph.adder.getNumHints() );
             </div>
         </div>
     </div>
     <div class="hints">
-        <div data-update="numbers" class="graphie">
+        <div class="graphie" data-update="numbers">
             graph.adder.show();
             graph.adder.showDecimals( A_DECIMAL, B_DECIMAL );
         </div>
-        <div data-update="numbers" data-each="DUMMY as dummy" class="graphie">
+        <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
             graph.adder.showHint();
         </div>
     </div>

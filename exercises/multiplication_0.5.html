@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie graphie-helpers-arithmetic word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Basic multiplication</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -14,7 +13,7 @@
 
         <div class="problems">
             <div>
-                <div id="numbers" class="graphie">
+                <div class="graphie" id="numbers">
                     init({
                         range: [ [ -1, 12 ], [ -3, B + 1 ] ],
                         scale: [ 50, 50 ]
@@ -22,19 +21,19 @@
                     KhanUtil.currentGraph.labelHolder = label( [ 0, B ],
                         "\\Huge{\\color{#6495ED}{" + A + "} \\times \\color{#28AE7B}{" + B + "} = {?}}", "right" );
                 </div>
-                <div data-forms="integer" class="solution"><var>A * B</var></div>
+                <div class="solution" data-forms="integer"><var>A * B</var></div>
             </div>
         </div>
         <div class="hints">
             <div data-if="B &gt; 0" data-unwrap="">
                 <div>
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         label( [ 0, B - 1 ], "Draw " + plural( A, "circle" ) + ".", "right", false );
                         drawRow( A, B - 3, "#6495ED", 1 );
                     </div>
                 </div>
                 <div>
-                    <div data-update="numbers" class="graphie">
+                    <div class="graphie" data-update="numbers">
                         label( [ 0, B - 2 ],
                               "If there" + ( B === 1 ? " is " : " are " ) + plural( B, "row" )
                             + " with " + plural( A, "circle" ) +  ( B === 1 ? "" : " each" )
@@ -47,11 +46,11 @@
                 </div>
             </div>
             <div data-else="">
-                <div data-update="numbers" class="graphie">
+                <div class="graphie" data-update="numbers">
                     label( [ 0, B - 1 ], "\\large{\\text{Multiplying any number by 0 equals 0.}}", "right" );
                 </div>
             </div>
-            <div data-update="numbers" class="graphie">
+            <div class="graphie" data-update="numbers">
                 KhanUtil.currentGraph.labelHolder.remove();
                 label( [ 0, B ],
                     "\\Huge{\\color{#6495ED}{" + A + "} \\times \\color{#28AE7B}{" + B + "} = " + ( A  * B ) + "}", "right" );

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie math-format expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Limits 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -25,7 +24,7 @@
                 </div>
 
                 <p><code>\displaystyle\lim_{x\to<var>a</var>} \dfrac{<var>quadratic</var><var>LINE</var>}{<var>LINE</var>} = {?}</code></p>
-                <div id="graph" class="graphie">
+                <div class="graphie" id="graph">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -47,7 +46,7 @@
                     });
                 </div>
                 <p class="solution"><code><var>limtoa</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code>0</code></li>
                     <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
                     <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
@@ -73,7 +72,7 @@
                 </div>
 
                 <p><code>\displaystyle \lim_{x\to<var>a</var>} \dfrac{<var>abs_coef</var>|x + <var>abs_cons</var>|}{x + <var>abs_cons</var>} = {?}</code></p>
-                <div id="graph" class="graphie">
+                <div class="graphie" id="graph">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -95,7 +94,7 @@
                     });
                 </div>
                 <p class="solution">Does not exist.</p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code>0</code></li>
                     <li><code><var>a</var></code></li>
                     <li><code><var>abs_cons</var></code></li>
@@ -106,12 +105,12 @@
                     <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
                     <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
                 </ul>
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="final">The limit as we approach from the left doesn't match the limit as we approach from the right, so <code>f(x)</code> has no limit as <code>x \to <var>a</var></code>.</p>
                 </div>
             </div>
             <div>
-                <div data-ensure="abs( limtoa ) &lt; 10" class="vars">
+                <div class="vars" data-ensure="abs( limtoa ) &lt; 10">
                     <var id="l_coef">randRangeNonZero(-3, 3)</var>
                     <var id="l_cons">randRangeNonZero(-4, 4)</var>
                     <var id="d_cons">randRangeNonZero(-7, 7)</var>
@@ -121,7 +120,7 @@
                     }</var>
                     <var id="a0">ceil((-10 - l_cons)/l_coef)</var>
                     <var id="a1">floor((10 - l_cons)/l_coef)</var>
-                    <var data-ensure="abs( a ) &lt; 10" id="a">l_coef &gt; 0 ? randRangeNonZero(a0, a1) : randRangeNonZero(a1, a0)</var>
+                    <var id="a" data-ensure="abs( a ) &lt; 10">l_coef &gt; 0 ? randRangeNonZero(a0, a1) : randRangeNonZero(a1, a0)</var>
                     <var id="limtoa">curFunc(a)</var>
                     <var id="l_limtoa">limtoa</var>
                     <var id="r_limtoa">limtoa</var>
@@ -131,7 +130,7 @@
                     <var>d_cons</var> &amp; \text{if $x = <var>a</var>$} \\
                     <var>d_line</var> &amp; \text{otherwise}
                 \end{cases}</code>, find <code>\displaystyle \lim_{x \to <var>a</var>} f(x)</code>.</p>
-                <div id="graph" class="graphie">
+                <div class="graphie" id="graph">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -154,7 +153,7 @@
                     });
                 </div>
                 <p class="solution"><code><var>limtoa</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code>0</code></li>
                     <li><code><var>a</var></code></li>
                     <li><code><var>d_cons</var></code></li>
@@ -166,7 +165,7 @@
                 </ul>
             </div>
             <div>
-                <div data-ensure="abs( limtoa ) &lt; 10" class="vars">
+                <div class="vars" data-ensure="abs( limtoa ) &lt; 10">
                     <var id="q_lcoef">randRangeNonZero(-3, 3)</var>
                     <var id="q_cons">randRangeNonZero(-3, 3)</var>
                     <var id="edge">floor(sqrt(abs((10 - q_cons) / q_lcoef)))</var>
@@ -180,7 +179,7 @@
                 </div>
 
                 <p><code>\displaystyle \lim_{x\to<var>a</var>} <var>expr(["+", ["*", q_lcoef, ["^", "x", 2]], q_cons])</var> = {?}</code></p>
-                <div id="graph" class="graphie">
+                <div class="graphie" id="graph">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -200,7 +199,7 @@
                     });
                 </div>
                 <p class="solution"><code><var>limtoa</var></code></p>
-                <ul data-none="true" class="choices" data-show="5">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code>0</code></li>
                     <li><code><var>curFunc(0)</var></code></li>
                     <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
@@ -214,7 +213,7 @@
         <div class="hints">
             <div>
                 <p>What happens as we approach <code>x = <var>a</var></code> from the left?</p>
-                <div data-update="graph" data-style="stroke: orange; marker: arrow;" class="graphie">
+                <div class="graphie" data-style="stroke: orange; marker: arrow;" data-update="graph">
                     line( [a - 2, 0], [a, 0], {
                         stroke: "#ff00af",
                         arrows: "-&gt;"
@@ -235,7 +234,7 @@
                     <tr><th><code>f(x)</code></th><td><var>curFunc(a + 0.1).toFixed(4)</var></td><td><var>curFunc(a + 0.01).toFixed(4)</var></td><td><var>curFunc(a + 0.001).toFixed(4)</var></td></tr>
                 </tbody></table>
                 <p>It looks like <code>f(x)</code> is approaching <code><var>r_limtoa</var></code> from the right.</p>
-                <div data-update="graph" data-style="stroke: orange; marker: arrow;" class="graphie">
+                <div class="graphie" data-style="stroke: orange; marker: arrow;" data-update="graph">
                     line( [a + 2, 0], [a, 0], {
                         stroke: "#ff00af",
                         arrows: "-&gt;"

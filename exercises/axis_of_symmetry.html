@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math angles graphie graphie-geometry graphie-helpers"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Axis of symmetry</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -17,7 +16,7 @@
     <div class="problems">
         <div>
             <p class="question">Is the blue line an axis of symmetry?</p>
-            <div id="main" class="graphie">
+            <div class="graphie" id="main">
                 init({
                      range: [ [ -5, 5 ], [ -5, 5 ] ]
                 });
@@ -30,7 +29,7 @@
                 }
             </div>
             <div class="solution"><var>ANSWER</var></div>
-            <ul data-category="true" class="choices">
+            <ul class="choices" data-category="true">
                 <li>Yes</li>
                 <li>No</li>
             </ul>
@@ -38,14 +37,14 @@
                 <p>Does the blue line split the shape into two parts which look like reflections of each other?</p>
                 <div>
                     <p>The orange line is one of two parts made by the blue line.</p>
-                    <div data-update="main" class="graphie">
+                    <div class="graphie" data-update="main">
                         graph.half = graph.polygon.splitPath( graph.split ).graphiePath;
                     </div>
                 </div>
                 <p>If the blue line were a mirror, what would the orange line's reflection look like?</p>
                 <div>
                     <p>The pink line is the orange line's reflection.</p>
-                    <div data-update="main" class="graphie">
+                    <div class="graphie" data-update="main">
                         var temp = [];
                         var i = 0;
                         for( i = 0; i != graph.half.length; i++ ){

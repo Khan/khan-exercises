@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie"><head>
     <title>Cube roots</title>
     <script src="../khan-exercise.js"></script>
@@ -21,7 +20,7 @@
             </p>
             <div>
                 <p>Let's draw a factor tree.</p>
-                <div id="factor-tree" class="graphie">
+                <div class="graphie" id="factor-tree">
                     init({
                         range: [ [-1, FACTORIZATION.length + 2], [ -2 * FACTORIZATION.length - 1, 1] ],
                         scale: [30, 30]
@@ -31,7 +30,7 @@
                 </div>
             </div>
 
-            <div data-update="factor-tree" data-each="FACTORIZATION as factor" class="graphie">
+            <div class="graphie" data-each="FACTORIZATION as factor" data-update="factor-tree">
                     path( [ [cx + 1, y - 0.5], [cx, y - 1.5] ] );
                     path( [ [cx + 1, y - 0.5], [cx + 2, y - 1.5] ] );
                     y -= 2;
@@ -44,7 +43,7 @@
                     label( [cx + 1, y], curr );
             </div>
 
-            <div data-update="factor-tree" class="graphie">
+            <div class="graphie" data-update="factor-tree">
                 circle( [cx + 1, y], 0.5);
             </div>
 
@@ -62,16 +61,16 @@
 
                 <p class="question"><code>\Large{\sqrt[3]{<var>Q</var>} = \text{?}}</code></p>
 
-                <p data-forms="integer, decimal" class="solution"><var>N</var></p>
+                <p class="solution" data-forms="integer, decimal"><var>N</var></p>
 
-                <div data-apply="prependContents" class="hints">
+                <div class="hints" data-apply="prependContents">
                     <p>
                         <code>\sqrt[3]{<var>Q</var>}</code> is the number that, when
                         multiplied by itself three times, equals <code><var>Q</var></code>.
                     </p>
                 </div>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p>We're looking for <code>\sqrt[3]{<var>Q</var>}</code>, so we want to split the prime factors into three identical groups.</p>
 
                     <div data-if="PRIMES.length === 3" data-unwrap="">

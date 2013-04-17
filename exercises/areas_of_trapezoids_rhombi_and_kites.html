@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie word-problems subhints graphie-geometry"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Area of trapezoids, rhombi, and kites</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -56,7 +55,7 @@
                    rightAngleBox([[0, 0], [B1, 0]], [[B1, 0], [B1, H]], { stroke: GRAY, opacity: 0.5 });
                 </div>
 
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     <span class="sol"><var>K</var></span>
                     square <var>plural_form(UNIT_TEXT)</var>
                 </div>
@@ -66,11 +65,11 @@
                     <div>
                         <p>
                             area of a trapezoid <code>= \dfrac12 \cdot (b_1 + b_2) \cdot h</code>
-                            [<a data-subhint="area-trapezoid" href="#" class="show-subhint">Show me why</a>]
+                            [<a href="#" class="show-subhint" data-subhint="area-trapezoid">Show me why</a>]
                         </p>
                         <div class="subhint" id="area-trapezoid">
                             <p>Let's draw a line between the opposite ends of the two bases.</p>
-                            <div data-update="figure" class="graphie">
+                            <div class="graphie" data-update="figure">
                                 var showSubHint = function() {
                                     graph.subhint.show();
 
@@ -111,7 +110,7 @@
             </div>
 
             <div id="kite">
-                <div data-ensure="D1 &gt; SH" class="vars">
+                <div class="vars" data-ensure="D1 &gt; SH">
                     <var id="D1">randRange(1, 7) * 2</var>
                     <var id="D2">randRange(1, 7) * 2</var>
 
@@ -188,7 +187,7 @@
                     rightAngleBox(graph.d1.path.graphiePath, graph.d2.path.graphiePath, { stroke: GRAY, opacity: 0.5 });
                 </div>
 
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     <span class="sol"><var>K</var></span>
                     square <var>plural_form(UNIT_TEXT)</var>
                 </div>
@@ -201,11 +200,11 @@
                     <div>
                         <p>
                             area of a kite <code>= \dfrac12 \cdot d_1 \cdot d_2</code>
-                            [<a data-subhint="area-kite" href="#" class="show-subhint">Show me why</a>]
+                            [<a href="#" class="show-subhint" data-subhint="area-kite">Show me why</a>]
                         </p>
                         <div class="subhint" id="area-kite">
                             <p>The <span data-if="ORIENT === 'h'">horizontal</span><span data-else="">vertical</span> diagonal in the center splits the kite into two congruent triangles.</p>
-                            <div data-update="figure" class="graphie">
+                            <div class="graphie" data-update="figure">
                                 var showSubHint = function() {
                                     graph.subhint.show();
 

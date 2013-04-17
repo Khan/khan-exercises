@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format stat word-problems graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading pictographs 2</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -25,7 +24,7 @@
         <var id="DATA">randRangeUnique( 1, 8, 5 )</var>
         <var id="BADGE">randFromArray([ "meteorite", "moon", "earth" ])</var>
         <var id="FULL_IMAGE">"&lt;img src='" + Khan.imageBase + "badges/" + BADGE + "-small.png'&gt;"</var>
-        <var id="HALF_IMAGE">"&lt;div style=\"background-image:url('" + Khan.imageBase + "badges/" + BADGE + "-small.png'); width:20px; height:40px;\"&gt;&#160;&lt;/div&gt;"</var>
+        <var id="HALF_IMAGE">"&lt;div style=\"background-image:url('" + Khan.imageBase + "badges/" + BADGE + "-small.png'); width:20px; height:40px;\"&gt;&nbsp;&lt;/div&gt;"</var>
         <var id="VALUE_PER_IMG">randFromArray([ 2, 4 ])</var>
         <var id="HALF">VALUE_PER_IMG === 1 ? [ 0, 0, 0, 0, 0 ] : [ rand(2), rand(2), rand(2), rand(2), rand(2) ]</var>
     </div>
@@ -35,12 +34,12 @@
         <div class="fake_header">
             <span><span style="text-transform:capitalize"><var>BADGE</var></span> badges earned by each student</span>
         </div>
-        <div data-each="5 times as n" class="fake_row">
+        <div class="fake_row" data-each="5 times as n">
             <span><var>person( n + 1)</var></span><span data-each="DATA[n] times"><var>FULL_IMAGE</var>
             </span><span data-if="HALF[n]"><var>HALF_IMAGE</var>
-            </span><span data-else=""></span><span data-each="(7 - DATA[n]) times">&#160;</span>
+            </span><span data-else=""></span><span data-each="(7 - DATA[n]) times">&nbsp;</span>
         </div>
-        <span style="height: 50px; vertical-align: top; line-height: 50px;" data-if="isSingular(VALUE_PER_IMG)"><var>FULL_IMAGE</var> = <var>VALUE_PER_IMG</var> <var>BADGE</var> badge</span><span style="height: 50px; vertical-align: top; line-height: 50px;" data-else=""><var>FULL_IMAGE</var> = <var>VALUE_PER_IMG</var> <var>BADGE</var> badges</span>
+        <span data-if="isSingular(VALUE_PER_IMG)" style="height: 50px; vertical-align: top; line-height: 50px;"><var>FULL_IMAGE</var> = <var>VALUE_PER_IMG</var> <var>BADGE</var> badge</span><span data-else="" style="height: 50px; vertical-align: top; line-height: 50px;"><var>FULL_IMAGE</var> = <var>VALUE_PER_IMG</var> <var>BADGE</var> badges</span>
     
     </div>
 
@@ -54,8 +53,8 @@
 
             <p class="question">How many <var>BADGE</var> badges did <var>person( PERSON + 1 )</var> earn?</p>
 
-            <div data-type="multiple" class="solution">
-                <p><span style="padding-right: 5px" data-forms="integer, decimal" class="sol short40"><var>ANSWER</var></span> <var>BADGE</var> badges</p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>ANSWER</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
                 <p data-if="isSingular(VALUE_PER_IMG)">The key at the bottom of the pictograph shows that each full symbol represents 1 badge.</p><p data-else="">The key at the bottom of the pictograph shows that each full symbol represents <var>VALUE_PER_IMG</var> badges.</p>
@@ -65,7 +64,7 @@
                     <div class="fake_row">
                         <span><var>person( PERSON + 1 )</var></span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON ]"><var>HALF_IMAGE</var>
-                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&#160;</span>
+                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&nbsp;</span>
                     </div>
                 </div>
                 <p>
@@ -107,12 +106,12 @@
                 <var id="NUM_SYMBOLS">mixedFractionFromImproper( toFraction( VALUE / VALUE_PER_IMG, 0.001 )[0], toFraction( VALUE / VALUE_PER_IMG, 0.001 )[1] )</var>
             </div>
 
-            <p data-if="isSingular(VALUE)" class="question">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badge?</p><p data-else="" class="question">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badges?</p>
+            <p class="question" data-if="isSingular(VALUE)">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badge?</p><p class="question" data-else="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badges?</p>
 
             
 
             <div class="solution"><var>person( PERSON + 1 )</var></div>
-            <ul data-category="true" class="choices">
+            <ul class="choices" data-category="true">
                 <li><var>person( 1 )</var></li>
                 <li><var>person( 2 )</var></li>
                 <li><var>person( 3 )</var></li>
@@ -132,17 +131,17 @@
                     </code>
                 </p>
                 <div>
-                    <p data-if="isMale(PERSON + 1)"><span data-if="isSingular(VALUE / VALUE_PER_IMG)" data-unwrap="">Who has <code><var>NUM_SYMBOLS</var></code> symbol next to his name?</span><span data-else="" data-unwrap="">Who has <code><var>NUM_SYMBOLS</var></code> symbols next to his name?</span></p><p data-if="isSingular(VALUE / VALUE_PER_IMG)" data-else="">Who has <code><var>NUM_SYMBOLS</var></code> symbol next to her name?</p><p data-else="">Who has <code><var>NUM_SYMBOLS</var></code> symbols next to her name?</p>
+                    <p data-if="isMale(PERSON + 1)"><span data-if="isSingular(VALUE / VALUE_PER_IMG)" data-unwrap="">Who has <code><var>NUM_SYMBOLS</var></code> symbol next to his name?</span><span data-else="" data-unwrap="">Who has <code><var>NUM_SYMBOLS</var></code> symbols next to his name?</span></p><p data-else="" data-if="isSingular(VALUE / VALUE_PER_IMG)">Who has <code><var>NUM_SYMBOLS</var></code> symbol next to her name?</p><p data-else="">Who has <code><var>NUM_SYMBOLS</var></code> symbols next to her name?</p>
                     
                     
                     
                     <div class="fake_row">
                         <span>???</span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON ]"><var>HALF_IMAGE</var>
-                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&#160;</span>
+                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&nbsp;</span>
                     </div>
                 </div>
-                <p data-if="isMale(PERSON + 1)"><span data-if="isSingular(VALUE / VALUE_PER_IMG)" data-unwrap=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbol next to his name.</span><span data-else="" data-unwrap=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbols next to his name.</span></p><p data-if="isSingular(VALUE / VALUE_PER_IMG)" data-else=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbol next to her name.</p><p data-else=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbols next to her name.</p>
+                <p data-if="isMale(PERSON + 1)"><span data-if="isSingular(VALUE / VALUE_PER_IMG)" data-unwrap=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbol next to his name.</span><span data-else="" data-unwrap=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbols next to his name.</span></p><p data-else="" data-if="isSingular(VALUE / VALUE_PER_IMG)"><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbol next to her name.</p><p data-else=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbols next to her name.</p>
                 
                 
                 
@@ -165,8 +164,8 @@
 
             <p class="question">How many more <var>BADGE</var> badges did <var>person( PERSON1 + 1 )</var> earn than <var>person( PERSON2 + 1 )</var>?</p>
 
-            <div data-type="multiple" class="solution">
-                <p><span style="padding-right: 5px" data-forms="integer, decimal" class="sol short40"><var>VAL1 - VAL2</var></span> <var>BADGE</var> badges</p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>VAL1 - VAL2</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
                 <p data-if="isSingular(VALUE_PER_IMG)">The key at the bottom of the pictograph shows that each full symbol represents 1 badge.</p><p data-else="">The key at the bottom of the pictograph shows that each full symbol represents <var>VALUE_PER_IMG</var> badges.</p>
@@ -176,19 +175,19 @@
                     <div class="fake_row">
                         <span><var>person( PERSON1 + 1 )</var></span><span data-each="DATA[ PERSON1 ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON1 ]"><var>HALF_IMAGE</var>
-                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON1 ]) times">&#160;</span>
+                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON1 ]) times">&nbsp;</span>
                     </div>
                     <div class="fake_row">
                         <span><var>person( PERSON2 + 1 )</var></span><span data-each="DATA[ PERSON2 ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON2 ]"><var>HALF_IMAGE</var>
-                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON2 ]) times">&#160;</span>
+                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON2 ]) times">&nbsp;</span>
                     </div>
                 </div>
                 <p data-if="isMale(PERSON1 + 1)"><span data-if="isSingular(SYMBOL_DIFF)" data-unwrap="">
                     <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more symbol next to his name than <var>person( PERSON2 + 1 )</var> does.
                 </span><span data-else="" data-unwrap="">
                     <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more symbols next to his name than <var>person( PERSON2 + 1 )</var> does.
-                </span></p><p data-if="isSingular(SYMBOL_DIFF)" data-else="">
+                </span></p><p data-else="" data-if="isSingular(SYMBOL_DIFF)">
                     <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more symbol next to her name than <var>person( PERSON2 + 1 )</var> does.
                 </p><p data-else="">
                     <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more symbols next to her name than <var>person( PERSON2 + 1 )</var> does.
@@ -220,8 +219,8 @@
             </div>
             <p class="question">How many <var>BADGE</var> badges were earned by everyone all together?</p>
 
-            <div data-type="multiple" class="solution">
-                <p><span style="padding-right: 5px" data-forms="integer, decimal" class="sol short40"><var>TOTAL</var></span> <var>BADGE</var> badges</p>
+            <div class="solution" data-type="multiple">
+                <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>TOTAL</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
                 <p>Start by counting the total number of <var>BADGE</var> symbols.</p>

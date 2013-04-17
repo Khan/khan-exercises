@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Equations from tables</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
@@ -60,7 +59,7 @@
                 <span class="hint_orange"><code><var>X_HEADER</var></code></span>
                 <span class="hint_blue"><code><var>Y_HEADER</var></code></span>
             </div>
-            <div data-each="XVALS as xval" class="fake_row plug_in">
+            <div class="fake_row plug_in" data-each="XVALS as xval">
                 <span><code><var>xval</var></code></span>
                 <span><code><var>COEF * xval + CONS</var></code></span>
             </div>
@@ -90,7 +89,7 @@
                             <td>
                                 <code>\color{<var>BLUE</var>}{<var>COEF * xval + CONS</var>} = <var>COEF</var> \cdot \color{<var>ORANGE</var>}{<var>xval</var>} + <var>CONS</var></code>
                             </td>
-                            <td>&#8594;</td>
+                            <td>→</td>
                             <td>
                                 <code>\color{<var>BLUE</var>}{<var>COEF * xval + CONS</var>} = <var>COEF * xval + CONS</var></code>
                             </td>
@@ -100,7 +99,7 @@
                 <p>The equation that fits this table of values is <code><var>Y_VAR</var> = <var>COEF</var><var>X_VAR</var> + <var>CONS</var></code>.</p>
             </div>
         </div>
-        <div data-type="linear" id="grocery">
+        <div id="grocery" data-type="linear">
             <div class="vars">
                 <var id="X_VAR">"p"</var>
                 <var id="Y_VAR">"c"</var>
@@ -111,18 +110,18 @@
                 <p>The data in the table show the cost of buying bulk vegetables per pound, including the fee for the clerk to package the vegetables in boxes.</p>
                 <p><b>Which equation fits the data?</b></p>
             </div>
-            <div data-each="XVALS as xval" class="fake_row plug_in">
+            <div class="fake_row plug_in" data-each="XVALS as xval">
                 <span><code><var>xval</var></code></span>
                 <span><code>$<var>COEF * xval + CONS</var></code></span>
             </div>
         </div>
-        <div data-type="linear" id="negative">
+        <div id="negative" data-type="linear">
             <div class="vars">
                 <var id="A1">-5</var>
                 <var id="A2">-2</var>
             </div>
         </div>
-        <div data-weight="3" data-type="linear" id="fill-table">
+        <div id="fill-table" data-type="linear" data-weight="3">
             <div class="vars">
                 <var id="COEF">randRange( A1, A2 ) * randRangeNonZero( -1, 1 )</var>
                 <var id="CONS">randRange( B1, B2 ) * randRangeNonZero( -1, 1 )</var>
@@ -149,7 +148,7 @@
                 })()
                 </var>
             </div>
-            <div data-each="TABLEVALS as tableval" class="fake_row plug_in">
+            <div class="fake_row plug_in" data-each="TABLEVALS as tableval">
                 <span><code><var>tableval.xval</var></code></span>
                 <span><code><var>tableval.yval</var></code></span>
             </div>
@@ -157,8 +156,8 @@
                 <p><b>The table below was generated using the following equation:</b><code>\quad f(x) = <var>COEF</var>x + <var>CONS</var></code></p>
                 <p><b>Find the missing values.</b></p>
             </div>
-            <div data-each="TABLEVALS as tableval" data-type="multiple" class="solution">
-                <p data-if="tableval.yval === ' '"><code>f(<var>tableval.xval</var>)</code> = <span data-forms="integer, decimal" class="sol short50"><var>COEF * tableval.xval + CONS</var></span></p>
+            <div class="solution" data-each="TABLEVALS as tableval" data-type="multiple">
+                <p data-if="tableval.yval === ' '"><code>f(<var>tableval.xval</var>)</code> = <span class="sol short50" data-forms="integer, decimal"><var>COEF * tableval.xval + CONS</var></span></p>
             </div>
             <div class="hints">
                 <p>Plug the corresponding values of <code class="hint_orange">x</code> into the equation to find the missing values of <code class="hint_blue">f(x)</code>.</p>

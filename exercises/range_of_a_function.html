@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Range of a function</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,7 +9,7 @@
         <div class="problems">
             <div id="quadratic">
                 <div class="vars">
-                    <var data-ensure="A !== 1" id="A">randRangeNonZero(-4, 4)</var>
+                    <var id="A" data-ensure="A !== 1">randRangeNonZero(-4, 4)</var>
                     <var id="B">randRangeNonZero(-4, 4)</var>
                 </div>
 
@@ -18,25 +17,25 @@
 
                 <p class="question">What is the range of <code>f(x)</code>?</p>
 
-                <p data-type="multiple" class="solution">
+                <p class="solution" data-type="multiple">
                     <code>\{\, y \in \RR \mid y</code>
-                    <span data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list" class="sol">
-                        <var>A &gt; 0 ? "&#8805;" : "&#8804;"</var>
+                    <span class="sol" data-choices="['', '&lt;', '&gt;', '≤', '≥', '≠']" data-type="list">
+                        <var>A &gt; 0 ? "≥" : "≤"</var>
                     </span>
-                    <span data-forms="integer, decimal" class="sol short40"><var>B</var></span>
+                    <span class="sol short40" data-forms="integer, decimal"><var>B</var></span>
                     <code>\,\}</code>
                 </p>
 
-                <div data-apply="appendContents" class="hints">
-                    <p data-apply="remove" id="prehint"></p>
+                <div class="hints" data-apply="appendContents">
+                    <p id="prehint" data-apply="remove"></p>
                 </div>
             </div>
 
             <div id="quadratic-random-hole">
                 <div class="vars">
-                    <var data-ensure="A !== 1" id="A">randRangeNonZero(-4, 4)</var>
-                    <var data-ensure="abs( 3 * A + B ) &lt; 10" id="B">randRangeNonZero(-4, 4)</var>
-                    <var data-ensure="abs( A * HOLE * HOLE + B ) &lt; 10" id="HOLE">randRangeNonZero( -4, 4 )</var>
+                    <var id="A" data-ensure="A !== 1">randRangeNonZero(-4, 4)</var>
+                    <var id="B" data-ensure="abs( 3 * A + B ) &lt; 10">randRangeNonZero(-4, 4)</var>
+                    <var id="HOLE" data-ensure="abs( A * HOLE * HOLE + B ) &lt; 10">randRangeNonZero( -4, 4 )</var>
                 </div>
 
                 <p class="problem"><code>f(x) = \begin{cases}
@@ -46,20 +45,20 @@
 
                 <p class="question">What is the range of <code>f(x)</code>?</p>
 
-                <p data-type="multiple" class="solution">
+                <p class="solution" data-type="multiple">
                     <code>\{\, y \in \RR \mid y</code>
-                    <span data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list" class="sol">
-                        <var>A &gt; 0 ? "&#8805;" : "&#8804;"</var>
+                    <span class="sol" data-choices="['', '&lt;', '&gt;', '≤', '≥', '≠']" data-type="list">
+                        <var>A &gt; 0 ? "≥" : "≤"</var>
                     </span>
                     <span class="sol short40"><var>B</var></span>
                     <code>\,\}</code>
                 </p>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="prehint">First consider the behavior for <code>x \ne <var>HOLE</var></code>.</p>
                     <div id="posthint">
                         <p>If <code>x = <var>HOLE</var></code>, then <code>f(x) = <var>3 * A + B</var></code>, but the range does not change.</p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             circle( [HOLE, 3 * A + B], 3 / 20, {
                                 fill: "red",
                                 stroke: "none"
@@ -73,25 +72,25 @@
                 </div>
             </div>
 
-            <div data-type="quadratic-random-hole" id="quadratic-zero-hole">
+            <div id="quadratic-zero-hole" data-type="quadratic-random-hole">
                 <div class="vars">
                     <var id="HOLE">0</var>
                 </div>
 
-                <p data-type="multiple" class="solution">
+                <p class="solution" data-type="multiple">
                     <code>\{\, y \in \RR \mid y</code>
-                    <span data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list" class="sol">
+                    <span class="sol" data-choices="['', '&lt;', '&gt;', '≤', '≥', '≠']" data-type="list">
                         <var>A &gt; 0 ? "&gt;" : "&lt;"</var>
                     </span>
                     <span class="sol short40"><var>B</var></span>
                     <code>\,\}</code>
                 </p>
 
-                <div data-apply="appendContents" class="hints">
+                <div class="hints" data-apply="appendContents">
                     <p id="prehint">First consider the behavior for <code>x \ne <var>HOLE</var></code>.</p>
                     <div id="posthint">
                         <p>If <code>x = <var>HOLE</var></code>, then <code>f(x) = <var>3 * A + B</var></code>, which eliminates <code>f(x) = <var>B</var></code> from the range.</p>
-                        <div data-update="grid" class="graphie">
+                        <div class="graphie" data-update="grid">
                             circle( [HOLE, 3 * A + B], 3 / 20, {
                                 fill: "red",
                                 stroke: "red"
@@ -143,7 +142,7 @@
                 
                 </p>
 
-                <div data-update="grid" class="graphie">
+                <div class="graphie" data-update="grid">
                     graph.pl.remove();
                     graph.pl = plot( function( x ) {
                         return A * pow( x, 2 ) + B;

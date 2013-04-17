@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format expressions"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying radicals</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -11,7 +10,7 @@
             <var id="PRIMES">shuffle([2, 3, 5, 7, 11, 13])</var>
     </div>
     <div class="problems">
-        <div data-weight="3" id="simplify">
+        <div id="simplify" data-weight="3">
             <div class="vars">
                 <var id="START_INT">randRange( 2, 12 )</var>
                 <var id="RADICAL_INT">randRange( 2, 5 )</var>
@@ -20,7 +19,7 @@
             </div>
             <p class="question">Simplify the following expression:</p>
                 <p><code><var>START_INT</var>\sqrt{<var>RADICAL_TOTAL</var>}</code>.</p>
-            <div data-type="radical" class="solution"><var>pow( START_INT, 2 ) * RADICAL_TOTAL</var></div>
+            <div class="solution" data-type="radical"><var>pow( START_INT, 2 ) * RADICAL_TOTAL</var></div>
             <div class="hints">
                 <p>First, try to factor a perfect square out of the radical.</p>
                 <div>
@@ -35,14 +34,14 @@
                 <p><code>= <var>START_INT * RADICAL_INT</var>\sqrt{<var>RADICAL_PRIME</var>}</code></p>
             </div>
         </div>
-        <div data-weight="1" id="already-simplified">
+        <div id="already-simplified" data-weight="1">
             <div class="vars">
                 <var id="START_INT">randRange( 2, 12 )</var>
                 <var id="RADICAL_TOTAL">PRIMES[0] * PRIMES[1]</var>
             </div>
             <p class="question">Simplify the following expression:</p>
                 <p><code><var>START_INT</var>\sqrt{<var>RADICAL_TOTAL</var>}</code>.</p>
-            <div data-type="radical" class="solution"><var>pow( START_INT, 2 ) * RADICAL_TOTAL</var></div>
+            <div class="solution" data-type="radical"><var>pow( START_INT, 2 ) * RADICAL_TOTAL</var></div>
             <div class="hints">
                 <p>There are no perfect-square factors of <var>RADICAL_TOTAL</var>.</p>
                 <div>

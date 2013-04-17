@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format stat graphie word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading bar charts 3</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -35,7 +34,7 @@
         </div>
         <div class="problem">
             <p>Use the following graph to answer the question below:</p>
-            <div id="barchart" class="graphie">
+            <div class="graphie" id="barchart">
                 init({
                     range: [ [ -2, NUM_STUDENTS * 3 + 2 ], [ -3, 12 ] ],
                     scale: [ 24, 24 ]
@@ -77,19 +76,19 @@
         <div class="problems">
 
             <div id="average">
-                <div data-ensure="NUM_STUDENTS === 5" class="vars">
+                <div class="vars" data-ensure="NUM_STUDENTS === 5">
                     <var id="COLUMN">randRange( 0, 1 )</var>
                     <var id="TEST">[ "midterm", "final exam" ][ COLUMN ]</var>
                     <var id="AVERAGE">COLUMN === 0 ? mean( MIDTERM ) : mean( FINAL )</var>
                 </div>
                 <p class="question">What was the average student score for the <var>TEST</var>?</p>
 
-                <div data-forms="integer" class="solution"><var>AVERAGE</var></div>
+                <div class="solution" data-forms="integer"><var>AVERAGE</var></div>
 
                 <div class="hints">
                     <div>
                         <p>Use the key to figure out which of the two bars shows the scores for the <var>TEST</var>.</p>
-                        <div data-update="barchart" class="graphie">
+                        <div class="graphie" data-update="barchart">
                             style({ stroke: PINK, fill: "none", strokeWidth: 2 });
                             ellipse( [ COLUMN * 3 + 1.2, -2.25 ], [ 1.5, 0.5 ] );
                         </div>
@@ -97,7 +96,7 @@
                     <div>
                         <p>Find each of the <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bars.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
-                            <div data-update="barchart" class="graphie">
+                            <div class="graphie" data-update="barchart">
                                 if ( COLUMN === 0 ) {
                                     label( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 + 0.2 ], MIDTERM[ INDEX ], "below", false ).css({ fontWeight: "bold" });
                                 } else {
@@ -119,7 +118,7 @@
             </div>
 
             <div id="comp-average">
-                <div data-ensure="NUM_STUDENTS === 5" class="vars">
+                <div class="vars" data-ensure="NUM_STUDENTS === 5">
                     <var id="UNBIASED">true</var>
                     <var id="MIDTERM_AVG">mean( MIDTERM )</var>
                     <var id="FINAL_AVG">mean( FINAL )</var>
@@ -128,7 +127,7 @@
                 <p class="question">On average, did the students do better on the midterm or the final exam?</p>
 
                 <div class="solution"><var>ANSWER</var></div>
-                <ul data-category="true" class="choices">
+                <ul class="choices" data-category="true">
                     <li>Midterm</li>
                     <li>Final exam</li>
                     <li>Same on both</li>
@@ -138,7 +137,7 @@
                     <div>
                         <p>Find each of the <span class="hint_blue">midterm scores</span> represented by the <span class="hint_blue">blue bars</span>.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
-                            <div data-update="barchart" class="graphie">
+                            <div class="graphie" data-update="barchart">
                                     label( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 + 0.2 ], MIDTERM[ INDEX ], "below", false ).css({ fontWeight: "bold" });
                             </div>
                         </div>
@@ -155,7 +154,7 @@
                     <div>
                         <p>Find each of the <span class="hint_orange">final exam scores</span> represented by the <span class="hint_orange">orange bars</span>.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
-                            <div data-update="barchart" class="graphie">
+                            <div class="graphie" data-update="barchart">
                                     label( [ INDEX * 3 + 2.5, FINAL[ INDEX ] / 10 + 0.2 ], FINAL[ INDEX ], "below", false ).css({ fontWeight: "bold" });
                             </div>
                         </div>
@@ -169,15 +168,15 @@
                         </code></p>
                         <p>The average student score on the final exam was <code class="hint_orange"><var>FINAL_AVG</var></code>.</p>
                     </div>
-                    <p data-if="MIDTERM_AVG &gt; FINAL_AVG" class="final_answer">
+                    <p class="final_answer" data-if="MIDTERM_AVG &gt; FINAL_AVG">
                         The average student score was higher on the <span class="hint_blue">midterm</span>
                         than on the <span class="hint_orange">final exam</span>.
                     </p>
-                    <p data-else-if="MIDTERM_AVG &lt; FINAL_AVG" class="final_answer">
+                    <p class="final_answer" data-else-if="MIDTERM_AVG &lt; FINAL_AVG">
                         The average student score was higher on the <span class="hint_orange">final exam</span>
                         than the <span class="hint_blue">midterm</span>.
                     </p>
-                    <p data-else="" class="final_answer">
+                    <p class="final_answer" data-else="">
                         The average student score was the same on both the <span class="hint_blue">midterm</span>
                         and the <span class="hint_orange">final exam</span>.
                     </p>
@@ -197,7 +196,7 @@
                 <div class="hints">
                     <div>
                         <p>Use the key to figure out which of the two bars shows the scores for the <var>TEST</var>.</p>
-                        <div data-update="barchart" class="graphie">
+                        <div class="graphie" data-update="barchart">
                             style({ stroke: PINK, fill: "none", strokeWidth: 2 });
                             ellipse( [ COLUMN * 3 + 1.2, -2.25 ], [ 1.5, 0.5 ] );
                         </div>
@@ -206,7 +205,7 @@
                         <p>Find each of the <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bars.</p>
                         <p><code>\qquad\large{<var>toSentence( COLUMN === 0 ? MIDTERM : FINAL, "" )</var>}</code></p>
                         <div data-each="NUM_STUDENTS times as INDEX">
-                            <div data-update="barchart" class="graphie">
+                            <div class="graphie" data-update="barchart">
                                 if ( COLUMN === 0 ) {
                                     label( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 + 0.2 ], MIDTERM[ INDEX ], "below", false ).css({ fontWeight: "bold" });
                                 } else {
@@ -236,19 +235,19 @@
             </div>
 
             <div id="mode">
-                <div data-ensure="MODE" class="vars">
+                <div class="vars" data-ensure="MODE">
                     <var id="COLUMN">randRange( 0, 1 )</var>
                     <var id="TEST">[ "midterm", "final exam" ][ COLUMN ]</var>
                     <var id="MODE">COLUMN === 0 ? mode( MIDTERM ) : mode( FINAL )</var>
                 </div>
                 <p class="question">What was the mode for the <var>TEST</var> scores?</p>
 
-                <div data-forms="integer" class="solution"><var>MODE</var></div>
+                <div class="solution" data-forms="integer"><var>MODE</var></div>
 
                 <div class="hints">
                     <div>
                         <p>Use the key to figure out which of the two bars shows the scores for the <var>TEST</var>.</p>
-                        <div data-update="barchart" class="graphie">
+                        <div class="graphie" data-update="barchart">
                             style({ stroke: PINK, fill: "none", strokeWidth: 2 });
                             ellipse( [ COLUMN * 3 + 1.2, -2.25 ], [ 1.5, 0.5 ] );
                         </div>
@@ -256,7 +255,7 @@
                     <div>
                         <p>Find each of the <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bars.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
-                            <div data-update="barchart" class="graphie">
+                            <div class="graphie" data-update="barchart">
                                 if ( COLUMN === 0 ) {
                                     label( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 + 0.2 ], MIDTERM[ INDEX ], "below", false ).css({ fontWeight: "bold" });
                                 } else {
@@ -269,7 +268,7 @@
                     <div>
                         <p class="final_answer"><code><var>MODE</var></code> is the most frequently occurring score.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
-                            <div data-update="barchart" class="graphie">
+                            <div class="graphie" data-update="barchart">
                                 if ( COLUMN === 0 ) {
                                     if ( MIDTERM[ INDEX ] === MODE ) {
                                         ellipse( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 - 0.5 ], [ 0.8, 0.6 ] );
@@ -295,13 +294,13 @@
                 </div>
                 <p class="question">What is the range of the <var>TEST</var> scores?</p>
 
-                <div data-forms="integer" class="solution"><var>RANGE</var></div>
+                <div class="solution" data-forms="integer"><var>RANGE</var></div>
 
                 <div class="hints">
                     <p>The range is the difference between the largest value and the smallest value.</p>
                     <div>
                         <p>Use the key to figure out which of the two bars shows the scores for the <var>TEST</var>.</p>
-                        <div data-update="barchart" class="graphie">
+                        <div class="graphie" data-update="barchart">
                             style({ stroke: PINK, fill: "none", strokeWidth: 2 });
                             ellipse( [ COLUMN * 3 + 1.2, -2.25 ], [ 1.5, 0.5 ] );
                         </div>
@@ -309,7 +308,7 @@
                     <div>
                         <p>Find the largest and smallest <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bars.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
-                            <div data-update="barchart" class="graphie">
+                            <div class="graphie" data-update="barchart">
                                 if ( COLUMN === 0 ) {
                                     if ( MIDTERM[ INDEX ] === MIN || MIDTERM[ INDEX ] === MAX ) {
                                         label( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 + 0.2 ], MIDTERM[ INDEX ], "below", false ).css({ fontWeight: "bold" });
@@ -347,7 +346,7 @@
                     <p>The midrange is halfway between the largest value and the smallest value.</p>
                     <div>
                         <p>Use the key to figure out which of the two bars shows the scores for the <var>TEST</var>.</p>
-                        <div data-update="barchart" class="graphie">
+                        <div class="graphie" data-update="barchart">
                             style({ stroke: PINK, fill: "none", strokeWidth: 2 });
                             ellipse( [ COLUMN * 3 + 1.2, -2.25 ], [ 1.5, 0.5 ] );
                         </div>
@@ -355,7 +354,7 @@
                     <div>
                         <p>Find the largest and smallest <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bars.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
-                            <div data-update="barchart" class="graphie">
+                            <div class="graphie" data-update="barchart">
                                 if ( COLUMN === 0 ) {
                                     if ( MIDTERM[ INDEX ] === MIN || MIDTERM[ INDEX ] === MAX ) {
                                         label( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 + 0.2 ], MIDTERM[ INDEX ], "below", false ).css({ fontWeight: "bold" });

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math graphie"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Understanding function notation</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -55,7 +54,7 @@
 
                     path( FUNCTION_PATH, { stroke: "#6495ed" } );
                 </div>
-                <div data-type="multiple" class="solution">
+                <div class="solution" data-type="multiple">
                     <p><code>f(<var>CORRECT_X</var>)=</code> <span class="sol"><var>CORRECT_Y</var></span></p>
                 </div>
 
@@ -65,7 +64,7 @@
         <div class="hints">
             <div>
                 <p>At what point does <code>f(x)</code> intersect <code>x = <var>CORRECT_X</var></code>?</p>
-                <div data-update="graph" class="graphie">
+                <div class="graphie" data-update="graph">
                     graph.vert = line( [CORRECT_X, -10], [CORRECT_X, 10], {
                         stroke: "#28ae7b",
                         strokeDasharray: "- "
@@ -82,7 +81,7 @@
 
             <div>
                 <p>Thus, <code>f(<var>CORRECT_X</var>) = <var>CORRECT_Y</var></code>.</p>
-                <div data-update="graph" class="graphie">
+                <div class="graphie" data-update="graph">
                     graph.vert.remove();
                 </div>
             </div>

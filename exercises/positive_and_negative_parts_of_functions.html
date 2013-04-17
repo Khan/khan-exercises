@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math math-format polynomials graphie interactive word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Positive and negative parts of functions</title>
     <script src="../khan-exercise.js"></script>
     <style type="text/css">
@@ -69,7 +68,7 @@
         </var>
     </div>
 
-    <div data-type="custom" class="solution">
+    <div class="solution" data-type="custom">
         <div class="instruction">
             Move the blue window to select part of the function.
         </div>
@@ -139,11 +138,11 @@
 
     <div class="problems">
         <div id="positive">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="PREDICATE">function(x) { return FNX(x) &gt; 0; }</var>
             </div>
 
-            <p data-apply="appendContents" class="question">
+            <p class="question" data-apply="appendContents">
                 A function <code>f(x)</code> is plotted below.
                 Highlight an interval where <code>f(x) &gt; 0</code>.
             </p>
@@ -166,7 +165,7 @@
                         <span class="hint_orange">highlighted</span> above.
                     </p>
                     
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         plot(FNX, [XRANGE[0] - 1, XRANGE[1] + 1], {
                             stroke: ORANGE,
                             strokeWidth: 16,
@@ -183,7 +182,7 @@
                     <p>
                         Select any part of the function that's highlighted.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         graph.slidingWindow.moveTo(
                             (SOLUTION_INTERVAL_POS[1] - SOLUTION_INTERVAL_POS[0]) / 2 +
                             SOLUTION_INTERVAL_POS[0] - 0.5, 0);
@@ -193,11 +192,11 @@
         </div>
 
         <div id="negative">
-            <div data-apply="prependVars" class="vars">
+            <div class="vars" data-apply="prependVars">
                 <var id="PREDICATE">function(x) { return FNX(x) &lt; 0; }</var>
             </div>
 
-            <p data-apply="appendContents" class="question">
+            <p class="question" data-apply="appendContents">
                 A function <code>f(x)</code> is plotted below.
                 Highlight an interval where <code>f(x) &lt; 0</code>.
             </p>
@@ -220,7 +219,7 @@
                         <span class="hint_orange">highlighted</span> above.
                     </p>
                     
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         plot(FNX, [XRANGE[0] - 1, XRANGE[1] + 1], {
                             stroke: ORANGE,
                             strokeWidth: 16,
@@ -237,7 +236,7 @@
                     <p>
                         Select any part of the function that's highlighted.
                     </p>
-                    <div data-update="fnplot" class="graphie">
+                    <div class="graphie" data-update="fnplot">
                         graph.slidingWindow.moveTo(
                             (SOLUTION_INTERVAL_NEG[1] - SOLUTION_INTERVAL_NEG[0]) / 2 +
                             SOLUTION_INTERVAL_NEG[0] - 0.5, 0);

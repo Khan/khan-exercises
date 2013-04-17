@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html data-require="math word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Divisibility</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div data-ensure="A !== ANSWER &amp;&amp; B !== ANSWER" class="vars">
+        <div class="vars" data-ensure="A !== ANSWER &amp;&amp; B !== ANSWER">
             <var id="A">randRange( 10, 25 )</var>
-            <var data-ensure="A !== B" id="B">randRange( 10, 25 )</var>
+            <var id="B" data-ensure="A !== B">randRange( 10, 25 )</var>
             <var id="LCM">getLCM( A, B )</var>
             <var id="LCM_FACTORIZATION">getPrimeFactorization( LCM )</var>
             <var id="ANSWER">
