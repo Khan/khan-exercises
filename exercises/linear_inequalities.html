@@ -13,8 +13,8 @@
             <var id="D" data-ensure="D !== B">randRangeNonZero( 2, 10 )</var>
             <var id="SOLUTION">fractionReduce( D - B, A - C )</var>
 
-            <var id="REL">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
-            <var id="FREL">{ "&lt;": "&gt;", "&gt;": "&lt;", "&#8804;": "&#8805;", "&#8805;": "&#8804;" }[ REL ]</var>
+            <var id="REL">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
+            <var id="FREL">{ "&lt;": "&gt;", "&gt;": "&lt;", "≤": "≥", "≥": "≤" }[ REL ]</var>
         </div>
 
         <div class="problems">
@@ -24,7 +24,7 @@
 
                 <p class="solution" data-type="multiple">
                     <code>x</code>
-                    <span class="sol" data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;']" data-type="list">
+                    <span class="sol" data-choices="['', '&lt;', '&gt;', '≤', '≥']" data-type="list">
                         <var>A - C &gt; 0 ? REL : FREL</var>
                     </span>
                     <span class="sol"><var>( D - B ) / ( A - C )</var></span></p>

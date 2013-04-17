@@ -19,8 +19,8 @@
 
                 <p class="solution" data-type="multiple">
                     <code>\{\, y \in \RR \mid y</code>
-                    <span class="sol" data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list">
-                        <var>A &gt; 0 ? "&#8805;" : "&#8804;"</var>
+                    <span class="sol" data-choices="['', '&lt;', '&gt;', '≤', '≥', '≠']" data-type="list">
+                        <var>A &gt; 0 ? "≥" : "≤"</var>
                     </span>
                     <span class="sol short40" data-forms="integer, decimal"><var>B</var></span>
                     <code>\,\}</code>
@@ -47,8 +47,8 @@
 
                 <p class="solution" data-type="multiple">
                     <code>\{\, y \in \RR \mid y</code>
-                    <span class="sol" data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list">
-                        <var>A &gt; 0 ? "&#8805;" : "&#8804;"</var>
+                    <span class="sol" data-choices="['', '&lt;', '&gt;', '≤', '≥', '≠']" data-type="list">
+                        <var>A &gt; 0 ? "≥" : "≤"</var>
                     </span>
                     <span class="sol short40"><var>B</var></span>
                     <code>\,\}</code>
@@ -79,7 +79,7 @@
 
                 <p class="solution" data-type="multiple">
                     <code>\{\, y \in \RR \mid y</code>
-                    <span class="sol" data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list">
+                    <span class="sol" data-choices="['', '&lt;', '&gt;', '≤', '≥', '≠']" data-type="list">
                         <var>A &gt; 0 ? "&gt;" : "&lt;"</var>
                     </span>
                     <span class="sol short40"><var>B</var></span>
@@ -134,7 +134,7 @@
             <p data-if="A &gt; 0">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> doesn't change the range.</p>
             <p data-else="">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> flips the range to <code>\{\, y \mid y \le 0 \,\}</code>.</p>
             <div>
-                <p>Now <var>B &gt; 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>. The range becomes: <code>\{\, y \mid y <var>A &gt; 0 ? "&#8805;" : "&#8804;"</var> <var>B</var> \,\}</code>.</p>
+                <p>Now <var>B &gt; 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>. The range becomes: <code>\{\, y \mid y <var>A &gt; 0 ? "≥" : "≤"</var> <var>B</var> \,\}</code>.</p>
 
                 <div class="graphie" data-update="grid">
                     graph.pl.remove();

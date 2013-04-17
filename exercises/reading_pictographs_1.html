@@ -34,7 +34,7 @@
         </div>
         <div class="fake_row" data-each="5 times as n">
             <span><var>person( n + 1 )</var></span><span data-each="DATA[n] times"><var>FULL_IMAGE</var>
-            </span><span data-each="(8 - DATA[n]) times">&#160;</span>
+            </span><span data-each="(8 - DATA[n]) times">&nbsp;</span>
         </div>
         <span style="height: 50px; vertical-align: top; line-height: 50px;">
             <var>FULL_IMAGE</var> = <var>VALUE_PER_IMG</var> <var>BADGE</var>
@@ -104,7 +104,7 @@
                     <p>Find <var>person( PERSON + 1 )</var>'s row in the table:</p>
                     <div class="fake_row">
                         <span><var>person( PERSON + 1 )</var></span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
-                        </span><span data-each="(8 - DATA[ PERSON ]) times">&#160;</span>
+                        </span><span data-each="(8 - DATA[ PERSON ]) times">&nbsp;</span>
                     </div>
                 </div>
                 <p>

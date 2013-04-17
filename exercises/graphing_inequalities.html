@@ -18,10 +18,10 @@
                 <var id="B">SLOPE_FRAC[1] * MULT</var>
                 <var id="C">SLOPE_FRAC[1] * YINT * MULT</var>
                 <var id="STD_FORM">randFromArray([ true, false ])</var>
-                <var id="COMP">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
-                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&#8804;": "&#8805;", "&#8805;": "&#8804;" }[ COMP ] : COMP</var>
-                <var id="LESS_THAN">COMP === "&lt;" || COMP === "&#8804;"</var>
-                <var id="INCLUSIVE">COMP === "&#8805;" || COMP === "&#8804;"</var>
+                <var id="COMP">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
+                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "≤": "≥", "≥": "≤" }[ COMP ] : COMP</var>
+                <var id="LESS_THAN">COMP === "&lt;" || COMP === "≤"</var>
+                <var id="INCLUSIVE">COMP === "≥" || COMP === "≤"</var>
 
             </div>
 

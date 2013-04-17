@@ -24,7 +24,7 @@
         <var id="DATA">randRangeUnique( 1, 8, 5 )</var>
         <var id="BADGE">randFromArray([ "meteorite", "moon", "earth" ])</var>
         <var id="FULL_IMAGE">"&lt;img src='" + Khan.imageBase + "badges/" + BADGE + "-small.png'&gt;"</var>
-        <var id="HALF_IMAGE">"&lt;div style=\"background-image:url('" + Khan.imageBase + "badges/" + BADGE + "-small.png'); width:20px; height:40px;\"&gt;&#160;&lt;/div&gt;"</var>
+        <var id="HALF_IMAGE">"&lt;div style=\"background-image:url('" + Khan.imageBase + "badges/" + BADGE + "-small.png'); width:20px; height:40px;\"&gt;&nbsp;&lt;/div&gt;"</var>
         <var id="VALUE_PER_IMG">randFromArray([ 2, 4 ])</var>
         <var id="HALF">VALUE_PER_IMG === 1 ? [ 0, 0, 0, 0, 0 ] : [ rand(2), rand(2), rand(2), rand(2), rand(2) ]</var>
     </div>
@@ -37,7 +37,7 @@
         <div class="fake_row" data-each="5 times as n">
             <span><var>person( n + 1)</var></span><span data-each="DATA[n] times"><var>FULL_IMAGE</var>
             </span><span data-if="HALF[n]"><var>HALF_IMAGE</var>
-            </span><span data-else=""></span><span data-each="(7 - DATA[n]) times">&#160;</span>
+            </span><span data-else=""></span><span data-each="(7 - DATA[n]) times">&nbsp;</span>
         </div>
         <span style="height: 50px; vertical-align: top; line-height: 50px;"><var>FULL_IMAGE</var> = <var>VALUE_PER_IMG</var> <var>BADGE</var> <var>plural( "badge", VALUE_PER_IMG )</var></span>
     </div>
@@ -62,7 +62,7 @@
                     <div class="fake_row">
                         <span><var>person( PERSON + 1 )</var></span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON ]"><var>HALF_IMAGE</var>
-                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&#160;</span>
+                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&nbsp;</span>
                     </div>
                 </div>
                 <p>
@@ -117,7 +117,7 @@
                     <div class="fake_row">
                         <span>???</span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON ]"><var>HALF_IMAGE</var>
-                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&#160;</span>
+                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&nbsp;</span>
                     </div>
                 </div>
                 <p><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var> next to <var>his( PERSON + 1 )</var> name.</p>
@@ -149,12 +149,12 @@
                     <div class="fake_row">
                         <span><var>person( PERSON1 + 1 )</var></span><span data-each="DATA[ PERSON1 ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON1 ]"><var>HALF_IMAGE</var>
-                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON1 ]) times">&#160;</span>
+                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON1 ]) times">&nbsp;</span>
                     </div>
                     <div class="fake_row">
                         <span><var>person( PERSON2 + 1 )</var></span><span data-each="DATA[ PERSON2 ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON2 ]"><var>HALF_IMAGE</var>
-                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON2 ]) times">&#160;</span>
+                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON2 ]) times">&nbsp;</span>
                     </div>
                 </div>
                 <p>

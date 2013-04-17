@@ -16,7 +16,7 @@
                     <var id="COEF">fractionReduce( NUM, DEN )</var>
                     <var id="ONE_OVER_COEF">fractionReduce( DEN, NUM )</var>
                     <var id="RIGHT_INT">randRangeNonZero( -20, 20 )</var>
-                    <var id="COMP">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
+                    <var id="COMP">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
                     <var id="COMP_SOLUTION">(function() {
                         if ( NUM &gt; 0 ) {
                             return COMP;
@@ -27,10 +27,10 @@
                                 return "&gt;";
                             case "&gt;":
                                 return "&lt;";
-                            case "&#8804;":
-                                return "&#8805;";
-                            case "&#8805;":
-                                return "&#8804;";
+                            case "≤":
+                                return "≥";
+                            case "≥":
+                                return "≤";
                         }
                     })()</var>
                     <var id="SOLUTION_NOT_REDUCED">fraction( RIGHT_INT * DEN, NUM )</var>
@@ -43,7 +43,7 @@
 
                 <p class="solution" data-type="multiple">
                     <code>x</code>
-                    <span class="sol" data-choices="[ '', '&lt;', '&gt;', '&#8804;', '&#8805;' ]" data-type="list">
+                    <span class="sol" data-choices="[ '', '&lt;', '&gt;', '≤', '≥' ]" data-type="list">
                         <var>COMP_SOLUTION</var>
                     </span>
                     <span class="sol"><var>SOLUTION_REAL</var></span>
@@ -87,7 +87,7 @@
                                     fill = null;
                                     offset = 5;
                                     break;
-                                case "&#8805;":
+                                case "≥":
                                     fill = "#6495ED";
                                     offset = 5;
                                     break;
@@ -96,7 +96,7 @@
                                     offset = -5;
                                     startOffset *= -1;
                                     break;
-                                case "&#8804;":
+                                case "≤":
                                     fill = "#6495ED";
                                     offset = -5;
                                     startOffset *= -1;

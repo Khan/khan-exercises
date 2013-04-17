@@ -33,14 +33,14 @@
                 <var id="C_2">SLOPE_FRAC_2[1] * YINT_2 * MULT_2</var>
                 <var id="STD_FORM_1">randFromArray([ true, false ])</var>
                 <var id="STD_FORM_2">randFromArray([ true, false ])</var>
-                <var id="COMP_1">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
-                <var id="COMP_2">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
-                <var id="STD_FORM_COMP_1">B_1 &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&#8804;": "&#8805;", "&#8805;": "&#8804;" }[ COMP_1 ] : COMP_1</var>
-                <var id="STD_FORM_COMP_2">B_2 &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&#8804;": "&#8805;", "&#8805;": "&#8804;" }[ COMP_2 ] : COMP_2</var>
-                <var id="LESS_THAN_1">COMP_1 === "&lt;" || COMP_1 === "&#8804;"</var>
-                <var id="LESS_THAN_2">COMP_2 === "&lt;" || COMP_2 === "&#8804;"</var>
-                <var id="INCLUSIVE_1">COMP_1 === "&#8805;" || COMP_1 === "&#8804;"</var>
-                <var id="INCLUSIVE_2">COMP_2 === "&#8805;" || COMP_2 === "&#8804;"</var>
+                <var id="COMP_1">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
+                <var id="COMP_2">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
+                <var id="STD_FORM_COMP_1">B_1 &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "≤": "≥", "≥": "≤" }[ COMP_1 ] : COMP_1</var>
+                <var id="STD_FORM_COMP_2">B_2 &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "≤": "≥", "≥": "≤" }[ COMP_2 ] : COMP_2</var>
+                <var id="LESS_THAN_1">COMP_1 === "&lt;" || COMP_1 === "≤"</var>
+                <var id="LESS_THAN_2">COMP_2 === "&lt;" || COMP_2 === "≤"</var>
+                <var id="INCLUSIVE_1">COMP_1 === "≥" || COMP_1 === "≤"</var>
+                <var id="INCLUSIVE_2">COMP_2 === "≥" || COMP_2 === "≤"</var>
             </div>
 
             <p class="question">

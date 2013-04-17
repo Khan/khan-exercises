@@ -125,14 +125,14 @@
                     <p>The least common denominator of <code><var>D_OFFSPRING_1</var></code> and <code><var>D_OFFSPRING_2</var></code> (the denominators of the goal blocks) is
                     <code><var>LCM</var></code>. Therefore you can copy a block <code>\dfrac{1}{<var>LCM</var>}</code> units long to make both goal blocks.</p>
                     <p>To find the number of slices to cut the starting block into we solve for <code>s</code> in the following equation:</p>
-                    <p><code><var>CODE_PARENT</var> &#247; s = \dfrac{1}{<var>LCM</var>}</code></p>
+                    <p><code><var>CODE_PARENT</var> ÷ s = \dfrac{1}{<var>LCM</var>}</code></p>
                     <p><code><var>CODE_PARENT</var> = \dfrac{1}{<var>LCM</var>}s</code></p>
                     <p><code><var>CODE_PARENT</var> \cdot <var>LCM</var> = s</code></p>
                     <p><code>s = <var>SLICES</var></code></p>
                     <p>We now have a resulting block that is <code>\dfrac{1}{<var>LCM</var>}</code> units long. Now we simply divide our goal blocks by this value to see how many times we need to copy the resulting block.</p>
-                    <p><code>\color{<var>BLUE</var>}{c1 = \dfrac{<var>N_OFFSPRING_1</var>}{<var>D_OFFSPRING_1</var>} &#247; \dfrac{1}{<var>LCM</var>} =
+                    <p><code>\color{<var>BLUE</var>}{c1 = \dfrac{<var>N_OFFSPRING_1</var>}{<var>D_OFFSPRING_1</var>} ÷ \dfrac{1}{<var>LCM</var>} =
                         \dfrac{<var>N_OFFSPRING_1</var>}{<var>D_OFFSPRING_1</var>} \cdot <var>LCM</var> = <var>N_OFFSPRING_1 * LCM / D_OFFSPRING_1</var>}</code></p>
-                    <p><code>\color{<var>ORANGE</var>}{c2 = \dfrac{<var>N_OFFSPRING_2</var>}{<var>D_OFFSPRING_2</var>} &#247; \dfrac{1}{<var>LCM</var>} =
+                    <p><code>\color{<var>ORANGE</var>}{c2 = \dfrac{<var>N_OFFSPRING_2</var>}{<var>D_OFFSPRING_2</var>} ÷ \dfrac{1}{<var>LCM</var>} =
                         \dfrac{<var>N_OFFSPRING_2</var>}{<var>D_OFFSPRING_2</var>} \cdot <var>LCM</var> = <var>N_OFFSPRING_2 * LCM / D_OFFSPRING_2</var>}</code></p>
                     <p><strong>Therefore the solution is to cut the starting block into <code><var>SLICES</var></code> pieces, copy current block 1 <code><var>N_OFFSPRING_1 * LCM / D_OFFSPRING_1</var></code> times and current block 2 <code><var>N_OFFSPRING_2 * LCM / D_OFFSPRING_2</var></code> times.</strong></p>
                 </div>

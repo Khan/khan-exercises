@@ -18,24 +18,24 @@
                 <var id="B">SLOPE_FRAC[1] * MULT</var>
                 <var id="C">SLOPE_FRAC[1] * YINT * MULT</var>
                 <var id="STD_FORM">randFromArray([ true, false ])</var>
-                <var id="COMP">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
-                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&#8804;": "&#8805;", "&#8805;": "&#8804;" }[ COMP ] : COMP</var>
-                <var id="LESS_THAN">COMP === "&lt;" || COMP === "&#8804;"</var>
-                <var id="INCLUSIVE">COMP === "&#8805;" || COMP === "&#8804;"</var>
+                <var id="COMP">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
+                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "≤": "≥", "≥": "≤" }[ COMP ] : COMP</var>
+                <var id="LESS_THAN">COMP === "&lt;" || COMP === "≤"</var>
+                <var id="INCLUSIVE">COMP === "≥" || COMP === "≤"</var>
                 <div data-ensure="sqrt( pow( POINT_1[0] - POINT_2[0], 2 ) + pow( POINT_1[1] - POINT_2[1], 2 ) ) &gt; 4">
                     <var id="POINT_1">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
                     <var id="POINT_2">[ randRangeExclude( -9, 9, [ -3, -2, -1, 0 ] ), randRangeExclude( -9, 9, [ -1, -2 ] ) ]</var>
                     <var id="POINT_1_SOLUTION">
                             (((COMP === "&lt;") &amp;&amp; ( POINT_1[1] &lt;  SLOPE * POINT_1[0] + YINT ))
-                        || ((COMP === "&#8804;") &amp;&amp; ( POINT_1[1] &lt;= SLOPE * POINT_1[0] + YINT ))
+                        || ((COMP === "≤") &amp;&amp; ( POINT_1[1] &lt;= SLOPE * POINT_1[0] + YINT ))
                         || ((COMP === "&gt;") &amp;&amp; ( POINT_1[1] &gt;  SLOPE * POINT_1[0] + YINT ))
-                        || ((COMP === "&#8805;") &amp;&amp; ( POINT_1[1] &gt;= SLOPE * POINT_1[0] + YINT )))
+                        || ((COMP === "≥") &amp;&amp; ( POINT_1[1] &gt;= SLOPE * POINT_1[0] + YINT )))
                     </var>
                     <var id="POINT_2_SOLUTION">
                             (((COMP === "&lt;") &amp;&amp; ( POINT_2[1] &lt;  SLOPE * POINT_2[0] + YINT ))
-                        || ((COMP === "&#8804;") &amp;&amp; ( POINT_2[1] &lt;= SLOPE * POINT_2[0] + YINT ))
+                        || ((COMP === "≤") &amp;&amp; ( POINT_2[1] &lt;= SLOPE * POINT_2[0] + YINT ))
                         || ((COMP === "&gt;") &amp;&amp; ( POINT_2[1] &gt;  SLOPE * POINT_2[0] + YINT ))
-                        || ((COMP === "&#8805;") &amp;&amp; ( POINT_2[1] &gt;= SLOPE * POINT_2[0] + YINT )))
+                        || ((COMP === "≥") &amp;&amp; ( POINT_2[1] &gt;= SLOPE * POINT_2[0] + YINT )))
                     </var>
                 </div>
             </div>

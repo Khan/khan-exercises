@@ -106,9 +106,9 @@
         </div>
 
         <var id="SIGN">(INT === 0 ? "" : randFromArray(["", "-"]))</var>
-        <var id="REL">randFromArray([ "&lt;", "&gt;", "&#8804;", "&#8805;" ])</var>
-        <var id="INCLUSIVE">REL === "&#8804;" || REL === "&#8805;"</var>
-        <var id="LESS_THAN">REL === "&lt;" || REL === "&#8804;"</var>
+        <var id="REL">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
+        <var id="INCLUSIVE">REL === "≤" || REL === "≥"</var>
+        <var id="LESS_THAN">REL === "&lt;" || REL === "≤"</var>
         <var id="VARIABLE_NAME">randVar()</var>
         <var id="LINE_ERROR_TYPES">shuffle([ "direction", "inclusion", "positivity", "quantity", "none" ])</var>
         <var id="CORRECT_LINE_INDEX">$.inArray( "none", LINE_ERROR_TYPES )</var>
@@ -190,7 +190,7 @@
 
             <p class="solution" data-type="multiple">
                 <code><var>VARIABLE_NAME</var></code>
-                <span class="sol" data-choices="['', '&lt;', '&gt;', '&#8804;', '&#8805;', '&#8800;']" data-type="list">
+                <span class="sol" data-choices="['', '&lt;', '&gt;', '≤', '≥', '≠']" data-type="list">
                     <var>REL</var>
                 </span>
                 <span class="sol"><var>SIGN + INT</var></span>

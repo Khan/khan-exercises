@@ -10,8 +10,8 @@
             }
 
             return {
-                "&#8804;": "&#8805;",
-                "&#8805;": "&#8804;",
+                "≤": "≥",
+                "≥": "≤",
                 "<": ">",
                 ">": "<"
             }[comp];
@@ -34,7 +34,7 @@
             <var id="ADD_TO_SIMPLIFY">tabulate( function(i) {
                 return LEFT_INT[i] * ( SIGN[i] === "+" ? -1 : 1 );
             }, 2 )</var>
-            <var id="COMP">randFromArray( [ "&lt;", "&gt;", "&#8804;", "&#8805;" ], 2 )</var>
+            <var id="COMP">randFromArray( [ "&lt;", "&gt;", "≤", "≥" ], 2 )</var>
             <var id="RIGHT_INT">tabulate( function(i) {
                 return randRange( 1, 6 ) * abs( COEF[i] ) + ( SIGN[i] === "+" ? 1 : -1 ) * LEFT_INT[i];
             }, 2 )</var>
@@ -51,10 +51,10 @@
             <var id="FIRST">[ "first", "second" ]</var>
             <var id="COLOR">[ "#1F78B4", "#B30000" ]</var>
             <var id="INCLUSIVE">tabulate( function(i) {
-                return COMP_SOLUTION[i] === "&#8804;" || COMP_SOLUTION[i] === "&#8805;";
+                return COMP_SOLUTION[i] === "≤" || COMP_SOLUTION[i] === "≥";
             }, 2 )</var>
             <var id="LESS_THAN">tabulate( function(i) {
-                return COMP_SOLUTION[i] === "&#8804;" || COMP_SOLUTION[i] === "&lt;";
+                return COMP_SOLUTION[i] === "≤" || COMP_SOLUTION[i] === "&lt;";
             }, 2 )</var>
             <var id="ALL_NUMBERS">( LESS_THAN[0] &amp;&amp; !LESS_THAN[1] &amp;&amp; SOLUTION[0] &gt;= SOLUTION [1] ) || ( !LESS_THAN[0] &amp;&amp; LESS_THAN[1] &amp;&amp; SOLUTION[0] &lt;= SOLUTION [1] )</var>
             <var id="NO_SOLUTION">( LESS_THAN[0] &amp;&amp; !LESS_THAN[1] &amp;&amp; SOLUTION[1] &gt; SOLUTION[0] ) || ( !LESS_THAN[0] &amp;&amp; LESS_THAN[1] &amp;&amp; SOLUTION[0] &gt; SOLUTION[1] ) || ( LESS_THAN[0] !== LESS_THAN[1] &amp;&amp; SOLUTION[0] === SOLUTION[1] &amp;&amp; ( !INCLUSIVE[0] || !INCLUSIVE[1] ) )</var>
