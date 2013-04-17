@@ -10,7 +10,7 @@
             var shuffled = KhanUtil.shuffle(variables, KhanUtil.randRange(1, 2));
 
             for (var i = 0; i < shuffled.length; i++) {
-                var n = i ? KhanUtil.randRangeNonZero(-6, 6) : KhanUtil.randRange(1, 6);
+                var n = i > 0 ? KhanUtil.randRangeNonZero(-6, 6) : KhanUtil.randRange(1, 6);
                 terms.push([n, shuffled[i]]);
             }
 
@@ -90,12 +90,12 @@
                                         <code><var>Y</var> = </code>
                                     </td>
                                     <td class="soln-top">
-                                        <span class="sol short50">a</span>
+                                        <span class="sol short64">a</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="soln-bot">
-                                        <span class="sol short50" data-fallback="1">a</span>
+                                        <span class="sol short64" data-fallback="1">a</span>
                                     </td>
                                 </tr>
                             </table>

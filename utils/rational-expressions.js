@@ -17,13 +17,13 @@ $.extend(KhanUtil, {
             }
             return permArr;
         };
-        
+
         return permute(arr);
     },
 
 	getExpressionRegex: function(coefficient, vari, constant) {
         // Capture Ax + B or B + Ax, either A or B can be 0
-        
+
         if (coefficient === 0) {
             var regex = "^\\s*";
             regex += constant < 0 ? "[-\\u2212]\\s*" + (-constant) + "\\s*$" : constant + "\\s*$";
@@ -84,7 +84,7 @@ $.extend(KhanUtil, {
         } else if (variables !== undefined){
             this.variables = variables;
         }
-        
+
         // Use for hashing
         this.variableString = ''
         for (var vari in this.variables) {
@@ -94,7 +94,7 @@ $.extend(KhanUtil, {
                 delete this.variables[vari];
             }
         }
-        
+
         // Return a new term representing this term multiplied by another term or a number
         this.multiply = function(term) {
             var coefficient = this.coefficient;
@@ -109,7 +109,7 @@ $.extend(KhanUtil, {
             } else {
                 coefficient *= term.coefficient;
                 for (var i in term.variables) {
-                    if (variables[i]) {
+                    if (variables[i] != null) {
                         variables[i] += term.variables[i];
                     } else {
                         variables[i] = term.variables[i];
@@ -144,21 +144,21 @@ $.extend(KhanUtil, {
 
             return new KhanUtil.Term(coefficient, variables);
         };
-        
+
         // Return a Term object representing the greatest common factor between this term and another
         this.getGCD = function(that) {
             var coefficient = KhanUtil.getGCD(this.coefficient, that.coefficient);
             var variables = {};
-            
+
             for (var i in this.variables) {
                 if (that.variables[i]) {
                     variables[i] = Math.min(this.variables[i], that.variables[i]);
                 }
             }
-            
+
             return new KhanUtil.Term(coefficient, variables);
         };
-        
+
         // includeSign if term is not the first in an expression
         this.toString = function(includeSign) {
             if (this.coefficient === 0) {
@@ -169,7 +169,7 @@ $.extend(KhanUtil, {
             var s = "";
 
             if (includeSign) {
-                s += this.coefficient > 0 ? " + " : " - ";
+                s += this.coefficient >= 0 ? " + " : " - ";
             } else if (this.coefficient < 0) {
                 s += "-";
             }
@@ -198,18 +198,18 @@ $.extend(KhanUtil, {
             if (this.coefficient === 0) {
                 return "";
             }
-            
+
             // Include leading space if there are earlier terms
             if (this.coefficient < 0){
                 var regex = includeSign ? "[-\\u2212]\\s*" : "\\s*[-\\u2212]\\s*";
             } else {
                 var regex = includeSign ? "\\+\\s*" : "\\s*";
             }
-        
+
             if (!(Math.abs(this.coefficient) === 1 && this.variableString !== "")) {
                 regex += Math.abs(this.coefficient);
             }
-            
+
             // Add variable of degree 1 in random order
             // Won't work if there are multiple variable or variables of degree > 1
             for (var vari in this.variables) {
@@ -217,10 +217,10 @@ $.extend(KhanUtil, {
                     regex += vari;
                 }
             }
-            
+
             return regex + "\\s*";
         };
-        
+
     },
 
     /*
@@ -233,7 +233,7 @@ $.extend(KhanUtil, {
     */
     RationalExpression: function(terms) {
         this.terms = [];
-        
+
         for (var i = 0; i < terms.length; i++) {
             var term = terms[i];
             if (term instanceof KhanUtil.Term) {
@@ -251,18 +251,18 @@ $.extend(KhanUtil, {
         // Combine any terms that have the same variable and remove any with a coefficient of 0
         this.combineLikeTerms = function() {
             var variables = {};
-            
+
             for (var i = 0; i < this.terms.length; i++) {
                 var term = this.terms[i];
                 var s = term.variableString;
-            
+
                 if (variables[s]) {
                     variables[s].coefficient += term.coefficient;
                 } else {
                     variables[s] = term;
                 }
             }
-            
+
             this.terms = [];
             for (var v in variables) {
                 if (variables[v].coefficient !== 0) {
@@ -271,27 +271,27 @@ $.extend(KhanUtil, {
             }
         };
         this.combineLikeTerms();
-        
+
         // Return a new expression which is the sum of this one and the one passed in
         this.add = function(that) {
             var terms = [];
-            
+
             for (var i = 0; i < this.terms.length; i++) {
                 var term = this.terms[i];
                 terms.push([term.coefficient, term.variables]);
             }
-            
+
             for (var i = 0; i < that.terms.length; i++) {
                 var term = that.terms[i];
                 terms.push([term.coefficient, term.variables]);
             }
-            
+
             var result = new KhanUtil.RationalExpression(terms);
             result.combineLikeTerms();
-            
+
             return result;
         };
-        
+
         // Return a new expression representing the product of this one and the one passed in
         this.multiply = function(expression) {
             if (expression instanceof KhanUtil.RationalExpression) {
@@ -302,12 +302,12 @@ $.extend(KhanUtil, {
                 // Assume it's a variable name
                 var multiplyTerms = [new KhanUtil.Term(1, expression)];
             }
-            
+
             var terms = [];
-            
+
             for (var i = 0; i < multiplyTerms.length; i++) {
                 var value = multiplyTerms[i];
-                
+
                 for (var j = 0; j < this.terms.length; j++) {
                     terms.push(this.terms[j].multiply(value));
                 }
@@ -320,7 +320,7 @@ $.extend(KhanUtil, {
         // Note you cannot divide by another expression
         this.divide = function(term) {
             var terms = [];
-            
+
             for (var i = 0; i < this.terms.length; i++) {
                 terms.push(this.terms[i].divide(term));
             }
@@ -360,18 +360,18 @@ $.extend(KhanUtil, {
         this.regex = function() {
             var permutations = KhanUtil.getPermutations(this.terms);
             var regex = "";
-            
+
             for (var p = 0; p < permutations.length; p++) {
-                regex += p ? "|(^" : "(^";
-                
+                regex += p ? "|(?:^" : "(?:^";
+
                 var terms = permutations[p];
                 for (var i = 0; i < terms.length; i++) {
                     regex += terms[i].regex(i);
                 }
-                
+
                 regex += "$)";
             }
-            
+
             return regex;
         };
     }
