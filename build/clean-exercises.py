@@ -5,6 +5,7 @@ un-closed tags, improper entities, and other mistakes.
 """
 
 import argparse
+import string
 
 import lxml.html
 import lxml.html.html5parser
@@ -12,6 +13,10 @@ import lxml.html.html5parser
 # Make an HTML 5 Parser that will be used to turn the HTML documents
 # into a usable DOM. Make sure that we ignore the implied HTML namespace.
 _PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
+
+ENTITY_TABLE = {
+    "\xc2\xa0": "&nbsp;",
+};
 
 
 def main():
@@ -51,7 +56,11 @@ def main():
 
         # We serialize the entire HTML tree
         html_string = lxml.html.tostring(html_tree,
-                                         include_meta_content_type=True)
+                                         include_meta_content_type=True,
+                                         encoding='utf-8')
+
+        for norm, human in ENTITY_TABLE.iteritems():
+            html_string = string.replace(html_string, norm, human)
 
         with open(filename, 'w') as f:
             print >>f, html_string
