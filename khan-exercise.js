@@ -745,6 +745,7 @@ var Khan = (function() {
                 "../jquery.js",
                 "../jquery-migrate-1.1.1.js",
                 "../utils/underscore.js",
+                "../utils/i18n.js",
                 "../exercises-stub.js",
                 "../history.js",
                 "../interface.js"
