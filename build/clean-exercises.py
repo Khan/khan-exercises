@@ -5,6 +5,7 @@ un-closed tags, improper entities, and other mistakes.
 """
 
 import argparse
+import string
 
 import lxml.html
 import lxml.html.html5parser
@@ -12,6 +13,10 @@ import lxml.html.html5parser
 # Make an HTML 5 Parser that will be used to turn the HTML documents
 # into a usable DOM. Make sure that we ignore the implied HTML namespace.
 _PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
+
+ENTITY_TABLE = {
+    "\xc2\xa0": "&nbsp;",
+};
 
 
 def main():
@@ -28,13 +33,37 @@ def main():
         # Parse the HTML tree
         html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
 
-        # We serialize the entire HTML tree
-        html_string = lxml.html.tostring(html_tree)
+        # Hack to fix attribute ordering
+        # See http://stackoverflow.com/questions/3551923/how-to-prevent-xmlserializer-serializetostring-from-re-ordering-attributes
+        #
+        # This hack relies on two properties:
+        #   - Python preserves the order in which values are inserted in a dict
+        #   - Attributes begin with a letter, so numbers will always sort 
+        #     before any "real" attribute.
+        for el in html_tree.xpath('//*'):
+            attrs = dict(el.attrib)
+            keys = el.attrib.keys()
+            keys.sort(key=lambda k:
+                0 if (k == 'href') else
+                1 if (k == 'class') else
+                2 if (k == 'id') else
+                3 if (k == 'http-equiv') else
+                4 if (k == 'content') else
+                k)
+            el.attrib.clear()
+            for k in keys:
+                el.attrib[k] = attrs[k]
 
-        # lxml's tostring() does not output a DOCTYPE so we must
-        # generate our own.
+        # We serialize the entire HTML tree
+        html_string = lxml.html.tostring(html_tree,
+                                         include_meta_content_type=True,
+                                         encoding='utf-8')
+
+        for norm, human in ENTITY_TABLE.iteritems():
+            html_string = string.replace(html_string, norm, human)
+
         with open(filename, 'w') as f:
-            f.write("<!DOCTYPE html>\n" + html_string)
+            print >>f, html_string
 
 
 if __name__ == '__main__':
