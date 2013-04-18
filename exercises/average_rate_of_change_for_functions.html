@@ -4,9 +4,9 @@
         <title>Average Rate of Change of a Function</title>
             <script src="../khan-exercise.js"></script>
             <style type="text/css">
-                #myTable > tr > td{
+                #myTable .ftable > td{
                     text-align: center;
-                    padding: 5px;
+                    padding: 10px;
                 }
             </style>
     </head>
@@ -31,8 +31,8 @@
                     </div>
 
                     <p class="question">
-                        Use the graph of the function <code>f(x)</code> to determine the average rate of change from <code class="hint_blue">x = <var>T1</var></code> to 
-                        <code class="hint_green">x = <var>T2</var></code>.
+                        Use the graph of the function <code>f(x)</code> to determine the average rate of change from <code>x = <var>T1</var></code> to 
+                        <code>x = <var>T2</var></code>.
                     </p>
                     <div class="problem">
                         <br />
@@ -53,28 +53,28 @@
                             graph.point1 = addMovablePoint({
                                 coord: [0, FNX(0)],
                                 snapX: 0.5,
-                                snapY: 0.01,
+                                snapY: 0.1,
                                 normalStyle: {
-                                    fill: KhanUtil.BLUE,
-                                    stroke: KhanUtil.BLUE
+                                    fill: KhanUtil.ORANGE,
+                                    stroke: KhanUtil.ORANGE
                                 },
                                 highlightStyle: {
-                                    fill: KhanUtil.BLUE,
-                                    stroke: KhanUtil.BLUE
+                                    fill: KhanUtil.ORANGE,
+                                    stroke: KhanUtil.ORANGE
                                 }
                             });
 
                             graph.point2 = addMovablePoint({
                                 coord: [1, FNX(1)],
                                 snapX: 0.5,
-                                snapY: 0.01,
+                                snapY: 0.1,
                                 normalStyle: {
-                                    fill: KhanUtil.GREEN,
-                                    stroke: KhanUtil.GREEN
+                                    fill: KhanUtil.ORANGE,
+                                    stroke: KhanUtil.ORANGE
                                 },
                                 highlightStyle: {
-                                    fill: KhanUtil.GREEN,
-                                    stroke: KhanUtil.GREEN
+                                    fill: KhanUtil.ORANGE,
+                                    stroke: KhanUtil.ORANGE
                                 }
                             });
                             
@@ -82,22 +82,26 @@
                             var txt = '(' + graph.point2.coord[0] + ', ' + graph.point2.coord[1] + ')';
 
                             graph.point1.onMove = function(x,y) {
-                                if( x === <var>T1</var> && y >= <var>FNX(T1)-BIGGEST/100</var> && y <= <var>FNX(T1)+BIGGEST/100</var>){
-                                    graph.point1.constraints.fixed = true;
-                                    graph.point1.coord = [<var>T1</var>,<var>FNX(T1)</var>];
-                                    txt = '(' + graph.point1.coord[0] + ', ' + floorTo(1, graph.point1.coord[1]) + ')';
-                                    label(graph.point1.coord, txt, "above", {color: KhanUtil.BLUE}); 
-                                }
+                            if( x === <var>T1</var> && y >= <var>FNX(T1)-BIGGEST/100</var> && y <= <var>FNX(T1)+BIGGEST/100</var>){
+                                graph.point1.constraints.fixed = true;
+                                graph.point1.coord = [<var>T1</var>,<var>FNX(T1)</var>];
+                                txt = '(' + graph.point1.coord[0] + ', ' + floorTo(1, graph.point1.coord[1]) + ')';
+                                label(graph.point1.coord, txt, "above", {color: KhanUtil.PINK});
+                            }else{
+                                return [x,FNX(x)];
+                            }
 
                             };
 
                             graph.point2.onMove = function(x,y) {
-                                if( x === <var>T2</var> && y >= <var>FNX(T2)-BIGGEST/100</var> && y <= <var>FNX(T2)+BIGGEST/100</var>){
-                                    graph.point2.constraints.fixed = true;
-                                    graph.point2.coord = [<var>T2</var>,<var>FNX(T2)</var>];
-                                    txt = '(' + graph.point2.coord[0] + ', ' + floorTo(1, graph.point2.coord[1]) + ')';
-                                    label(graph.point2.coord, txt, "below", {color: KhanUtil.GREEN}); 
-                                }
+                            if( x === <var>T2</var> && y >= <var>FNX(T2)-BIGGEST/100</var> && y <= <var>FNX(T2)+BIGGEST/100</var>){
+                                graph.point2.constraints.fixed = true;
+                                graph.point2.coord = [<var>T2</var>,<var>FNX(T2)</var>];
+                                txt = '(' + graph.point2.coord[0] + ', ' + floorTo(1, graph.point2.coord[1]) + ')';
+                                label(graph.point2.coord, txt, "below", {color: KhanUtil.PINK}); 
+                            }else{ 
+                                return [x,FNX(x)];
+                            }
 
                             };
                         </div>
@@ -109,8 +113,8 @@
 
                     <div class="hints">
                         <p>
-                            Drag the <span class="hint_blue">blue</span> dot to the point <code class="hint_blue">(<var>T1</var>, <var>FNX(T1)</var>)</code>.<br />
-                            Drag the <span class="hint_green">green</span> dot to the point <code class="hint_green">(<var>T2</var>, <var>FNX(T2)</var>)</code>.
+                            Drag the dots to the points <code>(<var>T1</var>, <var>FNX(T1)</var>)</code> and
+                            <code>(<var>T2</var>, <var>FNX(T2)</var>)</code> on the graph.
                         </p>
                         <div class="graphie" data-update="grid">
                             style({
@@ -125,15 +129,19 @@
                             });
                         </div>
                         <p>
+                            If the change in <code>x</code> from <code>x=a</code> to <code>x=b</code> is <code>\Delta x = b - a</code>, then the corresponding change in <code>f</code> from <code>x=a</code> to <code>x=b</code> is given by 
+                            <code>f(b) - f(a).</code>
+                        </p>
+                        <p>
                             The average rate of change of a function over an interval <code>[a,b]</code> is given by 
                             <code>\dfrac{\Delta f}{\Delta x} = \dfrac{f(b) - f(a)}{b-a}</code>.
                         </p>
                         <p>
-                            <code class="hint_green">f(<var>T2</var>) = <var>FNX(T2)</var></code> and
-                            <code class="hint_blue">f(<var>T1</var>) = <var>FNX(T1)</var></code>
+                            <code>f(<var>T2</var>) = <var>FNX(T2)</var></code> and
+                            <code>f(<var>T1</var>) = <var>FNX(T1)</var></code>
                         </p>
                         <p>
-                            <code>\dfrac{\green{f(<var>T2</var>)} - \blue{f(<var>T1</var>)}}{\green{<var>T2</var>} - \blue{<var>T1</var>}}</code>
+                            <code>\dfrac{f(<var>T2</var>) - f(<var>T1</var>)}{<var>T2</var> - <var>T1</var>} = \dfrac{<var>FNX(T2)</var>- <var>FNX(T1)</var>}{<var>T2</var> - <var>T1</var>}</code>
                         </p>
                         <p>
                             <code> = <var>(FNX(T2) - FNX(T1) ) / ( T2-T1 )</var></code>
@@ -161,7 +169,11 @@
 
                     <div class="hints">
                         <p>
-                            The average rate of change of a function over an interval <code>[a,b]</code> is given by 
+                            If the change in <code>x</code> from <code>x=a</code> to <code>x=b</code> is <code>\Delta x = b - a</code>, then the corresponding change in <code>f</code> from <code>x=a</code> to <code>x=b</code> is given by 
+                            <code>f(b) - f(a).</code>
+                        </p>
+                        <p>
+                            The average rate of change of a function from <code>x=a</code> to <code>x=b</code> is defined by 
                             <code>\dfrac{\Delta f}{\Delta x} = \dfrac{f(b) - f(a)}{b-a}</code>.
                         </p>
                         <p>
@@ -179,41 +191,40 @@
 
                 <div id="table-average-of-change">
                     <div class="vars">
-                        <var id="T1">randRange(-10,5)</var>
-                        <var id="T2">T1 + randRange(1, 5)</var>
+                        <var id="POINTS">sortNumbers(randRangeUnique(-10,20,7))</var>
+                        <var id="T1">randFromArray(POINTS)</var>
+                        <var id="T2" data-ensure="T2 !== T1">randFromArray(POINTS)</var>
                         <var id="POLYNOMIAL">new Polynomial(randRange(0,3), randRange(2,4))</var>
                         <var id="FNXTEXT">POLYNOMIAL.text()</var>
                         <var id="FNX">function(x) {return POLYNOMIAL.evalOf(x);}</var>                        
-                        <var id="POINTS">[-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</var>
                         <var id="FNPOINTS">$.map(POINTS, FNX)</var>
-                        <var id="TABLE">
-                            function(){
-                                var theTable = document.getElementById('myTable');
-
-                                for (var i = 0, tr, tdL,tdR; i < 21; i++) {
-                                tr = document.createElement('tr');
-                                tdL = document.createElement('td');
-                                tdR = document.createElement('td');
-                                tdL.appendChild(document.createTextNode(POINTS[i]));
-                                tdR.appendChild(document.createTextNode(FNPOINTS[i]));
-                                tr.appendChild(tdL);
-                                tr.appendChild(tdR);
-                                theTable.appendChild(tr);
-                                }
-                            }
-                        </var>
-
                     </div>
 
                     <p class="problem">
                         Calculuate the average rate of change of the from 
                         <code>x = <var>T1</var></code> to <code>x = <var>T2</var></code>, of the function given by
-                        the table below. <var>TABLE()</var></p>
+                        the table below.</p>
                     <p class="question">
                         <table id="myTable">
-                            <tr>
-                            <th><code>x</code></th>
-                            <th><code>f(x)</code></th>
+                            <tr class="ftable">
+                                <th><code>x</code></th>
+                                <td><var>POINTS[0]</var></td>
+                                <td><var>POINTS[1]</var></td>
+                                <td><var>POINTS[2]</var></td>
+                                <td><var>POINTS[3]</var></td>
+                                <td><var>POINTS[4]</var></td>
+                                <td><var>POINTS[5]</var></td>
+                                <td><var>POINTS[6]</var></td>
+                            </tr>
+                            <tr class="ftable">
+                                <th><code>f(x)</code></th>
+                                <td><var>FNPOINTS[0]</var></td>
+                                <td><var>FNPOINTS[1]</var></td>
+                                <td><var>FNPOINTS[2]</var></td>
+                                <td><var>FNPOINTS[3]</var></td>
+                                <td><var>FNPOINTS[4]</var></td>
+                                <td><var>FNPOINTS[5]</var></td>
+                                <td><var>FNPOINTS[6]</var></td>
                             </tr>
                         </table>
                     </p>
@@ -221,6 +232,10 @@
                         <var>(FNX(T2) - FNX(T1) ) / ( T2-T1 )</var>
                     </p>
                     <div class="hints">
+                        <p>
+                            If the change in <code>x</code> from <code>x=a</code> to <code>x=b</code> is <code>\Delta x = b - a</code>, then the corresponding change in <code>f</code> from <code>x=a</code> to <code>x=b</code> is given by 
+                            <code>f(b) - f(a).</code>
+                        </p>
                         <p>
                             The average rate of change of a function over an interval <code>[a,b]</code> is given by 
                             <code>\dfrac{\Delta f}{\Delta x} = \dfrac{f(b) - f(a)}{b-a}</code>.
