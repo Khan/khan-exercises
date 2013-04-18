@@ -23,10 +23,8 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <div data-ensure="X !== Y">
-                <var id="X">randVar()</var>
-                <var id="Y">randVar()</var>
-            </div>
+            <var id="X">randVar()</var>
+            <var id="Y" data-ensure="Y !== X">randVar()</var>
             <var id="SIGN">randFromArray(["-", "+"])</var>
         </div>
 
@@ -48,21 +46,19 @@
                 </div>
 
                 <div class="solution" data-type="multiple">
-                    <div class="entry">
-                        <table>
-                            <tr>
-                                <td rowspan="2" class="soln-name"><code><var>Y</var>=</code></td>
-                                <td class="soln-top">
-                                    <span class="sol short50" data-type="regex"><var>NUMERSOL.regex()</var></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="soln-bot">
-                                    <span class="sol short50" data-type="number" data-fallback="1"><var>DENOMSOL</var></span>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                    <table>
+                        <tr>
+                            <td rowspan="2" class="soln-name"><code><var>Y</var>=</code></td>
+                            <td class="soln-top">
+                                <span class="sol short50" data-type="regex"><var>NUMERSOL.regex()</var></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="soln-bot">
+                                <span class="sol short50" data-type="number" data-fallback="1"><var>DENOMSOL</var></span>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
@@ -80,21 +76,19 @@
                 </div>
 
                 <div class="solution" data-type="multiple">
-                    <div class="entry">
-                        <table>
-                            <tr>
-                                <td rowspan="2" class="soln-name"><code><var>Y</var>=</code></td>
-                                <td class="soln-top">
-                                    <span class="sol short50" data-type="number"><var>NUMERSOL</var></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="soln-bot">
-                                    <span class="sol short50" data-type="regex"><var>DENOMSOL.regex()</var></span>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                    <table>
+                        <tr>
+                            <td rowspan="2" class="soln-name"><code><var>Y</var>=</code></td>
+                            <td class="soln-top">
+                                <span class="sol short50" data-type="number"><var>NUMERSOL</var></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="soln-bot">
+                                <span class="sol short50" data-type="regex"><var>DENOMSOL.regex()</var></span>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
