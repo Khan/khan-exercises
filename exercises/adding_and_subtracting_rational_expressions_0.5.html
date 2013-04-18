@@ -33,35 +33,43 @@
         <div class="problems">
             <div id="constant-denom">
                 <div class="vars">
-                    <div data-ensure="NUMERATORSUM.coefficient !== 0">
+                    <div data-ensure="SIGN !== '-' || NUMERATOR1.coefficient !== NUMERATOR2.coefficient">
                         <var id="NUMERATOR1">new Term(randRangeNonZero(-10, 10), X)</var>
                         <var id="NUMERATOR2">new Term(randRangeNonZero(-10, 10), X)</var>
-                        <var id="NUMERATORSUM">
-                            SIGN === "+" ? new Term(NUMERATOR1.coefficient + NUMERATOR2.coefficient, X) :
-                                           new Term(NUMERATOR1.coefficient - NUMERATOR2.coefficient, X)
-                        </var>
                     </div>
+                    <var id="NUMERATORSUM">
+                        SIGN === "+" ? new Term(NUMERATOR1.coefficient + NUMERATOR2.coefficient, X) :
+                                       new Term(NUMERATOR1.coefficient - NUMERATOR2.coefficient, X)
+                    </var>
                     <var id="DENOMINATOR">randRangeNonZero(2, 10)</var>
                     <var id="FACTOR">getGCD(NUMERATORSUM.coefficient, DENOMINATOR)</var>
                     <var id="NUMERSOL">NUMERATORSUM.divide(FACTOR)</var>
                     <var id="DENOMSOL">DENOMINATOR / FACTOR</var>
                 </div>
 
-                <div class="solution" data-type="multiple">
-                    <div class="entry">
-                        <table>
-                            <tr>
-                                <td rowspan="2" class="soln-name"><code><var>Y</var>=</code></td>
-                                <td class="soln-top">
-                                    <span class="sol short50" data-type="regex"><var>NUMERSOL.regex()</var></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="soln-bot">
-                                    <span class="sol short50" data-type="number"><var>DENOMSOL</var></span>
-                                </td>
-                            </tr>
-                        </table>
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NUMERSOL.regex()</var></span>
+                        <span class="sol" data-type="regex"><var>DENOMSOL</var></span>
+                    </div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <table>
+                                <tr>
+                                    <td rowspan="2" class="soln-name">
+                                        <code><var>Y</var> = </code>
+                                    </td>
+                                    <td class="soln-top">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -79,21 +87,29 @@
                     <var id="DENOMSOL">DENOMINATOR.divide(FACTOR)</var>
                 </div>
 
-                <div class="solution" data-type="multiple">
-                    <div class="entry">
-                        <table>
-                            <tr>
-                                <td rowspan="2" class="soln-name"><code><var>Y</var>=</code></td>
-                                <td class="soln-top">
-                                    <span class="sol short50" data-type="number"><var>NUMERSOL</var></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="soln-bot">
-                                    <span class="sol short50" data-type="regex"><var>DENOMSOL.regex()</var></span>
-                                </td>
-                            </tr>
-                        </table>
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>NUMERSOL</var></span>
+                        <span class="sol" data-type="regex"><var>DENOMSOL.regex()</var></span>
+                    </div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <table>
+                                <tr>
+                                    <td rowspan="2" class="soln-name">
+                                        <code><var>Y</var> = </code>
+                                    </td>
+                                    <td class="soln-top">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
