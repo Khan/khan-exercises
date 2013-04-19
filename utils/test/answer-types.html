@@ -375,6 +375,7 @@
 
         testAnswer(answerData, "12345.6788", false, "wrong answer is wrong");
         testAnswer(answerData, "12345.6789", true, "right answer is right");
+        testAnswer(answerData, "12345,6789", true, "right answer with decimal comma is right");
         testAnswer(answerData, "12,345.6789", true, "right answer with commas is right");
         testAnswer(answerData, "12,345.678,9", true, "right answer with commas is right");
         testAnswer(answerData, "12.345,6789", true, "right answer with periods is right");
@@ -429,6 +430,22 @@
         testAnswer(answerData, "-1,5000", true, "right answer is right");
         testAnswer(answerData, "-3/2", true, "right answer is right");
         testAnswer(answerData, "-6/4", "string", "unsimplified right answer provides a message");
+
+        start();
+    });
+
+    asyncTest("number generic 41.976", 4, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution'>41.976<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "419.76", false, "wrong answer is wrong");
+        testAnswer(answerData, "41976", false, "right answer is right");
+        testAnswer(answerData, "41,976", false, "right answer with comma is right");
+        testAnswer(answerData, "41.976", false, "right answer with period is right");
 
         start();
     });
