@@ -7,11 +7,26 @@ import lint_i18n_strings
 _TEST_ROOT = 'lint_test'
 
 TESTS = {
-    'ternary.html': {
+    'pronoun': {
+        'nodes_changed': 4,
+        'errors': ['4 nodes need to be fixed. '
+            'Re-run with --fix to automatically fix them.']
+    },
+    'always_plural': {
+        'nodes_changed': 4,
+        'errors': ['4 nodes need to be fixed. '
+            'Re-run with --fix to automatically fix them.']
+    },
+    'plural': {
+        'nodes_changed': 6,
+        'errors': ['6 nodes need to be fixed. '
+            'Re-run with --fix to automatically fix them.']
+    },
+    'ternary': {
         'nodes_changed': 3,
         'errors': ['3 nodes need to be fixed. '
             'Re-run with --fix to automatically fix them.']
-    }
+    },
 }
 
 
@@ -25,19 +40,36 @@ class LintStringsTest(unittest.TestCase):
         super(LintStringsTest, self).setUp()
         self.orig_dir = os.getcwd()
 
+        lint_i18n_strings.SHOW_PROMPT = False
+
         # Make sure that we're always working from the build directory
         # NOTE: We use chdir here so that we have the same relative path
         # every time the program is run (makes for consistent test output)
         # since the output includes file paths
         os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
+        # Keep backups of the contents of all the files
+        for file_name, checks in TESTS.iteritems():
+            checks['test_file'] = os.path.join(_TEST_ROOT, file_name) + '.html'
+            checks['output_file'] = (os.path.join(_TEST_ROOT, file_name) +
+                '_output.html')
+            checks['original'] = _slurp(checks['test_file'])
+
     def tearDown(self):
+        # Revert all the test files back to their original state
+        for file_name, checks in TESTS.iteritems():
+            test_file = os.path.join(_TEST_ROOT, file_name) + '.html'
+            with open(test_file, 'w') as f:
+                f.write(checks['original'])
+
         os.chdir(self.orig_dir)
         super(LintStringsTest, self).tearDown()
 
     def test_no_fix(self):
         for file_name, checks in TESTS.iteritems():
-            test_file = os.path.join(_TEST_ROOT, file_name)
+            test_file = checks['test_file']
+
+            # Apply without making any changes to the file
             (errors, nodes_changed) = lint_i18n_strings.lint_file(test_file,
                 apply_fix=False, verbose=False)
 
@@ -45,7 +77,29 @@ class LintStringsTest(unittest.TestCase):
                 '# of nodes changed differ in %s' % test_file)
             self.assertEqual(errors, checks['errors'], 
                 'Errors reported differ in %s' % test_file)
+            self.assertEqual(_slurp(test_file), checks['original'],
+                'Make sure that the output of the file did not change with '
+                'apply_fix=False.')
+
+            # Test again with apply_fix=True
+            (errors, nodes_changed) = lint_i18n_strings.lint_file(test_file,
+                apply_fix=True, verbose=False)
+
+            self.assertEqual(nodes_changed, checks['nodes_changed'], 
+                '# of nodes changed differ in %s' % test_file)
+            self.assertEqual(errors, [], 
+                'These should be no errors in %s' % test_file)
+            self.assertEqual(_slurp(test_file), _slurp(checks['output_file']),
+                'Make sure that the output of the file matches the expected '
+                'output.')
+
+
+def _slurp(filename):
+    """Read in the entire contents of a file, return as a string."""
+    with open(filename) as f:
+        return f.read()
 
 
 if __name__ == '__main__':
     unittest.main()
+ 
