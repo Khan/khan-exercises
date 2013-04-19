@@ -365,7 +365,7 @@
         start();
     });
 
-    asyncTest("number decimal", 8, function() {
+    asyncTest("number decimal", 9, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='decimal'>12345.6789<\/p>"
         );
@@ -434,18 +434,18 @@
         start();
     });
 
-    asyncTest("number generic 41.976", 4, function() {
+    asyncTest("number generic 41976", 4, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
-            "<p class='solution'>41.976<\/p>"
+            "<p class='solution'>41976<\/p>"
         );
 
         var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
                 $problem.children(".solution"));
 
         testAnswer(answerData, "419.76", false, "wrong answer is wrong");
-        testAnswer(answerData, "41976", false, "right answer is right");
-        testAnswer(answerData, "41,976", false, "right answer with comma is right");
-        testAnswer(answerData, "41.976", false, "right answer with period is right");
+        testAnswer(answerData, "41976", true, "right answer is right");
+        testAnswer(answerData, "41,976", true, "right answer with comma is right");
+        testAnswer(answerData, "41.976", true, "right answer with period is right");
 
         start();
     });
