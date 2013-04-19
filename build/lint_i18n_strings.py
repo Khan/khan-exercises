@@ -155,8 +155,7 @@ def lint_file(filename, apply_fix, verbose):
     nodes_changed = 0
 
     # The filters through which the files should be passed and in which order
-    filters = [PronounFilter(), TernaryFilter(), AlwaysPluralFilter(),
-        PluralFilter()]
+    filters = [PronounFilter, TernaryFilter, AlwaysPluralFilter, PluralFilter]
 
     # Collect all the i18n-able nodes out of file
     nodes = extract_strings.extract_nodes(filename)
@@ -188,153 +187,23 @@ def lint_file(filename, apply_fix, verbose):
     # should be fixed but need some manual adjustment before they can be
     # automatically fixed. Those come up as errors.
 
-    # Process the file with each filter in series and aggregate the
-    # unfixable results
-    for filter in filters:
+    # Process the file with each filter in series
+    for FilterClass in filters:
+        filter = FilterClass()
+        (new_nodes, new_errors, new_nodes_changed) = filter.process(nodes)
+
         # It's possible that the nodes will change, be replaced, or be inserted
         # during the processing of the filter. To avoid having to re-load and
         # parse the file a second time we build a list of nodes dynamically
         # from the filtered results.
-        new_nodes = []
-
-        for orig_node in nodes:
-            # Construct an XPath expression for finding nodes to fix
-            fix_expr = '|'.join(['.//%s[%s]' % (name, filter.xpath)
-                for name in extract_strings.INLINE_SCRIPT_NODES])
-
-            # Bail if the node doesn't contain any elements that may need
-            # fixing. (We discard the results of running this against the
-            # original node as we really want the result from the cloned
-            # node.) Unfortunately cloning the nodes is a more-expensive
-            # operation than running the XPath expression so we do this
-            # first to offset the expense.
-            if not orig_node.xpath(fix_expr):
-                new_nodes.append(orig_node)
-                continue
-
-            # We clone the node to make sure we don't unintentionally modify
-            # the original node.
-            node = copy.deepcopy(orig_node)
-
-            # A collection of all the nodes that could might need fixing
-            fix_nodes = node.xpath(fix_expr)
-
-            # Create a cloned copy of the node, we're going to need this as
-            # the fixer will likely need to generate a second copy of the
-            # original node but slightly modified.
-            cloned_node = copy.deepcopy(node)
-
-            # The nodes that might need fixing under the cloned element
-            cloned_fix_nodes = cloned_node.xpath(fix_expr)
-
-            # Some nodes will have a unique 'key' which will be used as a
-            # lookup. For example in the following nodes:
-            #    <p><var>He(1)</var> threw a ball to <var>his(1)</var>
-            #       friend.</p>
-            #    <p><var>He(1)</var> threw a ball to <var>him(2)</var>.</p>
-            # The first string has one key '1' used twice, whereas the second
-            # string has two keys '1' and '2'. We keep track of this because
-            # we need to use this key to generate the replacement string and
-            # also to make sure that we don't attempt to fix a string that has
-            # more than one key in it. For example the first string becomes:
-            #    <p data-if="isMale(1)">He threw a ball to his friend.</p>
-            #    <p data-else>She threw a ball to her friend.</p>
-            # And the second one is not possible to automatically fixable
-            # because it has more than one key.
-            match_keys = set()
-
-            for fix_node in fix_nodes:
-                # Extract parts of the code element's inner contents for
-                # further processing.
-                match = filter.get_match(fix_node)
-
-                if match and hasattr(filter, 'extract_key'):
-                    # Extract the key from the string (if it exists)
-                    key = filter.extract_key(match)
-
-                    # If a key was extracted then add it to the set
-                    if key:
-                        match_keys.add(key)
-                    else:
-                        errors.append('Ambiguous keys, input needed:\n%s' % (
-                            extract_strings.get_outerhtml(node)))
-
-            # If we've located more than one key then we need to fix the
-            # strings by hand.
-            if len(match_keys) > 1:
-                errors.append("Contains too many different keys (%s):\n%s" % (
-                    ", ".join(list(match_keys)),
-                    extract_strings.get_outerhtml(node)))
-                new_nodes.append(orig_node)
-                continue
-
-            # Handle the case where we need to generate a new node because
-            # it the original node has an if/else.
-            if filter.require_ifelse and (
-                node.get('data-if') or node.get('data-else')):
-                # Change the tag names to just be a boring 'span'
-                node.tag = cloned_node.tag = 'span'
-
-                # Remove all existing attributes on both the original and the
-                # cloned node
-                for attr in node.attrib:
-                    node.attrib.pop(attr)
-                for attr in cloned_node.attrib:
-                    cloned_node.attrib.pop(attr)
-
-                # Set the data-unwrap attribute to get the exercise framework
-                # to automatically remove the <span> wrapper that we added
-                node.set('data-unwrap', '')
-                cloned_node.set('data-unwrap', '')
-
-                # Remove all child nodes within the original element
-                for child_node in orig_node.iterchildren():
-                    orig_node.remove(child_node)
-
-                # Clear any remaining text
-                orig_node.text = ''
-
-                # And insert the newly-created node into position
-                orig_node.append(node)
-            else:
-                # Otherwise we just replace the node with the newly-cloned node
-                orig_node.getparent().replace(orig_node, node)
-
-            # Loop through both the regular and cloned nodes
-            for (fix_node, cloned_fix_node) in \
-                zip(fix_nodes, cloned_fix_nodes):
-                # Extract parts of the code element's inner contents for
-                # further processing.
-                match = filter.get_match(fix_node)
-
-                if match:
-                    # Process the fixable node
-                    filter.filter_fix_node(match, fix_node, cloned_fix_node)
-
-                    # Keep a tally of nodes that've been changed
-                    nodes_changed += 1
-
-            if match_keys:
-                # Get the one remaining key
-                key = list(match_keys)[0]
-
-                # Modify the original node (if need be)
-                changed = filter.filter_node(key, node, cloned_node)
-
-                # Keep track of nodes that've been changed
-                if changed is not None:
-                    nodes_changed += 1
-                    new_nodes.extend(changed)
-                else:
-                    new_nodes.append(node)
-            else:
-                new_nodes.append(node)
-
-        # We need to replace the node list with the one that we've
-        # reconstructed as to handle cases where nodes have been replaced
-        # or new nodes have been inserted into the document (and, thus,
-        # the upcoming filters will need to handle those nodes as well).
         nodes = new_nodes
+
+        # Add any errors onto the full list of errors
+        errors += new_errors
+
+        # Keep track of how many nodes have changed
+        # (or would have changed, if apply_fix is False)
+        nodes_changed += new_nodes_changed
 
     if nodes_changed:
         # If any nodes have changed and we want to apply the fixes
@@ -352,7 +221,186 @@ def lint_file(filename, apply_fix, verbose):
     return (errors, nodes_changed)
 
 
-class PronounFilter(object):
+class BaseFilter(object):
+
+    def __init__(self):
+        self.nodes_changed = 0
+        self.errors = []
+
+    def process(self, nodes):
+        new_nodes = []
+
+        for node in nodes:
+            new_nodes.append(self.process_node(node))
+
+        return (new_nodes, self.errors, self.nodes_changed)
+
+    def process_node(self, orig_node):
+        # Bail if the node doesn't contain any elements that may need
+        # fixing. (We discard the results of running this against the
+        # original node as we really want the result from the cloned
+        # node.) Unfortunately cloning the nodes is a more-expensive
+        # operation than running the XPath expression so we do this
+        # first to offset the expense.
+        if not self.find_fixable_vars(orig_node):
+            return orig_node
+
+        # Replace the existing node with a new one, if need be
+        node = self.replace_node(orig_node)
+
+        # Process the fixable vars in the node
+        if not self.process_vars(node):
+            node = orig_node
+
+        return node
+
+    def find_fixable_vars(self, node):
+        # Construct an XPath expression for finding nodes to fix
+        fix_expr = '|'.join(['.//%s[%s]' % (name, self.xpath)
+            for name in extract_strings.INLINE_SCRIPT_NODES])
+
+        return node.xpath(fix_expr)
+
+    def replace_node(self, orig_node):
+        # We clone the node to make sure we don't unintentionally modify
+        # the original node.
+        node = copy.deepcopy(orig_node)
+
+        # We just replace the node with the newly-cloned node
+        orig_node.getparent().replace(orig_node, node)
+
+        return node
+
+    def process_vars(self, node):
+        # A collection of all the <var>s that could might need fixing
+        self.fixable_vars = self.find_fixable_vars(node)
+
+        # Loop through the fixable var nodes
+        for var_node in self.fixable_vars:
+            # Extract parts of the code element's inner contents for
+            # further processing.
+            match = self.get_match(var_node)
+
+            if match:
+                # Process the fixable var
+                self.filter_var(match, var_node)
+
+                # Keep a tally of nodes that've been changed
+                self.nodes_changed += 1
+
+        return True
+
+
+class IfElseFilter(BaseFilter):
+    def process_node(self, orig_node):
+        # Create a cloned copy of the node, we're going to need this as
+        # the fixer will likely need to generate a second copy of the
+        # original node but slightly modified.
+        self.cloned_node = copy.deepcopy(orig_node)
+
+        # The vars that might need fixing under the cloned element
+        self.cloned_vars = self.find_fixable_vars(self.cloned_node)
+
+        node = super(IfElseFilter, self).process_node(orig_node)
+
+        # A collection of all the <var>s that could might need fixing
+        self.fixable_vars = self.find_fixable_vars(node)
+
+        match_keys = self.extract_keys_from_vars(self.fixable_vars)
+
+        # If we've located more than one key then we need to fix the
+        # strings by hand.
+        if len(match_keys) > 1:
+            self.errors.append("Contains too many different keys (%s):\n%s" % (
+                ", ".join(match_keys), extract_strings.get_outerhtml(node)))
+            return orig_node
+
+        if match_keys:
+            # Get the one remaining key
+            key = match_keys[0]
+
+            # Modify the original node (if need be)
+            changed = self.filter_node(key, node)
+
+            # Keep track of nodes that've been changed
+            if changed is not None:
+                self.nodes_changed += 1
+                return changed
+
+        return node
+
+    def get_cloned_var(self, var_node):
+        return self.cloned_vars[self.fixable_vars.index(var_node)]
+
+    def extract_keys_from_vars(self, fixable_vars):
+        # Some nodes will have a unique 'key' which will be used as a
+        # lookup. For example in the following nodes:
+        #    <p><var>He(1)</var> threw a ball to <var>his(1)</var>
+        #       friend.</p>
+        #    <p><var>He(1)</var> threw a ball to <var>him(2)</var>.</p>
+        # The first string has one key '1' used twice, whereas the second
+        # string has two keys '1' and '2'. We keep track of this because
+        # we need to use this key to generate the replacement string and
+        # also to make sure that we don't attempt to fix a string that has
+        # more than one key in it. For example the first string becomes:
+        #    <p data-if="isMale(1)">He threw a ball to his friend.</p>
+        #    <p data-else>She threw a ball to her friend.</p>
+        # And the second one is not possible to automatically fixable
+        # because it has more than one key.
+        match_keys = set()
+
+        for var_node in fixable_vars:
+            # Extract parts of the code element's inner contents for
+            # further processing.
+            match = self.get_match(var_node)
+
+            if match and hasattr(self, 'extract_key'):
+                # Extract the key from the string (if it exists)
+                key = self.extract_key(match)
+
+                # If a key was extracted then add it to the set
+                if key:
+                    match_keys.add(key)
+
+        return list(match_keys)
+
+    def replace_node(self, orig_node):
+        # We clone the node to make sure we don't unintentionally modify
+        # the original node.
+        node = copy.deepcopy(orig_node)
+
+        if node.get('data-if') or node.get('data-else'):
+            # Change the tag names to just be a boring 'span'
+            node.tag = self.cloned_node.tag = 'span'
+
+            # Remove all existing attributes on both the original and the
+            # cloned node
+            for attr in node.attrib:
+                node.attrib.pop(attr)
+            for attr in self.cloned_node.attrib:
+                self.cloned_node.attrib.pop(attr)
+
+            # Set the data-unwrap attribute to get the exercise framework
+            # to automatically remove the <span> wrapper that we added
+            node.set('data-unwrap', '')
+            self.cloned_node.set('data-unwrap', '')
+
+            # Remove all child nodes within the original element
+            for child_node in orig_node.iterchildren():
+                orig_node.remove(child_node)
+
+            # Clear any remaining text
+            orig_node.text = ''
+
+            # And insert the newly-created node into position
+            orig_node.append(node)
+
+            return node
+        else:
+            return super(IfElseFilter, self).replace_node(orig_node)
+
+
+class PronounFilter(IfElseFilter):
     """Repairs usage of he()/He()/his()/His() in exercise files.
     Used by lint_file, automatically converts these methods into
     a more translatable form.
@@ -373,7 +421,6 @@ class PronounFilter(object):
     # Matches he|his(...)
     _regex = re.compile(r'^\s*(he|his)\(\s*(.*?)\s*\)\s*$', re.I)
 
-    require_ifelse = True
     xpath = ' or '.join(['contains(text(),"%s(")' % pronoun
         for pronoun in _pronouns])
 
@@ -388,14 +435,14 @@ class PronounFilter(object):
         """
         return match.group(2)
 
-    def filter_fix_node(self, match, fix_node, cloned_fix_node):
+    def filter_var(self, match, var_node):
         """Replace the fixable node with the correct gender string.
 
         For example: <var>He(1)</var> will be 'He' and 'She' in the
         original and cloned nodes.
         """
-        extract_strings._replace_node(fix_node, match.group(1))
-        extract_strings._replace_node(cloned_fix_node,
+        extract_strings.replace_node(var_node, match.group(1))
+        extract_strings.replace_node(self.get_cloned_var(var_node),
             self._pronoun_map[match.group(1)])
 
     def filter_node(self, key, node, cloned_node):
@@ -410,7 +457,7 @@ class PronounFilter(object):
         return (node, cloned_node)
 
 
-class AlwaysPluralFilter(object):
+class AlwaysPluralFilter(BaseFilter):
     """Fix usage of plural() in exercises when the result is always plural.
 
     For example the string <var>plural(distance(1))</var> will always return
@@ -436,7 +483,6 @@ class AlwaysPluralFilter(object):
     _regex = re.compile(r'^\s*(plural|pluralTex)'
         r'\(\s*((?:[^,]+|\([^\)]*\))*)\s*\)\s*$', re.I)
 
-    require_ifelse = False
     xpath = ' or '.join(['contains(text(),"%s(")' % method
         for method in _methods])
 
@@ -444,7 +490,7 @@ class AlwaysPluralFilter(object):
         """Return a match of a string that matches plural(...)"""
         return self._regex.match(extract_strings.get_innerhtml(fix_node))
 
-    def filter_fix_node(self, match, fix_node, cloned_fix_node):
+    def filter_var(self, match, var_node):
         """Replace the <var> with the correct contents.
 
         This depends upon the contents of the plural() string.
@@ -470,24 +516,24 @@ class AlwaysPluralFilter(object):
             # In this case just convert it directly to its plural form
             # We do this by prompting the user for help translating to the
             # correct plural form.
-            extract_strings._replace_node(fix_node,
+            extract_strings.replace_node(var_node,
                 get_plural_form(str_match.group(1)))
         # If the argument is a number
         elif get_is_plural_num(match):
             # Then we need to rewrite the function call so that it'll
             # be transformed into plural("", NUM), which will then be
             # converted into its correct form via the PluralFilter
-            fix_node.text = self._empty_str_fn % (match.group(1).strip(),
+            var_node.text = self._empty_str_fn % (match.group(1).strip(),
                 match.group(2).strip())
         else:
             # Otherwise we need to wrap the variable (or function call) in
             # a call to plural_form() which will attempt to return the
             # plural form of that string.
-            fix_node.text = (self._function_map[match.group(1)] %
+            var_node.text = (self._function_map[match.group(1)] %
                 match.group(2).strip())
 
 
-class PluralFilter(object):
+class PluralFilter(IfElseFilter):
     """Fix usage of plural() in exercises.
 
     This filter fixes a number of different issues relating to the usage of
@@ -555,7 +601,6 @@ class PluralFilter(object):
     _regex = re.compile(r'^\s*(plural|pluralTex)'
         r'\(\s*((?:[^,(]+|\(.+?\))*),\s*((?:[^,(]+|\(.+?\))*)\s*\)\s*$', re.I)
 
-    require_ifelse = True
     xpath = ' or '.join(['contains(text(),"%s(")' % method
         for method in _methods])
 
@@ -576,7 +621,7 @@ class PluralFilter(object):
         # Determine the position of the number argument and extract it
         return match.group(get_plural_num_pos(match) + 1).strip()
 
-    def filter_fix_node(self, match, fix_node, cloned_fix_node):
+    def filter_var(self, match, var_node):
         """Replace the <var>s with the correct plural() contents.
 
         If the first argument to plural() is a string:
@@ -610,6 +655,8 @@ class PluralFilter(object):
         and then change the output depending upon it (because of the silly
         plural() function argument order).
         """
+        cloned_var = self.get_cloned_var(var_node)
+
         first_str_match = _STRING_RE.match(match.group(2))
         second_str_match = _STRING_RE.match(match.group(3))
 
@@ -619,10 +666,10 @@ class PluralFilter(object):
             word = first_str_match.group(1).strip()
 
             # Replace the first node with just the word
-            extract_strings._replace_node(fix_node, word)
+            extract_strings.replace_node(var_node, word)
 
             # Replace the cloned node with the plural form of the word
-            extract_strings._replace_node(cloned_fix_node,
+            extract_strings.replace_node(cloned_var,
                 get_plural_form(word))
 
         # If the second argument is a string
@@ -631,14 +678,14 @@ class PluralFilter(object):
             word = second_str_match.group(1).strip()
 
             # Convert the first node to just the static string '1 WORD'
-            extract_strings._replace_node(fix_node, "1 " + word)
+            extract_strings.replace_node(var_node, "1 " + word)
 
             # Have the cloned <var> output the number
-            cloned_fix_node.text = match.group(2).strip()
+            cloned_var.text = match.group(2).strip()
 
             # Insert a space and the plural form of the word after the variable
-            cloned_fix_node.tail = (' ' + get_plural_form(word) +
-                (cloned_fix_node.tail or ''))
+            cloned_var.tail = (' ' + get_plural_form(word) +
+                (cloned_var.tail or ''))
 
         # Otherwise both of the results are variables or function calls.
         else:
@@ -660,12 +707,12 @@ class PluralFilter(object):
 
                 # We start by replacing the contents of the node with just the
                 # STRING var text resulting in: <var>STRING_VAR</var>
-                fix_node.text = match.group(3).strip()
+                var_node.text = match.group(3).strip()
 
                 # We then insert the text '1 ' before the variable (which is
                 # surprisingly hard to do)
-                prev_node = fix_node.getprevious()
-                parent_node = fix_node.getparent()
+                prev_node = var_node.getprevious()
+                parent_node = var_node.getparent()
 
                 if prev_node is not None:
                     prev_node.tail = (prev_node.tail or '') + '1 '
@@ -678,13 +725,13 @@ class PluralFilter(object):
                 # <var>NUM_VAR</var> <var>plural_form(STRING_VAR)</var>
 
                 # We need to insert a new <var> element after the existing one
-                new_var_node = cloned_fix_node.makeelement('var')
+                new_var_node = cloned_var.makeelement('var')
 
                 # Insert the new node after the cloned node
-                cloned_fix_node.addnext(new_var_node)
+                cloned_var.addnext(new_var_node)
 
                 # Change the cloned var to output the number
-                cloned_fix_node.text = match.group(2).strip()
+                cloned_var.text = match.group(2).strip()
 
                 # Switch the order of the arguments to match the new signature
                 # that is used by plural_form(STRING, NUM)
@@ -692,13 +739,13 @@ class PluralFilter(object):
                     (match.group(3).strip(), match.group(2).strip()))
 
                 # Insert a space between the two <var>s
-                cloned_fix_node.tail = ' '
+                cloned_var.tail = ' '
 
             # Number is in the second position, this just outputs the plural
             # form of the word depending upon the number. This is what we want
             # so we just convert the usage of plural() to plural_form().
             else:
-                cloned_fix_node.text = fix_node.text = (pluralize %
+                cloned_var.text = var_node.text = (pluralize %
                     (match.group(2).strip(), match.group(3).strip()))
 
     def filter_node(self, key, node, cloned_node):
@@ -716,7 +763,7 @@ class PluralFilter(object):
         return (node, cloned_node)
 
 
-class TernaryFilter(object):
+class TernaryFilter(IfElseFilter):
     """Switch inline ternary usage to block-level if/else statements.
 
     One idiom that's used frequently in exercises is that of inline ternary
@@ -742,7 +789,6 @@ class TernaryFilter(object):
     # Matches: EXPR ? STATEMENT : STATEMENT
     _regex = re.compile(r'^\s*([^\?]+)\s*\?\s*([^:]+)\s*:\s*([^\?]+)\s*$')
 
-    require_ifelse = True
     xpath = 'contains(text(),"?")'
 
     def get_match(self, fix_node):
@@ -760,32 +806,34 @@ class TernaryFilter(object):
         """Returns the condition in the ternary expression."""
         return match.group(1).strip()
 
-    def filter_fix_node(self, match, fix_node, cloned_fix_node):
+    def filter_var(self, match, var_node):
         """Replace each node with the appropriate statement.
 
         The first node is replaced with the first statement. If that
         statement is a string then the string directly replaces the <var>.
         Same goes for the second, cloned, node.
         """
+        cloned_var = self.get_cloned_var(var_node)
+
         first_str_match = _STRING_RE.match(match.group(2))
         second_str_match = _STRING_RE.match(match.group(3))
 
         # If the first item in the ternary expression is a string
         if first_str_match:
             # Then just replace the <var> with that string
-            extract_strings._replace_node(fix_node, first_str_match.group(1))
+            extract_strings.replace_node(var_node, first_str_match.group(1))
         else:
             # Otherwise just turn it into <var>STATEMENT</var>
-            fix_node.text = match.group(2).strip()
+            var_node.text = match.group(2).strip()
 
         # If the second item in the ternary expression is a string
         if second_str_match:
             # Then just replace the cloned <var> with that string
-            extract_strings._replace_node(cloned_fix_node,
+            extract_strings.replace_node(cloned_var,
                 second_str_match.group(1))
         else:
             # Otherwise just turn it into <var>STATEMENT</var>
-            cloned_fix_node.text = match.group(3).strip()
+            cloned_var.text = match.group(3).strip()
 
     def filter_node(self, key, node, cloned_node):
         """Turns the node into two nodes with a data-if/else.
