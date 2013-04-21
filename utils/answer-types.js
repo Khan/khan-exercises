@@ -611,7 +611,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // TODO(alpert): Don't think this $.trim is necessary
             var correctFloat = parseFloat($.trim(correct));
 
-            options.type = "predicate";
             return [
                     function(guess, maxError) {
                         return Math.abs(guess - correctFloat) < maxError;
