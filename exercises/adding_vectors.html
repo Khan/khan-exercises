@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie">
-<head>
+<html data-require="math math-format graphie"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding vectors</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="0 < abs( AX + BX ) && abs( AX + BX ) < 10 && 0 < abs( AY + BY ) && abs( AY + BY ) < 10 && (AX * AY) * (BX * BY) < 0">
+    <div class="vars" data-ensure="0 &lt; abs( AX + BX ) &amp;&amp; abs( AX + BX ) &lt; 10 &amp;&amp; 0 &lt; abs( AY + BY ) &amp;&amp; abs( AY + BY ) &lt; 10 &amp;&amp; (AX * AY) * (BX * BY) &lt; 0">
         <var id="AX">randRangeNonZero( -9, 9 )</var>
         <var id="AY">randRangeNonZero( -9, 9 )</var>
 
@@ -20,11 +19,11 @@
             <p class="question">What is <code>\vec a + \vec b</code>?</p>
 
             <p><code>\begin{align*}
-                \vec a &= <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath \\
-                \vec b &= <var>BX</var> \hat\imath + <var>BY</var> \hat\jmath
+                \vec a &amp;= <var>AX</var> \hat\imath + <var>AY</var> \hat\jmath \\
+                \vec b &amp;= <var>BX</var> \hat\imath + <var>BY</var> \hat\jmath
             \end{align*}</code></p>
 
-            <div id="graph" class="graphie">
+            <div class="graphie" id="graph">
                 graphInit({
                     range: 10,
                     scale: 20,
@@ -32,11 +31,11 @@
                     labelStep: 1,
                     unityLabels: false,
                     labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                    axisArrows: "<->"
+                    axisArrows: "&lt;-&gt;"
                 });
 
-                line( [0, 0], [AX, AY], { stroke: "#6495ed", arrows: "->" } );
-                line( [0, 0], [BX, BY], { stroke: "#28ae7b", arrows: "->" } );
+                line( [0, 0], [AX, AY], { stroke: "#6495ed", arrows: "-&gt;" } );
+                line( [0, 0], [BX, BY], { stroke: "#28ae7b", arrows: "-&gt;" } );
 
                 var AF = 1 + 0.8 / sqrt( AX * AX + AY * AY );
                 label( [AF * AX, AF * AY], "\\vec a", { color: "#6495ed" } );
@@ -46,7 +45,7 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <p><span class="sol short40" data-forms="integer" data-fallback="1"><var>AX + BX</var></span> <code>\hat\imath + {}</code><span class="sol short40" data-forms="integer" data-fallback="1"><var>AY + BY</var></span> <code>\hat\jmath</code></p>
+                <p><span class="sol short40" data-fallback="1" data-forms="integer"><var>AX + BX</var></span> <code>\hat\imath + {}</code><span class="sol short40" data-fallback="1" data-forms="integer"><var>AY + BY</var></span> <code>\hat\jmath</code></p>
             </div>
         </div>
     </div>
@@ -56,16 +55,15 @@
         <div>
             <p><code>\hat a + \hat b = (<var>AX</var> + <var>BX</var>) \hat\imath + (<var>AY</var> + <var>BY</var>) \hat\jmath</code></p>
             <div class="graphie" data-update="graph">
-                line( [BX, BY], [BX + AX, BY + AY], { stroke: "#6495ed", arrows: "->" } );
+                line( [BX, BY], [BX + AX, BY + AY], { stroke: "#6495ed", arrows: "-&gt;" } );
             </div>
         </div>
         <div>
             <p><code>\hphantom{\hat a + \hat b} = <var>AX + BX</var>\hat\imath + <var>AY + BY</var>\hat\jmath</code></p>
             <div class="graphie" data-update="graph">
-                line( [0, 0], [BX + AX, BY + AY], { stroke: "#ffa500", arrows: "->" } );
+                line( [0, 0], [BX + AX, BY + AY], { stroke: "#ffa500", arrows: "-&gt;" } );
             </div>
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

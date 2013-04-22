@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic">
-<head>
+<html data-require="math graphie graphie-helpers-arithmetic"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>2-digit addition</title>
     <script src="../khan-exercise.js"></script>
@@ -10,8 +9,8 @@
         <div class="vars">
             <var id="A_10">randRange( 1, 8 )*10</var>
             <var id="A_1">randRange ( 0, 9 )*1</var>
-            <var id="B_10" data-ensure="B_10+A_10<100">randRange( 1, 8 )*10</var>
-            <var id="B_1" data-ensure="B_1+A_1<10">randRange ( 0, 9 )*1</var>
+            <var id="B_10" data-ensure="B_10+A_10&lt;100">randRange( 1, 8 )*10</var>
+            <var id="B_1" data-ensure="B_1+A_1&lt;10">randRange ( 0, 9 )*1</var>
 
             <var id="A">A_10+A_1</var>
             <var id="B">B_10+B_1</var>
@@ -29,10 +28,9 @@
         </div>
     </div>
     <div class="hints">
-        <div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+        <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
             graph.adder.showHint();
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

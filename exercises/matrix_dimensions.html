@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html data-require="math matrix qhints">
-<head>
+<html data-require="math matrix qhints"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Matrix dimensions</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="!(DIM_1 === 1 && DIM_2 === 1)">
+    <div class="vars" data-ensure="!(DIM_1 === 1 &amp;&amp; DIM_2 === 1)">
         <var id="DIM_1">randRange(1, 4)</var>
         <var id="DIM_2">randRange(1, 4)</var>
         <var id="MAT_A">makeMatrix(randRange(-2, 4, DIM_1, DIM_2))</var>
@@ -44,8 +43,8 @@
             </p>
             <span class="qhint-answer"><var>DIM_1</var></span>
             <p class="qhint-input">
-                <input type="text" value=""/>
-                <input type="submit" value="Check"/>
+                <input type="text" value="">
+                <input type="submit" value="Check">
             </p>
         </div>
         <div class="qhint">
@@ -54,8 +53,8 @@
             </p>
             <span class="qhint-answer"><var>DIM_2</var></span>
             <p class="qhint-input">
-                <input type="text" value=""/>
-                <input type="submit" value="Check"/>
+                <input type="text" value="">
+                <input type="submit" value="Check">
             </p>
         </div>
         <div>
@@ -63,5 +62,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

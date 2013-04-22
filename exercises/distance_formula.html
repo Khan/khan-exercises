@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie math-format">
-<head>
+<html data-require="math graphie math-format"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Distance formula</title>
     <script src="../khan-exercise.js"></script>
@@ -28,7 +27,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     });
 
                     label([ X1, Y1 ], "(" + X1 + ", " + Y1 + ")", "left", { color: BLUE } );
@@ -46,16 +45,16 @@
             <div>
                 <p>
                     Change in <span class="hint_red"><code>x</code>:</span>
-                    <span data-if="X2 - X1 > 0">
+                    <span data-if="X2 - X1 &gt; 0">
                         <span class="hint_green"><var>X2</var></span> - <span class="hint_blue"><var>negParens(X1)</var></span>
                     </span>
-                    <span data-else>
+                    <span data-else="">
                         <span class="hint_blue"><var>X1</var></span> - <span class="hint_green"><var>negParens(X2)</var></span>
                     </span>
                     = <span class="hint_red"><var>X_DIST</var></span>
                 </p>
 
-                <div data-if="X2 - X1 !== 0" class="graphie" data-update="graph">
+                <div class="graphie" data-if="X2 - X1 !== 0" data-update="graph">
                     style({
                         color: RED,
                         stroke: RED
@@ -69,16 +68,16 @@
             <div>
                 <p>
                 Change in <span class="hint_purple"><code>y</code>:</span>
-                    <span data-if="Y2 - Y1 > 0">
+                    <span data-if="Y2 - Y1 &gt; 0">
                         <span class="hint_green"><var>Y2</var></span> - <span class="hint_blue"><var>negParens(Y1)</var></span>
                     </span>
-                    <span data-else>
+                    <span data-else="">
                         <span class="hint_blue"><var>Y1</var></span> - <span class="hint_green"><var>negParens(Y2)</var></span>
                     </span>
                     = <span class="hint_purple"><var>Y_DIST</var></span>
                 </p>
 
-                <div data-if="Y2-Y1 !== 0" class="graphie" data-update="graph">
+                <div class="graphie" data-if="Y2-Y1 !== 0" data-update="graph">
                     style({
                         color: PURPLE,
                         stroke: PURPLE
@@ -89,7 +88,7 @@
                 </div>
             </div>
 
-            <div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0">
+            <div data-if="Y2 - Y1 !== 0 &amp;&amp; X1 - X2 !== 0">
                 <p>The distance is the <span class="hint_pink">length of the hypotenuse</span> of this right triangle.</p>
 
                 <div class="graphie" data-update="graph">
@@ -101,20 +100,17 @@
                 </div>
             </div>
 
-            <div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0 ">
+            <div data-if="Y2 - Y1 !== 0 &amp;&amp; X1 - X2 !== 0 ">
                 <p>By the Pythagorean Theorem, <span class="hint_pink">that length</span> is equal to:</p>
                 <p><code>\sqrt{<var>X_DIST</var>^2 + <var>Y_DIST</var>^2}</code></p>
                 <p><code>{}= \sqrt{<var>Math.pow( X_DIST, 2 ) + pow( Y_DIST, 2 )</var>}</code></p>
-                <p data-if="squareRootCanSimplify(HYP2)" class="hint_pink"><code>{}= <var>formattedSquareRootOf(HYP2)</var></code></p>
+                <p class="hint_pink" data-if="squareRootCanSimplify(HYP2)"><code>{}= <var>formattedSquareRootOf(HYP2)</var></code></p>
             </div>
-            <div data-else>
+            <div data-else="">
                   <p>The distance is equal to the length of the side, which is <var>X_DIST+Y_DIST</var></p>
             </div>
 
 
         </div>
     </div>
-</body>
-</html>
-
-
+</body></html>

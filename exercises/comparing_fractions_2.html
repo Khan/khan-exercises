@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math">
-<head>
+<html data-require="math"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Comparing fractions 2</title>
     <script src="../khan-exercise.js"></script>
@@ -13,7 +12,7 @@
         -->
         <div class="problems">
             <div id="original">
-                <div class="vars" data-ensure="NUM_1 !== NUM_2 && DEN_1 !== DEN_2" data-weight="2">
+                <div class="vars" data-ensure="NUM_1 !== NUM_2 &amp;&amp; DEN_1 !== DEN_2" data-weight="2">
                     <var id="FACTOR">randRange( 2, 3 )</var>
                     <var id="NUM_1">randRange( 1, 14 )</var>
                     <var id="NUM_2">randRange( 1, 14 )</var>
@@ -32,7 +31,7 @@
                         var f2 = NUM_2 / DEN_2;
                         if ( f1 &lt; f2 ) {
                             return "&lt;";
-                        } else if ( f1 > f2 ) {
+                        } else if ( f1 &gt; f2 ) {
                             return "&gt;";
                         } else {
                             return "=";
@@ -85,5 +84,4 @@
 
         </div>
     </div>
-</body>
-</html>
+</body></html>

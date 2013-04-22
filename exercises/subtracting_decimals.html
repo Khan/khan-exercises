@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic">
-<head>
+<html data-require="math graphie graphie-helpers-arithmetic"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Subtracting decimals</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="A_FLOAT > B_FLOAT">
+        <div class="vars" data-ensure="A_FLOAT &gt; B_FLOAT">
             <var id="A">randRange( 101, 999 )</var>
             <var id="B">randRange( 101, 999 )</var>
 
@@ -30,10 +29,9 @@
                 graph.adder.show();
                 graph.adder.showDecimals();
             </div>
-            <div class="graphie" data-update="numbers" data-each="DecimalSubtractor.numHintsFor( A, A_DECIMAL, B, B_DECIMAL ) times">
+            <div class="graphie" data-each="DecimalSubtractor.numHintsFor( A, A_DECIMAL, B, B_DECIMAL ) times" data-update="numbers">
                 graph.adder.showHint();
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

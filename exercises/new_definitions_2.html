@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html data-require="math word-problems expressions">
-<head>
+<html data-require="math word-problems expressions"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>New operator definitions 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="abs( VALU1 ) < 40">
+    <div class="vars" data-ensure="abs( VALU1 ) &lt; 40">
         <var id="A">randRange(3, 8)</var>
         <var id="B">randRange(2, 4)</var>
 
@@ -93,15 +92,14 @@
     </div>
 
     <div class="hints">
-        <div data-if="NEED_VALU1" data-unwrap>
+        <div data-if="NEED_VALU1" data-unwrap="">
             <p>First, find <code><var>Y</var> <var>binop(2)</var> <var>Z</var></code>:</p>
             <p><code>\qquad <var>Y</var> <var>binop(2)</var> <var>Z</var> = <var>SUBS2</var></code></p>
             <p><code>\qquad \hphantom{<var>Y</var> <var>binop(2)</var> <var>Z</var>} = <var>VALU2</var></code>.</p>
         </div>
-        <div data-else data-unwrap>
+        <div data-else="" data-unwrap="">
             <p>We don't need to find <code><var>Y</var> <var>binop(2)</var> <var>Z</var></code> because <code>x <var>binop(1)</var> y</code> depends only on the <var>NEED_VALU1_ONLY</var> operand.</p>
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

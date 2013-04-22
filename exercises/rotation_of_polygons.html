@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie geom interactive">
-<head>
+<html data-require="math graphie geom interactive"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Rotation of polygons</title>
     <script src="../khan-exercise.js"></script>
@@ -216,7 +215,7 @@
 
             <div class="solution" data-type="multiple">
                 <code>{\LARGE T}</code>
-                <span class="sol short30" data-type="predicate" data-forms="integer">
+                <span class="sol short30" data-forms="integer" data-type="predicate">
                     function(guess, maxError) {
                         var correct = false;
                         var symmetries = _.map(Geom.rotationalSymmetries(HULL), function(rad) {
@@ -275,5 +274,4 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+</body></html>

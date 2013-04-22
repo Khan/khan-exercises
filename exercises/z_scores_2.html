@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems stat">
-<head>
+<html data-require="math graphie word-problems stat"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Z scores 2</title>
     <script src="../khan-exercise.js"></script>
@@ -58,7 +57,7 @@
             <div class="problem">
                 The scores on a statewide <var>course(1)</var> exam were normally distributed with
                 <code>\mu = <var>MEAN</var></code> and <code>\sigma = <var>STDDEV</var></code>.
-                <br /><var>person(1)</var> earned a<span data-if="floorTo(0, GRADE / 10) === 8">n</span>
+                <br><var>person(1)</var> earned a<span data-if="floorTo(0, GRADE / 10) === 8">n</span>
                 <code><var>GRADE</var></code> on the exam.
             </div>
             <p class="question"><var>person(1)</var>'s exam grade was higher than what percentage
@@ -69,7 +68,7 @@
             <div class="fake_row reading" data-each="ROWS as i, row">
                 <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>zgrid</var></span>
             </div>
-            <div class="solution" data-inexact data-max-error="0.0001" data-forms="percent">
+            <div class="solution" data-forms="percent" data-inexact="" data-max-error="0.0001">
                 <span><var>roundTo(4, ANSWER)</var></span>
             </div>
 
@@ -122,5 +121,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

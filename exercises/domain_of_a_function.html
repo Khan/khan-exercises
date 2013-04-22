@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
+<html data-require="math math-format"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Domain of a function</title>
     <script src="../khan-exercise.js"></script>
@@ -19,7 +18,7 @@
         <div class="vars">
             <var id="A">randRange( 1, 10 )</var>
             <var id="B" data-ensure="A !== B">randRange( 1, 10 )</var>
-            <var id="C" data-ensure="A !== C && B !== C">randRange( 1, 10 )</var>
+            <var id="C" data-ensure="A !== C &amp;&amp; B !== C">randRange( 1, 10 )</var>
 
             <var id="SET">function() { return "\\{ \\, x \\in \\RR \\mid " + Array.prototype.join.call( arguments, ", \\," ) + "\\, \\}"; }</var>
             <var id="FN">function( n, sym ) { return "x " + sym + n; }</var>
@@ -27,7 +26,7 @@
             <var id="NEQ">function( n ) { return FN( n, "\\neq" ); }</var>
             <var id="GEQ">function( n ) { return FN( n, "\\geq" ); }</var>
             <var id="LEQ">function( n ) { return FN( n, "\\leq" ); }</var>
-            <var id="GE">function( n ) { return FN( n, ">" ); }</var>
+            <var id="GE">function( n ) { return FN( n, "&gt;" ); }</var>
             <var id="LE">function( n ) { return FN( n, "&lt;" ); }</var>
             <var id="LE_LEQ">function( n, m ) { return FN2( n, m, "&lt;", "\\leq" ); }</var>
             <var id="LEQ_LEQ">function( n, m ) { return FN2( n, m, "\\leq", "\\leq" ); }</var>
@@ -57,7 +56,7 @@
                 <p class="question">What is the domain of the real-valued function <code>f(x)</code>?</p>
 
                 <p class="solution"><code><var>CHOICES["two-denom-simplify"]</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'two-denom-simplify'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -72,10 +71,10 @@
 
             <div id="two-denom-cond" data-type="two-denom-simplify">
 
-                <p class="problem"><code>f(x)= \begin{cases} \dfrac{ x + <var>A</var> }{ ( x + <var>A</var> )( x - <var>B</var> ) } & \text{if $x \neq <var>B</var>$} \\ <var>C</var> & \text{if $x = <var>B</var>$} \end{cases}</code></p>
+                <p class="problem"><code>f(x)= \begin{cases} \dfrac{ x + <var>A</var> }{ ( x + <var>A</var> )( x - <var>B</var> ) } &amp; \text{if $x \neq <var>B</var>$} \\ <var>C</var> &amp; \text{if $x = <var>B</var>$} \end{cases}</code></p>
 
                 <p class="solution"><code><var>CHOICES["two-denom-cond"]</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'two-denom-cond'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -96,7 +95,7 @@
                 <p class="problem"><code>f(x) = \sqrt{ x - <var>A</var> }</code></p>
 
                 <p class="solution"><code><var>CHOICES.sqrt</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -114,7 +113,7 @@
                 <p class="problem"><code>f(x) = \dfrac{ 1 }{ \sqrt{ x - <var>A</var> } }</code></p>
 
                 <p class="solution"><code><var>CHOICES["inverse-sqrt"]</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'inverse-sqrt'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -127,7 +126,7 @@
                     <p><code>\sqrt{ z } = 0</code> only when <code>z = 0</code>, so <code>\sqrt{ x - <var>A</var> } \neq 0</code> means that <code>x - <var>A</var> \neq 0</code>.</p>
                     <p>So <code>x \neq <var>A</var></code>.</p>
                     <p>So we have two restrictions: <code>x \geq <var>A</var></code> and <code>x \neq <var>A</var></code>.</p>
-                    <p>Combining these two restrictions, we are left with simply <code>x > <var>A</var></code>.</p>
+                    <p>Combining these two restrictions, we are left with simply <code>x &gt; <var>A</var></code>.</p>
                     <p>Expressing this in mathematical notation, the domain is <code><var>CHOICES["inverse-sqrt"]</var></code>.</p>
                 </div>
 
@@ -135,10 +134,10 @@
 
             <div id="inverse-sqrt-cond" data-type="two-denom-simplify">
 
-                <p class="problem"><code>f(x) = \begin{cases} \dfrac{ 1 }{ \sqrt{ x - <var>A</var> } } & \text{if $x \geq <var>A</var>$} \\ \dfrac{ 1 }{ \sqrt{ <var>A</var> - x } } & \text{if $x &lt; <var>A</var>$} \end{cases}</code></p>
+                <p class="problem"><code>f(x) = \begin{cases} \dfrac{ 1 }{ \sqrt{ x - <var>A</var> } } &amp; \text{if $x \geq <var>A</var>$} \\ \dfrac{ 1 }{ \sqrt{ <var>A</var> - x } } &amp; \text{if $x &lt; <var>A</var>$} \end{cases}</code></p>
 
                 <p class="solution"><code><var>CHOICES["inverse-sqrt-cond"]</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'inverse-sqrt-cond'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -146,13 +145,13 @@
                     <p><code>f(x)</code> is a piecewise function, so we need to examine where each piece is undefined.</p>
                     <p>The first piecewise definition of <code>f(x)</code>, <code>\frac{ 1 }{ \sqrt{ x - <var>A</var> } }</code>, is undefined where the denominator is zero and where the radicand (the expression under the radical) is less than zero.</p>
                     <p>The denominator, <code>\sqrt{ x - <var>A</var> }</code>, is zero when <code>x - <var>A</var> = 0</code>, so we know that <code>x \neq <var>A</var></code>.</p>
-                    <p>The radicand, <code>x - <var>A</var></code>, is less than zero when <code>x < <var>A</var></code>, so we know that <code>x \geq <var>A</var></code>.</p>
-                    <p>So the first piecewise definition of <code>f(x)</code> is defined when <code>x \neq <var>A</var></code> and <code>x \geq <var>A</var></code>. Combining these two restrictions, the first piecewise definition is defined when <code>x > <var>A</var></code>. The first piecewise defintion applies when <code>x \geq <var>A</var></code>, so this restriction is relevant.</p>
-                    <p>The second piecewise definition of <code>f(x)</code>, <code>\frac{ 1 }{ \sqrt{ <var>A</var> - x } }</code>, applies when <code>x < <var>A</var></code> and is undefined where the denominator is zero and where the radicand is less than zero.</p>
+                    <p>The radicand, <code>x - <var>A</var></code>, is less than zero when <code>x &lt; <var>A</var></code>, so we know that <code>x \geq <var>A</var></code>.</p>
+                    <p>So the first piecewise definition of <code>f(x)</code> is defined when <code>x \neq <var>A</var></code> and <code>x \geq <var>A</var></code>. Combining these two restrictions, the first piecewise definition is defined when <code>x &gt; <var>A</var></code>. The first piecewise defintion applies when <code>x \geq <var>A</var></code>, so this restriction is relevant.</p>
+                    <p>The second piecewise definition of <code>f(x)</code>, <code>\frac{ 1 }{ \sqrt{ <var>A</var> - x } }</code>, applies when <code>x &lt; <var>A</var></code> and is undefined where the denominator is zero and where the radicand is less than zero.</p>
                     <p>The denominator, <code>\sqrt{ <var>A</var> - x }</code>, is zero when <code><var>A</var> - x = 0</code>, so we know that <code>x \neq <var>A</var></code>.</p>
-                    <p>The radicand, <code><var>A</var> - x</code>, is less than zero when <code>x > <var>A</var></code>, so we know that <code>x \leq <var>A</var></code>.</p>
-                    <p>So the second piecewise definition of <code>f(x)</code> is defined when <code>x \neq <var>A</var></code> and <code>x \leq <var>A</var></code>. Combining these two restrictions, the second piecewise definition is defined when <code>x < <var>A</var></code>. However, the second piecewise definition of <code>f(x)</code> only applies when <code>x < <var>A</var></code>, so restriction isn't actually relevant to the domain of <code>f(x)</code>.</p>
-                    <p>So the first piecewise definition is defined when <code>x > <var>A</var></code> and applies when <code>x \geq <var>A</var></code>; the second piecewise definition is defined when <code>x < <var>A</var></code> and applies when <code>x < <var>A</var></code>. Putting the restrictions of these two together, the only place where a definition applies and the value is undefined is at <code>x = <var>A</var></code>. So the only restriction on the domain of <code>f(x)</code> is <code>x \neq <var>A</var></code>.</p>
+                    <p>The radicand, <code><var>A</var> - x</code>, is less than zero when <code>x &gt; <var>A</var></code>, so we know that <code>x \leq <var>A</var></code>.</p>
+                    <p>So the second piecewise definition of <code>f(x)</code> is defined when <code>x \neq <var>A</var></code> and <code>x \leq <var>A</var></code>. Combining these two restrictions, the second piecewise definition is defined when <code>x &lt; <var>A</var></code>. However, the second piecewise definition of <code>f(x)</code> only applies when <code>x &lt; <var>A</var></code>, so restriction isn't actually relevant to the domain of <code>f(x)</code>.</p>
+                    <p>So the first piecewise definition is defined when <code>x &gt; <var>A</var></code> and applies when <code>x \geq <var>A</var></code>; the second piecewise definition is defined when <code>x &lt; <var>A</var></code> and applies when <code>x &lt; <var>A</var></code>. Putting the restrictions of these two together, the only place where a definition applies and the value is undefined is at <code>x = <var>A</var></code>. So the only restriction on the domain of <code>f(x)</code> is <code>x \neq <var>A</var></code>.</p>
                     <p>Expressing this mathematically, the domain is <code><var>CHOICES["inverse-sqrt-cond"]</var></code>.</p>
                 </div>
 
@@ -163,20 +162,20 @@
                 <p class="problem"><code>f(x) = \dfrac{ \sqrt{ <var>A+B</var> - x } }{ \sqrt{ x - <var>A</var> } }</code></p>
 
                 <p class="solution"><code><var>CHOICES["sqrt-frac"]</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt-frac'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
                 <div class="hints">
                     <p>First, we need to consider that <code>f(x)</code> is undefined anywhere where either radical is undefined, so anywhere where either radicand (the expression under the radical symbol) is less than zero.</p>
-                    <p>The top radical is undefined when <code><var>A+B</var> - x < 0</code>.</p>
-                    <p>So the top radical is undefined when <code>x > <var>A+B</var></code>, so we know <code>x \leq <var>A+B</var></code>.</p>
-                    <p>The bottom radical is undefined when <code>x - <var>A</var> < 0</code>.</p>
-                    <p>So the bottom radical is undefined when <code>x < <var>A</var></code>, so we know <code>x \geq <var>A</var></code>.</p>
+                    <p>The top radical is undefined when <code><var>A+B</var> - x &lt; 0</code>.</p>
+                    <p>So the top radical is undefined when <code>x &gt; <var>A+B</var></code>, so we know <code>x \leq <var>A+B</var></code>.</p>
+                    <p>The bottom radical is undefined when <code>x - <var>A</var> &lt; 0</code>.</p>
+                    <p>So the bottom radical is undefined when <code>x &lt; <var>A</var></code>, so we know <code>x \geq <var>A</var></code>.</p>
                     <p>Next, we need to consider that <code>f(x)</code> is undefined anywhere where the denominator, <code>\sqrt{ x - <var>A</var> }</code>, is zero.</p>
                     <p>So <code>\sqrt{ x - <var>A</var> } \neq 0</code>, so <code>x - <var>A</var> \neq 0</code>, so <code>x \neq <var>A</var></code>.</p>
                     <p>So we have three restrictions: <code>x \leq <var>A+B</var></code>, <code>x \geq <var>A</var></code>, and <code>x \neq <var>A</var></code>.</p>
-                    <p>Combining these three restrictions, we know that <code><var>A</var> < x \leq <var>A+B</var></code>.</p>
+                    <p>Combining these three restrictions, we know that <code><var>A</var> &lt; x \leq <var>A+B</var></code>.</p>
                     <p>Expressing this mathematically, the domain is <code><var>CHOICES["sqrt-frac"]</var></code>.</p>
                 </div>
 
@@ -184,10 +183,10 @@
 
             <div id="two-denom-cond-weird" data-type="two-denom-simplify">
 
-                <p class="problem"><code>f(x) = \begin{cases} \dfrac{ x + <var>A</var> }{ ( x + <var>A</var> )( x - <var>C</var> ) } & \text{if $x \neq <var>B</var>$} \\ <var>A</var> & \text{if $x = <var>B</var>$} \end{cases}</code></p>
+                <p class="problem"><code>f(x) = \begin{cases} \dfrac{ x + <var>A</var> }{ ( x + <var>A</var> )( x - <var>C</var> ) } &amp; \text{if $x \neq <var>B</var>$} \\ <var>A</var> &amp; \text{if $x = <var>B</var>$} \end{cases}</code></p>
 
                 <p class="solution"><code><var>CHOICES["two-denom-cond-weird"]</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'two-denom-cond-weird'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -208,7 +207,7 @@
                 <p class="problem"><code>f(x) = \dfrac{ \sqrt{ x - <var>C</var> } }{ x^2 + <var>A+B</var> x + <var>A*B</var> }</code></p>
 
                 <p class="solution"><code><var>CHOICES["sqrt-poly-frac"]</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt-poly-frac'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -218,7 +217,7 @@
                     <p>So <code>x - <var>C</var> \geq 0</code>, which means <code>x \geq <var>C</var></code>.</p>
                     <p>Next, we also need to consider that <code>f(x)</code> is undefined anywhere where the denominator is zero.</p>
                     <p>So <code>x \neq <var>-1*A</var></code> and <code>x \neq <var>-1*B</var></code>.</p>
-                    <p>However, these last two restrictions are irrelevant since <code><var>C</var> > <var>-1*A</var></code> and <code><var>C</var> > <var>-1*B</var></code> and so <code>x \geq <var>C</var></code> will ensure that <code>x \neq <var>-1*A</var></code> and <code>x \neq <var>-1*B</var></code>.</p>
+                    <p>However, these last two restrictions are irrelevant since <code><var>C</var> &gt; <var>-1*A</var></code> and <code><var>C</var> &gt; <var>-1*B</var></code> and so <code>x \geq <var>C</var></code> will ensure that <code>x \neq <var>-1*A</var></code> and <code>x \neq <var>-1*B</var></code>.</p>
                     <p>Combining these restrictions, then, leaves us with simply <code>x \geq <var>C</var></code>.</p>
                     <p>Expressing this mathematically, the domain is <code><var>CHOICES["sqrt-poly-frac"]</var></code>.</p>
                 </div>
@@ -230,7 +229,7 @@
                 <p class="problem"><code>f(x) = \sqrt{ <var>A</var> - \lvert x \rvert }</code></p>
 
                 <p class="solution"><code><var>CHOICES["sqrt-abs"]</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'sqrt-abs'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -249,7 +248,7 @@
                 <p class="problem"><code>f(x) = \dfrac{ <var>B</var> }{ \sqrt{ <var>A</var> - \lvert x \rvert } }</code></p>
 
                 <p class="solution"><code><var>CHOICES["inverse-sqrt-abs"]</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li data-each="filter( CHOICES, function( c ) { return c !== 'inverse-sqrt-abs'; } ) as c"><code><var>c</var></code></li>
                 </ul>
 
@@ -261,7 +260,7 @@
                     <p>So we know that <code>\sqrt{ <var>A</var> - \lvert x \rvert } \neq 0</code>, so <code>\lvert x \rvert \neq <var>A</var></code>.</p>
                     <p>This means that <code>x \neq <var>A</var></code> and <code>x \neq <var>-1*A</var></code>.</p>
                     <p>So we have four restrictions: <code>x \geq <var>-1*A</var></code>, <code>x \leq <var>A</var></code>, <code>x \neq <var>-1*A</var></code>, and <code>x \neq <var>A</var></code>.</p>
-                    <p>Combining these four, we know that <code>x > <var>-1*A</var></code> and <code>x < <var>A</var></code>; alternatively, that <code><var>-1*A</var> < x < <var>A</var></code>.</p>
+                    <p>Combining these four, we know that <code>x &gt; <var>-1*A</var></code> and <code>x &lt; <var>A</var></code>; alternatively, that <code><var>-1*A</var> &lt; x &lt; <var>A</var></code>.</p>
                     <p>Expressing this mathematically, the domain is <code><var>CHOICES["inverse-sqrt-abs"]</var></code>.</p>
                 </div>
 
@@ -271,5 +270,4 @@
 
         </div>
     </div>
-</body>
-</html>
+</body></html>

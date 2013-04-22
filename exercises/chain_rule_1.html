@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math calculus polynomials expressions">
-<head>
+<html data-require="math calculus polynomials expressions"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Chain rule 1</title>
     <script src="../khan-exercise.js"></script>
@@ -97,7 +96,7 @@
 
             <p data-if="DERIVATIVE_SIMPLIFICATIONS.length !== 0">The derivative at this point is <code><var>expr(UNSIMPLIFIED_DERIVATIVE)</var></code>, but this expression can be simplified.</p>
 
-            <div data-if="DERIVATIVE_SIMPLIFICATIONS.length !== 0" data-each="DERIVATIVE_SIMPLIFICATIONS as i, newexpr">
+            <div data-each="DERIVATIVE_SIMPLIFICATIONS as i, newexpr" data-if="DERIVATIVE_SIMPLIFICATIONS.length !== 0">
                 <p><code><var>expr( i === 0 ? UNSIMPLIFIED_DERIVATIVE : DERIVATIVE_SIMPLIFICATIONS[i - 1] )</var></code> can be simplified to <code><var>expr(newexpr)</var></code>.</p>
             </div>
 
@@ -106,5 +105,4 @@
             <p data-if="PRE_SIMPLIFICATION !== null">Interestingly, if we simplify the function before we take the derivative, we can reach the answer more quickly: <code><var>OUTER.fText</var></code> simplifies to <code><var>expr(PRE_SIMPLIFICATION)</var></code>, and <code>\frac{d}{dx}(<var>expr(PRE_SIMPLIFICATION)</var>)</code> is <code><var>DERIVATIVE</var></code>.</p>
         </div>
     </div>
-</body>
-</html>
+</body></html>

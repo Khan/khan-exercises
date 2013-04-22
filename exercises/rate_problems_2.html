@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems">
-<head>
+<html data-require="math math-format word-problems"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Rate problems 2</title>
     <script src="../khan-exercise.js"></script>
@@ -54,11 +53,11 @@
                 </div>
                 <p>What was the total distance traveled?</p>
                 <div>
-                    <p><code>\color{<var>KhanUtil.BLUE</var>}{\begin{align*}\text{total distance} &= \text{distance uphill} + \text{distance downhill}\\
-                        &= 2 \times \text{distance uphill}\end{align*}}</code></p>
-                    <p><code>\begin{align*}\text{distance uphill} &= \text{speed uphill} \times \text{time uphill} \\\
-                        &= <var>RATE_UP</var>\text{ mph} \times <var>TIME_UP</var>\text{ minutes}\times\dfrac{1 \text{ hour}}{60 \text{ minutes}}\\
-                        &= <var>DISTANCE</var>\text{ miles}\end{align*}</code></p>
+                    <p><code>\color{<var>KhanUtil.BLUE</var>}{\begin{align*}\text{total distance} &amp;= \text{distance uphill} + \text{distance downhill}\\
+                        &amp;= 2 \times \text{distance uphill}\end{align*}}</code></p>
+                    <p><code>\begin{align*}\text{distance uphill} &amp;= \text{speed uphill} \times \text{time uphill} \\\
+                        &amp;= <var>RATE_UP</var>\text{ mph} \times <var>TIME_UP</var>\text{ minutes}\times\dfrac{1 \text{ hour}}{60 \text{ minutes}}\\
+                        &amp;= <var>DISTANCE</var>\text{ miles}\end{align*}</code></p>
                 </div>
                 <div>
                     <p>Substituting to find the total distance:</p>
@@ -67,16 +66,16 @@
                 <p>What was the total time spent traveling?</p>
                 <div>
                     <p><code>\color{<var>KhanUtil.ORANGE</var>}{\text{total time} = \text{time uphill} + \text{time downhill}}</code></p>
-                    <p><code>\begin{align*}\text{time downhill} &= \dfrac{\text{distance downhill}}{\text{speed downhill}}\\
-                        &= \dfrac{<var>DISTANCE</var>\text{ miles}}{<var>RATE_DOWN</var>\text{ mph}}\times\dfrac{60 \text{ minutes}}{1 \text{ hour}}\\
-                        &= <var>TIME_DOWN</var>\text{ minutes}\end{align*}</code></p>
+                    <p><code>\begin{align*}\text{time downhill} &amp;= \dfrac{\text{distance downhill}}{\text{speed downhill}}\\
+                        &amp;= \dfrac{<var>DISTANCE</var>\text{ miles}}{<var>RATE_DOWN</var>\text{ mph}}\times\dfrac{60 \text{ minutes}}{1 \text{ hour}}\\
+                        &amp;= <var>TIME_DOWN</var>\text{ minutes}\end{align*}</code></p>
                 </div>
-                <p><code>\color{<var>KhanUtil.ORANGE</var>}{\begin{align*}\text{total time} &= <var>TIME_UP</var>\text{ minutes} + <var>TIME_DOWN</var>\text{ minutes}\\
-                    &= <var>TIME_UP + TIME_DOWN</var>\text{ minutes}\end{align*}}</code></p>
+                <p><code>\color{<var>KhanUtil.ORANGE</var>}{\begin{align*}\text{total time} &amp;= <var>TIME_UP</var>\text{ minutes} + <var>TIME_DOWN</var>\text{ minutes}\\
+                    &amp;= <var>TIME_UP + TIME_DOWN</var>\text{ minutes}\end{align*}}</code></p>
                 <p>Now that we know both the total distance and total time, we can find the average speed.</p>
-                <p><code>\begin{align*}\text{average speed} &= \dfrac{\color{<var>KhanUtil.BLUE</var>}{\text{total distance}}}{\color{<var>KhanUtil.ORANGE</var>}{\text{total time}}}\\
-                    &= \dfrac{\color{<var>KhanUtil.BLUE</var>}{<var>2 * DISTANCE</var>\text{ miles}}}{\color{<var>KhanUtil.ORANGE</var>}{<var>TIME_UP + TIME_DOWN</var>\text{ minutes}}}\times\dfrac{60 \text{ minutes}}{1 \text{ hour}}\\
-                    &= <var>RATE_AVG</var>\text{ mph}\end{align*}</code></p>
+                <p><code>\begin{align*}\text{average speed} &amp;= \dfrac{\color{<var>KhanUtil.BLUE</var>}{\text{total distance}}}{\color{<var>KhanUtil.ORANGE</var>}{\text{total time}}}\\
+                    &amp;= \dfrac{\color{<var>KhanUtil.BLUE</var>}{<var>2 * DISTANCE</var>\text{ miles}}}{\color{<var>KhanUtil.ORANGE</var>}{<var>TIME_UP + TIME_DOWN</var>\text{ minutes}}}\times\dfrac{60 \text{ minutes}}{1 \text{ hour}}\\
+                    &amp;= <var>RATE_AVG</var>\text{ mph}\end{align*}</code></p>
                 <p>The average speed is <var>RATE_AVG</var> mph, and which is closer to <var>RATE_UP</var> mph than <var>RATE_DOWN</var> mph as we expected.</p>
             </div>
         </div>
@@ -115,16 +114,16 @@
             <p class="problem"><var>PEOPLE_INIT</var> people can paint <var>WALL_INIT</var> walls in <var>TIME_INIT</var> minutes.</p>
             <p class="question">How many minutes will it take for <var>PEOPLE_FINAL</var> people to paint <var>WALL_FINAL</var> walls? Round to the nearest minute.</p>
             <div class="solution" data-type="multiple">
-                <p><span class="sol" style="padding-right: 5px" data-forms="integer"><var>TIME_FINAL</var></span> minutes</p>
+                <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>TIME_FINAL</var></span> minutes</p>
                 <p class="example">the number of minutes, rounded to the nearest minute</p>
             </div>
             <div class="hints">
                 <div>
                     <p>We know the following about the number of walls <code>w</code> painted by <code>p</code> people in <code>t</code> minutes at a constant rate <code>r</code>.</p>
                     <p><code>w = r \cdot t \cdot p</code></p>
-                    <p><code>\begin{align*}w &= <var>WALL_INIT</var>\text{ walls}\\
-                        p &= <var>PEOPLE_INIT</var>\text{ people}\\
-                        t &= <var>TIME_INIT</var>\text{ minutes}\end{align*}</code></p>
+                    <p><code>\begin{align*}w &amp;= <var>WALL_INIT</var>\text{ walls}\\
+                        p &amp;= <var>PEOPLE_INIT</var>\text{ people}\\
+                        t &amp;= <var>TIME_INIT</var>\text{ minutes}\end{align*}</code></p>
                 </div>
                 <div>
                     <p>Substituting known values and solving for <code>r</code>:</p>
@@ -140,5 +139,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie math-format expressions">
-<head>
+<html data-require="math graphie math-format expressions"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Limits 1</title>
     <script src="../khan-exercise.js"></script>
@@ -33,7 +32,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     });
 
                     style({
@@ -47,7 +46,7 @@
                     });
                 </div>
                 <p class="solution"><code><var>limtoa</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code>0</code></li>
                     <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
                     <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
@@ -62,7 +61,7 @@
                     <var id="abs_coef">randRangeNonZero(-5, 5)</var>
                     <var id="abs_cons">randRangeNonZero(-7, 7)</var>
                     <var id="curFunc">function(x) {
-                        return x + abs_cons > 0 ?
+                        return x + abs_cons &gt; 0 ?
                             abs_coef :
                             abs_coef * -1;
                     }</var>
@@ -81,7 +80,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     });
 
                     style({
@@ -95,7 +94,7 @@
                     });
                 </div>
                 <p class="solution">Does not exist.</p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code>0</code></li>
                     <li><code><var>a</var></code></li>
                     <li><code><var>abs_cons</var></code></li>
@@ -111,7 +110,7 @@
                 </div>
             </div>
             <div>
-                <div class="vars" data-ensure="abs( limtoa ) < 10">
+                <div class="vars" data-ensure="abs( limtoa ) &lt; 10">
                     <var id="l_coef">randRangeNonZero(-3, 3)</var>
                     <var id="l_cons">randRangeNonZero(-4, 4)</var>
                     <var id="d_cons">randRangeNonZero(-7, 7)</var>
@@ -121,15 +120,15 @@
                     }</var>
                     <var id="a0">ceil((-10 - l_cons)/l_coef)</var>
                     <var id="a1">floor((10 - l_cons)/l_coef)</var>
-                    <var id="a" data-ensure="abs( a ) < 10">l_coef > 0 ? randRangeNonZero(a0, a1) : randRangeNonZero(a1, a0)</var>
+                    <var id="a" data-ensure="abs( a ) &lt; 10">l_coef &gt; 0 ? randRangeNonZero(a0, a1) : randRangeNonZero(a1, a0)</var>
                     <var id="limtoa">curFunc(a)</var>
                     <var id="l_limtoa">limtoa</var>
                     <var id="r_limtoa">limtoa</var>
                 </div>
 
                 <p>If <code>f(x) = \begin{cases}
-                    <var>d_cons</var> & \text{if $x = <var>a</var>$} \\
-                    <var>d_line</var> & \text{otherwise}
+                    <var>d_cons</var> &amp; \text{if $x = <var>a</var>$} \\
+                    <var>d_line</var> &amp; \text{otherwise}
                 \end{cases}</code>, find <code>\displaystyle \lim_{x \to <var>a</var>} f(x)</code>.</p>
                 <div class="graphie" id="graph">
                     graphInit({
@@ -139,7 +138,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     });
 
                     style({
@@ -154,7 +153,7 @@
                     });
                 </div>
                 <p class="solution"><code><var>limtoa</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code>0</code></li>
                     <li><code><var>a</var></code></li>
                     <li><code><var>d_cons</var></code></li>
@@ -166,7 +165,7 @@
                 </ul>
             </div>
             <div>
-                <div class="vars" data-ensure="abs( limtoa ) < 10">
+                <div class="vars" data-ensure="abs( limtoa ) &lt; 10">
                     <var id="q_lcoef">randRangeNonZero(-3, 3)</var>
                     <var id="q_cons">randRangeNonZero(-3, 3)</var>
                     <var id="edge">floor(sqrt(abs((10 - q_cons) / q_lcoef)))</var>
@@ -188,7 +187,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     });
 
                     style({
@@ -200,7 +199,7 @@
                     });
                 </div>
                 <p class="solution"><code><var>limtoa</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code>0</code></li>
                     <li><code><var>curFunc(0)</var></code></li>
                     <li><code><var>randRangeNonZero(-3, 3)</var></code></li>
@@ -214,36 +213,35 @@
         <div class="hints">
             <div>
                 <p>What happens as we approach <code>x = <var>a</var></code> from the left?</p>
-                <div class="graphie" data-update="graph" data-style="stroke: orange; marker: arrow;">
+                <div class="graphie" data-style="stroke: orange; marker: arrow;" data-update="graph">
                     line( [a - 2, 0], [a, 0], {
                         stroke: "#ff00af",
-                        arrows: "->"
+                        arrows: "-&gt;"
                     });
                 </div>
             </div>
             <div>
                 <table class="limit">
-                    <tr><th><code>x</code></th><th><var>a - 0.1</var></th><th><var>a - 0.01</var></th><th><var>a - 0.001</var></th></tr>
+                    <tbody><tr><th><code>x</code></th><th><var>a - 0.1</var></th><th><var>a - 0.01</var></th><th><var>a - 0.001</var></th></tr>
                     <tr><th><code>f(x)</code></th><td><var>curFunc(a - 0.1).toFixed(4)</var></td><td><var>curFunc(a - 0.01).toFixed(4)</var></td><td><var>curFunc(a - 0.001).toFixed(4)</var></td></tr>
-                </table>
+                </tbody></table>
                 It looks like <code>f(x)</code> is approaching <code><var>l_limtoa</var></code> from the left.
             </div>
             <div>
                 <p>When we approach <code>x = <var>a</var></code> from the right, we get:</p>
                 <table class="limit">
-                    <tr><th><code>x</code></th><th><var>a + 0.1</var></th><th><var>a + 0.01</var></th><th><var>a + 0.001</var></th></tr>
+                    <tbody><tr><th><code>x</code></th><th><var>a + 0.1</var></th><th><var>a + 0.01</var></th><th><var>a + 0.001</var></th></tr>
                     <tr><th><code>f(x)</code></th><td><var>curFunc(a + 0.1).toFixed(4)</var></td><td><var>curFunc(a + 0.01).toFixed(4)</var></td><td><var>curFunc(a + 0.001).toFixed(4)</var></td></tr>
-                </table>
+                </tbody></table>
                 <p>It looks like <code>f(x)</code> is approaching <code><var>r_limtoa</var></code> from the right.</p>
-                <div class="graphie" data-update="graph" data-style="stroke: orange; marker: arrow;">
+                <div class="graphie" data-style="stroke: orange; marker: arrow;" data-update="graph">
                     line( [a + 2, 0], [a, 0], {
                         stroke: "#ff00af",
-                        arrows: "->"
+                        arrows: "-&gt;"
                     });
                 </div>
             </div>
             <p id="final">So the limit is <code><var>limtoa</var></code>.</p>
         </div>
     </div>
-</body>
-</html>
+</body></html>

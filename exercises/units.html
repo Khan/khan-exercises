@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
+<html data-require="math math-format"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Units</title>
     <script src="../khan-exercise.js"></script>
@@ -34,11 +33,11 @@
                 <div>
                     <p>The following table shows a few prefixes and their meanings.</p>
                     <table class="limit">
-                        <tr><th>Prefix</th><th>Meaning</th></tr>
+                        <tbody><tr><th>Prefix</th><th>Meaning</th></tr>
                         <tr data-each="PREFIXES as prefix">
                             <td><var>prefix.str</var></td><td><code><var>prefix.math</var></code></td>
                         </tr>
-                    </table>
+                    </tbody></table>
                 </div>
                 <p>Looking at the table, we see that 1 <var>START_UNIT</var> corresponds to <code><var>START_PREFIX.math</var></code> <var>UNIT</var>s.</p>
 
@@ -51,7 +50,7 @@
                 <p><code>= <var>commafy( SOLUTION )</var> \text{ <var>END_UNIT</var>s}</code></p>
             </div>
         </div>
-        <div id="english" data-calculator>
+        <div id="english" data-calculator="">
             <div class="vars">
                 <var id="D_UNITS">[
                     { str: "mile", plural: "miles", multiplier: 63360 },
@@ -73,7 +72,7 @@
                     (function() {
                         var hint = "";
                         var units = "";
-                        var increment = (END_D_INDEX - START_D_INDEX) > 0 ? 1 : -1;
+                        var increment = (END_D_INDEX - START_D_INDEX) &gt; 0 ? 1 : -1;
                         for ( var i = START_D_INDEX; i !== END_D_INDEX; i += increment ) {
                             var factor = fractionReduce( D_UNITS[i].multiplier, D_UNITS[i + increment].multiplier );
                             if ( !factor.match( "dfrac" ) ) {
@@ -93,7 +92,7 @@
                     (function() {
                         var hint = "";
                         var units = "";
-                        var increment = (END_T_INDEX - START_T_INDEX) > 0 ? 1 : -1;
+                        var increment = (END_T_INDEX - START_T_INDEX) &gt; 0 ? 1 : -1;
                         for ( var i = START_T_INDEX; i !== END_T_INDEX; i += increment ) {
                             var factor = fractionReduce( T_UNITS[i + increment].multiplier, T_UNITS[i].multiplier );
                             if ( !factor.match( "dfrac" ) ) {
@@ -112,12 +111,12 @@
                 <var id="START_SPEED">
                     (function() {
                         var speed = randRange( 20, 50 );
-                        if ( SCALE > 1000 ){
+                        if ( SCALE &gt; 1000 ){
                             speed = speed / 1000;
                         } else if ( SCALE &lt; 0.001 ) {
                             speed = speed * 1000 * 1000;
                         }
-                        while ( ( speed * SCALE &gt; 10) && ( speed &gt; 100 ) ) {
+                        while ( ( speed * SCALE &gt; 10) &amp;&amp; ( speed &gt; 100 ) ) {
                             speed = Math.round( speed / 10 );
                         }
                         return speed;
@@ -137,5 +136,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

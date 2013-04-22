@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems spin">
-<head>
+<html data-require="math word-problems spin"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dividing fractions word problems</title>
     <script src="../khan-exercise.js"></script>
@@ -10,7 +9,7 @@
         <div class="problems">
 
             <div id="candy">
-                <div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
+                <div class="vars" data-ensure="isInt( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1">
                     <var id="PIECES">(randRange( 1, 5 )*N)</var>
                     <var id="D">randFromArray([ 5, 8 ])</var>
                     <var id="N">randRange( 3, D - 1 )</var>
@@ -56,7 +55,7 @@
 
 
             <div id="scarves">
-                <div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
+                <div class="vars" data-ensure="isInt( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1">
                     <var id="YARN">(randRange( 3, 6 )*N)</var>
                     <var id="D">randFromArray([ 3, 5 ])</var>
                     <var id="N">randRange( 2, D - 1 )</var>
@@ -101,7 +100,7 @@
 
 
             <div id="paint">
-                <div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
+                <div class="vars" data-ensure="isInt( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1">
                     <var id="PAINT">(randRange( 1, 3 )*N)</var>
                     <var id="D">randFromArray([ 2, 5 ])</var>
                     <var id="N">randRange( 2, D - 1 )</var>
@@ -145,7 +144,7 @@
 
 
             <div id="relay">
-                <div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1 && getGCD ( A, B ) ===1">
+                <div class="vars" data-ensure="isInt( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1 &amp;&amp; getGCD ( A, B ) ===1">
                     <var id="D">randRange( 8, 15 )</var>
                     <var id="N">randRange( 2, D - 1 )</var>
                     <var id="B">randRange( 3, 7 )</var>
@@ -233,7 +232,7 @@
 
 
             <div id="gift-bags">
-                <div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1 && getGCD ( A, B ) ===1">
+                <div class="vars" data-ensure="isInt( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1 &amp;&amp; getGCD ( A, B ) ===1">
                     <var id="D">randRange( 6, 30 )</var>
                     <var id="N">randRange( 2, D - 1 )</var>
                     <var id="B">randRange( 3, 5 )</var>
@@ -317,7 +316,7 @@
 
 
             <div id="workout">
-                <div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1 && getGCD ( A, B ) ===1">
+                <div class="vars" data-ensure="isInt( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1 &amp;&amp; getGCD ( A, B ) ===1">
                     <var id="D">randRange( 7, 20 )</var>
                     <var id="N">randRange( 2, D - 1 )</var>
                     <var id="B">randRange( 3, 6 )</var>
@@ -405,5 +404,4 @@
 
         </div>
     </div>
-</body>
-</html>
+</body></html>

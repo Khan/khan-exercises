@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html data-require="math polynomials expressions math-format">
-<head>
+<html data-require="math polynomials expressions math-format"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Quadratic formula</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="( (B*B) - 4*A*C ) >= 0">
+        <div class="vars" data-ensure="( (B*B) - 4*A*C ) &gt;= 0">
             <var id="A">randRangeNonZero(-10, 10)</var>
             <var id="B">randRangeNonZero(-10, 10)</var>
             <var id="C">randRangeNonZero(-10, 10)</var>
@@ -32,8 +31,8 @@
                         var good_gcd = getGCD( A, B, C );
                         var bad_gcd = getGCD( bad_a, bad_b, bad_c );
 
-                        while ((    abs(A*bad_gcd) === abs(bad_a*good_gcd) &&
-                                    abs(B*bad_gcd) === abs(bad_b*good_gcd) &&
+                        while ((    abs(A*bad_gcd) === abs(bad_a*good_gcd) &amp;&amp;
+                                    abs(B*bad_gcd) === abs(bad_b*good_gcd) &amp;&amp;
                                     abs(C*bad_gcd) === abs(bad_c*good_gcd) ) ||
 
                                     (( (bad_b * bad_b) - (4 * bad_a * bad_c) ) &lt; 0))
@@ -89,5 +88,4 @@
 
         </div>
     </div>
-</body>
-</html>
+</body></html>
