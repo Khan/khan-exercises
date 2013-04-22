@@ -361,7 +361,7 @@ return new Parser;
     CalculatorError.prototype.constructor = CalculatorError;
 
     parser.parseError = function parseError(str, hash) {
-        throw new CalculatorError("err");
+        throw new CalculatorError($._("err"));
     };
 
     return _.bindAll({
@@ -386,7 +386,7 @@ return new Parser;
                 if (ans != null) {
                     return ans;
                 } else {
-                    throw new CalculatorError("Invalid variable ans");
+                    throw new CalculatorError($._("Invalid variable ans"));
                 }
             } else if (_.isNumber(tree)) {
                 return tree;
@@ -411,21 +411,21 @@ return new Parser;
                     asin: function(a) {
                         var ans = fromRad(Math.asin(a));
                         if (isNaN(ans)) {
-                            throw new CalculatorError("undefined");
+                            throw new CalculatorError($._("undefined"));
                         }
                         return ans;
                     },
                     acos: function(a) {
                         var ans = fromRad(Math.acos(a));
                         if (isNaN(ans)) {
-                            throw new CalculatorError("undefined");
+                            throw new CalculatorError($._("undefined"));
                         }
                         return ans;
                     },
                     atan: function(a) {
                         var ans = fromRad(Math.atan(a));
                         if (isNaN(ans)) {
-                            throw new CalculatorError("undefined");
+                            throw new CalculatorError($._("undefined"));
                         }
                         return ans;
                     }
@@ -437,11 +437,12 @@ return new Parser;
                         this, _.map(tree.slice(1), function(t) {
                             return self.evaluate(t, ans); }));
                 } else {
-                    throw new CalculatorError("err");
+                    throw new CalculatorError($._("err"));
                 }
             } else {
                 throw new CalculatorError(
-                    "Invalid type " + Object.prototype.toString.call(tree));
+                    $._("Invalid type %s", 
+                        Object.prototype.toString.call(tree)));
             }
         },
 

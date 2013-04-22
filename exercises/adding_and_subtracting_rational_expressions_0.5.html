@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions rational-expressions">
-<head>
+<html data-require="math math-format expressions rational-expressions"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding and subtracting with like denominators</title>
     <script src="../khan-exercise.js"></script>
@@ -47,18 +46,18 @@
 
                 <div class="solution" data-type="multiple">
                     <table>
-                        <tr>
-                            <td rowspan="2" class="soln-name"><code><var>Y</var>=</code></td>
+                        <tbody><tr>
+                            <td class="soln-name" rowspan="2"><code><var>Y</var>=</code></td>
                             <td class="soln-top">
                                 <span class="sol short50" data-type="regex"><var>NUMERSOL.regex()</var></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="soln-bot">
-                                <span class="sol short50" data-type="number" data-fallback="1"><var>DENOMSOL</var></span>
+                                <span class="sol short50" data-fallback="1" data-type="number"><var>DENOMSOL</var></span>
                             </td>
                         </tr>
-                    </table>
+                    </tbody></table>
                 </div>
             </div>
 
@@ -77,8 +76,8 @@
 
                 <div class="solution" data-type="multiple">
                     <table>
-                        <tr>
-                            <td rowspan="2" class="soln-name"><code><var>Y</var>=</code></td>
+                        <tbody><tr>
+                            <td class="soln-name" rowspan="2"><code><var>Y</var>=</code></td>
                             <td class="soln-top">
                                 <span class="sol short50" data-type="number"><var>NUMERSOL</var></span>
                             </td>
@@ -88,7 +87,7 @@
                                 <span class="sol short50" data-type="regex"><var>DENOMSOL.regex()</var></span>
                             </td>
                         </tr>
-                    </table>
+                    </tbody></table>
                 </div>
             </div>
 
@@ -106,7 +105,7 @@
                 <div data-if="SIGN === '+'">
                     <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> <var>SIGN</var> <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> <var>SIGN</var> (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
                 </div>
             </div>
@@ -116,10 +115,9 @@
             </div>
             <div data-if="FACTOR !== 1">
                 <p>Simplify by dividing numerator and denominator by <var>FACTOR</var>:</p>
-                <p><code><var>Y</var> = \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code><p>
-                <p data-if="DENOMSOL === 1"><code><var>Y</var> = <var>NUMERSOL</var></code></p>
+                <p><code><var>Y</var> = \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></p><p>
+                </p><p data-if="DENOMSOL === 1"><code><var>Y</var> = <var>NUMERSOL</var></code></p>
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

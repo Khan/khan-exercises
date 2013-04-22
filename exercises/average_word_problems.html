@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
-<head>
+<html data-require="math word-problems"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Average word problems</title>
     <script src="../khan-exercise.js"></script>
@@ -38,7 +37,7 @@
         </div>
 
         <div>
-            <div class="vars" data-ensure="NEW_AVG + COUNT * (NEW_AVG - OLD_AVG) <= 100">
+            <div class="vars" data-ensure="NEW_AVG + COUNT * (NEW_AVG - OLD_AVG) &lt;= 100">
                 <var id="COUNT">randRange(3, 7)</var>
                 <var id="OLD_AVG">randRange(77, 88)</var>
                 <var id="NEW_AVG">randRange(OLD_AVG + 2, 99)</var>
@@ -81,5 +80,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

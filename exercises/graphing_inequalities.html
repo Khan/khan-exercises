@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive">
-<head>
+<html data-require="math math-format expressions graphie interactive"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing linear inequalities</title>
     <script src="../khan-exercise.js"></script>
@@ -19,10 +18,10 @@
                 <var id="B">SLOPE_FRAC[1] * MULT</var>
                 <var id="C">SLOPE_FRAC[1] * YINT * MULT</var>
                 <var id="STD_FORM">randFromArray([ true, false ])</var>
-                <var id="COMP">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
-                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "&le;": "&ge;", "&ge;": "&le;" }[ COMP ] : COMP</var>
-                <var id="LESS_THAN">COMP === "&lt;" || COMP === "&le;"</var>
-                <var id="INCLUSIVE">COMP === "&ge;" || COMP === "&le;"</var>
+                <var id="COMP">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
+                <var id="STD_FORM_COMP">B &lt; 0 ? { "&lt;": "&gt;", "&gt;": "&lt;", "≤": "≥", "≥": "≤" }[ COMP ] : COMP</var>
+                <var id="LESS_THAN">COMP === "&lt;" || COMP === "≤"</var>
+                <var id="INCLUSIVE">COMP === "≥" || COMP === "≤"</var>
 
             </div>
 
@@ -32,27 +31,27 @@
                 <p class="hint_blue" data-if="STD_FORM">
                     <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> <var>STD_FORM_COMP</var> <var>C</var></code>
                 </p>
-                <p class="hint_blue" data-else>
+                <p class="hint_blue" data-else="">
                     <code>y <var>COMP</var> <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>
                 </p>
 
                 <form>
-                    <input type="button" value="Shade other side" onClick="javascript:
+                    <input onclick="javascript:
                         KhanUtil.currentGraph.graph.shadetop = !KhanUtil.currentGraph.graph.shadetop;
                         KhanUtil.currentGraph.graph.update();
-                    " />
+                    " type="button" value="Shade other side">
                     <label>
-                        <input name="dashradio" type="radio" value="solid" checked onClick="javascript:
+                        <input checked name="dashradio" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray = '';
                             KhanUtil.currentGraph.graph.update();
-                        " />
+                        " type="radio" value="solid">
                         Solid line
                     </label>
                     <label>
-                        <input name="dashradio" type="radio" value="dashed" onClick="javascript:
+                        <input name="dashradio" onclick="javascript:
                             KhanUtil.currentGraph.graph.dasharray = '- ';
                             KhanUtil.currentGraph.graph.update();
-                        " />
+                        " type="radio" value="dashed">
                         Dashed line
                     </label>
                 </form>
@@ -187,7 +186,7 @@
     </div>
 
     <div class="hints">
-        <div data-if="STD_FORM" data-unwrap>
+        <div data-if="STD_FORM" data-unwrap="">
             <p>
                 Convert <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> <var>STD_FORM_COMP</var> <var>C</var></code>
                 to slope-intercept form by solving for <code>y</code>.
@@ -201,7 +200,7 @@
             </div>
             <div data-if="B !== 1">
                 <p>
-                    Divide both sides by <code><var>B</var></code><span data-if="B < 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
+                    Divide both sides by <code><var>B</var></code><span data-if="B &lt; 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
                 </p><p>
                     <code>\qquad y <var>COMP</var> <var>expr([ "+", "\\dfrac{" + expr([ "*", -A, "x" ]) + "}{" + B + "}", "\\dfrac{" + C + "}{" + B + "}" ])</var></code>
                 </p>
@@ -227,8 +226,8 @@
                 <code><var>abs( SLOPE_FRAC[0] )</var></code>
                 <var>"position" + ( abs( SLOPE_FRAC[0] ) !== 1 ? "s" : "" )</var>
                 you move
-                <span data-if="SLOPE_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
-                <span data-else>up</span>
+                <span data-if="SLOPE_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
+                <span data-else="">up</span>
                 you must also move
                 <code><var>SLOPE_FRAC[1]</var></code>
                 <var>"position" + ( abs( SLOPE_FRAC[1] ) !== 1 ? "s" : "" )</var>
@@ -258,7 +257,7 @@
                 Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> or <strong>equal to</strong>, any point on the line is also a solution, so the
                 line should be solid.
             </p>
-            <p data-else>
+            <p data-else="">
                 Note that since the sign is <var>LESS_THAN ? "less-than" : "greater-than"</var> (and not equal to), any point on the line is <strong>not</strong> part of the solution,
                 so the line should be dashed to indicate this.
             </p>
@@ -266,5 +265,4 @@
     </div>
 
 </div>
-</body>
-</html>
+</body></html>

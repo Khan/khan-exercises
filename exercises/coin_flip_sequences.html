@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
-<head>
+<html data-require="math graphie"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="../khan-exercise.js"></script>
     <title>Coin flip sequences</title>
@@ -99,8 +98,8 @@
         <div style="overflow: hidden; width: 496px;">
             <div id="charts">
                 <div data-each="SEQUENCE.split('') as FLIP">
-                    <div data-if="FLIP === 'H'" class="heads">H</div>
-                    <div data-else class="tails">T</div>
+                    <div class="heads" data-if="FLIP === 'H'">H</div>
+                    <div class="tails" data-else="">T</div>
                 </div>
                 <div class="graphie chart" id="chart-1">
                     init({
@@ -206,7 +205,7 @@
         </div>
         <p class="view-patterns">View patterns:
             <span class="pattern-tabs">
-                <a href="javascript:void(0);" id="show-flips" data-offset="0" class="selected">Coin flips</a> |
+                <a href="javascript:void(0);" class="selected" id="show-flips" data-offset="0">Coin flips</a> |
                 <a href="javascript:void(0);" id="show-chart-1" data-offset="1">H vs T</a> |
                 <a href="javascript:void(0);" id="show-chart-2" data-offset="2">Two-flip streaks</a> |
                 <a href="javascript:void(0);" id="show-chart-3" data-offset="3">Three-flip streaks</a>
@@ -283,5 +282,4 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+</body></html>

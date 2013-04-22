@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie expressions">
-<head>
+<html data-require="math graphie expressions"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Shifting and reflecting functions</title>
     <script src="../khan-exercise.js"></script>
@@ -15,7 +14,7 @@
 
             <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange( -6, -1 ) : randRange( 1, 6 )</var>
             <var id="FLIP">randRangeNonZero(-1, 1)</var>
-            <var id="Y_SHIFT" data-ensure="abs (Y_ORIG * FLIP + Y_SHIFT) < 9 && (Y_ORIG * FLIP + Y_SHIFT) * UP_ORIG * FLIP < 7">randRangeNonZero( -6 , 6 )</var>
+            <var id="Y_SHIFT" data-ensure="abs (Y_ORIG * FLIP + Y_SHIFT) &lt; 9 &amp;&amp; (Y_ORIG * FLIP + Y_SHIFT) * UP_ORIG * FLIP &lt; 7">randRangeNonZero( -6 , 6 )</var>
         </div>
 
         <div class="problems">
@@ -30,7 +29,7 @@
                         range: 10,
                         scale: 20,
                         labelStep: 1,
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     })
 
                     style({
@@ -53,7 +52,7 @@
                 </div>
 
                 <p class="solution"><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></p>
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],-Y_SHIFT])</var></code></li>
                     <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", -X_SHIFT]]],Y_SHIFT])</var></code></li>
                     <li><code><var>expr(["+",["*", -FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></li>
@@ -83,7 +82,7 @@
                     style({
                         strokeWidth: 2,
                         stroke: "green",
-                        arrows: "->",
+                        arrows: "-&gt;",
                         strokeDasharray: "- "
                     });
 
@@ -117,5 +116,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

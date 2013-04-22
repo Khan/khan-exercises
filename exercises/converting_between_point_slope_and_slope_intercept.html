@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<html data-require="math math-format expressions"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Converting between point-slope and slope-intercept</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -10,9 +9,9 @@
     <div class="problems">
         <div id="point-to-intercept">
             <div class="vars" data-ensure="y1 != 0">
-                <var id="m">(random() > 0.5 ? -1 : 1) * (rand(5) + 1)</var>
-                <var id="b">(random() > 0.5 ? -1 : 1) * (rand(5) + 1)</var>
-                <var id="x1">(random() > 0.5 ? -1 : 1) * (rand(3) + 1)</var>
+                <var id="m">(random() &gt; 0.5 ? -1 : 1) * (rand(5) + 1)</var>
+                <var id="b">(random() &gt; 0.5 ? -1 : 1) * (rand(5) + 1)</var>
+                <var id="x1">(random() &gt; 0.5 ? -1 : 1) * (rand(3) + 1)</var>
                 <var id="y1">m*x1+b</var>
                 <var id="var1">m*x1</var>
             </div>
@@ -20,7 +19,7 @@
             <p>In other words, if the equation is rewritten to look like <code>y = mx + b</code>, what are the values of <code>m</code> and <code>b</code>?</p>
             <p><code>y - <var>y1</var> = <var>m</var>(x - <var>x1</var>)</code></p>
             <div class="solution" data-type="multiple">
-                <p><code>y = \space</code><span class="sol short30" data-forms="integer" data-fallback="1"><var>m</var></span><code>\space \cdot x + \space</code><span class="sol short30" data-forms="integer"><var>b</var></span></p>
+                <p><code>y = \space</code><span class="sol short30" data-fallback="1" data-forms="integer"><var>m</var></span><code>\space \cdot x + \space</code><span class="sol short30" data-forms="integer"><var>b</var></span></p>
             </div>
             <div class="hints">
                 <div>
@@ -30,8 +29,8 @@
                 <div>
                     <p>
                         Isolate the y term on the left by
-                        <span data-if="y1 < 0">subtracting <code><var>-y1</var></code> from both sides.</span>
-                        <span data-else>adding <code><var>y1</var></code> to both sides.</span>
+                        <span data-if="y1 &lt; 0">subtracting <code><var>-y1</var></code> from both sides.</span>
+                        <span data-else="">adding <code><var>y1</var></code> to both sides.</span>
                     </p>
                     <p><code>y = <var>expr([ "*", m, "x" ])</var> - <var>var1</var> + <var>y1</var></code></p>
                 </div>
@@ -45,5 +44,4 @@
     </div>
 
     </div>
-</body>
-</html>
+</body></html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie expressions">
-<head>
+<html data-require="math math-format graphie expressions"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inverse trig functions</title>
     <script src="../khan-exercise.js"></script>
@@ -62,9 +61,9 @@
             }</var>
 
             <var id="DOMAIN">{
-                sin: [ DEG ? "-90&deg;" : "-\\frac{\\pi}{2}", DEG ? "90&deg;" : "\\frac{\\pi}{2}" ],
-                cos: [ "0", DEG ? "180&deg;" : "\\pi" ],
-                tan: [ DEG ? "-90&deg;" : "-\\frac{\\pi}{2}", DEG ? "90&deg;" : "\\frac{\\pi}{2}" ]
+                sin: [ DEG ? "-90°" : "-\\frac{\\pi}{2}", DEG ? "90°" : "\\frac{\\pi}{2}" ],
+                cos: [ "0", DEG ? "180°" : "\\pi" ],
+                tan: [ DEG ? "-90°" : "-\\frac{\\pi}{2}", DEG ? "90°" : "\\frac{\\pi}{2}" ]
             }[ FN ]</var>
 
         </div>
@@ -73,11 +72,11 @@
             <div>
                 <div class="question">
                     <p>What is the principal value of <code><var>FN_TEX( PRETTY( X ) )</var></code>?</p>
-                    <p>Note: please answer in terms of <span data-if="DEG">degrees (ex: &quot;180 deg&quot; or &quot;180 degrees&quot;)</span><span data-else>radians (ex: &quot;3/4 pi&quot;)</span>.</p>
+                    <p>Note: please answer in terms of <span data-if="DEG">degrees (ex: "180 deg" or "180 degrees")</span><span data-else="">radians (ex: "3/4 pi")</span>.</p>
                 </div>
 
                 <div data-if="DEG"><p class="solution" data-type="regex"><var>Y_DEGREES_REGEX</var></p></div>
-                <div data-else><p class="solution" data-forms="pi"><var>Y</var></p></div>
+                <div data-else=""><p class="solution" data-forms="pi"><var>Y</var></p></div>
             </div>
         </div>
 
@@ -86,9 +85,8 @@
             <p>If <code><var>FN_TEX( PRETTY( X ), false )</var> = \theta</code>, then...</p>
             <p><code><var>"\\" + FN</var>\left( \theta \right) = <var>PRETTY( X )</var></code></p>
             <p>The range of <code><var>FN_TEX( "x" )</var></code> is <code>[ <var>DOMAIN[0]</var>, <var>DOMAIN[1]</var> ]</code>, so we know <code><var>DOMAIN[0]</var> \leq \theta \leq <var>DOMAIN[1]</var></code>.</p>
-            <p><code><var>"\\" + FN</var> \left( <var>( DEG ? Y_DEGREES + "&deg;" : fractionReduce( Y_RADIANS[0], Y_RADIANS[1], true ) + "\\pi" )</var> \right) = <var>PRETTY( X )</var></code></p>
-            <p>So <code><var>FN_TEX( PRETTY( X ) )</var> = <var>DEG ? Y_DEGREES + "&deg;" : fractionReduce( Y_RADIANS[0], Y_RADIANS[1], true ) + "\\pi"</var></code>.</p>
+            <p><code><var>"\\" + FN</var> \left( <var>( DEG ? Y_DEGREES + "°" : fractionReduce( Y_RADIANS[0], Y_RADIANS[1], true ) + "\\pi" )</var> \right) = <var>PRETTY( X )</var></code></p>
+            <p>So <code><var>FN_TEX( PRETTY( X ) )</var> = <var>DEG ? Y_DEGREES + "°" : fractionReduce( Y_RADIANS[0], Y_RADIANS[1], true ) + "\\pi"</var></code>.</p>
         </div>
     </div>
-</body>
-</html>
+</body></html>

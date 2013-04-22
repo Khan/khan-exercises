@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems">
-<head>
+<html data-require="math math-format word-problems"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Combinations</title>
     <script src="../khan-exercise.js"></script>
@@ -9,8 +8,8 @@
     <div class="exercise">
         <div class="problems">
             <div id="packing">
-                <div class="vars" data-ensure="NUM_THINGS>NUM_TAKEN">
-                    <var id="THING">randFromArray(["shirts", "tigers", "books", "Faberg&eacute; eggs", "socks", "action figures"])</var>
+                <div class="vars" data-ensure="NUM_THINGS&gt;NUM_TAKEN">
+                    <var id="THING">randFromArray(["shirts", "tigers", "books", "Fabergé eggs", "socks", "action figures"])</var>
                     <var id="NUM_THINGS">randRange(5,9)</var>
                     <var id="NUM_TAKEN">randRange(3,5)</var>
                     <var id="ANSWER">factorial(NUM_THINGS) / (factorial(NUM_THINGS-NUM_TAKEN) * factorial(NUM_TAKEN))</var>
@@ -58,7 +57,7 @@
                     <p>
                         <code> \dfrac{<var>NUM_THINGS</var>!}{(<var>NUM_THINGS</var> - <var>NUM_TAKEN</var>)!} \cdot \dfrac{1}{<var>NUM_TAKEN</var>!}</code> is the number 
                         of groups of <var>THING</var> <var>person(1)</var> can bring.
-                        </br>
+                        <br>
                         Another way to write this is <code> \binom{<var>NUM_THINGS</var>}{<var>NUM_TAKEN</var>} </code>, 
                         or <code><var>NUM_THINGS</var></code> choose <code><var>NUM_TAKEN</var></code>, which is <code><var>ANSWER</var></code>.
                     </p>
@@ -106,9 +105,9 @@
                     </p>
                     <p>
                         So, we have to divide the number of ways we could have filled the boat in order by number of times we've overcounted our groups:
-                        </br>
+                        <br>
                         <code> \dfrac{<var>FRIENDS</var>!}{<var>FRIENDS-SLOTS</var>!} \cdot \dfrac{1}{<var>SLOTS</var>!}</code> is the number of groups we can bring on the boat trip.
-                        </br>
+                        <br>
                         Another way to write this is <code> \binom{<var>FRIENDS</var>}{<var>SLOTS</var>} </code>, or <code><var>FRIENDS</var></code> 
                         choose <code><var>SLOTS</var></code>, which is <code><var>ANSWER</var></code>.
                     </p>
@@ -116,5 +115,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

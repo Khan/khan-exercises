@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive word-problems stat">
-<head>
+<html data-require="math math-format expressions graphie interactive word-problems stat"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Creating bar charts 1</title>
     <script src="../khan-exercise.js"></script>
@@ -117,18 +116,18 @@
     <div class="hints">
         <div data-each="DATA as INDEX, NUM">
             <p>
-                <code><var>NUM</var></code> <var>plural( RESPONDENT, NUM )</var> said <var>plural( randFromArray([ "his", "her" ]), "their", NUM )</var>
+                <code><var>NUM</var></code> <var>plural( RESPONDENT, NUM )</var> said their
                 favorite <var>SUBJECT</var> was <var>CATEGORIES[ INDEX ]</var>.
-                <span data-if="NUM > 0">
+                <span data-if="NUM &gt; 0">
                     So the top of the bar for "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>" should line up with the number
                     <code><var>NUM</var></code> on the left side of the chart.
                 </span>
-                <span data-else>
+                <span data-else="">
                     So there should be no bar above "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>". Drag the top of the bar all
                     the way to the bottom to get rid of the bar.
                 </span>
             </p>
-            <div data-if="NUM > 0" class="graphie" data-update="barchart">
+            <div class="graphie" data-if="NUM &gt; 0" data-update="barchart">
                 style({ stroke: ORANGE, fill: "none", strokeWidth: 1, strokeDasharray: "- " }, function() {
                     path([ [ INDEX * 3 + 1, 0 ], [ INDEX * 3 + 1, NUM ], [ INDEX * 3 + 3, NUM ], [ INDEX * 3 + 3, 0 ] ]).toBack();
                 });
@@ -137,5 +136,4 @@
     </div>
 
 </div>
-</body>
-</html>
+</body></html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie time word-problems">
-<head>
+<html data-require="math math-format graphie time word-problems"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Telling time 0.5</title>
     <script src="../khan-exercise.js"></script>
@@ -11,7 +10,7 @@
         <var id="HOUR">randRange( 1, 12 )</var>
         <var id="MINUTE">randRange( 0, 3 ) * 15 </var>
         <var id="NICE_MINUTE"> MINUTE &gt; 5 ? MINUTE : "0" + "" + MINUTE</var>
-        <var id="AM_PM">HOUR >= 7 ? "a.m" : "p.m."</var>
+        <var id="AM_PM">HOUR &gt;= 7 ? "a.m" : "p.m."</var>
     </div>
 
     <div class="problems">
@@ -45,8 +44,8 @@
                 </div>
                 <div>
                     <p data-if="MINUTE === 0"> The hour hand is pointing at <code><var>HOUR</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
-                    <p data-else-if="MINUTE > 10  && MINUTE < 45">The hour hand is between <code><var>HOUR</var></code> and <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
-                    <p data-else>The hour hand is close to but hasn't passed <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is still <code><var>HOUR</var></code>.</p>
+                    <p data-else-if="MINUTE &gt; 10  &amp;&amp; MINUTE &lt; 45">The hour hand is between <code><var>HOUR</var></code> and <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
+                    <p data-else="">The hour hand is close to but hasn't passed <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is still <code><var>HOUR</var></code>.</p>
                     <div class="graphie" data-update="digital">
                         graph.time.remove();
                         var padding = HOUR &lt; 10 ? "\\phantom{0}" : "";
@@ -60,7 +59,7 @@
                     <p>For each quarter of the circle that the minute hand passes, add <code>15</code> minutes.</p>
                 </div>
                 <div>
-                    <p>The minute hand has passed <var>plural( MINUTE / 15, "fourth" )</var> of a circle, which represents <span data-if="MINUTE === 0"><code>0</code></span><span data-else><code><var>MINUTE</var></code></span> minutes.</p>
+                    <p>The minute hand has passed <var>plural( MINUTE / 15, "fourth" )</var> of a circle, which represents <span data-if="MINUTE === 0"><code>0</code></span><span data-else=""><code><var>MINUTE</var></code></span> minutes.</p>
                     <div class="graphie" data-update="digital">
                         graph.time.remove();
                         var padding = MINUTE &lt; 10 ? "0" : "";
@@ -75,5 +74,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

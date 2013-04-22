@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie time interactive angles word-problems">
-<head>
+<html data-require="math math-format graphie time interactive angles word-problems"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Telling time 2</title>
     <script src="../khan-exercise.js"></script>
@@ -11,7 +10,7 @@
             <div id="set-hands" data-weight="3">
 
                 <div class="vars">
-                    <div data-ensure="!(HOUR === 1 && MINUTE === 0)">
+                    <div data-ensure="!(HOUR === 1 &amp;&amp; MINUTE === 0)">
                         <var id="HOUR">randRange(1, 12)</var>
                         <var id="MINUTE_INCREMENT">15</var>
                         <var id="MINUTE">randRange(0, (60 / MINUTE_INCREMENT) - 1) * MINUTE_INCREMENT</var>
@@ -261,7 +260,7 @@
                                 the minute hand should be at the mark numbered
                                 <code class="hint_orange">12</code>, which is the first tick mark on the clock
                                 and represents <code>0</code> minutes past the hour
-                            </span><span data-else>
+                            </span><span data-else="">
                                 and there are 5 minutes per tick mark, the minute hand should be at the mark numbered
                                 <code class="hint_orange"><var>fraction(MINUTE, 5)</var> = <var>MINUTE/5</var></code>
                             </span>.
@@ -286,12 +285,12 @@
                             Since it's <code>0</code> minutes past the hour, the hour hand should be right on the
                             <code class="hint_blue"><var>HOUR</var></code> hour mark.
                         </p>
-                        <div data-else data-unwrap>
+                        <div data-else="" data-unwrap="">
                             <p>
                                 Since it's <code><var>MINUTE</var></code> minutes past the hour, the hour hand will have
                                 traveled <code class="hint_blue"><var>fraction(MINUTE, 60)</var> =
                                 <var>fraction(MINUTE, 60, false, true)</var></code> of the way to the
-                                <code><span data-if="HOUR + 1 ===13">1</span><span data-else><var>HOUR + 1</var></span>
+                                <code><span data-if="HOUR + 1 ===13">1</span><span data-else=""><var>HOUR + 1</var></span>
                                 </code> hour mark.
                             </p>
                             <p>
@@ -300,7 +299,7 @@
                                 </span><span data-else-if="MINUTE === 40">just past the third
                                 </span><span data-else-if="MINUTE === 15">just past the first
                                 </span><span data-else-if="MINUTE === 30">between the second and third
-                                </span><span data-else>just before the fourth </span>
+                                </span><span data-else="">just before the fourth </span>
                                 small tick mark past the <code class="hint_blue"><var>HOUR</var></code> hour mark.
                             </p>
                         </div>
@@ -399,5 +398,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

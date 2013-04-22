@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-geometry math-format">
-<head>
+<html data-require="math graphie graphie-helpers graphie-geometry math-format"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Similar triangles 2</title>
     <script src="../khan-exercise.js"></script>
@@ -54,7 +53,7 @@
             }</var>
             <var id="ANSWER">ANSWERS[randRange(0, 3)]</var>
 
-            <div data-ensure='(ANSWER === "DEF" || ANSWER === "Both" || !isSimilar(ABC_SIDES, DEF_SIDES)) && (ANSWER === "GHI" || ANSWER === "Both" || !isSimilar(ABC_SIDES, GHI_SIDES))'>
+            <div data-ensure='(ANSWER === "DEF" || ANSWER === "Both" || !isSimilar(ABC_SIDES, DEF_SIDES)) &amp;&amp; (ANSWER === "GHI" || ANSWER === "Both" || !isSimilar(ABC_SIDES, GHI_SIDES))'>
                 <var id="ABC_SIDES">randomSides()</var>
 
                 <var id="SCALE_DEF">randRange(1, 3)/2</var>
@@ -115,7 +114,7 @@
                 Which triangles are similar to triangle <code>ABC</code>?
             </div>
             <div class="question">
-                <div class="graphie" id="triangles" >
+                <div class="graphie" id="triangles">
                     init({
                         range: [ [-1, 13 ], [ -14, 2.5 ] ],
                         scale: 35
@@ -162,7 +161,7 @@
                     <p>Substitute in the proper values for each side.</p>
                     <p><code>\dfrac{<var>ABC_SIDES[2]</var>}{\color{blue}{<var>DEF_SIDES[2]</var>}} <var>DEF_COMP_1</var> \dfrac{<var>ABC_SIDES[0]</var>}{\color{blue}{<var>DEF_SIDES[0]</var>}} <var>DEF_COMP_2</var> \dfrac{<var>ABC_SIDES[1]</var>}{\color{blue}{<var>DEF_SIDES[1]</var>}}</code></p>
                 </div>
-                <p>Since <span data-if="ANSWER === 'GHI' || ANSWER === 'None'">not</span> all the proportions are equal, <code>ABC</code> is <span data-if="ANSWER === 'GHI' || ANSWER === 'None'">not</span> similar to <code>DEF</code></span>.</p>
+                <p>Since <span data-if="ANSWER === 'GHI' || ANSWER === 'None'">not</span> all the proportions are equal, <code>ABC</code> is <span data-if="ANSWER === 'GHI' || ANSWER === 'None'">not</span> similar to <code>DEF</code>.</p>
 
                 <p>Next, let's determine whether <code>ABC</code> and <code>GHI</code> are similar.</p>
                 <div>
@@ -177,18 +176,17 @@
                     <p>Substitute in the proper values for each side.</p>
                     <p><code>\dfrac{<var>ABC_SIDES[2]</var>}{\color{red}{<var>GHI_SIDES[2]</var>}} <var>GHI_COMP_1</var> \dfrac{<var>ABC_SIDES[0]</var>}{\color{red}{<var>GHI_SIDES[0]</var>}} <var>GHI_COMP_2</var> \dfrac{<var>ABC_SIDES[1]</var>}{\color{red}{<var>GHI_SIDES[1]</var>}}</code></p>
                 </div>
-                <p>Since <span data-if="ANSWER === 'DEF' || ANSWER === 'None'">not</span> all the proportions are equal, <code>ABC</code> is <span data-if="ANSWER === 'DEF' || ANSWER === 'None'">not</span> similar to <code>GHI</code></span>.</p>
+                <p>Since <span data-if="ANSWER === 'DEF' || ANSWER === 'None'">not</span> all the proportions are equal, <code>ABC</code> is <span data-if="ANSWER === 'DEF' || ANSWER === 'None'">not</span> similar to <code>GHI</code>.</p>
 
                 <div class="final_answer">
                     <p data-if="ANSWER === 'DEF'"><code>DEF</code> is similar to <code>ABC</code></p>
                     <p data-if="ANSWER === 'GHI'"><code>GHI</code> is similar to <code>ABC</code></p>
                     <p data-if="ANSWER === 'Both'"><code>DEF</code> and <code>GHI</code> are similar to <code>ABC</code></p>
-                    <p data-else>Neither <code>DEF</code> nor <code>GHI</code> are similar to <code>ABC</code></p>
+                    <p data-else="">Neither <code>DEF</code> nor <code>GHI</code> are similar to <code>ABC</code></p>
                 </div>
 
             </div>
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

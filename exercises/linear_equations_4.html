@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
+<html data-require="math math-format"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multi-step equations</title>
     <script src="../khan-exercise.js"></script>
@@ -47,7 +46,7 @@
             </div>
             <div id="x-on-top-and-bottom">
                 <!-- (Ax + B) / (Cx + D) = E -->
-                <div class="vars" data-ensure="abs(A - E * C) >= 2 && ( C * ANSWER + D !== 0 )">
+                <div class="vars" data-ensure="abs(A - E * C) &gt;= 2 &amp;&amp; ( C * ANSWER + D !== 0 )">
                     <var id="A">randRangeNonZero( -12, 18 )</var>
                     <var id="B">randRangeNonZero( -12, 18 )</var>
                     <var id="C">randRangeNonZero( -6, 6 )</var>
@@ -90,5 +89,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

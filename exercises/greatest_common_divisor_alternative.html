@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems graphie">
-<head>
+<html data-require="math word-problems graphie"><head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Greatest common divisor</title>
 	<script src="../khan-exercise.js"></script>
@@ -45,17 +44,17 @@
 
 			<div>
 				<p data-if="A === 1">
-					The only divisor of <code>1</code> is <code class="hint_blue">1</code></span>
+					The only divisor of <code>1</code> is <code class="hint_blue">1</code>
 					since that's the only number that divides evenly into <code>1</code>:
 				</p>
-				<p data-else>
+				<p data-else="">
 					The divisors of <code><var>A</var></code> are <span class="hint_blue"><var>toSentence( getFactors( A ) )</var></span>
 					since those are all the numbers that divide evenly into <code><var>A</var></code>:
 				</p>
 				<p style="margin-left: 20px">
 					<span data-each="getFactors( A ) as F">
-						<span style="display: inline-block; width: 20px;"><span style="display: none;" class="hint_pink"><code data-if="B % F === 0">\rhd</code></span></span>
-						<code><var>A</var> \div \color{<var>BLUE</var>}{<var>F</var>} = <var>A/F</var></code><br />
+						<span style="display: inline-block; width: 20px;"><span class="hint_pink" style="display: none;"><code data-if="B % F === 0">\rhd</code></span></span>
+						<code><var>A</var> \div \color{<var>BLUE</var>}{<var>F</var>} = <var>A/F</var></code><br>
 					</span>
 				</p>
 			</div>
@@ -67,17 +66,17 @@
 
 			<div>
 				<p data-if="B === 1">
-					The only divisor of <code>1</code> is <code class="hint_green">1</code></span>
+					The only divisor of <code>1</code> is <code class="hint_green">1</code>
 					since that's the only number that divides evenly into <code>1</code>:
 				</p>
-				<p data-else>
+				<p data-else="">
 					The divisors of <code><var>B</var></code> are <span class="hint_green"><var>toSentence( getFactors( B ) )</var></span>
 					since those are all the numbers that divide evenly into <code><var>B</var></code>:
 				</p>
 				<p style="margin-left: 20px">
 					<span data-each="getFactors( B ) as F">
-						<span style="display: inline-block; width: 20px;"><span style="display: none;" class="hint_pink"><code data-if="A % F === 0">\rhd</code></span></span>
-						<code><var>B</var> \div \color{<var>GREEN</var>}{<var>F</var>} = <var>B/F</var></code><br />
+						<span style="display: inline-block; width: 20px;"><span class="hint_pink" style="display: none;"><code data-if="A % F === 0">\rhd</code></span></span>
+						<code><var>B</var> \div \color{<var>GREEN</var>}{<var>F</var>} = <var>B/F</var></code><br>
 					</span>
 				</p>
 			</div>
@@ -89,12 +88,12 @@
 
 			<div>
 				<p data-if="GCD === 1">
-					The only <em>common divisor</var></em> of <code><var>A</var></code> and <code><var>B</var></code> is
+					The only <em>common divisor</em> of <code><var>A</var></code> and <code><var>B</var></code> is
 					<code class="hint_pink"><var>GCD</var></code> since that's the only number that divides
 					evenly into both <code><var>A</var></code> and <code><var>B</var></code>.
 				</p>
-				<p data-else>
-					The <em>common divisors</var></em> of <code><var>A</var></code> and <code><var>B</var></code> are
+				<p data-else="">
+					The <em>common divisors</em> of <code><var>A</var></code> and <code><var>B</var></code> are
 					<span class="hint_pink"><var>toSentence( COMMON_FACTORS )</var></span> since each of those numbers divides
 					evenly into both <code><var>A</var></code> and <code><var>B</var></code>. We're interested in the <em>greatest</em> common divisor.
 				</p>
@@ -109,5 +108,4 @@
 			</p>
 		</div>
 	</div>
-</body>
-</html>
+</body></html>

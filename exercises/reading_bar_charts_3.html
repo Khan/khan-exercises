@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format stat graphie word-problems">
-<head>
+<html data-require="math math-format stat graphie word-problems"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading bar charts 3</title>
     <script src="../khan-exercise.js"></script>
@@ -24,7 +23,7 @@
     <div class="exercise">
         <div class="vars">
             <var id="NUM_STUDENTS">randFromArray([ 5, 6 ])</var>
-            <div data-ensure="( NUM_IMPROVED >= 3 && !IMPROVE_TIE ) || UNBIASED">
+            <div data-ensure="( NUM_IMPROVED &gt;= 3 &amp;&amp; !IMPROVE_TIE ) || UNBIASED">
                 <var id="MIDTERM">$.map( new Array( NUM_STUDENTS ), function() { return randRange( 12, 20 ) * 5; } )</var>
                 <var id="FINAL">$.map( new Array( NUM_STUDENTS ), function() { return randRange( 12, 20 ) * 5; } )</var>
                 <var id="IMPROVEMENT">$.map( new Array( NUM_STUDENTS ), function( e, n ) { return FINAL[ n ] - MIDTERM[ n ]; } )</var>
@@ -95,7 +94,7 @@
                         </div>
                     </div>
                     <div>
-                        <p>Find each of the <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else>orange</span> bars.</p>
+                        <p>Find each of the <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bars.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
                             <div class="graphie" data-update="barchart">
                                 if ( COLUMN === 0 ) {
@@ -169,15 +168,15 @@
                         </code></p>
                         <p>The average student score on the final exam was <code class="hint_orange"><var>FINAL_AVG</var></code>.</p>
                     </div>
-                    <p class="final_answer" data-if="MIDTERM_AVG > FINAL_AVG">
+                    <p class="final_answer" data-if="MIDTERM_AVG &gt; FINAL_AVG">
                         The average student score was higher on the <span class="hint_blue">midterm</span>
                         than on the <span class="hint_orange">final exam</span>.
                     </p>
-                    <p class="final_answer" data-else-if="MIDTERM_AVG < FINAL_AVG">
+                    <p class="final_answer" data-else-if="MIDTERM_AVG &lt; FINAL_AVG">
                         The average student score was higher on the <span class="hint_orange">final exam</span>
                         than the <span class="hint_blue">midterm</span>.
                     </p>
-                    <p class="final_answer" data-else>
+                    <p class="final_answer" data-else="">
                         The average student score was the same on both the <span class="hint_blue">midterm</span>
                         and the <span class="hint_orange">final exam</span>.
                     </p>
@@ -203,7 +202,7 @@
                         </div>
                     </div>
                     <div>
-                        <p>Find each of the <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else>orange</span> bars.</p>
+                        <p>Find each of the <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bars.</p>
                         <p><code>\qquad\large{<var>toSentence( COLUMN === 0 ? MIDTERM : FINAL, "" )</var>}</code></p>
                         <div data-each="NUM_STUDENTS times as INDEX">
                             <div class="graphie" data-update="barchart">
@@ -220,7 +219,7 @@
                         <p><code>\qquad\large{<var>toSentence( sortNumbers( COLUMN === 0 ? MIDTERM : FINAL ), "" )</var>}</code></p>
                     </div>
                     <p data-if="NUM_STUDENTS % 2">Since there are an odd number of scores, the median score is just the middle score.</p>
-                    <div data-else data-unwrap>
+                    <div data-else="" data-unwrap="">
                         <p>Since there are an even number of scores, the median score is the average of the two middle scores.</p>
                         <p>
                             <code>
@@ -254,7 +253,7 @@
                         </div>
                     </div>
                     <div>
-                        <p>Find each of the <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else>orange</span> bars.</p>
+                        <p>Find each of the <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bars.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
                             <div class="graphie" data-update="barchart">
                                 if ( COLUMN === 0 ) {
@@ -307,7 +306,7 @@
                         </div>
                     </div>
                     <div>
-                        <p>Find the largest and smallest <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else>orange</span> bars.</p>
+                        <p>Find the largest and smallest <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bars.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
                             <div class="graphie" data-update="barchart">
                                 if ( COLUMN === 0 ) {
@@ -353,7 +352,7 @@
                         </div>
                     </div>
                     <div>
-                        <p>Find the largest and smallest <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else>orange</span> bars.</p>
+                        <p>Find the largest and smallest <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bars.</p>
                         <div data-each="NUM_STUDENTS times as INDEX">
                             <div class="graphie" data-update="barchart">
                                 if ( COLUMN === 0 ) {
@@ -379,5 +378,4 @@
 
         </div>
     </div>
-</body>
-</html>
+</body></html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions">
-<head>
+<html data-require="math math-format expressions"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Combining like terms</title>
     <script src="../khan-exercise.js"></script>
@@ -38,7 +37,7 @@
                 <code>\large{<var>expr(["+", ["*", A, X], ["*", B, X]])</var>}</code>
             </p>
             <div class="solution" data-type="set">
-                <span data-each="SOLUTIONS as SOL" class="set-sol" data-type="regex">^\s*<var>SOL</var>\s*$</span>
+                <span class="set-sol" data-each="SOLUTIONS as SOL" data-type="regex">^\s*<var>SOL</var>\s*$</span>
                 <div class="input-format"><span class="entry"></span></div>
                 <span class="example">an expression, like <b>-2x + 4</b></span>
             </div>
@@ -54,7 +53,7 @@
                     </p>
                 </div>
                 <p>The simplified expression is <code><var>expr(["*", A + B, X])</var></code>
-            </div>
+            </p></div>
         </div>
 
         <div id="ax_bx_c" data-type="ax_bx">
@@ -78,7 +77,7 @@
                     </p>
                 </div>
                 <p>The simplified expression is <code><var>expr(["*", A + B, X])</var> + <var>C</var></code>
-            </div>
+            </p></div>
         </div>
 
         <div id="ax_c_bx" data-type="ax_bx_c">
@@ -99,7 +98,7 @@
                     </p>
                 </div>
                 <p>The simplified expression is <code><var>expr(["*", A + B, X])</var> + <var>C</var></code>
-            </div>
+            </p></div>
         </div>
 
         <div id="ax_c_bx_d" data-type="ax_bx_c">
@@ -141,7 +140,7 @@
                     </p>
                 </div>
                 <p>The simplified expression is <code><var>expr(["+", ["*", A + B, X], C + D])</var></code>
-            </div>
+            </p></div>
         </div>
 
         <div id="ax_c_d_bx" data-type="ax_c_bx_d">
@@ -175,7 +174,7 @@
                     </p>
                 </div>
                 <p>The simplified expression is <code><var>expr(["+", ["*", A, X], C + D])</var></code>
-            </div>
+            </p></div>
         </div>
 
         <div id="c_ax_d" data-type="ax_c_d">
@@ -188,7 +187,7 @@
                         Rewrite the expression to group the
                         <span class="hint_blue">numeric</span> terms:</p>
                     <p>
-                    <p>
+                    </p><p>
                         <code>\qquad <var>expr(["*", A, X])</var>
                         <var>C &lt; 0 ? "" : "+"</var>
                         \blue{<var>C</var> + <var>D</var>}</code>
@@ -203,10 +202,9 @@
                     </p>
                 </div>
                 <p>The simplified expression is <code><var>expr(["+", ["*", A, X], C + D])</var></code>
-            </div>
+            </p></div>
         </div>
 
     </div>
 </div>
-</body>
-</html>
+</body></html>

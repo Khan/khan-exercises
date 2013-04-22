@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems spin">
-<head>
+<html data-require="math word-problems spin"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>LCM and GCD word problems</title>
     <script src="../khan-exercise.js"></script>
@@ -17,7 +16,7 @@
     <div class="problems">
 
         <div id="lcm-hot-dog-count">
-            <div class="vars" data-ensure="LCM !== A && LCM !== B">
+            <div class="vars" data-ensure="LCM !== A &amp;&amp; LCM !== B">
                 <var id="C">randRange( 2, 6 )</var>
                 <var id="START_A">randRange( 1, 10 )</var>
                 <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
@@ -72,16 +71,16 @@
                     <p>
                         <code>\qquad dogs: </code>
                         <span data-each="getMultiples( A, min( LCM * 2 + A * 2, max( A * 14, LCM ) ) ) as M">
-                            <span data-if="M % LCM === 0 && M / LCM === 1">
+                            <span data-if="M % LCM === 0 &amp;&amp; M / LCM === 1">
                                 <code>\color{<var>PINK</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 2">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 2">
                                 <code>\color{<var>BLUE</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 3">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 3">
                                 <code>\color{<var>GREEN</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else>
+                            <span data-else="">
                                 <code><var>M</var>,</code>
                             </span>
                         </span>
@@ -90,16 +89,16 @@
                     <p>
                         <code>\qquad buns: </code>
                         <span data-each="getMultiples( B, min( LCM * 2 + B * 2, max( B * 14, LCM ) ) ) as M">
-                            <span data-if="M % LCM === 0 && M / LCM === 1">
+                            <span data-if="M % LCM === 0 &amp;&amp; M / LCM === 1">
                                 <code>\color{<var>PINK</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 2">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 2">
                                 <code>\color{<var>BLUE</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 3">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 3">
                                 <code>\color{<var>GREEN</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else>
+                            <span data-else="">
                                 <code><var>M</var>,</code>
                             </span>
                         </span>
@@ -120,7 +119,7 @@
         </div>
 
         <div id="lcm-uniforms">
-            <div class="vars" data-ensure="LCM !== A && LCM !== B">
+            <div class="vars" data-ensure="LCM !== A &amp;&amp; LCM !== B">
                 <var id="C">randRange( 2, 6 )</var>
                 <var id="START_A">randRange( 1, 10 )</var>
                 <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
@@ -172,16 +171,16 @@
                     <p>
                         <code>\qquad jerseys: </code>
                         <span data-each="getMultiples( A, min( LCM * 2 + A * 2, max( A * 12, LCM ) ) ) as M">
-                            <span data-if="M % LCM === 0 && M / LCM === 1">
+                            <span data-if="M % LCM === 0 &amp;&amp; M / LCM === 1">
                                 <code>\color{<var>PINK</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 2">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 2">
                                 <code>\color{<var>BLUE</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 3">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 3">
                                 <code>\color{<var>GREEN</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else>
+                            <span data-else="">
                                 <code><var>M</var>,</code>
                             </span>
                         </span>
@@ -190,16 +189,16 @@
                     <p>
                         <code>\qquad visors: </code>
                         <span data-each="getMultiples( B, min( LCM * 2 + B * 2, max( B * 12, LCM ) ) ) as M">
-                            <span data-if="M % LCM === 0 && M / LCM === 1">
+                            <span data-if="M % LCM === 0 &amp;&amp; M / LCM === 1">
                                 <code>\color{<var>PINK</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 2">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 2">
                                 <code>\color{<var>BLUE</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 3">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 3">
                                 <code>\color{<var>GREEN</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else>
+                            <span data-else="">
                                 <code><var>M</var>,</code>
                             </span>
                         </span>
@@ -220,7 +219,7 @@
         </div>
 
         <div id="lcm-test-questions">
-            <div class="vars" data-ensure="LCM !== A && LCM !== B">
+            <div class="vars" data-ensure="LCM !== A &amp;&amp; LCM !== B">
                 <var id="C">randRange( 2, 6 )</var>
                 <var id="START_A">randRange( 1, 10 )</var>
                 <var id="START_B">randRangeExclude( 1, 10, [ START_A ] )</var>
@@ -234,11 +233,11 @@
             <div class="problem">
                 <p class="spin">
                     <var>person(1)</var> and <var>person(2)</var> are in different <var>course(1)</var> classes at <var>school(1)</var>.
-                    <span data-if="A > B">
+                    <span data-if="A &gt; B">
                         <var>person(1)</var>'s teacher always gives <var>plural( exam(1) )</var> with <var>A</var> questions on them while
                         <var>person(2)</var>'s teacher gives more frequent <var>plural( exam(1) )</var> with only <var>B</var> questions.
                     </span>
-                    <span data-else>
+                    <span data-else="">
                         <var>person(2)</var>'s teacher always gives <var>plural( exam(1) )</var> with <var>B</var> questions on them while
                         <var>person(1)</var>'s teacher gives more frequent <var>plural( exam(1) )</var> with only <var>A</var> questions.
                     </span>
@@ -292,16 +291,16 @@
                     <p>
                         <code>\qquad</code>
                         <span data-each="getMultiples( A, min( LCM * 2 + A * 2, max( A * 15, LCM ) ) ) as M">
-                            <span data-if="M % LCM === 0 && M / LCM === 1">
+                            <span data-if="M % LCM === 0 &amp;&amp; M / LCM === 1">
                                 <code>\color{<var>PINK</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 2">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 2">
                                 <code>\color{<var>BLUE</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 3">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 3">
                                 <code>\color{<var>GREEN</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else>
+                            <span data-else="">
                                 <code><var>M</var>,</code>
                             </span>
                         </span>
@@ -310,16 +309,16 @@
                     <p>
                         <code>\qquad</code>
                         <span data-each="getMultiples( B, min( LCM * 2 + B * 2, max( B * 15, LCM ) ) ) as M">
-                            <span data-if="M % LCM === 0 && M / LCM === 1">
+                            <span data-if="M % LCM === 0 &amp;&amp; M / LCM === 1">
                                 <code>\color{<var>PINK</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 2">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 2">
                                 <code>\color{<var>BLUE</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else-if="M % LCM === 0 && M / LCM === 3">
+                            <span data-else-if="M % LCM === 0 &amp;&amp; M / LCM === 3">
                                 <code>\color{<var>GREEN</var>}{<var>M</var>},</code>
                             </span>
-                            <span data-else>
+                            <span data-else="">
                                 <code><var>M</var>,</code>
                             </span>
                         </span>
@@ -378,8 +377,13 @@
                         That means we can divide the sprinters into equally sized teams in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( A ) as F" class="hint_blue">
-                            <var>plural( F, "team" )</var> with <var>plural( A / F, "sprinter" )</var> <var>plural( "", "each", F )</var><br />
+                        <span class="hint_blue" data-each="getFactors( A ) as F">
+                            <span data-if="F === 1">
+                                1 team with <var>plural( A, "sprinter" )</var><br>
+                            </span>
+                            <span data-else="">
+                                <var>plural( F, "team" )</var> with <var>plural( A / F, "sprinter" )</var> each<br>
+                            </span>
                         </span>
                     </p>
                 </div>
@@ -396,8 +400,13 @@
                         That means we can divide the long-distance runners into equally sized teams in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( B ) as F" class="hint_green">
-                            <var>plural( F, "team" )</var> with <var>plural( B / F, "long-distance runner" )</var> <var>plural( "", "each", F )</var><br />
+                        <span class="hint_green" data-each="getFactors( B ) as F">
+                            <span data-if="F === 1">
+                                1 team with <var>plural( B, "long-distance runner" )</var><br>
+                            </span>
+                            <span data-else="">
+                                <var>plural( F, "team" )</var> with <var>plural( B / F, "long-distance runner" )</var> each<br>
+                            </span>
                         </span>
                     </p>
                 </div>
@@ -410,21 +419,21 @@
                     </p>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
-                                <var>plural( N + 1, "team" )</var> with <var>plural( A / ( N + 1 ), "sprinter" )</var><br />
+                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
+                                <var>plural( N + 1, "team" )</var> with <var>plural( A / ( N + 1 ), "sprinter" )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <br />
+                                <br>
                             </span>
                         </span>
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
-                                <var>plural( N + 1, "team" )</var> with <var>plural( B / ( N + 1 ), "long-distance runner" )</var><br />
+                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
+                                <var>plural( N + 1, "team" )</var> with <var>plural( B / ( N + 1 ), "long-distance runner" )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <br />
+                                <br>
                             </span>
                         </span>
                     </div>
@@ -438,10 +447,10 @@
                         <var>person(1)</var> can make the following equal teams:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
+                        <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
                             <var>plural( F, "team" )</var> with <var>plural( A / F, "sprinter" )</var> and
                             <var>plural( B / F, "long-distance runner" )</var>
-                            <br />
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -503,8 +512,13 @@
                         That means we can equally divide the chocolate chip cookies into gift baskets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( A ) as F" class="hint_blue">
-                            <var>plural( F, "basket" )</var> with <var>plural( A / F, "chocolate chip cookie" )</var> <var>plural( "", "each", F )</var><br />
+                        <span class="hint_blue" data-each="getFactors( A ) as F">
+                            <span data-if="F === 1">
+                                1 basket with <var>plural( A, "chocolate chip cookie" )</var><br>
+                            </span>
+                            <span data-else="">
+                                <var>plural( F, "basket" )</var> with <var>plural( A / F, "chocolate chip cookie" )</var> each<br>
+                            </span>
                         </span>
                     </p>
                 </div>
@@ -521,8 +535,13 @@
                         That means we can equally divide the oatmeal cookies into gift baskets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( B ) as F" class="hint_green">
-                            <var>plural( F, "basket" )</var> with <var>plural( B / F, "oatmeal cookie" )</var> <var>plural( "", "each", F )</var><br />
+                        <span class="hint_green" data-each="getFactors( B ) as F">
+                            <span data-if="F === 1">
+                                1 basket with <var>plural( B, "oatmeal cookie" )</var><br>
+                            </span>
+                            <span data-else="">
+                                <var>plural( F, "basket" )</var> with <var>plural( B / F, "oatmeal cookie" )</var> each<br>
+                            </span>
                         </span>
                     </p>
                 </div>
@@ -534,21 +553,21 @@
                     </p>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
-                                <var>plural( N + 1, "basket" )</var> with <var>plural( A / ( N + 1 ), "chocolate chip cookie" )</var><br />
+                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
+                                <var>plural( N + 1, "basket" )</var> with <var>plural( A / ( N + 1 ), "chocolate chip cookie" )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <br />
+                                <br>
                             </span>
                         </span>
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
-                                <var>plural( N + 1, "basket" )</var> with <var>plural( B / ( N + 1 ), "oatmeal cookie" )</var><br />
+                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
+                                <var>plural( N + 1, "basket" )</var> with <var>plural( B / ( N + 1 ), "oatmeal cookie" )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <br />
+                                <br>
                             </span>
                         </span>
                     </div>
@@ -562,10 +581,10 @@
                         <var>person(1)</var> can make any of the following gift baskets:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
+                        <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
                             <var>plural( F, "basket" )</var> with <var>plural( A / F, "chocolate chip cookie" )</var> and
                             <var>plural( B / F, "oatmeal cookie" )</var>
-                            <br />
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -622,8 +641,8 @@
                         That means we can equally divide the <var>plural( deskItem(1) )</var> into sets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( A ) as F" class="hint_blue">
-                            <var>plural( F, "set" )</var> with <var>plural( A / F, deskItem(1) )</var> <var>plural( "", "each", F )</var><br />
+                        <span class="hint_blue" data-each="getFactors( A ) as F">
+                            <var>plural( F, "set" )</var> with <var>plural( A / F, deskItem(1) )</var> <var>plural( "", "each", F )</var><br>
                         </span>
                     </p>
                 </div>
@@ -640,8 +659,8 @@
                         That means we can equally divide the <var>plural( deskItem(2) )</var> into sets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="getFactors( B ) as F" class="hint_green">
-                            <var>plural( F, "set" )</var> with <var>plural( B / F, deskItem(2) )</var> <var>plural( "", "each", F )</var><br />
+                        <span class="hint_green" data-each="getFactors( B ) as F">
+                            <var>plural( F, "set" )</var> with <var>plural( B / F, deskItem(2) )</var> <var>plural( "", "each", F )</var><br>
                         </span>
                     </p>
                 </div>
@@ -654,21 +673,21 @@
                     </p>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, A_FACTORS ) !== -1" class="hint_blue">
-                                <var>plural( N + 1, "set" )</var> with <var>plural( A / ( N + 1 ), deskItem(1) )</var><br />
+                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
+                                <var>plural( N + 1, "set" )</var> with <var>plural( A / ( N + 1 ), deskItem(1) )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <br />
+                                <br>
                             </span>
                         </span>
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span data-if="$.inArray( N + 1, B_FACTORS ) !== -1" class="hint_green">
-                                <var>plural( N + 1, "set" )</var> with <var>plural( B / ( N + 1 ), deskItem(2) )</var><br />
+                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
+                                <var>plural( N + 1, "set" )</var> with <var>plural( B / ( N + 1 ), deskItem(2) )</var><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <br />
+                                <br>
                             </span>
                         </span>
                     </div>
@@ -682,10 +701,10 @@
                         <var>person(1)</var> can make any of the following sets:
                     </p>
                     <p style="margin-left: 20px">
-                        <span data-each="_.intersection( A_FACTORS, B_FACTORS ) as F" class="hint_pink">
+                        <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
                             <var>plural( F, "set" )</var> with <var>plural( A / F, deskItem(1) )</var> and
                             <var>plural( B / F, deskItem(2) )</var>
-                            <br />
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -703,5 +722,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

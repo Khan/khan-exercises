@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive">
-<head>
+<html data-require="math math-format expressions graphie interactive"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing linear equations</title>
     <script src="../khan-exercise.js"></script>
@@ -48,13 +47,13 @@
                     <p>
                         Let's pick some points where <code>y = <var>YINT</var></code>.
                         <code class="hint_green">(-<var>X_EXAMPLE</var>, <var>YINT</var>)</code> and <code class="hint_green">(<var>X_EXAMPLE</var>, <var>YINT</var>)</code> are both good choices.
-                        <div class="graphie" data-update="grid">
+                        </p><div class="graphie" data-update="grid">
                             style({ stroke: GREEN, fill: GREEN }, function() {
                                 graph.exampleA = circle( [ -1 * X_EXAMPLE, YINT ], 0.2 ).toBack();
                                 graph.exampleB = circle( [ X_EXAMPLE, YINT ], 0.2 ).toBack();
                             });
                         </div>
-                    </p>
+                    <p></p>
                 </div>
                 <div>
                     <p>
@@ -110,14 +109,14 @@
                     <p>
                         Let's pick some points where <code>x = <var>XINT</var></code>.
                         <code class="hint_green">(<var>XINT</var>, -<var>Y_EXAMPLE</var>)</code>, <code class="hint_green">(<var>XINT</var>, <var>Y_EXAMPLE_2</var>)</code> and <code class="hint_green">(<var>XINT</var>, <var>Y_EXAMPLE</var>)</code> are all good choices.
-                        <div class="graphie" data-update="grid">
+                        </p><div class="graphie" data-update="grid">
                             style({ stroke: GREEN, fill: GREEN }, function() {
                                 graph.exampleA = circle( [ XINT, -1 * Y_EXAMPLE ], 0.2 ).toBack();
                                 graph.exampleB = circle( [ XINT, Y_EXAMPLE ], 0.2 ).toBack();
                                 graph.exampleA = circle( [ XINT, Y_EXAMPLE_2 ], 0.2 ).toBack();
                             });
                         </div>
-                    </p>
+                    <p></p>
                 </div>
                 <div>
                     <p>
@@ -166,13 +165,13 @@
                 <p class="hint_blue" data-if="STD_FORM">
                     <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> = <var>C</var></code>
                 </p>
-                <p class="hint_blue" data-else>
+                <p class="hint_blue" data-else="">
                     <code>y = <var>PRETTY_SLOPE</var> x + <var>YINT</var></code>
                 </p>
             </div>
 
             <div class="hints">
-                <div data-if="STD_FORM" data-unwrap>
+                <div data-if="STD_FORM" data-unwrap="">
                     <p>
                         Convert <code><var>expr([ "+", [ "*", A, "x" ], [ "*", B, "y" ] ])</var> = <var>C</var></code>
                         to slope-intercept form by solving for <code>y</code>.
@@ -216,8 +215,8 @@
                         <code><var>abs( SLOPE_FRAC[0] )</var></code>
                         <var>"position" + ( abs( SLOPE_FRAC[0] ) !== 1 ? "s" : "" )</var>
                         you move
-                        <span data-if="SLOPE_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
-                        <span data-else>up</span>
+                        <span data-if="SLOPE_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
+                        <span data-else="">up</span>
                         you must also move
                         <code><var>SLOPE_FRAC[1]</var></code>
                         <var>"position" + ( abs( SLOPE_FRAC[1] ) !== 1 ? "s" : "" )</var>
@@ -335,5 +334,4 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+</body></html>

@@ -7,9 +7,7 @@
     (these two files should simply be copies of each other)
 
     TODO(eater): Make this simpler
--->
-
-<div id="exercise-message-container" style="display: none;">
+--><html><head></head><body><div id="exercise-message-container" style="display: none;">
     <div class="exercise_message"></div>
 </div>
 <div id="warning-bar">
@@ -17,38 +15,38 @@
     <span id="warning-bar-close">(<a href="">close</a>)</span>
 </div>
 <div id="problem-and-answer">
-    <div id='problemarea'>
-        <div id='scratchpad'><div></div></div>
-        <div id='workarea'></div>
-        <div id='hintsarea'></div>
+    <div id="problemarea">
+        <div id="scratchpad"><div></div></div>
+        <div id="workarea"></div>
+        <div id="hintsarea"></div>
     </div>
     <div id="answer_area_wrap"><div id="answer_area">
         <form id="answerform" name="answerform">
-            <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px">
-            <div id="answercontent" class="info-box">
+            <input style="position: absolute; left: -9999px; width: 1px; height: 1px" type="submit">
+            <div class="info-box" id="answercontent">
                 <span id="examples-show">Acceptable formats</span>
                 <span class="info-box-header">Answer</span>
-                <div id="solutionarea" class="fancy-scrollbar"></div>
+                <div class="fancy-scrollbar" id="solutionarea"></div>
                 <ul id="examples" style="display: none"></ul>
                 <div class="answer-buttons">
                 <div class="check-answer-wrapper">
-                    <input type="button" class="simple-button green" id="check-answer-button" value="Check Answer"/>
+                    <input class="simple-button green" id="check-answer-button" type="button" value="Check Answer">
                 </div>
-                <input type="button" class="simple-button green" id="next-question-button" style="display:none;" name="correctnextbutton" value="Correct! Next Question..."/>
-                <div id="positive-reinforcement"><img src="/images/face-smiley.png" /></div>
+                <input class="simple-button green" id="next-question-button" name="correctnextbutton" style="display:none;" type="button" value="Correct! Next Question...">
+                <div id="positive-reinforcement"><img src="/images/face-smiley.png"></div>
                 <span id="show-solution-button-container"></span>
                 <div id="check-answer-results"><p class="check-answer-message info-box-sub-description"></p></div>
                 </div>
             </div>
-            <div id="readonly" class="info-box">
-                <span id="readonly-problem" class="info-box-header"></span>
-                <span id="readonly-title" class="info-box-subheader">You are viewing a problem.</span>
-                <span class="info-box-sub-description">To work on problems like this, <a id="readonly-start" href="">start this exercise</a>.</span>
+            <div class="info-box" id="readonly">
+                <span class="info-box-header" id="readonly-problem"></span>
+                <span class="info-box-subheader" id="readonly-title">You are viewing a problem.</span>
+                <span class="info-box-sub-description">To work on problems like this, <a href="" id="readonly-start">start this exercise</a>.</span>
             </div>
             <div class="info-box hint-box">
                 <span class="info-box-header">Need help?</span>
                 <div id="get-hint-button-container">
-                    <input id="hint" type="button" class="simple-button orange full-width" value="I'd like a hint" name="hint"/>
+                    <input class="simple-button orange full-width" id="hint" name="hint" type="button" value="I'd like a hint">
                 </div>
                 <span id="hint-remainder"></span>
             </div>
@@ -64,7 +62,7 @@
                 </div>
             </div>
         </form>
-        <div id="calculator" class="info-box" style="display: none;">
+        <div class="info-box" id="calculator" style="display: none;">
             <span class="info-box-header">Calculator</span>
             <div class="calculator">
                 <div class="history fancy-scrollbar">
@@ -72,58 +70,59 @@
                 </div>
                 <div class="keypad">
                     <div class="calc-row">
-                    <a href="#" data-text="asin(">sin<sup>-1</sup></a><a href="#" data-text="acos(">cos<sup>-1</sup></a><a href="#" data-text="atan(">tan<sup>-1</sup></a><a href="#" data-behavior="bs">del</a><a href="#" data-behavior="clear" class="dark">ac</a>
+                    <a href="#" data-text="asin(">sin<sup>-1</sup></a><a href="#" data-text="acos(">cos<sup>-1</sup></a><a href="#" data-text="atan(">tan<sup>-1</sup></a><a href="#" data-behavior="bs">del</a><a href="#" class="dark" data-behavior="clear">ac</a>
                     </div>
                     <div class="calc-row">
-                    <a href="#" data-text="sin(">sin</a><a href="#" data-text="cos(">cos</a><a href="#" data-text="tan(">tan</a><a href="#" data-text="sqrt(">&radic;</a><a href="#" data-text="^">x<sup>y</sup></a>
+                    <a href="#" data-text="sin(">sin</a><a href="#" data-text="cos(">cos</a><a href="#" data-text="tan(">tan</a><a href="#" data-text="sqrt(">âˆš</a><a href="#" data-text="^">x<sup>y</sup></a>
                     </div>
                     <div class="calc-row">
                     <a href="#" class="dark">7</a><a href="#" class="dark">8</a><a href="#" class="dark">9</a><a href="#">(</a><a href="#">)</a>
                     </div>
                     <div class="calc-row">
-                    <a href="#" class="dark">4</a><a href="#" class="dark">5</a><a href="#" class="dark">6</a><a href="#" data-text="*">&times;</a><a href="#" data-text="/">&divide;</a>
+                    <a href="#" class="dark">4</a><a href="#" class="dark">5</a><a href="#" class="dark">6</a><a href="#" data-text="*">Ã—</a><a href="#" data-text="/">Ã·</a>
                     </div>
                     <div class="calc-row">
-                    <a href="#" class="dark">1</a><a href="#" class="dark">2</a><a href="#" class="dark">3</a><a href="#">+</a><a href="#" data-text="-">&minus;</a>
+                    <a href="#" class="dark">1</a><a href="#" class="dark">2</a><a href="#" class="dark">3</a><a href="#">+</a><a href="#" data-text="-">âˆ’</a>
                     </div>
                     <div class="calc-row">
-                    <a href="#" class="dark">0</a><a href="#" class="dark">.</a><a href="#" data-text="ans">ans</a><a href="#" data-behavior="evaluate" class="wide">=</a>
+                    <a href="#" class="dark">0</a><a href="#" class="dark">.</a><a href="#" data-text="ans">ans</a><a href="#" class="wide" data-behavior="evaluate">=</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="issue" class="info-box" style="display:none;">
+        <div class="info-box" id="issue" style="display:none;">
             <span class="info-box-header">Report a Problem</span>
-            <span id="issue-status" class="info-box-sub-description"></span>
+            <span class="info-box-sub-description" id="issue-status"></span>
             <form>
                 <fieldset>
                     <legend>Issue Type</legend>
                     <ul>
                         <li>
-                            <input type="radio" name="issue-type" id="issue-wrong-or-unclear">
+                            <input id="issue-wrong-or-unclear" name="issue-type" type="radio">
                             <label for="issue-wrong-or-unclear">Answer is wrong or question is unclear</label>
                         </li>
                         <li>
-                            <input type="radio" name="issue-type" id="issue-hard">
+                            <input id="issue-hard" name="issue-type" type="radio">
                             <label for="issue-hard">I'm frustrated (tell us why) or this is too hard</label>
                         </li>
                         <li>
-                            <input type="radio" name="issue-type" id="issue-not-showing">
+                            <input id="issue-not-showing" name="issue-type" type="radio">
                             <label for="issue-not-showing">I can't see the problem or website is stuck</label>
                         </li>
                         <li>
-                            <input type="radio" name="issue-type" id="issue-other">
+                            <input id="issue-other" name="issue-type" type="radio">
                             <label for="issue-other">Other (please describe below)</label>
                         </li>
                     </ul>
                 </fieldset>
-                <label for="issue-title">Issue Title:<input type="text" name="issue-title" id="issue-title" /></label>
-                <label for="issue-body">Description of Issue:<textarea name="issue-body" id="issue-body"></textarea></label>
-                <input type="submit" class="simple-button" value="Submit Issue">
+                <label for="issue-title">Issue Title:<input id="issue-title" name="issue-title" type="text"></label>
+                <label for="issue-body">Description of Issue:<textarea id="issue-body" name="issue-body"></textarea></label>
+                <input class="simple-button" type="submit" value="Submit Issue">
                 <a href="/#" id="issue-cancel">Cancel</a>
-                <img id="issue-throbber" style="display:none;" name="issue-throbber">
+                <img id="issue-throbber" name="issue-throbber" style="display:none;">
             </form>
         </div>
     </div></div>
     <div style="clear: both;"></div>
 </div>
+</body></html>

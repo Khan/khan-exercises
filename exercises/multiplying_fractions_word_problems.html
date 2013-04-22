@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers word-problems">
-<head>
+<html data-require="math graphie graphie-helpers word-problems"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying fractions word problems</title>
     <script src="../khan-exercise.js"></script>
@@ -10,7 +9,7 @@
         <div class="problems">
 
             <div id="birthday-party-guests">
-                <div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
+                <div class="vars" data-ensure="isInt( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1">
                     <var id="D">randFromArray([ 5, 8 ])</var>
                     <var id="N">randRange( 3, D - 1 )</var>
                     <var id="INVITEES">randRange( 1, 5 ) * D</var>
@@ -26,7 +25,7 @@
                 <p class="question">How many people went to <var>person( 1 )</var>'s birthday party?</p>
 
                 <div class="solution" data-type="multiple">
-                    <span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> people
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>SOLUTION</var></span> people
                 </div>
 
                 <div class="hints">
@@ -79,7 +78,7 @@
 
 
             <div id="bookstore-spending">
-                <div class="vars" data-ensure="isInt ( SOLUTION ) && getGCD( D, N ) === 1">
+                <div class="vars" data-ensure="isInt ( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1">
                     <var id="AMOUNT">(randRange( 2, 10 )*D)</var>
                     <var id="D">randFromArray([ 2, 8 ])</var>
                     <var id="N">randRange( 1, D - 1 )</var>
@@ -146,7 +145,7 @@
 
 
             <div id="canned-food-spending">
-                <div class="vars" data-ensure="isInt ( SOLUTION ) && getGCD( D, N ) === 1">
+                <div class="vars" data-ensure="isInt ( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1">
                     <var id="AMOUNT">(randRange( 2, 10 )*D)</var>
                     <var id="D">randFromArray([ 8, 6 ])</var>
                     <var id="N">randRange( 1, D - 1 )</var>
@@ -213,7 +212,7 @@
 
 
             <div id="road-trip-gas">
-                <div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
+                <div class="vars" data-ensure="isInt( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1">
                     <var id="GALLONS">randRange( 10, 20 )</var>
                     <var id="D">randFromArray([ 8, 6, 10 ])</var>
                     <var id="N">randRange( 1, D - 1 )</var>
@@ -229,7 +228,7 @@
                 <p class="question">How many gallons of gas were left in the tank?</p>
 
                 <div class="solution" data-type="multiple">
-                    <span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> gallons
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>SOLUTION</var></span> gallons
                 </div>
 
                 <div class="hints">
@@ -283,7 +282,7 @@
 
 
             <div id="picnic-attendees">
-                <div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
+                <div class="vars" data-ensure="isInt( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1">
                     <var id="ATTENDEES">randRange( 15, 40 )</var>
                     <var id="D">randFromArray([ 8, 6, 10 ])</var>
                     <var id="N">randRange( 1, D - 1 )</var>
@@ -298,7 +297,7 @@
                 <p class="question">How many adults were at the picnic?</p>
 
                 <div class="solution" data-type="multiple">
-                    <span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> adults
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>SOLUTION</var></span> adults
                 </div>
 
                 <div class="hints">
@@ -351,7 +350,7 @@
 
 
             <div id="recipe">
-                <div class="vars" data-ensure="isInt( SOLUTION ) && getGCD( D, N ) === 1">
+                <div class="vars" data-ensure="isInt( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1">
                     <var id="BATCHES">(randRange( 1,5 )*D)</var>
                     <var id="D">randFromArray([ 2,8 ])</var>
                     <var id="N">randRange( 1, D - 1 )</var>
@@ -371,7 +370,7 @@
                 <p class="question">How many cups of chocolate chips did <var>person(1)</var> need in total?</p>
 
                 <div class="solution" data-type="multiple">
-                    <span style="padding-right: 5px" class="sol" data-forms="integer"><var>SOLUTION</var></span> cups
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>SOLUTION</var></span> cups
                 </div>
 
                 <div class="hints">
@@ -424,5 +423,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers">
-<head>
+<html data-require="math graphie graphie-helpers"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Parabola intuition 1</title>
     <script src="../khan-exercise.js"></script>
@@ -29,7 +28,7 @@
                         range: 10,
                         scale: 20,
                         tickStep: 1,
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     });
 
                     // Plot the orange parabola
@@ -62,17 +61,17 @@
                     -->
                     <div class="instruction">
                         <div id="plus-buttons">
-                            <input type="button" class="simple-button mini-button" style="margin-left: 20px;" value="+" onclick="updateParabola(0, 0, -1)" />
-                            <input type="button" class="simple-button mini-button" style="margin-left: 8px;" value="+" onclick="updateParabola(1, 0, 0)" />
-                            <input type="button" class="simple-button mini-button" style="margin-left: 20px;" value="+" onclick="updateParabola(0, -1, 0)" />
+                            <input class="simple-button mini-button" onclick="updateParabola(0, 0, -1)" style="margin-left: 20px;" type="button" value="+">
+                            <input class="simple-button mini-button" onclick="updateParabola(1, 0, 0)" style="margin-left: 8px;" type="button" value="+">
+                            <input class="simple-button mini-button" onclick="updateParabola(0, -1, 0)" style="margin-left: 20px;" type="button" value="+">
                         </div>
 
                         <p id="equation-label" style="margin: 8px 0px 2px 0px"><code>y - 0 = 1(x - 0)^{2}</code></p>
 
                         <div id="minus-buttons" style="padding-bottom: 15px">
-                            <input type="button" class="simple-button mini-button" style="margin-left: 20px;" value="-" onclick="updateParabola(0, 0, 1)" />
-                            <input type="button" class="simple-button mini-button" style="margin-left: 8px;" value="-" onclick="updateParabola(-1, 0, 0)" />
-                            <input type="button" class="simple-button mini-button" style="margin-left: 20px;" value="-" onclick="updateParabola(0, 1, 0)" />
+                            <input class="simple-button mini-button" onclick="updateParabola(0, 0, 1)" style="margin-left: 20px;" type="button" value="-">
+                            <input class="simple-button mini-button" onclick="updateParabola(-1, 0, 0)" style="margin-left: 8px;" type="button" value="-">
+                            <input class="simple-button mini-button" onclick="updateParabola(0, 1, 0)" style="margin-left: 20px;" type="button" value="-">
                         </div>
                     </div>
 
@@ -102,5 +101,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

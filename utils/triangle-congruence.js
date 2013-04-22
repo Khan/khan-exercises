@@ -542,7 +542,8 @@ $.extend(KhanUtil, {
             };
         };
 
-        $(".question").prepend("<button id=\"reflect\">Reflect shape</button>");
+        $(".question").prepend("<button id=\"reflect\">" +
+            $._("Reflect shape") + "</button>");
         $("button#reflect").bind("click", function(event) {
             this.blur();
             if (!triangle.animating) {
