@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions rational-expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting with like denominators</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="X">randVar()</var>
+            <var id="Y" data-ensure="Y !== X">randVar()</var>
+            <var id="SIGN">randFromArray(["-", "+"])</var>
+        </div>
+
+        <div class="problems">
+            <div id="constant-denom">
+                <div class="vars">
+                    <div data-ensure="NUMERATORSUM.coefficient !== 0">
+                        <var id="NUMERATOR1">new Term(randRangeNonZero(-10, 10), X)</var>
+                        <var id="NUMERATOR2">new Term(randRangeNonZero(-10, 10), X)</var>
+                        <var id="NUMERATORSUM">
+                            SIGN === "+" ? new Term(NUMERATOR1.coefficient + NUMERATOR2.coefficient, X) :
+                                           new Term(NUMERATOR1.coefficient - NUMERATOR2.coefficient, X)
+                        </var>
+                    </div>
+                    <var id="DENOMINATOR">randRangeNonZero(2, 10)</var>
+                    <var id="FACTOR">getGCD(NUMERATORSUM.coefficient, DENOMINATOR)</var>
+                    <var id="NUMERSOL">NUMERATORSUM.divide(FACTOR)</var>
+                    <var id="DENOMSOL">DENOMINATOR / FACTOR</var>
+                </div>
+
+                <div class="solution" data-type="multiple">
+                    <table>
+                        <tr>
+                            <td rowspan="2" class="soln-name"><code><var>Y</var>=</code></td>
+                            <td class="soln-top">
+                                <span class="sol short50" data-type="regex"><var>NUMERSOL.regex()</var></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="soln-bot">
+                                <span class="sol short50" data-type="number" data-fallback="1"><var>DENOMSOL</var></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div id="constant-num">
+                <div class="vars">
+                    <div data-ensure="NUMERATORSUM !== 0">
+                        <var id="NUMERATOR1">randRangeNonZero(-10, 10)</var>
+                        <var id="NUMERATOR2">randRangeNonZero(-10, 10)</var>
+                        <var id="NUMERATORSUM">SIGN === "+" ? NUMERATOR1 + NUMERATOR2 : NUMERATOR1 - NUMERATOR2</var>
+                    </div>
+                    <var id="DENOMINATOR">new Term(randRange(1, 10), X)</var>
+                    <var id="FACTOR">getGCD(NUMERATORSUM, DENOMINATOR.coefficient)</var>
+                    <var id="NUMERSOL">NUMERATORSUM / FACTOR</var>
+                    <var id="DENOMSOL">DENOMINATOR.divide(FACTOR)</var>
+                </div>
+
+                <div class="solution" data-type="multiple">
+                    <table>
+                        <tr>
+                            <td rowspan="2" class="soln-name"><code><var>Y</var>=</code></td>
+                            <td class="soln-top">
+                                <span class="sol short50" data-type="number"><var>NUMERSOL</var></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="soln-bot">
+                                <span class="sol short50" data-type="regex"><var>DENOMSOL.regex()</var></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <p class="problem">Simplify the following expression:</p>
+        <p class="question">
+            <code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var>}
+                  <var>SIGN</var> \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code>
+        </p>
+
+        <div class="hints">
+            <div>
+                <p>Since the expressions have the same denominator we simply combine the numerators:</p>
+                <div data-if="SIGN === '+'">
+                    <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> <var>SIGN</var> <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
+                </div>
+                <div data-else>
+                    <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> <var>SIGN</var> (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
+                </div>
+            </div>
+            <div>
+                <p>Combine like terms:</p>
+                <code><var>Y</var> = \dfrac{<var>NUMERATORSUM</var>}{<var>DENOMINATOR</var>}</code>
+            </div>
+            <div data-if="FACTOR !== 1">
+                <p>Simplify by dividing numerator and denominator by <var>FACTOR</var>:</p>
+                <p><code><var>Y</var> = \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code><p>
+                <p data-if="DENOMSOL === 1"><code><var>Y</var> = <var>NUMERSOL</var></code></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
