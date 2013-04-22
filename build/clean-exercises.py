@@ -5,6 +5,7 @@ un-closed tags, improper entities, and other mistakes.
 """
 
 import argparse
+import re
 import string
 
 import lxml.html
@@ -16,7 +17,7 @@ _PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
 
 ENTITY_TABLE = {
     "\xc2\xa0": "&nbsp;",
-};
+}
 
 
 def main():
@@ -40,7 +41,8 @@ def main():
         #   - Python preserves the order in which values are inserted in a dict
         #   - Attributes begin with a letter, so numbers will always sort 
         #     before any "real" attribute.
-        for el in html_tree.xpath('//*'):
+        nodes = html_tree.xpath('//*')
+        for el in nodes:
             attrs = dict(el.attrib)
             keys = el.attrib.keys()
             keys.sort(key=lambda k:
@@ -53,6 +55,13 @@ def main():
             el.attrib.clear()
             for k in keys:
                 el.attrib[k] = attrs[k]
+
+        # For some reason the last child node in the body's whitespace
+        # constantly expands on every call so we just reduce it to an
+        # endline but only if it doesn't contain any non-whitespace.
+        last_node = html_tree.xpath('//body/*')[-1]
+        if not re.compile(r'\S').match(last_node.tail or ''):
+            last_node.tail = "\n"
 
         # We serialize the entire HTML tree
         html_string = lxml.html.tostring(html_tree,
