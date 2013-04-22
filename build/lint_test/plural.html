@@ -13,7 +13,7 @@
     </p>
 
     <!-- Test 2: Usage of string in first position: ideal_stoichiometry -->
-    <p data-if="isSingular(P1_RATIO)">
+    <p>
         The reaction is <code>\blue{<var>GIVEN_RATIO</var>}<var>GIVEN</var>
         <span data-if="R2 !== ''"> + <var>R2_RATIO</var><var>R2</var></span> \rightarrow
         \red{<var>P1_RATIO</var>}<var>P1</var>
@@ -27,7 +27,7 @@
     <p>He will have <var>ITEMS_LEFT</var> <var>plural(item(1), ITEMS_LEFT)</var> left over.</p>
 
     <!-- Test 4: Function call as second argument: arithmetic_word_problems -->
-    <p>He will have <var>ITEMS_LEFT</var> <var>plural(ITEMS_LEFT, item(1))</var> left over.</p>
+    <p>He will have <var>plural(ITEMS_LEFT, item(1))</var> left over.</p>
 
     <!-- Test 5: Ambiguous variables: area_1 -->
     <p>
