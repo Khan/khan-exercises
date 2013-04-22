@@ -16,6 +16,7 @@ import argparse
 import json
 import os.path
 import re
+import string
 import sys
 
 import lxml.html
@@ -54,6 +55,10 @@ _PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
 # The base URL for referencing an exercise
 _EXERCISE_URL = 'http://www.khanacademy.org/exercise/%s'
 
+# Entities to fix when serializing HTML trees
+ENTITY_TABLE = {
+    "\xc2\xa0": "&nbsp;",
+}
 
 def main():
     """Handle running this program from the command-line."""
@@ -278,14 +283,47 @@ def get_innerhtml(html_node):
     return re.sub(r'\s+', ' ', html_string).strip()
 
 
-def get_page_html(root_tree):
+def get_page_html(html_tree):
     """Return an HTML string representing an lxml tree."""
-    # We serialize the entire HTML tree
-    html_string = lxml.html.tostring(root_tree)
+    # Hack to fix attribute ordering
+    # See http://stackoverflow.com/questions/3551923/how-to-prevent-xmlserializer-serializetostring-from-re-ordering-attributes
+    #
+    # This hack relies on two properties:
+    #   - Python preserves the order in which values are inserted in a dict
+    #   - Attributes begin with a letter, so numbers will always sort 
+    #     before any "real" attribute.
+    for el in html_tree.xpath('//*'):
+        attrs = dict(el.attrib)
+        keys = el.attrib.keys()
+        keys.sort(key=lambda k:
+            0 if (k == 'href') else
+            1 if (k == 'class') else
+            2 if (k == 'id') else
+            3 if (k == 'http-equiv') else
+            4 if (k == 'content') else
+            k)
+        el.attrib.clear()
+        for k in keys:
+            el.attrib[k] = attrs[k]
 
-    # lxml's tostring() does not output a DOCTYPE so we must
-    # generate our own.
-    return "<!DOCTYPE html>\n" + html_string
+    # For some reason the last child node in the body's whitespace
+    # constantly expands on every call so we just reduce it to an
+    # endline but only if it doesn't contain any non-whitespace.
+    last_node = html_tree.xpath('//body/*')[-1]
+    if not re.compile(r'\S').match(last_node.tail or ''):
+        last_node.tail = "\n"
+
+    # We serialize the entire HTML tree
+    html_string = lxml.html.tostring(html_tree,
+                                     include_meta_content_type=True,
+                                     encoding='utf-8')
+
+    for norm, human in ENTITY_TABLE.iteritems():
+        html_string = string.replace(html_string, norm, human)
+
+    html_string = re.sub(r'\s*(<\/?html[^>]*>)\s*', r'\n\1\n', html_string)
+
+    return html_string
 
 
 def babel_extract(fileobj, keywords, comment_tags, options):
