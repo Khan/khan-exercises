@@ -5,6 +5,7 @@ un-closed tags, improper entities, and other mistakes.
 """
 
 import argparse
+import extract_strings
 
 import lxml.html
 import lxml.html.html5parser

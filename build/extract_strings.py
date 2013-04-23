@@ -309,9 +309,11 @@ def get_page_html(html_tree):
     # For some reason the last child node in the body's whitespace
     # constantly expands on every call so we just reduce it to an
     # endline but only if it doesn't contain any non-whitespace.
-    last_node = html_tree.xpath('//body/*')[-1]
-    if not re.compile(r'\S').match(last_node.tail or ''):
-        last_node.tail = "\n"
+    body_child_nodes = html_tree.xpath('//body/*')
+    if body_child_nodes:
+        last_node = body_child_nodes[-1]
+        if not re.compile(r'\S').match(last_node.tail or ''):
+            last_node.tail = "\n"
 
     # We serialize the entire HTML tree
     html_string = lxml.html.tostring(html_tree,
