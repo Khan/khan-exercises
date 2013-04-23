@@ -247,7 +247,8 @@ $.extend(KhanUtil, {
             if (typeof value === "number") {
                 // I18N: This is used to generate the string: NUMBER OBJECT
                 // For example: 5 cats, 1 dog, etc.
-                return $._("%s %s", value, genPlural(arg1, value));
+                return $._("%(number)s %(object)s",
+                    {number: value, object: genPlural(arg1, value)});
 
             } else if (typeof value === "string") {
                 return genPlural(value, arg1);
