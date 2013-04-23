@@ -209,17 +209,17 @@
                     <var>person(2)</var> did <var>plural(NUM2, exercise(1))</var> <var>timeofday(2)</var>.
                 </p>
                 <p class="question">
-                    How many more <var>plural(exercise(1))</var> did <var>person(1)</var> do than <var>person(2)</var>?
+                    How many more <var>plural(exercise(1), 2)</var> did <var>person(1)</var> do than <var>person(2)</var>?
                 </p>
                 <div class="solution" data-type="multiple">
-                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM1</var></span> <var>plural(exercise(1))</var>
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM1</var></span> <var>plural(exercise(1), 2)</var>
                 </div>
                 <div class="hints">
                     <p>
-                    Find the difference between <var>person(1)</var>'s <var>plural(exercise(1))</var> and <var>person(2)</var>'s <var>plural(exercise(1))</var>.
+                    Find the difference between <var>person(1)</var>'s <var>plural(exercise(1), 2)</var> and <var>person(2)</var>'s <var>plural(exercise(1), 2)</var>.
                     </p>
                     <p>
-                    The difference is <code><var>TOTAL</var> - <var>NUM2</var></code>.
+                    The difference is <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural(exercise(1), NUM2)</var>.
                     </p>
                     <p>
                     <code><var>TOTAL</var> - <var>NUM2</var> = <var>NUM1</var></code>.
@@ -229,7 +229,7 @@
 
             <div id="compare-diff-less" data-type="compare-diff-more">
                 <p class="question">
-                    How many fewer <var>plural(exercise(1))</var> did <var>person(2)</var> do than <var>person(1)</var>?
+                    How many fewer <var>plural(exercise(1), 2)</var> did <var>person(2)</var> do than <var>person(1)</var>?
                 </p>
             </div>
 
@@ -239,20 +239,20 @@
                     <var>person(2)</var> did <var>plural(NUM2, exercise(1))</var>.
                 </p>
                 <p class="question">
-                    How many <var>plural(exercise(1))</var> did <var>person(1)</var> do?
+                    How many <var>plural(exercise(1), 2)</var> did <var>person(1)</var> do?
                 </p>
                 <div class="solution" data-type="multiple">
-                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>TOTAL</var></span> <var>plural(exercise(1))</var>
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>TOTAL</var></span> <var>plural(exercise(1), TOTAL)</var>
                 </div>
                 <div class="hints">
                     <p>
                     <var>person(2)</var> did <var>plural(NUM2, exercise(1))</var>, and <var>person(1)</var> did <var>NUM1</var> more than that, so find the sum.
                     </p>
                     <p>
-                    The sum is <code><var>NUM2</var> + <var>NUM1</var></code> <var>plural(exercise(1))</var>.
+                    The sum is <code><var>NUM2</var> + <var>NUM1</var></code> <var>plural(exercise(1), TOTAL)</var>.
                     </p>
                     <p>
-                    <var>He(1)</var> did <code><var>NUM2</var> + <var>NUM1</var> = <var>TOTAL</var></code> <var>plural(exercise(1))</var>.
+                    <code><var>NUM2</var> + <var>NUM1</var> = <var>TOTAL</var></code>.
                     </p>
                 </div>
             </div>
@@ -270,20 +270,20 @@
                     <var>person(1)</var> did <var>plural(TOTAL, exercise(1))</var>.
                 </p>
                 <p class="question">
-                    How many <var>plural(exercise(1))</var> did <var>person(2)</var> do?
+                    How many <var>plural(exercise(1), 2)</var> did <var>person(2)</var> do?
                 </p>
                 <div class="solution" data-type="multiple">
-                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM2</var></span> <var>plural(exercise(1))</var>
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM2</var></span> <var>plural(exercise(1), 2)</var>
                 </div>
                 <div class="hints">
                     <p>
                     <var>person(1)</var> did <var>plural(TOTAL, exercise(1))</var>, and <var>person(2)</var> did <var>NUM1</var> fewer than that, so find the difference.
                     </p>
                     <p>
-                    The difference is <code><var>TOTAL</var> - <var>NUM1</var></code> <var>plural(exercise(1))</var>.
+                    The difference is <code><var>TOTAL</var> - <var>NUM1</var></code> <var>plural(exercise(1), NUM1)</var>.
                     </p>
                     <p>
-                    <var>He(1)</var> did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural(exercise(1), NUM2)</var>.
+                    <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural(exercise(1), NUM2)</var>.
                     </p>
                 </div>
             </div>
