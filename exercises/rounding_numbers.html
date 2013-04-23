@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers"><head>
+<html data-require="math math-format graphie graphie-helpers">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Rounding numbers</title>
     <script src="../khan-exercise.js"></script>
@@ -25,8 +26,8 @@
             <div class="hints">
                 <p>There are two ways to think about this problem.</p>
                 <p>1st way: Look at the <var>placesLeftOfDecimal[ -1 - PLACE ]</var>s digit <code><var>DIGITS[ 5 + PLACE ]</var></code> to see whether to round up or down.</p>
-                <p data-if="DIGITS[ 5 + PLACE ] &gt;= 5">Because it is <span data-if="DIGITS[ 5 + PLACE ] &gt; 5">more than</span><span data-else="">equal to</span> <code>5</code>, we round up, giving <code><var>ROUNDED</var></code>.</p>
-                <p data-else="">Because it is less than <code>5</code>, we round down, giving <code><var>commafy( ROUNDED )</var></code>.</p>
+                <p data-if="DIGITS[ 5 + PLACE ] >= 5">Because it is <span data-if="DIGITS[ 5 + PLACE ] > 5">more than</span><span data-else>equal to</span> <code>5</code>, we round up, giving <code><var>ROUNDED</var></code>.</p>
+                <p data-else>Because it is less than <code>5</code>, we round down, giving <code><var>commafy( ROUNDED )</var></code>.</p>
                 <p>2nd way:  Consider which end of the number line is closer to <var>NUM</var> - this end is circled in blue.</p>
                 <div class="graphie">
                     init({
@@ -38,7 +39,7 @@
                     ellipse( [  10 * pow( 10, -( PLACE+1 )) * (NUM -  floorTo( PLACE , NUM   ))/pow( 10,- (PLACE) ), 0 ], [pow( 10, -PLACE ) / 115, 0.1]);
                     label( [  10 * pow(10, -( PLACE+1 )) * ( NUM -  floorTo( PLACE , NUM ))/pow( 10,- (PLACE) )], NUM, "below");
                     style({ stroke: "#6495ED", "fill": "none", strokeWidth: 3.5 });
-                    if( DIGITS[ 5 + PLACE ] &gt;= 5 ) {
+                    if( DIGITS[ 5 + PLACE ] >= 5 ) {
                         ellipse( [ pow( 10, -PLACE ), -0.55 ], [pow( 10, - PLACE - 0.5 ) / 6.5, 0.35] );
                     } else {
                         ellipse( [ 0, -0.55 ], [pow( 10, - PLACE - 0.5 ) / 6.5, 0.35] );
@@ -64,8 +65,8 @@
             <div class="hints">
                 <p>There are two ways to think about this problem.</p>
                 <p>1st way: Look at the <var>placesRightOfDecimal[ 1 + PLACE ]</var>s digit <code><var>DIGITS[ 2 + PLACE ]</var></code> to see whether to round up or down.</p>
-                <p data-if="DIGITS[ 2 + PLACE ] &gt;= 5">Because it is <span data-if="DIGITS[ 2 + PLACE ] &gt; 5">more than</span><span data-else="">equal to</span> <code>5</code>, we round up, giving <code><var>ROUNDED</var></code>.</p>
-                <p data-else="">Because it is less than <code>5</code>, we round down, giving <code><var>commafy( ROUNDED )</var></code>.</p>
+                <p data-if="DIGITS[ 2 + PLACE ] >= 5">Because it is <span data-if="DIGITS[ 2 + PLACE ] > 5">more than</span><span data-else>equal to</span> <code>5</code>, we round up, giving <code><var>ROUNDED</var></code>.</p>
+                <p data-else>Because it is less than <code>5</code>, we round down, giving <code><var>commafy( ROUNDED )</var></code>.</p>
                 <p>2nd way:  Consider which end of the number line is closer to <var>NUM</var> - this end is circled in blue.</p>
                 <div class="graphie">
                     init({
@@ -77,7 +78,7 @@
                     ellipse( [  10 * pow(10, -(PLACE+1)) * (NUM -  floorTo( PLACE , NUM   ))/pow(10,- (PLACE) ), 0 ], [pow(10, -PLACE) / 115, 0.1]);
                     label( [  10 * pow(10, -( PLACE+1 )) * ( NUM -  floorTo( PLACE , NUM ))/pow(10, -(PLACE) )], NUM, "below");
                     style({ stroke: "#6495ED", "fill": "none", strokeWidth: 3.5 });
-                    if ( DIGITS[ 2 + PLACE ] &gt;= 5 ) {
+                    if ( DIGITS[ 2 + PLACE ] >= 5 ) {
                         ellipse( [ pow( 10, -PLACE ), -0.55 ], [pow( 10, - PLACE - 0.5 ) / 6.5, 0.35] );
                     } else {
                         ellipse( [ 0, -0.55 ], [pow( 10, - PLACE - 0.5 ) / 6.5, 0.35] );
@@ -87,4 +88,5 @@
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

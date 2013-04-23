@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format stat graphie graphie-helpers"><head>
+<html data-require="math math-format stat graphie graphie-helpers">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Mean median and mode</title>
     <script src="../khan-exercise.js"></script>
@@ -68,7 +69,7 @@
                     <div class="number-list"><code><var>INTEGER_LIST</var></code></div>
                 </div>
 
-                <p class="solution" data-inexact="" data-max-error="0.01"><var>MEAN</var></p>
+                <p class="solution" data-inexact data-max-error="0.01"><var>MEAN</var></p>
 
                 <div class="hints">
                     <p>To find the mean, add all the numbers and then divide by the number of numbers.</p>
@@ -95,7 +96,7 @@
                     </div>
                     <div>
                         <p data-if="INTEGERS.length % 2 === 0">Since we have <code>2</code> middle numbers, the median is the mean of <strong>those</strong> two numbers!</p>
-                        <p data-else="">The median is the 'middle' number:</p>
+                        <p data-else>The median is the 'middle' number:</p>
                         <div class="number-list"><code><var>MEDIAN_LIST</var></code></div>
                         <p data-if="SORTED_INTS.length % 2 === 0">The median is <code>\dfrac{<var>SORTED_INTS[ SORTED_INTS.length / 2 - 1 ]</var> + <var>SORTED_INTS[ SORTED_INTS.length / 2 ]</var>}{2}</code>.</p>
                     </div>
@@ -122,7 +123,7 @@
                                     labels[ number ].remove();
                                 }
 
-                                if ( count &gt;= 2 ) {
+                                if ( count >= 2 ) {
                                     labels[ number ] = label( [number, 0.2], "\\scriptsize{" + count + "}", "above", { labelDistance: 0 } );
                                 } else {
                                     circle( [number, 0], 5/40, { stroke: "none", fill: "#6495ed" } );
@@ -151,7 +152,7 @@
                             var maxFreq = 0;
                             $.each(INTEGERS, function( index, number ) {
                                 var count = freq[ number ] = (freq[ number ] || 0) + 1;
-                                maxFreq = count &gt; maxFreq ? count : maxFreq;
+                                maxFreq = count > maxFreq ? count : maxFreq;
                             });
 
                             init({
@@ -177,4 +178,5 @@
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

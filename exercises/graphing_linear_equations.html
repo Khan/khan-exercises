@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive"><head>
+<html data-require="math math-format expressions graphie interactive">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing linear equations</title>
     <script src="../khan-exercise.js"></script>
@@ -177,7 +178,7 @@
                         to slope-intercept form by solving for <code>y</code>.
                     </p>
                     <div>
-                        <p data-if="A &amp;lt; 0">
+                        <p data-if="A &lt; 0">
                             Add <code><var>abs( A )</var>x</code> to both sides:
                         </p><p data-else="">
                             Subtract <code><var>abs( A )</var>x</code> from both sides:
@@ -225,7 +226,6 @@
                         you move
                         <span data-if="SLOPE_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
                         <span data-else="">up</span>.</span>
-                        
                         <span data-if='"position" + ( abs( SLOPE_FRAC[1] ) !== 1'>You must also move
                         <code><var>SLOPE_FRAC[1]</var></code>
                         s
@@ -233,7 +233,6 @@
                         <code><var>SLOPE_FRAC[1]</var></code>
                         <var>"" )</var>
                         to the right.</span>
-                    
                     </p>
                     <div class="graphie" data-update="grid">
                         style({
@@ -347,4 +346,5 @@
         </div>
     </div>
 </div>
-</body></html>
+</body>
+</html>

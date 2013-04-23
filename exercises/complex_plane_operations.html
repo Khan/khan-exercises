@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive"><head>
+<html data-require="math graphie interactive">
+    <head>
         <title>Complex plane operations</title>
         <script src="../khan-exercise.js"></script>
     </head>
@@ -15,8 +16,8 @@
             <div class="problem">
                 <p>Let <code>a</code> and <code>b</code> be complex numbers:</p>
                 <p><code>\begin{align*}
-                    a &amp;= <var>REAL1</var> + <var>COMPLEX1</var>i \\
-                    b &amp;= <var>REAL2</var> + <var>COMPLEX2</var>i
+                    a &= <var>REAL1</var> + <var>COMPLEX1</var>i \\
+                    b &= <var>REAL2</var> + <var>COMPLEX2</var>i
                 \end{align*}</code></p>
             </div>
 
@@ -33,8 +34,8 @@
                 label([ 11, 1], "Re", "left");
                 label([ 0.5, 10], "Im", "right");
 
-                line([0, 0], [REAL1, COMPLEX1], { stroke: "#6495ed", arrows: "-&gt;" });
-                line([0, 0], [REAL2, COMPLEX2], { stroke: "#28ae7b", arrows: "-&gt;" });
+                line([0, 0], [REAL1, COMPLEX1], { stroke: "#6495ed", arrows: "->" });
+                line([0, 0], [REAL2, COMPLEX2], { stroke: "#28ae7b", arrows: "->" });
 
                 var AF = 1 + 0.8 / sqrt(REAL1 * REAL1 + COMPLEX1 * COMPLEX1);
                 label([AF * REAL1, AF * COMPLEX1], "a", { color: "#6495ed" });
@@ -55,7 +56,7 @@
                 </div>
                 <div class="guess">graph.guessPoint.coord</div>
                 <div class="validator-function">
-                    if (guess[0] === ANSWER[0] &amp;&amp; guess[1] === ANSWER[1]) {
+                    if (guess[0] === ANSWER[0] && guess[1] === ANSWER[1]) {
                         return true;
                     } else {
                         return false;
@@ -79,14 +80,14 @@
                         <div>
                             <p><code>a + b = (<var>REAL1</var> + <var>REAL2</var>) + (<var>COMPLEX1</var> + <var>COMPLEX2</var>)i</code></p>
                             <div class="graphie" data-update="graph">
-                                line([REAL2, COMPLEX2], [REAL1 + REAL2, COMPLEX1 + COMPLEX2], { stroke: "#6495ed", arrows: "-&gt;" });
+                                line([REAL2, COMPLEX2], [REAL1 + REAL2, COMPLEX1 + COMPLEX2], { stroke: "#6495ed", arrows: "->" });
                                 graph.guessPoint.toFront();
                             </div>
                         </div>
                         <div>
                             <p><code>\hphantom{a + b} = <var>REAL1 + REAL2</var> + <var>COMPLEX1 + COMPLEX2</var>i</code></p>
                             <div class="graphie" data-update="graph">
-                                line([0, 0], [REAL1 + REAL2, COMPLEX1 + COMPLEX2], { stroke: "#ffa500", arrows: "-&gt;" });
+                                line([0, 0], [REAL1 + REAL2, COMPLEX1 + COMPLEX2], { stroke: "#ffa500", arrows: "->" });
                                 graph.guessPoint.toFront();
                                 graph.guessPoint.moveTo(REAL1 + REAL2, COMPLEX1 + COMPLEX2);
                             </div>
@@ -105,14 +106,14 @@
                         <div>
                             <p><code>a + b = (<var>REAL1</var> - <var>REAL2</var>) + (<var>COMPLEX1</var> - <var>COMPLEX2</var>)i</code></p>
                             <div class="graphie" data-update="graph">
-                                line([REAL1, COMPLEX1], [REAL1 - REAL2, COMPLEX1 - COMPLEX2], { stroke: "#28ae7b", arrows: "-&gt;" });
+                                line([REAL1, COMPLEX1], [REAL1 - REAL2, COMPLEX1 - COMPLEX2], { stroke: "#28ae7b", arrows: "->" });
                                 graph.guessPoint.toFront();
                             </div>
                         </div>
                         <div>
                             <p><code>\hphantom{a + b} = <var>REAL1 - REAL2</var> + <var>COMPLEX1 - COMPLEX2</var>i</code></p>
                             <div class="graphie" data-update="graph">
-                                line([0, 0], [REAL1 - REAL2, COMPLEX1 - COMPLEX2], { stroke: "#ffa500", arrows: "-&gt;" });
+                                line([0, 0], [REAL1 - REAL2, COMPLEX1 - COMPLEX2], { stroke: "#ffa500", arrows: "->" });
                                 graph.guessPoint.toFront();
                                 graph.guessPoint.moveTo(REAL1 - REAL2, COMPLEX1 - COMPLEX2);
                             </div>
@@ -121,4 +122,5 @@
                 </div>
             </div>
         </div>
-</body></html>
+    </body>
+</html>

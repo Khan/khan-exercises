@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems jquery.mobile.vmouse"><head>
+<html data-require="math graphie word-problems jquery.mobile.vmouse">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Understanding decimals place value</title>
     <script src="../khan-exercise.js"></script>
@@ -414,8 +415,6 @@
                 thousands, the place value four places to the left of the decimal point.
             </p>
 
-            
-
             <div class="graphie" data-update="graph">
                 // Select thousands.
                 var thous = $( '#problemarea .thou' );
@@ -437,8 +436,6 @@
                 <code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>00}}</code> is the same as <code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code>
                 hundreds, the place value three places to the left of the decimal point.
             </p>
-
-            
 
             <div class="graphie" data-update="graph">
                 // Select hundreds.
@@ -462,8 +459,6 @@
                 tens, the place value two places to the left of the decimal point.
             </p>
 
-            
-
             <div class="graphie" data-update="graph">
                 // Select tens.
                 var tens = $( '#problemarea .ten' );
@@ -486,8 +481,6 @@
                 ones, the place value one place to the left of the decimal point.
             </p>
 
-            
-
             <div class="graphie" data-update="graph">
                 // Select ones.
                 var ones = $( '#problemarea .one' );
@@ -509,8 +502,6 @@
                 <code>\large{\color{purple}{0.<var>TENTHS</var>}}</code> is the same as <code>\large{\color{purple}{<var>TENTHS</var>}}</code>
                 tenths, the place value one place to the right of the decimal point.
             </p>
-
-            
 
             <div class="graphie" data-update="graph">
                 // Select dimes/tenths.
@@ -548,8 +539,6 @@
                 hundredths, the place value two places to the right of the decimal point.
             </p>
 
-            
-
             <div class="graphie" data-update="graph">
                 // Select pennies/hundredths.
                 if ( $( '#place-value' ).length === 1 ) {
@@ -586,8 +575,6 @@
                 thousandths, the place value three places to the right of the decimal point.
             </p>
 
-            
-
             <div class="graphie" data-update="graph">
                 // Select thousandths.
                 var thouths = $( '#problemarea .thouth' );
@@ -601,36 +588,22 @@
         <!-- no data-else for thousandths since they're only zero if we're dealing with a money problem -->
         <p>
             <span>Therefore you need:</span>
-            <span data-if="THOUSANDS !== 0"><span data-if="isSingular(THOUSANDS)" data-unwrap=""><code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> thousand, </span><span data-else="" data-unwrap=""><code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> thousands, </span>
-            
-            </span>
-            <span data-if="HUNDREDS !== 0"><span data-if="isSingular(HUNDREDS)" data-unwrap=""><code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> hundred, </span><span data-else="" data-unwrap=""><code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> hundreds, </span>
-            
-            </span>
-            <span data-if="TENS !== 0"><span data-if="isSingular(TENS)" data-unwrap=""><code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code> ten, </span><span data-else="" data-unwrap=""><code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code> tens, </span>
-            
-            </span>
-            <span data-if="ONES !== 0"><span data-if="isSingular(ONES)" data-unwrap=""><code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> one, </span><span data-else="" data-unwrap=""><code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> ones, </span>
-            
-            </span>
-            <span data-if="TENTHS !== 0"><span data-if="isSingular(TENTHS)" data-unwrap=""><code>\large{\color{purple}{<var>TENTHS</var>}}</code> tenth, </span><span data-else="" data-unwrap=""><code>\large{\color{purple}{<var>TENTHS</var>}}</code> tenths, </span>
-            
-            </span>
+            <span data-if="THOUSANDS !== 0"><span data-if="isSingular(THOUSANDS)" data-unwrap=""><code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> thousand, </span><span data-else="" data-unwrap=""><code>\large{\color{<var>PINK</var>}{<var>THOUSANDS</var>}}</code> thousands, </span></span>
+            <span data-if="HUNDREDS !== 0"><span data-if="isSingular(HUNDREDS)" data-unwrap=""><code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> hundred, </span><span data-else="" data-unwrap=""><code>\large{\color{<var>ORANGE</var>}{<var>HUNDREDS</var>}}</code> hundreds, </span></span>
+            <span data-if="TENS !== 0"><span data-if="isSingular(TENS)" data-unwrap=""><code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code> ten, </span><span data-else="" data-unwrap=""><code>\large{\color{<var>GREEN</var>}{<var>TENS</var>}}</code> tens, </span></span>
+            <span data-if="ONES !== 0"><span data-if="isSingular(ONES)" data-unwrap=""><code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> one, </span><span data-else="" data-unwrap=""><code>\large{\color{<var>BLUE</var>}{<var>ONES</var>}}</code> ones, </span></span>
+            <span data-if="TENTHS !== 0"><span data-if="isSingular(TENTHS)" data-unwrap=""><code>\large{\color{purple}{<var>TENTHS</var>}}</code> tenth, </span><span data-else="" data-unwrap=""><code>\large{\color{purple}{<var>TENTHS</var>}}</code> tenths, </span></span>
             <span data-if="THOUSANDTHS === 0" data-unwrap=""><span data-if="isSingular(HUNDREDTHS)" data-unwrap="">
                 and <code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> hundredth.
             </span><span data-else="" data-unwrap="">
                 and <code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> hundredths.
-            </span>
-            
-            </span>
+            </span></span>
             <span data-else="" data-unwrap="">
-                <span data-if="HUNDREDTHS !== 0"><span data-if="isSingular(HUNDREDTHS)" data-unwrap=""><code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> hundredth, </span><span data-else="" data-unwrap=""><code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> hundredths, </span>
-                
-                </span>
+                <span data-if="HUNDREDTHS !== 0"><span data-if="isSingular(HUNDREDTHS)" data-unwrap=""><code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> hundredth, </span><span data-else="" data-unwrap=""><code>\large{\color{gray}{<var>HUNDREDTHS</var>}}</code> hundredths, </span></span>
                 <span data-if="isSingular(THOUSANDTHS)">and <code>\large{\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> thousandth.</span><span data-else="">and <code>\large{\color{#a52a2a}{<var>THOUSANDTHS</var>}}</code> thousandths.</span>
-            
             </span>
         </p>
     </div>
 </div>
-</body></html>
+</body>
+</html>

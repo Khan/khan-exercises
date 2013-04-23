@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie"><head>
+<html data-require="math graphie">
+    <head>
         <title>Recognizing rays lines and line segments</title>
         <script src="../khan-exercise.js"></script>
     </head>
@@ -55,7 +56,7 @@
                 <div id="ray" data-type="line-segment">
                     <div class="question">
                         <div class="graphie" data-update="figure">
-                            line( END1, END2, { arrows: "-&gt;" } );
+                            line( END1, END2, { arrows: "->" } );
                             circle( END1, DOT_ATTRS );
                             circle( INNER2, DOT_ATTRS );
                         </div>
@@ -72,8 +73,8 @@
                 <div id="line" data-type="line-segment">
                     <div class="question">
                         <div class="graphie" data-update="figure">
-                            line( END1, END2, { arrows: "-&gt;" } );
-                            line( END2, END1, { arrows: "-&gt;" } );
+                            line( END1, END2, { arrows: "->" } );
+                            line( END2, END1, { arrows: "->" } );
                             circle( INNER1, DOT_ATTRS );
                             circle( INNER2, DOT_ATTRS );
                         </div>
@@ -88,4 +89,5 @@
                 </div>
             </div>
         </div>
-</body></html>
+    </body>
+</html>

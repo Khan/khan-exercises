@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions"><head>
+<html data-require="math math-format expressions">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Writing expressions</title>
     <script src="../khan-exercise.js"></script>
@@ -48,7 +49,7 @@
                     <p data-if="M !== 1"><span data-if="M === 2">Twice</span><span data-else-if="M &gt; 2"><var>Cardinal(M)</var> times</span> a number <code>x</code> can be written as <code><var>M</var>x</code>.</p>
                     <p><var>Cardinal(-B)</var> less than something means that we subtract <code><var>-B</var></code> from it.</p>
                     <p>If we subtract <code><var>-B</var></code> from <code><var>expr(["*", M, "x"])</var></code>, we have <code><var>expr(["+", ["*", M, "x"], B])</var></code>.
-                </p></div>
+                </div>
             </div>
             <div data-type="original">
                 <div class="vars">
@@ -60,7 +61,7 @@
                     <p data-if="M !== 1"><span data-if="M === 2">Twice</span><span data-else-if="M &gt; 2"><var>Cardinal(M)</var> times</span> a number <code>x</code> can be written as <code><var>M</var>x</code>.</p>
                     <p><var>Cardinal(B)</var> more than something means that we add <code><var>B</var></code> to it.</p>
                     <p>If we add <code><var>B</var></code> to <code><var>expr(["*", M, "x"])</var></code>, we have <code><var>expr(["+", B, ["*", M, "x"]])</var></code>.
-                </p></div>
+                </div>
             </div>
             <div data-type="original">
                 <div class="vars">
@@ -72,7 +73,7 @@
                     <p data-if="-M !== 1"><span data-if="-M === 2">Twice</span><span data-else-if="-M &gt; 2"><var>Cardinal(-M)</var> times</span> a number <code>x</code> can be written as <code><var>-M</var>x</code>.</p>
                     <p><var>Cardinal(B)</var> minus something means that we subtract it from <code><var>B</var></code>.</p>
                     <p>If we subtract <code><var>expr(["*", -M, "x"])</var></code> from <code><var>B</var></code>, we have <code><var>expr(["+", B, ["*", M, "x"]])</var></code>.
-                </p></div>
+                </div>
             </div>
             <div data-type="original">
                 <div class="vars">
@@ -83,7 +84,7 @@
                 <div class="hints">
                     <p>"Product" means that we multiply <code><var>M</var></code> and <code>x</code>.</p>
                     <p>If we multiply <code><var>M</var></code> and <code>x</code>, we have <code><var>expr(["*", M, "x"])</var></code>.
-                </p></div>
+                </div>
             </div>
             <div data-type="original">
                 <div class="vars">
@@ -95,8 +96,9 @@
                     <p data-if="M !== 1"><span data-if="M === 2">Twice</span><span data-else-if="M &gt; 2"><var>Cardinal(M)</var> times</span> a number <code>x</code> can be written as <code><var>M</var>x</code>.</p>
                     <p>"Sum" means that we add <code><var>B</var></code> and <code><var>expr(["*", M, "x"])</var></code>.</p>
                     <p>If we add <code><var>B</var></code> and <code><var>expr(["*", M, "x"])</var></code>, we have <code><var>expr(["+", B, ["*", M, "x"]])</var></code>.
-                </p></div>
+                </div>
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

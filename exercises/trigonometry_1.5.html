@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<!-- TODO: Improve hints --><html data-require="math graphie math-format"><head>
+<!-- TODO: Improve hints -->
+<html data-require="math graphie math-format">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Trigonometry 1.5</title>
     <script src="../khan-exercise.js"></script>
@@ -88,8 +90,8 @@
                 "ABC",
                 "BAC"
             ])</var>
-            <var id="WRONG_A" data-ensure="WRONG_A !== AC &amp;&amp; WRONG_A !== BC &amp;&amp; WRONG_A !== sqrt(AB)">randRange(1, 10)</var>
-            <var id="WRONG_B" data-ensure="WRONG_B !== AC &amp;&amp; WRONG_B !== BC &amp;&amp; WRONG_B !== WRONG_A &amp;&amp; WRONG_B !== sqrt(AB)">randRange(1, 10)</var>
+            <var id="WRONG_A" data-ensure="WRONG_A !== AC && WRONG_A !== BC && WRONG_A !== sqrt(AB)">randRange(1, 10)</var>
+            <var id="WRONG_B" data-ensure="WRONG_B !== AC && WRONG_B !== BC && WRONG_B !== WRONG_A && WRONG_B !== sqrt(AB)">randRange(1, 10)</var>
 
             <var id="OPPOSITE_NAME">(ANGLE.substring(0,1)+ANGLE.substring(2))</var>
             <var id="OPPOSITE_VALUE">
@@ -127,7 +129,7 @@
             <var id="SIMPLE_COS">fraction(reduce(ADJACENT_VALUE, AB)[0], reduce(ADJACENT_VALUE, AB)[1])</var>
             <var id="COS">ADJACENT_VALUE / AB</var>
 
-            
+            </var>
         </div>
 
         <div class="problems">
@@ -341,4 +343,5 @@
         </div>
 
     </div>
-</body></html>
+</body>
+</html>

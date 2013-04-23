@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<!-- TDOO: remove <var>s in graphie data-eachs --><html data-require="math expressions graphie"><head>
+<!-- TDOO: remove <var>s in graphie data-eachs -->
+<html data-require="math expressions graphie">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Even and odd functions</title>
     <script src="../khan-exercise.js"></script>
@@ -96,9 +98,9 @@
             <var id="PTS">
                 $.grep( [1,2,3,4,5,6,7,8,9,10],
                     function( i ) {
-                        return ( abs( valAt( WIDES, i ) ) &gt; 1 || abs( valAt( WIDES, -i ) ) &gt; 1 )
-                            &amp;&amp; abs( valAt( WIDES, i ) ) &lt; 10
-                            &amp;&amp; abs( valAt( WIDES, -i ) ) &lt; 10;
+                        return ( abs( valAt( WIDES, i ) ) > 1 || abs( valAt( WIDES, -i ) ) > 1 )
+                            && abs( valAt( WIDES, i ) ) &lt; 10
+                            && abs( valAt( WIDES, -i ) ) &lt; 10;
                     }
                 )
             </var>
@@ -108,8 +110,8 @@
                 randFromArray(
                     $.grep( PTS,
                         function( i ) {
-                            return abs( abs( valAt( WIDES, i ) ) - abs( valAt( WIDES, -i ) ) ) &gt; 0.5
-                                &amp;&amp; abs( i ) &lt; 10;
+                            return abs( abs( valAt( WIDES, i ) ) - abs( valAt( WIDES, -i ) ) ) > 0.5
+                                && abs( i ) &lt; 10;
                         }
                     )
                 )</var>
@@ -121,12 +123,12 @@
 
                 <div class="problem">
                     <p><code>f(x)</code> is graphed below.</p>
-                    <div class="graphie" id="graph">
+                    <div id="graph" class="graphie">
                         graphInit({
                             range: 10,
                             scale: 20,
                             tickStep: 1,
-                            axisArrows: "&lt;-&gt;"
+                            axisArrows: "<->"
                         });
 
                         style({
@@ -155,7 +157,7 @@
 
         <div class="hints">
 
-            <div data-if="SOL === 'Neither'" data-unwrap="">
+            <div data-unwrap data-if="SOL === 'Neither'">
 
                 <div class="graphie" data-update="graph">
                     style({ strokeWidth: 2 }, function() {
@@ -187,9 +189,9 @@
 
             </div>
 
-            <div data-else="" data-unwrap="">
+            <div data-unwrap data-else>
 
-                <div data-each="PTS as x" data-unwrap="">
+                <div data-unwrap data-each="PTS as x">
 
                     <div class="graphie" data-update="graph">
                         style({ stroke: "#7edb00" }, function() {
@@ -207,13 +209,13 @@
 
                 </div>
 
-                <div data-if="SOL === 'Odd'" data-unwrap="">
+                <div data-unwrap data-if="SOL === 'Odd'">
                     <p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is... ?</p>
 
                     <p><code>f(-a)=-f(a)</code> for all of these points, so <code>f(x)</code> is <span class="hint_blue">odd</span>.</p>
                 </div>
 
-                <div data-else="" data-unwrap="">
+                <div data-unwrap data-else>
                     <p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is... ?</p>
 
                     <p><code>f(-a)=f(a)</code> for all of these points, so <code>f(x)</code> is <span class="hint_blue">even</span>.</p>
@@ -224,4 +226,5 @@
         </div>
 
     </div>
-</body></html>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format ast math-model simplify factoring-expressions subhints"><head>
+<html data-require="math math-format ast math-model simplify factoring-expressions subhints">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Factoring polynomials 2</title>
     <script src="../khan-exercise.js"></script>
@@ -25,9 +26,9 @@
                 <var id="POLY_NO_FACTOR">simplify(parse(SQUARE + "x^{2}+" + LINEAR + "x+" + CONSTANT), simplifyOptions.basic)</var>
                 <var id="POLY_AND_FACTOR">{op:"*", args:[COMMON_FACTOR, POLY_NO_FACTOR]}</var>
                 <var id="GROUP1">[
-                parse("(x + a)(x + b)&amp;=&amp;xx &amp;+&amp; xb + ax &amp;+&amp; ab"),
-                parse("&amp;=&amp; x^2 &amp;+&amp; #{(a+b)}x &amp;+&amp; #{ab}", [GREEN, BLUE]),
-                simplify(parse("&amp;=&amp; x^2 &amp;+&amp; #{" + SIMPLELINEAR + "}x &amp;+&amp; #{" + SIMPLECONSTANT + "}", [GREEN, BLUE]), simplifyOptions.checkInput),
+                parse("(x + a)(x + b)&=&xx &+& xb + ax &+& ab"),
+                parse("&=& x^2 &+& #{(a+b)}x &+& #{ab}", [GREEN, BLUE]),
+                simplify(parse("&=& x^2 &+& #{" + SIMPLELINEAR + "}x &+& #{" + SIMPLECONSTANT + "}", [GREEN, BLUE]), simplifyOptions.checkInput),
                 ]
                 </var>
                 <var id="QUESTION">simplify(POLY_AND_FACTOR, simplifyOptions.expand)</var>
@@ -38,7 +39,7 @@
                 <var id="SOL4">simplify(parse("-" + COMMON_FACTOR_LATEX + "(x + " + (-A) + ")(-x + " + B + ")"), simplifyOptions.checkInput)</var>
             </div>
 
-            <p class="problem">Factor the following expression:</p>
+            <p class="problem">Factor the following expression:</var></code></p>
             <p class="question"><code><var>format(QUESTION)</var></code></p>
 
             <div class="solution" data-type="custom">
@@ -111,4 +112,5 @@
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

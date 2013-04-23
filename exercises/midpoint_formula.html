@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie"><head>
+<html data-require="math graphie">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Midpoint formula</title>
     <script src="../khan-exercise.js"></script>
@@ -45,11 +46,11 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="X1 &lt; X2 &amp;&amp; Y1 !== Y2">
-            <var id="X1" data-ensure="X1 &lt; 0 || X1 &gt; 2">randRange( -8, 7 )</var>
-            <var id="X2" data-ensure="X2 &gt; 0 || X2 &lt; -2">randRange( -7, 8 )</var>
-            <var id="Y1" data-ensure="abs( Y1 ) &gt; 1">randRange( -9, 8 )</var>
-            <var id="Y2" data-ensure="abs( Y2 ) &gt; 1">randRange( -9, 8 )</var>
+        <div class="vars" data-ensure="X1 < X2 && Y1 !== Y2">
+            <var id="X1" data-ensure="X1 < 0 || X1 > 2">randRange( -8, 7 )</var>
+            <var id="X2" data-ensure="X2 > 0 || X2 < -2">randRange( -7, 8 )</var>
+            <var id="Y1" data-ensure="abs( Y1 ) > 1">randRange( -9, 8 )</var>
+            <var id="Y2" data-ensure="abs( Y2 ) > 1">randRange( -9, 8 )</var>
             <var id="XM">( X1 + X2 ) / 2</var>
             <var id="YM">( Y1 + Y2 ) / 2</var>
         </div>
@@ -66,7 +67,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "&lt;-&gt;",
+                        axisArrows: "<->",
                     });
 
                     path([ [ X1, Y1 ], [ X2, Y2 ] ], {stroke:"#000000"});
@@ -129,7 +130,7 @@
             </div>
 
             <div id="find-point">
-                <p class="question">The point <code class="hint_orange">(<var>XM</var>, <var>YM</var>)</code> is the midpoint of <code class="hint_blue">(<var>X1</var>, <var>Y1</var>)</code> and what point?</p>
+                <p class="question">The point <code class="hint_orange" >(<var>XM</var>, <var>YM</var>)</code> is the midpoint of <code class="hint_blue">(<var>X1</var>, <var>Y1</var>)</code> and what point?</p>
 
                 <div class="graphie" id="graph">
                     graphInit({
@@ -139,7 +140,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "&lt;-&gt;",
+                        axisArrows: "<->",
                     });
 
                     style( point1Style );
@@ -208,4 +209,5 @@
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems stat"><head>
+<html data-require="math math-format word-problems stat">
+<head>
     <meta charset="UTF-8">
     <title>Standard deviation</title>
     <script src="../khan-exercise.js"></script>
@@ -28,7 +29,6 @@
             <div id="population" data-calculator="">
                 <div class="problem" data-else="">
                     <p data-if="isSingular(DATA_POINTS)">You have found the following ages (in years) of all 1 <var>animal( 1 )</var> at your local zoo:</p><p data-else="">You have found the following ages (in years) of all <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> at your local zoo:</p>
-                    
                     <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
                 </div>
 
@@ -62,8 +62,6 @@
                         <code>(\color{<var>BLUE</var>}{\mu})</code> and
                         <span class="hint_pink">population standard deviation</span> <code>(\color{<var>PINK</var>}{\sigma})</code>.
                     </p>
-
-                    
 
                     <div>
                         <p>
@@ -164,9 +162,7 @@
 
                     <p><strong>
                         <span data-if="isSingular(MEAN)">The average <var>animal( 1 )</var> at the zoo is 1 year old.</span><span data-else="">The average <var>animal( 1 )</var> at the zoo is <var>MEAN</var> years old.</span>
-                        
                         <span data-if="isSingular(STDDEV_POP)">There is a standard deviation of 1 year.</span><span data-else="">There is a standard deviation of <var>STDDEV_POP</var> years.</span>
-                    
                     </strong></p>
 
                 </div> <!-- hints -->
@@ -176,9 +172,7 @@
                 <div class="problem" data-else="">
                     <p>
                         <span data-if="isSingular(DATA_POINTS)">You have found the following ages (in years) of 1 <var>animal( 1 )</var>.</span><span data-else="">You have found the following ages (in years) of <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var>.</span>
-                        
                         <span data-if="isSingular(POPULATION)">Those <var>plural_form(animal( 1 ))</var> were randomly selected from the 1 <var>animal( 1 )</var> at your local zoo:</span><span data-else="">Those <var>plural_form(animal( 1 ))</var> were randomly selected from the <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var> at your local zoo:</span>
-                    
                     </p>
                     <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
                 </div>
@@ -214,8 +208,6 @@
                         <span class="hint_pink">sample standard deviation</span> <code>(\color{<var>PINK</var>}{s})</code>.
                     </p>
 
-                    
-
                     <div>
                         <p>
                             To find the <span class="hint_blue">sample mean</span>, add up the values of all <code class="hint_green"><var>DATA_POINTS</var></code>
@@ -247,8 +239,6 @@
                         population mean, estimate the mean by using the <span class="hint_blue">sample mean</span> we just calculated
                         <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ years}})</code>.
                     </p>
-
-                    
 
                     <div>
                         <div class="fake_header">
@@ -283,11 +273,9 @@
                             <span data-if="isSingular(DATA_POINTS)">The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
                             of the 1 <var>animal( 1 )</var> we sampled.</span><span data-else="">The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
                             of the <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> we sampled.</span>
-                            
                             <span data-if="isSingular(POPULATION)">This is compared to the average age
                             of all 1 <var>animal( 1 )</var> in the zoo.</span><span data-else="">This is compared to the average age
                             of all <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var> in the zoo.</span>
-                            
                             <span>Because of that, the <span class="hint_purple">squared deviations from the mean</span> we calculated will
                             probably underestimate the actual deviations from the population mean.</span>
                         </p>
@@ -339,11 +327,9 @@
 
                     <p><strong>
                         <span data-if="isSingular(MEAN)">We can estimate that the average <var>animal( 1 )</var> at the zoo is 1 year old.</span><span data-else="">We can estimate that the average <var>animal( 1 )</var> at the zoo is <var>MEAN</var> years old.</span>
-                        
                         <span data-if="isSingular(STDDEV)">There is also a standard deviation
                         of 1 year.</span><span data-else="">There is also a standard deviation
                         of <var>STDDEV</var> years.</span>
-                    
                     </strong></p>
 
                 </div> <!-- hints -->
@@ -354,5 +340,5 @@
 <!-- exercise -->
 
 
-
-</body></html>
+</body>
+</html>

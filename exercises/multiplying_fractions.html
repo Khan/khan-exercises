@@ -1,36 +1,38 @@
 <!DOCTYPE html>
-<html data-require="math math-format"><head>
+<html data-require="math math-format">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying fractions</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
-    <div class="vars">
-        <div data-ensure="getGCD(A, B) === 1">
-            <var id="A">randRangeNonZero(-8, 8)</var>
-            <var id="B">randRange(abs(A) + 1, 9)</var>
-        </div>
-        <div data-ensure="getGCD(C, D) === 1">
-            <var id="C">randRange(-8, 8)</var>
-            <var id="D">randRange(abs(C) + 1, 9)</var>
-        </div>
+    <div class="vars" data-ensure="getGCD(A, B) === 1 && getGCD(C, D) === 1">
+        <var id="NEG1">randFromArray([1,-1])</var>
+        <var id="NEG1S">NEG1 === -1 ? "-" : ""</var>
+        <var id="A">randRange(1, 8)</var>
+        <var id="B" data-ensure="B>A">randRange(2, 9)</var>
+
+        <var id="NEG2">randFromArray([1, -1])</var>
+        <var id="NEG2S">NEG2 === -1 ? "-" : ""</var>
+        <var id="C">randRange(1, 8)</var>
+        <var id="D" data-ensure="D>C">randRange(2, 9)</var>
     </div>
 
     <div class="problems">
         <div>
             <div class="question">
-                <p><code><span data-if="A &lt; 0">-</span> \dfrac{<var>abs(A)</var>}{<var>B</var>} \times 
-                         <span data-if="C &lt; 0">-</span> \dfrac{<var>abs(C)</var>}{<var>D</var>}</code></p>
+                <p><code>\displaystyle <var>NEG1S</var> \frac{<var>A</var>}{<var>B</var>} \times <var>NEG2S</var> \frac{<var>C</var>}{<var>D</var>}</code></p>
             </div>
-            <div class="solution" data-type="rational"><var>(A * C) / (B * D)</var></div>
+            <div class="solution" data-type="rational"><var>(NEG1 * A * NEG2 * C) / (B * D)</var></div>
         </div>
     </div>
 
     <div class="hints">
-        <p><code>= \dfrac{<var>A</var> \times <var>C</var>}{<var>B</var> \times <var>D</var>}</code></p>
-        <p><code>= \dfrac{<var>A * C</var>}{<var>B * D</var>}</code></p>
-        <p data-if="getGCD(A * C, B * D) !== 1 || A * C &lt; 0"><code>= <var>fractionReduce(A * C, B * D)</var></code></p>
+        <p><code>\displaystyle {} = \frac{<var>NEG1 * A</var> \times <var>NEG2 * C</var>}{<var>B</var> \times <var>D</var>}</code></p>
+        <p><code>\displaystyle {} = \frac{<var>NEG1 * A * NEG2 * C</var>}{<var>B * D</var>}</code></p>
+        <p data-if="getGCD(NEG1 * A * NEG2 * C, B * D) !== 1 || NEG1 * NEG2 === -1"><code>\displaystyle {} = <var>fractionReduce(NEG1 * A * NEG2 * C, B * D)</var></code></p>
     </div>
     </div>
-</body></html>
+</body>
+</html>

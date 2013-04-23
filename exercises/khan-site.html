@@ -1,30 +1,54 @@
-<!DOCTYPE html>
-<html><head>
+<html>
+    <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Exercise Template</title>
     </head>
     <body class="light">
-    <div class="clearfix new-header" id="outer-wrapper">
-    <div id="top-header-container">
-        <div class="new" id="top-header">
-            <nav class="sitewide-navigation">
-                <span class="links nav-subheader">
-                    <span class="dropdown topic-browser-dropdown">
-                        <a href="http://khanacademy.org/library" class="no-menu">Learn</a>
-                        <a href="http://khanacademy.org/class_profile" class="no-menu">Coach</a>
-                        <div style="clear: both"></div>
-                    </span>
-                </span>
-            </nav>
-            <a href="http://khanacademy.org/" id="header-logo" data-tag="Header" title="Take me home!">
-                <img src="https://khan-academy.appspot.com/images/ka-simplified-logo-white.png">
-            </a>
-        </div>
-    </div>
-    <div id="page-container">
-    <div id="page-container-inner">
-        <div id="fb-root"></div>
-                    <div class="single-exercise visited-no-recolor" id="container" style="overflow: hidden;">
+        <div id="outer-wrapper">
+            <div id="page-container">
+                <div id="page-container-inner">
+                    <div id="fb-root"></div>
+                    <header>
+                        <div id="top-header">
+                            <div class="top-header-links">
+                                <span class="page_links" id="page_auth">
+                                    <span class="achievement-badge-counts" style="left:-60px;"></span>
+                                    <span><a href="http://khanacademy.org/login">Log in</a></span>
+                                    <span class="separator"></span>
+                                    <span><a href="http://khanacademy.org/contribute" id="donate-link">Donate</a></span>
+                                </span>
+                                <div class="clear"></div>
+                                <div id="nav-and-search">
+                                    <div class="sitewide-navigation">
+                                        <nav>
+                                            <span class="links nav-subheader">
+                                                <span class="dropdown topic-browser-dropdown">
+                                                    <a href="http://khanacademy.org/#browse" class="watch-link dropdown-toggle">Watch <span class="caret"></span></a>
+                                                <a href="http://khanacademy.org/exercisedashboard" class="selected practice-link">Practice</a>
+                                                <a href="http://khanacademy.org/class_profile">Coach</a>
+                                                <a href="http://khanacademy.org/contribute">Volunteer</a>
+                                                <a href="http://khanacademy.org/about">About</a>
+                                                </span>
+                                            </span>
+                                        </nav>
+                                    </div>
+                                    <div id="search-box">
+                                        <form class="page-search" action="/search">
+                                            <input id="search-input" type="text" placeholder="Search for a video or topic" name="page_search_query" value="" class="ui-corner-all placeholder simple-input search-input blur-on-esc ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"><input type="submit" value=" " id="search-submit" class="search-submit" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"/>
+                                        </form>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+
+                            <div id="logo">
+                                <a id="logo-image" href="http://khanacademy.org/" title="Khan Academy" name="logo-image"></a>
+                                <div id="stats"><span id="page_visitors" style="display: inline;">Over 9,000 lessons delivered</span></div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </header>
+                    <div id="container" class="single-exercise visited-no-recolor" style="overflow: hidden;">
                         <article class="exercises-content clearfix">
                         <div class="exercises-header"><h2 class="section-headline">
                                 <div class="topic-exercise-badge">&nbsp;</div>
@@ -38,13 +62,13 @@
                                         <div class="current-card-contents">
                                         </div>
                                     </div>
-                                    <div class="single-exercise" id="extras">
+                                    <div id="extras" class="single-exercise">
                                         <ul>
-                                            <li> <a href="" id="scratchpad-show" style="">Show scratchpad</a>
+                                            <li> <a id="scratchpad-show" href style>Show scratchpad</a>
                                                 <span id="scratchpad-not-available" style="display: none;">Scratchpad not available</span>
                                             </li>
                                             <li class="debug-mode"> <a href="?debug">Debug mode</a></li>
-                                            <li> <a href="" id="problem-permalink">Problem permalink</a></li>
+                                            <li> <a id="problem-permalink" href>Problem permalink</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -53,28 +77,39 @@
                         </article>
                     </div>
                     <div id="end-of-page-spacer" style="height: 38px;">&nbsp;</div>
-                    <div class="badge-award-container" id="badge-notification-container" style="display:none;"></div>
-        </div>
-    </div>
-
-    <div class="push"></div>
-    <footer id="footer">
-        <div class="footer-container">
-            <div class="row-fluid main-links">
-                <div class="span2 offset10" style="height: 160px">
-                    <img class="handtree" src="https://khan-academy.appspot.com/images/khan-logo-vertical-transparent.png">
-                </div>
-            </div>
-
-            <div class="row-fluid extra-links">
-                <div class="span4 offset8 copyright">
-                    © 2013 Khan Academy<br>
-                    Except where noted, all rights reserved.
+                    <div id="badge-notification-container" class="badge-award-container" style="display:none;"></div>
                 </div>
             </div>
         </div>
-    </footer>
-    
 
-</div>
-</body></html>
+        <div class="push"></div>
+        <footer id="footer" class="short">
+            <div id="leaves">
+                <div class="inner">
+                    <div id="copyright" class="tiny">
+                        <small>&copy;2012 Khan Academy&#0153;</small> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/" id="creative-commons-link" name="creative-commons-link"></a>
+                    </div>
+                    <span class="footer-links">
+                        <a href="http://khanacademy.desk.com/">FAQ</a>
+                        <span class="sep">|</span>
+                        <a href="/reportissue?type=Defect&issue_labels=Component-Code%2CExercise-addition_1%2CProblem-1" id="report">Report a Problem</a>
+                        <span class="sep">|</span>
+                        <a href="/about/the-team">Contact</a><a href="/jobs">Jobs</a>
+                        <span class="sep">|</span>
+                        <a href="/about/tos" title="Terms of Service">ToS</a> <a href="/about/privacy-policy" title="Privacy Policy">Privacy Policy</a>
+                        <span class="sep">|</span>
+                        <a href="/downloads">Downloads</a>
+
+                        <span class="sep">|</span>
+                        <span class="small-social-links">
+                            <a class="google-analytics-link-track youtube" onclick="_gaq.push(['_trackEvent', 'Click', 'Youtube-Subscribe-Header']);" href="http://www.youtube.com/khanacademy" title="Youtube"></a>
+                            <a class="google-analytics-link-track twitter" onclick="_gaq.push(['_trackEvent', 'Click', 'Twitter-Follow-Header']);" href="http://twitter.com/khanacademy" title="Twitter"></a>
+                            <a class="google-analytics-link-track facebook" onclick="_gaq.push(['_trackEvent', 'Click', 'Facebook-Join-Header']);" href="http://www.facebook.com/khanacademy" title="Facebook"></a>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
+

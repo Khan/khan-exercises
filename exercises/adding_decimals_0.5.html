@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic"><head>
+<html data-require="math graphie graphie-helpers-arithmetic">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding decimals 0.5</title>
     <script src="../khan-exercise.js"></script>
@@ -47,9 +48,10 @@
             graph.adder.show();
             graph.adder.showDecimals( A_DECIMAL, B_DECIMAL );
         </div>
-        <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
+        <div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
             graph.adder.showHint();
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

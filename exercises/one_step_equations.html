@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions"><head>
+<html data-require="math math-format expressions">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>One step equations</title>
     <script src="../khan-exercise.js"></script>
@@ -20,7 +21,7 @@
     </div>
     <p class="question">Solve for <code><var>X</var></code>:</p>
     <div class="solution" data-type="multiple">
-        <p><code><var>X</var>=</code> <span class="sol" data-forms="integer"><var>B - A</var></span></p>
+        <p><code><var>X</var>=</code> <span class="sol" data-forms="integer"><var>B - A</var></code></p>
     </div>
 
     <div class="problems">
@@ -29,8 +30,8 @@
             <div class="hints">
                 <div>
                     <p>
-                        <span data-if="A &lt; 0"><span class="hint_red">Add <code><var>abs(A)</var></code></span> to both sides:</span>
-                        <span data-else=""><span class="hint_red">Subtract <code><var>abs(A)</var></code></span> from both sides:</span>
+                        <span data-if="A < 0"><span class="hint_red">Add <code><var>abs(A)</var></code></span> to both sides:</span>
+                        <span data-else><span class="hint_red">Subtract <code><var>abs(A)</var></code></span> from both sides:</span>
                     </p><p><code>\qquad
                         \begin{eqnarray} \\
                         <var>A</var> + <var>X</var> &amp;=&amp; <var>B</var> \\ \\
@@ -39,7 +40,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p></p><p><code>\qquad
+                    </p><p><code>\qquad
                         \begin{eqnarray}
                         \hphantom{<var>A</var> + <var>X</var>} &amp;\hphantom{=}&amp; \hphantom{<var>B</var>} \\
                         <var>X</var> &amp;=&amp; <var>B</var> \red{- <var>A</var>} \\
@@ -57,8 +58,8 @@
             <div class="hints">
                 <div>
                     <p>
-                        <span data-if="A &lt; 0"><span class="hint_red">Add <code><var>abs(A)</var></code></span> to both sides:</span>
-                        <span data-else=""><span class="hint_red">Subtract <code><var>abs(A)</var></code></span> from both sides:</span>
+                        <span data-if="A < 0"><span class="hint_red">Add <code><var>abs(A)</var></code></span> to both sides:</span>
+                        <span data-else><span class="hint_red">Subtract <code><var>abs(A)</var></code></span> from both sides:</span>
                     </p><p><code>\qquad
                         \begin{eqnarray} \\
                         <var>X</var> + <var>A</var> &amp;=&amp; <var>B</var> \\ \\
@@ -67,7 +68,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p></p><p><code>\qquad
+                    </p><p><code>\qquad
                         \begin{eqnarray}
                         \hphantom{<var>A</var> + <var>X</var>} &amp;\hphantom{=}&amp; \hphantom{<var>B</var>} \\
                         <var>X</var> &amp;=&amp; <var>B</var> \red{- <var>A</var>} \\
@@ -85,8 +86,8 @@
             <div class="hints">
                 <div>
                     <p>
-                        <span data-if="A &lt; 0"><span class="hint_red">Add <code><var>abs(A)</var></code></span> to both sides:</span>
-                        <span data-else=""><span class="hint_red">Subtract <code><var>abs(A)</var></code></span> from both sides:</span>
+                        <span data-if="A < 0"><span class="hint_red">Add <code><var>abs(A)</var></code></span> to both sides:</span>
+                        <span data-else><span class="hint_red">Subtract <code><var>abs(A)</var></code></span> from both sides:</span>
                     </p><p><code>\qquad
                         \begin{eqnarray} \\
                         \hphantom{<var>B</var> \red{- <var>A</var>}} &amp;\hphantom{=}&amp; \hphantom{<var>X</var>} \\
@@ -96,7 +97,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p></p><p><code>\qquad
+                    </p><p><code>\qquad
                         \begin{eqnarray} \\
                         <var>B</var> \red{- <var>A</var>} &amp;=&amp; <var>X</var> \\
                         \end{eqnarray}
@@ -113,8 +114,8 @@
             <div class="hints">
                 <div>
                     <p>
-                        <span data-if="A &lt; 0"><span class="hint_red">Add <code><var>abs(A)</var></code></span> to both sides:</span>
-                        <span data-else=""><span class="hint_red">Subtract <code><var>abs(A)</var></code></span> from both sides:</span>
+                        <span data-if="A < 0"><span class="hint_red">Add <code><var>abs(A)</var></code></span> to both sides:</span>
+                        <span data-else><span class="hint_red">Subtract <code><var>abs(A)</var></code></span> from both sides:</span>
                     </p><p><code>\qquad
                         \begin{eqnarray} \\
                         \hphantom{<var>B</var> \red{- <var>A</var>}} &amp;\hphantom{=}&amp; \hphantom{<var>X</var>} \\
@@ -124,7 +125,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p></p><p><code>\qquad
+                    </p><p><code>\qquad
                         \begin{eqnarray} \\
                         <var>B</var> \red{- <var>A</var>} &amp;=&amp; <var>X</var> \\
                         \end{eqnarray}
@@ -137,7 +138,5 @@
             </div>
         </div>
     </div>
-
-
-</div>
-</body></html>
+</body>
+</html>

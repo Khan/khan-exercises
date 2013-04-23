@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format polynomials functional"><head>
+<html data-require="math math-format polynomials functional">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding and subtracting polynomials</title>
     <script src="../khan-exercise.js"></script>
@@ -39,7 +40,7 @@
             <var id="COLORS">[ BLUE, ORANGE, GREEN ]</var>
             <var id="MAX_DEGREE">7</var>
             <var id="NON_ZERO_INDICES">randRangeUniqueNonZero( 0, MAX_DEGREE, randRange(2, 3) ).sort().reverse()</var>
-            <var id="POL_1, POL_2" data-ensure="POL_1.add( POL_2 ).getNumberOfTerms() &gt;= 1 &amp;&amp; POL_1.subtract( POL_2 ).getNumberOfTerms() &gt;= 1">tabulate( function() {
+            <var id="POL_1, POL_2" data-ensure="POL_1.add( POL_2 ).getNumberOfTerms() >= 1 && POL_1.subtract( POL_2 ).getNumberOfTerms() >= 1">tabulate( function() {
                 var coefs = [];
                 for ( var i = 0; i &lt;= MAX_DEGREE; i++ ) {
                     var value = 0;
@@ -102,7 +103,7 @@
             </div>
             <div>
                 <p>Identify like terms.</p>
-                <p><code><span data-each="[ POL_1, POL_2 ] as POL"><span data-each="NON_ZERO_INDICES as n, index" data-unwrap=""><var>( POL.coefs[ index ] &lt; 0 ) ? "-" : ( n === 0 &amp;&amp; POL === POL_1 ) ? "" : "+"</var>\color{<var>COLORS[ n ]</var>}{<var>abs( POL.coefs[ index ] ) === 1 ? "" : abs( POL.coefs[ index ] )</var><var>X</var>^<var>index</var>}</span></span></code></p>
+                <p><code><span data-each="[ POL_1, POL_2 ] as POL"><span data-each="NON_ZERO_INDICES as n, index" data-unwrap><var>( POL.coefs[ index ] &lt; 0 ) ? "-" : ( n === 0 && POL === POL_1 ) ? "" : "+"</var>\color{<var>COLORS[ n ]</var>}{<var>abs( POL.coefs[ index ] ) === 1 ? "" : abs( POL.coefs[ index ] )</var><var>X</var>^<var>index</var>}</span></span></code></p>
 
             </div>
             <div>
@@ -115,4 +116,5 @@
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

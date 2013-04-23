@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie word-problems interactive"><head>
+<html data-require="math math-format graphie word-problems interactive">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Decimals on the number line 2</title>
     <script src="../khan-exercise.js"></script>
@@ -74,24 +75,24 @@
             </div>
 
             <div class="hints">
-                <p> Because <code>\color{orange}{<var>SOLUTION</var>}</code> is <span data-if="SOLUTION &gt; 0">positive</span>
-                <span data-else="">negative</span> the orange dot will be to the <span data-if="SOLUTION &gt; 0">right</span>
-                <span data-else="">left</span> of 0.</p>
+                <p> Because <code>\color{orange}{<var>SOLUTION</var>}</code> is <span data-if="SOLUTION > 0">positive</span>
+                <span data-else>negative</span> the orange dot will be to the <span data-if="SOLUTION > 0">right</span>
+                <span data-else>left</span> of 0.</p>
 
-                <div data-if="abs(SOLUTION) &gt; 1">
+                <div data-if="abs(SOLUTION) > 1">
                     <p>Separate the decimal from the whole number:</p>
                     <p><code>\color{orange}{<var>SOLUTION</var>}</code> =
                     <code>\color{blue}{<var>SOLUTION_WHOLE</var>}</code> + <code>\color{blue}{<var>SOLUTION_DECIMAL</var>}</code>
-                </p></div>
+                </div>
 
                 <div>
                     <p>Therefore, we know <code>\color{orange}{<var>SOLUTION</var>}</code> lies between
                     <code>\color{orange}{<var>SOLUTION_WHOLE</var>}</code> and
-                    <code>\color{orange}{<var>SOLUTION_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)</var>}</code> on the number line.</p>
+                    <code>\color{orange}{<var>SOLUTION_WHOLE + (SOLUTION > 0 ? 1 : -1)</var>}</code> on the number line.</p>
                     <div class="graphie" data-update="number-line">
                         style({ stroke: "#FFA500", strokeWidth: 3.5 });
                         line( [SOLUTION_WHOLE, -0.2], [SOLUTION_WHOLE, 0.2]);
-                        line( [SOLUTION_WHOLE + (SOLUTION &gt; 0 ? 1 : -1), -0.2], [SOLUTION_WHOLE + (SOLUTION &gt; 0 ? 1 : -1), 0.2]);
+                        line( [SOLUTION_WHOLE + (SOLUTION > 0 ? 1 : -1), -0.2], [SOLUTION_WHOLE + (SOLUTION > 0 ? 1 : -1), 0.2]);
                     </div>
                 </div>
 
@@ -116,4 +117,5 @@
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

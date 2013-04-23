@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive"><head>
+<html data-require="math math-format expressions graphie interactive">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing and solving linear inequalities</title>
     <script src="../khan-exercise.js"></script>
@@ -215,7 +216,7 @@
                 to slope-intercept form by solving for <code>y</code>.
             </p>
             <div>
-                <p data-if="A &amp;lt; 0">
+                <p data-if="A &lt; 0">
                     Add <code><var>abs( A )</var>x</code> to both sides:
                 </p><p data-else="">
                     Subtract <code><var>abs( A )</var>x</code> from both sides:
@@ -259,7 +260,6 @@
                 you move
                 <span data-if="SLOPE_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
                 <span data-else="">up</span>.</span>
-                
                 <span data-if='"position" + ( abs( SLOPE_FRAC[1] ) !== 1'>You must also move
                 <code><var>SLOPE_FRAC[1]</var></code>
                 s
@@ -267,7 +267,6 @@
                 <code><var>SLOPE_FRAC[1]</var></code>
                 <var>"" )</var>
                 to the right. So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC[1]</var>, <var>YINT + SLOPE_FRAC[0]</var>)</code></span>
-            
             </p>
             <div class="graphie" data-update="grid">
                 style({
@@ -292,7 +291,6 @@
             <strong>above</strong> the line is a solution to the inequality, so the area above
             the line should be shaded.
         </p>
-        
         <div>
             <p data-if="INCLUSIVE"><span data-if="LESS_THAN" data-unwrap="">
                 Note that since the sign is less-than or <strong>equal to</strong>, any point on the line is also a solution, so the
@@ -300,9 +298,7 @@
             </span><span data-else="" data-unwrap="">
                 Note that since the sign is greater-than or <strong>equal to</strong>, any point on the line is also a solution, so the
                 line should be solid.
-            </span>
-            
-            </p>
+            </span></p>
             <p data-else="" data-if="LESS_THAN">
                 Note that since the sign is less-than (and not equal to), any point on the line is <strong>not</strong> part of the solution,
                 so the line should be dashed to indicate this.
@@ -310,7 +306,6 @@
                 Note that since the sign is greater-than (and not equal to), any point on the line is <strong>not</strong> part of the solution,
                 so the line should be dashed to indicate this.
             </p>
-        
         </div>
         <div>
             <p>
@@ -346,4 +341,5 @@
     </div>
 
 </div>
-</body></html>
+</body>
+</html>

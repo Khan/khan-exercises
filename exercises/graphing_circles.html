@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions interactive graphie"><head>
+<html data-require="math math-format expressions interactive graphie">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing circles</title>
     <script src="../khan-exercise.js"></script>
@@ -9,7 +10,8 @@
     <div class="exercise">
         <div class="problems">
             <div>
-                <div class="vars" data-ensure="!(H === 0 &amp;&amp; K === 0 &amp;&amp; R === 2)">
+                <div class="vars"
+                    data-ensure="!(H === 0 && K === 0 && R === 2)">
                     <var id="H">randRange(-5, 5)</var>
                     <var id="K">randRange(-5, 5)</var>
                     <var id="R">randRange(1, 5)</var>
@@ -104,4 +106,5 @@
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

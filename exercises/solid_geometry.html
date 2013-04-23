@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-3d math-format interactive"><head>
+<html data-require="math graphie graphie-3d math-format interactive">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Solid geometry</title>
     <script src="../khan-exercise.js"></script>
@@ -307,7 +308,9 @@
                 of each of the faces, and add all the areas up.</p>
                 <div>
                     <p>To see this better, let's try unwrapping the box:
-                    <input onclick="KhanUtil.tmpl.getVAR('UNWRAPGRAPH.unwrap()')" type="submit" value="Unwrap!"></p>
+                    <input type="submit" value="Unwrap!"
+                        onclick="KhanUtil.tmpl.getVAR('UNWRAPGRAPH.unwrap()')"
+                    /></p>
                     <div class="graphie">
                         var verts = [
                             [LENGTH/MAX, WIDTH/MAX, HEIGHT/MAX],
@@ -445,7 +448,7 @@
                         };
                     </div>
                 </div>
-                <div id="unwrapped" data-unwrap="">
+                <div id="unwrapped" data-unwrap>
                     <div>
                         <p>We can group the faces together
                             based on size and color:</p>
@@ -559,7 +562,7 @@
             </p>
 
             <div class="hints" data-apply="appendContents">
-                <div id="unwrapped" data-unwrap="">
+                <div id="unwrapped" data-unwrap>
                     <p>Here, we can see that all of the
                         six sides have the same size.</p>
                     <div>
@@ -725,4 +728,5 @@
         </div>
     </div>
 </div>
-</body></html>
+</body>
+</html>

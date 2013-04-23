@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math word-problems"><head>
+<html data-require="math word-problems">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Simplifying fractions</title>
     <script src="../khan-exercise.js"></script>
@@ -43,7 +44,7 @@
 
             <p>What is the greatest common factor (GCD) of <var>NUM</var> and <var>DENOM</var>?</p>
 
-            <p><code><var>NUM</var>   = <var>getPrimeFactorization( NUM   ).join( "\\cdot" )</var></code><br>
+            <p><code><var>NUM</var>   = <var>getPrimeFactorization( NUM   ).join( "\\cdot" )</var></code><br />
                <code><var>DENOM</var> = <var>getPrimeFactorization( DENOM ).join( "\\cdot" )</var></code></p>
 
             <p><code>\mbox{GCD}(<var>NUM</var>, <var>DENOM</var>)<span data-if="!isPrime(GCD)"> = <var>GCD_FACTORS.join( "\\cdot" )</var></span> = <var>GCD</var></code></p>
@@ -66,7 +67,7 @@
                 <code>\hphantom{\dfrac{<var>NUM</var>}{<var>DENOM</var>}}
                 = \dfrac{<var>NUM / GCD</var>}{<var>DENOM / GCD</var>}</code>
             </p>
-            <div data-if="GCD_FACTORS.length !== 1" data-unwrap="">
+            <div data-if="GCD_FACTORS.length !== 1" data-unwrap>
                 <p>You can also solve this problem by repeatedly breaking the numerator and denominator into common factors.</p>
                 <div>
                     <p>For example:</p>
@@ -75,4 +76,5 @@
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

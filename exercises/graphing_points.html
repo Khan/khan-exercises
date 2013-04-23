@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math interactive graphie"><head>
+<html data-require="math interactive graphie">
+    <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing points</title>
         <script src="../khan-exercise.js"></script>
@@ -23,7 +24,7 @@
                         Plot <code>(<var>X</var>, <var>Y</var>)</code>
                     </p>
                     <div class="problem">
-                        <br>
+                        <br />
                         <div class="graphie" id="grid">
                             graphInit({
                                 range: [ [-1, 11], [-1, 11] ],
@@ -82,7 +83,7 @@
                             <div data-if="X === 0">
                                 Since our <span class="hint_blue"><code>x</code>-coordinate</span> is equal to <code class="hint_blue">0</code>, we don't need to move to the right of the origin.
                             </div>
-                            <div data-else="">
+                            <div data-else>
                                 <p>
                                     Since our <span class="hint_blue"><code>x</code>-coordinate</span> is equal to <code class="hint_blue"><var>X</var></code>,
                                     we move <code class="hint_blue"><var>X</var></code> to the right of the origin.
@@ -104,7 +105,7 @@
                             <div data-if="Y === 0">
                                 Since our <span class="hint_green"><code>y</code>-coordinate</span> is equal to <code class="hint_green">0</code>, we don't need to move up from the origin.
                             </div>
-                            <div data-else="">
+                            <div data-else>
                                 <p>
                                     Since our <span class="hint_green"><code>y</code>-coordinate</span> is equal to <code class="hint_green"><var>Y</var></code>,
                                     we move up <code class="hint_green"><var>Y</var></code> from the origin.
@@ -125,7 +126,7 @@
                         <div>
                             <p class="final_answer">
                                 Move the point to <code>( \blue{<var>X</var>}, \green{<var>Y</var>} )</code> at the marked point above.
-                                <input onclick="javascript:KhanUtil.currentGraph.graph.movablePoint.moveTo( KhanUtil.tmpl.getVAR('X'), KhanUtil.tmpl.getVAR('Y') );" type="button" value="Show me">
+                                <input type="button" value="Show me" onClick="javascript:KhanUtil.currentGraph.graph.movablePoint.moveTo( KhanUtil.tmpl.getVAR('X'), KhanUtil.tmpl.getVAR('Y') );" />
                             </p>
                             <div class="graphie" data-update="grid">
                                 style({
@@ -142,4 +143,5 @@
                 </div>
             </div>
         </div>
-</body></html>
+    </body>
+</html>

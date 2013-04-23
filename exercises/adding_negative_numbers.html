@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers"><head>
+<html data-require="math graphie graphie-helpers">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding negative numbers</title>
     <script src="../khan-exercise.js"></script>
@@ -31,7 +32,7 @@
                             "right" );
                         </div>
                 </div>
-                <div class="solution" data-forms="integer"><var>ANSWER</var></div>
+                <div class="solution"><var>ANSWER</var></div>
                 <div class="hints">
                     <div class="graphie" data-update="numbers">
                         REMOVE = label( [0, -2],
@@ -45,7 +46,7 @@
                     <div class="graphie" data-update="numbers">
                         style({
                             stroke: "#28AE7B",
-                            arrows: "-&gt;"
+                            arrows: "->"
                         }, function(){
                             path( [ [ 1 + A - START, -3 ], [ 1 + ANSWER - START, -3] ] );
                         });
@@ -64,4 +65,5 @@
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

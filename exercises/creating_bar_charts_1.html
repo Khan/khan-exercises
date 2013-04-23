@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive word-problems stat"><head>
+<html data-require="math math-format expressions graphie interactive word-problems stat">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Creating bar charts 1</title>
     <script src="../khan-exercise.js"></script>
@@ -35,8 +36,6 @@
             <var>toSentence( shuffle( $.map( DATA, function( num, i ) {
                 return "&lt;code&gt;" + num + "&lt;/code&gt; " + plural( RESPONDENT, num ) + " said " + CATEGORIES[ i ];
             }) ) )</var>.</p>
-
-            
 
             <p class="question">Create a bar chart showing everyone's favorite <var>plural_form(SUBJECT)</var>:</p>
 
@@ -143,7 +142,6 @@
                     the way to the bottom to get rid of the bar.
                 </span>
             </p>
-            
             <div class="graphie" data-if="NUM &gt; 0" data-update="barchart">
                 style({ stroke: ORANGE, fill: "none", strokeWidth: 1, strokeDasharray: "- " }, function() {
                     path([ [ INDEX * 3 + 1, 0 ], [ INDEX * 3 + 1, NUM ], [ INDEX * 3 + 3, NUM ], [ INDEX * 3 + 3, 0 ] ]).toBack();
@@ -153,4 +151,5 @@
     </div>
 
 </div>
-</body></html>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions"><head>
+<html data-require="math math-format expressions">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multistep equations with distribution</title>
     <script src="../khan-exercise.js"></script>
@@ -105,7 +106,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="C * E &amp;lt; 0">
+                    <p data-if="C * E &lt; 0">
                         Add
                         <code>\green{<var>abs(C * E)</var>}</code>
                         to both sides
@@ -118,7 +119,6 @@
                         to isolate the <code><var>X</var></code> term on the
                         right side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>A</var> &amp;=&amp;
                         <var>expr(["*", B + C * D, X])</var> \green{{} + <var>C * E</var>} \\ \\
@@ -232,7 +232,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="B * C &amp;lt; 0">
+                    <p data-if="B * C &lt; 0">
                         Add
                         <code>\green{<var>abs(B * C)</var>}</code>
                         to both sides
@@ -245,7 +245,6 @@
                         to isolate the <code><var>X</var></code> term on the
                         right side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>A</var> &amp;=&amp;
                         \green{<var>B * C</var>} + <var>expr(["*", B * D + E, X])</var> \\ \\
@@ -283,7 +282,7 @@
         </div>
 
 
-        <div id="prob3"> <!-- A(Bx + C) = D(E &#8722; Fx) + Gx -->
+        <div id="prob3"> <!-- A(Bx + C) = D(E − Fx) + Gx -->
             <div class="vars" data-ensure="D * F + G !== 0 &amp;&amp;
                     ((A * B) - (D * F + G)) !== 0 &amp;&amp;
                     ((A * B) - (D * F + G)) !== 1">
@@ -395,7 +394,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="D * F + G &amp;lt; 0">
+                    <p data-if="D * F + G &lt; 0">
                         Add
                         <code>\green{<var>expr(["*", abs(D * F + G), X])</var>}
                         </code> to both
@@ -408,7 +407,6 @@
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
                         <var>D * E</var> \green{{} + <var>expr(["*", D * F + G, X])</var>} \\ \\
@@ -438,7 +436,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="A * C &amp;lt; 0">
+                    <p data-if="A * C &lt; 0">
                         Add
                         <code>\green{<var>abs(A * C)</var>}</code>
                         to both sides
@@ -451,7 +449,6 @@
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["*", (A * B) - (D * F + G), X])</var> \green{{} + <var>A * C</var>} &amp;=&amp;
                         <var>D * E</var> \\ \\
@@ -561,7 +558,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="E &amp;lt; 0">
+                    <p data-if="E &lt; 0">
                         Add
                         <code>\green{<var>expr(["*", abs(E), X])</var>}
                         </code> to both
@@ -574,7 +571,6 @@
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["+", ["*", A, X], ["*", B * C, X],
                         B * D])</var> &amp;=&amp;
@@ -606,7 +602,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="B * D &amp;lt; 0">
+                    <p data-if="B * D &lt; 0">
                         Add
                         <code>\green{<var>abs(B * D)</var>}</code>
                         to both sides
@@ -619,7 +615,6 @@
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["*", A + B * C - E, X])</var>
                         \green{+ <var>B * D</var>} &amp; = &amp;
@@ -717,7 +712,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="C * D &amp;lt; 0">
+                    <p data-if="C * D &lt; 0">
                         Add
                         <code>\green{<var>expr(["*", abs(C * D), X])</var>}
                         </code> to both
@@ -730,7 +725,6 @@
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["+", A, ["*", B, X]])</var> &amp;=&amp;
                         \green{<var>expr(["*", C * D, X])</var>} + <var>C * E</var> \\ \\
@@ -756,7 +750,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="A &amp;lt; 0">
+                    <p data-if="A &lt; 0">
                         Add
                         <code>\green{<var>abs(A)</var>}</code>
                         to both sides
@@ -769,7 +763,6 @@
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         \green{<var>A</var>} + <var>expr(["*", B - C * D, X])</var> &amp;=&amp; <var>C * E</var> \\ \\
                         \green{{}+<var>-A</var>} &amp;&amp;
@@ -877,7 +870,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="B * C &amp;lt; 0">
+                    <p data-if="B * C &lt; 0">
                         Add
                         <code>\green{<var>abs(B * C)</var>}</code>
                         to both sides
@@ -890,7 +883,6 @@
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["*", A + B * D, X])</var> \green{{} + <var>B * C</var>} &amp;=&amp; <var>E</var> \\ \\
                         \green{{}+<var>-B * C</var>} &amp;&amp;
@@ -984,7 +976,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="D &amp;lt; 0">
+                    <p data-if="D &lt; 0">
                         Add
                         <code>\green{<var>expr(["*", abs(D), X])</var>}
                         </code> to both
@@ -997,7 +989,6 @@
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
                         \green{<var>expr(["*", D, X])</var>} + <var>E</var> \\ \\
@@ -1024,7 +1015,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="A * C &amp;lt; 0">
+                    <p data-if="A * C &lt; 0">
                         Add
                         <code>\green{<var>abs(A * C)</var>}</code>
                         to both sides
@@ -1037,7 +1028,6 @@
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["*", A * B - D, X])</var> \green{{} + <var>A * C</var>} &amp;=&amp; <var>E</var> \\ \\
                         \green{{}+<var>-A * C</var>} &amp;&amp;
@@ -1133,7 +1123,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="F &amp;lt; 0">
+                    <p data-if="F &lt; 0">
                         Add
                         <code>\green{<var>expr(["*", abs(F), X])</var>}
                         </code> to both
@@ -1146,7 +1136,6 @@
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["+", ["*", A * B, X], A * C, D])</var> &amp;=&amp;
                         <var>E</var> \green{{} + <var>expr(["*", F, X])</var>} \\ \\
@@ -1186,7 +1175,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="A * C + D &amp;lt; 0">
+                    <p data-if="A * C + D &lt; 0">
                         Add
                         <code>\green{<var>abs(A * C + D)</var>}</code>
                         to both sides
@@ -1199,7 +1188,6 @@
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         \green{<var>A * C + D</var>} + <var>expr(["*", A * B - F, X])</var> &amp;=&amp; <var>E</var> \\ \\
                         \green{{}+<var>-(A * C + D)</var>} &amp;&amp;
@@ -1326,7 +1314,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="D * F &amp;lt; 0">
+                    <p data-if="D * F &lt; 0">
                         Add
                         <code>\green{<var>expr(["*", abs(D * F), X])</var>}
                         </code> to both
@@ -1339,7 +1327,6 @@
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["+", ["*", A * B, X], A * C])</var> &amp;=&amp;
                         <var>D * E</var> \green{{} + <var>expr(["*", D * F, X])</var>} \\ \\
@@ -1369,7 +1356,7 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="A * C &amp;lt; 0">
+                    <p data-if="A * C &lt; 0">
                         Add
                         <code>\green{<var>abs(A * C)</var>}</code>
                         to both sides
@@ -1382,7 +1369,6 @@
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
-                    
                     <p><code>\qquad\begin{eqnarray}
                         <var>expr(["*", A * B - D * F, X])</var> + \green{<var>A * C</var>} &amp;=&amp;
                         <var>D * E</var> \\ \\
@@ -1422,4 +1408,5 @@
 
     </div>
 </div>
-</body></html>
+</body>
+</html>

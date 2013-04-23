@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie math-format graphie-helpers"><head>
-    <meta charset="UTF-8">
+<html data-require="math graphie math-format graphie-helpers">
+<head>
+    <meta charset="UTF-8" />
     <title>Powers of complex numbers</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -20,7 +21,7 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="!(ANSWER_ANGLE === 0 &amp;&amp; ANSWER_RADIUS === 1)">
+    <div class="vars" data-ensure="!(ANSWER_ANGLE === 0 && ANSWER_RADIUS === 1)">
         <var id="DENOMINATOR">24</var>
         <var id="BASE_ANGLE_NUMERATOR">randRange( 0, DENOMINATOR - 1 )</var>
         <var id="BASE_ANGLE">BASE_ANGLE_NUMERATOR / DENOMINATOR * 2 * PI</var>
@@ -65,7 +66,7 @@
                     range: [ [-5, 5], [-5, 5] ],
                     scale: 30,
                     tickStep: 1,
-                    axisArrows: "&lt;-&gt;"
+                    axisArrows: "<->"
                 });
 
                 drawComplexChart( 5, DENOMINATOR );
@@ -83,15 +84,15 @@
                     <div>
                         <div style="float: left;">Radius: <span id="current-radius"><code>1</code></span></div>
                         <div style="float: right;">
-                            <input class="simple-button mini-button" onclick="updateComplexPolarForm(0, -1)" type="button" value="-">
-                            <input class="simple-button mini-button" onclick="updateComplexPolarForm(0, 1)" type="button" value="+">
+                            <input type="button" class="simple-button mini-button" value="-" onclick="updateComplexPolarForm(0, -1)" />
+                            <input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm(0, 1)" />
                         </div>
                     </div>
                     <div style="clear: both;">
                         <div style="float: left;">Angle: <span id="current-angle"><code>0</code></span></div>
                         <div style="float: right;">
-                            <input class="simple-button mini-button" onclick="updateComplexPolarForm(-1, 0)" type="button" value="-">
-                            <input class="simple-button mini-button" onclick="updateComplexPolarForm(1, 0)" type="button" value="+">
+                            <input type="button" class="simple-button mini-button" value="-" onclick="updateComplexPolarForm(-1, 0)" />
+                            <input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm(1, 0)" />
                         </div>
                     </div>
                     <div id="number-label">1</div>
@@ -125,15 +126,15 @@
                     </p>
                 </div>
 
-                <div data-else="" data-unwrap="">
-                    <div data-if="!EULER_FORM" data-unwrap="">
+                <div data-else data-unwrap>
+                    <div data-if="!EULER_FORM" data-unwrap>
                         <p>
                             Let's express our complex number in Euler form first.
-                        </p><p>
+                        <p>
                         <code>
                             \color{<var>BLUE</var>}{<var>BASE_REP</var>} = \color{<var>BLUE</var>}{<var>BASE_EULER_REP</var>}
                         </code>
-                    </p></div>
+                    </div>
 
                     <p>
                         Since <code>(a ^ b) ^ c = a ^ {b \cdot c}</code>,
@@ -148,7 +149,7 @@
                         which is <code><var>ANGLE_MULTIPLE_REP</var></code>.
                     </p>
 
-                    <div data-if="ANGLE_MULTIPLE_NUMERATOR &gt;= DENOMINATOR * 2" data-unwrap="">
+                    <div data-if="ANGLE_MULTIPLE_NUMERATOR >= DENOMINATOR * 2" data-unwrap>
                         <p>
                             <code><var>ANGLE_MULTIPLE_REP</var></code> is more than <code>2 \pi</code>.
                             It is a common practice to keep complex number angles between <code>0</code> and <code>2 \pi</code>,
@@ -167,7 +168,7 @@
                     <p>
                         Our result is <code><var>ANSWER_EULER</var></code>.
                     </p>
-                    <p data-if="!EULER_FORM &amp;&amp; ANSWER_ANGLE_NUMERATOR !== 0">
+                    <p data-if="!EULER_FORM && ANSWER_ANGLE_NUMERATOR !== 0">
                         Converting this back from Euler form, we get
                         <code><var>ANSWER</var></code>.
                     </p>
@@ -176,4 +177,5 @@
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

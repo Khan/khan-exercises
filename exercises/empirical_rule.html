@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie stat word-problems"><head>
+<html data-require="math graphie stat word-problems">
+<head>
     <meta charset="UTF-8">
     <title>Empirical rule</title>
     <script src="../khan-exercise.js"></script>
@@ -228,7 +229,6 @@
                             of the <var>ANIMALS</var> will have lifespans within
                             <var>abs( Z )</var> standard deviations of the average lifespan.
                         </p>
-                    
                     </div>
 
                     <div id="graph2">
@@ -469,7 +469,6 @@
                             of the <var>ANIMALS</var> will have lifespans within
                             <var>abs( Z_MAX )</var> standard deviations of the average lifespan.
                         </p>
-                    
                     </div>
 
                     <div id="graph2" data-if="Z_MAX !== Z_MIN">
@@ -506,7 +505,6 @@
                             of the mean.</span><span data-else="">It also tells us that <span style="color: green"><code><var>EMPIRICAL2</var>\%</code></span>
                             of the <var>ANIMALS</var> will have lifespans within <var>Z_MIN</var> standard deviations
                             of the mean.</span>
-                            
                             <span data-if="isSingular(Z_MAX)">That leaves <code><var>EMPIRICAL1</var>\% - <var>EMPIRICAL2</var>\% =
                             <var>roundTo( 2, EMPIRICAL1 - EMPIRICAL2 )</var>\%</code> of <var>ANIMALS</var> between
                             <var>Z_MIN</var> and 1 standard deviation of the mean, or
@@ -516,7 +514,6 @@
                             <var>Z_MIN</var> and <var>Z_MAX</var> standard deviations of the mean, or
                             <span style="color: orange"><code><var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%</code></span>
                             on either side of the distribution.</span>
-                        
                         </p>
                     </div>
 
@@ -556,4 +553,5 @@
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

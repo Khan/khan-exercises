@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems graphie"><head>
+<html data-require="math math-format word-problems graphie">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading pictographs 1</title>
     <script src="../khan-exercise.js"></script>
@@ -43,7 +44,6 @@
             <var>FULL_IMAGE</var> = <var>VALUE_PER_IMG</var> <var>BADGE</var>
             badges
         </span>
-    
     </div>
 
     <div class="problems">
@@ -108,7 +108,6 @@
 
             <div class="hints">
                 <p data-if="isSingular(VALUE_PER_IMG)">The key at the bottom of the pictograph shows that each symbol represents 1 badge.</p><p data-else="">The key at the bottom of the pictograph shows that each symbol represents <var>VALUE_PER_IMG</var> badges.</p>
-                
                 <div>
                     <p>Find <var>person( PERSON + 1 )</var>'s row in the table:</p>
                     <div class="fake_row">
@@ -122,22 +121,19 @@
                     There are <var>DATA[PERSON]</var> symbols.
                 </p>
 
-                
-
                 <div>
                     <div>
                         <code><var>DATA[ PERSON ]</var></code> <var>plural( "symbol", DATA[ PERSON ] )</var>
                         <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <span data-if="isSingular(VALUE_PER_IMG)">badge per symbol</span><span data-else="">badges per symbol</span>
-                        
                         <code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code>
                         <var>plural( "badge", DATA[ PERSON ] * VALUE_PER_IMG )</var>
                     </div>
                 </div>
                 <p data-if="isSingular(ANSWER)"><var>person( PERSON + 1 )</var> earned <code><var>ANSWER</var></code> <var>BADGE</var> badge.</p><p data-else=""><var>person( PERSON + 1 )</var> earned <code><var>ANSWER</var></code> <var>BADGE</var> badges.</p>
-            
             </div>
         </div>
 
     </div>
 </div>
-</body></html>
+</body>
+</html>

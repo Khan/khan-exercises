@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers"><head>
-    <meta charset="UTF-8">
+<html data-require="math math-format graphie graphie-helpers">
+<head>
+    <meta charset="UTF-8" />
     <title>Multiplying and dividing complex numbers in polar form</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -22,7 +23,7 @@
     <div class="exercise">
     <div class="problems">
         <div id="multiply-cplx">
-            <div class="vars" data-ensure="ANSWER_REAL &gt;= -10 &amp;&amp; ANSWER_IMAG &gt;= -10 &amp;&amp; ANSWER_REAL &lt;= 10 &amp;&amp; ANSWER_IMAG &lt;= 10 &amp;&amp; ANSWER_RADIUS &gt; 1 &amp;&amp; ANSWER_RADIUS &lt;= 10">
+            <div class="vars" data-ensure="ANSWER_REAL >= -10 && ANSWER_IMAG >= -10 && ANSWER_REAL <= 10 && ANSWER_IMAG <= 10 && ANSWER_RADIUS > 1 && ANSWER_RADIUS <= 10">
                 <var id="DENOMINATOR">24</var>
                 <var id="USE_EULER_FORM">randFromArray( [ true, false ] )</var>
                 <var id="A_RADIUS">randRange( 1, 7 )</var>
@@ -72,7 +73,7 @@
                     range: [ [ -10, 10 ], [ -10 ,10 ] ],
                     scale: 20,
                     tickStep: 1,
-                    axisArrows: "&lt;-&gt;"
+                    axisArrows: "<->"
                 });
 
                 drawComplexChart( 10, DENOMINATOR );
@@ -96,15 +97,15 @@
                         <div>
                             <div style="float: left;">Radius: <span id="current-radius"><code>1</code></span></div>
                             <div style="float: right;">
-                                <input class="simple-button mini-button" onclick="updateComplexPolarForm(0, -1)" type="button" value="-">
-                                <input class="simple-button mini-button" onclick="updateComplexPolarForm(0, 1)" type="button" value="+">
+                                <input type="button" class="simple-button mini-button" value="-" onclick="updateComplexPolarForm(0, -1)" />
+                                <input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm(0, 1)" />
                             </div>
                         </div>
                         <div style="clear: both;">
                             <div style="float: left;">Angle: <span id="current-angle"><code>0</code></span></div>
                             <div style="float: right;">
-                                <input class="simple-button mini-button" onclick="updateComplexPolarForm(-1, 0)" type="button" value="-">
-                                <input class="simple-button mini-button" onclick="updateComplexPolarForm(1, 0)" type="button" value="+">
+                                <input type="button" class="simple-button mini-button" value="-" onclick="updateComplexPolarForm(-1, 0)" />
+                                <input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm(1, 0)" />
                             </div>
                         </div>
                         <div id="number-label">1</div>
@@ -146,7 +147,7 @@
                 <p>
                     The radius of the result will be <code><var>A_RADIUS</var> \cdot <var>B_RADIUS</var></code>, which is <code><var>ANSWER_RADIUS</var></code>.
                 </p>
-                <div data-if="A_ANGLE_NUMERATOR + B_ANGLE_NUMERATOR &gt; 12 * 2" data-unwrap="">
+                <div data-if="A_ANGLE_NUMERATOR + B_ANGLE_NUMERATOR > 12 * 2" data-unwrap>
                     <p>
                         The sum of the angles is <code><var>A_ANGLE_REP</var> + <var>B_ANGLE_REP</var> = <var>INTERMEDIATE_ANGLE_REP</var></code>.
                     </p>
@@ -159,7 +160,7 @@
                         <!-- The A and B angles are both between 0 and 2pi, so the maximum angle here is 4pi, so it's safe not to handle further 2pi multiples. -->
                     </p>
                 </div>
-                <p data-else="">
+                <p data-else>
                     The angle of the result is <code><var>A_ANGLE_REP</var> + <var>B_ANGLE_REP</var> = <var>ANSWER_ANGLE_REP</var></code>.
                 </p>
                 <p>
@@ -169,7 +170,7 @@
         </div>
 
         <div id="divide-cplx">
-            <div class="vars" data-ensure="A_REAL &gt;= -10 &amp;&amp; A_IMAG &gt;= -10 &amp;&amp; A_REAL &lt;= 10 &amp;&amp; A_IMAG &lt;= 10 &amp;&amp; ANSWER_RADIUS &gt; 1 &amp;&amp; ANSWER_RADIUS &lt;= 10">
+            <div class="vars" data-ensure="A_REAL >= -10 && A_IMAG >= -10 && A_REAL <= 10 && A_IMAG <= 10 && ANSWER_RADIUS > 1 && ANSWER_RADIUS <= 10">
                 <var id="DENOMINATOR">24</var>
                 <var id="USE_EULER_FORM">randFromArray( [ true, false ] )</var>
 
@@ -213,7 +214,7 @@
                     range: [ [ -10, 10 ], [ -10, 10 ] ],
                     scale: 20,
                     tickStep: 1,
-                    axisArrows: "&lt;-&gt;"
+                    axisArrows: "<->"
                 });
 
                 drawComplexChart( 10, DENOMINATOR );
@@ -237,15 +238,15 @@
                     <div>
                         <div style="float: left;">Radius: <span id="current-radius"><code>1</code></span></div>
                         <div style="float: right;">
-                            <input class="simple-button mini-button" onclick="updateComplexPolarForm(0, -1)" type="button" value="-">
-                            <input class="simple-button mini-button" onclick="updateComplexPolarForm(0, 1)" type="button" value="+">
+                            <input type="button" class="simple-button mini-button" value="-" onclick="updateComplexPolarForm(0, -1)" />
+                            <input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm(0, 1)" />
                         </div>
                     </div>
                     <div style="clear: both;">
                         <div style="float: left;">Angle: <span id="current-angle"><code>0</code></span></div>
                         <div style="float: right;">
-                            <input class="simple-button mini-button" onclick="updateComplexPolarForm(-1, 0)" type="button" value="-">
-                            <input class="simple-button mini-button" onclick="updateComplexPolarForm(1, 0)" type="button" value="+">
+                            <input type="button" class="simple-button mini-button" value="-" onclick="updateComplexPolarForm(-1, 0)" />
+                            <input type="button" class="simple-button mini-button" value="+" onclick="updateComplexPolarForm(1, 0)" />
                         </div>
                     </div>
                     <div id="number-label">1</div>
@@ -287,7 +288,7 @@
                 <p>
                     The radius of the result will be <code>\frac{<var>A_RADIUS</var>}{<var>B_RADIUS</var>}</code>, which is <var>ANSWER_RADIUS</var>.
                 </p>
-                <div data-if="A_ANGLE_NUMERATOR - B_ANGLE_NUMERATOR &lt; 0" data-unwrap="">
+                <div data-if="A_ANGLE_NUMERATOR - B_ANGLE_NUMERATOR < 0" data-unwrap>
                     <p>
                         The difference of the angles is <code><var>A_ANGLE_REP</var> - <var>B_ANGLE_REP</var> = <var>INTERMEDIATE_ANGLE_REP</var></code>.
                     </p>
@@ -299,7 +300,7 @@
                         <code><var>INTERMEDIATE_ANGLE_REP</var> + 2 \pi = <var>ANSWER_ANGLE_REP</var></code>
                     </p>
                 </div>
-                <p data-else="">
+                <p data-else>
                     The angle of the result is <code><var>A_ANGLE_REP</var> - <var>B_ANGLE_REP</var> = <var>ANSWER_ANGLE_REP</var></code>.
                 </p>
                 <p>
@@ -309,4 +310,5 @@
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

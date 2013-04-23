@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format polynomials graphie interactive visualizing-derivatives"><head>
+<html data-require="math math-format polynomials graphie interactive visualizing-derivatives">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Visualizing derivatives</title>
     <script src="../khan-exercise.js"></script>
@@ -33,7 +34,7 @@
         </div>
 
         <div class="question">
-            <div data-if="MOVE_DERIVATIVE" data-unwrap="">
+            <div data-if="MOVE_DERIVATIVE" data-unwrap>
                 <p>
                     A function <code>f(x)</code> is shown in <span class="hint_purple" style="font-weight: bold">purple</span>. The <span class="hint_green" style="font-weight: bold">sliding green window</span> may contain a section of <b>its derivative <code>f'(x)</code></b>.
                 </p>
@@ -41,7 +42,7 @@
                     Where does the function in the sliding window correspond to <code><b>f'(x)</b></code>?
                 </p>
             </div>
-            <div data-else="" data-unwrap="">
+            <div data-else data-unwrap>
                 <p>
                     A function <code>f(x)</code> is shown in <span class="hint_green" style="font-weight: bold">green</span>. The <span class="hint_purple" style="font-weight: bold">sliding purple window</span> may contain a section of <b>an antiderivative of the function, <code>F(x)</code></b>.
                 </p>
@@ -64,7 +65,7 @@
         </div>
 
         <div class="solution" data-type="multiple">
-            <div class="sol" data-type="custom" required="">
+            <div class="sol" data-type="custom" required>
                 <div class="instruction">
                     Drag the sliding window to the correct region or indicate there is no solution.
                 </div>
@@ -92,7 +93,7 @@
                     No solution
                 </label>
             </div>
-            <div class="sol" data-type="custom" required="">
+            <div class="sol" data-type="custom" required>
                 <div class="guess">
                     _.isEqual(slidingWindow.getXLims(), slidingWindow.startRange)
                     &amp;&amp;
@@ -131,4 +132,5 @@
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

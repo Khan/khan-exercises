@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie algebra-intuition"><head>
+<html data-require="math graphie algebra-intuition">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>One step equation intuition</title>
     <script src="../khan-exercise.js"></script>
@@ -49,25 +50,33 @@
                     How much does <var>UNKNOWN</var> weigh?
                 </p>
 
-                <div class="clearfix" style="width: 480px;">
+                <div style="width: 480px;" class="clearfix">
                     <div style="float: left; margin-left: 130px;">
                         <form>
-                            <input class="simple-button small-button" id="sub-left" onclick="javascript:
+                            <input id="sub-left" type="button"
+                                class="simple-button small-button" value="- 1"
+                                onClick="javascript:
                                     KhanUtil.scale.subtractLeftWeight();
-                                " type="button" value="- 1">
-                            <input class="simple-button small-button" id="add-left" onclick="javascript:
+                                ">
+                            <input id="add-left" type="button"
+                                class="simple-button small-button" value="+ 1"
+                                onClick="javascript:
                                     KhanUtil.scale.addLeftWeight();
-                                " type="button" value="+ 1">
+                                ">
                         </form>
                     </div>
                     <div style="float: right; margin-right: 130px;">
                         <form>
-                            <input class="simple-button small-button" id="sub-right" onclick="javascript:
+                            <input id="sub-right" type="button"
+                                class="simple-button small-button" value="- 1"
+                                onClick="javascript:
                                     KhanUtil.scale.subtractRightWeight();
-                                " type="button" value="- 1">
-                            <input class="simple-button small-button" id="add-right" onclick="javascript:
+                                ">
+                            <input id="add-right" type="button"
+                                class="simple-button small-button" value="+ 1"
+                                onClick="javascript:
                                     KhanUtil.scale.addRightWeight();
-                                " type="button" value="+ 1">
+                                ">
                         </form>
                     </div>
                 </div>
@@ -165,10 +174,10 @@
                         image: Khan.imageBase + "avatars/" + AVATAR
                     });
                 </div>
-                <p></p>
+                </p>
                 <div style="width: 480px; position: relative; top: -60px; right: 50px;">
                     <div style="text-align: center; float: right;">
-                        <a href="#" class="simple-button small-button" onclick="javascript:
+                        <a class="simple-button small-button" href="#" onClick="javascript:
                             KhanUtil.scale.resetProblem();
                         ">reset</a>
                     </div>
@@ -194,7 +203,7 @@
                     <div class="instruction">
                         <p>Balance the scale with <var>UNKNOWN</var> <b>alone on
                         one side</b> and enter the weight:</p>
-                        <p><input id="answer" type="text"></p>
+                        <p><input id="answer" type="text" /></p>
                     </div>
                     <div class="guess">[
                         $("input#answer").val(),
@@ -227,4 +236,5 @@
         </div>
 
     </div>
-</body></html>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive word-problems"><head>
+<html data-require="math graphie interactive word-problems">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Pile patterns</title>
     <script src="../khan-exercise.js"></script>
@@ -200,7 +201,6 @@
                         this in the answer box.</p><p data-else="">We see that there are
                         <var>START</var> blocks in step 0. Fill
                         this in the answer box.</p>
-                        
                         <div class="graphie" data-update="main">
                             graph.slider.moveTo(3, 0);
                         </div>
@@ -228,7 +228,6 @@
                         </code>
                         blocks added in each step. Fill
                         this in the answer box.</p>
-                        
                         <div class="graphie" data-update="main">
                             graph.slider.moveTo(5, 0);
                         </div>
@@ -240,7 +239,6 @@
                     <p>Well, let's start looking at how many blocks there are,
                     and we'll see if there's a pattern.</p>
                     <p data-if="isSingular(START)">Step 0: <span class="const">1 block</span></p><p data-else="">Step 0: <span class="const"><var>START</var> blocks</span></p>
-                    
                     <div>
                         <p>We know step 1 has
                         <code><var>START + XS</var></code> blocks, but we can
@@ -274,11 +272,9 @@
                         <span class="const">1 block</span>.</span><span data-else="">Here, we can see a pattern! The number of blocks in
                         each step can be represented as the sum of
                         <span class="const"><var>START</var> blocks</span>.</span>
-                        
                         <span data-if="isSingular(XS)">Some number of groups of
                         <span class="lin">1 block</span>.</span><span data-else="">Some number of groups of
                         <span class="lin"><var>XS</var> blocks</span>.</span>
-                        
                         <span data-if="isSingular(XS)">How many groups of 1 block
                         are there in each step?</span><span data-else="">How many groups of <var>XS</var> blocks
                         are there in each step?</span></p>
@@ -296,4 +292,5 @@
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

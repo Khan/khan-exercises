@@ -1,6 +1,7 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html data-require="math math-format graphie word-problems"><head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Reading bar charts 2</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -30,7 +31,7 @@
         </div>
         <div class="problem">
             <p>Use the following graph to answer the question below:</p>
-            <div class="graphie" id="barchart">
+            <div id="barchart" class="graphie">
                 init({
                     range: [ [ -2, 17 ], [ -3, 11 ] ],
                     scale: [ 27, 30 ]
@@ -79,7 +80,7 @@
                 <p class="question">Which student's score improved the most between the midterm and final exams?</p>
 
                 <div class="solution"><var>MOST_IMPROVED</var></div>
-                <ul class="choices" data-category="true">
+                <ul data-category="true" class="choices">
                     <li><var>person( 1 )</var></li>
                     <li><var>person( 2 )</var></li>
                     <li><var>person( 3 )</var></li>
@@ -98,7 +99,7 @@
                             <code><var>MIDTERM[ INDEX ]</var></code> and her final exam score was <code><var>FINAL[ INDEX ]</var></code>, so
                             she improved by <code><var>IMPROVEMENT[ INDEX ]</var></code> points.</p>
                             
-                            <div class="graphie" data-update="barchart">
+                            <div data-update="barchart" class="graphie">
                                 style({ stroke: GREEN, strokeWidth: 2, arrows: "-&gt;" });
                                 line( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 ], [ INDEX * 3 + 2.5, FINAL[ INDEX ] / 10 ] );
                                 label( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 + 0.2 ], MIDTERM[ INDEX ], "below", false ).css({ fontWeight: "bold" });
@@ -110,7 +111,7 @@
                             midterm bar, so <var>person( INDEX + 1 )</var> did not improve his score.</p><p data-else=""><var>person( INDEX + 1 )</var>'s final exam bar is shorter than her
                             midterm bar, so <var>person( INDEX + 1 )</var> did not improve her score.</p>
                             
-                            <div class="graphie" data-update="barchart">
+                            <div data-update="barchart" class="graphie">
                                 style({ stroke: "grey", strokeWidth: 2, arrows: "-&gt;" });
                                 line( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 ], [ INDEX * 3 + 2.5, FINAL[ INDEX ] / 10 ] );
                             </div>
@@ -135,18 +136,18 @@
 
             <div id="difference">
                 <div class="vars">
-                    <var id="INDEX" data-ensure="IMPROVEMENT[ INDEX ] &gt; 0">randRange( 0, 4 )</var>
+                    <var data-ensure="IMPROVEMENT[ INDEX ] &gt; 0" id="INDEX">randRange( 0, 4 )</var>
                     <var id="STUDENT">person( INDEX + 1 )</var>
                 </div>
                 <p class="question">By how many points did <var>STUDENT</var>'s score improve from the midterm to the final exam?</p>
 
-                <div class="solution" data-type="multiple">
-                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>IMPROVEMENT[ INDEX ]</var></span> points</p>
+                <div data-type="multiple" class="solution">
+                    <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>IMPROVEMENT[ INDEX ]</var></span> points</p>
                 </div>
                 <div class="hints">
                     <div>
                         <p>Find the two bars for <var>STUDENT</var>.</p>
-                        <div class="graphie" data-update="barchart">
+                        <div data-update="barchart" class="graphie">
                             style({ stroke: PINK, fill: "none", strokeWidth: 2 });
                             ellipse( [ INDEX * 3 + 2, -0.6 ], [ 1.2, 0.5 ] );
                         </div>
@@ -167,7 +168,7 @@
                             <var>STUDENT</var> earned <code class="hint_blue"><var>MIDTERM[ INDEX ]</var></code> points on the midterm.
                         </p>
                         
-                        <div class="graphie" data-update="barchart">
+                        <div data-update="barchart" class="graphie">
                             style({ stroke: BLUE, strokeWidth: 2, arrows: "-&gt;", strokeDasharray: "-" });
                             line( [ INDEX * 3 + 1, MIDTERM[ INDEX ] / 10 ], [ 0, MIDTERM[ INDEX ] / 10 ] );
                         </div>
@@ -188,7 +189,7 @@
                             <var>STUDENT</var> earned <code class="hint_orange"><var>FINAL[ INDEX ]</var></code> points on the final exam.
                         </p>
                         
-                        <div class="graphie" data-update="barchart">
+                        <div data-update="barchart" class="graphie">
                             style({ stroke: ORANGE, strokeWidth: 2, arrows: "-&gt;", strokeDasharray: "-" });
                             line( [ INDEX * 3 + 2, FINAL[ INDEX ] / 10 ], [ 0, FINAL[ INDEX ] / 10 ] );
                         </div>
@@ -216,27 +217,27 @@
                 </div>
                 <p class="question">How many points did <var>STUDENT</var> earn on the <var>TEST</var>?</p>
 
-                <div class="solution" data-type="multiple">
-                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>ANSWER</var></span> points</p>
+                <div data-type="multiple" class="solution">
+                    <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>ANSWER</var></span> points</p>
                 </div>
                 <div class="hints">
                     <div>
                         <p>Find the two bars for <var>STUDENT</var>.</p>
-                        <div class="graphie" data-update="barchart">
+                        <div data-update="barchart" class="graphie">
                             style({ stroke: PINK, fill: "none", strokeWidth: 2 });
                             ellipse( [ INDEX * 3 + 2, -0.6 ], [ 1.2, 0.5 ] );
                         </div>
                     </div>
                     <div>
                         <p>Use the key to figure out which of the two bars shows the score for the <var>TEST</var>.</p>
-                        <div class="graphie" data-update="barchart">
+                        <div data-update="barchart" class="graphie">
                             style({ stroke: PINK, fill: "none", strokeWidth: 2 });
                             ellipse( [ COLUMN * 3 + 1.2, -2.25 ], [ 1.5, 0.5 ] );
                         </div>
                     </div>
                     <div>
                         <p>Compare the height of <var>STUDENT</var>'s <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bar to the scale on the left.</p>
-                        <div class="graphie" data-update="barchart">
+                        <div data-update="barchart" class="graphie">
                             style({ stroke: PINK, strokeWidth: 2, arrows: "-&gt;", strokeDasharray: "-" });
                             line( [ INDEX * 3 + 1 + COLUMN, ANSWER / 10 ], [ 0, ANSWER / 10 ] );
                         </div>
@@ -254,8 +255,8 @@
             <div id="num-improved">
                 <p class="question">How many students improved their scores from the midterm to the final exam?</p>
 
-                <div class="solution" data-type="multiple">
-                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM_IMPROVED</var></span> students</p>
+                <div data-type="multiple" class="solution">
+                    <p><span style="padding-right: 5px" data-forms="integer" class="sol"><var>NUM_IMPROVED</var></span> students</p>
                 </div>
 
                 <div class="hints">
@@ -265,7 +266,7 @@
                             midterm bar, so <var>person( INDEX + 1 )</var> improved his score.</p><p data-else=""><var>person( INDEX + 1 )</var>'s final exam bar is taller than her
                             midterm bar, so <var>person( INDEX + 1 )</var> improved her score.</p>
                             
-                            <div class="graphie" data-update="barchart">
+                            <div data-update="barchart" class="graphie">
                                 style({ stroke: "grey", strokeWidth: 2, arrows: "-&gt;" });
                                 line( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 ], [ INDEX * 3 + 2.5, FINAL[ INDEX ] / 10 ] );
                             </div>
@@ -290,4 +291,6 @@
 
         </div>
     </div>
+
+
 </body></html>

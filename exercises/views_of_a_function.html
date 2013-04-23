@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive"><head>
+<html data-require="math graphie interactive">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Views of a function</title>
     <script src="../khan-exercise.js"></script>
@@ -128,39 +129,39 @@
                 <div class="instruction">
                     <span>Enter your data in the table below.</span>
                     <table class="ttable">
-                        <tbody><tr class="labels">
+                        <tr class="labels">
                             <td><code>x</code></td>
                             <td class="second-col"><code>y</code></td>
                         </tr>
                         <tr class="cross-bar">
-                            <td><input type="text"></td>
-                            <td class="second-col"><input type="text"></td>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
                         </tr>
                         <tr>
-                            <td><input type="text"></td>
-                            <td class="second-col"><input type="text"></td>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
                         </tr>
                         <tr>
-                            <td><input type="text"></td>
-                            <td class="second-col"><input type="text"></td>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
                         </tr>
                         <tr>
-                            <td><input type="text"></td>
-                            <td class="second-col"><input type="text"></td>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
                         </tr>
                         <tr>
-                            <td><input type="text"></td>
-                            <td class="second-col"><input type="text"></td>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
                         </tr>
                         <tr>
-                            <td><input type="text"></td>
-                            <td class="second-col"><input type="text"></td>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
                         </tr>
                         <tr>
-                            <td><input type="text"></td>
-                            <td class="second-col"><input type="text"></td>
+                            <td><input type="text" /></td>
+                            <td class="second-col"><input type="text" /></td>
                         </tr>
-                    </tbody></table>
+                    </table>
                 </div>
                 <div class="guess">
                     (function(){
@@ -276,7 +277,7 @@
 
             <div class="problem">
                 <table class="ttable">
-                    <tbody><tr class="labels">
+                    <tr class="labels">
                         <td class="data-col">
                             <code>x</code>
                         </td>
@@ -295,7 +296,7 @@
                             </var></code>
                         </td>
                     </tr>
-                </tbody></table>
+                </table>
                 <div class="graphie" id="main">
                     graphInit({
                         range: 10,
@@ -417,7 +418,7 @@
                         var endpt = [EXAMPLES[0],
                             roundToNearest(0.5, FUNC(EXAMPLES[0]))];
 
-                        line([-4, 0], endpt, { arrows: "-&gt;" });
+                        line([-4, 0], endpt, { arrows: "->" });
                         graph.points[0].moveTo(endpt[0], endpt[1]);
 
                         graph.points[0].toFront();
@@ -512,4 +513,5 @@
         </div>
     </div>
 </div>
-</body></html>
+</body>
+</html>

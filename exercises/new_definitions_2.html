@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math word-problems expressions"><head>
+<html data-require="math word-problems expressions">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>New operator definitions 2</title>
     <script src="../khan-exercise.js"></script>
@@ -66,10 +67,8 @@
 
             <div class="hints" data-apply="appendContents">
                 <p data-if="NEED_VALU1">Now, find <code><var>X</var> <var>binop(1)</var> <var>VALU2</var></code>:</p><p data-else="">Find <code><var>X</var> <var>binop(1)</var> y</code>:</p>
-                
                 <p><code>\qquad <var>X</var> <var>binop(1)</var> <var>NEED_VALU1 ? VALU2 : "y"</var> = <var>SUBS1</var></code></p>
                 <p data-if="NEED_VALU1"><code>\qquad \hphantom{<var>X</var> <var>binop(1)</var> <var>VALU2</var>} = <var>VALU1</var></code>.</p><p data-else=""><code>\qquad \hphantom{<var>X</var> <var>binop(1)</var> y} = <var>VALU1</var></code>.</p>
-            
             </div>
         </div>
         <div>
@@ -87,10 +86,8 @@
 
             <div class="hints" data-apply="appendContents">
                 <p data-if="NEED_VALU1">Now, find <code><var>VALU2</var> <var>binop(1)</var> <var>X</var></code>:</p><p data-else="">Find <code>x <var>binop(1)</var> <var>X</var></code>:</p>
-                
                 <p><code>\qquad <var>NEED_VALU1 ? VALU2 : "x"</var> <var>binop(1)</var> <var>X</var> = <var>SUBS1</var></code></p>
                 <p data-if="NEED_VALU1"><code>\qquad \hphantom{<var>VALU2</var> <var>binop(1)</var> <var>X</var>} = <var>VALU1</var></code>.</p><p data-else=""><code>\qquad \hphantom{x <var>binop(1)</var> <var>X</var>} = <var>VALU1</var></code>.</p>
-            
             </div>
         </div>
     </div>
@@ -106,4 +103,5 @@
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html data-require="math graphie math-format interactive"><head>
-    <meta charset="UTF-8">
+<html data-require="math graphie math-format interactive">
+<head>
+    <meta charset="UTF-8" />
     <title>The complex plane</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -31,7 +32,7 @@
                 addMouseLayer();
                 graph.movablePoint = addMovablePoint({constraints: {}, snapX: 0.5, snapY: 0.5});
                 graph.movablePoint.onMove = function(x, y) {
-                    if (x &lt; LOWER_BOUND || x &gt; UPPER_BOUND || y &lt; LOWER_BOUND || y &gt; UPPER_BOUND) {
+                    if (x &lt; LOWER_BOUND || x > UPPER_BOUND || y &lt; LOWER_BOUND || y > UPPER_BOUND) {
                         return false;
                     }
                 };
@@ -62,7 +63,7 @@
                         graph.movablePoint.visibleShape.toFront();
                     </div>
                     <p>The vertical <strong class="hint_orange">orange</strong> line represents all complex numbers with real part <code><var>REAL</var></code> (including <code><var>REP</var></code>).
-                </p></div>
+                </div>
                 <div>
                     <div class="graphie" data-update="gauss-plane">
                         style({stroke: BLUE, strokeWidth: 2.0});
@@ -70,7 +71,7 @@
                         graph.movablePoint.visibleShape.toFront();
                     </div>
                     <p>The horizontal <strong class="hint_blue">blue</strong> line represents all complex numbers with imaginary part <code><var>IMAG</var></code>, also including <code><var>REP</var></code>.
-                </p></div>
+                </div>
                 <div>
                     <div class="graphie" data-update="gauss-plane">
                         graph.movablePoint.moveTo(REAL, IMAG);
@@ -84,4 +85,5 @@
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

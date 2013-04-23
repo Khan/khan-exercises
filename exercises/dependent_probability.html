@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math word-problems math-format"><head>
+<html data-require="math word-problems math-format">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dependent probability</title>
     <script src="../khan-exercise.js"></script>
@@ -95,7 +96,7 @@
                 </div>
 
                 <div class="hints">
-                    <p data-if="CHOSEN &amp;gt; 2">
+                    <p data-if="CHOSEN &gt; 2">
                         We can think about this problem as the probability of 
                         <code><var>CHOSEN</var></code> events happening.
                         <br><br>
@@ -116,7 +117,6 @@
                         <var>EVENT_S</var> 
                         .
                     </p>
-                    
                     <p>
                         The probabilty that the teacher will choose someone
                         who <var>EVENT_S</var> is the number of students who
@@ -151,26 +151,17 @@
                         We can continue using the same logic for the rest of
                         the students the teacher picks.
                     </p>
-                    <p data-if="ALL">
+                    <p>
                         So, the probability of the teacher picking 
                         <code><var>CHOSEN</var></code> students such that
-                        <var>((CHOSEN === 2) ? "both"</var> of them 
-                        <var>EVENT_PY</var> is 
-                        <code><var>_.map(PROBS, function(p){
-                            return "\\dfrac{"+p[0]+"}{"+p[1]+"}";
-                        }).join("\\cdot")</var> =
-                        \dfrac{<var>ANS_N</var>}{<var>ANS_D</var>}</code>
-                    </p><p data-else="">
-                        So, the probability of the teacher picking 
-                        <code><var>CHOSEN</var></code> students such that
-                        all") : "none of them 
+                        <var>ALL ? ((CHOSEN === 2) ? "both" : "all") 
+                                 : "none"</var> of them 
                         <var>EVENT_PY</var> is 
                         <code><var>_.map(PROBS, function(p){
                             return "\\dfrac{"+p[0]+"}{"+p[1]+"}";
                         }).join("\\cdot")</var> =
                         \dfrac{<var>ANS_N</var>}{<var>ANS_D</var>}</code>
                     </p>
-                
                 </div>
             </div>
             <div id="marbles">
@@ -371,19 +362,16 @@
                     <span data-if="isMale(2)">The ship is two furlongs
                     from the dread pirate <var>person(2)</var> and his merciless band of thieves.</span><span data-else="">The ship is two furlongs
                     from the dread pirate <var>person(2)</var> and her merciless band of thieves.</span>
-                
                 </p>
                 <p>
                     <span data-if="isMale(1)">The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship, if his
                     ship hasn't already been hit. If it has been hit, he will always miss.</span><span data-else="">The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship, if her
                     ship hasn't already been hit. If it has been hit, she will always miss.</span>
-                    
                     <span data-if="isMale(2)">The pirate has probability <code><var>P_HIT_PRETTY</var></code> of hitting the
                     Captain's ship, if his ship hasn't already been hit. If it has been hit, he will always
                     miss as well.</span><span data-else="">The pirate has probability <code><var>P_HIT_PRETTY</var></code> of hitting the
                     Captain's ship, if her ship hasn't already been hit. If it has been hit, she will always
                     miss as well.</span>
-                
                 </p>
 
                 <p class="question" data-if="C_FIRST">
@@ -393,8 +381,6 @@
                     If the pirate shoots first, what is the probability that
                     <var>QUESTION</var>?
                 </p>
-
-                
 
                 <div class="solution" data-forms="proper">
                     <var>ANSWER</var>
@@ -426,8 +412,6 @@
                         she fires his cannons.
                     </p>
                     
-                    
-                    
                     <p>
                         So, the probability of <var>EV_A</var> is <code><var>PR_A</var></code>.
                     </p>
@@ -437,9 +421,7 @@
                     </span><span data-else="" data-unwrap="">
                         If the pirate hit the Captain's ship,
                         the Captain has no chance of firing back.
-                    </span>
-                    
-                    </p>
+                    </span></p>
                     <p data-else="" data-if="C_FIRST">
                         If the Captain 
                          missed the pirate
@@ -451,7 +433,6 @@
                          ship,
                         the Captain has a normal chance to fire back.
                     </p>
-                    
                     <p>
                         So, the probability of <var>EV_B</var> given <var>EV_A</var> is <code><var>PR_B</var></code>.
                     </p>
@@ -467,4 +448,5 @@
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

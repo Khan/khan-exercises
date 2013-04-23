@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format"><head>
+<html data-require="math math-format">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Geometric sequences 2</title>
     <script src="../khan-exercise.js"></script>
@@ -37,11 +38,11 @@
 
             <div class="hints">
                 <p>From the given formula, we can see that the first term of the sequence is <code><var>TERMS_TEX[0]</var></code> and the common ratio is <code><var>R_TEX</var></code>.</p>
-                <div data-else-if="N === 2" data-unwrap="">
+                <div data-else-if="N === 2" data-unwrap>
                     <p>The second term is simply the first term times the common ratio.</p>
                     <p>Therefore, the second term is equal to <code>a_2 = <var>TERMS_TEX[0]</var> \cdot <var>R_TEX</var> = <var>TERMS_TEX[1]</var></code>.</p>
                 </div>
-                <div data-else="" data-unwrap="">
+                <div data-else data-unwrap>
                     <p>To find <code>a_{<var>N</var>}</code>, we can simply substitute <code>i = <var>N</var></code> into the given formula.</p>
                     <p>Therefore, the <var>ordinal(N)</var> term is equal to <code>a_{<var>N</var>} = <var>TERMS_TEX[0]</var> \left(<var>R_TEX</var>\right)^{<var>N</var> - 1} = <var>TERMS_TEX[N-1]</var></code>.</p>
                 </div>
@@ -57,11 +58,11 @@
 
             <div class="hints">
                 <p>From the given formula, we can see that the first term of the sequence is <code><var>TERMS_TEX[0]</var></code> and the common ratio is <code><var>R_TEX</var></code>.</p>
-                <div data-else-if="N === 2" data-unwrap="">
+                <div data-else-if="N === 2" data-unwrap>
                     <p>The second term is simply the first term times the common ratio.</p>
                     <p>Therefore, the second term is equal to <code>a_2 = <var>TERMS_TEX[0]</var> \cdot <var>R_TEX</var> = <var>TERMS_TEX[1]</var></code>.</p>
                 </div>
-                <div data-else="" data-unwrap="">
+                <div data-else data-unwrap>
                     <p>To find the <var>ordinal(N)</var> term, we can rewrite the given recurrence as an explicit formula.</p>
                     <p>The general form for a geometric sequence is <code>a_i = a_1 r^{i - 1}</code>. In this case, we have <code>a_i = <var>TERMS_TEX[0]</var> \left(<var>R_TEX</var>\right)^{i - 1}</code>.</p>
                     <p>To find <code>a_{<var>N</var>}</code>, we can simply substitute <code>i = <var>N</var></code> into the formula.</p>
@@ -71,4 +72,5 @@
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

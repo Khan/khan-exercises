@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format expressions graphie interactive"><head>
+<html data-require="math math-format expressions graphie interactive">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing systems of equations</title>
     <script src="../khan-exercise.js"></script>
@@ -224,7 +225,6 @@
             you move
             <span data-if="SLOPE_1_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
             <span data-else="">up</span>.</span>
-            
             <span data-if='"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1'>You must also move
             <code><var>SLOPE_1_FRAC[1]</var></code>
             s
@@ -232,13 +232,11 @@
             <code><var>SLOPE_1_FRAC[1]</var></code>
             <var>"" )</var>
             to the right.</span>
-        
         </p>
         <p class="hint_blue">
             <span data-if='"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1'><code><var>SLOPE_1_FRAC[1]</var></code>
             s to the right.</span><span data-else=""><code><var>SLOPE_1_FRAC[1]</var></code>
             <var>"" )</var> to the right.</span>
-            
             <span data-if='"position" + ( abs( SLOPE_1_FRAC[0] ) !== 1'><code><var>abs( SLOPE_1_FRAC[0] )</var></code>
             s
             <span data-if="SLOPE_1_FRAC[0] &lt; 0">down</span><span data-else="">up</span> from
@@ -248,7 +246,6 @@
             <span data-if="SLOPE_1_FRAC[0] &lt; 0">down</span><span data-else="">up</span> from
             <code>(0, <var>YINT_1</var>)</code> is
             <code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.</span>
-        
         </p>
         <p class="hint_blue">
             Graph the blue line so it passes through
@@ -286,7 +283,6 @@
             you move
             <span data-if="SLOPE_2_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
             <span data-else="">up</span>.</span>
-            
             <span data-if='"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1'>You must also move
             <code><var>SLOPE_2_FRAC[1]</var></code>
             s
@@ -294,13 +290,11 @@
             <code><var>SLOPE_2_FRAC[1]</var></code>
             <var>"" )</var>
             to the right.</span>
-        
         </p>
         <p class="hint_green">
             <span data-if='"position" + ( abs( SLOPE_2_FRAC[1] ) !== 1'><code><var>SLOPE_2_FRAC[1]</var></code>
             s to the right.</span><span data-else=""><code><var>SLOPE_2_FRAC[1]</var></code>
             <var>"" )</var> to the right.</span>
-            
             <span data-if='"position" + ( abs( SLOPE_2_FRAC[0] ) !== 1'><code><var>abs( SLOPE_2_FRAC[0] )</var></code>
             s
             <span data-if="SLOPE_2_FRAC[0] &lt; 0">down</span><span data-else="">up</span> from
@@ -310,7 +304,6 @@
             <span data-if="SLOPE_2_FRAC[0] &lt; 0">down</span><span data-else="">up</span> from
             <code>(0, <var>YINT_2</var>)</code> is
             <code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.</span>
-        
         </p>
         <p class="hint_green">
             Graph the green line so it passes through
@@ -337,4 +330,5 @@
     </div>
 
 </div>
-</body></html>
+</body>
+</html>

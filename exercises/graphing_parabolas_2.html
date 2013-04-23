@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie interactive ast math-model subhints"><head>
+<html data-require="math math-format graphie interactive ast math-model subhints">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing parabolas in all forms</title>
     <script src="../khan-exercise.js"></script>
@@ -251,7 +252,7 @@
 
                 <div>
                     <p>When the equation is written in vertex form like this, the vertex is the point <code class="hint_green">(h, k)</code>:
-                    </p><p><code>\qquad <var>formatGroup( GROUP1, [ 0 ] )</var></code></p>
+                    <p><code>\qquad <var>formatGroup( GROUP1, [ 0 ] )</var></code></p>
                 </div>
 
                 <div>
@@ -272,12 +273,12 @@
 
                 <div>
                     <p>
-                        Since the vertex is at <code class="hint_green">x = <var>H</var></code>, let's try one unit to the right and evaluate
+                        Since the vertex is at <code class="hint_green">x = <var>H</code></code>, let's try one unit to the right and evaluate
                         the equation at <code class="hint_pink">x = <var>X1</var></code>.
                     </p>
                     <p><code>\qquad <var>formatGroup( GROUP2, [ 0, 1 ] )</var></code></p>
                     <p>Another point on the parabola is <code class="hint_pink">(<var>X1</var>, <var>Y1</var>)</code>
-                    </p><div class="graphie" data-update="grid">
+                    <div class="graphie" data-update="grid">
                         style({
                             stroke: PINK,
                             strokeWidth: 3
@@ -321,7 +322,7 @@
                 <div>
                     <p class="final_answer">
                         There is only one graph of a parabola that passes through all three points we found.
-                        <br><input onclick="javascript:KhanUtil.currentGraph.graph.showSolution();" type="button" value="Show me">
+                        <br /><input type="button" value="Show me" onClick="javascript:KhanUtil.currentGraph.graph.showSolution();" />
                     </p>
                 </div>
 
@@ -331,4 +332,5 @@
     </div>
 
 </div>
-</body></html>
+</body>
+</html>

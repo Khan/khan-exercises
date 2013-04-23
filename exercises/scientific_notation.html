@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format"><head>
+<html data-require="math math-format">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Scientific notation</title>
     <script src="../khan-exercise.js"></script>
@@ -48,7 +49,6 @@
                         <div data-else="" data-unwrap="">
                             <p>Count the zeroes to the right of the decimal point before the leading <code>\leadingColor{<var>LEADING</var>}</code>: there <span data-if="E + 1 === -1">is 1 zero</span><span data-else="">are <code><var>(E + 1) * -1</var></code> zeroes</span>.</p>
                             <p data-if="E === -1">If you count the leading digit <code>\leadingColor{<var>LEADING</var>}</code><span data-if="E + 1 &lt; -1"> and those zeroes</span><span data-else-if="E + 1 === -1"> and the 1 zero</span>, there is <code>\exponentColor{<var>E * -1</var>}</code> digit to the <span style="color: purple;">right</span> of the decimal point.</p><p data-else="">If you count the leading digit <code>\leadingColor{<var>LEADING</var>}</code><span data-if="E + 1 &lt; -1"> and those zeroes</span><span data-else-if="E + 1 === -1"> and the 1 zero</span>, there are <code>\exponentColor{<var>E * -1</var>}</code> digits to the <span style="color: purple;">right</span> of the decimal point.</p>
-                        
                         </div>
                     </div>
 
@@ -77,4 +77,5 @@
             <p class="answer"></p>
         </div>
     </div>
-</body></html>
+</body>
+</html>

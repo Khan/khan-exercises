@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format probability word-problems graphie"><head>
+<html data-require="math math-format probability word-problems graphie">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Independent probability</title>
     <script src="../khan-exercise.js"></script>
@@ -70,7 +71,7 @@
                 <p>
                     The probability of flipping a <var>HT</var> is <code>\dfrac{1}{2}</code>.
                 </p>
-                <p data-if="RESULT_POSSIBLE.length &amp;gt; 1"><span data-if="isSingular(RESULT_POSSIBLE.length)" data-unwrap="">
+                <p data-if="RESULT_POSSIBLE.length &gt; 1"><span data-if="isSingular(RESULT_POSSIBLE.length)" data-unwrap="">
                     The probability of rolling <var>RESULT_DESC</var> is <code>\dfrac{<var>RESULT_POSSIBLE.length</var>}{6}</code>, since there 
                     is <var>RESULT_POSSIBLE.length</var> outcome 
                     which satisfy our condition
@@ -91,9 +92,6 @@
                     which satisfies our condition
                     (namely, <var>toSentence(RESULT_POSSIBLE)</var>), and 6 total possible outcomes.
                 </p>
-                
-                
-                
                 <p>
                     So, the probability of both these events happening is <code>\dfrac{1}{2} \cdot \dfrac{<var>RESULT_POSSIBLE.length</var>}{6}
                     = \dfrac{<var>PRETTY_N</var>}{<var>PRETTY_D</var>}</code>
@@ -167,8 +165,6 @@
                 What is the probability of <var>PLAYER</var> making NONE of his next
                 <var>STREAK</var> free throw attempts?
             </p>
-
-            
 
             <div class="solution"><code><var>ANS</var></code></div>
 
@@ -436,16 +432,13 @@
             </div>
             <p>
                 <span data-if="isMale(1)">Captain <var>person(1)</var> and his ship, the H.M.S. Khan.</span><span data-else="">Captain <var>person(1)</var> and her ship, the H.M.S. Khan.</span> 
-                 
                 <span data-if="isMale(2)">The ship is two furlongs from the dread pirate <var>person(2)</var> and his merciless band of thieves.</span><span data-else="">The ship is two furlongs from the dread pirate <var>person(2)</var> and her merciless band of thieves.</span>
-                
                 <br><br>
                 <span data-if="isMale(2)">The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship.
                 The pirate only has one good eye, so he hits the Captain's ship with probability 
                 <code><var>P_HIT_PRETTY</var></code>.</span><span data-else="">The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship.
                 The pirate only has one good eye, so she hits the Captain's ship with probability 
                 <code><var>P_HIT_PRETTY</var></code>.</span>
-            
             </p>
 
             <p class="question">
@@ -474,9 +467,7 @@
                         Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
                     the probability that the captain hits and the probability that 
                     the pirate misses.
-                    </span>
-                    
-                    </span>
+                    </span></span>
                     <span data-else="" data-if="P">
                         Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
                     the probability that the captain misses and the probability that 
@@ -486,7 +477,6 @@
                     the probability that the captain misses and the probability that 
                     the pirate misses.
                     </span>
-                
                 </p>
                 <p data-if="C">
                     The probability that the Captain hits is <code><var>C_HIT_PRETTY</var></code>.
@@ -511,4 +501,5 @@
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

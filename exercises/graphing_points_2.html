@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math interactive graphie"><head>
+<html data-require="math interactive graphie">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Graphing points and naming quadrants</title>
     <script src="../khan-exercise.js"></script>
@@ -24,7 +25,7 @@
                     Plot <code>(<var>X</var>, <var>Y</var>)</code> and select the quadrant in which the point lies.
                 </p>
                 <div class="problem">
-                    <br>
+                    <br />
                     <div class="graphie" id="grid">
                         graphInit({
                             range: 11,
@@ -53,10 +54,10 @@
                     <div class="instruction">
                         Graph the point and select the quadrant that contains the point.
                         <ul>
-                            <li><input id="r1" name="sol" type="radio" value="QI"><label for="r1">QI</label></li>
-                            <li><input id="r2" name="sol" type="radio" value="QII"><label for="r2">QII</label></li>
-                            <li><input id="r3" name="sol" type="radio" value="QIII"><label for="r3">QIII</label></li>
-                            <li><input id="r4" name="sol" type="radio" value="QIV"><label for="r4">QIV</label></li>
+                            <li><input type="radio" name="sol" id="r1" value="QI" /><label for="r1">QI</label></li>
+                            <li><input type="radio" name="sol" id="r2" value="QII" /><label for="r2">QII</label></li>
+                            <li><input type="radio" name="sol" id="r3" value="QIII" /><label for="r3">QIII</label></li>
+                            <li><input type="radio" name="sol" id="r4" value="QIV" /><label for="r4">QIV</label></li>
                         </ul>
                         Your graph is also part of your answer.
                     </div>
@@ -93,8 +94,8 @@
 
                     <div>
                         <p>
-                            Since our <span class="hint_blue"><code>x</code>-coordinate</span> is <span data-if="X &gt; 0">positive</span><span data-else="">negative</span>,
-                            we move <code>\blue{<var>abs( X )</var>}</code> to the <span data-if="X &gt; 0">right</span><span data-else="">left</span>.
+                            Since our <span class="hint_blue"><code>x</code>-coordinate</span> is <span data-if="X > 0">positive</span><span data-else>negative</span>,
+                            we move <code>\blue{<var>abs( X )</var>}</code> to the <span data-if="X > 0">right</span><span data-else>left</span>.
                         </p>
                         <div class="graphie" data-update="grid">
                             style({
@@ -110,8 +111,8 @@
 
                     <div>
                         <p>
-                            Since our <span class="hint_green"><code>y</code>-coordinate</span> is <span data-if="Y &gt; 0">positive</span><span data-else=""> negative</span>,
-                            we move <code>\green{<var>abs( Y )</var>}</code> <span data-if="Y &gt; 0">up</span><span data-else=""> down</span>.
+                            Since our <span class="hint_green"><code>y</code>-coordinate</span> is <span data-if="Y > 0">positive</span><span data-else> negative</span>,
+                            we move <code>\green{<var>abs( Y )</var>}</code> <span data-if="Y > 0">up</span><span data-else> down</span>.
                         </p>
                         <div class="graphie" data-update="grid">
                             style({
@@ -127,7 +128,7 @@
                     <div>
                         <p>
                             Move the point to <code>( \blue{<var>X</var>}, \green{<var>Y</var>} )</code> at the marked point above.
-                            <input onclick="javascript:KhanUtil.currentGraph.graph.movablePoint.moveTo( KhanUtil.tmpl.getVAR('X'), KhanUtil.tmpl.getVAR('Y') );" type="button" value="Show me">
+                            <input type="button" value="Show me" onClick="javascript:KhanUtil.currentGraph.graph.movablePoint.moveTo( KhanUtil.tmpl.getVAR('X'), KhanUtil.tmpl.getVAR('Y') );" />
                         </p>
                         <div class="graphie" data-update="grid">
                             style({
@@ -153,12 +154,13 @@
                     </div>
                     <p class="final_answer">
                         Since our point is in the
-                        <span><span data-if="Y &gt; 0">upper</span><span data-else="">lower</span></span>
-                        <span><span data-if="X &gt; 0">right</span><span data-else="">left</span></span>
+                        <span><span data-if="Y > 0">upper</span><span data-else>lower</span></span>
+                        <span><span data-if="X > 0">right</span><span data-else>left</span></span>
                         portion of the graph, the quadrant is <code>\purple{\text{<var>QUADRANT</var>}}</code>.
                     </p>
                 </div>
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

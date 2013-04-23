@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems subhints"><head>
+<html data-require="math math-format word-problems subhints">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Probability with permutations and combinations</title>
     <script src="../khan-exercise.js"></script>
@@ -31,7 +32,6 @@
                     If the teacher picks a group of <code><var>GROUP</var></code> at random, what is the probability that 
                     everyone in the group is a girl?
                 </p>
-                
                 <div class="solution" data-forms="proper"><var>ANSWER</var></div>
                 <div class="hints">
                     <p data-if="ARE_B">
@@ -47,7 +47,6 @@
                         with equal probability, this will be the probability that a group of all 
                         girls is chosen.
                     </p>
-                    
                     <p>
                         We know two ways to count the number of groups we can choose: we use permutations if order matters,
                         and combinations if it doesn't. Does the order the students are picked matter in this case?
@@ -72,7 +71,6 @@
                             \binom{<var>STUDENTS</var>}{<var>GROUP</var>}</code>.
                             [<a href="#" class="show-subhint" data-subhint="binomial">Show me why</a>]
                         </p>
-                        
                         <div class="subhint" id="binomial">
                             <p>
                                 Remember that the
@@ -95,7 +93,6 @@
                     </p><p data-else="">
                         We can use the same logic to count the number of groups that only have girls.
                     </p>
-                    
                     <p>
                         Specifically, the number of ways to pick a group of <code><var>GROUP</var></code> students out of
                         <code><var>NUM_B</var></code> is
@@ -109,7 +106,6 @@
                         So, the probability that the teacher picks a group of all girls is the number of 
                         groups with only girls divided by the number of total groups the teacher could pick.
                     </p>
-                    
                     <p>
                         This is <code> \displaystyle \frac{\frac{<var>NUM_B</var>!}{(<var>NUM_B</var>-<var>GROUP</var>)!\cancel{<var>GROUP</var>!}}}
                         {\frac{<var>STUDENTS</var>!}{(<var>STUDENTS</var>-<var>GROUP</var>)!\cancel{<var>GROUP</var>!}}} = 
@@ -174,7 +170,6 @@
                         is the same as the number of these words which have
                         <code><var>NUM</var></code> T's and <code><var>COINS-NUM</var></code> H's.
                     </p>
-                    
                     <div>
                         <p data-if="IS_H">
                             How many of these are there? If we treat all the letters as unique,
@@ -189,7 +184,6 @@
                             times for every time we only switch the H's around.
                             [<a href="#" class="show-subhint" data-subhint="letters">Show me why</a>]
                         </p>
-                        
                         <div class="subhint" id="letters">
                             Let's say we toss a coin 5 times, and get tails three times. How many different re-arrangements are there of the
                             letters "HHTTT"? Well, we have five choices for the first slot, four for the second slot, and so on, resulting in
@@ -235,4 +229,5 @@
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic word-problems"><head>
+<html data-require="math graphie graphie-helpers-arithmetic word-problems">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Exploring angle pairs</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
 <div class="exercise">
-    <div class="vars" data-ensure="START != END &amp;&amp; START + 3 != END">
+    <div class="vars" data-ensure="START != END && START + 3 != END">
         <var id="VERTICES">["A", "B", "C", "D", "E", "F"] </var>
 
         <var id="START"> randRange(0,5) </var>
@@ -49,8 +50,8 @@
                     scale: 20
                 });
 
-            line( ENDPOINT1[0], ENDPOINT2[0], { arrows: "-&gt;" } );
-            line( ENDPOINT2[0], ENDPOINT1[0], { arrows: "-&gt;"} );
+            line( ENDPOINT1[0], ENDPOINT2[0], { arrows: "->" } );
+            line( ENDPOINT2[0], ENDPOINT1[0], { arrows: "->"} );
 
             circle( INNER_ENDPOINT1[0], DOT_ATTRS );
             circle( INNER_ENDPOINT2[0], DOT_ATTRS );
@@ -59,8 +60,8 @@
             label( INNER_ENDPOINT2[0], "D", "above");
 
 
-            line( ENDPOINT1[1], ENDPOINT2[1], { arrows: "-&gt;" } );
-            line( ENDPOINT2[1], ENDPOINT1[1], { arrows: "-&gt;"} );
+            line( ENDPOINT1[1], ENDPOINT2[1], { arrows: "->" } );
+            line( ENDPOINT2[1], ENDPOINT1[1], { arrows: "->"} );
 
             circle( INNER_ENDPOINT1[1], DOT_ATTRS );
             circle( INNER_ENDPOINT2[1], DOT_ATTRS );
@@ -69,8 +70,8 @@
             label( INNER_ENDPOINT2[1], "E", "above");
 
 
-            line( ENDPOINT1[2], ENDPOINT2[2], { arrows: "-&gt;" } );
-            line( ENDPOINT2[2], ENDPOINT1[2], { arrows: "-&gt;"} );
+            line( ENDPOINT1[2], ENDPOINT2[2], { arrows: "->" } );
+            line( ENDPOINT2[2], ENDPOINT1[2], { arrows: "->"} );
 
             circle( INNER_ENDPOINT1[2], DOT_ATTRS );
             circle( INNER_ENDPOINT2[2], DOT_ATTRS );
@@ -183,4 +184,5 @@
 
     </div>
 </div>
-</body></html>
+</body>
+</html>

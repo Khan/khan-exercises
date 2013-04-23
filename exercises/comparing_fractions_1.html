@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers word-problems"><head>
+<html data-require="math graphie graphie-helpers word-problems">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Comparing fractions 1</title>
     <script src="../khan-exercise.js"></script>
@@ -55,17 +56,10 @@
                         </div>
                     </div>
                     <p>Note that cutting a pizza into more slices will result in smaller slices.</p>
-                    <p data-if="DEN_1 &amp;gt; DEN_2">The left fraction represents a pizza with more slices, and so each slice is smaller.</p><p data-else="">The left fraction represents a pizza with fewer slices, and so each slice is bigger.</p>
-                    
+                    <p data-if="DEN_1 &gt; DEN_2">The left fraction represents a pizza with more slices, and so each slice is smaller.</p><p data-else="">The left fraction represents a pizza with fewer slices, and so each slice is bigger.</p>
                     <p>
-                        <span data-if="DEN_1 &amp;gt; DEN_2"><span data-if="isSingular(NUM_1)" data-unwrap="">There are <var>NUM_1</var> smaller slice.</span><span data-else="" data-unwrap="">There are <var>NUM_1</var> smaller slices.</span></span><span data-else="" data-if="isSingular(NUM_1)">There are <var>NUM_1</var> bigger slice.</span><span data-else="">There are <var>NUM_1</var> bigger slices.</span>
-                        
-                        
-                        
-                        <span data-if="DEN_1 &amp;gt; DEN_2"><span data-if="isSingular(NUM_2)" data-unwrap="">This is less pizza than <var>NUM_2</var> bigger slice.</span><span data-else="" data-unwrap="">This is less pizza than <var>NUM_2</var> bigger slices.</span></span><span data-else="" data-if="isSingular(NUM_2)">This is more pizza than <var>NUM_2</var> smaller slice.</span><span data-else="">This is more pizza than <var>NUM_2</var> smaller slices.</span>
-                    
-                    
-                    
+                        <span data-if="DEN_1 &gt; DEN_2"><span data-if="isSingular(NUM_1)" data-unwrap="">There are <var>NUM_1</var> smaller slice.</span><span data-else="" data-unwrap="">There are <var>NUM_1</var> smaller slices.</span></span><span data-else="" data-if="isSingular(NUM_1)">There are <var>NUM_1</var> bigger slice.</span><span data-else="">There are <var>NUM_1</var> bigger slices.</span>
+                        <span data-if="DEN_1 &gt; DEN_2"><span data-if="isSingular(NUM_2)" data-unwrap="">This is less pizza than <var>NUM_2</var> bigger slice.</span><span data-else="" data-unwrap="">This is less pizza than <var>NUM_2</var> bigger slices.</span></span><span data-else="" data-if="isSingular(NUM_2)">This is more pizza than <var>NUM_2</var> smaller slice.</span><span data-else="">This is more pizza than <var>NUM_2</var> smaller slices.</span>
                     </p>
                     <p>So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.</p>
                 </div>
@@ -117,15 +111,12 @@
                     </div>
                     <p>
                         <span data-if="isSingular(NUM_1)">There are 1 slice.</span><span data-else="">There are <var>NUM_1</var> slices.</span>
-                        
-                        <span data-if="NUM_1 &amp;lt; NUM_2"><span data-if="isSingular(NUM_2)" data-unwrap="">This is less pizza than 1 slice.</span><span data-else="" data-unwrap="">This is less pizza than <var>NUM_2</var> slices.</span></span><span data-else="" data-if="isSingular(NUM_2)">This is more pizza than 1 slice.</span><span data-else="">This is more pizza than <var>NUM_2</var> slices.</span>
-                    
-                    
-                    
+                        <span data-if="NUM_1 &lt; NUM_2"><span data-if="isSingular(NUM_2)" data-unwrap="">This is less pizza than 1 slice.</span><span data-else="" data-unwrap="">This is less pizza than <var>NUM_2</var> slices.</span></span><span data-else="" data-if="isSingular(NUM_2)">This is more pizza than 1 slice.</span><span data-else="">This is more pizza than <var>NUM_2</var> slices.</span>
                     </p>
                     <p>So, <code>\dfrac{<var>NUM_1</var>}{<var>DEN_1</var>} <var>SOLUTION</var> \dfrac{<var>NUM_2</var>}{<var>DEN_2</var>}</code>.</p>
                 </div>
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

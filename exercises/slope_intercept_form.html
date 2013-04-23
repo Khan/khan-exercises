@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie"><head>
+<html data-require="math math-format graphie">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Slope intercept form</title>
     <script src="../khan-exercise.js"></script>
@@ -11,7 +12,7 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) &lt; 36 &amp;&amp; X1 &lt; X2 &amp;&amp; -10 &lt;= B &amp;&amp; B &lt;= 10">
+    <div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2 && -10 <= B && B <= 10">
         <var id="X1">randRange(-9, 9)</var>
         <var id="Y1">randRange(-9, 9)</var>
 
@@ -35,7 +36,7 @@
 
                         for ( var i = 0; i &lt; 5; i++ ) {
                             var x = xs[ i ];
-                            if( x !== X1 &amp;&amp; x !== X2 ) {
+                            if( x !== X1 && x !== X2 ) {
                                 var denom = X1 - X2,
                                     num = x * ( Y1 - Y2 ) + B * denom,
                                     negative = ( num * denom &lt; 0 ? -1 : 1 );
@@ -73,7 +74,7 @@
                             labelStep: 1,
                             unityLabels: false,
                             labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                            axisArrows: "&lt;-&gt;"
+                            axisArrows: "<->"
                         });
 
                         style({ stroke: BLUE, fill: BLUE });
@@ -130,7 +131,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "&lt;-&gt;"
+                        axisArrows: "<->"
                     });
 
                     style({ stroke: BLUE, fill: BLUE });
@@ -153,7 +154,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "&lt;-&gt;"
+                        axisArrows: "<->"
                     });
 
                     style({ stroke: BLUE, fill: BLUE });
@@ -188,4 +189,5 @@
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

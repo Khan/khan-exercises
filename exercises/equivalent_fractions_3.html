@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format"><head>
+<html data-require="math math-format">
+    <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Equivalent Fractions 3</title>
         <script src="../khan-exercise.js"></script>
@@ -34,33 +35,33 @@
                 <div id="pair">
                     <p class="question">Find the pair of equivalent fractions below:</p>
                     <div class="problem">
-                        <ul class="ui-helper-clearfix" id="list">
+                        <ul id="list" class="ui-helper-clearfix">
                             <li class="answer">
-                                <input id="check0" type="checkbox">
+                                <input type="checkbox" id="check0">
                                 <label for="check0">
                                     <code><var>fraction(OPTIONSINC[0][0],OPTIONSINC[0][1])</var></code>
                                 </label>
                             </li>
                             <li class="answer">
-                                <input id="check1" type="checkbox">
+                                <input type="checkbox" id="check1">
                                 <label for="check1">
                                     <code><var>fraction(OPTIONSINC[1][0],OPTIONSINC[1][1])</var></code>
                                 </label>
                             </li>
                             <li class="answer">
-                                <input id="check2" type="checkbox">
+                                <input type="checkbox" id="check2">
                                 <label for="check2">
                                     <code><var>fraction(OPTIONSINC[2][0],OPTIONSINC[2][1])</var></code>
                                 </label>
                             </li>
                             <li class="answer">
-                                <input id="check3" type="checkbox">
+                                <input type="checkbox" id="check3">
                                 <label for="check3">
                                     <code><var>fraction(OPTIONSINC[3][0],OPTIONSINC[3][1])</var></code>
                                 </label>
                             </li>
                             <li class="answer">
-                                <input id="check4" type="checkbox">
+                                <input type="checkbox" id="check4">
                                 <label for="check4">
                                     <code><var>fraction(OPTIONSINC[4][0],OPTIONSINC[4][1])</var></code>
                                 </label>
@@ -94,8 +95,8 @@
                         </p>
                         <div>
                             Here are all the fractions reduced. Which two are the same?
-                            <ul class="ui-helper-clearfix" id="list">
-                                <li class="answer" data-each="OPTIONSINC as OPTION" style="padding-right:70px">
+                            <ul id="list" class="ui-helper-clearfix">
+                                <li data-each="OPTIONSINC as OPTION" class="answer" style="padding-right:70px">
                                      <code><var>fraction(OPTION[0],OPTION[1],true,true)</var></code>
                                 </li>
                             </ul>
@@ -115,25 +116,25 @@
                     <div class="problem">
                         <ul class="ui-helper-clearfix">
                             <li class="answer">
-                                <input id="check0" type="checkbox">
+                                <input type="checkbox" id="check0">
                                 <label for="check0">
                                     <code><var>fraction(OPTIONS[0][0],OPTIONS[0][1])</var></code>
                                 </label>
                             </li>
                             <li class="answer">
-                                <input id="check1" type="checkbox">
+                                <input type="checkbox" id="check1">
                                 <label for="check1">
                                     <code><var>fraction(OPTIONS[1][0],OPTIONS[1][1])</var></code>
                                 </label>
                             </li>
                             <li class="answer">
-                                <input id="check2" type="checkbox">
+                                <input type="checkbox" id="check2">
                                 <label for="check2">
                                     <code><var>fraction(OPTIONS[2][0],OPTIONS[2][1])</var></code>
                                 </label>
                             </li>
                             <li class="answer">
-                                <input id="check3" type="checkbox">
+                                <input type="checkbox" id="check3">
                                 <label for="check3">
                                     <code><var>fraction(OPTIONS[3][0],OPTIONS[3][1])</var></code>
                                 </label>
@@ -168,7 +169,7 @@
                         <div>
                             <p>Reduce each fraction down to its simplest form.</p>
                             <ul>
-                                <li class="answer" data-each="OPTIONS as OPTION" style="padding-right:70px">
+                                <li data-each="OPTIONS as OPTION" class="answer" style="padding-right:70px">
                                     <code><var>fraction(OPTION[0], OPTION[1], true, true)</var></code>
                                 </li>
                             </ul>
@@ -183,4 +184,5 @@
                 </div>
             </div>
         </div>
-</body></html>
+    </body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems subhints chemistry"><head>
+<html data-require="math math-format word-problems subhints chemistry">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Limiting reagent stoichiometry</title>
     <script src="../khan-exercise.js"></script>
@@ -201,7 +202,6 @@
                             <code><var>R1_MOLAR_MASS</var> \text{g/mol}</code> tells us we're starting with
                             <code>\text{ <var>R1_MOL</var> moles} \text{ of }<var>R1</var></code>.
                         </p>
-                    
                     </div>
                 </div>
 
@@ -230,7 +230,6 @@
                             <code><var>R2_MOLAR_MASS</var> \text{g/mol}</code> tells us we're starting with
                             <code>\text{ <var>R2_MOL</var> moles} \text{ of }<var>R2</var></code>.
                         </p>
-                    
                     </div>
                 </div>
 
@@ -257,7 +256,6 @@
                                 <span class="hint_blue"><var>cardinal(R1_RATIO)</var></span> <code><var>R1</var></code> for every
                                 <span class="hint_red"><var>cardinal(R2_RATIO)</var></span> <code><var>R2</var></code> molecules
                             </p>
-                        
                         </div>
                         <p><code>\qquad
                             \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
@@ -287,17 +285,14 @@
                                 <code><var>R1</var></code> needed, which
                                 is more than we have. Therefore <code><var>R1</var></code> is the limiting reagent.
                             </p>
-                        
                         </div>
                         <p>
                             <span data-if="isSingular(roundTo(3, R1_MOL * R2_RATIO / R1_RATIO))"><code>x = \text{ 1 mole}</code> of
                             <code><var>R2</var></code> needed.</span><span data-else=""><code>x = \text{ <var>roundTo(3, R1_MOL * R2_RATIO / R1_RATIO)</var> moles}</code> of
                             <code><var>R2</var></code> needed.</span>
-                            
                             <span data-if="isSingular(R2_MOL)">We have <code>\text{ 1 mole}</code> of <code><var>R2</var></code>, which is more
                             than we need. Therefore <code><var>R1</var></code> is the limiting reagent.</span><span data-else="">We have <code>\text{ <var>R2_MOL</var> moles}</code> of <code><var>R2</var></code>, which is more
                             than we need. Therefore <code><var>R1</var></code> is the limiting reagent.</span>
-                        
                         </p>
                     </div>
 
@@ -325,7 +320,6 @@
                                 <span class="hint_blue"><var>cardinal(R1_RATIO)</var></span> <code><var>R1</var></code> for every
                                 <span class="hint_red"><var>cardinal(P1_RATIO)</var></span> <code><var>P1</var></code> molecules.
                             </p>
-                        
                         </div>
                         <p><code>\qquad
                             \dfrac{<var>R1</var>}{<var>P1</var>} = \dfrac{<var>R1_RATIO</var>}{<var>P1_RATIO</var>} =
@@ -336,7 +330,6 @@
                         </p><p data-else="">
                             <code>x = \text{ <var>P1_MOL</var> moles}</code> of <code><var>P1</var></code> produced.
                         </p>
-                    
                     </div>
                 </div>
 
@@ -363,7 +356,6 @@
                                 <span class="hint_blue"><var>cardinal(R1_RATIO)</var></span> <code><var>R1</var></code> for every
                                 <span class="hint_red"><var>cardinal(R2_RATIO)</var></span> <code><var>R2</var></code> molecules.
                             </p>
-                        
                         </div>
                         <p><code>\qquad
                             \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
@@ -392,17 +384,14 @@
                                 <code><var>R2</var></code> needed, which
                                 is more than we have. Therefore <code><var>R2</var></code> is the limiting reagent.
                             </p>
-                        
                         </div>
                         <p>
                             <span data-if="isSingular(roundTo(3, R2_MOL * R1_RATIO / R2_RATIO))"><code>x = \text{ 1 mole}</code> of
                             <code><var>R1</var></code> needed.</span><span data-else=""><code>x = \text{ <var>roundTo(3, R2_MOL * R1_RATIO / R2_RATIO)</var> moles}</code> of
                             <code><var>R1</var></code> needed.</span>
-                            
                             <span data-if="isSingular(R1_MOL)">We have <code>\text{ 1 mole}</code> of <code><var>R1</var></code>, which is more
                             than we need. Therefore <code><var>R2</var></code> is the limiting reagent.</span><span data-else="">We have <code>\text{ <var>R1_MOL</var> moles}</code> of <code><var>R1</var></code>, which is more
                             than we need. Therefore <code><var>R2</var></code> is the limiting reagent.</span>
-                        
                         </p>
                     </div>
 
@@ -430,7 +419,6 @@
                                 <span class="hint_blue"><var>cardinal(R2_RATIO)</var></span> <code><var>R2</var></code> for every
                                 <span class="hint_red"><var>cardinal(P1_RATIO)</var></span> <code><var>P1</var></code> molecules.
                             </p>
-                        
                         </div>
                         <p><code>\qquad
                             \dfrac{<var>R2</var>}{<var>P1</var>} = \dfrac{<var>R2_RATIO</var>}{<var>P1_RATIO</var>} =
@@ -441,7 +429,6 @@
                         </p><p data-else="">
                             <code>x = \text{ <var>P1_MOL</var> moles}</code> of <code><var>P1</var></code> produced.
                         </p>
-                    
                     </div>
                 </div>
 
@@ -454,4 +441,5 @@
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

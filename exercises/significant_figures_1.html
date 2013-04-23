@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math"><head>
+<html data-require="math">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Significant figures</title>
     <script src="../khan-exercise.js"></script>
@@ -37,19 +38,20 @@
             <p>Identify the non-zero digits and any zeros between them. These are all significant.</p>
             <p><code><var>PROPER_LEADING</var>\color{blue}{<var>INBETWEEN</var>}<var>TRAILING</var></code></p>
         </div>
-        <div data-if="PROPER_LEADING.length &gt; 0">
+        <div data-if="PROPER_LEADING.length > 0">
             <p>Leading zeros are not significant.</p>
             <p><code>\color{orange}{<var>PROPER_LEADING</var>}\color{blue}{<var>INBETWEEN</var>}<var>TRAILING</var></code></p>
         </div>
-        <div data-if="TRAILING.length &gt; 0 &amp;&amp; HAS_DOT">
+        <div data-if="TRAILING.length > 0 && HAS_DOT">
             <p>Since there is a decimal, trailing zeros are significant.</p>
             <p><code>\color{orange}{<var>PROPER_LEADING</var>}\color{blue}{<var>INBETWEEN</var><var>TRAILING</var>}</code></p>
         </div>
-        <div data-if="TRAILING.length &gt; 0 &amp;&amp; !HAS_DOT">
+        <div data-if="TRAILING.length > 0 && !HAS_DOT">
             <p>Since there is no decimal, trailing zeros are not significant.</p>
             <p><code>\color{orange}{<var>PROPER_LEADING</var>}\color{blue}{<var>INBETWEEN</var>}\color{orange}{<var>TRAILING</var>}</code></p>
         </div>
         <p>Counting all the significant digits gives us <var>SOLUTION</var>.</p>
     </div>
 </div>
-</body></html>
+</body>
+</html>

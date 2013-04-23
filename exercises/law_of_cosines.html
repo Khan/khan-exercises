@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-geometry angles"><head>
+<html data-require="math math-format graphie graphie-geometry angles">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Law of cosines</title>
     <script src="../khan-exercise.js"></script>
@@ -7,10 +8,10 @@
 <body>
 <div class="exercise">
     <div class="problems">
-        <div id="find-side" data-calculator="">
+        <div id="find-side" data-calculator>
             <div class="vars" data-ensure="
-                    !TRIANGLE.isRight() &amp;&amp;
-                    TRIANGLE.isScalene() &amp;&amp;
+                    !TRIANGLE.isRight() &&
+                    TRIANGLE.isScalene() &&
                     TRIANGLE.isNotDegenerate()">
                 <var id="SIDES">shuffle([null].
                     concat(randRangeUnique(5, 16, 2)))</var>
@@ -69,7 +70,8 @@
                     TRIANGLE.draw();
                 </div>
             </div>
-            <div class="solution" data-forms="integer, decimal" data-inexact="" data-max-error="0.09"><var>SOLUTION</var>
+            <div class="solution" data-forms="integer, decimal"
+                data-inexact data-max-error="0.09"><var>SOLUTION</var>
             </div>
 
             <div class="hints">
@@ -170,15 +172,15 @@
             </div>
         </div>
 
-        <div id="sss-find-angle" data-calculator="">
+        <div id="sss-find-angle" data-calculator>
             <div class="vars" data-ensure="
-                    !TRIANGLE.isRight() &amp;&amp;
-                    TRIANGLE.isScalene() &amp;&amp;
+                    !TRIANGLE.isRight() &&
+                    TRIANGLE.isScalene() &&
                     TRIANGLE.isNotDegenerate()">
                 <var id="SIDES" data-ensure="
-                    SIDES[1] + SIDES[2] &gt; SIDES[0] &amp;&amp;
-                    SIDES[0] + SIDES[2] &gt; SIDES[1] &amp;&amp;
-                    SIDES[0] + SIDES[1] &gt; SIDES[2]
+                    SIDES[1] + SIDES[2] > SIDES[0] &&
+                    SIDES[0] + SIDES[2] > SIDES[1] &&
+                    SIDES[0] + SIDES[1] > SIDES[2]
                 ">randRange(5, 15, 3)</var>
                 <var id="TRIANGLE">solveTriangle({
                     sides: SIDES.slice(),
@@ -235,7 +237,8 @@
                 </div>
             </div>
             <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer" data-inexact="" data-max-error="0.5"><var>SOLUTION</var>
+                <span class="sol" data-forms="integer" data-inexact
+                    data-max-error="0.5"><var>SOLUTION</var>
                 </span><code>\Large{^\circ}</code>
             </div>
 
@@ -325,6 +328,4 @@
         </div>
 
     </div>
-
-</div>
-</body></html>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math word-problems graphie interactive"><head>
+<html data-require="math word-problems graphie interactive">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Divisibility intuition</title>
     <script src="../khan-exercise.js"></script>
@@ -116,11 +117,9 @@
         <div data-each="FACTORS.reverse() as FACTOR">
             <p>
                 <span data-if="isSingular(NUMBER / FACTOR)">The <var>NUMBER</var> dots can be arranged in 1 row.</span><span data-else="">The <var>NUMBER</var> dots can be arranged in <var>NUMBER / FACTOR</var> rows.</span>
-                
                 <span data-if="isSingular(FACTOR)">Each row has 1 dot each, so
                 <code class="hint_pink"><var>NUMBER / FACTOR</var></code> is a factor of <var>NUMBER</var>:</span><span data-else="">Each row has <var>FACTOR</var> dots each, so
                 <code class="hint_pink"><var>NUMBER / FACTOR</var></code> is a factor of <var>NUMBER</var>:</span>
-            
             </p>
             <div class="graphie">
                 graph.width = FACTOR;
@@ -148,4 +147,5 @@
     </div>
 
 </div>
-</body></html>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math matrix matrix-input"><head>
+<html data-require="math matrix matrix-input">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying a matrix by a matrix</title>
     <script src="../khan-exercise.js"></script>
@@ -131,12 +132,12 @@
     </div>
 
     <div class="solution" data-type="multiple">
-        <div class="matrix-row" data-each="PADDED_SOLN_MAT as row">
+        <div data-each="PADDED_SOLN_MAT as row" class="matrix-row">
             <span data-each="row as elem">
-                <span class="sol" data-forms="integer" data-if="elem !== ''">
+                <span data-if="elem !== ''" class="sol" data-forms="integer">
                     <var>elem</var>
                 </span>
-                <span class="sol" data-else="" data-type="text">
+                <span data-else data-type="text" class="sol">
                     <var>elem</var>
                 </span>
             </span>
@@ -187,4 +188,5 @@
     </div>
 
     </div>
-</body></html>
+</body>
+</html>

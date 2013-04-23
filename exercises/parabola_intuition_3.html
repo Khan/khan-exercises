@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie interactive parabola-intuition"><head>
+<html data-require="math math-format graphie interactive parabola-intuition">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Parabola intuition 3</title>
     <script src="../khan-exercise.js"></script>
@@ -96,9 +97,9 @@
                     <p><span>Focus: </span><code>(</code><span id="focus-x-label"><code>0</code></span><code>\text{, }</code><span id="focus-y-label"><code>1</code></span><code>)</code></p>
                     <p>Directrix: <code>y = </code><span id="directrix-label"><code>-1</code></span></p>
                     <p>
-                        Equation of the parabola:<br>
+                        Equation of the parabola:<br />
                         <span style="font-size: 12px;">
-                        <code>y - </code><span class="sol short30" data-fallback="0" required=""><var>Y1</var></span><code> = </code><span class="sol short30" data-fallback="1" required=""><var>A</var></span><code>(x - </code><span class="sol short30" data-fallback="0" required=""><var>X1</var></span><code>)^2</code>
+                        <code>y - </code><span class="sol short30" data-fallback="0" required><var>Y1</var></span><code> = </code><span class="sol short30" data-fallback="1" required><var>A</var></span><code>(x - </code><span class="sol short30" data-fallback="0" required><var>X1</var></span><code>)^2</code>
                         </span>
                     </p>
 
@@ -111,7 +112,7 @@
                 <p>
                     All points on a parabola are equidistant from the focus and directrix. There is only one place to put the orange focus point
                     and directrix line where this is true.
-                    <button onclick="javascript:
+                    <button onClick="javascript:
                         graph = KhanUtil.currentGraph.graph;
                         graph.vertex.moveTo(graph.X1, graph.Y1 + 1 / (4 * graph.A));
                         $({ y: graph.directrix.coordA[1] }).animate({ y: graph.Y1 - 1 / (4 * graph.A) }, {
@@ -154,4 +155,5 @@
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

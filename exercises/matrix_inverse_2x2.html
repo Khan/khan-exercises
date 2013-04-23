@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math matrix matrix-input"><head>
+<html data-require="math matrix matrix-input">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inverse of a 2x2 matrix</title>
     <script src="../khan-exercise.js"></script>
@@ -51,12 +52,12 @@
             </p>
 
             <div class="solution" data-type="multiple">
-                <div class="matrix-row" data-each="PADDED_SOLN_MAT as row">
+                <div data-each="PADDED_SOLN_MAT as row" class="matrix-row">
                     <span data-each="row as elem">
-                        <span class="sol" data-if="elem !== ''" data-simplify="optional">
+                        <span data-if="elem !== ''" class="sol" data-simplify="optional">
                             <var>elem</var>
                         </span>
-                        <span class="sol" data-else="" data-type="text">
+                        <span data-else data-type="text" class="sol">
                             <var>elem</var>
                         </span>
                     </span>
@@ -119,4 +120,5 @@
     </div>
 
     </div>
-</body></html>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic"><head>
+<html data-require="math graphie graphie-helpers-arithmetic">
+<head>
     <meta charset="UTF-8">
     <title>Understanding moving the decimal</title>
     <script src="../khan-exercise.js"></script>
@@ -89,8 +90,6 @@
 
             <p data-if="PM === 1">Moving the decimal one position to the right is the same as multiplying by ten once.</p><p data-else="">Moving the decimal one position to the left is the same as dividing by ten once.</p>
 
-            
-
             <div data-if="PM === 1 &amp;&amp; POW_DIFF !== 1">
                 <p data-if="POW_DIFF !== 1">Thus, moving the decimal right <code><var>POW_DIFF</var></code> times is the same as multiplying by ten <code><var>POW_DIFF</var></code> times, or multiplying by <code><var>pow( 10, POW_DIFF )</var></code>:</p>
                 <p><code>{<var>A_FLOAT.toFixed( A_DECIMAL )</var>} * {<var>pow( 10, POW_DIFF )</var>} = {<var>B_FLOAT.toFixed( B_DECIMAL )</var>}</code></p>
@@ -106,4 +105,5 @@
 
         </div>
     </div>
-</body></html>
+</body>
+</html>

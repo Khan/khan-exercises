@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers graphie-helpers-arithmetic"><head>
+<html data-require="math graphie graphie-helpers graphie-helpers-arithmetic">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying 3 digits by 1 digit</title>
     <script src="../khan-exercise.js"></script>
@@ -31,13 +32,14 @@
                     graph.multiplier.show();
                     DUMMY = Array( graph.multiplier.getNumHints() );
                 </div>
-                <div class="solution" data-forms="integer"><var>SMALL_FACTOR * BIG_FACTOR</var></div>
+                <div class="solution"><var>SMALL_FACTOR * BIG_FACTOR</var></div>
             </div>
         </div>
         <div class="hints">
-            <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
+            <div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
                 graph.multiplier.showHint();
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

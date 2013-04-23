@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems"><head>
+<html data-require="math graphie word-problems">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Number line 3</title>
     <script src="../khan-exercise.js"></script>
@@ -14,9 +15,7 @@
     <div class="problems">
         <div>
             <div class="question">
-                <p data-if="DISTANCE !== 0"><span data-if="isSingular(abs( DISTANCE ))" data-unwrap="">What number is <strong>1 position to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</span><span data-else="" data-unwrap="">What number is <strong><var>abs( DISTANCE )</var> positions to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</span>
-                
-                </p>
+                <p data-if="DISTANCE !== 0"><span data-if="isSingular(abs( DISTANCE ))" data-unwrap="">What number is <strong>1 position to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</span><span data-else="" data-unwrap="">What number is <strong><var>abs( DISTANCE )</var> positions to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</span></p>
                 <p data-else="">What number does the orange dot represent? The distance between tick marks is 1.</p>
                 <div class="graphie" id="number-line">
                     init({
@@ -43,7 +42,6 @@
                 <p>Numbers to the left are less than <code><var>MIDPOINT</var></code>, while numbers to the right are greater than <code><var>MIDPOINT</var></code>.</p>
                 <div data-if="DISTANCE !== 0">
                     <p data-if="isSingular(abs( DISTANCE ))">We need to find the number represented by the blue dot, which is 1 position to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot.</p><p data-else="">We need to find the number represented by the blue dot, which is <var>abs( DISTANCE )</var> positions to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot.</p>
-                    
                     <div class="graphie" data-update="number-line">
                         style({ stroke: "#6495ED", fill: "#6495ED" });
                         graph.blueDot = circle( [ NUMBER+DISTANCE, 0 ], 0.10 );
@@ -76,4 +74,5 @@
         </div>
     </div>
     </div>
-</body></html>
+</body>
+</html>

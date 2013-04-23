@@ -376,7 +376,7 @@ class IfElseFilter(BaseFilter):
         if len(self.match_keys) > 1:
             self.errors.append("Contains too many different keys (%s):\n%s" % (
                 ", ".join(self.match_keys),
-                extract_strings.get_outerhtml(node)))
+                extract_strings.get_outerhtml(orig_node)))
             return orig_node
 
         # Only continue if there are keys to process

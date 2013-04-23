@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie interactive"><head>
+<html data-require="math math-format graphie interactive">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Estimating the line of best fit</title>
     <script src="../khan-exercise.js"></script>
@@ -227,13 +228,16 @@
                     <ul>
                         <li>
                             <label>
-                                <input id="exists" checked name="linear" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
+                                <input type="radio" name="linear" id="exists"
+                                    onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()"
+                                    checked>
                                 <span>A good best fit line exists</span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <input id="notexists" name="linear" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
+                                <input type="radio" name="linear" id="notexists"
+                                    onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()">
                                 <span>No good best fit line exists</span>
                             </label>
                         </li>
@@ -448,8 +452,9 @@
                 </div>
                 <p>
                     There are several lines that satisfy this.
-                    <input onclick="javascript:KhanUtil.tmpl
-                            .getVAR('GRAPH').showSolution()" type="submit" value="Click here">
+                    <input type="submit" value="Click here"
+                        onclick="javascript:KhanUtil.tmpl
+                            .getVAR('GRAPH').showSolution()"/>
                     to show one of them.
                 </p>
             </div>
@@ -469,13 +474,16 @@
                     <ul>
                         <li>
                             <label>
-                                <input id="exists" checked name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()" type="radio">
+                                <input type="radio" name="nonlinear" id="exists"
+                                    onclick="KhanUtil.tmpl.getVAR('GRAPH').showLine()"
+                                    checked>
                                 <span>A good best fit line exists</span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <input id="notexists" name="nonlinear" onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()" type="radio">
+                                <input type="radio" name="nonlinear" id="notexists"
+                                    onclick="KhanUtil.tmpl.getVAR('GRAPH').hideLine()">
                                 <span>No good best fit line exists</span>
                             </label>
                         </li>
@@ -512,4 +520,5 @@
         </div>
     </div>
 </div>
-</body></html>
+</body>
+</html>

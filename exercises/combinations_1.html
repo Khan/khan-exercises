@@ -1,6 +1,7 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html data-require="math math-format word-problems"><head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Combinations</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -8,8 +9,8 @@
     <div class="exercise">
         <div class="problems">
             <div id="packing">
-                <div class="vars" data-ensure="NUM_THINGS&gt;NUM_TAKEN">
-                    <var id="THING">randFromArray(["shirts", "tigers", "books", "Fabergé eggs", "socks", "action figures"])</var>
+                <div data-ensure="NUM_THINGS&gt;NUM_TAKEN" class="vars">
+                    <var id="THING">randFromArray(["shirts", "tigers", "books", "Faberg&#233; eggs", "socks", "action figures"])</var>
                     <var id="NUM_THINGS">randRange(5,9)</var>
                     <var id="NUM_TAKEN">randRange(3,5)</var>
                     <var id="ANSWER">factorial(NUM_THINGS) / (factorial(NUM_THINGS-NUM_TAKEN) * factorial(NUM_TAKEN))</var>
@@ -24,7 +25,7 @@
                 
                 <p class="question" data-if="isMale(1)">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can he take?</p><p class="question" data-else="">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can she take?</p>
                 
-                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
                 <div class="hints">
                     <p data-if="isMale(1)">
                         <var>person(1)</var> has <code><var>NUM_TAKEN</var></code> spaces for his <var>THING</var>, 
@@ -99,7 +100,7 @@
                     Unfortunately, you have <code><var>FRIENDS</var></code> friends who want to come along.
                 </p>
                 <p class="question">How many different groups of friends could you take with you?</p>
-                <p class="solution" data-forms="integer"><var>ANSWER</var></p>
+                <p data-forms="integer" class="solution"><var>ANSWER</var></p>
 
                 <div class="hints">
                     <p>
@@ -139,4 +140,6 @@
             </div>
         </div>
     </div>
+
+
 </body></html>

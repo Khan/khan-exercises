@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math polynomials expressions math-format"><head>
+<html data-require="math polynomials expressions math-format">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Completing the square 1</title>
     <script src="../khan-exercise.js"></script>
@@ -36,7 +37,7 @@
             </div>
         </div>
         <div class="hints">
-            <div data-if="X1 !== X2" data-unwrap="">
+            <div data-if="X1 !== X2" data-unwrap>
                 <div data-if="C !== 0">
                     <p>Begin by moving the constant term to the right side of the equation.</p>
                     <p><code>x^2 <span data-if="B !== 0"> + <var>B</var>x</span> = <var>C * -1</var></code></p>
@@ -50,7 +51,7 @@
                     <p><code>( x + <var>B / 2</var> )^2 = <var>C * -1 + pow( B / 2, 2 )</var></code></p>
                 </div>
             </div>
-            <div data-else="" data-unwrap="">
+            <div data-else data-unwrap>
                 <p>The left side of the equation is already a perfect square trinomial. The coefficient of our <code>x</code> term is <code><var>B</var></code>, half of it is <code><var>B / 2</var></code>, and squaring it gives us <code>\color{blue}{<var>pow( B / 2, 2 )</var>}</code>, our constant term.</p>
                 <div>
                     <p>Thus, we can rewrite the left side of the equation as a squared term.</p>
@@ -66,9 +67,10 @@
                 <p data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"><code>x = <var>-B / 2</var>\pm<var>sqrt( C * -1 + pow( B / 2, 2 ) )</var></code></p>
                 <p><code>x = <var>-B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) )</var><span data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"> \text{ or } x = <var>-B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) )</var></span></code></p>
             </div>
-            <div data-else="">
+            <div data-else>
                 <p><code>x = <var>-B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) )</var><span data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"> \text{ or } x =     <var>-B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) )</var></span></code></p>
             </div>
         </div>
     </div>
-</body></html>
+</body>
+</html>

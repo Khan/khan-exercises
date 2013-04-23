@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie expressions"><head>
+<html data-require="math graphie expressions">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Congruent segments</title>
     <script src="../khan-exercise.js"></script>
@@ -14,7 +15,7 @@
         <div>
             <div class="vars">
                 <var id="SOLUTION">random() &lt; 0.5 ? "Yes" : "No"</var>
-                <div data-ensure="( SOLUTION === 'Yes' &amp;&amp; POINTS[ 1 ] - POINTS[ 0 ] === POINTS[ 3 ] - POINTS[ 2 ] ) || ( SOLUTION === 'No' &amp;&amp; POINTS[ 1 ] - POINTS[ 0 ] !== POINTS[ 3 ] - POINTS[ 2 ] )">
+                <div data-ensure="( SOLUTION === 'Yes' && POINTS[ 1 ] - POINTS[ 0 ] === POINTS[ 3 ] - POINTS[ 2 ] ) || ( SOLUTION === 'No' && POINTS[ 1 ] - POINTS[ 0 ] !== POINTS[ 3 ] - POINTS[ 2 ] )">
                     <var id="POINTS">sortNumbers( randRangeUnique( -5, 5, 4 ) )</var>
                 </div>
                 <var id="COLORS">[ BLUE, GREEN, PINK, ORANGE ]</var>
@@ -71,11 +72,11 @@
                     <span class="lcol"><code>AB = <var>POINTS[ 1 ] - POINTS[ 0 ]</var></code></span>
                     <span class="rcol"><code>CD = <var>POINTS[ 3 ] - POINTS[ 2 ]</var></code></span>
                 </p>
-                <div data-if="SOLUTION === 'Yes'" data-unwrap="">
+                <div data-if="SOLUTION === 'Yes'" data-unwrap>
                     <p><code>AB = CD</code></p>
                     <p class="final_answer">Yes, <code>\overline{AB}</code> and <code>\overline{CD}</code> are congruent.</p>
                 </div>
-                <div data-else="" data-unwrap="">
+                <div data-else data-unwrap>
                     <p><code>AB \neq CD</code></p>
                     <p class="final_answer">No, <code>\overline{AB}</code> and <code>\overline{CD}</code> are not congruent.</p>
                 </div>
@@ -83,4 +84,5 @@
         </div>
     </div>
 </div>
-</body></html>
+</body>
+</html>

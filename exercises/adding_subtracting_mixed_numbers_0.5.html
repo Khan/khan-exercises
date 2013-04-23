@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format"><head>
+<html data-require="math math-format">
+<head>
     <title>Adding subtracting mixed numbers 0.5</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -15,11 +16,11 @@
                 <var id="W1">randRange( 2, 19 )</var>
                 <var id="W2">( PM === 1 ? randRange( 1, 19 ) : randRange( -W1 + 1, -1 ))</var>
 
-                <div data-ensure="getLCM( D1, D2 ) &lt; 61 &amp;&amp; D1 === D2">
+                <div data-ensure="getLCM( D1, D2 ) < 61 && D1 === D2">
                     <var id="D1">randRange( 3, 20 )</var>
                     <var id="D2">randRange( 3, 20 )</var>
                 </div>
-                <div data-ensure="( PM === 1 ? (N1 / D1) + (N2 / D2) &lt; 1 : (N1 / D1) + PM * (N2 / D2) &gt; 0)">
+                <div data-ensure="( PM === 1 ? (N1 / D1) + (N2 / D2) < 1 : (N1 / D1) + PM * (N2 / D2) > 0)">
                     <var id="N1">randRange( 1, D1 - 1 )</var>
                     <var id="N2">randRange( 1, D2 - 1 )</var>
                 </div>
@@ -52,12 +53,12 @@
                 </div>
 
                 <div>
-                    <p><span data-if="PM === 1">Add</span><span data-else="">Subtract</span> the whole numbers:</p>
+                    <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the whole numbers:</p>
                     <p><code>=<var>W1 + W2</var> + \blue{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \pink{<var>fraction( N2, D2 )</var>}</code></p>
                 </div>
 
                 <div>
-                    <p><span data-if="PM === 1">Add</span><span data-else="">Subtract</span> the fractions:</p>
+                    <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the fractions:</p>
                     <p><code>= <var>expr(["+", W1 + W2, fraction( N1 + PM * N2, D2 )])</var></code></p>
                 </div>
 
@@ -66,7 +67,7 @@
                     <p><code>= <var>W1 + W2 + fraction( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
                 </div>
 
-                <div data-if="GCD &gt; 1">
+                <div data-if="GCD > 1">
                     <p>Simplify to lowest terms:</p>
                     <p><code>= <var>W1 + W2 + fractionReduce( SIMP_N1 * LCM / SIMP_D1 + PM * SIMP_N2 * LCM / SIMP_D2, LCM )</var></code></p>
                 </div>
@@ -109,18 +110,18 @@
                     <p><code>= \blue{<var>W1</var>} <var>SIGN</var> \pink{<var>abs( W2 )</var>} + \blue{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \pink{<var>fraction( N2, D2 )</var>}</code></p>
                 </div>
                 <div>
-                    <p><span data-if="PM === 1">Add</span><span data-else="">Subtract</span> the whole numbers:</p>
+                    <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the whole numbers:</p>
                     <p><code>=<var>W1 + W2</var> + \blue{<var>fraction( N1, D1 )</var>} <var>SIGN</var> \pink{<var>fraction( N2, D2 )</var>}</code></p>
                 </div>
                 <div>
-                    <p><span data-if="PM === 1">Add</span><span data-else="">Subtract</span> the fractions:</p>
+                    <p><span data-if="PM === 1">Add</span><span data-else>Subtract</span> the fractions:</p>
                     <p><code>= <var>expr(["+", W1 + W2, fraction( N1 + PM * N2, D2 )])</var></code></p>
                 </div>
                 <div>
                     <p>Combine the whole and fractional parts into a mixed number:</p>
                     <p><code>= <var>W1 + W2 + fraction( N1 - N2, D2)</var></code></p>
                 </div>
-                <div data-if="GCD &gt; 1">
+                <div data-if="GCD > 1">
                     <p>Simplify to lowest terms:</p>
                     <p><code>= <var>W1 + W2 + fractionReduce( N1 - N2 , LCM )</var></code></p>
                 </div>
@@ -128,4 +129,6 @@
         </div>
     </div>
     </div>
-</body></html>
+</div>
+</body>
+</html>
