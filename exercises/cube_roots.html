@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <div class="graphie" data-update="factor-tree" data-each="FACTORIZATION as factor">
+            <div class="graphie" data-each="FACTORIZATION as factor" data-update="factor-tree">
                     path( [ [cx + 1, y - 0.5], [cx, y - 1.5] ] );
                     path( [ [cx + 1, y - 0.5], [cx + 2, y - 1.5] ] );
                     y -= 2;
@@ -74,21 +74,21 @@
                 <div class="hints" data-apply="appendContents">
                     <p>We're looking for <code>\sqrt[3]{<var>Q</var>}</code>, so we want to split the prime factors into three identical groups.</p>
 
-                    <div data-if="PRIMES.length === 3" data-unwrap>
+                    <div data-if="PRIMES.length === 3" data-unwrap="">
 
                         <p>We only have three prime factors, and we want to split them into three groups, so this is easy.</p>
                         <p><code><var>Q</var> = <var>PRIMES.join( "\\times " )</var></code>, so <code><var>N</var>^3 = <var>Q</var></code>.</p>
 
-                    </div><div data-else data-unwrap>
+                    </div><div data-else="" data-unwrap="">
 
                         <div>
                             <p>Notice that we can rearrange the factors like so:</p>
-                            <p><code><var>Q</var> = <var>PRIMES.join( "\\times " )</var> = \left(<var>[ F_N.join( "\\times " ), F_N.join( "\\times " ), F_N.join( "\\times ") ].join( "\\right)\\times\\left(" )</var>\right)</code><p>
-                        </div>
+                            <p><code><var>Q</var> = <var>PRIMES.join( "\\times " )</var> = \left(<var>[ F_N.join( "\\times " ), F_N.join( "\\times " ), F_N.join( "\\times ") ].join( "\\right)\\times\\left(" )</var>\right)</code></p><p>
+                        </p></div>
 
-                        <p data-if="F_N.length > 1">
+                        <p data-if="F_N.length &gt; 1">
                             So <code>\left(<var>F_N.join( "\\times " )</var>\right)^3 = <var>N</var>^3 = <var>Q</var></code>.
-                        </p><p data-else>
+                        </p><p data-else="">
                             So <code><var>N</var>^3 = <var>Q</var></code>.
                         </p>
 

@@ -34,7 +34,7 @@
             <p><code><var>expr([ "*", X_COEFF, "x" ])</var> + <var>expr([ "*", Y_COEFF, 0 ])</var> = <var>EQUALS</var></code></p>
         </div>
         <p><code><var>expr([ "*", X_COEFF, "x" ])</var> = <var>EQUALS</var></code></p>
-        <div data-if="X_COEFF !== 1" data-unwrap>
+        <div data-if="X_COEFF !== 1" data-unwrap="">
             <p><code>(<var>fractionReduce( 1, X_COEFF )</var>) \cdot (<var>X_COEFF</var>x) = (<var>fractionReduce( 1, X_COEFF )</var>) \cdot (<var>EQUALS</var>)</code></p>
             <p><code>x = <var>X_INTERCEPT</var></code></p>
         </div>
@@ -48,7 +48,7 @@
                     labelStep: 1,
                     unityLabels: false,
                     labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                    axisArrows: "<->"
+                    axisArrows: "&lt;-&gt;"
                 });
 
                 style({ stroke: BLUE });

@@ -16,7 +16,7 @@
     <div class="exercise">
     <div class="problems">
         <div id="give-two-points" data-weight="3">
-            <div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) < 36 && X1 < X2 && Math.abs(M) !== 1">
+            <div class="vars" data-ensure="Math.pow(Y1 - Y2, 2) + Math.pow(X1 - X2, 2) &lt; 36 &amp;&amp; X1 &lt; X2 &amp;&amp; Math.abs(M) !== 1">
                 <var id="X1">randRange(-9, 9)</var>
                 <var id="Y1">randRange(-9, 9)</var>
 
@@ -28,7 +28,7 @@
             </div>
             <div class="question">
                 <p>What is the slope of the line through the points <code>(<var>X1</var>, <var>Y1</var>)</code> and <code>(<var>X2</var>, <var>Y2</var>)</code>?</p>
-                <div data-if="GRAPH_IN_QUESTION" class="graphie" id="slope">
+                <div class="graphie" id="slope" data-if="GRAPH_IN_QUESTION">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -36,7 +36,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     });
 
                     line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M], {
@@ -79,7 +79,7 @@
                 </div>
               </div>
                 <p>The quicker the airplane takes off, the steeper the positive slope, which means the answer will be a higher number than when the airplane takes off slowly. The quicker the airplane lands, the steeper the negative slope, which means the answer will be much more negative than when it lands slowly.</p>
-                <div data-if="!GRAPH_IN_QUESTION" class="graphie" id="slope">
+                <div class="graphie" id="slope" data-if="!GRAPH_IN_QUESTION">
                     graphInit({
                         range: 10,
                         scale: 20,
@@ -87,7 +87,7 @@
                         labelStep: 1,
                         unityLabels: false,
                         labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     });
 
                     line( [X1 - 19, Y1 - 19 * M], [X2 + 19, Y2 + 19 * M], {
@@ -159,11 +159,11 @@
             </ol>
             <div class="hints">
                 <p style="clear: both">Remember that the slope corresponds to which direction the line slants, and how much it slants.</p>
-                <div data-if="M.value < 0">
+                <div data-if="M.value &lt; 0">
                     <p>Because <code><var>M.display</var></code> is negative, the line should slant downwards as we follow it to the right.</p>
                     <p>The answer is either the <code class="hint_orange">\text{orange}</code> or <code class="hint_pink">\text{pink}</code> graph.</p>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <p>Because <code><var>M.display</var></code> is positive, the line should slant upwards as we follow it to the right.</p>
                     <p>The answer is either the <code class="hint_blue">\text{blue}</code> or <code class="hint_green">\text{green}</code> graph.</p>
                 </div>
@@ -182,7 +182,7 @@
                 <var id="WHICH">randRange( 1, 2 )</var>
                 <var id="M">SLOPES[WHICH]</var>
             </div>
-            <p class="question"><span data-if="WHICH ===1">Which graph best depicts a slope of <code><var>M.display</var></code>?</span><span data-else>Which graph best depicts an undefined slope?</span></p>
+            <p class="question"><span data-if="WHICH ===1">Which graph best depicts a slope of <code><var>M.display</var></code>?</span><span data-else="">Which graph best depicts an undefined slope?</span></p>
             <div class="hints">
                 <p style="clear: both">Remember that the slope corresponds to how steep the line is.</p>
                 <p>Imagine walking up a hill represented by a line. A larger slope means a steeper hill.</p>

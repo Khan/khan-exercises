@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-require="math">
-    <head>
+<head>
         <title>Basic set notation</title>
         <script src="../khan-exercise.js"></script>
     </head>
@@ -22,8 +22,8 @@
             <div class="solution" data-type="multiple">
                 <div class="sol" data-type="custom">
                     <div class="instruction">Enter the answer as a set, with members separated by commas.
-                        <p><code>\{ </code><input class="text"><code> \}</code></span>
-                    </div>
+                        <p><code>\{ </code><input class="text"><code> \}</code>
+                    </p></div>
                     <div class="validator-function">
                         var guessTrim = guess.replace(/\s/g, "");
                         var guessArray = guessTrim.length ? _.map(guessTrim.split(","), function(n) { return parseInt(n); }) : [];
@@ -82,9 +82,9 @@
                         <p>The intersection of two sets <code>X</code> and <code>Y</code> is the collection of elements which are in <code>X</code> and also in <code>Y</code>.</p>
                         <p>The members of a set must be unique, and the order doesn't matter.</p>
                         <p><code>X \cap Y = \{<var>ANSWER</var>\}</code>
-                    </div>
+                    </p></div>
                 </div>
             </div>
         </div>
-    </body>
+</body>
 </html>

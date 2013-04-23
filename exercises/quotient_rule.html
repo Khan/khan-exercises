@@ -8,8 +8,8 @@
 <body>
     <div class="exercise">
         <div class="vars" data-ensure="FUNCN.fText !== FUNCD.fText">
-            <var id="FUNCN" data-ensure="FUNCN.hints == null || FUNCN.hints.length <= 4">generateSpecialFunction("x")</var>
-            <var id="FUNCD" data-ensure="FUNCD.hints == null || FUNCD.hints.length <= 4">generateSpecialFunction("x")</var>
+            <var id="FUNCN" data-ensure="FUNCN.hints == null || FUNCN.hints.length &lt;= 4">generateSpecialFunction("x")</var>
+            <var id="FUNCD" data-ensure="FUNCD.hints == null || FUNCD.hints.length &lt;= 4">generateSpecialFunction("x")</var>
 
             <var id="N_F">FUNCN.fText</var>
             <var id="N_DF">FUNCN.ddxFText</var>
@@ -34,13 +34,13 @@
                 <!-- (n-df)(d-f) - (d-df)(n-f) / d-f -->
                 <p class="solution"><code><var>ANSWER( N_DF, D_F, D_DF, N_F, D_F, "-" )</var></code></p>
 
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <!-- (n-df)(d-df) - (d-f)(n-f) / d-f -->
                     <li data-if="D_DF !== D_F"><code><var>ANSWER( N_DF, D_DF, D_F, N_F, D_F, "-" )</var></code></li>
                     <!-- (n-df)(d-f) - (d-df)(n-f) / n-f -->
                     <li data-if="N_F !== D_F"><code><var>ANSWER( N_DF, D_F, D_DF, N_F, N_F, "-" )</var></code></li>
                     <!-- (n-df)(d-df) - (d-f)(n-f) / n-f -->
-                    <li data-if="N_F !== D_F && D_DF !== D_F"><code><var>ANSWER( N_DF, D_DF, D_F, N_F, N_F, "-" )</var></code></li>
+                    <li data-if="N_F !== D_F &amp;&amp; D_DF !== D_F"><code><var>ANSWER( N_DF, D_DF, D_F, N_F, N_F, "-" )</var></code></li>
                     <!-- (n-df)(d-f) + (d-df)(n-f) / d-f -->
                     <li><code><var>ANSWER( N_DF, D_F, D_DF, N_F, D_F, "+" )</var></code></li>
                     <!-- (n-df)(d-df) + (d-f)(n-f) / d-f -->
@@ -48,7 +48,7 @@
                     <!-- (n-df)(d-f) + (d-df)(n-f) / n-f -->
                     <li data-if="N_F !== D_F"><code><var>ANSWER( N_DF, D_F, D_DF, N_F, N_F, "+" )</var></code></li>
                     <!-- (n-df)(d-df) + (d-f)(n-f) / n-f -->
-                    <li data-if="N_F !== D_F && D_DF !== D_F"><code><var>ANSWER( N_DF, D_DF, D_F, N_F, N_F, "+" )</var></code></li>
+                    <li data-if="N_F !== D_F &amp;&amp; D_DF !== D_F"><code><var>ANSWER( N_DF, D_DF, D_F, N_F, N_F, "+" )</var></code></li>
                 </ul>
             </div>
         </div>

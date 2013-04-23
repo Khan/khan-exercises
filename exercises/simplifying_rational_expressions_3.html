@@ -65,7 +65,7 @@
                     <div class="input-format">
                         <div class="entry" data-type="multiple">
                             <table>
-                                <tr>
+                                <tbody><tr>
                                     <td rowspan="2">
                                         <code><var>Y</var> = </code>
                                     </td>
@@ -81,7 +81,7 @@
                                         <span class="sol short40" data-fallback="1">a</span>
                                     </td>
                                 </tr>
-                            </table>
+                            </tbody></table>
                         </div>
                     </div>
                     <div class="example">a simplifed expression, like <code>x + 2</code></div>
@@ -124,7 +124,7 @@
                     <div class="input-format">
                         <div class="entry" data-type="multiple">
                             <table>
-                                <tr>
+                                <tbody><tr>
                                     <td rowspan="2">
                                         <code><var>Y</var> = </code>
                                     </td>
@@ -140,7 +140,7 @@
                                         <span class="sol short40" data-fallback="1">a</span>
                                     </td>
                                 </tr>
-                            </table>
+                            </tbody></table>
                         </div>
                     </div>
                     <div class="example">a simplifed expression, like <code>x + 2</code></div>
@@ -183,7 +183,7 @@
                     <div class="input-format">
                         <div class="entry" data-type="multiple">
                             <table>
-                                <tr>
+                                <tbody><tr>
                                     <td rowspan="2">
                                         <code><var>Y</var> = </code>
                                     </td>
@@ -196,14 +196,14 @@
                                         <span class="sol short32" data-fallback="1">a</span>
                                     </td>
                                 </tr>
-                            </table>
+                            </tbody></table>
                         </div>
                     </div>
                     <div class="example">a simplifed expression, like <code>x + 2</code></div>
                 </div>
 
             <div class="hints" data-apply="appendContents">
-                <div data-if="FACTOR2 < -1">
+                <div data-if="FACTOR2 &lt; -1">
                     <p>To remove the negative denominator, multiply the numerator and denominator by -1:</p>
                     <div><code><var>Y</var> = \dfrac{-<var>X</var> + <var>-B</var>}{<var>-C</var>}</code></div>
                 </div>
@@ -234,7 +234,7 @@
                 <div data-if="FACTOR2 === 1">
                     <code><var>Y</var> = \dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code> or more simply, <code><var>Y</var> = <var>FACTOR1</var></code>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <code><var>Y</var> = \dfrac{<var>FACTOR1</var>}{<var>FACTOR2</var>}</code>
                 </div>
             </div>

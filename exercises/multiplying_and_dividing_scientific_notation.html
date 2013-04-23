@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math math-format">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Multiplying and dividing scientific notation</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -44,7 +44,7 @@
                         <code>= <var>roundTo( 2, scientificMantissa( 3, NUMERATOR ) / scientificMantissa( 1, DENOMINATOR ) ).toFixed( 2 )</var>
                         \times 10^{<var>scientificExponent( NUMERATOR ) - scientificExponent( DENOMINATOR )</var>}</code>
                     </p>
-                    <div data-if="scientificExponent( QUOTIENT ) != scientificExponent( NUMERATOR ) - scientificExponent( DENOMINATOR )" data-unwrap>
+                    <div data-if="scientificExponent( QUOTIENT ) != scientificExponent( NUMERATOR ) - scientificExponent( DENOMINATOR )" data-unwrap="">
                         <p>
                             To write the answer correctly in scientific notation, the first number needs to be between <code>1</code> and <code>10</code>.
                             In this case, we need to move the decimal one position to the right without changing the value of our answer.
@@ -89,7 +89,7 @@
                         <code>= <var>roundTo( 1, scientificMantissa( 2, QUOTIENT ) * scientificMantissa( 1, DENOMINATOR ) ).toFixed( 1 )</var>
                         \times 10^{<var>scientificExponent( QUOTIENT ) + scientificExponent( DENOMINATOR )</var>}</code>
                     </p>
-                    <div data-if="scientificExponent( NUMERATOR ) != scientificExponent( QUOTIENT ) + scientificExponent( DENOMINATOR )" data-unwrap>
+                    <div data-if="scientificExponent( NUMERATOR ) != scientificExponent( QUOTIENT ) + scientificExponent( DENOMINATOR )" data-unwrap="">
                         <p>
                             To write the answer correctly in scientific notation, the first number needs to be between <code>1</code> and <code>10</code>.
                             In this case, we need to move the decimal one position to the left without changing the value of our answer.

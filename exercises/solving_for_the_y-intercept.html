@@ -23,7 +23,7 @@
     <div class="exercise">
         <div class="problems">
             <div id="given-point">
-                <div class="vars" data-ensure="X2 !== X1 && Y2 !== Y1 && X_MAX >= 0 && X_MIN <= 0 && Y_MAX >= 0 && Y_MIN <= 0">
+                <div class="vars" data-ensure="X2 !== X1 &amp;&amp; Y2 !== Y1 &amp;&amp; X_MAX &gt;= 0 &amp;&amp; X_MIN &lt;= 0 &amp;&amp; Y_MAX &gt;= 0 &amp;&amp; Y_MIN &lt;= 0">
                     <var id="X1">randRangeNonZero(-10, 10)</var>
                     <var id="X2">randRangeNonZero(-10, 10)</var>
                     <var id="Y1">randRangeNonZero(-10, 10)</var>
@@ -68,7 +68,7 @@
                                 labelStep: 1,
                                 unityLabels: false,
                                 labelFormat: function(s) { return "\\small{" + s + "}"; },
-                                axisArrows: "&lt;-&rt;"
+                                axisArrows: "&lt;-&amp;rt;"
                             });
 
                             plot(function(x) {
@@ -111,7 +111,7 @@
                         </code></p>
                     </div>
                     <p><code><var>expr(["*", Y_COEFF, "y"])</var> = <var>EQUALS</var></code></p>
-                    <div data-if="X_COEFF !== 1" data-unwrap>
+                    <div data-if="X_COEFF !== 1" data-unwrap="">
                         <p><code>\dfrac{<var>Y_COEFF</var>y}{<var>Y_COEFF</var>} = \dfrac{<var>EQUALS</var>}{<var>Y_COEFF</var>}</code></p>
                         <p><code>y = <var>Y_INTERCEPT</var></code></p>
                     </div>

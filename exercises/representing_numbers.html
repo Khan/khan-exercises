@@ -20,7 +20,7 @@
                 <p>What number is represented by the blocks shown?</p>
             </div>
 
-            <div class="graphie" data-if="C !== 0" id="ones-graph">
+            <div class="graphie" id="ones-graph" data-if="C !== 0">
                 init({
                     range: [ [-1, 21], [-0.5, 1.5] ],
                     scale: 24
@@ -38,7 +38,7 @@
                 }
             </div>
 
-            <div class="graphie" data-if="B !== 0" id="tens-graph">
+            <div class="graphie" id="tens-graph" data-if="B !== 0">
                 init({
                     range: [ [-1, 21], [-1.5 * B, 0.5] ],
                     scale: 24
@@ -57,7 +57,7 @@
                 }
             </div>
 
-            <div class="graphie" data-if="A !== 0" id="hundreds-graph">
+            <div class="graphie" id="hundreds-graph" data-if="A !== 0">
                 init({
                     range: [ [-1, 21], [-0.5, 10.5] ],
                     scale: 24
@@ -89,9 +89,9 @@
                 }
             </div>
         </div>
-        <div data-if="A !== 0 || B !== 0" data-unwrap>
+        <div data-if="A !== 0 || B !== 0" data-unwrap="">
             <p data-if="B === 0">Because there are no tens blocks, the tens digit of the number is <code>0</code>.</p>
-            <div data-else>
+            <div data-else="">
                 <p>By counting the number of tens blocks, we see that the tens digit of the number is <code><var>B</var></code>.</p>
                 <div class="graphie" data-update="tens-graph">
                     for ( var i = 0; i &lt; B; i++ ) {
@@ -101,7 +101,7 @@
             </div>
         </div>
         <p data-if="C === 0">Because there are no single unit blocks, the units digit of the number is <code>0</code>.</p>
-        <div data-else>
+        <div data-else="">
             <p>By counting the number of single unit blocks, we see that the units digit of the number is <code><var>C</var></code>.</p>
             <div class="graphie" data-update="ones-graph">
                 for ( var i = 0; i &lt; C; i++ ) {

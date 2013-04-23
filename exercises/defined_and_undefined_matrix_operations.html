@@ -8,7 +8,7 @@
 <body>
     <div class="exercise">
 
-    <div class="vars" data-ensure="!(DIM_1 === 1 && DIM_2 === 1) && !(DIM_3 === 1 && DIM_4 === 1) && (PRETTY_MAT_1_ID !== PRETTY_MAT_2_ID)">
+    <div class="vars" data-ensure="!(DIM_1 === 1 &amp;&amp; DIM_2 === 1) &amp;&amp; !(DIM_3 === 1 &amp;&amp; DIM_4 === 1) &amp;&amp; (PRETTY_MAT_1_ID !== PRETTY_MAT_2_ID)">
         <var id="ANSWER">DEFINED ? "Yes" : "No"</var>
 
         <var id="MAT_1">makeMatrix(randRange(-2, 4, DIM_1, DIM_2))</var>
@@ -60,7 +60,7 @@
             <div class="hints">
                 <div>
                     <p>
-                        In order for <span data-if="OPERATION === '+'">addition</span><span data-else>subtraction</span> of two matrices to be defined, the matrices must have the same dimensions.
+                        In order for <span data-if="OPERATION === '+'">addition</span><span data-else="">subtraction</span> of two matrices to be defined, the matrices must have the same dimensions.
                     </p>
                     <p>
                         If <code><var>PRETTY_MAT_1_ID</var></code> is of dimension <code>(\blue m \times \red n)</code> and <code><var>PRETTY_MAT_2_ID</var></code> is of dimension <code>(\blue p \times \red q)</code>, then:
@@ -72,7 +72,7 @@
                         2. <code>\red n</code> (number of columns in <code><var>PRETTY_MAT_1_ID</var></code>) must equal <code>\red q</code> (number of columns in <code><var>PRETTY_MAT_2_ID</var></code>)
                     </p>
                     <p>
-                        for their <span data-if="OPERATION === '+'">sum</span><span data-else>difference</span> to be defined.
+                        for their <span data-if="OPERATION === '+'">sum</span><span data-else="">difference</span> to be defined.
                     </p>
                 </div>
                 <div class="qhint">
@@ -81,8 +81,8 @@
                     </p>
                     <span class="qhint-answer"><var>DIM_1 === DIM_3 ? "Yes" : "No"</var></span>
                     <p class="qhint-input">
-                        <input class="simple-button" type="button" value="Yes"/>
-                        <input class="simple-button" type="button" value="No"/>
+                        <input class="simple-button" type="button" value="Yes">
+                        <input class="simple-button" type="button" value="No">
                     </p>
                 </div>
                 <div class="qhint">
@@ -91,14 +91,14 @@
                     </p>
                     <span class="qhint-answer"><var>DIM_2 === DIM_4 ? "Yes" : "No"</var></span>
                     <p class="qhint-input">
-                        <input class="simple-button" type="button" value="Yes"/>
-                        <input class="simple-button" type="button" value="No"/>
+                        <input class="simple-button" type="button" value="Yes">
+                        <input class="simple-button" type="button" value="No">
                     </p>
                 </div>
                 <div>
                     <p>
-                        Since <code><var>PRETTY_MAT_1_ID</var></code> has <span data-if="DEFINED">the same</span><span data-else>different</span> dimensions <code>(<var>DIM_1 + "\\times" + DIM_2</var>)</code> <span data-if="DEFINED">as</span><span data-else>from</span> <code><var>PRETTY_MAT_2_ID</var></code> <code>(<var>DIM_3 + "\\times" + DIM_4</var>)</code>,
-                    <p>
+                        Since <code><var>PRETTY_MAT_1_ID</var></code> has <span data-if="DEFINED">the same</span><span data-else="">different</span> dimensions <code>(<var>DIM_1 + "\\times" + DIM_2</var>)</code> <span data-if="DEFINED">as</span><span data-else="">from</span> <code><var>PRETTY_MAT_2_ID</var></code> <code>(<var>DIM_3 + "\\times" + DIM_4</var>)</code>,
+                    </p><p>
                         <code><var>PRETTY_MAT_1_ID + OPERATION + PRETTY_MAT_2_ID</var></code> is <span data-if="!DEFINED">not</span> defined.
                     </p>
                 </div>
@@ -134,8 +134,8 @@
                     </p>
                     <span class="qhint-answer"><var>DIM_2</var></span>
                     <p class="qhint-input">
-                        <input type="text" value=""/>
-                        <input type="submit" value="Check"/>
+                        <input type="text" value="">
+                        <input type="submit" value="Check">
                     </p>
                 </div>
                 <div class="qhint">
@@ -144,12 +144,12 @@
                     </p>
                     <span class="qhint-answer"><var>DIM_3</var></span>
                     <p class="qhint-input">
-                        <input type="text" value=""/>
-                        <input type="submit" value="Check"/>
+                        <input type="text" value="">
+                        <input type="submit" value="Check">
                     </p>
                 </div>
                 <div>
-                    Since <code><var>PRETTY_MAT_1_ID</var></code> has <span data-if="DEFINED">the same</span><span data-else>a different</span> number of columns (<var>DIM_2</var>) <span data-if="DEFINED">as</span><span data-else>than</span> <code><var>PRETTY_MAT_2_ID</var></code> has rows (<var>DIM_3</var>), <code><var>PRETTY_MAT_1_ID + PRETTY_MAT_2_ID</var></code> is <span data-if="!DEFINED">not</span> defined.
+                    Since <code><var>PRETTY_MAT_1_ID</var></code> has <span data-if="DEFINED">the same</span><span data-else="">a different</span> number of columns (<var>DIM_2</var>) <span data-if="DEFINED">as</span><span data-else="">than</span> <code><var>PRETTY_MAT_2_ID</var></code> has rows (<var>DIM_3</var>), <code><var>PRETTY_MAT_1_ID + PRETTY_MAT_2_ID</var></code> is <span data-if="!DEFINED">not</span> defined.
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div class="exercise">
-	<div class="vars" data-ensure="getGCD(N1, D1) === 1 && getGCD(N2, D2) === 1">
+	<div class="vars" data-ensure="getGCD(N1, D1) === 1 &amp;&amp; getGCD(N2, D2) === 1">
 		<var id="NEG1">randFromArray([1, -1])</var>
 		<var id="NEG1S">NEG1 === -1 ? "-" : ""</var>
 		<var id="N1">randRange(1, 9)</var>
@@ -42,7 +42,7 @@
 		<p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
 		<p>The reciprocal of <code class="hint_green"><var>NEG2S</var> \dfrac{<var>N2</var>}{<var>D2</var>}</code> is <code class="hint_blue"><var>NEG2S</var> \dfrac{<var>D2</var>}{<var>N2</var>}</code>. We just flipped the numerator and denominator.
 
-		<div>
+		</p><div>
 			<p>
 				Since multiplying by the reciprocal is the same as dividing, lets use the reciprocal to change the problem into a multiplication problem:
 			</p>
@@ -68,7 +68,7 @@
 			</code></p>
 		</div>
 
-		<div data-if="GCD1 !== 1 || GCD2 !== 1" data-unwrap>
+		<div data-if="GCD1 !== 1 || GCD2 !== 1" data-unwrap="">
 			<p>
 				We could just multiply everything to get <code>\frac{<var>NEG1 * NEG2 * N1 * D2</var>}{<var>N2 * D1</var>}</code>
 				and then try to reduce that to get the final answer, but it's easier if we can find and reduce some common factors before we multiply.
@@ -99,7 +99,7 @@
 			</div>
 		</div>
 
-		<div data-else>
+		<div data-else="">
 			<p class="final_answer">Just multiply to get the final answer. Double-check that it's simplified:</p>
 			<p><code>
 				\begin{eqnarray}

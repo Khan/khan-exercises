@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math graphie word-problems stat"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math graphie word-problems stat">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Z scores 2</title>
     <script src="../khan-exercise.js"></script>
     <style>
@@ -66,10 +66,10 @@
             <div class="fake_header reading">
                 <span><var>HEADER</var></span><span data-each="COLUMNS as i, column"><var>column</var></span>
             </div>
-            <div data-each="ROWS as i, row" class="fake_row reading">
+            <div class="fake_row reading" data-each="ROWS as i, row">
                 <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>zgrid</var></span>
             </div>
-            <div data-inexact="" data-forms="percent" class="solution" data-max-error="0.0001">
+            <div class="solution" data-forms="percent" data-inexact="" data-max-error="0.0001">
                 <span><var>roundTo(4, ANSWER)</var></span>
             </div>
 
@@ -128,6 +128,5 @@
         </div>
     </div>
     </div>
-
-
-</body></html>
+</body>
+</html>

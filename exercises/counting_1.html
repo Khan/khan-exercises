@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html data-require="math spin word-problems"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<html data-require="math spin word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Counting 1</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -26,8 +26,8 @@
 
                 
 
-                <div data-type="multiple" class="solution">
-                    <p><span data-forms="integer" class="sol"><var>ANSWER</var></span> <var>PROBLEMS</var></p>
+                <div class="solution" data-type="multiple">
+                    <p><span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>PROBLEMS</var></p>
                 </div>
                 <div class="hints">
                     <p>Instead of counting <var>PROBLEMS</var> <var>START</var> through <var>END</var>, we can subtract <var>START - 1</var> from each number so we instead consider <var>PROBLEMS</var> 1 through <var>ANSWER</var>.</p>
@@ -42,8 +42,8 @@
                 </div>
                 <p class="spin">A baker has a whole {baguette|loaf of bread}.</p>
                 <p class="question spin">How many cuts must {he|she} make to have exactly <var>NUM</var> even slices?</p>
-                <div data-type="multiple" class="solution">
-                    <p><span data-forms="integer" class="sol"><var>NUM -1</var></span> cuts</p>
+                <div class="solution" data-type="multiple">
+                    <p><span class="sol" data-forms="integer"><var>NUM -1</var></span> cuts</p>
                 </div>
                 <div class="hints">
                     <p>One cut will make two slices, two cuts will make three slices, and so on.</p>
@@ -57,8 +57,8 @@
                 <p><var>person( 1 )</var> is building a straight fence, with posts one meter apart.</p>
                 <p class="question" data-if="isMale(1)">If the fence is <var>LENGTH</var> meters long, how many fence posts does he need?</p><p class="question" data-else="">If the fence is <var>LENGTH</var> meters long, how many fence posts does she need?</p>
                 
-                <div data-type="multiple" class="solution">
-                    <p><span data-forms="integer" class="sol"><var>LENGTH + 1</var></span> fence posts</p>
+                <div class="solution" data-type="multiple">
+                    <p><span class="sol" data-forms="integer"><var>LENGTH + 1</var></span> fence posts</p>
                 </div>
                 <div class="hints">
                     <p data-if="isMale(1)">If the fence is one meter long, he needs two posts (one for each end).</p><p data-else="">If the fence is one meter long, she needs two posts (one for each end).</p>
@@ -71,6 +71,5 @@
             </div>
         </div>
     </div>
-
-
-</body></html>
+</body>
+</html>

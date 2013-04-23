@@ -9,7 +9,7 @@
 <div class="exercise">
     <div class="problems">
 
-        <div id="find-side" data-calculator>
+        <div id="find-side" data-calculator="">
             <div class="vars" data-ensure="ANGLE1 !== 90 ||
                     ANGLE2 !== 90 ||
                     ANGLE1 + ANGLE2 !== 90">
@@ -77,8 +77,7 @@
 
                 </div>
             </div>
-            <div class="solution" data-forms="integer, decimal"
-                data-inexact data-max-error="0.09"><var>SOLUTION</var>
+            <div class="solution" data-forms="integer, decimal" data-inexact="" data-max-error="0.09"><var>SOLUTION</var>
             </div>
 
             <div class="hints">
@@ -163,14 +162,14 @@
             </div>
         </div>
 
-        <div id="find-angle" data-calculator>
+        <div id="find-angle" data-calculator="">
             <div class="vars" data-apply="replace" data-ensure="
-                !TRIANGLE.isRight() && TRIANGLE.isScalene &&
+                !TRIANGLE.isRight() &amp;&amp; TRIANGLE.isScalene &amp;&amp;
                 !isNaN(SOLUTION)">
                 <var id="SIDES" data-ensure="
-                    SIDES[1] + SIDES[2] > SIDES[0] &&
-                    SIDES[0] + SIDES[2] > SIDES[1] &&
-                    SIDES[0] + SIDES[1] > SIDES[2]
+                    SIDES[1] + SIDES[2] &gt; SIDES[0] &amp;&amp;
+                    SIDES[0] + SIDES[2] &gt; SIDES[1] &amp;&amp;
+                    SIDES[0] + SIDES[1] &gt; SIDES[2]
                 ">randRange(5, 15, 3)</var>
                 <var id="KNOWN, UNKNOWN">shuffle([0, 1, 2])</var>
                 <var id="TRIANGLE">solveTriangle({
@@ -222,8 +221,7 @@
                 </div>
             </div>
             <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer" data-inexact
-                    data-max-error="0.5"><var>SOLUTION</var>
+                <span class="sol" data-forms="integer" data-inexact="" data-max-error="0.5"><var>SOLUTION</var>
                 </span><code>\Large{^\circ}</code>
             </div>
 
@@ -306,4 +304,7 @@
         </div>
 
     </div>
+
+</div>
+</body>
 </html>

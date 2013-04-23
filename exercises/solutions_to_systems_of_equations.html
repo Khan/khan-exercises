@@ -13,7 +13,7 @@
             <var id="M2" data-ensure="M1 !== M2">randRangeNonZero( -6, 6 )</var>
             <var id="Y1">randRangeNonZero( -10, 10 )</var>
             <var id="Y2" data-ensure="Y1 !== Y2">randRangeNonZero( -10, 10 )</var>
-            <var id="MULT" data-ensure="MULT[0] !== 1 && MULT[1] !== 1">[randRange( 1, 3 ) * randRangeNonZero( -1, 1 ), randRange( 1, 3 ) * randRangeNonZero( -1, 1 )]</var>
+            <var id="MULT" data-ensure="MULT[0] !== 1 &amp;&amp; MULT[1] !== 1">[randRange( 1, 3 ) * randRangeNonZero( -1, 1 ), randRange( 1, 3 ) * randRangeNonZero( -1, 1 )]</var>
             <var id="AB_VALS">[{ a: M1, b: Y1 }, { a: M2, b: Y2 }]</var>
             <var id="COUNT">[0, 1]</var>
         </div>
@@ -50,7 +50,7 @@
                 </div>
                 <p class="problem">Determine how many solutions exist for the system of equations.</p>
                 <div class="question">
-                    <p><code>\color{<var>BLUE</var>}{<var>EQUATIONS[0]</var>}</code><br />
+                    <p><code>\color{<var>BLUE</var>}{<var>EQUATIONS[0]</var>}</code><br>
                     <code>\color{<var>GREEN</var>}{<var>EQUATIONS[1]</var>}</code></p>
                 </div>
                 <ul class="choices" data-category="true">
@@ -60,20 +60,20 @@
                 </ul>
                 <div class="hints">
                     <p>Convert both equations to slope-intercept form:</p>
-                    <div data-unwrap>
-                        <p data-each="COUNT as INDEX"><code>\color{<span data-if="INDEX === 0"><var>BLUE</var></span><span data-else><var>GREEN</var></span>}{<var>EQUATIONS[INDEX]</var>}</code><br />
-                        <span data-if="INDICES[INDEX] === 1"><code>\color{<span data-if="INDEX === 0"><var>BLUE</var></span><span data-else><var>GREEN</var></span>}{y = <var>expr(["+", ["*", AB_VALS[INDEX].a, "x"], AB_VALS[INDEX].b])</var>}</code></span>
-                        <span data-if="INDICES[INDEX] === 2"><code><var>expr(["*", -AB_VALS[INDEX].a, "x"])</var>\color{<var>PINK</var>}{<var>SIGNS_1[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a ), "x"])</var>} + y = <var>AB_VALS[INDEX].b</var>\color{<var>PINK</var>}{<var>SIGNS_1[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a ), "x"])</var>}</code><br />
-                        <code>y = <var>AB_VALS[INDEX].b</var><var>SIGNS_1[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a ), "x"])</var></code><br />
-                        <code>\color{<span data-if="INDEX === 0"><var>BLUE</var></span><span data-else><var>GREEN</var></span>}{y = <var>expr(["+", ["*", AB_VALS[INDEX].a, "x"], AB_VALS[INDEX].b])</var>}</code></span>
-                        <span data-if="INDICES[INDEX] === 3"><code><var>expr(["*", -AB_VALS[INDEX].a * MULT[INDEX], "x"])</var>\color{<var>PINK</var>}{<var>SIGNS_2[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a * MULT[INDEX] ), "x"])</var>} + <var>expr(["*", MULT[INDEX], "y"])</var> = <var>AB_VALS[INDEX].b * MULT[INDEX]</var>\color{<var>PINK</var>}{<var>SIGNS_2[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a * MULT[INDEX] ), "x"])</var>}</code><br />
-                        <code><var>expr(["*", MULT[INDEX], "y"])</var> = <var>AB_VALS[INDEX].b * MULT[INDEX]</var><var>SIGNS_2[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a * MULT[INDEX] ), "x"])</var></code><br />
-                        <code>y = <var>AB_VALS[INDEX].b</var><var>SIGNS_1[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a ), "x"])</var></code><br />
-                        <code>\color{<span data-if="INDEX === 0"><var>BLUE</var></span><span data-else><var>GREEN</var></span>}{y = <var>expr(["+", ["*", AB_VALS[INDEX].a, "x"], AB_VALS[INDEX].b])</var>}</code></span></p>
+                    <div data-unwrap="">
+                        <p data-each="COUNT as INDEX"><code>\color{<span data-if="INDEX === 0"><var>BLUE</var></span><span data-else=""><var>GREEN</var></span>}{<var>EQUATIONS[INDEX]</var>}</code><br>
+                        <span data-if="INDICES[INDEX] === 1"><code>\color{<span data-if="INDEX === 0"><var>BLUE</var></span><span data-else=""><var>GREEN</var></span>}{y = <var>expr(["+", ["*", AB_VALS[INDEX].a, "x"], AB_VALS[INDEX].b])</var>}</code></span>
+                        <span data-if="INDICES[INDEX] === 2"><code><var>expr(["*", -AB_VALS[INDEX].a, "x"])</var>\color{<var>PINK</var>}{<var>SIGNS_1[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a ), "x"])</var>} + y = <var>AB_VALS[INDEX].b</var>\color{<var>PINK</var>}{<var>SIGNS_1[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a ), "x"])</var>}</code><br>
+                        <code>y = <var>AB_VALS[INDEX].b</var><var>SIGNS_1[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a ), "x"])</var></code><br>
+                        <code>\color{<span data-if="INDEX === 0"><var>BLUE</var></span><span data-else=""><var>GREEN</var></span>}{y = <var>expr(["+", ["*", AB_VALS[INDEX].a, "x"], AB_VALS[INDEX].b])</var>}</code></span>
+                        <span data-if="INDICES[INDEX] === 3"><code><var>expr(["*", -AB_VALS[INDEX].a * MULT[INDEX], "x"])</var>\color{<var>PINK</var>}{<var>SIGNS_2[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a * MULT[INDEX] ), "x"])</var>} + <var>expr(["*", MULT[INDEX], "y"])</var> = <var>AB_VALS[INDEX].b * MULT[INDEX]</var>\color{<var>PINK</var>}{<var>SIGNS_2[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a * MULT[INDEX] ), "x"])</var>}</code><br>
+                        <code><var>expr(["*", MULT[INDEX], "y"])</var> = <var>AB_VALS[INDEX].b * MULT[INDEX]</var><var>SIGNS_2[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a * MULT[INDEX] ), "x"])</var></code><br>
+                        <code>y = <var>AB_VALS[INDEX].b</var><var>SIGNS_1[INDEX]</var><var>expr(["*", abs( AB_VALS[INDEX].a ), "x"])</var></code><br>
+                        <code>\color{<span data-if="INDEX === 0"><var>BLUE</var></span><span data-else=""><var>GREEN</var></span>}{y = <var>expr(["+", ["*", AB_VALS[INDEX].a, "x"], AB_VALS[INDEX].b])</var>}</code></span></p>
                     </div>
                     <div>
                         <p>Just by looking at both equations in slope-intercept form, what can you determine?</p>
-                        <p><code>\color{<var>BLUE</var>}{y = <var>expr(["+", ["*", AB_VALS[0].a, "x"], AB_VALS[0].b])</var>}</code><br />
+                        <p><code>\color{<var>BLUE</var>}{y = <var>expr(["+", ["*", AB_VALS[0].a, "x"], AB_VALS[0].b])</var>}</code><br>
                         <code>\color{<var>GREEN</var>}{y = <var>expr(["+", ["*", AB_VALS[1].a, "x"], AB_VALS[1].b])</var>}</code></p>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                                 labelStep: 1,
                                 unityLabels: false,
                                 labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                                axisArrows: "<->"
+                                axisArrows: "&lt;-&gt;"
                             });
 
                             plot(function( x ) {
@@ -129,7 +129,7 @@
                                 labelStep: 1,
                                 unityLabels: false,
                                 labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                                axisArrows: "<->"
+                                axisArrows: "&lt;-&gt;"
                             });
 
                             plot(function( x ) {
@@ -158,7 +158,7 @@
                                 labelStep: 1,
                                 unityLabels: false,
                                 labelFormat: function( s ) { return "\\small{" + s + "}"; },
-                                axisArrows: "<->"
+                                axisArrows: "&lt;-&gt;"
                             });
 
                             plot(function( x ) {

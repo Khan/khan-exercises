@@ -58,10 +58,10 @@
         <div>
             <p>To find the
                 <span data-if="OPERATION === '+'">sum</span>
-                <span data-else>difference</span>
+                <span data-else="">difference</span>
                 of two matrices,
                 <span data-if="OPERATION === '+'">add</span>
-                <span data-else>subtract</span>
+                <span data-else="">subtract</span>
                 the corresponding items between each matrix.
             </p>
             <div>
@@ -77,12 +77,12 @@
     </div>
 
     <div class="solution" data-type="multiple">
-        <div data-each="PADDED_SOLN_MAT as row" class="matrix-row">
+        <div class="matrix-row" data-each="PADDED_SOLN_MAT as row">
             <span data-each="row as elem">
-                <span data-if="elem !== ''" class="sol" data-forms="integer">
+                <span class="sol" data-forms="integer" data-if="elem !== ''">
                     <var>elem</var>
                 </span>
-                <span data-else data-type="text" class="sol">
+                <span class="sol" data-else="" data-type="text">
                     <var>elem</var>
                 </span>
             </span>

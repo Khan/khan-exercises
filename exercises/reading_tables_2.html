@@ -73,12 +73,12 @@
                 <span><var>row</var></span><span data-each="ENROLLMENTS[i] as j, enrollment"><var>enrollment</var></span>
             </div>
             <div class="solution" data-type="multiple">
-                <span style="padding-right: 5px" class="sol" data-forms="integer"><var>ANSWER</var></span> <var>UNIT</var>
+                <span class="sol" data-forms="integer" style="padding-right: 5px"><var>ANSWER</var></span> <var>UNIT</var>
             </div>
 
             <div class="hints">
                 <p>The table is missing <var>HINT1</var>.</p>
-                <div data-if="COL_INDEX === COLUMNS.length - 1" data-unwrap>
+                <div data-if="COL_INDEX === COLUMNS.length - 1" data-unwrap="">
                     <div>
                         <p>The table accounts for <span class="hint_orange"><var>ENROLLMENTS[ ROW_INDEX ].slice( 0, COL_INDEX ).join( "+" )</var></span> <var>UNIT</var>.</p>
                         <div class="graphie">
@@ -97,7 +97,7 @@
                         </div>
                     </div>
                 </div>
-                <div data-else data-unwrap>
+                <div data-else="" data-unwrap="">
                 <div>
                     <p><var>HINT2</var> is <span class="hint_blue"><var>ENROLLMENTS[ ROW_INDEX ][ COLUMNS.length - 1 ]</var></span>.</p>
                     <div class="graphie">

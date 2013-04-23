@@ -24,10 +24,10 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="( BX !== CX || BY !== CY ) && ( BX !== DX || BY !== DY ) && ( BX !== EX || BY !== EY ) && ( CX !== DX || CY !== DY ) && ( CX !== EX || CY !== EY ) && ( DX !== EX || DY !== EY ) && !vectorsIntersect( 0, 0, AX, AY, BOX, BOY, BX, BY ) && !vectorsIntersect( 0, 0, AX, AY, COX, COY, CX, CY ) && !vectorsIntersect( 0, 0, AX, AY, DOX, DOY, DX, DY ) && !vectorsIntersect( 0, 0, AX, AY, EOX, EOY, EX, EY ) && !vectorsIntersect( BOX, BOY, BX, BY, COX, COY, CX, CY ) && !vectorsIntersect( BOX, BOY, BX, BY, DOX, DOY, DX, DY ) && !vectorsIntersect( BOX, BOY, BX, BY, EOX, EOY, EX, EY ) && !vectorsIntersect( COX, COY, CX, CY, DOX, DOY, DX, DY ) && !vectorsIntersect( COX, COY, CX, CY, EOX, EOY, EX, EY ) && !vectorsIntersect( DOX, DOY, DX, DY, EOX, EOY, EX, EY )">
+    <div class="vars" data-ensure="( BX !== CX || BY !== CY ) &amp;&amp; ( BX !== DX || BY !== DY ) &amp;&amp; ( BX !== EX || BY !== EY ) &amp;&amp; ( CX !== DX || CY !== DY ) &amp;&amp; ( CX !== EX || CY !== EY ) &amp;&amp; ( DX !== EX || DY !== EY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, BOX, BOY, BX, BY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, COX, COY, CX, CY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, DOX, DOY, DX, DY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, EOX, EOY, EX, EY ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX, BY, COX, COY, CX, CY ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX, BY, DOX, DOY, DX, DY ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX, BY, EOX, EOY, EX, EY ) &amp;&amp; !vectorsIntersect( COX, COY, CX, CY, DOX, DOY, DX, DY ) &amp;&amp; !vectorsIntersect( COX, COY, CX, CY, EOX, EOY, EX, EY ) &amp;&amp; !vectorsIntersect( DOX, DOY, DX, DY, EOX, EOY, EX, EY )">
         <var id="AX">randRangeNonZero( -3, 3 )</var>
         <var id="AY">randRangeNonZero( -3, 3 )</var>
-        <var id="SA" data-ensure="abs( SA * AX ) &lt; 8 && abs( SA * AY ) &lt; 8">randRangeNonZero( -1, 1 ) * randRange( 2, 3 )</var>
+        <var id="SA" data-ensure="abs( SA * AX ) &lt; 8 &amp;&amp; abs( SA * AY ) &lt; 8">randRangeNonZero( -1, 1 ) * randRange( 2, 3 )</var>
 
         <var id="BX">randRangeNonZero( -7, 7 )</var>
         <var id="BY">randRangeNonZero( -7, 7 )</var>
@@ -67,12 +67,12 @@
             <div class="question">
                 <p>What is <code><var>SA</var> \vec a</code>?</p>
 
-                <div id="graph" class="graphie">
+                <div class="graphie" id="graph">
                     graphInit({
                         range: 10,
                         scale: 20,
                         tickStep: 1,
-                        axisArrows: "&lt;->"
+                        axisArrows: "&lt;-&gt;"
                     });
 
                     style({
@@ -84,9 +84,9 @@
                         do {
                             var AOX = randRange( -9, 9 );
                             var AOY = randRange( -9, 9 );
-                        } while ( 0 &lt; abs( AOX + AX ) && abs( AOX + AX ) &lt; 9 );
+                        } while ( 0 &lt; abs( AOX + AX ) &amp;&amp; abs( AOX + AX ) &lt; 9 );
 
-                        line( [0, 0], [AX, AY], { arrows: "->" } );
+                        line( [0, 0], [AX, AY], { arrows: "-&gt;" } );
                         label( [AF * AX, AF * AY], "\\vec a" );
                     });
 
@@ -95,7 +95,7 @@
                         color: "#ff00af"
                     }, function() {
                         var BF = 1 + 0.8 / sqrt( BX * BX + BY * BY );
-                        line( [BOX, BOY], [BOX + BX, BOY + BY], { arrows: "->" } );
+                        line( [BOX, BOY], [BOX + BX, BOY + BY], { arrows: "-&gt;" } );
                         label( [BOX + BF * BX, BOY + BF * BY], "\\vec b" );
                     });
 
@@ -104,7 +104,7 @@
                         color: "#28ae7b"
                     }, function() {
                         var CF = 1 + 0.8 / sqrt( CX * CX + CY * CY );
-                        line( [COX, COY], [COX + CX, COY + CY], { arrows: "->" } );
+                        line( [COX, COY], [COX + CX, COY + CY], { arrows: "-&gt;" } );
                         label( [COX + CF * CX, COY + CF * CY], "\\vec c" );
                     });
 
@@ -113,7 +113,7 @@
                         color: "#ffa500"
                     }, function() {
                         var DF = 1 + 0.8 / sqrt( DX * DX + DY * DY );
-                        line( [DOX, DOY], [DOX + DX, DOY + DY], { arrows: "->" } );
+                        line( [DOX, DOY], [DOX + DX, DOY + DY], { arrows: "-&gt;" } );
                         label( [DOX + DF * DX, DOY + DF * DY], "\\vec d" );
                     });
 
@@ -122,7 +122,7 @@
                         color: "#fd0000"
                     }, function() {
                         var EF = 1 + 0.8 / sqrt( EX * EX + EY * EY );
-                        line( [EOX, EOY], [EOX + EX, EOY + EY], { arrows: "->" } );
+                        line( [EOX, EOY], [EOX + EX, EOY + EY], { arrows: "-&gt;" } );
                         label( [EOX + EF * EX, EOY + EF * EY], "\\vec e" );
                     });
                 </div>

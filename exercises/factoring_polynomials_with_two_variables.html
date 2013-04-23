@@ -10,7 +10,7 @@
     <div class="problems">
         <div>
             <div class="vars">
-                <div data-ensure="A !== B && A !== -B">
+                <div data-ensure="A !== B &amp;&amp; A !== -B">
                     <var id="A">randRangeNonZero( -10, 10 )</var>
                     <var id="B">randRangeNonZero( -10, 10 )</var>
                 </div>
@@ -20,9 +20,9 @@
                 <var id="LINEAR">SQUARE*(-A-B)</var>
                 <var id="SIMPLELINEAR">-A-B</var>
                 <var id="GROUP1">[
-                parse("(x + ay)(x + by)&=&xx &+& xby + ayx &+& ayby"),
-                parse("&=& x^2 &+& #{(a+b)}xy &+& #{ab}y^2", [GREEN, BLUE]),
-                simplify(parse("&=& x^2 &+& #{" + SIMPLELINEAR + "}xy &+& #{" + SIMPLECONSTANT + "}y^2", [GREEN, BLUE]), simplifyOptions.checkInput),
+                parse("(x + ay)(x + by)&amp;=&amp;xx &amp;+&amp; xby + ayx &amp;+&amp; ayby"),
+                parse("&amp;=&amp; x^2 &amp;+&amp; #{(a+b)}xy &amp;+&amp; #{ab}y^2", [GREEN, BLUE]),
+                simplify(parse("&amp;=&amp; x^2 &amp;+&amp; #{" + SIMPLELINEAR + "}xy &amp;+&amp; #{" + SIMPLECONSTANT + "}y^2", [GREEN, BLUE]), simplifyOptions.checkInput),
                 ]
                 </var>
                 <var id="QUESTION">simplify(parse(SQUARE + "x^{2}+" + LINEAR + "xy+" + CONSTANT + "y^{2}"), simplifyOptions.basic)</var>
@@ -30,7 +30,7 @@
                 <var id="SOLUTION2">simplify(parse("(-x + #{" + (A) + "}y)(-x + #{" + (B) + "}y)", [PINK, PINK]), simplifyOptions.checkInput)</var>
             </div>
 
-            <p class="problem">Factor the following expression:</var></code></p>
+            <p class="problem">Factor the following expression:</p>
             <p class="question"><code><var>format(QUESTION)</var></code></p>
 
             <div class="solution" data-type="custom">

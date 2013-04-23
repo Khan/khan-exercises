@@ -32,14 +32,14 @@
 
     <div class="hints">
         <p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
-        <p><code>\large{\begin{align*}<var>MULT1</var>x &= <var>RES1</var>...\\
-        <var>MULT2</var>x &= <var>RES2</var>...\end{align*}}</code></p>
+        <p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\
+        <var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
         <div>
             <p>Subtracting the two equations, we have:</p>
             <p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
         </div>
-        <p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
-        <p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
+        <p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 &amp;&amp; DIFF &gt; ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
+        <p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF &gt; ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
     </div>
     </div>
 </body>

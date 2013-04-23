@@ -75,7 +75,7 @@
                     <span class="sol"><var>B</var></span>
                     <span class="sol"><var>C</var></span>
                 </div>
-                <div data-if="A === 0" class="set-sol" data-type="multiple">
+                <div class="set-sol" data-if="A === 0" data-type="multiple">
                     <span class="sol"><var>A</var></span>
                     <span class="sol"><var>-B</var></span>
                     <span class="sol"><var>-C</var></span>
@@ -94,11 +94,11 @@
                     <p>Move the <code>x</code> term to the same side as the <code>y</code> term.</p>
                     <p><code><var>expr([ "*", -SLOPE, "x" ])</var> + y = <var>Y_INTERCEPT</var></code></p>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <p>Since the slope is <code>0</code> and there is no <code>x</code> term, the equation is already in slope intercept form.</p>
                     <p><code>y = <var>Y_INTERCEPT</var></code></p>
                 </div>
-                <div data-if="SLOPE > 0">
+                <div data-if="SLOPE &gt; 0">
                     <p>Multiply both sides by <code>-1</code> so that <code>A</code> will be positive</p>
                     <p><code><var>expr([ "*", SLOPE, "x" ])</var> - y = <var>-Y_INTERCEPT</var></code></p>
                 </div>

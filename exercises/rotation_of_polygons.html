@@ -171,13 +171,13 @@
                     <p>Under the rotation <code>T_{<var>ROTDEG</var> {}^\circ{} }</code>, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> is translated to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>. Where is the rest of the polygon rotated?</p>
                     <div class="graphie" data-update="grid">
                         circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
-                        arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "->" });
+                        arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "-&gt;" });
                     </div>
                 </div>
                 <div>
                     To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>, we rotated it <code><var>ROTDEG</var>{}^\circ{}</code> counter-clockwise, or
                     through <var>["one quarter","one half","three quarters"][ROTDEG/90-1]</var> of a circle.
-                    </br></br>
+                    <br><br>
                 </div>
                 <div>
                     <p>The orange outline shows where the polygon ends up after the translation.</p>
@@ -243,7 +243,7 @@
 
             <div class="solution" data-type="custom">
                 <div class="instruction">
-                    <code>{\LARGE T } \quad</code> <input id="ans" style="width: 30px;"></input> <code>{}^\circ{}</code>
+                    <code>{\LARGE T } \quad</code> <input id="ans" style="width: 30px;"> <code>{}^\circ{}</code>
                 </div>
                 <div class="guess">$("#ans").val()</div>
                 <div class="validator-function">
@@ -251,7 +251,7 @@
                     if (isNaN(answer)) {
                         return false;
                     }
-                    else if (answer > 0) {
+                    else if (answer &gt; 0) {
                         return answer % 360 === ROTDEG;
                     }
                     else {
@@ -278,11 +278,11 @@
                 <div>
                     <p>
                         <span>Under this rotation, <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> was rotated to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>. What does this tell you about the rotation used?</span>
-                        <div class="graphie" data-update="grid">
+                        </p><div class="graphie" data-update="grid">
                             circle(TARGET[0], { r: 0.2, fill: "black", stroke: "none" });
-                            arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "->" });
+                            arc([0,0], Math.sqrt(Math.pow(HULL[0][0],2) + Math.pow(HULL[0][1],2)), Math.atan2(HULL[0][1], HULL[0][0]) * 180 / Math.PI, Math.atan2(TARGET[0][1], TARGET[0][0]) * 180 / Math.PI, { stroke: "black", arrows: "-&gt;" });
                         </div>
-                    </p>
+                    <p></p>
                 </div>
                 <p>
                     To get from <code>(<var> HULL[0][0] </var>,<var> HULL[0][1] </var>)</code> to <code>(<var> Math.round(TARGET[0][0]) </var>,<var> Math.round(TARGET[0][1]) </var>)</code>, we rotated it around <code>(0,0)</code> <code><var>ROTDEG</var>{}^\circ{}</code> counterclockwise.

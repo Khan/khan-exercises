@@ -14,7 +14,7 @@
 <div class="exercise">
     <div class="problems">
         <div>
-            <div class="vars" data-ensure="SOLUTION < 100">
+            <div class="vars" data-ensure="SOLUTION &lt; 100">
                 <var id="TERM1_COEF">
                     <!-- 80% of the time, the coefficient should be 1 -->
                     randRangeWeightedExclude(1, 3, 1, 0.8, [0])
@@ -165,7 +165,7 @@
                                 * choose(EXPONENT, TERM) *
                                 pow(TERM2, TERM)</var>
                             </span>
-                            <span data-if="TERM !== EXPONENT &&
+                            <span data-if="TERM !== EXPONENT &amp;&amp;
                                     TERM !== EXPONENT - 1">
                                 x^{<var>EXPONENT - TERM</var>}
                             </span>

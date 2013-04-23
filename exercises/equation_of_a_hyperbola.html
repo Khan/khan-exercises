@@ -9,7 +9,7 @@
     <div class="exercise">
     <div class="vars">
         <var id="A">randRange( 2, 9 )</var>
-        <var id="B" data-ensure=" A !== B" >randRange( 2, 9 )</var>
+        <var id="B" data-ensure=" A !== B">randRange( 2, 9 )</var>
 
         <var id="H">randRange( -9, 9 )</var>
         <var id="K">randRange( -9, 9 )</var>
@@ -68,9 +68,9 @@
 
         <div>
             <p>
-                <span data-if="K > 0">Add <code><var>K</var></code> to both sides and rewrite</span>
-                <span data-else-if="K < 0">Subtract <code><var>-K</var></code> from both sides and rewrite</span>
-                <span data-else>Rewrite</span>
+                <span data-if="K &gt; 0">Add <code><var>K</var></code> to both sides and rewrite</span>
+                <span data-else-if="K &lt; 0">Subtract <code><var>-K</var></code> from both sides and rewrite</span>
+                <span data-else="">Rewrite</span>
                 as an equality in terms of <code>y</code> to get the equation of the asymptotes:
             </p>
             <p><code>y = \pm \dfrac{<var>reduce( A, B )[1]</var>}{<var>reduce( A, B )[0]</var>}(<var>plus( "x", -H )</var>)<var>K &gt;= 0 ? "+" : ""</var> <var>K</var></code></p>

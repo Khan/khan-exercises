@@ -97,7 +97,7 @@
 
             <p data-if="DERIVATIVE_SIMPLIFICATIONS.length !== 0">The derivative at this point is <code><var>expr(UNSIMPLIFIED_DERIVATIVE)</var></code>, but this expression can be simplified.</p>
 
-            <div data-if="DERIVATIVE_SIMPLIFICATIONS.length !== 0" data-each="DERIVATIVE_SIMPLIFICATIONS as i, newexpr">
+            <div data-each="DERIVATIVE_SIMPLIFICATIONS as i, newexpr" data-if="DERIVATIVE_SIMPLIFICATIONS.length !== 0">
                 <p><code><var>expr( i === 0 ? UNSIMPLIFIED_DERIVATIVE : DERIVATIVE_SIMPLIFICATIONS[i - 1] )</var></code> can be simplified to <code><var>expr(newexpr)</var></code>.</p>
             </div>
 

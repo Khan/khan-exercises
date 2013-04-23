@@ -30,11 +30,11 @@
 <div class="exercise">
     <div class="problems">
         <div>
-            <div class="vars" data-ensure="0 <= MIN && MAX <= 15
-                    && MIN !== Q1
-                    && Q1 !== MEDIAN
-                    && MEDIAN !== Q3
-                    && Q3 !== MAX">
+            <div class="vars" data-ensure="0 &lt;= MIN &amp;&amp; MAX &lt;= 15
+                    &amp;&amp; MIN !== Q1
+                    &amp;&amp; Q1 !== MEDIAN
+                    &amp;&amp; MEDIAN !== Q3
+                    &amp;&amp; Q3 !== MAX">
                 <var id="TGT_MEAN">randRange( 5, 10 )</var>
                 <var id="TGT_VARIANCE">randRange( 2, 20 )</var>
                 <var id="DATA">$.map( _.range(15), function() {
@@ -183,8 +183,8 @@
         </div>
 
         <div>
-            <p>Plot the sample minimum (smallest number):<p>
-            <p><code>\qquad \large{\color{<var>PINK</var>}{<var>MIN</var>}, <var>SORTED_DATA.slice( 1 ).join( ", " )</var>}</code></p>
+            <p>Plot the sample minimum (smallest number):</p><p>
+            </p><p><code>\qquad \large{\color{<var>PINK</var>}{<var>MIN</var>}, <var>SORTED_DATA.slice( 1 ).join( ", " )</var>}</code></p>
             <div class="graphie" data-update="boxplot">
                 style({ stroke: PINK, fill: PINK }, function() {
                     circle( [ MIN, -4.5 ], 0.13 );

@@ -7,7 +7,7 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="A !== ANSWER && B !== ANSWER">
+        <div class="vars" data-ensure="A !== ANSWER &amp;&amp; B !== ANSWER">
             <var id="A">randRange( 10, 25 )</var>
             <var id="B" data-ensure="A !== B">randRange( 10, 25 )</var>
             <var id="LCM">getLCM( A, B )</var>

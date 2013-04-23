@@ -85,7 +85,7 @@
                         scale: 20,
                         tickStep: 1,
                         labelStep: 2,
-                        axisArrows: "<->"
+                        axisArrows: "&lt;-&gt;"
                     })
 
                     // draw the function
@@ -99,7 +99,7 @@
                 </div>
 
                 <p class="solution"><code><var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
-                <ul class="choices" data-show="4" data-none="true">
+                <ul class="choices" data-none="true" data-show="4">
                     <li><code><var>expr([ "+", M_X, -B ])</var></code></li>
                     <li><code><var>expr([ "+", M_X, B ])</var></code></li>
                     <li><code><var>expr([ "+", B_X, M ])</var></code></li>
@@ -120,15 +120,15 @@
             <p><code><var>expr([ "+", "y", -B ])</var> = <var>M_X</var></code></p>
             <p data-if="M !== 1"><code><var>Y_OVER_M + MINUS_B_OVER_M</var> = x</code></p>
             <p><code>x = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
-            <p>So we know: <br /> <code>f^{-1}(y) = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
-            <p>Rename <code>y</code> to <code>x</code>: <br /> <code>f^{-1}(x) = <var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
+            <p>So we know: <br> <code>f^{-1}(y) = <var>Y_OVER_M + MINUS_B_OVER_M</var></code></p>
+            <p>Rename <code>y</code> to <code>x</code>: <br> <code>f^{-1}(x) = <var>X_OVER_M + MINUS_B_OVER_M</var></code></p>
             <div class="graphie" data-update="G">
                 var pos = function( n ) {
-                        if ( n >= 1 ) {
+                        if ( n &gt;= 1 ) {
                             return "below right";
-                        } else if ( n > 0 ) {
+                        } else if ( n &gt; 0 ) {
                             return "below";
-                        } else if ( n > -1 ) {
+                        } else if ( n &gt; -1 ) {
                             return "above";
                         } else {
                             return "above right";
@@ -146,7 +146,7 @@
                     plot( F_INV, [ -10, 10 ] );
                 });
 
-                if ( M !== -1 && ( M !== 1 || B !== 0 ) ) {
+                if ( M !== -1 &amp;&amp; ( M !== 1 || B !== 0 ) ) {
                     // label f
                     style({
                         color: "#a3a3ff",

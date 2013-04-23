@@ -9,7 +9,7 @@
     <div class="exercise">
     <div class="problems">
         <div>
-            <div class="vars" data-ensure="B !== 0 && getGCD(A, E) === 1">
+            <div class="vars" data-ensure="B !== 0 &amp;&amp; getGCD(A, E) === 1">
                 <var id="A" data-ensure="abs(A) !== 1">randRangeNonZero(-9, 9)</var>
                 <var id="E">randRangeNonZero(-9, 9)</var>
                 <var id="F">randRangeNonZero(-5, 5)</var>
@@ -28,8 +28,8 @@
 
             <p class="problem">Factor the following expression:</p>
             <p class="question">
-                <span id="question-a"><code><var>A</var></code></span><code>x^2<span data-if="B > 0">+</span></code>
-                <span id="question-b"><code><var>B</var></code></span><code>x<span data-if="C > 0">+</span></code>
+                <span id="question-a"><code><var>A</var></code></span><code>x^2<span data-if="B &gt; 0">+</span></code>
+                <span id="question-b"><code><var>B</var></code></span><code>x<span data-if="C &gt; 0">+</span></code>
                 <span id="question-c"><code><var>C</var></code></span>
             </p>
             <div class="solution" data-type="set">
@@ -85,7 +85,7 @@
                 <p>
                     In order to find <code>\purple{a}</code> and <code>\purple{b}</code>, list out the factors of
                     <code><var>A * C</var></code> and add them together.
-                    <span data-if="A * C < 0">
+                    <span data-if="A * C &lt; 0">
                         Remember, since <code><var>A * C</var></code> is negative, one of the factors must be
                         negative.
                     </span>
@@ -112,9 +112,9 @@
                     </p>
                     <code>
                         \qquad \blue{<var>A</var>}x^2
-                        <span data-if="E > 0">+</span>\purple{<var>E</var>}x
-                        <span data-if="A * F > 0">+</span>\purple{<var>A * F</var>}x
-                        <span data-if="C > 0">+</span>\pink{<var>C</var>}
+                        <span data-if="E &gt; 0">+</span>\purple{<var>E</var>}x
+                        <span data-if="A * F &gt; 0">+</span>\purple{<var>A * F</var>}x
+                        <span data-if="C &gt; 0">+</span>\pink{<var>C</var>}
                     </code>
                 </div>
                 <div>
@@ -122,8 +122,8 @@
                         Group the terms so that there is a common factor in each group:
                     </p>
                     <code>
-                        \qquad (\blue{<var>A</var>}x^2 <span data-if="E > 0">+</span>\purple{<var>E</var>}x)
-                        + (\purple{<var>A * F</var>}x <span data-if="C > 0">+</span>\pink{<var>C</var>})
+                        \qquad (\blue{<var>A</var>}x^2 <span data-if="E &gt; 0">+</span>\purple{<var>E</var>}x)
+                        + (\purple{<var>A * F</var>}x <span data-if="C &gt; 0">+</span>\pink{<var>C</var>})
                     </code>
                 </div>
                 <div>

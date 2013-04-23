@@ -41,13 +41,13 @@
                     <code><var>expr(["+", ["*", A, "x"], B])</var></code>
                 </p>
                 <div class="solution" data-type="set">
-                    <div data-if="IS_IRREDUCIBLE" data-unwrap>
+                    <div data-if="IS_IRREDUCIBLE" data-unwrap="">
                         <div class="set-sol" data-type="regex">^\s*<var>TERM2</var>\s*<var>TERM3</var>\s*$</div>
                         <div class="set-sol" data-type="regex">^\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*$</div>
                         <div class="set-sol" data-type="regex">^\s*\(\s*<var>TERM2</var>\s*<var>TERM3</var>\s*\)\s*$</div>
                         <div class="set-sol" data-type="regex">^\s*\(\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*\)\s*$</div>
                     </div>
-                    <div data-else data-unwrap>
+                    <div data-else="" data-unwrap="">
                         <div class="set-sol" data-type="regex">^\s*<var>TERM1</var>\s*\(\s*<var>TERM2</var>\s*<var>TERM3</var>\s*\)\s*$</div>
                         <div class="set-sol" data-type="regex">^\s*<var>TERM1N</var>\s*\(\s*<var>TERM2N</var>\s*<var>TERM3N</var>\s*\)\s*$</div>
                     </div>
@@ -76,7 +76,7 @@
                         Since the greatest common factor is <code>1</code>,
                         the expression is already in its most factored form.
                     </p>
-                    <p data-if="IS_IRREDUCIBLE" class="final_answer">
+                    <p class="final_answer" data-if="IS_IRREDUCIBLE">
                         Therefore the answer is the original expression,
                         <code><var>SOLUTION</var></code>.
                     </p>
@@ -93,7 +93,7 @@
                         <code>\dfrac{<var>B</var>}{<var>GCD</var>} =
                         <var>B/GCD</var></code>.
                     </p>
-                    <p data-if="!IS_IRREDUCIBLE" class="final_answer">
+                    <p class="final_answer" data-if="!IS_IRREDUCIBLE">
                         So the factored expression is
                         <code><var>SOLUTION</var></code>.
                     </p>

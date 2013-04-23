@@ -127,7 +127,7 @@
                     For a zero slope, the change in <code>y</code> should be
                     zero from any point to another point.
                 </p>
-                <p data-else>
+                <p data-else="">
                     For an undefined slope, the change in <code>x</code> should
                     be zero from any point to another point.
                 </p>
@@ -252,8 +252,8 @@
             <div class="hints">
                 <p>
                     The slope of the original line is
-                    <span data-if="SLOPE_N > 0">positive.</span>
-                    <span data-else>negative.</span>
+                    <span data-if="SLOPE_N &gt; 0">positive.</span>
+                    <span data-else="">negative.</span>
                 </p>
                 <div data-if="GOAL === 'negative'">
                     <div data-if="CHANGE === 'greater'">
@@ -264,7 +264,7 @@
                             steep.
                         </p>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p>
                             If the slope of the new line is negative and less
                             than the slope of the original line with negative
@@ -272,7 +272,7 @@
                         </p>
                     </div>
                 </div>
-                <div data-else>
+                <div data-else="">
                     <div data-if="CHANGE === 'greater'">
                         <p>
                             If the slope of the new line is positive and greater
@@ -280,7 +280,7 @@
                             slope, then the new line should be steeper.
                         </p>
                     </div>
-                    <div data-else>
+                    <div data-else="">
                         <p>
                             If the slope of the new line is positive and less
                             than the slope of the original line with positive
@@ -295,8 +295,8 @@
                         the slope of the new line could be <code>
                         <var>decimalFraction(NEW_SLOPE, true, true)</var>
                         </code> and could look like this:
-                    <p>
-                    <div class="graphie" style="margin-left: 30px">
+                    </p><p>
+                    </p><div class="graphie" style="margin-left: 30px">
                         graphInit({
                             range: 11,
                             scale: 10,
@@ -326,8 +326,8 @@
         </div>
 
         <div id="find-slope-and-yint" data-weight="1">
-            <div class="vars" data-ensure="!(M === 1 && B === 0) &&
-                    abs(M) < 10 && abs(B) < 10 && INCR < 6">
+            <div class="vars" data-ensure="!(M === 1 &amp;&amp; B === 0) &amp;&amp;
+                    abs(M) &lt; 10 &amp;&amp; abs(B) &lt; 10 &amp;&amp; INCR &lt; 6">
                 <var id="X1, X2">randRangeUnique(-8, 8, 2)</var>
                 <var id="Y1, Y2">randRangeUnique(-8, 8, 2)</var>
                 <var id="RISE">Y2 - Y1</var>
