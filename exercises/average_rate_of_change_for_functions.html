@@ -78,16 +78,22 @@
                                 }
                             });
                             
-                            var txt = '(' + graph.point1.coord[0] + ', ' + graph.point1.coord[1] + ')';
-                            var txt = '(' + graph.point2.coord[0] + ', ' + graph.point2.coord[1] + ')';
+                            var txt1 = '(' + graph.point1.coord[0] + ', ' + graph.point1.coord[1] + ')';
+                            var txt2 = '(' + graph.point2.coord[0] + ', ' + graph.point2.coord[1] + ')';
+                            graph.labelPt1 = label(graph.point1.coord, txt1, "above", {color: KhanUtil.PINK});
+                            graph.labelPt2 = label(graph.point2.coord, txt2, "above", {color: KhanUtil.PINK});
 
                             graph.point1.onMove = function(x,y) {
                             if( x === <var>T1</var> && y >= <var>FNX(T1)-BIGGEST/100</var> && y <= <var>FNX(T1)+BIGGEST/100</var>){
                                 graph.point1.constraints.fixed = true;
                                 graph.point1.coord = [<var>T1</var>,<var>FNX(T1)</var>];
-                                txt = '(' + graph.point1.coord[0] + ', ' + floorTo(1, graph.point1.coord[1]) + ')';
-                                label(graph.point1.coord, txt, "above", {color: KhanUtil.PINK});
+                                graph.labelPt1.remove();
+                                txt1 = '(' + graph.point1.coord[0] + ', ' + floorTo(1, graph.point1.coord[1]) + ')';
+                                graph.labelPt1 = label(graph.point1.coord, txt1, "above", {color: KhanUtil.PINK});
                             }else{
+                                graph.labelPt1.remove();
+                                txt1 = '(' + x + ', ' + floorTo(1, FNX(x)) + ')';
+                                graph.labelPt1 = label(graph.point1.coord, txt1, "above", {color: KhanUtil.PINK});
                                 return [x,FNX(x)];
                             }
 
@@ -97,9 +103,13 @@
                             if( x === <var>T2</var> && y >= <var>FNX(T2)-BIGGEST/100</var> && y <= <var>FNX(T2)+BIGGEST/100</var>){
                                 graph.point2.constraints.fixed = true;
                                 graph.point2.coord = [<var>T2</var>,<var>FNX(T2)</var>];
-                                txt = '(' + graph.point2.coord[0] + ', ' + floorTo(1, graph.point2.coord[1]) + ')';
-                                label(graph.point2.coord, txt, "below", {color: KhanUtil.PINK}); 
+                                graph.labelPt2.remove();
+                                txt2 = '(' + graph.point2.coord[0] + ', ' + floorTo(1, graph.point2.coord[1]) + ')';
+                                graph.labelPt2 = label(graph.point2.coord, txt2, "below", {color: KhanUtil.PINK}); 
                             }else{ 
+                                graph.labelPt2.remove();
+                                txt2 = '(' + x + ', ' + floorTo(1, FNX(x)) + ')';
+                                graph.labelPt2 = label(graph.point2.coord, txt2, "above", {color: KhanUtil.PINK});
                                 return [x,FNX(x)];
                             }
 
