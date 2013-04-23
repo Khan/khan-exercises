@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math graphie stat word-problems">
-<head>
-    <meta charset="UTF-8" />
+<html data-require="math graphie stat word-problems"><head>
+    <meta charset="UTF-8">
     <title>Empirical rule</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -13,7 +12,7 @@
                 <div class="vars">
                     <var id="ANIMAL">animal( 1 )</var>
                     <var id="ANIMALS">plural( animal( 1 ) )</var>
-                    <div data-ensure="MEAN - STDDEV * 4 > 0">
+                    <div data-ensure="MEAN - STDDEV * 4 &gt; 0">
                         <var id="MEAN">roundTo( 1, animalAvgLifespan( 1 ) * ( randRange( 80, 120 ) / 100 ) )</var>
                         <var id="STDDEV">roundTo( 1, animalStddevLifespan( 1 ) * ( randRange( 20, 120 ) / 100 ) )</var>
                     </div>
@@ -108,9 +107,9 @@
                         <p>
                             We know the standard deviation is <code><var>STDDEV</var></code> years, so one
                             standard deviation below the mean is
-                            <code id="zm1Hint" class="hint_pink"><var>roundTo( 1, MEAN - STDDEV )</var></code> years
+                            <code class="hint_pink" id="zm1Hint"><var>roundTo( 1, MEAN - STDDEV )</var></code> years
                             and one standard deviation above the mean is
-                            <code id="zp1Hint" class="hint_pink"><var>roundTo( 1, MEAN + STDDEV )</var></code> years.
+                            <code class="hint_pink" id="zp1Hint"><var>roundTo( 1, MEAN + STDDEV )</var></code> years.
                         </p>
                     </div>
 
@@ -135,9 +134,9 @@
                         </div>
                         <p>
                             Two standard deviations below the mean is
-                            <code id="zm2Hint" class="hint_pink"><var>roundTo( 1, MEAN - STDDEV * 2 )</var></code> years
+                            <code class="hint_pink" id="zm2Hint"><var>roundTo( 1, MEAN - STDDEV * 2 )</var></code> years
                             and two standard deviations above the mean is
-                            <code id="zp2Hint" class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * 2 )</var></code> years.
+                            <code class="hint_pink" id="zp2Hint"><var>roundTo( 1, MEAN + STDDEV * 2 )</var></code> years.
                         </p>
                     </div>
 
@@ -162,9 +161,9 @@
                         </div>
                         <p>
                             Three standard deviations below the mean is
-                            <code id="zm3Hint" class="hint_pink"><var>roundTo( 1, MEAN - STDDEV * 3 )</var></code> years
+                            <code class="hint_pink" id="zm3Hint"><var>roundTo( 1, MEAN - STDDEV * 3 )</var></code> years
                             and three standard deviations above the mean is
-                            <code id="zp3Hint" class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * 3 )</var></code> years.
+                            <code class="hint_pink" id="zp3Hint"><var>roundTo( 1, MEAN + STDDEV * 3 )</var></code> years.
                         </p>
                     </div>
 
@@ -260,7 +259,7 @@
                         </p>
                     </div>
 
-                    <p data-if="Z < 0" id="finalHint1">
+                    <p id="finalHint1" data-if="Z &lt; 0">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living longer than
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years is
@@ -270,7 +269,7 @@
                         </strong>
                     </p>
 
-                    <p data-else id="finalHint2">
+                    <p id="finalHint2" data-else="">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living longer than
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years is
@@ -323,7 +322,7 @@
                         </p>
                     </div>
 
-                    <p data-if="Z > 0" id="finalHint1">
+                    <p id="finalHint1" data-if="Z &gt; 0">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living less than
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years is
@@ -333,7 +332,7 @@
                         </strong>
                     </p>
 
-                    <p data-else id="finalHint2">
+                    <p id="finalHint2" data-else="">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living less than
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years is
@@ -500,30 +499,30 @@
                         </p>
                     </div>
 
-                    <p data-if="abs( Z1 ) > abs( Z2 )" id="finalHint1">
+                    <p id="finalHint1" data-if="abs( Z1 ) &gt; abs( Z2 )">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living between
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years is
-                        <span data-if="Z1 * Z2 > 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
-                        <span data-else><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%} +
+                        <span data-if="Z1 * Z2 &gt; 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
+                        <span data-else=""><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%} +
                         \color{green}{<var>EMPIRICAL2</var>\%}</code>, or <code><var>roundTo( 2, AREA )</var>\%</code>.</span>
                         </strong>
                     </p>
 
-                    <p data-else-if="abs( Z1 ) < abs( Z2 )" id="finalHint2">
+                    <p id="finalHint2" data-else-if="abs( Z1 ) &lt; abs( Z2 )">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living between
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years is
-                        <span data-if="Z1 * Z2 > 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
-                        <span data-else><code>\color{green}{<var>EMPIRICAL2</var>\%} +
+                        <span data-if="Z1 * Z2 &gt; 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
+                        <span data-else=""><code>\color{green}{<var>EMPIRICAL2</var>\%} +
                         \color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>, or
                         <code><var>roundTo( 2, AREA )</var>\%</code>.</span>
                         </strong>
                     </p>
 
-                    <p data-else>
+                    <p data-else="">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living between
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and
@@ -536,5 +535,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

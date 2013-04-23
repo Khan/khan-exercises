@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math expressions">
-<head>
+<html data-require="math expressions"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Writing expressions 2</title>
     <script src="../khan-exercise.js"></script>
@@ -25,7 +24,7 @@
                 <p class="part-two"><b><code><var>D</var></code> plus the quantity of <code><var>C</var></code> times that expression</b></p>
                 <p class="solution"><code><var>expr(["+",["*", C,["+",["*", B, "x"], A]], D])</var></code></p>
 <!-- Solution: C ( A + Bx ) + D, wrong 1: -C SAME, wrong 2: -C (B + Ax) - D, wrong 3: D ( -A + Bx ) + C, wrong 4: D ( -B + Ax ) + C -->
-                <ul class="choices" data-show="5" data-none="true">
+                <ul class="choices" data-none="true" data-show="5">
                     <li><code><var>expr(["+",["*", -C,["+",["*", B, "x"], A]], D])</var></code></li>
                     <li><code><var>expr(["+",["*", -C,["+",["*", A, "x"], B]], D])</var></code></li>
                     <li><code><var>expr(["+",["*", D,["+",["*", B, "x"], -A]], C])</var></code></li>
@@ -115,5 +114,4 @@
             <p>So the entire expression we're considering can be written as <code><var>expr(["+",["*", C,["+",["*", B, "x"], A]], D])</var></code>.</p>
         </div>
     </div>
-</body>
-</html>
+</body></html>

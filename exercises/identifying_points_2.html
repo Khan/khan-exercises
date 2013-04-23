@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie expressions">
-<head>
+<html data-require="math graphie expressions"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Ordered pair solutions to linear equations</title>
     <script src="../khan-exercise.js"></script>
@@ -46,7 +45,7 @@
                 <div class="hints">
                     <p>We can try plugging in the x-value of each ordered pair into the equation.</p>
                     <p>If we evaluate and get the y-value of the ordered pair, then that ordered pair is a solution!</p>
-                    <div data-each="POINTS as i, point" data-unwrap>
+                    <div data-each="POINTS as i, point" data-unwrap="">
                         <div>
                             <p>Let's consider <code><var>PAIR( point )</var></code>.</p>
                             <p>If we plug in <code><var>point[ 0 ]</var></code> for <code>x</code> and evaluate, do we get <code><var>point[ 1 ]</var></code>?</p>
@@ -60,7 +59,7 @@
                             graphInit({
                                 range: 10,
                                 scale: 20,
-                                axisArrows: "<->",
+                                axisArrows: "&lt;-&gt;",
                                 tickStep: 1,
                                 labelStep: 2
                             });
@@ -93,7 +92,7 @@
                     graphInit({
                         range: 10,
                         scale: 20,
-                        axisArrows: "<->",
+                        axisArrows: "&lt;-&gt;",
                         tickStep: 1,
                         labelStep: 2
                     });
@@ -110,7 +109,7 @@
                 </ul>
                 <div class="hints">
                     <p>Let's try graphing each of the points.</p>
-                    <div class="graphie" data-update="grid" data-each="POINTS as i, point">
+                    <div class="graphie" data-each="POINTS as i, point" data-update="grid">
                         circle( point, 0.15 );
                     </div>
                     <div>
@@ -124,5 +123,4 @@
             </div>
         </div>
     </div>
-    </body>
-</html>
+</body></html>

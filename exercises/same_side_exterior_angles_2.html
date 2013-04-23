@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers angles">
-<head>
+<html data-require="math graphie graphie-helpers angles"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Same side exterior angles 2</title>
     <script src="../khan-exercise.js"></script>
@@ -8,8 +7,8 @@
 <body>
     <div class="exercise">
     <div class="vars">
-        <div data-ensure="A * SOLUTION + B > 30 && A * SOLUTION + B < 150 && C !== A && abs( A - C ) < 6 && abs( A - C ) > 1 && 180 - (A + C) * SOLUTION - B !== 0">
-            <var id="SOLUTION" data-ensure="abs(SOLUTION) > 5">randRangeNonZero( -20, 20 )</var>
+        <div data-ensure="A * SOLUTION + B &gt; 30 &amp;&amp; A * SOLUTION + B &lt; 150 &amp;&amp; C !== A &amp;&amp; abs( A - C ) &lt; 6 &amp;&amp; abs( A - C ) &gt; 1 &amp;&amp; 180 - (A + C) * SOLUTION - B !== 0">
+            <var id="SOLUTION" data-ensure="abs(SOLUTION) &gt; 5">randRangeNonZero( -20, 20 )</var>
             <var id="A">randRange( 2, 8 )</var>
             <var id="B">randRangeNonZero( -200, 200 )</var>
             <var id="C">randRange( 2, 9 )</var>
@@ -66,7 +65,7 @@
             <p><code><var>A + C</var>x + <var>B + D</var> = 180</code></p>
         </div>
         <div>
-            <p><var>B + D > 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(B + D)</var>}</code> <var>B + D > 0 ? "from" : "to"</var> both sides.</p>
+            <p><var>B + D &gt; 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(B + D)</var>}</code> <var>B + D &gt; 0 ? "from" : "to"</var> both sides.</p>
             <p><code>(<var>A + C</var>x + <var>B + D</var>) \color{<var>PINK</var>}{+ <var>-(B + D)</var>} = 180 \color{<var>PINK</var>}{+ <var>-(B + D)</var>}</code></p>
             <p><code><var>A + C</var>x = <var>180 - B - D</var></code></p>
         </div>
@@ -81,5 +80,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

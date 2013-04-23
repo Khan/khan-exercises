@@ -71,16 +71,27 @@
     }
 
     function testAnswer(answerData, input, result, description) {
+        $("#solutionarea input").val(input);
+        checkAnswer(answerData, result, description + " [" + input + "]");
+    }
+
+    function testMultipleAnswer(answerData, inputs, result, description) {
+        _.chain($("#solutionarea input")).zip(inputs).each(function(args) {
+            var el = args[0], text = args[1];
+            $(el).val(text);
+        });
+        checkAnswer(
+            answerData, result, description + " [" + inputs.join(", ") + "]");
+    }
+
+    function checkAnswer(answerData, result, description) {
         var validator = answerData.validator;
         var getAnswer = answerData.answer;
 
-        $("#solutionarea input").val(input);
         if (result === "string") {  // literally, the string "string"
-            strictEqual(typeof validator(getAnswer()), "string",
-                    description + " [" + input + "]");
+            strictEqual(typeof validator(getAnswer()), "string", description);
         } else {
-            strictEqual(validator(getAnswer()), result,
-                    description + " [" + input + "]");
+            strictEqual(validator(getAnswer()), result, description);
         }
     }
 
@@ -365,7 +376,7 @@
         start();
     });
 
-    asyncTest("number decimal", 8, function() {
+    asyncTest("number decimal", 9, function() {
         var $problem = jQuery("#qunit-fixture .problem").append(
             "<p class='solution' data-type='number' data-forms='decimal'>12345.6789<\/p>"
         );
@@ -375,6 +386,28 @@
 
         testAnswer(answerData, "12345.6788", false, "wrong answer is wrong");
         testAnswer(answerData, "12345.6789", true, "right answer is right");
+        testAnswer(answerData, "12345,6789", true, "right answer with decimal comma is right");
+        testAnswer(answerData, "12,345.6789", true, "right answer with commas is right");
+        testAnswer(answerData, "12,345.678,9", true, "right answer with commas is right");
+        testAnswer(answerData, "12.345,6789", true, "right answer with periods is right");
+        testAnswer(answerData, "12.345,678.9", true, "right answer with periods is right");
+        testAnswer(answerData, "12 345.678 9", true, "right answer with spaces is right");
+        testAnswer(answerData, "12 345,678 9", true, "right answer with spaces is right");
+
+        start();
+    });
+
+    asyncTest("decimal", 9, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='decimal'>12345.6789<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.decimal.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "12345.6788", false, "wrong answer is wrong");
+        testAnswer(answerData, "12345.6789", true, "right answer is right");
+        testAnswer(answerData, "12345,6789", true, "right answer with decimal comma is right");
         testAnswer(answerData, "12,345.6789", true, "right answer with commas is right");
         testAnswer(answerData, "12,345.678,9", true, "right answer with commas is right");
         testAnswer(answerData, "12.345,6789", true, "right answer with periods is right");
@@ -429,6 +462,41 @@
         testAnswer(answerData, "-1,5000", true, "right answer is right");
         testAnswer(answerData, "-3/2", true, "right answer is right");
         testAnswer(answerData, "-6/4", "string", "unsimplified right answer provides a message");
+
+        start();
+    });
+
+    asyncTest("number generic 41976", 4, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution'>41976<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "419.76", false, "wrong answer is wrong");
+        testAnswer(answerData, "41976", true, "right answer is right");
+        testAnswer(answerData, "41,976", true, "right answer with comma is right");
+        testAnswer(answerData, "41.976", true, "right answer with period is right");
+
+        start();
+    });
+
+    asyncTest("multiple", 4, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='multiple'>" +
+                "<span class='sol'>7<\/span>" +
+                "<span class='sol'>1.5<\/span>" +
+            "<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.multiple.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testMultipleAnswer(answerData, ["7", "3/2"], true, "right answer is right");
+        testMultipleAnswer(answerData, ["7", "1.5"], true, "right answer is right");
+        testMultipleAnswer(answerData, ["3/2", "7"], false, "wrong answer is wrong");
+        testMultipleAnswer(answerData, ["7", "6/4"], "string", "unsimplified right answer provides a message");
 
         start();
     });

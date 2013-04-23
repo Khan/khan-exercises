@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie word-problems">
-<head>
+<html data-require="math math-format graphie word-problems"><head>
     <title>Probability space</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
@@ -122,10 +121,10 @@
             </div>
             <div class="question">
                 <p class="problem">
-                    <span data-if="GRID_HEIGHT === 4" data-unwrap>
+                    <span data-if="GRID_HEIGHT === 4" data-unwrap="">
                         You are given two dice to roll. One is black with six sides, the other is white with four sides.
                     </span>
-                    <span data-else data-unwrap>
+                    <span data-else="" data-unwrap="">
                         You are given two six-sided dice to roll.
                     </span>
                 </p>
@@ -133,7 +132,7 @@
                 <p class="problem">If it helps, you may select the matching outcomes below. Your selections
                 aren't checked with your answer:</p>
 
-                <div id="e-dice-container" class="problem">
+                <div class="problem" id="e-dice-container">
                     <div class="e-legend"><span id="e-selected-count">0</span> of <var>SOLUTION_D</var> selected</div>
 
                     <div class="e-grid">
@@ -213,7 +212,7 @@
                     The probability is <code><var>fraction(SOLUTION_N, SOLUTION_D)</var></code>,
                     which reduces to <code><var>fractionReduce(SOLUTION_N, SOLUTION_D)</var></code>.
                 </p>
-                <p data-else>
+                <p data-else="">
                     The probability is <code><var>fractionReduce(SOLUTION_N, SOLUTION_D)</var></code>.
                 </p>
             </div>
@@ -231,12 +230,8 @@
             <span class="question" id="question-statement" data-apply="append">
                 For a given roll, what is the probability that the dice are
                 <span data-if="X !== Y">
-                    <code><var>X</var></code> and <code><var>Y</var></code
-                    ><span data-if="X < 5"> in any order</span
-                ></span
-                ><span data-else>
-                    both equal to <code><var>X</var></code
-                ></span>?
+                    <code><var>X</var></code> and <code><var>Y</var></code><span data-if="X &lt; 5"> in any order</span></span><span data-else="">
+                    both equal to <code><var>X</var></code></span>?
             </span>
         </div>
 
@@ -333,11 +328,10 @@
             </span>
 
             <div class="hints" data-apply="prependContents">
-                <p data-if="X < 5">Remember that both dice can be <code><var>X</var></code> ("at least one").</p>
+                <p data-if="X &lt; 5">Remember that both dice can be <code><var>X</var></code> ("at least one").</p>
             </div>
         </div>
 
     </div>
 </div>
-</body>
-</html>
+</body></html>

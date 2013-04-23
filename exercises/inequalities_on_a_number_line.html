@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
-<head>
+<html data-require="math math-format graphie graphie-helpers"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inequalities on a number line</title>
     <script src="../khan-exercise.js"></script>
@@ -102,14 +101,14 @@
     <div class="vars">
 
         <div data-ensure="INT !== 0 || FRAC !== 0">
-            <var id="INT">rand( 6 ) > 0 ? randRange( 1, 9 ) : 0</var>
-            <var id="FRAC">rand( 3 ) > 0 ? (randRange( 1, 9 ) / 10) : 0</var>
+            <var id="INT">rand( 6 ) &gt; 0 ? randRange( 1, 9 ) : 0</var>
+            <var id="FRAC">rand( 3 ) &gt; 0 ? (randRange( 1, 9 ) / 10) : 0</var>
         </div>
 
         <var id="SIGN">(INT === 0 ? "" : randFromArray(["", "-"]))</var>
-        <var id="REL">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
-        <var id="INCLUSIVE">REL === "&le;" || REL === "&ge;"</var>
-        <var id="LESS_THAN">REL === "&lt;" || REL === "&le;"</var>
+        <var id="REL">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
+        <var id="INCLUSIVE">REL === "≤" || REL === "≥"</var>
+        <var id="LESS_THAN">REL === "&lt;" || REL === "≤"</var>
         <var id="VARIABLE_NAME">randVar()</var>
         <var id="LINE_ERROR_TYPES">shuffle([ "direction", "inclusion", "positivity", "quantity", "none" ])</var>
         <var id="CORRECT_LINE_INDEX">$.inArray( "none", LINE_ERROR_TYPES )</var>
@@ -157,7 +156,7 @@
                 <div>
                     <p data-if="INCLUSIVE">
                         Since <code><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw a full circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality includes <code><var>SIGN + ( INT + FRAC )</var></code>.
-                    </p><p data-else>
+                    </p><p data-else="">
                         Since <code><var>VARIABLE_NAME</var> <var>REL</var> <var>SIGN + ( INT + FRAC )</var></code>, draw an empty circle at <code><var>SIGN + ( INT + FRAC )</var></code> to show that the inequality does not include <code><var>SIGN + ( INT + FRAC )</var></code>.
                     </p>
                     <div class="graphie" data-update="number_line_hint">pt.show();</div>
@@ -166,7 +165,7 @@
                 <div>
                     <p data-if="LESS_THAN">
                         Now draw an arrow to the left of the circle to include all numbers less than <code><var>SIGN + ( INT + FRAC )</var></code>.
-                    </p><p data-else>
+                    </p><p data-else="">
                         Now draw an arrow to the right of the circle to include all numbers greater than <code><var>SIGN + ( INT + FRAC )</var></code>.
                     </p>
                     <div class="graphie" data-update="number_line_hint">arrow.show();</div>
@@ -191,7 +190,7 @@
 
             <p class="solution" data-type="multiple">
                 <code><var>VARIABLE_NAME</var></code>
-                <span class="sol" data-type="list" data-choices="['', '&lt;', '&gt;', '&le;', '&ge;', '&ne;']">
+                <span class="sol" data-choices="['', '&lt;', '&gt;', '≤', '≥', '≠']" data-type="list">
                     <var>REL</var>
                 </span>
                 <span class="sol"><var>SIGN + INT</var></span>
@@ -201,13 +200,13 @@
 
                 <p data-if="LESS_THAN">
                     The arrow is pointing to the left of <code><var>SIGN + INT</var></code>, so everything less than <code><var>SIGN + INT</var></code> is included.
-                </p><p data-else>
+                </p><p data-else="">
                     The arrow is pointing to the right of <code><var>SIGN + INT</var></code>, so everything greater than <code><var>SIGN + INT</var></code> is included.
                 </p>
 
                 <p data-if="INCLUSIVE">
                     The circle is filled in, so <code><var>SIGN + INT</var></code> itself is also included.
-                </p><p data-else>
+                </p><p data-else="">
                     The circle is not filled in, so <code><var>SIGN + INT</var></code> itself is not included.
                 </p>
 
@@ -218,5 +217,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

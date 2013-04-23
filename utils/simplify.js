@@ -17,7 +17,8 @@
             } else {
                 prodExpr = KhanUtil.moveSameOpsUp({op: "*", args: newArgs});
             }
-            var subSteps = new KhanUtil.StepsProblem([], prodExpr, "simplify", true);
+            var subSteps = new KhanUtil.StepsProblem([], prodExpr,
+                $._("simplify"), true);
             options.mergeCstFactors = false;
             prodExpr = simplify(prodExpr, options, subSteps);
             options.mergeCstFactors = true;
@@ -27,7 +28,8 @@
         var cstFactor1 = {op: "*", args: [splitExpr1.numExpr, splitExpr1.cstExpr]};
         var cstFactor2 = {op: "*", args: [splitExpr2.numExpr, splitExpr2.cstExpr]};
         var sumFactors = {op: "+", args: [cstFactor1, cstFactor2]};
-        var subSteps = new KhanUtil.StepsProblem([], sumFactors, "simplify", true);
+        var subSteps = new KhanUtil.StepsProblem([], sumFactors,
+            $._("simplify"), true);
         var cstFactor = simplify(sumFactors, options, subSteps);
         //steps.add(subSteps);
         return {op: "*", args: [cstFactor, splitExpr1.varExpr]};
@@ -62,7 +64,8 @@
     };
 
     var simplifySingleArg = function(expr, options, steps) {
-        var subSteps = new KhanUtil.StepsProblem([0], expr.args[0], "simplify");
+        var subSteps = new KhanUtil.StepsProblem([0], expr.args[0],
+            $._("simplify"));
         var sArg = simplify(expr.args[0], options, subSteps);
         steps.add(subSteps);
         return KhanUtil.exprCopyMissingStyle(expr, {op: expr.op, args: [sArg]});
@@ -71,7 +74,8 @@
     var simplifyEachArg = function(expr, options, steps) {
         var newExpr = KhanUtil.exprClone(expr);
         for (var iArg = 0; iArg < newExpr.args.length; iArg++) {
-            var subSteps = new KhanUtil.StepsProblem([iArg], newExpr.args[iArg], "simplify");
+            var subSteps = new KhanUtil.StepsProblem([iArg], newExpr.args[iArg],
+                $._("simplify"));
             var sArg = simplify(newExpr.args[iArg], options, subSteps);
             subSteps.endExpr = sArg;
             if (steps === undefined) {
@@ -360,11 +364,13 @@
             newExpr = {op: "*", args: newArgs};
         }
         if (options.expandProducts) {
-            var subSteps1 = new KhanUtil.StepsProblem([], newExpr, "expandProduct", true);
+            var subSteps1 = new KhanUtil.StepsProblem([], newExpr,
+                $._("expandProduct"), true);
             var expanded = expandProduct(newExpr, subSteps1);
             steps.add(subSteps1);
             if (expanded.op === "+") {
-                var subSteps2 = new KhanUtil.StepsProblem([], expanded, "simplify", true);
+                var subSteps2 = new KhanUtil.StepsProblem([], expanded,
+                    $._("simplify"), true);
                 var sExpanded = simplify(expanded, options, subSteps2);
                 steps.add(subSteps2);
                 return sExpanded;
@@ -403,7 +409,8 @@
     var simplificationOps = {
         "+": function(expr, options, steps) {
             var sExpr1 = KhanUtil.moveSameOpsUp(expr);
-            var subSteps = new KhanUtil.StepsProblem([], sExpr1, "simplify");
+            var subSteps = new KhanUtil.StepsProblem([], sExpr1,
+                $._("simplify"));
             var sExpr = simplifyEachArg(sExpr1, options, steps);
             steps.add(sExpr);
             sExpr = KhanUtil.moveSameOpsUp(sExpr);
@@ -489,8 +496,11 @@
                        newExpr = factoredExpr;
                    }
                } else {
-                  steps.add("<p>The expression " + KhanUtil.exprToCode(expr) + " can be factored as " +
-                     KhanUtil.exprToCode(newExpr) + "</p>");
+                  steps.add(
+                      $._("<p>The expression %(expr)s can be factored " +
+                        "as %(newExpr)s</p>",
+                        {expr: KhanUtil.exprToCode(expr), 
+                        newExpr: KhanUtil.exprToCode(newExpr)}));
                }
             }
             expr = KhanUtil.exprCopyMissingStyle(expr, newExpr);
@@ -503,7 +513,8 @@
             if ((expr.args.length === 2) && (options.changeSubIntoPlusNeg)) {
                return {op: "+", args: [expr.args[0], {op: "-", args: [expr.args[1]]}]};
             }
-            var subSteps = new KhanUtil.StepsProblem([], expr, "simplify");
+            var subSteps = new KhanUtil.StepsProblem([], expr,
+                $._("simplify"));
             var sExpr = simplifyEachArg(expr, options, steps);
             if (expr.args.length === 1) {
                var arg = sExpr.args[0];
@@ -527,19 +538,23 @@
         "cdot": simplifyTimesOp,
         "times": simplifyTimesOp,
         "^": function(expr, options, steps) {
-            var subSteps1 = new KhanUtil.StepsProblem([0], expr.args[0], "simplify");
+            var subSteps1 = new KhanUtil.StepsProblem([0], expr.args[0],
+                $._("simplify"));
             var term = simplify(expr.args[0], options, subSteps1);
             steps.add(subSteps1);
-            var subSteps2 = new KhanUtil.StepsProblem([1], expr.args[1], "simplify");
+            var subSteps2 = new KhanUtil.StepsProblem([1], expr.args[1],
+                $._("simplify"));
             var pow = simplify(expr.args[1], options, subSteps2);
             steps.add(subSteps2);
             if (options.mergePowerOfPower) {
                 while ((typeof term === "object") && (term.op === "^")) {
                     var curPow = {op: "*", args: [pow, term.args[1]]};
-                    var subSteps3 = new KhanUtil.StepsProblem([], curPow, "simplify", true);
+                    var subSteps3 = new KhanUtil.StepsProblem([], curPow,
+                        $._("simplify"), true);
                     pow = simplify(curPow, options, subSteps3);
                     steps.add(subSteps3);
-                    var subSteps4 = new KhanUtil.StepsProblem([], term.args[0], "simplify", true);
+                    var subSteps4 = new KhanUtil.StepsProblem([], term.args[0],
+                        $._("simplify"), true);
                     term = simplify(term.args[0], options, subSteps4);
                     steps.add(subSteps4);
                 }
@@ -576,14 +591,16 @@
                 var numer = sExpr.args[0];
                 var denom = sExpr.args[1];
                 sExpr = {op: "*", args: [numer, {op: "^", args: [denom, -1]}]};
-                var subSteps = new KhanUtil.StepsProblem([], sExpr, "simplify");
+                var subSteps = new KhanUtil.StepsProblem([], sExpr,
+                    $._("simplify"));
                 sExpr = simplify(sExpr, options, subSteps);
                 steps.add(subSteps);
             }
             return sExpr;
         },
         "ln": function(expr, options, steps) {
-           var subSteps = new KhanUtil.StepsProblem([0], expr.args[0], "simplify");
+           var subSteps = new KhanUtil.StepsProblem([0], expr.args[0],
+               $._("simplify"));
            var term = simplify(expr.args[0], options, subSteps);
            steps.add(subSteps);
            if (options.cancelLnExp && (typeof term === "object") && (term.op === "^") &&
@@ -599,7 +616,8 @@
                return expr;
            }
            options.derivTerm = expr.args[1];
-           var subSteps = new KhanUtil.StepsProblem([], expr.args[0], "differentiate");
+           var subSteps = new KhanUtil.StepsProblem([], expr.args[0],
+               $._("differentiate"));
            expr = KhanUtil.differentiate(expr.args[0], options, subSteps);
            steps.add(subSteps);
            options.derivTerm = oldDerivTerm;
@@ -757,7 +775,7 @@
 
     var simplify = function(expr, options, steps) {
         if (steps === undefined) {
-            steps = new KhanUtil.StepsProblem([], expr, "simplify");
+            steps = new KhanUtil.StepsProblem([], expr, $._("simplify"));
         }
         if (options === undefined) {
             options = {};
@@ -773,7 +791,7 @@
         expr.text = KhanUtil.exprToText(expr);
 
         if (!KhanUtil.exprIdentical(expr, steps.startExpr)) {
-            var subSteps = new KhanUtil.StepsProblem([], expr, "simplify");
+            var subSteps = new KhanUtil.StepsProblem([], expr, $._("simplify"));
             expr = KhanUtil.simplify(expr, options, subSteps);
             steps.add(subSteps);
         }
@@ -784,7 +802,7 @@
     };
 
     var simplifyWithHints = function(expr) {
-        var steps = new KhanUtil.StepsProblem([], expr, "simplify");
+        var steps = new KhanUtil.StepsProblem([], expr, $._("simplify"));
         var simp = simplify(expr, {}, steps);
         var hints = KhanUtil.genHints(steps);
         return {result: simp, hints: hints};

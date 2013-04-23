@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
+<html data-require="math math-format"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Arithmetic series</title>
     <script src="../khan-exercise.js"></script>
@@ -8,7 +7,7 @@
 <body>
     <div class="exercise">
     <div class="problems">
-        <div id="explicit" data-calculator>
+        <div id="explicit" data-calculator="">
             <div class="vars" data-ensure="(D * (N - 1)) % 2 === 0 &amp;&amp; abs(SUM) &lt; 100">
                 <var id="A">randRangeNonZero(-40, 40)</var>
                 <var id="D">randFromArray([-1, 1]) * randRange(2, 6)</var>
@@ -25,16 +24,16 @@
 
             <div class="hints">
                 <p>The sum of an arithmetic series is the number of terms in the series times the average of the first and last terms.</p>
-                <div id="recursive-hints" data-unwrap></div>
+                <div id="recursive-hints" data-unwrap=""></div>
                 <p>To find the sum of the first <var>N &lt; 10 ? cardinal(N) : N</var> terms, we'll need the first and <var>ordinal(N)</var> terms of the series.</p>
                 <p>The first term is <code><var>A</var></code> and the <var>ordinal(N)</var> term is equal to <code>a_{<var>N</var>} = <var>A</var> + <var>D</var> (<var>N</var> - 1) = <var>A + D * (N - 1)</var></code>.</p>
                 <div>
                     <p>Therefore, the sum of the first <var>N &lt; 10 ? cardinal(N) : N</var> terms is</p>
                     <p><code>\qquad n\left(\dfrac{a_1 + a_{<var>N</var>}}{2}\right) = <var>N</var> \left(\dfrac{<var>A</var> + <var>A + D * (N - 1)</var>}{2}\right) = <var>SUM</var></code>.
-                </div>
+                </p></div>
             </div>
         </div>
-        <div id="recursive" data-type="explicit" data-calculator>
+        <div id="recursive" data-calculator="" data-type="explicit">
             <div class="question" data-apply="appendContents">
                 <p id="given-formula">
                     <code>a_1 = <var>A</var></code><br>
@@ -43,7 +42,7 @@
             </div>
 
             <div class="hints" data-apply="appendContents">
-                <div id="recursive-hints" data-unwrap>
+                <div id="recursive-hints" data-unwrap="">
                     <p>First, let's find the explicit formula for the terms of the arithmetic series. We can see that the first term is <code><var>A</var></code> and the common difference is <code><var>D</var></code>.</p>
                     <p>Thus, the explicit formula for this sequence is <code>a_i = <var>A</var> + <var>D</var>(i - 1)</code>.</p>
                 </div>
@@ -51,5 +50,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

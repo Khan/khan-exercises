@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-geometry word-problems interactive subhints">
-<head>
+<html data-require="math graphie graphie-geometry word-problems interactive subhints"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Perimeter 1</title>
     <script src="../khan-exercise.js"></script>
@@ -106,7 +105,7 @@
         </div>
 
         <div id="triangle" data-weight="2">
-            <div class="vars" data-ensure="A < B + C && B < A + C && C < A + B">
+            <div class="vars" data-ensure="A &lt; B + C &amp;&amp; B &lt; A + C &amp;&amp; C &lt; A + B">
                 <var id="A,B,C">randRange(2, 9, 3)</var>
                 <var id="X">((A * A + B * B - C * C) / (2 * A * B)) * B</var>
                 <var id="Y">sqrt(B * B - X * X)</var>
@@ -226,8 +225,7 @@
             <div class="vars">
                 <var id="WIDTH">randRange(5, 10)</var>
                 <var id="HEIGHT">randRange(5, 10)</var>
-                <var id="SHAPE"
-                    data-ensure="SHAPE.numSides <= 10 && SHAPE.numSides > 4">
+                <var id="SHAPE" data-ensure="SHAPE.numSides &lt;= 10 &amp;&amp; SHAPE.numSides &gt; 4">
                     createOddShape({
                         width: WIDTH,
                         height: HEIGHT
@@ -297,5 +295,4 @@
 
     </div>
 </div>
-</body>
-</html>
+</body></html>

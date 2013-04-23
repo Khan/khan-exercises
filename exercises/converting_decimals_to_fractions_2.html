@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
+<html data-require="math math-format"><head>
     <title>Converting decimals to fractions 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -31,7 +30,7 @@ Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals su
                     <p>You can also skip a few steps by making a fraction with <code><var>NUMERATOR</var></code> as the numerator and <code>10000</code> (because the decimal extends to the ten thousandths place) as the denominator.</p>
                     <p><code><var>fraction(NUMERATOR, 10000)</var></code></p>
                 </div>
-                <div data-if="GCD > 1">
+                <div data-if="GCD &gt; 1">
                     <p>Then, reduce the fractional part by dividing the numerator and denominator by <code><var>GCD</var></code>.</p>
                     <p><code>=<var>fractionReduce(round(D * 10000) , 10000)</var></code></p>
                 </div>
@@ -55,7 +54,7 @@ Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals su
                     <p><code>= <var>W</var> + <var>fraction(floor(D / 10), 10)</var> + <var>fraction(D % 10, 100)</var></code></p>
                 </div>
                 <p><code>= <var>W  + fraction(D, 100)</var></code></p>
-                <div data-if="GCD > 1">
+                <div data-if="GCD &gt; 1">
                     <p>Reduce the fractional part by dividing the numerator and denominator by <code><var>GCD</var></code>.</p>
                     <p><code>=<var>W + fractionReduce(D , 100)</var></code></p>
                 </div>
@@ -64,5 +63,4 @@ Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals su
 
     </div>
 </div>
-</body>
-</html>
+</body></html>

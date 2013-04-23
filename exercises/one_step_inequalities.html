@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie graphie-helpers">
-<head>
+<html data-require="math math-format graphie graphie-helpers"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>One step inequalities</title>
     <script src="../khan-exercise.js"></script>
@@ -13,11 +12,11 @@
         <div class="problems">
             <div>
                 <div class="vars">
-                    <var id="NUM, DEN" data-ensure="NUM > 2 || NUM < -2">reduce( randRange( -20, 20 ), rand( 3 ) &gt; 0 ? 1 : randRange( 2, 20 ) )</var>
+                    <var id="NUM, DEN" data-ensure="NUM &gt; 2 || NUM &lt; -2">reduce( randRange( -20, 20 ), rand( 3 ) &gt; 0 ? 1 : randRange( 2, 20 ) )</var>
                     <var id="COEF">fractionReduce( NUM, DEN )</var>
                     <var id="ONE_OVER_COEF">fractionReduce( DEN, NUM )</var>
                     <var id="RIGHT_INT">randRangeNonZero( -20, 20 )</var>
-                    <var id="COMP">randFromArray([ "&lt;", "&gt;", "&le;", "&ge;" ])</var>
+                    <var id="COMP">randFromArray([ "&lt;", "&gt;", "≤", "≥" ])</var>
                     <var id="COMP_SOLUTION">(function() {
                         if ( NUM &gt; 0 ) {
                             return COMP;
@@ -28,10 +27,10 @@
                                 return "&gt;";
                             case "&gt;":
                                 return "&lt;";
-                            case "&le;":
-                                return "&ge;";
-                            case "&ge;":
-                                return "&le;";
+                            case "≤":
+                                return "≥";
+                            case "≥":
+                                return "≤";
                         }
                     })()</var>
                     <var id="SOLUTION_NOT_REDUCED">fraction( RIGHT_INT * DEN, NUM )</var>
@@ -44,7 +43,7 @@
 
                 <p class="solution" data-type="multiple">
                     <code>x</code>
-                    <span class="sol" data-type="list" data-choices="[ '', '&lt;', '&gt;', '&le;', '&ge;' ]">
+                    <span class="sol" data-choices="[ '', '&lt;', '&gt;', '≤', '≥' ]" data-type="list">
                         <var>COMP_SOLUTION</var>
                     </span>
                     <span class="sol"><var>SOLUTION_REAL</var></span>
@@ -56,7 +55,7 @@
                 </p>
 
                 <div class="hints">
-                    <p data-if ="NUM < 0">When multiplying or dividing both sides of an inequality by a negative number you have to flip the inequality. Therefore <code><var>COMP</var></code> becomes <code><var>COMP_SOLUTION</var></code>.</p>
+                    <p data-if="NUM &lt; 0">When multiplying or dividing both sides of an inequality by a negative number you have to flip the inequality. Therefore <code><var>COMP</var></code> becomes <code><var>COMP_SOLUTION</var></code>.</p>
                     <div>
                         <p>Multiply both sides by <code><var>ONE_OVER_COEF</var></code>.</p>
                         <p><code>(<var>ONE_OVER_COEF</var>) \cdot (<var>COEF</var>x) <var>COMP_SOLUTION</var> (<var>ONE_OVER_COEF</var>) \cdot (<var>RIGHT_INT</var>)</code></p>
@@ -88,7 +87,7 @@
                                     fill = null;
                                     offset = 5;
                                     break;
-                                case "&ge;":
+                                case "≥":
                                     fill = "#6495ED";
                                     offset = 5;
                                     break;
@@ -97,7 +96,7 @@
                                     offset = -5;
                                     startOffset *= -1;
                                     break;
-                                case "&le;":
+                                case "≤":
                                     fill = "#6495ED";
                                     offset = -5;
                                     startOffset *= -1;
@@ -116,5 +115,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
+<html data-require="math math-format"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Radical equations</title>
     <script src="../khan-exercise.js"></script>
@@ -10,12 +9,12 @@
         <div class="vars">
             <var id="A">randRange( 2, 10 )</var>
             <var id="B">randRangeNonZero( -10, 10 )</var>
-            <var id="C" data-ensure="abs( C - A ) > 1">randRange( 2, 10 )</var>
+            <var id="C" data-ensure="abs( C - A ) &gt; 1">randRange( 2, 10 )</var>
             <var id="D" data-ensure="D !== B">randRangeNonZero( 2, 10 )</var>
             <var id="SIMPLIFIED">fractionReduce( D - B, A - C )</var>
             <var id="SOLUTION">
                 (function() {
-                    if ( ( D - B ) / ( A - C) > 0 ) {
+                    if ( ( D - B ) / ( A - C) &gt; 0 ) {
                         return "&lt;code&gt;"
                             + "x = "
                             + fractionReduce( ( D - B ) * ( D - B), ( A - C ) * ( A - C) )
@@ -37,7 +36,7 @@
                         choices.unshift( choice );
                     }
 
-                    if ( ( D - B ) / ( A - C ) > 0 ) {
+                    if ( ( D - B ) / ( A - C ) &gt; 0 ) {
                         choices.shift();
                         choices.unshift( SOLUTION );
                     }
@@ -62,14 +61,14 @@
         </div>
 
         <div class="hints">
-            <div data-if="A > C" data-unwrap>
+            <div data-if="A &gt; C" data-unwrap="">
                 <div>
                     <p>Subtract <code><var>C</var>\sqrt{x}</code> from both sides:</p>
                     <p><code>(<var>A</var>\sqrt{x} + <var>B</var>) - <var>C</var>\sqrt{x} = (<var>C</var>\sqrt{x} + <var>D</var>) - <var>C</var>\sqrt{x}</code></p>
                     <p><code><var>A - C</var>\sqrt{x} + <var>B</var> = <var>D</var></code></p>
                 </div>
                 <div>
-                    <p><var>B > 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B > 0 ? "from" : "to"</var> both sides:</p>
+                    <p><var>B &gt; 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B &gt; 0 ? "from" : "to"</var> both sides:</p>
                     <p><code>(<var>A - C</var>\sqrt{x} + <var>B</var>) + <var>-B</var> = <var>D</var> + <var>-B</var></code></p>
                     <p><code><var>A - C</var>\sqrt{x} = <var>D - B</var></code></p>
                 </div>
@@ -81,23 +80,23 @@
                     <p>Simplify.</p>
                     <p><code>\sqrt{x} = <var>SIMPLIFIED</var></code></p>
                 </div>
-                <div data-if="( D - B ) / ( A - C ) > 0">
+                <div data-if="( D - B ) / ( A - C ) &gt; 0">
                     <p>Square both sides.</p>
                     <p><code>\sqrt{x} \cdot \sqrt{x} = <var>SIMPLIFIED</var> \cdot <var>SIMPLIFIED</var></code></p>
                     <p><var>SOLUTION</var></p>
                 </div>
-                <p data-else>
+                <p data-else="">
                     The principal root of a number cannot be negative. So, there is no solution.
                 </p>
             </div>
-            <div data-else data-unwrap>
+            <div data-else="" data-unwrap="">
                 <div>
                     <p>Subtract <code><var>A</var>\sqrt{x}</code> from both sides:</p>
                     <p><code>(<var>A</var>\sqrt{x} + <var>B</var>) - <var>A</var>\sqrt{x} = (<var>C</var>\sqrt{x} + <var>D</var>) - <var>A</var>\sqrt{x}</code></p>
                     <p><code><var>B</var> = <var>C - A</var>\sqrt{x} + <var>D</var></code></p>
                 </div>
                 <div>
-                    <p><var>D > 0 ? "Subtract" : "Add"</var> <code><var>abs(D)</var></code> <var>D > 0 ? "from" : "to"</var> both sides:</p>
+                    <p><var>D &gt; 0 ? "Subtract" : "Add"</var> <code><var>abs(D)</var></code> <var>D &gt; 0 ? "from" : "to"</var> both sides:</p>
                     <p><code><var>B</var> + <var>-D</var> = (<var>C - A</var>\sqrt{x} + <var>D</var>) + <var>-D</var></code></p>
                     <p><code><var>B - D</var> = <var>C - A</var>\sqrt{x}</code></p>
                 </div>
@@ -109,16 +108,15 @@
                     <p>Simplify.</p>
                     <p><code><var>SIMPLIFIED</var> = \sqrt{x}</code></p>
                 </div>
-                <div data-if="( D - B ) / ( A - C ) > 0">
+                <div data-if="( D - B ) / ( A - C ) &gt; 0">
                     <p>Square both sides.</p>
                     <p><code><var>SIMPLIFIED</var> \cdot <var>SIMPLIFIED</var> = \sqrt{x} \cdot \sqrt{x}</code></p>
                     <p><var>SOLUTION</var></p>
                 </div>
-                <p data-else>
+                <p data-else="">
                     The principal root of a number cannot be negative. So, there is no solution.
                 </p>
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

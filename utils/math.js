@@ -58,8 +58,11 @@ $.extend(KhanUtil, {
         return digits;
     },
 
-    placesLeftOfDecimal: ["one", "ten", "hundred", "thousand"],
-    placesRightOfDecimal: ["one", "tenth", "hundredth", "thousandth"],
+    // TODO(jeresig): i18n: Does this make sense?
+    placesLeftOfDecimal: [$._("one"), $._("ten"), $._("hundred"),
+        $._("thousand")],
+    placesRightOfDecimal: [$._("one"), $._("tenth"), $._("hundredth"),
+        $._("thousandth")],
 
     powerToPlace: function(power) {
         if (power < 0) {
@@ -290,7 +293,7 @@ $.extend(KhanUtil, {
             return KhanUtil.randRange(min, max);
         } else {
             var toReturn = [];
-            for (var i = min; i < max; i++) {
+            for (var i = min; i <= max; i++) {
                 toReturn.push(i);
             }
 
@@ -305,7 +308,7 @@ $.extend(KhanUtil, {
             return KhanUtil.randRangeNonZero(min, max);
         } else {
             var toReturn = [];
-            for (var i = min; i < max; i++) {
+            for (var i = min; i <= max; i++) {
                 if (i === 0) {
                     continue;
                 }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems interactive">
-<head>
+<html data-require="math graphie word-problems interactive"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Number line 1</title>
     <script src="../khan-exercise.js"></script>
@@ -64,7 +63,7 @@
                         line([0, 0], [NUMBER, 0]);
                         graph.movablePoint.visibleShape.toFront();
                     </div>
-                    <p>The orange dot should be <var>plural(abs(NUMBER), "tick mark")</var> to the <span data-if="NUMBER &lt; 0">left</span><span data-else>right</span> of 0.</p>
+                    <p>The orange dot should be <var>plural(abs(NUMBER), "tick mark")</var> to the <span data-if="NUMBER &lt; 0">left</span><span data-else="">right</span> of 0.</p>
                 </div>
                 <div>
                     <div class="graphie" data-update="number-line">
@@ -77,5 +76,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

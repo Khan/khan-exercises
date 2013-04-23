@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
+<html data-require="math math-format"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Absolute value equations</title>
     <script src="../khan-exercise.js"></script>
@@ -72,7 +71,7 @@
                         to not be graded. Otherwise it returns true an the
                         rest of the multiple answer will be checked normally.
                     -->
-                    <div class="sol" data-type="custom" required>
+                    <div class="sol" data-type="custom" required="">
                         <div class="guess">
                             $("#solutionarea input").eq(0).val() === ""
                             &amp;&amp;
@@ -106,7 +105,7 @@
                 </div>
 
                 <div class="hints">
-                    <div data-if="A > C" data-unwrap>
+                    <div data-if="A &gt; C" data-unwrap="">
                         <div>
                             <p>
                                 <var>C &gt; 0 ? "Subtract" : "Add"</var>
@@ -164,7 +163,7 @@
                                 <var>SIMPLIFIED</var></code>
                             </p>
                         </div>
-                        <div data-if="!NO_SOLUTION" data-unwrap>
+                        <div data-if="!NO_SOLUTION" data-unwrap="">
                             <div>
                                 <p>
                                     Because the absolute value of an expression
@@ -271,7 +270,7 @@
                             </code></p>
                         </div>
                     </div>
-                    <div data-else data-unwrap>
+                    <div data-else="" data-unwrap="">
                         <div>
                             <p>
                                 <var>A &gt; 0 ? "Subtract" : "Add"</var>
@@ -328,7 +327,7 @@
                                 <var>SIMPLIFIED</var> = |x + <var>E</var>|
                             </code></p>
                         </div>
-                        <div data-if="!NO_SOLUTION" data-unwrap>
+                        <div data-if="!NO_SOLUTION" data-unwrap="">
                             <div>
                                 <p>
                                     Because the absolute value of an expression
@@ -446,7 +445,7 @@
                             <var>fractionReduce.apply(null, POS_SOLUTION)</var>
                         </code>.
                     </p>
-                    <p data-else>
+                    <p data-else="">
                         The absolute value cannot be negative. Therefore, there
                         is no solution.
                     </p>
@@ -454,5 +453,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

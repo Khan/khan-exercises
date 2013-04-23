@@ -45,7 +45,7 @@ var PerseusBridge = Exercises.PerseusBridge,
 $(Exercises)
     .bind("problemTemplateRendered", problemTemplateRendered)
     .bind("newProblem", newProblem)
-    .bind("hintUsed", hintUsed)
+    .bind("hintUsed", onHintUsed)
     .bind("readyForNextProblem", readyForNextProblem)
     .bind("warning", warning)
     .bind("upcomingExercise", upcomingExercise)
@@ -76,7 +76,7 @@ function problemTemplateRendered() {
     $("#skip-question-button").click(handleSkippedQuestion);
 
     // Hint button
-    $("#hint").click(handleHint);
+    $("#hint").click(onHintButtonClicked);
 
     // Next question button
     $("#next-question-button").click(function() {
@@ -156,7 +156,7 @@ function handleAttempt(data) {
         score = Khan.scoreInput();
     }
 
-    // Stop if the user didn't try to skip the question and also didn't yet 
+    // Stop if the user didn't try to skip the question and also didn't yet
     // enter a response
     if (score.empty && !skipped) {
         return false;
@@ -164,16 +164,25 @@ function handleAttempt(data) {
 
     var curTime = new Date().getTime();
     var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
+    var stringifiedGuess = JSON.stringify(score.guess);
+    var attemptData = null;
+    if (!localMode) {
+        attemptData = buildAttemptData(
+            score.correct, ++attempts, stringifiedGuess, timeTaken, skipped);
+    }
     lastAttemptOrHint = curTime;
 
     Exercises.guessLog.push(score.guess);
     Exercises.userActivityLog.push([
             score.correct ? "correct-activity" : "incorrect-activity",
-            JSON.stringify(score.guess), timeTaken]);
+            stringifiedGuess, timeTaken]);
 
     if (score.correct) {
         answeredCorrectly = true;
-        $(Exercises).trigger("problemDone");
+        $(Exercises).trigger("problemDone", {
+            card: Exercises.currentCard,
+            attempts: attempts
+        });
     }
 
     // Update interface corresponding to correctness
@@ -227,6 +236,7 @@ function handleAttempt(data) {
 
     $(Exercises).trigger("checkAnswer", {
         correct: score.correct,
+        card: Exercises.currentCard,
 
         // Determine if this attempt qualifies as fast completion
         fast: !localMode && userExercise.secondsPerFastProblem >= timeTaken
@@ -238,10 +248,8 @@ function handleAttempt(data) {
     }
 
     // Save the problem results to the server
-    var data = buildAttemptData(score.correct, ++attempts,
-            JSON.stringify(score.guess), timeTaken, skipped);
-
-    request("problems/" + problemNum + "/attempt", data).fail(function(xhr) {
+    var requestUrl = "problems/" + problemNum + "/attempt";
+    request(requestUrl, attemptData).fail(function(xhr) {
         // Alert any listeners of the error before reload
         $(Exercises).trigger("attemptError");
 
@@ -269,7 +277,7 @@ function handleAttempt(data) {
     return false;
 }
 
-function handleHint() {
+function onHintButtonClicked() {
     var framework = Exercises.getCurrentFramework();
 
     if (framework === "perseus") {
@@ -279,7 +287,7 @@ function handleHint() {
     }
 }
 
-function hintUsed() {
+function onHintUsed() {
     // Grow the scratchpad to cover the new hint
     Khan.scratchpad.resize();
 
@@ -356,6 +364,10 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         // Whether we are currently working on a topic, as opposed to an exercise
         topic_mode: (!Exercises.reviewMode && !Exercises.practiceMode) ? 1 : 0,
 
+        // If working in the context of a LearningTask (on the new learning
+        // dashboard), supply the task ID.
+        task_id: Exercises.learningTask && Exercises.learningTask.get("id"),
+
         // The current card data
         card: JSON.stringify(Exercises.currentCard),
 
@@ -363,7 +375,7 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         stack_uid: Exercises.completeStack.getUid(),
 
         // The current topic, if any
-        topic_id: Exercises.topic && Exercises.topic.id,
+        topic_slug: Exercises.topic && Exercises.topic.get("slug"),
 
         // How many cards the user has already done
         cards_done: Exercises.completeStack.length,

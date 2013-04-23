@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math matrix matrix-input subhints">
-<head>
+<html data-require="math matrix matrix-input subhints"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inverse of a 3x3 matrix</title>
     <script src="../khan-exercise.js"></script>
@@ -70,12 +69,12 @@
             </p>
 
             <div class="solution" data-type="multiple">
-                <div data-each="PADDED_SOLN_MAT as row" class="matrix-row">
+                <div class="matrix-row" data-each="PADDED_SOLN_MAT as row">
                     <span data-each="row as elem">
-                        <span data-if="elem !== ''" class="sol" data-simplify="optional">
+                        <span class="sol" data-if="elem !== ''" data-simplify="optional">
                             <var>elem</var>
                         </span>
-                        <span data-else data-type="text" class="sol">
+                        <span class="sol" data-else="" data-type="text">
                             <var>elem</var>
                         </span>
                     </span>
@@ -179,5 +178,4 @@
     </div>
 
     </div>
-</body>
-</html>
+</body></html>

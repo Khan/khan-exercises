@@ -37,14 +37,16 @@
           //id = id + "-" + KhanUtil.random();
           var html = "<div id='" + id + "' class='modal hide fade' style='width:400px;left:750px;position:fixed;'>" +
               "  <div class='modal-header'>" +
-              "    <a href='#' class='close'>&times;</a> Definition:" + title +
+              "    <a href='#' class='close'>&times;</a> " +
+                  $._("Definition: %(title)s", {title: title}) +
               "  </div>" +
               "  <div class='modal-body'>" +
               content +
               "  </div>";
           if (link !== undefined) {
               html += "  <div class='modal-footer'>" +
-              "    <a href='" + link + "' class='btn primary'>Watch the video</a>" +
+              "    <a href='" + link + "' class='btn primary'>" +
+                  $._("Watch the video") + "</a>" +
               "   </div>";
           }
           html += "</div>" +
@@ -159,7 +161,8 @@
        $.each(path, function(node) {
           strPath += node + ", ";
        });
-       steps.add("putStepsInContect(" + KhanUtil.exprToCode(parentExpr) + ", [" + strPath + "])");
+       // NOTE(jeresig): Why is this a JavaScript expression?
+       steps.add("putStepsInContext(" + KhanUtil.exprToCode(parentExpr) + ", [" + strPath + "])");
     };
 
     var putStepsInContext = function(parentExpr, path, steps) {

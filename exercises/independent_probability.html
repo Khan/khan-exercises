@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format probability word-problems graphie">
-<head>
+<html data-require="math math-format probability word-problems graphie"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Independent probability</title>
     <script src="../khan-exercise.js"></script>
@@ -10,28 +9,48 @@
     <div class="problems">
         <div id="coindie">
             <div class="vars">
-                <var id="HT">random() &lt; 0.5 ? "heads" : "tails"</var>
+                <var id="HT">random() &lt; 0.5 ? $._("heads") : $._("tails")</var>
                 <var id="RESULT_DESC, RESULT_POSSIBLE">randFromArray([
-                    ["a 1", [1]],
-                    ["a 2", [2]],
-                    ["a 3", [3]],
-                    ["a 4", [4]],
-                    ["a 5", [5]],
-                    ["a 6", [6]],
-                    ["at least a 2", [2, 3, 4, 5, 6]],
-                    ["at least a 3", [3, 4, 5, 6]],
-                    ["at least a 4", [4, 5, 6]],
-                    ["more than a 2", [3, 4, 5, 6]],
-                    ["more than a 3", [4, 5, 6]],
-                    ["more than a 4", [5, 6]],
-                    ["less than a 4", [1, 2, 3]],
-                    ["less than a 5", [1, 2, 3, 4]],
-                    ["less than a 6", [1, 2, 3, 4, 5]],
-                    ["an even number", [2, 4, 6]],
-                    ["an even number", [2, 4, 6]],
-                    ["an odd number", [1, 3, 5]],
-                    ["an odd number", [1, 3, 5]],
-                    ["a prime number", [2, 3, 5]]
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("a 1"), [1]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("a 2"), [2]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("a 3"), [3]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("a 4"), [4]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("a 5"), [5]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("a 6"), [6]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("at least a 2"), [2, 3, 4, 5, 6]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("at least a 3"), [3, 4, 5, 6]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("at least a 4"), [4, 5, 6]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("more than a 2"), [3, 4, 5, 6]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("more than a 3"), [4, 5, 6]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("more than a 4"), [5, 6]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("less than a 4"), [1, 2, 3]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("less than a 5"), [1, 2, 3, 4]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("less than a 6"), [1, 2, 3, 4, 5]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("an even number"), [2, 4, 6]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("an even number"), [2, 4, 6]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("an odd number"), [1, 3, 5]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("an odd number"), [1, 3, 5]],
+                    /* I18N: Shows up in a question of the form, "what is the probability you will ... roll ___ ?" */
+                    [$._("a prime number"), [2, 3, 5]]
                 ])</var>
                 <var id="PRETTY_N">RESULT_POSSIBLE.length / getGCD(RESULT_POSSIBLE.length,12)</var>
                 <var id="PRETTY_D">12 / getGCD(RESULT_POSSIBLE.length,12)</var>
@@ -54,7 +73,7 @@
                 <p>
                     The probability of rolling <var>RESULT_DESC</var> is <code>\dfrac{<var>RESULT_POSSIBLE.length</var>}{6}</code>, since there 
                     <var>plural("is",RESULT_POSSIBLE.length)</var> <var>RESULT_POSSIBLE.length</var> <var>plural("outcome",RESULT_POSSIBLE.length)</var> 
-                    which <var>RESULT_POSSIBLE.length > 1 ? "satisfy" : "satisfies"</var> our condition
+                    which <var>RESULT_POSSIBLE.length &gt; 1 ? "satisfy" : "satisfies"</var> our condition
                     (namely, <var>toSentence(RESULT_POSSIBLE)</var>), and 6 total possible outcomes.
                 </p>
                 <p>
@@ -65,6 +84,7 @@
         </div>
         <div id="freethrows">
             <div class="vars">
+                <!-- TODO: i18n the sport to something less US-centric -->
                 <var id="FREE_THROWS">
                     [["Carmelo Anthony", .84],
                     ["Trevor Ariza", .70],
@@ -137,7 +157,7 @@
             </ul>
 
             <div class="hints">
-            <div data-unwrap data-if="ALL">
+            <div data-if="ALL" data-unwrap="">
                 <div>
                     <p>We know that <code>\blue{<var>SINGLE_PCT</var> \%}</code> of the time, he'll make
                     his first shot.</p>
@@ -248,7 +268,7 @@
                     The probability of making <var>STREAK</var> free throws in a row is <code><var>PROB</var> ^ <var>STREAK</var></code>.
                 </p>
             </div>
-            <div data-unwrap data-else>
+            <div data-else="" data-unwrap="">
                 <div>
                     <p>We know that <code>\blue{<var>SINGLE_PCT</var> \%}</code> of the time, he'll miss
                     his first shot
@@ -363,7 +383,7 @@
             </div>
         </div>
         <div id="YARR">
-            <div class="vars" data-ensure="CAPTAIN_PROB > PIRATE_PROB">
+            <div class="vars" data-ensure="CAPTAIN_PROB &gt; PIRATE_PROB">
                 <var id="CAPTAIN_NUM">randRange(1,4)</var>
                 <var id="CAPTAIN_DEM">CAPTAIN_NUM + randRange(1,6)</var>
                 <var id="CAPTAIN_PROB">CAPTAIN_NUM/CAPTAIN_DEM</var>
@@ -377,10 +397,10 @@
                 <var id="P_MISS_PRETTY">"\\dfrac{" + (PIRATE_DEM/PGCD - PIRATE_NUM/PGCD) + "}{" + PIRATE_DEM/PGCD + "}"</var>
                 <var id="INDEX">randRange(0,3)</var>
                 <var id="QUESTION">
-                    ["the Captain hits the pirate ship, but the pirate misses",
-                    "the pirate hits the Captain's ship, but the Captain misses",
-                    "both the pirate and the Captain hit each other's ships",
-                    "both the Captain and the pirate miss"][INDEX]
+                    [$._("the Captain hits the pirate ship, but the pirate misses"),
+                    $._("the pirate hits the Captain's ship, but the Captain misses"),
+                    $._("both the pirate and the Captain hit each other's ships"),
+                    $._("both the Captain and the pirate miss")][INDEX]
                 </var>
                 <var id="ANS_N, ANS_D, ANSWER">
                     [[CAPTAIN_NUM * (PIRATE_DEM-PIRATE_NUM), CAPTAIN_DEM*PIRATE_DEM, CAPTAIN_PROB*(1-PIRATE_PROB)],
@@ -394,7 +414,7 @@
             <p>
                 Captain <var>person(1)</var> and <var>his(1)</var> ship, the H.M.S. Khan, are 
                 two furlongs from the dread pirate <var>person(2)</var> and <var>his(2)</var> merciless band of scallawags. 
-                </br></br>
+                <br><br>
                 The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship.
                 The pirate only has one good eye, so <var>he(2)</var> hits the Captain's ship with probability 
                 <code><var>P_HIT_PRETTY</var></code>.
@@ -420,14 +440,14 @@
                 <p data-if="C">
                     The probability that the Captain hits is <code><var>C_HIT_PRETTY</var></code>.
                 </p>
-                <p data-else>
+                <p data-else="">
                     The probability that the Captian misses is <code>1 - </code> (the probability the Captain
                     hits), which is <code>1 - <var>C_HIT_PRETTY</var> = <var>C_MISS_PRETTY</var></code>.
                 </p>
                 <p data-if="P">
                     The probability that the pirate hits is <code><var>P_HIT_PRETTY</var></code>.
                 </p>
-                <p data-else>
+                <p data-else="">
                     The probability that the pirate misses is <code>1 - </code> (the probability the pirate
                     hits), which is <code>1 - <var>P_HIT_PRETTY</var> = <var>P_MISS_PRETTY</var></code>.
                 </p>
@@ -440,5 +460,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

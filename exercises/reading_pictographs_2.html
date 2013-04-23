@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format stat word-problems graphie">
-<head>
+<html data-require="math math-format stat word-problems graphie"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading pictographs 2</title>
     <script src="../khan-exercise.js"></script>
@@ -22,7 +21,7 @@
 <body>
 <div class="exercise">
     <div class="vars">
-        <var id="DATA">randRangeUnique( 1, 8, 5 )</var>
+        <var id="DATA">randRangeUnique( 1, 7, 5 )</var>
         <var id="BADGE">randFromArray([ "meteorite", "moon", "earth" ])</var>
         <var id="FULL_IMAGE">"&lt;img src='" + Khan.imageBase + "badges/" + BADGE + "-small.png'&gt;"</var>
         <var id="HALF_IMAGE">"&lt;div style=\"background-image:url('" + Khan.imageBase + "badges/" + BADGE + "-small.png'); width:20px; height:40px;\"&gt;&nbsp;&lt;/div&gt;"</var>
@@ -38,7 +37,7 @@
         <div class="fake_row" data-each="5 times as n">
             <span><var>person( n + 1)</var></span><span data-each="DATA[n] times"><var>FULL_IMAGE</var>
             </span><span data-if="HALF[n]"><var>HALF_IMAGE</var>
-            </span><span data-else></span><span data-each="(7 - DATA[n]) times">&nbsp;</span>
+            </span><span data-else=""></span><span data-each="(7 - DATA[n]) times">&nbsp;</span>
         </div>
         <span style="height: 50px; vertical-align: top; line-height: 50px;"><var>FULL_IMAGE</var> = <var>VALUE_PER_IMG</var> <var>BADGE</var> <var>plural( "badge", VALUE_PER_IMG )</var></span>
     </div>
@@ -54,7 +53,7 @@
             <p class="question">How many <var>BADGE</var> badges did <var>person( PERSON + 1 )</var> earn?</p>
 
             <div class="solution" data-type="multiple">
-                <p><span style="padding-right: 5px" class="sol short40" data-forms="integer, decimal"><var>ANSWER</var></span> <var>BADGE</var> badges</p>
+                <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>ANSWER</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
                 <p>The key at the bottom of the pictograph shows that each full symbol represents <var>plural( VALUE_PER_IMG, "badge" )</var>.</p>
@@ -63,7 +62,7 @@
                     <div class="fake_row">
                         <span><var>person( PERSON + 1 )</var></span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON ]"><var>HALF_IMAGE</var>
-                        </span><span data-else></span><span data-each="(7 - DATA[ PERSON ]) times">&nbsp;</span>
+                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&nbsp;</span>
                     </div>
                 </div>
                 <p>
@@ -77,7 +76,7 @@
                         <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbol <code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code>
                         <var>plural( "badge", DATA[ PERSON ] * VALUE_PER_IMG )</var>.
                         <span data-if="HALF[ PERSON ]">
-                            <br /><code>1</code> half symbol <code> \times <var>VALUE_PER_IMG/2</var></code> <var>plural( "badge", VALUE_PER_IMG / 2 )</var> per half symbol <code> = <var>VALUE_PER_IMG / 2</var></code>
+                            <br><code>1</code> half symbol <code> \times <var>VALUE_PER_IMG/2</var></code> <var>plural( "badge", VALUE_PER_IMG / 2 )</var> per half symbol <code> = <var>VALUE_PER_IMG / 2</var></code>
                             <var>plural( "badge", VALUE_PER_IMG / 2 )</var>.
                         </span>
                     </div>
@@ -118,7 +117,7 @@
                     <div class="fake_row">
                         <span>???</span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON ]"><var>HALF_IMAGE</var>
-                        </span><span data-else></span><span data-each="(7 - DATA[ PERSON ]) times">&nbsp;</span>
+                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&nbsp;</span>
                     </div>
                 </div>
                 <p><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var> next to <var>his( PERSON + 1 )</var> name.</p>
@@ -128,7 +127,7 @@
 
         <div id="difference">
             <div class="vars">
-                <div data-ensure="VAL1 > VAL2">
+                <div data-ensure="VAL1 &gt; VAL2">
                     <var id="PERSON1">rand( 5 )</var>
                     <var id="PERSON2">rand( 5 )</var>
                     <var id="VAL1">DATA[ PERSON1 ] * VALUE_PER_IMG + HALF[ PERSON1 ] * VALUE_PER_IMG / 2</var>
@@ -141,7 +140,7 @@
             <p class="question">How many more <var>BADGE</var> badges did <var>person( PERSON1 + 1 )</var> earn than <var>person( PERSON2 + 1 )</var>?</p>
 
             <div class="solution" data-type="multiple">
-                <p><span style="padding-right: 5px" class="sol short40" data-forms="integer, decimal"><var>VAL1 - VAL2</var></span> <var>BADGE</var> badges</p>
+                <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>VAL1 - VAL2</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
                 <p>The key at the bottom of the pictograph shows that each full symbol represents <var>plural( VALUE_PER_IMG, "badge" )</var>.</p>
@@ -150,12 +149,12 @@
                     <div class="fake_row">
                         <span><var>person( PERSON1 + 1 )</var></span><span data-each="DATA[ PERSON1 ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON1 ]"><var>HALF_IMAGE</var>
-                        </span><span data-else></span><span data-each="(7 - DATA[ PERSON1 ]) times">&nbsp;</span>
+                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON1 ]) times">&nbsp;</span>
                     </div>
                     <div class="fake_row">
                         <span><var>person( PERSON2 + 1 )</var></span><span data-each="DATA[ PERSON2 ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON2 ]"><var>HALF_IMAGE</var>
-                        </span><span data-else></span><span data-each="(7 - DATA[ PERSON2 ]) times">&nbsp;</span>
+                        </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON2 ]) times">&nbsp;</span>
                     </div>
                 </div>
                 <p>
@@ -182,7 +181,7 @@
             <p class="question">How many <var>BADGE</var> badges were earned by everyone all together?</p>
 
             <div class="solution" data-type="multiple">
-                <p><span style="padding-right: 5px" class="sol short40" data-forms="integer, decimal"><var>TOTAL</var></span> <var>BADGE</var> badges</p>
+                <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>TOTAL</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
                 <p>Start by counting the total number of <var>BADGE</var> symbols.</p>
@@ -197,7 +196,7 @@
                         <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbol <code> = <var>FULL_SYM * VALUE_PER_IMG</var></code>
                         <var>plural( "badge", FULL_SYM * VALUE_PER_IMG )</var>.
                         <span data-if="HALF_SYM">
-                            <br /><code><var>HALF_SYM</var></code> half <var>plural( "symbol", HALF_SYM )</var>
+                            <br><code><var>HALF_SYM</var></code> half <var>plural( "symbol", HALF_SYM )</var>
                             <code> \times <var>VALUE_PER_IMG/2</var></code> <var>plural( "badge", VALUE_PER_IMG / 2 )</var> per half symbol <code> = <var>HALF_SYM * VALUE_PER_IMG / 2</var></code>
                             <var>plural( "badge", HALF_SYM * VALUE_PER_IMG / 2 )</var>.
                         </span>
@@ -209,5 +208,4 @@
 
     </div>
 </div>
-</body>
-</html>
+</body></html>

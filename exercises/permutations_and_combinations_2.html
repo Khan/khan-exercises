@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems subhints">
-<head>
+<html data-require="math math-format word-problems subhints"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Permutations and combinations</title>
     <script src="../khan-exercise.js"></script>
@@ -52,7 +51,7 @@
                         letters long:</p>
                         <p><var>_.map(_.range(WORD.length), function(l){ return "_ "; }).join("")</var></p>
                         <p>Now, for the first blank, we have <code><var>WORD.length</var></code> choices of letters to put in.
-                    </div>
+                    </p></div>
                     <div>
                         <p>After we put in the first letter, let's say it's <var>PERM[0]</var>, we have <code><var>WORD.length-1</var></code> blanks left.</p>
                         <p><var>PERM[0]+" "+_.map(_.range(WORD.length-1), function(l){ return "_ "; }).join("")</var></p>
@@ -126,7 +125,7 @@
                         So, the total number of unique choices we could make to get to an arrangement of reindeer is <code><var>_.map(_.range(NAMES.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length)</var>.</code> Another way of writing this is <code><var>NAMES.length</var>!</code>, 
                         or <code><var>NAMES.length</var></code> factorial. But we haven't thought about the two reindeer who <var>FIGHTING ? "can't be together" : "have to be together"</var> yet.
                     </p>
-                    <div data-if="FIGHTING" data-unwrap>
+                    <div data-if="FIGHTING" data-unwrap="">
                         <p>
                             There are <code><var>factorial(NAMES.length)</var></code> different arrangements of reindeer altogether, 
                             so we just need to subtract
@@ -146,7 +145,7 @@
                             of arrangements, we get <code><var>ANSWER</var></code> arrangements of reindeer where they will fly.
                         </p>
                     </div>
-                    <div data-else data-unwrap>
+                    <div data-else="" data-unwrap="">
                         <p>
                             We can count the number of arrangements where <var>PAIR[0]</var> and <var>PAIR[1]</var> are together by treating them as one double-reindeer. Now we can use the same idea as before to come up with <code><var>_.map(_.range(NAMES.length-1).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length-1)</var></code> different arrangements. But that's not quite right.
                         </p>
@@ -186,7 +185,7 @@
                             <div data-if="100/FAC1 === FAC1_TIMES">
                                 One way to see this is to take <code> \dfrac{100}{<var>FAC1</var>} = <var>FAC1_TIMES</var></code>
                             </div>
-                            <div data-else>
+                            <div data-else="">
                                 One way to see this is to take <code> \dfrac{100}{<var>FAC1</var>}</code>, which is between <code><var>
                                 FAC1_TIMES</var></code> and <code><var>FAC1_TIMES+1</var></code>. So, starting at <code>0</code> and adding <code><var>FAC1</var></code>
                                 at each step, you have to take between <code><var>FAC1_TIMES</var></code> and <code><var>FAC1_TIMES+1</var></code> steps to get
@@ -194,11 +193,11 @@
                                 you'll hit <code><var>FAC1_TIMES</var></code> numbers divisible by <code><var>FAC1</var></code> before you get to above <code>100</code>.
                                 So, there are <code><var>FAC1_TIMES</var></code> numbers between <code>1</code> and <code>100</code> divisible by <code><var>FAC1</var></code>.
                             </div>
-                            </br></br>
+                            <br><br>
                             <div data-if="100/FAC2 === FAC2_TIMES">
                                 Using similar logic for the second factor, we see that <code> \dfrac{100}{<var>FAC2</var>} = <var>FAC2_TIMES</var></code>
                             </div>
-                            <div data-else>
+                            <div data-else="">
                                 Using similar logic for the second factor, take <code> \dfrac{100}{<var>FAC2</var>}</code>, which is between <code><var>
                                 FAC2_TIMES</var></code> and <code><var>FAC2_TIMES+1</var></code>. So, starting at <code>0</code> and adding <code><var>FAC2</var></code>
                                 at each step, you have to take between <code><var>FAC2_TIMES</var></code> and <code><var>FAC2_TIMES+1</var></code> steps to get
@@ -231,5 +230,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

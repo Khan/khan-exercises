@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems math-format">
-<head>
+<html data-require="math word-problems math-format"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dependent probability</title>
     <script src="../khan-exercise.js"></script>
@@ -99,13 +98,13 @@
                     <p>
                         We can think about this problem as the probability of 
                         <code><var>CHOSEN</var></code> events happening.
-                        </br></br>
+                        <br><br>
                         The first event is the teacher choosing one student
                         who <var>EVENT_S</var>. The second event is the teacher
                         choosing another student who <var>EVENT_S</var>, given
                         that the teacher already chose someone who 
                         <var>EVENT_S</var> 
-                        <var>CHOSEN > 2 ? ", and so on." : "."</var>
+                        <var>CHOSEN &gt; 2 ? ", and so on." : "."</var>
                     </p>
                     <p>
                         The probabilty that the teacher will choose someone
@@ -193,12 +192,12 @@
                 </div>
 
                 <p class="problem">
-                    <p>A <var>CONTAINER</var> contains 
+                    </p><p>A <var>CONTAINER</var> contains 
                     <code><var>REDMAR</var></code> red <var>MARBLE</var>s,
                     <code><var>GREENMAR</var></code> green <var>MARBLE</var>s,
                     and <code><var>BLUEMAR</var></code>
                     blue <var>MARBLE</var>s.</p>
-                </p>
+                <p></p>
                 <div class="question">
                     <p>If we choose a <var>MARBLE</var>, then another <var>
                     MARBLE</var>
@@ -217,7 +216,7 @@
                         the probability of event A happening times
                         the probability of event B happening <em>given that
                         event A already happened</em>. 
-                        </br></br>
+                        <br><br>
                         In this case, event A is picking a <var>COLOR_ONE</var>
                         <var>MARBLE</var> and leaving it out.
                         Event B is picking <var>COLOR_TWO</var> 
@@ -248,7 +247,7 @@
                         <var>MARBLE</var>s, so there are only 
                         <code><var>AFTER_NUM</var></code> left altogether.
                     </p>
-                    <p data-else>
+                    <p data-else="">
                         Since the first <var>MARBLE</var> was 
                         <var>COLOR_ONE</var>, there are still 
                         <code><var>AFTER_NUM</var></code> 
@@ -273,7 +272,7 @@
                 </div>
             </div>
             <div id="YARR">
-                <div class="vars" data-ensure="CAPTAIN_PROB > PIRATE_PROB">
+                <div class="vars" data-ensure="CAPTAIN_PROB &gt; PIRATE_PROB">
                     <var id="C_FIRST">random() &lt; 0.5</var>
                     <var id="CAPTAIN_NUM">randRange(1,4)</var>
                     <var id="CAPTAIN_DEM">CAPTAIN_NUM + randRange(1,6)</var>
@@ -373,7 +372,7 @@
                         The probability of event A happening, then event B, is the probability of 
                         event A happening times
                         the probability of event B happening <em>given that event A already happened</em>. 
-                        </br></br>
+                        <br><br>
                         In this case, event A is <var>EV_A</var> and event B is <var>EV_B</var>.
                     </p>
                     <p>
@@ -388,7 +387,7 @@
                         If the <var>C_FIRST ? "Captain" : "pirate"</var> hit the <var>C_FIRST ? "pirate" : "Captain's"</var> ship,
                         the <var>C_FIRST ? "pirate" : "Captain"</var> has no chance of firing back.
                     </p>
-                    <p data-else>
+                    <p data-else="">
                         If the <var>C_FIRST ? "Captain" : "pirate"</var> 
                          missed the <var>C_FIRST ? "pirate" : "Captain's"</var>
                          ship,
@@ -409,5 +408,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

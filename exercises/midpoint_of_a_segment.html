@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie expressions">
-<head>
+<html data-require="math graphie expressions"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Midpoint of a segment</title>
     <script src="../khan-exercise.js"></script>
@@ -18,7 +17,7 @@
                 <var id="SEG_1">POINTS[ 0 ] + POINTS[ 1 ]</var>
                 <var id="SEG_2">POINTS[ 1 ] + POINTS[ 2 ]</var>
                 <var id="SEG_TOTAL">POINTS[ 0 ] + POINTS[ 2 ]</var>
-                <div data-ensure="( COEF_1 !== COEF_2 || CONST_1 !== CONST_2 ) && ( TOTAL > 0 ) && ( CONST_2 !== 0 )">
+                <div data-ensure="( COEF_1 !== COEF_2 || CONST_1 !== CONST_2 ) &amp;&amp; ( TOTAL &gt; 0 ) &amp;&amp; ( CONST_2 !== 0 )">
                     <var id="X">randRange( 1, 9 )</var>
                     <var id="COEF_1">randRangeNonZero( 2, 9 )</var>
                     <var id="CONST_1">randRangeNonZero( -9, 9 )</var>
@@ -44,9 +43,9 @@
                     label( [ 10, 0 ], POINTS[ 2 ], "below" );
                 </div>
                 <p>
-                    If:<br />
-                    <span id="given1"><code>\qquad <var>SEG_1</var> = <var>COEF_1</var>x + <var>CONST_1</var></code></span> and<br />
-                    <span id="given2"><code>\qquad <var>SEG_2</var> = <var>COEF_2</var>x + <var>CONST_2</var></code></span><br />
+                    If:<br>
+                    <span id="given1"><code>\qquad <var>SEG_1</var> = <var>COEF_1</var>x + <var>CONST_1</var></code></span> and<br>
+                    <span id="given2"><code>\qquad <var>SEG_2</var> = <var>COEF_2</var>x + <var>CONST_2</var></code></span><br>
                 </p>
             </div>
             <p class="question">Find <code><var>SEG_TOTAL</var></code>.</p>
@@ -73,7 +72,7 @@
                     <p>Solve for <code class="hint_pink">x</code>:</p>
                     <p><code class="hint_pink">\qquad <var>expr([ "*", COEF_1 - COEF_2, "x" ])</var> = <var>CONST_2 - CONST_1</var></code></p>
                 </div>
-                <p data-if="abs( COEF_1 - COEF_2 - 1 ) > 0.001" class="hint_pink"><code>\qquad x = <var>X</var></code></p>
+                <p class="hint_pink" data-if="abs( COEF_1 - COEF_2 - 1 ) &gt; 0.001"><code>\qquad x = <var>X</var></code></p>
                 <div>
                     <p>
                         Substitute <code class="hint_pink"><var>X</var></code> for <code class="hint_pink">x</code> in the expressions that were given for
@@ -102,5 +101,4 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+</body></html>

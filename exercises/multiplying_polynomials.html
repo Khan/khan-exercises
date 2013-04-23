@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format polynomials functional">
-<head>
+<html data-require="math math-format polynomials functional"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Multiplying polynomials</title>
     <script src="../khan-exercise.js"></script>
@@ -11,7 +10,7 @@
             <var id="X">randVar()</var>
             <var id="COLORS">[ BLUE, ORANGE, GREEN ]</var>
             <var id="MAX_DEGREE">4</var>
-            <var id="NON_ZERO_INDICES" data-ensure="( NON_ZERO_INDICES[ 0 ].length !== 3 || NON_ZERO_INDICES[ 1 ].length !== 3 ) && ( NON_ZERO_INDICES[ 0 ].length !== 1 || NON_ZERO_INDICES[ 1 ].length !== 1 )">tabulate( function() {
+            <var id="NON_ZERO_INDICES" data-ensure="( NON_ZERO_INDICES[ 0 ].length !== 3 || NON_ZERO_INDICES[ 1 ].length !== 3 ) &amp;&amp; ( NON_ZERO_INDICES[ 0 ].length !== 1 || NON_ZERO_INDICES[ 1 ].length !== 1 )">tabulate( function() {
                 return randRangeUniqueNonZero( 0, MAX_DEGREE, randRange(1, 3) ).sort().reverse();
             }, 2 )</var>
             <var id="POL_1, POL_2">tabulate( function(n) {
@@ -75,9 +74,9 @@
         <div class="problems">
             <div id="multiply">
                 <p class="question">Simplify the expression.</p>
-                <p class="problem"><code><span data-each="[ POL_1, POL_2 ] as POL" data-unwrap>(<var>POL</var>)</span></code></p>
+                <p class="problem"><code><span data-each="[ POL_1, POL_2 ] as POL" data-unwrap="">(<var>POL</var>)</span></code></p>
                 <p class="solution"><code><var>SOLUTION</var></code></p>
-                <ul class="choices" data-show="4" data-none="true">
+                <ul class="choices" data-none="true" data-show="4">
                     <li><code><var>SOLUTION.multiply( -1 )</var></code></li>
                     <li><code><var>FAKE_SOLUTION_1</var></code></li>
                     <li><code><var>FAKE_SOLUTION_2</var></code></li>
@@ -88,12 +87,12 @@
         <div class="hints">
             <div>
                 <p>First use the distributive property.</p>
-                <code><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2"><var>( POL_1.coefs[ index1 ] &lt; 0 ) ? "-" : ( n1 === 0 && n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] ) === 1 ? "" : abs( POL_1.coefs[ index1 ] )</var><var>X</var>^<var>index1</var>(<var>( POL_2.coefs[ index2 ] === 1 ) ? "" : ( POL_2.coefs[ index2 ] === -1 ) ? "-" : POL_2.coefs[ index2 ]</var><var>X</var>^<var>index2</var>)</span></span></code>
+                <code><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2"><var>( POL_1.coefs[ index1 ] &lt; 0 ) ? "-" : ( n1 === 0 &amp;&amp; n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] ) === 1 ? "" : abs( POL_1.coefs[ index1 ] )</var><var>X</var>^<var>index1</var>(<var>( POL_2.coefs[ index2 ] === 1 ) ? "" : ( POL_2.coefs[ index2 ] === -1 ) ? "-" : POL_2.coefs[ index2 ]</var><var>X</var>^<var>index2</var>)</span></span></code>
             </div>
             <div>
                 <p>Simplify.</p>
-                <code data-if="LIKE_TERMS"><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2"><var>( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] &lt; 0 ) ? "-" : ( n1 === 0 && n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] )</var><var>X</var>^{<var>index1 + index2</var>}</span></span></code>
-                <div data-else>
+                <code data-if="LIKE_TERMS"><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2"><var>( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] &lt; 0 ) ? "-" : ( n1 === 0 &amp;&amp; n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] )</var><var>X</var>^{<var>index1 + index2</var>}</span></span></code>
+                <div data-else="">
                     <code><var>SOLUTION</var></code>
                     <p>You're done!</p>
                 </div>
@@ -101,7 +100,7 @@
             <div data-if="LIKE_TERMS">
                 <div>
                     <p>Identify like terms.</p>
-                    <code><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2">\color{<var>LIKE_TERMS[ index1 + index2 ]</var>}{<var>( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] &lt; 0 ) ? "-" : ( n1 === 0 && n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] )</var><var>X</var>^{<var>index1 + index2</var>}}</span></span></code>
+                    <code><span data-each="NON_ZERO_INDICES[ 0 ] as n1, index1"><span data-each="NON_ZERO_INDICES[ 1 ] as n2, index2">\color{<var>LIKE_TERMS[ index1 + index2 ]</var>}{<var>( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] &lt; 0 ) ? "-" : ( n1 === 0 &amp;&amp; n2 === 0 ) ? "" : "+"</var><var>abs( POL_1.coefs[ index1 ] * POL_2.coefs[ index2 ] )</var><var>X</var>^{<var>index1 + index2</var>}}</span></span></code>
                 </div>
                 <div>
                     <p>Add the coefficients.</p>
@@ -111,5 +110,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

@@ -514,12 +514,14 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         var x = -maxNumDigits;
         var y = -digitsB.length * digitsA.length;
         graph.label([x, y + 2],
-            "\\text{The top number has " + KhanUtil.plural(deciA, "digit") + " to the right of the decimal.}", "right");
+            $.ngettext("\\text{The top number has 1 digit to the right of the decimal.}", "\\text{The top number has %(num)s digits to the right of the decimal.}", deciA), "right");
         graph.label([x, y + 1],
-            "\\text{The bottom number has " + KhanUtil.plural(deciB, "digit") + " to the right of the decimal.}", "right");
+            $.ngettext("\\text{The bottom number has 1 digit to the right of the decimal.}", "\\text{The bottom number has %(num)s digits to the right of the decimal.}", deciB), "right");
+        // TODO(jeresig): i18n: Should this be pluralized?
         graph.label([x, y],
-            "\\text{The product has " + deciA + " + " + deciB + " = " + (deciA + deciB)
-             + " digits to the right of the decimal.}", "right");
+                    $._("\\text{The product has %(numA)s + %(numB)s = %(numSum)s digits to the right of the decimal.}",
+                        {numA: deciA, numB: deciB, numSum: deciA + deciB}),
+                    "right");
         graph.style({
             fill: "#000"
         }, function() {
@@ -597,11 +599,9 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             highlights = highlights.concat(drawDigits(totalDigits, index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE));
 
             graph.label([digitsDividend.length + 0.5, -2 * index],
-                "\\text{How many times does }"
-                + divisor
-                + "\\text{ go into }"
-                + "\\color{#6495ED}{" + total + "}"
-                + "\\text{?}", "right");
+                $._("\\text{How many times does }%(divisor)s" +
+                    "\\text{ go into }\\color{#6495ED}{%(total)s}\\text{?}",
+                    {divisor: divisor, total: total}), "right");
 
             fShowFirstHalf = false;
         } else {
@@ -631,7 +631,8 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
                 + "\\div"
                 + divisor + "="
                 + "\\color{#28AE7B}{" + quotient + "}"
-                + "\\text{ or }"
+                // TODO(jeresig): i18n: Should this be the whole expression?
+                + $._("\\text{ or }")
                 + divisor
                 + "\\times"
                 + "\\color{#28AE7B}{" + quotient + "}"
@@ -651,7 +652,8 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
         this.addDecimal();
         this.show();
         graph.label([digitsDividend.length, 1],
-                "\\text{Write in a decimal and a zero and continue dividing.}", "right");
+            $._("\\text{Write in a decimal and a zero and continue dividing.}"), 
+            "right");
     };
 
     this.getNumHints = function() {
@@ -680,17 +682,21 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
 
         if (deciDivisor !== 0) {
             graph.label([digitsDividend.length + 1 + (deciDiff > 0 ? deciDiff : 0), 1],
-                "\\text{Shift the decimal " + deciDivisor + " to the right.}", "right");
+                        $.ngettext("\\text{Shift the decimal 1 to the right.}",
+                                   "\\text{Shift the decimal %(num)s to the right.}",
+                                   deciDivisor),
+                        "right");
             graph.style({
                 fill: "#000"
             }, function() {
                 graph.ellipse([-1, -0.2], [0.08, 0.04]);
             });
         } else {
+            // TODO(jeresig): i18n: This probably won't work in multiple langs
             graph.label([digitsDividend.length + 0.5, 1.2],
-                "\\text{Bring the decimal up into the}", "right");
+                $._("\\text{Bring the decimal up into the}"), "right");
             graph.label([digitsDividend.length + 0.5, 0.8],
-                "\\text{answer (the quotient).}", "right");
+                $._("\\text{answer (the quotient).}"), "right");
         }
 
         this.addDecimal();
