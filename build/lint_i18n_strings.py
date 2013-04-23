@@ -189,7 +189,10 @@ def lint_file(filename, apply_fix, verbose):
 
     # Process the file with each filter in series
     for FilterClass in filters:
+        # Instantiate the filter
         filter = FilterClass()
+
+        # Have it process all the nodes in the document
         (new_nodes, new_errors, new_nodes_changed) = filter.process(nodes)
 
         # It's possible that the nodes will change, be replaced, or be inserted
@@ -222,20 +225,43 @@ def lint_file(filename, apply_fix, verbose):
 
 
 class BaseFilter(object):
-
+    """A base filter, replaces nodes and <var> elements."""
     def __init__(self):
+        """Intitialize and keep track of nodes_changed and errors."""
         self.nodes_changed = 0
         self.errors = []
 
     def process(self, nodes):
+        """Process all the nodes in the document.
+
+        Returns a tuple of the resulting nodes, a list of error strings, and
+        a number indictating how many nodes have changed.
+        """
+        # It's possible that the nodes will change, be replaced, or be inserted
+        # during the processing of the filter. To avoid having to re-load and
+        # parse the file a second time we build a list of nodes dynamically
+        # from the filtered results.
         new_nodes = []
 
         for node in nodes:
-            new_nodes.append(self.process_node(node))
+            # Process a single node
+            result = self.process_node(node)
+
+            # It's possible that multiple nodes have been returned, if that's
+            # the case then we extend the list
+            if isinstance(result, tuple):
+                new_nodes.extend(result)
+            # Otherwise we just append the node to the list
+            else:
+                new_nodes.append(result)
 
         return (new_nodes, self.errors, self.nodes_changed)
 
     def process_node(self, orig_node):
+        """Process a single node.
+
+        Returns the existing node or the modified node, if need be.
+        """
         # Bail if the node doesn't contain any elements that may need
         # fixing. (We discard the results of running this against the
         # original node as we really want the result from the cloned
@@ -245,38 +271,54 @@ class BaseFilter(object):
         if not self.find_fixable_vars(orig_node):
             return orig_node
 
-        # Replace the existing node with a new one, if need be
-        node = self.replace_node(orig_node)
+        # Copy the existing node and make a new one, if need be
+        node = self.copy_node(orig_node)
+
+        # A collection of all the <var>s that could might need fixing
+        self.fixable_vars = self.find_fixable_vars(node)
 
         # Process the fixable vars in the node
-        if not self.process_vars(node):
-            node = orig_node
+        if not self.process_vars(self.fixable_vars):
+            return orig_node
+
+        # Replace the node if we've generated a new node
+        self.replace_node(orig_node, node)
 
         return node
 
     def find_fixable_vars(self, node):
+        """Locate all the <var> elements that need fixing in a node.
+
+        Returns a list of nodes.
+        """
         # Construct an XPath expression for finding nodes to fix
         fix_expr = '|'.join(['.//%s[%s]' % (name, self.xpath)
             for name in extract_strings.INLINE_SCRIPT_NODES])
 
         return node.xpath(fix_expr)
 
-    def replace_node(self, orig_node):
-        # We clone the node to make sure we don't unintentionally modify
+    def copy_node(self, orig_node):
+        """Create a copy of the node for further processing.
+        
+        Returns a copied version of the node.
+        """
+        # We copy the node to make sure we don't unintentionally modify
         # the original node.
-        node = copy.deepcopy(orig_node)
+        return copy.deepcopy(orig_node)
 
+    def replace_node(self, orig_node, node):
+        """Replace a node if we've generated a new node."""
         # We just replace the node with the newly-cloned node
-        orig_node.getparent().replace(orig_node, node)
+        if orig_node != node:
+            orig_node.getparent().replace(orig_node, node)
 
-        return node
+    def process_vars(self, fixable_vars):
+        """Process all the <var> elements in a node.
 
-    def process_vars(self, node):
-        # A collection of all the <var>s that could might need fixing
-        self.fixable_vars = self.find_fixable_vars(node)
-
+        Returns True if no errors were found.
+        """
         # Loop through the fixable var nodes
-        for var_node in self.fixable_vars:
+        for var_node in fixable_vars:
             # Extract parts of the code element's inner contents for
             # further processing.
             match = self.get_match(var_node)
@@ -292,47 +334,83 @@ class BaseFilter(object):
 
 
 class IfElseFilter(BaseFilter):
+    """A filter for handling the generation of data-if/data-else nodes.
+
+    This builds off of BaseFilter and modifies it in some critical ways:
+     - The contents of <var> elements are inspected to extract unique keys
+       upon which a data-if condition should be built.
+     - If more than one key is detected then an error is generated.
+     - A new, cloned, node is generated to hold the contents of the data-else
+       element and its contents.
+     - If the node already has a data-if or data-else attribute then new inner
+       nodes are generated instead.
+    """
     def process_node(self, orig_node):
+        """Process a single node.
+
+        Generates a clone of the node to be used to hold the data-else portion
+        of the result. Also checks the keys detected to see if there are any
+        problems. Finally, adds in the data-else and injects the cloned node.
+
+        Returns the existing node or the modified node, if need be. Could also
+        return a tuple of nodes
+        """
         # Create a cloned copy of the node, we're going to need this as
         # the fixer will likely need to generate a second copy of the
         # original node but slightly modified.
         self.cloned_node = copy.deepcopy(orig_node)
+        self.cloned_node.tail = ''
 
         # The vars that might need fixing under the cloned element
         self.cloned_vars = self.find_fixable_vars(self.cloned_node)
 
+        # Process the node using the BaseFilter
         node = super(IfElseFilter, self).process_node(orig_node)
 
-        # A collection of all the <var>s that could might need fixing
-        self.fixable_vars = self.find_fixable_vars(node)
-
-        match_keys = self.extract_keys_from_vars(self.fixable_vars)
+        # There's a reason for ignoring the node so we just end early
+        if node == orig_node:
+            return orig_node
 
         # If we've located more than one key then we need to fix the
         # strings by hand.
-        if len(match_keys) > 1:
+        if len(self.match_keys) > 1:
             self.errors.append("Contains too many different keys (%s):\n%s" % (
-                ", ".join(match_keys), extract_strings.get_outerhtml(node)))
+                ", ".join(self.match_keys),
+                extract_strings.get_outerhtml(node)))
             return orig_node
 
-        if match_keys:
+        # Only continue if there are keys to process
+        if self.match_keys:
             # Get the one remaining key
-            key = match_keys[0]
+            key = self.match_keys[0]
 
             # Modify the original node (if need be)
-            changed = self.filter_node(key, node)
+            self.filter_node(key, node)
+
+            # Add the data-else attribute to the cloned node
+            self.cloned_node.set('data-else', '')
+
+            # And insert it after the original node
+            node.addnext(self.cloned_node)
 
             # Keep track of nodes that've been changed
-            if changed is not None:
-                self.nodes_changed += 1
-                return changed
+            self.nodes_changed += 1
+
+            # Return both nodes for futher processing
+            return (node, self.cloned_node)
 
         return node
 
     def get_cloned_var(self, var_node):
+        """Given a <var> node return the equivalent node from the cloned node.
+
+        This is used to make it easy to work with the two sets of nodes
+        simultaneously.
+        """
         return self.cloned_vars[self.fixable_vars.index(var_node)]
 
-    def extract_keys_from_vars(self, fixable_vars):
+    def process_vars(self, fixable_vars):
+        """Extract the keys from all the <var>s in the node."""
         # Some nodes will have a unique 'key' which will be used as a
         # lookup. For example in the following nodes:
         #    <p><var>He(1)</var> threw a ball to <var>his(1)</var>
@@ -354,7 +432,7 @@ class IfElseFilter(BaseFilter):
             # further processing.
             match = self.get_match(var_node)
 
-            if match and hasattr(self, 'extract_key'):
+            if match:
                 # Extract the key from the string (if it exists)
                 key = self.extract_key(match)
 
@@ -362,14 +440,32 @@ class IfElseFilter(BaseFilter):
                 if key:
                     match_keys.add(key)
 
-        return list(match_keys)
+        self.match_keys = list(match_keys)
 
-    def replace_node(self, orig_node):
-        # We clone the node to make sure we don't unintentionally modify
-        # the original node.
-        node = copy.deepcopy(orig_node)
+        # Run the BaseFilter process_vars
+        return super(IfElseFilter, self).process_vars(fixable_vars)
 
-        if node.get('data-if') or node.get('data-else'):
+    def replace_node(self, orig_node, node):
+        """Replace the node only if it doesn't have a data-if/data-else.
+
+        This is because nodes that have a data-if or data-else are left
+        in-place and new wrappers are generated and injected in copy_node.
+        """
+        if not orig_node.get('data-if') and not orig_node.get('data-else'):
+            return super(IfElseFilter, self).replace_node(orig_node, node)
+
+    def copy_node(self, orig_node):
+        """Copy the node only if it doesn't have a data-if/data-else.
+        
+        We leave nodes that have a data-if or data-else in-place and new
+        <span> wrappers are generated and injected instead.
+        """
+        if orig_node.get('data-if') or orig_node.get('data-else'):
+            # We clone the node to make sure we don't unintentionally modify
+            # the original node.
+            node = copy.deepcopy(orig_node)
+            node.tail = ''
+
             # Change the tag names to just be a boring 'span'
             node.tag = self.cloned_node.tag = 'span'
 
@@ -396,8 +492,9 @@ class IfElseFilter(BaseFilter):
             orig_node.append(node)
 
             return node
-        else:
-            return super(IfElseFilter, self).replace_node(orig_node)
+
+        # Run the BaseFilter copy_node
+        return super(IfElseFilter, self).copy_node(orig_node)
 
 
 class PronounFilter(IfElseFilter):
@@ -426,7 +523,7 @@ class PronounFilter(IfElseFilter):
 
     def get_match(self, fix_node):
         """Return a match of a string that matches he|his(...)"""
-        return self._regex.match(extract_strings.get_innerhtml(fix_node))
+        return self._regex.match(fix_node.text)
 
     def extract_key(self, match):
         """From the match return the key of the string.
@@ -445,16 +542,13 @@ class PronounFilter(IfElseFilter):
         extract_strings.replace_node(self.get_cloned_var(var_node),
             self._pronoun_map[match.group(1)])
 
-    def filter_node(self, key, node, cloned_node):
-        """Adds an data-if and data-else condition to handle the gender toggle.
+    def filter_node(self, key, node):
+        """Adds an data-if condition to handle the gender toggle.
 
         This will turn a string like <p><var>He(1)</var> ran.</p> into:
             <p data-if="isMale(1)">He ran.</p><p data-else>She ran.</p>
         """
         node.set('data-if', self._pronoun_condition % key)
-        cloned_node.set('data-else', '')
-        node.addnext(cloned_node)
-        return (node, cloned_node)
 
 
 class AlwaysPluralFilter(BaseFilter):
@@ -488,7 +582,7 @@ class AlwaysPluralFilter(BaseFilter):
 
     def get_match(self, fix_node):
         """Return a match of a string that matches plural(...)"""
-        return self._regex.match(extract_strings.get_innerhtml(fix_node))
+        return self._regex.match(fix_node.text)
 
     def filter_var(self, match, var_node):
         """Replace the <var> with the correct contents.
@@ -606,11 +700,8 @@ class PluralFilter(IfElseFilter):
 
     def get_match(self, fix_node):
         """Return a match of a string that matches plural(...)"""
-        # Get the contents of the <var> node
-        node_contents = extract_strings.get_innerhtml(fix_node)
-
         # See if it matches the form plural|pluralTex(..., ...)
-        return self._regex.match(node_contents)
+        return self._regex.match(fix_node.text)
 
     def extract_key(self, match):
         """Extract a unique identifier upon which to toggle the plural form.
@@ -748,8 +839,8 @@ class PluralFilter(IfElseFilter):
                 cloned_var.text = var_node.text = (pluralize %
                     (match.group(2).strip(), match.group(3).strip()))
 
-    def filter_node(self, key, node, cloned_node):
-        """Adds an data-if and data-else condition to handle the plural toggle.
+    def filter_node(self, key, node):
+        """Adds an data-if condition to handle the plural toggle.
 
         This will turn a string like:
             <p>I have <var>plural(NUM, "cat")</var>.</p>
@@ -758,9 +849,6 @@ class PluralFilter(IfElseFilter):
             <p data-else>I have <var>NUM</var> cats.</p>
         """
         node.set('data-if', self._ngetpos_condition % key)
-        cloned_node.set('data-else', '')
-        node.addnext(cloned_node)
-        return (node, cloned_node)
 
 
 class TernaryFilter(IfElseFilter):
@@ -795,7 +883,7 @@ class TernaryFilter(IfElseFilter):
         """Return a match of a string that roughly matches:
             EXPR ? STATEMENT : STATEMENT
         """
-        match = self._regex.match(extract_strings.get_innerhtml(fix_node))
+        match = self._regex.match(fix_node.text)
 
         # Only return the match if one of the statements is a string
         if match and (_STRING_RE.match(match.group(2)) or
@@ -835,7 +923,7 @@ class TernaryFilter(IfElseFilter):
             # Otherwise just turn it into <var>STATEMENT</var>
             cloned_var.text = match.group(3).strip()
 
-    def filter_node(self, key, node, cloned_node):
+    def filter_node(self, key, node):
         """Turns the node into two nodes with a data-if/else.
 
         For example given:
@@ -846,9 +934,6 @@ class TernaryFilter(IfElseFilter):
             <p data-else>He gave <var>APPLES</var>.</p>
         """
         node.set('data-if', key)
-        cloned_node.set('data-else', '')
-        node.addnext(cloned_node)
-        return (node, cloned_node)
 
 
 def get_plural_form(word):
