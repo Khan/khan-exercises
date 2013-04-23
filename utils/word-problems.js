@@ -103,6 +103,9 @@ $.extend(KhanUtil, {
         "is": function(num) {
             return $.ngettext("is", "are", num);
         },
+        "jumping jack": function(num) {
+            return $.ngettext("jumping jack", "jumping jacks", num);
+        },
         "loaf": function(num) {
             return $.ngettext("loaf", "loaves", num);
         },
@@ -148,6 +151,9 @@ $.extend(KhanUtil, {
         "potato": function(num) {
             return $.ngettext("potato", "potatoes", num);
         },
+        "push-up": function(num) {
+            return $.ngettext("push-up", "push-ups", num);
+        },
         "row": function(num) {
             return $.ngettext("row", "rows", num);
         },
@@ -163,6 +169,9 @@ $.extend(KhanUtil, {
         "side": function(num) {
             return $.ngettext("side", "sides", num);
         },
+        "sit-up": function(num) {
+            return $.ngettext("sit-up", "sit-ups", num);
+        },
         "slice": function(num) {
             return $.ngettext("slice", "slices", num);
         },
@@ -171,6 +180,9 @@ $.extend(KhanUtil, {
         },
         "square foot": function(num) {
             return $.ngettext("square foot", "square feet", num);
+        },
+        "squat": function(num) {
+            return $.ngettext("squat", "squats", num);
         },
         "standard deviation": function(num) {
             return $.ngettext("standard deviation",
