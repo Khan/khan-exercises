@@ -4,50 +4,26 @@
         <title>Exercise Template</title>
     </head>
     <body class="light">
-        <div id="outer-wrapper">
-            <div id="page-container">
-                <div id="page-container-inner">
-                    <div id="fb-root"></div>
-                    <header>
-                        <div id="top-header">
-                            <div class="top-header-links">
-                                <span class="page_links" id="page_auth">
-                                    <span class="achievement-badge-counts" style="left:-60px;"></span>
-                                    <span><a href="http://khanacademy.org/login">Log in</a></span>
-                                    <span class="separator"></span>
-                                    <span><a href="http://khanacademy.org/contribute" id="donate-link">Donate</a></span>
-                                </span>
-                                <div class="clear"></div>
-                                <div id="nav-and-search">
-                                    <div class="sitewide-navigation">
-                                        <nav>
-                                            <span class="links nav-subheader">
-                                                <span class="dropdown topic-browser-dropdown">
-                                                    <a href="http://khanacademy.org/#browse" class="watch-link dropdown-toggle">Watch <span class="caret"></span></a>
-                                                <a href="http://khanacademy.org/exercisedashboard" class="selected practice-link">Practice</a>
-                                                <a href="http://khanacademy.org/class_profile">Coach</a>
-                                                <a href="http://khanacademy.org/contribute">Volunteer</a>
-                                                <a href="http://khanacademy.org/about">About</a>
-                                                </span>
-                                            </span>
-                                        </nav>
-                                    </div>
-                                    <div id="search-box">
-                                        <form class="page-search" action="/search">
-                                            <input class="ui-corner-all placeholder simple-input search-input blur-on-esc ui-autocomplete-input" id="search-input" aria-autocomplete="list" aria-haspopup="true" autocomplete="off" name="page_search_query" placeholder="Search for a video or topic" role="textbox" type="text" value=""><input class="search-submit" id="search-submit" aria-autocomplete="list" aria-haspopup="true" autocomplete="off" role="textbox" type="submit" value=" ">
-                                        </form>
-                                    </div>
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
-
-                            <div id="logo">
-                                <a href="http://khanacademy.org/" id="logo-image" name="logo-image" title="Khan Academy"></a>
-                                <div id="stats"><span id="page_visitors" style="display: inline;">Over 9,000 lessons delivered</span></div>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                    </header>
+    <div class="clearfix new-header" id="outer-wrapper">
+    <div id="top-header-container">
+        <div class="new" id="top-header">
+            <nav class="sitewide-navigation">
+                <span class="links nav-subheader">
+                    <span class="dropdown topic-browser-dropdown">
+                        <a href="http://khanacademy.org/library" class="no-menu">Learn</a>
+                        <a href="http://khanacademy.org/class_profile" class="no-menu">Coach</a>
+                        <div style="clear: both"></div>
+                    </span>
+                </span>
+            </nav>
+            <a href="http://khanacademy.org/" id="header-logo" data-tag="Header" title="Take me home!">
+                <img src="https://khan-academy.appspot.com/images/ka-simplified-logo-white.png">
+            </a>
+        </div>
+    </div>
+    <div id="page-container">
+    <div id="page-container-inner">
+        <div id="fb-root"></div>
                     <div class="single-exercise visited-no-recolor" id="container" style="overflow: hidden;">
                         <article class="exercises-content clearfix">
                         <div class="exercises-header"><h2 class="section-headline">
@@ -78,39 +54,27 @@
                     </div>
                     <div id="end-of-page-spacer" style="height: 38px;">&nbsp;</div>
                     <div class="badge-award-container" id="badge-notification-container" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div class="push"></div>
+    <footer id="footer">
+        <div class="footer-container">
+            <div class="row-fluid main-links">
+                <div class="span2 offset10" style="height: 160px">
+                    <img class="handtree" src="https://khan-academy.appspot.com/images/khan-logo-vertical-transparent.png">
+                </div>
+            </div>
+
+            <div class="row-fluid extra-links">
+                <div class="span4 offset8 copyright">
+                    © 2013 Khan Academy<br>
+                    Except where noted, all rights reserved.
                 </div>
             </div>
         </div>
-
-        <div class="push"></div>
-        <footer class="short" id="footer">
-            <div id="leaves">
-                <div class="inner">
-                    <div class="tiny" id="copyright">
-                        <small>©2012 Khan Academy™</small> <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/" id="creative-commons-link" name="creative-commons-link" rel="license"></a>
-                    </div>
-                    <span class="footer-links">
-                        <a href="http://khanacademy.desk.com/">FAQ</a>
-                        <span class="sep">|</span>
-                        <a href="/reportissue?type=Defect&amp;issue_labels=Component-Code%2CExercise-addition_1%2CProblem-1" id="report">Report a Problem</a>
-                        <span class="sep">|</span>
-                        <a href="/about/the-team">Contact</a><a href="/jobs">Jobs</a>
-                        <span class="sep">|</span>
-                        <a href="/about/tos" title="Terms of Service">ToS</a> <a href="/about/privacy-policy" title="Privacy Policy">Privacy Policy</a>
-                        <span class="sep">|</span>
-                        <a href="/downloads">Downloads</a>
-
-                        <span class="sep">|</span>
-                        <span class="small-social-links">
-                            <a href="http://www.youtube.com/khanacademy" class="google-analytics-link-track youtube" onclick="_gaq.push(['_trackEvent', 'Click', 'Youtube-Subscribe-Header']);" title="Youtube"></a>
-                            <a href="http://twitter.com/khanacademy" class="google-analytics-link-track twitter" onclick="_gaq.push(['_trackEvent', 'Click', 'Twitter-Follow-Header']);" title="Twitter"></a>
-                            <a href="http://www.facebook.com/khanacademy" class="google-analytics-link-track facebook" onclick="_gaq.push(['_trackEvent', 'Click', 'Facebook-Join-Header']);" title="Facebook"></a>
-                        </span>
-                    </span>
-                </div>
-            </div>
-        </footer>
+    </footer>
     
 
-
+</div>
 </body></html>
