@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format calculus polynomials expressions">
-<head>
+<html data-require="math math-format calculus polynomials expressions"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>L'Hôpital's rule</title>
     <script src="../khan-exercise.js"></script>
@@ -74,18 +73,18 @@
                     <!-- Remind them of L'Hopital's rule -->
                     <p>L'Hopital's rule states that since evaluating
                         <!-- Original problem -->
-                        <code>\displaystyle \lim_{x \to <var>APPROACHES_TEXT</var>} \frac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>INDETERMINATE_FORM</var></code>,<br />
+                        <code>\displaystyle \lim_{x \to <var>APPROACHES_TEXT</var>} \frac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>INDETERMINATE_FORM</var></code>,<br>
                         <!-- Explanation of rule -->
                         if <code>\displaystyle \lim_{x \to <var>APPROACHES_TEXT</var>} \frac{\frac{d}{dx} (<var>NUMERATOR</var>)}{\frac{d}{dx} (<var>DENOMINATOR</var>)}</code> exists, evaluating it will give us the actual limit.
                     </p>
 
                     <!-- Show them the steps of L'Hopital's rule by deriving until the indeterminate form can be resolved -->
-                    <div data-each="STEPS as N, STEP" data-unwrap>
+                    <div data-each="STEPS as N, STEP" data-unwrap="">
                         <div data-if="N !== STEPS.length-1">
                             <p data-if="N === 0">
                                 Repeat this process until evaluating the limit will not result in an indeterminate form:
                             </p>
-                            <p data-else>
+                            <p data-else="">
                                 Since evaluating the limit at this point still results in <code><var>INDETERMINATE_FORM</var></code>, we must apply L'Hopital's rule again:
                             </p>
                             <p>
@@ -116,6 +115,9 @@
                 </div> <!-- hints -->
             </div> <!-- polynomial -->
         </div> <!-- problems -->
-    </div> <!-- exercise -->
-</body>
-</html>
+    </div>
+<!-- exercise -->
+
+
+
+</body></html>

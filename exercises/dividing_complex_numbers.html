@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html data-require="math math-format">
-<head>
-    <meta charset="UTF-8" />
+<html data-require="math math-format"><head>
+    <meta charset="UTF-8">
     <title>Dividing complex numbers</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
     <div class="vars" data-ensure="
-            !(B_REAL === 0 && B_IMAG === 0)  /* division by zero */
-            && !(B_REAL === 1 && B_IMAG === 0)  /* division by 1 */
-            && !(B_REAL === 0 && B_IMAG === 1)  /* division by i */
-            && A_IMAG !== 0 && A_REAL !== 0  /* hints with missing terms are hard */">
+            !(B_REAL === 0 &amp;&amp; B_IMAG === 0)  /* division by zero */
+            &amp;&amp; !(B_REAL === 1 &amp;&amp; B_IMAG === 0)  /* division by 1 */
+            &amp;&amp; !(B_REAL === 0 &amp;&amp; B_IMAG === 1)  /* division by i */
+            &amp;&amp; A_IMAG !== 0 &amp;&amp; A_REAL !== 0  /* hints with missing terms are hard */">
         <var id="ANSWER_REAL">randRange( -5, 5 )</var>
         <var id="ANSWER_IMAG">randRange( -5, 5 )</var>
         <var id="B_REAL">randRange( -5, 5 )</var>
@@ -51,11 +50,11 @@
                 </div>
             </div>
             <div class="hints">
-                <div data-if="B_REAL === 0 || B_IMAG === 0" data-unwrap>
+                <div data-if="B_REAL === 0 || B_IMAG === 0" data-unwrap="">
                     <p>Since we're dividing by a single term, we can simply divide each term in the numerator separately.</p>
                     <p><code>\qquad \dfrac{<var>A_REP</var>}{<var>B_REP</var>} = \dfrac{<var>A_REAL</var>}{<var>B_REP</var>} <var>A_IMAG &gt; 0 ? "+" : "-"</var> \dfrac{<var>abs(A_IMAG) === 1 ? "" : abs(A_IMAG)</var>i}{<var>B_REP</var>}</code></p>
                     <p data-if="B_IMAG === 0">Simplifying the two terms gives <code><var>ANSWER_REP</var></code>.</p>
-                    <div data-else data-unwrap>
+                    <div data-else="" data-unwrap="">
                         <div>
                             <p>Factor out a <code>1/i</code>.</p>
                             <p><code>\dfrac{<var>A_REAL</var>}{<var>B_REP</var>} <var>A_IMAG &gt; 0 ? "+" : "-"</var> \dfrac{<var>abs(A_IMAG) === 1 ? "" : abs(A_IMAG)</var>i}{<var>B_REP</var>} = \dfrac 1i \left( \dfrac{<var>A_REAL</var>}{<var>B_IMAG</var>} <var>A_IMAG &gt; 0 ? "+" : "-"</var> \dfrac{<var>abs(A_IMAG) === 1 ? "" : abs(A_IMAG)</var>i}{<var>B_IMAG</var>} \right) = \dfrac 1i (<var>complexNumber(-ANSWER_IMAG, ANSWER_REAL)</var>)</code></p>
@@ -66,7 +65,7 @@
                         </div>
                     </div>
                 </div>
-                <div data-else data-unwrap>
+                <div data-else="" data-unwrap="">
                 <p>
                     We can divide complex numbers by multiplying both numerator and denominator by the denominator's <span class="hint_green">complex conjugate</span>, which is <code>\green{<var>CONJUGATE</var>}</code>.
                 </p>
@@ -104,7 +103,7 @@
                         {<var>B_REAL * B_REAL + B_IMAG * B_IMAG</var>}
                     </code></p>
                     <p>
-                        Note that the denominator now doesn't contain any imaginary unit multiples, so it is a real number, simplifying the problem to complex number multiplication.<br />
+                        Note that the denominator now doesn't contain any imaginary unit multiples, so it is a real number, simplifying the problem to complex number multiplication.<br>
                     </p>
                 </div>
                 <div>
@@ -144,6 +143,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
-
+</body></html>

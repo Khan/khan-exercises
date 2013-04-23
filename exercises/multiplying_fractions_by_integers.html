@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html data-require="math math-format"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying fractions by integers</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <div data-ensure="getGCD(A, B) === 1">
+            <var id="A">randRangeNonZero(-8, 8)</var>
+            <var id="B">randRange(abs(A) + 1, 9)</var>
+        </div>
+            <var id="C">randRange(-10, 10)</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p><code><span data-if="A &lt; 0">-</span> \dfrac{<var>abs(A)</var>}{<var>B</var>} \times <var>C</var></code></p>
+            </div>
+            <div class="solution" data-type="rational"><var>(A * C) / B</var></div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div>
+            <p><code><var>C</var></code> is the same as <code>\dfrac{<var>C</var>}{1}</code></p>
+            <p><code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>C</var>}{<var>1</var>}</code></p>
+        </div>
+        <div>
+            <p>When multiplying fractions, we multiply the numerators and the denominators:</p>
+            <p><code>= \dfrac{<var>A</var> \times <var>C</var>}{<var>B</var> \times <var>1</var>}</code></p>
+        </div>
+        <p><code>= \dfrac{<var>A * C</var>}{<var>B</var>}</code></p>
+        <div data-if="getGCD(A * C, B) !== 1">
+            <p>Simplify:</p>
+            <p><code>= <var>fractionReduce(A * C, B)</var></code></p>
+        </div>
+    </div>
+    </div>
+</body></html>

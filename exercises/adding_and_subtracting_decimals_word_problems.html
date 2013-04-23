@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems spin graphie graphie-helpers-arithmetic">
-<head>
+<html data-require="math word-problems spin graphie graphie-helpers-arithmetic"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Adding and subtracting decimals word problems</title>
     <script src="../khan-exercise.js"></script>
@@ -43,7 +42,7 @@
                     graph.adder.show();
                     graph.adder.showDecimals();
                 </div>
-                <div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( fruit_1_integer, fruit_1_decimal, fruit_2_integer, fruit_2_decimal ) times">
+                <div class="graphie" data-each="DecimalAdder.numHintsFor( fruit_1_integer, fruit_1_decimal, fruit_2_integer, fruit_2_decimal ) times" data-update="numbers">
                     graph.adder.showHint();
                 </div>
 
@@ -78,13 +77,13 @@
             </div>
             <div class="hints">
                 <p>To find how much faster <var>person(2)</var> was than <var>person(1)</var>, we need to find the difference between their times in seconds.
-                <p><var>person(1)</var>'s time - <var>person(2)</var>'s time = difference in times.
-                <div class="graphie" id="numbers">
+                </p><p><var>person(1)</var>'s time - <var>person(2)</var>'s time = difference in times.
+                </p><div class="graphie" id="numbers">
                     graph.subtractor = new DecimalSubtractor( time_1_integer, time_1_decimal, time_2_integer, time_2_decimal );
                     graph.subtractor.show();
                     graph.subtractor.showDecimals();
                 </div>
-                <div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( time_1_integer, time_1_decimal, time_2_integer, time_2_decimal ) times">
+                <div class="graphie" data-each="DecimalAdder.numHintsFor( time_1_integer, time_1_decimal, time_2_integer, time_2_decimal ) times" data-update="numbers">
                     graph.subtractor.showHint();
                 </div>
                 <p class="final_answer"><var>person(2)</var> was <var>solution</var> seconds faster than <var>person(1)</var>.</p>
@@ -124,17 +123,17 @@
 
             <div class="hints">
                 <p>To find the weights of the 2 babies, we need to add their weights together.
-                <p><var>person(2)</var>'s weight + <var>person(3)</var>'s weight = total weight.</p>
+                </p><p><var>person(2)</var>'s weight + <var>person(3)</var>'s weight = total weight.</p>
                 <div class="graphie" id="numbers">
                     graph.adder = new DecimalAdder( weight_1_integer, weight_1_decimal, weight_2_integer, weight_2_decimal );
                     graph.adder.show();
                     graph.adder.showDecimals();
                 </div>
-                <div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( weight_1_integer, weight_1_decimal, weight_2_integer, weight_2_decimal ) times">
+                <div class="graphie" data-each="DecimalAdder.numHintsFor( weight_1_integer, weight_1_decimal, weight_2_integer, weight_2_decimal ) times" data-update="numbers">
                     graph.adder.showHint();
                 </div>
 
-                <div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+                <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                     graph.adder.showHint();
                 </div>
                 <p class="final_answer">Together, the babies weigh <var>solution</var> pounds.</p>
@@ -169,13 +168,13 @@
 
             <div class="hints">
                 <p>To find out how much change <var>person(1)</var> received, we can subtract the price of the <var>storeItem(1,1)</var> from the amount of money <var>he(1)</var> paid.
-                <p>The amount <var>person(1)</var> paid - the price of the <var>storeItem(1,1)</var> = the amount of change <var>person(1)</var> received.</p>
+                </p><p>The amount <var>person(1)</var> paid - the price of the <var>storeItem(1,1)</var> = the amount of change <var>person(1)</var> received.</p>
                 <div class="graphie" id="numbers">
                     graph.subtractor = new DecimalSubtractor( amount_paid_integer, amount_paid_decimal, price_1_integer, price_1_decimal );
                     graph.subtractor.show();
                     graph.subtractor.showDecimals();
                 </div>
-                <div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( amount_paid_integer, amount_paid_decimal, price_1_integer, price_1_decimal ) times">
+                <div class="graphie" data-each="DecimalAdder.numHintsFor( amount_paid_integer, amount_paid_decimal, price_1_integer, price_1_decimal ) times" data-update="numbers">
                     graph.subtractor.showHint();
                 </div>
                 <p class="final_answer"><var>person(1)</var> received $<var>solution</var> in change.</p>
@@ -206,13 +205,13 @@
             </div>
             <div class="hints">
                 <p>To find the difference in rainfall, we can subtract the amount of rain in <var>person(1)</var>'s town from the amount of rain in <var>person(2)</var>'s town.
-                <p>Rain in <var>person(2)</var>'s town - rain in <var>person(1)</var>'s town = the difference in rain between the two towns.</p>
+                </p><p>Rain in <var>person(2)</var>'s town - rain in <var>person(1)</var>'s town = the difference in rain between the two towns.</p>
                 <div class="graphie" id="numbers">
                     graph.subtractor = new DecimalSubtractor( rain_2_integer, rain_2_decimal, rain_1_integer, rain_1_decimal );
                     graph.subtractor.show();
                     graph.subtractor.showDecimals();
                 </div>
-                <div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( rain_2_integer, rain_2_decimal, rain_1_integer, rain_1_decimal ) times">
+                <div class="graphie" data-each="DecimalAdder.numHintsFor( rain_2_integer, rain_2_decimal, rain_1_integer, rain_1_decimal ) times" data-update="numbers">
                     graph.subtractor.showHint();
                 </div>
                 <p class="final_answer"><var>person(2)</var>'s town received <var>solution</var> inches more rain than <var>person(1)</var>'s town.</p>
@@ -243,17 +242,17 @@
             </div>
             <div class="hints">
                 <p>To find the total distance <var>person(1)</var> travels, we need to add the two distances together.
-                <p>Distance on <var>vehicle(1)</var> + distance on <var>vehicle(2)</var> = total distance.</p>
+                </p><p>Distance on <var>vehicle(1)</var> + distance on <var>vehicle(2)</var> = total distance.</p>
                 <div class="graphie" id="numbers">
                     graph.adder = new DecimalAdder( distance_1_integer, distance_1_decimal, distance_2_integer, distance_2_decimal );
                     graph.adder.show();
                     graph.adder.showDecimals();
                 </div>
-                <div class="graphie" data-update="numbers" data-each="DecimalAdder.numHintsFor( distance_1_integer, distance_1_decimal, distance_2_integer, distance_2_decimal ) times">
+                <div class="graphie" data-each="DecimalAdder.numHintsFor( distance_1_integer, distance_1_decimal, distance_2_integer, distance_2_decimal ) times" data-update="numbers">
                     graph.adder.showHint();
                 </div>
 
-                <div class="graphie" data-update="numbers" data-each="DUMMY as dummy">
+                <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                     graph.adder.showHint();
                 </div>
                 <p class="final_answer"><var>person(1)</var> travels <var>solution</var> <var>plural(distance(1))</var> in total.</p>
@@ -261,6 +260,4 @@
         </div>
     </div>
     </div>
-
-</body>
-</html>
+</body></html>

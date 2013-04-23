@@ -38,7 +38,10 @@
       correct
 
     * problemDone -- when the user has completed a problem which, in this case,
-      usually means supplying the correct answer
+      usually means supplying the correct answer. Note the user may have made
+      multiple attempts to finally get at the correct answer. A summary object
+      including {attempts: <number>, card: <Object>} is included as an
+      event parameter.
 
     * attemptError -- when an error occurs during an API attempt
 
@@ -745,6 +748,8 @@ var Khan = (function() {
                 "../jquery.js",
                 "../jquery-migrate-1.1.1.js",
                 "../utils/underscore.js",
+                "../utils/jed.js",
+                "../utils/i18n.js",
                 "../exercises-stub.js",
                 "../history.js",
                 "../interface.js"
@@ -1893,7 +1898,9 @@ var Khan = (function() {
                     $(hint).addClass("final_answer");
                 }
 
-                $(Exercises).trigger("hintUsed");
+                $(Exercises).trigger("hintUsed", {
+                    card: Exercises.currentCard
+                });
             })
             .bind("refocusSolutionInput", function() {
                 // Refocus text field so user can type a new answer

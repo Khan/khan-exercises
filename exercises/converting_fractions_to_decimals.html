@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic">
-<head>
+<html data-require="math graphie graphie-helpers-arithmetic"><head>
     <title>Converting fractions to decimals</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -31,7 +30,7 @@
                     graph.divider.shiftDecimals();
                 </div>
 
-                <div class="graphie" data-update="nmbrs" data-each="Divider.numHintsFor( DENOMINATOR, NUMERATOR * 10000, 0, 4 ) times">
+                <div class="graphie" data-each="Divider.numHintsFor( DENOMINATOR, NUMERATOR * 10000, 0, 4 ) times" data-update="nmbrs">
                     graph.divider.showHint();
                 </div>
 
@@ -40,5 +39,4 @@
         </div>
     </div>
     </div>
-</body>
-</html>
+</body></html>

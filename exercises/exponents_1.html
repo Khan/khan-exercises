@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<!-- TODO: underbrace to show what of the multiplication has been contracted. -->
-<html data-require="math math-format exponents">
-<head>
+<!-- TODO: underbrace to show what of the multiplication has been contracted. --><html data-require="math math-format exponents"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Positive and zero exponents</title>
     <script src="../khan-exercise.js"></script>
@@ -60,7 +58,7 @@
                     <var id="BASE">VALS.base</var>
                     <var id="EXP">VALS.exp</var>
 
-                    <var id="NEG_ONE_HINT">BASE > 0 ? "" : ( isEven( EXP ) ? "even" : "odd" )</var>
+                    <var id="NEG_ONE_HINT">BASE &gt; 0 ? "" : ( isEven( EXP ) ? "even" : "odd" )</var>
                 </div>
 
                 <p class="question"><code>\Large <var>negParens( BASE )</var>^{<var>EXP</var>}</code></p>
@@ -68,7 +66,7 @@
 
                 <div class="hints">
 
-                    <div data-unwrap data-if="EXP === 0">
+                    <div data-if="EXP === 0" data-unwrap="">
 
                         <p>Anything to the 0th power equals... ?</p>
 
@@ -76,7 +74,7 @@
 
                     </div>
 
-                    <div data-unwrap data-else-if="EXP === 1">
+                    <div data-else-if="EXP === 1" data-unwrap="">
 
                         <p>Anything to the 1st power equals... ?</p>
 
@@ -84,7 +82,7 @@
 
                     </div>
 
-                    <div data-unwrap data-else-if="BASE === 0 || BASE === 1 || BASE === -1">
+                    <div data-else-if="BASE === 0 || BASE === 1 || BASE === -1" data-unwrap="">
 
                         <p><var>Cardinal( BASE )</var> to any <var>NEG_ONE_HINT</var> power equals... ?</p>
 
@@ -92,7 +90,7 @@
 
                     </div>
 
-                    <div data-unwrap data-else>
+                    <div data-else="" data-unwrap="">
 
                         <p data-each="expandExponent( BASE, EXP ) as v"><code>= <var>v</var></code></p>
 
@@ -101,5 +99,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html data-require="math expressions rational-expressions"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting with like denominators</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function getRationalExpression(variables) {
+            var terms = [];
+            var shuffled = KhanUtil.shuffle(variables, KhanUtil.randRange(1, 2));
+
+            for (var i = 0; i < shuffled.length; i++) {
+                var n = i > 0 ? KhanUtil.randRangeNonZero(-6, 6) : KhanUtil.randRange(1, 6);
+                terms.push([n, shuffled[i]]);
+            }
+
+            if (shuffled.length + KhanUtil.randRange(0, 1) < 2) {
+                terms.push([KhanUtil.randRangeWeighted(-6, 6, 1, 0.5)]);
+            }
+
+            return new KhanUtil.RationalExpression(terms);
+        };
+    </script>
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="SIGN">randFromArray(["+", "-"])</var>
+            <var id="X">randFromArray([
+                ["a", "b", "c"],
+                ["f", "g", "h"],
+                ["m", "n", "p"],
+                ["r", "s", "t"],
+                ["p", "q", "r"],
+                ["x", "y", "z"] ])
+            </var>
+            <var id="Y">"k"</var>
+            <var id="FACTORCOEFFICIENT">randRange(0, 1) ? randFromArray([2, 5, 10]) : 1</var>
+            <var id="FACTORTERM">randRange(0, 1) ? FACTORCOEFFICIENT: new Term(FACTORCOEFFICIENT, randFromArray(X))</var>
+            <div data-ensure="DENOMINATOR.toString() !== '1'">
+                <var id="DENOMINATOR">getRationalExpression(X).multiply(FACTORTERM)</var>
+            </div>
+            <div data-ensure="DENOMINATOR !== NUMERATOR1">
+                <var id="NUMERATOR1">getRationalExpression(X).multiply(FACTORTERM)</var>
+            </div>
+            <div data-ensure="DENOMINATOR !== NUMERATOR2">
+                <var id="NUMERATOR2">getRationalExpression(X).multiply(FACTORTERM)</var>
+            </div>
+            <var id="SIGNEDNUMERATOR">SIGN === "+" ? NUMERATOR2 : NUMERATOR2.multiply(-1)</var>
+            <var id="SUMNUMERATOR">NUMERATOR1.add(SIGNEDNUMERATOR)</var>
+            <var id="GCD">SUMNUMERATOR.getGCD(DENOMINATOR)</var>
+            <var id="SOLNUMERATOR">SUMNUMERATOR.divide(GCD)</var>
+            <var id="SOLDENOMINATOR">DENOMINATOR.divide(GCD)</var>
+        </div>
+
+        <div class="problems">
+            <div id="add">
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question">
+                    <code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var>}
+                          <var>SIGN</var> \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code>
+                </p>
+                <p>You can assume <code><var>X</var> \neq 0</code>.</p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="regex"><var>SOLNUMERATOR.regex()</var></span>
+                        <span class="sol" data-type="regex"><var>SOLDENOMINATOR.regex()</var></span>
+                    </div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <table>
+                                <tbody><tr>
+                                    <td class="soln-name" rowspan="2">
+                                        <code><var>Y</var> = </code>
+                                    </td>
+                                    <td class="soln-top">
+                                        <span class="sol short64">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short64" data-fallback="1">a</span>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+                    </div>
+
+                    <p class="example">a simplifed expression, like <code>x + 2</code></p>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hints">
+            <div data-if="SIGN === '+'">
+                <p>Since the expressions have the same denominator we simply combine the numerators:</p>
+                <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> + <var>NUMERATOR2</var>}{<var>DENOMINATOR</var>}</code></p>
+            </div>
+            <div data-else="">
+                <p>Since the expressions have the same denominator we simply combine the numerators:</p>
+                <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> - (<var>NUMERATOR2</var>)}{<var>DENOMINATOR</var>}</code></p>
+            </div>
+
+            <div data-if="SUMNUMERATOR.toString() !== NUMERATOR1.toString() + ' + ' + NUMERATOR2.toString()">
+                <p><code><var>Y</var> = \dfrac{<var>SUMNUMERATOR</var>}{<var>DENOMINATOR</var>}</code></p>
+            </div>
+
+            <div data-if="GCD.toString() !== '1'">
+                <p>The numerator and denominator have a common factor of <code><var>GCD.toString()</var></code>, so we can simplify</p>
+                <p><code><var>Y</var> = \dfrac{<var>SOLNUMERATOR</var>}{<var>SOLDENOMINATOR</var>}</code></p>
+            </div>
+        </div>
+    </div>
+</body></html>

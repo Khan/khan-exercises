@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems stat">
-<head>
-    <meta charset="UTF-8" />
+<html data-require="math math-format word-problems stat"><head>
+    <meta charset="UTF-8">
     <title>Variance</title>
     <script src="../khan-exercise.js"></script>
 </head>
@@ -24,8 +23,8 @@
 
         <div class="problems">
 
-            <div id="population" data-calculator>
-                <div class="problem" data-else>
+            <div id="population" data-calculator="">
+                <div class="problem" data-else="">
                     <p>You have found the following ages (in years) of all <var>plural( DATA_POINTS, animal( 1 ) )</var> at your local zoo:</p>
                     <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
                 </div>
@@ -38,11 +37,11 @@
                 <div class="solution" data-type="multiple">
                     <p>
                         Average age:<br><code>\quad</code>
-                        <span class="sol short40" data-type="decimal" data-inexact data-max-error="0.15"><var>mean( DATA )</var></span> years old
+                        <span class="sol short40" data-inexact="" data-max-error="0.15" data-type="decimal"><var>mean( DATA )</var></span> years old
                     </p>
                     <p>
                         Variance:<br><code>\quad</code>
-                        <span class="sol short40" data-type="decimal" data-inexact data-max-error="0.15"><var>sum( SQR_DEV ) / DATA_POINTS</var></span> years<code>^2</code>
+                        <span class="sol short40" data-inexact="" data-max-error="0.15" data-type="decimal"><var>sum( SQR_DEV ) / DATA_POINTS</var></span> years<code>^2</code>
                     </p>
                     <div class="example">decimals, like <code>7.5</code></div>
                     <div class="example">answers within <code>\pm 0.15</code> are accepted to allow for rounding part-way through</div>
@@ -84,7 +83,7 @@
                         </p>
                         <div class="fake_header">
                             <span style="width: 100px;">
-                                Age<br/>
+                                Age<br>
                                 <code>x_i</code>
                             </span><span style="width: 150px;">
                                 <span class="hint_gray">Distance from the mean</span>
@@ -96,9 +95,9 @@
                         <div class="fake_row" data-each="DATA as i, POINT">
                             <span style="width: 100px;">
                                 <code><var>POINT</var></code> <var>plural( "year", POINT )</var>
-                            </span><span style="width: 150px;" class="hint_gray">
+                            </span><span class="hint_gray" style="width: 150px;">
                                 <code><var>roundTo( 2, POINT - MEAN )</var></code> <var>plural( "year", roundTo( 2, POINT - MEAN ) )</var>
-                            </span><span style="width: 150px;" class="hint_purple">
+                            </span><span class="hint_purple" style="width: 150px;">
                                 <code><var>SQR_DEV[ i ]</var></code> <var>plural( "year", SQR_DEV[ i ] )</var><code>^2</code>
                             </span>
                         </div>
@@ -143,8 +142,8 @@
                 </div> <!-- hints -->
             </div> <!-- population -->
 
-            <div id="sample" data-calculator>
-                <div class="problem" data-else>
+            <div id="sample" data-calculator="">
+                <div class="problem" data-else="">
                     <p>
                         You have found the following ages (in years) of <var>plural( DATA_POINTS, animal( 1 ) )</var>
                         randomly selected from the <var>plural( POPULATION, animal( 1 ) )</var> at your local zoo:
@@ -160,11 +159,11 @@
                 <div class="solution" data-type="multiple">
                     <p>
                         Average age:<br><code>\quad</code>
-                        <span class="sol short40" data-type="decimal" data-inexact data-max-error="0.15"><var>mean( DATA )</var></span> years old
+                        <span class="sol short40" data-inexact="" data-max-error="0.15" data-type="decimal"><var>mean( DATA )</var></span> years old
                     </p>
                     <p>
                         Variance:<br><code>\quad</code>
-                        <span class="sol short40" data-type="decimal" data-inexact data-max-error="0.15"><var>sum( SQR_DEV ) / ( DATA_POINTS - 1 )</var></span> years<code>^2</code>
+                        <span class="sol short40" data-inexact="" data-max-error="0.15" data-type="decimal"><var>sum( SQR_DEV ) / ( DATA_POINTS - 1 )</var></span> years<code>^2</code>
                     </p>
                     <div class="example">decimals, like <code>0.75</code></div>
                     <div class="example">answers within <code>\pm 0.15</code> are accepted to allow for rounding part-way through</div>
@@ -209,7 +208,7 @@
                     <div>
                         <div class="fake_header">
                             <span style="width: 100px;">
-                                Age<br/>
+                                Age<br>
                                 <code>x_i</code>
                             </span><span style="width: 150px;">
                                 <span class="hint_gray">Distance from the mean</span>
@@ -221,9 +220,9 @@
                         <div class="fake_row" data-each="DATA as i, POINT">
                             <span style="width: 100px;">
                                 <code><var>POINT</var></code> <var>plural( "year", POINT )</var>
-                            </span><span style="width: 150px;" class="hint_gray">
+                            </span><span class="hint_gray" style="width: 150px;">
                                 <code><var>roundTo( 2, POINT - MEAN )</var></code> <var>plural( "year", roundTo( 2, POINT - MEAN ) )</var>
-                            </span><span style="width: 150px;" class="hint_purple">
+                            </span><span class="hint_purple" style="width: 150px;">
                                 <code><var>SQR_DEV[ i ]</var></code> <var>plural( "year", SQR_DEV[ i ] )</var><code>^2</code>
                             </span>
                         </div>
@@ -233,7 +232,7 @@
                         <p>
                             Normally we can find the variance <code>(\color{red}{s^2})</code> by averaging the
                             <span class="hint_purple">squared deviations from the mean</span>. But remember we don't know the real
-                            population mean&mdash;we had to estimate it by using the <span class="hint_blue">sample mean</span>.
+                            population mean—we had to estimate it by using the <span class="hint_blue">sample mean</span>.
                         </p>
                         <p>
                             The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
@@ -279,6 +278,9 @@
             </div> <!-- sample -->
 
         </div> <!-- problems -->
-    </div> <!-- exercise -->
-</body>
-</html>
+    </div>
+<!-- exercise -->
+
+
+
+</body></html>

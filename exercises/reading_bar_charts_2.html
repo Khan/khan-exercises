@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie word-problems">
-<head>
+<html data-require="math math-format graphie word-problems"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reading bar charts 2</title>
     <script src="../khan-exercise.js"></script>
@@ -20,7 +19,7 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <div data-ensure="( NUM_IMPROVED >= 3 && !IMPROVE_TIE ) || UNBIASED">
+            <div data-ensure="( NUM_IMPROVED &gt;= 3 &amp;&amp; !IMPROVE_TIE ) || UNBIASED">
                 <var id="MIDTERM">$.map( new Array( 5 ), function() { return randRange( 12, 20 ) * 5; } )</var>
                 <var id="FINAL">$.map( new Array( 5 ), function() { return randRange( 12, 20 ) * 5; } )</var>
                 <var id="IMPROVEMENT">$.map( new Array( 5 ), function( e, n ) { return FINAL[ n ] - MIDTERM[ n ]; } )</var>
@@ -90,7 +89,7 @@
 
                 <div class="hints">
                     <div data-each="5 times as INDEX">
-                        <div data-if="IMPROVEMENT[ INDEX ] > 0">
+                        <div data-if="IMPROVEMENT[ INDEX ] &gt; 0">
                             <p><var>person( INDEX + 1 )</var>'s final exam bar is taller than <var>his( INDEX + 1 )</var>
                             midterm bar, so <var>person( INDEX + 1 )</var> improved <var>his( INDEX + 1 )</var> score. <var>His( INDEX + 1 )</var> midterm score was
                             <code><var>MIDTERM[ INDEX ]</var></code> and <var>his( INDEX + 1 )</var> final exam score was <code><var>FINAL[ INDEX ]</var></code>, so
@@ -102,7 +101,7 @@
                                 label( [ INDEX * 3 + 2.5, FINAL[ INDEX ] / 10 - 0.2 ], FINAL[ INDEX ], "above", false ).css({ fontWeight: "bold" });
                             </div>
                         </div>
-                        <div data-else-if="IMPROVEMENT[ INDEX ] < 0">
+                        <div data-else-if="IMPROVEMENT[ INDEX ] &lt; 0">
                             <p><var>person( INDEX + 1 )</var>'s final exam bar is shorter than <var>his( INDEX + 1 )</var>
                             midterm bar, so <var>person( INDEX + 1 )</var> did not improve <var>his( INDEX + 1 )</var> score.</p>
                             <div class="graphie" data-update="barchart">
@@ -110,7 +109,7 @@
                                 line( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 ], [ INDEX * 3 + 2.5, FINAL[ INDEX ] / 10 ] );
                             </div>
                         </div>
-                        <div data-else>
+                        <div data-else="">
                             <p><var>person( INDEX + 1 )</var>'s final exam bar is the same height as <var>his( INDEX + 1 )</var>
                             midterm bar, so <var>person( INDEX + 1 )</var> did not improve <var>his( INDEX + 1 )</var> score.</p>
                         </div>
@@ -124,13 +123,13 @@
 
             <div id="difference">
                 <div class="vars">
-                    <var id="INDEX" data-ensure="IMPROVEMENT[ INDEX ] > 0">randRange( 0, 4 )</var>
+                    <var id="INDEX" data-ensure="IMPROVEMENT[ INDEX ] &gt; 0">randRange( 0, 4 )</var>
                     <var id="STUDENT">person( INDEX + 1 )</var>
                 </div>
                 <p class="question">By how many points did <var>STUDENT</var>'s score improve from the midterm to the final exam?</p>
 
                 <div class="solution" data-type="multiple">
-                    <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>IMPROVEMENT[ INDEX ]</var></span> points</p>
+                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>IMPROVEMENT[ INDEX ]</var></span> points</p>
                 </div>
                 <div class="hints">
                     <div>
@@ -192,7 +191,7 @@
                 <p class="question">How many points did <var>STUDENT</var> earn on the <var>TEST</var>?</p>
 
                 <div class="solution" data-type="multiple">
-                    <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>ANSWER</var></span> points</p>
+                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>ANSWER</var></span> points</p>
                 </div>
                 <div class="hints">
                     <div>
@@ -210,7 +209,7 @@
                         </div>
                     </div>
                     <div>
-                        <p>Compare the height of <var>STUDENT</var>'s <span data-if="COLUMN === 0">blue</span><span data-else>orange</span> bar to the scale on the left.</p>
+                        <p>Compare the height of <var>STUDENT</var>'s <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bar to the scale on the left.</p>
                         <div class="graphie" data-update="barchart">
                             style({ stroke: PINK, strokeWidth: 2, arrows: "-&gt;", strokeDasharray: "-" });
                             line( [ INDEX * 3 + 1 + COLUMN, ANSWER / 10 ], [ 0, ANSWER / 10 ] );
@@ -220,7 +219,7 @@
                         The bar's height is halfway between <code><var>ANSWER - 5</var></code> and <code><var>ANSWER + 5</var></code>, so
                         <var>STUDENT</var> earned <code><var>ANSWER</var></code> points on the <var>TEST</var>.
                     </p>
-                    <p data-else>
+                    <p data-else="">
                         <var>STUDENT</var> earned <code><var>ANSWER</var></code> points on the <var>TEST</var>.
                     </p>
                 </div>
@@ -230,12 +229,12 @@
                 <p class="question">How many students improved their scores from the midterm to the final exam?</p>
 
                 <div class="solution" data-type="multiple">
-                    <p><span style="padding-right: 5px" class="sol" data-forms="integer"><var>NUM_IMPROVED</var></span> students</p>
+                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM_IMPROVED</var></span> students</p>
                 </div>
 
                 <div class="hints">
                     <div data-each="5 times as INDEX">
-                        <div data-if="IMPROVEMENT[ INDEX ] > 0">
+                        <div data-if="IMPROVEMENT[ INDEX ] &gt; 0">
                             <p><var>person( INDEX + 1 )</var>'s final exam bar is taller than <var>his( INDEX + 1 )</var>
                             midterm bar, so <var>person( INDEX + 1 )</var> improved <var>his( INDEX + 1 )</var> score.</p>
                             <div class="graphie" data-update="barchart">
@@ -243,11 +242,11 @@
                                 line( [ INDEX * 3 + 1.5, MIDTERM[ INDEX ] / 10 ], [ INDEX * 3 + 2.5, FINAL[ INDEX ] / 10 ] );
                             </div>
                         </div>
-                        <div data-else-if="IMPROVEMENT[ INDEX ] < 0">
+                        <div data-else-if="IMPROVEMENT[ INDEX ] &lt; 0">
                             <p><var>person( INDEX + 1 )</var>'s final exam bar is shorter than <var>his( INDEX + 1 )</var>
                             midterm bar, so <var>person( INDEX + 1 )</var> did not improve <var>his( INDEX + 1 )</var> score.</p>
                         </div>
-                        <div data-else>
+                        <div data-else="">
                             <p><var>person( INDEX + 1 )</var>'s final exam bar is the same height as <var>his( INDEX + 1 )</var>
                             midterm bar, so <var>person( INDEX + 1 )</var> did not improve <var>his( INDEX + 1 )</var> score.</p>
                         </div>
@@ -259,5 +258,4 @@
 
         </div>
     </div>
-</body>
-</html>
+</body></html>

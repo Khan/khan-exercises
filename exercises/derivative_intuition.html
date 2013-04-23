@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format polynomials calculus graphie derivative-intuition">
-<head>
+<html data-require="math math-format polynomials calculus graphie derivative-intuition"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Derivative intuition</title>
     <script src="../khan-exercise.js"></script>
@@ -61,13 +60,13 @@
                 <div class="solution" data-type="custom">
                     <div class="instruction">
                         <table id="answers">
-                            <tr data-each="POINTS as X">
-                                <td class="sol" style="display: none" data-fallback="0"><var>roundTo(2, DDX(X))</var></td>
-                                <td style="text-align: right" data-if="OPTIONS.xLabelFormat"><code>\frac{d}{dx} f(<var>OPTIONS.xLabelFormat(X)</var>) = </code></td>
-                                <td style="text-align: right" data-else><code>\frac{d}{dx} f(<var>X</var>) = </code></td>
+                            <tbody><tr data-each="POINTS as X">
+                                <td class="sol" data-fallback="0" style="display: none"><var>roundTo(2, DDX(X))</var></td>
+                                <td data-if="OPTIONS.xLabelFormat" style="text-align: right"><code>\frac{d}{dx} f(<var>OPTIONS.xLabelFormat(X)</var>) = </code></td>
+                                <td data-else="" style="text-align: right"><code>\frac{d}{dx} f(<var>X</var>) = </code></td>
                                 <td class="answer-label">0</td>
                             </tr>
-                        </table>
+                        </tbody></table>
                     </div>
 
                     <div class="guess">
@@ -182,5 +181,4 @@
 
         </div>
     </div>
-</body>
-</html>
+</body></html>

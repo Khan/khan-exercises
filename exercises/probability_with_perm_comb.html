@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format word-problems subhints">
-<head>
+<html data-require="math math-format word-problems subhints"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Probability with permutations and combinations</title>
     <script src="../khan-exercise.js"></script>
@@ -94,7 +93,7 @@
                         \left(\dfrac{<var>STUDENTS-GROUP</var>!}{<var>STUDENTS</var>!}\right) =
                         \left(\dfrac{<var>NUM_B</var>!}{<var>STUDENTS</var>!}\right)
                         \left(\dfrac{<var>STUDENTS-GROUP</var>!}{<var>NUM_B-GROUP</var>!}\right)</code>
-                    <p>
+                    </p><p>
                         Simplifying, we get <code> 
                         \left(\dfrac{\cancel{<var>NUM_B</var>!}}{<var>_.map(_.range(STUDENTS-NUM_B), function(l){ return (STUDENTS-l); }).join("\\cdot")
                         </var> \cdot \cancel{<var>NUM_B</var>!}}\right)
@@ -155,13 +154,13 @@
                             Let's say we toss a coin 5 times, and get tails three times. How many different re-arrangements are there of the
                             letters "HHTTT"? Well, we have five choices for the first slot, four for the second slot, and so on, resulting in
                             <code>5\cdot4\cdot3\cdot2\cdot1 = 5! = 120 \;</code> different re-arrangements. But, this treats all the letters
-                            as unique, when </br>
+                            as unique, when <br>
                             H<span class="hint_blue">T</span>H<span class="hint_orange">T</span><span class="hint_green">T</span> 
-                            is the same as </br>
+                            is the same as <br>
                             H<span class="hint_orange">T</span>H<span class="hint_blue">T</span><span class="hint_green">T</span>,
-                            and </br>
+                            and <br>
                             H<span class="hint_orange">T</span>H<span class="hint_green">T</span><span class="hint_blue">T</span>,
-                            </br>
+                            <br>
                             and so on. So really, we need to replace all these different re-arrangements
                             where we only move the tails around with one re-arrangement, HTHTT. There are <code>3!</code> of these multi-
                             colored arrangements for every normal one, so that means dividing
@@ -188,7 +187,7 @@
                         So, the probability that you will get exactly <var>NUM</var> <var>NAME</var> is
                         <code>\dfrac{<var>NUM_RIGHT</var>}{<var>NUM_ALL</var>} = \dfrac{<var>PRETTY_NUMER</var>}{<var>PRETTY_DENOM</var>}</code>.
                     </p>
-                    <p data-else>
+                    <p data-else="">
                         So, the probability that you will get exactly <var>NUM</var> <var>NAME</var> is
                         <code>\dfrac{<var>NUM_RIGHT</var>}{<var>NUM_ALL</var>}</code>.
                     </p>
@@ -196,5 +195,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+</body></html>
