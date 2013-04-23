@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Plural Test</title>
+</head>
+<body>
+    <!-- Test 1: Usage of string in second position: empirical_rule -->
+    <p data-if="isSingular(abs( Z ))">
+        The empirical rule (or the 68-95-99.7 rule) tells us that
+        <span style="color: green"><code><var>EMPIRICAL</var>\%</code></span>
+        of the <var>ANIMALS</var> will have lifespans within
+        1 standard deviation of the average lifespan.
+    </p><p data-else="">
+        The empirical rule (or the 68-95-99.7 rule) tells us that
+        <span style="color: green"><code><var>EMPIRICAL</var>\%</code></span>
+        of the <var>ANIMALS</var> will have lifespans within
+        <var>abs( Z )</var> standard deviations of the average lifespan.
+    </p>
+
+    <!-- Test 2: Usage of string in first position: ideal_stoichiometry -->
+    <p data-if="isSingular(P1_RATIO)">
+        The reaction is <code>\blue{<var>GIVEN_RATIO</var>}<var>GIVEN</var>
+        <span data-if="R2 !== ''"> + <var>R2_RATIO</var><var>R2</var></span> \rightarrow
+        \red{<var>P1_RATIO</var>}<var>P1</var>
+        <span data-if="P2 !== ''"> + <var>P2_RATIO</var><var>P2</var></span></code>.
+        The coefficients in front of each molecule tell us in what ratios the molecules react. In this case
+        <span class="hint_blue"><var>cardinal(GIVEN_RATIO)</var></span> <code><var>GIVEN</var></code> for every
+        <span class="hint_red"><var>cardinal(P1_RATIO)</var></span> <code><var>P1</var></code> molecule.
+    </p><p data-else="">
+        The reaction is <code>\blue{<var>GIVEN_RATIO</var>}<var>GIVEN</var>
+        <span data-if="R2 !== ''"> + <var>R2_RATIO</var><var>R2</var></span> \rightarrow
+        \red{<var>P1_RATIO</var>}<var>P1</var>
+        <span data-if="P2 !== ''"> + <var>P2_RATIO</var><var>P2</var></span></code>.
+        The coefficients in front of each molecule tell us in what ratios the molecules react. In this case
+        <span class="hint_blue"><var>cardinal(GIVEN_RATIO)</var></span> <code><var>GIVEN</var></code> for every
+        <span class="hint_red"><var>cardinal(P1_RATIO)</var></span> <code><var>P1</var></code> molecules.
+    </p>
+
+    <!-- Test 3: Function call as first argument: arithmetic_word_problems -->
+    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p>
+
+    <!-- Test 4: Function call as second argument: arithmetic_word_problems -->
+    <p data-if="isSingular(ITEMS_LEFT)">He will have 1 <var>item(1)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p>
+
+    <!-- Test 5: Ambiguous variables: area_1 -->
+    <p data-if="isSingular(S)">
+        The length is 1 <var>UNIT_TEXT</var> and
+        the width is 1 <var>UNIT_TEXT</var>.
+    </p><p data-else="">
+        The length is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var> and
+        the width is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var>.
+    </p>
+</body>
+</html>

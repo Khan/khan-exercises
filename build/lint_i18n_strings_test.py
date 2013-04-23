@@ -8,8 +8,8 @@ _TEST_ROOT = 'lint_test'
 
 TESTS = {
     'pronoun': {
-        'nodes_changed': 4,
-        'errors': ['4 nodes need to be fixed. '
+        'nodes_changed': 6,
+        'errors': ['6 nodes need to be fixed. '
             'Re-run with --fix to automatically fix them.']
     },
     'always_plural': {
@@ -18,13 +18,13 @@ TESTS = {
             'Re-run with --fix to automatically fix them.']
     },
     'plural': {
-        'nodes_changed': 6,
-        'errors': ['6 nodes need to be fixed. '
+        'nodes_changed': 11,
+        'errors': ['11 nodes need to be fixed. '
             'Re-run with --fix to automatically fix them.']
     },
     'ternary': {
-        'nodes_changed': 3,
-        'errors': ['3 nodes need to be fixed. '
+        'nodes_changed': 5,
+        'errors': ['5 nodes need to be fixed. '
             'Re-run with --fix to automatically fix them.']
     },
 }
@@ -65,33 +65,45 @@ class LintStringsTest(unittest.TestCase):
         os.chdir(self.orig_dir)
         super(LintStringsTest, self).tearDown()
 
-    def test_no_fix(self):
-        for file_name, checks in TESTS.iteritems():
-            test_file = checks['test_file']
+    def run_test(self, file_name):
+        checks = TESTS[file_name]
+        test_file = checks['test_file']
 
-            # Apply without making any changes to the file
-            (errors, nodes_changed) = lint_i18n_strings.lint_file(test_file,
-                apply_fix=False, verbose=False)
+        # Apply without making any changes to the file
+        (errors, nodes_changed) = lint_i18n_strings.lint_file(test_file,
+            apply_fix=False, verbose=False)
 
-            self.assertEqual(nodes_changed, checks['nodes_changed'], 
-                '# of nodes changed differ in %s' % test_file)
-            self.assertEqual(errors, checks['errors'], 
-                'Errors reported differ in %s' % test_file)
-            self.assertEqual(_slurp(test_file), checks['original'],
-                'Make sure that the output of the file did not change with '
-                'apply_fix=False.')
+        self.assertEqual(nodes_changed, checks['nodes_changed'], 
+            '# of nodes changed differ in %s' % test_file)
+        self.assertEqual(errors, checks['errors'], 
+            'Errors reported differ in %s' % test_file)
+        self.assertEqual(_slurp(test_file), checks['original'],
+            'Make sure that the output of the file did not change with '
+            'apply_fix=False.')
 
-            # Test again with apply_fix=True
-            (errors, nodes_changed) = lint_i18n_strings.lint_file(test_file,
-                apply_fix=True, verbose=False)
+        # Test again with apply_fix=True
+        (errors, nodes_changed) = lint_i18n_strings.lint_file(test_file,
+            apply_fix=True, verbose=False)
 
-            self.assertEqual(nodes_changed, checks['nodes_changed'], 
-                '# of nodes changed differ in %s' % test_file)
-            self.assertEqual(errors, [], 
-                'These should be no errors in %s' % test_file)
-            self.assertEqual(_slurp(test_file), _slurp(checks['output_file']),
-                'Make sure that the output of the file matches the expected '
-                'output.')
+        self.assertEqual(nodes_changed, checks['nodes_changed'], 
+            '# of nodes changed differ in %s' % test_file)
+        self.assertEqual(errors, [], 
+            'These should be no errors in %s' % test_file)
+        self.assertEqual(_slurp(test_file), _slurp(checks['output_file']),
+            'Make sure that the output of the file matches the expected '
+            'output.')
+
+    def test_pronoun(self):
+        self.run_test('pronoun')
+
+    def test_always_plural(self):
+        self.run_test('always_plural')
+
+    def test_plural(self):
+        self.run_test('plural')
+
+    def test_ternary(self):
+        self.run_test('ternary')
 
 
 def _slurp(filename):
