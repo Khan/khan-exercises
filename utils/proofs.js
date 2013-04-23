@@ -111,7 +111,7 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
         }
         if (equalityType === "triangle") {
             // pick some triangles to be congruent, this will be the statement to be proven
-            var indices = KhanUtil.randRangeUnique(0, TRIANGLES.length, 2);
+            var indices = KhanUtil.randRangeUnique(0, TRIANGLES.length - 1, 2);
             var triangle1 = TRIANGLES[indices[0]];
             var triangle2 = TRIANGLES[indices[1]];
 
@@ -124,7 +124,7 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
         }
         else if (equalityType === "angle") {
             // pick some angles to be congruent, this will be the statement to be proven
-            var indices = KhanUtil.randRangeUnique(0, ANGLES.length, 2);
+            var indices = KhanUtil.randRangeUnique(0, ANGLES.length - 1, 2);
             var angle1 = ANGLES[indices[0]];
             var angle2 = ANGLES[indices[1]];
 
@@ -137,7 +137,7 @@ function initProof(segs, angs, triangles, supplementaryAngs, altIntAngs, depth, 
         }
         else {
             // pick some segments to be congruent, this will be the statement to be proven
-            var indices = KhanUtil.randRangeUnique(0, SEGMENTS.length, 2);
+            var indices = KhanUtil.randRangeUnique(0, SEGMENTS.length - 1, 2);
             var segment1 = SEGMENTS[indices[0]];
             var segment2 = SEGMENTS[indices[1]];
 
@@ -446,7 +446,7 @@ function outputFinishedProof() {
 
     }
 
-    var indices = KhanUtil.randRangeUnique(0, possibleValids.length - 1, 2);
+    var indices = KhanUtil.randRangeUnique(0, possibleValids.length - 2, 2);
 
     return [proofText, possibleValids[indices[0]], possibleValids[indices[1]]];
 }
