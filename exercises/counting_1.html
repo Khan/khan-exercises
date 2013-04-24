@@ -24,8 +24,6 @@
                     If <var>person( 1 )</var> <var>DID</var> all of the <var>PROBLEMS</var> she was assigned, how many <var>PROBLEMS</var> did she <var>DO</var>?
                 </p>
 
-                
-
                 <div class="solution" data-type="multiple">
                     <p><span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>PROBLEMS</var></p>
                 </div>
@@ -33,7 +31,6 @@
                     <p>Instead of counting <var>PROBLEMS</var> <var>START</var> through <var>END</var>, we can subtract <var>START - 1</var> from each number so we instead consider <var>PROBLEMS</var> 1 through <var>ANSWER</var>.</p>
                     <p>We see that <var>person( 1 )</var> <var>DID</var> <var>ANSWER</var> <var>PROBLEMS</var>.</p>
                     <p data-if="isMale(1)">Notice that he <var>DID</var> <var>ANSWER</var> and not <var>ANSWER - 1</var> <var>PROBLEMS</var>.</p><p data-else="">Notice that she <var>DID</var> <var>ANSWER</var> and not <var>ANSWER - 1</var> <var>PROBLEMS</var>.</p>
-                
                 </div>
             </div>
             <div id="slices">
@@ -56,17 +53,13 @@
                 </div>
                 <p><var>person( 1 )</var> is building a straight fence, with posts one meter apart.</p>
                 <p class="question" data-if="isMale(1)">If the fence is <var>LENGTH</var> meters long, how many fence posts does he need?</p><p class="question" data-else="">If the fence is <var>LENGTH</var> meters long, how many fence posts does she need?</p>
-                
                 <div class="solution" data-type="multiple">
                     <p><span class="sol" data-forms="integer"><var>LENGTH + 1</var></span> fence posts</p>
                 </div>
                 <div class="hints">
                     <p data-if="isMale(1)">If the fence is one meter long, he needs two posts (one for each end).</p><p data-else="">If the fence is one meter long, she needs two posts (one for each end).</p>
-                    
                     <p data-if="isMale(1)">If the fence is two meters long, then he needs three posts, and so on.</p><p data-else="">If the fence is two meters long, then she needs three posts, and so on.</p>
-                    
                     <p data-if="isMale(1)">Therefore, he needs <var>LENGTH + 1</var> posts for a <var>LENGTH</var> meter fence.</p><p data-else="">Therefore, she needs <var>LENGTH + 1</var> posts for a <var>LENGTH</var> meter fence.</p>
-                
                 </div>
             </div>
         </div>

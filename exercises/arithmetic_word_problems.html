@@ -46,8 +46,6 @@
                     <var>plural( item(1) )</var> can she fill?</p>
                 </div>
 
-                
-
                 <div class="solution" data-type="multiple">
                     <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NEW_GROUPS</var></span> <var>plural( group(1) )</var>
                 </div>
@@ -106,8 +104,6 @@
                     <p>How much did each <var>storeItem(1, 1)</var> cost?</p>
                 </div>
 
-                
-
                 <p class="solution" data-forms="dollar"><var>ITEM_1_COST</var></p>
 
                 <div class="hints">
@@ -125,8 +121,6 @@
                         dollars on <var>plural( storeItem(1, 1) )</var>.</span>
                     </p>
 
-                    
-
                     <p data-if="isMale(1)">
                         <span>He bought <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>.</span>
                         <span>He spent <var>plural( TOTAL_SPENT_ON_1, "dollar" )</var> on the purchase.</span>
@@ -140,7 +134,6 @@
                         <code><var>TOTAL_SPENT_ON_1</var> \div <var>ITEM_1_COUNT</var> = <var>ITEM_1_COST</var></code>
                         dollars on each <var>storeItem(1, 1)</var>.</span>
                     </p>
-                
                 </div>
             </div>
 
@@ -169,8 +162,6 @@
                     <p>If she wants <var>plural( NEW_GROUPS, group(1) )</var>,
                     how many <var>plural( item(1) )</var> should he put in each <var>group(1)</var>?</p>
                 </div>
-
-                
 
                 <div class="solution" data-type="multiple">
                     <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NEW_ITEMS</var></span> <var>plural( item(1) )</var>

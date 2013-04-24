@@ -39,9 +39,7 @@
                 <div class="problem">
                     <p><var>person(1)</var> traveled by <var>vehicle(1)</var> at an average speed of <var>SPEED1</var> miles per hour.</p>
                     <p data-if="isMale(1)">Then, he traveled by <var>vehicle(2)</var> at an average speed of <var>SPEED2</var> miles per hour.</p><p data-else="">Then, she traveled by <var>vehicle(2)</var> at an average speed of <var>SPEED2</var> miles per hour.</p>
-                    
                     <p data-if="isMale(1)">In total, he traveled <var>DIST</var> miles for <var>plural(TIME, "hour")</var>.</p><p data-else="">In total, she traveled <var>DIST</var> miles for <var>plural(TIME, "hour")</var>.</p>
-                
                 </div>
                 <p class="question">How many miles did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest mile.)</p>
                 <div class="solution" data-type="multiple">
@@ -59,7 +57,6 @@
                         <span data-else=""><code><var>T1[0]</var></code></span>
                         <code> = <var>round(DIST1)</var></code>  miles by <var>vehicle(1)</var>.
                     </p>
-                
                 </div>
             </div>
 
@@ -80,7 +77,6 @@
                         <span data-else=""><code><var>T1[0]</var></code></span>
                         <code> = \frac{<var>T2[0]</var>}{<var>T2[1]</var>}</code> hours.
                     </p>
-                    
                     <p data-if="isMale(1)">
                         So he traveled <code><var>SPEED2</var> \times </code> 
                         <span data-if="T2[1] !== 1"><code>\frac{<var>T2[0]</var>}{<var>T2[1]</var>}</code></span>
@@ -92,7 +88,6 @@
                         <span data-else=""><code><var>T2[0]</var></code></span>
                         <code> = <var>round(DIST2)</var></code> miles by <var>vehicle(2)</var>.
                     </p>
-                
                 </div>
             </div>
 
@@ -125,7 +120,6 @@
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
                         <span data-else=""><code><var>T1[0]</var></code></span> hours
                     </p>
-                    
                     <p><code>\frac{<var>T2[0]</var>}{<var>T2[1]</var>} \times 60 = <var>round(DIST2 / SPEED2 * 60)</var></code> minutes.</p>
                 </div>
             </div>
@@ -175,7 +169,6 @@
                 <p><var>person(1)</var> traveled at <code class="hint_red"><var>SPEED1</var></code> <code>\frac{ \text{miles} }{ \text{hour} }</code> for 
                 <code class="hint_red">t</code> hours by <var>vehicle(1)</var>.</p>
                 <div data-if="isMale(1)">Therefore, he traveled <code class="hint_red"><var>SPEED1</var>t</code> miles by <var>vehicle(1)</var>.</div><div data-else="">Therefore, she traveled <code class="hint_red"><var>SPEED1</var>t</code> miles by <var>vehicle(1)</var>.</div>
-            
             </div>
 
             <div>
@@ -184,7 +177,6 @@
                 <div data-if="isMale(1)">Therefore, he traveled <code class="hint_blue"><var>SPEED2</var>
                     (<var>TIME</var> - t)</code> miles by <var>vehicle(2)</var>.</div><div data-else="">Therefore, she traveled <code class="hint_blue"><var>SPEED2</var>
                     (<var>TIME</var> - t)</code> miles by <var>vehicle(2)</var>.</div>
-            
             </div>
 
             <div>

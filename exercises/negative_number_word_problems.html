@@ -40,7 +40,6 @@
                 </div>
 
                 <p class="problem spin" data-if="isMale(1)">{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for his daily sledding practice}, he {looked at the thermometer and saw|heard on the radio} that the temperature was <var>abs( X )</var> degrees below zero. {After sledding for <var>plural( randRange( 1, 8 ), "hour" )</var>,|After a long day of sledding he saw that} the temperature was now <var>Z</var> degrees.</p><p class="problem spin" data-else="">{When <var>person( 1 )</var> went outside to go sledding in the morning|As <var>person( 1 )</var> prepared for her daily sledding practice}, she {looked at the thermometer and saw|heard on the radio} that the temperature was <var>abs( X )</var> degrees below zero. {After sledding for <var>plural( randRange( 1, 8 ), "hour" )</var>,|After a long day of sledding she saw that} the temperature was now <var>Z</var> degrees.</p>
-                
                 <p class="question">By how many degrees had the temperature increased?</p>
 
                 <div class="solution" data-type="multiple">
@@ -64,7 +63,6 @@
                 </div>
 
                 <p class="problem spin" data-if="isMale(1)"><var>person( 1 )</var> was scuba diving <var>X</var> meters below sea level when he spotted a beautiful fish below. {From a distance, the fish looked to be about <var>randRange( 25, 35 )</var> cm wide. |}{To take a proper photograph|To see the fish up close}, <var>person( 1 )</var> dove <var>Y</var> meters until he was level with the fish, staring into its eyes.</p><p class="problem spin" data-else=""><var>person( 1 )</var> was scuba diving <var>X</var> meters below sea level when she spotted a beautiful fish below. {From a distance, the fish looked to be about <var>randRange( 25, 35 )</var> cm wide. |}{To take a proper photograph|To see the fish up close}, <var>person( 1 )</var> dove <var>Y</var> meters until she was level with the fish, staring into its eyes.</p>
-                
                 <p class="question">Where was the fish relative to sea level?</p>
 
                 <div class="solution" data-type="multiple">
@@ -110,8 +108,6 @@
 
                 <p class="problem spin"><var>person( 1 )</var> received a loan of $<var>commafy( X )</var> from the bank to start a baseball camp. <var>person( 1 )</var> used the loan to rent baseball bats, mitts, and baseballs for the summer, and to pay the coaches’ salaries. Over the course of the summer, <var>N</var> campers attended <var>person( 1 )</var>’s baseball camp, and each camper paid a fee of $<var>COST</var> to attend. <var>person( 1 )</var> used all of the money from the campers’ fees to start paying back the loan.</p>
                 <p class="question" data-if="isMale(1)">At the end of the summer what was <var>person( 1 )</var>'s net worth, assuming he had no other assets or liabilities?</p><p class="question" data-else="">At the end of the summer what was <var>person( 1 )</var>'s net worth, assuming she had no other assets or liabilities?</p>
-
-                
 
                 <div class="solution" data-forms="dollar"><var>-1 * Z</var></div>
 

@@ -22,9 +22,7 @@
                     <var>person(1)</var> is packing her bags for her vacation. She has 
                     <code><var>NUM_THINGS</var></code> unique <var>THING</var>, but only <code><var>NUM_TAKEN</var></code> fit in her bag.
                 </p>
-                
                 <p class="question" data-if="isMale(1)">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can he take?</p><p class="question" data-else="">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can she take?</p>
-                
                 <p class="solution" data-forms="integer"><var>ANSWER</var></p>
                 <div class="hints">
                     <p data-if="isMale(1)">
@@ -36,7 +34,6 @@
                         so let's fill them one by one. 
                         At first, <var>person(1)</var> has <code><var>NUM_THINGS</var></code> choices for what to put in the first space.
                     </p>
-                    
                     <p data-if="isMale(1)">
                         For the second space, he only has <code><var>NUM_THINGS-1</var></code> <var>THING</var> left, so there are only 
                         <code><var>NUM_THINGS-1</var></code> choices
@@ -50,7 +47,6 @@
                         <var>NUM_THINGS * (NUM_THINGS-1)</var></code> different unique choices <var>person(1)</var> could have made to fill the first two 
                         spaces in her bag. But that's not quite right.
                     </p>
-                    
                     <p data-if="isMale(1)">
                         Why? Because if he picked <var>THING.substring(0,THING.length-1)</var> number 3, then 
                         <var>THING.substring(0,THING.length-1)</var> number 1, that's the same situation as picking number 1 and then number 3. They both end up in the same bag. 
@@ -58,13 +54,11 @@
                         Why? Because if she picked <var>THING.substring(0,THING.length-1)</var> number 3, then 
                         <var>THING.substring(0,THING.length-1)</var> number 1, that's the same situation as picking number 1 and then number 3. They both end up in the same bag. 
                     </p>
-                    
                     <p data-if="isMale(1)">
                         So, if <var>person(1)</var> keeps filling the spaces in his bag, making <code><var>_.map(_.range(NUM_TAKEN), function(l){ return (NUM_THINGS - l);}).join("\\cdot")</var> = \dfrac{<var>NUM_THINGS</var>!}{(<var>NUM_THINGS</var>-<var>NUM_TAKEN</var>)!} = <var> factorial(NUM_THINGS)/factorial(NUM_THINGS-NUM_TAKEN)</var></code> decisions altogether, we've overcounted a bunch of groups.
                     </p><p data-else="">
                         So, if <var>person(1)</var> keeps filling the spaces in her bag, making <code><var>_.map(_.range(NUM_TAKEN), function(l){ return (NUM_THINGS - l);}).join("\\cdot")</var> = \dfrac{<var>NUM_THINGS</var>!}{(<var>NUM_THINGS</var>-<var>NUM_TAKEN</var>)!} = <var> factorial(NUM_THINGS)/factorial(NUM_THINGS-NUM_TAKEN)</var></code> decisions altogether, we've overcounted a bunch of groups.
                     </p>
-                    
                     <p>
                         How much have we overcounted? Well, for every group of <code><var>NUM_TAKEN</var></code>, 
                         we've counted them as if the order we chose them in 
