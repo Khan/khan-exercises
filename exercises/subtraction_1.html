@@ -34,7 +34,10 @@
                 <div class="graphie" data-update="circles">
                     crossOutCircles( A, B, "#FFA500" );
                 </div>
-                <p style="clear: left;">We began with <var>plural( A, "dot" )</var> and crossed out <var>B</var> of them, so we are left with <var>plural( A - B, "dot" )</var>.</p>
+                <p style="clear: left;">
+                    <span data-if="isSingular(A)">We began with <var>A</var> dot and crossed out <var>B</var> of them.</span><span data-else="">We began with <var>A</var> dots and crossed out <var>B</var> of them.</span>
+                    <span data-if="isSingular(A - B)">We are left with <var>A - B</var> dot.</span><span data-else="">We are left with <var>A - B</var> dots.</span>
+                </p>
             </div>
         </div>
     </div>

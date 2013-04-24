@@ -178,8 +178,10 @@
                         to slope-intercept form by solving for <code>y</code>.
                     </p>
                     <div>
-                        <p>
-                            <var>A &lt; 0 ? "Add" : "Subtract"</var> <code><var>abs( A )</var>x</code> <var>A &lt; 0 ? "to" : "from"</var> both sides:
+                        <p data-if="A &lt; 0">
+                            Add <code><var>abs( A )</var>x</code> to both sides:
+                        </p><p data-else="">
+                            Subtract <code><var>abs( A )</var>x</code> from both sides:
                         </p><p>
                             <code>\qquad <var>expr( [ "*", B, "y" ] )</var> = <var>expr([ "+", [ "*", -A, "x" ], C ])</var></code>
                         </p>
@@ -211,17 +213,26 @@
                 </div>
                 <div>
                     <p>
-                        The slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>. Remember that
+                        <span data-if='"position" + ( abs( SLOPE_FRAC[0] ) !== 1'>The slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>. Remember that
                         the slope tells you rise over run. So in this case for every
                         <code><var>abs( SLOPE_FRAC[0] )</var></code>
-                        <var>"position" + ( abs( SLOPE_FRAC[0] ) !== 1 ? "s" : "" )</var>
+                        s
                         you move
                         <span data-if="SLOPE_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
-                        <span data-else="">up</span>
-                        you must also move
+                        <span data-else="">up</span>.</span><span data-else="">The slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>. Remember that
+                        the slope tells you rise over run. So in this case for every
+                        <code><var>abs( SLOPE_FRAC[0] )</var></code>
+                        <var>"" )</var>
+                        you move
+                        <span data-if="SLOPE_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
+                        <span data-else="">up</span>.</span>
+                        <span data-if='"position" + ( abs( SLOPE_FRAC[1] ) !== 1'>You must also move
                         <code><var>SLOPE_FRAC[1]</var></code>
-                        <var>"position" + ( abs( SLOPE_FRAC[1] ) !== 1 ? "s" : "" )</var>
-                        to the right.
+                        s
+                        to the right.</span><span data-else="">You must also move
+                        <code><var>SLOPE_FRAC[1]</var></code>
+                        <var>"" )</var>
+                        to the right.</span>
                     </p>
                     <div class="graphie" data-update="grid">
                         style({

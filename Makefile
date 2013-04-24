@@ -9,4 +9,7 @@ pack packed:
 	cd exercises && find * -name '*.html' | while read infile; do outfile="../exercises-packed/$$infile"; [ "$$outfile" -nt "$$infile" ] && continue; echo "$$infile"; mkdir -p "`dirname $$outfile`" && ruby ../build/pack.rb < "$$infile" > "$$outfile" || { rm "$$outfile"; exit 1; } done
 
 lint:
-	python build/extract_strings.py --lint exercises/*html
+	python build/lint_i18n_strings.py exercises/*html
+
+fix_lint:
+	python build/lint_i18n_strings.py --fix exercises/*html

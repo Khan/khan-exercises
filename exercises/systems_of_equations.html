@@ -46,7 +46,7 @@
                     <p><code>y</code> = <span class="sol"><var>Y_NUMER / Y_DENOM</var></span></p>
                 </div>
                 <div class="hints">
-                    <p>We can eliminate <code><var>( XY_FLAG ? "x" : "y" )</var></code> when its corresponding coefficients are negative inverses.</p>
+                    <p data-if="( XY_FLAG">We can eliminate <code>x</code> when its corresponding coefficients are negative inverses.</p><p data-else="">We can eliminate <code><var>"y" )</var></code> when its corresponding coefficients are negative inverses.</p>
 
                     <div data-if="XY_FLAG" data-unwrap="">
                         <div data-if="MULT_1 !== 1 || MULT_2 !== 1">

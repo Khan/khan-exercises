@@ -497,9 +497,10 @@
                    }
                } else {
                   steps.add(
-                      $._("<p>The expression %s can be factored as %s</p>",
-                        KhanUtil.exprToCode(expr), 
-                        KhanUtil.exprToCode(newExpr)));
+                      $._("<p>The expression %(expr)s can be factored " +
+                        "as %(newExpr)s</p>",
+                        {expr: KhanUtil.exprToCode(expr), 
+                        newExpr: KhanUtil.exprToCode(newExpr)}));
                }
             }
             expr = KhanUtil.exprCopyMissingStyle(expr, newExpr);

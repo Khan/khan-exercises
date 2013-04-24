@@ -64,7 +64,7 @@
                         line([0, 0], [NUMBER, 0]);
                         graph.movablePoint.visibleShape.toFront();
                     </div>
-                    <p>The orange dot should be <var>plural(abs(NUMBER), "tick mark")</var> to the <span data-if="NUMBER &lt; 0">left</span><span data-else="">right</span> of 0.</p>
+                    <p data-if="isSingular(abs(NUMBER))">The orange dot should be <var>abs(NUMBER)</var> tick mark to the <span data-if="NUMBER &lt; 0">left</span><span data-else="">right</span> of 0.</p><p data-else="">The orange dot should be <var>abs(NUMBER)</var> tick marks to the <span data-if="NUMBER &lt; 0">left</span><span data-else="">right</span> of 0.</p>
                 </div>
                 <div>
                     <div class="graphie" data-update="number-line">

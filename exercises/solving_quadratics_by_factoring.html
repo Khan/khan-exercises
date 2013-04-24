@@ -48,13 +48,13 @@
                     </code></p>
                 </div>
                 <p>
-                    So <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
-                    (x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>}) = 0</code>.
+                    <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})
+                    (x <var>B &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-B</var>}) = 0</code>
                 </p>
                 <p>
-                    Since <code>(x <var>A &lt; 0 ? "+" : ""</var> <var>-A</var>)
-                    (x <var>B &lt; 0 ? "+" : ""</var> <var>-B</var>) = 0</code>,
-                    we know that one or both quantities must equal zero for the equation to be true.
+                    <span>Since the following equation is true we know that one or both quantities must equal zero.</span>
+                    <code>(x <var>A &lt; 0 ? "+" : ""</var> <var>-A</var>)
+                    (x <var>B &lt; 0 ? "+" : ""</var> <var>-B</var>) = 0</code>
                 </p>
                 <p><code>x + <var>-A</var> = 0</code> or <code>x + <var>-B</var> = 0</code></p>
                 <p>Thus, <code>x = <var>A</var></code> and <code>x = <var>B</var></code> are the solutions.</p>
@@ -86,7 +86,7 @@
                         \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}
                     </code></p>
                 </div>
-                <p>So <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})^2 = 0</code>.</p>
+                <p data-if="A &lt; 0">So <code>(x + \color{<var>PINK</var>}{<var>-A</var>})^2 = 0</code>.</p><p data-else="">So <code>(x  \color{<var>PINK</var>}{<var>-A</var>})^2 = 0</code>.</p>
                 <p><code>x + <var>-A</var> = 0</code></p>
                 <p>Thus, <code>x = <var>A</var></code> is the solution.</p>
             </div>

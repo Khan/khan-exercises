@@ -104,29 +104,34 @@
         var subHints = [
             $._("<p>Why can we simplify an expression this way? " +
                 "Let's look at the detailed steps that we imply when we " +
-                "write <code>%s</code> :</p>",
-                KhanUtil.format(exampleExprStep)) +
-            $._("<p><code>%s</code> can be rewritten as <code>%s</code></p>",
-                KhanUtil.format(exampleExprInit), KhanUtil.parseFormat(
-                    "\\dfrac{3}{5} \\cdot #{\\dfrac{a^2}{a}} \\cdot b \\cdot \\dfrac{1}{c}", [KhanUtil.BLUE])) +
+                "write <code>%(exampleExprStep)s</code> :</p>",
+                {exampleExprStep: KhanUtil.format(exampleExprStep)}) +
+            $._("<p><code>%(exampleExprInit)s</code> can be rewritten as " +
+                "<code>%(expr)s</code></p>",
+                {exampleExprInit: KhanUtil.format(exampleExprInit),
+                    expr: KhanUtil.parseFormat(
+                    "\\dfrac{3}{5} \\cdot #{\\dfrac{a^2}{a}} \\cdot b \\cdot \\dfrac{1}{c}", [KhanUtil.BLUE])}) +
             "<p><code>" + KhanUtil.formatGroup(exampleGroup) + "</code></p>" +
-            $._("<p>So we get <code>%s</code>, or <code>%s</code>",
-                KhanUtil.parseFormat("\\dfrac{3}{5} \\cdot #{a} \\cdot b \\cdot \\dfrac{1}{c}", [KhanUtil.BLUE]),
-                KhanUtil.parseFormat("\\dfrac{3ab}{5c}"))
+            $._("<p>So we get <code>%(cdotExpr)s</code>, or " +
+                "<code>%(dfrac)s</code>",
+                {cdotExpr: KhanUtil.parseFormat("\\dfrac{3}{5} \\cdot #{a} \\cdot b \\cdot \\dfrac{1}{c}", [KhanUtil.BLUE]),
+                dfrac: KhanUtil.parseFormat("\\dfrac{3ab}{5c}")})
         ];
 
         steps.add(
             $._("<p>For example, if we had this expression: " +
-                "<code>%s</code>, we would see that the factor " +
-                "<code>%s</code> is present in both the numerator and the " + 
-                "denominator.</p>", KhanUtil.format(exampleExprInit),
-                KhanUtil.format(aExpr)) +
-            $._("<p>We would then simplify it like this: <code>%s</code> " +
-                "and obtain: <code>%s</code> %s</p>",
-                KhanUtil.format(exampleExprStep),
-                KhanUtil.format(exampleExprEnd),
-                KhanUtil.getSubHints("factoring",
-                    $._("Show explanation"), subHints)) +
+                "<code>%(exampleExprInit)s</code>, we would see that the " +
+                "factor <code>%(aExpr)s</code> is present in both the " + 
+                "numerator and the denominator.</p>",
+                {exampleExprInit: KhanUtil.format(exampleExprInit),
+                aExpr: KhanUtil.format(aExpr)}) +
+            $._("<p>We would then simplify it like this: " +
+                "<code>%(exampleExprStep)s</code> and obtain: " +
+                "<code>%(exampleExprEnd)s</code> %(subHints)s</p>",
+                {exampleExprStep: KhanUtil.format(exampleExprStep),
+                exampleExprEnd: KhanUtil.format(exampleExprEnd),
+                subHints: KhanUtil.getSubHints("factoring",
+                    $._("Show explanation"), subHints)}) +
             $._("<p>Can you apply this technique to this exercise?</p>")
         );
     };
@@ -149,12 +154,15 @@
                 if (!wasSimplified) {
                     steps.add("<p>" + KhanUtil.exprToCode(expr) + "</p>");
                 }
-                steps.add($._("<p>We can see that the %s can be factored " +
-                    "some more : %s<p>",
-                    termName, KhanUtil.exprToCode(expr.args[iArg])));
+                steps.add($._("<p>We can see that the %(termName)s can be factored " +
+                    "some more : %(expr)s<p>",
+                    {termName: termName,
+                        expr: KhanUtil.exprToCode(expr.args[iArg])}));
                 steps.add(subSteps);
-                steps.add($._("<p>So the %s becomes : %s</p>",
-                    termName, KhanUtil.exprToCode(newArg)));
+                steps.add(
+                    $._("<p>So the %(termName)s becomes : %(newArg)s</p>",
+                        {termName: termName,
+                            newArg: KhanUtil.exprToCode(newArg)}));
                 wasSimplified = true;
             }
             newArgs.push(newArg);
@@ -177,12 +185,12 @@
         if (KhanUtil.stepIsUsed(subSteps)) {
             steps.add(
                 $._("The first step is to factor the numerator and " +
-                    "denominator, if possible: %s</p>",
-                    KhanUtil.getSubHints("factoring-num-denom",
+                    "denominator, if possible: %(subHints)s</p>",
+                    {subHints: KhanUtil.getSubHints("factoring-num-denom",
                         $._("Show explanation"),
-                        [KhanUtil.genOneHint(subSteps)])) +
-                $._("<p>We obtain: %s</p>",
-                    KhanUtil.exprToCode(newExpr))
+                        [KhanUtil.genOneHint(subSteps)])}) +
+                $._("<p>We obtain: %(newExpr)s</p>",
+                    {newExpr: KhanUtil.exprToCode(newExpr)})
             );
         }
         var factors = [];
@@ -226,7 +234,8 @@
             steps.add(
                 $._("<p class='final_answer'>There are no factors that can " +
                     "be simplified in this expression, so the answer is: " +
-                    "<code>%s</code></p>", KhanUtil.format(solExpr)));
+                    "<code>%(solExpr)s</code></p>",
+                    {solExpr: KhanUtil.format(solExpr)}));
         } else {
             steps.add(
                 $._("<p>Applying the approach described above gives " +

@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="problem">
-                    The grades on <var>an( course( 1 ) )</var> midterm at <var>school( 1 )</var> are normally distributed with <code>\mu = <var>MEAN</var></code> and <code>\sigma = <var>STDDEV</var></code>.
+                    The grades on a <var>course( 1 )</var> midterm at <var>school( 1 )</var> are normally distributed with <code>\mu = <var>MEAN</var></code> and <code>\sigma = <var>STDDEV</var></code>.
                     <br><var>person( 1 )</var> earned a<span data-if="floorTo( 0, GRADE / 10 ) === 8">n</span> <code><var>GRADE</var></code> on the exam.
                 </div>
 
@@ -28,8 +28,9 @@
                 <div class="hints">
                     <p>A z-score is defined as the number of <span class="hint_green">standard deviations</span> a specific point is away from the <span class="hint_pink">mean</span>.</p>
                     <div>
-                        <p>We can calculate the z-score for <var>person( 1 )</var>'s exam grade by subtracting the <span class="hint_pink">mean <code>(\mu)</code></span> from
-                        <var>his( 1 )</var> grade and then dividing by the <span class="hint_green">standard deviation <code>(\sigma)</code></span>.</p>
+                        <p data-if="isMale(1)">We can calculate the z-score for <var>person( 1 )</var>'s exam grade by subtracting the <span class="hint_pink">mean <code>(\mu)</code></span> from
+                        his grade and then dividing by the <span class="hint_green">standard deviation <code>(\sigma)</code></span>.</p><p data-else="">We can calculate the z-score for <var>person( 1 )</var>'s exam grade by subtracting the <span class="hint_pink">mean <code>(\mu)</code></span> from
+                        her grade and then dividing by the <span class="hint_green">standard deviation <code>(\sigma)</code></span>.</p>
                         <p>
                             <code>
                                 \large{\quad z \quad = \quad
@@ -47,8 +48,9 @@
                     </div>
                     <div>
                         <p><code>\large{\quad z \quad = \quad <var>ZSCORE</var>}</code></p>
-                        <p class="final_answer">The z-score is <code><var>ZSCORE</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>abs( ZSCORE )</var></code>
-                        standard deviation<var>plural( abs( ZSCORE ) )</var> <span data-if="ZSCORE &gt; 0">above</span><span data-else="">below</span> the mean.</p>
+                        <p class="final_answer" data-if="isSingular(abs( ZSCORE ))">The z-score is <code><var>ZSCORE</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>abs( ZSCORE )</var></code>
+                        standard deviation <span data-if="ZSCORE &gt; 0">above</span><span data-else="">below</span> the mean.</p><p class="final_answer" data-else="">The z-score is <code><var>ZSCORE</var></code>. In other words, <var>person( 1 )</var>'s score was <code><var>abs( ZSCORE )</var></code>
+                        standard deviations <span data-if="ZSCORE &gt; 0">above</span><span data-else="">below</span> the mean.</p>
                     </div>
                 </div>
             </div>

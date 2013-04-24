@@ -38,7 +38,7 @@
           var html = "<div id='" + id + "' class='modal hide fade' style='width:400px;left:750px;position:fixed;'>" +
               "  <div class='modal-header'>" +
               "    <a href='#' class='close'>&times;</a> " +
-                  $._("Definition: %s", title) +
+                  $._("Definition: %(title)s", {title: title}) +
               "  </div>" +
               "  <div class='modal-body'>" +
               content +
