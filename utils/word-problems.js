@@ -246,6 +246,8 @@ $.fn["word-problemsLoad"] = function() {
     });
     people = new IncrementalShuffler(people);
 
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var vehicles = new IncrementalShuffler([
         "bike",
         "car",
@@ -255,11 +257,13 @@ $.fn["word-problemsLoad"] = function() {
         "train"
     ]);
 
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var courses = new IncrementalShuffler([
-        "algebra",
         "chemistry",
         "geometry",
         "history",
+        "mathematics",
         "physics",
         "Spanish"
     ]);
@@ -295,11 +299,9 @@ $.fn["word-problemsLoad"] = function() {
         ["can of food", "box"]
     ]);
 
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var stores = new IncrementalShuffler([
-        {
-            name: "office supply",
-            items: new IncrementalShuffler(["pen", "pencil", "notebook"])
-        },
         {
             name: "hardware",
             items: new IncrementalShuffler(["hammer", "nail", "saw"])
@@ -311,6 +313,10 @@ $.fn["word-problemsLoad"] = function() {
         {
             name: "gift",
             items: new IncrementalShuffler(["toy", "game", "souvenir"])
+        },
+        {
+            name: "school supply",
+            items: new IncrementalShuffler(["pen", "pencil", "notebook"])
         },
         {
             name: "toy",
@@ -364,9 +370,13 @@ $.fn["word-problemsLoad"] = function() {
         "rubber stamp"
     ]);
 
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var colors = new IncrementalShuffler([
         "red",
-        "orange",
+        // NOTE(jeresig): I18N: Removed because it begins with a vowel and is
+        // used with an()
+        //"orange",
         "yellow",
         "green",
         "blue",
@@ -436,11 +446,15 @@ $.fn["word-problemsLoad"] = function() {
 
     // animal, avg-lifespan, stddev-lifespan
     // (data is from cursory google searches and wild guessing)
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var animals = new IncrementalShuffler([
-        ["alligator", 68, 20],
-        ["anteater", 15, 10],
+        // NOTE(jeresig): I18N: Removed because it begins with a vowel and is
+        // used with an()
+        //["alligator", 68, 20],
+        //["anteater", 15, 10],
         ["bear", 40, 20],
-        ["elephant", 60, 10],
+        //["elephant", 60, 10],
         ["gorilla", 20, 5],
         ["lion", 12, 5],
         ["lizard", 3, 1],

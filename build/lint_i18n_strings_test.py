@@ -29,6 +29,11 @@ TESTS = {
         'errors': ['5 nodes need to be fixed. '
             'Re-run with --fix to automatically fix them.']
     },
+    'an': {
+        'nodes_changed': 2,
+        'errors': ['2 nodes need to be fixed. '
+            'Re-run with --fix to automatically fix them.']
+    },
 }
 
 
@@ -106,6 +111,9 @@ class LintStringsTest(unittest.TestCase):
 
     def test_ternary(self):
         self.run_test('ternary')
+
+    def test_an(self):
+        self.run_test('an')
 
 
 def _slurp(filename):

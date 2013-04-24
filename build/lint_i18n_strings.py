@@ -153,7 +153,8 @@ def lint_file(filename, apply_fix, verbose):
     nodes_changed = 0
 
     # The filters through which the files should be passed and in which order
-    filters = [PronounFilter, TernaryFilter, AlwaysPluralFilter, PluralFilter]
+    filters = [PronounFilter, TernaryFilter, AlwaysPluralFilter, PluralFilter,
+        AnFilter]
 
     # Collect all the i18n-able nodes out of file
     nodes = extract_strings.extract_nodes(filename)
@@ -970,6 +971,52 @@ class TernaryFilter(IfElseFilter):
             <p data-else>He gave <var>APPLES</var>.</p>
         """
         return key
+
+
+class AnFilter(BaseFilter):
+    """Fix usage of An()/an() in exercises, converting to just use 'A' or 'a'.
+
+    For example the string <var>An(item(1))</var> is converted into just:
+        A <var>item(1)</var>
+
+    It is assumed that 'a' or 'A' will always be used in these cases. (To make
+    sure that this is the case all the string collections have been modified
+    to only include words that meet that criteria.)
+    """
+    _an_map = {'an': 'a', 'An': 'A'}
+
+    # Matches an|An(...)
+    _regex = re.compile(r'^\s*\b(an|An)'
+        r'\(\s*((?:[^,]+|\([^\)]*\))*)\s*\)\s*$', re.I)
+
+    xpath = ' or '.join(['contains(text(),"%s(")' % method
+        for method in _an_map.keys()])
+
+    def get_match(self, fix_node):
+        """Return a match of a string that matches an/An(...)"""
+        return self._regex.match(fix_node.text)
+
+    def filter_var(self, match, var_node):
+        """Replace the <var> the variable and prefix it with 'A ' or 'a '
+
+        For example the string <var>An(item(1))</var> is converted into just:
+            A <var>item(1)</var>
+        """
+        # Get the text that we need to insert to replace the An usage
+        an_text = self._an_map[match.group(1).strip()] + ' '
+
+        # We then insert the text 'A ' before the variable (which is
+        # surprisingly hard to do)
+        prev_node = var_node.getprevious()
+        parent_node = var_node.getparent()
+
+        if prev_node is not None:
+            prev_node.tail = (prev_node.tail or '') + an_text
+        elif parent_node is not None:
+            parent_node.text = (parent_node.text or '') + an_text
+
+        # Replace the contents of the <var> with just the variable
+        var_node.text = match.group(2).strip()
 
 
 def get_plural_form(word):
