@@ -1,4 +1,6 @@
 import os
+import shutil
+import tempfile
 import unittest
 
 import lint_i18n_strings
@@ -43,24 +45,24 @@ class LintStringsTest(unittest.TestCase):
         lint_i18n_strings.SHOW_PROMPT = False
 
         # Make sure that we're always working from the build directory
-        # NOTE: We use chdir here so that we have the same relative path
-        # every time the program is run (makes for consistent test output)
-        # since the output includes file paths
         os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+        # Operate against a temp directory to prevent having to revert files
+        self.tmpdir = tempfile.mkdtemp(prefix='lint_test_')
+        _TMP_DIR = os.path.join(self.tmpdir, _TEST_ROOT)
+        shutil.copytree(_TEST_ROOT, _TMP_DIR)
+        os.chdir(self.tmpdir)
 
         # Keep backups of the contents of all the files
         for file_name, checks in TESTS.iteritems():
-            checks['test_file'] = os.path.join(_TEST_ROOT, file_name) + '.html'
-            checks['output_file'] = (os.path.join(_TEST_ROOT, file_name) +
+            checks['test_file'] = os.path.join(_TMP_DIR, file_name) + '.html'
+            checks['output_file'] = (os.path.join(_TMP_DIR, file_name) +
                 '_output.html')
             checks['original'] = _slurp(checks['test_file'])
 
     def tearDown(self):
-        # Revert all the test files back to their original state
-        for file_name, checks in TESTS.iteritems():
-            test_file = os.path.join(_TEST_ROOT, file_name) + '.html'
-            with open(test_file, 'w') as f:
-                f.write(checks['original'])
+        # Remove the temp directory
+        shutil.rmtree(self.tmpdir)
 
         os.chdir(self.orig_dir)
         super(LintStringsTest, self).tearDown()

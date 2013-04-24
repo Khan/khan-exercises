@@ -312,7 +312,7 @@ def get_page_html(html_tree):
     body_child_nodes = html_tree.xpath('//body/*')
     if body_child_nodes:
         last_node = body_child_nodes[-1]
-        if not re.compile(r'\S').match(last_node.tail or ''):
+        if not last_node.tail or last_node.tail.isspace():
             last_node.tail = "\n"
 
     # We serialize the entire HTML tree

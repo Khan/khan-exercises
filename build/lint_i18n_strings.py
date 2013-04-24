@@ -81,14 +81,12 @@ def main():
         # Lint the file, returns a list of error messages and
         # a count of the number of fixes that were automatically
         # applied (depending upon --fix)
-        (errors, num_fixes) = lint_file(filename, args.fix,
-            not args.quiet)
-
-        # Keep track of how many fixes have been done
-        total_fixes += num_fixes
+        (errors, num_fixes) = lint_file(filename, args.fix, not args.quiet)
 
         # Keep track of how many files have been fixed
         if num_fixes:
+            # Keep track of how many fixes have been done
+            total_fixes += num_fixes
             total_fix_files += 1
 
         if errors:
@@ -188,9 +186,9 @@ def lint_file(filename, apply_fix, verbose):
     # automatically fixed. Those come up as errors.
 
     # Process the file with each filter in series
-    for FilterClass in filters:
+    for filter_class in filters:
         # Instantiate the filter
-        filter = FilterClass()
+        filter = filter_class()
 
         # Have it process all the nodes in the document
         (new_nodes, new_errors, new_nodes_changed) = filter.process(nodes)
@@ -225,7 +223,13 @@ def lint_file(filename, apply_fix, verbose):
 
 
 class BaseFilter(object):
-    """A base filter, replaces nodes and <var> elements."""
+    """A base filter, replaces nodes and <var> elements.
+    
+    Sub-classes must define the following:
+     - xpath: A string that holds the XPath expression for finding nodes.
+     - filter_var: A method for processing a single fixable <var>.
+     - get_match: A method for determining if a <var> matches 
+    """
     def __init__(self):
         """Intitialize and keep track of nodes_changed and errors."""
         self.nodes_changed = 0
@@ -249,7 +253,7 @@ class BaseFilter(object):
 
             # It's possible that multiple nodes have been returned, if that's
             # the case then we extend the list
-            if isinstance(result, tuple):
+            if isinstance(result, (tuple, list)):
                 new_nodes.extend(result)
             # Otherwise we just append the node to the list
             else:
@@ -260,28 +264,29 @@ class BaseFilter(object):
     def process_node(self, orig_node):
         """Process a single node.
 
+        Bail if the node doesn't contain any elements that may need
+        fixing. (We discard the results of running this against the
+        original node as we really want the result from the cloned
+        node.) Unfortunately cloning the nodes is a more-expensive
+        operation than running the XPath expression so we do this
+        first to offset the expense.
+
         Returns the existing node or the modified node, if need be.
         """
-        # Bail if the node doesn't contain any elements that may need
-        # fixing. (We discard the results of running this against the
-        # original node as we really want the result from the cloned
-        # node.) Unfortunately cloning the nodes is a more-expensive
-        # operation than running the XPath expression so we do this
-        # first to offset the expense.
         if not self.find_fixable_vars(orig_node):
             return orig_node
 
         # Copy the existing node and make a new one, if need be
         node = self.copy_node(orig_node)
 
-        # A collection of all the <var>s that could might need fixing
+        # A collection of all the <var>s under this node that might need fixing
         self.fixable_vars = self.find_fixable_vars(node)
 
         # Process the fixable vars in the node
         if not self.process_vars(self.fixable_vars):
             return orig_node
 
-        # Replace the node if we've generated a new node
+        # Replace orig_node with the new node we've generated, in the html tree
         self.replace_node(orig_node, node)
 
         return node
@@ -332,6 +337,12 @@ class BaseFilter(object):
 
         return True
 
+    def get_match(self, var_node):
+        raise NotImplementedError('Subclasses must define this')
+
+    def filter_var(self, var_node):
+        raise NotImplementedError('Subclasses must define this')
+
 
 class IfElseFilter(BaseFilter):
     """A filter for handling the generation of data-if/data-else nodes.
@@ -344,6 +355,10 @@ class IfElseFilter(BaseFilter):
        element and its contents.
      - If the node already has a data-if or data-else attribute then new inner
        nodes are generated instead.
+
+    Sub-classes need to implement:
+     - extract_key: A method for pulling a unique key from a match.
+     - get_condition: A method that returns the if condition to add to the node.
     """
     def process_node(self, orig_node):
         """Process a single node.
@@ -357,7 +372,7 @@ class IfElseFilter(BaseFilter):
         """
         # Create a cloned copy of the node, we're going to need this as
         # the fixer will likely need to generate a second copy of the
-        # original node but slightly modified.
+        # original node (for the 'data-else') but slightly modified.
         self.cloned_node = copy.deepcopy(orig_node)
         self.cloned_node.tail = ''
 
@@ -368,7 +383,7 @@ class IfElseFilter(BaseFilter):
         node = super(IfElseFilter, self).process_node(orig_node)
 
         # There's a reason for ignoring the node so we just end early
-        if node == orig_node:
+        if node is orig_node:
             return orig_node
 
         # If we've located more than one key then we need to fix the
@@ -384,8 +399,8 @@ class IfElseFilter(BaseFilter):
             # Get the one remaining key
             key = self.match_keys[0]
 
-            # Modify the original node (if need be)
-            self.filter_node(key, node)
+            # Add an if condition to the node
+            node.set('data-if', self.get_condition(key))
 
             # Add the data-else attribute to the cloned node
             self.cloned_node.set('data-else', '')
@@ -401,7 +416,7 @@ class IfElseFilter(BaseFilter):
 
         return node
 
-    def get_cloned_var(self, var_node):
+    def _get_cloned_var(self, var_node):
         """Given a <var> node return the equivalent node from the cloned node.
 
         This is used to make it easy to work with the two sets of nodes
@@ -449,7 +464,7 @@ class IfElseFilter(BaseFilter):
         """Replace the node only if it doesn't have a data-if/data-else.
 
         This is because nodes that have a data-if or data-else are left
-        in-place and new wrappers are generated and injected in copy_node.
+        in-place and new wrappers were generated and injected in copy_node.
         """
         if not orig_node.get('data-if') and not orig_node.get('data-else'):
             return super(IfElseFilter, self).replace_node(orig_node, node)
@@ -491,10 +506,19 @@ class IfElseFilter(BaseFilter):
             # And insert the newly-created node into position
             orig_node.append(node)
 
+            # Note: We no longer need to do replace_node as we've effectively
+            # inserted the nodes that we're operating against into the tree.
+
             return node
 
         # Run the BaseFilter copy_node
         return super(IfElseFilter, self).copy_node(orig_node)
+
+    def get_condition(self, key):
+        raise NotImplementedError('Subclasses must define this')
+
+    def extract_key(self, match):
+        raise NotImplementedError('Subclasses must define this')
 
 
 class PronounFilter(IfElseFilter):
@@ -539,16 +563,16 @@ class PronounFilter(IfElseFilter):
         original and cloned nodes.
         """
         extract_strings.replace_node(var_node, match.group(1))
-        extract_strings.replace_node(self.get_cloned_var(var_node),
+        extract_strings.replace_node(self._get_cloned_var(var_node),
             self._pronoun_map[match.group(1)])
 
-    def filter_node(self, key, node):
-        """Adds an data-if condition to handle the gender toggle.
+    def get_condition(self, key):
+        """Generates a data-if condition to handle the gender toggle.
 
         This will turn a string like <p><var>He(1)</var> ran.</p> into:
             <p data-if="isMale(1)">He ran.</p><p data-else>She ran.</p>
         """
-        node.set('data-if', self._pronoun_condition % key)
+        return self._pronoun_condition % key
 
 
 class AlwaysPluralFilter(BaseFilter):
@@ -566,7 +590,6 @@ class AlwaysPluralFilter(BaseFilter):
     Additionally sometimes the case of <var>plural("word")</var> was used,
     which is silly, so we just replace it with the text "words".
     """
-    _methods = ['plural', 'pluralTex']
     _empty_str_fn = '%s("", %s)'
     # Map old function name to new function name
     _function_map = {
@@ -578,7 +601,7 @@ class AlwaysPluralFilter(BaseFilter):
         r'\(\s*((?:[^,]+|\([^\)]*\))*)\s*\)\s*$', re.I)
 
     xpath = ' or '.join(['contains(text(),"%s(")' % method
-        for method in _methods])
+        for method in _function_map.keys()])
 
     def get_match(self, fix_node):
         """Return a match of a string that matches plural(...)"""
@@ -684,7 +707,6 @@ class PluralFilter(IfElseFilter):
     holds the number. With this information we can then easily resolve the
     output (in a form similar to the handling of the built-in methods).
     """
-    _methods = ['plural', 'pluralTex']
     # Map old function name to new function name
     _function_map = {
         'plural': 'plural_form(%s, %s)',
@@ -696,7 +718,7 @@ class PluralFilter(IfElseFilter):
         r'\(\s*((?:[^,(]+|\(.+?\))*),\s*((?:[^,(]+|\(.+?\))*)\s*\)\s*$', re.I)
 
     xpath = ' or '.join(['contains(text(),"%s(")' % method
-        for method in _methods])
+        for method in _function_map.keys()])
 
     def get_match(self, fix_node):
         """Return a match of a string that matches plural(...)"""
@@ -746,7 +768,7 @@ class PluralFilter(IfElseFilter):
         and then change the output depending upon it (because of the silly
         plural() function argument order).
         """
-        cloned_var = self.get_cloned_var(var_node)
+        cloned_var = self._get_cloned_var(var_node)
 
         first_str_match = _STRING_RE.match(match.group(2))
         second_str_match = _STRING_RE.match(match.group(3))
@@ -839,8 +861,8 @@ class PluralFilter(IfElseFilter):
                 cloned_var.text = var_node.text = (pluralize %
                     (match.group(2).strip(), match.group(3).strip()))
 
-    def filter_node(self, key, node):
-        """Adds an data-if condition to handle the plural toggle.
+    def get_condition(self, key):
+        """Generates a data-if condition to handle the plural toggle.
 
         This will turn a string like:
             <p>I have <var>plural(NUM, "cat")</var>.</p>
@@ -848,7 +870,7 @@ class PluralFilter(IfElseFilter):
             <p data-if="isSingular(NUM)">I have 1 cat.</p>
             <p data-else>I have <var>NUM</var> cats.</p>
         """
-        node.set('data-if', self._ngetpos_condition % key)
+        return self._ngetpos_condition % key
 
 
 class TernaryFilter(IfElseFilter):
@@ -901,7 +923,7 @@ class TernaryFilter(IfElseFilter):
         statement is a string then the string directly replaces the <var>.
         Same goes for the second, cloned, node.
         """
-        cloned_var = self.get_cloned_var(var_node)
+        cloned_var = self._get_cloned_var(var_node)
 
         first_str_match = _STRING_RE.match(match.group(2))
         second_str_match = _STRING_RE.match(match.group(3))
@@ -923,7 +945,7 @@ class TernaryFilter(IfElseFilter):
             # Otherwise just turn it into <var>STATEMENT</var>
             cloned_var.text = match.group(3).strip()
 
-    def filter_node(self, key, node):
+    def get_condition(self, key):
         """Turns the node into two nodes with a data-if/else.
 
         For example given:
@@ -933,7 +955,7 @@ class TernaryFilter(IfElseFilter):
             <p data-if="NUM == 1">He gave an apple.</p>
             <p data-else>He gave <var>APPLES</var>.</p>
         """
-        node.set('data-if', key)
+        return key
 
 
 def get_plural_form(word):
