@@ -27,14 +27,14 @@
                 <var id="TR_B">
                     function(){
                         var trB = new Triangle( [0,0],[], 3, {}, [ TR_A.points[ 0 ], TR_A.points[ 1 ], POINT_D ] );
-                        trB.labels = { "angles" : clearArray( trB.niceAngles, [ 0 ] ), "sides" : mergeArray( clearArray( trB.niceSideLengths, SIDES_B[ 0 ] ), clearArray( [ "?", "?", "?" ], SIDES_B[ 1 ] ) ),  "points": [ "A", "B", "D" ] };
+                        trB.labels = { "angles" : ["{\\theta}^{\\circ}"], "sides" : mergeArray( clearArray( trB.niceSideLengths, SIDES_B[ 0 ] ), clearArray( [ "?", "?", "?" ], SIDES_B[ 1 ] ) ),  "points": [ "A", "B", "D" ] };
                         return trB;
                     }()
                 </var>
                 <var id="TR_C">
                     function(){
                         var trC = new Triangle( [0,0],[], 3, {}, [ TR_A.points[ 0 ], POINT_D, TR_A.points[ 2 ] ] );
-                        trC.labels = { "angles" : clearArray( trC.niceAngles, [ 0 ] ) , "sides" :  mergeArray( clearArray( trC.niceSideLengths, SIDES_C[ 0 ] ), clearArray( [ "?", "?", "?" ], SIDES_C[ 1 ] ) ),  "points": [ "", "", "C" ] };
+                        trC.labels = { "angles" : ["{\\theta}^{\\circ}"] , "sides" :  mergeArray( clearArray( trC.niceSideLengths, SIDES_C[ 0 ] ), clearArray( [ "?", "?", "?" ], SIDES_C[ 1 ] ) ),  "points": [ "", "", "C" ] };
                         return trC;
                         }()
                 </var>
