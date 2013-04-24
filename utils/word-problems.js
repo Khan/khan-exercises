@@ -106,6 +106,9 @@ $.extend(KhanUtil, {
         "jumping jack": function(num) {
             return $.ngettext("jumping jack", "jumping jacks", num);
         },
+        "jumping jack": function(num) {
+            return $.ngettext("jumping jack", "jumping jacks", num);
+        },
         "loaf": function(num) {
             return $.ngettext("loaf", "loaves", num);
         },
@@ -156,6 +159,12 @@ $.extend(KhanUtil, {
         },
         "row": function(num) {
             return $.ngettext("row", "rows", num);
+        },
+        "sit-up": function(num) {
+            return $.ngettext("sit-up", "sit-ups", num);
+        },
+        "squat": function(num) {
+            return $.ngettext("squat", "squats", num);
         },
         "quiz": function(num) {
             return $.ngettext("quiz", "quizzes", num);
