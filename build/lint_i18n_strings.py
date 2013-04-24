@@ -754,14 +754,15 @@ class PluralFilter(IfElseFilter):
         variable and the string hardcoded into it. For example:
            <p>I have <var>plural(NUM, "cat")</var>.</p>
         Would then become (after user prompting):
-           <p data-if="isSingular(NUM)">I have 1 cat.</p>
+           <p data-if="isSingular(NUM)">I have <var>NUM</var> cat.</p>
            <p data-else>I have <var>NUM</var> cats.</p>
 
         Otherwise both of the results are variables or function calls:
         This means that we need to insert the variables directly, for example:
            <p>I have <var>plural(NUM, item(1))</var>.</p>
         Would then become (after user prompting):
-           <p data-if="isSingular(NUM)">I have 1 <var>item(1)</var>.</p>
+           <p data-if="isSingular(NUM)">I have <var>NUM</var>
+               <var>item(1)</var>.</p>
            <p data-else>I have <var>NUM</var>
                <var>plural_form(item(1), NUM)</var>.</p>
         To do this we need to determine which argument is the number variable
@@ -790,11 +791,11 @@ class PluralFilter(IfElseFilter):
             # Get the word out of the string
             word = second_str_match.group(1).strip()
 
-            # Convert the first node to just the static string '1 WORD'
-            extract_strings.replace_node(var_node, "1 " + word)
+            # Have the <var> output just the number
+            var_node.text = cloned_var.text = match.group(2).strip()
 
-            # Have the cloned <var> output the number
-            cloned_var.text = match.group(2).strip()
+            # Insert the word after the singular <var>
+            var_node.tail = ' ' + word + (var_node.tail or '')
 
             # Insert a space and the plural form of the word after the variable
             cloned_var.tail = (' ' + get_plural_form(word) +
@@ -815,50 +816,42 @@ class PluralFilter(IfElseFilter):
                 # We're going to turn the following:
                 #   <var>plural(NUM, STRING)</var>
                 # Into the following for the singular and plural cases:
-                #   1 <var>STRING</var>
+                #   <var>NUM</var> <var>STRING</var>
                 #   <var>NUM</var> <var>plural_form(STRING)</var>
 
                 # We start by replacing the contents of the node with just the
-                # STRING var text resulting in: <var>STRING_VAR</var>
-                var_node.text = match.group(3).strip()
-
-                # We then insert the text '1 ' before the variable (which is
-                # surprisingly hard to do)
-                prev_node = var_node.getprevious()
-                parent_node = var_node.getparent()
-
-                if prev_node is not None:
-                    prev_node.tail = (prev_node.tail or '') + '1 '
-                elif parent_node is not None:
-                    parent_node.text = (parent_node.text or '') + '1 '
-
-                # Now we handle the plural case
+                # STRING var text resulting in: <var>NUM_VAR</var>
+                var_node.text = cloned_var.text = match.group(2).strip()
 
                 # We want to generate HTML that looks like this:
+                # <var>NUM_VAR</var> <var>STRING_VAR</var>
                 # <var>NUM_VAR</var> <var>plural_form(STRING_VAR)</var>
 
                 # We need to insert a new <var> element after the existing one
-                new_var_node = cloned_var.makeelement('var')
+                singular_var_node = var_node.makeelement('var')
+                plural_var_node = cloned_var.makeelement('var')
 
-                # Insert the new node after the cloned node
-                cloned_var.addnext(new_var_node)
+                # Insert the new node after the <var>
+                var_node.addnext(singular_var_node)
+                cloned_var.addnext(plural_var_node)
 
-                # Change the cloned var to output the number
-                cloned_var.text = match.group(2).strip()
+                # In the singular case we just output <var>STRING_VAR</var>
+                singular_var_node.text = match.group(3).strip()
 
                 # Switch the order of the arguments to match the new signature
                 # that is used by plural_form(STRING, NUM)
-                new_var_node.text = (pluralize %
+                plural_var_node.text = (pluralize %
                     (match.group(3).strip(), match.group(2).strip()))
 
                 # Insert a space between the two <var>s
-                cloned_var.tail = ' '
+                var_node.tail = cloned_var.tail = ' '
 
             # Number is in the second position, this just outputs the plural
             # form of the word depending upon the number. This is what we want
             # so we just convert the usage of plural() to plural_form().
             else:
-                cloned_var.text = var_node.text = (pluralize %
+                var_node.text = match.group(3).strip()
+                cloned_var.text = (pluralize %
                     (match.group(2).strip(), match.group(3).strip()))
 
     def get_condition(self, key):

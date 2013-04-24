@@ -9,7 +9,7 @@
         The empirical rule (or the 68-95-99.7 rule) tells us that
         <span style="color: green"><code><var>EMPIRICAL</var>\%</code></span>
         of the <var>ANIMALS</var> will have lifespans within
-        1 standard deviation of the average lifespan.
+        <var>abs( Z )</var> standard deviation of the average lifespan.
     </p><p data-else="">
         The empirical rule (or the 68-95-99.7 rule) tells us that
         <span style="color: green"><code><var>EMPIRICAL</var>\%</code></span>
@@ -37,15 +37,15 @@
     </p>
 
     <!-- Test 3: Function call as first argument: arithmetic_word_problems -->
-    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p>
+    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>ITEMS_LEFT</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p>
 
     <!-- Test 4: Function call as second argument: arithmetic_word_problems -->
-    <p data-if="isSingular(ITEMS_LEFT)">He will have 1 <var>item(1)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p>
+    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>item(1)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p>
 
     <!-- Test 5: Ambiguous variables: area_1 -->
     <p data-if="isSingular(S)">
-        The length is 1 <var>UNIT_TEXT</var> and
-        the width is 1 <var>UNIT_TEXT</var>.
+        The length is <var>S</var> <var>UNIT_TEXT</var> and
+        the width is <var>S</var> <var>UNIT_TEXT</var>.
     </p><p data-else="">
         The length is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var> and
         the width is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var>.
