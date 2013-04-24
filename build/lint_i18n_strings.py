@@ -358,7 +358,7 @@ class IfElseFilter(BaseFilter):
 
     Sub-classes need to implement:
      - extract_key: A method for pulling a unique key from a match.
-     - get_condition: A method that returns the if condition to add to the node.
+     - get_condition: A method that returns the condition to add to the node.
     """
     def process_node(self, orig_node):
         """Process a single node.
