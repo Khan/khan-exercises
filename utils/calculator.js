@@ -441,8 +441,8 @@ return new Parser;
                 }
             } else {
                 throw new CalculatorError(
-                    $._("Invalid type %s", 
-                        Object.prototype.toString.call(tree)));
+                    $._("Invalid type %(type)s", 
+                        {type: Object.prototype.toString.call(tree)}));
             }
         },
 

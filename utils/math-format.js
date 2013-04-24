@@ -258,7 +258,7 @@ $.extend(KhanUtil, {
             var str = "";
 
             if (hundredDigit) {
-                str += $.ngettext("%s hundred", "%s hundred",
+                str += $.ngettext("%(num)s hundred", "%(num)s hundred",
                     cardinalUnits[hundredDigit]);
             }
 

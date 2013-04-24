@@ -66,6 +66,9 @@ $.extend(KhanUtil, {
         "potato": function(num) {
             return $.ngettext("potato", "potatoes", num);
         },
+        "push-up": function(num) {
+            return $.ngettext("push-up", "push-ups", num);
+        },
         "row": function(num) {
             return $.ngettext("row", "rows", num);
         },
@@ -117,16 +120,32 @@ $.extend(KhanUtil, {
     // - plural(singular, NUMBER):
     //        - if necessary, magically pluralize <singular>
     //        - return "word"
-    plural: function(value, arg1) {
-        if (typeof value === "number") {
-            // I18N: This is used to generate the string: NUMBER OBJECT
-            // For example: 5 cats, 1 dog, etc.
-            return $._("%s %s", value, this.plural_form(arg1, value));
+    plural: (function() {
+        var genPlural = function(word, num) {
+            if (word in KhanUtil.plurals) {
+                return KhanUtil.plurals[word](num);
+            }
 
-        } else if (typeof value === "string") {
-            return this.plural_form(value, arg1);
-        }
-    },
+            // TODO(jeresig): i18n: Eventually remove this?
+            if (typeof console !== "undefined" && console.error) {
+                console.error("Word not in plural dictionary: ", word);
+            }
+
+            return word;
+        };
+
+        return function(value, arg1) {
+            if (typeof value === "number") {
+                // I18N: This is used to generate the string: NUMBER OBJECT
+                // For example: 5 cats, 1 dog, etc.
+                return $._("%(number)s %(object)s",
+                    {number: value, object: genPlural(arg1, value)});
+
+            } else if (typeof value === "string") {
+                return genPlural(value, arg1);
+            }
+        };
+    })(),
 
     // Pluralize with a code tag around the number
     // - pluralTex(NUMBER, singular):

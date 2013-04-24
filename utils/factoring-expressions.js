@@ -63,21 +63,23 @@
               KhanUtil.exprSetStyle(termB.initial, KhanUtil.BLUE)]};
           var initialForm = KhanUtil.parseFormat("#{a^2} - #{b^2}", [KhanUtil.PINK, KhanUtil.BLUE]);
           var factoredForm = KhanUtil.parseFormat("(#a + #b)(#a - #b)", [KhanUtil.PINK, KhanUtil.BLUE, KhanUtil.PINK, KhanUtil.BLUE]);
-          hints.push($._("<p><code>%s</code></p><p>The expression is of the " +
-            "form <code>%s</code> which is a difference of two squares so we " +
-            "can factor it as <code>%s</code></p>", 
-                KhanUtil.format(coloredExpr), initialForm, factoredForm));
+          hints.push($._("<p><code>%(color)s</code></p><p>The expression is of the " +
+            "form <code>%(initialForm)s</code> which is a difference of two squares so we " +
+            "can factor it as <code>%(factoredForm)s</code></p>", 
+            {color: KhanUtil.format(coloredExpr),
+                  initialForm: initialForm, factoredForm: factoredForm}));
           var strA = KhanUtil.parseFormat("#a", [KhanUtil.PINK]);
           var strB = KhanUtil.parseFormat("#b", [KhanUtil.BLUE]);
-          hints.push($._("<p>What are the values of <code>%s</code> and <code>%s</code>?</p>", strA, strB));
+          hints.push($._("<p>What are the values of <code>%(exprA)s</code> and <code>%(exprB)s</code>?</p>", {exprA: strA, exprB: strB}));
           var varA = {op: "var", args: ["a"]};
           var varB = {op: "var", args: ["b"]};
           var exprA = {op: "=", args: [varA, {op: "sqrt", args: [termA.initial]}, termA.sqrt], style: KhanUtil.PINK};
           var exprB = {op: "=", args: [varB, {op: "sqrt", args: [termB.initial]}, termB.sqrt], style: KhanUtil.BLUE};
           hints.push("<p><code>" + KhanUtil.format(exprA) + "</code><p><code>" + KhanUtil.format(exprB) + "</code></p>");
-          hints.push($._("<p>Use the values we found for <code>%s</code> and " +
-            "<code>%s</code> to complete the factored expression, " +
-            "<code>%s</code></p>", strA, strB, factoredForm));
+          hints.push($._("<p>Use the values we found for <code>%(exprA)s</code> and " +
+            "<code>%(exprB)s</code> to complete the factored expression, " +
+            "<code>%(factoredForm)s</code></p>",
+            {exprA: strA, exprB: strB, factoredForm: factoredForm}));
           var coloredFactored = KhanUtil.exprClone(solution);
           for (var iArg1 = 0; iArg1 < 2; iArg1++) {
              var colors = [KhanUtil.PINK, KhanUtil.BLUE];
@@ -86,7 +88,8 @@
              }
           }
           hints.push($._("<p><b>So we can factor the expression as:</b> " +
-            "<code>%s</code></p>", KhanUtil.format(coloredFactored)));
+            "<code>%(factoredForm)s</code></p>",
+            {factoredForm: KhanUtil.format(coloredFactored)}));
       }
       return {solution: solution, hints: hints};
     };
@@ -318,13 +321,13 @@
        }
        var hint = "<span class='factoring-expressions'></span>";
        if (listFactors.length === 1) {
-          return hint + $._("<p>The terms have one common factor: %s.</p>",
-            strListFactors);
+          return hint + $._("<p>The terms have one common factor: %(factor)s.</p>",
+                            {factor: strListFactors});
        } else {
           var gcf = KhanUtil.format(KhanUtil.exprSetStyle(KhanUtil.genExprFromExpFactors(factors, occFactors), KhanUtil.BLUE));
-          return hint + $._("<p>The terms have these common factors: %s, so " +
-            "the greatest common factor is <code>%s</code>.</p>", 
-            strListFactors, gcf);
+          return hint + $._("<p>The terms have these common factors: %(factorList)s, so " +
+            "the greatest common factor is <code>%(gcf)s</code>.</p>", 
+            {factorList: strListFactors, gcf: gcf});
        }
     };
 
@@ -338,9 +341,9 @@
         }
         expr = KhanUtil.simplify(expr, KhanUtil.simplifyOptions.checkInput);
 
-        hints.push($._("<p><code>%s</code></p><p>We start by decomposing " + 
+        hints.push($._("<p><code>%(expr)s</code></p><p>We start by decomposing " + 
             "each term into a product of its most simple factors.</p>",
-            KhanUtil.format(expr)));
+            {expr: KhanUtil.format(expr)}));
 
         for (var iTerm = 0; iTerm < nbTerms; iTerm++) {
             var mergedOccFactors = mergeOccFactors(sharedOccFactors, termsOccFactors[iTerm]);
@@ -351,12 +354,15 @@
         hints.push(genHintListFactors(factors, sharedOccFactors));
 
         hints.push($._("<p>We can rewrite the expression as: " +
-            "<code>%s</code>.</p>",
-            KhanUtil.format({op: "+", args: genAllTermsMarkShared(factors, 
-                sharedOccFactors, termsOccFactors, colors)})));
+            "<code>%(expr)s</code>.</p>",
+            {expr: KhanUtil.format({op: "+", args: genAllTermsMarkShared(factors, 
+                     sharedOccFactors, termsOccFactors, colors)})}));
         hints.push($._("<p>We now rewrite the expression as a product: " +
-            "<code>%s</code>.</p>", KhanUtil.format(genFullExpr(factors, 
-                sharedOccFactors, termsOccFactors, true))));
+                       "<code>%(expr)s</code>.</p>",
+                       {expr: KhanUtil.format(genFullExpr(factors,
+                                                          sharedOccFactors,
+                                                          termsOccFactors,
+                                                          true))}));
         return hints;
     };
 
@@ -404,9 +410,10 @@
        var solution = genFullExpr(factors, sharedOccFactors, termsOccFactors);
 
        if (options.factorDiffOfSquares) {
-          var hint = $._("<p>We obtain the following expression: %s</p>", 
-            KhanUtil.getSubHints("common-factors",
-                $._("Show explanation"), detailedHints));
+          var hint = $._("<p>We obtain the following expression: %(expr)s</p>", 
+                         {expr: KhanUtil.getSubHints("common-factors",
+                                                     $._("Show explanation"),
+                                                     detailedHints)});
           hint += "<p><code>" + KhanUtil.format(solution) + "</code></p>";
           hints.push(hint);
           hints.push($._("<p>Can we factor this expression even more?</p>"));
@@ -417,11 +424,13 @@
                  continue;
              }
              hints.push($._("<p>This part of the expression can be factored: " +
-                "<code>%s</code></p>", KhanUtil.format(arg)));
+                            "<code>%(expr)s</code></p>",
+                            {expr: KhanUtil.format(arg)}));
              var hint = $._("<p>We recognize and factor a difference of " +
-                "squares, and obtain the following expression: %s</p>",
-                KhanUtil.getSubHints("diff-squares-" + iArg,
-                    $._("Show explanation"), solvedArg.hints));
+                "squares, and obtain the following expression: %(expr)s</p>",
+                {expr: KhanUtil.getSubHints("diff-squares-" + iArg,
+                                            $._("Show explanation"),
+                                            solvedArg.hints)});
              solution.args[iArg] = solvedArg.solution;
              hint += "<p><code>" + KhanUtil.format(solution);
              hints.push(hint);
@@ -441,8 +450,9 @@
        }
 
        hints.push($._("<p class='final_answer'>There is nothing left to " + 
-            "factor using this approach. The answer is : <code>%s</code></p>",
-            KhanUtil.format(solution)));
+                      "factor using this approach. The answer is : " +
+                      "<code>%(solution)s</code></p>",
+                      {solution: KhanUtil.format(solution)}));
        return {hints: hints, solution: solution};
     };
 

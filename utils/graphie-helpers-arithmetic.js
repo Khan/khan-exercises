@@ -514,12 +514,14 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         var x = -maxNumDigits;
         var y = -digitsB.length * digitsA.length;
         graph.label([x, y + 2],
-            $.ngettext("\\text{The top number has 1 digit to the right of the decimal.}", "\\text{The top number has %s digits to the right of the decimal.}", deciA), "right");
+            $.ngettext("\\text{The top number has 1 digit to the right of the decimal.}", "\\text{The top number has %(num)s digits to the right of the decimal.}", deciA), "right");
         graph.label([x, y + 1],
-            $.ngettext("\\text{The bottom number has 1 digit to the right of the decimal.}", "\\text{The bottom number has %s digits to the right of the decimal.}", deciB), "right");
+            $.ngettext("\\text{The bottom number has 1 digit to the right of the decimal.}", "\\text{The bottom number has %(num)s digits to the right of the decimal.}", deciB), "right");
         // TODO(jeresig): i18n: Should this be pluralized?
         graph.label([x, y],
-            $._("\\text{The product has %s + %s = %s digits to the right of the decimal.}", deciA, deciB, deciA + deciB), "right");
+                    $._("\\text{The product has %(numA)s + %(numB)s = %(numSum)s digits to the right of the decimal.}",
+                        {numA: deciA, numB: deciB, numSum: deciA + deciB}),
+                    "right");
         graph.style({
             fill: "#000"
         }, function() {
@@ -597,9 +599,9 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             highlights = highlights.concat(drawDigits(totalDigits, index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE));
 
             graph.label([digitsDividend.length + 0.5, -2 * index],
-                $._("\\text{How many times does }%s" +
-                    "\\text{ go into }\\color{#6495ED}{%s}\\text{?}",
-                    divisor, total), "right");
+                $._("\\text{How many times does }%(divisor)s" +
+                    "\\text{ go into }\\color{#6495ED}{%(total)s}\\text{?}",
+                    {divisor: divisor, total: total}), "right");
 
             fShowFirstHalf = false;
         } else {
@@ -680,9 +682,10 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
 
         if (deciDivisor !== 0) {
             graph.label([digitsDividend.length + 1 + (deciDiff > 0 ? deciDiff : 0), 1],
-                $.ngettext("\\text{Shift the decimal %s to the right.}",
-                    "\\text{Shift the decimal %s to the right.}",
-                    deciDivisor), "right");
+                        $.ngettext("\\text{Shift the decimal 1 to the right.}",
+                                   "\\text{Shift the decimal %(num)s to the right.}",
+                                   deciDivisor),
+                        "right");
             graph.style({
                 fill: "#000"
             }, function() {
