@@ -106,9 +106,6 @@ $.extend(KhanUtil, {
         "jumping jack": function(num) {
             return $.ngettext("jumping jack", "jumping jacks", num);
         },
-        "jumping jack": function(num) {
-            return $.ngettext("jumping jack", "jumping jacks", num);
-        },
         "loaf": function(num) {
             return $.ngettext("loaf", "loaves", num);
         },
