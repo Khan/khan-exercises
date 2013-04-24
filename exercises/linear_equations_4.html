@@ -31,7 +31,7 @@
                         <p><code>\qquad <var>A * C</var>x + <var>A * D</var> = <var>B</var></code></p>
                     </div>
                     <div>
-                        <p>Now <var>A * D &lt; 0 ? "add" : "subtract"</var> <code><var>abs( A * D )</var></code> <var>A * D &lt; 0 ? "to" : "from"</var> both sides:</p>
+                        <p data-if="A * D &lt; 0">Now add <code><var>abs( A * D )</var></code> to both sides:</p><p data-else="">Now subtract <code><var>abs( A * D )</var></code> from both sides:</p>
                         <p><code>\qquad (<var>A * C</var>x + <var>A * D</var>) + <var>-A * D</var> = <var>B</var> + <var>- A * D</var></code></p>
                         <p><code>\qquad <var>A * C</var>x = <var>B - A * D</var></code></p>
                     </div>
@@ -69,12 +69,12 @@
                         <p><code>\qquad <var>expr(["*", A, "x"])</var> + <var>B</var> = <var>expr(["*", E * C, "x"])</var> + <var>E * D</var></code></p>
                     </div>
                     <div>
-                        <p>Now <var>E * C &lt; 0 ? "add" : "subtract"</var> <code><var>abs( E * C )</var>x</code> <var>E * C &lt; 0 ? "to" : "from"</var> both sides:</p>
+                        <p data-if="E * C &lt; 0">Now add <code><var>abs( E * C )</var>x</code> to both sides:</p><p data-else="">Now subtract <code><var>abs( E * C )</var>x</code> from both sides:</p>
                         <p><code>\qquad (<var>expr(["*", A, "x"])</var> + <var>B</var>) + <var>-E * C</var>x = (<var>expr(["*", E * C, "x"])</var> + <var>E * D</var>) + <var>-E * C</var>x</code></p>
                         <p><code>\qquad <var>A - E * C</var>x + <var>B</var> = <var>E * D</var></code></p>
                     </div>
                     <div>
-                        <p>Now <var>B &lt; 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>:</p>
+                        <p data-if="B &lt; 0">Now add <code><var>abs( B )</var></code>:</p><p data-else="">Now subtract <code><var>abs( B )</var></code>:</p>
                         <p><code>\qquad (<var>A - E * C</var>x + <var>B</var>) + <var>-B</var> = <var>E * D</var> + <var>-B</var></code></p>
                         <p><code>\qquad <var>A - E * C</var>x = <var>E * D - B</var></code></p>
                     </div>

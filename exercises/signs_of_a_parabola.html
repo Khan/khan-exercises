@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="solution" data-type="multiple">
-                    <p><code>a</code> is <span class="sol" data-choices="['positive', 'zero', 'negative']" data-type="list"><var>(A &gt; 0) ? 'positive' : 'negative' </var></span></p>
+                    <p data-if="(A &gt; 0)"><code>a</code> is <span class="sol" data-choices="['positive', 'zero', 'negative']" data-type="list">positive</span></p><p data-else=""><code>a</code> is <span class="sol" data-choices="['positive', 'zero', 'negative']" data-type="list">negative</span></p>
                     <p><code>b</code> is <span class="sol" data-choices="['positive', 'zero', 'negative']" data-type="list"><var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var></span></p>
                     <p><code>c</code> is <span class="sol" data-choices="['positive', 'zero', 'negative']" data-type="list"><var>(C &gt; 0) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var></span></p>
                 </div>
@@ -51,7 +51,7 @@
                 <div class="hints">
                     <p>The number <code>a</code> determines how the legs are oriented. Is the parabola smiling or frowning?</p>
                     <p>A smiling parabola means <code>a</code> is positive and a frowning parabola means <code>a</code> is negative.</p>
-                    <p>The parabola is <var>A &gt; 0 ? "smiling" : "frowning"</var> thus <code>a</code> is <var>A &gt; 0 ? "positive" : "negative"</var>.</p>
+                    <p data-if="A &gt; 0">The parabola is smiling thus <code>a</code> is positive.</p><p data-else="">The parabola is frowning thus <code>a</code> is negative.</p>
                     <p>The number <code>c</code> determines where the parabola intersects the <code>y</code>-axis. Is the positive or negative part?</p>
                     <p>If the parabola intersected the positive part of the <code>y</code>-axis, then <code>c</code> would be positive.</p>
                     <p>The parabola intersects the <code>y</code>-axis in the point <code>(0,c) = (0,<var>C</var>)</code>, thus <code>c</code> is <var>( C &gt; 0 ) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var>.</p>
@@ -62,7 +62,7 @@
                     </div>
                     <p>The tangent where the parabola intersects the <code>y</code>-axis was drawn in orange. The number <code>b</code> is the slope.</p>
                     <p>The tangent has a <var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var> slope, so <code>b</code> is <var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var>.</p>
-                    <p><code>a</code> is <var>( A &gt; 0 ) ? "positive" : "negative"</var>, <code>b</code> is <var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var>, and <code>c</code> is <var>(C &gt; 0) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var>.</p>
+                    <p data-if="( A &gt; 0 )"><code>a</code> is positive, <code>b</code> is <var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var>, and <code>c</code> is <var>(C &gt; 0) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var>.</p><p data-else=""><code>a</code> is negative, <code>b</code> is <var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var>, and <code>c</code> is <var>(C &gt; 0) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var>.</p>
                 </div>
             </div>
         </div>

@@ -30,7 +30,7 @@
                     <p data-if="EXP === 1">Any number raised to the power <code>1</code> is simply itself, so <code><var>BASE</var>^{1} = <var>BASE</var></code> and thus <code>\log_{<var>BASE</var>} <var>BASE</var> = 1</code>.</p>
                     <p data-else-if="EXP === 0">Any non-zero number raised to the power <code>0</code> is simply <code>1</code>, so <code><var>BASE</var>^0 = 1</code> and thus <code>\log_{<var>BASE</var>} 1 = 0</code>.</p>
                     <p data-else-if="EXP === -1">Any number raised to the power <code>-1</code> is its reciprocal, so <code><var>BASE</var>^{-1} = \dfrac{1}{<var>BASE</var>}</code> and thus <code>\log_{<var>BASE</var>} \left(\dfrac{1}{<var>BASE</var>}\right) = -1</code>.</p>
-                    <p data-else="">In this case, <code><var>BASE</var>^{<var>EXP</var>} = <var>NUM_STR</var></code>, so <code>\log_{<var>BASE</var>} <var>EXP &lt; 0 ? "\\left(" + NUM_STR + "\\right)" : NUM_STR</var> = <var>EXP</var></code>.</p>
+                    <p data-else="" data-if="EXP &lt; 0">In this case, <code><var>BASE</var>^{<var>EXP</var>} = <var>NUM_STR</var></code>, so <code>\log_{<var>BASE</var>} \\left(" + NUM_STR + "\\right) = <var>EXP</var></code>.</p><p data-else="">In this case, <code><var>BASE</var>^{<var>EXP</var>} = <var>NUM_STR</var></code>, so <code>\log_{<var>BASE</var>} <var>NUM_STR</var> = <var>EXP</var></code>.</p>
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
                 <div class="hints">
                     <p>If <code>b^y = x</code>, then <code>\log_{b} x = y</code>.</p>
                     <p>Notice that <code><var>BASE</var></code> is the <var>["square", "cube", "fourth", "fifth"][EXP - 2]</var> root of <code><var>NUM</var></code>.</p>
-                    <p>That is, <code>\sqrt<var>EXP === 2 ? "" : "[" + EXP + "]"</var>{<var>NUM</var>} = <var>NUM</var>^{1/<var>EXP</var>} = <var>BASE</var></code>.</p>
+                    <p data-if="EXP === 2">That is, <code>\sqrt{<var>NUM</var>} = <var>NUM</var>^{1/<var>EXP</var>} = <var>BASE</var></code>.</p><p data-else="">That is, <code>\sqrt[" + EXP + "]{<var>NUM</var>} = <var>NUM</var>^{1/<var>EXP</var>} = <var>BASE</var></code>.</p>
                     <p>Thus, <code>\log_{<var>NUM</var>} <var>BASE</var> = \dfrac{1}{<var>EXP</var>}</code>.</p>
                 </div>
             </div>

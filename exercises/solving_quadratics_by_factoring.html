@@ -86,7 +86,7 @@
                         \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}
                     </code></p>
                 </div>
-                <p>So <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})^2 = 0</code>.</p>
+                <p data-if="A &lt; 0">So <code>(x + \color{<var>PINK</var>}{<var>-A</var>})^2 = 0</code>.</p><p data-else="">So <code>(x  \color{<var>PINK</var>}{<var>-A</var>})^2 = 0</code>.</p>
                 <p><code>x + <var>-A</var> = 0</code></p>
                 <p>Thus, <code>x = <var>A</var></code> is the solution.</p>
             </div>

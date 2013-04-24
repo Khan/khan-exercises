@@ -21,29 +21,37 @@
                 </div>
 
                 <div class="question" data-if="isMale(1)">
-                    <p><var>person(1)</var> is putting <var>plural( item(1) )</var> into <var>plural( group(1) )</var>.</p>
+                    <p><var>person(1)</var> is putting <var>plural_form(item(1))</var> into <var>plural_form(group(1))</var>.</p>
 
-                    <p><var>person(1)</var> puts <var>plural( ITEMS_PER_GROUP, item(1) )</var>
+                    <p data-if="isSingular(ITEMS_PER_GROUP)"><var>person(1)</var> puts <var>ITEMS_PER_GROUP</var> <var>item(1)</var>
+                    in each <var>group(1)</var>.</p><p data-else=""><var>person(1)</var> puts <var>ITEMS_PER_GROUP</var> <var>plural_form(item(1), ITEMS_PER_GROUP)</var>
                     in each <var>group(1)</var>.</p>
-                    <p>He will fill <var>plural( GROUPS, group(1) )</var>.</p>
-                    <p>He will have <var>plural( ITEMS_LEFT, item(1) )</var> left over.</p>
+                    <p data-if="isSingular(GROUPS)">He will fill <var>GROUPS</var> <var>group(1)</var>.</p><p data-else="">He will fill <var>GROUPS</var> <var>plural_form(group(1), GROUPS)</var>.</p>
+                    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>item(1)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p>
 
-                    <p>If he instead puts
-                    <var>plural( NEW_ITEMS_PER_GROUP, item(1) )</var> in each
-                    <var>group(1)</var>, how many <var>plural( group(1) )</var> of
-                    <var>plural( item(1) )</var> can he fill?</p>
+                    <p data-if="isSingular(NEW_ITEMS_PER_GROUP)">If he instead puts
+                    <var>NEW_ITEMS_PER_GROUP</var> <var>item(1)</var> in each
+                    <var>group(1)</var>, how many <var>plural_form(group(1))</var> of
+                    <var>plural_form(item(1))</var> can he fill?</p><p data-else="">If he instead puts
+                    <var>NEW_ITEMS_PER_GROUP</var> <var>plural_form(item(1), NEW_ITEMS_PER_GROUP)</var> in each
+                    <var>group(1)</var>, how many <var>plural_form(group(1))</var> of
+                    <var>plural_form(item(1))</var> can he fill?</p>
                 </div><div class="question" data-else="">
-                    <p><var>person(1)</var> is putting <var>plural( item(1) )</var> into <var>plural( group(1) )</var>.
+                    <p><var>person(1)</var> is putting <var>plural_form(item(1))</var> into <var>plural_form(group(1))</var>.
 
-                    </p><p><var>person(1)</var> puts <var>plural( ITEMS_PER_GROUP, item(1) )</var>
+                    </p><p data-if="isSingular(ITEMS_PER_GROUP)"><var>person(1)</var> puts <var>ITEMS_PER_GROUP</var> <var>item(1)</var>
+                    in each <var>group(1)</var>.</p><p data-else=""><var>person(1)</var> puts <var>ITEMS_PER_GROUP</var> <var>plural_form(item(1), ITEMS_PER_GROUP)</var>
                     in each <var>group(1)</var>.</p>
-                    <p>She will fill <var>plural( GROUPS, group(1) )</var>.</p>
-                    <p>She will have <var>plural( ITEMS_LEFT, item(1) )</var> left over.</p>
+                    <p data-if="isSingular(GROUPS)">She will fill <var>GROUPS</var> <var>group(1)</var>.</p><p data-else="">She will fill <var>GROUPS</var> <var>plural_form(group(1), GROUPS)</var>.</p>
+                    <p data-if="isSingular(ITEMS_LEFT)">She will have <var>ITEMS_LEFT</var> <var>item(1)</var> left over.</p><p data-else="">She will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p>
 
-                    <p>If she instead puts
-                    <var>plural( NEW_ITEMS_PER_GROUP, item(1) )</var> in each
-                    <var>group(1)</var>, how many <var>plural( group(1) )</var> of
-                    <var>plural( item(1) )</var> can she fill?</p>
+                    <p data-if="isSingular(NEW_ITEMS_PER_GROUP)">If she instead puts
+                    <var>NEW_ITEMS_PER_GROUP</var> <var>item(1)</var> in each
+                    <var>group(1)</var>, how many <var>plural_form(group(1))</var> of
+                    <var>plural_form(item(1))</var> can she fill?</p><p data-else="">If she instead puts
+                    <var>NEW_ITEMS_PER_GROUP</var> <var>plural_form(item(1), NEW_ITEMS_PER_GROUP)</var> in each
+                    <var>group(1)</var>, how many <var>plural_form(group(1))</var> of
+                    <var>plural_form(item(1))</var> can she fill?</p>
                 </div>
 
                 <div class="solution" data-type="multiple">
@@ -52,24 +60,33 @@
 
                 <div class="hints">
                     <p>
-                        <span>There are <var>plural( GROUPS, group(1) )</var>.</span>
-                        <span>There are <var>plural( ITEMS_PER_GROUP, item(1) )</var>.</span>
+                        <span data-if="isSingular(GROUPS)">There are <var>GROUPS</var> <var>group(1)</var>.</span><span data-else="">There are <var>GROUPS</var> <var>plural_form(group(1), GROUPS)</var>.</span>
+                        <span data-if="isSingular(ITEMS_PER_GROUP)">There are <var>ITEMS_PER_GROUP</var> <var>item(1)</var>.</span><span data-else="">There are <var>ITEMS_PER_GROUP</var> <var>plural_form(item(1), ITEMS_PER_GROUP)</var>.</span>
                         <span>Each <var>group(1)</var> results in
                         <code><var>GROUPS</var> \times <var>ITEMS_PER_GROUP</var> = <var>ITEMS_IN_GROUPS</var></code>
-                        <var>plural( item(1) )</var>.</span>
+                        <var>plural_form(item(1))</var>.</span>
                     </p>
 
-                    <p>
-                        <var>plural( ITEMS_IN_GROUPS, item(1) )</var> plus
+                    <p data-if="isSingular(ITEMS_IN_GROUPS)">
+                        <var>ITEMS_IN_GROUPS</var> <var>item(1)</var> plus
                         <var>ITEMS_LEFT</var> left over equals
-                        <var>TOTAL_ITEMS</var> total <var>plural( item(1) )</var>.
+                        <var>TOTAL_ITEMS</var> total <var>plural_form(item(1))</var>.
+                    </p><p data-else="">
+                        <var>ITEMS_IN_GROUPS</var> <var>plural_form(item(1), ITEMS_IN_GROUPS)</var> plus
+                        <var>ITEMS_LEFT</var> left over equals
+                        <var>TOTAL_ITEMS</var> total <var>plural_form(item(1))</var>.
                     </p>
 
-                    <p>
-                        <var>plural( TOTAL_ITEMS, item(1) )</var>
+                    <p data-if="isSingular(TOTAL_ITEMS)">
+                        <var>TOTAL_ITEMS</var> <var>item(1)</var>
                         divided into groups of <var>NEW_ITEMS_PER_GROUP</var> is
                         <code><var>TOTAL_ITEMS</var> \div <var>NEW_ITEMS_PER_GROUP</var> = <var>NEW_GROUPS</var></code>
-                        <var>plural( group(1) )</var>.
+                        <var>plural_form(group(1))</var>.
+                    </p><p data-else="">
+                        <var>TOTAL_ITEMS</var> <var>plural_form(item(1), TOTAL_ITEMS)</var>
+                        divided into groups of <var>NEW_ITEMS_PER_GROUP</var> is
+                        <code><var>TOTAL_ITEMS</var> \div <var>NEW_ITEMS_PER_GROUP</var> = <var>NEW_GROUPS</var></code>
+                        <var>plural_form(group(1))</var>.
                     </p>
                 </div>
             </div>
@@ -85,21 +102,23 @@
                 </div>
 
                 <div class="question" data-if="isMale(1)">
-                    <p><var>person(1)</var> bought <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>,
+                    <p data-if="isSingular(ITEM_1_COUNT)"><var>person(1)</var> bought <var>ITEM_1_COUNT</var> <var>storeItem(1, 1)</var>,
+                    all costing the same amount, from the <var>store(1)</var> store.</p><p data-else=""><var>person(1)</var> bought <var>ITEM_1_COUNT</var> <var>plural_form(storeItem(1, 1), ITEM_1_COUNT)</var>,
                     all costing the same amount, from the <var>store(1)</var> store.</p>
 
-                    <p>He also bought a <var>storeItem(1, 2)</var> for <var>plural( ITEM_2_COST, "dollar" )</var>.</p>
+                    <p data-if="isSingular(ITEM_2_COST)">He also bought a <var>storeItem(1, 2)</var> for <var>ITEM_2_COST</var> dollar.</p><p data-else="">He also bought a <var>storeItem(1, 2)</var> for <var>ITEM_2_COST</var> dollars.</p>
 
-                    <p>He spent a total of <var>plural( TOTAL_SPENT, "dollar" )</var>.</p>
+                    <p data-if="isSingular(TOTAL_SPENT)">He spent a total of <var>TOTAL_SPENT</var> dollar.</p><p data-else="">He spent a total of <var>TOTAL_SPENT</var> dollars.</p>
 
                     <p>How much did each <var>storeItem(1, 1)</var> cost?</p>
                 </div><div class="question" data-else="">
-                    <p><var>person(1)</var> bought <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>,
+                    <p data-if="isSingular(ITEM_1_COUNT)"><var>person(1)</var> bought <var>ITEM_1_COUNT</var> <var>storeItem(1, 1)</var>,
+                    all costing the same amount, from the <var>store(1)</var> store.</p><p data-else=""><var>person(1)</var> bought <var>ITEM_1_COUNT</var> <var>plural_form(storeItem(1, 1), ITEM_1_COUNT)</var>,
                     all costing the same amount, from the <var>store(1)</var> store.</p>
 
-                    <p>She also bought a <var>storeItem(1, 2)</var> for <var>plural( ITEM_2_COST, "dollar" )</var>.</p>
+                    <p data-if="isSingular(ITEM_2_COST)">She also bought a <var>storeItem(1, 2)</var> for <var>ITEM_2_COST</var> dollar.</p><p data-else="">She also bought a <var>storeItem(1, 2)</var> for <var>ITEM_2_COST</var> dollars.</p>
 
-                    <p>She spent a total of <var>plural( TOTAL_SPENT, "dollar" )</var>.</p>
+                    <p data-if="isSingular(TOTAL_SPENT)">She spent a total of <var>TOTAL_SPENT</var> dollar.</p><p data-else="">She spent a total of <var>TOTAL_SPENT</var> dollars.</p>
 
                     <p>How much did each <var>storeItem(1, 1)</var> cost?</p>
                 </div>
@@ -108,28 +127,34 @@
 
                 <div class="hints">
                     <p data-if="isMale(1)">
-                        <span>He spent a total of <var>plural( TOTAL_SPENT, "dollar" )</var>.</span>
-                        <span>He also spent
-                        <var>plural( ITEM_2_COST, "dollar" )</var> on a <var>storeItem(1, 2)</var>, so he must have spent
+                        <span data-if="isSingular(TOTAL_SPENT)">He spent a total of <var>TOTAL_SPENT</var> dollar.</span><span data-else="">He spent a total of <var>TOTAL_SPENT</var> dollars.</span>
+                        <span data-if="isSingular(ITEM_2_COST)">He also spent
+                        <var>ITEM_2_COST</var> dollar on a <var>storeItem(1, 2)</var>, so he must have spent
                         a total of <code><var>TOTAL_SPENT</var> - <var>ITEM_2_COST</var> = <var>TOTAL_SPENT_ON_1</var></code>
-                        dollars on <var>plural( storeItem(1, 1) )</var>.</span>
+                        dollars on <var>plural_form(storeItem(1, 1))</var>.</span><span data-else="">He also spent
+                        <var>ITEM_2_COST</var> dollars on a <var>storeItem(1, 2)</var>, so he must have spent
+                        a total of <code><var>TOTAL_SPENT</var> - <var>ITEM_2_COST</var> = <var>TOTAL_SPENT_ON_1</var></code>
+                        dollars on <var>plural_form(storeItem(1, 1))</var>.</span>
                     </p><p data-else="">
-                        <span>She spent a total of <var>plural( TOTAL_SPENT, "dollar" )</var>.</span>
-                        <span>She also spent
-                        <var>plural( ITEM_2_COST, "dollar" )</var> on a <var>storeItem(1, 2)</var>, so she must have spent
+                        <span data-if="isSingular(TOTAL_SPENT)">She spent a total of <var>TOTAL_SPENT</var> dollar.</span><span data-else="">She spent a total of <var>TOTAL_SPENT</var> dollars.</span>
+                        <span data-if="isSingular(ITEM_2_COST)">She also spent
+                        <var>ITEM_2_COST</var> dollar on a <var>storeItem(1, 2)</var>, so she must have spent
                         a total of <code><var>TOTAL_SPENT</var> - <var>ITEM_2_COST</var> = <var>TOTAL_SPENT_ON_1</var></code>
-                        dollars on <var>plural( storeItem(1, 1) )</var>.</span>
+                        dollars on <var>plural_form(storeItem(1, 1))</var>.</span><span data-else="">She also spent
+                        <var>ITEM_2_COST</var> dollars on a <var>storeItem(1, 2)</var>, so she must have spent
+                        a total of <code><var>TOTAL_SPENT</var> - <var>ITEM_2_COST</var> = <var>TOTAL_SPENT_ON_1</var></code>
+                        dollars on <var>plural_form(storeItem(1, 1))</var>.</span>
                     </p>
 
                     <p data-if="isMale(1)">
-                        <span>He bought <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>.</span>
-                        <span>He spent <var>plural( TOTAL_SPENT_ON_1, "dollar" )</var> on the purchase.</span>
+                        <span data-if="isSingular(ITEM_1_COUNT)">He bought <var>ITEM_1_COUNT</var> <var>storeItem(1, 1)</var>.</span><span data-else="">He bought <var>ITEM_1_COUNT</var> <var>plural_form(storeItem(1, 1), ITEM_1_COUNT)</var>.</span>
+                        <span data-if="isSingular(TOTAL_SPENT_ON_1)">He spent <var>TOTAL_SPENT_ON_1</var> dollar on the purchase.</span><span data-else="">He spent <var>TOTAL_SPENT_ON_1</var> dollars on the purchase.</span>
                         <span>So he must have spent
                         <code><var>TOTAL_SPENT_ON_1</var> \div <var>ITEM_1_COUNT</var> = <var>ITEM_1_COST</var></code>
                         dollars on each <var>storeItem(1, 1)</var>.</span>
                     </p><p data-else="">
-                        <span>She bought <var>plural( ITEM_1_COUNT, storeItem(1, 1) )</var>.</span>
-                        <span>She spent <var>plural( TOTAL_SPENT_ON_1, "dollar" )</var> on the purchase.</span>
+                        <span data-if="isSingular(ITEM_1_COUNT)">She bought <var>ITEM_1_COUNT</var> <var>storeItem(1, 1)</var>.</span><span data-else="">She bought <var>ITEM_1_COUNT</var> <var>plural_form(storeItem(1, 1), ITEM_1_COUNT)</var>.</span>
+                        <span data-if="isSingular(TOTAL_SPENT_ON_1)">She spent <var>TOTAL_SPENT_ON_1</var> dollar on the purchase.</span><span data-else="">She spent <var>TOTAL_SPENT_ON_1</var> dollars on the purchase.</span>
                         <span>So she must have spent
                         <code><var>TOTAL_SPENT_ON_1</var> \div <var>ITEM_1_COUNT</var> = <var>ITEM_1_COST</var></code>
                         dollars on each <var>storeItem(1, 1)</var>.</span>
@@ -148,19 +173,23 @@
                 </div>
 
                 <div class="question" data-if="isMale(1)">
-                    <p><var>person(1)</var> has a bunch of <var>plural( item(1) )</var>.</p>
-                    <p><var>person(1)</var> places <var>plural( ITEMS, item(1) )</var> in each
+                    <p><var>person(1)</var> has a bunch of <var>plural_form(item(1))</var>.</p>
+                    <p data-if="isSingular(ITEMS)"><var>person(1)</var> places <var>ITEMS</var> <var>item(1)</var> in each
+                    <var>group(1)</var>.</p><p data-else=""><var>person(1)</var> places <var>ITEMS</var> <var>plural_form(item(1), ITEMS)</var> in each
                     <var>group(1)</var>.</p>
-                    <p>He ends up with <var>plural( GROUPS, group(1) )</var>.</p>
-                    <p>If he wants <var>plural( NEW_GROUPS, group(1) )</var>,
-                    how many <var>plural( item(1) )</var> should he put in each <var>group(1)</var>?</p>
+                    <p data-if="isSingular(GROUPS)">He ends up with <var>GROUPS</var> <var>group(1)</var>.</p><p data-else="">He ends up with <var>GROUPS</var> <var>plural_form(group(1), GROUPS)</var>.</p>
+                    <p data-if="isSingular(NEW_GROUPS)">If he wants <var>NEW_GROUPS</var> <var>group(1)</var>,
+                    how many <var>plural_form(item(1))</var> should he put in each <var>group(1)</var>?</p><p data-else="">If he wants <var>NEW_GROUPS</var> <var>plural_form(group(1), NEW_GROUPS)</var>,
+                    how many <var>plural_form(item(1))</var> should he put in each <var>group(1)</var>?</p>
                 </div><div class="question" data-else="">
-                    <p><var>person(1)</var> has a bunch of <var>plural( item(1) )</var>.</p>
-                    <p><var>person(1)</var> places <var>plural( ITEMS, item(1) )</var> in each
+                    <p><var>person(1)</var> has a bunch of <var>plural_form(item(1))</var>.</p>
+                    <p data-if="isSingular(ITEMS)"><var>person(1)</var> places <var>ITEMS</var> <var>item(1)</var> in each
+                    <var>group(1)</var>.</p><p data-else=""><var>person(1)</var> places <var>ITEMS</var> <var>plural_form(item(1), ITEMS)</var> in each
                     <var>group(1)</var>.</p>
-                    <p>She ends up with <var>plural( GROUPS, group(1) )</var>.</p>
-                    <p>If she wants <var>plural( NEW_GROUPS, group(1) )</var>,
-                    how many <var>plural( item(1) )</var> should he put in each <var>group(1)</var>?</p>
+                    <p data-if="isSingular(GROUPS)">She ends up with <var>GROUPS</var> <var>group(1)</var>.</p><p data-else="">She ends up with <var>GROUPS</var> <var>plural_form(group(1), GROUPS)</var>.</p>
+                    <p data-if="isSingular(NEW_GROUPS)">If she wants <var>NEW_GROUPS</var> <var>group(1)</var>,
+                    how many <var>plural_form(item(1))</var> should he put in each <var>group(1)</var>?</p><p data-else="">If she wants <var>NEW_GROUPS</var> <var>plural_form(group(1), NEW_GROUPS)</var>,
+                    how many <var>plural_form(item(1))</var> should he put in each <var>group(1)</var>?</p>
                 </div>
 
                 <div class="solution" data-type="multiple">
@@ -175,10 +204,12 @@
                     </p>
 
                     <p>
-                        <span>If we divide the <var>plural( TOTAL_ITEMS, item(1) )</var> into <var>plura_forml( group(1) )</var>.</span>
-                        <span>This gives us <var>plural( NEW_GROUPS, group(1) )</var>, then we get
+                        <span data-if="isSingular(TOTAL_ITEMS)">If we divide the <var>TOTAL_ITEMS</var> <var>item(1)</var> into <var>plura_forml( group(1) )</var>.</span><span data-else="">If we divide the <var>TOTAL_ITEMS</var> <var>plural_form(item(1), TOTAL_ITEMS)</var> into <var>plura_forml( group(1) )</var>.</span>
+                        <span data-if="isSingular(NEW_GROUPS)">This gives us <var>NEW_GROUPS</var> <var>group(1)</var>, then we get
                         <code><var>TOTAL_ITEMS</var> \div <var>NEW_GROUPS</var> = <var>NEW_ITEMS</var></code>
-                        <var>plural( item(1) )</var> per <var>group(1)</var>.</span>
+                        <var>plural_form(item(1))</var> per <var>group(1)</var>.</span><span data-else="">This gives us <var>NEW_GROUPS</var> <var>plural_form(group(1), NEW_GROUPS)</var>, then we get
+                        <code><var>TOTAL_ITEMS</var> \div <var>NEW_GROUPS</var> = <var>NEW_ITEMS</var></code>
+                        <var>plural_form(item(1))</var> per <var>group(1)</var>.</span>
                     </p>
                 </div>
             </div>
