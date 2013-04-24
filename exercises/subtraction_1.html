@@ -35,8 +35,8 @@
                     crossOutCircles( A, B, "#FFA500" );
                 </div>
                 <p style="clear: left;">
-                    <span data-if="isSingular(A)">We began with 1 dot and crossed out <var>B</var> of them.</span><span data-else="">We began with <var>A</var> dots and crossed out <var>B</var> of them.</span>
-                    <span data-if="isSingular(A - B)">We are left with 1 dot.</span><span data-else="">We are left with <var>A - B</var> dots.</span>
+                    <span>We began with <var>plural( A, "dot" )</var> and crossed out <var>B</var> of them.</span>
+                    <span>We are left with <var>plural( A - B, "dot" )</var>.</span>
                 </p>
             </div>
         </div>

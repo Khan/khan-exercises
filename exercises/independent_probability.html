@@ -71,25 +71,10 @@
                 <p>
                     The probability of flipping a <var>HT</var> is <code>\dfrac{1}{2}</code>.
                 </p>
-                <p data-if="RESULT_POSSIBLE.length &gt; 1"><span data-if="isSingular(RESULT_POSSIBLE.length)" data-unwrap="">
+                <p>
                     The probability of rolling <var>RESULT_DESC</var> is <code>\dfrac{<var>RESULT_POSSIBLE.length</var>}{6}</code>, since there 
-                    is <var>RESULT_POSSIBLE.length</var> outcome 
-                    which satisfy our condition
-                    (namely, <var>toSentence(RESULT_POSSIBLE)</var>), and 6 total possible outcomes.
-                </span><span data-else="" data-unwrap="">
-                    The probability of rolling <var>RESULT_DESC</var> is <code>\dfrac{<var>RESULT_POSSIBLE.length</var>}{6}</code>, since there 
-                    are <var>RESULT_POSSIBLE.length</var> outcomes 
-                    which satisfy our condition
-                    (namely, <var>toSentence(RESULT_POSSIBLE)</var>), and 6 total possible outcomes.
-                </span></p><p data-else="" data-if="isSingular(RESULT_POSSIBLE.length)">
-                    The probability of rolling <var>RESULT_DESC</var> is <code>\dfrac{<var>RESULT_POSSIBLE.length</var>}{6}</code>, since there 
-                    is <var>RESULT_POSSIBLE.length</var> outcome 
-                    which satisfies our condition
-                    (namely, <var>toSentence(RESULT_POSSIBLE)</var>), and 6 total possible outcomes.
-                </p><p data-else="">
-                    The probability of rolling <var>RESULT_DESC</var> is <code>\dfrac{<var>RESULT_POSSIBLE.length</var>}{6}</code>, since there 
-                    are <var>RESULT_POSSIBLE.length</var> outcomes 
-                    which satisfies our condition
+                    <var>plural("is",RESULT_POSSIBLE.length)</var> <var>RESULT_POSSIBLE.length</var> <var>plural("outcome",RESULT_POSSIBLE.length)</var> 
+                    which <var>RESULT_POSSIBLE.length &gt; 1 ? "satisfy" : "satisfies"</var> our condition
                     (namely, <var>toSentence(RESULT_POSSIBLE)</var>), and 6 total possible outcomes.
                 </p>
                 <p>
@@ -158,11 +143,8 @@
                 of the time.
             </p>
 
-            <p class="question" data-if="ALL">
-                What is the probability of <var>PLAYER</var> making ALL of his next
-                <var>STREAK</var> free throw attempts?
-            </p><p class="question" data-else="">
-                What is the probability of <var>PLAYER</var> making NONE of his next
+            <p class="question">
+                What is the probability of <var>PLAYER</var> making <var>ALL ? "ALL" : "NONE"</var> of his next
                 <var>STREAK</var> free throw attempts?
             </p>
 
@@ -431,13 +413,11 @@
                 <var id="P">INDEX === 1 || INDEX === 2</var>
             </div>
             <p>
-                <span data-if="isMale(1)">Captain <var>person(1)</var> and his ship, the H.M.S. Khan.</span><span data-else="">Captain <var>person(1)</var> and her ship, the H.M.S. Khan.</span> 
-                <span data-if="isMale(2)">The ship is two furlongs from the dread pirate <var>person(2)</var> and his merciless band of thieves.</span><span data-else="">The ship is two furlongs from the dread pirate <var>person(2)</var> and her merciless band of thieves.</span>
+                <span>Captain <var>person(1)</var> and <var>his(1)</var> ship, the H.M.S. Khan.</span> 
+                <span>The ship is two furlongs from the dread pirate <var>person(2)</var> and <var>his(2)</var> merciless band of thieves.</span>
                 <br><br>
-                <span data-if="isMale(2)">The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship.
-                The pirate only has one good eye, so he hits the Captain's ship with probability 
-                <code><var>P_HIT_PRETTY</var></code>.</span><span data-else="">The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship.
-                The pirate only has one good eye, so she hits the Captain's ship with probability 
+                <span>The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship.
+                The pirate only has one good eye, so <var>he(2)</var> hits the Captain's ship with probability 
                 <code><var>P_HIT_PRETTY</var></code>.</span>
             </p>
 
@@ -459,23 +439,15 @@
                 </p>
                 
                 <p>
-                    <span data-if="C"><span data-if="P" data-unwrap="">
+                    <span data-if="C">
                         Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
                     the probability that the captain hits and the probability that 
-                    the pirate hits.
-                    </span><span data-else="" data-unwrap="">
-                        Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
-                    the probability that the captain hits and the probability that 
-                    the pirate misses.
-                    </span></span>
-                    <span data-else="" data-if="P">
+                    <var>P ? "the pirate hits" : "the pirate misses"</var>.
+                    </span>
+                    <span data-else="">
                         Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
                     the probability that the captain misses and the probability that 
-                    the pirate hits.
-                    </span><span data-else="">
-                        Since they are independent, in order to get the probability that <var>QUESTION</var>, we just need to multiply together
-                    the probability that the captain misses and the probability that 
-                    the pirate misses.
+                    <var>P ? "the pirate hits" : "the pirate misses"</var>.
                     </span>
                 </p>
                 <p data-if="C">

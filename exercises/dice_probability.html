@@ -199,14 +199,10 @@
 
             <div class="hints">
                 <div>
-                    <p data-if="isSingular(SOLUTION_N)">
-                        There is
+                    <p>
+                        There <var>plural("is", SOLUTION_N)</var>
                         <b><var>cardinal(SOLUTION_N)</var></b> matching
-                        outcome.
-                    </p><p data-else="">
-                        There are
-                        <b><var>cardinal(SOLUTION_N)</var></b> matching
-                        outcomes.
+                        <var>plural("outcome", SOLUTION_N)</var>.
                     </p>
                     <div class="graphie">
                         selectMatching(MATCHING_PAIRS);

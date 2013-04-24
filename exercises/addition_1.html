@@ -34,8 +34,8 @@
                     drawCircles( B, "#28AE7B" );
                 </div>
                 <p style="clear: left;">
-                    <span data-if="isSingular(A)">There are 1 blue dot.</span><span data-else="">There are <var>A</var> blue dots.</span>
-                    <span data-if="isSingular(B)">There are 1 green dot.</span><span data-else="">There are <var>B</var> green dots.</span>
+                    <span>There are <var>plural( A, "blue dot" )</var>.</span>
+                    <span>There are <var>plural( B, "green dot" )</var>.</span>
                     <span>There are a total of <var>A + B</var> dots.</span>
                 </p>
             </div>

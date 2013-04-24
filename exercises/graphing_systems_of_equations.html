@@ -212,37 +212,23 @@
             must pass through the point <code>(0, <var>YINT_1</var>)</code>.
         </p>
         <p class="hint_blue">
-            <span data-if='"position" + ( abs( SLOPE_1_FRAC[0] ) !== 1'>The slope for the first equation is <code><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
+            <span>The slope for the first equation is <code><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
             the slope tells you rise over run. So in this case for every
             <code><var>abs( SLOPE_1_FRAC[0] )</var></code>
-            s
-            you move
-            <span data-if="SLOPE_1_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
-            <span data-else="">up</span>.</span><span data-else="">The slope for the first equation is <code><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
-            the slope tells you rise over run. So in this case for every
-            <code><var>abs( SLOPE_1_FRAC[0] )</var></code>
-            <var>"" )</var>
+            <var>"position" + ( abs( SLOPE_1_FRAC[0] ) !== 1 ? "s" : "" )</var>
             you move
             <span data-if="SLOPE_1_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
             <span data-else="">up</span>.</span>
-            <span data-if='"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1'>You must also move
+            <span>You must also move
             <code><var>SLOPE_1_FRAC[1]</var></code>
-            s
-            to the right.</span><span data-else="">You must also move
-            <code><var>SLOPE_1_FRAC[1]</var></code>
-            <var>"" )</var>
+            <var>"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1 ? "s" : "" )</var>
             to the right.</span>
         </p>
         <p class="hint_blue">
-            <span data-if='"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1'><code><var>SLOPE_1_FRAC[1]</var></code>
-            s to the right.</span><span data-else=""><code><var>SLOPE_1_FRAC[1]</var></code>
-            <var>"" )</var> to the right.</span>
-            <span data-if='"position" + ( abs( SLOPE_1_FRAC[0] ) !== 1'><code><var>abs( SLOPE_1_FRAC[0] )</var></code>
-            s
-            <span data-if="SLOPE_1_FRAC[0] &lt; 0">down</span><span data-else="">up</span> from
-            <code>(0, <var>YINT_1</var>)</code> is
-            <code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.</span><span data-else=""><code><var>abs( SLOPE_1_FRAC[0] )</var></code>
-            <var>"" )</var>
+            <span><code><var>SLOPE_1_FRAC[1]</var></code>
+            <var>"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1 ? "s" : "" )</var> to the right.</span>
+            <span><code><var>abs( SLOPE_1_FRAC[0] )</var></code>
+            <var>"position" + ( abs( SLOPE_1_FRAC[0] ) !== 1 ? "s" : "" )</var>
             <span data-if="SLOPE_1_FRAC[0] &lt; 0">down</span><span data-else="">up</span> from
             <code>(0, <var>YINT_1</var>)</code> is
             <code>(<var>SLOPE_1_FRAC[1]</var>, <var>YINT_1 + SLOPE_1_FRAC[0]</var>)</code>.</span>
@@ -270,37 +256,23 @@
             must pass through the point <code>(0, <var>YINT_2</var>)</code>.
         </p>
         <p class="hint_green">
-            <span data-if='"position" + ( abs( SLOPE_2_FRAC[0] ) !== 1'>The slope for the second equation is <code><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
+            <span>The slope for the second equation is <code><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
             the slope tells you rise over run. So in this case for every
             <code><var>abs( SLOPE_2_FRAC[0] )</var></code>
-            s
-            you move
-            <span data-if="SLOPE_2_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
-            <span data-else="">up</span>.</span><span data-else="">The slope for the second equation is <code><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
-            the slope tells you rise over run. So in this case for every
-            <code><var>abs( SLOPE_2_FRAC[0] )</var></code>
-            <var>"" )</var>
+            <var>"position" + ( abs( SLOPE_2_FRAC[0] ) !== 1 ? "s" : "" )</var>
             you move
             <span data-if="SLOPE_2_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
             <span data-else="">up</span>.</span>
-            <span data-if='"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1'>You must also move
+            <span>You must also move
             <code><var>SLOPE_2_FRAC[1]</var></code>
-            s
-            to the right.</span><span data-else="">You must also move
-            <code><var>SLOPE_2_FRAC[1]</var></code>
-            <var>"" )</var>
+            <var>"position" + ( abs( SLOPE_1_FRAC[1] ) !== 1 ? "s" : "" )</var>
             to the right.</span>
         </p>
         <p class="hint_green">
-            <span data-if='"position" + ( abs( SLOPE_2_FRAC[1] ) !== 1'><code><var>SLOPE_2_FRAC[1]</var></code>
-            s to the right.</span><span data-else=""><code><var>SLOPE_2_FRAC[1]</var></code>
-            <var>"" )</var> to the right.</span>
-            <span data-if='"position" + ( abs( SLOPE_2_FRAC[0] ) !== 1'><code><var>abs( SLOPE_2_FRAC[0] )</var></code>
-            s
-            <span data-if="SLOPE_2_FRAC[0] &lt; 0">down</span><span data-else="">up</span> from
-            <code>(0, <var>YINT_2</var>)</code> is
-            <code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.</span><span data-else=""><code><var>abs( SLOPE_2_FRAC[0] )</var></code>
-            <var>"" )</var>
+            <span><code><var>SLOPE_2_FRAC[1]</var></code>
+            <var>"position" + ( abs( SLOPE_2_FRAC[1] ) !== 1 ? "s" : "" )</var> to the right.</span>
+            <span><code><var>abs( SLOPE_2_FRAC[0] )</var></code>
+            <var>"position" + ( abs( SLOPE_2_FRAC[0] ) !== 1 ? "s" : "" )</var>
             <span data-if="SLOPE_2_FRAC[0] &lt; 0">down</span><span data-else="">up</span> from
             <code>(0, <var>YINT_2</var>)</code> is
             <code>(<var>SLOPE_2_FRAC[1]</var>, <var>YINT_2 + SLOPE_2_FRAC[0]</var>)</code>.</span>

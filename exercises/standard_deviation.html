@@ -28,12 +28,12 @@
 
             <div id="population" data-calculator="">
                 <div class="problem" data-else="">
-                    <p data-if="isSingular(DATA_POINTS)">You have found the following ages (in years) of all 1 <var>animal( 1 )</var> at your local zoo:</p><p data-else="">You have found the following ages (in years) of all <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> at your local zoo:</p>
+                    <p>You have found the following ages (in years) of all <var>plural( DATA_POINTS, animal( 1 ) )</var> at your local zoo:</p>
                     <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
                 </div>
 
                 <p class="question">
-                    What is the average age of the <var>plural_form(animal( 1 ))</var> at your zoo? What is the standard deviation?
+                    What is the average age of the <var>plural( animal( 1 ) )</var> at your zoo? What is the standard deviation?
                     You may round your answers to the nearest tenth.
                 </p>
 
@@ -51,13 +51,8 @@
                 </div> <!-- solution -->
 
                 <div class="hints">
-                    <p data-if="isSingular(DATA_POINTS)">
-                        Because we have data for all 1 <var>animal( 1 )</var> at the zoo, we are able
-                        to calculate the <span class="hint_blue">population mean</span>
-                        <code>(\color{<var>BLUE</var>}{\mu})</code> and
-                        <span class="hint_pink">population standard deviation</span> <code>(\color{<var>PINK</var>}{\sigma})</code>.
-                    </p><p data-else="">
-                        Because we have data for all <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> at the zoo, we are able
+                    <p>
+                        Because we have data for all <var>plural( DATA_POINTS, animal( 1 ) )</var> at the zoo, we are able
                         to calculate the <span class="hint_blue">population mean</span>
                         <code>(\color{<var>BLUE</var>}{\mu})</code> and
                         <span class="hint_pink">population standard deviation</span> <code>(\color{<var>PINK</var>}{\sigma})</code>.
@@ -161,8 +156,8 @@
                     </p>
 
                     <p><strong>
-                        <span data-if="isSingular(MEAN)">The average <var>animal( 1 )</var> at the zoo is 1 year old.</span><span data-else="">The average <var>animal( 1 )</var> at the zoo is <var>MEAN</var> years old.</span>
-                        <span data-if="isSingular(STDDEV_POP)">There is a standard deviation of 1 year.</span><span data-else="">There is a standard deviation of <var>STDDEV_POP</var> years.</span>
+                        <span>The average <var>animal( 1 )</var> at the zoo is <var>plural( MEAN, "year" )</var> old.</span>
+                        <span>There is a standard deviation of <var>plural( STDDEV_POP, "year" )</var>.</span>
                     </strong></p>
 
                 </div> <!-- hints -->
@@ -171,14 +166,14 @@
             <div id="sample" data-calculator="">
                 <div class="problem" data-else="">
                     <p>
-                        <span data-if="isSingular(DATA_POINTS)">You have found the following ages (in years) of 1 <var>animal( 1 )</var>.</span><span data-else="">You have found the following ages (in years) of <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var>.</span>
-                        <span data-if="isSingular(POPULATION)">Those <var>plural_form(animal( 1 ))</var> were randomly selected from the 1 <var>animal( 1 )</var> at your local zoo:</span><span data-else="">Those <var>plural_form(animal( 1 ))</var> were randomly selected from the <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var> at your local zoo:</span>
+                        <span>You have found the following ages (in years) of <var>plural( DATA_POINTS, animal( 1 ) )</var>.</span>
+                        <span>Those <var>plural(animal( 1 ))</var> were randomly selected from the <var>plural( POPULATION, animal( 1 ) )</var> at your local zoo:</span>
                     </p>
                     <p><code>\qquad<var>DATA.join( ",\\enspace " )</var></code></p>
                 </div>
 
                 <p class="question">
-                    Based on your sample, what is the average age of the <var>plural_form(animal( 1 ))</var>? What is the standard deviation?
+                    Based on your sample, what is the average age of the <var>plural( animal( 1 ) )</var>? What is the standard deviation?
                     You may round your answers to the nearest tenth.
                 </p>
 
@@ -196,13 +191,8 @@
                 </div> <!-- solution -->
 
                 <div class="hints">
-                    <p data-if="isSingular(POPULATION)">
-                        Because we only have data for a small sample of the 1 <var>animal( 1 )</var>, we are only able
-                        to estimate the population mean and standard deviation by finding the <span class="hint_blue">sample mean</span>
-                        <code>(\color{<var>BLUE</var>}{\overline{x}})</code> and
-                        <span class="hint_pink">sample standard deviation</span> <code>(\color{<var>PINK</var>}{s})</code>.
-                    </p><p data-else="">
-                        Because we only have data for a small sample of the <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var>, we are only able
+                    <p>
+                        Because we only have data for a small sample of the <var>plural( POPULATION, animal( 1 ) )</var>, we are only able
                         to estimate the population mean and standard deviation by finding the <span class="hint_blue">sample mean</span>
                         <code>(\color{<var>BLUE</var>}{\overline{x}})</code> and
                         <span class="hint_pink">sample standard deviation</span> <code>(\color{<var>PINK</var>}{s})</code>.
@@ -230,14 +220,10 @@
                         </code>
                     </p>
 
-                    <p data-if="isSingular(MEAN)">
+                    <p>
                         Find the <span class="hint_purple">squared deviations from the mean</span> for each sample. Since we don't know the
                         population mean, estimate the mean by using the <span class="hint_blue">sample mean</span> we just calculated
-                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ year}})</code>.
-                    </p><p data-else="">
-                        Find the <span class="hint_purple">squared deviations from the mean</span> for each sample. Since we don't know the
-                        population mean, estimate the mean by using the <span class="hint_blue">sample mean</span> we just calculated
-                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ years}})</code>.
+                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>plural( "year", MEAN )</var>}})</code>.
                     </p>
 
                     <div>
@@ -270,12 +256,10 @@
                             population mean—we had to estimate it by using the <span class="hint_blue">sample mean</span>.
                         </p>
                         <p>
-                            <span data-if="isSingular(DATA_POINTS)">The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
-                            of the 1 <var>animal( 1 )</var> we sampled.</span><span data-else="">The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
-                            of the <var>DATA_POINTS</var> <var>plural_form(animal( 1 ), DATA_POINTS)</var> we sampled.</span>
-                            <span data-if="isSingular(POPULATION)">This is compared to the average age
-                            of all 1 <var>animal( 1 )</var> in the zoo.</span><span data-else="">This is compared to the average age
-                            of all <var>POPULATION</var> <var>plural_form(animal( 1 ), POPULATION)</var> in the zoo.</span>
+                            <span>The age of any particular <var>animal( 1 )</var> in our sample is likely to be closer to the average age
+                            of the <var>plural( DATA_POINTS, animal( 1 ) )</var> we sampled.</span>
+                            <span>This is compared to the average age
+                            of all <var>plural( POPULATION, animal( 1 ) )</var> in the zoo.</span>
                             <span>Because of that, the <span class="hint_purple">squared deviations from the mean</span> we calculated will
                             probably underestimate the actual deviations from the population mean.</span>
                         </p>
@@ -326,10 +310,9 @@
                     </p>
 
                     <p><strong>
-                        <span data-if="isSingular(MEAN)">We can estimate that the average <var>animal( 1 )</var> at the zoo is 1 year old.</span><span data-else="">We can estimate that the average <var>animal( 1 )</var> at the zoo is <var>MEAN</var> years old.</span>
-                        <span data-if="isSingular(STDDEV)">There is also a standard deviation
-                        of 1 year.</span><span data-else="">There is also a standard deviation
-                        of <var>STDDEV</var> years.</span>
+                        <span>We can estimate that the average <var>animal( 1 )</var> at the zoo is <var>plural( MEAN, "year" )</var> old.</span>
+                        <span>There is also a standard deviation
+                        of <var>plural( STDDEV, "year" )</var>.</span>
                     </strong></p>
 
                 </div> <!-- hints -->
@@ -338,8 +321,6 @@
         </div> <!-- problems -->
     </div>
 <!-- exercise -->
-
-
 
 
 </body>

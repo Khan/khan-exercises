@@ -25,46 +25,28 @@
                     There are <code><var>STUDENTS</var></code> students in a class: <code><var>BOYS</var></code> boys and
                     <code><var>GIRLS</var></code> girls.
                 </p>
-                <p class="question" data-if="ARE_B"> 
+                <p class="question"> 
                     If the teacher picks a group of <code><var>GROUP</var></code> at random, what is the probability that 
-                    everyone in the group is a boy?
-                </p><p class="question" data-else=""> 
-                    If the teacher picks a group of <code><var>GROUP</var></code> at random, what is the probability that 
-                    everyone in the group is a girl?
+                    everyone in the group is a <var>ARE_B ? "boy" : "girl"</var>?
                 </p>
                 <div class="solution" data-forms="proper"><var>ANSWER</var></div>
                 <div class="hints">
-                    <p data-if="ARE_B">
+                    <p>
                         One way to solve this problem is to figure out how many different groups
-                        there are of only boys, then divide this
+                        there are of only <var>ARE_B ? "boys" : "girls"</var>, then divide this
                         by the total number of groups you could choose. Since every groups is chosen
                         with equal probability, this will be the probability that a group of all 
-                        boys is chosen.
-                    </p><p data-else="">
-                        One way to solve this problem is to figure out how many different groups
-                        there are of only girls, then divide this
-                        by the total number of groups you could choose. Since every groups is chosen
-                        with equal probability, this will be the probability that a group of all 
-                        girls is chosen.
+                        <var>ARE_B ? "boys" : "girls"</var> is chosen.
                     </p>
                     <p>
                         We know two ways to count the number of groups we can choose: we use permutations if order matters,
                         and combinations if it doesn't. Does the order the students are picked matter in this case?
                     </p>
                     <div>
-                        <p data-if="ARE_B">
-                            It doesn't matter if we pick John then 
-                            Ben or Ben then 
-                            John, 
-                            so order must not matter. So, the number of ways
-                            to pick a group of <code><var>GROUP</var></code> students out of <code><var>STUDENTS</var></code> is
-                            <code> \dfrac{<var>STUDENTS</var>!}{(<var>STUDENTS</var>-<var>GROUP</var>)!<var>GROUP</var>!} = 
-                            \binom{<var>STUDENTS</var>}{<var>GROUP</var>}</code>.
-                            [<a href="#" class="show-subhint" data-subhint="binomial">Show me why</a>]
-                        </p><p data-else="">
-                            It doesn't matter if we pick Julia then 
-                            Beatrice or Beatrice then 
-                            Julia, 
+                        <p>
+                            It doesn't matter if we pick <var>ARE_B ? "John" : "Julia"</var> then 
+                            <var>ARE_B ? "Ben" : "Beatrice"</var> or <var>ARE_B ? "Ben" : "Beatrice"</var> then 
+                            <var>ARE_B ? "John" : "Julia"</var>, 
                             so order must not matter. So, the number of ways
                             to pick a group of <code><var>GROUP</var></code> students out of <code><var>STUDENTS</var></code> is
                             <code> \dfrac{<var>STUDENTS</var>!}{(<var>STUDENTS</var>-<var>GROUP</var>)!<var>GROUP</var>!} = 
@@ -88,10 +70,8 @@
                             </p>
                         </div>
                     </div>
-                    <p data-if="ARE_B">
-                        We can use the same logic to count the number of groups that only have boys.
-                    </p><p data-else="">
-                        We can use the same logic to count the number of groups that only have girls.
+                    <p>
+                        We can use the same logic to count the number of groups that only have <var>ARE_B ? "boys" : "girls"</var>.
                     </p>
                     <p>
                         Specifically, the number of ways to pick a group of <code><var>GROUP</var></code> students out of
@@ -99,12 +79,9 @@
                         <code> \dfrac{<var>NUM_B</var>!}{(<var>NUM_B</var>-<var>GROUP</var>)!<var>GROUP</var>!} = 
                         \binom{<var>NUM_B</var>}{<var>GROUP</var>}</code>.
                     </p>
-                    <p data-if="ARE_B">
-                        So, the probability that the teacher picks a group of all boys is the number of 
-                        groups with only boys divided by the number of total groups the teacher could pick.
-                    </p><p data-else="">
-                        So, the probability that the teacher picks a group of all girls is the number of 
-                        groups with only girls divided by the number of total groups the teacher could pick.
+                    <p>
+                        So, the probability that the teacher picks a group of all <var>ARE_B ? "boys" : "girls"</var> is the number of 
+                        groups with only <var>ARE_B ? "boys" : "girls"</var> divided by the number of total groups the teacher could pick.
                     </p>
                     <p>
                         This is <code> \displaystyle \frac{\frac{<var>NUM_B</var>!}{(<var>NUM_B</var>-<var>GROUP</var>)!\cancel{<var>GROUP</var>!}}}
@@ -161,27 +138,17 @@
                         a <code><var>COINS</var></code>-letter word, where the first letter is "H" if the first coin toss was heads and "T" 
                         if it was tails, and so on.
                     </p>
-                    <p data-if="IS_H">
+                    <p>
                         So, the number of outcomes with exactly <code><var>NUM</var></code> <var>NAME</var> 
                         is the same as the number of these words which have
-                        <code><var>NUM</var></code> H's and <code><var>COINS-NUM</var></code> T's.
-                    </p><p data-else="">
-                        So, the number of outcomes with exactly <code><var>NUM</var></code> <var>NAME</var> 
-                        is the same as the number of these words which have
-                        <code><var>NUM</var></code> T's and <code><var>COINS-NUM</var></code> H's.
+                        <code><var>NUM</var></code> <var>IS_H ? "H's" : "T's"</var> and <code><var>COINS-NUM</var></code> <var>IS_H ? "T's" : "H's"</var>.
                     </p>
                     <div>
-                        <p data-if="IS_H">
+                        <p>
                             How many of these are there? If we treat all the letters as unique,
                             we'll find that there are <code><var>COINS</var>!</code> different arrangements, overcounting <code><var>NUM</var>!</code>
-                            times for every time we only switch the H's around, and <code><var>COINS-NUM</var>!</code>
-                            times for every time we only switch the T's around.
-                            [<a href="#" class="show-subhint" data-subhint="letters">Show me why</a>]
-                        </p><p data-else="">
-                            How many of these are there? If we treat all the letters as unique,
-                            we'll find that there are <code><var>COINS</var>!</code> different arrangements, overcounting <code><var>NUM</var>!</code>
-                            times for every time we only switch the T's around, and <code><var>COINS-NUM</var>!</code>
-                            times for every time we only switch the H's around.
+                            times for every time we only switch the <var>IS_H ? "H's" : "T's"</var> around, and <code><var>COINS-NUM</var>!</code>
+                            times for every time we only switch the <var>IS_H ? "T's" : "H's"</var> around.
                             [<a href="#" class="show-subhint" data-subhint="letters">Show me why</a>]
                         </p>
                         <div class="subhint" id="letters">

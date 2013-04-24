@@ -27,8 +27,8 @@
                 <var id="IDX">randFromArray([0, 1, 2, 2, 2, 3])</var>
                 <var id="SOLUTION">SOLUTIONS[ IDX ]</var>
             </div>
-            <p class="problem" data-if="isSingular(N1)">1 <var>deskItem( 0 )</var> cost $<var>C</var>.</p><p class="problem" data-else=""><var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var> cost $<var>C</var>.</p>
-            <p class="question" data-if="isSingular(N2)">Which equation would help determine the cost of 1 <var>deskItem( 0 )</var>?</p><p class="question" data-else="">Which equation would help determine the cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>?</p>
+            <p class="problem"><var>plural( N1, deskItem( 0 ) )</var> cost $<var>C</var>.</p>
+            <p class="question">Which equation would help determine the cost of <var>plural( N2, deskItem( 0 ) )</var>?</p>
             <p class="solution"><code><var>SOLUTION</var></code></p>
             <ul class="choices" data-none="true" data-show="5">
                 <li><code>\dfrac{<var>N2</var>}{\$<var>C</var>} = \dfrac{x}{<var>N1</var>}</code></li>
@@ -41,27 +41,27 @@
             <div class="hints">
                 <p>There are several equations that could help determine the cost, each with a slightly different approach.</p>
                 <div data-if="IDX === 0" data-unwrap="">
-                    <p data-if="isSingular(N1)">We can write the fact that 1 <var>deskItem( 0 )</var> cost $<var>C</var> as a proportion:</p><p data-else="">We can write the fact that <var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var> cost $<var>C</var> as a proportion:</p>
+                    <p>We can write the fact that <var>plural( N1, deskItem( 0 ) )</var> cost $<var>C</var> as a proportion:</p>
                     <p><code>\dfrac{<var>N1</var>}{\$<var>C</var>}</code></p>
-                    <p data-if="isSingular(N2)">Let <code>x</code> represent the unknown cost of 1 <var>deskItem( 0 )</var>. Since 1 <var>deskItem( 0 )</var> cost <code>x</code>, we have the following proportion:</p><p data-else="">Let <code>x</code> represent the unknown cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>. Since <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var> cost <code>x</code>, we have the following proportion:</p>
+                    <p>Let <code>x</code> represent the unknown cost of <var>plural( N2, deskItem( 0 ) )</var>. Since <var>plural( N2, deskItem( 0 ) )</var> cost <code>x</code>, we have the following proportion:</p>
                     <p><code>\dfrac{<var>N2</var>}{x}</code></p>
                     <p>The cost changes along with the number of <var>deskItem( 0 )</var>s purchased, and so the two proportions are equivalent.</p>
                 </div>
 
                 <div data-if="IDX === 1" data-unwrap="">
-                    <p data-if="isSingular(N2)">Let <code>x</code> represent the unknown cost of 1 <var>deskItem( 0 )</var>. Since 1 <var>deskItem( 0 )</var> cost <code>x</code>, we have the following proportion:</p><p data-else="">Let <code>x</code> represent the unknown cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>. Since <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var> cost <code>x</code>, we have the following proportion:</p>
+                    <p>Let <code>x</code> represent the unknown cost of <var>plural( N2, deskItem( 0 ) )</var>. Since <var>plural( N2, deskItem( 0 ) )</var> cost <code>x</code>, we have the following proportion:</p>
                     <p><code>\dfrac{<var>N2</var>}{x}</code></p>
-                    <p data-if="isSingular(N1)">We can write the fact that 1 <var>deskItem( 0 )</var> cost $<var>C</var> as a proportion:</p><p data-else="">We can write the fact that <var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var> cost $<var>C</var> as a proportion:</p>
+                    <p>We can write the fact that <var>plural( N1, deskItem( 0 ) )</var> cost $<var>C</var> as a proportion:</p>
                     <p><code>\dfrac{<var>N1</var>}{\$<var>C</var>}</code></p>
                     <p>The cost changes along with the number of <var>deskItem( 0 )</var>s purchased, and so the two proportions are equivalent.</p>
                 </div>
 
                 <div data-if="IDX === 2" data-unwrap="">
-                    <p><span data-if="isSingular(N1)">We know the cost of 1 <var>deskItem( 0 )</var>.</span><span data-else="">We know the cost of <var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var>.</span> <span data-if="isSingular(N2)">We want to know the cost of 1 <var>deskItem( 0 )</var>.</span><span data-else="">We want to know the cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>.</span> <span>We can write the numbers of <var>plural_form(deskItem( 0 ))</var> as a proportion:</span></p>
+                    <p><span>We know the cost of <var>plural( N1, deskItem( 0 ) )</var>.</span> <span>We want to know the cost of <var>plural( N2, deskItem( 0 ) )</var>.</span> <span>We can write the numbers of <var>plural(deskItem( 0 ))</var> as a proportion:</span></p>
                     <p><code>\dfrac{<var>N1</var>}{<var>N2</var>}</code></p>
                     <p>
-                        <span data-if="isSingular(N1)">We know 1 <var>deskItem( 0 )</var> costs $<var>C</var>.</span><span data-else="">We know <var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var> costs $<var>C</var>.</span>
-                        <span data-if="isSingular(N2)">We can let <code>x</code> represent the unknown cost of 1 <var>deskItem( 0 )</var>.</span><span data-else="">We can let <code>x</code> represent the unknown cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>.</span>
+                        <span>We know <var>plural( N1, deskItem( 0 ) )</var> costs $<var>C</var>.</span>
+                        <span>We can let <code>x</code> represent the unknown cost of <var>plural( N2, deskItem( 0 ) )</var>.</span>
                         <span>The proportion of these costs can be expressed as:</span>
                     </p>
                     <p><code>\dfrac{\$<var>C</var>}{x}</code></p>
@@ -69,9 +69,9 @@
                 </div>
 
                 <div data-if="IDX === 3" data-unwrap="">
-                    <p data-if="isSingular(N2)">If we let <code>x</code> represent the cost of 1 <var>deskItem( 0 )</var>, we have the following proportion:</p><p data-else="">If we let <code>x</code> represent the cost of <var>N2</var> <var>plural_form(deskItem( 0 ), N2)</var>, we have the following proportion:</p>
+                    <p>If we let <code>x</code> represent the cost of <var>plural( N2, deskItem( 0 ) )</var>, we have the following proportion:</p>
                     <p><code>\dfrac{x}{<var>N2</var>}</code></p>
-                    <p data-if="isSingular(N1)">We have to pay $<var>C</var> for 1 <var>deskItem( 0 )</var>, and that can be written as a proportion:</p><p data-else="">We have to pay $<var>C</var> for <var>N1</var> <var>plural_form(deskItem( 0 ), N1)</var>, and that can be written as a proportion:</p>
+                    <p>We have to pay $<var>C</var> for <var>plural( N1, deskItem( 0 ) )</var>, and that can be written as a proportion:</p>
                     <p><code>\dfrac{\$<var>C</var>}{<var>N1</var>}</code></p>
                     <p>Since the price per <var>deskItem(0)</var> stays the same, these two proportions are equivalent.</p>
                 </div>

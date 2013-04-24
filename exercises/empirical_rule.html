@@ -218,16 +218,11 @@
                                     [ MEAN - STDDEV * Z, graph.pdf( MEAN - STDDEV * Z ) -0.1 ]);
                             });
                         </div>
-                        <p data-if="isSingular(abs( Z ))">
+                        <p>
                             The empirical rule (or the 68-95-99.7 rule) tells us that
                             <span style="color: green"><code><var>EMPIRICAL</var>\%</code></span>
                             of the <var>ANIMALS</var> will have lifespans within
-                            1 standard deviation of the average lifespan.
-                        </p><p data-else="">
-                            The empirical rule (or the 68-95-99.7 rule) tells us that
-                            <span style="color: green"><code><var>EMPIRICAL</var>\%</code></span>
-                            of the <var>ANIMALS</var> will have lifespans within
-                            <var>abs( Z )</var> standard deviations of the average lifespan.
+                            <var>plural( abs( Z ), "standard deviation" )</var> of the average lifespan.
                         </p>
                     </div>
 
@@ -458,16 +453,11 @@
                                     [ MEAN - STDDEV * Z_MAX, graph.pdf( MEAN - STDDEV * Z_MAX ) -0.1 ]);
                             });
                         </div>
-                        <p data-if="isSingular(abs( Z_MAX ))">
+                        <p>
                             The empirical rule (or the 68-95-99.7 rule) tells us that
                             <span style="color: green"><code><var>EMPIRICAL1</var>\%</code></span>
                             of the <var>ANIMALS</var> will have lifespans within
-                            1 standard deviation of the average lifespan.
-                        </p><p data-else="">
-                            The empirical rule (or the 68-95-99.7 rule) tells us that
-                            <span style="color: green"><code><var>EMPIRICAL1</var>\%</code></span>
-                            of the <var>ANIMALS</var> will have lifespans within
-                            <var>abs( Z_MAX )</var> standard deviations of the average lifespan.
+                            <var>plural( abs( Z_MAX ), "standard deviation" )</var> of the average lifespan.
                         </p>
                     </div>
 
@@ -500,18 +490,12 @@
 
                         </div>
                         <p>
-                            <span data-if="isSingular(Z_MIN)">It also tells us that <span style="color: green"><code><var>EMPIRICAL2</var>\%</code></span>
-                            of the <var>ANIMALS</var> will have lifespans within 1 standard deviation
-                            of the mean.</span><span data-else="">It also tells us that <span style="color: green"><code><var>EMPIRICAL2</var>\%</code></span>
-                            of the <var>ANIMALS</var> will have lifespans within <var>Z_MIN</var> standard deviations
+                            <span>It also tells us that <span style="color: green"><code><var>EMPIRICAL2</var>\%</code></span>
+                            of the <var>ANIMALS</var> will have lifespans within <var>plural( Z_MIN, "standard deviation" )</var>
                             of the mean.</span>
-                            <span data-if="isSingular(Z_MAX)">That leaves <code><var>EMPIRICAL1</var>\% - <var>EMPIRICAL2</var>\% =
+                            <span>That leaves <code><var>EMPIRICAL1</var>\% - <var>EMPIRICAL2</var>\% =
                             <var>roundTo( 2, EMPIRICAL1 - EMPIRICAL2 )</var>\%</code> of <var>ANIMALS</var> between
-                            <var>Z_MIN</var> and 1 standard deviation of the mean, or
-                            <span style="color: orange"><code><var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%</code></span>
-                            on either side of the distribution.</span><span data-else="">That leaves <code><var>EMPIRICAL1</var>\% - <var>EMPIRICAL2</var>\% =
-                            <var>roundTo( 2, EMPIRICAL1 - EMPIRICAL2 )</var>\%</code> of <var>ANIMALS</var> between
-                            <var>Z_MIN</var> and <var>Z_MAX</var> standard deviations of the mean, or
+                            <var>Z_MIN</var> and <var>plural( Z_MAX, "standard deviation" )</var> of the mean, or
                             <span style="color: orange"><code><var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%</code></span>
                             on either side of the distribution.</span>
                         </p>

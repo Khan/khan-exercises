@@ -125,8 +125,8 @@
                 <p><code class="hint_pink"><var>LCM</var></code> is the least common multiple of <code><var>A</var></code> and <code><var>B</var></code>.</p>
                 <p>
                     <span>To get the same number of each, <strong>the smallest amount of food <var>person(1)</var> can buy is <var>LCM</var> hot dogs and buns</strong>.</span>
-                    <span data-if="isSingular(LCM/A)">Or 1 package of hot dogs.</span><span data-else="">Or <var>LCM/A</var> packages of hot dogs.</span>
-                    <span data-if="isSingular(LCM/B)">And also 1 package of buns.</span><span data-else="">And also <var>LCM/B</var> packages of buns.</span>
+                    <span>Or <var>plural(LCM/A,"package")</var> of hot dogs.</span>
+                    <span>And also <var>plural(LCM/B,"package")</var> of buns.</span>
                 </p>
             </div>
         </div>
@@ -234,8 +234,8 @@
                 <p><code class="hint_pink"><var>LCM</var></code> is the least common multiple of <code><var>A</var></code> and <code><var>B</var></code>.</p>
                 <p>
                     <span>To get the same number of each, <strong>the smallest number <var>person(1)</var> can buy is <var>LCM</var> jerseys and visors</strong>.</span>
-                    <span data-if="isSingular(LCM / A)">Or 1 set of jerseys.</span><span data-else="">Or <var>LCM / A</var> sets of jerseys.</span>
-                    <span data-if="isSingular(LCM / B)">And 1 set of visors.</span><span data-else="">And <var>LCM / B</var> sets of visors.</span>
+                    <span>Or <var>plural( LCM / A, "set" )</var> of jerseys.</span>
+                    <span>And <var>plural( LCM / B, "set" )</var> of visors.</span>
                 </p>
             </div>
         </div>
@@ -256,31 +256,31 @@
                 <p class="spin" data-if="isMale(1)">
                     <var>person(1)</var> and <var>person(2)</var> are in different <var>course(1)</var> classes at <var>school(1)</var>.
                     <span data-if="A &gt; B">
-                        <var>person(1)</var>'s teacher always gives <var>plural_form(exam(1))</var> with <var>A</var> questions on them while
-                        <var>person(2)</var>'s teacher gives more frequent <var>plural_form(exam(1))</var> with only <var>B</var> questions.
+                        <var>person(1)</var>'s teacher always gives <var>plural( exam(1) )</var> with <var>A</var> questions on them while
+                        <var>person(2)</var>'s teacher gives more frequent <var>plural( exam(1) )</var> with only <var>B</var> questions.
                     </span>
                     <span data-else="">
-                        <var>person(2)</var>'s teacher always gives <var>plural_form(exam(1))</var> with <var>B</var> questions on them while
-                        <var>person(1)</var>'s teacher gives more frequent <var>plural_form(exam(1))</var> with only <var>A</var> questions.
+                        <var>person(2)</var>'s teacher always gives <var>plural( exam(1) )</var> with <var>B</var> questions on them while
+                        <var>person(1)</var>'s teacher gives more frequent <var>plural( exam(1) )</var> with only <var>A</var> questions.
                     </span>
                     {<var>person(1)</var> has <var>randRange(15,40)</var> other students in his class.
                     |<var>person(2)</var>'s teacher also assigns <var>randRange(3,10)</var> projects per year.}
                 </p><p class="spin" data-else="">
                     <var>person(1)</var> and <var>person(2)</var> are in different <var>course(1)</var> classes at <var>school(1)</var>.
                     <span data-if="A &gt; B">
-                        <var>person(1)</var>'s teacher always gives <var>plural_form(exam(1))</var> with <var>A</var> questions on them while
-                        <var>person(2)</var>'s teacher gives more frequent <var>plural_form(exam(1))</var> with only <var>B</var> questions.
+                        <var>person(1)</var>'s teacher always gives <var>plural( exam(1) )</var> with <var>A</var> questions on them while
+                        <var>person(2)</var>'s teacher gives more frequent <var>plural( exam(1) )</var> with only <var>B</var> questions.
                     </span>
                     <span data-else="">
-                        <var>person(2)</var>'s teacher always gives <var>plural_form(exam(1))</var> with <var>B</var> questions on them while
-                        <var>person(1)</var>'s teacher gives more frequent <var>plural_form(exam(1))</var> with only <var>A</var> questions.
+                        <var>person(2)</var>'s teacher always gives <var>plural( exam(1) )</var> with <var>B</var> questions on them while
+                        <var>person(1)</var>'s teacher gives more frequent <var>plural( exam(1) )</var> with only <var>A</var> questions.
                     </span>
                     {<var>person(1)</var> has <var>randRange(15,40)</var> other students in her class.
                     |<var>person(2)</var>'s teacher also assigns <var>randRange(3,10)</var> projects per year.}
                 </p>
                 
                 <p>
-                    Even though the two classes have to take a different number of <var>plural_form(exam(1))</var>, their teachers have
+                    Even though the two classes have to take a different number of <var>plural( exam(1) )</var>, their teachers have
                     told them that both classes will get the same total number of <var>exam(1)</var> questions each year.
                 </p>
             </div>
@@ -295,7 +295,7 @@
             <div class="hints">
                 <div>
                     <p>
-                        We know that in <var>person(1)</var>'s class, all the <var>plural_form(exam(1))</var> have <code><var>A</var></code> questions. Write
+                        We know that in <var>person(1)</var>'s class, all the <var>plural( exam(1) )</var> have <code><var>A</var></code> questions. Write
                         out the first few multiples of <code><var>A</var></code> to see the possible numbers of questions
                         <var>person(1)</var> might have to answer over the whole year:
                     </p>
@@ -307,7 +307,7 @@
                 </div>
                 <div>
                     <p>
-                        We know that in <var>person(2)</var>'s class, all the <var>plural_form(exam(1))</var> have <code><var>B</var></code> questions. Write
+                        We know that in <var>person(2)</var>'s class, all the <var>plural( exam(1) )</var> have <code><var>B</var></code> questions. Write
                         out the first few multiples of <code><var>B</var></code> to see the possible numbers of questions
                         <var>person(2)</var> might have to answer over the whole year:
                     </p>
@@ -369,8 +369,8 @@
                 <p>
                     <span>If <var>person(1)</var>'s and <var>person(2)</var>'s classes get the same total number of questions,
                     <strong>the minimum number of <var>exam(1)</var> questions they can expect to get in a year is <var>LCM</var> questions</strong>.</span>
-                    <span data-if="isSingular(LCM / A)">Or 1 <var>exam(1)</var> in <var>person(1)</var>'s class.</span><span data-else="">Or <var>LCM / A</var> <var>plural_form(exam(1), LCM / A)</var> in <var>person(1)</var>'s class.</span>
-                    <span data-if="isSingular(LCM / B)">And 1 <var>exam(1)</var> in <var>person(2)</var>'s class.</span><span data-else="">And <var>LCM / B</var> <var>plural_form(exam(1), LCM / B)</var> in <var>person(2)</var>'s class.</span>
+                    <span>Or <var>plural( LCM / A, exam(1) )</var> in <var>person(1)</var>'s class.</span>
+                    <span>And <var>plural( LCM / B, exam(1) )</var> in <var>person(2)</var>'s class.</span>
                 </p>
             </div>
         </div>
@@ -420,14 +420,12 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_blue" data-each="getFactors( A ) as F">
-                            <span data-if="F === 1"><span data-if="isSingular(A)" data-unwrap="">
-                                1 team with 1 sprinter<br>
-                            </span><span data-else="" data-unwrap="">
-                                1 team with <var>A</var> sprinters<br>
-                            </span></span>
+                            <span data-if="F === 1">
+                                1 team with <var>plural( A, "sprinter" )</var><br>
+                            </span>
                             <span data-else="">
-                                <span data-if="isSingular(F)">There 1 is 1 team.</span><span data-else="">There <var>F</var> are <var>F</var> teams.</span>
-                                <span data-if="isSingular(A / F)">Each team has 1 sprinter.</span><span data-else="">Each team has <var>A / F</var> sprinters.</span><br>
+                                <span>There <var>plural( F, "is" )</var> <var>plural( F, "team" )</var>.</span>
+                                <span>Each team has <var>plural( A / F, "sprinter" )</var>.</span><br>
                             </span>
                         </span>
                     </p>
@@ -446,14 +444,12 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_green" data-each="getFactors( B ) as F">
-                            <span data-if="F === 1"><span data-if="isSingular(B)" data-unwrap="">
-                                1 team with 1 long-distance runner<br>
-                            </span><span data-else="" data-unwrap="">
-                                1 team with <var>B</var> long-distance runners<br>
-                            </span></span>
+                            <span data-if="F === 1">
+                                1 team with <var>plural( B, "long-distance runner" )</var><br>
+                            </span>
                             <span data-else="">
-                                <span data-if="isSingular(F)">There 1 is 1 team.</span><span data-else="">There <var>F</var> are <var>F</var> teams.</span>
-                                <span data-if="isSingular(B / F)">Each team has 1 long-distance runner.</span><span data-else="">Each team has <var>B / F</var> long-distance runners.</span><br>
+                                <span>There <var>plural( F, "is" )</var> <var>plural( F, "team" )</var>.</span>
+                                <span>Each team has <var>plural( B / F, "long-distance runner" )</var>.</span><br>
                             </span>
                         </span>
                     </p>
@@ -468,8 +464,8 @@
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
                             <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <span data-if="isSingular(N + 1)">There 1 is 1 team.</span><span data-else="">There <var>N + 1</var> are <var>N + 1</var> teams.</span>
-                                <span data-if="isSingular(A / ( N + 1 ))">Each team has 1 sprinter.</span><span data-else="">Each team has <var>A / ( N + 1 )</var> sprinters.</span><br>
+                                <span>There <var>plural( N + 1, "is" )</var> <var>plural( N + 1, "team" )</var>.</span>
+                                <span>Each team has <var>plural( A / ( N + 1 ), "sprinter" )</var>.</span><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
                                 <br>
@@ -479,8 +475,8 @@
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
                             <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <span data-if="isSingular(N + 1)">There 1 is 1 team.</span><span data-else="">There <var>N + 1</var> are <var>N + 1</var> teams.</span>
-                                <span data-if="isSingular(B / ( N + 1 ))">Each team has 1 long-distance runner.</span><span data-else="">Each team has <var>B / ( N + 1 )</var> long-distance runners.</span><br>
+                                <span>There <var>plural( N + 1, "is" )</var> <var>plural( N + 1, "team" )</var>.</span>
+                                <span>Each team has <var>plural( B / ( N + 1 ), "long-distance runner" )</var>.</span><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
                                 <br>
@@ -498,9 +494,9 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
-                            <span data-if="isSingular(F)">There 1 is 1 team.</span><span data-else="">There <var>F</var> are <var>F</var> teams.</span>
-                            <span data-if="isSingular(A / F)">Each team has 1 sprinter.</span><span data-else="">Each team has <var>A / F</var> sprinters.</span>
-                            <span data-if="isSingular(B / F)">Each team also has 1 long-distance runner.</span><span data-else="">Each team also has <var>B / F</var> long-distance runners.</span><br>
+                            <span>There <var>plural( F, "is" )</var> <var>plural( F, "team" )</var>.</span>
+                            <span>Each team has <var>plural( A / F, "sprinter" )</var>.</span>
+                            <span>Each team also has <var>plural( B / F, "long-distance runner" )</var>.</span><br>
                         </span>
                     </p>
                 </div>
@@ -512,8 +508,8 @@
 
                 <p>
                     <span><strong>The greatest number of teams that <var>person(1)</var> can form is <var>GCD</var> teams</strong>.</span>
-                    <span data-if="isSingular(A / GCD)">Each team will have 1 sprinter.</span><span data-else="">Each team will have <var>A / GCD</var> sprinters.</span>
-                    <span data-if="isSingular(B / GCD)">Each team will also have 1 long-distance runner.</span><span data-else="">Each team will also have <var>B / GCD</var> long-distance runners.</span>
+                    <span>Each team will have <var>plural( A / GCD, "sprinter" )</var>.</span>
+                    <span>Each team will also have <var>plural( B / GCD, "long-distance runner" )</var>.</span>
                 </p>
 
             </div>
@@ -573,14 +569,12 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_blue" data-each="getFactors( A ) as F">
-                            <span data-if="F === 1"><span data-if="isSingular(A)" data-unwrap="">
-                                1 basket with 1 chocolate chip cookie<br>
-                            </span><span data-else="" data-unwrap="">
-                                1 basket with <var>A</var> chocolate chip cookies<br>
-                            </span></span>
+                            <span data-if="F === 1">
+                                1 basket with <var>plural( A, "chocolate chip cookie" )</var><br>
+                            </span>
                             <span data-else="">
-                                <span data-if="isSingular(F)">There 1 is 1 basket.</span><span data-else="">There <var>F</var> are <var>F</var> baskets.</span>
-                                <span data-if="isSingular(A / F)">Each basket has 1 chocolate chip cookie.</span><span data-else="">Each basket has <var>A / F</var> chocolate chip cookies.</span><br>
+                                <span>There <var>plural( F, "is" )</var> <var>plural( F, "basket" )</var>.</span>
+                                <span>Each basket has <var>plural( A / F, "chocolate chip cookie" )</var>.</span><br>
                             </span>
                         </span>
                     </p>
@@ -599,14 +593,12 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_green" data-each="getFactors( B ) as F">
-                            <span data-if="F === 1"><span data-if="isSingular(B)" data-unwrap="">
-                                1 basket with 1 oatmeal cookie<br>
-                            </span><span data-else="" data-unwrap="">
-                                1 basket with <var>B</var> oatmeal cookies<br>
-                            </span></span>
+                            <span data-if="F === 1">
+                                1 basket with <var>plural( B, "oatmeal cookie" )</var><br>
+                            </span>
                             <span data-else="">
-                                <span data-if="isSingular(F)">There 1 is 1 basket.</span><span data-else="">There <var>F</var> are <var>F</var> baskets.</span>
-                                <span data-if="isSingular(B / F)">Each basket has 1 oatmeal cookie.</span><span data-else="">Each basket has <var>B / F</var> oatmeal cookies.</span><br>
+                                <span>There <var>plural( F, "is" )</var> <var>plural( F, "basket" )</var>.</span>
+                                <span>Each basket has <var>plural( B / F, "oatmeal cookie" )</var>.</span><br>
                             </span>
                         </span>
                     </p>
@@ -620,8 +612,8 @@
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
                             <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <span data-if="isSingular(N + 1)">There 1 is 1 basket.</span><span data-else="">There <var>N + 1</var> are <var>N + 1</var> baskets.</span>
-                                <span data-if="isSingular(A / ( N + 1 ))">Each basket has 1 chocolate chip cookie.</span><span data-else="">Each basket has <var>A / ( N + 1 )</var> chocolate chip cookies.</span><br>
+                                <span>There <var>plural( N + 1, "is" )</var> <var>plural( N + 1, "basket" )</var>.</span>
+                                <span>Each basket has <var>plural( A / ( N + 1 ), "chocolate chip cookie" )</var>.</span><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
                                 <br>
@@ -631,8 +623,8 @@
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
                             <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <span data-if="isSingular(N + 1)">There 1 is 1 basket.</span><span data-else="">There <var>N + 1</var> are <var>N + 1</var> baskets.</span>
-                                <span data-if="isSingular(B / ( N + 1 ))">Each basket has 1 oatmeal cookie.</span><span data-else="">Each basket has <var>B / ( N + 1 )</var> oatmeal cookies.</span><br>
+                                <span>There <var>plural( N + 1, "is" )</var> <var>plural( N + 1, "basket" )</var>.</span>
+                                <span>Each basket has <var>plural( B / ( N + 1 ), "oatmeal cookie" )</var>.</span><br>
                             </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
                                 <br>
@@ -650,9 +642,9 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
-                            <span data-if="isSingular(F)">There 1 is 1 basket.</span><span data-else="">There <var>F</var> are <var>F</var> baskets.</span>
-                            <span data-if="isSingular(A / F)">Each basket has 1 chocolate chip cookie.</span><span data-else="">Each basket has <var>A / F</var> chocolate chip cookies.</span>
-                            <span data-if="isSingular(B / F)">Each basket also has 1 oatmeal cookie.</span><span data-else="">Each basket also has <var>B / F</var> oatmeal cookies.</span><br>
+                            <span>There <var>plural( F, "is" )</var> <var>plural( F, "basket" )</var>.</span>
+                            <span>Each basket has <var>plural( A / F, "chocolate chip cookie" )</var>.</span>
+                            <span>Each basket also has <var>plural( B / F, "oatmeal cookie" )</var>.</span><br>
                         </span>
                     </p>
                 </div>
@@ -664,8 +656,8 @@
 
                 <p>
                     <span><strong>The greatest number of gift baskets that <var>person(1)</var> can make each day is <var>GCD</var> baskets</strong>.</span>
-                    <span data-if="isSingular(A / GCD)">Each basket has 1 chocolate chip cookie.</span><span data-else="">Each basket has <var>A / GCD</var> chocolate chip cookies.</span>
-                    <span data-if="isSingular(B / GCD)">Each basket also has 1 oatmeal cookie.</span><span data-else="">Each basket also has <var>B / GCD</var> oatmeal cookies.</span>
+                    <span>Each basket has <var>plural( A / GCD, "chocolate chip cookie" )</var>.</span>
+                    <span>Each basket also has <var>plural( B / GCD, "oatmeal cookie" )</var>.</span>
                 </p>
             </div>
         </div>
@@ -685,20 +677,18 @@
 
             <div class="problem spin">
                 <p data-if="isMale(1)">
-                    <span data-if="isSingular(A)"><var>person(1)</var> just bought 1 package of 1 <var>deskItem(1)</var>.</span><span data-else=""><var>person(1)</var> just bought 1 package of <var>A</var> <var>plural_form(deskItem(1), A)</var>.</span>
-                    <span data-if="isSingular(B)">He also bought 1 package of
-                    1 <var>deskItem(2)</var>.</span><span data-else="">He also bought 1 package of
-                    <var>B</var> <var>plural_form(deskItem(2), B)</var>.</span>
-                    <span>He wants to use all of the <var>plural_form(deskItem(1))</var>
-                    and <var>plural_form(deskItem(2))</var> to create identical sets of office supplies for his
+                    <span><var>person(1)</var> just bought 1 package of <var>plural( A, deskItem(1) )</var>.</span>
+                    <span>He also bought 1 package of
+                    <var>plural( B, deskItem(2) )</var>.</span>
+                    <span>He wants to use all of the <var>plural( deskItem(1) )</var>
+                    and <var>plural( deskItem(2) )</var> to create identical sets of office supplies for his
                     {coworkers|friends|classmates}.</span>
                 </p><p data-else="">
-                    <span data-if="isSingular(A)"><var>person(1)</var> just bought 1 package of 1 <var>deskItem(1)</var>.</span><span data-else=""><var>person(1)</var> just bought 1 package of <var>A</var> <var>plural_form(deskItem(1), A)</var>.</span>
-                    <span data-if="isSingular(B)">She also bought 1 package of
-                    1 <var>deskItem(2)</var>.</span><span data-else="">She also bought 1 package of
-                    <var>B</var> <var>plural_form(deskItem(2), B)</var>.</span>
-                    <span>She wants to use all of the <var>plural_form(deskItem(1))</var>
-                    and <var>plural_form(deskItem(2))</var> to create identical sets of office supplies for her
+                    <span><var>person(1)</var> just bought 1 package of <var>plural( A, deskItem(1) )</var>.</span>
+                    <span>She also bought 1 package of
+                    <var>plural( B, deskItem(2) )</var>.</span>
+                    <span>She wants to use all of the <var>plural( deskItem(1) )</var>
+                    and <var>plural( deskItem(2) )</var> to create identical sets of office supplies for her
                     {coworkers|friends|classmates}.</span>
                 </p>
             
@@ -710,59 +700,45 @@
             <p class="solution" data-forms="integer"><var>GCD</var></p>
 
             <div class="hints">
-                <p data-if="isSingular(A)">
-                    Let's start by just thinking about the <var>plural_form(deskItem(1))</var>. We can think about all the ways to
-                    equally divide the 1 <var>deskItem(1)</var> into sets by finding the factors of <var>A</var>.
-                </p><p data-else="">
-                    Let's start by just thinking about the <var>plural_form(deskItem(1))</var>. We can think about all the ways to
-                    equally divide the <var>A</var> <var>plural_form(deskItem(1), A)</var> into sets by finding the factors of <var>A</var>.
+                <p>
+                    Let's start by just thinking about the <var>plural( deskItem(1) )</var>. We can think about all the ways to
+                    equally divide the <var>plural( A, deskItem(1) )</var> into sets by finding the factors of <var>A</var>.
                 </p>
 
                 <div>
                     <p>
                         The factors of <var>A</var> are <span class="hint_blue"><var>toSentence( getFactors( A ) )</var></span> since
                         those are all the numbers that divide evenly into <var>A</var>.
-                        That means we can equally divide the <var>plural_form(deskItem(1))</var> into sets in any of the following ways:
+                        That means we can equally divide the <var>plural( deskItem(1) )</var> into sets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_blue" data-each="getFactors( A ) as F">
-                            <span data-if="isSingular(F)"><span data-if="isSingular(A / F)" data-unwrap="">
-                                1 set with 1 <var>deskItem(1)</var>.<br>
-                            </span><span data-else="" data-unwrap="">
-                                1 set with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var>.<br>
-                            </span></span><span data-else="" data-if="isSingular(A / F)">
-                                <var>F</var> sets with 1 <var>deskItem(1)</var> each.<br>
+                            <span data-if="isSingular(F)">
+                                1 set with <var>plural( A / F, deskItem(1) )</var>.<br>
                             </span><span data-else="">
-                                <var>F</var> sets with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var> each.<br>
+                                <var>F</var> sets with <var>plural( A / F, deskItem(1) )</var> each.<br>
                             </span>
                         </span>
                     </p>
                 </div>
 
-                <p data-if="isSingular(B)">
-                    Now lets think about the <var>plural_form(deskItem(2))</var>. We can also list all the ways to equally divide the
-                    1 <var>deskItem(2)</var> into sets by finding the factors of <var>B</var>.
-                </p><p data-else="">
-                    Now lets think about the <var>plural_form(deskItem(2))</var>. We can also list all the ways to equally divide the
-                    <var>B</var> <var>plural_form(deskItem(2), B)</var> into sets by finding the factors of <var>B</var>.
+                <p>
+                    Now lets think about the <var>plural( deskItem(2) )</var>. We can also list all the ways to equally divide the
+                    <var>plural( B, deskItem(2) )</var> into sets by finding the factors of <var>B</var>.
                 </p>
 
                 <div>
                     <p>
                         The factors of <var>B</var> are <span class="hint_green"><var>toSentence( getFactors( B ) )</var></span> since
                         those are all the numbers that divide evenly into <var>B</var>.
-                        That means we can equally divide the <var>plural_form(deskItem(2))</var> into sets in any of the following ways:
+                        That means we can equally divide the <var>plural( deskItem(2) )</var> into sets in any of the following ways:
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_green" data-each="getFactors( B ) as F">
-                            <span data-if="isSingular(F)"><span data-if="isSingular(B / F)" data-unwrap="">
-                                1 set with 1 <var>deskItem(2)</var>.<br>
-                            </span><span data-else="" data-unwrap="">
-                                1 set with <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var>.<br>
-                            </span></span><span data-else="" data-if="isSingular(B / F)">
-                                <var>F</var> sets with 1 <var>deskItem(2)</var> each.<br>
+                            <span data-if="isSingular(F)">
+                                1 set with <var>plural( B / F, deskItem(2) )</var>.<br>
                             </span><span data-else="">
-                                <var>F</var> sets with <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var> each.<br>
+                                <var>F</var> sets with <var>plural( B / F, deskItem(2) )</var> each.<br>
                             </span>
                         </span>
                     </p>
@@ -770,15 +746,17 @@
 
                 <div>
                     <p>
-                        Since each set will have <var>plural_form(deskItem(1))</var> and <var>plural_form(deskItem(2))</var>, compare the
-                        ways of dividing the <var>plural_form(deskItem(1))</var> and the ways of dividing the
-                        <var>plural_form(deskItem(2))</var> to find the <em>common divisors</em>:
+                        Since each set will have <var>plural( deskItem(1) )</var> and <var>plural( deskItem(2) )</var>, compare the
+                        ways of dividing the <var>plural( deskItem(1) )</var> and the ways of dividing the
+                        <var>plural( deskItem(2) )</var> to find the <em>common divisors</em>:
                     </p>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1"><span data-unwrap="">
-                                1 set with 1 <var>deskItem(1)</var><br>
-                            </span></span>
+                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
+                                <!-- TODO(jeresig): I18N Find a better way to handle this. -->
+                                <span><var>plural( N + 1, "set" )</var> with:</span>
+                                <span><var>plural( A / ( N + 1 ), deskItem(1) )</var>.</span><br>
+                            </span>
                             <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
                                 <br>
                             </span>
@@ -786,9 +764,11 @@
                     </div>
                     <div class="gcd-column">
                         <span data-each="max( A, B ) times as N">
-                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1"><span data-unwrap="">
-                                1 set with 1 <var>deskItem(2)</var><br>
-                            </span></span>
+                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
+                                <!-- TODO(jeresig): I18N Find a better way to handle this. -->
+                                <span><var>plural( N + 1, "set" )</var> with:</span>
+                                <span><var>plural( B / ( N + 1 ), deskItem(2) )</var>.</span><br>
+                            </span>
                             <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
                                 <br>
                             </span>
@@ -800,16 +780,15 @@
                 <div>
                     <p>
                         <span>The common divisors of <var>A</var> and <var>B</var> are <span class="hint_pink"><var>toSentence( _.intersection( A_FACTORS, B_FACTORS ) )</var></span>.</span>
-                        <span data-if="isSingular(A)">With 1 <var>deskItem(1)</var>.</span><span data-else="">With <var>A</var> <var>plural_form(deskItem(1), A)</var>.</span>
-                        <span data-if="isSingular(B)">And with 1 <var>deskItem(2)</var>,
-                        <var>person(1)</var> can make any of the following sets:</span><span data-else="">And with <var>B</var> <var>plural_form(deskItem(2), B)</var>,
+                        <span>With <var>plural( A, deskItem(1) )</var>.</span>
+                        <span>And with <var>plural( B, deskItem(2) )</var>,
                         <var>person(1)</var> can make any of the following sets:</span>
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
-                            <span data-if="isSingular(F)">There 1 is 1 set.</span><span data-else="">There <var>F</var> are <var>F</var> sets.</span>
-                            <span data-if="isSingular(A / F)">Each set has 1 <var>deskItem(1)</var>.</span><span data-else="">Each set has <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var>.</span>
-                            <span data-if="isSingular(B / F)">Each set also has 1 <var>deskItem(2)</var>.</span><span data-else="">Each set also has <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var>.</span>
+                            <span>There <var>plural( F, "is" )</var> <var>plural( F, "set" )</var>.</span>
+                            <span>Each set has <var>plural( A / F, deskItem(1) )</var>.</span>
+                            <span>Each set also has <var>plural( B / F, deskItem(2) )</var>.</span>
                             <br>
                         </span>
                     </p>
@@ -822,8 +801,8 @@
 
                 <p>
                     <span><strong>The greatest number of sets of office supplies that <var>person(1)</var> can make is <var>GCD</var> sets</strong>.</span>
-                    <span data-if="isSingular(A / GCD)">Each set has 1 <var>deskItem(1)</var>.</span><span data-else="">Each set has <var>A / GCD</var> <var>plural_form(deskItem(1), A / GCD)</var>.</span>
-                    <span data-if="isSingular(B / GCD)">Each set also has 1 <var>deskItem(2)</var>.</span><span data-else="">Each set also has <var>B / GCD</var> <var>plural_form(deskItem(2), B / GCD)</var>.</span>
+                    <span>Each set has <var>plural( A / GCD, deskItem(1) )</var>.</span>
+                    <span>Each set also has <var>plural( B / GCD, deskItem(2) )</var>.</span>
                 </p>
             </div>
         </div>

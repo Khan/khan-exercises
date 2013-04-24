@@ -41,15 +41,15 @@
     <div class="problem">
         <p class="spin" data-if="LOCATION === 'grocery store'">
             {The buyer for|A statistician for|An executive of} a chain of supermarkets created the following stem-and-leaf plot
-            showing the number of <var>plural_form(ITEM)</var> at each of the stores:
+            showing the number of <var>plural( ITEM )</var> at each of the stores:
         </p>
         <p class="spin" data-if="LOCATION === 'department store'">
             {The buyer for|A statistician for|The regional manager of} a chain of department stores created the following stem-and-leaf plot
-            showing the number of <var>plural_form(ITEM)</var> at each of the stores:
+            showing the number of <var>plural( ITEM )</var> at each of the stores:
         </p>
         <p class="spin" data-if="LOCATION === 'zoo'">
             {The government|A conservation group|A zookeeper} {created|published} the following stem-and-leaf plot
-            showing the number of <var>plural_form(ITEM)</var> at each major zoo in the country:
+            showing the number of <var>plural( ITEM )</var> at each major zoo in the country:
         </p>
         <p>
             <code>
@@ -73,11 +73,11 @@
     <div class="hints">
         <p>
             The left column of the stem and leaf plot represents the tens place; each number on the right side
-            represents the ones place for the number of <var>plural_form(ITEM)</var> at a <var>LOCATION</var>.
+            represents the ones place for the number of <var>plural( ITEM )</var> at a <var>LOCATION</var>.
         </p>
         <div>
             <p>
-                We can combine the tens and ones places and write out the number of <var>plural_form(ITEM)</var> at each <var>LOCATION</var> on the right:
+                We can combine the tens and ones places and write out the number of <var>plural( ITEM )</var> at each <var>LOCATION</var> on the right:
             </p>
             <p>
                 <code>
@@ -114,25 +114,19 @@
             </p>
         </div>
         <div>
-            <p>Now we know the number of <var>plural_form(ITEM)</var> at the different <var>plural_form(LOCATION)</var>:</p>
+            <p>Now we know the number of <var>plural( ITEM )</var> at the different <var>plural( LOCATION )</var>:</p>
             <p><code>\qquad</code><var>toSentenceTex( RAW_DATA )</var></p>
         </div>
         <div>
             <p>
-            <span data-if="TYPE === 'smallest'">What was the fewest number of <var>plural_form(ITEM)</var> at any one <var>LOCATION</var>?</span>
-            <span data-else-if="TYPE === 'largest'">What was the largest number of <var>plural_form(ITEM)</var> at any one <var>LOCATION</var>?</span>
-            <span data-else="" data-if="isSingular(AMOUNT)">
-                How many <var>plural_form(LOCATION)</var> have
+            <span data-if="TYPE === 'smallest'">What was the fewest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
+            <span data-else-if="TYPE === 'largest'">What was the largest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
+            <span data-else="">
+                How many <var>plural( LOCATION )</var> have
                 <span data-if="TYPE === 'how-many'">exactly</span>
                 <span data-if="TYPE === 'less-than'">fewer than</span>
                 <span data-if="TYPE === 'greater-than'">more than</span>
-                1 <var>ITEM</var>?
-            </span><span data-else="">
-                How many <var>plural_form(LOCATION)</var> have
-                <span data-if="TYPE === 'how-many'">exactly</span>
-                <span data-if="TYPE === 'less-than'">fewer than</span>
-                <span data-if="TYPE === 'greater-than'">more than</span>
-                <var>AMOUNT</var> <var>plural_form(ITEM, AMOUNT)</var>?
+                <var>plural( AMOUNT, ITEM )</var>?
             </span>
             </p>
             <p data-if="SOLUTION &gt; 0">
@@ -166,20 +160,15 @@
                 </code>
             </p>
             <p><strong>
-                <span data-if="TYPE === 'smallest'"><span data-if="isSingular(SOLUTION)" data-unwrap="">The <var>LOCATION</var> with the fewest <var>plural_form(ITEM)</var> had 1 <var>ITEM</var>.</span><span data-else="" data-unwrap="">The <var>LOCATION</var> with the fewest <var>plural_form(ITEM)</var> had <var>SOLUTION</var> <var>plural_form(ITEM, SOLUTION)</var>.</span></span>
-                <span data-else-if="TYPE === 'largest'" data-if="isSingular(SOLUTION)">The <var>LOCATION</var> with the most <var>plural_form(ITEM)</var> had 1 <var>ITEM</var>.</span><span data-else="" data-else-if="TYPE === 'largest'">The <var>LOCATION</var> with the most <var>plural_form(ITEM)</var> had <var>SOLUTION</var> <var>plural_form(ITEM, SOLUTION)</var>.</span>
+                <span data-if="TYPE === 'smallest'">The <var>LOCATION</var> with the fewest <var>plural( ITEM )</var> had <var>plural( SOLUTION, ITEM )</var>.</span>
+                <span data-else-if="TYPE === 'largest'">The <var>LOCATION</var> with the most <var>plural( ITEM )</var> had <var>plural( SOLUTION, ITEM)</var>.</span>
                 <span data-else="">
-                    <span data-if="isSingular(SOLUTION)">There are 1 <var>LOCATION</var>.</span><span data-else="">There are <var>SOLUTION</var> <var>plural_form(LOCATION, SOLUTION)</var>.</span>
-                    <span data-if="isSingular(AMOUNT)">This is
+                    <span>There are <var>plural( SOLUTION, LOCATION )</var>.</span>
+                    <span>This is
                         <span data-if="TYPE === 'how-many'">exactly</span>
                         <span data-if="TYPE === 'less-than'">fewer than</span>
                         <span data-if="TYPE === 'greater-than'">more than</span>
-                        1 <var>ITEM</var>.
-                    </span><span data-else="">This is
-                        <span data-if="TYPE === 'how-many'">exactly</span>
-                        <span data-if="TYPE === 'less-than'">fewer than</span>
-                        <span data-if="TYPE === 'greater-than'">more than</span>
-                        <var>AMOUNT</var> <var>plural_form(ITEM, AMOUNT)</var>.
+                        <var>plural( AMOUNT, ITEM )</var>.
                     </span>
                 </span>
             </strong></p>
@@ -199,7 +188,7 @@
                 <var id="SOLUTION">_.reduce( RAW_DATA, function( memo, num ) { return num === AMOUNT ? ++memo : memo; }, 0 )</var>
             </div>
 
-            <p class="question" data-if="isSingular(AMOUNT)">How many <var>plural_form(LOCATION)</var> have exactly 1 <var>ITEM</var>?</p><p class="question" data-else="">How many <var>plural_form(LOCATION)</var> have exactly <var>AMOUNT</var> <var>plural_form(ITEM, AMOUNT)</var>?</p>
+            <p class="question">How many <var>plural( LOCATION )</var> have exactly <var>plural( AMOUNT, ITEM )</var>?</p>
 
             <div class="solution" data-type="multiple">
                 <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
@@ -214,7 +203,7 @@
                 <var id="SOLUTION">_.reduce( RAW_DATA, function( memo, num ) { return num &lt; AMOUNT ? ++memo : memo; }, 0 )</var>
             </div>
 
-            <p class="question" data-if="isSingular(AMOUNT)">How many <var>plural_form(LOCATION)</var> have fewer than 1 <var>ITEM</var>?</p><p class="question" data-else="">How many <var>plural_form(LOCATION)</var> have fewer than <var>AMOUNT</var> <var>plural_form(ITEM, AMOUNT)</var>?</p>
+            <p class="question">How many <var>plural( LOCATION )</var> have fewer than <var>plural( AMOUNT, ITEM )</var>?</p>
 
             <div class="solution" data-type="multiple">
                 <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
@@ -229,7 +218,7 @@
                 <var id="SOLUTION">_.reduce( RAW_DATA, function( memo, num ) { return num &gt; AMOUNT ? ++memo : memo; }, 0 )</var>
             </div>
 
-            <p class="question" data-if="isSingular(AMOUNT)">How many <var>plural_form(LOCATION)</var> have more than 1 <var>ITEM</var>?</p><p class="question" data-else="">How many <var>plural_form(LOCATION)</var> have more than <var>AMOUNT</var> <var>plural_form(ITEM, AMOUNT)</var>?</p>
+            <p class="question">How many <var>plural( LOCATION )</var> have more than <var>plural( AMOUNT, ITEM )</var>?</p>
 
             <div class="solution" data-type="multiple">
                 <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>SOLUTION</var></span> <var>plural( LOCATION )</var></p>
@@ -245,8 +234,8 @@
             </div>
 
             <p class="question">
-                <span data-if="TYPE === 'smallest'">What was the smallest number of <var>plural_form(ITEM)</var> at any one <var>LOCATION</var>?</span>
-                <span data-if="TYPE === 'largest'">What was the largest number of <var>plural_form(ITEM)</var> at any one <var>LOCATION</var>?</span>
+                <span data-if="TYPE === 'smallest'">What was the smallest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
+                <span data-if="TYPE === 'largest'">What was the largest number of <var>plural( ITEM )</var> at any one <var>LOCATION</var>?</span>
             </p>
 
             <div class="solution" data-type="multiple">
