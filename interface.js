@@ -375,7 +375,7 @@ function buildAttemptData(correct, attemptNum, attemptContent, timeTaken,
         stack_uid: Exercises.completeStack.getUid(),
 
         // The current topic, if any
-        topic_id: Exercises.topic && Exercises.topic.id,
+        topic_slug: Exercises.topic && Exercises.topic.get("slug"),
 
         // How many cards the user has already done
         cards_done: Exercises.completeStack.length,
