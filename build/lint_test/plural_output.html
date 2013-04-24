@@ -50,5 +50,14 @@
         The length is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var> and
         the width is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var>.
     </p>
+
+    <!-- Test 6: pluralTex: area_of_triangles_1 -->
+    <p data-if="isSingular(B)">
+        The base of the triangle is
+        <code><var>B</var></code> <var>UNIT_TEXT</var>.
+    </p><p data-else="">
+        The base of the triangle is
+        <code><var>B</var></code> <var>plural_form(UNIT_TEXT, B)</var>.
+    </p>
 </body>
 </html>

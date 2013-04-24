@@ -20,8 +20,8 @@ TESTS = {
             'Re-run with --fix to automatically fix them.']
     },
     'plural': {
-        'nodes_changed': 11,
-        'errors': ['11 nodes need to be fixed. '
+        'nodes_changed': 13,
+        'errors': ['13 nodes need to be fixed. '
             'Re-run with --fix to automatically fix them.']
     },
     'ternary': {

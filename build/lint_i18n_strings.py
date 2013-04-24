@@ -594,7 +594,7 @@ class AlwaysPluralFilter(BaseFilter):
     # Map old function name to new function name
     _function_map = {
         'plural': 'plural_form(%s)',
-        'pluralTex': 'plural_form_tex(%s)'
+        'pluralTex': 'plural_form(%s)'
     }
     # Matches plural(...)
     _regex = re.compile(r'^\s*(plural|pluralTex)'
@@ -710,7 +710,7 @@ class PluralFilter(IfElseFilter):
     # Map old function name to new function name
     _function_map = {
         'plural': 'plural_form(%s, %s)',
-        'pluralTex': 'plural_form_tex(%s, %s)'
+        'pluralTex': 'plural_form(%s, %s)'
     }
     _ngetpos_condition = 'isSingular(%s)'
     # See if it matches the form plural|pluralTex(..., ...)
@@ -831,10 +831,6 @@ class PluralFilter(IfElseFilter):
                 singular_var_node = var_node.makeelement('var')
                 plural_var_node = cloned_var.makeelement('var')
 
-                # Insert the new node after the <var>
-                var_node.addnext(singular_var_node)
-                cloned_var.addnext(plural_var_node)
-
                 # In the singular case we just output <var>STRING_VAR</var>
                 singular_var_node.text = match.group(3).strip()
 
@@ -843,8 +839,33 @@ class PluralFilter(IfElseFilter):
                 plural_var_node.text = (pluralize %
                     (match.group(3).strip(), match.group(2).strip()))
 
+                # Insert the new node after the <var>
+                var_node.addnext(singular_var_node)
+                cloned_var.addnext(plural_var_node)
+
                 # Insert a space between the two <var>s
                 var_node.tail = cloned_var.tail = ' '
+
+                # Handle the special case where we have a pluralTex, we need to
+                # wrap the <var> elements in a <code> element
+                if match.group(1).strip() == 'pluralTex':
+                    code_var_node = var_node.makeelement('code')
+                    code_cloned_var = cloned_var.makeelement('code')
+
+                    # Set the tail text to be the same as the <var>s
+                    code_var_node.tail = var_node.tail
+                    code_cloned_var.tail = cloned_var.tail
+
+                    # Remove the tail text of the <var>s
+                    var_node.tail = cloned_var.tail = ''
+
+                    # Insert the <code> elements before the <var>s
+                    var_node.addprevious(code_var_node)
+                    cloned_var.addprevious(code_cloned_var)
+
+                    # Insert the <var>s into the container <code>
+                    code_var_node.append(var_node)
+                    code_cloned_var.append(cloned_var)
 
             # Number is in the second position, this just outputs the plural
             # form of the word depending upon the number. This is what we want
