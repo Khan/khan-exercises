@@ -22,7 +22,7 @@
 <body>
 <div class="exercise">
     <div class="vars">
-        <var id="DATA">randRangeUnique( 1, 8, 5 )</var>
+        <var id="DATA">randRangeUnique( 1, 7, 5 )</var>
         <var id="BADGE">randFromArray([ "meteorite", "moon", "earth" ])</var>
         <var id="FULL_IMAGE">"&lt;img src='" + Khan.imageBase + "badges/" + BADGE + "-small.png'&gt;"</var>
         <var id="HALF_IMAGE">"&lt;div style=\"background-image:url('" + Khan.imageBase + "badges/" + BADGE + "-small.png'); width:20px; height:40px;\"&gt;&nbsp;&lt;/div&gt;"</var>
@@ -67,20 +67,17 @@
                     </div>
                 </div>
                 <p>
-                    <span>There <var>plural( "is", DATA[PERSON] )</var> <var>plural( DATA[PERSON], "full symbol" )</var><span data-if="HALF[ PERSON ]"> and 1 half symbol</span>.</span>
-                    <span data-if="HALF[ PERSON ]">
-                        <span>The full symbols represent <var>plural( VALUE_PER_IMG, "badge" )</var>.</span>
-                        <span>The half symbol must represent <var>plural( VALUE_PER_IMG/2, "badge" )</var>.</span>
-                    </span>
+                    There <var>plural( "is", DATA[PERSON] )</var> <var>plural( DATA[ PERSON ], "full symbol" )</var><span data-if="HALF[ PERSON ]"> and 1 half symbol</span>.
+                    <span data-if="HALF[ PERSON ]">The full symbols represent <var>plural( VALUE_PER_IMG, "badge" )</var>, so the half symbol must represent <var>plural( VALUE_PER_IMG/2, "badge" )</var>.</span>
                 </p>
 
                 <div>
                     <div>
                         <code><var>DATA[ PERSON ]</var></code> <var>plural( "symbol", DATA[ PERSON ] )</var>
-                        <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <span><var>plural( "badge", VALUE_PER_IMG )</var> per symbol</span> <code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code>
-                        <var>plural( "badge", DATA[ PERSON ] * VALUE_PER_IMG )</var>
+                        <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbol <code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code>
+                        <var>plural( "badge", DATA[ PERSON ] * VALUE_PER_IMG )</var>.
                         <span data-if="HALF[ PERSON ]">
-                            <br><code>1</code> half symbol <code> \times <var>VALUE_PER_IMG/2</var></code> <span><var>plural( "badge", VALUE_PER_IMG / 2 )</var> per half symbol</span> <code> = <var>VALUE_PER_IMG / 2</var></code>
+                            <br><code>1</code> half symbol <code> \times <var>VALUE_PER_IMG/2</var></code> <var>plural( "badge", VALUE_PER_IMG / 2 )</var> per half symbol <code> = <var>VALUE_PER_IMG / 2</var></code>
                             <var>plural( "badge", VALUE_PER_IMG / 2 )</var>.
                         </span>
                     </div>
@@ -117,16 +114,14 @@
                     </code>
                 </p>
                 <div>
-                    <p data-if="isMale(PERSON + 1)">Who has <code><var>NUM_SYMBOLS</var></code> <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var> next to his name?</p><p data-else="">Who has <code><var>NUM_SYMBOLS</var></code> <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var> next to her name?</p>
-                    
+                    <p>Who has <code><var>NUM_SYMBOLS</var></code> <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var> next to <var>his( PERSON + 1 )</var> name?</p>
                     <div class="fake_row">
                         <span>???</span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON ]"><var>HALF_IMAGE</var>
                         </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&nbsp;</span>
                     </div>
                 </div>
-                <p data-if="isMale(PERSON + 1)"><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var> next to his name.</p><p data-else=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var> next to her name.</p>
-                
+                <p><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var> next to <var>his( PERSON + 1 )</var> name.</p>
                 <p><var>person( PERSON + 1 )</var> earned <code><var>VALUE</var></code> <var>BADGE</var> <var>plural( "badge", VALUE )</var>.</p>
             </div>
         </div>
@@ -163,19 +158,15 @@
                         </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON2 ]) times">&nbsp;</span>
                     </div>
                 </div>
-                <p data-if="isMale(PERSON1 + 1)">
-                    <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more <var>plural( "symbol", SYMBOL_DIFF )</var> next to his name than <var>person( PERSON2 + 1 )</var> does.
-                </p><p data-else="">
-                    <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more <var>plural( "symbol", SYMBOL_DIFF )</var> next to her name than <var>person( PERSON2 + 1 )</var> does.
+                <p>
+                    <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more <var>plural( "symbol", SYMBOL_DIFF )</var> next to <var>his( PERSON1 + 1 )</var> name than <var>person( PERSON2 + 1 )</var> does.
                 </p>
-
-                
 
                 <div>
                     <div>
                         <code><var>PRETTY_SYM_DIFF</var></code> <var>plural( "symbol", SYMBOL_DIFF )</var>
-                        <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <span><var>plural( "badge", VALUE_PER_IMG )</var> per symbol</span> <code> = <var>VAL1 - VAL2</var></code>
-                        <var>plural( "badge", VAL1 - VAL2 )</var>
+                        <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbol <code> = <var>VAL1 - VAL2</var></code>
+                        <var>plural( "badge", VAL1 - VAL2 )</var>.
                     </div>
                 </div>
                 <p><var>person( PERSON1 + 1 )</var> earned <code><var>VAL1 - VAL2</var></code> more <var>BADGE</var> <var>plural( "badge", VAL1 - VAL2 )</var> than <var>person( PERSON2 + 1 )</var>.</p>
@@ -197,19 +188,18 @@
                 <p>Start by counting the total number of <var>BADGE</var> symbols.</p>
                 <p>There are <code><var>FULL_SYM</var></code> symbols<span data-if="HALF_SYM !== 0"> and <code><var>HALF_SYM</var></code> half symbols</span>.</p>
                 <p>
-                    <span>Each symbol represents <code><var>VALUE_PER_IMG</var></code> <var>BADGE</var> <var>plural( "badge", VALUE_PER_IMG )</var>.</span>
-                <span data-if="HALF_SYM !== 0">
-                    Each half symbol represents <code><var>VALUE_PER_IMG / 2</var></code> <var>BADGE</var> <var>plural( "badge", VALUE_PER_IMG / 2 )</var>.</span>
+                    Each symbol represents <code><var>VALUE_PER_IMG</var></code> <var>BADGE</var> <var>plural( "badge", VALUE_PER_IMG )</var><span data-if="HALF_SYM !== 0">
+                    and each half symbol represents <code><var>VALUE_PER_IMG / 2</var></code> <var>BADGE</var> <var>plural( "badge", VALUE_PER_IMG / 2 )</var></span>.
                 </p>
                 <div>
                     <div>
                         <code><var>FULL_SYM</var></code> <var>plural( "symbol", FULL_SYM )</var>
-                        <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <span><var>plural( "badge", VALUE_PER_IMG )</var> per symbol</span> <code> = <var>FULL_SYM * VALUE_PER_IMG</var></code>
-                        <var>plural( "badge", FULL_SYM * VALUE_PER_IMG )</var>
+                        <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbol <code> = <var>FULL_SYM * VALUE_PER_IMG</var></code>
+                        <var>plural( "badge", FULL_SYM * VALUE_PER_IMG )</var>.
                         <span data-if="HALF_SYM">
-                            <br><span><code><var>HALF_SYM</var></code> half <var>plural( "symbol", HALF_SYM )</var></span>
-                            <code> \times <var>VALUE_PER_IMG/2</var></code> <span><var>plural( "badge", VALUE_PER_IMG / 2 )</var> per half symbol</span> <code> = <var>HALF_SYM * VALUE_PER_IMG / 2</var></code>
-                            <var>plural( "badge", HALF_SYM * VALUE_PER_IMG / 2 )</var>
+                            <br><code><var>HALF_SYM</var></code> half <var>plural( "symbol", HALF_SYM )</var>
+                            <code> \times <var>VALUE_PER_IMG/2</var></code> <var>plural( "badge", VALUE_PER_IMG / 2 )</var> per half symbol <code> = <var>HALF_SYM * VALUE_PER_IMG / 2</var></code>
+                            <var>plural( "badge", HALF_SYM * VALUE_PER_IMG / 2 )</var>.
                         </span>
                     </div>
                 </div>
