@@ -254,8 +254,11 @@
                 \qquad<var>FACTORIZATION.join("\\space\\color{black}{\\cdot}\\space")</var>
             </code></p>
             <div data-if="HAS_EXPONENTS">
-                <p>
-                    Because there <var>FACTORIZATION[0] === FACTORIZATION[1] ? "are" : "is"</var>
+                <p data-if="FACTORIZATION[0] === FACTORIZATION[1]">
+                    Because there are
+                    <var>toSentence(EXPONENT_HINT)</var>, we can use exponents to write the prime factorization as:
+                </p><p data-else="">
+                    Because there is
                     <var>toSentence(EXPONENT_HINT)</var>, we can use exponents to write the prime factorization as:
                 </p>
                 <p><code>\qquad\blue{<var>SOLUTION</var>} = <var>NUMBER</var></code></p>

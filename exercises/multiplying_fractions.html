@@ -21,8 +21,8 @@
     <div class="problems">
         <div>
             <div class="question">
-                <p><code><span data-if="A < 0">-</span> \dfrac{<var>abs(A)</var>}{<var>B</var>} \times 
-                         <span data-if="C < 0">-</span> \dfrac{<var>abs(C)</var>}{<var>D</var>}</code></p>
+                <p><code><span data-if="A &lt; 0">-</span> \dfrac{<var>abs(A)</var>}{<var>B</var>} \times 
+                         <span data-if="C &lt; 0">-</span> \dfrac{<var>abs(C)</var>}{<var>D</var>}</code></p>
             </div>
             <div class="solution" data-type="rational"><var>(A * C) / (B * D)</var></div>
         </div>
@@ -31,7 +31,7 @@
     <div class="hints">
         <p><code>= \dfrac{<var>A</var> \times <var>C</var>}{<var>B</var> \times <var>D</var>}</code></p>
         <p><code>= \dfrac{<var>A * C</var>}{<var>B * D</var>}</code></p>
-        <p data-if="getGCD(A * C, B * D) !== 1 || A * C < 0"><code>= <var>fractionReduce(A * C, B * D)</var></code></p>
+        <p data-if="getGCD(A * C, B * D) !== 1 || A * C &lt; 0"><code>= <var>fractionReduce(A * C, B * D)</var></code></p>
     </div>
     </div>
 </body>

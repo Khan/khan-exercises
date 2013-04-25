@@ -22,14 +22,17 @@
                 <var id="S">randRange(2, 8)</var>
             </div>
 
-            <p class="question">
+            <p class="question"><span data-if="isSingular(S)" data-unwrap="">
                 One side of a square is <code><var>S</var></code>
-                <var>plural(UNIT_TEXT, S)</var> long. What is its area?
-            </p>
+                <var>S</var> long. What is its area?
+            </span><span data-else="" data-unwrap="">
+                One side of a square is <code><var>S</var></code>
+                <var>plural_form(UNIT_TEXT, S)</var> long. What is its area?
+            </span></p>
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>S * S</var></span> square
-                <var>plural(UNIT_TEXT)</var>
+                <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -56,11 +59,16 @@
                             });
                         });
                     </div>
-                    <p>
-                        The length is <var>plural(S, UNIT_TEXT)</var> and
-                        the width is <var>plural(S, UNIT_TEXT)</var>, so the
+                    <p data-if="isSingular(S)">
+                        The length is <var>S</var> <var>UNIT_TEXT</var> and
+                        the width is <var>S</var> <var>UNIT_TEXT</var>, so the
                         area is <code><var>S</var>\times<var>S</var></code>
-                        square <var>plural(UNIT_TEXT)</var>.
+                        square <var>plural_form(UNIT_TEXT)</var>.
+                    </p><p data-else="">
+                        The length is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var> and
+                        the width is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var>, so the
+                        area is <code><var>S</var>\times<var>S</var></code>
+                        square <var>plural_form(UNIT_TEXT)</var>.
                     </p>
                 </div>
                 <div>
@@ -70,7 +78,7 @@
                     </code></p>
                     <p>
                         We can also count <var>S * S</var>
-                        square <var>plural(UNIT_TEXT)</var>.
+                        square <var>plural_form(UNIT_TEXT)</var>.
                     </p>
                     <div class="graphie" data-update="area">
                         _(S * S).times(function(n) {
@@ -90,7 +98,7 @@
 
             <p class="question">
                 The area of a square is <code><var>S * S</var></code>
-                square <var>plural(UNIT_TEXT)</var>. How long is each side?
+                square <var>plural_form(UNIT_TEXT)</var>. How long is each side?
             </p>
 
             <div class="solution" data-type="multiple">
@@ -129,10 +137,14 @@
                         \pink{<var>S</var>} =
                         <var>S * S</var>\text{ <var>UNIT</var>}
                     </code></p>
-                    <p>
+                    <p data-if="isSingular(S)">
                         The sides of a square are all the same length, so each
                         side must be <code><var>S</var></code>
-                        <var>plural(UNIT_TEXT, S)</var> long.
+                        <var>S</var> long.
+                    </p><p data-else="">
+                        The sides of a square are all the same length, so each
+                        side must be <code><var>S</var></code>
+                        <var>plural_form(UNIT_TEXT, S)</var> long.
                     </p>
                 </div>
             </div>
@@ -145,17 +157,21 @@
             </div>
 
             <p class="question">
-                <span>A rectangle is
-                <code><var>L</var></code> <var>plural(UNIT_TEXT, L)</var>
+                <span data-if="isSingular(L)">A rectangle is
+                <code><var>L</var></code> <var>L</var>
+                long.</span><span data-else="">A rectangle is
+                <code><var>L</var></code> <var>plural_form(UNIT_TEXT, L)</var>
                 long.</span>
-                <span>The rectangle is also
-                <code><var>W</var></code> <var>plural(UNIT_TEXT, W)</var>
+                <span data-if="isSingular(W)">The rectangle is also
+                <code><var>W</var></code> <var>W</var>
+                wide. What is its area?</span><span data-else="">The rectangle is also
+                <code><var>W</var></code> <var>plural_form(UNIT_TEXT, W)</var>
                 wide. What is its area?</span>
             </p>
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>L * W</var></span> square
-                <var>plural(UNIT_TEXT)</var>
+                <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -185,11 +201,11 @@
                         });
                     </div>
                     <p>
-                        <span>The length is <var>plural(L, UNIT_TEXT)</var>.</span>
-                        <span>The width is <var>plural(W, UNIT_TEXT)</var>.</span>
+                        <span data-if="isSingular(L)">The length is <var>L</var> <var>UNIT_TEXT</var>.</span><span data-else="">The length is <var>L</var> <var>plural_form(UNIT_TEXT, L)</var>.</span>
+                        <span data-if="isSingular(W)">The width is <var>W</var> <var>UNIT_TEXT</var>.</span><span data-else="">The width is <var>W</var> <var>plural_form(UNIT_TEXT, W)</var>.</span>
                         <span>Thus the
                         area is <code><var>L</var>\times<var>W</var></code>
-                        square <var>plural(UNIT_TEXT)</var>.</span>
+                        square <var>plural_form(UNIT_TEXT)</var>.</span>
                     </p>
                 </div>
                 <div>
@@ -199,7 +215,7 @@
                     </code></p>
                     <p>
                         We can also count <var>L * W</var>
-                        square <var>plural(UNIT_TEXT)</var>.
+                        square <var>plural_form(UNIT_TEXT)</var>.
                     </p>
                     <div class="graphie" data-update="area">
                         _(L * W).times(function(n) {

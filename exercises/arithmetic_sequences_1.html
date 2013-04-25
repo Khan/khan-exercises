@@ -25,7 +25,7 @@
 
             <div class="hints">
                 <p>In any arithmetic sequence, each term is equal to the previous term plus the common difference.</p>
-                <p>Thus, the second term is equal to the first term plus the common difference. In this sequence, the second term, <code><var>A + D</var></code>, is <code><var>abs(D)</var></code> <var>D &gt; 0 ? "more" : "less"</var> than the first term, <code><var>A</var></code>.</p>
+                <p data-if="D > 0">Thus, the second term is equal to the first term plus the common difference. In this sequence, the second term, <code><var>A + D</var></code>, is <code><var>abs(D)</var></code> more than the first term, <code><var>A</var></code>.</p><p data-else="">Thus, the second term is equal to the first term plus the common difference. In this sequence, the second term, <code><var>A + D</var></code>, is <code><var>abs(D)</var></code> less than the first term, <code><var>A</var></code>.</p>
                 <p>Therefore, the common difference is <code><var>D</var></code>.</p>
                 <p>The <var>ordinal(N + 1)</var> term in the sequence is equal to the <var>ordinal(N)</var> term plus the common difference, or <code><var>A + D * (N - 1)</var> + <var>D</var> = <var>A + D * N</var></code>.</p>
             </div>

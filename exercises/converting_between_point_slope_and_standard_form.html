@@ -69,14 +69,14 @@
                         Plug in <code class="hint_blue"><var>HINT_X1</var></code> as the value of <code>x</code> in the original equation in order to get
                         <code class="hint_blue">y_{1}</code>.
                     </p>
-                    <p><code><var>A</var>\color{<var>BLUE</var>}{(<var>HINT_X1</var>)} <span data-if="B > 0">+</span><span data-else="">-</span>
+                    <p><code><var>A</var>\color{<var>BLUE</var>}{(<var>HINT_X1</var>)} <span data-if="B &gt; 0">+</span><span data-else="">-</span>
                     <span data-if="abs( B ) !== 1"><var>abs( B )</var></span>\color{<var>BLUE</var>}{y_1} = <var>C</var></code></p>
                 </div>
                 <p><code class="hint_blue">y_1 = <var>( -A * HINT_X1 + C ) / B</var></code></p>
                 <div>
                     <p class="final_answer">Thus, the equation can be written in point-slope form as:</p>
                     <p><code>\qquad y - \color{<var>BLUE</var>}{(<var>HINT_Y1</var>)} = \color{<var>PINK</var>}{<var>SLOPE</var>}(x - \color{<var>BLUE</var>}{(<var>HINT_X1</var>)})</code></p>
-                    <p><code>\qquad <var>plus( "y", -HINT_Y1 )</var> = <span data-if="SLOPE < 0">-</span><span data-if="abs( SLOPE ) !== 1">
+                    <p><code>\qquad <var>plus( "y", -HINT_Y1 )</var> = <span data-if="SLOPE &lt; 0">-</span><span data-if="abs( SLOPE ) !== 1">
                     <var>abs( SLOPE )</var></span>( <var>plus( "x", -HINT_X1 )</var> )</code></p>
                 </div>
                 <div>
@@ -144,7 +144,7 @@
                     <p>Move the constant of <code><var>-1 * Y1</var></code> to the right side of the equation.</p>
                     <p><code><var>expr([ '*', -SLOPE, "x" ])</var> + y = <var>( -SLOPE * X1 ) + Y1</var> </code></p>
                 </div>
-                <div data-if="SLOPE >= 0">
+                <div data-if="SLOPE &gt;= 0">
                     <p>Multiply both sides by <code>-1</code>.</p>
                     <p><code><var>expr([ '*', SLOPE, "x" ])</var> - y = <var>-Y1 + ( SLOPE * X1 )</var></code></p>
                 </div>
@@ -152,7 +152,7 @@
                 <div>
                     <p>Behold the magic of math! The line
                         <code>
-                            <span data-if="SLOPE >= 0">
+                            <span data-if="SLOPE &gt;= 0">
                                 <var>expr([ '*', SLOPE, "x" ])</var> - y = <var>-Y1 + ( SLOPE * X1 )</var>
                             </span>
                             <span data-else="">
