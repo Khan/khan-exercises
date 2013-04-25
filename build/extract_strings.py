@@ -352,6 +352,7 @@ def clean_data_if(match):
 
     return 'data-if="%s"' % condition
 
+
 def babel_extract(fileobj, keywords, comment_tags, options):
     """Babel extraction method for exercises templates.
 
