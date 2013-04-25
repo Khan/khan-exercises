@@ -157,6 +157,12 @@ $.extend(KhanUtil, {
         "row": function(num) {
             return $.ngettext("row", "rows", num);
         },
+        "sit-up": function(num) {
+            return $.ngettext("sit-up", "sit-ups", num);
+        },
+        "squat": function(num) {
+            return $.ngettext("squat", "squats", num);
+        },
         "quiz": function(num) {
             return $.ngettext("quiz", "quizzes", num);
         },
