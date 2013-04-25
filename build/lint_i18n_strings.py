@@ -361,6 +361,10 @@ class IfElseFilter(BaseFilter):
      - extract_key: A method for pulling a unique key from a match.
      - get_condition: A method that returns the condition to add to the node.
     """
+    # Keep track of node class names which should should not be directly 
+    # modified, in which only an inner <span> should be used.
+    _blacklist_classes = ['problem', 'question']
+
     def process_node(self, orig_node):
         """Process a single node.
 
@@ -461,22 +465,46 @@ class IfElseFilter(BaseFilter):
         # Run the BaseFilter process_vars
         return super(IfElseFilter, self).process_vars(fixable_vars)
 
+    def can_have_if(self, node):
+        """Determines if a node can be modified using a data-if/data-else.
+
+        Nodes that already have a data-if or data-else should not be modified
+        and we end up wrapping the inner contents of the node instead.
+
+        Additionally certain blacklisted nodes should not be modified, such as
+        'question' or 'problem' nodes, of which there should only be one.
+
+        Returns True if the node can be modified, False if not.
+        """
+        # Get the class from the element
+        className = node.get('class')
+
+        # If the node has a class and contains one of the blacklisted names
+        # then we immediately fail.
+        if className:
+            for banned_class in self._blacklist_classes:
+                if banned_class in className:
+                    return False
+
+        # Otherwise we fail if a data-if or data-else exists
+        return not node.get('data-if') and node.get('data-else') is None
+
     def replace_node(self, orig_node, node):
-        """Replace the node only if it doesn't have a data-if/data-else.
+        """Replace the node only if it can have an data-if added to it.
 
         This is because nodes that have a data-if or data-else are left
         in-place and new wrappers were generated and injected in copy_node.
         """
-        if not orig_node.get('data-if') and not orig_node.get('data-else'):
+        if self.can_have_if(orig_node):
             return super(IfElseFilter, self).replace_node(orig_node, node)
 
     def copy_node(self, orig_node):
-        """Copy the node only if it doesn't have a data-if/data-else.
+        """Copy the node only if it can't have an data-if added to it.
         
         We leave nodes that have a data-if or data-else in-place and new
         <span> wrappers are generated and injected instead.
         """
-        if orig_node.get('data-if') or orig_node.get('data-else'):
+        if not self.can_have_if(orig_node):
             # We clone the node to make sure we don't unintentionally modify
             # the original node.
             node = copy.deepcopy(orig_node)
