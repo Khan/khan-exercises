@@ -1048,7 +1048,8 @@ $.extend(KhanUtil, {
                             }).join(" and ");
                 var fnVar = moveDeriv ? "f'(x)" : "F(x)";
                 lastHint = $._("The function in the window corresponds to " +
-                    "<code>%s</code> where %s.", fnVar, solnText);
+                    "<code>%(fnVar)s</code> where %(solution)s.",
+                    {fnVar: fnVar, solution: solnText});
 
                 var firstAnswer = this.problemRanges[0][0];
                 hints.push("<p>" + lastHint + "</p>");
