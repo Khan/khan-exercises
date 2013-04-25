@@ -343,6 +343,7 @@ def get_page_html(html_tree):
 
 def clean_data_if(match):
     """Clean up entities in data-if attributes."""
+    quote = match.group(1)
     condition = match.group(2)
 
     # Make sure any common entities are cleaned up, to help
@@ -350,7 +351,7 @@ def clean_data_if(match):
     for entity, replace in _CLEAN_ENTITIES.iteritems():
         condition = re.sub(entity, replace, condition)
 
-    return 'data-if="%s"' % condition
+    return 'data-if=%s%s%s' % (quote, condition, quote)
 
 
 def babel_extract(fileobj, keywords, comment_tags, options):
