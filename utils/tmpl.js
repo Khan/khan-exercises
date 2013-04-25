@@ -34,7 +34,11 @@ $.tmpl = {
             value = value && $.tmpl.getVAR(value);
 
             // Save the result of this data-if in the next sibling for data-else-if and data-else
-            $elem.next().data("lastCond", value);
+            // Only save the value if no previous value has been set
+            var $nextElem = $elem.next();
+            if ($nextElem.data("lastCond") === undefined) {
+                $nextElem.data("lastCond", value);
+            }
 
             if (!value) {
                 // Delete the element if the data-if evaluated to false
@@ -51,7 +55,11 @@ $.tmpl = {
             value = !lastCond && value && $.tmpl.getVAR(value);
 
             // Succeeding elements care about the visibility of both me and my preceding siblings
-            $elem.next().data("lastCond", lastCond || value);
+            // Only save the value if no previous value has been set
+            var $nextElem = $elem.next();
+            if ($nextElem.data("lastCond") === undefined) {
+                $nextElem.data("lastCond", lastCond || value);
+            }
 
             if (!value) {
                 // Delete the element if appropriate

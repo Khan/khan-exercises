@@ -92,7 +92,7 @@
                 </div>
 
                 <p class="solution">
-                    <span data-if="!IS_OR &amp;&amp; SINGLE_SOLUTION"><code><var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var></code></span>
+                    <span data-if="!IS_OR && SINGLE_SOLUTION"><code><var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var></code></span>
                     <span data-else-if="IS_OR &amp;&amp; ALL_NUMBERS">All real numbers.</span>
                     <span data-else-if="IS_OR &amp;&amp; CONTAINS"><code><var>VARIABLE_NAME + COMP_SOLUTION[CONTAINS - 1] + SOLUTION[CONTAINS - 1]</var></code></span>
                     <span data-else-if="!IS_OR &amp;&amp; CONTAINS"><code><var>VARIABLE_NAME + COMP_SOLUTION[IS_CONTAINED - 1] + SOLUTION[IS_CONTAINED - 1]</var></code></span>
@@ -114,15 +114,15 @@
                         <li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + SOLUTION[1]</var></code></li>
                         <li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + FAKE_ANSWER[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + FAKE_ANSWER[1]</var></code></li>
                     </div>
-                    <div data-if="COMP[0] !== COMP_SOLUTION[0] &amp;&amp; COMP[1] !== COMP_SOLUTION[1]" data-unwrap="">
+                    <div data-if="COMP[0] !== COMP_SOLUTION[0] && COMP[1] !== COMP_SOLUTION[1]" data-unwrap="">
                         <li><code><var>VARIABLE_NAME + COMP[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + SOLUTION[1]</var></code></li>
                         <li><code><var>VARIABLE_NAME + COMP[0] + FAKE_ANSWER[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + FAKE_ANSWER[1]</var></code></li>
                     </div>
                     <li data-if="LEFT_INT[0] !== 0 || LEFT_INT[1] !== 0"><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + round( ( RIGHT_INT[0] - ADD_TO_SIMPLIFY[0] ) / COEF[0] )</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] +
                         round( ( RIGHT_INT[1] - ADD_TO_SIMPLIFY[1] ) / COEF[1] )</var></code></li>
-                    <li data-if="IS_OR &amp;&amp; !ALL_NUMBERS">All real numbers.</li>
-                    <li data-if="!IS_OR &amp;&amp; !NO_SOLUTION">No solution.</li>
-                    <li data-if="!IS_OR &amp;&amp; SINGLE_SOLUTION"><code><var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var></code></li>
+                    <li data-if="IS_OR && !ALL_NUMBERS">All real numbers.</li>
+                    <li data-if="!IS_OR && !NO_SOLUTION">No solution.</li>
+                    <li data-if="!IS_OR && SINGLE_SOLUTION"><code><var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var></code></li>
                 </ul>
 
                 <div class="hints">

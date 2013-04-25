@@ -119,7 +119,7 @@
             <p>
                 <code><var>NUM</var></code> <var>plural( RESPONDENT, NUM )</var> said their
                 favorite <var>SUBJECT</var> was <var>CATEGORIES[ INDEX ]</var>.
-                <span data-if="NUM &gt; 0">
+                <span data-if="NUM > 0">
                     So the top of the bar for "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>" should line up with the number
                     <code><var>NUM</var></code> on the left side of the chart.
                 </span>
@@ -128,7 +128,7 @@
                     the way to the bottom to get rid of the bar.
                 </span>
             </p>
-            <div class="graphie" data-if="NUM &gt; 0" data-update="barchart">
+            <div class="graphie" data-if="NUM > 0" data-update="barchart">
                 style({ stroke: ORANGE, fill: "none", strokeWidth: 1, strokeDasharray: "- " }, function() {
                     path([ [ INDEX * 3 + 1, 0 ], [ INDEX * 3 + 1, NUM ], [ INDEX * 3 + 3, NUM ], [ INDEX * 3 + 3, 0 ] ]).toBack();
                 });

@@ -221,7 +221,7 @@
             <p><code><var>SPEED1</var>t + <var>SPEED2 * TIME</var> - <var>SPEED2</var>t = <var>DIST</var></code></p>
 
             <div>
-                <div data-if="SPEED1 &gt; SPEED2">
+                <div data-if="SPEED1 > SPEED2">
                     <p><code><var>SPEED1 - SPEED2</var>t = <var>DIST - SPEED2 * TIME</var></code></p>
                 </div>
                 <div data-else="">
@@ -232,7 +232,7 @@
             <p>
                 Therefore, <var>person(1)</var> traveled by <var>vehicle(1)</var> for 
                 <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
-                <span data-else=""><code><var>T1[0]</var></code></span> hour<span data-if="T1[0] &gt; T1[1]">s</span>.
+                <span data-else=""><code><var>T1[0]</var></code></span> hour<span data-if="T1[0] > T1[1]">s</span>.
             </p>
 
         </div>
