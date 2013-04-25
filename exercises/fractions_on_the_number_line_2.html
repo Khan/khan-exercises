@@ -79,11 +79,11 @@
             </div>
 
             <div class="hints">
-                <p> Because <code>\color{orange}{<var>NUMBER</var>}</code> is <span data-if="SOLUTION &gt; 0">positive</span>
-                <span data-else="">negative</span> the orange dot will be to the <span data-if="SOLUTION &gt; 0">right</span>
+                <p> Because <code>\color{orange}{<var>NUMBER</var>}</code> is <span data-if="SOLUTION > 0">positive</span>
+                <span data-else="">negative</span> the orange dot will be to the <span data-if="SOLUTION > 0">right</span>
                 <span data-else="">left</span> of 0.</p>
 
-                <div data-if="IS_MIXED &lt; 1 &amp;&amp; abs(SOLUTION) &gt; 1">
+                <div data-if="IS_MIXED < 1 && abs(SOLUTION) > 1">
                     <p>Let's convert the improper fraction <code>\color{orange}{<var>NUMBER</var>}</code> to a mixed number:</p>
                     <p><code>\color{orange}{<var>NUMBER</var>}</code> = <code>\color{blue}{<var>M_NUMBER</var>}</code></p>
                 </div>
@@ -100,7 +100,7 @@
 
                 <div>
                     <p><code>\color{blue}{<var>M_NUMBER</var>}</code> is <code>\color{green}{<var>fraction(M_NUMERATOR, DENOMINATOR)</var>}</code>
-                    to the <span data-if="SOLUTION &gt; 0">right</span><span data-else="">left</span> of <code>\color{green}{<var>M_WHOLE</var>}</code>
+                    to the <span data-if="SOLUTION > 0">right</span><span data-else="">left</span> of <code>\color{green}{<var>M_WHOLE</var>}</code>
                     on the number line.</p>
                     <div class="graphie" data-update="number-line">
                         style({ stroke: GREEN, fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
