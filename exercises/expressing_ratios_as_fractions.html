@@ -16,7 +16,11 @@
 
     <div class="problems">
         <div>
-            <p class="question"><var>person(1)</var> has <var>plural( NUM, fruit( 0 ) )</var> for every <var>plural( DENOM, fruit( 1 ) )</var>. Write the ratio of <var>fruit( 0 )</var>s to <var>fruit( 1 )</var>s as a simplified fraction.</p>
+            <p class="question">
+                <!--TODO(jeresig): I18N: Find a better way to rewrite this.-->
+                <span data-if="isSingular(NUM)"><var>person(1)</var> has <var>NUM</var> <var>fruit( 0 )</var></span><span data-else=""><var>person(1)</var> has <var>NUM</var> <var>plural_form(fruit( 0 ), NUM)</var></span><span data-if="isSingular(DENOM)">for every  <var>DENOM</var> <var>fruit( 1 )</var></span><span data-else="">for every  <var>DENOM</var> <var>plural_form(fruit( 1 ), DENOM)</var></span>
+                <span>Write the ratio of <var>fruit( 0 )</var>s to <var>fruit( 1 )</var>s as a simplified fraction.</span>
+            </p>
             <p class="solution" data-ratio="true" data-type="improper"><var>NUM / DENOM</var></p>
         </div>
     </div>

@@ -258,8 +258,8 @@ $.extend(KhanUtil, {
             var str = "";
 
             if (hundredDigit) {
-                str += $.ngettext("%(num)s hundred", "%(num)s hundred",
-                    cardinalUnits[hundredDigit]);
+                str += $._("%(unit)s hundred",
+                    {unit: cardinalUnits[hundredDigit]});
             }
 
             // TODO(jeresig): i18n: This will need to changed

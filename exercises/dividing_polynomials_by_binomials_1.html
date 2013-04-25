@@ -41,11 +41,18 @@
                         <p><code class="hint_blue">\qquad b = \sqrt{<var>A * A</var>} = <var>A</var></code></p>
                     </div>
 
-                    <p>
+                    <p data-if="A &gt; 0">
                         So we can rewrite the expression as:
                         <code>
-                            \dfrac{(\color{<var>BLUE</var>}{<var>X</var>} <var>A &gt; 0 ? "+" : "" </var> \color{<var>PINK</var>}{<var>A</var>})
-                                   (\color{<var>BLUE</var>}{<var>X</var>} <var>A &lt; 0 ? "+" : "" </var> \color{<var>PINK</var>}{<var>-A</var>})}
+                            \dfrac{(\color{<var>BLUE</var>}{<var>X</var>} + \color{<var>PINK</var>}{<var>A</var>})
+                                   (\color{<var>BLUE</var>}{<var>X</var>}  \color{<var>PINK</var>}{<var>-A</var>})}
+                                   {<var>X</var> + <var>A</var>}
+                        </code>
+                    </p><p data-else="">
+                        So we can rewrite the expression as:
+                        <code>
+                            \dfrac{(\color{<var>BLUE</var>}{<var>X</var>}  \color{<var>PINK</var>}{<var>A</var>})
+                                   (\color{<var>BLUE</var>}{<var>X</var>} + \color{<var>PINK</var>}{<var>-A</var>})}
                                    {<var>X</var> + <var>A</var>}
                         </code>
                     </p>

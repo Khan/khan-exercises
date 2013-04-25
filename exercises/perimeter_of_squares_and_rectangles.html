@@ -22,9 +22,12 @@
                 <var id="S">randRange(1, 8)</var>
             </div>
 
-            <p class="question">
+            <p class="question" data-if="isSingular(S)">
                 One side of a square is <code><var>S</var></code>
-                <var>plural(UNIT_TEXT, S)</var> long. What is its perimeter?
+                <var>S</var> long. What is its perimeter?
+            </p><p class="question" data-else="">
+                One side of a square is <code><var>S</var></code>
+                <var>plural_form(UNIT_TEXT, S)</var> long. What is its perimeter?
             </p>
 
             <div class="solution" data-type="multiple">
@@ -77,7 +80,7 @@
 
             <p class="question">
                 The perimeter of a square is <code><var>4 * S</var></code>
-                <var>plural(UNIT_TEXT)</var>. How long is each side?
+                <var>plural_form(UNIT_TEXT)</var>. How long is each side?
             </p>
 
             <div class="solution" data-type="multiple">
@@ -121,10 +124,14 @@
                         \purple{<var>S</var>} + \green{<var>S</var>} =
                         <var>4 * S</var>\text{ <var>UNIT</var>}
                     </code></p>
-                    <p>
+                    <p data-if="isSingular(S)">
                         The sides of a square are all the same length, so each
                         side must be <code><var>S</var></code>
-                        <var>plural(UNIT_TEXT, S)</var> long.
+                        <var>S</var> long.
+                    </p><p data-else="">
+                        The sides of a square are all the same length, so each
+                        side must be <code><var>S</var></code>
+                        <var>plural_form(UNIT_TEXT, S)</var> long.
                     </p>
                 </div>
             </div>
@@ -137,11 +144,15 @@
             </div>
 
             <p class="question">
-                A rectangle is
-                <code><var>L</var></code> <var>plural(UNIT_TEXT, L)</var>
-                long and
-                <code><var>W</var></code> <var>plural(UNIT_TEXT, W)</var>
-                wide. What is its perimeter?
+                <span data-if="isSingular(L)">A rectangle is
+                <code><var>L</var></code> <var>L</var>
+                long.</span><span data-else="">A rectangle is
+                <code><var>L</var></code> <var>plural_form(UNIT_TEXT, L)</var>
+                long.</span><span data-if="isSingular(W)">The rectangle is also
+                <code><var>W</var></code> <var>W</var>
+                wide. What is its perimeter?</span><span data-else="">The rectangle is also
+                <code><var>W</var></code> <var>plural_form(UNIT_TEXT, W)</var>
+                wide. What is its perimeter?</span>
             </p>
 
             <div class="solution" data-type="multiple">

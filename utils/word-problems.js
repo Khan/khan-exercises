@@ -42,111 +42,26 @@ $.extend(KhanUtil, {
     // Look-up table of plural word translations culled from exercise files
     // Makes it possible to actually extract these words for i18n
     plurals: {
-        "badge": function(num) {
-            return $.ngettext("badge", "badges", num);
-        },
         "basket": function(num) {
             return $.ngettext("basket", "baskets", num);
-        },
-        "block": function(num) {
-            return $.ngettext("block", "blocks", num);
-        },
-        "blue dot": function(num) {
-            return $.ngettext("blue dot", "blue dots", num);
         },
         "car": function(num) {
             return $.ngettext("car", "cars", num);
         },
-        "chocolate chip cookie": function(num) {
-            return $.ngettext("chocolate chip cookie",
-                "chocolate chip cookies", num);
-        },
         "circle": function(num) {
             return $.ngettext("circle", "circles", num);
-        },
-        "cup": function(num) {
-            return $.ngettext("cup", "cups", num);
-        },
-        "dollar": function(num) {
-            return $.ngettext("dollar", "dollars", num);
-        },
-        "dot": function(num) {
-            return $.ngettext("dot", "dots", num);
         },
         "foot": function(num) {
             return $.ngettext("foot", "feet", num);
         },
-        "fourth": function(num) {
-            return $.ngettext("fourth", "fourths", num);
-        },
-        "full symbol": function(num) {
-            return $.ngettext("full symbol", "full symbols", num);
-        },
-        "green dot": function(num) {
-            return $.ngettext("green dot", "green dots", num);
-        },
-        "hour": function(num) {
-            return $.ngettext("hour", "hours", num);
-        },
-        "house point": function(num) {
-            return $.ngettext("house point", "house points", num);
-        },
-        "hundred": function(num) {
-            // I18N: As in the HUNDREDS position of a number
-            return $.ngettext("hundred", "hundreds", num);
-        },
-        "hundredth": function(num) {
-            // I18N: As in the HUNDREDTHS position of a number
-            return $.ngettext("hundredth", "hundredths", num);
-        },
-        // TODO(jeresig): i18n: This may be a bad thing to pluralize
-        "is": function(num) {
-            return $.ngettext("is", "are", num);
-        },
-        "jumping jack": function(num) {
-            return $.ngettext("jumping jack", "jumping jacks", num);
-        },
         "loaf": function(num) {
             return $.ngettext("loaf", "loaves", num);
-        },
-        "long-distance runner": function(num) {
-            return $.ngettext("long-distance runner",
-                "long-distance runners", num);
-        },
-        "molecule": function(num) {
-            return $.ngettext("molecule", "molecules", num);
-        },
-        "number": function(num) {
-            return $.ngettext("number", "numbers", num);
-        },
-        "oatmeal cookie": function(num) {
-            return $.ngettext("oatmeal cookie", "oatmeal cookies", num);
-        },
-        "one": function(num) {
-            // I18N: As in the ONES position of a number
-            return $.ngettext("one", "ones", num);
-        },
-        "outcome": function(num) {
-            return $.ngettext("outcome", "outcomes", num);
         },
         "package": function(num) {
             return $.ngettext("package", "packages", num);
         },
-        "parks": function(num) {
-            // I18N: As in "1 more car parks." vs. "3 more cars park."
-            return $.ngettext("parks", "park", num);
-        },
-        "person": function(num) {
-            return $.ngettext("person", "people", num);
-        },
         "piece": function(num) {
             return $.ngettext("piece", "pieces", num);
-        },
-        "place": function(num) {
-            return $.ngettext("place", "places", num);
-        },
-        "position": function(num) {
-            return $.ngettext("position", "positions", num);
         },
         "potato": function(num) {
             return $.ngettext("potato", "potatoes", num);
@@ -157,84 +72,54 @@ $.extend(KhanUtil, {
         "row": function(num) {
             return $.ngettext("row", "rows", num);
         },
-        "quiz": function(num) {
-            return $.ngettext("quiz", "quizzes", num);
-        },
-        "set": function(num) {
-            return $.ngettext("set", "sets", num);
-        },
-        "shelf": function(num) {
-            return $.ngettext("shelf", "shelves", num);
-        },
-        "side": function(num) {
-            return $.ngettext("side", "sides", num);
-        },
         "sit-up": function(num) {
             return $.ngettext("sit-up", "sit-ups", num);
-        },
-        "slice": function(num) {
-            return $.ngettext("slice", "slices", num);
-        },
-        "sprinter": function(num) {
-            return $.ngettext("sprinter", "sprinters", num);
-        },
-        "square foot": function(num) {
-            return $.ngettext("square foot", "square feet", num);
         },
         "squat": function(num) {
             return $.ngettext("squat", "squats", num);
         },
-        "standard deviation": function(num) {
-            return $.ngettext("standard deviation",
-                "standard deviations", num);
+        "quiz": function(num) {
+            return $.ngettext("quiz", "quizzes", num);
         },
-        "symbol": function(num) {
-            return $.ngettext("symbol", "symbols", num);
+        "shelf": function(num) {
+            return $.ngettext("shelf", "shelves", num);
+        },
+        "square foot": function(num) {
+            return $.ngettext("square foot", "square feet", num);
         },
         "team": function(num) {
             return $.ngettext("team", "teams", num);
         },
-        "ten": function(num) {
-            // I18N: As in the TENS position of a number
-            return $.ngettext("ten", "tens", num);
-        },
-        "tenth": function(num) {
-            // I18N: As in the TENTHS position of a number
-            return $.ngettext("tenth", "tenths", num);
-        },
-        "thousand": function(num) {
-            // I18N: As in the THOUSANDS position of a number
-            return $.ngettext("thousand", "thousands", num);
-        },
-        "thousandth": function(num) {
-            // I18N: As in the THOUSANDTHS position of a number
-            return $.ngettext("thousandth", "thousandths", num);
-        },
-        "tick mark": function(num) {
-            return $.ngettext("tick mark", "tick marks", num);
-        },
-        "time": function(num) {
-            return $.ngettext("time", "times", num);
-        },
         "tomato": function(num) {
             return $.ngettext("tomato", "tomatoes", num);
-        },
-        "tree": function(num) {
-            return $.ngettext("tree", "trees", num);
-        },
-        "triangle": function(num) {
-            return $.ngettext("triangle", "triangles", num);
-        },
-        // TODO(jeresig): i18n: This may be a bad thing to pluralize
-        "was": function(num) {
-            return $.ngettext("was", "were", num);
-        },
-        "year": function(num) {
-            return $.ngettext("year", "years", num);
         }
     },
 
-    // pluralization helper.  There are three signatures
+    plural_form: function(word, num) {
+        // There are some cases where plural_form is called with only a word
+        // (and no number). In this case we just want to return the plural
+        // form of that word, as best as we can. This might have some slight
+        // incongruities across platforms
+        num = num === undefined ? 2 : num;
+
+        if (word in KhanUtil.plurals) {
+            return KhanUtil.plurals[word](num);
+        }
+
+        // TODO(jeresig): i18n: Eventually remove this?
+        if (typeof console !== "undefined" && console.error) {
+            console.error("Word not in plural dictionary: ", word);
+        }
+
+        return word;
+    },
+
+    isSingular: function(num) {
+        return num == 1;
+    },
+
+    // DEPRECATED
+    // pluralization helper.  There are two signatures
     // - plural(NUMBER, singular):
     //        - if necessary, magically pluralize <singular>
     //        - return "NUMBER word"
@@ -367,6 +252,8 @@ $.fn["word-problemsLoad"] = function() {
     });
     people = new IncrementalShuffler(people);
 
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var vehicles = new IncrementalShuffler([
         "bike",
         "car",
@@ -376,11 +263,13 @@ $.fn["word-problemsLoad"] = function() {
         "train"
     ]);
 
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var courses = new IncrementalShuffler([
-        "algebra",
         "chemistry",
         "geometry",
         "history",
+        "mathematics",
         "physics",
         "Spanish"
     ]);
@@ -410,18 +299,15 @@ $.fn["word-problemsLoad"] = function() {
     ]);
 
     var collections = new IncrementalShuffler([
-        ["chair", "row", "make"],
-        ["party favor", "bag", "fill"],
-        ["jelly bean", "pile", "make"],
-        ["book", "shelf", "fill"],
-        ["can of food", "box", "fill"]
+        ["party favor", "bag"],
+        ["jelly bean", "bag"],
+        ["book", "shelf"],
+        ["can of food", "box"]
     ]);
 
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var stores = new IncrementalShuffler([
-        {
-            name: "office supply",
-            items: new IncrementalShuffler(["pen", "pencil", "notebook"])
-        },
         {
             name: "hardware",
             items: new IncrementalShuffler(["hammer", "nail", "saw"])
@@ -433,6 +319,10 @@ $.fn["word-problemsLoad"] = function() {
         {
             name: "gift",
             items: new IncrementalShuffler(["toy", "game", "souvenir"])
+        },
+        {
+            name: "school supply",
+            items: new IncrementalShuffler(["pen", "pencil", "notebook"])
         },
         {
             name: "toy",
@@ -486,9 +376,13 @@ $.fn["word-problemsLoad"] = function() {
         "rubber stamp"
     ]);
 
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var colors = new IncrementalShuffler([
         "red",
-        "orange",
+        // NOTE(jeresig): I18N: Removed because it begins with a vowel and is
+        // used with an()
+        //"orange",
         "yellow",
         "green",
         "blue",
@@ -558,11 +452,15 @@ $.fn["word-problemsLoad"] = function() {
 
     // animal, avg-lifespan, stddev-lifespan
     // (data is from cursory google searches and wild guessing)
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var animals = new IncrementalShuffler([
-        ["alligator", 68, 20],
-        ["anteater", 15, 10],
+        // NOTE(jeresig): I18N: Removed because it begins with a vowel and is
+        // used with an()
+        //["alligator", 68, 20],
+        //["anteater", 15, 10],
         ["bear", 40, 20],
-        ["elephant", 60, 10],
+        //["elephant", 60, 10],
         ["gorilla", 20, 5],
         ["lion", 12, 5],
         ["lizard", 3, 1],
@@ -630,6 +528,10 @@ $.fn["word-problemsLoad"] = function() {
             return people.get(i - 1).get(0)[1] === "m" ? "His" : "Her";
         },
 
+        isMale: function(i) {
+            return people.get(i - 1).get(0)[1] === "m";
+        },
+
         An: function(word) {
             return indefiniteArticle(word);
         },
@@ -668,10 +570,6 @@ $.fn["word-problemsLoad"] = function() {
 
         group: function(i) {
             return collections.get(i - 1)[1];
-        },
-
-        groupVerb: function(i) {
-            return collections.get(i - 1)[2];
         },
 
         store: function(i) {

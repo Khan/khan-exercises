@@ -1018,13 +1018,13 @@ $.extend(KhanUtil, {
 
                 var hint;
                 if (moveDeriv) {
-                    hint = $._("The %s section of the derivative is %s, " +
+                    hint = $._("The %(nth)s section of the derivative is %(inc)s, " +
                         "so it corresponds to an original function whose " +
-                        "<b>slope</b> is %s.", nth, inc, inc);
+                        "<b>slope</b> is %(inc)s.", {nth: nth, inc: inc});
                 } else {
-                    hint = $._("The %s section of the antiderivative has a " +
-                        "%s slope, so it corresponds to an original " +
-                        "function that is %s.", nth, inc, inc);
+                    hint = $._("The %(nth)s section of the antiderivative has a " +
+                        "%(inc)s slope, so it corresponds to an original " +
+                        "function that is %(inc)s.", {nth: nth, inc: inc});
                 }
 
                 var hintproblem = self.problem.slice(i, i+1);
@@ -1048,7 +1048,8 @@ $.extend(KhanUtil, {
                             }).join(" and ");
                 var fnVar = moveDeriv ? "f'(x)" : "F(x)";
                 lastHint = $._("The function in the window corresponds to " +
-                    "<code>%s</code> where %s.", fnVar, solnText);
+                    "<code>%(fnVar)s</code> where %(solution)s.",
+                    {fnVar: fnVar, solution: solnText});
 
                 var firstAnswer = this.problemRanges[0][0];
                 hints.push("<p>" + lastHint + "</p>");

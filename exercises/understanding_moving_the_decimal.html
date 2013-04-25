@@ -88,7 +88,7 @@
                 label ([ digitsA.length + 0.5, 0.5 ], labelstr, "right", false);
             </div>
 
-            <p>Moving the decimal one position to the <var>PM === 1 ? "right" : "left"</var> is the same as <var>PM === 1 ? "multiplying" : "dividing"</var> by ten once.</p>
+            <p data-if="PM === 1">Moving the decimal one position to the right is the same as multiplying by ten once.</p><p data-else="">Moving the decimal one position to the left is the same as dividing by ten once.</p>
 
             <div data-if="PM === 1 &amp;&amp; POW_DIFF !== 1">
                 <p data-if="POW_DIFF !== 1">Thus, moving the decimal right <code><var>POW_DIFF</var></code> times is the same as multiplying by ten <code><var>POW_DIFF</var></code> times, or multiplying by <code><var>pow( 10, POW_DIFF )</var></code>:</p>
