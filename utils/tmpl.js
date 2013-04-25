@@ -283,7 +283,7 @@ $.tmpl = {
             ctx = {};
         }
 
-        try {
+        function doEval() {
             // Use the methods from JavaScript's built-in Math methods
             with (Math) {
                 // And the methods provided by the library
@@ -297,21 +297,29 @@ $.tmpl = {
                     }
                 }
             }
+        }
 
-        } catch (e) {
-            var info;
+        if (Khan.query.debug != null) {
+            // Skip try-catch in debug mode so that the script panel works
+            return doEval();
+        } else {
+            try {
+                return doEval();
+            } catch (e) {
+                var info;
 
-            if (elem.nodeName) {
-                info = elem.nodeName.toLowerCase();
+                if (elem.nodeName) {
+                    info = elem.nodeName.toLowerCase();
 
-                if (elem.id != null && elem.id.length > 0) {
-                    info += "#" + elem.id;
+                    if (elem.id != null && elem.id.length > 0) {
+                        info += "#" + elem.id;
+                    }
+                } else {
+                    info = JSON.stringify(code);
                 }
-            } else {
-                info = JSON.stringify(code);
-            }
 
-            Khan.error("Error while evaluating " + info, e);
+                Khan.error("Error while evaluating " + info, e);
+            }
         }
     },
 
