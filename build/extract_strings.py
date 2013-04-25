@@ -60,6 +60,15 @@ ENTITY_TABLE = {
     "\xc2\xa0": "&nbsp;",
 }
 
+# Entities that should be cleaned up when they're set as the condition
+# in an data-if attribute
+_CLEAN_ENTITIES = {
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>'
+}
+
+
 def main():
     """Handle running this program from the command-line."""
     # Handle parsing the program arguments
@@ -321,12 +330,27 @@ def get_page_html(html_tree):
                                      encoding='utf-8')
 
     for norm, human in ENTITY_TABLE.iteritems():
-        html_string = string.replace(html_string, norm, human)
+        html_string = re.sub(norm, human, html_string)
 
+    # Clean up entities in data-if attributes
+    html_string = re.sub(r'data-if=(["\'])(.*?)\1', clean_data_if, html_string)
+
+    # Add in endlines around the <html> and </html> nodes
     html_string = re.sub(r'\s*(<\/?html[^>]*>)\s*', r'\n\1\n', html_string)
 
     return html_string
 
+
+def clean_data_if(match):
+    """Clean up entities in data-if attributes."""
+    condition = match.group(2)
+
+    # Make sure any common entities are cleaned up, to help
+    # with readability.
+    for entity, replace in _CLEAN_ENTITIES.iteritems():
+        condition = re.sub(entity, replace, condition)
+
+    return 'data-if="%s"' % condition
 
 def babel_extract(fileobj, keywords, comment_tags, options):
     """Babel extraction method for exercises templates.
