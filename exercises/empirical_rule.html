@@ -260,7 +260,7 @@
                         </p>
                     </div>
 
-                    <p id="finalHint1" data-if="Z &lt; 0">
+                    <p id="finalHint1" data-if="Z < 0">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living longer than
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years is
@@ -323,7 +323,7 @@
                         </p>
                     </div>
 
-                    <p id="finalHint1" data-if="Z &gt; 0">
+                    <p id="finalHint1" data-if="Z > 0">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living less than
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years is
@@ -500,12 +500,12 @@
                         </p>
                     </div>
 
-                    <p id="finalHint1" data-if="abs( Z1 ) &gt; abs( Z2 )">
+                    <p id="finalHint1" data-if="abs( Z1 ) > abs( Z2 )">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living between
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years is
-                        <span data-if="Z1 * Z2 &gt; 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
+                        <span data-if="Z1 * Z2 > 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
                         <span data-else=""><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%} +
                         \color{green}{<var>EMPIRICAL2</var>\%}</code>, or <code><var>roundTo( 2, AREA )</var>\%</code>.</span>
                         </strong>
@@ -516,7 +516,7 @@
                         The probability of a particular <var>ANIMAL</var> living between
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years is
-                        <span data-if="Z1 * Z2 &gt; 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
+                        <span data-if="Z1 * Z2 > 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
                         <span data-else=""><code>\color{green}{<var>EMPIRICAL2</var>\%} +
                         \color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>, or
                         <code><var>roundTo( 2, AREA )</var>\%</code>.</span>

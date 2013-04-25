@@ -341,7 +341,7 @@
             </div>
             <div class="hint_blue" data-if="B_1 !== 1">
                 <p>
-                    Divide both sides by <code><var>B_1</var></code><span data-if="B_1 &lt; 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
+                    Divide both sides by <code><var>B_1</var></code><span data-if="B_1 < 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
                 </p><p>
                     <code>\qquad y <var>COMP_1</var> <var>expr([ "+", "\\dfrac{" + expr([ "*", -A_1, "x" ]) + "}{" + B_1 + "}", "\\dfrac{" + C_1 + "}{" + B_1 + "}" ])</var></code>
                 </p>
@@ -362,7 +362,7 @@
                 <code><var>abs( SLOPE_FRAC_1[0] )</var></code>
                 <var>"position" + ( abs( SLOPE_FRAC_1[0] ) !== 1 ? "s" : "" )</var>
                 you move
-                <span data-if="SLOPE_FRAC_1[0] &lt; 0"><em>down</em> (because it's negative)</span>
+                <span data-if="SLOPE_FRAC_1[0] < 0"><em>down</em> (because it's negative)</span>
                 <span data-else="">up</span>
                 you must also move
                 <code><var>SLOPE_FRAC_1[1]</var></code>
@@ -401,7 +401,7 @@
             </div>
             <div class="hint_green" data-if="B_2 !== 1">
                 <p>
-                    Divide both sides by <code><var>B_2</var></code><span data-if="B_2 &lt; 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
+                    Divide both sides by <code><var>B_2</var></code><span data-if="B_2 < 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
                 </p><p>
                     <code>\qquad y <var>COMP_2</var> <var>expr([ "+", "\\dfrac{" + expr([ "*", -A_2, "x" ]) + "}{" + B_2 + "}", "\\dfrac{" + C_2 + "}{" + B_2 + "}" ])</var></code>
                 </p>
@@ -422,7 +422,7 @@
                 <code><var>abs( SLOPE_FRAC_2[0] )</var></code>
                 <var>"position" + ( abs( SLOPE_FRAC_2[0] ) !== 1 ? "s" : "" )</var>
                 you move
-                <span data-if="SLOPE_FRAC_2[0] &lt; 0"><em>down</em> (because it's negative)</span>
+                <span data-if="SLOPE_FRAC_2[0] < 0"><em>down</em> (because it's negative)</span>
                 <span data-else="">up</span>
                 you must also move
                 <code><var>SLOPE_FRAC_2[1]</var></code>

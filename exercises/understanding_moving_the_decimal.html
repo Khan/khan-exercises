@@ -90,11 +90,11 @@
 
             <p>Moving the decimal one position to the <var>PM === 1 ? "right" : "left"</var> is the same as <var>PM === 1 ? "multiplying" : "dividing"</var> by ten once.</p>
 
-            <div data-if="PM === 1 &amp;&amp; POW_DIFF !== 1">
+            <div data-if="PM === 1 && POW_DIFF !== 1">
                 <p data-if="POW_DIFF !== 1">Thus, moving the decimal right <code><var>POW_DIFF</var></code> times is the same as multiplying by ten <code><var>POW_DIFF</var></code> times, or multiplying by <code><var>pow( 10, POW_DIFF )</var></code>:</p>
                 <p><code>{<var>A_FLOAT.toFixed( A_DECIMAL )</var>} * {<var>pow( 10, POW_DIFF )</var>} = {<var>B_FLOAT.toFixed( B_DECIMAL )</var>}</code></p>
             </div>
-            <div data-if="PM !== 1 &amp;&amp; POW_DIFF !== 1">
+            <div data-if="PM !== 1 && POW_DIFF !== 1">
                 <p data-if="POW_DIFF !== 1">Thus, moving the decimal left <code><var>POW_DIFF</var></code> times is the same as dividing by ten <code><var>POW_DIFF</var></code> times, or dividing by <code><var>pow( 10, POW_DIFF )</var></code>:</p>
                 <p><code>{<var>A_FLOAT.toFixed( A_DECIMAL )</var>} \div {<var>pow( 10, POW_DIFF )</var>} = {<var>B_FLOAT.toFixed( B_DECIMAL )</var>}</code></p>
             </div>

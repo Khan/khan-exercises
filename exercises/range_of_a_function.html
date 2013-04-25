@@ -132,7 +132,7 @@
                 </div>
                 <p>Consider the range of <code><var>expr(["*", A, ["^", "x", 2]])</var></code>.</p>
             </div>
-            <p data-if="A &gt; 0">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> doesn't change the range.</p>
+            <p data-if="A > 0">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> doesn't change the range.</p>
             <p data-else="">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> flips the range to <code>\{\, y \mid y \le 0 \,\}</code>.</p>
             <div>
                 <p>Now <var>B &gt; 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>. The range becomes: <code>\{\, y \mid y <var>A &gt; 0 ? "≥" : "≤"</var> <var>B</var> \,\}</code>.</p>

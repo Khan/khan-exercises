@@ -149,7 +149,7 @@
                         which is <code><var>ANGLE_MULTIPLE_REP</var></code>.
                     </p>
 
-                    <div data-if="ANGLE_MULTIPLE_NUMERATOR &gt;= DENOMINATOR * 2" data-unwrap="">
+                    <div data-if="ANGLE_MULTIPLE_NUMERATOR >= DENOMINATOR * 2" data-unwrap="">
                         <p>
                             <code><var>ANGLE_MULTIPLE_REP</var></code> is more than <code>2 \pi</code>.
                             It is a common practice to keep complex number angles between <code>0</code> and <code>2 \pi</code>,
@@ -168,7 +168,7 @@
                     <p>
                         Our result is <code><var>ANSWER_EULER</var></code>.
                     </p>
-                    <p data-if="!EULER_FORM &amp;&amp; ANSWER_ANGLE_NUMERATOR !== 0">
+                    <p data-if="!EULER_FORM && ANSWER_ANGLE_NUMERATOR !== 0">
                         Converting this back from Euler form, we get
                         <code><var>ANSWER</var></code>.
                     </p>
