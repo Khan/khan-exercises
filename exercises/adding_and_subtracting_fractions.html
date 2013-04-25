@@ -37,7 +37,7 @@
             <p><code><var>fraction( N1 * F1, LCM )</var> + <var>fraction( N2 * F2, LCM )</var> = {?}</code></p>
         </div>
         <div>
-            <p data-if="N2 &gt; 0">Add the numerators.</p><p data-else="">Subtract the numerators.</p>
+            <p><var>N2 &gt; 0 ? "Add" : "Subtract"</var> the numerators.</p>
             <p><code><var>fraction( F1 * N1 + F2 * N2, LCM)</var></code></p>
         </div>
         <div data-if="getGCD( F1 * N1 + F2 * N2, LCM ) !== 1">

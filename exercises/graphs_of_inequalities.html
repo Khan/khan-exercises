@@ -92,27 +92,21 @@
                 <p>
                     Now that we have the equation for the boundary line, we need to decide which inequality sign to use.
                 </p>
-                <p data-if="LESS_THAN">
-                    If we pick a point on the line, let's say <code>(<var>X1</var>,<var>Y1</var>)</code>, we can see that points below that point are all shaded in. These are the points where <code>x = <var>X1</var> </code> but <code>y</code> is
-                    less than <var> Y1 </var>. So we should use a &lt; or ≤ sign.
-                </p><p data-else="">
-                    If we pick a point on the line, let's say <code>(<var>X1</var>,<var>Y1</var>)</code>, we can see that points above that point are all shaded in. These are the points where <code>x = <var>X1</var> </code> but <code>y</code> is
-                    greater than <var> Y1 </var>. So we should use a &gt; or ≥ sign.
+                <p>
+                    If we pick a point on the line, let's say <code>(<var>X1</var>,<var>Y1</var>)</code>, we can see that points <var>LESS_THAN ? "below" : "above"</var> that point are all shaded in. These are the points where <code>x = <var>X1</var> </code> but <code>y</code> is
+                    <var> LESS_THAN ? "less than" : "greater than" </var> <var> Y1 </var>. So we should use a <var>LESS_THAN ? "&lt; or ≤" : "&gt; or ≥" </var> sign.
                 </p>
                 <div>
                     <p>Another way to see this is to try plugging in a point. The easiest point to plug in is <code>(0,0)</code>:</p>
                     <p><code>y \; ? \; <var>( SLOPE === -1 ? "-" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 )))</var> x + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
                     <p><code>0 \; ? \; <var>( SLOPE === -1 ? "-1*" : ( SLOPE === 1 ? "" : fractionReduce( Y2 - Y1, X2 - X1 ) + "*"))</var> 0 + <var>fractionReduce( Y1 * (X2 - X1) - X1 * ( Y2 - Y1 ), X2 - X1 )</var></code></p>
                     <p>
-                        <span data-if="ORI_IN">Since <code>(0,0)</code> is  in the shaded area, this expression must be true.</span><span data-else="">Since <code>(0,0)</code> is not in the shaded area, this expression must be false.</span>
-                        <span data-if="LESS_THAN">So, the ? must be either &lt; or ≤.</span><span data-else="">So, the ? must be either &gt; or ≥.</span>
+                        <span>Since <code>(0,0)</code> is <var>ORI_IN ? "" : "not"</var> in the shaded area, this expression must be <var>ORI_IN ? "true" : "false"</var>.</span>
+                        <span>So, the ? must be either <var>LESS_THAN ? "&lt; or ≤" : "&gt; or ≥" </var>.</span>
                     </p>
                 </div>
-                <p data-if="INCLUSIVE">
-                    The line of the graph is solid, so the points on the boundary are 
-                    in the set of solutions for this inequality.
-                </p><p data-else="">
-                    The line of the graph is dashed, so the points on the boundary are not
+                <p>
+                    The line of the graph is <var>INCLUSIVE ? "solid" : "dashed"</var>, so the points on the boundary are <var>INCLUSIVE ? "" : "not"</var>
                     in the set of solutions for this inequality.
                 </p>
                 <p>

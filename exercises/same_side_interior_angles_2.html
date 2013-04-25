@@ -65,7 +65,7 @@
             <p><code><var>A + C</var>x + <var>B + D</var> = 180</code></p>
         </div>
         <div>
-            <p data-if="B + D &gt; 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(B + D)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(B + D)</var>}</code> to both sides.</p>
+            <p><var>B + D &gt; 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(B + D)</var>}</code> <var>B + D &gt; 0 ? "from" : "to"</var> both sides.</p>
             <p><code>(<var>A + C</var>x + <var>B + D</var>) \color{<var>PINK</var>}{+ <var>-(B + D)</var>} = 180 \color{<var>PINK</var>}{+ <var>-(B + D)</var>}</code></p>
             <p><code><var>A + C</var>x = <var>180 - B - D</var></code></p>
         </div>

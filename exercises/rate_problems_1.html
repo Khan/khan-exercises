@@ -39,7 +39,7 @@
                 <div class="problem">
                     <p><var>person(1)</var> traveled by <var>vehicle(1)</var> at an average speed of <var>SPEED1</var> miles per hour.</p>
                     <p data-if="isMale(1)">Then, he traveled by <var>vehicle(2)</var> at an average speed of <var>SPEED2</var> miles per hour.</p><p data-else="">Then, she traveled by <var>vehicle(2)</var> at an average speed of <var>SPEED2</var> miles per hour.</p>
-                    <p data-if="isMale(1)"><span data-if="isSingular(TIME)" data-unwrap="">In total, he traveled <var>DIST</var> miles for <var>TIME</var> hour.</span><span data-else="" data-unwrap="">In total, he traveled <var>DIST</var> miles for <var>TIME</var> hours.</span></p><p data-else="" data-if="isSingular(TIME)">In total, she traveled <var>DIST</var> miles for <var>TIME</var> hour.</p><p data-else="">In total, she traveled <var>DIST</var> miles for <var>TIME</var> hours.</p>
+                    <p data-if="isMale(1)">In total, he traveled <var>DIST</var> miles for <var>plural(TIME, "hour")</var>.</p><p data-else="">In total, she traveled <var>DIST</var> miles for <var>plural(TIME, "hour")</var>.</p>
                 </div>
                 <p class="question">How many miles did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest mile.)</p>
                 <div class="solution" data-type="multiple">

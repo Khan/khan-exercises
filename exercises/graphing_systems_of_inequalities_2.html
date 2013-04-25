@@ -363,10 +363,8 @@
                 to slope-intercept form by solving for <code>y</code>.
             </p>
             <div class="hint_blue">
-                <p data-if="A_1 &lt; 0">
-                    Add <code><var>abs( A_1 )</var>x</code> to both sides:
-                </p><p data-else="">
-                    Subtract <code><var>abs( A_1 )</var>x</code> from both sides:
+                <p>
+                    <var>A_1 &lt; 0 ? "Add" : "Subtract"</var> <code><var>abs( A_1 )</var>x</code> <var>A_1 &lt; 0 ? "to" : "from"</var> both sides:
                 </p><p>
                     <code>\qquad <var>expr( [ "*", B_1, "y" ] )</var> <var>STD_FORM_COMP_1</var> <var>expr([ "+", [ "*", -A_1, "x" ], C_1 ])</var></code>
                 </p>
@@ -389,50 +387,31 @@
         </div>
         <div class="hint_blue">
             <p>
-                <span data-if='"position" + ( abs( SLOPE_FRAC_1[0] ) !== 1'>The slope is <code class="hint_purple"><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
+                <span>The slope is <code class="hint_purple"><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
                 the slope tells you rise over run. So in this case for every
                 <code><var>abs( SLOPE_FRAC_1[0] )</var></code>
-                s
-                you move
-                <span data-if="SLOPE_FRAC_1[0] &lt; 0"><em>down</em> (because it's negative)</span>
-                <span data-else="">up</span>.</span><span data-else="">The slope is <code class="hint_purple"><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
-                the slope tells you rise over run. So in this case for every
-                <code><var>abs( SLOPE_FRAC_1[0] )</var></code>
-                <var>"" )</var>
+                <var>"position" + ( abs( SLOPE_FRAC_1[0] ) !== 1 ? "s" : "" )</var>
                 you move
                 <span data-if="SLOPE_FRAC_1[0] &lt; 0"><em>down</em> (because it's negative)</span>
                 <span data-else="">up</span>.</span>
-                <span data-if='"position" + ( abs( SLOPE_FRAC_1[1] ) !== 1'>You must also move
+                <span>You must also move
                 <code><var>SLOPE_FRAC_1[1]</var></code>
-                s
-                to the right. So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC_1[1]</var>, <var>YINT_1 + SLOPE_FRAC_1[0]</var>)</code></span><span data-else="">You must also move
-                <code><var>SLOPE_FRAC_1[1]</var></code>
-                <var>"" )</var>
+                <var>"position" + ( abs( SLOPE_FRAC_1[1] ) !== 1 ? "s" : "" )</var>
                 to the right. So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC_1[1]</var>, <var>YINT_1 + SLOPE_FRAC_1[0]</var>)</code></span>
             </p>
         </div>
-        <p class="hint_blue" data-if="LESS_THAN_1">
-            Since our inequality has a less-than<span data-if="INCLUSIVE_1"> or equal to</span> sign, that means that any point
-            <strong>below</strong> the line is a solution to the inequality, so the area below
-            the line should be shaded.
-        </p><p class="hint_blue" data-else="">
-            Since our inequality has a greater-than<span data-if="INCLUSIVE_1"> or equal to</span> sign, that means that any point
-            <strong>above</strong> the line is a solution to the inequality, so the area above
+        <p class="hint_blue">
+            Since our inequality has a <var>LESS_THAN_1 ? "less-than" : "greater-than"</var><span data-if="INCLUSIVE_1"> or equal to</span> sign, that means that any point
+            <strong><var>LESS_THAN_1 ? "below" : "above"</var></strong> the line is a solution to the inequality, so the area <var>LESS_THAN_1 ? "below" : "above"</var>
             the line should be shaded.
         </p>
         <div class="hint_blue">
-            <p data-if="INCLUSIVE_1"><span data-if="LESS_THAN_1" data-unwrap="">
-                Note that since the sign is less-than or <strong>equal to</strong>, any point on the line is also a solution, so the
+            <p data-if="INCLUSIVE_1">
+                Note that since the sign is <var>LESS_THAN_1 ? "less-than" : "greater-than"</var> or <strong>equal to</strong>, any point on the line is also a solution, so the
                 line should be solid.
-            </span><span data-else="" data-unwrap="">
-                Note that since the sign is greater-than or <strong>equal to</strong>, any point on the line is also a solution, so the
-                line should be solid.
-            </span></p>
-            <p data-else="" data-if="LESS_THAN_1">
-                Note that since the sign is less-than (and not equal to), any point on the line is <strong>not</strong> part of the solution,
-                so the line should be dashed to indicate this.
-            </p><p data-else="">
-                Note that since the sign is greater-than (and not equal to), any point on the line is <strong>not</strong> part of the solution,
+            </p>
+            <p data-else="">
+                Note that since the sign is <var>LESS_THAN_1 ? "less-than" : "greater-than"</var> (and not equal to), any point on the line is <strong>not</strong> part of the solution,
                 so the line should be dashed to indicate this.
             </p>
         </div>
@@ -444,10 +423,8 @@
                 to slope-intercept form by solving for <code>y</code>.
             </p>
             <div class="hint_green">
-                <p data-if="A_2 &lt; 0">
-                    Add <code><var>abs( A_2 )</var>x</code> to both sides:
-                </p><p data-else="">
-                    Subtract <code><var>abs( A_2 )</var>x</code> from both sides:
+                <p>
+                    <var>A_2 &lt; 0 ? "Add" : "Subtract"</var> <code><var>abs( A_2 )</var>x</code> <var>A_2 &lt; 0 ? "to" : "from"</var> both sides:
                 </p><p>
                     <code>\qquad <var>expr( [ "*", B_2, "y" ] )</var> <var>STD_FORM_COMP_2</var> <var>expr([ "+", [ "*", -A_2, "x" ], C_2 ])</var></code>
                 </p>
@@ -470,50 +447,31 @@
         </div>
         <div class="hint_green">
             <p>
-                <span data-if='"position" + ( abs( SLOPE_FRAC_2[0] ) !== 1'>The slope is <code class="hint_purple"><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
+                <span>The slope is <code class="hint_purple"><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
                 the slope tells you rise over run. So in this case for every
                 <code><var>abs( SLOPE_FRAC_2[0] )</var></code>
-                s
-                you move
-                <span data-if="SLOPE_FRAC_2[0] &lt; 0"><em>down</em> (because it's negative)</span>
-                <span data-else="">up</span>.</span><span data-else="">The slope is <code class="hint_purple"><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
-                the slope tells you rise over run. So in this case for every
-                <code><var>abs( SLOPE_FRAC_2[0] )</var></code>
-                <var>"" )</var>
+                <var>"position" + ( abs( SLOPE_FRAC_2[0] ) !== 1 ? "s" : "" )</var>
                 you move
                 <span data-if="SLOPE_FRAC_2[0] &lt; 0"><em>down</em> (because it's negative)</span>
                 <span data-else="">up</span>.</span>
-                <span data-if='"position" + ( abs( SLOPE_FRAC_2[1] ) !== 1'>You must also move
+                <span>You must also move
                 <code><var>SLOPE_FRAC_2[1]</var></code>
-                s
-                to the right. So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC_2[1]</var>, <var>YINT_2 + SLOPE_FRAC_2[0]</var>)</code></span><span data-else="">You must also move
-                <code><var>SLOPE_FRAC_2[1]</var></code>
-                <var>"" )</var>
+                <var>"position" + ( abs( SLOPE_FRAC_2[1] ) !== 1 ? "s" : "" )</var>
                 to the right. So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC_2[1]</var>, <var>YINT_2 + SLOPE_FRAC_2[0]</var>)</code></span>
             </p>
         </div>
-        <p class="hint_green" data-if="LESS_THAN_2">
-            Since our inequality has a less-than<span data-if="INCLUSIVE_2"> or equal to</span> sign, that means that any point
-            <strong>below</strong> the line is a solution to the inequality, so the area below
-            the line should be shaded.
-        </p><p class="hint_green" data-else="">
-            Since our inequality has a greater-than<span data-if="INCLUSIVE_2"> or equal to</span> sign, that means that any point
-            <strong>above</strong> the line is a solution to the inequality, so the area above
+        <p class="hint_green">
+            Since our inequality has a <var>LESS_THAN_2 ? "less-than" : "greater-than"</var><span data-if="INCLUSIVE_2"> or equal to</span> sign, that means that any point
+            <strong><var>LESS_THAN_2 ? "below" : "above"</var></strong> the line is a solution to the inequality, so the area <var>LESS_THAN_2 ? "below" : "above"</var>
             the line should be shaded.
         </p>
         <div class="hint_green">
-            <p data-if="INCLUSIVE_2"><span data-if="LESS_THAN_2" data-unwrap="">
-                Note that since the sign is less-than or <strong>equal to</strong>, any point on the line is also a solution, so the
+            <p data-if="INCLUSIVE_2">
+                Note that since the sign is <var>LESS_THAN_2 ? "less-than" : "greater-than"</var> or <strong>equal to</strong>, any point on the line is also a solution, so the
                 line should be solid.
-            </span><span data-else="" data-unwrap="">
-                Note that since the sign is greater-than or <strong>equal to</strong>, any point on the line is also a solution, so the
-                line should be solid.
-            </span></p>
-            <p data-else="" data-if="LESS_THAN_2">
-                Note that since the sign is less-than (and not equal to), any point on the line is <strong>not</strong> part of the solution,
-                so the line should be dashed to indicate this.
-            </p><p data-else="">
-                Note that since the sign is greater-than (and not equal to), any point on the line is <strong>not</strong> part of the solution,
+            </p>
+            <p data-else="">
+                Note that since the sign is <var>LESS_THAN_2 ? "less-than" : "greater-than"</var> (and not equal to), any point on the line is <strong>not</strong> part of the solution,
                 so the line should be dashed to indicate this.
             </p>
         </div>
