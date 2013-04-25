@@ -42,6 +42,12 @@ $.extend(KhanUtil, {
     // Look-up table of plural word translations culled from exercise files
     // Makes it possible to actually extract these words for i18n
     plurals: {
+        "apple": function(num) {
+            return $.ngettext("apple", "apples", num);
+        },
+        "banana": function(num) {
+            return $.ngettext("banana", "bananas", num);
+        },
         "basket": function(num) {
             return $.ngettext("basket", "baskets", num);
         },
@@ -51,17 +57,47 @@ $.extend(KhanUtil, {
         "circle": function(num) {
             return $.ngettext("circle", "circles", num);
         },
+        "coconut": function(num) {
+            return $.ngettext("coconut", "coconuts", num);
+        },
+        "eggplant": function(num) {
+            return $.ngettext("eggplant", "eggplants", num);
+        },
         "foot": function(num) {
             return $.ngettext("foot", "feet", num);
         },
+        "kilometer": function(num) {
+            return $.ngettext("kilometer", "kilometers", num);
+        },
+        "kiwi": function(num) {
+            return $.ngettext("kiwi", "kiwis", num);
+        },
+        "lemon": function(num) {
+            return $.ngettext("lemon", "lemons", num);
+        },
         "loaf": function(num) {
             return $.ngettext("loaf", "loaves", num);
+        },
+        "mango": function(num) {
+            return $.ngettext("mango", "mangos", num);
+        },
+        "mile": function(num) {
+            return $.ngettext("mile", "miles", num);
+        },
+        "nectarine": function(num) {
+            return $.ngettext("nectarine", "nectarines", num);
+        },
+        "orange": function(num) {
+            return $.ngettext("orange", "oranges", num);
         },
         "package": function(num) {
             return $.ngettext("package", "packages", num);
         },
         "piece": function(num) {
             return $.ngettext("piece", "pieces", num);
+        },
+        "pomegranate": function(num) {
+            return $.ngettext("pomegranate", "pomegranates", num);
         },
         "potato": function(num) {
             return $.ngettext("potato", "potatoes", num);
@@ -92,6 +128,9 @@ $.extend(KhanUtil, {
         },
         "tomato": function(num) {
             return $.ngettext("tomato", "tomatoes", num);
+        },
+        "watermelon": function(num) {
+            return $.ngettext("watermelon", "watermelons", num);
         }
     },
 
