@@ -20,6 +20,7 @@
             <var id="ANG">""</var>
             <var id="ANGLES_A">[ RAND_ANG ]</var>
             <var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ RAND_ANG ] )</var>
+            <var id="FOO">     clearArray( [ "x", "x", "x" ], [ RAND_ANG ] )</var>
             <var id="SIDES_A">[ 0, 2 ]</var>
             <var id="SIDES_B">[ 0, 2 ]</var>
 
@@ -57,7 +58,7 @@
         <div class="problems">
             <div id="parr">
                 <div class="vars">
-                    <var id="ANG_FIRST">randRangeUnique( 0, 3, 2 )</var>
+                    <var id="ANG_FIRST">randRangeUnique( 0, 2, 2 )</var>
                     <var id="ANG_LEFT">randFromArray( ANG_FIRST )</var>
                     <var id="ANGLES_A">ANG_FIRST</var>
                     <var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ ANG_LEFT ] )</var>
@@ -74,7 +75,7 @@
 
             <div id="parr2">
                 <div class="vars">
-                    <var id="ANG_FIRST">randRangeUnique( 0, 3, 2 )</var>
+                    <var id="ANG_FIRST">randRangeUnique( 0, 2, 2 )</var>
                     <var id="ANG_LEFT">randRangeExclude( 0, 2, ANG_FIRST )</var>
                     <var id="ANGLES_A">ANG_FIRST</var>
                     <var id="ANGLES_B">clearArray( [ "x", "x", "x" ], [ ANG_LEFT ] )</var>
@@ -112,7 +113,7 @@
                         }()
                     </var>
                     <var id="SIDES_B">[ 0, 1 ]</var>
-                    <var id="ANG_FIRST">randRangeUnique( 0, 3, 2 )</var>
+                    <var id="ANG_FIRST">randRangeUnique( 0, 2, 2 )</var>
                     <var id="ANG_LEFT">randRange( 0, 2 )</var>
                     <var id="SHOW_ANGLE">
                         function(){
