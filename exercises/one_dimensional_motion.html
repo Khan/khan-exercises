@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html data-require="math word-problems">
+    <head>
+        <title>Name of Your Exercise</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="vars">
+                <var id="a">randRangeNonZero(-5, 5)</var>
+                <var id="a_direction">a > 0 ? "right" : "left"</var>
+                <var id="a_abs">abs(a)</var>
+                <var id="v_i">randRange(0,1) ? randRange(1,5) : 0</var>
+                <var id="start_speed">v_i ? "moving at " + v_i + " m/s to the right" : "rest"</var>
+                <var id="t">randRange(3,10)</var>
+                <var id="t_plural">t == 1 ? '' : 's'</var>
+                <var id="s">v_i * t + .5 * a * t * t</var>
+                <var id="v_f">sqrt(v_i * v_i + 2 * a * s)</var>
+                <var id="goal">randRange(0,1) ? "displacement" : "final velocity"</var>
+                <var id="goal_units">goal == "displacement" ? "m" : "m/s"</var>
+                <var id="answer">goal == "displacement" ? s : v_f</var>
+                <var id="vehicle">vehicle(randRange(1,5))</var>
+                <var id="equation">goal == "displacement" ? "\\vec{s} = \\vec{v_{i}} \\Delta t +\\frac{1}{2}\\vec{a}(\\Delta t)^{2}" : "(\\vec{v}_{f})^{2} = \\vec{v}_{i}^{2} + 2a\\vec{s}"</var>
+            </div>
+            <div class="problems">
+                <div id="1-d-motion">
+                    <p class="problem">A <var>vehicle</var> is at <var>start_speed</var>.  It then accelerates uniformly at <var>a_abs</var> m/s<sup style="vertical-align:super;">2</sup> to the <var>a_direction</var> for <var>t</var> second<var>t_plural</var>.</p>
+                    <p class="question">What is the <var>vehicle</var>'s <var>goal</var> in <var>goal_units</var>?</p>
+                    <p class="solution"><var>answer</var></p>
+                </div>
+            </div>
+            <div class="hints">
+                <p>Remember that <code><var>equation</var></code></p>
+                <p>Any vector quantity directed to the right should be treated as positive.  Any left-facing vector should be treated as negative.</p>
+            </div>
+        </div>
+    </body>
+</html>
