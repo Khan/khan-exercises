@@ -8,7 +8,7 @@
         <div class="exercise">
             <div class="vars">
                 <var id="ANGLE">20+rand(60)</var>
-                <var id="VELOCITY">10+rand(15)</var><!---initial velocity--->
+                <var id="VELOCITY">10+rand(15)</var><!-- initial velocity -->
                 <var id="G">-9.8</var>
             </div>
 
