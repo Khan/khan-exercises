@@ -227,7 +227,7 @@
                     <span data-if="isSingular(NUM2)"><var>person(2)</var> did <var>NUM2</var> <var>exercise(1)</var> <var>timeofday(2)</var>.</span><span data-else=""><var>person(2)</var> did <var>NUM2</var> <var>plural_form(exercise(1), NUM2)</var> <var>timeofday(2)</var>.</span>
                 </p>
                 <p class="question"><span data-if="isSingular(2)" data-unwrap="">
-                    How many more <var>2</var> did <var>person(1)</var> do than <var>person(2)</var>?
+                    How many more <var>exercise(1)</var> did <var>person(1)</var> do than <var>person(2)</var>?
                 </span><span data-else="" data-unwrap="">
                     How many more <var>plural_form(exercise(1), 2)</var> did <var>person(1)</var> do than <var>person(2)</var>?
                 </span></p>
@@ -236,12 +236,12 @@
                 </div>
                 <div class="hints">
                     <p data-if="isSingular(2)">
-                    Find the difference between <var>person(1)</var>'s <var>2</var> and <var>person(2)</var>'s <var>2</var>.
+                    Find the difference between <var>person(1)</var>'s <var>exercise(1)</var> and <var>person(2)</var>'s <var>exercise(1)</var>.
                     </p><p data-else="">
                     Find the difference between <var>person(1)</var>'s <var>plural_form(exercise(1), 2)</var> and <var>person(2)</var>'s <var>plural_form(exercise(1), 2)</var>.
                     </p>
                     <p data-if="isSingular(NUM2)">
-                    The difference is <code><var>TOTAL</var> - <var>NUM2</var></code> <var>NUM2</var>.
+                    The difference is <code><var>TOTAL</var> - <var>NUM2</var></code> <var>exercise(1)</var>.
                     </p><p data-else="">
                     The difference is <code><var>TOTAL</var> - <var>NUM2</var></code> <var>plural_form(exercise(1), NUM2)</var>.
                     </p>
@@ -253,7 +253,7 @@
 
             <div id="compare-diff-less" data-type="compare-diff-more">
                 <p class="question"><span data-if="isSingular(2)" data-unwrap="">
-                    How many fewer <var>2</var> did <var>person(2)</var> do than <var>person(1)</var>?
+                    How many fewer <var>exercise(1)</var> did <var>person(2)</var> do than <var>person(1)</var>?
                 </span><span data-else="" data-unwrap="">
                     How many fewer <var>plural_form(exercise(1), 2)</var> did <var>person(2)</var> do than <var>person(1)</var>?
                 </span></p>
@@ -261,11 +261,11 @@
 
             <div id="compare-bigger-more">
                 <p class="problem">
-                    <span data-if="isSingular(NUM1)"><var>person(1)</var> did <var>NUM1</var> more <var>NUM1</var> than <var>person(2)</var> <var>timeofday(1)</var>.</span><span data-else=""><var>person(1)</var> did <var>NUM1</var> more <var>plural_form(exercise(1), NUM1)</var> than <var>person(2)</var> <var>timeofday(1)</var>.</span>
+                    <span data-if="isSingular(NUM1)"><var>person(1)</var> did <var>NUM1</var> more <var>exercise(1)</var> than <var>person(2)</var> <var>timeofday(1)</var>.</span><span data-else=""><var>person(1)</var> did <var>NUM1</var> more <var>plural_form(exercise(1), NUM1)</var> than <var>person(2)</var> <var>timeofday(1)</var>.</span>
                     <span data-if="isSingular(NUM2)"><var>person(2)</var> did <var>NUM2</var> <var>exercise(1)</var>.</span><span data-else=""><var>person(2)</var> did <var>NUM2</var> <var>plural_form(exercise(1), NUM2)</var>.</span>
                 </p>
                 <p class="question"><span data-if="isSingular(2)" data-unwrap="">
-                    How many <var>2</var> did <var>person(1)</var> do?
+                    How many <var>exercise(1)</var> did <var>person(1)</var> do?
                 </span><span data-else="" data-unwrap="">
                     How many <var>plural_form(exercise(1), 2)</var> did <var>person(1)</var> do?
                 </span></p>
@@ -279,7 +279,7 @@
                     <var>person(2)</var> did <var>NUM2</var> <var>plural_form(exercise(1), NUM2)</var>, and <var>person(1)</var> did <var>NUM1</var> more than that, so find the sum.
                     </p>
                     <p data-if="isSingular(TOTAL)">
-                    The sum is <code><var>NUM2</var> + <var>NUM1</var></code> <var>TOTAL</var>.
+                    The sum is <code><var>NUM2</var> + <var>NUM1</var></code> <var>exercise(1)</var>.
                     </p><p data-else="">
                     The sum is <code><var>NUM2</var> + <var>NUM1</var></code> <var>plural_form(exercise(1), TOTAL)</var>.
                     </p>
@@ -294,18 +294,18 @@
 
             <div id="compare-bigger-less" data-type="compare-bigger-more">
                 <p class="problem">
-                    <span data-if="isSingular(NUM1)"><var>person(2)</var> did <var>NUM1</var> fewer <var>NUM1</var> than <var>person(1)</var> <var>timeofday(1)</var>.</span><span data-else=""><var>person(2)</var> did <var>NUM1</var> fewer <var>plural_form(exercise(1), NUM1)</var> than <var>person(1)</var> <var>timeofday(1)</var>.</span>
+                    <span data-if="isSingular(NUM1)"><var>person(2)</var> did <var>NUM1</var> fewer <var>exercise(1)</var> than <var>person(1)</var> <var>timeofday(1)</var>.</span><span data-else=""><var>person(2)</var> did <var>NUM1</var> fewer <var>plural_form(exercise(1), NUM1)</var> than <var>person(1)</var> <var>timeofday(1)</var>.</span>
                     <span data-if="isSingular(NUM2)"><var>person(2)</var> did <var>NUM2</var> <var>exercise(1)</var>.</span><span data-else=""><var>person(2)</var> did <var>NUM2</var> <var>plural_form(exercise(1), NUM2)</var>.</span>
                 </p>
             </div>
 
             <div id="compare-smaller-more">
                 <p class="problem">
-                    <span data-if="isSingular(NUM1)"><var>person(1)</var> did <var>NUM1</var> more <var>NUM1</var> than <var>person(2)</var> <var>timeofday(1)</var>.</span><span data-else=""><var>person(1)</var> did <var>NUM1</var> more <var>plural_form(exercise(1), NUM1)</var> than <var>person(2)</var> <var>timeofday(1)</var>.</span>
+                    <span data-if="isSingular(NUM1)"><var>person(1)</var> did <var>NUM1</var> more <var>exercise(1)</var> than <var>person(2)</var> <var>timeofday(1)</var>.</span><span data-else=""><var>person(1)</var> did <var>NUM1</var> more <var>plural_form(exercise(1), NUM1)</var> than <var>person(2)</var> <var>timeofday(1)</var>.</span>
                     <span data-if="isSingular(TOTAL)"><var>person(1)</var> did <var>TOTAL</var> <var>exercise(1)</var>.</span><span data-else=""><var>person(1)</var> did <var>TOTAL</var> <var>plural_form(exercise(1), TOTAL)</var>.</span>
                 </p>
                 <p class="question"><span data-if="isSingular(2)" data-unwrap="">
-                    How many <var>2</var> did <var>person(2)</var> do?
+                    How many <var>exercise(1)</var> did <var>person(2)</var> do?
                 </span><span data-else="" data-unwrap="">
                     How many <var>plural_form(exercise(1), 2)</var> did <var>person(2)</var> do?
                 </span></p>
@@ -319,16 +319,16 @@
                     <var>person(1)</var> did <var>TOTAL</var> <var>plural_form(exercise(1), TOTAL)</var>, and <var>person(2)</var> did <var>NUM1</var> fewer than that, so find the difference.
                     </p>
                     <p data-if="isSingular(NUM1)">
-                    The difference is <code><var>TOTAL</var> - <var>NUM1</var></code> <var>NUM1</var>.
+                    The difference is <code><var>TOTAL</var> - <var>NUM1</var></code> <var>exercise(1)</var>.
                     </p><p data-else="">
                     The difference is <code><var>TOTAL</var> - <var>NUM1</var></code> <var>plural_form(exercise(1), NUM1)</var>.
                     </p>
                     <p data-if="isMale(1)"><span data-if="isSingular(NUM2)" data-unwrap="">
-                    He did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>NUM2</var>.
+                    He did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>exercise(1)</var>.
                     </span><span data-else="" data-unwrap="">
                     He did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural_form(exercise(1), NUM2)</var>.
                     </span></p><p data-else=""><span data-if="isSingular(NUM2)" data-unwrap="">
-                    She did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>NUM2</var>.
+                    She did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>exercise(1)</var>.
                     </span><span data-else="" data-unwrap="">
                     She did <code><var>TOTAL</var> - <var>NUM1</var> = <var>NUM2</var></code> <var>plural_form(exercise(1), NUM2)</var>.
                     </span></p>
@@ -338,7 +338,7 @@
 
             <div id="compare-smaller-fewer" data-type="compare-smaller-more">
                 <p class="problem">
-                    <span data-if="isSingular(NUM1)"><var>person(2)</var> did <var>NUM1</var> fewer <var>NUM1</var> than <var>person(1)</var> <var>timeofday(1)</var>.</span><span data-else=""><var>person(2)</var> did <var>NUM1</var> fewer <var>plural_form(exercise(1), NUM1)</var> than <var>person(1)</var> <var>timeofday(1)</var>.</span>
+                    <span data-if="isSingular(NUM1)"><var>person(2)</var> did <var>NUM1</var> fewer <var>exercise(1)</var> than <var>person(1)</var> <var>timeofday(1)</var>.</span><span data-else=""><var>person(2)</var> did <var>NUM1</var> fewer <var>plural_form(exercise(1), NUM1)</var> than <var>person(1)</var> <var>timeofday(1)</var>.</span>
                     <span data-if="isSingular(TOTAL)"><var>person(1)</var> did <var>TOTAL</var> <var>exercise(1)</var>.</span><span data-else=""><var>person(1)</var> did <var>TOTAL</var> <var>plural_form(exercise(1), TOTAL)</var>.</span>
                 </p>
             </div>

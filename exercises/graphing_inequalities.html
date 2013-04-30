@@ -226,7 +226,7 @@
             <p>
                 <span>The slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>. Remember that
                 the slope tells you rise over run.</span>
-                <span U00021="=" U00028="" U00029="" U0002B="" U00031U00022="" absU00028="" data-if="" positionU00022="" slope_fracU0005B0U0005D="">So in this case for every
+                <span data-if='"position" + ( abs( SLOPE_FRAC[0] ) !== 1'>So in this case for every
                 <code><var>abs( SLOPE_FRAC[0] )</var></code>
                 s
                 you move
@@ -237,7 +237,7 @@
                 you move
                 <span data-if="SLOPE_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
                 <span data-else="">up</span>.</span>
-                <span U00021="=" U00028="" U00029="" U0002B="" U00031U00022="" absU00028="" data-if="" positionU00022="" slope_fracU0005B1U0005D="">You must also move
+                <span data-if='"position" + ( abs( SLOPE_FRAC[1] ) !== 1'>You must also move
                 <code><var>SLOPE_FRAC[1]</var></code>
                 s
                 to the right.</span><span data-else="">You must also move

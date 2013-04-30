@@ -29,7 +29,7 @@
                 <var id="RESPONDENT">randFromArray([ "student", "teacher", "person" ])</var>
             </div>
 
-            <p data-if="isSingular(TOTAL)"><code><var>TOTAL</var></code> <var>TOTAL</var> were asked about their favorite <var>SUBJECT</var>.
+            <p data-if="isSingular(TOTAL)"><code><var>TOTAL</var></code> <var>RESPONDENT</var> were asked about their favorite <var>SUBJECT</var>.
             <var>toSentence( shuffle( $.map( DATA, function( num, i ) {
                 return "&lt;code&gt;" + num + "&lt;/code&gt; " + plural( RESPONDENT, num ) + " said " + CATEGORIES[ i ];
             }) ) )</var>.</p><p data-else=""><code><var>TOTAL</var></code> <var>plural_form(RESPONDENT, TOTAL)</var> were asked about their favorite <var>SUBJECT</var>.
@@ -120,7 +120,7 @@
     <div class="hints">
         <div data-each="DATA as INDEX, NUM">
             <p data-if="isSingular(NUM)">
-                <code><var>NUM</var></code> <var>NUM</var> said their
+                <code><var>NUM</var></code> <var>RESPONDENT</var> said their
                 favorite <var>SUBJECT</var> was <var>CATEGORIES[ INDEX ]</var>.
                 <span data-if="NUM > 0">
                     So the top of the bar for "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>" should line up with the number

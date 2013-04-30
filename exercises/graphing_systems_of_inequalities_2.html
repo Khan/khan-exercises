@@ -389,7 +389,7 @@
         </div>
         <div class="hint_blue">
             <p>
-                <span U00021="=" U00028="" U00029="" U0002B="" U00031U00022="" absU00028="" data-if="" positionU00022="" slope_frac_1U0005B0U0005D="">The slope is <code class="hint_purple"><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
+                <span data-if='"position" + ( abs( SLOPE_FRAC_1[0] ) !== 1'>The slope is <code class="hint_purple"><var>decimalFraction( SLOPE_1, true, true )</var></code>. Remember that
                 the slope tells you rise over run. So in this case for every
                 <code><var>abs( SLOPE_FRAC_1[0] )</var></code>
                 s
@@ -402,7 +402,7 @@
                 you move
                 <span data-if="SLOPE_FRAC_1[0] < 0"><em>down</em> (because it's negative)</span>
                 <span data-else="">up</span>.</span>
-                <span U00021="=" U00028="" U00029="" U0002B="" U00031U00022="" absU00028="" data-if="" positionU00022="" slope_frac_1U0005B1U0005D="">You must also move
+                <span data-if='"position" + ( abs( SLOPE_FRAC_1[1] ) !== 1'>You must also move
                 <code><var>SLOPE_FRAC_1[1]</var></code>
                 s
                 to the right. So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC_1[1]</var>, <var>YINT_1 + SLOPE_FRAC_1[0]</var>)</code></span><span data-else="">You must also move
@@ -470,7 +470,7 @@
         </div>
         <div class="hint_green">
             <p>
-                <span U00021="=" U00028="" U00029="" U0002B="" U00031U00022="" absU00028="" data-if="" positionU00022="" slope_frac_2U0005B0U0005D="">The slope is <code class="hint_purple"><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
+                <span data-if='"position" + ( abs( SLOPE_FRAC_2[0] ) !== 1'>The slope is <code class="hint_purple"><var>decimalFraction( SLOPE_2, true, true )</var></code>. Remember that
                 the slope tells you rise over run. So in this case for every
                 <code><var>abs( SLOPE_FRAC_2[0] )</var></code>
                 s
@@ -483,7 +483,7 @@
                 you move
                 <span data-if="SLOPE_FRAC_2[0] < 0"><em>down</em> (because it's negative)</span>
                 <span data-else="">up</span>.</span>
-                <span U00021="=" U00028="" U00029="" U0002B="" U00031U00022="" absU00028="" data-if="" positionU00022="" slope_frac_2U0005B1U0005D="">You must also move
+                <span data-if='"position" + ( abs( SLOPE_FRAC_2[1] ) !== 1'>You must also move
                 <code><var>SLOPE_FRAC_2[1]</var></code>
                 s
                 to the right. So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC_2[1]</var>, <var>YINT_2 + SLOPE_FRAC_2[0]</var>)</code></span><span data-else="">You must also move
