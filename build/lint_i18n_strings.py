@@ -900,7 +900,7 @@ class PluralFilter(IfElseFilter):
             # form of the word depending upon the number. This is what we want
             # so we just convert the usage of plural() to plural_form().
             else:
-                var_node.text = match.group(3).strip()
+                var_node.text = match.group(2).strip()
                 cloned_var.text = (pluralize %
                     (match.group(2).strip(), match.group(3).strip()))
 
