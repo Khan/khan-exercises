@@ -630,7 +630,7 @@ class AlwaysPluralFilter(BaseFilter):
         r'\(\s*((?:[^,]+|\([^\)]*\))*)\s*\)\s*$', re.I)
 
     xpath = ' or '.join(['contains(text(),"%s(")' % method
-        for method in _function_map.keys()])
+        for method in _function_map])
 
     def get_match(self, fix_node):
         """Return a match of a string that matches plural(...)"""
@@ -907,11 +907,13 @@ class PluralFilter(IfElseFilter):
     def get_condition(self, key):
         """Generates a data-if condition to handle the plural toggle.
 
-        This will turn a string like:
-            <p>I have <var>plural(NUM, "cat")</var>.</p>
-        Into the following:
-            <p data-if="isSingular(NUM)">I have 1 cat.</p>
-            <p data-else>I have <var>NUM</var> cats.</p>
+        If we have a string like:
+            <p>...</p>
+        That we want to turn into:
+            <p data-if="isSingular(NUM)">...</p>
+            <p data-else>...</p>
+        This function returns the ???, which in this case is an index into
+        the ngetpos array.
         """
         return self._ngetpos_condition % key
 
