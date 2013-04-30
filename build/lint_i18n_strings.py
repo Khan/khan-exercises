@@ -1020,7 +1020,7 @@ class AnFilter(BaseFilter):
         r'\(\s*((?:[^,]+|\([^\)]*\))*)\s*\)\s*$', re.I)
 
     xpath = ' or '.join(['contains(text(),"%s(")' % method
-        for method in _an_map.keys()])
+        for method in _an_map])
 
     def get_match(self, fix_node):
         """Return a match of a string that matches an/An(...)"""
