@@ -487,10 +487,10 @@ class IfElseFilter(BaseFilter):
                     return False
 
         # Otherwise we fail if a data-if or data-else exists
-        return not node.get('data-if') and node.get('data-else') is None
+        return node.get('data-if') is None and node.get('data-else') is None
 
     def replace_node(self, orig_node, node):
-        """Replace the node only if it can have an data-if added to it.
+        """Replace the node only if it can have a data-if added to it.
 
         This is because nodes that have a data-if or data-else are left
         in-place and new wrappers were generated and injected in copy_node.

@@ -330,7 +330,7 @@ def get_page_html(html_tree):
                                      encoding='utf-8')
 
     for norm, human in ENTITY_TABLE.iteritems():
-        html_string = re.sub(norm, human, html_string)
+        html_string = string.replace(html_string, norm, human)
 
     # Clean up entities in data-if attributes
     html_string = re.sub(r'data-if=(["\'])(.*?)\1', clean_data_if, html_string)
@@ -342,14 +342,22 @@ def get_page_html(html_tree):
 
 
 def clean_data_if(match):
-    """Clean up entities in data-if attributes."""
+    """Clean up entities in data-if attributes.
+    
+    This is done purely to aid in readability. In an attribute it's possible to
+    have < > and & exist un-escaped so we covert them to be as such. Helps to
+    make the contents easier to understand.
+
+    lxml will do the encoding automatically so we actually revert that using
+    this method.
+    """
     quote = match.group(1)
     condition = match.group(2)
 
     # Make sure any common entities are cleaned up, to help
     # with readability.
     for entity, replace in _CLEAN_ENTITIES.iteritems():
-        condition = re.sub(entity, replace, condition)
+        condition = string.replace(condition, entity, replace)
 
     return 'data-if=%s%s%s' % (quote, condition, quote)
 
