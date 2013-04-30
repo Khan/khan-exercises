@@ -10,7 +10,7 @@
             <div class="vars">
                 <var id="ANGLE">20+rand(60)</var>
                 <var id="VELOCITY">10+rand(15)</var><!-- initial velocity -->
-                <var id="G">-9.8</var>
+                <var id="G">-9.8</var><!-- gravitational acceleration -->
             </div>
 
             <div class="problems">
@@ -19,7 +19,7 @@
                     <p class="problem">A projectile is launched at an angle of <var>ANGLE</var> degrees with an initial velocity of <var>v_i</var> m/s.</p>
 
                     <div class="question">
-                        <p>What is the total time in the air (in seconds)? Round your answer to one decimal place.</p>
+                        <p>What is the total time in the air (in seconds)? Round your answer to one decimal place (do not round until the final answer).</p>
                         <div class="graphie" id="diagram">
                             init({range: [[-2, 8], [-1, 7]], scale: [20, 20] });
                             line([-2, 0], [8, 0]); <!--- ground --->
