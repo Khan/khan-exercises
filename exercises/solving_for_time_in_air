@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html data-require="math graphie">
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Solving for time in air</title>
         <script src="../khan-exercise.js"></script>
     </head>
