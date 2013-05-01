@@ -141,6 +141,10 @@ $.extend(KhanUtil, {
         // incongruities across platforms
         num = num === undefined ? 2 : num;
 
+        if (word && "plural_fn" in word) {
+            return word.plural_fn(num);
+        }
+
         if (word in KhanUtil.plurals) {
             return KhanUtil.plurals[word](num);
         }
@@ -206,6 +210,16 @@ $.extend(KhanUtil, {
         }
     }
 });
+
+KhanUtil.Plural = function(plural_fn) {
+    this.plural_fn = plural_fn;
+};
+
+KhanUtil.Plural.prototype = {
+    toString: function() {
+        return this.plural_fn(1);
+    }
+};
 
 $.fn["word-problemsLoad"] = function() {
 
