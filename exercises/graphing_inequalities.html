@@ -201,7 +201,7 @@
             </div>
             <div data-if="B !== 1">
                 <p>
-                    Divide both sides by <code><var>B</var></code><span data-if="B &lt; 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
+                    Divide both sides by <code><var>B</var></code><span data-if="B < 0">. Since you're multiplying or dividing by a negative number, <strong>don't forget</strong> to flip the inequality sign</span>:
                 </p><p>
                     <code>\qquad y <var>COMP</var> <var>expr([ "+", "\\dfrac{" + expr([ "*", -A, "x" ]) + "}{" + B + "}", "\\dfrac{" + C + "}{" + B + "}" ])</var></code>
                 </p>
@@ -227,7 +227,7 @@
                 <code><var>abs( SLOPE_FRAC[0] )</var></code>
                 <var>"position" + ( abs( SLOPE_FRAC[0] ) !== 1 ? "s" : "" )</var>
                 you move
-                <span data-if="SLOPE_FRAC[0] &lt; 0"><em>down</em> (because it's negative)</span>
+                <span data-if="SLOPE_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
                 <span data-else="">up</span>
                 you must also move
                 <code><var>SLOPE_FRAC[1]</var></code>
