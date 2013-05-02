@@ -240,36 +240,112 @@ $.extend(KhanUtil, {
         }
     },
 
-    // pluralization helper.  There are three signatures
+    // pluralization helper.  There are five signatures
+    // - plural(NUMBER): return "s" if NUMBER is not 1
     // - plural(NUMBER, singular):
     //        - if necessary, magically pluralize <singular>
+    //        - return "NUMBER word"
+    // - plural(NUMBER, singular, plural):
     //        - return "NUMBER word"
     // - plural(singular, NUMBER):
     //        - if necessary, magically pluralize <singular>
     //        - return "word"
+    // - plural(singular, plural, NUMBER):
+    //        - return "word"
     plural: (function() {
-        var genPlural = function(word, num) {
-            if (word in KhanUtil.plurals) {
-                return KhanUtil.plurals[word](num);
-            }
-
-            // TODO(jeresig): i18n: Eventually remove this?
-            if (typeof console !== "undefined" && console.error) {
-                console.error("Word not in plural dictionary: ", word);
-            }
-
-            return word;
+        var oneOffs = {
+            "quiz": "quizzes",
+            "shelf": "shelves",
+            "loaf": "loaves",
+            "potato": "potatoes",
+            "person": "people",
+            "is": "are",
+            "was": "were",
+            "foot": "feet",
+            "square foot": "square feet",
+            "tomato": "tomatoes"
         };
 
-        return function(value, arg1) {
-            if (typeof value === "number") {
-                // I18N: This is used to generate the string: NUMBER OBJECT
-                // For example: 5 cats, 1 dog, etc.
-                return $._("%(number)s %(object)s",
-                    {number: value, object: genPlural(arg1, value)});
+        var pluralizeWord = function(word) {
 
+            // noone really needs extra spaces at the edges, do they?
+            word = $.trim(word);
+
+            // determine if our word is all caps.  If so, we'll need to
+            // re-capitalize at the end
+            var isUpperCase = (word.toUpperCase() === word);
+            var oneOff = oneOffs[word.toLowerCase()];
+            var words = word.split(/\s+/);
+
+            // first handle simple one-offs
+            // ({}).watch is a function in Firefox, blargh
+            if (typeof oneOff === "string") {
+                return oneOff;
+            }
+
+            // multiple words
+            else if (words.length > 1) {
+                // for 3-word phrases where the middle word is 'in' or 'of',
+                // pluralize the first word
+                if (words.length === 3 && /\b(in|of)\b/i.test(words[1])) {
+                    words[0] = KhanUtil.plural(words[0]);
+                }
+
+                // otherwise, just pluraize the last word
+                else {
+                    words[words.length - 1] =
+                        KhanUtil.plural(words[words.length - 1]);
+                }
+
+                return words.join(" ");
+            }
+
+            // single words
+            else {
+                // "-y" => "-ies"
+                if (/[^aeiou]y$/i.test(word)) {
+                    word = word.replace(/y$/i, "ies");
+                }
+
+                // add "es"; things like "fish" => "fishes"
+                else if (/[sxz]$/i.test(word) || /[bcfhjlmnqsvwxyz]h$/.test(word)) {
+                    word += "es";
+                }
+
+                // all the rest, just add "s"
+                else {
+                    word += "s";
+                }
+
+                if (isUpperCase) {
+                    word = word.toUpperCase();
+                }
+                return word;
+            }
+        };
+
+        return function(value, arg1, arg2) {
+            if (typeof value === "number") {
+                var usePlural = (value !== 1);
+
+                // if no extra args, just add "s" (if plural)
+                if (arguments.length === 1) {
+                    return usePlural ? "s" : "";
+                }
+
+                if (usePlural) {
+                    arg1 = arg2 || pluralizeWord(arg1);
+                }
+
+                return value + " " + arg1;
             } else if (typeof value === "string") {
-                return genPlural(value, arg1);
+                var plural = pluralizeWord(value);
+                if (typeof arg1 === "string" && arguments.length === 3) {
+                    plural = arg1;
+                    arg1 = arg2;
+                }
+                var usePlural = (arguments.length < 2 || (typeof arg1 === "number" && arg1 !== 1));
+                return usePlural ? plural : value;
             }
         };
     })(),
