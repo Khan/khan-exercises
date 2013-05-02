@@ -40,16 +40,6 @@ $.extend(KhanUtil, {
     },
 
     plural_form: function(word, num) {
-        // There are some cases where plural_form is called with only a word
-        // (and no number). In this case we just want to return the plural
-        // form of that word, as best as we can. This might have some slight
-        // incongruities across platforms
-        num = num === undefined ? 2 : num;
-
-        if (word && "plural_fn" in word) {
-            return word.plural_fn(num);
-        }
-
         // TODO(jeresig): i18n: Eventually remove this?
         if (typeof console !== "undefined" && console.error) {
             console.error("Word not in plural dictionary: ", word);
@@ -193,6 +183,12 @@ var Plural = KhanUtil.Plural = function(plural_fn) {
 
 KhanUtil.Plural.prototype = {
     plural_form: function(num) {
+        // There are some cases where plural_form is called with only a word
+        // (and no number). In this case we just want to return the plural
+        // form of that word, as best as we can. This might have some slight
+        // incongruities across platforms
+        num = num === undefined ? 2 : num;
+
         return this.plural_fn(num);
     },
 
