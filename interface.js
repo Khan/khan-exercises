@@ -23,12 +23,12 @@ _.extend(Exercises, {
     userActivityLog: undefined
 });
 
-
 var PerseusBridge = Exercises.PerseusBridge,
 
-    // Store localMode here so that it's hard to change after the fact via
+    // Store these here so that they're hard to change after the fact via
     // bookmarklet, etc.
     localMode = Exercises.localMode,
+    previewingItem,
 
     originalCheckAnswerText,
 
@@ -55,6 +55,7 @@ $(Exercises)
 
 
 function problemTemplateRendered() {
+    previewingItem = Exercises.previewingItem;
     // Setup appropriate img URLs
     $("#issue-throbber").attr("src",
             Exercises.khanExercisesUrlBase + "css/images/throbber.gif");
@@ -247,6 +248,13 @@ function handleAttempt(data) {
         return false;
     }
 
+    if (previewingItem) {
+        $("#next-question-button").prop("disabled", true);
+
+        // Skip the server; just pretend we have success
+        return false;
+    }
+
     // Save the problem results to the server
     var requestUrl = "problems/" + problemNum + "/attempt";
     request(requestUrl, attemptData).fail(function(xhr) {
@@ -306,7 +314,8 @@ function onHintUsed() {
 
     Exercises.userActivityLog.push(["hint-activity", "0", timeTaken]);
 
-    if (!localMode && !userExercise.readOnly && !answeredCorrectly) {
+    if (!previewingItem && !localMode && !userExercise.readOnly &&
+            !answeredCorrectly) {
         // Don't do anything on success or failure; silently failing is ok here
         request("problems/" + problemNum + "/hint",
                 buildAttemptData(false, attempts, "hint", timeTaken, false));
