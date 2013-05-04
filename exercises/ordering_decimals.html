@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html data-require="math math-format interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Ordering decimals</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        .sort-key {
+            visibility: hidden;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="NUMS">(function() {
+                var array = [];
+                var types = shuffle( [1, 1, 1, 2, 2, 2], 5 );
+                var used = {};
+
+                while ( array.length &lt; 5 ) {
+                    var type = types[ array.length ], n, ns, beforeD, afterD, noD;
+                    switch (type) {
+                        case 1: //two places decimals
+                            beforeD = randRange( 0, 9 );
+                            afterD = randRange( 11, 100 );
+                            n = beforeD + ( afterD * .01 );
+                            ns = n.toFixed( 2 );
+                            if(afterD < 100) {
+                             afterD = afterD * 10;
+                            }
+                            noD = beforeD * 1000 + afterD;
+
+                            if ( !used[ ns ] ) {
+                                array.push([ type, n, ns, "= " + ns, beforeD, afterD, noD ]);
+                                used[ ns ] = true;
+                            }
+
+                            break;
+
+                        <!--1: type, 2: unabridged number, 3: abridged number, 4: before decimal, 5: after decimal, 6: no decimal-->
+                        case 2: //three places decimals
+                            beforeD = 0;
+                            afterD = randRange( 100, 1000 );
+                            n = beforeD + ( afterD * .001 );
+                            ns = n.toFixed( 3 );
+                            noD = beforeD * 1000 + afterD;
+
+                            if ( !used[ ns ] ) {
+                                array.push([ type, n, ns, "= " + ns, beforeD, afterD, noD ]);
+                                used[ ns ] = true;
+                            }
+
+                            break; 
+                    }
+                }
+
+                return array;
+            })()</var>
+
+            <var id="NUMS_TEX">$.map( NUMS, function( el ) {
+                return el[2];
+            } ).join( "," )</var>
+            <var id="NUMS_SORT">$.extend( true, [], NUMS ).sort( function(a, b) {
+                return a[1] - b[1];
+            } )</var>
+            <var id="NUMS_SORT_TEX">$.map( NUMS_SORT, function( el ) {
+                return el[6];
+            } ).join( ",\\space" )</var>
+            <var id="NUMS_SORT_DECS">$.map( NUMS_SORT, function( el ) {
+                return el[3].match( / (.+)$/ )[1];
+            } ).join( ",\\space" )</var>
+
+            <var id="SORTER">createSorter()</var>
+        </div>
+
+        <div class="problems">
+
+            <div>
+                <div class="question">
+                    <p>Order the following decimal numbers from least to greatest:</p>
+                    <ul id="sortable">
+                        <li data-each="NUMS as NUM">
+                            <span class="sort-key"><var>NUM[2]</var></span>
+                            <code><var>NUM[2]</var></code>
+                        </li>
+                    </ul>
+                    <p><var>SORTER.init( "sortable" )</var></p>
+
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Drag the numbers left and right so they are in order from least to greatest
+                    </div>
+                    <div class="guess">SORTER.getContent()</div>
+                    <div class="validator-function">
+                        return guess.join( ",\\space" ) === NUMS_SORT_DECS;
+                    </div>
+                    <div class="show-guess">
+                        SORTER.setContent( guess );
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <p>Start by lining up the decimal points in each number.</p>
+                    <p><code>\begin{align*}
+                        <span data-each="NUMS as NUM">
+                        <var>NUM[4]</var> &amp; . <var>NUM[5]</var> \\</span>
+                    \end{align*}</code></p>
+                    <p>Now remove the decimals from the numbers:</p>
+                    <code><var>NUMS_SORT_DECS</var>
+                        <code>\begin{align*}
+                        <span data-each="NUMS as NUM">
+                        <var>NUM[4]</var> &amp; <var>NUM[5]</var> \\</span>
+                        \end{align*}</code>
+                    </code>
+                    <p>Sort the numbers from smallest to largest: <code><var>NUMS_SORT_TEX</var></code>.</p>
+                    <p>Reinsert the decimal points: <code>\Large{<var>NUMS_SORT_DECS</var>}</code>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
