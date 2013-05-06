@@ -37,18 +37,18 @@
     </p>
 
     <!-- Test 3: Function call as first argument: arithmetic_word_problems -->
-    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>item(1)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p>
+    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>item(1)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>item(1).plural(ITEMS_LEFT)</var> left over.</p>
 
     <!-- Test 4: Function call as second argument: arithmetic_word_problems -->
-    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>item(1)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p>
+    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>item(1)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>item(1).plural(ITEMS_LEFT)</var> left over.</p>
 
     <!-- Test 5: Ambiguous variables: area_1 -->
     <p data-if="isSingular(S)">
         The length is <var>S</var> <var>UNIT_TEXT</var> and
         the width is <var>S</var> <var>UNIT_TEXT</var>.
     </p><p data-else="">
-        The length is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var> and
-        the width is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var>.
+        The length is <var>S</var> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var> and
+        the width is <var>S</var> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var>.
     </p>
 
     <!-- Test 6: Ambiguous variables: area_of_squares_and_rectangles -->
@@ -57,7 +57,7 @@
         <var>UNIT_TEXT</var> long. What is its area?
     </span><span data-else="" data-unwrap="">
         One side of a square is <code><var>S</var></code>
-        <var>plural_form(UNIT_TEXT, S)</var> long. What is its area?
+        <var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var> long. What is its area?
     </span></p>
 
     <!-- Test 7: pluralTex: area_of_triangles_1 -->
@@ -66,7 +66,7 @@
         <code><var>B</var></code> <var>UNIT_TEXT</var>.
     </p><p data-else="">
         The base of the triangle is
-        <code><var>B</var></code> <var>plural_form(UNIT_TEXT, B)</var>.
+        <code><var>B</var></code> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, B)</var>.
     </p>
 </body>
 </html>

@@ -15,14 +15,26 @@ TESTS = {
             'Re-run with --fix to automatically fix them.']
     },
     'always_plural': {
-        'nodes_changed': 4,
-        'errors': ['4 nodes need to be fixed. '
-            'Re-run with --fix to automatically fix them.']
+        'nodes_changed': 5,
+        'errors': [
+            'Ambiguous plural usage (TYPES[ 2 ]):\n'
+                '<var>AMBIGUOUS_PLURAL(TYPES[ 2 ])</var>',
+            '5 nodes need to be fixed. '
+                'Re-run with --fix to automatically fix them.']
     },
     'plural': {
-        'nodes_changed': 15,
-        'errors': ['15 nodes need to be fixed. '
-            'Re-run with --fix to automatically fix them.']
+        'nodes_changed': 19,
+        'errors': [
+            'Ambiguous plural usage (UNIT_TEXT, S):\n'
+                '<var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var>',
+            'Ambiguous plural usage (UNIT_TEXT, S):\n'
+                '<var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var>',
+            'Ambiguous plural usage (UNIT_TEXT, S):\n'
+                '<var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var>',
+            'Ambiguous plural usage (UNIT_TEXT, B):\n'
+                '<var>AMBIGUOUS_PLURAL(UNIT_TEXT, B)</var>',
+            '19 nodes need to be fixed. '
+                'Re-run with --fix to automatically fix them.']
     },
     'ternary': {
         'nodes_changed': 5,
@@ -99,7 +111,7 @@ class LintStringsTest(unittest.TestCase):
 
         self.assertEqual(nodes_changed, checks['nodes_changed'], 
             '# of nodes changed differ in %s' % test_file)
-        self.assertEqual(errors, [], 
+        self.assertEqual(errors, checks['errors'][:-1], 
             'These should be no errors in %s' % test_file)
         self.assertEqual(_slurp(test_file), _slurp(checks['output_file']),
             'Make sure that the output of the file matches the expected '

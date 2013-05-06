@@ -154,7 +154,7 @@ def lint_file(filename, apply_fix, verbose):
 
     # The filters through which the files should be passed and in which order
     filters = [PronounFilter, TernaryFilter, AlwaysPluralFilter, PluralFilter,
-        AnFilter]
+        AnFilter, AmbiguousPluralFilter]
 
     # Collect all the i18n-able nodes out of file
     nodes = extract_strings.extract_nodes(filename)
@@ -493,18 +493,35 @@ class IfElseFilter(BaseFilter):
         """Replace the node only if it can have a data-if added to it.
 
         This is because nodes that have a data-if or data-else are left
-        in-place and new wrappers were generated and injected in copy_node.
+        in-place and new wrappers were generated in copy_node.
         """
+        # Don't replace if no matching <var> nodes were found
+        if not self.match_keys:
+            return
+
         if self.can_have_if(orig_node):
-            return super(IfElseFilter, self).replace_node(orig_node, node)
+            super(IfElseFilter, self).replace_node(orig_node, node)
+        else:
+            # Remove all child nodes within the original element
+            for child_node in orig_node.iterchildren():
+                orig_node.remove(child_node)
+
+            # Clear any remaining text
+            orig_node.text = ''
+
+            # And insert the newly-created node into position
+            orig_node.append(node)
 
     def copy_node(self, orig_node):
         """Copy the node only if it can't have an data-if added to it.
         
         We leave nodes that have a data-if or data-else in-place and new
-        <span> wrappers are generated and injected instead.
+        <span> wrappers are generated instead.
         """
-        if not self.can_have_if(orig_node):
+        if self.can_have_if(orig_node):
+            # Run the BaseFilter copy_node
+            return super(IfElseFilter, self).copy_node(orig_node)
+        else:
             # We clone the node to make sure we don't unintentionally modify
             # the original node.
             node = copy.deepcopy(orig_node)
@@ -525,23 +542,7 @@ class IfElseFilter(BaseFilter):
             node.set('data-unwrap', '')
             self.cloned_node.set('data-unwrap', '')
 
-            # Remove all child nodes within the original element
-            for child_node in orig_node.iterchildren():
-                orig_node.remove(child_node)
-
-            # Clear any remaining text
-            orig_node.text = ''
-
-            # And insert the newly-created node into position
-            orig_node.append(node)
-
-            # Note: We no longer need to do replace_node as we've effectively
-            # inserted the nodes that we're operating against into the tree.
-
             return node
-
-        # Run the BaseFilter copy_node
-        return super(IfElseFilter, self).copy_node(orig_node)
 
     def get_condition(self, key):
         raise NotImplementedError('Subclasses must define this')
@@ -622,8 +623,8 @@ class AlwaysPluralFilter(BaseFilter):
     _empty_str_fn = '%s("", %s)'
     # Map old function name to new function name
     _function_map = {
-        'plural': 'plural_form(%s)',
-        'pluralTex': 'plural_form(%s)'
+        'plural': '%s.plural()',
+        'pluralTex': '%s.plural()'
     }
     # Matches plural(...)
     _regex = re.compile(r'^\s*(plural|pluralTex)'
@@ -672,11 +673,17 @@ class AlwaysPluralFilter(BaseFilter):
             var_node.text = self._empty_str_fn % (match.group(1).strip(),
                 match.group(2).strip())
         else:
+            # Make the string which will be used to wrap the output variable
+            # We mark ambiguous strings with an obvious function name
+            if _check_plural_is_ambiguous(match.group(2)):
+                pluralize = 'AMBIGUOUS_PLURAL(%s)'
+            else:
+                pluralize = self._function_map[match.group(1)]
+
             # Otherwise we need to wrap the variable (or function call) in
             # a call to plural_form() which will attempt to return the
             # plural form of that string.
-            var_node.text = (self._function_map[match.group(1)] %
-                match.group(2).strip())
+            var_node.text = pluralize % match.group(2).strip()
 
 
 class PluralFilter(IfElseFilter):
@@ -738,8 +745,8 @@ class PluralFilter(IfElseFilter):
     """
     # Map old function name to new function name
     _function_map = {
-        'plural': 'plural_form(%s, %s)',
-        'pluralTex': 'plural_form(%s, %s)'
+        'plural': '%s.plural(%s)',
+        'pluralTex': '%s.plural(%s)'
     }
     _ngetpos_condition = 'isSingular(%s)'
     # See if it matches the form plural|pluralTex(..., ...)
@@ -832,11 +839,20 @@ class PluralFilter(IfElseFilter):
 
         # Otherwise both of the results are variables or function calls.
         else:
-            # The string which will be used to wrap the output variable
-            pluralize = self._function_map[match.group(1)]
-
             # Get the position of the number variable from the match
             plural_num_pos = get_plural_num_pos(match)
+
+            # Check to see if the argument holding the string is ambiguously
+            # named, and thus we need to mark it as such.
+            check_str = (match.group(3) if plural_num_pos == 1 else
+                match.group(2))
+
+            # Make the string which will be used to wrap the output variable
+            # We mark ambiguous strings with an obvious function name
+            if _check_plural_is_ambiguous(check_str):
+                pluralize = 'AMBIGUOUS_PLURAL(%s, %s)'
+            else:
+                pluralize = self._function_map[match.group(1)]
 
             # Number is in the first position, this results in the output:
             # "NUM STRING". This signature is deprecated so we're going to
@@ -1049,6 +1065,26 @@ class AnFilter(BaseFilter):
         var_node.text = match.group(2).strip()
 
 
+class AmbiguousPluralFilter(BaseFilter):
+    """Detect instances of AMBIGUOUS_PLURAL() and report an error."""
+    # Matches AMBIGUOUS_PLURAL(...)
+    _regex = re.compile(r'^\s*\bAMBIGUOUS_PLURAL'
+        r'\(\s*((?:.*?|\([^\)]*\))*)\s*\)\s*$', re.I)
+
+    xpath = 'contains(text(),"AMBIGUOUS_PLURAL(")'
+
+    def get_match(self, fix_node):
+        """Return a match of a string that matches AMBIGUOUS_PLURAL(...)"""
+        return self._regex.match(fix_node.text)
+
+    def filter_var(self, match, var_node):
+        """
+        """
+        self.errors.append("Ambiguous plural usage (%s):\n%s" % (
+            match.group(1).strip(),
+            extract_strings.get_outerhtml(var_node)))
+
+
 def get_plural_form(word):
     """Prompt the user for help getting the correct plural form for a word.
 
@@ -1193,6 +1229,33 @@ def _check_plural_arg_is_num(plural_arg):
 
     # Otherwise we bail as we don't know the answer
     return None
+
+
+def _check_plural_is_ambiguous(plural_arg):
+    """Check to see if a string is ambiguously named.
+
+    We do this so that we can mark up the string with a large warning function
+    call like AMBIGUOUS_PLURAL and report an error to the user.
+    """
+    # If we already think it's ambiguous then just say so
+    if _check_plural_arg_is_num(plural_arg) is None:
+        return True
+
+    # In this case we're going to check and see if the item is in one of our
+    # known string or number variables. If so then we're not going to trust
+    # it and we want to force the user to fix it by hand.
+
+    # If it users a var that's in our list of known string variables
+    for var in _string_vars:
+        if var in plural_arg.upper():
+            return True
+
+    # If it users a var that's in our list of known number variables
+    for var in _num_vars:
+        if var in plural_arg.upper():
+            return True
+
+    return False
 
 
 def prompt_user(prompt, default=''):
