@@ -41,7 +41,7 @@
                 
                 <div>
                     <p>You can use the below slider to help you encrypt the message.<br/>
-                    Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to right shift the encrypted alphabet</p>
+                    Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to shift the encrypted alphabet</p>
                     <center><br/><strong>Original Alphabet</strong></center>
                 </div>
                 <div class="graphie" id="number-line">
@@ -64,7 +64,8 @@
                     <!-- Draws the line marks for each letter-->
                     style({arrows: ""});
                     for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=1 ) {
-                        var markLength = 0.2;
+                        var markLength;
+                        x % 5 === 0 ? markLength = 0.2 : markLength = 0.1
                         line( [ x * indent, -markLength ], [ x * indent, markLength ] );
                         label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                     }

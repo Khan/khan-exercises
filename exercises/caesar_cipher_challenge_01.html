@@ -80,7 +80,7 @@
                 </div>
                 <div>
                     <p>You can use the below slider to see if your guess is correct.<br/>
-                    Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to adjust the <strong>Left</strong> shift of this message</p>
+                    Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to adjust the shift of this message</p>
                     <center>Cipher Message:</center>
                     <center><strong><var>C</var></center></strong><br/>
                 </div>
@@ -104,7 +104,7 @@
                     style({arrows: ""});
                     for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=1 ) {
                         var markLength;
-                        x % 1 === 0 ? markLength = 0.2 : markLength = 0.1
+                        x % 5 === 0 ? markLength = 0.2 : markLength = 0.1
                         line( [ x * indent, -markLength ], [ x * indent, markLength ] );
                         label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                     }

@@ -42,8 +42,10 @@
                 </div>
                 
                 <div>
-                <p>You can use the below slider to help you encrypt the message.<br/>
-                Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to right shift the encrypted alphabet.</p>
+                <p>You can use the below slider to help you encrypt the message. <br/>
+                Note that in Vigenere Ciphers, A = 0.<br/>
+                Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to shift the encrypted alphabet.</p>
+                <center><br/><strong>Original Alphabet</strong></center>
                 </div>
                 <div class="graphie" id="number-line">
                     <!-- Use for spacing the Cipher letter guide -->
@@ -65,7 +67,8 @@
                     <!-- Draws the line marks for each letter-->
                     style({arrows: ""});
                     for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=1 ) {
-                        var markLength = 0.2;
+                        var markLength;
+                        x % 5 === 0 ? markLength = 0.2 : markLength = 0.1
                         line( [ x * indent, -markLength ], [ x * indent, markLength ] );
                         label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                     }
@@ -79,6 +82,7 @@
                 </div>
                 <div>
                     <pre id="Cip">a b c d e f g h i j k l m n o p q r s t u v w x y z</pre>
+                    <center><strong>Cipher Alphabet</strong></center>
                 </div>
 
 
@@ -122,7 +126,7 @@
                 <p>Every time we reach the last letter of the keyword, we can go back to the first letter of the keyword to continue encrypting the rest of the message</p>
             </div>
             <div>
-                <p>Also, remember to skip spaces in the message. If the next charecter in the message is a space, use the current keyword letter on the next available message letter.</p>
+                <p>Be sure to ignore spaces in the message. </p>
             </div>
             <div>
                 <p>The encrypted message is: <var>C</var>
