@@ -35,14 +35,15 @@
         <div class="problems">
             <div>
                 <div class="question">
-                    <p><var>person(1)</var> wants to encode the following cryptic message:</p>
+                    <p><strong><var>person(1)</var></strong> wants to encode the following cryptic message:</p>
                     <p><strong><var>M</var></strong></p>
-                    <p>In an effort to increase security, <var>person(1)</var> decides to encrypt it with a Vigenere Cipher
-                    using <var>his(1)</var> own name as the key word. What will the secret message look like once its encrypted?</p>
+                    <p>In an effort to increase security, <strong><var>person(1)</var></strong> decides to encrypt it with a Vigenere Cipher
+                    using <var>his(1)</var> own name as the keyword. What will the secret message look like once it is encrypted?</p>
                 </div>
                 
                 <div>
-                <p>Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to right shift the encrypted alphabet.</p>
+                <p>You can use the below slider to help you encrypt the message.<br/>
+                Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to right shift the encrypted alphabet.</p>
                 </div>
                 <div class="graphie" id="number-line">
                     <!-- Use for spacing the Cipher letter guide -->
@@ -96,28 +97,32 @@
         </div>
 
         <div class="hints">
-            <p>First, we need to convert every letter in the key word to a number. Where A = 0, and Z = 25.</p>
+            <p>First, we need to convert every letter in the keyword to a number. <br/>
+            Where A = 0, and Z = 25.</p>
             <div>
                 <p>For our keyword <strong><var>person(1)</var></strong> the first few letters convert to: <br/>
-                <var>person(1)[0]</var>: <var>"abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[0].toLowerCase())</var>
-                <var>person(1)[1]</var>: <var>"abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[1].toLowerCase())</var>
+                <var>person(1)[0]</var>: <var>"abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[0].toLowerCase())</var><br/>
+                <var>person(1)[1]</var>: <var>"abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[1].toLowerCase())</var><br/>
                 <var>person(1)[2]</var>: <var>"abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[2].toLowerCase())</var>
             </div>
             <div>
-                <p>Next we want to encrypt our message. So we will shift the first letter in the message to the right by the letter/value
-                in our key word.</p>
+                <p>To encrypt our message, shift the first letter in the message to the right by the letter/value
+                of the first letter in our keyword.</p>
             </div>
             <div>
                 <p>In this case, we shift the letter <strong><var>M[0]</var></strong> by the value <strong><var>"abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[0].toLowerCase())</var></strong>
                 which results in the letter <strong><var>"abcdefghijklmnopqrstuvwxyz"[("abcdefghijklmnopqrstuvwxyz".indexOf(M[0].toLowerCase()) + "abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[0].toLowerCase()) ) % 26]</var></strong></p>
             </div>
             <div>
-                <p>We do the same with the second letter of the message, and the second letter of the key word</p>
+                <p>We do the same with the second letter of the message, and the second letter of the keyword</p>
                 <p>Shift the letter <strong><var>M[1]</var></strong> by the value <strong><var>"abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[1].toLowerCase())</var></strong>
                 which results in the letter <strong><var>"abcdefghijklmnopqrstuvwxyz"[("abcdefghijklmnopqrstuvwxyz".indexOf(M[1].toLowerCase()) + "abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[1].toLowerCase()) ) % 26]</var></strong></p>
             </div>
             <div>
-                <p>After using the last letter of the keyword, you can go back to the start of the keyword and continue encrypting the message</p>
+                <p>Every time we reach the last letter of the keyword, we can go back to the first letter of the keyword to continue encrypting the rest of the message</p>
+            </div>
+            <div>
+                <p>Also, remember to skip spaces in the message. If the next charecter in the message is a space, use the current keyword letter on the next available message letter.</p>
             </div>
             <div>
                 <p>The encrypted message is: <var>C</var>
