@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems cipher interactive"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Caesar Cipher Encrypting</title>
+    <script src="../khan-exercise.js"></script>
+        <style>
+        #Cip         {    
+                        font-family:"Courier New";
+                        letter-spacing: 2px;
+                        color: rgb(37, 108, 233);
+                        font-weight: bold;
+                        font-size: 14px;
+                        <!-- Should be letter-spacing 1.6px for IE (Or at least IE10), but IE conditional statements aren't working here for some reason -->
+                        <!-- Knowen Issue: Web Browser Zooming breaks the formating on Firefox and Chrome for the Interactive Cipher Shift
+						     It does work on IE, but IE requires a different letter spacing then the other browsers which is another issue -->
+                    }
+        #MsgShift     {
+                        color: rgb(37, 108, 233);
+                        font-weight: bold;
+                    }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="M">person( 1 )</var>
+            <var id="Shift">randRange(1,25)</var>
+            <var id="C">applyCaesar(M,Shift)</var>
+            
+            <var id="LOWER_BOUND">0</var>
+            <var id="UPPER_BOUND">25</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <div class="question">
+                    <p><strong><var>M</var></strong> decides <var>he(1)</var> wants to encrypt <var>his(1)</var> name with a Caesar Cipher, using a shift of <var>Shift</var></p>
+                    
+                    <p>What will <var>his(1)</var> name look like after they encrypt it?</p>
+                </div>
+                
+                <div>
+                    <p>Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to right shift the encrypted alphabet</p>
+                    <center><br/><strong>Original Alphabet</strong></center>
+                </div>
+                <div class="graphie" id="number-line">
+                    <!-- Use for spacing the Cipher letter guide -->
+                    var indent = 1.05;
+                    
+                    init({
+                        range: [ [LOWER_BOUND - 0.3, UPPER_BOUND * indent + 0.5], [-0.2, 1] ],
+                        scale: [19, 40]
+                    });
+    
+                    <!-- Draws the line-->
+                    style({arrows: ""});
+                    line( [ 0, 0 ], [ UPPER_BOUND * indent, 0 ] );
+
+                    
+                    style({arrows: ""});
+                    line( [ 0, 0 ], [ LOWER_BOUND, 0 ] );
+                    
+                    <!-- Draws the line marks for each letter-->
+                    style({arrows: ""});
+                    for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=1 ) {
+                        var markLength = 0.2;
+                        line( [ x * indent, -markLength ], [ x * indent, markLength ] );
+                        label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
+                    }
+
+                    addMouseLayer();
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: indent });
+                    graph.movablePoint.onMove = function( x, y ) {
+                        document.getElementById("Cip").innerHTML =  applyCaesar("a b c d e f g h i j k l m n o p q r s t u v w x y z",x/indent);
+                        return [ min( max( LOWER_BOUND, x ), UPPER_BOUND * indent ), y ];
+                    };
+                </div>
+                <div>
+                    <pre id="Cip">a b c d e f g h i j k l m n o p q r s t u v w x y z</pre>
+                    <center><strong>Cipher Alphabet</strong></center>
+                </div>
+
+
+                <p class="solution">
+                    <var>C</var>
+                </p>
+                <ul class="choices" data-none="true" data-show="4">
+                    <li><var>C</var></li>
+                    <li><var>C.substring(0,3) + applyCaesar(C,randRange(1,5)).substring(3)</li>
+                    <li><var>applyCaesar(C,randRange(6,11))</li>
+                    <li><var>applyCaesar(C,randRange(12,17))</li>
+                    <li><var>applyCaesar(C,randRange(18,23))</li>
+                </ul>
+                
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>We want to take each letter of the name and shift it right by <strong><var>Shift</var></strong></p>
+            <div>
+                <p>If we take the first letter <strong><var>M[0]</var></strong> and shift it right by <strong><var>Shift</var></strong>,
+                we get the letter <strong> <var>"abcdefghijklmnopqrstuvwxyz"[ ("abcdefghijklmnopqrstuvwxyz".indexOf( M[0].toLowerCase() ) + Shift) % 26]</var> </strong></p>
+            </div>
+            <div>
+                <p>If we take the second letter <strong><var>M[1]</var></strong> and shift it right by <strong><var>Shift</var></strong>,
+                we get the letter <strong><var>"abcdefghijklmnopqrstuvwxyz"[ ("abcdefghijklmnopqrstuvwxyz".indexOf( M[1].toLowerCase() ) + Shift) % 26]</var></strong></p>
+            </div>
+            <div>
+                <p>Continuing this for each letter, the final cipher output is: <var>C</var></p>
+            </div>
+        </div>
+    </div>
+</body></html>

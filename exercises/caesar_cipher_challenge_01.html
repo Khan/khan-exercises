@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems cipher interactive"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Caesar Cipher Frequency Analysis</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        #Cip         {    
+                        font-family:"Courier New";
+                        font-size: 14px;
+                        color: rgb(37, 108, 233);
+                        font-weight: bold;
+                        letter-spacing: 2px;
+                        <!-- Should be letter-spacing 1.6px for IE (Or at least IE10), but IE conditional statements aren't working here for some reason -->
+                        <!-- Knowen Issue: Web Browser Zooming breaks the formating on Firefox and Chrome for the Interactive Cipher Shift when goign past +/- 20%
+						     It does work on IE, but IE requires a different letter spacing then the other browsers which is another issue -->
+                    }
+        #MsgShift     {
+                        color: rgb(37, 108, 233);
+                        font-weight: bold;
+                    }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="M">getCipherMessage(randRange(1,5))</var>
+            <var id="Shift">randRange(1,25)</var>
+            <var id="C">applyCaesar(M,Shift)</var>
+            <var id="FREQ">normEnglishLetterFreq(10)</var>
+            <var id="CIPHER_FREQ">normCipherLetterFreq(C,10)</var>
+            <var id="LETTERS">26</var>
+            
+            <var id="LOWER_BOUND">0</var>
+            <var id="UPPER_BOUND">25</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <div class="question">
+                    
+                    <p>You intercept the following message, which you know to be encrypted with a Caesar Cipher:</p>
+                    <p style="color:orange"><strong><center><var>C</var></center></strong></p>
+                    <p>What shift was applied to the original message?</p>
+                    
+                    <p>You can use the below letter frequency graph to help solve this problem.</p>
+                </div>
+                <div class="graphie" id="barchart">
+                    init({
+                        range: [ [ -2, LETTERS * 3 + 2 ], [ -3, 6 ] ],
+                        scale: [ 6, 24 ]
+                    });
+
+                    for ( var y = 1; y &lt;= 5; ++y ) {
+                        style({ stroke: "#000", strokeWidth: 1, opacity: 0.2 }, function() {
+                            line( [ 0, y ], [ LETTERS * 3 + 1, y ] )
+                        });
+                    }
+                    for ( var index = 0, indent = 3; index &lt; LETTERS; ++index ) {
+                        style({ stroke: "none", fill: "#9ab8ed", opacity: 1.0 });
+                        path([ [ index * indent + 1, 0 ], [ index * indent + 1, FREQ[ index ] * 4 ], [ index * indent + 2, FREQ[ index ] * 4 ], [ index * indent + 2, 0 ], [ index * indent + 1, 0 ] ]);
+                        style({ stroke: "none", fill: "#ffc966", opacity: 1.0 });
+                        path([ [ index * indent + 2, 0 ], [ index * indent + 2, CIPHER_FREQ[ index ] * 4 ], [ index * indent + 3, CIPHER_FREQ[ index ] * 4 ], [ index * indent + 3, 0 ], [ index * indent + 2, 0 ] ]);
+                        style({ opacity: 1.0 });
+                        label( [ index * indent + 2, 0 ], "abcdefghijklmnopqrstuvwxyz"[index], "below", false );
+                    }
+                    style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 });
+                    line( [ 0, 0 ], [ LETTERS * 3 + 1, 0 ] );
+                    line( [ 0, 0 ], [ 0, 10 ] );
+    
+                    label( [ ( LETTERS * 3 + 1 ) / 2, -0.8 ], "&lt;b&gt;Letter Frequency&lt;/b&gt;", "below", false );
+    
+                    style({ stroke: "none", fill: "#9ab8ed", opacity: 1.0 });
+                    path([ [ 0, -2 ], [ 1, -2  ], [ 1, -2.5  ], [ 0, -2.5 ], [ 0, -2 ] ]);
+                    style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 });
+                    label( [ 0.5, -2.25 ], "English", "right", false );
+                    style({ stroke: "none", fill: "#ffc966", opacity: 1.0 });
+                    path([ [ 12, -2 ], [ 13, -2  ], [ 13, -2.5  ], [ 12, -2.5 ], [ 12, -2 ] ]);
+                    style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 });
+                    label( [ 12, -2.25 ], "Cipher", "right", false );
+                </div>
+                <div>
+                    <p>Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to adjust the <strong>Left</strong> shift of this message</p>
+                    <center>Cipher Message:</center>
+                    <center><strong><var>C</var></center></strong><br/>
+                </div>
+                <div class="graphie" id="number-line">
+                    <!-- Use for spacing the Cipher letter guide -->
+                    var indent = 1.05;
+                    
+                    init({
+                        range: [ [LOWER_BOUND - 0.3, UPPER_BOUND * indent + 0.5], [-0.2, 1] ],
+                        scale: [19, 40]
+                    });
+   
+                    <!-- Draws the line-->
+                    style({arrows: ""});
+                    line( [ 0, 0 ], [ UPPER_BOUND * indent, 0 ] );
+
+                    style({arrows: ""});
+                    line( [ 0, 0 ], [ LOWER_BOUND, 0 ] );
+                    
+                    <!-- Draws the line marks for each letter-->
+                    style({arrows: ""});
+                    for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=1 ) {
+                        var markLength;
+                        x % 1 === 0 ? markLength = 0.2 : markLength = 0.1
+                        line( [ x * indent, -markLength ], [ x * indent, markLength ] );
+                        label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
+                    }
+
+                    addMouseLayer();
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: indent });
+                    graph.movablePoint.onMove = function( x, y ) {
+                        document.getElementById("Cip").innerHTML =  applyCaesar("a b c d e f g h i j k l m n o p q r s t u v w x y z",abs((x/indent)-26));
+                        document.getElementById("MsgShift").innerHTML = applyCaesar(C,abs((x/indent)-26))
+                        return [ min( max( LOWER_BOUND, x ), UPPER_BOUND * indent ), y ];
+                    };
+                </div>
+                <div>
+                    <pre id="Cip">a b c d e f g h i j k l m n o p q r s t u v w x y z</pre>
+                </div>
+                <div>
+                    <center><br/>Original Message:</center>
+                    <center><strong>
+                    <span id="MsgShift"><strong><var>C</var></strong></span>
+                    </center></strong>
+                </div>
+
+                <p class="solution" data-forms="integer"><var>Shift</var></p>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>The letter frequency of the shifted <strong><code>\color{orange}{\text{cipher message}}</code></strong> should 
+            be similar to the letter frequency of <strong><code>\color{blue}{\text{English}}</code></strong> in the graph.</p>
+            <div>
+                <p>Since the original message was shifted right by some value, we need to shift the <strong><code>\color{orange}{\text{cipher message frequency}}</code></strong>
+                to the <strong>Left</strong>, until the frequencies    match up.</p>
+            </div>
+            <div>
+                <p>Try to find patterns of frequencies. For instance the letters <strong>a</strong>, <strong>e</strong>, and 
+                <strong>h</strong> show up frequently in English, and appear close together in the alphabet.</p>
+                <p>The letters <strong>j</strong>, <strong>q</strong>, and <strong>z</strong> hardly show up at all.</p>
+            </div>
+            <div>
+                <p>You can use the Left Shift slider to see what the original message would look like when shifted. Drag the 
+                <strong><code>\color{orange}{\text{cipher message}}</code></strong>    to where you think the letter a should be in the frequency graph.<br\>
+            </div>
+            <div>
+                <p>Adjust the shift to the letter <strong><var>"abcdefghijklmnopqrstuvwxyz"[Shift]</var></strong> to see the message</p>
+            </div>
+            <div>
+                <p><strong><var>"abcdefghijklmnopqrstuvwxyz"[Shift]</var></strong> is <strong><var>Shift</var></strong> letters to the 
+                right of a. So the original message was shifted by <strong><var>Shift</var></strong></p>
+            </div>
+        </div>
+    </div>
+</body></html>
