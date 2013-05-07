@@ -15,7 +15,7 @@
     <div class="problems">
         <div>
             <div class="question">
-                <p data-if="DISTANCE !== 0"><span data-if="isSingular(abs( DISTANCE ))" data-unwrap="">What number is <strong><var>abs( DISTANCE )</var> position to the <span data-if="DISTANCE < 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</span><span data-else="" data-unwrap="">What number is <strong><var>abs( DISTANCE )</var> positions to the <span data-if="DISTANCE < 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</span></p>
+                <p data-if="DISTANCE !== 0">What number is <strong><var>plural( abs( DISTANCE ), "position")</var> to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</p>
                 <p data-else="">What number does the orange dot represent? The distance between tick marks is 1.</p>
                 <div class="graphie" id="number-line">
                     init({
@@ -41,14 +41,14 @@
                 <p>We know where <code><var>MIDPOINT</var></code> is on this number line because it is labeled.</p>
                 <p>Numbers to the left are less than <code><var>MIDPOINT</var></code>, while numbers to the right are greater than <code><var>MIDPOINT</var></code>.</p>
                 <div data-if="DISTANCE !== 0">
-                    <p data-if="isSingular(abs( DISTANCE ))">We need to find the number represented by the blue dot, which is <var>abs( DISTANCE )</var> position to the <span data-if="DISTANCE < 1">left</span><span data-else="">right</span> of the orange dot.</p><p data-else="">We need to find the number represented by the blue dot, which is <var>abs( DISTANCE )</var> positions to the <span data-if="DISTANCE < 1">left</span><span data-else="">right</span> of the orange dot.</p>
+                    <p>We need to find the number represented by the blue dot, which is <var>plural( abs( DISTANCE ), "position")</var> to the <span data-if="DISTANCE &lt; 1">left</span><span data-else="">right</span> of the orange dot.</p>
                     <div class="graphie" data-update="number-line">
                         style({ stroke: "#6495ED", fill: "#6495ED" });
                         graph.blueDot = circle( [ NUMBER+DISTANCE, 0 ], 0.10 );
                     </div>
                 </div>
                 <div>
-                    <p>Starting from <code><var>MIDPOINT</var></code>, we move <code><var>abs( NUMBER-MIDPOINT+DISTANCE )</var></code> to the <span data-if="NUMBER-MIDPOINT+DISTANCE < 0">left</span><span data-else="">right</span> to reach the <span data-if="DISTANCE !== 0">blue</span><span data-else="">orange</span> dot.</p>
+                    <p>Starting from <code><var>MIDPOINT</var></code>, we move <code><var>abs( NUMBER-MIDPOINT+DISTANCE )</var></code> to the <span data-if="NUMBER-MIDPOINT+DISTANCE &lt; 0">left</span><span data-else="">right</span> to reach the <span data-if="DISTANCE !== 0">blue</span><span data-else="">orange</span> dot.</p>
                     <div class="graphie" data-update="number-line">
                         var color = "#6495ED";
                         if ( DISTANCE === 0 ) {

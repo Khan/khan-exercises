@@ -55,7 +55,7 @@
                         graph.polygon.drawDiagonals( randRange( 0, SIDES - 1 ) );
                     </div>
                 </div>
-                <p data-if="isSingular(SIDES - 4)">There is <var>SIDES - 4</var> side between the orange triangles, to make <var>SIDES - 4</var> additional triangle.</p><p data-else="">There are <var>SIDES - 4</var> sides between the orange triangles, to make <var>SIDES - 4</var> additional triangles.</p>
+                <p>There <var>plural( "is", SIDES - 4 )</var> <var>plural( SIDES - 4, "side" )</var> between the orange triangles, to make <var>SIDES - 4</var> additional <var>plural( "triangle", SIDES - 4 )</var>.</p>
                 <p>We chopped this polygon into <var>SIDES - 2</var> triangles, and each triangle's angles sum to 180 degrees.</p>
                 <p><code><var>SIDES - 2</var> \times 180^{\circ} = <var>ANSWER</var>^{\circ}</code></p>
                 <p>The sum of the polygon's interior angles is <var>ANSWER</var> degrees.</p>

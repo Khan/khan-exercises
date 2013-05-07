@@ -46,7 +46,7 @@
                     <p><code>y</code> = <span class="sol"><var>Y_NUMER / Y_DENOM</var></span></p>
                 </div>
                 <div class="hints">
-                    <p data-if="( XY_FLAG">We can eliminate <code>x</code> when its corresponding coefficients are negative inverses.</p><p data-else="">We can eliminate <code><var>"y" )</var></code> when its corresponding coefficients are negative inverses.</p>
+                    <p>We can eliminate <code><var>( XY_FLAG ? "x" : "y" )</var></code> when its corresponding coefficients are negative inverses.</p>
 
                     <div data-if="XY_FLAG" data-unwrap="">
                         <div data-if="MULT_1 !== 1 || MULT_2 !== 1">
@@ -123,13 +123,13 @@
                     </div>
                     <div data-if="B2 !== 1">
                         <p>Divide both sides by <code><var>B2</var></code> to isolate <code>y</code>.</p>
-                        <p><code>y = \color{<var>BLUE</var>}{<span data-if="abs( abs( A2 / B2 ) - 1 ) < 0.0001"><var>SIGN_1</var></span><span data-else=""><var>decimalFraction( -A2 / B2, "true", "true" )</var></span>x + <var>decimalFraction( C2 / B2, "true", "true" )</var>}</code></p>
+                        <p><code>y = \color{<var>BLUE</var>}{<span data-if="abs( abs( A2 / B2 ) - 1 ) &lt; 0.0001"><var>SIGN_1</var></span><span data-else=""><var>decimalFraction( -A2 / B2, "true", "true" )</var></span>x + <var>decimalFraction( C2 / B2, "true", "true" )</var>}</code></p>
                     </div>
                     <div>
                         <p>Substitute this expression for <code>y</code> in the first equation.</p>
-                        <p><code><var>expr(["*", A1, "x"])</var><var>B1_SIGN</var><span data-if="abs( B1 ) !== 1"><var>abs( B1 )</var></span>(\color{<var>BLUE</var>}{<span data-if="abs( abs( A2 / B2 ) - 1 ) < 0.0001"><var>SIGN_1</var></span><span data-else=""><var>decimalFraction( -A2 / B2, "true", "true" )</var></span>x + <var>decimalFraction( C2 / B2, "true", "true" )</var>}) = <var>C1</var></code></p>
+                        <p><code><var>expr(["*", A1, "x"])</var><var>B1_SIGN</var><span data-if="abs( B1 ) !== 1"><var>abs( B1 )</var></span>(\color{<var>BLUE</var>}{<span data-if="abs( abs( A2 / B2 ) - 1 ) &lt; 0.0001"><var>SIGN_1</var></span><span data-else=""><var>decimalFraction( -A2 / B2, "true", "true" )</var></span>x + <var>decimalFraction( C2 / B2, "true", "true" )</var>}) = <var>C1</var></code></p>
                     </div>
-                    <p><code><var>expr(["*", A1, "x"])</var> + <span data-if="abs( abs( -A2 / B2 * B1 ) - 1 ) < 0.0001"><var>SIGN_2</var></span><span data-else=""><var>decimalFraction( -A2 / B2 * B1, "true", "true" )</var></span>x + <var>decimalFraction( C2 / B2 * B1, "true", "true" )</var> = <var>C1</var></code></p>
+                    <p><code><var>expr(["*", A1, "x"])</var> + <span data-if="abs( abs( -A2 / B2 * B1 ) - 1 ) &lt; 0.0001"><var>SIGN_2</var></span><span data-else=""><var>decimalFraction( -A2 / B2 * B1, "true", "true" )</var></span>x + <var>decimalFraction( C2 / B2 * B1, "true", "true" )</var> = <var>C1</var></code></p>
                     <div>
                         <p>Simplify by combining terms, then solve for <code>x</code>.</p>
                         <p><code><var>decimalFraction( A1 + ( -A2 / B2 * B1 ), "true", "true" )</var>x + <var>decimalFraction( C2 / B2 * B1, "true", "true" )</var> = <var>C1</var></code></p>
@@ -167,13 +167,13 @@
                     </div>
                     <div data-if="A2 !== 1">
                         <p>Divide both sides by <code><var>A2</var></code> to isolate <code>x</code>.</p>
-                        <p><code>x = \color{<var>ORANGE</var>}{<span data-if="abs( abs( B2 / A2 ) - 1 ) < 0.0001"><var>SIGN_1</var></span><span data-else=""><var>decimalFraction( -B2 / A2, "true", "true" )</var></span>y + <var>decimalFraction( C2 / A2, "true", "true" )</var>}</code></p>
+                        <p><code>x = \color{<var>ORANGE</var>}{<span data-if="abs( abs( B2 / A2 ) - 1 ) &lt; 0.0001"><var>SIGN_1</var></span><span data-else=""><var>decimalFraction( -B2 / A2, "true", "true" )</var></span>y + <var>decimalFraction( C2 / A2, "true", "true" )</var>}</code></p>
                     </div>
                     <div>
                         <p>Substitute this expression for <code>x</code> in the first equation.</p>
-                        <p><code><var>A1_SIGN</var><span data-if="abs( A1 ) !== 1"><var>abs( A1 )</var></span>(\color{<var>ORANGE</var>}{<span data-if="abs( abs( A2 / B2 ) - 1 ) < 0.0001"><var>SIGN_1</var></span><span data-else=""><var>decimalFraction( -B2 / A2, "true", "true" )</var></span>y + <var>decimalFraction( C2 / A2, "true", "true" )</var>}) + <var>expr(["*", B1, "y"])</var> = <var>C1</var></code></p>
+                        <p><code><var>A1_SIGN</var><span data-if="abs( A1 ) !== 1"><var>abs( A1 )</var></span>(\color{<var>ORANGE</var>}{<span data-if="abs( abs( A2 / B2 ) - 1 ) &lt; 0.0001"><var>SIGN_1</var></span><span data-else=""><var>decimalFraction( -B2 / A2, "true", "true" )</var></span>y + <var>decimalFraction( C2 / A2, "true", "true" )</var>}) + <var>expr(["*", B1, "y"])</var> = <var>C1</var></code></p>
                     </div>
-                    <p><code><span data-if="abs( abs( -B2 / A2 * A1 ) - 1 ) < 0.0001"><var>SIGN_2</var></span><span data-else=""><var>decimalFraction( -B2 / A2 * A1, "true", "true" )</var></span>y + <var>decimalFraction( C2 / A2 * A1, "true", "true" )</var> + <var>expr(["*", B1, "y"])</var> = <var>C1</var></code></p>
+                    <p><code><span data-if="abs( abs( -B2 / A2 * A1 ) - 1 ) &lt; 0.0001"><var>SIGN_2</var></span><span data-else=""><var>decimalFraction( -B2 / A2 * A1, "true", "true" )</var></span>y + <var>decimalFraction( C2 / A2 * A1, "true", "true" )</var> + <var>expr(["*", B1, "y"])</var> = <var>C1</var></code></p>
                     <div>
                         <p>Simplify by combining terms, then solve for <code>y</code>.</p>
                         <p><code><var>decimalFraction( B1 + ( -B2 / A2 * A1 ), "true", "true" )</var>y + <var>decimalFraction( C2 / A2 * A1, "true", "true" )</var> = <var>C1</var></code></p>

@@ -176,17 +176,12 @@
                 <div data-if="(R - Q) % P !== 0" data-unwrap="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>}
                         \approx <var>((R - Q) / P).toFixed(2)</var></code></p>
-                    <p data-if="(R - Q) % P !== 0"><span data-if="isMale(1)" data-unwrap="">
+                    <p data-if="(R - Q) % P !== 0">
                         Since <var>person(1)</var> won't get points unless
-                        he completes the entire level, we round
+                        <var>he(1)</var> completes the entire level, we round
                         <code><var>((R - Q) / P).toFixed(2)</var></code> up to
                         <code><var>X</var></code>.
-                    </span><span data-else="" data-unwrap="">
-                        Since <var>person(1)</var> won't get points unless
-                        she completes the entire level, we round
-                        <code><var>((R - Q) / P).toFixed(2)</var></code> up to
-                        <code><var>X</var></code>.
-                    </span></p>
+                    </p>
                 </div>
                 <div data-else="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>} =

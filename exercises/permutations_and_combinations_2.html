@@ -100,18 +100,15 @@
                     <var id="PAIR">randFromArray(NAMES, 2)</var>
                     <var id="ANSWER">FIGHTING ? factorial(NAMES.length) - factorial(NAMES.length-1)*2 : factorial(NAMES.length-1)*2</var>
                 </div>
-                <p data-if="FIGHTING">You need to put your reindeer, <var>toSentence(NAMES)</var>, in a single-file line to pull your sleigh. However,
-                    <var>PAIR[0]</var> and <var>PAIR[1]</var> are fighting, so you have to
-                    keep them apart, or they won't fly.</p><p data-else="">You need to put your reindeer, <var>toSentence(NAMES)</var>, in a single-file line to pull your sleigh. However,
-                    <var>PAIR[0]</var> and <var>PAIR[1]</var> are best friends, so you have to
-                    put them next to each other, or they won't fly.</p>
+                <p>You need to put your reindeer, <var>toSentence(NAMES)</var>, in a single-file line to pull your sleigh. However,
+                    <var>PAIR[0]</var> and <var>PAIR[1]</var> are <var>FIGHTING ? "fighting" : "best friends"</var>, so you have to
+                    <var>FIGHTING ? "keep them apart" : "put them next to each other"</var>, or they won't fly.</p>
                 <p class="question">How many ways can you arrange your reindeer?</p>
                 <p class="solution" data-forms="integer"><var>ANSWER</var></p>
 
                 <div class="hints">
                     <div>
-                        <p data-if="FIGHTING">Forget about the reindeer that can't be together for a second, and let's try to
-                        figure out how many ways we can arrange the reindeer if we don't have to worry about that.</p><p data-else="">Forget about the reindeer that have to be together for a second, and let's try to
+                        <p>Forget about the reindeer that <var>FIGHTING ? "can't be" : "have to be"</var> together for a second, and let's try to
                         figure out how many ways we can arrange the reindeer if we don't have to worry about that.</p>
                         <p>We can build our line of reindeer one by one: there are <code><var>NAMES.length</var></code> slots,
                         and we have <code><var>NAMES.length</var></code> different reindeer we can put in the first slot.</p>
@@ -125,12 +122,9 @@
                         We can continue in this way for the third reindeer, then the fourth, and so on, until we reach the last slot, where we only have
                         one reindeer left and so we can only make one choice.
                     </p>
-                    <p data-if="FIGHTING">
+                    <p>
                         So, the total number of unique choices we could make to get to an arrangement of reindeer is <code><var>_.map(_.range(NAMES.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length)</var>.</code> Another way of writing this is <code><var>NAMES.length</var>!</code>, 
-                        or <code><var>NAMES.length</var></code> factorial. But we haven't thought about the two reindeer who can't be together yet.
-                    </p><p data-else="">
-                        So, the total number of unique choices we could make to get to an arrangement of reindeer is <code><var>_.map(_.range(NAMES.length).reverse(), function(l){ return (++l);}).join("\\cdot")</var> = <var>factorial(NAMES.length)</var>.</code> Another way of writing this is <code><var>NAMES.length</var>!</code>, 
-                        or <code><var>NAMES.length</var></code> factorial. But we haven't thought about the two reindeer who have to be together yet.
+                        or <code><var>NAMES.length</var></code> factorial. But we haven't thought about the two reindeer who <var>FIGHTING ? "can't be together" : "have to be together"</var> yet.
                     </p>
                     <div data-if="FIGHTING" data-unwrap="">
                         <p>
@@ -226,12 +220,9 @@
                         So, we need to count how many numbers are divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code>
                         and subtract this from what we had before.
                     </p>
-                    <p data-if="isSingular(BOTH_TIMES)">
+                    <p>
                         Being divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code> is the same thing as being divisible by 
-                        <code><var>FAC1*FAC2</var></code>, so there is <code><var>BOTH_TIMES</var></code> number between 1 and 100 divisible by both. 
-                    </p><p data-else="">
-                        Being divisible by both <code><var>FAC1</var></code> and <code><var>FAC2</var></code> is the same thing as being divisible by 
-                        <code><var>FAC1*FAC2</var></code>, so there are <code><var>BOTH_TIMES</var></code> numbers between 1 and 100 divisible by both. 
+                        <code><var>FAC1*FAC2</var></code>, so there <var>plural("is",BOTH_TIMES)</var> <code><var>BOTH_TIMES</var></code> <var>plural("number",BOTH_TIMES)</var> between 1 and 100 divisible by both. 
                     </p>
                     <p>
                         Subtracting, there are <code><var>FAC1_TIMES + FAC2_TIMES</var> - <var>BOTH_TIMES</var> = <var>FAC1_TIMES + FAC2_TIMES - BOTH_TIMES</var></code> numbers divisible by <code><var>FAC1</var></code> or <code><var>FAC2</var></code>.

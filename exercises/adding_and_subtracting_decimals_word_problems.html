@@ -28,16 +28,16 @@
             </div>
 
             <div class="question spin">
-                <p data-if="isMale(1)">{On a sunny morning|On a beautiful afternoon}, <var>person(1)</var> rode his bicycle to a farm that sold baskets of <var>plural_form(fruit(1))</var> for $<var>fruit_1</var> each and baskets of <var>plural_form(fruit(2))</var> for $<var>fruit_2</var> each.</p><p data-else="">{On a sunny morning|On a beautiful afternoon}, <var>person(1)</var> rode her bicycle to a farm that sold baskets of <var>plural_form(fruit(1))</var> for $<var>fruit_1</var> each and baskets of <var>plural_form(fruit(2))</var> for $<var>fruit_2</var> each.</p>
-                <p data-if="isMale(1)"><var>person(1)</var> decided to buy a basket of <var>plural_form(fruit(1))</var> and a basket of <var>plural_form(fruit(2))</var> {before heading home|because those were his favorite kinds of fruit|}.</p><p data-else=""><var>person(1)</var> decided to buy a basket of <var>plural_form(fruit(1))</var> and a basket of <var>plural_form(fruit(2))</var> {before heading home|because those were her favorite kinds of fruit|}.</p>
+                <p data-if="isMale(1)">{On a sunny morning|On a beautiful afternoon}, <var>person(1)</var> rode his bicycle to a farm that sold baskets of <var>plural(fruit(1))</var> for $<var>fruit_1</var> each and baskets of <var>plural(fruit(2))</var> for $<var>fruit_2</var> each.</p><p data-else="">{On a sunny morning|On a beautiful afternoon}, <var>person(1)</var> rode her bicycle to a farm that sold baskets of <var>plural(fruit(1))</var> for $<var>fruit_1</var> each and baskets of <var>plural(fruit(2))</var> for $<var>fruit_2</var> each.</p>
+                <p data-if="isMale(1)"><var>person(1)</var> decided to buy a basket of <var>plural(fruit(1))</var> and a basket of <var>plural(fruit(2))</var> {before heading home|because those were his favorite kinds of fruit|}.</p><p data-else=""><var>person(1)</var> decided to buy a basket of <var>plural(fruit(1))</var> and a basket of <var>plural(fruit(2))</var> {before heading home|because those were her favorite kinds of fruit|}.</p>
                 <p class="question" data-if="isMale(1)">How much did <var>person(1)</var> need to pay for his produce?</p><p class="question" data-else="">How much did <var>person(1)</var> need to pay for her produce?</p></div>
 
 
             <div class="solution" data-forms="dollar"><var>fruit_1+fruit_2</var></div>
 
             <div class="hints">
-                <p>To find the total amount <var>person(1)</var> needs to pay, we need to add the price of the <var>plural_form(fruit(1))</var> and the price of the <var>plural_form(fruit(2))</var>.</p>
-                <p>Price of <var>plural_form(fruit(1))</var> + price of <var>plural_form(fruit(2))</var> = total price.</p>
+                <p>To find the total amount <var>person(1)</var> needs to pay, we need to add the price of the <var>plural(fruit(1))</var> and the price of the <var>plural(fruit(2))</var>.</p>
+                <p>Price of <var>plural(fruit(1))</var> + price of <var>plural(fruit(2))</var> = total price.</p>
                 <div class="graphie" id="numbers">
                     graph.adder = new DecimalAdder( fruit_1_integer, fruit_1_decimal, fruit_2_integer, fruit_2_decimal );
                     graph.adder.show();
@@ -162,7 +162,7 @@
             </div>
 
             <div class="question spin">
-                <p data-if="isMale(1)">{On Tuesday,|Last Thursday,|} <var>person(1)</var> walked to a <var>store(1)</var> store {<var>timeofday(1)</var>|} and{, after browsing for <var>time_1</var> minutes,|} decided to buy a <var>storeItem(1,1)</var> for $<var>price_1</var>. <var>person(1)</var> handed the salesperson $<var>amount_paid</var> for his purchase.</p><p data-else="">{On Tuesday,|Last Thursday,|} <var>person(1)</var> walked to a <var>store(1)</var> store {<var>timeofday(1)</var>|} and{, after browsing for <var>time_1</var> minutes,|} decided to buy a <var>storeItem(1,1)</var> for $<var>price_1</var>. <var>person(1)</var> handed the salesperson $<var>amount_paid</var> for her purchase.</p>
+                <p data-if="isMale(1)">{On Tuesday,|Last Thursday,|} <var>person(1)</var> walked to <var>an(store(1))</var> store {<var>timeofday(1)</var>|} and{, after browsing for <var>time_1</var> minutes,|} decided to buy a <var>storeItem(1,1)</var> for $<var>price_1</var>. <var>person(1)</var> handed the salesperson $<var>amount_paid</var> for his purchase.</p><p data-else="">{On Tuesday,|Last Thursday,|} <var>person(1)</var> walked to <var>an(store(1))</var> store {<var>timeofday(1)</var>|} and{, after browsing for <var>time_1</var> minutes,|} decided to buy a <var>storeItem(1,1)</var> for $<var>price_1</var>. <var>person(1)</var> handed the salesperson $<var>amount_paid</var> for her purchase.</p>
                 <p class="question">How much change did <var>person(1)</var> receive?</p>
             </div>
             <div class="solution" data-forms="dollar"><var>amount_paid-price_1</var></div>
@@ -235,8 +235,8 @@
             </div>
 
             <div class="question spin">
-                <p data-if="isMale(1)">{To get to school each morning|To get to work each morning|To visit his grandmother}, <var>person(1)</var> takes a <var>vehicle(1)</var> <var>distance_1</var> <var>plural_form(distance(1))</var> and a <var>vehicle(2)</var> <var>distance_2</var> <var>plural_form(distance(1))</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p><p data-else="">{To get to school each morning|To get to work each morning|To visit her grandmother}, <var>person(1)</var> takes a <var>vehicle(1)</var> <var>distance_1</var> <var>plural_form(distance(1))</var> and a <var>vehicle(2)</var> <var>distance_2</var> <var>plural_form(distance(1))</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p>
-                <p class="question">How many <var>plural_form(distance(1))</var> is <var>person(1)</var>'s journey in total?</p>
+                <p data-if="isMale(1)">{To get to school each morning|To get to work each morning|To visit his grandmother}, <var>person(1)</var> takes <var>an(vehicle(1))</var> <var>distance_1</var> <var>plural(distance(1))</var> and <var>an(vehicle(2))</var> <var>distance_2</var> <var>plural(distance(1))</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p><p data-else="">{To get to school each morning|To get to work each morning|To visit her grandmother}, <var>person(1)</var> takes <var>an(vehicle(1))</var> <var>distance_1</var> <var>plural(distance(1))</var> and <var>an(vehicle(2))</var> <var>distance_2</var> <var>plural(distance(1))</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p>
+                <p class="question">How many <var>plural(distance(1))</var> is <var>person(1)</var>'s journey in total?</p>
             </div>
 
             <div class="solution" data-type="multiple">
@@ -257,7 +257,7 @@
                 <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                     graph.adder.showHint();
                 </div>
-                <p class="final_answer"><var>person(1)</var> travels <var>solution</var> <var>plural_form(distance(1))</var> in total.</p>
+                <p class="final_answer"><var>person(1)</var> travels <var>solution</var> <var>plural(distance(1))</var> in total.</p>
             </div>
         </div>
     </div>

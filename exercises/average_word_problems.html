@@ -24,9 +24,9 @@
             </div>
 
             <div class="question">
-                <p data-if="isMale(1)">In his <var>course(1)</var> class, <var>person(1)</var> took <var>LENGTH</var> <var>plural_form(exam(1))</var>. His scores were <var>toSentence(SCORES)</var>.</p><p data-else="">In her <var>course(1)</var> class, <var>person(1)</var> took <var>LENGTH</var> <var>plural_form(exam(1))</var>. Her scores were <var>toSentence(SCORES)</var>.</p>
+                <p data-if="isMale(1)">In his <var>course(1)</var> class, <var>person(1)</var> took <var>LENGTH</var> <var>plural(exam(1))</var>. His scores were <var>toSentence(SCORES)</var>.</p><p data-else="">In her <var>course(1)</var> class, <var>person(1)</var> took <var>LENGTH</var> <var>plural(exam(1))</var>. Her scores were <var>toSentence(SCORES)</var>.</p>
 
-                <p data-if="isMale(1)">What was his average score on the <var>plural_form(exam(1))</var>?</p><p data-else="">What was her average score on the <var>plural_form(exam(1))</var>?</p>
+                <p data-if="isMale(1)">What was his average score on the <var>plural(exam(1))</var>?</p><p data-else="">What was her average score on the <var>plural(exam(1))</var>?</p>
             </div>
             <div class="solution"><var>SUM / LENGTH</var></div>
 
@@ -45,7 +45,7 @@
             </div>
 
             <div class="question">
-                <p data-if="isMale(1)">On the first <var>COUNT</var> <var>plural_form(exam(1))</var> of his <var>course(1)</var> class, <var>person(1)</var> got an average score of <var>OLD_AVG</var>.</p><p data-else="">On the first <var>COUNT</var> <var>plural_form(exam(1))</var> of her <var>course(1)</var> class, <var>person(1)</var> got an average score of <var>OLD_AVG</var>.</p>
+                <p data-if="isMale(1)">On the first <var>COUNT</var> <var>plural(exam(1))</var> of his <var>course(1)</var> class, <var>person(1)</var> got an average score of <var>OLD_AVG</var>.</p><p data-else="">On the first <var>COUNT</var> <var>plural(exam(1))</var> of her <var>course(1)</var> class, <var>person(1)</var> got an average score of <var>OLD_AVG</var>.</p>
 
                 <p data-if="isMale(1)">What does he need on the next <var>exam(1)</var> to have an overall average of <var>NEW_AVG</var>?</p><p data-else="">What does she need on the next <var>exam(1)</var> to have an overall average of <var>NEW_AVG</var>?</p>
             </div>
@@ -68,14 +68,14 @@
             </div>
 
             <div class="question">
-                <p data-if="isMale(1)"><var>person(1)</var> has taken <var>COUNT</var> <var>plural_form(exam(1))</var> and his average score so far is <var>OLD_AVG</var>.</p><p data-else=""><var>person(1)</var> has taken <var>COUNT</var> <var>plural_form(exam(1))</var> and her average score so far is <var>OLD_AVG</var>.</p>
+                <p data-if="isMale(1)"><var>person(1)</var> has taken <var>COUNT</var> <var>plural(exam(1))</var> and his average score so far is <var>OLD_AVG</var>.</p><p data-else=""><var>person(1)</var> has taken <var>COUNT</var> <var>plural(exam(1))</var> and her average score so far is <var>OLD_AVG</var>.</p>
 
-                <p data-if="isMale(1)">If he gets 100, a perfect score, on the remaining <var>REMAINING</var> <var>plural_form(exam(1))</var>, what will his new average be?</p><p data-else="">If she gets 100, a perfect score, on the remaining <var>REMAINING</var> <var>plural_form(exam(1))</var>, what will her new average be?</p>
+                <p data-if="isMale(1)">If he gets 100, a perfect score, on the remaining <var>REMAINING</var> <var>plural(exam(1))</var>, what will his new average be?</p><p data-else="">If she gets 100, a perfect score, on the remaining <var>REMAINING</var> <var>plural(exam(1))</var>, what will her new average be?</p>
             </div>
             <div class="solution"><var>NEW_AVG</var></div>
 
             <div class="hints">
-                <p data-if="isMale(1)">If he gets 100 on the remaining <var>plural_form(exam(1))</var>, the sum of his scores will be <code><var>COUNT</var> \cdot <var>OLD_AVG</var> + <var>REMAINING</var> \cdot <var>100</var> = <var>COUNT * OLD_AVG + 100 * REMAINING</var></code>.</p><p data-else="">If she gets 100 on the remaining <var>plural_form(exam(1))</var>, the sum of her scores will be <code><var>COUNT</var> \cdot <var>OLD_AVG</var> + <var>REMAINING</var> \cdot <var>100</var> = <var>COUNT * OLD_AVG + 100 * REMAINING</var></code>.</p>
+                <p data-if="isMale(1)">If he gets 100 on the remaining <var>plural(exam(1))</var>, the sum of his scores will be <code><var>COUNT</var> \cdot <var>OLD_AVG</var> + <var>REMAINING</var> \cdot <var>100</var> = <var>COUNT * OLD_AVG + 100 * REMAINING</var></code>.</p><p data-else="">If she gets 100 on the remaining <var>plural(exam(1))</var>, the sum of her scores will be <code><var>COUNT</var> \cdot <var>OLD_AVG</var> + <var>REMAINING</var> \cdot <var>100</var> = <var>COUNT * OLD_AVG + 100 * REMAINING</var></code>.</p>
                 <p data-if="isMale(1)">His overall average will then be <code><var>COUNT * OLD_AVG + 100 * REMAINING</var> \div <var>COUNT + REMAINING</var> = <var>NEW_AVG</var></code>.</p><p data-else="">Her overall average will then be <code><var>COUNT * OLD_AVG + 100 * REMAINING</var> \div <var>COUNT + REMAINING</var> = <var>NEW_AVG</var></code>.</p>
             </div>
         </div>

@@ -106,16 +106,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="C * E < 0">
-                        Add
+                    <p>
+                        <var>C * E &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>abs(C * E)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        right side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(C * E)</var>}</code>
-                        from both sides
+                        <var>C * E &lt; 0 ? "to" : "from"</var> both sides
                         to isolate the <code><var>X</var></code> term on the
                         right side:
                     </p>
@@ -232,16 +226,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="B * C < 0">
-                        Add
+                    <p>
+                        <var>B * C &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>abs(B * C)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        right side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(B * C)</var>}</code>
-                        from both sides
+                        <var>B * C &lt; 0 ? "to" : "from"</var> both sides
                         to isolate the <code><var>X</var></code> term on the
                         right side:
                     </p>
@@ -394,16 +382,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="D * F + G < 0">
-                        Add
+                    <p>
+                        <var>D * F + G &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>expr(["*", abs(D * F + G), X])</var>}
-                        </code> to both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>expr(["*", abs(D * F + G), X])</var>}
-                        </code> from both
+                        </code> <var>D * F + G &lt; 0 ? "to" : "from"</var> both
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
@@ -436,16 +418,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="A * C < 0">
-                        Add
+                    <p>
+                        <var>A * C &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>abs(A * C)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(A * C)</var>}</code>
-                        from both sides
+                        <var>A * C &lt; 0 ? "to" : "from"</var> both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
@@ -558,16 +534,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="E < 0">
-                        Add
+                    <p>
+                        <var>E &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>expr(["*", abs(E), X])</var>}
-                        </code> to both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>expr(["*", abs(E), X])</var>}
-                        </code> from both
+                        </code> <var>E &lt; 0 ? "to" : "from"</var> both
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
@@ -602,16 +572,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="B * D < 0">
-                        Add
+                    <p>
+                        <var>B * D &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>abs(B * D)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(B * D)</var>}</code>
-                        from both sides
+                        <var>B * D &lt; 0 ? "to" : "from"</var> both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
@@ -712,16 +676,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="C * D < 0">
-                        Add
+                    <p>
+                        <var>C * D &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>expr(["*", abs(C * D), X])</var>}
-                        </code> to both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>expr(["*", abs(C * D), X])</var>}
-                        </code> from both
+                        </code> <var>C * D &lt; 0 ? "to" : "from"</var> both
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
@@ -750,16 +708,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="A < 0">
-                        Add
+                    <p>
+                        <var>A &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>abs(A)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(A)</var>}</code>
-                        from both sides
+                        <var>A &lt; 0 ? "to" : "from"</var> both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
@@ -870,16 +822,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="B * C < 0">
-                        Add
+                    <p>
+                        <var>B * C &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>abs(B * C)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(B * C)</var>}</code>
-                        from both sides
+                        <var>B * C &lt; 0 ? "to" : "from"</var> both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
@@ -976,16 +922,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="D < 0">
-                        Add
+                    <p>
+                        <var>D &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>expr(["*", abs(D), X])</var>}
-                        </code> to both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>expr(["*", abs(D), X])</var>}
-                        </code> from both
+                        </code> <var>D &lt; 0 ? "to" : "from"</var> both
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
@@ -1015,16 +955,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="A * C < 0">
-                        Add
+                    <p>
+                        <var>A * C &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>abs(A * C)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(A * C)</var>}</code>
-                        from both sides
+                        <var>A * C &lt; 0 ? "to" : "from"</var> both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
@@ -1123,16 +1057,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="F < 0">
-                        Add
+                    <p>
+                        <var>F &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>expr(["*", abs(F), X])</var>}
-                        </code> to both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>expr(["*", abs(F), X])</var>}
-                        </code> from both
+                        </code> <var>F &lt; 0 ? "to" : "from"</var> both
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
@@ -1175,16 +1103,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="A * C + D < 0">
-                        Add
+                    <p>
+                        <var>A * C + D &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>abs(A * C + D)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(A * C + D)</var>}</code>
-                        from both sides
+                        <var>A * C + D &lt; 0 ? "to" : "from"</var> both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>
@@ -1314,16 +1236,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="D * F < 0">
-                        Add
+                    <p>
+                        <var>D * F &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>expr(["*", abs(D * F), X])</var>}
-                        </code> to both
-                        sides to eliminate the <code><var>X</var></code> term
-                        from the right side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>expr(["*", abs(D * F), X])</var>}
-                        </code> from both
+                        </code> <var>D * F &lt; 0 ? "to" : "from"</var> both
                         sides to eliminate the <code><var>X</var></code> term
                         from the right side:
                     </p>
@@ -1356,16 +1272,10 @@
                     </code></p>
                 </div>
                 <div>
-                    <p data-if="A * C < 0">
-                        Add
+                    <p>
+                        <var>A * C &lt; 0 ? "Add" : "Subtract"</var>
                         <code>\green{<var>abs(A * C)</var>}</code>
-                        to both sides
-                        to isolate the <code><var>X</var></code> term on the
-                        left side:
-                    </p><p data-else="">
-                        Subtract
-                        <code>\green{<var>abs(A * C)</var>}</code>
-                        from both sides
+                        <var>A * C &lt; 0 ? "to" : "from"</var> both sides
                         to isolate the <code><var>X</var></code> term on the
                         left side:
                     </p>

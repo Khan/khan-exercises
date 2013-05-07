@@ -46,7 +46,7 @@
                 <div>
                     <p data-if="MINUTE === 0"> The hour hand is pointing at <code><var>HOUR</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
                     <p data-else-if="MINUTE &gt; 10  &amp;&amp; MINUTE &lt; 45">The hour hand is between <code><var>HOUR</var></code> and <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is <code><var>HOUR</var></code>.</p>
-                    <p data-else=""><span data-unwrap="">The hour hand is close to but hasn't passed <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is still <code><var>HOUR</var></code>.</span></p>
+                    <p data-else="">The hour hand is close to but hasn't passed <code><var>HOUR + 1 === 13 ? 1 : HOUR + 1</var></code>, so the hour is still <code><var>HOUR</var></code>.</p>
                     <div class="graphie" data-update="digital">
                         graph.time.remove();
                         var padding = HOUR &lt; 10 ? "\\phantom{0}" : "";
@@ -60,7 +60,7 @@
                     <p>For each quarter of the circle that the minute hand passes, add <code>15</code> minutes.</p>
                 </div>
                 <div>
-                    <p data-if="isSingular(MINUTE / 15)">The minute hand has passed <var>MINUTE / 15</var> fourth of a circle, which represents <span data-if="MINUTE === 0"><code>0</code></span><span data-else=""><code><var>MINUTE</var></code></span> minutes.</p><p data-else="">The minute hand has passed <var>MINUTE / 15</var> fourths of a circle, which represents <span data-if="MINUTE === 0"><code>0</code></span><span data-else=""><code><var>MINUTE</var></code></span> minutes.</p>
+                    <p>The minute hand has passed <var>plural( MINUTE / 15, "fourth" )</var> of a circle, which represents <span data-if="MINUTE === 0"><code>0</code></span><span data-else=""><code><var>MINUTE</var></code></span> minutes.</p>
                     <div class="graphie" data-update="digital">
                         graph.time.remove();
                         var padding = MINUTE &lt; 10 ? "0" : "";

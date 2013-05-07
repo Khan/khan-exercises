@@ -83,20 +83,20 @@
                     <var>EVENT_PY</var>.
                 </p>
 
-                <p class="question"><span data-unwrap="">
+                <p class="question">
                     If the teacher chooses <code><var>CHOSEN</var></code>
                     students, what is the probability that 
                     <var>ALL ? ((CHOSEN === 2) ? "both" : "all " + cardinal(CHOSEN)) :
                     ((CHOSEN === 2) ? "neither" : "none of the " + cardinal(CHOSEN))</var>
                     of them <var>EVENT_PY</var>?
-                </span></p>
+                </p>
 
                 <div class="solution" data-forms="proper">
                     <var>ANS_N/ANS_D</var>
                 </div>
 
                 <div class="hints">
-                    <p data-if="CHOSEN > 2">
+                    <p>
                         We can think about this problem as the probability of 
                         <code><var>CHOSEN</var></code> events happening.
                         <br><br>
@@ -105,17 +105,7 @@
                         choosing another student who <var>EVENT_S</var>, given
                         that the teacher already chose someone who 
                         <var>EVENT_S</var> 
-                        , and so on.
-                    </p><p data-else="">
-                        We can think about this problem as the probability of 
-                        <code><var>CHOSEN</var></code> events happening.
-                        <br><br>
-                        The first event is the teacher choosing one student
-                        who <var>EVENT_S</var>. The second event is the teacher
-                        choosing another student who <var>EVENT_S</var>, given
-                        that the teacher already chose someone who 
-                        <var>EVENT_S</var> 
-                        .
+                        <var>CHOSEN &gt; 2 ? ", and so on." : "."</var>
                     </p>
                     <p>
                         The probabilty that the teacher will choose someone
@@ -139,7 +129,7 @@
                         <code>\dfrac{<var>PROBS[1][0]</var>}
                                     {<var>PROBS[1][1]</var>}</code>.
                     </p>
-                    <p data-if="CHOSEN > 2">
+                    <p data-if="CHOSEN &gt; 2">
                         The probability of the teacher picking two
                         students who <var>EVENT_P</var> must then be
                         <code>\dfrac{<var>PROBS[0][0]</var>}
@@ -147,7 +137,7 @@
                               \dfrac{<var>PROBS[1][0]</var>}
                                     {<var>PROBS[1][1]</var>}</code>.
                     </p>
-                    <p data-if="CHOSEN > 2">
+                    <p data-if="CHOSEN &gt; 2">
                         We can continue using the same logic for the rest of
                         the students the teacher picks.
                     </p>
@@ -359,28 +349,21 @@
 
                 <p>
                     <span>Captain <var>person(1)</var> has a ship, the H.M.S Crimson Lynx.</span>
-                    <span data-if="isMale(2)">The ship is two furlongs
-                    from the dread pirate <var>person(2)</var> and his merciless band of thieves.</span><span data-else="">The ship is two furlongs
-                    from the dread pirate <var>person(2)</var> and her merciless band of thieves.</span>
+                    <span>The ship is two furlongs
+                    from the dread pirate <var>person(2)</var> and <var>his(2)</var> merciless band of thieves.</span>
                 </p>
                 <p>
-                    <span data-if="isMale(1)">The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship, if his
-                    ship hasn't already been hit. If it has been hit, he will always miss.</span><span data-else="">The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship, if her
-                    ship hasn't already been hit. If it has been hit, she will always miss.</span>
-                    <span data-if="isMale(2)">The pirate has probability <code><var>P_HIT_PRETTY</var></code> of hitting the
-                    Captain's ship, if his ship hasn't already been hit. If it has been hit, he will always
-                    miss as well.</span><span data-else="">The pirate has probability <code><var>P_HIT_PRETTY</var></code> of hitting the
-                    Captain's ship, if her ship hasn't already been hit. If it has been hit, she will always
+                    <span>The Captain has probability <code><var>C_HIT_PRETTY</var></code> of hitting the pirate ship, if <var>his(1)</var>
+                    ship hasn't already been hit. If it has been hit, <var>he(1)</var> will always miss.</span>
+                    <span>The pirate has probability <code><var>P_HIT_PRETTY</var></code> of hitting the
+                    Captain's ship, if <var>his(2)</var> ship hasn't already been hit. If it has been hit, <var>he(2)</var> will always
                     miss as well.</span>
                 </p>
 
-                <p class="question"><span data-if="C_FIRST" data-unwrap="">
-                    If the Captain shoots first, what is the probability that
+                <p class="question">
+                    If the <var>C_FIRST ? "Captain" : "pirate"</var> shoots first, what is the probability that
                     <var>QUESTION</var>?
-                </span><span data-else="" data-unwrap="">
-                    If the pirate shoots first, what is the probability that
-                    <var>QUESTION</var>?
-                </span></p>
+                </p>
 
                 <div class="solution" data-forms="proper">
                     <var>ANSWER</var>
@@ -394,44 +377,28 @@
                         <br><br>
                         In this case, event A is <var>EV_A</var> and event B is <var>EV_B</var>.
                     </p>
-                    <p data-if="isMale(C_FIRST ? 1 : 2)"><span data-if="C_FIRST" data-unwrap="">
-                        The Captain fires first, so 
+                    <p data-if="isMale(C_FIRST ? 1 : 2)">
+                        The <var>C_FIRST ? "Captain" : "pirate"</var> fires first, so 
                         his ship can't be sunk before
                         he fires his cannons.
-                    </span><span data-else="" data-unwrap="">
-                        The pirate fires first, so 
-                        his ship can't be sunk before
-                        he fires his cannons.
-                    </span></p><p data-else=""><span data-if="C_FIRST" data-unwrap="">
-                        The Captain fires first, so 
+                    </p><p data-else="">
+                        The <var>C_FIRST ? "Captain" : "pirate"</var> fires first, so 
                         her ship can't be sunk before
                         she fires his cannons.
-                    </span><span data-else="" data-unwrap="">
-                        The pirate fires first, so 
-                        her ship can't be sunk before
-                        she fires his cannons.
-                    </span></p>
+                    </p>
                     <p>
                         So, the probability of <var>EV_A</var> is <code><var>PR_A</var></code>.
                     </p>
-                    <p data-if="PR_B === 0 || PR_B === 1"><span data-if="C_FIRST" data-unwrap="">
-                        If the Captain hit the pirate ship,
-                        the pirate has no chance of firing back.
-                    </span><span data-else="" data-unwrap="">
-                        If the pirate hit the Captain's ship,
-                        the Captain has no chance of firing back.
-                    </span></p>
-                    <p data-else=""><span data-if="C_FIRST" data-unwrap="">
-                        If the Captain 
-                         missed the pirate
+                    <p data-if="PR_B === 0 || PR_B === 1">
+                        If the <var>C_FIRST ? "Captain" : "pirate"</var> hit the <var>C_FIRST ? "pirate" : "Captain's"</var> ship,
+                        the <var>C_FIRST ? "pirate" : "Captain"</var> has no chance of firing back.
+                    </p>
+                    <p data-else="">
+                        If the <var>C_FIRST ? "Captain" : "pirate"</var> 
+                         missed the <var>C_FIRST ? "pirate" : "Captain's"</var>
                          ship,
-                        the pirate has a normal chance to fire back.
-                    </span><span data-else="" data-unwrap="">
-                        If the pirate 
-                         missed the Captain's
-                         ship,
-                        the Captain has a normal chance to fire back.
-                    </span></p>
+                        the <var>C_FIRST ? "pirate" : "Captain"</var> has a normal chance to fire back.
+                    </p>
                     <p>
                         So, the probability of <var>EV_B</var> given <var>EV_A</var> is <code><var>PR_B</var></code>.
                     </p>

@@ -46,7 +46,7 @@
             <div>
                 <p>
                     Change in <span class="hint_red"><code>x</code>:</span>
-                    <span data-if="X2 - X1 > 0">
+                    <span data-if="X2 - X1 &gt; 0">
                         <span class="hint_green"><var>X2</var></span> - <span class="hint_blue"><var>negParens(X1)</var></span>
                     </span>
                     <span data-else="">
@@ -69,7 +69,7 @@
             <div>
                 <p>
                 Change in <span class="hint_purple"><code>y</code>:</span>
-                    <span data-if="Y2 - Y1 > 0">
+                    <span data-if="Y2 - Y1 &gt; 0">
                         <span class="hint_green"><var>Y2</var></span> - <span class="hint_blue"><var>negParens(Y1)</var></span>
                     </span>
                     <span data-else="">
@@ -89,7 +89,7 @@
                 </div>
             </div>
 
-            <div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0">
+            <div data-if="Y2 - Y1 !== 0 &amp;&amp; X1 - X2 !== 0">
                 <p>The distance is the <span class="hint_pink">length of the hypotenuse</span> of this right triangle.</p>
 
                 <div class="graphie" data-update="graph">
@@ -101,7 +101,7 @@
                 </div>
             </div>
 
-            <div data-if="Y2 - Y1 !== 0 && X1 - X2 !== 0 ">
+            <div data-if="Y2 - Y1 !== 0 &amp;&amp; X1 - X2 !== 0 ">
                 <p>By the Pythagorean Theorem, <span class="hint_pink">that length</span> is equal to:</p>
                 <p><code>\sqrt{<var>X_DIST</var>^2 + <var>Y_DIST</var>^2}</code></p>
                 <p><code>{}= \sqrt{<var>Math.pow( X_DIST, 2 ) + pow( Y_DIST, 2 )</var>}</code></p>

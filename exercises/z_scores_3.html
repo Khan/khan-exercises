@@ -165,7 +165,7 @@
                     </div>
                 </div>
                 <div>
-                    <div data-if="ZSCORES[1] < 0"><p>
+                    <div data-if="ZSCORES[1] &lt; 0"><p>
                         Since the normal curve is symmetrical, the area <b>less than</b>
                         <code><var>ZSCORES[1]</var></code> is equal to the area
                         <b>greater than</b> <code><var>abs( ZSCORES[1] )</var></code>, which can
@@ -173,7 +173,7 @@
                         on the z-table and subtracting the table value from <code>1</code>, the
                         total area under the curve.
                     </p></div>
-                    <p data-if="ZSCORES[1] < 0">
+                    <p data-if="ZSCORES[1] &lt; 0">
                         <code>1 - <var>ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ]</var> =
                         <var>roundTo( 4, 1 - ZGRID[ ROW_INDEX_2 ][ COL_INDEX_2 ] )</var></code>.
                         This value, <code class="hint_blue">
@@ -217,7 +217,7 @@
                     </div>
                 </div>
                 <div>
-                    <div data-if="ZSCORES[0] < 0"><p>
+                    <div data-if="ZSCORES[0] &lt; 0"><p>
                         Since the normal curve is symmetrical, the area <b>less than</b>
                         <code><var>ZSCORES[0]</var></code> is equal to the area
                         <b>greater than</b> <code><var>abs(ZSCORES[0])</var></code>, which can
@@ -225,7 +225,7 @@
                         on the z-table and subtracting the table value from <code>1</code>, the
                         total area under the curve.
                     </p></div>
-                    <p data-if="ZSCORES[0] < 0">
+                    <p data-if="ZSCORES[0] &lt; 0">
                         <code>1 - <var>ZGRID[ROW_INDEX_1][COL_INDEX_1]</var> =
                         <var>roundTo(4, 1 - ZGRID[ROW_INDEX_1][COL_INDEX_1])</var></code>. This value,
                         <code class="hint_orange"><var>roundTo(4, 1 - ZGRID[ROW_INDEX_1][COL_INDEX_1])</var></code>,
@@ -286,11 +286,11 @@
                 <div>
                     <p>
                         Finally, subtract the two cumulative areas to arrive at our final answer:
-                        <code>\blue{<span data-if="ZSCORES[1] < 0">
+                        <code>\blue{<span data-if="ZSCORES[1] &lt; 0">
                             <var>roundTo(4, 1 - ZGRID[ROW_INDEX_2][COL_INDEX_2])</var>
                         </span><span data-else="">
                             <var>roundTo(4, ZGRID[ROW_INDEX_2][COL_INDEX_2])</var>
-                        </span>} - \orange{<span data-if="ZSCORES[0] < 0">
+                        </span>} - \orange{<span data-if="ZSCORES[0] &lt; 0">
                             <var>roundTo(4, 1 - ZGRID[ROW_INDEX_1][COL_INDEX_1])</var>
                         </span><span data-else="">
                             <var>roundTo(4, ZGRID[ROW_INDEX_1][COL_INDEX_1])</var>

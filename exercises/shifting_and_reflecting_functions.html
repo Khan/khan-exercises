@@ -77,7 +77,7 @@
             </div>
 
             <div>
-                <p data-if="(Y_SHIFT > 0"><span data-if="isSingular(abs(Y_SHIFT))" data-unwrap="">Shift the function <code>-f(x)</code> up  unit, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</span><span data-else="" data-unwrap="">Shift the function <code>-f(x)</code> up  units, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</span></p><p data-else=""><span data-if="isSingular(abs(Y_SHIFT))" data-unwrap="">Shift the function <code>-f(x)</code> <var>"down ") + abs(Y_SHIFT)</var> unit, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</span><span data-else="" data-unwrap="">Shift the function <code>-f(x)</code> <var>"down ") + abs(Y_SHIFT)</var> units, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</span></p>
+                <p>Shift the function <code>-f(x)</code> <var>(Y_SHIFT &gt; 0 ? "up " : "down ") + abs(Y_SHIFT)</var> <var>plural("unit", abs(Y_SHIFT))</var>, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</p>
 
                 <div class="graphie" data-update="G">
                     style({
@@ -101,7 +101,7 @@
             </div>
 
             <div>
-                <p data-if="(X_SHIFT > 0"><span data-if="isSingular(abs(X_SHIFT))" data-unwrap="">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> left  unit, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</span><span data-else="" data-unwrap="">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> left  units, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</span></p><p data-else=""><span data-if="isSingular(abs(X_SHIFT))" data-unwrap="">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>"right ") + abs(X_SHIFT)</var> unit, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</span><span data-else="" data-unwrap="">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>"right ") + abs(X_SHIFT)</var> units, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</span></p>
+                <p>Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> <var>(X_SHIFT &gt; 0 ? "left " : "right ") + abs(X_SHIFT)</var> <var>plural("unit", abs(X_SHIFT))</var>, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</p>
 
                 <p>We now know that <code>g(x)</code> = <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
 
