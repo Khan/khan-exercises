@@ -146,23 +146,35 @@
                 <div class="hints">
                     <p>
                         To write <code><var>PRETTY_DECIMAL</var></code> in scientific notation, move the decimal
-                        to the <span data-if="E &lt; 0">right</span><span data-else="">left</span> so the number is greater than or equal
+                        to the <span data-if="E < 0">right</span><span data-else="">left</span> so the number is greater than or equal
                         to <code>1</code>, but less than <code>10</code>.
                     </p>
 
-                    <p>
-                        Moving the decimal to the <span data-if="E &lt; 0">right</span><span data-else="">left</span>
-                        <code><var>abs( E )</var></code> <var>plural( "place", abs( E ) )</var> leaves us with
+                    <p data-if="isSingular(abs( E ))">
+                        Moving the decimal to the <span data-if="E < 0">right</span><span data-else="">left</span>
+                        <code><var>abs( E )</var></code> place leaves us with
+                        <code class="hint_pink"><var>BASE</var></code>.
+                    </p><p data-else="">
+                        Moving the decimal to the <span data-if="E < 0">right</span><span data-else="">left</span>
+                        <code><var>abs( E )</var></code> places leaves us with
                         <code class="hint_pink"><var>BASE</var></code>.
                     </p>
 
-                    <p>
-                        Moving the decimal to the <span data-if="E &lt; 0">right</span><span data-else="">left</span>
-                        <code><var>abs( E )</var></code> <var>plural( "place", abs( E ) )</var> is the same as
-                        <span data-if="E &lt; 0">multiplying</span><span data-else="">dividing</span> by ten
-                        <code><var>abs( E )</var></code> <var>plural( "time", abs( E ) )</var>. Therefore, to
-                        counteract moving the decimal, we need to <span data-if="E &lt; 0">divide</span><span data-else="">multiply</span>
-                        by ten <code><var>abs( E )</var></code> <var>plural( "time", abs( E ) )</var> — which is the same as
+                    <p data-if="isSingular(abs( E ))">
+                        Moving the decimal to the <span data-if="E < 0">right</span><span data-else="">left</span>
+                        <code><var>abs( E )</var></code> place is the same as
+                        <span data-if="E < 0">multiplying</span><span data-else="">dividing</span> by ten
+                        <code><var>abs( E )</var></code> time. Therefore, to
+                        counteract moving the decimal, we need to <span data-if="E < 0">divide</span><span data-else="">multiply</span>
+                        by ten <code><var>abs( E )</var></code> time — which is the same as
+                        multiplying by <code class="hint_blue">10^{<var>E</var>}</code>.
+                    </p><p data-else="">
+                        Moving the decimal to the <span data-if="E < 0">right</span><span data-else="">left</span>
+                        <code><var>abs( E )</var></code> places is the same as
+                        <span data-if="E < 0">multiplying</span><span data-else="">dividing</span> by ten
+                        <code><var>abs( E )</var></code> times. Therefore, to
+                        counteract moving the decimal, we need to <span data-if="E < 0">divide</span><span data-else="">multiply</span>
+                        by ten <code><var>abs( E )</var></code> times — which is the same as
                         multiplying by <code class="hint_blue">10^{<var>E</var>}</code>.
                     </p>
 

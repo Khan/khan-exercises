@@ -37,7 +37,7 @@
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>S * S</var></span>
-                square <var>plural(UNIT_TEXT)</var>
+                square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -57,11 +57,16 @@
                             });
                         });
                     </div>
-                    <p>
-                        The length is <var>plural(S, UNIT_TEXT)</var> and
-                        the width is <var>plural(S, UNIT_TEXT)</var>, so the
+                    <p data-if="isSingular(S)">
+                        The length is <var>S</var> <var>UNIT_TEXT</var> and
+                        the width is <var>S</var> <var>UNIT_TEXT</var>, so the
                         area is <code><var>S</var>\times<var>S</var></code>
-                        square <var>plural(UNIT_TEXT)</var>.
+                        square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>.
+                    </p><p data-else="">
+                        The length is <var>S</var> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var> and
+                        the width is <var>S</var> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var>, so the
+                        area is <code><var>S</var>\times<var>S</var></code>
+                        square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>.
                     </p>
                 </div>
                 <div>
@@ -71,7 +76,7 @@
                     </code></p>
                     <p>
                         We can also count <var>S * S</var>
-                        square <var>plural(UNIT_TEXT)</var>.
+                        square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>.
                     </p>
                     <div class="graphie" data-update="area">
                         _(S * S).times(function(n) {
@@ -106,7 +111,7 @@
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>L * W</var></span>
-                square <var>plural(UNIT_TEXT)</var>
+                square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -129,11 +134,11 @@
                         });
                     </div>
                     <p>
-                        <span>The length is <var>plural(L, UNIT_TEXT)</var>.</span>
-                        <span>The width is <var>plural(W, UNIT_TEXT)</var>.</span>
+                        <span data-if="isSingular(L)">The length is <var>L</var> <var>UNIT_TEXT</var>.</span><span data-else="">The length is <var>L</var> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, L)</var>.</span>
+                        <span data-if="isSingular(W)">The width is <var>W</var> <var>UNIT_TEXT</var>.</span><span data-else="">The width is <var>W</var> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, W)</var>.</span>
                         <span>Thus the
                         area is <code><var>L</var>\times<var>W</var></code>
-                        square <var>plural(UNIT_TEXT)</var>.</span>
+                        square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>.</span>
                     </p>
                 </div>
                 <div>
@@ -143,7 +148,7 @@
                     </code></p>
                     <p>
                         We can also count <var>L * W</var>
-                        square <var>plural(UNIT_TEXT)</var>.
+                        square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>.
                     </p>
                     <div class="graphie" data-update="area">
                         _(L * W).times(function(n) {
@@ -196,7 +201,7 @@
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>SHAPE.area</var></span>
-                square <var>plural(UNIT_TEXT)</var>
+                square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -212,7 +217,7 @@
                 </div>
                 <p>
                     The area is <code><var>SHAPE.area</var></code> square
-                    <var>plural(UNIT_TEXT)</var>.
+                    <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>.
                 </p>
             </div>
         </div>

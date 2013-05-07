@@ -51,14 +51,14 @@
             <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
         </div>
 
-        <div data-if="A &gt; C" data-unwrap="">
+        <div data-if="A > C" data-unwrap="">
             <div>
                 <p>Subtract <code>\color{<var>PINK</var>}{<var>C</var>x}</code> from both sides.</p>
                 <p><code>(<var>A</var>x + <var>B</var>) \color{<var>PINK</var>}{- <var>C</var>x} = (<var>C</var>x + <var>D</var>) \color{<var>PINK</var>}{- <var>C</var>x}</code></p>
                 <p><code><var>A - C</var>x + <var>B</var> = <var>D</var></code></p>
             </div>
             <div>
-                <p><var>B &gt; 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> <var>B &gt; 0 ? "from" : "to"</var> both sides.</p>
+                <p data-if="B > 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(B)</var>}</code> to both sides.</p>
                 <p><code>(<var>A - C</var>x + <var>B</var>) \color{<var>PINK</var>}{+ <var>-B</var>} = <var>D</var> \color{<var>PINK</var>}{+ <var>-B</var>}</code></p>
                 <p><code><var>A - C</var>x = <var>D - B</var></code></p>
             </div>
@@ -78,7 +78,7 @@
                 <p><code><var>B</var> = <var>C - A</var>x + <var>D</var></code></p>
             </div>
             <div>
-                <p><var>D &gt; 0 ? "Subtract" : "Add"</var> <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> <var>D &gt; 0 ? "from" : "to"</var> both sides.</p>
+                <p data-if="D > 0">Subtract <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> from both sides.</p><p data-else="">Add <code>\color{<var>PINK</var>}{<var>abs(D)</var>}</code> to both sides.</p>
                 <p><code><var>B</var> \color{<var>PINK</var>}{+ <var>-D</var>} = (<var>C - A</var>x + <var>D</var>) \color{<var>PINK</var>}{+ <var>-D</var>}</code></p>
                 <p><code><var>B - D</var> = <var>C - A</var>x</code></p>
             </div>

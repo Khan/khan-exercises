@@ -106,14 +106,20 @@
                 </div>
 
                 <div class="hints">
-                    <div data-if="A &gt; C" data-unwrap="">
+                    <div data-if="A > C" data-unwrap="">
                         <div>
-                            <p>
-                                <var>C &gt; 0 ? "Subtract" : "Add"</var>
+                            <p data-if="C > 0">
+                                Subtract
                                 <code>
                                     \red{<var>abs(C)</var>|x + <var>E</var>|}
                                 </code>
-                                <var>C &gt; 0 ? "from" : "to"</var> both sides:
+                                from both sides:
+                            </p><p data-else="">
+                                Add
+                                <code>
+                                    \red{<var>abs(C)</var>|x + <var>E</var>|}
+                                </code>
+                                to both sides:
                             </p>
                             <p><code>\qquad\begin{eqnarray}
                                 <var>A</var>|x + <var>E</var>| + <var>B</var>
@@ -130,10 +136,14 @@
                             </code></p>
                         </div>
                         <div>
-                            <p>
-                                <var>B &gt; 0 ? "Subtract" : "Add"</var>
+                            <p data-if="B > 0">
+                                Subtract
                                 <code>\red{<var>abs(B)</var>}</code>
-                                <var>B &gt; 0 ? "from" : "to"</var> both sides:
+                                from both sides:
+                            </p><p data-else="">
+                                Add
+                                <code>\red{<var>abs(B)</var>}</code>
+                                to both sides:
                             </p>
                             <p><code>\qquad\begin{eqnarray}
                                 <var>A - C</var>|x + <var>E</var>| +
@@ -189,10 +199,15 @@
                                 </code></p>
                             </div>
                             <div>
-                                <p>
-                                    <var>E &gt; 0 ? "Subtract" : "Add"</var>
+                                <p data-if="E > 0">
+                                    Subtract
                                     <code>\red{<var>abs(E)</var>}</code>
-                                    <var>E &gt; 0 ? "from" : "to"</var> both
+                                    from both
+                                    sides:
+                                </p><p data-else="">
+                                    Add
+                                    <code>\red{<var>abs(E)</var>}</code>
+                                    to both
                                     sides:
                                 </p>
                                 <p><code>\qquad\begin{eqnarray}
@@ -234,10 +249,15 @@
                                 </code></p>
                             </div>
                             <div>
-                                <p>
-                                    <var>E &gt; 0 ? "Subtract" : "Add"</var>
+                                <p data-if="E > 0">
+                                    Subtract
                                     <code>\red{<var>abs(E)</var>}</code>
-                                    <var>E &gt; 0 ? "from" : "to"</var> both
+                                    from both
+                                    sides:
+                                </p><p data-else="">
+                                    Add
+                                    <code>\red{<var>abs(E)</var>}</code>
+                                    to both
                                     sides:
                                 </p>
                                 <p><code>\qquad\begin{eqnarray}
@@ -273,12 +293,18 @@
                     </div>
                     <div data-else="" data-unwrap="">
                         <div>
-                            <p>
-                                <var>A &gt; 0 ? "Subtract" : "Add"</var>
+                            <p data-if="A > 0">
+                                Subtract
                                 <code>
                                     \red{<var>A</var>|x + <var>E</var>|}
                                 </code>
-                                <var>A &gt; 0 ? "from" : "to"</var> both sides:
+                                from both sides:
+                            </p><p data-else="">
+                                Add
+                                <code>
+                                    \red{<var>A</var>|x + <var>E</var>|}
+                                </code>
+                                to both sides:
                             </p>
                             <p><code>\qquad\begin{eqnarray}
                                 <var>A</var>|x + <var>E</var>| + <var>B</var>
@@ -294,10 +320,14 @@
                             </code></p>
                         </div>
                         <div>
-                            <p>
-                                <var>D &gt; 0 ? "Subtract" : "Add"</var>
+                            <p data-if="D > 0">
+                                Subtract
                                 <code><var>abs(D)</var></code>
-                                <var>D &gt; 0 ? "from" : "to"</var> both sides:
+                                from both sides:
+                            </p><p data-else="">
+                                Add
+                                <code><var>abs(D)</var></code>
+                                to both sides:
                             </p>
                             <p><code>\qquad\begin{eqnarray}
                                 <var>B</var> &amp;=&amp;
@@ -354,10 +384,15 @@
                                 </p>
                             </div>
                             <div>
-                                <p>
-                                    <var>E &gt; 0 ? "Subtract" : "Add"</var>
+                                <p data-if="E > 0">
+                                    Subtract
                                     <code>\red{<var>abs(E)</var>}</code>
-                                    <var>E &gt; 0 ? "from" : "to"</var> both
+                                    from both
+                                    sides:
+                                </p><p data-else="">
+                                    Add
+                                    <code>\red{<var>abs(E)</var>}</code>
+                                    to both
                                     sides:
                                 </p>
                                 <p><code>\qquad\begin{eqnarray}
@@ -399,10 +434,15 @@
                                 </code></p>
                             </div>
                             <div>
-                                <p>
-                                    <var>E &gt; 0 ? "Subtract" : "Add"</var>
+                                <p data-if="E > 0">
+                                    Subtract
                                     <code>\red{<var>abs(E)</var>}</code>
-                                    <var>E &gt; 0 ? "from" : "to"</var> both
+                                    from both
+                                    sides:
+                                </p><p data-else="">
+                                    Add
+                                    <code>\red{<var>abs(E)</var>}</code>
+                                    to both
                                     sides:
                                 </p>
                                 <p><code>\qquad\begin{eqnarray}

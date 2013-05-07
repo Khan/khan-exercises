@@ -30,11 +30,18 @@
                 <code>\large{<var>X</var> + <var>Y</var> = <var>Z</var>}</code>
             </p>
             <div class="hints">
-                <p>
+                <p data-if="Y > 0">
                     <span class="hint_pink">
-                    <var>Y &gt; 0 ? "Subtract" : "Add"</var>
+                    Subtract
                     <code><var>abs(Y)</var></code>
-                    <var>Y &gt; 0 ? "from" : "to"</var> both sides</span> of
+                    from both sides</span> of
+                    the equation to get <code><var>X</var></code> by itself on
+                    the left.
+                </p><p data-else="">
+                    <span class="hint_pink">
+                    Add
+                    <code><var>abs(Y)</var></code>
+                    to both sides</span> of
                     the equation to get <code><var>X</var></code> by itself on
                     the left.
                 </p>
@@ -65,11 +72,18 @@
                 <code>\large{<var>Z</var> = <var>X</var> + <var>Y</var>}</code>
             </p>
             <div class="hints">
-                <p>
+                <p data-if="Y > 0">
                     <span class="hint_pink">
-                    <var>Y &gt; 0 ? "Subtract" : "Add"</var>
+                    Subtract
                     <code><var>abs(Y)</var></code>
-                    <var>Y &gt; 0 ? "from" : "to"</var> both sides</span> of
+                    from both sides</span> of
+                    the equation to get <code><var>X</var></code> by itself on
+                    the right.
+                </p><p data-else="">
+                    <span class="hint_pink">
+                    Add
+                    <code><var>abs(Y)</var></code>
+                    to both sides</span> of
                     the equation to get <code><var>X</var></code> by itself on
                     the right.
                 </p>
@@ -98,11 +112,18 @@
                 <code>\large{<var>Y</var> + <var>X</var> = <var>Z</var>}</code>
             </p>
             <div class="hints">
-                <p>
+                <p data-if="Y > 0">
                     <span class="hint_pink">
-                    <var>Y &gt; 0 ? "Subtract" : "Add"</var>
+                    Subtract
                     <code><var>abs(Y)</var></code>
-                    <var>Y &gt; 0 ? "from" : "to"</var> both sides</span> of
+                    from both sides</span> of
+                    the equation to get <code><var>X</var></code> by itself on
+                    the left.
+                </p><p data-else="">
+                    <span class="hint_pink">
+                    Add
+                    <code><var>abs(Y)</var></code>
+                    to both sides</span> of
                     the equation to get <code><var>X</var></code> by itself on
                     the left.
                 </p>
@@ -133,15 +154,22 @@
                 <code>\large{<var>Z</var> = <var>Y</var> + <var>X</var>}</code>
             </p>
             <div class="hints">
-                <p>
+                <p data-if="Y > 0">
                     <span class="hint_pink">
-                    <var>Y &gt; 0 ? "Subtract" : "Add"</var>
+                    Subtract
                     <code><var>abs(Y)</var></code>
-                    <var>Y &gt; 0 ? "from" : "to"</var> both sides</span> of
+                    from both sides</span> of
+                    the equation to get <code><var>X</var></code> by itself on
+                    the right.
+                </p><p data-else="">
+                    <span class="hint_pink">
+                    Add
+                    <code><var>abs(Y)</var></code>
+                    to both sides</span> of
                     the equation to get <code><var>X</var></code> by itself on
                     the right.
                 </p>
-                <p data-if="Y &lt; 0">
+                <p data-if="Y < 0">
                     <code>\qquad\large{\begin{eqnarray}
                         <var>Z</var>
                         &amp;\quad=\quad&amp;

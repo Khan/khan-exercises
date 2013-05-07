@@ -116,8 +116,9 @@
     <div class="hints">
         <div data-each="FACTORS.reverse() as FACTOR">
             <p>
-                <span>The <var>NUMBER</var> dots can be arranged in <var>plural(NUMBER / FACTOR, "row")</var>.</span>
-                <span>Each row has <var>plural(FACTOR, "dot")</var> each, so
+                <span data-if="isSingular(NUMBER / FACTOR)">The <var>NUMBER</var> dots can be arranged in <var>NUMBER / FACTOR</var> row.</span><span data-else="">The <var>NUMBER</var> dots can be arranged in <var>NUMBER / FACTOR</var> rows.</span>
+                <span data-if="isSingular(FACTOR)">Each row has <var>FACTOR</var> dot each, so
+                <code class="hint_pink"><var>NUMBER / FACTOR</var></code> is a factor of <var>NUMBER</var>:</span><span data-else="">Each row has <var>FACTOR</var> dots each, so
                 <code class="hint_pink"><var>NUMBER / FACTOR</var></code> is a factor of <var>NUMBER</var>:</span>
             </p>
             <div class="graphie">

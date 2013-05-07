@@ -47,7 +47,7 @@
                 </div>
 
                 <p class="question">
-                    Estimate the probability of <var>an( ANIMAL )</var> living longer than
+                    Estimate the probability of a <var>ANIMAL</var> living longer than
                     <code><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years.
                 </p>
 
@@ -186,7 +186,7 @@
                             });
                         </div>
                         <p>
-                            We are interested in the probability of <var>an( ANIMAL )</var> living longer than
+                            We are interested in the probability of a <var>ANIMAL</var> living longer than
                             <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years.
                         </p>
                     </div>
@@ -218,11 +218,16 @@
                                     [ MEAN - STDDEV * Z, graph.pdf( MEAN - STDDEV * Z ) -0.1 ]);
                             });
                         </div>
-                        <p>
+                        <p data-if="isSingular(abs( Z ))">
                             The empirical rule (or the 68-95-99.7 rule) tells us that
                             <span style="color: green"><code><var>EMPIRICAL</var>\%</code></span>
                             of the <var>ANIMALS</var> will have lifespans within
-                            <var>plural( abs( Z ), "standard deviation" )</var> of the average lifespan.
+                            <var>abs( Z )</var> standard deviation of the average lifespan.
+                        </p><p data-else="">
+                            The empirical rule (or the 68-95-99.7 rule) tells us that
+                            <span style="color: green"><code><var>EMPIRICAL</var>\%</code></span>
+                            of the <var>ANIMALS</var> will have lifespans within
+                            <var>abs( Z )</var> standard deviations of the average lifespan.
                         </p>
                     </div>
 
@@ -260,7 +265,7 @@
                         </p>
                     </div>
 
-                    <p id="finalHint1" data-if="Z &lt; 0">
+                    <p id="finalHint1" data-if="Z < 0">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living longer than
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years is
@@ -295,7 +300,7 @@
                     </var>
                 </div>
                 <p class="question">
-                    Estimate the probability of <var>an( ANIMAL )</var> living less than
+                    Estimate the probability of a <var>ANIMAL</var> living less than
                     <code><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years.
                 </p>
 
@@ -318,12 +323,12 @@
                             });
                         </div>
                         <p>
-                            We are interested in the probability of <var>an( ANIMAL )</var> living less than
+                            We are interested in the probability of a <var>ANIMAL</var> living less than
                             <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years.
                         </p>
                     </div>
 
-                    <p id="finalHint1" data-if="Z &gt; 0">
+                    <p id="finalHint1" data-if="Z > 0">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living less than
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z )</var></code> years is
@@ -392,7 +397,7 @@
                     <var id="AREA">TOTAL2 - TOTAL1</var>
                 </div>
                 <p class="question">
-                    Estimate the probability of <var>an( ANIMAL )</var> living between
+                    Estimate the probability of a <var>ANIMAL</var> living between
                     <code><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and <code><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years.
                 </p>
 
@@ -420,7 +425,7 @@
                             });
                         </div>
                         <p>
-                            We are interested in the probability of <var>an( ANIMAL )</var> living between
+                            We are interested in the probability of a <var>ANIMAL</var> living between
                             <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and
                             <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years.
                         </p>
@@ -453,11 +458,16 @@
                                     [ MEAN - STDDEV * Z_MAX, graph.pdf( MEAN - STDDEV * Z_MAX ) -0.1 ]);
                             });
                         </div>
-                        <p>
+                        <p data-if="isSingular(abs( Z_MAX ))">
                             The empirical rule (or the 68-95-99.7 rule) tells us that
                             <span style="color: green"><code><var>EMPIRICAL1</var>\%</code></span>
                             of the <var>ANIMALS</var> will have lifespans within
-                            <var>plural( abs( Z_MAX ), "standard deviation" )</var> of the average lifespan.
+                            <var>abs( Z_MAX )</var> standard deviation of the average lifespan.
+                        </p><p data-else="">
+                            The empirical rule (or the 68-95-99.7 rule) tells us that
+                            <span style="color: green"><code><var>EMPIRICAL1</var>\%</code></span>
+                            of the <var>ANIMALS</var> will have lifespans within
+                            <var>abs( Z_MAX )</var> standard deviations of the average lifespan.
                         </p>
                     </div>
 
@@ -490,23 +500,29 @@
 
                         </div>
                         <p>
-                            <span>It also tells us that <span style="color: green"><code><var>EMPIRICAL2</var>\%</code></span>
-                            of the <var>ANIMALS</var> will have lifespans within <var>plural( Z_MIN, "standard deviation" )</var>
+                            <span data-if="isSingular(Z_MIN)">It also tells us that <span style="color: green"><code><var>EMPIRICAL2</var>\%</code></span>
+                            of the <var>ANIMALS</var> will have lifespans within <var>Z_MIN</var> standard deviation
+                            of the mean.</span><span data-else="">It also tells us that <span style="color: green"><code><var>EMPIRICAL2</var>\%</code></span>
+                            of the <var>ANIMALS</var> will have lifespans within <var>Z_MIN</var> standard deviations
                             of the mean.</span>
-                            <span>That leaves <code><var>EMPIRICAL1</var>\% - <var>EMPIRICAL2</var>\% =
+                            <span data-if="isSingular(Z_MAX)">That leaves <code><var>EMPIRICAL1</var>\% - <var>EMPIRICAL2</var>\% =
                             <var>roundTo( 2, EMPIRICAL1 - EMPIRICAL2 )</var>\%</code> of <var>ANIMALS</var> between
-                            <var>Z_MIN</var> and <var>plural( Z_MAX, "standard deviation" )</var> of the mean, or
+                            <var>Z_MIN</var> and <var>Z_MAX</var> standard deviation of the mean, or
+                            <span style="color: orange"><code><var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%</code></span>
+                            on either side of the distribution.</span><span data-else="">That leaves <code><var>EMPIRICAL1</var>\% - <var>EMPIRICAL2</var>\% =
+                            <var>roundTo( 2, EMPIRICAL1 - EMPIRICAL2 )</var>\%</code> of <var>ANIMALS</var> between
+                            <var>Z_MIN</var> and <var>Z_MAX</var> standard deviations of the mean, or
                             <span style="color: orange"><code><var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%</code></span>
                             on either side of the distribution.</span>
                         </p>
                     </div>
 
-                    <p id="finalHint1" data-if="abs( Z1 ) &gt; abs( Z2 )">
+                    <p id="finalHint1" data-if="abs( Z1 ) > abs( Z2 )">
                         <strong>
                         The probability of a particular <var>ANIMAL</var> living between
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years is
-                        <span data-if="Z1 * Z2 &gt; 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
+                        <span data-if="Z1 * Z2 > 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
                         <span data-else=""><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%} +
                         \color{green}{<var>EMPIRICAL2</var>\%}</code>, or <code><var>roundTo( 2, AREA )</var>\%</code>.</span>
                         </strong>
@@ -517,7 +533,7 @@
                         The probability of a particular <var>ANIMAL</var> living between
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z1 )</var></code> and
                         <code class="hint_pink"><var>roundTo( 1, MEAN + STDDEV * Z2 )</var></code> years is
-                        <span data-if="Z1 * Z2 &gt; 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
+                        <span data-if="Z1 * Z2 > 0"><code>\color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>.</span>
                         <span data-else=""><code>\color{green}{<var>EMPIRICAL2</var>\%} +
                         \color{orange}{<var>roundTo( 2, ( EMPIRICAL1 - EMPIRICAL2 ) / 2 )</var>\%}</code>, or
                         <code><var>roundTo( 2, AREA )</var>\%</code>.</span>

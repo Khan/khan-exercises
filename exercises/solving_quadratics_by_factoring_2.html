@@ -86,7 +86,7 @@
                         \color{<var>BLUE</var>}{<var>SIMPLECONSTANT</var>}
                     </code></p>
                 </div>
-                <p id="hint2">So <code>(x <var>A &lt; 0 ? "+" : ""</var> \color{<var>PINK</var>}{<var>-A</var>})^2 = 0</code>.</p>
+                <p id="hint2" data-if="A < 0">So <code>(x + \color{<var>PINK</var>}{<var>-A</var>})^2 = 0</code>.</p><p id="hint2" data-else="">So <code>(x  \color{<var>PINK</var>}{<var>-A</var>})^2 = 0</code>.</p>
                 <p id="hint3"><code>x + <var>-A</var> = 0</code></p>
                 <p id="hint4"><b>Thus, <code>x = <var>A</var></code> is the solution.</b></p>
             </div>
@@ -111,7 +111,7 @@
             <p><code>\qquad <var>plus( SQUARE + "x^2", LINEAR + "x", CONSTANT )</var> = 0</code></p>
         </div>
 
-        <div data-if="SQUARE &gt; 1">
+        <div data-if="SQUARE > 1">
             <p>Dividing both sides by <code><var>SQUARE</var></code> gives:</p>
             <p><code>
                 \qquad x^2

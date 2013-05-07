@@ -62,14 +62,14 @@
         </div>
 
         <div class="hints">
-            <div data-if="A &gt; C" data-unwrap="">
+            <div data-if="A > C" data-unwrap="">
                 <div>
                     <p>Subtract <code><var>C</var>\sqrt{x}</code> from both sides:</p>
                     <p><code>(<var>A</var>\sqrt{x} + <var>B</var>) - <var>C</var>\sqrt{x} = (<var>C</var>\sqrt{x} + <var>D</var>) - <var>C</var>\sqrt{x}</code></p>
                     <p><code><var>A - C</var>\sqrt{x} + <var>B</var> = <var>D</var></code></p>
                 </div>
                 <div>
-                    <p><var>B &gt; 0 ? "Subtract" : "Add"</var> <code><var>abs(B)</var></code> <var>B &gt; 0 ? "from" : "to"</var> both sides:</p>
+                    <p data-if="B > 0">Subtract <code><var>abs(B)</var></code> from both sides:</p><p data-else="">Add <code><var>abs(B)</var></code> to both sides:</p>
                     <p><code>(<var>A - C</var>\sqrt{x} + <var>B</var>) + <var>-B</var> = <var>D</var> + <var>-B</var></code></p>
                     <p><code><var>A - C</var>\sqrt{x} = <var>D - B</var></code></p>
                 </div>
@@ -81,7 +81,7 @@
                     <p>Simplify.</p>
                     <p><code>\sqrt{x} = <var>SIMPLIFIED</var></code></p>
                 </div>
-                <div data-if="( D - B ) / ( A - C ) &gt; 0">
+                <div data-if="( D - B ) / ( A - C ) > 0">
                     <p>Square both sides.</p>
                     <p><code>\sqrt{x} \cdot \sqrt{x} = <var>SIMPLIFIED</var> \cdot <var>SIMPLIFIED</var></code></p>
                     <p><var>SOLUTION</var></p>
@@ -97,7 +97,7 @@
                     <p><code><var>B</var> = <var>C - A</var>\sqrt{x} + <var>D</var></code></p>
                 </div>
                 <div>
-                    <p><var>D &gt; 0 ? "Subtract" : "Add"</var> <code><var>abs(D)</var></code> <var>D &gt; 0 ? "from" : "to"</var> both sides:</p>
+                    <p data-if="D > 0">Subtract <code><var>abs(D)</var></code> from both sides:</p><p data-else="">Add <code><var>abs(D)</var></code> to both sides:</p>
                     <p><code><var>B</var> + <var>-D</var> = (<var>C - A</var>\sqrt{x} + <var>D</var>) + <var>-D</var></code></p>
                     <p><code><var>B - D</var> = <var>C - A</var>\sqrt{x}</code></p>
                 </div>
@@ -109,7 +109,7 @@
                     <p>Simplify.</p>
                     <p><code><var>SIMPLIFIED</var> = \sqrt{x}</code></p>
                 </div>
-                <div data-if="( D - B ) / ( A - C ) &gt; 0">
+                <div data-if="( D - B ) / ( A - C ) > 0">
                     <p>Square both sides.</p>
                     <p><code><var>SIMPLIFIED</var> \cdot <var>SIMPLIFIED</var> = \sqrt{x} \cdot \sqrt{x}</code></p>
                     <p><var>SOLUTION</var></p>
