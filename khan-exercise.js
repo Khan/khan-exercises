@@ -1537,13 +1537,20 @@ var Khan = (function() {
             links.append($("<b>").text("Problem types:"));
 
             exercises.children(".problems").children().each(function(n, prob) {
-                var probID = $(prob).attr("id") || n;
-                links.append($("<a>").addClass("problem-type-link")
-                        .text(n + ": " + probID)
+                var probName = $(prob).attr("id");
+                var probID = probName || n;
+                var weight = $(prob).data("weight");
+                weight = weight != null ? weight : 1;
+
+                if (weight !== 0) {
+                    $("<a>").addClass("problem-type-link")
+                        .text("#" + (n + 1) +
+                            (probName != null ? ": " + probName : ""))
                         .attr("href", window.location.protocol + "//" +
                             window.location.host + window.location.pathname +
                             "?browse&problem=" + probID)
-                    );
+                        .appendTo(links);
+                }
             });
 
             browseWrap.append(links);

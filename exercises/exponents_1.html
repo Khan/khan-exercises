@@ -69,33 +69,27 @@
                 <div class="hints">
 
                     <div data-if="EXP === 0" data-unwrap="">
-
                         <p>Anything to the 0th power equals... ?</p>
-
                         <p>Anything to the 0th power equals <span class="hint_blue">1</span>.</p>
-
                     </div>
 
                     <div data-else-if="EXP === 1" data-unwrap="">
-
                         <p>Anything to the 1st power equals... ?</p>
-
                         <p><code>x^{1}=x</code>, no matter what <code>x</code> is.</p>
-
                     </div>
 
-                    <div data-else-if="BASE === 0 || BASE === 1 || BASE === -1" data-unwrap="">
-
+                    <div data-else-if="BASE === -1" data-unwrap="">
                         <p><var>Cardinal( BASE )</var> to any <var>NEG_ONE_HINT</var> power equals... ?</p>
-
                         <p><var>Cardinal( BASE )</var> to any <var>NEG_ONE_HINT</var> power equals <span class="hint_blue"><var>cardinal( round( pow( BASE, EXP ) ) )</var></span>.</p>
+                    </div>
 
+                    <div data-else-if="BASE === 0 || BASE === 1" data-unwrap="">
+                        <p><var>Cardinal( BASE )</var> to any power equals... ?</p>
+                        <p><var>Cardinal( BASE )</var> to any power equals <span class="hint_blue"><var>cardinal( round( pow( BASE, EXP ) ) )</var></span>.</p>
                     </div>
 
                     <div data-else="" data-unwrap="">
-
                         <p data-each="expandExponent( BASE, EXP ) as v"><code>= <var>v</var></code></p>
-
                     </div>
                 </div>
             </div>
