@@ -288,9 +288,7 @@ class BaseFilter(object):
             return orig_node
 
         # Replace orig_node with the new node we've generated, in the html tree
-        self.replace_node(orig_node, node)
-
-        return node
+        return self.replace_node(orig_node, node)
 
     def find_fixable_vars(self, node):
         """Locate all the <var> elements that need fixing in a node.
@@ -317,6 +315,7 @@ class BaseFilter(object):
         # We just replace the node with the newly-cloned node
         if orig_node != node:
             orig_node.getparent().replace(orig_node, node)
+        return node
 
     def process_vars(self, fixable_vars):
         """Process all the <var> elements in a node.
@@ -497,10 +496,10 @@ class IfElseFilter(BaseFilter):
         """
         # Don't replace if no matching <var> nodes were found
         if not self.match_keys:
-            return
+            return orig_node
 
         if self.can_have_if(orig_node):
-            super(IfElseFilter, self).replace_node(orig_node, node)
+            return super(IfElseFilter, self).replace_node(orig_node, node)
         else:
             # Remove all child nodes within the original element
             for child_node in orig_node.iterchildren():
@@ -511,6 +510,8 @@ class IfElseFilter(BaseFilter):
 
             # And insert the newly-created node into position
             orig_node.append(node)
+
+            return node
 
     def copy_node(self, orig_node):
         """Copy the node only if it can't have an data-if added to it.
