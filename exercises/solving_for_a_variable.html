@@ -72,10 +72,10 @@
                     <li data-if="D+A !== 0"><code><var>ANSWER( D+A, E-B, F-C, G )</var></code></li>
                     <li data-if="E+B !== 0"><code><var>ANSWER( D-A, E+B, F-C, G )</var></code></li>
                     <li data-if="F+C !== 0"><code><var>ANSWER( D-A, E-B, F+C, G )</var></code></li>
-                    <li data-if="D+A !== 0 &amp;&amp; E+B !== 0"><code><var>ANSWER( D+A, E+B, F-C, G )</var></code></li>
-                    <li data-if="D+A !== 0 &amp;&amp; F+C !== 0"><code><var>ANSWER( D+A, E-B, F+C, G )</var></code></li>
-                    <li data-if="E+B !== 0 &amp;&amp; F+C !== 0"><code><var>ANSWER( D-A, E+B, F+C, G )</var></code></li>
-                    <li data-if="E+B !== 0 &amp;&amp; E+B !== 0 &amp;&amp; F+C !== 0"><code><var>ANSWER( D+A, E+B, F+C, G )</var></code></li>
+                    <li data-if="D+A !== 0 && E+B !== 0"><code><var>ANSWER( D+A, E+B, F-C, G )</var></code></li>
+                    <li data-if="D+A !== 0 && F+C !== 0"><code><var>ANSWER( D+A, E-B, F+C, G )</var></code></li>
+                    <li data-if="E+B !== 0 && F+C !== 0"><code><var>ANSWER( D-A, E+B, F+C, G )</var></code></li>
+                    <li data-if="E+B !== 0 && E+B !== 0 && F+C !== 0"><code><var>ANSWER( D+A, E+B, F+C, G )</var></code></li>
                 </ul>
 
                 <div class="hints">
@@ -104,9 +104,9 @@
                     </div>
                     <p><code><var>X</var> = \dfrac{ <var>plus( (D-A)+Y, (E-B)+Z, F-C )</var> }{ <var>plus( color_( G + X_EXTRAS, false ) )</var> }</code></p>
 
-                    <div data-if="GCD &gt; 1 || G &lt; 0" data-unwrap="">
-                        <p data-if="GCD &gt; 1">All of these terms are divisible by <code><var>GCD</var></code>.</p>
-                        <p data-if="GCD &gt; 1 &amp;&amp; G &lt; 0">Divide by the common factor and swap signs so the denominator isn't negative.</p>
+                    <div data-if="GCD > 1 || G < 0" data-unwrap="">
+                        <p data-if="GCD > 1">All of these terms are divisible by <code><var>GCD</var></code>.</p>
+                        <p data-if="GCD > 1 && G < 0">Divide by the common factor and swap signs so the denominator isn't negative.</p>
                         <p data-else-if="GCD &gt; 1">Divide by the common factor.</p>
                         <p data-else="">Swap the signs so the denominator isn't negative.</p>
                         <p><code><var>X</var> = \dfrac{ <var>plus( color_( round( DIVISOR*(D-A) ), true )+Y, color_( round( DIVISOR*(E-B) ), true )+Z, color_( round( DIVISOR*(F-C) ), true ) )</var> }{ <var>plus( color_( round( DIVISOR*G )+X_EXTRAS, true ) )</var> }</code></p>
@@ -369,9 +369,9 @@
                     </div>
                     <p><code><var>X</var> = \dfrac{ <var>plus( E_TERM+Z, (-B_TERM)+Y )</var> }{ <var>color_( A_TERM-D_TERM, false )</var> }</code></p>
 
-                    <div data-if="GCD &gt; 1 || (A_TERM-D_TERM) &lt; 0" data-unwrap="">
-                        <p data-if="GCD &gt; 1">All of these terms are divisible by <code><var>GCD</var></code>.</p>
-                        <p data-if="GCD &gt; 1 &amp;&amp; (A_TERM-D_TERM) &lt; 0">Divide by the common factor and swap signs so the denominator isn't negative.</p>
+                    <div data-if="GCD > 1 || (A_TERM-D_TERM) < 0" data-unwrap="">
+                        <p data-if="GCD > 1">All of these terms are divisible by <code><var>GCD</var></code>.</p>
+                        <p data-if="GCD > 1 && (A_TERM-D_TERM) < 0">Divide by the common factor and swap signs so the denominator isn't negative.</p>
                         <p data-else-if="GCD &gt; 1">Divide by the common factor.</p>
                         <p data-else="">Swap signs so the denominator isn't negative.</p>
                         <p><code><var>X</var> = \dfrac{ <var>plus( color_( round( E_TERM*DIVISOR ), true )+Z, color_( round( -B_TERM*DIVISOR ), true )+Y )</var> }{ <var>color_( round( (A_TERM-D_TERM)*DIVISOR ), true )</var> }</code></p>
