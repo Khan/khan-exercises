@@ -226,23 +226,23 @@
             <p>
                 <span>The slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>. Remember that
                 the slope tells you rise over run.</span>
-                <span data-if='"position" + ( abs( SLOPE_FRAC[0] ) !== 1'>So in this case for every
+                <span data-if='abs( SLOPE_FRAC[0] ) !== 1'>So in this case for every
                 <code><var>abs( SLOPE_FRAC[0] )</var></code>
-                s
+                positions
                 you move
                 <span data-if="SLOPE_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
                 <span data-else="">up</span>.</span><span data-else="">So in this case for every
                 <code><var>abs( SLOPE_FRAC[0] )</var></code>
-                <var>"" )</var>
+                position
                 you move
                 <span data-if="SLOPE_FRAC[0] < 0"><em>down</em> (because it's negative)</span>
                 <span data-else="">up</span>.</span>
-                <span data-if='"position" + ( abs( SLOPE_FRAC[1] ) !== 1'>You must also move
+                <span data-if='abs( SLOPE_FRAC[1] ) !== 1'>You must also move
                 <code><var>SLOPE_FRAC[1]</var></code>
-                s
+                positions
                 to the right.</span><span data-else="">You must also move
                 <code><var>SLOPE_FRAC[1]</var></code>
-                <var>"" )</var>
+                position
                 to the right.</span>
                 <span>So the line must also pass through <code class="hint_purple">(<var>SLOPE_FRAC[1]</var>, <var>YINT + SLOPE_FRAC[0]</var>)</code></span>
             </p>
