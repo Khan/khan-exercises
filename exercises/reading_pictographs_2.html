@@ -68,7 +68,10 @@
                 </div>
                 <p>
                     <span>There <var>plural( "is", DATA[PERSON] )</var> <var>plural( DATA[PERSON], "full symbol" )</var><span data-if="HALF[ PERSON ]"> and 1 half symbol</span>.</span>
-                    <span data-if="HALF[ PERSON ]">The full symbols represent <var>plural( VALUE_PER_IMG, "badge" )</var>, so the half symbol must represent <var>plural( VALUE_PER_IMG/2, "badge" )</var>.</span>
+                    <span data-if="HALF[ PERSON ]">
+                        <span>The full symbols represent <var>plural( VALUE_PER_IMG, "badge" )</var>.</span>
+                        <span>The half symbol must represent <var>plural( VALUE_PER_IMG/2, "badge" )</var>.</span>
+                    </span>
                 </p>
 
                 <div>
@@ -200,9 +203,10 @@
                         <span><code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbol</span>
                         <span><code> = <var>FULL_SYM * VALUE_PER_IMG</var></code> <var>plural( "badge", FULL_SYM * VALUE_PER_IMG )</var>.</span>
                         <span data-if="HALF_SYM">
-                            <br><code><var>HALF_SYM</var></code> half <var>plural( "symbol", HALF_SYM )</var>
-                            <code> \times <var>VALUE_PER_IMG/2</var></code> <var>plural( "badge", VALUE_PER_IMG / 2 )</var> per half symbol <code> = <var>HALF_SYM * VALUE_PER_IMG / 2</var></code>
-                            <var>plural( "badge", HALF_SYM * VALUE_PER_IMG / 2 )</var>.
+                            <br><span><code><var>HALF_SYM</var></code> half <var>plural( "symbol", HALF_SYM )</var></span>
+                            <span><code> \times <var>VALUE_PER_IMG/2</var></code> <var>plural( "badge", VALUE_PER_IMG / 2 )</var> per half symbol</span>
+                            <span><code> = <var>HALF_SYM * VALUE_PER_IMG / 2</var></code>
+                            <var>plural( "badge", HALF_SYM * VALUE_PER_IMG / 2 )</var>.</span>
                         </span>
                     </div>
                 </div>
