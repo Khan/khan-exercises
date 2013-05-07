@@ -39,6 +39,14 @@ $.extend(KhanUtil, {
         return str.charAt(0).toUpperCase() + str.slice(1);
     },
 
+    AMBIGUOUS_PLURAL: function(word, num) {
+        if (typeof console !== "undefined" && console.error) {
+            console.error("Ambiguous plural variable usage: ", word);
+        }
+
+        return word;
+    },
+
     plural_form: function(word, num) {
         // TODO(jeresig): i18n: Eventually remove this?
         if (typeof console !== "undefined" && console.error) {
