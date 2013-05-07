@@ -870,3 +870,12 @@ span.hover-hint:hover {
     padding-top: 1px;
     border-top: 1px solid black;
 }
+
+body.debug span.error {
+    font-weight: bold;
+    color: #FFF;
+    background: #F00;
+    font-size: 1.4em;
+    padding: 0.2em;
+    text-decoration: line-through;
+}

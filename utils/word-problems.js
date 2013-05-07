@@ -44,16 +44,24 @@ $.extend(KhanUtil, {
             console.error("Ambiguous plural variable usage: ", word);
         }
 
-        return word;
+        KhanUtil.debugLog("ERROR: Ambiguous plural variable usage: " + word);
+
+        return "<span class='error'>" + this.plural(word, num) + "</span>";
     },
 
     plural_form: function(word, num) {
-        // TODO(jeresig): i18n: Eventually remove this?
+        // Check if the word is pluralizable
+        if (word && word.plural) {
+            return word.plural(num);
+        }
+
         if (typeof console !== "undefined" && console.error) {
             console.error("Word not in plural dictionary: ", word);
         }
 
-        return word;
+        KhanUtil.debugLog("ERROR: Word not in plural dictionary: " + word);
+
+        return "<span class='error'>" + this.plural(word, num) + "</span>";
     },
 
     isSingular: function(num) {
