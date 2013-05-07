@@ -37,10 +37,10 @@
     </p>
 
     <!-- Test 3: Function call as first argument: arithmetic_word_problems -->
-    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>item(1)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>item(1).plural(ITEMS_LEFT)</var> left over.</p>
+    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>item(1)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p>
 
     <!-- Test 4: Function call as second argument: arithmetic_word_problems -->
-    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>item(1)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>item(1).plural(ITEMS_LEFT)</var> left over.</p>
+    <p data-if="isSingular(ITEMS_LEFT)">He will have <var>ITEMS_LEFT</var> <var>item(1)</var> left over.</p><p data-else="">He will have <var>ITEMS_LEFT</var> <var>plural_form(item(1), ITEMS_LEFT)</var> left over.</p>
 
     <!-- Test 5: Ambiguous variables: area_1 -->
     <p data-if="isSingular(S)">

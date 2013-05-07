@@ -624,8 +624,8 @@ class AlwaysPluralFilter(BaseFilter):
     _empty_str_fn = '%s("", %s)'
     # Map old function name to new function name
     _function_map = {
-        'plural': '%s.plural()',
-        'pluralTex': '%s.plural()'
+        'plural': 'plural_form(%s)',
+        'pluralTex': 'plural_form(%s)'
     }
     # Matches plural(...)
     _regex = re.compile(r'^\s*(plural|pluralTex)'
@@ -746,8 +746,8 @@ class PluralFilter(IfElseFilter):
     """
     # Map old function name to new function name
     _function_map = {
-        'plural': '%s.plural(%s)',
-        'pluralTex': '%s.plural(%s)'
+        'plural': 'plural_form(%s, %s)',
+        'pluralTex': 'plural_form(%s, %s)'
     }
     _ngetpos_condition = 'isSingular(%s)'
     # See if it matches the form plural|pluralTex(..., ...)
@@ -1246,9 +1246,9 @@ def _check_plural_is_ambiguous(plural_arg):
     is to explicitly require the dev to rewrite the function signature to
     something else. This is why the function call is mutated into the obvious
     AMBIGUOUS_PLURAL and requires that the user manually convert it into the
-    form TEXT_VAR.plural(NUM_VAR). It's assumed that anything using the new
-    .plural() is in fact pluralizable (if it's not that call is going to throw
-    an exception).
+    form plural_form(TEXT_VAR, NUM_VAR). It's assumed that anything using the
+    plural_form() function is in fact pluralizable (if it's not that call is
+    going to generate an error to the console).
     """
     # If we already think it's ambiguous then just say so
     if _check_plural_arg_is_num(plural_arg) is None:
