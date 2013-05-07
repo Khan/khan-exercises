@@ -1078,8 +1078,7 @@ class AmbiguousPluralFilter(BaseFilter):
         return self._regex.match(fix_node.text)
 
     def filter_var(self, match, var_node):
-        """
-        """
+        """Generate an error message for the usage of AMBIGUOUS_PLURAL."""
         self.errors.append("Ambiguous plural usage (%s):\n%s" % (
             match.group(1).strip(),
             extract_strings.get_outerhtml(var_node)))
@@ -1217,12 +1216,12 @@ def _check_plural_arg_is_num(plural_arg):
     if fn_match and fn_match.group(1) in _functions:
         return False
 
-    # If it users a var that's in our list of known string variables
+    # If it uses a var that's in our list of known string variables
     for var in _string_vars:
         if var in plural_arg.upper():
             return False
 
-    # If it users a var that's in our list of known number variables
+    # If it uses a var that's in our list of known number variables
     for var in _num_vars:
         if var in plural_arg.upper():
             return True
@@ -1236,22 +1235,30 @@ def _check_plural_is_ambiguous(plural_arg):
 
     We do this so that we can mark up the string with a large warning function
     call like AMBIGUOUS_PLURAL and report an error to the user.
+
+    This case of ambiguity is knowing if the text contents of a text argument
+    is able to be pluralized, or not. Right now the only case where this is
+    true is for the built-in string functions, like item(1). Pretty much
+    anything else fails this case. I should mention that it's totally possible
+    that the dev has marked the string up to be pluralizable but we just can't
+    determine that from our analysis here. The only way we can determine this
+    is to explicitly require the dev to rewrite the function signature to
+    something else. This is why the function call is mutated into the obvious
+    AMBIGUOUS_PLURAL and requires that the user manually convert it into the
+    form TEXT_VAR.plural(NUM_VAR). It's assumed that anything using the new
+    .plural() is in fact pluralizable (if it's not that call is going to throw
+    an exception).
     """
     # If we already think it's ambiguous then just say so
     if _check_plural_arg_is_num(plural_arg) is None:
         return True
 
     # In this case we're going to check and see if the item is in one of our
-    # known string or number variables. If so then we're not going to trust
-    # it and we want to force the user to fix it by hand.
+    # known string variables. If so then we're not going to trust it and we
+    # want to force the user to fix it by hand.
 
-    # If it users a var that's in our list of known string variables
+    # If it uses a var that's in our list of known string variables
     for var in _string_vars:
-        if var in plural_arg.upper():
-            return True
-
-    # If it users a var that's in our list of known number variables
-    for var in _num_vars:
         if var in plural_arg.upper():
             return True
 
