@@ -45,7 +45,7 @@ var PerseusBridge = Exercises.PerseusBridge,
 $(Exercises)
     .bind("problemTemplateRendered", problemTemplateRendered)
     .bind("newProblem", newProblem)
-    .bind("hintUsed", onHintUsed)
+    .bind("hintShown", onHintShown)
     .bind("readyForNextProblem", readyForNextProblem)
     .bind("warning", warning)
     .bind("upcomingExercise", upcomingExercise)
@@ -295,13 +295,14 @@ function onHintButtonClicked() {
     }
 }
 
-function onHintUsed() {
+function onHintShown() {
     // Grow the scratchpad to cover the new hint
     Khan.scratchpad.resize();
 
     hintsUsed++;
     updateHintButtonText();
 
+    $(Exercises).trigger("hintUsed");
     // If there aren't any more hints, disable the get hint button
     if (hintsUsed === numHints) {
         $("#hint").attr("disabled", true);

@@ -1905,7 +1905,7 @@ var Khan = (function() {
                     $(hint).addClass("final_answer");
                 }
 
-                $(Exercises).trigger("hintUsed", {
+                $(Exercises).trigger("hintShown", {
                     card: Exercises.currentCard
                 });
             })
