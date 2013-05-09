@@ -41,10 +41,11 @@ $.extend(KhanUtil, {
 
     AMBIGUOUS_PLURAL: function(word, num) {
         if (typeof console !== "undefined" && console.error) {
-            console.error("Ambiguous plural variable usage: ", word);
+            console.error("Ambiguous plural variable usage: ", String(word));
         }
 
-        KhanUtil.debugLog("ERROR: Ambiguous plural variable usage: " + word);
+        KhanUtil.debugLog("ERROR: Ambiguous plural variable usage: " +
+            String(word));
 
         return "<span class='error'>" + this.plural(word, num) + "</span>";
     },
@@ -56,10 +57,11 @@ $.extend(KhanUtil, {
         }
 
         if (typeof console !== "undefined" && console.error) {
-            console.error("Word not in plural dictionary: ", word);
+            console.error("Word not in plural dictionary: ", String(word));
         }
 
-        KhanUtil.debugLog("ERROR: Word not in plural dictionary: " + word);
+        KhanUtil.debugLog("ERROR: Word not in plural dictionary: " +
+            String(word));
 
         return "<span class='error'>" + this.plural(word, num) + "</span>";
     },
