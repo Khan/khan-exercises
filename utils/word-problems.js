@@ -198,8 +198,8 @@ var Plural = KhanUtil.Plural = function(plural_fn) {
 };
 
 KhanUtil.Plural.prototype = {
-    plural_form: function(num) {
-        // There are some cases where plural_form is called with only a word
+    plural: function(num) {
+        // There are some cases where plural is called with only a word
         // (and no number). In this case we just want to return the plural
         // form of that word, as best as we can. This might have some slight
         // incongruities across platforms
