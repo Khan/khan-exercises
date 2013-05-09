@@ -3,17 +3,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Vigenere Cipher Encryption</title>
     <script src="../khan-exercise.js"></script>
-	
-    <style>
+	<!--[if !IE]><!--><script>  
+    if (/*@cc_on!@*/false) {  
+        document.documentElement.className+=' ie10';  
+    }  
+    </script><!--<![endif]-->  
+        <style>
         #Cip         {    
-                        font-family: "Courier New";
-                        font-size: 14px;
+                        font-family:"Courier New";
+                        letter-spacing: 2px;
                         color: rgb(37, 108, 233);
                         font-weight: bold;
-                        letter-spacing: 2px;
-                        <!-- Should be letter-spacing 1.6px for IE (Or at least IE10), but IE conditional statements aren't working here for some reason -->
-                        <!-- Knowen Issue: Web Browser Zooming breaks the formating on Firefox and Chrome for the Interactive Cipher Shift
-						     It does work on IE, but IE requires a different letter spacing then the other browsers which is another issue -->
+                        font-size: 14px;
+                    }
+        .ie10 #Cip  { 
+                        letter-spacing: 1.6px; 
                     }
         #MsgShift   {
                         color: rgb(37, 108, 233);
