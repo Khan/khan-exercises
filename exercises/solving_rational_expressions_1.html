@@ -48,7 +48,7 @@
             <div>
                 <p class="problem">Solve for <code><var>X</var></code>,</p>
                 <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>CONSTANT</var></code></p>
-                <div class="solution" data-forms="number"><var>X</var></div>
+                <div class="solution" data-type="rational"><var>(CONST2 - CONST1) / (COEFF1 - COEFF2)</var></div>
 
                 <div class="hints">
                     <div>
@@ -58,7 +58,11 @@
                     <p><code><var>NUMERATOR</var> = <var>PRODUCT</var></code></p>
                     <p><code><var>FINALTERM</var> + <var>CONST1</var> = <var>CONST2</var></code></p>
                     <p><code><var>FINALTERM</var> = <var>CONST2 - CONST1</var></code></p>
-                    <p><code><var>X</var> = <var>fractionReduce(CONST2 - CONST1, COEFF1 - COEFF2)</var></code></p>
+                    <p><code><var>X</var> = <var>fraction(CONST2 - CONST1, COEFF1 - COEFF2)</var></code></p>
+                    <div data-if="getGCD(CONST2 - CONST1, COEFF1 - COEFF2) !== 1">
+                        <p>Simplify.</p>
+                        <p><code><var>X</var> = <var>fractionReduce(CONST2 - CONST1, COEFF1 - COEFF2)</var></code></p>
+                    </div>
                 </div>
             </div>
         </div>
