@@ -70,7 +70,7 @@ function problemTemplateRendered() {
 
     // 'Check Answer' or 'Submit Answer'
     originalCheckAnswerText = $("#check-answer-button").val();
-    
+
     // Solution submission
     $("#check-answer-button").click(handleCheckAnswer);
     $("#answerform").submit(handleCheckAnswer);
@@ -123,9 +123,9 @@ function newProblem(e, data) {
 
     answeredCorrectly = false,
     hintsAreFree = false,
-    attempts = 0;
+    attempts = data.userExercise ? data.userExercise.lastAttemptNumber : 0;
     numHints = data.numHints;
-    hintsUsed = 0;
+    hintsUsed = data.userExercise ? data.userExercise.lastCountHints : 0;
     lastAttemptOrHint = new Date().getTime();
 
     var framework = Exercises.getCurrentFramework();
@@ -525,7 +525,7 @@ function enableCheckAnswer() {
         .prop("disabled", false)
         .removeClass("buttonDisabled")
         .val(originalCheckAnswerText);
-    
+
     $("#skip-question-button")
         .prop("disabled", false)
         .removeClass("buttonDisabled");
