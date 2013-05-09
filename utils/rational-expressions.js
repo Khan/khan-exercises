@@ -248,6 +248,17 @@ $.extend(KhanUtil, {
             }
         }
 
+        // Given a term, e.g. x1, return the coefficient of that term
+        this.getCoefficient = function(variable) {
+            var coefficient = 0;
+            for (var i = 0; i < this.terms.length; i++) {
+                if (this.terms[i].variableString === variable) {
+                    coefficient += this.terms[i].coefficient;
+                }
+            }
+            return coefficient;
+        };
+
         // Combine any terms that have the same variable and remove any with a coefficient of 0
         this.combineLikeTerms = function() {
             var variables = {};
@@ -273,7 +284,7 @@ $.extend(KhanUtil, {
         this.combineLikeTerms();
 
         // Return a new expression which is the sum of this one and the one passed in
-        this.add = function(that) {
+        this.add = function(expression) {
             var terms = [];
 
             for (var i = 0; i < this.terms.length; i++) {
@@ -281,8 +292,8 @@ $.extend(KhanUtil, {
                 terms.push([term.coefficient, term.variables]);
             }
 
-            for (var i = 0; i < that.terms.length; i++) {
-                var term = that.terms[i];
+            for (var i = 0; i < expression.terms.length; i++) {
+                var term = expression.terms[i];
                 terms.push([term.coefficient, term.variables]);
             }
 
