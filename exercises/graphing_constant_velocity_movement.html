@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions graphie interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Plot movement</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+      var movePoint = function() {
+          if (KhanUtil.currentGraph.graph.pointB.coord[0] === KhanUtil.tmpl.getVAR('TIME') && KhanUtil.currentGraph.graph.pointB.coord[1] === KhanUtil.tmpl.getVAR('POSITION'))
+              KhanUtil.currentGraph.graph.pointB.moveTo(6, 0, true);
+          KhanUtil.currentGraph.graph.pointA.moveTo(KhanUtil.tmpl.getVAR('TIME'), KhanUtil.tmpl.getVAR('POSITION'), true);
+      
+      }
+
+      var movePoints = function() {
+          if (KhanUtil.currentGraph.graph.pointB.coord[0] === KhanUtil.currentGraph.graph.pointA.coord[0])
+              KhanUtil.currentGraph.graph.pointB.moveTo(KhanUtil.currentGraph.graph.pointB.coord[0]+0.5, KhanUtil.tmpl.getVAR('POSITION'), true);
+          else
+              KhanUtil.currentGraph.graph.pointB.moveTo(KhanUtil.currentGraph.graph.pointB.coord[0], KhanUtil.tmpl.getVAR('POSITION'), true);
+      
+          KhanUtil.currentGraph.graph.pointA.moveTo(KhanUtil.currentGraph.graph.pointA.coord[0], KhanUtil.tmpl.getVAR('POSITION'), true);
+           
+      }
+
+      var moveFinalPlus= function() {
+         KhanUtil.currentGraph.graph.pointB.moveTo(KhanUtil.tmpl.getVAR('TIME')+1, KhanUtil.tmpl.getVAR('POSITION')+KhanUtil.tmpl.getVAR('VELOCITY'), true);
+          
+      }
+
+      var moveFinalMinus= function() {
+         KhanUtil.currentGraph.graph.pointB.moveTo(KhanUtil.tmpl.getVAR('TIME')-1, KhanUtil.tmpl.getVAR('POSITION')-KhanUtil.tmpl.getVAR('VELOCITY'), true);
+          
+      }
+
+      var move4Minus= function() {
+         KhanUtil.currentGraph.graph.pointB.moveTo(KhanUtil.tmpl.getVAR('TIME')-4, KhanUtil.tmpl.getVAR('POSITION')-4*KhanUtil.tmpl.getVAR('VELOCITY'), true);
+          
+      }
+      var move4Plus= function() {
+         KhanUtil.currentGraph.graph.pointB.moveTo(KhanUtil.tmpl.getVAR('TIME')+4, KhanUtil.tmpl.getVAR('POSITION')+4*KhanUtil.tmpl.getVAR('VELOCITY'), true);
+          
+      }
+
+    </script>
+</head>
+<body>
+<div class="exercise">
+  <div class="vars">
+    <var id="VELOCITY">random() < 0.08 ? (0.25*(random()>0.5 ? 1 : -1)) : (random() < 0.1 ? 0 : (random() <0.5 ? 1 : -1)* randRange(0,10)/2) </var> 
+    <var id="TIME">randRange(2,18)/2</var>
+    <div data-ensure="!(POSITION === 6 && TIME === 0) && !(POSITION === 2 && TIME === 0)">
+      <var id="POSITION">randRange(-9,9)/2</var>
+    </div>
+    
+  </div>
+
+  <div class="problems">
+    <div>
+      <div data-if="VELOCITY===0">
+	 <div class="problem">
+	   An object is at rest in position x=<var>POSITION</var>m.
+	 </div>
+	 <p class="question">Plot the object's position as a function of time. </p>
+      </div>
+	 
+      <div data-else>
+	 <div class="problem">
+	   An object moving with constant velocity <var>VELOCITY</var> <code>\vec i</code> (m/s) passes through x=<var>POSITION</var>m at t=<var>TIME</var>s.
+	 </div>
+	 <p class="question">Plot the object's movement. </p>
+      </div>
+      
+      <div class="problem">
+          <br />
+          <div class="graphie" id="grid" style="margin:0 0 0 70px;">
+            graphInit({
+                range: [[-1,11],[-6,6]],
+                scale: 30,
+                axisArrows: "&lt;-&gt;",
+                tickStep: 1,
+                labelStep: 1,
+	     
+            });
+	     
+	     label([-2,0], "x(m)")
+	     label([6,-6.35], "time(s)")
+		      
+            addMouseLayer();
+
+            graph.pointA = addMovablePoint({
+                coord: [ 2, 0 ],
+                snapX: 0.5,
+                snapY: 0.5,
+                normalStyle: {
+                    stroke: KhanUtil.BLUE,
+                    fill: KhanUtil.BLUE
+                }
+            });
+
+            graph.pointB = addMovablePoint({
+                coord: [ 6, 0 ],
+                snapX: 0.5,
+                snapY: 0.5,
+                normalStyle: {
+                    stroke: KhanUtil.BLUE,
+                    fill: KhanUtil.BLUE
+                }
+            });
+                    
+            graph.line1 = addMovableLineSegment({
+                pointA: graph.pointA,
+                pointZ: graph.pointB,
+                fixed: true,
+                extendLine: true
+            });
+                    
+
+            // A and B can't be in the same place
+            graph.pointA.onMove = function( x, y ) {
+                return ( x != graph.pointB.coord[0] || y != graph.pointB.coord[1] );
+            }
+
+            graph.pointB.onMove = function( x, y ) {
+                return ( x != graph.pointA.coord[0] || y != graph.pointA.coord[1] );
+            }
+
+            graph.pointA.toFront();
+            graph.pointB.toFront();
+
+          </div>
+          
+	   <p>Click and drag the points to move the line.</p>
+      </div>
+        
+      <div class="solution" data-type="custom">
+	   <div class="instruction">
+                            Drag the dots to graph the movement.
+          </div>
+          <div class="guess">
+            [ graph.pointA.coord, graph.pointB.coord]
+          </div>
+          <div class="validator-function">
+	     var point = false;
+
+	     if ((guess[0][0] === TIME && guess[0][1] === POSITION) || (guess[1][0] === TIME && guess[1][1] === POSITION))
+	         point = true;
+	     
+	     var slope = ( guess[1][1] - guess[0][1] ) / ( guess[1][0] - guess[0][0] );
+
+	     if ( !point ) {
+	         point = (TIME-guess[0][0])*slope+guess[0][1] === POSITION;
+	     }
+
+	     var result = abs(VELOCITY - slope) &lt; 0.01; 
+	     
+	     if ( result && point )
+	         return true;
+	     if (result)
+	         return "The line represents a movement with the correct velocity, but it doesn't pass through the desired position at correct time.";
+	     if (point)
+	         return "The line represents a movement that passes through the desired position at correct time but the velocity is incorrect.";
+            return false;
+          </div>
+
+          <div class="show-guess">
+            graph.pointA.setCoord( guess[0] );
+            graph.pointB.setCoord( guess[1] );
+                        
+          </div>
+                          
+      </div>
+
+      <div class="hints">
+	 
+	 <div data-if="VELOCITY===0">
+	   <div>The object doesn't move, so for every instant of time the object's position will be the same, <code>x=<var>POSITION</var>m</code>.</div>
+	   
+	 </div>
+	 <div data-else>
+	   <div>The object passes through <code>x=<var>POSITION</var>m</code> at <code>t=<var>TIME</var>s</code>, so we start by putting one of the points there.
+		<input type="button" value="Show me" onClick="movePoint();" />
+	     
+	   </div>   
+	 </div>
+	 
+	 <div data-if="VELOCITY===0">
+	   <div><br />Move the 2 points to the correct <code>x</code> position, forming an horizontal line.
+	     <input type="button" value="Show me" onClick="movePoints();" />
+	   </div>
+	 </div>
+	 
+	 <div data-if="VELOCITY!==0">
+	   <br />Now we need to make sure the velocity is correct, remember velocity is the rate of change of position.
+	 </div>
+	 <div data-if="VELOCITY!==0">
+	   <br />The velocity will be equal to the slope of the line.
+	 </div>
+	 
+	  <div data-if="VELOCITY > 0.25 || VELOCITY < -0.25">
+	   <div data-if="TIME <= 9 && (POSITION+VELOCITY<=5 && POSITION+VELOCITY>=-5)">
+		 <br />So 1 second after <code>t=<var>TIME</var>s</code> the position will be <code>x(<var>TIME+1</var>)=x(<var>TIME</var>)+v</code>. 
+	   </div>
+	   <div data-else>
+		 <br />So 1 second before <code>t=<var>TIME</var>s</code> the position will be <code>x(<var>TIME-1</var>)=x(<var>TIME</var>)-v </code>. 
+	   </div>
+	 </div>
+
+	 <div data-if="VELOCITY > 0.25 || VELOCITY < -0.25">
+	   <div data-if="TIME <= 9 && (POSITION+VELOCITY<=5 && POSITION+VELOCITY>=-5)">
+		 <br />As velocity is <code><var>VELOCITY</var>m/s</code> <br /><code>x(<var>TIME+1</var>)=<var>POSITION</var>+<var>VELOCITY</var>=<var>POSITION+VELOCITY</var>m</code>. 
+	   </div>
+	   <div data-else>
+		 <br />As velocity is <code><var>VELOCITY</var>m/s</code> <br /><code>x(<var>TIME-1</var>)=<var>POSITION</var>-<var>VELOCITY</var>=<var>POSITION-VELOCITY</var>m</code>. 
+	   </div>
+	 </div>
+
+	 <div data-if="VELOCITY > 0.25 || VELOCITY < -0.25">
+	   <div data-if="TIME <= 9 && (POSITION+VELOCITY<=5 && POSITION+VELOCITY>=-5)">
+		 <br />Move the second point to <code>t = <var>TIME+1</var>s, x = <var>POSITION+VELOCITY</var>m</code>.
+		 <input type="button" value="Show me" onClick="moveFinalPlus();" />
+	   </div>
+	   <div data-else>
+		 <br />Move the second point to <code>t = <var>TIME-1</var>s, x = <var>POSITION+-VELOCITY</var>m</code>.
+		 <input type="button" value="Show me" onClick="moveFinalMinus();" />
+	   </div>
+	 </div>
+
+	 <div data-if="VELOCITY === 0.25 || VELOCITY === -0.25">
+	   <div data-if="TIME <= 6 && (POSITION+VELOCITY<=5 && POSITION+VELOCITY>=-5)">
+		 <br />So 4 seconds after <code>t=<var>TIME</var>s</code> the position will be <code>x(<var>TIME+4</var>)=x(<var>TIME</var>)+4 v</code>. 
+	   </div>
+	   <div data-else>
+		 <br />So 4 seconds before <code>t=<var>TIME</var>s</code> the position will be <code>x(<var>TIME-4</var>)=x(<var>TIME</var>)-4 v </code>. 
+	   </div>
+	 </div>
+
+	 <div data-if="VELOCITY === 0.25 || VELOCITY === -0.25">
+	   <div data-if="TIME <= 6 && (POSITION+VELOCITY<=5 && POSITION+VELOCITY>=-5)">
+		 <br />As velocity is <code><var>VELOCITY</var>m/s</code> <br /><code>x(<var>TIME+4</var>)=<var>POSITION</var>+<var>VELOCITY*4</var>=<var>POSITION+4*VELOCITY</var>m</code>. 
+	   </div>
+	   <div data-else>
+		 <br />As velocity is <code><var>VELOCITY</var>m/s</code> <br /><code>x(<var>TIME-4</var>)=<var>POSITION</var>-<var>4*VELOCITY</var>=<var>POSITION-4*VELOCITY</var>m</code>. 
+	   </div>
+	 </div>
+
+
+	 <div data-if="VELOCITY === 0.25 || VELOCITY === -0.25">
+	   <div data-if="TIME <= 6 && (POSITION+VELOCITY<=5 && POSITION+VELOCITY>=-5)">
+		 <br />Move the second point to <code>t = <var>TIME+4</var>s, x = <var>POSITION+VELOCITY*4</var>m</code>.
+		 <input type="button" value="Show me" onClick="move4Plus();" />
+	   </div>
+	   <div data-else>
+		 <br />Move the second point to <code>t = <var>TIME-4</var>s, x = <var>POSITION+-VELOCITY*4</var>m</code>.
+		 <input type="button" value="Show me" onClick="move4Minus();" />
+	   </div>
+	 </div>
+
+      </div>
+
+
+      
+    </div>
+    
+
+    
+  </div>
+</div>
+</body>
+</html>
