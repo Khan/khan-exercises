@@ -599,7 +599,7 @@
                 }
 
                 // allow symmetric ranges to be specified by the absolute values
-                if (prop === "range") {
+                if (prop === "range" || prop === "gridRange") {
                     if (val.constructor === Array) {
                         if (val[0].constructor !== Array) {  // but don't mandate symmetric ranges
                             options[prop] = [[-val[0], val[0]], [-val[1], val[1]]];
@@ -612,6 +612,7 @@
             });
 
             var range = options.range || [[-10, 10], [-10, 10]],
+                gridRange = options.gridRange || options.range,
                 scale = options.scale || [20, 20],
                 grid = options.grid || true,
                 gridOpacity = options.gridOpacity || 0.1,
@@ -649,7 +650,7 @@
 
             // draw grid
             if (grid) {
-                this.grid(range[0], range[1], {
+                this.grid(gridRange[0], gridRange[1], {
                     stroke: "#000000",
                     opacity: gridOpacity,
                     step: gridStep
@@ -667,10 +668,10 @@
                         strokeWidth: 2,
                         arrows: "->"
                     }, function() {
-                        this.path([[0, 0], [range[0][0], 0]]);
-                        this.path([[0, 0], [range[0][1], 0]]);
-                        this.path([[0, 0], [0, range[1][0]]]);
-                        this.path([[0, 0], [0, range[1][1]]]);
+                        this.path([[0, 0], [gridRange[0][0], 0]]);
+                        this.path([[0, 0], [gridRange[0][1], 0]]);
+                        this.path([[0, 0], [0, gridRange[1][0]]]);
+                        this.path([[0, 0], [0, gridRange[1][1]]]);
                     });
 
                 // also, we don't support "<-" arrows yet, but why you
@@ -682,8 +683,8 @@
                         strokeWidth: 2,
                         arrows: axisArrows
                     }, function() {
-                        this.path([[range[0][0], 0], [range[0][1], 0]]);
-                        this.path([[0, range[1][0]], [0, range[1][1]]]);
+                        this.path([[gridRange[0][0], 0], [gridRange[0][1], 0]]);
+                        this.path([[0, gridRange[1][0]], [0, gridRange[1][1]]]);
                     });
 
                 }
@@ -701,8 +702,8 @@
                     // horizontal axis
                     var step = gridStep[0] * tickStep[0],
                  len = tickLen[0] / scale[1],
-                 start = range[0][0],
-                 stop = range[0][1];
+                 start = gridRange[0][0],
+                 stop = gridRange[0][1];
 
                     for (var x = step; x <= stop; x += step) {
                         if (x < stop || !axisArrows) {
@@ -719,8 +720,8 @@
                     // vertical axis
                     step = gridStep[1] * tickStep[1];
                     len = tickLen[1] / scale[0];
-                    start = range[1][0];
-                    stop = range[1][1];
+                    start = gridRange[1][0];
+                    stop = gridRange[1][1];
 
                     for (var y = step; y <= stop; y += step) {
                         if (y < stop || !axisArrows) {
@@ -746,8 +747,8 @@
 
                     // horizontal axis
                     var step = gridStep[0] * tickStep[0] * labelStep[0],
-                        start = range[0][0],
-                        stop = range[0][1];
+                        start = gridRange[0][0],
+                        stop = gridRange[0][1];
 
                     // positive x-axis
                     for (var x = step; x <= stop; x += step) {
@@ -764,8 +765,8 @@
                     }
 
                     step = gridStep[1] * tickStep[1] * labelStep[1];
-                    start = range[1][0];
-                    stop = range[1][1];
+                    start = gridRange[1][0];
+                    stop = gridRange[1][1];
 
                     // positive y-axis
                     for (var y = step; y <= stop; y += step) {

@@ -45,7 +45,7 @@ var PerseusBridge = Exercises.PerseusBridge,
 $(Exercises)
     .bind("problemTemplateRendered", problemTemplateRendered)
     .bind("newProblem", newProblem)
-    .bind("hintUsed", onHintUsed)
+    .bind("hintShown", onHintShown)
     .bind("readyForNextProblem", readyForNextProblem)
     .bind("warning", warning)
     .bind("upcomingExercise", upcomingExercise)
@@ -70,7 +70,7 @@ function problemTemplateRendered() {
 
     // 'Check Answer' or 'Submit Answer'
     originalCheckAnswerText = $("#check-answer-button").val();
-    
+
     // Solution submission
     $("#check-answer-button").click(handleCheckAnswer);
     $("#answerform").submit(handleCheckAnswer);
@@ -123,9 +123,9 @@ function newProblem(e, data) {
 
     answeredCorrectly = false,
     hintsAreFree = false,
-    attempts = 0;
+    attempts = data.userExercise ? data.userExercise.lastAttemptNumber : 0;
     numHints = data.numHints;
-    hintsUsed = 0;
+    hintsUsed = data.userExercise ? data.userExercise.lastCountHints : 0;
     lastAttemptOrHint = new Date().getTime();
 
     var framework = Exercises.getCurrentFramework();
@@ -295,13 +295,14 @@ function onHintButtonClicked() {
     }
 }
 
-function onHintUsed() {
+function onHintShown() {
     // Grow the scratchpad to cover the new hint
     Khan.scratchpad.resize();
 
     hintsUsed++;
     updateHintButtonText();
 
+    $(Exercises).trigger("hintUsed");
     // If there aren't any more hints, disable the get hint button
     if (hintsUsed === numHints) {
         $("#hint").attr("disabled", true);
@@ -524,7 +525,7 @@ function enableCheckAnswer() {
         .prop("disabled", false)
         .removeClass("buttonDisabled")
         .val(originalCheckAnswerText);
-    
+
     $("#skip-question-button")
         .prop("disabled", false)
         .removeClass("buttonDisabled");
