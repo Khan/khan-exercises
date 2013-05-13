@@ -135,7 +135,8 @@ function newProblem(e, data) {
             .addClass("framework-" + framework);
 
     // Enable/disable the get hint button
-    $("#hint").attr("disabled", numHints === 0);
+    updateHintButtonText();
+    $("#hint").attr("disabled", hintsUsed >= numHints);
 }
 
 function handleCheckAnswer() {
@@ -332,11 +333,11 @@ function updateHintButtonText() {
                 "Show next step (" + hintsLeft + " left)" :
                 "Show solution");
     } else {
-        $hintButton.val("I'd like another hint (" +
-                (hintsLeft === 1 ?
-                    "1 hint left" :
-                    hintsLeft + " hints left")
-                + ")");
+        $hintButton.val(hintsUsed ?
+                "I'd like another hint (" +
+                (hintsLeft === 1 ?  "1 hint left" : hintsLeft + " hints left")
+                + ")" :
+                "I'd like a hint");
     }
 }
 
