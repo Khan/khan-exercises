@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting fractions</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars" data-ensure="D1 !== D2">
+        <var id="N1">randRangeNonZero( -9, 9 )</var>
+        <var id="N2">randRangeNonZero( -9, 9 )</var>
+        <var id="D1">randRangeExclude( 2, 9, [ N1, -N1 ] )</var>
+        <var id="D2">randRangeExclude( 2, 9, [ N2, -N2 ] )</var>
+        <var id="LCM">getLCM( D1, D2 )</var>
+        <var id="F1">LCM / D1</var>
+        <var id="F2">LCM / D2</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <div class="question">
+                <p><code><var>fraction( N1, D1 )</var> + <var>fraction( N2, D2 )</var> = {?}</code></p>
+            </div>
+            <div class="solution" data-type="rational"><var>N1 / D1 + N2 / D2</var></div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <p>First, we need to find a common denominator. The least common multiple of <code>\blue{<var>D1</var>}</code> and <code>\pink{<var>D2</var>}</code> is the smallest possible common denominator.</p>
+        <p>We find that <code>\lcm(\blue{<var>D1</var>}, \pink{<var>D2</var>}) = \green{<var>LCM</var>}</code></p>
+        <p>Now, we need to change both fractions to have a denominator of <code>\green{<var>LCM</var>}</code>. In order to do this, we can multiply <code> \blue{<var>fraction( N1, D1 )</var>} </code> by <code> <var>fraction( F1, F1 ) </var> </code> and <code> \pink{<var>fraction( N2, D2 )</var>} </code> by <code> <var>fraction( F2, F2 ) </var> </code>. These are equal to <code> 1 </code>, so they will change the denominator without changing the value of the fraction. </p>
+        <p><code>\begin{align*}\blue{<var>fraction( N1, D1 )</var>}\cdot <var>fraction( F1, F1 )</var> &= \green{<var>fraction( N1 * F1, LCM )</var>}\\
+        \pink{<var>fraction( N2, D2 )</var>}\cdot <var>fraction( F2, F2 )</var> &= \green{<var>fraction( N2 * F2, LCM )</var>}\end{align*}</code></p>
+        <div>
+            <p>So, the problem becomes:</p>
+            <p><code>\green{<var>fraction( N1 * F1, LCM )</var>} + \green{<var>fraction( N2 * F2, LCM )</var>} = {?}</code></p>
+        </div>
+        <div>
+            <p><var>N2 &gt; 0 ? "Add" : "Subtract"</var> the numerators.</p>
+            <p><code><var>fraction( F1 * N1 + F2 * N2, LCM)</var></code></p>
+        </div>
+        <div data-if="getGCD( F1 * N1 + F2 * N2, LCM ) !== 1">
+            <p>Simplify.</p>
+            <p><code><var>fractionReduce( F1 * N1 + F2 * N2, LCM )</var></code></p>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
