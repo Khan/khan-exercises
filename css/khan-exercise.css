@@ -143,6 +143,7 @@ body.debug .graphie { outline: 1px dashed #fdd; }
 #answer_area #answercontent { position: relative; z-index: 2; }
 #answer_area .hint-box { position: relative; z-index: 1;}
 #answer_area #examples-show {
+  display: none;
   float: right;
   margin-top: -2px;
   background: #F7F7F7;
