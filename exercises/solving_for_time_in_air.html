@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie">
+<html data-require="math graphie subhints">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Solving for time in air</title>
@@ -44,9 +44,23 @@
                                 line([0, 0], [6*cos(ANGLE * PI / 180), 0]);
                                 style({ stroke: "#FFA500", strokeWidth: 3, arrows: "-&gt;"});
                                 line([6*cos(ANGLE * PI / 180), 0], [6*cos(ANGLE * PI / 180), 6*sin(ANGLE * PI / 180)] );
-                                label([6*cos(ANGLE * PI / 180)+2.2, 3*sin(ANGLE * PI / 180)], "<var>VELOCITY</var>*sin(<var>ANGLE</var>)", "center", {color: "#FFA500"});
-                                label([3*cos(ANGLE * PI / 180), -0.9], "<var>VELOCITY</var>*cos(<var>ANGLE</var>)", "center", {color: "#28AE7B"});
+                                label([6*cos(ANGLE * PI / 180)+2.2, 3*sin(ANGLE * PI / 180)], "<var>VELOCITY</var>sin(<var>ANGLE</var>)", "center", {color: "#FFA500"});
+                                label([3*cos(ANGLE * PI / 180), -0.9], "<var>VELOCITY</var>cos(<var>ANGLE</var>)", "center", {color: "#28AE7B"});
                             </div>
+                        </div>
+                        <div>
+                            <p>
+                                We know this formula: <code>s = v_i \Delta t + \dfrac{1}{2} v_i (\Delta t)^2</code>
+                                [<a href="#" class="show-subhint" data-subhint="halting">Where did that come from?</a>]
+                            </p>
+                            <div class="subhint" id="halting">
+                                <a class="related-video" href="/video/deriving-displacement-as-a-function-of-time--acceleration-and-initial-velocity" data-youtube-id="wlB0x9W-qBU">Deriving Displacement as a Function of Time, Acceleration and Initial Velocity </a>
+                            </div>
+                            
+                            <p>(Remember, <code>s</code> is displacement, <code>v_i</code> is the initial velocity, and <code>\Delta t</code> is the change in time.)</p>
+                        </div>
+                        <div>
+                            <p>extra hint</p>
                         </div>
                     </div> <!-- hints -->
                 </div>
