@@ -1249,21 +1249,37 @@ def _check_plural_is_ambiguous(plural_arg):
     form plural_form(TEXT_VAR, NUM_VAR). It's assumed that anything using the
     plural_form() function is in fact pluralizable (if it's not that call is
     going to generate an error to the console).
+
+    For example given the expression:
+        <var>plural(ITEM, NUM)</var>
+
+    We've already determined that the first argument, ITEM, holds a string via
+    _check_plural_arg_is_num. However we DON'T know if the argument has been
+    properly marked up using the new `new Plural()` utility. Because of this
+    we want to return False for any any string arguments that we don't care
+    about marking up (namely string literals and the built-in functions, which
+    are already marked up) and return True for everything else (which will
+    likely be variables or user-defined function calls that hold strings).
+
+    This will allow us to convert the above expression into the following at a
+    later time:
+        <var>AMBIGUOUS_PLURAL(ITEM, NUM)</var>
+
+    Some of this logic has been copied, and adapted, from 
+    _check_plural_arg_is_num.
     """
-    # If we already think it's ambiguous then just say so
-    if _check_plural_arg_is_num(plural_arg) is None:
-        return True
+    # If the argument is a string literal, then it's not ambiguous
+    if _STRING_RE.match(plural_arg):
+        return False
 
-    # In this case we're going to check and see if the item is in one of our
-    # known string variables. If so then we're not going to trust it and we
-    # want to force the user to fix it by hand.
+    # If the argument is a function call
+    # And it's one of the built-in string functions, then it's not ambiguous
+    fn_match = _FUNCTION_RE.match(plural_arg)
+    if fn_match and fn_match.group(1) in _functions:
+        return False
 
-    # If it uses a var that's in our list of known string variables
-    for var in _string_vars:
-        if var in plural_arg.upper():
-            return True
-
-    return False
+    # Otherwise the result is definitely ambiguous
+    return True
 
 
 def prompt_user(prompt, default=''):
