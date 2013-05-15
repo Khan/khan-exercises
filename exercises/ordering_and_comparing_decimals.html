@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html data-require="math math-format interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Ordering Decimals</title>
+    <script src="../khan-exercise.js"></script>
+
+    <style type="text/css">
+        .number-list {
+            font-size: 1.7em;
+            text-align: center
+        }
+        .sort-key {
+            visibility: hidden;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+                <var id="COLORS">KhanUtil.shuffle([ "blue", "green", "red", "purple", "orange"])</var>
+                <var id="DECIMAL_COUNT">randFromArray([3,4,5])</var>
+                <var id="MAX_DECIMAL_POINT_COUNT">randFromArray([2,3,4])</var>
+                <var id="RANGE_START">pow(10, MAX_DECIMAL_POINT_COUNT - 1)+ 1</var>
+                <var id="RANGE_END">pow(10, MAX_DECIMAL_POINT_COUNT) - 1</var>
+                <var id="RANGE_EXCLUDES">_.select(_.range(RANGE_START, RANGE_END, 1), function(el) { return el % 10 === 0  } )</var>
+                <var id="DECIMALS">
+                  (function(){
+
+                    var decimals = [];
+                    for ( var i = 0; i &lt; DECIMAL_COUNT; i++ ) {
+                      //exclude multiples of 10 to ensure numbers with decimal points.
+                      var randomInteger = randRangeExclude( RANGE_START, RANGE_END, RANGE_EXCLUDES);
+                      var randomDecimalPointCount = randRange(1, MAX_DECIMAL_POINT_COUNT)
+
+                      var digitsLeftOfDecimal = MAX_DECIMAL_POINT_COUNT === randomDecimalPointCount ? 1:
+                                                     MAX_DECIMAL_POINT_COUNT - randomDecimalPointCount;
+
+                      var digitsRightOfDecimal =  MAX_DECIMAL_POINT_COUNT === randomDecimalPointCount ? MAX_DECIMAL_POINT_COUNT: MAX_DECIMAL_POINT_COUNT - digitsLeftOfDecimal;
+
+                      var decimalDisplay = (roundTo(randomDecimalPointCount, randomInteger*  pow( 10, (randomDecimalPointCount* -1))).toFixed(randomDecimalPointCount));
+
+                      var coloredDecimalDisplay = "\\color{"+ COLORS[i] +"}{" + decimalDisplay + "}";
+                      decimals.push([randomInteger, randomDecimalPointCount, digitsLeftOfDecimal, digitsRightOfDecimal, COLORS[i], decimalDisplay, coloredDecimalDisplay]);
+                      }
+
+                   return decimals; 
+                  })()
+
+                </var>  
+
+                <var id="DIGITS_LEFT_OF_DECIMAL">
+                  $.map(DECIMALS, function(el){
+                    return el[2];
+                  })
+                </var>
+
+                <var id="DIGITS_RIGHT_OF_DECIMAL">
+                  $.map(DECIMALS, function(el){
+                    return el[3];
+                  })
+                </var>
+
+                <var id="MAX_DIGITS_LEFT_OF_DECIMAL">
+                 _.max( DIGITS_LEFT_OF_DECIMAL)
+               </var>
+
+                <var id="MAX_DIGITS_RIGHT_OF_DECIMAL">
+                 _.max( DIGITS_RIGHT_OF_DECIMAL)
+                </var>
+               
+                
+                <var id="DECIMALS_DISPLAY">
+                  $.map( DECIMALS, function( el ) {
+                  return el[5]; 
+                  })
+
+                </var>
+
+                <var id="DECIMALS_LINED_UP">
+                  (function(){
+
+                    var decimalsNormalized = [];
+                    DECIMALS.forEach(function(el, index){
+                    var digitsLeftOfDecimal = el[2];
+                    var digitsRightOfDecimal = el[3];
+                    var decimalDisplayed = DECIMALS_DISPLAY[index].toString();
+                    var decimalSplit = decimalDisplayed.split('');
+
+                    
+                    while(MAX_DIGITS_LEFT_OF_DECIMAL &gt; digitsLeftOfDecimal){
+                      decimalSplit.unshift("0");
+                      digitsLeftOfDecimal++
+                    }
+
+                    while(MAX_DIGITS_RIGHT_OF_DECIMAL &gt; digitsRightOfDecimal){
+                      decimalSplit.push("0");
+                      digitsRightOfDecimal++
+                    }
+
+                    
+                    console.log(decimalSplit.join(''));
+                    decimalsNormalized.push(decimalSplit.join(''));
+                    });
+                    return decimalsNormalized; 
+                  })()
+                </var>
+
+                <var id="DECIMALS_LINED_UP_COLORED">
+                  (function(){
+
+                    var decimalsLinedUpColored = [];
+                    DECIMALS_LINED_UP.forEach(function(el, index){
+                    
+                    decimalsLinedUpColored.push("\\color{" + COLORS[index] + "}{" + el + "}");
+                    });
+                    return decimalsLinedUpColored; 
+                  })()
+
+                </var>
+
+                <var id="DECIMALS_DISPLAY_COLORED">
+                 $.map( DECIMALS, function( el ) {
+                                  return el[6]; 
+                                  })
+                </var>
+          <var id="SORTER">createSorter()</var>
+
+            <var id="DECIMALS_DISPLAY_SORT">$.extend( true, [], DECIMALS).sort( function(a, b) {
+                return a[5] - b[5];
+                } )
+            </var>
+            <var id="DECIMALS_DISPLAY_SORT_TEX">$.map( DECIMALS_DISPLAY_SORT, function( el ) {
+                return el[5];
+                } ).join( "," )
+            </var>
+
+            <var id="DECIMALS_DISPLAY_SORT_TEX_COLORED">$.map( DECIMALS_DISPLAY_SORT, function( el ) {
+                return el[6];
+                } ).join( "," )
+            </var>            
+          
+
+        </div>
+
+        <div class="problems">
+            <div>
+                <div class="question">
+                  <p>Order the following decimals from least to greatest:</p>
+                   <ul id="sortable">
+                        <li data-each="DECIMALS_DISPLAY as NUM">
+                            <span class="sort-key"><var>NUM</var></span>
+                            <code><var>NUM</var></code>
+                        </li>
+                    </ul>
+                    <p><var>SORTER.init( "sortable" )</var></p>
+                </div>
+
+                <div class="solution" data-type="custom">
+                    <div class="instruction">
+                        Drag the decimals left and right so they are in order from least to greatest
+                    </div>
+                    <div class="guess">SORTER.getContent()</div>
+                    <div class="validator-function">
+                        return guess.join( "," ) === DECIMALS_DISPLAY_SORT_TEX;
+                    </div>
+                    <div class="show-guess">
+                        SORTER.setContent( guess );
+                    </div>
+                </div>
+
+                
+                <div class="hints">
+                  <div>
+                    <p>Let's use different colors for each decimal.</p>
+                    <ul>
+                      <li data-each="DECIMALS_DISPLAY_COLORED as NUM">
+                        <code><var>NUM</var></code>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <p>Make sure the decimals are lined up, so that we can compare them more easily.</p>
+                    <ul>
+                      <li data-each="DECIMALS_LINED_UP_COLORED as NUM">
+                        <code><var>NUM</var></code>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                      <p>Starting from the left, compare each digit in the numbers. The number with the smallest digit will be the least. If more than one number has the same digit, compare the next digit. Sort the decimals from least to greatest</p>
+                      <p class="number-list"><code><var>DECIMALS_DISPLAY_SORT_TEX_COLORED</var></code></p>
+                  </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
