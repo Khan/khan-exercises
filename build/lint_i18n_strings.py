@@ -154,7 +154,10 @@ def lint_file(filename, apply_fix, verbose):
 
     # The filters through which the files should be passed and in which order
     filters = [PronounFilter, TernaryFilter, AlwaysPluralFilter, PluralFilter,
-        AnFilter, AmbiguousPluralFilter]
+        AnFilter]
+
+    # TODO(jeresig): Add in 'AmbiguousPluralFilter' to the list of filters
+    # to report errors about AMBIGUOUS_PLURAL usage.
 
     # Collect all the i18n-able nodes out of file
     nodes = extract_strings.extract_nodes(filename)
