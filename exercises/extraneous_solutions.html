@@ -13,11 +13,13 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="SOL1">randRangeNonZero(-10, 10)</var>
-            <var id="SOL2">randRangeNonZero(-10, 10)</var>
-            <var id="NUMERATOR">randFromArray([SOL1, SOL2])</var>
-            <var id="CONSTANT">SOL1 * SOL2</var>
-            <var id="COEFFICIENT">-SOL1 - SOL2</var>
+            <var id="A">randRangeNonZero(-10, 10)</var>
+            <var id="B">randRangeNonZero(-10, 10)</var>
+            <var id="NUMERATOR" data-ensure="NUMERATOR !== A || NUMERATOR !== B">randFromArray([A, B, randRangeNonZero(-10, 10)])</var>
+            <var id="SOL1">NUMERATOR === A ? 0 : A</var>
+            <var id="SOL2">NUMERATOR === B ? 0 : B</var>
+            <var id="CONSTANT">A * B</var>
+            <var id="COEFFICIENT">-A - B</var>
         </div>
 
         <div class="problems">
@@ -62,8 +64,8 @@
 
             <div class="input-format">
                 <div class="entry" data-type="multiple">
-                    <div><code>x = </code> <span class="sol short50" data-type="number">a</span></div>
-                    <div><code>x = </code> <span class="sol short50" data-type="number">a</span></div>
+                    <div><code>x = </code> <span class="sol short50" data-fallback="0">a</span></div>
+                    <div><code>x = </code> <span class="sol short50" data-fallback="0">a</span></div>
                 </div>
             </div>
         </div>
@@ -85,12 +87,16 @@
 
             <div>
                 <p>Now factor the expression:</p>
-                <p><code>\qquad (x - <var>SOL1</var>)(x - <var>SOL2</var>) = 0</code></p>
+                <p><code>\qquad (x - <var>A</var>)(x - <var>B</var>) = 0</code></p>
             </div>
 
-            <p>Therefore <code>x = <var>SOL1</var></code> <span data-if="SOL1 !== SOL2">or <code>x = <var>SOL2</var></code></span></p>
+            <p>Therefore <code>x = <var>A</var></code> <span data-if="A !== B">or <code>x = <var>B</var></code></span></p>
 
-            <p>However, the original expression is undefined when <code>x = <var>NUMERATOR</var></code>, so this an extraneous solution.</p>
+            <div data-if="NUMERATOR === A || NUMERATOR === B">
+                <div>However, the original expression is undefined when <code>x = <var>NUMERATOR</var></code>.</div>
+                <div data-if="NUMERATOR !== A">Therefore, the only solution is <code>x = <var>A</var></code>.</div>
+                <div data-if="NUMERATOR !== B">Therefore, the only solution is <code>x = <var>B</var></code>.</div>
+            </div>
         </div>
     </div>
 </body></html>
