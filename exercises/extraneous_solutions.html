@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html data-require="math math-format rational-expressions word-problems"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Solving rational expressions with extraneous solutions</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="SOL1">randRangeNonZero(-10, 10)</var>
+                <var id="SOL2">randRangeNonZero(-10, 10)</var>
+                <var id="NUMERATOR">randFromArray([SOL1, SOL2])</var>
+                <var id="CONSTANT">SOL1 * SOL2</var>
+                <var id="COEFFICIENT">-SOL1 - SOL2</var>
+                <var id="COEFFICIENT1">randRange(-COEFFICIENT, COEFFICIENT)</var>
+                <var id="COEFFICIENT2">COEFFICIENT - COEFFICIENT1</var>
+                <var id="TERM1">new RationalExpression([[1, {x: 2}], [COEFFICIENT1, 'x']])</var>
+                <var id="TERM2">new RationalExpression([[COEFFICIENT2, 'x'], CONSTANT])</var>
+            </div>
+
+            <p class="problem">Solve for x, ignoring any extraenous solutions:</p>
+            <p class="question">
+                <code>\dfrac{<var>TERM1</var>} {x - <var>NUMERATOR</var>}
+                    = \dfrac{<var>TERM2.multiply(-1)</var>} {x - <var>NUMERATOR</var>}</var></code>
+            </p>
+
+            <div class="solution" data-type="multiple">
+                <span class="sol short50" data-type="regex"><var>SOL1</var></span>
+                <span class="sol short50" data-type="regex"><var>SOL2</var></span>
+            </div>
+
+            <div class="hints">
+
+            </div>
+        </div>
+    </div>
+    </div>
+</body></html>
