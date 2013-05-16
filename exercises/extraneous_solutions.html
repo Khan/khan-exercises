@@ -50,34 +50,66 @@
         </div>
 
         <div class="problems">
-            <div id="coefficient-on-left">
-            </div>
+            <div id="ignore-extraneous">
+                <p class="problem">Solve for <code>x</code>, ignoring any extraneous solutions:</p>
+                <p class="question">
+                    <code>\dfrac{<var>TERM1</var>}{x - <var>NUMERATOR</var>}
+                        = \dfrac{<var>TERM2</var>}{x - <var>NUMERATOR</var>}</var></code>
+                </p>
 
-            <div id="constant-on-left">
-            </div>
-        </div>
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="number"><var>SOL1</var></span>
+                        <span class="sol" data-type="number"><var>SOL2</var></span>
+                    </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="number"><var>SOL2</var></span>
+                        <span class="sol" data-type="number"><var>SOL1</var></span>
+                    </div>
 
-        <p class="problem">Solve for <code>x</code>, ignoring any extraneous solutions:</p>
-        <p class="question">
-            <code>\dfrac{<var>TERM1</var>}{x - <var>NUMERATOR</var>}
-                = \dfrac{<var>TERM2</var>}{x - <var>NUMERATOR</var>}</var></code>
-        </p>
-
-        <div class="solution" data-type="set">
-            <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="number"><var>SOL1</var></span>
-                <span class="sol" data-type="number"><var>SOL2</var></span>
-            </div>
-            <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="number"><var>SOL2</var></span>
-                <span class="sol" data-type="number"><var>SOL1</var></span>
-            </div>
-
-            <div class="input-format">
-                <div class="entry" data-type="multiple">
-                    <div><code>x = </code> <span class="sol short50" data-fallback="0">a</span></div>
-                    <div><code>x = </code> <span class="sol short50" data-fallback="0">a</span></div>
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <div><code>x = </code> <span class="sol short50" data-fallback="0">a</span></div>
+                            <div><code>x = </code> <span class="sol short50" data-fallback="0">a</span></div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="hints" data-apply="appendContents">
+                    <div data-if="NUMERATOR === A || NUMERATOR === B">
+                        <div>However, the original expression is undefined when <code>x = <var>NUMERATOR</var></code>.</div>
+                        <div data-if="NUMERATOR !== A">Therefore, the only solution is <code>x = <var>A</var></code>.</div>
+                        <div data-if="NUMERATOR !== B">Therefore, the only solution is <code>x = <var>B</var></code>.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="extraneous-exists">
+                <div class="vars">
+                    <var id="ANSWER">NUMERATOR === A || NUMERATOR === B ? "&lt;code&gt;x = " + NUMERATOR + "&lt;/code&gt;" : "No extraneous solutions"</var>
+                </div>
+
+                <p class="problem">What is the extraneous solution to this equations?</p>
+                <code>\dfrac{<var>TERM1</var>}{x - <var>NUMERATOR</var>}
+                    = \dfrac{<var>TERM2</var>}{x - <var>NUMERATOR</var>}</var></code>
+                </p>
+
+                <div class="solution"><var>ANSWER</var></div>
+                <ul class="choices" data-category="true">
+                    <li><code>x = <var>NUMERATOR</var></code></li>
+                    <li>No extraneous solutions</li>
+                </ul>
+
+                <div class="hints" data-apply="appendContents">
+                    <div>The original expression is <span data-if="NUMERATOR === A || NUMERATOR === B">
+                            undefined when <code>x = <var>NUMERATOR</var></code>, so this is an extraneous solution.
+                        </span>
+                        <span data-else="">
+                            defined at <code>x = <var>A</var></code> and <code>x = <var>B</var></code>, so there are no extraneous solutions.
+                        </span>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -102,12 +134,6 @@
             </div>
 
             <p>Therefore <code>x = <var>A</var></code> <span data-if="A !== B">or <code>x = <var>B</var></code></span></p>
-
-            <div data-if="NUMERATOR === A || NUMERATOR === B">
-                <div>However, the original expression is undefined when <code>x = <var>NUMERATOR</var></code>.</div>
-                <div data-if="NUMERATOR !== A">Therefore, the only solution is <code>x = <var>A</var></code>.</div>
-                <div data-if="NUMERATOR !== B">Therefore, the only solution is <code>x = <var>B</var></code>.</div>
-            </div>
         </div>
     </div>
 </body></html>
