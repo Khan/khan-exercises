@@ -24,14 +24,14 @@
                 <var id="MAX_DECIMAL_POINT_COUNT">randFromArray([2,3,4])</var>
                 <var id="RANGE_START">pow(10, MAX_DECIMAL_POINT_COUNT - 1)+ 1</var>
                 <var id="RANGE_END">pow(10, MAX_DECIMAL_POINT_COUNT) - 1</var>
-                <var id="RANGE_EXCLUDES">_.select(_.range(RANGE_START, RANGE_END, 1), function(el) { return el % 10 === 0  } )</var>
+                <var id="RANGE_EXCLUDES">_.select(_.range(RANGE_START, RANGE_END, 1), function(el) { return el % 10 === 0  })</var>
                 <var id="DECIMALS">
                   (function(){
 
                     var decimals = [];
-                    for ( var i = 0; i &lt; DECIMAL_COUNT; i++ ) {
+                    for (var i = 0; i &lt; DECIMAL_COUNT; i++) {
                       //exclude multiples of 10 to ensure numbers with decimal points.
-                      var randomInteger = randRangeExclude( RANGE_START, RANGE_END, RANGE_EXCLUDES);
+                      var randomInteger = randRangeExclude(RANGE_START, RANGE_END, RANGE_EXCLUDES);
                       var randomDecimalPointCount = randRange(1, MAX_DECIMAL_POINT_COUNT)
 
                       var digitsLeftOfDecimal = MAX_DECIMAL_POINT_COUNT === randomDecimalPointCount ? 1:
@@ -39,7 +39,7 @@
 
                       var digitsRightOfDecimal =  MAX_DECIMAL_POINT_COUNT === randomDecimalPointCount ? MAX_DECIMAL_POINT_COUNT: MAX_DECIMAL_POINT_COUNT - digitsLeftOfDecimal;
 
-                      var decimalDisplay = (roundTo(randomDecimalPointCount, randomInteger*  pow( 10, (randomDecimalPointCount* -1))).toFixed(randomDecimalPointCount));
+                      var decimalDisplay = (roundTo(randomDecimalPointCount, randomInteger*  pow(10, (randomDecimalPointCount* -1))).toFixed(randomDecimalPointCount));
 
                       var coloredDecimalDisplay = "\\color{"+ COLORS[i] +"}{" + decimalDisplay + "}";
                       decimals.push([randomInteger, randomDecimalPointCount, digitsLeftOfDecimal, digitsRightOfDecimal, COLORS[i], decimalDisplay, coloredDecimalDisplay]);
@@ -63,16 +63,16 @@
                 </var>
 
                 <var id="MAX_DIGITS_LEFT_OF_DECIMAL">
-                 _.max( DIGITS_LEFT_OF_DECIMAL)
+                 _.max(DIGITS_LEFT_OF_DECIMAL)
                </var>
 
                 <var id="MAX_DIGITS_RIGHT_OF_DECIMAL">
-                 _.max( DIGITS_RIGHT_OF_DECIMAL)
+                 _.max(DIGITS_RIGHT_OF_DECIMAL)
                 </var>
                
                 
                 <var id="DECIMALS_DISPLAY">
-                  $.map( DECIMALS, function( el ) {
+                  $.map(DECIMALS, function(el) {
                   return el[5]; 
                   })
 
@@ -121,24 +121,24 @@
                 </var>
 
                 <var id="DECIMALS_DISPLAY_COLORED">
-                 $.map( DECIMALS, function( el ) {
+                 $.map(DECIMALS, function(el) {
                                   return el[6]; 
                                   })
                 </var>
           <var id="SORTER">createSorter()</var>
 
-            <var id="DECIMALS_DISPLAY_SORT">$.extend( true, [], DECIMALS).sort( function(a, b) {
+            <var id="DECIMALS_DISPLAY_SORT">$.extend(true, [], DECIMALS).sort(function(a, b) {
                 return a[5] - b[5];
-                } )
+                })
             </var>
-            <var id="DECIMALS_DISPLAY_SORT_TEX">$.map( DECIMALS_DISPLAY_SORT, function( el ) {
+            <var id="DECIMALS_DISPLAY_SORT_TEX">$.map(DECIMALS_DISPLAY_SORT, function(el) {
                 return el[5];
-                } ).join( "," )
+                }).join(",")
             </var>
 
-            <var id="DECIMALS_DISPLAY_SORT_TEX_COLORED">$.map( DECIMALS_DISPLAY_SORT, function( el ) {
+            <var id="DECIMALS_DISPLAY_SORT_TEX_COLORED">$.map(DECIMALS_DISPLAY_SORT, function(el) {
                 return el[6];
-                } ).join( "," )
+                }).join(",")
             </var>            
           
 
@@ -154,7 +154,7 @@
                             <code><var>NUM</var></code>
                         </li>
                     </ul>
-                    <p><var>SORTER.init( "sortable" )</var></p>
+                    <p><var>SORTER.init("sortable")</var></p>
                 </div>
 
                 <div class="solution" data-type="custom">
@@ -163,10 +163,10 @@
                     </div>
                     <div class="guess">SORTER.getContent()</div>
                     <div class="validator-function">
-                        return guess.join( "," ) === DECIMALS_DISPLAY_SORT_TEX;
+                        return guess.join(",") === DECIMALS_DISPLAY_SORT_TEX;
                     </div>
                     <div class="show-guess">
-                        SORTER.setContent( guess );
+                        SORTER.setContent(guess);
                     </div>
                 </div>
 
