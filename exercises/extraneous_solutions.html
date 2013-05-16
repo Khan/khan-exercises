@@ -20,29 +20,40 @@
             <var id="SOL2">NUMERATOR === B ? 0 : B</var>
             <var id="CONSTANT">A * B</var>
             <var id="COEFFICIENT">-A - B</var>
+            <var id="TERMS">(function() {
+                var coefficient1 = 0;
+                var coefficient2 = -COEFFICIENT;
+                var constant1 = 0;
+                var constant2 = -CONSTANT;
+                var simplify;
+
+                if (rand(2) &lt; 1) {
+                    coefficient1 = randRange(-COEFFICIENT, COEFFICIENT);
+                    coefficient2 = COEFFICIENT - coefficient1;
+                    simplify = coefficient1 !== 0 &amp;&amp; coefficient2 !== 0;
+                } else {
+                    constant1 = randRange(-CONSTANT, CONSTANT);
+                    constant2 = CONSTANT - constant1;
+                    simplify = constant1 !== 0 &amp;&amp; constant2 !== 0;
+                }
+                return {
+                    coefficient1: coefficient1,
+                    coefficient2: coefficient2,
+                    constant1: constant1,
+                    constant2: constant2,
+                    simplify: simplify
+                }
+            })()</var>
+            <var id="TERM1">new RationalExpression([[1, {x: 2}], [TERMS.coefficient1, 'x'], TERMS.constant1])</var>
+            <var id="TERM2">new RationalExpression([[-TERMS.coefficient2, 'x'], -TERMS.constant2])</var>
+            <var id="TERM2NEG">TERM2.multiply(-1)</var>
         </div>
 
         <div class="problems">
             <div id="coefficient-on-left">
-                <div class="vars">
-                    <var id="COEFFICIENT1">randRange(-COEFFICIENT, COEFFICIENT)</var>
-                    <var id="COEFFICIENT2">COEFFICIENT - COEFFICIENT1</var>
-                    <var id="SIMPLIFY">COEFFICIENT1 !== 0 &amp;&amp; COEFFICIENT2 !== 0 </var>
-                    <var id="TERM1">new RationalExpression([[1, {x: 2}], [COEFFICIENT1, 'x']])</var>
-                    <var id="TERM2">new RationalExpression([[-COEFFICIENT2, 'x'], -CONSTANT])</var>
-                    <var id="TERM2NEG">new RationalExpression([[COEFFICIENT2, 'x'], CONSTANT])</var>
-                </div>
             </div>
 
-            <div id="coefficient-on-right">
-                <div class="vars">
-                    <var id="CONSTANT1">randRange(-COEFFICIENT, COEFFICIENT)</var>
-                    <var id="CONSTANT2">CONSTANT - CONSTANT1</var>
-                    <var id="SIMPLIFY">CONSTANT1 !== 0 &amp;&amp; CONSTANT2 !== 0 </var>
-                    <var id="TERM1">new RationalExpression([[1, {x: 2}], CONSTANT1])</var>
-                    <var id="TERM2">new RationalExpression([[-COEFFICIENT, 'x'], -CONSTANT2])</var>
-                    <var id="TERM2NEG">new RationalExpression([[-COEFFICIENT, 'x'], CONSTANT2])</var>
-                </div>
+            <div id="constant-on-left">
             </div>
         </div>
 
@@ -82,7 +93,7 @@
                 <p>Now subtract <code><var>TERM2</var></code> from both sides:</p>
                 <p><code>\qquad <var>TERM1</var> - (<var>TERM2</var>) = <var>TERM2</var> - (<var>TERM2</var>)</code></p>
                 <p><code>\qquad <var>TERM1</var> + <var>TERM2NEG</var> = 0</code></p>
-                <p data-if="SIMPLIFY"><code>\qquad <var>TERM1.add(TERM2NEG)</var> = 0</code></p>
+                <p data-if="TERMS.simplify"><code>\qquad <var>TERM1.add(TERM2NEG)</var> = 0</code></p>
             </div>
 
             <div>
