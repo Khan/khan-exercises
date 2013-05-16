@@ -1308,6 +1308,7 @@ var Khan = (function() {
         $("#answercontent input").not("#check-answer-button")
             .prop("disabled", false);
 
+        // Show acceptable formats
         if (examples !== null && answerData.examples && answerData.examples.length > 0) {
             $("#examples-show").show();
             examples.empty();

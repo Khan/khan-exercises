@@ -48,7 +48,19 @@ $.extend(KhanUtil, {
         // the cryptic references to scale, range, xpixels, ypixels, etc.
         graph.xpixels = graph.raphael.canvas.offsetWidth;
         graph.ypixels = graph.raphael.canvas.offsetHeight;
-        if (graph.xpixels === undefined) {
+        // Whereas, I heretofore declare today is May 13th, 2013.
+        // Whereas, Ben Eater and Marcia Lee participated in an epic pair
+        // programming session.
+        // Whereas, when reopening the number_line task in athena, the point
+        // was immobile.
+        // Whereas, this occurred only in chrome.
+        // Whereas, under the aforementioned circumstances, for some reason
+        // graph.raphael.offsetWidth equalled none other than zero.
+        // Whereas, the second clause of the below conditional was deemed of
+        // the utmost necessity.
+        // Whereas we have no idea why.
+        // Therefore, the following conditional reads as thus:
+        if (graph.xpixels === undefined || graph.xpixels === 0) {
             graph.xpixels = graph.raphael.width;
             graph.ypixels = graph.raphael.height;
         }
