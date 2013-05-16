@@ -47,7 +47,9 @@ $.extend(KhanUtil, {
         KhanUtil.debugLog("ERROR: Ambiguous plural variable usage: " +
             String(word));
 
-        return "<span class='error'>" + this.plural(word, num) + "</span>";
+        return "<span class='error'>" + 
+            (num == null ? this.plural(word) : this.plural(word, num)) +
+            "</span>";
     },
 
     plural_form: function(word, num) {
@@ -63,7 +65,9 @@ $.extend(KhanUtil, {
         KhanUtil.debugLog("ERROR: Word not in plural dictionary: " +
             String(word));
 
-        return "<span class='error'>" + this.plural(word, num) + "</span>";
+        return "<span class='error'>" + 
+            (num == null ? this.plural(word) : this.plural(word, num)) +
+            "</span>";
     },
 
     isSingular: function(num) {
@@ -789,13 +793,13 @@ $.fn["word-problemsLoad"] = function() {
                     return $.ngettext("tulip", "tulips", num);
                 }),
                 new Plural(function(num) {
-                    return $.ngettext("daisy", "daisys", num);
+                    return $.ngettext("daisy", "daisies", num);
                 }),
                 new Plural(function(num) {
-                    return $.ngettext("iris", "iriss", num);
+                    return $.ngettext("iris", "irises", num);
                 }),
                 new Plural(function(num) {
-                    return $.ngettext("lily", "lilys", num);
+                    return $.ngettext("lily", "lilies", num);
                 })
             ]),
             field: new Plural(function(num) {
