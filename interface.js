@@ -297,14 +297,22 @@ function onHintButtonClicked() {
     }
 }
 
-function onHintShown() {
+/**
+ * Handle the event when a user clicks to use a hint.
+ *
+ * This deals with the internal work to do things like sending the event up
+ * to the server, as well as triggering the external event "hintUsed" so that
+ * other parts of the UI may update first. It's separated into two events so
+ * that the XHR can be sent after the other items have a chance to respond.
+ */
+function onHintShown(e, data) {
     // Grow the scratchpad to cover the new hint
     Khan.scratchpad.resize();
 
     hintsUsed++;
     updateHintButtonText();
 
-    $(Exercises).trigger("hintUsed");
+    $(Exercises).trigger("hintUsed", data);
     // If there aren't any more hints, disable the get hint button
     if (hintsUsed === numHints) {
         $("#hint").attr("disabled", true);
