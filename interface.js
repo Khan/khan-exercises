@@ -165,6 +165,12 @@ function handleAttempt(data) {
         return false;
     }
 
+    if (answeredCorrectly) {
+        // Just don't allow further submissions once a correct answer has been
+        // called or sometimes the server gets confused.
+        return false;
+    }
+
     var curTime = new Date().getTime();
     var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
     var stringifiedGuess = JSON.stringify(score.guess);
