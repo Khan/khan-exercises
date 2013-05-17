@@ -61,7 +61,7 @@
                         line( [ 0, 0 ], [ NUMBER, 0 ] );
                         graph.movablePoint.visibleShape.toFront();
                     </div>
-                    <p>The orange dot should be <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER < 0">left</span><span data-else="">right</span> of 0.</p>
+                    <p data-if="isSingular(abs( NUMBER ))">The orange dot should be <var>abs( NUMBER )</var> position to the <span data-if="NUMBER < 0">left</span><span data-else="">right</span> of 0.</p><p data-else="">The orange dot should be <var>abs( NUMBER )</var> positions to the <span data-if="NUMBER < 0">left</span><span data-else="">right</span> of 0.</p>
                 </div>
                 <div>
                     <div class="graphie" data-update="number-line">
@@ -105,7 +105,7 @@
                         line( [ 0, 0 ], [ NUMBER, 0 ] );
                         graph.orangeDot.toFront();
                     </div>
-                    <p>The orange dot is <var>plural( abs( NUMBER ), "position")</var> to the <span data-if="NUMBER < 0">left</span><span data-else="">right</span> of 0.</p>
+                    <p data-if="isSingular(abs( NUMBER ))">The orange dot is <var>abs( NUMBER )</var> position to the <span data-if="NUMBER < 0">left</span><span data-else="">right</span> of 0.</p><p data-else="">The orange dot is <var>abs( NUMBER )</var> positions to the <span data-if="NUMBER < 0">left</span><span data-else="">right</span> of 0.</p>
                 </div>
                 <div>
                     <div class="graphie" data-update="number-line-2">

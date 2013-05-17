@@ -15,31 +15,49 @@
                     <var id="NUM_TAKEN">randRange(3,5)</var>
                     <var id="ANSWER">factorial(NUM_THINGS) / (factorial(NUM_THINGS-NUM_TAKEN) * factorial(NUM_TAKEN))</var>
                 </div>
-                <p class="problem">
-                    <var>person(1)</var> is packing <var>his(1)</var> bags for <var>his(1)</var> vacation. <var>He(1)</var> has 
-                    <code><var>NUM_THINGS</var></code> unique <var>THING</var>, but only <code><var>NUM_TAKEN</var></code> fit in <var>his(1)</var> bag.
+                <p class="problem" data-if="isMale(1)">
+                    <var>person(1)</var> is packing his bags for his vacation. He has 
+                    <code><var>NUM_THINGS</var></code> unique <var>THING</var>, but only <code><var>NUM_TAKEN</var></code> fit in his bag.
+                </p><p class="problem" data-else="">
+                    <var>person(1)</var> is packing her bags for her vacation. She has 
+                    <code><var>NUM_THINGS</var></code> unique <var>THING</var>, but only <code><var>NUM_TAKEN</var></code> fit in her bag.
                 </p>
-                <p class="question">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can <var>he(1)</var> take?</p>
+                <p class="question" data-if="isMale(1)">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can he take?</p><p class="question" data-else="">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can she take?</p>
                 <p class="solution" data-forms="integer"><var>ANSWER</var></p>
                 <div class="hints">
-                    <p>
-                        <var>person(1)</var> has <code><var>NUM_TAKEN</var></code> spaces for <var>his(1)</var> <var>THING</var>, 
+                    <p data-if="isMale(1)">
+                        <var>person(1)</var> has <code><var>NUM_TAKEN</var></code> spaces for his <var>THING</var>, 
+                        so let's fill them one by one. 
+                        At first, <var>person(1)</var> has <code><var>NUM_THINGS</var></code> choices for what to put in the first space.
+                    </p><p data-else="">
+                        <var>person(1)</var> has <code><var>NUM_TAKEN</var></code> spaces for her <var>THING</var>, 
                         so let's fill them one by one. 
                         At first, <var>person(1)</var> has <code><var>NUM_THINGS</var></code> choices for what to put in the first space.
                     </p>
-                    <p>
-                        For the second space, <var>he(1)</var> only has <code><var>NUM_THINGS-1</var></code> <var>THING</var> left, so there are only 
+                    <p data-if="isMale(1)">
+                        For the second space, he only has <code><var>NUM_THINGS-1</var></code> <var>THING</var> left, so there are only 
                         <code><var>NUM_THINGS-1</var></code> choices
                         of what to put in the second space. So far, it seems like there are <code><var>NUM_THINGS</var> \cdot <var>NUM_THINGS-1</var> = 
                         <var>NUM_THINGS * (NUM_THINGS-1)</var></code> different unique choices <var>person(1)</var> could have made to fill the first two 
-                        spaces in <var>his(1)</var> bag. But that's not quite right.
+                        spaces in his bag. But that's not quite right.
+                    </p><p data-else="">
+                        For the second space, she only has <code><var>NUM_THINGS-1</var></code> <var>THING</var> left, so there are only 
+                        <code><var>NUM_THINGS-1</var></code> choices
+                        of what to put in the second space. So far, it seems like there are <code><var>NUM_THINGS</var> \cdot <var>NUM_THINGS-1</var> = 
+                        <var>NUM_THINGS * (NUM_THINGS-1)</var></code> different unique choices <var>person(1)</var> could have made to fill the first two 
+                        spaces in her bag. But that's not quite right.
                     </p>
-                    <p>
-                        Why? Because if <var>he(1)</var> picked <var>THING.substring(0,THING.length-1)</var> number 3, then 
+                    <p data-if="isMale(1)">
+                        Why? Because if he picked <var>THING.substring(0,THING.length-1)</var> number 3, then 
+                        <var>THING.substring(0,THING.length-1)</var> number 1, that's the same situation as picking number 1 and then number 3. They both end up in the same bag. 
+                    </p><p data-else="">
+                        Why? Because if she picked <var>THING.substring(0,THING.length-1)</var> number 3, then 
                         <var>THING.substring(0,THING.length-1)</var> number 1, that's the same situation as picking number 1 and then number 3. They both end up in the same bag. 
                     </p>
-                    <p>
-                        So, if <var>person(1)</var> keeps filling the spaces in <var>his(1)</var> bag, making <code><var>_.map(_.range(NUM_TAKEN), function(l){ return (NUM_THINGS - l);}).join("\\cdot")</var> = \dfrac{<var>NUM_THINGS</var>!}{(<var>NUM_THINGS</var>-<var>NUM_TAKEN</var>)!} = <var> factorial(NUM_THINGS)/factorial(NUM_THINGS-NUM_TAKEN)</var></code> decisions altogether, we've overcounted a bunch of groups.
+                    <p data-if="isMale(1)">
+                        So, if <var>person(1)</var> keeps filling the spaces in his bag, making <code><var>_.map(_.range(NUM_TAKEN), function(l){ return (NUM_THINGS - l);}).join("\\cdot")</var> = \dfrac{<var>NUM_THINGS</var>!}{(<var>NUM_THINGS</var>-<var>NUM_TAKEN</var>)!} = <var> factorial(NUM_THINGS)/factorial(NUM_THINGS-NUM_TAKEN)</var></code> decisions altogether, we've overcounted a bunch of groups.
+                    </p><p data-else="">
+                        So, if <var>person(1)</var> keeps filling the spaces in her bag, making <code><var>_.map(_.range(NUM_TAKEN), function(l){ return (NUM_THINGS - l);}).join("\\cdot")</var> = \dfrac{<var>NUM_THINGS</var>!}{(<var>NUM_THINGS</var>-<var>NUM_TAKEN</var>)!} = <var> factorial(NUM_THINGS)/factorial(NUM_THINGS-NUM_TAKEN)</var></code> decisions altogether, we've overcounted a bunch of groups.
                     </p>
                     <p>
                         How much have we overcounted? Well, for every group of <code><var>NUM_TAKEN</var></code>, 

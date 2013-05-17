@@ -16,17 +16,27 @@
                 <var id="X">ceil((R - Q) / P)</var>
             </div>
 
-            <p class="problem">
+            <p class="problem" data-if="isMale(1)">
                 <var>person(1)</var> sells magazine subscriptions and earns
                 <code>$<var>P</var></code> for every new subscriber
-                <var>he(1)</var> signs up. <var>person(1)</var> also earns a
+                he signs up. <var>person(1)</var> also earns a
                 <code>$<var>Q</var></code> weekly bonus regardless of how many
-                magazine subscriptions <var>he(1)</var> sells.
+                magazine subscriptions he sells.
+            </p><p class="problem" data-else="">
+                <var>person(1)</var> sells magazine subscriptions and earns
+                <code>$<var>P</var></code> for every new subscriber
+                she signs up. <var>person(1)</var> also earns a
+                <code>$<var>Q</var></code> weekly bonus regardless of how many
+                magazine subscriptions she sells.
             </p>
-            <p class="question">
+            <p class="question" data-if="isMale(1)">
                 If <var>person(1)</var> wants to earn at least
                 <code>$<var>R</var></code> this week, what is the minimum
-                number of subscriptions <var>he(1)</var> needs to sell?
+                number of subscriptions he needs to sell?
+            </p><p class="question" data-else="">
+                If <var>person(1)</var> wants to earn at least
+                <code>$<var>R</var></code> this week, what is the minimum
+                number of subscriptions she needs to sell?
             </p>
 
             <div class="solution" data-type="multiple">
@@ -97,18 +107,29 @@
                 <var id="X">ceil((R - Q) / P)</var>
             </div>
 
-            <p class="problem">
+            <p class="problem" data-if="isMale(1)">
                 For every level <var>person(1)</var> completes in
-                <var>his(1)</var> favorite game, <var>he(1)</var> earns
+                his favorite game, he earns
                 <code><var>P</var></code> points. <var>person(1)</var> already
                 has <code><var>Q</var></code> points in the game and wants to
                 end up with at least <code><var>R</var></code> points before
-                <var>he(1)</var> goes to bed.
+                he goes to bed.
+            </p><p class="problem" data-else="">
+                For every level <var>person(1)</var> completes in
+                her favorite game, she earns
+                <code><var>P</var></code> points. <var>person(1)</var> already
+                has <code><var>Q</var></code> points in the game and wants to
+                end up with at least <code><var>R</var></code> points before
+                she goes to bed.
             </p>
-            <p class="question">
+            <p class="question" data-if="isMale(1)">
                 What is the minimum number of complete levels that
                 <var>person(1)</var> needs to complete to reach
-                <var>his(1)</var> goal?
+                his goal?
+            </p><p class="question" data-else="">
+                What is the minimum number of complete levels that
+                <var>person(1)</var> needs to complete to reach
+                her goal?
             </p>
 
             <div class="solution" data-type="multiple">
@@ -155,12 +176,17 @@
                 <div data-if="(R - Q) % P !== 0" data-unwrap="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>}
                         \approx <var>((R - Q) / P).toFixed(2)</var></code></p>
-                    <p data-if="(R - Q) % P !== 0">
+                    <p data-if="(R - Q) % P !== 0"><span data-if="isMale(1)" data-unwrap="">
                         Since <var>person(1)</var> won't get points unless
-                        <var>he(1)</var> completes the entire level, we round
+                        he completes the entire level, we round
                         <code><var>((R - Q) / P).toFixed(2)</var></code> up to
                         <code><var>X</var></code>.
-                    </p>
+                    </span><span data-else="" data-unwrap="">
+                        Since <var>person(1)</var> won't get points unless
+                        she completes the entire level, we round
+                        <code><var>((R - Q) / P).toFixed(2)</var></code> up to
+                        <code><var>X</var></code>.
+                    </span></p>
                 </div>
                 <div data-else="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>} =
@@ -179,8 +205,13 @@
                 <var id="X">ceil(( R - Q ) / P)</var>
             </div>
 
-            <p class="problem">
-                To move up to the maestro level in <var>his(1)</var> piano
+            <p class="problem" data-if="isMale(1)">
+                To move up to the maestro level in his piano
+                school, <var>person(1)</var> needs to master at least
+                <code><var>R</var></code> songs. <var>person(1)</var> has
+                already mastered <code><var>Q</var></code> songs.
+            </p><p class="problem" data-else="">
+                To move up to the maestro level in her piano
                 school, <var>person(1)</var> needs to master at least
                 <code><var>R</var></code> songs. <var>person(1)</var> has
                 already mastered <code><var>Q</var></code> songs.

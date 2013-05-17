@@ -77,8 +77,10 @@
 
                 <p><code>\color{orange}{<var>SOLN_TXT</var>}</code> =
                 <code>\color{red}{<var>MARK_INCREMENT</var>}</code> * <code>\color{blue}{<var>TENTHS</var>}</code></p>
-                <p>Therefore, moving the <code>\color{orange}{\text{orange dot}}</code>
-                <code>\color{blue}{<var>TENTHS</var>}</code> place<var>plural(TENTHS)</var> will put it at the position
+                <p data-if="isSingular(TENTHS)">Therefore, moving the <code>\color{orange}{\text{orange dot}}</code>
+                <code>\color{blue}{<var>TENTHS</var>}</code> place will put it at the position
+                <code>\color{orange}{<var>SOLN_TXT</var>}</code>.</p><p data-else="">Therefore, moving the <code>\color{orange}{\text{orange dot}}</code>
+                <code>\color{blue}{<var>TENTHS</var>}</code> places will put it at the position
                 <code>\color{orange}{<var>SOLN_TXT</var>}</code>.</p>
 
                 <div>

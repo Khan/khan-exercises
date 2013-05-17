@@ -102,7 +102,7 @@
                             } );
                         </div>
                     </div>
-                    <p>The new range is <code>\{\, y \mid y <var>A &gt; 0 ? "&gt;" : "&lt;"</var> <var>B</var> \,\}</code>.</p>
+                    <p data-if="A > 0">The new range is <code>\{\, y \mid y &gt; <var>B</var> \,\}</code>.</p><p data-else="">The new range is <code>\{\, y \mid y &lt; <var>B</var> \,\}</code>.</p>
                 </div>
             </div>
         </div>
@@ -135,7 +135,10 @@
             <p data-if="A > 0">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> doesn't change the range.</p>
             <p data-else="">The range of <code>x^2</code> is <code>\{\, y \mid y \ge 0 \,\}</code>. Multiplying by <code><var>A</var></code> flips the range to <code>\{\, y \mid y \le 0 \,\}</code>.</p>
             <div>
-                <p>Now <var>B &gt; 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>. The range becomes: <code>\{\, y \mid y <var>A &gt; 0 ? "≥" : "≤"</var> <var>B</var> \,\}</code>.</p>
+                <p>
+                    <span data-if="B > 0">Now add <code><var>abs( B )</var></code>.</span><span data-else="">Now subtract <code><var>abs( B )</var></code>.</span>
+                    <span data-if="A > 0">The range becomes: <code>\{\, y \mid y ≥ <var>B</var> \,\}</code>.</span><span data-else="">The range becomes: <code>\{\, y \mid y ≤ <var>B</var> \,\}</code>.</span>
+                </p>
 
                 <div class="graphie" data-update="grid">
                     graph.pl.remove();

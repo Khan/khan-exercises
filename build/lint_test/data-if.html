@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>data-if/data-else Test</title>
+</head>
+<body>
+    <!-- Test 1: Inside problem: multiplying_fractions_word_problems -->
+    <p class="problem">
+        Every day <var>person( 1 )</var> put the extra change from <var>his( 1 )</var> pockets into a glass jar. After
+        <var>randRange( 10, 30 )</var> weeks, <var>he( 1 )</var> had saved up $<var>AMOUNT</var>.00. <var>person( 1 )</var>
+    </p>
+
+    <!-- Test 2: Inside question: negative_number_word_problems -->
+    <p class="question">At the end of the summer what was <var>person( 1 )</var>'s net worth, assuming <var>he( 1 )</var> had no other assets or liabilities?</p>
+
+    <!-- Test 3: data-if: linear_equation_word_problems -->
+    <p data-if="(R - Q) % P !== 0">
+        Since <var>person(1)</var> won't get points unless
+        <var>he(1)</var> completes the entire level, we round
+    </p>
+
+    <!-- Test 4: data-else: linear_equation_word_problems -->
+    <p data-else="">
+        Since <var>person(1)</var> won't get points unless
+        <var>he(1)</var> completes the entire level, we round
+    </p>
+</body>
+</html>

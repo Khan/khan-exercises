@@ -276,14 +276,20 @@
                     $<var>fraction(PRIZE,ODDS,true,true)</var> - 
                     $<var>COST</var></code>.
                 </p>
-                <p> 
+                <p data-if="PRIZE/ODDS - COST > 0"> 
                     <code>$<var>fraction(PRIZE,ODDS,true,true)</var> - 
                     $<var>COST</var></code> is
-                    <var>PRIZE/ODDS - COST &gt; 0 ? "positive" : "negative"</var>.
+                    positive.
                     <br><br>
-                    So, we expect to <var>PRIZE/ODDS - COST &gt; 0 ? "make" : "lose"</var> money by buying a lottery ticket, because
-                    the expected value is <var>PRIZE/ODDS - COST &gt; 0 ? 
-                    "positive" : "negative"</var>.
+                    So, we expect to make money by buying a lottery ticket, because
+                    the expected value is positive.
+                </p><p data-else=""> 
+                    <code>$<var>fraction(PRIZE,ODDS,true,true)</var> - 
+                    $<var>COST</var></code> is
+                    negative.
+                    <br><br>
+                    So, we expect to lose money by buying a lottery ticket, because
+                    the expected value is negative.
                 </p>
             </div>
         </div>

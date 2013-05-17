@@ -8,14 +8,15 @@ How it works: The script goes through the HTML files and attempts
 to locate all nodes that have text as a direct child node. It then
 extracts the HTML contents of that node and returns it as a translatable
 string. Note that certain nodes are excluded from this list as they
-contain non-translatable text (see _IGNORE_NODES). It is assumed that
-everything that isn't part of _IGNORE_NODES is something that needs to be
+contain non-translatable text (see IGNORE_NODES). It is assumed that
+everything that isn't part of IGNORE_NODES is something that needs to be
 translated.
 """
 import argparse
 import json
 import os.path
 import re
+import string
 import sys
 
 import lxml.html
@@ -29,7 +30,7 @@ _HAS_TEXT = '*[./text()[normalize-space(.)!=""]]'
 _XPATH_FIND_NODES = '//%s[not(ancestor::%s)]' % (_HAS_TEXT, _HAS_TEXT)
 
 # All the tags that we want to make sure that strings don't contain
-_REJECT_NODES = [
+REJECT_NODES = [
     'style',
     'script',
     'div[@class="validator-function"]',
@@ -38,11 +39,14 @@ _REJECT_NODES = [
     '*[contains(@class,"guess")]'
 ]
 
-# All the tags that we want to ignore and not extract strings from
-_IGNORE_NODES = _REJECT_NODES + [
+# Script nodes that might be contained within an extracted string
+INLINE_SCRIPT_NODES = [
     'var',
     'code'
 ]
+
+# All the tags that we want to ignore and not extract strings from
+IGNORE_NODES = REJECT_NODES + INLINE_SCRIPT_NODES
 
 # Make an HTML 5 Parser that will be used to turn the HTML documents
 # into a usable DOM. Make sure that we ignore the implied HTML namespace.
@@ -50,6 +54,19 @@ _PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
 
 # The base URL for referencing an exercise
 _EXERCISE_URL = 'http://www.khanacademy.org/exercise/%s'
+
+# Entities to fix when serializing HTML trees
+ENTITY_TABLE = {
+    "\xc2\xa0": "&nbsp;",
+}
+
+# Entities that should be cleaned up when they're set as the condition
+# in an data-if attribute
+_CLEAN_ENTITIES = {
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>'
+}
 
 
 def main():
@@ -66,14 +83,8 @@ def main():
         help='The format of the output. (default: %(default)s)')
     arg_parser.add_argument('--quiet', action='store_true',
         help='Do not emit status to stderr on successful runs.')
-    arg_parser.add_argument('--lint', action='store_true',
-        help='Run a linter against the input files.')
 
     args = arg_parser.parse_args()
-
-    if args.lint:
-        matches = lint(args.html_files, not args.quiet)
-        sys.exit(min(len(matches), 127))
 
     if args.format == 'po':
         # Output a PO file by default
@@ -91,71 +102,6 @@ def main():
     else:
         # Otherwise just write the output to STDOUT
         print results
-
-
-def lint(files, verbose):
-    """Lint many HTML exercises looking for invalid nodes.
-
-    Arguments:
-        - files: An array of filenames to parse
-        - verbose: If there should be any output
-    Returns:
-        - An array of (node, invalid_node, filename) tuples which contain
-          the node which has the invalid node, the invalid node, and the
-          filename of the file which has the error.
-    """
-    matches = []
-
-    # Go through all the fileanmes provided
-    for filename in files:
-        # And aggregate the linting results
-        matches += lint_file(filename, verbose)
-
-    if verbose and matches:
-        num_matches = len(matches)
-        print >>sys.stderr, ('%s error%s detected.'
-                            % (num_matches, "" if num_matches == 1 else "s"))
-
-    return matches
-
-
-def lint_file(filename, verbose):
-    """Lint a single HTML exercise looking for invalid nodes.
-
-    Arguments:
-        - filename: A string filename to parse
-        - verbose: If there should be any output
-    Returns:
-        - An array of (node, invalid_node, filename) tuples which contain
-          the node which has the invalid node, the invalid node, and the
-          filename of the file which has the error.
-    """
-    matches = []
-
-    # Construct an XPath expression for finding rejected nodes
-    lint_expr = "|".join([".//%s" % name for name in _REJECT_NODES])
-
-    # Collect all the i18n-able nodes out of file
-    nodes = _extract_nodes(filename)
-
-    for node in nodes:
-        # If we're linting the file and the string doesn't contain any
-        # rejected nodes then we just ignore it
-        lint_nodes = node.xpath(lint_expr)
-
-        if verbose and lint_nodes:
-            print >>sys.stderr, "Lint error in file: %s" % filename
-
-        for lint_node in lint_nodes:
-            matches.append((node, lint_node, filename))
-            
-            if verbose:
-                print >>sys.stderr, "Contains invalid node:"
-                print >>sys.stderr, _get_outerhtml(node)
-                print >>sys.stderr, "Invalid node:"
-                print >>sys.stderr, _get_outerhtml(lint_node)
-
-    return matches
 
 
 def make_potfile(files, verbose):
@@ -220,7 +166,7 @@ def extract_files(files, verbose):
     return retval
 
 
-def _extract_nodes(filename):
+def extract_nodes(filename):
     """Extract all the i18n-able nodes out of a file."""
     # Parse the HTML tree
     html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
@@ -228,7 +174,7 @@ def _extract_nodes(filename):
     # Turn all the tags into a full XPath selector
     search_expr = _XPATH_FIND_NODES
 
-    for name in _IGNORE_NODES:
+    for name in IGNORE_NODES:
         search_expr += "[not(ancestor-or-self::%s)]" % name
 
     # Return the matching nodes
@@ -250,11 +196,11 @@ def extract_file(filename, matches):
         matches = {}
 
     # Collect all the i18n-able nodes out of file
-    nodes = _extract_nodes(filename)
+    nodes = extract_nodes(filename)
 
     for node in nodes:
         # Get a string version of the contents of the node
-        contents = _get_innerhtml(node)
+        contents = get_innerhtml(node)
 
         # Bail if we're dealing with an empty element
         if not contents:
@@ -288,7 +234,43 @@ class _SetEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def _get_outerhtml(html_node):
+def replace_node(node, replace_node):
+    """A utility method for replacing a node with another node.
+
+    The other node can optionally be a text string.
+    """
+    # Figure out the location where the node needs to be inserted
+    prev_node = node.getprevious()
+    parent_node = node.getparent()
+
+    # Get any text from the node which we'll need to re-insert
+    node_tail = node.tail or ''
+
+    if isinstance(replace_node, basestring):
+        # If it's a string or a Unicode string then
+        # we need to handle it specially
+        if prev_node is not None:
+            # If we're after another node we add it to the
+            # 'tail' of that node
+            prev_text = prev_node.tail or ''
+            prev_node.tail = prev_text + replace_node + node_tail
+        elif parent_node is not None:
+            # If the text node is at the start of the string
+            # then it's added as the .text property to the
+            # parent node
+            parent_text = parent_node.text or ''
+            parent_node.text = parent_text + replace_node + node_tail
+    else:
+        replace_node.tail = node_tail
+        # Otherwise it's a normal node so we just insert it
+        node.addprevious(replace_node)
+
+    # Remove the node that we just replaced
+    if parent_node is not None:
+        parent_node.remove(node)
+
+
+def get_outerhtml(html_node):
     """Get a string representation of an HTML node.
 
     (lxml doesn't provide an easy way to get the 'innerHTML'.)
@@ -299,15 +281,85 @@ def _get_outerhtml(html_node):
     return re.sub(r'[^>]*$', '', html_string, count=1)
 
 
-def _get_innerhtml(html_node):
+def get_innerhtml(html_node):
     """Strip the leading and trailing tag from an lxml-generated HTML string.
 
     Also cleanup endlines and extraneous spaces.
     """
-    html_string = _get_outerhtml(html_node)
+    html_string = get_outerhtml(html_node)
     html_string = re.sub(r'^<[^>]*>', '', html_string, count=1)
     html_string = re.sub(r'</[^>]*>$', '', html_string, count=1)
     return re.sub(r'\s+', ' ', html_string).strip()
+
+
+def get_page_html(html_tree):
+    """Return an HTML string representing an lxml tree."""
+    # Hack to fix attribute ordering
+    # See http://stackoverflow.com/questions/3551923/how-to-prevent-xmlserializer-serializetostring-from-re-ordering-attributes
+    #
+    # This hack relies on two properties:
+    #   - Python preserves the order in which values are inserted in a dict
+    #   - Attributes begin with a letter, so numbers will always sort 
+    #     before any "real" attribute.
+    for el in html_tree.xpath('//*'):
+        attrs = dict(el.attrib)
+        keys = el.attrib.keys()
+        keys.sort(key=lambda k:
+            0 if (k == 'href') else
+            1 if (k == 'class') else
+            2 if (k == 'id') else
+            3 if (k == 'http-equiv') else
+            4 if (k == 'content') else
+            k)
+        el.attrib.clear()
+        for k in keys:
+            el.attrib[k] = attrs[k]
+
+    # For some reason the last child node in the body's whitespace
+    # constantly expands on every call so we just reduce it to an
+    # endline but only if it doesn't contain any non-whitespace.
+    body_child_nodes = html_tree.xpath('//body/*')
+    if body_child_nodes:
+        last_node = body_child_nodes[-1]
+        if not last_node.tail or last_node.tail.isspace():
+            last_node.tail = "\n"
+
+    # We serialize the entire HTML tree
+    html_string = lxml.html.tostring(html_tree,
+                                     include_meta_content_type=True,
+                                     encoding='utf-8')
+
+    for norm, human in ENTITY_TABLE.iteritems():
+        html_string = string.replace(html_string, norm, human)
+
+    # Clean up entities in data-if attributes
+    html_string = re.sub(r'data-if=(["\'])(.*?)\1', clean_data_if, html_string)
+
+    # Add in endlines around the <html> and </html> nodes
+    html_string = re.sub(r'\s*(<\/?html[^>]*>)\s*', r'\n\1\n', html_string)
+
+    return html_string
+
+
+def clean_data_if(match):
+    """Clean up entities in data-if attributes.
+    
+    This is done purely to aid in readability. In an attribute it's possible to
+    have < > and & exist un-escaped so we covert them to be as such. Helps to
+    make the contents easier to understand.
+
+    lxml will do the encoding automatically so we actually revert that using
+    this method.
+    """
+    quote = match.group(1)
+    condition = match.group(2)
+
+    # Make sure any common entities are cleaned up, to help
+    # with readability.
+    for entity, replace in _CLEAN_ENTITIES.iteritems():
+        condition = string.replace(condition, entity, replace)
+
+    return 'data-if=%s%s%s' % (quote, condition, quote)
 
 
 def babel_extract(fileobj, keywords, comment_tags, options):

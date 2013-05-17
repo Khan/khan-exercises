@@ -34,214 +34,51 @@ $.extend(KhanUtil, {
         return KhanUtil.toSentence(wrapped, conjunction);
     },
 
+    // TODO(jeresig): I18N: Kill this.
     capitalize: function(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     },
 
-    // NOTE(jeresig): If you want to pluralize a word you must add it here!
-    // Look-up table of plural word translations culled from exercise files
-    // Makes it possible to actually extract these words for i18n
-    plurals: {
-        "badge": function(num) {
-            return $.ngettext("badge", "badges", num);
-        },
-        "basket": function(num) {
-            return $.ngettext("basket", "baskets", num);
-        },
-        "block": function(num) {
-            return $.ngettext("block", "blocks", num);
-        },
-        "blue dot": function(num) {
-            return $.ngettext("blue dot", "blue dots", num);
-        },
-        "car": function(num) {
-            return $.ngettext("car", "cars", num);
-        },
-        "chocolate chip cookie": function(num) {
-            return $.ngettext("chocolate chip cookie",
-                "chocolate chip cookies", num);
-        },
-        "circle": function(num) {
-            return $.ngettext("circle", "circles", num);
-        },
-        "cup": function(num) {
-            return $.ngettext("cup", "cups", num);
-        },
-        "dollar": function(num) {
-            return $.ngettext("dollar", "dollars", num);
-        },
-        "dot": function(num) {
-            return $.ngettext("dot", "dots", num);
-        },
-        "foot": function(num) {
-            return $.ngettext("foot", "feet", num);
-        },
-        "fourth": function(num) {
-            return $.ngettext("fourth", "fourths", num);
-        },
-        "full symbol": function(num) {
-            return $.ngettext("full symbol", "full symbols", num);
-        },
-        "green dot": function(num) {
-            return $.ngettext("green dot", "green dots", num);
-        },
-        "hour": function(num) {
-            return $.ngettext("hour", "hours", num);
-        },
-        "house point": function(num) {
-            return $.ngettext("house point", "house points", num);
-        },
-        "hundred": function(num) {
-            // I18N: As in the HUNDREDS position of a number
-            return $.ngettext("hundred", "hundreds", num);
-        },
-        "hundredth": function(num) {
-            // I18N: As in the HUNDREDTHS position of a number
-            return $.ngettext("hundredth", "hundredths", num);
-        },
-        // TODO(jeresig): i18n: This may be a bad thing to pluralize
-        "is": function(num) {
-            return $.ngettext("is", "are", num);
-        },
-        "jumping jack": function(num) {
-            return $.ngettext("jumping jack", "jumping jacks", num);
-        },
-        "loaf": function(num) {
-            return $.ngettext("loaf", "loaves", num);
-        },
-        "long-distance runner": function(num) {
-            return $.ngettext("long-distance runner",
-                "long-distance runners", num);
-        },
-        "molecule": function(num) {
-            return $.ngettext("molecule", "molecules", num);
-        },
-        "number": function(num) {
-            return $.ngettext("number", "numbers", num);
-        },
-        "oatmeal cookie": function(num) {
-            return $.ngettext("oatmeal cookie", "oatmeal cookies", num);
-        },
-        "one": function(num) {
-            // I18N: As in the ONES position of a number
-            return $.ngettext("one", "ones", num);
-        },
-        "outcome": function(num) {
-            return $.ngettext("outcome", "outcomes", num);
-        },
-        "package": function(num) {
-            return $.ngettext("package", "packages", num);
-        },
-        "parks": function(num) {
-            // I18N: As in "1 more car parks." vs. "3 more cars park."
-            return $.ngettext("parks", "park", num);
-        },
-        "person": function(num) {
-            return $.ngettext("person", "people", num);
-        },
-        "piece": function(num) {
-            return $.ngettext("piece", "pieces", num);
-        },
-        "place": function(num) {
-            return $.ngettext("place", "places", num);
-        },
-        "position": function(num) {
-            return $.ngettext("position", "positions", num);
-        },
-        "potato": function(num) {
-            return $.ngettext("potato", "potatoes", num);
-        },
-        "push-up": function(num) {
-            return $.ngettext("push-up", "push-ups", num);
-        },
-        "row": function(num) {
-            return $.ngettext("row", "rows", num);
-        },
-        "sit-up": function(num) {
-            return $.ngettext("sit-up", "sit-ups", num);
-        },
-        "squat": function(num) {
-            return $.ngettext("squat", "squats", num);
-        },
-        "quiz": function(num) {
-            return $.ngettext("quiz", "quizzes", num);
-        },
-        "set": function(num) {
-            return $.ngettext("set", "sets", num);
-        },
-        "shelf": function(num) {
-            return $.ngettext("shelf", "shelves", num);
-        },
-        "side": function(num) {
-            return $.ngettext("side", "sides", num);
-        },
-        "sit-up": function(num) {
-            return $.ngettext("sit-up", "sit-ups", num);
-        },
-        "slice": function(num) {
-            return $.ngettext("slice", "slices", num);
-        },
-        "sprinter": function(num) {
-            return $.ngettext("sprinter", "sprinters", num);
-        },
-        "square foot": function(num) {
-            return $.ngettext("square foot", "square feet", num);
-        },
-        "squat": function(num) {
-            return $.ngettext("squat", "squats", num);
-        },
-        "standard deviation": function(num) {
-            return $.ngettext("standard deviation",
-                "standard deviations", num);
-        },
-        "symbol": function(num) {
-            return $.ngettext("symbol", "symbols", num);
-        },
-        "team": function(num) {
-            return $.ngettext("team", "teams", num);
-        },
-        "ten": function(num) {
-            // I18N: As in the TENS position of a number
-            return $.ngettext("ten", "tens", num);
-        },
-        "tenth": function(num) {
-            // I18N: As in the TENTHS position of a number
-            return $.ngettext("tenth", "tenths", num);
-        },
-        "thousand": function(num) {
-            // I18N: As in the THOUSANDS position of a number
-            return $.ngettext("thousand", "thousands", num);
-        },
-        "thousandth": function(num) {
-            // I18N: As in the THOUSANDTHS position of a number
-            return $.ngettext("thousandth", "thousandths", num);
-        },
-        "tick mark": function(num) {
-            return $.ngettext("tick mark", "tick marks", num);
-        },
-        "time": function(num) {
-            return $.ngettext("time", "times", num);
-        },
-        "tomato": function(num) {
-            return $.ngettext("tomato", "tomatoes", num);
-        },
-        "tree": function(num) {
-            return $.ngettext("tree", "trees", num);
-        },
-        "triangle": function(num) {
-            return $.ngettext("triangle", "triangles", num);
-        },
-        // TODO(jeresig): i18n: This may be a bad thing to pluralize
-        "was": function(num) {
-            return $.ngettext("was", "were", num);
-        },
-        "year": function(num) {
-            return $.ngettext("year", "years", num);
+    AMBIGUOUS_PLURAL: function(word, num) {
+        if (typeof console !== "undefined" && console.error) {
+            console.error("Ambiguous plural variable usage: ", String(word));
         }
+
+        KhanUtil.debugLog("ERROR: Ambiguous plural variable usage: " +
+            String(word));
+
+        // Check if the word is pluralizable
+        var plural_word = word && word.plural ?
+            word.plural(num) :
+            (num == null ? this.plural(word) : this.plural(word, num));
+
+        return "<span class='error'>" + plural_word + "</span>";
     },
 
-    // pluralization helper.  There are five signatures
-    // - plural(NUMBER): return "s" if NUMBER is not 1
+    plural_form: function(word, num) {
+        // Check if the word is pluralizable
+        if (word && word.plural) {
+            return word.plural(num);
+        }
+
+        if (typeof console !== "undefined" && console.error) {
+            console.error("Word not in plural dictionary: ", String(word));
+        }
+
+        KhanUtil.debugLog("ERROR: Word not in plural dictionary: " +
+            String(word));
+
+        return "<span class='error'>" + 
+            (num == null ? this.plural(word) : this.plural(word, num)) +
+            "</span>";
+    },
+
+    isSingular: function(num) {
+        return num == 1;
+    },
+
+    // DEPRECATED
+    // pluralization helper.  There are two signatures
     // - plural(NUMBER, singular):
     //        - if necessary, magically pluralize <singular>
     //        - return "NUMBER word"
@@ -365,6 +202,26 @@ $.extend(KhanUtil, {
     }
 });
 
+var Plural = KhanUtil.Plural = function(plural_fn) {
+    this.plural_fn = plural_fn;
+};
+
+KhanUtil.Plural.prototype = {
+    plural: function(num) {
+        // There are some cases where plural is called with only a word
+        // (and no number). In this case we just want to return the plural
+        // form of that word, as best as we can. This might have some slight
+        // incongruities across platforms
+        num = num === undefined ? 2 : num;
+
+        return this.plural_fn(num);
+    },
+
+    toString: function() {
+        return this.plural_fn(1);
+    }
+};
+
 $.fn["word-problemsLoad"] = function() {
 
     var IncrementalShuffler = function(array) {
@@ -449,28 +306,50 @@ $.fn["word-problemsLoad"] = function() {
     });
     people = new IncrementalShuffler(people);
 
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var vehicles = new IncrementalShuffler([
-        "bike",
-        "car",
-        "horse",
-        "motorcycle",
-        "scooter",
-        "train"
+        new Plural(function(num) {
+            return $.ngettext("bike", "bikes", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("car", "cars", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("horse", "horses", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("motorcycle", "motorcycles", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("scooter", "scooters", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("train", "trains", num);
+        })
     ]);
 
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var courses = new IncrementalShuffler([
-        "algebra",
         "chemistry",
         "geometry",
         "history",
+        "mathematics",
         "physics",
         "Spanish"
     ]);
 
     var exams = new IncrementalShuffler([
-        "exam",
-        "test",
-        "quiz"
+        new Plural(function(num) {
+            return $.ngettext("exam", "exams", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("test", "tests", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("quiz", "quizzes", num);
+        })
     ]);
 
     var binops = new IncrementalShuffler([
@@ -492,40 +371,129 @@ $.fn["word-problemsLoad"] = function() {
     ]);
 
     var collections = new IncrementalShuffler([
-        ["chair", "row", "make"],
-        ["party favor", "bag", "fill"],
-        ["jelly bean", "pile", "make"],
-        ["book", "shelf", "fill"],
-        ["can of food", "box", "fill"]
+        [new Plural(function(num) {
+            return $.ngettext("party favor", "party favors", num);
+        }), new Plural(function(num) {
+            return $.ngettext("bag", "bags", num);
+        })],
+        [new Plural(function(num) {
+            return $.ngettext("jelly bean", "jelly beans", num);
+        }), new Plural(function(num) {
+            return $.ngettext("bag", "bags", num);
+        })],
+        [new Plural(function(num) {
+            return $.ngettext("book", "books", num);
+        }), new Plural(function(num) {
+            return $.ngettext("shelf", "shelves", num);
+        })],
+        [new Plural(function(num) {
+            return $.ngettext("can of food", "cans of food", num);
+        }), new Plural(function(num) {
+            return $.ngettext("box", "boxes", num);
+        })]
     ]);
 
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var stores = new IncrementalShuffler([
         {
-            name: "office supply",
-            items: new IncrementalShuffler(["pen", "pencil", "notebook"])
+            name: new Plural(function(num) {
+                return $.ngettext("hardware", "hardwares", num);
+            }),
+            items: new IncrementalShuffler([
+                new Plural(function(num) {
+                    return $.ngettext("hammer", "hammers", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("nail", "nails", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("saw", "saws", num);
+                })
+            ])
         },
         {
-            name: "hardware",
-            items: new IncrementalShuffler(["hammer", "nail", "saw"])
+            name: new Plural(function(num) {
+                return $.ngettext("grocery", "groceries", num);
+            }),
+            items: new IncrementalShuffler([
+                new Plural(function(num) {
+                    return $.ngettext("banana", "bananas", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("loaf of bread", "loaves of breads", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("gallon of milk", "gallons of milks", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("potato", "potatoes", num);
+                })
+            ])
         },
         {
-            name: "grocery",
-            items: new IncrementalShuffler(["banana", "loaf of bread", "gallon of milk", "potato"])
+            name: new Plural(function(num) {
+                return $.ngettext("gift", "gifts", num);
+            }),
+            items: new IncrementalShuffler([
+                new Plural(function(num) {
+                    return $.ngettext("toy", "toys", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("game", "games", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("souvenir", "souvenirs", num);
+                })
+            ])
         },
         {
-            name: "gift",
-            items: new IncrementalShuffler(["toy", "game", "souvenir"])
+            name: new Plural(function(num) {
+                return $.ngettext("school supply", "school supplies", num);
+            }),
+            items: new IncrementalShuffler([
+                new Plural(function(num) {
+                    return $.ngettext("pen", "pens", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("pencil", "pencils", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("notebook", "notebooks", num);
+                })
+            ])
         },
         {
-            name: "toy",
-            items: new IncrementalShuffler(["stuffed animal", "video game", "race car", "doll"])
+            name: new Plural(function(num) {
+                return $.ngettext("toy", "toys", num);
+            }),
+            items: new IncrementalShuffler([
+                new Plural(function(num) {
+                    return $.ngettext("stuffed animal", "stuffed animals", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("video game", "video games", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("race car", "race cars", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("doll", "dolls", num);
+                })
+            ])
         }
     ]);
 
     var pizzas = new IncrementalShuffler([
-        "pizza",
-        "pie",
-        "cake"
+        new Plural(function(num) {
+            return $.ngettext("pizza", "pizzas", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("pie", "pies", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("cake", "cakes", num);
+        })
     ]);
 
     var timesofday = new IncrementalShuffler([
@@ -536,41 +504,93 @@ $.fn["word-problemsLoad"] = function() {
     ]);
 
     var exercises = new IncrementalShuffler([
-        "push-up",
-        "sit-up",
-        "squat",
-        "jumping jack"
+        new Plural(function(num) {
+            return $.ngettext("push-up", "push-ups", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("sit-up", "sit-ups", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("squat", "squats", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("jumping jack", "jumping jacks", num);
+        })
     ]);
 
     var fruits = new IncrementalShuffler([
-        "apple",
-        "banana",
-        "coconut",
-        "eggplant",
-        "kiwi",
-        "lemon",
-        "mango",
-        "nectarine",
-        "orange",
-        "pomegranate",
-        "watermelon"
+        new Plural(function(num) {
+            return $.ngettext("apple", "apples", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("banana", "bananas", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("coconut", "coconuts", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("eggplant", "eggplants", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("kiwi", "kiwis", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("lemon", "lemons", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("mango", "mangos", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("nectarine", "nectarines", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("orange", "oranges", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("pomegranate", "pomegranates", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("watermelon", "watermelons", num);
+        })
     ]);
 
     var deskItems = new IncrementalShuffler([
-        "binder",
-        "crayon",
-        "eraser",
-        "folder",
-        "glue stick",
-        "marker",
-        "notebook",
-        "pencil",
-        "rubber stamp"
+        new Plural(function(num) {
+            return $.ngettext("binder", "binders", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("crayon", "crayons", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("eraser", "erasers", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("folder", "folders", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("glue stick", "glue sticks", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("marker", "markers", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("notebook", "notebooks", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("pencil", "pencils", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("rubber stamp", "rubber stamps", num);
+        })
     ]);
 
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var colors = new IncrementalShuffler([
         "red",
-        "orange",
+        // NOTE(jeresig): I18N: Removed because it begins with a vowel and is
+        // used with an()
+        //"orange",
         "yellow",
         "green",
         "blue",
@@ -594,38 +614,90 @@ $.fn["word-problemsLoad"] = function() {
     ]);
 
     var furnitureStore = new IncrementalShuffler([
-        "chair",
-        "table",
-        "bed frame",
-        "sofa",
-        "couch",
-        "desk",
-        "book shelf"
+        new Plural(function(num) {
+            return $.ngettext("chair", "chairs", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("table", "tables", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("bed frame", "bed frames", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("sofa", "sofas", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("couch", "couchs", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("desk", "desks", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("book shelf", "book shelves", num);
+        })
     ]);
 
     var electronicStore = new IncrementalShuffler([
-        "television",
-        "computer",
-        "laptop",
-        "camera"
+        new Plural(function(num) {
+            return $.ngettext("television", "televisions", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("computer", "computers", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("laptop", "laptops", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("camera", "cameras", num);
+        })
     ]);
 
     var clothes = new IncrementalShuffler([
-        "hat",
-        "pair of pants",
-        "belt",
-        "necklace",
-        "purse",
-        "pair of shoes",
-        "blouse",
-        "skirt",
-        "watch",
-        "pair of socks",
-        "sweatshirt",
-        "sweater",
-        "tie",
-        "scarf",
-        "dress"
+        new Plural(function(num) {
+            return $.ngettext("hat", "hats", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("pair of pants", "pairs of pants", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("belt", "belts", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("necklace", "necklaces", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("purse", "purses", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("pair of shoes", "pairs of shoes", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("blouse", "blouses", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("skirt", "skirts", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("watch", "watches", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("pair of socks", "pairs of socks", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("sweatshirt", "sweatshirts", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("sweater", "sweaters", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("tie", "ties", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("scarf", "scarves", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("dress", "dresses", num);
+        })
     ]);
 
     var sides = new IncrementalShuffler([
@@ -640,34 +712,115 @@ $.fn["word-problemsLoad"] = function() {
 
     // animal, avg-lifespan, stddev-lifespan
     // (data is from cursory google searches and wild guessing)
+    // NOTE(jeresig): I18N: These strings are expected to work prefixed with
+    // just the letter "A", as in "A gorilla"
     var animals = new IncrementalShuffler([
-        ["alligator", 68, 20],
-        ["anteater", 15, 10],
-        ["bear", 40, 20],
-        ["elephant", 60, 10],
-        ["gorilla", 20, 5],
-        ["lion", 12, 5],
-        ["lizard", 3, 1],
-        ["meerkat", 13, 5],
-        ["porcupine", 20, 5],
-        ["seal", 15, 10],
-        ["sloth", 16, 5],
-        ["snake", 25, 10],
-        ["tiger", 22, 5],
-        ["turtle", 100, 20],
-        ["zebra", 25, 10]
+        // NOTE(jeresig): I18N: Removed because it begins with a vowel and is
+        // used with an()
+        //["alligator", 68, 20],
+        //["anteater", 15, 10],
+        [new Plural(function(num) {
+            return $.ngettext("bear", "bears", num);
+        }), 40, 20],
+        //["elephant", 60, 10],
+        [new Plural(function(num) {
+            return $.ngettext("gorilla", "gorillas", num);
+        }), 20, 5],
+        [new Plural(function(num) {
+            return $.ngettext("lion", "lions", num);
+        }), 12, 5],
+        [new Plural(function(num) {
+            return $.ngettext("lizard", "lizards", num);
+        }), 3, 1],
+        [new Plural(function(num) {
+            return $.ngettext("meerkat", "meerkats", num);
+        }), 13, 5],
+        [new Plural(function(num) {
+            return $.ngettext("porcupine", "porcupines", num);
+        }), 20, 5],
+        [new Plural(function(num) {
+            return $.ngettext("seal", "seals", num);
+        }), 15, 10],
+        [new Plural(function(num) {
+            return $.ngettext("sloth", "sloths", num);
+        }), 16, 5],
+        [new Plural(function(num) {
+            return $.ngettext("snake", "snakes", num);
+        }), 25, 10],
+        [new Plural(function(num) {
+            return $.ngettext("tiger", "tigers", num);
+        }), 22, 5],
+        [new Plural(function(num) {
+            return $.ngettext("turtle", "turtles", num);
+        }), 100, 20],
+        [new Plural(function(num) {
+            return $.ngettext("zebra", "zebras", num);
+        }), 25, 10]
     ]);
 
     var farmers = new IncrementalShuffler([
-        {farmer: "farmer", crops: new IncrementalShuffler(["tomato", "potato", "carrot", "bean", "corn stalk"]), field: "field"},
-        {farmer: "gardener", crops: new IncrementalShuffler(["rose", "tulip", "daisy", "iris", "lily"]), field: "garden"}
+        {
+            farmer: new Plural(function(num) {
+                return $.ngettext("farmer", "farmers", num);
+            }),
+            crops: new IncrementalShuffler([
+                new Plural(function(num) {
+                    return $.ngettext("tomato", "tomatoes", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("potato", "potatoes", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("carrot", "carrots", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("bean", "beans", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("corn stalk", "corn stalks", num);
+                })
+            ]),
+            field: new Plural(function(num) {
+                return $.ngettext("field", "fields", num);
+            })
+        },
+        {
+            farmer: new Plural(function(num) {
+                return $.ngettext("gardener", "gardeners", num);
+            }),
+            crops: new IncrementalShuffler([
+                new Plural(function(num) {
+                    return $.ngettext("rose", "roses", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("tulip", "tulips", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("daisy", "daisies", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("iris", "irises", num);
+                }),
+                new Plural(function(num) {
+                    return $.ngettext("lily", "lilies", num);
+                })
+            ]),
+            field: new Plural(function(num) {
+                return $.ngettext("garden", "gardens", num);
+            })
+        }
     ]);
 
     var distances = new IncrementalShuffler([
-        "mile",
-        "kilometer"
+        new Plural(function(num) {
+            return $.ngettext("mile", "miles", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("kilometer", "kilometers", num);
+        })
     ]);
 
+    // TODO(jeresig): I18N: Kill this.
     var distanceActivities = new IncrementalShuffler([
         {present: "ride", past: "rode", noun: "bike", done: "biked", continuous: "biking"},
         {present: "row", past: "rowed", noun: "boat", done: "rowed", continuous: "rowing"},
@@ -675,6 +828,7 @@ $.fn["word-problemsLoad"] = function() {
         {present: "walk", past: "walked", noun: "dog", done: "walked", continuous: "walking"}
     ]);
 
+    // TODO(jeresig): I18N: Kill this.
     var indefiniteArticle = function(word) {
         var vowels = ["a", "e", "i", "o", "u"];
         if (_(vowels).indexOf(word[0].toLowerCase()) > -1) {
@@ -692,30 +846,41 @@ $.fn["word-problemsLoad"] = function() {
             return people.get(i - 1).get(0)[0].charAt(0).toLowerCase();
         },
 
+        // TODO(jeresig): I18N: Kill this.
         he: function(i) {
             return people.get(i - 1).get(0)[1] === "m" ? "he" : "she";
         },
 
+        // TODO(jeresig): I18N: Kill this.
         He: function(i) {
             return people.get(i - 1).get(0)[1] === "m" ? "He" : "She";
         },
 
+        // TODO(jeresig): I18N: Kill this.
         him: function(i) {
             return people.get(i - 1).get(0)[1] === "m" ? "him" : "her";
         },
 
+        // TODO(jeresig): I18N: Kill this.
         his: function(i) {
             return people.get(i - 1).get(0)[1] === "m" ? "his" : "her";
         },
 
+        // TODO(jeresig): I18N: Kill this.
         His: function(i) {
             return people.get(i - 1).get(0)[1] === "m" ? "His" : "Her";
         },
 
+        isMale: function(i) {
+            return people.get(i - 1).get(0)[1] === "m";
+        },
+
+        // TODO(jeresig): I18N: Kill this.
         An: function(word) {
             return indefiniteArticle(word);
         },
 
+        // TODO(jeresig): I18N: Kill this.
         an: function(word) {
             return indefiniteArticle(word).toLowerCase();
         },
@@ -750,10 +915,6 @@ $.fn["word-problemsLoad"] = function() {
 
         group: function(i) {
             return collections.get(i - 1)[1];
-        },
-
-        groupVerb: function(i) {
-            return collections.get(i - 1)[2];
         },
 
         store: function(i) {
@@ -800,22 +961,27 @@ $.fn["word-problemsLoad"] = function() {
             return distances.get(i - 1);
         },
 
+        // TODO(jeresig): I18N: Kill this.
         rode: function(i) {
             return distanceActivities.get(i - 1).past;
         },
 
+        // TODO(jeresig): I18N: Kill this.
         ride: function(i) {
             return distanceActivities.get(i - 1).present;
         },
 
+        // TODO(jeresig): I18N: Kill this.
         bike: function(i) {
             return distanceActivities.get(i - 1).noun;
         },
 
+        // TODO(jeresig): I18N: Kill this.
         biked: function(i) {
             return distanceActivities.get(i - 1).done;
         },
 
+        // TODO(jeresig): I18N: Kill this.
         biking: function(i) {
             return distanceActivities.get(i - 1).continuous;
         },
