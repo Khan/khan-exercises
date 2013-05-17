@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>data-if/data-else Test</title>
+</head>
+<body>
+    <!-- Test 1: Inside problem: multiplying_fractions_word_problems -->
+    <p class="problem"><span data-if="isMale(1)" data-unwrap="">
+        Every day <var>person( 1 )</var> put the extra change from his pockets into a glass jar. After
+        <var>randRange( 10, 30 )</var> weeks, he had saved up $<var>AMOUNT</var>.00. <var>person( 1 )</var>
+    </span><span data-else="" data-unwrap="">
+        Every day <var>person( 1 )</var> put the extra change from her pockets into a glass jar. After
+        <var>randRange( 10, 30 )</var> weeks, she had saved up $<var>AMOUNT</var>.00. <var>person( 1 )</var>
+    </span></p>
+
+    <!-- Test 2: Inside question: negative_number_word_problems -->
+    <p class="question"><span data-if="isMale(1)" data-unwrap="">At the end of the summer what was <var>person( 1 )</var>'s net worth, assuming he had no other assets or liabilities?</span><span data-else="" data-unwrap="">At the end of the summer what was <var>person( 1 )</var>'s net worth, assuming she had no other assets or liabilities?</span></p>
+
+    <!-- Test 3: data-if: linear_equation_word_problems -->
+    <p data-if="(R - Q) % P !== 0"><span data-if="isMale(1)" data-unwrap="">
+        Since <var>person(1)</var> won't get points unless
+        he completes the entire level, we round
+    </span><span data-else="" data-unwrap="">
+        Since <var>person(1)</var> won't get points unless
+        she completes the entire level, we round
+    </span></p>
+
+    <!-- Test 4: data-else: linear_equation_word_problems -->
+    <p data-else=""><span data-if="isMale(1)" data-unwrap="">
+        Since <var>person(1)</var> won't get points unless
+        he completes the entire level, we round
+    </span><span data-else="" data-unwrap="">
+        Since <var>person(1)</var> won't get points unless
+        she completes the entire level, we round
+    </span></p>
+</body>
+</html>

@@ -296,17 +296,17 @@
             </div>
 
             <div class="question">
-                <p>In <var>B</var> years, <var>person(1)</var> will be <var>A</var> times as old as <var>he(1)</var> is right now.</p>
+                <p data-if="isMale(1)">In <var>B</var> years, <var>person(1)</var> will be <var>A</var> times as old as he is right now.</p><p data-else="">In <var>B</var> years, <var>person(1)</var> will be <var>A</var> times as old as she is right now.</p>
 
-                <p>How old is <var>he(1)</var> right now?</p>
+                <p data-if="isMale(1)">How old is he right now?</p><p data-else="">How old is she right now?</p>
             </div>
             <div class="solution"><var>B / (A - 1)</var></div>
 
             <div class="hints">
                 <p>We can use the given information to write down an equation about <var>person(1)</var>'s age.</p>
                 <p>Let <var>person(1)</var>'s age be <code><var>personVar(1)</var></code>.</p>
-                <p>In <var>B</var> years, <var>he(1)</var> will be <code><var>personVar(1)</var> + <var>B</var></code> years old.</p>
-                <p>At that time, <var>he(1)</var> will also be <code><var>A</var> <var>personVar(1)</var></code> years old.</p>
+                <p data-if="isMale(1)">In <var>B</var> years, he will be <code><var>personVar(1)</var> + <var>B</var></code> years old.</p><p data-else="">In <var>B</var> years, she will be <code><var>personVar(1)</var> + <var>B</var></code> years old.</p>
+                <p data-if="isMale(1)">At that time, he will also be <code><var>A</var> <var>personVar(1)</var></code> years old.</p><p data-else="">At that time, she will also be <code><var>A</var> <var>personVar(1)</var></code> years old.</p>
                 <div>
                     <p>Writing this information as an equation, we get:</p>
                     <div>

@@ -40,7 +40,7 @@
             </span><span data-if="HALF[n]"><var>HALF_IMAGE</var>
             </span><span data-else=""></span><span data-each="(7 - DATA[n]) times">&nbsp;</span>
         </div>
-        <span style="height: 50px; vertical-align: top; line-height: 50px;"><var>FULL_IMAGE</var> = <var>VALUE_PER_IMG</var> <var>BADGE</var> <var>plural( "badge", VALUE_PER_IMG )</var></span>
+        <span data-if="isSingular(VALUE_PER_IMG)" style="height: 50px; vertical-align: top; line-height: 50px;"><var>FULL_IMAGE</var> = <var>VALUE_PER_IMG</var> <var>BADGE</var> badge</span><span data-else="" style="height: 50px; vertical-align: top; line-height: 50px;"><var>FULL_IMAGE</var> = <var>VALUE_PER_IMG</var> <var>BADGE</var> badges</span>
     </div>
 
     <div class="problems">
@@ -57,7 +57,7 @@
                 <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>ANSWER</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
-                <p>The key at the bottom of the pictograph shows that each full symbol represents <var>plural( VALUE_PER_IMG, "badge" )</var>.</p>
+                <p data-if="isSingular(VALUE_PER_IMG)">The key at the bottom of the pictograph shows that each full symbol represents <var>VALUE_PER_IMG</var> badge.</p><p data-else="">The key at the bottom of the pictograph shows that each full symbol represents <var>VALUE_PER_IMG</var> badges.</p>
                 <div>
                     <p>Find <var>person( PERSON + 1 )</var>'s row in the table:</p>
                     <div class="fake_row">
@@ -67,22 +67,29 @@
                     </div>
                 </div>
                 <p>
-                    There <var>plural( "is", DATA[PERSON] )</var> <var>plural( DATA[ PERSON ], "full symbol" )</var><span data-if="HALF[ PERSON ]"> and 1 half symbol</span>.
-                    <span data-if="HALF[ PERSON ]">The full symbols represent <var>plural( VALUE_PER_IMG, "badge" )</var>, so the half symbol must represent <var>plural( VALUE_PER_IMG/2, "badge" )</var>.</span>
+                    <span data-if="isSingular(DATA[PERSON])">There is <var>DATA[PERSON]</var> full symbol<span data-if="HALF[ PERSON ]"> and 1 half symbol</span>.</span><span data-else="">There are <var>DATA[PERSON]</var> full symbols<span data-if="HALF[ PERSON ]"> and 1 half symbol</span>.</span>
+                    <span data-if="HALF[ PERSON ]">
+                        <span data-if="isSingular(VALUE_PER_IMG)">The full symbols represent <var>VALUE_PER_IMG</var> badge.</span><span data-else="">The full symbols represent <var>VALUE_PER_IMG</var> badges.</span>
+                        <span data-if="isSingular(VALUE_PER_IMG/2)">The half symbol must represent <var>VALUE_PER_IMG/2</var> badge.</span><span data-else="">The half symbol must represent <var>VALUE_PER_IMG/2</var> badges.</span>
+                    </span>
                 </p>
 
                 <div>
                     <div>
                         <code><var>DATA[ PERSON ]</var></code> <var>plural( "symbol", DATA[ PERSON ] )</var>
-                        <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbol <code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code>
-                        <var>plural( "badge", DATA[ PERSON ] * VALUE_PER_IMG )</var>.
-                        <span data-if="HALF[ PERSON ]">
-                            <br><code>1</code> half symbol <code> \times <var>VALUE_PER_IMG/2</var></code> <var>plural( "badge", VALUE_PER_IMG / 2 )</var> per half symbol <code> = <var>VALUE_PER_IMG / 2</var></code>
-                            <var>plural( "badge", VALUE_PER_IMG / 2 )</var>.
-                        </span>
+                        <code> \times </code>
+                        <span data-if="isSingular(VALUE_PER_IMG)"><code><var>VALUE_PER_IMG</var></code> badge per symbol</span><span data-else=""><code><var>VALUE_PER_IMG</var></code> badges per symbol</span>
+                        <span data-if="isSingular(DATA[ PERSON ] * VALUE_PER_IMG)"><code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code> badge.</span><span data-else=""><code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code> badges.</span>
+                        <span data-if="HALF[ PERSON ]"><span data-if="isSingular(VALUE_PER_IMG / 2)" data-unwrap="">
+                            <br><code>1</code> half symbol <code> \times <var>VALUE_PER_IMG/2</var></code> badge per half symbol <code> = <var>VALUE_PER_IMG / 2</var></code>
+                            badge.
+                        </span><span data-else="" data-unwrap="">
+                            <br><code>1</code> half symbol <code> \times <var>VALUE_PER_IMG/2</var></code> badges per half symbol <code> = <var>VALUE_PER_IMG / 2</var></code>
+                            badges.
+                        </span></span>
                     </div>
                 </div>
-                <p><var>person( PERSON + 1 )</var> earned <code><var>ANSWER</var></code> <var>BADGE</var> <var>plural( "badge", ANSWER )</var>.</p>
+                <p data-if="isSingular(ANSWER)"><var>person( PERSON + 1 )</var> earned <code><var>ANSWER</var></code> <var>BADGE</var> badge.</p><p data-else=""><var>person( PERSON + 1 )</var> earned <code><var>ANSWER</var></code> <var>BADGE</var> badges.</p>
             </div>
         </div>
 
@@ -93,7 +100,7 @@
                 <var id="NUM_SYMBOLS">mixedFractionFromImproper( toFraction( VALUE / VALUE_PER_IMG, 0.001 )[0], toFraction( VALUE / VALUE_PER_IMG, 0.001 )[1] )</var>
             </div>
 
-            <p class="question">Who earned <code><var>VALUE</var></code> <var>BADGE</var> <var>plural( "badge", VALUE )</var>?</p>
+            <p class="question"><span data-if="isSingular(VALUE)" data-unwrap="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badge?</span><span data-else="" data-unwrap="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badges?</span></p>
 
             <div class="solution"><var>person( PERSON + 1 )</var></div>
             <ul class="choices" data-category="true">
@@ -105,8 +112,8 @@
             </ul>
 
             <div class="hints">
-                <p>The key at the bottom of the pictograph shows that each full symbol represents <var>plural( VALUE_PER_IMG, "badge" )</var>.</p>
-                <p>How many symbols are needed to represent <code><var>VALUE</var></code> <var>plural( "badge", VALUE )</var>?</p>
+                <p data-if="isSingular(VALUE_PER_IMG)">The key at the bottom of the pictograph shows that each full symbol represents <var>VALUE_PER_IMG</var> badge.</p><p data-else="">The key at the bottom of the pictograph shows that each full symbol represents <var>VALUE_PER_IMG</var> badges.</p>
+                <p data-if="isSingular(VALUE)">How many symbols are needed to represent <code><var>VALUE</var></code> badge?</p><p data-else="">How many symbols are needed to represent <code><var>VALUE</var></code> badges?</p>
                 <p>
                     <code>
                         \dfrac{<var>VALUE</var> \text{ <var>plural( "badge", VALUE )</var>}}{<var>VALUE_PER_IMG</var> \text{ <var>plural( "symbol", VALUE_PER_IMG )</var> per badge}} =
@@ -114,15 +121,15 @@
                     </code>
                 </p>
                 <div>
-                    <p>Who has <code><var>NUM_SYMBOLS</var></code> <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var> next to <var>his( PERSON + 1 )</var> name?</p>
+                    <p data-if="isMale(PERSON + 1)"><span data-if="isSingular(VALUE / VALUE_PER_IMG)" data-unwrap="">Who has <code><var>NUM_SYMBOLS</var></code> symbol next to his name?</span><span data-else="" data-unwrap="">Who has <code><var>NUM_SYMBOLS</var></code> symbols next to his name?</span></p><p data-else=""><span data-if="isSingular(VALUE / VALUE_PER_IMG)" data-unwrap="">Who has <code><var>NUM_SYMBOLS</var></code> symbol next to her name?</span><span data-else="" data-unwrap="">Who has <code><var>NUM_SYMBOLS</var></code> symbols next to her name?</span></p>
                     <div class="fake_row">
                         <span>???</span><span data-each="DATA[ PERSON ] times"><var>FULL_IMAGE</var>
                         </span><span data-if="HALF[ PERSON ]"><var>HALF_IMAGE</var>
                         </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON ]) times">&nbsp;</span>
                     </div>
                 </div>
-                <p><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var> next to <var>his( PERSON + 1 )</var> name.</p>
-                <p><var>person( PERSON + 1 )</var> earned <code><var>VALUE</var></code> <var>BADGE</var> <var>plural( "badge", VALUE )</var>.</p>
+                <p data-if="isMale(PERSON + 1)"><span data-if="isSingular(VALUE / VALUE_PER_IMG)" data-unwrap=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbol next to his name.</span><span data-else="" data-unwrap=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbols next to his name.</span></p><p data-else=""><span data-if="isSingular(VALUE / VALUE_PER_IMG)" data-unwrap=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbol next to her name.</span><span data-else="" data-unwrap=""><var>person( PERSON + 1 )</var> has <code><var>NUM_SYMBOLS</var></code> symbols next to her name.</span></p>
+                <p data-if="isSingular(VALUE)"><var>person( PERSON + 1 )</var> earned <code><var>VALUE</var></code> <var>BADGE</var> badge.</p><p data-else=""><var>person( PERSON + 1 )</var> earned <code><var>VALUE</var></code> <var>BADGE</var> badges.</p>
             </div>
         </div>
 
@@ -144,7 +151,7 @@
                 <p><span class="sol short40" data-forms="integer, decimal" style="padding-right: 5px"><var>VAL1 - VAL2</var></span> <var>BADGE</var> badges</p>
             </div>
             <div class="hints">
-                <p>The key at the bottom of the pictograph shows that each full symbol represents <var>plural( VALUE_PER_IMG, "badge" )</var>.</p>
+                <p data-if="isSingular(VALUE_PER_IMG)">The key at the bottom of the pictograph shows that each full symbol represents <var>VALUE_PER_IMG</var> badge.</p><p data-else="">The key at the bottom of the pictograph shows that each full symbol represents <var>VALUE_PER_IMG</var> badges.</p>
                 <div>
                     <p>Find <var>person( PERSON1 + 1 )</var>'s and <var>person( PERSON2 + 1 )</var>'s rows in the table:</p>
                     <div class="fake_row">
@@ -158,18 +165,25 @@
                         </span><span data-else=""></span><span data-each="(7 - DATA[ PERSON2 ]) times">&nbsp;</span>
                     </div>
                 </div>
-                <p>
-                    <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more <var>plural( "symbol", SYMBOL_DIFF )</var> next to <var>his( PERSON1 + 1 )</var> name than <var>person( PERSON2 + 1 )</var> does.
-                </p>
+                <p data-if="isMale(PERSON1 + 1)"><span data-if="isSingular(SYMBOL_DIFF)" data-unwrap="">
+                    <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more symbol next to his name than <var>person( PERSON2 + 1 )</var> does.
+                </span><span data-else="" data-unwrap="">
+                    <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more symbols next to his name than <var>person( PERSON2 + 1 )</var> does.
+                </span></p><p data-else=""><span data-if="isSingular(SYMBOL_DIFF)" data-unwrap="">
+                    <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more symbol next to her name than <var>person( PERSON2 + 1 )</var> does.
+                </span><span data-else="" data-unwrap="">
+                    <var>person( PERSON1 + 1 )</var> has <code><var>PRETTY_SYM_DIFF</var></code> more symbols next to her name than <var>person( PERSON2 + 1 )</var> does.
+                </span></p>
 
                 <div>
                     <div>
                         <code><var>PRETTY_SYM_DIFF</var></code> <var>plural( "symbol", SYMBOL_DIFF )</var>
-                        <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbol <code> = <var>VAL1 - VAL2</var></code>
-                        <var>plural( "badge", VAL1 - VAL2 )</var>.
+                        <code> \times </code>
+                        <span data-if="isSingular(VALUE_PER_IMG)"><code><var>VALUE_PER_IMG</var></code> badge per symbol</span><span data-else=""><code><var>VALUE_PER_IMG</var></code> badges per symbol</span>
+                        <span data-if="isSingular(VAL1 - VAL2)"><code> = <var>VAL1 - VAL2</var></code> badge.</span><span data-else=""><code> = <var>VAL1 - VAL2</var></code> badges.</span>
                     </div>
                 </div>
-                <p><var>person( PERSON1 + 1 )</var> earned <code><var>VAL1 - VAL2</var></code> more <var>BADGE</var> <var>plural( "badge", VAL1 - VAL2 )</var> than <var>person( PERSON2 + 1 )</var>.</p>
+                <p data-if="isSingular(VAL1 - VAL2)"><var>person( PERSON1 + 1 )</var> earned <code><var>VAL1 - VAL2</var></code> more <var>BADGE</var> badge than <var>person( PERSON2 + 1 )</var>.</p><p data-else=""><var>person( PERSON1 + 1 )</var> earned <code><var>VAL1 - VAL2</var></code> more <var>BADGE</var> badges than <var>person( PERSON2 + 1 )</var>.</p>
             </div>
         </div>
 
@@ -188,22 +202,25 @@
                 <p>Start by counting the total number of <var>BADGE</var> symbols.</p>
                 <p>There are <code><var>FULL_SYM</var></code> symbols<span data-if="HALF_SYM !== 0"> and <code><var>HALF_SYM</var></code> half symbols</span>.</p>
                 <p>
-                    Each symbol represents <code><var>VALUE_PER_IMG</var></code> <var>BADGE</var> <var>plural( "badge", VALUE_PER_IMG )</var><span data-if="HALF_SYM !== 0">
-                    and each half symbol represents <code><var>VALUE_PER_IMG / 2</var></code> <var>BADGE</var> <var>plural( "badge", VALUE_PER_IMG / 2 )</var></span>.
+                    <span data-if="isSingular(VALUE_PER_IMG)">Each symbol represents <code><var>VALUE_PER_IMG</var></code> <var>BADGE</var> badge.</span><span data-else="">Each symbol represents <code><var>VALUE_PER_IMG</var></code> <var>BADGE</var> badges.</span>
+                    <span data-if="HALF_SYM !== 0"><span data-if="isSingular(VALUE_PER_IMG / 2)" data-unwrap="">Each half symbol represents <code><var>VALUE_PER_IMG / 2</var></code> <var>BADGE</var> badge.</span><span data-else="" data-unwrap="">Each half symbol represents <code><var>VALUE_PER_IMG / 2</var></code> <var>BADGE</var> badges.</span></span>
                 </p>
                 <div>
                     <div>
                         <code><var>FULL_SYM</var></code> <var>plural( "symbol", FULL_SYM )</var>
-                        <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <var>plural( "badge", VALUE_PER_IMG )</var> per symbol <code> = <var>FULL_SYM * VALUE_PER_IMG</var></code>
-                        <var>plural( "badge", FULL_SYM * VALUE_PER_IMG )</var>.
+                        <code> \times </code>
+                        <span data-if="isSingular(VALUE_PER_IMG)"><code><var>VALUE_PER_IMG</var></code> badge per symbol</span><span data-else=""><code><var>VALUE_PER_IMG</var></code> badges per symbol</span>
+                        <span data-if="isSingular(FULL_SYM * VALUE_PER_IMG)"><code> = <var>FULL_SYM * VALUE_PER_IMG</var></code> badge.</span><span data-else=""><code> = <var>FULL_SYM * VALUE_PER_IMG</var></code> badges.</span>
                         <span data-if="HALF_SYM">
-                            <br><code><var>HALF_SYM</var></code> half <var>plural( "symbol", HALF_SYM )</var>
-                            <code> \times <var>VALUE_PER_IMG/2</var></code> <var>plural( "badge", VALUE_PER_IMG / 2 )</var> per half symbol <code> = <var>HALF_SYM * VALUE_PER_IMG / 2</var></code>
-                            <var>plural( "badge", HALF_SYM * VALUE_PER_IMG / 2 )</var>.
+                            <br><span data-if="isSingular(HALF_SYM)"><code><var>HALF_SYM</var></code> half symbol</span><span data-else=""><code><var>HALF_SYM</var></code> half symbols</span>
+                            <span data-if="isSingular(VALUE_PER_IMG / 2)"><code> \times <var>VALUE_PER_IMG/2</var></code> badge per half symbol</span><span data-else=""><code> \times <var>VALUE_PER_IMG/2</var></code> badges per half symbol</span>
+                            <span data-if="isSingular(HALF_SYM * VALUE_PER_IMG / 2)"><code> = <var>HALF_SYM * VALUE_PER_IMG / 2</var></code>
+                            badge.</span><span data-else=""><code> = <var>HALF_SYM * VALUE_PER_IMG / 2</var></code>
+                            badges.</span>
                         </span>
                     </div>
                 </div>
-                <p>All together, everyone earned <code><var>TOTAL</var></code> <var>BADGE</var> <var>plural( "badge", TOTAL )</var>.</p>
+                <p data-if="isSingular(TOTAL)">All together, everyone earned <code><var>TOTAL</var></code> <var>BADGE</var> badge.</p><p data-else="">All together, everyone earned <code><var>TOTAL</var></code> <var>BADGE</var> badges.</p>
             </div>
         </div>
 

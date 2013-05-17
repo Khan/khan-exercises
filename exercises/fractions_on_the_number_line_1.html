@@ -85,8 +85,10 @@
                         line( [ 0, 0 ], [ SOLUTION, 0 ] );
                         graph.movablePoint.visibleShape.toFront();
                     </div>
-                    <p>The orange dot should be shifted <span class="hint_blue"><code><strong><var>NUMERATOR</var></strong></code></span>
-                    segment<var>plural(NUMERATOR)</var> over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> =
+                    <p data-if="isSingular(NUMERATOR)">The orange dot should be shifted <span class="hint_blue"><code><strong><var>NUMERATOR</var></strong></code></span>
+                    segment over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> =
+                    <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code></p><p data-else="">The orange dot should be shifted <span class="hint_blue"><code><strong><var>NUMERATOR</var></strong></code></span>
+                    segments over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> =
                     <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code></p>
                 </div>
 

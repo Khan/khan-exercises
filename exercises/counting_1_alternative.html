@@ -20,9 +20,12 @@
 					<var>person( 1 )</var> {had to <var>DO</var>|was assigned} <var>PROBLEMS</var> <var>START</var> through
 					<var>END</var> for homework {{last {week|night}}|tonight}.
 				</p>
-				<p class="question spin">
-					If <var>person( 1 )</var> <var>DID</var> all of the <var>PROBLEMS</var> <var>he( 1 )</var> was assigned, how
-					many <var>PROBLEMS</var> did <var>he( 1 )</var> <var>DO</var>?
+				<p class="question spin" data-if="isMale(1)">
+					If <var>person( 1 )</var> <var>DID</var> all of the <var>PROBLEMS</var> he was assigned, how
+					many <var>PROBLEMS</var> did he <var>DO</var>?
+				</p><p class="question spin" data-else="">
+					If <var>person( 1 )</var> <var>DID</var> all of the <var>PROBLEMS</var> she was assigned, how
+					many <var>PROBLEMS</var> did she <var>DO</var>?
 				</p>
 
 				<div class="solution" data-type="multiple">
@@ -75,18 +78,29 @@
 						</code></p>
 					</div>
 
-					<p>
+					<p data-if="isMale(1)">
 						Now instead of thinking about <span class="hint_green"><var>PROBLEMS</var> <code><var>START</var></code>
 						through <code><var>END</var></code></span>, we can think about how many <var>PROBLEMS</var>
-						<var>person( 1 )</var> would have <var>DONE</var> if <var>he( 1 )</var> were assigned
+						<var>person( 1 )</var> would have <var>DONE</var> if he were assigned
+						<span class="hint_pink"><var>PROBLEMS</var> <code>1</code> though <code><var>ANSWER</var></code></span>.
+					</p><p data-else="">
+						Now instead of thinking about <span class="hint_green"><var>PROBLEMS</var> <code><var>START</var></code>
+						through <code><var>END</var></code></span>, we can think about how many <var>PROBLEMS</var>
+						<var>person( 1 )</var> would have <var>DONE</var> if she were assigned
 						<span class="hint_pink"><var>PROBLEMS</var> <code>1</code> though <code><var>ANSWER</var></code></span>.
 					</p>
 
-					<p>
+					<p data-if="isMale(1)">
 						When we think about it this way, we can see that <var>person( 1 )</var> would have <var>DONE</var>
 						<var>ANSWER</var> <var>PROBLEMS</var>. Hopefully it also makes sense why we can't just subtract
 						the first problem number from the last problem number, since if <var>person( 1 )</var> were
-						assigned <var>PROBLEMS</var> 1 through <var>ANSWER</var>, <var>he( 1 )</var> was assigned <var>ANSWER</var>
+						assigned <var>PROBLEMS</var> 1 through <var>ANSWER</var>, he was assigned <var>ANSWER</var>
+						<var>PROBLEMS</var>, not <var>ANSWER-1</var>.
+					</p><p data-else="">
+						When we think about it this way, we can see that <var>person( 1 )</var> would have <var>DONE</var>
+						<var>ANSWER</var> <var>PROBLEMS</var>. Hopefully it also makes sense why we can't just subtract
+						the first problem number from the last problem number, since if <var>person( 1 )</var> were
+						assigned <var>PROBLEMS</var> 1 through <var>ANSWER</var>, she was assigned <var>ANSWER</var>
 						<var>PROBLEMS</var>, not <var>ANSWER-1</var>.
 					</p>
 
@@ -189,8 +203,10 @@
 					<var id="LENGTH">randRange( 10, 20 )</var>
 				</div>
 				<p><var>person( 1 )</var> is building a straight fence, with posts one meter apart.</p>
-				<p class="question">
-					If the fence is <var>LENGTH</var> meters long, how many fence posts does <var>he( 1 )</var> need?
+				<p class="question" data-if="isMale(1)">
+					If the fence is <var>LENGTH</var> meters long, how many fence posts does he need?
+				</p><p class="question" data-else="">
+					If the fence is <var>LENGTH</var> meters long, how many fence posts does she need?
 				</p>
 				<div class="solution" data-type="multiple">
 					<p><span class="sol" data-forms="integer"><var>LENGTH + 1</var></span> fence posts</p>
@@ -221,8 +237,11 @@
 							graph.length = label( [ 0.5, -0.4 ], "1 meter", "below", false ).css({ color: BLUE });
 
 						</div>
-						<p>
-							If the fence is <span class="hint_blue">one meter long</span>, <var>he( 1 )</var> needs
+						<p data-if="isMale(1)">
+							If the fence is <span class="hint_blue">one meter long</span>, he needs
+							<span class="hint_green">two posts</span> (one for each end).
+						</p><p data-else="">
+							If the fence is <span class="hint_blue">one meter long</span>, she needs
 							<span class="hint_green">two posts</span> (one for each end).
 						</p>
 					</div>
@@ -247,8 +266,11 @@
 							});
 							graph.length = label( [ 1, -0.4 ], "2 meters", "below", false ).css({ color: BLUE });
 						</div>
-						<p>
-							If the fence is <span class="hint_blue">two meters long</span>, then <var>he( 1 )</var> needs
+						<p data-if="isMale(1)">
+							If the fence is <span class="hint_blue">two meters long</span>, then he needs
+							<span class="hint_green">three posts</span>, and so on.
+						</p><p data-else="">
+							If the fence is <span class="hint_blue">two meters long</span>, then she needs
 							<span class="hint_green">three posts</span>, and so on.
 						</p>
 					</div>
@@ -275,8 +297,11 @@
 							});
 							graph.length = label( [ LENGTH / 2, -0.4 ], LENGTH + " meters", "below", false ).css({ color: BLUE });
 						</div>
-						<p class="final_answer">
-							Therefore, for <var>his( 1 )</var> <span class="hint_blue"><var>LENGTH</var> meter</span> fence,
+						<p class="final_answer" data-if="isMale(1)">
+							Therefore, for his <span class="hint_blue"><var>LENGTH</var> meter</span> fence,
+							<var>person( 1 )</var> needs <span class="hint_green"><var>LENGTH + 1</var> posts</span>.
+						</p><p class="final_answer" data-else="">
+							Therefore, for her <span class="hint_blue"><var>LENGTH</var> meter</span> fence,
 							<var>person( 1 )</var> needs <span class="hint_green"><var>LENGTH + 1</var> posts</span>.
 						</p>
 					</div>

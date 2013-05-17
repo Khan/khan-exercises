@@ -37,8 +37,8 @@
                 <var id="TIME_DOWN">60 * DISTANCE / RATE_DOWN</var>
                 <var id="RATE_AVG">60 * 2 * DISTANCE / ( TIME_UP + TIME_DOWN )</var>
             </div>
-            <p class="problem">Starting at home, <var>person( 1 )</var> traveled uphill to the <var>store( 1 )</var> store for <var>TIME_UP</var> minutes at just <var>RATE_UP</var> mph. <var>He( 1 )</var> then traveled back home along the same path downhill at a speed of <var>K * RATE_UP</var> mph.</p>
-            <p class="question">What is <var>his( 1 )</var> average speed for the entire trip from home to the <var>store( 1 )</var> store and back?</p>
+            <p class="problem" data-if="isMale(1)">Starting at home, <var>person( 1 )</var> traveled uphill to the <var>store( 1 )</var> store for <var>TIME_UP</var> minutes at just <var>RATE_UP</var> mph. He then traveled back home along the same path downhill at a speed of <var>K * RATE_UP</var> mph.</p><p class="problem" data-else="">Starting at home, <var>person( 1 )</var> traveled uphill to the <var>store( 1 )</var> store for <var>TIME_UP</var> minutes at just <var>RATE_UP</var> mph. She then traveled back home along the same path downhill at a speed of <var>K * RATE_UP</var> mph.</p>
+            <p class="question" data-if="isMale(1)">What is his average speed for the entire trip from home to the <var>store( 1 )</var> store and back?</p><p class="question" data-else="">What is her average speed for the entire trip from home to the <var>store( 1 )</var> store and back?</p>
 
             <div class="solution" data-type="multiple">
                 <p><span class="sol" style="padding-right: 5px"><var>RATE_AVG</var></span> mph</p>
@@ -46,7 +46,7 @@
 
             <div class="hints">
                 <p>The average speed is not just the average of <var>RATE_UP</var> mph and <var>RATE_DOWN</var> mph.</p>
-                <p><var>He( 1 )</var> traveled for a longer time uphill (since <var>he( 1 )</var> was going slower), so we can estimate that the average speed is closer to <var>RATE_UP</var> mph than <var>RATE_DOWN</var> mph.</p>
+                <p data-if="isMale(1)">He traveled for a longer time uphill (since he was going slower), so we can estimate that the average speed is closer to <var>RATE_UP</var> mph than <var>RATE_DOWN</var> mph.</p><p data-else="">She traveled for a longer time uphill (since she was going slower), so we can estimate that the average speed is closer to <var>RATE_UP</var> mph than <var>RATE_DOWN</var> mph.</p>
                 <div>
                     <p>To calculate the average speed, we will make use of the following:</p>
                     <p><code>\text{average speed} = \dfrac{\color{<var>KhanUtil.BLUE</var>}{\text{total distance}}}{\color{<var>KhanUtil.ORANGE</var>}{\text{total time}}}</code></p>

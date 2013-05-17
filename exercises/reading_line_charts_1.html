@@ -29,8 +29,8 @@
     </div>
     <div class="problems">
         <div>
-            <p><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> <var>he( 1 )</var> saw every day this week. </p>
-            <p class="question">How many <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> did <var>he( 1 )</var> see on <var>DAYS[ INDEX ]</var>?</p>
+            <p data-if="isMale(1)"><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> he saw every day this week. </p><p data-else=""><var>person( 1 )</var> wrote down how many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> she saw every day this week. </p>
+            <p class="question" data-if="isMale(1)">How many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> did he see on <var>DAYS[ INDEX ]</var>?</p><p class="question" data-else="">How many <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> did she see on <var>DAYS[ INDEX ]</var>?</p>
             <div class="graphie" id="scatter">
                 var width = 10;
                 var height = 10;
@@ -61,7 +61,7 @@
                         graph.lc.labelDataPoint( INDEX );
                     </div>
                 </div>
-                <p><var>He( 1 )</var> saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural( clothing( 1 ) )</var> on <var>DAYS[ INDEX ]</var>.</p>
+                <p data-if="isMale(1)">He saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> on <var>DAYS[ INDEX ]</var>.</p><p data-else="">She saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> on <var>DAYS[ INDEX ]</var>.</p>
             </div>
         </div>
     </div>

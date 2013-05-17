@@ -154,10 +154,15 @@
                     wherever it's positive.
                 </p>
                 <div>
-                    <p>
-                        The <var>plural("interval", FNX_INTERVALS_POS.length)</var>
+                    <p data-if="isSingular(FNX_INTERVALS_POS.length)">
+                        The interval
                         where <code>f(x)</code> is positive
-                        <var>plural("is", FNX_INTERVALS_POS.length)</var>
+                        is
+                        <span class="hint_orange">highlighted</span> above.
+                    </p><p data-else="">
+                        The intervals
+                        where <code>f(x)</code> is positive
+                        are
                         <span class="hint_orange">highlighted</span> above.
                     </p>
                     <div class="graphie" data-update="fnplot">
@@ -202,10 +207,15 @@
                     wherever it's negative.
                 </p>
                 <div>
-                    <p>
-                        The <var>plural("interval", FNX_INTERVALS_NEG.length)</var>
+                    <p data-if="isSingular(FNX_INTERVALS_NEG.length)">
+                        The interval
                         where <code>f(x)</code> is negative
-                        <var>plural("is", FNX_INTERVALS_NEG.length)</var>
+                        is
+                        <span class="hint_orange">highlighted</span> above.
+                    </p><p data-else="">
+                        The intervals
+                        where <code>f(x)</code> is negative
+                        are
                         <span class="hint_orange">highlighted</span> above.
                     </p>
                     <div class="graphie" data-update="fnplot">

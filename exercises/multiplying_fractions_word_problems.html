@@ -17,8 +17,12 @@
                     <var id="SOLUTION">N / D * INVITEES</var>
                 </div>
 
-                <p class="problem">
-                    <var>person( 1 )</var> invited <var>INVITEES</var> friends to <var>his( 1 )</var> birthday party. Some people
+                <p class="problem" data-if="isMale(1)">
+                    <var>person( 1 )</var> invited <var>INVITEES</var> friends to his birthday party. Some people
+                    had other plans and could not attend, but <code>\frac{<var>N</var>}{<var>D</var>}</code> of the people <var>person( 1 )</var>
+                    invited were able to attend.
+                </p><p class="problem" data-else="">
+                    <var>person( 1 )</var> invited <var>INVITEES</var> friends to her birthday party. Some people
                     had other plans and could not attend, but <code>\frac{<var>N</var>}{<var>D</var>}</code> of the people <var>person( 1 )</var>
                     invited were able to attend.
                 </p>
@@ -86,9 +90,13 @@
                     <var id="SOLUTION">N / D * AMOUNT</var>
                 </div>
 
-                <p class="problem">
+                <p class="problem" data-if="isMale(1)">
                     After saving up for a while, <var>person( 1 )</var> had $<var>AMOUNT</var>.00 in
-                    <var>his( 1 )</var> piggy bank, and <var>he( 1 )</var> spent
+                    his piggy bank, and he spent
+                    <code>\frac{<var>N</var>}{<var>D</var>}</code> of that money on books at the bookstore.
+                </p><p class="problem" data-else="">
+                    After saving up for a while, <var>person( 1 )</var> had $<var>AMOUNT</var>.00 in
+                    her piggy bank, and she spent
                     <code>\frac{<var>N</var>}{<var>D</var>}</code> of that money on books at the bookstore.
                 </p>
 
@@ -153,9 +161,13 @@
                     <var id="SOLUTION">roundTo( 2, N / D * AMOUNT )</var>
                 </div>
 
-                <p class="problem">
-                    Every day <var>person( 1 )</var> put the extra change from <var>his( 1 )</var> pockets into a glass jar. After
-                    <var>randRange( 10, 30 )</var> weeks, <var>he( 1 )</var> had saved up $<var>AMOUNT</var>.00. <var>person( 1 )</var>
+                <p class="problem" data-if="isMale(1)">
+                    Every day <var>person( 1 )</var> put the extra change from his pockets into a glass jar. After
+                    <var>randRange( 10, 30 )</var> weeks, he had saved up $<var>AMOUNT</var>.00. <var>person( 1 )</var>
+                    decided to use <code>\frac{<var>N</var>}{<var>D</var>}</code> of the money from the jar to buy canned food for a homeless shelter.
+                </p><p class="problem" data-else="">
+                    Every day <var>person( 1 )</var> put the extra change from her pockets into a glass jar. After
+                    <var>randRange( 10, 30 )</var> weeks, she had saved up $<var>AMOUNT</var>.00. <var>person( 1 )</var>
                     decided to use <code>\frac{<var>N</var>}{<var>D</var>}</code> of the money from the jar to buy canned food for a homeless shelter.
                 </p>
 
@@ -220,8 +232,12 @@
                     <var id="SOLUTION">N / D * GALLONS</var>
                 </div>
 
-                <p class="problem">
-                    Before leaving on a road trip, <var>person( 1 )</var> filled up <var>his( 1 )</var> gas tank, which holds
+                <p class="problem" data-if="isMale(1)">
+                    Before leaving on a road trip, <var>person( 1 )</var> filled up his gas tank, which holds
+                    <var>GALLONS</var> gallons of gas. After <var>0.5 * randRange( 3 / 0.5, 10 / 0.5 )</var> hours, <var>person( 1 )</var>
+                    noticed that the gas tank was <code>\frac{<var>N</var>}{<var>D</var>}</code> full.
+                </p><p class="problem" data-else="">
+                    Before leaving on a road trip, <var>person( 1 )</var> filled up her gas tank, which holds
                     <var>GALLONS</var> gallons of gas. After <var>0.5 * randRange( 3 / 0.5, 10 / 0.5 )</var> hours, <var>person( 1 )</var>
                     noticed that the gas tank was <code>\frac{<var>N</var>}{<var>D</var>}</code> full.
                 </p>
@@ -233,8 +249,12 @@
                 </div>
 
                 <div class="hints">
-                    <p>
-                        Since a fraction of the gas in <var>his( 1 )</var> tank was left, we just need to figure out what
+                    <p data-if="isMale(1)">
+                        Since a fraction of the gas in his tank was left, we just need to figure out what
+                        <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>GALLONS</var></code> gallons is to find out
+                        how much gas was left in the tank.
+                    </p><p data-else="">
+                        Since a fraction of the gas in her tank was left, we just need to figure out what
                         <code>\dfrac{<var>N</var>}{<var>D</var>}</code> of <code><var>GALLONS</var></code> gallons is to find out
                         how much gas was left in the tank.
                     </p>
@@ -277,7 +297,7 @@
                             });
                         </div>
                     </div>
-                    <p><strong><var>person( 1 )</var> had <var>SOLUTION</var> gallons of gas left in <var>his( 1 )</var> tank when <var>he( 1 )</var> checked.</strong></p>
+                    <p><strong data-if="isMale(1)"><var>person( 1 )</var> had <var>SOLUTION</var> gallons of gas left in his tank when he checked.</strong><strong data-else=""><var>person( 1 )</var> had <var>SOLUTION</var> gallons of gas left in her tank when she checked.</strong></p>
                 </div>
             </div>
 
@@ -359,8 +379,11 @@
                 </div>
 
                 <div class="problem">
-                    <p>
-                        <var>person(1)</var> decided to bake cookies for the school bake sale. <var>He(1)</var> found a recipe
+                    <p data-if="isMale(1)">
+                        <var>person(1)</var> decided to bake cookies for the school bake sale. He found a recipe
+                        that called for <code>\frac{<var>N</var>}{<var>D</var>}</code> of a cup of chocolate chips.
+                    </p><p data-else="">
+                        <var>person(1)</var> decided to bake cookies for the school bake sale. She found a recipe
                         that called for <code>\frac{<var>N</var>}{<var>D</var>}</code> of a cup of chocolate chips.
                     </p>
                     <p>
@@ -419,7 +442,7 @@
                         </div>
                     </div>
                     -->
-                    <p><strong><var>person(1)</var> needed <var>plural(SOLUTION, "cup")</var> of chocolate chips to make enough cookies for the bake sale.</strong></p>
+                    <p><strong data-if="isSingular(SOLUTION)"><var>person(1)</var> needed <var>SOLUTION</var> cup of chocolate chips to make enough cookies for the bake sale.</strong><strong data-else=""><var>person(1)</var> needed <var>SOLUTION</var> cups of chocolate chips to make enough cookies for the bake sale.</strong></p>
                 </div>
             </div>
         </div>

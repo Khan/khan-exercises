@@ -45,7 +45,7 @@
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>(B * H) / 2</var></span>
-                square <var>plural(UNIT_TEXT)</var>
+                square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -65,11 +65,15 @@
                         });
                     </div>
                     <p>
-                        The base of the triangle is
-                        <var>pluralTex(B, UNIT_TEXT)</var> and the height is
-                        <var>pluralTex(H, UNIT_TEXT)</var>, so the area of the
+                        <span data-if="isSingular(B)">The base of the triangle is
+                        <code><var>B</var></code> <var>UNIT_TEXT</var>.</span><span data-else="">The base of the triangle is
+                        <code><var>B</var></code> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, B)</var>.</span>
+                        <span data-if="isSingular(H)">The height of the triangle is
+                        <code><var>H</var></code> <var>UNIT_TEXT</var>.</span><span data-else="">The height of the triangle is
+                        <code><var>H</var></code> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, H)</var>.</span>
+                        <span>Thus the area of the
                         <em>rectangle</em> shown above is <code><var>B</var>
-                        \times <var>H</var></code>.
+                        \times <var>H</var></code>.</span>
                     </p>
                 </div>
                 <p>
@@ -119,7 +123,7 @@
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>(B * H) / 2</var></span>
-                square <var>plural(UNIT_TEXT)</var>
+                square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -149,11 +153,15 @@
                             TOP / B &gt; 0.5 ? "left" : "left");
                     </div>
                     <p>
-                        The base of the triangle is
-                        <var>pluralTex(B, UNIT_TEXT)</var> and the height is
-                        <var>pluralTex(H, UNIT_TEXT)</var>, so the area of the
+                        <span data-if="isSingular(B)">The base of the triangle is
+                        <code><var>B</var></code> <var>UNIT_TEXT</var>.</span><span data-else="">The base of the triangle is
+                        <code><var>B</var></code> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, B)</var>.</span>
+                        <span data-if="isSingular(H)">The height of the triangle is
+                        <code><var>H</var></code> <var>UNIT_TEXT</var>.</span><span data-else="">The height of the triangle is
+                        <code><var>H</var></code> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, H)</var>.</span>
+                        <span>Thus the area of the
                         <em>rectangle</em> shown above is <code><var>B</var>
-                        \times <var>H</var></code>.
+                        \times <var>H</var></code>.</span>
                     </p>
                 </div>
                 <div>
@@ -259,7 +267,7 @@
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>(B * H) / 2</var></span>
-                square <var>plural(UNIT_TEXT)</var>
+                square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -270,9 +278,12 @@
                     <br>
                 </p>
                 <p>
-                    The base of the triangle is
-                    <var>pluralTex(B, UNIT_TEXT)</var> and the height is
-                    <var>pluralTex(H, UNIT_TEXT)</var>.
+                    <span data-if="isSingular(B)">The base of the triangle is
+                    <code><var>B</var></code> <var>UNIT_TEXT</var>.</span><span data-else="">The base of the triangle is
+                    <code><var>B</var></code> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, B)</var>.</span>
+                    <span data-if="isSingular(H)">The height of the triangle is
+                    <code><var>H</var></code> <var>UNIT_TEXT</var>.</span><span data-else="">The height of the triangle is
+                    <code><var>H</var></code> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, H)</var>.</span>
                 </p>
                 <p><code>
                     \text{area} = \frac{1}{2} \times <var>B</var> \times

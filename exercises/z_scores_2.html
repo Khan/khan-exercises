@@ -83,9 +83,14 @@
                     <span class="hint_blue">z-score</span> of <var>person( 1 )</var>'s exam grade.
                 </p>
                 <div>
-                    <p>
-                        Recall that we can calculate <var>his( 1 )</var> z-score by subtracting the
-                        <span class="hint_pink">mean <code>(\mu)</code></span> from <var>his(1)</var>
+                    <p data-if="isMale(1)">
+                        Recall that we can calculate his z-score by subtracting the
+                        <span class="hint_pink">mean <code>(\mu)</code></span> from his
+                        grade and then dividing by the <span class="hint_green">standard deviation
+                        <code>(\sigma)</code></span>.
+                    </p><p data-else="">
+                        Recall that we can calculate her z-score by subtracting the
+                        <span class="hint_pink">mean <code>(\mu)</code></span> from her
                         grade and then dividing by the <span class="hint_green">standard deviation
                         <code>(\sigma)</code></span>.
                     </p>
