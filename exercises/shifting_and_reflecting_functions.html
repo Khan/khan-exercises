@@ -21,9 +21,9 @@
         <div class="problems">
             <div>
                 <div class="problem">
-                    <p><code>\color{red}{f(x)}</code> is graphed in <span class="hint_red">red</span>.</p>
-                    <p><code>\color{blue}{g(x)}</code> is graphed in <span class="hint_blue">blue</span>.</p>
-                    <p>What is <code>\color{blue}{g(x)}</code> in terms of <code>\color{red}{f(x)}</code>?</p>
+                    <p><code>\red{f(x)}</code> is graphed in <span class="hint_red">red</span>.</p>
+                    <p><code>\blue{g(x)}</code> is graphed in <span class="hint_blue">blue</span>.</p>
+                    <p>What is <code>\blue{g(x)}</code> in terms of <code>\red{f(x)}</code>?</p>
                 </div>
                 <div class="graphie" id="G">
                     graphInit({
@@ -34,7 +34,7 @@
                     })
 
                     style({
-                        stroke: "red",
+                        stroke: RED,
                         strokeWidth: 2,
                         arrows: null
                     });
@@ -44,7 +44,7 @@
                     }, [-10, 10]);
 
                     style({
-                        stroke: "blue"
+                        stroke: BLUE
                     });
 
                     plot( function( x ) {
@@ -68,7 +68,7 @@
 
                 <div class="graphie" data-update="G">
                     style({
-                        stroke: "purple"
+                        stroke: PURPLE
                     });
                     plot( function( x ) {
                         return FLIP * UP_ORIG * pow(( x + X_ORIG ), 2 ) - Y_ORIG;
@@ -82,7 +82,7 @@
                 <div class="graphie" data-update="G">
                     style({
                         strokeWidth: 2,
-                        stroke: "green",
+                        stroke: GREEN,
                         arrows: "-&gt;",
                         strokeDasharray: "- "
                     });
@@ -107,7 +107,7 @@
 
                 <div class="graphie" data-update="G">
                     style({
-                        stroke: "blue",
+                        stroke: BLUE,
                         strokeWidth: 2,
                         strokeDasharray: ""
                     });
