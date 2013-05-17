@@ -169,18 +169,7 @@
                 <span data-if="TYPE === 'smallest'"><span data-if="isSingular(SOLUTION)" data-unwrap="">The <var>LOCATION</var> with the fewest <var>AMBIGUOUS_PLURAL(ITEM)</var> had <var>SOLUTION</var> <var>ITEM</var>.</span><span data-else="" data-unwrap="">The <var>LOCATION</var> with the fewest <var>AMBIGUOUS_PLURAL(ITEM)</var> had <var>SOLUTION</var> <var>AMBIGUOUS_PLURAL(ITEM, SOLUTION)</var>.</span></span>
                 <span data-else-if="TYPE === 'largest'" data-if="isSingular(SOLUTION)">The <var>LOCATION</var> with the most <var>AMBIGUOUS_PLURAL(ITEM)</var> had <var>SOLUTION</var> <var>ITEM</var>.</span><span data-else="" data-else-if="TYPE === 'largest'">The <var>LOCATION</var> with the most <var>AMBIGUOUS_PLURAL(ITEM)</var> had <var>SOLUTION</var> <var>AMBIGUOUS_PLURAL(ITEM, SOLUTION)</var>.</span>
                 <span data-else="">
-                    <span data-if="isSingular(SOLUTION)">There are <var>SOLUTION</var> <var>LOCATION</var>.</span><span data-else="">There are <var>SOLUTION</var> <var>AMBIGUOUS_PLURAL(LOCATION, SOLUTION)</var>.</span>
-                    <span data-if="isSingular(AMOUNT)">This is
-                        <span data-if="TYPE === 'how-many'">exactly</span>
-                        <span data-if="TYPE === 'less-than'">fewer than</span>
-                        <span data-if="TYPE === 'greater-than'">more than</span>
-                        <var>AMOUNT</var> <var>ITEM</var>.
-                    </span><span data-else="">This is
-                        <span data-if="TYPE === 'how-many'">exactly</span>
-                        <span data-if="TYPE === 'less-than'">fewer than</span>
-                        <span data-if="TYPE === 'greater-than'">more than</span>
-                        <var>AMOUNT</var> <var>AMBIGUOUS_PLURAL(ITEM, AMOUNT)</var>.
-                    </span>
+                    <span data-if="isSingular(SOLUTION)">There are <var>SOLUTION</var> <var>LOCATION</var> that match our question.</span><span data-else="">There are <var>SOLUTION</var> <var>AMBIGUOUS_PLURAL(LOCATION, SOLUTION)</var> that match our question.</span>
                 </span>
             </strong></p>
         </div>

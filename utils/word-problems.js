@@ -47,9 +47,12 @@ $.extend(KhanUtil, {
         KhanUtil.debugLog("ERROR: Ambiguous plural variable usage: " +
             String(word));
 
-        return "<span class='error'>" + 
-            (num == null ? this.plural(word) : this.plural(word, num)) +
-            "</span>";
+        // Check if the word is pluralizable
+        var plural_word = word && word.plural ?
+            word.plural(num) :
+            (num == null ? this.plural(word) : this.plural(word, num));
+
+        return "<span class='error'>" + plural_word + "</span>";
     },
 
     plural_form: function(word, num) {
