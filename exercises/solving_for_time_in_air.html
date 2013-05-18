@@ -19,7 +19,7 @@
                     <p class="problem">A projectile is launched at an angle of <var>ANGLE</var> degrees with an initial velocity of <var>VELOCITY</var> m/s.</p>
 
                     <div class="question">
-                        <p>What is the total time in the air (in seconds)? Use <var>G</var> as the downwards gravitational acceleration, and round your answer to one decimal place (do not round until the final answer).</p>
+                        <p>What is the total time in the air (in seconds)? Use <var>G</var> as the gravitational acceleration, and round your answer to one decimal place (do not round until the final answer).</p>
                         <div class="graphie" id="diagram">
                             init({range: [[-2, 8], [-1, 7]], scale: [20, 20] });
                             line([-2, 0], [8, 0]); <!--- ground --->
@@ -38,7 +38,14 @@
 
                     <div class="hints">
                         <div>
-                            <p>Find the <span class="hint_orange">vertical</span> and <span class="hint_green">horizontal</span> velocities using trig functions.</p>
+                            <p>
+                                Find the <span class="hint_orange">vertical</span> and <span class="hint_green">horizontal</span> velocities using trig functions.
+                                [<a href="#" class="show-subhint" data-subhint="breakdown">Show me how</a>]
+                            </p>
+                            
+                            <div class="subhint" id="breakdown">
+                            </div>
+                            
                             <div class="graphie" data-update="diagram">
                                 style({ stroke: "#28AE7B", strokeWidth: 3, arrows: "-&gt;"});
                                 line([0, 0], [6*cos(ANGLE * PI / 180), 0]);
@@ -60,7 +67,7 @@
                         </div>
                         
                         <div>
-                            <p>We want to find the time at which the projectile hits the ground, which is when the displacement in the y direction is zero. Since we are dealing with the y direction, plug in the values for initial velocity in the y direction and acceleration in the y direction (gravity).</p>
+                            <p>We want to find the time at which the displacement in the y direction is zero (when the projectile hits the ground). Since we are dealing with the y direction, we want the values in the y direction for displacement, initial velocity, and acceleration.</p>
                             <p><code class="hint_orange">s_y</code> <code>=</code> <code class="hint_orange">v_{iy}</code><code>\Delta t + \dfrac{1}{2}</code> <code class="hint_orange">a_y</code> <code>(\Delta t)^2</code></p>
                         </div>
                         
@@ -74,7 +81,7 @@
                         </div>
                         
                         <div>
-                            <p>Factor out a <code>\Delta t</code>:</p>
+                            <p>Factor out a <code>\Delta t</code></p>
                             <p><code>0 = \Delta t (<var>VELOCITY</var> sin(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t)</code></p>
                         </div>
                         
