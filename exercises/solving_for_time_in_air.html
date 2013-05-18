@@ -19,7 +19,7 @@
                     <p class="problem">A projectile is launched at an angle of <var>ANGLE</var> degrees with an initial velocity of <var>VELOCITY</var> m/s.</p>
 
                     <div class="question">
-                        <p>What is the total time in the air (in seconds)? Use 9.8 as the downwards gravitational acceleration, and round your answer to one decimal place (do not round until the final answer).</p>
+                        <p>What is the total time in the air (in seconds)? Use <var>G</var> as the downwards gravitational acceleration, and round your answer to one decimal place (do not round until the final answer).</p>
                         <div class="graphie" id="diagram">
                             init({range: [[-2, 8], [-1, 7]], scale: [20, 20] });
                             line([-2, 0], [8, 0]); <!--- ground --->
@@ -32,8 +32,8 @@
 
                     <div class="solution" data-type="multiple">
                         <span class="sol" data-inexact data-type="decimal">
-                            <var>roundTo(1, -(VELOCITY * sin(ANGLE * PI / 180) / G))</var>
-                        </span> s
+                            <var>roundTo(1, -2*(VELOCITY * sin(ANGLE * PI / 180) / G))</var>
+                        </span> seconds
                     </div>
 
                     <div class="hints">
@@ -48,19 +48,56 @@
                                 label([3*cos(ANGLE * PI / 180), -0.9], "<var>VELOCITY</var>cos(<var>ANGLE</var>)", "center", {color: "#28AE7B"});
                             </div>
                         </div>
+                        
                         <div>
                             <p>
-                                We know this formula: <code>s = v_i \Delta t + \dfrac{1}{2} v_i (\Delta t)^2</code>
+                                Use this equation: <code>s = v_i \Delta t + \dfrac{1}{2} v_i (\Delta t)^2</code> (Remember, <code>s</code> is displacement, <code>v_i</code> is the initial velocity, and <code>\Delta t</code> is the change in time.)
                                 [<a href="#" class="show-subhint" data-subhint="halting">Where did that come from?</a>]
                             </p>
                             <div class="subhint" id="halting">
                                 <a class="related-video" href="/video/deriving-displacement-as-a-function-of-time--acceleration-and-initial-velocity" data-youtube-id="wlB0x9W-qBU">Deriving Displacement as a Function of Time, Acceleration and Initial Velocity </a>
                             </div>
-                            
-                            <p>(Remember, <code>s</code> is displacement, <code>v_i</code> is the initial velocity, and <code>\Delta t</code> is the change in time.)</p>
                         </div>
+                        
                         <div>
-                            <p>extra hint</p>
+                            <p>We want to find the time at which the projectile hits the ground, which is when the displacement in the y direction is zero. Since we are dealing with the y direction, plug in the values for initial velocity in the y direction and acceleration in the y direction (gravity).</p>
+                            <p><code class="hint_orange">s_y</code> <code>=</code> <code class="hint_orange">v_{iy}</code><code>\Delta t + \dfrac{1}{2}</code> <code class="hint_orange">a_y</code> <code>(\Delta t)^2</code></p>
+                        </div>
+                        
+                        <div>
+                            <p>The y displacement will be zero, we found the initial y velocity, <code><var>VELOCITY</var>sin(<var>ANGLE</var>)</code>, and the y acceleration from gravity is -9.8 m/s</p>
+                            <p><code>0 = <var>VELOCITY</var> sin(<var>ANGLE</var>) \Delta t + \dfrac{1}{2}(<var>G</var>)(\Delta t)^2</code></p>
+                        </div>
+                        
+                        <div>
+                            <p><code>0 = <var>VELOCITY</var> sin(<var>ANGLE</var>) \Delta t - <var>-0.5*G</var>(\Delta t)^2</code></p>
+                        </div>
+                        
+                        <div>
+                            <p>Factor out a <code>\Delta t</code>:</p>
+                            <p><code>0 = \Delta t (<var>VELOCITY</var> sin(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t)</code></p>
+                        </div>
+                        
+                        <div>
+                            <p>By the zero product property, we know that:</p>
+                            <p><code>\Delta t = 0</code> OR <code><var>VELOCITY</var> sin(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t = 0</code></p>
+                        </div>
+                        
+                        <div>
+                            <p><code>\Delta t = 0</code> is when the projectile was launched, which is not what we are looking for, so we know that:</p>
+                            <p><code><var>VELOCITY</var> sin(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t = 0</code></p>
+                        </div>
+                        
+                        <div>
+                            <p><code><var>VELOCITY</var> sin(<var>ANGLE</var>) = <var>-0.5*G</var>\Delta t</code></p>
+                        </div> 
+                        
+                        <div>
+                            <p><code>\dfrac{<var>VELOCITY</var> sin(<var>ANGLE</var>)}{<var>-0.5*G</var>} = \Delta t</code></p>
+                        </div>
+                        
+                        <div>
+                            <p><code>\Delta t \approx <var>roundTo(1, -2*(VELOCITY * sin(ANGLE * PI / 180) / G))</var></code></p>
                         </div>
                     </div> <!-- hints -->
                 </div>
