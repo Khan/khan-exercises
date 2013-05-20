@@ -105,6 +105,11 @@ $.extend(KhanUtil, {
 
         var pluralizeWord = function(word) {
 
+            // Check if this is a new Plural object, and just use that plural
+            if (word && word.plural) {
+                return word.plural(2);
+            }
+
             // noone really needs extra spaces at the edges, do they?
             word = $.trim(word);
 
@@ -175,7 +180,8 @@ $.extend(KhanUtil, {
                 }
 
                 return value + " " + arg1;
-            } else if (typeof value === "string") {
+            } else if (typeof value === "string" || typeof value === "object") {
+                // We need to accept objects here as well for new Plural objects
                 var plural = pluralizeWord(value);
                 if (typeof arg1 === "string" && arguments.length === 3) {
                     plural = arg1;
