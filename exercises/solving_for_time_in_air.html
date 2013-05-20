@@ -76,41 +76,41 @@
                         </div>
                         
                         <div>
-                            <p>The y displacement will be zero, we found the initial y velocity, <code><var>VELOCITY</var>sin(<var>ANGLE</var>)</code>, and the y acceleration due to gravity is -9.8 m/s</p>
-                            <p><code>0 = <var>VELOCITY</var> sin(<var>ANGLE</var>) \Delta t + \dfrac{1}{2}(<var>G</var>)(\Delta t)^2</code></p>
+                            <p>The y displacement will be zero, we found the initial y velocity, <code><var>VELOCITY</var>\mathrm{sin(<var>ANGLE</var>) \space m/s}</code>, and the y acceleration due to gravity is <code><var>G</var>\space \mathrm{m/s^2}</code></p>
+                            <p><code>0 = <var>VELOCITY</var> \mathrm{sin}(<var>ANGLE</var>) \Delta t + \dfrac{1}{2}(<var>G</var>)(\Delta t)^2</code></p>
                         </div>
                         
                         <div>
-                            <p><code>0 = <var>VELOCITY</var> sin(<var>ANGLE</var>) \Delta t - <var>-0.5*G</var>(\Delta t)^2</code></p>
+                            <p><code>0 = <var>VELOCITY</var> \mathrm{sin}(<var>ANGLE</var>) \Delta t - <var>-0.5*G</var>(\Delta t)^2</code></p>
                         </div>
                         
                         <div>
                             <p>Factor out a <code>\Delta t</code>.</p>
-                            <p><code>0 = \Delta t (<var>VELOCITY</var> sin(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t)</code></p>
+                            <p><code>0 = \Delta t (<var>VELOCITY</var> \mathrm{sin}(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t)</code></p>
                         </div>
                         
                         <div>
                             <p>By the zero product property, we know that:</p>
-                            <p><code>\Delta t = 0 \space \space OR \space \space <var>VELOCITY</var> sin(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t = 0</code></p>
+                            <p><code>\Delta t = 0 \space \space OR \space \space <var>VELOCITY</var> \mathrm{sin}(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t = 0</code></p>
                         </div>
                         
                         <div>
                             <p>Since <code>\Delta t = 0</code> is when the projectile was launched, that's not what we're looking for, so we can ignore it.</p>
-                            <p><code><var>VELOCITY</var> sin(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t = 0</code></p>
+                            <p><code><var>VELOCITY</var> \mathrm{sin}(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t = 0</code></p>
                         </div>
 
                         <div>
                             <p>Add <code><var>-0.5*G</var>\Delta t</code> to both sides.</p>
-                            <p><code><var>VELOCITY</var> sin(<var>ANGLE</var>) = <var>-0.5*G</var>\Delta t</code></p>
+                            <p><code><var>VELOCITY</var> \mathrm{sin}(<var>ANGLE</var>) = <var>-0.5*G</var>\Delta t</code></p>
                         </div>
                         
                         <div>
                             <p>Divide by <code><var>-0.5*G</var></code>.</p>
-                            <p><code>\dfrac{<var>VELOCITY</var> sin(<var>ANGLE</var>)}{<var>-0.5*G</var>} = \Delta t</code></p>
+                            <p><code>\dfrac{<var>VELOCITY</var> \mathrm{sin}(<var>ANGLE</var>)}{<var>-0.5*G</var>} = \Delta t</code></p>
                         </div>
                         
                         <div>
-                            <p><code>\Delta t \approx <var>roundTo(1, -2*(VELOCITY * sin(ANGLE * PI / 180) / G))</var></code> seconds</p>
+                            <p><code>\Delta t \approx <var>roundTo(1, -2*(VELOCITY * \mathrm{sin}(ANGLE * PI / 180) / G))</var></code> seconds</p>
                         </div>
                         
                     </div> <!-- hints -->
