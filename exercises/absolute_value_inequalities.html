@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers absolute-inequalities interactive">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Absolute Value Identities</title>
+    <script src="../khan-exercise.js"></script>
+    <script>
+        
+    </script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="vars">
+
+    </div>
+
+    <div class="problems">
+                <div class="problem">
+                    <div class="vars">
+                        <var id="INEQUALITY"> randRange( 1, 5 )</var>
+                        <var id="PADDING">5</var>
+                        <var id="START">-5</var>
+                        <var id="END">5</var>
+                    </div>
+                    <div class="graphie">
+                        init({
+                            range: [ [-1, 10], [-1, 1] ]
+                        });
+                        
+                        initInteractiveNumberLine( START, END );                    
+                        addMouseLayer();
+                        graph.line1 = drawMoveableLine(-1 + <var>PADDING</var>, 1 + <var>PADDING</var>);
+                    </div>
+                    
+                    <div class="solution" data-type="custom">
+                        <div class="instruction">
+                            <p> Manipulate the points on the following numberline so the graph represents x in the following identity:
+                            <code> x \ge  abs(<var>INEQUALITY</var>) </code> . </p>
+                        </div>
+                        <div class="guess"> [ graph.line1.pointA.coord, graph.line1.pointZ.coord ]</div>
+                        <div class="validator-function">
+                            var leftBound = guess[0][0];
+                            var rightBound = guess[1][0];
+                            if(leftBound > rightBound){
+                                leftBound = rightBound;
+                                rightBound = guess[0][0];
+                            }
+                            
+                            leftBound -= <var>PADDING</var> 
+                            rightBound -= <var>PADDING</var> 
+                            console.log(leftBound);
+                            console.log(rightBound);
+                            console.log(<var>INEQUALITY</var>);
+                            return leftBound == -1*rightBound && rightBound == Math.abs(<var>INEQUALITY</var>);
+                        </div>
+                        <div class="show-guess">
+                            graph.line1.pointA.setCoord( guess[0] );
+                            graph.line1.pointZ.setCoord( guess[1] );
+                            graph.line1.transform( true );
+                        </div>
+                        <div class="example">  If you move one point to -1 and another to 1 you have covered the span of -1 < x < 1</div>
+                    </div>
+                </div>
+                
+    </div>
+    </div>
+</body>
+</html>
