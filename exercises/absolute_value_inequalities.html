@@ -34,8 +34,8 @@
                     
                     <div class="solution" data-type="custom">
                         <div class="instruction">
-                            <p> Manipulate the points on the following numberline so the graph represents x in the following identity:
-                            <code> x \ge  abs(<var>INEQUALITY</var>) </code> . </p>
+                            <p> Manipulate the points on the numberline so the blue line represents <code> x </code> in the following identity:
+                            <code> x \le  abs(<var>INEQUALITY</var>) </code> . </p>
                         </div>
                         <div class="guess"> [ graph.line1.pointA.coord, graph.line1.pointZ.coord ]</div>
                         <div class="validator-function">
@@ -48,10 +48,100 @@
                             
                             leftBound -= <var>PADDING</var> 
                             rightBound -= <var>PADDING</var> 
-                            console.log(leftBound);
-                            console.log(rightBound);
-                            console.log(<var>INEQUALITY</var>);
                             return leftBound == -1*rightBound && rightBound == Math.abs(<var>INEQUALITY</var>);
+                        </div>
+                        <div class="show-guess">
+                            graph.line1.pointA.setCoord( guess[0] );
+                            graph.line1.pointZ.setCoord( guess[1] );
+                            graph.line1.transform( true );
+                        </div>
+                        <div class="example">  If you move one point to -1 and another to 1 you have covered the span of -1 < x < 1</div>
+                    </div>
+                </div>
+				
+				<div class="problem">
+                    <div class="vars">
+						<var id="SHIFTER"> randRange(-2,2) </var>
+                        <var id="INEQUALITY"> randRange( 1, 5 ) </var>
+                        <var id="PADDING">7</var>
+                        <var id="START">-7</var>
+                        <var id="END">7</var>
+                    </div>
+                    <div class="graphie">
+                        init({
+                            range: [ [-1, 14], [-1, 1] ],
+							scale: [30, 20]
+                        });
+                        
+                        initInteractiveNumberLine( START, END );                    
+                        addMouseLayer();
+                        graph.line1 = drawMoveableLine(-1 + <var>PADDING</var>, 1 + <var>PADDING</var>);
+                    </div>
+                    
+                    <div class="solution" data-type="custom">
+                        <div class="instruction">
+                            <p> Manipulate the points on the numberline so the blue line represents <code> x </code> in the following identity:
+                            <code> x + <var>SHIFTER</var> \le  abs(<var>INEQUALITY</var>) </code> . </p>
+                        </div>
+                        <div class="guess"> [ graph.line1.pointA.coord, graph.line1.pointZ.coord ]</div>
+                        <div class="validator-function">
+                            var leftBound = guess[0][0];
+                            var rightBound = guess[1][0];
+                            if(leftBound > rightBound){
+                                leftBound = rightBound;
+                                rightBound = guess[0][0];
+                            }
+                            
+                            leftBound -= <var>PADDING</var>  + <var>SHIFTER</var>;
+                            rightBound -= <var>PADDING</var> + <var>SHIFTER</var>;
+                            return leftBound == -1*rightBound && rightBound == Math.abs(<var>INEQUALITY</var>);
+                        </div>
+                        <div class="show-guess">
+                            graph.line1.pointA.setCoord( guess[0] );
+                            graph.line1.pointZ.setCoord( guess[1] );
+                            graph.line1.transform( true );
+                        </div>
+                        <div class="example">  If you move one point to -1 and another to 1 you have covered the span of -1 < x < 1</div>
+                    </div>
+                </div>
+				
+				<div class="problem">
+                    <div class="vars">
+						<var id="SHIFTER"> randRange(-2,2) </var>
+                        <var id="INEQUALITY"> randRange( 1, 5 ) </var>
+                        <var id="PADDING">7</var>
+                        <var id="START">-7</var>
+                        <var id="END">7</var>
+                    </div>
+                    <div class="graphie">
+                        init({
+                            range: [ [-1, 14], [-1, 1] ],
+							scale: [30, 20]
+                        });
+                        
+                        initInteractiveNumberLine( START, END );                    
+                        addMouseLayer();
+                        graph.line1 = drawMoveableLine(-1 + <var>PADDING</var>, 1 + <var>PADDING</var>);
+                    </div>
+                    
+                    <div class="solution" data-type="custom">
+                        <div class="instruction">
+                            <p> Manipulate the points on the numberline so the blue line represents <code> x </code> in the following identity:
+                            <code>abs( x + <var>SHIFTER</var>) \le  <var>INEQUALITY</var> </code> . </p>
+                        </div>
+                        <div class="guess"> [ graph.line1.pointA.coord, graph.line1.pointZ.coord ]</div>
+                        <div class="validator-function">
+                            var leftBound = guess[0][0];
+                            var rightBound = guess[1][0];
+							var leftCorrect = -1*<var>INEQUALITY</var> + -1*<var>SHIFTER</var> ;
+							var rightCorrect = <var>INEQUALITY</var> + -1*<var>SHIFTER</var> ;
+                            if(leftBound > rightBound){
+                                leftBound = rightBound;
+                                rightBound = guess[0][0];
+                            }
+                            leftBound -= <var>PADDING</var>;
+                            rightBound -= <var>PADDING</var>;
+                            return leftBound == leftCorrect && rightBound == rightCorrect;
                         </div>
                         <div class="show-guess">
                             graph.line1.pointA.setCoord( guess[0] );

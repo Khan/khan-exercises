@@ -33,6 +33,8 @@ $.extend(KhanUtil, {
                     graph.label([x + i, y - 0.2], "\\small{" + (start + i).toFixed(decPlaces) + "}", "below", { labelDistance: 3 });
                 }
             }
+			
+			
             return set;
     },
     
