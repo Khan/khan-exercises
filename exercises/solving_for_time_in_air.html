@@ -44,10 +44,10 @@
                             </p>
                             
                             <div class="subhint" id="breakdown">
-                                <p><code>cos(<var>ANGLE</var>^{\circ}) =</code> <code class="hint_green">v_{ix}</code><code>/<var>VELOCITY</var></code></p>
-                                <p><code class="hint_green">v_{ix}</code> <code>= cos(<var>ANGLE</var>^{\circ}) \times <var>VELOCITY</var></code></p>
-                                <p><code>sin(<var>ANGLE</var>^{\circ}) =</code> <code class="hint_orange">v_{iy}</code><code>/<var>VELOCITY</var></code></p>
-                                <p><code class="hint_orange">v_{iy}</code> <code>= sin(<var>ANGLE</var>^{\circ}) \times <var>VELOCITY</var></code></p>
+                                <p><code>\mathrm{cos}(<var>ANGLE</var>^{\circ}) =</code> <code class="hint_green">v_{ix}</code><code>/<var>VELOCITY</var></code></p>
+                                <p><code class="hint_green">v_{ix}</code> <code>= \mathrm{cos}(<var>ANGLE</var>^{\circ}) \times <var>VELOCITY</var></code></p>
+                                <p><code>\mathrm{sin}(<var>ANGLE</var>^{\circ}) =</code> <code class="hint_orange">v_{iy}</code><code>/<var>VELOCITY</var></code></p>
+                                <p><code class="hint_orange">v_{iy}</code> <code>= \mathrm{sin}(<var>ANGLE</var>^{\circ}) \times <var>VELOCITY</var></code></p>
                             </div>
                             
                             <div class="graphie" data-update="diagram">
@@ -55,8 +55,8 @@
                                 line([0, 0], [6*cos(ANGLE * PI / 180), 0]);
                                 style({ stroke: "#FFA500", strokeWidth: 3, arrows: "-&gt;"});
                                 line([6*cos(ANGLE * PI / 180), 0], [6*cos(ANGLE * PI / 180), 6*sin(ANGLE * PI / 180)] );
-                                label([6*cos(ANGLE * PI / 180)+2.2, 3*sin(ANGLE * PI / 180)], "<var>VELOCITY</var>sin(<var>ANGLE</var>)", "center", {color: "#FFA500"});
-                                label([3*cos(ANGLE * PI / 180), -0.9], "<var>VELOCITY</var>cos(<var>ANGLE</var>)", "center", {color: "#28AE7B"});
+                                label([6*cos(ANGLE * PI / 180)+2.2, 3*sin(ANGLE * PI / 180)], "<var>VELOCITY</var>\\textrm{sin}(<var>ANGLE</var>)", "center", {color: "#FFA500"});
+                                label([3*cos(ANGLE * PI / 180), -0.9], "<var>VELOCITY</var>\\textrm{cos}(<var>ANGLE</var>)", "center", {color: "#28AE7B"});
                             </div>
                         </div>
                         
