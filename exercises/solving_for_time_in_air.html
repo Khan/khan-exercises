@@ -62,7 +62,7 @@
                         
                         <div>
                             <p>
-                                Use this equation: <code>s = v_i \Delta t + \dfrac{1}{2} v_i (\Delta t)^2</code> (Remember, <code>s</code> is displacement, <code>v_i</code> is the initial velocity, and <code>\Delta t</code> is the change in time.)
+                                Use this equation: <code>s = v_i \Delta t + \dfrac{1}{2} a (\Delta t)^2</code> (Remember, <code>s</code> is displacement, <code>v_i</code> is the initial velocity, <code>a</code> is acceleration, and <code>\Delta t</code> is the change in time.)
                                 [<a href="#" class="show-subhint" data-subhint="halting">Where did that come from?</a>]
                             </p>
                             <div class="subhint" id="halting">
@@ -85,23 +85,34 @@
                         </div>
                         
                         <div>
-                            <p>Add <code><var>-0.5*G</var>(\Delta t)^2</code> to both sides.</p>
-                            <p><code><var>-0.5*G</var>(\Delta t)^2 = <var>VELOCITY</var> sin(<var>ANGLE</var>)\Delta t </code></p>
+                            <p>Factor out a <code>\Delta t</code>.</p>
+                            <p><code>0 = \Delta t (<var>VELOCITY</var> sin(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t)</code></p>
                         </div>
                         
                         <div>
-                            <p>Divide both sides by <code>\Delta t</code>.</p>
-                            <p><code><var>-0.5*G</var>\Delta t = <var>VELOCITY</var> sin(<var>ANGLE</var>)</code></p>
+                            <p>By the zero product property, we know that:</p>
+                            <p><code>\Delta t = 0 \space \space OR \space \space <var>VELOCITY</var> sin(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t = 0</code></p>
                         </div>
                         
                         <div>
-                            <p>Divide both sides by <code><var>-0.5*G</var></code>.</p>
-                            <p><code>\Delta t = \dfrac{<var>VELOCITY</var> sin(<var>ANGLE</var>)}{<var>-0.5*G</var>}</code></p>
+                            <p>Since <code>\Delta t = 0</code> is when the projectile was launched, that's not what we're looking for, so we can ignore it.</p>
+                            <p><code><var>VELOCITY</var> sin(<var>ANGLE</var>) - <var>-0.5*G</var>\Delta t = 0</code></p>
                         </div>
 
                         <div>
-                            <p><code>\Delta t \approx <var>roundTo(1, -2*(VELOCITY * sin(ANGLE * PI / 180) / G))</var></code></p>
+                            <p>Add <code><var>-0.5*G</var>\Delta t</code> to both sides.</p>
+                            <p><code><var>VELOCITY</var> sin(<var>ANGLE</var>) = <var>-0.5*G</var>\Delta t</code></p>
                         </div>
+                        
+                        <div>
+                            <p>Divide by <code><var>-0.5*G</var></code>.</p>
+                            <p><code>\dfrac{<var>VELOCITY</var> sin(<var>ANGLE</var>)}{<var>-0.5*G</var>} = \Delta t</code></p>
+                        </div>
+                        
+                        <div>
+                            <p><code>\Delta t \approx <var>roundTo(1, -2*(VELOCITY * sin(ANGLE * PI / 180) / G))</var></code> seconds</p>
+                        </div>
+                        
                     </div> <!-- hints -->
                 </div>
             </div> <!-- problems -->
