@@ -22,12 +22,12 @@ function renderReadOnlyProblem(event, args) {
     if (typeof userExercise !== "undefined" && userExercise.readOnly) {
 
         if (framework === "perseus") {
-            $(Exercises).trigger("warning", ["Problem history is " + 
-                    "not yet available for this exercise.", true]);
+            $(Exercises).trigger("warning", [$._("Problem history is " +
+                    "not yet available for this exercise."), true]);
         } else if (framework === "khan-exercises") {
             if (!userExercise.current) {
-                $(Exercises).trigger("warning", ["This exercise may have " +
-                    "changed since it was completed", true]);
+                $(Exercises).trigger("warning", [$._("This exercise may have " +
+                    "changed since it was completed"), true]);
             }
         }
 
@@ -35,9 +35,10 @@ function renderReadOnlyProblem(event, args) {
 
         var timelinecontainer = $("<div id='timelinecontainer'>")
             .append("<div>\n" +
-                    "<div id='previous-problem' class='simple-button'>Previous Problem</div>\n" +
-                    "<div id='previous-step' class='simple-button'><span>Previous Step</span></div>\n" +
-                    "</div>")
+                    "<div id='previous-problem' class='simple-button'>" +
+                    $._("Previous Problem") + "</div>\n" +
+                    "<div id='previous-step' class='simple-button'><span>" +
+                    $._("Previous Step") + "</span></div>\n</div>")
             .insertBefore("#problem-and-answer");
 
         $.fn.disable = function() {
@@ -97,11 +98,12 @@ function renderReadOnlyProblem(event, args) {
 
         timelinecontainer
             .append("<div>\n" +
-                    "<div id='next-problem' class='simple-button'>Next Problem</div>\n" +
-                    "<div id='next-step' class='simple-button'><span>Next Step</span></div>\n" +
-                    "</div>");
+                    "<div id='next-problem' class='simple-button'>" +
+                    $._("Next Problem") + "</div>\n" +
+                    "<div id='next-step' class='simple-button'><span>" +
+                    $._("Next Step") + "</span></div>\n</div>");
 
-        $("<div class='user-activity correct-activity'>Started</div>")
+        $("<div class='user-activity correct-activity'>" + $._("Started") + "</div>")
             .data("hint", false)
             .appendTo(timelineEvents);
 
@@ -112,24 +114,28 @@ function renderReadOnlyProblem(event, args) {
          * value[2]: time taken since last guess
          */
         $.each(userExercise.userActivity, function(index, value) {
+            // TODO(emily): figure out where this is coming from, and if we
+            // can remove it. It shouldn't be i18n-ized though
             var guess = value[1] === "Activity Unavailable" ? value[1] : JSON.parse(value[1]),
                 thissolutionarea;
 
             timelineEvents
-                .append("<div class='timeline-time'>" + value[2] + "s</div>");
+                // I18N: This is a number of seconds, like '3s'
+                .append("<div class='timeline-time'>" + $._("%(time)ss", {time: value[2]}) + "</div>");
 
             thissolutionarea = $("<div>")
                 .addClass("user-activity " + value[0])
                 .appendTo(timelineEvents);
 
             if (value[0] === "hint-activity") {
-                thissolutionarea.attr("title", "Hint used");
+                thissolutionarea.attr("title", $._("Hint used"));
                 thissolutionarea
                     .data("hint", hintNumber)
-                    .prepend("Hint #" + (hintNumber + 1));
+                    .prepend($._("Hint #%(num)s", {num: (hintNumber + 1)}));
                 hintNumber += 1;
             } else { // This panel is a solution (or the first panel)
                 thissolutionarea.data("hint", false);
+                // See above, this shouldn't be i18n-ized
                 if (guess === "Activity Unavailable") {
                     thissolutionarea.text(guess);
                 } else {
@@ -137,9 +143,9 @@ function renderReadOnlyProblem(event, args) {
                         thissolutionarea
                             .removeClass("incorrect-activity")
                             .addClass("correct-activity");
-                        thissolutionarea.attr("title", "Answer Attempted");
+                        thissolutionarea.attr("title", $._("Answer Attempted"));
                         thissolutionarea.append(
-                            $("<p class='solution'>Answer attempted</p>")
+                            $("<p class='solution'>" + $._("Answer attempted") + "</p>")
                         );
                     } else if (framework === "khan-exercises") {
                         // radio and custom are the only answer types that
@@ -155,26 +161,26 @@ function renderReadOnlyProblem(event, args) {
                                 thissolutionarea
                                     .removeClass("incorrect-activity")
                                     .addClass("correct-activity");
-                                thissolutionarea.attr("title", "Correct Answer");
+                                thissolutionarea.attr("title", $._("Correct Answer"));
                             } else {
-                                thissolutionarea.attr("title", "Incorrect Answer");
+                                thissolutionarea.attr("title", $._("Incorrect Answer"));
                             }
                         } else if (answerType === "custom") {
                             if (validator(guess)) {
                                 thissolutionarea
                                     .removeClass("incorrect-activity")
                                     .addClass("correct-activity");
-                                thissolutionarea.attr("title", "Correct Answer");
+                                thissolutionarea.attr("title", $._("Correct Answer"));
                                 thissolutionarea.append(
-                                    $("<p class='solution'>Answer correct</p>")
+                                    $("<p class='solution'>" + $._("Answer correct") + "</p>")
                                 );
                             } else {
                                 thissolutionarea
                                     .removeClass("correct-activity")
                                     .addClass("incorrect-activity");
-                                thissolutionarea.attr("title", "Incorrect Answer");
+                                thissolutionarea.attr("title", $._("Incorrect Answer"));
                                 thissolutionarea.append(
-                                    $("<p class='solution'>Answer incorrect</p>")
+                                    $("<p class='solution'>" + $._("Answer incorrect") + "</p>")
                                 );
                             }
                         } else {
@@ -189,12 +195,12 @@ function renderReadOnlyProblem(event, args) {
                                     .removeClass("incorrect-activity")
                                     .addClass("correct-activity");
 
-                                thissolutionarea.attr("title", "Correct Answer");
+                                thissolutionarea.attr("title", $._("Correct Answer"));
                             } else {
                                 thissolutionarea
                                     .removeClass("correct-activity")
                                     .addClass("incorrect-activity");
-                                thissolutionarea.attr("title", "Incorrect Answer");
+                                thissolutionarea.attr("title", $._("Incorrect Answer"));
                             }
                         }
                     }
@@ -250,7 +256,7 @@ function renderReadOnlyProblem(event, args) {
             // This thing looks ridiculous above about 100px
             if (maxHeight > 100) {
                 timelineEvents.children('.correct-activity, .incorrect-activity').each(function() {
-                    $(this).text('Answer');
+                    $(this).text($._("Answer"));
                 });
             } else if (maxHeight > timelinecontainer.height()) {
                 timelinecontainer.height(maxHeight);
