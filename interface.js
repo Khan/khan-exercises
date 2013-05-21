@@ -136,6 +136,7 @@ function newProblem(e, data) {
             .addClass("framework-" + framework);
 
     // Enable/disable the get hint button
+    $(".hint-box").toggle(numHints !== 0);
     updateHintButtonText();
     $("#hint").attr("disabled", hintsUsed >= numHints);
 }
