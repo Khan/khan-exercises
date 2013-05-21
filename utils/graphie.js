@@ -1,4 +1,37 @@
 (function() {
+    var Graphie = KhanUtil.Graphie = function() {
+    };
+
+    _.extend(Graphie.prototype, {
+        cartToPolar: cartToPolar,
+        polar: polar
+    });
+
+    /* Convert cartesian coordinates [x, y] to polar coordinates [r,
+     * theta], with theta in degrees, or in radians if angleInRadians is
+     * specified.
+     */
+    function cartToPolar(coord, angleInRadians) {
+        var r = Math.sqrt(Math.pow(coord[0], 2) + Math.pow(coord[1], 2));
+        var theta = Math.atan2(coord[1], coord[0]);
+        // convert angle range from [-pi, pi] to [0, 2pi]
+        if (theta < 0) {
+            theta += 2 * Math.PI;
+        }
+        if (!angleInRadians) {
+            theta = theta * 180 / Math.PI;
+        }
+        return [r, theta];
+    }
+
+    function polar(r, th) {
+        if (typeof r === "number") {
+            r = [r, r];
+        }
+        th = th * Math.PI / 180;
+        return [r[0] * Math.cos(th), r[1] * Math.sin(th)];
+    }
+
     var createGraph = function(el) {
         var xScale = 40, yScale = 40, xRange, yRange;
 
@@ -117,30 +150,6 @@
             });
 
             return processed;
-        };
-
-        /* Convert cartesian coordinates to polar coordinates (angle in degrees).
-         * - Will return angle in radians if `angleInRadians` is specified as truthy.
-         */
-        var cartToPolar = function(coord, angleInRadians) {
-            var r = Math.sqrt(Math.pow(coord[0], 2) + Math.pow(coord[1], 2));
-            var theta = Math.atan2(coord[1], coord[0]);
-            // convert angle range from [-pi, pi] to [0, 2pi]
-            if (theta < 0) {
-                theta += 2 * Math.PI;
-            }
-            if (!angleInRadians) {
-                theta = theta * 180 / Math.PI;
-            }
-            return [r, theta];
-        };
-
-        var polar = function(r, th) {
-            if (typeof r === "number") {
-                r = [r, r];
-            }
-            th = th * Math.PI / 180;
-            return [r[0] * Math.cos(th), r[1] * Math.sin(th)];
         };
 
         var addArrowheads = function arrows(path) {
@@ -485,7 +494,8 @@
             }
         };
 
-        var graphie = {
+        var graphie = new Graphie();
+        _.extend(graphie, {
             raphael: raphael,
 
             init: function(options) {
@@ -530,11 +540,8 @@
             scaleVector: scaleVector,
 
             unscalePoint: unscalePoint,
-            unscaleVector: unscaleVector,
-
-            polar: polar,
-            cartToPolar: cartToPolar
-        };
+            unscaleVector: unscaleVector
+        });
 
         $.each(drawingTools, function(name) {
             graphie[name] = function() {
