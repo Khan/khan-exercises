@@ -24,6 +24,9 @@ import extract_strings
 # Should the user be prompted when a case is ambiguous?
 SHOW_PROMPT = True
 
+# Should we output an error for ambiguous plurals?
+ERROR_AMBIGUOUS_PLURALS = False
+
 # Used to cache the results from the user prompt pluralization methods
 _PLURAL_FORMS = {
     # Hardcode a few common pluralizations in
@@ -156,8 +159,8 @@ def lint_file(filename, apply_fix, verbose):
     filters = [PronounFilter, TernaryFilter, AlwaysPluralFilter, PluralFilter,
         AnFilter]
 
-    # TODO(jeresig): Add in 'AmbiguousPluralFilter' to the list of filters
-    # to report errors about AMBIGUOUS_PLURAL usage.
+    if ERROR_AMBIGUOUS_PLURALS:
+        filters.append(AmbiguousPluralFilter)
 
     # Collect all the i18n-able nodes out of file
     nodes = extract_strings.extract_nodes(filename)
