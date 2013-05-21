@@ -65,6 +65,7 @@ class LintStringsTest(unittest.TestCase):
         self.orig_dir = os.getcwd()
 
         lint_i18n_strings.SHOW_PROMPT = False
+        lint_i18n_strings.ERROR_AMBIGUOUS_PLURALS = True
 
         # Make sure that we're always working from the build directory
         os.chdir(os.path.dirname(os.path.realpath(__file__)))
@@ -144,4 +145,4 @@ def _slurp(filename):
 
 if __name__ == '__main__':
     unittest.main()
- 
+

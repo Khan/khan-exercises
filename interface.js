@@ -213,7 +213,7 @@ function handleAttempt(data) {
         $("#check-answer-button")
             .parent()  // .check-answer-wrapper makes shake behave
             .effect("shake", {times: 3, distance: 5}, 480)
-            .val("Try Again");
+            .val($._("Try Again"));
 
         // Is this a message to be shown?
         if (score.message != null) {
@@ -283,11 +283,15 @@ function handleAttempt(data) {
         // problem and encourage reloading the page
         $("#problem-and-answer").css("visibility", "hidden");
         $(Exercises).trigger("warning",
-                "This page is out of date. You need to <a href='" +
-                _.escape(window.location.href) + "'>refresh</a>, but " +
-                "don't worry, you haven't lost progress. If you think " +
-                "this is a mistake, <a href='http://www.khanacademy.org/" +
-                "reportissue?type=Defect&issue_labels='>tell us</a>.");
+                $._("This page is out of date. You need to " +
+                    "<a href='%(refresh)s'>refresh</a>, but don't " +
+                    "worry, you haven't lost progress. If you think " +
+                    "this is a mistake, " +
+                    "<a href='http://www.khanacademy.org/reportissue?" +
+                    "type=Defect'>tell us</a>.",
+                    {refresh: _.escape(window.location.href)}
+                )
+        );
     });
 
     return false;
@@ -345,14 +349,14 @@ function updateHintButtonText() {
 
     if (hintsAreFree) {
         $hintButton.val(hintsUsed ?
-                "Show next step (" + hintsLeft + " left)" :
-                "Show solution");
+                $._("Show next step (%(hintsLeft)s left)", {hintsLeft: hintsLeft}) :
+                $._("Show solution"));
     } else {
         $hintButton.val(hintsUsed ?
-                "I'd like another hint (" +
-                (hintsLeft === 1 ?  "1 hint left" : hintsLeft + " hints left")
-                + ")" :
-                "I'd like a hint");
+                $.ngettext("I'd like another hint (1 hint left)",
+                           "I'd like another hint (%(num)s hints left)",
+                           hintsLeft) :
+                $._("I'd like a hint"));
     }
 }
 
@@ -562,7 +566,7 @@ function disableCheckAnswer() {
     $("#check-answer-button")
         .prop("disabled", true)
         .addClass("buttonDisabled")
-        .val("Please wait...");
+        .val($._("Please wait..."));
 
     $("#skip-question-button")
         .prop("disabled", true)
@@ -600,7 +604,7 @@ function clearExistingProblem() {
     $("#hint")
         .removeClass("green")
         .addClass("orange")
-        .val("I'd like a hint")
+        .val($._("I'd like a hint"))
         .data("buttonText", false)
         .appendTo("#get-hint-button-container");
     $(".hint-box")

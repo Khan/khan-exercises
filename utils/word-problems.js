@@ -338,12 +338,12 @@ $.fn["word-problemsLoad"] = function() {
     // NOTE(jeresig): I18N: These strings are expected to work prefixed with
     // just the letter "A", as in "A gorilla"
     var courses = new IncrementalShuffler([
-        "chemistry",
-        "geometry",
-        "history",
-        "mathematics",
-        "physics",
-        "Spanish"
+        $._("chemistry"),
+        $._("geometry"),
+        $._("history"),
+        $._("mathematics"),
+        $._("physics"),
+        $._("foreign language")
     ]);
 
     var exams = new IncrementalShuffler([
@@ -427,10 +427,10 @@ $.fn["word-problemsLoad"] = function() {
                     return $.ngettext("banana", "bananas", num);
                 }),
                 new Plural(function(num) {
-                    return $.ngettext("loaf of bread", "loaves of breads", num);
+                    return $.ngettext("loaf of bread", "loaves of bread", num);
                 }),
                 new Plural(function(num) {
-                    return $.ngettext("gallon of milk", "gallons of milks", num);
+                    return $.ngettext("gallon of milk", "gallons of milk", num);
                 }),
                 new Plural(function(num) {
                     return $.ngettext("potato", "potatoes", num);
@@ -503,10 +503,10 @@ $.fn["word-problemsLoad"] = function() {
     ]);
 
     var timesofday = new IncrementalShuffler([
-        "in the morning",
-        "around noon",
-        "in the evening",
-        "at night"
+        $._("in the morning"),
+        $._("around noon"),
+        $._("in the evening"),
+        $._("at night")
     ]);
 
     var exercises = new IncrementalShuffler([
@@ -593,30 +593,37 @@ $.fn["word-problemsLoad"] = function() {
     // NOTE(jeresig): I18N: These strings are expected to work prefixed with
     // just the letter "A", as in "A gorilla"
     var colors = new IncrementalShuffler([
-        "red",
+        $._("red"),
         // NOTE(jeresig): I18N: Removed because it begins with a vowel and is
         // used with an()
         //"orange",
-        "yellow",
-        "green",
-        "blue",
-        "purple",
-        "white",
-        "black",
-        "brown",
-        "silver",
-        "gold",
-        "pink"
+        $._("yellow"),
+        $._("green"),
+        $._("blue"),
+        $._("purple"),
+        $._("white"),
+        $._("black"),
+        $._("brown"),
+        $._("silver"),
+        $._("gold"),
+        $._("pink")
     ]);
 
     var schools = new IncrementalShuffler([
-        "Loyola",
-        "Gardner Bullis",
-        "Almond",
-        "Covington",
-        "Springer",
-        "Santa Rita",
-        "Oak"
+        // I18N: This is a generic school name
+        $._("Loyola"),
+        // I18N: This is a generic school name
+        $._("Gardner Bullis"),
+        // I18N: This is a generic school name
+        $._("Almond"),
+        // I18N: This is a generic school name
+        $._("Covington"),
+        // I18N: This is a generic school name
+        $._("Springer"),
+        // I18N: This is a generic school name
+        $._("Santa Rita"),
+        // I18N: This is a generic school name
+        $._("Oak")
     ]);
 
     var furnitureStore = new IncrementalShuffler([
@@ -633,7 +640,7 @@ $.fn["word-problemsLoad"] = function() {
             return $.ngettext("sofa", "sofas", num);
         }),
         new Plural(function(num) {
-            return $.ngettext("couch", "couchs", num);
+            return $.ngettext("couch", "couches", num);
         }),
         new Plural(function(num) {
             return $.ngettext("desk", "desks", num);
