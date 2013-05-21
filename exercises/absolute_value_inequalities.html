@@ -23,7 +23,7 @@
                         <var id="END">5</var>
                     </div>
                     <p> Manipulate the points on the numberline so the blue line represents <code> x </code> in the following identity:
-                            <code> abs(x) \le  <var>INEQUALITY</var> </code> . </p>
+                            <code> \vert x \vert \le  <var>INEQUALITY</var> </code> . </p>
                     <div class="graphie">
                         init({
                             range: [ [-1, 10], [-1, 1] ]
@@ -57,7 +57,7 @@
                         <div class="example">  If you move one point to -1 and another to 1 you have covered the span of -1 < x < 1</div>
                     </div>
 					<div class="hints">
-							<p> Remember, you can write <code> abs(x) \le  <var>INEQUALITY</var> </code> as a combination of two inequalities. </p>
+							<p> Remember, you can write <code> \vert x \vert \le  <var>INEQUALITY</var> </code> as a combination of two inequalities. </p>
 							<p> Taking the two inequalities gives us a domain of plus or minux <var>INEQUALITY</var>.</p>
 					</div>
                 </div>
@@ -73,7 +73,7 @@
                         <var id="END">7</var>
                     </div>
                     <p> Manipulate the points on the numberline so the blue line represents <code> x </code> in the following identity:
-                            <code>abs( x + <var>SHIFTER</var>) \le  <var>INEQUALITY</var> </code> . </p>
+                            <code>\vert x + <var>SHIFTER</var> \vert \le  <var>INEQUALITY</var> </code> . </p>
                     <div class="graphie">
                         init({
                             range: [ [-1, 14], [-1, 1] ],
@@ -123,7 +123,7 @@
                         <var id="INEQUALITY"> randRange( 1, 4 ) </var>
                     </div>
                     <p> Expand the following absolute inequality: </p>
-                    <p> <code> abs(<var>SCALAR</var>x + <var>SHIFTER</var>) \gt <var>INEQUALITY</var>  </code></p>
+                    <p> <code> \vert <var>SCALAR</var>x + <var>SHIFTER</var>\vert  \gt <var>INEQUALITY</var>  </code></p>
                     <p class="solution" data-type="multiple">
                         <code>x</code>
                         <code>\gt</code>
@@ -134,7 +134,7 @@
                         <span class="sol" data-type="rational"><var>(-1*INEQUALITY - SHIFTER)/(SCALAR)</var></span>
                     </p>
                     <div class="hints">
-						<p>Remember that <code> abs(ax + b) > c </code> is equal to <code> ax + b > c </code> AND <code> -ax - b > c </code>.</p>
+						<p>Remember that <code> \vert ax + b \vert > c </code> is equal to <code> ax + b > c </code> AND <code> -ax - b > c </code>.</p>
 						<p>Also, remember that multiplying both sides of an inequality by 1 flips the sign of the inequality. </p>
 						<p>After multiplying one of the inequalities by -1 (to get a positive x) the sign of the inequalities and simplifying, you'll get: <br/> <code>x</code>
                         <code>\gt</code>
