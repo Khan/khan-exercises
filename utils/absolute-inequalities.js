@@ -1,43 +1,8 @@
 $.extend(KhanUtil, {
     
-    initInteractiveNumberLine: function(start, end, step, x, y, denominator){
-            step = step || 1;
-            x = x || 0;
-            y = y || 0;
-            var decPlaces = (step + "").length - (step + "").indexOf(".") - 1;
-            if ((step + "").indexOf(".") < 0) {
-                decPlaces = 0;
-            }
-            var graph = KhanUtil.currentGraph;
-            var set = graph.raphael.set();
-            set.push(graph.line([x, y], [x + end - start, y]));
-            for (var i = 0; i <= end - start; i += step) {
-                set.push(graph.line([x + i, y - 0.2], [x + i, y + 0.2]));
-
-                if (denominator) {
-                    var base = KhanUtil.roundTowardsZero(start + i + 0.001);
-                    var frac = start + i - base;
-                    var lab = base;
-
-                    if (! (Math.abs(Math.round(frac * denominator)) === denominator || Math.round(frac * denominator) === 0)) {
-                        if (base === 0) {
-                            lab = KhanUtil.fraction(Math.round(frac * denominator), denominator, false, false, true);
-                        }
-                        else {
-                            lab = base + "\\frac{" + Math.abs(Math.round(frac * denominator)) + "}{" + denominator + "}";
-                        }
-                    }
-                    graph.label([x + i, y - 0.2], "\\small{" + lab + "}", "below", { labelDistance: 3 });
-                }
-                else {
-                    graph.label([x + i, y - 0.2], "\\small{" + (start + i).toFixed(decPlaces) + "}", "below", { labelDistance: 3 });
-                }
-            }
-			
-			
-            return set;
-    },
     
+	//drawLine and drawCircle are not currently used but could be useful when making many numberlines
+    /*
     drawLine: function(start, end){
         var graph = KhanUtil.currentGraph;
         graph.style({ stroke: "#FFA500", fill: "#FFA500", strokeWidth: 3.5, arrows: "-&gt;" });
@@ -49,7 +14,7 @@ $.extend(KhanUtil, {
         graph.style({ stroke: "#6495ED", fill: "#6495ED" });
         graph.pt = graph.circle( [ x, 0 ], 0.15 );
     },
-    
+    */
     /*
         Creates a line segment that can be moved along the number line
         returns a reference to the line
@@ -83,10 +48,7 @@ $.extend(KhanUtil, {
         });
         
         return line;
-    },
-    
-    test: function(x){
-        alert(x);
     }
+
 
 });

@@ -15,28 +15,27 @@
     </div>
 
     <div class="problems">
-                <div class="problem">
+                <div class="problem" data-weight="5">
                     <div class="vars">
-                        <var id="INEQUALITY"> randRange( 1, 5 )</var>
+                        <var id="INEQUALITY"> randRangeNonZero( -5, 5 )</var>
                         <var id="PADDING">5</var>
                         <var id="START">-5</var>
                         <var id="END">5</var>
                     </div>
+                    <p> Manipulate the points on the numberline so the blue line represents <code> x </code> in the following identity:
+                            <code> abs(x) \le  <var>INEQUALITY</var> </code> . </p>
                     <div class="graphie">
                         init({
                             range: [ [-1, 10], [-1, 1] ]
                         });
                         
-                        initInteractiveNumberLine( START, END );                    
+                        numberLine( START, END );                    
                         addMouseLayer();
                         graph.line1 = drawMoveableLine(-1 + <var>PADDING</var>, 1 + <var>PADDING</var>);
                     </div>
                     
                     <div class="solution" data-type="custom">
-                        <div class="instruction">
-                            <p> Manipulate the points on the numberline so the blue line represents <code> x </code> in the following identity:
-                            <code> x \le  abs(<var>INEQUALITY</var>) </code> . </p>
-                        </div>
+                     
                         <div class="guess"> [ graph.line1.pointA.coord, graph.line1.pointZ.coord ]</div>
                         <div class="validator-function">
                             var leftBound = guess[0][0];
@@ -57,84 +56,42 @@
                         </div>
                         <div class="example">  If you move one point to -1 and another to 1 you have covered the span of -1 < x < 1</div>
                     </div>
+					<div class="hints">
+							<p> Remember, you can write <code> abs(x) \le  <var>INEQUALITY</var> </code> as a combination of two inequalities. </p>
+							<p> Taking the two inequalities gives us a domain of plus or minux <var>INEQUALITY</var>.</p>
+					</div>
                 </div>
-				
-				<div class="problem">
+                
+
+                
+                <div class="problem"  data-weight="2">
                     <div class="vars">
-						<var id="SHIFTER"> randRange(-2,2) </var>
+                        <var id="SHIFTER"> randRangeNonZero(-2,2) </var>
                         <var id="INEQUALITY"> randRange( 1, 5 ) </var>
                         <var id="PADDING">7</var>
                         <var id="START">-7</var>
                         <var id="END">7</var>
                     </div>
-                    <div class="graphie">
-                        init({
-                            range: [ [-1, 14], [-1, 1] ],
-							scale: [30, 20]
-                        });
-                        
-                        initInteractiveNumberLine( START, END );                    
-                        addMouseLayer();
-                        graph.line1 = drawMoveableLine(-1 + <var>PADDING</var>, 1 + <var>PADDING</var>);
-                    </div>
-                    
-                    <div class="solution" data-type="custom">
-                        <div class="instruction">
-                            <p> Manipulate the points on the numberline so the blue line represents <code> x </code> in the following identity:
-                            <code> x + <var>SHIFTER</var> \le  abs(<var>INEQUALITY</var>) </code> . </p>
-                        </div>
-                        <div class="guess"> [ graph.line1.pointA.coord, graph.line1.pointZ.coord ]</div>
-                        <div class="validator-function">
-                            var leftBound = guess[0][0];
-                            var rightBound = guess[1][0];
-                            if(leftBound > rightBound){
-                                leftBound = rightBound;
-                                rightBound = guess[0][0];
-                            }
-                            
-                            leftBound -= <var>PADDING</var>  + <var>SHIFTER</var>;
-                            rightBound -= <var>PADDING</var> + <var>SHIFTER</var>;
-                            return leftBound == -1*rightBound && rightBound == Math.abs(<var>INEQUALITY</var>);
-                        </div>
-                        <div class="show-guess">
-                            graph.line1.pointA.setCoord( guess[0] );
-                            graph.line1.pointZ.setCoord( guess[1] );
-                            graph.line1.transform( true );
-                        </div>
-                        <div class="example">  If you move one point to -1 and another to 1 you have covered the span of -1 < x < 1</div>
-                    </div>
-                </div>
-				
-				<div class="problem">
-                    <div class="vars">
-						<var id="SHIFTER"> randRange(-2,2) </var>
-                        <var id="INEQUALITY"> randRange( 1, 5 ) </var>
-                        <var id="PADDING">7</var>
-                        <var id="START">-7</var>
-                        <var id="END">7</var>
-                    </div>
-                    <div class="graphie">
-                        init({
-                            range: [ [-1, 14], [-1, 1] ],
-							scale: [30, 20]
-                        });
-                        
-                        initInteractiveNumberLine( START, END );                    
-                        addMouseLayer();
-                        graph.line1 = drawMoveableLine(-1 + <var>PADDING</var>, 1 + <var>PADDING</var>);
-                    </div>
-                    
-                    <div class="solution" data-type="custom">
-                        <div class="instruction">
-                            <p> Manipulate the points on the numberline so the blue line represents <code> x </code> in the following identity:
+                    <p> Manipulate the points on the numberline so the blue line represents <code> x </code> in the following identity:
                             <code>abs( x + <var>SHIFTER</var>) \le  <var>INEQUALITY</var> </code> . </p>
-                        </div>
+                    <div class="graphie">
+                        init({
+                            range: [ [-1, 14], [-1, 1] ],
+                            scale: [30, 20]
+                        });
+                        
+                        numberLine( START, END );                    
+                        addMouseLayer();
+                        graph.line1 = drawMoveableLine(-1 + <var>PADDING</var>, 1 + <var>PADDING</var>);
+                    </div>
+                    
+                    <div class="solution" data-type="custom">
                         <div class="guess"> [ graph.line1.pointA.coord, graph.line1.pointZ.coord ]</div>
                         <div class="validator-function">
                             var leftBound = guess[0][0];
                             var rightBound = guess[1][0];
-							var leftCorrect = -1*<var>INEQUALITY</var> + -1*<var>SHIFTER</var> ;
-							var rightCorrect = <var>INEQUALITY</var> + -1*<var>SHIFTER</var> ;
+                            var leftCorrect = -1*<var>INEQUALITY</var> - <var>SHIFTER</var> ;
+                            var rightCorrect = <var>INEQUALITY</var> - <var>SHIFTER</var> ;
                             if(leftBound > rightBound){
                                 leftBound = rightBound;
                                 rightBound = guess[0][0];
@@ -149,8 +106,49 @@
                             graph.line1.transform( true );
                         </div>
                         <div class="example">  If you move one point to -1 and another to 1 you have covered the span of -1 < x < 1</div>
-                    </div>
+						
+					</div>
+					<div class="hints">
+							<p> Remember, you can write <code>abs( x + <var>SHIFTER</var>) \le  <var>INEQUALITY</var> </code> as a combination of two inequalities. </p>
+							<p> If the inequality was not being shifted by <var> SHIFTER </var> then the answer would simply be the range of plus or minus <var>INEQUALITY</var></p>
+							<p> After shifting the absolute inequality by <var>SHIFTER</var> you'll get: <code> x \le <var>INEQUALITY - SHIFTER</var> </code> and <code> x \ge <var> -1*INEQUALITY - SHIFTER </var> </code> </p>
+							<p> Therefore, one of the points should be at <var>INEQUALITY - SHIFTER</var>, and the other point should be at <var> -1*INEQUALITY - SHIFTER </var> </p>
+					</div>
                 </div>
+                
+                <div class="problem"  data-weight="2">
+                    <div class="vars">
+                        <var id="SHIFTER"> randRangeNonZero(-10,10) </var>
+                        <var id="SCALAR"> randRange(1,5) </var>
+                        <var id="INEQUALITY"> randRange( 1, 4 ) </var>
+                    </div>
+                    <p> Expand the following absolute inequality: </p>
+                    <p> <code> abs(<var>SCALAR</var>x + <var>SHIFTER</var>) \gt <var>INEQUALITY</var>  </code></p>
+                    <p class="solution" data-type="multiple">
+                        <code>x</code>
+                        <code>\gt</code>
+                        <span class="sol" data-type="rational"><var>(INEQUALITY - SHIFTER)/(SCALAR)</var></span>
+                        <br/> AND <br/>
+                        <code>x</code>
+                        <code>\lt</code>
+                        <span class="sol" data-type="rational"><var>(-1*INEQUALITY - SHIFTER)/(SCALAR)</var></span>
+                    </p>
+                    <div class="hints">
+						<p>Remember that <code> abs(ax + b) > c </code> is equal to <code> ax + b > c </code> AND <code> -ax - b > c </code>.</p>
+						<p>Also, remember that multiplying both sides of an inequality by 1 flips the sign of the inequality. </p>
+						<p>After multiplying one of the inequalities by -1 (to get a positive x) the sign of the inequalities and simplifying, you'll get: <br/> <code>x</code>
+                        <code>\gt</code>
+                        <span class="sol" data-type="rational"><var>(INEQUALITY - SHIFTER)</var>/<var>SCALAR</var></span>
+                        <br/> AND <br/>
+                        <code>x</code>
+                        <code>\lt</code>
+                        <span class="sol" data-type="rational"><var>(-1*INEQUALITY - SHIFTER)</var>/<var>SCALAR</var></span></p>
+                    
+                  </div>
+                    
+                </div>
+                
+                
                 
     </div>
     </div>
