@@ -10,9 +10,22 @@ import lint_i18n_strings
 import lxml.html
 import lxml.html.html5parser
 
+
 # Make an HTML 5 Parser that will be used to turn the HTML documents
-# into a usable DOM. Make sure that we ignore the implied HTML namespace.
-_PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
+# into a usable DOM. Make sure that we ignore the implied HTML namespace,
+# and make sure we always read input files as utf-8.
+# TODO(csilvers): move this to lint_i18n_strings.py and use from there.
+class HTMLParser(lxml.html.html5parser.HTMLParser):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('namespaceHTMLElements', False)
+        super(HTMLParser, self).__init__(*args, **kwargs)
+
+    def parse(self, *args, **kwargs):
+        kwargs.setdefault('encoding', 'utf-8')
+        return super(HTMLParser, self).parse(*args, **kwargs)
+
+
+_PARSER = HTMLParser(namespaceHTMLElements=False)
 
 
 def main():

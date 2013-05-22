@@ -1,15 +1,11 @@
 """Just for fun, a script that updates the <title> tag of each exercise .html
 file with its display name.
 """
+
 import codecs
 import os
 
-import lxml.html
-import lxml.html.html5parser
 import requests
-
-
-_PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
 
 
 def get_title_dict():
@@ -39,6 +35,8 @@ def fix_title(filename, title):
     with codecs.open(full_filename, 'w', encoding='utf-8') as f:
         f.write(''.join(lines))
 
-title_dict = get_title_dict()
-for filename, title in sorted(title_dict.items()):
-    fix_title(filename, title)
+
+if __name__ == '__main__':
+    title_dict = get_title_dict()
+    for filename, title in sorted(title_dict.items()):
+        fix_title(filename, title)
