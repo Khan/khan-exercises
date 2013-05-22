@@ -37,6 +37,9 @@ _PLURAL_FORMS = {
 _PLURAL_NUM_POS = {}
 _IS_PLURAL_NUM = {}
 
+# Nodes that should not be inside another extracted node
+CANNOT_CONTAIN_NODES = ['p', 'div']
+
 # A list of all the built-in functions which are sometimes pluralized
 # We effectively treat these as strings since their pluralization is
 # already taken care of in word-problems.js
@@ -172,9 +175,11 @@ def lint_file(filename, apply_fix, verbose):
     # inside of extracted strings. For example, if a graphie element is in
     # an extracted string that is an error and the code needs to be fixed.
 
+    # Nodes that should not be within the node
+    bad_nodes = extract_strings.REJECT_NODES + CANNOT_CONTAIN_NODES
+
     # Construct an XPath expression for finding rejected nodes
-    lint_expr = "|".join([".//%s" % name for name in
-        extract_strings.REJECT_NODES])
+    lint_expr = "|".join([".//%s" % name for name in bad_nodes])
 
     for node in nodes:
         # If we're linting the file and the string doesn't contain any
