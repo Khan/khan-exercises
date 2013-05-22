@@ -57,8 +57,6 @@ _num_vars = ['NUM', 'AMOUNT', 'TOTAL']
 _STRING_RE = re.compile(r'^\s*["\'](.*?)["\']\s*$')
 _FUNCTION_RE = re.compile(r'^\s*(\w+)\(.*\)\s*$')
 
-_PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
-
 # We're looking for all nodes that have non-whitespace text inside of them
 # as a direct child node. Additionally we make sure the node isn't inside
 # of a node that matches the same criteria.
@@ -98,6 +96,23 @@ _CLEAN_ENTITIES = {
     '&lt;': '<',
     '&gt;': '>'
 }
+
+
+# Make an HTML 5 Parser that will be used to turn the HTML documents
+# into a usable DOM. Make sure that we ignore the implied HTML namespace,
+# and make sure we always read input files as utf-8.
+# TODO(csilvers): move this to lint_i18n_strings.py and use from there.
+class HTMLParser(lxml.html.html5parser.HTMLParser):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('namespaceHTMLElements', False)
+        super(HTMLParser, self).__init__(*args, **kwargs)
+
+    def parse(self, *args, **kwargs):
+        kwargs.setdefault('encoding', 'utf-8')
+        return super(HTMLParser, self).parse(*args, **kwargs)
+
+
+PARSER = HTMLParser()
 
 
 def main():
@@ -1333,7 +1348,7 @@ def _check_plural_is_ambiguous(plural_arg):
 def _extract_nodes(filename):
     """Extract all the i18n-able nodes out of a file."""
     # Parse the HTML tree
-    html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
+    html_tree = lxml.html.html5parser.parse(filename, parser=PARSER)
 
     # Turn all the tags into a full XPath selector
     search_expr = _XPATH_FIND_NODES
