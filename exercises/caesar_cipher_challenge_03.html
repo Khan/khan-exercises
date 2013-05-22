@@ -77,15 +77,36 @@
                         label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                     }
 
+                    <!-- Updates HTML 5 Canvas element. Much faster then Graphie -->
+                    function updateCanvas(x){
+                        var b_canvas = document.getElementById("b");
+                        var context = b_canvas.getContext("2d");
+                        context.fillStyle = 'blue';
+                        context.clearRect(0, 0, 550, 50);
+                        var letter = "";
+                            
+                        context.font = "normal 14px Arial";
+                        for(var i = 0; i < 26; i++)
+                        {
+                            letter = applyCaesar("abcdefghijklmnopqrstuvwxyz",x/indent)[i];
+                            context.fillText(letter, i*20 + 2, 15);
+                        }
+                    }
+                    
+                    updateCanvas(0);
+                    
                     addMouseLayer();
                     graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: indent });
                     graph.movablePoint.onMove = function( x, y ) {
+                        updateCanvas(x);
                         document.getElementById("Cip").innerHTML =  applyCaesar("a b c d e f g h i j k l m n o p q r s t u v w x y z",x/indent);
                         return [ min( max( LOWER_BOUND, x ), UPPER_BOUND * indent ), y ];
                     };
                 </div>
-                <div>
+                <canvas id="b" width="550" height="25">
                     <pre id="Cip">a b c d e f g h i j k l m n o p q r s t u v w x y z</pre>
+                </canvas>  
+                <div>
                     <center><strong>Cipher Alphabet</strong></center>
                 </div>
 

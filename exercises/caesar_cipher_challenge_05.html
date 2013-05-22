@@ -28,9 +28,12 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="M">person( 1 ).toLowerCase()</var>
+            <var id="M">getCipherMessage(randRange(1,5))</var>
             <var id="Shift">randRange(1,25)</var>
             <var id="C">applyCaesar(M,Shift)</var>
+            <var id="FREQ">normEnglishLetterFreq(10)</var>
+            <var id="CIPHER_FREQ">normCipherLetterFreq(C,10)</var>
+            <var id="LETTERS">26</var>
             
             <var id="LOWER_BOUND">0</var>
             <var id="UPPER_BOUND">25</var>
@@ -39,16 +42,13 @@
         <div class="problems">
             <div>
                 <div class="question">
-                    <p><var>person(2)</var> is expecting to recieve an encrypted message with the name of one of <var>his(2)</var> classmates. 
-                    <var>He(2)</var> knows the message will be encrypted with a <strong>Caesar Cipher</strong> using a shift of <strong><var>Shift</var></strong>.
-                    When he returns to his desk, <var>he(1)</var> finds a piece of paper with the following message on it:</p>
-                    <p><strong><var>C</var></strong> 
-                    <p>Help <var>person(2)</var> crack the code, by typing the decrypted message in the answer box using all lowercase letters.</p>
+                    <p>This Exercise is a tech demo of combining HTML 5 Canvas element, and the existing graphie and interactive libraries.</p>
+                    <br/><br/>
                 </div>
+                <canvas id="a" width="550" height="220">
+                </canvas>  
                 
                 <div>
-                    <p>You can use the below slider to help you decode the message.<br/>
-                    Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to shift the encrypted alphabet</p>
                     <center><br/><strong>Encrypted Alphabet</strong></center>
                 </div>
                 <div class="graphie" id="number-line">
@@ -76,8 +76,76 @@
                         line( [ x * indent, -markLength ], [ x * indent, markLength ] );
                         label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                     }
+                    
+                    
+                    <!-- Updates HTML 5 Canvas element for the Bar chart. -->
+                    function updateCanvasBars(x){
+                    
+                        var a_canvas = document.getElementById("a");
+                        var context = a_canvas.getContext("2d");
+                        var height = 150;
+                        var width = 500;
+                        
+                        context.clearRect(0, 0, 550, 300);
+                    
+                        <!-- Draw Barchart Borders -->
+                        for( var y = 0; y &lt; height; y += height/4) {
+                            context.moveTo(9.5,y + 10);
+                            context.lineTo(width,y + 10);
+                            context.lineWidth=2;
+                        }
+                        context.strokeStyle = "#ccc";
+                        context.stroke();
+                        
+                        context.beginPath();
+                        context.moveTo(10,8);
+                        context.lineTo(10,height);
+                        context.lineTo(width,height);
+                        
+                        context.lineWidth=2.5;
+                        context.strokeStyle = "#000";
+                        context.stroke();
+                                           
+                        <!-- Draw Barchart -->
+                        for( var index = 0; index &lt; LETTERS; index++) {
+                            context.fillStyle="#9ab8ed";
+                            context.fillRect( index * (width-10)/LETTERS + 14, height - 1, 
+                                              6, -FREQ[index] * height * .6);
+                                              
+                            context.fillStyle="#ffc966";
+                            context.fillRect( index * (width-10)/LETTERS + 20, height - 1, 
+                                              6, -CIPHER_FREQ[(index+x)%26] * height * .6);
+                            
+                            context.fillStyle="#000";
+                            context.font = "normal 14px Arial";
+                            context.fillText("abcdefghijklmnopqrstuvwxyz"[index], index * (width - 10)/LETTERS + 15, height + 20);
+                            
+                        }
+                    
+                        <!-- Draw column labels -->                    
+                        context.fillStyle="#000";
+                        context.font = "bold 14px Arial";
+                        
+                        context.fillText("Letter Frequency", width/2 - 60, height + 40);
+                        context.fillText("Left Shift (" + x + ")", width/2 - 50, height + 60);
+                        
+                        context.font = "normal 14px Arial";
+                        context.fillText("English", 30, height + 60);
+                        context.fillText("Cipher", 100, height + 60);
+                        
+                        context.fillStyle="#9ab8ed";
+                        context.fillRect( 20, height + 48, 
+                                              6,15);
+                        context.fillStyle="#ffc966";
+                        context.fillRect( 90, height + 48, 
+                                              6,15);
 
-                    <!-- Updates HTML 5 Canvas element. Much faster then Graphie -->
+                    }
+                    
+                    updateCanvasBars(0);
+                    
+                                        
+                    <!-- Updates HTML 5 Canvas element for the Cipher Slider -->
                     function updateCanvas(x){
                         var b_canvas = document.getElementById("b");
                         var context = b_canvas.getContext("2d");
@@ -86,9 +154,9 @@
                         var letter = "";
                             
                         context.font = "normal 14px Arial";
-                        for(var i = 0; i < 26; i++)
+                        for(var i = 0; i &lt; 26; i++)
                         {
-                            letter = applyCaesar("abcdefghijklmnopqrstuvwxyz",x/indent)[i];
+                            letter = applyCaesar("abcdefghijklmnopqrstuvwxyz",abs((x)-26))[i];
                             context.fillText(letter, i*20 + 2, 15);
                         }
                     }
@@ -98,16 +166,22 @@
                     addMouseLayer();
                     graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: indent });
                     graph.movablePoint.onMove = function( x, y ) {
-                        updateCanvas(x);
-                        document.getElementById("Cip").innerHTML =  applyCaesar("a b c d e f g h i j k l m n o p q r s t u v w x y z",abs((x/indent)-26));
+                    
+                        updateCanvas(x/indent);
+                        updateCanvasBars(x/indent);
+                        document.getElementById("MsgShift").innerHTML = applyCaesar(C,abs((x/indent)-26))
                         return [ min( max( LOWER_BOUND, x ), UPPER_BOUND * indent ), y ];
                     };
                 </div>
                 <canvas id="b" width="550" height="25">
-                    <pre id="Cip">a b c d e f g h i j k l m n o p q r s t u v w x y z</pre>
-                </canvas>  
+                    Your browser does not support this tool, however you can open up the Caesar Cipher Exploration tool here <a href="https://www.khanacademy.org/math/applied-math/cryptography/crypt/p/caesar-cipher-exploration">here</a>
+                </canvas>               
                 <div>
                     <center><strong>Original Alphabet</strong></center>
+                </div>
+                <div>
+                    <center><br/>Original Message:</center>
+                    <center> <strong> <span id="MsgShift"><var>C</var></span> </strong></center> 
                 </div>
 
 
