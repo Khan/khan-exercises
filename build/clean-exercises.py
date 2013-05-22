@@ -5,7 +5,7 @@ un-closed tags, improper entities, and other mistakes.
 """
 
 import argparse
-import extract_strings
+import lint_i18n_strings
 
 import lxml.html
 import lxml.html.html5parser
@@ -30,7 +30,7 @@ def main():
         html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
 
         with open(filename, 'w') as f:
-            f.write(extract_strings.get_page_html(html_tree))
+            f.write(lint_i18n_strings.get_page_html(html_tree))
 
 
 if __name__ == '__main__':

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """Extracts translatable strings from HTML exercise files.
 
 This program is used for extracting translatable strings from
@@ -12,61 +14,40 @@ contain non-translatable text (see IGNORE_NODES). It is assumed that
 everything that isn't part of IGNORE_NODES is something that needs to be
 translated.
 """
+import HTMLParser
 import argparse
 import json
 import os.path
 import re
-import string
 import sys
 
-import lxml.html
-import lxml.html.html5parser
 import polib
 
-# We're looking for all nodes that have non-whitespace text inside of them
-# as a direct child node. Additionally we make sure the node isn't inside
-# of a node that matches the same criteria.
-_HAS_TEXT = '*[./text()[normalize-space(.)!=""]]'
-_XPATH_FIND_NODES = '//%s[not(ancestor::%s)]' % (_HAS_TEXT, _HAS_TEXT)
+# All the tags that we want to ignore and not extract strings from.
+# Entries are either a string, which is a tag-name, or a pair, which
+# is a attribute name/value.  In the case of a pair, we ignore if
+# any tag has the given attribute name and *CONTAINS* the given
+# value text inside its attribute value.
+_IGNORE_TAGS = frozenset((
+        'style',
+        'script',
+        'var',
+        'code',
+))
 
-# All the tags that we want to make sure that strings don't contain
-REJECT_NODES = [
-    'style',
-    'script',
-    'div[@class="validator-function"]',
-    '*[contains(@data-type,"regex")]',
-    '*[contains(@class,"graphie")]',
-    '*[contains(@class,"guess")]'
-]
+_IGNORE_ATTRVALS = frozenset((
+        ('class', 'validator-function'),
+        ('data-type', 'regex'),
+        ('class', 'graphie'),
+        ('class', 'guess'),
+        ))
 
-# Script nodes that might be contained within an extracted string
-INLINE_SCRIPT_NODES = [
-    'var',
-    'code'
-]
+# TODO(csilvers): Convert to a more efficient data structure.
+_IGNORE_ATTRS = frozenset((attr for (attr, _) in _IGNORE_ATTRVALS))
 
-# All the tags that we want to ignore and not extract strings from
-IGNORE_NODES = REJECT_NODES + INLINE_SCRIPT_NODES
-
-# Make an HTML 5 Parser that will be used to turn the HTML documents
-# into a usable DOM. Make sure that we ignore the implied HTML namespace.
-_PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
 
 # The base URL for referencing an exercise
 _EXERCISE_URL = 'http://www.khanacademy.org/exercise/%s'
-
-# Entities to fix when serializing HTML trees
-ENTITY_TABLE = {
-    "\xc2\xa0": "&nbsp;",
-}
-
-# Entities that should be cleaned up when they're set as the condition
-# in an data-if attribute
-_CLEAN_ENTITIES = {
-    '&amp;': '&',
-    '&lt;': '<',
-    '&gt;': '>'
-}
 
 
 def main():
@@ -88,11 +69,12 @@ def main():
 
     if args.format == 'po':
         # Output a PO file by default
-        results = make_potfile(args.html_files, not args.quiet)
+        results = unicode(make_potfile(args.html_files,
+                                       not args.quiet)).encode('utf-8')
     else:
         # Optionally output a JSON-encoded data structure
         results = json.dumps(extract_files(args.html_files, not args.quiet),
-                             cls=_SetEncoder)
+                             cls=_SetEncoder, indent=2)
 
     if args.output:
         # If an output location is specified, write the output to that file
@@ -125,7 +107,7 @@ def make_potfile(files, verbose):
             occurrences=occurrences,
         ))
 
-    return unicode(output_pot).encode('utf-8')
+    return output_pot
 
 
 def extract_files(files, verbose):
@@ -166,19 +148,135 @@ def extract_files(files, verbose):
     return retval
 
 
-def extract_nodes(filename):
-    """Extract all the i18n-able nodes out of a file."""
-    # Parse the HTML tree
-    html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
+class I18nExtractor(HTMLParser.HTMLParser):
+    """Lexes html, and returns interesting tags via get_node().
 
-    # Turn all the tags into a full XPath selector
-    search_expr = _XPATH_FIND_NODES
+    'Interesting' tags are those that a) have text directly in them
+    (that is, not inside some nested tag), b) are not in _IGNORE_TAGS
+    or _IGNORE_ATTRVALS, and c) are not nested inside another
+    'interesting' tag.  The data returned is the full html of that
+    tag: that is, everything between <tag> and </endtag>
+    (non-inclusive).  Whitespace in the return value is collapsed.
 
-    for name in IGNORE_NODES:
-        search_expr += "[not(ancestor-or-self::%s)]" % name
+    This assumes well-formed html!  It will do weird things otherwise.
+    """
+    class TagInfo(object):
+        def __init__(self, tagname, attrs,
+                     startline, startpos, parent_tag_info):
+            self.tagname = tagname
+            self.should_emit_tag = True          # start optimistic
+            self.tag_has_non_whitespace = False  # start pessimistic
+            self.startline = startline           # line # into text
+            self.startpos = startpos             # offset into text
+            self.endpos = None
 
-    # Return the matching nodes
-    return html_tree.xpath(search_expr)
+            # We know right away we shouldn't emit a tag if any of the
+            # following are true: we shouldn't emit the tag's parent,
+            # the tag is in _IGNORE_TAGS, or the tag has some
+            # attribute values that are in _IGNORE_ATTRVALS.
+            if self.should_emit_tag:
+                self.should_emit_tag = (not parent_tag_info or
+                                        parent_tag_info.should_emit_tag)
+            if self.should_emit_tag:
+                self.should_emit_tag = not (self.tagname in _IGNORE_TAGS)
+            if self.should_emit_tag:
+                for attrval in attrs:
+                    if attrval[0] in _IGNORE_ATTRS:
+                        for (ignore_attr, ignore_tag) in _IGNORE_ATTRVALS:
+                            if (ignore_attr == attrval[0] and
+                                ignore_tag in attrval[1]):
+                                self.should_emit_tag = False
+                                return
+
+    def __init__(self, *args, **kwargs):
+        HTMLParser.HTMLParser.__init__(self, *args, **kwargs)
+        self.tagstack = []         # stack (list) of TagInfo's.
+        self.candidates = []       # tags that we provisionally should emit
+
+    def _line_offset_to_pos(self, line_and_offset):
+        """Input is a tuple (5, 10): 10th char of the 5th line."""
+        return self.linepos[line_and_offset[0]] + line_and_offset[1]
+
+    # HTMLParser has a bug where it ends <script> tags on *any* </tag>,
+    # not just </script>.  Fix that.
+    def set_cdata_mode(self):
+        self.interesting = re.compile(r'</%s' % re.escape(self.lasttag))
+
+    def handle_starttag(self, tag, attrs):
+        # Read past the start-tag; startpos is the start of the 'inner' html.
+        startline = self.getpos()[0]
+        startpos = (self._line_offset_to_pos(self.getpos()) + 
+                    len(self.get_starttag_text()))
+
+        self.tagstack.append(I18nExtractor.TagInfo(
+            tag, attrs, startline, startpos,
+            self.tagstack[-1] if self.tagstack else None))
+
+    def handle_endtag(self, tag):
+        # We need the while because not all tags have end-tags (e.g. <meta>)
+        while self.tagstack and self.tagstack[-1].tagname != tag:
+            self.tagstack.pop()
+        # This can fail if the html is not well-formed (no balanced tags)
+        assert self.tagstack, (tag, self.getpos())
+        tag_info = self.tagstack.pop()
+
+        # Update endpos
+        tag_info.endpos = self._line_offset_to_pos(self.getpos())
+
+        # If tagname-is-good is set, and the tag contains non-ws text,
+        # then its contents are a candidate to be extracted.  However,
+        # its parents get dibs: we don't extract this if we extract a
+        # parent.  We will have to wait until the parent is done, to see.
+        if tag_info.should_emit_tag and tag_info.tag_has_non_whitespace:
+            self.candidates.append(tag_info)
+
+    def handle_data(self, data):
+        """Callback for text between tags."""
+        if data.strip():      # not just whitespace
+            assert self.tagstack
+            self.tagstack[-1].tag_has_non_whitespace = True
+
+    def handle_charref(self, charref):
+        """Callback for data that starts with &, e.g. &apos;."""
+        assert self.tagstack
+        self.tagstack[-1].tag_has_non_whitespace = True
+
+    def feed(self, text):
+        """Store the text so we can print from it, and make line->pos table."""
+        self.text = text
+        self.linepos = [None, 0]   # dummy 0-th line; linenums start at 1
+        while True:
+            newline = text.find('\n', self.linepos[-1])
+            if newline == -1:
+                break
+            self.linepos.append(newline + 1)
+
+        HTMLParser.HTMLParser.feed(self, text)
+
+    def process_node(self, tag_info):
+        """Return text between <tag> and </tag>, cleans up whitespaces."""
+        text = self.text[tag_info.startpos:tag_info.endpos]
+
+        # Normalize whitespace.
+        return (re.sub(r'\s+', ' ', text).strip(), tag_info.startline)
+
+    def get_node(self):
+        """Yields (nl-string, linenumber) pairs.  Does not include tags."""
+        # If one candidate is inside another one, we print the outside
+        # one.  We can figure this out via sorting.
+        self.candidates.sort(key=lambda tag_info: tag_info.startpos)
+        if self.candidates:
+            yield self.process_node(self.candidates[0])
+            parent_range = (self.candidates[0].startpos,
+                            self.candidates[0].endpos)
+            for i in xrange(1, len(self.candidates)):
+                # If we're entirely inside our parent, ignore us.
+                if (self.candidates[i].startpos >= parent_range[0] and
+                    self.candidates[i].endpos <= parent_range[1]):
+                    continue
+                yield self.process_node(self.candidates[i])
+                parent_range = (self.candidates[i].startpos,
+                                self.candidates[i].endpos)
 
 
 def extract_file(filename, matches):
@@ -189,30 +287,19 @@ def extract_file(filename, matches):
 
     Arguments:
        filename: the .html file to extract natural language text from.
-       matches: a map from found nl-strings to a set of
+       matches: a dict from found nl-strings to a set of
          (filename, linenumber) pairs where this string is found.
     """
-    if matches is None:
-        matches = {}
+    extractor = I18nExtractor()
+    with open(filename) as f:
+        contents = f.read().decode('utf-8')
+    extractor.feed(contents)
 
-    # Collect all the i18n-able nodes out of file
-    nodes = extract_nodes(filename)
-
-    for node in nodes:
-        # Get a string version of the contents of the node
-        contents = get_innerhtml(node)
-
-        # Bail if we're dealing with an empty element
-        if not contents:
-            continue
-
+    for (text, linenum) in extractor.get_node():
         # Keep track of matches so that we can cite the file it came from
-        matches.setdefault(contents, set())
+        matches.setdefault(text, set()).add((filename, linenum))
 
-        # TODO(jeresig): Find a way to populate line number for .po file.
-        # Unfortunately it may not be possible with html5lib:
-        # http://code.google.com/p/html5lib/issues/detail?id=213
-        matches[contents].add((filename, 1))
+    return matches
 
 
 def _filename_to_url(filename):
@@ -232,134 +319,6 @@ class _SetEncoder(json.JSONEncoder):
         if isinstance(obj, set):
             return list(obj)
         return json.JSONEncoder.default(self, obj)
-
-
-def replace_node(node, replace_node):
-    """A utility method for replacing a node with another node.
-
-    The other node can optionally be a text string.
-    """
-    # Figure out the location where the node needs to be inserted
-    prev_node = node.getprevious()
-    parent_node = node.getparent()
-
-    # Get any text from the node which we'll need to re-insert
-    node_tail = node.tail or ''
-
-    if isinstance(replace_node, basestring):
-        # If it's a string or a Unicode string then
-        # we need to handle it specially
-        if prev_node is not None:
-            # If we're after another node we add it to the
-            # 'tail' of that node
-            prev_text = prev_node.tail or ''
-            prev_node.tail = prev_text + replace_node + node_tail
-        elif parent_node is not None:
-            # If the text node is at the start of the string
-            # then it's added as the .text property to the
-            # parent node
-            parent_text = parent_node.text or ''
-            parent_node.text = parent_text + replace_node + node_tail
-    else:
-        replace_node.tail = node_tail
-        # Otherwise it's a normal node so we just insert it
-        node.addprevious(replace_node)
-
-    # Remove the node that we just replaced
-    if parent_node is not None:
-        parent_node.remove(node)
-
-
-def get_outerhtml(html_node):
-    """Get a string representation of an HTML node.
-
-    (lxml doesn't provide an easy way to get the 'innerHTML'.)
-    Note: lxml also includes the trailing text for a node when you
-          call tostring on it, we need to snip that off too.
-    """
-    html_string = lxml.html.tostring(html_node)
-    return re.sub(r'[^>]*$', '', html_string, count=1)
-
-
-def get_innerhtml(html_node):
-    """Strip the leading and trailing tag from an lxml-generated HTML string.
-
-    Also cleanup endlines and extraneous spaces.
-    """
-    html_string = get_outerhtml(html_node)
-    html_string = re.sub(r'^<[^>]*>', '', html_string, count=1)
-    html_string = re.sub(r'</[^>]*>$', '', html_string, count=1)
-    return re.sub(r'\s+', ' ', html_string).strip()
-
-
-def get_page_html(html_tree):
-    """Return an HTML string representing an lxml tree."""
-    # Hack to fix attribute ordering
-    # See http://stackoverflow.com/questions/3551923/how-to-prevent-xmlserializer-serializetostring-from-re-ordering-attributes
-    #
-    # This hack relies on two properties:
-    #   - Python preserves the order in which values are inserted in a dict
-    #   - Attributes begin with a letter, so numbers will always sort 
-    #     before any "real" attribute.
-    for el in html_tree.xpath('//*'):
-        attrs = dict(el.attrib)
-        keys = el.attrib.keys()
-        keys.sort(key=lambda k:
-            0 if (k == 'href') else
-            1 if (k == 'class') else
-            2 if (k == 'id') else
-            3 if (k == 'http-equiv') else
-            4 if (k == 'content') else
-            k)
-        el.attrib.clear()
-        for k in keys:
-            el.attrib[k] = attrs[k]
-
-    # For some reason the last child node in the body's whitespace
-    # constantly expands on every call so we just reduce it to an
-    # endline but only if it doesn't contain any non-whitespace.
-    body_child_nodes = html_tree.xpath('//body/*')
-    if body_child_nodes:
-        last_node = body_child_nodes[-1]
-        if not last_node.tail or last_node.tail.isspace():
-            last_node.tail = "\n"
-
-    # We serialize the entire HTML tree
-    html_string = lxml.html.tostring(html_tree,
-                                     include_meta_content_type=True,
-                                     encoding='utf-8')
-
-    for norm, human in ENTITY_TABLE.iteritems():
-        html_string = string.replace(html_string, norm, human)
-
-    # Clean up entities in data-if attributes
-    html_string = re.sub(r'data-if=(["\'])(.*?)\1', clean_data_if, html_string)
-
-    # Add in endlines around the <html> and </html> nodes
-    html_string = re.sub(r'\s*(<\/?html[^>]*>)\s*', r'\n\1\n', html_string)
-
-    return html_string
-
-
-def clean_data_if(match):
-    """Clean up entities in data-if attributes.
-    
-    This is done purely to aid in readability. In an attribute it's possible to
-    have < > and & exist un-escaped so we covert them to be as such. Helps to
-    make the contents easier to understand.
-
-    lxml will do the encoding automatically so we actually revert that using
-    this method.
-    """
-    quote = match.group(1)
-    condition = match.group(2)
-
-    # Make sure any common entities are cleaned up, to help
-    # with readability.
-    for entity, replace in _CLEAN_ENTITIES.iteritems():
-        condition = string.replace(condition, entity, replace)
-
-    return 'data-if=%s%s%s' % (quote, condition, quote)
 
 
 def babel_extract(fileobj, keywords, comment_tags, options):

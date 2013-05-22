@@ -1,1 +1,26 @@
-{"Absolute value": [["../exercises/absolute_value.html", 1]], "In other words, <code><var>INT + FRAC</var></code> is the non-negative version of <code><var>SIGN + INT + FRAC</var></code>.": [["../exercises/absolute_value.html", 1]], "What is <code>\\lvert <var>SIGN + INT + FRAC</var> \\rvert</code>?": [["../exercises/absolute_value.html", 1]], "The distance from <code>0</code> to <code><var>SIGN + INT + FRAC</var></code> is <code><var>INT + FRAC</var></code>, which equals the absolute value.": [["../exercises/absolute_value.html", 1]]}
+{
+  "In other words, <code><var>INT + FRAC</var></code> is the non-negative version of <code><var>SIGN + INT + FRAC</var></code>.": [
+    [
+      "extract_test/absolute_value.html", 
+      49
+    ]
+  ], 
+  "Finding absolute values": [
+    [
+      "extract_test/absolute_value.html", 
+      5
+    ]
+  ], 
+  "What is <code>\\lvert <var>SIGN + INT + FRAC</var> \\rvert</code>?": [
+    [
+      "extract_test/absolute_value.html", 
+      19
+    ]
+  ], 
+  "The distance from <code>0</code> to <code><var>SIGN + INT + FRAC</var></code> is <code><var>INT + FRAC</var></code>, which equals the absolute value.": [
+    [
+      "extract_test/absolute_value.html", 
+      48
+    ]
+  ]
+}

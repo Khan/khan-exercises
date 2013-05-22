@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """An i18n linting tool for exercises.
 
 Catches common i18n problems in exercises and recommends solutions to
@@ -18,7 +20,9 @@ import copy
 import re
 import sys
 
-import extract_strings
+# TODO(csilvers): replace lxml with HTMLParser (like extract_strings.py does)
+import lxml.html
+import lxml.html.html5parser
 
 
 # Should the user be prompted when a case is ambiguous?
@@ -37,9 +41,6 @@ _PLURAL_FORMS = {
 _PLURAL_NUM_POS = {}
 _IS_PLURAL_NUM = {}
 
-# Nodes that should not be inside another extracted node
-CANNOT_CONTAIN_NODES = ['p', 'div']
-
 # A list of all the built-in functions which are sometimes pluralized
 # We effectively treat these as strings since their pluralization is
 # already taken care of in word-problems.js
@@ -55,6 +56,48 @@ _num_vars = ['NUM', 'AMOUNT', 'TOTAL']
 # or a function call
 _STRING_RE = re.compile(r'^\s*["\'](.*?)["\']\s*$')
 _FUNCTION_RE = re.compile(r'^\s*(\w+)\(.*\)\s*$')
+
+_PARSER = lxml.html.html5parser.HTMLParser(namespaceHTMLElements=False)
+
+# We're looking for all nodes that have non-whitespace text inside of them
+# as a direct child node. Additionally we make sure the node isn't inside
+# of a node that matches the same criteria.
+_HAS_TEXT = '*[./text()[normalize-space(.)!=""]]'
+_XPATH_FIND_NODES = '//%s[not(ancestor::%s)]' % (_HAS_TEXT, _HAS_TEXT)
+
+# All the tags that we want to make sure that strings don't contain
+_REJECT_NODES = [
+    'style',
+    'script',
+    'div[@class="validator-function"]',
+    '*[contains(@data-type,"regex")]',
+    '*[contains(@class,"graphie")]',
+    '*[contains(@class,"guess")]'
+]
+
+# Nodes that should not be inside another extracted node
+_CANNOT_CONTAIN_NODES = ['p', 'div']
+
+# Script nodes that might be contained within an extracted string
+_INLINE_SCRIPT_NODES = [
+    'var',
+    'code'
+]
+
+# All the tags that we want to ignore and not extract strings from
+_IGNORE_NODES = _REJECT_NODES + _INLINE_SCRIPT_NODES
+
+_ENTITY_TABLE = {
+    "\xc2\xa0": "&nbsp;",
+}
+
+# Entities that should be cleaned up when they're set as the condition
+# in an data-if attribute
+_CLEAN_ENTITIES = {
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>'
+}
 
 
 def main():
@@ -166,7 +209,7 @@ def lint_file(filename, apply_fix, verbose):
         filters.append(AmbiguousPluralFilter)
 
     # Collect all the i18n-able nodes out of file
-    nodes = extract_strings.extract_nodes(filename)
+    nodes = _extract_nodes(filename)
 
     # Root HTML Tree
     root_tree = nodes[0].getroottree() if nodes else None
@@ -176,7 +219,7 @@ def lint_file(filename, apply_fix, verbose):
     # an extracted string that is an error and the code needs to be fixed.
 
     # Nodes that should not be within the node
-    bad_nodes = extract_strings.REJECT_NODES + CANNOT_CONTAIN_NODES
+    bad_nodes = _REJECT_NODES + _CANNOT_CONTAIN_NODES
 
     # Construct an XPath expression for finding rejected nodes
     lint_expr = "|".join([".//%s" % name for name in bad_nodes])
@@ -188,8 +231,7 @@ def lint_file(filename, apply_fix, verbose):
 
         for lint_node in lint_nodes:
             errors.append("Contains invalid node:\n%s\nInvalid node:\n%s" % (
-                extract_strings.get_outerhtml(node),
-                extract_strings.get_outerhtml(lint_node)))
+                _get_outerhtml(node), _get_outerhtml(lint_node)))
 
     # And now we run the nodes through all of our fixable filters. These
     # filters detect nodes that can be automatically fixed (and fixes them
@@ -223,7 +265,7 @@ def lint_file(filename, apply_fix, verbose):
         if apply_fix:
             # Then write out the modified file
             with open(filename, 'w') as f:
-                f.write(extract_strings.get_page_html(root_tree))
+                f.write(get_page_html(root_tree))
         else:
             # Consider it to be an error when there are nodes that need
             # fixing and we haven't run with --fix
@@ -236,11 +278,11 @@ def lint_file(filename, apply_fix, verbose):
 
 class BaseFilter(object):
     """A base filter, replaces nodes and <var> elements.
-    
+
     Sub-classes must define the following:
      - xpath: A string that holds the XPath expression for finding nodes.
      - filter_var: A method for processing a single fixable <var>.
-     - get_match: A method for determining if a <var> matches 
+     - get_match: A method for determining if a <var> matches
     """
     def __init__(self):
         """Intitialize and keep track of nodes_changed and errors."""
@@ -308,13 +350,13 @@ class BaseFilter(object):
         """
         # Construct an XPath expression for finding nodes to fix
         fix_expr = '|'.join(['.//%s[%s]' % (name, self.xpath)
-            for name in extract_strings.INLINE_SCRIPT_NODES])
+            for name in _INLINE_SCRIPT_NODES])
 
         return node.xpath(fix_expr)
 
     def copy_node(self, orig_node):
         """Create a copy of the node for further processing.
-        
+
         Returns a copied version of the node.
         """
         # We copy the node to make sure we don't unintentionally modify
@@ -371,7 +413,7 @@ class IfElseFilter(BaseFilter):
      - extract_key: A method for pulling a unique key from a match.
      - get_condition: A method that returns the condition to add to the node.
     """
-    # Keep track of node class names which should should not be directly 
+    # Keep track of node class names which should should not be directly
     # modified, in which only an inner <span> should be used.
     _blacklist_classes = ['problem', 'question']
 
@@ -405,8 +447,7 @@ class IfElseFilter(BaseFilter):
         # strings by hand.
         if len(self.match_keys) > 1:
             self.errors.append("Contains too many different keys (%s):\n%s" % (
-                ", ".join(self.match_keys),
-                extract_strings.get_outerhtml(orig_node)))
+                ", ".join(self.match_keys), _get_outerhtml(orig_node)))
             return orig_node
 
         # Only continue if there are keys to process
@@ -526,7 +567,7 @@ class IfElseFilter(BaseFilter):
 
     def copy_node(self, orig_node):
         """Copy the node only if it can't have an data-if added to it.
-        
+
         We leave nodes that have a data-if or data-else in-place and new
         <span> wrappers are generated instead.
         """
@@ -604,8 +645,8 @@ class PronounFilter(IfElseFilter):
         For example: <var>He(1)</var> will be 'He' and 'She' in the
         original and cloned nodes.
         """
-        extract_strings.replace_node(var_node, match.group(1))
-        extract_strings.replace_node(self._get_cloned_var(var_node),
+        _replace_node(var_node, match.group(1))
+        _replace_node(self._get_cloned_var(var_node),
             self._pronoun_map[match.group(1)])
 
     def get_condition(self, key):
@@ -675,8 +716,7 @@ class AlwaysPluralFilter(BaseFilter):
             # In this case just convert it directly to its plural form
             # We do this by prompting the user for help translating to the
             # correct plural form.
-            extract_strings.replace_node(var_node,
-                get_plural_form(str_match.group(1)))
+            _replace_node(var_node, get_plural_form(str_match.group(1)))
         # If the argument is a number
         elif get_is_plural_num(match):
             # Then we need to rewrite the function call so that it'll
@@ -828,11 +868,10 @@ class PluralFilter(IfElseFilter):
             word = first_str_match.group(1).strip()
 
             # Replace the first node with just the word
-            extract_strings.replace_node(var_node, word)
+            _replace_node(var_node, word)
 
             # Replace the cloned node with the plural form of the word
-            extract_strings.replace_node(cloned_var,
-                get_plural_form(word))
+            _replace_node(cloned_var, get_plural_form(word))
 
         # If the second argument is a string
         elif second_str_match:
@@ -1004,7 +1043,7 @@ class TernaryFilter(IfElseFilter):
         # If the first item in the ternary expression is a string
         if first_str_match:
             # Then just replace the <var> with that string
-            extract_strings.replace_node(var_node, first_str_match.group(1))
+            _replace_node(var_node, first_str_match.group(1))
         else:
             # Otherwise just turn it into <var>STATEMENT</var>
             var_node.text = match.group(2).strip()
@@ -1012,8 +1051,7 @@ class TernaryFilter(IfElseFilter):
         # If the second item in the ternary expression is a string
         if second_str_match:
             # Then just replace the cloned <var> with that string
-            extract_strings.replace_node(cloned_var,
-                second_str_match.group(1))
+            _replace_node(cloned_var, second_str_match.group(1))
         else:
             # Otherwise just turn it into <var>STATEMENT</var>
             cloned_var.text = match.group(3).strip()
@@ -1092,8 +1130,7 @@ class AmbiguousPluralFilter(BaseFilter):
     def filter_var(self, match, var_node):
         """Generate an error message for the usage of AMBIGUOUS_PLURAL."""
         self.errors.append("Ambiguous plural usage (%s):\n%s" % (
-            match.group(1).strip(),
-            extract_strings.get_outerhtml(var_node)))
+            match.group(1).strip(), _get_outerhtml(var_node)))
 
 
 def get_plural_form(word):
@@ -1276,7 +1313,7 @@ def _check_plural_is_ambiguous(plural_arg):
     later time:
         <var>AMBIGUOUS_PLURAL(ITEM, NUM)</var>
 
-    Some of this logic has been copied, and adapted, from 
+    Some of this logic has been copied, and adapted, from
     _check_plural_arg_is_num.
     """
     # If the argument is a string literal, then it's not ambiguous
@@ -1291,6 +1328,139 @@ def _check_plural_is_ambiguous(plural_arg):
 
     # Otherwise the result is definitely ambiguous
     return True
+
+
+def _extract_nodes(filename):
+    """Extract all the i18n-able nodes out of a file."""
+    # Parse the HTML tree
+    html_tree = lxml.html.html5parser.parse(filename, parser=_PARSER)
+
+    # Turn all the tags into a full XPath selector
+    search_expr = _XPATH_FIND_NODES
+
+    for name in _IGNORE_NODES:
+        search_expr += "[not(ancestor-or-self::%s)]" % name
+
+    # Return the matching nodes
+    return html_tree.xpath(search_expr)
+
+
+def _replace_node(node, replace_node):
+    """A utility method for replacing a node with another node.
+
+    The other node can optionally be a text string.
+    """
+    # Figure out the location where the node needs to be inserted
+    prev_node = node.getprevious()
+    parent_node = node.getparent()
+
+    # Get any text from the node which we'll need to re-insert
+    node_tail = node.tail or ''
+
+    if isinstance(replace_node, basestring):
+        # If it's a string or a Unicode string then
+        # we need to handle it specially
+        if prev_node is not None:
+            # If we're after another node we add it to the
+            # 'tail' of that node
+            prev_text = prev_node.tail or ''
+            prev_node.tail = prev_text + replace_node + node_tail
+        elif parent_node is not None:
+            # If the text node is at the start of the string
+            # then it's added as the .text property to the
+            # parent node
+            parent_text = parent_node.text or ''
+            parent_node.text = parent_text + replace_node + node_tail
+    else:
+        replace_node.tail = node_tail
+        # Otherwise it's a normal node so we just insert it
+        node.addprevious(replace_node)
+
+    # Remove the node that we just replaced
+    if parent_node is not None:
+        parent_node.remove(node)
+
+
+def _get_outerhtml(html_node):
+    """Get a string representation of an HTML node.
+
+    (lxml doesn't provide an easy way to get the 'innerHTML'.)
+    Note: lxml also includes the trailing text for a node when you
+          call tostring on it, we need to snip that off too.
+    """
+    html_string = lxml.html.tostring(html_node)
+    return re.sub(r'[^>]*$', '', html_string, count=1)
+
+
+def get_page_html(html_tree):
+    """Return an HTML string representing an lxml tree."""
+    # Hack to fix attribute ordering
+    # See http://stackoverflow.com/questions/3551923/how-to-prevent-xmlserializer-serializetostring-from-re-ordering-attributes
+    #
+    # This hack relies on two properties:
+    #   - Python preserves the order in which values are inserted in a dict
+    #   - Attributes begin with a letter, so numbers will always sort
+    #     before any "real" attribute.
+    for el in html_tree.xpath('//*'):
+        attrs = dict(el.attrib)
+        keys = el.attrib.keys()
+        keys.sort(key=lambda k:
+            0 if (k == 'href') else
+            1 if (k == 'class') else
+            2 if (k == 'id') else
+            3 if (k == 'http-equiv') else
+            4 if (k == 'content') else
+            k)
+        el.attrib.clear()
+        for k in keys:
+            el.attrib[k] = attrs[k]
+
+    # For some reason the last child node in the body's whitespace
+    # constantly expands on every call so we just reduce it to an
+    # endline but only if it doesn't contain any non-whitespace.
+    body_child_nodes = html_tree.xpath('//body/*')
+    if body_child_nodes:
+        last_node = body_child_nodes[-1]
+        if not last_node.tail or last_node.tail.isspace():
+            last_node.tail = "\n"
+
+    # We serialize the entire HTML tree
+    html_string = lxml.html.tostring(html_tree,
+                                     include_meta_content_type=True,
+                                     encoding='utf-8')
+
+    for norm, human in _ENTITY_TABLE.iteritems():
+        html_string = html_string.replace(norm, human)
+
+    # Clean up entities in data-if attributes
+    html_string = re.sub(r'data-if=(["\'])(.*?)\1',
+                         _clean_data_if, html_string)
+
+    # Add in endlines around the <html> and </html> nodes
+    html_string = re.sub(r'\s*(<\/?html[^>]*>)\s*', r'\n\1\n', html_string)
+
+    return html_string
+
+
+def _clean_data_if(match):
+    """Clean up entities in data-if attributes.
+
+    This is done purely to aid in readability. In an attribute it's possible to
+    have < > and & exist un-escaped so we covert them to be as such. Helps to
+    make the contents easier to understand.
+
+    lxml will do the encoding automatically so we actually revert that using
+    this method.
+    """
+    quote = match.group(1)
+    condition = match.group(2)
+
+    # Make sure any common entities are cleaned up, to help
+    # with readability.
+    for entity, replace in _CLEAN_ENTITIES.iteritems():
+        condition = condition.replace(entity, replace)
+
+    return 'data-if=%s%s%s' % (quote, condition, quote)
 
 
 def prompt_user(prompt, default=''):

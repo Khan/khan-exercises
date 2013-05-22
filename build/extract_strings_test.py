@@ -1,7 +1,12 @@
+#!/usr/bin/env python
+
 import glob
 import json
 import os
+import sys
 import unittest
+
+import polib
 
 import extract_strings
 
@@ -17,7 +22,8 @@ _TEST_MULTI_FILES = [
 
 # Directories used for test files
 _TEST_ROOT = 'extract_test'
-_EXERCISE_ROOT = os.path.join('..', 'exercises')
+_EXERCISE_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              '..', 'exercises')
 
 
 class ExtractStringsTest(unittest.TestCase):
@@ -33,83 +39,108 @@ class ExtractStringsTest(unittest.TestCase):
         # since the output includes file paths
         os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
+        self.maxDiff = None    # see *all* the diff!
+
     def tearDown(self):
         os.chdir(self.orig_dir)
         super(ExtractStringsTest, self).tearDown()
 
     def test_json_output_from_single_file(self):
         for test_file in _TEST_SINGLE_FILES:
-            # Get old JSON example test output
-            expected_json = _slurp_file(_TEST_ROOT, test_file + '.json')
+            expected_output = _load_test_json(test_file)
+
+            # The python routines store the matching filenames as a
+            # set.  json stores them as a list (it doesn't have sets).
+            # We don't care about order, so we convert from the list
+            # to the set for this test.
+            for k in expected_output:
+                expected_output[k] = set(
+                    (str(file), linenum)
+                    for (file, linenum) in expected_output[k])
 
             # Generate new output to check
             output = extract_strings.extract_file(
-                os.path.join(_EXERCISE_ROOT, test_file + '.html'))
-            output = json.dumps(output, cls=extract_strings._SetEncoder)
+                os.path.join(_TEST_ROOT, test_file + '.html'), {})
 
-            self.assertEqual(output, expected_json, test_file)
+            self.assertEqual(output, expected_output)
 
     def test_po_output_from_single_file(self):
         for test_file in _TEST_SINGLE_FILES:
             # Get old PO example test output
-            expected_po = _slurp_file(_TEST_ROOT, test_file + '.po')
+            expected_po = _load_test_po_file(test_file)
 
             # Generate new output to check
             output = extract_strings.make_potfile(
-                [os.path.join(_EXERCISE_ROOT, test_file + '.html')])
+                [os.path.join(_TEST_ROOT, test_file + '.html')],
+                verbose=True)
 
-            self.assertEqual(output, expected_po, test_file)
+            self.assertEqual(output, expected_po,
+                             (str(output), str(expected_po)))
 
     def test_json_output_from_multiple_files(self):
         for test_files in _TEST_MULTI_FILES:
             # Get old JSON example test output
-            expected_json = _slurp_file(_TEST_ROOT,
-                "-".join(test_files) + '.json')
+            expected_output = _load_test_json("-".join(test_files))
+
+            # The python output uses both tuples and lists, while the
+            # json has only lists (it doesn't support tuples).
+            # Convert the json so all the types match.
+            expected_output = [(nltext, [(str(f), lnum) for (f, lnum) in occs])
+                               for (nltext, occs) in expected_output]
 
             # Generate new output to check
             output = extract_strings.extract_files(
-                [os.path.join(_EXERCISE_ROOT, test_file + '.html')
-                    for test_file in test_files])
-            output = json.dumps(output, cls=extract_strings._SetEncoder)
+                [os.path.join(_TEST_ROOT, test_file + '.html')
+                    for test_file in test_files],
+                verbose=False)
 
-            self.assertEqual(output, expected_json, test_files)
+            self.assertEqual(output, expected_output)
 
     def test_po_output_from_multiple_files(self):
         for test_files in _TEST_MULTI_FILES:
             # Get old PO example test output
-            expected_po = _slurp_file(_TEST_ROOT, "-".join(test_files) + '.po')
+            expected_po = _load_test_po_file("-".join(test_files))
 
             # Generate new output to check
             output = extract_strings.make_potfile(
-                [os.path.join(_EXERCISE_ROOT, test_file + '.html')
-                    for test_file in test_files])
+                [os.path.join(_TEST_ROOT, test_file + '.html')
+                    for test_file in test_files],
+                verbose=True)
 
-            self.assertEqual(output, expected_po, test_files)
+            self.assertEqual(output, expected_po,
+                             (str(output), str(expected_po)))
 
     def test_json_output_from_all_files(self):
         # Generate new output to check
         output = extract_strings.extract_files(
-            glob.glob(os.path.join(_EXERCISE_ROOT, '*.html')))
+            glob.glob(os.path.join(_EXERCISE_ROOT, '*.html')),
+            verbose=False)
 
         # Make sure that we don't cause something bad to happen
         # and no longer output drastically less results.
         # As of 2013-01-23 we have 4776 results.
         self.assertGreater(len(output), 4500, 'Too few strings extracted.')
 
-        for string in output:
+        for (string, occurrences) in output:
             # Make sure that no <div> are found in the extracted string
             self.assertNotRegexpMatches(string, r'<div',
-                'DIV element found in %s' % list(output[string])[0][0])
+                'DIV element found at %s:%s' % occurrences[0])
 
             # Make sure that no <p> are found in the extracted string
             self.assertNotRegexpMatches(string, r'<p',
-                'P element found in %s' % list(output[string])[0][0])
+                'P element found at %s:%s' % occurrences[0])
 
 
-def _slurp_file(directory, filename):
-    """Read in the entire contents of a file, return as a string."""
-    with open(os.path.join(directory, filename)) as f:
-        return f.read()
+def _load_test_json(base_filename):
+    """Read in the .json file, and convert from json data structs to python."""
+    with open(os.path.join(_TEST_ROOT, base_filename + '.json')) as f:
+        return json.load(f)
+
+
+def _load_test_po_file(base_filename):
+    return polib.pofile(os.path.join(_TEST_ROOT, base_filename + '.po'),
+                        wrapwidth=sys.maxint, encoding='utf-8')
+
 
 if __name__ == '__main__':
     unittest.main()

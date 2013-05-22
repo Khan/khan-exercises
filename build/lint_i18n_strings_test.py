@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import shutil
 import tempfile
@@ -98,9 +100,9 @@ class LintStringsTest(unittest.TestCase):
         (errors, nodes_changed) = lint_i18n_strings.lint_file(test_file,
             apply_fix=False, verbose=False)
 
-        self.assertEqual(nodes_changed, checks['nodes_changed'], 
+        self.assertEqual(nodes_changed, checks['nodes_changed'],
             '# of nodes changed differ in %s' % test_file)
-        self.assertEqual(errors, checks['errors'], 
+        self.assertEqual(errors, checks['errors'],
             'Errors reported differ in %s' % test_file)
         self.assertEqual(_slurp(test_file), checks['original'],
             'Make sure that the output of the file did not change with '
@@ -110,9 +112,9 @@ class LintStringsTest(unittest.TestCase):
         (errors, nodes_changed) = lint_i18n_strings.lint_file(test_file,
             apply_fix=True, verbose=False)
 
-        self.assertEqual(nodes_changed, checks['nodes_changed'], 
+        self.assertEqual(nodes_changed, checks['nodes_changed'],
             '# of nodes changed differ in %s' % test_file)
-        self.assertEqual(errors, checks['errors'][:-1], 
+        self.assertEqual(errors, checks['errors'][:-1],
             'These should be no errors in %s' % test_file)
         self.assertEqual(_slurp(test_file), _slurp(checks['output_file']),
             'Make sure that the output of the file matches the expected '
@@ -145,4 +147,3 @@ def _slurp(filename):
 
 if __name__ == '__main__':
     unittest.main()
-

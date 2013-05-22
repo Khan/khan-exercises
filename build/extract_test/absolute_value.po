@@ -2,27 +2,22 @@
 msgid ""
 msgstr ""
 
-#. https://www.khanacademy.org/exercise/absolute_value
-#: ../exercises/absolute_value.html:1
-msgid "Absolute value"
+#. http://www.khanacademy.org/exercise/absolute_value
+#: extract_test/absolute_value.html:5
+msgid "Finding absolute values"
 msgstr ""
 
-#. https://www.khanacademy.org/exercise/absolute_value
-#: ../exercises/absolute_value.html:1
-msgid ""
-"In other words, <code><var>INT + FRAC</var></code> is the non-negative "
-"version of <code><var>SIGN + INT + FRAC</var></code>."
-msgstr ""
-
-#. https://www.khanacademy.org/exercise/absolute_value
-#: ../exercises/absolute_value.html:1
+#. http://www.khanacademy.org/exercise/absolute_value
+#: extract_test/absolute_value.html:19
 msgid "What is <code>\\lvert <var>SIGN + INT + FRAC</var> \\rvert</code>?"
 msgstr ""
 
-#. https://www.khanacademy.org/exercise/absolute_value
-#: ../exercises/absolute_value.html:1
-msgid ""
-"The distance from <code>0</code> to <code><var>SIGN + INT + "
-"FRAC</var></code> is <code><var>INT + FRAC</var></code>, which equals the "
-"absolute value."
+#. http://www.khanacademy.org/exercise/absolute_value
+#: extract_test/absolute_value.html:48
+msgid "The distance from <code>0</code> to <code><var>SIGN + INT + FRAC</var></code> is <code><var>INT + FRAC</var></code>, which equals the absolute value."
+msgstr ""
+
+#. http://www.khanacademy.org/exercise/absolute_value
+#: extract_test/absolute_value.html:49
+msgid "In other words, <code><var>INT + FRAC</var></code> is the non-negative version of <code><var>SIGN + INT + FRAC</var></code>."
 msgstr ""

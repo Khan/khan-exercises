@@ -1,1 +1,104 @@
-{"Rewrite the expression to group the <span class=\"hint_blue\">numeric</span> terms:": [["../exercises/combining_like_terms_1.html", 1]], "Combine the <code>\\pink{<var>X</var>}</code> terms:": [["../exercises/combining_like_terms_1.html", 1]], "an expression, like <b>-2x + 4</b>": [["../exercises/combining_like_terms_1.html", 1]], "Rewrite to group the <code>\\pink{<var>X</var>}</code> terms together:": [["../exercises/combining_like_terms_1.html", 1]], "The simplified expression is <code><var>expr([\"+\", [\"*\", A, X], C + D])</var></code>": [["../exercises/combining_like_terms_1.html", 1]], "The simplified expression is <code><var>expr([\"*\", A + B, X])</var></code>": [["../exercises/combining_like_terms_1.html", 1]], "Rewrite the expression to group the <code>\\pink{<var>X</var>}</code> terms and <span class=\"hint_blue\">numeric</span> terms:": [["../exercises/combining_like_terms_1.html", 1]], "Simplify the following expression:": [["../exercises/combining_like_terms_1.html", 1]], "Combining like terms 1": [["../exercises/combining_like_terms_1.html", 1]], "Combine the <span class=\"hint_blue\">numeric</span> terms:": [["../exercises/combining_like_terms_1.html", 1]], "Combine the <code><var>X</var></code> terms:": [["../exercises/combining_like_terms_1.html", 1]], "The simplified expression is <code><var>expr([\"+\", [\"*\", A + B, X], C + D])</var></code>": [["../exercises/combining_like_terms_1.html", 1]], "The simplified expression is <code><var>expr([\"*\", A + B, X])</var> + <var>C</var></code>": [["../exercises/combining_like_terms_1.html", 1]]}
+{
+  "Rewrite the expression to group the <span class=\"hint_blue\">numeric</span> terms:": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      187
+    ]
+  ], 
+  "Combine the <code>\\pink{<var>X</var>}</code> terms:": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      72
+    ], 
+    [
+      "extract_test/combining_like_terms_1.html", 
+      96
+    ], 
+    [
+      "extract_test/combining_like_terms_1.html", 
+      128
+    ]
+  ], 
+  "an expression, like <b>-2x + 4</b>": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      43
+    ]
+  ], 
+  "The simplified expression is <code><var>expr([\"+\", [\"*\", A, X], C + D])</var></code>": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      177
+    ], 
+    [
+      "extract_test/combining_like_terms_1.html", 
+      205
+    ]
+  ], 
+  "The simplified expression is <code><var>expr([\"*\", A + B, X])</var></code>": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      56
+    ]
+  ], 
+  "Rewrite the expression to group the <code>\\pink{<var>X</var>}</code> terms and <span class=\"hint_blue\">numeric</span> terms:": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      117
+    ]
+  ], 
+  "The simplified expression is <code><var>expr([\"*\", A + B, X])</var> + <var>C</var></code>": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      101
+    ], 
+    [
+      "extract_test/combining_like_terms_1.html", 
+      80
+    ]
+  ], 
+  "Combining like terms": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      5
+    ]
+  ], 
+  "Combine the <span class=\"hint_blue\">numeric</span> terms:": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      136
+    ], 
+    [
+      "extract_test/combining_like_terms_1.html", 
+      165
+    ], 
+    [
+      "extract_test/combining_like_terms_1.html", 
+      198
+    ]
+  ], 
+  "Simplify the following expression:": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      34
+    ]
+  ], 
+  "Combine the <code><var>X</var></code> terms:": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      48
+    ]
+  ], 
+  "The simplified expression is <code><var>expr([\"+\", [\"*\", A + B, X], C + D])</var></code>": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      143
+    ]
+  ], 
+  "Rewrite to group the <code>\\pink{<var>X</var>}</code> terms together:": [
+    [
+      "extract_test/combining_like_terms_1.html", 
+      90
+    ]
+  ]
+}

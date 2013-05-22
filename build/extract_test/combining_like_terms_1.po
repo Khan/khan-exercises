@@ -2,78 +2,67 @@
 msgid ""
 msgstr ""
 
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
-msgid ""
-"Rewrite the expression to group the <span class=\"hint_blue\">numeric</span>"
-" terms:"
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:5
+msgid "Combining like terms"
 msgstr ""
 
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
-msgid "Combine the <code>\\pink{<var>X</var>}</code> terms:"
-msgstr ""
-
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
-msgid "an expression, like <b>-2x + 4</b>"
-msgstr ""
-
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
-msgid "Rewrite to group the <code>\\pink{<var>X</var>}</code> terms together:"
-msgstr ""
-
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
-msgid ""
-"The simplified expression is <code><var>expr([\"+\", [\"*\", A, X], C + "
-"D])</var></code>"
-msgstr ""
-
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
-msgid ""
-"The simplified expression is <code><var>expr([\"*\", A + B, X])</var></code>"
-msgstr ""
-
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
-msgid ""
-"Rewrite the expression to group the <code>\\pink{<var>X</var>}</code> terms "
-"and <span class=\"hint_blue\">numeric</span> terms:"
-msgstr ""
-
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:34
 msgid "Simplify the following expression:"
 msgstr ""
 
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
-msgid "Combining like terms 1"
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:43
+msgid "an expression, like <b>-2x + 4</b>"
 msgstr ""
 
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
-msgid "Combine the <span class=\"hint_blue\">numeric</span> terms:"
-msgstr ""
-
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:48
 msgid "Combine the <code><var>X</var></code> terms:"
 msgstr ""
 
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
-msgid ""
-"The simplified expression is <code><var>expr([\"+\", [\"*\", A + B, X], C + "
-"D])</var></code>"
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:56
+msgid "The simplified expression is <code><var>expr([\"*\", A + B, X])</var></code>"
 msgstr ""
 
-#. https://www.khanacademy.org/exercise/combining_like_terms_1
-#: ../exercises/combining_like_terms_1.html:1
-msgid ""
-"The simplified expression is <code><var>expr([\"*\", A + B, X])</var> + "
-"<var>C</var></code>"
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:72 extract_test/combining_like_terms_1.html:96 extract_test/combining_like_terms_1.html:128
+msgid "Combine the <code>\\pink{<var>X</var>}</code> terms:"
+msgstr ""
+
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:80 extract_test/combining_like_terms_1.html:101
+msgid "The simplified expression is <code><var>expr([\"*\", A + B, X])</var> + <var>C</var></code>"
+msgstr ""
+
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:90
+msgid "Rewrite to group the <code>\\pink{<var>X</var>}</code> terms together:"
+msgstr ""
+
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:117
+msgid "Rewrite the expression to group the <code>\\pink{<var>X</var>}</code> terms and <span class=\"hint_blue\">numeric</span> terms:"
+msgstr ""
+
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:136 extract_test/combining_like_terms_1.html:165 extract_test/combining_like_terms_1.html:198
+msgid "Combine the <span class=\"hint_blue\">numeric</span> terms:"
+msgstr ""
+
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:143
+msgid "The simplified expression is <code><var>expr([\"+\", [\"*\", A + B, X], C + D])</var></code>"
+msgstr ""
+
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:177 extract_test/combining_like_terms_1.html:205
+msgid "The simplified expression is <code><var>expr([\"+\", [\"*\", A, X], C + D])</var></code>"
+msgstr ""
+
+#. http://www.khanacademy.org/exercise/combining_like_terms_1
+#: extract_test/combining_like_terms_1.html:187
+msgid "Rewrite the expression to group the <span class=\"hint_blue\">numeric</span> terms:"
 msgstr ""
