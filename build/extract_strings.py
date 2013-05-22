@@ -159,6 +159,9 @@ class I18nExtractor(HTMLParser.HTMLParser):
     (non-inclusive).  Whitespace in the return value is collapsed.
 
     This assumes well-formed html!  It will do weird things otherwise.
+
+    NOTE: This class is used by webapp:deploy/inject_i18n_strings.py,
+    so be careful about code there if you refactor here.
     """
     class TagInfo(object):
         def __init__(self, tagname, attrs,
@@ -230,6 +233,9 @@ class I18nExtractor(HTMLParser.HTMLParser):
         if tag_info.should_emit_tag and tag_info.tag_has_non_whitespace:
             self.candidates.append(tag_info)
 
+        # Not used in this file, but used in webapp:deploy/inject_i18n_strings
+        return tag_info
+
     def handle_data(self, data):
         """Callback for text between tags."""
         if data.strip():      # not just whitespace
@@ -253,20 +259,19 @@ class I18nExtractor(HTMLParser.HTMLParser):
 
         HTMLParser.HTMLParser.feed(self, text)
 
-    def process_node(self, tag_info):
+    def cleaned_text(self, tag_info):
         """Return text between <tag> and </tag>, cleans up whitespaces."""
         text = self.text[tag_info.startpos:tag_info.endpos]
-
         # Normalize whitespace.
-        return (re.sub(r'\s+', ' ', text).strip(), tag_info.startline)
+        return re.sub(r'\s+', ' ', text).strip()
 
-    def get_node(self):
-        """Yields (nl-string, linenumber) pairs.  Does not include tags."""
+    def nltext_nodes(self):
+        """Yields TagInfo objects representing nodes with nl-text in them."""
         # If one candidate is inside another one, we print the outside
         # one.  We can figure this out via sorting.
         self.candidates.sort(key=lambda tag_info: tag_info.startpos)
         if self.candidates:
-            yield self.process_node(self.candidates[0])
+            yield self.candidates[0]
             parent_range = (self.candidates[0].startpos,
                             self.candidates[0].endpos)
             for i in xrange(1, len(self.candidates)):
@@ -274,7 +279,7 @@ class I18nExtractor(HTMLParser.HTMLParser):
                 if (self.candidates[i].startpos >= parent_range[0] and
                     self.candidates[i].endpos <= parent_range[1]):
                     continue
-                yield self.process_node(self.candidates[i])
+                yield self.candidates[i]
                 parent_range = (self.candidates[i].startpos,
                                 self.candidates[i].endpos)
 
@@ -295,7 +300,9 @@ def extract_file(filename, matches):
         contents = f.read().decode('utf-8')
     extractor.feed(contents)
 
-    for (text, linenum) in extractor.get_node():
+    for tag_info in extractor.nltext_nodes():
+        text = extractor.cleaned_text(tag_info)
+        linenum = tag_info.startline
         # Keep track of matches so that we can cite the file it came from
         matches.setdefault(text, set()).add((filename, linenum))
 
