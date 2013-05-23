@@ -30,12 +30,9 @@ msgstr ""
 #. http://www.khanacademy.org/exercise/fractions_on_the_number_line_1
 #: extract_test/fractions_on_the_number_line_1.html:88
 msgid "The orange dot should be shifted <span class=\"hint_blue\"><code><strong><var>NUMERATOR</var></strong></code></span> segment over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> = <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code>"
-msgstr ""
-
-#. http://www.khanacademy.org/exercise/fractions_on_the_number_line_1
-#: extract_test/fractions_on_the_number_line_1.html:90
-msgid "The orange dot should be shifted <span class=\"hint_blue\"><code><strong><var>NUMERATOR</var></strong></code></span> segments over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> = <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code>"
-msgstr ""
+msgid_plural "The orange dot should be shifted <span class=\"hint_blue\"><code><strong><var>NUMERATOR</var></strong></code></span> segments over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> = <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code>"
+msgstr[0] ""
+msgstr[1] ""
 
 #. http://www.khanacademy.org/exercise/fractions_on_the_number_line_1
 #: extract_test/fractions_on_the_number_line_1.html:100

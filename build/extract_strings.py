@@ -100,9 +100,19 @@ def make_potfile(files, verbose):
         first_filename = occurrences[0][0]
 
         # Build the PO entry and add it to the PO file
+        # If nltext is a tuple, it means we have a plural (ngettext) entry
+        if isinstance(nl_text, basestring):
+            (msgid, msgid_plural) = (unicode(nl_text), None)
+            (msgstr, msgstr_plural) = ("", None)
+        else:
+            (msgid, msgid_plural) = (unicode(nl_text[0]), unicode(nl_text[1]))
+            (msgstr, msgstr_plural) = (None, {0: u"", 1: u""})
+
         output_pot.append(polib.POEntry(
-            msgid=unicode(nl_text),
-            msgstr=u'',
+            msgid=msgid,
+            msgid_plural=msgid_plural,
+            msgstr=msgstr,
+            msgstr_plural=msgstr_plural,
             comment=unicode(_filename_to_url(first_filename)),
             occurrences=occurrences,
         ))
@@ -143,7 +153,8 @@ def extract_files(files, verbose):
         retval.append((nl_text, sorted(occurrences)))
 
     # Now sort the nl-texts so they come in order of their first occurrence.
-    retval.sort(key=lambda (nl_text, occurrences): occurrences[0])
+    # We break ties -- should be rare -- arbitrarily.
+    retval.sort(key=lambda (nl_text, occurrences): (occurrences[0], nl_text))
 
     return retval
 
@@ -165,13 +176,16 @@ class I18nExtractor(HTMLParser.HTMLParser):
     """
     class TagInfo(object):
         def __init__(self, tagname, attrs,
-                     startline, startpos, parent_tag_info):
+                     startline, startpos, outer_startpos, parent_tag_info):
             self.tagname = tagname
-            self.should_emit_tag = True          # start optimistic
-            self.tag_has_non_whitespace = False  # start pessimistic
-            self.startline = startline           # line # into text
-            self.startpos = startpos             # offset into text
-            self.endpos = None
+            self.attrs = attrs
+            self.should_emit_tag = True            # start optimistic
+            self.tag_has_non_whitespace = False    # start pessimistic
+            self.startline = startline             # line # into text
+            self.startpos = startpos               # offset into text
+            self.endpos = None                     # will point after text
+            self.outer_startpos = outer_startpos   # offset into tag
+            self.outer_endpos = None               # will point after close-tag
 
             # We know right away we shouldn't emit a tag if any of the
             # following are true: we shouldn't emit the tag's parent,
@@ -191,6 +205,17 @@ class I18nExtractor(HTMLParser.HTMLParser):
                                 self.should_emit_tag = False
                                 return
 
+        _IS_SINGULAR_RE = re.compile('^isSingular\((.*)\)$')
+
+        def is_singular(self):
+            """foo if this tag has an data-if="isSingular(foo)", else None."""
+            for (attr, val) in self.attrs:
+                if attr == 'data-if':
+                    m = self._IS_SINGULAR_RE.match(val)
+                    if m:
+                        return m.group(1)
+            return None
+
     def __init__(self, *args, **kwargs):
         HTMLParser.HTMLParser.__init__(self, *args, **kwargs)
         self.tagstack = []         # stack (list) of TagInfo's.
@@ -208,11 +233,11 @@ class I18nExtractor(HTMLParser.HTMLParser):
     def handle_starttag(self, tag, attrs):
         # Read past the start-tag; startpos is the start of the 'inner' html.
         startline = self.getpos()[0]
-        startpos = (self._line_offset_to_pos(self.getpos()) + 
-                    len(self.get_starttag_text()))
+        outer_startpos = self._line_offset_to_pos(self.getpos())
+        startpos = outer_startpos + len(self.get_starttag_text())
 
         self.tagstack.append(I18nExtractor.TagInfo(
-            tag, attrs, startline, startpos,
+            tag, attrs, startline, startpos, outer_startpos,
             self.tagstack[-1] if self.tagstack else None))
 
     def handle_endtag(self, tag):
@@ -225,6 +250,10 @@ class I18nExtractor(HTMLParser.HTMLParser):
 
         # Update endpos
         tag_info.endpos = self._line_offset_to_pos(self.getpos())
+        # outer_endpos points after the end of this tag.  HTMLParser
+        # doesn't expose this info, so we depend on the fact end-tags
+        # can't have tag-attrs, so searching for '>' is good enough.
+        tag_info.outer_endpos = self.text.index('>', tag_info.endpos) + 1
 
         # If tagname-is-good is set, and the tag contains non-ws text,
         # then its contents are a candidate to be extracted.  However,
@@ -300,11 +329,25 @@ def extract_file(filename, matches):
         contents = f.read().decode('utf-8')
     extractor.feed(contents)
 
+    singular = None   # used when collecting singular + plural for ngettext
+    singular_occ = None
     for tag_info in extractor.nltext_nodes():
         text = extractor.cleaned_text(tag_info)
         linenum = tag_info.startline
-        # Keep track of matches so that we can cite the file it came from
-        matches.setdefault(text, set()).add((filename, linenum))
+        if singular is not None:
+            # If the last tag was the singular part of an ngettext
+            # call, we're the plural.
+            matches.setdefault((singular, text), set()).add(singular_occ)
+            singular = None
+            singular_occ = None
+        elif tag_info.is_singular():
+            # If *we're* the singular part of an ngettext call, store
+            # that info so the next tag can add us to matches.
+            singular = text
+            singular_occ = (filename, linenum)
+        else:
+            # Normal, gettext call.
+            matches.setdefault(text, set()).add((filename, linenum))
 
     return matches
 
@@ -347,8 +390,12 @@ def babel_extract(fileobj, keywords, comment_tags, options):
     for (nl_text, occurrences) in extract_files([filename], verbose=False):
         line_numbers = set(o[1] for o in occurrences)
         for line_number in line_numbers:
-            yield (line_number, '_', nl_text,
-                   ['-- Text is in %s' % _filename_to_url(filename)])
+            if isinstance(nl_text, basestring):
+                yield (line_number, '_', nl_text,
+                       ['-- Text is in %s' % _filename_to_url(filename)])
+            else:
+                yield (line_number, 'ngettext', nl_text,
+                       ['-- Text is in %s' % _filename_to_url(filename)])
 
 
 if __name__ == '__main__':

@@ -80,13 +80,18 @@ class ExtractStringsTest(unittest.TestCase):
     def test_json_output_from_multiple_files(self):
         for test_files in _TEST_MULTI_FILES:
             # Get old JSON example test output
-            expected_output = _load_test_json("-".join(test_files))
+            raw_expected_output = _load_test_json("-".join(test_files))
 
             # The python output uses both tuples and lists, while the
             # json has only lists (it doesn't support tuples).
             # Convert the json so all the types match.
-            expected_output = [(nltext, [(str(f), lnum) for (f, lnum) in occs])
-                               for (nltext, occs) in expected_output]
+            expected_output = []
+            for (nltext, occurrences) in raw_expected_output:
+                # nltext can be a string (for gettext) or a list (ngettext)
+                if isinstance(nltext, list):
+                    nltext = tuple(nltext)     # we want a tuple, not a list
+                converted_occs = [(str(f), lnum) for (f, lnum) in occurrences]
+                expected_output.append((nltext, converted_occs))
 
             # Generate new output to check
             output = extract_strings.extract_files(
@@ -121,14 +126,18 @@ class ExtractStringsTest(unittest.TestCase):
         # As of 2013-01-23 we have 4776 results.
         self.assertGreater(len(output), 4500, 'Too few strings extracted.')
 
-        for (string, occurrences) in output:
-            # Make sure that no <div> are found in the extracted string
-            self.assertNotRegexpMatches(string, r'<div',
-                'DIV element found at %s:%s' % occurrences[0])
+        for (nltext, occurrences) in output:
+            # nltext can be either a string (for gettext) or tuple (ngettext)
+            if isinstance(nltext, basestring):
+                nltext = (nltext,)   # make it so nltext is definitely a tuple
+            for string in nltext:
+                # Make sure that no <div> are found in the extracted string
+                self.assertNotRegexpMatches(string, r'<div',
+                    'DIV element found at %s:%s' % occurrences[0])
 
-            # Make sure that no <p> are found in the extracted string
-            self.assertNotRegexpMatches(string, r'<p',
-                'P element found at %s:%s' % occurrences[0])
+                # Make sure that no <p> are found in the extracted string
+                self.assertNotRegexpMatches(string, r'<p',
+                    'P element found at %s:%s' % occurrences[0])
 
 
 def _load_test_json(base_filename):

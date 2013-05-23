@@ -53,20 +53,14 @@
     ]
   ], 
   [
-    "The orange dot should be shifted <span class=\"hint_blue\"><code><strong><var>NUMERATOR</var></strong></code></span> segment over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> = <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code>", 
+    [
+        "The orange dot should be shifted <span class=\"hint_blue\"><code><strong><var>NUMERATOR</var></strong></code></span> segment over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> = <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code>", 
+        "The orange dot should be shifted <span class=\"hint_blue\"><code><strong><var>NUMERATOR</var></strong></code></span> segments over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> = <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code>"
+    ],
     [
       [
         "extract_test/fractions_on_the_number_line_1.html", 
         88
-      ]
-    ]
-  ], 
-  [
-    "The orange dot should be shifted <span class=\"hint_blue\"><code><strong><var>NUMERATOR</var></strong></code></span> segments over, as <code><var>fraction(NUMERATOR, DENOMINATOR)</var> = <var>NUMERATOR</var>*<var>fraction(1, DENOMINATOR)</var></code>", 
-    [
-      [
-        "extract_test/fractions_on_the_number_line_1.html", 
-        90
       ]
     ]
   ], 
