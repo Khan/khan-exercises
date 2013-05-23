@@ -1747,7 +1747,7 @@ var Khan = (function() {
                     return $._("Thank you for your feedback! " +
                         "Your issue has been created and can be " +
                         "found at the following link:" +
-                        "<p><a id=\"issue-link\" href=\"%(issueUrl)s\">%(issueTitle)</a>" +
+                        "<p><a id=\"issue-link\" href=\"%(issueUrl)s\">%(issueTitle)s</a>" +
                         "<p>%(suggestion)s</p>",
                         {issueUrl: url, issueTitle: title, suggestion: suggestion}
                     );
