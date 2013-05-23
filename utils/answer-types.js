@@ -99,14 +99,14 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         return true;
                     } else {
                         if (guess === guess.toLowerCase()) {
-                            return "Your answer is almost correct, but must be " +
-                                   "in capital letters.";
+                            return $._("Your answer is almost correct, but " +
+                                       "must be in capital letters.");
                         } else if (guess === guess.toUpperCase()) {
-                            return "Your answer is almost correct, but must not " +
-                                   "be in capital letters.";
+                            return $._("Your answer is almost correct, but " +
+                                       "must not be in capital letters.");
                         } else {
-                            return "Your answer is almost correct, but must be " +
-                                   "in the correct case.";
+                            return $._("Your answer is almost correct, but " +
+                                       "must be in the correct case.");
                         }
                     }
                 } else {
@@ -183,20 +183,20 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 proper: (function() {
                         if (options.simplify === "optional") {
                             return $._("a <em>proper</em> fraction, like " +
-                                "<code>1/2</code> or <code>6/10</code>");
+                                       "<code>1/2</code> or <code>6/10</code>");
                         } else {
                             return $._("a <em>simplified proper</em> " +
-                                "fraction, like <code>3/5</code>");
+                                       "fraction, like <code>3/5</code>");
                         }
                     })(),
 
                 improper: (function() {
                         if (options.simplify === "optional") {
                             return $._("an <em>improper</em> fraction, like " +
-                                "<code>10/7</code> or <code>14/8</code>");
+                                       "<code>10/7</code> or <code>14/8</code>");
                         } else {
-                            return "a <em>simplified improper</em> " +
-                                   "fraction, like <code>7/4</code>";
+                            return $._("a <em>simplified improper</em> " +
+                                       "fraction, like <code>7/4</code>");
                         }
                     })(),
 
@@ -571,21 +571,21 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                             } else if (form === "percent") {
                                 // Otherwise, an error was returned
                                 ret = $._("Your answer is almost correct, " +
-                                    "but it is missing a <code>\\%</code> at " +
-                                    "the end.");
+                                          "but it is missing a " +
+                                          "<code>\\%</code> at the end.");
                             } else {
                                 ret = $._("Your answer is almost correct, " +
-                                    "but it needs to be simplified.");
+                                          "but it needs to be simplified.");
                             }
 
                             return false; // break;
                         } else if (piApprox &&
                                    predicate(val, Math.abs(val * 0.001))) {
-                            ret = "Your answer is close, but you may have " +
-                                  "approximated pi. Enter your answer as a " +
-                                  "multiple of pi, like <code>12\\ " +
-                                  "\\text{pi}</code> or <code>2/3\\ " +
-                                  "\\text{pi}</code>";
+                            ret = $._("Your answer is close, but you may " +
+                                      "have approximated pi. Enter your " +
+                                      "answer as a multiple of pi, like " +
+                                      "<code>12\\ \\text{pi}</code> or " +
+                                      "<code>2/3\\ \\text{pi}</code>");
                         }
                     }
                 });
@@ -731,9 +731,9 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 solution: ans,
                 examples: (options.simplify === "required") ?
                     [$._("a simplified radical, like <code>\\sqrt{2}</code> " +
-                        "or <code>3\\sqrt{5}</code>")] :
+                         "or <code>3\\sqrt{5}</code>")] :
                     [$._("a radical, like <code>\\sqrt{8}</code> or " +
-                        "<code>2\\sqrt{2}</code>")],
+                         "<code>2\\sqrt{2}</code>")],
                 showGuess: function(guess) {
                     inte.val(guess ? guess[0] : "");
                     rad.val(guess ? guess[1] : "");
@@ -768,7 +768,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         return true;
                     } else {
                         return $._("Your answer is almost correct, but it " +
-                            "needs to be simplified.");
+                                   "needs to be simplified.");
                     }
                 } else {
                     return false;
@@ -1228,12 +1228,14 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // If showNone, replace the last solution with "None of the above",
             // which reveals the correct answer when it is picked and is right
             if (showNone) {
-                var none = $("<span>None of the above.</span>");
+                var none = $("<span>").html($._("None of the above."));
+
+                none.data("noneOfTheAbove", true);
 
                 if (noneIsCorrect) {
                     none.data("correct", true);
                     solutionText = none.text();
-                    list.data("real-answer",
+                    list.data("realAnswer",
                             $(solutionClone)
                                 .runModules()
                                 .contents()
@@ -1241,7 +1243,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                                 .parent());
                 }
 
-                shownChoices.push(none);
+                shownChoices.push($("<span>").append(none));
             }
 
             $.each(shownChoices, function(i, choice) {
@@ -1263,23 +1265,48 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     // Find the chosen answer
                     var choice = list.find("input:checked");
 
+                    // If nothing's checked, return null immediately
+                    if (choice.length === 0) {
+                        return null;
+                    }
+
                     // Find it's cooresponding value
                     var choiceVal = choice.siblings(".value");
 
-                    // return the raw code of the chosen value
-                    return extractRawCode(choiceVal);
+                    // This (probably) only does something useful when the
+                    // selected answer is the "none of the above" one
+                    var choiceNoneChild = choiceVal.children().eq(0);
+
+                    return {
+                        // Some data about the "none of the above" answer
+                        isNone: choiceNoneChild.data("noneOfTheAbove"),
+                        // The raw text value that was chosen
+                        value: extractRawCode(choiceVal),
+                        // The index of the value that was chosen
+                        index: choice.val()
+                    };
                 },
                 solution: $.trim($(solution).text()),
                 examples: [],
                 showGuess: function(guess) {
-                    if (guess === undefined) {
+                    if (guess == null) {
                         $(solutionarea).find("input:checked")
                                        .attr("checked", false);
                     } else {
                         // Select the correct radio button
                         list.children().filter(function() {
-                            return $.trim(extractRawCode($(this).find("span")))
-                                === $.trim(guess);
+                            // TODO(emily): remove this backwards-compatible
+                            // code in 7/13
+                            if (guess.index != null) {
+                                // Filter using the index to choose the radio
+                                return guess.index ===
+                                    $(this).find("input").val();
+                            } else {
+                                // Fall back to the old style of checking
+                                return $.trim(extractRawCode(
+                                        $(this).find("span")
+                                    )) === $.trim(guess);
+                            }
                         }).find("input").attr("checked", true);
                     }
                 }
@@ -1297,23 +1324,26 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             return function(guess) {
                 if (guess == null) {
                     return "";
-                } else if (guess === "None of the above." &&
+                // TODO(emily): remove this backwards-compatible code in 7/13
+                } else if ((guess.isNone || guess === "None of the above.") &&
                         $("#solutionarea").find("ul").data("real-answer") !=
                         null) {
                     // Hacky stuff to make the correct solution appear when
                     // "none of the above" is the correct answer
                     var list = $("#solutionarea").find("ul");
-                    var choice = list.children().filter(function() {
-                            return $.trim(extractRawCode($(this).find("span")))
-                            === $.trim(guess);
+                    var choice =
+                        list.children().filter(function() {
+                            return $(this).find("span.value > span")
+                                          .data("noneOfTheAbove");
                         }).find("input");
                     choice.next().fadeOut("fast", function() {
-                            $(this).replaceWith(list.data("real-answer"))
-                                .fadeIn("fast");
-                        });
+                        $(this).replaceWith(list.data("real-answer"))
+                               .fadeIn("fast");
+                    });
                     return true;
-                } else if ($.trim(guess.replace(/\r\n?|\n/g, "")) ===
-                        $.trim(correct.replace(/\r\n?|\n/g, ""))) {
+                } else if ($.trim((guess.value != null ? guess.value : guess)
+                                  .replace(/\r\n?|\n/g, "")) ===
+                           $.trim(correct.replace(/\r\n?|\n/g, ""))) {
                     return true;
                 }
 

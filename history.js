@@ -155,7 +155,11 @@ function renderReadOnlyProblem(event, args) {
                         if (answerType === "radio") {
                             thissolutionarea.append(
                                 // Add the guess to the activity bar
-                                $("<p class='solution'>" + guess + "</p>").tmpl()
+                                // TODO(emily): remove this
+                                // backwards-compatible code in 7/13
+                                $("<p class='solution'>" +
+                                    (guess.value != null ? guess.value : guess)
+                                    + "</p>").tmpl()
                             );
                             if (validator(guess)) {
                                 thissolutionarea
