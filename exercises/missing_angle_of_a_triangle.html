@@ -16,15 +16,16 @@
               <div class="problems">
                   <div id="problem-type-or-description">
                       <p class="problem">
-                          Given two angles inside the triangle are <var>X</var> and <var>Y</var> degrees, respectively. What is the degree of third angle?
+                          Given angle X in picture below is <var>X</var>° and Y is <var>Y</var>°. What is the degree of Z?
                       </p>
+                      <p class="extra-info"><i>(Extra Info: the degrees of three angles inside the triangle add up to 180°.)</i></p>
                       <p class="question">
                           <div class="graphie" id="triangle">
                               init({
                                   range: [[-4, 6], [-4, 6]]
                               });
                               var angles = [X, Y, 180 - X - Y];
-                              var triangle = new Triangle( [0, 0], angles, 5, {'angles' : [X, Y, "?"]});
+                              var triangle = new Triangle( [0, 0], angles, 5, {'angles' : ['X', 'Y', 'Z']});
                               triangle.draw();
                               triangle.drawLabels();
                         </div>
@@ -38,9 +39,8 @@
               </div>
 
               <div class="hints">
-                  <p>Remember that the degrees of three angles inside the triangle add up to 180.</p>
-                  <p>In other word, if X, Y, Z are three different angles of a triangle, then X + Y + Z = 180. And here we know X = <var>X</var> and Y = <var>Y</var>, so what is Z?</p>
-                  <p>Z = 180 - X - Y = 180 - <var>X</var> - <var>Y</var> = <var>180 - X - Y</var></p>
+                  <p>From extra info above we know since X, Y, Z are three different angles of a triangle, then (degree of X) + (degree of Y) + (degree of Z) = 180°. Here we know degree of X = <var>X</var>° and degree of Y = <var>Y</var>°, so what is degree of Z?</p>
+                  <p>degree of Z = 180° - (degree of X) - (degree of Y) = 180° - <var>X</var>° - <var>Y</var>° = <var>180 - X - Y</var>°</p>
               </div>
           </div>
       </body>
