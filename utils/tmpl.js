@@ -258,7 +258,7 @@ $.tmpl = {
                     if (typeof MathJax !== "undefined") {
                         KhanUtil.debugLog("adding " + text +
                                 " to MathJax typeset queue");
-                        MathJax.Hub.Queue(["Typeset", MathJax.Hub, elem]);
+                        MathJax.Hub.Queue(["Process", MathJax.Hub, elem]);
                         MathJax.Hub.Queue(function() {
                             KhanUtil.debugLog("MathJax done typesetting " +
                                     text);
