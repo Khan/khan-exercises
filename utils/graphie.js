@@ -32,7 +32,7 @@
         return [r[0] * Math.cos(th), r[1] * Math.sin(th)];
     }
 
-    var createGraph = function(el) {
+    KhanUtil.createGraphie = function(el) {
         var xScale = 40, yScale = 40, xRange, yRange;
 
         $(el).css("position", "relative");
@@ -825,7 +825,7 @@
                         .attr("id", $(this).attr("id")).insertAfter(this)[0];
                     $(this).remove();
                 }
-                graphie = createGraph(el);
+                graphie = KhanUtil.createGraphie(el);
                 $(el).data("graphie", graphie);
             }
 
