@@ -16,7 +16,7 @@
     // Used for many Russian or near-Russian languages: ru, sr, uk
     var russianPlural = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)";
 
-    // Somr romantic languages only pluralize numbers greater than one
+    // Some romantic languages only pluralize numbers greater than one
     var gtOnePlural = "nplurals=2; plural=(n > 1)";
 
     var plural_forms = {
@@ -55,6 +55,12 @@
      */
     jQuery._ = function(str, options) {
         options = options || {};
+
+        // If we're receiving a plural form object (even though this object
+        // doesn't handle that) we just use the singular form.
+        if (typeof str === "object" && str.messages) {
+            str = str.messages[0];
+        }
 
         return str.replace(/%\(([\w_]+)\)s/g, function(all, name) {
             var retVal = options[name];
@@ -122,6 +128,33 @@
         return jQuery._(i18n.dngettext(lang, singular, plural, num), options);
     };
 
+    /*
+     * Return the ngettext position that matches the given number and locale.
+     *
+     * Arguments:
+     *  - num: The number upon which to toggle the plural forms.
+     *  - lang: The language to use as the basis for the pluralization.
+     */
+    jQuery.ngetpos = function(num, lang) {
+        lang = lang || "en";
+
+        // Generate a function which will give the position of the message
+        // which matches the correct plural form of the string
+        return Jed.PF.compile(getPluralForm(lang))(num);
+    };
+
+    /*
+     * Returns true if the given number matches the singular form, false
+     * if it's some other form.
+     *
+     * Arguments:
+     *  - num: The number upon which to toggle the plural forms.
+     *  - lang: The language to use as the basis for the pluralization.
+     */
+    jQuery.isSingular = function(num, lang) {
+        return jQuery.ngetpos(num, lang) === 0;
+    };
+
     /**
      * Dummy Handlebars _ function. Is a noop.
      * Should be used as: {{#_}}...{{/_}}
@@ -160,17 +193,13 @@
             pos = 0;
         }
 
-        // Generate a function which will give the position of the message
-        // which matches the correct plural form of the string
-        var plural_form_lookup = Jed.PF.compile(getPluralForm(lang));
-
         // Add in 'num' as a magic variable.
         this.num = this.num || num;
 
         // If the result of the plural form function given the specified
         // number matches the expected position then we give the first
         // result, otherwise we give the inverse result.
-        return plural_form_lookup(num) === pos ?
+        return jQuery.ngetpos(num) === pos ?
             options.fn(this) :
             options.inverse(this);
     };
