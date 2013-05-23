@@ -1684,6 +1684,10 @@ var Khan = (function() {
         initializeCalculator();
 
         $("#report").click(function(e) {
+            var issueIntro = $._("Remember to check the hints and " +
+                    "double check your math. All provided information will " +
+                    "be public. Thanks for your help!");
+
             e.preventDefault();
 
             var report = $("#issue").css("display") !== "none",
@@ -1747,10 +1751,7 @@ var Khan = (function() {
                         "<p>%(suggestion)s</p>",
                         {issueUrl: url, issueTitle: title, suggestion: suggestion}
                     );
-                },
-                issueIntro = $._("Remember to check the hints and " +
-                    "double check your math. All provided information will " +
-                    "be public. Thanks for your help!");
+                };
 
             var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {
                 if (info.status === -1) {
