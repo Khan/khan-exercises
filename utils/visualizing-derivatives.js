@@ -764,7 +764,7 @@ $.extend(KhanUtil, {
             var ymax = ylims[1];
             var height = ymax - ymin;
 
-            var slidingWindow = KhanUtil.addRectGraph({
+            var slidingWindow = KhanUtil.currentGraph.addRectGraph({
                 x: xmin,
                 y: ymin,
                 width: problem.width(),

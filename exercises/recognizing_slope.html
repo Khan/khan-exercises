@@ -128,7 +128,7 @@
             // start the selection at the first zero of f'(x) which is
             // guaranteed to be wrong but not give info about the right answer
             var startX = DDX_INTERVALS[0][1] - 0.5;
-            graph.slidingWindow = KhanUtil.addRectGraph({
+            graph.slidingWindow = addRectGraph({
                 x: startX,
                 y: YRANGE[0],
                 width: 1,

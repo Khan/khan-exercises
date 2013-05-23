@@ -261,7 +261,7 @@ $.extend(KhanUtil.Graphie.prototype, {
      * Get mouse coordinates in graph coordinates
      */
     getMouseCoord: function(event) {
-        return this.unscalePoint(KhanUtil.getMousePx(event));
+        return this.unscalePoint(this.getMousePx(event));
     },
 
     // Draw angle arcs
@@ -1376,7 +1376,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             var sameY = sames[i][1];
             var coord = coords[i];
 
-            var point = KhanUtil.addMovablePoint({
+            var point = graphie.addMovablePoint({
                 graph: graphie,
                 coord: coord,
                 normalStyle: rect.normalStyle.points,
@@ -1420,7 +1420,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             var constrainX = (i % 2); // odd edges have X constrained
             var constrainY = ((i + 1) % 2); // even edges have Y constrained
 
-            var edge = KhanUtil.addMovableLineSegment({
+            var edge = graphie.addMovableLineSegment({
                 graph: graphie,
                 pointA: pointA,
                 pointZ: pointZ,
@@ -1594,7 +1594,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                             (event.which === 1 || event.which === 0)) {
                         event.preventDefault();
                         rect.toFront();
-                        rect.prevCoord = KhanUtil.getMouseCoord(event);
+                        rect.prevCoord = graphie.getMouseCoord(event);
 
                         rect.enableHoverStyle();
 
@@ -1604,7 +1604,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                             KhanUtil.dragging = true;
 
                             if (event.type === "vmousemove") {
-                                var currCoord = KhanUtil.getMouseCoord(event);
+                                var currCoord = graphie.getMouseCoord(event);
 
                                 if (rect.prevCoord && rect.prevCoord.length === 2) {
                                     var diff = KhanUtil.coordDiff(rect.prevCoord, currCoord);
@@ -1618,7 +1618,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                                 rect.dragging = false;
                                 KhanUtil.dragging = false;
 
-                                var currCoord = KhanUtil.getMouseCoord(event);
+                                var currCoord = graphie.getMouseCoord(event);
                                 if (currCoord[0] < rect.getX() ||
                                     currCoord[0] > rect.getX2() ||
                                     currCoord[1] < rect.getY() ||
