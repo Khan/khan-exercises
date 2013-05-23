@@ -7,7 +7,8 @@
     if (/*@cc_on!@*/false) {  
         document.documentElement.className+=' ie10';  
     }  
-    </script><!--<![endif]-->  
+    </script><!--<![endif]-->
+    <!--[if lte IE 8]><script type="text/javascript" src="..\utils\excanvas.js"></script><![endif]-->     
         <style>
         #Cip         {    
                         font-family:"Courier New";
@@ -68,7 +69,7 @@
                     style({arrows: ""});
                     line( [ 0, 0 ], [ LOWER_BOUND, 0 ] );
                     
-                    <!-- Draws the line marks for each letter-->
+                    <!-- Draws the line ticks for each letter-->
                     style({arrows: ""});
                     for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=1 ) {
                         var markLength;
@@ -77,7 +78,7 @@
                         label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                     }
 
-                    <!-- Updates HTML 5 Canvas element. Much faster then Graphie -->
+                    <!-- Updates HTML 5 Canvas element for the cipher slider -->
                     function updateCanvas(x){
                         var b_canvas = document.getElementById("b");
                         var context = b_canvas.getContext("2d");
@@ -99,7 +100,9 @@
                     graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: indent });
                     graph.movablePoint.onMove = function( x, y ) {
                         updateCanvas(x);
+                        <!--[if !IE]> -->
                         document.getElementById("Cip").innerHTML =  applyCaesar("a b c d e f g h i j k l m n o p q r s t u v w x y z",x/indent);
+                        <!-- <![endif]-->
                         return [ min( max( LOWER_BOUND, x ), UPPER_BOUND * indent ), y ];
                     };
                 </div>

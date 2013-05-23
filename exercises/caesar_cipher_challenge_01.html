@@ -7,7 +7,8 @@
     if (/*@cc_on!@*/false) {  
         document.documentElement.className+=' ie10';  
     }  
-    </script><!--<![endif]-->  
+    </script><!--<![endif]-->
+    <!--[if lte IE 8]><script type="text/javascript" src="..\utils\excanvas.js"></script><![endif]-->     
         <style>
         #Cip         {    
                         font-family:"Courier New";
@@ -44,51 +45,14 @@
                 <div class="question">
                     
                     <p>You intercept the following message, which you know to be encrypted with a Caesar Cipher:</p>
-                    <p><strong><center><var>C</var></center></strong></p>
+                    <p><center><strong><var>C</var></strong></center></p>
                     <p>What shift was applied to the original message?</p>
                     
-                    <p>You can use the below letter frequency graph to help solve this problem.</p>
+                    <p>You can use the graph and slider below to help solve this problem.<br/>
+                    Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to adjust the left shift of this message</p>
                 </div>
-                <div class="graphie" id="barchart">
-                    init({
-                        range: [ [ -2, LETTERS * 3 + 2 ], [ -3, 6 ] ],
-                        scale: [ 6, 24 ]
-                    });
-
-                    for ( var y = 1; y &lt;= 5; ++y ) {
-                        style({ stroke: "#000", strokeWidth: 1, opacity: 0.2 }, function() {
-                            line( [ 0, y ], [ LETTERS * 3 + 1, y ] )
-                        });
-                    }
-                    for ( var index = 0, indent = 3; index &lt; LETTERS; ++index ) {
-                        style({ stroke: "none", fill: "#9ab8ed", opacity: 1.0 });
-                        path([ [ index * indent + 1, 0 ], [ index * indent + 1, FREQ[ index ] * 4 ], [ index * indent + 2, FREQ[ index ] * 4 ], [ index * indent + 2, 0 ], [ index * indent + 1, 0 ] ]);
-                        style({ stroke: "none", fill: "#ffc966", opacity: 1.0 });
-                        path([ [ index * indent + 2, 0 ], [ index * indent + 2, CIPHER_FREQ[ index ] * 4 ], [ index * indent + 3, CIPHER_FREQ[ index ] * 4 ], [ index * indent + 3, 0 ], [ index * indent + 2, 0 ] ]);
-                        style({ opacity: 1.0 });
-                        label( [ index * indent + 2, 0 ], "abcdefghijklmnopqrstuvwxyz"[index], "below", false );
-                    }
-                    style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 });
-                    line( [ 0, 0 ], [ LETTERS * 3 + 1, 0 ] );
-                    line( [ 0, 0 ], [ 0, 6 ] );
-    
-                    label( [ ( LETTERS * 3 + 1 ) / 2, -0.8 ], "&lt;b&gt;Letter Frequency&lt;/b&gt;", "below", false );
-    
-                    style({ stroke: "none", fill: "#9ab8ed", opacity: 1.0 });
-                    path([ [ 0, -2 ], [ 1, -2  ], [ 1, -2.5  ], [ 0, -2.5 ], [ 0, -2 ] ]);
-                    style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 });
-                    label( [ 0.5, -2.25 ], "English", "right", false );
-                    style({ stroke: "none", fill: "#ffc966", opacity: 1.0 });
-                    path([ [ 12, -2 ], [ 13, -2  ], [ 13, -2.5  ], [ 12, -2.5 ], [ 12, -2 ] ]);
-                    style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 });
-                    label( [ 12, -2.25 ], "Cipher", "right", false );
-                </div>
-                <div>
-                    <p>You can use the below slider to see if your guess is correct.<br/>
-                    Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to adjust the shift of this message</p>
-                    <center>Cipher Message:</center>
-                    <center><strong><var>C</var></center></strong><br/>
-                </div>
+                <canvas id="a" width="550" height="220">
+                </canvas>  
                 <div class="graphie" id="number-line">
                     <!-- Use for spacing the Cipher letter guide -->
                     var indent = 1.05;
@@ -105,7 +69,7 @@
                     style({arrows: ""});
                     line( [ 0, 0 ], [ LOWER_BOUND, 0 ] );
                     
-                    <!-- Draws the line marks for each letter-->
+                    <!-- Draws the line ticks for each letter-->
                     style({arrows: ""});
                     for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=1 ) {
                         var markLength;
@@ -114,18 +78,86 @@
                         label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                     }
 
-                    <!-- Updates HTML 5 Canvas element. Much faster then Graphie -->
+                    
+                    <!-- Updates HTML 5 Canvas element for the Bar chart. -->
+                    function updateCanvasBars(x){
+                    
+                        var a_canvas = document.getElementById("a");
+                        var context = a_canvas.getContext("2d");
+                        var height = 150;
+                        var width = 500;
+                        
+                        context.clearRect(0, 0, 550, 300);
+                    
+                        <!-- Draw Barchart Borders -->
+                        for( var y = 0; y &lt; height; y += height/4) {
+                            context.moveTo(9.5,y + 10);
+                            context.lineTo(width,y + 10);
+                            context.lineWidth=2;
+                        }
+                        context.strokeStyle = "#ccc";
+                        context.stroke();
+                        
+                        context.beginPath();
+                        context.moveTo(10,8);
+                        context.lineTo(10,height);
+                        context.lineTo(width,height);
+                        
+                        context.lineWidth=2.5;
+                        context.strokeStyle = "#000";
+                        context.stroke();
+                                           
+                        <!-- Draw Barchart -->
+                        for( var index = 0; index &lt; LETTERS; index++) {
+                            context.fillStyle="#9ab8ed";
+                            context.fillRect( index * (width-10)/LETTERS + 14, height - 2, 
+                                              6, -FREQ[index] * height * .6);
+                                              
+                            context.fillStyle="#ffc966";
+                            context.fillRect( index * (width-10)/LETTERS + 20, height - 2, 
+                                              6, -CIPHER_FREQ[(index+x)%26] * height * .6);
+                            
+                            context.fillStyle="#000";
+                            context.font = "normal 14px Arial";
+                            context.fillText("abcdefghijklmnopqrstuvwxyz"[index], index * (width - 10)/LETTERS + 15, height + 20);
+                            
+                        }
+                    
+                        <!-- Draw column labels -->                    
+                        context.fillStyle="#000";
+                        context.font = "bold 14px Arial";
+                        
+                        context.fillText("Letter Frequency", width/2 - 60, height + 40);
+                        context.fillText("Left Shift (" + x + ")", width/2 - 50, height + 60);
+                        
+                        context.font = "normal 14px Arial";
+                        context.fillText("English", 30, height + 60);
+                        context.fillText("Cipher", 100, height + 60);
+                        
+                        context.fillStyle="#9ab8ed";
+                        context.fillRect( 20, height + 48, 
+                                              6,15);
+                        context.fillStyle="#ffc966";
+                        context.fillRect( 90, height + 48, 
+                                              6,15);
+
+                    }
+                    
+                    updateCanvasBars(0);
+                    
+                    
+                    <!-- Updates HTML 5 Canvas element for the cipher slider -->
                     function updateCanvas(x){
                         var b_canvas = document.getElementById("b");
                         var context = b_canvas.getContext("2d");
-                        context.fillStyle = 'blue';
+                        context.fillStyle = '#256ce9';
                         context.clearRect(0, 0, 550, 50);
                         var letter = "";
                             
-                        context.font = "normal 14px Arial";
-                        for(var i = 0; i < 26; i++)
+                        context.font = "bold 14px Arial";
+                        for(var i = 0; i &lt; 26; i++)
                         {
-                            letter = applyCaesar("abcdefghijklmnopqrstuvwxyz",abs((x/indent)-26))[i];
+                            letter = applyCaesar("abcdefghijklmnopqrstuvwxyz",abs((x)-26))[i];
                             context.fillText(letter, i*20 + 2, 15);
                         }
                     }
@@ -136,21 +168,23 @@
                     graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: indent });
                     graph.movablePoint.onMove = function( x, y ) {
                         
-                        updateCanvas(x);
-                    
+                        updateCanvas(x/indent);
+                        updateCanvasBars(x/indent);
+                        <!--[if !IE]> -->
                         document.getElementById("Cip").innerHTML =  applyCaesar("a b c d e f g h i j k l m n o p q r s t u v w x y z",abs((x/indent)-26));
+                        <!-- <![endif]-->
                         document.getElementById("MsgShift").innerHTML = applyCaesar(C,abs((x/indent)-26))
                         return [ min( max( LOWER_BOUND, x ), UPPER_BOUND * indent ), y ]; 
                     };
                 </div>
                 <canvas id="b" width="550" height="25">
                     <pre id="Cip">a b c d e f g h i j k l m n o p q r s t u v w x y z</pre>
-                </canvas>  
+                </canvas> 
                 <div>
-                    <center><br/>Original Message:</center>
-                    <center><strong>
-                    <span id="MsgShift"><strong><var>C</var></strong></span>
-                    </strong></center>
+                    <center>Cipher Message:</center>
+                    <center><strong><var>C</var></strong></center><br/>
+                    <center>Original Message:</center>
+                    <center><strong><span id="MsgShift"><var>C</var></span></strong></center>
                 </div>
 
                 <p class="solution" data-forms="integer"><var>Shift</var></p>
@@ -172,7 +206,7 @@
             <div>
                 <p>You can use the Left Shift slider to see what the original message would look like when decrypting it with a specific shift. Drag the 
                 <strong><code>\color{orange}{\text{orange dot}}</code></strong> to where you think the encrypted letter '<strong>a</strong>' would be 
-                in the letter frequency graph.<br\>
+                in the letter frequency graph.<br\></p>
             </div>
             <div>
                 <p>Adjust the shift to the letter <strong><var>"abcdefghijklmnopqrstuvwxyz"[Shift]</var></strong> to see the message</p>
