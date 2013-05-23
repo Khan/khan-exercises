@@ -746,8 +746,7 @@ $.extend(KhanUtil, {
         };
 
         this.initSlidingWindow = function(options) {
-
-            KhanUtil.addMouseLayer();
+            this.graphie.addMouseLayer();
 
             var problem = options.problem;
 
@@ -764,7 +763,7 @@ $.extend(KhanUtil, {
             var ymax = ylims[1];
             var height = ymax - ymin;
 
-            var slidingWindow = KhanUtil.currentGraph.addRectGraph({
+            var slidingWindow = this.graphie.addRectGraph({
                 x: xmin,
                 y: ymin,
                 width: problem.width(),

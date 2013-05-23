@@ -280,7 +280,7 @@ $.extend(KhanUtil, {
                             (line.start[1] + line.end[1]) / 2];
 
             // add a movable point
-            line.point = KhanUtil.addMovablePoint({
+            line.point = graph.addMovablePoint({
                 coord: pointPos
             });
             // Make it not move
@@ -407,7 +407,7 @@ $.extend(KhanUtil, {
             pointPos[0] += Math.cos(aveAngle) * angle.radius;
             pointPos[1] += Math.sin(aveAngle) * angle.radius;
 
-            angle.point = KhanUtil.addMovablePoint({
+            angle.point = graph.addMovablePoint({
                 coord: pointPos
             });
             // Make it not move

@@ -250,7 +250,7 @@ $.extend(KhanUtil, {
                 max = max || 360,
                 graph.graph.movable = { vertex: KhanUtil.bogusShape, arc: KhanUtil.bogusShape, chords: [KhanUtil.bogusShape, KhanUtil.bogusShape] };
 
-            graph.graph.inscribedPoint = KhanUtil.addMovablePoint({coordX: point[0], coordY: point[1] });
+            graph.graph.inscribedPoint = graph.addMovablePoint({coordX: point[0], coordY: point[1] });
 
             graph.graph.inscribedPoint.onMove = function(x, y) {
                 var theta = getThetaFromXY(x, y);

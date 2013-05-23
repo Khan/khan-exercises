@@ -99,7 +99,7 @@ $.extend(KhanUtil, {
             var startRadius = Math.random() + 1.5;
             construction.tool = {
                 interType: "circle",
-                center: KhanUtil.addMovablePoint({
+                center: graphie.addMovablePoint({
                         graph: graphie,
                         coord: start,
                         normalStyle: {
@@ -294,7 +294,7 @@ $.extend(KhanUtil, {
         construction.addStraightedge = function() {
             construction.tool = {
                 interType: "line",
-                first: KhanUtil.addMovablePoint({
+                first: graphie.addMovablePoint({
                         graph: graphie,
                         coordX: -1, coordY: Math.random() * 2,
                         normalStyle: {
@@ -302,7 +302,7 @@ $.extend(KhanUtil, {
                             fill: KhanUtil.BLUE
                         }
                     }),
-                second: KhanUtil.addMovablePoint({
+                second: graphie.addMovablePoint({
                         graph: graphie,
                         coordX: 1, coordY: Math.random() * 2,
                         normalStyle: {
@@ -316,7 +316,7 @@ $.extend(KhanUtil, {
             // to the movableLineSegment's graph field, whereas
             // "construction.tool.etc" refers to the KhanUtil.construction
             // object being built in this util
-            construction.tool.edge = KhanUtil.addMovableLineSegment({
+            construction.tool.edge = graphie.addMovableLineSegment({
                     graph: graphie,
                     pointA: construction.tool.first,
                     pointZ: construction.tool.second,
@@ -647,7 +647,7 @@ $.extend(KhanUtil, {
             dummy: true,
             first: {coord: [coord1, coord2]},
             second: {coord: [coord1, coord2]},
-            edge: KhanUtil.addMovableLineSegment({
+            edge: KhanUtil.currentGraph.addMovableLineSegment({
                 coordA: coord1,
                 coordZ: coord2,
                 normalStyle: {stroke: "black", "stroke-width": 2},
@@ -722,13 +722,14 @@ $.extend(KhanUtil, {
     // only store coordinates of important
     // points
     showConstructionGuess: function(guessTools) {
+        var graph = KhanUtil.currentGraph;
         if (KhanUtil.constructionGuess != null) {
             KhanUtil.constructionGuess.remove();
         }
-        KhanUtil.constructionGuess = KhanUtil.currentGraph.raphael.set();
+        KhanUtil.constructionGuess = graph.raphael.set();
         _.each(guessTools, function(tool) {
             if (tool.first != null) {
-                KhanUtil.constructionGuess.push(KhanUtil.addMovableLineSegment({
+                KhanUtil.constructionGuess.push(graph.addMovableLineSegment({
                     coordA: tool.first.coord,
                     coordZ: tool.second.coord,
                     normalStyle: {
@@ -738,23 +739,23 @@ $.extend(KhanUtil, {
                     extendLine: true,
                     fixed: true
                 }).visibleLine);
-                KhanUtil.constructionGuess.push(KhanUtil.currentGraph.circle(
+                KhanUtil.constructionGuess.push(graph.circle(
                     tool.first.coord, 0.1, {
                         fill: KhanUtil.BLUE,
                         stroke: null
                     }));
-                KhanUtil.constructionGuess.push(KhanUtil.currentGraph.circle(
+                KhanUtil.constructionGuess.push(graph.circle(
                     tool.second.coord, 0.1, {
                         fill: KhanUtil.BLUE,
                         stroke: null
                     }));
             } else if (tool.center != null) {
-                KhanUtil.constructionGuess.push(KhanUtil.currentGraph.circle(
+                KhanUtil.constructionGuess.push(graph.circle(
                     tool.center.coord, 0.1, {
                         fill: KhanUtil.BLUE,
                         stroke: null
                     }));
-                KhanUtil.constructionGuess.push(KhanUtil.currentGraph.circle(
+                KhanUtil.constructionGuess.push(graph.circle(
                     tool.center.coord, tool.radius, {
                         fill: "none",
                         stroke: KhanUtil.BLUE,

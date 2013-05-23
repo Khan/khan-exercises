@@ -502,14 +502,15 @@ $.extend(KhanUtil, {
                 }
             }
 
-            KhanUtil.currentGraph.style({ stroke: KhanUtil.BLUE, opacity: 1.0, "stroke-width": 2 });
+            var graph = KhanUtil.currentGraph;
+            graph.style({ stroke: KhanUtil.BLUE, opacity: 1.0, "stroke-width": 2 });
             for (var angle = 0; angle < 2; ++angle) {
                 $(triangle.arcs[angle]).each(function() { this.remove(); });
-                triangle.arcs[angle] = KhanUtil.drawArcs(triangle.points[angle].coord, triangle.points[angle + 1].coord, triangle.points[angle + 2].coord, options.numArcs[angle]);
+                triangle.arcs[angle] = graph.drawArcs(triangle.points[angle].coord, triangle.points[angle + 1].coord, triangle.points[angle + 2].coord, options.numArcs[angle]);
             }
             if (options.numArcs[2]) {
                 $(triangle.arcs[2]).each(function() { this.remove(); });
-                triangle.arcs[angle] = KhanUtil.drawArcs(triangle.points[2].coord, triangle.points[3].coord, triangle.points[1].coord, options.numArcs[2]);
+                triangle.arcs[angle] = graph.drawArcs(triangle.points[2].coord, triangle.points[3].coord, triangle.points[1].coord, options.numArcs[2]);
             }
 
             $(triangle.lines).each(function() {
@@ -593,27 +594,28 @@ $.extend(KhanUtil, {
             });
         }
 
+        var graphie = KhanUtil.currentGraph;
         // Start at 0,0 and build the shape, logo-style
         var coord = [0, 0];
-        triangle.points.push(KhanUtil.addMovablePoint({ coord: coord }));
+        triangle.points.push(graphie.addMovablePoint({ coord: coord }));
 
         coord[0] += options.sides[0] * Math.cos(angles[0] * Math.PI / 180);
         coord[1] += options.sides[0] * Math.sin(angles[0] * Math.PI / 180);
-        triangle.points.push(KhanUtil.addMovablePoint({ coord: coord }));
+        triangle.points.push(graphie.addMovablePoint({ coord: coord }));
 
         coord[0] += options.sides[1] * Math.cos(-(180 - angles[1] - angles[0]) * Math.PI / 180);
         coord[1] += options.sides[1] * Math.sin(-(180 - angles[1] - angles[0]) * Math.PI / 180);
-        triangle.points.push(KhanUtil.addMovablePoint({ coord: coord }));
+        triangle.points.push(graphie.addMovablePoint({ coord: coord }));
 
         coord[0] += options.sides[2] * Math.cos((angles[2] + angles[1] + angles[0]) * Math.PI / 180);
         coord[1] += options.sides[2] * Math.sin((angles[2] + angles[1] + angles[0]) * Math.PI / 180);
-        triangle.points.push(KhanUtil.addMovablePoint({ coord: coord }));
+        triangle.points.push(graphie.addMovablePoint({ coord: coord }));
 
-        triangle.lines.push(KhanUtil.addMovableLineSegment({ pointA: triangle.points[0], pointZ: triangle.points[1], ticks: options.ticks[0], highlightStyle: { "stroke": KhanUtil.BLUE, "stroke-width": 4 } }));
-        triangle.lines.push(KhanUtil.addMovableLineSegment({ pointA: triangle.points[1], pointZ: triangle.points[2], ticks: options.ticks[1], highlightStyle: { "stroke": KhanUtil.BLUE, "stroke-width": 4 } }));
-        triangle.lines.push(KhanUtil.addMovableLineSegment({ pointA: triangle.points[2], pointZ: triangle.points[3], ticks: options.ticks[2], highlightStyle: { "stroke": KhanUtil.BLUE, "stroke-width": 4 } }));
+        triangle.lines.push(graphie.addMovableLineSegment({ pointA: triangle.points[0], pointZ: triangle.points[1], ticks: options.ticks[0], highlightStyle: { "stroke": KhanUtil.BLUE, "stroke-width": 4 } }));
+        triangle.lines.push(graphie.addMovableLineSegment({ pointA: triangle.points[1], pointZ: triangle.points[2], ticks: options.ticks[1], highlightStyle: { "stroke": KhanUtil.BLUE, "stroke-width": 4 } }));
+        triangle.lines.push(graphie.addMovableLineSegment({ pointA: triangle.points[2], pointZ: triangle.points[3], ticks: options.ticks[2], highlightStyle: { "stroke": KhanUtil.BLUE, "stroke-width": 4 } }));
 
-        triangle.rotationPoint = KhanUtil.addMovablePoint({ visible: false });
+        triangle.rotationPoint = graphie.addMovablePoint({ visible: false });
 
         // Translate the triangle so its all visible
         var xlateX = 4 - Math.max(triangle.points[0].coord[0], triangle.points[1].coord[0], triangle.points[2].coord[0], triangle.points[3].coord[0]);
@@ -665,12 +667,13 @@ $.extend(KhanUtil, {
             arcs = [1, 2, 3];
         }
 
-        KhanUtil.addMovableLineSegment({ coordA: triangle.points[0], coordZ: triangle.points[1], fixed: true, ticks: ticks[0], normalStyle: { stroke: "#b1c9f5", "stroke-width": 2 } });
-        KhanUtil.addMovableLineSegment({ coordA: triangle.points[1], coordZ: triangle.points[2], fixed: true, ticks: ticks[1], normalStyle: { stroke: "#b1c9f5", "stroke-width": 2 } });
-        KhanUtil.addMovableLineSegment({ coordA: triangle.points[2], coordZ: triangle.points[0], fixed: true, ticks: ticks[2], normalStyle: { stroke: "#b1c9f5", "stroke-width": 2 } });
-        KhanUtil.drawArcs(triangle.points[2], triangle.points[0], triangle.points[1], arcs[0]);
-        KhanUtil.drawArcs(triangle.points[0], triangle.points[1], triangle.points[2], arcs[1]);
-        KhanUtil.drawArcs(triangle.points[1], triangle.points[2], triangle.points[0], arcs[2]);
+        var graphie = KhanUtil.currentGraph;
+        graphie.addMovableLineSegment({ coordA: triangle.points[0], coordZ: triangle.points[1], fixed: true, ticks: ticks[0], normalStyle: { stroke: "#b1c9f5", "stroke-width": 2 } });
+        graphie.addMovableLineSegment({ coordA: triangle.points[1], coordZ: triangle.points[2], fixed: true, ticks: ticks[1], normalStyle: { stroke: "#b1c9f5", "stroke-width": 2 } });
+        graphie.addMovableLineSegment({ coordA: triangle.points[2], coordZ: triangle.points[0], fixed: true, ticks: ticks[2], normalStyle: { stroke: "#b1c9f5", "stroke-width": 2 } });
+        graphie.drawArcs(triangle.points[2], triangle.points[0], triangle.points[1], arcs[0]);
+        graphie.drawArcs(triangle.points[0], triangle.points[1], triangle.points[2], arcs[1]);
+        graphie.drawArcs(triangle.points[1], triangle.points[2], triangle.points[0], arcs[2]);
         $(triangle.set).each(function() { this.toBack(); });
     }
 

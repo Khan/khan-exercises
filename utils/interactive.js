@@ -167,6 +167,16 @@ $.extend(KhanUtil, {
 
 
         return sorter;
+    },
+
+    // Useful for shapes that are only sometimes drawn. If a shape isn't
+    // needed, it can be replaced with bogusShape which just has stub methods
+    // that successfully do nothing.
+    // The alternative would be 'if..typeof' checks all over the place.
+    bogusShape: {
+        animate: function() {},
+        attr: function() {},
+        remove: function() {}
     }
 });
 
@@ -838,17 +848,6 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         interactiveFn.mouseTarget.toBack();
         return interactiveFn;
-    },
-
-
-    // Useful for shapes that are only sometimes drawn. If a shape isn't
-    // needed, it can be replaced with bogusShape which just has stub methods
-    // that successfully do nothing.
-    // The alternative would be 'if..typeof' checks all over the place.
-    bogusShape: {
-        animate: function() {},
-        attr: function() {},
-        remove: function() {}
     },
 
 
@@ -1650,7 +1649,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             radius: 2
         }, options);
 
-        circle.centerPoint = KhanUtil.addMovablePoint({
+        circle.centerPoint = graphie.addMovablePoint({
             graph: graphie,
             coord: circle.center,
             normalStyle: {

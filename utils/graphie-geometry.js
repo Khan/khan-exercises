@@ -1072,7 +1072,8 @@ KhanUtil.solveTriangle = function(triangle) {
 };
 
 
-KhanUtil.addTriangle = function(triangle) {
+KhanUtil.Graphie.prototype.addTriangle = function(triangle) {
+    var graphie = this;
     triangle = $.extend({
         sides: [],
         angles: [],
@@ -1131,7 +1132,6 @@ KhanUtil.addTriangle = function(triangle) {
     };
 
     triangle.draw = function() {
-        var graphie = KhanUtil.currentGraph;
         if (triangle.set != null) {
             triangle.set.remove();
         }
