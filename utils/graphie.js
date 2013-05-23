@@ -312,9 +312,6 @@
                     }
                     // Run after MathJax typesetting
                     MathJax.Hub.Queue(function() {
-                        // Avoid an icky flash
-                        span.css("visibility", "hidden");
-
                         var setMargins = function(size) {
                             span.css("visibility", "");
                             if (typeof direction === "number") {
@@ -342,24 +339,29 @@
 
                         // Wait for the browser to render it
                         var tries = 0;
-                        var size = [span.outerWidth(), span.outerHeight()];
+                        (function check() {
+                            var width = span[0].scrollWidth;
+                            var height = span[0].scrollHeight;
 
-                        if (size[1] > 18) {
-                            setMargins(size);
-                            callback();
-                        } else {
-                            var inter = setInterval(function() {
-                                size = [span.outerWidth(), span.outerHeight()];
+                            // Heuristic to guess if the font has kicked in so
+                            // we have box metrics (Magic number ick, but this
+                            // seems to work mostly-consistently)
+                            if (height > 18 || ++tries >= 10 ||
 
-                                // Heuristic to guess if the font has kicked in so we have box metrics
-                                // (Magic number ick, but this seems to work mostly-consistently)
-                                if (size[1] > 18 || ++tries >= 10) {
-                                    setMargins(size);
-                                    clearInterval(inter);
-                                    callback();
-                                }
-                            }, 100);
-                        }
+                                    // If the span is detached for some reason,
+                                    // these dimensions will just be 0 anyway
+                                    // so don't bother.
+                                    !$.contains(document.body, span[0])) {
+
+                                setMargins([width, height]);
+                                callback();
+                            } else {
+                                // Avoid an icky flash
+                                span.css("visibility", "hidden");
+
+                                setTimeout(check, 100);
+                            }
+                        })();
 
                         return callback;
                     });
