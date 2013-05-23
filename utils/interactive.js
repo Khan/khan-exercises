@@ -570,6 +570,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                                 movablePoint.mouseTarget.attr("cy", mouseY);
                                 movablePoint.coord = [coordX, coordY];
                                 movablePoint.updateLineEnds();
+                                $(movablePoint).trigger("move");
                             }
 
 
