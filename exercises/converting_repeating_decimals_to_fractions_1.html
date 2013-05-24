@@ -7,40 +7,70 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars">
-        <var id="N1">randRange( 0, 3 )</var>
-        <var id="N2">randRange( 1, 8 )</var>
-        <var id="N4">N1 + N2 / 9</var>
-
-        <var id="D1">0</var>
-        <var id="D2">1</var>
-
-        <var id="MULT1">round( pow( 10, D2 ) )</var>
-        <var id="MULT2">round( pow( 10, D1 ) )</var>
-        <var id="RES1">floorTo( 4,( MULT1 * N4 ) )</var>
-        <var id="RES2">floorTo( 4,( MULT2 * N4 ) )</var>
-        <var id="DIFF">round( RES1 - RES2 )</var>
-    </div>
-
     <div class="problems">
-        <div>
-            <p class="question">Rewrite as a simplified fraction.</p>
+        <div id='decimal_to_rational'>
+            <div class="vars">
+                <var id="N1">randRange( 0, 3 )</var>
+                <var id="N2">randRange( 1, 8 )</var>
+                <var id="N4">N1 + N2 / 9</var>
+
+                <var id="D1">0</var>
+                <var id="D2">1</var>
+
+                <var id="MULT1">round( pow( 10, D2 ) )</var>
+                <var id="MULT2">round( pow( 10, D1 ) )</var>
+                <var id="RES1">floorTo( 4,( MULT1 * N4 ) )</var>
+                <var id="RES2">floorTo( 4,( MULT2 * N4 ) )</var>
+                <var id="DIFF">round( RES1 - RES2 )</var>
+            </div>
+
+           <p class="question">Rewrite as a simplified fraction.</p>
             <p><code>\large{<var>N1</var>.\overline{<var>N2</var>} = {?}}</code></p>
             <p class="solution" data-type="rational"><var>N4</var></p>
+            <div class="hints">
+                <p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
+                <p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\
+                <var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
+                <div>
+                    <p>Subtracting the two equations, we have:</p>
+                    <p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
+                </div>
+                <p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
+                <p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
+            </div>
+        </div>
+
+        <div id='rational_to_decimal'>
+            <div class="vars">
+                <var id="DEN_PRIME">randRange(4,10)</var>
+                <var id="NUM_PRIME">randRange(1,DEN_PRIME-1)</var>
+
+                <var id="DEN_9">9</var>
+                <var id="NUM_9">(randRange(0,2)*9) + randRange(1,8)</var>
+
+                <var id="DENOMINATOR">toFraction(NUM_9/DEN_9)[1]</var>
+                <var id="NUMERATOR">toFraction(NUM_9/DEN_9)[0]</var>
+                <var id="QUOTIENT">Math.floor(NUM_9/DEN_9)</var>
+                <var id="DEC_SOL">roundTo(9, NUMERATOR/DENOMINATOR)</var>
+
+            </div>
+
+            <p class="question">Rewrite as a decimal. Give the first 10 digits.</p>
+            <p><code>\large{<var>NUMERATOR</var>/<var>DENOMINATOR</var> = {?}}</code></p>
+            <p class="solution" data-type="decimal"><var>DEC_SOL</var></p>
+
+            <div class="hints">
+                <p data-if="NUMERATOR > DENOMINATOR">Divide the <strong>numerator</strong> by the <strong>denominator</strong> so we only have to work with the <strong>remainder</strong>, which will be easier. Remember the <strong>quotient</strong>!</p>
+
+                <p>Divide <strong><var>NUMERATOR</var></strong> by <strong><var>DENOMINATOR</var></strong>. You should find that one digit keeps on repeating.</code></p>
+
+                <p data-if="NUMERATOR > DENOMINATOR">Don't forget to add the quotient before the period.</p>
+
+                <p>The answer is <strong><var>DEC_SOL</var></strong></p>
+            </div>
         </div>
     </div>
 
-    <div class="hints">
-        <p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
-        <p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\
-        <var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
-        <div>
-            <p>Subtracting the two equations, we have:</p>
-            <p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
-        </div>
-        <p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
-        <p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
-    </div>
-    </div>
+   </div>
 </body>
 </html>
