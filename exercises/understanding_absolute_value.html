@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems interactive">
+<html data-require="math graphie word-problems interactive math-format">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Understanding absolute value</title>
@@ -8,31 +8,32 @@
 <body>
     <div class="exercise">
     <div class="vars">
-        <var id="LOWER_BOUND">-5</var>
+        <var id="LOWER_BOUND">-6</var>
         <var id="UPPER_BOUND">-1 * LOWER_BOUND</var>
         <var id="NUMBER">randRange( 1, UPPER_BOUND )</var>
     </div>
     <div class="problems">
         <div id="where-is-point">
             <div class="question">
-                <p>Suppose two different numbers both have <strong><var>NUMBER/5</var></strong> as their absolute value. Please drag two orange dots on the origin to the value they corresponds to on the number line.</p>
-                <p class="extra-info"><i>(Extra Info: The distance between tick marks is 1/5.)</i></p>
+                <p>Drag one orange dot to <strong><code><var>fraction( NUMBER, 6 )</var></code></strong> and another to <strong><code><var>fraction( -NUMBER, 6 )</var></code></strong>.</p>
                 <div class="graphie" id="number-line">
                     init({
-                        range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ]
+                        range: [ [LOWER_BOUND - 0.2, UPPER_BOUND + 0.2], [-1, 1] ]
                     });
 
                     line( [ LOWER_BOUND, 0 ], [ UPPER_BOUND, 0 ] );
                     for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++ ) {
-                        line( [ x, -0.2 ], [ x, 0.2 ] );
+                        line( [ x, -1/6 ], [ x, 1/6 ] );
                     }
                     style({ stroke: "#6495ED", strokeWidth: 3.5 });
-                    line( [ 0, -0.2], [0, 0.2]);
+                    line( [ 0, -1/6], [0, 1/6]);
                     label( [ 0, -0.53 ],  "0", "center", { color: "#6495ED" });
+                    label( [ -6, -0.53 ],  "-1", "center", { color: "#6495ED" });
+                    label( [ 6, -0.53 ],  "1", "center", { color: "#6495ED" });
 
                     addMouseLayer();
-                    graph.movablePoint = addMovablePoint({ coord: [-5, 0], constraints: { constrainY: true }, snapX: 0.25 });
-                    graph.movablePoint_2 = addMovablePoint({ coord: [5, 0], constraints: { constrainY: true }, snapX: 0.25 });
+                    graph.movablePoint = addMovablePoint({ coord: [-6, 0], constraints: { constrainY: true }, snapX: 0.25 });
+                    graph.movablePoint_2 = addMovablePoint({ coord: [6, 0], constraints: { constrainY: true }, snapX: 0.25 });
                     graph.movablePoint.onMove = function( x, y ) {
                         return [ min( max( LOWER_BOUND, x ), UPPER_BOUND ), y ];
                     };
@@ -61,11 +62,9 @@
             </div>
 
             <div class="hints">
-                <p>Geometrically, the absolute value of a rational number denotes the distance from this number to 0 on the number line.</p>
-                <p>Since each unit between tick marks is 1/5 (or 0.2), <var>NUMBER/5</var> should be <var>NUMBER/5</var> / 0.2 = <var>NUMBER</var> unit away from 0.
-                <p>Where should you place two dots so each of them is <var>NUMBER</var> unit away from 0?</p>
-                <p>That's right. One should be <var>NUMBER</var> unit left from 0 (so this is a negative number).</p>
+                <p>Since each unit between tick marks is <code><var>fraction( 1, 6 )</var></code>, both <code><var>fraction( -NUMBER, 6 )</var></code> and <code><var>fraction( NUMBER, 6 )</var></code> should be <code><var>fraction( NUMBER, 6 )</var></code> / <code><var>fraction( 1, 6 )</var></code> = <strong><var>NUMBER</var></strong> unit away from 0.
                 <div>
+                    <p>Since <code><var>fraction( -NUMBER, 6 )</var></code> is positive, it should be <strong><var>NUMBER</var></strong> unit right from 0 (so this is a positive number).</p>
                     <div class="graphie" data-update="number-line">
                         style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
                         line( [ 0, 0 ], [ -NUMBER, 0 ] );
@@ -75,13 +74,13 @@
                 </div>
                 <div>
                     <div class="graphie" data-update="number-line">
-                        label( [ -NUMBER, -0.53 ],  -NUMBER/5, "center", { color: "#FFA500" });
+                        label( [ -NUMBER, -0.9 ],  fraction( -NUMBER, 6 ), "center", { color: "#FFA500" });
                         graph.movablePoint.moveTo( -NUMBER, 0 );
                     </div>
-                    <p>The orange number on left shows where <var>-NUMBER</var> * 0.2 = <var>-NUMBER/5</var> is on the number line.</p>
+                    <p>The orange number on left shows where <strong><var>-NUMBER</var></strong> * <code><var>fraction( 1, 6 )</var></code> = <code><var>fraction( -NUMBER, 6 )</var></code> is on the number line.</p>
                 </div>
-                <p>And the other <var>NUMBER</var> unit right from 0 (so this is a positive number).</p>
                 <div>
+                    <p>Since <code><var>fraction( NUMBER, 6 )</var></code> is negative, it should be <strong><var>NUMBER</var></strong> unit left from 0 (so this is a positive number).</p>
                     <div class="graphie" data-update="number-line">
                         style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
                         line( [ 0, 0 ], [ NUMBER, 0 ] );
@@ -90,12 +89,12 @@
                 </div>
                 <div>
                     <div class="graphie" data-update="number-line">
-                        label( [ NUMBER, -0.53 ],  NUMBER/5, "center", { color: "#FFA500" });
+                        label( [ NUMBER, -0.9 ],  fraction( NUMBER, 6 ), "center", { color: "#FFA500" });
                         graph.movablePoint_2.moveTo( NUMBER, 0 );
                     </div>
-                    <p>The orange number on right shows where <var>NUMBER</var> * 0.2 = <var>NUMBER/5</var> is on the number line.</p>
+                    <p>The orange number on right shows where <strong><var>NUMBER</var></strong> * <code><var>fraction( 1, 6 )</var></code> = <code><var>fraction( NUMBER, 6 )</var></code> is on the number line.</p>
                 </div>
-                <p>So two dots on the number line now denotes two numbers with the absolute value <var>NUMBER/5</var>.</p>
+                <p>Now you have correctly placed <code><var>fraction( -NUMBER, 6 )</var></code> and <code><var>fraction( NUMBER, 6 )</var></code> on the number line, remember the geometric definition of a number's absolute value is its distance from itself to 0 on the number line. So in this case, both <code><var>fraction( -NUMBER, 6 )</var></code> and <code><var>fraction( NUMBER, 6 )</var></code> have the same absolute value <code><var>fraction( NUMBER, 6 )</var></code> because they are both <code><var>fraction( NUMBER, 6 )</var></code> away from 0 on the number line.</p>
             </div>
         </div>
 
