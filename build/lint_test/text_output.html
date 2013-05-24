@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+    <script type="text/javascript">
+        // Nothing should happen to this
+        var a = "\\text{ " + NAME + "}";
+        // Test that string interpolation is done on the two strings
+        var b = "\\text{" + $._("%(NAME)s's hat and %(NAME)s", {NAME: NAME}) + "}";
+        // Test that the transformed variable names don't conflict
+        var c = "\\text{" + $._("%(a_NAME_)s and %(a_NAME__)s", {a_NAME_: a(NAME), a_NAME__: a[NAME]}) + "}";
+        // Make sure that this still matches over newlines
+        var d = "\\text{" + $._("%(NAME)s's hat and %(NAME)s", {NAME: NAME}) + "}";
+        // Make sure that it detects single quotes
+        var e = '\\text{ ' + NAME + '}';
+        // Make sure that single and double quotes are replaced correctly
+        var f = "\\text{" + $._("%(NAME)s\'s hat", {NAME: NAME}) + ' }';
+    </script>
+
+    <script>
+        // Make sure that <s don't ruin the parsing, and aren't converted
+        // to &lt;s
+        "\\text{" + $._("blah") + "}" < "something else"
+    </script>
+
+    <script>
+        // Make sure it matches a single text on multiple lines
+        "\\text{" + $._("%(HELLO)s world", {HELLO: HELLO}) + "}";
+    </script>
+</head>
+<body>
+    <!-- Normal $._ replacement -->
+    <code>\text{<var>$._("word")</var>}</code>
+
+    <!-- This shouldn't be touched (wrong case) -->
+    <code>\TeXt{word}</code>
+
+    <div>
+        <p>Blah blah</p>
+        <!-- Check that whitespace is preserved correctly -->
+        <code>\text{ <var>$._("word")</var>}</code>
+    </div>
+
+    <!-- Check that this does javascript interpolation, not
+        html interpolation -->
+    <code>Blah <var>"\\text{" + $._("something") + "}"</var></code>
+
+    <!-- Check that it matches in graphie divs -->
+    <div class="graphie">
+        label("\\text{" + $._("word") + "}")
+        label("\\text{ " + $._("word") + "}")
+    </div>
+
+    <!-- check that it matches in <var> tags -->
+    <var id="blah">"\\text{" + $._("hat of %(NAME)s", {NAME: NAME}) + "}"</var>
+
+    <!-- check that it matches after a newline in code tags -->
+    <code>Something something
+        \text{<var>NAME</var>}</code>
+    <!-- check that it preserves whitespace when no interpolation is done -->
+    <code>\text{      <var>NAME</var>    }</code>
+    <!-- check that interpolation is done correctly -->
+    <code>\text{<var>$._("%(BLAH)s's %(SOMETHING)s has eaten %(__shuffle_THINGS_)s", {BLAH: BLAH, SOMETHING: SOMETHING, __shuffle_THINGS_: $.shuffle(THINGS)})</var>}</code>
+
+    <!-- check that it works in validator-function divs -->
+    <div class="validator-function">
+        "\\text{" + $._("%(BLAH)s's %(SOMETHING)s has eaten %(__shuffle_THINGS_)s", {BLAH: BLAH, SOMETHING: SOMETHING, __shuffle_THINGS_: $.shuffle(THINGS)}) + "}"
+    </div>
+</body>
+</html>

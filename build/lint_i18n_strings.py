@@ -19,6 +19,7 @@ import argparse
 import copy
 import re
 import sys
+import collections
 
 # TODO(csilvers): replace lxml with HTMLParser (like extract_strings.py does)
 import lxml.html
@@ -80,6 +81,15 @@ _CANNOT_CONTAIN_NODES = ['p', 'div']
 _INLINE_SCRIPT_NODES = [
     'var',
     'code'
+]
+
+# Nodes that might contain \text{} strings
+_TEXT_NODES = [
+    '//code',
+    '//var',
+    '//script',
+    '//*[contains(@class,"graphie")]',
+    '//*[contains(@class,"validator-function")]',
 ]
 
 # All the tags that we want to ignore and not extract strings from
@@ -274,6 +284,16 @@ def lint_file(filename, apply_fix, verbose):
         # Keep track of how many nodes have changed
         # (or would have changed, if apply_fix is False)
         nodes_changed += new_nodes_changed
+
+    # Manually pluck out the code/javascript nodes for \text{} processing
+    text_nodes = root_tree.xpath('|'.join(_TEXT_NODES))
+
+    filter = MathJaxTextFilter()
+
+    (new_nodes, new_errors, new_nodes_changed) = filter.process(text_nodes)
+    nodes = new_nodes
+    errors += new_errors
+    nodes_changed += new_nodes_changed
 
     if nodes_changed:
         # If any nodes have changed and we want to apply the fixes
@@ -1130,6 +1150,253 @@ class AnFilter(BaseFilter):
         var_node.text = match.group(2).strip()
 
 
+class MathJaxTextFilter(BaseFilter):
+    """i18nize usage of \\text{} in exercises.
+
+    This ensures that all of the text inside of MathJax \\text{} blocks are
+    internationalized correctly (i.e. wrapped with $._), because the strings
+    inside of them are not covered by other filters (as they are assumed to not
+    be real strings, but instead part of math/javascript). This checks in both
+    any javascript portions as well as inside of <code> blocks. It also
+    correctly handles spacing inside of the \\text{}.
+
+    For example, given:
+        <code>\\frac{10}{3} \\text{ parakeets}</code>
+
+    It would become:
+        <code>\\frac{10}{3} \\space\\text{<var>$._("parakeets")</var>}</code>
+
+    Also, given (inside of a javascript block):
+        label("\\text{Parents}")
+
+    It would become:
+        label("\\text{" + $._("Parents") + "}")
+    """
+    # Matches \text{...}
+    _regex = re.compile(r'\\text\{.*?\}', re.DOTALL)
+
+    def get_match(self, fix_node):
+        """Return a match of a string that matches \\text{...}"""
+        return self._regex.search(_get_innerhtml(fix_node))
+
+    def filter_var(self, match, var_node):
+        # Dump the node in string form
+        node_text = _get_innerhtml(var_node)
+
+        text_sub_re = re.compile(r'(\\{1,2}text\{\s*)(.*?)(\s*\})', re.DOTALL)
+
+        # Do all of the replacements. We look at the type of the tag to
+        # determine whether we should be looking for html or javascript
+        if var_node.tag == "code":
+            new_html = text_sub_re.sub(
+                self._do_html_text_replace,
+                node_text)
+        else:
+            new_html = text_sub_re.sub(
+                self._do_javascript_text_replace,
+                node_text)
+
+        # Build a new <div> node with the correct contents
+        new_node = _parse_single_node('<%(tag)s>%(html)s</%(tag)s>' % {
+            "tag": var_node.tag,
+            "html": new_html,
+        })
+
+        # replace the contents of the old node with the contents of the new
+        # node, including both the text and the children
+        var_node.text = new_node.text
+        for child in var_node.getchildren():
+            var_node.remove(child)
+        for child in new_node.getchildren():
+            var_node.append(child)
+
+    # we replace this because we want to be a bit more specific
+    def find_fixable_vars(self, node):
+        # only return the node if the text portion of this node contains the
+        # \text{} (in particular, not if the text of one of its decendents
+        # contains \text{})
+        if node.xpath('contains(text(),"\\text{")'):
+            return [node]
+        else:
+            return []
+
+    @staticmethod
+    def _javascript_dumps(d):
+        """Dumps a dict into a javascript-like object format
+
+        Note that this should probably only be used for the specific case of
+        the var_dict down below, where the items are in a very specific format.
+        In particular, this function specifically doesn't quote either the key
+        or the value when dumping, because it expects that they key is a
+        javascript-like variable name, and the value is a valid javascript
+        expression.
+
+        Example:
+            { "NAME": "NAME", "TEXT": "TEXT" }
+            => "{NAME: NAME, TEXT: TEXT}"
+        """
+        return "{%s}" % (", ".join(
+            "%s: %s" % (k, v) for k, v in d.iteritems()
+        ))
+
+    @staticmethod
+    def var_replace_builder(var_dict):
+        """Replace values with variable names, and store the original values
+
+        This replaces all of the variable substitutions with usable variable
+        names, and stores the original values in the dictionary provided. If
+        there are naming conflicts, it adds underscores to the variable name.
+
+        Ex:
+            $.shuffle( BLAH )  =>  __shuffle_BLAH_
+        """
+        def replace_with_var(match):
+            # extract the content
+            content = match.group(1)
+
+            # Replace all non-word characters with underscores, so
+            # that it is a valid variable name
+            var_name = re.sub('\W', '_', content)
+
+            # Handle naming conflicts (which only occur when things have the
+            # same name but different real values) by adding more underscores
+            while (var_name in var_dict and
+                    var_dict[var_name] != content):
+                var_name += '_'
+
+            # Store the original value
+            var_dict[var_name] = content
+
+            # Return the new interpolation-like string
+            return '%%(%s)s' % var_name
+        return replace_with_var
+
+    @staticmethod
+    def _do_javascript_text_replace(match):
+        """Do \\text{} replacements inside of javascript
+
+        This takes a \\\\text{} string from some javascript and does the proper
+        i18nization of its inner contents. Sometimes, if javascript variables
+        are inside the contents, it will pull them out and do a string
+        interpolation using $._.
+
+        Note that this doesn't currently handle pure string concatenation very
+        well, so something like \\\\text{" + "hello " + ", " + "world" + "}
+        will produce something weird, and needs to be fixed manually.
+
+        Some examples of replacements:
+
+        \\\\text{Hello, world}  =>  \\\\text{" + $._("Hello, world") + "}
+
+        \\\\text{' + BLAH + ' is happy}  =>
+            \\\\text{' + $._("%(BLAH)s is happy", {BLAH: BLAH}) + '}
+        """
+        # Pull out the parts from the match
+        # Note that the searching regex is kinda strange, so the string:
+        #       '\\text{  hello" + world + "   }'
+        # will get split into the parts:
+        #    '\\text{  '   'hello" + world + "'    '   }'
+        # which has semi-strange quoting in the content string
+        (text_start, text_content, text_end) = match.groups()
+
+        # The main regex
+        search_re = re.compile(
+            r"""["']\s*\+\s*(.*?)\s*\+\s*["']""",
+            re.DOTALL)
+
+        #TODO(emily): We should probably use a real javascript parser for this
+        # at some point instead of this hacky regex system, so that we can do
+        # more complex parsing and won't get as many strange bugs (for example,
+        # there's a weird bug when you just have a bunch of string literals
+        # concatenated together, or when you put single quotes inside of double
+        # quotes, etc. The jslexer from third_party.babel might be able to help
+        # with this (if we can handle whitespace more robustly)
+
+        # Check if we have to do anything, or if the inner string has
+        # already been fixed.
+
+        # If there aren't quotes right at the beginning
+        if (not re.match(r"""["']\s*\+""", text_content) or
+                # or if there aren't quotes right at the end
+                not re.search(r"""\+\s*["']$""", text_content) or
+                # or if there is a place inside where string concatenation with
+                # a variable is done
+                len(search_re.findall(text_content)) != 1):
+            # If there are string concatenations, we need to do interpolation
+            if search_re.search(text_content):
+                # Figure out the quoting style of the beginning and end, so we
+                # can replace it correctly
+                start_quote = re.search(r"""^[^'"]*(['"])""", text_content)
+                end_quote = re.search(r"""(['"])[^'"]*$""", text_content)
+
+                # Store of our variable values
+                var_dict = collections.OrderedDict()
+
+                # Do the replacements
+                interp_string = search_re.sub(
+                        MathJaxTextFilter.var_replace_builder(var_dict),
+                        text_content)
+
+                # Re-build our string with the replacements
+                text_content = '%s + $._("%s", %s) + %s' % (
+                        start_quote.group(1),
+                        interp_string,
+                        MathJaxTextFilter._javascript_dumps(var_dict),
+                        end_quote.group(1))
+            else:
+                # Otherwise, just wrap in $._
+                text_content = '" + $._("%s") + "' % text_content
+
+        # Finally, re-assemble the entire thing
+        return text_start + text_content + text_end
+
+    @staticmethod
+    def _do_html_text_replace(match):
+        """Do \\text{} replacements inside of html nodes
+
+        This takes a \\text{} string from a <code> tag and does the proper
+        i18nization of the contents. Sometimes, if there are javascript
+        expressions (in the form of <var> tags) inside of the \\text{}, it has
+        to use the string interpolation of $._ to appropriately translate.
+
+        For example:
+
+        \\text{Hello, world}  =>  \\text{<var>$._("Hello, world"}
+
+        \\text{<var>BLAH</var> is happy}  =>
+            \\text{<var>$._("%(BLAH)s is happy", {BLAH: BLAH})</var>}
+        """
+        # Pull out the parts from the match
+        (text_start, text_content, text_end) = match.groups()
+
+        # The main regex
+        search_re = re.compile(r'<var>(.*?)</var>', re.DOTALL)
+
+        # Check if we have to do anything, or if the inner string has
+        # already been fixed
+        if (not re.match(r'<var>', text_content) or
+                not re.search(r'</var>$', text_content) or
+                len(search_re.findall(text_content)) != 1):
+            # Check if there is already a <var> inside, in which
+            # case we have to do string interpolation
+            if search_re.search(text_content):
+                # A dict of variable names and their values
+                var_dict = collections.OrderedDict()
+
+                # Build the new interpolation string
+                interp_string = search_re.sub(
+                        MathJaxTextFilter.var_replace_builder(var_dict),
+                        text_content)
+
+                text_content = '<var>$._("%s", %s)</var>' % (interp_string,
+                        MathJaxTextFilter._javascript_dumps(var_dict))
+            else:
+                text_content = '<var>$._("%s")</var>' % text_content
+
+        # Build the final string out of the new parts
+        return text_start + text_content + text_end
+
+
 class AmbiguousPluralFilter(BaseFilter):
     """Detect instances of AMBIGUOUS_PLURAL() and report an error."""
     # Matches AMBIGUOUS_PLURAL(...)
@@ -1396,6 +1663,11 @@ def _replace_node(node, replace_node):
         parent_node.remove(node)
 
 
+def _parse_single_node(text):
+    """Parse a single html node from a string into a tree"""
+    return lxml.html.html5parser.fragment_fromstring(text, parser=PARSER)
+
+
 def _get_outerhtml(html_node):
     """Get a string representation of an HTML node.
 
@@ -1405,6 +1677,16 @@ def _get_outerhtml(html_node):
     """
     html_string = lxml.html.tostring(html_node)
     return re.sub(r'[^>]*$', '', html_string, count=1)
+
+
+def _get_innerhtml(html_node):
+    """Get a string representation of the contents of an HTML Node
+
+    This takes the outerhtml and pulls the two tags surrounding it off
+    """
+    html_string = _get_outerhtml(html_node)
+    html_string = re.sub(r'^<[^<>]*?>', '', html_string, count=1)
+    return re.sub(r'<[^<>]*?>$', '', html_string, count=1)
 
 
 def get_page_html(html_tree):

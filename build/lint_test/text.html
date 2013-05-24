@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+    <script type="text/javascript">
+        // Nothing should happen to this
+        var a = "\\text{ " + NAME + "}";
+        // Test that string interpolation is done on the two strings
+        var b = "\\text{" + NAME + "'s hat and " + NAME + "}";
+        // Test that the transformed variable names don't conflict
+        var c = "\\text{" + a(NAME) + " and " + a[NAME] + "}";
+        // Make sure that this still matches over newlines
+        var d = "\\text{" + NAME +
+            "'s hat and " + NAME + "}";
+        // Make sure that it detects single quotes
+        var e = '\\text{ ' + NAME + '}';
+        // Make sure that single and double quotes are replaced correctly
+        var f = "\\text{" + NAME + '\'s hat }';
+    </script>
+
+    <script>
+        // Make sure that <s don't ruin the parsing, and aren't converted
+        // to &lt;s
+        "\\text{blah}" < "something else"
+    </script>
+
+    <script>
+        // Make sure it matches a single text on multiple lines
+        "\\text{" +
+            HELLO + " world}";
+    </script>
+</head>
+<body>
+    <!-- Normal $._ replacement -->
+    <code>\text{word}</code>
+
+    <!-- This shouldn't be touched (wrong case) -->
+    <code>\TeXt{word}</code>
+
+    <div>
+        <p>Blah blah</p>
+        <!-- Check that whitespace is preserved correctly -->
+        <code>\text{ word}</code>
+    </div>
+
+    <!-- Check that this does javascript interpolation, not
+        html interpolation -->
+    <code>Blah <var>"\\text{something}"</var></code>
+
+    <!-- Check that it matches in graphie divs -->
+    <div class="graphie">
+        label("\\text{word}")
+        label("\\text{ word}")
+    </div>
+
+    <!-- check that it matches in <var> tags -->
+    <var id="blah">"\\text{hat of " + NAME + "}"</var>
+
+    <!-- check that it matches after a newline in code tags -->
+    <code>Something something
+        \text{<var>NAME</var>}</code>
+    <!-- check that it preserves whitespace when no interpolation is done -->
+    <code>\text{      <var>NAME</var>    }</code>
+    <!-- check that interpolation is done correctly -->
+    <code>\text{<var>BLAH</var>'s <var>SOMETHING</var> has eaten <var>$.shuffle(THINGS)</var>}</code>
+
+    <!-- check that it works in validator-function divs -->
+    <div class="validator-function">
+        "\\text{" + BLAH + "'s " + SOMETHING + " has eaten " + $.shuffle(THINGS) + "}"
+    </div>
+</body>
+</html>
