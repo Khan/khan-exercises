@@ -1287,8 +1287,13 @@ var Khan = (function() {
         }
 
         // Remove the solution and choices elements from the display
-        solution.remove();
-        choices.remove();
+        if (!localMode) {
+            solution.remove();
+            choices.remove();
+        } else {
+            solution.hide();
+            choices.hide();
+        }
 
         // Add the problem into the page
         Khan.scratchpad.resize();
