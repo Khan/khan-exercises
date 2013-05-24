@@ -3,28 +3,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Caesar Cipher Decrypting</title>
     <script src="../khan-exercise.js"></script>
-    <!--[if !IE]><!--><script>  
-    if (/*@cc_on!@*/false) {  
-        document.documentElement.className+=' ie10';  
-    }  
-    </script><!--<![endif]--> 
-    <!--[if lte IE 8]><script type="text/javascript" src="..\utils\excanvas.js"></script><![endif]-->    
-        <style>
-        #Cip         {    
-                        font-family:"Courier New";
-                        letter-spacing: 2px;
-                        color: rgb(37, 108, 233);
-                        font-weight: bold;
-                        font-size: 14px;
-                    }
-        .ie10 #Cip  { 
-                        letter-spacing: 1.6px; 
-                    }
-        #MsgShift   {
-                        color: rgb(37, 108, 233);
-                        font-weight: bold;
-                    }
-    </style>
 </head>
 <body>
     <div class="exercise">
@@ -54,10 +32,10 @@
                 </div>
                 <div class="graphie" id="number-line">
                     <!-- Use for spacing the Cipher letter guide -->
-                    var indent = 1.05;
+                    var indent = 1;
                     
                     init({
-                        range: [ [LOWER_BOUND - 0.3, UPPER_BOUND * indent + 0.5], [-0.2, 1] ],
+                        range: [ [LOWER_BOUND - 0.3, UPPER_BOUND * indent + 0.5], [-1, 1] ],
                         scale: [19, 40]
                     });
     
@@ -69,46 +47,29 @@
                     style({arrows: ""});
                     line( [ 0, 0 ], [ LOWER_BOUND, 0 ] );
                     
-                    <!-- Draws the line ticks for each letter-->
+                    var myLabels = new Array();
+                    
                     style({arrows: ""});
                     for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=1 ) {
                         var markLength;
                         x % 5 === 0 ? markLength = 0.2 : markLength = 0.1
                         line( [ x * indent, -markLength ], [ x * indent, markLength ] );
                         label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
+                        myLabels[x] = label( [ x * indent, -0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                     }
-
-                    <!-- Updates HTML 5 Canvas element for the cipher slider -->
-                    function updateCanvas(x){
-                        var b_canvas = document.getElementById("b");
-                        var context = b_canvas.getContext("2d");
-                        context.fillStyle = 'blue';
-                        context.clearRect(0, 0, 550, 50);
-                        var letter = "";
-                            
-                        context.font = "normal 14px Arial";
-                        for(var i = 0; i < 26; i++)
-                        {
-                            letter = applyCaesar("abcdefghijklmnopqrstuvwxyz",x/indent)[i];
-                            context.fillText(letter, i*20 + 2, 15);
-                        }
-                    }
-                    
-                    updateCanvas(0);
                     
                     addMouseLayer();
                     graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: indent });
                     graph.movablePoint.onMove = function( x, y ) {
-                        updateCanvas(x);
-                        <!--[if !IE]> -->
-                        document.getElementById("Cip").innerHTML =  applyCaesar("a b c d e f g h i j k l m n o p q r s t u v w x y z",abs((x/indent)-26));
-                        <!-- <![endif]-->
+                        
+                        for ( var i = 0; i &lt;= UPPER_BOUND; i+=1 ) {
+                            myLabels[i].remove();
+                            myLabels[i] = label( [ i , -0.53 ],  "abcdefghijklmnopqrstuvwxyz"[(i+x) % 26], "center", false);
+                        }
+                        
                         return [ min( max( LOWER_BOUND, x ), UPPER_BOUND * indent ), y ];
                     };
                 </div>
-                <canvas id="b" width="550" height="25">
-                    <pre id="Cip">a b c d e f g h i j k l m n o p q r s t u v w x y z</pre>
-                </canvas>  
                 <div>
                     <center><strong>Original Alphabet</strong></center>
                 </div>
