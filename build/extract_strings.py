@@ -225,9 +225,11 @@ class I18nExtractor(HTMLParser.HTMLParser):
         """Input is a tuple (5, 10): 10th char of the 5th line."""
         return self.linepos[line_and_offset[0]] + line_and_offset[1]
 
-    # HTMLParser has a bug where it ends <script> tags on *any* </tag>,
-    # not just </script>.  Fix that.
-    def set_cdata_mode(self):
+    # Older versions of HTMLParser (2.7.1, at least) have a bug where
+    # they end <script> tags on *any* </tag>, not just </script>.  Fix
+    # that.  Later versions of Python fix the bug but add a new arg
+    # to set_cdata_mode(), so we have to handle that too.
+    def set_cdata_mode(self, *args):
         self.interesting = re.compile(r'</%s' % re.escape(self.lasttag))
 
     def handle_starttag(self, tag, attrs):
