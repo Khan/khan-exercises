@@ -15,6 +15,7 @@
         <var id="OPERATOR">(OPERATION === "add" ? "+" : "-" )</var>
         <var id="ANSWER_REAL">(OPERATION === "add" ? (A_REAL + B_REAL) : (A_REAL - B_REAL))</var>
         <var id="ANSWER_IMAG">(OPERATION === "add" ? (A_IMAG + B_IMAG) : (A_IMAG - B_IMAG))</var>
+        <var id="ANSWER">complexRegex(ANSWER_REAL, ANSWER_IMAG)</var>
         <var id="A_REP">complexNumber(A_REAL, A_IMAG)</var>
         <var id="B_REP">complexNumber(B_REAL, B_IMAG)</var>
         <var id="A_REP_COLORED">"\\color{" + ORANGE + "}{" + A_REP + "}"</var>
@@ -28,27 +29,9 @@
     <div class="problems">
         <div>
             <p class="question"><var>OPERATION == "add" ? "Add" : "Subtract"</var> the following complex numbers:</p>
-            <p>
-                <code>
-                    (<var>A_REP_COLORED</var>) <var>OPERATOR</var> (<var>B_REP_COLORED</var>)
-                </code>
+            <p><code>(<var>A_REP_COLORED</var>) <var>OPERATOR</var> (<var>B_REP_COLORED</var>)</code>
             </p>
-            <div class="solution" data-type="multiple">
-                <span class="sol short50" data-fallback="0" data-forms="integer, decimal" data-inexact="" data-max-error="0.01">
-                    <var>ANSWER_REAL</var>
-                </span>
-                <code>+</code>
-                <span class="sol short50" data-fallback="1" data-forms="integer, decimal" data-inexact="" data-max-error="0.01">
-                    <var>ANSWER_IMAG</var>
-                </span>
-                <code>i</code>
-                <div class="example">
-                    Two numbers for both the real and imaginary parts
-                </div>
-                <div class="example">
-                    Example: 2 + 3<code>i</code>
-                </div>
-            </div>
+            <div class="solution" data-type="regex"><var>ANSWER</var></div>
             <div class="hints">
                 <p>
                     Complex numbers can be <var>OPERATION</var>ed by separately <var>OPERATION</var>ing their real and imaginary components.
