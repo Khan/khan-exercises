@@ -529,6 +529,48 @@ $.extend(KhanUtil, {
         }
     },
 
+    complexRegex: function(real, imaginary) {
+        var regex;
+
+        if (imaginary === 0) {
+            regex = "^\\s*";
+            regex += real < 0 ? "[-\\u2212]\\s*" + (-real) + "\\s*$" : real + "\\s*$";
+            return regex;
+        }
+
+        regex = "^\\s*";
+        if (imaginary < 0) {
+            regex += "[-\\u2212]\\s*";
+        }
+        if (imaginary !== 1 && imaginary !== -1) {
+            regex += Math.abs(imaginary) + "\\s*";
+        }
+        regex += "i\\s*";
+
+        if (real === 0) {
+            regex += "$";
+        } else {
+            regex = "(?:" + regex;
+            regex += real < 0 ? "[-\\u2212]" : "\\+";
+            regex += "\\s*" + Math.abs(real) + "\\s*$)|(?:^\\s*";
+
+            if (real < 0) {
+                regex += "[-\\u2212]\\s*";
+            }
+
+            regex += Math.abs(real) + "\\s*";
+            regex += imaginary < 0 ? "[-\\u2212]\\s*" : "\\+\\s*";
+
+            if (imaginary !== 1 && imaginary !== -1) {
+                regex += Math.abs(imaginary) + "\\s*";
+            }
+            regex += "i\\s*$)";
+        }
+
+        return regex;
+
+    },
+
     complexFraction: function(real, realDenominator, imag, imagDenominator) {
         var ret = "";
         if (real == 0 && imag == 0) {
