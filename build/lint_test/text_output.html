@@ -15,6 +15,8 @@
         var e = '\\text{ ' + NAME + '}';
         // Make sure that single and double quotes are replaced correctly
         var f = "\\text{" + $._("%(NAME)s\'s hat", {NAME: NAME}) + ' }';
+        // Don't re-do interpolation
+        var g = "\\text{" + $._("%(UNIT)s", {UNIT: UNIT}) + "}";
     </script>
 
     <script>
@@ -47,6 +49,9 @@
     <!-- Check that this does javascript interpolation, not
         html interpolation -->
     <code>Blah <var>"\\text{" + $._("something") + "}"</var></code>
+
+    <!-- Don't re-do interpolation -->
+    <code>\text{ <var>$._("%(something)s", {something: something})</var>}</code>
 
     <!-- Check that it matches in graphie divs -->
     <div class="graphie">

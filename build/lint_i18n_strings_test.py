@@ -54,8 +54,8 @@ TESTS = {
             'Re-run with --fix to automatically fix them.']
     },
     'text': {
-        'nodes_changed': 13,
-        'errors': ['13 nodes need to be fixed. '
+        'nodes_changed': 14,
+        'errors': ['14 nodes need to be fixed. '
             'Re-run with --fix to automatically fix them.']
     },
 }

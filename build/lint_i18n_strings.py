@@ -1183,7 +1183,17 @@ class MathJaxTextFilter(BaseFilter):
         # Dump the node in string form
         node_text = _get_innerhtml(var_node)
 
-        text_sub_re = re.compile(r'(\\{1,2}text\{\s*)(.*?)(\s*\})', re.DOTALL)
+        # this regex is complicated because it has to account for } inside of
+        # the \\text{} (but only if they are enclosed within parentheses)
+        text_sub_re = re.compile(r"""
+            (\\{1,2}text\{\s*) # match a \text{
+            (
+                (?:[^(}]*\([^}]*}\))* # match groups of parentheses which
+                                      # end with })
+                [^}]*? # match a tail with no parentheses
+            )
+            (\s*\}) # match a }""",
+            re.DOTALL | re.VERBOSE)
 
         # Do all of the replacements. We look at the type of the tag to
         # determine whether we should be looking for html or javascript
