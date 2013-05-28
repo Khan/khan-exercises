@@ -1215,7 +1215,7 @@ class MathJaxTextFilter(BaseFilter):
         # only return the node if the text portion of this node contains the
         # \text{} (in particular, not if the text of one of its decendents
         # contains \text{})
-        if node.xpath('contains(text(),"\\text{")'):
+        if any('\\text{' in s for s in node.xpath('text()')):
             return [node]
         else:
             return []
