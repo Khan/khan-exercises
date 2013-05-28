@@ -87,6 +87,10 @@
             <div id="extraneous-exists">
                 <div class="vars">
                     <var id="ANSWER">NUMERATOR === A || NUMERATOR === B ? "&lt;code&gt;x = " + NUMERATOR + "&lt;/code&gt;" : "No extraneous solutions"</var>
+                    <var id="POSSIBILITIES">shuffle([
+                        "&lt;code&gt;x = " + NUMERATOR + "&lt;/code&gt;",
+                        "&lt;code&gt;x = " + (-NUMERATOR) + "&lt;/code&gt;",
+                    ])</var> 
                 </div>
 
                 <p class="problem">What is the extraneous solution to this equations?</p>
@@ -96,18 +100,17 @@
 
                 <div class="solution"><var>ANSWER</var></div>
                 <ul class="choices" data-category="true">
-                    <li><code>x = <var>NUMERATOR</var></code></li>
+                    <li><var>POSSIBILITIES[0]</var></li>
+                    <li><var>POSSIBILITIES[1]</var></li>
                     <li>No extraneous solutions</li>
                 </ul>
 
                 <div class="hints" data-apply="appendContents">
-                    <div>The original expression is <span data-if="NUMERATOR === A || NUMERATOR === B">
-                            undefined when <code>x = <var>NUMERATOR</var></code>, so this is an extraneous solution.
-                        </span>
-                        <span data-else="">
-                            defined at <code>x = <var>A</var></code> and <code>x = <var>B</var></code>, so there are no extraneous solutions.
-                        </span>
+                    <div data-if="NUMERATOR === A || NUMERATOR === B" data-unwrap="">
+                        <p>At <code>x = <var>NUMERATOR</var></code>, the denominator of the original expression is 0.</p>
+                        <p>Since the expression is undefined at <code>x = <var>NUMERATOR</var></code>, it is an extraneous solution.</p>
                     </div>
+                    <div data-else="">The original expression is defined at <code>x = <var>A</var></code> and <code>x = <var>B</var></code>, so there are no extraneous solutions.</div>
                 </div>
 
             </div>
@@ -122,14 +125,14 @@
             </div>
 
             <div>
-                <p>Now subtract <code><var>TERM2</var></code> from both sides:</p>
+                <p>Subtract <code><var>TERM2</var></code> from both sides:</p>
                 <p><code>\qquad <var>TERM1</var> - (<var>TERM2</var>) = <var>TERM2</var> - (<var>TERM2</var>)</code></p>
                 <p><code>\qquad <var>TERM1</var> + <var>TERM2NEG</var> = 0</code></p>
                 <p data-if="TERMS.simplify"><code>\qquad <var>TERM1.add(TERM2NEG)</var> = 0</code></p>
             </div>
 
             <div>
-                <p>Now factor the expression:</p>
+                <p>Factor the expression:</p>
                 <p><code>\qquad (x - <var>A</var>)(x - <var>B</var>) = 0</code></p>
             </div>
 
