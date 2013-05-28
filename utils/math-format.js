@@ -529,12 +529,13 @@ $.extend(KhanUtil, {
         }
     },
 
+    // Assumes that the real and imaginary parts of integers
     complexRegex: function(real, imaginary) {
         var regex;
 
         if (imaginary === 0) {
             regex = "^\\s*";
-            regex += real < 0 ? "[-\\u2212]\\s*" + (-real) + "\\s*$" : real + "\\s*$";
+            regex += (real < 0 ? "[-\\u2212]\\s*" + (-real) : real) + "\\s*$";
             return regex;
         }
 
@@ -563,6 +564,8 @@ $.extend(KhanUtil, {
 
             if (imaginary !== 1 && imaginary !== -1) {
                 regex += Math.abs(imaginary) + "\\s*";
+            } else {
+                regex += "1?";
             }
             regex += "i\\s*$)";
         }
