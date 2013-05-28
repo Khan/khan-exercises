@@ -563,11 +563,11 @@ $.extend(KhanUtil, {
             regex += imaginary < 0 ? "[-\\u2212]\\s*" : "\\+\\s*";
 
             if (imaginary !== 1 && imaginary !== -1) {
-                regex += Math.abs(imaginary) + "\\s*";
+                regex += Math.abs(imaginary);
             } else {
                 regex += "1?";
             }
-            regex += "i\\s*$)";
+            regex += "\\s*i\\s*$)";
         }
 
         return regex;
