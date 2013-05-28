@@ -12,37 +12,17 @@
         <var id="B_REAL">randRange( -5, 5 )</var>
         <var id="B_IMAG">randRange( -5, 5 )</var>
         <var id="OPERATION">randFromArray( [ "add", "subtract" ] )</var>
-        <var id="OPERATOR">( OPERATION === "add" ? "+" : "-" )</var>
-        <var id="ANSWER_REAL">
-            ( OPERATION === "add" ? ( A_REAL + B_REAL ) : ( A_REAL - B_REAL ) )
-        </var>
-        <var id="ANSWER_IMAG">
-            ( OPERATION === "add" ? ( A_IMAG + B_IMAG ) : ( A_IMAG - B_IMAG ) )
-        </var>
-        <var id="A_REP">
-            complexNumber(A_REAL, A_IMAG)
-        </var>
-        <var id="B_REP">
-            complexNumber(B_REAL, B_IMAG)
-        </var>
-        <var id="A_REP_COLORED">
-            "\\color{" + ORANGE + "}{" + A_REP + "}"
-        </var>
-        <var id="B_REP_COLORED">
-            "\\color{" + BLUE + "}{" + B_REP + "}"
-        </var>
-        <var id="A_REAL_COLORED">
-            "\\color{" + ORANGE + "}{" + A_REAL + "}"
-        </var>
-        <var id="A_IMAG_COLORED">
-            "\\color{" + ORANGE + "}{" + A_IMAG + "}"
-        </var>
-        <var id="B_REAL_COLORED">
-            "\\color{" + BLUE + "}{" + B_REAL + "}"
-        </var>
-        <var id="B_IMAG_COLORED">
-            "\\color{" + BLUE + "}{" + B_IMAG + "}"
-        </var>
+        <var id="OPERATOR">(OPERATION === "add" ? "+" : "-" )</var>
+        <var id="ANSWER_REAL">(OPERATION === "add" ? (A_REAL + B_REAL) : (A_REAL - B_REAL))</var>
+        <var id="ANSWER_IMAG">(OPERATION === "add" ? (A_IMAG + B_IMAG) : (A_IMAG - B_IMAG))</var>
+        <var id="A_REP">complexNumber(A_REAL, A_IMAG)</var>
+        <var id="B_REP">complexNumber(B_REAL, B_IMAG)</var>
+        <var id="A_REP_COLORED">"\\color{" + ORANGE + "}{" + A_REP + "}"</var>
+        <var id="B_REP_COLORED">"\\color{" + BLUE + "}{" + B_REP + "}"</var>
+        <var id="A_REAL_COLORED">"\\color{" + ORANGE + "}{" + A_REAL + "}"</var>
+        <var id="A_IMAG_COLORED">"\\color{" + ORANGE + "}{" + A_IMAG + "}"</var>
+        <var id="B_REAL_COLORED">"\\color{" + BLUE + "}{" + B_REAL + "}"</var>
+        <var id="B_IMAG_COLORED">"\\color{" + BLUE + "}{" + B_IMAG + "}"</var>
     </div>
 
     <div class="problems">
