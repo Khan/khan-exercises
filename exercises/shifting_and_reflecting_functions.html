@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie expressions word-problems">
+<html data-require="math math-format graphie expressions word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Shifting and reflecting functions</title>
@@ -9,12 +9,12 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="X_ORIG">randRange(-8, 8)</var>
+            <var id="X_ORIG">randRange(-7, 7)</var>
             <var id="Y_ORIG">randRange(-8, 8)</var>
             <var id="UP_ORIG">abs (Y_ORIG) &lt; 5 ? randRangeNonZero(-1, 1) : -abs (Y_ORIG) / Y_ORIG</var>
             <var id="FUNC">randFromArray([
-                function(x) { return 0.5 * UP_ORIG * pow(x + X_ORIG, 2) + Y_ORIG; },
-                function(x) { return 0.1 * UP_ORIG * pow(x + X_ORIG, 3) + Y_ORIG; }
+                function(x) { return 0.4 * UP_ORIG * pow(x + X_ORIG, 2) + Y_ORIG; },
+                function(x) { return 0.04 * UP_ORIG * pow(x + X_ORIG, 3) + Y_ORIG; }
             ])</var>
         </div>
 
@@ -24,6 +24,7 @@
                     <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange(-6, -1) : randRange(1, 6)</var>
                     <var id="COEFFICIENT">1</var>
                     <var id="Y_SHIFT">0</var>
+                    <var id="ANSWER">expr(["*", "f", ["+", "x", X_SHIFT]])</var>
                 </div>
 
                 <ul class="choices" data-none="true" data-show="5">
@@ -39,6 +40,7 @@
                     <var id="X_SHIFT">0</var>
                     <var id="COEFFICIENT">1</var>
                     <var id="Y_SHIFT" data-ensure="abs(Y_ORIG * COEFFICIENT + Y_SHIFT) &lt; 8 &amp;&amp; (Y_ORIG * COEFFICIENT + Y_SHIFT) * UP_ORIG * COEFFICIENT &lt; 7">randRangeNonZero(-6, 6)</var>
+                    <var id="ANSWER">expr(["+", "f(x)", Y_SHIFT])</var>
                 </div>
 
                 <ul class="choices" data-none="true" data-show="5">
@@ -49,11 +51,27 @@
                 </ul>
             </div>
 
+            <div id="coefficient">
+                <div class="vars">
+                    <var id="X_SHIFT">0</var>
+                    <var id="COEFFICIENT">randFromArray([-1, 1]) * randFromArray([0.25, 0.5, 2, 4])</var>
+                    <var id="Y_SHIFT">0</var>
+                    <var id="ANSWER">toFractionTex(COEFFICIENT) + "f(x)"</var>
+                </div>
+
+                <ul class="choices" data-none="true" data-show="4">
+                    <li><code><var>toFractionTex(1/COEFFICIENT)</var>f(x)</code></li>
+                    <li><code><var>toFractionTex(-1/COEFFICIENT)</var>f(x)></code></li>
+                    <li><code><var>toFractionTex(-COEFFICIENT)</var>f(x)></code></li>
+                </ul>
+            </div>
+
             <div id="change-all">
                 <div class="vars">
                     <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange(-6, -1) : randRange(1, 6)</var>
                     <var id="COEFFICIENT">randRangeNonZero(-1, 1)</var>
-                    <var id="Y_SHIFT" data-ensure="abs(Y_ORIG * COEFFICIENT + Y_SHIFT) &lt; 9 &amp;&amp; (Y_ORIG * COEFFICIENT + Y_SHIFT) * UP_ORIG * COEFFICIENT &lt; 7">randRangeNonZero(-6 , 6)</var>
+                    <var id="Y_SHIFT" data-ensure="abs(Y_ORIG * COEFFICIENT + Y_SHIFT) &lt; 8 &amp;&amp; (Y_ORIG * COEFFICIENT + Y_SHIFT) * UP_ORIG * COEFFICIENT &lt; 7">randRangeNonZero(-6 , 6)</var>
+                    <var id="ANSWER">expr(["+", ["*", COEFFICIENT, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var>
                 </div>
 
                 <ul class="choices" data-none="true" data-show="6">
@@ -101,10 +119,10 @@
             }, [-10, 10]);
         </div>
 
-        <p class="solution"><code><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code></p>
+        <p class="solution"><code><var>ANSWER</var></code></p>
 
         <div class="hints">
-            <div data-if="COEFFICIENT === -1">
+            <div data-if="COEFFICIENT !== 1">
                 <p>To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by <code>-1</code>, giving <code class="hint_purple">-f(x)</code>.</p>
 
                 <div class="graphie" data-update="G">
