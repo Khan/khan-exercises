@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html data-require="math math-format rational-expressions word-problems"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Solving rational expressions with extraneous solutions</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #solutionarea.sol {
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="A">randRangeNonZero(-10, 10)</var>
+            <var id="B">randRangeNonZero(-10, 10)</var>
+            <var id="NUMERATOR" data-ensure="NUMERATOR !== A || NUMERATOR !== B">randFromArray([A, B, randRangeNonZero(-10, 10)])</var>
+            <var id="SOL1">NUMERATOR === A ? 0 : A</var>
+            <var id="SOL2">NUMERATOR === B ? 0 : B</var>
+            <var id="CONSTANT">A * B</var>
+            <var id="COEFFICIENT">-A - B</var>
+            <var id="TERMS">(function() {
+                var coefficient1 = 0;
+                var coefficient2 = COEFFICIENT;
+                var constant1 = 0;
+                var constant2 = CONSTANT;
+                var simplify;
+
+                if (rand(2) &lt; 1) {
+                    coefficient1 = randRange(-COEFFICIENT, COEFFICIENT);
+                    coefficient2 = COEFFICIENT - coefficient1;
+                    simplify = coefficient1 !== 0 &amp;&amp; coefficient2 !== 0;
+                } else {
+                    constant1 = randRange(-CONSTANT, CONSTANT);
+                    constant2 = CONSTANT - constant1;
+                    simplify = constant1 !== 0 &amp;&amp; constant2 !== 0;
+                }
+                return {
+                    coefficient1: coefficient1,
+                    coefficient2: coefficient2,
+                    constant1: constant1,
+                    constant2: constant2,
+                    simplify: simplify
+                }
+            })()</var>
+            <var id="TERM1">new RationalExpression([[1, {x: 2}], [TERMS.coefficient1, 'x'], TERMS.constant1])</var>
+            <var id="TERM2">new RationalExpression([[-TERMS.coefficient2, 'x'], -TERMS.constant2])</var>
+            <var id="TERM2NEG">TERM2.multiply(-1)</var>
+        </div>
+
+        <div class="problems">
+            <div id="ignore-extraneous">
+                <p class="problem">Solve for <code>x</code>, ignoring any extraneous solutions:</p>
+                <p class="question">
+                    <code>\dfrac{<var>TERM1</var>}{x - <var>NUMERATOR</var>}
+                        = \dfrac{<var>TERM2</var>}{x - <var>NUMERATOR</var>}</var></code>
+                </p>
+
+                <div class="solution" data-type="set">
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="number"><var>SOL1</var></span>
+                        <span class="sol" data-type="number"><var>SOL2</var></span>
+                    </div>
+                    <div class="set-sol" data-type="multiple">
+                        <span class="sol" data-type="number"><var>SOL2</var></span>
+                        <span class="sol" data-type="number"><var>SOL1</var></span>
+                    </div>
+
+                    <div class="input-format">
+                        <div class="entry" data-type="multiple">
+                            <div><code>x = </code> <span class="sol short50" data-fallback="0">a</span></div>
+                            <div><code>x = </code> <span class="sol short50" data-fallback="0">a</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hints" data-apply="appendContents">
+                    <div data-if="NUMERATOR === A || NUMERATOR === B">
+                        <div>However, the original expression is undefined when <code>x = <var>NUMERATOR</var></code>.</div>
+                        <div data-if="NUMERATOR !== A">Therefore, the only solution is <code>x = <var>A</var></code>.</div>
+                        <div data-if="NUMERATOR !== B">Therefore, the only solution is <code>x = <var>B</var></code>.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="extraneous-exists">
+                <div class="vars">
+                    <var id="ANSWER">NUMERATOR === A || NUMERATOR === B ? "&lt;code&gt;x = " + NUMERATOR + "&lt;/code&gt;" : "No extraneous solutions"</var>
+                    <var id="POSSIBILITIES">shuffle([
+                        "&lt;code&gt;x = " + NUMERATOR + "&lt;/code&gt;",
+                        "&lt;code&gt;x = " + (-NUMERATOR) + "&lt;/code&gt;",
+                    ])</var> 
+                </div>
+
+                <p class="problem">What is the extraneous solution to this equations?</p>
+                <code>\dfrac{<var>TERM1</var>}{x - <var>NUMERATOR</var>}
+                    = \dfrac{<var>TERM2</var>}{x - <var>NUMERATOR</var>}</var></code>
+                </p>
+
+                <div class="solution"><var>ANSWER</var></div>
+                <ul class="choices" data-category="true">
+                    <li><var>POSSIBILITIES[0]</var></li>
+                    <li><var>POSSIBILITIES[1]</var></li>
+                    <li>No extraneous solutions</li>
+                </ul>
+
+                <div class="hints" data-apply="appendContents">
+                    <div data-if="NUMERATOR === A || NUMERATOR === B" data-unwrap="">
+                        <p>At <code>x = <var>NUMERATOR</var></code>, the denominator of the original expression is 0.</p>
+                        <p>Since the expression is undefined at <code>x = <var>NUMERATOR</var></code>, it is an extraneous solution.</p>
+                    </div>
+                    <div data-else="">The original expression is defined at <code>x = <var>A</var></code> and <code>x = <var>B</var></code>, so there are no extraneous solutions.</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="hints">
+            <div>
+                <p>Multiply both sides by <code>x - <var>NUMERATOR</var></code>:</p>
+                <p><code>\qquad \dfrac{<var>TERM1</var>}{<var>x - <var>NUMERATOR</var>} (<var>x - <var>NUMERATOR</var>)
+                              = \dfrac{<var>TERM2</var>}{<var>x - <var>NUMERATOR</var>} (<var>x - <var>NUMERATOR</var>)</code></p>
+                <p><code>\qquad <var>TERM1</var> = <var>TERM2</var></code></p>
+            </div>
+
+            <div>
+                <p>Subtract <code><var>TERM2</var></code> from both sides:</p>
+                <p><code>\qquad <var>TERM1</var> - (<var>TERM2</var>) = <var>TERM2</var> - (<var>TERM2</var>)</code></p>
+                <p><code>\qquad <var>TERM1</var> + <var>TERM2NEG</var> = 0</code></p>
+                <p data-if="TERMS.simplify"><code>\qquad <var>TERM1.add(TERM2NEG)</var> = 0</code></p>
+            </div>
+
+            <div>
+                <p>Factor the expression:</p>
+                <p><code>\qquad (x - <var>A</var>)(x - <var>B</var>) = 0</code></p>
+            </div>
+
+            <p>Therefore <code>x = <var>A</var></code> <span data-if="A !== B">or <code>x = <var>B</var></code></span></p>
+        </div>
+    </div>
+</body></html>
