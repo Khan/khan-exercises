@@ -23,7 +23,7 @@ $.extend(KhanUtil, {
         if (f[1] === 1) {
             return f[0];
         } else {
-            return "\\" + (dfrac ? "d" : "") + "frac{" + f[0] + "}{" + f[1] + "}";
+            return (n < 0 ? "-" : "") + "\\" + (dfrac ? "d" : "") + "frac{" + Math.abs(f[0]) + "}{" + Math.abs(f[1]) + "}";
         }
     },
 
