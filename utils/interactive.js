@@ -700,6 +700,15 @@ $.extend(KhanUtil.Graphie.prototype, {
             }
         };
 
+        movablePoint.remove = function() {
+            if (this.visibleShape) {
+                this.visibleShape.remove();
+            }
+            if (this.mouseTarget) {
+                this.mouseTarget.remove();
+            }
+        };
+
         return movablePoint;
     },
 
@@ -1006,6 +1015,13 @@ $.extend(KhanUtil.Graphie.prototype, {
                 lineSegment.mouseTarget.toFront();
             }
             lineSegment.visibleLine.toFront();
+        };
+
+        lineSegment.remove = function() {
+            if (!lineSegment.fixed) {
+                lineSegment.mouseTarget.remove();
+            }
+            lineSegment.visibleLine.remove();
         };
 
         if (!lineSegment.fixed && !lineSegment.constraints.fixed) {
