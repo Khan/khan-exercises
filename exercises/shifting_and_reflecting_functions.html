@@ -9,61 +9,102 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="X_ORIG">randRange( -8, 8 )</var>
-            <var id="Y_ORIG">randRange( -8, 8 )</var>
-            <var id="UP_ORIG">abs ( Y_ORIG ) &lt; 5 ? randRangeNonZero( -1, 1 ) : -abs ( Y_ORIG )/ Y_ORIG</var>
-
-            <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange( -6, -1 ) : randRange( 1, 6 )</var>
-            <var id="FLIP">randRangeNonZero(-1, 1)</var>
-            <var id="Y_SHIFT" data-ensure="abs (Y_ORIG * FLIP + Y_SHIFT) &lt; 9 &amp;&amp; (Y_ORIG * FLIP + Y_SHIFT) * UP_ORIG * FLIP &lt; 7">randRangeNonZero( -6 , 6 )</var>
+            <var id="X_ORIG">randRange(-8, 8)</var>
+            <var id="Y_ORIG">randRange(-8, 8)</var>
+            <var id="UP_ORIG">abs (Y_ORIG) &lt; 5 ? randRangeNonZero(-1, 1) : -abs (Y_ORIG) / Y_ORIG</var>
+            <var id="FUNC">randFromArray([
+                function(x) { return 0.5 * UP_ORIG * pow(x + X_ORIG, 2) + Y_ORIG; },
+                function(x) { return 0.1 * UP_ORIG * pow(x + X_ORIG, 3) + Y_ORIG; }
+            ])</var>
         </div>
 
         <div class="problems">
-            <div>
-                <div class="problem">
-                    <p><code>\red{f(x)}</code> is graphed in <span class="hint_red">red</span>.</p>
-                    <p><code>\blue{g(x)}</code> is graphed in <span class="hint_blue">blue</span>.</p>
-                    <p>What is <code>\blue{g(x)}</code> in terms of <code>\red{f(x)}</code>?</p>
-                </div>
-                <div class="graphie" id="G">
-                    graphInit({
-                        range: 10,
-                        scale: 20,
-                        labelStep: 1,
-                        axisArrows: "&lt;-&gt;"
-                    })
-
-                    style({
-                        stroke: RED,
-                        strokeWidth: 2,
-                        arrows: null
-                    });
-
-                    plot( function( x ) {
-                        return UP_ORIG * pow(( x + X_ORIG), 2 ) + Y_ORIG;
-                    }, [-10, 10]);
-
-                    style({
-                        stroke: BLUE
-                    });
-
-                    plot( function( x ) {
-                        return FLIP * UP_ORIG * pow(( x + X_ORIG + X_SHIFT), 2 ) + FLIP * Y_ORIG + Y_SHIFT;
-                    }, [-10, 10]);
+            <div id="shift-x">
+                <div class="vars">
+                    <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange(-6, -1) : randRange(1, 6)</var>
+                    <var id="COEFFICIENT">1</var>
+                    <var id="Y_SHIFT">0</var>
                 </div>
 
-                <p class="solution"><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></p>
                 <ul class="choices" data-none="true" data-show="5">
-                    <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],-Y_SHIFT])</var></code></li>
-                    <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", -X_SHIFT]]],Y_SHIFT])</var></code></li>
-                    <li><code><var>expr(["+",["*", -FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code></li>
-                    <li><code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", -X_SHIFT]]],-Y_SHIFT])</var></code></li>
+                    <li><code><var>expr(["*", "f", ["+","x", X_SHIFT]])</var></code></li>
+                    <li><code><var>expr(["*", "f", ["+","x", -X_SHIFT]])</var></code></li>
+                    <li><code><var>expr(["+", "f(x)", X_SHIFT])</var></code></li>
+                    <li><code><var>expr(["+", "f(x)", -X_SHIFT])</var></code></li>
+                </ul>
+            </div>
+
+            <div id="shift-y">
+                <div class="vars">
+                    <var id="X_SHIFT">0</var>
+                    <var id="COEFFICIENT">1</var>
+                    <var id="Y_SHIFT" data-ensure="abs(Y_ORIG * COEFFICIENT + Y_SHIFT) &lt; 8 &amp;&amp; (Y_ORIG * COEFFICIENT + Y_SHIFT) * UP_ORIG * COEFFICIENT &lt; 7">randRangeNonZero(-6, 6)</var>
+                </div>
+
+                <ul class="choices" data-none="true" data-show="5">
+                    <li><code><var>expr(["*", "f", ["+","x", Y_SHIFT]])</var></code></li>
+                    <li><code><var>expr(["*", "f", ["+","x", -Y_SHIFT]])</var></code></li>
+                    <li><code><var>expr(["+", "f(x)", Y_SHIFT])</var></code></li>
+                    <li><code><var>expr(["+", "f(x)", -Y_SHIFT])</var></code></li>
+                </ul>
+            </div>
+
+            <div id="change-all">
+                <div class="vars">
+                    <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange(-6, -1) : randRange(1, 6)</var>
+                    <var id="COEFFICIENT">randRangeNonZero(-1, 1)</var>
+                    <var id="Y_SHIFT" data-ensure="abs(Y_ORIG * COEFFICIENT + Y_SHIFT) &lt; 9 &amp;&amp; (Y_ORIG * COEFFICIENT + Y_SHIFT) * UP_ORIG * COEFFICIENT &lt; 7">randRangeNonZero(-6 , 6)</var>
+                </div>
+
+                <ul class="choices" data-none="true" data-show="6">
+                    <li><code><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x",   X_SHIFT]]], -Y_SHIFT])</var></code></li>
+                    <li><code><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x",  -X_SHIFT]]],  Y_SHIFT])</var></code></li>
+                    <li><code><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x",  -X_SHIFT]]], -Y_SHIFT])</var></code></li>
+                    <li><code><var>expr(["+",["*", -COEFFICIENT, ["*", "f", ["+","x",  X_SHIFT]]],  Y_SHIFT])</var></code></li>
+                    <li><code><var>expr(["+",["*", -COEFFICIENT, ["*", "f", ["+","x", -X_SHIFT]]],  Y_SHIFT])</var></code></li>
+                    <li><code><var>expr(["+",["*", -COEFFICIENT, ["*", "f", ["+","x",  X_SHIFT]]], -Y_SHIFT])</var></code></li>
+                    <li><code><var>expr(["+",["*", -COEFFICIENT, ["*", "f", ["+","x", -X_SHIFT]]], -Y_SHIFT])</var></code></li>
                 </ul>
             </div>
         </div>
 
+        <div class="problem">
+            <p><code>\color{red}{f(x)}</code> is graphed in <span class="hint_red">red</span>.</p>
+            <p><code>\color{blue}{g(x)}</code> is graphed in <span class="hint_blue">blue</span>.</p>
+            <p>What is <code>\color{blue}{g(x)}</code> in terms of <code>\color{red}{f(x)}</code>?</p>
+        </div>
+
+        <div class="graphie" id="G">
+            graphInit({
+                range: 10,
+                scale: 20,
+                labelStep: 1,
+                axisArrows: "&lt;-&gt;"
+            })
+
+            style({
+                stroke: "red",
+                strokeWidth: 2,
+                arrows: null
+            });
+
+            plot(function(x) {
+                return FUNC(x);
+            }, [-10, 10]);
+
+            style({
+                stroke: "blue"
+            });
+
+            plot(function(x) {
+                return COEFFICIENT * FUNC(x + X_SHIFT) + Y_SHIFT;
+            }, [-10, 10]);
+        </div>
+
+        <p class="solution"><code><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code></p>
+
         <div class="hints">
-            <div data-if="FLIP === -1">
+            <div data-if="COEFFICIENT === -1">
                 <p>To get from <code>f(x)</code> to <code>g(x)</code>, first "flip" <code>f(x)</code> vertically by multiplying by <code>-1</code>, giving <code class="hint_purple">-f(x)</code>.</p>
 
                 <div class="graphie" data-update="G">
@@ -71,13 +112,28 @@
                         stroke: PURPLE
                     });
                     plot( function( x ) {
-                        return FLIP * UP_ORIG * pow(( x + X_ORIG ), 2 ) - Y_ORIG;
+                        return COEFFICIENT * FUNC(x);
                     }, [-10, 10]);
                 </div>
             </div>
 
-            <div>
-                <p data-if="Y_SHIFT > 0"><span data-if="isSingular(abs(Y_SHIFT))" data-unwrap="">Shift the function <code>-f(x)</code> up <var>abs(Y_SHIFT)</var> unit, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</span><span data-else="" data-unwrap="">Shift the function <code>-f(x)</code> up <var>abs(Y_SHIFT)</var> units, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</span></p><p data-else=""><span data-if="isSingular(abs(Y_SHIFT))" data-unwrap="">Shift the function <code>-f(x)</code> down <var>abs(Y_SHIFT)</var> unit, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</span><span data-else="" data-unwrap="">Shift the function <code>-f(x)</code> down <var>abs(Y_SHIFT)</var> units, giving <code class="hint_green"><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code>.</span></p>
+            <div data-if="Y_SHIFT !== 0">
+                <p data-if="Y_SHIFT > 0">
+                    <span data-if="isSingular(abs(Y_SHIFT))" data-unwrap="">
+                        Shift the function <code><var>expr(["*", COEFFICIENT,"f(x)"])</var></code> up <code><var>abs(Y_SHIFT)</var></code> unit, giving <code class="hint_green"><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code>.
+                    </span>
+                    <span data-else="" data-unwrap="">
+                        Shift the function <code><var>expr(["*", COEFFICIENT,"f(x)"])</var></code> up <code><var>abs(Y_SHIFT)</var></code> units, giving <code class="hint_green"><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code>.
+                    </span>
+                </p>
+                <p data-else="">
+                    <span data-if="isSingular(abs(Y_SHIFT))" data-unwrap="">
+                        Shift the function <code><var>expr(["*", COEFFICIENT,"f(x)"])</var></code> down <code><var>abs(Y_SHIFT)</var></code> unit, giving <code class="hint_green"><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code>.
+                    </span>
+                    <span data-else="" data-unwrap="">
+                        Shift the function <code><var>expr(["*", COEFFICIENT,"f(x)"])</var></code> down <code><var>abs(Y_SHIFT)</var></code> units, giving <code class="hint_green"><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code>.
+                    </span>
+                </p>
 
                 <div class="graphie" data-update="G">
                     style({
@@ -88,7 +144,7 @@
                     });
 
                     plot( function( x ) {
-                        return FLIP * UP_ORIG * pow(( x + X_ORIG ), 2 ) + FLIP * Y_ORIG + Y_SHIFT;
+                        return COEFFICIENT * FUNC(x) + Y_SHIFT;
                     }, [-10, 10]); strokeDasharray: "- "
 
                     style({
@@ -96,25 +152,41 @@
                         strokeDasharray: ""
                     });
 
-                    path([ [-X_ORIG, FLIP * Y_ORIG], [-X_ORIG, FLIP * Y_ORIG + Y_SHIFT] ]);
+                    path([[-X_ORIG, COEFFICIENT * Y_ORIG], [-X_ORIG, COEFFICIENT * Y_ORIG + Y_SHIFT]]);
                 </div>
             </div>
 
-            <div>
-                <p data-if="X_SHIFT > 0"><span data-if="isSingular(abs(X_SHIFT))" data-unwrap="">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> left <var>abs(X_SHIFT)</var> unit, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</span><span data-else="" data-unwrap="">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> left <var>abs(X_SHIFT)</var> units, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</span></p><p data-else=""><span data-if="isSingular(abs(X_SHIFT))" data-unwrap="">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> right <var>abs(X_SHIFT)</var> unit, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</span><span data-else="" data-unwrap="">Now shift the function <code><var>expr(["+",["*", FLIP,"f(x)"], Y_SHIFT])</var></code> right <var>abs(X_SHIFT)</var> units, giving <code class="hint_blue"><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.</span></p>
-
-                <p>We now know that <code>g(x)</code> = <code><var>expr(["+",["*", FLIP, ["*", "f", ["+","x", X_SHIFT]]],Y_SHIFT])</var></code>.</p>
+            <div data-if="X_SHIFT !== 0">
+                <p data-if="X_SHIFT > 0">
+                    <span data-if="isSingular(abs(X_SHIFT))" data-unwrap="">
+                        Shift the function <code><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code> left <code><var>abs(X_SHIFT)</var></code> unit, giving <code class="hint_blue"><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.
+                    </span>
+                    <span data-else="" data-unwrap="">
+                        Shift the function <code><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code> left <code><var>abs(X_SHIFT)</var></code> units, giving <code class="hint_blue"><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.
+                    </span>
+                </p>
+                <p data-else="">
+                    <span data-if="isSingular(abs(X_SHIFT))" data-unwrap="">
+                        Shift the function <code><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code> right <code><var>abs(X_SHIFT)</var></code> unit, giving <code class="hint_blue"><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.
+                    </span>
+                    <span data-else="" data-unwrap="">
+                        Shift the function <code><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code> right <code><var>abs(X_SHIFT)</var></code> units, giving <code class="hint_blue"><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.
+                    </span>
+                </p>
 
                 <div class="graphie" data-update="G">
                     style({
                         stroke: BLUE,
                         strokeWidth: 2,
+                        arrows: "-&gt;",
                         strokeDasharray: ""
                     });
 
-                    path([ [ -X_ORIG, FLIP * Y_ORIG + Y_SHIFT ], [ -X_ORIG - X_SHIFT , FLIP * Y_ORIG + Y_SHIFT] ]);
+                    path([ [ -X_ORIG, COEFFICIENT * Y_ORIG + Y_SHIFT ], [ -X_ORIG - X_SHIFT , COEFFICIENT * Y_ORIG + Y_SHIFT] ]);
                 </div>
             </div>
+
+            <p>Therefore <code>g(x) = <var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+", "x", X_SHIFT]]], Y_SHIFT])</var></code>.</p>
         </div>
     </div>
 </body>
