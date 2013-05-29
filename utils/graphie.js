@@ -800,6 +800,9 @@
     };
 
     $.fn.graphie = function(problem) {
+        if (Khan.query.nographie != null) {
+            return;
+        }
         return this.find(".graphie, script[type='text/graphie']").addBack().filter(".graphie, script[type='text/graphie']").each(function() {
             // Grab code for later execution
             var code = $(this).text(), graphie;
