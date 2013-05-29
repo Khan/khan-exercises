@@ -25,7 +25,7 @@
                 <p><code>x = \dfrac{$<var>YEAR_THIS</var>}{<var>(100 + YEAR_PERCENT_MORE) / 100</var>}</code></p>
                 <p><code>x = $<var>YEAR_LAST</var></code> (rounding to the nearest penny in this step)</p>
                 <p data-if="isMale(1)">So, he had $<var>YEAR_LAST</var> last year, but we want to know how much he has made <b>over the past year!</b></p><p data-else="">So, she had $<var>YEAR_LAST</var> last year, but we want to know how much she has made <b>over the past year!</b></p>
-                <p><code>\text{money made over the past year} = </code> <code>\qquad \text{amount of money today} - \text{amount of money last year}</code></p>
+                <p><code>\text{<var>$._("money made over the past year")</var>} = </code> <code>\qquad \text{<var>$._("amount of money today")</var>} - \text{<var>$._("amount of money last year")</var>}</code></p>
                 <p><code>\qquad =$<var>YEAR_THIS</var>-$<var>YEAR_LAST</var></code></p>
                 <p><code>\qquad \approx $<var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></code>
                 </p><p>So, the answer is $<var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var>.</p>
@@ -43,7 +43,7 @@
             </div>
             <div class="hints">
                 <p>Let <code>x</code> be the highest marked price that <var>person(1)</var> can afford.</p>
-                <p><code>x-<var>(PERCENT_OFF/100)</var>x = \text{sale price} = \text{amount <var>person( 1 )</var> has to spend}</code></p>
+                <p><code>x-<var>(PERCENT_OFF/100)</var>x = \text{<var>$._("sale price")</var>} = \text{<var>$._("amount %(person__1__)s has to spend", {person__1__: person( 1 )})</var>}</code></p>
                 <p><code><var>((100-PERCENT_OFF)/100)</var>x = $<var>DOLLARS</var></code></p>
                 <p><code>x = $<var>HIGHEST_PRICE</var></code></p>
             </div>

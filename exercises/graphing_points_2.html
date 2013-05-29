@@ -144,12 +144,19 @@
 
                     <div>
                         <p>Now that we have our point plotted, we can figure out the quadrant.</p>
-                        <p>By convention, quadrants are named with a capital <code>\text{Q}</code> and a roman numeral, starting in the upper right quadrant as <code>\text{QI}</code> and rotating counter-clockwise.</p>
+                        <!-- I18N: This is the letter placed at the beginning of a quadrant, as in "Q1" for the first quadrant -->
+                        <p>By convention, quadrants are named with a capital <code>\text{<var>$._("Q")</var>}</code> and a roman numeral,
+                        <!-- This is a quadrant label, as in "the first quadrant" -->
+                        starting in the upper right quadrant as <code>\text{<var>$._("QI")</var>}</code> and rotating counter-clockwise.</p>
                         <div class="graphie" data-update="grid">
-                            label( [ 5, 5] , " \\text{ QI }", "center", { color: "purple" } );
-                            label( [ -5, 5] , " \\text{ QII }", "center", { color: "purple" } );
-                            label( [ -5, -5] , " \\text{ QIII }", "center", { color: "purple" } );
-                            label( [ 5, -5] , " \\text{ QIV }", "center", { color: "purple" } );
+                            <!-- This is a quadrant label, as in "the first quadrant" -->
+                            label( [ 5, 5] , " \\text{ " + $._("QI") + " }", "center", { color: "purple" } );
+                            <!-- This is a quadrant label, as in "the second quadrant" -->
+                            label( [ -5, 5] , " \\text{ " + $._("QII") + " }", "center", { color: "purple" } );
+                            <!-- This is a quadrant label, as in "the third quadrant" -->
+                            label( [ -5, -5] , " \\text{ " + $._("QIII") + " }", "center", { color: "purple" } );
+                            <!-- This is a quadrant label, as in "the fourth quadrant" -->
+                            label( [ 5, -5] , " \\text{ " + $._("QIV") + " }", "center", { color: "purple" } );
                         </div>
                     </div>
                     <p class="final_answer">

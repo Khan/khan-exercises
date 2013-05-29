@@ -73,7 +73,7 @@
                 </div>
                 <div>
                     <p><code>
-                        \qquad\text{area} = <var>S</var> \times <var>S</var>
+                        \qquad\text{<var>$._("area")</var>} = <var>S</var> \times <var>S</var>
                         = <var>S * S</var>
                     </code></p>
                     <p>
@@ -112,9 +112,11 @@
                         init({ range: [[-1, 6], [-1, 6]] });
                         path([[0, 0], [5, 0], [5, 5], [0, 5], true],
                             { stroke: BLUE, fill: "#eee" });
-                        label([2.5, 5], "\\text{? " + UNIT + "}", "above",
+                        // I18N: This is something like ? cm
+                        label([2.5, 5], "\\text{" + $._("? %(UNIT)s", {UNIT: UNIT}) + "}", "above",
                             { "color": PINK });
-                        label([0, 2.5], "\\text{? " + UNIT + "}", "left",
+                        // I18N: This is something like ? cm
+                        label([0, 2.5], "\\text{" + $._("? %(UNIT)s", {UNIT: UNIT}) + "}", "left",
                             { "color": PINK });
                     </div>
                 </div>
@@ -128,7 +130,7 @@
                     <p>
                         The area is the length times the width.
                     </p>
-                    <p><code>\qquad \pink{\text{?}} \times \pink{\text{?}} =
+                    <p><code>\qquad \pink{\text{<var>$._("?")</var>}} \times \pink{\text{<var>$._("?")</var>}} =
                         <var>S * S</var>\text{ <var>UNIT</var>}
                     </code></p>
                 </div>
@@ -210,7 +212,7 @@
                 </div>
                 <div>
                     <p><code>
-                        \qquad\text{area} = <var>L</var> \times <var>W</var>
+                        \qquad\text{<var>$._("area")</var>} = <var>L</var> \times <var>W</var>
                         = <var>L * W</var>
                     </code></p>
                     <p>

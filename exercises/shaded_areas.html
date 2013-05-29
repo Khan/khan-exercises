@@ -45,7 +45,7 @@
                                 };
                             },
                             hint: function() {
-                                return "\\text{area of a square} = s^2 = "+s+"^2";
+                                return "\\text{" + $._("area of a square") + "} = s^2 = "+s+"^2";
                             }
                         };
                     },
@@ -74,7 +74,7 @@
                                 };
                             },
                             hint: function() {
-                                return "\\text{area of a circle} = \\pi r^2 = \\pi "+size+"^2";
+                                return "\\text{" + $._("area of a circle") + "} = \\pi r^2 = \\pi "+size+"^2";
                             }
                         };
                     },
@@ -117,7 +117,7 @@
                                 };
                             },
                             hint: function() {
-                                return "\\text{area of an equilateral triangle} = \\dfrac{\\sqrt{3}}{4}s^2 = \\dfrac{\\sqrt{3}}{4}"+s+"^2";
+                                return "\\text{" + $._("area of an equilateral triangle") + "} = \\dfrac{\\sqrt{3}}{4}s^2 = \\dfrac{\\sqrt{3}}{4}"+s+"^2";
                             }
                         };
                     }
@@ -169,10 +169,10 @@
                         OUTER.drawShape(KhanUtil.currentGraph, { fill: BLUE, opacity: 0.5 });
                     </div>
                 </div>
-                <p><code>\text{area of whole figure} = </code><br><code>\qquad<var>OUTER.hint()</var> = <var>PRETTY_OUTER_AREA</var></code></p>
-                <p><code>\text{area of inner region} = </code><br><code>\qquad<var>INNER.hint()</var> = <var>PRETTY_INNER_AREA</var></code></p>
+                <p><code>\text{<var>$._("area of whole figure")</var>} = </code><br><code>\qquad<var>OUTER.hint()</var> = <var>PRETTY_OUTER_AREA</var></code></p>
+                <p><code>\text{<var>$._("area of inner region")</var>} = </code><br><code>\qquad<var>INNER.hint()</var> = <var>PRETTY_INNER_AREA</var></code></p>
                 <p>Then subtract the inner region's area from the whole figure's area to find the area of the shaded region (the difference between the two areas).</p>
-                <p><code>\text{area of shaded region} = <var>PRETTY_OUTER_AREA</var> - <var>PRETTY_INNER_AREA</var> = <var>roundTo(2, SHADED_AREA)</var></code></p>
+                <p><code>\text{<var>$._("area of shaded region")</var>} = <var>PRETTY_OUTER_AREA</var> - <var>PRETTY_INNER_AREA</var> = <var>roundTo(2, SHADED_AREA)</var></code></p>
             </div>
         </div>
 </body>

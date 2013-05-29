@@ -75,7 +75,8 @@
                             [0, 0.7], [0.05, 0.7], [0, 0.6],
                             [-0.05, 0.7], [0, 0.7], [0, 1.0]
                         ]);
-                        graph.meanLabel = label([0, 1.3], "\\text{mean}",
+                        // I18N: "mean" in the "average" sense
+                        graph.meanLabel = label([0, 1.3], "\\text{" + $._("mean") + "}",
                             "above", { color: BLUE });
                         graph.meanValueLabel = label([0, 0.8], "0",
                             "above", { color: BLUE });
@@ -85,7 +86,7 @@
                             [0, -1.1], [0.05, -1.1], [0, -1],
                             [-0.05, -1.1], [0, -1.1], [0, -1.4]
                         ]);
-                        graph.medianLabel = label([0, -1.7],  "\\text{median}",
+                        graph.medianLabel = label([0, -1.7],  "\\text{" + $._("median") + "}",
                             "below", { color: GREEN });
                         graph.medianValueLabel = label([0, -1.2], "0",
                             "below", { color: GREEN });

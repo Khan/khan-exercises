@@ -116,8 +116,8 @@
                 <p data-if="isSingular(VALUE)">How many symbols are needed to represent <code><var>VALUE</var></code> badge?</p><p data-else="">How many symbols are needed to represent <code><var>VALUE</var></code> badges?</p>
                 <p>
                     <code>
-                        \dfrac{<var>VALUE</var> \text{ <var>plural( "badge", VALUE )</var>}}{<var>VALUE_PER_IMG</var> \text{ <var>plural( "symbol", VALUE_PER_IMG )</var> per badge}} =
-                        <var>NUM_SYMBOLS</var> \text{ <var>plural( "symbol", VALUE / VALUE_PER_IMG )</var>}
+                        \dfrac{<var>VALUE</var> \text{ <var>AMBIGUOUS_PLURAL( "badge", VALUE )</var>}}{<var>VALUE_PER_IMG</var> \text{ <var>$._("%(point)s per badge", {point: AMBIGUOUS_PLURAL( "symbol", VALUE_PER_IMG )})</var>}} =
+                        <var>NUM_SYMBOLS</var> \text{ <var>AMBIGUOUS_PLURAL( "symbol", VALUE / VALUE_PER_IMG )</var>}
                     </code>
                 </p>
                 <div>

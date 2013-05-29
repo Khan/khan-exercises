@@ -63,7 +63,7 @@
                             });
                             style({ fill: BLUE, stroke: BLUE });
                             line( [ -1,-1 ], [ 1,4 ] );
-                            label([0,-4], "\\color{" + BLUE + "}{\\text{Airplane Taking  Off}}", "below");
+                            label([0,-4], "\\color{" + BLUE + "}{\\text{" + $._("Airplane Taking  Off") + "}}", "below");
                     </div>
                     <div class="graphie" style="float: left; margin: 8px;">
                             graphInit({
@@ -74,7 +74,7 @@
                             });
                             style({ fill: GREEN, stroke: GREEN });
                             line( [ 0, 2 ], [ 2, -1 ] );
-                            label([0,-4], "\\color{" + GREEN + "}{\\text{Airplane Landing}}", "below");
+                            label([0,-4], "\\color{" + GREEN + "}{\\text{" + $._("Airplane Landing") + "}}", "below");
                     </div>
                 </div>
               </div>
@@ -161,11 +161,11 @@
                 <p style="clear: both">Remember that the slope corresponds to which direction the line slants, and how much it slants.</p>
                 <div data-if="M.value < 0">
                     <p>Because <code><var>M.display</var></code> is negative, the line should slant downwards as we follow it to the right.</p>
-                    <p>The answer is either the <code class="hint_orange">\text{orange}</code> or <code class="hint_pink">\text{pink}</code> graph.</p>
+                    <p>The answer is either the <code class="hint_orange">\text{<var>$._("orange")</var>}</code> or <code class="hint_pink">\text{<var>$._("pink")</var>}</code> graph.</p>
                 </div>
                 <div data-else="">
                     <p>Because <code><var>M.display</var></code> is positive, the line should slant upwards as we follow it to the right.</p>
-                    <p>The answer is either the <code class="hint_blue">\text{blue}</code> or <code class="hint_green">\text{green}</code> graph.</p>
+                    <p>The answer is either the <code class="hint_blue">\text{<var>$._("blue")</var>}</code> or <code class="hint_green">\text{<var>$._("green")</var>}</code> graph.</p>
                 </div>
                 <p>In which graph does the y value change by <code><var>M.display</var></code> if the x value changes by <code>1</code>?</p>
                 <p>The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code> graph best depicts a slope of <code><var>M.display</var></code>.</p>

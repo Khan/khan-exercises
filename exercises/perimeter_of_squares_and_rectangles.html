@@ -62,12 +62,12 @@
                     <p>
                         Add up the lengths of the sides:
                     </p>
-                    <p><code>\qquad\text{perimeter} =
+                    <p><code>\qquad\text{<var>$._("perimeter")</var>} =
                         \pink{<var>S</var>} + \blue{<var>S</var>} +
                         \purple{<var>S</var>} + \green{<var>S</var>}
                     </code></p>
                 </div>
-                <p><code>\qquad\text{perimeter} =
+                <p><code>\qquad\text{<var>$._("perimeter")</var>} =
                     <var>S * 4</var>\text{ <var>UNIT</var>}
                 </code></p>
             </div>
@@ -95,7 +95,7 @@
                         path([[0, 0], [5, 0], [5, 5], [0, 5], true],
                             { stroke: BLUE, fill: "#eee" });
                         path([[0, 0], [0, 5]], { "stroke": PINK });
-                        label([0, 2.5], "\\text{? " + UNIT + "}", "left",
+                        label([0, 2.5], "\\text{" + $._("? %(UNIT)s", {UNIT: UNIT}) + "}", "left",
                             { "color": PINK });
                     </div>
                 </div>
@@ -114,8 +114,8 @@
                         The perimeter is the total length of all the sides of
                         the shape added together.
                     </p>
-                    <p><code>\qquad \pink{\text{?}} + \blue{\text{?}} +
-                        \purple{\text{?}} + \green{\text{?}} =
+                    <p><code>\qquad \pink{\text{<var>$._("?")</var>}} + \blue{\text{<var>$._("?")</var>}} +
+                        \purple{\text{<var>$._("?")</var>}} + \green{\text{<var>$._("?")</var>}} =
                         <var>4 * S</var>\text{ <var>UNIT</var>}
                     </code></p>
                 </div>
@@ -187,12 +187,12 @@
                     <p>
                         Add up the lengths of the sides:
                     </p>
-                    <p><code>\qquad\text{perimeter} =
+                    <p><code>\qquad\text{<var>$._("perimeter")</var>} =
                         \pink{<var>W</var>} + \blue{<var>L</var>} +
                         \purple{<var>W</var>} + \green{<var>L</var>}
                     </code></p>
                 </div>
-                <p><code>\qquad\text{perimeter} =
+                <p><code>\qquad\text{<var>$._("perimeter")</var>} =
                     <var>2 * L + 2 * W</var>\text{ <var>UNIT</var>}
                 </code></p>
             </div>

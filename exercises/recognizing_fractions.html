@@ -28,7 +28,7 @@
 
                             piechart( [NUMERATOR, DENOMINATOR - NUMERATOR], ["#6495ED", "#FFA500"], 2 );
                             label( [2, 0], "=\\dfrac{\\color{#6495ED}{" + NUMERATOR + "}}{" + DENOMINATOR + "}"
-                                + "=\\dfrac{\\color{#6495ED}{\\text{numerator}}}{\\text{denominator}}", "right");
+                                + "=\\dfrac{\\color{#6495ED}{\\text{" + $._("numerator") + "}}}{\\text{" + $._("denominator") + "}}", "right");
                         </div>
                     </div>
                     <p>The numerator is the number of slices we consider, and it is written above the fraction line. The denominator is the total number of slices, and it is written below the line.</p>

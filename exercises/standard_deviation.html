@@ -81,7 +81,7 @@
                         <code>
                                 \color{<var>BLUE</var>}{\mu} \quad = \quad
                                 \dfrac{<var>plus.apply( KhanUtil, DATA )</var>}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} \quad = \quad
-                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>plural( "year", MEAN )</var> old}}
+                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("%(years)s old", {years: AMBIGUOUS_PLURAL( "year", MEAN )})</var>}}
                         </code>
                     </p>
 
@@ -226,18 +226,18 @@
                         <code>
                                 \color{<var>BLUE</var>}{\overline{x}} \quad = \quad
                                 \dfrac{<var>plus.apply( KhanUtil, DATA )</var>}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} \quad = \quad
-                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>plural( "year", MEAN )</var> old}}
+                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("%(years)s old", {years: AMBIGUOUS_PLURAL( "year", MEAN )})</var>}}
                         </code>
                     </p>
 
                     <p data-if="isSingular(MEAN)">
                         Find the <span class="hint_purple">squared deviations from the mean</span> for each sample. Since we don't know the
                         population mean, estimate the mean by using the <span class="hint_blue">sample mean</span> we just calculated
-                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ year}})</code>.
+                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("year")</var>}})</code>.
                     </p><p data-else="">
                         Find the <span class="hint_purple">squared deviations from the mean</span> for each sample. Since we don't know the
                         population mean, estimate the mean by using the <span class="hint_blue">sample mean</span> we just calculated
-                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ years}})</code>.
+                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("years")</var>}})</code>.
                     </p>
 
                     <div>

@@ -225,7 +225,7 @@
         <div>
             <p>
                 <span>The slope is <code class="hint_purple"><var>decimalFraction( SLOPE, true, true )</var></code>. Remember that the slope tells you rise over run.</span>
-                <span data-if='abs( SLOPE_FRAC[0] ) !== 1'>
+                <span data-if="abs( SLOPE_FRAC[0] ) !== 1">
                 For every step we take we must move
                 <code><var>abs( SLOPE_FRAC[0] )</var></code>
                 positions
@@ -234,7 +234,7 @@
                 <code><var>abs( SLOPE_FRAC[0] )</var></code>
                 position
                 <span data-if="SLOPE_FRAC[0] < 0"><em>down</em> (because it's negative)</span><span data-else="">up</span>.</span>
-                <span data-if='abs( SLOPE_FRAC[1] ) !== 1'>
+                <span data-if="abs( SLOPE_FRAC[1] ) !== 1">
                 For every step we take we must also move
                 <code><var>SLOPE_FRAC[1]</var></code>
                 positions
@@ -255,7 +255,7 @@
                     path([ [ 0, YINT + SLOPE_FRAC[0] ], [ SLOPE_FRAC[1], YINT + SLOPE_FRAC[0] ] ]).toBack();
                 });
                 label( [ 0, YINT + SLOPE_FRAC[0] / 2 ], abs( SLOPE_FRAC[0] ) + " \\text{ " + ( SLOPE_FRAC[0] &lt; 0 ? "down" : "up" ) + "} \\quad", "left", { color: "purple" } );
-                label( [ 0, YINT + SLOPE_FRAC[0] ], SLOPE_FRAC[1] + " \\text{ right}", ( SLOPE_FRAC[0] &lt; 0 ? "below right" : "above right" ), { color: "purple" } );
+                label( [ 0, YINT + SLOPE_FRAC[0] ], SLOPE_FRAC[1] + " \\text{ " + $._("right") + "}", ( SLOPE_FRAC[0] &lt; 0 ? "below right" : "above right" ), { color: "purple" } );
                 graph.yint.toBack();
             </div>
         </div>
