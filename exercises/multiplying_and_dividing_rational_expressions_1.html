@@ -75,33 +75,27 @@
         </div>
 
         <div class="solution" data-type="multiple">
-            <div class="input-format">
-                <div class="entry" data-type="multiple">
-                    <table>
-                        <tbody><tr>
-                            <td class="soln-name" rowspan="2">
-                                <code><var>Y</var> = </code>
-                            </td>
-                            <td class="soln-top">
-                                <span class="sol short50" data-type="regex"><var>NUMERSOL.regex()</var></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="soln-bot">
-                                <span class="sol short50" data-fallback="1" data-type="regex"><var>DENOMSOL.regex()</var></span>
-                            </td>
-                        </tr>
-                    </tbody></table>
-                </div>
-            </div>
+            <table>
+                <tbody><tr>
+                    <td class="soln-name" rowspan="2"><code><var>Y</var>=</code></td>
+                    <td class="soln-top">
+                        <span class="sol short50" data-type="number"><var>NUMERSOL</var></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="soln-bot">
+                        <span class="sol short50" data-type="regex"><var>DENOMSOL.regex()</var></span>
+                    </td>
+                </tr>
+            </tbody></table>
         </div>
 
         <div class="hints">
             <p>When multiplying fractions, we multiply the numerators and the denominators.</p>
 
             <p>
-                <code><var>Y</var> = \dfrac{<var>NUMERATOR</var> \times <var>CONSTANT[0]</var>}
-                                           {<var>DENOMINATOR</var> \times <var>CONSTANT[1]</var>}</code>
+                <code><var>Y</var> = \dfrac{(<var>NUMERATOR</var>) \times <var>CONSTANT[0]</var>}
+                                           {(<var>DENOMINATOR</var>) \times <var>CONSTANT[1]</var>}</code>
             </p>
 
             <p><code><var>Y</var> = \dfrac{<var>NUMERPRODUCT</var>}{<var>DENOMPRODUCT</var>}</code></p>
