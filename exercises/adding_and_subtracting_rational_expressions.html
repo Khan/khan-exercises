@@ -39,8 +39,11 @@
             </div>
             <var id="NUMERATOR">expr(["+", ["*", NUMERCOEFF, X], NUMERCONST])</var>
             <var id="FACTOR">getGCD(getGCD(DENOMCOEFF, DENOMCONST), getGCD(NUMERCOEFF, NUMERCONST))</var>
-            <var id="COEFF1">randRangeWeighted(-8, 8, 1, 0.25)</var>
-            <var id="CONST1">randRangeWeighted(-12, 12, 0, 0.25)</var>
+
+            <div data-ensure="COEFF1 !== 0 || CONST1 !== 0">
+                <var id="COEFF1">randRangeWeighted(-8, 8, 1, 0.25)</var>
+                <var id="CONST1">randRangeWeighted(-12, 12, 0, 0.25)</var>
+            </div>
             <var id="NUMERATOR1">expr(["+", ["*", COEFF1, X], CONST1])</var>
 
             <var id="NUMERSOL">getExpressionRegex(NUMERCOEFF / FACTOR, X, NUMERCONST / FACTOR)</var>
