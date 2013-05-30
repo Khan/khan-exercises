@@ -17,7 +17,7 @@
             <var id="B">randRangeNonZero(-10, 10)</var>
             <var id="NUMERATOR" data-ensure="NUMERATOR !== A || NUMERATOR !== B">randFromArray([A, B, randRangeNonZero(-10, 10)])</var>
             <var id="SOL1">NUMERATOR === A ? 0 : A</var>
-            <var id="SOL2">NUMERATOR === B ? 0 : B</var>
+            <var id="SOL2">NUMERATOR === B || A === B ? 0 : B</var>
             <var id="CONSTANT">A * B</var>
             <var id="COEFFICIENT">-A - B</var>
             <var id="TERMS">(function() {
