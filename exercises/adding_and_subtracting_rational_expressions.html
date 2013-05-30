@@ -44,13 +44,12 @@
                 SIGN === "+" ? new RationalExpression([[NUMERCOEFF - COEFF1, X], NUMERCONST - CONST1]) :
                                new RationalExpression([[COEFF1 - NUMERCOEFF, X], CONST1 - NUMERCONST])
             </var>
-
             <var id="NUMERSOL">NUMERATORSUM.divide(FACTOR)</var>
             <var id="DENOMSOL">DENOMINATOR.divide(FACTOR)</var>
         </div>
 
         <div class="problems">
-            <div id="add">
+            <div>
                 <p class="problem">Simplify the following expression:</p>
                 <p class="question">
                     <code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR</var>}
@@ -76,7 +75,6 @@
         </div>
 
         <div class="hints">
-
             <div data-if="SIGN === '-'" data-unwrap="">
                 <div>
                     <p>Since the expressions have the same denominator we simply subtract the numerators:</p>
