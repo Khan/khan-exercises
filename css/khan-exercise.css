@@ -880,3 +880,8 @@ body.debug span.error {
     padding: 0.2em;
     text-decoration: line-through;
 }
+
+/* Work around bug added in https://khanacademy.kilnhg.com/Review/K109777 */
+.MathJax .math {
+    color: inherit;
+}
