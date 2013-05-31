@@ -1691,6 +1691,8 @@ $.extend(KhanUtil.Graphie.prototype, {
         $(circle.centerPoint.mouseTarget[0]).on(
             "vmouseover vmouseout", function(event) {
                 if (circle.centerPoint.highlight) {
+                    // TODO(alpert): Why doesn't this happen automatically with
+                    // addMovablePoint?
                     circle.circ.animate({
                         stroke: KhanUtil.ORANGE,
                         "fill-opacity": 0.05
@@ -1722,9 +1724,10 @@ $.extend(KhanUtil.Graphie.prototype, {
             });
         };
 
-        circle.centerPoint.onMoveEnd = function(x, y) {
-            circle.center = [x, y];
-        };
+        $(circle.centerPoint).on("move", function() {
+            circle.center = this.coord;
+            $(circle).trigger("move");
+        });
 
         // circle.setCenter(x, y) moves the circle to the specified
         // x, y coordinate as if the user had dragged it there.
@@ -1816,6 +1819,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                             radius = Math.max(1,
                                 Math.round(radius / 0.5) * 0.5);
                             circle.setRadius(radius);
+                            $(circle).trigger("move");
                         } else if (event.type === "vmouseup") {
                             $(document).off("vmousemove vmouseup");
                             circle.dragging = false;
