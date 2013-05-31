@@ -94,20 +94,14 @@
         <div id="twinWeight">
 
             <div class="vars">
-                <var id="G">randRange(2,6)*100</var>
-                <var id="H">randRange(1,9)*10</var>
-                <var id="I">randRange(1,9)*1</var>
-                <var id="weight_1_integer">G+H+I</var>
+                <var id="weight_1_integer">randRange(620, 920)</var>
                 <var id="weight_1_decimal">(2)</var>
                 <var id="weight_1">truncate_to_max(weight_1_integer*pow(10,-weight_1_decimal), 2)</var>
-                <var id="J">randRange(3,5)*100</var>
-                <var id="K">randRange(1,9)*10</var>
-                <var id="L">randRange(1,9)*1</var>
-                <var id="weight_2_integer">J+K+L</var>
+                <var id="weight_2_integer">randRange(620, 920)</var>
                 <var id="weight_2_decimal">(2)</var>
                 <var id="weight_2">truncate_to_max(weight_2_integer*pow(10,-weight_2_decimal), 2)</var>
-                <var id="height_1">randRange(16.5,22.5)</var>
-                <var id="height_2">randRange(16.5,22.5)</var>
+                <var id="height_1">randRange(18.5,21.0)</var>
+                <var id="height_2">randRange(18.5,21.0)</var>
                 <var id="solution">truncate_to_max((weight_1+weight_2),2)</var>
                 <var id="DUMMY">[]</var>
             </div>
