@@ -1,7 +1,6 @@
 $.extend(KhanUtil, {
     /* coinFlips(2) returns
      * [["HH", 2], ["HT", 1], ["TH", 1], ["TT", 0]] */
-    // TODO(jeresig): i18n: Does this make sense for i18n?
     coinFlips: function(n) {
         if (n === 0) {
             return [["", 0]];

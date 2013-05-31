@@ -631,8 +631,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
                 + "\\div"
                 + divisor + "="
                 + "\\color{#28AE7B}{" + quotient + "}"
-                // TODO(jeresig): i18n: Should this be the whole expression?
-                + $._("\\text{ or }")
+                + "\\text{ " + $._("or") + " }"
                 + divisor
                 + "\\times"
                 + "\\color{#28AE7B}{" + quotient + "}"

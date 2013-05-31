@@ -233,8 +233,9 @@ $.extend(KhanUtil, {
     },
 
     // Ported from https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L285
+    // TODO(csilvers): I18N: this doesn't work at all outside English.
+    // cf. https://github.com/kslazarev/numbers_and_words (Ruby, sadly).
     cardinal: function(n) {
-        // TODO(jeresig): i18n: Is this something that can be ported?
         var cardinalScales = ["", $._("thousand"), $._("million"),
             $._("billion"), $._("trillion"), $._("quadrillion"),
             $._("quintillion"), $._("sextillion"), $._("septillion"),
@@ -262,7 +263,6 @@ $.extend(KhanUtil, {
                     {unit: cardinalUnits[hundredDigit]});
             }
 
-            // TODO(jeresig): i18n: This will need to changed
             if (hundredDigit && rest) {
                 str += " ";
             }
@@ -278,7 +278,6 @@ $.extend(KhanUtil, {
                         str += cardinalTens[tenDigit];
                     }
 
-                    // TODO(jeresig): i18n: This will need to changed
                     if (tenDigit && unitDigit) {
                         str += "-";
                     }
@@ -322,7 +321,6 @@ $.extend(KhanUtil, {
                 words.unshift($._("negative"));
             }
 
-            // TODO(jeresig): i18n: This will need to changed
             return words.join(" ");
         }
     },

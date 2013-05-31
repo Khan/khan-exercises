@@ -111,7 +111,6 @@ _CLEAN_ENTITIES = {
 # Make an HTML 5 Parser that will be used to turn the HTML documents
 # into a usable DOM. Make sure that we ignore the implied HTML namespace,
 # and make sure we always read input files as utf-8.
-# TODO(csilvers): move this to lint_i18n_strings.py and use from there.
 class HTMLParser(lxml.html.html5parser.HTMLParser):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('namespaceHTMLElements', False)

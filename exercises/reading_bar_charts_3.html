@@ -204,7 +204,7 @@
                     </div>
                     <div>
                         <p>Find each of the <var>TEST</var> scores represented by the <span data-if="COLUMN === 0">blue</span><span data-else="">orange</span> bars.</p>
-                        <p><code>\qquad\large{<var>toSentence( COLUMN === 0 ? MIDTERM : FINAL, "" )</var>}</code></p>
+                        <p><code>\qquad\large{<var>( COLUMN === 0 ? MIDTERM : FINAL ).join(", ")</var>}</code></p>
                         <div data-each="NUM_STUDENTS times as INDEX">
                             <div class="graphie" data-update="barchart">
                                 if ( COLUMN === 0 ) {
@@ -217,7 +217,7 @@
                     </div>
                     <div>
                         <p>Put the <var>TEST</var> scores in order from least to greatest.</p>
-                        <p><code>\qquad\large{<var>toSentence( sortNumbers( COLUMN === 0 ? MIDTERM : FINAL ), "" )</var>}</code></p>
+                        <p><code>\qquad\large{<var>sortNumbers( COLUMN === 0 ? MIDTERM : FINAL ).join(", ")</var>}</code></p>
                     </div>
                     <p data-if="NUM_STUDENTS % 2">Since there are an odd number of scores, the median score is just the middle score.</p>
                     <div data-else="" data-unwrap="">

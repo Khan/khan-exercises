@@ -7,34 +7,39 @@
 // but not across them.
 
 $.extend(KhanUtil, {
-    // TODO(jeresig): i18n: Figure out how this should be converted
-    toSentence: function(array, conjunction) {
-        if (conjunction == null) {
-            conjunction = "and";
-        }
+    // TODO(csilvers): I18N: rename serialCommafy and copy from webapp.
+    toSentence: function(items) {
+        var n = items.length;
 
-        if (array.length === 0) {
+        // This seems to be a pretty l10n-aware, actually.  cf.
+        //    http://comments.gmane.org/gmane.comp.audio.musicbrainz.i18n/15
+        // The only possible problem is chinese, which it looks like
+        // prefers a special character to the comma, which we hard-code in
+        // items_with_commas.
+        if (n === 0) {
             return "";
-        } else if (array.length === 1) {
-            return array[0];
-        } else if (array.length === 2) {
-            return array[0] + " " + conjunction + " " + array[1];
+        } else if (n === 1) {
+            return items[0];
+        } else if (n === 2) {
+            return $._("%(item1)s and %(item2)s",
+                       {item1: items[0], item2: items[1]});
         } else {
-            return array.slice(0, -1).join(", ") + ", " + conjunction + " " + array[array.length - 1];
+            return $._("%(items_with_commas)s, and %(last_item)s",
+                       {items_with_commas: items.slice(0, n - 1).join(", "),
+                        last_item: items[n - 1]});
         }
     },
 
-    toSentenceTex: function(array, conjunction, highlight, highlightClass) {
+    toSentenceTex: function(array, highlight, highlightClass) {
         var wrapped = $.map(array, function(elem) {
             if (($.isFunction(highlight) && highlight(elem)) || (highlight !== undefined && elem === highlight)) {
                 return "<code class='" + highlightClass + "'>" + elem + "</code>";
             }
             return "<code>" + elem + "</code>";
         });
-        return KhanUtil.toSentence(wrapped, conjunction);
+        return KhanUtil.toSentence(wrapped);
     },
 
-    // TODO(jeresig): I18N: Kill this.
     capitalize: function(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     },
@@ -865,32 +870,12 @@ $.fn["word-problemsLoad"] = function() {
         },
 
         // TODO(jeresig): I18N: Kill this.
-        He: function(i) {
-            return people.get(i - 1).get(0)[1] === "m" ? "He" : "She";
-        },
-
-        // TODO(jeresig): I18N: Kill this.
         him: function(i) {
             return people.get(i - 1).get(0)[1] === "m" ? "him" : "her";
         },
 
-        // TODO(jeresig): I18N: Kill this.
-        his: function(i) {
-            return people.get(i - 1).get(0)[1] === "m" ? "his" : "her";
-        },
-
-        // TODO(jeresig): I18N: Kill this.
-        His: function(i) {
-            return people.get(i - 1).get(0)[1] === "m" ? "His" : "Her";
-        },
-
         isMale: function(i) {
             return people.get(i - 1).get(0)[1] === "m";
-        },
-
-        // TODO(jeresig): I18N: Kill this.
-        An: function(word) {
-            return indefiniteArticle(word);
         },
 
         // TODO(jeresig): I18N: Kill this.

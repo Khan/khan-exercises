@@ -58,7 +58,6 @@ $.extend(KhanUtil, {
         return digits;
     },
 
-    // TODO(jeresig): i18n: Does this make sense?
     placesLeftOfDecimal: [$._("one"), $._("ten"), $._("hundred"),
         $._("thousand")],
     placesRightOfDecimal: [$._("one"), $._("tenth"), $._("hundredth"),
