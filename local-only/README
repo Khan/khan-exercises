@@ -1,0 +1,22 @@
+This directory holds files that are only needed for the 'local'
+version of khan-exercises -- e.g. sandcastle.khanacademy.org.
+
+These files are needed to view the exercises, but in production -- at
+www.khanacademy.org -- are provided by the main khan academy website.
+For instance, if you're viewing an exercise at
+   https://www.khanacademy.org/math/arithmetic/addition-subtraction/basic_addition/e/number_line
+then that page has loaded jquery.js from
+webapp/javascript/shared-package/jquery.js.  (It needs jquery to
+display the chrome/etc around the exercise.)  We don't need an
+exercise-specific version of jquery.js as well.  However, if you're
+viewing the same exercise at http://sandcastle.khanacademy.org/
+there's no chrome loading jquery.js, so the exercise has to do it
+itself.
+
+The script
+   update_local.sh
+will update this directory from the webapp repository.
+
+If you add a file here, also add it to
+   ./update_local.sh
+   ../khan-exercise.js:initScripts

@@ -4635,16 +4635,51 @@ form {
 .new-header .math.accent-button,
 .new-header .math .accent-button {
   border: 1px solid #266a89;
-  background-color: #297395;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #266a8a;
+  background-image: -moz-linear-gradient(top, #297395, #215d79);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#297395), to(#215d79));
+  background-image: -webkit-linear-gradient(top, #297395, #215d79);
+  background-image: -o-linear-gradient(top, #297395, #215d79);
+  background-image: linear-gradient(to bottom, #297395, #215d79);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff297395', endColorstr='#ff215d79', GradientType=0);
+  border-color: #215d79 #215d79 #112f3d;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #215d79;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #ffffff !important;
   font-family: "MuseoSans500", sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+.new-header .math.accent-button:hover,
+.new-header .math .accent-button:hover,
+.new-header .math.accent-button:active,
+.new-header .math .accent-button:active,
+.new-header .math.accent-button.active,
+.new-header .math .accent-button.active,
+.new-header .math.accent-button.disabled,
+.new-header .math .accent-button.disabled,
+.new-header .math.accent-button[disabled],
+.new-header .math .accent-button[disabled] {
+  color: #ffffff;
+  background-color: #215d79;
+  *background-color: #1c4e65;
+}
+.new-header .math.accent-button:active,
+.new-header .math .accent-button:active,
+.new-header .math.accent-button.active,
+.new-header .math .accent-button.active {
+  background-color: #163f51 \9;
 }
 .new-header .math.accent-button:focus,
 .new-header .math .accent-button:focus,
 .new-header .math.accent-button:hover,
 .new-header .math .accent-button:hover {
-  border-bottom-color: #1e546d;
+  border-bottom-color: #184559;
 }
 .new-header .science {
   color: #ffffff;
@@ -4668,16 +4703,51 @@ form {
 .new-header .science.accent-button,
 .new-header .science .accent-button {
   border: 1px solid #ae3960;
-  background-color: #ba3d66;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #af3960;
+  background-image: -moz-linear-gradient(top, #ba3d66, #9f3457);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ba3d66), to(#9f3457));
+  background-image: -webkit-linear-gradient(top, #ba3d66, #9f3457);
+  background-image: -o-linear-gradient(top, #ba3d66, #9f3457);
+  background-image: linear-gradient(to bottom, #ba3d66, #9f3457);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffba3d66', endColorstr='#ff9f3457', GradientType=0);
+  border-color: #9f3457 #9f3457 #662138;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #9f3457;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #ffffff !important;
   font-family: "MuseoSans500", sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+.new-header .science.accent-button:hover,
+.new-header .science .accent-button:hover,
+.new-header .science.accent-button:active,
+.new-header .science .accent-button:active,
+.new-header .science.accent-button.active,
+.new-header .science .accent-button.active,
+.new-header .science.accent-button.disabled,
+.new-header .science .accent-button.disabled,
+.new-header .science.accent-button[disabled],
+.new-header .science .accent-button[disabled] {
+  color: #ffffff;
+  background-color: #9f3457;
+  *background-color: #8c2e4d;
+}
+.new-header .science.accent-button:active,
+.new-header .science .accent-button:active,
+.new-header .science.accent-button.active,
+.new-header .science .accent-button.active {
+  background-color: #792842 \9;
 }
 .new-header .science.accent-button:focus,
 .new-header .science .accent-button:focus,
 .new-header .science.accent-button:hover,
 .new-header .science .accent-button:hover {
-  border-bottom-color: #943051;
+  border-bottom-color: #802a46;
 }
 .new-header .cs {
   color: #ffffff;
@@ -4701,16 +4771,51 @@ form {
 .new-header .cs.accent-button,
 .new-header .cs .accent-button {
   border: 1px solid #54852e;
-  background-color: #5b9032;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #54852e;
+  background-image: -moz-linear-gradient(top, #5b9032, #4a7629);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5b9032), to(#4a7629));
+  background-image: -webkit-linear-gradient(top, #5b9032, #4a7629);
+  background-image: -o-linear-gradient(top, #5b9032, #4a7629);
+  background-image: linear-gradient(to bottom, #5b9032, #4a7629);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5b9032', endColorstr='#ff4a7629', GradientType=0);
+  border-color: #4a7629 #4a7629 #263d15;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #4a7629;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #ffffff !important;
   font-family: "MuseoSans500", sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+.new-header .cs.accent-button:hover,
+.new-header .cs .accent-button:hover,
+.new-header .cs.accent-button:active,
+.new-header .cs .accent-button:active,
+.new-header .cs.accent-button.active,
+.new-header .cs .accent-button.active,
+.new-header .cs.accent-button.disabled,
+.new-header .cs .accent-button.disabled,
+.new-header .cs.accent-button[disabled],
+.new-header .cs .accent-button[disabled] {
+  color: #ffffff;
+  background-color: #4a7629;
+  *background-color: #3e6322;
+}
+.new-header .cs.accent-button:active,
+.new-header .cs .accent-button:active,
+.new-header .cs.accent-button.active,
+.new-header .cs .accent-button.active {
+  background-color: #32501c \9;
 }
 .new-header .cs.accent-button:focus,
 .new-header .cs .accent-button:focus,
 .new-header .cs.accent-button:hover,
 .new-header .cs .accent-button:hover {
-  border-bottom-color: #436a25;
+  border-bottom-color: #37571e;
 }
 .new-header .humanities {
   color: #ffffff;
@@ -4734,16 +4839,51 @@ form {
 .new-header .humanities.accent-button,
 .new-header .humanities .accent-button {
   border: 1px solid #435299;
-  background-color: #4858a4;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #44539a;
+  background-image: -moz-linear-gradient(top, #4858a4, #3d4b8b);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4858a4), to(#3d4b8b));
+  background-image: -webkit-linear-gradient(top, #4858a4, #3d4b8b);
+  background-image: -o-linear-gradient(top, #4858a4, #3d4b8b);
+  background-image: linear-gradient(to bottom, #4858a4, #3d4b8b);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4858a4', endColorstr='#ff3d4b8b', GradientType=0);
+  border-color: #3d4b8b #3d4b8b #262e56;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #3d4b8b;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #ffffff !important;
   font-family: "MuseoSans500", sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+.new-header .humanities.accent-button:hover,
+.new-header .humanities .accent-button:hover,
+.new-header .humanities.accent-button:active,
+.new-header .humanities .accent-button:active,
+.new-header .humanities.accent-button.active,
+.new-header .humanities .accent-button.active,
+.new-header .humanities.accent-button.disabled,
+.new-header .humanities .accent-button.disabled,
+.new-header .humanities.accent-button[disabled],
+.new-header .humanities .accent-button[disabled] {
+  color: #ffffff;
+  background-color: #3d4b8b;
+  *background-color: #354179;
+}
+.new-header .humanities.accent-button:active,
+.new-header .humanities .accent-button:active,
+.new-header .humanities.accent-button.active,
+.new-header .humanities .accent-button.active {
+  background-color: #2e3868 \9;
 }
 .new-header .humanities.accent-button:focus,
 .new-header .humanities .accent-button:focus,
 .new-header .humanities.accent-button:hover,
 .new-header .humanities .accent-button:hover {
-  border-bottom-color: #384581;
+  border-bottom-color: #313b6f;
 }
 .new-header .test-prep {
   color: #ffffff;
@@ -4767,16 +4907,51 @@ form {
 .new-header .test-prep.accent-button,
 .new-header .test-prep .accent-button {
   border: 1px solid #854791;
-  background-color: #8e4c9b;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #854791;
+  background-image: -moz-linear-gradient(top, #8e4c9b, #784083);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#8e4c9b), to(#784083));
+  background-image: -webkit-linear-gradient(top, #8e4c9b, #784083);
+  background-image: -o-linear-gradient(top, #8e4c9b, #784083);
+  background-image: linear-gradient(to bottom, #8e4c9b, #784083);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8e4c9b', endColorstr='#ff784083', GradientType=0);
+  border-color: #784083 #784083 #492750;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #784083;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #ffffff !important;
   font-family: "MuseoSans500", sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+.new-header .test-prep.accent-button:hover,
+.new-header .test-prep .accent-button:hover,
+.new-header .test-prep.accent-button:active,
+.new-header .test-prep .accent-button:active,
+.new-header .test-prep.accent-button.active,
+.new-header .test-prep .accent-button.active,
+.new-header .test-prep.accent-button.disabled,
+.new-header .test-prep .accent-button.disabled,
+.new-header .test-prep.accent-button[disabled],
+.new-header .test-prep .accent-button[disabled] {
+  color: #ffffff;
+  background-color: #784083;
+  *background-color: #683872;
+}
+.new-header .test-prep.accent-button:active,
+.new-header .test-prep .accent-button:active,
+.new-header .test-prep.accent-button.active,
+.new-header .test-prep .accent-button.active {
+  background-color: #592f61 \9;
 }
 .new-header .test-prep.accent-button:focus,
 .new-header .test-prep .accent-button:focus,
 .new-header .test-prep.accent-button:hover,
 .new-header .test-prep .accent-button:hover {
-  border-bottom-color: #6f3b79;
+  border-bottom-color: #5f3368;
 }
 .skill-bar {
   margin-bottom: 15px;
@@ -5084,8 +5259,22 @@ form {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  border: 1px solid #d5d5d5;
-  background-color: #dddddd;
+  border: 1px solid #e6e6e6;
+  color: #444444;
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(top, #eeeeee, #dcdcdc);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#eeeeee), to(#dcdcdc));
+  background-image: -webkit-linear-gradient(top, #eeeeee, #dcdcdc);
+  background-image: -o-linear-gradient(top, #eeeeee, #dcdcdc);
+  background-image: linear-gradient(to bottom, #eeeeee, #dcdcdc);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffeeeeee', endColorstr='#ffdcdcdc', GradientType=0);
+  border-color: #dcdcdc #dcdcdc #b6b6b6;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #dcdcdc;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #444444 !important;
   cursor: pointer !important;
   font-family: inherit;
@@ -5105,15 +5294,28 @@ form {
   /* Special button types */
 
 }
-.simple-button:focus,
-.simple-button:hover {
-  border-bottom-color: #c4c4c4;
+.simple-button:hover,
+.simple-button:active,
+.simple-button.active,
+.simple-button.disabled,
+.simple-button[disabled] {
+  color: #444444;
+  background-color: #dcdcdc;
+  *background-color: #cfcfcf;
+}
+.simple-button:active,
+.simple-button.active {
+  background-color: #c3c3c3 \9;
 }
 .simple-button:focus,
 .simple-button:hover {
-  -webkit-box-shadow: 0 1px 1px rgba(0,0,0, .25), inset 0 0 50px 5px rgba(255,255,255,.2);
-  -moz-box-shadow: 0 1px 1px rgba(0,0,0, .25), inset 0 0 50px 5px rgba(255,255,255,.2);
-  box-shadow: 0 1px 1px rgba(0,0,0, .25), inset 0 0 50px 5px rgba(255,255,255,.2);
+  border-bottom-color: #c8c8c8;
+}
+.simple-button:focus,
+.simple-button:hover {
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0, .35), inset 0 0 50px 5px rgba(255,255,255,.2);
+  -moz-box-shadow: 0 1px 1px rgba(0,0,0, .35), inset 0 0 50px 5px rgba(255,255,255,.2);
+  box-shadow: 0 1px 1px rgba(0,0,0, .35), inset 0 0 50px 5px rgba(255,255,255,.2);
 }
 .simple-button:active,
 .simple-button.toggled {
@@ -5136,38 +5338,143 @@ form {
 .simple-button.blue,
 .simple-button.secondary {
   border: 1px solid #344050;
-  background-color: #3a4759;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #344050;
+  background-image: -moz-linear-gradient(top, #3a4759, #2c3643);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3a4759), to(#2c3643));
+  background-image: -webkit-linear-gradient(top, #3a4759, #2c3643);
+  background-image: -o-linear-gradient(top, #3a4759, #2c3643);
+  background-image: linear-gradient(to bottom, #3a4759, #2c3643);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3a4759', endColorstr='#ff2c3643', GradientType=0);
+  border-color: #2c3643 #2c3643 #0e1115;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #2c3643;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #ffffff !important;
+}
+.simple-button.blue:hover,
+.simple-button.secondary:hover,
+.simple-button.blue:active,
+.simple-button.secondary:active,
+.simple-button.blue.active,
+.simple-button.secondary.active,
+.simple-button.blue.disabled,
+.simple-button.secondary.disabled,
+.simple-button.blue[disabled],
+.simple-button.secondary[disabled] {
+  color: #ffffff;
+  background-color: #2c3643;
+  *background-color: #222934;
+}
+.simple-button.blue:active,
+.simple-button.secondary:active,
+.simple-button.blue.active,
+.simple-button.secondary.active {
+  background-color: #181d25 \9;
 }
 .simple-button.blue:focus,
 .simple-button.secondary:focus,
 .simple-button.blue:hover,
 .simple-button.secondary:hover {
-  border-bottom-color: #262e3a;
+  border-bottom-color: #1c222b;
 }
 .simple-button.green,
 .simple-button.primary {
   border: 1px solid #7fab07;
-  background-color: #8aba08;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #80ac07;
+  background-image: -moz-linear-gradient(top, #8aba08, #719807);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#8aba08), to(#719807));
+  background-image: -webkit-linear-gradient(top, #8aba08, #719807);
+  background-image: -o-linear-gradient(top, #8aba08, #719807);
+  background-image: linear-gradient(to bottom, #8aba08, #719807);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8aba08', endColorstr='#ff719807', GradientType=0);
+  border-color: #719807 #719807 #3a4e03;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #719807;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #ffffff !important;
+}
+.simple-button.green:hover,
+.simple-button.primary:hover,
+.simple-button.green:active,
+.simple-button.primary:active,
+.simple-button.green.active,
+.simple-button.primary.active,
+.simple-button.green.disabled,
+.simple-button.primary.disabled,
+.simple-button.green[disabled],
+.simple-button.primary[disabled] {
+  color: #ffffff;
+  background-color: #719807;
+  *background-color: #5e7f05;
+}
+.simple-button.green:active,
+.simple-button.primary:active,
+.simple-button.green.active,
+.simple-button.primary.active {
+  background-color: #4c6704 \9;
 }
 .simple-button.green:focus,
 .simple-button.primary:focus,
 .simple-button.green:hover,
 .simple-button.primary:hover {
-  border-bottom-color: #668906;
+  border-bottom-color: #547105;
 }
 .simple-button.orange,
 .simple-button.warning {
   border: 1px solid #d45704;
-  background-color: #e35d04;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #d55704;
+  background-image: -moz-linear-gradient(top, #e35d04, #c04f03);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e35d04), to(#c04f03));
+  background-image: -webkit-linear-gradient(top, #e35d04, #c04f03);
+  background-image: -o-linear-gradient(top, #e35d04, #c04f03);
+  background-image: linear-gradient(to bottom, #e35d04, #c04f03);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe35d04', endColorstr='#ffc04f03', GradientType=0);
+  border-color: #c04f03 #c04f03 #753002;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #c04f03;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #ffffff !important;
+}
+.simple-button.orange:hover,
+.simple-button.warning:hover,
+.simple-button.orange:active,
+.simple-button.warning:active,
+.simple-button.orange.active,
+.simple-button.warning.active,
+.simple-button.orange.disabled,
+.simple-button.warning.disabled,
+.simple-button.orange[disabled],
+.simple-button.warning[disabled] {
+  color: #ffffff;
+  background-color: #c04f03;
+  *background-color: #a74403;
+}
+.simple-button.orange:active,
+.simple-button.warning:active,
+.simple-button.orange.active,
+.simple-button.warning.active {
+  background-color: #8e3a02 \9;
 }
 .simple-button.orange:focus,
 .simple-button.warning:focus,
 .simple-button.orange:hover,
 .simple-button.warning:hover {
-  border-bottom-color: #b14803;
+  border-bottom-color: #983e03;
 }
 .simple-button.seethrough {
   /* Creating my own gradient instead of using a mixin because I explicitly
@@ -5482,8 +5789,22 @@ ul.scratchpad-list li h4 {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  border: 1px solid #d5d5d5;
-  background-color: #dddddd;
+  border: 1px solid #e6e6e6;
+  color: #444444;
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(top, #eeeeee, #dcdcdc);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#eeeeee), to(#dcdcdc));
+  background-image: -webkit-linear-gradient(top, #eeeeee, #dcdcdc);
+  background-image: -o-linear-gradient(top, #eeeeee, #dcdcdc);
+  background-image: linear-gradient(to bottom, #eeeeee, #dcdcdc);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffeeeeee', endColorstr='#ffdcdcdc', GradientType=0);
+  border-color: #dcdcdc #dcdcdc #b6b6b6;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #dcdcdc;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #444444 !important;
   cursor: pointer !important;
   font-family: inherit;
@@ -5503,15 +5824,28 @@ ul.scratchpad-list li h4 {
   /* Special button types */
 
 }
-.simple-button:focus,
-.simple-button:hover {
-  border-bottom-color: #c4c4c4;
+.simple-button:hover,
+.simple-button:active,
+.simple-button.active,
+.simple-button.disabled,
+.simple-button[disabled] {
+  color: #444444;
+  background-color: #dcdcdc;
+  *background-color: #cfcfcf;
+}
+.simple-button:active,
+.simple-button.active {
+  background-color: #c3c3c3 \9;
 }
 .simple-button:focus,
 .simple-button:hover {
-  -webkit-box-shadow: 0 1px 1px rgba(0,0,0, .25), inset 0 0 50px 5px rgba(255,255,255,.2);
-  -moz-box-shadow: 0 1px 1px rgba(0,0,0, .25), inset 0 0 50px 5px rgba(255,255,255,.2);
-  box-shadow: 0 1px 1px rgba(0,0,0, .25), inset 0 0 50px 5px rgba(255,255,255,.2);
+  border-bottom-color: #c8c8c8;
+}
+.simple-button:focus,
+.simple-button:hover {
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0, .35), inset 0 0 50px 5px rgba(255,255,255,.2);
+  -moz-box-shadow: 0 1px 1px rgba(0,0,0, .35), inset 0 0 50px 5px rgba(255,255,255,.2);
+  box-shadow: 0 1px 1px rgba(0,0,0, .35), inset 0 0 50px 5px rgba(255,255,255,.2);
 }
 .simple-button:active,
 .simple-button.toggled {
@@ -5534,38 +5868,143 @@ ul.scratchpad-list li h4 {
 .simple-button.blue,
 .simple-button.secondary {
   border: 1px solid #344050;
-  background-color: #3a4759;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #344050;
+  background-image: -moz-linear-gradient(top, #3a4759, #2c3643);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3a4759), to(#2c3643));
+  background-image: -webkit-linear-gradient(top, #3a4759, #2c3643);
+  background-image: -o-linear-gradient(top, #3a4759, #2c3643);
+  background-image: linear-gradient(to bottom, #3a4759, #2c3643);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3a4759', endColorstr='#ff2c3643', GradientType=0);
+  border-color: #2c3643 #2c3643 #0e1115;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #2c3643;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #ffffff !important;
+}
+.simple-button.blue:hover,
+.simple-button.secondary:hover,
+.simple-button.blue:active,
+.simple-button.secondary:active,
+.simple-button.blue.active,
+.simple-button.secondary.active,
+.simple-button.blue.disabled,
+.simple-button.secondary.disabled,
+.simple-button.blue[disabled],
+.simple-button.secondary[disabled] {
+  color: #ffffff;
+  background-color: #2c3643;
+  *background-color: #222934;
+}
+.simple-button.blue:active,
+.simple-button.secondary:active,
+.simple-button.blue.active,
+.simple-button.secondary.active {
+  background-color: #181d25 \9;
 }
 .simple-button.blue:focus,
 .simple-button.secondary:focus,
 .simple-button.blue:hover,
 .simple-button.secondary:hover {
-  border-bottom-color: #262e3a;
+  border-bottom-color: #1c222b;
 }
 .simple-button.green,
 .simple-button.primary {
   border: 1px solid #7fab07;
-  background-color: #8aba08;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #80ac07;
+  background-image: -moz-linear-gradient(top, #8aba08, #719807);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#8aba08), to(#719807));
+  background-image: -webkit-linear-gradient(top, #8aba08, #719807);
+  background-image: -o-linear-gradient(top, #8aba08, #719807);
+  background-image: linear-gradient(to bottom, #8aba08, #719807);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8aba08', endColorstr='#ff719807', GradientType=0);
+  border-color: #719807 #719807 #3a4e03;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #719807;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #ffffff !important;
+}
+.simple-button.green:hover,
+.simple-button.primary:hover,
+.simple-button.green:active,
+.simple-button.primary:active,
+.simple-button.green.active,
+.simple-button.primary.active,
+.simple-button.green.disabled,
+.simple-button.primary.disabled,
+.simple-button.green[disabled],
+.simple-button.primary[disabled] {
+  color: #ffffff;
+  background-color: #719807;
+  *background-color: #5e7f05;
+}
+.simple-button.green:active,
+.simple-button.primary:active,
+.simple-button.green.active,
+.simple-button.primary.active {
+  background-color: #4c6704 \9;
 }
 .simple-button.green:focus,
 .simple-button.primary:focus,
 .simple-button.green:hover,
 .simple-button.primary:hover {
-  border-bottom-color: #668906;
+  border-bottom-color: #547105;
 }
 .simple-button.orange,
 .simple-button.warning {
   border: 1px solid #d45704;
-  background-color: #e35d04;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #d55704;
+  background-image: -moz-linear-gradient(top, #e35d04, #c04f03);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e35d04), to(#c04f03));
+  background-image: -webkit-linear-gradient(top, #e35d04, #c04f03);
+  background-image: -o-linear-gradient(top, #e35d04, #c04f03);
+  background-image: linear-gradient(to bottom, #e35d04, #c04f03);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe35d04', endColorstr='#ffc04f03', GradientType=0);
+  border-color: #c04f03 #c04f03 #753002;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #c04f03;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   color: #ffffff !important;
+}
+.simple-button.orange:hover,
+.simple-button.warning:hover,
+.simple-button.orange:active,
+.simple-button.warning:active,
+.simple-button.orange.active,
+.simple-button.warning.active,
+.simple-button.orange.disabled,
+.simple-button.warning.disabled,
+.simple-button.orange[disabled],
+.simple-button.warning[disabled] {
+  color: #ffffff;
+  background-color: #c04f03;
+  *background-color: #a74403;
+}
+.simple-button.orange:active,
+.simple-button.warning:active,
+.simple-button.orange.active,
+.simple-button.warning.active {
+  background-color: #8e3a02 \9;
 }
 .simple-button.orange:focus,
 .simple-button.warning:focus,
 .simple-button.orange:hover,
 .simple-button.warning:hover {
-  border-bottom-color: #b14803;
+  border-bottom-color: #983e03;
 }
 .simple-button.seethrough {
   /* Creating my own gradient instead of using a mixin because I explicitly
@@ -8183,6 +8622,11 @@ input.goal-title:focus {
 .create-goal-page #goal-choose-videos .dashboard-content-stretch {
   overflow-y: auto;
   padding-left: 20px;
+  clear: both;
+}
+.create-goal-page #goal-choose-videos nav {
+  clear: none;
+  display: inline;
 }
 .objective-type-picker {
   position: absolute;
@@ -8500,6 +8944,11 @@ footer {
  */
 #top-header-container {
   background: #2c3747;
+  -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1030;
   /* Primary navigation links (left side of header)
      ************************************************/
 
@@ -8837,6 +9286,23 @@ footer {
   vertical-align: middle;
   width: 24px;
 }
+#top-header-container #user-info .dropdown .user-notification .icon {
+  position: relative;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  border: 0;
+  background-image: url(http://www.khanacademy.org/"/images/notification-icons.png");
+  background-position: -18px 0;
+}
+#top-header-container #user-info .dropdown .user-notification .icon.brand-new {
+  background-position: 0 0;
+}
+#top-header-container #user-info .dropdown.open .icon {
+  background-position: 0 0;
+}
 #top-header-container #user-info .dropdown .username_and_notification {
   border: none;
   display: inline-block;
@@ -8862,10 +9328,6 @@ footer {
   height: 45px;
   padding: 0 10px;
   vertical-align: baseline;
-}
-#top-header-container #user-info .dropdown .user-notifications-toggle .icon {
-  border: 0;
-  background-image: url(http://www.khanacademy.org/"/images/discussions-lo-16px.png");
 }
 #top-header-container #user-info .dropdown .user-notifications-toggle .icon-chevron-down {
   display: inline;
@@ -8987,20 +9449,10 @@ footer {
              */
 
 }
-#top-header-container #user-info #user-notifications .user-notification .icon {
-  position: relative;
-  margin-bottom: -10px;
-  width: 24px;
-  height: 30px;
-  display: inline-block;
-  border: 1px solid transparent;
-  background-repeat: no-repeat;
-  background-position: 5px 10px;
-}
 #top-header-container #user-info #user-notifications .user-notification .icon .notification-bubble {
   position: absolute;
-  right: 1px;
-  top: 1px;
+  right: -5px;
+  top: -9px;
   padding: 0 2px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -9273,6 +9725,612 @@ footer .footer-scroll-cue {
 }
 #end-of-page-spacer {
   height: 48px;
+}
+/**
+ * Styles for a throbber made from a 9-block grid.
+ * -------------
+ * | 0 | 1 | 2 |
+ * | 7 | 8 | 3 |
+ * | 6 | 5 | 4 |
+ * -------------
+ * The result of all these animations is to have a dark blue block
+ * (@colorProficient) move clockwise from numbers 0 through 7, with a light
+ * blue block (@colorPracticed) trailing it. It makes one full cycle every
+ * second, with the other blocks at @grayLighter.
+ *
+ * Like or hate this? Blame Marcia + Jason. :)
+ */
+.throbber-row {
+  margin: auto;
+  width: 100px;
+}
+.throbber-block {
+  background: #dddddd;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  float: left;
+  height: 30px;
+  width: 30px;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: ease;
+  -moz-animation-duration: 1s;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: ease;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+}
+.block-8 {
+  background: #f7f7f7;
+}
+.block-0 {
+  -webkit-animation-name: block0;
+  -moz-animation-name: block0;
+  animation-name: block0;
+}
+.block-1 {
+  -webkit-animation-name: block1;
+  -moz-animation-name: block1;
+  animation-name: block1;
+}
+.block-2 {
+  -webkit-animation-name: block2;
+  -moz-animation-name: block2;
+  animation-name: block2;
+}
+.block-3 {
+  -webkit-animation-name: block3;
+  -moz-animation-name: block3;
+  animation-name: block3;
+}
+.block-4 {
+  -webkit-animation-name: block4;
+  -moz-animation-name: block4;
+  animation-name: block4;
+}
+.block-5 {
+  -webkit-animation-name: block5;
+  -moz-animation-name: block5;
+  animation-name: block5;
+}
+.block-6 {
+  -webkit-animation-name: block6;
+  -moz-animation-name: block6;
+  animation-name: block6;
+}
+.block-7 {
+  -webkit-animation-name: block7;
+  -moz-animation-name: block7;
+  animation-name: block7;
+}
+/* Webkit keyframes */
+@-webkit-keyframes block0 {
+  0% {
+    background: #0080c9;
+  }
+  12.5% {
+    background: #96d9ff;
+  }
+  25% {
+    background: #dddddd;
+  }
+  87.5% {
+    background: #dddddd;
+  }
+  100% {
+    background: #0080c9;
+  }
+}
+@-webkit-keyframes block1 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #0080c9;
+  }
+  25% {
+    background: #96d9ff;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+}
+@-webkit-keyframes block2 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #0080c9;
+  }
+  37.5% {
+    background: #96d9ff;
+  }
+  50% {
+    background: #dddddd;
+  }
+}
+@-webkit-keyframes block3 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #0080c9;
+  }
+  50% {
+    background: #96d9ff;
+  }
+  62.5% {
+    background: #dddddd;
+  }
+}
+@-webkit-keyframes block4 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+  50% {
+    background: #0080c9;
+  }
+  62.5% {
+    background: #96d9ff;
+  }
+  75% {
+    background: #dddddd;
+  }
+}
+@-webkit-keyframes block5 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+  50% {
+    background: #dddddd;
+  }
+  62.5% {
+    background: #0080c9;
+  }
+  75% {
+    background: #96d9ff;
+  }
+  87.5% {
+    background: #dddddd;
+  }
+}
+@-webkit-keyframes block6 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+  50% {
+    background: #dddddd;
+  }
+  62.5% {
+    background: #dddddd;
+  }
+  75% {
+    background: #0080c9;
+  }
+  87.5% {
+    background: #96d9ff;
+  }
+  100% {
+    background: #dddddd;
+  }
+}
+@-webkit-keyframes block7 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+  50% {
+    background: #dddddd;
+  }
+  62.5% {
+    background: #dddddd;
+  }
+  75% {
+    background: #dddddd;
+  }
+  87.5% {
+    background: #0080c9;
+  }
+  100% {
+    background: #96d9ff;
+  }
+}
+/* Moz keyframes */
+@-moz-keyframes block0 {
+  0% {
+    background: #0080c9;
+  }
+  12.5% {
+    background: #96d9ff;
+  }
+  25% {
+    background: #dddddd;
+  }
+  87.5% {
+    background: #dddddd;
+  }
+  100% {
+    background: #0080c9;
+  }
+}
+@-moz-keyframes block1 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #0080c9;
+  }
+  25% {
+    background: #96d9ff;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+}
+@-moz-keyframes block2 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #0080c9;
+  }
+  37.5% {
+    background: #96d9ff;
+  }
+  50% {
+    background: #dddddd;
+  }
+}
+@-moz-keyframes block3 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #0080c9;
+  }
+  50% {
+    background: #96d9ff;
+  }
+  62.5% {
+    background: #dddddd;
+  }
+}
+@-moz-keyframes block4 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+  50% {
+    background: #0080c9;
+  }
+  62.5% {
+    background: #96d9ff;
+  }
+  75% {
+    background: #dddddd;
+  }
+}
+@-moz-keyframes block5 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+  50% {
+    background: #dddddd;
+  }
+  62.5% {
+    background: #0080c9;
+  }
+  75% {
+    background: #96d9ff;
+  }
+  87.5% {
+    background: #dddddd;
+  }
+}
+@-moz-keyframes block6 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+  50% {
+    background: #dddddd;
+  }
+  62.5% {
+    background: #dddddd;
+  }
+  75% {
+    background: #0080c9;
+  }
+  87.5% {
+    background: #96d9ff;
+  }
+  100% {
+    background: #dddddd;
+  }
+}
+@-moz-keyframes block7 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+  50% {
+    background: #dddddd;
+  }
+  62.5% {
+    background: #dddddd;
+  }
+  75% {
+    background: #dddddd;
+  }
+  87.5% {
+    background: #0080c9;
+  }
+  100% {
+    background: #96d9ff;
+  }
+}
+/* Keyframes */
+@keyframes block0 {
+  0% {
+    background: #0080c9;
+  }
+  12.5% {
+    background: #96d9ff;
+  }
+  25% {
+    background: #dddddd;
+  }
+  87.5% {
+    background: #dddddd;
+  }
+  100% {
+    background: #0080c9;
+  }
+}
+@keyframes block1 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #0080c9;
+  }
+  25% {
+    background: #96d9ff;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+}
+@keyframes block2 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #0080c9;
+  }
+  37.5% {
+    background: #96d9ff;
+  }
+  50% {
+    background: #dddddd;
+  }
+}
+@keyframes block3 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #0080c9;
+  }
+  50% {
+    background: #96d9ff;
+  }
+  62.5% {
+    background: #dddddd;
+  }
+}
+@keyframes block4 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+  50% {
+    background: #0080c9;
+  }
+  62.5% {
+    background: #96d9ff;
+  }
+  75% {
+    background: #dddddd;
+  }
+}
+@keyframes block5 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+  50% {
+    background: #dddddd;
+  }
+  62.5% {
+    background: #0080c9;
+  }
+  75% {
+    background: #96d9ff;
+  }
+  87.5% {
+    background: #dddddd;
+  }
+}
+@keyframes block6 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+  50% {
+    background: #dddddd;
+  }
+  62.5% {
+    background: #dddddd;
+  }
+  75% {
+    background: #0080c9;
+  }
+  87.5% {
+    background: #96d9ff;
+  }
+  100% {
+    background: #dddddd;
+  }
+}
+@keyframes block7 {
+  0% {
+    background: #dddddd;
+  }
+  12.5% {
+    background: #dddddd;
+  }
+  25% {
+    background: #dddddd;
+  }
+  37.5% {
+    background: #dddddd;
+  }
+  50% {
+    background: #dddddd;
+  }
+  62.5% {
+    background: #dddddd;
+  }
+  75% {
+    background: #dddddd;
+  }
+  87.5% {
+    background: #0080c9;
+  }
+  100% {
+    background: #96d9ff;
+  }
 }
 
 .clearfix {

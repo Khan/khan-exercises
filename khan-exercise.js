@@ -329,10 +329,6 @@ var Khan = (function() {
         // TODO(alpert): This doesn't need to be in the Khan object.
         getBaseModules: function() {
             var mods = [];
-            if (localMode) {
-                mods.push("jquery-ui", "../jquery.qtip");
-            }
-
             // Base modules required for every problem
             // MathJax is here because Perseus wants it loaded regardless of if
             // we load a khan-exercises problem that needs it. Previously it
@@ -739,11 +735,49 @@ var Khan = (function() {
         // Load in jQuery and underscore, as well as the interface glue code
         // TODO(cbhl): Don't load history.js if we aren't in readOnly mode.
         var initScripts = [
-                "../jquery.js",
-                "../jquery-migrate-1.1.1.js",
-                "../utils/underscore.js",
-                "../utils/jed.js",
-                "../utils/i18n.js",
+                "../local-only/jquery.js",
+                "../local-only/jquery-migrate-1.1.1.js",
+                // TODO(csilvers): limit to the ui modules we actually use.
+                // alpert sez: core widget mouse position effect effect-shake
+                "../local-only/jquery.ui.core.js",
+                "../local-only/jquery.ui.widget.js",
+                "../local-only/jquery.ui.mouse.js",
+                "../local-only/jquery.ui.position.js",
+                "../local-only/jquery.ui.accordion.js",
+                "../local-only/jquery.ui.button.js",
+                "../local-only/jquery.ui.datepicker.js",
+                "../local-only/jquery.ui.dialog.js",
+                "../local-only/jquery.ui.draggable.js",
+                "../local-only/jquery.ui.droppable.js",
+                "../local-only/jquery.ui.effect.js",
+                "../local-only/jquery.ui.effect-blind.js",
+                "../local-only/jquery.ui.effect-bounce.js",
+                "../local-only/jquery.ui.effect-clip.js",
+                "../local-only/jquery.ui.effect-drop.js",
+                "../local-only/jquery.ui.effect-explode.js",
+                "../local-only/jquery.ui.effect-fade.js",
+                "../local-only/jquery.ui.effect-fold.js",
+                "../local-only/jquery.ui.effect-highlight.js",
+                "../local-only/jquery.ui.effect-pulsate.js",
+                "../local-only/jquery.ui.effect-scale.js",
+                "../local-only/jquery.ui.effect-shake.js",
+                "../local-only/jquery.ui.effect-slide.js",
+                "../local-only/jquery.ui.effect-transfer.js",
+                "../local-only/jquery.ui.progressbar.js",
+                "../local-only/jquery.ui.resizable.js",
+                "../local-only/jquery.ui.selectable.js",
+                "../local-only/jquery.ui.slider.js",
+                "../local-only/jquery.ui.sortable.js",
+                "../local-only/jquery.ui.spinner.js",
+                "../local-only/jquery.ui.tabs.js",
+                "../local-only/jquery.ui.tooltip.js",
+                "../local-only/jquery.qtip.js",
+                "../local-only/underscore.js",
+                "../local-only/jed.js",
+                "../local-only/i18n.js",
+                // TODO(csilvers): I18N: pick the file based on lang=XX param
+                "../local-only/localeplanet/icu.en-US.js",
+                "../local-only/i18n.js",
                 "../exercises-stub.js",
                 "../history.js",
                 "../interface.js"
