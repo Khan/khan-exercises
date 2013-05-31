@@ -1748,6 +1748,12 @@ $.extend(KhanUtil.Graphie.prototype, {
             });
         };
 
+        circle.remove = function() {
+            circle.centerPoint.remove();
+            circle.circ.remove();
+            circle.perim.remove();
+        };
+
         $(circle.perim[0]).css("cursor", "move");
         $(circle.perim[0]).on(
             "vmouseover vmouseout vmousedown", function(event) {
