@@ -1688,11 +1688,10 @@ $.extend(KhanUtil.Graphie.prototype, {
                 "opacity": 0.002  // This is as close to 0 as MSIE will allow
             });
 
+        // Highlight circle circumference on center point hover
         $(circle.centerPoint.mouseTarget[0]).on(
             "vmouseover vmouseout", function(event) {
                 if (circle.centerPoint.highlight) {
-                    // TODO(alpert): Why doesn't this happen automatically with
-                    // addMovablePoint?
                     circle.circ.animate({
                         stroke: KhanUtil.ORANGE,
                         "fill-opacity": 0.05
