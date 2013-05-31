@@ -499,7 +499,7 @@
                   steps.add(
                       $._("<p>The expression %(expr)s can be factored " +
                         "as %(newExpr)s</p>",
-                        {expr: KhanUtil.exprToCode(expr), 
+                        {expr: KhanUtil.exprToCode(expr),
                         newExpr: KhanUtil.exprToCode(newExpr)}));
                }
             }

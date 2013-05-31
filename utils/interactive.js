@@ -1714,11 +1714,11 @@ $.extend(KhanUtil.Graphie.prototype, {
             circle.toFront();
             circle.circ.attr({
                 cx: graphie.scalePoint(x)[0],
-                cy: graphie.scalePoint(y)[1],
+                cy: graphie.scalePoint(y)[1]
             });
             circle.perim.attr({
                 cx: graphie.scalePoint(x)[0],
-                cy: graphie.scalePoint(y)[1],
+                cy: graphie.scalePoint(y)[1]
             });
         };
 
@@ -1740,7 +1740,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             circle.radius = r;
 
             circle.perim.attr({
-                r: graphie.scaleVector(r)[0],
+                r: graphie.scaleVector(r)[0]
             });
             circle.circ.attr({
                 rx: graphie.scaleVector(r)[0],

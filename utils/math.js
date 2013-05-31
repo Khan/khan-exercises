@@ -85,7 +85,7 @@ $.extend(KhanUtil, {
         if (x <= 1) {
             return x;
         } else {
-            return x * KhanUtil.factorial(x-1);
+            return x * KhanUtil.factorial(x - 1);
         }
     },
 

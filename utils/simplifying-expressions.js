@@ -93,7 +93,7 @@
         steps.add(
             $._("<p>To simplify this type of expression, we need to " +
                 "look for factors that are shared by both the numerator and " +
-                "the denominator.</p>") + 
+                "the denominator.</p>") +
             $._("<p>For each such factor, if it is present with the same " +
                 "exponent both at the numerator and the denominator, then we" +
                 " can remove that factor completely. If the exponent is " +
@@ -121,7 +121,7 @@
         steps.add(
             $._("<p>For example, if we had this expression: " +
                 "<code>%(exampleExprInit)s</code>, we would see that the " +
-                "factor <code>%(aExpr)s</code> is present in both the " + 
+                "factor <code>%(aExpr)s</code> is present in both the " +
                 "numerator and the denominator.</p>",
                 {exampleExprInit: KhanUtil.format(exampleExprInit),
                 aExpr: KhanUtil.format(aExpr)}) +

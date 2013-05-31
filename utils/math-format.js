@@ -237,9 +237,9 @@ $.extend(KhanUtil, {
         // TODO(jeresig): i18n: Is this something that can be ported?
         var cardinalScales = ["", $._("thousand"), $._("million"),
             $._("billion"), $._("trillion"), $._("quadrillion"),
-            $._("quintillion"), $._("sextillion"), $._("septillion"), 
+            $._("quintillion"), $._("sextillion"), $._("septillion"),
             $._("octillion"), $._("nonillion"), $._("decillion"),
-            $._("undecillion"), $._("duodecillion"), $._("tredecillion"), 
+            $._("undecillion"), $._("duodecillion"), $._("tredecillion"),
             $._("quattuordecillion"), $._("quindecillion"),
             $._("sexdecillion"), $._("septendecillion"), $._("octodecillion"),
             $._("novemdecillion"), $._("vigintillion")];
@@ -367,8 +367,8 @@ $.extend(KhanUtil, {
         } else if (underRadical[1] === 1) {
             // The absolute value of the number under the radical is a perfect square
 
-            rootString += KhanUtil.fraction(-b + underRadical[0], 2 * a, true, true, true) + ","
-                + KhanUtil.fraction(-b - underRadical[0], 2 * a, true, true, true);
+            rootString += KhanUtil.fraction(-b + underRadical[0], 2 * a, true, true, true) + "," +
+                KhanUtil.fraction(-b - underRadical[0], 2 * a, true, true, true);
         } else {
             // under the radical can be partially simplified
             var divisor = KhanUtil.getGCD(b, 2 * a, underRadical[0]);

@@ -1026,7 +1026,7 @@ $.extend(KhanUtil, {
                         "function that is %(inc)s.", {nth: nth, inc: inc});
                 }
 
-                var hintproblem = self.problem.slice(i, i+1);
+                var hintproblem = self.problem.slice(i, i + 1);
                 hintproblem.calibrate();
                 self.hintproblems.push(hintproblem);
 
@@ -1042,7 +1042,7 @@ $.extend(KhanUtil, {
                 hints.push("<p>" + lastHint + "</p>");
                 hints.push("<div class='graphie'> PROBLEM.showNoAnswer(); </div>");
             } else {
-                var solnText = this.problemRanges.map(function(range){
+                var solnText = this.problemRanges.map(function(range) {
                                 return "<code>x \\in [" + range.join(", ") + "]</code>";
                             }).join(" and ");
                 var fnVar = moveDeriv ? "f'(x)" : "F(x)";

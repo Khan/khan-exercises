@@ -104,7 +104,7 @@
 
             return angles;
         }
-    }
+    };
 
     KhanUtil.Geom = Geom;
 })();

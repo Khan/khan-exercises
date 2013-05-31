@@ -602,8 +602,8 @@
 
                 // allow options to be specified by a single number for shorthand if
                 // the horizontal and vertical components are the same
-                if (!prop.match(/.*Opacity$/) && prop !== "range"
-                        && typeof val === "number") {
+                if (!prop.match(/.*Opacity$/) && prop !== "range" &&
+                    typeof val === "number") {
                     options[prop] = [val, val];
                 }
 

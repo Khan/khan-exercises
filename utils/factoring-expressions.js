@@ -65,7 +65,7 @@
           var factoredForm = KhanUtil.parseFormat("(#a + #b)(#a - #b)", [KhanUtil.PINK, KhanUtil.BLUE, KhanUtil.PINK, KhanUtil.BLUE]);
           hints.push($._("<p><code>%(color)s</code></p><p>The expression is of the " +
             "form <code>%(initialForm)s</code> which is a difference of two squares so we " +
-            "can factor it as <code>%(factoredForm)s</code></p>", 
+            "can factor it as <code>%(factoredForm)s</code></p>",
             {color: KhanUtil.format(coloredExpr),
                   initialForm: initialForm, factoredForm: factoredForm}));
           var strA = KhanUtil.parseFormat("#a", [KhanUtil.PINK]);
@@ -326,7 +326,7 @@
        } else {
           var gcf = KhanUtil.format(KhanUtil.exprSetStyle(KhanUtil.genExprFromExpFactors(factors, occFactors), KhanUtil.BLUE));
           return hint + $._("<p>The terms have these common factors: %(factorList)s, so " +
-            "the greatest common factor is <code>%(gcf)s</code>.</p>", 
+            "the greatest common factor is <code>%(gcf)s</code>.</p>",
             {factorList: strListFactors, gcf: gcf});
        }
     };
@@ -341,7 +341,7 @@
         }
         expr = KhanUtil.simplify(expr, KhanUtil.simplifyOptions.checkInput);
 
-        hints.push($._("<p><code>%(expr)s</code></p><p>We start by decomposing " + 
+        hints.push($._("<p><code>%(expr)s</code></p><p>We start by decomposing " +
             "each term into a product of its most simple factors.</p>",
             {expr: KhanUtil.format(expr)}));
 
@@ -355,7 +355,7 @@
 
         hints.push($._("<p>We can rewrite the expression as: " +
             "<code>%(expr)s</code>.</p>",
-            {expr: KhanUtil.format({op: "+", args: genAllTermsMarkShared(factors, 
+            {expr: KhanUtil.format({op: "+", args: genAllTermsMarkShared(factors,
                      sharedOccFactors, termsOccFactors, colors)})}));
         hints.push($._("<p>We now rewrite the expression as a product: " +
                        "<code>%(expr)s</code>.</p>",
@@ -410,7 +410,7 @@
        var solution = genFullExpr(factors, sharedOccFactors, termsOccFactors);
 
        if (options.factorDiffOfSquares) {
-          var hint = $._("<p>We obtain the following expression: %(expr)s</p>", 
+          var hint = $._("<p>We obtain the following expression: %(expr)s</p>",
                          {expr: KhanUtil.getSubHints("common-factors",
                                                      $._("Show explanation"),
                                                      detailedHints)});
@@ -449,7 +449,7 @@
        } else if (options.factorWithDiffOfSquares === "(ab^2-cd^2)=a(b - d)(b + d)") {
        }
 
-       hints.push($._("<p class='final_answer'>There is nothing left to " + 
+       hints.push($._("<p class='final_answer'>There is nothing left to " +
                       "factor using this approach. The answer is : " +
                       "<code>%(solution)s</code></p>",
                       {solution: KhanUtil.format(solution)}));

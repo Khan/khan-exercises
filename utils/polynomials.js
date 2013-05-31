@@ -398,7 +398,7 @@ $.extend(KhanUtil, {
 
     findRootsNumerically: function(fn, range, step) {
         step = step || 0.05;
-        var x = range[0]
+        var x = range[0];
         var positive = fn(x) > 0;
         var roots = [];
         while (x < range[1]) {
@@ -409,5 +409,5 @@ $.extend(KhanUtil, {
             }
         }
         return roots;
-    },
+    }
 });

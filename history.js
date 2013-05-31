@@ -5,7 +5,7 @@
 (function() {
 
 $(Exercises)
-	.bind("newProblem", renderReadOnlyProblem);
+        .bind("newProblem", renderReadOnlyProblem);
 
 function renderReadOnlyProblem(event, args) {
     var framework = Exercises.getCurrentFramework();
@@ -158,8 +158,8 @@ function renderReadOnlyProblem(event, args) {
                                 // TODO(emily): remove this
                                 // backwards-compatible code in 7/13
                                 $("<p class='solution'>" +
-                                    (guess.value != null ? guess.value : guess)
-                                    + "</p>").tmpl()
+                                  (guess.value != null ? guess.value : guess) +
+                                  "</p>").tmpl()
                             );
                             if (validator(guess)) {
                                 thissolutionarea
@@ -259,7 +259,7 @@ function renderReadOnlyProblem(event, args) {
 
             // This thing looks ridiculous above about 100px
             if (maxHeight > 100) {
-                timelineEvents.children('.correct-activity, .incorrect-activity').each(function() {
+                timelineEvents.children(".correct-activity, .incorrect-activity").each(function() {
                     $(this).text($._("Answer"));
                 });
             } else if (maxHeight > timelinecontainer.height()) {

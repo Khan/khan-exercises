@@ -312,7 +312,7 @@ var Khan = (function() {
         warnFont: function() {
             var warning;
             if ($.browser.msie) {
-                warning = $._('You should ' +
+                warning = $._("You should " +
                     "<a href='http://missmarcialee.com/2011/08/" +
                     "how-to-enable-font-download-in-internet-explorer-8/' " +
                     "target='_blank'>enable font download</a> " +
@@ -1434,9 +1434,9 @@ var Khan = (function() {
         // triggered on newProblem
 
         if (userExercise == null || Khan.query.debug != null) {
-            $("#problem-permalink").text("Permalink: "
-                + problemID + " #"
-                + problemSeed)
+            $("#problem-permalink").text("Permalink: " +
+                                         problemID + " #" +
+                                         problemSeed)
                 .attr("href", window.location.protocol + "//" + window.location.host + window.location.pathname + "?debug&problem=" + problemID + "&seed=" + problemSeed);
         }
 
@@ -1488,7 +1488,7 @@ var Khan = (function() {
                     .css({
                         "padding-left": "20px",
                         "outline":
-                            (problemID === probID || problemID === '' + n) ?
+                            (problemID === probID || problemID === "" + n) ?
                             "1px dashed gray" : ""
                     })
                     .append($("<span>").text(n + ": "))
@@ -1672,8 +1672,8 @@ var Khan = (function() {
                         // point here
                         Calculator.angleMode = Calculator.angleMode === "DEG" ?
                             "RAD" : "DEG";
-                        jel.html((Calculator.angleMode === "DEG" ? "<br>" : "")
-                            + Calculator.angleMode);
+                        jel.html((Calculator.angleMode === "DEG" ? "<br>" : "") +
+                                 Calculator.angleMode);
                     } else if (behavior === "evaluate") {
                         evaluate();
                     }
@@ -2031,8 +2031,8 @@ var Khan = (function() {
      * Load an exercise and return a promise that is resolved when an exercise
      * is loaded
      *
-     * @param exerciseElem HTML element with jQuery data properties name,
-     * weight, rootName, and fileName
+     * @param {Element} exerciseElem HTML element with jQuery data
+     * properties name, weight, rootName, and fileName
      */
     function loadExercise(exerciseElem) {
         exerciseElem = $(exerciseElem).detach();

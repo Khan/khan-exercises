@@ -1,0 +1,27 @@
+local-only/**
+exercises/**
+test/**
+
+# Third-party code in utils/
+build/jshint.js
+utils/MathJax/**
+utils/d3.js
+utils/jquery.*.js
+utils/raphael.js
+utils/test/**
+
+# TODO(csilvers): fix these
+build/kathjax-config.js
+utils/answer-types.js
+utils/calculator.js
+utils/chemistry.js
+utils/congruency.js
+utils/constructions.js
+utils/convert-values.js
+utils/graphie-3d.js
+utils/graphie-geometry.js
+utils/graphie-helpers-arithmetic.js
+utils/matrix.js
+utils/proofs.js
+utils/rational-expressions.js
+utils/steps-helpers.js

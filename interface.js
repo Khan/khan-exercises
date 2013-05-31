@@ -13,8 +13,8 @@ _.defaults(Exercises, {
     khanExercisesUrlBase: "/khan-exercises/",
 
     getCurrentFramework: function(userExerciseOverride) {
-        return (userExerciseOverride || userExercise).exerciseModel.fileName
-                ? "khan-exercises" : "perseus";
+        return (userExerciseOverride || userExercise).exerciseModel.fileName ?
+            "khan-exercises" : "perseus";
     }
 });
 

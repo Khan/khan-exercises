@@ -68,7 +68,7 @@ $.extend(KhanUtil, {
         KhanUtil.debugLog("ERROR: Word not in plural dictionary: " +
             String(word));
 
-        return "<span class='error'>" + 
+        return "<span class='error'>" +
             (num == null ? this.plural(word) : this.plural(word, num)) +
             "</span>";
     },
