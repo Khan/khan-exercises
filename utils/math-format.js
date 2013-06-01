@@ -330,6 +330,7 @@ $.extend(KhanUtil, {
         return card.charAt(0).toUpperCase() + card.slice(1);
     },
 
+    // TODO(csilvers): I18N: this is not locale-safe.
     ordinal: function(n) {
         if (n <= 9) {
             return ["zeroth", "first", "second", "third", "fourth", "fifth",
@@ -386,16 +387,26 @@ $.extend(KhanUtil, {
     // Thanks to Ghostoy on http://stackoverflow.com/questions/6784894/commafy/6786040#6786040
     commafy: function(num) {
         var str = num.toString().split(".");
+        var thousands = icu.getDecimalFormatSymbols().grouping_separator;
+        var decimal = icu.getDecimalFormatSymbols().decimal_separator;
 
         if (str[0].length >= 5) {
-            str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, "$1{,}");
+            str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g,
+                                    "$1{" + thousands + "}");
         }
 
         if (str[1] && str[1].length >= 5) {
             str[1] = str[1].replace(/(\d{3})(?=\d)/g, "$1\\;");
         }
 
-        return str.join(".");
+        return str.join(decimal);
+    },
+
+    // Rounds num to X places, and uses the proper decimal point.
+    // But does *not* insert thousands separators.
+    localeToFixed: function(num, places) {
+        var decimal = icu.getDecimalFormatSymbols().decimal_separator;
+        return num.toFixed(places).replace(".", decimal);
     },
 
     // Formats strings like "Axy + By + Cz + D" where A, B, and C are variables

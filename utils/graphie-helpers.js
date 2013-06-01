@@ -30,7 +30,11 @@ function numberLine(start, end, step, x, y, denominator) {
             graph.label([x + i, y - 0.2], "\\small{" + lab + "}", "below", { labelDistance: 3 });
         }
         else {
-            graph.label([x + i, y - 0.2], "\\small{" + (start + i).toFixed(decPlaces) + "}", "below", { labelDistance: 3 });
+            // TODO(csilvers): I18N: replace all toFixed() with localeToFixed()
+            graph.label([x + i, y - 0.2],
+                        "\\small{" + KhanUtil.localeToFixed(start + i, decPlaces) + "}",
+                        "below",
+                        { labelDistance: 3 });
         }
     }
     return set;
