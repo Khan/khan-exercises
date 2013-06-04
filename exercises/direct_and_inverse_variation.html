@@ -11,6 +11,11 @@
             <var id="VARIABLE_NAMES">[["x", "y"], ["a", "b"], ["m", "n"]]</var>
 
             <var id="V1, V2">randFromArray(VARIABLE_NAMES)</var>
+            <!-- Used in the string interpolations below -->
+            <var id="V1V2">{
+                v1: "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt;",
+                v2: "&lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
+            }</var>
 
             <var id="MULTIPLIER_IS_FRACTIONAL">rand(2)</var>
             <var id="MULTIPLIER_VALUE">randRange(2, 9)</var>
@@ -23,10 +28,10 @@
             <div id="direct-variation">
                 <div class="vars">
                     <var id="STATEMENT">randFromArray([
-                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; is directly proportional to &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
-                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; and &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt; vary directly",
-                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; varies directly with &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
-                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; and &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt; are in direct variation"
+                        $._("%(v1)s is directly proportional to %(v2)s", V1V2),
+                        $._("%(v1)s and %(v2)s vary directly", V1V2),
+                        $._("%(v1)s varies directly with %(v2)s", V1V2),
+                        $._("%(v1)s and %(v2)s are in direct variation", V1V2)
                     ])</var>
                 </div>
 
@@ -95,10 +100,10 @@
             <div id="inverse-variation">
                 <div class="vars">
                     <var id="STATEMENT">randFromArray([
-                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; is inversely proportional to &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
-                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; and &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt; vary inversely",
-                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; varies inversely with &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt;",
-                        "&lt;code&gt;&lt;var&gt;V1&lt;/var&gt;&lt;/code&gt; and &lt;code&gt;&lt;var&gt;V2&lt;/var&gt;&lt;/code&gt; are in inverse variation"
+                        $._("%(v1)s is inversely proportional to %(v2)s", V1V2),
+                        $._("%(v1)s and %(v2)s vary inversely", V1V2),
+                        $._("%(v1)s varies inversely with %(v2)s", V1V2),
+                        $._("%(v1)s and %(v2)s are in inverse variation", V1V2)
                     ])</var>
                 </div>
 

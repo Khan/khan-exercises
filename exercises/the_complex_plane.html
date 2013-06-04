@@ -26,8 +26,10 @@
                     scale: 30
                 });
 
-                label([6, 0.5], "Re", "left");
-                label([0.5, 5], "Im", "right");
+                // I18N: This is the abbreviated "Real" in regards to the complex plane
+                label([6, 0.5], $._("Re"), "left");
+                // I18N: This is the abbreviated "Imaginary" in regards to the complex plane
+                label([0.5, 5], $._("Im"), "right");
 
                 addMouseLayer();
                 graph.movablePoint = addMovablePoint({constraints: {}, snapX: 0.5, snapY: 0.5});

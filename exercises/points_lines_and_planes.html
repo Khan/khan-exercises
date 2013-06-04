@@ -188,34 +188,36 @@
 
         <div id="collinear-3">
             <div class="vars">
+                <var id="YES">$._("Yes")</var>
+                <var id="NO">$._("No")</var>
                 <var id="POINTS,SOLUTION">randFromArray([
-                    [[A, B, C], "Yes"],
-                    [[A, B, D], "No"],
-                    [[A, C, B], "Yes"],
-                    [[A, C, E], "No"],
-                    [[B, A, C], "Yes"],
-                    [[B, C, A], "Yes"],
-                    [[B, E, C], "No"],
-                    [[C, A, B], "Yes"],
-                    [[C, A, D], "No"],
-                    [[C, B, A], "Yes"],
-                    [[C, B, E], "No"],
-                    [[E, C, A], "No"]
+                    [[A, B, C], true],
+                    [[A, B, D], false],
+                    [[A, C, B], true],
+                    [[A, C, E], false],
+                    [[B, A, C], true],
+                    [[B, C, A], true],
+                    [[B, E, C], false],
+                    [[C, A, B], true],
+                    [[C, A, D], false],
+                    [[C, B, A], true],
+                    [[C, B, E], false],
+                    [[E, C, A], false]
                 ])</var>
             </div>
 
             <p class="question">Are the points <var>toSentence(POINTS)</var> collinear?</p>
 
-            <div class="solution"><var>SOLUTION</var></div>
+            <div class="solution"><var>SOLUTION ? YES : NO</var></div>
             <ul class="choices" data-category="true">
-                <li>Yes</li>
-                <li>No</li>
+                <li><var>YES</var></li>
+                <li><var>NO</var></li>
             </ul>
 
             <div class="hints">
                 <p>Collinear means that they lie on the same line.</p>
                 <p>Can you draw a straight line through points <var>toSentence(POINTS)</var>?</p>
-                <p data-if="SOLUTION === 'Yes'">Yes, points <var>toSentence(POINTS)</var> are collinear.</p>
+                <p data-if="SOLUTION">Yes, points <var>toSentence(POINTS)</var> are collinear.</p>
                 <p data-else="">No, points <var>toSentence(POINTS)</var> are not collinear.</p>
             </div>
         </div>
@@ -223,15 +225,17 @@
 
         <div id="collinear-2">
             <div class="vars">
+                <var id="YES">$._("Yes")</var>
+                <var id="NO">$._("No")</var>
                 <var id="POINTS">shuffle([A, B, C, D, E], 2)</var>
             </div>
 
             <p class="question">Are the points <var>toSentence(POINTS)</var> collinear?</p>
 
-            <div class="solution">Yes</div>
+            <div class="solution"><var>YES</var></div>
             <ul class="choices" data-category="true">
-                <li>Yes</li>
-                <li>No</li>
+                <li><var>YES</var></li>
+                <li><var>NO</var></li>
             </ul>
 
             <div class="hints">
@@ -246,34 +250,36 @@
 
         <div id="coplanar">
             <div class="vars">
+                <var id="YES">$._("Yes")</var>
+                <var id="NO">$._("No")</var>
                 <var id="POINTS,SOLUTION,COPLANAR">randFromArray([
-                    [[A, B, C, E], "Yes", []],
-                    [[A, B, D, E], "No",  [A, B, E]],
-                    [[A, C, D],    "Yes", []],
-                    [[A, C, D, E], "No",  [A, C, E]],
-                    [[B, A, C],    "Yes", []],
-                    [[B, C, A, E], "Yes", []],
-                    [[E, C, D, A], "No",  [E, C, A]],
-                    [[B, E, D, C], "No",  [B, E, C]],
-                    [[C, B, D, E], "No",  [C, B, E]],
-                    [[C, D, A],    "Yes", []],
-                    [[E, D, A],    "Yes", []]
+                    [[A, B, C, E], true, []],
+                    [[A, B, D, E], false,  [A, B, E]],
+                    [[A, C, D],    true, []],
+                    [[A, C, D, E], false,  [A, C, E]],
+                    [[B, A, C],    true, []],
+                    [[B, C, A, E], true, []],
+                    [[E, C, D, A], false,  [E, C, A]],
+                    [[B, E, D, C], false,  [B, E, C]],
+                    [[C, B, D, E], false,  [C, B, E]],
+                    [[C, D, A],    true, []],
+                    [[E, D, A],    true, []]
                 ])</var>
             </div>
 
             <p class="question">Are the points <var>toSentence(POINTS)</var> coplanar?</p>
 
-            <p class="solution"><var>SOLUTION</var></p>
+            <p class="solution"><var>SOLUTION ? YES : NO</var></p>
 
             <ul class="choices" data-category="true">
-                <li>Yes</li>
-                <li>No</li>
+                <li><var>YES</var></li>
+                <li><var>NO</var></li>
             </ul>
 
             <div class="hints">
                 <p>Coplanar points are points that all lie on the same plane.</p>
                 <p>Can a flat surface pass through all the points without bending?</p>
-                <p data-if="SOLUTION === 'No'">
+                <p data-if="!SOLUTION">
                     No, any flat surface that includes three of the points won't include the fourth.
                     For example, points <var>toSentence(COPLANAR)</var> are in plane
                     <code>\mathcal{<var>R</var>}</code>, but point <var>D</var> is not.

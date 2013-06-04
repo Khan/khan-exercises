@@ -25,7 +25,7 @@
                     <div class="set-sol"><var>X1</var></div>
                     <div class="set-sol"><var>X2</var></div>
                     <div class="input-format">
-                        <p><code>x = {}</code><span class="entry short32"></span><code>\quad \text{<var>$._("or")</var>} \quad x = {}</code><span class="entry short32"></span></p>
+                        <p><code>x = {}</code><span class="entry short32"></span><code>\text{ <var>$._("or")</var> } x = {}</code><span class="entry short32"></span></p>
                     </div>
                     <p class="example">integers, like <code>6</code></p>
                     <p class="example"><em>simplified proper</em> fractions, like <code>3/5</code></p>
@@ -86,10 +86,10 @@
             <div data-if="B !== 0">
                 <p>Isolate <code>x</code> to find the solution(s).</p>
                 <p data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"><code>x = <var>decimalFraction( -B / 2, 1, 1 )</var>\pm<var>decimalFraction( sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var></code></p>
-                <p><code>x = <var>decimalFraction( -B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var><span data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"> \text{ or } x = <var>decimalFraction( -B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var></span></code></p>
+                <p><code>x = <var>decimalFraction( -B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var><span data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"> \text{ <var>$._("or")</var> } x = <var>decimalFraction( -B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var></span></code></p>
             </div>
             <div data-else="">
-                <p><code>x = <var>decimalFraction( -B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var><span data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"> \text{ or } x =     <var>decimalFraction( -B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var></span></code></p>
+                <p><code>x = <var>decimalFraction( -B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var><span data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"> \text{ <var>$._("or")</var> } x =     <var>decimalFraction( -B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var></span></code></p>
             </div>
         </div>
     </div>

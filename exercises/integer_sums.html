@@ -17,11 +17,17 @@
             <var id="SEQ_TYPE">
             (function() {
                 if (DIFFERENCE === 1) {
-                    return "integer";
+                    return new Plural(function(num) {
+                        return $.ngettext("integer", "integers", num);
+                    });
                 } else if (isOdd(FIRST_NUM)) {
-                    return "odd number";
+                    return new Plural(function(num) {
+                        return $.ngettext("odd number", "odd numbers", num);
+                    });
                 } else {
-                    return "even number";
+                    return new Plural(function(num) {
+                        return $.ngettext("even number", "even numbers", num);
+                    });
                 }
             })()
             </var>
@@ -39,7 +45,7 @@
 
         <div class="problems">
             <div>
-                <p class="problem">The sum of <var>SEQ_LENGTH</var> consecutive <var>SEQ_TYPE</var>s is <var>SUM</var>.</p>
+                <p class="problem">The sum of <var>SEQ_LENGTH</var> consecutive <var>plural_form(SEQ_TYPE, SEQ_LENGTH)</var> is <var>SUM</var>.</p>
                 <p class="question">What is the <var>ordinal(TARGET_NUMBER)</var> number in this sequence?</p>
                 <p class="solution" data-forms="integer"><var>ANSWER</var></p>
             </div>
@@ -55,16 +61,16 @@
             <p><code><var>SEQ_LENGTH</var>x + <var>C</var>= <var>SUM</var></code></p>
             <p><code><var>SEQ_LENGTH</var>x = <var>SUM - C</var></code></p>
             <p><code>x = <var>FIRST_NUM</var></code></p>
-            <div data-if="FIRST_NUM === ANSWER">
+            <div data-if="TARGET_NUMBER === 1">
                 <p>Thus, the first number is <code><var>ANSWER</var></code>.</p>
             </div>
-            <div data-else="">
+            <div data-else data-unwrap>
                 <p>
                     Since <code>x</code> is the first number, <code>x + <var>(TARGET_NUMBER - 1) * DIFFERENCE</var></code>
                     is the <var>ordinal(TARGET_NUMBER)</var> <var>SEQ_TYPE</var>.
                 </p>
+                <div>Thus, the <var>ordinal(TARGET_NUMBER)</var> number in the sequence is <code><var>ANSWER</var></code>.</div>
             </div>
-            <div data-if="FIRST_NUM !== ANSWER">Thus, the <var>ordinal(TARGET_NUMBER)</var> number in the sequence is <code><var>ANSWER</var></code>.</div>
         </div>
     </div>
 </body>

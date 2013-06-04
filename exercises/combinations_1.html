@@ -9,50 +9,69 @@
     <div class="exercise">
         <div class="problems">
             <div id="packing">
-                <div class="vars" data-ensure="NUM_THINGS&gt;NUM_TAKEN">
-                    <var id="THING">randFromArray(["shirts", "tigers", "books", "Fabergé eggs", "socks", "action figures"])</var>
+                <div class="vars" data-ensure="NUM_THINGS &gt; NUM_TAKEN">
+                    <var id="THING">randFromArray([
+                        new Plural(function(num) {
+                            return $.ngettext("shirt", "shirts", num);
+                        }),
+                        new Plural(function(num) {
+                            return $.ngettext("tiger", "tigers", num);
+                        }),
+                        new Plural(function(num) {
+                            return $.ngettext("book", "books", num);
+                        }),
+                        new Plural(function(num) {
+                            return $.ngettext("Fabergé egg", "Fabergé eggs", num);
+                        }),
+                        new Plural(function(num) {
+                            return $.ngettext("sock", "socks", num);
+                        }),
+                        new Plural(function(num) {
+                            return $.ngettext("action figure", "action figures", num);
+                        })
+                    ])</var>
                     <var id="NUM_THINGS">randRange(5,9)</var>
                     <var id="NUM_TAKEN">randRange(3,5)</var>
                     <var id="ANSWER">factorial(NUM_THINGS) / (factorial(NUM_THINGS-NUM_TAKEN) * factorial(NUM_TAKEN))</var>
                 </div>
                 <p class="problem" data-if="isMale(1)">
-                    <var>person(1)</var> is packing his bags for his vacation. He has 
-                    <code><var>NUM_THINGS</var></code> unique <var>THING</var>, but only <code><var>NUM_TAKEN</var></code> fit in his bag.
+                    <var>person(1)</var> is packing his bags for his vacation. He has
+                    <code><var>NUM_THINGS</var></code> unique <var>plural_form(THING, NUM_THINGS)</var>, but only <code><var>NUM_TAKEN</var></code> fit in his bag.
                 </p><p class="problem" data-else="">
                     <var>person(1)</var> is packing her bags for her vacation. She has 
-                    <code><var>NUM_THINGS</var></code> unique <var>THING</var>, but only <code><var>NUM_TAKEN</var></code> fit in her bag.
+                    <code><var>NUM_THINGS</var></code> unique <var>plural_form(THING, NUM_THINGS)</var>, but only <code><var>NUM_TAKEN</var></code> fit in her bag.
                 </p>
-                <p class="question" data-if="isMale(1)">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can he take?</p><p class="question" data-else="">How many different groups of <code><var>NUM_TAKEN</var></code> <var>THING</var> can she take?</p>
+                <p class="question" data-if="isMale(1)">How many different groups of <code><var>NUM_TAKEN</var></code> <var>plural_form(THING, NUM_TAKEN)</var> can he take?</p><p class="question" data-else="">How many different groups of <code><var>NUM_TAKEN</var></code> <var>plural_form(THING, NUM_TAKEN)</var> can she take?</p>
                 <p class="solution" data-forms="integer"><var>ANSWER</var></p>
                 <div class="hints">
                     <p data-if="isMale(1)">
-                        <var>person(1)</var> has <code><var>NUM_TAKEN</var></code> spaces for his <var>THING</var>, 
+                        <var>person(1)</var> has <code><var>NUM_TAKEN</var></code> spaces for his <var>plural_form(THING)</var>, 
                         so let's fill them one by one. 
                         At first, <var>person(1)</var> has <code><var>NUM_THINGS</var></code> choices for what to put in the first space.
                     </p><p data-else="">
-                        <var>person(1)</var> has <code><var>NUM_TAKEN</var></code> spaces for her <var>THING</var>, 
+                        <var>person(1)</var> has <code><var>NUM_TAKEN</var></code> spaces for her <var>plural_form(THING)</var>, 
                         so let's fill them one by one. 
                         At first, <var>person(1)</var> has <code><var>NUM_THINGS</var></code> choices for what to put in the first space.
                     </p>
                     <p data-if="isMale(1)">
-                        For the second space, he only has <code><var>NUM_THINGS-1</var></code> <var>THING</var> left, so there are only 
+                        For the second space, he only has <code><var>NUM_THINGS-1</var></code> <var>plural_form(THING, NUM_THINGS-1)</var> left, so there are only 
                         <code><var>NUM_THINGS-1</var></code> choices
                         of what to put in the second space. So far, it seems like there are <code><var>NUM_THINGS</var> \cdot <var>NUM_THINGS-1</var> = 
                         <var>NUM_THINGS * (NUM_THINGS-1)</var></code> different unique choices <var>person(1)</var> could have made to fill the first two 
                         spaces in his bag. But that's not quite right.
                     </p><p data-else="">
-                        For the second space, she only has <code><var>NUM_THINGS-1</var></code> <var>THING</var> left, so there are only 
+                        For the second space, she only has <code><var>NUM_THINGS-1</var></code> <var>plural_form(THING, NUM_THINGS-1)</var> left, so there are only 
                         <code><var>NUM_THINGS-1</var></code> choices
                         of what to put in the second space. So far, it seems like there are <code><var>NUM_THINGS</var> \cdot <var>NUM_THINGS-1</var> = 
                         <var>NUM_THINGS * (NUM_THINGS-1)</var></code> different unique choices <var>person(1)</var> could have made to fill the first two 
                         spaces in her bag. But that's not quite right.
                     </p>
                     <p data-if="isMale(1)">
-                        Why? Because if he picked <var>THING.substring(0,THING.length-1)</var> number 3, then 
-                        <var>THING.substring(0,THING.length-1)</var> number 1, that's the same situation as picking number 1 and then number 3. They both end up in the same bag. 
+                        Why? Because if he picked <var>THING</var> number 3, then 
+                        <var>THING</var> number 1, that's the same situation as picking number 1 and then number 3. They both end up in the same bag. 
                     </p><p data-else="">
-                        Why? Because if she picked <var>THING.substring(0,THING.length-1)</var> number 3, then 
-                        <var>THING.substring(0,THING.length-1)</var> number 1, that's the same situation as picking number 1 and then number 3. They both end up in the same bag. 
+                        Why? Because if she picked <var>THING</var> number 3, then 
+                        <var>THING</var> number 1, that's the same situation as picking number 1 and then number 3. They both end up in the same bag. 
                     </p>
                     <p data-if="isMale(1)">
                         So, if <var>person(1)</var> keeps filling the spaces in his bag, making <code><var>_.map(_.range(NUM_TAKEN), function(l){ return (NUM_THINGS - l);}).join("\\cdot")</var> = \dfrac{<var>NUM_THINGS</var>!}{(<var>NUM_THINGS</var>-<var>NUM_TAKEN</var>)!} = <var> factorial(NUM_THINGS)/factorial(NUM_THINGS-NUM_TAKEN)</var></code> decisions altogether, we've overcounted a bunch of groups.
@@ -67,7 +86,7 @@
                     </p>
                     <p>
                         There are <code><var>NUM_TAKEN</var>! = <var>factorial(NUM_TAKEN)</var></code> ways of ordering <code><var>NUM_TAKEN</var></code>
-                        things, so we've counted each group of <code><var>NUM_TAKEN</var></code> <var>THING</var> 
+                        things, so we've counted each group of <code><var>NUM_TAKEN</var></code> <var>plural_form(THING, NUM_TAKEN)</var> 
                         <code><var>factorial(NUM_TAKEN)</var></code> times.
                     </p>
                     <p>
@@ -75,7 +94,7 @@
                     </p>
                     <p>
                         <code> \dfrac{<var>NUM_THINGS</var>!}{(<var>NUM_THINGS</var> - <var>NUM_TAKEN</var>)!} \cdot \dfrac{1}{<var>NUM_TAKEN</var>!}</code> is the number 
-                        of groups of <var>THING</var> <var>person(1)</var> can bring.
+                        of groups of <var>plural_form(THING)</var> <var>person(1)</var> can bring.
                         <br>
                         Another way to write this is <code> \binom{<var>NUM_THINGS</var>}{<var>NUM_TAKEN</var>} </code>, 
                         or <code><var>NUM_THINGS</var></code> choose <code><var>NUM_TAKEN</var></code>, which is <code><var>ANSWER</var></code>.

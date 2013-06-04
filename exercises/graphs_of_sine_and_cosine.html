@@ -15,7 +15,7 @@
     <div class="exercise">
         <div class="vars">
             <var id="FN">randFromArray( [ "cos", "sin" ] )</var>
-            <var id="FNS">{ "cos": "cosine", "sin": "sine"}[FN]</var>
+            <var id="FNS">{ "cos": $._("cosine"), "sin": $._("sine")}[FN]</var>
             <var id="VSCALE">randRange( 1, 5 ) / 2</var>
             <var id="HSCALE">random() &lt; 0.5 ? randRange( 1, 4 ) : 1 / randRange( 1, 4 )</var>
             <var id="PERIOD">2 * PI * HSCALE</var>

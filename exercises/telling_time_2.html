@@ -216,11 +216,11 @@
                         }
                         if ((minuteAngle !== correctMinuteAngle) || (hourAngle !== correctHourAngle)) {
                             if ((minuteAngle === correctHourAngle) &amp;&amp; (hourAngle === correctMinuteAngle)) {
-                                return "Remember the hour hand is the short hand and the minute hand is the long hand";
+                                return $._("Remember the hour hand is the short hand and the minute hand is the long hand");
                             }
                             else if ((minuteAngle === correctMinuteAngle) &amp;&amp; (hourAngle !== correctHourAngle)
                                     &amp;&amp; (hourAngle === roundToNearest(hourSnapDegrees, timeToDegrees(5 * HOUR)))) {
-                                return "Remember the hour hand needs to move over the course of the hour";
+                                return $._("Remember the hour hand needs to move over the course of the hour");
                             }
                             return false;
                         }
@@ -256,15 +256,20 @@
                             60 minutes / 12 tick marks = 5 minutes per tick mark.
                         </p>
                         <p>
-                            Since we are <code><var>MINUTE</var></code> minutes past the hour,
                             <span data-if="MINUTE_IS_ZERO">
-                                the minute hand should be at the mark numbered
-                                <code class="hint_orange">12</code>, which is the first tick mark on the clock
-                                and represents <code>0</code> minutes past the hour
-                            </span><span data-else="">
-                                and there are 5 minutes per tick mark, the minute hand should be at the mark numbered
+                                Since we are <code><var>MINUTE</var></code>
+                                minutes past the hour, the minute hand should
+                                be at the mark numbered
+                                <code class="hint_orange">12</code>, which is
+                                the first tick mark on the clock and represents
+                                <code>0</code> minutes past the hour.
+                            </span><span data-else>
+                                Since we are <code><var>MINUTE</var></code>
+                                minutes past the hour, and there are 5 minutes
+                                per tick mark, the minute hand should be at the
+                                mark numbered
                                 <code class="hint_orange"><var>fraction(MINUTE, 5)</var> = <var>MINUTE/5</var></code>
-                            </span>.
+                            </span>
                         </p>
                     </div>
 
@@ -294,14 +299,35 @@
                                 <code><span data-if="HOUR + 1 ===13">1</span><span data-else=""><var>HOUR + 1</var></span>
                                 </code> hour mark.
                             </p>
-                            <p>
-                                So the hour hand needs to be placed
-                                <span data-if="MINUTE === 20">just before the second
-                                </span><span data-else-if="MINUTE === 40">just past the third
-                                </span><span data-else-if="MINUTE === 15">just past the first
-                                </span><span data-else-if="MINUTE === 30">between the second and third
-                                </span><span data-else="">just before the fourth </span>
-                                small tick mark past the <code class="hint_blue"><var>HOUR</var></code> hour mark.
+                            <p data-if="MINUTE === 20">
+                                So the hour hand needs to be placed just before
+                                the second small tick mark past the
+                                <code class="hint_blue"><var>HOUR</var></code>
+                                hour mark.
+                            </p>
+                            <p data-if="MINUTE === 40">
+                                So the hour hand needs to be placed just past
+                                the third small tick mark past the
+                                <code class="hint_blue"><var>HOUR</var></code>
+                                hour mark.
+                            </p>
+                            <p data-if="MINUTE === 15">
+                                So the hour hand needs to be placed just past
+                                the first small tick mark past the
+                                <code class="hint_blue"><var>HOUR</var></code>
+                                hour mark.
+                            </p>
+                            <p data-if="MINUTE === 30">
+                                So the hour hand needs to be placed between the
+                                second and third small tick mark past the
+                                <code class="hint_blue"><var>HOUR</var></code>
+                                hour mark.
+                            </p>
+                            <p data-else>
+                                So the hour hand needs to be placed just before
+                                the fourth small tick mark past the
+                                <code class="hint_blue"><var>HOUR</var></code>
+                                hour mark.
                             </p>
                         </div>
                     </div>

@@ -10,10 +10,11 @@
         <div class="vars">
             <var id="MAIN">randomTriangleAngles.triangle()</var>
             <var id="MAIN_SIZE">5 + random() * 2</var>
-            <var id="IS_B">randRange( 0, 1 ) === 1 ? true : false</var>
+            <var id="IS_B">randRange( 0, 1 ) === 1</var>
             <var id="B">IS_B ? MAIN : randomTriangleAngles.triangle()</var>
             <var id="B_SIZE">IS_B ? MAIN_SIZE : 2 + random() * 2</var>
-            <var id="ANSWER">IS_B ? "Yes" : "No"</var>
+            <var id="CHOICES">[$._("Yes"), $._("No"), $._("There is not enough information to say")]</var>
+            <var id="ANSWER">IS_B ? 0 : 1</var>
 
             <var id="A_ANGLES">[ 0, 1, 2 ]</var>
             <var id="B_ANGLES">A_ANGLES</var>
@@ -69,11 +70,11 @@
                 TR_B.drawLabels();
             </div>
         </div>
-        <div class="solution"><var>ANSWER</var></div>
+        <div class="solution"><var>CHOICES[ANSWER]</var></div>
         <ul class="choices" data-category="true">
-            <li>Yes</li>
-            <li>No</li>
-            <li>There is not enough information to say</li>
+            <li data-each="CHOICES as choice">
+                <var>choice</var>
+            </li>
         </ul>
         <div class="problems">
 
@@ -129,7 +130,7 @@
                 <div class="vars">
                     <var id="A_ANGLES">[ 0, 1, 2 ]</var>
                     <var id="A_SIDES">[ ]</var>
-                    <var id="ANSWER">IS_B ? "There is not enough information to say" : "No"</var>
+                    <var id="ANSWER">IS_B ? 2 : 1</var>
                 </div>
                 <div class="hints" data-apply="appendContents">
                     <p>In this problem we know all three triangle angles.</p>

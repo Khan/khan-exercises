@@ -7,6 +7,14 @@
 </head>
 <body>
     <div class="exercise">
+    <div class="vars">
+        <var id="MOLE">new Plural(function(num) {
+            return $.ngettext("mole", "moles", num);
+        })</var>
+        <var id="GRAM">new Plural(function(num) {
+            return $.ngettext("gram", "grams", num);
+        })</var>
+    </div>
     <div class="problems">
         <div id="ch4-o2---co2-h2o" data-calculator="" data-type="template">
             <div class="vars" data-apply="prependVars">
@@ -180,7 +188,7 @@
                 <div>
                     <p><code>
                         \dfrac{<var>R1_MASS</var> \cancel{\text{g}}}{<var>R1_MOLAR_MASS</var> \cancel{\text{g}} / \text{mol}} =
-                        \blue{\text{ <var>plural(R1_MOL, "mole")</var>}} \text{ of }<var>R1</var>
+                        \blue{\text{ <var>R1_MOL</var> <var>plural_form(MOLE, R1_MOL)</var>}} \text{ of }<var>R1</var>
                     </code>
                     <span style="float: right;">[<a href="#" class="show-subhint" data-subhint="expl-ch4-mol">Explain</a>]</span></p>
                     <div class="subhint" id="expl-ch4-mol">
@@ -259,7 +267,7 @@
                         </div>
                         <p><code>\qquad
                             \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
-                            \dfrac{\blue{\text{ <var>plural(R1_MOL, "mole")</var>}}}{x}
+                            \dfrac{\blue{\text{ <var>R1_MOL</var> <var>plural_form(MOLE, R1_MOL)</var>}}}{x}
                         </code>
                         <span style="float: right">
                         [<a href="#" class="show-subhint" data-hidden-text="Hide alternate approach" data-subhint="expl-alternate1">Show alternate approach</a>]
@@ -323,7 +331,7 @@
                         </div>
                         <p><code>\qquad
                             \dfrac{<var>R1</var>}{<var>P1</var>} = \dfrac{<var>R1_RATIO</var>}{<var>P1_RATIO</var>} =
-                            \dfrac{\blue{\text{ <var>plural(R1_MOL, "mole")</var>}}}{x}
+                            \dfrac{\blue{\text{ <var>R1_MOL</var> <var>plural_form(MOLE, R1_MOL)</var>}}}{x}
                         </code></p>
                         <p data-if="isSingular(P1_MOL)">
                             <code>x = \text{ <var>P1_MOL</var> mole}</code> of <code><var>P1</var></code> produced.
@@ -359,7 +367,7 @@
                         </div>
                         <p><code>\qquad
                             \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
-                            \dfrac{x}{\green{\text{ <var>plural(R2_MOL, "mole")</var>}}}
+                            \dfrac{x}{\green{\text{ <var>R2_MOL</var> <var>plural_form(MOLE, R2_MOL)</var>}}}
                         \qquad</code>
                         <span style="float: right;">
                         [<a href="#" class="show-subhint" data-hidden-text="Hide alternate approach" data-subhint="expl-alternate2">Show alternate approach</a>]
@@ -368,7 +376,7 @@
                             <p>
                                 <code>
                                 \dfrac{<var>R1</var>}{<var>R2</var>} = \dfrac{<var>R1_RATIO</var>}{<var>R2_RATIO</var>} =
-                                \dfrac{\blue{\text{ <var>plural(R1_MOL, "mole")</var>}}}{x}
+                                \dfrac{\blue{\text{ <var>R1_MOL</var> <var>plural_form(MOLE, R1_MOL)</var>}}}{x}
                                 </code>
                             </p>
                             <p data-if="isSingular(roundTo(3, R1_MOL * R2_RATIO / R1_RATIO))">
@@ -422,7 +430,7 @@
                         </div>
                         <p><code>\qquad
                             \dfrac{<var>R2</var>}{<var>P1</var>} = \dfrac{<var>R2_RATIO</var>}{<var>P1_RATIO</var>} =
-                            \dfrac{\green{\text{ <var>plural(R2_MOL, "mole")</var>}}}{x}
+                            \dfrac{\green{\text{ <var>R2_MOL</var> <var>plural_form(MOLE, R2_MOL)</var>}}}{x}
                         </code></p>
                         <p data-if="isSingular(P1_MOL)">
                             <code>x = \text{ <var>P1_MOL</var> mole}</code> of <code><var>P1</var></code> produced.
@@ -433,9 +441,9 @@
                 </div>
 
                 <p><code>
-                    \cancel{\text{<var>plural(P1_MOL, "mole")</var>}}
+                    \cancel{\text{<var>P1_MOL</var> <var>plural_form(MOLE, P1_MOL)</var>}}
                     <var>P1</var> \times \dfrac{<var>P1_MOLAR_MASS</var> \text{g}}{\cancel{\text{mole}}} =
-                    \text{ <var>plural(P1_MASS, "gram")</var>} \text{ of }<var>P1</var>
+                    \text{ <var>P1_MASS</var> <var>plural_form(GRAM, P1_MASS)</var>} \text{ of }<var>P1</var>
                 </code></p>
             </div>
         </div>

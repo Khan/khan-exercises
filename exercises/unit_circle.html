@@ -16,7 +16,7 @@
                     <var id="ANGLE_RADIANS">ANGLE*2*PI/360</var>
                     <var id="PRETTY_ANGLE">ANGLE + "^{\\circ}"</var>
                     <var id="FN">randFromArray( [ "cos", "sin" ] )</var>
-                    <var id="FNNAME">{ "cos": "cosine", "sin": "sine"}[FN]</var>
+                    <var id="FNNAME">{ "cos": $._("cosine"), "sin": $._("sine")}[FN]</var>
                     <var id="COORD">{ "cos": "x", "sin": "y"}[FN]</var>
                     <var id="SOLUTION">roundTo(3, { "cos": Math.cos(ANGLE * (Math.PI/180)), "sin": Math.sin(ANGLE * (Math.PI/180)) }[FN])
                     </var>
@@ -109,7 +109,7 @@
                     <var id="ANGLE_RADIANS">ANGLE</var>
                     <var id="PRETTY_ANGLE">piFraction(ANGLE)</var>
                     <var id="FN">randFromArray( [ "cos", "sin" ] )</var>
-                    <var id="FNNAME">{ "cos": "cosine", "sin": "sine"}[FN]</var>
+                    <var id="FNNAME">{ "cos": $._("cosine"), "sin": $._("sine")}[FN]</var>
                     <var id="COORD">{ "cos": "x", "sin": "y"}[FN]</var>
                     <var id="SOLUTION">roundTo(3, { "cos": Math.cos(ANGLE), "sin": Math.sin(ANGLE) }[FN])
                     </var>

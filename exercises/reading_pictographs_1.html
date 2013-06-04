@@ -23,8 +23,12 @@
 <div class="exercise">
     <div class="vars">
         <var id="DATA">randRangeUnique( 1, 8, 5 )</var>
-        <var id="BADGE">randFromArray([ "meteorite", "moon", "earth" ])</var>
-        <var id="FULL_IMAGE">"&lt;img src='" + Khan.imageBase + "badges/" + BADGE + "-small.png'&gt;"</var>
+        <var id="BADGE_ID,BADGE">randFromArray([
+            ["meteorite", $._("meteorite")],
+            ["moon", $._("moon")],
+            ["earth", $._("earth")]
+        ])</var>
+        <var id="FULL_IMAGE">"&lt;img src='" + Khan.imageBase + "badges/" + BADGE_ID + "-small.png'&gt;"</var>
         <var id="VALUE_PER_IMG">1</var>
     </div>
 
@@ -92,6 +96,12 @@
 
         <div id="read-chart" data-weight="3">
             <div class="vars">
+                <var id="SYMBOL">new Plural(function(num) {
+                    return $.ngettext("symbol", "symbols", num);
+                })</var>
+                <var id="BADGE_PL">new Plural(function(num) {
+                    return $.ngettext("badge", "badges", num);
+                })</var>
                 <var id="PERSON">rand( 5 )</var>
                 <var id="ANSWER">DATA[ PERSON ] * VALUE_PER_IMG</var>
             </div>
@@ -119,10 +129,10 @@
 
                 <div>
                     <div>
-                        <code><var>DATA[ PERSON ]</var></code> <var>plural( "symbol", DATA[ PERSON ] )</var>
+                        <code><var>DATA[ PERSON ]</var></code> <var>plural_form( SYMBOL, DATA[ PERSON ] )</var>
                         <code> \times </code> <code><var>VALUE_PER_IMG</var></code> <span data-if="isSingular(VALUE_PER_IMG)">badge per symbol</span><span data-else="">badges per symbol</span>
                         <code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code>
-                        <var>plural( "badge", DATA[ PERSON ] * VALUE_PER_IMG )</var>
+                        <var>plural_form( BADGE_PL, DATA[ PERSON ] * VALUE_PER_IMG )</var>
                     </div>
                 </div>
                 <p data-if="isSingular(ANSWER)"><var>person( PERSON + 1 )</var> earned <code><var>ANSWER</var></code> <var>BADGE</var> badge.</p><p data-else=""><var>person( PERSON + 1 )</var> earned <code><var>ANSWER</var></code> <var>BADGE</var> badges.</p>

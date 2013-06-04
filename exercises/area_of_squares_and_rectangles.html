@@ -9,11 +9,21 @@
 <div class="exercise">
     <div class="vars">
         <var id="UNIT,UNIT_TEXT">randFromArray([
-            ["in", "inch"],
-            ["ft", "foot"],
-            ["m", "meter"],
-            ["cm", "centimeter"],
-            ["", "unit"]
+            ["in", new Plural(function(num) {
+                return $.ngettext("inch", "inches", num);
+            })],
+            ["ft", new Plural(function(num) {
+                return $.ngettext("foot", "feet", num);
+            })],
+            ["m", new Plural(function(num) {
+                return $.ngettext("meter", "meters", num);
+            })],
+            ["cm", new Plural(function(num) {
+                return $.ngettext("centimeter", "centimeters", num);
+            })],
+            ["", new Plural(function(num) {
+                return $.ngettext("unit", "units", num);
+            })]
         ])</var>
     </div>
     <div class="problems">
@@ -27,12 +37,12 @@
                 <var>UNIT_TEXT</var> long. What is its area?
             </span><span data-else="" data-unwrap="">
                 One side of a square is <code><var>S</var></code>
-                <var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var> long. What is its area?
+                <var>plural_form(UNIT_TEXT, S)</var> long. What is its area?
             </span></p>
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>S * S</var></span> square
-                <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>
+                <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -63,12 +73,12 @@
                         The length is <var>S</var> <var>UNIT_TEXT</var> and
                         the width is <var>S</var> <var>UNIT_TEXT</var>, so the
                         area is <code><var>S</var>\times<var>S</var></code>
-                        square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>.
+                        square <var>plural_form(UNIT_TEXT, S * S)</var>.
                     </p><p data-else="">
-                        The length is <var>S</var> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var> and
-                        the width is <var>S</var> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var>, so the
+                        The length is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var> and
+                        the width is <var>S</var> <var>plural_form(UNIT_TEXT, S)</var>, so the
                         area is <code><var>S</var>\times<var>S</var></code>
-                        square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>.
+                        square <var>plural_form(UNIT_TEXT, S * S)</var>.
                     </p>
                 </div>
                 <div>
@@ -78,7 +88,7 @@
                     </code></p>
                     <p>
                         We can also count <var>S * S</var>
-                        square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>.
+                        square <var>plural_form(UNIT_TEXT, S * S)</var>.
                     </p>
                     <div class="graphie" data-update="area">
                         _(S * S).times(function(n) {
@@ -98,12 +108,12 @@
 
             <p class="question">
                 The area of a square is <code><var>S * S</var></code>
-                square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>. How long is each side?
+                square <var>plural_form(UNIT_TEXT, S * S)</var>. How long is each side?
             </p>
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>S</var></span>
-                <var>plural(UNIT_TEXT)</var>
+                <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -146,7 +156,7 @@
                     </p><p data-else="">
                         The sides of a square are all the same length, so each
                         side must be <code><var>S</var></code>
-                        <var>AMBIGUOUS_PLURAL(UNIT_TEXT, S)</var> long.
+                        <var>plural_form(UNIT_TEXT, S)</var> long.
                     </p>
                 </div>
             </div>
@@ -162,18 +172,18 @@
                 <span data-if="isSingular(L)">A rectangle is
                 <code><var>L</var></code> <var>UNIT_TEXT</var>
                 long.</span><span data-else="">A rectangle is
-                <code><var>L</var></code> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, L)</var>
+                <code><var>L</var></code> <var>plural_form(UNIT_TEXT, L)</var>
                 long.</span>
                 <span data-if="isSingular(W)">The rectangle is also
                 <code><var>W</var></code> <var>UNIT_TEXT</var>
                 wide. What is its area?</span><span data-else="">The rectangle is also
-                <code><var>W</var></code> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, W)</var>
+                <code><var>W</var></code> <var>plural_form(UNIT_TEXT, W)</var>
                 wide. What is its area?</span>
             </p>
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>L * W</var></span> square
-                <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>
+                <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -203,11 +213,19 @@
                         });
                     </div>
                     <p>
-                        <span data-if="isSingular(L)">The length is <var>L</var> <var>UNIT_TEXT</var>.</span><span data-else="">The length is <var>L</var> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, L)</var>.</span>
-                        <span data-if="isSingular(W)">The width is <var>W</var> <var>UNIT_TEXT</var>.</span><span data-else="">The width is <var>W</var> <var>AMBIGUOUS_PLURAL(UNIT_TEXT, W)</var>.</span>
+                        <span data-if="isSingular(L)">
+                            The length is <var>L</var> <var>UNIT_TEXT</var>.
+                        </span><span data-else="">
+                            The length is <var>L</var> <var>plural_form(UNIT_TEXT, L)</var>.
+                        </span>
+                        <span data-if="isSingular(W)">
+                            The width is <var>W</var> <var>UNIT_TEXT</var>.
+                        </span><span data-else="">
+                            The width is <var>W</var> <var>plural_form(UNIT_TEXT, W)</var>.
+                        </span>
                         <span>Thus the
                         area is <code><var>L</var>\times<var>W</var></code>
-                        square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>.</span>
+                        square <var>plural_form(UNIT_TEXT, L * W)</var>.</span>
                     </p>
                 </div>
                 <div>
@@ -217,7 +235,7 @@
                     </code></p>
                     <p>
                         We can also count <var>L * W</var>
-                        square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>.
+                        square <var>plural_form(UNIT_TEXT, L * W)</var>.
                     </p>
                     <div class="graphie" data-update="area">
                         _(L * W).times(function(n) {

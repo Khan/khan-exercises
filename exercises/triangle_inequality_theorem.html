@@ -64,6 +64,7 @@
                 <div class="vars">
                     <var id="MAIN">randomTriangleWithSides()</var>
                     <var id="POSSIBLE">( randRange( 0, 1 ) === 0 )</var>
+                    <var id="ANSWERS">[$._("Yes"), $._("No")]</var>
                 </div>
                 <div class="problem">
                     Can this triangle exist?
@@ -85,10 +86,11 @@
                         tr.drawLabels();
                     </div>
                 </div>
-                <div class="solution"><var>POSSIBLE ? "Yes" : "No"</var></div>
+                <div class="solution"><var>ANSWERS[POSSIBLE ? 1 : 0]</var></div>
                 <ul class="choices" data-category="true">
-                    <li>Yes</li>
-                    <li>No</li>
+                    <li data-each="ANSWERS as ANS">
+                        <var>ANS</var>
+                    </li>
                 </ul>
                 <div class="hints">
                     <p>Triangle inequality theorem states that a side must be smaller than the sum of the other two sides.</p>

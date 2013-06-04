@@ -284,9 +284,9 @@
                     The sum is <code><var>NUM2</var> + <var>NUM1</var></code> <var>plural_form(exercise(1), TOTAL)</var>.
                     </p>
                     <p data-if="isMale(1)">
-                    He did <code><var>NUM2</var> + <var>NUM1</var> = <var>TOTAL</var></code> <var>plural_form(exercise(1))</var>.
+                    He did <code><var>NUM2</var> + <var>NUM1</var> = <var>TOTAL</var></code> <var>plural_form(exercise(1), TOTAL)</var>.
                     </p><p data-else="">
-                    She did <code><var>NUM2</var> + <var>NUM1</var> = <var>TOTAL</var></code> <var>plural_form(exercise(1))</var>.
+                    She did <code><var>NUM2</var> + <var>NUM1</var> = <var>TOTAL</var></code> <var>plural_form(exercise(1), TOTAL)</var>.
                     </p>
                 
                 </div>
@@ -307,10 +307,10 @@
                 <p class="question"><span data-if="isSingular(2)" data-unwrap="">
                     How many <var>exercise(1)</var> did <var>person(2)</var> do?
                 </span><span data-else="" data-unwrap="">
-                    How many <var>plural_form(exercise(1), 2)</var> did <var>person(2)</var> do?
+                    How many <var>plural_form(exercise(1))</var> did <var>person(2)</var> do?
                 </span></p>
                 <div class="solution" data-type="multiple">
-                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM2</var></span> <var>plural(exercise(1), 2)</var>
+                    <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM2</var></span> <var>plural(exercise(1))</var>
                 </div>
                 <div class="hints">
                     <p data-if="isSingular(TOTAL)">

@@ -10,14 +10,17 @@
     <div class="problems">
         <div id="graph-slope" data-weight="1">
             <div class="vars">
-                <var id="SLOPE">randFromArray([
-                    "positive", "negative", "zero", "undefined"
+                <var id="SLOPE,SLOPE_NAME">randFromArray([
+                    [0, $._("positive")],
+                    [1, $._("negative")],
+                    [2, $._("zero")],
+                    [3, $._("undefined")]
                 ])</var>
                 <var id="POINTS">{}</var>
             </div>
 
             <p class="question">
-                Graph a line that has a <var>SLOPE</var> slope:
+                Graph a line that has a <var>SLOPE_NAME</var> slope:
             </p>
 
             <div class="graphie" id="grid">
@@ -81,7 +84,7 @@
                     [POINTS.pointA.coord, POINTS.pointB.coord]
                 </div>
                 <div class="validator-function">
-                    if (SLOPE !== "zero" &amp;&amp;
+                    if (SLOPE !== 2&amp;&amp;
                             guess[0][0] === -5 &amp;&amp;
                             guess[0][1] === 5 &amp;&amp;
                             guess[1][0] === 5 &amp;&amp;
@@ -90,13 +93,13 @@
                     }
                     var slope = (guess[1][1] - guess[0][1]) /
                         (guess[1][0] - guess[0][0]);
-                    if (SLOPE === "positive") {
+                    if (SLOPE === 0) {
                         return slope &gt; 0;
-                    } else if (SLOPE === "negative") {
+                    } else if (SLOPE === 1) {
                         return slope &lt; 0;
-                    } else if (SLOPE === "zero") {
+                    } else if (SLOPE === 2) {
                         return abs(slope) &lt; 0.001;
-                    } else if (SLOPE === "undefined") {
+                    } else if (SLOPE === 3) {
                         return guess[1][0] === guess[0][0];
                     }
                 </div>
@@ -113,17 +116,17 @@
                     <code>y</code> over the change in <code>x</code>. Also
                     known as rise over run.
                 </p>
-                <p data-if="SLOPE === 'positive'">
+                <p data-if="SLOPE === 0">
                     For a positive slope, if the change in <code>y</code> from
                     one point to another is positive then the change in
                     <code>x</code> should also be positive.
                 </p>
-                <p data-else-if="SLOPE === 'negative'">
+                <p data-else-if="SLOPE === 1">
                     For a negative slope, if the change in <code>y</code> from
                     one point to another is positive then the change in
                     <code>x</code> should be negative.
                 </p>
-                <p data-else-if="SLOPE === 'zero'">
+                <p data-else-if="SLOPE === 2">
                     For a zero slope, the change in <code>y</code> should be
                     zero from any point to another point.
                 </p>
@@ -133,7 +136,7 @@
                 </p>
                 <div>
                     <p>
-                        A line with a <var>SLOPE</var> slope looks like:
+                        A line with a <var>SLOPE_NAME</var> slope looks like:
                     </p>
                     <div class="graphie" style="margin-left: 30px">
                         graphInit({
@@ -150,19 +153,19 @@
 
                         style({ stroke: ORANGE }, function() {
                             var intercept = randRange(-3, 3);
-                            if (SLOPE === "positive") {
+                            if (SLOPE === 0) {
                                 plot(function(x) {
                                     return x + intercept;
                                 }, [-6, 6]);
-                            } else if (SLOPE === "negative") {
+                            } else if (SLOPE === 1) {
                                 var yInt = randRange(-3, 3);
                                 plot(function(x) {
                                     return -x + intercept;
                                 }, [-6, 6]);
-                            } else if (SLOPE === "zero") {
+                            } else if (SLOPE === 2) {
                                 var y = randRangeNonZero(-3, 3);
                                 path([[-6, intercept], [6, intercept]]);
-                            } else if (SLOPE === "undefined") {
+                            } else if (SLOPE === 3) {
                                 var x = randRangeNonZero(-3, 3);
                                 path([[intercept, -6], [intercept, 6]]);
                             }
@@ -177,17 +180,17 @@
                 <var id="SLOPE_N">randRangeNonZero(-5, 5)</var>
                 <var id="SLOPE_D">randRange(1, 5)</var>
                 <var id="Y_INT">randRange(-5, 5)</var>
-                <var id="GOAL">SLOPE_N &lt; 0 ? "negative" : "positive"</var>
-                <var id="CHANGE">randFromArray(["greater", "less"])</var>
+                <var id="GOAL_NEGATIVE,GOAL">[SLOPE_N &lt; 0, SLOPE_N &lt; 0 ? $._("negative") : $._("positive")]</var>
+                <var id="CHANGE,CHANGE_NAME">randFromArray([[0, "greater"], [1, "less"]])</var>
                 <var id="NEW_SLOPE">(function() {
-                    if (SLOPE_N &lt; 0) {
-                        if (CHANGE === "greater") {
+                    if (GOAL_NEGATIVE) {
+                        if (CHANGE === 0) {
                             return (SLOPE_N / SLOPE_D) / 2;
                         } else {
                             return (SLOPE_N / SLOPE_D) * 2;
                         }
                     } else {
-                        if (CHANGE === "less") {
+                        if (CHANGE === 1) {
                             return (SLOPE_N / SLOPE_D) / 2;
                         } else {
                             return (SLOPE_N / SLOPE_D) * 2;
@@ -196,8 +199,9 @@
                 })()</var>
             </div>
             <p class="question">
-                Graph a line that has a slope that is <em><var>GOAL</var></em>
-                and <em><var>CHANGE</var> than</em> the slope of the blue line.
+                Graph a line that has a slope that is
+                <em><var>GOAL</var></em> and
+                <em><var>CHANGE_NAME</var> than</em> the slope of the blue line.
             </p>
             <div class="graphie" data-update="grid">
                 plot(function(x) {
@@ -225,20 +229,20 @@
                     var slope = (guess[1][1] - guess[0][1]) /
                         (guess[1][0] - guess[0][0]);
 
-                    if (GOAL === "positive" &amp;&amp;
-                            CHANGE === "less") {
+                    if (!GOAL_NEGATIVE &amp;&amp;
+                            CHANGE === 1) {
                         return (slope &gt; 0) &amp;&amp;
                             (slope &lt; SLOPE_N / SLOPE_D);
-                    } else if (GOAL === "positive" &amp;&amp;
-                            CHANGE === "greater") {
+                    } else if (!GOAL_NEGATIVE &amp;&amp;
+                            CHANGE === 0) {
                         return (slope &gt; 0) &amp;&amp;
                             (slope &gt; SLOPE_N / SLOPE_D);
-                    } else if (GOAL === "negative" &amp;&amp;
-                            CHANGE === "less") {
+                    } else if (GOAL_NEGATIVE &amp;&amp;
+                            CHANGE === 1) {
                         return (slope &lt; 0) &amp;&amp;
                             (slope &lt; SLOPE_N / SLOPE_D);
-                    } else if (GOAL === "negative" &amp;&amp;
-                            CHANGE === "greater") {
+                    } else if (GOAL_NEGATIVE &amp;&amp;
+                            CHANGE === 0) {
                         return (slope &lt; 0) &amp;&amp;
                             (slope &gt; SLOPE_N / SLOPE_D);
                     }
@@ -251,12 +255,14 @@
             </div>
             <div class="hints">
                 <p>
-                    The slope of the original line is
-                    <span data-if="SLOPE_N > 0">positive.</span>
-                    <span data-else="">negative.</span>
+                    <span data-if="GOAL_NEGATIVE">
+                        The slope of the original line is negative.
+                    </span><span data-else="">
+                        The slope of the original line is positive.
+                    </span>
                 </p>
-                <div data-if="GOAL === 'negative'">
-                    <div data-if="CHANGE === 'greater'">
+                <div data-if="GOAL_NEGATIVE">
+                    <div data-if="CHANGE === 0">
                         <p>
                             If the slope of the new line is negative and
                             greater than the slope of the original line with
@@ -273,7 +279,7 @@
                     </div>
                 </div>
                 <div data-else="">
-                    <div data-if="CHANGE === 'greater'">
+                    <div data-if="CHANGE === 0">
                         <p>
                             If the slope of the new line is positive and greater
                             than the slope of the original line with positive

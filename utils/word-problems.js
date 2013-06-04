@@ -776,6 +776,9 @@ $.fn["word-problemsLoad"] = function() {
         }), 25, 10]
     ]);
 
+    // TODO(emily): I18N: add both "row of CROP" as well as just "CROP" for
+    // pluralization. For example, in Polish, adding "row of" to "tomatoes"
+    // changes the pluralization of "tomatoes".
     var farmers = new IncrementalShuffler([
         {
             farmer: new Plural(function(num) {

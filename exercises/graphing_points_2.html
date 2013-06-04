@@ -93,9 +93,12 @@
                     </p>
 
                     <div>
-                        <p>
-                            Since our <span class="hint_blue"><code>x</code>-coordinate</span> is <span data-if="X > 0">positive</span><span data-else="">negative</span>,
-                            we move <code>\blue{<var>abs( X )</var>}</code> to the <span data-if="X > 0">right</span><span data-else="">left</span>.
+                        <p data-if="X > 0">
+                            Since our <span class="hint_blue"><code>x</code>-coordinate</span> is positive,
+                            we move <code>\blue{<var>abs( X )</var>}</code> to the right.
+                        </p><p data-else>
+                            Since our <span class="hint_blue"><code>x</code>-coordinate</span> is negative,
+                            we move <code>\blue{<var>abs( X )</var>}</code> to the left.
                         </p>
                         <div class="graphie" data-update="grid">
                             style({
@@ -110,9 +113,12 @@
                     </div>
 
                     <div>
-                        <p>
-                            Since our <span class="hint_green"><code>y</code>-coordinate</span> is <span data-if="Y > 0">positive</span><span data-else=""> negative</span>,
-                            we move <code>\green{<var>abs( Y )</var>}</code> <span data-if="Y > 0">up</span><span data-else=""> down</span>.
+                        <p data-if="Y > 0">
+                            Since our <span class="hint_green"><code>y</code>-coordinate</span> is positive,
+                            we move <code>\green{<var>abs( Y )</var>}</code> up.
+                        </p><p data-else>
+                            Since our <span class="hint_green"><code>y</code>-coordinate</span> is negative,
+                            we move <code>\green{<var>abs( Y )</var>}</code> down.
                         </p>
                         <div class="graphie" data-update="grid">
                             style({
@@ -159,11 +165,18 @@
                             label( [ 5, -5] , " \\text{ " + $._("QIV") + " }", "center", { color: "purple" } );
                         </div>
                     </div>
-                    <p class="final_answer">
-                        Since our point is in the
-                        <span><span data-if="Y > 0">upper</span><span data-else="">lower</span></span>
-                        <span><span data-if="X > 0">right</span><span data-else="">left</span></span>
-                        portion of the graph, the quadrant is <code>\purple{\text{<var>QUADRANT</var>}}</code>.
+                    <p class="final_answer" data-if="X > 0 &amp;&amp; Y > 0">
+                        Since our point is in the upper right portion of the graph,
+                        the quadrant is <code>\purple{\text{<var>QUADRANT</var>}}</code>.
+                    </p><p class="final_answer" data-else-if="X > 0 &amp;&amp; Y < 0">
+                        Since our point is in the lower right portion of the graph,
+                        the quadrant is <code>\purple{\text{<var>QUADRANT</var>}}</code>.
+                    </p><p class="final_answer" data-else-if="X < 0 &amp;&amp; Y > 0">
+                        Since our point is in the upper left portion of the graph,
+                        the quadrant is <code>\purple{\text{<var>QUADRANT</var>}}</code>.
+                    </p><p class="final_answer" data-else>
+                        Since our point is in the lower left portion of the graph,
+                        the quadrant is <code>\purple{\text{<var>QUADRANT</var>}}</code>.
                     </p>
                 </div>
             </div>

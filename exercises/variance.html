@@ -20,6 +20,9 @@
             <var id="SQR_DEV">$.map( DATA, function( x ) { return roundTo( 2, ( x - MEAN ) * ( x - MEAN ) ); })</var>
             <var id="VARIANCE">roundTo( 2, sum( SQR_DEV ) / ( DATA_POINTS - 1 ) )</var>
             <var id="VARIANCE_POP">roundTo( 2, sum( SQR_DEV ) /  DATA_POINTS )</var>
+            <var id="YEAR">new Plural(function(num) {
+                return $.ngettext("year", "years", num);
+            })</var>
         </div> <!-- vars -->
 
         <div class="problems">
@@ -79,7 +82,7 @@
                         <code>
                                 \color{<var>BLUE</var>}{\mu} \quad = \quad
                                 \dfrac{<var>plus.apply( KhanUtil, DATA )</var>}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} \quad = \quad
-                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("%(years)s old", {years: AMBIGUOUS_PLURAL( "year", MEAN )})</var>}}
+                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("%(years)s old", {years: plural_form(YEAR, MEAN)})</var>}}
                         </code>
                     </p>
 
@@ -100,11 +103,11 @@
                         </div>
                         <div class="fake_row" data-each="DATA as i, POINT">
                             <span style="width: 100px;">
-                                <code><var>POINT</var></code> <var>plural( "year", POINT )</var>
+                                <code><var>POINT</var></code> <var>plural_form(YEAR, POINT )</var>
                             </span><span class="hint_gray" style="width: 150px;">
-                                <code><var>roundTo( 2, POINT - MEAN )</var></code> <var>plural( "year", roundTo( 2, POINT - MEAN ) )</var>
+                                <code><var>roundTo( 2, POINT - MEAN )</var></code> <var>plural_form(YEAR, roundTo( 2, POINT - MEAN ) )</var>
                             </span><span class="hint_purple" style="width: 150px;">
-                                <code><var>SQR_DEV[ i ]</var></code> <var>plural( "year", SQR_DEV[ i ] )</var><code>^2</code>
+                                <code><var>SQR_DEV[ i ]</var></code> <var>plural_form(YEAR, SQR_DEV[ i ] )</var><code>^2</code>
                             </span>
                         </div>
                     </div>
@@ -136,7 +139,7 @@
                         <code>
                             \color{red}{\sigma^2} \quad = \quad
                             \dfrac{\color{purple}{<var>roundTo( 2, sum( SQR_DEV ) )</var>}}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} \quad = \quad
-                            \color{red}{<var>VARIANCE_POP</var>\text{ <var>plural( "year", VARIANCE_POP )</var>}^2}
+                            \color{red}{<var>VARIANCE_POP</var>\text{ <var>plural_form(YEAR, VARIANCE_POP )</var>}^2}
                         </code>
                     </p>
 
@@ -208,7 +211,7 @@
                         <code>
                                 \color{<var>BLUE</var>}{\overline{x}} \quad = \quad
                                 \dfrac{<var>plus.apply( KhanUtil, DATA )</var>}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} \quad = \quad
-                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("%(years)s old", {years: AMBIGUOUS_PLURAL( "year", MEAN )})</var>}}
+                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("%(years)s old", {years: plural_form(YEAR, MEAN )})</var>}}
                         </code>
                     </p>
 
@@ -236,11 +239,11 @@
                         </div>
                         <div class="fake_row" data-each="DATA as i, POINT">
                             <span style="width: 100px;">
-                                <code><var>POINT</var></code> <var>plural( "year", POINT )</var>
+                                <code><var>POINT</var></code> <var>plural_form(YEAR, POINT )</var>
                             </span><span class="hint_gray" style="width: 150px;">
-                                <code><var>roundTo( 2, POINT - MEAN )</var></code> <var>plural( "year", roundTo( 2, POINT - MEAN ) )</var>
+                                <code><var>roundTo( 2, POINT - MEAN )</var></code> <var>plural_form(YEAR, roundTo( 2, POINT - MEAN ) )</var>
                             </span><span class="hint_purple" style="width: 150px;">
-                                <code><var>SQR_DEV[ i ]</var></code> <var>plural( "year", SQR_DEV[ i ] )</var><code>^2</code>
+                                <code><var>SQR_DEV[ i ]</var></code> <var>_formplural(YEAR, SQR_DEV[ i ] )</var><code>^2</code>
                             </span>
                         </div>
                     </div>
@@ -285,7 +288,7 @@
                         <code>
                             \color{red}{s^2} \quad = \quad
                             \dfrac{\color{purple}{<var>roundTo( 2, sum( SQR_DEV ) )</var>}}{\color{<var>GREEN</var>}{<var>DATA_POINTS - 1</var>}} \quad = \quad
-                            \color{red}{<var>VARIANCE</var>\text{ <var>plural( "year", VARIANCE )</var>}^2}
+                            \color{red}{<var>VARIANCE</var>\text{ <var>plural_form(YEAR, VARIANCE )</var>}^2}
                         </code>
                     </p>
 

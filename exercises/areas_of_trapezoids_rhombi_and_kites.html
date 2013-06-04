@@ -9,11 +9,21 @@
     <div class="exercise">
         <div class="vars">
             <var id="UNIT,UNIT_TEXT">randFromArray([
-                ["in", "inch"],
-                ["ft", "foot"],
-                ["m", "meter"],
-                ["cm", "centimeter"],
-                ["", "unit"]
+                ["in", new Plural(function(num) {
+                    return $.ngettext("inch", "inches", num);
+                })],
+                ["ft", new Plural(function(num) {
+                    return $.ngettext("foot", "feet", num);
+                })],
+                ["m", new Plural(function(num) {
+                    return $.ngettext("meter", "meters", num);
+                })],
+                ["cm", new Plural(function(num) {
+                    return $.ngettext("centimeter", "centimeters", num);
+                })],
+                ["", new Plural(function(num) {
+                    return $.ngettext("unit", "units", num);
+                })]
             ])</var>
         </div>
 
@@ -58,7 +68,7 @@
 
                 <div class="solution" data-type="multiple">
                     <span class="sol"><var>K</var></span>
-                    square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>
+                    square <var>plural_form(UNIT_TEXT)</var>
                 </div>
 
                 <div class="hints">
@@ -190,7 +200,7 @@
 
                 <div class="solution" data-type="multiple">
                     <span class="sol"><var>K</var></span>
-                    square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>
+                    square <var>plural_form(UNIT_TEXT)</var>
                 </div>
 
                 <div class="hints">
@@ -204,7 +214,11 @@
                             [<a href="#" class="show-subhint" data-subhint="area-kite">Show me why</a>]
                         </p>
                         <div class="subhint" id="area-kite">
-                            <p>The <span data-if="ORIENT === 'h'">horizontal</span><span data-else="">vertical</span> diagonal in the center splits the kite into two congruent triangles.</p>
+                            <p data-if="ORIENT === 'h'">
+                                The horizontal diagonal in the center splits the kite into two congruent triangles.
+                            </p><p data-else>
+                                The vertical diagonal in the center splits the kite into two congruent triangles.
+                            </p>
                             <div class="graphie" data-update="figure">
                                 var showSubHint = function() {
                                     graph.subhint.show();

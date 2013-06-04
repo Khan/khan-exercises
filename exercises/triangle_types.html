@@ -51,7 +51,10 @@
     <div class="exercise">
         <div class="vars">
             <var id="TYPES">[ "Equilateral", "Isosceles", "Scalene" ]</var>
-            <var id="TYPE">randFromArray( TYPES )</var>
+            <var id="DISPLAY_TYPES">[ $._("Equilateral"), $._("Isosceles"), $._("Scalene") ]</var>
+            <var id="TYPE_NUM">randRange(0, 2)</var>
+            <var id="TYPE">TYPES[TYPE_NUM]</var>
+            <var id="DISPLAY_TYPE">DISPLAY_TYPES[TYPE_NUM]</var>
             <var id="TRIANGLE">function(){
                                 if ( TYPE === "Equilateral" ){
                                     return eqTriangle();
@@ -86,9 +89,9 @@
                         graph.TR = tr;
                     </div>
                 </div>
-                <div class="solution"><var>TYPE</var></div>
+                <div class="solution"><var>DISPLAY_TYPE</var></div>
                 <ul class="choices" data-category="true">
-                    <li data-each="TYPES as t"><var>t</var></li>
+                    <li data-each="DISPLAY_TYPES as t"><var>t</var></li>
                 </ul>
                 <div class="hints">
                     <p>We know two angles of this triangle, so we can find the third by subtracting from <code>180</code></p>

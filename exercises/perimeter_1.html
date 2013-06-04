@@ -9,11 +9,21 @@
 <div class="exercise">
     <div class="vars">
         <var id="UNIT,UNIT_TEXT">randFromArray([
-            ["in", "inch"],
-            ["ft", "foot"],
-            ["m", "meter"],
-            ["cm", "centimeter"],
-            ["", "unit"]
+            ["in", new Plural(function(num) {
+                return $.ngettext("inch", "inches", num);
+            })],
+            ["ft", new Plural(function(num) {
+                return $.ngettext("foot", "feet", num);
+            })],
+            ["m", new Plural(function(num) {
+                return $.ngettext("meter", "meters", num);
+            })],
+            ["cm", new Plural(function(num) {
+                return $.ngettext("centimeter", "centimeters", num);
+            })],
+            ["", new Plural(function(num) {
+                return $.ngettext("unit", "units", num);
+            })]
         ])</var>
     </div>
     <div class="problems">
@@ -35,7 +45,7 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>4 * S</var></span> <var>plural(UNIT_TEXT)</var>
+                <span class="sol" data-forms="integer"><var>4 * S</var></span> <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -80,7 +90,7 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>L * 2 + W * 2</var></span> <var>plural(UNIT_TEXT)</var>
+                <span class="sol" data-forms="integer"><var>L * 2 + W * 2</var></span> <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -127,7 +137,7 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>A + B + C</var></span> <var>plural(UNIT_TEXT)</var>
+                <span class="sol" data-forms="integer"><var>A + B + C</var></span> <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -155,9 +165,9 @@
             <div class="vars">
                 <var id="S">randRange(2, 3)</var>
                 <var id="SIDES,POLYGON">randFromArray([
-                    [5, "pentagon"],
-                    [6, "hexagon"],
-                    [8, "octagon"]
+                    [5, $._("pentagon")],
+                    [6, $._("hexagon")],
+                    [8, $._("octagon")]
                 ])</var>
                 <var id="ANGLE">(2 * PI) / SIDES</var>
                 <var id="RADIUS">S / (2 * sin(PI / SIDES))</var>
@@ -183,7 +193,7 @@
             </div>
 
             <div class="solution" data-type="multiple">
-                <span class="sol" data-forms="integer"><var>S * SIDES</var></span> <var>plural(UNIT_TEXT)</var>
+                <span class="sol" data-forms="integer"><var>S * SIDES</var></span> <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -212,7 +222,7 @@
                     <p>
                         Since there are <span class="hint_blue"><code><var>SIDES</var></code> sides</span>
                         that are all <span class="hint_green"><code><var>S</var></code>
-                        <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var></span> long, we can multiply:
+                        <var>plural_form(UNIT_TEXT, S)</var></span> long, we can multiply:
                     </p>
                     <p><code>\qquad\text{<var>$._("perimeter")</var>} =
                         \blue{<var>SIDES</var>} \times \green{<var>S</var>}
@@ -262,7 +272,7 @@
 
             <div class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>SHAPE.perimeter</var></span>
-                <var>plural(UNIT_TEXT)</var>
+                <var>plural_form(UNIT_TEXT)</var>
             </div>
 
             <div class="hints">
@@ -289,7 +299,7 @@
                 </div>
                 <p>
                     The perimeter is <code><var>SHAPE.perimeter</var></code>
-                    <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>.
+                    <var>plural_form(UNIT_TEXT, SHAPE.perimeter)</var>.
                 </p>
             </div>
         </div>

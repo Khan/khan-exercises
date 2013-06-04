@@ -116,10 +116,10 @@
         <div id="show-four-graphs" data-weight="2">
             <div class="vars">
               <var id="COLORS">[
-                { name: "Blue", hex: KhanUtil.BLUE },
-                { name: "Orange", hex: KhanUtil.ORANGE },
-                { name: "Green", hex: KhanUtil.GREEN },
-                { name: "Pink", hex: KhanUtil.PINK }
+                { name: $._("Blue"), hex: KhanUtil.BLUE },
+                { name: $._("Orange"), hex: KhanUtil.ORANGE },
+                { name: $._("Green"), hex: KhanUtil.GREEN },
+                { name: $._("Pink"), hex: KhanUtil.PINK }
                 ]</var>
                 <var id="M_INIT">randRange( 2, 5 )</var>
                 <var id="SLOPES">[
@@ -188,7 +188,11 @@
                 <p>Imagine walking up a hill represented by a line. A larger slope means a steeper hill.</p>
                 <p data-if="M.value === 0">A slope of <code><var>M.display</var></code> means there is no hill at all, and the graph should be flat.</p>
                 <p data-if="M.value === Number.POSITIVE_INFINITY">An <var>M.display</var> slope corresponds to a vertical line, which is like an impossibly steep hill.</p>
-                <p>The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code> graph best depicts a<span data-if="WHICH === 2">n undefined</span> slope<span data-if="WHICH === 1"> of <code><var>M.display</var></code></span>.</p>
+                <p data-if="WHICH === 2">
+                    The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code> graph best depicts an undefined slope.
+                </p><p data-else>
+                    The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code> graph best depicts a slope of <code><var>M.display</var></code>.
+                </p>
             </div>
         </div>
     </div>

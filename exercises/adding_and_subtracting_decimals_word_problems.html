@@ -229,7 +229,7 @@
             </div>
 
             <div class="question spin">
-                <p data-if="isMale(1)">{To get to school each morning|To get to work each morning|To visit his grandmother}, <var>person(1)</var> takes a <var>vehicle(1)</var> <var>distance_1</var> <var>plural_form(distance(1))</var> and a <var>vehicle(2)</var> <var>distance_2</var> <var>plural_form(distance(1))</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p><p data-else="">{To get to school each morning|To get to work each morning|To visit her grandmother}, <var>person(1)</var> takes a <var>vehicle(1)</var> <var>distance_1</var> <var>plural_form(distance(1))</var> and a <var>vehicle(2)</var> <var>distance_2</var> <var>plural_form(distance(1))</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p>
+                <p data-if="isMale(1)">{To get to school each morning|To get to work each morning|To visit his grandmother}, <var>person(1)</var> takes a <var>vehicle(1)</var> <var>distance_1</var> <var>plural_form(distance(1), distance_1)</var> and a <var>vehicle(2)</var> <var>distance_2</var> <var>plural_form(distance(1), distance_2)</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p><p data-else="">{To get to school each morning|To get to work each morning|To visit her grandmother}, <var>person(1)</var> takes a <var>vehicle(1)</var> <var>distance_1</var> <var>plural_form(distance(1), distance_1)</var> and a <var>vehicle(2)</var> <var>distance_2</var> <var>plural_form(distance(1), distance_2)</var>. {In total, the journey takes <var>time_1</var> minutes.|}</p>
                 <p class="question">How many <var>plural_form(distance(1))</var> is <var>person(1)</var>'s journey in total?</p>
             </div>
 
@@ -251,7 +251,7 @@
                 <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
                     graph.adder.showHint();
                 </div>
-                <p class="final_answer"><var>person(1)</var> travels <var>solution</var> <var>plural_form(distance(1))</var> in total.</p>
+                <p class="final_answer"><var>person(1)</var> travels <var>solution</var> <var>plural_form(distance(1), solution)</var> in total.</p>
             </div>
         </div>
     </div>

@@ -49,8 +49,8 @@
             <var id="ANSWER_DISPLAY">{
                 "DEF": "&lt;code&gt;DEF&lt;/code&gt;",
                 "GHI": "&lt;code&gt;GHI&lt;/code&gt;",
-                "Both": "Both",
-                "None": "None"
+                "Both": $._("Both"),
+                "None": $._("None")
             }</var>
             <var id="ANSWER">ANSWERS[randRange(0, 3)]</var>
 
@@ -139,10 +139,9 @@
             </div>
             <div class="solution"><var>ANSWER_DISPLAY[ ANSWER ]</var></div>
             <ul class="choices" data-category="true">
-                <li><code>DEF</code></li>
-                <li><code>GHI</code></li>
-                <li>Both</li>
-                <li>None</li>
+                <li data-each="ANSWER_DISPLAY as ANS">
+                    <var>ANS</var>
+                </li>
             </ul>
             <div class="hints">
                 <div>
@@ -162,7 +161,11 @@
                     <p>Substitute in the proper values for each side.</p>
                     <p><code>\dfrac{<var>ABC_SIDES[2]</var>}{\color{blue}{<var>DEF_SIDES[2]</var>}} <var>DEF_COMP_1</var> \dfrac{<var>ABC_SIDES[0]</var>}{\color{blue}{<var>DEF_SIDES[0]</var>}} <var>DEF_COMP_2</var> \dfrac{<var>ABC_SIDES[1]</var>}{\color{blue}{<var>DEF_SIDES[1]</var>}}</code></p>
                 </div>
-                <p>Since <span data-if="ANSWER === 'GHI' || ANSWER === 'None'">not</span> all the proportions are equal, <code>ABC</code> is <span data-if="ANSWER === 'GHI' || ANSWER === 'None'">not</span> similar to <code>DEF</code>.</p>
+                <p data-if="ANSWER === 'GHI' || ANSWER === 'None'">
+                    Since not all the proportions are equal, <code>ABC</code> is not similar to <code>DEF</code>.
+                </p><p data-else>
+                    Since all the proportions are equal, <code>ABC</code> is similar to <code>DEF</code>.
+                </p>
 
                 <p>Next, let's determine whether <code>ABC</code> and <code>GHI</code> are similar.</p>
                 <div>
@@ -177,7 +180,11 @@
                     <p>Substitute in the proper values for each side.</p>
                     <p><code>\dfrac{<var>ABC_SIDES[2]</var>}{\color{red}{<var>GHI_SIDES[2]</var>}} <var>GHI_COMP_1</var> \dfrac{<var>ABC_SIDES[0]</var>}{\color{red}{<var>GHI_SIDES[0]</var>}} <var>GHI_COMP_2</var> \dfrac{<var>ABC_SIDES[1]</var>}{\color{red}{<var>GHI_SIDES[1]</var>}}</code></p>
                 </div>
-                <p>Since <span data-if="ANSWER === 'DEF' || ANSWER === 'None'">not</span> all the proportions are equal, <code>ABC</code> is <span data-if="ANSWER === 'DEF' || ANSWER === 'None'">not</span> similar to <code>GHI</code>.</p>
+                <p data-if="ANSWER === 'DEF' || ANSWER === 'None'">
+                    Since not all the proportions are equal, <code>ABC</code> is not similar to <code>GHI</code>.
+                </p><p data-else>
+                    Since all the proportions are equal, <code>ABC</code> is similar to <code>GHI</code>.
+                </p>
 
                 <div class="final_answer">
                     <p data-if="ANSWER === 'DEF'"><code>DEF</code> is similar to <code>ABC</code></p>

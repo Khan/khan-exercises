@@ -8,7 +8,8 @@
 <body>
     <div class="exercise">
     <div class="vars">
-        <var id="HOUSES"> [ "Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin" ]</var>
+        <!-- I18N: Harry Potter's Hogwarts house names -->
+        <var id="HOUSES"> [ $._("Gryffindor"), $._("Hufflepuff"), $._("Ravenclaw"), $._("Slytherin") ]</var>
         <var id="INDEX">randRange( 0, HOUSES.length - 1 )</var>
         <var id="VALUES">shuffle( [ 1, 2, 3, 4, 5 ], 4 )</var>
         <var id="DATA">

@@ -11,7 +11,8 @@
                 <var id="SYM">randRange( 0, 1 )</var>
                 <var id="SIDES">randRange( 3, 8 )</var>
                 <var id="SIDE">randRange( 0, SIDES - 1 )</var>
-                <var id="ANSWER">SYM ? "Yes" : "No"</var>
+                <var id="YES,NO">[$._("Yes"), $._("No")]</var>
+                <var id="ANSWER">SYM ? YES : NO</var>
             </div>
 
     <div class="problems">
@@ -31,8 +32,8 @@
             </div>
             <div class="solution"><var>ANSWER</var></div>
             <ul class="choices" data-category="true">
-                <li>Yes</li>
-                <li>No</li>
+                <li><var>YES</var></li>
+                <li><var>NO</var></li>
             </ul>
             <div class="hints">
                 <p>Does the blue line split the shape into two parts which look like reflections of each other?</p>

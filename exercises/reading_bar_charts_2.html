@@ -55,18 +55,25 @@
                 line( [ 0, 0 ], [ 16, 0 ] );
                 line( [ 0, 0 ], [ 0, 10 ] );
 
-                label( [ 8, -0.8 ], "&lt;b&gt;Student&lt;/b&gt;", "below", false );
-                $( label( [ -1.5, 5 ], "&lt;b&gt;Score (points)&lt;/b&gt;", "center", false ) ).addClass( "rotate" );
-                label( [ 8, 10.5 ], "&lt;b&gt;Scores on Midterm and Final Exams&lt;/b&gt;", "above", false );
+                label( [ 8, -0.8 ],
+                    $._("Student"),
+                    "below", false ).css('font-weight', 'bold');
+                label( [ -1.5, 5 ],
+                    "Score (points)",
+                    "center", false ).addClass( "rotate" )
+                                     .css('font-weight', 'bold');
+                label( [ 8, 10.5 ],
+                    "Scores on Midterm and Final Exams",
+                    "above", false ).css('font-weight', 'bold');
 
                 style({ stroke: "none", fill: "#9ab8ed", opacity: 1.0 });
                 path([ [ 0, -2 ], [ 0.5, -2  ], [ 0.5, -2.5  ], [ 0, -2.5 ], [ 0, -2 ] ]);
                 style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 });
-                label( [ 0.5, -2.25 ], "Midterm", "right", false );
+                label( [ 0.5, -2.25 ], $._("Midterm"), "right", false );
                 style({ stroke: "none", fill: "#ffc966", opacity: 1.0 });
                 path([ [ 3, -2 ], [ 3.5, -2  ], [ 3.5, -2.5  ], [ 3, -2.5 ], [ 3, -2 ] ]);
                 style({ stroke: "#000", strokeWidth: 2, opacity: 1.0 });
-                label( [ 3.5, -2.25 ], "Final", "right", false );
+                label( [ 3.5, -2.25 ], $._("Final"), "right", false );
             </div>
         </div>
 
@@ -206,7 +213,7 @@
                     <var id="INDEX">randRange( 0, 4 )</var>
                     <var id="STUDENT">person( INDEX + 1 )</var>
                     <var id="COLUMN">randRange( 0, 1 )</var>
-                    <var id="TEST">[ "midterm", "final exam" ][ COLUMN ]</var>
+                    <var id="TEST">[ $._("midterm"), $._("final exam") ][ COLUMN ]</var>
                     <var id="ANSWER">COLUMN === 0 ? MIDTERM[ INDEX ] : FINAL[ INDEX ]</var>
                 </div>
                 <p class="question">How many points did <var>STUDENT</var> earn on the <var>TEST</var>?</p>

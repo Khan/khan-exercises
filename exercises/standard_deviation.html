@@ -22,6 +22,9 @@
             <var id="VARIANCE_POP">roundTo( 2, sum( SQR_DEV ) /  DATA_POINTS )</var>
             <var id="STDDEV">roundTo( 1, stdDev( DATA ) )</var>
             <var id="STDDEV_POP">roundTo( 1, stdDevPop( DATA ) )</var>
+            <var id="YEAR">new Plural(function(num) {
+                return $.ngettext("year", "years", num);
+            })</var>
         </div> <!-- vars -->
 
         <div class="problems">
@@ -81,7 +84,7 @@
                         <code>
                                 \color{<var>BLUE</var>}{\mu} \quad = \quad
                                 \dfrac{<var>plus.apply( KhanUtil, DATA )</var>}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} \quad = \quad
-                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("%(years)s old", {years: AMBIGUOUS_PLURAL( "year", MEAN )})</var>}}
+                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("%(years)s old", {years: plural_form(YEAR, MEAN )})</var>}}
                         </code>
                     </p>
 
@@ -226,7 +229,7 @@
                         <code>
                                 \color{<var>BLUE</var>}{\overline{x}} \quad = \quad
                                 \dfrac{<var>plus.apply( KhanUtil, DATA )</var>}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} \quad = \quad
-                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("%(years)s old", {years: AMBIGUOUS_PLURAL( "year", MEAN )})</var>}}
+                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("%(years)s old", {years: plural_form(YEAR, MEAN )})</var>}}
                         </code>
                     </p>
 

@@ -8,6 +8,8 @@
         <div class="exercise">
             <div class="vars" data-ensure="(INNER_AREA &lt; OUTER_AREA) &amp;&amp;
                                            (_.all(INNER.vertices, OUTER.contains))">
+                <!-- These aren't used in the actual exercise, so they don't need
+                     to be internationalized -->
                 <var id="SHAPES">["square", "circle", "triangle"]</var>
 
                 <var id="INNER_SHAPE">randFromArray(SHAPES)</var>
@@ -25,7 +27,7 @@
                              [x - size, y - size], true];
 
                         return {
-                            name: "square",
+                            name: $._("square"),
                             vertices: _.initial(v),
                             contains: function(point) {
                                 return (point[0] &gt;= (x - size)) &amp;&amp; (point[0] &lt;= (x + size)) &amp;&amp;
@@ -52,7 +54,7 @@
 
                     circle: function(x, y, size) {
                         return {
-                            name: "circle",
+                            name: $._("circle"),
                             vertices: _.map([0, 30, 45, 60, 90, 120, 135, 150, 180,
                                              210, 225, 240, 270, 300, 315, 330, 360],
                                             function(th) {
@@ -96,7 +98,7 @@
                         };
 
                         return {
-                            name: "equilateral triangle",
+                            name: $._("equilateral triangle"),
                             vertices: _.initial(v),
                             contains: function(point) {
                                 var b1, b2, b3;

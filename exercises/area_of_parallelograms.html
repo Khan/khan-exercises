@@ -74,11 +74,21 @@
     <div class="exercise">
         <div class="vars" data-ensure="Math.abs(SH) &lt;= B">
             <var id="UNIT,UNIT_TEXT">randFromArray([
-                ["in", "inch"],
-                ["ft", "foot"],
-                ["m", "meter"],
-                ["cm", "centimeter"],
-                ["", "unit"]
+                ["in", new Plural(function(num) {
+                    return $.ngettext("inch", "inches", num);
+                })],
+                ["ft", new Plural(function(num) {
+                    return $.ngettext("foot", "feet", num);
+                })],
+                ["m", new Plural(function(num) {
+                    return $.ngettext("meter", "meters", num);
+                })],
+                ["cm", new Plural(function(num) {
+                    return $.ngettext("centimeter", "centimeters", num);
+                })],
+                ["", new Plural(function(num) {
+                    return $.ngettext("unit", "units", num);
+                })]
             ])</var>
 
             <var id="B">randRange(1, 8)</var>
@@ -96,7 +106,7 @@
 
                 <div class="solution" data-type="multiple">
                     <span class="sol" data-forms="integer"><var>K</var></span>
-                    square <var>AMBIGUOUS_PLURAL(UNIT_TEXT)</var>
+                    square <var>plural_form(UNIT_TEXT)</var>
                 </div>
 
                 <div class="hints">
@@ -107,7 +117,9 @@
                         graph.p.drawHeight();
                     </div>
                     <div>
-                        <p>By moving a slice of the parallelogram, we can see that its area is equal to that of a rectangle with the same base and height.</p>
+                        <p>By moving a slice of the parallelogram, we can see
+                        that its area is equal to that of a rectangle with the
+                        same base and height.</p>
                         <div class="graphie" data-update="parallelogram">
                             graph.p.sliceHint();
                             graph.p.animHint();

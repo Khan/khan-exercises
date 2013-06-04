@@ -168,10 +168,24 @@
                     </div>
                 </div>
                 <p>
-                    To get from <code>(<var>HULL[0].x</var>, <var>HULL[0].y</var>)</code>
-                    to <code>(<var>round(TARGET[0][0])</var>, <var>round(TARGET[0][1])</var>)</code>,
-                    we rotated it <code><var>ROTDEG</var>{}^\circ{}</code> counter-clockwise, or through
-                    <var>["one quarter", "one half", "three quarters"][ROTDEG / 90 - 1]</var> of a circle.
+                    <span data-if="ROTDEG / 90 === 1">
+                        To get from <code>(<var>HULL[0].x</var>, <var>HULL[0].y</var>)</code>
+                        to <code>(<var>round(TARGET[0][0])</var>, <var>round(TARGET[0][1])</var>)</code>,
+                        we rotated it <code><var>ROTDEG</var>{}^\circ{}</code> counter-clockwise, or through
+                        one quarter of a circle.
+                    </span>
+                    <span data-else-if="ROTDEG / 90 === 2">
+                        To get from <code>(<var>HULL[0].x</var>, <var>HULL[0].y</var>)</code>
+                        to <code>(<var>round(TARGET[0][0])</var>, <var>round(TARGET[0][1])</var>)</code>,
+                        we rotated it <code><var>ROTDEG</var>{}^\circ{}</code> counter-clockwise, or through
+                        one half of a circle.
+                    </span>
+                    <span data-else-if="ROTDEG / 90 === 3">
+                        To get from <code>(<var>HULL[0].x</var>, <var>HULL[0].y</var>)</code>
+                        to <code>(<var>round(TARGET[0][0])</var>, <var>round(TARGET[0][1])</var>)</code>,
+                        we rotated it <code><var>ROTDEG</var>{}^\circ{}</code> counter-clockwise, or through
+                        three quarters of a circle.
+                    </span>
                 </p>
                 <div>
                     <p>

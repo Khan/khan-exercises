@@ -9,7 +9,8 @@
     <div class="exercise">
 
     <div class="vars" data-ensure="!(DIM_1 === 1 &amp;&amp; DIM_2 === 1) &amp;&amp; !(DIM_3 === 1 &amp;&amp; DIM_4 === 1) &amp;&amp; (PRETTY_MAT_1_ID !== PRETTY_MAT_2_ID)">
-        <var id="ANSWER">DEFINED ? "Yes" : "No"</var>
+        <var id="YES,NO">[$._("Yes"), $._("No")]</var>
+        <var id="ANSWER">DEFINED ? YES : NO</var>
 
         <var id="MAT_1">makeMatrix(randRange(-2, 4, DIM_1, DIM_2))</var>
         <var id="MAT_2">makeMatrix(randRange(-2, 4, DIM_3, DIM_4))</var>
@@ -40,8 +41,8 @@
 
     <p class="solution"><var>ANSWER</var></p>
     <ul class="choices" data-category="true">
-        <li>Yes</li>
-        <li>No</li>
+        <li><var>YES</var></li>
+        <li><var>NO</var></li>
     </ul>
 
     <div class="problems">
@@ -59,47 +60,75 @@
 
             <div class="hints">
                 <div>
-                    <p>
-                        In order for <span data-if="OPERATION === '+'">addition</span><span data-else="">subtraction</span> of two matrices to be defined, the matrices must have the same dimensions.
-                    </p>
-                    <p>
-                        If <code><var>PRETTY_MAT_1_ID</var></code> is of dimension <code>(\blue m \times \red n)</code> and <code><var>PRETTY_MAT_2_ID</var></code> is of dimension <code>(\blue p \times \red q)</code>, then:
-                    </p>
+                    <span data-if="OPERATION === '+'">
+                        <p>
+                            In order for addition of two matrices to be
+                            defined, the matrices must have the same
+                            dimensions.
+                        </p>
+                        <p>
+                            If <code><var>PRETTY_MAT_1_ID</var></code> is of
+                            dimension <code>(\blue m \times \red n)</code> and
+                            <code><var>PRETTY_MAT_2_ID</var></code> is of
+                            dimension <code>(\blue p \times \red q)</code>,
+                            then for their sum to be defined:
+                        </p>
+                    </span><span data-else>
+                        <p>
+                            In order for subtraction of two matrices to be
+                            defined, the matrices must have the same
+                            dimensions.
+                        </p>
+                        <p>
+                            If <code><var>PRETTY_MAT_1_ID</var></code> is of
+                            dimension <code>(\blue m \times \red n)</code> and
+                            <code><var>PRETTY_MAT_2_ID</var></code> is of
+                            dimension <code>(\blue p \times \red q)</code>,
+                            then for their difference to be defined:
+                        </p>
+                    </span>
                     <p>
                         1. <code>\blue m</code> (number of rows in <code><var>PRETTY_MAT_1_ID</var></code>) must equal <code>\blue p</code> (number of rows in <code><var>PRETTY_MAT_2_ID</var></code>) and
                     </p>
                     <p>
                         2. <code>\red n</code> (number of columns in <code><var>PRETTY_MAT_1_ID</var></code>) must equal <code>\red q</code> (number of columns in <code><var>PRETTY_MAT_2_ID</var></code>)
                     </p>
-                    <p>
-                        for their <span data-if="OPERATION === '+'">sum</span><span data-else="">difference</span> to be defined.
-                    </p>
                 </div>
                 <div class="qhint">
                     <p>
                         Do <code><var>PRETTY_MAT_1_ID</var></code> and <code><var>PRETTY_MAT_2_ID</var></code> have the same number of rows?
                     </p>
-                    <span class="qhint-answer"><var>DIM_1 === DIM_3 ? "Yes" : "No"</var></span>
+                    <span class="qhint-answer"><var>DIM_1 === DIM_3 ? YES : NO</var></span>
                     <p class="qhint-input">
-                        <input class="simple-button" type="button" value="Yes">
-                        <input class="simple-button" type="button" value="No">
+                        <a href="javascript:void(0)" class="qhint-button simple-button"><var>YES</var></a>
+                        <a href="javascript:void(0)" class="qhint-button simple-button"><var>NO</var></a>
                     </p>
                 </div>
                 <div class="qhint">
                     <p>
                         Do <code><var>PRETTY_MAT_1_ID</var></code> and <code><var>PRETTY_MAT_2_ID</var></code> have the same number of columns?
                     </p>
-                    <span class="qhint-answer"><var>DIM_2 === DIM_4 ? "Yes" : "No"</var></span>
+                    <span class="qhint-answer"><var>DIM_2 === DIM_4 ? YES : NO</var></span>
                     <p class="qhint-input">
-                        <input class="simple-button" type="button" value="Yes">
-                        <input class="simple-button" type="button" value="No">
+                        <a href="javascript:void(0)" class="qhint-button simple-button"><var>YES</var></a>
+                        <a href="javascript:void(0)" class="qhint-button simple-button"><var>NO</var></a>
                     </p>
                 </div>
                 <div>
-                    <p>
-                        Since <code><var>PRETTY_MAT_1_ID</var></code> has <span data-if="DEFINED">the same</span><span data-else="">different</span> dimensions <code>(<var>DIM_1 + "\\times" + DIM_2</var>)</code> <span data-if="DEFINED">as</span><span data-else="">from</span> <code><var>PRETTY_MAT_2_ID</var></code> <code>(<var>DIM_3 + "\\times" + DIM_4</var>)</code>,
-                    </p><p>
-                        <code><var>PRETTY_MAT_1_ID + OPERATION + PRETTY_MAT_2_ID</var></code> is <span data-if="!DEFINED">not</span> defined.
+                    <p data-if="DEFINED">
+                        Since <code><var>PRETTY_MAT_1_ID</var></code> has
+                        the same dimensions
+                        <code>(<var>DIM_1 + "\\times" + DIM_2</var>)</code> as
+                        <code><var>PRETTY_MAT_2_ID</var></code> <code>(<var>DIM_3 + "\\times" + DIM_4</var>)</code>,
+                        <code><var>PRETTY_MAT_1_ID + OPERATION + PRETTY_MAT_2_ID</var></code>
+                        is defined.
+                    </p><p data-else>
+                        Since <code><var>PRETTY_MAT_1_ID</var></code> has
+                        different dimensions
+                        <code>(<var>DIM_1 + "\\times" + DIM_2</var>)</code> from
+                        <code><var>PRETTY_MAT_2_ID</var></code> <code>(<var>DIM_3 + "\\times" + DIM_4</var>)</code>,
+                        <code><var>PRETTY_MAT_1_ID + OPERATION + PRETTY_MAT_2_ID</var></code>
+                        is not defined.
                     </p>
                 </div>
             </div>
@@ -148,8 +177,21 @@
                         <input type="submit" value="Check">
                     </p>
                 </div>
-                <div>
-                    Since <code><var>PRETTY_MAT_1_ID</var></code> has <span data-if="DEFINED">the same</span><span data-else="">a different</span> number of columns (<var>DIM_2</var>) <span data-if="DEFINED">as</span><span data-else="">than</span> <code><var>PRETTY_MAT_2_ID</var></code> has rows (<var>DIM_3</var>), <code><var>PRETTY_MAT_1_ID + PRETTY_MAT_2_ID</var></code> is <span data-if="!DEFINED">not</span> defined.
+                <div data-if="DEFINED">
+                    Since <code><var>PRETTY_MAT_1_ID</var></code> has the same
+                    number of columns (<var>DIM_2</var>) as
+                    <code><var>PRETTY_MAT_2_ID</var></code> has rows
+                    (<var>DIM_3</var>),
+                    <code><var>PRETTY_MAT_1_ID + PRETTY_MAT_2_ID</var></code>
+                    is defined.
+                </div><div data-else>
+                    Since <code><var>PRETTY_MAT_1_ID</var></code> has a
+                    different number of columns
+                    (<var>DIM_2</var>) than
+                    <code><var>PRETTY_MAT_2_ID</var></code> has rows
+                    (<var>DIM_3</var>),
+                    <code><var>PRETTY_MAT_1_ID + PRETTY_MAT_2_ID</var></code>
+                    is not defined.
                 </div>
             </div>
         </div>

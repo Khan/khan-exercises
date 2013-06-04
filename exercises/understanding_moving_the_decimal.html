@@ -9,7 +9,7 @@
     <div class="exercise">
         <div class="vars">
             <var id="PM">randRangeNonZero( -1, 1 )</var>
-            <var id="OPERATOR">( PM === 1 ? "multiply" : "divide" )</var>
+            <var id="OPERATOR">( PM === 1 ? $._("multiply") : $._("divide") )</var>
             <var id="A">randRange( 0, 99999 )</var>
 
             <div data-ensure="( PM === 1 ? A_DECIMAL &gt; B_DECIMAL : A_DECIMAL &lt; B_DECIMAL )">
@@ -25,7 +25,11 @@
         <div class="problems">
             <div>
                 <div class="question">
-                    <p><b>How many times do you need to <var>OPERATOR</var> <code><var>A_FLOAT.toFixed( A_DECIMAL )</var></code> by ten to get <code><var>B_FLOAT.toFixed( B_DECIMAL )</var></code>?</b></p>
+                    <p data-if="PM === 1">
+                        <b>How many times do you need to multiply <code><var>A_FLOAT.toFixed( A_DECIMAL )</var></code> by ten to get <code><var>B_FLOAT.toFixed( B_DECIMAL )</var></code>?</b>
+                    </p><p data-else>
+                        <b>How many times do you need to divide <code><var>A_FLOAT.toFixed( A_DECIMAL )</var></code> by ten to get <code><var>B_FLOAT.toFixed( B_DECIMAL )</var></code>?</b>
+                    </p>
                 </div>
 
                 <p class="solution" data-forms="integer"><var>POW_DIFF</var></p>
@@ -100,7 +104,19 @@
             </div>
 
             <div>
-                <p><b>You need to <var>OPERATOR</var> by ten <code><var>POW_DIFF</var></code> time<span data-if="POW_DIFF !== 1">s</span>.</b></p>
+                <p data-if="PM === 1">
+                    <span data-if="POW_DIFF === 1">
+                        <b>You need to multiply by ten <code><var>POW_DIFF</var></code> time.</b>
+                    </span><span data-else>
+                        <b>You need to multiply by ten <code><var>POW_DIFF</var></code> times.</b>
+                    </span>
+                </p><p data-else>
+                    <span data-if="POW_DIFF === 1">
+                        <b>You need to divide by ten <code><var>POW_DIFF</var></code> time.</b>
+                    </span><span data-else>
+                        <b>You need to divide by ten <code><var>POW_DIFF</var></code> times.</b>
+                    </span>
+                </p>
             </div>
 
         </div>

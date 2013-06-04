@@ -25,10 +25,26 @@
                     <var id="C2">roundTo( 8, A2 * X + B2 * Y )</var>
                     <var id="SIGN_1">A1 * C2 &gt; 0 ? "-" : "+"</var>
                     <var id="SIGN_2">B1 * Y &gt; 0 ? "-" : "+"</var>
-                    <var id="PROBLEM_1">["A group of adults and kids went to see a movie", "A few families took a trip to an amusement park together", ""][INDEX]</var>
-                    <var id="PROBLEM_2">["Find the number of adults and kids in the group", "Find the number of adults and kids on the trip", ""][INDEX]</var>
-                    <var id="UNIT_1">["adults", "adults", "home team fans"][INDEX]</var>
-                    <var id="UNIT_2">["kids", "kids", "away team fans"][INDEX]</var>
+                    <var id="PROBLEM_1">[
+                        $._("A group of adults and kids went to see a movie"),
+                        $._("A few families took a trip to an amusement park together"),
+                        ""
+                    ][INDEX]</var>
+                    <var id="PROBLEM_2">[
+                        $._("Find the number of adults and kids in the group"),
+                        $._("Find the number of adults and kids on the trip"),
+                        ""
+                    ][INDEX]</var>
+                    <var id="UNIT_1">[
+                        $._("adults"),
+                        $._("adults"),
+                        $._("home team fans")
+                    ][INDEX]</var>
+                    <var id="UNIT_2">[
+                        $._("kids"),
+                        $._("kids"),
+                        $._("away team fans")
+                    ][INDEX]</var>
                 </div>
                 <div class="question">
                     <p><span data-if="INDEX === 0 || INDEX === 1"><var>PROBLEM_1</var>. Tickets cost $<var>A1.toFixed( 2 )</var> each for adults and $<var>B1.toFixed( 2 )</var> each for kids, and the
@@ -92,10 +108,26 @@
                     <var id="C2">roundTo( 8, A2 * X + B2 * Y )</var>
                     <var id="SIGN_1">B1 * C2 &gt; 0 ? "-" : "+"</var>
                     <var id="SIGN_2">A1 * X &gt; 0 ? "-" : "+"</var>
-                    <var id="PROBLEM_1">["The drama club sold bags of candy and cookies to raise money for the spring show", "A local gift shop sold bags of candy and cookies for Halloween", ""][INDEX]</var>
-                    <var id="PROBLEM_2">["Find the number of bags of candy and cookies sold by the drama club", "Find the number of bags of candy and cookies sold by the gift shop", ""][INDEX]</var>
-                    <var id="UNIT_1">["bags of candy", "bags of candy", "angle 1"][INDEX]</var>
-                    <var id="UNIT_2">["bags of cookies", "bags of cookies", "angle 2"][INDEX]</var>
+                    <var id="PROBLEM_1">[
+                        $._("The drama club sold bags of candy and cookies to raise money for the spring show"),
+                        $._("A local gift shop sold bags of candy and cookies for Halloween"),
+                        ""
+                    ][INDEX]</var>
+                    <var id="PROBLEM_2">[
+                        $._("Find the number of bags of candy and cookies sold by the drama club"),
+                        $._("Find the number of bags of candy and cookies sold by the gift shop"),
+                        ""
+                    ][INDEX]</var>
+                    <var id="UNIT_1">[
+                        $._("bags of candy"),
+                        $._("bags of candy"),
+                        $._("angle 1")
+                    ][INDEX]</var>
+                    <var id="UNIT_2">[
+                        $._("bags of cookies"),
+                        $._("bags of cookies"),
+                        $._("angle 2")
+                    ][INDEX]</var>
                 </div>
                 <div class="question">
                     <p><span data-if="INDEX === 0 || INDEX === 1"><var>PROBLEM_1</var>. Bags of candy cost $<var>A1.toFixed( 2 )</var>, and bags of cookies cost $<var>B1.toFixed( 2 )</var>, and sales equaled $<var>C1.toFixed( 2 )</var> in total. There were <var>C2</var> more bags of cookies than candy sold.<br><br><var>PROBLEM_2</var>.</span><span data-else="">The sum of two angles' measures is <var>C1</var> degrees. Angle 2 is <var>abs( C2 )</var> degrees smaller than <var>abs( A2 )</var> times angle 1.<br><br>What are the measures of the two angles in degrees?</span></p>
@@ -105,7 +137,11 @@
                     <p><span data-if="INDEX !== 2"># of </span><var>UNIT_2</var> = <span class="sol short50" data-forms="integer, decimal"><var>Y</var></span></p>
                 </div>
                 <div class="hints">
-                    <p>Let <code>x</code> equal the <span data-if="INDEX !== 2">number</span><span data-else="">measure</span> of <var>UNIT_1</var> and <code>y</code> equal the <span data-if="INDEX !== 2">number</span><span data-else="">measure</span> of <var>UNIT_2</var>.</p>
+                    <p data-if="INDEX !== 2">
+                        Let <code>x</code> equal the number of <var>UNIT_1</var> and <code>y</code> equal the number of <var>UNIT_2</var>.
+                    </p><p data-else>
+                    </p>
+                    Let <code>x</code> equal the measure of <var>UNIT_1</var> and <code>y</code> equal the measure of <var>UNIT_2</var>.
                     <div>
                         <p>The system of equations is then:</p>
                         <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1, "x"], ["*", B1, "y"]])</var> = <var>C1</var>}</code><br>
@@ -140,7 +176,11 @@
                         <p><code>\color{<var>BLUE</var>}{<span data-if="abs( A1 ) !== 1"><var>A1</var></span><span data-if="A1 === -1">-</span>}\color{red}{(<var>X</var>)}\color{<var>BLUE</var>}{ + <var>expr(["*", B1, "y"])</var> = <var>C1</var>}</code></p>
                         <p><code>\color{<var>ORANGE</var>}{y = <var>Y</var>}</code></p>
                     </div>
-                    <p><span data-if="INDEX !== 2"><var>X</var> bags of candy and <var>Y</var> bags of cookies were sold.</span><span data-else="">The measure of angle 1 is <code><var>X</var>^{\circ}</code> and the measure of angle 2 is <code><var>Y</var>^{\circ}</code>.</span></p>
+                    <p data-if="INDEX !== 2">
+                        <var>X</var> bags of candy and <var>Y</var> bags of cookies were sold.
+                    </p><p data-else>
+                        The measure of angle 1 is <code><var>X</var>^{\circ}</code> and the measure of angle 2 is <code><var>Y</var>^{\circ}</code>.
+                    </p>
                 </div>
             </div>
             <div id="elimination-x">
@@ -185,7 +225,13 @@
                         <p>Solve for <code>x</code> and <code>y</code> using elimination.</p>
                     </div>
                     <div data-if="INDEX !== 0">
-                        <p>Multiply the <span data-if="INDEX === 2">bottom</span><span data-else="">top</span> equation by <span data-if="INDEX === 2"><code><var>MULT2</var></code></span><span data-else=""><code><var>MULT1</var></code></span><span data-if="INDEX === 3"> and the bottom equation by <code><var>MULT2</var></code></span>.</p>
+                        <p data-if="INDEX === 2">
+                            Multiply the bottom equation by <code><var>MULT2</var></code>.
+                        </p><p data-else-if="INDEX === 3">
+                            Multiply the top equation by <code><var>MULT1</var></code> and the bottom equation by <code><var>MULT2</var></code>.
+                        </p><p data-else>
+                            Multiply the top equation by <code><var>MULT1</var></code>.
+                        </p>
                         <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1 * MULT1, "x"], ["*", B1 * MULT1, "y"]])</var> = <var>C1 * MULT1</var>}</code><br>
                         <code class="hint_green"><var>expr(["+", ["*", A2 * MULT2, "x"], ["*", B2 * MULT2, "y"]])</var> = <var>C2 * MULT2</var></code></p>
                     </div>
@@ -259,7 +305,13 @@
                         <p>Solve for <code>x</code> and <code>y</code> using elimination.
                     </p></div>
                     <div data-if="INDEX !== 0">
-                        <p>Multiply the <span data-if="INDEX === 2">bottom</span><span data-else="">top</span> equation by <span data-if="INDEX === 2"><code><var>MULT2</var></code></span><span data-else=""><code><var>MULT1</var></code></span><span data-if="INDEX === 3"> and the bottom equation by <code><var>MULT2</var></code></span>.</p>
+                        <p data-if="INDEX === 2">
+                            Multiply the bottom equation by <code><var>MULT2</var></code>.
+                        </p><p data-else-if="INDEX === 3">
+                            Multiply the top equation by <code><var>MULT1</var></code> and the bottom equation by <code><var>MULT2</var></code>.
+                        </p><p data-else>
+                            Multiply the top equation by <code><var>MULT1</var></code>.
+                        </p>
                         <p><code>\color{<var>BLUE</var>}{<var>expr(["+", ["*", A1 * MULT1, "x"], ["*", B1 * MULT1, "y"]])</var> = <var>C1 * MULT1</var>}</code><br>
                         <code class="hint_green"><var>expr(["+", ["*", A2 * MULT2, "x"], ["*", B2 * MULT2, "y"]])</var> = <var>C2 * MULT2</var></code></p>
                     </div>

@@ -8,7 +8,15 @@
 <body>
     <div class="exercise">
     <div class="vars">
-        <var id="DAYS">[ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]</var>
+        <var id="DAYS">[
+            $._("Monday"),
+            $._("Tuesday"),
+            $._("Wednesday"),
+            $._("Thursday"),
+            $._("Friday"),
+            $._("Saturday"),
+            $._("Sunday")
+        ]</var>
         <var id="INDEX">randRange( 0, DAYS.length - 1 )</var>
         <var id="VALUES">shuffle( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ], DAYS.length )</var>
         <var id="DATA">
@@ -61,7 +69,7 @@
                         graph.lc.labelDataPoint( INDEX );
                     </div>
                 </div>
-                <p data-if="isMale(1)">He saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> on <var>DAYS[ INDEX ]</var>.</p><p data-else="">She saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural_form(clothing( 1 ))</var> on <var>DAYS[ INDEX ]</var>.</p>
+                <p data-if="isMale(1)">He saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural_form(clothing( 1 ), VALUES[INDEX])</var> on <var>DAYS[ INDEX ]</var>.</p><p data-else="">She saw <var>VALUES[ INDEX ]</var> <var>color( 1 )</var> <var>plural_form(clothing( 1 ), VALUES[INDEX])</var> on <var>DAYS[ INDEX ]</var>.</p>
             </div>
         </div>
     </div>

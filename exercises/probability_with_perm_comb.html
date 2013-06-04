@@ -135,7 +135,7 @@
                     <var id="COINS">randRange(4,7)</var>
                     <var id="NUM">randRange(2,COINS-2)</var>
                     <var id="IS_H">random &lt; 0.5</var>
-                    <var id="NAME">IS_H ? "heads" : "tails"</var>
+                    <var id="NAME">IS_H ? $._("heads") : $._("tails")</var>
                     <var id="NUM_RIGHT">factorial(COINS)/(factorial(NUM)*factorial(COINS-NUM))</var>
                     <var id="NUM_ALL">Math.pow(2,COINS)</var>
                     <var id="GCD">getGCD(NUM_RIGHT,NUM_ALL)</var>

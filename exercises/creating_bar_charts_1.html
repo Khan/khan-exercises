@@ -22,22 +22,53 @@
     <div class="problems">
         <div>
             <div class="vars">
-                <var id="SUBJECT">randFromArray([ "animal", "color", "fruit", "course" ])</var>
-                <var id="CATEGORIES">$.map( _.range(5), function( n ) { return ( KhanUtil[ SUBJECT ] )( n + 1 ); } )</var>
-                <var id="DATA">$.map( _.range(5), function() { return randRange( 0, 10 ); } )</var>
-                <var id="TOTAL">sum( DATA )</var>
-                <var id="RESPONDENT">randFromArray([ "student", "teacher", "person" ])</var>
+                <var id="SUBJECT,SUBJECT_FUNC">randFromArray([
+                    [new Plural(function(num) {
+                        return $.ngettext("animal", "animals", num);
+                    }), KhanUtil.animal],
+                    [new Plural(function(num) {
+                        return $.ngettext("color", "colors", num);
+                    }), KhanUtil.color],
+                    [new Plural(function(num) {
+                        return $.ngettext("fruit", "fruits", num);
+                    }), KhanUtil.fruit],
+                    [new Plural(function(num) {
+                        return $.ngettext("course", "courses", num);
+                    }), KhanUtil.course]
+                ])</var>
+                <var id="CATEGORIES">_.times(5, function(n) { return SUBJECT_FUNC(n + 1); } )</var>
+                <var id="DATA">_.times(5, function() { return randRange(0, 10); } )</var>
+                <var id="TOTAL">sum(DATA)</var>
+                <var id="RESPONDENT">randFromArray([
+                    new Plural(function(num) {
+                        return $.ngettext("student", "students", num);
+                    }),
+                    new Plural(function(num) {
+                        return $.ngettext("teacher", "teachers", num);
+                    }),
+                    new Plural(function(num) {
+                        return $.ngettext("person", "people", num);
+                    })
+                ])</var>
+                <var id="SHUFFLED">shuffle(_.zip(DATA, CATEGORIES))</var>
             </div>
 
-            <p data-if="isSingular(TOTAL)"><code><var>TOTAL</var></code> <var>RESPONDENT</var> were asked about their favorite <var>SUBJECT</var>.
-            <var>toSentence( shuffle( $.map( DATA, function( num, i ) {
-                return "&lt;code&gt;" + num + "&lt;/code&gt; " + plural( RESPONDENT, num ) + " said " + CATEGORIES[ i ];
-            }) ) )</var>.</p><p data-else=""><code><var>TOTAL</var></code> <var>AMBIGUOUS_PLURAL(RESPONDENT, TOTAL)</var> were asked about their favorite <var>SUBJECT</var>.
-            <var>toSentence( shuffle( $.map( DATA, function( num, i ) {
-                return "&lt;code&gt;" + num + "&lt;/code&gt; " + plural( RESPONDENT, num ) + " said " + CATEGORIES[ i ];
-            }) ) )</var>.</p>
+            <p>
+                <span data-if="isSingular(TOTAL)">
+                    <code><var>TOTAL</var></code> <var>RESPONDENT</var> was asked about their favorite <var>SUBJECT</var>.
+                </span><span data-else="">
+                    <code><var>TOTAL</var></code> <var>plural_form(RESPONDENT, TOTAL)</var> were asked about their favorite <var>SUBJECT</var>.
+                </span>
+                <span data-each="SHUFFLED as DATA">
+                    <span data-if="isSingular(DATA[0])">
+                        <code><var>DATA[0]</var></code> <var>RESPONDENT</var> said <var>DATA[1]</var>.
+                    </span><span data-else>
+                        <code><var>DATA[0]</var></code> <var>plural_form(RESPONDENT, DATA[0])</var> said <var>DATA[1]</var>.
+                    </span>
+                </span>
+            </p>
 
-            <p class="question">Create a bar chart showing everyone's favorite <var>AMBIGUOUS_PLURAL(SUBJECT)</var>:</p>
+            <p class="question">Create a bar chart showing everyone's favorite <var>plural_form(SUBJECT)</var>:</p>
 
             <div class="problem">
 
@@ -87,9 +118,20 @@
                         line( [ 0, 0 ], [ 0, 10 ] );
                     });
 
-                    label( [ 8, -0.8 ], "&lt;b&gt;" + SUBJECT + "&lt;/b&gt;", "below", false ).css( "text-transform", "capitalize" );
-                    $( label( [ -1.5, 5 ], "&lt;b&gt;Number of " + plural( RESPONDENT ) + "&lt;/b&gt;", "center", false ) ).addClass( "rotate" );
-                    label( [ 8, 10.5 ], "&lt;b&gt;Favorite " + SUBJECT + "s&lt;/b&gt;", "above", false );
+                    label([8, -0.8],
+                        SUBJECT + "",
+                        "below", false)
+                        .css("text-transform", "capitalize")
+                        .css("font-weight", "bold");
+                    label([-1.5, 5],
+                        $._("Number of %(respondent)s", { respondent: plural_form(RESPONDENT) }),
+                        "center", false)
+                        .css("font-weight", "bold")
+                        .addClass("rotate");
+                    label([8, 10.5],
+                        $._("Favorite %(subject)s", { subject: plural_form(SUBJECT) }),
+                        "above", false)
+                        .css("font-weight", "bold");
                 </div>
 
             </div>
@@ -97,7 +139,9 @@
                 <div class="instruction">
                     Create a bar chart by dragging the top of each bar up and down.
                 </div>
-                <div class="guess">$.map( new Array( 5 ), function( val, n ) { return graph.lines[ n ].coordA[1]; })</div>
+                <div class="guess">
+                    _.times(5, function(n) { return graph.lines[ n ].coordA[1]; })
+                </div>
                 <div class="validator-function">
                     if ( _.isEqual( guess, [ 0.5, 0.5, 0.5, 0.5, 0.5 ] ) ) {
                         return "";
@@ -119,27 +163,24 @@
 
     <div class="hints">
         <div data-each="DATA as INDEX, NUM">
-            <p data-if="isSingular(NUM)">
-                <code><var>NUM</var></code> <var>RESPONDENT</var> said their
-                favorite <var>SUBJECT</var> was <var>CATEGORIES[ INDEX ]</var>.
+            <p>
+                <span data-if="isSingular(NUM)">
+                    <code><var>NUM</var></code> <var>RESPONDENT</var> said their
+                    favorite <var>SUBJECT</var> was <var>CATEGORIES[ INDEX ]</var>.
+                </span><span data-else="">
+                    <code><var>NUM</var></code> <var>plural_form(RESPONDENT, NUM)</var> said their
+                    favorite <var>SUBJECT</var> was <var>CATEGORIES[ INDEX ]</var>.
+                </span>
                 <span data-if="NUM > 0">
-                    So the top of the bar for "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>" should line up with the number
+                    So the top of the bar for
+                    "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>"
+                    should line up with the number
                     <code><var>NUM</var></code> on the left side of the chart.
-                </span>
-                <span data-else="">
-                    So there should be no bar above "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>". Drag the top of the bar all
-                    the way to the bottom to get rid of the bar.
-                </span>
-            </p><p data-else="">
-                <code><var>NUM</var></code> <var>AMBIGUOUS_PLURAL(RESPONDENT, NUM)</var> said their
-                favorite <var>SUBJECT</var> was <var>CATEGORIES[ INDEX ]</var>.
-                <span data-if="NUM > 0">
-                    So the top of the bar for "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>" should line up with the number
-                    <code><var>NUM</var></code> on the left side of the chart.
-                </span>
-                <span data-else="">
-                    So there should be no bar above "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>". Drag the top of the bar all
-                    the way to the bottom to get rid of the bar.
+                </span><span data-else>
+                    So there should be no bar above
+                    "<span style="text-transform: capitalize"><var>CATEGORIES[ INDEX ]</var></span>".
+                    Drag the top of the bar all the way to the bottom to get
+                    rid of the bar.
                 </span>
             </p>
             <div class="graphie" data-if="NUM > 0" data-update="barchart">

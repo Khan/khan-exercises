@@ -19,8 +19,17 @@
         <div>
             <div class="vars">
                 <var id="INDEX">randRange( 0, 3 )</var>
-                <var id="ROWS">[ [ school(1), school(2), school(3), school(4) ], [ person(1), person(2), person(3), person(4) ], [ person(1), person(2), person(3), person(4) ], [ "Alabama", "Michigan", "New York", "Wyoming" ] ][ INDEX ]</var>
-                <var id="COLUMNS">[ [ "3rd grade", "4th grade", "5th grade", "Total" ], [ "January", "February", "March", "Total" ], [ "1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter", "Final" ], [ "Q1", "Q2", "Q3", "Q4", "Total" ] ][ INDEX ]</var>
+                <var id="ROWS">[
+                    [ school(1), school(2), school(3), school(4) ],
+                    [ person(1), person(2), person(3), person(4) ],
+                    [ person(1), person(2), person(3), person(4) ],
+                    [ $._("Alabama"), $._("Michigan"), $._("New York"), $._("Wyoming") ]
+                ][ INDEX ]</var>
+                <var id="COLUMNS">[
+                    [ $._("3rd grade"), $._("4th grade"), $._("5th grade"), $._("Total") ],
+                    [ $._("January"), $._("February"), $._("March"), $._("Total") ],
+                    [ $._("1st Quarter"), $._("2nd Quarter"), $._("3rd Quarter"), $._("4th Quarter"), $._("Final") ],
+                    [ $._("Q1"), $._("Q2"), $._("Q3"), $._("Q4"), $._("Total") ] ][ INDEX ]</var>
                 <var id="ENROLLMENTS">
                     (function() {
                         var enrollments = [];
@@ -41,30 +50,82 @@
                 <var id="COL_INDEX">randRange( 0, COLUMNS.length - 1 )</var>
                 <var id="ROW_INDEX">randRange( 0, ROWS.length - 1 )</var>
                 <var id="ANSWER">ENROLLMENTS[ ROW_INDEX ][ COL_INDEX ]</var>
-                <var id="PROBLEM">[ "shows the enrollment at four different elementary schools that have 3rd through 5th grade students", "shows the number of chickens sold by four friends from January to March", "indicates the points scored by four players in a charity basketball game", "shows solar panel installations by state during the last fiscal year" ][ INDEX ]</var>
+                <var id="PROBLEM">[
+                    $._("shows the enrollment at four different elementary schools that have 3rd through 5th grade students"),
+                    $._("shows the number of chickens sold by four friends from January to March"),
+                    $._("indicates the points scored by four players in a charity basketball game"),
+                    $._("shows solar panel installations by state during the last fiscal year")
+                ][ INDEX ]</var>
                 <var id="QUESTION">(function() {
                     if ( COL_INDEX === COLUMNS.length - 1 ) {
-                        return [ "How many students does " + ROWS[ ROW_INDEX ] + " Elementary School have in total?", "How many chickens did " + ROWS[ ROW_INDEX ] + " sell in total?", "How many points did " + ROWS[ ROW_INDEX ] + " have in total?", "How many total solar panels were installed last year in " + ROWS[ ROW_INDEX ] + "?" ][ INDEX ];
+                        var dict = {name: ROWS[ROW_INDEX]};
+                        return [
+                            $._("How many students does %(name)s Elementary School have in total?", dict),
+                            $._("How many chickens did %(name)s sell in total?", dict),
+                            $._("How many points did %(name)s have in total?", dict),
+                            $._("How many total solar panels were installed last year in %(name)s?", dict)
+                        ][ INDEX ];
                     } else {
-                        return [ "How many " + COLUMNS[ COL_INDEX ] + " students does " + ROWS[ ROW_INDEX ] + " Elementary School have?", "How many chickens did " + ROWS[ ROW_INDEX ] + " sell in " + COLUMNS[ COL_INDEX ] + "?", "How many points did " + ROWS[ ROW_INDEX ] + " score in the " + COLUMNS[ COL_INDEX ] + "?", "How many solar panels were installed in " + ROWS[ ROW_INDEX ] + " in " + COLUMNS[ COL_INDEX ] + "?" ][ INDEX ];
+                        return [
+                            $._("How many %(grade)s students does %(name)s Elementary School have?", {grade: COLUMNS[COL_INDEX], name: ROWS[ROW_INDEX]}),
+                            $._("How many chickens did %(name)s sell in %(month)s?", {name: ROWS[ROW_INDEX], month: COLUMNS[COL_INDEX]}),
+                            $._("How many points did %(name)s score in the %(time_period)s?", {name: ROWS[ROW_INDEX], time_period: COLUMNS[COL_INDEX]}),
+                            $._("How many solar panels were installed in %(state)s in %(time_period)s?", {state: ROWS[ROW_INDEX], time_period: COLUMNS[COL_INDEX]})
+                        ][ INDEX ];
                     }
                 })()
                 </var>
-                <var id="HEADER">[ "Schools", "Farmers", "Players", "States" ][ INDEX ]</var>
-                <var id="UNIT">[ "students", "chicken(s)", "points", "solar panels" ][ INDEX ]</var>
-                <var id="ROW_HINT">[ "the student enrollment at " + ROWS[ ROW_INDEX ] + " Elementary School", "the number of chickens sold by " + ROWS[ ROW_INDEX ], "the number of points scored by " + ROWS[ ROW_INDEX ], "the number of solar panels installed in " + ROWS [ ROW_INDEX ] ][ INDEX ]</var>
+                <var id="HEADER">[
+                    $._("Schools"),
+                    $._("Farmers"),
+                    $._("Players"),
+                    $._("States")
+                ][ INDEX ]</var>
+                <var id="UNIT">[
+                    $._("students"),
+                    $._("chicken(s)"),
+                    $._("points"),
+                    $._("solar panels")
+                ][ INDEX ]</var>
+                <var id="ROW_HINT">[
+                    $._("the student enrollment at %(name)s", {name: ROWS[ROW_INDEX]}),
+                    $._("the number of chickens sold by %(name)s", {name: ROWS[ROW_INDEX]}),
+                    $._("the number of points scored by %(name)s", {name: ROWS[ROW_INDEX]}),
+                    $._("the number of solar panels installed in %(state)s", {state: ROWS[ROW_INDEX]})
+                ][ INDEX ]</var>
                 <var id="COL_HINT">
                     (function() {
                         if ( COL_INDEX === COLUMNS.length - 1 ) {
-                            return [ "the total number of students at each school", "the total number of chickens sold by each person", "the total number of points scored by each person", "the total number of solar panels installed in each state" ][ INDEX ];
+                            return [
+                                $._("the total number of students at each school"),
+                                $._("the total number of chickens sold by each person"),
+                                $._("the total number of points scored by each person"),
+                                $._("the total number of solar panels installed in each state")
+                            ][ INDEX ];
                         } else {
-                            return [ "the number of " + COLUMNS[ COL_INDEX ] + " students at each school", "the number of chickens sold in " + COLUMNS[ COL_INDEX ], "the number of points scored in the " + COLUMNS[ COL_INDEX ], "the number of solar panels installed in " + COLUMNS[ COL_INDEX ] ][ INDEX ];
+                            return [
+                                $._("the number of %(grade)s students at each school", {grade: COLUMNS[COL_INDEX]}),
+                                $._("the number of chickens sold in %(month)s", {month: COLUMNS[COL_INDEX]}),
+                                $._("the number of points scored in the %(time_period)s", {time_period: COLUMNS[COL_INDEX]}),
+                                $._("the number of solar panels installed in %(time_period)s" + COLUMNS[ COL_INDEX ], {time_period: COLUMNS[COL_INDEX]})
+                            ][ INDEX ];
                         }
                     })()
                 </var>
-                <var id="FINAL_HINT">
-                    [ "There are " + ANSWER + " " + COLUMNS[ COL_INDEX ].toLowerCase() + " students at " + ROWS[ ROW_INDEX ] + ".", ROWS[ ROW_INDEX ] + " sold " + ANSWER + " chicken" + ( ANSWER === 1 ? "" : "s" ) + " in " + ( COL_INDEX === COLUMNS.length - 1 ? "total" : COLUMNS[ COL_INDEX ] )  + ".", ROWS[ ROW_INDEX ] + " scored " + ANSWER + " points in " +( COL_INDEX === COLUMNS.length - 1 ? "total" : "the " + COLUMNS[ COL_INDEX ] )  + ".", "There were " + ANSWER + " solar panels installed in " + ROWS[ ROW_INDEX ] + ( COL_INDEX === COLUMNS.length - 1 ? " last year" : " in " + COLUMNS[ COL_INDEX ] ) + "."][ INDEX ]
-                </var>
+                <var id="FINAL_HINT">[
+                    $._("There are %(num)s %(grade)s students at %(school_name)s.", {num: ANSWER, grade: COLUMNS[COL_INDEX], school_name: ROWS[ROW_INDEX]}),
+                    (COL_INDEX === COLUMNS.length - 1 ?
+                     $.ngettext("%(name)s sold %(num)s chicken in total.",
+                                "%(name)s sold %(num)s chickens in total.", ANSWER, {name: ROWS[ROW_INDEX]}) :
+                     $.ngettext("%(name)s sold %(num)s chicken in %(month)s.",
+                                "%(name)s sold %(num)s chickens in %(month)s.", ANSWER, {name: ROWS[ROW_INDEX], month: COLUMNS[COL_INDEX]})),
+                    (COL_INDEX === COLUMNS.length - 1 ?
+                     $._("%(name)s scored %(num)s points in total.", {name: ROWS[ROW_INDEX], num: ANSWER}) :
+                     $._("%(name)s scored %(num)s points in the %(time_period)s.", {name: ROWS[ROW_INDEX], num: ANSWER, time_period: COLUMNS[COL_INDEX]})),
+                    (COL_INDEX === COLUMNS.length - 1 ?
+                     $._("There were %(num)s solar panels installed in %(state)s last year.", {num: ANSWER, state: ROWS[ROW_INDEX]}) :
+                     $._("There were %(num)s solar panels installed in %(state)s in %(month)s.", {num: ANSWER, state: ROWS[ROW_INDEX], month: COLUMNS[COL_INDEX]}))
+                ][ INDEX ]</var>
             </div>
             <p>The table below <var>PROBLEM</var>.</p>
             <p class="question"><var>QUESTION</var></p>

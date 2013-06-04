@@ -23,9 +23,19 @@
 <div class="exercise">
     <div class="vars">
         <var id="DATA">randRangeUnique( 1, 7, 5 )</var>
-        <var id="BADGE">randFromArray([ "meteorite", "moon", "earth" ])</var>
-        <var id="FULL_IMAGE">"&lt;img src='" + Khan.imageBase + "badges/" + BADGE + "-small.png'&gt;"</var>
-        <var id="HALF_IMAGE">"&lt;div style=\"background-image:url('" + Khan.imageBase + "badges/" + BADGE + "-small.png'); width:20px; height:40px;\"&gt;&nbsp;&lt;/div&gt;"</var>
+        <var id="BADGE_ID,BADGE">randFromArray([
+            ["meteorite", $._("meteorite")],
+            ["moon", $._("moon")],
+            ["earth", $._("earth")]
+        ])</var>
+        <var id="SYMBOL_PL">new Plural(function(num) {
+            return $.ngettext("symbol", "symbols", num);
+        })</var>
+        <var id="BADGE_PL">new Plural(function(num) {
+            return $.ngettext("badge", "badges", num);
+        })</var>
+        <var id="FULL_IMAGE">"&lt;img src='" + Khan.imageBase + "badges/" + BADGE_ID + "-small.png'&gt;"</var>
+        <var id="HALF_IMAGE">"&lt;div style=\"background-image:url('" + Khan.imageBase + "badges/" + BADGE_ID + "-small.png'); width:20px; height:40px;\"&gt;&nbsp;&lt;/div&gt;"</var>
         <var id="VALUE_PER_IMG">randFromArray([ 2, 4 ])</var>
         <var id="HALF">VALUE_PER_IMG === 1 ? [ 0, 0, 0, 0, 0 ] : [ rand(2), rand(2), rand(2), rand(2), rand(2) ]</var>
     </div>
@@ -76,7 +86,7 @@
 
                 <div>
                     <div>
-                        <code><var>DATA[ PERSON ]</var></code> <var>plural( "symbol", DATA[ PERSON ] )</var>
+                        <code><var>DATA[ PERSON ]</var></code> <var>plural_form(SYMBOL_PL, DATA[ PERSON ] )</var>
                         <code> \times </code>
                         <span data-if="isSingular(VALUE_PER_IMG)"><code><var>VALUE_PER_IMG</var></code> badge per symbol</span><span data-else=""><code><var>VALUE_PER_IMG</var></code> badges per symbol</span>
                         <span data-if="isSingular(DATA[ PERSON ] * VALUE_PER_IMG)"><code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code> badge.</span><span data-else=""><code> = <var>DATA[ PERSON ] * VALUE_PER_IMG</var></code> badges.</span>
@@ -116,8 +126,8 @@
                 <p data-if="isSingular(VALUE)">How many symbols are needed to represent <code><var>VALUE</var></code> badge?</p><p data-else="">How many symbols are needed to represent <code><var>VALUE</var></code> badges?</p>
                 <p>
                     <code>
-                        \dfrac{<var>VALUE</var> \text{ <var>AMBIGUOUS_PLURAL( "badge", VALUE )</var>}}{<var>VALUE_PER_IMG</var> \text{ <var>$._("%(point)s per badge", {point: AMBIGUOUS_PLURAL( "symbol", VALUE_PER_IMG )})</var>}} =
-                        <var>NUM_SYMBOLS</var> \text{ <var>AMBIGUOUS_PLURAL( "symbol", VALUE / VALUE_PER_IMG )</var>}
+                        \dfrac{<var>VALUE</var> \text{ <var>plural(BADGE_PL, VALUE )</var>}}{<var>VALUE_PER_IMG</var> \text{ <var>$._("%(point)s per badge", {point: plural_form(SYMBOL_PL, VALUE_PER_IMG )})</var>}} =
+                        <var>NUM_SYMBOLS</var> \text{ <var>plural_form(SYMBOL_PL, VALUE / VALUE_PER_IMG )</var>}
                     </code>
                 </p>
                 <div>
@@ -177,7 +187,7 @@
 
                 <div>
                     <div>
-                        <code><var>PRETTY_SYM_DIFF</var></code> <var>plural( "symbol", SYMBOL_DIFF )</var>
+                        <code><var>PRETTY_SYM_DIFF</var></code> <var>plural_form(SYMBOL_PL, SYMBOL_DIFF )</var>
                         <code> \times </code>
                         <span data-if="isSingular(VALUE_PER_IMG)"><code><var>VALUE_PER_IMG</var></code> badge per symbol</span><span data-else=""><code><var>VALUE_PER_IMG</var></code> badges per symbol</span>
                         <span data-if="isSingular(VAL1 - VAL2)"><code> = <var>VAL1 - VAL2</var></code> badge.</span><span data-else=""><code> = <var>VAL1 - VAL2</var></code> badges.</span>
@@ -207,7 +217,7 @@
                 </p>
                 <div>
                     <div>
-                        <code><var>FULL_SYM</var></code> <var>plural( "symbol", FULL_SYM )</var>
+                        <code><var>FULL_SYM</var></code> <var>plural_form(SYMBOL_PL, FULL_SYM )</var>
                         <code> \times </code>
                         <span data-if="isSingular(VALUE_PER_IMG)"><code><var>VALUE_PER_IMG</var></code> badge per symbol</span><span data-else=""><code><var>VALUE_PER_IMG</var></code> badges per symbol</span>
                         <span data-if="isSingular(FULL_SYM * VALUE_PER_IMG)"><code> = <var>FULL_SYM * VALUE_PER_IMG</var></code> badge.</span><span data-else=""><code> = <var>FULL_SYM * VALUE_PER_IMG</var></code> badges.</span>

@@ -29,17 +29,28 @@
             <div data-if="B > 0" data-unwrap="">
                 <div>
                     <div class="graphie" data-update="numbers">
-                        label( [ 0, B - 1 ], "Draw " + plural( A, "circle" ) + ".", "right", false );
+                        label( [ 0, B - 1 ],
+                            $.ngettext("Draw %(num)s circle.", "Draw %(num)s circles.", A),
+                            "right", false );
                         drawRow( A, B - 3, "#6495ED", 1 );
                     </div>
                 </div>
                 <div>
                     <div class="graphie" data-update="numbers">
-                        label( [ 0, B - 2 ],
-                              "If there" + ( B === 1 ? " is " : " are " ) + plural( B, "row" )
-                            + " with " + plural( A, "circle" ) +  ( B === 1 ? "" : " each" )
-                            + ",&lt;br&gt;there are a total of how many circles?",
-                            "right", false );
+                        if (isSingular(A)) {
+                            label( [ 0, B - 2 ],
+                                $.ngettext(
+                                    "If there is %(num)s row with %(a)s circle, &lt;br&gt; there are a total of how many circles?",
+                                    "If there are %(num)s rows with %(a)s circle each, &lt;br&gt;there are a total of how many circles?",
+                                    B, {a: A}), "right", false );
+                        } else {
+                            label( [ 0, B - 2 ],
+                                $.ngettext(
+                                    "If there is %(num)s row with %(a)s circles, &lt;br&gt; there are a total of how many circles?",
+                                    "If there are %(num)s rows with %(a)s circles each, &lt;br&gt;there are a total of how many circles?",
+                                    B, {a: A}), "right", false );
+
+                        }
                         for ( var i = 1; i &lt; B; i++ ) {
                             drawRow( A, B - 3 - i, "#28AE7B", A * i + 1 );
                         }
