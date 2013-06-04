@@ -1,47 +1,46 @@
 <!DOCTYPE html>
-<html data-require="math angles">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Radians to degrees</title>
-    <script src="../khan-exercise.js"></script>
-</head>
-<body>
-    <div class="exercise">
-        <div class="vars">
-            <!-- Numerical degree and radian values -->
-            <var id="NUM_DEGREES">rand(360)</var>
-            <var id="NUM_RADIANS">roundTo( 2, toRadians(NUM_DEGREES) )</var>
+<html data-require="math math-format graphie graphie-polygon interactive">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Radians to degrees</title>
+        <script src="../khan-exercise.js"></script>
+    </head>
+    <body>
+        <div class="exercise">
+            <div class="problems">
+                <div id="radian-to-degree">
 
-            <!-- Common degree and radian values -->
-            <!-- (index rather than member-based selection is for wrong answer generation) -->
-            <var id="COMMON_INDEX">rand( commonAngles.length )</var>
-            <var id="COMMON_DEGREES">commonAngles[COMMON_INDEX].deg</var>
-            <var id="COMMON_RADIANS">commonAngles[COMMON_INDEX].rad</var>
-        </div>
+                    <div class="vars">					
+                        <var id="RADIUS">3</var>
+                        <var id="ANGLE">randRange(0,360)</var>
+                        <var id="PI_ANGLE">piFraction(Math.PI*ANGLE/180)</var>
+                    </div>
 
-        <div class="problems">
-            <div id="radians-to-degrees">
-                <p class="question">Convert the angle <code><var>COMMON_RADIANS</var></code> radians into degrees.</p>
-                <p class="solution" data-type="multiple"><span class="sol" data-forms="integer"><var>COMMON_DEGREES</var></span><code>\Large{^\circ}</code></p>
+                    <p class="question">Convert the angle <code><var>PI_ANGLE</var></code> radians into degrees.</p>
 
-                <div class="hints">
-                    <p>To convert from radians to degrees, you multiply by <code>180^{\circ}</code> and then divide by <code>\pi</code>.</p>
-                    <p><code><var>COMMON_RADIANS</var> \times \frac{180^{\circ}}{\pi}</code></p>
-                    <p><code><var>COMMON_DEGREES</var>^{\circ}</code></p>
+                    <div class="problem">
+                        <div class="graphie">
+                            init({
+                            range: [ [ -RADIUS - 1, RADIUS + 1 ], [ -RADIUS - 1, RADIUS + 1 ] ],
+                            });
+
+                            addMouseLayer();
+                            graph.circle = new Circle( RADIUS );
+                            graph.circle.drawMovableCentralAngle(0,0,0.25);
+                        </div>
+                    </div>
+
+                    <div class="solution" data-type="multiple">
+                        <span class="sol" data-forms="integer"><var>ANGLE</var></span><code>\Large{^\circ}</code>
+                    </div>
+
+                    <div class="hints">
+                        <p><code>\pi</code> radians = <code>180^{\circ}</code></p>
+                        <p><code><var>PI_ANGLE</var> \times \frac{180^{\circ}}{\pi}</code></p>
+                        <p><code><var>ANGLE</var>^{\circ}</code></p>
+                    </div>
                 </div>
             </div>
-
-            <div data-type="radians-to-degrees">
-                <p class="question">Convert the angle <var>NUM_RADIANS</var> radians into degrees. (Round to the nearest degree.)</p>
-                <p class="solution" data-type="multiple"><span class="sol" data-forms="integer"><var>NUM_DEGREES</var></span><code>\Large{^\circ}</code></p>
-
-                <div class="hints">
-                    <p>To convert from radians to degrees, you multiply by <code>180^{\circ}</code> and then divide by <code>\pi</code>.</p>
-                    <p><code><var>NUM_RADIANS</var> \times \frac{180^{\circ}}{\pi}</code></p>
-                    <p><code><var>NUM_DEGREES</var>^{\circ}</code> (round to nearest integer here)</p>
-                </div>
-            </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

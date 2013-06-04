@@ -243,6 +243,13 @@ $.extend(KhanUtil, {
             return angle;
         }
 
+        function getAbsTheta(theta1, theta2) {
+            var abs = theta2 - theta1;
+            if(abs<0)
+                abs+=360;
+            return abs;
+        }
+
         this.drawMovablePoint = function(theta, min, max) {
             var graph = KhanUtil.currentGraph,
                 point = graph.polar(radius, theta);
@@ -264,6 +271,35 @@ $.extend(KhanUtil, {
                 graph.graph.movable.vertex.remove();
                 graph.graph.movable = graph.graph.circle.drawInscribedAngle(theta, max, min);
                 return graph.polar(radius, theta);
+            };
+        }
+
+        this.drawMovableCentralAngle = function(fixedTheta, movableTheta, arc) {
+            var graph = KhanUtil.currentGraph,
+                fixedTheta = fixedTheta || 0,
+                movableTheta = movableTheta || 360,
+                arc = arc || 0.5,
+                movablePoint = graph.polar(radius, movableTheta);
+
+            graph.graph.movable = graph.graph.circle.drawCentralAngle(fixedTheta, movableTheta, arc);
+            graph.graph.movable.label = graph.label(center,Math.round(getAbsTheta(fixedTheta,movableTheta)),"above",{opacity:0.9});
+            
+            graph.graph.inscribedPoint = KhanUtil.addMovablePoint({
+                coord: movablePoint, 
+                constraints: {fixedDistance: {dist: radius, point: center}}
+            });
+            
+            graph.graph.inscribedPoint.onMove = function(x, y) {
+                var movableTheta = getThetaFromXY(x, y);
+                graph.graph.movable.arc.remove();
+                graph.graph.movable.radii[0].remove();
+                graph.graph.movable.radii[1].remove();
+                graph.graph.movable.label.remove();
+                graph.graph.movable = graph.graph.circle.drawCentralAngle(fixedTheta, movableTheta, arc);
+                graph.graph.movable.label = graph.label(center,Math.round(getAbsTheta(fixedTheta,movableTheta)),"above",{opacity:0.9});
+                $("#solutionarea input[type=text]").val(Math.round(getAbsTheta(fixedTheta,movableTheta)));
+                $("#check-answer-button")[0].disabled=false;
+                return graph.graph.movable;
             };
         }
 
