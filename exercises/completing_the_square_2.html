@@ -106,10 +106,15 @@
             <div data-if="B !== 0">
                 <p>Isolate <code>x</code> to find the solution(s).</p>
                 <p data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"><code>x = <var>decimalFraction( -B / 2, 1, 1 )</var>\pm<var>decimalFraction( sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var></code></p>
-                <p><code>x = <var>decimalFraction( -B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var><span data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"> \text{ <var>$._("or")</var> } x = <var>decimalFraction( -B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var></span></code></p>
             </div>
-            <div data-else="">
-                <p><code>x = <var>decimalFraction( -B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var><span data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0"> \text{ <var>$._("or")</var> } x =     <var>decimalFraction( -B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var></span></code></p>
+            <div>
+                <div data-if="sqrt( C * -1 + pow( B / 2, 2 ) ) !== 0">
+                    <p>The solutions are: <code>x = <var>decimalFraction( -B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var> \text{ <var>$._("or")</var> } x = <var>decimalFraction( -B / 2 - sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var></code></p>
+                </div>
+                <div data-else="">
+                    <p>The solution is: <code>x = <var>decimalFraction( -B / 2 + sqrt( C * -1 + pow( B / 2, 2 ) ), 1, 1 )</var></code></p>
+                </div>
+                <p>We already found the completed square: <code>( x + <var>decimalFraction( B / 2, 1, 1 )</var> )^2 = <var>decimalFraction( C * -1 + pow( B / 2, 2 ), 1, 1 )</var></code></p>
             </div>
         </div>
     </div>
