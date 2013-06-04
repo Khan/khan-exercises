@@ -713,6 +713,196 @@ var Khan = (function() {
                 message: typeof pass === "string" ? pass : null,
                 guess: guess
             };
+        },
+
+        /**
+         * Hijacks a specified link so that it opens up the issue form.
+         * @param {string} selector The link selector - defaults to "#report"
+         */
+        initReportIssueLink: function(selector) {
+            selector = selector || "#report";
+            $(selector).click(function(e) {
+                var issueIntro = $._("Remember to check the hints and " +
+                        "double check your math. All provided information will " +
+                        "be public. Thanks for your help!");
+
+                e.preventDefault();
+
+                var report = $("#issue").css("display") !== "none",
+                    form = $("#issue form").css("display") !== "none";
+
+                if (report && form) {
+                    $("#issue").hide();
+                } else if (!report || !form) {
+                    $("#issue-status").removeClass("error").html(issueIntro);
+                    $("#issue, #issue form").show();
+                    $("html, body").animate({
+                        scrollTop: $("#issue").offset().top
+                    }, 500, function() {
+                        $("#issue-title").focus();
+                    });
+                }
+            });
+
+            // Hide issue form.
+            $("#issue-cancel").click(function(e) {
+                e.preventDefault();
+
+                $("#issue").hide(500);
+                $("#issue-title, #issue-body").val("");
+            });
+
+            // Submit an issue.
+            $("#issue form input:submit").click(function(e) {
+                e.preventDefault();
+
+                // don't do anything if the user clicked a second time quickly
+                if ($("#issue form").css("display") === "none") return;
+
+                var framework = Exercises.getCurrentFramework(),
+                    issueInfo = framework === "khan-exercises" ?
+                            Khan.getIssueInfo() :
+                            Exercises.PerseusBridge.getIssueInfo(),
+
+                    type = $("input[name=issue-type]:checked").prop("id"),
+                    title = $("#issue-title").val(),
+
+                    agent = navigator.userAgent,
+                    mathjaxInfo = "MathJax is " + (typeof MathJax === "undefined" ? "NOT loaded" :
+                        ("loaded, " + (MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length)),
+                    sessionStorageInfo = (typeof sessionStorage === "undefined" || typeof sessionStorage.getItem === "undefined" ? "sessionStorage NOT enabled" : null),
+                    warningInfo = $("#warning-bar-content").text(),
+
+                    parts = [$("#issue-body").val() || null, issueInfo.bodyInfo, agent, sessionStorageInfo, mathjaxInfo, warningInfo],
+                    body = $.grep(parts, function(e) { return e != null; }).join("\n\n"),
+
+                    issueError = $._("Communication with GitHub isn't working. " +
+                        "Please file the issue manually at " +
+                        "<a href=\"http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. " +
+                        "Please reference exercise: %(exerciseId)s.", {exerciseId: exerciseId}),
+                    issueSuccess = function(url, title, suggestion) {
+                        return $._("Thank you for your feedback! " +
+                            "Your issue has been created and can be " +
+                            "found at the following link:" +
+                            "<p><a id=\"issue-link\" href=\"%(issueUrl)s\">%(issueTitle)s</a>" +
+                            "<p>%(suggestion)s</p>",
+                            {issueUrl: url, issueTitle: title, suggestion: suggestion}
+                        );
+                    };
+
+                var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {
+                    if (info.status === -1) {
+                        return [script + ": error"];
+                    } else {
+                        return [];
+                    }
+                }).join("\n");
+                if (mathjaxLoadFailures.length > 0) {
+                    body += "\n\n" + mathjaxLoadFailures;
+                }
+
+                // flagging of browsers/os for issue labels. very primitive, but
+                // hopefully sufficient.
+                var agent_contains = function(sub) {
+                        return agent.indexOf(sub) !== -1;
+                    },
+                    flags = {
+                        ie8: agent_contains("MSIE 8.0"),
+                        ie9: agent_contains("Trident/5.0"),
+                        chrome: agent_contains("Chrome/"),
+                        safari: !agent_contains("Chrome/") && agent_contains("Safari/"),
+                        firefox: agent_contains("Firefox/"),
+                        win7: agent_contains("Windows NT 6.1"),
+                        vista: agent_contains("Windows NT 6.0"),
+                        xp: agent_contains("Windows NT 5.1"),
+                        leopard: agent_contains("OS X 10_5") || agent_contains("OS X 10.5"),
+                        snowleo: agent_contains("OS X 10_6") || agent_contains("OS X 10.6"),
+                        lion: agent_contains("OS X 10_7") || agent_contains("OS X 10.7"),
+                        scratchpad: (/scratch\s*pad/i).test(body),
+                        ipad: agent_contains("iPad")
+                    },
+                    labels = [];
+                $.each(flags, function(k, v) {
+                    if (v) labels.push(k);
+                });
+
+                if (!type) {
+                    $("#issue-status").addClass("error")
+                        .html($._("Please specify the issue type.")).show();
+                    return;
+                } else {
+                    labels.push(type.slice("issue-".length));
+
+                    var hintOrVideoMsg = $._("Please click the hint button above " +
+                        "to see our solution, or watch a video for additional help.");
+                    var refreshOrBrowserMsg = $._("Please try a hard refresh " +
+                        "(press Ctrl + Shift + R) or use Khan Academy from a " +
+                        "different browser (such as Chrome or Firefox).");
+                    var suggestion = {
+                        "issue-wrong-or-unclear": hintOrVideoMsg,
+                        "issue-hard": hintOrVideoMsg,
+                        "issue-not-showing": refreshOrBrowserMsg,
+                        "issue-other": ""
+                    }[type];
+                }
+
+                if (title === "") {
+                    $("#issue-status").addClass("error")
+                        .html($._("Please provide a valid title for the issue.")).show();
+                    return;
+                }
+
+                var formElements = $("#issue input").add("#issue textarea");
+
+                // disable the form elements while waiting for a server response
+                formElements.attr("disabled", true);
+
+                $("#issue-cancel").hide();
+                $("#issue-throbber").show();
+
+                var dataObj = {
+                    title: issueInfo.pretitle + " - " + title,
+                    body: body,
+                    labels: labels
+                };
+
+                $.ajax({
+                    url: "/githubpost",
+                    type: "POST",
+                    data: JSON.stringify(dataObj),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function(data) {
+                        // hide the form
+                        $("#issue form").hide();
+
+                        // show status message
+                        $("#issue-status").removeClass("error")
+                            .html(issueSuccess(data.html_url, data.title, suggestion))
+                            .show();
+
+                        // reset the form elements
+                        formElements.attr("disabled", false)
+                            .not("input:submit").val("");
+
+                        // replace throbber with the cancel button
+                        $("#issue-cancel").show();
+                        $("#issue-throbber").hide();
+                    },
+                    error: function() {
+                        // show status message
+                        $("#issue-status").addClass("error")
+                            .html(issueError).show();
+
+                        // enable the inputs
+                        formElements.attr("disabled", false);
+
+                        // replace throbber with the cancel button
+                        $("#issue-cancel").show();
+                        $("#issue-throbber").hide();
+                    }
+                });
+            });
         }
     };
     // see line 183. this ends the main Khan module
@@ -1606,6 +1796,12 @@ var Khan = (function() {
         }
     }
 
+    /**
+     * Called once each time an exercise page is initialized.
+     * For multi-exercise pages, this can be called multiple times!
+     * (e.g. in a tutorial view, where there is client side navigation between
+     * different exercises).
+     */
     function prepareSite() {
         // Grab example answer format container
         examples = $("#examples");
@@ -1699,190 +1895,7 @@ var Khan = (function() {
         };
 
         initializeCalculator();
-
-        $("#report").click(function(e) {
-            var issueIntro = $._("Remember to check the hints and " +
-                    "double check your math. All provided information will " +
-                    "be public. Thanks for your help!");
-
-            e.preventDefault();
-
-            var report = $("#issue").css("display") !== "none",
-                form = $("#issue form").css("display") !== "none";
-
-            if (report && form) {
-                $("#issue").hide();
-            } else if (!report || !form) {
-                $("#issue-status").removeClass("error").html(issueIntro);
-                $("#issue, #issue form").show();
-                $("html, body").animate({
-                    scrollTop: $("#issue").offset().top
-                }, 500, function() {
-                    $("#issue-title").focus();
-                });
-            }
-        });
-
-
-        // Hide issue form.
-        $("#issue-cancel").click(function(e) {
-            e.preventDefault();
-
-            $("#issue").hide(500);
-            $("#issue-title, #issue-body").val("");
-        });
-
-        // Submit an issue.
-        $("#issue form input:submit").click(function(e) {
-            e.preventDefault();
-
-            // don't do anything if the user clicked a second time quickly
-            if ($("#issue form").css("display") === "none") return;
-
-            var framework = Exercises.getCurrentFramework(),
-                issueInfo = framework === "khan-exercises" ?
-                        Khan.getIssueInfo() :
-                        Exercises.PerseusBridge.getIssueInfo(),
-
-                type = $("input[name=issue-type]:checked").prop("id"),
-                title = $("#issue-title").val(),
-
-                agent = navigator.userAgent,
-                mathjaxInfo = "MathJax is " + (typeof MathJax === "undefined" ? "NOT loaded" :
-                    ("loaded, " + (MathJax.isReady ? "" : "NOT ") + "ready, queue length: " + MathJax.Hub.queue.queue.length)),
-                sessionStorageInfo = (typeof sessionStorage === "undefined" || typeof sessionStorage.getItem === "undefined" ? "sessionStorage NOT enabled" : null),
-                warningInfo = $("#warning-bar-content").text(),
-
-                parts = [$("#issue-body").val() || null, issueInfo.bodyInfo, agent, sessionStorageInfo, mathjaxInfo, warningInfo],
-                body = $.grep(parts, function(e) { return e != null; }).join("\n\n"),
-
-                issueError = $._("Communication with GitHub isn't working. " +
-                    "Please file the issue manually at " +
-                    "<a href=\"http://github.com/Khan/khan-exercises/issues/new\">GitHub</a>. " +
-                    "Please reference exercise: %(exerciseId)s.", {exerciseId: exerciseId}),
-                issueSuccess = function(url, title, suggestion) {
-                    return $._("Thank you for your feedback! " +
-                        "Your issue has been created and can be " +
-                        "found at the following link:" +
-                        "<p><a id=\"issue-link\" href=\"%(issueUrl)s\">%(issueTitle)s</a>" +
-                        "<p>%(suggestion)s</p>",
-                        {issueUrl: url, issueTitle: title, suggestion: suggestion}
-                    );
-                };
-
-            var mathjaxLoadFailures = $.map(MathJax.Ajax.loading, function(info, script) {
-                if (info.status === -1) {
-                    return [script + ": error"];
-                } else {
-                    return [];
-                }
-            }).join("\n");
-            if (mathjaxLoadFailures.length > 0) {
-                body += "\n\n" + mathjaxLoadFailures;
-            }
-
-            // flagging of browsers/os for issue labels. very primitive, but
-            // hopefully sufficient.
-            var agent_contains = function(sub) {
-                    return agent.indexOf(sub) !== -1;
-                },
-                flags = {
-                    ie8: agent_contains("MSIE 8.0"),
-                    ie9: agent_contains("Trident/5.0"),
-                    chrome: agent_contains("Chrome/"),
-                    safari: !agent_contains("Chrome/") && agent_contains("Safari/"),
-                    firefox: agent_contains("Firefox/"),
-                    win7: agent_contains("Windows NT 6.1"),
-                    vista: agent_contains("Windows NT 6.0"),
-                    xp: agent_contains("Windows NT 5.1"),
-                    leopard: agent_contains("OS X 10_5") || agent_contains("OS X 10.5"),
-                    snowleo: agent_contains("OS X 10_6") || agent_contains("OS X 10.6"),
-                    lion: agent_contains("OS X 10_7") || agent_contains("OS X 10.7"),
-                    scratchpad: (/scratch\s*pad/i).test(body),
-                    ipad: agent_contains("iPad")
-                },
-                labels = [];
-            $.each(flags, function(k, v) {
-                if (v) labels.push(k);
-            });
-
-            if (!type) {
-                $("#issue-status").addClass("error")
-                    .html($._("Please specify the issue type.")).show();
-                return;
-            } else {
-                labels.push(type.slice("issue-".length));
-
-                var hintOrVideoMsg = $._("Please click the hint button above " +
-                    "to see our solution, or watch a video for additional help.");
-                var refreshOrBrowserMsg = $._("Please try a hard refresh " +
-                    "(press Ctrl + Shift + R) or use Khan Academy from a " +
-                    "different browser (such as Chrome or Firefox).");
-                var suggestion = {
-                    "issue-wrong-or-unclear": hintOrVideoMsg,
-                    "issue-hard": hintOrVideoMsg,
-                    "issue-not-showing": refreshOrBrowserMsg,
-                    "issue-other": ""
-                }[type];
-            }
-
-            if (title === "") {
-                $("#issue-status").addClass("error")
-                    .html($._("Please provide a valid title for the issue.")).show();
-                return;
-            }
-
-            var formElements = $("#issue input").add("#issue textarea");
-
-            // disable the form elements while waiting for a server response
-            formElements.attr("disabled", true);
-
-            $("#issue-cancel").hide();
-            $("#issue-throbber").show();
-
-            var dataObj = {
-                title: issueInfo.pretitle + " - " + title,
-                body: body,
-                labels: labels
-            };
-
-            $.ajax({
-                url: "/githubpost",
-                type: "POST",
-                data: JSON.stringify(dataObj),
-                contentType: "application/json",
-                dataType: "json",
-                success: function(data) {
-                    // hide the form
-                    $("#issue form").hide();
-
-                    // show status message
-                    $("#issue-status").removeClass("error")
-                        .html(issueSuccess(data.html_url, data.title, suggestion))
-                        .show();
-
-                    // reset the form elements
-                    formElements.attr("disabled", false)
-                        .not("input:submit").val("");
-
-                    // replace throbber with the cancel button
-                    $("#issue-cancel").show();
-                    $("#issue-throbber").hide();
-                },
-                error: function() {
-                    // show status message
-                    $("#issue-status").addClass("error")
-                        .html(issueError).show();
-
-                    // enable the inputs
-                    formElements.attr("disabled", false);
-
-                    // replace throbber with the cancel button
-                    $("#issue-cancel").show();
-                    $("#issue-throbber").hide();
-                }
-            });
-        });
+        Khan.initReportIssueLink();
 
         $("#answer_area").delegate("input.button, select", "keydown", function(e) {
             // Don't want to go back to exercise dashboard; just do nothing on backspace
