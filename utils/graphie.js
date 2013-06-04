@@ -32,8 +32,21 @@
         return [r[0] * Math.cos(th), r[1] * Math.sin(th)];
     }
 
+    var labelDirections = {
+        "center": [-0.5, -0.5],
+        "above": [-0.5, -1.0],
+        "above right": [0.0, -1.0],
+        "right": [0.0, -0.5],
+        "below right": [0.0, 0.0],
+        "below": [-0.5, 0.0],
+        "below left": [-1.0, 0.0],
+        "left": [-1.0, -0.5],
+        "above left": [-1.0, -1.0]
+    };
+
     KhanUtil.createGraphie = function(el) {
         var xScale = 40, yScale = 40, xRange, yRange;
+        var needsLabelTypeset = false;
 
         $(el).css("position", "relative");
         var raphael = Raphael(el);
@@ -72,6 +85,114 @@
 
         var unscaleVector = function(point) {
             return [point[0] / xScale, point[1] / yScale];
+        };
+
+        var setLabelMargins = function(span, size) {
+            var $span = $(span);
+            var direction = $span.data("labelDirection");
+            $span.css("visibility", "");
+
+            if (typeof direction === "number") {
+                var x = Math.cos(direction);
+                var y = Math.sin(direction);
+
+                var scale = Math.min(
+                    size[0] / 2 / Math.abs(x),
+                    size[1] / 2 / Math.abs(y));
+
+                $span.css({
+                    marginLeft: (-size[0] / 2) + x * scale,
+                    marginTop: (-size[1] / 2) - y * scale
+                });
+            } else {
+                var multipliers = labelDirections[direction || "center"];
+                $span.css({
+                    marginLeft: Math.round(size[0] * multipliers[0]),
+                    marginTop: Math.round(size[1] * multipliers[1])
+                });
+            }
+        };
+
+        var setNeedsLabelTypeset = function() {
+            if (needsLabelTypeset) {
+                return;
+            }
+
+            needsLabelTypeset = true;
+
+            // This craziness is essentially
+            //     _.defer(function() {
+            //         needsLabelTypeset = false; typesetLabels();
+            //     })
+            // except that if you do run a setNeedsLabelTypeset() followed
+            // immediately by a MathJax.Hub.Queue, the labels should all have
+            // been typeset by the time the queued function runs.
+            MathJax.Hub.Queue(function() {
+                var done = MathJax.Callback(function() {});
+                _.defer(function() {
+                    needsLabelTypeset = false;
+                    typesetLabels();
+                    done();
+                });
+                return done;
+            });
+        }
+
+        var typesetLabels = function() {
+            var spans = $(el).children(".graphie-label").get();
+            if (!spans.length) {
+                return;
+            }
+
+            MathJax.Hub.Queue(["Process", MathJax.Hub, el]);
+            MathJax.Hub.Queue(function() {
+                // If the graphie div is detached for some reason, the
+                // dimensions will all just be 0 anyway so don't bother trying
+                // to reposition.
+                if (!$.contains(document.body, el)) {
+                    return;
+                }
+
+                var callback = MathJax.Callback(function() {});
+
+                // Wait for the browser to render the labels
+                var tries = 0;
+                (function check() {
+                    var allRendered = true;
+
+                    // Iterate in reverse so we can delete while iterating
+                    for (var i = spans.length; i-- > 0;) {
+                        var span = spans[i];
+                        var width = span.scrollWidth;
+                        var height = span.scrollHeight;
+
+                        // Heuristic to guess if the font has kicked in so we
+                        // have box metrics (magic number ick, but this seems
+                        // to work mostly-consistently)
+                        if (height > 18 || tries >= 10) {
+                            setLabelMargins(span, [width, height]);
+
+                            // Remove the span from the list so we don't look
+                            // at it a second time
+                            spans.splice(i, 1);
+                        } else {
+                            // Avoid an icky flash
+                            $(span).css("visibility", "hidden");
+                        }
+                    }
+
+                    if (spans.length) {
+                        // Some spans weren't ready -- wait a bit and try again
+                        tries++;
+                        setTimeout(check, 100);
+                    } else {
+                        // We're done!
+                        callback();
+                    }
+                })();
+
+                return callback;
+            });
         };
 
         var svgPath = function(points) {
@@ -265,109 +386,34 @@
             },
 
             label: function(point, text, direction, latex) {
-                var directions = {
-                    "center": [-0.5, -0.5],
-                    "above": [-0.5, -1.0],
-                    "above right": [0.0, -1.0],
-                    "right": [0.0, -0.5],
-                    "below right": [0.0, 0.0],
-                    "below": [-0.5, 0.0],
-                    "below left": [-1.0, 0.0],
-                    "left": [-1.0, -0.5],
-                    "above left": [-1.0, -1.0]
-                };
-
                 latex = (typeof latex === "undefined") || latex;
 
-                var span;
+                var $span = $("<span>").addClass("graphie-label");
 
                 if (latex) {
-                    var code = $("<code>").text(text);
-                    span = $("<span>").append(code);
+                    var $script = $("<script type='math/tex'>").text(text);
+                    $span.append($script)
                 } else {
-                    span = $("<span>").html(text);
+                    $span.html(text);
                 }
 
-                // function to reposition the label
-                span.setPosition = function(pt) {
-                    var scaled = scalePoint(pt);
+                var scaledPoint = scalePoint(point);
+                var pad = currentStyle["label-distance"];
 
-                    var pad = currentStyle["label-distance"];
-                    this.css($.extend({}, currentStyle, {
-                        position: "absolute",
-                        left: scaled[0],
-                        top: scaled[1],
-                        padding: (pad != null ? pad : 7) + "px"
-                    }));
+                // TODO(alpert): Isn't currentStyle applied afterwards
+                // automatically since this is a 'drawing tool'?
+                $span
+                    .css($.extend({}, currentStyle, {
+                            position: "absolute",
+                            left: scaledPoint[0],
+                            top: scaledPoint[1],
+                            padding: (pad != null ? pad : 7) + "px"
+                        }))
+                    .data("labelDirection", direction)
+                    .appendTo(el);
 
-                    return this;
-                };
-
-                span.setPosition(point).appendTo(el);
-
-                if (typeof MathJax !== "undefined" && $.trim(text + "") !== "") {
-                    // Add to the MathJax queue
-                    if (latex) {
-                        $.tmpl.type.code()(code[0]);
-                    }
-                    // Run after MathJax typesetting
-                    MathJax.Hub.Queue(function() {
-                        var setMargins = function(size) {
-                            span.css("visibility", "");
-                            if (typeof direction === "number") {
-                                var x = Math.cos(direction);
-                                var y = Math.sin(direction);
-
-                                var scale = Math.min(
-                                    size[0] / 2 / Math.abs(x),
-                                    size[1] / 2 / Math.abs(y));
-
-                                span.css({
-                                    marginLeft: (-size[0] / 2) + x * scale,
-                                    marginTop: (-size[1] / 2) - y * scale
-                                });
-                            } else {
-                                var multipliers = directions[direction || "center"];
-                                span.css({
-                                    marginLeft: Math.round(size[0] * multipliers[0]),
-                                    marginTop: Math.round(size[1] * multipliers[1])
-                                });
-                            }
-                        };
-
-                        var callback = MathJax.Callback(function() {});
-
-                        // Wait for the browser to render it
-                        var tries = 0;
-                        (function check() {
-                            var width = span[0].scrollWidth;
-                            var height = span[0].scrollHeight;
-
-                            // Heuristic to guess if the font has kicked in so
-                            // we have box metrics (Magic number ick, but this
-                            // seems to work mostly-consistently)
-                            if (height > 18 || ++tries >= 10 ||
-
-                                    // If the span is detached for some reason,
-                                    // these dimensions will just be 0 anyway
-                                    // so don't bother.
-                                    !$.contains(document.body, span[0])) {
-
-                                setMargins([width, height]);
-                                callback();
-                            } else {
-                                // Avoid an icky flash
-                                span.css("visibility", "hidden");
-
-                                setTimeout(check, 100);
-                            }
-                        })();
-
-                        return callback;
-                    });
-                }
-
-                return span;
+                setNeedsLabelTypeset();
+                return $span;
             },
 
             plotParametric: function(fn, range) {
@@ -753,7 +799,6 @@
                     stroke: "#000000",
                     opacity: labelOpacity
                 }, function() {
-
                     // horizontal axis
                     var step = gridStep[0] * tickStep[0] * labelStep[0],
                         start = gridRange[0][0],
@@ -790,7 +835,6 @@
                             this.label([0, y], yLabelFormat(y), "left");
                         }
                     }
-
                 });
             }
 
@@ -807,7 +851,7 @@
             // Grab code for later execution
             var code = $(this).text(), graphie;
 
-            // Ignore code that isn't really code ;)
+            // Ignore code that isn't really code
             if (code.match(/Created with Rapha\xebl/)) {
                 return;
             }
