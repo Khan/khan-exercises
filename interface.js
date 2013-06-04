@@ -591,7 +591,7 @@ function clearExistingProblem() {
 
     // Wipe out any previous problem
     if (framework === "perseus") {
-        // TODO(alpert): Do we have cleanup to do?
+        $(PerseusBridge).trigger("cleanupProblem");
     } else if (framework === "khan-exercises") {
         $(Khan).trigger("cleanupProblem");
     }
