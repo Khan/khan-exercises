@@ -14,7 +14,7 @@
         <var id="MARK_INCREMENT"> 0.1 </var>
         <var id="TENTHS"> randRange(1, 9) </var>
         <var id="SOLUTION"> TENTHS * MARK_INCREMENT </var>
-        <var id="SOLN_TXT"> SOLUTION.toFixed(1) </var>
+        <var id="SOLN_TXT"> localeToFixed(SOLUTION, 1) </var>
     </div>
 
     <div class="problems">
@@ -87,7 +87,7 @@
                     <div class="graphie" data-update="number-line">
                             var MI = MARK_INCREMENT;
                             for ( var x = LOWER_BOUND + MI; x &lt; UPPER_BOUND - MI/2; x += MI ) {
-                                label( [ LOWER_BOUND + x, -0.53 ], x.toFixed(1) , "center");
+                                label( [ LOWER_BOUND + x, -0.53 ], localeToFixed(x, 1) , "center");
                             }
                     </div>
                 </div>

@@ -632,10 +632,10 @@ var d3_format_re = /(?:([^{])?([<>=^]))?([+\- ])?(#)?(0)?([0-9]+)?(,)?(\.[0-9]+)
 var d3_format_types = {
   g: function(x, p) { return x.toPrecision(p); },
   e: function(x, p) { return x.toExponential(p); },
-  f: function(x, p) { return x.toFixed(p); },
+  f: function(x, p) { return KhanUtil.localeToFixed(x, p); },
   r: function(x, p) {
     var n = x ? 1 + Math.floor(1e-15 + Math.log(x) / Math.LN10) : 1;
-    return d3.round(x, p - n).toFixed(Math.max(0, Math.min(20, p - n)));
+    return KhanUtil.localeToFixed(d3.round(x, p - n), Math.max(0, Math.min(20, p - n)));
   }
 };
 

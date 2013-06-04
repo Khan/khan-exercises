@@ -19,7 +19,7 @@
     <div class="problems">
         <div>
             <div class="vars">
-                <var id="VALUES">$.map( randRange( 1000, 16000, randRange( 3, 7 ) ), function( n ){ return ( n / 1000 ).toFixed( randRange( 1, 2 ) ); } )</var>
+                <var id="VALUES">$.map( randRange( 1000, 16000, randRange( 3, 7 ) ), function( n ){ return localeToFixed( n / 1000, randRange( 1, 2 ) ); } )</var>
                 <var id="ANSWER">sum( $.map( VALUES, round ) )</var>
                 <var id="TYPES">randFromArray( [ [ "jogging", "ran", "mile" ], [ "riding a bicycle ", "traveled", "mile" ], [ "collecting mushrooms", "collected", "pound" ], [ "painting a roof", "painted", "square foot" ], [ "harvesting grain", "harvested", "tonne" ] ] )</var>
                 <var id="ACC">0</var>
@@ -53,7 +53,7 @@
                 <span><var>i+1</var></span>
                 <span><var>val</var></span>
             </div>
-            <p><br>Note that if you first sum the exact amounts (<var>SUM.toFixed( 2 )</var>) and then round, you'll get <var>round( SUM )</var>. For fun, pay attention to how this number compares with your estimate.</p>
+            <p><br>Note that if you first sum the exact amounts (<var>localeToFixed(SUM, 2)</var>) and then round, you'll get <var>round( SUM )</var>. For fun, pay attention to how this number compares with your estimate.</p>
             <p class="solution" data-type="multiple">
                 <span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>plural( TYPES[ 2 ] )</var>
             </p>

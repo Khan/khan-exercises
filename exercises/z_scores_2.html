@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems stat">
+<html data-require="math math-format graphie word-problems stat">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Z scores 2</title>
@@ -32,7 +32,7 @@
                 (function() {
                     var rowNames = [];
                     for(var i = floorTo(0, ZSCORE); i &lt; (floorTo(0, ZSCORE) + 1); i += 0.1) {
-                        rowNames.push(i.toFixed(1));
+                        rowNames.push(localeToFixed(i, 1));
                     }
                     return rowNames;
                 })()
@@ -44,8 +44,8 @@
                         for (var i = 0; i &lt; ROWS.length; i++) {
                             var zRow = [];
                             for (var j = 0; j &lt; COLUMNS.length; j++) {
-                                zRow.push(zScores(roundTo(2,
-                                    (floorTo(0, ZSCORE) + i / 10 + j / 100) * 100)).toFixed(4));
+                                zRow.push(localeToFixed(zScores(roundTo(2,
+                                    (floorTo(0, ZSCORE) + i / 10 + j / 100) * 100)), 4));
                             }
                             zGrid.push(zRow);
                         }

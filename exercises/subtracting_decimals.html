@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic">
+<html data-require="math math-format graphie graphie-helpers-arithmetic">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Subtracting decimals</title>
@@ -20,7 +20,7 @@
 
         <div class="problems">
             <div>
-                <p><code>\Huge{<var>A_FLOAT.toFixed( A_DECIMAL )</var> - <var>B_FLOAT.toFixed( B_DECIMAL )</var> = {?}}</code></p>
+                <p><code>\Huge{<var>localeToFixed(A_FLOAT, A_DECIMAL)</var> - <var>localeToFixed(B_FLOAT, B_DECIMAL)</var> = {?}}</code></p>
                 <div class="solution" data-type="decimal"><var>A_FLOAT - B_FLOAT</var></div>
             </div>
         </div>

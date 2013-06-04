@@ -45,7 +45,7 @@
                     // Since all are improper fractions, numerator is greater than denominator
                     var numerator = randRange( denominator + 1, denominator + 15 );
 
-                    var number = ( numerator / denominator ).toFixed( 3 );
+                    var number = localeToFixed( numerator / denominator, 3 );
                     var gcd = getGCD( numerator, denominator );
 
                     switch ( TYPES[ array.length ] ) {

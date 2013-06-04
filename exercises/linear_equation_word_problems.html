@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
+<html data-require="math math-format word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Linear equation word problems</title>
@@ -82,11 +82,11 @@
                 </div>
                 <div data-if="(R - Q) % P !== 0" data-unwrap="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>}
-                        \approx <var>((R - Q) / P).toFixed(2)</var></code></p>
+                        \approx <var>localeToFixed((R - Q) / P, 2)</var></code></p>
                     <p data-if="(R - Q) % P !== 0">
                         Since <var>person(1)</var> cannot sell parts of
                         subscriptions, we round
-                        <code><var>((R - Q) / P).toFixed(2)</var></code> up to
+                        <code><var>localeToFixed((R - Q) / P, 2)</var></code> up to
                         <code><var>X</var></code>.
                     </p>
                 </div>
@@ -175,16 +175,16 @@
                 </div>
                 <div data-if="(R - Q) % P !== 0" data-unwrap="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>}
-                        \approx <var>((R - Q) / P).toFixed(2)</var></code></p>
+                        \approx <var>localeToFixed((R - Q) / P, 2)</var></code></p>
                     <p data-if="(R - Q) % P !== 0"><span data-if="isMale(1)" data-unwrap="">
                         Since <var>person(1)</var> won't get points unless
                         he completes the entire level, we round
-                        <code><var>((R - Q) / P).toFixed(2)</var></code> up to
+                        <code><var>localeToFixed((R - Q) / P, 2)</var></code> up to
                         <code><var>X</var></code>.
                     </span><span data-else="" data-unwrap="">
                         Since <var>person(1)</var> won't get points unless
                         she completes the entire level, we round
-                        <code><var>((R - Q) / P).toFixed(2)</var></code> up to
+                        <code><var>localeToFixed((R - Q) / P, 2)</var></code> up to
                         <code><var>X</var></code>.
                     </span></p>
                 </div>
@@ -272,11 +272,11 @@
                 </div>
                 <div data-if="(R - Q) % P !== 0" data-unwrap="">
                     <p><code>x \geq \dfrac{<var>R - Q</var>}{<var>P</var>}
-                        \approx <var>((R - Q) / P).toFixed(2)</var></code></p>
+                        \approx <var>localeToFixed((R - Q) / P, 2)</var></code></p>
                     <p data-if="(R - Q) % P !== 0">
                         Since we only care about whole months that
                         <var>person(1)</var> has spent working, we round
-                        <code><var>((R - Q) / P).toFixed(2)</var></code> up to
+                        <code><var>localeToFixed((R - Q) / P, 2)</var></code> up to
                         <code><var>X</var></code>.
                     </p>
                 </div>

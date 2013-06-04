@@ -21,7 +21,7 @@
             if ( Math.abs( a - b ) < 5 || Math.abs( a - c ) < 5  || Math.abs( b - c ) < 5 ){
                 return scTriangle();
             }
-            return [ [ a, b, c ] , [ sa.toFixed( 1 ), sb.toFixed( 1 ), sc.toFixed( 1 ) ] ];
+            return [ [ a, b, c ] , [ localeToFixed(sa, 1), localeToFixed(sb, 1), localeToFixed(sc, 1) ] ];
         }
 
         function eqTriangle(){
@@ -38,7 +38,7 @@
             var sides = [ sa, sa, sa ];
             var oddside = KhanUtil.randRange( 0, 2 );
             ang[ oddside ] = c;
-            sides[ oddside ] = sc.toFixed( 1 );
+            sides[ oddside ] = localeToFixed(sc, 1);
             if( a == 60 ){
                 return isoTriangle();
             }

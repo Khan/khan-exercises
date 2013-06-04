@@ -44,7 +44,7 @@
                 <var id="PROFIT">MAKE_COUNT*MAKE - LOSE_COUNT*LOSE</var>
                 <var id="ANS_F,ANS">
                     [fraction(PROFIT,10,true,false),
-                    (PROFIT/10).toFixed(2)]
+                    localeToFixed(PROFIT/10, 2)]
                 </var>
             </div>
 

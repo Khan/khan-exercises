@@ -224,7 +224,7 @@
             <div>
                 <table class="limit">
                     <tbody><tr><th><code>x</code></th><th><var>a - 0.1</var></th><th><var>a - 0.01</var></th><th><var>a - 0.001</var></th></tr>
-                    <tr><th><code>f(x)</code></th><td><var>curFunc(a - 0.1).toFixed(4)</var></td><td><var>curFunc(a - 0.01).toFixed(4)</var></td><td><var>curFunc(a - 0.001).toFixed(4)</var></td></tr>
+                    <tr><th><code>f(x)</code></th><td><var>localeToFixed(curFunc(a - 0.1), 4)</var></td><td><var>localeToFixed(curFunc(a - 0.01), 4)</var></td><td><var>localeToFixed(curFunc(a - 0.001), 4)</var></td></tr>
                 </tbody></table>
                 It looks like <code>f(x)</code> is approaching <code><var>l_limtoa</var></code> from the left.
             </div>
@@ -232,7 +232,7 @@
                 <p>When we approach <code>x = <var>a</var></code> from the right, we get:</p>
                 <table class="limit">
                     <tbody><tr><th><code>x</code></th><th><var>a + 0.1</var></th><th><var>a + 0.01</var></th><th><var>a + 0.001</var></th></tr>
-                    <tr><th><code>f(x)</code></th><td><var>curFunc(a + 0.1).toFixed(4)</var></td><td><var>curFunc(a + 0.01).toFixed(4)</var></td><td><var>curFunc(a + 0.001).toFixed(4)</var></td></tr>
+                    <tr><th><code>f(x)</code></th><td><var>localeToFixed(curFunc(a + 0.1), 4)</var></td><td><var>localeToFixed(curFunc(a + 0.01), 4)</var></td><td><var>localeToFixed(curFunc(a + 0.001), 4)</var></td></tr>
                 </tbody></table>
                 <p>It looks like <code>f(x)</code> is approaching <code><var>r_limtoa</var></code> from the right.</p>
                 <div class="graphie" data-style="stroke: orange; marker: arrow;" data-update="graph">

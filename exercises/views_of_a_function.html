@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie interactive">
+<html data-require="math math-format graphie interactive">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Views of a function</title>
@@ -290,10 +290,16 @@
                             <code><var>x+"\\hphantom{.0}"</var></code>
                         </td>
                         <td class="second-col data-col">
-                            <code><var>
-                                roundToNearest(0.5, FUNC(x)).toFixed(1)
-                                    .replace(/\.0$/, "\\hphantom{.0}")
-                            </var></code>
+                            <code><var>(function() {
+                                var y = FUNC(x);
+                                var str = localeToFixed(roundToNearest(0.5, y), 1);
+
+                                if (Math.abs(KhanUtil.roundToNearest(1.0, y) - y) &lt; 0.25) {
+                                    str = str.replace(/(.{2})$/, "\\hphantom{$1}");
+                                }
+
+                                return str;
+                            })()</var></code>
                         </td>
                     </tr>
                 </tbody></table>

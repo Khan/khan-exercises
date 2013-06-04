@@ -16,7 +16,7 @@ Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals su
         <div id="into-fraction">
             <div class="vars">
                 <var id="NUMERATOR">randRange(0, 1) ? randRange(100, 999) : randRange(1000, 9999)</var>
-                <var id="D">(NUMERATOR / 10000).toFixed(4)</var>
+                <var id="D">localeToFixed((NUMERATOR / 10000), 4)</var>
                 <var id="GCD">getGCD(round(D * 10000) , 10000)</var>
             </div>
             <p class="question">Express <code><var>D</var></code> as a fraction. Reduce to lowest terms.</p>
@@ -43,7 +43,7 @@ Convert decimals such as 0.3763 to a fraction (3763/10000),  convert decimals su
                 <var id="W">randRange(1, 19)</var>
                 <var id="D">randRangeExclude(1, 99, [10 , 20 , 30 , 40 , 50 , 60 , 70 , 80 , 90])</var>
                 <var id="GCD">getGCD(D , 100)</var>
-                <var id="FIXED">(W + D / 100).toFixed(2)</var>
+                <var id="FIXED">localeToFixed((W + D / 100), 2)</var>
             </div>
             <p class="question">Express <code><var>FIXED</var></code> as a mixed number. Reduce to lowest terms.</p>
 

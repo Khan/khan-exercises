@@ -614,7 +614,7 @@ $.extend(KhanUtil, {
         var exponent = KhanUtil.scientificExponent(num);
         var factor = Math.pow(10, exponent);
         precision -= 1; // To account for the 1s digit
-        var mantissa = KhanUtil.roundTo(precision, num / factor).toFixed(precision);
+        var mantissa = KhanUtil.localeToFixed(KhanUtil.roundTo(precision, num / factor), precision);
         return mantissa;
     },
 

@@ -129,14 +129,14 @@
                 </var>
                 <var id="ALL">random() &lt; 0.5</var>
                 <var id="PLAYER,PR">randFromArray(FREE_THROWS)</var>
-                <var id="PROB">ALL ? PR : (1-PR).toFixed(2)</var>            
+                <var id="PROB">ALL ? PR : localeToFixed(1-PR, 2)</var>            
                 <var id="STREAK">randRange(4,9)</var>
-                <var id="SINGLE_PCT">(PROB * 100).toFixed(0)</var>
-                <var id="TWO_PCT">(pow(PROB,2) * 100).toFixed(0)</var>
+                <var id="SINGLE_PCT">localeToFixed(PROB * 100, 0)</var>
+                <var id="TWO_PCT">localeToFixed(pow(PROB,2) * 100, 0)</var>
                 <var id="THREE_PCT">
                     (pow(PROB,3) * 100) &lt; 0.5 ? 
-                    (pow(PROB,3) * 100).toFixed(1) :
-                    (pow(PROB,3) * 100).toFixed(0)
+                    localeToFixed(pow(PROB,3) * 100, 1) :
+                    localeToFixed(pow(PROB,3) * 100, 0)
                 </var>
                 <var id="OPTIONS">shuffle(
                     [PR + "^" + STREAK,
@@ -153,7 +153,7 @@
 
             <p>
                 <var>PLAYER</var> is shooting free throws. Making or missing free throws doesn't change the probability that he
-                will make his next one, and he makes his free throws <code><var>(PR*100).toFixed(0)</var>\%</code>
+                will make his next one, and he makes his free throws <code><var>localeToFixed(PR*100, 0)</var>\%</code>
                 of the time.
             </p>
 
@@ -195,7 +195,7 @@
                     </div>
                     <p>Then <code><var>SINGLE_PCT</var> \%</code> of
                     the time he makes his first shot, he will also make his second shot, and 
-                    <code><var>((1-PROB)*100).toFixed(0)</var> \%</code> of the time he makes his
+                    <code><var>localeToFixed((1-PROB)*100, 0)</var> \%</code> of the time he makes his
                     first shot, he will miss his second shot.</p>
                     <div class="graphie">
                         init({
@@ -225,12 +225,12 @@
                 </p>
                 <p>
                     This is <code><var>SINGLE_PCT</var>\% \cdot <var>SINGLE_PCT</var>\%</code>, or
-                    <code><var>PROB</var> \cdot <var>PROB</var> = <var>(PROB*PROB).toFixed(3)</var></code>.
+                    <code><var>PROB</var> \cdot <var>PROB</var> = <var>localeToFixed(PROB*PROB, 3)</var></code>.
                 </p>
                 <div>
                     <p>We can repeat this process again to get the probability of making <b>three</b> free throws in a row. We simply take
                     <code><var>SINGLE_PCT</var>\%</code> of probability that he makes two in a row, which we know from the previous step is
-                    <code><var>(PROB*PROB).toFixed(3)</var> \approx \orange{<var>TWO_PCT</var>\%}</code>.</p>
+                    <code><var>localeToFixed(PROB*PROB, 3)</var> \approx \orange{<var>TWO_PCT</var>\%}</code>.</p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -248,7 +248,7 @@
                         line([PROB*PROB*10,-0.2], [PROB*PROB*10,0.2]);
                     </div>
                     <p><code><var>SINGLE_PCT</var>\%</code> of <code>\orange{<var>TWO_PCT</var>\%}</code> is 
-                    <code><var>PROB</var> \cdot <var>(PROB*PROB).toFixed(3)</var> = <var>Math.pow(PROB,3).toFixed(3)</var></code>, or
+                    <code><var>PROB</var> \cdot <var>localeToFixed(PROB*PROB, 3)</var> = <var>localeToFixed(Math.pow(PROB,3), 3)</var></code>, or
                     about <code>\green{<var>THREE_PCT</var>\%}</code>:</p>
                     <div class="graphie">
                         init({
@@ -275,7 +275,7 @@
                 <p>
                     There is a pattern here: the chance of making two free throws in a row was
                     <code><var>PROB</var> \cdot <var>PROB</var></code>, and the probability of making 
-                    three in a row was <code><var>PROB</var> \cdot <var>(PROB*PROB).toFixed(3)</var> = 
+                    three in a row was <code><var>PROB</var> \cdot <var>localeToFixed(PROB*PROB, 3)</var> = 
                     <var>PROB</var> \cdot (<var>PROB</var> \cdot <var>PROB</var>)
                     = <var>PROB</var>^3</code>.
                 </p>
@@ -290,7 +290,7 @@
                 <div>
                     <p>We know that <code>\blue{<var>SINGLE_PCT</var> \%}</code> of the time, he'll miss
                     his first shot
-                    <code>(100 \% - <var>(PR*100).toFixed(0)</var> \% = <var>SINGLE_PCT</var> \%)</code>.</p>
+                    <code>(100 \% - <var>localeToFixed(PR*100, 0)</var> \% = <var>SINGLE_PCT</var> \%)</code>.</p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -307,7 +307,7 @@
                     </div>
                     <p>Then <code><var>SINGLE_PCT</var> \%</code> of
                     the time he misses his first shot, he will also miss his second shot, and 
-                    <code><var>((1-PROB)*100).toFixed(0)</var> \%</code> of the time he misses his
+                    <code><var>localeToFixed((1-PROB)*100, 0)</var> \%</code> of the time he misses his
                     first shot, he will make his second shot.</p>
                     <div class="graphie">
                         init({
@@ -337,12 +337,12 @@
                 </p>
                 <p>
                     This is <code><var>SINGLE_PCT</var>\% \cdot <var>SINGLE_PCT</var>\%</code>, or
-                    <code><var>PROB</var> \cdot <var>PROB</var> = <var>(PROB*PROB).toFixed(3)</var></code>.
+                    <code><var>PROB</var> \cdot <var>PROB</var> = <var>localeToFixed(PROB*PROB, 3)</var></code>.
                 </p>
                 <div>
                     <p>We can repeat this process again to get the probability of missing <b>three</b> free throws in a row. We simply take
                     <code><var>SINGLE_PCT</var>\%</code> of probability that he misses two in a row, which we know from the previous step is
-                    <code><var>(PROB*PROB).toFixed(3)</var> \approx \orange{<var>TWO_PCT</var>\%}</code>.</p>
+                    <code><var>localeToFixed(PROB*PROB, 3)</var> \approx \orange{<var>TWO_PCT</var>\%}</code>.</p>
                     <div class="graphie">
                         init({
                             range: [[-1, 11], [-1, 1]]
@@ -360,7 +360,7 @@
                         line([PROB*PROB*10,-0.2], [PROB*PROB*10,0.2]);
                     </div>
                     <p><code><var>SINGLE_PCT</var>\%</code> of <code>\orange{<var>TWO_PCT</var>\%}</code> is 
-                    <code><var>PROB</var> \cdot <var>(PROB*PROB).toFixed(3)</var> = <var>Math.pow(PROB,3).toFixed(3)</var></code>, or
+                    <code><var>PROB</var> \cdot <var>localeToFixed(PROB*PROB, 3)</var> = <var>localeToFixed(Math.pow(PROB,3), 3)</var></code>, or
                     about <code>\green{<var>THREE_PCT</var>\%}</code>:</p>
                     <div class="graphie">
                         init({
@@ -386,7 +386,7 @@
                 <p>
                     There is a pattern here: the chance of missing two free throws in a row was
                     <code><var>PROB</var> \cdot <var>PROB</var></code>, and the probability of missing 
-                    three in a row was <code><var>PROB</var> \cdot <var>(PROB*PROB).toFixed(3)</var> = 
+                    three in a row was <code><var>PROB</var> \cdot <var>localeToFixed(PROB*PROB, 3)</var> = 
                     <var>PROB</var> \cdot (<var>PROB</var> \cdot <var>PROB</var>)
                     = <var>PROB</var>^3</code>.
                 </p>

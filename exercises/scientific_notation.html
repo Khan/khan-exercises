@@ -22,7 +22,7 @@
             <var id="DECIMAL">
                 ZEROES &gt; 0 ?
                     NUMBER_SEED * pow( 10, ZEROES ) :
-                    ( NUMBER_SEED * pow( 10, ZEROES ) ).toFixed( -1 * ZEROES )
+                    localeToFixed(NUMBER_SEED * pow( 10, ZEROES ), -1 * ZEROES)
             </var>
             <var id="PRETTY_DECIMAL">commafy( DECIMAL )</var>
             <var id="SCIENTIFIC">BASE + " \\times 10^{" + E + "}"</var>

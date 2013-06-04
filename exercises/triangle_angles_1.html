@@ -19,7 +19,7 @@
             var sa = KhanUtil.randRange( 4, 8 );
             var sb = sa * Math.sin( b * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
             var sc = sa * Math.sin( c * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
-            return [ [ a, b, c ] , [ sc.toFixed( 1 ),  sa.toFixed( 1 ), sb.toFixed( 1 ) ] ];
+            return [ [ a, b, c ] , [ localeToFixed(sc, 1),  localeToFixed(sa, 1), localeToFixed(sb, 1) ] ];
         }
 
         function eqTriangle(){
@@ -33,7 +33,7 @@
             var sa = KhanUtil.randRange( 4, 8 );
             var sc = sa * Math.sin( c * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
             var ang =  [ a, a, c ];
-            var sides = [ sc.toFixed( 1 ), sa,  sa ];
+            var sides = [ localeToFixed(sc, 1), sa,  sa ];
             return [ ang , sides ];
 
         }

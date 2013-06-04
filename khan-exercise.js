@@ -292,9 +292,11 @@ var Khan = (function() {
             "congruency": ["angles", "interactive"],
             "graphie-3d": ["graphie", "matrix"],
             "graphie-geometry": ["graphie", "matrix"],
+            "graphie-helpers": ["math-format"],
             "matrix": ["expressions"],
             "matrix-input": ["jquery.cursor-position"],
-            "chemistry": ["jquery-ui"]
+            "chemistry": ["jquery-ui", "math-format"],
+            "d3": ["math-format"]
         },
 
         warnTimeout: function() {

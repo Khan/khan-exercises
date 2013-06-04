@@ -2640,7 +2640,7 @@ $.fn["chemistryLoad"] = function() {
             if (atomicNum !== 0) {
                 td.addClass("element");
                 var element = _.find(elements, function(element) { return element.atomic_number === atomicNum; });
-                var weight = isNaN(element.atomic_weight) ? element.atomic_weight : element.atomic_weight.toFixed(2);
+                var weight = isNaN(element.atomic_weight) ? element.atomic_weight : KhanUtil.localeToFixed(element.atomic_weight, 2);
                 $("<div>").appendTo(td).text(atomicNum).addClass("atomic-num");
                 $("<div>").appendTo(td).text(element.symbol).addClass("symbol");
                 $("<div>").appendTo(td).text(weight).addClass("weight");

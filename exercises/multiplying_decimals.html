@@ -29,7 +29,7 @@
                     graph.multiplier.showDecimals();
                     DUMMY = Array( graph.multiplier.getNumHints() );
                 </div>
-                <div class="solution" data-type="decimal"><var>( PRODUCT * pow( 10, -(BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL) ) ).toFixed(BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL)</var></div>
+                <div class="solution" data-type="decimal"><var>localeToFixed( PRODUCT * pow( 10, -(BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL) ) , BIG_FACTOR_DECIMAL + SMALL_FACTOR_DECIMAL)</var></div>
             </div>
         </div>
         <div class="hints">

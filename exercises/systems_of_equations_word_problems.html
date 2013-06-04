@@ -47,8 +47,8 @@
                     ][INDEX]</var>
                 </div>
                 <div class="question">
-                    <p><span data-if="INDEX === 0 || INDEX === 1"><var>PROBLEM_1</var>. Tickets cost $<var>A1.toFixed( 2 )</var> each for adults and $<var>B1.toFixed( 2 )</var> each for kids, and the
-                    group paid $<var>C1.toFixed( 2 )</var> in total. There were <var>abs( C2 )</var> fewer adults than kids in the group.<br><br><var>PROBLEM_2</var>.</span><span data-else=""><var>C1</var> people attended
+                    <p><span data-if="INDEX === 0 || INDEX === 1"><var>PROBLEM_1</var>. Tickets cost $<var>localeToFixed(A1, 2)</var> each for adults and $<var>localeToFixed(B1, 2)</var> each for kids, and the
+                    group paid $<var>localeToFixed(C1, 2)</var> in total. There were <var>abs( C2 )</var> fewer adults than kids in the group.<br><br><var>PROBLEM_2</var>.</span><span data-else=""><var>C1</var> people attended
                     a baseball game. Everyone there was a fan of either the home team or the away team. The number of home team fans was <var>abs( C2 )</var> less than <var>abs( B2 )</var> times the number of away team fans.<br><br>How
                     many home team and away team fans attended the game?</span></p>
                 </div>
@@ -130,7 +130,7 @@
                     ][INDEX]</var>
                 </div>
                 <div class="question">
-                    <p><span data-if="INDEX === 0 || INDEX === 1"><var>PROBLEM_1</var>. Bags of candy cost $<var>A1.toFixed( 2 )</var>, and bags of cookies cost $<var>B1.toFixed( 2 )</var>, and sales equaled $<var>C1.toFixed( 2 )</var> in total. There were <var>C2</var> more bags of cookies than candy sold.<br><br><var>PROBLEM_2</var>.</span><span data-else="">The sum of two angles' measures is <var>C1</var> degrees. Angle 2 is <var>abs( C2 )</var> degrees smaller than <var>abs( A2 )</var> times angle 1.<br><br>What are the measures of the two angles in degrees?</span></p>
+                    <p><span data-if="INDEX === 0 || INDEX === 1"><var>PROBLEM_1</var>. Bags of candy cost $<var>localeToFixed(A1, 2)</var>, and bags of cookies cost $<var>localeToFixed(B1, 2)</var>, and sales equaled $<var>localeToFixed(C1, 2)</var> in total. There were <var>C2</var> more bags of cookies than candy sold.<br><br><var>PROBLEM_2</var>.</span><span data-else="">The sum of two angles' measures is <var>C1</var> degrees. Angle 2 is <var>abs( C2 )</var> degrees smaller than <var>abs( A2 )</var> times angle 1.<br><br>What are the measures of the two angles in degrees?</span></p>
                 </div>
                 <div class="solution" data-type="multiple">
                     <p><span data-if="INDEX !== 2"># of </span><var>UNIT_1</var> = <span class="sol short50" data-forms="integer, decimal"><var>X</var></span></p>
@@ -208,9 +208,9 @@
                     <var id="SIGN_2">B2 * Y &gt; 0 ? "-" : "+"</var>
                 </div>
                 <div class="question spin">
-                    <p>All of the {3rd|4th|5th} grade teachers and students from <var>school(1)</var> went on a field trip to an {art|archaeology} museum. Tickets were $<var>A1.toFixed( 2 )</var> each for teachers and $<var>B1.toFixed( 2 )</var> each for students, and the
-                    group paid $<var>C1.toFixed( 2 )</var> in total.<br><br>{A few weeks later|The next month}, the same group visited a {science|natural history} museum where the tickets cost $<var>A2.toFixed( 2 )</var> each for teachers and $<var>B2.toFixed( 2 )</var> each for students, and the
-                    group paid $<var>C2.toFixed( 2 )</var> in total.<br><br>Find the number of teachers and students on the field trips.</p>
+                    <p>All of the {3rd|4th|5th} grade teachers and students from <var>school(1)</var> went on a field trip to an {art|archaeology} museum. Tickets were $<var>localeToFixed(A1, 2)</var> each for teachers and $<var>localeToFixed(B1, 2)</var> each for students, and the
+                    group paid $<var>localeToFixed(C1, 2)</var> in total.<br><br>{A few weeks later|The next month}, the same group visited a {science|natural history} museum where the tickets cost $<var>localeToFixed(A2, 2)</var> each for teachers and $<var>localeToFixed(B2, 2)</var> each for students, and the
+                    group paid $<var>localeToFixed(C2, 2)</var> in total.<br><br>Find the number of teachers and students on the field trips.</p>
                 </div>
                 <div class="solution" data-type="multiple">
                     <p># of teachers = <span class="sol short50" data-forms="integer, decimal"><var>X</var></span></p>

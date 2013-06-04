@@ -30,7 +30,7 @@
                 while ( array.length &lt; arrLength ) {
                     var d = randRange( 1, 3 ) * randRange( 2, 9 );
                     var n = randRange( 1, d - 1 );
-                    var ns = ( n / d ).toFixed( 3 );
+                    var ns = localeToFixed(n / d, 3);
 
                     if ( !used[ ns ] ) {
                         var gcd = getGCD( n, d );

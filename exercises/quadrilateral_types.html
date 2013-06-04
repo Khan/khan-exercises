@@ -26,7 +26,7 @@
                         q.boxOut( [ [ [ -1, -10 ], [ -1, 10 ] ] ], [ 0.7, 0 ] );
                         q.boxOut( [ [ [ 11, -10 ], [ 11, 10 ] ] ], [ -0.7, 0 ] );
                         q.draw();
-                        q.labels = { "angles" : ANGLE_LABELS, "sides" : $.map( $.map( q.sides, lineLength ), function( x ){ return x.toFixed( 1 ); } ) };
+                        q.labels = { "angles" : ANGLE_LABELS, "sides" : $.map( $.map( q.sides, lineLength ), function( x ){ return localeToFixed(x, 1); } ) };
                         q.drawLabels();
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                         q.boxOut( [ [ [ 11, -10 ], [ 11, 10 ] ] ], [ -0.7, 0 ] );
                         q.boxOut( [ [ [ 0, -10 ], [ 0, 10 ] ] ], [ 0.7, 0 ] );
                         q.draw();
-                        q.labels = { "angles" : ANGLE_LABELS, "sides" : $.map( $.map( q.sides, lineLength ), function( x ){ return x.toFixed( 1 ); } ) };
+                        q.labels = { "angles" : ANGLE_LABELS, "sides" : $.map( $.map( q.sides, lineLength ), function( x ){ return localeToFixed(x, 1); } ) };
                         q.drawLabels();
                     </div>
                 </div>

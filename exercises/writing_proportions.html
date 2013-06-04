@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math word-problems">
+<html data-require="math math-format word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Writing proportions</title>
@@ -12,7 +12,7 @@
             <div class="vars">
                 <var id="N1">randRange( 2, 10 )</var>
                 <var id="N2">randRangeExclude( 2, 15, [ N1 ] )</var>
-                <var id="C">( N1 * randRange( 80, 199 ) / 100 ).toFixed( 2 )</var>
+                <var id="C">localeToFixed( N1 * randRange( 80, 199 ) / 100, 2)</var>
                 <var id="SOLUTIONS">
                     (function() {
                         var solutions = [
