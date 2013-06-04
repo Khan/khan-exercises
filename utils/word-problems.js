@@ -842,14 +842,6 @@ $.fn["word-problemsLoad"] = function() {
     ]);
 
     // TODO(jeresig): I18N: Kill this.
-    var distanceActivities = new IncrementalShuffler([
-        {present: "ride", past: "rode", noun: "bike", done: "biked", continuous: "biking"},
-        {present: "row", past: "rowed", noun: "boat", done: "rowed", continuous: "rowing"},
-        {present: "drive", past: "drove", noun: "car", done: "driven", continuous: "driving"},
-        {present: "walk", past: "walked", noun: "dog", done: "walked", continuous: "walking"}
-    ]);
-
-    // TODO(jeresig): I18N: Kill this.
     var indefiniteArticle = function(word) {
         var vowels = ["a", "e", "i", "o", "u"];
         if (_(vowels).indexOf(word[0].toLowerCase()) > -1) {
@@ -960,31 +952,6 @@ $.fn["word-problemsLoad"] = function() {
 
         distance: function(i) {
             return distances.get(i - 1);
-        },
-
-        // TODO(jeresig): I18N: Kill this.
-        rode: function(i) {
-            return distanceActivities.get(i - 1).past;
-        },
-
-        // TODO(jeresig): I18N: Kill this.
-        ride: function(i) {
-            return distanceActivities.get(i - 1).present;
-        },
-
-        // TODO(jeresig): I18N: Kill this.
-        bike: function(i) {
-            return distanceActivities.get(i - 1).noun;
-        },
-
-        // TODO(jeresig): I18N: Kill this.
-        biked: function(i) {
-            return distanceActivities.get(i - 1).done;
-        },
-
-        // TODO(jeresig): I18N: Kill this.
-        biking: function(i) {
-            return distanceActivities.get(i - 1).continuous;
         },
 
         farmer: function(i) {

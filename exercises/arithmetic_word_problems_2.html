@@ -11,6 +11,12 @@
             <var id="NUM1">randRange( 1, 12 )</var>
             <var id="NUM2">randRange( 2, 12 )</var>
             <var id="TOTAL">NUM1 * NUM2</var>
+            <var id="RIDE,RODE,BIKE,BIKED,BIKING">randFromArray([
+                ["ride", "rode", "bike", "biked", "biking"],
+                ["row", "rowed", "boat", "rowed", "rowing"],
+                ["drive", "drove", "car", "driven", "driving"],
+                ["walk", "walked", "dog", "walked", "walking"]
+            ])</var>
         </div>
 
         <div class="problems">
@@ -101,27 +107,27 @@
 
             <div id="groups-product">
                 <p class="problem" data-if="isMale(1)"><span data-if="isSingular(NUM1)" data-unwrap="">
-                <var>person(1)</var> <var>rode(1)</var> his <var>bike(1)</var> for <var>NUM1</var> <var>distance(1)</var> on each of the past <var>NUM2</var> days.
+                <var>person(1)</var> <var>RODE</var> his <var>BIKE</var> for <var>NUM1</var> <var>distance(1)</var> on each of the past <var>NUM2</var> days.
                 </span><span data-else="" data-unwrap="">
-                <var>person(1)</var> <var>rode(1)</var> his <var>bike(1)</var> for <var>NUM1</var> <var>plural_form(distance(1), NUM1)</var> on each of the past <var>NUM2</var> days.
+                <var>person(1)</var> <var>RODE</var> his <var>BIKE</var> for <var>NUM1</var> <var>plural_form(distance(1), NUM1)</var> on each of the past <var>NUM2</var> days.
                 </span></p><p class="problem" data-else=""><span data-if="isSingular(NUM1)" data-unwrap="">
-                <var>person(1)</var> <var>rode(1)</var> her <var>bike(1)</var> for <var>NUM1</var> <var>distance(1)</var> on each of the past <var>NUM2</var> days.
+                <var>person(1)</var> <var>RODE</var> her <var>BIKE</var> for <var>NUM1</var> <var>distance(1)</var> on each of the past <var>NUM2</var> days.
                 </span><span data-else="" data-unwrap="">
-                <var>person(1)</var> <var>rode(1)</var> her <var>bike(1)</var> for <var>NUM1</var> <var>plural_form(distance(1), NUM1)</var> on each of the past <var>NUM2</var> days.
+                <var>person(1)</var> <var>RODE</var> her <var>BIKE</var> for <var>NUM1</var> <var>plural_form(distance(1), NUM1)</var> on each of the past <var>NUM2</var> days.
                 </span></p>
                 <p class="question" data-if="isMale(1)">
-                How many <var>plural_form(distance(1))</var> did <var>person(1)</var> <var>ride(1)</var> his <var>bike(1)</var> altogether?
+                How many <var>plural_form(distance(1))</var> did <var>person(1)</var> <var>RIDE</var> his <var>BIKE</var> altogether?
                 </p><p class="question" data-else="">
-                How many <var>plural_form(distance(1))</var> did <var>person(1)</var> <var>ride(1)</var> her <var>bike(1)</var> altogether?
+                How many <var>plural_form(distance(1))</var> did <var>person(1)</var> <var>RIDE</var> her <var>BIKE</var> altogether?
                 </p>
                 <div class="solution" data-type="multiple">
                     <span class="sol" data-forms="integer" style="padding-right: 5px"><var>TOTAL</var></span> <var>plural( distance(1) )</var>
                 </div>
                 <div class="hints">
                     <p>
-                    The total number of <var>plural_form(distance(1))</var> <var>biked(1)</var>
-                    is the product of the number of <var>plural_form(distance(1))</var> <var>biked(1)</var> each day
-                    and the number of days that <var>person(1)</var> went <var>biking(1)</var>.
+                    The total number of <var>plural_form(distance(1))</var> <var>BIKED</var>
+                    is the product of the number of <var>plural_form(distance(1))</var> <var>BIKED</var> each day
+                    and the number of days that <var>person(1)</var> went <var>BIKING</var>.
                     </p>
                     <p>
                     The product is <code><var>NUM1</var>\text{ <var>$._("%(distance_unit)s per day", {distance_unit: plural_form(distance( 1, NUM1 ))})</var>} \times <var>NUM2</var>\text{ <var>$._("days")</var>}</code>.
@@ -130,36 +136,36 @@
                     <code><var>NUM1</var>\text{ <var>$._("%(distance_unit)s per day", {distance_unit: plural( distance( 1 ) )})</var>} \times <var>NUM2</var>\text{ <var>$._("days")</var>}= <var>TOTAL</var>\text{ <var>plural( distance(1) )</var>}</code>
                     </p>
                     <p data-if="isSingular(TOTAL)">
-                    <var>person( 1 )</var> <var>biked( 1 )</var> a total of <var>TOTAL</var> <var>distance( 1 )</var>.
+                    <var>person( 1 )</var> <var>BIKED</var> a total of <var>TOTAL</var> <var>distance( 1 )</var>.
                     </p><p data-else="">
-                    <var>person( 1 )</var> <var>biked( 1 )</var> a total of <var>TOTAL</var> <var>plural_form(distance( 1 ), TOTAL)</var>.
+                    <var>person( 1 )</var> <var>BIKED</var> a total of <var>TOTAL</var> <var>plural_form(distance( 1 ), TOTAL)</var>.
                     </p>
                 </div>
             </div>
 
             <div id="groups-groupsize">
                 <p class="problem" data-if="isMale(1)"><span data-if="isSingular(TOTAL)" data-unwrap="">
-                <var>person(1)</var> <var>rode(1)</var> his <var>bike(1)</var> for a total of <var>TOTAL</var> <var>distance(1)</var> over the past <var>NUM2</var> days, and he <var>rode( 1 )</var> the same amount each day.
+                <var>person(1)</var> <var>RODE</var> his <var>BIKE</var> for a total of <var>TOTAL</var> <var>distance(1)</var> over the past <var>NUM2</var> days, and he <var>RODE</var> the same amount each day.
                 </span><span data-else="" data-unwrap="">
-                <var>person(1)</var> <var>rode(1)</var> his <var>bike(1)</var> for a total of <var>TOTAL</var> <var>plural_form(distance(1), TOTAL)</var> over the past <var>NUM2</var> days, and he <var>rode( 1 )</var> the same amount each day.
+                <var>person(1)</var> <var>RODE</var> his <var>BIKE</var> for a total of <var>TOTAL</var> <var>plural_form(distance(1), TOTAL)</var> over the past <var>NUM2</var> days, and he <var>RODE</var> the same amount each day.
                 </span></p><p class="problem" data-else=""><span data-if="isSingular(TOTAL)" data-unwrap="">
-                <var>person(1)</var> <var>rode(1)</var> her <var>bike(1)</var> for a total of <var>TOTAL</var> <var>distance(1)</var> over the past <var>NUM2</var> days, and she <var>rode( 1 )</var> the same amount each day.
+                <var>person(1)</var> <var>RODE</var> her <var>BIKE</var> for a total of <var>TOTAL</var> <var>distance(1)</var> over the past <var>NUM2</var> days, and she <var>RODE</var> the same amount each day.
                 </span><span data-else="" data-unwrap="">
-                <var>person(1)</var> <var>rode(1)</var> her <var>bike(1)</var> for a total of <var>TOTAL</var> <var>plural_form(distance(1), TOTAL)</var> over the past <var>NUM2</var> days, and she <var>rode( 1 )</var> the same amount each day.
+                <var>person(1)</var> <var>RODE</var> her <var>BIKE</var> for a total of <var>TOTAL</var> <var>plural_form(distance(1), TOTAL)</var> over the past <var>NUM2</var> days, and she <var>RODE</var> the same amount each day.
                 </span></p>
                 <p class="question" data-if="isMale(1)">
-                How many <var>plural_form(distance(1))</var> did <var>person(1)</var> <var>ride(1)</var> his <var>bike(1)</var> each day?
+                How many <var>plural_form(distance(1))</var> did <var>person(1)</var> <var>RIDE</var> his <var>BIKE</var> each day?
                 </p><p class="question" data-else="">
-                How many <var>plural_form(distance(1))</var> did <var>person(1)</var> <var>ride(1)</var> her <var>bike(1)</var> each day?
+                How many <var>plural_form(distance(1))</var> did <var>person(1)</var> <var>RIDE</var> her <var>BIKE</var> each day?
                 </p>
                 <div class="solution" data-type="multiple">
                     <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM1</var></span> <var>plural( distance(1) )</var>
                 </div>
                 <div class="hints">
                     <p>
-                    The number of <var>plural_form(distance(1))</var> <var>biked(1)</var> each day
-                    is the total number of <var>plural_form(distance(1))</var> <var>biked(1)</var> divided
-                    by the number of days that <var>person(1)</var> went <var>biking(1)</var>.
+                    The number of <var>plural_form(distance(1))</var> <var>BIKED</var> each day
+                    is the total number of <var>plural_form(distance(1))</var> <var>BIKED</var> divided
+                    by the number of days that <var>person(1)</var> went <var>BIKING</var>.
                     </p>
                     <p>
                     We are looking for the quotient, which is <code><var>TOTAL</var>\text{ <var>plural_form(distance( 1, TOTAL ))</var>} \div <var>NUM2</var>\text{ <var>$._("days")</var>}</code>.
@@ -167,33 +173,33 @@
                     <p>
                     <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>$._("days")</var>} = <var>NUM1</var> \text{ <var>$._("%(distance_unit)s per day", {distance_unit: plural( distance(1) )})</var>}</code>
                     </p>
-                    <p><var>person( 1 )</var> <var>biked( 1 )</var> <var>NUM1</var> <var>plural_form(distance(1), NUM)</var> each day.</p>
+                    <p><var>person( 1 )</var> <var>BIKED</var> <var>NUM1</var> <var>plural_form(distance(1), NUM1)</var> each day.</p>
                 </div>
             </div>
 
             <div id="groups-number">
                 <p class="problem" data-if="isMale(1)">
-                    <span data-if="isSingular(TOTAL)"><var>person(1)</var> has <var>biked(1)</var> his <var>bike(1)</var> for a total of <var>TOTAL</var> <var>distance(1)</var>
-                    since he started <var>biking(1)</var> daily.</span><span data-else=""><var>person(1)</var> has <var>biked(1)</var> his <var>bike(1)</var> for a total of <var>TOTAL</var> <var>plural_form(distance(1), TOTAL)</var>
-                    since he started <var>biking(1)</var> daily.</span>
-                    <span data-if="isSingular(NUM2)">He has been <var>biking(1)</var> <var>NUM2</var> <var>distance(1)</var> each day.</span><span data-else="">He has been <var>biking(1)</var> <var>NUM2</var> <var>plural_form(distance(1), NUM2)</var> each day.</span>
+                    <span data-if="isSingular(TOTAL)"><var>person(1)</var> has <var>BIKED</var> his <var>BIKE</var> for a total of <var>TOTAL</var> <var>distance(1)</var>
+                    since he started <var>BIKING</var> daily.</span><span data-else=""><var>person(1)</var> has <var>BIKED</var> his <var>BIKE</var> for a total of <var>TOTAL</var> <var>plural_form(distance(1), TOTAL)</var>
+                    since he started <var>BIKING</var> daily.</span>
+                    <span data-if="isSingular(NUM2)">He has been <var>BIKING</var> <var>NUM2</var> <var>distance(1)</var> each day.</span><span data-else="">He has been <var>BIKING</var> <var>NUM2</var> <var>plural_form(distance(1), NUM2)</var> each day.</span>
                 </p><p class="problem" data-else="">
-                    <span data-if="isSingular(TOTAL)"><var>person(1)</var> has <var>biked(1)</var> her <var>bike(1)</var> for a total of <var>TOTAL</var> <var>distance(1)</var>
-                    since she started <var>biking(1)</var> daily.</span><span data-else=""><var>person(1)</var> has <var>biked(1)</var> her <var>bike(1)</var> for a total of <var>TOTAL</var> <var>plural_form(distance(1), TOTAL)</var>
-                    since she started <var>biking(1)</var> daily.</span>
-                    <span data-if="isSingular(NUM2)">She has been <var>biking(1)</var> <var>NUM2</var> <var>distance(1)</var> each day.</span><span data-else="">She has been <var>biking(1)</var> <var>NUM2</var> <var>plural_form(distance(1), NUM2)</var> each day.</span>
+                    <span data-if="isSingular(TOTAL)"><var>person(1)</var> has <var>BIKED</var> her <var>BIKE</var> for a total of <var>TOTAL</var> <var>distance(1)</var>
+                    since she started <var>BIKING</var> daily.</span><span data-else=""><var>person(1)</var> has <var>BIKED</var> her <var>BIKE</var> for a total of <var>TOTAL</var> <var>plural_form(distance(1), TOTAL)</var>
+                    since she started <var>BIKING</var> daily.</span>
+                    <span data-if="isSingular(NUM2)">She has been <var>BIKING</var> <var>NUM2</var> <var>distance(1)</var> each day.</span><span data-else="">She has been <var>BIKING</var> <var>NUM2</var> <var>plural_form(distance(1), NUM2)</var> each day.</span>
                 </p>
                 <p class="question">
-                For how many days has <var>person(1)</var> been <var>biking(1)</var>?
+                For how many days has <var>person(1)</var> been <var>BIKING</var>?
                 </p>
                 <div class="solution" data-type="multiple">
                     <span class="sol" data-forms="integer" style="padding-right: 5px"><var>NUM1</var></span> days
                 </div>
                 <div class="hints">
                     <p>
-                    The number of days that <var>person(1)</var> has been <var>biking(1)</var>
-                    is the total number of <var>plural_form(distance(1))</var> <var>biked(1)</var> divided
-                    by the number of <var>plural_form(distance(1))</var> <var>biked(1)</var> each day.
+                    The number of days that <var>person(1)</var> has been <var>BIKING</var>
+                    is the total number of <var>plural_form(distance(1))</var> <var>BIKED</var> divided
+                    by the number of <var>plural_form(distance(1))</var> <var>BIKED</var> each day.
                     </p>
                     <p>
                     <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>$._("%(distance_unit)s each day", {distance_unit: plural( distance( 1 ))})</var>} = \text{<var>$._("number of days driving")</var>}</code>
