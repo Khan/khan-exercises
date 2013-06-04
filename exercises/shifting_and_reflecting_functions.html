@@ -9,12 +9,12 @@
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="X_ORIG">randRange(-6, 6)</var>
-            <var id="Y_ORIG">randRange(-6, 6)</var>
-            <var id="UP_ORIG">abs (Y_ORIG) &lt; 5 ? randRangeNonZero(-1, 1) : -abs (Y_ORIG) / Y_ORIG</var>
+            <var id="X_ORIG">randRange(-4, 4)</var>
+            <var id="Y_ORIG">randRange(-3, 3)</var>
+            <var id="UP_ORIG">randRangeNonZero(-1, 1)</var>
             <var id="FUNC">randFromArray([
                 function(x) { return 0.25 * UP_ORIG * pow(x + X_ORIG, 2) + Y_ORIG; },
-                function(x) { return 0.02 * UP_ORIG * pow(x + X_ORIG, 3) + Y_ORIG; }
+                function(x) { return 0.02 * UP_ORIG * (pow(x + X_ORIG, 3) + 10 * pow(x + X_ORIG, 2)) + Y_ORIG; }
             ])</var>
         </div>
 
@@ -33,6 +33,62 @@
                     <li><code><var>expr(["+", "f(x)", X_SHIFT])</var></code></li>
                     <li><code><var>expr(["+", "f(x)", -X_SHIFT])</var></code></li>
                 </ul>
+
+                <div class="hints">
+                    <div>
+                        <p data-if="X_SHIFT > 0">
+                            <span data-if="isSingular(abs(X_SHIFT))">
+                                Function <code>\color{blue}{g(x)}</code> is shifted <code>1</code> unit left relative to <code>\color{red}{f(x)}</code>.
+                            </span>
+                            <span data-else="">
+                                Function <code>\color{blue}{g(x)}</code> is shifted <code><var>abs(X_SHIFT)</var></code> units left relative to <code>\color{red}{f(x)}</code>.
+                            </span>
+                        </p>
+                        <p data-else="">
+                            <span data-if="isSingular(abs(X_SHIFT))">
+                                Function <code>\color{blue}{g(x)}</code> is shifted <code>1</code> unit right relative to <code>\color{red}{f(x)}</code>.
+                            </span>
+                            <span data-else="">
+                                Function <code>\color{blue}{g(x)}</code> is shifted <code><var>abs(X_SHIFT)</var></code> units right relative to <code>\color{red}{f(x)}</code>.
+                            </span>
+                        </p>
+
+                        <div class="graphie" data-update="G">
+                            style({
+                                stroke: BLACK,
+                                strokeWidth: 2,
+                                arrows: "-&gt;",
+                            });
+
+                            path([[-X_ORIG, COEFFICIENT * Y_ORIG + Y_SHIFT], [-X_ORIG - X_SHIFT , COEFFICIENT * Y_ORIG + Y_SHIFT]]);
+                        </div>
+                    </div>
+
+                    <div>
+                        <p data-if="X_SHIFT > 0">
+                            <span data-if="isSingular(abs(X_SHIFT))">
+                                Therefore, to find <code>\color{blue}{g(x)}</code> you can find the value of <code>\color{red}{f(x)}</code>
+                                <code>1</code> unit to the right.
+                            </span>
+                            <span data-else="">
+                                Therefore, to find <code>\color{blue}{g(x)}</code> you can find the value of <code>\color{red}{f(x)}</code>
+                                <code><var>abs(X_SHIFT)</var></code> units to the right.
+                            </span>
+                        </p>
+                        <p data-else="">
+                            <span data-if="isSingular(abs(X_SHIFT))">
+                                Therefore, to find <code>\color{blue}{g(x)}</code> you can find the value of <code>\color{red}{f(x)}</code>
+                                <code>1</code> unit to the left.
+                            </span>
+                            <span data-else="">
+                                Therefore, to find <code>\color{blue}{g(x)}</code> you can find the value of <code>\color{red}{f(x)}</code>
+                                <code><var>abs(X_SHIFT)</var></code> units to the left.
+                            </span>
+                        </p>
+                    </div>
+
+                    <p>Therefore <code>g(x) = <var>ANSWER</var></code>.</p>
+                </div>
             </div>
 
             <div id="shift-y">
@@ -49,40 +105,105 @@
                     <li><code><var>expr(["+", "f(x)", Y_SHIFT])</var></code></li>
                     <li><code><var>expr(["+", "f(x)", -Y_SHIFT])</var></code></li>
                 </ul>
+
+                <div class="hints">
+                    <div>
+                        <p data-if="Y_SHIFT > 0">
+                            <span data-if="isSingular(abs(Y_SHIFT))">
+                                Function <code>\color{blue}{g(x)}</code> is shifted <code>1</code> unit up relative to <code>\color{red}{f(x)}</code>.
+                            </span>
+                            <span data-else="">
+                                Function <code>\color{blue}{g(x)}</code> is shifted <code><var>abs(Y_SHIFT)</var></code> units up relative to <code>\color{red}{f(x)}</code>.
+                            </span>
+                        </p>
+                        <p data-else="">
+                            <span data-if="isSingular(abs(Y_SHIFT))">
+                                Function <code>\color{blue}{g(x)}</code> is shifted <code>1</code> unit down relative to <code>\color{red}{f(x)}</code>.
+                            </span>
+                            <span data-else="">
+                                Function <code>\color{blue}{g(x)}</code> is shifted <code><var>abs(Y_SHIFT)</var></code> units down relative to <code>\color{red}{f(x)}</code>.
+                            </span>
+                        </p>
+
+                        <div class="graphie" data-update="G">
+                            style({
+                                stroke: BLACK,
+                                strokeWidth: 2,
+                                arrows: "-&gt;",
+                            });
+
+                            path([[-X_ORIG, COEFFICIENT * Y_ORIG], [-X_ORIG, COEFFICIENT * Y_ORIG + Y_SHIFT]]);
+                        </div>
+                    </div>
+
+                    <div>
+                        <p data-if="Y_SHIFT > 0">
+                            Therefore, to find <code>\color{blue}{g(x)}</code> you can find <code>\color{red}{f(x)}</code>
+                            and add <code><var>abs(Y_SHIFT)</var></code>.
+                        </p>
+                        <p data-else="">
+                            Therefore, to find <code>\color{blue}{g(x)}</code> you can find <code>\color{red}{f(x)}</code>
+                            and subtract <code><var>abs(Y_SHIFT)</var></code>.
+                        </p>
+                    </div>
+
+                    <p>Therefore <code>g(x) = <var>ANSWER</var></code>.</p>
+                </div>
             </div>
 
             <div id="coefficient">
                 <div class="vars">
                     <var id="X_SHIFT">0</var>
-                    <var id="COEFFICIENT">randFromArray([-1, 1]) * randFromArray([0.5, 2/3, 1.5, 2])</var>
+                    <var id="COEFFICIENT">randFromArray([-1, 1]) * randFromArray([1/3, 0.5, 2, 3])</var>
                     <var id="Y_SHIFT">0</var>
                     <var id="ANSWER">toFractionTex(COEFFICIENT) + "f(x)"</var>
                 </div>
 
                 <ul class="choices" data-none="true" data-show="4">
                     <li><code><var>toFractionTex(1/COEFFICIENT)</var>f(x)</code></li>
-                    <li><code><var>toFractionTex(-1/COEFFICIENT)</var>f(x)></code></li>
-                    <li><code><var>toFractionTex(-COEFFICIENT)</var>f(x)></code></li>
+                    <li><code><var>toFractionTex(-1/COEFFICIENT)</var>f(x)</code></li>
+                    <li><code><var>toFractionTex(-COEFFICIENT)</var>f(x)</code></li>
                 </ul>
-            </div>
 
-            <div id="change-all">
-                <div class="vars">
-                    <var id="X_SHIFT">X_ORIG &gt; 0 ? randRange(-6, -1) : randRange(1, 6)</var>
-                    <var id="COEFFICIENT">randRangeNonZero(-1, 1)</var>
-                    <var id="Y_SHIFT" data-ensure="abs(Y_ORIG * COEFFICIENT + Y_SHIFT) &lt; 8 &amp;&amp; (Y_ORIG * COEFFICIENT + Y_SHIFT) * UP_ORIG * COEFFICIENT &lt; 7">randRangeNonZero(-6 , 6)</var>
-                    <var id="ANSWER">expr(["+", ["*", COEFFICIENT, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var>
+                <div class="hints">
+                    <div data-if="COEFFICIENT < 0">
+                        <p>
+                            Function <code>\color{blue}{g(x)}</code> is flipped vertically compared to <code>\color{red}{f(x)}</code>,
+                            so multiply by <code>-1</code> to get <code>\color{green}{-f(x)}</code>.
+                        </p>
+
+                        <div class="graphie" data-update="G">
+                            style({
+                                stroke: GREEN,
+                                strokeDasharray: "- "
+                            });
+                            plot( function(x) {
+                                return -FUNC(x);
+                            }, [-10, 10]);
+                        </div>
+                    </div>
+
+                    <p data-else="">
+                        Function <code>\color{blue}{g(x)}</code> is not flipped vertically compared to <code>\color{red}{f(x)}</code>,
+                        so does not have a negative coefficient.
+                    </p>
+
+                    <p data-if="abs(COEFFICIENT) < 1">
+                        Function <code>\color{blue}{g(x)}</code> is compressed vertically relative to
+                        <span data-if="COEFFICIENT < 0"><code>\color{green}{-f(x)}</code></span>
+                        <span data-else=""><code>\color{red}{f(x)}</code></span>,
+                        so must be multiplied by a number with a magnitude less than <code>1</code>.
+                    </p>
+
+                    <p data-else="">
+                        Function <code>\color{blue}{g(x)}</code> is stretched vertically compared to
+                        <span data-if="COEFFICIENT < 0"><code>\color{green}{-f(x)}</code></span>
+                        <span data-else=""><code>\color{red}{f(x)}</code></span>,
+                        so must be multiplied by a number with a magnitude greater than <code>1</code>.
+                    </p>
+
+                    <div>Therefore <code>g(x) = <var>ANSWER</var></code>.</div>
                 </div>
-
-                <ul class="choices" data-none="true" data-show="6">
-                    <li><code><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x",   X_SHIFT]]], -Y_SHIFT])</var></code></li>
-                    <li><code><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x",  -X_SHIFT]]],  Y_SHIFT])</var></code></li>
-                    <li><code><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x",  -X_SHIFT]]], -Y_SHIFT])</var></code></li>
-                    <li><code><var>expr(["+",["*", -COEFFICIENT, ["*", "f", ["+","x",  X_SHIFT]]],  Y_SHIFT])</var></code></li>
-                    <li><code><var>expr(["+",["*", -COEFFICIENT, ["*", "f", ["+","x", -X_SHIFT]]],  Y_SHIFT])</var></code></li>
-                    <li><code><var>expr(["+",["*", -COEFFICIENT, ["*", "f", ["+","x",  X_SHIFT]]], -Y_SHIFT])</var></code></li>
-                    <li><code><var>expr(["+",["*", -COEFFICIENT, ["*", "f", ["+","x", -X_SHIFT]]], -Y_SHIFT])</var></code></li>
-                </ul>
             </div>
         </div>
 
@@ -120,108 +241,6 @@
         </div>
 
         <p class="solution"><code><var>ANSWER</var></code></p>
-
-        <div class="hints">
-            <div data-if="COEFFICIENT < 0">
-                <p>
-                    <code>g(x)</code> is flipped vertically compared to <code>f(x)</code>, so multiply by <code>-1</code> to get <code class="hint_purple">-f(x)</code>.
-                </p>
-
-                <div class="graphie" data-update="G">
-                    style({
-                        stroke: PURPLE
-                    });
-                    plot( function(x) {
-                        return COEFFICIENT &lt; 1 ? -FUNC(x) : FUNC(x);
-                    }, [-10, 10]);
-                </div>
-            </div>
-
-            <div data-if="COEFFICIENT > 0">
-                <p>
-                    <code>g(x)</code> is not flipped vertically compared to <code>f(x)</code>, so is not multiplied by a negative number.</p>
-                </p>
-            </div>
-
-            <div data-if="abs(COEFFICIENT) < 1">
-                <p><code>g(x)</code> is compressed vertically compared to <code>f(x)</code>, so must be multiplied by a number with a magnitude less than <code>1</code>.</p>
-            </div>
-
-            <div data-if="abs(COEFFICIENT) > 1">
-                <p><code>g(x)</code> is stretched vertically compared to <code>f(x)</code>, so must be multiplied by a number with a magnitude greater than <code>1</code>.</p>
-            </div>
-
-            <div data-if="Y_SHIFT !== 0">
-                <p data-if="Y_SHIFT > 0">
-                    <span data-if="isSingular(abs(Y_SHIFT))" data-unwrap="">
-                        Shift the function <code><var>expr(["*", COEFFICIENT,"f(x)"])</var></code> up <code><var>abs(Y_SHIFT)</var></code> unit to get <code class="hint_green"><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code>.
-                    </span>
-                    <span data-else="" data-unwrap="">
-                        Shift the function <code><var>expr(["*", COEFFICIENT,"f(x)"])</var></code> up <code><var>abs(Y_SHIFT)</var></code> units to get <code class="hint_green"><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code>.
-                    </span>
-                </p>
-                <p data-else="">
-                    <span data-if="isSingular(abs(Y_SHIFT))" data-unwrap="">
-                        Shift the function <code><var>expr(["*", COEFFICIENT,"f(x)"])</var></code> down <code><var>abs(Y_SHIFT)</var></code> unit to get <code class="hint_green"><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code>.
-                    </span>
-                    <span data-else="" data-unwrap="">
-                        Shift the function <code><var>expr(["*", COEFFICIENT,"f(x)"])</var></code> down <code><var>abs(Y_SHIFT)</var></code> units to get <code class="hint_green"><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code>.
-                    </span>
-                </p>
-
-                <div class="graphie" data-update="G">
-                    style({
-                        strokeWidth: 2,
-                        stroke: GREEN,
-                        arrows: "-&gt;",
-                        strokeDasharray: "- "
-                    });
-
-                    plot( function(x) {
-                        return COEFFICIENT * FUNC(x) + Y_SHIFT;
-                    }, [-10, 10]); strokeDasharray: "- "
-
-                    style({
-                        strokeWidth: 2,
-                        strokeDasharray: ""
-                    });
-
-                    path([[-X_ORIG, COEFFICIENT * Y_ORIG], [-X_ORIG, COEFFICIENT * Y_ORIG + Y_SHIFT]]);
-                </div>
-            </div>
-
-            <div data-if="X_SHIFT !== 0">
-                <p data-if="X_SHIFT > 0">
-                    <span data-if="isSingular(abs(X_SHIFT))" data-unwrap="">
-                        Shift the function <code><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code> left <code><var>abs(X_SHIFT)</var></code> unit to get <code class="hint_blue"><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.
-                    </span>
-                    <span data-else="" data-unwrap="">
-                        Shift the function <code><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code> left <code><var>abs(X_SHIFT)</var></code> units to get <code class="hint_blue"><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.
-                    </span>
-                </p>
-                <p data-else="">
-                    <span data-if="isSingular(abs(X_SHIFT))" data-unwrap="">
-                        Shift the function <code><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code> right <code><var>abs(X_SHIFT)</var></code> unit to get <code class="hint_blue"><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.
-                    </span>
-                    <span data-else="" data-unwrap="">
-                        Shift the function <code><var>expr(["+",["*", COEFFICIENT,"f(x)"], Y_SHIFT])</var></code> right <code><var>abs(X_SHIFT)</var></code> units to get <code class="hint_blue"><var>expr(["+",["*", COEFFICIENT, ["*", "f", ["+","x", X_SHIFT]]], Y_SHIFT])</var></code>.
-                    </span>
-                </p>
-
-                <div class="graphie" data-update="G">
-                    style({
-                        stroke: BLUE,
-                        strokeWidth: 2,
-                        arrows: "-&gt;",
-                        strokeDasharray: ""
-                    });
-
-                    path([[-X_ORIG, COEFFICIENT * Y_ORIG + Y_SHIFT], [-X_ORIG - X_SHIFT , COEFFICIENT * Y_ORIG + Y_SHIFT]]);
-                </div>
-            </div>
-
-            <p>Therefore <code>g(x) = <var>ANSWER</var></code>.</p>
-        </div>
     </div>
 </body>
 </html>
