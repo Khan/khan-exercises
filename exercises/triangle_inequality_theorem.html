@@ -16,7 +16,7 @@
             var sa = KhanUtil.randRange( 4, 8 );
             var sb = sa * Math.sin( b * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
             var sc = sa * Math.sin( c * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
-                return [ [ a, b, c] , [ localeToFixed(sa, 1), localeToFixed(sb, 1), localeToFixed(sc, 1) ] ];
+                return [ [ a, b, c] , [ KhanUtil.localeToFixed(sa, 1), KhanUtil.localeToFixed(sb, 1), KhanUtil.localeToFixed(sc, 1) ] ];
         }
     </script>
 </head>
