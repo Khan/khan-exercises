@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Simplifying square roots of negatives</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div id="negative-perfect-squares" data-weight="3">
+            <div class="vars">
+                <var id="NUM">randFromArray([9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225])</var>
+                <var id="SPLIT">splitRadical(NUM)</var>
+                <var id="COEFFICIENT">SPLIT[0] === 1 ? "" : SPLIT[0]</var>
+            </div>
+
+            <p class="question">
+                Simplify <code>\sqrt{-<var>NUM</var>}</code>.
+            </p>
+
+            <div class="solution" data-type="multiple">
+                <div class="sol" data-type="regex">^\s*([ij]\s*<var>COEFFICIENT</var>|<var>COEFFICIENT</var>\s*[ij])\s*$</div>
+                <p class="example">a complex number, like <code>2i</code> or <code>8</code></p>
+            </div>
+
+            <div class="hints">
+                <p>Factoring out the -1 gives us <code>\sqrt{(-1)(<var>NUM</var>)} = i\sqrt{<var>NUM</var>}</code>.</p>
+                <p class="final_answer">The number <code><var>NUM</var></code> is a perfect square, so <code>i\sqrt{<var>NUM</var>} = <var>COEFFICIENT</var>i</code>.</p></div>
+        </div>
+        <div id="zero-square" data-weight="1">
+            <div class="vars">
+            </div>
+
+            <p class="question">
+                Simplify <code>\sqrt{<var>0</var>}</code>.
+            </p>
+
+            <div class="solution" data-type="multiple">
+                <div class="sol" data-type="decimal">0</div>
+                <p class="example">a complex number, like <code>2i</code> or <code>8</code></p>
+            </div>
+
+            <div class="hints">
+                <p class="final_answer">The number <code>0</code> is a perfect square, so <code>\sqrt{0} = 0</code>.</p>
+            </div>
+        </div>
+        <div id="perfect-squares" data-weight="2">
+            <div class="vars">
+                <var id="NUM">randFromArray([0, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225])</var>
+                <var id="SPLIT">splitRadical(NUM)</var>
+                <var id="COEFFICIENT">SPLIT[0] === 1 ? "" : SPLIT[0]</var>
+            </div>
+
+            <p class="question">
+                Simplify <code>\sqrt{<var>NUM</var>}</code>.
+            </p>
+
+            <div class="solution" data-type="multiple">
+                <div class="sol" data-type="decimal"><var>COEFFICIENT</var></div>
+                <p class="example">a complex number, like <code>2i</code> or <code>8</code></p>
+            </div>
+
+            <div class="hints">
+                <p class="final_answer">The number <code><var>NUM</var></code> is a perfect square, so <code>\sqrt{<var>NUM</var>} = <var>COEFFICIENT</var></code>.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
