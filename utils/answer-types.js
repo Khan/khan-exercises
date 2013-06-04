@@ -604,7 +604,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
     number: {
         convertToPredicate: function(correct, options) {
             if (options.type === "predicate") {
-                console.log("moo");
                 return solution;
             }
 
