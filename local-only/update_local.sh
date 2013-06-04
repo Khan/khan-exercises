@@ -52,6 +52,9 @@ mkdir -p "$destdir/localeplanet"
 cp -f "$webapp_root"/third_party/javascript-khansrc/localeplanet/icu.* \
     "$destdir/localeplanet"
 
+# Remove the __language__ symlink
+rm -f "$destdir/localeplanet/icu.__language__.js"
+
 # Update khan-site.css
 python "$webapp_root/deploy/combine.py" shared.css exercises.css \
     | sed 's|url(/*\(.*images.*\))|url(http://www.khanacademy.org/\1)|' \
