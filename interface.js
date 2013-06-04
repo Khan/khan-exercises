@@ -590,11 +590,7 @@ function clearExistingProblem() {
     $("#positive-reinforcement").hide();
 
     // Wipe out any previous problem
-    if (framework === "perseus") {
-        $(PerseusBridge).trigger("cleanupProblem");
-    } else if (framework === "khan-exercises") {
-        $(Khan).trigger("cleanupProblem");
-    }
+    PerseusBridge.cleanupProblem() || Khan.cleanupProblem();
     $("#workarea, #hintsarea, #solutionarea").empty();
 
     // Take off the event handlers for disabling check answer; we'll rebind

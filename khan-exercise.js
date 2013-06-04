@@ -903,6 +903,10 @@ var Khan = (function() {
                     }
                 });
             });
+        },
+
+        cleanupProblem: function() {
+            $("#workarea, #hintsarea").runModules(problem, "Cleanup");
         }
     };
     // see line 183. this ends the main Khan module
@@ -1957,9 +1961,6 @@ var Khan = (function() {
                         userExercise.exercise,
                         userExercise.exerciseModel.displayName,
                         userExercise.exerciseModel.fileName);
-            })
-            .bind("cleanupProblem", function() {
-                $("#workarea, #hintsarea").runModules(problem, "Cleanup");
             })
             .bind("showHint", function() {
                 showHint();
