@@ -295,7 +295,7 @@ var Khan = (function() {
             "graphie-helpers": ["math-format"],
             "matrix": ["expressions"],
             "matrix-input": ["jquery.cursor-position"],
-            "chemistry": ["jquery-ui", "math-format"],
+            "chemistry": ["math-format"],
             "d3": ["math-format"]
         },
 
@@ -745,6 +745,10 @@ var Khan = (function() {
                 "../local-only/jquery.ui.position.js",
                 "../local-only/jquery.ui.effect.js",
                 "../local-only/jquery.ui.effect-shake.js",
+                "../local-only/jquery.ui.button.js",
+                "../local-only/jquery.ui.draggable.js",
+                "../local-only/jquery.ui.resizable.js",
+                "../local-only/jquery.ui.dialog.js",
                 "../local-only/jquery.qtip.js",
                 "../local-only/underscore.js",
                 "../local-only/jed.js",
