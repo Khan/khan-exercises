@@ -1175,6 +1175,8 @@ var Khan = (function() {
                 }
             }
 
+            $(Exercises).trigger("clearExistingProblem");
+
             // Generate a new problem
             makeProblem(typeOverride, seedOverride);
         }
@@ -1786,10 +1788,9 @@ var Khan = (function() {
     }
 
     function renderNextProblem(data) {
-        $(Exercises).trigger("clearExistingProblem");
-
         if (localMode) {
             // Just generate a new problem from existing exercise
+            $(Exercises).trigger("clearExistingProblem");
             makeProblem();
         } else {
             loadAndRenderExercise(data.userExercise);
