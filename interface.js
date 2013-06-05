@@ -35,7 +35,7 @@ var PerseusBridge = Exercises.PerseusBridge,
     userExercise,
     problemNum,
 
-    answeredCorrectly,
+    canAttempt,
     hintsAreFree,
     attempts,
     numHints,
@@ -122,7 +122,7 @@ function newProblem(e, data) {
     Exercises.guessLog = [];
     Exercises.userActivityLog = [];
 
-    answeredCorrectly = false,
+    canAttempt = true,
     hintsAreFree = false,
     attempts = data.userExercise ? data.userExercise.lastAttemptNumber : 0;
     numHints = data.numHints;
@@ -166,10 +166,16 @@ function handleAttempt(data) {
         return false;
     }
 
-    if (answeredCorrectly) {
-        // Just don't allow further submissions once a correct answer has been
-        // called or sometimes the server gets confused.
+    if (!canAttempt) {
+        // Just don't allow further submissions once a correct answer or skip
+        // has been called or sometimes the server gets confused.
         return false;
+    }
+
+    if (score.correct || skipped) {
+        // Once we receive a correct answer or a skip, that's it; further
+        // attempts are disallowed.
+        canAttempt = false;
     }
 
     var curTime = new Date().getTime();
@@ -188,7 +194,6 @@ function handleAttempt(data) {
             stringifiedGuess, timeTaken]);
 
     if (score.correct) {
-        answeredCorrectly = true;
         $(Exercises).trigger("problemDone", {
             card: Exercises.currentCard,
             attempts: attempts
@@ -196,7 +201,7 @@ function handleAttempt(data) {
     }
 
     // Update interface corresponding to correctness
-    if (Exercises.assessmentMode) {
+    if (skipped || Exercises.assessmentMode) {
         disableCheckAnswer();
     } else if (score.correct) {
         // Correct answer, so show the next question button.
@@ -208,6 +213,7 @@ function handleAttempt(data) {
             .show()
             .focus();
         $("#positive-reinforcement").show();
+        $("#skip-question-button").prop("disabled", true);
     } else {
         // Wrong answer. Enable all the input elements
 
@@ -262,6 +268,13 @@ function handleAttempt(data) {
 
         // Skip the server; just pretend we have success
         return false;
+    }
+
+    if (skipped && !Exercises.assessmentMode) {
+        // Skipping should pull up the next card immediately - but, if we're in
+        // assessment mode, we don't know what the next card will be yet, so
+        // wait for the special assessment mode triggers to fire instead.
+        $(Exercises).trigger("gotoNextProblem");
     }
 
     // Save the problem results to the server
@@ -337,7 +350,7 @@ function onHintShown(e, data) {
     Exercises.userActivityLog.push(["hint-activity", "0", timeTaken]);
 
     if (!previewingItem && !localMode && !userExercise.readOnly &&
-            !answeredCorrectly) {
+            canAttempt) {
         // Don't do anything on success or failure; silently failing is ok here
         request("problems/" + problemNum + "/hint",
                 buildAttemptData(false, attempts, "hint", timeTaken, false));
