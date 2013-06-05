@@ -8,5 +8,11 @@ var Exercises = {
 
     getCurrentFramework: function() {
         return "khan-exercises";
+    },
+
+    PerseusBridge: {
+        cleanupProblem: function() {
+            return false;
+        }
     }
 };
