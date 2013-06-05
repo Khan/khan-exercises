@@ -2190,22 +2190,22 @@ var Khan = (function() {
             selfPromise = $.Deferred();
         }
 
-        var promises = [];
+        var depsPromises = [];
 
-        // Load module dependencies
-        promises.push(selfPromise);
-        Khan.loadScript(src, function() {
-            selfPromise.resolve();
-        });
-
+        // Load the dependencies
         $.each(deps, function(i, dep) {
-            promises.push(loadModule(dep));
+            depsPromises.push(loadModule(dep));
         });
 
-        // Return a multi-promise thing
-        var allLoaded = $.when.apply($, promises);
-        modulePromises[src] = allLoaded;
-        return allLoaded;
+        // Load the module once all of the dependencies have been loaded
+        $.when.apply($, depsPromises).then(function() {
+            Khan.loadScript(src, function() {
+                selfPromise.resolve();
+            });
+        });
+
+        modulePromises[src] = selfPromise;
+        return selfPromise;
     }
 
     function loadTestModeSite() {
