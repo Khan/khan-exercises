@@ -1900,7 +1900,7 @@ var Khan = (function() {
         };
 
         initializeCalculator();
-        Khan.initReportIssueLink();
+        Khan.initReportIssueLink("#report, #extras .report-issue-link");
 
         $("#answer_area").delegate("input.button, select", "keydown", function(e) {
             // Don't want to go back to exercise dashboard; just do nothing on backspace
