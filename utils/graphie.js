@@ -397,7 +397,6 @@
                     $span.html(text);
                 }
 
-                var scaledPoint = scalePoint(point);
                 var pad = currentStyle["label-distance"];
 
                 // TODO(alpert): Isn't currentStyle applied afterwards
@@ -405,12 +404,18 @@
                 $span
                     .css($.extend({}, currentStyle, {
                             position: "absolute",
-                            left: scaledPoint[0],
-                            top: scaledPoint[1],
                             padding: (pad != null ? pad : 7) + "px"
                         }))
                     .data("labelDirection", direction)
                     .appendTo(el);
+                $span.setPosition = function(point) {
+                    var scaledPoint = scalePoint(point);
+                    $span.css({
+                        left: scaledPoint[0],
+                        top: scaledPoint[1]
+                    });
+                };
+                $span.setPosition(point);
 
                 setNeedsLabelTypeset();
                 return $span;
