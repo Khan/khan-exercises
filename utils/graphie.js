@@ -675,6 +675,10 @@
                 axes = options.axes || true,
                 axisArrows = options.axisArrows || "",
                 axisOpacity = options.axisOpacity || 1.0,
+                axisCenter = options.axisCenter || [
+                    Math.min(Math.max(range[0][0], 0), range[0][1]),
+                    Math.min(Math.max(range[1][0], 0), range[1][1])
+                ],
                 ticks = options.ticks || true,
                 tickStep = options.tickStep || [2, 2],
                 tickLen = options.tickLen || [5, 5],
@@ -687,7 +691,13 @@
                 xLabelFormat = options.xLabelFormat || labelFormat,
                 yLabelFormat = options.yLabelFormat || labelFormat,
                 smartLabelPositioning = options.smartLabelPositioning != null ?
-                    options.smartLabelPositioning : true;
+                    options.smartLabelPositioning : true,
+                realRange = [
+                    [range[0][0] - (range[0][0] > 0 ? 1 : 0),
+                     range[0][1] + (range[0][1] < 0 ? 1 : 0)],
+                    [range[1][0] - (range[1][0] > 0 ? 1 : 0),
+                     range[1][1] + (range[1][1] < 0 ? 1 : 0)]
+                ];
 
             if (smartLabelPositioning) {
                 var minusIgnorer = function(lf) { return function(a) {
@@ -699,7 +709,7 @@
             }
 
             this.init({
-                range: range,
+                range: realRange,
                 scale: scale
             });
 
@@ -723,10 +733,14 @@
                         strokeWidth: 2,
                         arrows: "->"
                     }, function() {
-                        this.path([[0, 0], [gridRange[0][0], 0]]);
-                        this.path([[0, 0], [gridRange[0][1], 0]]);
-                        this.path([[0, 0], [0, gridRange[1][0]]]);
-                        this.path([[0, 0], [0, gridRange[1][1]]]);
+                        if (range[1][0] < 0 && range[1][1] > 0) {
+                            this.path([axisCenter, [gridRange[0][0], axisCenter[1]]]);
+                            this.path([axisCenter, [gridRange[0][1], axisCenter[1]]]);
+                        }
+                        if (range[0][0] < 0 && range[0][1] > 0) {
+                            this.path([axisCenter, [axisCenter[0], gridRange[1][0]]]);
+                            this.path([axisCenter, [axisCenter[0], gridRange[1][1]]]);
+                        }
                     });
 
                 // also, we don't support "<-" arrows yet, but why you
@@ -738,8 +752,8 @@
                         strokeWidth: 2,
                         arrows: axisArrows
                     }, function() {
-                        this.path([[gridRange[0][0], 0], [gridRange[0][1], 0]]);
-                        this.path([[0, gridRange[1][0]], [0, gridRange[1][1]]]);
+                        this.path([[gridRange[0][0], axisCenter[1]], [gridRange[0][1], axisCenter[1]]]);
+                        this.path([[axisCenter[0], gridRange[1][0]], [axisCenter[0], gridRange[1][1]]]);
                     });
 
                 }
@@ -756,19 +770,21 @@
 
                     // horizontal axis
                     var step = gridStep[0] * tickStep[0],
-                 len = tickLen[0] / scale[1],
-                 start = gridRange[0][0],
-                 stop = gridRange[0][1];
+                        len = tickLen[0] / scale[1],
+                        start = gridRange[0][0],
+                        stop = gridRange[0][1];
 
-                    for (var x = step; x <= stop; x += step) {
-                        if (x < stop || !axisArrows) {
-                            this.line([x, -len], [x, len]);
+                    if (range[1][0] < 0 && range[1][1] > 0) {
+                        for (var x = step + axisCenter[0]; x <= stop; x += step) {
+                            if (x < stop || !axisArrows) {
+                                this.line([x, -len + axisCenter[1]], [x, len + axisCenter[1]]);
+                            }
                         }
-                    }
 
-                    for (var x = -step; x >= start; x -= step) {
-                        if (x > start || !axisArrows) {
-                            this.line([x, -len], [x, len]);
+                        for (var x = -step + axisCenter[0]; x >= start; x -= step) {
+                            if (x > start || !axisArrows) {
+                                this.line([x, -len + axisCenter[1]], [x, len + axisCenter[1]]);
+                            }
                         }
                     }
 
@@ -778,15 +794,17 @@
                     start = gridRange[1][0];
                     stop = gridRange[1][1];
 
-                    for (var y = step; y <= stop; y += step) {
-                        if (y < stop || !axisArrows) {
-                            this.line([-len, y], [len, y]);
+                    if (range[0][0] < 0 && range[0][1] > 0) {
+                        for (var y = step + axisCenter[1]; y <= stop; y += step) {
+                            if (y < stop || !axisArrows) {
+                                this.line([-len + axisCenter[0], y], [len + axisCenter[0], y]);
+                            }
                         }
-                    }
 
-                    for (var y = -step; y >= start; y -= step) {
-                        if (y > start || !axisArrows) {
-                            this.line([-len, y], [len, y]);
+                        for (var y = -step + axisCenter[1]; y >= start; y -= step) {
+                            if (y > start || !axisArrows) {
+                                this.line([-len + axisCenter[0], y], [len + axisCenter[0], y]);
+                            }
                         }
                     }
 
@@ -799,22 +817,28 @@
                     stroke: "#000000",
                     opacity: labelOpacity
                 }, function() {
+
                     // horizontal axis
                     var step = gridStep[0] * tickStep[0] * labelStep[0],
                         start = gridRange[0][0],
-                        stop = gridRange[0][1];
+                        stop = gridRange[0][1],
+                        xAxisPosition = (axisCenter[0] < 0) ? "above" : "below",
+                        yAxisPosition = (axisCenter[0] < 0) ? "right" : "left",
+                        xShowZero = axisCenter[0] === 0 && axisCenter[1] !== 0,
+                        yShowZero = axisCenter[0] !== 0 && axisCenter[1] === 0,
+                        showUnity = unityLabels || axisCenter[0] !== 0 || axisCenter[1] !== 0;
 
                     // positive x-axis
-                    for (var x = step; x <= stop; x += step) {
+                    for (var x = (xShowZero ? 0 : step) + axisCenter[0]; x <= stop; x += step) {
                         if (x < stop || !axisArrows) {
-                            this.label([x, 0], xLabelFormat(x), "below");
+                            this.label([x, axisCenter[1]], xLabelFormat(x), xAxisPosition);
                         }
                     }
 
                     // negative x-axis
-                    for (var x = -step * (unityLabels ? 1 : 2); x >= start; x -= step) {
+                    for (var x = -step * (showUnity ? 1 : 2) + axisCenter[0]; x >= start; x -= step) {
                         if (x > start || !axisArrows) {
-                            this.label([x, 0], xLabelFormat(x), "below");
+                            this.label([x, axisCenter[1]], xLabelFormat(x), xAxisPosition);
                         }
                     }
 
@@ -823,16 +847,16 @@
                     stop = gridRange[1][1];
 
                     // positive y-axis
-                    for (var y = step; y <= stop; y += step) {
+                    for (var y = (yShowZero ? 0 : step) + axisCenter[1]; y <= stop; y += step) {
                         if (y < stop || !axisArrows) {
-                            this.label([0, y], yLabelFormat(y), "left");
+                            this.label([axisCenter[0], y], yLabelFormat(y), yAxisPosition);
                         }
                     }
 
                     // negative y-axis
-                    for (var y = -step * (unityLabels ? 1 : 2); y >= start; y -= step) {
+                    for (var y = -step * (showUnity ? 1 : 2) + axisCenter[1]; y >= start; y -= step) {
                         if (y > start || !axisArrows) {
-                            this.label([0, y], yLabelFormat(y), "left");
+                            this.label([axisCenter[0], y], yLabelFormat(y), yAxisPosition);
                         }
                     }
                 });
