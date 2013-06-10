@@ -268,7 +268,7 @@ $.extend(KhanUtil, {
         },
 
         "frac": function(num, den) {
-            return "\\frac{" + KhanUtil.expr(num) + "}{" +
+            return "\\dfrac{" + KhanUtil.expr(num) + "}{" +
                 KhanUtil.expr(den) + "}";
         },
 
