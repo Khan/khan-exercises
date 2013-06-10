@@ -32,15 +32,12 @@
             <var id="B">randRange(A + 1, 10)</var>
             <var id="X">B - A</var>
             <var id="UNKNOWN, AVATAR">randFromArray([
-                ["Spunky Sam",         "spunky-sam.png"],
-                /*
-                ["Marcimus",           "marcimus.png"],
-                */
-                ["Mr. Pink",           "mr-pink.png"],
-                ["Orange Juice Squid", "orange-juice-squid.png"],
-                ["Purple Pi",          "purple-pi.png"],
-                ["Pants",              "mr-pants.png"],
-                ["Old Spice Man",      "old-spice-man.png"],
+                [$._("Spunky Sam"),         "spunky-sam.png"],
+                [$._("Mr. Pink"),           "mr-pink.png"],
+                [$._("Orange Juice Squid"), "orange-juice-squid.png"],
+                [$._("Purple Pi"),          "purple-pi.png"],
+                [$._("Pants"),              "mr-pants.png"],
+                [$._("Old Spice Man"),      "old-spice-man.png"],
             ])</var>
         </div>
 
@@ -73,67 +70,70 @@
                     </div>
                 </div>
                 <div class="graphie" id="scale">
-
                     scale.onChange = function(leftCoef, a, rightCoef, b) {
                         $("#sub-left").prop("disabled", a === 0);
                         $("#add-left").prop("disabled", a === 10);
                         $("#sub-right").prop("disabled", b === 0);
                         $("#add-right").prop("disabled", b === 10);
 
-                        var desc1 = "You";
                         var leftOp = "";
                         var rightOp = "";
-                        if (a - A &lt; 0) {
-                            desc1 += " &lt;span class='hint_blue'&gt;subtracted " +
-                                abs(a - A) + " from the left side&lt;/span&gt;";
-                            leftOp = " \\blue{- " + abs(a - A) + "}"
-                        } else if (a - A &gt; 0) {
-                            desc1 += " &lt;span class='hint_blue'&gt;added " +
-                                abs(a - A) + " to the left side&lt;/span&gt;";
-                            leftOp = " \\blue{+ " + abs(a - A) + "}"
-                        }
+
+                        $(".desc-a").text(abs(a - A));
+                        $(".desc-b").text(abs(b - B));
+
+                        $("#description1").children().hide();
+                        $("#description2").parent().show();
+
                         if (a - A !== 0 &amp;&amp; b - B !== 0) {
-                            desc1 += " and";
-                        }
-                        if (b - B &lt; 0) {
-                            desc1 += " &lt;span class='hint_green'&gt;subtracted " +
-                                abs(b - B) + " from the right side&lt;/span&gt;";
+                            leftOp = " \\blue{- " + abs(a - A) + "}";
                             rightOp = " \\green{- " + abs(b - B) + "}"
-                        } else if (b - B &gt; 0) {
-                            desc1 += " &lt;span class='hint_green'&gt;added " +
-                                abs(b - B) + " to the right side&lt;/span&gt;";
-                            rightOp = " \\green{+ " + abs(b - B) + "}"
-                        }
-                        if (a - A === 0 &amp;&amp; b - B === 0) {
-                            desc1 = "You haven't added or removed "
-                                + "anything from either side, so we can't "
-                                + "directly tell what " + UNKNOWN + "'s "
-                                + "weight is from the equation.";
-                            $("#description2").parent().hide();
+                            if (a - A &lt; 0 &amp;&amp; b - B &lt; 0) {
+                                $("#description1 .opt-1").show();
+                            } else if (a - A &lt; 0 &amp;&amp; b - B &gt; 0) {
+                                $("#description1 .opt-2").show();
+                            } else if (a - A &gt; 0 &amp;&amp; b - B &lt; 0) {
+                                $("#description1 .opt-3").show();
+                            } else if (a - A &gt; 0 &amp;&amp; b - B &gt; 0) {
+                                $("#description1 .opt-4").show();
+                            }
+                        } else if (a - A !== 0) {
+                            leftOp = " \\blue{- " + abs(a - A) + "}";
+                            if (a - A &lt; 0) {
+                                $("#description1 .opt-5").show();
+                            } else if (a - A &gt; 0) {
+                                $("#description1 .opt-6").show();
+                            }
+                        } else if (b - B !== 0) {
+                            rightOp = " \\green{- " + abs(b - B) + "}"
+                            if (b - B &lt; 0) {
+                                $("#description1 .opt-7").show();
+                            } else if (b - B &gt; 0) {
+                                $("#description1 .opt-8").show();
+                            }
                         } else {
-                            desc1 += ":";
-                            $("#description2 script").text("\\qquad x + " + A +
-                                leftOp +
-                                (a - A === b - B ?
-                                    " \\quad=\\quad " :
-                                    " \\quad\\ne\\quad ") + B + rightOp);
-                            $("#description2").parent().show();
+                            $("#description1 .opt-none").show();
+                            $("#description2").parent().hide();
                         }
-                        $("#description1").html(desc1);
 
+                        $("#description2 script").text(
+                            "\\qquad x + " + A + leftOp +
+                                (a - A === b - B ?
+                                 " \\quad=\\quad " :
+                                 " \\quad\\ne\\quad ") +
+                            B + rightOp
+                        );
 
+                        $("#description3").children().hide();
 
                         if (a - A === b - B) {
                             if (a - A !== 0) {
                                 if (a === 0) {
-                                    $("#description3").html("Simplifying, we "
-                                        + "can see " + UNKNOWN + "'s weight:");
+                                    $("#description3 .opt-done").show();
                                     $("#description4 script").text(
                                         "\\qquad x \\quad=\\quad " + X);
                                 } else {
-                                    $("#description3").html("Simplifying, we "
-                                        + "still can't directly see " +
-                                        UNKNOWN + "'s weight:");
+                                    $("#description3 .opt-notdone").show();
                                     $("#description4 script").text(
                                         "\\qquad x + " + a + " \\quad=\\quad "
                                         + b);
@@ -145,20 +145,18 @@
                                 $("#description4").parent().hide();
                             }
                         } else {
-                            $("#description3").html("Since you did "
-                                + "something different to each side of the "
-                                + "equation, the left and right side are no "
-                                + "longer equal and you can't tell what "
-                                + UNKNOWN + "'s weight is.");
+                            $("#description3 .opt-different").show();
                             $("#description3").show()
                             $("#description4").parent().hide();
                         }
+
                         MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
                             $("#description2")[0]]);
                         MathJax.Hub.Queue(["Reprocess", MathJax.Hub,
                             $("#description4")[0]]);
                     };
 
+                    // TODO(emily): make this faster (don't re-init every time)
                     scale.init({
                         unknown: X,
                         leftConst: A,
@@ -185,9 +183,76 @@
                     <p><code>
                         \qquad x + <var>A</var> \quad=\quad <var>B</var>
                     </code></p>
-                    <p id="description1"></p>
+                    <p id="description1">
+                        <span class="opt-1">You
+                            <span class="hint_blue">subtracted
+                                <span class="desc-a"><var>A</var></span>
+                                from the left side</span>
+                            and
+                            <span class="hint_green">subtracted
+                                <span class="desc-b"><var>B</var></span>
+                                from the right side</span>:</span>
+                        <span class="opt-2">You
+                            <span class="hint_blue">subtracted
+                                <span class="desc-a"><var>A</var></span>
+                                from the left side</span>
+                            and
+                            <span class="hint_green">added
+                                <span class="desc-b"><var>B</var></span>
+                                to the right side</span>:</span>
+                        <span class="opt-3">You
+                            <span class="hint_blue">added
+                                <span class="desc-a"><var>A</var></span>
+                                to the left side</span>
+                            and
+                            <span class="hint_green">subtracted
+                                <span class="desc-b"><var>B</var></span>
+                                from the right side</span>:</span>
+                        <span class="opt-4">You
+                            <span class="hint_blue">added
+                                <span class="desc-a"><var>A</var></span>
+                                to the left side</span>
+                            and
+                            <span class="hint_green">added
+                                <span class="desc-b"><var>B</var></span>
+                                to the right side</span>:</span>
+                        <span class="opt-5">You
+                            <span class="hint_blue">subtracted
+                                <span class="desc-a"><var>A</var></span>
+                                to the left side</span>:</span>
+                        <span class="opt-6">You
+                            <span class="hint_blue">added
+                                <span class="desc-a"><var>A</var></span>
+                                to the left side</span>:</span>
+                        <span class="opt-7">You
+                            <span class="hint_green">subtracted
+                                <span class="desc-b"><var>B</var></span>
+                                from the right side</span>:</span>
+                        <span class="opt-8">You
+                            <span class="hint_green">added
+                                <span class="desc-b"><var>B</var></span>
+                                to the right side</span>:</span>
+                        <span class="opt-none">You haven't added or removed
+                            anything from either side, so we can't directly
+                            tell what <var>UNKNOWN</var>'s weight is from the
+                            equation.</span>
+                    </p>
                     <p><code id="description2"></code></p>
-                    <p id="description3"></p>
+                    <p id="description3">
+                        <span class="opt-done">
+                            Simplifying, we can see <var>UNKNOWN</var>'s weight:
+                        </span>
+                        <span class="opt-notdone">
+                            Simplifying, we still can't directly see
+                            <var>UNKNOWN</var>'s weight:
+                        </span>
+                        <span class="opt-different">
+                            Since you did something different to each side of
+                            the equation, the left and right side are no longer
+                            equal and you can't tell what <var>UNKNOWN</var>'s
+                            weight is.
+                        </span>
+                    </p>
                     <p><code id="description4"></code></p>
                 </div>
 
@@ -207,11 +272,11 @@
                             return "";
                         }
                         if (guess[1] !== 0) {
-                            return "Make sure " + UNKNOWN + " is alone on " +
-                                "one side of the scale.";
+                            return $._("Make sure %(name)s is alone on " +
+                                "one side of the scale.", {name: UNKNOWN});
                         }
                         if (guess[1] + X !== guess[2]) {
-                            return "Make sure the scale is balanced.";
+                            return $._("Make sure the scale is balanced.");
                         }
                         return +guess[0] === X;
                     </div>

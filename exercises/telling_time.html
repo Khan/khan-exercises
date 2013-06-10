@@ -11,7 +11,7 @@
         <var id="HOUR">randRange( 1, 12 )</var>
         <var id="MINUTE">randRange( 0, 11 ) * 5 </var>
         <var id="NICE_MINUTE"> MINUTE &gt; 5 ? MINUTE : "0" + "" + MINUTE</var>
-        <var id="AM_PM">HOUR &gt;= 7 ? "a.m" : "p.m."</var>
+        <var id="AM_PM">icu.getDateFormatSymbols().am_pm[HOUR &gt;= 7 ? 0 : 1]</var>
     </div>
 
     <div class="problems">

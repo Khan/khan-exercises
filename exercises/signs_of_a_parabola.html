@@ -6,36 +6,42 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars" data-ensure="( A !== 0 ) &amp;&amp; -10 &lt; C &amp;&amp; C &lt; 10 ">
-            <!-- Pick a random top point and coefficient A -->
-            <!-- This makes it easy to spot whether B is zero or not. -->
-            <var id="A"> randRange( -5, 5 ) </var>
-            <!-- Top = (H,K) -->
-            <var id="H"> randRange( -5, 5 )</var>
-            <var id="K"> randRange( -5, 5 )</var>
-            <!-- Calculate B and C from A, H and K -->
-            <!-- y = A*(x-H)^2 + K = A(x^2-2Hx+H^2) + K = Ax^2 -2AHx + A*H^2+K -->
-            <var id="B">-2 * A * H</var>
-            <var id="C">A * H * H + K</var>
+        <div class="vars">
+            <div data-ensure="abs(C) &lt; 10">
+                <!-- Pick a random top point and coefficient A -->
+                <!-- This makes it easy to spot whether B is zero or not. -->
+                <var id="A"> randRangeNonZero( -5, 5 ) </var>
+                <!-- Top = (H,K) -->
+                <var id="H"> randRange( -5, 5 )</var>
+                <var id="K"> randRange( -5, 5 )</var>
+                <!-- Calculate B and C from A, H and K -->
+                <!-- y = A*(x-H)^2 + K = A(x^2-2Hx+H^2) + K = Ax^2 -2AHx + A*H^2+K -->
+                <var id="B">-2 * A * H</var>
+                <var id="C">A * H * H + K</var>
+            </div>
             <var id="F">( function( x ){ return B * x + C; })</var>
             <var id="DrawTangent">"initialized later"</var> <!-- The body must be in the scope of "grid" -->
+            <var id="CHOICES">[$._("positive"), $._("zero"), $._("negative")]</var>
+            <var id="A_SOLN">(A &gt; 0) ? CHOICES[0] : CHOICES[2]</var>
+            <var id="B_SOLN">(B &gt; 0) ? CHOICES[0] : ( (B &lt; 0) ? CHOICES[2] : CHOICES[1] )</var>
+            <var id="C_SOLN">(C &gt; 0) ? CHOICES[0] : ( (C &lt; 0) ? CHOICES[2] : CHOICES[1] )</var>
         </div>
 
         <div class="problems">
             <div>
-                <p class="question"><code>a\cdot x^2 + b\cdot x + c</code> is graphed below. Determine the signs of <code>a</code>, <code>b</code>, and <code>c</code>.</p>
+                <p class="question">
+                    <code>a\cdot x^2 + b\cdot x + c</code> is graphed below.
+                    Determine the signs of <code>a</code>, <code>b</code>, and
+                    <code>c</code>.
+                </p>
 
                 <div class="graphie" id="grid">
-                    init({
+                    graphInit({
                         range: [ [ -10, 10 ], [ -10, 10 ] ],
-                        scale: [ 25, 25 ]
+                        scale: [ 25, 25 ],
+                        ticks: false,
+                        labels: false
                     });
-                    grid( [ -10, 10 ], [ -10, 10 ], { stroke: "#e2e2e2" });
-
-                    // draw axes
-                    style({ stroke: "#000000", strokeWidth: 2 });
-                    path( [ [ -10,  0 ], [ 10,  0 ] ] );
-                    path( [ [ 0,  -10 ], [ 0, 10 ] ] );
 
                     // graph
                     style({ stroke: "#FF0000", strokeWidth: 2});
@@ -43,26 +49,30 @@
                 </div>
 
                 <div class="solution" data-type="multiple">
-                    <p data-if="(A > 0)"><code>a</code> is <span class="sol" data-choices="['positive', 'zero', 'negative']" data-type="list">positive</span></p><p data-else=""><code>a</code> is <span class="sol" data-choices="['positive', 'zero', 'negative']" data-type="list">negative</span></p>
-                    <p><code>b</code> is <span class="sol" data-choices="['positive', 'zero', 'negative']" data-type="list"><var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var></span></p>
-                    <p><code>c</code> is <span class="sol" data-choices="['positive', 'zero', 'negative']" data-type="list"><var>(C &gt; 0) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var></span></p>
+                    <p><code>a</code> is <span class="sol" data-choices="CHOICES" data-type="list"><var>A_SOLN</var></span></p>
+                    <p><code>b</code> is <span class="sol" data-choices="CHOICES" data-type="list"><var>B_SOLN</var></span></p>
+                    <p><code>c</code> is <span class="sol" data-choices="CHOICES" data-type="list"><var>C_SOLN</var></span></p>
                 </div>
 
                 <div class="hints">
                     <p>The number <code>a</code> determines how the legs are oriented. Is the parabola smiling or frowning?</p>
                     <p>A smiling parabola means <code>a</code> is positive and a frowning parabola means <code>a</code> is negative.</p>
-                    <p data-if="A > 0">The parabola is smiling thus <code>a</code> is positive.</p><p data-else="">The parabola is frowning thus <code>a</code> is negative.</p>
+                    <p data-if="A > 0">
+                        The parabola is smiling thus <code>a</code> is positive.
+                    </p><p data-else="">
+                        The parabola is frowning thus <code>a</code> is negative.
+                    </p>
                     <p>The number <code>c</code> determines where the parabola intersects the <code>y</code>-axis. Is the positive or negative part?</p>
                     <p>If the parabola intersected the positive part of the <code>y</code>-axis, then <code>c</code> would be positive.</p>
-                    <p>The parabola intersects the <code>y</code>-axis in the point <code>(0,c) = (0,<var>C</var>)</code>, thus <code>c</code> is <var>( C &gt; 0 ) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var>.</p>
+                    <p>The parabola intersects the <code>y</code>-axis in the point <code>(0,c) = (0,<var>C</var>)</code>, thus <code>c</code> is <var>C_SOLN</var>.</p>
                     <p>The number <code>b</code> determines how the parabola intersects the <code>y</code>-axis. Imagine the tangent at the intersection. What is the slope?</p>
                     <div class="graphie" data-update="grid">
                         style({ stroke: "#FF8800", strokeWidth: 2});
                         line( [ -10, F( -10 )], [ 10, F( 10 )]);
                     </div>
                     <p>The tangent where the parabola intersects the <code>y</code>-axis was drawn in orange. The number <code>b</code> is the slope.</p>
-                    <p>The tangent has a <var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var> slope, so <code>b</code> is <var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var>.</p>
-                    <p data-if="( A > 0 )"><code>a</code> is positive, <code>b</code> is <var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var>, and <code>c</code> is <var>(C &gt; 0) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var>.</p><p data-else=""><code>a</code> is negative, <code>b</code> is <var>(B &gt; 0) ? 'positive' : ( (B &lt; 0) ? 'negative' : 'zero' )</var>, and <code>c</code> is <var>(C &gt; 0) ? 'positive' : ( (C &lt; 0) ? 'negative' : 'zero' )</var>.</p>
+                    <p>The tangent has a <var>B_SOLN</var> slope, so <code>b</code> is <var>B_SOLN</var>.</p>
+                    <p><code>a</code> is <var>A_SOLN</var>, <code>b</code> is <var>B_SOLN</var>, and <code>c</code> is <var>C_SOLN</var>.</p>
                 </div>
             </div>
         </div>

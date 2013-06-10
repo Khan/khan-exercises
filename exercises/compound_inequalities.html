@@ -49,7 +49,6 @@
             <var id="SOLUTION">tabulate( function(i) {
                 return ( RIGHT_INT[i] + ADD_TO_SIMPLIFY[i] ) / COEF[i];
             }, 2 )</var>
-            <var id="FIRST">[ "first", "second" ]</var>
             <var id="COLOR">[ "#1F78B4", "#B30000" ]</var>
             <var id="INCLUSIVE">tabulate( function(i) {
                 return COMP_SOLUTION[i] === "≤" || COMP_SOLUTION[i] === "≥";
@@ -59,8 +58,8 @@
             }, 2 )</var>
             <var id="ALL_NUMBERS">( LESS_THAN[0] &amp;&amp; !LESS_THAN[1] &amp;&amp; SOLUTION[0] &gt;= SOLUTION [1] ) || ( !LESS_THAN[0] &amp;&amp; LESS_THAN[1] &amp;&amp; SOLUTION[0] &lt;= SOLUTION [1] )</var>
             <var id="NO_SOLUTION">( LESS_THAN[0] &amp;&amp; !LESS_THAN[1] &amp;&amp; SOLUTION[1] &gt; SOLUTION[0] ) || ( !LESS_THAN[0] &amp;&amp; LESS_THAN[1] &amp;&amp; SOLUTION[0] &gt; SOLUTION[1] ) || ( LESS_THAN[0] !== LESS_THAN[1] &amp;&amp; SOLUTION[0] === SOLUTION[1] &amp;&amp; ( !INCLUSIVE[0] || !INCLUSIVE[1] ) )</var>
-            <var id="OR">randFromArray([ "or", "and" ])</var>
-            <var id="IS_OR">OR === "or"</var>
+            <var id="IS_OR">randRange(0, 1) === 0</var>
+            <var id="OR">[ $._("or"), $._("and") ][IS_OR ? 0 : 1]</var>
             <var id="FAKE_ANSWER">tabulate( function() {
                 return randRange( 2, 9 ) * ( rand( 3 ) &gt; 0 ? 1 : -1 );
             }, 2 )</var>
@@ -92,7 +91,7 @@
                 </div>
 
                 <p class="solution">
-                    <span data-if="!IS_OR && SINGLE_SOLUTION"><code><var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var></code></span>
+                    <span data-if="!IS_OR &amp;&amp; SINGLE_SOLUTION"><code><var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var></code></span>
                     <span data-else-if="IS_OR &amp;&amp; ALL_NUMBERS">All real numbers.</span>
                     <span data-else-if="IS_OR &amp;&amp; CONTAINS"><code><var>VARIABLE_NAME + COMP_SOLUTION[CONTAINS - 1] + SOLUTION[CONTAINS - 1]</var></code></span>
                     <span data-else-if="!IS_OR &amp;&amp; CONTAINS"><code><var>VARIABLE_NAME + COMP_SOLUTION[IS_CONTAINED - 1] + SOLUTION[IS_CONTAINED - 1]</var></code></span>
@@ -114,23 +113,25 @@
                         <li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + SOLUTION[1]</var></code></li>
                         <li><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + FAKE_ANSWER[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + FAKE_ANSWER[1]</var></code></li>
                     </div>
-                    <div data-if="COMP[0] !== COMP_SOLUTION[0] && COMP[1] !== COMP_SOLUTION[1]" data-unwrap="">
+                    <div data-if="COMP[0] !== COMP_SOLUTION[0] &amp;&amp; COMP[1] !== COMP_SOLUTION[1]" data-unwrap="">
                         <li><code><var>VARIABLE_NAME + COMP[0] + SOLUTION[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + SOLUTION[1]</var></code></li>
                         <li><code><var>VARIABLE_NAME + COMP[0] + FAKE_ANSWER[0]</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP[1] + FAKE_ANSWER[1]</var></code></li>
                     </div>
                     <li data-if="LEFT_INT[0] !== 0 || LEFT_INT[1] !== 0"><code><var>VARIABLE_NAME + COMP_SOLUTION[0] + round( ( RIGHT_INT[0] - ADD_TO_SIMPLIFY[0] ) / COEF[0] )</var></code> <var>OR</var> <code><var>VARIABLE_NAME + COMP_SOLUTION[1] +
                         round( ( RIGHT_INT[1] - ADD_TO_SIMPLIFY[1] ) / COEF[1] )</var></code></li>
-                    <li data-if="IS_OR && !ALL_NUMBERS">All real numbers.</li>
-                    <li data-if="!IS_OR && !NO_SOLUTION">No solution.</li>
-                    <li data-if="!IS_OR && SINGLE_SOLUTION"><code><var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var></code></li>
+                    <li data-if="IS_OR &amp;&amp; !ALL_NUMBERS">All real numbers.</li>
+                    <li data-if="!IS_OR &amp;&amp; !NO_SOLUTION">No solution.</li>
+                    <li data-if="!IS_OR &amp;&amp; SINGLE_SOLUTION"><code><var>VARIABLE_NAME</var> = <var>SOLUTION[0]</var></code></li>
                 </ul>
 
                 <div class="hints">
-                    <div data-each="[ 0, 1 ] as i" data-unwrap="">
-                        <div>
-                            <p>The <var>FIRST[i]</var> inequality can be simplified into this:</p>
-                            <p><code>\color{<var>COLOR[i]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[i] + SOLUTION[i]</var>}</code></p>
-                        </div>
+                    <div>
+                        <p>The first inequality can be simplified into this:</p>
+                        <p><code>\color{<var>COLOR[0]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[0] + SOLUTION[0]</var>}</code></p>
+                    </div>
+                    <div>
+                        <p>The second inequality can be simplified into this:</p>
+                        <p><code>\color{<var>COLOR[1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[1] + SOLUTION[1]</var>}</code></p>
                     </div>
                     <div class="graphie">
                         var start = min( SOLUTION[0], SOLUTION[1] ) - randRange( 2, 5 );
@@ -156,7 +157,8 @@
                         <p>Since this is an "or" inequality, the solution is the part of the number line which is covered by <strong>either</strong> of the graphs of the inequalities.</p>
                         <p data-if="ALL_NUMBERS">The combined graphs of the inequalities span the entire number line, therefore the solution is "All real numbers."</p>
                         <div data-else-if="CONTAINS">
-                            <p>Notice how the <var>FIRST[IS_CONTAINED - 1]</var> inequality is completely included by the <var>FIRST[CONTAINS - 1]</var> inequality. Therefore the answer is:</p>
+                            <p data-if="IS_CONTAINED === 1">Notice how the first inequality is completely included by the second inequality. Therefore the answer is:</p>
+                            <p data-else>Notice how the second inequality is completely included by the first inequality. Therefore the answer is:</p>
                             <p><code>\color{<var>COLOR[CONTAINS - 1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[CONTAINS - 1] + SOLUTION[CONTAINS - 1]</var>}</code></p>
                         </div>
                         <div data-else="">
@@ -175,7 +177,8 @@
                         </div>
                         <p data-else-if="NO_SOLUTION">Since the graphs of the inequalities do not intersect, there is no solution.</p>
                         <div data-else-if="CONTAINS">
-                            <p>Since the <var>FIRST[IS_CONTAINED - 1]</var> inequality is completely included by the <var>FIRST[CONTAINS - 1]</var> inequality, their intersection is the <var>FIRST[IS_CONTAINED -1]</var> inequality. Therefore the answer is:</p>
+                            <p data-if="CONTAINS === 1">Since the second inequality is completely included by the first inequality, their intersection is the second inequality. Therefore the answer is:</p>
+                            <p data-else>Since the first inequality is completely included by the second inequality, their intersection is the first inequality. Therefore the answer is:</p>
                             <p><code>\color{<var>COLOR[IS_CONTAINED - 1]</var>}{<var>VARIABLE_NAME + COMP_SOLUTION[IS_CONTAINED - 1] + SOLUTION[IS_CONTAINED - 1]</var>}</code></p>
                         </div>
                         <div data-else="">

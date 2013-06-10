@@ -86,7 +86,11 @@
             ]</var>
 
             <!-- FIXME: replace with ul when that's fixed -->
-            <var id="SOL">randFromArray([ "Even", "Odd", "Neither" ])</var>
+            <var id="SOL,SOL_DISPLAY">randFromArray([
+                ["Even", $._("Even")],
+                ["Odd", $._("Odd")],
+                ["Neither", $._("Neither")]
+            ])</var>
 
             <var id="FUNC">makeFunc( SOL, EVENS, ODDS )</var>
             <var id="WIDES">substitute( FUNC, (function() {
@@ -146,7 +150,7 @@
                 </div>
 
                 <p class="question">Is <code>f(x)</code> even, odd, or neither?</p>
-                <p class="solution"><var>SOL</var></p>
+                <p class="solution"><var>SOL_DISPLAY</var></p>
                 <ul class="choices" data-category="true">
                     <li>Even</li>
                     <li>Odd</li>
