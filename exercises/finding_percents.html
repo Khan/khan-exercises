@@ -11,7 +11,7 @@
             <div id="type-1">
                 <!--Problem type 1: What is [part%] of [whole]?
                     WHOLE is multiple of 100 between 100 and 1000
-                    Part (%) can be any # 
+                    Part (%) can be any #
                 -->
                 <div class="vars">
                     <var id="MULTIPLE">randRange(1, 10)</var>
@@ -19,7 +19,7 @@
                     <var id="PART_PERCENT">randRange(2,100)</var>
                 </div>
                 <p class="question">
-                    What is <code><var>PART_PERCENT</var>\%</code> of <code><code><var>WHOLE</var></code></code>? 
+                    What is <code><var>PART_PERCENT</var>\%</code> of <code><code><var>WHOLE</var></code></code>?
                 </p>
                 <p class="solution" data-forms="integer"><var>PART_PERCENT * MULTIPLE</var></p>
                 <div class="hints">
@@ -29,11 +29,11 @@
                         <p><code>\qquad \dfrac{\color{<var>BLUE</var>}{\text{percent}}}{100} = \dfrac{\color{<var>PINK</var>}{\text{part}}}{\color{<var>GREEN</var>}{\text{whole}}}</code></p>
                     </div>
                     <p>Which things do we know, and what are we trying to find?</p>
-                    <p>We know the <code>\color{<var>BLUE</var>}{\text{percent}}</code> is <code><var>PART_PERCENT</var></code>.  Is <code><var>WHOLE</var></code> the <code>\color{<var>PINK</var>}{\text{part}}</code> or the <code>\color{<var>GREEN</var>}{\text{whole}}</code>?</p>             
+                    <p>We know the <code>\color{<var>BLUE</var>}{\text{percent}}</code> is <code><var>PART_PERCENT</var></code>.  Is <code><var>WHOLE</var></code> the <code>\color{<var>PINK</var>}{\text{part}}</code> or the <code>\color{<var>GREEN</var>}{\text{whole}}</code>?</p>
                     <div>
                         <p>The <code><var>WHOLE</var></code> is the <code>\color{<var>GREEN</var>}{\text{whole}}</code>. We are trying to find the <code>\color{<var>PINK</var>}{\text{part}}</code> that makes up <code><var>PART_PERCENT</var>\%</code> of it:</p>
                         <p><code>\qquad \dfrac{\color{<var>BLUE</var>}{<var>PART_PERCENT</var>}}{100} = \dfrac{\color{<var>PINK</var>}{\text{part}}}{\color{<var>GREEN</var>}{<var>WHOLE</var>}}</code></p>
-                    </div>  
+                    </div>
                     <div>
                         <p>If we multiply the denominator of the fraction on the left by <code><var>MULTIPLE</var></code>, it will be the same denominator of the fraction on the right.  To keep things equal, let's also multiply the numerator on the left by <code><var>MULTIPLE</var></code>:</p>
                         <p><code>\qquad \dfrac{\color{<var>BLUE</var>}{<var>PART_PERCENT</var>} \times <var>MULTIPLE</var>}{100 \times <var>MULTIPLE</var>} = \dfrac{\color{<var>PINK</var>}{\text{part}}}{\color{<var>GREEN</var>}{<var>WHOLE</var>}}</code></p>
@@ -43,7 +43,7 @@
                     <p class="final_answer"> So <code><var>PART_PERCENT * MULTIPLE</var></code> is <code><var>PART_PERCENT</var>\%</code> of <code><var>WHOLE</var></code>.</p>
                 </div>
             </div>
-            
+
             <div id="type-2">
                 <!--Problem type 2: What is [part%] of [whole]?
                     -WHOLE is factor of 100
@@ -55,7 +55,7 @@
                     <var id="PART_PERCENT">randRange(1, WHOLE - 1) * FACTOR</var>
                 </div>
                 <p class="question">
-                    What is <code><var>PART_PERCENT</var>\%</code> of <code><var>WHOLE</var></code>? 
+                    What is <code><var>PART_PERCENT</var>\%</code> of <code><var>WHOLE</var></code>?
                 </p>
                 <p class="solution" data-forms="integer"><var>PART_PERCENT / FACTOR</var></p>
                 <div class="hints">
@@ -65,11 +65,11 @@
                         <p><code>\qquad \dfrac{\color{<var>BLUE</var>}{\text{percent}}}{100} = \dfrac{\color{<var>PINK</var>}{\text{part}}}{\color{<var>GREEN</var>}{\text{whole}}}</code></p>
                     </div>
                     <p>Which things do we know, and what are we trying to find?</p>
-                    <p>We know the <code>\color{<var>BLUE</var>}{\text{percent}}</code> is <code><var>PART_PERCENT</var></code>.  Is <code><var>WHOLE</var></code> the <code>\color{<var>PINK</var>}{\text{part}}</code> or the <code>\color{<var>GREEN</var>}{\text{whole}}</code>?</p>             
+                    <p>We know the <code>\color{<var>BLUE</var>}{\text{percent}}</code> is <code><var>PART_PERCENT</var></code>.  Is <code><var>WHOLE</var></code> the <code>\color{<var>PINK</var>}{\text{part}}</code> or the <code>\color{<var>GREEN</var>}{\text{whole}}</code>?</p>
                     <div>
                         <p>The <code><var>WHOLE</var></code> is the <code>\color{<var>GREEN</var>}{\text{whole}}</code>. We are trying to find the <code>\color{<var>PINK</var>}{\text{part}}</code> that makes up <code><var>PART_PERCENT</var>\%</code> of it:</p>
                         <p><code>\qquad \dfrac{\color{<var>BLUE</var>}{<var>PART_PERCENT</var>}}{100} = \dfrac{\color{<var>PINK</var>}{\text{part}}}{\color{<var>GREEN</var>}{<var>WHOLE</var>}}</code></p>
-                    </div>  
+                    </div>
                     <div>
                         <p>If we divide the denominator of the fraction on the left by <code><var>FACTOR</var></code>, it will be the same denominator of the fraction on the right.  To keep things equal, let's also divide the numerator on the left by <code><var>FACTOR</var></code>:</p>
                         <p><code>\qquad \dfrac{\color{<var>BLUE</var>}{<var>PART_PERCENT</var>} \div <var>FACTOR</var>}{100 \div <var>FACTOR</var>} = \dfrac{\color{<var>PINK</var>}{\text{part}}}{\color{<var>GREEN</var>}{<var>WHOLE</var>}}</code></p>
@@ -83,7 +83,7 @@
             <div id="type-3">
                 <!--Problem type 3: [Part] is what percent of [whole]?
                     WHOLE is multiple of 100 between 100 and 1000
-                    Part can be any # 
+                    Part can be any #
                 -->
                 <div class="vars">
                     <var id="MULTIPLE">randRange(1, 10)</var>
@@ -91,7 +91,7 @@
                     <var id="PART_PERCENT">randRange(1,99)</var>
                 </div>
                 <p class="question">
-                    <code><var>PART_PERCENT * MULTIPLE</var></code> is what percent of <code><var>WHOLE</var></code>? 
+                    <code><var>PART_PERCENT * MULTIPLE</var></code> is what percent of <code><var>WHOLE</var></code>?
                 </p>
                 <p class="solution" data-forms="percent"><var>PART_PERCENT / 100</var></p>
                 <div class="hints">
@@ -101,11 +101,11 @@
                         <p><code>\qquad \dfrac{\color{<var>BLUE</var>}{\text{percent}}}{100} = \dfrac{\color{<var>PINK</var>}{\text{part}}}{\color{<var>GREEN</var>}{\text{whole}}}</code></p>
                     </div>
                     <p>Which things do we know, and what are we trying to find?</p>
-                    <p>We are trying to find the <code>\color{<var>BLUE</var>}{\text{percent}}</code>.  Is <code><var>WHOLE</var></code> the <code>\color{<var>PINK</var>}{\text{part}}</code> or the <code>\color{<var>GREEN</var>}{\text{whole}}</code>?</p>             
+                    <p>We are trying to find the <code>\color{<var>BLUE</var>}{\text{percent}}</code>.  Is <code><var>WHOLE</var></code> the <code>\color{<var>PINK</var>}{\text{part}}</code> or the <code>\color{<var>GREEN</var>}{\text{whole}}</code>?</p>
                     <div>
                         <p>The <code><var>WHOLE</var></code> is the <code>\color{<var>GREEN</var>}{\text{whole}}</code>. This means the <code>\color{<var>PINK</var>}{\text{part}}</code> is <code><var>PART_PERCENT *  MULTIPLE</var></code>:</p>
                         <p><code>\qquad \dfrac{\color{<var>BLUE</var>}{\text{percent}}}{100} = \dfrac{\color{<var>PINK</var>}{<var>PART_PERCENT * MULTIPLE</var>}}{\color{<var>GREEN</var>}{<var>WHOLE</var>}}</code></p>
-                    </div>  
+                    </div>
                     <div>
                         <p>If we divide the denominator of the fraction on the right by <code><var>MULTIPLE</var></code>, it will be the same denominator of the fraction on the left.  To keep things equal, let's also divide the numerator on the right by <code><var>MULTIPLE</var></code>:</p>
                         <p><code>\qquad \dfrac{\color{<var>BLUE</var>}{\text{percent}}}{100 } = \dfrac{\color{<var>PINK</var>}{<var>PART_PERCENT * MULTIPLE</var> \div <var>MULTIPLE</var>}}{\color{<var>GREEN</var>}{<var>WHOLE</var> \div <var>MULTIPLE</var>}}</code></p>
@@ -115,7 +115,7 @@
                     <p class="final_answer"> So <code><var>PART_PERCENT * MULTIPLE</var></code> is <code><var>PART_PERCENT</var>\%</code> of <code><var>WHOLE</var></code>.</p>
                 </div>
             </div>
-            
+
             <div id="type-4">
                 <!--Problem type 4: [Part] is what percent of [whole]?
                     -WHOLE is factor of 100
@@ -125,9 +125,9 @@
                     <var id="FACTOR">randFromArray([2, 4, 5, 10, 20, 25])</var>
                     <var id="WHOLE">100 / FACTOR</var>
                     <var id="PART_PERCENT">randRange(1, WHOLE - 1) * FACTOR</var>
-                </div>          
+                </div>
                 <p class="question">
-                    <code><var>PART_PERCENT / FACTOR</var></code> is what percent of <code><var>WHOLE</var></code>? 
+                    <code><var>PART_PERCENT / FACTOR</var></code> is what percent of <code><var>WHOLE</var></code>?
                 </p>
                 <p class="solution" data-forms="percent"><var>PART_PERCENT / 100</var></p>
                 <div class="hints">
@@ -137,11 +137,11 @@
                         <p><code>\qquad \dfrac{\color{<var>BLUE</var>}{\text{percent}}}{100} = \dfrac{\color{<var>PINK</var>}{\text{part}}}{\color{<var>GREEN</var>}{\text{whole}}}</code></p>
                     </div>
                     <p>Which things do we know, and what are we trying to find?</p>
-                    <p>We are trying to find the <code>\color{<var>BLUE</var>}{\text{percent}}</code>.  Is <code><var>WHOLE</var></code> the <code>\color{<var>PINK</var>}{\text{part}}</code> or the <code>\color{<var>GREEN</var>}{\text{whole}}</code>?</p>             
+                    <p>We are trying to find the <code>\color{<var>BLUE</var>}{\text{percent}}</code>.  Is <code><var>WHOLE</var></code> the <code>\color{<var>PINK</var>}{\text{part}}</code> or the <code>\color{<var>GREEN</var>}{\text{whole}}</code>?</p>
                     <div>
                         <p>The <code><var>WHOLE</var></code> is the <code>\color{<var>GREEN</var>}{\text{whole}}</code>. This means the <code>\color{<var>PINK</var>}{\text{part}}</code>  is <code><var>PART_PERCENT / FACTOR</var></code>:</p>
                         <p><code>\qquad \dfrac{\color{<var>BLUE</var>}{\text{percent}}}{100} = \dfrac{\color{<var>PINK</var>}{<var>PART_PERCENT / FACTOR</var>}}{\color{<var>GREEN</var>}{<var>WHOLE</var>}}</code></p>
-                    </div>  
+                    </div>
                     <div>
                         <p>If we multiply the denominator of the fraction on the right by <code><var>FACTOR</var></code>, it will be the same denominator of the fraction on the left.  To keep things equal, let's also multiply the numerator on the right by <code><var>FACTOR</var></code>:</p>
                         <p><code>\qquad \dfrac{\color{<var>BLUE</var>}{\text{percent}}}{100 } = \dfrac{\color{<var>PINK</var>}{<var>PART_PERCENT / FACTOR</var> \times <var>FACTOR</var>}}{\color{<var>GREEN</var>}{<var>WHOLE</var> \times <var>FACTOR</var>}}</code></p>
@@ -154,4 +154,4 @@
         </div>
     </div>
 </body>
-</html> 
+</html>
