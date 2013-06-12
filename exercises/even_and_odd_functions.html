@@ -109,7 +109,6 @@
                         return Math.abs(Math.abs(func(i)) - Math.abs(func(-i))) > 0.5 && Math.abs(i) < 10;
                     })
             }
-
             return arr;
         };
     </script>
@@ -128,7 +127,6 @@
                 <div class="vars">
                     <var id="FUNC">makeFunc(SOL)</var>
                     <var id="X_VALUES">getUseablePoints(FUNC, SOL)</var>
-                    <var id="Y_VALUES">$.map(X_VALUES, function(x) { return roundTo(1, FUNC(x)); }) </var>
                     <var id="PT">randFromArray(X_VALUES)</var>
                 </div>
 
@@ -156,12 +154,7 @@
                     </div>
                 </div>
 
-                <div class="hints">
-                    <div>
-                        <div>A function is even is <code>f(x) = f(-x)</code>.</div>
-                        <div>A function is odd is <code>f(x) = -f(-x)</code>.</div>
-                    </div>
-
+                <div class="hints" data-apply="appendContents">
                     <div data-if="SOL === 'Neither'" data-unwrap="">
                         <div>
                             <div class="graphie" data-update="graph">
@@ -181,8 +174,6 @@
                                     }
                                 );
 
-                                label([ PT, 0], PT, "below right");
-                                label([-PT, 0], -PT, "below left");
                             </div>
 
                             <p>
@@ -201,34 +192,39 @@
                     </div>
 
                     <div data-else="" data-unwrap="">
-                        <div data-each="X_VALUES as x" data-unwrap="">
-                            <div class="graphie" data-update="graph">
-                                style(
-                                    { stroke: RED },
-                                    function() {
-                                        path([[ x, 0], [ x, FUNC(x)]]);
-                                        path([[-x, 0], [-x, FUNC(-x)]]);
-                                    }
-                                );
-                            </div>
+                        <div data-each="X_VALUES.slice(0,2) as x" data-unwrap="">
+                            <div>
+                                <div class="graphie" data-update="graph">
+                                    style(
+                                        { strokeWidth: 2 },
+                                        function() {
+                                            path([[ x, 0], [ x, FUNC(x)]]);
+                                            path([[-x, 0], [-x, FUNC(-x)]]);
+                                        }
+                                    );
 
-                            <div class="graphie" data-update="graph">
-                                style(
-                                    { strokeDasharray: "." },
-                                    function() {
-                                        path([[0, FUNC(x)], [x, FUNC(x)]]);
-                                        path([[0, FUNC(-x)], [-x, FUNC(-x)]]);
-                                    }
-                                );
+                                    style(
+                                        { strokeDasharray: "." },
+                                        function() {
+                                            path([[0, FUNC(x)], [x, FUNC(x)]]);
+                                            path([[0, FUNC(-x)], [-x, FUNC(-x)]]);
+                                        }
+                                    );
+                                </div>
+
+                                <p>
+                                    <div><code>\qquad f(<var>x</var>) \approx <var>roundTo(1, FUNC(x))</var></code></div>
+                                    <div><code>\qquad f(<var>-x</var>) \approx <var>roundTo(1, FUNC(-x))</var></code></div>
+                                </p>
                             </div>
                         </div>
 
                         <div data-if="SOL === 'Odd'">
-                            <p><code>f(-a) = -f(a)</code> for all of these points, so <code>f(x)</code> is odd.</p>
+                            <p><code>f(x)</code> is odd because <code>f(x) = -f(-x)</code>. (For all x values, not just the ones we checked!)</p>
                         </div>
 
                         <div data-else="">
-                            <p><code>f(-a) = f(a)</code> for all of these points, so <code>f(x)</code> is even.</p>
+                            <p><code>f(x)</code> is even because <code>f(x) = f(-x)</code>. (For all x values, not just the ones we checked!)</p>
                         </div>
 
                     </div>
@@ -239,17 +235,45 @@
             <div id="equation">
                 <div class="vars">
                     <var id="FUNC">makeEquation(SOL)</var>
+                    <var id="CALLABLE_FUNC">function(x){ return FUNC.evaluate(x); }</var>
+                    <var id="X_VALUES">getUseablePoints(CALLABLE_FUNC, SOL)</var>
                 </div>
 
                 <div class="problem"><code>f(x) = <var>FUNC</var></code></div>
 
-                <div class="hints">
-                    <div data-if="SOL === 'Odd'">
-                        <p><code>f(-a) = -f(a)</code> for all of these points, so <code>f(x)</code> is odd.</p>
+                <div class="hints" data-apply="appendContents">
+                    <div data-if="SOL === 'Neither'" data-unwrap="">
+                        <div>
+                            <p>Let's try some points for <code>f(x)</code> to see if it fits the definition.</p>
+                            <div><code>\qquad f(<var>X_VALUES[0]</var>) = <var>CALLABLE_FUNC(X_VALUES[0])</var></code></div>
+                            <div><code>\qquad f(<var>-X_VALUES[0]</var>) = <var>CALLABLE_FUNC(-X_VALUES[0])</var></code></div>
+                        </div>
+
+                        <p><code>f(<var>X_VALUES[0]</var>) \neq f(<var>-X_VALUES[0]</var>)</code>, so <code>f(x)</code> is not even.</p>
+
+                        <p><code>f(<var>X_VALUES[0]</var>) \neq -f(<var>-X_VALUES[0]</var>)</code>, so <code>f(x)</code> is not odd.</p>
+
+                        <p>Therefore <code>f(x)</code> is neither.</p>
                     </div>
 
-                    <div data-else="">
-                        <p><code>f(-a) = f(a)</code> for all of these points, so <code>f(x)</code> is even.</p>
+                    <div data-else="" data-unwrap="">
+                        <div>
+                            <p>Let's try some points for <code>f(x)</code> to see if it fits the definition.</p>
+                            <div><code>\qquad f(1) = <var>CALLABLE_FUNC(1)</var></code></div>
+                            <div><code>\qquad f(-1) = <var>CALLABLE_FUNC(-1)</var></code></div>
+                        </div>
+
+                        <div>
+                            <div><code>\qquad f(2) = <var>CALLABLE_FUNC(2)</var></code></div>
+                            <div><code>\qquad f(-2) = <var>CALLABLE_FUNC(-2)</var></code></div>
+                        </div>
+
+                        <p data-if="SOL === 'Odd'">
+                            <code>f(x)</code> is odd because <code>f(x) = -f(-x)</code>. (For all x values, not just the ones we checked!)
+                        </p>
+                        <p data-else="">
+                            <code>f(x)</code> is even because <code>f(x) = f(-x)</code>. (For all x values, not just the ones we checked!)
+                        </p>
                     </div>
                 </div>
 
@@ -264,6 +288,13 @@
             <li>Odd</li>
             <li>Neither</li>
         </ul>
+
+        <div class="hints">
+            <div><p>
+                <div>A function is considered even if <code>f(x) = f(-x)</code> for all values of <code>x</code>.</div>
+                <div>A function is considered odd if <code>f(x) = -f(-x)</code> for all values of <code>x</code>.</div>
+            </p></div>
+        </div>
 
     </div>
 </body>
