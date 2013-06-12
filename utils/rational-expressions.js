@@ -95,6 +95,25 @@ $.extend(KhanUtil, {
             }
         }
 
+        // Given a mapping of variable to value, {'x' : 2}, evaulate the term
+        // Or give a number and all variables will be given that value
+        // TODO: Make this work for multi-variable terms
+        // when only the value of one variable is given
+        this.evalutate = function(values) {
+            var value = this.coefficient;
+
+            if (typeof values === 'number') {
+                for (var v in this.variables) {
+                    value *= Math.pow(values, this.variables[v]);
+                }
+            } else {
+                for (var v in this.variables) {
+                    value *= Math.pow(values[v], this.variables[v]);
+                }
+            }
+            return value;
+        }
+
         // Return a new term representing this term multiplied by another term or a number
         this.multiply = function(term) {
             var coefficient = this.coefficient;
@@ -271,6 +290,14 @@ $.extend(KhanUtil, {
             }
         };
         this.combineLikeTerms();
+
+        this.evalutate = function(values) {
+            var value = 0;
+            for (var i = 0; i < this.terms.length; i++) {
+                value += this.terms[i].evalutate(values);
+            }
+            return value;
+        }
 
         // Return a new expression which is the sum of this one and the one passed in
         this.add = function(that) {
