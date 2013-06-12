@@ -125,11 +125,13 @@
                     <var id="limtoa">curFunc(a)</var>
                     <var id="l_limtoa">limtoa</var>
                     <var id="r_limtoa">limtoa</var>
+                    <var id="IF">$._("if")</var>
+                    <var id="OTHERWISE">$._("otherwise")</var>
                 </div>
 
                 <p>If <code>f(x) = \begin{cases}
-                    <var>d_cons</var> &amp; \text{<var>$._("if")</var> } x = <var>a</var> \\
-                    <var>d_line</var> &amp; \text{<var>$._("otherwise")</var>}
+                    <var>d_cons</var> &amp; \text{<var>IF</var> } x = <var>a</var> \\
+                    <var>d_line</var> &amp; \text{<var>OTHERWISE</var>}
                 \end{cases}</code>, find <code>\displaystyle \lim_{x \to <var>a</var>} f(x)</code>.</p>
                 <div class="graphie" id="graph">
                     graphInit({

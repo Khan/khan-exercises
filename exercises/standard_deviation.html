@@ -25,6 +25,9 @@
             <var id="YEAR">new Plural(function(num) {
                 return $.ngettext("year", "years", num);
             })</var>
+        <var id="YEARS_OLD">$._("%(years)s old", {years: plural_form(YEAR, MEAN )})</var>
+        <var id="YEAR_TEXT">$._("year")</var>
+        <var id="YEARS_TEXT">$._("years")</var>
         </div> <!-- vars -->
 
         <div class="problems">
@@ -84,7 +87,7 @@
                         <code>
                                 \color{<var>BLUE</var>}{\mu} \quad = \quad
                                 \dfrac{<var>plus.apply( KhanUtil, DATA )</var>}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} \quad = \quad
-                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("%(years)s old", {years: plural_form(YEAR, MEAN )})</var>}}
+                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>YEARS_OLD</var>}}
                         </code>
                     </p>
 
@@ -229,18 +232,18 @@
                         <code>
                                 \color{<var>BLUE</var>}{\overline{x}} \quad = \quad
                                 \dfrac{<var>plus.apply( KhanUtil, DATA )</var>}{\color{<var>GREEN</var>}{<var>DATA_POINTS</var>}} \quad = \quad
-                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("%(years)s old", {years: plural_form(YEAR, MEAN )})</var>}}
+                                \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>YEARS_OLD</var>}}
                         </code>
                     </p>
 
                     <p data-if="isSingular(MEAN)">
                         Find the <span class="hint_purple">squared deviations from the mean</span> for each sample. Since we don't know the
                         population mean, estimate the mean by using the <span class="hint_blue">sample mean</span> we just calculated
-                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("year")</var>}})</code>.
+                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>YEAR_TEXT</var>}})</code>.
                     </p><p data-else="">
                         Find the <span class="hint_purple">squared deviations from the mean</span> for each sample. Since we don't know the
                         population mean, estimate the mean by using the <span class="hint_blue">sample mean</span> we just calculated
-                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>$._("years")</var>}})</code>.
+                        <code>(\color{<var>BLUE</var>}{\overline{x}} = \color{<var>BLUE</var>}{<var>MEAN</var>\text{ <var>YEARS_TEXT</var>}})</code>.
                     </p>
 
                     <div>

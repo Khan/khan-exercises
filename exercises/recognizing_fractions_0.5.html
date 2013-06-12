@@ -14,6 +14,13 @@
         <div class="vars">
             <var id="NUM_1">randRange(1, 8)</var>
             <var id="DEN_1">randRange(NUM_1 + 1, 9)</var>
+
+            <var id="RED_SLICES">$._("Red Slices")</var>
+            <var id="GRAY_SLICES">$._("Gray Slices")</var>
+            <var id="SLICES">$._("Slices")</var>
+            <var id="RED_BLOCKS">$._("Red Blocks")</var>
+            <var id="GRAY_BLOCKS">$._("Gray Blocks")</var>
+            <var id="BLOCKS">$._("Blocks")</var>
         </div>
         <div class="problems">
             <div id="pie-chart">
@@ -28,8 +35,8 @@
                 <div class="hints">
                     <p>Count the red slices for the numerator.</p>
                     <p data-if="isSingular(NUM_1)">There is <var>NUM_1</var> red slice.</p><p data-else="">There are <var>NUM_1</var> red slices.</p>
-                    <p>Count the total slices <code>\left(\color{#e00}{\text{<var>$._("Red Slices")</var>}} + \color{#999}{\text{<var>$._("Gray Slices")</var>}}\right)</code> for the denominator.</p>
-                    <p>There are <code>\color{#000}{<var>DEN_1</var>\text{ <var>$._("Slices")</var>}}</code> in total.</p>
+                    <p>Count the total slices <code>\left(\color{#e00}{\text{<var>RED_SLICES</var>}} + \color{#999}{\text{<var>GRAY_SLICES</var>}}\right)</code> for the denominator.</p>
+                    <p>There are <code>\color{#000}{<var>DEN_1</var>\text{ <var>SLICES</var>}}</code> in total.</p>
                     <p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#000}{\text{<var>DEN_1</var>}}}</code>.</p>
                 </div>
             </div>
@@ -47,8 +54,8 @@
                 <div class="hints">
                     <p>Count the red blocks for the numerator.</p>
                     <p data-if="isSingular(NUM_1)">There is <var>NUM_1</var> red block.</p><p data-else="">There are <var>NUM_1</var> red blocks.</p>
-                    <p>Count the total slices <code>\left(\color{#e00}{\text{<var>$._("Red Blocks")</var>}} + \color{#999}{\text{<var>$._("Gray Blocks")</var>}}\right)</code> for the denominator.</p>
-                    <p>There are <code>\color{#000}{<var>DEN_1</var>\text{ <var>$._("Blocks")</var>}}</code> in total.</p>
+                    <p>Count the total slices <code>\left(\color{#e00}{\text{<var>RED_BLOCKS</var>}} + \color{#999}{\text{<var>GRAY_BLOCKS</var>}}\right)</code> for the denominator.</p>
+                    <p>There are <code>\color{#000}{<var>DEN_1</var>\text{ <var>BLOCKS</var>}}</code> in total.</p>
                     <p>So your answer should be <code>\dfrac{\color{#e00}{<var>NUM_1</var>}}{\color{#000}{\text{<var>DEN_1</var>}}}</code>.</p>
                 </div>
             </div>

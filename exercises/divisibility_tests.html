@@ -14,6 +14,8 @@
         <var id="NUMBER" data-ensure="!DIVISIBLE ^ (NUMBER % FACTOR === 0)">
             randRange(10000, 1000000)
         </var>
+        <var id="YES">$._("Yes")</var>
+        <var id="NO">$._("No")</var>
     </div>
 
     <p class="question">
@@ -21,10 +23,10 @@
         <code><var>FACTOR</var></code>?
     </p>
 
-    <p class="solution"><var>DIVISIBLE ? $._("Yes") : $._("No")</var></p>
+    <p class="solution"><var>DIVISIBLE ? YES : NO</var></p>
     <ul class="choices" data-category="true">
-        <li>Yes</li>
-        <li>No</li>
+        <li><var>YES</var></li>
+        <li><var>NO</var></li>
     </ul>
 
     <div class="problems">

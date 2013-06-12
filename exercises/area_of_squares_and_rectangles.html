@@ -30,6 +30,7 @@
         <div id="square-find-area">
             <div class="vars">
                 <var id="S">randRange(2, 8)</var>
+                <var id="AREA">$._("area")</var>
             </div>
 
             <p class="question"><span data-if="isSingular(S)" data-unwrap="">
@@ -83,7 +84,7 @@
                 </div>
                 <div>
                     <p><code>
-                        \qquad\text{<var>$._("area")</var>} = <var>S</var> \times <var>S</var>
+                        \qquad\text{<var>AREA</var>} = <var>S</var> \times <var>S</var>
                         = <var>S * S</var>
                     </code></p>
                     <p>
@@ -140,7 +141,7 @@
                     <p>
                         The area is the length times the width.
                     </p>
-                    <p><code>\qquad \pink{\text{<var>$._("?")</var>}} \times \pink{\text{<var>$._("?")</var>}} =
+                    <p><code>\qquad \pink{\text{?}} \times \pink{\text{?}} =
                         <var>S * S</var>\text{ <var>UNIT</var>}
                     </code></p>
                 </div>
@@ -166,6 +167,7 @@
             <div class="vars" data-ensure="L !== W">
                 <var id="L">randRange(2, 9)</var>
                 <var id="W">randRange(2, 9)</var>
+                <var id="AREA">$._("area")</var>
             </div>
 
             <p class="question">
@@ -230,7 +232,7 @@
                 </div>
                 <div>
                     <p><code>
-                        \qquad\text{<var>$._("area")</var>} = <var>L</var> \times <var>W</var>
+                        \qquad\text{<var>AREA</var>} = <var>L</var> \times <var>W</var>
                         = <var>L * W</var>
                     </code></p>
                     <p>

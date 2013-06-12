@@ -37,11 +37,13 @@
                     <var id="A" data-ensure="A !== 1">randRangeNonZero(-4, 4)</var>
                     <var id="B" data-ensure="abs( 3 * A + B ) &lt; 10">randRangeNonZero(-4, 4)</var>
                     <var id="HOLE" data-ensure="abs( A * HOLE * HOLE + B ) &lt; 10">randRangeNonZero( -4, 4 )</var>
+                    <var id="IF">$._("if")</var>
+                    <var id="OTHERWISE">$._("otherwise")</var>
                 </div>
 
                 <p class="problem"><code>f(x) = \begin{cases}
-                    <var>3 * A + B</var> &amp; \text{<var>$._("if")</var> } x = <var>HOLE</var> \\
-                    <var>expr(["+", ["*", A, ["^", "x", 2]], B])</var> &amp; \text{<var>$._("otherwise")</var>}
+                    <var>3 * A + B</var> &amp; \text{<var>IF</var> } x = <var>HOLE</var> \\
+                    <var>expr(["+", ["*", A, ["^", "x", 2]], B])</var> &amp; \text{<var>OTHERWISE</var>}
                 \end{cases}</code></p>
 
                 <p class="question">What is the range of <code>f(x)</code>?</p>

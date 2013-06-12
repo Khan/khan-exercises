@@ -144,6 +144,9 @@
                 <var id="INNER_AREA, PRETTY_INNER_AREA">AREAS[INNER_SHAPE](INNER_SIZE)</var>
 
                 <var id="SHADED_AREA">OUTER_AREA - INNER_AREA</var>
+                <var id="AREA_OF_WHOLE_FIGURE">$._("area of whole figure")</var>
+                <var id="AREA_OF_INNER_REGION">$._("area of inner region")</var>
+                <var id="AREA_OF_SHADED_REGION">$._("area of shaded region")</var>
             </div>
 
             <div class="problems">
@@ -171,10 +174,10 @@
                         OUTER.drawShape(KhanUtil.currentGraph, { fill: BLUE, opacity: 0.5 });
                     </div>
                 </div>
-                <p><code>\text{<var>$._("area of whole figure")</var>} = </code><br><code>\qquad<var>OUTER.hint()</var> = <var>PRETTY_OUTER_AREA</var></code></p>
-                <p><code>\text{<var>$._("area of inner region")</var>} = </code><br><code>\qquad<var>INNER.hint()</var> = <var>PRETTY_INNER_AREA</var></code></p>
+                <p><code>\text{<var>AREA_OF_WHOLE_FIGURE</var>} = </code><br><code>\qquad<var>OUTER.hint()</var> = <var>PRETTY_OUTER_AREA</var></code></p>
+                <p><code>\text{<var>AREA_OF_INNER_REGION</var>} = </code><br><code>\qquad<var>INNER.hint()</var> = <var>PRETTY_INNER_AREA</var></code></p>
                 <p>Then subtract the inner region's area from the whole figure's area to find the area of the shaded region (the difference between the two areas).</p>
-                <p><code>\text{<var>$._("area of shaded region")</var>} = <var>PRETTY_OUTER_AREA</var> - <var>PRETTY_INNER_AREA</var> = <var>roundTo(2, SHADED_AREA)</var></code></p>
+                <p><code>\text{<var>AREA_OF_SHADED_REGION</var>} = <var>PRETTY_OUTER_AREA</var> - <var>PRETTY_INNER_AREA</var> = <var>roundTo(2, SHADED_AREA)</var></code></p>
             </div>
         </div>
 </body>

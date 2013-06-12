@@ -25,6 +25,9 @@
                         $._("Price of %(unit)s", {unit: plural_form( UNIT )}),
                         "Y"
                     ][ INDEX ]</var>
+
+                    <var id="BLACK_ARROW">$._("black arrow")</var>
+                    <var id="GREEN_ARROW">$._("green arrow")</var>
                 </div>
                 <div class="question">
                     <p data-if="INDEX === 2"><b>How does <code>Y</code> change as <code>X</code> increases?</b></p>
@@ -83,7 +86,7 @@
                             style({ stroke: "#40a020" });
                             line( [ 7, 4 * M + B ], [ 7, 7 * M + B ] );
                         </div>
-                        <p>Looking at the graph, we see that as <code>x</code> increases (<code>\color{#000000}{\text{<var>$._("black arrow")</var>}}</code>), <code>y</code> also increases (<code>\color{#40a020}{\text{<var>$._("green arrow")</var>}}</code>).</p>
+                        <p>Looking at the graph, we see that as <code>x</code> increases (<code>\color{#000000}{\text{<var>BLACK_ARROW</var>}}</code>), <code>y</code> also increases (<code>\color{#40a020}{\text{<var>GREEN_ARROW</var>}}</code>).</p>
                     </div>
                     <p>We can say that the slope of the line is positive, or that the variables have a direct relationship.</p>
                     <p data-if="INDEX === 2">Thus, as <code>X</code> increases, <code>Y</code> also <b>increases</b>.</p>
@@ -94,6 +97,8 @@
                 <div class="vars">
                     <var id="M">1 / randRange( 2, 5 ) * -1</var>
                     <var id="B">randRange( 6, 8 )</var>
+                    <var id="BLACK_ARROW">$._("black arrow")</var>
+                    <var id="RED_ARROW">$._("red arrow")</var>
                 </div>
                 <div class="solution">Decreases</div>
                 <div class="hints">
@@ -104,7 +109,7 @@
                             style({ stroke: "#ff0000" });
                             line( [ 7, 4 * M + B ], [ 7, 7 * M + B ] );
                         </div>
-                        <p>Looking at the graph, we see that as <code>x</code> increases (<code>\color{#000000}{\text{<var>$._("black arrow")</var>}}</code>), <code>y</code> decreases (<code>\color{#ff0000}{\text{<var>$._("red arrow")</var>}}</code>).</p>
+                        <p>Looking at the graph, we see that as <code>x</code> increases (<code>\color{#000000}{\text{<var>BLACK_ARROW</var>}}</code>), <code>y</code> decreases (<code>\color{#ff0000}{\text{<var>RED_ARROW</var>}}</code>).</p>
                     </div>
                     <p>We can say that the slope of the line is negative, or that the variables have an inverse relationship.</p>
                     <p data-if="INDEX === 2">Thus, as <code>X</code> increases, <code>Y</code> <b>decreases</b>.</p>

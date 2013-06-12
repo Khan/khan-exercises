@@ -32,6 +32,11 @@
             <var id="DIST1">DIST - DIST2</var>
             <var id="T1">toFraction((DIST - SPEED2 * TIME) / (SPEED1 - SPEED2))</var>
             <var id="T2">toFraction((DIST - SPEED1 * TIME) / (SPEED2 - SPEED1))</var>
+            <var id="DISTANCE_TEXT">$._("distance")</var>
+            <var id="SPEED_TEXT">$._("speed")</var>
+            <var id="TIME_TEXT">$._("time")</var>
+            <var id="MILES_TEXT">$._("miles")</var>
+            <var id="HOUR_TEXT">$._("hour")</var>
         </div>
 
         <div class="problems">
@@ -126,7 +131,7 @@
         </div>
 
         <div class="hints">
-            <p>Remember that <code>\text{<var>$._("distance")</var>} = \text{<var>$._("speed")</var>} \times \text{<var>$._("time")</var>}</code>.</p>
+            <p>Remember that <code>\text{<var>DISTANCE_TEXT</var>} = \text{<var>SPEED_TEXT</var>} \times \text{<var>TIME_TEXT</var>}</code>.</p>
             <p>Call the time that <var>person(1)</var> traveled by <var>vehicle(1)</var>, <code class="hint_red">t</code>.</p>
 
             <div>
@@ -166,13 +171,13 @@
             </div>
 
             <div>
-                <p><var>person(1)</var> traveled at <code class="hint_red"><var>SPEED1</var></code> <code>\frac{ \text{<var>$._("miles")</var>} }{ \text{<var>$._("hour")</var>} }</code> for 
+                <p><var>person(1)</var> traveled at <code class="hint_red"><var>SPEED1</var></code> <code>\frac{ \text{<var>MILES_TEXT</var>} }{ \text{<var>HOUR_TEXT</var>} }</code> for 
                 <code class="hint_red">t</code> hours by <var>vehicle(1)</var>.</p>
                 <div data-if="isMale(1)">Therefore, he traveled <code class="hint_red"><var>SPEED1</var>t</code> miles by <var>vehicle(1)</var>.</div><div data-else="">Therefore, she traveled <code class="hint_red"><var>SPEED1</var>t</code> miles by <var>vehicle(1)</var>.</div>
             </div>
 
             <div>
-                <p><var>person(1)</var> traveled at <code class="hint_blue"><var>SPEED2</var></code> <code>\frac{ \text{<var>$._("miles")</var>} }{ \text{<var>$._("hour")</var>} }</code> for 
+                <p><var>person(1)</var> traveled at <code class="hint_blue"><var>SPEED2</var></code> <code>\frac{ \text{<var>MILES_TEXT</var>} }{ \text{<var>HOUR_TEXT</var>} }</code> for 
                 <code class="hint_blue"><var>TIME</var> - t</code> hours by <var>vehicle(2)</var>.</p>
                 <div data-if="isMale(1)">Therefore, he traveled <code class="hint_blue"><var>SPEED2</var>
                     (<var>TIME</var> - t)</code> miles by <var>vehicle(2)</var>.</div><div data-else="">Therefore, she traveled <code class="hint_blue"><var>SPEED2</var>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>$._ test</title>
+</head>
+<body>
+    <div class="vars">
+        <!-- Make sure $._s in .vars aren't errors -->
+        <var id="TEST">$._("Test")</var>
+        <div>
+            <!-- Make sure $._s nested in .vars also aren't errors -->
+            <var id="TEST2">$._("Test 2")</var>
+        </div>
+    </div>
+    <!-- Make sure that $._ in vars is an error -->
+    <var>$._("Test")</var>
+
+    <!-- Make sure it works over newlines and with single quotes -->
+    <var>$._('Test')</var>
+
+    <!-- Make sure it works with an interpolation string -->
+    <var>$._("Test", {blah: 1})</var>
+</body>
+</html>

@@ -55,8 +55,19 @@ TESTS = {
     },
     'text': {
         'nodes_changed': 11,
-        'errors': ['11 nodes need to be fixed. '
+        'errors': [
+            'Using $._ inside of a <var>:\n<var>$._("%(something)s", '
+                '{something: something})</var>',
+            '11 nodes need to be fixed. '
             'Re-run with --fix to automatically fix them.']
+    },
+    'dollars_in_vars': {
+        'nodes_changed': 0,
+        'errors': [
+            'Using $._ inside of a <var>:\n<var>$._("Test")</var>',
+            "Using $._ inside of a <var>:\n<var>$._('Test')</var>",
+            'Using $._ inside of a <var>:\n<var>$._("Test", {blah: 1})</var>',
+        ]
     },
     'ok_text': {
         'nodes_changed': 0,
@@ -123,7 +134,14 @@ class LintStringsTest(unittest.TestCase):
 
         self.assertEqual(nodes_changed, checks['nodes_changed'],
             '# of nodes changed differ in %s' % test_file)
-        self.assertEqual(errors, checks['errors'][:-1],
+
+        real_errors = checks['errors']
+        # If there are nodes changed, then the last error line disappears when
+        # run with apply_fix
+        if checks['nodes_changed'] != 0:
+            real_errors = real_errors[:-1]
+
+        self.assertEqual(errors, real_errors,
             'These should be no errors in %s' % test_file)
         self.assertEqual(_slurp(test_file), _slurp(checks['output_file']),
             'Make sure that the output of the file matches the expected '
@@ -149,6 +167,9 @@ class LintStringsTest(unittest.TestCase):
 
     def test_data_text(self):
         self.run_test('text')
+
+    def test_dollars_in_vars(self):
+        self.run_test('dollars_in_vars')
 
 
 def _slurp(filename):

@@ -15,12 +15,14 @@
         <var id="TENTHS"> randRange(1, 9) </var>
         <var id="SOLUTION"> TENTHS * MARK_INCREMENT </var>
         <var id="SOLN_TXT"> localeToFixed(SOLUTION, 1) </var>
+        <var id="ORANGE_DOT">$._("orange dot")</var>
+        <var id="PIECE_OF_LINE">$._("piece of line")</var>
     </div>
 
     <div class="problems">
         <div>
             <div class="question">
-                <p>Move the <strong><code>\color{orange}{\text{<var>$._("orange dot")</var>}}</code></strong> to <strong><code>\color{orange}{<var>SOLN_TXT</var>}</code></strong> on the number line.</p>
+                <p>Move the <strong><code>\color{orange}{\text{<var>ORANGE_DOT</var>}}</code></strong> to <strong><code>\color{orange}{<var>SOLN_TXT</var>}</code></strong> on the number line.</p>
 
                 <div class="graphie" id="number-line">
                     init({
@@ -72,14 +74,14 @@
 
                 <div>
                     <p>The line is divided into 10 pieces, which means:</p>
-                    <p><code>\color{green}{\text{<var>$._("piece of line")</var>}}</code> = <code>\color{red}{<var>MARK_INCREMENT</var>}</code>
+                    <p><code>\color{green}{\text{<var>PIECE_OF_LINE</var>}}</code> = <code>\color{red}{<var>MARK_INCREMENT</var>}</code>
                 </p></div>
 
                 <p><code>\color{orange}{<var>SOLN_TXT</var>}</code> =
                 <code>\color{red}{<var>MARK_INCREMENT</var>}</code> * <code>\color{blue}{<var>TENTHS</var>}</code></p>
-                <p data-if="isSingular(TENTHS)">Therefore, moving the <code>\color{orange}{\text{<var>$._("orange dot")</var>}}</code>
+                <p data-if="isSingular(TENTHS)">Therefore, moving the <code>\color{orange}{\text{<var>ORANGE_DOT</var>}}</code>
                 <code>\color{blue}{<var>TENTHS</var>}</code> place will put it at the position
-                <code>\color{orange}{<var>SOLN_TXT</var>}</code>.</p><p data-else="">Therefore, moving the <code>\color{orange}{\text{<var>$._("orange dot")</var>}}</code>
+                <code>\color{orange}{<var>SOLN_TXT</var>}</code>.</p><p data-else="">Therefore, moving the <code>\color{orange}{\text{<var>ORANGE_DOT</var>}}</code>
                 <code>\color{blue}{<var>TENTHS</var>}</code> places will put it at the position
                 <code>\color{orange}{<var>SOLN_TXT</var>}</code>.</p>
 

@@ -132,6 +132,10 @@
                 <var id="WHICH">randRange( 0, 3 )</var>
                 <var id="DUMMY">[ 0, 1, 2, 3 ]</var>
                 <var id="M">SLOPES[WHICH]</var>
+                <var id="ORANGE_TEXT">$._("orange")</var>
+                <var id="PINK_TEXT">$._("pink")</var>
+                <var id="BLUE_TEXT">$._("blue")</var>
+                <var id="GREEN_TEXT">$._("green")</var>
             </div>
             <p class="question">Which graph best depicts a slope of <code><var>M.display</var></code>?</p>
             <div data-each="DUMMY as index">
@@ -161,11 +165,11 @@
                 <p style="clear: both">Remember that the slope corresponds to which direction the line slants, and how much it slants.</p>
                 <div data-if="M.value < 0">
                     <p>Because <code><var>M.display</var></code> is negative, the line should slant downwards as we follow it to the right.</p>
-                    <p>The answer is either the <code class="hint_orange">\text{<var>$._("orange")</var>}</code> or <code class="hint_pink">\text{<var>$._("pink")</var>}</code> graph.</p>
+                    <p>The answer is either the <code class="hint_orange">\text{<var>ORANGE_TEXT</var>}</code> or <code class="hint_pink">\text{<var>PINK_TEXT</var>}</code> graph.</p>
                 </div>
                 <div data-else="">
                     <p>Because <code><var>M.display</var></code> is positive, the line should slant upwards as we follow it to the right.</p>
-                    <p>The answer is either the <code class="hint_blue">\text{<var>$._("blue")</var>}</code> or <code class="hint_green">\text{<var>$._("green")</var>}</code> graph.</p>
+                    <p>The answer is either the <code class="hint_blue">\text{<var>BLUE_TEXT</var>}</code> or <code class="hint_green">\text{<var>GREEN_TEXT</var>}</code> graph.</p>
                 </div>
                 <p>In which graph does the y value change by <code><var>M.display</var></code> if the x value changes by <code>1</code>?</p>
                 <p>The <code>\color{<var>COLORS[WHICH].hex</var>}{\text{<var>COLORS[WHICH].name.toLowerCase()</var>}}</code> graph best depicts a slope of <code><var>M.display</var></code>.</p>

@@ -20,6 +20,8 @@
         <var id="ANGLE">max(30, min(150, A * SOLUTION + B))</var>
         <var id="KNOWN_INDEX">(randRange(0, 3) * 2) + ((ANGLE &lt; 50) ? 1 : ((ANGLE &gt; 130) ? 0 : randRange(0, 1)))</var>
         <var id="UNKNOWN_INDEX">(KNOWN_INDEX + 4) % 8</var>
+        <var id="BLUE_ANGLE">$._("blue angle")</var>
+        <var id="ORANGE_ANGLE">$._("orange angle")</var>
     </div>
 
     <div class="problems">
@@ -48,7 +50,7 @@
     <div class="hints">
         <p>Corresponding angles are equal to one another. <a href="/video/angles-formed-by-parallel-lines-and-transversals" class="related-video" data-youtube-id="H-E5rlpCVu4">Watch this video</a> to understand why.</p>
         <div>
-            <p>The <code>\color{<var>BLUE</var>}{\text{<var>$._("blue angle")</var>}}</code> and the <code>\color{<var>ORANGE</var>}{\text{<var>$._("orange angle")</var>}}</code> are corresponding angles. Therefore, we can set them equal to one another.</p>
+            <p>The <code>\color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}}</code> and the <code>\color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}}</code> are corresponding angles. Therefore, we can set them equal to one another.</p>
             <p><code>\color{<var>BLUE</var>}{<var>A</var>x + <var>B</var>} = \color{<var>ORANGE</var>}{<var>C</var>x + <var>D</var>}</code></p>
         </div>
 

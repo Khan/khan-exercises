@@ -32,6 +32,7 @@
                 <var id="B">randRange(2, 9)</var>
                 <var id="H">randRange(2, 9)</var>
                 <var id="HYP">sqrt(B * B + H * H)</var>
+                <var id="AREA">$._("area")</var>
             </div>
 
             <p class="question">
@@ -92,7 +93,7 @@
                     <code><var>B</var> \times <var>H</var></code>.
                 </p>
                 <p><code>
-                    \text{<var>$._("area")</var>} = \frac{1}{2} \times <var>B</var> \times
+                    \text{<var>AREA</var>} = \frac{1}{2} \times <var>B</var> \times
                     <var>H</var> = <var>(B * H) / 2</var>
                 </code></p>
             </div>
@@ -107,6 +108,7 @@
                     randRange(H + 1, floor(sqrt(H * H + B * B) - 1))
                 </var>
                 <var id="TOP">sqrt(HYP * HYP - H * H)</var>
+                <var id="AREA">$._("area")</var>
             </div>
 
             <p class="question">
@@ -230,7 +232,7 @@
                     </div>
                 </div>
                 <p><code>
-                    \text{<var>$._("area")</var>} = \frac{1}{2} \times <var>B</var> \times
+                    \text{<var>AREA</var>} = \frac{1}{2} \times <var>B</var> \times
                     <var>H</var> = <var>(B * H) / 2</var>
                 </code></p>
             </div>
@@ -244,6 +246,9 @@
                     randRange(-5, -1),
                     randRange(B + 1, B + 5)
                 ])</var>
+            <var id="BASE">$._("base")</var>
+            <var id="HEIGHT">$._("height")</var>
+            <var id="AREA">$._("area")</var>
             </div>
 
             <p class="question">
@@ -284,7 +289,7 @@
                 <p>
                     The area of any triangle is
                     <code>\frac{1}{2}
-                    \text{<var>$._("base")</var>} \times \text{<var>$._("height")</var>}</code>.
+                    \text{<var>BASE</var>} \times \text{<var>HEIGHT</var>}</code>.
                     <br>
                 </p>
                 <p>
@@ -296,7 +301,7 @@
                     <code><var>H</var></code> <var>plural_form(UNIT_TEXT, H)</var>.</span>
                 </p>
                 <p><code>
-                    \text{<var>$._("area")</var>} = \frac{1}{2} \times <var>B</var> \times
+                    \text{<var>AREA</var>} = \frac{1}{2} \times <var>B</var> \times
                     <var>H</var> = <var>(B * H) / 2</var>
                 </code></p>
             </div>

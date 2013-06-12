@@ -15,6 +15,11 @@
                     <var id="D">randFromArray([ 5, 8 ])</var>
                     <var id="N">randRange( 3, D - 1 )</var>
                     <var id="SOLUTION">PIECES*(D/N) </var>
+                    <var id="CANDY_BARS">$._("candy bars")</var>
+                    <var id="BAR_PER_PERSON">$._("bar per person")</var>
+                    <var id="TOTAL_PEOPLE">$._("total people")</var>
+                    <var id="PEOPLE_PER_BAR">$._("people per bar")</var>
+                    <var id="PEOPLE">$._("people")</var>
                 </div>
 
                 <p class="problem" data-if="isMale(1)">
@@ -46,20 +51,20 @@
                         (<code>\frac{<var>N</var>}{<var>D</var>}</code> of a bar) to find out how many people she could share with.
                     </p>
                     <p><code>
-                        \dfrac{\color{<var>ORANGE</var>}{<var>PIECES</var> \text{ <var>$._("candy bars")</var>}}}
-                        {\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>$._("bar per person")</var>}}} = \color{<var>PINK</var>}{\text{ <var>$._("total people")</var>}}
+                        \dfrac{\color{<var>ORANGE</var>}{<var>PIECES</var> \text{ <var>CANDY_BARS</var>}}}
+                        {\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>BAR_PER_PERSON</var>}}} = \color{<var>PINK</var>}{\text{ <var>TOTAL_PEOPLE</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
                     <p>
-                        The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>$._("bar per person")</var>}</code>
-                        is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>$._("people per bar")</var>}</code>.
+                        The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>BAR_PER_PERSON</var>}</code>
+                        is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>PEOPLE_PER_BAR</var>}</code>.
                     </p>
                     <p><code>
-                        \color{<var>ORANGE</var>}{<var>PIECES</var>\text{ <var>$._("candy bars")</var>}} \times
-                        \color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>$._("people per bar")</var>}}
-                        = \color{<var>PINK</var>}{\text{<var>$._("total people")</var>}}
+                        \color{<var>ORANGE</var>}{<var>PIECES</var>\text{ <var>CANDY_BARS</var>}} \times
+                        \color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>PEOPLE_PER_BAR</var>}}
+                        = \color{<var>PINK</var>}{\text{<var>TOTAL_PEOPLE</var>}}
                     </code></p>
-                    <p><code>\color{<var>PINK</var>}{\dfrac{<var>D * PIECES</var>}{<var>N</var>}\text{ <var>$._("people")</var>}} = <var>SOLUTION</var>\text{ <var>$._("people")</var>}</code></p>
+                    <p><code>\color{<var>PINK</var>}{\dfrac{<var>D * PIECES</var>}{<var>N</var>}\text{ <var>PEOPLE</var>}} = <var>SOLUTION</var>\text{ <var>PEOPLE</var>}</code></p>
                     <strong data-if="isMale(1)">By cutting up the candy bars, <var>person(1)</var> could share his candy with <var>SOLUTION</var> of his friends.</strong><strong data-else="">By cutting up the candy bars, <var>person(1)</var> could share her candy with <var>SOLUTION</var> of her friends.</strong>
                 </div>
             </div>
@@ -71,6 +76,11 @@
                     <var id="D">randFromArray([ 3, 5 ])</var>
                     <var id="N">randRange( 2, D - 1 )</var>
                     <var id="SOLUTION">YARN*(D/N) </var>
+                    <var id="BALLS_OF_YARN">$._("balls of yarn")</var>
+                    <var id="BALL_PER_SCARF">$._("ball per scarf")</var>
+                    <var id="NUMBER_OF_SCARVES">$._("number of scarves")</var>
+                    <var id="SCARVES_PER_BALL">$._("scarves per ball")</var>
+                    <var id="SCARVES">$._("scarves")</var>
                 </div>
 
                 <p class="problem" data-if="isMale(1)">
@@ -97,20 +107,20 @@
                         a ball) to find out how many scarves <var>person(1)</var> can make.
                     </p>
                     <p><code>
-                        \dfrac{\color{<var>ORANGE</var>}{<var>YARN</var> \text{ <var>$._("balls of yarn")</var>}}}
-                        {\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>$._("ball per scarf")</var>}}} = \color{<var>PINK</var>}{\text{ <var>$._("number of scarves")</var>}}
+                        \dfrac{\color{<var>ORANGE</var>}{<var>YARN</var> \text{ <var>BALLS_OF_YARN</var>}}}
+                        {\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>BALL_PER_SCARF</var>}}} = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_SCARVES</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
                     <p>
-                        The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>$._("ball per scarf")</var>}</code>
-                        is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>$._("scarves per ball")</var>}</code>.
+                        The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>BALL_PER_SCARF</var>}</code>
+                        is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>SCARVES_PER_BALL</var>}</code>.
                     </p>
                     <p><code>
-                        \color{<var>ORANGE</var>}{<var>YARN</var>\text{ <var>$._("balls of yarn")</var>}} \times
-                        \color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>$._("scarves per ball")</var>}}
-                        = \color{<var>PINK</var>}{\text{ <var>$._("number of scarves")</var>}}
+                        \color{<var>ORANGE</var>}{<var>YARN</var>\text{ <var>BALLS_OF_YARN</var>}} \times
+                        \color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>SCARVES_PER_BALL</var>}}
+                        = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_SCARVES</var>}}
                     </code></p>
-                    <p><code>\color{<var>PINK</var>}{\dfrac{<var>D * YARN</var>}{<var>N</var>}\text{ <var>$._("scarves")</var>}} = <var>SOLUTION</var>\text{ <var>$._("scarves")</var>}</code></p>
+                    <p><code>\color{<var>PINK</var>}{\dfrac{<var>D * YARN</var>}{<var>N</var>}\text{ <var>SCARVES</var>}} = <var>SOLUTION</var>\text{ <var>SCARVES</var>}</code></p>
                     <p><strong><var>person(1)</var> can make <var>SOLUTION</var> scarves.</strong></p>
                 </div>
             </div>
@@ -123,6 +133,11 @@
                     <var id="N">randRange( 2, D - 1 )</var>
                     <var id="SOLUTION">PAINT*(D/N) </var>
                     <var id="ROOM">(randRange( 1, 20 )+SOLUTION)</var>
+                    <var id="CANS_OF_PAINT">$._("cans of paint")</var>
+                    <var id="CAN_PER_ROOM">$._("can per room")</var>
+                    <var id="ROOMS">$._("rooms")</var>
+                    <var id="CAN_PER_ROOM">$._("can per room")</var>
+                    <var id="ROOMS_PER_CAN">$._("rooms per can")</var>
                 </div>
 
                 <p class="problem" data-if="isMale(1)">
@@ -145,20 +160,20 @@
                         a can) to find out how many rooms <var>person(1)</var> could paint.
                     </p>
                     <p><code>
-                        \dfrac{\color{<var>ORANGE</var>}{<var>PAINT</var> \text{ <var>$._("cans of paint")</var>}}}
-                        {\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>$._("can per room")</var>}}} = \color{<var>PINK</var>}{\text{ <var>$._("rooms")</var>}}
+                        \dfrac{\color{<var>ORANGE</var>}{<var>PAINT</var> \text{ <var>CANS_OF_PAINT</var>}}}
+                        {\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>CAN_PER_ROOM</var>}}} = \color{<var>PINK</var>}{\text{ <var>ROOMS</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
                     <p>
-                        The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>$._("can per room")</var>}</code>
-                        is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>$._("rooms per can")</var>}</code>.
+                        The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>CAN_PER_ROOM</var>}</code>
+                        is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>ROOMS_PER_CAN</var>}</code>.
                     </p>
                     <p><code>
-                        \color{<var>ORANGE</var>}{<var>PAINT</var>\text{ <var>$._("cans of paint")</var>}} \times
-                        \color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>$._("rooms per can")</var>}}
-                        = \color{<var>PINK</var>}{\text{ <var>$._("rooms")</var>}}
+                        \color{<var>ORANGE</var>}{<var>PAINT</var>\text{ <var>CANS_OF_PAINT</var>}} \times
+                        \color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>ROOMS_PER_CAN</var>}}
+                        = \color{<var>PINK</var>}{\text{ <var>ROOMS</var>}}
                     </code></p>
-                    <p><code>\color{<var>PINK</var>}{\dfrac{<var>D * PAINT</var>}{<var>N</var>}\text{ <var>$._("rooms")</var>}} = <var>SOLUTION</var>\text{ <var>$._("rooms")</var>}</code></p>
+                    <p><code>\color{<var>PINK</var>}{\dfrac{<var>D * PAINT</var>}{<var>N</var>}\text{ <var>ROOMS</var>}} = <var>SOLUTION</var>\text{ <var>ROOMS</var>}</code></p>
                     <p><strong><var>person(1)</var> could paint <var>SOLUTION</var> rooms.</strong></p>
                 </div>
             </div>
@@ -177,6 +192,10 @@
                     <var id="SIMP_B">B / GCD2</var>
                     <var id="SIMP_D">D / GCD2</var>
                     <var id="SOLUTION">((A*D)/(B*N)) </var>
+                    <var id="MILE">$._("mile")</var>
+                    <var id="MILE_PER_SWIMMER">$._("mile per swimmer")</var>
+                    <var id="NUMBER_OF_SWIMMERS">$._("number of swimmers")</var>
+                    <var id="SWIMMERS_PER_MILE">$._("swimmers per mile")</var>
                 </div>
 
                 <div class="problem">
@@ -199,23 +218,23 @@
                         (<code>\frac{<var>N</var>}{<var>D</var>}</code> of a mile).
                     </p>
                     <p><code>
-                        \dfrac{\color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>} \text{ <var>$._("mile")</var>}}}
-                        {\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>$._("mile per swimmer")</var>}}} = \color{<var>PINK</var>}{\text{ <var>$._("number of swimmers")</var>}}
+                        \dfrac{\color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>} \text{ <var>MILE</var>}}}
+                        {\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>MILE_PER_SWIMMER</var>}}} = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_SWIMMERS</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
                     <p>
-                        The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>$._("mile per swimmer")</var>}</code>
-                        is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>$._("swimmers per mile")</var>}</code>.
+                        The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>MILE_PER_SWIMMER</var>}</code>
+                        is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>SWIMMERS_PER_MILE</var>}</code>.
                     </p>
                     <p><code>
-                        \color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>}\text{ <var>$._("mile")</var>}} \times
-                        \color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>$._("swimmers per mile")</var>}}
-                        = \color{<var>PINK</var>}{\text{ <var>$._("number of swimmers")</var>}}
+                        \color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>}\text{ <var>MILE</var>}} \times
+                        \color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>SWIMMERS_PER_MILE</var>}}
+                        = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_SWIMMERS</var>}}
                     </code></p>
                     <p><code>
                         \dfrac{\color{<var>ORANGE</var>}{<var>A</var>} \cdot \color{<var>GREEN</var>}{<var>D</var>}}
                         {\color{<var>ORANGE</var>}{<var>B</var>} \cdot \color{<var>GREEN</var>}{<var>N</var>}}
-                        = \color{<var>PINK</var>}{\text{ <var>$._("number of swimmers")</var>}}
+                        = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_SWIMMERS</var>}}
                     </code></p>
                     <div data-if="GCD1 !== 1">
                         <p>
@@ -225,7 +244,7 @@
                         <p><code>
                             \dfrac{\color{<var>ORANGE</var>}{\cancel{<var>A</var>}^{<var>SIMP_A</var>}} \cdot \color{<var>GREEN</var>}{<var>D</var>}}
                             {\color{<var>ORANGE</var>}{<var>B</var>} \cdot \color{<var>GREEN</var>}{\cancel{<var>N</var>}^{<var>SIMP_N</var>}}}
-                            = \color{<var>PINK</var>}{\text{ <var>$._("number of swimmers")</var>}}
+                            = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_SWIMMERS</var>}}
                         </code></p>
                     </div>
                     <div data-if="GCD2 !== 1">
@@ -236,7 +255,7 @@
                         <p><code>
                             \dfrac{\color{<var>ORANGE</var>}{<var>SIMP_A</var>} \cdot \color{<var>GREEN</var>}{\cancel{<var>D</var>}^{<var>SIMP_D</var>}}}
                             {\color{<var>ORANGE</var>}{\cancel{<var>B</var>}^{<var>SIMP_B</var>}} \cdot \color{<var>GREEN</var>}{<var>SIMP_N</var>}}
-                            = \color{<var>PINK</var>}{\text{ <var>$._("number of swimmers")</var>}}
+                            = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_SWIMMERS</var>}}
                         </code></p>
                     </div>
                     <div>
@@ -265,6 +284,11 @@
                     <var id="SIMP_B">B / GCD2</var>
                     <var id="SIMP_D">D / GCD2</var>
                     <var id="SOLUTION">((A*D)/(B*N)) </var>
+                    <var id="POUND_OF_CHOCOLATE">$._("pound of chocolate")</var>
+                    <var id="POUND_PER_BAG">$._("pound per bag")</var>
+                    <var id="NUMBER_OF_BAGS">$._("number of bags")</var>
+                    <var id="POUND">$._("pound")</var>
+                    <var id="BAGS_PER_POUND">$._("bags per pound")</var>
                 </div>
 
                 <p class="problem" data-if="isMale(1)">
@@ -290,23 +314,23 @@
                         (<code>\frac{<var>N</var>}{<var>D</var>}</code> of a pound).
                     </p>
                     <p><code>
-                        \dfrac{\color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>} \text{ <var>$._("pound of chocolate")</var>}}}
-                        {\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>$._("pound per bag")</var>}}} = \color{<var>PINK</var>}{\text{ <var>$._("number of bags")</var>}}
+                        \dfrac{\color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>} \text{ <var>POUND_OF_CHOCOLATE</var>}}}
+                        {\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>POUND_PER_BAG</var>}}} = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_BAGS</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
                     <p>
-                        The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>$._("pound per bag")</var>}</code>
-                        is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>$._("bags per pound")</var>}</code>.
+                        The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>POUND_PER_BAG</var>}</code>
+                        is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>BAGS_PER_POUND</var>}</code>.
                     </p>
                     <p><code>
-                        \color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>}\text{ <var>$._("pound")</var>}} \times
-                        \color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>$._("bags per pound")</var>}}
-                        = \color{<var>PINK</var>}{\text{ <var>$._("number of bags")</var>}}
+                        \color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>}\text{ <var>POUND</var>}} \times
+                        \color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>BAGS_PER_POUND</var>}}
+                        = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_BAGS</var>}}
                     </code></p>
                     <p><code>
                         \dfrac{\color{<var>ORANGE</var>}{<var>A</var>} \cdot \color{<var>GREEN</var>}{<var>D</var>}}
                         {\color{<var>ORANGE</var>}{<var>B</var>} \cdot \color{<var>GREEN</var>}{<var>N</var>}}
-                        = \color{<var>PINK</var>}{\text{ <var>$._("number of bags")</var>}}
+                        = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_BAGS</var>}}
                     </code></p>
                     <div data-if="GCD1 !== 1">
                         <p>
@@ -316,7 +340,7 @@
                         <p><code>
                             \dfrac{\color{<var>ORANGE</var>}{\cancel{<var>A</var>}^{<var>SIMP_A</var>}} \cdot \color{<var>GREEN</var>}{<var>D</var>}}
                             {\color{<var>ORANGE</var>}{<var>B</var>} \cdot \color{<var>GREEN</var>}{\cancel{<var>N</var>}^{<var>SIMP_N</var>}}}
-                            = \color{<var>PINK</var>}{\text{ <var>$._("number of bags")</var>}}
+                            = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_BAGS</var>}}
                         </code></p>
                     </div>
                     <div data-if="GCD2 !== 1">
@@ -327,7 +351,7 @@
                         <p><code>
                             \dfrac{\color{<var>ORANGE</var>}{<var>SIMP_A</var>} \cdot \color{<var>GREEN</var>}{\cancel{<var>D</var>}^{<var>SIMP_D</var>}}}
                             {\color{<var>ORANGE</var>}{\cancel{<var>B</var>}^{<var>SIMP_B</var>}} \cdot \color{<var>GREEN</var>}{<var>SIMP_N</var>}}
-                            = \color{<var>PINK</var>}{\text{ <var>$._("number of bags")</var>}}
+                            = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_BAGS</var>}}
                         </code></p>
                     </div>
                     <div>
@@ -356,6 +380,10 @@
                     <var id="SIMP_B">B / GCD2</var>
                     <var id="SIMP_D">D / GCD2</var>
                     <var id="SOLUTION">((A*D)/(B*N)) </var>
+                    <var id="HOUR">$._("hour")</var>
+                    <var id="HOUR_PER_EXERCISE">$._("hour per exercise")</var>
+                    <var id="NUMBER_OF_EXERCISES">$._("number of exercises")</var>
+                    <var id="EXERCISES_PER_HOUR">$._("exercises per hour")</var>
                 </div>
 
                 <p class="problem" data-if="isMale(1)">
@@ -382,23 +410,23 @@
                         time each exercise type takes (<code>\frac{<var>N</var>}{<var>D</var>}</code> of an hour).
                     </p>
                     <p><code>
-                        \dfrac{\color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>} \text{ <var>$._("hour")</var>}}}
-                        {\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>$._("hour per exercise")</var>}}} = \color{<var>PINK</var>}{\text{ <var>$._("number of exercises")</var>}}
+                        \dfrac{\color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>} \text{ <var>HOUR</var>}}}
+                        {\color{<var>BLUE</var>}{\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>HOUR_PER_EXERCISE</var>}}} = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_EXERCISES</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
                     <p>
-                        The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>$._("hour per exercise")</var>}</code>
-                        is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>$._("exercises per hour")</var>}</code>.
+                        The reciprocal of <code class="hint_blue">\dfrac{<var>N</var>}{<var>D</var>} \text{ <var>HOUR_PER_EXERCISE</var>}</code>
+                        is <code class="hint_green">\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>EXERCISES_PER_HOUR</var>}</code>.
                     </p>
                     <p><code>
-                        \color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>}\text{ <var>$._("hour")</var>}} \times
-                        \color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>$._("exercises per hour")</var>}}
-                        = \color{<var>PINK</var>}{\text{ <var>$._("number of exercises")</var>}}
+                        \color{<var>ORANGE</var>}{\dfrac{<var>A</var>}{<var>B</var>}\text{ <var>HOUR</var>}} \times
+                        \color{<var>GREEN</var>}{\dfrac{<var>D</var>}{<var>N</var>} \text{ <var>EXERCISES_PER_HOUR</var>}}
+                        = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_EXERCISES</var>}}
                     </code></p>
                     <p><code>
                         \dfrac{\color{<var>ORANGE</var>}{<var>A</var>} \cdot \color{<var>GREEN</var>}{<var>D</var>}}
                         {\color{<var>ORANGE</var>}{<var>B</var>} \cdot \color{<var>GREEN</var>}{<var>N</var>}}
-                        = \color{<var>PINK</var>}{\text{ <var>$._("number of exercises")</var>}}
+                        = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_EXERCISES</var>}}
                     </code></p>
                     <div data-if="GCD1 !== 1">
                         <p>
@@ -408,7 +436,7 @@
                         <p><code>
                             \dfrac{\color{<var>ORANGE</var>}{\cancel{<var>A</var>}^{<var>SIMP_A</var>}} \cdot \color{<var>GREEN</var>}{<var>D</var>}}
                             {\color{<var>ORANGE</var>}{<var>B</var>} \cdot \color{<var>GREEN</var>}{\cancel{<var>N</var>}^{<var>SIMP_N</var>}}}
-                            = \color{<var>PINK</var>}{\text{ <var>$._("number of exercises")</var>}}
+                            = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_EXERCISES</var>}}
                         </code></p>
                     </div>
                     <div data-if="GCD2 !== 1">
@@ -419,7 +447,7 @@
                         <p><code>
                             \dfrac{\color{<var>ORANGE</var>}{<var>SIMP_A</var>} \cdot \color{<var>GREEN</var>}{\cancel{<var>D</var>}^{<var>SIMP_D</var>}}}
                             {\color{<var>ORANGE</var>}{\cancel{<var>B</var>}^{<var>SIMP_B</var>}} \cdot \color{<var>GREEN</var>}{<var>SIMP_N</var>}}
-                            = \color{<var>PINK</var>}{\text{ <var>$._("number of exercises")</var>}}
+                            = \color{<var>PINK</var>}{\text{ <var>NUMBER_OF_EXERCISES</var>}}
                         </code></p>
                     </div>
                     <div>

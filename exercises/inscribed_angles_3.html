@@ -40,6 +40,14 @@
                 <var id="GIVEN">CENTRAL</var>
                 <var id="GIVEN_LABEL">$._("blue")</var>
                 <var id="ASKED_LABEL">$._("orange")</var>
+                <var id="GREEN_ANGLE">$._("green angle")</var>
+                <var id="BLUE_ANGLE">$._("blue angle")</var>
+                <var id="PINK_ANGLE">$._("pink angle")</var>
+                <var id="SMALL_GREEN_ANGLE">$._("small green angle")</var>
+                <var id="ORANGE_ANGLE">$._("orange angle")</var>
+                <var id="BIG_GREEN_ANGLE">$._("big green angle")</var>
+                <var id="SMALL_PINK_ANGLE">$._("small pink angle")</var>
+                <var id="BIG_PINK_ANGLE">$._("big pink angle")</var>
             </div>
             <p class="question">If the <var>GIVEN_LABEL</var> angle measures <var>GIVEN</var> degrees, what does the <var>ASKED_LABEL</var> angle measure?</p>
             <p>This is a special case where the center of the circle is outside the inscribed orange angle. The blue angle is called a central angle.</p>
@@ -76,7 +84,7 @@
                 </div>
                 <div>
                     <p>From the previous inscribed angles exercises, we know the following about the green and pink angles.</p>
-                    <p><code>\color{<var>GREEN</var>}{\text{<var>$._("green angle")</var>}} = \dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{<var>$._("pink angle")</var>}}</code></p>
+                    <p><code>\color{<var>GREEN</var>}{\text{<var>GREEN_ANGLE</var>}} = \dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{<var>PINK_ANGLE</var>}}</code></p>
                     <div class="graphie" data-update="circle">
                         style({stroke: BLUE, fill: BLUE}, function() {
                             graph.circle.drawPoint( SUBTENDED_POINT + 180 );
@@ -109,7 +117,7 @@
                 </div>
                 <div>
                     <p>Looking at the picture, we can see the following is true:</p>
-                    <p><code>\color{<var>GREEN</var>}{\text{<var>$._("small green angle")</var>}} + \color{<var>ORANGE</var>}{\text{<var>$._("orange angle")</var>}} = \color{<var>GREEN</var>}{\text{<var>$._("big green angle")</var>}}</code></p>
+                    <p><code>\color{<var>GREEN</var>}{\text{<var>SMALL_GREEN_ANGLE</var>}} + \color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}} = \color{<var>GREEN</var>}{\text{<var>BIG_GREEN_ANGLE</var>}}</code></p>
                     <div class="graphie" data-update="circle">
                         graph.central.arc.animate({opacity: 0.4});
                         graph.central.radii[0].remove();
@@ -121,20 +129,20 @@
                 </div>
                 <div>
                     <p>Substituting what we know about green and pink angles, we get the following:</p>
-                    <p><code>\dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{<var>$._("small pink angle")</var>}} + \color{<var>ORANGE</var>}{\text{<var>$._("orange angle")</var>}} = \dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{<var>$._("big pink angle")</var>}}</code></p>
+                    <p><code>\dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{<var>SMALL_PINK_ANGLE</var>}} + \color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}} = \dfrac{1}{2} \cdot \color{<var>PINK</var>}{\text{<var>BIG_PINK_ANGLE</var>}}</code></p>
                 </div>
-                <p><code>\color{<var>ORANGE</var>}{\text{<var>$._("orange angle")</var>}} = \dfrac{1}{2}( \color{<var>PINK</var>}{\text{<var>$._("big pink angle")</var>}} - \color{<var>PINK</var>}{\text{<var>$._("small pink angle")</var>}})</code></p>
+                <p><code>\color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}} = \dfrac{1}{2}( \color{<var>PINK</var>}{\text{<var>BIG_PINK_ANGLE</var>}} - \color{<var>PINK</var>}{\text{<var>SMALL_PINK_ANGLE</var>}})</code></p>
                 <div>
                     <p>We can see from the picture that the following is also true:</p>
-                    <p><code>\color{<var>PINK</var>}{\text{<var>$._("small pink angle")</var>}} + \color{<var>BLUE</var>}{\text{<var>$._("blue angle")</var>}} = \color{<var>PINK</var>}{\text{<var>$._("big pink angle")</var>}}</code></p>
-                    <p><code>\color{<var>BLUE</var>}{\text{<var>$._("blue angle")</var>}} = \color{<var>PINK</var>}{\text{<var>$._("big pink angle")</var>}} - \color{<var>PINK</var>}{\text{<var>$._("small pink angle")</var>}}</code></p>
+                    <p><code>\color{<var>PINK</var>}{\text{<var>SMALL_PINK_ANGLE</var>}} + \color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}} = \color{<var>PINK</var>}{\text{<var>BIG_PINK_ANGLE</var>}}</code></p>
+                    <p><code>\color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}} = \color{<var>PINK</var>}{\text{<var>BIG_PINK_ANGLE</var>}} - \color{<var>PINK</var>}{\text{<var>SMALL_PINK_ANGLE</var>}}</code></p>
                 </div>
                 <div>
                     <p>Combining what we know about blue and orange angles:</p>
-                    <p><code>\color{<var>ORANGE</var>}{\text{<var>$._("orange angle")</var>}} = \dfrac{1}{2} \cdot \color{<var>BLUE</var>}{\text{<var>$._("blue angle")</var>}}</code></p>
+                    <p><code>\color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}} = \dfrac{1}{2} \cdot \color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}}</code></p>
                 </div>
-                <p><code>\color{<var>ORANGE</var>}{\text{<var>$._("orange angle")</var>}} = \dfrac{1}{2} \cdot \color{<var>BLUE</var>}{<var>CENTRAL</var>^{\circ}}</code></p>
-                <p><code>\color{<var>ORANGE</var>}{\text{<var>$._("orange angle")</var>}} = \color{<var>ORANGE</var>}{<var>CENTRAL / 2</var>^{\circ}}</code></p>
+                <p><code>\color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}} = \dfrac{1}{2} \cdot \color{<var>BLUE</var>}{<var>CENTRAL</var>^{\circ}}</code></p>
+                <p><code>\color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}} = \color{<var>ORANGE</var>}{<var>CENTRAL / 2</var>^{\circ}}</code></p>
             </div>
         </div>
         <div id="find-central" data-type="find-inscribed-outside">
@@ -157,7 +165,7 @@
                 </div>
                 <div>
                     <p>From the previous inscribed angles exercises, we know the following about the green and pink angles.</p>
-                    <p><code>\color{<var>PINK</var>}{\text{<var>$._("pink angle")</var>}} = 2 \cdot \color{<var>GREEN</var>}{\text{<var>$._("green angle")</var>}}</code></p>
+                    <p><code>\color{<var>PINK</var>}{\text{<var>PINK_ANGLE</var>}} = 2 \cdot \color{<var>GREEN</var>}{\text{<var>GREEN_ANGLE</var>}}</code></p>
                     <div class="graphie" data-update="circle">
                         style({stroke: BLUE, fill: BLUE}, function() {
                             graph.circle.drawPoint( SUBTENDED_POINT + 180 );
@@ -191,7 +199,7 @@
                 </div>
                 <div>
                     <p>Looking at the picture, we can see the following is true:</p>
-                    <p><code>\color{<var>PINK</var>}{\text{<var>$._("small pink angle")</var>}} + \color{<var>BLUE</var>}{\text{<var>$._("blue angle")</var>}} = \color{<var>PINK</var>}{\text{<var>$._("big pink angle")</var>}}</code></p>
+                    <p><code>\color{<var>PINK</var>}{\text{<var>SMALL_PINK_ANGLE</var>}} + \color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}} = \color{<var>PINK</var>}{\text{<var>BIG_PINK_ANGLE</var>}}</code></p>
                     <div class="graphie" data-update="circle">
                         graph.central.arc.animate({opacity: 0.4});
                         graph.central.radii[0].remove();
@@ -203,20 +211,20 @@
                 </div>
                 <div>
                     <p>Substituting what we know about green and pink angles, we get the following:</p>
-                    <p><code>2 \cdot \color{<var>GREEN</var>}{\text{<var>$._("small green angle")</var>}} + \color{<var>BLUE</var>}{\text{<var>$._("blue angle")</var>}} = 2 \cdot \color{<var>GREEN</var>}{\text{<var>$._("big green angle")</var>}}</code></p>
+                    <p><code>2 \cdot \color{<var>GREEN</var>}{\text{<var>SMALL_GREEN_ANGLE</var>}} + \color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}} = 2 \cdot \color{<var>GREEN</var>}{\text{<var>BIG_GREEN_ANGLE</var>}}</code></p>
                 </div>
-                <p><code>\color{<var>BLUE</var>}{\text{<var>$._("blue angle")</var>}} = 2( \color{<var>GREEN</var>}{\text{<var>$._("big green angle")</var>}} - \color{<var>GREEN</var>}{\text{<var>$._("small green angle")</var>}})</code></p>
+                <p><code>\color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}} = 2( \color{<var>GREEN</var>}{\text{<var>BIG_GREEN_ANGLE</var>}} - \color{<var>GREEN</var>}{\text{<var>SMALL_GREEN_ANGLE</var>}})</code></p>
                 <div>
                     <p>We can see from the picture that the following is also true:</p>
-                    <p><code>\color{<var>GREEN</var>}{\text{<var>$._("small green angle")</var>}} + \color{<var>ORANGE</var>}{\text{<var>$._("orange angle")</var>}} = \color{<var>GREEN</var>}{\text{<var>$._("big green angle")</var>}}</code></p>
-                    <p><code>\color{<var>ORANGE</var>}{\text{<var>$._("orange angle")</var>}} = \color{<var>GREEN</var>}{\text{<var>$._("big green angle")</var>}} - \color{<var>GREEN</var>}{\text{<var>$._("small green angle")</var>}}</code></p>
+                    <p><code>\color{<var>GREEN</var>}{\text{<var>SMALL_GREEN_ANGLE</var>}} + \color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}} = \color{<var>GREEN</var>}{\text{<var>BIG_GREEN_ANGLE</var>}}</code></p>
+                    <p><code>\color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}} = \color{<var>GREEN</var>}{\text{<var>BIG_GREEN_ANGLE</var>}} - \color{<var>GREEN</var>}{\text{<var>SMALL_GREEN_ANGLE</var>}}</code></p>
                 </div>
                 <div>
                     <p>Combining what we know about blue and orange angles:</p>
-                    <p><code>\color{<var>BLUE</var>}{\text{<var>$._("blue angle")</var>}} = 2 \cdot \color{<var>ORANGE</var>}{\text{<var>$._("orange angle")</var>}}</code></p>
+                    <p><code>\color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}} = 2 \cdot \color{<var>ORANGE</var>}{\text{<var>ORANGE_ANGLE</var>}}</code></p>
                 </div>
-                <p><code>\color{<var>BLUE</var>}{\text{<var>$._("blue angle")</var>}} = 2 \cdot \color{<var>ORANGE</var>}{<var>CENTRAL / 2</var>^{\circ}}</code></p>
-                <p><code>\color{<var>BLUE</var>}{\text{<var>$._("blue angle")</var>}} = \color{<var>BLUE</var>}{<var>CENTRAL</var>^{\circ}}</code></p>
+                <p><code>\color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}} = 2 \cdot \color{<var>ORANGE</var>}{<var>CENTRAL / 2</var>^{\circ}}</code></p>
+                <p><code>\color{<var>BLUE</var>}{\text{<var>BLUE_ANGLE</var>}} = \color{<var>BLUE</var>}{<var>CENTRAL</var>^{\circ}}</code></p>
             </div>
         </div>
     </div>

@@ -30,6 +30,8 @@
             makeMultHintMatrix(MAT_1, MAT_2, ROW_COLORS, COL_COLORS)
         </var>
 
+        <var id="ROW">$._("row")</var>
+        <var id="COLUMN">$._("column")</var>
     </div>
 
     <div class="problem">
@@ -70,7 +72,7 @@
         </div>
         <div>
             <p>
-                So, to find the element at row 1, column 1 of the answer matrix, multiply the first element in <code><var>colorMarkup("\\text{" + $._("row") + " }1", ROW_COLORS[0])</var></code> of <code><var>PRETTY_MAT_1_ID</var></code> with the first element in <code><var>colorMarkup("\\text{" + $._("column") + " }1", COL_COLORS[0])</var></code> of <code><var>PRETTY_MAT_2_ID</var></code>, then multiply the second element in <code><var>colorMarkup("\\text{" + $._("row") + " }1", ROW_COLORS[0])</var></code> of <code><var>PRETTY_MAT_1_ID</var></code> with the second element in <code><var>colorMarkup("\\text{" + $._("column") + " }1", COL_COLORS[0])</var></code> of <code><var>PRETTY_MAT_2_ID</var></code>, and so on. Add the products together.
+                So, to find the element at row 1, column 1 of the answer matrix, multiply the first element in <code><var>colorMarkup("\\text{" + ROW + " }1", ROW_COLORS[0])</var></code> of <code><var>PRETTY_MAT_1_ID</var></code> with the first element in <code><var>colorMarkup("\\text{" + COLUMN + " }1", COL_COLORS[0])</var></code> of <code><var>PRETTY_MAT_2_ID</var></code>, then multiply the second element in <code><var>colorMarkup("\\text{" + ROW + " }1", ROW_COLORS[0])</var></code> of <code><var>PRETTY_MAT_1_ID</var></code> with the second element in <code><var>colorMarkup("\\text{" + COLUMN + " }1", COL_COLORS[0])</var></code> of <code><var>PRETTY_MAT_2_ID</var></code>, and so on. Add the products together.
             </p>
             <p>
                 <code>
@@ -84,7 +86,7 @@
         </div>
         <div>
             <p>
-                Likewise, to find the element at row 2, column 1 of the answer matrix, multiply the elements in <code><var>colorMarkup("\\text{" + $._("row") + " }2", ROW_COLORS[1])</var></code> of <code><var>PRETTY_MAT_1_ID</var></code> with the corresponding elements in <code><var>colorMarkup("\\text{" + $._("column") + " }1", COL_COLORS[0])</var></code> of <code><var>PRETTY_MAT_2_ID</var></code> and add the products together.
+                Likewise, to find the element at row 2, column 1 of the answer matrix, multiply the elements in <code><var>colorMarkup("\\text{" + ROW + " }2", ROW_COLORS[1])</var></code> of <code><var>PRETTY_MAT_1_ID</var></code> with the corresponding elements in <code><var>colorMarkup("\\text{" + COLUMN + " }1", COL_COLORS[0])</var></code> of <code><var>PRETTY_MAT_2_ID</var></code> and add the products together.
             </p>
             <p>
                 <code>

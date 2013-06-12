@@ -21,12 +21,13 @@
         <var id="M_NUMBER">(abs(SOLUTION) &gt; 1 ? M_WHOLE + (SOLUTION &lt; 0 ? fraction(M_NUMERATOR, -DENOMINATOR) : fraction(M_NUMERATOR, DENOMINATOR)) : fraction(NUMERATOR, DENOMINATOR))</var>
         <var id="IS_MIXED">0</var>
         <var id="NUMBER">IS_MIXED === 1 &amp;&amp; abs(SOLUTION) &gt; 1  ? M_NUMBER : fraction(NUMERATOR, DENOMINATOR)</var>
+        <var id="ORANGE_DOT">$._("orange dot")</var>
     </div>
 
     <div class="problems">
         <div>
             <div class="question">
-                <p>Move the <strong><code>\color{orange}{\text{<var>$._("orange dot")</var>}}</code></strong> to
+                <p>Move the <strong><code>\color{orange}{\text{<var>ORANGE_DOT</var>}}</code></strong> to
                 <strong><code>\color{orange}{<var>NUMBER</var>}</code></strong> on the number line.</p>
 
                 <div class="graphie" id="number-line">

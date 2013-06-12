@@ -30,6 +30,7 @@
         <div id="square" data-weight="1">
             <div class="vars">
                 <var id="S">randRange(2, 9)</var>
+                <var id="PERIMETER">$._("perimeter")</var>
             </div>
 
             <p class="question">
@@ -62,11 +63,11 @@
                     <p>
                         Add up the lengths of the sides:
                     </p>
-                    <p><code>\qquad\text{<var>$._("perimeter")</var>} =
+                    <p><code>\qquad\text{<var>PERIMETER</var>} =
                         \pink{<var>S</var>} + \blue{<var>S</var>} + \purple{<var>S</var>} + \green{<var>S</var>}
                     </code></p>
                 </div>
-                <p><code>\qquad\text{<var>$._("perimeter")</var>} = <var>S * 4</var>\text{ <var>UNIT</var>}</code></p>
+                <p><code>\qquad\text{<var>PERIMETER</var>} = <var>S * 4</var>\text{ <var>UNIT</var>}</code></p>
             </div>
         </div>
 
@@ -74,6 +75,7 @@
             <div class="vars" data-ensure="L !== W">
                 <var id="L">randRange(2, 9)</var>
                 <var id="W">randRange(2, 9)</var>
+                <var id="PERIMETER">$._("perimeter")</var>
             </div>
 
             <p class="question">
@@ -107,11 +109,11 @@
                     <p>
                         Add up the lengths of the sides:
                     </p>
-                    <p><code>\qquad\text{<var>$._("perimeter")</var>} =
+                    <p><code>\qquad\text{<var>PERIMETER</var>} =
                         \pink{<var>W</var>} + \blue{<var>L</var>} + \purple{<var>W</var>} + \green{<var>L</var>}
                     </code></p>
                 </div>
-                <p><code>\qquad\text{<var>$._("perimeter")</var>} = <var>L * 2 + W * 2</var>\text{ <var>UNIT</var>}</code></p>
+                <p><code>\qquad\text{<var>PERIMETER</var>} = <var>L * 2 + W * 2</var>\text{ <var>UNIT</var>}</code></p>
             </div>
         </div>
 
@@ -120,6 +122,7 @@
                 <var id="A,B,C">randRange(2, 9, 3)</var>
                 <var id="X">((A * A + B * B - C * C) / (2 * A * B)) * B</var>
                 <var id="Y">sqrt(B * B - X * X)</var>
+                <var id="PERIMETER">$._("perimeter")</var>
             </div>
 
             <p class="question">
@@ -153,11 +156,11 @@
                     <p>
                         Add up the lengths of the sides:
                     </p>
-                    <p><code>\qquad\text{<var>$._("perimeter")</var>} =
+                    <p><code>\qquad\text{<var>PERIMETER</var>} =
                         \pink{<var>B</var>} + \blue{<var>C</var>} + \green{<var>A</var>}
                     </code></p>
                 </div>
-                <p><code>\qquad\text{<var>$._("perimeter")</var>} = <var>A + B + C</var>\text{ <var>UNIT</var>}</code></p>
+                <p><code>\qquad\text{<var>PERIMETER</var>} = <var>A + B + C</var>\text{ <var>UNIT</var>}</code></p>
             </div>
         </div>
 
@@ -172,6 +175,7 @@
                 <var id="ANGLE">(2 * PI) / SIDES</var>
                 <var id="RADIUS">S / (2 * sin(PI / SIDES))</var>
                 <var id="APOTHEM">S / (2 * tan(PI / SIDES))</var>
+                <var id="PERIMETER">$._("perimeter")</var>
             </div>
 
             <p class="question">
@@ -224,11 +228,11 @@
                         that are all <span class="hint_green"><code><var>S</var></code>
                         <var>plural_form(UNIT_TEXT, S)</var></span> long, we can multiply:
                     </p>
-                    <p><code>\qquad\text{<var>$._("perimeter")</var>} =
+                    <p><code>\qquad\text{<var>PERIMETER</var>} =
                         \blue{<var>SIDES</var>} \times \green{<var>S</var>}
                     </code></p>
                 </div>
-                <p><code>\qquad\text{<var>$._("perimeter")</var>} = <var>S * SIDES</var>\text{ <var>UNIT</var>}</code></p>
+                <p><code>\qquad\text{<var>PERIMETER</var>} = <var>S * SIDES</var>\text{ <var>UNIT</var>}</code></p>
             </div>
         </div>
 
@@ -294,7 +298,7 @@
                                 return v.length;
                             }).join("+")
                         </var>
-                        = \text{ <var>$._("?")</var>}
+                        = \text{ ?}
                     </code></p>
                 </div>
                 <p>

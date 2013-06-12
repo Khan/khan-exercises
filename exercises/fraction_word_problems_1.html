@@ -12,6 +12,11 @@
             <var id="B">randRange( 1, 5 )</var>
             <var id="LEFT">randRange( 1, 5 )</var>
             <var id="TOTAL">A + B + LEFT</var>
+            <var id="FRACTION_OF_PIZZAS_EATEN">$._("fraction of %(pizza__1__)s eaten", {pizza__1__: pizza( 1 )})</var>
+            <var id="NUMBER_OF_SLICES_EATEN">$._("number of slices eaten")</var>
+            <var id="NUMBER_OF_SLICES_TOTAL">$._("number of slices total")</var>
+            <var id="NUMBER_OF_SLICES_REMAINING">$._("number of slices remaining")</var>
+            <var id="FRACTION_OF_PIZZAS_REMAINING">$._("fraction of %(pizza__1__)s remaining", {pizza__1__: pizza( 1 )})</var>
         </div>
 
         <div class="problems">
@@ -23,7 +28,7 @@
                 <p class="question">If there were initially <var>TOTAL</var> slices, what fraction of the <var>pizza( 1 )</var> was eaten?</p>
                 <p class="solution" data-simplify="optional" data-type="rational"><var>(A + B) / TOTAL</var></p>
                 <div class="hints">
-                    <p><code>\text{<var>$._("fraction of %(pizza__1__)s eaten", {pizza__1__: pizza( 1 )})</var>} = \dfrac{\text{<var>$._("number of slices eaten")</var>}}{\text{<var>$._("number slices total")</var>}}</code></p>
+                    <p><code>\text{<var>FRACTION_OF_PIZZAS_EATEN</var>} = \dfrac{\text{<var>NUMBER_OF_SLICES_EATEN</var>}}{\text{<var>NUMBER_OF_SLICES_TOTAL</var>}}</code></p>
                     <div>
                         <p>They ate <code>\color{#6495ED}{<var>A + B</var>}</code> out of <code><var>TOTAL</var></code> slices.</p>
                         <div class="graphie">
@@ -47,7 +52,7 @@
                 <p class="question"><span data-if="isSingular(LEFT)" data-unwrap="">If there were <var>LEFT</var> slice remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</span><span data-else="" data-unwrap="">If there were <var>LEFT</var> slices remaining, what fraction of the <var>pizza( 1 )</var> was eaten?</span></p>
                 <p class="solution" data-simplify="optional" data-type="rational"><var>(A + B) / TOTAL</var></p>
                 <div class="hints">
-                    <p><code>\text{<var>$._("fraction of %(pizza__1__)s eaten", {pizza__1__: pizza( 1 )})</var>} = \dfrac{\text{<var>$._("number of slices eaten")</var>}}{\text{<var>$._("number slices total")</var>}}</code></p>
+                    <p><code>\text{<var>FRACTION_OF_PIZZAS_EATEN</var>} = \dfrac{\text{<var>NUMBER_OF_SLICES_EATEN</var>}}{\text{<var>NUMBER_OF_SLICES_TOTAL</var>}}</code></p>
                     <p data-if="isSingular(LEFT)">
                         Since they ate <var>A + B</var> slices of <var>pizza( 1 )</var> with <var>LEFT</var> slice remaining,
                         they must have begun with <var>TOTAL</var> slices.
@@ -98,7 +103,7 @@
                         <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>, there must have been a total of
                         <var>TOTAL</var> slices.
                     </span></p>
-                    <p><code>\text{<var>$._("fraction of %(pizza__1__)s eaten", {pizza__1__: pizza( 1 )})</var>} = \dfrac{\text{<var>$._("number of slices eaten")</var>}}{\text{<var>$._("number slices total")</var>}}</code></p>
+                    <p><code>\text{<var>FRACTION_OF_PIZZAS_EATEN</var>} = \dfrac{\text{<var>NUMBER_OF_SLICES_EATEN</var>}}{\text{<var>NUMBER_OF_SLICES_TOTAL</var>}}</code></p>
                     <div>
                         <p>They ate <code>\color{#6495ED}{<var>A + B</var>}</code> out of <code><var>TOTAL</var></code> slices.</p>
                         <div class="graphie">
@@ -122,7 +127,7 @@
                 <p class="question">If there were initially <var>TOTAL</var> slices, what fraction of the <var>pizza( 1 )</var> is remaining?</p>
                 <p class="solution" data-simplify="optional" data-type="rational"><var>LEFT / TOTAL</var></p>
                 <div class="hints">
-                    <p><code>\text{<var>$._("fraction of %(pizza__1__)s remaining", {pizza__1__: pizza( 1 )})</var>} = \dfrac{\text{<var>$._("number of slices remaining")</var>}}{\text{<var>$._("number slices total")</var>}}</code></p>
+                    <p><code>\text{<var>FRACTION_OF_PIZZAS_EATEN</var>} = \dfrac{\text{<var>NUMBER_OF_SLICES_REMAINING</var>}}{\text{<var>NUMBER_OF_SLICES_TOTAL</var>}}</code></p>
                     <div>
                         <p>Together they ate <var>A + B</var> slices, which leaves <var>LEFT</var> out of <var>TOTAL</var> slices remaining.</p>
                         <div class="graphie">
@@ -166,7 +171,7 @@
                         <code>\dfrac{<var>A</var>}{<var>TOTAL</var>}</code> of the <var>pizza( 1 )</var>,
                         there must have been a total of <var>TOTAL</var> slices.
                     </span></p>
-                    <p><code>\text{<var>$._("fraction of %(pizza__1__)s remaining", {pizza__1__: pizza( 1 )})</var>} = \dfrac{\text{<var>$._("number of slices remaining")</var>}}{\text{<var>$._("number slices total")</var>}}</code></p>
+                    <p><code>\text{<var>FRACTION_OF_PIZZAS_REMAINING</var>} = \dfrac{\text{<var>NUMBER_OF_SLICES_REMAINING</var>}}{\text{<var>NUMBER_OF_SLICES_TOTAL</var>}}</code></p>
                     <div>
                         <p>Together they ate <var>A + B</var> slices, which leaves <var>LEFT</var> out of <var>TOTAL</var> slices remaining.</p>
                         <div class="graphie">

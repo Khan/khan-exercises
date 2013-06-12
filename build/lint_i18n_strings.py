@@ -92,6 +92,11 @@ _TEXT_NODES = [
     '//*[contains(@class,"validator-function")]',
 ]
 
+# <var> nodes that might contain $._ strings
+_VAR_NODES = [
+    '//var[not(ancestor::*[contains(@class,"vars")])]',
+]
+
 # All the tags that we want to ignore and not extract strings from
 _IGNORE_NODES = _REJECT_NODES + _INLINE_SCRIPT_NODES
 
@@ -283,6 +288,16 @@ def lint_file(filename, apply_fix, verbose):
         # Keep track of how many nodes have changed
         # (or would have changed, if apply_fix is False)
         nodes_changed += new_nodes_changed
+
+    # Manually pluck out the <var>s to check for $._
+    text_nodes = root_tree.xpath('|'.join(_VAR_NODES))
+
+    filter = StringInVarFilter()
+
+    (new_nodes, new_errors, new_nodes_changed) = filter.process(text_nodes)
+    nodes = new_nodes
+    errors += new_errors
+    nodes_changed += new_nodes_changed
 
     # Manually pluck out the code/javascript nodes for \text{} processing
     text_nodes = root_tree.xpath('|'.join(_TEXT_NODES))
@@ -1433,6 +1448,28 @@ class AmbiguousPluralFilter(BaseFilter):
         self.errors.append("Ambiguous plural usage (%s):\n%s" % (
             match.group(1).strip(), _get_outerhtml(var_node)))
         return True
+
+
+class StringInVarFilter(BaseFilter):
+    """Detect instances of $._ inside of <var>s and report an error."""
+    # Matches $._(...)
+    _regex = re.compile(r'\$\._\s*\((.*?)\)', re.DOTALL)
+
+    def find_fixable_vars(self, node):
+        """Return the node if it has $._ in it"""
+        if '$._' in node.text:
+            return [node]
+        else:
+            return []
+
+    def get_match(self, fix_node):
+        """Return a match of a string that matches $._(...)"""
+        return self._regex.search(fix_node.text)
+
+    def filter_var(self, match, var_node):
+        """Generate an error in every node that uses $._"""
+        self.errors.append("Using $._ inside of a <var>:\n%s" %
+            _get_outerhtml(var_node))
 
 
 def get_plural_form(word):

@@ -18,11 +18,12 @@
         <var id="SOLUTION_DECIMAL">roundTo(1, SOLUTION % 1)</var>
         <var id="SOLUTION_WHOLE">parseInt( ( SOLUTION ).toString(), 10 )</var>
 
+        <var id="ORANGE_DOT">$._("orange dot")</var>
     </div>
     <div class="problems">
         <div>
             <div class="question">
-                <p>Move the <strong><code>\color{orange}{\text{<var>$._("orange dot")</var>}}</code></strong> to   <strong><code>\color{orange}{<var>SOLUTION</var>}</code></strong> on the number line. The distance between adjacent tick marks is 0.5.</p>
+                <p>Move the <strong><code>\color{orange}{\text{<var>ORANGE_DOT</var>}}</code></strong> to   <strong><code>\color{orange}{<var>SOLUTION</var>}</code></strong> on the number line. The distance between adjacent tick marks is 0.5.</p>
                 <div class="graphie" id="number-line">
                     init({
                         range: [ [LOWER_BOUND - 0.3, UPPER_BOUND + 0.3], [-1, 1] ],

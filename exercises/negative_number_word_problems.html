@@ -60,6 +60,7 @@
                     <var id="X">randRange( 25, 40 )</var><!-- Initial level -->
                     <var id="Y">randRange( 20, 35 )</var><!-- Diving distance -->
                     <var id="Z">-X - Y</var><!-- Final position -->
+                    <var id="METERS">$._("meters")</var>
                 </div>
 
                 <p class="problem spin" data-if="isMale(1)"><var>person( 1 )</var> was scuba diving <var>X</var> meters below sea level when he spotted a beautiful fish below. {From a distance, the fish looked to be about <var>randRange( 25, 35 )</var> cm wide. |}{To take a proper photograph|To see the fish up close}, <var>person( 1 )</var> dove <var>Y</var> meters until he was level with the fish, staring into its eyes.</p><p class="problem spin" data-else=""><var>person( 1 )</var> was scuba diving <var>X</var> meters below sea level when she spotted a beautiful fish below. {From a distance, the fish looked to be about <var>randRange( 25, 35 )</var> cm wide. |}{To take a proper photograph|To see the fish up close}, <var>person( 1 )</var> dove <var>Y</var> meters until she was level with the fish, staring into its eyes.</p>
@@ -72,7 +73,7 @@
                 <div class="hints">
                     <p><var>person( 1 )</var> was initially <code><var>X</var></code> meters below sea level, which can be written as a negative number, <code>-<var>X</var></code> meters.</p>
                     <p><var>person( 1 )</var> dove down <code><var>Y</var></code> meters, so we can subtract that distance from <var>person( 1 )</var>’s initial level to find out where the fish is.</p>
-                    <p>Fish’s position relative to sea level <code>=-<var>X</var>\text{ <var>$._("meters")</var>} - <var>Y</var>\text{ <var>$._("meters")</var>} = <var>Z</var>\text{ <var>$._("meters")</var>}</code></p>
+                    <p>Fish’s position relative to sea level <code>=-<var>X</var>\text{ <var>METERS</var>} - <var>Y</var>\text{ <var>METERS</var>} = <var>Z</var>\text{ <var>METERS</var>}</code></p>
                 </div>
             </div>
 
@@ -81,6 +82,7 @@
                     <var id="X">randRange( 5, 20 )</var><!-- Below sea level -->
                     <var id="Y">randRange( 5, 10 )</var><!-- Above sea level -->
                     <var id="Z">Y + X</var><!-- Distance travelled -->
+                    <var id="METERS">$._("meters")</var>
                 </div>
 
                 <p class="problem spin">A spinner dolphin jumped from <var>X</var> meters below sea level and flipped through the air at <var>Y</var> meters above sea level. {The jump itself took about 1.<var>randRange( 1, 9 )</var> seconds.|}</p>
@@ -93,7 +95,7 @@
                 <div class="hints">
                     <p>The dolphin was initially <var>X</var> meters below sea level, which can be written as a negative number, -<var>X</var> meters.</p>
                     <p>Distance the dolphin jumped = final position - initial position</p>
-                    <p><code><var>Y</var>\text{ <var>$._("meters")</var>} - (-<var>X</var>\text{ <var>$._("meters")</var>}) = <var>Y</var>\text{ <var>$._("meters")</var>} + <var>X</var>\text{ <var>$._("meters")</var>} = <var>Z</var>\text{ <var>$._("meters")</var>}</code></p>
+                    <p><code><var>Y</var>\text{ <var>METERS</var>} - (-<var>X</var>\text{ <var>METERS</var>}) = <var>Y</var>\text{ <var>METERS</var>} + <var>X</var>\text{ <var>METERS</var>} = <var>Z</var>\text{ <var>METERS</var>}</code></p>
                 </div>
             </div>
 

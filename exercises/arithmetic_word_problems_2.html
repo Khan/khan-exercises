@@ -17,6 +17,11 @@
                 ["drive", "drove", "car", "driven", "driving"],
                 ["walk", "walked", "dog", "walked", "walking"]
             ])</var>
+        <var id="DISTANCE_PER_DAY">$._("%(distance_unit)s per day", {distance_unit: plural_form(distance( 1, NUM1 ))})</var>
+        <var id="DAYS">$._("days")</var>
+        <var id="DAYS_DRIVING">$._("number of days driving")</var>
+        <var id="ROWS_OF_CROPS">$._("rows of %(crop)s", {crop: plural_form(crop( 1 ))})</var>
+        <var id="CROPS_PER_ROW">$._("%(crop)s per row", {crop: plural_form(crop( 1 ))})</var>
         </div>
 
         <div class="problems">
@@ -130,10 +135,10 @@
                     and the number of days that <var>person(1)</var> went <var>BIKING</var>.
                     </p>
                     <p>
-                    The product is <code><var>NUM1</var>\text{ <var>$._("%(distance_unit)s per day", {distance_unit: plural_form(distance( 1, NUM1 ))})</var>} \times <var>NUM2</var>\text{ <var>$._("days")</var>}</code>.
+                    The product is <code><var>NUM1</var>\text{ <var>DISTANCE_PER_DAY</var>} \times <var>NUM2</var>\text{ <var>DAYS</var>}</code>.
                     </p>
                     <p>
-                    <code><var>NUM1</var>\text{ <var>$._("%(distance_unit)s per day", {distance_unit: plural( distance( 1 ) )})</var>} \times <var>NUM2</var>\text{ <var>$._("days")</var>}= <var>TOTAL</var>\text{ <var>plural( distance(1) )</var>}</code>
+                    <code><var>NUM1</var>\text{ <var>DISTANCE_PER_DAY</var>} \times <var>NUM2</var>\text{ <var>DAYS</var>}= <var>TOTAL</var>\text{ <var>plural( distance(1) )</var>}</code>
                     </p>
                     <p data-if="isSingular(TOTAL)">
                     <var>person( 1 )</var> <var>BIKED</var> a total of <var>TOTAL</var> <var>distance( 1 )</var>.
@@ -168,10 +173,10 @@
                     by the number of days that <var>person(1)</var> went <var>BIKING</var>.
                     </p>
                     <p>
-                    We are looking for the quotient, which is <code><var>TOTAL</var>\text{ <var>plural_form(distance( 1, TOTAL ))</var>} \div <var>NUM2</var>\text{ <var>$._("days")</var>}</code>.
+                    We are looking for the quotient, which is <code><var>TOTAL</var>\text{ <var>plural_form(distance( 1, TOTAL ))</var>} \div <var>NUM2</var>\text{ <var>DAYS</var>}</code>.
                     </p>
                     <p>
-                    <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>$._("days")</var>} = <var>NUM1</var> \text{ <var>$._("%(distance_unit)s per day", {distance_unit: plural( distance(1) )})</var>}</code>
+                    <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>DAYS</var>} = <var>NUM1</var> \text{ <var>DISTANCE_PER_DAY</var>}</code>
                     </p>
                     <p><var>person( 1 )</var> <var>BIKED</var> <var>NUM1</var> <var>plural_form(distance(1), NUM1)</var> each day.</p>
                 </div>
@@ -202,10 +207,10 @@
                     by the number of <var>plural_form(distance(1))</var> <var>BIKED</var> each day.
                     </p>
                     <p>
-                    <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>$._("%(distance_unit)s each day", {distance_unit: plural( distance( 1 ))})</var>} = \text{<var>$._("number of days driving")</var>}</code>
+                    <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>DISTANCE_PER_DAY</var>} = \text{<var>DAYS_DRIVING</var>}</code>
                     </p>
                     <p>
-                    <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>$._("%(distance_unit)s each day", {distance_unit: plural( distance( 1 ))})</var>} = <var>NUM1</var>\text{ <var>$._("days")</var>}</code>
+                    <code><var>TOTAL</var>\text{ <var>plural( distance( 1 ) )</var>} \div <var>NUM2</var>\text{ <var>DISTANCE_PER_DAY</var>} = <var>NUM1</var>\text{ <var>DAYS</var>}</code>
                     </p>
                 </div>
             </div>
@@ -237,10 +242,10 @@
                     the number of <var>plural_form(crop(1))</var> planted in each row.
                     </p>
                     <p>
-                    The product is <code><var>NUM1</var>\text{ <var>$._("rows of %(crop)s", {crop: plural_form(crop( 1 ))})</var>} \times <var>NUM2</var>\text{ <var>$._("%(crop)s per row", {crop: plural_form(crop( 1 ))})</var>}</code>.
+                    The product is <code><var>NUM1</var>\text{ <var>ROWS_OF_CROPS</var>} \times <var>NUM2</var>\text{ <var>CROPS_PER_ROW</var>}</code>.
                     </p>
                     <p>
-                    <code><var>NUM1</var>\text{ <var>$._("rows of %(crop)s", {crop: plural( crop( 1 ) )})</var>} \times <var>NUM2</var>\text{ <var>$._("%(crop)s per row", {crop: plural( crop( 1 ) )})</var>} = <var>TOTAL</var></code> <var>plural( crop(1) )</var>
+                    <code><var>NUM1</var>\text{ <var>ROWS_OF_CROPS</var>} \times <var>NUM2</var>\text{ <var>CROPS_PER_ROW</var>} = <var>TOTAL</var></code> <var>plural( crop(1) )</var>
                     </p>
                 </div>
             </div>
@@ -274,10 +279,10 @@
                     divided by the number of rows.
                     </p>
                     <p>
-                    The result, called the quotient, is <code><var>TOTAL</var>\text{ <var>plural_form(crop( 1 ), TOTAL)</var>} \div <var>NUM1</var>\text{ <var>$._("rows of %(crop)s", {crop: plural_form(crop( 1 ))})</var>}</code>.
+                    The result, called the quotient, is <code><var>TOTAL</var>\text{ <var>plural_form(crop( 1 ), TOTAL)</var>} \div <var>NUM1</var>\text{ <var>ROWS_OF_CROPS</var>}</code>.
                     </p>
                     <p>
-                    <code><var>TOTAL</var>\text{ <var>plural( crop( 1 ) )</var>} \div <var>NUM1</var>\text{ <var>$._("rows of %(crop)s", {crop: plural( crop( 1 ) )})</var>} = <var>NUM2</var>\text{ <var>$._("%(crop)s per row", {crop: plural( crop(1) )})</var>}</code>
+                    <code><var>TOTAL</var>\text{ <var>plural( crop( 1 ) )</var>} \div <var>NUM1</var>\text{ <var>ROWS_OF_CROPS</var>} = <var>NUM2</var>\text{ <var>CROPS_PER_ROW</var>}</code>
                     </p>
                 </div>
             </div>
@@ -309,10 +314,10 @@
                     divided by the number of <var>plural_form(crop(1))</var> in each row.
                     </p>
                     <p>
-                    The result, called the quotient, is <code><var>TOTAL</var>\text{ <var>plural_form(crop( 1 ), TOTAL)</var>} \div <var>NUM1</var>\text{ <var>$._("%(crop)s per row", {crop: plural_form(crop(1))})</var>}</code>.
+                    The result, called the quotient, is <code><var>TOTAL</var>\text{ <var>plural_form(crop( 1 ), TOTAL)</var>} \div <var>NUM1</var>\text{ <var>CROPS_PER_ROW</var>}</code>.
                     </p>
                     <p>
-                    <code><var>TOTAL</var>\text{ <var>plural( crop( 1 ) )</var>} \div <var>NUM1</var>\text{ <var>$._("%(crop)s per row", {crop: plural( crop(1) )})</var>} = <var>NUM2</var>\text{ rows}</code>
+                    <code><var>TOTAL</var>\text{ <var>plural( crop( 1 ) )</var>} \div <var>NUM1</var>\text{ <var>CROPS_PER_ROW</var>} = <var>NUM2</var>\text{ rows}</code>
                     </p>
                 </div>
             </div>

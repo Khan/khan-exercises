@@ -18,6 +18,13 @@
         <var id="PROJECT1">[ AMOUNT + " word essay", "bag of " + AMOUNT + " pretzels", "bucket of " + AMOUNT + " golf balls", AMOUNT + " portraits" ][ INDEX ]</var>
         <var id="PROJECT2">[ "latest essay", "bag of pretzels", "bucket of balls at the driving range", "portraits for the art exhibit" ][ INDEX ]</var>
         <var id="PROJECT3">[ "essay", "bag", "bucket", "exhibit" ][ INDEX ]</var>
+        <var id="RATE_TEXT">$._("rate")</var>
+        <var id="TIME_TEXT">$._("time")</var>
+        <var id="TIME_IN_UNITS">$._("time in %(TIME_UNIT)s", {TIME_UNIT: AMBIGUOUS_PLURAL(TIME_UNIT)})</var>
+        <var id="AMOUNT_TEXT">$._("amount")</var>
+        <var id="NUMBER_OF_NOUNS">$._("number of %(NOUN)s", {NOUN: AMBIGUOUS_PLURAL(NOUN)})</var>
+        <var id="RATE_IN_NOUNS_PER_TIME">$._("rate in %(NOUN)s per %(TIME_UNIT)s", {NOUN: AMBIGUOUS_PLURAL(NOUN), TIME_UNIT: TIME_UNIT})</var>
+        <var id="NOUNS_PER_TIME">$._("%(NOUN)s per %(TIME_UNIT)s", {NOUN: AMBIGUOUS_PLURAL(NOUN), TIME_UNIT: TIME_UNIT})</var>
     </div>
 
     <div class="problems">
@@ -29,11 +36,11 @@
             </div>
 
             <div class="hints">
-                <p><code>\text{<var>$._("amount")</var>} = \text{<var>$._("rate")</var>} \times \text{<var>$._("time")</var>}</code></p>
-                <p><code><var>AMOUNT</var>\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>} = <var>RATE</var>\dfrac{\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>}}{\text{<var>TIME_UNIT</var>}} \times \text{ <var>$._("time in %(TIME_UNIT)s", {TIME_UNIT: AMBIGUOUS_PLURAL(TIME_UNIT)})</var>}</code></p>
-                <p><code>\text{<var>$._("time in %(TIME_UNIT)s", {TIME_UNIT: AMBIGUOUS_PLURAL(TIME_UNIT)})</var>} = \dfrac{<var>AMOUNT</var>\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>}}{<var>RATE</var>\dfrac{\text{<var>AMBIGUOUS_PLURAL(NOUN)</var>}}{\text{<var>TIME_UNIT</var>}}}</code></p>
-                <p><code>\hphantom{\text{<var>$._("time in %(TIME_UNIT)s", {TIME_UNIT: AMBIGUOUS_PLURAL(TIME_UNIT)})</var>}} = \dfrac{<var>AMOUNT</var>}{<var>RATE</var>}\text{ <var>AMBIGUOUS_PLURAL(TIME_UNIT)</var>}</code></p>
-                <p><code>\hphantom{\text{<var>$._("time in %(TIME_UNIT)s", {TIME_UNIT: AMBIGUOUS_PLURAL(TIME_UNIT)})</var>}} = <var>TIME</var>\text{ <var>AMBIGUOUS_PLURAL(TIME_UNIT)</var>}</code></p>
+                <p><code>\text{<var>AMOUNT</var>} = \text{<var>RATE_TEXT</var>} \times \text{<var>TIME_TEXT</var>}</code></p>
+                <p><code><var>AMOUNT</var>\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>} = <var>RATE</var>\dfrac{\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>}}{\text{<var>TIME_UNIT</var>}} \times \text{ <var>TIME_IN_UNITS</var>}</code></p>
+                <p><code>\text{<var>TIME_IN_UNITS</var>} = \dfrac{<var>AMOUNT</var>\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>}}{<var>RATE</var>\dfrac{\text{<var>AMBIGUOUS_PLURAL(NOUN)</var>}}{\text{<var>TIME_UNIT</var>}}}</code></p>
+                <p><code>\hphantom{\text{<var>TIME_IN_UNITS</var>}} = \dfrac{<var>AMOUNT</var>}{<var>RATE</var>}\text{ <var>AMBIGUOUS_PLURAL(TIME_UNIT)</var>}</code></p>
+                <p><code>\hphantom{\text{<var>TIME_IN_UNITS</var>}} = <var>TIME</var>\text{ <var>AMBIGUOUS_PLURAL(TIME_UNIT)</var>}</code></p>
             </div>
         </div>
         <div id="amount">
@@ -44,10 +51,10 @@
             </div>
 
             <div class="hints">
-                <p><code>\text{<var>$._("amount")</var>} = \text{<var>$._("rate")</var>} \times \text{<var>$._("time")</var>}</code></p>
-                <p><code>\text{<var>$._("number of %(NOUN)s", {NOUN: AMBIGUOUS_PLURAL(NOUN)})</var>} = <var>RATE</var>\dfrac{\text{<var>AMBIGUOUS_PLURAL(NOUN)</var>}}{\text{<var>TIME_UNIT</var>}} \times <var>TIME</var>\text{ <var>AMBIGUOUS_PLURAL(TIME_UNIT)</var>}</code></p>
-                <p><code>\hphantom{\text{<var>$._("number of %(NOUN)s", {NOUN: AMBIGUOUS_PLURAL(NOUN)})</var>}} = <var>RATE</var> \times <var>TIME</var>\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>}</code></p>
-                <p><code>\hphantom{\text{<var>$._("number of %(NOUN)s", {NOUN: AMBIGUOUS_PLURAL(NOUN)})</var>}} = <var>AMOUNT</var>\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>}</code></p>
+                <p><code>\text{<var>AMOUNT_TEXT</var>} = \text{<var>RATE_TEXT</var>} \times \text{<var>TIME_TEXT</var>}</code></p>
+                <p><code>\text{<var>NUMBER_OF_NOUNS</var>} = <var>RATE</var>\dfrac{\text{<var>AMBIGUOUS_PLURAL(NOUN)</var>}}{\text{<var>TIME_UNIT</var>}} \times <var>TIME</var>\text{ <var>AMBIGUOUS_PLURAL(TIME_UNIT)</var>}</code></p>
+                <p><code>\hphantom{\text{<var>NUMBER_OF_NOUNS</var>}} = <var>RATE</var> \times <var>TIME</var>\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>}</code></p>
+                <p><code>\hphantom{\text{<var>NUMBER_OF_NOUNS</var>}} = <var>AMOUNT</var>\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>}</code></p>
             </div>
         </div>
         <div id="rate">
@@ -57,11 +64,11 @@
             </div>
 
             <div class="hints">
-                <p><code>\text{<var>$._("amount")</var>} = \text{<var>$._("rate")</var>} \times \text{<var>$._("time")</var>}</code></p>
-                <p><code><var>AMOUNT</var>\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>} = \text{<var>$._("rate in %(NOUN)s per %(TIME_UNIT)s", {NOUN: AMBIGUOUS_PLURAL(NOUN), TIME_UNIT: TIME_UNIT})</var>} \times <var>TIME</var>\text{ <var>AMBIGUOUS_PLURAL(TIME_UNIT)</var>}</code></p>
-                <p><code>\text{<var>$._("rate in %(NOUN)s per %(TIME_UNIT)s", {NOUN: AMBIGUOUS_PLURAL(NOUN), TIME_UNIT: TIME_UNIT})</var>} = \dfrac{<var>AMOUNT</var>\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>}}{<var>TIME</var>\text{ <var>AMBIGUOUS_PLURAL(TIME_UNIT)</var>}}</code></p>
-                <p><code>\hphantom{\text{<var>$._("rate in %(NOUN)s per %(TIME_UNIT)s", {NOUN: AMBIGUOUS_PLURAL(NOUN), TIME_UNIT: TIME_UNIT})</var>}} = \dfrac{<var>AMOUNT</var>}{<var>TIME</var>}\text{<var>$._("%(NOUN)s per %(TIME_UNIT)s", {NOUN: AMBIGUOUS_PLURAL(NOUN), TIME_UNIT: TIME_UNIT})</var>}</code></p>
-                <p><code>\hphantom{\text{<var>$._("rate in %(NOUN)s per %(TIME_UNIT)s", {NOUN: AMBIGUOUS_PLURAL(NOUN), TIME_UNIT: TIME_UNIT})</var>}} = <var>RATE</var>\text{ <var>$._("%(NOUN)s per %(TIME_UNIT)s", {NOUN: AMBIGUOUS_PLURAL(NOUN), TIME_UNIT: TIME_UNIT})</var>}</code></p>
+                <p><code>\text{<var>AMOUNT_TEXT</var>} = \text{<var>RATE_TEXT</var>} \times \text{<var>TIME_TEXT</var>}</code></p>
+                <p><code><var>AMOUNT</var>\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>} = \text{<var>RATE_IN_NOUNS_PER_TIME</var>} \times <var>TIME</var>\text{ <var>AMBIGUOUS_PLURAL(TIME_UNIT)</var>}</code></p>
+                <p><code>\text{<var>RATE_IN_NOUNS_PER_TIME</var>} = \dfrac{<var>AMOUNT</var>\text{ <var>AMBIGUOUS_PLURAL(NOUN)</var>}}{<var>TIME</var>\text{ <var>AMBIGUOUS_PLURAL(TIME_UNIT)</var>}}</code></p>
+                <p><code>\hphantom{\text{<var>RATE_IN_NOUNS_PER_TIME</var>}} = \dfrac{<var>AMOUNT</var>}{<var>TIME</var>}\text{<var>NOUNS_PER_TIME</var>}</code></p>
+                <p><code>\hphantom{\text{<var>RATE_IN_NOUNS_PER_TIME</var>}} = <var>RATE</var>\text{ <var>NOUNS_PER_TIME</var>}</code></p>
             </div>
         </div>
     </div>

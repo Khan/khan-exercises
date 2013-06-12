@@ -14,6 +14,10 @@
                     <var id="X">randRangeNonZero( -10, 10 )</var>
                     <var id="Y">randRangeNonZero( -10, 10 )</var>
                     <var id="QUADRANT">X &gt; 0 ? ( Y &gt; 0 ? "QI" : "QIV" ) : ( Y &gt; 0 ? "QII" : "QIII" )</var>
+                    <!-- I18N: This is the letter placed at the beginning of a quadrant, as in "Q1" for the first quadrant -->
+                    <var id="Q">$._("Q")</var>
+                    <!-- I18N: This is a quadrant label, as in "the first quadrant" -->
+                    <var id="QI">$._("QI")</var>
                 </div>
                 <p class="question">
                     Plot <code>(<var>X</var>, <var>Y</var>)</code> and select the quadrant in which the point lies.
@@ -144,10 +148,8 @@
 
                     <div>
                         <p>Now that we have our point plotted, we can figure out the quadrant.</p>
-                        <!-- I18N: This is the letter placed at the beginning of a quadrant, as in "Q1" for the first quadrant -->
-                        <p>By convention, quadrants are named with a capital <code>\text{<var>$._("Q")</var>}</code> and a roman numeral,
-                        <!-- This is a quadrant label, as in "the first quadrant" -->
-                        starting in the upper right quadrant as <code>\text{<var>$._("QI")</var>}</code> and rotating counter-clockwise.</p>
+                        <p>By convention, quadrants are named with a capital <code>\text{<var>Q</var>}</code> and a roman numeral,
+                        starting in the upper right quadrant as <code>\text{<var>QI</var>}</code> and rotating counter-clockwise.</p>
                         <div class="graphie" data-update="grid">
                             <!-- This is a quadrant label, as in "the first quadrant" -->
                             label( [ 5, 5] , " \\text{ " + $._("QI") + " }", "center", { color: "purple" } );

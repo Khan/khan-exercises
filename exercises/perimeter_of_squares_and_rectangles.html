@@ -30,6 +30,7 @@
         <div id="square-s-to-P">
             <div class="vars">
                 <var id="S">randRange(1, 8)</var>
+                <var id="PERIMETER">$._("perimeter")</var>
             </div>
 
             <p class="question"><span data-if="isSingular(S)" data-unwrap="">
@@ -72,12 +73,12 @@
                     <p>
                         Add up the lengths of the sides:
                     </p>
-                    <p><code>\qquad\text{<var>$._("perimeter")</var>} =
+                    <p><code>\qquad\text{<var>PERIMETER</var>} =
                         \pink{<var>S</var>} + \blue{<var>S</var>} +
                         \purple{<var>S</var>} + \green{<var>S</var>}
                     </code></p>
                 </div>
-                <p><code>\qquad\text{<var>$._("perimeter")</var>} =
+                <p><code>\qquad\text{<var>PERIMETER</var>} =
                     <var>S * 4</var>\text{ <var>UNIT</var>}
                 </code></p>
             </div>
@@ -124,8 +125,8 @@
                         The perimeter is the total length of all the sides of
                         the shape added together.
                     </p>
-                    <p><code>\qquad \pink{\text{<var>$._("?")</var>}} + \blue{\text{<var>$._("?")</var>}} +
-                        \purple{\text{<var>$._("?")</var>}} + \green{\text{<var>$._("?")</var>}} =
+                    <p><code>\qquad \pink{\text{?}} + \blue{\text{?}} +
+                        \purple{\text{?}} + \green{\text{?}} =
                         <var>4 * S</var>\text{ <var>UNIT</var>}
                     </code></p>
                 </div>
@@ -151,6 +152,7 @@
             <div class="vars" data-ensure="L !== W">
                 <var id="L">randRange(1, 8)</var>
                 <var id="W">randRange(1, 8)</var>
+                <var id="PERIMETER">$._("perimeter")</var>
             </div>
 
             <p class="question">
@@ -197,12 +199,12 @@
                     <p>
                         Add up the lengths of the sides:
                     </p>
-                    <p><code>\qquad\text{<var>$._("perimeter")</var>} =
+                    <p><code>\qquad\text{<var>PERIMETER</var>} =
                         \pink{<var>W</var>} + \blue{<var>L</var>} +
                         \purple{<var>W</var>} + \green{<var>L</var>}
                     </code></p>
                 </div>
-                <p><code>\qquad\text{<var>$._("perimeter")</var>} =
+                <p><code>\qquad\text{<var>PERIMETER</var>} =
                     <var>2 * L + 2 * W</var>\text{ <var>UNIT</var>}
                 </code></p>
             </div>

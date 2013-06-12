@@ -108,6 +108,7 @@
                 <var id="PERSON">rand( 5 )</var>
                 <var id="VALUE">DATA[ PERSON ] * VALUE_PER_IMG + HALF[ PERSON ] * VALUE_PER_IMG / 2</var>
                 <var id="NUM_SYMBOLS">mixedFractionFromImproper( toFraction( VALUE / VALUE_PER_IMG, 0.001 )[0], toFraction( VALUE / VALUE_PER_IMG, 0.001 )[1] )</var>
+                <var id="POINTS_PER_BADGE">$._("%(point)s per badge", {point: plural_form(SYMBOL_PL, VALUE_PER_IMG )})</var>
             </div>
 
             <p class="question"><span data-if="isSingular(VALUE)" data-unwrap="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badge?</span><span data-else="" data-unwrap="">Who earned <code><var>VALUE</var></code> <var>BADGE</var> badges?</span></p>
@@ -126,7 +127,7 @@
                 <p data-if="isSingular(VALUE)">How many symbols are needed to represent <code><var>VALUE</var></code> badge?</p><p data-else="">How many symbols are needed to represent <code><var>VALUE</var></code> badges?</p>
                 <p>
                     <code>
-                        \dfrac{<var>VALUE</var> \text{ <var>plural(BADGE_PL, VALUE )</var>}}{<var>VALUE_PER_IMG</var> \text{ <var>$._("%(point)s per badge", {point: plural_form(SYMBOL_PL, VALUE_PER_IMG )})</var>}} =
+                        \dfrac{<var>VALUE</var> \text{ <var>plural(BADGE_PL, VALUE )</var>}}{<var>VALUE_PER_IMG</var> \text{ <var>POINTS_PER_BADGE</var>}} =
                         <var>NUM_SYMBOLS</var> \text{ <var>plural_form(SYMBOL_PL, VALUE / VALUE_PER_IMG )</var>}
                     </code>
                 </p>
