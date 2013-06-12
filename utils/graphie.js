@@ -113,6 +113,8 @@
             }
         };
 
+        var doLabelTypeset = function() {};
+
         var setNeedsLabelTypeset = function() {
             if (needsLabelTypeset) {
                 return;
@@ -127,11 +129,17 @@
             // except that if you do run a setNeedsLabelTypeset() followed
             // immediately by a MathJax.Hub.Queue, the labels should all have
             // been typeset by the time the queued function runs.
+            doLabelTypeset = _.once(function() {
+                needsLabelTypeset = false;
+                typesetLabels();
+            });
             MathJax.Hub.Queue(function() {
+                if (!needsLabelTypeset) {
+                    return;
+                }
                 var done = MathJax.Callback(function() {});
                 _.defer(function() {
-                    needsLabelTypeset = false;
-                    typesetLabels();
+                    doLabelTypeset();
                     done();
                 });
                 return done;
@@ -163,6 +171,11 @@
                     // Iterate in reverse so we can delete while iterating
                     for (var i = spans.length; i-- > 0;) {
                         var span = spans[i];
+                        if (!$.contains(el, span) ||
+                                span.style.display === "none") {
+                            spans.splice(i, 1);
+                            continue;
+                        }
                         var width = span.scrollWidth;
                         var height = span.scrollHeight;
 
@@ -593,7 +606,11 @@
             scaleVector: scaleVector,
 
             unscalePoint: unscalePoint,
-            unscaleVector: unscaleVector
+            unscaleVector: unscaleVector,
+
+            forceLabelTypeset: function() {
+                doLabelTypeset();
+            }
         });
 
         $.each(drawingTools, function(name) {

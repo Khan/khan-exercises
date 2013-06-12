@@ -82,7 +82,13 @@
                             ellipse( [ E, 1.7 ], [ 4 / 23, 4 / 45 ] );
                         });
 
+                        var lastPlaceAndExp = [null, null];
                         var setDecimal = function( place, exp ) {
+                            if (lastPlaceAndExp[0] === place &&
+                                    lastPlaceAndExp[1] === exp) {
+                                return;
+                            }
+                            lastPlaceAndExp = [place, exp];
                             var i;
                             if ( place &lt;= 0 ) {
                                 for ( i = -5; i &lt; place-1; ++i ) {
@@ -113,6 +119,7 @@
                                     ++i;
                                 }
                             }
+                            forceLabelTypeset();
                         };
 
                         setDecimal( E + 1, 0 );
