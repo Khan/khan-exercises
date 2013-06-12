@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html data-require="math graphie word-problems cipher interactive"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Vigenere Cipher Encryption</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="M">"The " + animal( 1 ) + " wears " + an(color(1)) + " " + clothing(1)</var>
+            <var id="Shift">person(1)</var>
+            <var id="C">applyVigenere(M,person(1))</var>
+            
+            <var id="LOWER_BOUND">0</var>
+            <var id="UPPER_BOUND">25</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <div class="question">
+                    <p><strong><var>person(1)</var></strong> wants to encode the following cryptic message:</p>
+                    <p><strong><var>M</var></strong></p>
+                    <p>In an effort to increase security, <strong><var>person(1)</var></strong> decides to encrypt it with a Vigenere Cipher
+                    using <var>his(1)</var> own name as the keyword. What will the secret message look like once it is encrypted?</p>
+                </div>
+                
+                <div>
+                <p>You can use the below slider to help you encrypt the message. <br/>
+                Note that in Vigenere Ciphers, A = 0.<br/>
+                Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to shift the encrypted alphabet.</p>
+                <center><br/><strong>Original Alphabet</strong></center>
+                </div>
+                <div class="graphie" id="number-line">
+                    <!-- Use for spacing the Cipher letter guide -->
+                    var indent = 1;
+                    
+                    init({
+                        range: [ [LOWER_BOUND - 0.3, UPPER_BOUND * indent + 0.5], [-1, 1] ],
+                        scale: [19, 40]
+                    });
+    
+                    style({arrows: ""});
+                    line( [ 0, 0 ], [ UPPER_BOUND * indent, 0 ] );
+      
+                    style({arrows: ""});
+                    line( [ 0, 0 ], [ LOWER_BOUND, 0 ] );
+                    
+                    var myLabels = new Array();
+                    
+                    style({arrows: ""});
+                    for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=1 ) {
+                        var markLength;
+                        x % 5 === 0 ? markLength = 0.2 : markLength = 0.1
+                        line( [ x * indent, -markLength ], [ x * indent, markLength ] );
+                        label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
+                        myLabels[x] = label( [ x * indent, -0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
+                    }
+                    
+                    addMouseLayer();
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: indent });
+                    graph.movablePoint.onMove = function( x, y ) {
+                        
+                        for ( var i = 0; i &lt;= UPPER_BOUND; i+=1 ) {
+                            myLabels[i].remove();
+                            myLabels[i] = label( [ i , -0.53 ],  "abcdefghijklmnopqrstuvwxyz"[(i+x) % 26], "center", false);
+                        }
+                        
+                        return [ min( max( LOWER_BOUND, x ), UPPER_BOUND * indent ), y ];
+                    };
+                </div>
+                <div>
+                    <center><strong>Cipher Alphabet</strong></center>
+                </div>
+
+
+                <p class="solution">
+                    <var>C</var>
+                </p>
+                <ul class="choices" data-none="true" data-show="4">
+                    <li><var>C</var></li>
+                    <li><var>applyVigenere(M, person(1).substring(0,5) )</var></li>
+                    <li><var>applyVigenere(M, person(1) + person(1))</var></li>
+                    <li><var>applyVigenere(M,person(2))</var></li>
+                    <li><var>applyVigenere(M,person(3))</var></li>
+                </ul>
+                
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>First, we need to convert every letter in the keyword to a number. <br/>
+            Where A = 0, and Z = 25.</p>
+            <div>
+                <p>For our keyword <strong><var>person(1)</var></strong> the first few letters convert to: <br/>
+                <var>person(1)[0]</var>: <var>"abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[0].toLowerCase())</var><br/>
+                <var>person(1)[1]</var>: <var>"abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[1].toLowerCase())</var><br/>
+                <var>person(1)[2]</var>: <var>"abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[2].toLowerCase())</var>
+            </div>
+            <div>
+                <p>To encrypt our message, shift the first letter in the message to the right by the letter/value
+                of the first letter in our keyword.</p>
+            </div>
+            <div>
+                <p>In this case, we shift the letter <strong><var>M[0]</var></strong> by the value <strong><var>"abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[0].toLowerCase())</var></strong>
+                which results in the letter <strong><var>"abcdefghijklmnopqrstuvwxyz"[("abcdefghijklmnopqrstuvwxyz".indexOf(M[0].toLowerCase()) + "abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[0].toLowerCase()) ) % 26]</var></strong></p>
+            </div>
+            <div>
+                <p>We do the same with the second letter of the message, and the second letter of the keyword</p>
+                <p>Shift the letter <strong><var>M[1]</var></strong> by the value <strong><var>"abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[1].toLowerCase())</var></strong>
+                which results in the letter <strong><var>"abcdefghijklmnopqrstuvwxyz"[("abcdefghijklmnopqrstuvwxyz".indexOf(M[1].toLowerCase()) + "abcdefghijklmnopqrstuvwxyz".indexOf(person(1)[1].toLowerCase()) ) % 26]</var></strong></p>
+            </div>
+            <div>
+                <p>Every time we reach the last letter of the keyword, we can go back to the first letter of the keyword to continue encrypting the rest of the message</p>
+            </div>
+            <div>
+                <p>Be sure to ignore spaces in the message. </p>
+            </div>
+            <div>
+                <p>The encrypted message is: <var>C</var>
+            </div>
+        </div>
+    </div>
+</body></html>
