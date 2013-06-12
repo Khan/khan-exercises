@@ -350,7 +350,7 @@ function onHintShown(e, data) {
     Exercises.userActivityLog.push(["hint-activity", "0", timeTaken]);
 
     if (!previewingItem && !localMode && !userExercise.readOnly &&
-            canAttempt) {
+            !Exercises.currentCard.get("preview") && canAttempt) {
         // Don't do anything on success or failure; silently failing is ok here
         request("problems/" + problemNum + "/hint",
                 buildAttemptData(false, attempts, "hint", timeTaken, false));
