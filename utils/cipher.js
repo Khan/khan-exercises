@@ -2,23 +2,13 @@ $.extend(KhanUtil, {
 
     /* A set of cipher messages to diversify exercises */
     getCipherMessage: function(num) {
-        switch(num) {
-            case 1:
-                return "I have learned all kinds of different things from using Khan Academy";
-                break;
-            case 2:
-                return "The world is filled with secrets and mysteries just waiting to be discovered";
-                break;
-            case 3:
-                return "When a message contains a single character by itself, it is most likely either the letter i or a";
-                break;
-            case 4:
-                return "Words which have repeating letters like too and all can also give a hint to what the secret message  is";
-                break;
-            default:
-                return "You have just cracked a Caesar cipher and obtained the title of code breaker";
-                break;
-        }
+        return [
+            $._("I have learned all kinds of different things from using Khan Academy"),
+            $._("The world is filled with secrets and mysteries just waiting to be discovered"),
+            $._("When a message contains a single character by itself, it is most likely either the letter i or a"),
+            $._("Words which have repeating letters like too and all can also give a hint to what the secret message is"),
+            $._("You have just cracked a Caesar cipher and obtained the title of code breaker")
+        ][num - 1];
     },
 
     /* Apply caesar shift to a string, and returns the encoded message */

@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html data-require="math graphie word-problems cipher interactive"><head>
+<html data-require="math graphie word-problems cipher interactive">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Caesar Cipher Encrypting</title>
+    <title>Caesar cipher encryption</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="vars">
             <var id="M">person( 1 )</var>
-            <var id="Shift">randRange(1,25)</var>
-            <var id="C">applyCaesar(M,Shift)</var>
+            <var id="SHIFT">randRange(1,25)</var>
+            <var id="C">applyCaesar(M,SHIFT)</var>
 
             <var id="LOWER_BOUND">0</var>
             <var id="UPPER_BOUND">25</var>
@@ -18,22 +19,32 @@
         <div class="problems">
             <div>
                 <div class="question">
-                    <p><strong><var>M</var></strong> decides <var>he(1)</var> wants to encrypt <var>his(1)</var> name with a Caesar Cipher, using a shift of <var>Shift</var></p>
-
-                    <p>What will <var>his(1)</var> name look like after <var>he(1)</var> encrypts it?</p>
+                    <div data-if="isMale(1)">
+                        <p>
+                            <strong><var>M</var></strong> decides he wants to encrypt his name with a Caesar Cipher, using a shift of <var>SHIFT</var>.
+                        </p><p>
+                            What will his name look like after he encrypts it?
+                        </p>
+                    </div><div data-else="">
+                        <p>
+                            <strong><var>M</var></strong> decides she wants to encrypt her name with a Caesar Cipher, using a shift of <var>SHIFT</var>.
+                        </p><p>
+                            What will her name look like after she encrypts it?
+                        </p>
+                    </div>
                 </div>
 
                 <div>
-                    <p>You can use the below slider to help you encrypt the message.<br/>
-                    Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to shift the encrypted alphabet</p>
-                    <center><br/><strong>Original Alphabet</strong></center>
+                    <p>You can use the below slider to help you encrypt the message.<br>
+                    Slide the <strong><span class="hint_orange">orange dot</span></strong> to shift the encrypted alphabet.</p>
+                    <center><br><strong>Original Alphabet</strong></center>
                 </div>
                 <div class="graphie" id="number-line">
                     <!-- Use for spacing the Cipher letter guide -->
                     var indent = 1;
 
                     init({
-                        range: [ [LOWER_BOUND - 0.3, UPPER_BOUND * indent + 0.5], [-1, 1] ],
+                        range: [ [LOWER_BOUND - 0.5, UPPER_BOUND * indent + 0.5], [-1, 1] ],
                         scale: [19, 40]
                     });
 
@@ -86,18 +97,19 @@
         </div>
 
         <div class="hints">
-            <p>We want to take each letter of the name and shift it right by <strong><var>Shift</var></strong></p>
-            <div>
-                <p>If we take the first letter <strong><var>M[0]</var></strong> and shift it right by <strong><var>Shift</var></strong>,
-                we get the letter <strong> <var>"abcdefghijklmnopqrstuvwxyz"[ ("abcdefghijklmnopqrstuvwxyz".indexOf( M[0].toLowerCase() ) + Shift) % 26]</var> </strong></p>
-            </div>
-            <div>
-                <p>If we take the second letter <strong><var>M[1]</var></strong> and shift it right by <strong><var>Shift</var></strong>,
-                we get the letter <strong><var>"abcdefghijklmnopqrstuvwxyz"[ ("abcdefghijklmnopqrstuvwxyz".indexOf( M[1].toLowerCase() ) + Shift) % 26]</var></strong></p>
-            </div>
-            <div>
-                <p>Continuing this for each letter, the final cipher output is: <var>C</var></p>
-            </div>
+            <p>We want to take each letter of the name and shift it right by <strong><var>SHIFT</var></strong>.</p>
+            <p>
+                If we take the first letter <strong><var>M[0]</var></strong> and shift it right by <strong><var>SHIFT</var></strong>, we get the letter
+                <strong><var>"abcdefghijklmnopqrstuvwxyz"[ ("abcdefghijklmnopqrstuvwxyz".indexOf( M[0].toLowerCase() ) + SHIFT) % 26]</var></strong>.
+            </p>
+            <p>
+                If we take the second letter <strong><var>M[1]</var></strong> and shift it right by <strong><var>SHIFT</var></strong>, we get the letter
+                <strong><var>"abcdefghijklmnopqrstuvwxyz"[ ("abcdefghijklmnopqrstuvwxyz".indexOf( M[1].toLowerCase() ) + SHIFT) % 26]</var></strong>.
+            </p>
+            <p>
+                Continuing this for each letter, the final cipher output is &ldquo;<var>C</var>&rdquo;
+            </p>
         </div>
     </div>
-</body></html>
+</body>
+</html>
