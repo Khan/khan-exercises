@@ -392,7 +392,7 @@
 
                 if (latex) {
                     var $script = $("<script type='math/tex'>").text(text);
-                    $span.append($script)
+                    $span.append($script);
                 } else {
                     $span.html(text);
                 }

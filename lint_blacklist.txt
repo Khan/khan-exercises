@@ -10,6 +10,9 @@ utils/jquery.*.js
 utils/raphael.js
 utils/test/**
 
+# Stuff that the main webapp repo sometimes sticks into khan-exercises/
+**/_hashed-*.js
+
 # TODO(csilvers): fix these
 build/kathjax-config.js
 utils/answer-types.js
