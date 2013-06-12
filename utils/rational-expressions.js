@@ -291,7 +291,7 @@ $.extend(KhanUtil, {
         };
         this.combineLikeTerms();
 
-        this.evalutate = function(values) {
+        this.evaluate = function(values) {
             var value = 0;
             for (var i = 0; i < this.terms.length; i++) {
                 value += this.terms[i].evalutate(values);
