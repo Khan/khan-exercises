@@ -10,7 +10,7 @@
             <var id="M">"The " + animal( 1 ) + " wears " + an(color(1)) + " " + clothing(1)</var>
             <var id="Shift">person(1)</var>
             <var id="C">applyVigenere(M,person(1))</var>
-            
+
             <var id="LOWER_BOUND">0</var>
             <var id="UPPER_BOUND">25</var>
         </div>
@@ -23,7 +23,7 @@
                     <p>In an effort to increase security, <strong><var>person(1)</var></strong> decides to encrypt it with a Vigenere Cipher
                     using <var>his(1)</var> own name as the keyword. What will the secret message look like once it is encrypted?</p>
                 </div>
-                
+
                 <div>
                 <p>You can use the below slider to help you encrypt the message. <br/>
                 Note that in Vigenere Ciphers, A = 0.<br/>
@@ -33,20 +33,20 @@
                 <div class="graphie" id="number-line">
                     <!-- Use for spacing the Cipher letter guide -->
                     var indent = 1;
-                    
+
                     init({
                         range: [ [LOWER_BOUND - 0.3, UPPER_BOUND * indent + 0.5], [-1, 1] ],
                         scale: [19, 40]
                     });
-    
+
                     style({arrows: ""});
                     line( [ 0, 0 ], [ UPPER_BOUND * indent, 0 ] );
-      
+
                     style({arrows: ""});
                     line( [ 0, 0 ], [ LOWER_BOUND, 0 ] );
-                    
+
                     var myLabels = new Array();
-                    
+
                     style({arrows: ""});
                     for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=1 ) {
                         var markLength;
@@ -55,16 +55,16 @@
                         label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                         myLabels[x] = label( [ x * indent, -0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                     }
-                    
+
                     addMouseLayer();
                     graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: indent });
                     graph.movablePoint.onMove = function( x, y ) {
-                        
+
                         for ( var i = 0; i &lt;= UPPER_BOUND; i+=1 ) {
                             myLabels[i].remove();
                             myLabels[i] = label( [ i , -0.53 ],  "abcdefghijklmnopqrstuvwxyz"[(i+x) % 26], "center", false);
                         }
-                        
+
                         return [ min( max( LOWER_BOUND, x ), UPPER_BOUND * indent ), y ];
                     };
                 </div>
@@ -83,7 +83,7 @@
                     <li><var>applyVigenere(M,person(2))</var></li>
                     <li><var>applyVigenere(M,person(3))</var></li>
                 </ul>
-                
+
             </div>
         </div>
 

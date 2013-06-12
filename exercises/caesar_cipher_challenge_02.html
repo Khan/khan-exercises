@@ -2,7 +2,7 @@
 <html data-require="math graphie word-problems cipher interactive"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Caesar Cipher Encrypting</title>
-    <script src="../khan-exercise.js"></script> 
+    <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
@@ -10,7 +10,7 @@
             <var id="M">person( 1 )</var>
             <var id="Shift">randRange(1,25)</var>
             <var id="C">applyCaesar(M,Shift)</var>
-            
+
             <var id="LOWER_BOUND">0</var>
             <var id="UPPER_BOUND">25</var>
         </div>
@@ -19,10 +19,10 @@
             <div>
                 <div class="question">
                     <p><strong><var>M</var></strong> decides <var>he(1)</var> wants to encrypt <var>his(1)</var> name with a Caesar Cipher, using a shift of <var>Shift</var></p>
-                    
+
                     <p>What will <var>his(1)</var> name look like after <var>he(1)</var> encrypts it?</p>
                 </div>
-                
+
                 <div>
                     <p>You can use the below slider to help you encrypt the message.<br/>
                     Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to shift the encrypted alphabet</p>
@@ -31,22 +31,22 @@
                 <div class="graphie" id="number-line">
                     <!-- Use for spacing the Cipher letter guide -->
                     var indent = 1;
-                    
+
                     init({
                         range: [ [LOWER_BOUND - 0.3, UPPER_BOUND * indent + 0.5], [-1, 1] ],
                         scale: [19, 40]
                     });
-    
+
                     <!-- Draws the line-->
                     style({arrows: ""});
                     line( [ 0, 0 ], [ UPPER_BOUND * indent, 0 ] );
 
-                    
+
                     style({arrows: ""});
                     line( [ 0, 0 ], [ LOWER_BOUND, 0 ] );
-                    
+
                     var myLabels = new Array();
-                    
+
                     style({arrows: ""});
                     for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=1 ) {
                         var markLength;
@@ -55,16 +55,16 @@
                         label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                         myLabels[x] = label( [ x * indent, -0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                     }
-                    
+
                     addMouseLayer();
                     graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: indent });
                     graph.movablePoint.onMove = function( x, y ) {
-                        
+
                         for ( var i = 0; i &lt;= UPPER_BOUND; i+=1 ) {
                             myLabels[i].remove();
                             myLabels[i] = label( [ i , -0.53 ],  "abcdefghijklmnopqrstuvwxyz"[(i+x) % 26], "center", false);
                         }
-                        
+
                         return [ min( max( LOWER_BOUND, x ), UPPER_BOUND * indent ), y ];
                     };
                 </div>
@@ -81,7 +81,7 @@
                     <li><var>applyCaesar(C,randRange(12,17))</var></li>
                     <li><var>applyCaesar(C,randRange(18,23))</var></li>
                 </ul>
-                
+
             </div>
         </div>
 

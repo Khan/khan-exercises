@@ -10,7 +10,7 @@
             <var id="M">person( 1 ).toLowerCase()</var>
             <var id="Shift">randRange(1,25)</var>
             <var id="C">applyCaesar(M,Shift)</var>
-            
+
             <var id="LOWER_BOUND">0</var>
             <var id="UPPER_BOUND">25</var>
         </div>
@@ -18,13 +18,13 @@
         <div class="problems">
             <div>
                 <div class="question">
-                    <p><var>person(2)</var> is expecting to recieve an encrypted message with the name of one of <var>his(2)</var> classmates. 
+                    <p><var>person(2)</var> is expecting to recieve an encrypted message with the name of one of <var>his(2)</var> classmates.
                     <var>He(2)</var> knows the message will be encrypted with a <strong>Caesar Cipher</strong> using a shift of <strong><var>Shift</var></strong>.
                     When he returns to his desk, <var>he(1)</var> finds a piece of paper with the following message on it:</p>
-                    <p><strong><var>C</var></strong> 
+                    <p><strong><var>C</var></strong>
                     <p>Help <var>person(2)</var> crack the code, by typing the decrypted message in the answer box using all lowercase letters.</p>
                 </div>
-                
+
                 <div>
                     <p>You can use the below slider to help you decode the message.<br/>
                     Slide the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to shift the encrypted alphabet</p>
@@ -33,22 +33,22 @@
                 <div class="graphie" id="number-line">
                     <!-- Use for spacing the Cipher letter guide -->
                     var indent = 1;
-                    
+
                     init({
                         range: [ [LOWER_BOUND - 0.3, UPPER_BOUND * indent + 0.5], [-1, 1] ],
                         scale: [19, 40]
                     });
-    
+
                     <!-- Draws the line-->
                     style({arrows: ""});
                     line( [ 0, 0 ], [ UPPER_BOUND * indent, 0 ] );
 
-                    
+
                     style({arrows: ""});
                     line( [ 0, 0 ], [ LOWER_BOUND, 0 ] );
-                    
+
                     var myLabels = new Array();
-                    
+
                     style({arrows: ""});
                     for ( var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x+=1 ) {
                         var markLength;
@@ -57,16 +57,16 @@
                         label( [ x * indent, 0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                         myLabels[x] = label( [ x * indent, -0.53 ],  "abcdefghijklmnopqrstuvwxyz"[x], "center", false);
                     }
-                    
+
                     addMouseLayer();
                     graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: indent });
                     graph.movablePoint.onMove = function( x, y ) {
-                        
+
                         for ( var i = 0; i &lt;= UPPER_BOUND; i+=1 ) {
                             myLabels[i].remove();
                             myLabels[i] = label( [ i , -0.53 ],  "abcdefghijklmnopqrstuvwxyz"[(i+x) % 26], "center", false);
                         }
-                        
+
                         return [ min( max( LOWER_BOUND, x ), UPPER_BOUND * indent ), y ];
                     };
                 </div>
@@ -78,12 +78,12 @@
                 <p class="solution" data-type="text">
                     <var>M</var>
                 </p>
-                                
+
             </div>
         </div>
 
         <div class="hints">
-            <p>Since the message was encrypted by shifting each letter right by <strong><var>Shift</var></strong>, to decrypt it we need to 
+            <p>Since the message was encrypted by shifting each letter right by <strong><var>Shift</var></strong>, to decrypt it we need to
             shift each letter left by <strong><var>Shift</var></strong>.</p>
             <div>
                 <p>If we take the first letter <strong><var>C[0]</var></strong> and shift it left by <strong><var>Shift</var></strong>,
