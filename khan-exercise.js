@@ -1893,7 +1893,7 @@ var Khan = (function() {
                 return false;
             });
 
-            $(Khan).on("gotoNextProblem", function() {
+            $(Exercises).on("gotoNextProblem", function() {
                 input.val("");
                 history.children().not(inputRow).remove();
             });
