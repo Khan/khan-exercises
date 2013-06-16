@@ -1084,7 +1084,7 @@ Triang.prototype.equals = function(otherTriang) {
     var myPoints = [this.angs[0].mid, this.angs[1].mid, this.angs[2].mid];
     var otherPoints = [otherTriang.angs[0].mid, otherTriang.angs[1].mid, otherTriang.angs[2].mid];
 
-    return _.difference(myPoints, otherPoints).length === 0;
+    return _.difference(myPoints, otherPoints).length === 0 && _.difference(otherPoints, myPoints).length === 0;
 };
 
 // If two smaller angles share a midpoint and one of two endpoints, they can be
