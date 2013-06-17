@@ -74,7 +74,7 @@ $.extend(KhanUtil, {
         // slopes to 0. This replicates the action of the user placing each point
         // at zero and applies the same "close enough" test so very small slopes
         // aren't graded wrong even if they look almost right.
-        $(Khan).one("newProblem", function() {
+        $(Exercises).one("newProblem", function() {
             $(points).each(function(index, xval) {
                 KhanUtil.setSlope(index, 0);
             });
