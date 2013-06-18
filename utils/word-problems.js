@@ -346,9 +346,9 @@ $.fn["word-problemsLoad"] = function() {
         $._("chemistry"),
         $._("geometry"),
         $._("history"),
-        $._("mathematics"),
+        $._("math"),
         $._("physics"),
-        $._("foreign language")
+        $._("language")
     ]);
 
     var exams = new IncrementalShuffler([
