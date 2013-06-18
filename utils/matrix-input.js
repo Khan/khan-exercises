@@ -327,7 +327,7 @@ $.fn["matrix-inputLoad"] = function() {
         return;
     }
 
-    $(Khan).on("newProblem.matrix-input", function() {
+    $(Exercises).on("newProblem.matrix-input", function() {
         KhanUtil.matrixInput.init();
     });
 
@@ -345,7 +345,7 @@ $.fn["matrix-inputCleanup"] = function() {
     }
 
     KhanUtil.matrixInput.cleanup();
-    $(Khan).off("newProblem.matrix-input");
+    $(Exercises).off("newProblem.matrix-input");
     $(Khan).off("showGuess.matrix-input");
 
     KhanUtil.matrixInput.eventsAttached = false;
