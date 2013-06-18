@@ -1623,7 +1623,7 @@ var Khan = (function() {
         $(hint).appendTo("#hintsarea").runModules(problem);
 
         if (hints.length === 0) {
-            $(hint).addClass("final_answer");
+            $(hint).addClass("last-hint");
         }
 
         // TODO(james): figure out a way to trigger hintUsed to ensure that the
