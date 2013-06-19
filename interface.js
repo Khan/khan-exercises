@@ -315,7 +315,7 @@ function handleAttempt(data) {
         // Set a small timeout to give the browser a chance to show the
         // disabled check-answer button.  Otherwise in chrome it doesn't show
         // Please wait...
-        setTimeout(function(){
+        setTimeout(function() {
             Exercises.AssessmentQueue.answered(score.correct);
         },10);
     }
