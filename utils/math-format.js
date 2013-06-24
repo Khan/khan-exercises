@@ -614,13 +614,13 @@ $.extend(KhanUtil, {
         var exponent = KhanUtil.scientificExponent(num);
         var factor = Math.pow(10, exponent);
         precision -= 1; // To account for the 1s digit
-        var mantissa = KhanUtil.localeToFixed(KhanUtil.roundTo(precision, num / factor), precision);
+        var mantissa = KhanUtil.roundTo(precision, num / factor);
         return mantissa;
     },
 
     scientific: function(precision, num) {
         var exponent = KhanUtil.scientificExponent(num);
-        var mantissa = KhanUtil.scientificMantissa(precision, num);
+        var mantissa = KhanUtil.localeToFixed(KhanUtil.scientificMantissa(precision, num), precision);
         return "" + mantissa + "\\times 10^{" + exponent + "}";
     }
 });
