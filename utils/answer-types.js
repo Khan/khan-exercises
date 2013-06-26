@@ -149,10 +149,13 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             var options = $.extend({
                 simplify: "required",
                 ratio: false,
-                maxError: Math.pow(2, -42),
                 forms: Khan.answerTypes.predicate.defaultForms,
             }, solutionData);
             var acceptableForms = options.forms.split(/\s*,\s*/);
+
+            if (options.inexact === undefined) {
+                options.maxError = Math.pow(2, -42);
+            }
 
             if (window.Modernizr && Modernizr.touch) {
                 // Use special HTML5 input element for touch devices, so we can
@@ -251,10 +254,15 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             options = $.extend({
                 simplify: "required",
                 ratio: false,
-                maxError: Math.pow(2, -42),
                 forms: Khan.answerTypes.predicate.defaultForms
             }, options);
             var acceptableForms = options.forms.split(/\s*,\s*/);
+
+            if (options.inexact === undefined) {
+                // If we aren't allowing inexact, ensure that we don't have a
+                // large maxError as well.
+                options.maxError = Math.pow(2, -42);
+            }
 
             // If percent is an acceptable form, make sure it's the last one
             // in the list so we don't prematurely complain about not having

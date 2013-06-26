@@ -4,7 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>answer-types</title>
     <!-- Include dependencies -->
-    <script src="../../jquery.js"></script>
+    <script src="../../local-only/jquery.js"></script>
+    <script src="../../local-only/jed.js"></script>
+    <script src="../../local-only/i18n.js"></script>
     <script>
         // TODO(alpert): Ugh, should probably load khan-exercise.js for real...
         var Khan = {
@@ -31,7 +33,7 @@
         };
         $.fn.runModules = function() { $.fn.tmpl.apply(this, arguments); };
     </script>
-    <script src="../underscore.js"></script>
+    <script src="../../local-only/underscore.js"></script>
     <script src="../MathJax/2.1/MathJax.js?config=KAthJax-da9a7f53e588f3837b045a600e1dc439"></script>
 
     <!-- Include QUnit -->
@@ -393,6 +395,38 @@
         testAnswer(answerData, "12.345,678.9", true, "right answer with periods is right");
         testAnswer(answerData, "12 345.678 9", true, "right answer with spaces is right");
         testAnswer(answerData, "12 345,678 9", true, "right answer with spaces is right");
+
+        start();
+    });
+
+    asyncTest("number inexact", 4, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='number' data-inexact data-max-error='1'>123.45<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "125", false, "wrong answer is wrong");
+        testAnswer(answerData, "123.45", true, "exact answer is right");
+        testAnswer(answerData, "124.4", true, "high answer is right");
+        testAnswer(answerData, "122.5", true, "low answer is right");
+
+        start();
+    });
+
+    asyncTest("number max-error-only", 4, function() {
+        var $problem = jQuery("#qunit-fixture .problem").append(
+            "<p class='solution' data-type='number' data-max-error='1'>123.45<\/p>"
+        );
+
+        var answerData = Khan.answerTypes.number.setup($("#solutionarea"),
+                $problem.children(".solution"));
+
+        testAnswer(answerData, "125", false, "wrong answer is wrong");
+        testAnswer(answerData, "123.45", true, "exact answer is right");
+        testAnswer(answerData, "124.4", false, "high answer is wrong");
+        testAnswer(answerData, "122.5", false, "low answer is wrong");
 
         start();
     });

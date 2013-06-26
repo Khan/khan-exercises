@@ -20,7 +20,7 @@
             <p class="question" data-if="isMale(1)">
                 <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than he did this time last year. If <var>person(1)</var> has $<var>YEAR_THIS</var> today, how much money did he make over this past year? (Round to the nearest cent, or hundredth of a dollar.)</p><p class="question" data-else="">
                 <var>person(1)</var> has <var>YEAR_PERCENT_MORE</var>% more money today than she did this time last year. If <var>person(1)</var> has $<var>YEAR_THIS</var> today, how much money did she make over this past year? (Round to the nearest cent, or hundredth of a dollar.)</p>
-            <p class="solution" data-forms="dollar" data-max-error="0.01"><var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></p>
+            <p class="solution" data-forms="dollar" data-inexact data-max-error="0.01"><var>round((YEAR_THIS - YEAR_LAST) * 100) / 100</var></p>
             <div class="hints">
                 <p data-if="isMale(1)">Let <code>x</code> be the amount of money that he had last year.</p><p data-else="">Let <code>x</code> be the amount of money that she had last year.</p>
                 <p><code>x + <var>YEAR_PERCENT_MORE / 100</var>x = $<var>YEAR_THIS</var></code></p>
