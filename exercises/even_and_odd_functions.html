@@ -245,6 +245,11 @@
                     <div data-if="SOL === 'Neither'" data-unwrap="">
                         <div>
                             <p>Let's try a value for <code>x</code> to see if <code>f(x)</code> fits the definition.</p>
+                            <div><code>\qquad f(<var>X_VALUES[0]</var>) = <var>FUNC.getEvaluateString(X_VALUES[0])</var></code></div>
+                            <div><code>\qquad f(<var>-X_VALUES[0]</var>) = <var>FUNC.getEvaluateString(-X_VALUES[0])</var></code></div>
+                        </div>
+
+                        <div>
                             <div><code>\qquad f(<var>X_VALUES[0]</var>) = <var>CALLABLE_FUNC(X_VALUES[0])</var></code></div>
                             <div><code>\qquad f(<var>-X_VALUES[0]</var>) = <var>CALLABLE_FUNC(-X_VALUES[0])</var></code></div>
                         </div>
