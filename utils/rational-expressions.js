@@ -99,7 +99,7 @@ $.extend(KhanUtil, {
         // Or give a number and all variables will be given that value
         // TODO: Make this work for multi-variable terms
         // when only the value of one variable is given
-        this.evalutate = function(values) {
+        this.evaluate = function(values) {
             var value = this.coefficient;
 
             if (typeof values === 'number') {
@@ -184,15 +184,14 @@ $.extend(KhanUtil, {
                 return "";
             }
 
-            var coefficient = Math.abs(this.coefficient);
             var s = "";
-
             if (includeSign) {
                 s += this.coefficient >= 0 ? " + " : " - ";
             } else if (this.coefficient < 0) {
                 s += "-";
             }
 
+            var coefficient = Math.abs(this.coefficient);
             if (!(coefficient === 1 && this.variableString !== "")) {
                 s += coefficient;
             }
@@ -208,6 +207,34 @@ $.extend(KhanUtil, {
                     s += "^" + degree;
                 }
             }
+            return s;
+        };
+
+        // Return a string showing how the term should be evaluated with a given value
+        // e.g. 5x^2 evalated with 3 returns 5(3)^2
+        this.getEvaluateString = function(values, includeSign) {
+            var s = '';
+
+            if (includeSign) {
+                s += this.coefficient >= 0 ? " + " : " - ";
+            } else if (this.coefficient < 0) {
+                s += "-";
+            }
+
+            var coefficient = Math.abs(this.coefficient);
+            if (!(coefficient === 1 && this.variableString !== "")) {
+                s += coefficient;
+                if (this.variableString !== "") {
+                    s += '\\cdot';
+                }
+            }
+
+            for (var vari in this.variables) {
+                var degree = this.variables[vari];
+                var value = (typeof values === 'number') ? values : values[vari];
+                s += (degree === 1) ? value : '(' + value + ')^' + degree;
+            }
+
             return s;
         };
 
@@ -294,10 +321,10 @@ $.extend(KhanUtil, {
         this.evaluate = function(values) {
             var value = 0;
             for (var i = 0; i < this.terms.length; i++) {
-                value += this.terms[i].evalutate(values);
+                value += this.terms[i].evaluate(values);
             }
             return value;
-        }
+        };
 
         // Return a new expression which is the sum of this one and the one passed in
         this.add = function(that) {
@@ -369,13 +396,23 @@ $.extend(KhanUtil, {
             var t1 = this.factor();
             var t2 = that.factor();
             return t1.getGCD(t2);
-        }
+        };
 
         this.toString = function() {
             var s = this.terms[0].toString();
 
             for (var i = 1; i < this.terms.length; i++) {
                 s += this.terms[i].toString(s !== "");
+            }
+
+            return s !== "" ? s : '0';
+        };
+
+        this.getEvaluateString = function(values) {
+            var s = this.terms[0].getEvaluateString(values);
+
+            for (var i = 1; i < this.terms.length; i++) {
+                s += this.terms[i].getEvaluateString(values, true);
             }
 
             return s !== "" ? s : '0';
