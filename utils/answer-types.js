@@ -560,6 +560,10 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 guess = $.trim(guess);
                 var ret = false;
 
+                if (guess === "") {
+                    return "";
+                }
+
                 // iterate over all the acceptable forms, and if one of the
                 // answers is correct, return true
                 $.each(acceptableForms, function(i, form) {
