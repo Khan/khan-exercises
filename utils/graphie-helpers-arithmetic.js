@@ -512,7 +512,7 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
 
     this.showDecimalsInProduct = function() {
         var x = -maxNumDigits;
-        var y = -digitsB.length * digitsA.length;
+        var y = -Math.max(digitsB.length * digitsA.length, 3 + digitsB.length);
         graph.label([x, y + 2],
             $.ngettext("\\text{The top number has 1 digit to the right of the decimal.}", "\\text{The top number has %(num)s digits to the right of the decimal.}", deciA), "right");
         graph.label([x, y + 1],
