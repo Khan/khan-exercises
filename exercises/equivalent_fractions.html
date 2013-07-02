@@ -8,9 +8,9 @@
 <body>
     <div class="exercise">
     <div class="vars" data-ensure="A &lt; B">
-        <var id="A">randRange( 1, 3 )</var>
-        <var id="B">randRange( 2, 4 )</var>
-        <var id="M">randRange(2, 3)</var>
+        <var id="M">randFromArray([2, 3, 10])</var>
+        <var id="A">randRange(1, 3)</var>
+        <var id="B">M === 10 ? 10 : randRange(2, 4)</var>
         <var id="C">A * M</var>
         <var id="D">B * M</var>
         <var id="SYMBOL">binop( 1 )</var>
@@ -25,22 +25,22 @@
                 <div>
                     <p>The fraction on the left represents <var>A</var> out of <var>B</var> slices of a rectangular <var>pizza( 1 )</var>.</p>
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
-                        rectchart( [A, B - A], ["#e00", "#999"] );
+                        init({ range: [ [0, 1], [0, 1] ], scale: [475, 25] });
+                        rectchart( [A, B - A], [RED, GRAY] );
                     </div>
                 </div>
                 <div>
                     <p>What if we cut the <var>pizza( 1 )</var> into <var>D</var> slices instead? How many slices would result in the same amount of <var>pizza( 1 )</var>?</p>
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
-                        rectchart( [0, D], ["#e00", "#999"] );
+                        init({ range: [ [0, 1], [0, 1] ], scale: [475, 25] });
+                        rectchart( [0, D], [RED, GRAY] );
                     </div>
                 </div>
                 <div>
                     <p>We would need <var>C</var> slices.</p>
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
-                        rectchart( [C, D - C], ["#e00", "#999"] );
+                        init({ range: [ [0, 1], [0, 1] ], scale: [475, 25] });
+                        rectchart( [C, D - C], [RED, GRAY] );
                     </div>
                 </div>
                 <p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>D</var>}</code> and so the answer is <code><var>C</var></code>.</p>
@@ -62,24 +62,24 @@
                 <div>
                     <p>The fraction on the left represents <var>A</var> out of <var>B</var> slices of a rectangular <var>pizza( 1 )</var>.</p>
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
-                        rectchart( [A, B - A], ["#e00", "#999"] );
+                        init({ range: [ [0, 1], [0, 1] ], scale: [475, 25] });
+                        rectchart( [A, B - A], [RED, GRAY] );
                     </div>
                 </div>
 
                 <div>
                     <p>How many total slices would we need if we want the same amount of <var>pizza( 1 )</var> in <var>C</var> slices? </p>
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
-                        rectchart( [C, D - C], ["#e00", "#fff"] );
+                        init({ range: [ [0, 1], [0, 1] ], scale: [475, 25] });
+                        rectchart( [C, D - C], [RED, GRAY] );
                     </div>
                 </div>
 
                 <div>
                     <p>We would need to cut the <var>pizza( 1 )</var> into <var>D</var> slices.</p>
                     <div class="graphie">
-                        init({ range: [ [0, 1], [0, 1] ], scale: [180, 25] });
-                        rectchart( [C, D - C], ["#e00", "#999"] );
+                        init({ range: [ [0, 1], [0, 1] ], scale: [475, 25] });
+                        rectchart( [C, D - C], [RED, GRAY] );
                     </div>
                 </div>
                 <p><code>\dfrac{<var>A</var>}{<var>B</var>} = \dfrac{<var>C</var>}{<var>D</var>}</code> and so the answer is <code><var>D</var></code>.</p>
@@ -91,17 +91,6 @@
 
                 <p>The final equation is: <code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>M</var>}{<var>M</var>} = \dfrac{<var>C</var>}{<var>D</var>} </code> so our answer is <code><var>D</var></code>.</p>
 
-            </div>
-        </div>
-
-        <div id="custom-7" data-type="numerator" data-weight="0">
-            <div class="vars">
-                <var id="A">1</var>
-                <var id="B">2</var>
-                <var id="M">2</var>
-                <var id="C">A * M</var>
-                <var id="D">B * M</var>
-                <var id="SYMBOL">"\\otimes"</var>
             </div>
         </div>
     </div>
