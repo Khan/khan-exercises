@@ -70,7 +70,7 @@ div.definition {
 #tester-info { border: 1px solid #AAA; background: #F0F0F0; padding: 10px; margin: 10px 0; }
 #debug var { font: 14px Menlo, Courier, monospace; word-wrap: break-word; }
 
-code { font-family: Helvetica, Arial; }
+code { font-family: monospace; }
 table.limit { margin: 5px; }
 table.limit th { font-weight: bold; text-align: center; }
 table.limit td { border: 1px solid #AAA; }
