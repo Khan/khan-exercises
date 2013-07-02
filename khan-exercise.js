@@ -552,128 +552,6 @@ var Khan = (function() {
             return actions;
         })(),
 
-        relatedVideos: {
-            exercise: null,
-            cache: {},
-
-            getVideos: function() {
-                return this.cache[this.exercise.name] || [];
-            },
-
-            setVideos: function(exercise) {
-
-                if (exercise.relatedVideos) {
-                    this.cache[exercise.name] = exercise.relatedVideos;
-                }
-
-                this.exercise = exercise;
-                this.render();
-            },
-
-            showThumbnail: function(index) {
-                $("#related-video-list .related-video-list li").each(function(i, el) {
-                    if (i === index) {
-                        $(el)
-                            .find("a.related-video-inline").hide().end()
-                            .find(".thumbnail").show();
-                    }
-                    else {
-                        $(el)
-                            .find("a.related-video-inline").show().end()
-                            .find(".thumbnail").hide();
-                    }
-                });
-            },
-
-            // make a link to a related video, appending exercise ID.
-            makeHref: function(video) {
-                return video.relativeUrl + "?exid=" + this.exercise.name;
-            },
-
-            anchorElement: function(video, needComma) {
-                var template = Templates.get("video.related-video-link");
-                return $(template({
-                    href: this.makeHref(video),
-                    video: video,
-                    separator: needComma
-                })).data("video", video);
-            },
-
-            render: function() {
-                if (localMode) {
-                    // Templates isn't available locally and we won't have any
-                    // related videos to show anyway
-                    return;
-                }
-
-                var container = $(".related-video-box");
-                var jel = container.find(".related-video-list");
-                jel.empty();
-
-                var self = this;
-                PackageManager.require("video.css", "video.js").then(
-                    function() {
-                        var template = Templates.get("video.thumbnail");
-                        _.each(self.getVideos(), function(video, i) {
-                            var thumbnailDiv = $(template({
-                                href: self.makeHref(video),
-                                video: video
-                            })).find("a.related-video")
-                                .data("video", video)
-                                .end();
-
-                            var inlineLink = self.anchorElement(video)
-                                .addClass("related-video-inline");
-
-                            var sideBarLi = $("<li>")
-                                .append(inlineLink)
-                                .append(thumbnailDiv);
-
-                            if (i > 0) {
-                                thumbnailDiv.hide();
-                            } else {
-                                inlineLink.hide();
-                            }
-                            jel.append(sideBarLi);
-                        });
-
-                        container.toggle(self.getVideos().length > 0);
-                        self._bindEvents();
-                    });
-            },
-
-            _eventsBound: false,
-            /**
-             * Called to initialize related video event handlers.
-             * Should only be called after video.js package is loaded.
-             */
-            _bindEvents: function() {
-                if (this._eventsBound) {
-                    return;
-                }
-
-                // make caption slide up over the thumbnail on hover
-                var captionHeight = 45;
-                var marginTop = 23;
-                // queue:false to make sure these run simultaneously
-                var options = {duration: 150, queue: false};
-                $(".related-video-box")
-                    .delegate(".thumbnail", "mouseenter mouseleave", function(e) {
-                        var isMouseEnter = e.type === "mouseenter";
-                        $(e.currentTarget).find(".thumbnail_label").animate(
-                                {marginTop: marginTop + (isMouseEnter ? 0 : captionHeight)},
-                                options)
-                            .end()
-                            .find(".thumbnail_teaser").animate(
-                                {height: (isMouseEnter ? captionHeight : 0)},
-                                options);
-                    });
-
-                ModalVideo.hookup();
-                this._eventsBound = true;
-            }
-        },
-
         getSeedInfo: function() {
             return {
                 // A hash representing the exercise version
@@ -952,7 +830,8 @@ var Khan = (function() {
                 "../local-only/i18n.js",
                 "../exercises-stub.js",
                 "../history.js",
-                "../interface.js"
+                "../interface.js",
+                "../related-videos.js"
             ];
 
         (function loadInitScripts() {
@@ -1167,9 +1046,6 @@ var Khan = (function() {
 
             // ...and create a new problem bag with problems of our new exercise type.
             problemBag = makeProblemBag(problems, 10);
-
-            // Update related videos
-            Khan.relatedVideos.setVideos(userExercise.exerciseModel);
 
             // Make scratchpad persistent per-user
             if (user) {

@@ -140,6 +140,12 @@ function newProblem(e, data) {
     updateHintButtonText();
     $("#hint").attr("disabled", hintsUsed >= numHints);
     enableCheckAnswer();
+
+    // Update related videos
+    if (data.userExercise) {
+        Exercises.RelatedVideos.render(
+                data.userExercise.exerciseModel.relatedVideos);
+    }
 }
 
 function handleCheckAnswer() {
