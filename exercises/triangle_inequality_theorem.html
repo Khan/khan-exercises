@@ -16,7 +16,7 @@
             var sa = KhanUtil.randRange( 4, 8 );
             var sb = sa * Math.sin( b * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
             var sc = sa * Math.sin( c * Math.PI / 180 )  / Math.sin( a * Math.PI / 180 );
-                return [ [ a, b, c] , [ KhanUtil.localeToFixed(sa, 1), KhanUtil.localeToFixed(sb, 1), KhanUtil.localeToFixed(sc, 1) ] ];
+                return [ [ a, b, c] , [ sa, sb, sc ] ];
         }
     </script>
 </head>
@@ -25,10 +25,12 @@
         <div class="vars">
             <var id="MAIN">randomTriangleWithSides()</var>
             <var id="HIDDEN">rand( 3 )</var>
-            <var id="ANSWER">MAIN[ 1 ][ HIDDEN ]</var>
             <var id="KNOWN">MAIN[ 1 ].slice( 0, HIDDEN ).concat( MAIN[ 1 ].slice( HIDDEN + 1 ) )</var>
-            <var id="MAX">roundTo( 1, parseFloat( KNOWN[ 0 ]  ) + parseFloat( KNOWN[ 1 ] ) )</var>
+            <var id="KNOWN_DISPLAY">_.map(KNOWN, function(v) { return localeToFixed(v, 1); })</var>
+            <var id="MAX">roundTo( 1, KNOWN[ 0 ] + KNOWN[ 1 ] )</var>
+            <var id="MAX_DISPLAY">localeToFixed(MAX, 1)</var>
             <var id="MIN">roundTo( 1, abs( KNOWN[ 0 ] - KNOWN[ 1 ] ) )</var>
+            <var id="MIN_DISPLAY">localeToFixed(MIN, 1)</var>
         </div>
 
         <div class="problems">
@@ -40,8 +42,23 @@
                     <div class="graphie">
                         init({
                             range: [ [ -1, 10 ], [ -7.5, 1 ] ]
-                        })
-                        var tr = new Triangle( [ 3, -6.5 ],  MAIN[ 0 ], 5, { "sides" : [ HIDDEN !== 2 ?  MAIN[ 1 ][ 2 ] : "x", HIDDEN !== 0 ?  MAIN[ 1 ][ 0 ] : "x", HIDDEN !== 1 ?  MAIN[ 1 ][ 1 ] : "x" ] } );
+                        });
+
+                        var positionMap = {0: 2, 1: 0, 2: 1};
+
+                        var sides = _.times(3, function(i) {
+                            if (positionMap[i] === HIDDEN) {
+                                return "x";
+                            } else {
+                                return localeToFixed(MAIN[1][positionMap[i]], 1);
+                            }
+                        });
+
+                        var tr = new Triangle(
+                            [ 3, -6.5 ],
+                            MAIN[ 0 ],
+                            5,
+                            { "sides" : sides } );
                         tr.boxOut( [ [ [ -1, -10 ], [ -1, 10 ] ] ], [ 1, 0 ] );
                         tr.boxOut( [ [ [ 10, -10 ], [ 10, 10 ] ] ], [ -1, 0 ] );
                         tr.draw();
@@ -54,17 +71,40 @@
                 </div>
                 <div class="hints">
                     <p>The triangle inequality theorem states that any side of a triangle is always shorter than the sum of the other two sides.</p>
-                    <p>Therefore the the third side must be less than <code><var>KNOWN[ 0 ]</var> + <var>KNOWN[ 1 ]</var> = <var>MAX</var></code></p>
+                    <p>Therefore the the third side must be less than <code><var>KNOWN_DISPLAY[ 0 ]</var> + <var>KNOWN_DISPLAY[ 1 ]</var> = <var>MAX_DISPLAY</var></code></p>
                     <p>By the same theorem, the third side must be also larger than the difference between the other two sides.</p>
-                    <p>Therefore the third side must be larger than <code><var>KNOWN[0] &lt; KNOWN[1] ? KNOWN[1] : KNOWN[0]</var> - <var>KNOWN[0] &lt; KNOWN[1] ? KNOWN[0] : KNOWN[1]</var> = <var>MIN</var></code></p>
-                    <p>So <code><var>MIN</var> &lt; x &lt; <var>MAX</var></code></p>
+                    <p>Therefore the third side must be larger than <code><var>KNOWN[0] &lt; KNOWN[1] ? KNOWN_DISPLAY[1] : KNOWN_DISPLAY[0]</var> - <var>KNOWN[0] &lt; KNOWN[1] ? KNOWN_DISPLAY[0] : KNOWN_DISPLAY[1]</var> = <var>MIN_DISPLAY</var></code></p>
+                    <p>So <code><var>MIN_DISPLAY</var> &lt; x &lt; <var>MAX_DISPLAY</var></code></p>
                 </div>
             </div>
             <div id="possible">
                 <div class="vars">
-                    <var id="MAIN">randomTriangleWithSides()</var>
-                    <var id="POSSIBLE">( randRange( 0, 1 ) === 0 )</var>
+                    <var id="POSSIBLE">randRange( 0, 1 ) === 0</var>
+                    <var id="SIDE">randRange(0, 2)</var>
+                    <var id="FAKE_SIDE">MAIN[1][(SIDE + 1) % 3] + MAIN[1][(SIDE + 2) % 3] + randRange(1, 3)</var>
+                    <var id="FAKE_SIDES">_.map((function() {
+                        if (POSSIBLE) {
+                            return MAIN[1];
+                        } else {
+                            debugger;
+                            var m = MAIN[1].slice();
+                            m.splice(SIDE, 1, FAKE_SIDE);
+                            return m;
+                        }
+                    })(), function(v) { return roundTo(1, v); })</var>
+                    <var id="FAKE_SIDES_DISPLAY">_.map(FAKE_SIDES, function(v) { return localeToFixed(v, 1); })</var>
                     <var id="ANSWERS">[$._("Yes"), $._("No")]</var>
+                    <var id="SETS">[
+                        [FAKE_SIDES_DISPLAY[0], FAKE_SIDES_DISPLAY[1], FAKE_SIDES_DISPLAY[2],
+                            localeToFixed(FAKE_SIDES[1] + FAKE_SIDES[2], 1),
+                            FAKE_SIDES[0] &lt; FAKE_SIDES[1] + FAKE_SIDES[2]],
+                        [FAKE_SIDES_DISPLAY[1], FAKE_SIDES_DISPLAY[0], FAKE_SIDES_DISPLAY[2],
+                            localeToFixed(FAKE_SIDES[0] + FAKE_SIDES[2], 1),
+                            FAKE_SIDES[1] &lt; FAKE_SIDES[0] + FAKE_SIDES[2]],
+                        [FAKE_SIDES_DISPLAY[2], FAKE_SIDES_DISPLAY[0], FAKE_SIDES_DISPLAY[1],
+                            localeToFixed(FAKE_SIDES[0] + FAKE_SIDES[1], 1),
+                            FAKE_SIDES[2] &lt; FAKE_SIDES[0] + FAKE_SIDES[1]]
+                    ]</var>
                 </div>
                 <div class="problem">
                     Can this triangle exist?
@@ -74,12 +114,10 @@
                         init({
                             range: [ [-1, 10 ], [ -7.5, 1 ] ]
                         })
-                        if( !POSSIBLE ){
-                            var side = randRange( 0, 2 );
-                            var sideValue = localeToFixed( parseFloat( MAIN[ 1 ][ ( side + 1 ) % 3 ] ) + parseFloat( MAIN[ 1 ][ ( side + 2 ) % 3 ] ) + randRange( 1, 3 ), 1 );
-                            MAIN[ 1 ][ side ] = sideValue;
-                        }
-                        var tr = new Triangle( [ 3, -6.9 ],  MAIN[ 0 ], 5, { "sides" : [ MAIN[ 1 ][ 2 ], MAIN[ 1 ][ 0 ], MAIN[ 1 ][ 1 ] ] } );
+                        var tr = new Triangle(
+                            [ 3, -6.9 ],
+                            MAIN[ 0 ], 5,
+                            { "sides" : [ FAKE_SIDES_DISPLAY[ 2 ], FAKE_SIDES_DISPLAY[ 0 ], FAKE_SIDES_DISPLAY[ 1 ] ] } );
                         tr.boxOut( [ [ [ -1, -10 ], [ -1, 10 ] ] ], [ 1, 0 ] );
                         tr.boxOut( [ [ [ 10, -10 ], [ 10, 10 ] ] ], [ -1, 0 ] );
                         tr.draw();
@@ -95,9 +133,13 @@
                 <div class="hints">
                     <p>Triangle inequality theorem states that a side must be smaller than the sum of the other two sides.</p>
                     <p>Let's check for all three sides:</p>
-                    <div data-each="MAIN[ 1 ] as i, v">
-                        <p><code><var>MAIN[ 1 ][ i ]</var> + <var>MAIN[ 1 ][ ( i + 1 ) % 3 ]</var> = <var>localeToFixed( parseFloat( MAIN[ 1 ][ i ] ) + parseFloat( MAIN[ 1 ][ ( i + 1 ) % 3  ] ), 1 )</var></code></p>
-                        <p><code><var>MAIN[ 1 ][ ( i + 2 ) % 3 ]</var></code> is <span data-if="parseFloat( MAIN[ 1 ][ ( i + 2 ) % 3 ] ) >= ( parseFloat( MAIN[ 1 ][ i ] ) + parseFloat( MAIN[ 1 ][ ( i + 1 ) % 3  ] ) ) ">not</span> smaller than <code><var>localeToFixed( parseFloat( MAIN[ 1 ][ i ] ) + parseFloat( MAIN[ 1 ][ ( i + 1 ) % 3  ] ), 1 )</var></code> so the theorem <span data-if="parseFloat( MAIN[ 1 ][ ( i + 2 ) % 3 ] ) >= ( parseFloat( MAIN[ 1 ][ i ] ) + parseFloat( MAIN[ 1 ][ ( i + 1 ) % 3  ] ) )">does not hold</span><span data-else="">holds</span>.</p>
+                    <div data-each="SETS as SET">
+                        <p><code><var>SET[1]</var> + <var>SET[2]</var> = <var>SET[3]</var></code></p>
+                        <p data-if="SET[4]">
+                            <code><var>SET[0]</var></code> is smaller than <code><var>SET[3]</var></code> so the theorem holds.
+                        </p><p data-else>
+                            <code><var>SET[0]</var></code> is not smaller than <code><var>SET[3]</var></code> so the theorem does not hold.
+                        </p>
                     </div>
                 <p data-if="POSSIBLE">All three sides conform to the inequality theorem, so this triangle can exist.</p>
                 <p data-else="">Not all three sides conform to the inequality theorem, so this triangle cannot exist.</p>
