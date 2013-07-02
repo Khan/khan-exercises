@@ -9,16 +9,16 @@
     <div class="exercise">
     <div class="vars">
         <div data-ensure="getGCD(A, B) === 1">
-            <var id="A">randRangeNonZero(-8, 8)</var>
-            <var id="B">randRange(abs(A) + 1, 9)</var>
+            <var id="A">randRange(1, 8)</var>
+            <var id="B">randRange(A + 1, 9)</var>
         </div>
-            <var id="C">randRange(-10, 10)</var>
+        <var id="C">randRange(2, 10)</var>
     </div>
 
     <div class="problems">
         <div>
             <div class="question">
-                <p><code><span data-if="A < 0">-</span> \dfrac{<var>abs(A)</var>}{<var>B</var>} \times <var>C</var></code></p>
+                <p><code><var>fraction(A, B)</var> \times <var>C</var> = {?}</code></p>
             </div>
             <div class="solution" data-type="rational"><var>(A * C) / B</var></div>
         </div>
@@ -27,7 +27,7 @@
     <div class="hints">
         <div>
             <p><code><var>C</var></code> is the same as <code>\dfrac{<var>C</var>}{1}</code></p>
-            <p><code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>C</var>}{<var>1</var>}</code></p>
+            <p><code>\dfrac{<var>A</var>}{<var>B</var>} \times \dfrac{<var>C</var>}{<var>1</var>} = {?}</code></p>
         </div>
         <div>
             <p>When multiplying fractions, we multiply the numerators and the denominators:</p>
