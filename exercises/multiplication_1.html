@@ -2,14 +2,13 @@
 <html data-require="math graphie graphie-helpers-arithmetic word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Multiplying 1-digit numbers</title>
+    <title>Multiplying by multiples of 10</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
     <div class="exercise">
         <div class="vars">
-            <var id="A">randRange( 1, 10 )</var>
-            <var id="B">randRange( 0, 10 )</var>
+            <var id="A, B">shuffle([randRange(1, 9), randRange(0, 9) * 10])</var>
         </div>
 
         <div class="problems">
