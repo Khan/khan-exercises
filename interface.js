@@ -182,11 +182,6 @@ function handleAttempt(data) {
     var curTime = new Date().getTime();
     var timeTaken = Math.round((curTime - lastAttemptOrHint) / 1000);
     var stringifiedGuess = JSON.stringify(score.guess);
-    var attemptData = null;
-    if (!localMode) {
-        attemptData = buildAttemptData(
-            score.correct, ++attempts, stringifiedGuess, timeTaken, skipped);
-    }
     lastAttemptOrHint = curTime;
 
     Exercises.guessLog.push(score.guess);
@@ -277,6 +272,11 @@ function handleAttempt(data) {
         // wait for the special assessment mode triggers to fire instead.
         $(Exercises).trigger("gotoNextProblem");
     }
+
+    // This needs to be after all updates to Exercises.currentCard (such as the
+    // "problemDone" event) or it will send incorrect data to the server
+    var attemptData = buildAttemptData(
+            score.correct, ++attempts, stringifiedGuess, timeTaken, skipped);
 
     // Save the problem results to the server
     var requestUrl = "problems/" + problemNum + "/attempt";
