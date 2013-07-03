@@ -27,10 +27,11 @@
             <var id="HIDDEN">rand( 3 )</var>
             <var id="KNOWN">MAIN[ 1 ].slice( 0, HIDDEN ).concat( MAIN[ 1 ].slice( HIDDEN + 1 ) )</var>
             <var id="KNOWN_DISPLAY">_.map(KNOWN, function(v) { return localeToFixed(v, 1); })</var>
-            <var id="MAX">roundTo( 1, KNOWN[ 0 ] + KNOWN[ 1 ] )</var>
-            <var id="MAX_DISPLAY">localeToFixed(MAX, 1)</var>
-            <var id="MIN">roundTo( 1, abs( KNOWN[ 0 ] - KNOWN[ 1 ] ) )</var>
-            <var id="MIN_DISPLAY">localeToFixed(MIN, 1)</var>
+            <var id="KNOWN_CALC">_.map(KNOWN_DISPLAY, function(v) { return parseFloat(v); })</var>
+            <var id="MAX">roundTo( 1, KNOWN_CALC [ 0 ] + KNOWN_CALC [ 1 ] )</var>
+            <var id="MAX_DISPLAY">MAX</var>
+            <var id="MIN">roundTo( 1, abs( KNOWN_CALC [ 0 ] - KNOWN_CALC [ 1 ] ) )</var>
+            <var id="MIN_DISPLAY">MIN</var>
         </div>
 
         <div class="problems">
@@ -73,7 +74,8 @@
                     <p>The triangle inequality theorem states that any side of a triangle is always shorter than the sum of the other two sides.</p>
                     <p>Therefore the the third side must be less than <code><var>KNOWN_DISPLAY[ 0 ]</var> + <var>KNOWN_DISPLAY[ 1 ]</var> = <var>MAX_DISPLAY</var></code></p>
                     <p>By the same theorem, the third side must be also larger than the difference between the other two sides.</p>
-                    <p>Therefore the third side must be larger than <code><var>KNOWN[0] &lt; KNOWN[1] ? KNOWN_DISPLAY[1] : KNOWN_DISPLAY[0]</var> - <var>KNOWN[0] &lt; KNOWN[1] ? KNOWN_DISPLAY[0] : KNOWN_DISPLAY[1]</var> = <var>MIN_DISPLAY</var></code></p>
+                  	<p>Therefore the third side must be larger than 
+                    <code><var>KNOWN[0] &lt; KNOWN[1] ? KNOWN_DISPLAY[1] : KNOWN_DISPLAY[0]</var> - <var>KNOWN[0] &lt; KNOWN[1] ? KNOWN_DISPLAY[0] : KNOWN_DISPLAY[1]</var> = <var>MIN_DISPLAY</var></code></p>
                     <p>So <code><var>MIN_DISPLAY</var> &lt; x &lt; <var>MAX_DISPLAY</var></code></p>
                 </div>
             </div>
