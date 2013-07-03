@@ -8,35 +8,40 @@
 <body>
     <div class="exercise">
     <div class="vars">
+        <var id="SCALE">randRange(1, 4)</var>
         <var id="LOWER_BOUND">0</var>
-        <var id="UPPER_BOUND">10</var>
-        <var id="NUMBER">randRangeNonZero( LOWER_BOUND, UPPER_BOUND )</var>
+        <var id="UPPER_BOUND">10 * SCALE</var>
+        <var id="NUMBER">randRangeNonZero(3, 10) * SCALE</var>
     </div>
     <div class="problems">
         <div>
             <div class="question">
-                <p>Drag the orange dot to <strong><var>NUMBER</var></strong>. The distance between tick marks is 1.</p>
+                <p class="question">Where is <code><var>NUMBER</var></code> on the number line?</p>
                 <div class="graphie" id="number-line">
+                    var scale = 40 / SCALE;
                     init({
-                        range: [[LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1]]
+                        range: [[LOWER_BOUND - (30 / scale), UPPER_BOUND + (30 / scale)], [-1, 1]],
+                        scale: [40 / SCALE, 40]
                     });
 
-                    line([LOWER_BOUND, 0], [UPPER_BOUND, 0]);
-                    for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x++) {
-                        line([x, -0.2], [x, 0.2]);
+                    line([LOWER_BOUND - (25 / scale), 0], [UPPER_BOUND + (25 / scale), 0], { arrows: "-&gt;" });
+                    line([UPPER_BOUND + (25 / scale), 0], [LOWER_BOUND - (25 / scale), 0], { arrows: "-&gt;" });
+                    for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
+                        line([x, -0.2], [x, 0.2 ]);
                     }
                     style({ stroke: "#6495ED", strokeWidth: 3.5 });
-                    line([0, -0.2], [0, 0.2]);
-                    label([0, -0.53], "0", "center", { color: "#6495ED" });
+                    line( [ 0, -0.2], [0, 0.2]);
+                    label( [ 0, -0.53 ],  "0", "center");
+                    label( [ SCALE, -0.53 ],  SCALE, "center");
 
                     addMouseLayer();
-                    graph.movablePoint = addMovablePoint({ constraints: { constrainY: true } });
+                    var snap = SCALE / 4;
+                    if (SCALE === 3) {
+                        snap = SCALE / 3;
+                    }
+                    graph.movablePoint = addMovablePoint({ constraints: { constrainY: true }, snapX: snap });
                     graph.movablePoint.onMove = function( x, y ) {
-                        var newx = round(x);
-                        if (abs(newx - x) &lt; 0.25) {
-                            x = newx;
-                        }
-                        return [min(max(LOWER_BOUND, x), UPPER_BOUND), y];
+                        return [ min( max( LOWER_BOUND, x ), UPPER_BOUND ), y ];
                     };
                 </div>
             </div>
@@ -56,22 +61,21 @@
             </div>
 
             <div class="hints">
-                <p>We know where 0 is on the number line because it is labeled.</p>
-                <p>As you move to the right, the numbers get bigger.</p>
+                <p>We know each tick mark is <code><var>SCALE</var></code> because <code>0</code> and <code><var>SCALE</var></code> are labeled.</p>
                 <div>
+                    <p>Label the rest of the number line.</p>
                     <div class="graphie" data-update="number-line">
-                        style({ stroke: "#6495ED", fill: "#6495ED", strokeWidth: 3.5, arrows: "-&gt;" });
-                        line([0, 0], [NUMBER, 0]);
-                        graph.movablePoint.visibleShape.toFront();
+                        for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
+                            label([x, -0.53], ("" + x).replace(/-/, "\\llap{-}"), "center");
+                        }
                     </div>
-                    <p data-if="isSingular(abs(NUMBER))">The orange dot should be <var>abs(NUMBER)</var> tick mark to the <span data-if="NUMBER < 0">left</span><span data-else="">right</span> of 0.</p><p data-else="">The orange dot should be <var>abs(NUMBER)</var> tick marks to the <span data-if="NUMBER < 0">left</span><span data-else="">right</span> of 0.</p>
                 </div>
                 <div>
+                    <p>The orange number shows where <var>NUMBER</var> is on the number line.</p>
                     <div class="graphie" data-update="number-line">
-                        label([NUMBER, -0.53], NUMBER, "center", {color: "#FFA500"});
+                        label([ NUMBER, -0.53], ("" + NUMBER).replace(/-/, "\\llap{-}"), "center", { color: ORANGE });
                         graph.movablePoint.moveTo(NUMBER, 0);
                     </div>
-                    <p>The orange number shows where <var>NUMBER</var> is on the number line.</p>
                 </div>
             </div>
         </div>

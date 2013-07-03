@@ -8,66 +8,56 @@
 <body>
     <div class="exercise">
     <div class="vars">
+        <var id="SCALE">randRange(1, 4)</var>
         <var id="MIDPOINT">randRange( -15, 15 )</var>
-        <var id="DISTANCE">randRange( -2, 2 )</var>
-        <var id="NUMBER">randRangeExclude( max(MIDPOINT-5, MIDPOINT-5-DISTANCE),min(MIDPOINT+5, MIDPOINT+5-DISTANCE), [ 0, MIDPOINT - DISTANCE ] )</var>
+        <var id="LOWER_BOUND">MIDPOINT - 5 * SCALE</var>
+        <var id="UPPER_BOUND">MIDPOINT + 5 * SCALE</var>
+        <var id="NUMBER">randFromArray([
+            MIDPOINT - SCALE * 5, MIDPOINT - SCALE * 4, MIDPOINT - SCALE * 3,
+            MIDPOINT + SCALE * 3, MIDPOINT + SCALE * 4, MIDPOINT + SCALE * 5
+        ])</var>
     </div>
     <div class="problems">
         <div>
             <div class="question">
-                <p data-if="DISTANCE !== 0"><span data-if="isSingular(abs( DISTANCE ))" data-unwrap="">What number is <strong><var>abs( DISTANCE )</var> position to the <span data-if="DISTANCE < 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</span><span data-else="" data-unwrap="">What number is <strong><var>abs( DISTANCE )</var> positions to the <span data-if="DISTANCE < 1">left</span><span data-else="">right</span> of the orange dot</strong>? The distance between tick marks is 1.</span></p>
-                <p data-else="">What number does the orange dot represent? The distance between tick marks is 1.</p>
+                <p data-else="">Where is the blue dot on the number line?</p>
                 <div class="graphie" id="number-line">
+                    var scale = 40 / SCALE;
                     init({
-                        range: [ [ MIDPOINT-6, MIDPOINT+6 ], [ -1, 1 ] ]
+                        range: [[LOWER_BOUND - (30 / scale), UPPER_BOUND + (30 / scale)], [-1, 1]],
+                        scale: [40 / SCALE, 40]
                     });
 
-                    line( [ MIDPOINT-5, 0 ], [ MIDPOINT+5, 0 ] );
-                    for ( var x = MIDPOINT-5; x &lt;= MIDPOINT+5; x++ ) {
-                        line( [ x, -0.2 ], [ x, 0.2 ] );
+                    line([LOWER_BOUND - (25 / scale), 0], [UPPER_BOUND + (25 / scale), 0], { arrows: "-&gt;" });
+                    line([UPPER_BOUND + (25 / scale), 0], [LOWER_BOUND - (25 / scale), 0], { arrows: "-&gt;" });
+                    for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
+                        line([x, -0.2], [x, 0.2 ]);
                     }
-
-                    style({ stroke: "#6495ED", strokeWidth: 3.5 });
-                    line( [ MIDPOINT, -0.2], [MIDPOINT, 0.2]);
-                    label( [ MIDPOINT, -0.53 ],  MIDPOINT, "center", { color: "#6495ED" });
-
-                    style({ stroke: "#FFA500", fill: "#FFA500" });
-                    graph.orangeDot = circle( [ NUMBER, 0 ], 0.10 );
+                    label( [ MIDPOINT - SCALE, -0.53 ], ("" + (MIDPOINT - SCALE)).replace(/-/, "\\llap{-}"), "center");
+                    label( [ MIDPOINT + SCALE, -0.53 ], ("" + (MIDPOINT + SCALE)).replace(/-/, "\\llap{-}"), "center");
+                    style({ stroke: BLUE, fill: BLUE });
+                    graph.blueDot = ellipse( [ NUMBER, 0 ], [4 / scale, 4/40] );
+                    graph.questionLabel = label( [ NUMBER, -0.53 ], "{?}", "center", { color: BLUE });
                 </div>
             </div>
-            <div class="solution" data-forms="integer"><var>NUMBER+DISTANCE</var></div>
+            <div class="solution" data-forms="integer"><var>NUMBER</var></div>
 
             <div class="hints">
-                <p>We know where <code><var>MIDPOINT</var></code> is on this number line because it is labeled.</p>
-                <p>Numbers to the left are less than <code><var>MIDPOINT</var></code>, while numbers to the right are greater than <code><var>MIDPOINT</var></code>.</p>
-                <div data-if="DISTANCE !== 0">
-                    <p data-if="isSingular(abs( DISTANCE ))">We need to find the number represented by the blue dot, which is <var>abs( DISTANCE )</var> position to the <span data-if="DISTANCE < 1">left</span><span data-else="">right</span> of the orange dot.</p><p data-else="">We need to find the number represented by the blue dot, which is <var>abs( DISTANCE )</var> positions to the <span data-if="DISTANCE < 1">left</span><span data-else="">right</span> of the orange dot.</p>
+                <div>
+                    <p>Fill in the other numbers on the number line.</p>
                     <div class="graphie" data-update="number-line">
-                        style({ stroke: "#6495ED", fill: "#6495ED" });
-                        graph.blueDot = circle( [ NUMBER+DISTANCE, 0 ], 0.10 );
+                        for (var x = LOWER_BOUND; x &lt;= UPPER_BOUND; x += SCALE) {
+                            if (x !== MIDPOINT - SCALE &amp;&amp; x !== MIDPOINT + SCALE &amp;&amp; x !== NUMBER) {
+                                label([x, -0.53], ("" + x).replace(/-/, "\\llap{-}"), "center");
+                            }
+                        }
                     </div>
                 </div>
                 <div>
-                    <p>Starting from <code><var>MIDPOINT</var></code>, we move <code><var>abs( NUMBER-MIDPOINT+DISTANCE )</var></code> to the <span data-if="NUMBER-MIDPOINT+DISTANCE < 0">left</span><span data-else="">right</span> to reach the <span data-if="DISTANCE !== 0">blue</span><span data-else="">orange</span> dot.</p>
+                    <p>The blue dot represents the number <code><var>NUMBER</var></code>.</p>
                     <div class="graphie" data-update="number-line">
-                        var color = "#6495ED";
-                        if ( DISTANCE === 0 ) {
-                            color = "#FFA500";
-                        }
-                        style({ stroke: color, fill: color, strokeWidth: 3.5, arrows: "-&gt;" });
-                        line( [ MIDPOINT, 0 ], [ NUMBER+DISTANCE, 0 ] );
-                        graph.blueDot.toFront();
-                        graph.orangeDot.toFront();
-                    </div>
-                </div>
-                <div>
-                    <p class="final_answer">Thus, the <span data-if="DISTANCE !== 0">blue</span><span data-else="">orange</span> dot represents the number <code><var>NUMBER+DISTANCE</var></code>.</p>
-                    <div class="graphie" data-update="number-line">
-                        var color = "#6495ED";
-                        if ( DISTANCE === 0 ) {
-                            color = "#FFA500";
-                        }
-                        label( [ NUMBER+DISTANCE, -0.53 ],  NUMBER+DISTANCE, "center", { color: color });
+                        graph.questionLabel.remove();
+                        label([ NUMBER, -0.53], ("" + NUMBER).replace(/-/, "\\llap{-}"), "center", { color: BLUE });
                     </div>
                 </div>
             </div>
