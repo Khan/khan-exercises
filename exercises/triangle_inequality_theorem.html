@@ -24,12 +24,16 @@
     <div class="exercise">
         <div class="vars">
             <var id="MAIN">randomTriangleWithSides()</var>
-            <var id="HIDDEN">rand( 3 )</var>
-            <var id="KNOWN">MAIN[ 1 ].slice( 0, HIDDEN ).concat( MAIN[ 1 ].slice( HIDDEN + 1 ) )</var>
+            <var id="HIDDEN">rand(3)</var>
+            <var id="KNOWN">(function() {
+                var known = MAIN[1].slice();
+                known.splice(HIDDEN, 1);
+                return _.map(known, function(v) { return roundTo(1, v); });
+            })()</var>
             <var id="KNOWN_DISPLAY">_.map(KNOWN, function(v) { return localeToFixed(v, 1); })</var>
-            <var id="MAX">roundTo( 1, KNOWN[ 0 ] + KNOWN[ 1 ] )</var>
+            <var id="MAX">roundTo(1, KNOWN[0] + KNOWN[1])</var>
             <var id="MAX_DISPLAY">localeToFixed(MAX, 1)</var>
-            <var id="MIN">roundTo( 1, abs( KNOWN[ 0 ] - KNOWN[ 1 ] ) )</var>
+            <var id="MIN">roundTo(1, abs(KNOWN[0] - KNOWN[1]))</var>
             <var id="MIN_DISPLAY">localeToFixed(MIN, 1)</var>
         </div>
 
