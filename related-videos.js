@@ -8,6 +8,10 @@ Exercises.RelatedVideos = {
     },
 
     render: function(videos) {
+        if (videos == null) {
+            videos = [];
+        }
+
         var container = $(".related-video-box");
         var jel = container.find(".related-video-list");
         jel.empty();
