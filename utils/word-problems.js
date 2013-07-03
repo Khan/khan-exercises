@@ -675,25 +675,13 @@ $.fn["word-problemsLoad"] = function() {
             return $.ngettext("hat", "hats", num);
         }),
         new Plural(function(num) {
-            return $.ngettext("pair of pants", "pairs of pants", num);
-        }),
-        new Plural(function(num) {
             return $.ngettext("belt", "belts", num);
         }),
         new Plural(function(num) {
             return $.ngettext("necklace", "necklaces", num);
         }),
         new Plural(function(num) {
-            return $.ngettext("purse", "purses", num);
-        }),
-        new Plural(function(num) {
             return $.ngettext("pair of shoes", "pairs of shoes", num);
-        }),
-        new Plural(function(num) {
-            return $.ngettext("blouse", "blouses", num);
-        }),
-        new Plural(function(num) {
-            return $.ngettext("skirt", "skirts", num);
         }),
         new Plural(function(num) {
             return $.ngettext("watch", "watches", num);
@@ -714,7 +702,31 @@ $.fn["word-problemsLoad"] = function() {
             return $.ngettext("scarf", "scarves", num);
         }),
         new Plural(function(num) {
-            return $.ngettext("dress", "dresses", num);
+            return $.ngettext("pair of shorts", "pairs of shorts", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("pair of jeans", "pairs of jeans", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("pair of gloves", "pairs of gloves", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("shirt", "shirts", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("pair of suspenders", "pairs of suspenders", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("jacket", "jackets", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("pair of glasses", "pairs of glasses", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("pair of boots", "pair of boots", num);
+        }),
+        new Plural(function(num) {
+            return $.ngettext("backpack", "backpacks", num);
         })
     ]);
 
