@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers-arithmetic">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>2-digit subtraction</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+<div class="exercise">
+    <div class="vars">
+
+        <var id="A_10">randRange(1, 9)</var>
+        <var id="A_1">randRange(2, 9)</var>
+        <var id="A">10 * A_10 + A_1</var>
+
+        <var id="B_10">randRange(0, A_10 - 1)</var>
+        <var id="B_1">randRange(0, A_1 - 1)</var>
+        <var id="B">10 * B_10 + B_1</var>
+
+        <var id="NUM_HINTS">0</var>
+    </div>
+
+    <div class="problems">
+        <div id="subtraction-2">
+            <div class="graphie" id="numbers">
+                graph.subtractor = new Subtractor( A, B );
+                graph.subtractor.show();
+                NUM_HINTS = graph.subtractor.getNumHints();
+            </div>
+            <div class="solution" data-forms="integer">
+                <var>A - B</var>
+            </div>
+        </div>
+    </div>
+
+    <div class="hints">
+        <div class="graphie" data-each="NUM_HINTS times" data-update="numbers">
+            graph.subtractor.showHint();
+        </div>
+    </div>
+</div>
+</body>
+</html>
