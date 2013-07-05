@@ -901,13 +901,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
                 // create a validator for each of the solutions
                 var validator = Khan.answerTypes[type].createValidator(sol);
-
-                // Store each of the validators, and whether or not that
-                // answer is required
-                validators.push({
-                    validator: validator,
-                    required: sol.attr("required") != undefined
-                });
+                validators.push(validator);
             });
 
             return function(guess) {
@@ -919,11 +913,10 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 $.each(guess, function(i, g) {
                     // Check whether that answer is right by validating it
                     // with the cooresponding validator
-                    var pass = validators[i].validator(g);
+                    var pass = validators[i](g);
 
-                    // If the answer is required, and no answer was provided,
-                    // break;
-                    if (pass === "" && validators[i].required) {
+                    // If no answer was provided, break;
+                    if (pass === "") {
                         missing_required_answer = true;
                         return false;
                     } else if (typeof pass === "string") {
