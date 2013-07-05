@@ -15,7 +15,7 @@
 <div class="exercise">
     <div class="problems">
         <div id="linear">
-            <div class="vars">
+            <div class="vars" data-ensure="VALIDATOR(REALSLOPE, REALINTERCEPT)">
                 <var id="SLOPE">randRange(-80, 80) / 20</var>
                 <var id="INTERCEPT">randRange(-5, 5)</var>
                 <var id="FUNC">function(x) { return SLOPE * x + INTERCEPT }</var>
@@ -107,6 +107,65 @@
                     return [realSlope, realIntercept];
                 })()</var>
                 <var id="GRAPH">{}</var>
+                <var id="VALIDATOR">function(slope, intercept) {
+                    var low = _.first(POINTS), high = _.last(POINTS);
+
+                    var slopeadd = 1 / REALSLOPE + REALSLOPE;
+
+                    lowx = (1 / REALSLOPE * low[0] + low[1] - REALINTERCEPT) /
+                        slopeadd;
+                    highx = (1 / REALSLOPE * high[0] + high[1] - REALINTERCEPT) /
+                        slopeadd;
+
+                    var lowfunc = function(x) {
+                        return -1 / REALSLOPE * (x - low[0]) + low[1];
+                    };
+
+                    var highfunc = function(x) {
+                        return -1 / REALSLOPE * (x - high[0]) + high[1];
+                    };
+
+                    lowIntersectx = (1 / REALSLOPE * low[0] +
+                                        low[1] - intercept) /
+                                    (slope + 1 / REALSLOPE);
+                    highIntersectx = (1 / REALSLOPE * high[0] +
+                                         high[1] - intercept) /
+                                     (slope + 1 / REALSLOPE);
+
+                    // the differences between the least squares line and the
+                    // given line, at the highest and lowest points
+                    var lowDiff = sqrt(pow(lowfunc(lowx) -
+                                           lowfunc(lowIntersectx), 2) +
+                                       pow(lowx - lowIntersectx, 2));
+                    var highDiff = sqrt(pow(highfunc(highx) -
+                                            highfunc(highIntersectx), 2) +
+                                        pow(highx - highIntersectx, 2));
+
+                    // whether or not each of the points are above or below
+                    // the given line
+                    var updown = _.map(POINTS, function(pt) {
+                        var x = pt[0], y = pt[1],
+                            est = slope * x + intercept;
+                        return y &gt;= est ? 1 : -1;
+                    });
+
+                    // sort and reverse-sort updown
+                    var updownSorted = sortNumbers(updown);
+                    var updownReversed = updownSorted.slice(0).reverse();
+
+                    // ensure:
+                    // all the points are not up, ..., up, down, ..., down
+                    return !_.isEqual(updown, updownSorted) &amp;&amp;
+                        // all the points are not down, ..., down, up, ..., up
+                        !_.isEqual(updown, updownReversed) &amp;&amp;
+                        // one point is above/below
+                        _.include(updown, 1) &amp;&amp;
+                        _.include(updown, -1) &amp;&amp;
+                        // the differences are between some proportion
+                        // of the offset
+                        lowDiff &lt; 1.3 * OFFSET &amp;&amp;
+                        highDiff &lt; 1.3 * OFFSET;
+                }</var>
             </div>
 
             <p class="question">Find the line of best fit,
@@ -249,77 +308,17 @@
                         return "";
                     }
 
-                    var low = _.first(POINTS), high = _.last(POINTS);
-
-                    var slopeadd = 1 / REALSLOPE + REALSLOPE;
-
-                    lowx = (1 / REALSLOPE * low[0] + low[1] - REALINTERCEPT) /
-                        slopeadd;
-                    highx = (1 / REALSLOPE * high[0] + high[1] - REALINTERCEPT) /
-                        slopeadd;
-
-                    var lowfunc = function(x) {
-                        return -1 / REALSLOPE * (x - low[0]) + low[1];
-                    };
-
-                    var highfunc = function(x) {
-                        return -1 / REALSLOPE * (x - high[0]) + high[1];
-                    };
+                    // Check that the right checkbox is checked
+                    if (guess[2] !== "exists") {
+                        return false;
+                    }
 
                     var slope = (guess[1][1] - guess[0][1]) /
                                 (guess[1][0] - guess[0][0]);
                     var intercept = slope * -guess[0][0] + guess[0][1];
 
-                    lowIntersectx = (1 / REALSLOPE * low[0] +
-                                        low[1] - intercept) /
-                                    (slope + 1 / REALSLOPE);
-                    highIntersectx = (1 / REALSLOPE * high[0] +
-                                         high[1] - intercept) /
-                                     (slope + 1 / REALSLOPE);
-
-                    // the differences between the least squares line and the
-                    // given line, at the highest and lowest points
-                    var lowDiff = sqrt(pow(lowfunc(lowx) -
-                                           lowfunc(lowIntersectx), 2) +
-                                       pow(lowx - lowIntersectx, 2));
-                    var highDiff = sqrt(pow(highfunc(highx) -
-                                            highfunc(highIntersectx), 2) +
-                                        pow(highx - highIntersectx, 2));
-
-                    // whether or not each of the points are above or below
-                    // the given line
-                    var updown = _.map(POINTS, function(pt) {
-                        var x = pt[0], y = pt[1],
-                            est = slope * x + intercept;
-                        return y &gt;= est ? 1 : -1;
-                    });
-
-                    // sort and reverse-sort updown
-                    var updownSorted = sortNumbers(updown);
-                    var updownReversed = updownSorted.slice(0).reverse();
-
-                    var normLength = pow((guess[1][0] - guess[0][0]), 2) +
-                        pow((guess[1][1] - guess[0][1]), 2);
-                    // calculate the distance from a point to the line
-                    var distTo = function(pt) {
-                        return abs((pt[0] - guess[0][0]) * (guess[1][1] - guess[0][1]) -
-                                   (pt[1] - guess[0][1]) * (guess[1][0] - guess[0][0])) / normLength;
-                    };
-
-                    // ensure:
-                    // all the points are not up, ..., up, down, ..., down
-                    return !_.isEqual(updown, updownSorted) &amp;&amp;
-                        // all the points are not down, ..., down, up, ..., up
-                        !_.isEqual(updown, updownReversed) &amp;&amp;
-                        // one point is above/below
-                        _.include(updown, 1) &amp;&amp;
-                        _.include(updown, -1) &amp;&amp;
-                        // the differences are between some proportion
-                        // of the offset
-                        lowDiff &lt; 1.3 * OFFSET &amp;&amp;
-                        highDiff &lt; 1.3 * OFFSET &amp;&amp;
-                        // they left 'a line exists' checked
-                        guess[2] === "exists";
+                    // Validate the line
+                    return VALIDATOR(slope, intercept);
                 </div>
                 <div class="show-guess">
                     GRAPH.pointA.setCoord(guess[0]);
