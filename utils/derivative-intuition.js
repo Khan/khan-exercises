@@ -57,6 +57,7 @@ $.extend(KhanUtil, {
         // handlers wherever we want. Is there a better way?
         graph.mouselayer = Raphael("ddxplot", graph.xpixels, graph.ypixels);
         $(graph.mouselayer.canvas).css("z-index", 1);
+        Khan.scratchpad.disable();
 
         // plot all the tangent lines first so they're underneath the tangent/slope points
         $(points).each(function(index, xval) {
