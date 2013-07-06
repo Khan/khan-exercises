@@ -1371,12 +1371,14 @@ var Khan = (function() {
         }
 
         // Remove the solution and choices elements from the display
-        if (!localMode) {
-            solution.remove();
-            choices.remove();
-        } else {
+        // Some exercises (e.g., parabola_intuition_3) break if we don't remove
+        // so always do it unless ?noremovesolution is explicitly passed
+        if (localMode && Khan.query.noremovesolution != null) {
             solution.hide();
             choices.hide();
+        } else {
+            solution.remove();
+            choices.remove();
         }
 
         // Add the problem into the page

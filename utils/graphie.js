@@ -114,6 +114,7 @@
         };
 
         var doLabelTypeset = function() {};
+        var mjCallback = null;
 
         var setNeedsLabelTypeset = function() {
             if (needsLabelTypeset) {
@@ -130,19 +131,25 @@
             // immediately by a MathJax.Hub.Queue, the labels should all have
             // been typeset by the time the queued function runs.
             doLabelTypeset = _.once(function() {
+                if (!needsLabelTypeset) {
+                    return;
+                }
                 needsLabelTypeset = false;
                 typesetLabels();
+                if (mjCallback) {
+                    mjCallback();
+                    mjCallback = null;
+                }
             });
             MathJax.Hub.Queue(function() {
                 if (!needsLabelTypeset) {
                     return;
                 }
-                var done = MathJax.Callback(function() {});
+                mjCallback = MathJax.Callback(function() {});
                 _.defer(function() {
                     doLabelTypeset();
-                    done();
                 });
-                return done;
+                return mjCallback;
             });
         }
 
