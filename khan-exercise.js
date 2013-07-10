@@ -335,7 +335,9 @@ var Khan = (function() {
             // MathJax is here because Perseus wants it loaded regardless of if
             // we load a khan-exercises problem that needs it. Previously it
             // was a dependency of 'math' so this isn't really any different.
-            mods.push("answer-types", "tmpl", "jquery.adhesion", "calculator",
+            mods.push(
+                "answer-types", "tmpl", "tex", "jquery.adhesion",
+                "calculator",
                 {
                     src: urlBase + "utils/MathJax/2.1/MathJax.js?config=KAthJax-da9a7f53e588f3837b045a600e1dc439"
                 });
@@ -1397,7 +1399,7 @@ var Khan = (function() {
                 examples.append("<li>" + example + "</li>");
             });
 
-            examples.children().tmpl();
+            examples.children().runModules();
 
             $("#examples-show").qtip({
                 content: {
