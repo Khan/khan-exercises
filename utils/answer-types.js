@@ -806,7 +806,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
         setup: function(solutionarea, solution) {
             // Very quickly place all of the elements in the solution area
             // Clone it, because we don't want to modify or move it
-            $(solutionarea).append($(solution).clone().contents().tmpl());
+            $(solutionarea).append(
+                    $(solution).clone().contents().runModules());
 
             var answerDataArray = [];
 
@@ -960,7 +961,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
         setup: function(solutionarea, solution) {
             // Append the input format to the solution area
             $(solutionarea).append(
-                $(solution).find(".input-format").clone().contents().tmpl()
+                $(solution).find(".input-format").clone().contents()
+                        .runModules()
             );
 
             var inputArray = [];
@@ -1432,7 +1434,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             // copy the instruction element into the solution area
             solution.find(".instruction")
                     .appendTo(solutionarea)
-                    .tmpl();
+                    .runModules();
 
             // Retrieve some code
             var guessCode = solution.find(".guess").text();
