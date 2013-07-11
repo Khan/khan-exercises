@@ -1203,7 +1203,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
             for (var i = 0; i < possibleChoices.length &&
                                 shownChoices.length < numChoices; i++) {
                 var choice = $(possibleChoices[i]);
-                choice.runModules();
+                choice.tmpl();
                 var choiceTextSquish = choice.text().replace(/\s+/g, "");
 
                 if (isCategory && solutionTextSquish === choiceTextSquish) {
@@ -1244,7 +1244,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     solutionText = none.text();
                     list.data("realAnswer",
                             $(solutionClone)
-                                .runModules()
+                                .tmpl()
                                 .contents()
                                 .wrapAll('<span class="value""></span>')
                                 .parent());
@@ -1265,6 +1265,8 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     .parent().parent()
                     .appendTo(list);
             });
+
+            list.runModules();
 
             return {
                 validator: Khan.answerTypes.radio.createValidator(solution),
