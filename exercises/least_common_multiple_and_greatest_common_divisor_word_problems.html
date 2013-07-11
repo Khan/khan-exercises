@@ -5,10 +5,8 @@
     <title>LCM and GCD word problems</title>
     <script src="../khan-exercise.js"></script>
     <style>
-        .gcd-column {
-            position: relative;
-            float: left;
-            margin-left: 20px;
+        td {
+            padding: 0px 3px;
         }
     </style>
 </head>
@@ -412,15 +410,20 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_blue" data-each="getFactors( A ) as F">
-                            <span data-if="F === 1"><span data-if="isSingular(A)" data-unwrap="">
-                                1 team with <var>A</var> sprinter<br>
-                            </span><span data-else="" data-unwrap="">
-                                1 team with <var>A</var> sprinters<br>
-                            </span></span>
-                            <span data-else="">
-                                <span data-if="isSingular(F)">There is <var>F</var> team.</span><span data-else="">There are <var>F</var> teams.</span>
-                                <span data-if="isSingular(A / F)">Each team has <var>A / F</var> sprinter.</span><span data-else="">Each team has <var>A / F</var> sprinters.</span><br>
+                            <span data-if="isSingular(F)">
+                                <span data-if="isSingular(A / F)">
+                                    <var>F</var> team with <var>A / F</var> sprinter
+                                </span><span data-else>
+                                    <var>F</var> team with <var>A / F</var> sprinters
+                                </span>
+                            </span><span data-else>
+                                <span data-if="isSingular(A / F)">
+                                    <var>F</var> teams with <var>A / F</var> sprinter each
+                                </span><span data-else>
+                                    <var>F</var> teams with <var>A / F</var> sprinters each
+                                </span>
                             </span>
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -438,15 +441,20 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_green" data-each="getFactors( B ) as F">
-                            <span data-if="F === 1"><span data-if="isSingular(B)" data-unwrap="">
-                                1 team with <var>B</var> long-distance runner<br>
-                            </span><span data-else="" data-unwrap="">
-                                1 team with <var>B</var> long-distance runners<br>
-                            </span></span>
-                            <span data-else="">
-                                <span data-if="isSingular(F)">There <var>F</var> is <var>F</var> team.</span><span data-else="">There <var>F</var> are <var>F</var> teams.</span>
-                                <span data-if="isSingular(B / F)">Each team has <var>B / F</var> long-distance runner.</span><span data-else="">Each team has <var>B / F</var> long-distance runners.</span><br>
+                            <span data-if="isSingular(F)">
+                                <span data-if="isSingular(B / F)">
+                                    <var>F</var> team with <var>B / F</var> long distance runner
+                                </span><span data-else>
+                                    <var>F</var> team with <var>B / F</var> long distance runners
+                                </span>
+                            </span><span data-else>
+                                <span data-if="isSingular(B / F)">
+                                    <var>F</var> teams with <var>B / F</var> long distance runner each
+                                </span><span data-else>
+                                    <var>F</var> teams with <var>B / F</var> long distance runners each
+                                </span>
                             </span>
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -457,29 +465,44 @@
                         Since each team will have sprinters and long-distance runners, compare the numbers of teams the sprinters can be divided into and
                         the numbers of teams the runners can be divided into to find the <em>common divisors</em>:
                     </p>
-                    <div class="gcd-column">
-                        <span data-each="max( A, B ) times as N">
-                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <span data-if="isSingular(N + 1)">There <var>N + 1</var> is <var>N + 1</var> team.</span><span data-else="">There <var>N + 1</var> are <var>N + 1</var> teams.</span>
-                                <span data-if="isSingular(A / ( N + 1 ))">Each team has <var>A / ( N + 1 )</var> sprinter.</span><span data-else="">Each team has <var>A / ( N + 1 )</var> sprinters.</span><br>
-                            </span>
-                            <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <br>
-                            </span>
-                        </span>
-                    </div>
-                    <div class="gcd-column">
-                        <span data-each="max( A, B ) times as N">
-                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <span data-if="isSingular(N + 1)">There <var>N + 1</var> is <var>N + 1</var> team.</span><span data-else="">There <var>N + 1</var> are <var>N + 1</var> teams.</span>
-                                <span data-if="isSingular(B / ( N + 1 ))">Each team has <var>B / ( N + 1 )</var> long-distance runner.</span><span data-else="">Each team has <var>B / ( N + 1 )</var> long-distance runners.</span><br>
-                            </span>
-                            <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <br>
-                            </span>
-                        </span>
-                    </div>
-                    <div class="ui-helper-clearfix"></div>
+                    <table>
+                        <tr data-each="max( A, B ) times as N">
+                            <td>
+                                <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
+                                    <span data-if="isSingular((N + 1))">
+                                        <span data-if="isSingular(A / (N + 1))">
+                                            <var>(N + 1)</var> team with <var>A / (N + 1)</var> sprinter
+                                        </span><span data-else>
+                                            <var>(N + 1)</var> team with <var>A / (N + 1)</var> sprinters
+                                        </span>
+                                    </span><span data-else>
+                                        <span data-if="isSingular(A / (N + 1))">
+                                            <var>(N + 1)</var> teams with <var>A / (N + 1)</var> sprinter each
+                                        </span><span data-else>
+                                            <var>(N + 1)</var> teams with <var>A / (N + 1)</var> sprinters each
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
+                                    <span data-if="isSingular(N + 1)">
+                                        <span data-if="isSingular(B / (N + 1))">
+                                            <var>(N + 1)</var> team with <var>B / (N + 1)</var> long distance runner
+                                        </span><span data-else>
+                                            <var>(N + 1)</var> team with <var>B / (N + 1)</var> long distance runners
+                                        </span>
+                                    </span><span data-else>
+                                        <span data-if="isSingular(B / (N + 1))">
+                                            <var>(N + 1)</var> teams with <var>B / (N + 1)</var> long distance runner each
+                                        </span><span data-else>
+                                            <var>(N + 1)</var> teams with <var>B / (N + 1)</var> long distance runners each
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
                 <div>
@@ -490,9 +513,36 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
-                            <span data-if="isSingular(F)">There <var>F</var> is <var>F</var> team.</span><span data-else="">There <var>F</var> are <var>F</var> teams.</span>
-                            <span data-if="isSingular(A / F)">Each team has <var>A / F</var> sprinter.</span><span data-else="">Each team has <var>A / F</var> sprinters.</span>
-                            <span data-if="isSingular(B / F)">Each team also has <var>B / F</var> long-distance runner.</span><span data-else="">Each team also has <var>B / F</var> long-distance runners.</span><br>
+                            <span data-if="isSingular(F)">
+                                <span data-if="isSingular(A / F)">
+                                    <span data-if="isSingular(B / F)">
+                                        <var>F</var> team with <var>A / F</var> sprinter and <var>B / F</var> long-distance runner
+                                    </span><span data-else>
+                                        <var>F</var> team with <var>A / F</var> sprinter and <var>B / F</var> long-distance runners
+                                    </span>
+                                </span><span data-else>
+                                    <span data-if="isSingular(B / F)">
+                                        <var>F</var> team with <var>A / F</var> sprinters and <var>B / F</var> long-distance runner
+                                    </span><span data-else>
+                                        <var>F</var> team with <var>A / F</var> sprinters and <var>B / F</var> long-distance runners
+                                    </span>
+                                </span>
+                            </span><span data-else>
+                                <span data-if="isSingular(A / F)">
+                                        <var>F</var> teams with <var>A / F</var> sprinter and <var>B / F</var> long-distance runner each
+                                    <span data-if="isSingular(B / F)">
+                                        <var>F</var> teams with <var>A / F</var> sprinter and <var>B / F</var> long-distance runners each
+                                    </span><span data-else>
+                                    </span>
+                                </span><span data-else>
+                                    <span data-if="isSingular(B / F)">
+                                        <var>F</var> teams with <var>A / F</var> sprinters and <var>B / F</var> long-distance runner each
+                                    </span><span data-else>
+                                        <var>F</var> teams with <var>A / F</var> sprinters and <var>B / F</var> long-distance runners each
+                                    </span>
+                                </span>
+                            </span>
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -563,15 +613,20 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_blue" data-each="getFactors( A ) as F">
-                            <span data-if="F === 1"><span data-if="isSingular(A)" data-unwrap="">
-                                1 basket with <var>A</var> chocolate chip cookie<br>
-                            </span><span data-else="" data-unwrap="">
-                                1 basket with <var>A</var> chocolate chip cookies<br>
-                            </span></span>
-                            <span data-else="">
-                                <span data-if="isSingular(F)">There <var>F</var> is <var>F</var> basket.</span><span data-else="">There <var>F</var> are <var>F</var> baskets.</span>
-                                <span data-if="isSingular(A / F)">Each basket has <var>A / F</var> chocolate chip cookie.</span><span data-else="">Each basket has <var>A / F</var> chocolate chip cookies.</span><br>
+                            <span data-if="isSingular(F)">
+                                <span data-if="isSingular(A / F)">
+                                    <var>F</var> basket with <var>A / F</var> chocolate chip cookie
+                                </span><span data-else>
+                                    <var>F</var> basket with <var>A / F</var> chocolate chip cookies
+                                </span>
+                            </span><span data-else>
+                                <span data-if="isSingular(A / F)">
+                                    <var>F</var> baskets with <var>A / F</var> chocolate chip cookie each
+                                </span><span data-else>
+                                    <var>F</var> baskets with <var>A / F</var> chocolate chip cookies each
+                                </span>
                             </span>
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -589,15 +644,20 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_green" data-each="getFactors( B ) as F">
-                            <span data-if="F === 1"><span data-if="isSingular(B)" data-unwrap="">
-                                1 basket with <var>B</var> oatmeal cookie<br>
-                            </span><span data-else="" data-unwrap="">
-                                1 basket with <var>B</var> oatmeal cookies<br>
-                            </span></span>
-                            <span data-else="">
-                                <span data-if="isSingular(F)">There <var>F</var> is <var>F</var> basket.</span><span data-else="">There <var>F</var> are <var>F</var> baskets.</span>
-                                <span data-if="isSingular(B / F)">Each basket has <var>B / F</var> oatmeal cookie.</span><span data-else="">Each basket has <var>B / F</var> oatmeal cookies.</span><br>
+                            <span data-if="isSingular(F)">
+                                <span data-if="isSingular(B / F)">
+                                    <var>F</var> basket with <var>B / F</var> oatmeal cookie
+                                </span><span data-else>
+                                    <var>F</var> basket with <var>B / F</var> oatmeal cookies
+                                </span>
+                            </span><span data-else>
+                                <span data-if="isSingular(B / F)">
+                                    <var>F</var> baskets with <var>B / F</var> oatmeal cookie each
+                                </span><span data-else>
+                                    <var>F</var> baskets with <var>B / F</var> oatmeal cookies each
+                                </span>
                             </span>
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -607,29 +667,44 @@
                         Since each gift basket will have chocolate chip and oatmeal cookies, compare the ways of dividing the chocolate chip cookies
                         and the ways of dividing the oatmeal cookies to find the <em>common divisors</em>:
                     </p>
-                    <div class="gcd-column">
-                        <span data-each="max( A, B ) times as N">
-                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <span data-if="isSingular(N + 1)">There <var>N + 1</var> is <var>N + 1</var> basket.</span><span data-else="">There <var>N + 1</var> are <var>N + 1</var> baskets.</span>
-                                <span data-if="isSingular(A / ( N + 1 ))">Each basket has <var>A / ( N + 1 )</var> chocolate chip cookie.</span><span data-else="">Each basket has <var>A / ( N + 1 )</var> chocolate chip cookies.</span><br>
-                            </span>
-                            <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <br>
-                            </span>
-                        </span>
-                    </div>
-                    <div class="gcd-column">
-                        <span data-each="max( A, B ) times as N">
-                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <span data-if="isSingular(N + 1)">There <var>N + 1</var> is <var>N + 1</var> basket.</span><span data-else="">There <var>N + 1</var> are <var>N + 1</var> baskets.</span>
-                                <span data-if="isSingular(B / ( N + 1 ))">Each basket has <var>B / ( N + 1 )</var> oatmeal cookie.</span><span data-else="">Each basket has <var>B / ( N + 1 )</var> oatmeal cookies.</span><br>
-                            </span>
-                            <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <br>
-                            </span>
-                        </span>
-                    </div>
-                    <div class="ui-helper-clearfix"></div>
+                    <table>
+                        <tr data-each="max( A, B ) times as N">
+                            <td>
+                                <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
+                                    <span data-if="isSingular((N + 1))">
+                                        <span data-if="isSingular(A / (N + 1))">
+                                            <var>(N + 1)</var> basket with <var>A / (N + 1)</var> chocolate chip cookie
+                                        </span><span data-else>
+                                            <var>(N + 1)</var> basket with <var>A / (N + 1)</var> chocolate chip cookies
+                                        </span>
+                                    </span><span data-else>
+                                        <span data-if="isSingular(A / (N + 1))">
+                                            <var>(N + 1)</var> baskets with <var>A / (N + 1)</var> chocolate chip cookie each
+                                        </span><span data-else>
+                                            <var>(N + 1)</var> baskets with <var>A / (N + 1)</var> chocolate chip cookies each
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
+                                    <span data-if="isSingular(N + 1)">
+                                        <span data-if="isSingular(B / (N + 1))">
+                                            <var>(N + 1)</var> basket with <var>B / (N + 1)</var> oatmeal cookie
+                                        </span><span data-else>
+                                            <var>(N + 1)</var> basket with <var>B / (N + 1)</var> oatmeal cookies
+                                        </span>
+                                    </span><span data-else>
+                                        <span data-if="isSingular(B / (N + 1))">
+                                            <var>(N + 1)</var> baskets with <var>B / (N + 1)</var> oatmeal cookie each
+                                        </span><span data-else>
+                                            <var>(N + 1)</var> baskets with <var>B / (N + 1)</var> oatmeal cookies each
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
                 <div>
@@ -640,9 +715,36 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
-                            <span data-if="isSingular(F)">There <var>F</var> is <var>F</var> basket.</span><span data-else="">There <var>F</var> are <var>F</var> baskets.</span>
-                            <span data-if="isSingular(A / F)">Each basket has <var>A / F</var> chocolate chip cookie.</span><span data-else="">Each basket has <var>A / F</var> chocolate chip cookies.</span>
-                            <span data-if="isSingular(B / F)">Each basket also has <var>B / F</var> oatmeal cookie.</span><span data-else="">Each basket also has <var>B / F</var> oatmeal cookies.</span><br>
+                            <span data-if="isSingular(F)">
+                                <span data-if="isSingular(A / F)">
+                                    <span data-if="isSingular(B / F)">
+                                        <var>F</var> basket with <var>A / F</var> chocolate chip cookie and <var>B / F</var> oatmeal cookie
+                                    </span><span data-else>
+                                        <var>F</var> basket with <var>A / F</var> chocolate chip cookie and <var>B / F</var> oatmeal cookies
+                                    </span>
+                                </span><span data-else>
+                                    <span data-if="isSingular(B / F)">
+                                        <var>F</var> basket with <var>A / F</var> chocolate chip cookies and <var>B / F</var> oatmeal cookie
+                                    </span><span data-else>
+                                        <var>F</var> basket with <var>A / F</var> chocolate chip cookies and <var>B / F</var> oatmeal cookies
+                                    </span>
+                                </span>
+                            </span><span data-else>
+                                <span data-if="isSingular(A / F)">
+                                        <var>F</var> baskets with <var>A / F</var> chocolate chip cookie and <var>B / F</var> oatmeal cookie each
+                                    <span data-if="isSingular(B / F)">
+                                        <var>F</var> baskets with <var>A / F</var> chocolate chip cookie and <var>B / F</var> oatmeal cookies each
+                                    </span><span data-else>
+                                    </span>
+                                </span><span data-else>
+                                    <span data-if="isSingular(B / F)">
+                                        <var>F</var> baskets with <var>A / F</var> chocolate chip cookies and <var>B / F</var> oatmeal cookie each
+                                    </span><span data-else>
+                                        <var>F</var> baskets with <var>A / F</var> chocolate chip cookies and <var>B / F</var> oatmeal cookies each
+                                    </span>
+                                </span>
+                            </span>
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -715,15 +817,20 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_blue" data-each="getFactors( A ) as F">
-                            <span data-if="isSingular(F)"><span data-if="isSingular(A / F)" data-unwrap="">
-                                1 set with <var>A / F</var> <var>deskItem(1)</var>.<br>
-                            </span><span data-else="" data-unwrap="">
-                                1 set with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var>.<br>
-                            </span></span><span data-else=""><span data-if="isSingular(A / F)" data-unwrap="">
-                                <var>F</var> sets with <var>A / F</var> <var>deskItem(1)</var> each.<br>
-                            </span><span data-else="" data-unwrap="">
-                                <var>F</var> sets with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var> each.<br>
-                            </span></span>
+                            <span data-if="isSingular(F)">
+                                <span data-if="isSingular(A / F)">
+                                    <var>F</var> set with <var>A / F</var> <var>deskItem(1)</var>
+                                </span><span data-else>
+                                    <var>F</var> set with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var>
+                                </span>
+                            </span><span data-else>
+                                <span data-if="isSingular(A / F)">
+                                    <var>F</var> sets with <var>A / F</var> <var>deskItem(1)</var> each
+                                </span><span data-else>
+                                    <var>F</var> sets with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var> each
+                                </span>
+                            </span>
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -744,15 +851,20 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_green" data-each="getFactors( B ) as F">
-                            <span data-if="isSingular(F)"><span data-if="isSingular(B / F)" data-unwrap="">
-                                1 set with <var>B / F</var> <var>deskItem(2)</var>.<br>
-                            </span><span data-else="" data-unwrap="">
-                                1 set with <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var>.<br>
-                            </span></span><span data-else=""><span data-if="isSingular(B / F)" data-unwrap="">
-                                <var>F</var> sets with <var>B / F</var> <var>deskItem(2)</var> each.<br>
-                            </span><span data-else="" data-unwrap="">
-                                <var>F</var> sets with <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var> each.<br>
-                            </span></span>
+                            <span data-if="isSingular(F)">
+                                <span data-if="isSingular(B / F)">
+                                    <var>F</var> set with <var>B / F</var> <var>deskItem(2)</var>
+                                </span><span data-else>
+                                    <var>F</var> set with <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var>
+                                </span>
+                            </span><span data-else>
+                                <span data-if="isSingular(B / F)">
+                                    <var>F</var> sets with <var>B / F</var> <var>deskItem(2)</var> each
+                                </span><span data-else>
+                                    <var>F</var> sets with <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var> each
+                                </span>
+                            </span>
+                            <br>
                         </span>
                     </p>
                 </div>
@@ -763,31 +875,44 @@
                         ways of dividing the <var>plural_form(deskItem(1))</var> and the ways of dividing the
                         <var>plural_form(deskItem(2))</var> to find the <em>common divisors</em>:
                     </p>
-                    <div class="gcd-column">
-                        <span data-each="max( A, B ) times as N">
-                            <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <!-- TODO(jeresig): I18N Find a better way to handle this. -->
-                                <span data-if="isSingular(N + 1)"><var>N + 1</var> set with:</span><span data-else=""><var>N + 1</var> sets with:</span>
-                                <span data-if="isSingular(A / ( N + 1 ))"><var>A / ( N + 1 )</var> <var>deskItem(1)</var>.</span><span data-else=""><var>A / ( N + 1 )</var> <var>plural_form(deskItem(1), A / ( N + 1 ))</var>.</span><br>
-                            </span>
-                            <span data-else-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <br>
-                            </span>
-                        </span>
-                    </div>
-                    <div class="gcd-column">
-                        <span data-each="max( A, B ) times as N">
-                            <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
-                                <!-- TODO(jeresig): I18N Find a better way to handle this. -->
-                                <span data-if="isSingular(N + 1)"><var>N + 1</var> set with:</span><span data-else=""><var>N + 1</var> sets with:</span>
-                                <span data-if="isSingular(B / ( N + 1 ))"><var>B / ( N + 1 )</var> <var>deskItem(2)</var>.</span><span data-else=""><var>B / ( N + 1 )</var> <var>plural_form(deskItem(2), B / ( N + 1 ))</var>.</span><br>
-                            </span>
-                            <span data-else-if="$.inArray( N + 1, A_FACTORS ) !== -1">
-                                <br>
-                            </span>
-                        </span>
-                    </div>
-                    <div class="ui-helper-clearfix"></div>
+                    <table>
+                        <tr data-each="max( A, B ) times as N">
+                            <td>
+                                <span class="hint_blue" data-if="$.inArray( N + 1, A_FACTORS ) !== -1">
+                                    <span data-if="isSingular((N + 1))">
+                                        <span data-if="isSingular(A / (N + 1))">
+                                            <var>(N + 1)</var> set with <var>A / (N + 1)</var> <var>deskItem(1)</var>
+                                        </span><span data-else>
+                                            <var>(N + 1)</var> set with <var>A / (N + 1)</var> <var>plural_form(deskItem(1), A / (N + 1))</var>
+                                        </span>
+                                    </span><span data-else>
+                                        <span data-if="isSingular(A / (N + 1))">
+                                            <var>(N + 1)</var> sets with <var>A / (N + 1)</var> <var>deskItem(1)</var> each
+                                        </span><span data-else>
+                                            <var>(N + 1)</var> sets with <var>A / (N + 1)</var> <var>plural_form(deskItem(1), A / (N + 1))</var> each
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="hint_green" data-if="$.inArray( N + 1, B_FACTORS ) !== -1">
+                                    <span data-if="isSingular(N + 1)">
+                                        <span data-if="isSingular(B / (N + 1))">
+                                            <var>(N + 1)</var> set with <var>B / (N + 1)</var> <var>deskItem(2)</var>
+                                        </span><span data-else>
+                                            <var>(N + 1)</var> set with <var>B / (N + 1)</var> <var>plural_form(deskItem(2), B / (N + 1))</var>
+                                        </span>
+                                    </span><span data-else>
+                                        <span data-if="isSingular(B / (N + 1))">
+                                            <var>(N + 1)</var> sets with <var>B / (N + 1)</var> <var>deskItem(2)</var> each
+                                        </span><span data-else>
+                                            <var>(N + 1)</var> sets with <var>B / (N + 1)</var> <var>plural_form(deskItem(2), B / (N + 1))</var> each
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
                 <div>
@@ -800,9 +925,35 @@
                     </p>
                     <p style="margin-left: 20px">
                         <span class="hint_pink" data-each="_.intersection( A_FACTORS, B_FACTORS ) as F">
-                            <span data-if="isSingular(F)">There <var>F</var> is <var>F</var> set.</span><span data-else="">There <var>F</var> are <var>F</var> sets.</span>
-                            <span data-if="isSingular(A / F)">Each set has <var>A / F</var> <var>deskItem(1)</var>.</span><span data-else="">Each set has <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var>.</span>
-                            <span data-if="isSingular(B / F)">Each set also has <var>B / F</var> <var>deskItem(2)</var>.</span><span data-else="">Each set also has <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var>.</span>
+                            <span data-if="isSingular(F)">
+                                <span data-if="isSingular(A / F)">
+                                    <span data-if="isSingular(B / F)">
+                                        <var>F</var> set with <var>A / F</var> <var>deskItem(1)</var> and <var>B / F</var> <var>deskItem(2)</var>
+                                    </span><span data-else>
+                                        <var>F</var> set with <var>A / F</var> <var>deskItem(1)</var> and <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var>
+                                    </span>
+                                </span><span data-else>
+                                    <span data-if="isSingular(B / F)">
+                                        <var>F</var> set with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var> and <var>B / F</var> <var>deskItem(2)</var>
+                                    </span><span data-else>
+                                        <var>F</var> set with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var> and <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var>
+                                    </span>
+                                </span>
+                            </span><span data-else>
+                                <span data-if="isSingular(A / F)">
+                                        <var>F</var> sets with <var>A / F</var> <var>deskItem(1)</var> and <var>B / F</var> <var>deskItem(2)</var> each
+                                    <span data-if="isSingular(B / F)">
+                                        <var>F</var> sets with <var>A / F</var> <var>deskItem(1)</var> and <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var> each
+                                    </span><span data-else>
+                                    </span>
+                                </span><span data-else>
+                                    <span data-if="isSingular(B / F)">
+                                        <var>F</var> sets with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var> and <var>B / F</var> <var>deskItem(2)</var> each
+                                    </span><span data-else>
+                                        <var>F</var> sets with <var>A / F</var> <var>plural_form(deskItem(1), A / F)</var> and <var>B / F</var> <var>plural_form(deskItem(2), B / F)</var> each
+                                    </span>
+                                </span>
+                            </span>
                             <br>
                         </span>
                     </p>
