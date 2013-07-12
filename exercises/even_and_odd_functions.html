@@ -245,18 +245,18 @@
                     <div data-if="SOL === 'Neither'" data-unwrap="">
                         <div>
                             <p>Let's try a value for <code>x</code> to see if <code>f(x)</code> fits the definition.</p>
-                            <div data-if="SHOW_EVALUATION"><code>\qquad f(<var>\blue{X_VALUES[0]}</var>) = <var>FUNC.getEvaluateString(X_VALUES[0], 'blue')</var></code></div>
-                            <div><code>\qquad f(<var>\blue{X_VALUES[0]}</var>) = \red{<var>CALLABLE_FUNC(X_VALUES[0])</var>}</code></div>
+                            <div data-if="SHOW_EVALUATION"><code>\qquad f(\blue{<var>X_VALUES[0]</var>}) = <var>FUNC.getEvaluateString(X_VALUES[0], 'blue')</var></code></div>
+                            <div><code>\qquad f(\blue{<var>X_VALUES[0]</var>}) = \red{<var>CALLABLE_FUNC(X_VALUES[0])</var>}</code></div>
                         </div>
 
                         <div>
-                            <div data-if="SHOW_EVALUATION"><code>\qquad f(<var>\blue{-X_VALUES[0]}</var>) = <var>FUNC.getEvaluateString(-X_VALUES[0], 'blue')</var></code></div>
-                            <div><code>\qquad f(<var>\blue{-X_VALUES[0]}</var>) = \red{<var>CALLABLE_FUNC(-X_VALUES[0])</var>}</code></div>
+                            <div data-if="SHOW_EVALUATION"><code>\qquad f(\blue{<var>-X_VALUES[0]</var>}) = <var>FUNC.getEvaluateString(-X_VALUES[0], 'blue')</var></code></div>
+                            <div><code>\qquad f(\blue{<var>-X_VALUES[0]</var>}) = \red{<var>CALLABLE_FUNC(-X_VALUES[0])</var>}</code></div>
                         </div>
 
-                        <p><code>f(<var>\blue{X_VALUES[0]}</var>) \neq f(<var>-X_VALUES[0]</var>)</code>, so <code>f(x)</code> is not even.</p>
+                        <p><code>f(\blue{<var>X_VALUES[0]</var>}) \neq f(<var>-X_VALUES[0]</var>)</code>, so <code>f(x)</code> is not even.</p>
 
-                        <p><code>f(<var>\blue{X_VALUES[0]}</var>) \neq -f(<var>-X_VALUES[0]</var>)</code>, so <code>f(x)</code> is not odd.</p>
+                        <p><code>f(\blue{<var>X_VALUES[0]</var>}) \neq -f(<var>-X_VALUES[0]</var>)</code>, so <code>f(x)</code> is not odd.</p>
 
                         <p>Therefore <code>f(x)</code> is neither.</p>
                     </div>
