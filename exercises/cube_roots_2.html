@@ -13,7 +13,7 @@
                     <var id="cx">0</var>
                     <var id="y">0</var>
                     <var id="CUBE">randRange(2, 10)</var>
-                    <var id="NOT_CUBE">randFromArray([2, 3, 4, 5, 6, 10, 15, 20])</var>
+                    <var id="NOT_CUBE">randFromArray([2, 3, 4, 5, 6, 10])</var>
                     <var id="CUBE_FACTORS">getPrimeFactorization(CUBE)</var>
                     <var id="MULTIPLES">$.map(CUBE_FACTORS, function(x) {return "(" + x + "\\times " + x + "\\times " + x + ")"; })</var>
                     <var id="ROOTS">$.map(CUBE_FACTORS, function(x) {return "\\sqrt{" + x + "\\times " + x + "\\times " + x +  "}"; })</var>
@@ -26,7 +26,7 @@
 
                 <p class="question"><code>\Large{\sqrt[3]{<var>Q</var>} = \text{?}}</code></p>
 
-                <p class="solution" data-type="radical"><var>Q</var></p>
+                <p class="solution" data-type="cuberoot"><var>Q</var></p>
 
                 <div class="hints">
                     <p><code>\sqrt[3]{<var>Q</var>}</code> is the number that, when multiplied by itself three times, equals <code><var>Q</var></code>.</p>
@@ -62,7 +62,7 @@
 
                     <p>So the prime factorization of <code><var>Q</var></code> is <code><var>PRIMES.join( "\\times " )</var></code>.</p>
 
-                    <p>We're looking for <code>\sqrt{<var>Q</var>}</code>, so we want to find groups of three prime factors.</p>
+                    <p>We're looking for <code>\sqrt[3]{<var>Q</var>}</code>, so we want to find groups of three prime factors.</p>
 
                     <div>
                         <p>Notice that we can rearrange the factors like so:</p>
@@ -70,13 +70,13 @@
                             <var>MULTIPLES.join(" \\times ")</var> \times <var>NOT_CUBE_FACTORS.join("\\times ")</var></code></p>
                     </div>
 
-                    <p>So <code>\sqrt{<var>Q</var>} = 
-                        <var>ROOTS.join(" \\times ")</var> \times \sqrt{<var>NOT_CUBE_FACTORS.join("\\times ")</var>}</code></p>
+                    <p>So <code>\sqrt[3]{<var>Q</var>} = 
+                        <var>ROOTS.join(" \\times ")</var> \times \sqrt[3]{<var>NOT_CUBE_FACTORS.join("\\times ")</var>}</code></p>
 
-                    <p data-if="CUBE_FACTORS.length + NOT_CUBE_FACTORS.length > 2"><code>\sqrt{<var>Q</var>} =
-                        <var>CUBE_FACTORS.join("\\times ")</var> \times \sqrt{<var>NOT_CUBE_FACTORS.join("\\times ")</var>}</code></p>
+                    <p data-if="CUBE_FACTORS.length + NOT_CUBE_FACTORS.length > 2"><code>\sqrt[3]{<var>Q</var>} =
+                        <var>CUBE_FACTORS.join("\\times ")</var> \times \sqrt[3]{<var>NOT_CUBE_FACTORS.join("\\times ")</var>}</code></p>
 
-                    <p><code>\sqrt{<var>Q</var>} = <var>CUBE</var> \sqrt{<var>NOT_CUBE</var>}</code></p>
+                    <p><code>\sqrt[3]{<var>Q</var>} = <var>CUBE</var> \sqrt[3]{<var>NOT_CUBE</var>}</code></p>
                 </div>
 
             </div>
