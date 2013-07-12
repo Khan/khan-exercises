@@ -212,7 +212,8 @@ $.extend(KhanUtil, {
 
         // Return a string showing how the term should be evaluated with a given value
         // e.g. 5x^2 evalated with 3 returns 5(3)^2
-        this.getEvaluateString = function(values, includeSign) {
+        // If color is defined, the the value representing the variable is colored
+        this.getEvaluateString = function(values, includeSign, color) {
             var s = '';
 
             if (includeSign) {
@@ -232,6 +233,11 @@ $.extend(KhanUtil, {
             for (var vari in this.variables) {
                 var degree = this.variables[vari];
                 var value = (typeof values === 'number') ? values : values[vari];
+
+                if (color !== undefined) {
+                    value = '\\' + color + '{' + value + '}';
+                }
+
                 s += (degree === 1) ? value : '(' + value + ')^' + degree;
             }
 
@@ -408,11 +414,12 @@ $.extend(KhanUtil, {
             return s !== "" ? s : '0';
         };
 
-        this.getEvaluateString = function(values) {
-            var s = this.terms[0].getEvaluateString(values);
+        // Returns a string showing the expression with variable substituted.
+        this.getEvaluateString = function(values, color) {
+            var s = this.terms[0].getEvaluateString(values, false, color);
 
             for (var i = 1; i < this.terms.length; i++) {
-                s += this.terms[i].getEvaluateString(values, true);
+                s += this.terms[i].getEvaluateString(values, true, color);
             }
 
             return s !== "" ? s : '0';
