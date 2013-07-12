@@ -85,7 +85,9 @@ $.extend(KhanUtil, {
             this.variables = variables;
         }
 
-        // Use for hashing
+        // Create a string representing the term
+        // e.g. 5yx^2 = 5y1x2
+        // Used for hashing
         this.variableString = ''
         for (var vari in this.variables) {
             if (this.variables[vari] !== 0) {
@@ -217,15 +219,15 @@ $.extend(KhanUtil, {
             var s = '';
 
             if (includeSign) {
-                s += this.coefficient >= 0 ? " + " : " - ";
+                s += this.coefficient >= 0 ? ' + ' : ' - ';
             } else if (this.coefficient < 0) {
-                s += "-";
+                s += '-';
             }
 
             var coefficient = Math.abs(this.coefficient);
-            if (!(coefficient === 1 && this.variableString !== "")) {
+            if (!(coefficient === 1 && this.variableString !== '')) {
                 s += coefficient;
-                if (this.variableString !== "") {
+                if (this.variableString !== '') {
                     s += '\\cdot';
                 }
             }
@@ -248,17 +250,17 @@ $.extend(KhanUtil, {
         // If includeSign is true, then 4x is captured by +4x
         this.regex = function(includeSign) {
             if (this.coefficient === 0) {
-                return "";
+                return '';
             }
 
             // Include leading space if there are earlier terms
             if (this.coefficient < 0){
-                var regex = includeSign ? "[-\\u2212]\\s*" : "\\s*[-\\u2212]\\s*";
+                var regex = includeSign ? '[-\\u2212]\\s*' : '\\s*[-\\u2212]\\s*';
             } else {
-                var regex = includeSign ? "\\+\\s*" : "\\s*";
+                var regex = includeSign ? '\\+\\s*' : '\\s*';
             }
 
-            if (!(Math.abs(this.coefficient) === 1 && this.variableString !== "")) {
+            if (!(Math.abs(this.coefficient) === 1 && this.variableString !== '')) {
                 regex += Math.abs(this.coefficient);
             }
 
@@ -270,7 +272,7 @@ $.extend(KhanUtil, {
                 }
             }
 
-            return regex + "\\s*";
+            return regex + '\\s*';
         };
 
     },
