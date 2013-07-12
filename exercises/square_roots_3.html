@@ -12,8 +12,8 @@
                 <div class="vars">
                     <var id="cx">0</var>
                     <var id="y">0</var>
-                    <var id="SQUARE">randRange(2, 8)</var>
-                    <var id="NOT_SQUARE" data-ensure="getGCD(SQUARE, NOT_SQUARE) === 1">randRangeExclude(2, floor(200 / (SQUARE*SQUARE)), [4, 9, 16, 25])</var>
+                    <var id="SQUARE">randRange(2, 10)</var>
+                    <var id="NOT_SQUARE">randRangeExclude(2, floor(200 / (SQUARE*SQUARE)), [4, 8, 9, 16, 25, 27, 36, 49])</var>
                     <var id="SQUARE_FACTORS">getPrimeFactorization(SQUARE)</var>
                     <var id="MULTIPLES">$.map(SQUARE_FACTORS, function(x) {return "(" + x + "\\times " + x + ")"; })</var>
                     <var id="ROOTS">$.map(SQUARE_FACTORS, function(x) {return "\\sqrt{" + x + "\\times " + x + "}"; })</var>
