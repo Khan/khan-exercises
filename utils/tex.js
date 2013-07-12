@@ -1,9 +1,9 @@
 (function() {
 
-$.fn.tex = function(problem) {
+$.fn.tex = function() {
     var pendingTypeset = 0;
 
-    this.find("code").each(function() {
+    this.filter("code").add(this.find("code")).each(function() {
         var $this = $(this);
 
         if (!$this.data("tmplCodeProcessed")) {
