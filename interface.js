@@ -272,13 +272,6 @@ function handleAttempt(data) {
         return false;
     }
 
-    if (skipped && !Exercises.assessmentMode) {
-        // Skipping should pull up the next card immediately - but, if we're in
-        // assessment mode, we don't know what the next card will be yet, so
-        // wait for the special assessment mode triggers to fire instead.
-        $(Exercises).trigger("gotoNextProblem");
-    }
-
     // This needs to be after all updates to Exercises.currentCard (such as the
     // "problemDone" event) or it will send incorrect data to the server
     var attemptData = buildAttemptData(
@@ -314,6 +307,13 @@ function handleAttempt(data) {
                 )
         );
     });
+
+    if (skipped && !Exercises.assessmentMode) {
+        // Skipping should pull up the next card immediately - but, if we're in
+        // assessment mode, we don't know what the next card will be yet, so
+        // wait for the special assessment mode triggers to fire instead.
+        $(Exercises).trigger("gotoNextProblem");
+    }
 
     if (Exercises.assessmentMode) {
         // Tell the assessment queue that the current question has been
