@@ -240,7 +240,7 @@ $.extend(KhanUtil, {
                     value = '\\' + color + '{' + value + '}';
                 }
 
-                s += (degree === 1) ? value : '(' + value + ')^' + degree;
+                s += (value < 0 || degree === 1) ? value : '(' + value + ')^' + degree;
             }
 
             return s;
