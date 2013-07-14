@@ -12,7 +12,7 @@
             <div class="vars" data-ensure="getGCD( NUMERATOR, DENOMINATOR ) === 1">
                 <var id="NUMERATOR">randRange( 1, 30 )</var>
                 <var id="DENOMINATOR">randRange( NUMERATOR + 1, 30 )</var>
-                <var id="DECIMAL_4">Math.round( NUMERATOR / DENOMINATOR * 10000 ) / 10000</var>
+                <var id="DECIMAL_4">Math.floor( NUMERATOR / DENOMINATOR * 10000 ) / 10000</var>
                 <var id="DECIMAL">roundTo( 3, NUMERATOR / DENOMINATOR )</var>
             </div>
             <p>Express the fraction as a decimal, rounded to the thousandth.</p>
