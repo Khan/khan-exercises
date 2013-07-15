@@ -1,89 +1,64 @@
 <!DOCTYPE html>
-<html data-require="math math-format"><head>
+<html data-require="math math-format rational-expressions"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Multi-step equations</title>
+    <title>Solving rational expressions 1</title>
     <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
 </head>
 <body>
     <div class="exercise">
-        <div class="problems">
-            <div id="x-on-bottom">
-                <!-- A = B / (Cx + D) -->
-                <div class="vars" data-ensure="( C * ANSWER + D !== 0 )">
-                    <var id="A">randRange( 2, 8 )</var>
-                    <var id="B">randRangeNonZero( -12, 18 )</var>
-                    <var id="C">randRangeNonZero( -6, 6 )</var>
-                    <var id="D">randRangeNonZero( -6, 6 )</var>
-                    <var id="ANSWER">( B - A * D ) / ( A * C )</var>
-                </div>
-                <p class="question">Solve for <code>x</code>:</p>
-                <div><code><var>A</var> = \dfrac{<var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>}</code></div>
-
-                <div class="solution" data-type="multiple">
-                    <p><code>x =</code> <span class="sol"><var>ANSWER</var></span></p>
-                </div>
-
-                <div class="hints">
-                    <div>
-                        <p>Multiply both sides by <code><var>expr(["*", C, "x"])</var> + <var>D</var></code>:</p>
-                        <p><code>\qquad <var>A</var> (<var>expr(["*", C, "x"])</var> + <var>D</var>) = \dfrac{<var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>} (<var>expr(["*", C, "x"])</var> + <var>D</var>)</code></p>
-                        <p><code>\qquad <var>A * C</var>x + <var>A * D</var> = <var>B</var></code></p>
-                    </div>
-                    <div>
-                        <p>Now <var>A * D &lt; 0 ? "add" : "subtract"</var> <code><var>abs( A * D )</var></code> <var>A * D &lt; 0 ? "to" : "from"</var> both sides:</p>
-                        <p><code>\qquad (<var>A * C</var>x + <var>A * D</var>) + <var>-A * D</var> = <var>B</var> + <var>- A * D</var></code></p>
-                        <p><code>\qquad <var>A * C</var>x = <var>B - A * D</var></code></p>
-                    </div>
-                    <div>
-                        <p>Divide by <code><var>A * C</var></code>:</p>
-                        <p><code>\qquad x = <var>fraction( B - A * D, A * C, false, false )</var></code></p>
-                    </div>
-                    <div data-if="reduces( B - A * D, A * C )">
-                        <p>Reduce the fraction:</p>
-                        <p><code>\qquad x = <var>fractionReduce( B - A * D, A * C )</var></code></p>
-                    </div>
-                </div>
+        <div class="vars">
+            <var id="X">randVar()</var>
+            <div data-ensure="CONSTANT * DENOMCOEFF !== NUMERCONST">
+                <var id="CONSTANT">randRange(2, 10)</var>
+                <var id="DENOMCOEFF">randRangeWeighted(1, 8, 1, 0.25)</var>
+                <var id="DENOMCONST">randRangeWeighted(-10, 10, 0, 0.25)</var>
+                <var id="NUMERCONST" data-ensure="DENOMCONST !== 0 || NUMERCONST !== 0">randRange(-10, 10)</var>
             </div>
-            <div id="x-on-top-and-bottom">
-                <!-- (Ax + B) / (Cx + D) = E -->
-                <div class="vars" data-ensure="abs(A - E * C) &gt;= 2 &amp;&amp; ( C * ANSWER + D !== 0 )">
-                    <var id="A">randRangeNonZero( -12, 18 )</var>
-                    <var id="B">randRangeNonZero( -12, 18 )</var>
-                    <var id="C">randRangeNonZero( -6, 6 )</var>
-                    <var id="D">randRangeNonZero( -6, 6 )</var>
-                    <var id="E">randRange( 2, 8 )</var>
-                    <var id="ANSWER">( E * D - B ) / ( A - E * C )</var>
-                </div>
-                <p class="question">Solve for <code>x</code>:</p>
-                <div><code>\dfrac{<var>expr(["*", A, "x"])</var> + <var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>} = <var>E</var></code></div>
+            <var id="NUMERCOEFF" data-ensure="NUMERCOEFF !== 0 || NUMERCONST !== 0">randRange(-8, 8)</var>
+            <var id="NUMERATOR">new RationalExpression([[NUMERCOEFF, X], [NUMERCONST]])</var>
+            <var id="DENOMINATOR">new RationalExpression([[DENOMCOEFF, X], [DENOMCONST]])</var>
+            <var id="PRODUCT">DENOMINATOR.multiply(CONSTANT)</var>
+            <var id="COEFF1">NUMERATOR.getCoefficient(X + "1")</var>
+            <var id="CONST1">NUMERATOR.getCoefficient("")</var>
+            <var id="COEFF2">PRODUCT.getCoefficient(X + "1")</var>
+            <var id="CONST2">PRODUCT.getCoefficient("")</var>
+            <var id="FINALTERM">new Term(COEFF1 - COEFF2, X)</var>
 
-                <div class="solution" data-type="multiple">
-                    <p><code>x =</code> <span class="sol"><var> ANSWER </var></span></p>
-                </div>
+        </div>
+
+        <div class="problems">
+            <div>
+                <p class="problem">Solve for <code><var>X</var></code>,</p>
+                <p class="question"><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>CONSTANT</var></code></p>
+                <div class="solution" data-type="rational"><var>(CONST2 - CONST1) / (COEFF1 - COEFF2)</var></div>
 
                 <div class="hints">
                     <div>
-                        <p>Multiply both sides by <code><var>expr(["*", C, "x"])</var> + <var>D</var></code>:</p>
-                        <p><code>\qquad \dfrac{<var>expr(["*", A, "x"])</var> + <var>B</var>}{<var>expr(["*", C, "x"])</var> + <var>D</var>} (<var>expr(["*", C, "x"])</var> + <var>D</var>) = <var>E</var> (<var>expr(["*", C, "x"])</var> + <var>D</var>)</code></p>
-                        <p><code>\qquad <var>expr(["*", A, "x"])</var> + <var>B</var> = <var>expr(["*", E * C, "x"])</var> + <var>E * D</var></code></p>
+                        <p>Multiply both sides of the equation by <code><var>DENOMINATOR</var></code>.</p>
+                        <code><var>NUMERATOR</var> = <var>CONSTANT</var>(<var>DENOMINATOR</var>)</code>
                     </div>
-                    <div>
-                        <p>Now <var>E * C &lt; 0 ? "add" : "subtract"</var> <code><var>abs( E * C )</var>x</code> <var>E * C &lt; 0 ? "to" : "from"</var> both sides:</p>
-                        <p><code>\qquad (<var>expr(["*", A, "x"])</var> + <var>B</var>) + <var>-E * C</var>x = (<var>expr(["*", E * C, "x"])</var> + <var>E * D</var>) + <var>-E * C</var>x</code></p>
-                        <p><code>\qquad <var>A - E * C</var>x + <var>B</var> = <var>E * D</var></code></p>
-                    </div>
-                    <div>
-                        <p>Now <var>B &lt; 0 ? "add" : "subtract"</var> <code><var>abs( B )</var></code>:</p>
-                        <p><code>\qquad (<var>A - E * C</var>x + <var>B</var>) + <var>-B</var> = <var>E * D</var> + <var>-B</var></code></p>
-                        <p><code>\qquad <var>A - E * C</var>x = <var>E * D - B</var></code></p>
-                    </div>
-                    <div>
-                        <p>Divide by <code><var>A - E * C</var></code>:</p>
-                        <p><code>\qquad x = <var>fraction( E * D - B, A - E * C, false, false )</var></code></p>
-                    </div>
-                    <div data-if="reduces(E * D - B, A - E * C)">
-                        <p>Reduce the fraction:</p>
-                        <p><code>\qquad x = <var>fractionReduce( E * D - B, A - E * C )</var></code></p>
+                    <p><code><var>NUMERATOR</var> = <var>PRODUCT</var></code></p>
+                    <p><code><var>FINALTERM</var> + <var>CONST1</var> = <var>CONST2</var></code></p>
+                    <p><code><var>FINALTERM</var> = <var>CONST2 - CONST1</var></code></p>
+                    <p><code><var>X</var> = <var>fraction(CONST2 - CONST1, COEFF1 - COEFF2)</var></code></p>
+                    <div data-if="getGCD(CONST2 - CONST1, COEFF1 - COEFF2) !== 1">
+                        <p>Simplify.</p>
+                        <p><code><var>X</var> = <var>fractionReduce(CONST2 - CONST1, COEFF1 - COEFF2)</var></code></p>
                     </div>
                 </div>
             </div>
