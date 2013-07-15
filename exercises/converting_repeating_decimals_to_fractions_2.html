@@ -1,89 +1,123 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
 <html data-require="math math-format">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Converting multi-digit repeating decimals to fractions</title>
-    <script src="../khan-exercise.js"></script>
+  <meta name="generator" content="HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+
+  <title>Converting multi-digit repeating decimals to fractions</title>
+  <script src="../khan-exercise.js" type="text/javascript">
+</script>
 </head>
+
 <body>
-    <div class="exercise">
+  <div class="exercise">
     <div class="vars" data-ensure="( N3 % 10 ) !== floor( N3 / 10 ) &amp;&amp; N2 !== ( N3 % 10 )">
-        <var id="N1">randRangeWeighted( 0, 3, 0, 0.5 )</var>
-        <var id="N2">randRange( 1, 8 )</var>
-        <var id="N3">randRange( 10, 99 )</var>
-        <var id="N4">N1 + N2 / 9</var>
-
-        <var id="D1">0</var>
-        <var id="D2">1</var>
-
-        <var id="MULT1">pow( 10, D2 )</var>
-        <var id="MULT2">pow( 10, D1 )</var>
-        <var id="RES1">floorTo( 4,( MULT1 * N4 ) )</var>
-        <var id="RES2">floorTo( 4,( MULT2 * N4 ) )</var>
-        <var id="DIFF">round( RES1 - RES2 )</var>
+      <var id="N1">randRangeWeighted( 0, 3, 0, 0.5 )</var> <var id="N2">randRange( 1, 8 )</var> <var id="N3">randRange( 10, 99 )</var> <var id="N4">N1 + N2 / 9</var> <var id="D1">0</var> <var id="D2">1</var> <var id="MULT1">pow( 10, D2 )</var> <var id="MULT2">pow( 10, D1 )</var> <var id="RES1">floorTo( 4,( MULT1 * N4 ) )</var> <var id="RES2">floorTo( 4,( MULT2 * N4 ) )</var> <var id="DIFF">round( RES1 - RES2 )</var>
     </div>
 
     <div class="problems">
-        <div id="onedigit">
-            <p class="question">Rewrite as a simplified fraction.</p>
-            <p><code>\large{<var>N1</var>.\overline{<var>N2</var>} = {?}}</code></p>
-            <p class="solution" data-type="rational"><var>N4</var></p>
-        </div>
-        <div id="twodigit">
-            <div class="vars">
-                <var id="N4">N1 + N3 / 99</var>
-                <var id="D2">2</var>
+
+        <div id='rational_to_decimal'>
+            <p class="question">Rewrite as a decimal. Give the first 10 digits.</p>
+            <p><code>\large{<var>NUMERATOR</var>/<var>DENOMINATOR</var> = {?}}</code></p>
+            <p class="solution" data-type="decimal"><var>DEC_SOL</var></p>
+
+            <div class='vars' data-ensure="DEN_9 &gt; 89 ">
+                <var id="DEN_9">((randRange(0,1)*9)+(randRange(0,1)*90)+(randRange(0,1)*900)) || 1</var>
+                <var id="NUM_9">(randRange(0,2)*DEN_9) + randRange(1,DEN_9)</var>
+ 
+                <var id="DENOMINATOR">toFraction(NUM_9/DEN_9)[1]</var>
+                <var id="NUMERATOR">toFraction(NUM_9/DEN_9)[0]</var>
+                <var id="QUOTIENT">Math.floor(NUM_9/DEN_9)</var>
+                <var id="DEC_SOL">roundTo(9, NUMERATOR/DENOMINATOR)</var>
             </div>
-            <p class="question">Rewrite as a simplified fraction.</p>
-            <p><code>\large{<var>N1</var>.\overline{<var>N3</var>} = {?}}</code></p>
-            <p class="solution" data-type="rational"><var>N4</var></p>
-        </div>
-        <div id="oneandone">
-            <div class="vars">
-                <var id="N3" data-ensure="N2 !== N3">randRange( 1, 8 )</var>
-                <var id="N4">N1 + N2 / 10 + N3 / 90</var>
-                <var id="D1">1</var>
-                <var id="D2">2</var>
+
+            <div class="hints">
+                <p data-if="NUMERATOR > DENOMINATOR">Divide the <strong>numerator</strong> by the <strong>denominator</strong> so we only have to work with the <strong>remainder</strong>, which will be easier. Remember the <strong>quotient</strong>!</p>
+
+                <p data-if="NUMERATOR > DENOMINATOR">Divide <strong><var>(NUMERATOR%DENOMINATOR)</var></strong> by <strong><var>DENOMINATOR</var></strong>. You should find that some digits keep on repeating.</code></p>
+
+                <p data-if="NUMERATOR < DENOMINATOR">Divide <strong><var>NUMERATOR</var></strong> by <strong><var>DENOMINATOR</var></strong>. You should find that some digits keep on repeating.</code></p>
+
+                <p data-if="NUMERATOR > DENOMINATOR">Don't forget to add the quotient before the period.</p>
+
+                <p>The answer is <strong><var>DEC_SOL</var></strong></p>
             </div>
-            <p class="question">Rewrite as a simplified fraction.</p>
-            <p><code>\large{<var>N1</var>.<var>N2</var>\overline{<var>N3</var>} = {?}}</code></p>
-            <p class="solution" data-type="rational"><var>N4</var></p>
         </div>
-        <div id="hardone">
-            <div class="vars">
-                <var id="N2">randRange( 1, 9 )</var>
-                <var id="N4">N1 + N2 / 10 + N3 / 990</var>
-                <var id="D1">1</var>
-                <var id="D2">3</var>
-            </div>
-            <p class="question">Rewrite as a simplified fraction.</p>
-            <p><code>\large{<var>N1</var>.<var>N2</var>\overline{<var>N3</var>} = {?}}</code></p>
-            <p class="solution" data-type="rational"><var>N4</var></p>
+
+      <div id="onedigit">
+        <p class="question">Rewrite as a simplified fraction.</p>
+
+        <p><code>\large{<var>N1</var>.\overline{<var>N2</var>} = {?}}</code></p>
+
+        <p class="solution" data-type="rational"><var>N4</var></p>
+      </div>
+
+      <div id="twodigit">
+        <div class="vars">
+          <var id="N4">N1 + N3 / 99</var> <var id="D2">2</var>
         </div>
-        <div id="hardtwo">
-            <div class="vars">
-                <var id="N2">randRange( 1, 8 )</var>
-                <var id="N4">N1 + N3 / 100 + N2 / 900</var>
-                <var id="D1">2</var>
-                <var id="D2">3</var>
-            </div>
-            <p class="question">Rewrite as a simplified fraction.</p>
-            <p><code>\large{<var>N1</var>.<var>N3</var>\overline{<var>N2</var>} = {?}}</code></p>
-            <p class="solution" data-type="rational"><var>N4</var></p>
+
+        <p class="question">Rewrite as a simplified fraction.</p>
+
+        <p><code>\large{<var>N1</var>.\overline{<var>N3</var>} = {?}}</code></p>
+
+        <p class="solution" data-type="rational"><var>N4</var></p>
+      </div>
+
+      <div id="oneandone">
+        <div class="vars">
+          <var id="N3" data-ensure="N2 !== N3">randRange( 1, 8 )</var> <var id="N4">N1 + N2 / 10 + N3 / 90</var> <var id="D1">1</var> <var id="D2">2</var>
         </div>
+
+        <p class="question">Rewrite as a simplified fraction.</p>
+
+        <p><code>\large{<var>N1</var>.<var>N2</var>\overline{<var>N3</var>} = {?}}</code></p>
+
+        <p class="solution" data-type="rational"><var>N4</var></p>
+      </div>
+
+      <div id="hardone">
+        <div class="vars">
+          <var id="N2">randRange( 1, 9 )</var> <var id="N4">N1 + N2 / 10 + N3 / 990</var> <var id="D1">1</var> <var id="D2">3</var>
+        </div>
+
+        <p class="question">Rewrite as a simplified fraction.</p>
+
+        <p><code>\large{<var>N1</var>.<var>N2</var>\overline{<var>N3</var>} = {?}}</code></p>
+
+        <p class="solution" data-type="rational"><var>N4</var></p>
+      </div>
+
+      <div id="hardtwo">
+        <div class="vars">
+          <var id="N2">randRange( 1, 8 )</var> <var id="N4">N1 + N3 / 100 + N2 / 900</var> <var id="D1">2</var> <var id="D2">3</var>
+        </div>
+
+        <p class="question">Rewrite as a simplified fraction.</p>
+
+        <p><code>\large{<var>N1</var>.<var>N3</var>\overline{<var>N2</var>} = {?}}</code></p>
+
+        <p class="solution" data-type="rational"><var>N4</var></p>
+      </div>
     </div>
 
     <div class="hints">
-        <p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
-        <p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\
-        <var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
-        <div>
-            <p>Subtracting the two equations, we have:</p>
-            <p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
-        </div>
-        <p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad<span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 && DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
-        <p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad<span data-if="DIFF > ( MULT1 - MULT2 )"> \text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
+      <p>Let <code>x</code> equal the decimal. Set up two equations such that the digits after the decimal point are identical.</p>
+
+      <p><code>\large{\begin{align*}<var>MULT1</var>x &amp;= <var>RES1</var>...\\ <var>MULT2</var>x &amp;= <var>RES2</var>...\end{align*}}</code></p>
+
+      <div>
+        <p>Subtracting the two equations, we have:</p>
+
+        <p><code>\large{<var>(MULT1 - MULT2)</var>x = <var>DIFF</var>}</code></p>
+      </div>
+
+      <p><code>\large{x = <var>fraction( DIFF, MULT1 - MULT2 )</var>}\quad <span data-if="getGCD( DIFF, MULT1 - MULT2 ) === 1 &amp;&amp; DIFF &gt; ( MULT1 - MULT2 )">\text{or} \quad\large{<var>mixedFractionFromImproper( DIFF, MULT1 - MULT2 )</var>}</span></code></p>
+
+      <p data-if="getGCD( DIFF, MULT1 - MULT2 ) !== 1"><code>\large{x = <var>fraction( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ])</var>}\quad <span data-if="DIFF &gt; ( MULT1 - MULT2 )">\text{or} \quad\large{<var>mixedFractionFromImproper( toFraction( N4 )[ 0 ], toFraction( N4 )[ 1 ] )</var>}</span></code></p>
     </div>
-    </div>
+  </div>
 </body>
 </html>
