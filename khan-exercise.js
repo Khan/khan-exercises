@@ -1251,7 +1251,7 @@ var Khan = (function() {
 
         // ...and inline style tags.
         if (exercise.data("style")) {
-            var exerciseStyleElem = $("head #exercise-inline-style");
+            var exerciseStyleElem = $("#exercise-inline-style");
 
             // Clear old exercise style definitions
             if (exerciseStyleElem.length && exerciseStyleElem[0].styleSheet) {
