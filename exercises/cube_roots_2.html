@@ -11,16 +11,16 @@
 
                 <div class="vars">
                     <var id="cx">0</var>
-                    <var id="y">0</var>
+                    <var id="y">1</var>
                     <var id="CUBE">randRange(2, 10)</var>
-                    <var id="NOT_CUBE">randFromArray([2, 3, 4, 5, 6, 10])</var>
+                    <var id="NOT_CUBE">randFromArray([2, 3, 4, 5, 10])</var>
                     <var id="CUBE_FACTORS">getPrimeFactorization(CUBE)</var>
                     <var id="MULTIPLES">$.map(CUBE_FACTORS, function(x) {return "(" + x + "\\times " + x + "\\times " + x + ")"; })</var>
                     <var id="ROOTS">$.map(CUBE_FACTORS, function(x) {return "\\sqrt{" + x + "\\times " + x + "\\times " + x +  "}"; })</var>
                     <var id="NOT_CUBE_FACTORS">getPrimeFactorization(NOT_CUBE)</var>
                     <var id="Q">NOT_CUBE * CUBE * CUBE * CUBE</var>
                     <var id="PRIMES">getPrimeFactorization(Q)</var>
-                    <var id="FACTORIZATION">PRIMES.slice(0, PRIMES.length - 1)</var>
+                    <var id="FACTORIZATION">PRIMES.slice(1, PRIMES.length - 1)</var>
                     <var id="curr">Q</var>
                  </div>
 
@@ -36,33 +36,43 @@
                     <p>Let's draw a factor tree.</p>
                     <div class="graphie" id="factor-tree">
                         init({
-                            range: [ [-1, FACTORIZATION.length + 2], [ -2 * FACTORIZATION.length - 1, 1] ],
+                            range: [[-1, FACTORIZATION.length + 3], [-2 * (FACTORIZATION.length + 1), 1]],
                             scale: [30, 30]
                         });
 
-                        label( [cx + 1, y], curr );
+                        label([cx + 1, y], curr);
+                        path([[cx + 1, y - 0.5], [cx, y - 1.5]]);
+                        path([[cx + 1, y - 0.5], [cx + 2, y - 1.5]]);
+                        y -= 2;
+                        cx += 1;
+
+                        curr = curr / PRIMES[0];
+
+                        label([cx - 1, y], PRIMES[0]);
+                        circle([cx - 1, y], 0.5);
+                        label([cx + 1, y], curr);
                     </div>
 
-                    <div class="graphie" data-each="FACTORIZATION as factor" data-update="factor-tree">
-                            path( [ [cx + 1, y - 0.5], [cx, y - 1.5] ] );
-                            path( [ [cx + 1, y - 0.5], [cx + 2, y - 1.5] ] );
-                            y -= 2;
-                            cx += 1;
+                    <div>
+                        <div class="graphie" data-each="FACTORIZATION as factor" data-update="factor-tree">
+                                path([[cx + 1, y - 0.5], [cx, y - 1.5]]);
+                                path([[cx + 1, y - 0.5], [cx + 2, y - 1.5]]);
+                                y -= 2;
+                                cx += 1;
 
-                            curr = curr / factor;
+                                curr = curr / factor;
 
-                            label( [cx - 1, y], factor );
-                            circle( [cx - 1, y], 0.5);
-                            label( [cx + 1, y], curr );
-                    </div>
+                                label([cx - 1, y], factor);
+                                circle([cx - 1, y], 0.5);
+                                label([cx + 1, y], curr);
+                        </div>
 
-                    <div class="graphie" data-update="factor-tree">
-                        circle( [cx + 1, y], 0.5);
+                        <div class="graphie" data-update="factor-tree">
+                            circle([cx + 1, y], 0.5);
+                        </div>
                     </div>
 
                     <p>So the prime factorization of <code><var>Q</var></code> is <code><var>PRIMES.join( "\\times " )</var></code>.</p>
-
-                    <p>We're looking for <code>\sqrt[3]{<var>Q</var>}</code>, so we want to find groups of three prime factors.</p>
 
                     <div>
                         <p>Notice that we can rearrange the factors like so:</p>
