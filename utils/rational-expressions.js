@@ -95,6 +95,10 @@ $.extend(KhanUtil, {
             }
         }
 
+        this.isOne = function() {
+            return this.toString() === '1';
+        }
+
         // Return a new term representing this term multiplied by another term or a number
         this.multiply = function(term) {
             var coefficient = this.coefficient;
