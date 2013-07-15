@@ -215,11 +215,15 @@ $.extend(KhanUtil, {
             }
 
             // Add variable of degree 1 in random order
-            // Won't work if there are multiple variable or variables of degree > 1
+            // Won't work if there are multiple variable
             for (var vari in this.variables) {
-                if (this.variables[vari] === 1) {
+                var degree = this.variables[vari];
+                if (degree !== 0) {
                     regex += vari;
-                }
+                    if (degree > 1) {
+                        regex += "\\s*\\^\\s*" + degree;
+                    }
+                } 
             }
 
             return regex + "\\s*";
