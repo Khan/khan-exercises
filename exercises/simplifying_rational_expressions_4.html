@@ -67,13 +67,13 @@
 
                 <div class="solution" data-type="set">
                     <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>NUMERATOR_SOL.regex()</var></span>
-                        <span class="sol" data-type="regex"><var>DENOMINATOR_SOL.regex()</var></span>
+                        <span class="sol" data-type="regex"><var>NUMERATOR_SOL.regex(true)</var></span>
+                        <span class="sol" data-type="regex"><var>DENOMINATOR_SOL.regex(true)</var></span>
                         <span class="sol" data-type="number"><var>-A</var></span>
                     </div>
                     <div class="set-sol" data-type="multiple">
-                        <span class="sol" data-type="regex"><var>NUMERATOR_SOL.multiply(-1).regex()</var></span>
-                        <span class="sol" data-type="regex"><var>DENOMINATOR_SOL.multiply(-1).regex()</var></span>
+                        <span class="sol" data-type="regex"><var>NUMERATOR_SOL.multiply(-1).regex(true)</var></span>
+                        <span class="sol" data-type="regex"><var>DENOMINATOR_SOL.multiply(-1).regex(true)</var></span>
                         <span class="sol" data-type="number"><var>-A</var></span>
                     </div>
 
@@ -87,12 +87,12 @@
                                     <td><table>
                                         <tbody><tr>
                                             <td class="soln-top">
-                                                <span class="sol short40">a</span>
+                                                <span class="sol short50">a</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="soln-bot">
-                                                <span class="sol short40" data-fallback="1">a</span>
+                                                <span class="sol short50" data-fallback="1">a</span>
                                             </td>
                                         </tr>
                                     </tbody></table></td>
@@ -142,6 +142,7 @@
                 <p>Therefore:</p>
                 <code>\qquad <var>Y</var> = \dfrac{
                     <span data-if="NUM_FACTOR2.isOne()"><var>TERM1</var></span>
+                    <span data-else-if="NUM_FACTOR2.toString() === '-1'"><var>TERM1.multiply(-1)</var></span>
                     <span data-else=""><var>NUM_FACTOR2</var>(<var>TERM1</var>)</span>}{
                     <span data-if="DEN_FACTOR2.isOne()"><var>TERM3</var></span>
                     <span data-else=""><var>DEN_FACTOR2</var>(<var>TERM3</var>)</span>}</code>,
