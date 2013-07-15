@@ -110,26 +110,13 @@
 
 
         <div class="hints">
-            <p>First find the greatest common factor for the expressions in the numerator and denominator.</p>
+            <p>First factor out the greatest common factors in the numerator and in the denominator.</p>
 
-            <div>
-                <p>The greatest common factor for the numerator is <code><var>NUM_FACTOR</var></code>:</p>
-                <p><code>\qquad <var>NUMERATOR</var> = <var>NUM_FACTOR</var> \cdot (<var>NUMERATOR.divide(NUM_FACTOR)</var>)</code></p>
-            </div>
-
-            <div>
-                <p>The greatest common factor for the denominator is <code><var>DEN_FACTOR</var></code>:</p>
-                <p><code>\qquad <var>DENOMINATOR</var> = <var>DEN_FACTOR</var> \cdot (<var>DENOMINATOR.divide(DEN_FACTOR)</var>)</code></p>
-            </div>
-
-            <div>
-                <p>We can therefore rewrite the expression:</p>
-                <p><code>\qquad <var>Y</var> = \dfrac{<var>NUM_FACTOR</var>}{<var>DEN_FACTOR</var>} \cdot
-                    \dfrac{<var>NUMERATOR.divide(NUM_FACTOR)</var>}{<var>DENOMINATOR.divide(DEN_FACTOR)</var>}</code></p>
-            </div>
+            <p><code>\qquad <var>Y</var> = \dfrac{<var>NUM_FACTOR</var>}{<var>DEN_FACTOR</var>} \cdot
+                \dfrac{<var>NUMERATOR.divide(NUM_FACTOR)</var>}{<var>DENOMINATOR.divide(DEN_FACTOR)</var>}</code></p>
 
             <div data-if="!TERM_FACTOR.isOne()">
-                <p>You can then simplify:</p>
+                <p>Simplify:</p>
                 <p><code>\qquad <var>Y</var> =
                     <span data-if="!DEN_FACTOR2.isOne()">\dfrac{<var>NUM_FACTOR2</var>}{<var>DEN_FACTOR2</var>} \cdot </span>
                     <span data-else-if="!NUM_FACTOR2.isOne()"><var>NUM_FACTOR2</var> \cdot </span>
@@ -152,6 +139,7 @@
             </div>
 
             <div>
+                <p>Therefore:</p>
                 <code>\qquad <var>Y</var> = \dfrac{
                     <span data-if="NUM_FACTOR2.isOne()"><var>TERM1</var></span>
                     <span data-else=""><var>NUM_FACTOR2</var>(<var>TERM1</var>)</span>}{
