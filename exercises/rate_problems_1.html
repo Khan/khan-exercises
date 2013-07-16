@@ -99,13 +99,13 @@
             <div data-type="original">
                 <p class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(1)</var>? (Round to the nearest minute.)</p>
                 <div class="solution" data-type="multiple">
-                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>round(DIST1 / SPEED1 * 60)</var></span> minutes</p>
+                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>round(T1[0] / T1[1] * 60)</var></span> minutes</p>
                 </div>
                 <div class="hints" data-apply="appendContents">
                     <p id="final-hint">
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
                         <span data-else=""><code><var>T1[0]</var></code></span>
-                        <code>\times \space 60 = <var>round(DIST1 / SPEED1 * 60)</var></code> minutes.
+                        <code>\times \space 60 = <var>round(T1[0] / T1[1] * 60)</var></code> minutes.
                     </p>
                 </div>
             </div>
@@ -113,7 +113,7 @@
             <div data-type="original">
                 <p class="question">How many minutes did <var>person(1)</var> travel by <var>vehicle(2)</var>? (Round to the nearest minute.)</p>
                 <div class="solution" data-type="multiple">
-                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>round(DIST2 / SPEED2 * 60)</var></span> minutes</p>
+                    <p><span class="sol" data-forms="integer" style="padding-right: 5px"><var>round(T2[0] / T2[1] * 60)</var></span> minutes</p>
                 </div>
                 <div class="hints" data-apply="appendContents">
                     <p id="final-hint" data-if="isMale(1)">
@@ -125,7 +125,7 @@
                         <span data-if="T1[1] !== 1"><code>\frac{<var>T1[0]</var>}{<var>T1[1]</var>}</code></span>
                         <span data-else=""><code><var>T1[0]</var></code></span> hours
                     </p>
-                    <p><code>\frac{<var>T2[0]</var>}{<var>T2[1]</var>} \times 60 = <var>round(DIST2 / SPEED2 * 60)</var></code> minutes.</p>
+                    <p><code>\frac{<var>T2[0]</var>}{<var>T2[1]</var>} \times 60 = <var>round(T2[0] / T2[1] * 60)</var></code> minutes.</p>
                 </div>
             </div>
         </div>
