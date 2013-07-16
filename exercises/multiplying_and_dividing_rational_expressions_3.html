@@ -43,7 +43,7 @@
                     EXPR1.parenthesise = true;
                 } else {
                     EXPR1.string = EXPR1.toStringFactored();
-                    EXPR1.parenthesise = false;
+                    EXPR1.parenthesise = (TERM1.toString() === '1');
                 }
 
                 if (rand(2)) {
@@ -51,7 +51,7 @@
                     EXPR4.parenthesise = true;
                 } else {
                     EXPR4.string = EXPR4.toStringFactored();
-                    EXPR4.parenthesise = false;
+                    EXPR4.parenthesise = (TERM1.toString() === '1');
                 }
 
                 EXPR2.string = EXPR2.toString();
