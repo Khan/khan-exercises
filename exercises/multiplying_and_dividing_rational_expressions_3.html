@@ -24,8 +24,8 @@
         <div class="vars">
             <var id="X">randVar()</var>
             <var id="Y" data-ensure="X !== Y">randVar()</var>
-            <var id="TERM1">new Term(randRange(2, 10))</var>
-            <var id="TERM2">new Term(randRange(2, 10))</var>
+            <var id="TERM1">new Term(randRange(1, 10))</var>
+            <var id="TERM2">new Term(randRange(1, 10))</var>
             <var id="A">randRangeWeighted(1, 5, 1, 0.25)</var>
             <var id="B" data-ensure="getGCD(A, B) === 1">randRangeNonZero(-10, 10)</var>
             <var id="C">new RationalExpression([[A, X], B])</var>
@@ -35,6 +35,9 @@
             <var id="EXPR3">rand(2) ? new Term(randRangeWeighted(1, 8, 1, 0.25), X) : new Term(randRangeExclude(-10, 10, [-1, 0, 1]))</var>
 
             <var id="FRACTION">(function() {
+                var expr1 = C.multiply(TERM1);
+                var expr4 = C.multiply(TERM2);
+
                 if (rand(2)) {
                     EXPR1.string = EXPR1.toString();
                     EXPR1.parenthesise = true;
@@ -60,24 +63,26 @@
                     return [
                         { numerator: EXPR1, denominator: EXPR2 },
                         { numerator: EXPR3, denominator: EXPR4 },
-                        { numerator: TERM1.multiply(EXPR3), denominator: TERM2.multiply(EXPR2) }
+                        { numerator: [EXPR3, TERM1], denominator: [EXPR2, TERM2] }
                     ];
                 } else {
                     return [
                         { numerator: EXPR2, denominator: EXPR1 },
                         { numerator: EXPR4, denominator: EXPR3 },
-                        { numerator: TERM2.multiply(EXPR2), denominator: TERM1.multiply(EXPR3) }
+                        { numerator: [EXPR2, TERM2], denominator: [EXPR3, TERM1] }
                     ];
                 }
             })()</var>
             <var id="NUMERPRODUCT">FRACTION[0].numerator.multiply(FRACTION[1].numerator)</var>
             <var id="DENOMPRODUCT">FRACTION[0].denominator.multiply(FRACTION[1].denominator)</var>
-            <var id="FACTOR">FRACTION[2].denominator.coefficient &gt; 0 ?
-                FRACTION[2].numerator.getGCD(FRACTION[2].denominator) :
-                FRACTION[2].numerator.getGCD(FRACTION[2].denominator).multiply(-1)
+            <var id="NUMERTERM">FRACTION[2].numerator[0].multiply(FRACTION[2].numerator[1])</var>
+            <var id="DENOMTERM">FRACTION[2].denominator[0].multiply(FRACTION[2].denominator[1])</var>
+            <var id="FACTOR">DENOMTERM.coefficient &gt; 0 ?
+                NUMERTERM.getGCD(DENOMTERM) :
+                NUMERTERM.getGCD(DENOMTERM).multiply(-1)
             </var>
-            <var id="NUMERSOL">FRACTION[2].numerator.divide(FACTOR)</var>
-            <var id="DENOMSOL">FRACTION[2].denominator.divide(FACTOR)</var>
+            <var id="NUMERSOL">NUMERTERM.divide(FACTOR)</var>
+            <var id="DENOMSOL">DENOMTERM.divide(FACTOR)</var>
         </div>
 
         <p class="problem">Simplify the following expression and state the condition under which the simplification is valid.
@@ -164,15 +169,16 @@
                 <span data-else=""><var>FRACTION[1].denominator.string</var></span> }
             </code></p>
 
-            <p data-if="EXPR1.parenthesise || EXPR2.parenthesise"><code>
+            <p data-if="EXPR1.parenthesise || EXPR4.parenthesise"><code>
                 <var>Y</var> = \dfrac
-                    {<var>EXPR3</var> \times <var>TERM1</var> \times (<var>C</var>)}
-                    {<var>EXPR2</var> \times <var>TERM2</var> \times (<var>C</var>)}
+                    {<var>FRACTION[2].numerator[0]</var> \times
+                    <span data-if="FRACTION[2].numerator[1].toString() !== '1'"><var>FRACTION[2].numerator[1]</var> \times </span>(<var>C</var>)}
+                    {<var>FRACTION[2].denominator[0]</var> \times
+                    <span data-if="FRACTION[2].denominator[1].toString() !== '1'"><var>FRACTION[2].denominator[1]</var> \times </span>(<var>C</var>)}
             </code></p>
 
-            <p><code><var>Y</var> = \dfrac
-                {<var>FRACTION[2].numerator</var>(<var>C</var>)}
-                {<var>FRACTION[2].denominator</var>(<var>C</var>)}
+            <p><code>
+                <var>Y</var> = \dfrac{<var>NUMERTERM</var>(<var>C</var>)}{<var>DENOMTERM</var>(<var>C</var>)}
             </code></p>
 
             <p>We can cancel the <code><span data-if="A !== 1"><var>A</var></span><var>X</var> + <var>B</var></code>
@@ -181,10 +187,10 @@
             <p>Therefore <code><var>X</var> \neq <var>fraction(-B, A, true, true)</var></code>.</p>
 
             <p><code><var>Y</var>
-                = \dfrac{<var>FRACTION[2].numerator</var> \cancel{(<var>C</var>})}{<var>FRACTION[2].denominator</var> \cancel{(<var>C</var>)}}
-                = \dfrac{<var>FRACTION[2].numerator</var>}{<var>FRACTION[2].denominator</var>}
+                = \dfrac{<var>NUMERTERM</var> \cancel{(<var>C</var>})}{<var>DENOMTERM</var> \cancel{(<var>C</var>)}}
+                = \dfrac{<var>NUMERTERM</var>}{<var>DENOMTERM</var>}
                 <span data-if="FACTOR.toString() !== '1'">=
-                    <span data-if="DENOMSOL.toString() !== '-1'">\dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</span>
+                    <span data-if="DENOMSOL.toString() !== '1'">\dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</span>
                     <span data-else=""><var>NUMERSOL</var></span>
                 </span>
             </code></p>
