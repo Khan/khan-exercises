@@ -72,14 +72,12 @@
             })()</var>
             <var id="NUMERPRODUCT">FRACTION[0].numerator.multiply(FRACTION[1].numerator)</var>
             <var id="DENOMPRODUCT">FRACTION[0].denominator.multiply(FRACTION[1].denominator)</var>
-            <var id="NUMERFACTOR">NUMERPRODUCT.factor()</var>
-            <var id="DENOMFACTOR">DENOMPRODUCT.factor()</var>
-            <var id="FACTOR">DENOMFACTOR.coefficient &gt; 0 ?
-                NUMERFACTOR.getGCD(DENOMFACTOR) :
-                NUMERFACTOR.getGCD(DENOMFACTOR)
+            <var id="FACTOR">FRACTION[2].denominator.coefficient &gt; 0 ?
+                FRACTION[2].numerator.getGCD(FRACTION[2].denominator) :
+                FRACTION[2].numerator.getGCD(FRACTION[2].denominator).multiply(-1)
             </var>
-            <var id="NUMERSOL">NUMERFACTOR.divide(FACTOR)</var>
-            <var id="DENOMSOL">DENOMFACTOR.divide(FACTOR)</var>
+            <var id="NUMERSOL">FRACTION[2].numerator.divide(FACTOR)</var>
+            <var id="DENOMSOL">FRACTION[2].denominator.divide(FACTOR)</var>
         </div>
 
         <p class="problem">Simplify the following expression and state the condition under which the simplification is valid.
@@ -183,9 +181,12 @@
             <p>Therefore <code><var>X</var> \neq <var>fraction(-B, A, true, true)</var></code>.</p>
 
             <p><code><var>Y</var>
-                = \dfrac{<var>NUMERFACTOR</var> \cancel{(<var>C</var>})}{<var>DENOMFACTOR</var> \cancel{(<var>C</var>)}}
-                = \dfrac{<var>NUMERFACTOR</var>}{<var>DENOMFACTOR</var>}
-                <span data-if="FACTOR.toString() !== '1'">= \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</span>
+                = \dfrac{<var>FRACTION[2].numerator</var> \cancel{(<var>C</var>})}{<var>FRACTION[2].denominator</var> \cancel{(<var>C</var>)}}
+                = \dfrac{<var>FRACTION[2].numerator</var>}{<var>FRACTION[2].denominator</var>}
+                <span data-if="FACTOR.toString() !== '1'">=
+                    <span data-if="DENOMSOL.toString() !== '-1'">\dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</span>
+                    <span data-else=""><var>NUMERSOL</var></span>
+                </span>
             </code></p>
         </div>
     </div>
