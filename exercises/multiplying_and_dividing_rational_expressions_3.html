@@ -148,22 +148,21 @@
                                           {<var>DENOMINATOR1</var> \times <var>DENOMINATOR2</var>}
             </code></p>
 
-            <p>We can cancel the <code><var>EXPR1</var></code> so long as <code><span data-if="A !== 1"><var>A</var></span><var>X</var> \neq <var>-B</var></code>.</p>
+            <p>We can cancel the <code><var>EXPR1</var></code> so long as <code><var>EXPR1</var> \neq 0</code>.</p>
 
             <p>Therefore <code><var>X</var> \neq <var>fraction(-B, A, true, true)</var></code>.</p>
 
             <p><code><var>Y</var>
-                = \dfrac{<var>NUMERATOR1</var> \times <var>NUMERATOR2</var>}
-                        {<var>DENOMINATOR1</var> \times <var>DENOMINATOR2</var>}
                 = \dfrac{<var>FRACTION[0].numerator[0]</var> \times <var>FRACTION[1].numerator[0]</var>}
                         {<var>FRACTION[0].denominator[0]</var> \times <var>FRACTION[1].denominator[0]</var>}
                 = \dfrac{<var>NUMERPRODUCT</var>}
                         {<var>DENOMPRODUCT</var>}
+                <span data-if="FACTOR.toString() !== '1'"> = 
+                    <span data-if="DENOMSOL.toString() !== '1'">\dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</span>
+                    <span data-else=""><var>NUMERSOL</var></span>
+                </span>
             </code></p>
 
-            <div data-if="FACTOR.toString() !== '1'">
-                <p>Simplify:</p>
-                <p><code><var>Y</var> = \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></p>
             </div>
 
         </div>
