@@ -906,7 +906,7 @@ var Khan = (function() {
                     localMode: localMode
                 };
 
-                return this.each(function(i, elem) {
+                this.each(function(i, elem) {
                     elem = $(elem);
 
                     // Run the main method of any modules
@@ -920,6 +920,7 @@ var Khan = (function() {
                         }
                     });
                 });
+                return this;
             }
         });
 

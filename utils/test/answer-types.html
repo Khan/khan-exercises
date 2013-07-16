@@ -31,7 +31,11 @@
                 return (Khan.randomSeed = (seed & 0xfffffff)) / 0x10000000;
             }
         };
-        $.fn.runModules = function() { $.fn.tmpl.apply(this, arguments); };
+        $.fn.runModules = function() {
+            $.fn.tmpl.apply(this, arguments);
+            $.fn.tex.apply(this, arguments);
+            return this;
+        };
     </script>
     <script src="../../local-only/underscore.js"></script>
     <script src="../MathJax/2.1/MathJax.js?config=KAthJax-da9a7f53e588f3837b045a600e1dc439"></script>
@@ -42,6 +46,7 @@
 
     <!-- Include utility files and tests. -->
     <script src="../math.js"></script>
+    <script src="../tex.js"></script>
     <script src="../tmpl.js"></script>
     <script src="../answer-types.js"></script>
 </head>
@@ -570,7 +575,7 @@
                 "<li><code>37<\/code><\/li>" +
             "<\/ul>"
         );
-        jQuery("#qunit-fixture").tmpl();
+        jQuery("#qunit-fixture").runModules();
 
         var $solutionarea = $("#solutionarea");
         var $solution = $problem.children(".solution");
