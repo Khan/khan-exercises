@@ -24,25 +24,40 @@
         <div class="vars">
             <var id="X">randVar()</var>
             <var id="Y" data-ensure="X !== Y">randVar()</var>
-            <var id="A">randRangeWeighted(1, 5, 1, 0.25)</var>
-            <var id="B" data-ensure="getGCD(A, B) === 1">randRangeNonZero(-10, 10)</var>
-            <var id="C">new RationalExpression([[A, X], B])</var>
+            <var id="COEFFICIENT">randRangeWeighted(1, 5, 1, 0.25)</var>
+            <var id="CONSTANT" data-ensure="getGCD(COEFFICIENT, CONSTANT) === 1">randRangeNonZero(-10, 10)</var>
+            <var id="COMMON_TERM">new RationalExpression([[COEFFICIENT, X], CONSTANT])</var>
 
             <var id="FRACTION">(function() {
-                var f1 = randRange(1, 10);
-                var f2 = randRange(1, 10);
-                var term1 = new Term(f1);
-                var term2 = new Term(f2);
+                if (rand(2)) {
+                    var expr2 = new Term(randRangeWeighted(1, 8, 1, 0.25), X);
+                    var term2 = new Term(randRange(1, 10));
+                } else {
+                    var expr2 = new Term(randRangeExclude(-10, 10, [-1, 0, 1]));
+                    var term2 = rand(2) ? new Term(randRange(1, 10)) : new Term(randRangeWeighted(1, 8, 1, 0.25), X);
+                }
+                expr2.string = expr2.toString();
+                expr2.parenthesise = false;
 
-                var expr1 = C.multiply(term1);
-                var expr4 = C.multiply(term2);
+                if (rand(2)) {
+                    var expr3 = new Term(randRangeWeighted(1, 8, 1, 0.25), X);
+                    var term1 = new Term(randRange(1, 10));
+                } else {
+                    var expr3 = new Term(randRangeExclude(-10, 10, [-1, 0, 1]));
+                    var term1 = rand(2) ? new Term(randRange(1, 10)) : new Term(randRangeWeighted(1, 8, 1, 0.25), X);
+                }
+                expr3.string = expr3.toString();
+                expr3.parenthesise = false;
+
+                var expr1 = COMMON_TERM.multiply(term1);
+                var expr4 = COMMON_TERM.multiply(term2);
 
                 if (rand(2)) {
                     expr1.string = expr1.toString();
                     expr1.parenthesise = true;
                 } else {
                     expr1.string = expr1.toStringFactored();
-                    expr1.parenthesise = (f1 === 1);
+                    expr1.parenthesise = (term1.toString() === '1');
                 }
 
                 if (rand(2)) {
@@ -50,25 +65,8 @@
                     expr4.parenthesise = true;
                 } else {
                     expr4.string = expr4.toStringFactored();
-                    expr4.parenthesise = (f1 === 1);
+                    expr4.parenthesise = (term2.toString() === '1');
                 }
-
-                if (rand(2)) {
-                    var expr2 = new Term(randRangeWeighted(1, 8, 1, 0.25), X);
-                } else {
-                    var expr2 = new Term(randRangeExclude(-10, 10, [-1, 0, 1]))
-                }
-
-                if (rand(2)) {
-                    var expr3 = new Term(randRangeWeighted(1, 8, 1, 0.25), X);
-                } else {
-                    var expr3 = new Term(randRangeExclude(-10, 10, [-1, 0, 1]))
-                }
-
-                expr2.string = expr2.toString();
-                expr2.parenthesise = false;
-                expr3.string = expr3.toString();
-                expr3.parenthesise = false;
 
                 if (rand(2)) {
                     return [
@@ -130,12 +128,12 @@
             <div class="set-sol" data-type="multiple">
                 <span class="sol" data-type="regex"><var>'^' + NUMERSOL.regex() + '$'</var></span>
                 <span class="sol" data-type="regex"><var>'^' + DENOMSOL.regex() + '$'</var></span>
-                <span class="sol" data-type="rational"><var>-B/A</var></span>
+                <span class="sol" data-type="rational"><var>-CONSTANT/COEFFICIENT</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
                 <span class="sol" data-type="regex"><var>'^' + NUMERSOL.multiply(-1).regex() + '$'</var></span>
                 <span class="sol" data-type="regex"><var>'^' + DENOMSOL.multiply(-1).regex() + '$'</var></span>
-                <span class="sol" data-type="rational"><var>-B/A</var></span>
+                <span class="sol" data-type="rational"><var>-CONSTANT/COEFFICIENT</var></span>
             </div>
 
             <div class="input-format">
@@ -184,22 +182,22 @@
                         FRACTION[1].numerator.parenthesise || FRACTION[1].denominator.parenthesise"><code>
                 <var>Y</var> = \dfrac
                     {<var>FRACTION[2].numerator[0]</var>
-                    <span data-if="FRACTION[2].numerator[1].toString() !== '1'"> \times <var>FRACTION[2].numerator[1]</var></span>(<var>C</var>)}
+                    <span data-if="FRACTION[2].numerator[1].toString() !== '1'"> \times <var>FRACTION[2].numerator[1]</var></span>(<var>COMMON_TERM</var>)}
                     {<var>FRACTION[2].denominator[0]</var>
-                    <span data-if="FRACTION[2].denominator[1].toString() !== '1'"> \times <var>FRACTION[2].denominator[1]</var></span>(<var>C</var>)}
+                    <span data-if="FRACTION[2].denominator[1].toString() !== '1'"> \times <var>FRACTION[2].denominator[1]</var></span>(<var>COMMON_TERM</var>)}
             </code></p>
 
             <p><code>
-                <var>Y</var> = \dfrac{<var>NUMERTERM</var>(<var>C</var>)}{<var>DENOMTERM</var>(<var>C</var>)}
+                <var>Y</var> = \dfrac{<var>NUMERTERM</var>(<var>COMMON_TERM</var>)}{<var>DENOMTERM</var>(<var>COMMON_TERM</var>)}
             </code></p>
 
-            <p>We can cancel the <code><span data-if="A !== 1"><var>A</var></span><var>X</var> + <var>B</var></code>
-                so long as <code><span data-if="A !== 1"><var>A</var></span><var>X</var> + <var>B</var> \neq 0</code>.</p>
+            <p>We can cancel the <code><span data-if="COEFFICIENT !== 1"><var>COEFFICIENT</var></span><var>X</var> + <var>CONSTANT</var></code>
+                so long as <code><span data-if="COEFFICIENT !== 1"><var>COEFFICIENT</var></span><var>X</var> + <var>CONSTANT</var> \neq 0</code>.</p>
 
-            <p>Therefore <code><var>X</var> \neq <var>fraction(-B, A, true, true)</var></code>.</p>
+            <p>Therefore <code><var>X</var> \neq <var>fraction(-CONSTANT, COEFFICIENT, true, true)</var></code>.</p>
 
             <p><code><var>Y</var>
-                = \dfrac{<var>NUMERTERM</var> \cancel{(<var>C</var>})}{<var>DENOMTERM</var> \cancel{(<var>C</var>)}}
+                = \dfrac{<var>NUMERTERM</var> \cancel{(<var>COMMON_TERM</var>})}{<var>DENOMTERM</var> \cancel{(<var>COMMON_TERM</var>)}}
                 = \dfrac{<var>NUMERTERM</var>}{<var>DENOMTERM</var>}
                 <span data-if="FACTOR.toString() !== '1'">=
                     <span data-if="DENOMSOL.toString() !== '1'">\dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</span>
