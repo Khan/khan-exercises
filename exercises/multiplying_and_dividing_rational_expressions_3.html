@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html data-require="math math-format rational-expressions"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying and dividing rational expressions 3</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="X">randVar()</var>
+            <var id="Y" data-ensure="X !== Y">randVar()</var>
+            <var id="TERM1">new Term(randRange(2, 10))</var>
+            <var id="TERM2">new Term(randRange(2, 10))</var>
+            <var id="A">randRangeWeighted(1, 8, 1, 0.25)</var>
+            <var id="B">randRangeNonZero(-10, 10)</var>
+            <var id="EXPR1">new RationalExpression([[A, X], B])</var>
+            <var id="EXPR2">rand(2) ? new Term(randRangeWeighted(1, 8, 1, 0.25), X) : new Term(randRangeExclude(-10, 10, [-1, 0, 1]))</var>
+            <var id="EXPR3">rand(2) ? new Term(randRangeWeighted(1, 8, 1, 0.25), X) : new Term(randRangeExclude(-10, 10, [-1, 0, 1]))</var>
+
+            <var id="FRACTION">(function(){
+                if (rand(2)) {
+                    return [
+                        { numerator: [TERM1, EXPR1], denominator: [EXPR2] },
+                        { numerator: [EXPR3], denominator: [TERM2, EXPR1] }
+                    ];
+                } else {
+                    return [
+                        { numerator: [EXPR2], denominator: [TERM1, EXPR1] },
+                        { numerator: [TERM2, EXPR1], denominator: [EXPR3] }
+                    ];
+                }
+            })()</var>
+            <var id="NUMERATOR1">FRACTION[0].numerator.length === 1 ?
+                FRACTION[0].numerator[0].toString() :
+                FRACTION[0].numerator[0].toString() + '(' + FRACTION[0].numerator[1].toString() + ')'
+            </var>
+            <var id="DENOMINATOR1">FRACTION[0].denominator.length === 1 ?
+                FRACTION[0].denominator[0].toString() :
+                FRACTION[0].denominator[0].toString() + '(' + FRACTION[0].denominator[1].toString() + ')'
+            </var>
+            <var id="NUMERATOR2">FRACTION[1].numerator.length === 1 ?
+                FRACTION[1].numerator[0].toString() :
+                FRACTION[1].numerator[0].toString() + '(' + FRACTION[1].numerator[1].toString() + ')'
+            </var>
+            <var id="DENOMINATOR2">FRACTION[1].denominator.length === 1 ?
+                FRACTION[1].denominator[0].toString() :
+                FRACTION[1].denominator[0].toString() + '(' + FRACTION[1].denominator[1].toString() + ')'
+            </var>
+            <var id="NUMERPRODUCT">FRACTION[0].numerator[0].multiply(FRACTION[1].numerator[0])</var>
+            <var id="DENOMPRODUCT">FRACTION[0].denominator[0].multiply(FRACTION[1].denominator[0])</var>
+            <var id="FACTOR">DENOMPRODUCT.coefficient &gt; 0 ?
+                NUMERPRODUCT.getGCD(DENOMPRODUCT) :
+                NUMERPRODUCT.getGCD(DENOMPRODUCT).multiply(-1)
+            </var>
+            <var id="NUMERSOL">NUMERPRODUCT.divide(FACTOR)</var>
+            <var id="DENOMSOL">DENOMPRODUCT.divide(FACTOR)</var>
+        </div>
+
+        <div class="problems">
+            <div id="multiply">
+                <p class="problem">Simplify the following expression and state the condition under which the simplification is valid.
+                    You can assume that <code><var>X</var> \neq 0</code></p>
+                <p class="question">
+                    <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR1</var>} \times
+                                            \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR2</var>}
+                    </code></p>
+                </p>
+            </div>
+
+            <div id="divide">
+                <p class="problem">Simplify the following expression:</p>
+                <p class="question">
+                    <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR1</var>} \div
+                                            \dfrac{<var>DENOMINATOR2</var>}{<var>NUMERATOR2</var>}
+                    </code></p>
+                </p>
+
+                <div class="hints" data-apply="prependContents">
+                    <div>
+                        <p>Dividing by an expression is the same as multiplying by its inverse.</p>
+                        <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR1</var>} \times
+                                                \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR2</var>}
+                        </code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="solution" data-type="set">
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.regex() + '$'</var></span>
+                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.regex() + '$'</var></span>
+                <span class="sol" data-type="rational"><var>-B/A</var></span>
+            </div>
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.multiply(-1).regex() + '$'</var></span>
+                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.multiply(-1).regex() + '$'</var></span>
+                <span class="sol" data-type="rational"><var>-B/A</var></span>
+            </div>
+
+            <div class="input-format">
+                <div class="entry" data-type="multiple">
+                    <table>
+                        <tbody><tr>
+                            <td>
+                                <code><var>Y</var> = </code>
+                            </td>
+                            <td><table>
+                                <tbody><tr>
+                                    <td class="soln-top">
+                                        <span class="sol short50">a</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="soln-bot">
+                                        <span class="sol short50" data-fallback="1">a</span>
+                                    </td>
+                                </tr>
+                            </tbody></table></td>
+                            <td>
+                                <code> \space <var>X</var> \neq </code><span class="sol soln-dom short32">a</span>
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </div>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>When multiplying fractions, we multiply the numerators and the denominators.</p>
+
+            <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> \times <var>NUMERATOR2</var>}
+                                          {<var>DENOMINATOR1</var> \times <var>DENOMINATOR2</var>}
+            </code></p>
+
+            <p>We can cancel the <code><var>EXPR1</var></code> so long as <code><span data-if="A !== 1"><var>A</var></span><var>X</var> \neq <var>-B</var></code>.</p>
+
+            <p>Therefore <code><var>X</var> \neq <var>fraction(-B, A, true, true)</var></code>.</p>
+
+            <p><code><var>Y</var>
+                = \dfrac{<var>NUMERATOR1</var> \times <var>NUMERATOR2</var>}
+                        {<var>DENOMINATOR1</var> \times <var>DENOMINATOR2</var>}
+                = \dfrac{<var>FRACTION[0].numerator[0]</var> \times <var>FRACTION[1].numerator[0]</var>}
+                        {<var>FRACTION[0].denominator[0]</var> \times <var>FRACTION[1].denominator[0]</var>}
+                = \dfrac{<var>NUMERPRODUCT</var>}
+                        {<var>DENOMPRODUCT</var>}
+            </code></p>
+
+            <div data-if="FACTOR.toString() !== '1'">
+                <p>Simplify:</p>
+                <p><code><var>Y</var> = \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></p>
+            </div>
+
+        </div>
+    </div>
+</body></html>
