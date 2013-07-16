@@ -26,75 +26,84 @@
             <var id="Y" data-ensure="X !== Y">randVar()</var>
             <var id="TERM1">new Term(randRange(2, 10))</var>
             <var id="TERM2">new Term(randRange(2, 10))</var>
-            <var id="A">randRangeWeighted(1, 8, 1, 0.25)</var>
-            <var id="B">randRangeNonZero(-10, 10)</var>
-            <var id="EXPR1">new RationalExpression([[A, X], B])</var>
+            <var id="A">randRangeWeighted(1, 5, 1, 0.25)</var>
+            <var id="B" data-ensure="getGCD(A, B) === 1">randRangeNonZero(-10, 10)</var>
+            <var id="C">new RationalExpression([[A, X], B])</var>
+            <var id="EXPR1">C.multiply(TERM1)</var>
+            <var id="EXPR4">C.multiply(TERM2)</var>
             <var id="EXPR2">rand(2) ? new Term(randRangeWeighted(1, 8, 1, 0.25), X) : new Term(randRangeExclude(-10, 10, [-1, 0, 1]))</var>
             <var id="EXPR3">rand(2) ? new Term(randRangeWeighted(1, 8, 1, 0.25), X) : new Term(randRangeExclude(-10, 10, [-1, 0, 1]))</var>
 
-            <var id="FRACTION">(function(){
+            <var id="FRACTION">(function() {
+                if (rand(2)) {
+                    EXPR1.string = EXPR1.toString();
+                    EXPR1.parenthesise = true;
+                } else {
+                    EXPR1.string = EXPR1.toStringFactored();
+                    EXPR1.parenthesise = false;
+                }
+
+                if (rand(2)) {
+                    EXPR4.string = EXPR4.toString();
+                    EXPR4.parenthesise = true;
+                } else {
+                    EXPR4.string = EXPR4.toStringFactored();
+                    EXPR4.parenthesise = false;
+                }
+
+                EXPR2.string = EXPR2.toString();
+                EXPR2.parenthesise = false;
+                EXPR3.string = EXPR3.toString();
+                EXPR3.parenthesise = false;
+
                 if (rand(2)) {
                     return [
-                        { numerator: [TERM1, EXPR1], denominator: [EXPR2] },
-                        { numerator: [EXPR3], denominator: [TERM2, EXPR1] }
+                        { numerator: EXPR1, denominator: EXPR2 },
+                        { numerator: EXPR3, denominator: EXPR4 }
                     ];
                 } else {
                     return [
-                        { numerator: [EXPR2], denominator: [TERM1, EXPR1] },
-                        { numerator: [TERM2, EXPR1], denominator: [EXPR3] }
+                        { numerator: EXPR2, denominator: EXPR1 },
+                        { numerator: EXPR4, denominator: EXPR3 }
                     ];
                 }
             })()</var>
-            <var id="NUMERATOR1">FRACTION[0].numerator.length === 1 ?
-                FRACTION[0].numerator[0].toString() :
-                FRACTION[0].numerator[0].toString() + '(' + FRACTION[0].numerator[1].toString() + ')'
+            <var id="NUMERPRODUCT">FRACTION[0].numerator.multiply(FRACTION[1].numerator)</var>
+            <var id="DENOMPRODUCT">FRACTION[0].denominator.multiply(FRACTION[1].denominator)</var>
+            <var id="NUMERFACTOR">NUMERPRODUCT.factor()</var>
+            <var id="DENOMFACTOR">DENOMPRODUCT.factor()</var>
+            <var id="FACTOR">DENOMFACTOR.coefficient &gt; 0 ?
+                NUMERFACTOR.getGCD(DENOMFACTOR) :
+                NUMERFACTOR.getGCD(DENOMFACTOR).multiply(-1)
             </var>
-            <var id="DENOMINATOR1">FRACTION[0].denominator.length === 1 ?
-                FRACTION[0].denominator[0].toString() :
-                FRACTION[0].denominator[0].toString() + '(' + FRACTION[0].denominator[1].toString() + ')'
-            </var>
-            <var id="NUMERATOR2">FRACTION[1].numerator.length === 1 ?
-                FRACTION[1].numerator[0].toString() :
-                FRACTION[1].numerator[0].toString() + '(' + FRACTION[1].numerator[1].toString() + ')'
-            </var>
-            <var id="DENOMINATOR2">FRACTION[1].denominator.length === 1 ?
-                FRACTION[1].denominator[0].toString() :
-                FRACTION[1].denominator[0].toString() + '(' + FRACTION[1].denominator[1].toString() + ')'
-            </var>
-            <var id="NUMERPRODUCT">FRACTION[0].numerator[0].multiply(FRACTION[1].numerator[0])</var>
-            <var id="DENOMPRODUCT">FRACTION[0].denominator[0].multiply(FRACTION[1].denominator[0])</var>
-            <var id="FACTOR">DENOMPRODUCT.coefficient &gt; 0 ?
-                NUMERPRODUCT.getGCD(DENOMPRODUCT) :
-                NUMERPRODUCT.getGCD(DENOMPRODUCT).multiply(-1)
-            </var>
-            <var id="NUMERSOL">NUMERPRODUCT.divide(FACTOR)</var>
-            <var id="DENOMSOL">DENOMPRODUCT.divide(FACTOR)</var>
+            <var id="NUMERSOL">NUMERFACTOR.divide(FACTOR)</var>
+            <var id="DENOMSOL">DENOMFACTOR.divide(FACTOR)</var>
         </div>
+
+        <p class="problem">Simplify the following expression and state the condition under which the simplification is valid.
+            You can assume that <code><var>X</var> \neq 0</code></p>
 
         <div class="problems">
             <div id="multiply">
-                <p class="problem">Simplify the following expression and state the condition under which the simplification is valid.
-                    You can assume that <code><var>X</var> \neq 0</code></p>
                 <p class="question">
-                    <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR1</var>} \times
-                                            \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR2</var>}
+                    <p><code><var>Y</var> = \dfrac{<var>FRACTION[0].numerator.string</var>}{<var>FRACTION[0].denominator.string</var>} \times
+                                            \dfrac{<var>FRACTION[1].numerator.string</var>}{<var>FRACTION[1].denominator.string</var>}
                     </code></p>
                 </p>
             </div>
 
             <div id="divide">
-                <p class="problem">Simplify the following expression:</p>
                 <p class="question">
-                    <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR1</var>} \div
-                                            \dfrac{<var>DENOMINATOR2</var>}{<var>NUMERATOR2</var>}
+                    <p><code><var>Y</var> = \dfrac{<var>FRACTION[0].numerator.string</var>}{<var>FRACTION[0].denominator.string</var>} \div
+                                            \dfrac{<var>FRACTION[1].denominator.string</var>}{<var>FRACTION[1].numerator.string</var>}
                     </code></p>
                 </p>
 
                 <div class="hints" data-apply="prependContents">
                     <div>
                         <p>Dividing by an expression is the same as multiplying by its inverse.</p>
-                        <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var>}{<var>DENOMINATOR1</var>} \times
-                                                \dfrac{<var>NUMERATOR2</var>}{<var>DENOMINATOR2</var>}
+                        <p><code><var>Y</var> = \dfrac{<var>FRACTION[0].numerator.string</var>}{<var>FRACTION[0].denominator.string</var>} \times
+                                                \dfrac{<var>FRACTION[1].numerator.string</var>}{<var>FRACTION[1].denominator.string</var>}
                         </code></p>
                     </div>
                 </div>
@@ -144,27 +153,31 @@
         <div class="hints">
             <p>When multiplying fractions, we multiply the numerators and the denominators.</p>
 
-            <p><code><var>Y</var> = \dfrac{<var>NUMERATOR1</var> \times <var>NUMERATOR2</var>}
-                                          {<var>DENOMINATOR1</var> \times <var>DENOMINATOR2</var>}
+            <p><code><var>Y</var> = \dfrac{
+                <span data-if="FRACTION[0].numerator.parenthesise">(<var>FRACTION[0].numerator.string</var>)</span>
+                <span data-else=""><var>FRACTION[0].numerator.string</var></span> \times
+                <span data-if="FRACTION[1].numerator.parenthesise">(<var>FRACTION[1].numerator.string</var>)</span>
+                <span data-else=""><var>FRACTION[1].numerator.string</var></span> } {
+                <span data-if="FRACTION[0].denominator.parenthesise">(<var>FRACTION[0].denominator.string</var>)</span>
+                <span data-else=""><var>FRACTION[0].denominator.string</var></span> \times
+                <span data-if="FRACTION[1].denominator.parenthesise">(<var>FRACTION[1].denominator.string</var>)</span>
+                <span data-else=""><var>FRACTION[1].denominator.string</var></span> }
             </code></p>
 
-            <p>We can cancel the <code><var>EXPR1</var></code> so long as <code><var>EXPR1</var> \neq 0</code>.</p>
+            <p><code><var>Y</var>
+                = \dfrac{<var>NUMERPRODUCT.toStringFactored()</var>}{<var>DENOMPRODUCT.toStringFactored()</var>}
+            </code></p>
+
+            <p>We can cancel the <code><span data-if="A !== 1"><var>A</var></span><var>X</var> + <var>B</var></code>
+                so long as <code><span data-if="A !== 1"><var>A</var></span><var>X</var> + <var>B</var> \neq 0</code>.</p>
 
             <p>Therefore <code><var>X</var> \neq <var>fraction(-B, A, true, true)</var></code>.</p>
 
             <p><code><var>Y</var>
-                = \dfrac{<var>FRACTION[0].numerator[0]</var> \times <var>FRACTION[1].numerator[0]</var>}
-                        {<var>FRACTION[0].denominator[0]</var> \times <var>FRACTION[1].denominator[0]</var>}
-                = \dfrac{<var>NUMERPRODUCT</var>}
-                        {<var>DENOMPRODUCT</var>}
-                <span data-if="FACTOR.toString() !== '1'"> = 
-                    <span data-if="DENOMSOL.toString() !== '1'">\dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</span>
-                    <span data-else=""><var>NUMERSOL</var></span>
-                </span>
+                = \dfrac{<var>NUMERFACTOR</var> \cancel{(<var>C</var>})}{<var>DENOMFACTOR</var> \cancel{(<var>C</var>)}}
+                = \dfrac{<var>NUMERFACTOR</var>}{<var>DENOMFACTOR</var>}
+                <span data-if="FACTOR.toString() !== '1'">= \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</span>
             </code></p>
-
-            </div>
-
         </div>
     </div>
 </body></html>
