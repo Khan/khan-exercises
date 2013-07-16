@@ -59,12 +59,14 @@
                 if (rand(2)) {
                     return [
                         { numerator: EXPR1, denominator: EXPR2 },
-                        { numerator: EXPR3, denominator: EXPR4 }
+                        { numerator: EXPR3, denominator: EXPR4 },
+                        { numerator: TERM1.multiply(EXPR3), denominator: TERM2.multiply(EXPR2) }
                     ];
                 } else {
                     return [
                         { numerator: EXPR2, denominator: EXPR1 },
-                        { numerator: EXPR4, denominator: EXPR3 }
+                        { numerator: EXPR4, denominator: EXPR3 },
+                        { numerator: TERM2.multiply(EXPR2), denominator: TERM1.multiply(EXPR3) }
                     ];
                 }
             })()</var>
@@ -74,7 +76,7 @@
             <var id="DENOMFACTOR">DENOMPRODUCT.factor()</var>
             <var id="FACTOR">DENOMFACTOR.coefficient &gt; 0 ?
                 NUMERFACTOR.getGCD(DENOMFACTOR) :
-                NUMERFACTOR.getGCD(DENOMFACTOR).multiply(-1)
+                NUMERFACTOR.getGCD(DENOMFACTOR)
             </var>
             <var id="NUMERSOL">NUMERFACTOR.divide(FACTOR)</var>
             <var id="DENOMSOL">DENOMFACTOR.divide(FACTOR)</var>
@@ -164,8 +166,15 @@
                 <span data-else=""><var>FRACTION[1].denominator.string</var></span> }
             </code></p>
 
-            <p><code><var>Y</var>
-                = \dfrac{<var>NUMERPRODUCT.toStringFactored()</var>}{<var>DENOMPRODUCT.toStringFactored()</var>}
+            <p data-if="EXPR1.parenthesise || EXPR2.parenthesise"><code>
+                <var>Y</var> = \dfrac
+                    {<var>EXPR3</var> \times <var>TERM1</var> \times (<var>C</var>)}
+                    {<var>EXPR2</var> \times <var>TERM2</var> \times (<var>C</var>)}
+            </code></p>
+
+            <p><code><var>Y</var> = \dfrac
+                {<var>FRACTION[2].numerator</var>(<var>C</var>)}
+                {<var>FRACTION[2].denominator</var>(<var>C</var>)}
             </code></p>
 
             <p>We can cancel the <code><span data-if="A !== 1"><var>A</var></span><var>X</var> + <var>B</var></code>
