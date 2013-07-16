@@ -24,29 +24,33 @@
         <div class="vars">
             <var id="X">randVar()</var>
             <var id="Y" data-ensure="X !== Y">randVar()</var>
-            <var id="TERM1">new Term(randRange(1, 10))</var>
-            <var id="TERM2">new Term(randRange(1, 10))</var>
             <var id="A">randRangeWeighted(1, 5, 1, 0.25)</var>
             <var id="B" data-ensure="getGCD(A, B) === 1">randRangeNonZero(-10, 10)</var>
             <var id="C">new RationalExpression([[A, X], B])</var>
-            <var id="EXPR1">C.multiply(TERM1)</var>
-            <var id="EXPR4">C.multiply(TERM2)</var>
 
             <var id="FRACTION">(function() {
+                var f1 = randRange(1, 10);
+                var f2 = randRange(1, 10);
+                var term1 = new Term(f1);
+                var term2 = new Term(f2);
+
+                var expr1 = C.multiply(term1);
+                var expr4 = C.multiply(term2);
+
                 if (rand(2)) {
-                    EXPR1.string = EXPR1.toString();
-                    EXPR1.parenthesise = true;
+                    expr1.string = expr1.toString();
+                    expr1.parenthesise = true;
                 } else {
-                    EXPR1.string = EXPR1.toStringFactored();
-                    EXPR1.parenthesise = (TERM1.toString() === '1');
+                    expr1.string = expr1.toStringFactored();
+                    expr1.parenthesise = (f1 === 1);
                 }
 
                 if (rand(2)) {
-                    EXPR4.string = EXPR4.toString();
-                    EXPR4.parenthesise = true;
+                    expr4.string = expr4.toString();
+                    expr4.parenthesise = true;
                 } else {
-                    EXPR4.string = EXPR4.toStringFactored();
-                    EXPR4.parenthesise = (TERM1.toString() === '1');
+                    expr4.string = expr4.toStringFactored();
+                    expr4.parenthesise = (f1 === 1);
                 }
 
                 if (rand(2)) {
@@ -68,15 +72,15 @@
 
                 if (rand(2)) {
                     return [
-                        { numerator: EXPR1, denominator: expr2 },
-                        { numerator: expr3, denominator: EXPR4 },
-                        { numerator: [expr3, TERM1], denominator: [expr2, TERM2] }
+                        { numerator: expr1, denominator: expr2 },
+                        { numerator: expr3, denominator: expr4 },
+                        { numerator: [expr3, term1], denominator: [expr2, term2] }
                     ];
                 } else {
                     return [
-                        { numerator: expr2, denominator: EXPR1 },
-                        { numerator: EXPR4, denominator: expr3 },
-                        { numerator: [expr2, TERM2], denominator: [expr3, TERM1] }
+                        { numerator: expr2, denominator: expr1 },
+                        { numerator: expr4, denominator: expr3 },
+                        { numerator: [expr2, term2], denominator: [expr3, term1] }
                     ];
                 }
             })()</var>
@@ -176,12 +180,13 @@
                 <span data-else=""><var>FRACTION[1].denominator.string</var></span> }
             </code></p>
 
-            <p data-if="EXPR1.parenthesise || EXPR4.parenthesise"><code>
+            <p data-if="FRACTION[0].numerator.parenthesise || FRACTION[0].denominator.parenthesise ||
+                        FRACTION[1].numerator.parenthesise || FRACTION[1].denominator.parenthesise"><code>
                 <var>Y</var> = \dfrac
-                    {<var>FRACTION[2].numerator[0]</var> \times
-                    <span data-if="FRACTION[2].numerator[1].toString() !== '1'"><var>FRACTION[2].numerator[1]</var> \times </span>(<var>C</var>)}
-                    {<var>FRACTION[2].denominator[0]</var> \times
-                    <span data-if="FRACTION[2].denominator[1].toString() !== '1'"><var>FRACTION[2].denominator[1]</var> \times </span>(<var>C</var>)}
+                    {<var>FRACTION[2].numerator[0]</var>
+                    <span data-if="FRACTION[2].numerator[1].toString() !== '1'"> \times <var>FRACTION[2].numerator[1]</var></span>(<var>C</var>)}
+                    {<var>FRACTION[2].denominator[0]</var>
+                    <span data-if="FRACTION[2].denominator[1].toString() !== '1'"> \times <var>FRACTION[2].denominator[1]</var></span>(<var>C</var>)}
             </code></p>
 
             <p><code>
