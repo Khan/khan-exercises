@@ -23,6 +23,7 @@
 <body>
     <div class="exercise">
         <div class="vars">
+            <var id="OPERATOR">randFromArray(['multiply', 'divide'])</var>
             <var id="X">randVar()</var>
             <var id="Y" data-ensure="X !== Y">randVar()</var>
             <var id="A">randRangeNonZero(-10, 10)</var>
@@ -32,101 +33,67 @@
             <var id="TERM_B">new RationalExpression([[1, X], B])</var>
             <var id="TERM_C">new RationalExpression([[1, X], C])</var>
             <var id="TERM_D">TERM_B.multiply(TERM_C)</var>
-
-            <var id="FRACTION">(function() {
-                TERM_A.string = TERM_A.toString();
-                TERM_B.string = TERM_B.toString();
-                TERM_C.string = TERM_C.toString();
-                TERM_D.string = '(' + TERM_B.string + ')(' + TERM_C.string + ')';
-
-                var one = new Term(1);
-
-                var fraction = randFromArray([
-                    [
-                        { numerator: TERM_A, denominator: TERM_B },
-                        { numerator: TERM_D, denominator: TERM_C },
-                        { numerator: TERM_A, denominator: one, cancel: TERM_C }
-                    ], [
-                        { numerator: TERM_A, denominator: TERM_B },
-                        { numerator: TERM_D, denominator: TERM_A },
-                        { numerator: TERM_C, denominator: one, cancel: TERM_A }
-                    ],[
-                        { numerator: TERM_B, denominator: TERM_A },
-                        { numerator: TERM_C, denominator: TERM_D },
-                        { numerator: one, denominator: TERM_A, cancel: TERM_C }
-                    ], [
-                        { numerator: TERM_B, denominator: TERM_A },
-                        { numerator: TERM_A, denominator: TERM_D },
-                        { numerator: one, denominator: TERM_C, cancel: TERM_A }
-                    ]
-                ]);
-
-                if (rand(2)) {
-                    var temp = fraction[0];
-                    fraction[0] = fraction[1];
-                    fraction[1] = temp;
-                }
-
-                return fraction;
-
-            })()</var>
-            <var id="NUMERSOL">TERM_A</var>
-            <var id="DENOMSOL">TERM_A</var>
+            <var id="FACTOR_1">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
+            <var id="FACTOR_2">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
+            <var id="FACTOR_3">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
+            <var id="ORDER">randFromArray([[0, 1], [1, 0]])</var>
         </div>
 
-        <p class="problem">Simplify the following expression and state the conditions under which the simplification is valid.
-            You can assume that <code><var>X</var> \neq 0</code></p>
-
         <div class="problems">
-            <div id="multiply">
-                <p class="question">
-                    <p><code><var>Y</var> = \dfrac{<var>FRACTION[0].numerator</var>}{<var>FRACTION[0].denominator</var>} \times
-                                            \dfrac{<var>FRACTION[1].numerator</var>}{<var>FRACTION[1].denominator</var>}
-                    </code></p>
-                </p>
+            <div id="A over B and BC over C">
+                <div class="vars">
+                    <var id="NUMERATORS">[TERM_A.multiply(FACTOR_1), TERM_D]</var>
+                    <var id="DENOMINATORS">[TERM_B.multiply(FACTOR_2), TERM_C.multiply(FACTOR_3)]</var>
+                    <var id="NUMER_STRINGS">[NUMERATORS[0].toString(), '(' + TERM_B.toString() + ')(' + TERM_C.toString() + ')']</var>
+                    <var id="DENOM_STRINGS">[DENOMINATORS[0].toString(), DENOMINATORS[1].toString()]</var>
+                    <var id="NUMER_STRINGS2">[NUMERATORS[0].toStringFactored(), NUMER_STRINGS[1]]</var>
+                    <var id="DENOM_STRINGS2">[DENOMINATORS[0].toStringFactored(), DENOMINATORS[1].toStringFactored()]</var>
+
+                    <var id="CANCEL">TERM_C</var>
+                    <var id="NUMERSOL">NUMERATORS[0]</var>
+                    <var id="DENOMSOL">new Term(FACTOR_2 * FACTOR_3)</var>
+                </div>
             </div>
 
-            <div id="divide">
-                <p class="question">
-                    <p><code><var>Y</var> = \dfrac{<var>FRACTION[0].numerator</var>}{<var>FRACTION[0].denominator</var>} \div
-                                            \dfrac{<var>FRACTION[1].denominator</var>}{<var>FRACTION[1].numerator</var>}
-                    </code></p>
-                </p>
+            <div id="A over B and BC over A">
+                <div class="vars">
+                    <var id="NUMERATORS">[TERM_A.multiply(FACTOR_1), TERM_D]</var>
+                    <var id="DENOMINATORS">[TERM_B.multiply(FACTOR_2), TERM_A.multiply(FACTOR_3)]</var>
+                    <var id="NUMER_STRINGS">[NUMERATORS[0].toString(), '(' + TERM_B.toString() + ')(' + TERM_C.toString() + ')']</var>
+                    <var id="DENOM_STRINGS">[DENOMINATORS[0].toString(), DENOMINATORS[1].toString()]</var>
+                    <var id="NUMER_STRINGS2">[NUMERATORS[0].toStringFactored(), NUMER_STRINGS[1]]</var>
+                    <var id="DENOM_STRINGS2">[DENOMINATORS[0].toStringFactored(), DENOMINATORS[1].toStringFactored()]</var>
 
-                <div class="hints" data-apply="prependContents">
-                    <div>
-                        <p>Dividing by an expression is the same as multiplying by its inverse.</p>
-                        <p><code><var>Y</var> = \dfrac{<var>FRACTION[0].numerator</var>}{<var>FRACTION[0].denominator</var>} \times
-                                                \dfrac{<var>FRACTION[1].numerator</var>}{<var>FRACTION[1].denominator</var>}
-                        </code></p>
-                    </div>
+                    <var id="CANCEL">TERM_A</var>
+                    <var id="NUMERSOL">TERM_C.multiply(FACTOR_1)</var>
+                    <var id="DENOMSOL">new Term(FACTOR_2 * FACTOR_3)</var>
                 </div>
             </div>
         </div>
 
         <div class="solution" data-type="set">
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>'^' + FRACTION[2].numerator.regex() + '$'</var></span>
-                <span class="sol" data-type="regex"><var>'^' + FRACTION[2].denominator.regex() + '$'</var></span>
+                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.regex() + '$'</var></span>
+                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.regex() + '$'</var></span>
                 <span class="sol" data-type="rational"><var>-B</var></span>
-                <span class="sol" data-type="rational"><var>-FRACTION[2].cancel.terms[1]</var></span>
+                <span class="sol" data-type="rational"><var>-CANCEL.terms[1]</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>'^' + FRACTION[2].numerator.regex() + '$'</var></span>
-                <span class="sol" data-type="regex"><var>'^' + FRACTION[2].denominator.regex() + '$'</var></span>
-                <span class="sol" data-type="rational"><var>-FRACTION[2].cancel.terms[1]</var></span>
+                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.regex() + '$'</var></span>
+                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.regex() + '$'</var></span>
+                <span class="sol" data-type="rational"><var>-CANCEL.terms[1]</var></span>
                 <span class="sol" data-type="rational"><var>-B</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>'^' + FRACTION[2].numerator.multiply(-1).regex() + '$'</var></span>
-                <span class="sol" data-type="regex"><var>'^' + FRACTION[2].denominator.multiply(-1).regex() + '$'</var></span>
+                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.multiply(-1).regex() + '$'</var></span>
+                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.multiply(-1).regex() + '$'</var></span>
                 <span class="sol" data-type="rational"><var>-B</var></span>
-                <span class="sol" data-type="rational"><var>-FRACTION[2].cancel.terms[1]</var></span>
+                <span class="sol" data-type="rational"><var>-CANCEL.terms[1]</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
-                <span class="sol" data-type="regex"><var>'^' + FRACTION[2].numerator.multiply(-1).regex() + '$'</var></span>
-                <span class="sol" data-type="regex"><var>'^' + FRACTION[2].denominator.multiply(-1).regex() + '$'</var></span>
-                <span class="sol" data-type="rational"><var>-FRACTION[2].cancel.terms[1]</var></span>
+                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.multiply(-1).regex() + '$'</var></span>
+                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.multiply(-1).regex() + '$'</var></span>
+                <span class="sol" data-type="rational"><var>-CANCEL.terms[1]</var></span>
                 <span class="sol" data-type="rational"><var>-B</var></span>
             </div>
 
@@ -153,47 +120,81 @@
             </div>
         </div>
 
+        <p class="problem">Simplify the following expression and state the conditions under which the simplification is valid.
+            You can assume that <code><var>X</var> \neq 0</code></p>
+
+        <p class="question">
+            <p><code><var>Y</var> = 
+                <span data-if="OPERATOR === 'multiply'">
+                    \dfrac{<var>NUMERATORS[ORDER[0]]</var>}{<var>DENOMINATORS[ORDER[0]]</var>} \times
+                    \dfrac{<var>NUMERATORS[ORDER[1]]</var>}{<var>DENOMINATORS[ORDER[1]]</var>}
+                </span>
+                <span data-else="">
+                    \dfrac{<var>NUMERATORS[ORDER[0]]</var>}{<var>DENOMINATORS[ORDER[0]]</var>} \div
+                    \dfrac{<var>DENOMINATORS[ORDER[1]]</var>}{<var>NUMERATORS[ORDER[1]]</var>}
+                </span>
+            </code></p>
+        </p>
+
         <div class="hints">
+            <div data-if="OPERATOR === 'divide'">
+                <p>Dividing by an expression is the same as multiplying by its inverse.</p>
+                <p><code><var>Y</var> =
+                    \dfrac{<var>NUMERATORS[ORDER[0]]</var>}{<var>DENOMINATORS[ORDER[0]]</var>} \times
+                    \dfrac{<var>NUMERATORS[ORDER[1]]</var>}{<var>DENOMINATORS[ORDER[1]]</var>}
+                </code></p>
+            </div>
+
             <p>First factor the quadratic.</p>
 
-            <p><code><var>Y</var> = \dfrac{<var>FRACTION[0].numerator.string</var>}{<var>FRACTION[0].denominator.string</var>} \times
-                                    \dfrac{<var>FRACTION[1].numerator.string</var>}{<var>FRACTION[1].denominator.string</var>}
+            <p><code><var>Y</var> = 
+                \dfrac{<var>NUMER_STRINGS[ORDER[0]]</var>}{<var>DENOM_STRINGS[ORDER[0]]</var>} \times
+                \dfrac{<var>NUMER_STRINGS[ORDER[1]]</var>}{<var>DENOM_STRINGS[ORDER[1]]</var>}
             </code></p>
 
-            <p>When multiplying fractions, we multiply the numerators and the denominators.</p>
+            <div data-if="FACTOR_1 !== 1 || FACTOR_2 !== 1 || FACTOR_3 !== 1">
+                <p>Then factor out any other terms</p>
+
+                <p><code><var>Y</var> = 
+                    \dfrac{<var>NUMER_STRINGS2[ORDER[0]]</var>}{<var>DENOM_STRINGS2[ORDER[0]]</var>} \times
+                    \dfrac{<var>NUMER_STRINGS2[ORDER[1]]</var>}{<var>DENOM_STRINGS2[ORDER[1]]</var>}
+                </code></p>
+            </div>
+
+            <p>Then multiply the two numerators and multiply the two denominators.</p>
 
             <p><code><var>Y</var> = \dfrac{
-                <span data-if="FRACTION[0].numerator.string.indexOf('(') === -1">(<var>FRACTION[0].numerator.string</var>)</span>
-                <span data-else=""><var>FRACTION[0].numerator.string</var></span>
-                <span data-if="FRACTION[1].numerator.string.indexOf('(') === -1">(<var>FRACTION[1].numerator.string</var>)</span>
-                <span data-else=""><var>FRACTION[1].numerator.string</var></span> } {
-                <span data-if="FRACTION[0].denominator.string.indexOf('(') === -1">(<var>FRACTION[0].denominator.string</var>)</span>
-                <span data-else=""><var>FRACTION[0].denominator.string</var></span>
-                <span data-if="FRACTION[1].denominator.string.indexOf('(') === -1">(<var>FRACTION[1].denominator.string</var>)</span>
-                <span data-else=""><var>FRACTION[1].denominator.string</var></span> }
+                <span data-if="NUMER_STRINGS[ORDER[0]].indexOf('(') === -1">(<var>NUMER_STRINGS[ORDER[0]]</var>)</span>
+                <span data-else=""><var>NUMER_STRINGS[ORDER[0]]</var></span>
+                <span data-if="NUMER_STRINGS[ORDER[1]].indexOf('(') === -1">(<var>NUMER_STRINGS[ORDER[1]]</var>)</span>
+                <span data-else=""><var>NUMER_STRINGS[ORDER[1]]</var></span> } {
+                <span data-if="DENOM_STRINGS[ORDER[0]].indexOf('(') === -1">(<var>DENOM_STRINGS[ORDER[0]]</var>)</span>
+                <span data-else=""><var>DENOM_STRINGS[ORDER[0]]</var></span>
+                <span data-if="DENOM_STRINGS[ORDER[1]].indexOf('(') === -1">(<var>DENOM_STRINGS[ORDER[1]]</var>)</span>
+                <span data-else=""><var>DENOM_STRINGS[ORDER[1]]</var></span> }
             </code></p>
 
             <p> Notice that
-                <span data-if="FRACTION[2].cancel.toString() !== TERM_B.toString()">
-                    <code>(<var>FRACTION[2].cancel</var>)</code> and <code>(<var>TERM_B</var>)</code> appear
+                <span data-if="CANCEL.toString() !== TERM_B.toString()">
+                    <code>(<var>CANCEL</var>)</code> and <code>(<var>TERM_B</var>)</code> appear
                 </span>
                 <span data-else=""><code>(<var>TERM_B</var>)</code> appears twice</span>
                 in both the numerator and denominator so we can cancel them.
             </p>
 
             <div>
-                <div>Since we divide by <code><var>TERM_B</var></code>, <code><var>TERM_B</var> \neq 0</code></div>
+                <div>We are dividing by <code><var>TERM_B</var></code>, so <code><var>TERM_B</var> \neq 0</code></div>
                 <div>Therefore, <code><var>X</var> \neq <var>-B</var></code>.</div>
             </div>
 
             <div>
-                <div>Since we divide by <code><var>FRACTION[2].cancel</var></code>, <code><var>FRACTION[2].cancel</var> \neq 0</code></div>
-                <div>Therefore, <code><var>X</var> \neq <var>-FRACTION[2].cancel.terms[1]</var></code>.</div>
+                <div>We are dividing by <code><var>CANCEL</var></code>, so <code><var>CANCEL</var> \neq 0</code></div>
+                <div>Therefore, <code><var>X</var> \neq <var>-CANCEL.terms[1]</var></code>.</div>
             </div>
 
             <p><code><var>Y</var> =
-                <span data-if="FRACTION[2].denominator.toString() !== '1'">\dfrac{<var>FRACTION[2].numerator</var>}{<var>FRACTION[2].denominator</var>}</span>
-                <span data-else=""><var>FRACTION[2].numerator</var></span>
+                <span data-if="DENOMSOL.toString() !== '1'">\dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</span>
+                <span data-else=""><var>NUMERSOL</var></span>
             </code></p>
 
         </div>
