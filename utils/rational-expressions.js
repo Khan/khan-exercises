@@ -204,29 +204,33 @@ $.extend(KhanUtil, {
         // If includeSign is true, then 4x is captured by +4x
         this.regex = function(includeSign) {
             if (this.coefficient === 0) {
-                return '';
+                return "";
             }
 
             // Include leading space if there are earlier terms
             if (this.coefficient < 0){
-                var regex = includeSign ? '[-\\u2212]\\s*' : '\\s*[-\\u2212]\\s*';
+                var regex = includeSign ? "[-\\u2212]\\s*" : "\\s*[-\\u2212]\\s*";
             } else {
-                var regex = includeSign ? '\\+\\s*' : '\\s*';
+                var regex = includeSign ? "\\+\\s*" : "\\s*";
             }
 
-            if (!(Math.abs(this.coefficient) === 1 && this.variableString !== '')) {
+            if (!(Math.abs(this.coefficient) === 1 && this.variableString !== "")) {
                 regex += Math.abs(this.coefficient);
             }
 
             // Add variable of degree 1 in random order
-            // Won't work if there are multiple variable or variables of degree > 1
+            // Won't work if there are multiple variable
             for (var vari in this.variables) {
-                if (this.variables[vari] === 1) {
+                var degree = this.variables[vari];
+                if (degree !== 0) {
                     regex += vari;
-                }
+                    if (degree > 1) {
+                        regex += "\\s*\\^\\s*" + degree;
+                    }
+                } 
             }
 
-            return regex + '\\s*';
+            return regex + "\\s*";
         };
 
     },
@@ -380,30 +384,75 @@ $.extend(KhanUtil, {
                 return this.toString();
             }
 
-            var s = (f.toString() === '-1') ? '-' : f.toString();
             var divided = this.divide(f);
 
+            // Factor such that the coefficient on the first term is positive
+            if (divided.terms[0].coefficient < 0) {
+                f = f.multiply(-1);
+                divided = divided.multiply(-1);
+            }
+
+            var s = (f.toString() === '-1') ? '-' : f.toString();
             s += "(" + divided.toString() + ")";
             return s;
         };
 
-        // Returns a single regex to capture this expression.
-        // It will capture every permutations of terms so is
-        // not recommended for expressions with more than 3-4 terms
-        this.regex = function() {
-            var permutations = KhanUtil.getPermutations(this.terms);
-            var regex = '';
+        // Returns a regex that captures all permutation passed in
+        this.getTermsRegex = function(permutations, start, stop) {
+            var regex = "";
+
+            start = start ?  "|(?:^" + start : "|(?:^";
+            stop = stop ?  stop + "$)" : "$)";
 
             for (var p = 0; p < permutations.length; p++) {
-                regex += p ? '|(?:^' : '(?:^';
+                regex += start;
 
                 var terms = permutations[p];
                 for (var i = 0; i < terms.length; i++) {
                     regex += terms[i].regex(i);
                 }
 
-                regex += '$)';
+                regex += stop;
             }
+            return regex;
+        }
+
+        // Returns a single regex to capture this expression.
+        // It will capture every permutations of terms so is
+        // not recommended for expressions with more than 3 terms
+        // If allowFactors is true, 3(x + 4) will match 3x + 12
+        this.regex = function(allowFactors) {
+            var permutations = KhanUtil.getPermutations(this.terms);
+            var regex = this.getTermsRegex(permutations).slice(1);
+
+            if (!allowFactors) {
+                return regex;
+            }
+
+            // Generate regex factored expression
+            var factor = this.factor();
+            var divided = this.divide(factor);
+
+            if (factor.toString() === '1' || factor.toString() === '-1') {
+                return regex;
+            }
+
+            permutations = KhanUtil.getPermutations(divided.terms);
+
+            // Factor before parentheses
+            regex += this.getTermsRegex(permutations, factor.regex() + "\\*?\\s*\\(", "\\)\\s*");
+            // Factor after parentheses
+            regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*\\*?" + factor.regex());
+
+            // Factor out a negative
+            factor = factor.multiply(-1);
+            divided = divided.multiply(-1);
+            permutations = KhanUtil.getPermutations(divided.terms);
+
+            // Factor before parentheses
+            regex += this.getTermsRegex(permutations, factor.regex() + "\\*?\\s*\\(", "\\)\\s*");
+            // Factor after parentheses
+            regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*\\*?" + factor.regex());
 
             return regex;
         };
