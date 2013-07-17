@@ -75,7 +75,7 @@
         </div>
 
         <div class="problems">
-            <div id="A over B and BC over C">
+            <div id="A-over-B-and-BC-over-C">
                 <div class="vars">
                     <var id="NUMERATORS">[TERM_A.multiply(FACTOR1), TERM_D]</var>
                     <var id="DENOMINATORS">[TERM_B.multiply(FACTOR2), TERM_C.multiply(FACTOR3)]</var>
@@ -88,12 +88,32 @@
                     <var id="DENOM_PRODUCT">[[FACTOR2, FACTOR3], ORDER[0] ? [TERM_C, TERM_B]: [TERM_B, TERM_C]]</var>
 
                     <var id="CANCEL">TERM_C</var>
+                    <var id="CANCEL_ORDER">[ORDER[0] ? [0, 1] : [1, 2], ORDER]</var>
                     <var id="NUMERSOL">NUMERATORS[0].divide(COMMON_FACTOR)</var>
                     <var id="DENOMSOL">new RationalExpression([FACTOR2 * FACTOR3 / COMMON_FACTOR])</var>
                 </div>
             </div>
 
-            <div id="A over B and BC over A">
+            <div id="B-over-A-and-C-over-BC">
+                <div class="vars">
+                    <var id="NUMERATORS">[TERM_B.multiply(FACTOR2), TERM_C.multiply(FACTOR3)]</var>
+                    <var id="DENOMINATORS">[TERM_A.multiply(FACTOR1), TERM_D]</var>
+                    <var id="NUMER_STRINGS">[NUMERATORS[0].toString(), NUMERATORS[1].toString()]</var>
+                    <var id="DENOM_STRINGS">[DENOMINATORS[0].toString(), '(' + TERM_B.toString() + ')(' + TERM_C.toString() + ')']</var>
+                    <var id="NUMER_STRINGS2">[NUMERATORS[0].toStringFactored(), NUMERATORS[1].toStringFactored()]</var>
+                    <var id="DENOM_STRINGS2">[DENOMINATORS[0].toStringFactored(), DENOM_STRINGS[1]]</var>
+
+                    <var id="NUMER_PRODUCT">[[FACTOR2, FACTOR3], ORDER[0] ? [TERM_C, TERM_B]: [TERM_B, TERM_C]]</var>
+                    <var id="DENOM_PRODUCT">[[FACTOR1], ORDER[0] ? [TERM_B, TERM_C, TERM_A] : [TERM_A, TERM_B, TERM_C]]</var>
+
+                    <var id="CANCEL">TERM_C</var>
+                    <var id="CANCEL_ORDER">[ORDER, ORDER[0] ? [0, 1] : [1, 2]]</var>
+                    <var id="NUMERSOL">new RationalExpression([FACTOR2 * FACTOR3 / COMMON_FACTOR])</var>
+                    <var id="DENOMSOL">DENOMINATORS[0].divide(COMMON_FACTOR)</var>
+                </div>
+            </div>
+
+            <div id="A-over-B-and-BC-over-A">
                 <div class="vars">
                     <var id="NUMERATORS">[TERM_A.multiply(FACTOR1), TERM_D]</var>
                     <var id="DENOMINATORS">[TERM_B.multiply(FACTOR2), TERM_A.multiply(FACTOR3)]</var>
@@ -106,8 +126,28 @@
                     <var id="DENOM_PRODUCT">[[FACTOR2, FACTOR3], ORDER[0] ? [TERM_A, TERM_B] : [TERM_B, TERM_A]]</var>
 
                     <var id="CANCEL">TERM_A</var>
+                    <var id="CANCEL_ORDER">[ORDER[0] ? [0, 2] : [0, 1], ORDER]</var>
                     <var id="NUMERSOL">TERM_C.multiply(FACTOR1 / COMMON_FACTOR)</var>
                     <var id="DENOMSOL">new RationalExpression([FACTOR2 * FACTOR3 / COMMON_FACTOR])</var>
+                </div>
+            </div>
+
+            <div id="B-over-A-and-A-over-BC">
+                <div class="vars">
+                    <var id="NUMERATORS">[TERM_B.multiply(FACTOR2), TERM_A.multiply(FACTOR3)]</var>
+                    <var id="DENOMINATORS">[TERM_A.multiply(FACTOR1), TERM_D]</var>
+                    <var id="NUMER_STRINGS">[NUMERATORS[0].toString(), NUMERATORS[1].toString()]</var>
+                    <var id="DENOM_STRINGS">[DENOMINATORS[0].toString(), '(' + TERM_B.toString() + ')(' + TERM_C.toString() + ')']</var>
+                    <var id="NUMER_STRINGS2">[NUMERATORS[0].toStringFactored(), NUMERATORS[1].toStringFactored()]</var>
+                    <var id="DENOM_STRINGS2">[DENOMINATORS[0].toStringFactored(), DENOM_STRINGS[1]]</var>
+
+                    <var id="NUMER_PRODUCT">[[FACTOR2, FACTOR3], ORDER[0] ? [TERM_A, TERM_B] : [TERM_B, TERM_A]]</var>
+                    <var id="DENOM_PRODUCT">[[FACTOR1], ORDER[0] ? [TERM_B, TERM_C, TERM_A] : [TERM_A, TERM_B, TERM_C]]</var>
+
+                    <var id="CANCEL">TERM_A</var>
+                    <var id="CANCEL_ORDER">[ORDER, ORDER[0] ? [0, 2] : [0, 1]]</var>
+                    <var id="NUMERSOL">new RationalExpression([FACTOR2 * FACTOR3 / COMMON_FACTOR])</var>
+                    <var id="DENOMSOL">TERM_C.multiply(FACTOR1 / COMMON_FACTOR)</var>
                 </div>
             </div>
         </div>
@@ -194,7 +234,7 @@
             </code></p>
 
             <div data-if="FACTOR1 !== 1 || FACTOR2 !== 1 || FACTOR3 !== 1">
-                <p>Then factor out any other terms</p>
+                <p>Then factor out any other terms.</p>
 
                 <p><code><var>Y</var> = 
                     \dfrac{<var>NUMER_STRINGS2[ORDER[0]]</var>}{<var>DENOM_STRINGS2[ORDER[0]]</var>} \times
@@ -230,8 +270,8 @@
 
             <div>
              <p><code><var>Y</var> = \dfrac{
-                    <var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1], [ORDER[1]])</var>}{
-                    <var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1], [ORDER[0]])</var>}
+                    <var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1], CANCEL_ORDER[0].slice(0, 1))</var>}{
+                    <var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1], CANCEL_ORDER[1].slice(0, 1))</var>}
                 </code></p>
 
                 <div>We are dividing by <code><var>TERM_B</var></code>, so <code><var>TERM_B</var> \neq 0</code></div>
@@ -240,8 +280,8 @@
 
             <div>
                 <p><code><var>Y</var> = \dfrac{
-                    <var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1], [0, 1])</var>}{
-                    <var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1], [0, 1])</var>}
+                    <var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1], CANCEL_ORDER[0])</var>}{
+                    <var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1], CANCEL_ORDER[1])</var>}
                 </code></p>
 
                 <div>We are dividing by <code><var>CANCEL</var></code>, so <code><var>CANCEL</var> \neq 0</code></div>
@@ -256,6 +296,7 @@
 
             <p><code><var>Y</var> =
                 <span data-if="DENOMSOL.toString() !== '1'">\dfrac{<var>NUMERSOL.toStringFactored()</var>}{<var>DENOMSOL.toStringFactored()</var>}</span>
+                <span data-else-if="DENOMSOL.toString() !== '-1'"><var>-NUMERSOL.toStringFactored()</var></span>
                 <span data-else=""><var>NUMERSOL.toStringFactored()</var></span>;
                 \space <var>X</var> \neq <var>-B</var>;
                 \space <code><var>X</var> \neq <var>-CANCEL.terms[1]</var>
