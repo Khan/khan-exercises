@@ -4,7 +4,7 @@
     <title>Multiplying and dividing rational expressions 4</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
-        function getProduct(coefficients, terms) {
+        function getProduct(coefficients, terms, cancel) {
             var coefficient = 1;
             for (var i=0; i<coefficients.length; i++) {
                 coefficient *= coefficients[i];
@@ -17,8 +17,13 @@
                 s += coefficient;
             }
 
+            cancel = cancel || [];
             for (var i=0; i<terms.length; i++) {
-                s +=  '(' + terms[i] + ')';
+                if (cancel.indexOf(i) === -1) {
+                    s +=  '(' + terms[i] + ')';
+                } else {
+                    s +=  '\\cancel{(' + terms[i] + ')}';
+                }
             }
 
             return s;
@@ -58,7 +63,14 @@
             <var id="FACTOR1">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
             <var id="FACTOR2">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
             <var id="FACTOR3">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
-            <var id="COMMON_FACTOR">getGCD(FACTOR1, FACTOR2* FACTOR3)</var>
+            <var id="COMMON_FACTOR">(function() {
+                    var gcd = getGCD(FACTOR1, FACTOR2 * FACTOR3)
+                    if (FACTOR1 &lt; 0 &amp;&amp; FACTOR2 * FACTOR3 &lt; 0) {
+                        gcd *= -1;
+                    }
+                    return gcd;
+                })()
+            </var>
             <var id="ORDER">randFromArray([[0, 1], [1, 0]])</var>
         </div>
 
@@ -72,8 +84,8 @@
                     <var id="NUMER_STRINGS2">[NUMERATORS[0].toStringFactored(), NUMER_STRINGS[1]]</var>
                     <var id="DENOM_STRINGS2">[DENOMINATORS[0].toStringFactored(), DENOMINATORS[1].toStringFactored()]</var>
 
-                    <var id="NUMER_PRODUCT">getProduct([FACTOR1], ORDER[0] ? [TERM_B, TERM_C, TERM_A] : [TERM_A, TERM_B, TERM_C])</var>
-                    <var id="DENOM_PRODUCT">getProduct([FACTOR2, FACTOR3], ORDER[0] ? [TERM_C, TERM_B]: [TERM_B, TERM_C])</var>
+                    <var id="NUMER_PRODUCT">[[FACTOR1], ORDER[0] ? [TERM_B, TERM_C, TERM_A] : [TERM_A, TERM_B, TERM_C]]</var>
+                    <var id="DENOM_PRODUCT">[[FACTOR2, FACTOR3], ORDER[0] ? [TERM_C, TERM_B]: [TERM_B, TERM_C]]</var>
 
                     <var id="CANCEL">TERM_C</var>
                     <var id="NUMERSOL">NUMERATORS[0].divide(COMMON_FACTOR)</var>
@@ -90,8 +102,8 @@
                     <var id="NUMER_STRINGS2">[NUMERATORS[0].toStringFactored(), NUMER_STRINGS[1]]</var>
                     <var id="DENOM_STRINGS2">[DENOMINATORS[0].toStringFactored(), DENOMINATORS[1].toStringFactored()]</var>
 
-                    <var id="NUMER_PRODUCT">getProduct([FACTOR1], ORDER[0] ? [TERM_B, TERM_C, TERM_A] : [TERM_A, TERM_B, TERM_C])</var>
-                    <var id="DENOM_PRODUCT">getProduct([FACTOR2, FACTOR3], ORDER[0] ? [TERM_A, TERM_B] : [TERM_B, TERM_A])</var>
+                    <var id="NUMER_PRODUCT">[[FACTOR1], ORDER[0] ? [TERM_B, TERM_C, TERM_A] : [TERM_A, TERM_B, TERM_C]]</var>
+                    <var id="DENOM_PRODUCT">[[FACTOR2, FACTOR3], ORDER[0] ? [TERM_A, TERM_B] : [TERM_B, TERM_A]]</var>
 
                     <var id="CANCEL">TERM_A</var>
                     <var id="NUMERSOL">TERM_C.multiply(FACTOR1 / COMMON_FACTOR)</var>
@@ -203,7 +215,10 @@
                 <span data-else=""><var>DENOM_STRINGS2[ORDER[1]]</var></span> }
             </code></p>
 
-            <p><code><var>Y</var> = \dfrac{<var>NUMER_PRODUCT</var>}{<var>DENOM_PRODUCT</var>}</code></p>
+            <p><code><var>Y</var> = \dfrac{
+                <var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1])</var>}{
+                <var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1])</var>}
+            </code></p>
 
             <p> Notice that
                 <span data-if="CANCEL.toString() !== TERM_B.toString()">
@@ -214,11 +229,21 @@
             </p>
 
             <div>
+             <p><code><var>Y</var> = \dfrac{
+                    <var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1], [ORDER[1]])</var>}{
+                    <var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1], [ORDER[0]])</var>}
+                </code></p>
+
                 <div>We are dividing by <code><var>TERM_B</var></code>, so <code><var>TERM_B</var> \neq 0</code></div>
                 <div>Therefore, <code><var>X</var> \neq <var>-B</var></code>.</div>
             </div>
 
             <div>
+                <p><code><var>Y</var> = \dfrac{
+                    <var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1], [0, 1])</var>}{
+                    <var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1], [0, 1])</var>}
+                </code></p>
+
                 <div>We are dividing by <code><var>CANCEL</var></code>, so <code><var>CANCEL</var> \neq 0</code></div>
                 <div>Therefore, <code><var>X</var> \neq <var>-CANCEL.terms[1]</var></code>.</div>
             </div>
@@ -231,9 +256,10 @@
 
             <p><code><var>Y</var> =
                 <span data-if="DENOMSOL.toString() !== '1'">\dfrac{<var>NUMERSOL.toStringFactored()</var>}{<var>DENOMSOL.toStringFactored()</var>}</span>
-                <span data-else=""><var>NUMERSOL.toStringFactored()</var></span>
+                <span data-else=""><var>NUMERSOL.toStringFactored()</var></span>;
+                \space <var>X</var> \neq <var>-B</var>;
+                \space <code><var>X</var> \neq <var>-CANCEL.terms[1]</var>
             </code></p>
-
         </div>
     </div>
 </body></html>
