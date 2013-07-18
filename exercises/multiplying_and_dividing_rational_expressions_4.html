@@ -51,27 +51,19 @@
     <div class="exercise">
         <div class="vars">
             <var id="OPERATOR">randFromArray(['multiply', 'divide'])</var>
+            <var id="ORDER">randFromArray([[0, 1], [1, 0]])</var>
             <var id="X">randVar()</var>
             <var id="Y" data-ensure="X !== Y">randVar()</var>
             <var id="A">randRangeNonZero(-10, 10)</var>
             <var id="B" data-ensure="A !== B">randRangeNonZero(-10, 10)</var>
             <var id="C">randRangeNonZero(-10, 10)</var>
+            <var id="FACTOR1">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
+            <var id="FACTOR2">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
+            <var id="FACTOR3">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
             <var id="TERM_A">new RationalExpression([[1, X], A])</var>
             <var id="TERM_B">new RationalExpression([[1, X], B])</var>
             <var id="TERM_C">new RationalExpression([[1, X], C])</var>
             <var id="TERM_D">TERM_B.multiply(TERM_C)</var>
-            <var id="FACTOR1">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
-            <var id="FACTOR2">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
-            <var id="FACTOR3">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
-            <var id="COMMON_FACTOR">(function() {
-                    var gcd = getGCD(FACTOR1, FACTOR2 * FACTOR3)
-                    if (FACTOR1 &lt; 0 &amp;&amp; FACTOR2 * FACTOR3 &lt; 0) {
-                        gcd *= -1;
-                    }
-                    return gcd;
-                })()
-            </var>
-            <var id="ORDER">randFromArray([[0, 1], [1, 0]])</var>
         </div>
 
         <div class="problems">
@@ -89,8 +81,10 @@
 
                     <var id="CANCEL">TERM_C</var>
                     <var id="CANCEL_ORDER">[ORDER[0] ? [0, 1] : [1, 2], ORDER]</var>
+                    <var id="COMMON_FACTOR">FACTOR2 * FACTOR3  &lt; 0 ? -getGCD(FACTOR1, FACTOR2 * FACTOR3) : getGCD(FACTOR1, FACTOR2 * FACTOR3)</var>
                     <var id="NUMERSOL">NUMERATORS[0].divide(COMMON_FACTOR)</var>
                     <var id="DENOMSOL">new RationalExpression([FACTOR2 * FACTOR3 / COMMON_FACTOR])</var>
+                    <var id="SOL">CANCEL.terms[1].coefficient !== B ? -CANCEL.terms[1] : 0</var>
                 </div>
             </div>
 
@@ -108,8 +102,10 @@
 
                     <var id="CANCEL">TERM_C</var>
                     <var id="CANCEL_ORDER">[ORDER, ORDER[0] ? [0, 1] : [1, 2]]</var>
+                    <var id="COMMON_FACTOR">FACTOR1  &lt; 0 ? -getGCD(FACTOR1, FACTOR2 * FACTOR3) : getGCD(FACTOR1, FACTOR2 * FACTOR3)</var>
                     <var id="NUMERSOL">new RationalExpression([FACTOR2 * FACTOR3 / COMMON_FACTOR])</var>
                     <var id="DENOMSOL">DENOMINATORS[0].divide(COMMON_FACTOR)</var>
+                    <var id="SOL">CANCEL.terms[1].coefficient !== B ? -CANCEL.terms[1] : 0</var>
                 </div>
             </div>
 
@@ -127,8 +123,10 @@
 
                     <var id="CANCEL">TERM_A</var>
                     <var id="CANCEL_ORDER">[ORDER[0] ? [0, 2] : [0, 1], ORDER]</var>
+                    <var id="COMMON_FACTOR">FACTOR2 * FACTOR3  &lt; 0 ? -getGCD(FACTOR1, FACTOR2 * FACTOR3) : getGCD(FACTOR1, FACTOR2 * FACTOR3)</var>
                     <var id="NUMERSOL">TERM_C.multiply(FACTOR1 / COMMON_FACTOR)</var>
                     <var id="DENOMSOL">new RationalExpression([FACTOR2 * FACTOR3 / COMMON_FACTOR])</var>
+                    <var id="SOL">CANCEL.terms[1].coefficient !== B ? -CANCEL.terms[1] : 0</var>
                 </div>
             </div>
 
@@ -145,9 +143,11 @@
                     <var id="DENOM_PRODUCT">[[FACTOR1], ORDER[0] ? [TERM_B, TERM_C, TERM_A] : [TERM_A, TERM_B, TERM_C]]</var>
 
                     <var id="CANCEL">TERM_A</var>
-                    <var id="CANCEL_ORDER">[ORDER, ORDER[0] ? [0, 2] : [0, 1]]</var>
+                    <var id="CANCEL_ORDER">[ORDER, ORDER[0] ? [0, 2] : [1, 0]]</var>
+                    <var id="COMMON_FACTOR">FACTOR1  &lt; 0 ? -getGCD(FACTOR1, FACTOR2 * FACTOR3) : getGCD(FACTOR1, FACTOR2 * FACTOR3)</var>
                     <var id="NUMERSOL">new RationalExpression([FACTOR2 * FACTOR3 / COMMON_FACTOR])</var>
                     <var id="DENOMSOL">TERM_C.multiply(FACTOR1 / COMMON_FACTOR)</var>
+                    <var id="SOL">CANCEL.terms[1].coefficient !== B ? -CANCEL.terms[1] : 0</var>
                 </div>
             </div>
         </div>
@@ -156,26 +156,26 @@
             <div class="set-sol" data-type="multiple">
                 <span class="sol" data-type="regex"><var>'^' + NUMERSOL.regex(true) + '$'</var></span>
                 <span class="sol" data-type="regex"><var>'^' + DENOMSOL.regex(true) + '$'</var></span>
-                <span class="sol" data-type="rational"><var>-B</var></span>
-                <span class="sol" data-type="rational"><var>-CANCEL.terms[1]</var></span>
+                <span class="sol" data-type="number"><var>-B</var></span>
+                <span class="sol" data-type="number"><var>SOL</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
                 <span class="sol" data-type="regex"><var>'^' + NUMERSOL.regex(true) + '$'</var></span>
                 <span class="sol" data-type="regex"><var>'^' + DENOMSOL.regex(true) + '$'</var></span>
-                <span class="sol" data-type="rational"><var>-CANCEL.terms[1]</var></span>
-                <span class="sol" data-type="rational"><var>-B</var></span>
+                <span class="sol" data-type="number"><var>SOL</var></span>
+                <span class="sol" data-type="number"><var>-B</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
                 <span class="sol" data-type="regex"><var>'^' + NUMERSOL.multiply(-1).regex(true) + '$'</var></span>
                 <span class="sol" data-type="regex"><var>'^' + DENOMSOL.multiply(-1).regex(true) + '$'</var></span>
-                <span class="sol" data-type="rational"><var>-B</var></span>
-                <span class="sol" data-type="rational"><var>-CANCEL.terms[1]</var></span>
+                <span class="sol" data-type="number"><var>-B</var></span>
+                <span class="sol" data-type="number"><var>SOL</var></span>
             </div>
             <div class="set-sol" data-type="multiple">
                 <span class="sol" data-type="regex"><var>'^' + NUMERSOL.multiply(-1).regex(true) + '$'</var></span>
                 <span class="sol" data-type="regex"><var>'^' + DENOMSOL.multiply(-1).regex(true) + '$'</var></span>
-                <span class="sol" data-type="rational"><var>-CANCEL.terms[1]</var></span>
-                <span class="sol" data-type="rational"><var>-B</var></span>
+                <span class="sol" data-type="number"><var>SOL</var></span>
+                <span class="sol" data-type="number"><var>-B</var></span>
             </div>
 
             <div class="input-format">
@@ -190,11 +190,11 @@
                         </tr>
                         <tr>
                             <td><code><var>X</var> \neq </code></td>
-                            <td><span class="sol short50">a</span></td>
+                            <td><span class="sol short50" data-fallback="0">a</span></td>
                         </tr>
                         <tr>
                             <td><code><var>X</var> \neq </code></td>
-                            <td><span class="sol short50">a</span></td>
+                            <td><span class="sol short50" data-fallback="0">a</span></td>
                         </tr>
                     </tbody></table>
                 </div>
@@ -261,7 +261,7 @@
             </code></p>
 
             <p> Notice that
-                <span data-if="CANCEL.toString() !== TERM_B.toString()">
+                <span data-if="SOL !== 0">
                     <code>(<var>CANCEL</var>)</code> and <code>(<var>TERM_B</var>)</code> appear
                 </span>
                 <span data-else=""><code>(<var>TERM_B</var>)</code> appears twice</span>
@@ -296,10 +296,10 @@
 
             <p><code><var>Y</var> =
                 <span data-if="DENOMSOL.toString() !== '1'">\dfrac{<var>NUMERSOL.toStringFactored()</var>}{<var>DENOMSOL.toStringFactored()</var>}</span>
-                <span data-else-if="DENOMSOL.toString() !== '-1'"><var>-NUMERSOL.toStringFactored()</var></span>
-                <span data-else=""><var>NUMERSOL.toStringFactored()</var></span>;
-                \space <var>X</var> \neq <var>-B</var>;
-                \space <code><var>X</var> \neq <var>-CANCEL.terms[1]</var>
+                <span data-else-if="DENOMSOL.toString() !== '-1'"><var>NUMERSOL.multiply(-1).toStringFactored()</var></span>
+                <span data-else=""><var>NUMERSOL.toStringFactored()</var></span>
+                ; \space <var>X</var> \neq <var>-B</var>
+                <span data-if="SOL !== 0">; \space <var>X</var> \neq <var>-CANCEL.terms[1]</var></span>
             </code></p>
         </div>
     </div>
