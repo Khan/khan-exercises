@@ -95,6 +95,15 @@ $.extend(KhanUtil, {
             }
         }
 
+        // Return a RationalExpression object representing the sum of this term with the passed object
+        this.add = function(expression) {
+            if (expression instanceof KhanUtil.RationalExpression) {
+                return expression.add(this);
+            }
+
+            return new RationalExpression([this, expression]);
+        }
+
         // Return a new term representing this term multiplied by another term or a number
         this.multiply = function(term) {
             if (term instanceof KhanUtil.RationalExpression) {
@@ -281,7 +290,7 @@ $.extend(KhanUtil, {
         this.combineLikeTerms();
 
         // Return a new expression which is the sum of this one and the one passed in
-        this.add = function(that) {
+        this.add = function(expression) {
             var terms = [];
 
             for (var i = 0; i < this.terms.length; i++) {
@@ -289,9 +298,15 @@ $.extend(KhanUtil, {
                 terms.push([term.coefficient, term.variables]);
             }
 
-            for (var i = 0; i < that.terms.length; i++) {
-                var term = that.terms[i];
-                terms.push([term.coefficient, term.variables]);
+            if (expression instanceof KhanUtil.Term) {
+                // Add single term
+                terms.push(expression);
+            } else {
+                // Add all terms from another expression
+                for (var i = 0; i < expression.terms.length; i++) {
+                    var term = expression.terms[i];
+                    terms.push([term.coefficient, term.variables]);
+                }
             }
 
             var result = new KhanUtil.RationalExpression(terms);
