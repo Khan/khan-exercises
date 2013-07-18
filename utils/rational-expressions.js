@@ -150,17 +150,21 @@ $.extend(KhanUtil, {
         };
 
         // Return a Term object representing the greatest common factor between this term and another
-        this.getGCD = function(that) {
-            if (that instanceof KhanUtil.RationalExpression) {
-                return that.getGCD(this);
+        this.getGCD = function(expression) {
+            if (expression instanceof KhanUtil.RationalExpression) {
+                return expression.getGCD(this);
             }
 
-            var coefficient = KhanUtil.getGCD(this.coefficient, that.coefficient);
+            if (typeof expression === 'number') {
+                return KhanUtil.getGCD(this.coefficient, expression);
+            }
+
+            var coefficient = KhanUtil.getGCD(this.coefficient, expression.coefficient);
             var variables = {};
 
             for (var i in this.variables) {
-                if (that.variables[i]) {
-                    variables[i] = Math.min(this.variables[i], that.variables[i]);
+                if (expression.variables[i]) {
+                    variables[i] = Math.min(this.variables[i], expression.variables[i]);
                 }
             }
 
@@ -198,6 +202,11 @@ $.extend(KhanUtil, {
                 }
             }
             return s;
+        };
+
+        // Just so Terms can be treated like RationalExpressions
+        this.toStringFactored = function() {
+            return this.toString();
         };
 
         // Return a regex that will capture this term
