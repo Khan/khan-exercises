@@ -95,6 +95,10 @@ $.extend(KhanUtil, {
             }
         }
 
+        this.isNegative = function() {
+            return this.coefficient < 0;
+        }
+
         // Return a RationalExpression object representing the sum of this term with the passed object
         this.add = function(expression) {
             if (expression instanceof KhanUtil.RationalExpression) {
@@ -288,6 +292,10 @@ $.extend(KhanUtil, {
             }
         };
         this.combineLikeTerms();
+
+        this.isNegative = function() {
+            return this.terms[0].coefficient < 0;
+        }
 
         // Return a new expression which is the sum of this one and the one passed in
         this.add = function(expression) {
