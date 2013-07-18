@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>rational-expressions</title>
+    <!-- Include dependencies -->
+    <script src="../../local-only/jquery.js"></script>
+    <script src="../../local-only/jed.js"></script>
+    <script src="../../local-only/i18n.js"></script>
+    <script>
+        // TODO(alpert): Ugh, should probably load khan-exercise.js for real...
+        var Khan = {
+            query: {},
+            scriptWait: $.noop,
+
+            // This is a random number pulled out of my 32-bit
+            // pseudo-random hat so that tests are always the same
+            randomSeed: 0x4e27b400
+        };
+        var KhanUtil = Khan.Util = {
+            debugLog: $.noop,
+            random: function() {
+                // Robert Jenkins' 32 bit integer hash function.
+                var seed = Khan.randomSeed;
+                seed = ((seed + 0x7ed55d16) + (seed << 12)) & 0xffffffff;
+                seed = ((seed ^ 0xc761c23c) ^ (seed >>> 19)) & 0xffffffff;
+                seed = ((seed + 0x165667b1) + (seed << 5)) & 0xffffffff;
+                seed = ((seed + 0xd3a2646c) ^ (seed << 9)) & 0xffffffff;
+                seed = ((seed + 0xfd7046c5) + (seed << 3)) & 0xffffffff;
+                seed = ((seed ^ 0xb55a4f09) ^ (seed >>> 16)) & 0xffffffff;
+                return (Khan.randomSeed = (seed & 0xfffffff)) / 0x10000000;
+            }
+        };
+        $.fn.runModules = function() {
+            $.fn.tmpl.apply(this, arguments);
+            $.fn.tex.apply(this, arguments);
+            return this;
+        };
+    </script>
+    <script src="../../local-only/underscore.js"></script>
+    <script src="../MathJax/2.1/MathJax.js?config=KAthJax-da9a7f53e588f3837b045a600e1dc439"></script>
+
+    <!-- Include QUnit -->
+    <link rel="stylesheet" href="../../test/qunit/qunit/qunit.css" type="text/css" media="screen">
+    <script src="../../test/qunit/qunit/qunit.js"></script>
+
+    <!-- Include utility files and tests. -->
+    <script src="../math.js"></script>
+    <script src="../rational-expressions.js"></script>
+    <script src="../tex.js"></script>
+    <script src="../tmpl.js"></script>
+    <script src="../answer-types.js"></script>
+</head>
+<body>
+
+<h1 id="qunit-header">rational-expressions</h1>
+<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+
+<div id="qunit-fixture">
+    <div id="solutionarea">
+    </div>
+    <div class="problem">
+    </div>
+</div>
+
+<script>
+(function() {
+    var t1 = new KhanUtil.Term(4);
+    var t2 = new KhanUtil.Term(1, "x");
+    var t3 = new KhanUtil.Term(12, "x");
+    var t4 = new KhanUtil.Term(12, {x: 2});
+    var t5 = new KhanUtil.Term(3, "y");
+    var t6 = new KhanUtil.Term(2, {x: 2, y: 3});
+
+    function checkRegex(regex, testString, result, description) {
+        strictEqual(testString.search(regex) > -1, result, description);
+    }
+
+    asyncTest("terms to string", 7, function() {
+        strictEqual(t1.toString(), "4", "single digit");
+        strictEqual(new KhanUtil.Term(0, "x").toString(), '', "no variable");
+        strictEqual(t2.toString(), 'x', "just variable");
+        strictEqual(new KhanUtil.Term(2, {x: 1}).toString(), '2x', "variable degree 1");
+        strictEqual(t3.toString(), '12x', "coefficient and variable");
+        strictEqual(t4.toString(), '12x^2', "variable degree 2");
+        strictEqual(t6.toString(), '2x^2y^3', "two variables");
+        start();
+    });
+
+    asyncTest("multiply term", 5, function() {
+        strictEqual(t1.multiply(3).toString(), "12", "term digit by digit");
+        strictEqual(t2.multiply(2).toString(), "2x", "term by digit");
+        strictEqual(t3.multiply(t1).toString(), "48x", "term by term digit");
+        strictEqual(t3.multiply(t4).toString(), "144x^3", "same variable");
+        strictEqual(t4.multiply(t5).toString(), "36x^2y", "different variable");
+        start();
+    });
+
+    asyncTest("divide term", 5, function() {
+        strictEqual(t1.divide(2).toString(), "2", "term digit by digit");
+        strictEqual(t3.divide(3).toString(), "4x", "term by digit");
+        strictEqual(t3.divide(t1).toString(), "3x", "term by term digit");
+        strictEqual(t4.divide(t3).toString(), "x", "same variable");
+        strictEqual(t4.divide(t5).toString(), "4x^2y^-1", "different variable");
+        start();
+    });
+
+    asyncTest("term GCD", 5, function() {
+        strictEqual(t1.getGCD(2).toString(), "2", "term digit by digit");
+        strictEqual(t3.getGCD(3).toString(), "3", "term by digit");
+        strictEqual(t3.getGCD(t1).toString(), "4", "term by term digit");
+        strictEqual(t4.getGCD(t3).toString(), "12x", "same variable");
+        strictEqual(t4.getGCD(t5).toString(), "3", "different variable");
+        start();
+    });
+
+    asyncTest("term regex", 3, function() {
+        checkRegex(t1.regex(), "4", true, "right answer is right");
+        checkRegex(t1.regex(), "-4", true, "wrong answer is wrong");
+        checkRegex(t1.regex(), "  4 ", true, "right answer with spaces is right");
+        start();
+    });
+
+})();
+</script>
+
+</body>
+</html>
