@@ -243,7 +243,7 @@
 
                             if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
-                                _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
+                                $(".statements code").tex();
                                 $("#thing1").val("");
                                 $("#thing2").val("");
                                 $("#reason").val("");
@@ -322,7 +322,7 @@
                                         $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
                                         storedHint = "";
                                     }
-                                    _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                                    $(".actualHints code").tex();
                                     giveAway = !giveAway;
                                 }
                                 if(hintsLeft === 0){
@@ -528,7 +528,7 @@
 
                             if(verifyTriangles === true || verifyAngles === true || verifySegments === true){
                                 $(".statements").html(outputKnownProof());
-                                _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
+                                $(".statements code").tex();
                                 $("#thing1").val("");
                                 $("#thing2").val("");
                                 $("#reason").val("");
@@ -608,7 +608,7 @@
                                         $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
                                         storedHint = "";
                                     }
-                                    _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                                    $(".actualHints code").tex();
                                     giveAway = !giveAway;
                                 }
                                 if(hintsLeft === 0){
@@ -793,7 +793,7 @@
 
                             if(verifyTriangles === true || verifyAngles === true || verifySegments === true){                          
                                 $(".statements").html(outputKnownProof());
-                                _.each($(".statements code"), function(tag){ $.tmpl.type.code()(tag); });
+                                $(".statements code").tex();
                                 $("#thing1").val("");
                                 $("#thing2").val("");
                                 $("#reason").val("");
@@ -869,7 +869,7 @@
                                         $(".actualHints").append("&lt;p&gt;"+storedHint+"&lt;/p&gt;");
                                         storedHint = "";
                                     }
-                                    _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                                    $(".actualHints code").code();
                                     giveAway = !giveAway;
                                 }
                                 if(hintsLeft === 0){

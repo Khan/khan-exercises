@@ -239,7 +239,7 @@
                             $(this).attr("disabled", false);
 
                             $(".actualHints").append("&lt;p&gt;"+getFillBlanksHint(false)+"&lt;/p&gt;");
-                            _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                            $(".actualHints code").tex();
                             giveAway = true;
                         }
                         else{
@@ -248,7 +248,7 @@
                             $(this).attr("disabled", false);
 
                             $(".actualHints").append("&lt;p&gt;"+getFillBlanksHint(true)+"&lt;/p&gt;");
-                            _.each($(".actualHints code"), function(tag){ $.tmpl.type.code()(tag); });
+                            $(".actualHints code").tex();
                             giveAway = false;
                         }
                         if(hintsLeft === 0){

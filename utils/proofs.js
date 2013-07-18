@@ -633,7 +633,7 @@ function checkFillBlanksStatement(divID) {
             var reason = $("#" + divID).html();
             $("#" + divID).html(prettifyEquality([inputTriangle1, inputTriangle2]) + reason);
             $("#" + divID).removeClass("missing");
-            $.tmpl.type.code()($("#" + divID + " code")[0]);
+            $("#" + divID + " code").tex();
             return true;
         }
     }
@@ -665,7 +665,7 @@ function checkFillBlanksStatement(divID) {
             var reason = $("#" + divID).html();
             $("#" + divID).html(prettifyEquality([inputAngle1, inputAngle2]) + reason);
             $("#" + divID).removeClass("missing");
-            $.tmpl.type.code()($("#" + divID + " code")[0]);
+            $("#" + divID + " code").tex();
             return true;
         }
     }
@@ -690,7 +690,7 @@ function checkFillBlanksStatement(divID) {
             var reason = $("#" + divID).html();
             $("#" + divID).html(prettifyEquality([inputSeg1, inputSeg2]) + reason);
             $("#" + divID).removeClass("missing");
-            $.tmpl.type.code()($("#" + divID + " code")[0]);
+            $("#" + divID + " code").tex();
             return true;
         }
     }

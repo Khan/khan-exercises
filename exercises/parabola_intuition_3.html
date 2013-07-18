@@ -50,7 +50,7 @@
                     });
                     graph.directrix.onMove = function( x, y ) {
                         var coord = this.coordA[1];
-                        $("#directrix-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coord, 0.001)) + "&lt;/code&gt;" ).tmpl();
+                        $("#directrix-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coord, 0.001)) + "&lt;/code&gt;" ).tex();
                     };
 
                     graph.vertex = addMovablePoint({
@@ -60,8 +60,8 @@
                         snapY: 0.125,
                     });
                     graph.vertex.onMove = function( coordX, coordY ) {
-                        $("#focus-x-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coordX, 0.001)) + "&lt;/code&gt;" ).tmpl();
-                        $("#focus-y-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coordY, 0.001)) + "&lt;/code&gt;" ).tmpl();
+                        $("#focus-x-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coordX, 0.001)) + "&lt;/code&gt;" ).tex();
+                        $("#focus-y-label").html( "&lt;code&gt;" + fractionReduce.apply(KhanUtil, toFraction(coordY, 0.001)) + "&lt;/code&gt;" ).tex();
                     };
 
                     graph.func = addInteractiveFn( function(x) {
