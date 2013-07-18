@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions rational-expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting with unlike denominators 3</title>
+    <script src="../khan-exercise.js"></script>
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="SIGN">randFromArray(["+", "-"])</var>
+            <var id="ORDER">rand(2)</var>
+            <var id="X">randVar()</var>
+            <var id="Y" data-ensure="X !== Y">randVar()</var>
+
+            <var id="EXPR1">new RationalExpression([[randRangeWeightedExclude(-10, 10, 1, 0.4, [0]),X], randRangeNonZero(-10, 10)])</var>
+            <div data-ensure="getGCD(C1, C2) === 1">
+                <var id="C1">randRangeNonZero(-10, 10)</var>
+                <var id="C2">randRange(1, 10)</var>
+            </div>
+        </div>
+
+        <div class="problems">
+            <div id="two-expr">
+                <div class="vars">
+                    <var id="EXPR2">new RationalExpression([[randRangeWeightedExclude(-10, 10, 1, 0.4, [0]),X], randRangeNonZero(-10, 10)])</var>
+                    <var id="N1">ORDER ? EXPR1 : new Term(C1)</var>
+                    <var id="D1">ORDER ? EXPR2 : new Term(C2)</var>
+                    <var id="N2">ORDER ? new Term(C1) : EXPR1</var>
+                    <var id="D2">ORDER ? new Term(C2) : EXPR2</var>
+                    <var id="N_PRODUCT1">N1.multiply(D2)</var>
+                    <var id="N_PRODUCT2">N2.multiply(D1)</var>
+                    <var id="N_SUM">SIGN === '+' ? N_PRODUCT1.add(N_PRODUCT2) : N_PRODUCT1.add(N_PRODUCT2.multiply(-1))</var>
+                    <var id="D_PRODUCT">D2.multiply(D1)</var>
+                    <var id="FACTOR">N_SUM.getGCD(D_PRODUCT)</var>
+                    <var id="NUMERSOL">N_SUM.divide(FACTOR)</var>
+                    <var id="DENOMSOL">D_PRODUCT.divide(FACTOR)</var>
+                </div>
+            </div>
+
+            <div id="expr-top">
+                <div class="vars">
+                    <var id="N1">ORDER ? EXPR1 : new Term(C1)</var>
+                    <var id="D1">new Term(randRangeExclude(-10, 10, [-1, 0, 1, C1]))</var>
+                    <var id="N2">ORDER ? new Term(C1) : EXPR1</var>
+                    <var id="D2">new Term (randRangeExclude(-10, 10, [0, C1]))</var>
+                    <var id="N_PRODUCT1">N1.multiply(D2)</var>
+                    <var id="N_PRODUCT2">N2.multiply(D1)</var>
+                    <var id="N_SUM">SIGN === '+' ? N_PRODUCT1.add(N_PRODUCT2) : N_PRODUCT1.add(N_PRODUCT2.multiply(-1))</var>
+                    <var id="D_PRODUCT">D2.multiply(D1)</var>
+                    <var id="FACTOR">N_SUM.getGCD(D_PRODUCT)</var>
+                    <var id="NUMERSOL">N_SUM.divide(FACTOR)</var>
+                    <var id="DENOMSOL">D_PRODUCT.divide(FACTOR)</var>
+                </div>
+            </div>
+
+            <div id="expr-bottom">
+                <div class="vars">
+                    <var id="N1">ORDER ? new Term (randRangeNonZero(-10, 10)) : new Term(C1)</var>
+                    <var id="D1">ORDER ? EXPR1 : new Term(C2)</var>
+                    <var id="N2">ORDER ? new Term(C1) : new Term (randRangeNonZero(-10, 10))</var>
+                    <var id="D2">ORDER ? new Term(C2) : EXPR1</var>
+                    <var id="N_PRODUCT1">N1.multiply(D2)</var>
+                    <var id="N_PRODUCT2">N2.multiply(D1)</var>
+                    <var id="N_SUM">SIGN === '+' ? N_PRODUCT1.add(N_PRODUCT2) : N_PRODUCT1.add(N_PRODUCT2.multiply(-1))</var>
+                    <var id="D_PRODUCT">D2.multiply(D1)</var>
+                    <var id="FACTOR">N_SUM.getGCD(D_PRODUCT)</var>
+                    <var id="NUMERSOL">N_SUM.divide(FACTOR)</var>
+                    <var id="DENOMSOL">D_PRODUCT.divide(FACTOR)</var>
+                </div>
+            </div>
+        </div>
+
+        <p class="problem">Simplify the following expression:</p>
+        <p class="question"><code>
+            <var>Y</var> =
+            <span data-if="D1.toString() !== '1'">\dfrac{<var>N1</var>}{<var>D1</var>}</span><span data-else=""><var>N1</var></span>
+            <var>SIGN</var>
+            <span data-if="D2.toString() !== '1'">\dfrac{<var>N2</var>}{<var>D2</var>}</span><span data-else=""><var>N2</var></span>
+        </code></p>
+
+       <div class="solution" data-type="set">
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>NUMERSOL.regex()</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.regex()</var></span>
+            </div>
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>NUMERSOL.multiply(-1).regex()</var></span>
+                <span class="sol" data-type="regex"><var>DENOMSOL.multiply(-1).regex()</var></span>
+            </div>
+
+            <div class="input-format">
+                <div class="entry" data-type="multiple">
+                    <table><tbody>
+                        <tr>
+                            <td class="soln-name" rowspan="2"><code><var>Y</var> = </code></td>
+                            <td class="soln-top"><span class="sol short50">a</span></td>
+                        </tr>
+                        <tr>
+                            <td class="soln-bot"><span class="sol short50" data-fallback="1">a</span></td>
+                        </tr>
+                    </tbody></table>
+                </div>
+            </div>
+        </div>
+
+        <div class="hints">
+            <p>In order to
+                <span data-if="SIGN === '+'">add</span>
+                <span data-else="">subtract</span>
+                expressions, they must have a common denominator.
+            </p>
+
+            <div data-if="D2.toString() !== '1'" data-unwrap="">
+                <p>Multiply the first expression by <code>\dfrac{<var>D2</var>}{<var>D2</var>}</code>.</p>
+
+                <p><code> \qquad
+                    \dfrac{<var>N1</var>}{<var>D1</var>} \times \dfrac{<var>D2</var>}{<var>D2</var>} = 
+                    \dfrac{<var>N_PRODUCT1</var>}{<var>D_PRODUCT</var>}
+                </code></p>
+            </div>
+
+            <div data-if="D1.toString() !== '1'" data-unwrap="">
+                <p>Multiply the second expression by <code>\dfrac{<var>D1</var>}{<var>D1</var>}</code>.</p>
+
+                <p><code> \qquad
+                    \dfrac{<var>N2</var>}{<var>D2</var>} \times \dfrac{<var>D1</var>}{<var>D1</var>} = 
+                    \dfrac{<var>N_PRODUCT2</var>}{<var>D_PRODUCT</var>}
+                </code></p>
+            </div>
+
+            <div>
+                <p>Therefore</p>
+                <p><code> \qquad <var>Y</var> =
+                    \dfrac{<var>N_PRODUCT1</var>}{<var>D_PRODUCT</var>} <var>SIGN</var> 
+                    \dfrac{<var>N_PRODUCT2</var>}{<var>D_PRODUCT</var>}
+                </code></p>
+            </div>
+
+            <div data-if="SIGN === '-'" data-unwrap="">
+                <div>
+                    <p>Now the expressions have the same denominator we can simply subtract the numerators:</p>
+                    <p><code><var>Y</var> =
+                        \dfrac{<var>N_PRODUCT1</var> - 
+                            <span data-if="N_PRODUCT2.terms !== undefined">(<var>N_PRODUCT2</var>)</span>
+                            <span data-else=""><var>N_PRODUCT2</var></span>
+                        }{<var>D_PRODUCT</var>}
+                    </code></p>
+                </div>
+
+                <div>
+                    <div>
+                        <p>Distribute the negative sign:</p>
+                        <p><code><var>Y</var> = \dfrac{<var>N_PRODUCT1</var> + <var>N_PRODUCT2.multiply(-1)</var>}{<var>D_PRODUCT</var>}</code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div data-else="">
+                <p>Now the expressions have the same denominator we can simply add the numerators:</p>
+                <p><code><var>Y</var> =
+                    \dfrac{<var>N_PRODUCT1</var> + <var>N_PRODUCT2</var>}{<var>D_PRODUCT</var>}
+                </code></p>
+            </div>
+
+            <p><code><var>Y</var> = \dfrac{<var>N_SUM</var>}{<var>D_PRODUCT</var>}</code></p>
+
+            <div data-if="FACTOR.toString() !== '1'">
+                <div>Simplify the expression by dividing the numerator and denominator by <var>FACTOR</var>:</div>
+                <div><code><var>Y</var> = \dfrac{<var>NUMERSOL</var>}{<var>DENOMSOL</var>}</code></div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
