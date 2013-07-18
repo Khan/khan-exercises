@@ -29,9 +29,9 @@
             <var id="Y" data-ensure="X !== Y">randVar()</var>
 
             <var id="EXPR1">new RationalExpression([[randRangeWeightedExclude(-10, 10, 1, 0.4, [0]),X], randRangeNonZero(-10, 10)])</var>
-            <div data-ensure="getGCD(C1.coefficient, C2.coefficient) === 1">
-                <var id="C1">new Term(randRangeNonZero(-10, 10))</var>
-                <var id="C2">new Term(randRange(1, 10))</var>
+            <div data-ensure="getGCD(TERM1.coefficient, TERM2.coefficient) === 1">
+                <var id="TERM1">new Term(randRangeNonZero(-10, 10))</var>
+                <var id="TERM2">new Term(randRange(1, 10))</var>
             </div>
         </div>
 
@@ -39,10 +39,10 @@
             <div id="two-expr">
                 <div class="vars">
                     <var id="EXPR2">new RationalExpression([[randRangeWeightedExclude(-10, 10, 1, 0.4, [0]),X], randRangeNonZero(-10, 10)])</var>
-                    <var id="N1">ORDER ? EXPR1 : C1</var>
-                    <var id="D1">ORDER ? EXPR2 : C2</var>
-                    <var id="N2">ORDER ? C1 : EXPR1</var>
-                    <var id="D2">ORDER ? C2 : EXPR2</var>
+                    <var id="N1">ORDER ? EXPR1 : TERM1</var>
+                    <var id="D1">ORDER ? EXPR2 : TERM2</var>
+                    <var id="N2">ORDER ? TERM1 : EXPR1</var>
+                    <var id="D2">ORDER ? TERM2 : EXPR2</var>
                     <var id="N_PRODUCT1">N1.multiply(D2)</var>
                     <var id="N_PRODUCT2">N2.multiply(D1)</var>
                     <var id="N_SUM">SIGN === '+' ? N_PRODUCT1.add(N_PRODUCT2) : N_PRODUCT1.add(N_PRODUCT2.multiply(-1))</var>
@@ -55,10 +55,11 @@
 
             <div id="expr-top">
                 <div class="vars">
-                    <var id="N1">ORDER ? EXPR1 : C1</var>
-                    <var id="D1">ORDER ? new Term(randRangeExclude(-10, 10, [-1, 0, 1])): C2</var>
-                    <var id="N2">ORDER ? C1 : EXPR1</var>
-                    <var id="D2">ORDER ? C2 : new Term(randRangeExclude(-10, 10, [-1, 0, 1]))</var>
+                    <var id="TERM3">rand(2) ? new Term(randRangeExclude(-10, 10, [-1, 0, 1])) : new Term(randRangeExclude(-10, 10, [-1, 0, 1]), X)</var>
+                    <var id="N1">ORDER ? EXPR1 : TERM1</var>
+                    <var id="D1">ORDER ? TERM3: TERM2</var>
+                    <var id="N2">ORDER ? TERM1 : EXPR1</var>
+                    <var id="D2">ORDER ? TERM2 : TERM3</var>
                     <var id="N_PRODUCT1">N1.multiply(D2)</var>
                     <var id="N_PRODUCT2">N2.multiply(D1)</var>
                     <var id="N_SUM">SIGN === '+' ? N_PRODUCT1.add(N_PRODUCT2) : N_PRODUCT1.add(N_PRODUCT2.multiply(-1))</var>
@@ -71,10 +72,11 @@
 
             <div id="expr-bottom">
                 <div class="vars">
-                    <var id="N1">ORDER ? new Term (randRangeNonZero(-10, 10)) : C1</var>
-                    <var id="D1">ORDER ? EXPR1 : C2</var>
-                    <var id="N2">ORDER ? C1 : new Term (randRangeNonZero(-10, 10))</var>
-                    <var id="D2">ORDER ? C2 : EXPR1</var>
+                    <var id="TERM3">rand(2) ? new Term(randRangeNonZero(-10, 10)) : new Term(randRangeNonZero(-10, 10), X)</var>
+                    <var id="N1">ORDER ? TERM3 : TERM1</var>
+                    <var id="D1">ORDER ? EXPR1 : TERM2</var>
+                    <var id="N2">ORDER ? TERM1 : TERM3</var>
+                    <var id="D2">ORDER ? TERM2 : EXPR1</var>
                     <var id="N_PRODUCT1">N1.multiply(D2)</var>
                     <var id="N_PRODUCT2">N2.multiply(D1)</var>
                     <var id="N_SUM">SIGN === '+' ? N_PRODUCT1.add(N_PRODUCT2) : N_PRODUCT1.add(N_PRODUCT2.multiply(-1))</var>
