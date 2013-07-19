@@ -6,9 +6,9 @@
     <script type="text/javascript">
         function getProduct(coefficient, terms, cancel) {
             var s = '';
-            if (coefficient === -1) {
+            if (coefficient.toString() === '-1') {
                 s += '-';
-            } else if (coefficient !== 1) {
+            } else if (coefficient.toString() !== '1') {
                 s += coefficient;
             }
 
@@ -58,51 +58,66 @@
             <var id="TERM_C">new RationalExpression([[1, X], C])</var>
             <var id="TERM_D">new RationalExpression([[1, X], D])</var>
 
-            <var id="FACTOR1">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
-            <var id="FACTOR2">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
-            <var id="FACTOR3">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
-            <var id="FACTOR4">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
-            <var id="FACTOR1_2">FACTOR1 * FACTOR2</var>
-            <var id="FACTOR3_4">FACTOR3 * FACTOR4</var>
-            <var id="COMMON_FACTOR">FACTOR3_4 &lt; 0 ? -getGCD(FACTOR1_2, FACTOR3_4) : getGCD(FACTOR1_2, FACTOR3_4)</var>
+            <var id="FACTORS">(function() {
+                var f1 = new Term(randRangeWeightedExclude(-5, 5, 1, 0.4, [0]));
+                var f2 = new Term(randRangeWeightedExclude(-5, 5, 1, 0.4, [0]));
+                var f3 = new Term(randRangeWeightedExclude(-5, 5, 1, 0.4, [0]));
+                var f4 = new Term(randRangeWeightedExclude(-5, 5, 1, 0.4, [0]));
 
-            <var id="NUMERSOL">TERM_C.multiply(FACTOR1_2 / COMMON_FACTOR)</var>
-            <var id="DENOMSOL">TERM_D.multiply(FACTOR3_4 / COMMON_FACTOR)</var>
+                if (rand(2)) {
+                    var x = new Term(1, X);
+
+                    if (rand(2)) { f1 = x.multiply(f1); }
+                    else { f2 = x.multiply(f2); }
+
+                    if (rand(2)) { f3 = x.multiply(f3); }
+                    else { f4 = x.multiply(f4); }
+                }
+
+                return [f1, f2, f3, f4];
+            })()
+            </var>
+            <var id="FACTOR1">FACTORS[0].multiply(FACTORS[1])</var>
+            <var id="FACTOR2">FACTORS[2].multiply(FACTORS[3])</var>
+            <var id="COMMON_FACTOR">FACTOR2.isNegative() ? -FACTOR1.getGCD(FACTOR2) : FACTOR1.getGCD(FACTOR2)</var>
+
+            <var id="NUMERSOL">TERM_C.multiply(FACTOR1.divide(COMMON_FACTOR))</var>
+            <var id="DENOMSOL">TERM_D.multiply(FACTOR2.divide(COMMON_FACTOR))</var>
         </div>
 
         <div class="problems">
             <div id="combined-top">
                 <div class="vars">
-                    <var id="NUMERATORS">[TERM_A.multiply(TERM_B).multiply(FACTOR1), TERM_C.multiply(FACTOR2)]</var>
-                    <var id="DENOMINATORS">[TERM_A.multiply(TERM_D).multiply(FACTOR3), TERM_B.multiply(FACTOR4)]</var>
-                    <var id="NUMER_QUADRATIC">getProduct(FACTOR1, [TERM_A, TERM_B])</var>
-                    <var id="DENOM_QUADRATIC">getProduct(FACTOR3, [TERM_A, TERM_D])</var>
-                    <var id="NUMER_PRODUCT">[FACTOR1_2, [TERM_A, TERM_B, TERM_C]]</var>
-                    <var id="DENOM_PRODUCT">[FACTOR3_4, [TERM_A, TERM_D, TERM_B]]</var>
+                    <var id="NUMERATORS">[TERM_A.multiply(TERM_B).multiply(FACTORS[0]), TERM_C.multiply(FACTORS[1])]</var>
+                    <var id="DENOMINATORS">[TERM_A.multiply(TERM_D).multiply(FACTORS[2]), TERM_B.multiply(FACTORS[3])]</var>
+                    <var id="NUMER_QUADRATIC">getProduct(FACTORS[0], [TERM_A, TERM_B])</var>
+                    <var id="DENOM_QUADRATIC">getProduct(FACTORS[2], [TERM_A, TERM_D])</var>
+                    <var id="NUMER_PRODUCT">[FACTOR1, [TERM_A, TERM_B, TERM_C]]</var>
+                    <var id="DENOM_PRODUCT">[FACTOR2, [TERM_A, TERM_D, TERM_B]]</var>
                     <var id="CANCEL_ORDER">[[0, 1], [0, 2]]</var>
                 </div>
             </div>
 
             <div id="combined-bottom">
                 <div class="vars">
-                    <var id="NUMERATORS">[TERM_A.multiply(TERM_C).multiply(FACTOR1), TERM_B.multiply(FACTOR2)]</var>
-                    <var id="DENOMINATORS">[TERM_A.multiply(TERM_B).multiply(FACTOR3), TERM_D.multiply(FACTOR4)]</var>
-                    <var id="NUMER_QUADRATIC">getProduct(FACTOR1, [TERM_A, TERM_C])</var>
-                    <var id="DENOM_QUADRATIC">getProduct(FACTOR3, [TERM_A, TERM_B])</var>
-                    <var id="NUMER_PRODUCT">[FACTOR1_2, [TERM_A, TERM_C, TERM_B]]</var>
-                    <var id="DENOM_PRODUCT">[FACTOR3_4, [TERM_A, TERM_B, TERM_D]]</var>
+                    <var id="NUMERATORS">[TERM_A.multiply(TERM_C).multiply(FACTORS[0]), TERM_B.multiply(FACTORS[1])]</var>
+                    <var id="DENOMINATORS">[TERM_A.multiply(TERM_B).multiply(FACTORS[2]), TERM_D.multiply(FACTORS[3])]</var>
+                    <var id="NUMER_QUADRATIC">getProduct(FACTORS[0], [TERM_A, TERM_C])</var>
+                    <var id="DENOM_QUADRATIC">getProduct(FACTORS[2], [TERM_A, TERM_B])</var>
+                    <var id="NUMER_PRODUCT">[FACTOR1, [TERM_A, TERM_C, TERM_B]]</var>
+                    <var id="DENOM_PRODUCT">[FACTOR2, [TERM_A, TERM_B, TERM_D]]</var>
                     <var id="CANCEL_ORDER">[[0, 2], [0, 1]]</var>
                 </div>
             </div>
 
             <div id="no-combined">
                 <div class="vars">
-                    <var id="NUMERATORS">[TERM_B.multiply(TERM_C).multiply(FACTOR1), TERM_A.multiply(FACTOR2)]</var>
-                    <var id="DENOMINATORS">[TERM_A.multiply(TERM_D).multiply(FACTOR3), TERM_B.multiply(FACTOR4)]</var>
-                    <var id="NUMER_QUADRATIC">getProduct(FACTOR1, [TERM_B, TERM_C])</var>
-                    <var id="DENOM_QUADRATIC">getProduct(FACTOR3, [TERM_A, TERM_D])</var>
-                    <var id="NUMER_PRODUCT">[FACTOR1_2, [TERM_B, TERM_C, TERM_A]]</var>
-                    <var id="DENOM_PRODUCT">[FACTOR3_4, [TERM_A, TERM_D, TERM_B]]</var>
+                    <var id="NUMERATORS">[TERM_B.multiply(TERM_C).multiply(FACTORS[0]), TERM_A.multiply(FACTORS[1])]</var>
+                    <var id="DENOMINATORS">[TERM_A.multiply(TERM_D).multiply(FACTORS[2]), TERM_B.multiply(FACTORS[3])]</var>
+                    <var id="NUMER_QUADRATIC">getProduct(FACTORS[0], [TERM_B, TERM_C])</var>
+                    <var id="DENOM_QUADRATIC">getProduct(FACTORS[2], [TERM_A, TERM_D])</var>
+                    <var id="NUMER_PRODUCT">[FACTOR1, [TERM_B, TERM_C, TERM_A]]</var>
+                    <var id="DENOM_PRODUCT">[FACTOR2, [TERM_A, TERM_D, TERM_B]]</var>
                     <var id="CANCEL_ORDER">[[2, 0], [0, 2]]</var>
                 </div>
             </div>
