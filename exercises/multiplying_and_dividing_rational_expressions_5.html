@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html data-require="math math-format rational-expressions"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying and dividing rational expressions 4</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function getProduct(coefficients, terms, cancel) {
+            var coefficient = new KhanUtil.Term(1);
+            for (var i=0; i<coefficients.length; i++) {
+                coefficient = coefficient.multiply(coefficients[i]);
+            }
+
+            var s = '';
+            if (coefficient.toString() === '-1') {
+                s += '-';
+            } else if (coefficient.toString() !== '1') {
+                s += coefficient.toString();
+            }
+
+            cancel = cancel || [];
+            for (var i=0; i<terms.length; i++) {
+                if (cancel.indexOf(i) === -1) {
+                    s +=  '(' + terms[i] + ')';
+                } else {
+                    s +=  '\\cancel{(' + terms[i] + ')}';
+                }
+            }
+            return s;
+        }
+    </script>
+
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            padding-bottom: 5px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="OPERATOR">randFromArray(['multiply', 'divide'])</var>
+            <var id="ORDER">randFromArray([[0, 1], [1, 0]])</var>
+            <var id="X">randVar()</var>
+            <var id="Y" data-ensure="X !== Y">randVar()</var>
+
+            <var id="FACTOR1">randRangeWeightedExclude(-10, 10, 1, 0.4, [0])</var>
+            <var id="FACTORS">(function() {
+                    if (rand(2)) {
+                        if (rand(2)) {
+                            var f1 = new Term(randRangeWeightedExclude(-10, 10, 1, 0.5, [0]), X);
+                            var f2 = new Term(randRangeWeightedExclude(-10, 10, 1, 0.4, [0]));
+                        } else {
+                            var f1 = new Term(randRangeWeightedExclude(-10, 10, 1, 0.4, [0]));
+                            var f2 = new Term(randRangeWeightedExclude(-10, 10, 1, 0.5, [0]), X);
+                        }
+                    } else {
+                        var f1 = new Term(randRangeWeightedExclude(-10, 10, 1, 0.4, [0]));
+                        var f2 = new Term(randRangeWeightedExclude(-10, 10, 1, 0.4, [0]));
+                    }
+                    return [f1, f2];
+                })()
+            </var>
+            <var id="A">randRangeNonZero(-10, 10)</var>
+            <var id="B" data-ensure="A !== B">randRangeNonZero(-10, 10)</var>
+            <var id="C">randRangeNonZero(-10, 10)</var>
+            <var id="D" data-ensure="C !== D">randRangeNonZero(-10, 10)</var>
+
+            <var id="FACTOR_PRODUCT">FACTORS[0].multiply(FACTORS[1])</var>
+            <var id="TERM_A">new RationalExpression([[1, X], A])</var>
+            <var id="TERM_B">new RationalExpression([[1, X], B])</var>
+            <var id="TERM_C">new RationalExpression([[1, X], C])</var>
+            <var id="TERM_D">new RationalExpression([[1, X], D])</var>
+        </div>
+
+        <div class="problems">
+            <div id="combined-top">
+                <div class="vars">
+                    <var id="NUMERATORS">[TERM_A.multiply(TERM_B), TERM_C]</var>
+                    <var id="DENOMINATORS">[TERM_A.multiply(TERM_D), TERM_B]</var>
+                </div>
+            </div>
+
+            <div id="combined-bottom">
+                <div class="vars">
+                    <var id="NUMERATORS">[TERM_A.multiply(TERM_C), TERM_B]</var>
+                    <var id="DENOMINATORS">[TERM_A.multiply(TERM_B), TERM_D]</var>
+                </div>
+            </div>
+
+            <div id="no-combined">
+                <div class="vars">
+                    <var id="NUMERATORS">[TERM_B.multiply(TERM_C), TERM_A]</var>
+                    <var id="DENOMINATORS">[TERM_A.multiply(TERM_D), TERM_B]</var>
+                </div>
+            </div>
+        </div>
+
+        <div class="solution" data-type="set">
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>X</var></span>
+                <span class="sol" data-type="regex"><var>X</var></span>
+                <span class="sol" data-type="number"><var>-A</var></span>
+                <span class="sol" data-type="number"><var>-B</var></span>
+            </div>
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>X</var></span>
+                <span class="sol" data-type="regex"><var>X</var></span>
+                <span class="sol" data-type="number"><var>-B</var></span>
+                <span class="sol" data-type="number"><var>-A</var></span>
+            </div>
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>X</var></span>
+                <span class="sol" data-type="regex"><var>X</var></span>
+                <span class="sol" data-type="number"><var>-B</var></span>
+                <span class="sol" data-type="number"><var>-A</var></span>
+            </div>
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>X</var></span>
+                <span class="sol" data-type="regex"><var>X</var></span>
+                <span class="sol" data-type="number"><var>-A</var></span>
+                <span class="sol" data-type="number"><var>-B</var></span>
+            </div>
+
+            <div class="input-format">
+                <div class="entry" data-type="multiple">
+                    <table><tbody>
+                        <tr>
+                            <td class="soln-name" rowspan="2"><code><var>Y</var> = </code></td>
+                            <td class="soln-top"><span class="sol short50">a</span></td>
+                        </tr>
+                        <tr>
+                            <td class="soln-bot"><span class="sol short50" data-fallback="1">a</span></td>
+                        </tr>
+                        <tr>
+                            <td><code><var>X</var> \neq </code></td>
+                            <td><span class="sol short50" data-fallback="0">a</span></td>
+                        </tr>
+                        <tr>
+                            <td><code><var>X</var> \neq </code></td>
+                            <td><span class="sol short50" data-fallback="0">a</span></td>
+                        </tr>
+                    </tbody></table>
+                </div>
+            </div>
+        </div>
+
+        <p class="problem">Simplify the following expression and state the conditions under which the simplification is valid.
+            You can assume that <code><var>X</var> \neq 0</code></p>
+
+        <p class="question">
+            <p><code><var>Y</var> = 
+                <span data-if="OPERATOR === 'multiply'">
+                    \dfrac{<var>NUMERATORS[ORDER[0]]</var>}{<var>DENOMINATORS[ORDER[0]]</var>} \times
+                    \dfrac{<var>NUMERATORS[ORDER[1]]</var>}{<var>DENOMINATORS[ORDER[1]]</var>}
+                </span>
+                <span data-else="">
+                    \dfrac{<var>NUMERATORS[ORDER[0]]</var>}{<var>DENOMINATORS[ORDER[0]]</var>} \div
+                    \dfrac{<var>DENOMINATORS[ORDER[1]]</var>}{<var>NUMERATORS[ORDER[1]]</var>}
+                </span>
+            </code></p>
+        </p>
+
+        <div class="hints">
+        </div>
+    </div>
+</body></html>
