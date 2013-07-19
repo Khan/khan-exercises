@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html data-require="math math-format">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Sequences and Series</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="LOWER">randRange(5, 9)</var>
+            <var id="UPPER">randRange(16, 25)</var>
+            <var id="ANSWER">((LOWER + UPPER) * (UPPER - LOWER + 1))/2</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <div class="question">
+                    <p>Evaluate:
+                        <code>\sum\limits_{k=<var>LOWER</var>}^{<var>UPPER</var>} k</code>
+                    </p>
+                </div>
+
+                <div class="solution" data-forms="integer">
+                    <var>ANSWER</var>
+                </div>
+
+                <div class="hints">
+                    <p>We know that
+                        <code>\sum\limits_{k=1}^{n} k = \dfrac{n(n+1)}{2}</code>
+                    </p>
+
+                    <p>But notice that <code>k</code> starts at <code><var>LOWER</var></code> and
+                        <code>\sum\limits_{k=<var>LOWER</var>}^{<var>UPPER</var>} k = <var>LOWER</var> + <var>LOWER+1</var> + <var>LOWER+2</var> + \cdots + <var>UPPER-1</var> + <var>UPPER</var></code>
+                    </p>
+
+                    <p>If <code>k</code> started at <code>1</code>, then
+                        <code>\sum\limits_{k=1}^{<var>UPPER</var>} k = 1 + 2 + 3 + \cdots + <var>UPPER-1</var> + <var>UPPER</var></code>
+                        <br/>(which is similar to what we need to find...)
+                    </p>
+
+                    <p>By grouping sums together, the series could also be written as
+                        <span style="text-align: center; display: block;">
+                            <code>\sum\limits_{k=1}^{<var>UPPER</var>} k = (1 + 2 + 3 + \cdots + <var>LOWER-2</var> + <var>LOWER-1</var>) + (<var>LOWER</var> + <var>LOWER+1</var> + <var>LOWER+2</var> + \cdots + <var>UPPER-1</var> + <var>UPPER</var>)</code>
+                        </span>
+                    </p>
+
+                    <p>Rewriting the right side as <code>2</code> sums gives
+                        <span style="text-align: center; display: block;">
+                            <code>\sum\limits_{k=1}^{<var>UPPER</var>} k = \sum\limits_{k=1}^{<var>LOWER-1</var>} k + \sum\limits_{k=<var>LOWER</var>}^{<var>UPPER</var>} k</code>
+                        </span>
+                    </p>
+
+                    <p>That last sum is what we're looking for! Time to simplify.</p>
+
+                    <p style="text-align: center;">
+                        <code>\dfrac{<var>UPPER</var> \times <var>UPPER+1</var>}{2} = \dfrac{<var>LOWER-1</var> \times <var>LOWER</var>}{2} + \sum\limits_{k=<var>LOWER</var>}^{<var>UPPER</var>} k</code>
+                    </p>
+
+                    <p style="text-align: center;">
+                        <code><var>(UPPER*(UPPER+1))/2</var> = <var>(LOWER*(LOWER-1))/2</var> + \sum\limits_{k=<var>LOWER</var>}^{<var>UPPER</var>} k</code>
+                    </p>
+
+                    <p style="text-align: center;">
+                        <code><var>ANSWER</var> = \sum\limits_{k=<var>LOWER</var>}^{<var>UPPER</var>} k</code>
+                    </p>
+
+                    <p>The sum is therefore <var>ANSWER</var>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
