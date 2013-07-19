@@ -70,13 +70,18 @@
 (function() {
     var t1 = new KhanUtil.Term(4);
     var t2 = new KhanUtil.Term(1, "x");
-    var t3 = new KhanUtil.Term(12, "x");
+    var t3 = new KhanUtil.Term(-12, "x");
     var t4 = new KhanUtil.Term(12, {x: 2});
     var t5 = new KhanUtil.Term(3, "y");
     var t6 = new KhanUtil.Term(2, {x: 2, y: 3});
 
+    var e1 = new KhanUtil.RationalExpression([4]);
+    var e2 = new KhanUtil.RationalExpression([t3, 4]);
+    var e3 = new KhanUtil.RationalExpression([[2, {x: 2, y: 3}], t3, 4]);
+    var e4 = new KhanUtil.RationalExpression([[2, {x: 2, y: 3}], t3, t4]);
+
     function checkRegex(regex, testString, result, description) {
-        strictEqual(testString.search(regex) > -1, result, description);
+        strictEqual(testString.search("^\\s*" + regex + "$") > -1, result, description);
     }
 
     asyncTest("terms to string", 7, function() {
@@ -84,26 +89,34 @@
         strictEqual(new KhanUtil.Term(0, "x").toString(), '', "no variable");
         strictEqual(t2.toString(), 'x', "just variable");
         strictEqual(new KhanUtil.Term(2, {x: 1}).toString(), '2x', "variable degree 1");
-        strictEqual(t3.toString(), '12x', "coefficient and variable");
+        strictEqual(t3.toString(), '-12x', "coefficient and variable");
         strictEqual(t4.toString(), '12x^2', "variable degree 2");
         strictEqual(t6.toString(), '2x^2y^3', "two variables");
+        start();
+    });
+
+    asyncTest("add term", 4, function() {
+        strictEqual(t1.add(3).toString(), "7", "term digit add digit");
+        strictEqual(t2.add(3).toString(), "x + 3", "term add digit");
+        strictEqual(t2.add(t3).toString(), "-11x", "term add term");
+        strictEqual(t3.add(e2).toString(), "-24x + 4", "term add expression");
         start();
     });
 
     asyncTest("multiply term", 5, function() {
         strictEqual(t1.multiply(3).toString(), "12", "term digit by digit");
         strictEqual(t2.multiply(2).toString(), "2x", "term by digit");
-        strictEqual(t3.multiply(t1).toString(), "48x", "term by term digit");
-        strictEqual(t3.multiply(t4).toString(), "144x^3", "same variable");
+        strictEqual(t3.multiply(t1).toString(), "-48x", "term by term digit");
+        strictEqual(t3.multiply(t4).toString(), "-144x^3", "same variable");
         strictEqual(t4.multiply(t5).toString(), "36x^2y", "different variable");
         start();
     });
 
     asyncTest("divide term", 5, function() {
         strictEqual(t1.divide(2).toString(), "2", "term digit by digit");
-        strictEqual(t3.divide(3).toString(), "4x", "term by digit");
-        strictEqual(t3.divide(t1).toString(), "3x", "term by term digit");
-        strictEqual(t4.divide(t3).toString(), "x", "same variable");
+        strictEqual(t3.divide(3).toString(), "-4x", "term by digit");
+        strictEqual(t3.divide(t1).toString(), "-3x", "term by term digit");
+        strictEqual(t4.divide(t3).toString(), "-x", "same variable");
         strictEqual(t4.divide(t5).toString(), "4x^2y^-1", "different variable");
         start();
     });
@@ -117,10 +130,73 @@
         start();
     });
 
-    asyncTest("term regex", 3, function() {
+    asyncTest("term regex", 7, function() {
         checkRegex(t1.regex(), "4", true, "right answer is right");
-        checkRegex(t1.regex(), "-4", true, "wrong answer is wrong");
+        checkRegex(t1.regex(), "-4", false, "wrong answer is wrong");
         checkRegex(t1.regex(), "  4 ", true, "right answer with spaces is right");
+        checkRegex(t1.regex(true), " + 4 ", true, "right answer leading sign is right");
+        checkRegex(t3.regex(), "-12x", true, "right answer is right");
+        checkRegex(t3.regex(), " 1 2 x ", false, "wrong answer with spaces is wrong");
+        checkRegex(t4.regex(), "12x^2", true, "right answer is right");
+        start();
+    });
+
+    asyncTest("expression to string", 6, function() {
+        strictEqual(new KhanUtil.RationalExpression([]).toString(), "0", "empty list");
+        strictEqual(new KhanUtil.RationalExpression([0, 0, [0]]).toString(), "0", "lots of zeros");
+        strictEqual(e1.toString(), "4", "single digit");
+        strictEqual(new KhanUtil.RationalExpression([4, 3]).toString(), "7", "digits combined");
+        strictEqual(e2.toString(), "-12x + 4", "term plus digit");
+        strictEqual(e3.toString(), "2x^2y^3 - 12x + 4", "array plus term plus digit");
+        start();
+    });
+
+    asyncTest("add expressions", 6, function() {
+        var a1 = new KhanUtil.RationalExpression([[2, 'x'], 3]);
+        var e2neg = new KhanUtil.RationalExpression([[12, 'x'], -4]);
+
+        strictEqual(e2.add(3).toString(), "-12x + 7", "expr plus digit");
+        strictEqual(e2.add(t2).toString(), "-11x + 4", "expr plus term");
+        strictEqual(e1.add(e1).toString(), "8", "expr digit plus expr digit");
+        strictEqual(e2.add(a1).toString(), "-10x + 7", "expr plus expr");
+        strictEqual(a1.add(e2).toString(), "-10x + 7", "expr plus expr reversed");
+        strictEqual(e2.add(e2neg).toString(), "0", "cancel expr");
+        start();
+    });
+
+    asyncTest("multiply expression", 4, function() {
+        strictEqual(e3.multiply(3).toString(), "6x^2y^3 - 36x + 12", "expr by digit");
+        strictEqual(e2.multiply(t3).toString(), "144x^2 - 48x", "expr by term");
+        strictEqual(e2.multiply(t5).toString(), "-36xy + 12y", "expr by term diff variable");
+        strictEqual(e2.multiply(e3).toString(), "-24x^3y^3 + 8x^2y^3 + 144x^2 - 96x + 16", "expr by expr");
+        start();
+    });
+
+    asyncTest("divide expression", 3, function() {
+        strictEqual(e3.divide(2).toString(), "x^2y^3 - 6x + 2", "expr by digit");
+        strictEqual(e2.divide(t1).toString(), "-3x + 1", "expr by term digit");
+        strictEqual(e3.divide(t2).toString(), "2xy^3 - 12 + 4x^-1", "expr by term");
+        start();
+    });
+
+    asyncTest("factor expression", 2, function() {
+        strictEqual(e3.factor().toString(), "2", "digit factor");
+        strictEqual(e4.factor().toString(), "2x", "term factor");
+        start();
+    });
+
+    asyncTest("expression GCD", 3, function() {
+        strictEqual(e1.getGCD(e2).toString(), "4", "expr digit and expr term");
+        strictEqual(e3.getGCD(e4).toString(), "2", "expr and expr");
+        strictEqual(e4.getGCD(new KhanUtil.RationalExpression([t3])).toString(), "2x", "expr and expr variable");
+        start();
+    });
+
+    asyncTest("is negative", 4, function() {
+        strictEqual(t3.isNegative(), true, "term is negative");
+        strictEqual(t4.isNegative(), false, "term is not negative");
+        strictEqual(e2.isNegative(), true, "expression is negative");
+        strictEqual(e3.isNegative(), false, "expression is not negative");
         start();
     });
 
