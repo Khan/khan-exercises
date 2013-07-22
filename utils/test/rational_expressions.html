@@ -163,6 +163,13 @@
         start();
     });
 
+    asyncTest("get coefficient from expression", 3, function() {
+        strictEqual(e3.getCoefficentOfTerm().toString(), "5", "single digit");
+        strictEqual(e3.getCoefficentOfTerm('x').toString(), "1", "single digit");
+        strictEqual(e3.getCoefficentOfTerm('y').toString(), "0", "single digit");
+        start();
+    });
+
     asyncTest("add expressions", 6, function() {
         strictEqual(e2.add(3).toString(), "-12x + 7", "expr plus digit");
         strictEqual(e2.add(t2).toString(), "-11x + 4", "expr plus term");
