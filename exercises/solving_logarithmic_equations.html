@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html data-require="math">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Solving Logarithmic Equations</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="BASE">randRange(2,4)</var>
+            <var id="POWER">randRange(2,3)</var>
+            <var id="RIGHTSIDE">Math.pow(BASE,POWER)</var>
+            <var id="ANSWER">Math.pow(10,POWER)</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <div class="question">
+                    <p>Solve for <code>x</code>:&nbsp;
+                        <code><var>BASE</var>^{\log x} = <var>RIGHTSIDE</var></code>
+                    </p>
+                </div>
+
+                <div class="solution" data-forms="integer">
+                    <var>ANSWER</var>
+                </div>
+
+                <div class="hints">
+                    <p>If we look carefully, the right side is a power of <code><var>BASE</var></code>:&nbsp;
+                        <code><var>BASE</var>^{\log x} = <var>BASE</var>^{<var>POWER</var>}</code>
+                    </p>
+
+                    <p>If the bases are equal, then the powers must be equal!</p>
+
+                    <div>
+                        <p>If this isn't too clear, we can always take the <code>\log</code> of both sides and simplify:</p>
+                        <p style="text-align: center;">
+                            <code>\log <var>BASE</var>^{\log x} = \log <var>BASE</var>^{<var>POWER</var>}</code>
+                        </p>
+                    </div>
+
+                    <p style="text-align: center;">
+                        <code>\log x \cdot \log <var>BASE</var> = <var>POWER</var> \cdot \log <var>BASE</var></code>
+                    </p>
+
+                    <p style="text-align: center;">
+                        <code>\log x = <var>POWER</var></code>
+                    </p>
+
+                    <p style="text-align: center;">
+                        <code>10^{<var>POWER</var>} = x</code>
+                    </p>
+
+                    <p>Therefore <code>x = <var>ANSWER</var></code>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
