@@ -236,8 +236,43 @@ $.extend(KhanUtil, {
                 regex += Math.abs(this.coefficient);
             }
 
+            // Add all permuations of variables
+            var variable_array = [];
+            for (var vari in this.variables) {
+                if (degree !== 0) {
+                    variable_array.push([vari, this.variables[vari]]);
+                }
+            }
+
+            if (variable_array.length > 1) {
+                permuations = KhanUtil.getPermutations(variable_array);
+
+                regex += "(?:";
+                for (var p=0; p<permuations.length; p++) {
+                    var variables = permuations[p];
+
+                    regex += "(?:";
+                    for (var i=0; i<variables.length; i++) {
+                        var vari = variables[i][0];
+                        var degree = variables[i][1];
+                        regex += degree > 1 ? vari + "\\s*\\^\\s*" + degree : vari;
+                    }
+                    regex += p < permuations.length - 1 ? ")|" : ")";
+                }
+                regex += ")";
+
+            } else if (variable_array.length === 1) {
+                var vari = variable_array[0][0];
+                var degree = variable_array[0][1];
+                regex += degree > 1 ? vari + "\\s*\\^\\s*" + degree : vari;
+            }
+
+
+
             // Add variable of degree 1 in random order
-            // Won't work if there are multiple variable
+            // Only captures one order if there are multiple variables
+
+            /*
             for (var vari in this.variables) {
                 var degree = this.variables[vari];
                 if (degree !== 0) {
@@ -247,6 +282,7 @@ $.extend(KhanUtil, {
                     }
                 } 
             }
+            */
 
             return regex + "\\s*";
         };
@@ -375,9 +411,15 @@ $.extend(KhanUtil, {
         // Return a Term object representing the greatest common divisor of all the terms in this expression
         this.factor = function() {
             var GCD = this.terms[0];
+
             for (var i=0; i<this.terms.length; i++) {
                 GCD = GCD.getGCD(this.terms[i]);
             }
+
+            if (this.isNegative()) {
+                GCD = GCD.multiply(-1);
+            }
+
             return GCD;
         };
 
@@ -401,22 +443,89 @@ $.extend(KhanUtil, {
             return s;
         };
 
-        // Returns a single regex to capture this expression.
-        // It will capture every permutations of terms so is
-        // not recommended for expressions with more than 3-4 terms
-        this.regex = function() {
-            var permutations = KhanUtil.getPermutations(this.terms);
+        // Return a string of the factored expression
+        this.toStringFactored = function(parenthesise) {
+            var f = this.factor();
+
+            if (this.terms.length === 1 || f.toString() === '1') {
+                if (parenthesise) {
+                   return "(" + this.toString() + ")";
+                } else {
+                    return this.toString();
+                }
+            }
+
+            var s = (f.toString() === '-1') ? '-' : f.toString();
+            var divided = this.divide(f);
+
+            s += "(" + divided.toString() + ")";
+            return s;
+        };
+
+        // Returns a regex that captures all permutation passed in
+        this.getTermsRegex = function(permutations, start, stop) {
             var regex = "";
 
+            start = start ?  "|(?:^" + start : "|(?:^";
+            stop = stop ?  stop + "$)" : "$)";
+
             for (var p = 0; p < permutations.length; p++) {
-                regex += p ? "|(?:^" : "(?:^";
+                regex += start;
 
                 var terms = permutations[p];
                 for (var i = 0; i < terms.length; i++) {
                     regex += terms[i].regex(i);
                 }
 
-                regex += "$)";
+                regex += stop;
+            }
+            return regex;
+        }
+
+        // Returns a single regex to capture this expression.
+        // It will capture every permutations of terms so is
+        // not recommended for expressions with more than 3 terms
+        // If allowFactors is true, 3(x + 4) will match 3x + 12
+        this.regex = function(allowFactors) {
+            var permutations = KhanUtil.getPermutations(this.terms);
+            var regex = this.getTermsRegex(permutations).slice(1);
+
+            if (!allowFactors || this.terms.length === 1) {
+                return regex;
+            }
+
+            // Generate regex factored expression
+            // If GCD is 1, will accept parenthesised expression
+            // e.g. p - 5 will accept (p - 5)
+            var factor = this.factor();
+            var divided = this.divide(factor);
+            permutations = KhanUtil.getPermutations(divided.terms);
+
+            if (factor.toString() === '1') {
+                regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*");
+            } else if (factor.toString() === '-1') {
+                regex += this.getTermsRegex(permutations, "\\s*[-\\u2212]\\s*\\(", "\\)\\s*");
+            } else {
+                // Factor before parentheses
+                regex += this.getTermsRegex(permutations, factor.regex() + "\\*?\\s*\\(", "\\)\\s*");
+                // Factor after parentheses
+                regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*\\*?" + factor.regex());
+            }
+
+            // Factor out a negative
+            factor = factor.multiply(-1);
+            divided = divided.multiply(-1);
+            permutations = KhanUtil.getPermutations(divided.terms);
+
+            if (factor.toString === '1') {
+                regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*");
+            } else if (factor.toString === '-1') {
+                regex += this.getTermsRegex(permutations, "\\s*[-\\u2212]\\s*\\(", "\\)\\s*");
+            } else {
+                // Factor before parentheses
+                regex += this.getTermsRegex(permutations, factor.regex() + "\\*?\\s*\\(", "\\)\\s*");
+                // Factor after parentheses
+                regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*\\*?" + factor.regex());
             }
 
             return regex;
