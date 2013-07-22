@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html data-require="math math-format expressions rational-expressions">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Solving rational expressions 2</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="X">randVar()</var>
+            <var id="TERM_A">new RationalExpression([[randRangeWeighted(1, 5, 1, 0.4), X], randRange(-10, 10)])</var>
+            <var id="TERM_B">new Term(randRange(1, 10))</var>
+            <var id="TERM_C">new Term(randRange(1, 10))</var>
+            <var id="NUMERATORS">shuffle([TERM_A, TERM_B, TERM_C])</var>
+            <var id="DENOMINATOR">(function() {
+                var coefficient = randRangeWeighted(1, 5, 1, 0.4);
+                var constant = randRangeWeighted(-5, 5, 0, 0.4);
+                var degree = {};
+                degree[X] = constant === 0 ? randRangeWeighted(1, 3, 1, 0.5) : 1;
+                return new RationalExpression([[coefficient, degree], constant]);
+            })()
+            </var>
+            <var id="SIGNS">[randFromArray(["-", "+"]), randFromArray(["-", "+"]), randFromArray(["-", "+"])]</var>
+            <var id="FACTORS">[randRangeWeighted(1, 5, 1, 0.5), randRangeWeighted(1, 5, 1, 0.5), randRangeWeighted(1, 5, 1, 0.5)]</var>
+            <var id="DENOMINATORS">[
+                DENOMINATOR.multiply(FACTORS[0]),
+                DENOMINATOR.multiply(FACTORS[1]),
+                DENOMINATOR.multiply(FACTORS[2])]
+            </var>
+            <var id="COMMON_FACTOR">(function(){
+                var GCD = FACTORS[0] * FACTORS[1] / getGCD(FACTORS[0], FACTORS[1]);
+                return GCD * FACTORS[2] / getGCD(FACTORS[2], GCD);
+            })()
+            </var>
+            <var id="MULTIPLES">[COMMON_FACTOR / FACTORS[0], COMMON_FACTOR / FACTORS[1], COMMON_FACTOR / FACTORS[2]]</var>
+            <var id="COMMON_DENOM">DENOMINATOR.multiply(COMMON_FACTOR)</var>
+            <var id="PRODUCTS">[NUMERATORS[0].multiply(MULTIPLES[0]), NUMERATORS[1].multiply(MULTIPLES[1]), NUMERATORS[2].multiply(MULTIPLES[2])]</var>
+            <var id="SUMS">(function(){
+                var p0 = SIGNS[0] === '+' ? PRODUCTS[0] : PRODUCTS[0].multiply(-1);
+                var p1 = SIGNS[1] === '+' ? PRODUCTS[1] : PRODUCTS[1].multiply(-1);
+                var p2 = SIGNS[2] === '+' ? PRODUCTS[2] : PRODUCTS[2].multiply(-1);
+                var s1 = p1.add(p2);
+                return [s1, p0.add(s1.multiply(-1))];
+            })()
+            </var>
+            <var id="COEFFICIENT">SUMS[1].getCoefficentOfTerm(X)</var>
+            <var id="CONSTANT">-SUMS[1].getCoefficentOfTerm()</var>
+        </div>
+
+        <div class="problems">
+            <div>
+                <p class="problem">Solve for <code><var>X</var></code>,</p>
+                <p class="question"><code>
+                    <span data-if="SIGNS[0] === '-'">-</span> \dfrac{<var>NUMERATORS[0]</var>}{<var>DENOMINATORS[0]</var>} = 
+                    <span data-if="SIGNS[1] === '-'">-</span> \dfrac{<var>NUMERATORS[1]</var>}{<var>DENOMINATORS[1]</var>}
+                    <var>SIGNS[2]</var> \dfrac{<var>NUMERATORS[2]</var>}{<var>DENOMINATORS[2]</var>}
+                </code></p>
+
+                <div class="solution" data-type="multiple">
+                    <code><var>X</var> = \space</code><span class="sol short40" data-form="rational"><var>CONSTANT / COEFFICIENT</var></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hints">
+            <div data-if="FACTORS[0] !== 1 || FACTORS[1] !== 1 || FACTORS[2] !== 1" data-unwrap="">
+                <p>First we need to find a common denominator for all the expressions. This means finding the least common multiple of
+                    <code><var>DENOMINATORS[0]</var></code>, <code><var>DENOMINATORS[1]</var></code> and <code><var>DENOMINATORS[2]</var></code>.
+                </p>
+                
+                <p>The common denominator is <code><var>COMMON_DENOM</var></code>.</p>
+
+                <div data-each="[0, 1, 2] as i">
+                    <div data-if="MULTIPLES[i] === 1">
+                        <p>The denominator of the <var>ordinal(i+1)</var> term is already <code><var>COMMON_DENOM</var></code>, so we don't need to change it.</p>
+                    </div>
+                    <div data-else="">
+                        <p>To get <code><var>COMMON_DENOM</var></code> in the denominator of the <var>ordinal(i+1)</var> term,
+                            multiply it by <code>\frac{<var>MULTIPLES[i]</var>}{<var>MULTIPLES[i]</var>}</code>.</p>
+                            
+                        <div><code> \qquad
+                            <span data-if="SIGNS[i] === '-'">-</span> \dfrac{<var>NUMERATORS[i]</var>}{<var>DENOMINATORS[i]</var>} \times
+                            \dfrac{<var>MULTIPLES[i]</var>}{<var>MULTIPLES[i]</var>} = 
+                            <span data-if="SIGNS[i] === '-'">-</span> \dfrac{<var>PRODUCTS[i]</var>}{<var>COMMON_DENOM</var>}
+                        </code></div>
+                    </div>
+                </div>
+
+                <div>
+                    <p>This give us:</p>
+                    <div><code>\qquad
+                        <span data-if="SIGNS[0] === '-'">-</span> \dfrac{<var>PRODUCTS[0]</var>}{<var>COMMON_DENOM</var>} = 
+                        <span data-if="SIGNS[1] === '-'">-</span> \dfrac{<var>PRODUCTS[1]</var>}{<var>COMMON_DENOM</var>}
+                        <var>SIGNS[2]</var> \dfrac{<var>PRODUCTS[2]</var>}{<var>COMMON_DENOM</var>}
+                    </code></div>
+                </div>
+            </div>
+
+            <div>
+                <p>If we multiply both sides of the equation by <code><var>COMMON_DENOM</var></code>, we get:</p>
+                <div><code>\qquad 
+                    <span data-if="SIGNS[0] === '-'">
+                        <span data-if="PRODUCTS[0] instanceof KhanUtil.RationalExpression">-(<var>PRODUCTS[0]</var>)</span>
+                        <span data-else=""><var>PRODUCTS[0].multiply(-1)</var></span>
+                    </span>
+                    <span data-else=""><var>PRODUCTS[0]</var></span> =
+
+                    <span data-if="SIGNS[1] === '-'">
+                        <span data-if="PRODUCTS[1] instanceof KhanUtil.RationalExpression">-(<var>PRODUCTS[1]</var>)</span>
+                        <span data-else=""><var>PRODUCTS[1].multiply(-1)</var></span>
+                    </span>
+                    <span data-else=""><var>PRODUCTS[1]</var></span> +
+
+                    <span data-if="SIGNS[2] === '-'">
+                        <span data-if="PRODUCTS[2] instanceof KhanUtil.RationalExpression">-(<var>PRODUCTS[2]</var>)</span>
+                        <span data-else=""><var>PRODUCTS[2].multiply(-1)</var></span>
+                    </span>
+                    <span data-else=""><var>PRODUCTS[2]</var></span>
+                </code></div>
+            </div>
+
+            <div><code>\qquad 
+                <span data-if="SIGNS[0] === '-'"><var>PRODUCTS[0].multiply(-1)</var></span>
+                <span data-else=""><var>PRODUCTS[0]</var></span> =
+                <var>SUMS[0]</var>
+            </code></div>
+
+            <div><code>\qquad 
+                <span data-if="COEFFICIENT > 0"><var>new KhanUtil.Term(COEFFICIENT, X)</var> = <var>CONSTANT</var></span>
+                <span data-else=""><var>new KhanUtil.Term(-COEFFICIENT, X)</var> = <var>-CONSTANT</var></span>
+            </code></div>
+
+            <div data-if="COEFFICIENT !== 1"><code>\qquad <var>X</var> = <var>fraction(CONSTANT, COEFFICIENT, true, true)</var></code></div>
+
+        </div>
+    </div>
+</body>
+</html>
