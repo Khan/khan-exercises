@@ -127,11 +127,11 @@
             </code></div>
 
             <div><code>\qquad 
-                <span data-if="COEFFICIENT > 0"><var>new KhanUtil.Term(COEFFICIENT, X)</var> = <var>CONSTANT</var></span>
-                <span data-else=""><var>new KhanUtil.Term(-COEFFICIENT, X)</var> = <var>-CONSTANT</var></span>
+                <span data-if="PRODUCTS[0] instanceof KhanUtil.RationalExpression"><var>new KhanUtil.Term(COEFFICIENT, X)</var> = <var>CONSTANT</var></span>
+                <span data-else=""><var>-CONSTANT</var> = <var>new KhanUtil.Term(-COEFFICIENT, X)</var></span>
             </code></div>
 
-            <div data-if="COEFFICIENT !== 1"><code>\qquad <var>X</var> = <var>fraction(CONSTANT, COEFFICIENT, true, true)</var></code></div>
+            <div data-if="COEFFICIENT !== 1 || PRODUCTS[0] instanceof KhanUtil.Term"><code>\qquad <var>X</var> = <var>fraction(CONSTANT, COEFFICIENT, true, true)</var></code></div>
 
         </div>
     </div>
