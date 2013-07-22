@@ -342,6 +342,27 @@ $.extend(KhanUtil, {
             return this.terms[0].coefficient < 0;
         }
 
+        // Return the coefficient of term contain variable to the degree power
+        // e.g. for 5x^2 + x + 2, getCoefficentOfTerm('x', 2) will return 5
+        // getCoefficentOfTerm('x',) will return 1
+        // getCoefficentOfTerm() will return 2
+        this.getCoefficentOfTerm = function(variable, degree) {
+            var variableString = "";
+
+            if (variable !== undefined && degree !== 0) {
+                degree = degree || 1;
+                variableString += variable + degree;
+            }
+
+            for (var i = 0; i < this.terms.length; i++) {
+                if (this.terms[i].variableString === variableString) {
+                    return this.terms[i].coefficient;
+                }
+            }
+
+            return 0;
+        };
+
         // Return a new expression which is the sum of this one and the one passed in
         this.add = function(expression) {
             var terms = [];
