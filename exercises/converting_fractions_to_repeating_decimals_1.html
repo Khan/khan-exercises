@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers-arithmetic">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Converting fractions to  1-digit repeating decimals</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+    <div class="exercise">
+    <div class="vars">
+        <var id="ONES">randRange( 0, 3 )</var>
+        <var id="TENTHS">randRange( 1, 8 )</var>
+        <var id="SOLUTION">floorTo(9, (ONES + TENTHS / 9))</var>
+        <var id="N1">toFraction((ONES + TENTHS / 9))[0]</var>
+        <var id="D1">toFraction((ONES + TENTHS / 9))[1]</var>
+    </div>
+
+    <div class="problems">
+        <div>
+            <p class="question">Rewrite as a decimal, typing the first 10 digits.</p>
+            <p><code>\quad\large{<var>mixedFractionFromImproper( N1, D1 )</var>}</span></code></p>
+            <p class="solution" data-type="decimal"><var>SOLUTION</var></p>
+        </div>
+    </div>
+
+    <div class="hints">
+        <p>Use long division to get the decimal version of the fraction.</p>
+        <p data-if="N1 > D1"><code>\quad\large{<var>mixedFractionFromImproper( N1, D1 )</var>} \text{ or } \large{<var>fraction( N1, D1 )</var>}</span></code></p>
+        <p>This fraction represents the result of dividing <code><var>N1</var></code> by <code><var>D1</var></code>.</p>        
+        
+        <div class="graphie" id="numbers">
+            graph.divider = new Divider( D1, N1 * 10000, 0, 4 );
+            graph.divider.show();
+        </div>
+
+        <div class="graphie" data-update="numbers">
+            graph.divider.shiftDecimals();
+        </div>
+
+        <div class="graphie" data-each="12 times" data-update="numbers">
+            graph.divider.showHint();
+        </div>
+
+        <p>Notice the pattern, this does not look like it will ever end</p>
+        
+    </div>
+    </div>
+</body>
+</html>
