@@ -35,17 +35,38 @@
                     &amp;&amp; Q1 !== MEDIAN
                     &amp;&amp; MEDIAN !== Q3
                     &amp;&amp; Q3 !== MAX">
+                <var id="COUNT">randRange(8, 15)</var>
                 <var id="TGT_MEAN">randRange( 5, 10 )</var>
                 <var id="TGT_VARIANCE">randRange( 2, 20 )</var>
-                <var id="DATA">$.map( _.range(15), function() {
+                <var id="DATA">$.map( _.range(COUNT), function() {
                     return round( randGaussian() * sqrt( TGT_VARIANCE ) + TGT_MEAN );
                 })</var>
                 <var id="SORTED_DATA">DATA.slice().sort(function(a, b) { return a - b; })</var>
                 <var id="MIN">SORTED_DATA[0]</var>
-                <var id="Q1">SORTED_DATA[3]</var>
-                <var id="MEDIAN">SORTED_DATA[7]</var>
-                <var id="Q3">SORTED_DATA[11]</var>
-                <var id="MAX">SORTED_DATA[14]</var>
+                <var id="MAX">SORTED_DATA[COUNT - 1]</var>
+                <var id="MEDIAN">
+                    COUNT % 2 === 0 ?
+                        0.5 * (SORTED_DATA[COUNT / 2 - 1] + SORTED_DATA[COUNT / 2]) :
+                        SORTED_DATA[(COUNT - 1) / 2]
+                </var>
+                <var id="Q1">
+                    COUNT % 4 === 0 ?
+                        0.5 * (SORTED_DATA[COUNT / 4 - 1] + SORTED_DATA[COUNT / 4]) :
+                    COUNT % 4 === 1 ?
+                        0.5 * (SORTED_DATA[(COUNT - 1) / 4 - 1] + SORTED_DATA[(COUNT - 1) / 4]) :
+                    COUNT % 4 === 2 ?
+                        SORTED_DATA[(COUNT - 2) / 4] :
+                        SORTED_DATA[(COUNT - 3) / 4]
+                </var>
+                <var id="Q3">
+                    COUNT % 4 === 0 ?
+                        0.5 * (SORTED_DATA[COUNT - COUNT / 4 - 1] + SORTED_DATA[COUNT - COUNT / 4]) :
+                    COUNT % 4 === 1 ?
+                        0.5 * (SORTED_DATA[COUNT - (COUNT - 1) / 4 - 1] + SORTED_DATA[COUNT - (COUNT - 1) / 4]) :
+                    COUNT % 4 === 2 ?
+                        SORTED_DATA[COUNT - (COUNT - 2) / 4] :
+                        SORTED_DATA[COUNT - (COUNT - 3) / 4]
+                </var>
                 <var id="SORTER">createSorter()</var>
             </div>
 
@@ -73,69 +94,123 @@
                         label( [ tick, -2 ], tick, "below" );
                     }
 
-                    graph.q1 = addMovablePoint({ coord: [ 3.5, 0 ], snapX: 0.5, constraints: { constrainY: true }, normalStyle: { fill: KhanUtil.BLUE, stroke: KhanUtil.BLUE } });
-                    graph.q2top = addMovablePoint({ coord: [ 5.5, 1 ], visible: false });
-                    graph.q2mid = addMovablePoint({ coord: [ 5.5, 0 ], visible: false });
-                    graph.q2bot = addMovablePoint({ coord: [ 5.5, -1 ], visible: false });
+                    graph.q0 = addMovablePoint({ coord: [ 3.5, 0 ], snapX: 0.5, constraints: { constrainY: true }, normalStyle: { fill: KhanUtil.BLUE, stroke: KhanUtil.BLUE } });
+                    graph.moveQ0 = function(x) {
+                        graph.q0.setCoord([x, graph.q0.coord[1]]);
+                        graph.q0.updateLineEnds();
+                        if (x &gt;= graph.q1Line.coordA[0]) {
+                            graph.moveQ1(x + 0.5);
+                        }
+                    };
+
+                    graph.q1top = addMovablePoint({ coord: [ 5.5, 1 ], visible: false });
+                    graph.q1mid = addMovablePoint({ coord: [ 5.5, 0 ], visible: false });
+                    graph.q1bot = addMovablePoint({ coord: [ 5.5, -1 ], visible: false });
+                    graph.moveQ1 = function(x) {
+                        graph.q1top.setCoord([x, graph.q1top.coord[1]]);
+                        graph.q1mid.setCoord([x, graph.q1mid.coord[1]]);
+                        graph.q1bot.setCoord([x, graph.q1bot.coord[1]]);
+                        graph.q1top.updateLineEnds();
+                        graph.q1mid.updateLineEnds();
+                        graph.q1bot.updateLineEnds();
+                        if (x &lt;= graph.q0.coord[0]) {
+                            graph.moveQ0(x - 0.5);
+                        } else if (x &gt;= graph.medianLine.coordA[0]) {
+                            graph.moveM(x + 0.5);
+                        }
+                    };
+
                     graph.mtop = addMovablePoint({ coord: [ 7.5, 1 ], visible: false });
                     graph.mbot = addMovablePoint({ coord: [ 7.5, -1 ], visible: false });
+                    graph.moveM = function(x) {
+                        graph.mtop.setCoord([x, graph.mtop.coord[1]]);
+                        graph.mbot.setCoord([x, graph.mbot.coord[1]]);
+                        graph.mtop.updateLineEnds();
+                        graph.mbot.updateLineEnds();
+                        if (x &lt;= graph.q1Line.coordA[0]) {
+                            graph.moveQ1(x - 0.5);
+                        } else if (x &gt;= graph.q3Line.coordA[0]) {
+                            graph.moveQ3(x + 0.5);
+                        }
+                    };
+
                     graph.q3top = addMovablePoint({ coord: [ 9.5, 1 ], visible: false });
                     graph.q3mid = addMovablePoint({ coord: [ 9.5, 0 ], visible: false });
                     graph.q3bot = addMovablePoint({ coord: [ 9.5, -1 ], visible: false });
-                    graph.q4 = addMovablePoint({ coord: [ 11.5, 0 ], snapX: 0.5, constraints: { constrainY: true }, normalStyle: { fill: KhanUtil.BLUE, stroke: KhanUtil.BLUE } });
-
-                    graph.leftLine = addMovableLineSegment({ pointA: graph.q1, pointZ: graph.q2mid, fixed: true });
-                    graph.topLine = addMovableLineSegment({ pointA: graph.q2top, pointZ: graph.q3top, fixed: true });
-                    graph.botLine = addMovableLineSegment({ pointA: graph.q2bot, pointZ: graph.q3bot, fixed: true });
-                    graph.rightLine = addMovableLineSegment({ pointA: graph.q3mid, pointZ: graph.q4, fixed: true });
-
-                    graph.q2Line = addMovableLineSegment({ pointA: graph.q2bot, pointZ: graph.q2top, snapX: 0.5, constraints: { constrainY: true }, });
-                    graph.medianLine = addMovableLineSegment({ pointA: graph.mbot, pointZ: graph.mtop, snapX: 0.5, constraints: { constrainY: true }, });
-                    graph.q3Line = addMovableLineSegment({ pointA: graph.q3bot, pointZ: graph.q3top, snapX: 0.5, constraints: { constrainY: true }, });
-
-                    graph.q1.onMove = function( x, y ) {
-                        return x &lt; graph.q2mid.coord[0] &amp;&amp; x &gt;= 0;
-                    };
-
-                    graph.q4.onMove = function( x, y ) {
-                        return x &gt; graph.q3mid.coord[0] &amp;&amp; x &lt;= 15;
-                    };
-
-                    graph.q2Line.onMove = function( dX, dY ) {
-                        if ( this.coordA[0] &lt;= graph.q1.coord[0] || this.coordA[0] &gt;= graph.mtop.coord[0] ) {
-                            this.coordA[0] -= dX;
-                            this.coordZ[0] -= dX;
-                        }
-                        graph.q2top.setCoord([ this.coordA[0], graph.q2top.coord[1] ]);
-                        graph.q2mid.setCoord([ this.coordA[0], graph.q2mid.coord[1] ]);
-                        graph.q2bot.setCoord([ this.coordA[0], graph.q2bot.coord[1] ]);
-                        graph.q2top.updateLineEnds();
-                        graph.q2mid.updateLineEnds();
-                        graph.q2bot.updateLineEnds();
-                    };
-
-                    graph.medianLine.onMove = function( dX, dY ) {
-                        if ( this.coordA[0] &lt;= graph.q2mid.coord[0] || this.coordA[0] &gt;= graph.q3mid.coord[0] ) {
-                            this.coordA[0] -= dX;
-                            this.coordZ[0] -= dX;
-                        }
-                        graph.mtop.setCoord([ this.coordA[0], graph.mtop.coord[1] ]);
-                        graph.mbot.setCoord([ this.coordA[0], graph.mbot.coord[1] ]);
-                        graph.mtop.updateLineEnds();
-                        graph.mbot.updateLineEnds();
-                    };
-
-                    graph.q3Line.onMove = function( dX, dY ) {
-                        if ( this.coordA[0] &lt;= graph.mtop.coord[0] || this.coordA[0] &gt;= graph.q4.coord[0] ) {
-                            this.coordA[0] -= dX;
-                            this.coordZ[0] -= dX;
-                        }
-                        graph.q3top.setCoord([ this.coordA[0], graph.q3top.coord[1] ]);
-                        graph.q3mid.setCoord([ this.coordA[0], graph.q3mid.coord[1] ]);
-                        graph.q3bot.setCoord([ this.coordA[0], graph.q3bot.coord[1] ]);
+                    graph.moveQ3 = function(x) {
+                        graph.q3top.setCoord([x, graph.q3top.coord[1]]);
+                        graph.q3mid.setCoord([x, graph.q3mid.coord[1]]);
+                        graph.q3bot.setCoord([x, graph.q3bot.coord[1]]);
                         graph.q3top.updateLineEnds();
                         graph.q3mid.updateLineEnds();
                         graph.q3bot.updateLineEnds();
+                        if (x &lt;= graph.medianLine.coordA[0]) {
+                            graph.moveM(x - 0.5);
+                        } else if (x &gt;= graph.q4.coord[0]) {
+                            graph.moveQ4(x + 0.5);
+                        }
+                    };
+
+                    graph.q4 = addMovablePoint({ coord: [ 11.5, 0 ], snapX: 0.5, constraints: { constrainY: true }, normalStyle: { fill: KhanUtil.BLUE, stroke: KhanUtil.BLUE } });
+                    graph.moveQ4 = function(x) {
+                        graph.q4.setCoord([x, graph.q4.coord[1]]);
+                        graph.q4.updateLineEnds();
+                        if (x &lt;= graph.q3Line.coordA[0]) {
+                            graph.moveQ3(x - 0.5);
+                        }
+                    };
+
+                    graph.leftLine = addMovableLineSegment({ pointA: graph.q0, pointZ: graph.q1mid, fixed: true });
+                    graph.topLine = addMovableLineSegment({ pointA: graph.q1top, pointZ: graph.q3top, fixed: true });
+                    graph.botLine = addMovableLineSegment({ pointA: graph.q1bot, pointZ: graph.q3bot, fixed: true });
+                    graph.rightLine = addMovableLineSegment({ pointA: graph.q3mid, pointZ: graph.q4, fixed: true });
+
+                    graph.q1Line = addMovableLineSegment({ pointA: graph.q1bot, pointZ: graph.q1top, snapX: 0.5, constraints: { constrainY: true }, });
+                    graph.medianLine = addMovableLineSegment({ pointA: graph.mbot, pointZ: graph.mtop, snapX: 0.5, constraints: { constrainY: true }, });
+                    graph.q3Line = addMovableLineSegment({ pointA: graph.q3bot, pointZ: graph.q3top, snapX: 0.5, constraints: { constrainY: true }, });
+
+                    graph.q0.onMove = function(x, y) {
+                        if (x &lt; 0 || x &gt; 13) {
+                            return false;
+                        }
+                        graph.moveQ0(x);
+                    };
+
+                    graph.q4.onMove = function(x, y) {
+                        if (x &lt; 2 || x &gt; 15) {
+                            return false;
+                        }
+                        graph.moveQ4(x);
+                    };
+
+                    graph.q1Line.onMove = function( dX, dY ) {
+                        var newX = this.coordA[0];
+                        var oldX = newX - dX;
+                        if (newX &lt; 0.5 || newX &gt; 13.5) {
+                            graph.moveQ1(oldX);
+                            return;
+                        }
+                        graph.moveQ1(newX);
+                    };
+
+                    graph.medianLine.onMove = function( dX, dY ) {
+                        var newX = this.coordA[0];
+                        var oldX = newX - dX;
+                        if (newX &lt; 1 || newX &gt; 14) {
+                            graph.moveM(oldX);
+                            return;
+                        }
+                        graph.moveM(newX);
+                    };
+
+                    graph.q3Line.onMove = function( dX, dY ) {
+                        var newX = this.coordA[0];
+                        var oldX = newX - dX;
+                        if (newX &lt; 1.5 || newX &gt; 14.5) {
+                            graph.moveQ3(oldX);
+                            return;
+                        }
+                        graph.moveQ3(newX);
                     };
 
                 </div>
@@ -145,8 +220,8 @@
                     Drag each part of the box-and-whiskers plot left and right so it correctly represents the data.
                 </div>
                 <div class="guess">[
-                    graph.q1.coord[0],
-                    graph.q2Line.coordA[0],
+                    graph.q0.coord[0],
+                    graph.q1Line.coordA[0],
                     graph.medianLine.coordA[0],
                     graph.q3Line.coordA[0],
                     graph.q4.coord[0]
@@ -155,22 +230,14 @@
                     if ( _.isEqual( guess, [ 3.5, 5.5, 7.5, 9.5, 11.5 ] ) ) {
                         return "";
                     }
-                    return _.isEqual( guess, [ abs( MIN ), Q1, MEDIAN, Q3, MAX ] );
+                    return _.isEqual( guess, [abs(MIN), Q1, MEDIAN, Q3, MAX] );
                 </div>
                 <div class="show-guess">
-                    graph.q1.setCoord([ guess[ 0 ], graph.q1.coord[ 1 ] ]);
-                    graph.q2top.setCoord([ guess[ 1 ], graph.q2top.coord[ 1 ] ]);
-                    graph.q2mid.setCoord([ guess[ 1 ], graph.q2mid.coord[ 1 ] ]);
-                    graph.q2bot.setCoord([ guess[ 1 ], graph.q2bot.coord[ 1 ] ]);
-                    graph.mtop.setCoord([ guess[ 2 ], graph.mtop.coord[ 1 ] ]);
-                    graph.mbot.setCoord([ guess[ 2 ], graph.mbot.coord[ 1 ] ]);
-                    graph.q3top.setCoord([ guess[ 3 ], graph.q3top.coord[ 1 ] ]);
-                    graph.q3mid.setCoord([ guess[ 3 ], graph.q3mid.coord[ 1 ] ]);
-                    graph.q3bot.setCoord([ guess[ 3 ], graph.q3bot.coord[ 1 ] ]);
-                    graph.q4.setCoord([ guess[ 4 ], graph.q4.coord[ 1 ] ]);
-                    $.each([ graph.q1, graph.q2top, graph.q2mid, graph.q2bot, graph.mtop, graph.mbot, graph.q3top, graph.q3mid, graph.q3bot, graph.q4 ], function() {
-                        this.updateLineEnds();
-                    });
+                    graph.moveQ0(guess[0]);
+                    graph.moveQ1(guess[1]);
+                    graph.moveM(guess[2]);
+                    graph.moveQ3(guess[3]);
+                    graph.moveQ4(guess[4]);
                 </div>
             </div>
         </div>
@@ -202,13 +269,14 @@
             </div>
         </div>
 
-        <div>
+        <div data-if="COUNT % 2 === 1">
             <p>Plot the median (middle number):</p>
             <p><code>
-                \qquad \large{<var>SORTED_DATA.slice( 0, 7 ).join( ", " )</var>,
+                \qquad \large{<var>SORTED_DATA.slice( 0, (COUNT - 1) / 2 ).join( ", " )</var>,
                 \color{<var>PINK</var>}{<var>MEDIAN</var>},
-                <var>SORTED_DATA.slice( 8 ).join( ", " )</var>}
+                <var>SORTED_DATA.slice( (COUNT + 1) / 2 ).join( ", " )</var>}
             </code></p>
+            <p>Since the data has an odd number of elements, we exclude the median from the list when calculating the quartiles.</p>
             <div class="graphie" data-update="boxplot">
                 style({ stroke: PINK, strokeWidth: 2 }, function() {
                     line( [ MEDIAN, -5.5 ], [ MEDIAN, -3.5 ] );
@@ -216,12 +284,29 @@
             </div>
         </div>
 
-        <div>
+        <div data-else>
+            <p>Plot the median (middle number):</p>
+            <p><code>
+                \qquad \large{<var>SORTED_DATA.slice( 0, COUNT / 2 - 1 ).join( ", " )</var>,
+                \color{<var>PINK</var>}{<var>SORTED_DATA[COUNT / 2 - 1]</var>},
+                \color{<var>PINK</var>}{<var>SORTED_DATA[COUNT / 2]</var>},
+                <var>SORTED_DATA.slice( COUNT / 2 + 1 ).join( ", " )</var>}
+            </code></p>
+            <p>The median is the average of the middle numbers, so it's equal to <code>\dfrac{<var>SORTED_DATA[COUNT / 2 - 1]</var> + <var>SORTED_DATA[COUNT / 2]</var>}{2} = <var>MEDIAN</var></code>.
+            <p>Since the data has an even number of elements, we include the middle elements in the list when calculating the quartiles.</p>
+            <div class="graphie" data-update="boxplot">
+                style({ stroke: PINK, strokeWidth: 2 }, function() {
+                    line( [ MEDIAN, -5.5 ], [ MEDIAN, -3.5 ] );
+                });
+            </div>
+        </div>
+
+        <div data-if="COUNT % 4 >= 2">
             <p>Plot the first quartile (halfway between the smallest number and the middle number):</p>
             <p><code>
-                \qquad \large{<var>SORTED_DATA.slice( 0, 3 ).join( ", " )</var>,
-                \color{<var>PINK</var>}{<var>SORTED_DATA[3]</var>},
-                <var>SORTED_DATA.slice( 4 ).join( ", " )</var>}
+                \qquad \large{<var>SORTED_DATA.slice( 0, floor(COUNT / 4) ).join( ", " )</var>,
+                \color{<var>PINK</var>}{<var>Q1</var>},
+                <var>SORTED_DATA.slice( floor(COUNT / 4) + 1 ).join( ", " )</var>}
             </code></p>
             <div class="graphie" data-update="boxplot">
                 style({ stroke: PINK, strokeWidth: 2 }, function() {
@@ -230,13 +315,45 @@
             </div>
         </div>
 
-        <div>
+        <div data-else>
+            <p>Plot the first quartile (halfway between the smallest number and the middle number):</p>
+            <p><code>
+                \qquad \large{<var>SORTED_DATA.slice( 0, floor(COUNT / 4) - 1 ).join( ", " )</var>,
+                \color{<var>PINK</var>}{<var>SORTED_DATA[floor(COUNT / 4) - 1]</var>},
+                \color{<var>PINK</var>}{<var>SORTED_DATA[floor(COUNT / 4)]</var>},
+                <var>SORTED_DATA.slice( floor(COUNT / 4) + 1 ).join( ", " )</var>}
+            </code></p>
+            <p>The first quartile is <code>\dfrac{<var>SORTED_DATA[floor(COUNT / 4) - 1]</var> + <var>SORTED_DATA[floor(COUNT / 4)]</var>}{2} = <var>Q1</var></code>.</p>
+            <div class="graphie" data-update="boxplot">
+                style({ stroke: PINK, strokeWidth: 2 }, function() {
+                    line( [ Q1, -5.5 ], [ Q1, -3.5 ] );
+                });
+            </div>
+        </div>
+
+        <div data-if="COUNT % 4 >= 2">
             <p>Plot the third quartile (halfway between the middle number and the largest number):</p>
             <p><code>
-                \qquad \large{<var>SORTED_DATA.slice( 0, 11 ).join( ", " )</var>,
-                \color{<var>PINK</var>}{<var>SORTED_DATA[11]</var>},
-                <var>SORTED_DATA.slice( 12 ).join( ", " )</var>}
+                \qquad \large{<var>SORTED_DATA.slice( 0, COUNT - floor(COUNT / 4)).join( ", " )</var>,
+                \color{<var>PINK</var>}{<var>SORTED_DATA[COUNT - floor(COUNT / 4)]</var>},
+                <var>SORTED_DATA.slice( COUNT - floor(COUNT / 4) + 1 ).join( ", " )</var>}
             </code></p>
+            <div class="graphie" data-update="boxplot">
+                style({ stroke: PINK, strokeWidth: 2 }, function() {
+                    line( [ Q3, -5.5 ], [ Q3, -3.5 ] );
+                });
+            </div>
+        </div>
+
+        <div data-else>
+            <p>Plot the third quartile (halfway between the middle number and the largest number):</p>
+            <p><code>
+                \qquad \large{<var>SORTED_DATA.slice( 0, COUNT - floor(COUNT / 4) - 1).join( ", " )</var>,
+                \color{<var>PINK</var>}{<var>SORTED_DATA[COUNT - floor(COUNT / 4) - 1]</var>},
+                \color{<var>PINK</var>}{<var>SORTED_DATA[COUNT - floor(COUNT / 4)]</var>},
+                <var>SORTED_DATA.slice( COUNT - floor(COUNT / 4) + 1 ).join( ", " )</var>}
+            </code></p>
+            <p>The third quartile is <code>\dfrac{<var>SORTED_DATA[COUNT - floor(COUNT / 4) - 1]</var> + <var>SORTED_DATA[COUNT - floor(COUNT / 4)]</var>}{2} = <var>Q3</var></code>.</p>
             <div class="graphie" data-update="boxplot">
                 style({ stroke: PINK, strokeWidth: 2 }, function() {
                     line( [ Q3, -5.5 ], [ Q3, -3.5 ] );
