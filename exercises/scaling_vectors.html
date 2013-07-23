@@ -27,7 +27,7 @@
     <div class="vars" data-ensure="( BX !== CX || BY !== CY ) &amp;&amp; ( BX !== DX || BY !== DY ) &amp;&amp; ( BX !== EX || BY !== EY ) &amp;&amp; ( CX !== DX || CY !== DY ) &amp;&amp; ( CX !== EX || CY !== EY ) &amp;&amp; ( DX !== EX || DY !== EY ) &amp;&amp; !vectorsIntersect( AOX, AOY, AX * AF, AY * AF, BOX, BOY, BX * BF, BY * BF ) &amp;&amp; !vectorsIntersect( AOX, AOY, AX * AF, AY * AF, COX, COY, CX * CF, CY * CF ) &amp;&amp; !vectorsIntersect( AOX, AOY, AX * AF, AY * AF, DOX, DOY, DX * DF, DY * DF ) &amp;&amp; !vectorsIntersect( AOX, AOY, AX, AY, EOX, EOY, EX * EF, EY * EF ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX * BF, BY * BF, COX, COY, CX * CF, CY * CF ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX * BF, BY * BF, DOX, DOY, DX * DF, DY * DF ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX * BF, BY * BF, EOX, EOY, EX * EF, EY * EF ) &amp;&amp; !vectorsIntersect( COX, COY, CX * CF, CY * CF, DOX, DOY, DX * DF, DY * DF ) &amp;&amp; !vectorsIntersect( COX, COY, CX * CF, CY * CF, EOX, EOY, EX * EF, EY * EF ) &amp;&amp; !vectorsIntersect( DOX, DOY, DX * DF, DY * DF, EOX, EOY, EX * EF, EY * EF )">
         <var id="AX">randRangeNonZero( -3, 3 )</var>
         <var id="AY">randRangeNonZero( -3, 3 )</var>
-        <var id="SA" data-ensure="abs( SA * AX ) &lt; 8 &amp;&amp; abs( SA * AY ) &lt; 8">randRangeNonZero( -1, 1 ) * randRange( 2, 3 )</var>
+        <var id="SA" data-ensure="abs( SA * AX ) &lt; 8 &amp;&amp; abs( SA * AY ) &lt; 8">randFromArray([-1, -0.5, 0.5, -2, 2, -3, 3])</var>
 
         <var id="BX">randRangeNonZero( -7, 7 )</var>
         <var id="BY">randRangeNonZero( -7, 7 )</var>
