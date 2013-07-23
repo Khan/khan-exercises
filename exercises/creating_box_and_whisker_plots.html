@@ -64,8 +64,8 @@
                     COUNT % 4 === 1 ?
                         0.5 * (SORTED_DATA[COUNT - (COUNT - 1) / 4 - 1] + SORTED_DATA[COUNT - (COUNT - 1) / 4]) :
                     COUNT % 4 === 2 ?
-                        SORTED_DATA[COUNT - (COUNT - 2) / 4] :
-                        SORTED_DATA[COUNT - (COUNT - 3) / 4]
+                        SORTED_DATA[COUNT - 1 - (COUNT - 2) / 4] :
+                        SORTED_DATA[COUNT - 1 - (COUNT - 3) / 4]
                 </var>
                 <var id="SORTER">createSorter()</var>
             </div>
@@ -334,9 +334,9 @@
         <div data-if="COUNT % 4 >= 2">
             <p>Plot the third quartile (halfway between the middle number and the largest number):</p>
             <p><code>
-                \qquad \large{<var>SORTED_DATA.slice( 0, COUNT - floor(COUNT / 4)).join( ", " )</var>,
-                \color{<var>PINK</var>}{<var>SORTED_DATA[COUNT - floor(COUNT / 4)]</var>},
-                <var>SORTED_DATA.slice( COUNT - floor(COUNT / 4) + 1 ).join( ", " )</var>}
+                \qquad \large{<var>SORTED_DATA.slice( 0, COUNT - 1 - floor(COUNT / 4)).join( ", " )</var>,
+                \color{<var>PINK</var>}{<var>SORTED_DATA[COUNT - 1 - floor(COUNT / 4)]</var>},
+                <var>SORTED_DATA.slice( COUNT - floor(COUNT / 4) ).join( ", " )</var>}
             </code></p>
             <div class="graphie" data-update="boxplot">
                 style({ stroke: PINK, strokeWidth: 2 }, function() {
