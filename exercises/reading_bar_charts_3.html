@@ -34,7 +34,8 @@
             </div>
         </div>
         <div class="problem">
-            <p>Use the following graph to answer the question below:</p>
+            <p>Use the graph to answer the question:</p>
+            <p id="qn"></p>
             <div class="graphie" id="barchart">
                 init({
                     range: [ [ -2, NUM_STUDENTS * 3 + 2 ], [ -3, 12 ] ],
@@ -89,7 +90,7 @@
                     <var id="TEST">[ $._("midterm"), $._("final exam") ][ COLUMN ]</var>
                     <var id="AVERAGE">COLUMN === 0 ? mean( MIDTERM ) : mean( FINAL )</var>
                 </div>
-                <p class="question">What was the average student score for the <var>TEST</var>?</p>
+                <p id="qn" class="question">What was the average student score for the <var>TEST</var>?</p>
 
                 <div class="solution" data-forms="integer"><var>AVERAGE</var></div>
 
@@ -133,7 +134,7 @@
                     <var id="ANSWERS">[$._("Midterm"), $._("Final exam"), $._("Same on both")]</var>
                     <var id="ANSWER">MIDTERM_AVG &gt; FINAL_AVG ? 0 : ( MIDTERM_AVG &lt; FINAL_AVG ? 1 : 2 )</var>
                 </div>
-                <p class="question">On average, did the students do better on the midterm or the final exam?</p>
+                <p id="qn" class="question">On average, did the students do better on the midterm or the final exam?</p>
 
                 <div class="solution"><var>ANSWERS[ANSWER]</var></div>
                 <ul class="choices" data-category="true">
@@ -198,7 +199,7 @@
                     <var id="TEST">[ $._("midterm"), $._("final exam") ][ COLUMN ]</var>
                     <var id="MEDIAN">COLUMN === 0 ? median( MIDTERM ) : median( FINAL )</var>
                 </div>
-                <p class="question">What was the median score for the <var>TEST</var>?</p>
+                <p id="qn" class="question">What was the median score for the <var>TEST</var>?</p>
 
                 <div class="solution"><var>MEDIAN</var></div>
 
@@ -249,7 +250,7 @@
                     <var id="TEST">[ $._("midterm"), $._("final exam") ][ COLUMN ]</var>
                     <var id="MODE">COLUMN === 0 ? mode( MIDTERM ) : mode( FINAL )</var>
                 </div>
-                <p class="question">What was the mode for the <var>TEST</var> scores?</p>
+                <p id="qn" class="question">What was the mode for the <var>TEST</var> scores?</p>
 
                 <div class="solution" data-forms="integer"><var>MODE</var></div>
 
@@ -301,7 +302,7 @@
                     <var id="MAX">COLUMN === 0 ? Math.max.apply( null, MIDTERM ) : Math.max.apply( null, FINAL )</var>
                     <var id="RANGE">MAX - MIN</var>
                 </div>
-                <p class="question">What is the range of the <var>TEST</var> scores?</p>
+                <p id="qn" class="question">What is the range of the <var>TEST</var> scores?</p>
 
                 <div class="solution" data-forms="integer"><var>RANGE</var></div>
 
@@ -347,7 +348,7 @@
                     <var id="MAX">COLUMN === 0 ? Math.max.apply( null, MIDTERM ) : Math.max.apply( null, FINAL )</var>
                     <var id="MIDRANGE">(MAX + MIN) / 2</var>
                 </div>
-                <p class="question">What is the midrange of the <var>TEST</var> scores?</p>
+                <p id="qn" class="question">What is the midrange of the <var>TEST</var> scores?</p>
 
                 <div class="solution"><var>MIDRANGE</var></div>
 
