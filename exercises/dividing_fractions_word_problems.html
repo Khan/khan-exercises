@@ -294,20 +294,12 @@
                 </div>
             </div>
 
-
             <div id="workout">
-                <div class="vars" data-ensure="isInt( SOLUTION ) &amp;&amp; getGCD( D, N ) === 1 &amp;&amp; getGCD ( A, B ) ===1">
-                    <var id="D">randRange( 7, 20 )</var>
-                    <var id="N">randRange( 2, D - 1 )</var>
-                    <var id="B">randRange( 3, 6 )</var>
-                    <var id="A">randRange( 2, B - 1 )</var>
-                    <var id="GCD1">getGCD( N, A )</var>
-                    <var id="SIMP_A">A / GCD1</var>
-                    <var id="SIMP_N">N / GCD1</var>
-                    <var id="GCD2">getGCD( D, B )</var>
-                    <var id="SIMP_B">B / GCD2</var>
-                    <var id="SIMP_D">D / GCD2</var>
-                    <var id="SOLUTION">((A*D)/(B*N)) </var>
+                <div class="vars">
+                    <var id="D">randRange(6, 15)</var>
+                    <var id="N">1</var>
+                    <var id="HOURS">randRange(1, 3)</var>
+                    <var id="SOLUTION">HOURS * D</var>
                     <var id="HOUR">$._("hour")</var>
                     <var id="HOUR_PER_EXERCISE">$._("hour per exercise")</var>
                     <var id="NUMBER_OF_EXERCISES">$._("number of exercises")</var>
@@ -315,11 +307,11 @@
                 </div>
 
                 <p class="problem" data-if="isMale(1)">
-                    <var>person(1)</var> works out for <code>\frac{<var>A</var>}{<var>B</var>}</code> of an hour every day. To keep his
+                    <var>person(1)</var> works out for <code><var>HOURS</var></code> <var>HOUR</var> every day. To keep his
                     exercise routines interesting, he includes different types of exercises, such as
                     <var>plural_form(exercise(1))</var> and <var>plural_form(exercise(2))</var>, in each workout.
                 </p><p class="problem" data-else="">
-                    <var>person(1)</var> works out for <code>\frac{<var>A</var>}{<var>B</var>}</code> of an hour every day. To keep her
+                    <var>person(1)</var> works out for <code><var>HOURS</var></code> <var>HOUR</var> every day. To keep her
                     exercise routines interesting, she includes different types of exercises, such as
                     <var>plural_form(exercise(1))</var> and <var>plural_form(exercise(2))</var>, in each workout.
                 </p>
@@ -334,58 +326,27 @@
                 <div class="hints">
                     <p>
                         To find out how many types of exercise <var>person(1)</var> could do in each workout, divide
-                        the total amount of exercise time (<code>\frac{<var>A</var>}{<var>B</var>}</code> of an hour) by the amount of
+                        the total amount of exercise time (<code><var>HOURS</var></code> <var>HOUR</var>) by the amount of
                         time each exercise type takes (<code>\frac{1}{<var>D</var>}</code> of an hour).
                     </p>
                     <p><code>
-                        \dfrac{\red{\dfrac{<var>A</var>}{<var>B</var>} \text{ <var>HOUR</var>}}}
+                        \dfrac{\red{<var>HOURS</var> \text{ <var>HOUR</var>}}}
                         {\color{<var>BLUE</var>}{\dfrac{1}{<var>D</var>} \text{ <var>HOUR_PER_EXERCISE</var>}}} = \green{\text{ <var>NUMBER_OF_EXERCISES</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
                     <p>
-                        The reciprocal of <code class="hint_blue">\dfrac{1}{<var>D</var>} \text{ <var>HOUR_PER_EXERCISE</var>}</code>
-                        is <code class="hint_green"><var>D</var> \text{ <var>EXERCISES_PER_HOUR</var>}</code>.
+                        The reciprocal of <code>\blue{\dfrac{1}{<var>D</var>} \text{ <var>HOUR_PER_EXERCISE</var>}}</code>
+                        is <code>\green{<var>D</var> \text{ <var>EXERCISES_PER_HOUR</var>}}</code>.
                     </p>
                     <p><code>
-                        \red{\dfrac{<var>A</var>}{<var>B</var>}\text{ <var>HOUR</var>}} \times
+                        \red{<var>HOURS</var>\text{ <var>HOUR</var>}} \times
                         \green{<var>D</var> \text{ <var>EXERCISES_PER_HOUR</var>}}
                         = \green{\text{ <var>NUMBER_OF_EXERCISES</var>}}
                     </code></p>
                     <p><code>
-                        \dfrac{\red{<var>A</var>} \cdot \green{<var>D</var>}}
-                        {\red{<var>B</var>} \cdot \green{1}}
-                        = \green{\text{ <var>NUMBER_OF_EXERCISES</var>}}
+                        \phantom{<var>HOURS</var>\text{ <var>HOUR</var>} \times <var>D</var> \text{ <var>EXERCISES_PER_HOUR</var>}}
+                        = \green{<var>D * HOURS</var> \text{ exercises}}
                     </code></p>
-                    <div data-if="GCD1 !== 1">
-                        <p>
-                            Reduce terms with common factors by dividing the <code><var>A</var></code> in the numerator
-                            and the <code>1</code> in the denominator by <code><var>GCD1</var></code>:
-                        </p>
-                        <p><code>
-                            \dfrac{\red{\cancel{<var>A</var>}^{<var>SIMP_A</var>}} \cdot \green{<var>D</var>}}
-                            {\red{<var>B</var>} \cdot \green{\cancel{1}^{<var>SIMP_N</var>}}}
-                            = \green{\text{ <var>NUMBER_OF_EXERCISES</var>}}
-                        </code></p>
-                    </div>
-                    <div data-if="GCD2 !== 1">
-                        <p>
-                            Reduce terms with common factors by dividing the <code><var>D</var></code> in the numerator
-                            and the <code><var>B</var></code> in the denominator by <code><var>GCD2</var></code>:
-                        </p>
-                        <p><code>
-                            \dfrac{\red{<var>SIMP_A</var>} \cdot \green{\cancel{<var>D</var>}^{<var>SIMP_D</var>}}}
-                            {\red{\cancel{<var>B</var>}^{<var>SIMP_B</var>}} \cdot \green{<var>SIMP_N</var>}}
-                            = \green{\text{ <var>NUMBER_OF_EXERCISES</var>}}
-                        </code></p>
-                    </div>
-                    <div>
-                        <p>Simplify:</p>
-                        <p><code>
-                            \dfrac{\red{<var>SIMP_A</var>} \cdot \green{<var>SIMP_D</var>}}
-                            {\red{<var>SIMP_B</var>} \cdot \green{<var>SIMP_N</var>}}
-                            = \green{<var>SOLUTION</var>}
-                        </code></p>
-                    </div>
                     <p><var>person(1)</var> can do <var>SOLUTION</var> different types of exercise per workout.</p>
                 </div>
             </div>
