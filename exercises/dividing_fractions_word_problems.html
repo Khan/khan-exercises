@@ -10,7 +10,7 @@
         <div class="problems">
 
             <div id="candy">
-                <div class="vars" data-ensure="isInt( SOLUTION )">
+                <div class="vars">
                     <var id="D">randRange(3, 8)</var>
                     <var id="PIECES">randRange(1, 5)</var>
                     <var id="SOLUTION">PIECES * D</var>
@@ -37,9 +37,9 @@
                     <var>person(1)</var> decided to cut the candy bars into pieces so that each person could have
                     <code>\frac{1}{<var>D</var>}</code> of a candy bar.
                 </p>
+                
                 <p class="question" data-if="isMale(1)">After cutting up the candy bars, how many friends could <var>person(1)</var> share his candy with?</p>
                 <p class="question" data-else="">After cutting up the candy bars, how many friends could <var>person(1)</var> share her candy with?</p>
-
                 <div class="solution"><var>SOLUTION</var></div>
 
                 <div class="hints">
@@ -89,7 +89,8 @@
                         <var>person(1)</var> just found beautiful yarn {for <var>5 * randRange(1, 5)</var> percent off }at his favorite yarn store.
                     </span>
                     He can make 1 scarf from <code>\frac{1}{<var>D</var>}</code> of a ball of yarn.
-                </p><p class="problem" data-else="">
+                </p>
+                <p class="problem" data-else="">
                     <span class="spin">
                         <var>person(1)</var> just found beautiful yarn {for <var>5 * randRange(1, 5)</var> percent off }at her favorite yarn store.
                     </span>
@@ -98,7 +99,6 @@
 
                 <p class="question" data-if="isMale(1)">If <var>person(1)</var> buys <var>YARN</var> balls of yarn, how many scarves can he make?</p>
                 <p class="question" data-else="">If <var>person(1)</var> buys <var>YARN</var> balls of yarn, how many scarves can she make?</p>
-
                 <div class="solution"><var>SOLUTION</var></div>
 
                 <div class="hints">
@@ -151,9 +151,12 @@
                     of a can of paint per room.
                 </p>
 
-                <p class="question" data-if="isMale(1)">If <var>person(1)</var> had <var>PAINT</var> cans of paint, how many rooms could he paint?</p>
-                <p class="question" data-else="">If <var>person(1)</var> had <var>PAINT</var> cans of paint, how many rooms could she paint?</p>
-
+                <p class="question" data-if="isMale(1)">
+                    If <var>person(1)</var> had <var>PAINT</var> <span data-if="PAINT > 1">cans</span><span data-else>can</span> of paint, how many rooms could he paint?
+                </p>
+                <p class="question" data-else="">
+                    If <var>person(1)</var> had <var>PAINT</var> <span data-if="PAINT > 1">cans</span><span data-else>can</span> of paint, how many rooms could she paint?
+                </p>
                 <div class="solution"><var>SOLUTION</var></div>
 
                 <div class="hints">
@@ -188,7 +191,7 @@
                     <var id="D">randRange(4, 10)</var>
                     <var id="MILES">randRange(1, 3)</var>
                     <var id="SOLUTION">MILES * D</var>
-                    <var id="TIME">fraction(randRange(1,3), randRange(3,6))</var>
+                    <var id="TIME">fraction(randRange(1,3), randRange(4,6), true, true, true)</var>
                     <var id="MILE">$._("miles")</var>
                     <var id="MILE_PER_SWIMMER">$._("mile per swimmer")</var>
                     <var id="NUMBER_OF_SWIMMERS">$._("number of swimmers")</var>
@@ -198,24 +201,23 @@
                 <div class="problem">
                     <p>As the swim coach at <var>school(1)</var>, <var>person(1)</var> selects which athletes will participate in the state-wide swim relay.</p>
                     <p>
-                        The relay team swims <code><var>MILES</var></code> <var>MILE</var> in total, with each team
-                        member responsible for swimming <code>\dfrac{1}{<var>D</var>}</code> of a mile.
+                        The relay team swims <code><var>MILES</var></code> <span data-if="MILES > 1">miles</span><span data-else="">mile</span>
+                        in total, with each team member responsible for swimming <code>\frac{1}{<var>D</var>}</code> of a mile.
                         The team must complete the swim in <code><var>TIME</var></code> of an hour.
                     </p>
                 </div>
 
                 <p class="question">How many swimmers does <var>person(1)</var> need on the relay team?</p>
-
                 <div class="solution"><var>SOLUTION</var></div>
 
                 <div class="hints">
                     <p>
                         To find out how many swimmers <var>person(1)</var> needs on the team, divide the total distance
-                        (<code><var>MILES</var></code> <var>MILE</var>) by the distance each team member will swim
-                        (<code>\frac{1}{<var>D</var>}</code> of a mile).
+                        (<code><var>MILES</var></code> <span data-if="MILES > 1">miles</span><span data-else="">mile</span>)
+                        by the distance each team member will swim (<code>\frac{1}{<var>D</var>}</code> of a mile).
                     </p>
                     <p><code>
-                        \dfrac{\red{<var>MILES</var> \text{ <var>MILE</var>}}}
+                        \dfrac{\red{<var>MILES</var> \text{ <span data-if="MILES > 1">miles</span><span data-else="">mile</span>}}}
                         {\color{<var>BLUE</var>}{\dfrac{1}{<var>D</var>} \text{ <var>MILE_PER_SWIMMER</var>}}} = \green{\text{ <var>SWIMMERS_PER_MILE</var>}}
                     </code></p>
                     <p>Dividing by a fraction is the same as multiplying by the reciprocal.</p>
@@ -224,13 +226,12 @@
                         is <code>\green{<var>D</var> \text{ <var>SWIMMERS_PER_MILE</var>}}</code>.
                     </p>
                     <p><code>
-                        \red{<var>MILES</var>\text{ <var>MILE</var>}} \times
-                        \green{<var>D</var> \text{ <var>SWIMMERS_PER_MILE</var>}}
-                        = \green{\text{ <var>NUMBER_OF_SWIMMERS</var>}}
+                        \red{<var>MILES</var> \text{ <span data-if="MILES > 1">miles</span><span data-else="">mile</span>}} \times
+                        \green{<var>D</var> \text{ <var>SWIMMERS_PER_MILE</var>}} = \green{\text{ <var>NUMBER_OF_SWIMMERS</var>}}
                     </code></p>
                     <p><code>
-                        \phantom{<var>MILES</var>\text{ <var>MILE</var>} \times <var>D</var> \text{ <var>SWIMMERS_PER_MILE</var>}}
-                        = \green{<var>D * MILES</var> \text{ <var>NUMBER_OF_SWIMMERS</var>}}
+                        \phantom{<var>MILES</var>\text{ <span data-if="MILES > 1">miles</span><span data-else="">mile</span>} \times
+                        <var>D</var> \text{ <var>SWIMMERS_PER_MILE</var>}} = \green{<var>D * MILES</var> \text{ swimmers}}
                     </code></p>
 
                     <p data-if="isMale(1)"><var>person(1)</var> needs <var>SOLUTION</var> swimmers on his team.</p>
@@ -320,7 +321,6 @@
                     If each type of exercise takes <code>\frac{1}{<var>D</var>}</code> of an hour, how many different types of
                     exercise can <var>person(1)</var> do in each workout?
                 </p>
-
                 <div class="solution"><var>SOLUTION</var></div>
 
                 <div class="hints">
