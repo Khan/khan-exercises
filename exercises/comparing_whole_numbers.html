@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Comparing whole numbers</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">Deleting this div breaks the exercise for some reason</div>
+
+        <div class="problems">
+            <div id="2-diff-digits">
+                <div class="vars">
+                    <var id="N1">randRange(10, 99)</var>
+                    <var id="N2" data-ensure="N1 !== N2">randRange(10, 99)</var>
+                    <var id="D1">digits(N1)</var>
+                    <var id="D2">digits(N2)</var>
+                    <var id="SOLUTION">N1 &lt; N2 ? "&lt;" : "&gt;"</var>
+                </div>
+            </div>
+
+            <div id="2-same-digits">
+                <div class="vars">
+                    <var id="A">randRange(1, 9)</var>
+                    <var id="B" data-ensure="A !== B">randRange(1, 9)</var>
+                    <var id="N1">A*10 + B</var>
+                    <var id="N2">B*10 + A</var>
+                    <var id="D1">[B, A]</var>
+                    <var id="D2">[A, B]</var>
+                    <var id="SOLUTION">N1 &lt; N2 ? "&lt;" : "&gt;"</var>
+                </div>
+            </div>
+
+            <div id="3-same-digits">
+                <div class="vars">
+                    <var id="A">randRange(1, 9)</var>
+                    <var id="B" data-ensure="A !== B">randRange(1, 9)</var>
+                    <var id="C">randRange(0, 9)</var>
+                    <var id="N1">rand(2) ? A*100 + B*10 + C : A*100 + C*10 + B</var>
+                    <var id="N2">rand(2) ? B*100 + A*10 + C : B*100 + C*10 + A</var>
+                    <var id="D1">digits(N1)</var>
+                    <var id="D2">digits(N2)</var>
+                    <var id="SOLUTION">N1 &lt; N2 ? "&lt;" : "&gt;"</var>
+                </div>
+            </div>
+        </div>
+
+        <div class="problem">
+            <p>Fill in the blank.</p>
+            <p><code>\large{<var>N1</var>}</code> ____ <code>\large{<var>N2</var>}</code></p>
+        </div>
+
+        <p class="solution"><code><var>SOLUTION</var></code></p>
+        <ul class="choices" data-category="true">
+            <li><code>&lt;</code></li>
+            <li><code>&gt;</code></li>
+        </ul>
+
+        <div class="hints">
+            <div>
+                <div><code>\large{&lt;}</code> means "less than".</div>
+                <div><code>\large{&gt;}</code> means "greater than".</div>
+            </div>
+
+            <p>
+                <code>\large{<span data-if="D1.length === 3">\green{<var>D1[2]</var>}</span>\blue{<var>D1[1]</var>}\red{<var>D1[0]</var>}}</code> represents
+                <code><span data-if="D1.length === 3">\green{\large{<var>D1[2]</var> \times 100}} + </span>
+                \blue{\large{<var>D1[1]</var> \times 10}} + \red{\large{<var>D1[0]</var>}}</code>
+            </p>
+            <p>
+                <code>\large{<span data-if="D2.length === 3">\green{<var>D2[2]</var>}</span>\blue{<var>D2[1]</var>}\red{<var>D2[0]</var>}}</code> represents
+                <code><span data-if="D2.length === 3">\green{\large{<var>D2[2]</var> \times 100}} + </span>
+                \blue{\large{<var>D2[1]</var> \times 10}} + \red{\large{<var>D2[0]</var>}}</code>
+            </p>
+            <div data-if="D1.length === 3">
+                <p data-if="N1 > N2"><code>\large{<var>N1</var>}</code> is bigger than <code>\large{<var>N2</var>}</code> because it has more hundreds.</p>
+                <p data-else=""><code>\large{<var>N1</var>}</code> is smaller than <code>\large{<var>N2</var>}</code> because it has fewer hundreds.</p>
+            </div>
+            <div data-else="">
+                <p data-if="N1 > N2"><code>\large{<var>N1</var>}</code> is bigger than <code>\large{<var>N2</var>}</code> because it has more tens.</p>
+                <p data-else=""><code>\large{<var>N1</var>}</code> is smaller than <code>\large{<var>N2</var>}</code> because it has fewer tens.</p>
+            </div>
+
+            <p data-if="N1 > N2">Therefore <code>\large{<var>N1</var>}</code> &gt; <code>\large{<var>N2</var>}</code>.</p>
+            <p data-else="">Therefore <code>\large{<var>N1</var>}</code> &lt; <code>\large{<var>N2</var>}</code>.</p>
+        </div>
+    </div>
+</body>
+</html>
