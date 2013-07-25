@@ -936,19 +936,15 @@ $.extend(KhanUtil.Graphie.prototype, {
         for (var i = 0; i < lineSegment.ticks; ++i) {
             lineSegment.tick[i] = KhanUtil.bogusShape;
         }
-        var path = KhanUtil.unscaledSvgPath([[0, 0], [graph.scale[0], 0]]);
+        var path = KhanUtil.unscaledSvgPath([[0, 0], [1, 0]]);
         for (var i = 0; i < lineSegment.ticks; ++i) {
-            var tickoffset = (0.5 * graph.scale[0]) - (lineSegment.ticks - 1) * 1 + (i * 2);
+            var tickoffset = 0.5 - ((lineSegment.ticks - 1) + (i * 2)) / graph.scale[0];
             path += KhanUtil.unscaledSvgPath([[tickoffset, -7], [tickoffset, 7]]);
         }
         lineSegment.visibleLine = graph.raphael.path(path);
         lineSegment.visibleLine.attr(lineSegment.normalStyle);
         if (!lineSegment.fixed) {
-            lineSegment.mouseTarget = graph.mouselayer.rect(
-                graph.scalePoint([graph.range[0][0], graph.range[1][1]])[0],
-                graph.scalePoint([graph.range[0][0], graph.range[1][1]])[1] - 15,
-                graph.scaleVector([1, 1])[0], 30
-            );
+            lineSegment.mouseTarget = graph.mouselayer.rect(0, -15, 1, 30);
             lineSegment.mouseTarget.attr({fill: "#000", "opacity": 0.0});
         }
 
@@ -965,42 +961,25 @@ $.extend(KhanUtil.Graphie.prototype, {
                     this.coordZ = this.pointZ.coord;
                 }
             }
-            var angle = KhanUtil.findAngle(this.coordZ, this.coordA);
             var scaledA = graph.scalePoint(this.coordA);
-            var lineLength = KhanUtil.getDistance(this.coordA, this.coordZ);
-            if (this.extendLine) {
-                if (this.coordA[0] !== this.coordZ[0]) {
-                    var slope = (this.coordZ[1] - this.coordA[1]) / (this.coordZ[0] - this.coordA[0]);
-                    var y1 = slope * (graph.range[0][0] - this.coordA[0]) + this.coordA[1];
-                    var y2 = slope * (graph.range[0][1] - this.coordA[0]) + this.coordA[1];
-                    if (this.coordA[0] < this.coordZ[0]) {
-                        scaledA = graph.scalePoint([graph.range[0][0], y1]);
-                        scaledA[0]++;
-                    } else {
-                        scaledA = graph.scalePoint([graph.range[0][1], y2]);
-                        scaledA[0]--;
-                    }
-                    lineLength = KhanUtil.getDistance([graph.range[0][0], y1], [graph.range[0][1], y2]);
-                } else {
-                    if (this.coordA[1] < this.coordZ[1]) {
-                        scaledA = graph.scalePoint([this.coordA[0], graph.range[1][0]]);
-                    } else {
-                        scaledA = graph.scalePoint([this.coordA[0], graph.range[1][1]]);
-                    }
-                    lineLength = graph.range[1][1] - graph.range[1][0];
-                }
-            }
-            this.visibleLine.translate(scaledA[0] - this.visibleLine.attr("translation").x,
-                    scaledA[1] - this.visibleLine.attr("translation").y);
-            this.visibleLine.rotate(-angle, scaledA[0], scaledA[1]);
-            this.visibleLine.scale(lineLength, 1, scaledA[0], scaledA[1]);
+            var scaledZ = graph.scalePoint(this.coordZ);
+            var angle = KhanUtil.findAngle(scaledZ, scaledA);
+            var lineLength = KhanUtil.getDistance(scaledZ, scaledA);
 
+            var elements = [this.visibleLine];
             if (!this.fixed) {
-                this.mouseTarget.translate(scaledA[0] - this.mouseTarget.attr("translation").x,
-                        scaledA[1] - this.mouseTarget.attr("translation").y);
-                this.mouseTarget.rotate(-angle, scaledA[0], scaledA[1]);
-                this.mouseTarget.scale(lineLength, 1, scaledA[0], scaledA[1]);
+                elements.push(this.mouseTarget);
             }
+            _.each(elements, function(element) {
+                element.translate(scaledA[0] - element.attr("translation").x,
+                        scaledA[1] - element.attr("translation").y);
+                element.rotate(angle, scaledA[0], scaledA[1]);
+                if (this.extendLine) {
+                    element.translate(-0.5, 0);
+                    lineLength = graph.dimensions[0] + graph.dimensions[1];
+                }
+                element.scale(lineLength, 1, scaledA[0], scaledA[1]);
+            }, this);
         };
 
         // Change z-order to back;

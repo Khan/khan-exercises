@@ -587,6 +587,8 @@
 
                 var w = (xRange[1] - xRange[0]) * xScale, h = (yRange[1] - yRange[0]) * yScale;
                 raphael.setSize(w, h);
+
+                this.dimensions = [w, h];
                 $(el).css({
                     "width": w,
                     "height": h
