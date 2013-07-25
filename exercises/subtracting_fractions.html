@@ -7,15 +7,15 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="SIMP_D1 !== SIMP_D2">
-        <var id="N1">randRange( 5, 12 )</var>
-        <var id="D1">randRange( N1 + 1, 13 )</var>
+    <div class="vars" data-ensure="N1/D1 - N2/D2 > 0 && SIMP_D1 !== SIMP_D2">
+        <var id="D1">randRange( 2, 10 )</var>
+        <var id="N1">randRange( 1, D1 - 1 )</var>
         <var id="GCD1">getGCD( N1, D1 )</var>
         <var id="SIMP_N1">N1 / GCD1</var>
         <var id="SIMP_D1">D1 / GCD1</var>
 
-        <var id="N2">randRange( 1, N1 - 1 )</var>
-        <var id="D2">randRange( N2 + 1, 13 )</var>
+        <var id="D2">randRange( 2, 10 )</var>
+        <var id="N2">randRange( 1, D2 - 1 )</var>
         <var id="GCD2">getGCD( N2, D2 )</var>
         <var id="SIMP_N2">N2 / GCD2</var>
         <var id="SIMP_D2">D2 / GCD2</var>

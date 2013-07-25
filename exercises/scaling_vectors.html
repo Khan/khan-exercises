@@ -24,10 +24,10 @@
 </head>
 <body>
     <div class="exercise">
-    <div class="vars" data-ensure="( BX !== CX || BY !== CY ) &amp;&amp; ( BX !== DX || BY !== DY ) &amp;&amp; ( BX !== EX || BY !== EY ) &amp;&amp; ( CX !== DX || CY !== DY ) &amp;&amp; ( CX !== EX || CY !== EY ) &amp;&amp; ( DX !== EX || DY !== EY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, BOX, BOY, BX, BY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, COX, COY, CX, CY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, DOX, DOY, DX, DY ) &amp;&amp; !vectorsIntersect( 0, 0, AX, AY, EOX, EOY, EX, EY ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX, BY, COX, COY, CX, CY ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX, BY, DOX, DOY, DX, DY ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX, BY, EOX, EOY, EX, EY ) &amp;&amp; !vectorsIntersect( COX, COY, CX, CY, DOX, DOY, DX, DY ) &amp;&amp; !vectorsIntersect( COX, COY, CX, CY, EOX, EOY, EX, EY ) &amp;&amp; !vectorsIntersect( DOX, DOY, DX, DY, EOX, EOY, EX, EY )">
+    <div class="vars" data-ensure="( BX !== CX || BY !== CY ) &amp;&amp; ( BX !== DX || BY !== DY ) &amp;&amp; ( BX !== EX || BY !== EY ) &amp;&amp; ( CX !== DX || CY !== DY ) &amp;&amp; ( CX !== EX || CY !== EY ) &amp;&amp; ( DX !== EX || DY !== EY ) &amp;&amp; !vectorsIntersect( AOX, AOY, AX * AF, AY * AF, BOX, BOY, BX * BF, BY * BF ) &amp;&amp; !vectorsIntersect( AOX, AOY, AX * AF, AY * AF, COX, COY, CX * CF, CY * CF ) &amp;&amp; !vectorsIntersect( AOX, AOY, AX * AF, AY * AF, DOX, DOY, DX * DF, DY * DF ) &amp;&amp; !vectorsIntersect( AOX, AOY, AX, AY, EOX, EOY, EX * EF, EY * EF ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX * BF, BY * BF, COX, COY, CX * CF, CY * CF ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX * BF, BY * BF, DOX, DOY, DX * DF, DY * DF ) &amp;&amp; !vectorsIntersect( BOX, BOY, BX * BF, BY * BF, EOX, EOY, EX * EF, EY * EF ) &amp;&amp; !vectorsIntersect( COX, COY, CX * CF, CY * CF, DOX, DOY, DX * DF, DY * DF ) &amp;&amp; !vectorsIntersect( COX, COY, CX * CF, CY * CF, EOX, EOY, EX * EF, EY * EF ) &amp;&amp; !vectorsIntersect( DOX, DOY, DX * DF, DY * DF, EOX, EOY, EX * EF, EY * EF )">
         <var id="AX">randRangeNonZero( -3, 3 )</var>
         <var id="AY">randRangeNonZero( -3, 3 )</var>
-        <var id="SA" data-ensure="abs( SA * AX ) &lt; 8 &amp;&amp; abs( SA * AY ) &lt; 8">randRangeNonZero( -1, 1 ) * randRange( 2, 3 )</var>
+        <var id="SA" data-ensure="abs( SA * AX ) &lt; 8 &amp;&amp; abs( SA * AY ) &lt; 8">randFromArray([-1, -0.5, 0.5, -2, 2, -3, 3])</var>
 
         <var id="BX">randRangeNonZero( -7, 7 )</var>
         <var id="BY">randRangeNonZero( -7, 7 )</var>
@@ -41,10 +41,10 @@
         <var id="ANS">[DX, DY]</var>
         <var id="SHUF">shuffle([ [BX, BY], [CX, CY], ANS, [EX, EY] ])</var>
         <var id="ANSL, ANSC">[
-            ["b", "#ff00af"],
-            ["c", "#28ae7b"],
-            ["d", "#ffa500"],
-            ["e", "#fd0000"]
+            ["b", PINK],
+            ["c", GREEN],
+            ["d", PURPLE],
+            ["e", RED]
         ][ $.inArray( ANS, SHUF ) ]</var>
 
         <var id="BX, BY">SHUF[0]</var>
@@ -52,6 +52,8 @@
         <var id="DX, DY">SHUF[2]</var>
         <var id="EX, EY">SHUF[3]</var>
 
+        <var id="AOX" data-ensure="abs( AX + AOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="AOY" data-ensure="abs( AY + AOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
         <var id="BOX" data-ensure="abs( BX + BOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
         <var id="BOY" data-ensure="abs( BY + BOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
         <var id="COX" data-ensure="abs( CX + COX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
@@ -60,12 +62,21 @@
         <var id="DOY" data-ensure="abs( DY + DOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
         <var id="EOX" data-ensure="abs( EX + EOX ) &lt; 9">randRangeNonZero( -9, 9 )</var>
         <var id="EOY" data-ensure="abs( EY + EOY ) &lt; 9">randRangeNonZero( -9, 9 )</var>
+        <var id="AF">1 + 0.8 / sqrt( AX * AX + AY * AY )</var>
+        <var id="BF">1 + 0.8 / sqrt( BX * BX + BY * BY )</var>
+        <var id="CF">1 + 0.8 / sqrt( CX * CX + CY * CY )</var>
+        <var id="DF">1 + 0.8 / sqrt( DX * DX + DY * DY )</var>
+        <var id="EF">1 + 0.8 / sqrt( EX * EX + EY * EY )</var>
     </div>
 
     <div class="problems">
         <div>
             <div class="question">
-                <p>What is <code><var>SA</var> \vec a</code>?</p>
+                <span data-if="SA === -1">
+                    <p>What is <code>-\vec a</code>?</p>
+                </span><span data-else="">
+                    <p>What is <code><var>decimalFraction(SA, true)</var> \vec a</code>?</p>
+                </span>
 
                 <div class="graphie" id="graph">
                     graphInit({
@@ -76,23 +87,17 @@
                     });
 
                     style({
-                        stroke: "#6495ed",
-                        color: "#6495ed"
+                        stroke: BLUE,
+                        color: BLUE
                     }, function() {
                         var AF = 1 + 0.8 / sqrt( AX * AX + AY * AY );
-
-                        do {
-                            var AOX = randRange( -9, 9 );
-                            var AOY = randRange( -9, 9 );
-                        } while ( 0 &lt; abs( AOX + AX ) &amp;&amp; abs( AOX + AX ) &lt; 9 );
-
-                        line( [0, 0], [AX, AY], { arrows: "-&gt;" } );
-                        label( [AF * AX, AF * AY], "\\vec a" );
+                        line( [AOX, AOY], [AOX + AX, AOY + AY], { arrows: "-&gt;" } );
+                        label( [AOX + AF * AX, AOY + AF * AY], "\\vec a" );
                     });
 
                     style({
-                        stroke: "#ff00af",
-                        color: "#ff00af"
+                        stroke: PINK,
+                        color: PINK
                     }, function() {
                         var BF = 1 + 0.8 / sqrt( BX * BX + BY * BY );
                         line( [BOX, BOY], [BOX + BX, BOY + BY], { arrows: "-&gt;" } );
@@ -100,8 +105,8 @@
                     });
 
                     style({
-                        stroke: "#28ae7b",
-                        color: "#28ae7b"
+                        stroke: GREEN,
+                        color: GREEN
                     }, function() {
                         var CF = 1 + 0.8 / sqrt( CX * CX + CY * CY );
                         line( [COX, COY], [COX + CX, COY + CY], { arrows: "-&gt;" } );
@@ -109,19 +114,17 @@
                     });
 
                     style({
-                        stroke: "#ffa500",
-                        color: "#ffa500"
+                        stroke: PURPLE,
+                        color: PURPLE
                     }, function() {
-                        var DF = 1 + 0.8 / sqrt( DX * DX + DY * DY );
                         line( [DOX, DOY], [DOX + DX, DOY + DY], { arrows: "-&gt;" } );
                         label( [DOX + DF * DX, DOY + DF * DY], "\\vec d" );
                     });
 
                     style({
-                        stroke: "#fd0000",
-                        color: "#fd0000"
+                        stroke: RED,
+                        color: RED
                     }, function() {
-                        var EF = 1 + 0.8 / sqrt( EX * EX + EY * EY );
                         line( [EOX, EOY], [EOX + EX, EOY + EY], { arrows: "-&gt;" } );
                         label( [EOX + EF * EX, EOY + EF * EY], "\\vec e" );
                     });
@@ -130,10 +133,10 @@
 
             <p class="solution"><code>\vec <var>ANSL</var></code></p>
             <ul class="choices" data-category="true">
-                <li><code>\vec b</code></li>
-                <li><code>\vec c</code></li>
-                <li><code>\vec d</code></li>
-                <li><code>\vec e</code></li>
+                <li><code>\large\pink{\vec b}</code></li>
+                <li><code>\large\green{\vec c}</code></li>
+                <li><code>\large\purple{\vec d}</code></li>
+                <li><code>\large\red{\vec e}</code></li>
             </ul>
         </div>
     </div>

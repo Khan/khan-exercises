@@ -25,8 +25,8 @@
                 <var id="AND_TEXT">$._("and")</var>
             </div>
 
-            <p class="problem">Determine where <code>f(x)</code> intersects the <code>x</code>-axis.</p>
-            <p class="question"><code>f(x) = <var>plus(SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
+            <p class="question">Solve for <code>x</code>:</p>
+            <p class="problem"><code><var>plus(SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var> = 0</code></p>
 
             <div class="solution" data-type="set">
                 <div class="set-sol"><var>A</var></div>
@@ -70,8 +70,8 @@
                 <var id="LINEAR">SQUARE * ( -2 * A )</var>
                 <var id="SIMPLELINEAR">-2 * A</var>
             </div>
-            <p class="problem">Determine where <code>f(x)</code> intersects the x-axis.</p>
-            <p class="question"><code>f(x) = <var>plus( SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var></code></p>
+            <p class="question">Solve for <code>x</code>:</p>
+            <p class="problem"><code><var>plus( SQUARE + "x^2")</var> + <var>plus( LINEAR + "x" )</var> + <var>CONSTANT</var> = 0</code></p>
             <div class="solution" data-type="multiple">
                 <p><code>x = \quad</code><span class="sol short35" data-forms="integer"><var>A</var></span></p>
             </div>
@@ -95,18 +95,6 @@
     </div>
 
     <div class="hints">
-        <div>
-            <p>The function intersects the <code>x</code>-axis where <code>f(x) = 0</code>, so solve the equation:</p>
-            <p><code>
-                \qquad
-                <var>plus( SQUARE + "x^2" )</var>
-                <var>LINEAR &gt;= 0 ? "+" : ""</var>
-                <var>plus( "\\color{" + GREEN + "}{" + LINEAR + "}x" )</var>
-                <var>CONSTANT &gt;= 0 ? "+" : ""</var>
-                <var>plus( "\\color{" + BLUE + "}{" + CONSTANT + "}" )</var>
-                = 0</code></p>
-        </div>
-
         <div data-if="SQUARE > 1">
             <p>Dividing both sides by <var>SQUARE</var> gives:</p>
             <p><code>x^2 + <var> plus(SIMPLELINEAR + "x")</var> + <var>SIMPLECONSTANT</var>=0</code></p>
