@@ -41,10 +41,10 @@
         <var id="ANS">[DX, DY]</var>
         <var id="SHUF">shuffle([ [BX, BY], [CX, CY], ANS, [EX, EY] ])</var>
         <var id="ANSL, ANSC">[
-            ["b", PINK],
-            ["c", GREEN],
-            ["d", PURPLE],
-            ["e", RED]
+            ["b", "pink"],
+            ["c", "green"],
+            ["d", "purple"],
+            ["e", "red"]
         ][ $.inArray( ANS, SHUF ) ]</var>
 
         <var id="BX, BY">SHUF[0]</var>
@@ -131,7 +131,7 @@
                 </div>
             </div>
 
-            <p class="solution"><code>\vec <var>ANSL</var></code></p>
+            <p class="solution"><code>\large\<var>ANSC</var>{</var>\vec <var>ANSL</var>}</code></p>
             <ul class="choices" data-category="true">
                 <li><code>\large\pink{\vec b}</code></li>
                 <li><code>\large\green{\vec c}</code></li>
