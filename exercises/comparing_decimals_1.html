@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html data-require="math graphie graphie-helpers word-problems">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Comparing decimals 1</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+            <div id="same-numerator">
+                <div class="vars">
+                    <var id="D1">randRange(2, 99)</var>
+                    <var id="D2" data-ensure="D1 !== D2">randRange(2, 99)</var>
+                    <var id="UNIT">randRange(0, 9)</var>
+                    <var id="N1">UNIT + D1 / 100</var>
+                    <var id="N2">UNIT + D2 / 100</var>
+                    <var id="SOLUTION">N1 &lt; N2 ? "&lt;" : "&gt;"</var>
+                </div>
+
+                <div class="problem">
+            <p>Fill in the blank.</p>
+            <p><code>\large{<var>N1</var>}</code> ____ <code>\large{<var>N2</var>}</code></p>
+        </div>
+
+        <p class="solution"><code><var>SOLUTION</var></code></p>
+        <ul class="choices" data-category="true">
+            <li><code>&lt;</code></li>
+            <li><code>&gt;</code></li>
+        </ul>
+
+        <div class="hints">
+            <div>
+                <div><code>\large{&lt;}</code> means "less than".</div>
+                <div><code>\large{&gt;}</code> means "greater than".</div>
+            </div>
+
+            <div>
+                <p><code>\large{\blue{<var>UNIT</var>}.\green{<var>D1</var>}}</code> represents
+                <code>\large{\blue{<var>UNIT</var> \text{ units}} + \green{<var>D1</var> \text{ hundreths}}}</code></p>
+                <p><code>\large{\blue{<var>UNIT</var>}.\green{<var>D2</var>}}</code> represents
+                <code>\large{\blue{<var>UNIT</var> \text{ units}} + \green{<var>D2</var> \text{ hundreths}}}</code></p>
+            </div>
+
+            <p data-if="N1 > N2">
+                <code>\large{\green{<var>D1</var> \text{ hundreths}}}</code> is more than <code>\large{\green{<var>D2</var> \text{ hundreths}}}</code>.
+            </p>
+            <p data-else="">
+                <code>\large{\green{<var>D1</var> \text{ hundreths}}}</code> is less than <code>\large{\green{<var>D2</var> \text{ hundreths}}}</code>.
+            </p>
+
+            <p data-if="N1 > N2">Therefore <code>\large{<var>N1</var>}</code> &gt; <code>\large{<var>N2</var>}</code>.</p>
+            <p data-else="">Therefore <code>\large{<var>N1</var>}</code> &lt; <code>\large{<var>N2</var>}</code>.</p>
+        </div>
+    </div>
+</body>
+</html>
