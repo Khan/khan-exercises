@@ -18,7 +18,12 @@
                 <var id="D2">randRange(2, 9)</var>
             </div>
 
-            <var id="NUMERATOR">N1 * D2</var>
+            <var id="NEG1">randFromArray([1, -1])</var>
+            <var id="NEG2">randFromArray([1, -1])</var>
+            <var id="NEG1S">NEG1 === -1 ? "-" : ""</var>
+            <var id="NEG2S">NEG2 === -1 ? "-" : ""</var>
+
+            <var id="NUMERATOR">NEG1 * NEG2 * N1 * D2</var>
             <var id="DENOMINATOR">D1 * N2</var>
             <var id="GCD">getGCD(NUMERATOR, DENOMINATOR)</var>
         </div>
@@ -27,7 +32,7 @@
             <div>
                 <div class="problem">Reduce to lowest terms:</div>
                 <div class="question">
-                    <p><code>\dfrac{<var>N1</var>}{<var>D1</var>} \div \dfrac{<var>N2</var>}{<var>D2</var>} = {?}</code></p>
+                    <p><code><var>NEG1S</var> \dfrac{<var>N1</var>}{<var>D1</var>} \div <var>NEG2S</var> \dfrac{<var>N2</var>}{<var>D2</var>} = {?}</code></p>
                 </div>
                 <div class="solution" data-type="rational"><var>NUMERATOR / DENOMINATOR</var></div>
             </div>
@@ -36,23 +41,26 @@
         <div class="hints">
             <p>Dividing by a fraction is the same as multiplying by the reciprocal of the fraction.</p>
 
-            <p>The reciprocal of <code>\dfrac{<var>N2</var>}{<var>D2</var>}</code> is <code>\dfrac{<var>D2</var>}{<var>N2</var>}</code>.</p>
+            <p>
+                The reciprocal of <code><var>NEG2S</var> \dfrac{<var>N2</var>}{<var>D2</var>}</code> is 
+                <code><var>NEG2S</var> \dfrac{<var>D2</var>}{<var>N2</var>}</code>.
+            </p>
 
             <div>
                 <p>Therefore:</p>
                 <p><code>
-                    \dfrac{<var>N1</var>}{<var>D1</var>} \div \dfrac{<var>N2</var>}{<var>D2</var>} = 
-                    \dfrac{<var>N1</var>}{<var>D1</var>} \times \dfrac{<var>D2</var>}{<var>N2</var>}
+                    <var>NEG1S</var> \dfrac{<var>N1</var>}{<var>D1</var>} \div <var>NEG2S</var> \dfrac{<var>N2</var>}{<var>D2</var>} = 
+                    <var>NEG1S</var> \dfrac{<var>N1</var>}{<var>D1</var>} \times <var>NEG2S</var> \dfrac{<var>D2</var>}{<var>N2</var>}
                 </code></p>
             </div>
 
             <p><code>
-                \phantom{\dfrac{<var>N1</var>}{<var>D1</var>} \times \dfrac{<var>D2</var>}{<var>N2</var>}} = 
-                \dfrac{<var>N1</var> \times <var>D2</var>}{<var>D1</var> \times <var>N2</var>}
+                \phantom{<var>NEG1S</var> \dfrac{<var>N1</var>}{<var>D1</var>} \times <var>NEG2S</var> \dfrac{<var>D2</var>}{<var>N2</var>}} = 
+                \dfrac{<var>NEG1S</var><var>N1</var> \times <var>NEG2S</var><var>D2</var>}{<var>D1</var> \times <var>N2</var>}
             </code></p>
 
             <p><code>
-                \phantom{\dfrac{<var>N1</var>}{<var>D1</var>} \times \dfrac{<var>D2</var>}{<var>N2</var>}} = 
+                \phantom{<var>NEG1S</var> \dfrac{<var>N1</var>}{<var>D1</var>} \times <var>NEG2S</var> \dfrac{<var>D2</var>}{<var>N2</var>}} = 
                 \dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}
             </code></p>
 
