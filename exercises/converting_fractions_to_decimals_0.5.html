@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers-arithmetic">
+<head>
+    <title>Converting fractions to decimals 0.5</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+
+<body>
+    <div class="exercise">
+    <div class="problems">
+        <div>
+            <div class="vars" data-ensure="getGCD( NUMERATOR, DENOMINATOR ) === 1">
+                <var id="NUMERATOR">randRange(1, 99)</var>
+                <var id="PLACES">randRange(1, 2)</var>
+                <var id="DENOMINATOR">pow(10, PLACES)</var>
+                <var id="SOLUTION">roundTo(3, NUMERATOR / DENOMINATOR)</var>
+            </div>
+            <p>Express the fraction as a decimal.</p>
+            <p class="question"><code>\large{\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>}}</code></p>
+            <p class="solution" data-type="decimal"><var>SOLUTION</var></p>
+            <div class="hints">
+                <p>This fraction represents the result of dividing <code><var>NUMERATOR</var></code> by <code><var>DENOMINATOR</var></code>.</p>
+
+                <p data-if="DENOMINATOR === 10">Dividing by <code><var>DENOMINATOR</var></code> is the same as moving the decimal one position to the left.</p>
+                <p data-else="">Dividing by <code><var>DENOMINATOR</var></code> is the same as moving the decimal two positions to the left.</p>
+
+                <div class="graphie">
+                    init({
+                        range: [[-1, 11], [-1, 2.2]],
+                        scale: [20, 40]
+                    });
+
+                    var digits = KhanUtil.digits(NUMERATOR);
+                    digits.unshift(0);
+                    var digits2 = digits.slice();
+
+                    // Leading zero
+                    if (digits.length &lt; PLACES + 2) {
+                        digits.push( ' ' );
+                        digits2.push( 0 );
+                    }
+
+                    drawDigits(digits.reverse(), 0, 1);
+                    drawDigits(digits2.reverse(), 0, 0);
+
+                    for (var i = 1; i &lt; PLACES + 1; i++) {
+                        // Final arrow
+                        if (i === PLACES) {
+                            style({arrows: "-&gt;"});
+                        }
+
+                        arc([digits.length - (i + 1), 1.5 ], 0.5, 0, 180, { stroke: "blue" });
+                    }
+
+                    //draw a black ellipse to be used as a decimal point
+                    style({fill: "#444", stroke: "#444"});
+                    ellipse([digits.length - 1.5, 0.8], [0.09, 0.06]);
+                    ellipse([digits2.length - PLACES - 1.5, -0.2], [0.09, 0.06]);
+                </div>
+
+                <p><code>\dfrac{<var>NUMERATOR</var>}{<var>DENOMINATOR</var>} = <var>SOLUTION</var></code></p>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
