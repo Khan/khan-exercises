@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers-arithmetic">
+<html data-require="math math-format">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dividing decimals 1</title>
@@ -7,33 +7,48 @@
 </head>
 <body>
     <div class="exercise">
-        <div class="vars">
-            <var id="DIVISOR">randRange( 2, 15 )</var>
-            <var id="QUOTIENT" data-ensure="QUOTIENT % 10 !== 0">randRange( 10, 999 )</var>
-            <var id="DIVIDEND">DIVISOR * QUOTIENT</var>
-            <var id="DIVISOR_DECIMAL">0</var>
-            <var id="DIVIDEND_DECIMAL">randRange( 1, digits( DIVIDEND ).length - 1 )</var>
-            <var id="QUOTIENT_DECIMAL">DIVIDEND_DECIMAL - DIVISOR_DECIMAL</var>
-            <var id="DUMMY">[]</var>
+        <div class="problems">
+            <div id="tens">
+                <div class="vars" data-ensure="isInt(QUOTIENT)">
+                    <var id="DIVIDEND">randRange(1, 10)</var>
+                    <var id="DIVISOR">randRange(1, 9) / 10</var>
+                    <var id="QUOTIENT">DIVIDEND / DIVISOR</var>
+                    <var id="GCD">getGCD(DIVISOR * 10, 10)</var>
+                </div>
+                <p class="question"><code>\large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = {?}}</code></p>
+                <div class="solution" data-type="number"><var>QUOTIENT</var></div>
+            </div>
         </div>
 
-        <div class="problems">
-            <div>
-                <div class="graphie" id="numbers">
-                    graph.divider = new Divider( DIVISOR, DIVIDEND, DIVISOR_DECIMAL, DIVIDEND_DECIMAL );
-                    graph.divider.show();
-                    DUMMY = Array( graph.divider.getNumHints() );
-                </div>
-                <div class="solution" data-type="decimal"><var>QUOTIENT  / round( pow( 10, QUOTIENT_DECIMAL ) )</var></div>
-            </div>
-        </div>
         <div class="hints">
-            <div class="graphie" data-update="numbers">
-                graph.divider.shiftDecimals();
-            </div>
-            <div class="graphie" data-each="DUMMY as dummy" data-update="numbers">
-                graph.divider.showHint();
-            </div>
+            <p><code>
+                \large{<var>DIVIDEND</var> \div <var>DIVISOR</var> = <var>DIVIDEND</var> \div \dfrac{<var>DIVISOR * 10</var>}{10}}
+            </code></p>
+            
+            <p data-if="GCD !== 1")><code>
+                \large{\phantom{<var>DIVIDEND</var> \div <var>DIVISOR</var>} = <var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}}
+            </code></p>
+
+            <p>Dividing by a fraction is the same as multiplying by the reciprocal of the fraction.</p>
+
+            <p><code>
+                \large{<var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>} = 
+                <var>DIVIDEND</var> \times \dfrac{<var>10 / GCD</var>}{<var>10 * DIVISOR / GCD</var>}}
+            </code></p>
+
+            <p data-if="10 * DIVISOR / GCD !== 1"><code>
+                \large{\phantom{<var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}} = 
+                \dfrac{<var>DIVIDEND</var> \times <var>10 / GCD</var>}{<var>10 * DIVISOR / GCD</var>}}
+            </code></p>
+
+            <p data-if="10 * DIVISOR / GCD !== 1"><code>
+                \large{\phantom{<var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}} = 
+                \dfrac{<var>DIVIDEND * 10 / GCD</var>}{<var>10 * DIVISOR / GCD</var>}}
+            </code></p>
+
+            <p><code>
+                \large{\phantom{<var>DIVIDEND</var> \div \dfrac{<var>10 * DIVISOR / GCD</var>}{<var>10 / GCD</var>}} = <var>QUOTIENT</var>}
+            </code></p>
         </div>
     </div>
 </body>
