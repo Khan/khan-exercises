@@ -93,14 +93,10 @@
 
                 <div class="graphie">
                     var scale = 12;
-                    var height = 1.5 * Math.max(D1[0], D2[0]);
-
-                    if (D1.length &gt; 2) {
-                        height = Math.max(height, 10.5 * D1[2]);
-                    }
+                    var height = (D1.length === 2) ? 1.5 * D1[1] : Math.max(10.5 * D1[2], 1.5 * D1[1]);
 
                     init({
-                        range: [[-1, 24], [-1.5, height + 0.1]],
+                        range: [[-1, 36], [-1.5, height + 0.1]],
                         scale: scale
                     });
 
@@ -119,7 +115,7 @@
                             grid([0, 10], [0, 10], {strokeWidth: 1}).translate(0, -scale * 10.5 * i - 0.5);
                         }
 
-                        label([5, -0.8],  D1[2], "center", {color: BLUE});
+                        label([5, -0.9],  D1[2], "center", {color: BLUE});
                         x += 11;
                     }
 
@@ -127,12 +123,12 @@
                         rect(x, i*1.5, 10, 1, {fill: GREEN});
                         grid([0, 10], [1.5 * i, 1.5 * i - 1], {strokeWidth: 1}).translate(scale * x, -scale);
                     }
-                    label([x + 5, -0.8],  D1[1], "center", {color: GREEN});
+                    label([x + 5, -0.9],  D1[1], "center", {color: GREEN});
 
                     for (var i = 0; i &lt; D1[0]; i++) {
-                        rect(x + 11, i*1.5, 1, 1, {fill: RED});
+                        rect(x + 11 + i * 1.25, 0, 1, 1, {fill: RED});
                     }
-                    label([x + 11.5, -0.8],  D1[0], "center", {color: RED});
+                    label([x + 11 + (1.25 * D1[0] - 0.25) / 2, -0.9],  D1[0], "center", {color: RED});
                 </div>
             </div>
 
@@ -145,14 +141,10 @@
 
                 <div class="graphie">
                     var scale = 12;
-                    var height = 1.5 * Math.max(D2[0], D2[0]);
-
-                    if (D2.length &gt; 2) {
-                        height = Math.max(height, 10.5 * D2[2]);
-                    }
+                    var height = (D2.length === 2) ? 1.5 * D2[1] : Math.max(10.5 * D2[2], 1.5 * D2[1]);
 
                     init({
-                        range: [[-1, 24], [-1.5, height + 0.1]],
+                        range: [[-1, 36], [-1.5, height + 0.1]],
                         scale: scale
                     });
 
@@ -171,7 +163,7 @@
                             grid([0, 10], [0, 10], {strokeWidth: 1}).translate(0, -scale * 10.5 * i - 0.5);
                         }
 
-                        label([5, -0.8],  D2[2], "center", {color: BLUE});
+                        label([5, -0.9],  D2[2], "center", {color: BLUE});
                         x += 11;
                     }
 
@@ -179,12 +171,12 @@
                         rect(x, i*1.5, 10, 1, {fill: GREEN});
                         grid([0, 10], [1.5 * i, 1.5 * i - 1], {strokeWidth: 1}).translate(scale * x, -scale);
                     }
-                    label([x + 5, -0.8],  D2[1], "center", {color: GREEN});
+                    label([x + 5, -0.9],  D2[1], "center", {color: GREEN});
 
                     for (var i = 0; i &lt; D2[0]; i++) {
-                        rect(x + 11, i*1.5, 1, 1, {fill: RED});
+                        rect(x + 11 + i * 1.25, 0, 1, 1, {fill: RED});
                     }
-                    label([x + 11.5, -0.8],  D2[0], "center", {color: RED});
+                    label([x + 11 + (1.25 * D2[0] - 0.25) / 2, -0.9],  D2[0], "center", {color: RED});
                 </div>
             </div>
 
