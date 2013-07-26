@@ -131,7 +131,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
      * - pi:       3 pi
      * - log:      log(5)
      * - percent:  15%
-     * - dollar:   $10
      * - mixed:    1 1/3
      * - decimal:  1.7
      *
@@ -163,7 +162,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 var inputMarkup = '<input type="number" step="any">';
                 var numberForms = ["integer", "decimal"];
                 // ...except if the answer can be represented as a fraction,
-                // pi, log, percent, dollar, or anything else that isn't a
+                // pi, log, percent, or anything else that isn't a
                 // "floating point number".
                 $.each(acceptableForms, function (i,form) {
                     if (numberForms.indexOf(form) < 0) {
@@ -209,8 +208,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 log: $._("an expression, like <code>\\log(100)</code>"),
 
                 percent: $._("a percent, like <code>12.34\\%</code>"),
-
-                dollar: $._("a money amount, like <code>$2.75</code>"),
 
                 mixed: $._("a mixed number, like <code>1\\ 3/4</code>"),
 
@@ -467,13 +464,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                         t.value = t.value / 100;
                     });
                     return transformed;
-                },
-
-                // Numbers with dollar signs
-                dollar: function(text) {
-                    text = $.trim(text.replace("$", ""));
-
-                    return forms.decimal(text);
                 },
 
                 // Mixed numbers, like 1 3/4
