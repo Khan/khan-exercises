@@ -248,6 +248,35 @@ $.extend(KhanUtil, {
             }
         }
 
+        // Test whether this expressions is equal to the one passed in
+        // Assumes the like terms in both expressions have been combined
+        this.isEqualTo = function(that) {
+            var n1 = this.terms.length;
+            var n2 = that.terms.length;
+
+            if (n1 !== n2) {
+                return false;
+            }
+
+            for (var i=0; i<n1; i++) {
+                var t1 = this.terms[i];
+                var found = false;
+
+                for (var j=0; j<n2; j++) {
+                    var t2 = that.terms[j]
+                    if (t1.coefficient === t2.coefficient && t1.variableString === t2.variableString) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    return false;
+                }
+            }
+
+            return true;
+        };
+
         // Combine any terms that have the same variable and remove any with a coefficient of 0
         this.combineLikeTerms = function() {
             var variables = {};
@@ -316,9 +345,36 @@ $.extend(KhanUtil, {
             return new KhanUtil.RationalExpression(terms);
         };
 
+        // Return a new expression representing this one divided by another expression
+        // Assumes this expression can be factored to remove the one passed in
+        this.divide = function(expression) {
+            if (expression instanceof KhanUtil.RationalExpression) {
+                if (this.terms.length === 1) {
+                    return this.divideByTerm(expression.terms[0]);
+                }
+
+                var factors1 = this.factor();
+                var factors2 = expression.factor();
+
+                if (factors1[1].isEqualTo(factors2[1])) {
+                    var value = factors1[0].divide(factors2[0]);
+                    return new KhanUtil.RationalExpression([value]);
+                } else if (factors1[1].isEqualTo(factors2[1].multiply(-1))) {
+                    var value = factors1[0].divide(factors2[0]).multiply(-1);
+                    return new KhanUtil.RationalExpression([value]);
+                } else {
+                    // Cannot divide by this expression
+                    // Can be used to check whether expression have a common factor
+                    return false;
+                }
+
+            } else {
+                return this.divideByTerm(expression);
+            }
+        };
+
         // Return a new expression representing this one divided by a term or number
-        // Note you cannot divide by another expression
-        this.divide = function(term) {
+        this.divideByTerm = function(term) {
             var terms = [];
 
             for (var i = 0; i < this.terms.length; i++) {
@@ -329,7 +385,7 @@ $.extend(KhanUtil, {
         };
 
         // Return a Term object representing the greatest common divisor of all the terms in this expression
-        this.factor = function() {
+        this.getTermsGCD = function() {
             var GCD = this.terms[0];
             for (var i=0; i<this.terms.length; i++) {
                 GCD = GCD.getGCD(this.terms[i]);
@@ -337,11 +393,26 @@ $.extend(KhanUtil, {
             return GCD;
         };
 
+        // Factor out the GCD of all terms and return [GCD, remaining expression]
+        // e.g. 6x + 4x^2 => [2x, 3 + 2x]
+        this.factor = function() {
+            var gcd = this.getTermsGCD();
+            var factor = this.divide(gcd);
+            return [gcd, factor];
+        }
+
         // Return a Term object representing the greatest common factor between this expression and another
         this.getGCD = function(that) {
-            var t1 = this.factor();
-            var t2 = that.factor();
-            return t1.getGCD(t2);
+            var factors1 = this.factor();
+            var factors2 = that.factor();
+            var gcd = factors1[0].getGCD(factors2[0]);
+            var factors2neg = factors2[1].multiply(-1);
+
+            if (factors1[1].isEqualTo(factors2[1]) || factors1[1].isEqualTo(factors2neg)) {
+                gcd = factors1[1].multiply(gcd);
+            }
+
+            return gcd;
         }
 
         this.toString = function() {
