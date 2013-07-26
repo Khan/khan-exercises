@@ -8,26 +8,60 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="same-numerator">
+            <div id="different">
                 <div class="vars">
                     <var id="D1">randRange(2, 99)</var>
                     <var id="D2" data-ensure="D1 !== D2">randRange(2, 99)</var>
-                    <var id="UNIT">randRange(0, 9)</var>
-                    <var id="N1">UNIT + D1 / 100</var>
-                    <var id="N2">UNIT + D2 / 100</var>
+                    <var id="T1">Math.floor(D1 / 10)</var>
+                    <var id="T2">Math.floor(D2 / 10)</var>
+                    <var id="N1">D1 / 100</var>
+                    <var id="N2">D2 / 100</var>
+                    <var id="SOLUTION">(function() {
+                        if (N1 === N1) {
+                            return "=";
+                        } else {
+                            return N1 &lt; N2 ? "&lt;" : "&gt;";
+                        }
+                    })()
+                    </var>
+                </div>
+
+                <div class="problem">
+                    <p>Fill in the blank.</p>
+                    <p><code>\large{<var>N1</var>}</code> ____ <code>\large{<var>N2</var>}</code></p>
+                </div>
+
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>&gt;</code></li>
+                    <li><code>=</code></li>
+                </ul>
+            </div>
+
+            <div id="with-zeros">
+                <div class="vars">
+                    <var id="D1, D2">shuffle([10 * randRange(2, 9), randRange(2, 9)])</var>
+                    <var id="N1">D1 / 100</var>
+                    <var id="N2">D2 / 100</var>
+                    <var id="T1">Math.floor(D1 / 10)</var>
+                    <var id="T2">Math.floor(D2 / 10)</var>
                     <var id="SOLUTION">N1 &lt; N2 ? "&lt;" : "&gt;"</var>
                 </div>
 
                 <div class="problem">
-            <p>Fill in the blank.</p>
-            <p><code>\large{<var>N1</var>}</code> ____ <code>\large{<var>N2</var>}</code></p>
-        </div>
+                    <p>Fill in the blank.</p>
+                    <p><code>\large{<var>N1</var>}</code> ____ <code>\large{<var>N2</var>}</code></p>
+                </div>
 
-        <p class="solution"><code><var>SOLUTION</var></code></p>
-        <ul class="choices" data-category="true">
-            <li><code>&lt;</code></li>
-            <li><code>&gt;</code></li>
-        </ul>
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>&gt;</code></li>
+                    <li><code>=</code></li>
+                </ul>
+            </div>
+        </div>
 
         <div class="hints">
             <div>
@@ -36,21 +70,59 @@
             </div>
 
             <div>
-                <p><code>\large{\blue{<var>UNIT</var>}.\green{<var>D1</var>}}</code> represents
-                <code>\large{\blue{<var>UNIT</var> \text{ units}} + \green{<var>D1</var> \text{ hundreths}}}</code></p>
-                <p><code>\large{\blue{<var>UNIT</var>}.\green{<var>D2</var>}}</code> represents
-                <code>\large{\blue{<var>UNIT</var> \text{ units}} + \green{<var>D2</var> \text{ hundreths}}}</code></p>
+                <p><code>\qquad \large{\blue{<var>N1</var> = \dfrac{<var>T1</var>}{10} + \dfrac{<var>D1 % 10</var>}{100}}}</code></p>
+                <p data-if="T1 !== 0"><code>\qquad \large{\blue{\phantom{<var>N1</var>} = \dfrac{<var>T1*10</var>}{100} + \dfrac{<var>D1 % 10</var>}{100}}}</code></p>
+                <p><code>\qquad \large{\blue{\phantom{<var>N1</var>} = \dfrac{<var>D1</var>}{100}}}</code></p>
             </div>
 
-            <p data-if="N1 > N2">
-                <code>\large{\green{<var>D1</var> \text{ hundreths}}}</code> is more than <code>\large{\green{<var>D2</var> \text{ hundreths}}}</code>.
+            <div>
+                <p><code>\qquad \large{\green{<var>N2</var> = \dfrac{<var>T2</var>}{10} + \dfrac{<var>D2 % 10</var>}{100}}}</code></p>
+                <p data-if="T2 !== 0"><code>\qquad \large{\green{\phantom{<var>N2</var>} = \dfrac{<var>T2*10</var>}{100} + \dfrac{<var>D2 % 10</var>}{100}}}</code></p>
+                <p><code>\qquad \large{\green{\phantom{<var>N2</var>} = \dfrac{<var>D2</var>}{100}}}</code></p>
+            </div>
+
+            <div class="graphie">
+                init({
+                    range: [[-1, 21], [-0.5, 10.5]],
+                    scale: 20
+                });
+
+                style({
+                    fill: "#AAA",
+                    fillOpacity: 0.6,
+                    strokeWidth: 2,
+                    stroke: KhanUtil.BACKGROUND
+                });
+
+                rect(0, 0, 10, 10);
+                rect(10.5, 0, 10, 10);
+
+                rect(0, 0, T1, 10, {fill: BLUE});
+                rect(T1, 0, 1, D1 % 10, {fill: BLUE});
+
+                rect(10.5, 0, T2, 10, {fill: GREEN});
+                rect(10.5 + T2, 0, 1, D2 % 10, {fill: GREEN});
+
+                grid([0, 10], [0, 10]).translate(-0.5, 0);
+                grid([0, 10], [0, 10]).translate(210.5, 0);
+            </div>
+
+            <p data-if="N1 === N2">
+                <code>\large{\blue{<var>D1</var> \text{ hundreths}}}</code> is the same as <code>\large{\green{<var>D2</var> \text{ hundreths}}}</code>.
+            </p>
+            <p data-else-if="N1 > N2">
+                <code>\large{\blue{<var>D1</var> \text{ hundreths}}}</code> is more than <code>\large{\green{<var>D2</var> \text{ hundreths}}}</code>.
             </p>
             <p data-else="">
-                <code>\large{\green{<var>D1</var> \text{ hundreths}}}</code> is less than <code>\large{\green{<var>D2</var> \text{ hundreths}}}</code>.
+                <code>\large{\blue{<var>D1</var> \text{ hundreths}}}</code> is less than <code>\large{\green{<var>D2</var> \text{ hundreths}}}</code>.
             </p>
 
-            <p data-if="N1 > N2">Therefore <code>\large{<var>N1</var>}</code> &gt; <code>\large{<var>N2</var>}</code>.</p>
-            <p data-else="">Therefore <code>\large{<var>N1</var>}</code> &lt; <code>\large{<var>N2</var>}</code>.</p>
+            <p data-if="N1 === N2">Therefore <code>\large{<var>N1</var>}</code> = <code>\large{<var>N2</var>}</code>.</p>
+            <p data-else="">
+                Therefore <code>\large{<var>N1</var>}</code>
+                <span data-if="N1 > N2">&gt;</span><span data-else="">&lt;</span>
+                <code>\large{<var>N2</var>}</code>.
+            </p>
         </div>
     </div>
 </body>
