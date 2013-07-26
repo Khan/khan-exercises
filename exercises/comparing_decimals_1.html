@@ -41,7 +41,7 @@
 
             <div id="with-zeros">
                 <div class="vars">
-                    <var id="D1, D2">shuffle([10 * randRange(2, 9), randRange(2, 9)])</var>
+                    <var id="D1, D2">shuffle([10 * randRange(1, 9), randRange(2, 9)])</var>
                     <var id="N1">D1 / 100</var>
                     <var id="N2">D2 / 100</var>
                     <var id="T1">Math.floor(D1 / 10)</var>
@@ -161,9 +161,9 @@
 
             <p data-if="N1 === N2">Therefore <code>\large{<var>N1</var>}</code> = <code>\large{<var>N2</var>}</code>.</p>
             <p data-else="">
-                Therefore <code>\large{<var>N1</var>}</code>
+                Therefore <code>\large{<var>N1</var>}
                 <span data-if="N1 > N2">&gt;</span><span data-else="">&lt;</span>
-                <code>\large{<var>N2</var>}</code>.
+                \large{<var>N2</var>}</code>.
             </p>
         </div>
     </div>
