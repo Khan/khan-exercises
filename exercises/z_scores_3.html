@@ -106,8 +106,8 @@
             <div class="fake_row reading" data-each="ROWS as i, row">
                 <span><var>row</var></span><span data-each="ZGRID[i] as j, zgrid"><var>zgrid</var></span>
             </div>
-            <div class="solution" data-forms="percent" data-inexact="" data-max-error="0.0001">
-                <span><var>roundTo(4, ANSWER)</var></span>
+            <div class="solution" data-type="multiple">
+                <span class="sol" data-inexact="" data-max-error="0.0001"><var>100 * roundTo(4, ANSWER)</var></span> <code>\%</code>
             </div>
 
             <div class="hints">
