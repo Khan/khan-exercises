@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math graphie graphie-helpers word-problems">
+<html data-require="math math-format word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Comparing decimals 2</title>
@@ -8,26 +8,30 @@
 <body>
     <div class="exercise">
         <div class="problems">
-            <div id="same-numerator">
-                <div class="vars">
-                    <var id="D1">randRange(2, 999)</var>
-                    <var id="D2" data-ensure="D1 !== D2">randRange(2, 999)</var>
+            <div>
+                <div class="vars" data-ensure="N1 !== N2">
                     <var id="UNIT">randRange(0, 9)</var>
-                    <var id="N1">UNIT + D1 / 1000</var>
-                    <var id="N2">UNIT + D2 / 1000</var>
+                    <var id="D1">randRange(1, 999) + 1000 * (rand(2) ? UNIT : randRange(0, 9))</var>
+                    <var id="D2">randRange(1, 999) + 1000 * (rand(2) ? UNIT : randRange(0, 9))</var>
+                    <var id="N1">D1 / 1000</var>
+                    <var id="N2">D2 / 1000</var>
+                    <var id="DIGITS1">N1 &lt; 0 ? [0].concat(padDigitsToNum(digits(D1), 4)) : padDigitsToNum(digits(D1), 4)</var>
+                    <var id="DIGITS2">N2 &lt; 0 ? [0].concat(padDigitsToNum(digits(D2), 4)) : padDigitsToNum(digits(D2), 4)</var>
                     <var id="SOLUTION">N1 &lt; N2 ? "&lt;" : "&gt;"</var>
                 </div>
 
                 <div class="problem">
-            <p>Fill in the blank.</p>
-            <p><code>\large{<var>N1</var>}</code> ____ <code>\large{<var>N2</var>}</code></p>
-        </div>
+                    <p>Fill in the blank.</p>
+                    <p><code>\large{<var>N1</var>}</code> ____ <code>\large{<var>N2</var>}</code></p>
+                </div>
 
-        <p class="solution"><code><var>SOLUTION</var></code></p>
-        <ul class="choices" data-category="true">
-            <li><code>&lt;</code></li>
-            <li><code>&gt;</code></li>
-        </ul>
+                <p class="solution"><code><var>SOLUTION</var></code></p>
+                <ul class="choices" data-category="true">
+                    <li><code>&lt;</code></li>
+                    <li><code>&gt;</code></li>
+                </ul>
+            </div>
+        </div>
 
         <div class="hints">
             <div>
@@ -35,22 +39,53 @@
                 <div><code>\large{&gt;}</code> means "greater than".</div>
             </div>
 
+            <p><code>
+                \large{<var>N1</var> = <var>DIGITS1[3]</var> + \dfrac{<var>DIGITS1[2]</var>}{10}
+                 + \dfrac{<var>DIGITS1[1]</var>}{100} + \dfrac{<var>DIGITS1[0]</var>}{1000}}
+            </code></p>
+
+            <p><code>
+                \large{\phantom{<var>N1</var>} = \dfrac{<var>1000 * DIGITS1[3]</var>}{1000} + \dfrac{<var>100 * DIGITS1[2]</var>}{1000}
+                 + \dfrac{<var>10 * DIGITS1[1]</var>}{1000} + \dfrac{<var>DIGITS1[0]</var>}{1000}}
+            </code></p>
+
             <div>
-                <p><code>\large{\blue{<var>UNIT</var>}.\green{<var>D1</var>}}</code> represents
-                <code>\large{\blue{<var>UNIT</var> \text{ units}} + \green{<var>D1</var> \text{ thousandths}}}</code></p>
-                <p><code>\large{\blue{<var>UNIT</var>}.\green{<var>D2</var>}}</code> represents
-                <code>\large{\blue{<var>UNIT</var> \text{ units}} + \green{<var>D2</var> \text{ thousandths}}}</code></p>
+                <p><code>
+                    \large{\phantom{<var>N1</var>} = \dfrac{<var>1000 * DIGITS1[3]</var>
+                    + <var>100 * DIGITS1[2]</var> + <var>10 * DIGITS1[1]</var> + <var>DIGITS1[0]</var>}{1000}}
+                </code></p>
+
+                <p><code>\large{\phantom{<var>N1</var>} = \dfrac{<var>D1</var>}{1000}}</code></p>
+            </div>
+
+            <p><code>
+                \large{<var>N2</var> = <var>DIGITS2[3]</var> + \dfrac{<var>DIGITS2[2]</var>}{10}
+                 + \dfrac{<var>DIGITS2[1]</var>}{100} + \dfrac{<var>DIGITS2[0]</var>}{1000}}
+            </code></p>
+
+            <p><code>
+                \large{\phantom{<var>N2</var>} = \dfrac{<var>1000 * DIGITS2[3]</var>}{1000} + \dfrac{<var>100 * DIGITS2[2]</var>}{1000}
+                 + \dfrac{<var>10 * DIGITS2[1]</var>}{1000} + \dfrac{<var>DIGITS2[0]</var>}{1000}}
+            </code></p>
+
+            <div>
+                <p><code>
+                    \large{\phantom{<var>N2</var>} = \dfrac{<var>1000 * DIGITS2[3]</var>
+                    + <var>100 * DIGITS2[2]</var> + <var>10 * DIGITS2[1]</var> + <var>DIGITS2[0]</var>}{1000}}
+                </code></p>
+
+                <p><code>\large{\phantom{<var>N2</var>} = \dfrac{<var>D2</var>}{1000}}</code></p>
             </div>
 
             <p data-if="N1 > N2">
-                <code>\large{\green{<var>D1</var> \text{ thousandths}}}</code> is more than <code>\large{\green{<var>D2</var> \text{ thousandths}}}</code>.
+                <code>\large{<var>D1</var>}</code> thousandths is more than <code>\large{<var>D2</var>}</code> thousandths</code>.
             </p>
             <p data-else="">
-                <code>\large{\green{<var>D1</var> \text{ thousandths}}}</code> is less than <code>\large{\green{<var>D2</var> \text{ thousandths}}}</code>.
+                <code>\large{<var>D1</var>}</code> thousandths is less than <code>\large{<var>D2</var>}</code> thousandths</code>.
             </p>
 
-            <p data-if="N1 > N2">Therefore <code>\large{<var>N1</var>}</code> &gt; <code>\large{<var>N2</var>}</code>.</p>
-            <p data-else="">Therefore <code>\large{<var>N1</var>}</code> &lt; <code>\large{<var>N2</var>}</code>.</p>
+            <p data-if="N1 > N2">Therefore <code>\large{<var>N1</var> &gt; <var>N2</var>}</code>.</p>
+            <p data-else="">Therefore <code>\large{<var>N1</var> &lt; <var>N2</var>}</code>.</p>
         </div>
     </div>
 </body>
