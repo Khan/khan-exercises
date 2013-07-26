@@ -977,6 +977,7 @@ $.extend(KhanUtil.Graphie.prototype, {
                 if (this.extendLine) {
                     element.translate(-0.5, 0);
                     lineLength = graph.dimensions[0] + graph.dimensions[1];
+                    lineLength = 2 * lineLength;
                 }
                 element.scale(lineLength, 1, scaledA[0], scaledA[1]);
             }, this);
