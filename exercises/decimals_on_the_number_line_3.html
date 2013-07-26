@@ -89,9 +89,8 @@
                     <code>\green{<var>SOLUTION_WHOLE</var>}</code> and
                     <code>\green{<var>SOLUTION_WHOLE + (SOLUTION &gt; 0 ? 1 : -1)</var>}</code> on the number line.</p>
                     <div class="graphie" data-update="number-line">
-                        style({ stroke: GREEN, strokeWidth: 3.5 });
-                        line( [SOLUTION_WHOLE, -0.2], [SOLUTION_WHOLE, 0.2]);
-                        line( [SOLUTION_WHOLE + (SOLUTION &gt; 0 ? 1 : -1), -0.2], [SOLUTION_WHOLE + (SOLUTION &gt; 0 ? 1 : -1), 0.2]);
+                        var x = SOLUTION &gt; 0 ? SOLUTION_WHOLE : SOLUTION_WHOLE - 1;
+                        rect(x, -0.3, 1, 0.6, {fill: GREEN, fillOpacity: 0.5, stroke: "none"});
                     </div>
                 </div>
 
@@ -106,10 +105,10 @@
 
                 <div>
                     <div class="graphie" data-update="number-line">
-                        label( [ SOLUTION, -0.53 ],  SOLUTION, "center", { color: "#FFA500" });
-                        graph.movablePoint.moveTo( SOLUTION, 0 );
+                        label([SOLUTION, 0.53], SOLUTION, "center", { color: "#FFA500" });
+                        graph.movablePoint.moveTo(SOLUTION, 0);
                     </div>
-                    <p>The orange number shows where <code>\orange{<var>SOLUTION</var>}</code> is on the number line.</p>
+                    <p>The orange number shows where <code>\large{\orange{<var>SOLUTION</var>}}</code> is on the number line.</p>
                 </div>
 
             </div>
