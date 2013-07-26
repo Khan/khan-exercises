@@ -226,7 +226,7 @@ function handleAttempt(data) {
 
         // Is this a message to be shown?
         if (score.message != null) {
-            $("#check-answer-results > p").html(score.message).tmpl().show();
+            $("#check-answer-results > p").html(score.message).show().tex();
         } else {
             $("#check-answer-results > p").hide();
         }
