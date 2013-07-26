@@ -69,42 +69,84 @@
                 <div><code>\large{&gt;}</code> means "greater than".</div>
             </div>
 
-            <div>
-                <p><code>\qquad \large{\blue{<var>N1</var> = \dfrac{<var>T1</var>}{10} + \dfrac{<var>D1 % 10</var>}{100}}}</code></p>
-                <p data-if="T1 !== 0"><code>\qquad \large{\blue{\phantom{<var>N1</var>} = \dfrac{<var>T1*10</var>}{100} + \dfrac{<var>D1 % 10</var>}{100}}}</code></p>
-                <p><code>\qquad \large{\blue{\phantom{<var>N1</var>} = \dfrac{<var>D1</var>}{100}}}</code></p>
-            </div>
-
-            <div>
-                <p><code>\qquad \large{\green{<var>N2</var> = \dfrac{<var>T2</var>}{10} + \dfrac{<var>D2 % 10</var>}{100}}}</code></p>
-                <p data-if="T2 !== 0"><code>\qquad \large{\green{\phantom{<var>N2</var>} = \dfrac{<var>T2*10</var>}{100} + \dfrac{<var>D2 % 10</var>}{100}}}</code></p>
-                <p><code>\qquad \large{\green{\phantom{<var>N2</var>} = \dfrac{<var>D2</var>}{100}}}</code></p>
-            </div>
-
-            <div class="graphie">
+            <div class="graphie" id="n1">
                 init({
                     range: [[-1, 21], [-0.5, 10.5]],
                     scale: 20
                 });
 
                 style({
-                    fill: "#AAA",
-                    fillOpacity: 0.6,
+                    fill: "#CCC",
                     strokeWidth: 2,
                     stroke: KhanUtil.BACKGROUND
                 });
+                rect(10, 0, 10, 10);
 
-                rect(0, 0, 10, 10);
-                rect(10.5, 0, 10, 10);
 
-                rect(0, 0, T1, 10, {fill: BLUE});
-                rect(T1, 0, 1, D1 % 10, {fill: BLUE});
+                style({
+                    fill : BLUE,
+                    color: BLUE,
+                    fillOpacity: 0.6,
+                });
+                rect(10, 0, T1, 10);
 
-                rect(10.5, 0, T2, 10, {fill: GREEN});
-                rect(10.5 + T2, 0, 1, D2 % 10, {fill: GREEN});
+                if (D1 % 10) {
+                    rect(10 + T1, 0, 1, D1 % 10);
+                    grid([0, 10], [0, 10]).translate(200.5, 0);
+                    label([0, 8], N1 + " = \\dfrac{" + T1 + "}{10} + \\dfrac{" + (D1 % 10) + "}{100}", "right");
+                } else {
+                    for (var i = 0; i &lt; 9; i++){
+                        line([11 + i, 0], [11 + i, 10]);
+                    }
+                    label([0, 8], N1 + " = \\dfrac{" + T1 + "}{10}", "right");
+                }
+            </div>
 
-                grid([0, 10], [0, 10]).translate(-0.5, 0);
-                grid([0, 10], [0, 10]).translate(210.5, 0);
+            <div class="graphie" data-update="n1">
+                label([0, 5], N1 + " = \\dfrac{" + D1 + "}{100}", "right");
+                if (D1 % 10 === 0) {
+                    grid([0, 10], [0, 10]).translate(200.5, 0);
+                }
+            </div>
+
+            <div class="graphie" id="n2">
+                init({
+                    range: [[-1, 21], [-0.5, 10.5]],
+                    scale: 20
+                });
+
+                style({
+                    fill: "#CCC",
+                    strokeWidth: 2,
+                    stroke: KhanUtil.BACKGROUND
+                });
+                rect(10, 0, 10, 10);
+
+
+                style({
+                    fill : GREEN,
+                    color: GREEN,
+                    fillOpacity: 0.6,
+                });
+                rect(10, 0, T2, 10);
+
+                if (D2 % 10) {
+                    rect(10 + T2, 0, 1, D2 % 10);
+                    grid([0, 10], [0, 10]).translate(200.5, 0);
+                    label([0, 8], N2 + " = \\dfrac{" + T2 + "}{10} + \\dfrac{" + (D2 % 10) + "}{100}", "right");
+                } else {
+                    for (var i = 0; i &lt; 9; i++){
+                        line([11 + i, 0], [11 + i, 10]);
+                    }
+                    label([0, 8], N2 + " = \\dfrac{" + T2 + "}{10}", "right");
+                }
+            </div>
+
+            <div class="graphie" data-update="n2">
+                label([0, 5], N2 + " = \\dfrac{" + D2 + "}{100}", "right");
+                if (D2 % 10 === 0) {
+                    grid([0, 10], [0, 10]).translate(200.5, 0);
+                }
             </div>
 
             <p data-if="N1 === N2">
