@@ -587,6 +587,8 @@
 
                 var w = (xRange[1] - xRange[0]) * xScale, h = (yRange[1] - yRange[0]) * yScale;
                 raphael.setSize(w, h);
+
+                this.dimensions = [w, h];
                 $(el).css({
                     "width": w,
                     "height": h
@@ -728,6 +730,10 @@
                      range[1][1] + (range[1][1] < 0 ? 1 : 0)]
                 ];
 
+            if (!$.isArray(unityLabels)) {
+                unityLabels = [unityLabels, unityLabels];
+            }
+
             if (smartLabelPositioning) {
                 var minusIgnorer = function(lf) { return function(a) {
                     return (lf(a) + "").replace(/-(\d)/g, "\\llap{-}$1");
@@ -855,7 +861,9 @@
                         yAxisPosition = (axisCenter[0] < 0) ? "right" : "left",
                         xShowZero = axisCenter[0] === 0 && axisCenter[1] !== 0,
                         yShowZero = axisCenter[0] !== 0 && axisCenter[1] === 0,
-                        showUnity = unityLabels || axisCenter[0] !== 0 || axisCenter[1] !== 0;
+                        axisOffCenter = axisCenter[0] !== 0 || axisCenter[1] !== 0,
+                        showUnityX = unityLabels[0] || axisOffCenter,
+                        showUnityY = unityLabels[1] || axisOffCenter;
 
                     // positive x-axis
                     for (var x = (xShowZero ? 0 : step) + axisCenter[0]; x <= stop; x += step) {
@@ -865,7 +873,7 @@
                     }
 
                     // negative x-axis
-                    for (var x = -step * (showUnity ? 1 : 2) + axisCenter[0]; x >= start; x -= step) {
+                    for (var x = -step * (showUnityX ? 1 : 2) + axisCenter[0]; x >= start; x -= step) {
                         if (x > start || !axisArrows) {
                             this.label([x, axisCenter[1]], xLabelFormat(x), xAxisPosition);
                         }
@@ -883,7 +891,7 @@
                     }
 
                     // negative y-axis
-                    for (var y = -step * (showUnity ? 1 : 2) + axisCenter[1]; y >= start; y -= step) {
+                    for (var y = -step * (showUnityY ? 1 : 2) + axisCenter[1]; y >= start; y -= step) {
                         if (y > start || !axisArrows) {
                             this.label([axisCenter[0], y], yLabelFormat(y), yAxisPosition);
                         }
