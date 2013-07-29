@@ -1568,6 +1568,254 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                 return correct === guess;
             };
         }
+    },
+
+    /*
+     * The expression answer type parses a given expression or equation
+     * and semantically compares it to the solution. In addition, instant
+     * feedback is provided by rendering the last answer that fully parsed.
+     *
+     * Parsing options:
+     * functions (e.g. data-functions="f g h")
+     *     A space or comma separated list of single-letter variables that
+     *     should be interpreted as functions. Case sensitive. "e" and "i"
+     *     are reserved.
+     *
+     *     no functions specified: f(x+y) == fx + fy
+     *     with "f" as a function: f(x+y) != fx + fy
+     * 
+     * Comparison options:
+     * same-form (e.g. data-same-form)
+     *     If present, the answer must match the solution's structure in
+     *     addition to evaluating the same. Commutativity and excess negation
+     *     are ignored, but all other changes will trigger a rejection. Useful
+     *     for requiring a particular form of an equation, or if the answer
+     *     must be factored.
+     *     
+     *     example question:    Factor x^2 + x - 2
+     *     example solution:    (x-1)(x+2)
+     *     accepted answers:    (x-1)(x+2), (x+2)(x-1), ---(-x-2)(-1+x), etc.
+     *     rejected answers:    x^2+x-2, x*x+x-2, x(x+1)-2, (x-1)(x+2)^1, etc.
+     *     rejection message:   Your answer is not in the correct form
+     *     
+     * simplify (e.g. data-simplify)
+     *     If present, the answer must be fully expanded and simplified. Use
+     *     carefully - simplification is hard and there may be bugs, or you
+     *     might not agree on the definition of "simplified" used. You will
+     *     get an error if the provided solution is not itself fully expanded
+     *     and simplified.
+     *     
+     *     example question:    Simplify ((n*x^5)^5) / (n^(-2)*x^2)^-3
+     *     example solution:    x^31 / n
+     *     accepted answers:    x^31 / n, x^31 / n^1, x^31 * n^(-1), etc.
+     *     rejected answers:    (x^25 * n^5) / (x^(-6) * n^6), etc.
+     *     rejection message:   Your answer is not fully expanded and simplified
+     *     
+     * Rendering options:
+     * times (e.g. data-times)
+     *     If present, explicit multiplication (such as between numbers) will
+     *     be rendered with a cross/x symbol (TeX: \times) instead of the usual
+     *     center dot (TeX: \cdot).
+     *     
+     *     normal rendering:    2 * 3^x -> 2 \cdot 3^{x}
+     *     but with "times":    2 * 3^x -> 2 \times 3^{x}
+     */
+    expression: {
+        setupFunctional: function(solutionarea, solutionText, solutionData) {
+
+            // Convert options to a form KAS can understand
+            var options = {
+                form: solutionData.sameForm != null,
+                simplify: solutionData.simplify != null,
+                times: solutionData.times != null
+            };
+
+            if (solutionData.functions) {
+                options.functions = _.compact(
+                    solutionData.functions.split(/[ ,]+/));
+            }
+
+            // Check immediately if the provided solution is valid
+            var solution = KAS.parse(solutionText, options);
+            if (!solution.parsed) {
+                throw new Error("The provided solution (" + solutionText +
+                    ") didn't parse.");
+            } else if (options.simplified && !solution.expr.isSimplified()) {
+                throw new Error("The provided solution (" + solutionText +
+                    ") isn't fully expanded and simplified.");
+            } else {
+                solution = solution.expr;
+            }
+
+            // Assemble the solution area
+            var $input = $('<input type="text">');
+            var $tex = $('<span class="tex"/>');
+            var $error = $('<span class="error"/>').append(
+                $('<span class="buddy"/>'),
+                $('<span class="message">Sorry, I don\'t understand that!</span>')
+            );
+
+            $(solutionarea).append(
+                $('<span class="expression"/>').append(
+                    $input,
+                    $('<span class="output"/>').append(
+                        $tex,
+                        $('<span class="placeholder"/>').append(
+                            $error
+                        )
+                    )
+                )
+            );
+
+            // Specify how instant render (and error message) should update
+            var errorTimeout = null;
+            var lastParsedTex = "";
+
+            var update = function() {
+                clearTimeout(errorTimeout);
+                var result = KAS.parse($input.val(), options);
+                if (result.parsed) {
+                    hideError();
+                    $tex.css({opacity: 1.0})
+                    var tex = result.expr.asTex(options);
+                    if (tex !== lastParsedTex) {
+                        $tex.html("<code>" + tex + "</code>").tex();
+                        lastParsedTex = tex;
+                    }
+                } else {
+                    errorTimeout = setTimeout(showError, 2000);
+                    $tex.css({opacity: 0.5});
+                }
+            };
+
+            var showError = function() {
+                if (!$error.is(":visible")) {
+                    $error.css({ top: 50, opacity: 0.1 }).show()
+                        .animate({ top: 0, opacity: 1.0 }, 300);
+                }
+            };
+
+            var hideError = function() {
+                if ($error.is(":visible")) {
+                    $error.animate({ top: 50, opacity: 0.1 }, 300, function() {
+                        $(this).hide();
+                    });
+                }
+            };
+
+            // Define event handlers
+            $input.on("input propertychange", update);
+
+            $input.on("keydown", function(event) {
+                var input = $input[0];
+
+                var start = input.selectionStart;
+                var end = input.selectionEnd;
+                var supported = start !== undefined;
+
+                if (supported && event.which === 8 /* backspace */) {
+                    var val = input.value;
+                    if (start === end && val.slice(start - 1, start + 1) === "()") {
+                        // "f(|)" + backspace -> "f|" (| is the cursor position)
+                        event.preventDefault();
+                        input.value = val.slice(0, start - 1) + val.slice(start + 1);
+                        input.selectionStart = start - 1;
+                        input.selectionEnd = end - 1;
+                        update();
+                    }
+                }
+            });
+
+            $input.on("keypress", function(event) {
+                var input = $input[0];
+
+                var start = input.selectionStart;
+                var end = input.selectionEnd;
+                var supported = start !== undefined;
+
+                if (supported && event.which === 40 /* left paren */) {
+                    var val = input.value;
+                    event.preventDefault();
+
+                    if (start === end) {
+                        // "f|" + "(" -> "f(|)"
+                        var insertMatched = _.any([" ", ")", ""], function(c) {
+                            return val.charAt(start) === c;
+                        });
+
+                        input.value = val.slice(0, start) +
+                                (insertMatched ? "()" : "(") + val.slice(end);
+                    } else {
+                        // "f|x+y|" + "(" -> "f(|x+y|)"
+                        input.value = val.slice(0, start) +
+                                "(" + val.slice(start, end) + ")" + val.slice(end);
+                    }
+
+                    input.selectionStart = start + 1;
+                    input.selectionEnd = end + 1;
+                    update();
+
+                } else if (supported && event.which === 41 /* right paren */) {
+                    var val = input.value;
+                    if (start === end && val.charAt(start) === ")") {
+                        // f(|) + ")" -> "f()|"
+                        event.preventDefault();
+                        input.selectionStart = start + 1;
+                        input.selectionEnd = end + 1;
+                        update();
+                    }
+                }
+            });
+
+            // Examples
+            var explicitMul = $._("For <code>2\\cdot2</code>, enter <strong>2*2</strong>");
+            if (options.times) {
+                explicitMul = explicitMul.replace(/\\cdot/g, "\\times");
+            }
+
+            return {
+                validator: Khan.answerTypes.expression.createValidatorFunctional(
+                        solution, options),
+                answer: function() { return $input.val(); },
+                solution: solution.print(),
+                examples: [
+                    explicitMul,
+                    $._("For <code>3y</code>, enter <strong>3y</strong> or <strong>3*y</strong>"),
+                    $._("For <code>\\dfrac{1}{x}</code>, enter <strong>1/x</strong>"),
+                    $._("For <code>x^{y}</code>, enter <strong>x^y</strong>"),
+                    $._("For <code>\\pi</code>, enter <strong>pi</strong>"),
+                    $._("For <code>\\le</code> or <code>\\ge</code>, enter <strong><=</strong> or <strong>>=</strong>"),
+                    $._("For <code>\\neq</code>, enter <strong>=/=</strong>")
+                ],
+                showGuess: function(guess) {
+                    $input.val(guess === undefined ? "" : guess);
+                }
+            };
+        },
+        createValidatorFunctional: function(solution, options) {
+            return function(guess) {
+                // Don't bother parsing an empty input
+                if (!guess) return "";
+
+                var answer = KAS.parse(guess, options);
+
+                // An unsuccessful parse doesn't count as wrong
+                if (!answer.parsed) return "";
+
+                var result = KAS.compare(answer.expr, solution, options);
+
+                if (result.equal) {
+                    // Correct answer
+                    return true;
+                } else if (result.message) {
+                    // Nearly correct answer
+                    return result.message;
+                } else {
+                    // Wrong answer
+                    return false;
+                }
+            };
+        }
     }
 });
 

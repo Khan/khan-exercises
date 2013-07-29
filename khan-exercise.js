@@ -825,6 +825,7 @@ var Khan = (function() {
                 "../local-only/jquery.ui.dialog.js",
                 "../local-only/jquery.qtip.js",
                 "../local-only/underscore.js",
+                "../local-only/kas.js",
                 "../local-only/jed.js",
                 "../local-only/i18n.js",
                 // TODO(csilvers): I18N: pick the file based on lang=XX param
