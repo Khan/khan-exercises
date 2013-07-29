@@ -192,6 +192,33 @@
                 </div>
             </div>
 
+            <div id="percents">
+                <div class="vars">
+                    <var id="N">randRange(2, 3)</var>
+                    <var id="PERCENT">(function() {
+                        var arr = [];
+                        for (var i=0; i &lt; N; i++) {
+                            var p = roundTo(1, randRange(100, 1500) / 10);
+                            arr.push(rand(2) ? p : -p);
+                        }
+                        return arr;
+                    })()
+                    </var>
+                    <var id="SOLUTION">roundTo(1, N === 2 ? PERCENT[0] + PERCENT[1] : PERCENT[0] + PERCENT[1] + PERCENT[2])</var>
+                </div>
+
+                <div class="question">
+                    <p><code><var>PERCENT[0]</var>\% + <var>PERCENT[1]</var>\% <span data-if="N === 3"> + <var>PERCENT[2]</var>\%</span> = {?}</code></p>
+                </div>
+                <div class="solution" data-forms="percent"><var>SOLUTION/100</var></div>
+
+                <div class="hints">
+                    <p>Percentages can be added just like decimals.</p>
+                    <p><code><var>PERCENT[0]</var> + <var>PERCENT[1]</var> <span data-if="N === 3"> + <var>PERCENT[2]</var></span> = <var>SOLUTION</var></code></p>
+                    <p><code><var>PERCENT[0]</var>\% + <var>PERCENT[1]</var>\% <span data-if="N === 3"> + <var>PERCENT[2]</var>\%</span> = <var>SOLUTION</var>\%</code></p>
+                </div>
+            </div>
+
             <div id="fractions-2">
                 <div class="vars">
                     <div data-ensure="D1 !== D2">
