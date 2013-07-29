@@ -192,6 +192,105 @@
                 </div>
             </div>
 
+            <div id="fractions-2">
+                <div class="vars">
+                    <div data-ensure="D1 !== D2">
+                        <var id="D1">randRange(2, 9)</var>
+                        <var id="D2">randRange(2, 9)</var>
+                    </div>
+                    <var id="N1">randRangeExclude(-9, 9, [0, N1, -N1])</var>
+                    <var id="N2">randRangeExclude(-9, 9, [0, N2, -N2])</var>
+                    <var id="LCM">getLCM(D1, D2)</var>
+                    <var id="F1">LCM / D1</var>
+                    <var id="F2">LCM / D2</var>
+                </div>
+
+                <div class="question">
+                    <p><code><var>fraction(N1, D1)</var> + <var>fraction(N2, D2)</var> = {?}</code></p>
+                </div>
+                <div class="solution" data-type="rational"><var>N1 / D1 + N2 / D2</var></div>
+
+                <div class="hints">
+                    <p>
+                        First, we need to find a common denominator.
+                        The least common multiple of <code><var>D1</var></code> and <code><var>D2</var></code> is the smallest possible common denominator.
+                    </p>
+                    <p><code>\lcm(<var>D1</var>, <var>D2</var>) = <var>LCM</var></code></p>
+                    <p>Now, we need to change both fractions to have a denominator of <code><var>LCM</var></code>.</p>
+                    <p><code>\begin{align*}
+                        <var>fraction(N1, D1)</var>\cdot <var>fraction(F1, F1)</var> &amp;= <var>fraction(N1 * F1, LCM)</var>\\
+                        <var>fraction(N2, D2)</var>\cdot <var>fraction(F2, F2)</var> &amp;= <var>fraction(N2 * F2, LCM)</var>
+                        \end{align*}</code></p>
+                    <div>
+                        <p>So, the problem becomes:</p>
+                        <p><code><var>fraction(N1 * F1, LCM)</var> + <var>fraction(N2 * F2, LCM)</var> = {?}</code></p>
+                    </div>
+                    <div>
+                        <p data-if="N2 > 0">Add the numerators.</p><p data-else="">Subtract the numerators.</p>
+                        <p><code><var>fraction(F1 * N1 + F2 * N2, LCM)</var></code></p>
+                    </div>
+                    <div data-if="getGCD(F1 * N1 + F2 * N2, LCM) !== 1">
+                        <p>Simplify.</p>
+                        <p><code><var>fractionReduce(F1 * N1 + F2 * N2, LCM)</var></code></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="fractions-3">
+                <div class="vars">
+                    <div data-ensure="getGCD(D1, D2) !== 1 || getGCD(D1, D3) !== 1 || getGCD(D2, D3) !== 1">
+                        <var id="D1">randRange(2, 9)</var>
+                        <var id="D2">randRange(2, 9)</var>
+                        <var id="D3">randRange(2, 9)</var>
+                    </div>
+                    <var id="N1">randRangeExclude(-9, 9, [0, D1, -D1])</var>
+                    <var id="N2">randRangeExclude(-9, 9, [0, D2, -D2])</var>
+                    <var id="N3">randRangeExclude(-9, 9, [0, D3, -D3])</var>
+                    <var id="LCM">getLCM(getLCM(D1, D2), getLCM(D1, D3))</var>
+                    <var id="F1">LCM / D1</var>
+                    <var id="F2">LCM / D2</var>
+                    <var id="F3">LCM / D3</var>
+                </div>
+
+                <div class="question">
+                    <p><code><var>fraction(N1, D1)</var> + <var>fraction(N2, D2)</var> + <var>fraction(N3, D3)</var> = {?}</code></p>
+                </div>
+                <div class="solution" data-type="rational"><var>N1 / D1 + N2 / D2 + N3 / D3</var></div>
+
+                <div class="hints">
+                    <p>
+                        First, we need to find a common denominator.
+                        The least common multiple of <code><var>D1</var></code> and <code><var>D2</var></code> and <code><var>D3</var></code>
+                        is the smallest possible common denominator.
+                    </p>
+                    <p><code>\lcm(<var>D1</var>, <var>D2</var>, <var>D3</var>) = <var>LCM</var></code></p>
+                    <p>Now, we need to change both fractions to have a denominator of <code><var>LCM</var></code>.</p>
+                    <p><code>\begin{align*}
+                        <var>fraction(N1, D1)</var>\cdot <var>fraction(F1, F1)</var> &amp;= <var>fraction(N1 * F1, LCM)</var>\\
+                        <var>fraction(N2, D2)</var>\cdot <var>fraction(F2, F2)</var> &amp;= <var>fraction(N2 * F2, LCM)</var>\\
+                        <var>fraction(N3, D3)</var>\cdot <var>fraction(F3, F3)</var> &amp;= <var>fraction(N3 * F3, LCM)</var>
+                    \end{align*}</code></p>
+                    <div>
+                        <p>So, the problem becomes:</p>
+                        <p><code><var>fraction(N1 * F1, LCM)</var> + <var>fraction(N2 * F2, LCM)</var> + <var>fraction(N3 * F3, LCM)</var>= {?}</code></p>
+                    </div>
+                    <div>
+                        <p><code>
+                            \phantom{<var>fraction(N1 * F1, LCM)</var> + <var>fraction(N2 * F2, LCM)</var> + <var>fraction(N3 * F3, LCM)</var>}
+                            = \dfrac{<var>N1 * F1</var> + <var>N2 * F2</var> + <var>N3 * F3</var>}{<var>LCM</var>}
+                        </code></p>
+                        <p><code>
+                            \phantom{<var>fraction(N1 * F1, LCM)</var> + <var>fraction(N2 * F2, LCM)</var> + <var>fraction(N3 * F3, LCM)</var>}
+                            = \dfrac{<var>N1 * F1 + N2 * F2 + N3 * F3</var>}{<var>LCM</var>}
+                        </code></p>
+                    </div>
+                    <div data-if="getGCD(N1 * F1 + N2 * F2 + N3 * F3, LCM ) !== 1">
+                        <p>Simplify.</p>
+                        <p><code><var>fractionReduce(N1 * F1 + N2 * F2 + N3 * F3, LCM )</var></code></p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </body>
