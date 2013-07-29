@@ -357,6 +357,7 @@ $.extend(KhanUtil.Graphie.prototype, {
             coord: [0, 0],
             snapX: 0,
             snapY: 0,
+            pointSize: 4,
             highlight: false,
             dragging: false,
             visible: true,
@@ -391,7 +392,7 @@ $.extend(KhanUtil.Graphie.prototype, {
 
         if (movablePoint.visible) {
             graph.style(movablePoint.normalStyle, function() {
-                movablePoint.visibleShape = graph.ellipse(movablePoint.coord, [4 / graph.scale[0], 4 / graph.scale[1]]);
+                movablePoint.visibleShape = graph.ellipse(movablePoint.coord, [movablePoint.pointSize / graph.scale[0], movablePoint.pointSize / graph.scale[1]]);
             });
         }
         movablePoint.normalStyle.scale = 1;
