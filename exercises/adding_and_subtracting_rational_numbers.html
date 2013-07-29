@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html data-require="math math-format graphie graphie-helpers-arithmetic">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adding and subtracting rational numbers</title>
+    <script src="../khan-exercise.js"></script>
+</head>
+<body>
+    <div class="exercise">
+        <div class="problems">
+
+            <div id="decimals">
+                <div class="vars">
+                    <var id="N">randRange(2, 3)</var>
+                    <var id="NUMS, PLACES, DECIMALS">(function() {
+                        var ints = [];
+                        var places = [];
+                        var decimals = [];
+
+                        for (var i=0; i &lt; N; i++) {
+                            var int = randRangeNonZero(-999, 999);
+                            var dps = randRange(1, 2);
+                            ints.push(int);
+                            places.push(dps);
+                            decimals.push(roundTo(dps, int / pow(10, dps)));
+                        }
+                        return [ints, places, decimals];
+                    })()
+                    </var>
+                    <var id="NEWNUMS, NEWPLACES, NEWDECS, NEG">(function() {
+                        var n1 = NUMS[0];
+                        var n2 = NUMS[1];
+                        var p1 = PLACES[0];
+                        var p2 = PLACES[1];
+
+                        var negs = [];
+                        var t;
+
+                        if (n1 * n2  &lt; 0 &amp;&amp; abs(DECIMALS[0]) &lt; abs(DECIMALS[1])) {
+                            t = n1;
+                            n1 = n2;
+                            n2 = t;
+                            t = p1;
+                            p1 = p2;
+                            p2 = t;
+                        }
+
+                        if (n1 &lt; 0) {
+                            n1 *= -1;
+                            n2 *= -1;
+                            negs.push(true);
+                        } else {
+                            negs.push(false);
+                        }
+
+                        var nums = [n1, n2];
+                        var places = [p1, p2];
+                        var decimals = [roundTo(p1, n1 / pow(10, p1)), roundTo(p2, n2 / pow(10, p2))];
+
+                        if (N === 3) {
+                            var n3 = NUMS[0] * pow(10, PLACES[1] - 1) + NUMS[1] * pow(10, PLACES[0] - 1);
+                            var n4 = NUMS[2];
+
+                            var p3 = PLACES[0] + PLACES[1] - 1;
+                            var p4 = PLACES[2];
+
+                            if (n3 % 10 === 0) {
+                                n3 /= 10;
+                                p2--;
+                            }
+
+                            if (n3 * n4  &lt; 0 &amp;&amp; abs(DECIMALS[0] + DECIMALS[1]) &lt; abs(DECIMALS[2])) {
+                                t = n3;
+                                n3 = n4;
+                                n4 = t;
+                                t = p3;
+                                p3 = p4;
+                                p4 = t;
+                            }
+
+                            if (n3 &lt; 0) {
+                                n3 *= -1;
+                                n4 *= -1;
+                                negs.push(true);
+                            } else {
+                                negs.push(false);
+                            }
+
+                            nums = nums.concat([n3, n4]);
+                            places = places.concat([p3, p4]);
+                            decimals.push(roundTo(p3, n3 / pow(10, p3)));
+                            decimals.push(roundTo(p4, n4 / pow(10, p4)));
+                        }
+
+                        return [nums, places, decimals, negs];
+                    })()
+                    </var>
+                    <var id="N_HINTS1">(function() {
+                        if (NEWNUMS[1] &lt; 0) {
+                            return DecimalAdder.numHintsFor(NEWNUMS[0], NEWPLACES[0], -NEWNUMS[1], NEWPLACES[1]);
+                        } else {
+                            return DecimalAdder.numHintsFor(NEWNUMS[0], NEWPLACES[0], NEWNUMS[1], NEWPLACES[1]);
+                        };
+                    })()
+                    </var>
+                    <var id="N_HINTS2">(function() {
+                        if (NEWNUMS[3] &lt; 0) {
+                            return DecimalAdder.numHintsFor(NEWNUMS[2], NEWPLACES[2], -NEWNUMS[3], NEWPLACES[3]);
+                        } else {
+                            return DecimalAdder.numHintsFor(NEWNUMS[2], NEWPLACES[2], NEWNUMS[3], NEWPLACES[3]);
+                        };
+                    })()
+                    </var>
+                    <var id="SUBSOL">roundTo(2,DECIMALS[0] + DECIMALS[1])</var>
+                    <var id="SOLUTION">roundTo(2, SUBSOL + (N === 2 ? 0 : DECIMALS[2]))</var>
+                </div>
+
+                <div class="question">
+                    <p><code><var>DECIMALS[0]</var> + <var>DECIMALS[1]</var> <span data-if="N === 3"> + <var>DECIMALS[2]</var></span> = {?}</code></p>
+                </div>
+                <div class="solution" data-type="decimal"><var>SOLUTION</var></div>
+
+                <div class="hints">
+                    <p data-if="N === 3">Let's start by dealing with the first two numbers.</p>
+
+                    <div data-if="NUMS[0] !== NEWNUMS[0]">
+                        <p><code>
+                            <var>DECIMALS[0]</var> + <var>DECIMALS[1]</var> =
+                            <span data-if="NEG[0]">-(<var>NEWDECS[0]</var> + <var>NEWDECS[1]</var>)</span>
+                            <span data-else=""><var>NEWDECS[0]</var> + <var>NEWDECS[1]</var></span>
+                        </code></p>
+                    </div>
+
+                    <div class="graphie" id="numbers1">
+                        if (NEWNUMS[1] &lt; 0) {
+                            graph.adder = new DecimalSubtractor(NEWNUMS[0], NEWPLACES[0], -NEWNUMS[1], NEWPLACES[1]);
+                        } else {
+                            graph.adder = new DecimalAdder(NEWNUMS[0], NEWPLACES[0], NEWNUMS[1], NEWPLACES[1]);
+                        }
+                            graph.adder.show();
+                            graph.adder.showDecimals();
+                    </div>
+
+                    <div class="graphie" data-each="N_HINTS1 times" data-update="numbers1">
+                        graph.adder.showHint();
+                    </div>
+
+                    <div>
+                        <p>Therefore: </p>
+                        <p data-if="N === 3"><code>
+                            <var>DECIMALS[0]</var> + <var>DECIMALS[1]</var> + <var>DECIMALS[2]</var>
+                            <span data-if="NEG[0]"> = -(<var>-SUBSOL</var>) + <var>DECIMALS[2]</var></span> =
+                            <var>SUBSOL</var> + <var>DECIMALS[2]</var>
+                        </code></p>
+
+                        <p data-else=""><code><var>DECIMALS[0]</var> + <var>DECIMALS[1]</var>
+                            <span data-if="NEG[0]"> = -(<var>-SUBSOL</var>)</span> = <var>SUBSOL</var></span>
+                        </code></p>
+                    </div>
+
+                    <div data-if="N === 3" data-unwrap="">
+                        <div data-if="NUMS[2] !== NEWNUMS[3]">
+                            <p><code>
+                                <var>SUBSOL</var> + <var>DECIMALS[2]</var> =
+                                <span data-if="NEG[1]">-(<var>NEWDECS[2]</var> + <var>NEWDECS[3]</var>)</span>
+                                <span data-else=""><var>NEWDECS[2]</var> + <var>NEWDECS[3]</var></span>
+                            </code></p>
+                        </div>
+
+                        <div class="graphie" id="numbers2">
+                            if (NEWNUMS[3] &lt; 0) {
+                                graph.adder = new DecimalSubtractor(NEWNUMS[2], NEWPLACES[2], -NEWNUMS[3], NEWPLACES[3]);
+                            } else {
+                                graph.adder = new DecimalAdder(NEWNUMS[2], NEWPLACES[2], NEWNUMS[3], NEWPLACES[3]);
+                            }
+                                graph.adder.show();
+                                graph.adder.showDecimals();
+                        </div>
+
+                        <div class="graphie" data-each="N_HINTS2 times" data-update="numbers2">
+                            graph.adder.showHint();
+                        </div>
+
+                        <div>
+                            <p>Therefore: </p>
+                            <p><code>
+                                <var>DECIMALS[0]</var> + <var>DECIMALS[1]</var> + <var>DECIMALS[2]</var>
+                                <span data-if="NEG[1]"> = -(<var>-SOLUTION</var>)</var></span> = <var>SOLUTION</var>
+                            </code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
