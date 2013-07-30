@@ -779,6 +779,92 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
         }
     },
 
+    // An answer type with two text boxes, for solutions of the form a cuberoot(b)
+    cuberoot: {
+        setupFunctional: function(solutionarea, solutionText, solutionData) {
+            var options = $.extend({
+                simplify: "required"
+            }, solutionData);
+
+            // Add two input boxes
+            var inte, rad;
+            if (window.Modernizr && Modernizr.touch) {
+                inte = $('<input type="number" step="any">');
+                rad = $('<input type="number" step="any">');
+            } else {
+                inte = $('<input type="text">');
+                rad = $('<input type="text">');
+            }
+            // Make them look pretty
+            $("<div class='radical'>")
+                .append($("<span>").append(inte))
+                .append('<span class="surd">&#8731;</span>')
+                .append($("<span>").append(rad))
+                .appendTo(solutionarea);
+
+            var ansCubed = parseFloat(solutionText);
+            var ans = KhanUtil.splitCube(ansCubed);
+
+            return {
+                validator: Khan.answerTypes.cuberoot.createValidatorFunctional(
+                        solutionText, solutionData),
+                answer: function() {
+                    // Store the entered values in a list
+                    // If nothing is typed into one of the boxes, use 1
+                    return [
+                        inte.val().length > 0 ? inte.val() : "1",
+                        rad.val().length > 0 ? rad.val() : "1"
+                    ];
+                },
+                solution: ans,
+                examples: (options.simplify === "required") ?
+                    [$._("a simplified radical, like <code>\\sqrt[3]{2}</code> " +
+                         "or <code>3\\sqrt[3]{5}</code>")] :
+                    [$._("a radical, like <code>\\sqrt[3]{8}</code> or " +
+                         "<code>2\\sqrt[3]{2}</code>")],
+                showGuess: function(guess) {
+                    inte.val(guess ? guess[0] : "");
+                    rad.val(guess ? guess[1] : "");
+                }
+            };
+        },
+        createValidatorFunctional: function(ansCubed, options) {
+            options = $.extend({
+                simplify: "required"
+            }, options);
+
+            // The provided answer is the cube of what is meant to be
+            // entered. Use KhanUtil.splitCube to find the different parts
+            var ansCubed = parseFloat(ansCubed);
+            var ans = KhanUtil.splitCube(ansCubed);
+
+            return function(guess) {
+                // Parse the two floats from the guess
+                var inteGuess = parseFloat(guess[0]);
+                var radGuess = parseFloat(guess[1]);
+
+                // The answer is correct if the guess square is equal to the
+                // given solution
+                var correct =
+                    Math.abs(inteGuess) * inteGuess * inteGuess * radGuess === ansCubed;
+                // the answer is simplified if the sqrt portion and integer
+                // portion are the same as what is given by splitCube
+                var simplified = inteGuess === ans[0] && radGuess === ans[1];
+
+                if (correct) {
+                    if (simplified || options.simplify === "optional") {
+                        return true;
+                    } else {
+                        return $._("Your answer is almost correct, but it " +
+                                   "needs to be simplified.");
+                    }
+                } else {
+                    return false;
+                }
+            };
+        }
+    },
+
     /*
      * Multiple answer type
      *

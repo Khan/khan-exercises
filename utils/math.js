@@ -269,6 +269,25 @@ $.extend(KhanUtil, {
         return [coefficient, radical];
     },
 
+    // splitCube(24) gives [2, 3] to mean 2 cube_root(3)
+    splitCube: function(n) {
+        if (n === 0) {
+            return [0, 1];
+        }
+
+        var coefficient = 1;
+        var radical = n;
+
+        for (var i = 2; i * i * i <= n; i++) {
+            while (radical % (i * i * i) === 0) {
+                radical /= i * i * i;
+                coefficient *= i;
+            }
+        }
+
+        return [coefficient, radical];
+    },
+
     // randRange(min, max) - Get a random integer between min and max, inclusive
     // randRange(min, max, count) - Get count random integers
     // randRange(min, max, rows, cols) - Get a rows x cols matrix of random integers
