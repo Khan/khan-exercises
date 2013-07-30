@@ -387,12 +387,12 @@
                         </code></p>
                         <p><code>
                             \phantom{<var>fraction(N1 * F1, LCM)</var> + <var>fraction(N2 * F2, LCM)</var> + <var>fraction(N3 * F3, LCM)</var>}
-                            = \dfrac{<var>N1 * F1 + N2 * F2 + N3 * F3</var>}{<var>LCM</var>}
+                            = <var>fraction(N1 * F1 + N2 * F2 + N3 * F3, LCM)</var>
                         </code></p>
                     </div>
                     <div data-if="getGCD(N1 * F1 + N2 * F2 + N3 * F3, LCM ) !== 1">
                         <p>Simplify.</p>
-                        <p><code><var>fractionReduce(N1 * F1 + N2 * F2 + N3 * F3, LCM )</var></code></p>
+                        <p><code><var>fractionReduce(N1 * F1 + N2 * F2 + N3 * F3, LCM)</var></code></p>
                     </div>
                 </div>
             </div>
@@ -465,7 +465,7 @@
                     </div>
 
                     <div>
-                        <p>Therefore, the problem becomes:</p>
+                        <p>So, the problem becomes:</p>
                         <p><code>
                             \large{<var>fraction(NUMERATORS[0], DENOMINATORS[0])</var>
                             + <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var>
