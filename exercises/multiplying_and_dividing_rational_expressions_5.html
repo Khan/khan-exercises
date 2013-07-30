@@ -79,7 +79,7 @@
             </var>
             <var id="FACTOR1">FACTORS[0].multiply(FACTORS[1])</var>
             <var id="FACTOR2">FACTORS[2].multiply(FACTORS[3])</var>
-            <var id="COMMON_FACTOR">FACTOR2.isNegative() ? -FACTOR1.getGCD(FACTOR2) : FACTOR1.getGCD(FACTOR2)</var>
+            <var id="COMMON_FACTOR">FACTOR2.isNegative() ? FACTOR1.getGCD(FACTOR2).multiply(-1) : FACTOR1.getGCD(FACTOR2)</var>
 
             <var id="NUMERSOL">TERM_C.multiply(FACTOR1.divide(COMMON_FACTOR))</var>
             <var id="DENOMSOL">TERM_D.multiply(FACTOR2.divide(COMMON_FACTOR))</var>
