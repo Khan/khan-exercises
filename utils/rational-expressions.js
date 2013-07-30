@@ -119,7 +119,11 @@ $.extend(KhanUtil, {
             } else {
                 return new KhanUtil.RationalExpression([copy, expression]);
             }
-        }
+        };
+
+        this.isOne = function() {
+            return this.toString() === '1';
+        };
 
         // Return a new term representing this term multiplied by another term or a number
         this.multiply = function(term) {
@@ -288,7 +292,7 @@ $.extend(KhanUtil, {
                     if (degree > 1) {
                         regex += "\\s*\\^\\s*" + degree;
                     }
-                } 
+                }
             }
             */
 
@@ -567,6 +571,45 @@ $.extend(KhanUtil, {
                 // Factor after parentheses
                 regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*\\*?" + factor.regex());
             }
+            return regex;
+        }
+
+        // Returns a single regex to capture this expression.
+        // It will capture every permutations of terms so is
+        // not recommended for expressions with more than 3 terms
+        // If allowFactors is true, 3(x + 4) will match 3x + 12
+        this.regex = function(allowFactors) {
+            var permutations = KhanUtil.getPermutations(this.terms);
+            var regex = this.getTermsRegex(permutations).slice(1);
+
+            if (!allowFactors) {
+                return regex;
+            }
+
+            // Generate regex factored expression
+            var factor = this.factor();
+            var divided = this.divide(factor);
+
+            if (factor.isOne() || factor.toString() === '-1') {
+                return regex;
+            }
+
+            permutations = KhanUtil.getPermutations(divided.terms);
+
+            // Factor before parentheses
+            regex += this.getTermsRegex(permutations, factor.regex() + "\\*?\\s*\\(", "\\)\\s*");
+            // Factor after parentheses
+            regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*\\*?" + factor.regex());
+
+            // Factor out a negative
+            factor = factor.multiply(-1);
+            divided = divided.multiply(-1);
+            permutations = KhanUtil.getPermutations(divided.terms);
+
+            // Factor before parentheses
+            regex += this.getTermsRegex(permutations, factor.regex() + "\\*?\\s*\\(", "\\)\\s*");
+            // Factor after parentheses
+            regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*\\*?" + factor.regex());
 
             return regex;
         };
