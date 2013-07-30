@@ -2,7 +2,7 @@
 <html data-require="math math-format expressions rational-expressions">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Solving rational expressions 2</title>
+    <title>Solving rational equations 2</title>
     <script src="../khan-exercise.js"></script>
 </head>
 <body>
@@ -52,7 +52,7 @@
             <div>
                 <p class="problem">Solve for <code><var>X</var></code>,</p>
                 <p class="question"><code>
-                    <span data-if="SIGNS[0] === '-'">-</span> \dfrac{<var>NUMERATORS[0]</var>}{<var>DENOMINATORS[0]</var>} = 
+                    <span data-if="SIGNS[0] === '-'">-</span> \dfrac{<var>NUMERATORS[0]</var>}{<var>DENOMINATORS[0]</var>} =
                     <span data-if="SIGNS[1] === '-'">-</span> \dfrac{<var>NUMERATORS[1]</var>}{<var>DENOMINATORS[1]</var>}
                     <var>SIGNS[2]</var> \dfrac{<var>NUMERATORS[2]</var>}{<var>DENOMINATORS[2]</var>}
                 </code></p>
@@ -68,7 +68,7 @@
                 <p>First we need to find a common denominator for all the expressions. This means finding the least common multiple of
                     <code><var>DENOMINATORS[0]</var></code>, <code><var>DENOMINATORS[1]</var></code> and <code><var>DENOMINATORS[2]</var></code>.
                 </p>
-                
+
                 <p>The common denominator is <code><var>COMMON_DENOM</var></code>.</p>
 
                 <div data-each="[0, 1, 2] as i">
@@ -78,10 +78,10 @@
                     <div data-else="">
                         <p>To get <code><var>COMMON_DENOM</var></code> in the denominator of the <var>ordinal(i+1)</var> term,
                             multiply it by <code>\frac{<var>MULTIPLES[i]</var>}{<var>MULTIPLES[i]</var>}</code>.</p>
-                            
+
                         <div><code> \qquad
                             <span data-if="SIGNS[i] === '-'">-</span> \dfrac{<var>NUMERATORS[i]</var>}{<var>DENOMINATORS[i]</var>} \times
-                            \dfrac{<var>MULTIPLES[i]</var>}{<var>MULTIPLES[i]</var>} = 
+                            \dfrac{<var>MULTIPLES[i]</var>}{<var>MULTIPLES[i]</var>} =
                             <span data-if="SIGNS[i] === '-'">-</span> \dfrac{<var>PRODUCTS[i]</var>}{<var>COMMON_DENOM</var>}
                         </code></div>
                     </div>
@@ -90,7 +90,7 @@
                 <div>
                     <p>This give us:</p>
                     <div><code>\qquad
-                        <span data-if="SIGNS[0] === '-'">-</span> \dfrac{<var>PRODUCTS[0]</var>}{<var>COMMON_DENOM</var>} = 
+                        <span data-if="SIGNS[0] === '-'">-</span> \dfrac{<var>PRODUCTS[0]</var>}{<var>COMMON_DENOM</var>} =
                         <span data-if="SIGNS[1] === '-'">-</span> \dfrac{<var>PRODUCTS[1]</var>}{<var>COMMON_DENOM</var>}
                         <var>SIGNS[2]</var> \dfrac{<var>PRODUCTS[2]</var>}{<var>COMMON_DENOM</var>}
                     </code></div>
@@ -99,7 +99,7 @@
 
             <div>
                 <p>If we multiply both sides of the equation by <code><var>COMMON_DENOM</var></code>, we get:</p>
-                <div><code>\qquad 
+                <div><code>\qquad
                     <span data-if="SIGNS[0] === '-'">
                         <span data-if="PRODUCTS[0] instanceof KhanUtil.RationalExpression">-(<var>PRODUCTS[0]</var>)</span>
                         <span data-else=""><var>PRODUCTS[0].multiply(-1)</var></span>
@@ -120,13 +120,13 @@
                 </code></div>
             </div>
 
-            <div><code>\qquad 
+            <div><code>\qquad
                 <span data-if="SIGNS[0] === '-'"><var>PRODUCTS[0].multiply(-1)</var></span>
                 <span data-else=""><var>PRODUCTS[0]</var></span> =
                 <var>SUMS[0]</var>
             </code></div>
 
-            <div><code>\qquad 
+            <div><code>\qquad
                 <span data-if="PRODUCTS[0] instanceof KhanUtil.RationalExpression"><var>new KhanUtil.Term(COEFFICIENT, X)</var> = <var>CONSTANT</var></span>
                 <span data-else=""><var>-CONSTANT</var> = <var>new KhanUtil.Term(-COEFFICIENT, X)</var></span>
             </code></div>
