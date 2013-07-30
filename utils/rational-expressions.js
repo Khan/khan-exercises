@@ -235,21 +235,26 @@ $.extend(KhanUtil, {
             return s;
         };
 
+        // Just so Terms can be treated like RationalExpressions
+        this.toStringFactored = function() {
+            return this.toString();
+        };
+
         // Return a regex that will capture this term
         // If includeSign is true, then 4x is captured by +4x
         this.regex = function(includeSign) {
             if (this.coefficient === 0) {
-                return '';
+                return "";
             }
 
             // Include leading space if there are earlier terms
             if (this.coefficient < 0){
-                var regex = includeSign ? '[-\\u2212]\\s*' : '\\s*[-\\u2212]\\s*';
+                var regex = includeSign ? "[-\\u2212]\\s*" : "\\s*[-\\u2212]\\s*";
             } else {
-                var regex = includeSign ? '\\+\\s*' : '\\s*';
+                var regex = includeSign ? "\\+\\s*" : "\\s*";
             }
 
-            if (!(Math.abs(this.coefficient) === 1 && this.variableString !== '')) {
+            if (!(Math.abs(this.coefficient) === 1 && this.variableString !== "")) {
                 regex += Math.abs(this.coefficient);
             }
 
@@ -301,7 +306,7 @@ $.extend(KhanUtil, {
             }
             */
 
-            return regex + '\\s*';
+            return regex + "\\s*";
         };
 
     },
@@ -503,17 +508,6 @@ $.extend(KhanUtil, {
         };
 
         // Return a string of the factored expression
-        this.toStringFactored = function() {
-            var f = this.factor();
-
-            if (this.terms.length === 1 || f.toString() === '1') {
-                return this.toString();
-            }
-
-            return s;
-        };
-
-        // Return a string of the factored expression
         this.toStringFactored = function(parenthesise) {
             var f = this.factor();
 
@@ -528,6 +522,7 @@ $.extend(KhanUtil, {
             var s = (f.toString() === '-1') ? '-' : f.toString();
             var divided = this.divide(f);
 
+            var s = (f.toString() === '-1') ? '-' : f.toString();
             s += "(" + divided.toString() + ")";
             return s;
         };
@@ -574,6 +569,22 @@ $.extend(KhanUtil, {
             if (factor.toString() === '1') {
                 regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*");
             } else if (factor.toString() === '-1') {
+                regex += this.getTermsRegex(permutations, "\\s*[-\\u2212]\\s*\\(", "\\)\\s*");
+            } else {
+                // Factor before parentheses
+                regex += this.getTermsRegex(permutations, factor.regex() + "\\*?\\s*\\(", "\\)\\s*");
+                // Factor after parentheses
+                regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*\\*?" + factor.regex());
+            }
+
+            // Factor out a negative
+            factor = factor.multiply(-1);
+            divided = divided.multiply(-1);
+            permutations = KhanUtil.getPermutations(divided.terms);
+
+            if (factor.toString === '1') {
+                regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*");
+            } else if (factor.toString === '-1') {
                 regex += this.getTermsRegex(permutations, "\\s*[-\\u2212]\\s*\\(", "\\)\\s*");
             } else {
                 // Factor before parentheses
