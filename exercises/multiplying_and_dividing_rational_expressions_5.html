@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html data-require="math math-format rational-expressions"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Multiplying and dividing rational expressions 5</title>
+    <script src="../khan-exercise.js"></script>
+    <script type="text/javascript">
+        function getProduct(coefficient, terms, cancel) {
+            var s = '';
+            if (coefficient.toString() === '-1') {
+                s += '-';
+            } else if (coefficient.toString() !== '1') {
+                s += coefficient;
+            }
+
+            cancel = cancel || [];
+            for (var i=0; i<terms.length; i++) {
+                if (cancel.indexOf(i) === -1) {
+                    s +=  '(' + terms[i].toString() + ')';
+                } else {
+                    s +=  '\\cancel{(' + terms[i].toString() + ')}';
+                }
+            }
+            return s;
+        }
+    </script>
+
+    <style type="text/css">
+        #solutionarea td {
+            text-align: center;
+            vertical-align: middle;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #solutionarea .soln-top {
+            padding-bottom: 1px;
+        }
+        #solutionarea .soln-bot {
+            padding-top: 1px;
+            padding-bottom: 5px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+        <div class="vars">
+            <var id="OPERATOR">randFromArray(['multiply', 'divide'])</var>
+            <var id="ORDER">randFromArray([[0, 0], [1, 0], [1, 0], [1, 1]])</var>
+            <var id="X">randVar()</var>
+            <var id="Y" data-ensure="X !== Y">randVar()</var>
+
+            <var id="A">randRangeNonZero(-10, 10)</var>
+            <var id="B" data-ensure="A !== B">randRangeNonZero(-10, 10)</var>
+            <var id="C">randRangeNonZero(-10, 10)</var>
+            <var id="D" data-ensure="C !== D">randRangeNonZero(-10, 10)</var>
+            <var id="TERM_A">new RationalExpression([[1, X], A])</var>
+            <var id="TERM_B">new RationalExpression([[1, X], B])</var>
+            <var id="TERM_C">new RationalExpression([[1, X], C])</var>
+            <var id="TERM_D">new RationalExpression([[1, X], D])</var>
+
+            <var id="FACTORS">(function() {
+                var f1 = new Term(randRangeWeightedExclude(-5, 5, 1, 0.4, [0]));
+                var f2 = new Term(randRangeWeightedExclude(-5, 5, 1, 0.4, [0]));
+                var f3 = new Term(randRangeWeightedExclude(-5, 5, 1, 0.4, [0]));
+                var f4 = new Term(randRangeWeightedExclude(-5, 5, 1, 0.4, [0]));
+
+                if (rand(2)) {
+                    var x = new Term(1, X);
+
+                    if (rand(2)) { f1 = x.multiply(f1); }
+                    else { f2 = x.multiply(f2); }
+
+                    if (rand(2)) { f3 = x.multiply(f3); }
+                    else { f4 = x.multiply(f4); }
+                }
+
+                return [f1, f2, f3, f4];
+            })()
+            </var>
+            <var id="FACTOR1">FACTORS[0].multiply(FACTORS[1])</var>
+            <var id="FACTOR2">FACTORS[2].multiply(FACTORS[3])</var>
+            <var id="COMMON_FACTOR">FACTOR2.isNegative() ? -FACTOR1.getGCD(FACTOR2) : FACTOR1.getGCD(FACTOR2)</var>
+
+            <var id="NUMERSOL">TERM_C.multiply(FACTOR1.divide(COMMON_FACTOR))</var>
+            <var id="DENOMSOL">TERM_D.multiply(FACTOR2.divide(COMMON_FACTOR))</var>
+        </div>
+
+        <div class="problems">
+            <div id="combined-top">
+                <div class="vars">
+                    <var id="NUMERATORS">[TERM_A.multiply(TERM_B).multiply(FACTORS[0]), TERM_C.multiply(FACTORS[1])]</var>
+                    <var id="DENOMINATORS">[TERM_A.multiply(TERM_D).multiply(FACTORS[2]), TERM_B.multiply(FACTORS[3])]</var>
+                    <var id="NUMER_QUADRATIC">getProduct(FACTORS[0], [TERM_A, TERM_B])</var>
+                    <var id="DENOM_QUADRATIC">getProduct(FACTORS[2], [TERM_A, TERM_D])</var>
+                    <var id="NUMER_PRODUCT">[FACTOR1, [TERM_A, TERM_B, TERM_C]]</var>
+                    <var id="DENOM_PRODUCT">[FACTOR2, [TERM_A, TERM_D, TERM_B]]</var>
+                    <var id="CANCEL_ORDER">[[0, 1], [0, 2]]</var>
+                </div>
+            </div>
+
+            <div id="combined-bottom">
+                <div class="vars">
+                    <var id="NUMERATORS">[TERM_A.multiply(TERM_C).multiply(FACTORS[0]), TERM_B.multiply(FACTORS[1])]</var>
+                    <var id="DENOMINATORS">[TERM_A.multiply(TERM_B).multiply(FACTORS[2]), TERM_D.multiply(FACTORS[3])]</var>
+                    <var id="NUMER_QUADRATIC">getProduct(FACTORS[0], [TERM_A, TERM_C])</var>
+                    <var id="DENOM_QUADRATIC">getProduct(FACTORS[2], [TERM_A, TERM_B])</var>
+                    <var id="NUMER_PRODUCT">[FACTOR1, [TERM_A, TERM_C, TERM_B]]</var>
+                    <var id="DENOM_PRODUCT">[FACTOR2, [TERM_A, TERM_B, TERM_D]]</var>
+                    <var id="CANCEL_ORDER">[[0, 2], [0, 1]]</var>
+                </div>
+            </div>
+
+            <div id="no-combined">
+                <div class="vars">
+                    <var id="NUMERATORS">[TERM_B.multiply(TERM_C).multiply(FACTORS[0]), TERM_A.multiply(FACTORS[1])]</var>
+                    <var id="DENOMINATORS">[TERM_A.multiply(TERM_D).multiply(FACTORS[2]), TERM_B.multiply(FACTORS[3])]</var>
+                    <var id="NUMER_QUADRATIC">getProduct(FACTORS[0], [TERM_B, TERM_C])</var>
+                    <var id="DENOM_QUADRATIC">getProduct(FACTORS[2], [TERM_A, TERM_D])</var>
+                    <var id="NUMER_PRODUCT">[FACTOR1, [TERM_B, TERM_C, TERM_A]]</var>
+                    <var id="DENOM_PRODUCT">[FACTOR2, [TERM_A, TERM_D, TERM_B]]</var>
+                    <var id="CANCEL_ORDER">[[2, 0], [0, 2]]</var>
+                </div>
+            </div>
+        </div>
+
+        <div class="solution" data-type="set">
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.regex(true) + '$'</var></span>
+                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.regex(true) + '$'</var></span>
+                <span class="sol" data-type="number"><var>-A</var></span>
+                <span class="sol" data-type="number"><var>-B</var></span>
+            </div>
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.regex(true) + '$'</var></span>
+                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.regex(true) + '$'</var></span>
+                <span class="sol" data-type="number"><var>-B</var></span>
+                <span class="sol" data-type="number"><var>-A</var></span>
+            </div>
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.multiply(-1).regex(true) + '$'</var></span>
+                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.multiply(-1).regex(true) + '$'</var></span>
+                <span class="sol" data-type="number"><var>-B</var></span>
+                <span class="sol" data-type="number"><var>-A</var></span>
+            </div>
+            <div class="set-sol" data-type="multiple">
+                <span class="sol" data-type="regex"><var>'^' + NUMERSOL.multiply(-1).regex(true) + '$'</var></span>
+                <span class="sol" data-type="regex"><var>'^' + DENOMSOL.multiply(-1).regex(true) + '$'</var></span>
+                <span class="sol" data-type="number"><var>-A</var></span>
+                <span class="sol" data-type="number"><var>-B</var></span>
+            </div>
+
+            <div class="input-format">
+                <div class="entry" data-type="multiple">
+                    <table><tbody>
+                        <tr>
+                            <td class="soln-name" rowspan="2"><code><var>Y</var> = </code></td>
+                            <td class="soln-top"><span class="sol short50">a</span></td>
+                        </tr>
+                        <tr>
+                            <td class="soln-bot"><span class="sol short50" data-fallback="1">a</span></td>
+                        </tr>
+                        <tr>
+                            <td><code><var>X</var> \neq </code></td>
+                            <td><span class="sol short50" data-fallback="0">a</span></td>
+                        </tr>
+                        <tr>
+                            <td><code><var>X</var> \neq </code></td>
+                            <td><span class="sol short50" data-fallback="0">a</span></td>
+                        </tr>
+                    </tbody></table>
+                </div>
+            </div>
+        </div>
+
+        <p class="problem">Simplify the following expression and state the conditions under which the simplification is valid.
+            You can assume that <code><var>X</var> \neq 0</code></p>
+
+        <p class="question">
+            <p><code><var>Y</var> = 
+                <span data-if="OPERATOR === 'multiply'">
+                    \dfrac{<var>NUMERATORS[ORDER[0]]</var>}{<var>DENOMINATORS[ORDER[1]]</var>} \times
+                    \dfrac{<var>NUMERATORS[1 - ORDER[0]]</var>}{<var>DENOMINATORS[1 - ORDER[1]]</var>}
+                </span>
+                <span data-else="">
+                    \dfrac{<var>NUMERATORS[ORDER[0]]</var>}{<var>DENOMINATORS[ORDER[1]]</var>} \div
+                    \dfrac{<var>DENOMINATORS[1- ORDER[1]]</var>}{<var>NUMERATORS[1 - ORDER[0]]</var>}
+                </span>
+            </code></p>
+        </p>
+
+        <div class="hints">
+            <div data-if="OPERATOR === 'divide'">
+                <p>Dividing by an expression is the same as multiplying by its inverse.</p>
+                <p><code><var>Y</var> =
+                    \dfrac{<var>NUMERATORS[ORDER[0]]</var>}{<var>DENOMINATORS[ORDER[1]]</var>} \times
+                    \dfrac{<var>NUMERATORS[1 - ORDER[0]]</var>}{<var>DENOMINATORS[1 - ORDER[1]]</var>}
+                </code></p>
+            </div>
+
+            <div>
+                <p>First factor out any common factors.</p>
+                <p><code><var>Y</var> =
+                    \dfrac{<var>NUMERATORS[ORDER[0]].toStringFactored()</var>}{<var>DENOMINATORS[ORDER[1]].toStringFactored()</var>} \times
+                    \dfrac{<var>NUMERATORS[1 - ORDER[0]].toStringFactored()</var>}{<var>DENOMINATORS[1 - ORDER[1]].toStringFactored()</var>}
+                </code></p>
+            </div>
+
+            <div>
+                <p>Then factor the quadratic expressions.</p>
+                <p><code><var>Y</var> = \dfrac
+                    {<span data-if="ORDER[0]"><var>NUMERATORS[1].toStringFactored()</var></span><span data-else=""><var>NUMER_QUADRATIC</var></span>}
+                    {<span data-if="ORDER[1]"><var>DENOMINATORS[1].toStringFactored()</var></span><span data-else=""><var>DENOM_QUADRATIC</var></span>}
+                    \times \dfrac
+                    {<span data-if="ORDER[0]"><var>NUMER_QUADRATIC</var></span><span data-else=""><var>NUMERATORS[1].toStringFactored()</var></span>}
+                    {<span data-if="ORDER[1]"><var>DENOM_QUADRATIC</var></span><span data-else=""><var>DENOMINATORS[1].toStringFactored()</var></span>}
+                </code></p>
+            </div>
+
+            <div>
+                <p>Then multiply the two numerators and multiply the two denominators.</p>
+                <p><code><var>Y</var> = \dfrac
+                    {<span data-if="ORDER[0]"><var>NUMERATORS[1].toStringFactored(true)</var> \times <var>NUMER_QUADRATIC</var></span>
+                     <span data-else=""><var>NUMER_QUADRATIC</var> \times <var>NUMERATORS[1].toStringFactored(true)</var></span>}
+                    {<span data-if="ORDER[1]"><var>DENOMINATORS[1].toStringFactored(true)</var> \times <var>DENOM_QUADRATIC</var></span>
+                     <span data-else=""><var>DENOM_QUADRATIC</var> \times <var>DENOMINATORS[1].toStringFactored(true)</var></span>}
+                </code></p>
+
+                <p><code><var>Y</var> = \dfrac
+                    {<var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1])</var>}
+                    {<var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1])</var>}
+                </code></p>
+            </div>
+
+            <p> Notice that <code>(<var>TERM_A</var>)</code> and <code>(<var>TERM_B</var>)</code> appear in both the numerator and denominator so we can cancel them.</p>
+
+            <div>
+                <p><code><var>Y</var> = \dfrac
+                    {<var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1], CANCEL_ORDER[0].slice(0, 1))</var>}
+                    {<var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1], CANCEL_ORDER[1].slice(0, 1))</var>}
+                </code></p>
+
+                <div>We are dividing by <code><var>TERM_A</var></code>, so <code><var>TERM_A</var> \neq 0</code></div>
+                <div>Therefore, <code><var>X</var> \neq <var>-A</var></code>.</div>
+            </div>
+
+            <div>
+                <p><code><var>Y</var> = \dfrac
+                    {<var>getProduct(NUMER_PRODUCT[0], NUMER_PRODUCT[1], CANCEL_ORDER[0])</var>}
+                    {<var>getProduct(DENOM_PRODUCT[0], DENOM_PRODUCT[1], CANCEL_ORDER[1])</var>}
+                </code></p>
+
+                <div>We are dividing by <code><var>TERM_B</var></code>, so <code><var>TERM_B</var> \neq 0</code></div>
+                <div>Therefore, <code><var>X</var> \neq <var>-B</var></code>.</div>
+            </div>
+
+            <div data-if="COMMON_FACTOR !== 1">
+                <p><code><var>Y</var> = \dfrac
+                    {<var>NUMERSOL.multiply(COMMON_FACTOR).toStringFactored()</var>}
+                    {<var>DENOMSOL.multiply(COMMON_FACTOR).toStringFactored()</var>}
+                </code></p>
+            </div>
+
+            <p><code><var>Y</var> = \dfrac{<var>NUMERSOL.toStringFactored()</var>}{<var>DENOMSOL.toStringFactored()</var>}</code></p>
+
+        </div>
+    </div>
+</body></html>

@@ -593,6 +593,40 @@ $.extend(KhanUtil, {
                 regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*\\*?" + factor.regex());
             }
 
+            // Generate regex factored expression
+            // If GCD is 1, will accept parenthesised expression
+            // e.g. p - 5 will accept (p - 5)
+            var factor = this.factor();
+            var divided = this.divide(factor);
+            permutations = KhanUtil.getPermutations(divided.terms);
+
+            if (factor.toString() === '1') {
+                regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*");
+            } else if (factor.toString() === '-1') {
+                regex += this.getTermsRegex(permutations, "\\s*[-\\u2212]\\s*\\(", "\\)\\s*");
+            } else {
+                // Factor before parentheses
+                regex += this.getTermsRegex(permutations, factor.regex() + "\\*?\\s*\\(", "\\)\\s*");
+                // Factor after parentheses
+                regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*\\*?" + factor.regex());
+            }
+
+            // Factor out a negative
+            factor = factor.multiply(-1);
+            divided = divided.multiply(-1);
+            permutations = KhanUtil.getPermutations(divided.terms);
+
+            if (factor.toString === '1') {
+                regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*");
+            } else if (factor.toString === '-1') {
+                regex += this.getTermsRegex(permutations, "\\s*[-\\u2212]\\s*\\(", "\\)\\s*");
+            } else {
+                // Factor before parentheses
+                regex += this.getTermsRegex(permutations, factor.regex() + "\\*?\\s*\\(", "\\)\\s*");
+                // Factor after parentheses
+                regex += this.getTermsRegex(permutations, "\\s*\\(", "\\)\\s*\\*?" + factor.regex());
+            }
+
             // Factor out a negative
             factor = factor.multiply(-1);
             divided = divided.multiply(-1);
