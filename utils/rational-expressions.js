@@ -93,7 +93,9 @@ $.extend(KhanUtil, {
             this.variables = variables;
         }
 
-        // Use for hashing
+        // Create a string representing the term
+        // e.g. 5yx^2 = 5y1x2
+        // Used for hashing
         this.variableString = ''
         for (var vari in this.variables) {
             if (this.variables[vari] !== 0) {
@@ -125,6 +127,25 @@ $.extend(KhanUtil, {
         this.isOne = function() {
             return this.toString() === '1';
         };
+
+        // Given a mapping of variable to value, {'x' : 2}, evaulate the term
+        // Or give a number and all variables will be given that value
+        // TODO: Make this work for multi-variable terms
+        // when only the value of one variable is given
+        this.evaluate = function(values) {
+            var value = this.coefficient;
+
+            if (typeof values === 'number') {
+                for (var v in this.variables) {
+                    value *= Math.pow(values, this.variables[v]);
+                }
+            } else {
+                for (var v in this.variables) {
+                    value *= Math.pow(values[v], this.variables[v]);
+                }
+            }
+            return value;
+        }
 
         // Return a new term representing this term multiplied by another term or a number
         this.multiply = function(term) {
@@ -217,7 +238,8 @@ $.extend(KhanUtil, {
                 s += '-';
             }
 
-            if (!(coefficient === 1 && this.variableString !== '')) {
+            var coefficient = Math.abs(this.coefficient);
+            if (!(coefficient === 1 && this.variableString !== "")) {
                 s += coefficient;
             }
 
@@ -240,21 +262,55 @@ $.extend(KhanUtil, {
             return this.toString();
         };
 
+        // Return a string showing how the term should be evaluated with a given value
+        // e.g. 5x^2 evalated with 3 returns 5(3)^2
+        // If color is defined, the the value representing the variable is colored
+        this.getEvaluateString = function(values, includeSign, color) {
+            var s = '';
+
+            if (includeSign) {
+                s += this.coefficient >= 0 ? ' + ' : ' - ';
+            } else if (this.coefficient < 0) {
+                s += '-';
+            }
+
+            var coefficient = Math.abs(this.coefficient);
+            if (!(coefficient === 1 && this.variableString !== '')) {
+                s += coefficient;
+                if (this.variableString !== '') {
+                    s += '\\cdot';
+                }
+            }
+
+            for (var vari in this.variables) {
+                var degree = this.variables[vari];
+                var value = (typeof values === 'number') ? values : values[vari];
+
+                if (color !== undefined) {
+                    value = '\\' + color + '{' + value + '}';
+                }
+
+                s += (value < 0 || degree === 1) ? value : '(' + value + ')^' + degree;
+            }
+
+            return s;
+        };
+
         // Return a regex that will capture this term
         // If includeSign is true, then 4x is captured by +4x
         this.regex = function(includeSign) {
             if (this.coefficient === 0) {
-                return "";
+                return '';
             }
 
             // Include leading space if there are earlier terms
             if (this.coefficient < 0){
-                var regex = includeSign ? "[-\\u2212]\\s*" : "\\s*[-\\u2212]\\s*";
+                var regex = includeSign ? '[-\\u2212]\\s*' : '\\s*[-\\u2212]\\s*';
             } else {
-                var regex = includeSign ? "\\+\\s*" : "\\s*";
+                var regex = includeSign ? '\\+\\s*' : '\\s*';
             }
 
-            if (!(Math.abs(this.coefficient) === 1 && this.variableString !== "")) {
+            if (!(Math.abs(this.coefficient) === 1 && this.variableString !== '')) {
                 regex += Math.abs(this.coefficient);
             }
 
@@ -306,7 +362,7 @@ $.extend(KhanUtil, {
             }
             */
 
-            return regex + "\\s*";
+            return regex + '\\s*';
         };
 
     },
@@ -394,6 +450,14 @@ $.extend(KhanUtil, {
             }
 
             return 0;
+        };
+
+        this.evaluate = function(values) {
+            var value = 0;
+            for (var i = 0; i < this.terms.length; i++) {
+                value += this.terms[i].evaluate(values);
+            }
+            return value;
         };
 
         // Return a new expression which is the sum of this one and the one passed in
@@ -492,7 +556,7 @@ $.extend(KhanUtil, {
                 GCD.coefficient *= -1;
             }
             return GCD
-        }
+        };
 
         this.toString = function() {
             if (this.terms.length === 0) {
@@ -525,6 +589,17 @@ $.extend(KhanUtil, {
             var s = (f.toString() === '-1') ? '-' : f.toString();
             s += "(" + divided.toString() + ")";
             return s;
+        };
+
+        // Returns a string showing the expression with variable substituted.
+        this.getEvaluateString = function(values, color) {
+            var s = this.terms[0].getEvaluateString(values, false, color);
+
+            for (var i = 1; i < this.terms.length; i++) {
+                s += this.terms[i].getEvaluateString(values, true, color);
+            }
+
+            return s !== "" ? s : '0';
         };
 
         // Returns a regex that captures all permutation passed in
