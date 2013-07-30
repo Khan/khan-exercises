@@ -397,6 +397,119 @@
                 </div>
             </div>
 
+            <div id="repeating-decimals">
+                <div class="vars">
+                    <var id="N">randRange(2, 3)</var>
+                    <var id="LETTERS">['x', 'y', 'z']</var>
+                    <var id="INTEGERS">[
+                        randRangeWeighted(-3, 3, 0, 0.5),
+                        randRangeWeighted(-3, 3, 0, 0.5),
+                        randRangeWeighted(-3, 3, 0, 0.5)]
+                    </var>
+                    <var id="DIGITS">[randRange(1, 2), randRange(1, 2), randRange(1, 2)]
+                    </var>
+                    <var id="REPEATS">[
+                        (DIGITS[0] === 1) ? randRange(1, 8) : randRange(10, 98),
+                        (DIGITS[1] === 1) ? randRange(1, 8) : randRange(10, 98),
+                        (DIGITS[2] === 1) ? randRange(1, 8) : randRange(10, 98)]
+                    </var>
+                    <var id="DENOMINATORS">[pow(10, DIGITS[0]) - 1, pow(10, DIGITS[1]) - 1, pow(10, DIGITS[2]) - 1]
+                    </var>
+                    <var id="NUMERATORS">[
+                        INTEGERS[0] * DENOMINATORS[0] + REPEATS[0] * (INTEGERS[0] &lt; 0 ? -1 : 1),
+                        INTEGERS[1] * DENOMINATORS[1] + REPEATS[1] * (INTEGERS[1] &lt; 0 ? -1 : 1),
+                        INTEGERS[2] * DENOMINATORS[2] + REPEATS[2] * (INTEGERS[2] &lt; 0 ? -1 : 1)]
+                    </var>
+                    <var id="DECIMALS">[
+                        INTEGERS[0] + (INTEGERS[0] &lt; 0 ? -1 : 1) * REPEATS[0] / DENOMINATORS[0],
+                        INTEGERS[1] + (INTEGERS[1] &lt; 0 ? -1 : 1) * REPEATS[1] / DENOMINATORS[1],
+                        INTEGERS[2] + (INTEGERS[2] &lt; 0 ? -1 : 1) * REPEATS[2] / DENOMINATORS[2]]
+                    </var>
+                    <var id="SAME_DENOM">N === 2 ? DIGITS[0] === DIGITS[1] : (DIGITS[0] === DIGITS[1]) &amp;&amp; (DIGITS[0] === DIGITS[2])</var>
+                    <var id="FACTORS">[
+                        (DIGITS[0] === 1) ? 11 : 1,
+                        (DIGITS[1] === 1) ? 11 : 1,
+                        (DIGITS[2] === 1) ? 11 : 1]
+                    </var>
+                    <var id="NUMERATOR">N === 2 ?
+                        NUMERATORS[0] * FACTORS[0] + NUMERATORS[1] * FACTORS[1] :
+                        NUMERATORS[0] * FACTORS[0] + NUMERATORS[1] * FACTORS[1] + NUMERATORS[2] * FACTORS[2]
+                    </var>
+                    <var id="DENOMINATOR">SAME_DENOM ? DENOMINATORS[0] : 99</var>
+                    <var id="GCD">getGCD(NUMERATOR, DENOMINATOR)</var>
+                </div>
+
+                <div class="problems">
+                    <div>
+                        <p class="question"><code>
+                            \large{<var>INTEGERS[0]</var>.\overline{<var>REPEATS[0]</var>}
+                            + <var>INTEGERS[1]</var>.\overline{<var>REPEATS[1]</var>}
+                            <span data-if="N === 3"> + <var>INTEGERS[2]</var>.\overline{<var>REPEATS[2]</var>}</span> = {?}}
+                        </code></p>
+                        <p class="solution" data-type="rational"><var>NUMERATOR / DENOMINATOR</var></p>
+                    </div>
+                </div>
+
+                <div class="hints">
+                    <p>First convert the repeating decimals to fractions.</p>
+
+                    <div data-each="[0, 1, 2].slice(0, N) as i">
+                        <p><code>\large{\begin{align*}
+                            <var>pow(10, DIGITS[i])</var><var>LETTERS[i]</var> &amp;= <var>floorTo(4, DECIMALS[i] * pow(10, DIGITS[i]))</var>...\\
+                            <var>LETTERS[i]</var> &amp;= <var>floorTo(4, DECIMALS[i])</var>...\end{align*}}
+                        </code></p>
+                        <p><code>\large{\begin{align*}
+                            <var>DENOMINATORS[i]</var><var>LETTERS[i]</var> &amp;= <var>NUMERATORS[i]</var> \\
+                            <var>LETTERS[i]</var> &amp;= <var>fraction(NUMERATORS[i], DENOMINATORS[i])</var>\end{align*}}
+                        </code></p>
+                    </div>
+
+                    <div>
+                        <p>Therefore, the problem becomes:</p>
+                        <p><code>
+                            \large{<var>fraction(NUMERATORS[0], DENOMINATORS[0])</var>
+                            + <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var>
+                            <span data-if="N === 3"> + <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var></span> = {?}}
+                        </code></p>
+                    </div>
+
+                    <div data-if="!SAME_DENOM" data-unwrap="">
+                        <div>
+                            <p>Get all the fractions over the same denominators:</p>
+                            <p><code>
+                                \large{<var>fraction(NUMERATORS[0], DENOMINATORS[0])</var><span data-if="DIGITS[0] === 1">\cdot \dfrac{11}{11}</span>
+                                + <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var><span data-if="DIGITS[1] === 1">\cdot \dfrac{11}{11}</span>
+                                <span data-if="N === 3">
+                                    + <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var><span data-if="DIGITS[2] === 1">\cdot \dfrac{11}{11}</span>
+                                </span> =
+                                <var>fraction(NUMERATORS[0] * FACTORS[0], DENOMINATORS[0] * FACTORS[0])</var>
+                                + <var>fraction(NUMERATORS[1] * FACTORS[1], DENOMINATORS[1] * FACTORS[1])</var>
+                                <span data-if="N === 3"> + <var>fraction(NUMERATORS[2] * FACTORS[2], DENOMINATORS[2] * FACTORS[2])</var></span>}
+                            </code></p>
+                        </div>
+
+                        <p><code>
+                                \large{\phantom{<var>fraction(NUMERATORS[0], DENOMINATORS[0])</var><span data-if="DIGITS[0] === 1">\cdot \dfrac{11}{11}</span>
+                                + <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var><span data-if="DIGITS[1] === 1">\cdot \dfrac{11}{11}</span>
+                                <span data-if="N === 3">
+                                    + <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var><span data-if="DIGITS[2] === 1">\cdot \dfrac{11}{11}</span>
+                                </span>} = <var>fraction(NUMERATOR, DENOMINATOR)</var>}
+                        </code></p>
+                    </div>
+
+                    <p data-else=""><code>
+                        \large{\phantom{<var>fraction(NUMERATORS[0], DENOMINATORS[0])</var>
+                        + <var>fraction(NUMERATORS[1], DENOMINATORS[1])</var>
+                        <span data-if="N === 3"> + <var>fraction(NUMERATORS[2], DENOMINATORS[2])</var></span>} = <var>fraction(NUMERATOR, DENOMINATOR)</var>}
+                    </code></p>
+
+                    <div data-if="GCD !== 1">
+                        <p>Simplify:</p>
+                        <p><code>\large{= <var>fraction(NUMERATOR / GCD, DENOMINATOR / GCD)</var>}</code></p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </body>
