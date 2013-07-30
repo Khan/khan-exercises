@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+  <html data-require="math">
+      <head>
+          <title>Calculate Average Speed</title> */First physics exercise*
+          <script src="../khan-exercise.js"></script>
+      </head>
+      <body>
+          <div class="exercise">
+              <div class="vars">
+                   <var id="distance">randRangeNonZero( -50, 50 )</var>
+                   <var id="time">randRangeNonZero( -50, 50 )</var>
+              </div>
+
+              <div class="problems">
+                  <div id="problem-type-or-description">
+                      <p class="problem">A car travels <code><var>distance</var></code> meters in <code><var>time</var></code> seconds.</p>
+                      <p class="question">What is the average speed of the car?</p>
+                      <p class="solution">distance / time</p>
+                  </div>
+              </div>
+
+              <div class="hints">
+                  <p>Remember, the average speed is distance over time.</p>
+                  <p>We are given that distance=<code><var>distance</code></var> meters and time=<code><var>time</code></var> seconds.</p>
+                  <p>Substitue and calculate the velocity, which is <code><var>distance / time </code></var> m/s.</p>
+              </div>
+          </div>
+      </body>
+  </html>
