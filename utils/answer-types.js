@@ -1231,9 +1231,6 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
 
             // Add a list to the solution area
             var list = $("<ul></ul>");
-            list.on("click", "input:radio", function() {
-                $(this).focus();
-            });
             $(solutionarea).append(list);
 
             // Get all of the wrong choices
