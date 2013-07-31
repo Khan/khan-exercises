@@ -332,8 +332,8 @@
                 };
                 $span.setPosition(point);
 
+                var span = $span[0];
                 if (latex) {
-                    var span = $span[0];
                     KhanUtil.processMath(span, text, false, function() {
                         var width = span.scrollWidth;
                         var height = span.scrollHeight;
