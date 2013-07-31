@@ -1800,7 +1800,7 @@ Khan.answerTypes = $.extend(Khan.answerTypes, {
                     $tex.css({opacity: 1.0})
                     var tex = result.expr.asTex(options);
                     if (tex !== lastParsedTex) {
-                        $tex.html("<code>" + tex + "</code>").tex();
+                        $tex.empty().append($("<code>").text(tex)).tex();
                         lastParsedTex = tex;
                     }
                 } else {
