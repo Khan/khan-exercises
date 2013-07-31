@@ -380,8 +380,8 @@ function updateHintButtonText() {
 
     if (hintsAreFree) {
         $hintButton.val(hintsUsed ?
-                $._("Show next step (%(hintsLeft)s left)", {hintsLeft: hintsLeft}) :
-                $._("Show solution"));
+                $._("Show next hint (%(hintsLeft)s left)", {hintsLeft: hintsLeft}) :
+                $._("Show hints (%(hintsLeft)s available)", {hintsLeft: hintsLeft}));
     } else {
         $hintButton.val(hintsUsed ?
                 $.ngettext("I'd like another hint (1 hint left)",
